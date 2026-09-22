@@ -20,6 +20,9 @@ dependencies:
   everslot_recurrence:
     path: ../packages/everslot_recurrence
 
+  # Design libraries (built-in material is frozen since 3.44 — ADR-014)
+  material_ui: ^1.4.0
+
   # State, routing
   flutter_riverpod: ^3.4.3
   go_router: ^18.0.1

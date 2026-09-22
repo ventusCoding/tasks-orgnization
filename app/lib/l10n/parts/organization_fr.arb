@@ -1,0 +1,19 @@
+{
+  "categoriesTitle": "Catégories",
+  "categoriesEmpty": "Aucune catégorie",
+  "categoryNew": "Nouvelle catégorie",
+  "categoryEdit": "Modifier la catégorie",
+  "categoryName": "Nom",
+  "categoryArchived": "Archivée",
+  "categoryDeleteBody": "Les éléments de cette catégorie resteront, sans catégorie.",
+  "categoryUnavailable": "Compte comme temps indisponible",
+  "categoryUnavailableHint": "Exclu des statistiques de capacité (sommeil, congés…).",
+  "categoryPick": "Catégorie",
+  "categoryNone": "Sans catégorie",
+  "categoryDefaultWork": "Travail",
+  "categoryDefaultPersonal": "Personnel",
+  "categoryDefaultHealth": "Santé",
+  "categoryDefaultStudy": "Études",
+  "categoryDefaultHome": "Maison",
+  "categoryDefaultSocial": "Social"
+}

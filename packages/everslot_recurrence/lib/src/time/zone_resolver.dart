@@ -51,7 +51,7 @@ class TzZoneResolver implements ZoneResolver {
       _cache.putIfAbsent(zoneId, () => zoneId == 'UTC' ? tz.UTC : tz.getLocation(zoneId));
 
   int _offsetMs(tz.Location location, int utcMs) =>
-      location.timeZone(utcMs).offset;
+      location.timeZone(utcMs).offset.inMilliseconds;
 
   @override
   ResolvedInstant resolve(LocalDateTime local, String zoneId) {

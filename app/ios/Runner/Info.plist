@@ -2,6 +2,44 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Everslot uses the camera to attach photos to your tasks, checklist items and habit notes.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Everslot lets you attach photos from your library to tasks, checklist items and habit notes.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Everslot uses Face ID to unlock the app when App Lock is enabled.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Everslot records voice notes you attach to items.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>app.everslot</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>everslot</string>
+			</array>
+		</dict>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
+		<string>remote-notification</string>
+	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>app.everslot.sync</string>
+		<string>be.tramckrijte.workmanager.BackgroundTask</string>
+	</array>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>fr</string>
+		<string>ar</string>
+	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

@@ -1,0 +1,15 @@
+targets:
+  $default:
+    builders:
+      drift_dev:
+        options:
+          store_date_time_values_as_text: true
+          named_parameters: true
+          use_sql_column_name_as_json_key: true
+          case_from_dart_to_sql: snake_case
+          sql:
+            dialect: sqlite
+            options:
+              version: "3.45"
+              modules:
+                - fts5

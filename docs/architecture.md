@@ -260,7 +260,7 @@ features/<feature>/
 
 ### 6.3 State management (Riverpod 3)
 
-- Only codegen providers (`@riverpod` / `@Riverpod(keepAlive: true)`); no manual `Provider(...)`.
+- Manual Riverpod 3 providers (`Provider`, `StreamProvider`, `NotifierProvider`, `.family`, `.autoDispose`) — no code generation (ADR-016). See `docs/dev_patterns.md`.
 - Repositories/services: `keepAlive: true`. Screen controllers: auto-dispose, family by id/date.
 - Drift `watch()` streams are exposed as stream providers → UI renders `AsyncValue` with shared
   loading/error widgets.
@@ -1364,6 +1364,10 @@ See `docs/README.md` §2.
 | ADR-013 | Crashlytics, no product analytics in v1 | Firebase already present; free; privacy. | Sentry (better for web/desktop later), PostHog. |
 | ADR-014 | Flutter 3.47 / Dart 3.13 baseline with `material_ui`/`cupertino_ui` packages, SwiftPM and UIScene | Current packages require Dart 3.13; built-in design libraries are frozen/deprecated; Xcode 27 requires UIScene. | Staying on 3.38 (blocks current packages). |
 | ADR-015 | Supabase publishable/secret API keys + asymmetric JWTs from day one | Legacy anon/service_role keys deprecated by end of 2026. | Legacy keys (forced migration later). |
+| ADR-016 | Code generation only for Drift (committed `app_database.g.dart`); hand-written immutable models, manual Riverpod providers, plain go_router paths | Lets many contributors/agents work in parallel without build_runner conflicts; faster builds; less magic. Supersedes the "codegen only" wording of ADR-003 / §6.3. | freezed + riverpod_generator + go_router_builder. |
+| ADR-017 | Local-only mode when Supabase isn't configured | The app is fully usable offline on one device before any cloud setup; data is claimed by the cloud account on first sign-in (`LocalAccount.claimForCloudUser`). | Mandatory sign-in. |
+| ADR-018 | App code imports `material_ui`; `MaterialUiCompatibilityBridge` wraps the app for legacy packages (fl_chart…) | go_router 18 / pdfrx already use material_ui; built-in material is frozen. | `package:flutter/material.dart` everywhere. |
+| ADR-019 | Android build flavors (dev/prod); iOS runs a single scheme until custom schemes/xcconfigs are added (guide.md) | Keeps iOS setup simple for a solo developer. | Full iOS flavor schemes. |
 
 ---
 

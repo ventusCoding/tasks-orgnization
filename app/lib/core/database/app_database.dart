@@ -1,0 +1,177 @@
+import 'package:drift/drift.dart';
+import 'package:drift_flutter/drift_flutter.dart';
+import 'package:everslot/core/database/tables/tables.dart';
+
+part 'app_database.g.dart';
+
+/// The single local SQLite database — the source of truth for the UI (arch §6.5).
+///
+/// Feature repositories query it directly (`db.select(db.tasks)…`). Never write synced tables
+/// directly: always go through `SyncWriter` so the outbox and activity log stay consistent.
+@DriftDatabase(
+  tables: [
+    // identity & settings
+    Profiles,
+    UserSettings,
+    // organization & shared
+    Categories,
+    Tags,
+    EntityTags,
+    SavedViews,
+    ActivityEvents,
+    Attachments,
+    Goals,
+    Achievements,
+    Dashboards,
+    // planner
+    Tasks,
+    TaskOccurrences,
+    TimeEntries,
+    // checklists
+    Checklists,
+    ChecklistItems,
+    ChecklistRuns,
+    // habits
+    Habits,
+    HabitSections,
+    HabitVocab,
+    HabitLogs,
+    HabitPauses,
+    HabitRevisions,
+    // notifications
+    NotificationProfiles,
+    NotificationRules,
+    Notifications,
+    NotificationMutes,
+    // local-only
+    SyncOutbox,
+    SyncState,
+    LocalNotificationSchedule,
+    UiNodeState,
+    UiChecklistState,
+    UiViewState,
+    HabitTimerState,
+    AttachmentCache,
+    InsightState,
+    StatsCache,
+    LocalKv,
+  ],
+)
+class AppDatabase extends _$AppDatabase {
+  AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
+
+  /// In-memory database for tests.
+  factory AppDatabase.forTesting(QueryExecutor executor) => AppDatabase(executor);
+
+  static QueryExecutor _openConnection() => driftDatabase(
+    name: 'everslot',
+    native: const DriftNativeOptions(shareAcrossIsolates: true),
+  );
+
+  @override
+  int get schemaVersion => 1;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onCreate: (m) async {
+      await m.createAll();
+      for (final statement in localIndexes) {
+        await customStatement(statement);
+      }
+      for (final statement in searchIndexStatements) {
+        await customStatement(statement);
+      }
+    },
+    beforeOpen: (details) async {
+      await customStatement('PRAGMA foreign_keys = OFF');
+      await customStatement('PRAGMA journal_mode = WAL');
+    },
+  );
+
+  /// Secondary indexes for the hot queries of each feature.
+  static const localIndexes = <String>[
+    'CREATE INDEX IF NOT EXISTS idx_tasks_start ON tasks (start_local)',
+    'CREATE INDEX IF NOT EXISTS idx_tasks_series ON tasks (series_id)',
+    'CREATE UNIQUE INDEX IF NOT EXISTS idx_occ_task_key ON task_occurrences (task_id, occurrence_key)',
+    'CREATE INDEX IF NOT EXISTS idx_time_entries_task ON time_entries (task_id, occurrence_key)',
+    'CREATE INDEX IF NOT EXISTS idx_items_checklist ON checklist_items (checklist_id, parent_id)',
+    'CREATE INDEX IF NOT EXISTS idx_habit_logs_habit_date ON habit_logs (habit_id, local_date)',
+    'CREATE INDEX IF NOT EXISTS idx_activity_entity ON activity_events (entity_type, entity_id, occurred_at)',
+    'CREATE INDEX IF NOT EXISTS idx_attachments_owner ON attachments (owner_type, owner_id)',
+    'CREATE INDEX IF NOT EXISTS idx_notifications_fire ON notifications (fire_at)',
+    'CREATE INDEX IF NOT EXISTS idx_entity_tags_entity ON entity_tags (entity_type, entity_id)',
+    'CREATE INDEX IF NOT EXISTS idx_rules_target ON notification_rules (target_type, target_id)',
+    'CREATE INDEX IF NOT EXISTS idx_outbox_state ON sync_outbox (state, seq)',
+    'CREATE INDEX IF NOT EXISTS idx_outbox_row ON sync_outbox (table_name, row_id)',
+  ];
+
+  /// Global full-text search index (T2.3.11), maintained by triggers so rows arriving from sync
+  /// are indexed too. Arabic letter variants are normalized in both the index and queries.
+  static List<String> get searchIndexStatements {
+    String norm(String expr) =>
+        "replace(replace(replace(replace(replace(replace(coalesce($expr,''),"
+        "'أ','ا'),'إ','ا'),'آ','ا'),'ى','ي'),'ة','ه'),'ـ','')";
+    String indexTriggers({
+      required String table,
+      required String entityType,
+      required String titleExpr,
+      required String bodyExpr,
+      String parentExpr = 'NULL',
+    }) {
+      final ins =
+          "INSERT INTO search_index(entity_type, entity_id, parent_id, title, body) "
+          "SELECT '$entityType', NEW.id, $parentExpr, ${norm(titleExpr)}, ${norm(bodyExpr)} "
+          'WHERE NEW.deleted_at IS NULL;';
+      final del = "DELETE FROM search_index WHERE entity_type = '$entityType' AND entity_id = OLD.id;";
+      return '''
+CREATE TRIGGER IF NOT EXISTS trg_${table}_fts_ai AFTER INSERT ON $table BEGIN $ins END;
+CREATE TRIGGER IF NOT EXISTS trg_${table}_fts_au AFTER UPDATE ON $table BEGIN $del ${ins.replaceAll('OLD.', 'NEW.')} END;
+CREATE TRIGGER IF NOT EXISTS trg_${table}_fts_ad AFTER DELETE ON $table BEGIN $del END;''';
+    }
+
+    return [
+      '''CREATE VIRTUAL TABLE IF NOT EXISTS search_index USING fts5(
+        entity_type UNINDEXED, entity_id UNINDEXED, parent_id UNINDEXED, title, body,
+        tokenize = 'unicode61 remove_diacritics 2')''',
+      ...indexTriggers(
+        table: 'tasks',
+        entityType: 'task',
+        titleExpr: 'NEW.title',
+        bodyExpr: 'NEW.notes',
+      ).split('\n'),
+      ...indexTriggers(
+        table: 'checklists',
+        entityType: 'checklist',
+        titleExpr: 'NEW.title',
+        bodyExpr: 'NEW.body',
+      ).split('\n'),
+      ...indexTriggers(
+        table: 'checklist_items',
+        entityType: 'checklist_item',
+        titleExpr: 'NEW.text',
+        bodyExpr: 'NEW.note',
+        parentExpr: 'NEW.checklist_id',
+      ).split('\n'),
+      ...indexTriggers(
+        table: 'habits',
+        entityType: 'habit',
+        titleExpr: 'NEW.name',
+        bodyExpr: 'NEW.description',
+      ).split('\n'),
+      ...indexTriggers(
+        table: 'habit_logs',
+        entityType: 'habit_log',
+        titleExpr: 'NEW.note',
+        bodyExpr: 'NULL',
+        parentExpr: 'NEW.habit_id',
+      ).split('\n'),
+    ].where((s) => s.trim().isNotEmpty).toList();
+  }
+
+  /// Arabic/diacritic normalization applied to search queries (mirrors the trigger SQL).
+  static String normalizeForSearch(String input) => input
+      .replaceAll(RegExp('[أإآ]'), 'ا')
+      .replaceAll('ى', 'ي')
+      .replaceAll('ة', 'ه')
+      .replaceAll('ـ', '');
+}

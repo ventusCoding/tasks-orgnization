@@ -14,6 +14,8 @@ configurable **notifications** (in-app inbox + local + Firebase push).
 | `docs/README.md` | Roadmap, milestones, task-file conventions, file index, glossary |
 | `docs/architecture.md` | Stack, layers, data model (SQL), sync, engines, notification pipeline, ADRs |
 | `docs/tasks_section_<S>_<SS>_<name>.md` | Dev tasks `T<S>.<SS>.<NN>` with acceptance criteria & tests |
+| `docs/dev_patterns.md` | How code is written here (providers, SyncWriter, l10n parts, tests) |
+| `docs/guide.md` | Install, configure (Supabase/Firebase placeholders) and run |
 
 Before implementing a task: read the task, its dependencies, and the `arch §` sections it cites.
 If code and docs disagree, stop and reconcile — update the docs in the same change (ADR entry for
@@ -50,7 +52,8 @@ design changes). Never renumber task IDs.
 
 ```bash
 fvm flutter pub get                 # workspace root (pub workspaces)
-melos run gen                       # build_runner (freezed, json, riverpod, drift, go_router)
+melos run gen                       # build_runner (Drift only)
+melos run l10n                      # merge ARB parts + gen-l10n
 melos run analyze                   # dart analyze --fatal-infos across packages
 melos run test                      # dart/flutter tests for all packages
 melos run format                    # dart format .
@@ -73,9 +76,10 @@ deno test -A supabase/functions     # Edge Function tests (+ deno fmt --check, d
 - **Sync correctness:** pull cursor = per-user revision from `app.sync_heads` — **never** `updated_at` or a
   global sequence. Conflicts = per-field last-writer-wins by HLC. Multi-row operations share one `op_id`
   and are pushed atomically. Automatic (time-triggered) writes use the scheduled instant as their clock.
-- **Riverpod 3 codegen only** (`@riverpod`). No global singletons. Inject `Clock` — never call
-  `DateTime.now()` in domain/application code.
-- **Models:** `freezed` + `json_serializable`. JSON value objects carry `"v"` and upgrade old versions.
+- **Riverpod 3, manual providers** (no codegen except Drift — ADR-016; see `docs/dev_patterns.md`).
+  Inject `Clock` — never call `DateTime.now()` in domain/application code.
+- **Models:** hand-written immutable classes (`==`, `hashCode`, `copyWith`, `fromJson`/`toJson`). JSON value
+  objects carry `"v"` and upgrade old versions.
 - **Time:** instants in UTC; wall-clock values (`*_local`, `occurrence_key`) always paired with an IANA
   `time_zone` or explicitly floating. Use the recurrence engine for anything repeating.
 - **IDs:** UUIDv7 client-side; UUIDv5 (`EVERSLOT_NS`) for convergent rows (occurrences, habit day-state,

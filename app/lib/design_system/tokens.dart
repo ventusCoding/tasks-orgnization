@@ -1,0 +1,203 @@
+import 'package:material_ui/material_ui.dart';
+
+/// Spacing scale (4-pt grid).
+abstract final class Space {
+  static const xxs = 2.0;
+  static const xs = 4.0;
+  static const sm = 8.0;
+  static const md = 12.0;
+  static const lg = 16.0;
+  static const xl = 24.0;
+  static const xxl = 32.0;
+  static const xxxl = 48.0;
+}
+
+abstract final class Radii {
+  static const sm = 6.0;
+  static const md = 12.0;
+  static const lg = 16.0;
+  static const xl = 24.0;
+  static const pill = 999.0;
+}
+
+abstract final class Motion {
+  static const fast = Duration(milliseconds: 120);
+  static const normal = Duration(milliseconds: 220);
+  static const slow = Duration(milliseconds: 360);
+  static const curve = Curves.easeOutCubic;
+}
+
+/// 16-color category palette (T1.3.08 / T2.3.04), ordered for color-blind distinguishability.
+/// Stored as ARGB ints; light/dark variants are derived in [CategoryColors].
+abstract final class CategoryPalette {
+  static const colors = <int>[
+    0xFF3B82F6, // blue
+    0xFFEF4444, // red
+    0xFF10B981, // emerald
+    0xFFF59E0B, // amber
+    0xFF8B5CF6, // violet
+    0xFF06B6D4, // cyan
+    0xFFEC4899, // pink
+    0xFF84CC16, // lime
+    0xFFF97316, // orange
+    0xFF6366F1, // indigo
+    0xFF14B8A6, // teal
+    0xFFA855F7, // purple
+    0xFF64748B, // slate
+    0xFFE11D48, // rose
+    0xFF0EA5E9, // sky
+    0xFFA16207, // brown
+  ];
+
+  static int at(int index) => colors[index % colors.length];
+}
+
+/// Readable variants of a stored category color for the current theme.
+abstract final class CategoryColors {
+  /// Tile background for a category color.
+  static Color background(int argb, Brightness brightness) {
+    final base = Color(argb);
+    return brightness == Brightness.dark
+        ? Color.lerp(base, Colors.black, 0.45)!
+        : Color.lerp(base, Colors.white, 0.78)!;
+  }
+
+  /// Strong accent (bars, dots, borders).
+  static Color accent(int argb, Brightness brightness) {
+    final base = Color(argb);
+    return brightness == Brightness.dark ? Color.lerp(base, Colors.white, 0.15)! : base;
+  }
+
+  /// Foreground text color with ≥ 4.5:1 contrast on [background].
+  static Color onBackground(Color background) =>
+      contrastRatio(background, Colors.black) >= contrastRatio(background, Colors.white)
+      ? const Color(0xFF111827)
+      : Colors.white;
+
+  static double contrastRatio(Color a, Color b) {
+    final la = a.computeLuminance();
+    final lb = b.computeLuminance();
+    final hi = la > lb ? la : lb;
+    final lo = la > lb ? lb : la;
+    return (hi + 0.05) / (lo + 0.05);
+  }
+}
+
+/// Semantic colors not covered by the Material color scheme.
+@immutable
+class AppColors extends ThemeExtension<AppColors> {
+  const AppColors({
+    required this.success,
+    required this.warning,
+    required this.danger,
+    required this.info,
+    required this.todo,
+    required this.ongoing,
+    required this.waiting,
+    required this.blocked,
+    required this.completed,
+    required this.cancelled,
+    required this.missed,
+    required this.skipped,
+    required this.nowLine,
+    required this.gridMajor,
+    required this.gridMinor,
+    required this.offHours,
+    required this.today,
+  });
+
+  static const light = AppColors(
+    success: Color(0xFF15803D),
+    warning: Color(0xFFB45309),
+    danger: Color(0xFFB91C1C),
+    info: Color(0xFF1D4ED8),
+    todo: Color(0xFF6B7280),
+    ongoing: Color(0xFF2563EB),
+    waiting: Color(0xFFB45309),
+    blocked: Color(0xFFB91C1C),
+    completed: Color(0xFF15803D),
+    cancelled: Color(0xFF9CA3AF),
+    missed: Color(0xFFDC2626),
+    skipped: Color(0xFF9CA3AF),
+    nowLine: Color(0xFFE11D48),
+    gridMajor: Color(0x1F000000),
+    gridMinor: Color(0x0D000000),
+    offHours: Color(0x08000000),
+    today: Color(0x0F3B82F6),
+  );
+
+  static const dark = AppColors(
+    success: Color(0xFF4ADE80),
+    warning: Color(0xFFFBBF24),
+    danger: Color(0xFFF87171),
+    info: Color(0xFF60A5FA),
+    todo: Color(0xFF9CA3AF),
+    ongoing: Color(0xFF60A5FA),
+    waiting: Color(0xFFFBBF24),
+    blocked: Color(0xFFF87171),
+    completed: Color(0xFF4ADE80),
+    cancelled: Color(0xFF6B7280),
+    missed: Color(0xFFF87171),
+    skipped: Color(0xFF6B7280),
+    nowLine: Color(0xFFFB7185),
+    gridMajor: Color(0x29FFFFFF),
+    gridMinor: Color(0x12FFFFFF),
+    offHours: Color(0x0AFFFFFF),
+    today: Color(0x1A60A5FA),
+  );
+
+  final Color success;
+  final Color warning;
+  final Color danger;
+  final Color info;
+  final Color todo;
+  final Color ongoing;
+  final Color waiting;
+  final Color blocked;
+  final Color completed;
+  final Color cancelled;
+  final Color missed;
+  final Color skipped;
+  final Color nowLine;
+  final Color gridMajor;
+  final Color gridMinor;
+  final Color offHours;
+  final Color today;
+
+  @override
+  AppColors copyWith({Color? success}) => this;
+
+  @override
+  AppColors lerp(ThemeExtension<AppColors>? other, double t) {
+    if (other is! AppColors) return this;
+    Color l(Color a, Color b) => Color.lerp(a, b, t)!;
+    return AppColors(
+      success: l(success, other.success),
+      warning: l(warning, other.warning),
+      danger: l(danger, other.danger),
+      info: l(info, other.info),
+      todo: l(todo, other.todo),
+      ongoing: l(ongoing, other.ongoing),
+      waiting: l(waiting, other.waiting),
+      blocked: l(blocked, other.blocked),
+      completed: l(completed, other.completed),
+      cancelled: l(cancelled, other.cancelled),
+      missed: l(missed, other.missed),
+      skipped: l(skipped, other.skipped),
+      nowLine: l(nowLine, other.nowLine),
+      gridMajor: l(gridMajor, other.gridMajor),
+      gridMinor: l(gridMinor, other.gridMinor),
+      offHours: l(offHours, other.offHours),
+      today: l(today, other.today),
+    );
+  }
+}
+
+extension AppThemeX on BuildContext {
+  ThemeData get theme => Theme.of(this);
+  ColorScheme get colors => Theme.of(this).colorScheme;
+  TextTheme get text => Theme.of(this).textTheme;
+  AppColors get appColors => Theme.of(this).extension<AppColors>() ?? AppColors.light;
+  bool get isDark => Theme.of(this).brightness == Brightness.dark;
+  bool get reduceMotion => MediaQuery.of(this).disableAnimations;
+}

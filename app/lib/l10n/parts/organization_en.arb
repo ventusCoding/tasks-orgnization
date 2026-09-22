@@ -1,0 +1,19 @@
+{
+  "categoriesTitle": "Categories",
+  "categoriesEmpty": "No categories yet",
+  "categoryNew": "New category",
+  "categoryEdit": "Edit category",
+  "categoryName": "Name",
+  "categoryArchived": "Archived",
+  "categoryDeleteBody": "Items in this category will keep existing without a category.",
+  "categoryUnavailable": "Counts as unavailable time",
+  "categoryUnavailableHint": "Excluded from capacity stats (e.g. sleep, time off).",
+  "categoryPick": "Category",
+  "categoryNone": "No category",
+  "categoryDefaultWork": "Work",
+  "categoryDefaultPersonal": "Personal",
+  "categoryDefaultHealth": "Health",
+  "categoryDefaultStudy": "Study",
+  "categoryDefaultHome": "Home",
+  "categoryDefaultSocial": "Social"
+}

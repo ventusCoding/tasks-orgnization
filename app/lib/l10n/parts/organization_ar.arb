@@ -1,0 +1,19 @@
+{
+  "categoriesTitle": "التصنيفات",
+  "categoriesEmpty": "لا توجد تصنيفات بعد",
+  "categoryNew": "تصنيف جديد",
+  "categoryEdit": "تعديل التصنيف",
+  "categoryName": "الاسم",
+  "categoryArchived": "مؤرشف",
+  "categoryDeleteBody": "ستبقى العناصر في هذا التصنيف بدون تصنيف.",
+  "categoryUnavailable": "يُحتسب وقتًا غير متاح",
+  "categoryUnavailableHint": "يُستثنى من إحصاءات السعة (مثل النوم والإجازات).",
+  "categoryPick": "التصنيف",
+  "categoryNone": "بلا تصنيف",
+  "categoryDefaultWork": "العمل",
+  "categoryDefaultPersonal": "شخصي",
+  "categoryDefaultHealth": "الصحة",
+  "categoryDefaultStudy": "الدراسة",
+  "categoryDefaultHome": "المنزل",
+  "categoryDefaultSocial": "اجتماعي"
+}

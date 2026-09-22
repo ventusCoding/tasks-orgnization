@@ -1,0 +1,202 @@
+{
+  "@@locale": "en",
+  "@confirmDeleteTitle": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "@deletedSnack": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "@durationDaysShort": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@durationHoursMinutesShort": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@durationHoursShort": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "@durationMinutesShort": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@relativeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@relativeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@relativeInDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@relativeInHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@relativeInMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@relativeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@syncPending": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "actionAdd": "Add",
+  "actionApply": "Apply",
+  "actionArchive": "Archive",
+  "actionBack": "Back",
+  "actionCancel": "Cancel",
+  "actionClear": "Clear",
+  "actionClose": "Close",
+  "actionConfirm": "Confirm",
+  "actionContinue": "Continue",
+  "actionDelete": "Delete",
+  "actionDone": "Done",
+  "actionDuplicate": "Duplicate",
+  "actionEdit": "Edit",
+  "actionInbox": "Inbox",
+  "actionMore": "More",
+  "actionNext": "Next",
+  "actionOpen": "Open",
+  "actionRedo": "Redo",
+  "actionRestore": "Restore",
+  "actionRetry": "Retry",
+  "actionSave": "Save",
+  "actionSearch": "Search",
+  "actionSettings": "Settings",
+  "actionShare": "Share",
+  "actionSkip": "Skip",
+  "actionToday": "Today",
+  "actionUndo": "Undo",
+  "appName": "Everslot",
+  "appTagline": "Own every slot of your day.",
+  "categoriesEmpty": "No categories yet",
+  "categoriesTitle": "Categories",
+  "categoryArchived": "Archived",
+  "categoryDefaultHealth": "Health",
+  "categoryDefaultHome": "Home",
+  "categoryDefaultPersonal": "Personal",
+  "categoryDefaultSocial": "Social",
+  "categoryDefaultStudy": "Study",
+  "categoryDefaultWork": "Work",
+  "categoryDeleteBody": "Items in this category will keep existing without a category.",
+  "categoryEdit": "Edit category",
+  "categoryName": "Name",
+  "categoryNew": "New category",
+  "categoryNone": "No category",
+  "categoryPick": "Category",
+  "categoryUnavailable": "Counts as unavailable time",
+  "categoryUnavailableHint": "Excluded from capacity stats (e.g. sleep, time off).",
+  "comingSoon": "Coming soon",
+  "confirmDeleteBody": "You can restore it from Trash for 30 days.",
+  "confirmDeleteTitle": "Delete {item}?",
+  "deletedSnack": "{item} deleted",
+  "devMenu": "Developer menu",
+  "durationDaysShort": "{days, plural, =1{1 day} other{{days} days}}",
+  "durationHoursMinutesShort": "{hours} h {minutes} min",
+  "durationHoursShort": "{hours} h",
+  "durationMinutesShort": "{minutes} min",
+  "errorAuth": "Please sign in again.",
+  "errorNetwork": "Can't reach the server. Check your connection.",
+  "errorNotConfigured": "This feature needs cloud configuration (see guide.md).",
+  "errorNotFound": "This item no longer exists.",
+  "errorPermission": "Permission is needed for this.",
+  "errorUnknown": "Unexpected error.",
+  "errorUnsupportedVersion": "Please update Everslot to keep syncing.",
+  "errorValidation": "Please check the highlighted fields.",
+  "localOnlyBanner": "Cloud sync isn't configured — your data stays on this device.",
+  "notFoundTitle": "Page not found",
+  "pickerColor": "Color",
+  "pickerDate": "Date",
+  "pickerDays": "Days",
+  "pickerDuration": "Duration",
+  "pickerHours": "Hours",
+  "pickerIcon": "Icon",
+  "pickerMinutes": "Minutes",
+  "pickerNoColor": "No color",
+  "pickerSearchIcons": "Search icons",
+  "pickerTime": "Time",
+  "placeholderScreen": "This screen is being built.",
+  "priorityHigh": "High",
+  "priorityLow": "Low",
+  "priorityMedium": "Medium",
+  "priorityNone": "No priority",
+  "priorityUrgent": "Urgent",
+  "relativeDaysAgo": "{count, plural, =1{yesterday} other{{count} days ago}}",
+  "relativeHoursAgo": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
+  "relativeInDays": "{count, plural, =1{tomorrow} other{in {count} days}}",
+  "relativeInHours": "{count, plural, =1{in 1 hour} other{in {count} hours}}",
+  "relativeInMinutes": "{count, plural, =1{in 1 minute} other{in {count} minutes}}",
+  "relativeMinutesAgo": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
+  "relativeNow": "now",
+  "savedSnack": "Saved",
+  "stateEmpty": "Nothing here yet",
+  "stateErrorBody": "Please try again.",
+  "stateErrorTitle": "Something went wrong",
+  "stateLoading": "Loading…",
+  "syncError": "Sync problem",
+  "syncIdle": "Synced",
+  "syncLocalOnly": "On this device only",
+  "syncOffline": "Offline — changes will sync later",
+  "syncPending": "{count, plural, =0{No pending changes} =1{1 change waiting} other{{count} changes waiting}}",
+  "syncPulling": "Updating…",
+  "syncPushing": "Uploading changes…",
+  "tabHabits": "Habits",
+  "tabInsights": "Insights",
+  "tabLists": "Lists",
+  "tabPlan": "Plan",
+  "tabToday": "Today"
+}

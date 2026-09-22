@@ -1,0 +1,12 @@
+import 'package:everslot/design_system/design_system.dart';
+import 'package:material_ui/material_ui.dart';
+
+/// Placeholder — implemented by its feature section (see docs/tasks_section_*.md).
+class SearchScreen extends StatelessWidget {
+  const SearchScreen({this.initialQuery, super.key});
+
+  final String? initialQuery;
+
+  @override
+  Widget build(BuildContext context) => PlaceholderScreen(title: context.l10n.actionSearch);
+}
