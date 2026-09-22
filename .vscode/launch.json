@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Everslot (dev)",
+      "request": "launch",
+      "type": "dart",
+      "cwd": "app",
+      "program": "lib/main_dev.dart",
+      "args": ["--flavor", "dev", "--dart-define-from-file=env/dev.json"]
+    },
+    {
+      "name": "Everslot (prod)",
+      "request": "launch",
+      "type": "dart",
+      "cwd": "app",
+      "program": "lib/main_prod.dart",
+      "args": ["--flavor", "prod", "--dart-define-from-file=env/prod.json"]
+    },
+    {
+      "name": "Everslot iOS (no flavor)",
+      "request": "launch",
+      "type": "dart",
+      "cwd": "app",
+      "program": "lib/main_dev.dart",
+      "args": ["--dart-define-from-file=env/dev.json"]
+    }
+  ]
+}

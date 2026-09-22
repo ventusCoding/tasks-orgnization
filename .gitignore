@@ -43,8 +43,8 @@ coverage/
 *.keystore
 
 # Secrets & env
-env/*.json
-!env/example.json
+**/env/*.json
+!**/env/example.json
 **/google-services.json
 **/GoogleService-Info.plist
 *.p8

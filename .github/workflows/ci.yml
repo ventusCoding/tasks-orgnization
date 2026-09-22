@@ -1,0 +1,82 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app:
+    name: Analyze & test (app + packages)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read Flutter version from .fvmrc
+        id: fvm
+        run: echo "version=$(python3 -c "import json;print(json.load(open('.fvmrc'))['flutter'])")" >> "$GITHUB_OUTPUT"
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fvm.outputs.version }}
+          channel: stable
+          cache: true
+      - run: dart pub get
+      - name: Localizations (merge ARB parts + gen-l10n)
+        run: dart run tool/merge_arb.dart && (cd app && flutter gen-l10n)
+      - name: Drift codegen is up to date
+        run: cd app && dart run build_runner build && git diff --exit-code -- lib/core/database/app_database.g.dart
+      - name: Format
+        run: dart format --output=none --set-exit-if-changed app/lib app/test packages tool
+      - name: Import boundaries
+        run: if [ -f tool/check_imports.dart ]; then dart run tool/check_imports.dart; fi
+      - name: Analyze
+        run: dart analyze --fatal-infos app packages tool
+      - name: Test recurrence package
+        run: cd packages/everslot_recurrence && dart test --coverage=coverage
+      - name: Test metrics package
+        run: cd packages/everslot_metrics && dart test --coverage=coverage
+      - name: Test app
+        run: cd app && flutter test --coverage
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage
+          path: |
+            app/coverage/lcov.info
+            packages/*/coverage
+
+  android:
+    name: Android debug build
+    runs-on: ubuntu-latest
+    needs: app
+    if: github.event_name == 'push'
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - id: fvm
+        run: echo "version=$(python3 -c "import json;print(json.load(open('.fvmrc'))['flutter'])")" >> "$GITHUB_OUTPUT"
+      - uses: subosito/flutter-action@v2
+        with: { flutter-version: '${{ steps.fvm.outputs.version }}', channel: stable, cache: true }
+      - run: dart pub get && dart run tool/merge_arb.dart && (cd app && flutter gen-l10n)
+      - run: cd app && flutter build apk --debug --flavor dev -t lib/main_dev.dart
+
+  ios:
+    name: iOS build (no codesign)
+    runs-on: macos-latest
+    needs: app
+    if: github.event_name == 'push'
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - id: fvm
+        run: echo "version=$(python3 -c "import json;print(json.load(open('.fvmrc'))['flutter'])")" >> "$GITHUB_OUTPUT"
+      - uses: subosito/flutter-action@v2
+        with: { flutter-version: '${{ steps.fvm.outputs.version }}', channel: stable, cache: true }
+      - run: dart pub get && dart run tool/merge_arb.dart && (cd app && flutter gen-l10n)
+      - run: cd app && flutter build ios --no-codesign --debug -t lib/main_dev.dart

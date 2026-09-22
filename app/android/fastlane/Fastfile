@@ -1,0 +1,28 @@
+# Android lanes (T9.2.03). Needs PLAY_SERVICE_ACCOUNT_JSON (Google Play service account JSON).
+default_platform(:android)
+
+platform :android do
+  desc "Upload the release AAB to the Play internal track"
+  lane :beta do
+    upload_to_play_store(
+      track: "internal",
+      aab: "../build/app/outputs/bundle/prodRelease/app-prod-release.aab",
+      json_key_data: ENV["PLAY_SERVICE_ACCOUNT_JSON"],
+      package_name: "app.everslot",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Promote internal → production with a staged rollout"
+  lane :production do |options|
+    upload_to_play_store(
+      track: "internal",
+      track_promote_to: "production",
+      rollout: (options[:rollout] || "0.05").to_s,
+      json_key_data: ENV["PLAY_SERVICE_ACCOUNT_JSON"],
+      package_name: "app.everslot"
+    )
+  end
+end
