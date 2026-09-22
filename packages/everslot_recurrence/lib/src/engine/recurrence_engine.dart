@@ -160,15 +160,15 @@ final class RecurrenceEngine {
   }
 
   Iterable<Occurrence> _capped(Iterable<Occurrence> source, int? limit) sync* {
+    if (limit != null && limit <= 0) return;
     var produced = 0;
     for (final occurrence in source) {
-      if (limit != null) {
-        if (produced >= limit) return;
-      } else if (produced >= maxOccurrencesPerCall) {
+      if (limit == null && produced >= maxOccurrencesPerCall) {
         throw RecurrenceLimitExceeded(maxOccurrencesPerCall);
       }
-      produced++;
       yield occurrence;
+      produced++;
+      if (limit != null && produced >= limit) return;
     }
   }
 
