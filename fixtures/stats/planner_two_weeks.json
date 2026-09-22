@@ -1,0 +1,756 @@
+{
+ "name": "planner_two_weeks",
+ "description": "Two DST-free weeks (Mon 2026-09-07 .. Sun 2026-09-20), Europe/Paris, week start MO, work hours 09:00-17:00 Mon-Fri. 3 series (Gym MO/WE/FR 18:00, Standup weekdays 09:30 timer, Reading daily 21:00) and 12 one-off tasks (snowballing reschedule o4, moved-out o3, unplanned o5, events o6/o7 with o7 in an unavailable category, all-day o11, skipped o12, overdue o9) plus one cancelled Standup occurrence. All times are local.",
+ "zone": "Europe/Paris",
+ "weekStart": "MO",
+ "now": "2026-09-21T08:00",
+ "settings": {
+  "graceMinutes": 5,
+  "workHours": [
+   "09:00",
+   "17:00"
+  ],
+  "unavailableCategories": [
+   "timeoff"
+  ]
+ },
+ "occurrences": [
+  {
+   "task": "gym",
+   "series": "gym",
+   "key": "2026-09-07T18:00",
+   "start": "2026-09-07T18:00",
+   "minutes": 60,
+   "status": "done",
+   "category": "health",
+   "recurring": true,
+   "doneAt": "2026-09-07T19:05",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "gym",
+   "series": "gym",
+   "key": "2026-09-09T18:00",
+   "start": "2026-09-09T18:00",
+   "minutes": 60,
+   "status": "done",
+   "category": "health",
+   "recurring": true,
+   "doneAt": "2026-09-09T19:30",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "gym",
+   "series": "gym",
+   "key": "2026-09-11T18:00",
+   "start": "2026-09-11T18:00",
+   "minutes": 60,
+   "status": "skipped",
+   "category": "health",
+   "recurring": true,
+   "skipReason": "sick",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "gym",
+   "series": "gym",
+   "key": "2026-09-14T18:00",
+   "start": "2026-09-14T18:00",
+   "minutes": 60,
+   "status": "done",
+   "category": "health",
+   "recurring": true,
+   "doneAt": "2026-09-14T18:55",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "gym",
+   "series": "gym",
+   "key": "2026-09-16T18:00",
+   "start": "2026-09-16T18:00",
+   "minutes": 60,
+   "status": "scheduled",
+   "category": "health",
+   "recurring": true,
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "gym",
+   "series": "gym",
+   "key": "2026-09-18T18:00",
+   "start": "2026-09-18T18:00",
+   "minutes": 60,
+   "status": "done",
+   "category": "health",
+   "recurring": true,
+   "doneAt": "2026-09-18T19:00",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "standup",
+   "series": "standup",
+   "key": "2026-09-07T09:30",
+   "start": "2026-09-07T09:30",
+   "minutes": 15,
+   "mode": "timer",
+   "category": "work",
+   "recurring": true,
+   "status": "done",
+   "sessions": [
+    [
+     "2026-09-07T09:32",
+     "2026-09-07T09:47"
+    ]
+   ],
+   "doneAt": "2026-09-07T09:47",
+   "created": "2026-09-01T08:00"
+  },
+  {
+   "task": "standup",
+   "series": "standup",
+   "key": "2026-09-08T09:30",
+   "start": "2026-09-08T09:30",
+   "minutes": 15,
+   "mode": "timer",
+   "category": "work",
+   "recurring": true,
+   "status": "done",
+   "sessions": [
+    [
+     "2026-09-08T09:30",
+     "2026-09-08T09:50"
+    ]
+   ],
+   "doneAt": "2026-09-08T09:50",
+   "created": "2026-09-01T08:00"
+  },
+  {
+   "task": "standup",
+   "series": "standup",
+   "key": "2026-09-09T09:30",
+   "start": "2026-09-09T09:30",
+   "minutes": 15,
+   "mode": "timer",
+   "category": "work",
+   "recurring": true,
+   "status": "done",
+   "sessions": [
+    [
+     "2026-09-09T09:40",
+     "2026-09-09T09:55"
+    ]
+   ],
+   "doneAt": "2026-09-09T09:55",
+   "created": "2026-09-01T08:00"
+  },
+  {
+   "task": "standup",
+   "series": "standup",
+   "key": "2026-09-10T09:30",
+   "start": "2026-09-10T09:30",
+   "minutes": 15,
+   "mode": "timer",
+   "category": "work",
+   "recurring": true,
+   "status": "done",
+   "sessions": [
+    [
+     "2026-09-10T09:28",
+     "2026-09-10T09:43"
+    ]
+   ],
+   "doneAt": "2026-09-10T09:43",
+   "created": "2026-09-01T08:00"
+  },
+  {
+   "task": "standup",
+   "series": "standup",
+   "key": "2026-09-11T09:30",
+   "start": "2026-09-11T09:30",
+   "minutes": 15,
+   "mode": "timer",
+   "category": "work",
+   "recurring": true,
+   "status": "cancelled",
+   "cancelledAt": "2026-09-10T12:00",
+   "created": "2026-09-01T08:00"
+  },
+  {
+   "task": "standup",
+   "series": "standup",
+   "key": "2026-09-14T09:30",
+   "start": "2026-09-14T09:30",
+   "minutes": 15,
+   "mode": "timer",
+   "category": "work",
+   "recurring": true,
+   "status": "done",
+   "sessions": [
+    [
+     "2026-09-14T09:31",
+     "2026-09-14T09:46"
+    ]
+   ],
+   "doneAt": "2026-09-14T09:46",
+   "created": "2026-09-01T08:00"
+  },
+  {
+   "task": "standup",
+   "series": "standup",
+   "key": "2026-09-15T09:30",
+   "start": "2026-09-15T09:30",
+   "minutes": 15,
+   "mode": "timer",
+   "category": "work",
+   "recurring": true,
+   "status": "done",
+   "sessions": [
+    [
+     "2026-09-15T09:45",
+     "2026-09-15T10:00"
+    ]
+   ],
+   "doneAt": "2026-09-15T10:00",
+   "created": "2026-09-01T08:00"
+  },
+  {
+   "task": "standup",
+   "series": "standup",
+   "key": "2026-09-16T09:30",
+   "start": "2026-09-16T09:30",
+   "minutes": 15,
+   "mode": "timer",
+   "category": "work",
+   "recurring": true,
+   "status": "done",
+   "sessions": [
+    [
+     "2026-09-16T09:30",
+     "2026-09-16T09:45"
+    ]
+   ],
+   "doneAt": "2026-09-16T09:45",
+   "created": "2026-09-01T08:00"
+  },
+  {
+   "task": "standup",
+   "series": "standup",
+   "key": "2026-09-17T09:30",
+   "start": "2026-09-17T09:30",
+   "minutes": 15,
+   "mode": "timer",
+   "category": "work",
+   "recurring": true,
+   "status": "done",
+   "sessions": [
+    [
+     "2026-09-17T09:35",
+     "2026-09-17T09:50"
+    ]
+   ],
+   "doneAt": "2026-09-17T09:50",
+   "created": "2026-09-01T08:00"
+  },
+  {
+   "task": "standup",
+   "series": "standup",
+   "key": "2026-09-18T09:30",
+   "start": "2026-09-18T09:30",
+   "minutes": 15,
+   "mode": "timer",
+   "category": "work",
+   "recurring": true,
+   "status": "done",
+   "sessions": [
+    [
+     "2026-09-18T09:36",
+     "2026-09-18T09:51"
+    ]
+   ],
+   "doneAt": "2026-09-18T09:51",
+   "created": "2026-09-01T08:00"
+  },
+  {
+   "task": "reading",
+   "series": "reading",
+   "key": "2026-09-07T21:00",
+   "start": "2026-09-07T21:00",
+   "minutes": 30,
+   "category": "personal",
+   "recurring": true,
+   "status": "done",
+   "doneAt": "2026-09-07T21:30",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "reading",
+   "series": "reading",
+   "key": "2026-09-08T21:00",
+   "start": "2026-09-08T21:00",
+   "minutes": 30,
+   "category": "personal",
+   "recurring": true,
+   "status": "done",
+   "doneAt": "2026-09-08T21:30",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "reading",
+   "series": "reading",
+   "key": "2026-09-09T21:00",
+   "start": "2026-09-09T21:00",
+   "minutes": 30,
+   "category": "personal",
+   "recurring": true,
+   "status": "done",
+   "doneAt": "2026-09-09T21:30",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "reading",
+   "series": "reading",
+   "key": "2026-09-10T21:00",
+   "start": "2026-09-10T21:00",
+   "minutes": 30,
+   "category": "personal",
+   "recurring": true,
+   "status": "done",
+   "doneAt": "2026-09-10T21:30",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "reading",
+   "series": "reading",
+   "key": "2026-09-11T21:00",
+   "start": "2026-09-11T21:00",
+   "minutes": 30,
+   "category": "personal",
+   "recurring": true,
+   "status": "done",
+   "doneAt": "2026-09-11T21:30",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "reading",
+   "series": "reading",
+   "key": "2026-09-12T21:00",
+   "start": "2026-09-12T21:00",
+   "minutes": 30,
+   "category": "personal",
+   "recurring": true,
+   "status": "skipped",
+   "skipReason": "tired",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "reading",
+   "series": "reading",
+   "key": "2026-09-13T21:00",
+   "start": "2026-09-13T21:00",
+   "minutes": 30,
+   "category": "personal",
+   "recurring": true,
+   "status": "skipped",
+   "skipReason": "tired",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "reading",
+   "series": "reading",
+   "key": "2026-09-14T21:00",
+   "start": "2026-09-14T21:00",
+   "minutes": 30,
+   "category": "personal",
+   "recurring": true,
+   "status": "done",
+   "doneAt": "2026-09-14T21:30",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "reading",
+   "series": "reading",
+   "key": "2026-09-15T21:00",
+   "start": "2026-09-15T21:00",
+   "minutes": 30,
+   "category": "personal",
+   "recurring": true,
+   "status": "done",
+   "doneAt": "2026-09-15T21:30",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "reading",
+   "series": "reading",
+   "key": "2026-09-16T21:00",
+   "start": "2026-09-16T21:00",
+   "minutes": 30,
+   "category": "personal",
+   "recurring": true,
+   "status": "done",
+   "doneAt": "2026-09-16T21:30",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "reading",
+   "series": "reading",
+   "key": "2026-09-17T21:00",
+   "start": "2026-09-17T21:00",
+   "minutes": 30,
+   "category": "personal",
+   "recurring": true,
+   "status": "done",
+   "doneAt": "2026-09-17T21:30",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "reading",
+   "series": "reading",
+   "key": "2026-09-18T21:00",
+   "start": "2026-09-18T21:00",
+   "minutes": 30,
+   "category": "personal",
+   "recurring": true,
+   "status": "done",
+   "doneAt": "2026-09-18T21:30",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "reading",
+   "series": "reading",
+   "key": "2026-09-19T21:00",
+   "start": "2026-09-19T21:00",
+   "minutes": 30,
+   "category": "personal",
+   "recurring": true,
+   "status": "scheduled",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "reading",
+   "series": "reading",
+   "key": "2026-09-20T21:00",
+   "start": "2026-09-20T21:00",
+   "minutes": 30,
+   "category": "personal",
+   "recurring": true,
+   "status": "done",
+   "doneAt": "2026-09-20T21:30",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "o1",
+   "series": "o1",
+   "key": "2026-09-14T10:00",
+   "start": "2026-09-14T10:00",
+   "minutes": 120,
+   "status": "done",
+   "doneAt": "2026-09-14T11:50",
+   "category": "work",
+   "sessions": [
+    [
+     "2026-09-14T10:00",
+     "2026-09-14T11:45"
+    ]
+   ],
+   "priority": 3,
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "o2",
+   "series": "o2",
+   "key": "2026-09-15T13:00",
+   "start": "2026-09-15T13:00",
+   "minutes": 60,
+   "status": "done",
+   "doneAt": "2026-09-15T14:30",
+   "category": "work",
+   "priority": 1,
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "o3",
+   "series": "o3",
+   "key": "2026-09-14T14:00",
+   "start": "2026-09-21T14:00",
+   "minutes": 60,
+   "status": "scheduled",
+   "category": "work",
+   "priority": 2,
+   "moves": [
+    {
+     "at": "2026-09-15T09:00",
+     "from": "2026-09-14T14:00",
+     "to": "2026-09-21T14:00"
+    }
+   ],
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "o4",
+   "series": "o4",
+   "key": "2026-09-09T10:00",
+   "start": "2026-09-10T11:30",
+   "minutes": 60,
+   "status": "done",
+   "doneAt": "2026-09-10T12:30",
+   "category": "work",
+   "moves": [
+    {
+     "at": "2026-09-08T10:00",
+     "from": "2026-09-09T10:00",
+     "to": "2026-09-10T10:00"
+    },
+    {
+     "at": "2026-09-09T10:00",
+     "from": "2026-09-10T10:00",
+     "to": "2026-09-10T12:00"
+    },
+    {
+     "at": "2026-09-10T08:00",
+     "from": "2026-09-10T12:00",
+     "to": "2026-09-10T11:30"
+    }
+   ],
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "o5",
+   "series": "o5",
+   "key": "2026-09-16T15:00",
+   "start": "2026-09-16T15:00",
+   "minutes": 60,
+   "status": "done",
+   "doneAt": "2026-09-16T16:00",
+   "category": "work",
+   "created": "2026-09-16T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "o6",
+   "series": "o6",
+   "key": "2026-09-17T12:00",
+   "start": "2026-09-17T12:00",
+   "minutes": 60,
+   "mode": "event",
+   "category": "social",
+   "created": "2026-09-01T08:00",
+   "status": "scheduled"
+  },
+  {
+   "task": "o7",
+   "series": "o7",
+   "key": "2026-09-18T14:00",
+   "start": "2026-09-18T14:00",
+   "minutes": 120,
+   "mode": "event",
+   "category": "timeoff",
+   "created": "2026-09-01T08:00",
+   "status": "scheduled"
+  },
+  {
+   "task": "o8",
+   "series": "o8",
+   "key": "2026-09-17T10:00",
+   "start": "2026-09-17T10:00",
+   "minutes": 90,
+   "status": "done",
+   "doneAt": "2026-09-17T11:20",
+   "category": "work",
+   "priority": 4,
+   "sessions": [
+    [
+     "2026-09-17T10:05",
+     "2026-09-17T10:55"
+    ],
+    [
+     "2026-09-17T10:56",
+     "2026-09-17T11:16"
+    ]
+   ],
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "o9",
+   "series": "o9",
+   "key": "2026-09-18T09:00",
+   "start": "2026-09-18T09:00",
+   "minutes": 60,
+   "status": "scheduled",
+   "category": "work",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "o10",
+   "series": "o10",
+   "key": "2026-09-08T15:00",
+   "start": "2026-09-08T15:00",
+   "minutes": 60,
+   "status": "done",
+   "doneAt": "2026-09-08T15:50",
+   "category": "work",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "o11",
+   "series": "o11",
+   "key": "2026-09-19",
+   "start": "2026-09-19T00:00",
+   "allDay": true,
+   "status": "done",
+   "doneAt": "2026-09-19T12:00",
+   "category": "personal",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  },
+  {
+   "task": "o12",
+   "series": "o12",
+   "key": "2026-09-10T16:00",
+   "start": "2026-09-10T16:00",
+   "minutes": 60,
+   "status": "skipped",
+   "skipReason": "blocked by client",
+   "category": "work",
+   "created": "2026-09-01T08:00",
+   "mode": "check"
+  }
+ ],
+ "expect": {
+  "series": {
+   "gym": {
+    "E": 6,
+    "X": 1,
+    "D": 4,
+    "M": 1,
+    "K": 1,
+    "adherence": 0.8,
+    "missRate": 0.2,
+    "onTimeRate": 0.75,
+    "currentStreak": 1,
+    "bestStreak": 3,
+    "bestSpanDays": 8,
+    "totalDone": 4,
+    "lastDone": "2026-09-18",
+    "daysSinceLastDone": 3
+   },
+   "standup": {
+    "E": 10,
+    "X": 1,
+    "D": 9,
+    "M": 0,
+    "K": 0,
+    "adherence": 1.0,
+    "missRate": 0.0,
+    "onTimeRate": 0.6666666666666666,
+    "currentStreak": 9,
+    "bestStreak": 9,
+    "startOnTimeRate": 0.6666666666666666,
+    "meanStartDelay": 4.111111111111111,
+    "medianStartDelay": 2.0,
+    "p85Insufficient": true
+   },
+   "reading": {
+    "E": 14,
+    "X": 2,
+    "D": 11,
+    "M": 1,
+    "K": 2,
+    "adherence": 0.9166666666666666,
+    "missRate": 0.08333333333333333,
+    "currentStreak": 1,
+    "bestStreak": 10
+   }
+  },
+  "week2": {
+   "period": [
+    "2026-09-14",
+    "2026-09-20"
+   ],
+   "planned": 21,
+   "plannedDone": 17,
+   "completionRate": 0.8095238095238095,
+   "unplanned": [
+    "o5"
+   ],
+   "movedOut": [
+    "o3"
+   ],
+   "movedIn": [],
+   "onTimeCompletionRate": 0.8333333333333334,
+   "overdueCount": 3,
+   "capacityMinutes": 2280,
+   "plannedMinutes": 915,
+   "plannedClippedMinutes": 525,
+   "plannedUtilization": 0.23026315789473684,
+   "overbookedDays": [],
+   "timeByCategoryUsedPlanned": true,
+   "timeByCategory": {
+    "work": 465,
+    "personal": 210,
+    "health": 180,
+    "timeoff": 120,
+    "social": 60
+   },
+   "eventMinutes": 180,
+   "taskMinutes": 855
+  },
+  "week3": {
+   "period": [
+    "2026-09-21",
+    "2026-09-27"
+   ],
+   "now": "2026-09-28T08:00",
+   "plannedIncludes": [
+    "o3"
+   ]
+  },
+  "occurrences": {
+   "o4": {
+    "reschedules": 3,
+    "distanceMinutes": 1590,
+    "netDriftMinutes": 1530,
+    "snowballing": true,
+    "outcome": "doneOnTime"
+   },
+   "o8": {
+    "actualMinutes": 70,
+    "deepWorkBlocks": 1,
+    "longestBlockMinutes": 70
+   },
+   "o9": {
+    "outcome": "missed",
+    "overdueBucket": "oneDay"
+   },
+   "o11": {
+    "outcome": "doneOnTime"
+   }
+  }
+ }
+}
