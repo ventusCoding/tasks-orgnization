@@ -9,7 +9,7 @@ import 'package:everslot_recurrence/everslot_recurrence.dart';
 /// evalZone, range: {from, to}, expectedKeys, expectedUtc?, durationMinutes?,
 /// limit?, completions?, notes?}`.
 final class RecurrenceFixture {
-  RecurrenceFixture(this.file, Map<String, Object?> json)
+  new(this.file, Map<String, Object?> json)
     : name = json['name']! as String,
       ruleJson = (json['rule']! as Map).cast<String, Object?>(),
       anchorJson = (json['anchor']! as Map).cast<String, Object?>(),
