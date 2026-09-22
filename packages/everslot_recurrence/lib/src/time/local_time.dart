@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 /// meaningful as the exclusive/inclusive end of a daily window.
 @immutable
 final class LocalTime implements Comparable<LocalTime> {
-  factory LocalTime(int hour, int minute) {
+  factory(int hour, int minute) {
     if (hour < 0 || hour > 23) {
       throw ArgumentError.value(hour, 'hour', 'must be 0..23');
     }
@@ -17,14 +17,14 @@ final class LocalTime implements Comparable<LocalTime> {
   }
 
   /// 0..1439, or 1440 for [endOfDay].
-  factory LocalTime.fromMinuteOfDay(int minuteOfDay) {
+  factory fromMinuteOfDay(int minuteOfDay) {
     if (minuteOfDay < 0 || minuteOfDay > 1440) {
       throw ArgumentError.value(minuteOfDay, 'minuteOfDay', 'must be 0..1440');
     }
     return LocalTime._(minuteOfDay);
   }
 
-  const LocalTime._(this.minuteOfDay);
+  const new _(this.minuteOfDay);
 
   static const LocalTime midnight = LocalTime._(0);
   static const LocalTime noon = LocalTime._(720);

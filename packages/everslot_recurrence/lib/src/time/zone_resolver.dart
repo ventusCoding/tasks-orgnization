@@ -16,7 +16,7 @@ enum ResolutionKind {
 
 /// Result of resolving a wall-clock time in a zone.
 class ResolvedInstant {
-  const ResolvedInstant(this.utc, this.kind, this.offsetMinutes);
+  const new(this.utc, this.kind, this.offsetMinutes);
 
   /// UTC instant.
   final DateTime utc;
@@ -42,77 +42,131 @@ abstract interface class ZoneResolver {
 ///
 /// The caller must initialize the database first, e.g.
 /// `import 'package:timezone/data/latest_all.dart'; initializeTimeZones();`.
+///
+/// Lookups are memoized per zone (the transition-free segment of the last
+/// lookup is cached), so resolving long sequential runs of wall-clock values —
+/// the typical recurrence expansion pattern — costs one comparison per value.
 class TzZoneResolver implements ZoneResolver {
-  TzZoneResolver();
+  new();
 
-  final Map<String, tz.Location> _cache = {};
+  final Map<String, _ZoneSegmentCache> _cache = {};
 
-  tz.Location _location(String zoneId) =>
-      _cache.putIfAbsent(zoneId, () => zoneId == 'UTC' ? tz.UTC : tz.getLocation(zoneId));
+  _ZoneSegmentCache _zone(String zoneId) => _cache.putIfAbsent(
+    zoneId,
+    () => _ZoneSegmentCache(zoneId == 'UTC' ? tz.UTC : tz.getLocation(zoneId)),
+  );
 
-  int _offsetMs(tz.Location location, int utcMs) =>
-      location.timeZone(utcMs).offset;
+  static const int _dayMs = 86400000;
 
   @override
   ResolvedInstant resolve(LocalDateTime local, String zoneId) {
-    final location = _location(zoneId);
+    final zone = _zone(zoneId);
     final wallMs = local.epochMinute * 60000;
-    const day = 86400000;
-    final offsetBefore = _offsetMs(location, wallMs - day);
-    final offsetAfter = _offsetMs(location, wallMs + day);
 
-    final candidates = <int>{wallMs - offsetBefore, wallMs - offsetAfter}
-        .where((utc) => _offsetMs(location, utc) == wallMs - utc)
-        .toList()
-      ..sort();
-
-    if (candidates.isEmpty) {
-      // Gap: interpret with the offset in force before the gap → lands after the gap.
-      final utc = wallMs - offsetBefore;
+    // Fast path: the cached segment covers ±1 day around the candidate
+    // instant, so the wall time exists exactly once.
+    final guess = wallMs - zone.offset;
+    if (guess - _dayMs >= zone.start && guess + _dayMs < zone.end) {
       return ResolvedInstant(
-        DateTime.fromMillisecondsSinceEpoch(utc, isUtc: true),
-        ResolutionKind.shiftedForward,
-        _offsetMs(location, utc) ~/ 60000,
+        DateTime.fromMillisecondsSinceEpoch(guess, isUtc: true),
+        ResolutionKind.exact,
+        zone.offset ~/ 60000,
       );
     }
-    final utc = candidates.first;
+
+    final offsetBefore = zone.offsetAt(wallMs - _dayMs);
+    final offsetAfter = zone.offsetAt(wallMs + _dayMs);
+    final a = wallMs - offsetBefore;
+    final b = wallMs - offsetAfter;
+    final aValid = zone.offsetAt(a) == offsetBefore;
+    final bValid = a != b && zone.offsetAt(b) == offsetAfter;
+
+    if (!aValid && !bValid) {
+      // Gap: interpret with the offset in force before the gap → lands after the gap.
+      return ResolvedInstant(
+        DateTime.fromMillisecondsSinceEpoch(a, isUtc: true),
+        ResolutionKind.shiftedForward,
+        zone.offsetAt(a) ~/ 60000,
+      );
+    }
+    final int utc;
+    final ResolutionKind kind;
+    if (aValid && bValid) {
+      utc = a < b ? a : b;
+      kind = ResolutionKind.ambiguousEarlier;
+    } else {
+      utc = aValid ? a : b;
+      kind = ResolutionKind.exact;
+    }
     return ResolvedInstant(
       DateTime.fromMillisecondsSinceEpoch(utc, isUtc: true),
-      candidates.length > 1 ? ResolutionKind.ambiguousEarlier : ResolutionKind.exact,
-      _offsetMs(location, utc) ~/ 60000,
+      kind,
+      zone.offsetAt(utc) ~/ 60000,
     );
   }
 
   @override
   LocalDateTime toLocal(DateTime instant, String zoneId) {
     final utcMs = instant.toUtc().millisecondsSinceEpoch;
-    final wallMs = utcMs + _offsetMs(_location(zoneId), utcMs);
-    final minutes = wallMs >= 0 ? wallMs ~/ 60000 : -((-wallMs + 59999) ~/ 60000);
+    final wallMs = utcMs + _zone(zoneId).offsetAt(utcMs);
+    final minutes = wallMs >= 0
+        ? wallMs ~/ 60000
+        : -((-wallMs + 59999) ~/ 60000);
     return LocalDateTime.fromEpochMinute(minutes);
   }
 
   @override
   int offsetMinutesAt(DateTime instant, String zoneId) =>
-      _offsetMs(_location(zoneId), instant.toUtc().millisecondsSinceEpoch) ~/ 60000;
+      _zone(zoneId).offsetAt(instant.toUtc().millisecondsSinceEpoch) ~/ 60000;
+}
+
+/// Caches the transition-free segment of the last lookup for one zone.
+final class _ZoneSegmentCache {
+  new(this.location);
+
+  final tz.Location location;
+
+  /// Segment start (inclusive, UTC ms); empty until the first lookup.
+  int start = 1;
+
+  /// Segment end (exclusive, UTC ms).
+  int end = 0;
+
+  /// Offset (ms) in force during the segment.
+  int offset = 0;
+
+  int offsetAt(int utcMs) {
+    if (utcMs >= start && utcMs < end) return offset;
+    final instant = location.lookupTimeZone(utcMs);
+    start = instant.start;
+    end = instant.end;
+    return offset = instant.timeZone.offset.inMilliseconds;
+  }
 }
 
 /// A resolver for tests: every zone has the same fixed offset.
 class FixedOffsetZoneResolver implements ZoneResolver {
-  const FixedOffsetZoneResolver([this.offsetMinutes = 0]);
+  const new([this.offsetMinutes = 0]);
 
   final int offsetMinutes;
 
   @override
-  ResolvedInstant resolve(LocalDateTime local, String zoneId) => ResolvedInstant(
-    DateTime.fromMillisecondsSinceEpoch((local.epochMinute - offsetMinutes) * 60000, isUtc: true),
-    ResolutionKind.exact,
-    offsetMinutes,
-  );
+  ResolvedInstant resolve(LocalDateTime local, String zoneId) =>
+      ResolvedInstant(
+        DateTime.fromMillisecondsSinceEpoch(
+          (local.epochMinute - offsetMinutes) * 60000,
+          isUtc: true,
+        ),
+        ResolutionKind.exact,
+        offsetMinutes,
+      );
 
   @override
   LocalDateTime toLocal(DateTime instant, String zoneId) {
     final ms = instant.toUtc().millisecondsSinceEpoch + offsetMinutes * 60000;
-    return LocalDateTime.fromEpochMinute(ms >= 0 ? ms ~/ 60000 : -((-ms + 59999) ~/ 60000));
+    return LocalDateTime.fromEpochMinute(
+      ms >= 0 ? ms ~/ 60000 : -((-ms + 59999) ~/ 60000),
+    );
   }
 
   @override
