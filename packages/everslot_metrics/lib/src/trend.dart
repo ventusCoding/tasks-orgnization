@@ -161,7 +161,9 @@ double? _theilSenSlope(
     }
   } else {
     if (random == null) {
-      throw ArgumentError('subsampling more than $maxExactPoints points needs a seeded Random');
+      throw ArgumentError(
+        'subsampling more than $maxExactPoints points needs a seeded Random',
+      );
     }
     for (var k = 0; k < sampledPairs; k++) {
       final i = random.nextInt(n);
@@ -232,7 +234,8 @@ Stat<TrendResult> trend(
     return Insufficient<TrendResult>(trendMinBuckets, vs.length);
   }
   final chosen =
-      method ?? (outlierShare(vs) > 0.05 ? TrendMethod.theilSen : TrendMethod.ols);
+      method ??
+      (outlierShare(vs) > 0.05 ? TrendMethod.theilSen : TrendMethod.ols);
   final canLabel = vs.length >= trendSignificanceMinBuckets;
   final perWeek = 7 / bucketDays;
   if (chosen == TrendMethod.ols) {

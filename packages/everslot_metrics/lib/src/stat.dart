@@ -79,10 +79,7 @@ sealed class Stat<T> {
   };
 
   Stat<R> map<R>(R Function(T value) transform) => switch (this) {
-    final Value<T> v => Value<R>(
-      transform(v.value),
-      sampleSize: v.sampleSize,
-    ),
+    final Value<T> v => Value<R>(transform(v.value), sampleSize: v.sampleSize),
     final Insufficient<T> i => i.retype<R>(),
     final NotApplicable<T> n => n.retype<R>(),
   };

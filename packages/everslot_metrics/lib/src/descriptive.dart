@@ -52,7 +52,6 @@ final class Welford {
       _n < 1 ? _emptyGuard(_n, 1) : Stat.ofDouble(_m2 / _n, sampleSize: _n);
 }
 
-
 /// Σx (0 for empty input).
 double sum(Iterable<num> xs) =>
     xs.fold<double>(0, (acc, x) => acc + x.toDouble());
@@ -368,10 +367,7 @@ Histogram histogramFreedmanDiaconis(
   final rawBins = fdWidth <= 0 ? maxBins : ((hi - lo) / fdWidth).ceil();
   final bins = rawBins.clamp(minBins, maxBins);
   final width = (hi - lo) / bins;
-  final edges = [
-    for (var i = 0; i < bins; i++) lo + i * width,
-    hi,
-  ];
+  final edges = [for (var i = 0; i < bins; i++) lo + i * width, hi];
   return histogramWithEdges(sorted, edges);
 }
 

@@ -137,9 +137,8 @@ double _betaContinuedFraction(double a, double b, double x) {
 }
 
 /// Complementary error function erfc(x).
-double erfc(double x) => x >= 0
-    ? regularizedGammaQ(0.5, x * x)
-    : 1 + regularizedGammaP(0.5, x * x);
+double erfc(double x) =>
+    x >= 0 ? regularizedGammaQ(0.5, x * x) : 1 + regularizedGammaP(0.5, x * x);
 
 /// Standard normal CDF Φ(z).
 double normalCdf(double z) => 0.5 * erfc(-z / math.sqrt2);

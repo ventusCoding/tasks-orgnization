@@ -25,8 +25,7 @@ ConfidenceInterval? wilsonInterval(
   final z2 = z * z;
   final denominator = 1 + z2 / n;
   final center = (p + z2 / (2 * n)) / denominator;
-  final half =
-      z / denominator * math.sqrt(p * (1 - p) / n + z2 / (4 * n * n));
+  final half = z / denominator * math.sqrt(p * (1 - p) / n + z2 / (4 * n * n));
   return ConfidenceInterval(
     math.max(0, center - half),
     math.min(1, center + half),
@@ -122,5 +121,4 @@ PeriodComparison compareWithPrevious(
 
 /// Pro-rated expectation `n · part / whole` (e.g. a quota over a partial period). Fractional;
 /// rounding happens only in the UI.
-double proRate(num n, num part, num whole) =>
-    whole <= 0 ? 0 : n * part / whole;
+double proRate(num n, num part, num whole) => whole <= 0 ? 0 : n * part / whole;

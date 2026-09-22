@@ -9,7 +9,10 @@ import 'package:meta/meta.dart';
 /// One subject: observed [time] and whether the [event] happened (false = right-censored, e.g. the
 /// current attempt).
 @immutable
-final class const SurvivalObservation(final double time, {required final bool event});
+final class const SurvivalObservation(
+  final double time, {
+  required final bool event,
+});
 
 /// One step of the KM curve at an event time.
 @immutable

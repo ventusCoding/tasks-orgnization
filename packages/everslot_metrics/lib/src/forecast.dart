@@ -65,9 +65,17 @@ final class const ForecastHowMany(
   required final int trials,
 });
 
-Stat<List<int>> _checkPool(List<int> pool, int minPoolDays, int minCompletions) {
+Stat<List<int>> _checkPool(
+  List<int> pool,
+  int minPoolDays,
+  int minCompletions,
+) {
   if (pool.length < minPoolDays) {
-    return Insufficient<List<int>>(minPoolDays, pool.length, 'monteCarloHistory');
+    return Insufficient<List<int>>(
+      minPoolDays,
+      pool.length,
+      'monteCarloHistory',
+    );
   }
   final completions = pool.fold<int>(0, (a, b) => a + b);
   if (completions < minCompletions || completions == 0) {

@@ -51,7 +51,11 @@ LocalDate bucketStart(
   Granularity.day => date,
   Granularity.week => date.startOfWeek(weekStart),
   Granularity.month => date.firstDayOfMonth,
-  Granularity.quarter => LocalDate(date.year, ((date.month - 1) ~/ 3) * 3 + 1, 1),
+  Granularity.quarter => LocalDate(
+    date.year,
+    ((date.month - 1) ~/ 3) * 3 + 1,
+    1,
+  ),
   Granularity.year => LocalDate(date.year, 1, 1),
 };
 
@@ -122,10 +126,7 @@ List<SeriesPoint<double?>> bucketRate(
   }
   return [
     for (final b in bucketStarts(from, to, granularity, weekStart: weekStart))
-      SeriesPoint(
-        b,
-        (dens[b] ?? 0) > 0 ? nums[b]! / dens[b]! : null,
-      ),
+      SeriesPoint(b, (dens[b] ?? 0) > 0 ? nums[b]! / dens[b]! : null),
   ];
 }
 

@@ -29,10 +29,11 @@ final class const FixedOffsetClock([final int offsetMinutes = 0])
   }
 
   @override
-  DateTime toInstant(LocalDateTime local) => DateTime.fromMillisecondsSinceEpoch(
-    (local.epochMinute - offsetMinutes) * 60000,
-    isUtc: true,
-  );
+  DateTime toInstant(LocalDateTime local) =>
+      DateTime.fromMillisecondsSinceEpoch(
+        (local.epochMinute - offsetMinutes) * 60000,
+        isUtc: true,
+      );
 }
 
 /// A [ZoneClock] built from two functions (adapter for a real zone database).
@@ -71,8 +72,11 @@ final class const DayBoundaries(
   Duration lengthOf(LocalDate date) => endOf(date).difference(startOf(date));
 
   /// Minute of the (habit) day of [instant], counted from the day start (0 … 1439 on normal days).
-  int minuteOfDay(DateTime instant) =>
-      clock.toLocal(instant).plusMinutes(-dayStartsAt.minuteOfDay).time.minuteOfDay;
+  int minuteOfDay(DateTime instant) => clock
+      .toLocal(instant)
+      .plusMinutes(-dayStartsAt.minuteOfDay)
+      .time
+      .minuteOfDay;
 
   /// Instant range covering [range] (end exclusive).
   InstantRange instantsOf(DateRange range) =>
@@ -85,8 +89,7 @@ final class const DateRange(final LocalDate start, final LocalDate end) {
   /// Number of dates in the range (inclusive).
   int get days => start.daysUntil(end) + 1;
 
-  bool contains(LocalDate date) =>
-      !date.isBefore(start) && !date.isAfter(end);
+  bool contains(LocalDate date) => !date.isBefore(start) && !date.isAfter(end);
 
   Iterable<LocalDate> get dates sync* {
     for (var d = start; !d.isAfter(end); d = d.plusDays(1)) {
@@ -178,12 +181,7 @@ sealed class StatsPeriod {
     LocalDate? firstDataDate,
   }) {
     final range = _range(today, weekStart, firstDataDate);
-    return ResolvedPeriod(
-      this,
-      range,
-      today: today,
-      unit: _unit,
-    );
+    return ResolvedPeriod(this, range, today: today, unit: _unit);
   }
 
   DateRange _range(LocalDate today, Weekday weekStart, LocalDate? firstData);
@@ -381,6 +379,7 @@ final class ResolvedPeriod {
   final DateRange range;
 
   final LocalDate today;
+
   /// Calendar unit of the period.
   final PeriodUnit unit;
 
@@ -388,8 +387,7 @@ final class ResolvedPeriod {
   bool get inProgress => range.contains(today) && range.end.isAfter(today);
 
   /// The part of the period up to and including today ("to date").
-  DateRange get toDate =>
-      inProgress ? DateRange(range.start, today) : range;
+  DateRange get toDate => inProgress ? DateRange(range.start, today) : range;
 
   /// Number of elapsed dates in the period (including today when in progress).
   int get elapsedDays => toDate.days;

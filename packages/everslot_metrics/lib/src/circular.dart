@@ -48,7 +48,8 @@ Stat<CircularSummary> circularTimeSummary(
   double consistencyThreshold = defaultConsistencyThreshold,
 }) {
   final list = minutesOfDay.toList();
-  if (list.isEmpty) return const Insufficient<CircularSummary>(1, 0, Reasons.empty);
+  if (list.isEmpty)
+    return const Insufficient<CircularSummary>(1, 0, Reasons.empty);
   var s = 0.0;
   var c = 0.0;
   for (final m in list) {
