@@ -420,8 +420,9 @@ PeriodResult evaluateHabitPeriod(
   if (goalStatus == PeriodStatus.done) {
     return result(PeriodStatus.done, PeriodFlags(inPause: paused));
   }
-  if (paused)
+  if (paused) {
     return result(PeriodStatus.paused, const PeriodFlags(inPause: true));
+  }
   return result(goalStatus);
 }
 

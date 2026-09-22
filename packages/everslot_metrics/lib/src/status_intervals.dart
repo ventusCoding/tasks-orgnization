@@ -396,8 +396,9 @@ List<BoundaryCounts> boundaryCounts(
             }
             continue;
           }
-          if (containerId != null && e.containerAt(probe) != containerId)
+          if (containerId != null && e.containerAt(probe) != containerId) {
             continue;
+          }
           arrived++;
           final state = e.stateAt(probe) ?? e.initialStatus;
           byStatus[state] = (byStatus[state] ?? 0) + 1;
