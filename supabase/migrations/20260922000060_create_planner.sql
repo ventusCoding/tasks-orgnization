@@ -96,7 +96,7 @@ create table if not exists app.task_occurrences (
   field_clock               jsonb not null default '{}'::jsonb,
   server_updated_at         timestamptz not null,
   origin_device_id          uuid,
-  task_id                   uuid not null references app.tasks (id) on delete cascade deferrable initially deferred,
+  task_id                   uuid not null references app.tasks (id) deferrable initially deferred,
   occurrence_key            text not null check (
                               occurrence_key ~ '^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2})?)?$'
                               or occurrence_key ~ '^(day|week|month|year):[0-9A-Za-z-]+#\d+$'),
@@ -166,7 +166,7 @@ create table if not exists app.time_entries (
   field_clock       jsonb not null default '{}'::jsonb,
   server_updated_at timestamptz not null,
   origin_device_id  uuid,
-  task_id           uuid not null references app.tasks (id) on delete cascade deferrable initially deferred,
+  task_id           uuid not null references app.tasks (id) deferrable initially deferred,
   occurrence_key    text,
   started_at        timestamptz not null,
   ended_at          timestamptz,

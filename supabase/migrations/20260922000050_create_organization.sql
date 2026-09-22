@@ -69,7 +69,7 @@ create table if not exists app.entity_tags (
   field_clock       jsonb not null default '{}'::jsonb,
   server_updated_at timestamptz not null,
   origin_device_id  uuid,
-  tag_id            uuid not null references app.tags (id) on delete cascade deferrable initially deferred,
+  tag_id            uuid not null references app.tags (id) deferrable initially deferred,
   entity_type       text not null check (entity_type in ('task', 'checklist', 'checklist_item', 'habit')),
   entity_id         uuid not null
 );
