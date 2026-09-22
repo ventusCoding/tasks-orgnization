@@ -42,106 +42,87 @@ abstract interface class ZoneResolver {
 ///
 /// The caller must initialize the database first, e.g.
 /// `import 'package:timezone/data/latest_all.dart'; initializeTimeZones();`.
-///
-/// Lookups are memoized per zone (the transition-free segment of the last
-/// lookup is cached), so resolving long sequential runs of wall-clock values —
-/// the typical recurrence expansion pattern — costs one comparison per value.
 class TzZoneResolver implements ZoneResolver {
   new();
 
-  final Map<String, _ZoneSegmentCache> _cache = {};
+  final Map<String, tz.Location> _cache = {};
 
-  _ZoneSegmentCache _zone(String zoneId) => _cache.putIfAbsent(
-    zoneId,
-    () => _ZoneSegmentCache(zoneId == 'UTC' ? tz.UTC : tz.getLocation(zoneId)),
-  );
+  /// Last transition-free segment looked up per zone (fast path of [resolve]).
+  final Map<String, ({int start, int end, int offset})> _segments = {};
 
-  static const int _dayMs = 86400000;
+  tz.Location _location(String zoneId) =>
+      _cache.putIfAbsent(zoneId, () => zoneId == 'UTC' ? tz.UTC : tz.getLocation(zoneId));
+
+  int _offsetMs(tz.Location location, int utcMs) =>
+      location.timeZone(utcMs).offset.inMilliseconds;
 
   @override
   ResolvedInstant resolve(LocalDateTime local, String zoneId) {
-    final zone = _zone(zoneId);
+    final location = _location(zoneId);
     final wallMs = local.epochMinute * 60000;
+    final fast = _resolveInSegment(location, zoneId, wallMs);
+    if (fast != null) return fast;
+    const day = 86400000;
+    final offsetBefore = _offsetMs(location, wallMs - day);
+    final offsetAfter = _offsetMs(location, wallMs + day);
 
-    // Fast path: the cached segment covers ±1 day around the candidate
-    // instant, so the wall time exists exactly once.
-    final guess = wallMs - zone.offset;
-    if (guess - _dayMs >= zone.start && guess + _dayMs < zone.end) {
-      return ResolvedInstant(
-        DateTime.fromMillisecondsSinceEpoch(guess, isUtc: true),
-        ResolutionKind.exact,
-        zone.offset ~/ 60000,
-      );
-    }
+    final candidates = <int>{wallMs - offsetBefore, wallMs - offsetAfter}
+        .where((utc) => _offsetMs(location, utc) == wallMs - utc)
+        .toList()
+      ..sort();
 
-    final offsetBefore = zone.offsetAt(wallMs - _dayMs);
-    final offsetAfter = zone.offsetAt(wallMs + _dayMs);
-    final a = wallMs - offsetBefore;
-    final b = wallMs - offsetAfter;
-    final aValid = zone.offsetAt(a) == offsetBefore;
-    final bValid = a != b && zone.offsetAt(b) == offsetAfter;
-
-    if (!aValid && !bValid) {
+    if (candidates.isEmpty) {
       // Gap: interpret with the offset in force before the gap → lands after the gap.
+      final utc = wallMs - offsetBefore;
       return ResolvedInstant(
-        DateTime.fromMillisecondsSinceEpoch(a, isUtc: true),
+        DateTime.fromMillisecondsSinceEpoch(utc, isUtc: true),
         ResolutionKind.shiftedForward,
-        zone.offsetAt(a) ~/ 60000,
+        _offsetMs(location, utc) ~/ 60000,
       );
     }
-    final int utc;
-    final ResolutionKind kind;
-    if (aValid && bValid) {
-      utc = a < b ? a : b;
-      kind = ResolutionKind.ambiguousEarlier;
-    } else {
-      utc = aValid ? a : b;
-      kind = ResolutionKind.exact;
-    }
+    final utc = candidates.first;
     return ResolvedInstant(
       DateTime.fromMillisecondsSinceEpoch(utc, isUtc: true),
-      kind,
-      zone.offsetAt(utc) ~/ 60000,
+      candidates.length > 1 ? ResolutionKind.ambiguousEarlier : ResolutionKind.exact,
+      _offsetMs(location, utc) ~/ 60000,
     );
   }
 
   @override
   LocalDateTime toLocal(DateTime instant, String zoneId) {
     final utcMs = instant.toUtc().millisecondsSinceEpoch;
-    final wallMs = utcMs + _zone(zoneId).offsetAt(utcMs);
-    final minutes = wallMs >= 0
-        ? wallMs ~/ 60000
-        : -((-wallMs + 59999) ~/ 60000);
+    final wallMs = utcMs + _offsetMs(_location(zoneId), utcMs);
+    final minutes = wallMs >= 0 ? wallMs ~/ 60000 : -((-wallMs + 59999) ~/ 60000);
     return LocalDateTime.fromEpochMinute(minutes);
   }
 
   @override
   int offsetMinutesAt(DateTime instant, String zoneId) =>
-      _zone(zoneId).offsetAt(instant.toUtc().millisecondsSinceEpoch) ~/ 60000;
-}
+      _offsetMs(_location(zoneId), instant.toUtc().millisecondsSinceEpoch) ~/ 60000;
 
-/// Caches the transition-free segment of the last lookup for one zone.
-final class _ZoneSegmentCache {
-  new(this.location);
-
-  final tz.Location location;
-
-  /// Segment start (inclusive, UTC ms); empty until the first lookup.
-  int start = 1;
-
-  /// Segment end (exclusive, UTC ms).
-  int end = 0;
-
-  /// Offset (ms) in force during the segment.
-  int offset = 0;
-
-  int offsetAt(int utcMs) {
-    if (utcMs >= start && utcMs < end) return offset;
-    final instant = location.lookupTimeZone(utcMs);
-    start = instant.start;
-    end = instant.end;
-    return offset = instant.timeZone.offset.inMilliseconds;
+  /// Resolves [wallMs] without binary searches when the cached segment of the
+  /// zone covers ±1 day around the instant (the time then exists exactly
+  /// once). Returns null near a transition; the caller takes the full path.
+  ResolvedInstant? _resolveInSegment(tz.Location location, String zoneId, int wallMs) {
+    var segment = _segments[zoneId];
+    if (segment == null || !_covers(segment, wallMs - segment.offset)) {
+      final found = location.lookupTimeZone(wallMs - (segment?.offset ?? 0));
+      segment = _segments[zoneId] = (
+        start: found.start,
+        end: found.end,
+        offset: found.timeZone.offset.inMilliseconds,
+      );
+      if (!_covers(segment, wallMs - segment.offset)) return null;
+    }
+    return ResolvedInstant(
+      DateTime.fromMillisecondsSinceEpoch(wallMs - segment.offset, isUtc: true),
+      ResolutionKind.exact,
+      segment.offset ~/ 60000,
+    );
   }
+
+  static bool _covers(({int start, int end, int offset}) segment, int utc) =>
+      utc - 86400000 >= segment.start && utc + 86400000 < segment.end;
 }
 
 /// A resolver for tests: every zone has the same fixed offset.
@@ -151,22 +132,16 @@ class FixedOffsetZoneResolver implements ZoneResolver {
   final int offsetMinutes;
 
   @override
-  ResolvedInstant resolve(LocalDateTime local, String zoneId) =>
-      ResolvedInstant(
-        DateTime.fromMillisecondsSinceEpoch(
-          (local.epochMinute - offsetMinutes) * 60000,
-          isUtc: true,
-        ),
-        ResolutionKind.exact,
-        offsetMinutes,
-      );
+  ResolvedInstant resolve(LocalDateTime local, String zoneId) => ResolvedInstant(
+    DateTime.fromMillisecondsSinceEpoch((local.epochMinute - offsetMinutes) * 60000, isUtc: true),
+    ResolutionKind.exact,
+    offsetMinutes,
+  );
 
   @override
   LocalDateTime toLocal(DateTime instant, String zoneId) {
     final ms = instant.toUtc().millisecondsSinceEpoch + offsetMinutes * 60000;
-    return LocalDateTime.fromEpochMinute(
-      ms >= 0 ? ms ~/ 60000 : -((-ms + 59999) ~/ 60000),
-    );
+    return LocalDateTime.fromEpochMinute(ms >= 0 ? ms ~/ 60000 : -((-ms + 59999) ~/ 60000));
   }
 
   @override
