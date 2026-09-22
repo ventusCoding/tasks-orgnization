@@ -182,7 +182,7 @@ final class RulePlan {
       anchorDate: start.date,
       allDay: allDay,
       untilMinute: until?.epochMinute,
-      count: rule.count,
+      count: rule.countMode == CountMode.occurrences ? rule.count : null,
       clamp: rule.monthDayOverflow == MonthOverflow.clamp,
       wkst: rule.wkst,
       byMonth: byMonth,
