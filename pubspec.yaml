@@ -1,0 +1,33 @@
+name: everslot_workspace
+description: Everslot monorepo (pub workspace root).
+publish_to: none
+
+environment:
+  sdk: ^3.13.0
+
+workspace:
+  - app
+  - packages/everslot_recurrence
+  - packages/everslot_metrics
+
+dev_dependencies:
+  melos: ^8.9.0
+
+melos:
+  scripts:
+    gen:
+      description: Run code generation (Drift) in the app package.
+      run: cd app && dart run build_runner build --delete-conflicting-outputs
+    l10n:
+      description: Merge per-feature ARB parts and generate localizations.
+      run: dart run tool/merge_arb.dart && cd app && flutter gen-l10n
+    analyze:
+      description: Analyze every package.
+      run: dart analyze --fatal-infos app packages/everslot_recurrence packages/everslot_metrics
+    format:
+      run: dart format app/lib app/test packages tool
+    format:check:
+      run: dart format --output=none --set-exit-if-changed app/lib app/test packages tool
+    test:
+      description: Run all tests.
+      run: (cd packages/everslot_recurrence && dart test) && (cd packages/everslot_metrics && dart test) && (cd app && flutter test)

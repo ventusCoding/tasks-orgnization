@@ -1,0 +1,175 @@
+# Section 3.6 — Calendar Views
+
+> Milestones: M1 (P0) · M2 (P1) · M3 (P2) · Depends on: 3.2, 3.3, 3.4, 3.5, 6.2
+> Architecture: §6.9, §8.3 (view types), §9.1
+
+## Goal
+
+The user asked for **more views**. This section adds calendar-style ways to look at the same plan, drawn
+from the research on Google Calendar, Apple Calendar, Outlook, Fantastical, BusyCal, TickTick, Todoist,
+Notion Calendar, Timepage, Tweek, Structured and Tiimo. Every view uses the same data, the time-grid engine
+where time-based, and the saved-view model, so presets sync across devices.
+
+## Scope
+
+**In:** view registry and switcher; saved-views management; shared date state between views; N-day;
+work week; week list (stacked); month (+ semantic zoom, list-below); agenda/schedule; year heatmap;
+multi-week; quarter; ribbon (day & week); timeline/Gantt; category swimlanes; load heatmap; tests.
+**Out:** week table ([3.4]) and day list ([3.5]); focus and productivity views ([3.7]).
+
+## Progress
+
+- [ ] T3.6.01 — View registry & view switcher
+- [ ] T3.6.02 — Saved views management
+- [ ] T3.6.03 — Shared date state & view transitions
+- [ ] T3.6.04 — N-day view (rolling or fixed)
+- [ ] T3.6.05 — Work-week preset
+- [ ] T3.6.06 — Week list view (stacked days)
+- [ ] T3.6.07 — Month view
+- [ ] T3.6.08 — Month semantic zoom & list-below mode
+- [ ] T3.6.09 — Agenda / schedule view
+- [ ] T3.6.10 — Year heatmap view
+- [ ] T3.6.11 — Multi-week view
+- [ ] T3.6.12 — Quarter view
+- [ ] T3.6.13 — Ribbon view (day & week)
+- [ ] T3.6.14 — Timeline / Gantt view
+- [ ] T3.6.15 — Category swimlanes
+- [ ] T3.6.16 — Load heatmap view
+- [ ] T3.6.17 — Calendar views test suite
+
+## Tasks
+
+### T3.6.01 — View registry & view switcher
+**Priority:** P0 · **Size:** S · **Depends on:** [3.3] (view config), [3.4], [3.5]
+**Description:** `PlannerViewRegistry` maps each `type` (arch §8.3) to:
+- its builder, default config, icon and localized name;
+- capability flags: time-based, supports slot size, supports drag;
+- availability, via feature flags that release P1/P2 views.
+
+The switcher lives in the Plan app bar: a dropdown with icons, where long-press lists saved views.
+Deep link: `/plan/<type>?date=YYYY-MM-DD`.
+**Acceptance criteria:** the MVP ships Week table and Day list; enabling a view's flag makes it appear in
+the switcher with no other code changes.
+**Tests:** registry unit tests; widget test.
+
+### T3.6.02 — Saved views management
+**Priority:** P1 · **Size:** S · **Depends on:** T3.6.01, [2.3] (saved views)
+**Description:** *Save view as…*, rename, duplicate, delete, set as default, reorder. Each saved view keeps
+its own config, e.g. "Work week · 15 min", "Night shift 18:00–06:00", "Deep work · 5 min". Views sync
+across devices.
+**Tests:** widget and repository tests.
+
+### T3.6.03 — Shared date state & view transitions
+**Priority:** P1 · **Size:** S · **Depends on:** T3.6.01
+**Description:** Switching views keeps the anchor date, and the time of day for time-based views.
+Transitions use shared-axis animation. Back returns to the previous view type.
+**Tests:** widget tests.
+
+### T3.6.04 — N-day view (rolling or fixed)
+**Priority:** P1 · **Size:** S · **Depends on:** T3.6.01, [3.3]
+**Description:** 1–14 day columns on the time-grid engine, either rolling (starting today/anchor) or aligned
+to the week start. This view type defaults to 3 days in portrait (Todoist/Google style). Horizontal pinch
+changes N.
+**Tests:** widget tests; golden.
+
+### T3.6.05 — Work-week preset
+**Priority:** P1 · **Size:** S · **Depends on:** T3.6.04
+**Description:** An N-day preset limited to work days (Mon–Fri or custom days from settings), with visible
+hours defaulting to work hours.
+**Data model:** settings `planner.workDays` (arch §8.5).
+**Tests:** unit test of day selection.
+
+### T3.6.06 — Week list view (stacked days)
+**Priority:** P1 · **Size:** S · **Depends on:** [3.4] (week-list mode)
+**Description:** The week list as its own view type with a phone-friendly layout: days stacked vertically as
+sections (Tweek / Things "Upcoming" style) instead of columns. Items can be dragged between days and untimed
+items reordered within a day.
+**Tests:** widget tests; golden.
+
+### T3.6.07 — Month view
+**Priority:** P1 · **Size:** L · **Depends on:** T3.6.01, [3.2]
+**Description:** A month grid of 4–6 weeks, honouring the week start and shading weekends, with chips per
+day and load dots.
+- Tapping a day opens its Day list, or (setting) expands the day inline, BusyCal-accordion style.
+- Swipe vertically or horizontally (setting) between months.
+- Long-press a day to create; drag a chip to another day (keeps its time).
+**Acceptance criteria:** months with 6 week rows and leap years render correctly; dragging a recurring
+occurrence triggers the scope dialog.
+**Tests:** widget tests; goldens.
+
+### T3.6.08 — Month semantic zoom & list-below mode
+**Priority:** P1 · **Size:** M · **Depends on:** T3.6.07
+**Description:**
+- Pinching cycles density like iOS 18: dots → bars → titles → titles + times.
+- *List below* mode puts a compact month on top and the selected day's items underneath (Google/Apple style).
+**Data model:** view config `options.monthMode`, `options.listBelow`.
+**Tests:** goldens for each density.
+
+### T3.6.09 — Agenda / schedule view
+**Priority:** P1 · **Size:** M · **Depends on:** T3.6.01, [3.2]
+**Description:** An infinite chronological list in both directions:
+- grouped by day with sticky day headers;
+- empty days collapsed unless *Show empty days* is on; optional notes preview;
+- an optional DayTicker-style strip on top (days with colored pills at approximate times);
+- inline actions.
+
+Data loads in 2-week resolver ranges.
+**Acceptance criteria:** scrolling from today to 6 months ahead stays smooth with 5 000 occurrences;
+edits update rows in place.
+**Tests:** widget tests; perf scenario.
+
+### T3.6.10 — Year heatmap view
+**Priority:** P1 · **Size:** M · **Depends on:** T3.6.01, [3.2], [6.2] (calendar heatmap)
+**Description:** 12 mini-months colored by a selectable metric: planned hours, completion rate or number of
+items. Tap a day → Day list; long-press → create; navigate between years.
+**Data model:** view config `options.heatMetric`.
+**Tests:** unit tests for metric bins; goldens.
+
+### T3.6.11 — Multi-week view
+**Priority:** P2 · **Size:** M · **Depends on:** T3.6.07
+**Description:** 2–6 rolling week rows starting this week, with month-style chips. Vertical pinch changes the
+number of weeks (BusyCal).
+**Data model:** view config `options.weeks`.
+**Tests:** widget tests.
+
+### T3.6.12 — Quarter view
+**Priority:** P2 · **Size:** S · **Depends on:** T3.6.07
+**Description:** Three months side by side (landscape/tablet) or stacked (phone), showing dots or bars per
+day (Fantastical).
+**Tests:** golden.
+
+### T3.6.13 — Ribbon view (day & week)
+**Priority:** P2 · **Size:** M · **Depends on:** [3.5] (ribbon style)
+**Description:** A full *ribbon* view type: the day ribbon from [3.5], plus a week ribbon that compresses each
+day to its icons in order (Structured week view).
+**Tests:** goldens.
+
+### T3.6.14 — Timeline / Gantt view
+**Priority:** P2 · **Size:** L · **Depends on:** T3.6.01, [3.2]
+**Description:** A horizontal time axis whose scale (hours → days → weeks → months) changes with pinch.
+- Rows grouped by task/series, category or priority.
+- Bars sized by duration; drag to move or resize them.
+- A today line.
+
+Best for long multi-day tasks and series overviews (TickTick, Notion, ClickUp).
+**Data model:** view config `options.groupBy`, `options.scale`.
+**Tests:** widget tests; goldens.
+
+### T3.6.15 — Category swimlanes
+**Priority:** P2 · **Size:** M · **Depends on:** [3.3]
+**Description:** Each day column splits into sub-columns per selected category, like Google's side-by-side
+calendars in day view; in timeline mode, rows per category instead. The user picks the lanes and their order.
+**Data model:** view config `options.lanes` (category ids).
+**Tests:** goldens.
+
+### T3.6.16 — Load heatmap view
+**Priority:** P2 · **Size:** M · **Depends on:** T3.6.01, [6.2] (punch card)
+**Description:** A 7×24 heatmap (weekday × hour) of planned or tracked minutes over the selected weeks, plus
+per-day tints like Timepage. Colors show load against capacity. Tapping a cell lists the items behind it.
+**Tests:** unit tests for the aggregation; goldens.
+
+### T3.6.17 — Calendar views test suite
+**Priority:** P1 · **Size:** S · **Depends on:** T3.6.09
+**Description:** Goldens for each implemented view type (light/dark, RTL, text scale 2.0), plus an
+integration test proving that switching views keeps the anchor date and time.
+**Tests:** as described.

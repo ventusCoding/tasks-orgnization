@@ -1,0 +1,17 @@
+name: everslot_recurrence
+description: Pure-Dart recurrence engine for Everslot (rules, expansion, zones, descriptions, RRULE io).
+publish_to: none
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: ^3.13.0
+
+dependencies:
+  collection: ^1.19.0
+  meta: ^1.16.0
+  timezone: ^0.11.1
+
+dev_dependencies:
+  test: ^1.26.0
+  very_good_analysis: ^11.0.0
