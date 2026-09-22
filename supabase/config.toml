@@ -417,6 +417,9 @@ verify_jwt = false
 [functions.account-delete]
 verify_jwt = false
 
+[functions.storage-purge]
+verify_jwt = false
+
 [analytics]
 # Not needed for Everslot development; keeps the local stack and CI lighter.
 enabled = false

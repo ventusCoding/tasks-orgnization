@@ -1,0 +1,23 @@
+{
+  "lock": false,
+  "tasks": {
+    "fmt": "deno fmt",
+    "fmt:check": "deno fmt --check",
+    "lint": "deno lint",
+    "test": "deno test -A",
+    "check": "deno check health/index.ts push-dispatch/index.ts sync-nudge/index.ts account-delete/index.ts storage-purge/index.ts",
+    "ci": "deno fmt --check && deno lint && deno test -A"
+  },
+  "fmt": {
+    "lineWidth": 110,
+    "exclude": [".env", ".env.*"]
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended"]
+    }
+  },
+  "compilerOptions": {
+    "strict": true
+  }
+}
