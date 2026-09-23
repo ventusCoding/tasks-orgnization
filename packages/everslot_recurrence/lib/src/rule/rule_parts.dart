@@ -79,12 +79,8 @@ final class DailyWindow {
   /// Decodes `{"start": "08:00", "end": "20:00", "anchor": "window_start"}`.
   factory fromJson(Object? json) {
     final map = readMap(json, 'window');
-    final start = readTime(map['start'], 'window.start');
-    if (start.isEndOfDay) {
-      throw FormatException('window.start cannot be 24:00', map['start']);
-    }
     return DailyWindow(
-      start,
+      readTime(map['start'], 'window.start'),
       readTime(map['end'], 'window.end', allowEndOfDay: true),
       anchor: map['anchor'] == null
           ? WindowAnchor.windowStart

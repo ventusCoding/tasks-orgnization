@@ -2004,5 +2004,265 @@
    "fr": "Tous les 2 jours du lundi au vendredi à 08:00",
    "ar": "كل يومين من الاثنين إلى الجمعة في الساعة 08:00"
   }
+ },
+ {
+  "name": "last weekday of the year",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "bySetPos": [
+    -1
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-12-31T17:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly on the last weekday of the year at 17:00",
+   "fr": "Tous les ans le dernier jour ouvré de l'année à 17:00",
+   "ar": "سنويًا في آخر يوم عمل من السنة في الساعة 17:00"
+  }
+ },
+ {
+  "name": "Friday the 13th in March",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "byMonth": [
+    3
+   ],
+   "byWeekday": [
+    {
+     "day": "FR"
+    }
+   ],
+   "byMonthDay": [
+    13
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly on Friday falling on the 13th in March at 08:00",
+   "fr": "Tous les ans le vendredi tombant le 13 en mars à 08:00",
+   "ar": "سنويًا يوم الجمعة الموافق اليوم 13 في مارس في الساعة 08:00"
+  }
+ },
+ {
+  "name": "monthly on the third-to-last Monday",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "MO",
+     "n": -3
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the third-to-last Monday at 08:00",
+   "fr": "Tous les mois l'antépénultième lundi à 08:00",
+   "ar": "شهريًا في الاثنين رقم 3 من النهاية من الشهر في الساعة 08:00"
+  }
+ },
+ {
+  "name": "monthly on the last two weekdays",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "bySetPos": [
+    -2,
+    -1
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the second-to-last and last weekday at 08:00",
+   "fr": "Tous les mois l'avant-dernier et le dernier jour ouvré à 08:00",
+   "ar": "شهريًا في ما قبل آخر وآخر يوم عمل من الشهر في الساعة 08:00"
+  }
+ },
+ {
+  "name": "monthly on the last day (set position)",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    },
+    {
+     "day": "SA"
+    },
+    {
+     "day": "SU"
+    }
+   ],
+   "bySetPos": [
+    -1
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the last day at 08:00",
+   "fr": "Tous les mois le dernier jour à 08:00",
+   "ar": "شهريًا في آخر يوم من الشهر في الساعة 08:00"
+  }
+ },
+ {
+  "name": "every 10 minutes at 9h, 12h and 18h",
+  "rule": {
+   "v": 1,
+   "freq": "minutely",
+   "interval": 10,
+   "byHour": [
+    9,
+    12,
+    18
+   ],
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 10 minutes during hours 9, 12 and 18",
+   "fr": "Toutes les 10 minutes pendant les heures 9, 12 et 18",
+   "ar": "كل 10 دقائق خلال الساعات 9 و12 و18"
+  }
+ },
+ {
+  "name": "monthly on the fourth-to-last Sunday",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "SU",
+     "n": -4
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the 4th-to-last Sunday at 08:00",
+   "fr": "Tous les mois le 4e dimanche en partant de la fin à 08:00",
+   "ar": "شهريًا في الأحد رقم 4 من النهاية من الشهر في الساعة 08:00"
+  }
+ },
+ {
+  "name": "hourly at 9 and 17 on weekdays",
+  "rule": {
+   "v": 1,
+   "freq": "hourly",
+   "byHour": [
+    9,
+    17
+   ],
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T09:30",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every weekday at 09:30 and 17:30",
+   "fr": "Du lundi au vendredi à 09:30 et 17:30",
+   "ar": "من الاثنين إلى الجمعة في الساعة 09:30 و17:30"
+  }
  }
 ]

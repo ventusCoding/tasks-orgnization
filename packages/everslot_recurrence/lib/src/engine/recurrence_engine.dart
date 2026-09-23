@@ -12,6 +12,7 @@ import 'package:everslot_recurrence/src/time/local_date.dart';
 import 'package:everslot_recurrence/src/time/local_date_time.dart';
 import 'package:everslot_recurrence/src/time/weekday.dart';
 import 'package:everslot_recurrence/src/time/zone_resolver.dart';
+import 'package:meta/meta.dart';
 
 const int _minuteMs = 60000;
 const int _dayMs = 86400000;
@@ -32,7 +33,11 @@ const int _dayMs = 86400000;
 /// * Results are lazy, in series order (ascending keys), and capped at
 ///   [maxOccurrencesPerCall] unless an explicit `limit` is passed.
 final class RecurrenceEngine {
-  new(this.resolver, {this.maxOccurrencesPerCall = 10000, this.maxSearchYears = 500});
+  new(
+    this.resolver, {
+    this.maxOccurrencesPerCall = 10000,
+    this.maxSearchYears = 500,
+  });
 
   /// Wall clock ↔ instant conversion.
   final ZoneResolver resolver;
@@ -46,16 +51,25 @@ final class RecurrenceEngine {
   final Expando<Map<(LocalDateTime, bool), RulePlan>> _plans = Expando('plans');
 
   /// Zone used to resolve the series' wall-clock values.
-  String zoneFor(RecurrenceAnchor anchor, String? evalZone) => anchor.zoneId ?? evalZone ?? 'UTC';
+  String zoneFor(RecurrenceAnchor anchor, String? evalZone) =>
+      anchor.zoneId ?? evalZone ?? 'UTC';
 
   /// Zone in which query ranges are expressed.
-  String viewZoneFor(RecurrenceAnchor anchor, String? evalZone) => evalZone ?? anchor.zoneId ?? 'UTC';
+  String viewZoneFor(RecurrenceAnchor anchor, String? evalZone) =>
+      evalZone ?? anchor.zoneId ?? 'UTC';
 
   /// Compiled plan for a fixed rule (cached per rule instance and anchor).
+  ///
+  /// Internal to the package (used by the series splitter and RRULE codec).
+  @internal
   RulePlan planFor(RecurrenceRule rule, RecurrenceAnchor anchor) {
     final byAnchor = _plans[rule] ??= {};
     final cacheKey = (anchor.start, anchor.allDay);
-    return byAnchor[cacheKey] ??= RulePlan.compile(rule, anchor.start, allDay: anchor.allDay);
+    return byAnchor[cacheKey] ??= RulePlan.compile(
+      rule,
+      anchor.start,
+      allDay: anchor.allDay,
+    );
   }
 
   // ---------------------------------------------------------------------------
@@ -80,7 +94,14 @@ final class RecurrenceEngine {
     int? limit,
     int? durationMinutes,
   }) => _capped(
-    _between(rule, anchor, fromLocal, toLocal, evalZone: evalZone, durationMinutes: durationMinutes),
+    _between(
+      rule,
+      anchor,
+      fromLocal,
+      toLocal,
+      evalZone: evalZone,
+      durationMinutes: durationMinutes,
+    ),
     limit,
   );
 
@@ -100,7 +121,10 @@ final class RecurrenceEngine {
     switch (rule.type) {
       case RuleType.fixed:
         final plan = planFor(rule, anchor);
-        return _capped(_timed(plan, anchor, zoneFor(anchor, evalZone), from, to, duration), limit);
+        return _capped(
+          _timed(plan, anchor, zoneFor(anchor, evalZone), from, to, duration),
+          limit,
+        );
       case RuleType.quota:
       case RuleType.afterCompletion:
         final zone = viewZoneFor(anchor, evalZone);
@@ -128,7 +152,14 @@ final class RecurrenceEngine {
     LocalDateTime toLocal, {
     String? evalZone,
     int? durationMinutes,
-  }) => _between(rule, anchor, fromLocal, toLocal, evalZone: evalZone, durationMinutes: durationMinutes).length;
+  }) => _between(
+    rule,
+    anchor,
+    fromLocal,
+    toLocal,
+    evalZone: evalZone,
+    durationMinutes: durationMinutes,
+  ).length;
 
   Iterable<Occurrence> _between(
     RecurrenceRule rule,
@@ -147,15 +178,40 @@ final class RecurrenceEngine {
           return _allDay(plan, anchor, zone, fromLocal, toLocal, duration);
         }
         final viewZone = viewZoneFor(anchor, evalZone);
-        final from = resolver.resolve(fromLocal, viewZone).utc.millisecondsSinceEpoch;
-        final to = resolver.resolve(toLocal, viewZone).utc.millisecondsSinceEpoch;
+        final from = resolver
+            .resolve(fromLocal, viewZone)
+            .utc
+            .millisecondsSinceEpoch;
+        final to = resolver
+            .resolve(toLocal, viewZone)
+            .utc
+            .millisecondsSinceEpoch;
         return _timed(plan, anchor, zone, from, to, duration);
       case RuleType.quota:
-        return _quotaSlots(rule, anchor, fromLocal, toLocal, evalZone, duration);
+        return _quotaSlots(
+          rule,
+          anchor,
+          fromLocal,
+          toLocal,
+          evalZone,
+          duration,
+        );
       case RuleType.afterCompletion:
         _requireAfterCompletion(rule);
-        final first = _build(anchor, zoneFor(anchor, evalZone), anchor.start, duration);
-        return _filterLocal([first], anchor, fromLocal, toLocal, evalZone, duration);
+        final first = _build(
+          anchor,
+          zoneFor(anchor, evalZone),
+          anchor.start,
+          duration,
+        );
+        return _filterLocal(
+          [first],
+          anchor,
+          fromLocal,
+          toLocal,
+          evalZone,
+          duration,
+        );
     }
   }
 
@@ -183,21 +239,39 @@ final class RecurrenceEngine {
   ) sync* {
     if (to <= from && durationMinutes == 0) return;
     final lower = from - durationMinutes * _minuteMs;
-    final offsets = [for (final t in [lower - _dayMs, lower, lower + _dayMs]) _offsetMs(t, zone)];
-    final upperOffsets = [for (final t in [to - _dayMs, to, to + _dayMs]) _offsetMs(t, zone)];
+    final offsets = [
+      for (final t in [lower - _dayMs, lower, lower + _dayMs])
+        _offsetMs(t, zone),
+    ];
+    final upperOffsets = [
+      for (final t in [to - _dayMs, to, to + _dayMs]) _offsetMs(t, zone),
+    ];
     final wallFrom = floorDiv(lower + offsets.reduce(math.min), _minuteMs);
     final wallTo = ceilDiv(to + upperOffsets.reduce(math.max), _minuteMs);
     for (final minute in plan.seriesMinutes(wallFrom, wallTo)) {
-      final occurrence = _build(anchor, zone, LocalDateTime.fromEpochMinute(minute), durationMinutes);
+      final occurrence = _build(
+        anchor,
+        zone,
+        LocalDateTime.fromEpochMinute(minute),
+        durationMinutes,
+      );
       final start = occurrence.startUtc.millisecondsSinceEpoch;
       if (start >= to) continue;
-      if (durationMinutes == 0 ? start < from : occurrence.endUtc.millisecondsSinceEpoch <= from) continue;
+      if (durationMinutes == 0
+          ? start < from
+          : occurrence.endUtc.millisecondsSinceEpoch <= from) {
+        continue;
+      }
       yield occurrence;
     }
   }
 
   int _offsetMs(int utcMs, String zone) =>
-      resolver.offsetMinutesAt(DateTime.fromMillisecondsSinceEpoch(utcMs, isUtc: true), zone) * _minuteMs;
+      resolver.offsetMinutesAt(
+        DateTime.fromMillisecondsSinceEpoch(utcMs, isUtc: true),
+        zone,
+      ) *
+      _minuteMs;
 
   /// All-day occurrences whose days overlap `[from, to)` (wall clock, floating dates).
   Iterable<Occurrence> _allDay(
@@ -213,11 +287,17 @@ final class RecurrenceEngine {
     final wallTo = to.epochMinute - 1;
     if (wallTo < wallFrom) return;
     for (final minute in plan.seriesMinutes(wallFrom, wallTo)) {
-      yield _build(anchor, zone, LocalDateTime.fromEpochMinute(minute), durationMinutes);
+      yield _build(
+        anchor,
+        zone,
+        LocalDateTime.fromEpochMinute(minute),
+        durationMinutes,
+      );
     }
   }
 
-  static int _allDayLength(int durationMinutes) => math.max(1, ceilDiv(durationMinutes, minutesPerDay));
+  static int _allDayLength(int durationMinutes) =>
+      math.max(1, ceilDiv(durationMinutes, minutesPerDay));
 
   Iterable<Occurrence> _filterLocal(
     Iterable<Occurrence> source,
@@ -231,7 +311,8 @@ final class RecurrenceEngine {
       final days = _allDayLength(durationMinutes);
       return source.where((o) {
         final start = o.startLocal.date.atStartOfDay;
-        return start.isBefore(toLocal) && start.plusDays(days).isAfter(fromLocal);
+        return start.isBefore(toLocal) &&
+            start.plusDays(days).isAfter(fromLocal);
       });
     }
     final viewZone = viewZoneFor(anchor, evalZone);
@@ -239,7 +320,9 @@ final class RecurrenceEngine {
     final to = resolver.resolve(toLocal, viewZone).utc;
     return source.where((o) {
       if (!o.startUtc.isBefore(to)) return false;
-      return durationMinutes == 0 ? !o.startUtc.isBefore(from) : o.endUtc.isAfter(from);
+      return durationMinutes == 0
+          ? !o.startUtc.isBefore(from)
+          : o.endUtc.isAfter(from);
     });
   }
 
@@ -271,7 +354,12 @@ final class RecurrenceEngine {
     final resolved = resolver.resolve(local, zone);
     final DateTime end;
     if (anchor.allDay) {
-      end = resolver.resolve(local.date.plusDays(_allDayLength(durationMinutes)).atStartOfDay, zone).utc;
+      end = resolver
+          .resolve(
+            local.date.plusDays(_allDayLength(durationMinutes)).atStartOfDay,
+            zone,
+          )
+          .utc;
     } else {
       end = resolved.utc.add(Duration(minutes: durationMinutes));
     }
@@ -303,13 +391,25 @@ final class RecurrenceEngine {
       case RuleType.fixed:
         final plan = planFor(rule, anchor);
         final horizon = from + maxSearchYears * 366 * _dayMs;
-        return _timed(plan, anchor, zoneFor(anchor, evalZone), from, horizon, 0).firstOrNull;
+        return _timed(
+          plan,
+          anchor,
+          zoneFor(anchor, evalZone),
+          from,
+          horizon,
+          0,
+        ).firstOrNull;
       case RuleType.afterCompletion:
         final first = nextDue(rule, anchor, null, evalZone: evalZone);
-        return first != null && first.startUtc.millisecondsSinceEpoch >= from ? first : null;
+        return first != null && first.startUtc.millisecondsSinceEpoch >= from
+            ? first
+            : null;
       case RuleType.quota:
         final zone = viewZoneFor(anchor, evalZone);
-        final local = resolver.toLocal(DateTime.fromMillisecondsSinceEpoch(from, isUtc: true), zone);
+        final local = resolver.toLocal(
+          DateTime.fromMillisecondsSinceEpoch(from, isUtc: true),
+          zone,
+        );
         final horizon = local.date.plusYears(5).atStartOfDay;
         return _quotaSlots(
           rule,
@@ -342,7 +442,14 @@ final class RecurrenceEngine {
         while (windowEnd > lowest) {
           final windowStart = math.max(windowEnd - width, lowest);
           Occurrence? last;
-          for (final occurrence in _timed(plan, anchor, zone, windowStart, windowEnd, 0)) {
+          for (final occurrence in _timed(
+            plan,
+            anchor,
+            zone,
+            windowStart,
+            windowEnd,
+            0,
+          )) {
             last = occurrence;
           }
           if (last != null) return last;
@@ -352,11 +459,19 @@ final class RecurrenceEngine {
         return null;
       case RuleType.afterCompletion:
         final first = nextDue(rule, anchor, null, evalZone: evalZone);
-        return first != null && first.startUtc.millisecondsSinceEpoch < end ? first : null;
+        return first != null && first.startUtc.millisecondsSinceEpoch < end
+            ? first
+            : null;
       case RuleType.quota:
         final zone = viewZoneFor(anchor, evalZone);
-        final local = resolver.toLocal(DateTime.fromMillisecondsSinceEpoch(end, isUtc: true), zone);
-        final from = LocalDateTime.max(anchor.start.date.atStartOfDay, local.date.plusYears(-1).atStartOfDay);
+        final local = resolver.toLocal(
+          DateTime.fromMillisecondsSinceEpoch(end, isUtc: true),
+          zone,
+        );
+        final from = LocalDateTime.max(
+          anchor.start.date.atStartOfDay,
+          local.date.plusYears(-1).atStartOfDay,
+        );
         return _quotaSlots(
           rule,
           anchor,
@@ -389,14 +504,24 @@ final class RecurrenceEngine {
         final local = anchor.allDay
             ? LocalDate.tryParse(key)?.atStartOfDay
             : (key.contains('T') ? LocalDateTime.tryParse(key) : null);
-        if (local == null || local.toIso() != (anchor.allDay ? '${key}T00:00' : key)) return null;
+        if (local == null ||
+            local.toIso() != (anchor.allDay ? '${key}T00:00' : key)) {
+          return null;
+        }
         final minute = local.epochMinute;
         if (plan.seriesMinutes(minute, minute).isEmpty) return null;
         return _build(anchor, zoneFor(anchor, evalZone), local, duration);
       case RuleType.afterCompletion:
         _requireAfterCompletion(rule);
-        final start = anchor.allDay ? anchor.start.date.atStartOfDay : anchor.start;
-        final first = _build(anchor, zoneFor(anchor, evalZone), start, duration);
+        final start = anchor.allDay
+            ? anchor.start.date.atStartOfDay
+            : anchor.start;
+        final first = _build(
+          anchor,
+          zoneFor(anchor, evalZone),
+          start,
+          duration,
+        );
         return first.key == key ? first : null;
       case RuleType.quota:
         final hash = key.lastIndexOf('#');
@@ -453,27 +578,46 @@ final class RecurrenceEngine {
       throw ArgumentError.value(rule, 'rule', 'periods() needs a quota rule');
     }
     final start = weekStart ?? rule.wkst;
-    final eligibleWeekdays = rule.byWeekday == null ? null : {for (final w in rule.byWeekday!) w.day};
+    final eligibleWeekdays = rule.byWeekday == null
+        ? null
+        : {for (final w in rule.byWeekday!) w.day};
     final excludedDays = <int>{
       for (final value in rule.exdates)
         if (parseRuleDate(value) case final parsed?) parsed.date.epochDay,
     };
     final seriesStart = anchor.start.date;
     final seriesEnd = rule.until?.date;
-    var periodStart = _periodStart(quota.per, LocalDate.max(from, seriesStart), start);
+    var periodStart = _periodStart(
+      quota.per,
+      LocalDate.max(from, seriesStart),
+      start,
+    );
     final result = <Period>[];
-    while (!periodStart.isAfter(to) && (seriesEnd == null || !periodStart.isAfter(seriesEnd))) {
+    while (!periodStart.isAfter(to) &&
+        (seriesEnd == null || !periodStart.isAfter(seriesEnd))) {
       final periodEnd = _periodEnd(quota.per, periodStart);
       final activeStart = LocalDate.max(periodStart, seriesStart);
-      final activeEnd = seriesEnd == null ? periodEnd : LocalDate.min(periodEnd, seriesEnd);
+      final activeEnd = seriesEnd == null
+          ? periodEnd
+          : LocalDate.min(periodEnd, seriesEnd);
       if (!activeStart.isAfter(activeEnd)) {
         var periodDays = 0;
         var eligibleDays = 0;
-        for (var day = periodStart; !day.isAfter(periodEnd); day = day.plusDays(1)) {
-          if (eligibleWeekdays != null && !eligibleWeekdays.contains(day.weekday)) continue;
+        for (
+          var day = periodStart;
+          !day.isAfter(periodEnd);
+          day = day.plusDays(1)
+        ) {
+          if (eligibleWeekdays != null &&
+              !eligibleWeekdays.contains(day.weekday)) {
+            continue;
+          }
           periodDays++;
           if (day.isBefore(activeStart) || day.isAfter(activeEnd)) continue;
-          if (excludedDays.contains(day.epochDay) || (isExcluded?.call(day) ?? false)) continue;
+          if (excludedDays.contains(day.epochDay) ||
+              (isExcluded?.call(day) ?? false)) {
+            continue;
+          }
           eligibleDays++;
         }
         result.add(
@@ -499,23 +643,30 @@ final class RecurrenceEngine {
   static String periodKey(PeriodUnit unit, LocalDate start) => switch (unit) {
     PeriodUnit.day => 'day:${start.toIso()}',
     PeriodUnit.week => 'week:${start.toIso()}',
-    PeriodUnit.month => 'month:${start.toIso().substring(0, start.toIso().length - 3)}',
-    PeriodUnit.year => 'year:${start.toIso().substring(0, start.toIso().length - 6)}',
+    PeriodUnit.month =>
+      'month:${start.toIso().substring(0, start.toIso().length - 3)}',
+    PeriodUnit.year =>
+      'year:${start.toIso().substring(0, start.toIso().length - 6)}',
   };
 
-  static LocalDate _periodStart(PeriodUnit unit, LocalDate day, Weekday weekStart) => switch (unit) {
+  static LocalDate _periodStart(
+    PeriodUnit unit,
+    LocalDate day,
+    Weekday weekStart,
+  ) => switch (unit) {
     PeriodUnit.day => day,
     PeriodUnit.week => day.startOfWeek(weekStart),
     PeriodUnit.month => day.firstDayOfMonth,
     PeriodUnit.year => LocalDate(day.year, 1, 1),
   };
 
-  static LocalDate _periodEnd(PeriodUnit unit, LocalDate start) => switch (unit) {
-    PeriodUnit.day => start,
-    PeriodUnit.week => start.plusDays(6),
-    PeriodUnit.month => start.lastDayOfMonth,
-    PeriodUnit.year => LocalDate(start.year, 12, 31),
-  };
+  static LocalDate _periodEnd(PeriodUnit unit, LocalDate start) =>
+      switch (unit) {
+        PeriodUnit.day => start,
+        PeriodUnit.week => start.plusDays(6),
+        PeriodUnit.month => start.lastDayOfMonth,
+        PeriodUnit.year => LocalDate(start.year, 12, 31),
+      };
 
   Iterable<Occurrence> _quotaSlots(
     RecurrenceRule rule,
@@ -528,12 +679,22 @@ final class RecurrenceEngine {
     if (!toLocal.isAfter(fromLocal)) return;
     final lastDay = toLocal.plusMinutes(-1).date;
     final zone = zoneFor(anchor, evalZone);
-    final time = anchor.allDay ? LocalDateTime(anchor.start.date, anchor.start.time).time : anchor.start.time;
+    final time = anchor.allDay
+        ? LocalDateTime(anchor.start.date, anchor.start.time).time
+        : anchor.start.time;
     for (final period in periods(rule, anchor, fromLocal.date, lastDay)) {
       if (period.activeEnd.isBefore(fromLocal.date)) continue;
-      final start = anchor.allDay ? period.activeStart.atStartOfDay : period.activeStart.atTime(time);
+      final start = anchor.allDay
+          ? period.activeStart.atStartOfDay
+          : period.activeStart.atTime(time);
       for (var n = 1; n <= period.requiredCount; n++) {
-        yield _build(anchor, zone, start, durationMinutes, key: period.completionKey(n));
+        yield _build(
+          anchor,
+          zone,
+          start,
+          durationMinutes,
+          key: period.completionKey(n),
+        );
       }
     }
   }
@@ -576,7 +737,12 @@ final class RecurrenceEngine {
     if (anchor.allDay) due = due.date.atStartOfDay;
     final until = rule.until;
     if (until != null && due.isAfter(until)) return null;
-    return _build(anchor, zone, due, durationMinutes ?? anchor.effectiveDurationMinutes);
+    return _build(
+      anchor,
+      zone,
+      due,
+      durationMinutes ?? anchor.effectiveDurationMinutes,
+    );
   }
 
   AfterCompletion _requireAfterCompletion(RecurrenceRule rule) {
@@ -586,7 +752,11 @@ final class RecurrenceEngine {
     }
     if (after.amount < 1) {
       throw InvalidRuleException([
-        RuleIssue(RuleIssueCode.valueOutOfRange, field: 'afterCompletion.amount', params: {'value': after.amount}),
+        RuleIssue(
+          RuleIssueCode.valueOutOfRange,
+          field: 'afterCompletion.amount',
+          params: {'value': after.amount},
+        ),
       ]);
     }
     return after;

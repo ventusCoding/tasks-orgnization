@@ -1,0 +1,188 @@
+[
+ {
+  "name": "daily for 10 occurrences (RFC)",
+  "text": "DTSTART;TZID=America/New_York:19970902T090000\nRRULE:FREQ=DAILY;COUNT=10",
+  "rule": {"v": 1, "type": "fixed", "freq": "daily", "interval": 1, "count": 10},
+  "anchor": {"start": "1997-09-02T09:00", "zone": "America/New_York"}
+ },
+ {
+  "name": "UNTIL in UTC becomes local wall time",
+  "text": "DTSTART;TZID=America/New_York:19970902T090000\nRRULE:FREQ=DAILY;UNTIL=19971224T000000Z",
+  "rule": {"v": 1, "type": "fixed", "freq": "daily", "interval": 1, "until": "1997-12-23T19:00"},
+  "anchor": {"start": "1997-09-02T09:00", "zone": "America/New_York"}
+ },
+ {
+  "name": "every other week on MO, WE, FR (WKST=SU)",
+  "text": "DTSTART;TZID=America/New_York:19970901T090000\nRRULE:FREQ=WEEKLY;INTERVAL=2;UNTIL=19971224T000000Z;BYDAY=MO,WE,FR;WKST=SU",
+  "rule": {"v": 1, "type": "fixed", "freq": "weekly", "interval": 2, "byWeekday": [{"day": "MO"}, {"day": "WE"}, {"day": "FR"}], "wkst": "SU", "until": "1997-12-23T19:00"},
+  "anchor": {"start": "1997-09-01T09:00", "zone": "America/New_York"}
+ },
+ {
+  "name": "monthly on the first Friday",
+  "text": "DTSTART;TZID=America/New_York:19970905T090000\nRRULE:FREQ=MONTHLY;COUNT=10;BYDAY=1FR",
+  "rule": {"v": 1, "type": "fixed", "freq": "monthly", "interval": 1, "byWeekday": [{"day": "FR", "n": 1}], "count": 10},
+  "anchor": {"start": "1997-09-05T09:00", "zone": "America/New_York"}
+ },
+ {
+  "name": "last weekday of the month",
+  "text": "DTSTART;TZID=Europe/Paris:20260930T090000\nRRULE:FREQ=MONTHLY;BYDAY=MO,TU,WE,TH,FR;BYSETPOS=-1",
+  "rule": {"v": 1, "type": "fixed", "freq": "monthly", "interval": 1, "byWeekday": [{"day": "MO"}, {"day": "TU"}, {"day": "WE"}, {"day": "TH"}, {"day": "FR"}], "bySetPos": [-1]},
+  "anchor": {"start": "2026-09-30T09:00", "zone": "Europe/Paris"}
+ },
+ {
+  "name": "Thanksgiving",
+  "text": "DTSTART;TZID=America/New_York:20261126T150000\nRRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=4TH",
+  "rule": {"v": 1, "type": "fixed", "freq": "yearly", "interval": 1, "byWeekday": [{"day": "TH", "n": 4}], "byMonth": [11]},
+  "anchor": {"start": "2026-11-26T15:00", "zone": "America/New_York"}
+ },
+ {
+  "name": "Monday of week 20",
+  "text": "DTSTART;TZID=America/New_York:19970512T090000\nRRULE:FREQ=YEARLY;BYWEEKNO=20;BYDAY=MO",
+  "rule": {"v": 1, "type": "fixed", "freq": "yearly", "interval": 1, "byWeekday": [{"day": "MO"}], "byWeekNo": [20]},
+  "anchor": {"start": "1997-05-12T09:00", "zone": "America/New_York"}
+ },
+ {
+  "name": "every third year on days 1, 100, 200",
+  "text": "DTSTART;TZID=America/New_York:19970101T090000\nRRULE:FREQ=YEARLY;INTERVAL=3;COUNT=10;BYYEARDAY=1,100,200",
+  "rule": {"v": 1, "type": "fixed", "freq": "yearly", "interval": 3, "byYearDay": [1, 100, 200], "count": 10},
+  "anchor": {"start": "1997-01-01T09:00", "zone": "America/New_York"}
+ },
+ {
+  "name": "every 90 minutes, 4 occurrences",
+  "text": "DTSTART;TZID=America/New_York:19970902T090000\nRRULE:FREQ=MINUTELY;INTERVAL=90;COUNT=4",
+  "rule": {"v": 1, "type": "fixed", "freq": "minutely", "interval": 90, "count": 4},
+  "anchor": {"start": "1997-09-02T09:00", "zone": "America/New_York"}
+ },
+ {
+  "name": "floating daily at :00 and :30 of 9h and 10h",
+  "text": "DTSTART:20260921T090000\nRRULE:FREQ=DAILY;BYHOUR=9,10;BYMINUTE=0,30",
+  "rule": {"v": 1, "type": "fixed", "freq": "daily", "interval": 1, "byHour": [9, 10], "byMinute": [0, 30]},
+  "anchor": {"start": "2026-09-21T09:00", "zone": null}
+ },
+ {
+  "name": "all-day weekly until a date",
+  "text": "DTSTART;VALUE=DATE:20260921\nRRULE:FREQ=WEEKLY;UNTIL=20261231",
+  "rule": {"v": 1, "type": "fixed", "freq": "weekly", "interval": 1, "until": "2026-12-31T23:59"},
+  "anchor": {"start": "2026-09-21T00:00", "zone": null, "allDay": true}
+ },
+ {
+  "name": "UTC start, every 3 hours",
+  "text": "DTSTART:20260921T080000Z\nRRULE:FREQ=HOURLY;INTERVAL=3",
+  "rule": {"v": 1, "type": "fixed", "freq": "hourly", "interval": 3},
+  "anchor": {"start": "2026-09-21T08:00", "zone": "UTC"}
+ },
+ {
+  "name": "UTC until on a UTC series",
+  "text": "DTSTART:20260921T080000Z\nRRULE:FREQ=DAILY;UNTIL=20261001T080000Z",
+  "rule": {"v": 1, "type": "fixed", "freq": "daily", "interval": 1, "until": "2026-10-01T08:00"},
+  "anchor": {"start": "2026-09-21T08:00", "zone": "UTC"}
+ },
+ {
+  "name": "exdates with TZID",
+  "text": "DTSTART;TZID=Europe/Paris:20260921T080000\nRRULE:FREQ=DAILY;COUNT=5\nEXDATE;TZID=Europe/Paris:20260922T080000,20260924T080000",
+  "rule": {"v": 1, "type": "fixed", "freq": "daily", "interval": 1, "count": 5, "exdates": ["2026-09-22T08:00", "2026-09-24T08:00"]},
+  "anchor": {"start": "2026-09-21T08:00", "zone": "Europe/Paris"}
+ },
+ {
+  "name": "floating rdates",
+  "text": "DTSTART:20260921T080000\nRRULE:FREQ=WEEKLY;COUNT=2\nRDATE:20261003T090000",
+  "rule": {"v": 1, "type": "fixed", "freq": "weekly", "interval": 1, "count": 2, "rdates": ["2026-10-03T09:00"]},
+  "anchor": {"start": "2026-09-21T08:00", "zone": null}
+ },
+ {
+  "name": "all-day exdates and rdates",
+  "text": "DTSTART;VALUE=DATE:20260921\nRRULE:FREQ=DAILY;COUNT=5\nEXDATE;VALUE=DATE:20260922\nRDATE;VALUE=DATE:20261001",
+  "rule": {"v": 1, "type": "fixed", "freq": "daily", "interval": 1, "count": 5, "exdates": ["2026-09-22"], "rdates": ["2026-10-01"]},
+  "anchor": {"start": "2026-09-21T00:00", "zone": null, "allDay": true}
+ },
+ {
+  "name": "RFC 7529 SKIP=BACKWARD is month-day clamping",
+  "text": "DTSTART;TZID=Europe/Paris:20260131T090000\nRRULE:RSCALE=GREGORIAN;SKIP=BACKWARD;FREQ=MONTHLY",
+  "rule": {"v": 1, "type": "fixed", "freq": "monthly", "interval": 1, "monthDayOverflow": "clamp"},
+  "anchor": {"start": "2026-01-31T09:00", "zone": "Europe/Paris"}
+ },
+ {
+  "name": "non-matching DTSTART becomes an rdate and uses one COUNT",
+  "text": "DTSTART;TZID=America/New_York:19970902T090000\nRRULE:FREQ=MONTHLY;COUNT=4;BYMONTHDAY=13;BYDAY=FR",
+  "rule": {"v": 1, "type": "fixed", "freq": "monthly", "interval": 1, "byWeekday": [{"day": "FR"}], "byMonthDay": [13], "count": 3, "rdates": ["1997-09-02T09:00"]},
+  "anchor": {"start": "1997-09-02T09:00", "zone": "America/New_York"},
+  "direction": "parse"
+ },
+ {
+  "name": "non-matching anchor is excluded on export",
+  "text": "DTSTART;TZID=America/New_York:19970902T090000\nRRULE:FREQ=MONTHLY;COUNT=4;BYMONTHDAY=13;BYDAY=FR\nEXDATE;TZID=America/New_York:19970902T090000",
+  "rule": {"v": 1, "type": "fixed", "freq": "monthly", "interval": 1, "byWeekday": [{"day": "FR"}], "byMonthDay": [13], "count": 3},
+  "anchor": {"start": "1997-09-02T09:00", "zone": "America/New_York"},
+  "direction": "encode"
+ },
+ {
+  "name": "window_start window as a daily hour x minute cross product",
+  "text": "DTSTART;TZID=America/New_York:20260921T090000\nRRULE:FREQ=DAILY;BYHOUR=9,10,11,12,13,14,15,16;BYMINUTE=0,20,40",
+  "rule": {"v": 1, "type": "fixed", "freq": "minutely", "interval": 20, "window": {"start": "09:00", "end": "16:40", "anchor": "window_start"}},
+  "anchor": {"start": "2026-09-21T09:00", "zone": "America/New_York"},
+  "direction": "encode"
+ },
+ {
+  "name": "series_start window aligned on hours becomes BYHOUR limits",
+  "text": "DTSTART;TZID=Europe/Paris:20260921T080000\nRRULE:FREQ=MINUTELY;INTERVAL=30;BYHOUR=8,9,10,11",
+  "rule": {"v": 1, "type": "fixed", "freq": "minutely", "interval": 30, "window": {"start": "08:00", "end": "11:59", "anchor": "series_start"}},
+  "anchor": {"start": "2026-09-21T08:00", "zone": "Europe/Paris"},
+  "direction": "encode"
+ },
+ {
+  "name": "times forming a cross product",
+  "text": "DTSTART;TZID=Europe/Paris:20260921T080000\nRRULE:FREQ=DAILY;BYHOUR=8,20;BYMINUTE=0",
+  "rule": {"v": 1, "type": "fixed", "freq": "daily", "interval": 1, "times": ["08:00", "20:00"]},
+  "anchor": {"start": "2026-09-21T08:00", "zone": "Europe/Paris"},
+  "direction": "encode"
+ },
+ {
+  "name": "quota is not representable",
+  "text": null,
+  "rule": {"v": 1, "type": "quota", "quota": {"times": 3, "per": "week", "minGapDays": 0}},
+  "anchor": {"start": "2026-09-21T08:00", "zone": "Europe/Paris"},
+  "direction": "encode"
+ },
+ {
+  "name": "after-completion is not representable",
+  "text": null,
+  "rule": {"v": 1, "type": "after_completion", "afterCompletion": {"amount": 2, "unit": "day"}},
+  "anchor": {"start": "2026-09-21T08:00", "zone": "Europe/Paris"},
+  "direction": "encode"
+ },
+ {
+  "name": "every 90 minutes 08:00-20:00 (window_start) is not representable",
+  "text": null,
+  "rule": {"v": 1, "type": "fixed", "freq": "minutely", "interval": 90, "window": {"start": "08:00", "end": "20:00", "anchor": "window_start"}},
+  "anchor": {"start": "2026-09-21T08:00", "zone": "Europe/Paris"},
+  "direction": "encode"
+ },
+ {
+  "name": "series_start window cutting an hour is not representable",
+  "text": null,
+  "rule": {"v": 1, "type": "fixed", "freq": "minutely", "interval": 30, "window": {"start": "08:00", "end": "10:00", "anchor": "series_start"}},
+  "anchor": {"start": "2026-09-21T08:00", "zone": "Europe/Paris"},
+  "direction": "encode"
+ },
+ {
+  "name": "times not forming a cross product are not representable",
+  "text": null,
+  "rule": {"v": 1, "type": "fixed", "freq": "daily", "interval": 1, "times": ["08:00", "12:30"]},
+  "anchor": {"start": "2026-09-21T08:00", "zone": "Europe/Paris"},
+  "direction": "encode"
+ },
+ {
+  "name": "completion counts are not representable",
+  "text": null,
+  "rule": {"v": 1, "type": "fixed", "freq": "daily", "interval": 1, "count": 3, "countMode": "completions"},
+  "anchor": {"start": "2026-09-21T08:00", "zone": "Europe/Paris"},
+  "direction": "encode"
+ },
+ {
+  "name": "date-only exdates on a timed series are not representable",
+  "text": null,
+  "rule": {"v": 1, "type": "fixed", "freq": "daily", "interval": 1, "times": ["08:00", "20:00"], "exdates": ["2026-09-22"]},
+  "anchor": {"start": "2026-09-21T08:00", "zone": "Europe/Paris"},
+  "direction": "encode"
+ }
+]

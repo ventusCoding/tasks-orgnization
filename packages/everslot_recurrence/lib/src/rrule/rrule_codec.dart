@@ -81,14 +81,21 @@ abstract final class RRuleCodec {
       final params = <String, String>{
         for (final p in head.skip(1))
           if (p.contains('='))
-            p.substring(0, p.indexOf('=')).trim().toUpperCase(): p.substring(p.indexOf('=') + 1).replaceAll('"', ''),
+            p.substring(0, p.indexOf('=')).trim().toUpperCase(): p
+                .substring(p.indexOf('=') + 1)
+                .replaceAll('"', ''),
       };
       final value = line.substring(colon + 1).trim();
       switch (name) {
         case 'DTSTART':
           start = _parseValues(value, params, name).single;
         case 'RRULE':
-          if (rruleValue != null) throw FormatException('Several RRULE lines are not supported', line);
+          if (rruleValue != null) {
+            throw FormatException(
+              'Several RRULE lines are not supported',
+              line,
+            );
+          }
           rruleValue = value;
         case 'EXDATE':
           exdates.addAll(_parseValues(value, params, name));
@@ -108,7 +115,13 @@ abstract final class RRuleCodec {
 
     LocalDateTime toLocal(_Value v) {
       if (v.utc && zone != null && zone != 'UTC') {
-        final instant = DateTime.utc(v.local.year, v.local.month, v.local.day, v.local.hour, v.local.minute);
+        final instant = DateTime.utc(
+          v.local.year,
+          v.local.month,
+          v.local.day,
+          v.local.hour,
+          v.local.minute,
+        );
         return zones().toLocal(instant, zone);
       }
       if (!v.utc && v.zone != null && zone != null && v.zone != zone) {
@@ -117,7 +130,8 @@ abstract final class RRuleCodec {
       return v.local;
     }
 
-    String keyOf(_Value v) => v.dateOnly ? v.local.date.toIso() : toLocal(v).toIso();
+    String keyOf(_Value v) =>
+        v.dateOnly ? v.local.date.toIso() : toLocal(v).toIso();
 
     final parts = <String, String>{};
     for (final part in rruleValue.split(';')) {
@@ -125,40 +139,64 @@ abstract final class RRuleCodec {
       final eq = part.indexOf('=');
       if (eq < 0) throw FormatException('Invalid RRULE part', part);
       final partName = part.substring(0, eq).trim().toUpperCase();
-      if (!_supportedParts.contains(partName)) throw FormatException('Unsupported RRULE part $partName', part);
+      if (!_supportedParts.contains(partName)) {
+        throw FormatException('Unsupported RRULE part $partName', part);
+      }
       parts[partName] = part.substring(eq + 1).trim();
     }
     final freqText = parts['FREQ'];
-    if (freqText == null) throw FormatException('RRULE without FREQ', rruleValue);
-    if (freqText.toUpperCase() == 'SECONDLY') {
-      throw FormatException('FREQ=SECONDLY is not supported (minute precision)', rruleValue);
+    if (freqText == null) {
+      throw FormatException('RRULE without FREQ', rruleValue);
     }
-    final freq = Frequency.values.where((f) => f.rrule == freqText.toUpperCase()).firstOrNull;
+    if (freqText.toUpperCase() == 'SECONDLY') {
+      throw FormatException(
+        'FREQ=SECONDLY is not supported (minute precision)',
+        rruleValue,
+      );
+    }
+    final freq = Frequency.values
+        .where((f) => f.rrule == freqText.toUpperCase())
+        .firstOrNull;
     if (freq == null) throw FormatException('Unknown FREQ', freqText);
     final rscale = parts['RSCALE'];
     if (rscale != null && rscale.toUpperCase() != 'GREGORIAN') {
-      throw FormatException('RSCALE=$rscale is not supported (Gregorian only)', rruleValue);
+      throw FormatException(
+        'RSCALE=$rscale is not supported (Gregorian only)',
+        rruleValue,
+      );
     }
     final skip = parts['SKIP']?.toUpperCase();
     if (skip != null && skip != 'OMIT' && skip != 'BACKWARD') {
       throw FormatException('SKIP=$skip is not supported', rruleValue);
     }
     final bySecond = _ints(parts['BYSECOND'], 'BYSECOND');
-    if (bySecond.any((s) => s != 0)) throw FormatException('BYSECOND other than 0 is not supported', rruleValue);
+    if (bySecond.any((s) => s != 0)) {
+      throw FormatException(
+        'BYSECOND other than 0 is not supported',
+        rruleValue,
+      );
+    }
 
     LocalDateTime? until;
     final untilText = parts['UNTIL'];
     if (untilText != null) {
       final value = _parseValue(untilText, const {}, 'UNTIL');
-      until = value.dateOnly ? value.local.date.atTime(LocalTime(23, 59)) : toLocal(value);
+      until = value.dateOnly
+          ? value.local.date.atTime(LocalTime(23, 59))
+          : toLocal(value);
     }
 
     var rule = RecurrenceRule(
       freq: freq,
-      interval: parts['INTERVAL'] == null ? 1 : _int(parts['INTERVAL']!, 'INTERVAL'),
+      interval: parts['INTERVAL'] == null
+          ? 1
+          : _int(parts['INTERVAL']!, 'INTERVAL'),
       byWeekday: parts['BYDAY'] == null
           ? null
-          : [for (final d in parts['BYDAY']!.split(',')) WeekdayRule.parseRRule(d)],
+          : [
+              for (final d in parts['BYDAY']!.split(','))
+                WeekdayRule.parseRRule(d),
+            ],
       byMonthDay: _ints(parts['BYMONTHDAY'], 'BYMONTHDAY'),
       byMonth: _ints(parts['BYMONTH'], 'BYMONTH'),
       byYearDay: _ints(parts['BYYEARDAY'], 'BYYEARDAY'),
@@ -166,10 +204,14 @@ abstract final class RRuleCodec {
       bySetPos: _ints(parts['BYSETPOS'], 'BYSETPOS'),
       byHour: _ints(parts['BYHOUR'], 'BYHOUR'),
       byMinute: _ints(parts['BYMINUTE'], 'BYMINUTE'),
-      wkst: parts['WKST'] == null ? Weekday.monday : Weekday.fromCode(parts['WKST']!),
+      wkst: parts['WKST'] == null
+          ? Weekday.monday
+          : Weekday.fromCode(parts['WKST']!),
       until: until,
       count: parts['COUNT'] == null ? null : _int(parts['COUNT']!, 'COUNT'),
-      monthDayOverflow: skip == 'BACKWARD' ? MonthOverflow.clamp : MonthOverflow.skip,
+      monthDayOverflow: skip == 'BACKWARD'
+          ? MonthOverflow.clamp
+          : MonthOverflow.skip,
       exdates: [for (final e in exdates) keyOf(e)],
       rdates: [for (final r in rdates) keyOf(r)],
     );
@@ -184,16 +226,22 @@ abstract final class RRuleCodec {
       );
       final issues = rule.validate();
       if (issues.errors.any((i) => fatalIssueCodes.contains(i.code))) {
-        throw FormatException('Invalid RRULE: ${issues.errors.join(', ')}', rruleValue);
+        throw FormatException(
+          'Invalid RRULE: ${issues.errors.join(', ')}',
+          rruleValue,
+        );
       }
       final engine = RecurrenceEngine(const FixedOffsetZoneResolver());
-      final startKey = start.dateOnly ? start.local.date.toIso() : start.local.toIso();
+      final startKey = start.dateOnly
+          ? start.local.date.toIso()
+          : start.local.toIso();
       final plan = engine.planFor(rule, anchor);
       if (plan.ruleMinutes(plan.anchorMinute, plan.anchorMinute).isEmpty) {
         // RFC 5545: DTSTART is always the first occurrence and counts in COUNT.
         final count = rule.count;
         if (count != null && count > 1) rule = rule.copyWith(count: count - 1);
-        if (!rule.exdates.contains(startKey) && !rule.rdates.contains(startKey)) {
+        if (!rule.exdates.contains(startKey) &&
+            !rule.rdates.contains(startKey)) {
           rule = rule.copyWith(rdates: [startKey, ...rule.rdates]);
         }
       }
@@ -209,11 +257,20 @@ abstract final class RRuleCodec {
   ///
   /// `UNTIL` is written in UTC for zoned anchors (RFC 5545 requirement), using
   /// [resolver] (default: [TzZoneResolver]).
-  static String? encode(RecurrenceRule rule, RecurrenceAnchor anchor, {ZoneResolver? resolver}) {
+  static String? encode(
+    RecurrenceRule rule,
+    RecurrenceAnchor anchor, {
+    ZoneResolver? resolver,
+  }) {
     if (rule.type != RuleType.fixed) return null;
-    if (rule.count != null && rule.countMode == CountMode.completions) return null;
+    if (rule.count != null && rule.countMode == CountMode.completions) {
+      return null;
+    }
     if (!rule.validate(anchor: anchor).isValid) return null;
-    if (!anchor.allDay && rule.exdates.any((e) => parseRuleDate(e)?.dateTime == null)) return null;
+    if (!anchor.allDay &&
+        rule.exdates.any((e) => parseRuleDate(e)?.dateTime == null)) {
+      return null;
+    }
 
     var freq = rule.freq;
     var interval = rule.interval;
@@ -229,31 +286,43 @@ abstract final class RRuleCodec {
       if (encoded == null) return null;
       (freq, interval, byHour, byMinute) = encoded;
     }
-    if (rule.monthDayOverflow == MonthOverflow.clamp && rule.byMonthDay.any((d) => d < -28)) return null;
+    if (rule.monthDayOverflow == MonthOverflow.clamp &&
+        rule.byMonthDay.any((d) => d < -28)) {
+      return null;
+    }
 
     final engine = RecurrenceEngine(const FixedOffsetZoneResolver());
     final plan = engine.planFor(rule, anchor);
-    final anchorMatches = plan.ruleMinutes(plan.anchorMinute, plan.anchorMinute).isNotEmpty;
+    final anchorMatches = plan
+        .ruleMinutes(plan.anchorMinute, plan.anchorMinute)
+        .isNotEmpty;
     final zone = anchor.zoneId;
     final exdates = [...rule.exdates];
     var count = rule.count;
     if (!anchorMatches) {
-      final key = anchor.allDay ? anchor.start.date.toIso() : anchor.start.toIso();
+      final key = anchor.allDay
+          ? anchor.start.date.toIso()
+          : anchor.start.toIso();
       if (!exdates.contains(key)) exdates.insert(0, key);
       if (count != null) count++;
     }
 
     final parts = <String>[
-      if (rule.monthDayOverflow == MonthOverflow.clamp) ...['RSCALE=GREGORIAN', 'SKIP=BACKWARD'],
+      if (rule.monthDayOverflow == MonthOverflow.clamp) ...[
+        'RSCALE=GREGORIAN',
+        'SKIP=BACKWARD',
+      ],
       'FREQ=${freq.rrule}',
       if (interval != 1) 'INTERVAL=$interval',
       if (count != null) 'COUNT=$count',
-      if (rule.until case final until?) 'UNTIL=${_formatUntil(until, anchor, resolver)}',
+      if (rule.until case final until?)
+        'UNTIL=${_formatUntil(until, anchor, resolver)}',
       if (rule.byMonth.isNotEmpty) 'BYMONTH=${rule.byMonth.join(',')}',
       if (rule.byWeekNo.isNotEmpty) 'BYWEEKNO=${rule.byWeekNo.join(',')}',
       if (rule.byYearDay.isNotEmpty) 'BYYEARDAY=${rule.byYearDay.join(',')}',
       if (rule.byMonthDay.isNotEmpty) 'BYMONTHDAY=${rule.byMonthDay.join(',')}',
-      if (rule.byWeekday case final days? when days.isNotEmpty) 'BYDAY=${days.map((d) => d.toRRule()).join(',')}',
+      if (rule.byWeekday case final days? when days.isNotEmpty)
+        'BYDAY=${days.map((d) => d.toRRule()).join(',')}',
       if (byHour.isNotEmpty) 'BYHOUR=${byHour.join(',')}',
       if (byMinute.isNotEmpty) 'BYMINUTE=${byMinute.join(',')}',
       if (rule.bySetPos.isNotEmpty) 'BYSETPOS=${rule.bySetPos.join(',')}',
@@ -264,7 +333,8 @@ abstract final class RRuleCodec {
       'DTSTART${_formatValue(start, anchor.allDay, zone)}',
       'RRULE:${parts.join(';')}',
       if (exdates.isNotEmpty) 'EXDATE${_formatList(exdates, anchor, zone)}',
-      if (rule.rdates.isNotEmpty) 'RDATE${_formatList(rule.rdates, anchor, zone)}',
+      if (rule.rdates.isNotEmpty)
+        'RDATE${_formatList(rule.rdates, anchor, zone)}',
     ].join('\n');
   }
 
@@ -280,7 +350,10 @@ abstract final class RRuleCodec {
         (rule.byHour.isEmpty || rule.byHour.contains(t ~/ 60)) &&
         (rule.byMinute.isEmpty || rule.byMinute.contains(t % 60));
     if (window.anchor == WindowAnchor.windowStart) {
-      final slots = {for (var t = start; t <= end; t += step) if (limitsOk(t)) t};
+      final slots = {
+        for (var t = start; t <= end; t += step)
+          if (limitsOk(t)) t,
+      };
       if (slots.isEmpty) return null;
       final cross = _crossProduct(slots);
       if (cross == null) return null;
@@ -290,12 +363,28 @@ abstract final class RRuleCodec {
     // Minutes of the day the chain can reach.
     final anchorTod = anchor.start.time.minuteOfDay;
     final period = _gcd(step, 1440);
-    final reachable = {for (var t = anchorTod % period; t < 1440; t += period) if (limitsOk(t)) t};
-    final inWindow = {for (final t in reachable) if (t >= start && t <= end) t};
+    final reachable = {
+      for (var t = anchorTod % period; t < 1440; t += period)
+        if (limitsOk(t)) t,
+    };
+    final inWindow = {
+      for (final t in reachable)
+        if (t >= start && t <= end) t,
+    };
     final hours = ({for (final t in inWindow) t ~/ 60}.toList()..sort());
-    final covered = {for (final t in reachable) if (hours.contains(t ~/ 60)) t};
-    if (covered.length != inWindow.length || !covered.containsAll(inWindow)) return null;
-    return (rule.freq, rule.interval, hours, rule.freq == Frequency.minutely ? rule.byMinute : const <int>[]);
+    final covered = {
+      for (final t in reachable)
+        if (hours.contains(t ~/ 60)) t,
+    };
+    if (covered.length != inWindow.length || !covered.containsAll(inWindow)) {
+      return null;
+    }
+    return (
+      rule.freq,
+      rule.interval,
+      hours,
+      rule.freq == Frequency.minutely ? rule.byMinute : const <int>[],
+    );
   }
 
   static int _gcd(int a, int b) => b == 0 ? a : _gcd(b, a % b);
@@ -308,11 +397,17 @@ abstract final class RRuleCodec {
     return (hours, mins);
   }
 
-  static String _formatUntil(LocalDateTime until, RecurrenceAnchor anchor, ZoneResolver? resolver) {
+  static String _formatUntil(
+    LocalDateTime until,
+    RecurrenceAnchor anchor,
+    ZoneResolver? resolver,
+  ) {
     if (anchor.allDay) return _date(until.date);
     final zone = anchor.zoneId;
     if (zone == null) return _dateTime(until);
-    final utc = zone == 'UTC' ? until.toDateTimeUtc() : (resolver ?? TzZoneResolver()).resolve(until, zone).utc;
+    final utc = zone == 'UTC'
+        ? until.toDateTimeUtc()
+        : (resolver ?? TzZoneResolver()).resolve(until, zone).utc;
     return '${_dateTime(LocalDateTime.fromDateTime(utc))}Z';
   }
 
@@ -323,26 +418,38 @@ abstract final class RRuleCodec {
     return ';TZID=$zone:${_dateTime(value)}';
   }
 
-  static String _formatList(List<String> keys, RecurrenceAnchor anchor, String? zone) {
+  static String _formatList(
+    List<String> keys,
+    RecurrenceAnchor anchor,
+    String? zone,
+  ) {
     final values = <LocalDateTime>[];
     for (final key in keys) {
       final parsed = parseRuleDate(key);
       if (parsed == null) continue;
       values.add(parsed.dateTime ?? parsed.date.atTime(anchor.start.time));
     }
-    if (anchor.allDay) return ';VALUE=DATE:${values.map((v) => _date(v.date)).join(',')}';
+    if (anchor.allDay) {
+      return ';VALUE=DATE:${values.map((v) => _date(v.date)).join(',')}';
+    }
     final formatted = values.map(_dateTime).join(',');
     if (zone == null) return ':$formatted';
-    if (zone == 'UTC') return ':${values.map((v) => '${_dateTime(v)}Z').join(',')}';
+    if (zone == 'UTC') {
+      return ':${values.map((v) => '${_dateTime(v)}Z').join(',')}';
+    }
     return ';TZID=$zone:$formatted';
   }
 
   static String _date(LocalDate d) => d.toIso().replaceAll('-', '');
 
-  static String _dateTime(LocalDateTime v) => '${_date(v.date)}T${v.time.toIso().replaceAll(':', '')}00';
+  static String _dateTime(LocalDateTime v) =>
+      '${_date(v.date)}T${v.time.toIso().replaceAll(':', '')}00';
 
   static List<String> _unfold(String text) {
-    final raw = text.replaceAll('\r\n', '\n').replaceAll('\r', '\n').split('\n');
+    final raw = text
+        .replaceAll('\r\n', '\n')
+        .replaceAll('\r', '\n')
+        .split('\n');
     final lines = <String>[];
     for (final line in raw) {
       if ((line.startsWith(' ') || line.startsWith('\t')) && lines.isNotEmpty) {
@@ -364,24 +471,52 @@ abstract final class RRuleCodec {
     return -1;
   }
 
-  static List<_Value> _parseValues(String value, Map<String, String> params, String name) {
+  static List<_Value> _parseValues(
+    String value,
+    Map<String, String> params,
+    String name,
+  ) {
     final type = params['VALUE']?.toUpperCase();
-    if (type == 'PERIOD') throw FormatException('$name;VALUE=PERIOD is not supported', value);
-    return [for (final v in value.split(',')) if (v.trim().isNotEmpty) _parseValue(v.trim(), params, name)];
+    if (type == 'PERIOD') {
+      throw FormatException('$name;VALUE=PERIOD is not supported', value);
+    }
+    return [
+      for (final v in value.split(','))
+        if (v.trim().isNotEmpty) _parseValue(v.trim(), params, name),
+    ];
   }
 
-  static final RegExp _dateTimePattern = RegExp(r'^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})(Z?))?$');
+  static final RegExp _dateTimePattern = RegExp(
+    r'^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})(Z?))?$',
+  );
 
-  static _Value _parseValue(String text, Map<String, String> params, String name) {
+  static _Value _parseValue(
+    String text,
+    Map<String, String> params,
+    String name,
+  ) {
     final match = _dateTimePattern.firstMatch(text.toUpperCase());
     if (match == null) throw FormatException('Invalid $name value', text);
-    final date = LocalDate.tryCreate(int.parse(match.group(1)!), int.parse(match.group(2)!), int.parse(match.group(3)!));
+    final date = LocalDate.tryCreate(
+      int.parse(match.group(1)!),
+      int.parse(match.group(2)!),
+      int.parse(match.group(3)!),
+    );
     if (date == null) throw FormatException('Invalid $name date', text);
-    if (match.group(4) == null) return _Value(date.atStartOfDay, dateOnly: true, zone: params['TZID']);
-    if (match.group(6) != '00') throw FormatException('$name with seconds is not supported (minute precision)', text);
+    if (match.group(4) == null) {
+      return _Value(date.atStartOfDay, dateOnly: true, zone: params['TZID']);
+    }
+    if (match.group(6) != '00') {
+      throw FormatException(
+        '$name with seconds is not supported (minute precision)',
+        text,
+      );
+    }
     final hour = int.parse(match.group(4)!);
     final minute = int.parse(match.group(5)!);
-    if (hour > 23 || minute > 59) throw FormatException('Invalid $name time', text);
+    if (hour > 23 || minute > 59) {
+      throw FormatException('Invalid $name time', text);
+    }
     return _Value(
       date.atTime(LocalTime(hour, minute)),
       utc: match.group(7) == 'Z',
@@ -396,7 +531,9 @@ abstract final class RRuleCodec {
   }
 
   static List<int> _ints(String? text, String name) =>
-      text == null || text.isEmpty ? const [] : [for (final v in text.split(',')) _int(v, name)];
+      text == null || text.isEmpty
+      ? const []
+      : [for (final v in text.split(',')) _int(v, name)];
 }
 
 final class _Value {

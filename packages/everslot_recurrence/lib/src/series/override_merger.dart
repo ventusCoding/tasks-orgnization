@@ -10,7 +10,13 @@ import 'package:meta/meta.dart';
 /// A stored per-occurrence change (moved, cancelled or edited occurrence).
 @immutable
 final class OccurrenceOverride<T> {
-  const new(this.key, {this.cancelled = false, this.newStartLocal, this.newDurationMinutes, this.payload});
+  const new(
+    this.key, {
+    this.cancelled = false,
+    this.newStartLocal,
+    this.newDurationMinutes,
+    this.payload,
+  });
 
   /// Original occurrence key (identity; never changes when moved).
   final String key;
@@ -37,7 +43,8 @@ final class OccurrenceOverride<T> {
       other.payload == payload;
 
   @override
-  int get hashCode => Object.hash(key, cancelled, newStartLocal, newDurationMinutes, payload);
+  int get hashCode =>
+      Object.hash(key, cancelled, newStartLocal, newDurationMinutes, payload);
 
   @override
   String toString() =>
@@ -101,10 +108,18 @@ final class MergedOccurrence<T> {
       other.appliedOverride == appliedOverride;
 
   @override
-  int get hashCode => Object.hash(original, startLocal, startUtc, endUtc, durationMinutes, appliedOverride);
+  int get hashCode => Object.hash(
+    original,
+    startLocal,
+    startUtc,
+    endUtc,
+    durationMinutes,
+    appliedOverride,
+  );
 
   @override
-  String toString() => 'MergedOccurrence($key → $startLocal${appliedOverride == null ? '' : ', overridden'})';
+  String toString() =>
+      'MergedOccurrence($key → $startLocal${appliedOverride == null ? '' : ', overridden'})';
 }
 
 /// Merges engine output with stored per-occurrence overrides (T2.1.10).
@@ -132,7 +147,10 @@ final class OverrideMerger {
   }) {
     final duration = durationMinutes ?? anchor.effectiveDurationMinutes;
     final byKey = {for (final o in overrides) o.key: o};
-    final longest = byKey.values.fold(duration, (m, o) => math.max(m, o.newDurationMinutes ?? 0));
+    final longest = byKey.values.fold(
+      duration,
+      (m, o) => math.max(m, o.newDurationMinutes ?? 0),
+    );
     final viewZone = engine.viewZoneFor(anchor, evalZone);
     final fromUtc = engine.resolver.resolve(fromLocal, viewZone).utc;
     final toUtc = engine.resolver.resolve(toLocal, viewZone).utc;
@@ -141,10 +159,13 @@ final class OverrideMerger {
       if (anchor.allDay) {
         final start = effective.startLocal.date.atStartOfDay;
         final days = math.max(1, (minutes + 1439) ~/ 1440);
-        return start.isBefore(toLocal) && start.plusDays(days).isAfter(fromLocal);
+        return start.isBefore(toLocal) &&
+            start.plusDays(days).isAfter(fromLocal);
       }
       if (!effective.startUtc.isBefore(toUtc)) return false;
-      return minutes == 0 ? !effective.startUtc.isBefore(fromUtc) : effective.endUtc.isAfter(fromUtc);
+      return minutes == 0
+          ? !effective.startUtc.isBefore(fromUtc)
+          : effective.endUtc.isAfter(fromUtc);
     }
 
     final result = <MergedOccurrence<T>>[];
@@ -192,8 +213,16 @@ final class OverrideMerger {
     }
     for (final override in byKey.values) {
       if (seen.contains(override.key) || override.cancelled) continue;
-      if (override.newStartLocal == null && override.newDurationMinutes == null) continue;
-      final original = engine.occurrenceForKey(rule, anchor, override.key, evalZone: evalZone);
+      if (override.newStartLocal == null &&
+          override.newDurationMinutes == null) {
+        continue;
+      }
+      final original = engine.occurrenceForKey(
+        rule,
+        anchor,
+        override.key,
+        evalZone: evalZone,
+      );
       if (original != null) addMerged(original, override);
     }
     result.sort((a, b) {

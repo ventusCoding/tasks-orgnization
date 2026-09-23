@@ -43,19 +43,34 @@ void main() {
       expect(LocalDate(2026, 1, 1).daysUntil(LocalDate(2027, 1, 1)), 365);
       expect(LocalDate(2026, 9, 23).firstDayOfMonth, LocalDate(2026, 9, 1));
       expect(LocalDate(2026, 2, 3).lastDayOfMonth, LocalDate(2026, 2, 28));
-      expect(LocalDate.fromDateTime(DateTime.utc(2026, 9, 21, 23)), LocalDate(2026, 9, 21));
+      expect(
+        LocalDate.fromDateTime(DateTime.utc(2026, 9, 21, 23)),
+        LocalDate(2026, 9, 21),
+      );
       expect(LocalDate(2026, 9, 21).toDateTimeUtc(), DateTime.utc(2026, 9, 21));
-      expect(LocalDate(2026, 9, 21).atTime(LocalTime(8, 0)), LocalDateTime.of(2026, 9, 21, 8));
+      expect(
+        LocalDate(2026, 9, 21).atTime(LocalTime(8, 0)),
+        LocalDateTime.of(2026, 9, 21, 8),
+      );
     });
 
     test('comparisons', () {
       final a = LocalDate(2026, 1, 1);
       final b = LocalDate(2026, 1, 2);
-      expect(a.isBefore(b) && b.isAfter(a) && a.isOnOrBefore(a) && b.isOnOrAfter(a), isTrue);
+      expect(
+        a.isBefore(b) && b.isAfter(a) && a.isOnOrBefore(a) && b.isOnOrAfter(a),
+        isTrue,
+      );
       expect(LocalDate.min(a, b), a);
       expect(LocalDate.max(a, b), b);
-      expect(LocalDate(2026, 2, 1).compareTo(LocalDate(2026, 1, 31)), greaterThan(0));
-      expect(LocalDate(2027, 1, 1).compareTo(LocalDate(2026, 12, 31)), greaterThan(0));
+      expect(
+        LocalDate(2026, 2, 1).compareTo(LocalDate(2026, 1, 31)),
+        greaterThan(0),
+      );
+      expect(
+        LocalDate(2027, 1, 1).compareTo(LocalDate(2026, 12, 31)),
+        greaterThan(0),
+      );
       expect(a.hashCode, LocalDate(2026, 1, 1).hashCode);
     });
 
@@ -69,21 +84,43 @@ void main() {
     });
 
     test('week helpers for every week start across year boundaries', () {
-      expect(LocalDate(2026, 9, 23).startOfWeek(Weekday.monday), LocalDate(2026, 9, 21));
-      expect(LocalDate(2026, 9, 23).startOfWeek(Weekday.sunday), LocalDate(2026, 9, 20));
-      expect(LocalDate(2026, 9, 23).startOfWeek(Weekday.saturday), LocalDate(2026, 9, 19));
+      expect(
+        LocalDate(2026, 9, 23).startOfWeek(Weekday.monday),
+        LocalDate(2026, 9, 21),
+      );
+      expect(
+        LocalDate(2026, 9, 23).startOfWeek(Weekday.sunday),
+        LocalDate(2026, 9, 20),
+      );
+      expect(
+        LocalDate(2026, 9, 23).startOfWeek(Weekday.saturday),
+        LocalDate(2026, 9, 19),
+      );
       // ISO: 2021-01-03 belongs to 2020-W53, 2024-12-30 to 2025-W01.
       expect(LocalDate(2021, 1, 3).isoWeek, (weekYear: 2020, week: 53));
       expect(LocalDate(2024, 12, 30).isoWeek, (weekYear: 2025, week: 1));
-      for (var day = LocalDate(2019, 12, 1); day.isBefore(LocalDate(2027, 2, 1)); day = day.plusDays(1)) {
+      for (
+        var day = LocalDate(2019, 12, 1);
+        day.isBefore(LocalDate(2027, 2, 1));
+        day = day.plusDays(1)
+      ) {
         expect(day.weekOfYear(Weekday.monday), day.isoWeek, reason: '$day');
       }
-      expect(LocalDate(2026, 1, 1).weekOfYear(Weekday.sunday), (weekYear: 2025, week: 53));
-      expect(LocalDate(2022, 1, 1).weekOfYear(Weekday.saturday), (weekYear: 2022, week: 1));
+      expect(LocalDate(2026, 1, 1).weekOfYear(Weekday.sunday), (
+        weekYear: 2025,
+        week: 53,
+      ));
+      expect(LocalDate(2022, 1, 1).weekOfYear(Weekday.saturday), (
+        weekYear: 2022,
+        week: 1,
+      ));
       expect(LocalDate.weeksInWeekYear(2020, Weekday.monday), 53);
       expect(LocalDate.weeksInWeekYear(2026, Weekday.monday), 53);
       expect(LocalDate.weeksInWeekYear(2025, Weekday.monday), 52);
-      expect(LocalDate.firstDayOfWeekYear(2026, Weekday.sunday), LocalDate(2026, 1, 4));
+      expect(
+        LocalDate.firstDayOfWeekYear(2026, Weekday.sunday),
+        LocalDate(2026, 1, 4),
+      );
     });
   });
 
@@ -121,9 +158,15 @@ void main() {
       for (final minute in [-2000000, -1, 0, 1, 29000000]) {
         expect(LocalDateTime.fromEpochMinute(minute).epochMinute, minute);
       }
-      expect(LocalDateTime.fromDateTime(DateTime.utc(2026, 9, 21, 8, 30, 59)), LocalDateTime.of(2026, 9, 21, 8, 30));
+      expect(
+        LocalDateTime.fromDateTime(DateTime.utc(2026, 9, 21, 8, 30, 59)),
+        LocalDateTime.of(2026, 9, 21, 8, 30),
+      );
       final x = LocalDateTime.of(2026, 1, 31, 8, 15);
-      expect(x.year + x.month + x.day + x.hour + x.minute, 2026 + 1 + 31 + 8 + 15);
+      expect(
+        x.year + x.month + x.day + x.hour + x.minute,
+        2026 + 1 + 31 + 8 + 15,
+      );
     });
 
     test('arithmetic', () {
@@ -141,11 +184,20 @@ void main() {
     test('comparisons and parsing', () {
       final a = LocalDateTime.of(2026, 1, 1, 8);
       final b = LocalDateTime.of(2026, 1, 1, 9);
-      expect(a.isBefore(b) && b.isAfter(a) && a.isOnOrBefore(a) && b.isOnOrAfter(b), isTrue);
+      expect(
+        a.isBefore(b) && b.isAfter(a) && a.isOnOrBefore(a) && b.isOnOrAfter(b),
+        isTrue,
+      );
       expect(LocalDateTime.min(a, b), a);
       expect(LocalDateTime.max(a, b), b);
-      expect(LocalDateTime.parse('2026-09-21 08:00'), LocalDateTime.of(2026, 9, 21, 8));
-      expect(LocalDateTime.parse('2026-09-21T08:00:00.000'), LocalDateTime.of(2026, 9, 21, 8));
+      expect(
+        LocalDateTime.parse('2026-09-21 08:00'),
+        LocalDateTime.of(2026, 9, 21, 8),
+      );
+      expect(
+        LocalDateTime.parse('2026-09-21T08:00:00.000'),
+        LocalDateTime.of(2026, 9, 21, 8),
+      );
       expect(LocalDateTime.tryParse('2026-09-21T08:00:30'), isNull);
       expect(LocalDateTime.tryParse('2026-09-31T08:00'), isNull);
       expect(LocalDateTime.tryParse('2026-09-21T24:00'), isNull);
@@ -172,7 +224,8 @@ void main() {
   group('TzZoneResolver', () {
     final resolver = TzZoneResolver();
 
-    ResolvedInstant r(String local, String zone) => resolver.resolve(LocalDateTime.parse(local), zone);
+    ResolvedInstant r(String local, String zone) =>
+        resolver.resolve(LocalDateTime.parse(local), zone);
 
     test('exact, gap and overlap resolution', () {
       final exact = r('2026-07-01T12:00', 'Europe/Paris');
@@ -208,9 +261,18 @@ void main() {
     });
 
     test('toLocal and offsets (UTC is built in)', () {
-      expect(resolver.toLocal(DateTime.utc(2026, 3, 29, 1, 30), 'Europe/Paris'), LocalDateTime.of(2026, 3, 29, 3, 30));
-      expect(resolver.toLocal(DateTime.utc(1969, 12, 31, 23, 59, 30), 'UTC'), LocalDateTime.of(1969, 12, 31, 23, 59));
-      expect(resolver.offsetMinutesAt(DateTime.utc(2026, 1, 1), 'Pacific/Chatham'), 825);
+      expect(
+        resolver.toLocal(DateTime.utc(2026, 3, 29, 1, 30), 'Europe/Paris'),
+        LocalDateTime.of(2026, 3, 29, 3, 30),
+      );
+      expect(
+        resolver.toLocal(DateTime.utc(1969, 12, 31, 23, 59, 30), 'UTC'),
+        LocalDateTime.of(1969, 12, 31, 23, 59),
+      );
+      expect(
+        resolver.offsetMinutesAt(DateTime.utc(2026, 1, 1), 'Pacific/Chatham'),
+        825,
+      );
       expect(r('2026-01-01T00:00', 'UTC').utc, DateTime.utc(2026));
     });
   });
@@ -218,13 +280,22 @@ void main() {
   group('FixedOffsetZoneResolver', () {
     test('uses one offset everywhere', () {
       const resolver = FixedOffsetZoneResolver(60);
-      final resolved = resolver.resolve(LocalDateTime.of(2026, 1, 1, 1), 'Any/Zone');
+      final resolved = resolver.resolve(
+        LocalDateTime.of(2026, 1, 1, 1),
+        'Any/Zone',
+      );
       expect(resolved.utc, DateTime.utc(2026));
       expect(resolved.kind, ResolutionKind.exact);
       expect(resolved.offsetMinutes, 60);
-      expect(resolver.toLocal(DateTime.utc(2026), 'x'), LocalDateTime.of(2026, 1, 1, 1));
-      expect(const FixedOffsetZoneResolver(-60).toLocal(DateTime.utc(1970, 1, 1, 0, 30), 'x'),
-          LocalDateTime.of(1969, 12, 31, 23, 30));
+      expect(
+        resolver.toLocal(DateTime.utc(2026), 'x'),
+        LocalDateTime.of(2026, 1, 1, 1),
+      );
+      expect(
+        const FixedOffsetZoneResolver(-60)
+            .toLocal(DateTime.utc(1970, 1, 1, 0, 30), 'x'),
+        LocalDateTime.of(1969, 12, 31, 23, 30),
+      );
       expect(resolver.offsetMinutesAt(DateTime.utc(2026), 'x'), 60);
     });
   });
