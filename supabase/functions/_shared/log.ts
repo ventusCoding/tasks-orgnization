@@ -10,7 +10,9 @@ export function redact(value: unknown, depth = 0): unknown {
   if (Array.isArray(value)) return value.map((v) => redact(v, depth + 1));
   const out: Record<string, unknown> = {};
   for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
-    out[k] = SENSITIVE_KEY.test(k) ? "[redacted]" : redact(v, depth + 1);
+    // Counts and flags stay readable (e.g. invalidTokens: 2); strings/objects under sensitive keys do not.
+    const harmless = typeof v === "number" || typeof v === "boolean" || v === null;
+    out[k] = SENSITIVE_KEY.test(k) && !harmless ? "[redacted]" : redact(v, depth + 1);
   }
   return out;
 }
