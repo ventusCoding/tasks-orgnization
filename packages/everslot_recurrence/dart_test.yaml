@@ -1,0 +1,3 @@
+tags:
+  benchmark:
+    description: Performance budgets of T2.1.18, asserted loosely (×10) to stay CI-stable.

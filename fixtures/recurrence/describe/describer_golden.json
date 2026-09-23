@@ -1,0 +1,2268 @@
+[
+ {
+  "name": "every Monday and Tuesday at 08:00",
+  "rule": {
+   "v": 1,
+   "freq": "weekly",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every Monday and Tuesday at 08:00",
+   "fr": "Tous les lundis et mardis à 08:00",
+   "ar": "أسبوعيًا يومي الاثنين والثلاثاء في الساعة 08:00"
+  }
+ },
+ {
+  "name": "every 90 minutes 08-20 on weekdays",
+  "rule": {
+   "v": 1,
+   "freq": "minutely",
+   "interval": 90,
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "window": {
+    "start": "08:00",
+    "end": "20:00",
+    "anchor": "window_start"
+   },
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 90 minutes between 08:00 and 20:00 on weekdays",
+   "fr": "Toutes les 90 minutes entre 08:00 et 20:00 du lundi au vendredi",
+   "ar": "كل 90 دقيقة بين 08:00 و20:00 من الاثنين إلى الجمعة"
+  }
+ },
+ {
+  "name": "3 times a week",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 3,
+    "per": "week",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "3 times a week",
+   "fr": "3 fois par semaine",
+   "ar": "3 مرات في الأسبوع"
+  }
+ },
+ {
+  "name": "2 days after completion",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 2,
+    "unit": "day"
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "2 days after completion",
+   "fr": "2 jours après l'achèvement",
+   "ar": "بعد يومين من الإنجاز"
+  }
+ },
+ {
+  "name": "monthly on the last weekday, 10 times (all-day)",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "bySetPos": [
+    -1
+   ],
+   "count": 10,
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-30T00:00",
+   "zone": "Europe/Paris",
+   "allDay": true
+  },
+  "expected": {
+   "en": "Monthly on the last weekday, 10 times",
+   "fr": "Tous les mois le dernier jour ouvré, 10 fois",
+   "ar": "شهريًا في آخر يوم عمل من الشهر، 10 مرات"
+  }
+ },
+ {
+  "name": "every day",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T07:30",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every day at 07:30",
+   "fr": "Tous les jours à 07:30",
+   "ar": "كل يوم في الساعة 07:30"
+  }
+ },
+ {
+  "name": "every 2 days",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "interval": 2,
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 2 days at 08:00",
+   "fr": "Tous les 2 jours à 08:00",
+   "ar": "كل يومين في الساعة 08:00"
+  }
+ },
+ {
+  "name": "every 3 days",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "interval": 3,
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 3 days at 08:00",
+   "fr": "Tous les 3 jours à 08:00",
+   "ar": "كل 3 أيام في الساعة 08:00"
+  }
+ },
+ {
+  "name": "every 11 days",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "interval": 11,
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 11 days at 08:00",
+   "fr": "Tous les 11 jours à 08:00",
+   "ar": "كل 11 يومًا في الساعة 08:00"
+  }
+ },
+ {
+  "name": "every 100 days",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "interval": 100,
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 100 days at 08:00",
+   "fr": "Tous les 100 jours à 08:00",
+   "ar": "كل 100 يوم في الساعة 08:00"
+  }
+ },
+ {
+  "name": "every weekday at 09:00",
+  "rule": {
+   "v": 1,
+   "freq": "weekly",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T09:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every weekday at 09:00",
+   "fr": "Du lundi au vendredi à 09:00",
+   "ar": "من الاثنين إلى الجمعة في الساعة 09:00"
+  }
+ },
+ {
+  "name": "every weekend at 10:00",
+  "rule": {
+   "v": 1,
+   "freq": "weekly",
+   "byWeekday": [
+    {
+     "day": "SA"
+    },
+    {
+     "day": "SU"
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-26T10:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every weekend at 10:00",
+   "fr": "Tous les week-ends à 10:00",
+   "ar": "كل سبت وأحد في الساعة 10:00"
+  }
+ },
+ {
+  "name": "weekly on all days",
+  "rule": {
+   "v": 1,
+   "freq": "weekly",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    },
+    {
+     "day": "SA"
+    },
+    {
+     "day": "SU"
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every day at 08:00",
+   "fr": "Tous les jours à 08:00",
+   "ar": "كل يوم في الساعة 08:00"
+  }
+ },
+ {
+  "name": "weekly default weekday",
+  "rule": {
+   "v": 1,
+   "freq": "weekly",
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-23T18:30",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every Wednesday at 18:30",
+   "fr": "Tous les mercredis à 18:30",
+   "ar": "أسبوعيًا يوم الأربعاء في الساعة 18:30"
+  }
+ },
+ {
+  "name": "every 2 weeks on Monday, Wednesday and Friday",
+  "rule": {
+   "v": 1,
+   "freq": "weekly",
+   "interval": 2,
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 2 weeks on Monday, Wednesday and Friday at 08:00",
+   "fr": "Toutes les 2 semaines le lundi, le mercredi et le vendredi à 08:00",
+   "ar": "كل أسبوعين أيام الاثنين والأربعاء والجمعة في الساعة 08:00"
+  }
+ },
+ {
+  "name": "every 3 weeks on weekdays",
+  "rule": {
+   "v": 1,
+   "freq": "weekly",
+   "interval": 3,
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 3 weeks on weekdays at 08:00",
+   "fr": "Toutes les 3 semaines du lundi au vendredi à 08:00",
+   "ar": "كل 3 أسابيع من الاثنين إلى الجمعة في الساعة 08:00"
+  }
+ },
+ {
+  "name": "every 2 weeks on the weekend",
+  "rule": {
+   "v": 1,
+   "freq": "weekly",
+   "interval": 2,
+   "byWeekday": [
+    {
+     "day": "SA"
+    },
+    {
+     "day": "SU"
+    }
+   ],
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 2 weeks on weekends at 08:00",
+   "fr": "Toutes les 2 semaines le week-end à 08:00",
+   "ar": "كل أسبوعين يومي السبت والأحد في الساعة 08:00"
+  }
+ },
+ {
+  "name": "weekly on Sunday and Monday (week starts Sunday)",
+  "rule": {
+   "v": 1,
+   "freq": "weekly",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "SU"
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "options": {
+   "weekStart": "SU"
+  },
+  "expected": {
+   "en": "Every Sunday and Monday at 08:00",
+   "fr": "Tous les dimanches et lundis à 08:00",
+   "ar": "أسبوعيًا يومي الأحد والاثنين في الساعة 08:00"
+  }
+ },
+ {
+  "name": "daily at 08:00 and 20:00",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "times": [
+    "08:00",
+    "20:00"
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every day at 08:00 and 20:00",
+   "fr": "Tous les jours à 08:00 et 20:00",
+   "ar": "كل يوم في الساعة 08:00 و20:00"
+  }
+ },
+ {
+  "name": "daily at three times (12h clock)",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "times": [
+    "07:00",
+    "12:30",
+    "19:45"
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "options": {
+   "use24h": false
+  },
+  "expected": {
+   "en": "Every day at 7:00 AM, 12:30 PM and 7:45 PM",
+   "fr": "Tous les jours à 7:00 AM, 12:30 PM et 7:45 PM",
+   "ar": "كل يوم في الساعة 7:00 ص و12:30 م و7:45 م"
+  }
+ },
+ {
+  "name": "daily every 20 minutes 09:00-16:40 (many times)",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "byHour": [
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+   ],
+   "byMinute": [
+    0,
+    20,
+    40
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T09:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every day at 24 times between 09:00 and 16:40",
+   "fr": "Tous les jours à 24 horaires entre 09:00 et 16:40",
+   "ar": "كل يوم في 24 وقتًا بين 09:00 و16:40"
+  }
+ },
+ {
+  "name": "monthly on day 15",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byMonthDay": [
+    15
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-15T12:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the 15th at 12:00",
+   "fr": "Tous les mois le 15 à 12:00",
+   "ar": "شهريًا في اليوم 15 في الساعة 12:00"
+  }
+ },
+ {
+  "name": "monthly default day 1",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-10-01T09:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the 1st at 09:00",
+   "fr": "Tous les mois le 1er à 09:00",
+   "ar": "شهريًا في اليوم 1 في الساعة 09:00"
+  }
+ },
+ {
+  "name": "monthly on the 1st and 15th",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byMonthDay": [
+    1,
+    15
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the 1st and 15th at 08:00",
+   "fr": "Tous les mois le 1er et le 15 à 08:00",
+   "ar": "شهريًا في اليوم 1 واليوم 15 في الساعة 08:00"
+  }
+ },
+ {
+  "name": "monthly on the last day",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byMonthDay": [
+    -1
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-30T23:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the last day at 23:00",
+   "fr": "Tous les mois le dernier jour à 23:00",
+   "ar": "شهريًا في اليوم الأخير في الساعة 23:00"
+  }
+ },
+ {
+  "name": "monthly on the second-to-last day",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byMonthDay": [
+    -2
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the second-to-last day at 08:00",
+   "fr": "Tous les mois l'avant-dernier jour à 08:00",
+   "ar": "شهريًا في اليوم قبل الأخير في الساعة 08:00"
+  }
+ },
+ {
+  "name": "monthly on the third-to-last day",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byMonthDay": [
+    -3
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the 3rd-to-last day at 08:00",
+   "fr": "Tous les mois le 3e jour en partant de la fin à 08:00",
+   "ar": "شهريًا في اليوم 3 من نهاية الشهر في الساعة 08:00"
+  }
+ },
+ {
+  "name": "monthly on the 31st, clamped",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byMonthDay": [
+    31
+   ],
+   "monthDayOverflow": "clamp",
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the 31st (or the month's last day) at 08:00",
+   "fr": "Tous les mois le 31 (ou le dernier jour du mois) à 08:00",
+   "ar": "شهريًا في اليوم 31 (أو آخر يوم في الشهر) في الساعة 08:00"
+  }
+ },
+ {
+  "name": "monthly on the second Tuesday",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "TU",
+     "n": 2
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-08T19:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the second Tuesday at 19:00",
+   "fr": "Tous les mois le deuxième mardi à 19:00",
+   "ar": "شهريًا في ثاني ثلاثاء من الشهر في الساعة 19:00"
+  }
+ },
+ {
+  "name": "monthly on the last Friday",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "FR",
+     "n": -1
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-25T17:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the last Friday at 17:00",
+   "fr": "Tous les mois le dernier vendredi à 17:00",
+   "ar": "شهريًا في آخر جمعة من الشهر في الساعة 17:00"
+  }
+ },
+ {
+  "name": "every 2 months on the first and last Sunday",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "interval": 2,
+   "byWeekday": [
+    {
+     "day": "SU",
+     "n": 1
+    },
+    {
+     "day": "SU",
+     "n": -1
+    }
+   ],
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 2 months on the first Sunday and the last Sunday at 08:00",
+   "fr": "Tous les 2 mois le premier dimanche et le dernier dimanche à 08:00",
+   "ar": "كل شهرين في أول أحد وآخر أحد من الشهر في الساعة 08:00"
+  }
+ },
+ {
+  "name": "monthly on the second-to-last Monday",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "MO",
+     "n": -2
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the second-to-last Monday at 08:00",
+   "fr": "Tous les mois l'avant-dernier lundi à 08:00",
+   "ar": "شهريًا في ما قبل آخر اثنين من الشهر في الساعة 08:00"
+  }
+ },
+ {
+  "name": "monthly on the first weekday",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "bySetPos": [
+    1
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-10-01T09:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the first weekday at 09:00",
+   "fr": "Tous les mois le premier jour ouvré à 09:00",
+   "ar": "شهريًا في أول يوم عمل من الشهر في الساعة 09:00"
+  }
+ },
+ {
+  "name": "monthly on the third Tuesday, Wednesday or Thursday",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    }
+   ],
+   "bySetPos": [
+    3
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the third Tuesday, Wednesday or Thursday at 08:00",
+   "fr": "Tous les mois le troisième mardi, mercredi ou jeudi à 08:00",
+   "ar": "شهريًا في ثالث ثلاثاء أو أربعاء أو خميس من الشهر في الساعة 08:00"
+  }
+ },
+ {
+  "name": "monthly on the first and last weekend day",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "SA"
+    },
+    {
+     "day": "SU"
+    }
+   ],
+   "bySetPos": [
+    1,
+    -1
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-10-03T11:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the first and last weekend day at 11:00",
+   "fr": "Tous les mois le premier et le dernier jour du week-end à 11:00",
+   "ar": "شهريًا في أول وآخر يوم عطلة من الشهر في الساعة 11:00"
+  }
+ },
+ {
+  "name": "every Friday the 13th",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "FR"
+    }
+   ],
+   "byMonthDay": [
+    13
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-11-13T09:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on Friday falling on the 13th at 09:00",
+   "fr": "Tous les mois le vendredi tombant le 13 à 09:00",
+   "ar": "شهريًا يوم الجمعة الموافق اليوم 13 في الساعة 09:00"
+  }
+ },
+ {
+  "name": "every Tuesday, every other month",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "interval": 2,
+   "byWeekday": [
+    {
+     "day": "TU"
+    }
+   ],
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 2 months on Tuesday at 08:00",
+   "fr": "Tous les 2 mois le mardi à 08:00",
+   "ar": "كل شهرين يوم الثلاثاء في الساعة 08:00"
+  }
+ },
+ {
+  "name": "every 3 months",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "interval": 3,
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 3 months on the 21st at 08:00",
+   "fr": "Tous les 3 mois le 21 à 08:00",
+   "ar": "كل 3 أشهر في اليوم 21 في الساعة 08:00"
+  }
+ },
+ {
+  "name": "every 12 months",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "interval": 12,
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 12 months on the 21st at 08:00",
+   "fr": "Tous les 12 mois le 21 à 08:00",
+   "ar": "كل 12 شهرًا في اليوم 21 في الساعة 08:00"
+  }
+ },
+ {
+  "name": "yearly on the anchor date",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-03-05T10:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly on March 5 at 10:00",
+   "fr": "Tous les ans le 5 mars à 10:00",
+   "ar": "سنويًا في 5 مارس في الساعة 10:00"
+  }
+ },
+ {
+  "name": "yearly on January 1 (all-day)",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2027-01-01T00:00",
+   "zone": "Europe/Paris",
+   "allDay": true
+  },
+  "expected": {
+   "en": "Yearly on January 1",
+   "fr": "Tous les ans le 1er janvier",
+   "ar": "سنويًا في 1 يناير"
+  }
+ },
+ {
+  "name": "yearly on February 29",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2028-02-29T09:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly on February 29 at 09:00",
+   "fr": "Tous les ans le 29 février à 09:00",
+   "ar": "سنويًا في 29 فبراير في الساعة 09:00"
+  }
+ },
+ {
+  "name": "every 2 years",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "interval": 2,
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-07-14T21:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 2 years on July 14 at 21:00",
+   "fr": "Tous les 2 ans le 14 juillet à 21:00",
+   "ar": "كل سنتين في 14 يوليو في الساعة 21:00"
+  }
+ },
+ {
+  "name": "yearly in June and July",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "byMonth": [
+    6,
+    7
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-06-10T09:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly on the 10th of June and July at 09:00",
+   "fr": "Tous les ans le 10 de juin et juillet à 09:00",
+   "ar": "سنويًا في اليوم 10 من يونيو ويوليو في الساعة 09:00"
+  }
+ },
+ {
+  "name": "Thanksgiving",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "byMonth": [
+    11
+   ],
+   "byWeekday": [
+    {
+     "day": "TH",
+     "n": 4
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-11-26T15:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly on the fourth Thursday of November at 15:00",
+   "fr": "Tous les ans le quatrième jeudi de novembre à 15:00",
+   "ar": "سنويًا في رابع خميس من نوفمبر في الساعة 15:00"
+  }
+ },
+ {
+  "name": "every 20th Monday of the year",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "byWeekday": [
+    {
+     "day": "MO",
+     "n": 20
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly on the 20th Monday of the year at 08:00",
+   "fr": "Tous les ans le 20e lundi de l'année à 08:00",
+   "ar": "سنويًا في الاثنين رقم 20 من السنة في الساعة 08:00"
+  }
+ },
+ {
+  "name": "yearly on the last Sunday of the year",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "byWeekday": [
+    {
+     "day": "SU",
+     "n": -1
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly on the last Sunday of the year at 08:00",
+   "fr": "Tous les ans le dernier dimanche de l'année à 08:00",
+   "ar": "سنويًا في آخر أحد من السنة في الساعة 08:00"
+  }
+ },
+ {
+  "name": "every Thursday in March",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "byMonth": [
+    3
+   ],
+   "byWeekday": [
+    {
+     "day": "TH"
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly on Thursday in March at 08:00",
+   "fr": "Tous les ans le jeudi en mars à 08:00",
+   "ar": "سنويًا يوم الخميس في مارس في الساعة 08:00"
+  }
+ },
+ {
+  "name": "yearly on days 1, 100 and 200",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "interval": 3,
+   "byYearDay": [
+    1,
+    100,
+    200
+   ],
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 3 years on days 1, 100 and 200 of the year at 08:00",
+   "fr": "Tous les 3 ans les jours 1, 100 et 200 de l'année à 08:00",
+   "ar": "كل 3 سنوات في الأيام 1 و100 و200 من السنة في الساعة 08:00"
+  }
+ },
+ {
+  "name": "yearly on the last day of the year",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "byYearDay": [
+    -1
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly on the last day of the year at 08:00",
+   "fr": "Tous les ans le dernier jour de l'année à 08:00",
+   "ar": "سنويًا في آخر يوم من السنة في الساعة 08:00"
+  }
+ },
+ {
+  "name": "yearly in week 20 on Monday",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "byWeekNo": [
+    20
+   ],
+   "byWeekday": [
+    {
+     "day": "MO"
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly in week 20 on Monday at 08:00",
+   "fr": "Tous les ans la semaine 20 le lundi à 08:00",
+   "ar": "سنويًا في الأسبوع 20 يوم الاثنين في الساعة 08:00"
+  }
+ },
+ {
+  "name": "yearly on the 1st of every month",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "byMonthDay": [
+    1
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly on the 1st of every month at 08:00",
+   "fr": "Tous les ans le 1er de chaque mois à 08:00",
+   "ar": "سنويًا في اليوم 1 من كل شهر في الساعة 08:00"
+  }
+ },
+ {
+  "name": "yearly on the 1st and 15th of January and April",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "byMonth": [
+    1,
+    4
+   ],
+   "byMonthDay": [
+    1,
+    15
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly on the 1st and 15th of January and April at 08:00",
+   "fr": "Tous les ans le 1er et le 15 de janvier et avril à 08:00",
+   "ar": "سنويًا في اليوم 1 واليوم 15 من يناير وأبريل في الساعة 08:00"
+  }
+ },
+ {
+  "name": "every minute",
+  "rule": {
+   "v": 1,
+   "freq": "minutely",
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every minute",
+   "fr": "Toutes les minutes",
+   "ar": "كل دقيقة"
+  }
+ },
+ {
+  "name": "every 2 minutes",
+  "rule": {
+   "v": 1,
+   "freq": "minutely",
+   "interval": 2,
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 2 minutes",
+   "fr": "Toutes les 2 minutes",
+   "ar": "كل دقيقتين"
+  }
+ },
+ {
+  "name": "every 5 minutes",
+  "rule": {
+   "v": 1,
+   "freq": "minutely",
+   "interval": 5,
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 5 minutes",
+   "fr": "Toutes les 5 minutes",
+   "ar": "كل 5 دقائق"
+  }
+ },
+ {
+  "name": "every 15 minutes",
+  "rule": {
+   "v": 1,
+   "freq": "minutely",
+   "interval": 15,
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 15 minutes",
+   "fr": "Toutes les 15 minutes",
+   "ar": "كل 15 دقيقة"
+  }
+ },
+ {
+  "name": "every hour",
+  "rule": {
+   "v": 1,
+   "freq": "hourly",
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every hour",
+   "fr": "Toutes les heures",
+   "ar": "كل ساعة"
+  }
+ },
+ {
+  "name": "every 2 hours",
+  "rule": {
+   "v": 1,
+   "freq": "hourly",
+   "interval": 2,
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 2 hours",
+   "fr": "Toutes les 2 heures",
+   "ar": "كل ساعتين"
+  }
+ },
+ {
+  "name": "every 3 hours between 08:00 and midnight",
+  "rule": {
+   "v": 1,
+   "freq": "hourly",
+   "interval": 3,
+   "window": {
+    "start": "08:00",
+    "end": "24:00",
+    "anchor": "window_start"
+   },
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 3 hours between 08:00 and midnight",
+   "fr": "Toutes les 3 heures entre 08:00 et minuit",
+   "ar": "كل 3 ساعات بين 08:00 ومنتصف الليل"
+  }
+ },
+ {
+  "name": "every 45 minutes 09-18 on Monday and Wednesday",
+  "rule": {
+   "v": 1,
+   "freq": "minutely",
+   "interval": 45,
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "WE"
+    }
+   ],
+   "window": {
+    "start": "09:00",
+    "end": "18:00",
+    "anchor": "series_start"
+   },
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 45 minutes between 09:00 and 18:00 on Monday and Wednesday",
+   "fr": "Toutes les 45 minutes entre 09:00 et 18:00 le lundi et le mercredi",
+   "ar": "كل 45 دقيقة بين 09:00 و18:00 يومي الاثنين والأربعاء"
+  }
+ },
+ {
+  "name": "hourly at :00 and :30",
+  "rule": {
+   "v": 1,
+   "freq": "hourly",
+   "byMinute": [
+    0,
+    30
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every hour at :00 and :30",
+   "fr": "Toutes les heures à :00 et :30",
+   "ar": "كل ساعة عند الدقيقة 0 و30"
+  }
+ },
+ {
+  "name": "every 20 minutes from 9 to 16:59",
+  "rule": {
+   "v": 1,
+   "freq": "minutely",
+   "interval": 20,
+   "byHour": [
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+   ],
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 20 minutes between 09:00 and 16:59",
+   "fr": "Toutes les 20 minutes entre 09:00 et 16:59",
+   "ar": "كل 20 دقيقة بين 09:00 و16:59"
+  }
+ },
+ {
+  "name": "hourly at 9, 12 and 18",
+  "rule": {
+   "v": 1,
+   "freq": "hourly",
+   "byHour": [
+    9,
+    12,
+    18
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every day at 09:00, 12:00 and 18:00",
+   "fr": "Tous les jours à 09:00, 12:00 et 18:00",
+   "ar": "كل يوم في الساعة 09:00 و12:00 و18:00"
+  }
+ },
+ {
+  "name": "every weekday until a date",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "until": "2026-12-31T23:59",
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every weekday at 08:00, until December 31, 2026",
+   "fr": "Du lundi au vendredi à 08:00, jusqu'au 31 décembre 2026",
+   "ar": "من الاثنين إلى الجمعة في الساعة 08:00، حتى 31 ديسمبر 2026"
+  }
+ },
+ {
+  "name": "daily once",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "count": 1,
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every day at 08:00, once",
+   "fr": "Tous les jours à 08:00, une fois",
+   "ar": "كل يوم في الساعة 08:00، مرة واحدة"
+  }
+ },
+ {
+  "name": "daily twice",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "count": 2,
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every day at 08:00, 2 times",
+   "fr": "Tous les jours à 08:00, 2 fois",
+   "ar": "كل يوم في الساعة 08:00، مرتين"
+  }
+ },
+ {
+  "name": "daily 3 times",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "count": 3,
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every day at 08:00, 3 times",
+   "fr": "Tous les jours à 08:00, 3 fois",
+   "ar": "كل يوم في الساعة 08:00، 3 مرات"
+  }
+ },
+ {
+  "name": "daily 11 times",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "count": 11,
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every day at 08:00, 11 times",
+   "fr": "Tous les jours à 08:00, 11 fois",
+   "ar": "كل يوم في الساعة 08:00، 11 مرة"
+  }
+ },
+ {
+  "name": "daily until completed 5 times",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "count": 5,
+   "countMode": "completions",
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every day at 08:00, until completed 5 times",
+   "fr": "Tous les jours à 08:00, jusqu'à 5 réalisations",
+   "ar": "كل يوم في الساعة 08:00، حتى إنجازه 5 مرات"
+  }
+ },
+ {
+  "name": "until the first of January",
+  "rule": {
+   "v": 1,
+   "freq": "weekly",
+   "until": "2027-01-01T08:00",
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every Monday at 08:00, until January 1, 2027",
+   "fr": "Tous les lundis à 08:00, jusqu'au 1er janvier 2027",
+   "ar": "أسبوعيًا يوم الاثنين في الساعة 08:00، حتى 1 يناير 2027"
+  }
+ },
+ {
+  "name": "once a week",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 1,
+    "per": "week",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Once a week",
+   "fr": "Une fois par semaine",
+   "ar": "مرة واحدة في الأسبوع"
+  }
+ },
+ {
+  "name": "twice a day",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 2,
+    "per": "day",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "2 times a day",
+   "fr": "2 fois par jour",
+   "ar": "مرتين في اليوم"
+  }
+ },
+ {
+  "name": "20 times a month",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 20,
+    "per": "month",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "20 times a month",
+   "fr": "20 fois par mois",
+   "ar": "20 مرة في الشهر"
+  }
+ },
+ {
+  "name": "11 times a year",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 11,
+    "per": "year",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "11 times a year",
+   "fr": "11 fois par an",
+   "ar": "11 مرة في السنة"
+  }
+ },
+ {
+  "name": "3 times a week on weekdays, never two days in a row",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "quota": {
+    "times": 3,
+    "per": "week",
+    "minGapDays": 1
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "3 times a week on weekdays, never two days in a row",
+   "fr": "3 fois par semaine du lundi au vendredi, jamais deux jours de suite",
+   "ar": "3 مرات في الأسبوع من الاثنين إلى الجمعة، دون يومين متتاليين"
+  }
+ },
+ {
+  "name": "2 times a week with 3 days in between",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 2,
+    "per": "week",
+    "minGapDays": 3
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "2 times a week, with at least 3 days in between",
+   "fr": "2 fois par semaine, avec au moins 3 jours d'intervalle",
+   "ar": "مرتين في الأسبوع، مع 3 أيام على الأقل بين كل مرة"
+  }
+ },
+ {
+  "name": "1 day after completion",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 1,
+    "unit": "day"
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "1 day after completion",
+   "fr": "1 jour après l'achèvement",
+   "ar": "بعد يوم واحد من الإنجاز"
+  }
+ },
+ {
+  "name": "3 hours after completion",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 3,
+    "unit": "hour"
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "3 hours after completion",
+   "fr": "3 heures après l'achèvement",
+   "ar": "بعد 3 ساعات من الإنجاز"
+  }
+ },
+ {
+  "name": "45 minutes after completion",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 45,
+    "unit": "minute"
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "45 minutes after completion",
+   "fr": "45 minutes après l'achèvement",
+   "ar": "بعد 45 دقيقة من الإنجاز"
+  }
+ },
+ {
+  "name": "2 weeks after completion",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 2,
+    "unit": "week"
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "2 weeks after completion",
+   "fr": "2 semaines après l'achèvement",
+   "ar": "بعد أسبوعين من الإنجاز"
+  }
+ },
+ {
+  "name": "6 months after completion",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 6,
+    "unit": "month"
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "6 months after completion",
+   "fr": "6 mois après l'achèvement",
+   "ar": "بعد 6 أشهر من الإنجاز"
+  }
+ },
+ {
+  "name": "1 year after completion",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 1,
+    "unit": "year"
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "1 year after completion",
+   "fr": "1 an après l'achèvement",
+   "ar": "بعد سنة واحدة من الإنجاز"
+  }
+ },
+ {
+  "name": "daily in December only",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "byMonth": [
+    12
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every day in December at 08:00",
+   "fr": "Tous les jours en décembre à 08:00",
+   "ar": "كل يوم في ديسمبر في الساعة 08:00"
+  }
+ },
+ {
+  "name": "every 2 days on weekdays",
+  "rule": {
+   "v": 1,
+   "freq": "daily",
+   "interval": 2,
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 2 days on weekdays at 08:00",
+   "fr": "Tous les 2 jours du lundi au vendredi à 08:00",
+   "ar": "كل يومين من الاثنين إلى الجمعة في الساعة 08:00"
+  }
+ },
+ {
+  "name": "last weekday of the year",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "bySetPos": [
+    -1
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-12-31T17:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly on the last weekday of the year at 17:00",
+   "fr": "Tous les ans le dernier jour ouvré de l'année à 17:00",
+   "ar": "سنويًا في آخر يوم عمل من السنة في الساعة 17:00"
+  }
+ },
+ {
+  "name": "Friday the 13th in March",
+  "rule": {
+   "v": 1,
+   "freq": "yearly",
+   "byMonth": [
+    3
+   ],
+   "byWeekday": [
+    {
+     "day": "FR"
+    }
+   ],
+   "byMonthDay": [
+    13
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Yearly on Friday falling on the 13th in March at 08:00",
+   "fr": "Tous les ans le vendredi tombant le 13 en mars à 08:00",
+   "ar": "سنويًا يوم الجمعة الموافق اليوم 13 في مارس في الساعة 08:00"
+  }
+ },
+ {
+  "name": "monthly on the third-to-last Monday",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "MO",
+     "n": -3
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the third-to-last Monday at 08:00",
+   "fr": "Tous les mois l'antépénultième lundi à 08:00",
+   "ar": "شهريًا في الاثنين رقم 3 من النهاية من الشهر في الساعة 08:00"
+  }
+ },
+ {
+  "name": "monthly on the last two weekdays",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "bySetPos": [
+    -2,
+    -1
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the second-to-last and last weekday at 08:00",
+   "fr": "Tous les mois l'avant-dernier et le dernier jour ouvré à 08:00",
+   "ar": "شهريًا في ما قبل آخر وآخر يوم عمل من الشهر في الساعة 08:00"
+  }
+ },
+ {
+  "name": "monthly on the last day (set position)",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    },
+    {
+     "day": "SA"
+    },
+    {
+     "day": "SU"
+    }
+   ],
+   "bySetPos": [
+    -1
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the last day at 08:00",
+   "fr": "Tous les mois le dernier jour à 08:00",
+   "ar": "شهريًا في آخر يوم من الشهر في الساعة 08:00"
+  }
+ },
+ {
+  "name": "every 10 minutes at 9h, 12h and 18h",
+  "rule": {
+   "v": 1,
+   "freq": "minutely",
+   "interval": 10,
+   "byHour": [
+    9,
+    12,
+    18
+   ],
+   "type": "fixed"
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every 10 minutes during hours 9, 12 and 18",
+   "fr": "Toutes les 10 minutes pendant les heures 9, 12 et 18",
+   "ar": "كل 10 دقائق خلال الساعات 9 و12 و18"
+  }
+ },
+ {
+  "name": "monthly on the fourth-to-last Sunday",
+  "rule": {
+   "v": 1,
+   "freq": "monthly",
+   "byWeekday": [
+    {
+     "day": "SU",
+     "n": -4
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Monthly on the 4th-to-last Sunday at 08:00",
+   "fr": "Tous les mois le 4e dimanche en partant de la fin à 08:00",
+   "ar": "شهريًا في الأحد رقم 4 من النهاية من الشهر في الساعة 08:00"
+  }
+ },
+ {
+  "name": "hourly at 9 and 17 on weekdays",
+  "rule": {
+   "v": 1,
+   "freq": "hourly",
+   "byHour": [
+    9,
+    17
+   ],
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "type": "fixed",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T09:30",
+   "zone": "Europe/Paris"
+  },
+  "expected": {
+   "en": "Every weekday at 09:30 and 17:30",
+   "fr": "Du lundi au vendredi à 09:30 et 17:30",
+   "ar": "من الاثنين إلى الجمعة في الساعة 09:30 و17:30"
+  }
+ }
+]

@@ -16,7 +16,7 @@ enum ResolutionKind {
 
 /// Result of resolving a wall-clock time in a zone.
 class ResolvedInstant {
-  const ResolvedInstant(this.utc, this.kind, this.offsetMinutes);
+  const new(this.utc, this.kind, this.offsetMinutes);
 
   /// UTC instant.
   final DateTime utc;
@@ -43,9 +43,12 @@ abstract interface class ZoneResolver {
 /// The caller must initialize the database first, e.g.
 /// `import 'package:timezone/data/latest_all.dart'; initializeTimeZones();`.
 class TzZoneResolver implements ZoneResolver {
-  TzZoneResolver();
+  new();
 
   final Map<String, tz.Location> _cache = {};
+
+  /// Last transition-free segment looked up per zone (fast path of [resolve]).
+  final Map<String, ({int start, int end, int offset})> _segments = {};
 
   tz.Location _location(String zoneId) =>
       _cache.putIfAbsent(zoneId, () => zoneId == 'UTC' ? tz.UTC : tz.getLocation(zoneId));
@@ -57,6 +60,8 @@ class TzZoneResolver implements ZoneResolver {
   ResolvedInstant resolve(LocalDateTime local, String zoneId) {
     final location = _location(zoneId);
     final wallMs = local.epochMinute * 60000;
+    final fast = _resolveInSegment(location, zoneId, wallMs);
+    if (fast != null) return fast;
     const day = 86400000;
     final offsetBefore = _offsetMs(location, wallMs - day);
     final offsetAfter = _offsetMs(location, wallMs + day);
@@ -94,11 +99,35 @@ class TzZoneResolver implements ZoneResolver {
   @override
   int offsetMinutesAt(DateTime instant, String zoneId) =>
       _offsetMs(_location(zoneId), instant.toUtc().millisecondsSinceEpoch) ~/ 60000;
+
+  /// Resolves [wallMs] without binary searches when the cached segment of the
+  /// zone covers ±1 day around the instant (the time then exists exactly
+  /// once). Returns null near a transition; the caller takes the full path.
+  ResolvedInstant? _resolveInSegment(tz.Location location, String zoneId, int wallMs) {
+    var segment = _segments[zoneId];
+    if (segment == null || !_covers(segment, wallMs - segment.offset)) {
+      final found = location.lookupTimeZone(wallMs - (segment?.offset ?? 0));
+      segment = _segments[zoneId] = (
+        start: found.start,
+        end: found.end,
+        offset: found.timeZone.offset.inMilliseconds,
+      );
+      if (!_covers(segment, wallMs - segment.offset)) return null;
+    }
+    return ResolvedInstant(
+      DateTime.fromMillisecondsSinceEpoch(wallMs - segment.offset, isUtc: true),
+      ResolutionKind.exact,
+      segment.offset ~/ 60000,
+    );
+  }
+
+  static bool _covers(({int start, int end, int offset}) segment, int utc) =>
+      utc - 86400000 >= segment.start && utc + 86400000 < segment.end;
 }
 
 /// A resolver for tests: every zone has the same fixed offset.
 class FixedOffsetZoneResolver implements ZoneResolver {
-  const FixedOffsetZoneResolver([this.offsetMinutes = 0]);
+  const new([this.offsetMinutes = 0]);
 
   final int offsetMinutes;
 
