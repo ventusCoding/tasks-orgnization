@@ -522,7 +522,6 @@ as $$
 declare
   v_out jsonb := '{}'::jsonb;
   v_n   int;
-  v_r   jsonb;
   v_uid uuid;
 begin
   -- Each step is isolated: one failing step never blocks the others.

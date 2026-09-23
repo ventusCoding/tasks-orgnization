@@ -105,6 +105,10 @@ declare
 begin
   v_uid := app.current_user_id();
   perform app.assert_client_supported(p_build);
+  -- p_schema = client payload schema version; v1 is the only one so far (reserved for evolution, T9.2.08).
+  if p_schema is not null and p_schema > 1 then
+    raise log 'sync_push: client payload schema % (server knows 1)', p_schema;
+  end if;
 
   if p_changes is null or jsonb_typeof(p_changes) <> 'array' then
     perform app.raise_api_error('invalid_request', 'p_changes must be a JSON array', 400);

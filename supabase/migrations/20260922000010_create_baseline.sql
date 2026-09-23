@@ -158,7 +158,7 @@ create or replace function app.raise_api_error(
 )
 returns void
 language plpgsql
-volatile
+stable                             -- never constant-folded (unlike immutable), callable from stable RPCs
 set search_path = ''
 as $$
 begin
