@@ -147,7 +147,8 @@ $$;
 comment on function app.is_valid_time_zone(text) is 'True when NULL (floating) or a known IANA zone name.';
 
 -- Structured API error for PostgREST (`raise sqlstate 'PGRST'`): the client sees
--- `{"code": p_code, "message": ..., "details": ..., "hint": ...}` with HTTP status p_status.
+-- `{"code": p_code, "message": ..., "details": "<json text>", "hint": ...}` with HTTP status p_status.
+-- PostgREST requires `details` to be a string: p_details is serialized as JSON text.
 create or replace function app.raise_api_error(
   p_code text,
   p_message text,
@@ -164,7 +165,7 @@ begin
   raise sqlstate 'PGRST'
     using message = json_build_object(
                       'code', p_code, 'message', p_message,
-                      'details', p_details, 'hint', p_hint)::text,
+                      'details', p_details::text, 'hint', p_hint)::text,
           detail  = json_build_object('status', p_status, 'headers', json_build_object())::text;
 end
 $$;

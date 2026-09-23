@@ -1,0 +1,86 @@
+{
+  "description": "UUIDv5 fixtures in the EVERSLOT_NS namespace (RFC 4122 §4.3: SHA-1 over namespace bytes + UTF-8 name). Computed with Python uuid.uuid5 and verified against app.uuid_v5(text).",
+  "namespace": "6f1c9a52-7c1e-4d3b-9a8e-2b5f0e4c7d11",
+  "cases": [
+    {
+      "name": "",
+      "uuid": "d72fe3a1-b05b-5b10-b08e-65f5472c8ab7"
+    },
+    {
+      "name": "x",
+      "uuid": "6b0c547a-88b6-5eca-84f9-17e5f775d04e"
+    },
+    {
+      "name": "hello",
+      "uuid": "d3873750-9359-56e8-811f-8590c8e61855"
+    },
+    {
+      "name": "0199a000-0000-7000-8000-000000000001|2026-09-22T07:00",
+      "uuid": "da87ba0d-dbc5-5876-b8b2-1e5676fab408"
+    },
+    {
+      "name": "0199a000-0000-7000-8000-000000000001|2026-03-29T02:30",
+      "uuid": "e2e37a75-fc22-5489-b23f-51287d2863e7"
+    },
+    {
+      "name": "0199a000-0000-7000-8000-000000000001|week:2026-W39#2",
+      "uuid": "c3a27530-8055-555a-93ad-ce827283a2d4"
+    },
+    {
+      "name": "11111111-1111-4111-8111-111111111111|notifications",
+      "uuid": "21f3e9cb-8f2d-5afd-8a5d-e38e90ca054d"
+    },
+    {
+      "name": "11111111-1111-4111-8111-111111111111|default-category|work",
+      "uuid": "1c850c0f-e2ba-56bf-b6eb-4e168efd29c4"
+    },
+    {
+      "name": "11111111-1111-4111-8111-111111111111|habit_section|morning",
+      "uuid": "ffa52c26-f3cb-5e19-b169-3c84347ef663"
+    },
+    {
+      "name": "11111111-1111-4111-8111-111111111111|profile|standard",
+      "uuid": "e77bd9a1-d69e-5233-9c35-dc622ef780cb"
+    },
+    {
+      "name": "0199a000-0000-7000-8000-000000000020|2026-09-22|state",
+      "uuid": "24241c3b-87ae-5d8e-a239-35439502540a"
+    },
+    {
+      "name": "0199a000-0000-7000-8000-000000000021|2026-09-22|pledge",
+      "uuid": "cd983175-2e01-50d9-8123-0d94afdbfd14"
+    },
+    {
+      "name": "0199a0aa-0000-7000-8000-000000000001|task|0199a000-0000-7000-8000-000000000003",
+      "uuid": "1a0370c1-acde-56c7-b306-5f4b56133647"
+    },
+    {
+      "name": "0199a000-0000-7000-8000-000000000010|2026-09-21",
+      "uuid": "0ce319fc-aa28-5e99-8095-451c2fa2fee8"
+    },
+    {
+      "name": "first_checkin|habit|0199a000-0000-7000-8000-000000000020",
+      "uuid": "d63bded6-c37f-57e6-848b-2dc563932ccc"
+    },
+    {
+      "name": "0199a000-0000-7000-8000-000000000002|rollover|2026-09-22",
+      "uuid": "133efb53-da17-5228-b447-caa1b7e2144a"
+    },
+    {
+      "name": "3f786850e387550fdab836ed7e6dc881de23001b",
+      "uuid": "09115d24-a949-5d2a-bd0c-6f9a7a3ae06f"
+    },
+    {
+      "name": "Réunion d'équipe — été",
+      "uuid": "0e106f1b-0b95-5629-a215-5db3747ab35c"
+    },
+    {
+      "name": "مراجعة أسبوعية",
+      "uuid": "242f490b-9923-5c15-9a36-1534082feead"
+    },
+    {
+      "name": "🎯 focus|日本語",
+      "uuid": "202cea3a-5841-51b9-acc9-d218fb4e2b21"
+    }
+  ]
+}
