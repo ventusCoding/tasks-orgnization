@@ -1,0 +1,167 @@
+{
+ "name": "checklist_tree_deep",
+ "description": "A 12-level chain n1..n12 with one sibling s_k per level, plus a parent p whose children are all completed while p is open and an item b blocked without a reason. n1 is completed while its descendants are open.",
+ "rows": [
+  {
+   "id": "n1",
+   "parent": null,
+   "status": "completed"
+  },
+  {
+   "id": "s1",
+   "parent": null,
+   "status": "completed"
+  },
+  {
+   "id": "n2",
+   "parent": "n1",
+   "status": "todo"
+  },
+  {
+   "id": "s2",
+   "parent": "n1",
+   "status": "todo"
+  },
+  {
+   "id": "n3",
+   "parent": "n2",
+   "status": "todo"
+  },
+  {
+   "id": "s3",
+   "parent": "n2",
+   "status": "completed"
+  },
+  {
+   "id": "n4",
+   "parent": "n3",
+   "status": "todo"
+  },
+  {
+   "id": "s4",
+   "parent": "n3",
+   "status": "todo"
+  },
+  {
+   "id": "n5",
+   "parent": "n4",
+   "status": "todo"
+  },
+  {
+   "id": "s5",
+   "parent": "n4",
+   "status": "completed"
+  },
+  {
+   "id": "n6",
+   "parent": "n5",
+   "status": "todo"
+  },
+  {
+   "id": "s6",
+   "parent": "n5",
+   "status": "todo"
+  },
+  {
+   "id": "n7",
+   "parent": "n6",
+   "status": "todo"
+  },
+  {
+   "id": "s7",
+   "parent": "n6",
+   "status": "completed"
+  },
+  {
+   "id": "n8",
+   "parent": "n7",
+   "status": "todo"
+  },
+  {
+   "id": "s8",
+   "parent": "n7",
+   "status": "todo"
+  },
+  {
+   "id": "n9",
+   "parent": "n8",
+   "status": "todo"
+  },
+  {
+   "id": "s9",
+   "parent": "n8",
+   "status": "completed"
+  },
+  {
+   "id": "n10",
+   "parent": "n9",
+   "status": "todo"
+  },
+  {
+   "id": "s10",
+   "parent": "n9",
+   "status": "todo"
+  },
+  {
+   "id": "n11",
+   "parent": "n10",
+   "status": "todo"
+  },
+  {
+   "id": "s11",
+   "parent": "n10",
+   "status": "completed"
+  },
+  {
+   "id": "n12",
+   "parent": "n11",
+   "status": "todo"
+  },
+  {
+   "id": "s12",
+   "parent": "n11",
+   "status": "todo"
+  },
+  {
+   "id": "p",
+   "parent": null,
+   "status": "ongoing"
+  },
+  {
+   "id": "p1",
+   "parent": "p",
+   "status": "completed"
+  },
+  {
+   "id": "p2",
+   "parent": "p",
+   "status": "completed"
+  },
+  {
+   "id": "b",
+   "parent": null,
+   "status": "blocked"
+  }
+ ],
+ "expect": {
+  "maxDepth": 12,
+  "leaves": 16,
+  "widestLevel": 1,
+  "widestLevelSize": 4,
+  "largestSubtree": 23,
+  "flags": [
+   [
+    "n1",
+    "completedParentWithOpenDescendants"
+   ],
+   [
+    "p",
+    "allChildrenDoneParentOpen"
+   ],
+   [
+    "b",
+    "missingReason"
+   ]
+  ]
+ }
+}
