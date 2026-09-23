@@ -1,0 +1,233 @@
+{
+  "cases": [
+    {
+      "name": "user example: 10 min before and again at start, two weekly occurrences",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "before", "targetType": "section", "section": "planner", "profileId": "standard", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}},
+        {"id": "at", "targetType": "section", "section": "planner", "profileId": "standard", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "gym", "section": "planner", "title": "Gym", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z", "end": "2026-09-22T07:00:00Z"},
+        {"type": "task", "id": "gym", "section": "planner", "title": "Gym", "occurrenceKey": "2026-09-29T08:00", "start": "2026-09-29T06:00:00Z", "end": "2026-09-29T07:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "before", "target": "gym", "occ": "2026-09-22T08:00", "fireAtUtc": "2026-09-22T05:50:00Z", "channel": "dl.planner.standard.v1", "category": "reminder", "title": "Gym", "body": "Starts in 10 min · 08:00–09:00"},
+        {"rule": "at", "target": "gym", "occ": "2026-09-22T08:00", "fireAtUtc": "2026-09-22T06:00:00Z", "body": "Starting now · 08:00–09:00"},
+        {"rule": "before", "target": "gym", "occ": "2026-09-29T08:00", "fireAtUtc": "2026-09-29T05:50:00Z"},
+        {"rule": "at", "target": "gym", "occ": "2026-09-29T08:00", "fireAtUtc": "2026-09-29T06:00:00Z"}
+      ]
+    },
+    {
+      "name": "custom mode: 5 min before end and at end",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "sec", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}},
+        {"id": "e5", "targetType": "task", "targetId": "t", "section": "planner", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "end", "offsetMinutes": -5}}},
+        {"id": "e0", "targetType": "task", "targetId": "t", "section": "planner", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "end", "offsetMinutes": 0}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Call", "notifyMode": "custom", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z", "end": "2026-09-22T07:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "e5", "target": "t", "fireAtUtc": "2026-09-22T06:55:00Z", "body": "Ends in 5 min"},
+        {"rule": "e0", "target": "t", "fireAtUtc": "2026-09-22T07:00:00Z", "body": "Ending now"}
+      ]
+    },
+    {
+      "name": "inherit_plus: defaults and own rules accumulate",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "sec", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}},
+        {"id": "own", "targetType": "task", "targetId": "t", "section": "planner", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -60}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Meeting", "notifyMode": "inherit_plus", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z", "end": "2026-09-22T07:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "own", "target": "t", "fireAtUtc": "2026-09-22T05:00:00Z", "body": "Starts in 60 min · 08:00–09:00"},
+        {"rule": "sec", "target": "t", "fireAtUtc": "2026-09-22T05:50:00Z"}
+      ]
+    },
+    {
+      "name": "notify mode off yields nothing",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "sec", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Nap", "notifyMode": "off", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}
+      ],
+      "expected": []
+    },
+    {
+      "name": "moved occurrence uses its effective start but keeps its key",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "before", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Standup", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T08:30:00Z", "end": "2026-09-22T08:45:00Z"}
+      ],
+      "expected": [
+        {"rule": "before", "target": "t", "occ": "2026-09-22T08:00", "fireAtUtc": "2026-09-22T08:20:00Z"}
+      ]
+    },
+    {
+      "name": "all-day task on Friday: 1 day before at 20:00 fires Thursday 20:00 local",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "eve", "targetType": "task", "targetId": "t", "section": "planner", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "dayOffset": -1, "atTime": "20:00"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Trip", "notifyMode": "custom", "itemKind": "all_day", "occurrenceKey": "2026-09-25", "start": "2026-09-24T22:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "eve", "target": "t", "fireAtUtc": "2026-09-24T18:00:00Z"}
+      ]
+    },
+    {
+      "name": "seeded defaults: all-day item gets 'on the day at 09:00' only",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "timed10", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}, "conditions": {"itemKind": "timed"}}},
+        {"id": "allday", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "dayOffset": 0, "atTime": "09:00"}, "conditions": {"itemKind": "all_day"}}},
+        {"id": "dateonly", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "dayOffset": 0, "atTime": "09:00"}, "conditions": {"itemKind": "date_only"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "a", "section": "planner", "title": "Holiday", "itemKind": "all_day", "occurrenceKey": "2026-09-25", "start": "2026-09-24T22:00:00Z"},
+        {"type": "task", "id": "d", "section": "planner", "title": "Pay rent", "itemKind": "date_only", "occurrenceKey": "2026-09-26", "start": "2026-09-25T22:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "allday", "target": "a", "fireAtUtc": "2026-09-25T07:00:00Z"},
+        {"rule": "dateonly", "target": "d", "fireAtUtc": "2026-09-26T07:00:00Z"}
+      ]
+    },
+    {
+      "name": "checklist item: at due and at follow-up",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "due", "targetType": "section", "section": "checklists", "profileId": "standard", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "due", "offsetMinutes": 0}}},
+        {"id": "fu", "targetType": "section", "section": "checklists", "profileId": "standard", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "follow_up", "offsetMinutes": 0}}}
+      ],
+      "targets": [
+        {"type": "checklist_item", "id": "i1", "section": "checklists", "title": "Send invoice", "checklistId": "L", "status": "waiting", "due": "2026-09-23T15:00:00Z", "followUp": "2026-09-24T07:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "due", "target": "i1", "fireAtUtc": "2026-09-23T15:00:00Z", "channel": "dl.checklists.standard.v1", "body": "Due now"},
+        {"rule": "fu", "target": "i1", "fireAtUtc": "2026-09-24T07:00:00Z", "title": "Follow up: Send invoice"}
+      ]
+    },
+    {
+      "name": "habit slot, and untimed habit falls back to 09:00",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "slot", "targetType": "section", "section": "habits", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "slot", "offsetMinutes": 0}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "h1", "section": "habits", "title": "Push-ups", "occurrenceKey": "2026-09-22", "slot": "2026-09-22T05:30:00Z", "periodStart": "2026-09-21T22:00:00Z", "periodEnd": "2026-09-22T22:00:00Z"},
+        {"type": "habit", "id": "h2", "section": "habits", "title": "Water", "occurrenceKey": "2026-09-22", "periodStart": "2026-09-21T22:00:00Z", "periodEnd": "2026-09-22T22:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "slot", "target": "h1", "fireAtUtc": "2026-09-22T05:30:00Z", "channel": "dl.habits.standard.v1", "body": "Time for Push-ups"},
+        {"rule": "slot", "target": "h2", "fireAtUtc": "2026-09-22T07:00:00Z"}
+      ]
+    },
+    {
+      "name": "dateOnlyDefaultTime setting moves the habit fallback",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"dateOnlyDefaultTime": "10:30"},
+      "rules": [
+        {"id": "slot", "targetType": "section", "section": "habits", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "slot", "offsetMinutes": 0}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "h2", "section": "habits", "title": "Water", "occurrenceKey": "2026-09-22", "periodStart": "2026-09-21T22:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "slot", "target": "h2", "fireAtUtc": "2026-09-22T08:30:00Z"}
+      ]
+    },
+    {
+      "name": "30 days before is the maximum and still planned inside the horizon",
+      "now": "2026-09-19T00:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "m30", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -43200}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Exam", "occurrenceKey": "2026-10-20T08:00", "start": "2026-10-20T06:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "m30", "target": "t", "fireAtUtc": "2026-09-20T06:00:00Z"}
+      ]
+    },
+    {
+      "name": "firings beyond the 14-day horizon are not planned",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Later", "occurrenceKey": "2026-10-20T08:00", "start": "2026-10-20T06:00:00Z"}
+      ],
+      "expected": []
+    },
+    {
+      "name": "category default replaces section defaults of the same kind",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "sec", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}},
+        {"id": "work15", "targetType": "category", "targetId": "work", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -15}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "w", "section": "planner", "title": "Report", "categoryId": "work", "occurrenceKey": "2026-09-22T10:00", "start": "2026-09-22T08:00:00Z"},
+        {"type": "task", "id": "h", "section": "planner", "title": "Laundry", "categoryId": "home", "occurrenceKey": "2026-09-22T10:00", "start": "2026-09-22T08:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "work15", "target": "w", "fireAtUtc": "2026-09-22T07:45:00Z"},
+        {"rule": "sec", "target": "h", "fireAtUtc": "2026-09-22T07:50:00Z"}
+      ]
+    },
+    {
+      "name": "custom content template with variables",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "c", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -30}, "content": {"title": "⏰ {title}", "body": "{weekday} {start_time} · {duration} · {category}"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Dentist", "occurrenceKey": "2026-09-22T14:00", "start": "2026-09-22T12:00:00Z", "end": "2026-09-22T12:45:00Z", "variables": {"category": "Health"}}
+      ],
+      "expected": [
+        {"rule": "c", "target": "t", "fireAtUtc": "2026-09-22T11:30:00Z", "title": "⏰ Dentist", "body": "Tue 14:00 · 45 min · Health"}
+      ]
+    },
+    {
+      "name": "hide content redacts the system text but keeps the inbox text",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "privacy": {"hideNotificationContent": true},
+      "rules": [
+        {"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Therapy", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "b", "target": "t", "fireAtUtc": "2026-09-22T05:50:00Z", "title": "Therapy", "systemTitle": "Reminder from Everslot"}
+      ]
+    }
+  ]
+}

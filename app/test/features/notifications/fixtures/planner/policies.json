@@ -1,0 +1,343 @@
+{
+  "cases": [
+    {
+      "name": "quiet hours defer: 06:30 reminder moves to 07:00",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"quietHours": [{"days": [1, 2, 3, 4, 5, 6, 7], "from": "22:00", "to": "07:00", "mode": "defer"}]},
+      "rules": [{"id": "at", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Early run", "occurrenceKey": "2026-09-22T06:30", "start": "2026-09-22T04:30:00Z"}],
+      "expected": [{"rule": "at", "target": "t", "fireAtUtc": "2026-09-22T05:00:00Z", "adjust": ["deferredQuietHours"]}]
+    },
+    {
+      "name": "quiet hours silent: delivered on the quiet channel without sound",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"quietHours": [{"days": [1, 2, 3, 4, 5, 6, 7], "from": "22:00", "to": "07:00", "mode": "silent"}]},
+      "rules": [{"id": "at", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Early run", "occurrenceKey": "2026-09-22T06:30", "start": "2026-09-22T04:30:00Z"}],
+      "expected": [{"rule": "at", "target": "t", "fireAtUtc": "2026-09-22T04:30:00Z", "channel": "dl.quiet.v1", "silent": true, "adjust": ["silentQuietHours"]}]
+    },
+    {
+      "name": "quiet hours drop",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"quietHours": [{"days": [1, 2, 3, 4, 5, 6, 7], "from": "22:00", "to": "07:00", "mode": "drop"}]},
+      "rules": [{"id": "at", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Early run", "occurrenceKey": "2026-09-22T06:30", "start": "2026-09-22T04:30:00Z"}],
+      "expected": [],
+      "expectedSkipped": [{"rule": "at", "reason": "quietHoursDrop"}]
+    },
+    {
+      "name": "alarm profile bypasses quiet hours",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"quietHours": [{"days": [1, 2, 3, 4, 5, 6, 7], "from": "22:00", "to": "07:00", "mode": "drop"}]},
+      "rules": [{"id": "at", "targetType": "section", "section": "planner", "profileId": "alarm", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Flight", "occurrenceKey": "2026-09-22T06:30", "start": "2026-09-22T04:30:00Z"}],
+      "expected": [{"rule": "at", "target": "t", "fireAtUtc": "2026-09-22T04:30:00Z", "channel": "dl.planner.alarm.v1"}]
+    },
+    {
+      "name": "rule respectQuietHours false bypasses quiet hours",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"quietHours": [{"days": [1, 2, 3, 4, 5, 6, 7], "from": "22:00", "to": "07:00", "mode": "drop"}]},
+      "rules": [{"id": "at", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}, "conditions": {"respectQuietHours": false}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Meds", "occurrenceKey": "2026-09-22T06:30", "start": "2026-09-22T04:30:00Z"}],
+      "expected": [{"rule": "at", "target": "t", "fireAtUtc": "2026-09-22T04:30:00Z"}]
+    },
+    {
+      "name": "quiet window limited to weekends does not affect a Tuesday",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"quietHours": [{"days": [5, 6], "from": "22:00", "to": "09:00", "mode": "drop"}]},
+      "rules": [{"id": "at", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Early run", "occurrenceKey": "2026-09-22T06:30", "start": "2026-09-22T04:30:00Z"}],
+      "expected": [{"rule": "at", "target": "t", "fireAtUtc": "2026-09-22T04:30:00Z"}]
+    },
+    {
+      "name": "quiet hours evening part defers to next morning",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"quietHours": [{"days": [2], "from": "22:00", "to": "07:00", "mode": "defer"}]},
+      "rules": [{"id": "at", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Late call", "occurrenceKey": "2026-09-22T23:00", "start": "2026-09-22T21:00:00Z"}],
+      "expected": [{"rule": "at", "target": "t", "fireAtUtc": "2026-09-23T05:00:00Z", "adjust": ["deferredQuietHours"]}]
+    },
+    {
+      "name": "lateness: a missed reminder inside its window fires once (catch-up)",
+      "now": "2026-09-22T06:10:00Z",
+      "zone": "Europe/Paris",
+      "rules": [{"id": "at", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Gym", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "expected": [{"rule": "at", "target": "t", "fireAtUtc": "2026-09-22T06:00:00Z", "adjust": ["catchUp"]}]
+    },
+    {
+      "name": "lateness: older than 30 min is dropped (never catch up on old occurrences)",
+      "now": "2026-09-22T06:31:00Z",
+      "zone": "Europe/Paris",
+      "rules": [{"id": "at", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Gym", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "expected": [],
+      "expectedSkipped": [{"rule": "at", "reason": "expired"}]
+    },
+    {
+      "name": "lateness: rule latenessMinutes 90 extends the window",
+      "now": "2026-09-22T07:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [{"id": "at", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}, "delivery": {"latenessMinutes": 90}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Gym", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "expected": [{"rule": "at", "target": "t", "fireAtUtc": "2026-09-22T06:00:00Z", "adjust": ["catchUp"]}]
+    },
+    {
+      "name": "nag profile: every 5 min up to 5 times",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [{"id": "n", "targetType": "section", "section": "planner", "profileId": "nag", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Pills", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "expected": [
+        {"rule": "n", "target": "t", "occ": "2026-09-22T08:00", "fireAtUtc": "2026-09-22T06:00:00Z", "channel": "dl.planner.nag.v1", "category": "reminder"},
+        {"rule": "n", "target": "t", "occ": "2026-09-22T08:00", "fireAtUtc": "2026-09-22T06:05:00Z", "repeat": 1, "category": "nag"},
+        {"rule": "n", "target": "t", "occ": "2026-09-22T08:00", "fireAtUtc": "2026-09-22T06:10:00Z", "repeat": 2},
+        {"rule": "n", "target": "t", "occ": "2026-09-22T08:00", "fireAtUtc": "2026-09-22T06:15:00Z", "repeat": 3},
+        {"rule": "n", "target": "t", "occ": "2026-09-22T08:00", "fireAtUtc": "2026-09-22T06:20:00Z", "repeat": 4},
+        {"rule": "n", "target": "t", "occ": "2026-09-22T08:00", "fireAtUtc": "2026-09-22T06:25:00Z", "repeat": 5}
+      ]
+    },
+    {
+      "name": "maxNagRepeats setting caps the chain",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"maxNagRepeats": 2},
+      "rules": [{"id": "n", "targetType": "section", "section": "planner", "profileId": "nag", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Pills", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "expectedCount": 3
+    },
+    {
+      "name": "acknowledged chain stops nagging",
+      "now": "2026-09-22T06:02:00Z",
+      "zone": "Europe/Paris",
+      "rules": [{"id": "n", "targetType": "section", "section": "planner", "profileId": "nag", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Pills", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "acknowledged": [{"rule": "n", "target": "t", "occ": "2026-09-22T08:00"}],
+      "expected": [{"rule": "n", "target": "t", "fireAtUtc": "2026-09-22T06:00:00Z", "adjust": ["catchUp"]}],
+      "expectedSkipped": [{"rule": "n", "reason": "acknowledged"}]
+    },
+    {
+      "name": "until max keeps nagging after acknowledgement",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [{"id": "n", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}, "repeat": {"everyMinutes": 10, "maxTimes": 3, "until": "max"}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Stretch", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "acknowledged": [{"rule": "n", "target": "t", "occ": "2026-09-22T08:00"}],
+      "expected": [
+        {"rule": "n", "target": "t", "fireAtUtc": "2026-09-22T06:00:00Z"},
+        {"rule": "n", "target": "t", "fireAtUtc": "2026-09-22T06:10:00Z", "repeat": 1},
+        {"rule": "n", "target": "t", "fireAtUtc": "2026-09-22T06:20:00Z", "repeat": 2},
+        {"rule": "n", "target": "t", "fireAtUtc": "2026-09-22T06:30:00Z", "repeat": 3}
+      ]
+    },
+    {
+      "name": "repeat false on the rule disables the nag profile's chain",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [{"id": "n", "targetType": "section", "section": "planner", "profileId": "nag", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}, "repeat": false}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Pills", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "expectedCount": 1
+    },
+    {
+      "name": "nags inside quiet hours are dropped instead of piling up at the window end",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"quietHours": [{"days": [1, 2, 3, 4, 5, 6, 7], "from": "22:00", "to": "07:00", "mode": "defer"}]},
+      "rules": [{"id": "n", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}, "repeat": {"everyMinutes": 10, "maxTimes": 3, "until": "completed"}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Late", "occurrenceKey": "2026-09-22T21:45", "start": "2026-09-22T19:45:00Z"}],
+      "expected": [
+        {"rule": "n", "target": "t", "fireAtUtc": "2026-09-22T19:45:00Z"},
+        {"rule": "n", "target": "t", "fireAtUtc": "2026-09-22T19:55:00Z", "repeat": 1}
+      ]
+    },
+    {
+      "name": "closed target (already done) produces nothing",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [{"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Done already", "isOpen": false, "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "expected": [],
+      "expectedSkipped": [{"rule": "b", "reason": "guardClosed"}]
+    },
+    {
+      "name": "onlyIfStatusIn filters skipped occurrences",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [{"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}, "conditions": {"onlyIfStatusIn": ["scheduled", "in_progress"]}}}],
+      "targets": [
+        {"type": "task", "id": "a", "section": "planner", "title": "Skipped", "status": "skipped", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"},
+        {"type": "task", "id": "b", "section": "planner", "title": "Scheduled", "status": "scheduled", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}
+      ],
+      "expected": [{"rule": "b", "target": "b", "fireAtUtc": "2026-09-22T05:50:00Z"}]
+    },
+    {
+      "name": "weekday condition keeps Mondays only",
+      "now": "2026-09-21T01:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [{"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}, "conditions": {"weekdays": [1]}}}],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Weekly", "occurrenceKey": "2026-09-21T10:00", "start": "2026-09-21T08:00:00Z"},
+        {"type": "task", "id": "t", "section": "planner", "title": "Weekly", "occurrenceKey": "2026-09-22T10:00", "start": "2026-09-22T08:00:00Z"}
+      ],
+      "expected": [{"rule": "b", "target": "t", "occ": "2026-09-21T10:00", "fireAtUtc": "2026-09-21T07:50:00Z"}]
+    },
+    {
+      "name": "time window drop / shift_start / shift_end",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "drop", "targetType": "task", "targetId": "a", "section": "planner", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}, "conditions": {"timeWindow": {"from": "08:00", "to": "20:00", "outside": "drop"}}}},
+        {"id": "ss", "targetType": "task", "targetId": "b", "section": "planner", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}, "conditions": {"timeWindow": {"from": "08:00", "to": "20:00", "outside": "shift_start"}}}},
+        {"id": "se", "targetType": "task", "targetId": "c", "section": "planner", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}, "conditions": {"timeWindow": {"from": "08:00", "to": "20:00", "outside": "shift_end"}}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "a", "section": "planner", "title": "A", "notifyMode": "custom", "occurrenceKey": "2026-09-22T06:30", "start": "2026-09-22T04:30:00Z"},
+        {"type": "task", "id": "b", "section": "planner", "title": "B", "notifyMode": "custom", "occurrenceKey": "2026-09-22T06:30", "start": "2026-09-22T04:30:00Z"},
+        {"type": "task", "id": "c", "section": "planner", "title": "C", "notifyMode": "custom", "occurrenceKey": "2026-09-22T21:30", "start": "2026-09-22T19:30:00Z"}
+      ],
+      "expected": [
+        {"rule": "ss", "target": "b", "fireAtUtc": "2026-09-22T06:00:00Z", "adjust": ["shiftedToWindow"]},
+        {"rule": "se", "target": "c", "fireAtUtc": "2026-09-22T18:00:00Z", "adjust": ["shiftedToWindow"]}
+      ],
+      "expectedSkipped": [{"rule": "drop", "reason": "timeWindowDrop"}]
+    },
+    {
+      "name": "mute rule until a date, then it resumes",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "mutes": [{"targetType": "rule", "targetId": "b", "until": "2026-09-23T00:00:00Z"}],
+      "rules": [{"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}}],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Daily", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"},
+        {"type": "task", "id": "t", "section": "planner", "title": "Daily", "occurrenceKey": "2026-09-24T08:00", "start": "2026-09-24T06:00:00Z"}
+      ],
+      "expected": [{"rule": "b", "target": "t", "occ": "2026-09-24T08:00", "fireAtUtc": "2026-09-24T05:50:00Z"}],
+      "expectedSkipped": [{"rule": "b", "reason": "muted"}]
+    },
+    {
+      "name": "mute section / muted checklist silences its items / expired mute is ignored",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "mutes": [
+        {"targetType": "section", "section": "habits"},
+        {"targetType": "checklist", "targetId": "L1", "until": "2026-10-30T00:00:00Z"},
+        {"targetType": "task", "targetId": "t", "until": "2026-09-20T00:00:00Z"}
+      ],
+      "rules": [
+        {"id": "p", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}},
+        {"id": "h", "targetType": "section", "section": "habits", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "slot", "offsetMinutes": 0}}},
+        {"id": "c", "targetType": "section", "section": "checklists", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "due", "offsetMinutes": 0}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Task", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"},
+        {"type": "habit", "id": "h1", "section": "habits", "title": "Habit", "occurrenceKey": "2026-09-22", "slot": "2026-09-22T06:00:00Z"},
+        {"type": "checklist_item", "id": "i1", "section": "checklists", "title": "Item", "checklistId": "L1", "due": "2026-09-22T06:00:00Z"},
+        {"type": "checklist_item", "id": "i2", "section": "checklists", "title": "Other", "checklistId": "L2", "due": "2026-09-22T06:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "p", "target": "t", "fireAtUtc": "2026-09-22T05:50:00Z"},
+        {"rule": "c", "target": "i2", "fireAtUtc": "2026-09-22T06:00:00Z"}
+      ]
+    },
+    {
+      "name": "muted ancestor item silences its descendants",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "mutes": [{"targetType": "checklist_item", "targetId": "P"}],
+      "rules": [{"id": "c", "targetType": "section", "section": "checklists", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "due", "offsetMinutes": 0}}}],
+      "targets": [
+        {"type": "checklist_item", "id": "child", "section": "checklists", "title": "Child", "checklistId": "L", "ancestorItemIds": ["P"], "due": "2026-09-22T06:00:00Z"}
+      ],
+      "expected": []
+    },
+    {
+      "name": "pause all keeps the inbox row but no system/banner delivery",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"pausedUntil": "2026-09-22T12:00:00Z"},
+      "rules": [{"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}}],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Paused", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"},
+        {"type": "task", "id": "t", "section": "planner", "title": "After", "occurrenceKey": "2026-09-23T08:00", "start": "2026-09-23T06:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "b", "target": "t", "fireAtUtc": "2026-09-22T05:50:00Z", "system": false, "adjust": ["paused"]},
+        {"rule": "b", "target": "t", "fireAtUtc": "2026-09-23T05:50:00Z", "system": true}
+      ]
+    },
+    {
+      "name": "pause with inbox disabled drops the firing",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"pausedUntil": "2026-09-22T12:00:00Z"},
+      "rules": [{"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}, "delivery": {"inbox": false}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Paused", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "expected": [],
+      "expectedSkipped": [{"rule": "b", "reason": "noChannel"}]
+    },
+    {
+      "name": "primary-device policy: other devices plan jobs but don't schedule locally",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "deviceId": "tablet",
+      "settings": {"multiDevicePolicy": "primary", "primaryDeviceId": "phone"},
+      "rules": [{"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "T", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "expected": [{"rule": "b", "target": "t", "fireAtUtc": "2026-09-22T05:50:00Z", "local": false, "adjust": ["notLocal"]}]
+    },
+    {
+      "name": "primary-device policy on the primary device schedules locally",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "deviceId": "phone",
+      "settings": {"multiDevicePolicy": "primary", "primaryDeviceId": "phone"},
+      "rules": [{"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "T", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "expected": [{"rule": "b", "target": "t", "fireAtUtc": "2026-09-22T05:50:00Z", "local": true}]
+    },
+    {
+      "name": "rule device targeting excludes this device",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "deviceId": "device-a",
+      "rules": [{"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}, "conditions": {"devices": ["device-b"]}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "T", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "expected": [{"rule": "b", "target": "t", "fireAtUtc": "2026-09-22T05:50:00Z", "local": false}]
+    },
+    {
+      "name": "section switched off in settings",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"perSection": {"planner": {"enabled": false}}},
+      "rules": [{"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "T", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "expected": []
+    },
+    {
+      "name": "section default profile applies when the rule has none",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"perSection": {"planner": {"enabled": true, "defaultProfileId": "gentle"}}},
+      "rules": [{"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "T", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "expected": [{"rule": "b", "target": "t", "fireAtUtc": "2026-09-22T05:50:00Z", "channel": "dl.planner.gentle.v1", "silent": true}]
+    },
+    {
+      "name": "daily cap limits planned notifications per local day",
+      "now": "2026-09-22T00:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"horizonDays": 1, "dailyCap": 10},
+      "rules": [{"id": "m", "targetType": "checklist_item", "targetId": "i", "section": "checklists", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "schedule", "recurrence": {"v": 1, "type": "fixed", "freq": "minutely", "interval": 30}}}}],
+      "targets": [{"type": "checklist_item", "id": "i", "section": "checklists", "title": "Ping", "notifyMode": "custom", "checklistId": "L"}],
+      "expectedCount": 15,
+      "expectedSkipped": [{"rule": "m", "reason": "cap"}]
+    }
+  ]
+}
