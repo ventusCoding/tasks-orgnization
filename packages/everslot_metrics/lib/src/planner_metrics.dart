@@ -646,38 +646,6 @@ Map<LocalDate, CalendarOutcome> seriesOutcomeCalendar(
   return result;
 }
 
-/// A count per label, ordered by count descending (Pareto).
-typedef ParetoEntry = ({String label, int count});
-
-/// Pareto of labels (null/blank → [unspecified], shown last; case-insensitive grouping keeps the
-/// first spelling seen).
-List<ParetoEntry> pareto(
-  Iterable<String?> labels, {
-  String unspecified = 'Unspecified',
-}) {
-  final counts = <String, int>{};
-  final display = <String, String>{};
-  var unknown = 0;
-  for (final raw in labels) {
-    final label = raw?.trim();
-    if (label == null || label.isEmpty) {
-      unknown++;
-      continue;
-    }
-    final key = label.toLowerCase();
-    display.putIfAbsent(key, () => label);
-    counts[key] = (counts[key] ?? 0) + 1;
-  }
-  final entries =
-      [for (final e in counts.entries) (label: display[e.key]!, count: e.value)]
-        ..sort((a, b) {
-          final c = b.count.compareTo(a.count);
-          return c != 0 ? c : a.label.compareTo(b.label);
-        });
-  if (unknown > 0) entries.add((label: unspecified, count: unknown));
-  return entries;
-}
-
 /// PL-S-10 / PL-X-32 — skip rate K/E and the Pareto of skip reasons.
 ({Stat<double> rate, List<ParetoEntry> reasons}) skipRateAndReasons(
   Iterable<PlannerOccurrenceFact> facts, {

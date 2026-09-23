@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:everslot_metrics/src/descriptive.dart';
 import 'package:everslot_metrics/src/period.dart';
 import 'package:everslot_metrics/src/planner_facts.dart';
 import 'package:everslot_metrics/src/planner_metrics.dart';

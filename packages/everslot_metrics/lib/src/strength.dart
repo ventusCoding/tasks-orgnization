@@ -186,6 +186,8 @@ double _windowSum(
 }) {
   var total = 0.0;
   for (var j = math.max(0, index - window + 1); j <= index; j++) {
+    // Skipped days are not YES entries (Loop SKIP) and add nothing to the window.
+    if (days[j].skipped) continue;
     final v = days[j].value;
     total += boolean ? (v > 0 ? 1 : 0) : math.max(0, v);
   }
