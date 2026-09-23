@@ -15,7 +15,7 @@ enum MonthOverflow {
 /// A calendar date without time or zone (proleptic Gregorian).
 @immutable
 final class LocalDate implements Comparable<LocalDate> {
-  factory LocalDate(int year, int month, int day) {
+  factory(int year, int month, int day) {
     if (month < 1 || month > 12) {
       throw ArgumentError.value(month, 'month', 'must be 1..12');
     }
@@ -26,10 +26,10 @@ final class LocalDate implements Comparable<LocalDate> {
     return LocalDate._(year, month, day);
   }
 
-  const LocalDate._(this.year, this.month, this.day);
+  const new _(this.year, this.month, this.day);
 
   /// Days since 1970-01-01 (can be negative).
-  factory LocalDate.fromEpochDay(int epochDay) {
+  factory fromEpochDay(int epochDay) {
     // Howard Hinnant's civil_from_days.
     final z = epochDay + 719468;
     final era = (z >= 0 ? z : z - 146096) ~/ 146097;
@@ -44,7 +44,7 @@ final class LocalDate implements Comparable<LocalDate> {
   }
 
   /// The calendar date of [dateTime] (its own year/month/day fields, zone ignored).
-  factory LocalDate.fromDateTime(DateTime dateTime) =>
+  factory fromDateTime(DateTime dateTime) =>
       LocalDate._(dateTime.year, dateTime.month, dateTime.day);
 
   /// Returns null when the combination is not a valid date.
@@ -131,6 +131,36 @@ final class LocalDate implements Comparable<LocalDate> {
     return (weekYear: weekYear, week: week);
   }
 
+  /// Week-based year and week number for weeks starting on [weekStart].
+  ///
+  /// Generalizes the ISO-8601 rule to any week start (RFC 5545 `WKST`): week 1
+  /// is the first week with at least four days in the year, i.e. the week that
+  /// contains 4 January. With [Weekday.monday] this equals [isoWeek].
+  ({int weekYear, int week}) weekOfYear(Weekday weekStart) {
+    final start = startOfWeek(weekStart);
+    var weekYear = year;
+    final nextFirst = LocalDate.firstDayOfWeekYear(year + 1, weekStart);
+    if (!start.isBefore(nextFirst)) {
+      weekYear = year + 1;
+    } else if (start.isBefore(LocalDate.firstDayOfWeekYear(year, weekStart))) {
+      weekYear = year - 1;
+    }
+    final first = LocalDate.firstDayOfWeekYear(weekYear, weekStart);
+    return (weekYear: weekYear, week: first.daysUntil(start) ~/ 7 + 1);
+  }
+
+  /// First day of week 1 of [weekYear] for weeks starting on [weekStart].
+  factory firstDayOfWeekYear(int weekYear, Weekday weekStart) =>
+      LocalDate._(weekYear, 1, 4).startOfWeek(weekStart);
+
+  /// Number of weeks (52 or 53) in [weekYear] for weeks starting on [weekStart].
+  static int weeksInWeekYear(int weekYear, Weekday weekStart) =>
+      LocalDate.firstDayOfWeekYear(
+        weekYear,
+        weekStart,
+      ).daysUntil(LocalDate.firstDayOfWeekYear(weekYear + 1, weekStart)) ~/
+      7;
+
   LocalDateTime atTime(LocalTime time) => LocalDateTime(this, time);
 
   LocalDateTime get atStartOfDay => LocalDateTime(this, LocalTime.midnight);
@@ -147,8 +177,7 @@ final class LocalDate implements Comparable<LocalDate> {
   static LocalDate max(LocalDate a, LocalDate b) => a.isAfter(b) ? a : b;
 
   /// `YYYY-MM-DD`.
-  String toIso() =>
-      '${_pad(year, 4)}-${_pad(month, 2)}-${_pad(day, 2)}';
+  String toIso() => '${_pad(year, 4)}-${_pad(month, 2)}-${_pad(day, 2)}';
 
   static final RegExp _iso = RegExp(r'^(-?\d{4,})-(\d{2})-(\d{2})$');
 

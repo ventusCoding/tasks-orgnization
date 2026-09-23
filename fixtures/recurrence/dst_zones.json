@@ -1,0 +1,834 @@
+[
+ {
+  "name": "Europe/Paris: daily 02:30 on spring-forward day shifts to 03:30",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-03-27T02:30",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-03-28T00:00",
+   "to": "2026-03-31T00:00"
+  },
+  "expectedKeys": [
+   "2026-03-28T02:30",
+   "2026-03-29T02:30",
+   "2026-03-30T02:30"
+  ],
+  "expectedUtc": [
+   "2026-03-28T01:30Z",
+   "2026-03-29T01:30Z",
+   "2026-03-30T00:30Z"
+  ]
+ },
+ {
+  "name": "Europe/Paris: daily 02:30 on fall-back day takes the earlier instant",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-10-23T02:30",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-10-24T00:00",
+   "to": "2026-10-27T00:00"
+  },
+  "expectedKeys": [
+   "2026-10-24T02:30",
+   "2026-10-25T02:30",
+   "2026-10-26T02:30"
+  ],
+  "expectedUtc": [
+   "2026-10-24T00:30Z",
+   "2026-10-25T00:30Z",
+   "2026-10-26T01:30Z"
+  ]
+ },
+ {
+  "name": "Europe/Paris: daily 08:00 across both transitions",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-03-28T08:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-03-28T00:00",
+   "to": "2026-03-31T00:00"
+  },
+  "expectedKeys": [
+   "2026-03-28T08:00",
+   "2026-03-29T08:00",
+   "2026-03-30T08:00"
+  ],
+  "expectedUtc": [
+   "2026-03-28T07:00Z",
+   "2026-03-29T06:00Z",
+   "2026-03-30T06:00Z"
+  ]
+ },
+ {
+  "name": "America/New_York: daily 02:30 on spring-forward day",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-03-06T02:30",
+   "zone": "America/New_York"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-03-07T00:00",
+   "to": "2026-03-10T00:00"
+  },
+  "expectedKeys": [
+   "2026-03-07T02:30",
+   "2026-03-08T02:30",
+   "2026-03-09T02:30"
+  ],
+  "expectedUtc": [
+   "2026-03-07T07:30Z",
+   "2026-03-08T07:30Z",
+   "2026-03-09T06:30Z"
+  ]
+ },
+ {
+  "name": "America/New_York: daily 01:30 on fall-back day resolves once (first)",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-10-30T01:30",
+   "zone": "America/New_York"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-10-31T00:00",
+   "to": "2026-11-03T00:00"
+  },
+  "expectedKeys": [
+   "2026-10-31T01:30",
+   "2026-11-01T01:30",
+   "2026-11-02T01:30"
+  ],
+  "expectedUtc": [
+   "2026-10-31T05:30Z",
+   "2026-11-01T05:30Z",
+   "2026-11-02T06:30Z"
+  ]
+ },
+ {
+  "name": "Australia/Lord_Howe: daily 02:15 in the 30-minute gap",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-10-01T02:15",
+   "zone": "Australia/Lord_Howe"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-10-03T00:00",
+   "to": "2026-10-06T00:00"
+  },
+  "expectedKeys": [
+   "2026-10-03T02:15",
+   "2026-10-04T02:15",
+   "2026-10-05T02:15"
+  ],
+  "expectedUtc": [
+   "2026-10-02T15:45Z",
+   "2026-10-03T15:45Z",
+   "2026-10-04T15:15Z"
+  ]
+ },
+ {
+  "name": "Australia/Lord_Howe: daily 01:45 in the 30-minute overlap",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-04-01T01:45",
+   "zone": "Australia/Lord_Howe"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-04-04T00:00",
+   "to": "2026-04-07T00:00"
+  },
+  "expectedKeys": [
+   "2026-04-04T01:45",
+   "2026-04-05T01:45",
+   "2026-04-06T01:45"
+  ],
+  "expectedUtc": [
+   "2026-04-03T14:45Z",
+   "2026-04-04T14:45Z",
+   "2026-04-05T15:15Z"
+  ]
+ },
+ {
+  "name": "Asia/Tehran: daily 00:30 in the 2021 midnight gap",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2021-03-19T00:30",
+   "zone": "Asia/Tehran"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2021-03-20T00:00",
+   "to": "2021-03-24T00:00"
+  },
+  "expectedKeys": [
+   "2021-03-20T00:30",
+   "2021-03-21T00:30",
+   "2021-03-22T00:30",
+   "2021-03-23T00:30"
+  ],
+  "expectedUtc": [
+   "2021-03-19T21:00Z",
+   "2021-03-20T21:00Z",
+   "2021-03-21T21:00Z",
+   "2021-03-22T20:00Z"
+  ]
+ },
+ {
+  "name": "Asia/Tehran: daily 23:30 in the 2021 fall-back overlap",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2021-09-19T23:30",
+   "zone": "Asia/Tehran"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2021-09-20T00:00",
+   "to": "2021-09-24T00:00"
+  },
+  "expectedKeys": [
+   "2021-09-20T23:30",
+   "2021-09-21T23:30",
+   "2021-09-22T23:30",
+   "2021-09-23T23:30"
+  ],
+  "expectedUtc": [
+   "2021-09-20T19:00Z",
+   "2021-09-21T19:00Z",
+   "2021-09-22T20:00Z",
+   "2021-09-23T20:00Z"
+  ]
+ },
+ {
+  "name": "Asia/Tehran: daily 00:30 in 2026 (no DST any more)",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-03-19T00:30",
+   "zone": "Asia/Tehran"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-03-20T00:00",
+   "to": "2026-03-24T00:00"
+  },
+  "expectedKeys": [
+   "2026-03-20T00:30",
+   "2026-03-21T00:30",
+   "2026-03-22T00:30",
+   "2026-03-23T00:30"
+  ],
+  "expectedUtc": [
+   "2026-03-19T21:00Z",
+   "2026-03-20T21:00Z",
+   "2026-03-21T21:00Z",
+   "2026-03-22T21:00Z"
+  ]
+ },
+ {
+  "name": "Africa/Tunis: daily 02:30 in the 2008 spring-forward gap",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2008-03-28T02:30",
+   "zone": "Africa/Tunis"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2008-03-29T00:00",
+   "to": "2008-04-01T00:00"
+  },
+  "expectedKeys": [
+   "2008-03-29T02:30",
+   "2008-03-30T02:30",
+   "2008-03-31T02:30"
+  ],
+  "expectedUtc": [
+   "2008-03-29T01:30Z",
+   "2008-03-30T01:30Z",
+   "2008-03-31T00:30Z"
+  ]
+ },
+ {
+  "name": "Africa/Tunis: daily 02:30 in the 2008 fall-back overlap",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2008-10-24T02:30",
+   "zone": "Africa/Tunis"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2008-10-25T00:00",
+   "to": "2008-10-28T00:00"
+  },
+  "expectedKeys": [
+   "2008-10-25T02:30",
+   "2008-10-26T02:30",
+   "2008-10-27T02:30"
+  ],
+  "expectedUtc": [
+   "2008-10-25T00:30Z",
+   "2008-10-26T00:30Z",
+   "2008-10-27T01:30Z"
+  ]
+ },
+ {
+  "name": "Africa/Tunis: daily 09:00 in 2026 (fixed +01:00)",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-03-27T09:00",
+   "zone": "Africa/Tunis"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-03-28T00:00",
+   "to": "2026-03-31T00:00"
+  },
+  "expectedKeys": [
+   "2026-03-28T09:00",
+   "2026-03-29T09:00",
+   "2026-03-30T09:00"
+  ],
+  "expectedUtc": [
+   "2026-03-28T08:00Z",
+   "2026-03-29T08:00Z",
+   "2026-03-30T08:00Z"
+  ]
+ },
+ {
+  "name": "Pacific/Chatham: daily 03:00 in the +12:45 -> +13:45 gap",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-25T03:00",
+   "zone": "Pacific/Chatham"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-09-26T00:00",
+   "to": "2026-09-29T00:00"
+  },
+  "expectedKeys": [
+   "2026-09-26T03:00",
+   "2026-09-27T03:00",
+   "2026-09-28T03:00"
+  ],
+  "expectedUtc": [
+   "2026-09-25T14:15Z",
+   "2026-09-26T14:15Z",
+   "2026-09-27T13:15Z"
+  ]
+ },
+ {
+  "name": "Pacific/Chatham: daily 03:00 in the April overlap",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-04-03T03:00",
+   "zone": "Pacific/Chatham"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-04-04T00:00",
+   "to": "2026-04-07T00:00"
+  },
+  "expectedKeys": [
+   "2026-04-04T03:00",
+   "2026-04-05T03:00",
+   "2026-04-06T03:00"
+  ],
+  "expectedUtc": [
+   "2026-04-03T13:15Z",
+   "2026-04-04T13:15Z",
+   "2026-04-05T14:15Z"
+  ]
+ },
+ {
+  "name": "Europe/Paris: every 15 minutes through the spring gap",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "minutely",
+   "interval": 15
+  },
+  "anchor": {
+   "start": "2026-03-29T01:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-03-29T01:00",
+   "to": "2026-03-29T04:00"
+  },
+  "expectedKeys": [
+   "2026-03-29T01:00",
+   "2026-03-29T01:15",
+   "2026-03-29T01:30",
+   "2026-03-29T01:45",
+   "2026-03-29T02:00",
+   "2026-03-29T02:15",
+   "2026-03-29T02:30",
+   "2026-03-29T02:45",
+   "2026-03-29T03:00",
+   "2026-03-29T03:15",
+   "2026-03-29T03:30",
+   "2026-03-29T03:45"
+  ],
+  "expectedUtc": [
+   "2026-03-29T00:00Z",
+   "2026-03-29T00:15Z",
+   "2026-03-29T00:30Z",
+   "2026-03-29T00:45Z",
+   "2026-03-29T01:00Z",
+   "2026-03-29T01:15Z",
+   "2026-03-29T01:30Z",
+   "2026-03-29T01:45Z",
+   "2026-03-29T01:00Z",
+   "2026-03-29T01:15Z",
+   "2026-03-29T01:30Z",
+   "2026-03-29T01:45Z"
+  ]
+ },
+ {
+  "name": "Europe/Paris: hourly through the autumn overlap",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "hourly",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-10-25T00:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-10-25T00:00",
+   "to": "2026-10-25T05:00"
+  },
+  "expectedKeys": [
+   "2026-10-25T00:00",
+   "2026-10-25T01:00",
+   "2026-10-25T02:00",
+   "2026-10-25T03:00",
+   "2026-10-25T04:00"
+  ],
+  "expectedUtc": [
+   "2026-10-24T22:00Z",
+   "2026-10-24T23:00Z",
+   "2026-10-25T00:00Z",
+   "2026-10-25T02:00Z",
+   "2026-10-25T03:00Z"
+  ]
+ },
+ {
+  "name": "America/New_York: every 30 minutes through the spring gap",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "minutely",
+   "interval": 30
+  },
+  "anchor": {
+   "start": "2026-03-08T01:00",
+   "zone": "America/New_York"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-03-08T01:00",
+   "to": "2026-03-08T04:00"
+  },
+  "expectedKeys": [
+   "2026-03-08T01:00",
+   "2026-03-08T01:30",
+   "2026-03-08T02:00",
+   "2026-03-08T02:30",
+   "2026-03-08T03:00",
+   "2026-03-08T03:30"
+  ],
+  "expectedUtc": [
+   "2026-03-08T06:00Z",
+   "2026-03-08T06:30Z",
+   "2026-03-08T07:00Z",
+   "2026-03-08T07:30Z",
+   "2026-03-08T07:00Z",
+   "2026-03-08T07:30Z"
+  ]
+ },
+ {
+  "name": "America/New_York: weekly keeps wall time across DST",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "weekly",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-10-26T09:00",
+   "zone": "America/New_York"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-10-26T00:00",
+   "to": "2026-11-17T00:00"
+  },
+  "expectedKeys": [
+   "2026-10-26T09:00",
+   "2026-11-02T09:00",
+   "2026-11-09T09:00",
+   "2026-11-16T09:00"
+  ],
+  "expectedUtc": [
+   "2026-10-26T13:00Z",
+   "2026-11-02T14:00Z",
+   "2026-11-09T14:00Z",
+   "2026-11-16T14:00Z"
+  ]
+ },
+ {
+  "name": "Australia/Lord_Howe: every 15 minutes 01:30-03:00 on the gap day",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "minutely",
+   "interval": 15,
+   "window": {
+    "start": "01:30",
+    "end": "03:00",
+    "anchor": "window_start"
+   }
+  },
+  "anchor": {
+   "start": "2026-10-04T01:30",
+   "zone": "Australia/Lord_Howe"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-10-04T00:00",
+   "to": "2026-10-05T00:00"
+  },
+  "expectedKeys": [
+   "2026-10-04T01:30",
+   "2026-10-04T01:45",
+   "2026-10-04T02:00",
+   "2026-10-04T02:15",
+   "2026-10-04T02:30",
+   "2026-10-04T02:45",
+   "2026-10-04T03:00"
+  ],
+  "expectedUtc": [
+   "2026-10-03T15:00Z",
+   "2026-10-03T15:15Z",
+   "2026-10-03T15:30Z",
+   "2026-10-03T15:45Z",
+   "2026-10-03T15:30Z",
+   "2026-10-03T15:45Z",
+   "2026-10-03T16:00Z"
+  ]
+ },
+ {
+  "name": "floating 08:00 resolves at 08:00 in Europe/Paris",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": null
+  },
+  "evalZone": "Europe/Paris",
+  "range": {
+   "from": "2026-09-21T00:00",
+   "to": "2026-09-24T00:00"
+  },
+  "expectedKeys": [
+   "2026-09-21T08:00",
+   "2026-09-22T08:00",
+   "2026-09-23T08:00"
+  ],
+  "expectedUtc": [
+   "2026-09-21T06:00Z",
+   "2026-09-22T06:00Z",
+   "2026-09-23T06:00Z"
+  ]
+ },
+ {
+  "name": "floating 08:00 resolves at 08:00 in America/Los_Angeles",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": null
+  },
+  "evalZone": "America/Los_Angeles",
+  "range": {
+   "from": "2026-09-21T00:00",
+   "to": "2026-09-24T00:00"
+  },
+  "expectedKeys": [
+   "2026-09-21T08:00",
+   "2026-09-22T08:00",
+   "2026-09-23T08:00"
+  ],
+  "expectedUtc": [
+   "2026-09-21T15:00Z",
+   "2026-09-22T15:00Z",
+   "2026-09-23T15:00Z"
+  ]
+ },
+ {
+  "name": "floating 08:00 after travelling to Pacific/Chatham",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": null
+  },
+  "evalZone": "Pacific/Chatham",
+  "range": {
+   "from": "2026-09-21T00:00",
+   "to": "2026-09-24T00:00"
+  },
+  "expectedKeys": [
+   "2026-09-21T08:00",
+   "2026-09-22T08:00",
+   "2026-09-23T08:00"
+  ],
+  "expectedUtc": [
+   "2026-09-20T19:15Z",
+   "2026-09-21T19:15Z",
+   "2026-09-22T19:15Z"
+  ]
+ },
+ {
+  "name": "fixed Europe/Paris 09:00 rule viewed from America/New_York",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-09-21T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": "America/New_York",
+  "range": {
+   "from": "2026-09-21T00:00",
+   "to": "2026-09-23T00:00"
+  },
+  "expectedKeys": [
+   "2026-09-21T09:00",
+   "2026-09-22T09:00"
+  ],
+  "expectedUtc": [
+   "2026-09-21T07:00Z",
+   "2026-09-22T07:00Z"
+  ],
+  "notes": "Range is New York wall time; occurrences keep their Paris keys."
+ },
+ {
+  "name": "fixed Asia/Tokyo 07:00 rule viewed from Europe/Paris",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "weekly",
+   "interval": 1,
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ]
+  },
+  "anchor": {
+   "start": "2026-09-21T07:00",
+   "zone": "Asia/Tokyo"
+  },
+  "evalZone": "Europe/Paris",
+  "range": {
+   "from": "2026-09-21T00:00",
+   "to": "2026-09-28T00:00"
+  },
+  "expectedKeys": [
+   "2026-09-21T07:00",
+   "2026-09-22T07:00",
+   "2026-09-23T07:00",
+   "2026-09-24T07:00",
+   "2026-09-25T07:00"
+  ],
+  "expectedUtc": [
+   "2026-09-20T22:00Z",
+   "2026-09-21T22:00Z",
+   "2026-09-22T22:00Z",
+   "2026-09-23T22:00Z",
+   "2026-09-24T22:00Z"
+  ]
+ },
+ {
+  "name": "Pacific/Chatham: monthly on the last Sunday at 02:50 (gap in September)",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "monthly",
+   "interval": 1,
+   "byWeekday": [
+    {
+     "day": "SU",
+     "n": -1
+    }
+   ],
+   "times": [
+    "02:50"
+   ]
+  },
+  "anchor": {
+   "start": "2026-07-26T02:50",
+   "zone": "Pacific/Chatham"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-07-01T00:00",
+   "to": "2026-11-01T00:00"
+  },
+  "expectedKeys": [
+   "2026-07-26T02:50",
+   "2026-08-30T02:50",
+   "2026-09-27T02:50",
+   "2026-10-25T02:50"
+  ],
+  "expectedUtc": [
+   "2026-07-25T14:05Z",
+   "2026-08-29T14:05Z",
+   "2026-09-26T14:05Z",
+   "2026-10-24T13:05Z"
+  ]
+ },
+ {
+  "name": "Europe/Paris: all-day series over the spring transition",
+  "rule": {
+   "v": 1,
+   "type": "fixed",
+   "freq": "daily",
+   "interval": 1
+  },
+  "anchor": {
+   "start": "2026-03-28T00:00",
+   "zone": "Europe/Paris",
+   "allDay": true
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-03-28T00:00",
+   "to": "2026-03-31T00:00"
+  },
+  "expectedKeys": [
+   "2026-03-28",
+   "2026-03-29",
+   "2026-03-30"
+  ]
+ }
+]
