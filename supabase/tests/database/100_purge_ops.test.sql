@@ -2,7 +2,7 @@
 -- T1.5.12 account deletion (request + cascades); T1.5.16 stale anonymous users; T7.4.16 ops_health;
 -- T1.2.12 invoke_edge no-op without Vault secrets.
 begin;
-select plan(26);
+select plan(27);
 
 select tests.create_user('purge@test.local', '77000000-0000-4000-8000-000000000077');
 select tests.create_user('purge2@test.local', '78000000-0000-4000-8000-000000000078');
@@ -132,8 +132,10 @@ select is(array(select private.stale_anonymous_users(90)), array['76000000-0000-
 select is(private.delete_stale_anonymous_users(90), 1, '… and deleted');
 
 select is(private.invoke_edge('push-dispatch'), null, 'invoke_edge is a no-op without Vault secrets');
-select ok((private.run_minutely() ? 'released') and exists (select 1 from private.ops_heartbeats where name = 'lease_reaper'),
-          'minutely job runs the reaper and writes a heartbeat');
+select ok(private.run_minutely() ? 'released', 'minutely job runs the lease reaper');
+-- (separate statement: a subquery in the same statement would not see the heartbeat written above)
+select ok(exists (select 1 from private.ops_heartbeats where name = 'lease_reaper' and last_run_at = now()),
+          'minutely job writes a heartbeat');
 select lives_ok('select private.daily_maintenance()', 'daily maintenance runs');
 select ok(exists (select 1 from private.ops_heartbeats where name = 'daily_maintenance'), 'daily maintenance heartbeat');
 
