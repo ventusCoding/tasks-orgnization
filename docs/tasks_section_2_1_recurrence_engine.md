@@ -28,26 +28,26 @@ quotas or after-completion rules. We keep RFC 5545 semantics where they exist an
 
 ## Progress
 
-- [ ] T2.1.01 — Package core types (local date/time, weekday, zone resolver)
-- [ ] T2.1.02 — Rule model, JSON v1 codec & validation
-- [ ] T2.1.03 — Expansion: yearly/monthly/weekly/daily with BYxxx rules (RFC 5545)
-- [ ] T2.1.04 — Expansion: hourly/minutely, windows & times-per-day
-- [ ] T2.1.05 — Bounds & sets: until, count, exdates, rdates, month-day overflow
-- [ ] T2.1.06 — Query API: between / nextAfter / previousBefore / occurrence keys
-- [ ] T2.1.07 — Time zones & DST resolution (fixed vs floating)
-- [ ] T2.1.08 — Quota rules (N per period) & period API
-- [ ] T2.1.09 — After-completion rules
-- [ ] T2.1.10 — Override merging helper (moved / cancelled / edited occurrences)
-- [ ] T2.1.11 — Series split helper ("this and following")
-- [ ] T2.1.12 — Human-readable descriptions (EN / FR / AR)
-- [ ] T2.1.13 — Fixture suite & runner
+- [x] T2.1.01 — Package core types (local date/time, weekday, zone resolver)
+- [x] T2.1.02 — Rule model, JSON v1 codec & validation
+- [x] T2.1.03 — Expansion: yearly/monthly/weekly/daily with BYxxx rules (RFC 5545)
+- [x] T2.1.04 — Expansion: hourly/minutely, windows & times-per-day
+- [x] T2.1.05 — Bounds & sets: until, count, exdates, rdates, month-day overflow
+- [x] T2.1.06 — Query API: between / nextAfter / previousBefore / occurrence keys
+- [x] T2.1.07 — Time zones & DST resolution (fixed vs floating)
+- [x] T2.1.08 — Quota rules (N per period) & period API
+- [x] T2.1.09 — After-completion rules
+- [x] T2.1.10 — Override merging helper (moved / cancelled / edited occurrences)
+- [x] T2.1.11 — Series split helper ("this and following")
+- [x] T2.1.12 — Human-readable descriptions (EN / FR / AR)
+- [x] T2.1.13 — Fixture suite & runner
 - [ ] T2.1.14 — App integration: `RecurrenceService` & providers
 - [ ] T2.1.15 — Recurrence builder UI: presets
 - [ ] T2.1.16 — Recurrence builder UI: advanced editor, preview & warnings
-- [ ] T2.1.17 — RRULE import / export (RFC 5545 text)
-- [ ] T2.1.18 — Performance benchmarks & safety caps
+- [x] T2.1.17 — RRULE import / export (RFC 5545 text)
+- [x] T2.1.18 — Performance benchmarks & safety caps
 - [ ] T2.1.19 — Exceptions manager UI (skipped/moved occurrences of a series)
-- [ ] T2.1.20 — Non-Gregorian calendar extension point (design only)
+- [x] T2.1.20 — Non-Gregorian calendar extension point (design only)
 
 ## Tasks
 
@@ -214,6 +214,7 @@ string concatenation that breaks word order; weekday lists collapse ("weekdays",
 **Tests:** golden text fixtures per locale (native-speaker review tracked in [9.1]).
 
 ### T2.1.13 — Fixture suite & runner
+**Notes:** 208 fixture cases generated independently with python-dateutil/zoneinfo (`fixtures/recurrence/tool/generate_fixtures.py`); 661 package tests, 99.5 % coverage. FR/AR description goldens await native-speaker review.
 **Priority:** P0 · **Size:** M · **Depends on:** T2.1.03
 **Description:** `fixtures/recurrence/*.json` — each case: `{name, rule, anchor: {start, zone|null},
 evalZone, range: {from, to}, expectedKeys: [...], expectedUtc?: [...], notes}` — and a test runner that
