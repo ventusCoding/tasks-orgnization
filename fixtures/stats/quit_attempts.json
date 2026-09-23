@@ -1,0 +1,112 @@
+{
+ "name": "quit_attempts",
+ "description": "Three quit attempts (Europe/Paris, spanning the 2026-03-29 DST change): attempt 1 from 2026-03-01 00:00 with uses on days 10-16 (relapse), attempt 2 from 2026-03-20 09:00 with a single use on day 10 (lapse), attempt 3 from 2026-04-18 09:00, clean and ongoing on 2026-05-15 00:00.",
+ "zone": "Europe/Paris",
+ "tracker": {
+  "quitStartedAt": "2026-03-01T00:00",
+  "mode": "abstain",
+  "substance": "cigarettes",
+  "baselinePerDay": 10,
+  "unitCost": "0.50",
+  "currency": "EUR",
+  "revisions": []
+ },
+ "logs": [
+  {
+   "kind": "relapse",
+   "at": "2026-03-10T20:00",
+   "date": "2026-03-10",
+   "value": 1
+  },
+  {
+   "kind": "relapse",
+   "at": "2026-03-11T20:00",
+   "date": "2026-03-11",
+   "value": 1
+  },
+  {
+   "kind": "relapse",
+   "at": "2026-03-12T20:00",
+   "date": "2026-03-12",
+   "value": 1
+  },
+  {
+   "kind": "relapse",
+   "at": "2026-03-13T20:00",
+   "date": "2026-03-13",
+   "value": 1
+  },
+  {
+   "kind": "relapse",
+   "at": "2026-03-14T20:00",
+   "date": "2026-03-14",
+   "value": 1
+  },
+  {
+   "kind": "relapse",
+   "at": "2026-03-15T20:00",
+   "date": "2026-03-15",
+   "value": 1
+  },
+  {
+   "kind": "relapse",
+   "at": "2026-03-16T20:00",
+   "date": "2026-03-16",
+   "value": 1
+  },
+  {
+   "kind": "restart",
+   "at": "2026-03-20T09:00",
+   "date": "2026-03-20"
+  },
+  {
+   "kind": "relapse",
+   "at": "2026-03-29T20:00",
+   "date": "2026-03-29",
+   "value": 1
+  },
+  {
+   "kind": "restart",
+   "at": "2026-04-18T09:00",
+   "date": "2026-04-18"
+  }
+ ],
+ "now": "2026-05-15T00:00",
+ "expect": {
+  "attempts": 3,
+  "attemptHours": [
+   465,
+   695,
+   639
+  ],
+  "longestAttemptHours": 695,
+  "currentRank": 2,
+  "relapse": [
+   true,
+   false,
+   false
+  ],
+  "relapseRule": [
+   "twoConsecutiveBlocks",
+   null,
+   null
+  ],
+  "relapseDetectedOn": [
+   "2026-03-15",
+   null,
+   null
+  ],
+  "kmMedianHours": 236,
+  "kmSurvival": [
+   [
+    226,
+    0.6666666666666666
+   ],
+   [
+    236,
+    0.3333333333333333
+   ]
+  ],
+  "currentAbstinenceHours": 639
+ }
+}
