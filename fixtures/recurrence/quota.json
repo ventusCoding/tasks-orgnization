@@ -1,0 +1,578 @@
+[
+ {
+  "name": "3 per week starting on a Thursday, week start MO (first target 12/7)",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 3,
+    "per": "week",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-09-24T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-09-21T00:00",
+   "to": "2026-10-12T00:00"
+  },
+  "expectedKeys": [
+   "week:2026-09-21#1",
+   "week:2026-09-21#2",
+   "week:2026-09-28#1",
+   "week:2026-09-28#2",
+   "week:2026-09-28#3",
+   "week:2026-10-05#1",
+   "week:2026-10-05#2",
+   "week:2026-10-05#3"
+  ]
+ },
+ {
+  "name": "3 per week starting on a Thursday, week start SA",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "wkst": "SA",
+   "quota": {
+    "times": 3,
+    "per": "week",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-09-24T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-09-19T00:00",
+   "to": "2026-10-10T00:00"
+  },
+  "expectedKeys": [
+   "week:2026-09-19#1",
+   "week:2026-09-26#1",
+   "week:2026-09-26#2",
+   "week:2026-09-26#3",
+   "week:2026-10-03#1",
+   "week:2026-10-03#2",
+   "week:2026-10-03#3"
+  ]
+ },
+ {
+  "name": "3 per week starting on a Thursday, week start SU",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "wkst": "SU",
+   "quota": {
+    "times": 3,
+    "per": "week",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-09-24T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-09-20T00:00",
+   "to": "2026-10-11T00:00"
+  },
+  "expectedKeys": [
+   "week:2026-09-20#1",
+   "week:2026-09-20#2",
+   "week:2026-09-27#1",
+   "week:2026-09-27#2",
+   "week:2026-09-27#3",
+   "week:2026-10-04#1",
+   "week:2026-10-04#2",
+   "week:2026-10-04#3"
+  ]
+ },
+ {
+  "name": "3 per week starting on the week start (full first period)",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 3,
+    "per": "week",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-09-21T00:00",
+   "to": "2026-10-05T00:00"
+  },
+  "expectedKeys": [
+   "week:2026-09-21#1",
+   "week:2026-09-21#2",
+   "week:2026-09-21#3",
+   "week:2026-09-28#1",
+   "week:2026-09-28#2",
+   "week:2026-09-28#3"
+  ]
+ },
+ {
+  "name": "20 per month starting mid-February 2026 (28 days)",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 20,
+    "per": "month",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-02-15T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-02-01T00:00",
+   "to": "2026-04-01T00:00"
+  },
+  "expectedKeys": [
+   "month:2026-02#1",
+   "month:2026-02#2",
+   "month:2026-02#3",
+   "month:2026-02#4",
+   "month:2026-02#5",
+   "month:2026-02#6",
+   "month:2026-02#7",
+   "month:2026-02#8",
+   "month:2026-02#9",
+   "month:2026-02#10",
+   "month:2026-03#1",
+   "month:2026-03#2",
+   "month:2026-03#3",
+   "month:2026-03#4",
+   "month:2026-03#5",
+   "month:2026-03#6",
+   "month:2026-03#7",
+   "month:2026-03#8",
+   "month:2026-03#9",
+   "month:2026-03#10",
+   "month:2026-03#11",
+   "month:2026-03#12",
+   "month:2026-03#13",
+   "month:2026-03#14",
+   "month:2026-03#15",
+   "month:2026-03#16",
+   "month:2026-03#17",
+   "month:2026-03#18",
+   "month:2026-03#19",
+   "month:2026-03#20"
+  ]
+ },
+ {
+  "name": "20 per month starting mid-February 2024 (29 days)",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 20,
+    "per": "month",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2024-02-15T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2024-02-01T00:00",
+   "to": "2024-03-01T00:00"
+  },
+  "expectedKeys": [
+   "month:2024-02#1",
+   "month:2024-02#2",
+   "month:2024-02#3",
+   "month:2024-02#4",
+   "month:2024-02#5",
+   "month:2024-02#6",
+   "month:2024-02#7",
+   "month:2024-02#8",
+   "month:2024-02#9",
+   "month:2024-02#10",
+   "month:2024-02#11"
+  ]
+ },
+ {
+  "name": "10 per month starting on April 11 (30 days)",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 10,
+    "per": "month",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-04-11T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-04-01T00:00",
+   "to": "2026-06-01T00:00"
+  },
+  "expectedKeys": [
+   "month:2026-04#1",
+   "month:2026-04#2",
+   "month:2026-04#3",
+   "month:2026-04#4",
+   "month:2026-04#5",
+   "month:2026-04#6",
+   "month:2026-04#7",
+   "month:2026-05#1",
+   "month:2026-05#2",
+   "month:2026-05#3",
+   "month:2026-05#4",
+   "month:2026-05#5",
+   "month:2026-05#6",
+   "month:2026-05#7",
+   "month:2026-05#8",
+   "month:2026-05#9",
+   "month:2026-05#10"
+  ]
+ },
+ {
+  "name": "10 per month starting on January 17 (31 days)",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 10,
+    "per": "month",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-01-17T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-01-01T00:00",
+   "to": "2026-02-01T00:00"
+  },
+  "expectedKeys": [
+   "month:2026-01#1",
+   "month:2026-01#2",
+   "month:2026-01#3",
+   "month:2026-01#4",
+   "month:2026-01#5"
+  ]
+ },
+ {
+  "name": "2 per day",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 2,
+    "per": "day",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-09-21T00:00",
+   "to": "2026-09-24T00:00"
+  },
+  "expectedKeys": [
+   "day:2026-09-21#1",
+   "day:2026-09-21#2",
+   "day:2026-09-22#1",
+   "day:2026-09-22#2",
+   "day:2026-09-23#1",
+   "day:2026-09-23#2"
+  ]
+ },
+ {
+  "name": "100 per year starting in July",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 100,
+    "per": "year",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-07-01T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-01-01T00:00",
+   "to": "2027-01-01T00:00"
+  },
+  "expectedKeys": [
+   "year:2026#1",
+   "year:2026#2",
+   "year:2026#3",
+   "year:2026#4",
+   "year:2026#5",
+   "year:2026#6",
+   "year:2026#7",
+   "year:2026#8",
+   "year:2026#9",
+   "year:2026#10",
+   "year:2026#11",
+   "year:2026#12",
+   "year:2026#13",
+   "year:2026#14",
+   "year:2026#15",
+   "year:2026#16",
+   "year:2026#17",
+   "year:2026#18",
+   "year:2026#19",
+   "year:2026#20",
+   "year:2026#21",
+   "year:2026#22",
+   "year:2026#23",
+   "year:2026#24",
+   "year:2026#25",
+   "year:2026#26",
+   "year:2026#27",
+   "year:2026#28",
+   "year:2026#29",
+   "year:2026#30",
+   "year:2026#31",
+   "year:2026#32",
+   "year:2026#33",
+   "year:2026#34",
+   "year:2026#35",
+   "year:2026#36",
+   "year:2026#37",
+   "year:2026#38",
+   "year:2026#39",
+   "year:2026#40",
+   "year:2026#41",
+   "year:2026#42",
+   "year:2026#43",
+   "year:2026#44",
+   "year:2026#45",
+   "year:2026#46",
+   "year:2026#47",
+   "year:2026#48",
+   "year:2026#49",
+   "year:2026#50",
+   "year:2026#51"
+  ]
+ },
+ {
+  "name": "3 per week on weekdays only, starting Thursday",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "byWeekday": [
+    {
+     "day": "MO"
+    },
+    {
+     "day": "TU"
+    },
+    {
+     "day": "WE"
+    },
+    {
+     "day": "TH"
+    },
+    {
+     "day": "FR"
+    }
+   ],
+   "quota": {
+    "times": 3,
+    "per": "week",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-09-24T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-09-21T00:00",
+   "to": "2026-10-05T00:00"
+  },
+  "expectedKeys": [
+   "week:2026-09-21#1",
+   "week:2026-09-21#2",
+   "week:2026-09-28#1",
+   "week:2026-09-28#2",
+   "week:2026-09-28#3"
+  ]
+ },
+ {
+  "name": "3 per week with until on a Tuesday (partial last period)",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "until": "2026-10-06T23:59",
+   "quota": {
+    "times": 3,
+    "per": "week",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-09-21T00:00",
+   "to": "2026-10-19T00:00"
+  },
+  "expectedKeys": [
+   "week:2026-09-21#1",
+   "week:2026-09-21#2",
+   "week:2026-09-21#3",
+   "week:2026-09-28#1",
+   "week:2026-09-28#2",
+   "week:2026-09-28#3",
+   "week:2026-10-05#1"
+  ]
+ },
+ {
+  "name": "4 per week with an excused day (exdate)",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "exdates": [
+    "2026-09-23"
+   ],
+   "quota": {
+    "times": 4,
+    "per": "week",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-09-21T00:00",
+   "to": "2026-09-28T00:00"
+  },
+  "expectedKeys": [
+   "week:2026-09-21#1",
+   "week:2026-09-21#2",
+   "week:2026-09-21#3",
+   "week:2026-09-21#4"
+  ]
+ },
+ {
+  "name": "1 per week not two days in a row (minGapDays)",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 1,
+    "per": "week",
+    "minGapDays": 1
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-09-21T00:00",
+   "to": "2026-10-05T00:00"
+  },
+  "expectedKeys": [
+   "week:2026-09-21#1",
+   "week:2026-09-28#1"
+  ]
+ },
+ {
+  "name": "5 per month, range in the middle of the series",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 5,
+    "per": "month",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-01-10T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-06-01T00:00",
+   "to": "2026-08-01T00:00"
+  },
+  "expectedKeys": [
+   "month:2026-06#1",
+   "month:2026-06#2",
+   "month:2026-06#3",
+   "month:2026-06#4",
+   "month:2026-06#5",
+   "month:2026-07#1",
+   "month:2026-07#2",
+   "month:2026-07#3",
+   "month:2026-07#4",
+   "month:2026-07#5"
+  ]
+ },
+ {
+  "name": "7 per week starting on Sunday with week start MO",
+  "rule": {
+   "v": 1,
+   "type": "quota",
+   "quota": {
+    "times": 7,
+    "per": "week",
+    "minGapDays": 0
+   }
+  },
+  "anchor": {
+   "start": "2026-09-27T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2026-09-21T00:00",
+   "to": "2026-10-05T00:00"
+  },
+  "expectedKeys": [
+   "week:2026-09-21#1",
+   "week:2026-09-28#1",
+   "week:2026-09-28#2",
+   "week:2026-09-28#3",
+   "week:2026-09-28#4",
+   "week:2026-09-28#5",
+   "week:2026-09-28#6",
+   "week:2026-09-28#7"
+  ]
+ }
+]

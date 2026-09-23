@@ -8,7 +8,7 @@ enum Weekday {
   saturday(6, 'SA'),
   sunday(7, 'SU');
 
-  const Weekday(this.iso, this.code);
+  new(this.iso, this.code);
 
   /// ISO number: Monday = 1 … Sunday = 7.
   final int iso;
@@ -36,7 +36,8 @@ enum Weekday {
 
   /// Weekdays in display order starting at [weekStart].
   static List<Weekday> ordered(Weekday weekStart) => [
-    for (var i = 0; i < 7; i++) Weekday.fromIso((weekStart.iso - 1 + i) % 7 + 1),
+    for (var i = 0; i < 7; i++)
+      Weekday.fromIso((weekStart.iso - 1 + i) % 7 + 1),
   ];
 
   bool get isWeekend => this == Weekday.saturday || this == Weekday.sunday;

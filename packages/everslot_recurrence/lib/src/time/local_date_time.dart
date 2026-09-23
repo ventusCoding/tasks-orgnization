@@ -8,19 +8,21 @@ import 'package:meta/meta.dart';
 /// resolving to an instant via a `ZoneResolver`.
 @immutable
 final class LocalDateTime implements Comparable<LocalDateTime> {
-  factory LocalDateTime(LocalDate date, LocalTime time) {
+  factory(LocalDate date, LocalTime time) {
     if (time.isEndOfDay) {
       return LocalDateTime._(date.plusDays(1), LocalTime.midnight);
     }
     return LocalDateTime._(date, time);
   }
 
-  factory LocalDateTime.of(int year, int month, int day, [int hour = 0, int minute = 0]) =>
+  factory of(int year, int month, int day, [int hour = 0, int minute = 0]) =>
       LocalDateTime._(LocalDate(year, month, day), LocalTime(hour, minute));
 
   /// Minutes since 1970-01-01T00:00 (wall clock).
-  factory LocalDateTime.fromEpochMinute(int epochMinute) {
-    final day = epochMinute >= 0 ? epochMinute ~/ 1440 : -((-epochMinute + 1439) ~/ 1440);
+  factory fromEpochMinute(int epochMinute) {
+    final day = epochMinute >= 0
+        ? epochMinute ~/ 1440
+        : -((-epochMinute + 1439) ~/ 1440);
     final minute = epochMinute - day * 1440;
     return LocalDateTime._(
       LocalDate.fromEpochDay(day),
@@ -29,12 +31,12 @@ final class LocalDateTime implements Comparable<LocalDateTime> {
   }
 
   /// The wall-clock fields of [dateTime] (seconds truncated; zone ignored).
-  factory LocalDateTime.fromDateTime(DateTime dateTime) => LocalDateTime._(
+  factory fromDateTime(DateTime dateTime) => LocalDateTime._(
     LocalDate.fromDateTime(dateTime),
     LocalTime(dateTime.hour, dateTime.minute),
   );
 
-  const LocalDateTime._(this.date, this.time);
+  const new _(this.date, this.time);
 
   final LocalDate date;
   final LocalTime time;
@@ -48,8 +50,9 @@ final class LocalDateTime implements Comparable<LocalDateTime> {
   /// Minutes since 1970-01-01T00:00 (wall clock).
   int get epochMinute => date.epochDay * 1440 + time.minuteOfDay;
 
-  LocalDateTime plusMinutes(int minutes) =>
-      minutes == 0 ? this : LocalDateTime.fromEpochMinute(epochMinute + minutes);
+  LocalDateTime plusMinutes(int minutes) => minutes == 0
+      ? this
+      : LocalDateTime.fromEpochMinute(epochMinute + minutes);
 
   LocalDateTime plusHours(int hours) => plusMinutes(hours * 60);
 
@@ -73,8 +76,10 @@ final class LocalDateTime implements Comparable<LocalDateTime> {
   bool isOnOrBefore(LocalDateTime other) => compareTo(other) <= 0;
   bool isOnOrAfter(LocalDateTime other) => compareTo(other) >= 0;
 
-  static LocalDateTime min(LocalDateTime a, LocalDateTime b) => a.isBefore(b) ? a : b;
-  static LocalDateTime max(LocalDateTime a, LocalDateTime b) => a.isAfter(b) ? a : b;
+  static LocalDateTime min(LocalDateTime a, LocalDateTime b) =>
+      a.isBefore(b) ? a : b;
+  static LocalDateTime max(LocalDateTime a, LocalDateTime b) =>
+      a.isAfter(b) ? a : b;
 
   /// `YYYY-MM-DDTHH:mm` — also the canonical occurrence-key format.
   String toIso() => '${date.toIso()}T${time.toIso()}';
@@ -86,7 +91,10 @@ final class LocalDateTime implements Comparable<LocalDateTime> {
   static LocalDateTime parse(String input) {
     final result = tryParse(input);
     if (result == null) {
-      throw FormatException('Invalid local date-time (expected YYYY-MM-DDTHH:mm)', input);
+      throw FormatException(
+        'Invalid local date-time (expected YYYY-MM-DDTHH:mm)',
+        input,
+      );
     }
     return result;
   }

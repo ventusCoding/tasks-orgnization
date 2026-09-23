@@ -1,0 +1,252 @@
+[
+ {
+  "name": "2 days after completion (late and early completions)",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 2,
+    "unit": "day"
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2000-01-01T00:00",
+   "to": "2100-01-01T00:00"
+  },
+  "expectedKeys": [
+   "2026-09-21T08:00",
+   "2026-09-26T08:00",
+   "2026-09-27T08:00"
+  ],
+  "completions": [
+   "2026-09-24T19:30",
+   "2026-09-25T07:00"
+  ]
+ },
+ {
+  "name": "every 3 hours after the last dose",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 3,
+    "unit": "hour"
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2000-01-01T00:00",
+   "to": "2100-01-01T00:00"
+  },
+  "expectedKeys": [
+   "2026-09-21T08:00",
+   "2026-09-21T11:10",
+   "2026-09-21T15:45"
+  ],
+  "completions": [
+   "2026-09-21T08:10",
+   "2026-09-21T12:45"
+  ]
+ },
+ {
+  "name": "45 minutes after completion",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 45,
+    "unit": "minute"
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2000-01-01T00:00",
+   "to": "2100-01-01T00:00"
+  },
+  "expectedKeys": [
+   "2026-09-21T08:00",
+   "2026-09-21T09:05"
+  ],
+  "completions": [
+   "2026-09-21T08:20"
+  ]
+ },
+ {
+  "name": "1 week after completion keeps the anchor time",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 1,
+    "unit": "week"
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T18:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2000-01-01T00:00",
+   "to": "2100-01-01T00:00"
+  },
+  "expectedKeys": [
+   "2026-09-21T18:00",
+   "2026-09-30T18:00"
+  ],
+  "completions": [
+   "2026-09-23T09:00"
+  ]
+ },
+ {
+  "name": "1 month after completion on January 31 clamps",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 1,
+    "unit": "month"
+   }
+  },
+  "anchor": {
+   "start": "2026-01-31T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2000-01-01T00:00",
+   "to": "2100-01-01T00:00"
+  },
+  "expectedKeys": [
+   "2026-01-31T09:00",
+   "2026-02-28T09:00"
+  ],
+  "completions": [
+   "2026-01-31T10:00"
+  ]
+ },
+ {
+  "name": "1 year after completion on February 29 clamps",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 1,
+    "unit": "year"
+   }
+  },
+  "anchor": {
+   "start": "2024-02-29T09:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2000-01-01T00:00",
+   "to": "2100-01-01T00:00"
+  },
+  "expectedKeys": [
+   "2024-02-29T09:00",
+   "2025-02-28T09:00"
+  ],
+  "completions": [
+   "2024-02-29T10:00"
+  ]
+ },
+ {
+  "name": "3 days after completion, all-day",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 3,
+    "unit": "day"
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T00:00",
+   "zone": "Europe/Paris",
+   "allDay": true
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2000-01-01T00:00",
+   "to": "2100-01-01T00:00"
+  },
+  "expectedKeys": [
+   "2026-09-21",
+   "2026-09-25"
+  ],
+  "completions": [
+   "2026-09-22T15:00"
+  ]
+ },
+ {
+  "name": "2 hours after completion across the Paris spring gap",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "afterCompletion": {
+    "amount": 2,
+    "unit": "hour"
+   }
+  },
+  "anchor": {
+   "start": "2026-03-29T00:30",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2000-01-01T00:00",
+   "to": "2100-01-01T00:00"
+  },
+  "expectedKeys": [
+   "2026-03-29T00:30",
+   "2026-03-29T02:30"
+  ],
+  "completions": [
+   "2026-03-29T00:30"
+  ]
+ },
+ {
+  "name": "1 day after completion stops at until",
+  "rule": {
+   "v": 1,
+   "type": "after_completion",
+   "until": "2026-09-25T23:59",
+   "afterCompletion": {
+    "amount": 1,
+    "unit": "day"
+   }
+  },
+  "anchor": {
+   "start": "2026-09-21T08:00",
+   "zone": "Europe/Paris"
+  },
+  "evalZone": null,
+  "range": {
+   "from": "2000-01-01T00:00",
+   "to": "2100-01-01T00:00"
+  },
+  "expectedKeys": [
+   "2026-09-21T08:00",
+   "2026-09-22T08:00"
+  ],
+  "completions": [
+   "2026-09-21T09:00",
+   "2026-09-29T09:00"
+  ]
+ }
+]
