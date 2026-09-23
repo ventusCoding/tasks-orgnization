@@ -274,6 +274,342 @@ abstract class AppLocalizations {
   /// **'Own every slot of your day.'**
   String get appTagline;
 
+  /// No description provided for @attachmentsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add attachment'**
+  String get attachmentsAdd;
+
+  /// No description provided for @attachmentsAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 attachment added} other{{count} attachments added}}'**
+  String attachmentsAdded(int count);
+
+  /// No description provided for @attachmentsCacheCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Cache cleared'**
+  String get attachmentsCacheCleared;
+
+  /// No description provided for @attachmentsCacheSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Local cache: {size}'**
+  String attachmentsCacheSize(String size);
+
+  /// No description provided for @attachmentsCameraPrimerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot asks for camera access so you can attach photos. Photos stay on your device until they\'re uploaded to your account.'**
+  String get attachmentsCameraPrimerBody;
+
+  /// No description provided for @attachmentsCameraPrimerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your camera'**
+  String get attachmentsCameraPrimerTitle;
+
+  /// No description provided for @attachmentsCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Caption'**
+  String get attachmentsCaption;
+
+  /// No description provided for @attachmentsClearCache.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear cache'**
+  String get attachmentsClearCache;
+
+  /// No description provided for @attachmentsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 attachment} other{{count} attachments}}'**
+  String attachmentsCount(int count);
+
+  /// No description provided for @attachmentsDownloadWhenOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'This file will download when you\'re online.'**
+  String get attachmentsDownloadWhenOnline;
+
+  /// No description provided for @attachmentsEditCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit caption'**
+  String get attachmentsEditCaption;
+
+  /// No description provided for @attachmentsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No attachments yet'**
+  String get attachmentsEmpty;
+
+  /// No description provided for @attachmentsGoToItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to item'**
+  String get attachmentsGoToItem;
+
+  /// No description provided for @attachmentsKindAudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio'**
+  String get attachmentsKindAudio;
+
+  /// No description provided for @attachmentsKindFile.
+  ///
+  /// In en, this message translates to:
+  /// **'File'**
+  String get attachmentsKindFile;
+
+  /// No description provided for @attachmentsKindPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF'**
+  String get attachmentsKindPdf;
+
+  /// No description provided for @attachmentsKindPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get attachmentsKindPhoto;
+
+  /// No description provided for @attachmentsKindVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Video'**
+  String get attachmentsKindVideo;
+
+  /// No description provided for @attachmentsLocalOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored on this device'**
+  String get attachmentsLocalOnly;
+
+  /// No description provided for @attachmentsMore.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count}'**
+  String attachmentsMore(int count);
+
+  /// No description provided for @attachmentsMoveEarlier.
+  ///
+  /// In en, this message translates to:
+  /// **'Move earlier'**
+  String get attachmentsMoveEarlier;
+
+  /// No description provided for @attachmentsMoveLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Move later'**
+  String get attachmentsMoveLater;
+
+  /// No description provided for @attachmentsNoPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'No preview for this file type'**
+  String get attachmentsNoPreview;
+
+  /// No description provided for @attachmentsOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get attachmentsOpenSettings;
+
+  /// No description provided for @attachmentsOpenWith.
+  ///
+  /// In en, this message translates to:
+  /// **'Open with…'**
+  String get attachmentsOpenWith;
+
+  /// No description provided for @attachmentsPendingUploads.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 upload pending} other{{count} uploads pending}}'**
+  String attachmentsPendingUploads(int count);
+
+  /// No description provided for @attachmentsPermissionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot can\'t access your camera or photos. You can allow access in the system settings.'**
+  String get attachmentsPermissionBody;
+
+  /// No description provided for @attachmentsPermissionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Access needed'**
+  String get attachmentsPermissionTitle;
+
+  /// No description provided for @attachmentsRejectedDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is already attached'**
+  String attachmentsRejectedDuplicate(String name);
+
+  /// No description provided for @attachmentsRejectedEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is empty'**
+  String attachmentsRejectedEmpty(String name);
+
+  /// No description provided for @attachmentsRejectedTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is larger than {limit}'**
+  String attachmentsRejectedTooLarge(String name, String limit);
+
+  /// No description provided for @attachmentsRejectedTooMany.
+  ///
+  /// In en, this message translates to:
+  /// **'Limit of {count} attachments reached'**
+  String attachmentsRejectedTooMany(int count);
+
+  /// No description provided for @attachmentsRejectedType.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: this file type isn\'t supported'**
+  String attachmentsRejectedType(String name);
+
+  /// No description provided for @attachmentsRejectedUnreadable.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} couldn\'t be read'**
+  String attachmentsRejectedUnreadable(String name);
+
+  /// No description provided for @attachmentsRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get attachmentsRemove;
+
+  /// No description provided for @attachmentsRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachment removed'**
+  String get attachmentsRemoved;
+
+  /// No description provided for @attachmentsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry upload'**
+  String get attachmentsRetry;
+
+  /// No description provided for @attachmentsSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind} {index} of {total}'**
+  String attachmentsSemantics(String kind, int index, int total);
+
+  /// No description provided for @attachmentsSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments'**
+  String get attachmentsSettingsTitle;
+
+  /// No description provided for @attachmentsSizeB.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} B'**
+  String attachmentsSizeB(String size);
+
+  /// No description provided for @attachmentsSizeGb.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} GB'**
+  String attachmentsSizeGb(String size);
+
+  /// No description provided for @attachmentsSizeKb.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} KB'**
+  String attachmentsSizeKb(String size);
+
+  /// No description provided for @attachmentsSizeMb.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} MB'**
+  String attachmentsSizeMb(String size);
+
+  /// No description provided for @attachmentsSourceCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo'**
+  String get attachmentsSourceCamera;
+
+  /// No description provided for @attachmentsSourceFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose files'**
+  String get attachmentsSourceFiles;
+
+  /// No description provided for @attachmentsSourcePhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose photos'**
+  String get attachmentsSourcePhotos;
+
+  /// No description provided for @attachmentsStatusDownloading.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading'**
+  String get attachmentsStatusDownloading;
+
+  /// No description provided for @attachmentsStatusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload failed — tap to retry'**
+  String get attachmentsStatusFailed;
+
+  /// No description provided for @attachmentsStatusNotDownloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Not downloaded — tap to fetch'**
+  String get attachmentsStatusNotDownloaded;
+
+  /// No description provided for @attachmentsStatusProcessing.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing'**
+  String get attachmentsStatusProcessing;
+
+  /// No description provided for @attachmentsStatusUploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading {percent} %'**
+  String attachmentsStatusUploading(int percent);
+
+  /// No description provided for @attachmentsStatusUploadingShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading'**
+  String get attachmentsStatusUploadingShort;
+
+  /// No description provided for @attachmentsStatusWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for network'**
+  String get attachmentsStatusWaiting;
+
+  /// No description provided for @attachmentsStorageUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage used: {size}'**
+  String attachmentsStorageUsed(String size);
+
+  /// No description provided for @attachmentsViewerPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'{index} / {total}'**
+  String attachmentsViewerPosition(int index, int total);
+
+  /// No description provided for @attachmentsWifiOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload attachments on Wi-Fi only'**
+  String get attachmentsWifiOnly;
+
   /// No description provided for @categoriesEmpty.
   ///
   /// In en, this message translates to:

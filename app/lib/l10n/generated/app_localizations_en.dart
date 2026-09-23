@@ -97,6 +97,233 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTagline => 'Own every slot of your day.';
 
   @override
+  String get attachmentsAdd => 'Add attachment';
+
+  @override
+  String attachmentsAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count attachments added',
+      one: '1 attachment added',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get attachmentsCacheCleared => 'Cache cleared';
+
+  @override
+  String attachmentsCacheSize(String size) {
+    return 'Local cache: $size';
+  }
+
+  @override
+  String get attachmentsCameraPrimerBody =>
+      'Everslot asks for camera access so you can attach photos. Photos stay on your device until they\'re uploaded to your account.';
+
+  @override
+  String get attachmentsCameraPrimerTitle => 'Use your camera';
+
+  @override
+  String get attachmentsCaption => 'Caption';
+
+  @override
+  String get attachmentsClearCache => 'Clear cache';
+
+  @override
+  String attachmentsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count attachments',
+      one: '1 attachment',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get attachmentsDownloadWhenOnline =>
+      'This file will download when you\'re online.';
+
+  @override
+  String get attachmentsEditCaption => 'Edit caption';
+
+  @override
+  String get attachmentsEmpty => 'No attachments yet';
+
+  @override
+  String get attachmentsGoToItem => 'Go to item';
+
+  @override
+  String get attachmentsKindAudio => 'Audio';
+
+  @override
+  String get attachmentsKindFile => 'File';
+
+  @override
+  String get attachmentsKindPdf => 'PDF';
+
+  @override
+  String get attachmentsKindPhoto => 'Photo';
+
+  @override
+  String get attachmentsKindVideo => 'Video';
+
+  @override
+  String get attachmentsLocalOnly => 'Stored on this device';
+
+  @override
+  String attachmentsMore(int count) {
+    return '+$count';
+  }
+
+  @override
+  String get attachmentsMoveEarlier => 'Move earlier';
+
+  @override
+  String get attachmentsMoveLater => 'Move later';
+
+  @override
+  String get attachmentsNoPreview => 'No preview for this file type';
+
+  @override
+  String get attachmentsOpenSettings => 'Open settings';
+
+  @override
+  String get attachmentsOpenWith => 'Open with…';
+
+  @override
+  String attachmentsPendingUploads(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count uploads pending',
+      one: '1 upload pending',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get attachmentsPermissionBody =>
+      'Everslot can\'t access your camera or photos. You can allow access in the system settings.';
+
+  @override
+  String get attachmentsPermissionTitle => 'Access needed';
+
+  @override
+  String attachmentsRejectedDuplicate(String name) {
+    return '$name is already attached';
+  }
+
+  @override
+  String attachmentsRejectedEmpty(String name) {
+    return '$name is empty';
+  }
+
+  @override
+  String attachmentsRejectedTooLarge(String name, String limit) {
+    return '$name is larger than $limit';
+  }
+
+  @override
+  String attachmentsRejectedTooMany(int count) {
+    return 'Limit of $count attachments reached';
+  }
+
+  @override
+  String attachmentsRejectedType(String name) {
+    return '$name: this file type isn\'t supported';
+  }
+
+  @override
+  String attachmentsRejectedUnreadable(String name) {
+    return '$name couldn\'t be read';
+  }
+
+  @override
+  String get attachmentsRemove => 'Remove';
+
+  @override
+  String get attachmentsRemoved => 'Attachment removed';
+
+  @override
+  String get attachmentsRetry => 'Retry upload';
+
+  @override
+  String attachmentsSemantics(String kind, int index, int total) {
+    return '$kind $index of $total';
+  }
+
+  @override
+  String get attachmentsSettingsTitle => 'Attachments';
+
+  @override
+  String attachmentsSizeB(String size) {
+    return '$size B';
+  }
+
+  @override
+  String attachmentsSizeGb(String size) {
+    return '$size GB';
+  }
+
+  @override
+  String attachmentsSizeKb(String size) {
+    return '$size KB';
+  }
+
+  @override
+  String attachmentsSizeMb(String size) {
+    return '$size MB';
+  }
+
+  @override
+  String get attachmentsSourceCamera => 'Take photo';
+
+  @override
+  String get attachmentsSourceFiles => 'Choose files';
+
+  @override
+  String get attachmentsSourcePhotos => 'Choose photos';
+
+  @override
+  String get attachmentsStatusDownloading => 'Downloading';
+
+  @override
+  String get attachmentsStatusFailed => 'Upload failed — tap to retry';
+
+  @override
+  String get attachmentsStatusNotDownloaded => 'Not downloaded — tap to fetch';
+
+  @override
+  String get attachmentsStatusProcessing => 'Processing';
+
+  @override
+  String attachmentsStatusUploading(int percent) {
+    return 'Uploading $percent %';
+  }
+
+  @override
+  String get attachmentsStatusUploadingShort => 'Uploading';
+
+  @override
+  String get attachmentsStatusWaiting => 'Waiting for network';
+
+  @override
+  String attachmentsStorageUsed(String size) {
+    return 'Storage used: $size';
+  }
+
+  @override
+  String attachmentsViewerPosition(int index, int total) {
+    return '$index / $total';
+  }
+
+  @override
+  String get attachmentsWifiOnly => 'Upload attachments on Wi-Fi only';
+
+  @override
   String get categoriesEmpty => 'No categories yet';
 
   @override
