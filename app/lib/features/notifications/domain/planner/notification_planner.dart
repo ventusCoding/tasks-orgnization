@@ -31,7 +31,7 @@ class PlanningContext {
     this.userId = '',
     this.timeSensitiveAllowed = true,
     this.horizon,
-    this.expander = const BasicRecurrenceExpander(),
+    this.expander,
     this.applyCaps = true,
   });
 
@@ -53,7 +53,9 @@ class PlanningContext {
 
   /// Overrides `settings.horizonDays`.
   final Duration? horizon;
-  final RecurrenceExpander expander;
+  final RecurrenceExpander? expander;
+
+  RecurrenceExpander get effectiveExpander => expander ?? EngineRecurrenceExpander.shared;
   final bool applyCaps;
 
   Duration get effectiveHorizon => horizon ?? Duration(days: settings.horizonDays);
@@ -239,7 +241,7 @@ abstract final class NotificationPlanner {
       case ScheduleTrigger(:final recurrence):
         final from = ctx.now.subtract(Duration(minutes: ctx.settings.latenessMinutes));
         return [
-          for (final instant in ctx.expander.instantsBetween(recurrence, zone: zone, fromUtc: from, toUtc: horizonEnd, zones: zones))
+          for (final instant in ctx.effectiveExpander.instantsBetween(recurrence, zone: zone, fromUtc: from, toUtc: horizonEnd, zones: zones))
             _Candidate(instant, 'sch:${localKey(instant)}', DefaultContentKind.schedule),
         ];
 
@@ -247,7 +249,7 @@ abstract final class NotificationPlanner {
         final from = target.periodStart ?? ctx.now.subtract(Duration(minutes: ctx.settings.digestLatenessMinutes));
         final to = target.periodEnd ?? horizonEnd;
         return [
-          for (final instant in ctx.expander.instantsBetween(schedule, zone: zone, fromUtc: from, toUtc: to, zones: zones))
+          for (final instant in ctx.effectiveExpander.instantsBetween(schedule, zone: zone, fromUtc: from, toUtc: to, zones: zones))
             _Candidate(instant, 'dg:${dateOf(instant).toIso()}', DefaultContentKind.digest, extraVars: {'kind': kind}),
         ];
 

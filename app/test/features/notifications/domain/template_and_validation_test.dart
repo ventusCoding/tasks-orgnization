@@ -37,44 +37,44 @@ void main() {
     });
   });
 
-  group('RuleValidator', () {
-    List<RuleIssueCode> codes(NotificationRuleSpec spec, {NotificationTargetType? type, bool accept = false}) =>
-        [for (final i in RuleValidator.validate(spec, targetType: type, acceptExtraActions: accept)) i.code];
+  group('NotificationRuleValidator', () {
+    List<NotificationIssueCode> codes(NotificationRuleSpec spec, {NotificationTargetType? type, bool accept = false}) =>
+        [for (final i in NotificationRuleValidator.validate(spec, targetType: type, acceptExtraActions: accept)) i.code];
 
     test('valid rule has no issues', () {
       expect(codes(const NotificationRuleSpec(trigger: RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: -10)), type: NotificationTargetType.task), isEmpty);
     });
     test('anchor not available for the target type', () {
-      expect(codes(const NotificationRuleSpec(trigger: RelativeTrigger(anchor: TriggerAnchor.due)), type: NotificationTargetType.task), [RuleIssueCode.anchorUnavailable]);
+      expect(codes(const NotificationRuleSpec(trigger: RelativeTrigger(anchor: TriggerAnchor.due)), type: NotificationTargetType.task), [NotificationIssueCode.anchorUnavailable]);
     });
     test('offset beyond ±30 days', () {
-      expect(codes(const NotificationRuleSpec(trigger: RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: -43201))), [RuleIssueCode.offsetOutOfRange]);
+      expect(codes(const NotificationRuleSpec(trigger: RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: -43201))), [NotificationIssueCode.offsetOutOfRange]);
       expect(codes(const NotificationRuleSpec(trigger: RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: -43200))), isEmpty);
     });
     test('repeat max > 10 and interval < 1', () {
       expect(
         codes(const NotificationRuleSpec(trigger: OverdueTrigger(), repeat: RepeatSpec(everyMinutes: 0, maxTimes: 11))),
-        [RuleIssueCode.repeatMaxTooHigh, RuleIssueCode.repeatIntervalInvalid],
+        [NotificationIssueCode.repeatMaxTooHigh, NotificationIssueCode.repeatIntervalInvalid],
       );
     });
     test('more than 3 actions is an error unless accepted (then a warning)', () {
       const spec = NotificationRuleSpec(trigger: OverdueTrigger(), delivery: DeliverySpec(actions: ['done', 'snooze', 'skip', 'open']));
-      expect(RuleValidator.validate(spec).single.isError, isTrue);
-      expect(RuleValidator.validate(spec, acceptExtraActions: true).single.severity, IssueSeverity.warning);
+      expect(NotificationRuleValidator.validate(spec).single.isError, isTrue);
+      expect(NotificationRuleValidator.validate(spec, acceptExtraActions: true).single.severity, NotificationIssueSeverity.warning);
     });
     test('unknown or unavailable template variables and empty title', () {
-      expect(codes(const NotificationRuleSpec(trigger: OverdueTrigger(), content: ContentSpec(body: '{nope}'))), [RuleIssueCode.unknownVariable]);
-      expect(codes(const NotificationRuleSpec(trigger: OverdueTrigger(), content: ContentSpec(body: '{streak}')), type: NotificationTargetType.task), [RuleIssueCode.unknownVariable]);
-      expect(codes(const NotificationRuleSpec(trigger: OverdueTrigger(), content: ContentSpec(title: '  '))), [RuleIssueCode.emptyContent]);
+      expect(codes(const NotificationRuleSpec(trigger: OverdueTrigger(), content: ContentSpec(body: '{nope}'))), [NotificationIssueCode.unknownVariable]);
+      expect(codes(const NotificationRuleSpec(trigger: OverdueTrigger(), content: ContentSpec(body: '{streak}')), type: NotificationTargetType.task), [NotificationIssueCode.unknownVariable]);
+      expect(codes(const NotificationRuleSpec(trigger: OverdueTrigger(), content: ContentSpec(title: '  '))), [NotificationIssueCode.emptyContent]);
     });
     test('invalid schedule delegates to the recurrence validator', () {
-      expect(codes(const NotificationRuleSpec(trigger: ScheduleTrigger(recurrence: {'freq': 'fortnightly'}))), [RuleIssueCode.scheduleInvalid]);
+      expect(codes(const NotificationRuleSpec(trigger: ScheduleTrigger(recurrence: {'freq': 'fortnightly'}))), [NotificationIssueCode.scheduleInvalid]);
     });
     test('lateness < 1 min and no delivery channel', () {
-      expect(codes(const NotificationRuleSpec(trigger: OverdueTrigger(), delivery: DeliverySpec(latenessMinutes: 0))), [RuleIssueCode.latenessTooSmall]);
+      expect(codes(const NotificationRuleSpec(trigger: OverdueTrigger(), delivery: DeliverySpec(latenessMinutes: 0))), [NotificationIssueCode.latenessTooSmall]);
       expect(
         codes(const NotificationRuleSpec(trigger: OverdueTrigger(), delivery: DeliverySpec(system: false, inbox: false, banner: false))),
-        [RuleIssueCode.noDeliveryChannel],
+        [NotificationIssueCode.noDeliveryChannel],
       );
     });
   });
