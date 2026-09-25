@@ -93,7 +93,9 @@ final class ChecklistItemFact {
   String get id => row.id;
   String get checklistId => row.checklistId;
   DateTime get created => timeline.createdAt;
-  ItemStatus get status => row.deletedAt != null ? ItemStatus.values.byName(timeline.currentStatus) : row.status;
+  ItemStatus get status => row.deletedAt != null
+      ? ItemStatus.values.byName(timeline.currentStatus)
+      : row.status;
   bool get isDeleted => row.deletedAt != null;
   bool get isCountable => row.status != ItemStatus.cancelled;
 
@@ -107,7 +109,9 @@ final class ChecklistItemFact {
 }
 
 /// Parent → children map of live rows.
-Map<String?, List<ChecklistItemRow>> childrenOf(Iterable<ChecklistItemRow> rows) {
+Map<String?, List<ChecklistItemRow>> childrenOf(
+  Iterable<ChecklistItemRow> rows,
+) {
   final result = <String?, List<ChecklistItemRow>>{};
   for (final r in rows) {
     if (r.deletedAt != null) continue;
@@ -191,7 +195,10 @@ List<ChecklistItemFact> buildChecklistItemFacts(
 // ---------------------------------------------------------------------------------------------
 
 /// CL-I-01 — Σ time per status until now (or deletion).
-Map<ItemStatus, Duration> timeInStatus(ChecklistItemFact f, {required DateTime now}) => {
+Map<ItemStatus, Duration> timeInStatus(
+  ChecklistItemFact f, {
+  required DateTime now,
+}) => {
   for (final e in f.timeline.timeInStatus(now: now).entries)
     ItemStatus.parse(e.key): e.value,
 };
@@ -214,7 +221,10 @@ enum ItemAgeKind { workItem, queue }
 
 /// CL-I-04 — age: open and started → now − start (work-item age); open and not started →
 /// now − created (queue age).
-Stat<({Duration age, ItemAgeKind kind})> itemAge(ChecklistItemFact f, {required DateTime now}) {
+Stat<({Duration age, ItemAgeKind kind})> itemAge(
+  ChecklistItemFact f, {
+  required DateTime now,
+}) {
   if (!f.status.isOpen || f.isDeleted) {
     return const NotApplicable<({Duration age, ItemAgeKind kind})>('closed');
   }
@@ -281,7 +291,8 @@ SubtreeProgress subtreeProgress(List<ChecklistItemRow> rows, {String? rootId}) {
 }
 
 /// CL-I-07 — status timeline segments (with notes).
-List<StatusInterval> statusTimeline(ChecklistItemFact f) => f.timeline.intervals;
+List<StatusInterval> statusTimeline(ChecklistItemFact f) =>
+    f.timeline.intervals;
 
 /// Episodes summary (CL-I-08, CL-I-09).
 @immutable
@@ -331,7 +342,9 @@ EpisodeSummary _episodes(List<StatusInterval> episodes, DateTime now) {
   return (
     episodes: summary,
     followUpOverdue:
-        f.status == ItemStatus.waiting && follow != null && follow.isBefore(now),
+        f.status == ItemStatus.waiting &&
+        follow != null &&
+        follow.isBefore(now),
   );
 }
 
@@ -339,14 +352,21 @@ EpisodeSummary _episodes(List<StatusInterval> episodes, DateTime now) {
 Stat<double> flowEfficiency(ChecklistItemFact f) {
   final ct = cycleTime(f).valueOrNull;
   if (ct == null) return const NotApplicable<double>(Reasons.notDone);
-  final ongoing = f.timeline.timeInStatus(now: f.done!, from: f.start, to: f.done)['ongoing'] ??
+  final ongoing =
+      f.timeline.timeInStatus(
+        now: f.done!,
+        from: f.start,
+        to: f.done,
+      )['ongoing'] ??
       Duration.zero;
   return safeDivide(ongoing.inSeconds, ct.inSeconds);
 }
 
 /// CL-I-11 — churn: status changes, reopens (completed → other) and ongoing↔waiting loops
 /// (ongoing → waiting → ongoing round trips).
-({int statusChanges, int reopens, int ongoingWaitingLoops}) churn(ChecklistItemFact f) {
+({int statusChanges, int reopens, int ongoingWaitingLoops}) churn(
+  ChecklistItemFact f,
+) {
   final events = f.timeline.statusEvents;
   var loops = 0;
   for (var i = 1; i < events.length; i++) {
@@ -357,7 +377,11 @@ Stat<double> flowEfficiency(ChecklistItemFact f) {
       loops++;
     }
   }
-  return (statusChanges: events.length, reopens: f.reopens, ongoingWaitingLoops: loops);
+  return (
+    statusChanges: events.length,
+    reopens: f.reopens,
+    ongoingWaitingLoops: loops,
+  );
 }
 
 /// CL-I-12 — time to first action = start − created (queue time).
@@ -385,9 +409,8 @@ AttachmentKind attachmentKindOf(String mime) {
 }
 
 /// CL-I-13 / CL-L-30 / CL-X-11 — count, total size and type mix of attachments.
-({int count, int totalBytes, Map<AttachmentKind, int> byKind}) attachmentSummary(
-  Iterable<AttachmentFact> attachments,
-) {
+({int count, int totalBytes, Map<AttachmentKind, int> byKind})
+attachmentSummary(Iterable<AttachmentFact> attachments) {
   final byKind = {for (final k in AttachmentKind.values) k: 0};
   var count = 0;
   var bytes = 0;
@@ -401,7 +424,9 @@ AttachmentKind attachmentKindOf(String mime) {
 }
 
 /// CL-I-14 — edit activity: number of text edits and the last edit instant.
-({int edits, DateTime? lastEdited}) editActivity(Iterable<DateTime> textEditInstants) {
+({int edits, DateTime? lastEdited}) editActivity(
+  Iterable<DateTime> textEditInstants,
+) {
   DateTime? last;
   var n = 0;
   for (final t in textEditInstants) {
@@ -417,14 +442,23 @@ AttachmentKind attachmentKindOf(String mime) {
 
 /// CL-L-01 — status mix: count per status (live items) and % done leaf-based and node-based
 /// (countable = not cancelled).
-({Map<ItemStatus, int> counts, Stat<double> doneLeafBased, Stat<double> doneNodeBased})
+({
+  Map<ItemStatus, int> counts,
+  Stat<double> doneLeafBased,
+  Stat<double> doneNodeBased,
+})
 statusMix(List<ChecklistItemRow> rows) {
-  final live = [for (final r in rows) if (r.deletedAt == null) r];
+  final live = [
+    for (final r in rows)
+      if (r.deletedAt == null) r,
+  ];
   final counts = {for (final s in ItemStatus.values) s: 0};
   for (final r in live) {
     counts[r.status] = counts[r.status]! + 1;
   }
-  final countable = live.where((r) => r.status != ItemStatus.cancelled).toList();
+  final countable = live
+      .where((r) => r.status != ItemStatus.cancelled)
+      .toList();
   return (
     counts: counts,
     doneLeafBased: subtreeProgress(rows).leafBased,
@@ -484,7 +518,9 @@ List<DateTime> completionInstants(
   String? checklistId,
 }) => [
   for (final f in facts)
-    if (f.done != null && !f.isDeleted && (checklistId == null || f.checklistId == checklistId))
+    if (f.done != null &&
+        !f.isDeleted &&
+        (checklistId == null || f.checklistId == checklistId))
       f.done!,
 ];
 
@@ -495,7 +531,10 @@ List<SeriesPoint<double>> completionsPerDay(
   required DayBoundaries bounds,
   String? checklistId,
 }) => bucketSum(
-  [for (final t in completionInstants(facts, checklistId: checklistId)) (bounds.dateOf(t), 1)],
+  [
+    for (final t in completionInstants(facts, checklistId: checklistId))
+      (bounds.dateOf(t), 1),
+  ],
   from: range.start,
   to: range.end,
   granularity: Granularity.day,
@@ -510,13 +549,19 @@ List<SeriesPoint<double>> completionsPerDay(
   Weekday weekStart = Weekday.monday,
 }) {
   final weekly = bucketSum(
-    [for (final t in completionInstants(facts, checklistId: checklistId)) (bounds.dateOf(t), 1)],
+    [
+      for (final t in completionInstants(facts, checklistId: checklistId))
+        (bounds.dateOf(t), 1),
+    ],
     from: range.start,
     to: range.end,
     granularity: Granularity.week,
     weekStart: weekStart,
   );
-  return (weekly: weekly, rolling4: rollingMean([for (final p in weekly) p.value], 4));
+  return (
+    weekly: weekly,
+    rolling4: rollingMean([for (final p in weekly) p.value], 4),
+  );
 }
 
 /// CL-L-04 — WIP (ongoing + waiting + blocked) at each day end.
@@ -526,14 +571,25 @@ List<SeriesPoint<int>> wipPerDay(
   required DayBoundaries bounds,
   String? checklistId,
 }) {
-  final counts = dailyCounts(facts, range: range, bounds: bounds, checklistId: checklistId);
+  final counts = dailyCounts(
+    facts,
+    range: range,
+    bounds: bounds,
+    checklistId: checklistId,
+  );
   final dates = range.dates.toList();
-  return [for (var i = 0; i < counts.length; i++) SeriesPoint(dates[i], counts[i].wip())];
+  return [
+    for (var i = 0; i < counts.length; i++)
+      SeriesPoint(dates[i], counts[i].wip()),
+  ];
 }
 
 /// Arrival instants into a list: creation in it, or the move into it (moved-in items arrive on the
 /// move day).
-List<DateTime> arrivalInstants(Iterable<ChecklistItemFact> facts, {String? checklistId}) => [
+List<DateTime> arrivalInstants(
+  Iterable<ChecklistItemFact> facts, {
+  String? checklistId,
+}) => [
   for (final f in facts)
     for (final m in f.timeline.memberships)
       if (checklistId == null
@@ -569,12 +625,16 @@ arrivalsVsDepartures(
   return (
     arrivals: a,
     departures: d,
-    net: [for (var i = 0; i < a.length; i++) SeriesPoint(a[i].bucket, a[i].value - d[i].value)],
+    net: [
+      for (var i = 0; i < a.length; i++)
+        SeriesPoint(a[i].bucket, a[i].value - d[i].value),
+    ],
   );
 }
 
 /// CL-L-06 / CL-X-03 — open items with staleness ≥ [staleDays] and the 10 oldest open items (by age).
-({List<ChecklistItemFact> stale, List<(ChecklistItemFact, Duration)> oldest}) staleItems(
+({List<ChecklistItemFact> stale, List<(ChecklistItemFact, Duration)> oldest})
+staleItems(
   Iterable<ChecklistItemFact> facts, {
   required DateTime now,
   int staleDays = 14,
@@ -584,9 +644,8 @@ arrivalsVsDepartures(
     for (final f in facts)
       if (f.status.isOpen && !f.isDeleted) f,
   ];
-  final oldest = [
-    for (final f in open) (f, now.difference(f.created)),
-  ]..sort((a, b) => b.$2.compareTo(a.$2));
+  final oldest = [for (final f in open) (f, now.difference(f.created))]
+    ..sort((a, b) => b.$2.compareTo(a.$2));
   return (
     stale: [
       for (final f in open)
@@ -630,7 +689,9 @@ final class const CumulativeFlow(
 
   /// Throughput = OLS slope of F over the last [window] days (items/day).
   Stat<double> throughputSlope({int window = 14}) {
-    final tail = days.length <= window ? days : days.sublist(days.length - window);
+    final tail = days.length <= window
+        ? days
+        : days.sublist(days.length - window);
     return ols(
       [for (var i = 0; i < tail.length; i++) i],
       [for (final d in tail) d.finished],
@@ -649,7 +710,12 @@ CumulativeFlow cumulativeFlow(
   String? checklistId,
   bool includeCancelled = false,
 }) {
-  final counts = dailyCounts(facts, range: range, bounds: bounds, checklistId: checklistId);
+  final counts = dailyCounts(
+    facts,
+    range: range,
+    bounds: bounds,
+    checklistId: checklistId,
+  );
   final dates = range.dates.toList();
   final pStart = bounds.startOf(range.start);
   final pEnd = bounds.endOf(range.end);
@@ -666,22 +732,20 @@ CumulativeFlow cumulativeFlow(
         )
         .length;
   }
-  return CumulativeFlow(
-    [
-      for (var i = 0; i < counts.length; i++)
-        CfdDay(
-          dates[i],
-          bands: {
-            for (final s in ItemStatus.values)
-              if (s != ItemStatus.cancelled || includeCancelled) s: counts[i].byStatus[s.name] ?? 0,
-          },
-          arrived: counts[i].arrived,
-          started: counts[i].started,
-          finished: counts[i].finished,
-        ),
-    ],
-    reopens: reopens,
-  );
+  return CumulativeFlow([
+    for (var i = 0; i < counts.length; i++)
+      CfdDay(
+        dates[i],
+        bands: {
+          for (final s in ItemStatus.values)
+            if (s != ItemStatus.cancelled || includeCancelled)
+              s: counts[i].byStatus[s.name] ?? 0,
+        },
+        arrived: counts[i].arrived,
+        started: counts[i].started,
+        finished: counts[i].finished,
+      ),
+  ], reopens: reopens);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -692,7 +756,9 @@ CumulativeFlow cumulativeFlow(
 enum CycleTimeUnit { hours, days }
 
 CycleTimeUnit cycleTimeUnitFor(Duration medianCt) =>
-    medianCt < const Duration(days: 2) ? CycleTimeUnit.hours : CycleTimeUnit.days;
+    medianCt < const Duration(days: 2)
+    ? CycleTimeUnit.hours
+    : CycleTimeUnit.days;
 
 /// Inclusive local-day count between two instants (same day = 1).
 int inclusiveDays(DateTime from, DateTime to, DayBoundaries bounds) =>
@@ -780,7 +846,9 @@ List<AgingWipPoint> agingWip(
         f,
         status: f.status,
         age: now.difference(f.start!),
-        atRisk: p85Hours != null && now.difference(f.start!).inSeconds / 3600 > p85Hours,
+        atRisk:
+            p85Hours != null &&
+            now.difference(f.start!).inSeconds / 3600 > p85Hours,
       ),
 ];
 
@@ -809,15 +877,27 @@ BurnChart burnChart(
   String? checklistId,
   LocalDate? due,
 }) {
-  final counts = dailyCounts(facts, range: range, bounds: bounds, checklistId: checklistId);
+  final counts = dailyCounts(
+    facts,
+    range: range,
+    bounds: bounds,
+    checklistId: checklistId,
+  );
   final dates = range.dates.toList();
-  final remaining = [for (final c in counts) c.arrived - c.finished - c.cancelled];
+  final remaining = [
+    for (final c in counts) c.arrived - c.finished - c.cancelled,
+  ];
   List<double>? ideal;
   if (due != null && remaining.isNotEmpty) {
     final totalDays = range.start.daysUntil(due);
     double idealAt(LocalDate d) => totalDays <= 0
         ? 0
-        : math.max(0, remaining.first * (1 - range.start.daysUntil(d) / totalDays)).toDouble();
+        : math
+              .max(
+                0,
+                remaining.first * (1 - range.start.daysUntil(d) / totalDays),
+              )
+              .toDouble();
     ideal = dates.map(idealAt).toList();
   }
   return BurnChart(
@@ -858,14 +938,22 @@ Stat<double> scopeCreep(
 
 /// CL-L-13 — cancelled share (cancelled ÷ total created) and shortcut share ("completed without
 /// start" ÷ completed).
-({Stat<double> cancelledShare, Stat<double> shortcutShare}) cancelledAndShortcut(
-  Iterable<ChecklistItemFact> facts,
-) {
-  final list = [for (final f in facts) if (!f.isDeleted) f];
+({Stat<double> cancelledShare, Stat<double> shortcutShare})
+cancelledAndShortcut(Iterable<ChecklistItemFact> facts) {
+  final list = [
+    for (final f in facts)
+      if (!f.isDeleted) f,
+  ];
   final completed = list.where((f) => f.done != null).toList();
   return (
-    cancelledShare: rate(list.where((f) => f.status == ItemStatus.cancelled).length, list.length),
-    shortcutShare: rate(completed.where((f) => f.completedWithoutStart).length, completed.length),
+    cancelledShare: rate(
+      list.where((f) => f.status == ItemStatus.cancelled).length,
+      list.length,
+    ),
+    shortcutShare: rate(
+      completed.where((f) => f.completedWithoutStart).length,
+      completed.length,
+    ),
   );
 }
 
@@ -903,17 +991,46 @@ String? waitingForEntity({String? waitingOn, String? note}) {
 /// capitalized.
 String _displayFor(String key, Iterable<String> variants) {
   for (final v in variants) {
-    if (v.toLowerCase() == key && v.isNotEmpty && v[0] != v[0].toLowerCase()) return v;
+    if (v.toLowerCase() == key && v.isNotEmpty && v[0] != v[0].toLowerCase()) {
+      return v;
+    }
   }
   return _cap(key);
 }
 
 const Set<String> _stopwords = {
   // EN
-  'a', 'an', 'the', 'on', 'for', 'of', 'to', 'by', 'with', 'from', 'and', 'or', 'is', 'are',
+  'a',
+  'an',
+  'the',
+  'on',
+  'for',
+  'of',
+  'to',
+  'by',
+  'with',
+  'from',
+  'and',
+  'or',
+  'is',
+  'are',
   'waiting', 'blocked', 'in', 'at', 'my', 'our', 'their',
   // FR
-  'le', 'la', 'les', 'un', 'une', 'des', 'de', 'du', 'd', 'l', 'en', 'et', 'ou', 'par', 'pour',
+  'le',
+  'la',
+  'les',
+  'un',
+  'une',
+  'des',
+  'de',
+  'du',
+  'd',
+  'l',
+  'en',
+  'et',
+  'ou',
+  'par',
+  'pour',
   'avec', 'sur', 'attente', 'bloque', 'bloqué',
   // AR
   'في', 'من', 'على', 'إلى', 'عن', 'مع', 'بانتظار', 'و',
@@ -962,25 +1079,30 @@ List<ReasonGroup> _groupReasons(
   final items = <String, List<String>>{};
   final variants = <String, List<String>>{};
   for (final (rawKey, note, time, id) in rows) {
-    final base = rawKey == null || rawKey.isEmpty ? '' : (merges[rawKey] ?? rawKey);
+    final base = rawKey == null || rawKey.isEmpty
+        ? ''
+        : (merges[rawKey] ?? rawKey);
     episodes[base] = (episodes[base] ?? 0) + 1;
     totals[base] = (totals[base] ?? Duration.zero) + time;
     items.putIfAbsent(base, () => []).add(id);
     if (note != null) variants.putIfAbsent(base, () => []).add(note);
   }
-  final groups = [
-    for (final k in episodes.keys)
-      if (k.isNotEmpty)
-        ReasonGroup(
-          merges.containsValue(k) ? k : _displayFor(k, variants[k] ?? const []),
-          episodes: episodes[k]!,
-          total: totals[k]!,
-          itemIds: items[k]!,
-        ),
-  ]..sort((a, b) {
-      final c = b.episodes.compareTo(a.episodes);
-      return c != 0 ? c : b.total.compareTo(a.total);
-    });
+  final groups =
+      [
+        for (final k in episodes.keys)
+          if (k.isNotEmpty)
+            ReasonGroup(
+              merges.containsValue(k)
+                  ? k
+                  : _displayFor(k, variants[k] ?? const []),
+              episodes: episodes[k]!,
+              total: totals[k]!,
+              itemIds: items[k]!,
+            ),
+      ]..sort((a, b) {
+        final c = b.episodes.compareTo(a.episodes);
+        return c != 0 ? c : b.total.compareTo(a.total);
+      });
   if (episodes.containsKey('')) {
     groups.add(
       ReasonGroup(
@@ -1009,7 +1131,10 @@ blockedAndWaitingNow(
   required DateTime from,
   required DateTime to,
 }) {
-  final list = [for (final f in facts) if (!f.isDeleted) f];
+  final list = [
+    for (final f in facts)
+      if (!f.isDeleted) f,
+  ];
   final current = [
     for (final f in list)
       if (f.status == ItemStatus.blocked || f.status == ItemStatus.waiting)
@@ -1038,30 +1163,30 @@ List<ReasonGroup> reasonsPareto(
   required DateTime now,
   Set<String> statuses = const {'blocked', 'waiting'},
   Map<String, String> merges = const {},
-}) => _groupReasons(
-  [
-    for (final f in facts)
-      for (final e in f.timeline.intervals)
-        if (statuses.contains(e.status))
-          (
-            e.note == null ? null : normalizeReason(e.note!),
-            e.note,
-            e.lengthUntil(now),
-            f.id,
-          ),
-  ],
-  merges: merges,
-);
+}) => _groupReasons([
+  for (final f in facts)
+    for (final e in f.timeline.intervals)
+      if (statuses.contains(e.status))
+        (
+          e.note == null ? null : normalizeReason(e.note!),
+          e.note,
+          e.lengthUntil(now),
+          f.id,
+        ),
+], merges: merges);
 
 /// CL-L-26 — blocker clusters ranked by episodes × total blocked time (Pareto).
 List<ReasonGroup> blockerClusters(
   Iterable<ChecklistItemFact> facts, {
   required DateTime now,
   Map<String, String> merges = const {},
-}) => reasonsPareto(facts, now: now, statuses: const {'blocked'}, merges: merges)
-  ..sort(
-    (a, b) => (b.episodes * b.total.inSeconds).compareTo(a.episodes * a.total.inSeconds),
-  );
+}) =>
+    reasonsPareto(facts, now: now, statuses: const {'blocked'}, merges: merges)
+      ..sort(
+        (a, b) => (b.episodes * b.total.inSeconds).compareTo(
+          a.episodes * a.total.inSeconds,
+        ),
+      );
 
 /// CL-L-15 — follow-up discipline among waiting/blocked episodes with `follow_up_at`: on time = an
 /// activity on the item by follow-up + 24 h; overdue follow-ups = open items past `follow_up_at`
@@ -1076,17 +1201,25 @@ List<ReasonGroup> blockerClusters(
   for (final f in facts) {
     final follow = f.row.followUpAt;
     if (follow == null || f.isDeleted) continue;
-    final hadEpisode = f.timeline.intervals.any((i) => i.status == 'waiting' || i.status == 'blocked');
+    final hadEpisode = f.timeline.intervals.any(
+      (i) => i.status == 'waiting' || i.status == 'blocked',
+    );
     if (!hadEpisode) continue;
     final deadline = follow.add(const Duration(hours: 24));
-    final acted = f.timeline.statusEvents.any(
-      (e) => !e.occurredAt.isBefore(follow) && !e.occurredAt.isAfter(deadline),
-    ) || (!f.lastActivityAt.isBefore(follow) && !f.lastActivityAt.isAfter(deadline));
+    final acted =
+        f.timeline.statusEvents.any(
+          (e) =>
+              !e.occurredAt.isBefore(follow) && !e.occurredAt.isAfter(deadline),
+        ) ||
+        (!f.lastActivityAt.isBefore(follow) &&
+            !f.lastActivityAt.isAfter(deadline));
     if (!deadline.isAfter(now) || acted) {
       withFollowUp++;
       if (acted) onTime++;
     }
-    if (f.status.isOpen && follow.isBefore(now) && f.lastActivityAt.isBefore(follow)) {
+    if (f.status.isOpen &&
+        follow.isBefore(now) &&
+        f.lastActivityAt.isBefore(follow)) {
       overdue.add(f);
     }
   }
@@ -1117,35 +1250,45 @@ List<WaitingForEntry> waitingForRegister(
   for (final f in facts) {
     if (f.isDeleted) continue;
     for (final e in f.waitingEpisodes) {
-      final key = waitingForEntity(waitingOn: f.row.waitingOn, note: e.note) ?? '';
+      final key =
+          waitingForEntity(waitingOn: f.row.waitingOn, note: e.note) ?? '';
       waits.putIfAbsent(key, () => []).add(e.lengthUntil(now));
       final raw = f.row.waitingOn ?? e.note;
-      if (raw != null) variants.putIfAbsent(key, () => []).addAll(raw.split(RegExp(r'[\s@:]+')));
+      if (raw != null) {
+        variants
+            .putIfAbsent(key, () => [])
+            .addAll(raw.split(RegExp(r'[\s@:]+')));
+      }
       if (e.end == null) {
         open[key] = (open[key] ?? 0) + 1;
         final age = e.lengthUntil(now);
         if (longest[key] == null || age > longest[key]!) longest[key] = age;
         final follow = f.row.followUpAt;
-        if (follow != null && follow.isBefore(now)) overdue[key] = (overdue[key] ?? 0) + 1;
+        if (follow != null && follow.isBefore(now)) {
+          overdue[key] = (overdue[key] ?? 0) + 1;
+        }
       }
     }
   }
-  final entries = [
-    for (final k in waits.keys)
-      WaitingForEntry(
-        k.isEmpty ? 'Unspecified' : _displayFor(k, variants[k] ?? const []),
-        openCount: open[k] ?? 0,
-        meanWait: Duration(
-          microseconds: waits[k]!.fold<int>(0, (a, d) => a + d.inMicroseconds) ~/ waits[k]!.length,
-        ),
-        longestCurrentWait: longest[k],
-        overdueFollowUps: overdue[k] ?? 0,
-      ),
-  ]..sort((a, b) {
-      if (a.entity == 'Unspecified') return 1;
-      if (b.entity == 'Unspecified') return -1;
-      return b.openCount.compareTo(a.openCount);
-    });
+  final entries =
+      [
+        for (final k in waits.keys)
+          WaitingForEntry(
+            k.isEmpty ? 'Unspecified' : _displayFor(k, variants[k] ?? const []),
+            openCount: open[k] ?? 0,
+            meanWait: Duration(
+              microseconds:
+                  waits[k]!.fold<int>(0, (a, d) => a + d.inMicroseconds) ~/
+                  waits[k]!.length,
+            ),
+            longestCurrentWait: longest[k],
+            overdueFollowUps: overdue[k] ?? 0,
+          ),
+      ]..sort((a, b) {
+        if (a.entity == 'Unspecified') return 1;
+        if (b.entity == 'Unspecified') return -1;
+        return b.openCount.compareTo(a.openCount);
+      });
   return entries;
 }
 
@@ -1160,7 +1303,9 @@ List<({String checklistId, Duration blocked})> mostBlockedLists(
   for (final f in facts) {
     for (final e in f.blockedEpisodes) {
       final t = e.overlap(from, to, now);
-      if (t > Duration.zero) totals[f.checklistId] = (totals[f.checklistId] ?? Duration.zero) + t;
+      if (t > Duration.zero) {
+        totals[f.checklistId] = (totals[f.checklistId] ?? Duration.zero) + t;
+      }
     }
   }
   return [
@@ -1193,7 +1338,11 @@ TreeShape treeShape(List<ChecklistItemRow> rows) {
   var nonLeaves = 0;
   var childCount = 0;
   int size(String id) =>
-      1 + (children[id] ?? const <ChecklistItemRow>[]).fold<int>(0, (a, c) => a + size(c.id));
+      1 +
+      (children[id] ?? const <ChecklistItemRow>[]).fold<int>(
+        0,
+        (a, c) => a + size(c.id),
+      );
   void walk(String? id, int depth) {
     for (final c in children[id] ?? const <ChecklistItemRow>[]) {
       levelSizes[depth] = (levelSizes[depth] ?? 0) + 1;
@@ -1232,7 +1381,11 @@ TreeShape treeShape(List<ChecklistItemRow> rows) {
 }
 
 /// Kind of integrity problem (CL-L-17).
-enum IntegrityFlag { completedParentWithOpenDescendants, allChildrenDoneParentOpen, missingReason }
+enum IntegrityFlag {
+  completedParentWithOpenDescendants,
+  allChildrenDoneParentOpen,
+  missingReason,
+}
 
 /// CL-L-17 — integrity flags: completed parent with open descendants; all children completed but
 /// the parent open; waiting/blocked without a reason when reasons are required.
@@ -1241,9 +1394,10 @@ List<(String itemId, IntegrityFlag flag)> integrityFlags(
   Set<ItemStatus> requireReasonFor = const {},
 }) {
   final children = childrenOf(rows);
-  bool hasOpenDescendant(String id) => (children[id] ?? const <ChecklistItemRow>[]).any(
-    (c) => c.status.isOpen || hasOpenDescendant(c.id),
-  );
+  bool hasOpenDescendant(String id) =>
+      (children[id] ?? const <ChecklistItemRow>[]).any(
+        (c) => c.status.isOpen || hasOpenDescendant(c.id),
+      );
   final flags = <(String, IntegrityFlag)>[];
   for (final r in rows) {
     if (r.deletedAt != null) continue;
@@ -1251,7 +1405,9 @@ List<(String itemId, IntegrityFlag flag)> integrityFlags(
     if (r.status == ItemStatus.completed && hasOpenDescendant(r.id)) {
       flags.add((r.id, IntegrityFlag.completedParentWithOpenDescendants));
     }
-    final countable = kids.where((c) => c.status != ItemStatus.cancelled).toList();
+    final countable = kids
+        .where((c) => c.status != ItemStatus.cancelled)
+        .toList();
     if (r.status.isOpen &&
         countable.isNotEmpty &&
         countable.every((c) => c.status == ItemStatus.completed)) {
@@ -1267,7 +1423,8 @@ List<(String itemId, IntegrityFlag flag)> integrityFlags(
 
 /// CL-L-18 — per top-level branch: progress (leaf-based), completions in [from, to) and blocked
 /// time in that window.
-Map<String, ({Stat<double> progress, int throughput, Duration blocked})> branchContribution(
+Map<String, ({Stat<double> progress, int throughput, Duration blocked})>
+branchContribution(
   List<ChecklistItemRow> rows,
   List<ChecklistItemFact> facts, {
   required DateTime now,
@@ -1278,7 +1435,8 @@ Map<String, ({Stat<double> progress, int throughput, Duration blocked})> branchC
   final factById = {for (final f in facts) f.id: f};
   List<String> subtree(String id) => [
     id,
-    for (final c in children[id] ?? const <ChecklistItemRow>[]) ...subtree(c.id),
+    for (final c in children[id] ?? const <ChecklistItemRow>[])
+      ...subtree(c.id),
   ];
   return {
     for (final top in children[null] ?? const <ChecklistItemRow>[])
@@ -1315,7 +1473,9 @@ Map<int, Stat<double>> depthLevelProgress(List<ChecklistItemFact> facts) {
     if (f.isDeleted || !f.isCountable) continue;
     final level = f.depth + 1;
     total[level] = (total[level] ?? 0) + 1;
-    if (f.row.status == ItemStatus.completed) done[level] = (done[level] ?? 0) + 1;
+    if (f.row.status == ItemStatus.completed) {
+      done[level] = (done[level] ?? 0) + 1;
+    }
   }
   return {for (final l in total.keys) l: rate(done[l] ?? 0, total[l]!)};
 }
@@ -1335,7 +1495,9 @@ dueDatePerformance(Iterable<ChecklistItemFact> facts, {required DateTime now}) {
   final overdue = <(ChecklistItemFact, Duration)>[];
   for (final f in facts) {
     final due = f.row.dueAt;
-    if (due == null || f.isDeleted || f.status == ItemStatus.cancelled) continue;
+    if (due == null || f.isDeleted || f.status == ItemStatus.cancelled) {
+      continue;
+    }
     final done = f.done;
     if (done != null) {
       completedWithDue++;
@@ -1388,25 +1550,32 @@ final class const ChecklistRunFact(
   List<ChecklistRunFact> runs,
 ) {
   final sorted = [...runs]..sort((a, b) => a.startedAt.compareTo(b.startedAt));
-  final values = [for (final r in sorted) if (r.totalItems > 0) r.completion];
+  final values = [
+    for (final r in sorted)
+      if (r.totalItems > 0) r.completion,
+  ];
   return (
-    perRun: [for (final r in sorted) if (r.totalItems > 0) (r.date, r.completion)],
+    perRun: [
+      for (final r in sorted)
+        if (r.totalItems > 0) (r.date, r.completion),
+    ],
     mean: mean(values),
   );
 }
 
 /// CL-L-21 — streak of fully-completed runs (streak engine, unit = run).
-StreakSummary fullyCompletedRunStreak(List<ChecklistRunFact> runs) => computeStreaks([
-  for (final r in runs)
-    StreakUnit(
-      r.occurrenceKey,
-      start: r.date,
-      end: r.date,
-      kind: r.totalItems == 0
-          ? StreakUnitKind.neutral
-          : (r.isComplete ? StreakUnitKind.success : StreakUnitKind.breaks),
-    ),
-]);
+StreakSummary fullyCompletedRunStreak(List<ChecklistRunFact> runs) =>
+    computeStreaks([
+      for (final r in runs)
+        StreakUnit(
+          r.occurrenceKey,
+          start: r.date,
+          end: r.date,
+          kind: r.totalItems == 0
+              ? StreakUnitKind.neutral
+              : (r.isComplete ? StreakUnitKind.success : StreakUnitKind.breaks),
+        ),
+    ]);
 
 /// CL-L-22 — time to finish a run (last completedAt − run start) for 100 % runs: median and P85
 /// (minutes).
@@ -1431,13 +1600,16 @@ StreakSummary fullyCompletedRunStreak(List<ChecklistRunFact> runs) => computeStr
 }
 
 /// CL-L-23 — items most often not completed at reset (count and share of runs they were part of).
-List<({String itemId, int missed, double share})> mostSkippedItems(List<ChecklistRunFact> runs) {
+List<({String itemId, int missed, double share})> mostSkippedItems(
+  List<ChecklistRunFact> runs,
+) {
   final missed = <String, int>{};
   final seen = <String, int>{};
   for (final r in runs) {
     for (final s in r.snapshot) {
       seen[s.itemId] = (seen[s.itemId] ?? 0) + 1;
-      if (s.status != ItemStatus.completed && s.status != ItemStatus.cancelled) {
+      if (s.status != ItemStatus.completed &&
+          s.status != ItemStatus.cancelled) {
         missed[s.itemId] = (missed[s.itemId] ?? 0) + 1;
       }
     }
@@ -1446,9 +1618,9 @@ List<({String itemId, int missed, double share})> mostSkippedItems(List<Checklis
     for (final e in missed.entries)
       (itemId: e.key, missed: e.value, share: e.value / seen[e.key]!),
   ]..sort((a, b) {
-      final c = b.missed.compareTo(a.missed);
-      return c != 0 ? c : a.itemId.compareTo(b.itemId);
-    });
+    final c = b.missed.compareTo(a.missed);
+    return c != 0 ? c : a.itemId.compareTo(b.itemId);
+  });
 }
 
 /// CL-L-24 — mean run completion per weekday.
@@ -1477,19 +1649,31 @@ final class const ChecklistRow(
 
 /// CL-X-01 — lists overview: total, active, archived and template checklists; stale lists = no
 /// activity for ≥ [staleDays] days while holding open items.
-({int total, int active, int archived, int templates, List<String> staleListIds}) listsOverview(
+({
+  int total,
+  int active,
+  int archived,
+  int templates,
+  List<String> staleListIds,
+})
+listsOverview(
   List<ChecklistRow> lists,
   List<ChecklistItemFact> facts, {
   required DateTime now,
   int staleDays = 14,
 }) {
-  final live = [for (final l in lists) if (l.deletedAt == null) l];
+  final live = [
+    for (final l in lists)
+      if (l.deletedAt == null) l,
+  ];
   final lastActivity = <String, DateTime>{};
   final hasOpen = <String>{};
   for (final f in facts) {
     if (f.isDeleted) continue;
     final cur = lastActivity[f.checklistId];
-    if (cur == null || f.lastActivityAt.isAfter(cur)) lastActivity[f.checklistId] = f.lastActivityAt;
+    if (cur == null || f.lastActivityAt.isAfter(cur)) {
+      lastActivity[f.checklistId] = f.lastActivityAt;
+    }
     if (f.status.isOpen) hasOpen.add(f.checklistId);
   }
   final stale = [
@@ -1497,7 +1681,8 @@ final class const ChecklistRow(
       if (l.archivedAt == null &&
           !l.isTemplate &&
           hasOpen.contains(l.id) &&
-          now.difference(lastActivity[l.id] ?? l.createdAt) >= Duration(days: staleDays))
+          now.difference(lastActivity[l.id] ?? l.createdAt) >=
+              Duration(days: staleDays))
         l.id,
   ];
   return (
@@ -1511,7 +1696,13 @@ final class const ChecklistRow(
 
 /// CL-X-03 — global WIP / blocked / waiting counts across lists (archived lists excluded) and the
 /// 10 oldest open items.
-({int wip, int blocked, int waiting, List<(ChecklistItemFact, Duration)> oldest}) globalWip(
+({
+  int wip,
+  int blocked,
+  int waiting,
+  List<(ChecklistItemFact, Duration)> oldest,
+})
+globalWip(
   List<ChecklistItemFact> facts, {
   required DateTime now,
   Set<String> archivedListIds = const {},
@@ -1537,7 +1728,10 @@ PeriodComparison itemsCompleted(
   final instants = completionInstants(facts);
   final cur = instants.where(period.contains).length;
   final prev = instants.where(previous.contains).length;
-  return compareWithPrevious(Value<double>(cur.toDouble()), Value<double>(prev.toDouble()));
+  return compareWithPrevious(
+    Value<double>(cur.toDouble()),
+    Value<double>(prev.toDouble()),
+  );
 }
 
 /// CL-X-05 — status counts across all lists (live items).
@@ -1551,7 +1745,8 @@ Map<ItemStatus, int> statusDistribution(Iterable<ChecklistItemFact> facts) {
 }
 
 /// CL-X-09 — section-wide CT P50/P85 (hours) and the throughput trend slope per week.
-({Stat<double> p50, Stat<double> p85, Stat<TrendResult> throughputTrend}) flowBenchmarks(
+({Stat<double> p50, Stat<double> p85, Stat<TrendResult> throughputTrend})
+flowBenchmarks(
   List<ChecklistItemFact> facts, {
   required DateRange range,
   required DayBoundaries bounds,
@@ -1559,11 +1754,20 @@ Map<ItemStatus, int> statusDistribution(Iterable<ChecklistItemFact> facts) {
   Weekday weekStart = Weekday.monday,
 }) {
   final ct = cycleTimeDistribution(facts);
-  final weekly = throughput(facts, range: range, bounds: bounds, weekStart: weekStart).weekly;
+  final weekly = throughput(
+    facts,
+    range: range,
+    bounds: bounds,
+    weekStart: weekStart,
+  ).weekly;
   return (
     p50: ct.p50,
     p85: ct.p85,
-    throughputTrend: trend([for (final p in weekly) p.value], bucketDays: 7, random: random),
+    throughputTrend: trend(
+      [for (final p in weekly) p.value],
+      bucketDays: 7,
+      random: random,
+    ),
   );
 }
 
@@ -1584,7 +1788,8 @@ StreakSummary completionDayStreak(
 ]);
 
 /// CL-X-12 — checklists created and archived per month.
-({List<SeriesPoint<double>> created, List<SeriesPoint<double>> archived}) listCreationTrend(
+({List<SeriesPoint<double>> created, List<SeriesPoint<double>> archived})
+listCreationTrend(
   List<ChecklistRow> lists, {
   required DateRange range,
   required DayBoundaries bounds,
@@ -1616,7 +1821,11 @@ enum FlowInstability { littleRatio, arrivalDepartureRatio, risingWipAge }
 /// CL-L-27 — Little's Law diagnostic (never used as a forecast): ratio = mean CT ÷ (mean WIP ÷
 /// mean throughput), all in days; unstable when the ratio ∉ [0.7, 1.3], arrivals ÷ departures ∉
 /// [0.8, 1.2], or the mean WIP age is rising (positive OLS slope with p < 0.05).
-({Stat<double> ratio, Stat<double> arrivalDepartureRatio, List<FlowInstability> flags})
+({
+  Stat<double> ratio,
+  Stat<double> arrivalDepartureRatio,
+  List<FlowInstability> flags,
+})
 littlesLawDiagnostic({
   required List<double> cycleTimesDays,
   required List<double> dailyWip,
@@ -1639,13 +1848,16 @@ littlesLawDiagnostic({
   final r = ratio.valueOrNull;
   if (r != null && (r < 0.7 || r > 1.3)) flags.add(FlowInstability.littleRatio);
   final adv = ad.valueOrNull;
-  if (adv != null && (adv < 0.8 || adv > 1.2)) flags.add(FlowInstability.arrivalDepartureRatio);
+  if (adv != null && (adv < 0.8 || adv > 1.2)) {
+    flags.add(FlowInstability.arrivalDepartureRatio);
+  }
   if (meanWipAgeByDay.length >= 3) {
-    final fit = ols(
-      [for (var i = 0; i < meanWipAgeByDay.length; i++) i],
-      meanWipAgeByDay,
-    ).valueOrNull;
-    if (fit != null && fit.slope > 0 && fit.pValue < 0.05) flags.add(FlowInstability.risingWipAge);
+    final fit = ols([
+      for (var i = 0; i < meanWipAgeByDay.length; i++) i,
+    ], meanWipAgeByDay).valueOrNull;
+    if (fit != null && fit.slope > 0 && fit.pValue < 0.05) {
+      flags.add(FlowInstability.risingWipAge);
+    }
   }
   return (ratio: ratio, arrivalDepartureRatio: ad, flags: flags);
 }

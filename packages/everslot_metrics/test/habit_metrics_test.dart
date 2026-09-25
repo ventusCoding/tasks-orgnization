@@ -17,24 +17,32 @@ import 'support/support.dart';
 final ZoneClock paris = tzClock('Europe/Paris');
 final DayBoundaries bounds = DayBoundaries(paris);
 
-HabitPeriod dayPeriod(LocalDate date, HabitGoal goal, {bool due = true}) => HabitPeriod(
-  date.toIso(),
-  kind: HabitPeriodKind.day,
-  startDate: date,
-  endDate: date,
-  windowStart: bounds.startOf(date),
-  windowEnd: bounds.endOf(date),
-  goal: goal,
-  due: due,
-);
+HabitPeriod dayPeriod(LocalDate date, HabitGoal goal, {bool due = true}) =>
+    HabitPeriod(
+      date.toIso(),
+      kind: HabitPeriodKind.day,
+      startDate: date,
+      endDate: date,
+      windowStart: bounds.startOf(date),
+      windowEnd: bounds.endOf(date),
+      goal: goal,
+      due: due,
+    );
 
 HabitGoal goalFrom(Map<String, Object?> g) => HabitGoal(
   HabitGoalType.values.byName(g['type']! as String),
   target: (g['target'] as num?)?.toDouble(),
-  op: g['op'] == null ? TargetOp.gte : TargetOp.values.byName(g['op']! as String),
+  op: g['op'] == null
+      ? TargetOp.gte
+      : TargetOp.values.byName(g['op']! as String),
 );
 
-HabitLog progress(String date, double value, {String time = '12:00', String? created}) => HabitLog(
+HabitLog progress(
+  String date,
+  double value, {
+  String time = '12:00',
+  String? created,
+}) => HabitLog(
   'p-$date-$time',
   HabitLogKind.progress,
   loggedAt: at(paris, '${date}T$time'),
@@ -44,22 +52,29 @@ HabitLog progress(String date, double value, {String time = '12:00', String? cre
   createdAt: created == null ? null : at(paris, created),
 );
 
-HabitLog state(HabitLogKind kind, String date, {String time = '12:00', String? note, int? mood}) =>
-    HabitLog(
-      '$kind-$date-$time',
-      kind,
-      loggedAt: at(paris, '${date}T$time'),
-      localDate: d(date),
-      occurrenceKey: date,
-      note: note,
-      mood: mood,
-    );
+HabitLog state(
+  HabitLogKind kind,
+  String date, {
+  String time = '12:00',
+  String? note,
+  int? mood,
+}) => HabitLog(
+  '$kind-$date-$time',
+  kind,
+  loggedAt: at(paris, '${date}T$time'),
+  localDate: d(date),
+  occurrenceKey: date,
+  note: note,
+  mood: mood,
+);
 
 void main() {
   group('habit_pushups_month (T6.5.04–T6.5.11)', () {
     final fx = loadFixture('habit_pushups_month');
     final e = fx['expect']! as Map<String, Object?>;
-    final goal = goalFrom((fx['habit']! as Map)['goal']! as Map<String, Object?>);
+    final goal = goalFrom(
+      (fx['habit']! as Map)['goal']! as Map<String, Object?>,
+    );
     final now = at(paris, fx['now']! as String);
     final logs = [
       for (final l in (fx['logs']! as List).cast<Map<String, Object?>>())
@@ -70,7 +85,9 @@ void main() {
           localDate: d(l['date']! as String),
           value: (l['value'] as num?)?.toDouble(),
           occurrenceKey: l['key'] as String?,
-          createdAt: l['created'] == null ? null : at(paris, l['created']! as String),
+          createdAt: l['created'] == null
+              ? null
+              : at(paris, l['created']! as String),
           note: l['note'] as String?,
         ),
     ];
@@ -110,7 +127,10 @@ void main() {
       expect(pf.meanFulfilment.valueOrNull, near(e['meanFulfilment']! as num));
       final avg = volumeAverages(results);
       expect(avg.perActiveDay.valueOrNull, near(e['perActiveDay']! as num));
-      expect(avg.perScheduledDay.valueOrNull, near(e['perScheduledDay']! as num));
+      expect(
+        avg.perScheduledDay.valueOrNull,
+        near(e['perScheduledDay']! as num),
+      );
       expect(valueDistribution(results).median.valueOrNull, e['valueMedian']);
       final history = historyBuckets(
         results,
@@ -142,7 +162,11 @@ void main() {
       expect(r.recoveryRate.valueOrNull, near(e['recoveryRate']! as num));
       expect(r.longestGap, e['longestGap']);
       expect(r.comebacks, e['comebacks']);
-      final ci = consistencyIndex(results, from: d('2026-09-30'), to: d('2026-09-30'));
+      final ci = consistencyIndex(
+        results,
+        from: d('2026-09-30'),
+        to: d('2026-09-30'),
+      );
       expect(ci.l2.single.value, near(e['consistencyL2At30']! as num));
       expect(ci.index.valueOrNull, near(e['consistencyL2At30']! as num));
       final dc = dataCompleteness(results);
@@ -164,7 +188,10 @@ void main() {
         targetOn: (_) => 15,
       );
       expect(strength.series.length, 30);
-      expect(strength.series.firstWhere((p) => p.date == d('2026-09-15')).scored, isFalse);
+      expect(
+        strength.series.firstWhere((p) => p.date == d('2026-09-15')).scored,
+        isFalse,
+      );
       expect(strength.current, inInclusiveRange(0.7, 0.9));
       final momentum = scoreMomentum(strength).valueOrNull!;
       expect(momentum.momentum, Momentum.rising);
@@ -194,13 +221,18 @@ void main() {
       switch (h['schedule']) {
         case 'daily':
           final values = (h['values'] as Map?)?.cast<String, Object?>();
-          for (final entry in values?.entries ?? const <MapEntry<String, Object?>>[]) {
-            if (entry.value != null) logs.add(progress(entry.key, (entry.value! as num).toDouble()));
+          for (final entry
+              in values?.entries ?? const <MapEntry<String, Object?>>[]) {
+            if (entry.value != null) {
+              logs.add(progress(entry.key, (entry.value! as num).toDouble()));
+            }
           }
           for (final dd in (h['done'] as List? ?? const []).cast<String>()) {
             logs.add(state(HabitLogKind.done, dd));
           }
-          final weekdaysFrom = h['weekdaysFrom'] == null ? null : d(h['weekdaysFrom']! as String);
+          final weekdaysFrom = h['weekdaysFrom'] == null
+              ? null
+              : d(h['weekdaysFrom']! as String);
           final pause = (h['pause'] as List?)?.cast<String>();
           results = evaluateHabitPeriods(
             [
@@ -208,13 +240,18 @@ void main() {
                 dayPeriod(
                   date,
                   goal,
-                  due: weekdaysFrom == null || date.isBefore(weekdaysFrom) || !date.weekday.isWeekend,
+                  due:
+                      weekdaysFrom == null ||
+                      date.isBefore(weekdaysFrom) ||
+                      !date.weekday.isWeekend,
                 ),
             ],
             logs,
             now: now,
             today: today,
-            pauses: pause == null ? const [] : [HabitPause(d(pause[0]), end: d(pause[1]))],
+            pauses: pause == null
+                ? const []
+                : [HabitPause(d(pause[0]), end: d(pause[1]))],
           );
         case 'quota3':
           for (final dd in (h['done']! as List).cast<String>()) {
@@ -252,8 +289,16 @@ void main() {
                   startDate: date,
                   endDate: date,
                   windowStart: at(paris, key),
-                  windowEnd: k == 7 ? bounds.endOf(date) : at(paris, '${date.toIso()}T${(10 + k).toString().padLeft(2, '0')}:00'),
-                  matchStart: at(paris, key).subtract(const Duration(minutes: 30)),
+                  windowEnd: k == 7
+                      ? bounds.endOf(date)
+                      : at(
+                          paris,
+                          '${date.toIso()}T${(10 + k).toString().padLeft(2, '0')}:00',
+                        ),
+                  matchStart: at(
+                    paris,
+                    key,
+                  ).subtract(const Duration(minutes: 30)),
                   goal: goal,
                 ),
               );
@@ -269,7 +314,12 @@ void main() {
                 );
               }
             }
-            final slotResults = evaluateHabitPeriods(slots, logs, now: now, today: today);
+            final slotResults = evaluateHabitPeriods(
+              slots,
+              logs,
+              now: now,
+              today: today,
+            );
             results.add(
               rollUpSlots(
                 date,
@@ -281,7 +331,12 @@ void main() {
             if (date == days.first) firstDaySlots.addAll(slotResults);
           }
       }
-      series[id] = HabitSeries(id, results: results, logs: logs, categoryId: h['category'] as String?);
+      series[id] = HabitSeries(
+        id,
+        results: results,
+        logs: logs,
+        categoryId: h['category'] as String?,
+      );
     }
     final all = series.values.toList();
 
@@ -298,7 +353,11 @@ void main() {
     test('per-habit success rates and streaks', () {
       final rates = (e['successRates']! as Map).cast<String, num>();
       for (final id in rates.keys) {
-        expect(successRate(series[id]!.results).valueOrNull, near(rates[id]!), reason: id);
+        expect(
+          successRate(series[id]!.results).valueOrNull,
+          near(rates[id]!),
+          reason: id,
+        );
       }
       final streaks = (e['streaks']! as Map).cast<String, List<Object?>>();
       for (final id in streaks.keys) {
@@ -311,13 +370,19 @@ void main() {
       ];
       expect(readNotDue, e['readNotDue']);
       final limit = limitMetricsOf(series['coffee']!.results);
-      expect(limit.withinLimitShare.valueOrNull, near(e['coffeeWithinLimit']! as num));
+      expect(
+        limit.withinLimitShare.valueOrNull,
+        near(e['coffeeWithinLimit']! as num),
+      );
       expect(limit.excess, e['coffeeExcess']);
     });
 
     test('section metrics HB-X-01…04, 08, 09, 10, 12, 14', () {
       final tp = e['todayProgress']! as Map<String, Object?>;
-      expect(todayProgress(all, today: d(tp['date']! as String)).valueOrNull, near(tp['value']! as num));
+      expect(
+        todayProgress(all, today: d(tp['date']! as String)).valueOrNull,
+        near(tp['value']! as num),
+      );
       final range = DateRange(days.first, days.last);
       final perfect = perfectDays(all, range: range, today: today);
       expect(perfect.perfectDays.map((x) => x.toIso()), e['perfectDays']);
@@ -327,7 +392,10 @@ void main() {
       expect(trend.weekly.map((p) => p.value), [
         for (final v in (e['weekly']! as List).cast<num>()) near(v),
       ]);
-      expect(trend.lastVsPrevious.delta.valueOrNull, near(e['weeklyDeltaPp']! as num));
+      expect(
+        trend.lastVsPrevious.delta.valueOrNull,
+        near(e['weeklyDeltaPp']! as num),
+      );
       final ranking = bestAndWorstHabits(all, from: days.first, to: days.last);
       expect(ranking.map((r) => r.$1), e['ranking']);
       final areas = habitAreas(all);
@@ -338,7 +406,12 @@ void main() {
       expect(heat.first.value, 1);
       final portfolio = habitPortfolio(
         [
-          HabitSeries('a', results: const [], createdOn: d('2026-06-01'), archivedOn: d('2026-07-15')),
+          HabitSeries(
+            'a',
+            results: const [],
+            createdOn: d('2026-06-01'),
+            archivedOn: d('2026-07-15'),
+          ),
           HabitSeries('b', results: const [], createdOn: d('2026-06-01')),
           HabitSeries('c', results: const [], createdOn: d('2026-09-20')),
         ],
@@ -349,7 +422,11 @@ void main() {
       expect(portfolio.activeAt90.valueOrNull, 0.5);
       expect(portfolio.created.first.value, 2);
       expect(portfolio.archived[1].value, 1);
-      expect(habitCoOccurrence(all), isEmpty, reason: 'fewer than 21 overlapping days');
+      expect(
+        habitCoOccurrence(all),
+        isEmpty,
+        reason: 'fewer than 21 overlapping days',
+      );
     });
   });
 
@@ -361,23 +438,24 @@ void main() {
       final skips = (c['skips']! as List).cast<int>().toSet();
       final freq = StrengthFrequency(c['num']! as int, c['den']! as int);
       final kind = StrengthGoalKind.values.byName(c['kind']! as String);
-      final result = computeStrength(
-        [
-          for (var i = 0; i < values.length; i++)
-            StrengthDay(
-              start.plusDays(i),
-              value: values[i].toDouble(),
-              frequency: freq,
-              skipped: skips.contains(i),
-              target: (c['target'] as num?)?.toDouble(),
-              expectedInDay: freq.f > 1 ? freq.numerator.toDouble() : 1,
-            ),
-        ],
-        kind: kind,
-      );
+      final result = computeStrength([
+        for (var i = 0; i < values.length; i++)
+          StrengthDay(
+            start.plusDays(i),
+            value: values[i].toDouble(),
+            frequency: freq,
+            skipped: skips.contains(i),
+            target: (c['target'] as num?)?.toDouble(),
+            expectedInDay: freq.f > 1 ? freq.numerator.toDouble() : 1,
+          ),
+      ], kind: kind);
       final expected = (c['expected']! as List).cast<num>();
       for (var i = 0; i < expected.length; i++) {
-        expect(result.series[i].score, near(expected[i], 1e-9), reason: '${c['name']} day $i');
+        expect(
+          result.series[i].score,
+          near(expected[i], 1e-9),
+          reason: '${c['name']} day $i',
+        );
         expect(result.series[i].score, inInclusiveRange(0, 1));
       }
     }
@@ -391,7 +469,10 @@ void main() {
       expect(m.withinLimitShare.valueOrNull, near(3 / 5));
       expect(m.excess, 4);
       expect(m.credits, [1, 1, 0.5, 0, 1]);
-      expect(limitMetricsOf(const []).withinLimitShare, isA<NotApplicable<double>>());
+      expect(
+        limitMetricsOf(const []).withinLimitShare,
+        isA<NotApplicable<double>>(),
+      );
     });
 
     test('recovery D M D M M D M (HB-H-22)', () {
@@ -427,16 +508,31 @@ void main() {
       expect(comeback.comebacks, 1);
       final formation = formationDays(results, today: start.plusDays(6));
       expect(formation, const NotApplicable<int>(Reasons.notReached));
-      final allDone = [for (final x in results) x.withStatus(PeriodStatus.done)];
+      final allDone = [
+        for (final x in results) x.withStatus(PeriodStatus.done),
+      ];
       expect(formationDays(allDone, today: start.plusDays(30)).valueOrNull, 1);
-      expect(formationDays(const [], today: start), const NotApplicable<int>(Reasons.noData));
+      expect(
+        formationDays(const [], today: start),
+        const NotApplicable<int>(Reasons.noData),
+      );
     });
 
     test('check-ins at 23:30 and 00:30 with a 04:00 day start (HB-H-19)', () {
       final nightOwl = DayBoundaries(paris, dayStartsAt: LocalTime(4, 0));
       final logs = [
-        HabitLog('a', HabitLogKind.done, loggedAt: at(paris, '2026-09-10T23:30'), localDate: d('2026-09-10')),
-        HabitLog('b', HabitLogKind.done, loggedAt: at(paris, '2026-09-11T00:30'), localDate: d('2026-09-10')),
+        HabitLog(
+          'a',
+          HabitLogKind.done,
+          loggedAt: at(paris, '2026-09-10T23:30'),
+          localDate: d('2026-09-10'),
+        ),
+        HabitLog(
+          'b',
+          HabitLogKind.done,
+          loggedAt: at(paris, '2026-09-11T00:30'),
+          localDate: d('2026-09-10'),
+        ),
       ];
       expect(nightOwl.dateOf(logs[1].loggedAt), d('2026-09-10'));
       final times = checkInTimes(logs, bounds: nightOwl);
@@ -464,7 +560,9 @@ void main() {
                 HabitLog(
                   'm$i',
                   HabitLogKind.note,
-                  loggedAt: bounds.startOf(start.plusDays(i)).add(const Duration(hours: 20)),
+                  loggedAt: bounds
+                      .startOf(start.plusDays(i))
+                      .add(const Duration(hours: 20)),
                   localDate: start.plusDays(i),
                   mood: mood,
                 ),
@@ -479,27 +577,38 @@ void main() {
       ];
       final streaks = habitStreaks(results, freezesPerMonth: 1);
       expect(streaks.currentLength, 1);
-      final usage = freezeUsage(streaks, freezesPerMonth: 1, today: d('2026-09-30'), habitStart: start);
+      final usage = freezeUsage(
+        streaks,
+        freezesPerMonth: 1,
+        today: d('2026-09-30'),
+        habitStart: start,
+      );
       expect(usage.usedThisMonth, 1);
       expect(usage.grantedAllTime, 1);
       expect(usage.protectedKeys, ['u1']);
-      StrengthResult flat(double v) => StrengthResult(
-        [for (var i = 0; i < 40; i++) StrengthPoint(start.plusDays(i), v - i * 0.02)],
-        initialScore: 0,
-      );
+      StrengthResult flat(double v) => StrengthResult([
+        for (var i = 0; i < 40; i++)
+          StrengthPoint(start.plusDays(i), v - i * 0.02),
+      ], initialScore: 0);
       expect(scoreMomentum(flat(0.8)).valueOrNull!.momentum, Momentum.falling);
       expect(
         scoreMomentum(
-          StrengthResult(
-            [for (var i = 0; i < 10; i++) StrengthPoint(start.plusDays(i), 0.5)],
-            initialScore: 0,
-          ),
+          StrengthResult([
+            for (var i = 0; i < 10; i++) StrengthPoint(start.plusDays(i), 0.5),
+          ], initialScore: 0),
         ).valueOrNull!.momentum,
         Momentum.stable,
       );
       final reminders = reminderEffectiveness(
-        reminders: [at(paris, '2026-09-01T08:00'), at(paris, '2026-09-02T08:00')],
-        checkIns: [at(paris, '2026-09-01T08:20'), at(paris, '2026-09-02T10:00'), at(paris, '2026-08-31T09:00')],
+        reminders: [
+          at(paris, '2026-09-01T08:00'),
+          at(paris, '2026-09-02T08:00'),
+        ],
+        checkIns: [
+          at(paris, '2026-09-01T08:20'),
+          at(paris, '2026-09-02T10:00'),
+          at(paris, '2026-08-31T09:00'),
+        ],
       );
       expect(reminders.share.valueOrNull, near(1 / 3));
       expect(reminders.medianLatencyMinutes.valueOrNull, 20);
@@ -534,7 +643,8 @@ void main() {
       expect(rollUp.cleanDays, 20);
       final rng = math.Random(7);
       List<PeriodResult> randomHabit(bool Function(int) doneOn) => [
-        for (var i = 0; i < 40; i++) unit(i, doneOn(i) ? PeriodStatus.done : PeriodStatus.missed),
+        for (var i = 0; i < 40; i++)
+          unit(i, doneOn(i) ? PeriodStatus.done : PeriodStatus.missed),
       ];
       final base = [for (var i = 0; i < 40; i++) rng.nextBool()];
       final pairs = habitCoOccurrence([
@@ -546,12 +656,9 @@ void main() {
       expect(xy.phi, near(1));
       expect(xy.significant, isTrue);
       expect(pairs.length, 3);
-      final atRisk = atRiskHabits(
-        [
-          HabitSeries('s', results: const [], strength: flat(0.9)),
-        ],
-        today: start.plusDays(9),
-      );
+      final atRisk = atRiskHabits([
+        HabitSeries('s', results: const [], strength: flat(0.9)),
+      ], today: start.plusDays(9));
       expect(atRisk, [('s', HabitRisk.scoreDrop)]);
       final dist = strengthDistribution([
         HabitSeries('s', results: const [], strength: flat(0.9)),
@@ -559,7 +666,14 @@ void main() {
       ]);
       expect(dist.ranked.single.$1, 's');
       expect(dist.falling, ['s']);
-      expect(habitStrength(const [], today: start, frequencyOn: (_) => const StrengthFrequency.daily()).current, 0);
+      expect(
+        habitStrength(
+          const [],
+          today: start,
+          frequencyOn: (_) => const StrengthFrequency.daily(),
+        ).current,
+        0,
+      );
     });
   });
 }

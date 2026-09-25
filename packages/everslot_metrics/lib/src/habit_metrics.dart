@@ -34,7 +34,10 @@ import 'package:meta/meta.dart';
 typedef HabitUnitFact = PeriodResult;
 
 /// Whether a unit is excluded from rate denominators (X).
-bool isExcludedUnit(PeriodResult r, {SkipPolicy skipPolicy = SkipPolicy.neutral}) =>
+bool isExcludedUnit(
+  PeriodResult r, {
+  SkipPolicy skipPolicy = SkipPolicy.neutral,
+}) =>
     r.status == PeriodStatus.excused ||
     r.status == PeriodStatus.paused ||
     r.status == PeriodStatus.notDue ||
@@ -44,10 +47,15 @@ bool isExcludedUnit(PeriodResult r, {SkipPolicy skipPolicy = SkipPolicy.neutral}
 bool isClosedScheduled(PeriodResult r) =>
     r.status != PeriodStatus.notDue && r.status != PeriodStatus.pending;
 
-Iterable<PeriodResult> _inRange(Iterable<PeriodResult> results, LocalDate? from, LocalDate? to) =>
-    results.where(
-      (r) => (from == null || !r.endDate.isBefore(from)) && (to == null || !r.startDate.isAfter(to)),
-    );
+Iterable<PeriodResult> _inRange(
+  Iterable<PeriodResult> results,
+  LocalDate? from,
+  LocalDate? to,
+) => results.where(
+  (r) =>
+      (from == null || !r.endDate.isBefore(from)) &&
+      (to == null || !r.startDate.isAfter(to)),
+);
 
 /// Per-day aggregate (`HabitDayFact`, T6.5.01).
 @immutable
@@ -79,7 +87,9 @@ List<HabitDayFact> habitDayFacts(
     if (r.kind == HabitPeriodKind.quota) {
       for (final l in logs) {
         final day = l.localDate;
-        if (l.kind == HabitLogKind.progress) value[day] = (value[day] ?? 0) + (l.value ?? 0);
+        if (l.kind == HabitLogKind.progress) {
+          value[day] = (value[day] ?? 0) + (l.value ?? 0);
+        }
         if (l.kind == HabitLogKind.done || l.kind == HabitLogKind.progress) {
           done[day] = 1;
           due.putIfAbsent(day, () => 1);
@@ -87,7 +97,9 @@ List<HabitDayFact> habitDayFacts(
       }
     } else {
       final day = r.startDate;
-      final isNeutral = isExcludedUnit(r, skipPolicy: skipPolicy) || r.status == PeriodStatus.frozen;
+      final isNeutral =
+          isExcludedUnit(r, skipPolicy: skipPolicy) ||
+          r.status == PeriodStatus.frozen;
       neutral[day] = (neutral[day] ?? true) && isNeutral;
       if (!isNeutral) due[day] = (due[day] ?? 0) + 1;
       if (r.status == PeriodStatus.done) done[day] = (done[day] ?? 0) + 1;
@@ -95,12 +107,21 @@ List<HabitDayFact> habitDayFacts(
     }
     for (final l in logs) {
       final day = r.kind == HabitPeriodKind.quota ? l.localDate : r.startDate;
-      if (first[day] == null || l.loggedAt.isBefore(first[day]!)) first[day] = l.loggedAt;
-      if (last[day] == null || l.loggedAt.isAfter(last[day]!)) last[day] = l.loggedAt;
+      if (first[day] == null || l.loggedAt.isBefore(first[day]!)) {
+        first[day] = l.loggedAt;
+      }
+      if (last[day] == null || l.loggedAt.isAfter(last[day]!)) {
+        last[day] = l.loggedAt;
+      }
       if (l.mood != null) moods.putIfAbsent(day, () => []).add(l.mood!);
     }
   }
-  final dates = {...due.keys, ...done.keys, ...value.keys, ...neutral.keys}.toList()..sort();
+  final dates = {
+    ...due.keys,
+    ...done.keys,
+    ...value.keys,
+    ...neutral.keys,
+  }.toList()..sort();
   return [
     for (final day in dates)
       HabitDayFact(
@@ -138,27 +159,30 @@ StrengthResult habitStrength(
     );
   }
   final byDate = {for (final d in days) d.localDate: d};
-  final first = days.map((d) => d.localDate).reduce((a, b) => a.isBefore(b) ? a : b);
-  return computeStrength(
-    [
-      for (var d = first; !d.isAfter(today); d = d.plusDays(1))
-        () {
-          final f = byDate[d];
-          final freq = frequencyOn(d);
-          return StrengthDay(
-            d,
-            value: f == null
-                ? 0
-                : (kind == StrengthGoalKind.boolean ? f.doneUnits.toDouble() : f.value),
-            frequency: freq,
-            skipped: f?.neutral ?? false,
-            target: targetOn?.call(d),
-            expectedInDay: freq.f > 1 ? math.max(1, f?.dueUnits ?? freq.f).toDouble() : 1,
-          );
-        }(),
-    ],
-    kind: kind,
-  );
+  final first = days
+      .map((d) => d.localDate)
+      .reduce((a, b) => a.isBefore(b) ? a : b);
+  return computeStrength([
+    for (var d = first; !d.isAfter(today); d = d.plusDays(1))
+      () {
+        final f = byDate[d];
+        final freq = frequencyOn(d);
+        return StrengthDay(
+          d,
+          value: f == null
+              ? 0
+              : (kind == StrengthGoalKind.boolean
+                    ? f.doneUnits.toDouble()
+                    : f.value),
+          frequency: freq,
+          skipped: f?.neutral ?? false,
+          target: targetOn?.call(d),
+          expectedInDay: freq.f > 1
+              ? math.max(1, f?.dueUnits ?? freq.f).toDouble()
+              : 1,
+        );
+      }(),
+  ], kind: kind);
 }
 
 /// HB-H-02…04 — streaks (current, best, top-10), with freezes per month.
@@ -182,7 +206,9 @@ Stat<double> successRate(
   var s = 0;
   var n = 0;
   for (final r in _inRange(results, from, to)) {
-    if (!isClosedScheduled(r) || isExcludedUnit(r, skipPolicy: skipPolicy)) continue;
+    if (!isClosedScheduled(r) || isExcludedUnit(r, skipPolicy: skipPolicy)) {
+      continue;
+    }
     n++;
     if (r.status == PeriodStatus.done) s++;
   }
@@ -205,7 +231,11 @@ final class const OutcomeCounts({
 
 /// HB-H-06 — success / partial / failed / missed / skipped / excused / total (closed scheduled
 /// units; missed and failed are kept apart).
-OutcomeCounts outcomeCounts(Iterable<PeriodResult> results, {LocalDate? from, LocalDate? to}) {
+OutcomeCounts outcomeCounts(
+  Iterable<PeriodResult> results, {
+  LocalDate? from,
+  LocalDate? to,
+}) {
   final c = {for (final s in PeriodStatus.values) s: 0};
   for (final r in _inRange(results, from, to)) {
     if (!isClosedScheduled(r)) continue;
@@ -225,7 +255,8 @@ OutcomeCounts outcomeCounts(Iterable<PeriodResult> results, {LocalDate? from, Lo
 }
 
 /// HB-H-07 — successes and volume per bucket (week/month/quarter/year).
-({List<SeriesPoint<double>> successes, List<SeriesPoint<double>> volume}) historyBuckets(
+({List<SeriesPoint<double>> successes, List<SeriesPoint<double>> volume})
+historyBuckets(
   Iterable<PeriodResult> results, {
   required LocalDate from,
   required LocalDate to,
@@ -265,7 +296,8 @@ Map<LocalDate, PeriodStatus> habitCalendar(Iterable<PeriodResult> results) => {
 int totalRepetitions(Iterable<HabitLog> logs) => logs
     .where(
       (l) =>
-          (l.kind == HabitLogKind.done || l.kind == HabitLogKind.progress) && l.source != 'auto',
+          (l.kind == HabitLogKind.done || l.kind == HabitLogKind.progress) &&
+          l.source != 'auto',
     )
     .length;
 
@@ -297,8 +329,11 @@ Stat<double> targetProgress(
 }
 
 /// HB-H-11 — total volume Σ v over [from]…[to] (all time when null).
-double totalVolume(Iterable<PeriodResult> results, {LocalDate? from, LocalDate? to}) =>
-    _inRange(results, from, to).fold(0, (a, r) => a + r.achieved);
+double totalVolume(
+  Iterable<PeriodResult> results, {
+  LocalDate? from,
+  LocalDate? to,
+}) => _inRange(results, from, to).fold(0, (a, r) => a + r.achieved);
 
 /// HB-H-12 — mean v per scheduled day (E − X) and per active day (v > 0).
 ({Stat<double> perScheduledDay, Stat<double> perActiveDay}) volumeAverages(
@@ -307,9 +342,13 @@ double totalVolume(Iterable<PeriodResult> results, {LocalDate? from, LocalDate? 
 }) {
   final scheduled = [
     for (final r in results)
-      if (isClosedScheduled(r) && !isExcludedUnit(r, skipPolicy: skipPolicy)) r.achieved,
+      if (isClosedScheduled(r) && !isExcludedUnit(r, skipPolicy: skipPolicy))
+        r.achieved,
   ];
-  final active = [for (final v in scheduled) if (v > 0) v];
+  final active = [
+    for (final v in scheduled)
+      if (v > 0) v,
+  ];
   return (perScheduledDay: mean(scheduled), perActiveDay: mean(active));
 }
 
@@ -343,14 +382,20 @@ Stat<PersonalRecord> bestBucket(
       best.bucket,
       value: best.value,
       previousBest: previous,
-      isNew: !best.bucket.isBefore(currentPeriodStart) &&
+      isNew:
+          !best.bucket.isBefore(currentPeriodStart) &&
           (previous == null || best.value > previous),
     ),
   );
 }
 
 /// HB-H-13 — records: best day, week and month by volume (or completions with [byCompletions]).
-({Stat<PersonalRecord> day, Stat<PersonalRecord> week, Stat<PersonalRecord> month}) habitRecords(
+({
+  Stat<PersonalRecord> day,
+  Stat<PersonalRecord> week,
+  Stat<PersonalRecord> month,
+})
+habitRecords(
   Iterable<PeriodResult> results, {
   required LocalDate from,
   required LocalDate to,
@@ -365,7 +410,11 @@ Stat<PersonalRecord> bestBucket(
   ];
   Stat<PersonalRecord> best(Granularity g) => bestBucket(
     bucketSum(rows, from: from, to: to, granularity: g, weekStart: weekStart),
-    currentPeriodStart: bucketStart(currentPeriodStart, g, weekStart: weekStart),
+    currentPeriodStart: bucketStart(
+      currentPeriodStart,
+      g,
+      weekStart: weekStart,
+    ),
   );
   return (
     day: best(Granularity.day),
@@ -375,13 +424,15 @@ Stat<PersonalRecord> bestBucket(
 }
 
 /// HB-H-14 — distribution of daily values of scheduled units: histogram, median, P85.
-({Histogram histogram, Stat<double> median, Stat<double> p85}) valueDistribution(
+({Histogram histogram, Stat<double> median, Stat<double> p85})
+valueDistribution(
   Iterable<PeriodResult> results, {
   SkipPolicy skipPolicy = SkipPolicy.neutral,
 }) {
   final values = [
     for (final r in results)
-      if (isClosedScheduled(r) && !isExcludedUnit(r, skipPolicy: skipPolicy)) r.achieved,
+      if (isClosedScheduled(r) && !isExcludedUnit(r, skipPolicy: skipPolicy))
+        r.achieved,
   ];
   return (
     histogram: histogramFreedmanDiaconis(values),
@@ -401,20 +452,23 @@ Stat<PersonalRecord> bestBucket(
       if (isClosedScheduled(r) && !isExcludedUnit(r, skipPolicy: skipPolicy)) r,
   ];
   return (
-    partialShare: rate(units.where((r) => r.status == PeriodStatus.partial).length, units.length),
+    partialShare: rate(
+      units.where((r) => r.status == PeriodStatus.partial).length,
+      units.length,
+    ),
     meanFulfilment: mean(units.map(_unitFulfilment)),
   );
 }
 
 double _unitFulfilment(PeriodResult r) =>
-    r.status == PeriodStatus.skipped || r.status == PeriodStatus.frozen ? 0 : r.fulfilment;
+    r.status == PeriodStatus.skipped || r.status == PeriodStatus.frozen
+    ? 0
+    : r.fulfilment;
 
 /// HB-H-16 — limit habits: within-limit days (v ≤ limit) ÷ (E − X), excess Σ max(0, v − limit)
 /// and Loop credits clamp(1 − (v − limit)/limit, 0, 1).
-({Stat<double> withinLimitShare, double excess, List<double> credits}) limitMetrics(
-  List<double> values,
-  double limit,
-) {
+({Stat<double> withinLimitShare, double excess, List<double> credits})
+limitMetrics(List<double> values, double limit) {
   var within = 0;
   var excess = 0.0;
   for (final v in values) {
@@ -429,7 +483,8 @@ double _unitFulfilment(PeriodResult r) =>
 }
 
 /// HB-H-16 from period results (closed, non-excluded units of an `lte` habit).
-({Stat<double> withinLimitShare, double excess, List<double> credits}) limitMetricsOf(
+({Stat<double> withinLimitShare, double excess, List<double> credits})
+limitMetricsOf(
   Iterable<PeriodResult> results, {
   SkipPolicy skipPolicy = SkipPolicy.neutral,
 }) {
@@ -466,7 +521,9 @@ ConsistencyIndex consistencyIndex(
 }) {
   final l1 = <(LocalDate, double)>[];
   for (final r in results) {
-    if (!isClosedScheduled(r) || isExcludedUnit(r, skipPolicy: skipPolicy)) continue;
+    if (!isClosedScheduled(r) || isExcludedUnit(r, skipPolicy: skipPolicy)) {
+      continue;
+    }
     final v = switch (r.status) {
       PeriodStatus.done => 1.0,
       PeriodStatus.partial => r.fulfilment,
@@ -496,7 +553,9 @@ Map<Weekday, Stat<double>> habitWeekdayProfile(
   final n = <Weekday, int>{};
   for (final r in results) {
     if (r.kind == HabitPeriodKind.quota) continue;
-    if (!isClosedScheduled(r) || isExcludedUnit(r, skipPolicy: skipPolicy)) continue;
+    if (!isClosedScheduled(r) || isExcludedUnit(r, skipPolicy: skipPolicy)) {
+      continue;
+    }
     final w = r.startDate.weekday;
     n[w] = (n[w] ?? 0) + 1;
     if (r.status == PeriodStatus.done) s[w] = (s[w] ?? 0) + 1;
@@ -513,13 +572,18 @@ Map<Weekday, Stat<double>> habitWeekdayProfile(
   final minutes = <int>[];
   final matrix = {for (final w in Weekday.values) w: List<int>.filled(24, 0)};
   for (final l in logs) {
-    if (l.kind != HabitLogKind.done && l.kind != HabitLogKind.progress) continue;
+    if (l.kind != HabitLogKind.done && l.kind != HabitLogKind.progress) {
+      continue;
+    }
     final local = bounds.clock.toLocal(l.loggedAt);
     minutes.add(local.time.minuteOfDay);
     matrix[bounds.dateOf(l.loggedAt).weekday]![local.hour]++;
   }
   return (
-    circular: circularTimeSummary(minutes, dayStartMinute: bounds.dayStartsAt.minuteOfDay),
+    circular: circularTimeSummary(
+      minutes,
+      dayStartMinute: bounds.dayStartsAt.minuteOfDay,
+    ),
     matrix: matrix,
   );
 }
@@ -535,7 +599,9 @@ Stat<double> slotPunctuality(
   for (final r in slotResults) {
     if (r.kind != HabitPeriodKind.slot) continue;
     for (final l in r.entries) {
-      if (l.kind != HabitLogKind.done && l.kind != HabitLogKind.progress) continue;
+      if (l.kind != HabitLogKind.done && l.kind != HabitLogKind.progress) {
+        continue;
+      }
       total++;
       if (l.loggedAt.difference(r.windowStart).abs() <= tolerance) within++;
     }
@@ -545,14 +611,19 @@ Stat<double> slotPunctuality(
 
 /// HB-H-21 — multi-times per day: per-day count vs target and the mean/median spacing (minutes)
 /// between consecutive check-ins of a day.
-({Map<LocalDate, (int count, double target)> perDay, Stat<double> meanSpacing, Stat<double> medianSpacing})
+({
+  Map<LocalDate, (int count, double target)> perDay,
+  Stat<double> meanSpacing,
+  Stat<double> medianSpacing,
+})
 multiTimesPerDay(Iterable<PeriodResult> dayResults) {
   final perDay = <LocalDate, (int, double)>{};
   final spacing = <double>[];
   for (final r in dayResults) {
     final checkIns = [
       for (final l in r.entries)
-        if (l.kind == HabitLogKind.done || l.kind == HabitLogKind.progress) l.loggedAt,
+        if (l.kind == HabitLogKind.done || l.kind == HabitLogKind.progress)
+          l.loggedAt,
     ]..sort();
     perDay[r.startDate] = (
       r.goal.isMeasurable ? r.achieved.round() : checkIns.length,
@@ -562,7 +633,11 @@ multiTimesPerDay(Iterable<PeriodResult> dayResults) {
       spacing.add(checkIns[i].difference(checkIns[i - 1]).inSeconds / 60);
     }
   }
-  return (perDay: perDay, meanSpacing: mean(spacing), medianSpacing: median(spacing));
+  return (
+    perDay: perDay,
+    meanSpacing: mean(spacing),
+    medianSpacing: median(spacing),
+  );
 }
 
 /// HB-H-22 result.
@@ -584,11 +659,15 @@ Recovery recovery(
   int comebackAfter = 3,
 }) {
   final seq = [
-    for (final r in [...results]..sort((a, b) => a.startDate.compareTo(b.startDate)))
+    for (final r in [
+      ...results,
+    ]..sort((a, b) => a.startDate.compareTo(b.startDate)))
       if (isClosedScheduled(r) && !isExcludedUnit(r, skipPolicy: skipPolicy))
         switch (r.status) {
           PeriodStatus.done => 1,
-          PeriodStatus.failed || PeriodStatus.missed || PeriodStatus.frozen => -1,
+          PeriodStatus.failed ||
+          PeriodStatus.missed ||
+          PeriodStatus.frozen => -1,
           PeriodStatus.skipped => -1,
           _ => 0,
         },
@@ -621,7 +700,13 @@ Recovery recovery(
 }
 
 /// HB-H-23 — freezes used / granted this month and all time, with the protected units.
-({int usedThisMonth, int grantedThisMonth, int usedAllTime, int grantedAllTime, List<String> protectedKeys})
+({
+  int usedThisMonth,
+  int grantedThisMonth,
+  int usedAllTime,
+  int grantedAllTime,
+  List<String> protectedKeys,
+})
 freezeUsage(
   StreakSummary streaks, {
   required int freezesPerMonth,
@@ -630,7 +715,8 @@ freezeUsage(
 }) {
   final month =
       '${today.year.toString().padLeft(4, '0')}-${today.month.toString().padLeft(2, '0')}';
-  final months = (today.year - habitStart.year) * 12 + today.month - habitStart.month + 1;
+  final months =
+      (today.year - habitStart.year) * 12 + today.month - habitStart.month + 1;
   return (
     usedThisMonth: streaks.freezesUsedByMonth[month] ?? 0,
     grantedThisMonth: freezesPerMonth,
@@ -650,7 +736,9 @@ Stat<({double slopePointsPerDay, Momentum momentum})> scoreMomentum(
   int days = 30,
 }) {
   final series = strength.series;
-  final tail = series.length <= days ? series : series.sublist(series.length - days);
+  final tail = series.length <= days
+      ? series
+      : series.sublist(series.length - days);
   return ols(
     [for (var i = 0; i < tail.length; i++) i],
     [for (final p in tail) p.score * 100],
@@ -688,7 +776,8 @@ DataCompleteness dataCompleteness(Iterable<PeriodResult> results) {
     for (final l in r.entries) {
       logs++;
       final created = l.createdAt;
-      if (created != null && created.difference(r.windowEnd) > const Duration(hours: 24)) {
+      if (created != null &&
+          created.difference(r.windowEnd) > const Duration(hours: 24)) {
         backfilled++;
       }
     }
@@ -711,7 +800,9 @@ GoalProgress habitGoalPace(
 }) {
   final daily = <LocalDate, double>{};
   for (final r in results) {
-    final v = byCompletions ? (r.status == PeriodStatus.done ? 1.0 : 0.0) : r.achieved;
+    final v = byCompletions
+        ? (r.status == PeriodStatus.done ? 1.0 : 0.0)
+        : r.achieved;
     daily[r.startDate] = (daily[r.startDate] ?? 0) + v;
   }
   return goalProgress(goal, asOf: asOf, dailyValues: daily);
@@ -741,10 +832,16 @@ Stat<int> formationDays(
       if (isClosedScheduled(r) && !isExcludedUnit(r)) r,
   ];
   if (list.isEmpty) return const NotApplicable<int>(Reasons.noData);
-  final first = list.map((r) => r.startDate).reduce((a, b) => a.isBefore(b) ? a : b);
+  final first = list
+      .map((r) => r.startDate)
+      .reduce((a, b) => a.isBefore(b) ? a : b);
   var streak = 0;
   for (var d = first; !d.isAfter(today); d = d.plusDays(1)) {
-    final rate = successRate(list, from: d.minusDays(windowDays - 1), to: d).valueOrNull;
+    final rate = successRate(
+      list,
+      from: d.minusDays(windowDays - 1),
+      to: d,
+    ).valueOrNull;
     if (rate != null && rate >= threshold) {
       streak++;
       if (streak >= holdDays) {
@@ -759,7 +856,8 @@ Stat<int> formationDays(
 
 /// HB-H-28 — reminder effectiveness: share of check-ins within [window] (60 min) after a reminder
 /// for the habit, and the median latency reminder → check-in (minutes).
-({Stat<double> share, Stat<double> medianLatencyMinutes}) reminderEffectiveness({
+({Stat<double> share, Stat<double> medianLatencyMinutes})
+reminderEffectiveness({
   required List<DateTime> reminders,
   required List<DateTime> checkIns,
   Duration window = const Duration(minutes: 60),
@@ -778,22 +876,33 @@ Stat<int> formationDays(
       latencies.add(c.difference(last).inSeconds / 60);
     }
   }
-  return (share: rate(within, checkIns.length), medianLatencyMinutes: median(latencies));
+  return (
+    share: rate(within, checkIns.length),
+    medianLatencyMinutes: median(latencies),
+  );
 }
 
 /// HB-H-29 — mean mood on done vs not-done days with a Mann–Whitney test (non-causal wording).
-({Stat<double> doneMean, Stat<double> notDoneMean, Stat<MannWhitneyResult> test}) moodByOutcome(
-  List<HabitDayFact> days,
-) {
+({
+  Stat<double> doneMean,
+  Stat<double> notDoneMean,
+  Stat<MannWhitneyResult> test,
+})
+moodByOutcome(List<HabitDayFact> days) {
   final done = [
     for (final d in days)
-      if (d.mood != null && d.dueUnits > 0 && d.doneUnits >= d.dueUnits) d.mood!,
+      if (d.mood != null && d.dueUnits > 0 && d.doneUnits >= d.dueUnits)
+        d.mood!,
   ];
   final notDone = [
     for (final d in days)
       if (d.mood != null && d.dueUnits > 0 && d.doneUnits < d.dueUnits) d.mood!,
   ];
-  return (doneMean: mean(done), notDoneMean: mean(notDone), test: mannWhitneyU(done, notDone));
+  return (
+    doneMean: mean(done),
+    notDoneMean: mean(notDone),
+    test: mannWhitneyU(done, notDone),
+  );
 }
 
 /// HB-H-30 — Pareto of skip/excuse reasons (normalized note text).
@@ -834,7 +943,10 @@ final class const HabitSeries(
 }
 
 /// HB-X-01 — today progress: done ÷ due day units today across build habits.
-Stat<double> todayProgress(List<HabitSeries> habits, {required LocalDate today}) {
+Stat<double> todayProgress(
+  List<HabitSeries> habits, {
+  required LocalDate today,
+}) {
   var due = 0;
   var done = 0;
   for (final h in habits) {
@@ -875,7 +987,10 @@ List<SeriesPoint<double?>> dailyCompletionHeatmap(
   required LocalDate today,
 }) {
   final heat = dailyCompletionHeatmap(habits, range: range);
-  final perfect = [for (final p in heat) if (p.value == 1) p.bucket];
+  final perfect = [
+    for (final p in heat)
+      if (p.value == 1) p.bucket,
+  ];
   return (
     perfectDays: perfect,
     streak: computeStreaks([
@@ -887,7 +1002,8 @@ List<SeriesPoint<double?>> dailyCompletionHeatmap(
           kind: switch (p.value) {
             null => StreakUnitKind.neutral,
             1.0 => StreakUnitKind.success,
-            _ => p.bucket == today ? StreakUnitKind.open : StreakUnitKind.breaks,
+            _ =>
+              p.bucket == today ? StreakUnitKind.open : StreakUnitKind.breaks,
           },
         ),
     ]),
@@ -895,7 +1011,11 @@ List<SeriesPoint<double?>> dailyCompletionHeatmap(
 }
 
 /// HB-X-04 — overall weekly success rate, Δ vs the previous week (pp) and the rolling 4-week line.
-({List<SeriesPoint<double?>> weekly, List<double?> rolling4, PeriodComparison lastVsPrevious})
+({
+  List<SeriesPoint<double?>> weekly,
+  List<double?> rolling4,
+  PeriodComparison lastVsPrevious,
+})
 adherenceTrend(
   List<HabitSeries> habits, {
   required DateRange range,
@@ -904,7 +1024,10 @@ adherenceTrend(
   final rows = <(LocalDate, num, num)>[];
   for (final h in habits) {
     for (final r in h.results) {
-      if (!isClosedScheduled(r) || isExcludedUnit(r, skipPolicy: h.skipPolicy)) continue;
+      if (!isClosedScheduled(r) ||
+          isExcludedUnit(r, skipPolicy: h.skipPolicy)) {
+        continue;
+      }
       if (h.archivedOn != null && r.startDate.isAfter(h.archivedOn!)) continue;
       rows.add((r.endDate, r.status == PeriodStatus.done ? 1 : 0, 1));
     }
@@ -936,7 +1059,12 @@ adherenceTrend(
 
 /// HB-X-05 — quit roll-up across trackers: Σ money saved per currency, Σ units avoided, Σ life
 /// regained minutes (population estimate), Σ abstinent (clean) days.
-({Map<String, Decimal> moneySaved, double unitsAvoided, double lifeRegainedMinutes, int cleanDays})
+({
+  Map<String, Decimal> moneySaved,
+  double unitsAvoided,
+  double lifeRegainedMinutes,
+  int cleanDays,
+})
 quitRollUp(List<QuitCalculator> trackers) {
   final money = <String, Decimal>{};
   var units = 0.0;
@@ -949,13 +1077,27 @@ quitRollUp(List<QuitCalculator> trackers) {
     life += t.lifeRegainedMinutes ?? 0;
     clean += t.cleanDays;
   }
-  return (moneySaved: money, unitsAvoided: units, lifeRegainedMinutes: life, cleanDays: clean);
+  return (
+    moneySaved: money,
+    unitsAvoided: units,
+    lifeRegainedMinutes: life,
+    cleanDays: clean,
+  );
 }
 
 /// HB-X-06 — strength distribution: mean and median current score, ranking, and habits rising /
 /// falling over the last 30 days.
-({Stat<double> mean, Stat<double> median, List<(String, double)> ranked, List<String> rising, List<String> falling})
-strengthDistribution(List<HabitSeries> habits, {double changeThreshold = 0.05}) {
+({
+  Stat<double> mean,
+  Stat<double> median,
+  List<(String, double)> ranked,
+  List<String> rising,
+  List<String> falling,
+})
+strengthDistribution(
+  List<HabitSeries> habits, {
+  double changeThreshold = 0.05,
+}) {
   final scores = <(String, double)>[];
   final rising = <String>[];
   final falling = <String>[];
@@ -989,10 +1131,14 @@ List<(String habitId, HabitRisk risk)> atRiskHabits(
   final result = <(String, HabitRisk)>[];
   for (final h in habits) {
     if (h.archivedOn != null && today.isAfter(h.archivedOn!)) continue;
-    final open = h.results.where((r) => r.status == PeriodStatus.pending && !r.flags.future);
+    final open = h.results.where(
+      (r) => r.status == PeriodStatus.pending && !r.flags.future,
+    );
     if (open.any((r) => r.kind == HabitPeriodKind.quota && r.flags.atRisk)) {
       result.add((h.habitId, HabitRisk.quotaBehind));
-    } else if (open.any((r) => r.kind != HabitPeriodKind.quota && r.startDate == today) &&
+    } else if (open.any(
+          (r) => r.kind != HabitPeriodKind.quota && r.startDate == today,
+        ) &&
         habitStreaks(h.results, skipPolicy: h.skipPolicy).currentLength > 0) {
       result.add((h.habitId, HabitRisk.dueToday));
     }
@@ -1022,7 +1168,10 @@ Map<String?, ({Stat<double> successRate, double volume})> habitAreas(
           from: from,
           to: to,
         ),
-        volume: e.value.fold(0, (a, h) => a + totalVolume(h.results, from: from, to: to)),
+        volume: e.value.fold(
+          0,
+          (a, h) => a + totalVolume(h.results, from: from, to: to),
+        ),
       ),
   };
 }
@@ -1036,8 +1185,15 @@ List<(String habitId, double rate)> bestAndWorstHabits(
 }) {
   final ranked = <(String, double)>[];
   for (final h in habits) {
-    final r = successRate(h.results, from: from, to: to, skipPolicy: h.skipPolicy);
-    if (r is Value<double> && (r.sampleSize ?? 0) >= minUnits) ranked.add((h.habitId, r.value));
+    final r = successRate(
+      h.results,
+      from: from,
+      to: to,
+      skipPolicy: h.skipPolicy,
+    );
+    if (r is Value<double> && (r.sampleSize ?? 0) >= minUnits) {
+      ranked.add((h.habitId, r.value));
+    }
   }
   return ranked..sort((a, b) => b.$2.compareTo(a.$2));
 }
@@ -1052,7 +1208,8 @@ List<SeriesPoint<double>> checkInVolume(
   [
     for (final h in habits)
       for (final l in h.logs)
-        if (l.kind == HabitLogKind.done || l.kind == HabitLogKind.progress) (l.localDate, 1),
+        if (l.kind == HabitLogKind.done || l.kind == HabitLogKind.progress)
+          (l.localDate, 1),
   ],
   from: range.start,
   to: range.end,
@@ -1094,9 +1251,15 @@ List<CoOccurrence> habitCoOccurrence(
     for (var j = i + 1; j < all.length; j++) {
       final (ia, fa) = all[i];
       final (ib, fb) = all[j];
-      final days = [for (final d in fa.keys) if (fb.containsKey(d)) d];
+      final days = [
+        for (final d in fa.keys)
+          if (fb.containsKey(d)) d,
+      ];
       if (days.length < minDays) continue;
-      final r = phiCoefficient([for (final d in days) fa[d]!], [for (final d in days) fb[d]!]);
+      final r = phiCoefficient(
+        [for (final d in days) fa[d]!],
+        [for (final d in days) fb[d]!],
+      );
       if (r case Value<CorrelationResult>(:final value)) {
         pairs.add((ia, ib, value.r, days.length, value.pValue));
       }
@@ -1112,7 +1275,9 @@ List<CoOccurrence> habitCoOccurrence(
         overlappingDays: pairs[k].$4,
         pValue: pairs[k].$5,
         adjustedP: adjusted[k],
-        significant: adjusted[k] <= q && meetsEffectThreshold(pairs[k].$3, binaryPair: true),
+        significant:
+            adjusted[k] <= q &&
+            meetsEffectThreshold(pairs[k].$3, binaryPair: true),
       ),
   ];
 }
@@ -1137,7 +1302,10 @@ habitPortfolio(
       final created = h.createdOn;
       if (created == null || created.plusDays(days).isAfter(today)) continue;
       eligible++;
-      if (h.archivedOn == null || h.archivedOn!.isAfter(created.plusDays(days))) active++;
+      if (h.archivedOn == null ||
+          h.archivedOn!.isAfter(created.plusDays(days))) {
+        active++;
+      }
     }
     return rate(active, eligible);
   }

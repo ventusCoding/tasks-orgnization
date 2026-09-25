@@ -43,12 +43,16 @@ final class const QuitSummary({
 /// spent on lapses · QT-09 savings projections · QT-10 life regained (population estimate; only for
 /// cigarettes unless the user set an LMU explicitly: [explicitLifeMinutesPerUnit]) · QT-22 time not
 /// spent consuming.
-QuitSummary quitSummary(QuitCalculator c, {bool explicitLifeMinutesPerUnit = false}) {
+QuitSummary quitSummary(
+  QuitCalculator c, {
+  bool explicitLifeMinutesPerUnit = false,
+}) {
   final life = c.lifeRegainedMinutes;
   final Stat<double> lifeStat;
   if (life == null) {
     lifeStat = const NotApplicable<double>('noLifeEstimate');
-  } else if (c.tracker.substance != smokingSubstance && !explicitLifeMinutesPerUnit) {
+  } else if (c.tracker.substance != smokingSubstance &&
+      !explicitLifeMinutesPerUnit) {
     lifeStat = const NotApplicable<double>('notSmoking');
   } else {
     lifeStat = Value<double>(life);
@@ -79,7 +83,11 @@ Stat<List<MilestoneProgress>> healthMilestones(
     return const NotApplicable<List<MilestoneProgress>>('notSmoking');
   }
   return Value(
-    milestoneProgress(table, abstinenceStart: c.currentAbstinenceStart, now: c.now),
+    milestoneProgress(
+      table,
+      abstinenceStart: c.currentAbstinenceStart,
+      now: c.now,
+    ),
   );
 }
 
@@ -104,11 +112,18 @@ ReductionProgress reductionProgress(QuitCalculator c) {
   final meanUse = mean(uses);
   final meanBase = mean(bases);
   return ReductionProgress(
-    withinLimitShare: rate(days.where((d) => d.withinLimit ?? false).length, days.length),
+    withinLimitShare: rate(
+      days.where((d) => d.withinLimit ?? false).length,
+      days.length,
+    ),
     meanDailyUse: meanUse,
     meanBase: meanBase,
     limit: days.isEmpty ? null : days.last.limit,
-    reduction: Stat.combine(meanUse, meanBase, (u, b) => b == 0 ? 0.0 : 1 - u / b),
+    reduction: Stat.combine(
+      meanUse,
+      meanBase,
+      (u, b) => b == 0 ? 0.0 : 1 - u / b,
+    ),
     unitsAvoided: c.unitsAvoided,
     rolling7Use: rollingMean(uses, 7),
   );
@@ -130,8 +145,11 @@ List<QuitLog> _cravings(QuitCalculator c) => [
 })
 cravingLoad(QuitCalculator c, {DateRange? range}) {
   final closed = c.closedDays;
-  final r = range ??
-      (closed.isEmpty ? null : DateRange(closed.first.localDate, closed.last.localDate));
+  final r =
+      range ??
+      (closed.isEmpty
+          ? null
+          : DateRange(closed.first.localDate, closed.last.localDate));
   if (r == null) {
     return (
       perDay: const NotApplicable<double>(Reasons.noData),
@@ -141,7 +159,10 @@ cravingLoad(QuitCalculator c, {DateRange? range}) {
       rolling7: const <double?>[],
     );
   }
-  final cravings = [for (final l in _cravings(c)) if (r.contains(l.localDate)) l];
+  final cravings = [
+    for (final l in _cravings(c))
+      if (r.contains(l.localDate)) l,
+  ];
   final daily = bucketSum(
     [for (final l in cravings) (l.localDate, 1)],
     from: r.start,
@@ -191,7 +212,9 @@ bool cravingResisted(
   final explicit = craving.resisted;
   if (explicit != null) return explicit;
   final limit = craving.loggedAt.add(window);
-  return !uses.any((u) => !u.loggedAt.isBefore(craving.loggedAt) && !u.loggedAt.isAfter(limit));
+  return !uses.any(
+    (u) => !u.loggedAt.isBefore(craving.loggedAt) && !u.loggedAt.isAfter(limit),
+  );
 }
 
 /// QT-15 — resist rate = cravings not followed by a use within 2 h ÷ cravings.
@@ -202,9 +225,8 @@ Stat<double> resistRate(QuitCalculator c, {Iterable<QuitLog>? cravings}) {
 }
 
 /// QT-16 — craving duration: median and P85 of `duration_seconds`, plus the histogram.
-({Stat<double> medianSeconds, Stat<double> p85Seconds, Histogram histogram}) cravingDuration(
-  QuitCalculator c,
-) {
+({Stat<double> medianSeconds, Stat<double> p85Seconds, Histogram histogram})
+cravingDuration(QuitCalculator c) {
   final durations = [for (final l in _cravings(c)) ?l.durationSeconds];
   return (
     medianSeconds: MinDataRules.meanOrMedian.apply(median(durations)),
@@ -215,12 +237,14 @@ Stat<double> resistRate(QuitCalculator c, {Iterable<QuitLog>? cravings}) {
 
 /// QT-17 — cravings per day for each week since qd (week 1 starts on qd's local date; the current
 /// partial week uses its elapsed closed days) and the % change of the last full week vs week 1.
-({List<(int week, double perDay)> weekly, Stat<double> changeVsWeek1}) cravingsDecline(
-  QuitCalculator c,
-) {
+({List<(int week, double perDay)> weekly, Stat<double> changeVsWeek1})
+cravingsDecline(QuitCalculator c) {
   final closed = c.closedDays;
   if (closed.isEmpty) {
-    return (weekly: const <(int, double)>[], changeVsWeek1: const NotApplicable<double>(Reasons.noData));
+    return (
+      weekly: const <(int, double)>[],
+      changeVsWeek1: const NotApplicable<double>(Reasons.noData),
+    );
   }
   final start = closed.first.localDate;
   final counts = <int, int>{};
@@ -235,10 +259,15 @@ Stat<double> resistRate(QuitCalculator c, {Iterable<QuitLog>? cravings}) {
   }
   final weeks = dayCounts.keys.toList()..sort();
   final weekly = [for (final w in weeks) (w, (counts[w] ?? 0) / dayCounts[w]!)];
-  final full = [for (final (w, v) in weekly) if (dayCounts[w] == 7) (w, v)];
+  final full = [
+    for (final (w, v) in weekly)
+      if (dayCounts[w] == 7) (w, v),
+  ];
   return (
     weekly: weekly,
-    changeVsWeek1: full.length < 2 ? const Insufficient<double>(2, 1) : relativeDelta(full.last.$2, full.first.$2),
+    changeVsWeek1: full.length < 2
+        ? const Insufficient<double>(2, 1)
+        : relativeDelta(full.last.$2, full.first.$2),
   );
 }
 
@@ -247,10 +276,9 @@ List<(QuitAttempt, RelapseClassification)> lapseRelapse(QuitCalculator c) => [
   for (final a in c.attempts)
     (
       a,
-      classifyRelapse(
-        c.tracker.days.dateOf(a.start),
-        [for (final u in a.uses) (u.localDate, u.amount)],
-      ),
+      classifyRelapse(c.tracker.days.dateOf(a.start), [
+        for (final u in a.uses) (u.localDate, u.amount),
+      ]),
     ),
 ];
 
@@ -266,11 +294,15 @@ final class const UseAnalytics({
 
 /// QT-19 — use episodes, mean amount per episode, mean days between use days, weekday × hour
 /// matrix, and the Pareto of triggers of cravings logged ≤ 2 h before a use.
-UseAnalytics useAnalytics(QuitCalculator c, {Duration window = const Duration(hours: 2)}) {
+UseAnalytics useAnalytics(
+  QuitCalculator c, {
+  Duration window = const Duration(hours: 2),
+}) {
   final uses = c.uses;
   final useDays = {for (final u in uses) u.localDate}.toList()..sort();
   final gaps = [
-    for (var i = 1; i < useDays.length; i++) useDays[i - 1].daysUntil(useDays[i]).toDouble(),
+    for (var i = 1; i < useDays.length; i++)
+      useDays[i - 1].daysUntil(useDays[i]).toDouble(),
   ];
   final matrix = {for (final w in Weekday.values) w: List<int>.filled(24, 0)};
   for (final u in uses) {
@@ -286,7 +318,9 @@ UseAnalytics useAnalytics(QuitCalculator c, {Duration window = const Duration(ho
     precedingTriggers: pareto([
       for (final cr in cravings)
         if (uses.any(
-          (u) => !u.loggedAt.isBefore(cr.loggedAt) && u.loggedAt.difference(cr.loggedAt) <= window,
+          (u) =>
+              !u.loggedAt.isBefore(cr.loggedAt) &&
+              u.loggedAt.difference(cr.loggedAt) <= window,
         ))
           cr.trigger,
     ]),
@@ -295,7 +329,9 @@ UseAnalytics useAnalytics(QuitCalculator c, {Duration window = const Duration(ho
 
 /// QT-20 — attempts: number, mean and longest duration, and the rank of the current attempt by
 /// duration (1 = longest).
-({int count, Duration mean, Duration longest, int currentRank}) quitAttempts(QuitCalculator c) {
+({int count, Duration mean, Duration longest, int currentRank}) quitAttempts(
+  QuitCalculator c,
+) {
   final durations = [for (final a in c.attempts) a.durationAt(c.now)];
   final current = durations.last;
   final total = durations.fold(Duration.zero, (a, b) => a + b);
@@ -325,7 +361,8 @@ UseAnalytics useAnalytics(QuitCalculator c, {Duration window = const Duration(ho
 }
 
 /// QT-23 — money saved per week or month (Decimal) and the mean saved per day.
-({Map<LocalDate, Decimal> buckets, Stat<double> meanPerDay}) moneySavedPerPeriod(
+({Map<LocalDate, Decimal> buckets, Stat<double> meanPerDay})
+moneySavedPerPeriod(
   QuitCalculator c, {
   Granularity granularity = Granularity.week,
   Weekday weekStart = Weekday.monday,
@@ -344,7 +381,10 @@ UseAnalytics useAnalytics(QuitCalculator c, {Duration window = const Duration(ho
 
 /// QT-24 — pledge streak: consecutive local days with a pledge/review log (`clean` or `pledge`),
 /// counted back from today (today counts once logged; an unlogged today does not break it).
-int pledgeStreak(QuitCalculator c, {Set<HabitLogKind> kinds = const {HabitLogKind.clean, HabitLogKind.pledge}}) {
+int pledgeStreak(
+  QuitCalculator c, {
+  Set<HabitLogKind> kinds = const {HabitLogKind.clean, HabitLogKind.pledge},
+}) {
   final days = {
     for (final l in c.logs)
       if (kinds.contains(l.kind)) l.localDate,
@@ -380,7 +420,10 @@ Stat<WithdrawalPhase> withdrawalPhase(QuitCalculator c) {
 Stat<KaplanMeierResult> timeToLapseSurvival(QuitCalculator c) {
   SurvivalObservation observe(QuitAttempt a) => a.uses.isEmpty
       ? SurvivalObservation(a.durationAt(c.now).inMinutes / 60, event: false)
-      : SurvivalObservation(a.uses.first.loggedAt.difference(a.start).inMinutes / 60, event: true);
+      : SurvivalObservation(
+          a.uses.first.loggedAt.difference(a.start).inMinutes / 60,
+          event: true,
+        );
   return kaplanMeier(
     c.attempts.map(observe).toList(),
     minSubjects: MinDataRules.kaplanMeierAttempts.hiddenBelow.toInt(),
@@ -389,7 +432,10 @@ Stat<KaplanMeierResult> timeToLapseSurvival(QuitCalculator c) {
 
 /// QT-27 — resist rate by coping tool; tools with fewer than [minPerTool] (5) cravings are
 /// [Insufficient] (greyed out).
-Map<String, Stat<double>> copingEffectiveness(QuitCalculator c, {int minPerTool = 5}) {
+Map<String, Stat<double>> copingEffectiveness(
+  QuitCalculator c, {
+  int minPerTool = 5,
+}) {
   final byTool = <String, List<QuitLog>>{};
   for (final l in _cravings(c)) {
     final tool = l.coping?.trim().toLowerCase();
@@ -405,7 +451,10 @@ Map<String, Stat<double>> copingEffectiveness(QuitCalculator c, {int minPerTool 
 /// QT-28 — craving-free time: time since the last craving (since qd without cravings) and the
 /// longest craving-free stretch between qd, consecutive cravings and now.
 ({Duration sinceLast, Duration longest}) cravingFreeTime(QuitCalculator c) {
-  final instants = [for (final l in _cravings(c)) if (!l.loggedAt.isBefore(c.quitStartedAt)) l.loggedAt]..sort();
+  final instants = [
+    for (final l in _cravings(c))
+      if (!l.loggedAt.isBefore(c.quitStartedAt)) l.loggedAt,
+  ]..sort();
   var previous = c.quitStartedAt;
   var longest = Duration.zero;
   for (final t in [...instants, c.now]) {
@@ -414,7 +463,9 @@ Map<String, Stat<double>> copingEffectiveness(QuitCalculator c, {int minPerTool 
     previous = t;
   }
   return (
-    sinceLast: c.now.difference(instants.isEmpty ? c.quitStartedAt : instants.last),
+    sinceLast: c.now.difference(
+      instants.isEmpty ? c.quitStartedAt : instants.last,
+    ),
     longest: longest,
   );
 }
