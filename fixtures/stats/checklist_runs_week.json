@@ -1,0 +1,258 @@
+{
+ "name": "checklist_runs_week",
+ "description": "7 runs of a 5-item morning routine (Mon 2026-09-07 .. Sun 2026-09-13) with completion 100, 100, 80, 100, 100, 100, 60 %. Items finish at 07:10 + 5 min \u00d7 position.",
+ "zone": "Europe/Paris",
+ "runs": [
+  {
+   "key": "2026-09-07T07:00",
+   "date": "2026-09-07",
+   "startedAt": "2026-09-07T07:00",
+   "total": 5,
+   "completed": 5,
+   "snapshot": [
+    {
+     "item": "wake",
+     "status": "completed",
+     "completedAt": "2026-09-07T07:10"
+    },
+    {
+     "item": "water",
+     "status": "completed",
+     "completedAt": "2026-09-07T07:15"
+    },
+    {
+     "item": "stretch",
+     "status": "completed",
+     "completedAt": "2026-09-07T07:20"
+    },
+    {
+     "item": "journal",
+     "status": "completed",
+     "completedAt": "2026-09-07T07:25"
+    },
+    {
+     "item": "plan",
+     "status": "completed",
+     "completedAt": "2026-09-07T07:30"
+    }
+   ]
+  },
+  {
+   "key": "2026-09-08T07:00",
+   "date": "2026-09-08",
+   "startedAt": "2026-09-08T07:00",
+   "total": 5,
+   "completed": 5,
+   "snapshot": [
+    {
+     "item": "wake",
+     "status": "completed",
+     "completedAt": "2026-09-08T07:10"
+    },
+    {
+     "item": "water",
+     "status": "completed",
+     "completedAt": "2026-09-08T07:15"
+    },
+    {
+     "item": "stretch",
+     "status": "completed",
+     "completedAt": "2026-09-08T07:20"
+    },
+    {
+     "item": "journal",
+     "status": "completed",
+     "completedAt": "2026-09-08T07:25"
+    },
+    {
+     "item": "plan",
+     "status": "completed",
+     "completedAt": "2026-09-08T07:30"
+    }
+   ]
+  },
+  {
+   "key": "2026-09-09T07:00",
+   "date": "2026-09-09",
+   "startedAt": "2026-09-09T07:00",
+   "total": 5,
+   "completed": 4,
+   "snapshot": [
+    {
+     "item": "wake",
+     "status": "completed",
+     "completedAt": "2026-09-09T07:10"
+    },
+    {
+     "item": "water",
+     "status": "completed",
+     "completedAt": "2026-09-09T07:15"
+    },
+    {
+     "item": "stretch",
+     "status": "todo"
+    },
+    {
+     "item": "journal",
+     "status": "completed",
+     "completedAt": "2026-09-09T07:25"
+    },
+    {
+     "item": "plan",
+     "status": "completed",
+     "completedAt": "2026-09-09T07:30"
+    }
+   ]
+  },
+  {
+   "key": "2026-09-10T07:00",
+   "date": "2026-09-10",
+   "startedAt": "2026-09-10T07:00",
+   "total": 5,
+   "completed": 5,
+   "snapshot": [
+    {
+     "item": "wake",
+     "status": "completed",
+     "completedAt": "2026-09-10T07:10"
+    },
+    {
+     "item": "water",
+     "status": "completed",
+     "completedAt": "2026-09-10T07:15"
+    },
+    {
+     "item": "stretch",
+     "status": "completed",
+     "completedAt": "2026-09-10T07:20"
+    },
+    {
+     "item": "journal",
+     "status": "completed",
+     "completedAt": "2026-09-10T07:25"
+    },
+    {
+     "item": "plan",
+     "status": "completed",
+     "completedAt": "2026-09-10T07:30"
+    }
+   ]
+  },
+  {
+   "key": "2026-09-11T07:00",
+   "date": "2026-09-11",
+   "startedAt": "2026-09-11T07:00",
+   "total": 5,
+   "completed": 5,
+   "snapshot": [
+    {
+     "item": "wake",
+     "status": "completed",
+     "completedAt": "2026-09-11T07:10"
+    },
+    {
+     "item": "water",
+     "status": "completed",
+     "completedAt": "2026-09-11T07:15"
+    },
+    {
+     "item": "stretch",
+     "status": "completed",
+     "completedAt": "2026-09-11T07:20"
+    },
+    {
+     "item": "journal",
+     "status": "completed",
+     "completedAt": "2026-09-11T07:25"
+    },
+    {
+     "item": "plan",
+     "status": "completed",
+     "completedAt": "2026-09-11T07:30"
+    }
+   ]
+  },
+  {
+   "key": "2026-09-12T07:00",
+   "date": "2026-09-12",
+   "startedAt": "2026-09-12T07:00",
+   "total": 5,
+   "completed": 5,
+   "snapshot": [
+    {
+     "item": "wake",
+     "status": "completed",
+     "completedAt": "2026-09-12T07:10"
+    },
+    {
+     "item": "water",
+     "status": "completed",
+     "completedAt": "2026-09-12T07:15"
+    },
+    {
+     "item": "stretch",
+     "status": "completed",
+     "completedAt": "2026-09-12T07:20"
+    },
+    {
+     "item": "journal",
+     "status": "completed",
+     "completedAt": "2026-09-12T07:25"
+    },
+    {
+     "item": "plan",
+     "status": "completed",
+     "completedAt": "2026-09-12T07:30"
+    }
+   ]
+  },
+  {
+   "key": "2026-09-13T07:00",
+   "date": "2026-09-13",
+   "startedAt": "2026-09-13T07:00",
+   "total": 5,
+   "completed": 3,
+   "snapshot": [
+    {
+     "item": "wake",
+     "status": "completed",
+     "completedAt": "2026-09-13T07:10"
+    },
+    {
+     "item": "water",
+     "status": "completed",
+     "completedAt": "2026-09-13T07:15"
+    },
+    {
+     "item": "stretch",
+     "status": "todo"
+    },
+    {
+     "item": "journal",
+     "status": "todo"
+    },
+    {
+     "item": "plan",
+     "status": "completed",
+     "completedAt": "2026-09-13T07:30"
+    }
+   ]
+  }
+ ],
+ "expect": {
+  "meanCompletion": 0.9142857142857143,
+  "bestStreak": 3,
+  "currentStreak": 0,
+  "medianFinishMinutes": 30,
+  "mostSkipped": [
+   [
+    "stretch",
+    2
+   ],
+   [
+    "journal",
+    1
+   ]
+  ]
+ }
+}

@@ -1,0 +1,474 @@
+{
+ "name": "quit_smoking_90_days",
+ "description": "Stop smoking (abstain, cigarettes) from 2026-06-01 00:00 Europe/Paris; baseline 20/day; unit cost 0.60 until 2026-06-30 and 0.65 from 2026-07-01 (revision); one lapse of 3 cigarettes on 2026-06-20 18:00; 40 cravings with triggers, places, intensity, duration and coping. Seen on 2026-07-31 00:00 (T6.6.02/03/04 acceptance).",
+ "zone": "Europe/Paris",
+ "tracker": {
+  "quitStartedAt": "2026-06-01T00:00",
+  "mode": "abstain",
+  "substance": "cigarettes",
+  "baselinePerDay": 20,
+  "unitCost": "0.60",
+  "lifeMinutesPerUnit": 20,
+  "timePerUnitMinutes": 6,
+  "currency": "EUR",
+  "revisions": [
+   {
+    "from": "2026-06-01",
+    "baselinePerDay": 20,
+    "unitCost": "0.60"
+   },
+   {
+    "from": "2026-07-01",
+    "baselinePerDay": 20,
+    "unitCost": "0.65"
+   }
+  ]
+ },
+ "logs": [
+  {
+   "kind": "relapse",
+   "at": "2026-06-20T18:00",
+   "date": "2026-06-20",
+   "value": 3
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-01T09:15",
+   "date": "2026-06-01",
+   "intensity": 3,
+   "trigger": "stress",
+   "place": "home",
+   "durationSeconds": 120,
+   "coping": "breathing",
+   "resisted": false
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-02T12:15",
+   "date": "2026-06-02",
+   "intensity": 4,
+   "trigger": "coffee",
+   "place": "work",
+   "durationSeconds": 150,
+   "coping": "walk"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-03T15:15",
+   "date": "2026-06-03",
+   "intensity": 5,
+   "trigger": "Coffee",
+   "place": "car",
+   "durationSeconds": 180,
+   "coping": "water"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-04T18:15",
+   "date": "2026-06-04",
+   "intensity": 6,
+   "trigger": "alcohol",
+   "place": "bar",
+   "durationSeconds": 210,
+   "coping": "breathing"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-05T09:15",
+   "date": "2026-06-05",
+   "intensity": 7,
+   "trigger": "after meals",
+   "place": "home",
+   "durationSeconds": 240,
+   "coping": "walk"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-06T12:15",
+   "date": "2026-06-06",
+   "intensity": 8,
+   "trigger": null,
+   "place": "work",
+   "durationSeconds": 270,
+   "coping": "water"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-07T15:15",
+   "date": "2026-06-07",
+   "intensity": 9,
+   "trigger": "stress",
+   "place": "car",
+   "durationSeconds": 300,
+   "coping": "breathing"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-01T18:15",
+   "date": "2026-06-01",
+   "intensity": 3,
+   "trigger": "coffee",
+   "place": "bar",
+   "durationSeconds": 120,
+   "coping": "walk"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-02T09:15",
+   "date": "2026-06-02",
+   "intensity": 4,
+   "trigger": "Coffee",
+   "place": "home",
+   "durationSeconds": 150,
+   "coping": "water"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-03T12:15",
+   "date": "2026-06-03",
+   "intensity": 5,
+   "trigger": "alcohol",
+   "place": "work",
+   "durationSeconds": 180,
+   "coping": "breathing"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-08T15:15",
+   "date": "2026-06-08",
+   "intensity": 6,
+   "trigger": "after meals",
+   "place": "car",
+   "durationSeconds": 210,
+   "coping": "walk"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-09T18:15",
+   "date": "2026-06-09",
+   "intensity": 7,
+   "trigger": null,
+   "place": "bar",
+   "durationSeconds": 240,
+   "coping": "water"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-10T09:15",
+   "date": "2026-06-10",
+   "intensity": 8,
+   "trigger": "stress",
+   "place": "home",
+   "durationSeconds": 270,
+   "coping": "breathing"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-11T12:15",
+   "date": "2026-06-11",
+   "intensity": 9,
+   "trigger": "coffee",
+   "place": "work",
+   "durationSeconds": 300,
+   "coping": "walk"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-12T15:15",
+   "date": "2026-06-12",
+   "intensity": 3,
+   "trigger": "Coffee",
+   "place": "car",
+   "durationSeconds": 120,
+   "coping": "water"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-13T18:15",
+   "date": "2026-06-13",
+   "intensity": 4,
+   "trigger": "alcohol",
+   "place": "bar",
+   "durationSeconds": 150,
+   "coping": "breathing"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-14T09:15",
+   "date": "2026-06-14",
+   "intensity": 5,
+   "trigger": "after meals",
+   "place": "home",
+   "durationSeconds": 180,
+   "coping": "walk"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-08T12:15",
+   "date": "2026-06-08",
+   "intensity": 6,
+   "trigger": null,
+   "place": "work",
+   "durationSeconds": 210,
+   "coping": "water"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-15T15:15",
+   "date": "2026-06-15",
+   "intensity": 7,
+   "trigger": "stress",
+   "place": "car",
+   "durationSeconds": 240,
+   "coping": "breathing"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-17T09:15",
+   "date": "2026-06-17",
+   "intensity": 9,
+   "trigger": "Coffee",
+   "place": "home",
+   "durationSeconds": 300,
+   "coping": "water"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-18T12:15",
+   "date": "2026-06-18",
+   "intensity": 3,
+   "trigger": "alcohol",
+   "place": "work",
+   "durationSeconds": 120,
+   "coping": "breathing"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-19T15:15",
+   "date": "2026-06-19",
+   "intensity": 4,
+   "trigger": "after meals",
+   "place": "car",
+   "durationSeconds": 150,
+   "coping": "walk"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-20T18:15",
+   "date": "2026-06-20",
+   "intensity": 5,
+   "trigger": null,
+   "place": "bar",
+   "durationSeconds": 180,
+   "coping": "water"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-21T09:15",
+   "date": "2026-06-21",
+   "intensity": 6,
+   "trigger": "stress",
+   "place": "home",
+   "durationSeconds": 210,
+   "coping": "breathing"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-22T12:15",
+   "date": "2026-06-22",
+   "intensity": 7,
+   "trigger": "coffee",
+   "place": "work",
+   "durationSeconds": 240,
+   "coping": "walk"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-23T15:15",
+   "date": "2026-06-23",
+   "intensity": 8,
+   "trigger": "Coffee",
+   "place": "car",
+   "durationSeconds": 270,
+   "coping": "water"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-24T18:15",
+   "date": "2026-06-24",
+   "intensity": 9,
+   "trigger": "alcohol",
+   "place": "bar",
+   "durationSeconds": 300,
+   "coping": "breathing"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-25T09:15",
+   "date": "2026-06-25",
+   "intensity": 3,
+   "trigger": "after meals",
+   "place": "home",
+   "durationSeconds": 120,
+   "coping": "walk"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-26T12:15",
+   "date": "2026-06-26",
+   "intensity": 4,
+   "trigger": null,
+   "place": "work",
+   "durationSeconds": 150,
+   "coping": "water"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-29T15:15",
+   "date": "2026-06-29",
+   "intensity": 5,
+   "trigger": "stress",
+   "place": "car",
+   "durationSeconds": 180,
+   "coping": "breathing"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-30T18:15",
+   "date": "2026-06-30",
+   "intensity": 6,
+   "trigger": "coffee",
+   "place": "bar",
+   "durationSeconds": 210,
+   "coping": "walk"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-07-01T09:15",
+   "date": "2026-07-01",
+   "intensity": 7,
+   "trigger": "Coffee",
+   "place": "home",
+   "durationSeconds": 240,
+   "coping": "water"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-07-02T12:15",
+   "date": "2026-07-02",
+   "intensity": 8,
+   "trigger": "alcohol",
+   "place": "work",
+   "durationSeconds": 270,
+   "coping": "breathing"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-07-06T15:15",
+   "date": "2026-07-06",
+   "intensity": 9,
+   "trigger": "after meals",
+   "place": "car",
+   "durationSeconds": 300,
+   "coping": "walk"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-07-07T18:15",
+   "date": "2026-07-07",
+   "intensity": 3,
+   "trigger": null,
+   "place": "bar",
+   "durationSeconds": 120,
+   "coping": "water"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-07-08T09:15",
+   "date": "2026-07-08",
+   "intensity": 4,
+   "trigger": "stress",
+   "place": "home",
+   "durationSeconds": 150,
+   "coping": "breathing"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-07-13T12:15",
+   "date": "2026-07-13",
+   "intensity": 5,
+   "trigger": "coffee",
+   "place": "work",
+   "durationSeconds": 180,
+   "coping": "walk"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-07-14T15:15",
+   "date": "2026-07-14",
+   "intensity": 6,
+   "trigger": "Coffee",
+   "place": "car",
+   "durationSeconds": 210,
+   "coping": "water"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-07-20T18:15",
+   "date": "2026-07-20",
+   "intensity": 7,
+   "trigger": "alcohol",
+   "place": "bar",
+   "durationSeconds": 240,
+   "coping": "breathing"
+  },
+  {
+   "kind": "craving",
+   "at": "2026-06-20T16:30",
+   "date": "2026-06-20",
+   "intensity": 9,
+   "trigger": "alcohol",
+   "place": "bar",
+   "durationSeconds": 600,
+   "coping": "walk"
+  }
+ ],
+ "now": "2026-07-31T00:00",
+ "expect": {
+  "timeSinceQuitHours": 1440,
+  "currentAbstinenceHours": 966,
+  "longestAbstinenceHours": 966,
+  "abstinentDays": 59,
+  "abstinentShare": 0.9833333333333333,
+  "unitsAvoided": 1197,
+  "moneySaved": "748.2",
+  "moneySpent": "1.8",
+  "projectionYear": "4745",
+  "lifeRegainedMinutes": 23940,
+  "timeNotSpentMinutes": 7182,
+  "cravingsPerDay": 0.6666666666666666,
+  "meanIntensity": 5.9,
+  "maxIntensity": 9,
+  "triggerCounts": {
+   "stress": 7,
+   "coffee": 13,
+   "alcohol": 8,
+   "after meals": 6,
+   "": 6
+  },
+  "resistRate": 0.95,
+  "weeklyCravings": [
+   10,
+   8,
+   7,
+   5,
+   4,
+   3,
+   2,
+   1,
+   0
+  ],
+  "withdrawal": "beyond",
+  "savingsGoalEtaDays": 35
+ }
+}

@@ -1,0 +1,331 @@
+{
+ "name": "overview_week",
+ "description": "Two consecutive weeks (Mon 2026-09-14 .. Sun 2026-09-27) of per-day section facts combining the planner (plan snapshot counts, planned/actual minutes), habits (due/done build units), lists (items completed) and quit (abstinent flag, money saved, cravings) canonical datasets, with the GL-01..GL-03 expectations (weekly review of the week starting 2026-09-21).",
+ "days": [
+  {
+   "date": "2026-09-14",
+   "plannerPlanned": 5,
+   "plannerDone": 4,
+   "plannerDoneOnTime": 3,
+   "plannedMinutes": 300,
+   "actualMinutes": 240,
+   "habitsDue": 4,
+   "habitsDone": 4,
+   "itemsCompleted": 3,
+   "quitAbstinent": true,
+   "moneySaved": "13",
+   "cravings": 2
+  },
+  {
+   "date": "2026-09-15",
+   "plannerPlanned": 6,
+   "plannerDone": 5,
+   "plannerDoneOnTime": 5,
+   "plannedMinutes": 360,
+   "actualMinutes": 300,
+   "habitsDue": 4,
+   "habitsDone": 3,
+   "itemsCompleted": 2,
+   "quitAbstinent": true,
+   "moneySaved": "13",
+   "cravings": 1
+  },
+  {
+   "date": "2026-09-16",
+   "plannerPlanned": 4,
+   "plannerDone": 4,
+   "plannerDoneOnTime": 4,
+   "plannedMinutes": 240,
+   "actualMinutes": 250,
+   "habitsDue": 4,
+   "habitsDone": 4,
+   "itemsCompleted": 5,
+   "quitAbstinent": true,
+   "moneySaved": "13",
+   "cravings": 3
+  },
+  {
+   "date": "2026-09-17",
+   "plannerPlanned": 5,
+   "plannerDone": 3,
+   "plannerDoneOnTime": 2,
+   "plannedMinutes": 300,
+   "actualMinutes": 200,
+   "habitsDue": 4,
+   "habitsDone": 2,
+   "itemsCompleted": 0,
+   "quitAbstinent": true,
+   "moneySaved": "13",
+   "cravings": 0
+  },
+  {
+   "date": "2026-09-18",
+   "plannerPlanned": 6,
+   "plannerDone": 6,
+   "plannerDoneOnTime": 5,
+   "plannedMinutes": 420,
+   "actualMinutes": 400,
+   "habitsDue": 4,
+   "habitsDone": 4,
+   "itemsCompleted": 4,
+   "quitAbstinent": true,
+   "moneySaved": "13",
+   "cravings": 2
+  },
+  {
+   "date": "2026-09-19",
+   "plannerPlanned": 2,
+   "plannerDone": 1,
+   "plannerDoneOnTime": 1,
+   "plannedMinutes": 60,
+   "actualMinutes": 30,
+   "habitsDue": 3,
+   "habitsDone": 3,
+   "itemsCompleted": 1,
+   "quitAbstinent": true,
+   "moneySaved": "13",
+   "cravings": 1
+  },
+  {
+   "date": "2026-09-20",
+   "plannerPlanned": 1,
+   "plannerDone": 1,
+   "plannerDoneOnTime": 1,
+   "plannedMinutes": 30,
+   "actualMinutes": 30,
+   "habitsDue": 3,
+   "habitsDone": 2,
+   "itemsCompleted": 0,
+   "quitAbstinent": true,
+   "moneySaved": "13",
+   "cravings": 0
+  },
+  {
+   "date": "2026-09-21",
+   "plannerPlanned": 5,
+   "plannerDone": 5,
+   "plannerDoneOnTime": 5,
+   "plannedMinutes": 300,
+   "actualMinutes": 320,
+   "habitsDue": 4,
+   "habitsDone": 4,
+   "itemsCompleted": 4,
+   "quitAbstinent": true,
+   "moneySaved": "13",
+   "cravings": 1
+  },
+  {
+   "date": "2026-09-22",
+   "plannerPlanned": 6,
+   "plannerDone": 4,
+   "plannerDoneOnTime": 3,
+   "plannedMinutes": 360,
+   "actualMinutes": 280,
+   "habitsDue": 4,
+   "habitsDone": 4,
+   "itemsCompleted": 3,
+   "quitAbstinent": true,
+   "moneySaved": "13",
+   "cravings": 0
+  },
+  {
+   "date": "2026-09-23",
+   "plannerPlanned": 5,
+   "plannerDone": 5,
+   "plannerDoneOnTime": 4,
+   "plannedMinutes": 300,
+   "actualMinutes": 310,
+   "habitsDue": 4,
+   "habitsDone": 3,
+   "itemsCompleted": 6,
+   "quitAbstinent": true,
+   "moneySaved": "13",
+   "cravings": 1
+  },
+  {
+   "date": "2026-09-24",
+   "plannerPlanned": 4,
+   "plannerDone": 2,
+   "plannerDoneOnTime": 2,
+   "plannedMinutes": 240,
+   "actualMinutes": 150,
+   "habitsDue": 4,
+   "habitsDone": 4,
+   "itemsCompleted": 2,
+   "quitAbstinent": false,
+   "moneySaved": "11.70",
+   "cravings": 4
+  },
+  {
+   "date": "2026-09-25",
+   "plannerPlanned": 6,
+   "plannerDone": 6,
+   "plannerDoneOnTime": 6,
+   "plannedMinutes": 420,
+   "actualMinutes": 430,
+   "habitsDue": 4,
+   "habitsDone": 4,
+   "itemsCompleted": 5,
+   "quitAbstinent": true,
+   "moneySaved": "13",
+   "cravings": 0
+  },
+  {
+   "date": "2026-09-26",
+   "plannerPlanned": 2,
+   "plannerDone": 2,
+   "plannerDoneOnTime": 2,
+   "plannedMinutes": 90,
+   "actualMinutes": 80,
+   "habitsDue": 3,
+   "habitsDone": 3,
+   "itemsCompleted": 2,
+   "quitAbstinent": true,
+   "moneySaved": "13",
+   "cravings": 0
+  },
+  {
+   "date": "2026-09-27",
+   "plannerPlanned": 1,
+   "plannerDone": 1,
+   "plannerDoneOnTime": 1,
+   "plannedMinutes": 30,
+   "actualMinutes": 30,
+   "habitsDue": 3,
+   "habitsDone": 3,
+   "itemsCompleted": 0,
+   "quitAbstinent": true,
+   "moneySaved": "13",
+   "cravings": 0
+  }
+ ],
+ "reviewInput": {
+  "streaks": [
+   {
+    "entityId": "water",
+    "previous": 12,
+    "current": 14
+   },
+   {
+    "entityId": "journal",
+    "previous": 29,
+    "current": 31
+   },
+   {
+    "entityId": "read",
+    "previous": 3,
+    "current": 5
+   }
+  ],
+  "overdueTaskIds": [
+   "o9"
+  ],
+  "blockedOrWaitingItemIds": [
+   "B",
+   "C"
+  ],
+  "staleListIds": [
+   "L7"
+  ],
+  "timeByCategory": [
+   {
+    "categoryId": "work",
+    "minutes": 900
+   },
+   {
+    "categoryId": "health",
+    "minutes": 300
+   },
+   {
+    "categoryId": "personal",
+    "minutes": 250
+   },
+   {
+    "categoryId": null,
+    "minutes": 150
+   }
+  ],
+  "previousTimeByCategory": [
+   {
+    "categoryId": "work",
+    "minutes": 800
+   },
+   {
+    "categoryId": "personal",
+    "minutes": 300
+   }
+  ],
+  "nextWeekLoad": [
+   {
+    "date": "2026-09-28",
+    "planned": 420,
+    "capacity": 480
+   },
+   {
+    "date": "2026-09-29",
+    "planned": 540,
+    "capacity": 480
+   },
+   {
+    "date": "2026-10-03",
+    "planned": 60,
+    "capacity": 0
+   }
+  ]
+ },
+ "expect": {
+  "todayBoard": {
+   "date": "2026-09-24",
+   "agenda": 0.5,
+   "habits": 1.0,
+   "perfectDay": true,
+   "cravings": 4,
+   "items": 2
+  },
+  "weekAtAGlance": {
+   "today": "2026-09-23",
+   "completionDeltaPp": 0.8333333333333304,
+   "actualHoursDelta": 2.0,
+   "habitDeltaPp": 0.0,
+   "itemsDelta": 3,
+   "moneyDelta": 0.0
+  },
+  "weeklyReview": {
+   "weekStart": "2026-09-21",
+   "completionVsPlan": 0.8620689655172413,
+   "headlineDeltas": {
+    "PL-X-01": 3.4482758620689613,
+    "PL-X-12": 2.5,
+    "HB-X-04": 11.538461538461542,
+    "CL-X-04": 7,
+    "QT-07": -1.2999999999999972
+   },
+   "itemsPctDelta": 0.4666666666666667,
+   "perfectDays": 6,
+   "streakMilestones": [
+    [
+     "water",
+     14
+    ],
+    [
+     "journal",
+     30
+    ]
+   ],
+   "attentionCount": 5,
+   "overbooked": [
+    "2026-09-29"
+   ],
+   "topCategories": [
+    "work",
+    "health",
+    "personal"
+   ],
+   "workDelta": 100
+  },
+  "dayScore": {
+   "date": "2026-09-24",
+   "value": 51.78571428571428
+  }
+ }
+}

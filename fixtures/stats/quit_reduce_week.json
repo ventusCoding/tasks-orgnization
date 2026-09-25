@@ -1,0 +1,69 @@
+{
+ "name": "quit_reduce_week",
+ "description": "Cut down (reduce mode) from Mon 2026-09-07 00:00 Europe/Paris: baseline 20/day, daily limit 10, 7 days of use {12, 9, 10, 8, 11, 7, 6} logged as `use` rows at 12:00 (T6.6.06).",
+ "zone": "Europe/Paris",
+ "tracker": {
+  "quitStartedAt": "2026-09-07T00:00",
+  "mode": "reduce",
+  "substance": "cigarettes",
+  "baselinePerDay": 20,
+  "dailyLimit": 10,
+  "unitCost": "0.50",
+  "currency": "EUR",
+  "revisions": []
+ },
+ "logs": [
+  {
+   "kind": "use",
+   "at": "2026-09-07T12:00",
+   "date": "2026-09-07",
+   "value": 12
+  },
+  {
+   "kind": "use",
+   "at": "2026-09-08T12:00",
+   "date": "2026-09-08",
+   "value": 9
+  },
+  {
+   "kind": "use",
+   "at": "2026-09-09T12:00",
+   "date": "2026-09-09",
+   "value": 10
+  },
+  {
+   "kind": "use",
+   "at": "2026-09-10T12:00",
+   "date": "2026-09-10",
+   "value": 8
+  },
+  {
+   "kind": "use",
+   "at": "2026-09-11T12:00",
+   "date": "2026-09-11",
+   "value": 11
+  },
+  {
+   "kind": "use",
+   "at": "2026-09-12T12:00",
+   "date": "2026-09-12",
+   "value": 7
+  },
+  {
+   "kind": "use",
+   "at": "2026-09-13T12:00",
+   "date": "2026-09-13",
+   "value": 6
+  }
+ ],
+ "now": "2026-09-14T00:00",
+ "expect": {
+  "withinLimitShare": 0.7142857142857143,
+  "meanUse": 9.0,
+  "reduction": 0.55,
+  "unitsAvoided": 77,
+  "dayStreak": 2,
+  "bestDayStreak": 3,
+  "moneySaved": "38.5"
+ }
+}

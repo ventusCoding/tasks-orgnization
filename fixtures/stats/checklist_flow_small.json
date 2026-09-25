@@ -1,0 +1,374 @@
+{
+ "name": "checklist_flow_small",
+ "description": "T6.4.02 single-item history (list L0) plus the T6.4.05 five-day CFD dataset (list L1, d1 = 2026-09-01) with a reopen (A) and a deletion (D), and a move of item M from L2 to L3. All times are local Europe/Paris wall-clock values.",
+ "zone": "Europe/Paris",
+ "item": {
+  "id": "X",
+  "checklist": "L0",
+  "status": "completed",
+  "events": [
+   {
+    "item": "X",
+    "type": "created",
+    "at": "2026-09-01T09:00",
+    "to": "todo"
+   },
+   {
+    "item": "X",
+    "type": "statusChanged",
+    "at": "2026-09-02T10:00",
+    "from": "todo",
+    "to": "ongoing"
+   },
+   {
+    "item": "X",
+    "type": "statusChanged",
+    "at": "2026-09-03T10:00",
+    "from": "ongoing",
+    "to": "waiting",
+    "note": "waiting for Sam"
+   },
+   {
+    "item": "X",
+    "type": "statusChanged",
+    "at": "2026-09-05T10:00",
+    "from": "waiting",
+    "to": "ongoing"
+   },
+   {
+    "item": "X",
+    "type": "statusChanged",
+    "at": "2026-09-06T10:00",
+    "from": "ongoing",
+    "to": "blocked",
+    "note": "supplier invoice missing"
+   },
+   {
+    "item": "X",
+    "type": "statusChanged",
+    "at": "2026-09-07T10:00",
+    "from": "blocked",
+    "to": "ongoing"
+   },
+   {
+    "item": "X",
+    "type": "statusChanged",
+    "at": "2026-09-08T10:00",
+    "from": "ongoing",
+    "to": "completed"
+   }
+  ],
+  "expect": {
+   "leadTimeHours": 169,
+   "cycleTimeHours": 144,
+   "timeInStatusHours": {
+    "todo": 25,
+    "ongoing": 72,
+    "waiting": 48,
+    "blocked": 24
+   },
+   "flowEfficiency": 0.5,
+   "blockedShare": 0.16666666666666666,
+   "statusChanges": 6,
+   "reopens": 0,
+   "ongoingWaitingLoops": 1,
+   "timeToFirstActionHours": 25
+  }
+ },
+ "cfd": {
+  "checklist": "L1",
+  "days": [
+   "2026-09-01",
+   "2026-09-02",
+   "2026-09-03",
+   "2026-09-04",
+   "2026-09-05",
+   "2026-09-06",
+   "2026-09-07"
+  ],
+  "rows": [
+   {
+    "id": "A",
+    "status": "completed"
+   },
+   {
+    "id": "B",
+    "status": "completed"
+   },
+   {
+    "id": "C",
+    "status": "waiting"
+   },
+   {
+    "id": "D",
+    "status": "todo",
+    "deleted": "2026-09-04T12:00"
+   },
+   {
+    "id": "E",
+    "status": "todo"
+   }
+  ],
+  "events": [
+   {
+    "item": "A",
+    "type": "created",
+    "at": "2026-09-01T09:00",
+    "to": "todo"
+   },
+   {
+    "item": "B",
+    "type": "created",
+    "at": "2026-09-01T09:05",
+    "to": "todo"
+   },
+   {
+    "item": "C",
+    "type": "created",
+    "at": "2026-09-01T09:10",
+    "to": "todo"
+   },
+   {
+    "item": "A",
+    "type": "statusChanged",
+    "at": "2026-09-01T10:00",
+    "from": "todo",
+    "to": "ongoing"
+   },
+   {
+    "item": "A",
+    "type": "statusChanged",
+    "at": "2026-09-02T10:00",
+    "from": "ongoing",
+    "to": "completed"
+   },
+   {
+    "item": "B",
+    "type": "statusChanged",
+    "at": "2026-09-02T11:00",
+    "from": "todo",
+    "to": "ongoing"
+   },
+   {
+    "item": "D",
+    "type": "created",
+    "at": "2026-09-02T09:00",
+    "to": "todo"
+   },
+   {
+    "item": "B",
+    "type": "statusChanged",
+    "at": "2026-09-03T10:00",
+    "from": "ongoing",
+    "to": "blocked",
+    "note": "waiting on supplier"
+   },
+   {
+    "item": "C",
+    "type": "statusChanged",
+    "at": "2026-09-03T11:00",
+    "from": "todo",
+    "to": "ongoing"
+   },
+   {
+    "item": "A",
+    "type": "statusChanged",
+    "at": "2026-09-03T12:00",
+    "from": "completed",
+    "to": "ongoing"
+   },
+   {
+    "item": "B",
+    "type": "statusChanged",
+    "at": "2026-09-04T10:00",
+    "from": "blocked",
+    "to": "ongoing"
+   },
+   {
+    "item": "A",
+    "type": "statusChanged",
+    "at": "2026-09-04T11:00",
+    "from": "ongoing",
+    "to": "completed"
+   },
+   {
+    "item": "E",
+    "type": "created",
+    "at": "2026-09-04T09:00",
+    "to": "todo"
+   },
+   {
+    "item": "D",
+    "type": "deleted",
+    "at": "2026-09-04T12:00"
+   },
+   {
+    "item": "B",
+    "type": "statusChanged",
+    "at": "2026-09-05T10:00",
+    "from": "ongoing",
+    "to": "completed"
+   },
+   {
+    "item": "C",
+    "type": "statusChanged",
+    "at": "2026-09-05T11:00",
+    "from": "ongoing",
+    "to": "waiting",
+    "note": "@sam invoice"
+   }
+  ],
+  "expect": {
+   "bands": [
+    [
+     2,
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     2,
+     1,
+     0,
+     0,
+     1
+    ],
+    [
+     1,
+     2,
+     0,
+     1,
+     0
+    ],
+    [
+     1,
+     2,
+     0,
+     0,
+     1
+    ],
+    [
+     1,
+     0,
+     1,
+     0,
+     2
+    ],
+    [
+     1,
+     0,
+     1,
+     0,
+     2
+    ],
+    [
+     1,
+     0,
+     1,
+     0,
+     2
+    ]
+   ],
+   "bandOrder": [
+    "todo",
+    "ongoing",
+    "waiting",
+    "blocked",
+    "completed"
+   ],
+   "reopens": 1,
+   "arrived": [
+    3,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "started": [
+    1,
+    2,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "finished": [
+    0,
+    1,
+    0,
+    1,
+    2,
+    2,
+    2
+   ],
+   "removed": [
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1
+   ],
+   "now": "2026-09-06T00:00",
+   "timeInStatusHoursA": {
+    "todo": 1,
+    "ongoing": 47,
+    "completed": 63
+   },
+   "timeInStatusHoursD": {
+    "todo": 51
+   },
+   "throughputCompletedByDay": [
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0
+   ],
+   "waitingForGroups": {
+    "Sam": 2
+   }
+  }
+ },
+ "move": {
+  "events": [
+   {
+    "item": "M",
+    "type": "created",
+    "at": "2026-09-02T10:00",
+    "to": "todo",
+    "toContainer": "L2"
+   },
+   {
+    "item": "M",
+    "type": "moved",
+    "at": "2026-09-04T10:00",
+    "fromContainer": "L2",
+    "toContainer": "L3"
+   }
+  ],
+  "expect": {
+   "L2arrived": [
+    0,
+    1,
+    1,
+    0,
+    0
+   ],
+   "L3arrived": [
+    0,
+    0,
+    0,
+    1,
+    1
+   ]
+  }
+ }
+}
