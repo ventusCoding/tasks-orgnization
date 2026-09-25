@@ -1,0 +1,82 @@
+# Backend CI (T1.2.07, T1.2.09, T1.2.16): database migrations + pgTAP, and Edge Functions fmt/lint/test.
+# No secrets are needed: the local stack uses the CLI's built-in demo keys and every function degrades
+# gracefully without FCM / cron secrets.
+name: backend
+
+on:
+  pull_request:
+    paths:
+      - "supabase/**"
+      - "fixtures/ids/**"
+      - ".github/workflows/backend.yml"
+  push:
+    branches: [main]
+    paths:
+      - "supabase/**"
+      - "fixtures/ids/**"
+      - ".github/workflows/backend.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: backend-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  database:
+    name: Database (migrations + pgTAP)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.117.0
+
+      - name: Start the local stack (only the services the tests need)
+        run: supabase start -x studio,postgres-meta,logflare,vector,imgproxy,supavisor,edge-runtime,mailpit
+
+      - name: Reset the database (all migrations + seed)
+        run: supabase db reset
+
+      - name: pgTAP
+        run: supabase test db
+
+      - name: plpgsql lint (fails on errors)
+        run: supabase db lint --local --schema app,private --level warning --fail-on error
+
+      - name: Stop the stack
+        if: always()
+        run: supabase stop --no-backup
+
+  functions:
+    name: Edge Functions (Deno 2.1, hosted-runtime compatible)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: supabase/functions
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: "2.1.x"
+
+      - name: Format
+        run: deno fmt --check
+
+      - name: Lint
+        run: deno lint
+
+      - name: Type-check entry points
+        run: deno task check
+
+      - name: Unit tests
+        run: deno test -A
+
+      - name: No lockfile committed
+        run: test ! -e deno.lock
