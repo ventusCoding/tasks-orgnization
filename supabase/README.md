@@ -298,4 +298,170 @@ Manual two-client check (T1.2.06): sign in as test1 in one client and test2 in a
 `user:11111111-1111-4111-8111-111111111111` with `private: true`; write a row as test1 → only the test1
 client receives `sync` (test2's join is refused by the policy).
 
-<!-- README part 3 -->
+## Notification jobs, guards and mutes
+
+**Job payload** (rendered, localized and redacted on the device; ≤ 3.5 KB):
+
+```json
+{"type": "reminder|nag|digest|milestone|streak|system", "title": "…", "body": "…",
+ "section": "planner|checklists|habits|quit|system", "sourceType": "task", "sourceId": "<uuid>",
+ "deepLink": "everslot://…", "actions": ["done", "snooze"], "channel": "<android channel id>",
+ "group": "<thread/group>", "iosCategory": "<registered UNNotificationCategory>", "sound": "default|none|<key>",
+ "interruptionLevel": "passive|active|time-sensitive", "relevance": 0.5,
+ "system": true, "inbox": true, "latenessMinutes": 15, "inboxWhenExpired": false, "data": {}}
+```
+
+`system: false` = inbox only, `inbox: false` = push only. `category` of the inbox row = `type`
+(default `reminder`).
+
+**Guards** (`guard` is one object or an array that must all pass; evaluated in SQL at dispatch time):
+
+| `kind` | Parameters | Fails with |
+|---|---|---|
+| `always` | — | — |
+| `task_occurrence_open` | `taskId`, `occurrenceKey` | `task_inactive` (deleted / not `active`), `occurrence_closed` (done/skipped/cancelled) |
+| `habit_period_open` | `habitId`, `occurrenceKey`, `target?`, `op?` (`gte`/`lte`/`eq`) | `habit_inactive`, `habit_paused` (incl. vacation mode), `period_done` (done/skip/excuse/fail log), `target_reached` (sum of progress ≥ target) |
+| `checklist_item_status_in` | `itemId`, `statuses` | `item_status_changed` |
+| `item_not_completed` | `itemId` | `item_completed` |
+| `quit_no_relapse_since` | `habitId`, `since` | `habit_inactive`, `relapsed` (relapse/restart log since) |
+| `inbox_not_acted` | `dedupeKey` | `acted` (acted or dismissed on any device — stops nag chains) |
+| unknown kind / malformed | — | passes (fail open, logged) |
+
+**Mutes** (`app.notification_mutes`, active while not deleted and `until` is null or in the future):
+`global`, `section` (matches `payload.section`), `rule` (`target_id` = job `rule_id`), or a target id that
+equals the job target (`target_key` = `<type>:<uuid>`) or one of its containers: a checklist item's
+ancestors and checklist, a task's series, the category of a task/checklist/habit. Muted → `guard:muted`.
+
+**Dispatch decision per device** (`push-dispatch/decisions.ts`): revoked devices are ignored; a device
+already pushed for the job is never pushed again; `target_devices` and the multi-device policy
+(`user_settings.notifications.multiDevicePolicy`: `all` | `primary` + `primaryDeviceId` | `last_active`)
+→ `skipped_policy`; **covered locally** → `skipped_local` when local notifications are on,
+`fire_at ≤ local_coverage_until` (or the rule is in `local_repeating_rules`), `schedule_rev ≥ source_rev`,
+`last_seen_at` within 72 h, and (importance below `high` or the device can fire exact alarms / is iOS);
+push disabled → `skipped_policy`; no token or token + device stale for 30 days → `skipped_stale_token`;
+otherwise **send**. Job outcome: `sent`; `skipped` with reason `guard:<reason>`, `covered_locally`,
+`no_devices`, `policy` or `push_not_configured`; `expired` (after `expires_at`, never delivered);
+`retry` → pending again with backoff 1/2/4/8 min ±20 % (QUOTA_EXCEEDED: Retry-After, ≥ 60 s), `failed`
+after 5 attempts; `UNREGISTERED`/invalid token → `token_invalid` + token cleared. Deliveries are logged in
+`private.push_deliveries` (unique per job × device).
+
+## Edge Functions
+
+Deno 2.1-compatible (hosted runtime; local `supabase functions serve` uses edge-runtime "compatible with
+Deno v2.1.4"): fully pinned `npm:`/`jsr:` specifiers in `_shared/deps.ts`, no import map, `"lock": false`
+(no lockfile is committed). All functions set `verify_jwt = false` in `config.toml` and authenticate
+callers themselves (`_shared/auth.ts`: user JWT via Auth, or the `x-cron-secret` header compared in
+constant time; fails closed when `CRON_SECRET` is unset).
+
+| Function | Caller | Behaviour |
+|---|---|---|
+| `health` | anyone (GET/POST) | `{"status":"ok", checks: {supabase_configured, fcm_configured, cron_secret_configured}}`; with `x-cron-secret` also calls `app.ops_health()` |
+| `push-dispatch` | pg_cron every 30 s (`x-cron-secret`) | answers **202** `{"accepted": true, "push_configured": bool}` immediately; work runs in `EdgeRuntime.waitUntil`: claim → expiry/lateness → guards → inbox upsert → per-device decision → FCM → deliveries → job status; loops over batches within a 25 s budget; heartbeat `push_dispatch` |
+| `sync-nudge` | `app.sync_heads` trigger via pg_net (`x-cron-secret`, `{"type":"sync_head","user_id","head_rev","origin_device_id"}`) | data-only `{"type":"sync","head":"<rev>"}` to the user's other devices (skips the origin device, devices foregrounded in the last 2 min, throttle 60 s Android / 20 min iOS); Android `NORMAL` priority, iOS `content-available` background push |
+| `account-delete` | the user (Bearer access token) or the daily retry (`x-cron-secret` + `{"user_id"}`) | removes every object under `attachments/<uid>/`, devices and jobs, then `auth.admin.deleteUser` (cascades every app row). Idempotent: `{"deleted": true, "already_deleted": bool, "objects_deleted": n}` |
+| `storage-purge` | daily job (`x-cron-secret`) | deletes queued unreferenced attachment objects through the Storage API |
+
+`_shared/`: `cors.ts`, `errors.ts` (typed `{"error": {code, message}}` responses), `log.ts` (JSON logs,
+sensitive keys redacted), `env.ts`, `supabase.ts` (admin client; `SUPABASE_SECRET_KEY`, falling back to
+`SUPABASE_SERVICE_ROLE_KEY`), `auth.ts`, `fcm.ts` (service-account JWT signed with `jose` → OAuth token
+cached in module scope until ~5 min before expiry; HTTP v1 send; `android.notification.tag` =
+`apns-collapse-id` = dedupe key; TTL / `apns-expiration`; error mapping; 4 KB payload budget),
+`background.ts`, `types.ts`. Tests: `*_test.ts` next to the code (`deno test -A`, fetch/DB mocked).
+
+## Scheduled jobs
+
+| pg_cron job | Schedule | Work |
+|---|---|---|
+| `everslot-push-dispatch` | `30 seconds` | `private.invoke_edge('push-dispatch')` (no-op without Vault secrets) |
+| `everslot-minutely` | `* * * * *` | lease reaper (`claimed` past `lease_until` → `pending`, attempts + 1, `failed` at 5) + heartbeats |
+| `everslot-daily` | `0 3 * * *` | purge tombstones > 90 days (+ watermarks, storage queue); delete finished jobs > 14 days and deliveries > 30 days; clear push tokens of devices unseen 120 days; clean `cron.job_run_details` > 7 days; tombstone inbox rows > 90 days; delete anonymous users inactive > 90 days without data (T1.5.16); retry pending account deletions; trigger `storage-purge`; refresh the time-zone cache |
+
+Plus the `tg_sync_heads_nudge` trigger (the "database webhook" of `sync-nudge`): at most one call per
+transaction and user, only when another push-capable device exists. Every step records a heartbeat in
+`private.ops_heartbeats`; `app.ops_health()` exposes dispatcher lag and heartbeat ages for alerting.
+
+## Placeholders & secrets
+
+Nothing secret is in the repo. When the cloud projects exist (T1.2.02):
+
+```bash
+supabase link --project-ref <YOUR_PROJECT_REF>
+supabase db push --dry-run && supabase db push
+supabase functions deploy --project-ref <YOUR_PROJECT_REF>
+supabase secrets set --project-ref <YOUR_PROJECT_REF> \
+  FCM_SERVICE_ACCOUNT=<BASE64_OF_FIREBASE_SERVICE_ACCOUNT_JSON> \
+  CRON_SECRET=<CRON_SECRET> \
+  SUPABASE_SECRET_KEY=sb_secret_<...>
+```
+
+```sql
+-- Vault (SQL editor of the cloud project) — lets pg_cron/pg_net call the functions:
+select vault.create_secret('https://<YOUR_PROJECT_REF>.supabase.co/functions/v1', 'functions_base_url');
+select vault.create_secret('<CRON_SECRET>', 'cron_secret');
+```
+
+- `FCM_SERVICE_ACCOUNT`: Firebase console → Project settings → Service accounts → Generate new private
+  key, then `base64 -i service-account.json` (raw JSON also accepted). Never commit the file.
+- Auth: enable the new API keys (publishable key in the app, secret key only in functions) and asymmetric
+  JWT signing; site URL / redirect `everslot://auth-callback`; Apple/Google providers
+  (`SUPABASE_AUTH_EXTERNAL_APPLE_*` placeholders in `config.toml`).
+- Record project refs here (no secrets): prod `<YOUR_PROJECT_REF>`, dev `<YOUR_DEV_PROJECT_REF>`.
+
+| Missing piece | Behaviour |
+|---|---|
+| `FCM_SERVICE_ACCOUNT` | push-dispatch still writes inbox rows and marks jobs `skipped` / `push_not_configured`; sync-nudge answers `{"skipped": "push_not_configured"}`; health reports `fcm_configured: false` |
+| `CRON_SECRET` (function env) | cron-only endpoints answer 401 (fail closed) |
+| Vault `functions_base_url` / `cron_secret`, or pg_net | `private.invoke_edge` returns NULL: no dispatch / nudge / purge calls |
+| pg_cron | schedules are skipped by the migration (notice) |
+| `realtime` / `storage` schemas | Broadcast becomes a no-op; policies / bucket are skipped |
+| `SUPABASE_URL` / secret key in a function | 503 `not_configured` |
+
+## Migration & SQL conventions
+
+- File names `YYYYMMDDHHMMSS_<verb>_<object>.sql`, one concern per migration, idempotent where possible
+  (`if not exists`, `create or replace`, guarded `do` blocks); breaking changes follow
+  expand → migrate → contract (T9.2.08); no data backfill without a batch plan.
+- `comment on` every table (and non-obvious columns); `text` + `CHECK` instead of enums; `timestamptz`
+  for instants, `timestamp` for wall-clock values (+ IANA `time_zone`), `date` for local dates; sort keys
+  `text collate "C"`; ARGB colors as `integer`.
+- Every synced table is created with the common columns and wired with
+  `select app.enable_sync('app.<table>')`; the RLS completeness test (`020_rls_completeness`) fails when a
+  table misses RLS, policies, triggers or the `(user_id, rev)` index, or when it is not in the expected list.
+- Functions are not executable by `PUBLIC` by default (`alter default privileges … revoke execute`):
+  every RPC is granted explicitly; security-definer functions pin `search_path = ''`.
+- Every migration is paired with pgTAP tests; `supabase db lint` must stay clean.
+
+Security baseline (T1.2.16): RLS on every `app` table (tested); `private` has no client grants;
+anon can only read `app.app_config` and call three helpers (tested); storage is path-scoped per user
+(tested); clients cannot send on Realtime; e-mail confirmations on, minimum password length 8; secrets only
+in function secrets / Vault.
+
+## Decisions & deviations
+
+- **Broadcast triggers:** Postgres forbids transition tables on multi-event triggers, so
+  `app.tg_sync_broadcast()` is attached twice per table (`tg_sync_broadcast_insert` / `_update`).
+- **Purge watermark is per user** (`private.sync_meta` key `purge_watermark:<user_id>`), because
+  revisions are per-user counters; `sync_pull` returns the caller's value.
+- **Parent foreign keys** (items → checklist/parent, occurrences/time entries → task, logs/pauses/revisions
+  → habit, tags, categories, profiles, sections) are `NO ACTION DEFERRABLE INITIALLY DEFERRED` instead of
+  cascading: rows are soft-deleted, purges delete children first, and only `auth.users` deletion cascades.
+- **Idempotent replay:** an equal clock with an equal value is a no-op (`stale`); `clock > field_clock`,
+  or an equal clock with a different value, applies (the literal `>=` rule would bump revisions on every
+  retry).
+- **Server-managed fields are rejected, not dropped** (`forbidden_column`); `origin_device_id` is always
+  the pushing device. Whole-call refusals (`unsupported_client`, `device_revoked`, `too_many_changes`) are
+  PostgREST errors rather than per-change results, so the outbox is kept intact.
+- `app.revoke_device` returns `{"revoked": true}`; `app.report_device_state` adds `"registered": false`
+  for an unknown device id instead of raising.
+- **Checklist CHECKs follow arch §7.3** (note ≤ 50 000 chars, sort key `^[0-9A-Za-z]{1,128}$`) where
+  T4.1.01 says 100 000 / 256.
+- Not in §7.3 but needed: `private.time_zone_names` (fast IANA check for CHECK constraints),
+  `private.account_deletion_requests`, `private.storage_deletions` + `storage-purge`,
+  `notification_mutes.target_type` vocabulary, `notifications.delivered_via` values
+  (`local | push | inbox | inbox_only`), service-role `app.dispatch_*` wrappers (the `private` schema is
+  not exposed through the API), `app.ops_health()` wrapper of `private.ops_health()`.
+- `private.fcm_token_cache` (arch §7.2 example, T7.4.06) is not created: the OAuth token is cached in
+  module scope only (one mint per warm instance).
+- The lease reaper runs every minute (T7.4.08) instead of the 10-minute "stuck claimed" release of arch §7.7.
+- `@supabase/supabase-js` is pinned to 2.116.0: 2.117.0 was younger than Deno's default 24 h
+  minimum-dependency-age policy when this was written.
