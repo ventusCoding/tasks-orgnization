@@ -66,7 +66,7 @@ abstract final class ChecklistImport {
   static const maxLines = 10000;
 
   static final _bullet = RegExp(r'^(?:[-*•+]|\d{1,4}[.)])\s+');
-  static final _task = RegExp(r'^\[( |x|X)\]\s*');
+  static final _task = RegExp(r'^(?:\[( |x|X)\]|([☐☑☒✔✓]))\s*');
   static final _heading = RegExp(r'^(#{1,6})\s+(.*)$');
   static final _statusSuffix = RegExp(r'^(.*?)\s+—\s+(ongoing|waiting|blocked|cancelled|completed):\s*(.*)$');
 
@@ -146,7 +146,8 @@ abstract final class ChecklistImport {
       var status = ItemStatus.todo;
       final task = _task.firstMatch(content);
       if (task != null) {
-        status = task.group(1) == ' ' ? ItemStatus.todo : ItemStatus.completed;
+        final open = task.group(1) == ' ' || task.group(2) == '☐';
+        status = open ? ItemStatus.todo : ItemStatus.completed;
         content = content.substring(task.end);
       }
       if (content.isNotEmpty) {
