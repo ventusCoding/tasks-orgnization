@@ -1,0 +1,165 @@
+{
+  "defaults": {"viewerZone": "UTC", "now": "2026-09-21T06:00:00Z", "range": {"from": "2026-09-21T00:00", "to": "2026-09-28T00:00"}},
+  "cases": [
+    {
+      "name": "after completion: never completed, due at the anchor",
+      "tasks": [{"id": "water", "start_local": "2026-09-21T09:00", "duration_minutes": 15, "recurrence": {"v": 1, "type": "after_completion", "afterCompletion": {"amount": 3, "unit": "day"}}}],
+      "expected": [{"task": "water", "key": "2026-09-21T09:00", "start": "2026-09-21T09:00", "status": "scheduled"}]
+    },
+    {
+      "name": "after completion: done Monday 20:00, next Thursday 09:00",
+      "now": "2026-09-21T21:00:00Z",
+      "tasks": [{"id": "water", "start_local": "2026-09-21T09:00", "duration_minutes": 15, "recurrence": {"v": 1, "type": "after_completion", "afterCompletion": {"amount": 3, "unit": "day"}}}],
+      "records": [{"task_id": "water", "occurrence_key": "2026-09-21T09:00", "status": "done", "completed_at": "2026-09-21T20:00:00Z"}],
+      "expected": [
+        {"task": "water", "key": "2026-09-21T09:00", "status": "done"},
+        {"task": "water", "key": "2026-09-24T09:00", "start": "2026-09-24T09:00", "status": "scheduled"}
+      ]
+    },
+    {
+      "name": "after completion: done late on Friday, next Monday 09:00",
+      "now": "2026-09-25T19:00:00Z",
+      "range": {"from": "2026-09-21T00:00", "to": "2026-09-29T00:00"},
+      "tasks": [{"id": "water", "start_local": "2026-09-21T09:00", "duration_minutes": 15, "recurrence": {"v": 1, "type": "after_completion", "afterCompletion": {"amount": 3, "unit": "day"}}}],
+      "records": [
+        {"task_id": "water", "occurrence_key": "2026-09-21T09:00", "status": "done", "completed_at": "2026-09-21T20:00:00Z"},
+        {"task_id": "water", "occurrence_key": "2026-09-24T09:00", "status": "done", "completed_at": "2026-09-25T18:00:00Z"}
+      ],
+      "expected": [
+        {"task": "water", "key": "2026-09-21T09:00", "status": "done"},
+        {"task": "water", "key": "2026-09-24T09:00", "status": "done"},
+        {"task": "water", "key": "2026-09-28T09:00", "start": "2026-09-28T09:00", "status": "scheduled"}
+      ]
+    },
+    {
+      "name": "after completion: hour units are exact",
+      "now": "2026-09-22T09:30:00Z",
+      "range": {"from": "2026-09-22T00:00", "to": "2026-09-23T00:00"},
+      "tasks": [{"id": "dose", "start_local": "2026-09-22T08:00", "duration_minutes": 5, "recurrence": {"v": 1, "type": "after_completion", "afterCompletion": {"amount": 3, "unit": "hour"}}}],
+      "records": [{"task_id": "dose", "occurrence_key": "2026-09-22T08:00", "status": "done", "completed_at": "2026-09-22T09:20:00Z"}],
+      "expected": [
+        {"task": "dose", "key": "2026-09-22T08:00", "status": "done"},
+        {"task": "dose", "key": "2026-09-22T12:20", "start": "2026-09-22T12:20", "status": "scheduled"}
+      ]
+    },
+    {
+      "name": "after completion: minute units are exact",
+      "now": "2026-09-22T09:30:00Z",
+      "range": {"from": "2026-09-22T00:00", "to": "2026-09-23T00:00"},
+      "tasks": [{"id": "stretch", "start_local": "2026-09-22T08:00", "duration_minutes": 5, "recurrence": {"v": 1, "type": "after_completion", "afterCompletion": {"amount": 45, "unit": "minute"}}}],
+      "records": [{"task_id": "stretch", "occurrence_key": "2026-09-22T08:00", "status": "done", "completed_at": "2026-09-22T08:07:00Z"}],
+      "expected": [
+        {"task": "stretch", "key": "2026-09-22T08:00", "status": "done"},
+        {"task": "stretch", "key": "2026-09-22T08:52", "start": "2026-09-22T08:52", "status": "missed"}
+      ]
+    },
+    {
+      "name": "after completion: a skip schedules the next one by default",
+      "tasks": [{"id": "a", "start_local": "2026-09-21T09:00", "duration_minutes": 15, "recurrence": {"v": 1, "type": "after_completion", "afterCompletion": {"amount": 1, "unit": "day"}}}],
+      "records": [{"task_id": "a", "occurrence_key": "2026-09-21T09:00", "status": "skipped", "status_changed_at": "2026-09-21T10:00:00Z"}],
+      "expected": [
+        {"task": "a", "key": "2026-09-21T09:00", "status": "skipped"},
+        {"task": "a", "key": "2026-09-22T09:00", "start": "2026-09-22T09:00", "status": "scheduled"}
+      ]
+    },
+    {
+      "name": "after completion: count ends the series",
+      "tasks": [{"id": "a", "start_local": "2026-09-21T09:00", "duration_minutes": 15, "recurrence": {"v": 1, "type": "after_completion", "count": 1, "afterCompletion": {"amount": 1, "unit": "day"}}}],
+      "records": [{"task_id": "a", "occurrence_key": "2026-09-21T09:00", "status": "done", "completed_at": "2026-09-21T09:10:00Z"}],
+      "expected": [{"task": "a", "key": "2026-09-21T09:00", "status": "done"}]
+    },
+    {
+      "name": "quota: unplaced slots show on today as all-day markers",
+      "now": "2026-09-23T12:00:00Z",
+      "tasks": [{"id": "run", "start_local": "2026-09-21T09:00", "duration_minutes": 45, "recurrence": {"v": 1, "type": "quota", "quota": {"times": 3, "per": "week"}}}],
+      "expected": [
+        {"task": "run", "key": "week:2026-09-21#1", "start": "2026-09-23T00:00", "end": "2026-09-24T00:00", "allDay": true, "quota": true, "status": "scheduled"},
+        {"task": "run", "key": "week:2026-09-21#2", "start": "2026-09-23T00:00", "allDay": true, "quota": true},
+        {"task": "run", "key": "week:2026-09-21#3", "start": "2026-09-23T00:00", "allDay": true, "quota": true}
+      ]
+    },
+    {
+      "name": "quota: a placed slot keeps its key",
+      "now": "2026-09-23T12:00:00Z",
+      "tasks": [{"id": "run", "start_local": "2026-09-21T09:00", "duration_minutes": 45, "recurrence": {"v": 1, "type": "quota", "quota": {"times": 3, "per": "week"}}}],
+      "records": [{"task_id": "run", "occurrence_key": "week:2026-09-21#2", "override_start_local": "2026-09-24T18:00"}],
+      "expected": [
+        {"task": "run", "key": "week:2026-09-21#1", "start": "2026-09-23T00:00", "allDay": true},
+        {"task": "run", "key": "week:2026-09-21#3", "start": "2026-09-23T00:00", "allDay": true},
+        {"task": "run", "key": "week:2026-09-21#2", "start": "2026-09-24T18:00", "end": "2026-09-24T18:45", "allDay": false, "quota": true, "moved": true}
+      ]
+    },
+    {
+      "name": "quota: completed slots count toward the period",
+      "now": "2026-09-23T12:00:00Z",
+      "tasks": [{"id": "run", "start_local": "2026-09-21T09:00", "duration_minutes": 45, "recurrence": {"v": 1, "type": "quota", "quota": {"times": 3, "per": "week"}}}],
+      "records": [
+        {"task_id": "run", "occurrence_key": "week:2026-09-21#1", "status": "done"},
+        {"task_id": "run", "occurrence_key": "week:2026-09-21#2", "status": "done"},
+        {"task_id": "run", "occurrence_key": "week:2026-09-21#3", "status": "done"}
+      ],
+      "expected": [
+        {"task": "run", "key": "week:2026-09-21#1", "status": "done"},
+        {"task": "run", "key": "week:2026-09-21#2", "status": "done"},
+        {"task": "run", "key": "week:2026-09-21#3", "status": "done"}
+      ]
+    },
+    {
+      "name": "quota: future period slots appear on the period's first day",
+      "now": "2026-09-23T12:00:00Z",
+      "range": {"from": "2026-09-28T00:00", "to": "2026-10-05T00:00"},
+      "tasks": [{"id": "run", "start_local": "2026-09-21T09:00", "duration_minutes": 45, "recurrence": {"v": 1, "type": "quota", "quota": {"times": 2, "per": "week"}}}],
+      "expected": [
+        {"task": "run", "key": "week:2026-09-28#1", "start": "2026-09-28T00:00", "allDay": true},
+        {"task": "run", "key": "week:2026-09-28#2", "start": "2026-09-28T00:00", "allDay": true}
+      ]
+    },
+    {
+      "name": "quota: unplaced slots of a past period are missed on its last day",
+      "now": "2026-09-23T12:00:00Z",
+      "range": {"from": "2026-09-14T00:00", "to": "2026-09-21T00:00"},
+      "tasks": [{"id": "run", "start_local": "2026-09-07T09:00", "duration_minutes": 45, "recurrence": {"v": 1, "type": "quota", "quota": {"times": 2, "per": "week"}}}],
+      "expected": [
+        {"task": "run", "key": "week:2026-09-14#1", "start": "2026-09-20T00:00", "allDay": true, "status": "missed"},
+        {"task": "run", "key": "week:2026-09-14#2", "start": "2026-09-20T00:00", "allDay": true, "status": "missed"}
+      ]
+    },
+    {
+      "name": "paused series hides occurrences from the pause moment on",
+      "now": "2026-09-22T12:00:00Z",
+      "range": {"from": "2026-09-21T00:00", "to": "2026-09-25T00:00"},
+      "tasks": [{"id": "p", "start_local": "2026-09-20T08:00", "duration_minutes": 30, "tracking_mode": "event", "status": "paused", "paused_at": "2026-09-22T10:00:00Z", "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "expected": [
+        {"task": "p", "key": "2026-09-21T08:00"},
+        {"task": "p", "key": "2026-09-22T08:00"}
+      ]
+    },
+    {
+      "name": "paused series keeps occurrences with an outcome",
+      "now": "2026-09-22T12:00:00Z",
+      "range": {"from": "2026-09-21T00:00", "to": "2026-09-25T00:00"},
+      "tasks": [{"id": "p", "start_local": "2026-09-20T08:00", "duration_minutes": 30, "tracking_mode": "event", "status": "paused", "paused_at": "2026-09-22T10:00:00Z", "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "records": [{"task_id": "p", "occurrence_key": "2026-09-24T08:00", "status": "done"}],
+      "expected": [
+        {"task": "p", "key": "2026-09-21T08:00"},
+        {"task": "p", "key": "2026-09-22T08:00"},
+        {"task": "p", "key": "2026-09-24T08:00", "status": "done"}
+      ]
+    },
+    {
+      "name": "count in completions mode ends after the N-th completion",
+      "now": "2026-09-23T12:00:00Z",
+      "range": {"from": "2026-09-21T00:00", "to": "2026-09-26T00:00"},
+      "tasks": [{"id": "c", "start_local": "2026-09-21T08:00", "duration_minutes": 30, "recurrence": {"v": 1, "type": "fixed", "freq": "daily", "count": 2, "countMode": "completions"}}],
+      "records": [
+        {"task_id": "c", "occurrence_key": "2026-09-21T08:00", "status": "done"},
+        {"task_id": "c", "occurrence_key": "2026-09-23T08:00", "status": "done"}
+      ],
+      "expected": [
+        {"task": "c", "key": "2026-09-21T08:00", "status": "done"},
+        {"task": "c", "key": "2026-09-22T08:00", "status": "missed"},
+        {"task": "c", "key": "2026-09-23T08:00", "status": "done"}
+      ]
+    }
+  ]
+}

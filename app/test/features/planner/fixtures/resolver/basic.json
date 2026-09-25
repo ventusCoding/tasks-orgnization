@@ -1,0 +1,107 @@
+{
+  "defaults": {"viewerZone": "UTC", "now": "2026-09-22T12:00:00Z", "range": {"from": "2026-09-22T00:00", "to": "2026-09-23T00:00"}},
+  "cases": [
+    {
+      "name": "one-off timed inside the range, missed after grace and overdue",
+      "tasks": [{"id": "t1", "start_local": "2026-09-22T09:00", "duration_minutes": 60}],
+      "expected": [{"task": "t1", "key": "2026-09-22T09:00", "start": "2026-09-22T09:00", "end": "2026-09-22T10:00", "status": "missed", "overdue": true, "startUtc": "2026-09-22T09:00:00.000Z"}]
+    },
+    {
+      "name": "one-off in the future is scheduled",
+      "tasks": [{"id": "t1", "start_local": "2026-09-22T15:00", "duration_minutes": 30}],
+      "expected": [{"task": "t1", "key": "2026-09-22T15:00", "start": "2026-09-22T15:00", "end": "2026-09-22T15:30", "status": "scheduled", "overdue": false, "current": false}]
+    },
+    {
+      "name": "one-off outside the range is excluded",
+      "tasks": [{"id": "t1", "start_local": "2026-09-23T09:00", "duration_minutes": 30}],
+      "expected": []
+    },
+    {
+      "name": "multi-day timed task crossing the range start is included",
+      "tasks": [{"id": "t1", "start_local": "2026-09-21T22:00", "duration_minutes": 240, "tracking_mode": "event"}],
+      "expected": [{"task": "t1", "key": "2026-09-21T22:00", "start": "2026-09-21T22:00", "end": "2026-09-22T02:00", "status": "scheduled", "overdue": false}]
+    },
+    {
+      "name": "task ending exactly at the range start is excluded",
+      "tasks": [{"id": "t1", "start_local": "2026-09-21T23:00", "duration_minutes": 60}],
+      "expected": []
+    },
+    {
+      "name": "zero-duration task at the range start is included",
+      "tasks": [{"id": "t1", "start_local": "2026-09-22T00:00", "duration_minutes": 0}],
+      "expected": [{"task": "t1", "key": "2026-09-22T00:00", "start": "2026-09-22T00:00", "end": "2026-09-22T00:00", "status": "missed", "overdue": true}]
+    },
+    {
+      "name": "all-day one-off is date based and current during the day",
+      "tasks": [{"id": "t1", "start_local": "2026-09-22T00:00", "duration_minutes": 1440, "is_all_day": true}],
+      "expected": [{"task": "t1", "key": "2026-09-22", "start": "2026-09-22T00:00", "end": "2026-09-23T00:00", "allDay": true, "status": "scheduled", "current": true}]
+    },
+    {
+      "name": "multi-day all-day task spanning the range",
+      "tasks": [{"id": "t1", "start_local": "2026-09-20T00:00", "duration_minutes": 4320, "is_all_day": true}],
+      "expected": [{"task": "t1", "key": "2026-09-20", "start": "2026-09-20T00:00", "end": "2026-09-23T00:00", "allDay": true, "status": "scheduled"}]
+    },
+    {
+      "name": "all-day task ending before the range is excluded",
+      "tasks": [{"id": "t1", "start_local": "2026-09-21T00:00", "duration_minutes": 1440, "is_all_day": true}],
+      "expected": []
+    },
+    {
+      "name": "templates, unscheduled, archived and deleted tasks are excluded",
+      "tasks": [
+        {"id": "tpl", "start_local": "2026-09-22T13:00", "duration_minutes": 30, "is_template": true},
+        {"id": "backlog", "duration_minutes": 30},
+        {"id": "arch", "start_local": "2026-09-22T13:00", "duration_minutes": 30, "status": "archived"},
+        {"id": "del", "start_local": "2026-09-22T13:00", "duration_minutes": 30, "deleted_at": "2026-09-21T10:00:00Z"},
+        {"id": "ok", "start_local": "2026-09-22T13:00", "duration_minutes": 30}
+      ],
+      "expected": [{"task": "ok", "key": "2026-09-22T13:00", "start": "2026-09-22T13:00"}]
+    },
+    {
+      "name": "ordering: all-day first, then start, priority descending, title",
+      "tasks": [
+        {"id": "b", "title": "Bravo", "start_local": "2026-09-22T09:00", "duration_minutes": 30, "priority": 1, "tracking_mode": "event"},
+        {"id": "c", "title": "Charlie", "start_local": "2026-09-22T09:00", "duration_minutes": 30, "priority": 3, "tracking_mode": "event"},
+        {"id": "a", "title": "Zulu all day", "start_local": "2026-09-22T00:00", "duration_minutes": 1440, "is_all_day": true},
+        {"id": "d", "title": "Alpha", "start_local": "2026-09-22T09:00", "duration_minutes": 30, "priority": 3, "tracking_mode": "event"},
+        {"id": "e", "title": "Echo", "start_local": "2026-09-22T08:00", "duration_minutes": 30, "tracking_mode": "event"}
+      ],
+      "expected": [
+        {"task": "a", "key": "2026-09-22", "start": "2026-09-22T00:00", "allDay": true},
+        {"task": "e", "key": "2026-09-22T08:00", "start": "2026-09-22T08:00"},
+        {"task": "d", "key": "2026-09-22T09:00", "start": "2026-09-22T09:00", "title": "Alpha"},
+        {"task": "c", "key": "2026-09-22T09:00", "start": "2026-09-22T09:00", "title": "Charlie"},
+        {"task": "b", "key": "2026-09-22T09:00", "start": "2026-09-22T09:00", "title": "Bravo"}
+      ]
+    },
+    {
+      "name": "one-off with a done record",
+      "tasks": [{"id": "t1", "start_local": "2026-09-22T09:00", "duration_minutes": 60}],
+      "records": [{"task_id": "t1", "occurrence_key": "2026-09-22T09:00", "status": "done", "completed_at": "2026-09-22T10:00:00Z"}],
+      "expected": [{"task": "t1", "key": "2026-09-22T09:00", "start": "2026-09-22T09:00", "status": "done", "overdue": false, "hasRecord": true}]
+    },
+    {
+      "name": "one-off record written under a previous start still applies",
+      "tasks": [{"id": "t1", "start_local": "2026-09-22T14:00", "duration_minutes": 60}],
+      "records": [{"task_id": "t1", "occurrence_key": "2026-09-22T09:00", "status": "done"}],
+      "expected": [{"task": "t1", "key": "2026-09-22T14:00", "start": "2026-09-22T14:00", "status": "done", "hasRecord": true}]
+    },
+    {
+      "name": "occurrence containing now is current",
+      "tasks": [{"id": "t1", "start_local": "2026-09-22T11:30", "duration_minutes": 60}],
+      "expected": [{"task": "t1", "key": "2026-09-22T11:30", "start": "2026-09-22T11:30", "end": "2026-09-22T12:30", "status": "scheduled", "current": true}]
+    },
+    {
+      "name": "in-progress record wins over derived missed",
+      "tasks": [{"id": "t1", "start_local": "2026-09-22T09:00", "duration_minutes": 60, "tracking_mode": "timer"}],
+      "records": [{"task_id": "t1", "occurrence_key": "2026-09-22T09:00", "status": "in_progress"}],
+      "expected": [{"task": "t1", "key": "2026-09-22T09:00", "status": "inProgress", "current": false, "overdue": false}]
+    },
+    {
+      "name": "soft-deleted records are ignored",
+      "tasks": [{"id": "t1", "start_local": "2026-09-22T15:00", "duration_minutes": 60}],
+      "records": [{"task_id": "t1", "occurrence_key": "2026-09-22T15:00", "status": "done", "deleted_at": "2026-09-22T11:00:00Z"}],
+      "expected": [{"task": "t1", "key": "2026-09-22T15:00", "status": "scheduled", "hasRecord": false}]
+    }
+  ]
+}

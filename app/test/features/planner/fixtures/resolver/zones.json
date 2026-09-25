@@ -1,0 +1,112 @@
+{
+  "defaults": {"viewerZone": "UTC", "now": "2026-01-01T00:00:00Z", "range": {"from": "2026-09-22T00:00", "to": "2026-09-23T00:00"}},
+  "cases": [
+    {
+      "name": "fixed New York task viewed from Paris",
+      "viewerZone": "Europe/Paris",
+      "tasks": [{"id": "ny", "start_local": "2026-09-22T10:00", "duration_minutes": 30, "time_zone": "America/New_York"}],
+      "expected": [{"task": "ny", "key": "2026-09-22T10:00", "start": "2026-09-22T16:00", "end": "2026-09-22T16:30", "startUtc": "2026-09-22T14:00:00.000Z"}]
+    },
+    {
+      "name": "floating task keeps its wall-clock time in Tokyo",
+      "viewerZone": "Asia/Tokyo",
+      "tasks": [{"id": "f", "start_local": "2026-09-20T08:00", "duration_minutes": 30, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "expected": [{"task": "f", "key": "2026-09-22T08:00", "start": "2026-09-22T08:00", "end": "2026-09-22T08:30", "startUtc": "2026-09-21T23:00:00.000Z"}]
+    },
+    {
+      "name": "Paris to Tokyo travel with floating and fixed tasks",
+      "viewerZone": "Asia/Tokyo",
+      "tasks": [
+        {"id": "floating", "start_local": "2026-09-22T09:00", "duration_minutes": 60},
+        {"id": "parisMorning", "start_local": "2026-09-22T09:00", "duration_minutes": 60, "time_zone": "Europe/Paris"},
+        {"id": "parisEvening", "start_local": "2026-09-21T20:00", "duration_minutes": 60, "time_zone": "Europe/Paris"}
+      ],
+      "expected": [
+        {"task": "parisEvening", "key": "2026-09-21T20:00", "start": "2026-09-22T03:00", "end": "2026-09-22T04:00", "startUtc": "2026-09-21T18:00:00.000Z"},
+        {"task": "floating", "key": "2026-09-22T09:00", "start": "2026-09-22T09:00", "startUtc": "2026-09-22T00:00:00.000Z"},
+        {"task": "parisMorning", "key": "2026-09-22T09:00", "start": "2026-09-22T16:00", "startUtc": "2026-09-22T07:00:00.000Z"}
+      ]
+    },
+    {
+      "name": "floating task after the device zone changes to New York",
+      "viewerZone": "America/New_York",
+      "tasks": [{"id": "floating", "start_local": "2026-09-22T09:00", "duration_minutes": 60}],
+      "expected": [{"task": "floating", "key": "2026-09-22T09:00", "start": "2026-09-22T09:00", "startUtc": "2026-09-22T13:00:00.000Z"}]
+    },
+    {
+      "name": "all-day fixed-zone task never shifts days",
+      "viewerZone": "Asia/Tokyo",
+      "tasks": [{"id": "ad", "start_local": "2026-09-22T00:00", "duration_minutes": 1440, "is_all_day": true, "time_zone": "America/Los_Angeles"}],
+      "expected": [{"task": "ad", "key": "2026-09-22", "start": "2026-09-22T00:00", "end": "2026-09-23T00:00", "allDay": true}]
+    },
+    {
+      "name": "fixed Tokyo morning shows the previous evening in New York",
+      "viewerZone": "America/New_York",
+      "tasks": [{"id": "tk", "start_local": "2026-09-23T08:00", "duration_minutes": 30, "time_zone": "Asia/Tokyo"}],
+      "expected": [{"task": "tk", "key": "2026-09-23T08:00", "start": "2026-09-22T19:00", "end": "2026-09-22T19:30", "startUtc": "2026-09-22T23:00:00.000Z"}]
+    },
+    {
+      "name": "DST gap in Paris: 02:30 shifts forward to 03:30",
+      "viewerZone": "Europe/Paris",
+      "range": {"from": "2026-03-29T00:00", "to": "2026-03-30T00:00"},
+      "tasks": [{"id": "gap", "start_local": "2026-03-28T02:30", "duration_minutes": 30, "time_zone": "Europe/Paris", "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "expected": [{"task": "gap", "key": "2026-03-29T02:30", "start": "2026-03-29T03:30", "end": "2026-03-29T04:00", "startUtc": "2026-03-29T01:30:00.000Z"}]
+    },
+    {
+      "name": "DST overlap in Paris: 02:30 resolves once with the earlier offset",
+      "viewerZone": "Europe/Paris",
+      "range": {"from": "2026-10-25T00:00", "to": "2026-10-26T00:00"},
+      "tasks": [{"id": "ovl", "start_local": "2026-10-24T02:30", "duration_minutes": 15, "time_zone": "Europe/Paris", "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "expected": [{"task": "ovl", "key": "2026-10-25T02:30", "start": "2026-10-25T02:30", "end": "2026-10-25T02:45", "startUtc": "2026-10-25T00:30:00.000Z"}]
+    },
+    {
+      "name": "DST gap in New York: 02:15 shifts to 03:15",
+      "viewerZone": "America/New_York",
+      "range": {"from": "2026-03-08T00:00", "to": "2026-03-09T00:00"},
+      "tasks": [{"id": "nygap", "start_local": "2026-03-07T02:15", "duration_minutes": 30, "time_zone": "America/New_York", "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "expected": [{"task": "nygap", "key": "2026-03-08T02:15", "start": "2026-03-08T03:15", "startUtc": "2026-03-08T07:15:00.000Z"}]
+    },
+    {
+      "name": "DST overlap in New York: 01:30 takes the earlier (EDT) instant",
+      "viewerZone": "America/New_York",
+      "range": {"from": "2026-11-01T00:00", "to": "2026-11-02T00:00"},
+      "tasks": [{"id": "nyovl", "start_local": "2026-10-31T01:30", "duration_minutes": 15, "time_zone": "America/New_York", "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "expected": [{"task": "nyovl", "key": "2026-11-01T01:30", "start": "2026-11-01T01:30", "startUtc": "2026-11-01T05:30:00.000Z"}]
+    },
+    {
+      "name": "floating task on the viewer's DST gap day",
+      "viewerZone": "Europe/Paris",
+      "range": {"from": "2026-03-29T00:00", "to": "2026-03-30T00:00"},
+      "tasks": [{"id": "fgap", "start_local": "2026-03-28T02:30", "duration_minutes": 30, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "expected": [{"task": "fgap", "key": "2026-03-29T02:30", "start": "2026-03-29T03:30", "startUtc": "2026-03-29T01:30:00.000Z"}]
+    },
+    {
+      "name": "fixed Paris task seen from New York before the Paris DST change",
+      "viewerZone": "America/New_York",
+      "range": {"from": "2026-10-24T00:00", "to": "2026-10-25T00:00"},
+      "tasks": [{"id": "p", "start_local": "2026-10-20T09:00", "duration_minutes": 30, "time_zone": "Europe/Paris", "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "expected": [{"task": "p", "key": "2026-10-24T09:00", "start": "2026-10-24T03:00", "startUtc": "2026-10-24T07:00:00.000Z"}]
+    },
+    {
+      "name": "fixed Paris task seen from New York between the two DST changes",
+      "viewerZone": "America/New_York",
+      "range": {"from": "2026-10-26T00:00", "to": "2026-10-27T00:00"},
+      "tasks": [{"id": "p", "start_local": "2026-10-20T09:00", "duration_minutes": 30, "time_zone": "Europe/Paris", "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "expected": [{"task": "p", "key": "2026-10-26T09:00", "start": "2026-10-26T04:00", "startUtc": "2026-10-26T08:00:00.000Z"}]
+    },
+    {
+      "name": "Lord Howe 30-minute DST gap",
+      "viewerZone": "Australia/Lord_Howe",
+      "range": {"from": "2026-10-04T00:00", "to": "2026-10-05T00:00"},
+      "tasks": [{"id": "lh", "start_local": "2026-10-01T02:10", "duration_minutes": 10, "time_zone": "Australia/Lord_Howe", "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "expected": [{"task": "lh", "key": "2026-10-04T02:10", "start": "2026-10-04T02:40", "startUtc": "2026-10-03T15:40:00.000Z"}]
+    },
+    {
+      "name": "fixed-zone weekly rule keeps keys in the task's own wall clock",
+      "viewerZone": "Asia/Tokyo",
+      "range": {"from": "2026-09-22T00:00", "to": "2026-09-23T00:00"},
+      "tasks": [{"id": "wk", "start_local": "2026-09-14T20:00", "duration_minutes": 60, "time_zone": "America/New_York", "recurrence": {"v": 1, "type": "fixed", "freq": "weekly", "byWeekday": [{"day": "MO"}]}}],
+      "expected": [{"task": "wk", "key": "2026-09-21T20:00", "start": "2026-09-22T09:00", "startUtc": "2026-09-22T00:00:00.000Z"}]
+    }
+  ]
+}

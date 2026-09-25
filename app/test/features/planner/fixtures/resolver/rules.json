@@ -1,0 +1,149 @@
+{
+  "defaults": {"viewerZone": "UTC", "now": "2026-09-20T12:00:00Z", "range": {"from": "2026-09-21T00:00", "to": "2026-09-28T00:00"}},
+  "cases": [
+    {
+      "name": "weekly on Monday and Tuesday",
+      "tasks": [{"id": "gym", "start_local": "2026-09-21T07:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "weekly", "byWeekday": [{"day": "MO"}, {"day": "TU"}]}}],
+      "expected": [
+        {"task": "gym", "key": "2026-09-21T07:00", "start": "2026-09-21T07:00", "end": "2026-09-21T08:00"},
+        {"task": "gym", "key": "2026-09-22T07:00", "start": "2026-09-22T07:00", "end": "2026-09-22T08:00"}
+      ]
+    },
+    {
+      "name": "weekly on Monday and Tuesday over two weeks",
+      "range": {"from": "2026-09-21T00:00", "to": "2026-10-05T00:00"},
+      "tasks": [{"id": "gym", "start_local": "2026-09-21T07:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "weekly", "byWeekday": [{"day": "MO"}, {"day": "TU"}]}}],
+      "expected": [
+        {"task": "gym", "key": "2026-09-21T07:00", "start": "2026-09-21T07:00"},
+        {"task": "gym", "key": "2026-09-22T07:00", "start": "2026-09-22T07:00"},
+        {"task": "gym", "key": "2026-09-28T07:00", "start": "2026-09-28T07:00"},
+        {"task": "gym", "key": "2026-09-29T07:00", "start": "2026-09-29T07:00"}
+      ]
+    },
+    {
+      "name": "every 2 days at 21:00",
+      "tasks": [{"id": "review", "start_local": "2026-09-20T21:00", "duration_minutes": 30, "recurrence": {"v": 1, "type": "fixed", "freq": "daily", "interval": 2}}],
+      "expected": [
+        {"task": "review", "key": "2026-09-22T21:00", "start": "2026-09-22T21:00"},
+        {"task": "review", "key": "2026-09-24T21:00", "start": "2026-09-24T21:00"},
+        {"task": "review", "key": "2026-09-26T21:00", "start": "2026-09-26T21:00"}
+      ]
+    },
+    {
+      "name": "hourly, occurrences ending before the range start excluded",
+      "range": {"from": "2026-09-22T09:30", "to": "2026-09-22T12:00"},
+      "tasks": [{"id": "h", "start_local": "2026-09-22T08:00", "duration_minutes": 15, "recurrence": {"v": 1, "type": "fixed", "freq": "hourly"}}],
+      "expected": [
+        {"task": "h", "key": "2026-09-22T10:00", "start": "2026-09-22T10:00", "end": "2026-09-22T10:15"},
+        {"task": "h", "key": "2026-09-22T11:00", "start": "2026-09-22T11:00", "end": "2026-09-22T11:15"}
+      ]
+    },
+    {
+      "name": "every 45 minutes between 09:00 and 18:00 on weekdays",
+      "range": {"from": "2026-09-22T00:00", "to": "2026-09-23T00:00"},
+      "tasks": [{"id": "w", "start_local": "2026-09-22T09:00", "duration_minutes": 10, "tracking_mode": "event", "recurrence": {"v": 1, "type": "fixed", "freq": "minutely", "interval": 45, "byWeekday": [{"day": "MO"}, {"day": "TU"}, {"day": "WE"}, {"day": "TH"}, {"day": "FR"}], "window": {"start": "09:00", "end": "18:00", "anchor": "window_start"}}}],
+      "expected": [
+        {"task": "w", "key": "2026-09-22T09:00", "start": "2026-09-22T09:00"},
+        {"task": "w", "key": "2026-09-22T09:45", "start": "2026-09-22T09:45"},
+        {"task": "w", "key": "2026-09-22T10:30", "start": "2026-09-22T10:30"},
+        {"task": "w", "key": "2026-09-22T11:15", "start": "2026-09-22T11:15"},
+        {"task": "w", "key": "2026-09-22T12:00", "start": "2026-09-22T12:00"},
+        {"task": "w", "key": "2026-09-22T12:45", "start": "2026-09-22T12:45"},
+        {"task": "w", "key": "2026-09-22T13:30", "start": "2026-09-22T13:30"},
+        {"task": "w", "key": "2026-09-22T14:15", "start": "2026-09-22T14:15"},
+        {"task": "w", "key": "2026-09-22T15:00", "start": "2026-09-22T15:00"},
+        {"task": "w", "key": "2026-09-22T15:45", "start": "2026-09-22T15:45"},
+        {"task": "w", "key": "2026-09-22T16:30", "start": "2026-09-22T16:30"},
+        {"task": "w", "key": "2026-09-22T17:15", "start": "2026-09-22T17:15"},
+        {"task": "w", "key": "2026-09-22T18:00", "start": "2026-09-22T18:00", "end": "2026-09-22T18:10"}
+      ]
+    },
+    {
+      "name": "windowed weekday rule produces nothing on a Saturday",
+      "range": {"from": "2026-09-26T00:00", "to": "2026-09-27T00:00"},
+      "tasks": [{"id": "w", "start_local": "2026-09-22T09:00", "duration_minutes": 10, "recurrence": {"v": 1, "type": "fixed", "freq": "minutely", "interval": 45, "byWeekday": [{"day": "MO"}, {"day": "TU"}, {"day": "WE"}, {"day": "TH"}, {"day": "FR"}], "window": {"start": "09:00", "end": "18:00"}}}],
+      "expected": []
+    },
+    {
+      "name": "last weekday of the month",
+      "range": {"from": "2026-10-01T00:00", "to": "2026-11-01T00:00"},
+      "tasks": [{"id": "m", "start_local": "2026-09-30T17:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "monthly", "byWeekday": [{"day": "MO"}, {"day": "TU"}, {"day": "WE"}, {"day": "TH"}, {"day": "FR"}], "bySetPos": [-1]}}],
+      "expected": [{"task": "m", "key": "2026-10-30T17:00", "start": "2026-10-30T17:00"}]
+    },
+    {
+      "name": "several times a day",
+      "range": {"from": "2026-09-22T00:00", "to": "2026-09-23T00:00"},
+      "tasks": [{"id": "pills", "start_local": "2026-09-22T08:00", "duration_minutes": 5, "recurrence": {"v": 1, "type": "fixed", "freq": "daily", "times": ["08:00", "20:00"]}}],
+      "expected": [
+        {"task": "pills", "key": "2026-09-22T08:00", "start": "2026-09-22T08:00"},
+        {"task": "pills", "key": "2026-09-22T20:00", "start": "2026-09-22T20:00"}
+      ]
+    },
+    {
+      "name": "count-limited series",
+      "tasks": [{"id": "c", "start_local": "2026-09-21T10:00", "duration_minutes": 30, "recurrence": {"v": 1, "type": "fixed", "freq": "daily", "count": 3}}],
+      "expected": [
+        {"task": "c", "key": "2026-09-21T10:00"},
+        {"task": "c", "key": "2026-09-22T10:00"},
+        {"task": "c", "key": "2026-09-23T10:00"}
+      ]
+    },
+    {
+      "name": "until is inclusive",
+      "tasks": [{"id": "u", "start_local": "2026-09-21T10:00", "duration_minutes": 30, "recurrence": {"v": 1, "type": "fixed", "freq": "daily", "until": "2026-09-23T10:00"}}],
+      "expected": [
+        {"task": "u", "key": "2026-09-21T10:00"},
+        {"task": "u", "key": "2026-09-22T10:00"},
+        {"task": "u", "key": "2026-09-23T10:00"}
+      ]
+    },
+    {
+      "name": "exdates are removed",
+      "range": {"from": "2026-09-21T00:00", "to": "2026-09-24T00:00"},
+      "tasks": [{"id": "x", "start_local": "2026-09-21T10:00", "duration_minutes": 30, "recurrence": {"v": 1, "type": "fixed", "freq": "daily", "exdates": ["2026-09-22T10:00"]}}],
+      "expected": [
+        {"task": "x", "key": "2026-09-21T10:00"},
+        {"task": "x", "key": "2026-09-23T10:00"}
+      ]
+    },
+    {
+      "name": "rdates are added",
+      "tasks": [{"id": "r", "start_local": "2026-09-21T10:00", "duration_minutes": 30, "recurrence": {"v": 1, "type": "fixed", "freq": "weekly", "rdates": ["2026-09-24T15:00"]}}],
+      "expected": [
+        {"task": "r", "key": "2026-09-21T10:00", "start": "2026-09-21T10:00"},
+        {"task": "r", "key": "2026-09-24T15:00", "start": "2026-09-24T15:00"}
+      ]
+    },
+    {
+      "name": "all-day weekly on Monday and Wednesday",
+      "tasks": [{"id": "ad", "start_local": "2026-09-21T00:00", "duration_minutes": 1440, "is_all_day": true, "recurrence": {"v": 1, "type": "fixed", "freq": "weekly", "byWeekday": [{"day": "MO"}, {"day": "WE"}]}}],
+      "expected": [
+        {"task": "ad", "key": "2026-09-21", "start": "2026-09-21T00:00", "end": "2026-09-22T00:00", "allDay": true},
+        {"task": "ad", "key": "2026-09-23", "start": "2026-09-23T00:00", "end": "2026-09-24T00:00", "allDay": true}
+      ]
+    },
+    {
+      "name": "monthly on day 31 skips short months",
+      "range": {"from": "2026-09-01T00:00", "to": "2026-11-01T00:00"},
+      "tasks": [{"id": "d31", "start_local": "2026-08-31T09:00", "duration_minutes": 30, "recurrence": {"v": 1, "type": "fixed", "freq": "monthly", "byMonthDay": [31]}}],
+      "expected": [{"task": "d31", "key": "2026-10-31T09:00", "start": "2026-10-31T09:00"}]
+    },
+    {
+      "name": "long recurring occurrence crossing the range start",
+      "range": {"from": "2026-09-22T00:00", "to": "2026-09-22T12:00"},
+      "tasks": [{"id": "night", "start_local": "2026-09-20T22:00", "duration_minutes": 180, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "expected": [{"task": "night", "key": "2026-09-21T22:00", "start": "2026-09-21T22:00", "end": "2026-09-22T01:00"}]
+    },
+    {
+      "name": "yearly on February 29 only in leap years",
+      "range": {"from": "2027-01-01T00:00", "to": "2029-01-01T00:00"},
+      "tasks": [{"id": "leap", "start_local": "2024-02-29T09:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "yearly"}}],
+      "expected": [{"task": "leap", "key": "2028-02-29T09:00", "start": "2028-02-29T09:00"}]
+    },
+    {
+      "name": "series starting after the range produces nothing",
+      "tasks": [{"id": "later", "start_local": "2026-10-01T09:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "expected": []
+    }
+  ]
+}
