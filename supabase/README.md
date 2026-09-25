@@ -131,4 +131,171 @@ select vault.create_secret('<LOCAL_CRON_SECRET>', 'cron_secret');               
 
 Sign in with `POST /auth/v1/token?grant_type=password` or `supabase.auth.signInWithPassword(...)`.
 
-<!-- README part 2 -->
+## RPC contracts
+
+All RPCs live in schema `app` (`POST /rest/v1/rpc/<name>` with `Content-Profile: app`, or
+`supabase.schema('app').rpc(...)`). Client RPCs need a user JWT. JSON rows use snake_case column names;
+`timestamptz` → ISO 8601 with offset, `timestamp` (wall clock) → `"YYYY-MM-DDTHH:MM:SS"`, `date` →
+`"YYYY-MM-DD"`, `numeric`/`bigint` → JSON numbers, arrays → JSON arrays.
+
+**API errors** are PostgREST errors with a stable `code`:
+`HTTP <status>  {"code": "<code>", "message": "…", "details": "<JSON text or null>", "hint": "…"}`
+(raised by `app.raise_api_error`). Not signed in → SQLSTATE `28000` `not_authenticated`.
+
+### `app.sync_push(p_device_id uuid, p_schema int, p_build int, p_changes jsonb) returns jsonb`
+
+Security invoker (RLS applies). `p_changes` is an array of **≤ 500** changes:
+
+```json
+{"id": "<change uuid>", "g": "<op group uuid>", "t": "<table name>", "op": "insert" | "patch",
+ "row_id": "<uuid>", "fields": {"<column>": <value>, "...": "..."}, "clock": {"<column>": "<hlc>"}}
+```
+
+HLC strings are fixed width and compare correctly with `COLLATE "C"`:
+`"<15-digit zero-padded unix ms>:<5-digit counter>:<device id>"`, e.g. `"001790071200000:00000:<device>"`.
+
+Returns:
+
+```json
+{"results": [{"id": "<change id>", "status": "applied" | "partial" | "stale" | "rejected",
+              "stale_fields": ["..."], "code": null | "...", "message": null | "..."}],
+ "head": <head_rev>}
+```
+
+Semantics:
+
+1. `p_build < app_config.min_supported_build` → error `unsupported_client` (HTTP 426; nothing applied,
+   keep the outbox). Also whole-call errors: `invalid_request` (400), `too_many_changes` (413),
+   `device_revoked` (403, the row of `p_device_id` is revoked). Transient database errors (deadlock,
+   serialization, lock timeout) fail the call → retry.
+2. Changes are grouped by `g` (a change without `g` is its own group) and groups are applied in order of
+   first appearance, changes of a group in array order. Each group runs in its own
+   `BEGIN … EXCEPTION … END` block that starts with `SET CONSTRAINTS ALL DEFERRED` and ends with
+   `SET CONSTRAINTS ALL IMMEDIATE`. `results` keep the input order.
+3. Allow-lists: `t` must be a synced table (`app.synced_tables()`), every key of `fields` a column of it.
+   `user_id`, `rev`, `server_updated_at`, `field_clock` are server-managed → `forbidden_column`.
+   `fields.id` is accepted only if equal to `row_id`. `origin_device_id` is always set to `p_device_id`
+   (a client value is ignored). Every field needs a well-formed clock (`invalid_clock`).
+4. Clocks more than 5 minutes in the future are clamped to `now() + 5 min` (the counter and device suffix
+   are kept).
+5. Row missing → **insert** (for `insert` and `patch`) with `field_clock` = the clock map; omitted columns
+   take their defaults (`created_at` → now, `updated_at` → `created_at`, `tasks.series_id` → `id`).
+6. Row exists → **per-field LWW**: a field is applied when `clock[field] > field_clock[field]`, or with an
+   equal clock when the value differs; `field_clock` is updated for applied fields. Older clocks go to
+   `stale_fields`. An exact replay (same clock, same value) is a no-op. If nothing applies the status is
+   `stale` and **no update happens (no revision bump)** → retries are idempotent.
+7. A rejected group rolls back entirely; every change of the group is `rejected`:
+
+| `code` | Meaning | Client action |
+|---|---|---|
+| `integrity_refetch` | constraint violated when the group ended: CHECK/FK/unique, `DL001`–`DL007` (cycle, parent in another checklist, cross-user reference, append-only, occurrence id, …), including an id owned by another user | refetch the rows with `app.fetch_rows` and overwrite the local copies |
+| `unknown_table` / `unknown_column` / `forbidden_column` / `invalid_change` / `invalid_clock` | the offending change | mark failed (client bug) |
+| `group_rejected` | another change of the same group was invalid (see its code) | mark failed |
+| `invalid_value` | a value cannot be cast (`22xxx`) | mark failed |
+| `forbidden` | RLS denied the write | mark failed |
+| `server_error` | anything else | mark failed, report |
+
+`p_schema` is the client payload schema version (1 today; reserved for evolution, T9.2.08).
+
+### `app.sync_pull(p_since bigint, p_limit int default 1000) returns jsonb`
+
+Security invoker. For each synced table: `user_id = auth.uid() and rev > p_since order by rev limit
+p_limit`; union, sort by `rev`, keep the first `p_limit` (clamped to 1…5000).
+
+```json
+{"changes": [{"t": "<table>", "r": {"id": "…", "user_id": "…", "rev": 42, "field_clock": {…}, "…": "…"}}],
+ "next": <max rev returned, or p_since when empty>,
+ "more": <bool>,
+ "purge_watermark": <bigint>}
+```
+
+Rows are complete (all columns incl. `field_clock`, `rev`, `server_updated_at`, tombstones with
+`deleted_at`). Full resync when `cursor < purge_watermark`. The watermark alone: `app.purge_watermark()`.
+
+### `app.fetch_rows(p_table text, p_ids uuid[]) returns jsonb`
+
+Targeted refetch after `integrity_refetch` (≤ 1000 ids, caller's rows only):
+`{"t": "<table>", "rows": [<row json>…], "missing": ["<id not on the server>"…]}` — delete `missing` rows
+locally. Unknown table → `unknown_table` (400).
+
+### Devices (security definer, own rows only; `app.devices` is not synced)
+
+```
+app.register_device(p_id uuid, p_platform text, p_model text, p_os_version text, p_app_version text,
+                    p_app_build int, p_locale text, p_time_zone text, p_device_name text default null)
+    → {"revoked": bool}
+app.report_device_state(p_id uuid, p_state jsonb) → {"revoked": bool}   (+ "registered": false if unknown id)
+app.revoke_device(p_id uuid) → {"revoked": true}                          (device_not_found 404)
+```
+
+- `p_platform` ∈ `ios | android | web | macos | windows | linux`. `register_device` sets
+  `last_seen_at = now()`; a revoked id stays revoked (`{"revoked": true}` → sign out, new device id).
+  A device id previously registered by another account is transferred with its push state reset.
+- `p_state` keys (only the keys present are updated): `last_seen_at` (last **foreground**, capped at now),
+  `time_zone`, `capabilities` (object: `notifications, exactAlarm, timeSensitive, alarmKit,
+  fullScreenIntent, badge`), `push_token` (null clears; sets `push_token_updated_at`; the same token is
+  removed from any other device row), `push_enabled`, `local_notifications_enabled`,
+  `local_coverage_until`, `schedule_rev`, `local_repeating_rules` (uuid array).
+
+### `app.replace_notification_jobs(p_device_id uuid, p_source_rev bigint, p_target_keys text[], p_jobs jsonb) returns jsonb`
+
+Security definer, `search_path` pinned, caller must own the (non-revoked) device. Atomically (one
+advisory lock per user) deletes the caller's **pending future** jobs of `p_target_keys` (`'*'` = every
+target) and inserts `p_jobs`:
+
+```json
+{"dedupe_key": "<sha1 hex>", "target_key": "task:<id>", "fire_at": "<iso>", "expires_at": "<iso>|null",
+ "payload": {…}, "guard": {…}|[…]|null, "rule_id": "<uuid>|null", "occurrence_key": "…|null",
+ "target_devices": ["<device uuid>"]|null, "importance": "min|low|default|high|urgent"}
+```
+
+Returns `{"status": "ok", "replaced": <n>, "upserted": <n>}`, or `{"status": "stale", "stale_targets":
+[…]}` (nothing changed) when a pending job of one of the targets has a higher `source_rev` → pull,
+re-plan, re-upload. Jobs already due but not yet claimed are kept; a job with an existing `dedupe_key` is
+updated only while pending (sent/skipped jobs are never resurrected). Errors: `device_not_registered`,
+`device_revoked` (403), `invalid_request` (400), `invalid_job` (422: missing keys or target not listed),
+`job_beyond_horizon` (422, > 14 days), `job_payload_too_large` (413, > 3.5 KB), `job_cap_exceeded`
+(429, > 3000 pending per user).
+
+### Trash, account, config
+
+- `app.purge_now(p_entity_type text, p_ids uuid[]) → {"purged": n, "skipped": n}` — Trash › Delete
+  forever. `p_entity_type` ∈ `task | checklist | checklist_item | habit | attachment` or any synced table
+  name except `profiles`. Only the caller's **tombstoned** rows (live or foreign ids are skipped), with
+  their tombstoned descendants (occurrences, time entries, items, runs, logs, pauses, revisions,
+  attachments). Raises the purge watermark; queues unreferenced storage objects.
+- `app.request_account_deletion() → {"status": "requested"}` — records the request, clears push tokens,
+  cancels pending jobs and pings `account-delete`. The client then calls the `account-delete` function
+  with its access token (the daily job retries lost requests).
+- `app.app_config` (anon/authenticated read): `min_supported_build`, `recommended_build`,
+  `maintenance_message`. `app.assert_client_supported(build)` raises `unsupported_client` (426).
+- Helpers: `app.uuid_v5(text)` (EVERSLOT_NS `6f1c9a52-7c1e-4d3b-9a8e-2b5f0e4c7d11`, vectors in
+  `fixtures/ids/uuid_v5.json`), `app.everslot_ns()`, `app.current_user_id()`, `app.is_valid_time_zone()`,
+  `app.hlc_at(ts, counter, node)`.
+
+### Service-role RPCs (Edge Functions only; not executable by `anon`/`authenticated`)
+
+| RPC | Used by | Purpose |
+|---|---|---|
+| `app.dispatch_claim(p_limit, p_lease_seconds)` | push-dispatch | `private.claim_notification_jobs` (`FOR UPDATE SKIP LOCKED` + lease) → jobs + `sent_device_ids` |
+| `app.dispatch_guards(p_jobs)` | push-dispatch | `private.notification_guards_ok` → `[{job_id, ok, reason}]` |
+| `app.dispatch_upsert_inbox(p_items)` | push-dispatch | `[{job, late}]` → inbox rows (`id = uuid_v5(dedupe_key)`) |
+| `app.dispatch_devices(p_user_ids)` | push-dispatch | `{user_id: {policy, devices}}` (policy from `user_settings.notifications`) |
+| `app.dispatch_complete(p_results)` | push-dispatch | deliveries, job status/backoff, invalid tokens, inbox `delivered_via` |
+| `app.ops_heartbeat(p_name, p_details)` | functions | heartbeat row |
+| `app.ops_health()` | uptime checks | dispatcher lag, job/delivery counts, invalid-token rate, heartbeats |
+| `app.account_delete_prepare(p_user_id)` | account-delete | delete devices + jobs |
+| `app.storage_purge_claim(p_limit)` / `app.storage_purge_done(p_ids, p_errors)` | storage-purge | drain `private.storage_deletions` |
+
+## Realtime channel
+
+Private Broadcast channel `user:<uid>` (join with `private: true`). Policy on `realtime.messages`: a user
+may only **receive** its own topic; nobody can send (only `tg_sync_broadcast` does, once per statement and
+user). Event `sync`, payload `{"rev": <new head>, "id": "<message uuid>"}` → debounce a pull when
+`rev > cursor`. Broadcast is not durable: pull on start/resume/connectivity/timer too.
+
+Manual two-client check (T1.2.06): sign in as test1 in one client and test2 in another, both subscribe to
+`user:11111111-1111-4111-8111-111111111111` with `private: true`; write a row as test1 → only the test1
+client receives `sync` (test2's join is refused by the policy).
+
+<!-- README part 3 -->
