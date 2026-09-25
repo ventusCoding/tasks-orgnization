@@ -652,6 +652,7 @@ abstract final class NotificationPlanner {
       adjustments: p.adjustments,
       anchorFireAt: p.anchorFireAt,
       silent: p.silent,
+      targetDevices: rule.spec.conditions.devices,
     );
   }
 

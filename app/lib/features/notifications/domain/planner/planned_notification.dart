@@ -77,6 +77,7 @@ class PlannedNotification {
     this.adjustments = const {},
     this.anchorFireAt,
     this.silent = false,
+    this.targetDevices,
   });
 
   final String dedupeKey;
@@ -131,6 +132,9 @@ class PlannedNotification {
 
   /// Delivered without sound (quiet hours "silent" mode).
   final bool silent;
+
+  /// Rule `conditions.devices` (null = all devices) — pushed as `target_devices`.
+  final List<String>? targetDevices;
 
   bool get isNag => repeatIdx > 0;
 
@@ -200,6 +204,7 @@ class PlannedNotification {
     adjustments: adjustments,
     anchorFireAt: anchorFireAt,
     silent: silent,
+    targetDevices: targetDevices,
   );
 
   /// Stable hash of everything the OS shows (scheduler diffing).

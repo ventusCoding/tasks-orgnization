@@ -171,6 +171,9 @@ abstract interface class NotificationTexts {
   String get saturationBody;
   String actionLabel(String actionId);
   String digestTitle(String kind);
+
+  /// One-line digest summary ("3 tasks · 2 habits · first: Gym at 08:00").
+  String digestSummary(String kind, {required int tasks, required int habits, required int items, String? first});
 }
 
 /// English fallback (pure; used by domain tests and when localizations are unavailable).
@@ -278,4 +281,8 @@ class PlainNotificationTexts implements NotificationTexts {
     'monthly_report' => 'Monthly report',
     _ => 'Digest',
   };
+
+  @override
+  String digestSummary(String kind, {required int tasks, required int habits, required int items, String? first}) =>
+      '$tasks tasks · $habits habits · $items items${first == null ? '' : ' · first: $first'}';
 }
