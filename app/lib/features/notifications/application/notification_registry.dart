@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:everslot/features/notifications/domain/notification_actions.dart';
-import 'package:everslot/features/notifications/domain/notification_target.dart';
 import 'package:everslot/features/notifications/notification_contributions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show ProviderListenable;

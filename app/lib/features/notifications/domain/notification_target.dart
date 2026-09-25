@@ -60,6 +60,23 @@ class NotificationGuard {
 
   Map<String, Object?> toJson() => {'kind': kind, if (params.isNotEmpty) 'params': params};
 
+  /// Server format (`private.notification_guards_ok`, supabase/README.md): flat objects
+  /// `{"kind": …, "<param>": …}`; an array means "all must pass". Nag chains carry the
+  /// `inboxNotActed` marker → `[targetGuard, {"kind": "inbox_not_acted", "dedupeKey": …}]`.
+  Object toServerJson() {
+    final ack = params['inboxNotActed'];
+    final flat = <String, Object?>{
+      'kind': kind,
+      for (final e in params.entries)
+        if (e.key != 'inboxNotActed') e.key: e.value,
+    };
+    if (ack is! String) return flat;
+    return [
+      if (kind != 'always') flat,
+      {'kind': 'inbox_not_acted', 'dedupeKey': ack},
+    ];
+  }
+
   @override
   bool operator ==(Object other) =>
       other is NotificationGuard && other.kind == kind && jsonEquals(other.params, params);
