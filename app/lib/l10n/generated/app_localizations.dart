@@ -729,6 +729,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today'**
   String get tabToday;
+
+  /// No description provided for @tagAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add tag'**
+  String get tagAdd;
+
+  /// No description provided for @tagChipSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag {name}'**
+  String tagChipSemantics(String name);
+
+  /// No description provided for @tagCreateNamed.
+  ///
+  /// In en, this message translates to:
+  /// **'Create tag “{name}”'**
+  String tagCreateNamed(String name);
+
+  /// No description provided for @tagDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{This tag isn\'t used yet.} =1{It will be removed from 1 item.} other{It will be removed from {count} items.}}'**
+  String tagDeleteBody(int count);
+
+  /// No description provided for @tagEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit tag'**
+  String get tagEdit;
+
+  /// No description provided for @tagErrorDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'A tag with this name already exists.'**
+  String get tagErrorDuplicate;
+
+  /// No description provided for @tagErrorInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Use 1 to 40 characters.'**
+  String get tagErrorInvalid;
+
+  /// No description provided for @tagMerge.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge into…'**
+  String get tagMerge;
+
+  /// No description provided for @tagMergeAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge'**
+  String get tagMergeAction;
+
+  /// No description provided for @tagMergeConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything tagged “{source}” will be tagged “{target}” instead, and “{source}” will be deleted.'**
+  String tagMergeConfirmBody(String source, String target);
+
+  /// No description provided for @tagMergeConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge tags?'**
+  String get tagMergeConfirmTitle;
+
+  /// No description provided for @tagMergeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge “{name}” into'**
+  String tagMergeTitle(String name);
+
+  /// No description provided for @tagMergedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Merged into “{name}”'**
+  String tagMergedSnack(String name);
+
+  /// No description provided for @tagName.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag name'**
+  String get tagName;
+
+  /// No description provided for @tagNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New tag'**
+  String get tagNew;
+
+  /// No description provided for @tagNoColor.
+  ///
+  /// In en, this message translates to:
+  /// **'No color'**
+  String get tagNoColor;
+
+  /// No description provided for @tagPickerSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search or create a tag'**
+  String get tagPickerSearch;
+
+  /// No description provided for @tagPickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get tagPickerTitle;
+
+  /// No description provided for @tagRemoveSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove tag {name}'**
+  String tagRemoveSemantics(String name);
+
+  /// No description provided for @tagUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Not used} =1{1 item} other{{count} items}}'**
+  String tagUsage(int count);
+
+  /// No description provided for @tagsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No tags yet'**
+  String get tagsEmpty;
+
+  /// No description provided for @tagsEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags work across sections — use them for contexts like errands or waiting on others.'**
+  String get tagsEmptyHint;
+
+  /// No description provided for @tagsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get tagsTitle;
+
+  /// No description provided for @tagsUpdatedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags updated'**
+  String get tagsUpdatedSnack;
 }
 
 class _AppLocalizationsDelegate

@@ -5,8 +5,6 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/session/session.dart';
 import 'package:everslot/core/time/clock.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart'
-    show GlobalCupertinoLocalizations, GlobalWidgetsLocalizations;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
 import 'package:flutter_test/flutter_test.dart';
@@ -69,9 +67,8 @@ Future<void> pumpInApp(WidgetTester tester, TestHarness h, Widget child, {Locale
         supportedLocales: const [Locale('en'), Locale('fr'), Locale('ar')],
         localizationsDelegates: const [
           AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
+          // material_ui's list includes the cupertino_ui Cupertino delegate (AR support).
+          ...GlobalMaterialLocalizations.delegates,
         ],
         home: child,
       ),

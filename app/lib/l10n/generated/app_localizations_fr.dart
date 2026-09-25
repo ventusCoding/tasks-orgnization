@@ -404,4 +404,107 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get tabToday => 'Aujourd\'hui';
+
+  @override
+  String get tagAdd => 'Ajouter une étiquette';
+
+  @override
+  String tagChipSemantics(String name) {
+    return 'Étiquette $name';
+  }
+
+  @override
+  String tagCreateNamed(String name) {
+    return 'Créer l’étiquette « $name »';
+  }
+
+  @override
+  String tagDeleteBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Elle sera retirée de $count éléments.',
+      one: 'Elle sera retirée d’1 élément.',
+      zero: 'Cette étiquette n’est pas encore utilisée.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tagEdit => 'Modifier l’étiquette';
+
+  @override
+  String get tagErrorDuplicate => 'Une étiquette porte déjà ce nom.';
+
+  @override
+  String get tagErrorInvalid => 'Utilisez de 1 à 40 caractères.';
+
+  @override
+  String get tagMerge => 'Fusionner dans…';
+
+  @override
+  String get tagMergeAction => 'Fusionner';
+
+  @override
+  String tagMergeConfirmBody(String source, String target) {
+    return 'Tout ce qui est étiqueté « $source » sera étiqueté « $target », puis « $source » sera supprimée.';
+  }
+
+  @override
+  String get tagMergeConfirmTitle => 'Fusionner les étiquettes ?';
+
+  @override
+  String tagMergeTitle(String name) {
+    return 'Fusionner « $name » dans';
+  }
+
+  @override
+  String tagMergedSnack(String name) {
+    return 'Fusionnée dans « $name »';
+  }
+
+  @override
+  String get tagName => 'Nom de l’étiquette';
+
+  @override
+  String get tagNew => 'Nouvelle étiquette';
+
+  @override
+  String get tagNoColor => 'Sans couleur';
+
+  @override
+  String get tagPickerSearch => 'Rechercher ou créer une étiquette';
+
+  @override
+  String get tagPickerTitle => 'Étiquettes';
+
+  @override
+  String tagRemoveSemantics(String name) {
+    return 'Retirer l’étiquette $name';
+  }
+
+  @override
+  String tagUsage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments',
+      one: '1 élément',
+      zero: 'Non utilisée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tagsEmpty => 'Aucune étiquette';
+
+  @override
+  String get tagsEmptyHint =>
+      'Les étiquettes traversent les sections — utilisez-les pour des contextes comme courses ou en attente d’autrui.';
+
+  @override
+  String get tagsTitle => 'Étiquettes';
+
+  @override
+  String get tagsUpdatedSnack => 'Étiquettes mises à jour';
 }

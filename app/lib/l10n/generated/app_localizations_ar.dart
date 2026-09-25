@@ -426,4 +426,113 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tabToday => 'اليوم';
+
+  @override
+  String get tagAdd => 'إضافة وسم';
+
+  @override
+  String tagChipSemantics(String name) {
+    return 'الوسم $name';
+  }
+
+  @override
+  String tagCreateNamed(String name) {
+    return 'إنشاء الوسم «$name»';
+  }
+
+  @override
+  String tagDeleteBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'سيُزال من $count عنصر.',
+      many: 'سيُزال من $count عنصرًا.',
+      few: 'سيُزال من $count عناصر.',
+      two: 'سيُزال من عنصرين.',
+      one: 'سيُزال من عنصر واحد.',
+      zero: 'هذا الوسم غير مستخدم بعد.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tagEdit => 'تعديل الوسم';
+
+  @override
+  String get tagErrorDuplicate => 'يوجد وسم بهذا الاسم بالفعل.';
+
+  @override
+  String get tagErrorInvalid => 'استخدم من 1 إلى 40 حرفًا.';
+
+  @override
+  String get tagMerge => 'دمج في…';
+
+  @override
+  String get tagMergeAction => 'دمج';
+
+  @override
+  String tagMergeConfirmBody(String source, String target) {
+    return 'كل ما يحمل الوسم «$source» سيحمل الوسم «$target» بدلاً منه، ثم سيُحذف «$source».';
+  }
+
+  @override
+  String get tagMergeConfirmTitle => 'دمج الوسوم؟';
+
+  @override
+  String tagMergeTitle(String name) {
+    return 'دمج «$name» في';
+  }
+
+  @override
+  String tagMergedSnack(String name) {
+    return 'تم الدمج في «$name»';
+  }
+
+  @override
+  String get tagName => 'اسم الوسم';
+
+  @override
+  String get tagNew => 'وسم جديد';
+
+  @override
+  String get tagNoColor => 'بدون لون';
+
+  @override
+  String get tagPickerSearch => 'ابحث عن وسم أو أنشئ واحدًا';
+
+  @override
+  String get tagPickerTitle => 'الوسوم';
+
+  @override
+  String tagRemoveSemantics(String name) {
+    return 'إزالة الوسم $name';
+  }
+
+  @override
+  String tagUsage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر',
+      many: '$count عنصرًا',
+      few: '$count عناصر',
+      two: 'عنصران',
+      one: 'عنصر واحد',
+      zero: 'غير مستخدم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tagsEmpty => 'لا توجد وسوم بعد';
+
+  @override
+  String get tagsEmptyHint =>
+      'الوسوم تعمل عبر كل الأقسام — استخدمها لسياقات مثل المشتريات أو بانتظار الآخرين.';
+
+  @override
+  String get tagsTitle => 'الوسوم';
+
+  @override
+  String get tagsUpdatedSnack => 'تم تحديث الوسوم';
 }

@@ -37,5 +37,13 @@ class Category {
       other.countsAsUnavailable == countsAsUnavailable;
 
   @override
-  int get hashCode => Object.hash(id, name, color, icon, sortKey, archived, countsAsUnavailable);
+  int get hashCode => Object.hash(
+    id,
+    name,
+    color,
+    icon,
+    sortKey,
+    archived,
+    countsAsUnavailable,
+  );
 }

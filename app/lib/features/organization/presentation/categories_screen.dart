@@ -39,29 +39,40 @@ class CategoriesScreen extends ConsumerWidget {
               final list = [...items]..removeAt(oldIndex);
               final before = target > 0 ? list[target - 1].sortKey : null;
               final after = target < list.length ? list[target].sortKey : null;
-              ref.read(categoriesRepositoryProvider).move(moving.id, afterKey: before, beforeKey: after);
+              ref
+                  .read(categoriesRepositoryProvider)
+                  .move(moving.id, afterKey: before, beforeKey: after);
             },
             itemBuilder: (context, i) {
               final c = items[i];
               return ListTile(
                 key: ValueKey(c.id),
                 leading: CircleAvatar(
-                  backgroundColor: CategoryColors.background(c.color, Theme.of(context).brightness),
+                  backgroundColor: CategoryColors.background(
+                    c.color,
+                    Theme.of(context).brightness,
+                  ),
                   child: Icon(
                     IconCatalog.iconFor(c.icon),
-                    color: CategoryColors.accent(c.color, Theme.of(context).brightness),
+                    color: CategoryColors.accent(
+                      c.color,
+                      Theme.of(context).brightness,
+                    ),
                   ),
                 ),
                 title: Text(c.name),
                 subtitle: c.archived ? Text(l.categoryArchived) : null,
                 onTap: () => showCategoryEditor(context, ref, existing: c),
                 trailing: PopupMenuButton<String>(
-                  onSelected: (action) => _onAction(context, ref, c, action, items),
+                  onSelected: (action) =>
+                      _onAction(context, ref, c, action, items),
                   itemBuilder: (_) => [
                     PopupMenuItem(value: 'edit', child: Text(l.actionEdit)),
                     PopupMenuItem(
                       value: 'archive',
-                      child: Text(c.archived ? l.actionRestore : l.actionArchive),
+                      child: Text(
+                        c.archived ? l.actionRestore : l.actionArchive,
+                      ),
                     ),
                     PopupMenuItem(value: 'delete', child: Text(l.actionDelete)),
                   ],
@@ -88,7 +99,8 @@ class CategoriesScreen extends ConsumerWidget {
         await showCategoryEditor(context, ref, existing: c);
       case 'archive':
         final record = await repo.setArchived(c.id, archived: !c.archived);
-        if (context.mounted) showUndoSnackBar(context, ref, message: l.savedSnack, record: record);
+        if (context.mounted)
+          showUndoSnackBar(context, ref, message: l.savedSnack, record: record);
       case 'delete':
         final ok = await confirmDialog(
           context,
@@ -100,19 +112,29 @@ class CategoriesScreen extends ConsumerWidget {
         if (!ok) return;
         final record = await repo.delete(c.id);
         if (context.mounted) {
-          showUndoSnackBar(context, ref, message: l.deletedSnack(c.name), record: record);
+          showUndoSnackBar(
+            context,
+            ref,
+            message: l.deletedSnack(c.name),
+            record: record,
+          );
         }
     }
   }
 }
 
 /// Create/edit sheet for a category. Returns the new/edited category id (null on cancel).
-Future<void> showCategoryEditor(BuildContext context, WidgetRef ref, {Category? existing}) =>
-    showAppSheet<void>(
-      context,
-      title: existing == null ? context.l10n.categoryNew : context.l10n.categoryEdit,
-      builder: (ctx) => _CategoryEditor(existing: existing),
-    );
+Future<void> showCategoryEditor(
+  BuildContext context,
+  WidgetRef ref, {
+  Category? existing,
+}) => showAppSheet<void>(
+  context,
+  title: existing == null
+      ? context.l10n.categoryNew
+      : context.l10n.categoryEdit,
+  builder: (ctx) => _CategoryEditor(existing: existing),
+);
 
 class _CategoryEditor extends ConsumerStatefulWidget {
   const _CategoryEditor({this.existing});
@@ -168,7 +190,10 @@ class _CategoryEditorState extends ConsumerState<_CategoryEditor> {
             controller: _name,
             autofocus: widget.existing == null,
             maxLength: 60,
-            decoration: InputDecoration(labelText: l.categoryName, errorText: _error),
+            decoration: InputDecoration(
+              labelText: l.categoryName,
+              errorText: _error,
+            ),
             onSubmitted: (_) => _save(),
           ),
           const SizedBox(height: Space.md),
@@ -209,41 +234,45 @@ class _CategoryEditorState extends ConsumerState<_CategoryEditor> {
 }
 
 /// Category picker sheet with inline create. Returns the selected id, '' for "none", null on cancel.
-Future<String?> pickCategory(BuildContext context, WidgetRef ref, {String? selectedId}) =>
-    showAppSheet<String>(
-      context,
-      title: context.l10n.categoryPick,
-      builder: (ctx) => Consumer(
-        builder: (ctx, ref, _) {
-          final categories = ref.watch(categoriesProvider).value ?? const <Category>[];
-          return ListView(
-            shrinkWrap: true,
-            children: [
-              ListTile(
-                leading: const Icon(Icons.block),
-                title: Text(ctx.l10n.categoryNone),
-                selected: selectedId == null,
-                onTap: () => Navigator.pop(ctx, ''),
+Future<String?> pickCategory(
+  BuildContext context,
+  WidgetRef ref, {
+  String? selectedId,
+}) => showAppSheet<String>(
+  context,
+  title: context.l10n.categoryPick,
+  builder: (ctx) => Consumer(
+    builder: (ctx, ref, _) {
+      final categories =
+          ref.watch(categoriesProvider).value ?? const <Category>[];
+      return ListView(
+        shrinkWrap: true,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.block),
+            title: Text(ctx.l10n.categoryNone),
+            selected: selectedId == null,
+            onTap: () => Navigator.pop(ctx, ''),
+          ),
+          for (final c in categories)
+            ListTile(
+              leading: Icon(
+                IconCatalog.iconFor(c.icon),
+                color: CategoryColors.accent(c.color, Theme.of(ctx).brightness),
               ),
-              for (final c in categories)
-                ListTile(
-                  leading: Icon(
-                    IconCatalog.iconFor(c.icon),
-                    color: CategoryColors.accent(c.color, Theme.of(ctx).brightness),
-                  ),
-                  title: Text(c.name),
-                  selected: c.id == selectedId,
-                  onTap: () => Navigator.pop(ctx, c.id),
-                ),
-              ListTile(
-                leading: const Icon(Icons.add),
-                title: Text(ctx.l10n.categoryNew),
-                onTap: () async {
-                  await showCategoryEditor(ctx, ref);
-                },
-              ),
-            ],
-          );
-        },
-      ),
-    );
+              title: Text(c.name),
+              selected: c.id == selectedId,
+              onTap: () => Navigator.pop(ctx, c.id),
+            ),
+          ListTile(
+            leading: const Icon(Icons.add),
+            title: Text(ctx.l10n.categoryNew),
+            onTap: () async {
+              await showCategoryEditor(ctx, ref);
+            },
+          ),
+        ],
+      );
+    },
+  ),
+);
