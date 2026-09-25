@@ -189,6 +189,16 @@ class DayTimeline {
     return (last.wallEnd, last.repeat);
   }
 
+  /// End-exclusive variant of [wallAt]: at a segment boundary, the segment that *ends* at [t] wins
+  /// (so the end of a repeated pass maps to the end of the repeated band).
+  (int, int) wallAtEnd(int t) {
+    if (t <= 0) return wallAt(t);
+    for (final s in segments) {
+      if (t > s.tStart && t <= s.tEnd) return (s.wallStart + (t - s.tStart), s.repeat);
+    }
+    return wallAt(t);
+  }
+
   /// Elapsed minute of a wall-clock minute. Walls inside a gap shift forward by the gap length
   /// (engine rule); a missing repeated pass falls back to the first pass.
   int tOfWall(int wall, {int repeat = 0}) {
@@ -239,6 +249,20 @@ class DayTimeline {
     final abs = minutes.abs();
     return '$sign${(abs ~/ 60).toString().padLeft(2, '0')}:${(abs % 60).toString().padLeft(2, '0')}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! DayTimeline || other.date != date || other.zone != zone) return false;
+    if (other.segments.length != segments.length) return false;
+    for (var i = 0; i < segments.length; i++) {
+      if (other.segments[i] != segments[i]) return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode => Object.hash(date, zone, Object.hashAll(segments));
 
   @override
   String toString() => 'DayTimeline($date $zone, $segments)';
