@@ -36,7 +36,7 @@ List<int> throughputPool(
 /// Distribution of the number of (active) days needed to finish.
 @immutable
 final class const ForecastWhen(
-  final int remaining, {
+  final num remaining, {
   required final int p50Days,
   required final int p85Days,
   required final int p95Days,
@@ -65,27 +65,23 @@ final class const ForecastHowMany(
   required final int trials,
 });
 
-Stat<List<int>> _checkPool(
-  List<int> pool,
+Insufficient<T>? _checkPool<T>(
+  List<num> pool,
   int minPoolDays,
-  int minCompletions,
+  num minCompletions,
 ) {
   if (pool.length < minPoolDays) {
-    return Insufficient<List<int>>(
-      minPoolDays,
-      pool.length,
-      'monteCarloHistory',
-    );
+    return Insufficient<T>(minPoolDays, pool.length, 'monteCarloHistory');
   }
-  final completions = pool.fold<int>(0, (a, b) => a + b);
-  if (completions < minCompletions || completions == 0) {
-    return Insufficient<List<int>>(
+  final completions = pool.fold<num>(0, (a, b) => a + b);
+  if (completions < minCompletions || completions <= 0) {
+    return Insufficient<T>(
       math.max(minCompletions, 1),
       completions,
       'monteCarloCompletions',
     );
   }
-  return Value<List<int>>(pool);
+  return null;
 }
 
 int _percentileFromHistogram(Map<int, int> histogram, int trials, double p) {
@@ -99,26 +95,29 @@ int _percentileFromHistogram(Map<int, int> histogram, int trials, double p) {
   return keys.isEmpty ? 0 : keys.last;
 }
 
-/// "When": days needed to complete [remaining] items, P50/P85/P95 (CL-L-28, GL-18).
+/// "When": days needed to complete [remaining] (items, or any fractional progress such as money for
+/// goal forecasts), P50/P85/P95 (CL-L-28, GL-18).
 ///
-/// Needs ≥ [minPoolDays] pool days (default 30) and ≥ [minCompletions] completions (default 10);
+/// Needs ≥ [minPoolDays] pool days (default 30) and a pool total ≥ [minCompletions] (default 10);
 /// a zero-throughput history is [Insufficient]. `remaining = 0` finishes on day 0.
 Stat<ForecastWhen> monteCarloWhen({
-  required List<int> pool,
-  required int remaining,
+  required List<num> pool,
+  required num remaining,
   required math.Random random,
   int trials = monteCarloTrials,
   int minPoolDays = 30,
-  int minCompletions = 10,
+  num minCompletions = 10,
 }) {
-  final checked = _checkPool(pool, minPoolDays, minCompletions);
-  if (checked is! Value<List<int>>) {
-    return (checked as Insufficient<List<int>>).retype<ForecastWhen>();
-  }
+  final insufficient = _checkPool<ForecastWhen>(
+    pool,
+    minPoolDays,
+    minCompletions,
+  );
+  if (insufficient != null) return insufficient;
   final histogram = <int, int>{};
   var unfinished = 0;
   for (var t = 0; t < trials; t++) {
-    var done = 0;
+    num done = 0;
     var day = 0;
     while (done < remaining && day < monteCarloMaxDays) {
       done += pool[random.nextInt(pool.length)];
@@ -151,10 +150,12 @@ Stat<ForecastHowMany> monteCarloHowMany({
   int minPoolDays = 30,
   int minCompletions = 10,
 }) {
-  final checked = _checkPool(pool, minPoolDays, minCompletions);
-  if (checked is! Value<List<int>>) {
-    return (checked as Insufficient<List<int>>).retype<ForecastHowMany>();
-  }
+  final insufficient = _checkPool<ForecastHowMany>(
+    pool,
+    minPoolDays,
+    minCompletions,
+  );
+  if (insufficient != null) return insufficient;
   final histogram = <int, int>{};
   for (var t = 0; t < trials; t++) {
     var done = 0;
