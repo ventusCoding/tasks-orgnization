@@ -4,7 +4,7 @@ name: release
 # Requires repository secrets — see docs/guide.md §"Release":
 #   ANDROID_KEYSTORE_BASE64, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD, ANDROID_STORE_PASSWORD,
 #   PLAY_SERVICE_ACCOUNT_JSON, APP_STORE_CONNECT_API_KEY_JSON, MATCH_PASSWORD, MATCH_GIT_URL,
-#   SUPABASE_ACCESS_TOKEN, SUPABASE_DB_PASSWORD, SUPABASE_PROJECT_REF, ENV_PROD_JSON
+#   SUPABASE_ACCESS_TOKEN, SUPABASE_DB_PASSWORD, SUPABASE_PROJECT_REF, SUPABASE_PUBLISHABLE_KEY, ENV_PROD_JSON
 on:
   push:
     tags: ['v*']
@@ -16,6 +16,7 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
       - uses: supabase/setup-cli@v1
         with: { version: latest }
       - run: supabase link --project-ref "$SUPABASE_PROJECT_REF"
@@ -31,6 +32,15 @@ jobs:
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+      - name: Smoke check (health function + public config)
+        env:
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          curl -fsS "https://$SUPABASE_PROJECT_REF.supabase.co/functions/v1/health" | tee health.json
+          grep -q '"status":"ok"' health.json
+          curl -fsS "https://$SUPABASE_PROJECT_REF.supabase.co/rest/v1/app_config?select=min_supported_build" \
+            -H "apikey: $SUPABASE_PUBLISHABLE_KEY" -H "Accept-Profile: app"
 
   android:
     name: Android release (Play internal track)
@@ -38,6 +48,7 @@ jobs:
     needs: backend
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: '17' }
       - id: fvm
@@ -51,11 +62,21 @@ jobs:
             "${{ secrets.ANDROID_KEY_ALIAS }}" "${{ secrets.ANDROID_KEY_PASSWORD }}" "${{ secrets.ANDROID_STORE_PASSWORD }}" > app/android/key.properties
           mkdir -p app/env && echo '${{ secrets.ENV_PROD_JSON }}' > app/env/prod.json
       - run: dart pub get && dart run tool/merge_arb.dart && (cd app && flutter gen-l10n)
-      - run: cd app && flutter build appbundle --release --flavor prod -t lib/main_prod.dart --dart-define-from-file=env/prod.json --build-number=${{ github.run_number }}
+      - run: cd app && flutter build appbundle --release --flavor prod -t lib/main_prod.dart --dart-define-from-file=env/prod.json --build-name=${GITHUB_REF_NAME#v} --build-number=${{ github.run_number }}
+      - uses: ruby/setup-ruby@v1
+        with: { ruby-version: '3.3', bundler-cache: true, working-directory: app/android }
+      - name: Store release notes
+        run: |
+          mkdir -p app/android/fastlane/metadata/android/en-US/changelogs
+          dart run tool/release_notes.dart --store > app/android/fastlane/metadata/android/en-US/changelogs/default.txt
       - name: Upload to Play (fastlane)
         run: cd app/android && bundle exec fastlane beta
         env:
           PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-aab
+          path: app/build/app/outputs/bundle/prodRelease/app-prod-release.aab
 
   ios:
     name: iOS release (TestFlight)
@@ -63,16 +84,39 @@ jobs:
     needs: backend
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
       - id: fvm
         run: echo "version=$(python3 -c "import json;print(json.load(open('.fvmrc'))['flutter'])")" >> "$GITHUB_OUTPUT"
       - uses: subosito/flutter-action@v2
         with: { flutter-version: '${{ steps.fvm.outputs.version }}', channel: stable, cache: true }
       - run: mkdir -p app/env && echo '${{ secrets.ENV_PROD_JSON }}' > app/env/prod.json
       - run: dart pub get && dart run tool/merge_arb.dart && (cd app && flutter gen-l10n)
-      - run: cd app && flutter build ipa --release -t lib/main_prod.dart --dart-define-from-file=env/prod.json --build-number=${{ github.run_number }} --no-codesign
+      - run: cd app && flutter build ipa --release -t lib/main_prod.dart --dart-define-from-file=env/prod.json --build-name=${GITHUB_REF_NAME#v} --build-number=${{ github.run_number }} --no-codesign
+      - uses: ruby/setup-ruby@v1
+        with: { ruby-version: '3.3', bundler-cache: true, working-directory: app/ios }
       - name: Sign & upload (fastlane)
-        run: cd app/ios && bundle exec fastlane beta
+        run: |
+          export RELEASE_NOTES="$(dart run tool/release_notes.dart --store)"
+          cd app/ios && bundle exec fastlane beta
         env:
           APP_STORE_CONNECT_API_KEY_JSON: ${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+
+  github-release:
+    name: GitHub release
+    runs-on: ubuntu-latest
+    needs: [android, ios]
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: dart-lang/setup-dart@v1
+      - run: dart run tool/release_notes.dart "$GITHUB_REF_NAME" > release_notes.md
+      - uses: actions/download-artifact@v4
+        with: { name: android-aab }
+      - uses: softprops/action-gh-release@v2
+        with:
+          body_path: release_notes.md
+          files: app-prod-release.aab

@@ -1,0 +1,5 @@
+# fastlane match (T9.2.02): certificates and profiles live encrypted in a private git repository.
+git_url(ENV["MATCH_GIT_URL"])
+storage_mode("git")
+type("appstore")
+app_identifier(["app.everslot"])

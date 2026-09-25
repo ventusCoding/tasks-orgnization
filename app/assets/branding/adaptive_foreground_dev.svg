@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect x="227" y="130" width="260" height="260" rx="60" fill="#FFFFFF"/>
+  <rect x="537" y="130" width="260" height="260" rx="60" fill="#FFFFFF" fill-opacity="0.72"/>
+  <rect x="227" y="440" width="260" height="260" rx="60" fill="#FFFFFF" fill-opacity="0.72"/>
+  <rect x="537" y="440" width="260" height="260" rx="60" fill="#FFC247"/>
+  <path d="M 595 576 L 649 618 L 739 534" fill="none" stroke="#2B2F8F" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="302" y="780" width="420" height="110" rx="55" fill="#FF6B00"/><text x="512" y="864" font-family="Helvetica, Arial, sans-serif" font-size="84" font-weight="700" fill="#FFFFFF" text-anchor="middle">DEV</text></svg>

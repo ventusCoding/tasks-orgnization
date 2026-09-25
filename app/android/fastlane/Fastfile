@@ -1,28 +1,46 @@
-# Android lanes (T9.2.03). Needs PLAY_SERVICE_ACCOUNT_JSON (Google Play service account JSON).
+# Android lanes (T9.2.03). Run from app/android: `bundle exec fastlane <lane>`.
+# Needs PLAY_SERVICE_ACCOUNT_JSON (Google Play service-account JSON, see docs/guide.md "Release").
+# Build first: flutter build appbundle --release --flavor prod -t lib/main_prod.dart …
 default_platform(:android)
 
+PACKAGE = "app.everslot"
+AAB = "../build/app/outputs/bundle/prodRelease/app-prod-release.aab"
+
+def play(options)
+  upload_to_play_store({
+    package_name: PACKAGE,
+    json_key_data: ENV.fetch("PLAY_SERVICE_ACCOUNT_JSON"),
+    skip_upload_metadata: true,
+    skip_upload_images: true,
+    skip_upload_screenshots: true,
+  }.merge(options))
+end
+
 platform :android do
-  desc "Upload the release AAB to the Play internal track"
+  desc "Upload the release AAB to the internal testing track"
   lane :beta do
-    upload_to_play_store(
-      track: "internal",
-      aab: "../build/app/outputs/bundle/prodRelease/app-prod-release.aab",
-      json_key_data: ENV["PLAY_SERVICE_ACCOUNT_JSON"],
-      package_name: "app.everslot",
-      skip_upload_metadata: true,
-      skip_upload_images: true,
-      skip_upload_screenshots: true
-    )
+    play(track: "internal", aab: AAB, release_status: "completed")
   end
 
-  desc "Promote internal → production with a staged rollout"
+  desc "Promote the internal build to closed testing (alpha)"
+  lane :closed do
+    play(track: "internal", track_promote_to: "alpha", skip_upload_aab: true, skip_upload_changelogs: true)
+  end
+
+  desc "Promote internal → production as a staged rollout (rollout:0.05 by default)"
   lane :production do |options|
-    upload_to_play_store(
-      track: "internal",
-      track_promote_to: "production",
-      rollout: (options[:rollout] || "0.05").to_s,
-      json_key_data: ENV["PLAY_SERVICE_ACCOUNT_JSON"],
-      package_name: "app.everslot"
-    )
+    play(track: "internal", track_promote_to: "production", rollout: (options[:rollout] || "0.05").to_s,
+         skip_upload_aab: true, skip_upload_changelogs: true)
+  end
+
+  desc "Raise the production rollout: rollout:0.2 → 0.5 → 1.0"
+  lane :rollout do |options|
+    UI.user_error!("Pass rollout:<fraction>") unless options[:rollout]
+    play(track: "production", rollout: options[:rollout].to_s, skip_upload_aab: true, skip_upload_changelogs: true)
+  end
+
+  desc "Upload store listing texts from fastlane/metadata/android (EN/FR/AR)"
+  lane :metadata do
+    play(skip_upload_aab: true, skip_upload_changelogs: true, skip_upload_metadata: false)
   end
 end

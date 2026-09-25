@@ -1,0 +1,13 @@
+# Native splash (T9.2.01). Regenerate with `tool/gen_branding.sh`.
+flutter_native_splash:
+  color: "#3B5BDB"
+  color_dark: "#1A1F4D"
+  image: assets/branding/splash.png
+  image_dark: assets/branding/splash.png
+  android_12:
+    image: assets/branding/splash.png
+    color: "#3B5BDB"
+    color_dark: "#1A1F4D"
+  android: true
+  ios: true
+  web: false
