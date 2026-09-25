@@ -45,6 +45,531 @@
       }
     }
   },
+  "@notifBannerCollapsed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifBodyCleanDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifBodyDueIn": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifBodyEndedAgo": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifBodyEndsIn": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifBodyInDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifBodyInactivity": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifBodyMilestone": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifBodyNotDone": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifBodyOverdue": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifBodyQuotaBehind": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifBodyStartedAgo": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifBodyStartsIn": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifBodyStatusAge": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      },
+      "age": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifBodyStatusChange": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifBodyStreakRisk": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifBodyTimeFor": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifBodyToday": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifChannelName": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      },
+      "profile": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifChipBefore": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifChipDayBeforeAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifChipOnDayAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifCreateCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifDiagBatteryOpen": {
+    "placeholders": {
+      "maker": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifDiagBudget": {
+    "placeholders": {
+      "used": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifDiagMismatch": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifDiagReplanInfo": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "ms": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifDigestAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifDigestFirst": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifDigestSummary": {
+    "placeholders": {
+      "tasks": {
+        "type": "int"
+      },
+      "habits": {
+        "type": "int"
+      },
+      "items": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifImpact": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifInboxNagCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifInboxSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifInboxSnoozedUntil": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifInboxUnreadSemantics": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifInheritedFrom": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifInheritedFromProfile": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifIssueUnknownVariable": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifMergedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifMinutesValue": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifMutedUntil": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifNoiseConfirm": {
+    "placeholders": {
+      "perDay": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifNoiseWarn": {
+    "placeholders": {
+      "perDay": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifPausedUntil": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifProfileDeleteBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifQuietWindow": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifShowAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifSnoozeHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifSnoozeMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifSnoozedSnack": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumAbsolute": {
+    "placeholders": {
+      "dateTime": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumAfterDue": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumAfterEnd": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumAfterStart": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumBeforeDue": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumBeforeEnd": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumBeforeStart": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumDaysAfter": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumDaysBefore": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumInactivity": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifSumNotDoneBy": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumOnDayAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumQuotaBehind": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumRepeat": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "times": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifSumStale": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifSumStatusAge": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumStatusChange": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSumStreakRisk": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifTitleFollowUp": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "@relativeDaysAgo": {
     "placeholders": {
       "count": {
@@ -159,6 +684,452 @@
   "errorValidation": "Please check the highlighted fields.",
   "localOnlyBanner": "Cloud sync isn't configured — your data stays on this device.",
   "notFoundTitle": "Page not found",
+  "notifActionComplete": "Complete",
+  "notifActionDone": "Done",
+  "notifActionInputPlaceholder": "Value",
+  "notifActionLogCraving": "Log craving",
+  "notifActionLogValue": "Log value",
+  "notifActionMarkBlocked": "Mark blocked",
+  "notifActionMarkOngoing": "Mark ongoing",
+  "notifActionMarkRead": "Mark read",
+  "notifActionMarkWaiting": "Mark waiting",
+  "notifActionMute": "Mute",
+  "notifActionOpen": "Open",
+  "notifActionReschedule": "Reschedule",
+  "notifActionSend": "Send",
+  "notifActionSkip": "Skip",
+  "notifActionSnooze": "Snooze",
+  "notifActionStart": "Start",
+  "notifActionStop": "Stop",
+  "notifActions": "Actions",
+  "notifAddReminder": "Add reminder",
+  "notifAdjCatchUp": "Late",
+  "notifAdjDeferred": "Deferred (quiet hours)",
+  "notifAdjNotLocal": "Delivered on another device",
+  "notifAdjPaused": "Paused — inbox only",
+  "notifAdjShifted": "Moved into the time window",
+  "notifAdjSilent": "Silent (quiet hours)",
+  "notifAdvanced": "Advanced…",
+  "notifAdvancedTitle": "Reminder rule",
+  "notifAfter": "after",
+  "notifAllowPrecise": "Allow precise reminders",
+  "notifAnchorDue": "due",
+  "notifAnchorEnd": "end",
+  "notifAnchorFollowUp": "follow-up",
+  "notifAnchorPeriodEnd": "period end",
+  "notifAnchorPeriodStart": "period start",
+  "notifAnchorSlot": "slot",
+  "notifAnchorStart": "start",
+  "notifAndroidLabel": "Android",
+  "notifBadgeDue": "Overdue + due today",
+  "notifBadgeOff": "Off",
+  "notifBadgePolicy": "App icon badge",
+  "notifBadgeUnread": "Unread inbox",
+  "notifBannerCollapsed": "{count, plural, =1{1 reminder} other{{count} reminders}}",
+  "notifBannerDismiss": "Dismiss",
+  "notifBannerInApp": "In-app banners",
+  "notifBannerToggle": "In-app banner",
+  "notifBefore": "before",
+  "notifBodyChildOverdue": "A sub-item is overdue",
+  "notifBodyChildrenComplete": "All sub-items are done — complete it?",
+  "notifBodyCleanDays": "{days, plural, =1{1 day} other{{days} days}} free — well done!",
+  "notifBodyDueIn": "Due in {minutes, plural, =1{1 min} other{{minutes} min}}",
+  "notifBodyDueNow": "Due now",
+  "notifBodyEndedAgo": "Ended {minutes, plural, =1{1 min} other{{minutes} min}} ago",
+  "notifBodyEndingNow": "Ending now",
+  "notifBodyEndsIn": "Ends in {minutes, plural, =1{1 min} other{{minutes} min}}",
+  "notifBodyInDays": "In {days, plural, =1{1 day} other{{days} days}} · {date}",
+  "notifBodyInactivity": "No activity for {days, plural, =1{1 day} other{{days} days}}",
+  "notifBodyMilestone": "Milestone reached: {label}",
+  "notifBodyNotDone": "You haven’t logged {title} today",
+  "notifBodyOverdue": "{title} is overdue",
+  "notifBodyQuotaBehind": "{done}/{target} done — {remaining} to go",
+  "notifBodySnoozed": "Snoozed reminder",
+  "notifBodyStartedAgo": "Started {minutes, plural, =1{1 min} other{{minutes} min}} ago",
+  "notifBodyStartingNow": "Starting now",
+  "notifBodyStartsIn": "Starts in {minutes, plural, =1{1 min} other{{minutes} min}}",
+  "notifBodyStatusAge": "Still {status} · {age}",
+  "notifBodyStatusChange": "Now {status}",
+  "notifBodyStreakRisk": "Keep your {days, plural, =1{1-day} other{{days}-day}} streak alive",
+  "notifBodyTest": "Test notification from Everslot",
+  "notifBodyTimeFor": "Time for {title}",
+  "notifBodyToday": "Today · {date}",
+  "notifCategoryDigest": "Digest",
+  "notifCategoryMilestone": "Milestone",
+  "notifCategoryNag": "Repeat",
+  "notifCategoryReminder": "Reminder",
+  "notifCategoryStreak": "Streak",
+  "notifCategorySystem": "System",
+  "notifChannelBlocked": "Some notification categories are blocked",
+  "notifChannelDigest": "Digests",
+  "notifChannelForeground": "While Everslot is open",
+  "notifChannelName": "{section} · {profile}",
+  "notifChannelQuiet": "Quiet hours",
+  "notifChannelSystem": "System notices",
+  "notifChipAtDue": "At due",
+  "notifChipAtEnd": "At end",
+  "notifChipAtFollowUp": "At follow-up",
+  "notifChipAtSlot": "At slot time",
+  "notifChipAtStart": "At start",
+  "notifChipAtTime": "At a time…",
+  "notifChipBefore": "{minutes, plural, =1{1 min before} other{{minutes} min before}}",
+  "notifChipCustom": "Custom…",
+  "notifChipDayBeforeAt": "1 day before at {time}",
+  "notifChipEvery": "Every day at…",
+  "notifChipIfNotDoneBy": "If not done by…",
+  "notifChipMilestones": "Milestones",
+  "notifChipOnDayAt": "On the day at {time}",
+  "notifChipStreakRisk": "Streak at risk",
+  "notifConditions": "Conditions",
+  "notifContent": "Content",
+  "notifContentBody": "Body template",
+  "notifContentTitle": "Title template",
+  "notifCreateCount": "{count, plural, =1{Add 1 reminder} other{Add {count} reminders}}",
+  "notifCustomize": "Customize",
+  "notifDateOnlyTime": "Default time for date-only items",
+  "notifDefaultLateness": "Deliver late reminders up to",
+  "notifDefaultProfile": "Default profile",
+  "notifDefaultsAddCategory": "Add category defaults",
+  "notifDefaultsAllDay": "All-day items",
+  "notifDefaultsCategory": "Category defaults",
+  "notifDefaultsDateOnly": "Date-only items",
+  "notifDefaultsEntry": "Default reminders",
+  "notifDefaultsOther": "Other defaults",
+  "notifDefaultsTimed": "Timed items",
+  "notifDefaultsTitle": "Default reminders",
+  "notifDelivery": "Delivery",
+  "notifDeviceAll": "All devices",
+  "notifDeviceLastActive": "Last active device",
+  "notifDevicePrimary": "Primary device only",
+  "notifDiagBadge": "Badge",
+  "notifDiagBattery": "Battery optimization",
+  "notifDiagBatteryBody": "Some phones stop apps in the background. Follow the guide for your phone to keep reminders on time.",
+  "notifDiagBatteryOpen": "Open the guide for {maker}",
+  "notifDiagBlocked": "Blocked channels",
+  "notifDiagBudget": "Budget {used}/{total}",
+  "notifDiagCapabilities": "Capabilities",
+  "notifDiagCopied": "Diagnostics copied (no content included)",
+  "notifDiagCopy": "Copy diagnostics",
+  "notifDiagCoverage": "Covered until",
+  "notifDiagExact": "Exact alarms",
+  "notifDiagLastReplan": "Last replan",
+  "notifDiagMismatch": "Mismatches between the system and the schedule: {count}",
+  "notifDiagNext": "Next firings",
+  "notifDiagPendingOs": "Pending in the system",
+  "notifDiagPermission": "Notifications allowed",
+  "notifDiagProvisional": "Provisional (quiet) delivery",
+  "notifDiagPush": "Push",
+  "notifDiagPushOff": "Push not configured — local reminders only",
+  "notifDiagPushOn": "Push active",
+  "notifDiagReplanInfo": "{time} · {ms} ms · {reason}",
+  "notifDiagReplanNow": "Replan now",
+  "notifDiagSchedule": "Schedule",
+  "notifDiagTimeSensitive": "Time sensitive",
+  "notifDiagTitle": "Notification diagnostics",
+  "notifDiagTracked": "Tracked (inbox only or over budget)",
+  "notifDiagnostics": "Diagnostics",
+  "notifDigestAt": "at {time}",
+  "notifDigestDailyAgenda": "Today’s agenda",
+  "notifDigestEveningReview": "Evening review",
+  "notifDigestFirst": "First: {first}",
+  "notifDigestMonthly": "Monthly report",
+  "notifDigestOverdue": "Overdue summary",
+  "notifDigestPlanTomorrow": "Plan tomorrow",
+  "notifDigestSummary": "{tasks, plural, =1{1 task} other{{tasks} tasks}} · {habits, plural, =1{1 habit} other{{habits} habits}} · {items, plural, =1{1 list item} other{{items} list items}}",
+  "notifDigestWeekly": "Weekly review",
+  "notifDigests": "Digests",
+  "notifDisable": "Disable",
+  "notifEditorTitle": "New reminder",
+  "notifEnable": "Turn on",
+  "notifExactOff": "Reminders may arrive up to an hour late",
+  "notifExactOffBody": "Allow precise reminders so they fire at the exact minute.",
+  "notifFieldAfterDays": "After (days)",
+  "notifFieldAfterMinutes": "After (minutes)",
+  "notifFieldAtTime": "At time",
+  "notifFieldDateTime": "Date and time",
+  "notifFieldDayForm": "N days before or after at a time",
+  "notifFieldDayOffset": "Days (negative = before)",
+  "notifFieldDigestKind": "Digest",
+  "notifFieldEveryMinutes": "Every (minutes)",
+  "notifFieldMaxTimes": "At most (times)",
+  "notifFieldMetric": "Metric",
+  "notifFieldMinStreak": "Minimum streak",
+  "notifFieldOffset": "Offset in minutes (negative = before)",
+  "notifFieldStatuses": "Statuses",
+  "notifFieldThresholds": "Thresholds (comma separated, empty = automatic)",
+  "notifFieldToStatus": "New status",
+  "notifFieldUntil": "Until",
+  "notifFrom": "From",
+  "notifHideContent": "Hide content in notifications",
+  "notifImpact": "Affects {count, plural, =1{1 item} other{{count} items}} that use defaults",
+  "notifImportance": "Importance",
+  "notifImportanceDefault": "Default",
+  "notifImportanceHigh": "High",
+  "notifImportanceLow": "Low",
+  "notifImportanceMin": "Minimal",
+  "notifImportanceUrgent": "Urgent",
+  "notifInboxAlreadyDone": "Already done",
+  "notifInboxCaughtUp": "All caught up",
+  "notifInboxChangeSnooze": "Change snooze",
+  "notifInboxDismissSelected": "Dismiss",
+  "notifInboxDismissed": "Notification dismissed",
+  "notifInboxEmpty": "No notifications yet",
+  "notifInboxEmptyBody": "Reminders you receive appear here.",
+  "notifInboxFilterAll": "All",
+  "notifInboxFilterUnread": "Unread",
+  "notifInboxHistory": "Reminder history",
+  "notifInboxHistoryEmpty": "No reminders yet",
+  "notifInboxLate": "Late",
+  "notifInboxMarkAllRead": "Mark all read",
+  "notifInboxMarkedRead": "Marked as read",
+  "notifInboxMarkedUnread": "Marked as unread",
+  "notifInboxMuteRule": "Mute this reminder",
+  "notifInboxNagCount": "×{count}",
+  "notifInboxRemindAgain": "Remind me again…",
+  "notifInboxSearch": "Search notifications",
+  "notifInboxSelected": "{count, plural, =1{1 selected} other{{count} selected}}",
+  "notifInboxSnoozed": "Snoozed",
+  "notifInboxSnoozedUntil": "Snoozed until {time}",
+  "notifInboxTitle": "Inbox",
+  "notifInboxToday": "Today",
+  "notifInboxToggle": "Show in inbox",
+  "notifInboxUnreadSemantics": "Unread reminder, {title}",
+  "notifInboxWakeNow": "Wake now",
+  "notifInboxYesterday": "Yesterday",
+  "notifInherit": "Inherit",
+  "notifInheritedFrom": "From {source}",
+  "notifInheritedFromProfile": "Inherited from {name}",
+  "notifInterruption": "Interruption level (iOS)",
+  "notifInterruptionActive": "Active",
+  "notifInterruptionPassive": "Passive",
+  "notifInterruptionTimeSensitive": "Time sensitive",
+  "notifIosLabel": "iOS",
+  "notifIssueAnchorUnavailable": "This anchor isn’t available for this item",
+  "notifIssueEmptyContent": "The title can’t be empty",
+  "notifIssueLateness": "Lateness must be at least 1 minute",
+  "notifIssueNoChannel": "Choose at least one way to be notified",
+  "notifIssueOffsetOutOfRange": "The offset must be within 30 days",
+  "notifIssueRepeatInterval": "Repeat at least every minute",
+  "notifIssueRepeatMax": "At most 10 repeats",
+  "notifIssueSchedule": "Invalid schedule",
+  "notifIssueStatuses": "Choose at least one status",
+  "notifIssueThresholds": "Invalid thresholds",
+  "notifIssueTooManyActions": "Android shows only the first 3 actions",
+  "notifIssueUnknownTrigger": "This rule type isn’t supported by this version",
+  "notifIssueUnknownVariable": "Unknown variable: {names}",
+  "notifItemKind": "Item kind",
+  "notifItemKindAllDay": "All-day",
+  "notifItemKindAny": "Any",
+  "notifItemKindDateOnly": "Date only",
+  "notifItemKindTimed": "Timed",
+  "notifLateness": "Still deliver if late by up to (minutes)",
+  "notifMakePrimary": "Use this device as primary",
+  "notifMaxNag": "Maximum nag repeats",
+  "notifMergedTitle": "{count, plural, =1{1 reminder} other{{count} reminders}}",
+  "notifMetricCleanDays": "Clean days",
+  "notifMetricMoney": "Money saved",
+  "notifMetricStreak": "Streak",
+  "notifMetricTotal": "Total",
+  "notifMetricUnits": "Units avoided",
+  "notifMinutesValue": "{minutes, plural, =1{1 min} other{{minutes} min}}",
+  "notifModeCustom": "Custom",
+  "notifModeInherit": "Use defaults",
+  "notifModeInheritPlus": "Defaults + mine",
+  "notifModeOff": "Off",
+  "notifMultiDevice": "Deliver to",
+  "notifMute1h": "1 hour",
+  "notifMuteFor": "Mute…",
+  "notifMuteForever": "Until I unmute",
+  "notifMuteToday": "Rest of today",
+  "notifMuteTomorrow": "Until tomorrow",
+  "notifMuteWeek": "For a week",
+  "notifMuted": "Muted",
+  "notifMutedForever": "Muted until unmuted",
+  "notifMutedSnack": "Muted until tomorrow",
+  "notifMutedUntil": "Muted until {time}",
+  "notifMutes": "Muted",
+  "notifMutesNone": "Nothing is muted",
+  "notifNever": "Never",
+  "notifNextFirings": "Next reminders",
+  "notifNo": "No",
+  "notifNoReminders": "No reminders",
+  "notifNoUpcoming": "Nothing scheduled in the next 14 days",
+  "notifNoiseBlocked": "Too many notifications (more than 1 440 per day)",
+  "notifNoiseCluster": "Several reminders share this minute — only one sound plays",
+  "notifNoiseConfirm": "This reminder sends about {perDay} notifications per day. Save anyway?",
+  "notifNoiseWarn": "About {perDay} notifications per day",
+  "notifOffsetAmount": "Amount",
+  "notifOnlyIfStatus": "Only if status is",
+  "notifOpenSettings": "Open settings",
+  "notifOutsideDrop": "Drop outside",
+  "notifOutsideShiftEnd": "Move to window end",
+  "notifOutsideShiftStart": "Move to window start",
+  "notifPause1h": "1 hour",
+  "notifPauseAll": "Pause all",
+  "notifPauseCustom": "Custom…",
+  "notifPauseTomorrow": "Until tomorrow 08:00",
+  "notifPausedUntil": "Paused until {time}",
+  "notifPermissionOff": "Notifications are turned off",
+  "notifPermissionOffBody": "Turn them on to receive your reminders.",
+  "notifPreview": "Preview",
+  "notifPrimerAllow": "Allow notifications",
+  "notifPrimerBody": "Everslot reminds you before tasks start, when habits are due and when lists need a follow-up. You decide exactly when.",
+  "notifPrimerExactBody": "Android needs your permission to deliver reminders at the exact minute. Without it they may be up to an hour late.",
+  "notifPrimerExactTitle": "Precise reminders",
+  "notifPrimerLater": "Not now",
+  "notifPrimerTimeSensitiveBody": "Important reminders can break through Focus modes. You can change this in iOS Settings at any time.",
+  "notifPrimerTimeSensitiveTitle": "Time-sensitive reminders",
+  "notifPrimerTitle": "Never miss what matters",
+  "notifProfile": "Profile",
+  "notifProfileAlarm": "Alarm",
+  "notifProfileBuiltin": "Built-in",
+  "notifProfileChannelWarning": "Changing importance, sound or vibration creates a new Android notification category; the old one appears as deleted in system settings.",
+  "notifProfileDelete": "Delete profile",
+  "notifProfileDeleteBody": "{count, plural, =1{1 reminder uses this profile.} other{{count} reminders use this profile.}} Move them to:",
+  "notifProfileDuplicate": "Duplicate",
+  "notifProfileGentle": "Gentle",
+  "notifProfileNag": "Nag until done",
+  "notifProfileName": "Name",
+  "notifProfileNew": "New profile",
+  "notifProfileNone": "No profile",
+  "notifProfileRename": "Rename",
+  "notifProfileStandard": "Standard",
+  "notifProfilesEntry": "Profiles",
+  "notifProfilesTitle": "Notification profiles",
+  "notifProvenanceAncestor": "parent item",
+  "notifProvenanceCategory": "category",
+  "notifProvenanceChecklist": "list",
+  "notifProvenanceGlobal": "global defaults",
+  "notifProvenanceOccurrence": "this occurrence only",
+  "notifProvenanceSection": "section defaults",
+  "notifQuietAdd": "Add quiet hours",
+  "notifQuietDefer": "Defer to the end",
+  "notifQuietDrop": "Drop",
+  "notifQuietHours": "Quiet hours",
+  "notifQuietMode": "Mode",
+  "notifQuietNone": "No quiet hours",
+  "notifQuietSilent": "Deliver silently",
+  "notifQuietWindow": "{from} – {to}",
+  "notifRedactedBody": "Open Everslot to see it",
+  "notifRedactedTitle": "Reminder from Everslot",
+  "notifRepeat": "Repeat (nag)",
+  "notifRespectQuiet": "Respect quiet hours",
+  "notifResume": "Resume",
+  "notifRuleDeleted": "Reminder deleted",
+  "notifRuleEnabled": "Reminder enabled",
+  "notifRuleSaved": "Reminder saved",
+  "notifSaturationBody": "Open Everslot to keep your reminders up to date",
+  "notifSaturationTitle": "Open Everslot",
+  "notifSectionChecklists": "Lists",
+  "notifSectionDigests": "Digests",
+  "notifSectionHabits": "Habits",
+  "notifSectionPlanner": "Plan",
+  "notifSectionQuit": "Quit",
+  "notifSectionSystem": "System",
+  "notifSectionTitle": "Notifications",
+  "notifSendTest": "Send test notification",
+  "notifSettingsSections": "Sections",
+  "notifSettingsTitle": "Notifications",
+  "notifShowAll": "Show all ({count})",
+  "notifSkipAck": "Acknowledged",
+  "notifSkipCap": "Daily limit reached",
+  "notifSkipDone": "Already done",
+  "notifSkipExpired": "Too late",
+  "notifSkipMuted": "Muted",
+  "notifSkipNoChannel": "No delivery channel",
+  "notifSkipQuiet": "Dropped (quiet hours)",
+  "notifSkipStatus": "Status doesn’t match",
+  "notifSkipWeekday": "Not on this weekday",
+  "notifSkipWindow": "Outside the time window",
+  "notifSnoozeCustom": "Custom…",
+  "notifSnoozeEvening": "This evening",
+  "notifSnoozeHours": "{hours, plural, =1{1 hour} other{{hours} hours}}",
+  "notifSnoozeLimit": "Snooze limit reached",
+  "notifSnoozeMinutes": "{minutes, plural, =1{1 min} other{{minutes} min}}",
+  "notifSnoozeOptions": "Snooze options (minutes)",
+  "notifSnoozePresets": "Snooze presets",
+  "notifSnoozeTomorrow": "Tomorrow morning",
+  "notifSnoozedSnack": "Snoozed until {time}",
+  "notifSound": "Sound",
+  "notifSoundAlarm": "Alarm",
+  "notifSoundBell": "Bell",
+  "notifSoundChime": "Chime",
+  "notifSoundDefault": "Default",
+  "notifSoundNone": "None",
+  "notifSoundPop": "Pop",
+  "notifSoundSoft": "Soft",
+  "notifSticky": "Keep until done (Android)",
+  "notifSumAbsolute": "On {dateTime}",
+  "notifSumAfterDue": "{duration} after due",
+  "notifSumAfterEnd": "{duration} after end",
+  "notifSumAfterStart": "{duration} after start",
+  "notifSumAtDue": "At due",
+  "notifSumAtEnd": "At end",
+  "notifSumAtFollowUp": "At follow-up",
+  "notifSumAtPeriodEnd": "At period end",
+  "notifSumAtPeriodStart": "At period start",
+  "notifSumAtSlot": "At slot time",
+  "notifSumAtStart": "At start",
+  "notifSumBeforeDue": "{duration} before due",
+  "notifSumBeforeEnd": "{duration} before end",
+  "notifSumBeforeStart": "{duration} before start",
+  "notifSumChildOverdue": "When a sub-item is overdue",
+  "notifSumChildrenComplete": "When all sub-items are done",
+  "notifSumDaysAfter": "{days, plural, =1{1 day} other{{days} days}} after at {time}",
+  "notifSumDaysBefore": "{days, plural, =1{1 day} other{{days} days}} before at {time}",
+  "notifSumInactivity": "After {days, plural, =1{1 day} other{{days} days}} without activity",
+  "notifSumMilestones": "Milestones",
+  "notifSumNotDoneBy": "If not done by {time}",
+  "notifSumNotDoneByEnd": "If not done by the end",
+  "notifSumOnDayAt": "On the day at {time}",
+  "notifSumOverdue": "When overdue",
+  "notifSumQuotaBehind": "Behind pace, at {time}",
+  "notifSumRepeat": "repeats every {minutes} min ×{times}",
+  "notifSumSchedule": "On a repeating schedule",
+  "notifSumStale": "After {days, plural, =1{1 day} other{{days} days}} without progress",
+  "notifSumStatusAge": "Still waiting or blocked after {duration}",
+  "notifSumStatusChange": "When it becomes {status}",
+  "notifSumStreakRisk": "Streak at risk, at {time}",
+  "notifSumUnknown": "Unsupported rule",
+  "notifSystemNotification": "System notification",
+  "notifTestSent": "Test notification in 5 seconds",
+  "notifThisDeviceIsPrimary": "This device is the primary device",
+  "notifTimeWindow": "Time window",
+  "notifTitleFollowUp": "Follow up: {title}",
+  "notifTo": "To",
+  "notifTrigger": "Trigger",
+  "notifTriggerAbsolute": "At a date and time",
+  "notifTriggerChildOverdue": "Sub-item overdue",
+  "notifTriggerChildrenComplete": "All sub-items done",
+  "notifTriggerDigest": "Digest",
+  "notifTriggerInactivity": "Inactivity",
+  "notifTriggerMilestone": "Milestone",
+  "notifTriggerNotDoneBy": "If not done by",
+  "notifTriggerOverdue": "Overdue",
+  "notifTriggerQuotaBehind": "Behind pace",
+  "notifTriggerRelative": "Relative to the item",
+  "notifTriggerSchedule": "Repeating schedule",
+  "notifTriggerStale": "No progress",
+  "notifTriggerStatusAge": "Status age",
+  "notifTriggerStatusChange": "Status change",
+  "notifTriggerStreakRisk": "Streak at risk",
+  "notifUnitDays": "days",
+  "notifUnitHours": "hours",
+  "notifUnitMinutes": "minutes",
+  "notifUnitWeeks": "weeks",
+  "notifUnknown": "Unknown",
+  "notifUnmute": "Unmute",
+  "notifUntilAcknowledged": "acknowledged",
+  "notifUntilCompleted": "completed",
+  "notifUntilMax": "maximum reached",
+  "notifVariables": "Variables",
+  "notifVibration": "Vibration",
+  "notifVibrationDefault": "Default",
+  "notifVibrationLong": "Long",
+  "notifVibrationNone": "None",
+  "notifVibrationShort": "Short",
+  "notifWeekdays": "Only on",
+  "notifYes": "Yes",
   "pickerColor": "Color",
   "pickerDate": "Date",
   "pickerDays": "Days",
