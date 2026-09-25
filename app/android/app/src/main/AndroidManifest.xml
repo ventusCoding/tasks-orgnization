@@ -43,22 +43,6 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="everslot" />
             </intent-filter>
-            <!-- Share into Everslot (T8.2.07) -->
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="image/*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND_MULTIPLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="image/*" />
-            </intent-filter>
         </activity>
 
         <!-- flutter_local_notifications receivers (T7.2.01) -->
