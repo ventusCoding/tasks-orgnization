@@ -6,12 +6,26 @@ import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:everslot/features/notifications/domain/template_engine.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 /// [NotificationTexts] backed by the app's ARB strings and [AppFormat] (T7.1.08). Pure enough to
 /// be used from background isolates (no BuildContext).
 class L10nNotificationTexts implements NotificationTexts {
   L10nNotificationTexts(this.l10n, {required this.localeTag, this.use24h = true})
-    : format = AppFormat(localeTag, use24h: use24h, l10n: l10n);
+    : format = AppFormat(localeTag, use24h: use24h, l10n: l10n) {
+    _ensureDateSymbols();
+  }
+
+  static bool _dateSymbolsReady = false;
+
+  /// Date symbols are normally loaded by the Material localizations delegate; the planner also
+  /// runs outside the widget tree (background isolate, tests), so load the bundled data here
+  /// (synchronous for the local data set).
+  static void _ensureDateSymbols() {
+    if (_dateSymbolsReady) return;
+    _dateSymbolsReady = true;
+    initializeDateFormatting().ignore();
+  }
 
   /// Resolves the app language (explicit override, else system, else English).
   factory L10nNotificationTexts.forLocale(String? localeCode, {bool use24h = true}) {

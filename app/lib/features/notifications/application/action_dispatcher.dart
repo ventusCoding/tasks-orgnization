@@ -155,14 +155,18 @@ class NotificationActionDispatcher {
     final chosen = minutes ??
         (p.snoozeOptions.isNotEmpty ? p.snoozeOptions.first : (settings.snoozePresets.isNotEmpty ? settings.snoozePresets.first : 10));
     final at = until ?? now.add(Duration(minutes: chosen));
+    await _reconcile({p.dedupeKey});
     final inbox = read(inboxRepositoryProvider);
     final inboxId = Ids.inbox(p.dedupeKey);
     final row = await inbox.byId(inboxId);
     final entry = await read(localScheduleStoreProvider).byKey(p.dedupeKey);
     final scheduler = read(localSchedulerProvider);
+    final l = read(notificationTextsProvider).l10n;
+    if (await scheduler.snoozeCount(p.dedupeKey) >= settings.maxSnoozes) {
+      return ActionDispatchResult(message: l.notifSnoozeLimit);
+    }
     await scheduler.cancelChain(p.chainKey);
     final caps = read(notificationCapabilitiesProvider);
-    final l = read(notificationTextsProvider).l10n;
     final scheduled = await scheduler.scheduleSnooze(
       originalKey: p.dedupeKey,
       until: at,

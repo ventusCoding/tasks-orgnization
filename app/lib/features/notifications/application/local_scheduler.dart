@@ -285,6 +285,17 @@ class LocalNotificationScheduler {
     );
   }
 
+  /// Snoozes already used by an instance. The count lives on the original row because
+  /// re-snoozing replaces the pending snooze instance.
+  Future<int> snoozeCount(String originalKey) async {
+    final original = await store.byKey(originalKey);
+    final pending = (await store.all())
+        .where((e) => e.kind == ScheduleKind.snooze && asString(e.content['orig']) == originalKey)
+        .length;
+    final stored = asInt(original?.content['sn']) ?? 0;
+    return stored > pending ? stored : pending;
+  }
+
   /// Snooze instance (reserved budget, T7.2.15). Returns null when the snooze limit is reached.
   Future<ScheduleEntry?> scheduleSnooze({
     required String originalKey,
@@ -299,9 +310,11 @@ class LocalNotificationScheduler {
     required bool presentInForeground,
   }) async {
     final all = await store.all();
-    final previous = all.where((e) => e.kind == ScheduleKind.snooze && asString(e.content['orig']) == originalKey).length;
+    final original = await store.byKey(originalKey);
+    final previous = await snoozeCount(originalKey);
     if (previous >= maxSnoozes) return null;
     final key = snoozeKeyFor(originalKey, previous + 1);
+    if (original != null) await store.put(original.copyWith(content: {...original.content, 'sn': previous + 1}));
     final id = PlatformIds.assign(key, {for (final e in all) e.platformId});
     final snoozePayload = NotificationPayload.fromJson({...payload.toJson(), 'dk': key, 'bk': originalKey});
     final l = l10n();

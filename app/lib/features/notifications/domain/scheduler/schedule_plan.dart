@@ -165,7 +165,14 @@ class ScheduleEntry {
     if (content.isNotEmpty) 'c': content,
   });
 
-  ScheduleEntry copyWith({DateTime? reconciledAt, bool? os, int? platformId, String? channelId, String? hash}) => ScheduleEntry(
+  ScheduleEntry copyWith({
+    DateTime? reconciledAt,
+    bool? os,
+    int? platformId,
+    String? channelId,
+    String? hash,
+    Map<String, Object?>? content,
+  }) => ScheduleEntry(
     dedupeKey: dedupeKey,
     platformId: platformId ?? this.platformId,
     fireAt: fireAt,
@@ -181,7 +188,7 @@ class ScheduleEntry {
     reconciledAt: reconciledAt ?? this.reconciledAt,
     inbox: inbox,
     banner: banner,
-    content: content,
+    content: content ?? this.content,
   );
 
   @override
