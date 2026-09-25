@@ -45,6 +45,307 @@
       }
     }
   },
+  "@pvCopySuffix": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvDayHeaderSemantics": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "items": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvDayStats": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      },
+      "planned": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvDaysSince": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvDaysUntil": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvElapsed": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvEmptySlotSemantics": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvExtendBy": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvFreeGap": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvFreeRun": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      },
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvHiddenRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvHintSlotSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvImportanceRule": {
+    "placeholders": {
+      "priority": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvItemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvLastRowShort": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvMore": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvMoreItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvMoveEarlier": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvMoveLater": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvMovedSnack": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvNextDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvNoRoom": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvPostponeMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvRepeatedHour": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "offset": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvResizedSnack": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvRoutineSummary": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvRowsPerDay": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvStartsAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvStatusSnack": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvStep": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvTableThreshold": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvTileSemantics": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "day": {
+        "type": "String"
+      },
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvTimeLeft": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@pvUrgencyRule": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvWeekNumber": {
+    "placeholders": {
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "@pvWeeksCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@relativeDaysAgo": {
     "placeholders": {
       "count": {
@@ -175,6 +476,323 @@
   "priorityMedium": "Medium",
   "priorityNone": "No priority",
   "priorityUrgent": "Urgent",
+  "pvActualColumn": "Actual",
+  "pvAddTask": "Add task",
+  "pvAddZone": "Add time zone",
+  "pvAllDay": "All day",
+  "pvAllDaySection": "All day & untimed",
+  "pvApplyToView": "Apply to this view",
+  "pvAutoAdvance": "Auto-advance",
+  "pvAutoScrollNow": "Scroll to now on open",
+  "pvBacklogEmpty": "Your backlog is empty",
+  "pvCancelOccurrence": "Cancel this occurrence",
+  "pvCannotUnschedule": "Recurring occurrences can't be moved to the backlog",
+  "pvCapacity": "Capacity",
+  "pvCategories": "Categories",
+  "pvClearFilters": "Clear",
+  "pvClocksForward": "Clocks forward",
+  "pvColCategory": "Category",
+  "pvColDate": "Date",
+  "pvColDuration": "Duration",
+  "pvColEnd": "End",
+  "pvColLocation": "Place",
+  "pvColPriority": "Priority",
+  "pvColRecurrence": "Repeats",
+  "pvColStart": "Start",
+  "pvColStatus": "Status",
+  "pvColTitle": "Title",
+  "pvColTracking": "Tracking",
+  "pvCollapse": "Collapse",
+  "pvColorBy": "Color by",
+  "pvColorByCategory": "Category",
+  "pvColorByPriority": "Priority",
+  "pvColorByStatus": "Status",
+  "pvColorByTask": "Task",
+  "pvColumns": "Columns",
+  "pvCompletion": "Completion",
+  "pvContinues": "continues",
+  "pvCopySuffix": "{name} (copy)",
+  "pvCreate": "Create",
+  "pvCreateHere": "Create here",
+  "pvCreatedSnack": "Task created",
+  "pvDayHeaderSemantics": "{day}, {items}",
+  "pvDayRibbon": "Day",
+  "pvDayStats": "{done}/{total} · {planned}",
+  "pvDaySummary": "Day summary",
+  "pvDayTicker": "Day ticker",
+  "pvDaysSince": "{count, plural, =0{today} =1{1 day ago} other{{count} days ago}}",
+  "pvDaysUntil": "{count, plural, =0{today} =1{in 1 day} other{in {count} days}}",
+  "pvDaysVisible": "Days visible",
+  "pvDaysVisibleLandscape": "Days in landscape",
+  "pvDefaultBadge": "Default",
+  "pvDeleteView": "Delete view",
+  "pvDemoData": "Demo data (developer)",
+  "pvDensity": "Density",
+  "pvDensityComfortable": "Comfortable",
+  "pvDensityCompact": "Compact",
+  "pvDimPast": "Dim past",
+  "pvDoneTotal": "Done",
+  "pvDragToSchedule": "Drag onto the grid to schedule",
+  "pvDropNotSupported": "This grouping can't be changed by dragging yet",
+  "pvDuplicateView": "Duplicate view",
+  "pvElapsed": "{duration} elapsed",
+  "pvEmptyDay": "Nothing planned",
+  "pvEmptyRange": "Nothing in this range",
+  "pvEmptySlotSemantics": "{day} {time}, empty, double-tap to create",
+  "pvEmptyWeekTitle": "Nothing planned this week",
+  "pvExpand": "Expand",
+  "pvExpandInline": "Expand day inline",
+  "pvExtend": "Extend",
+  "pvExtendBy": "+{minutes} min",
+  "pvExtraZones": "Extra time zones",
+  "pvFillFromBacklog": "Fill from backlog",
+  "pvFillGap": "Fill this gap",
+  "pvFilter": "Filter",
+  "pvFilters": "Filters",
+  "pvFinish": "Finish",
+  "pvFreeGap": "free {duration}",
+  "pvFreeInWorkHours": "Free in work hours",
+  "pvFreeRun": "Free {from}–{to} · {duration}",
+  "pvFrom": "From",
+  "pvGotIt": "Got it",
+  "pvGroupBy": "Group by",
+  "pvGroupCategory": "Category",
+  "pvGroupDay": "Day",
+  "pvGroupNone": "None",
+  "pvGroupPriority": "Priority",
+  "pvGroupStatus": "Status",
+  "pvGroupTask": "Task",
+  "pvHeatMetric": "Metric",
+  "pvHiddenRange": "Hidden {from}–{to}",
+  "pvHideEmptySlots": "Collapse empty slots",
+  "pvHintLongPress": "Long-press empty space to create a task",
+  "pvHintPinch": "Pinch to zoom; pinch sideways to change the number of days",
+  "pvHintSlotSize": "Tap {size} to change the row size",
+  "pvHorizonDay": "Today",
+  "pvHorizonMonth": "This month",
+  "pvHorizonQuarter": "This quarter",
+  "pvHorizonWeek": "This week",
+  "pvHorizonYear": "This year",
+  "pvHorizonsHint": "Unscheduled intentions per horizon (stored on this device until horizons sync).",
+  "pvIgnoreLowPriority": "Ignore low-priority tasks",
+  "pvImportanceRule": "Important from priority {priority}",
+  "pvItemsCount": "{count, plural, =0{No items} =1{1 item} other{{count} items}}",
+  "pvJumpToDate": "Jump to date",
+  "pvKeepScreenOn": "Keep screen on",
+  "pvLaneCap": "Side-by-side lanes",
+  "pvLanes": "Lanes",
+  "pvLastRowShort": "the last one {duration}",
+  "pvLess": "Less",
+  "pvListBelow": "List below",
+  "pvListMode": "Accessible list",
+  "pvMapPlaceholder": "The map needs task coordinates, which arrive with the place picker. Tasks with a place are listed below.",
+  "pvMarkDone": "Mark done",
+  "pvMarkNotDone": "Mark not done",
+  "pvMetricCompletion": "Completion rate",
+  "pvMetricCount": "Number of items",
+  "pvMetricPlanned": "Planned hours",
+  "pvMinGap": "Minimum gap",
+  "pvMonthBars": "Bars",
+  "pvMonthDots": "Dots",
+  "pvMonthTitles": "Titles",
+  "pvMonthTitlesTimes": "Titles and times",
+  "pvMore": "+{count}",
+  "pvMoreItems": "{count, plural, =1{1 more item} other{{count} more items}}",
+  "pvMoreLegend": "More",
+  "pvMoreOptions": "More options",
+  "pvMove": "Move",
+  "pvMoveDoneBody": "It's already done — moving it changes its history.",
+  "pvMoveDoneTitle": "Move a completed task?",
+  "pvMoveEarlier": "Move {minutes} min earlier",
+  "pvMoveLater": "Move {minutes} min later",
+  "pvMoveTo": "Move to…",
+  "pvMoveUnfinishedTomorrow": "Move unfinished to tomorrow",
+  "pvMovedSnack": "Moved to {when}",
+  "pvNext": "Next",
+  "pvNextDay": "Next day",
+  "pvNextDays": "{count, plural, =1{Next day} other{Next {count} days}}",
+  "pvNextUp": "Next up",
+  "pvNextWeek": "Next week",
+  "pvNoCategory": "No category",
+  "pvNoOpenings": "No free time found",
+  "pvNoRoom": "{count, plural, =1{1 item didn't fit} other{{count} items didn't fit}}",
+  "pvNoRoutine": "No routine block today",
+  "pvNoTasks": "No tasks",
+  "pvNothingNow": "Nothing scheduled right now",
+  "pvNow": "Now",
+  "pvOneOff": "One-off",
+  "pvOpenDay": "Open day",
+  "pvOpenings": "Openings",
+  "pvOverdue": "Overdue",
+  "pvOverlapCascade": "Cascade",
+  "pvOverlapColumns": "Columns",
+  "pvOverlapStyle": "Overlap style",
+  "pvOverlayChecklistDue": "Checklist items due",
+  "pvOverlayDeviceCalendars": "Device calendars",
+  "pvOverlayFreeSlots": "Free time",
+  "pvOverlayHabits": "Habits due",
+  "pvOverlayHeat": "Busy-hour heat",
+  "pvOverlays": "Overlays",
+  "pvPagingDay": "One day",
+  "pvPagingFree": "Free scroll",
+  "pvPagingMode": "Swipe moves",
+  "pvPagingWeek": "One week",
+  "pvPause": "Pause",
+  "pvPickDate": "Pick a date",
+  "pvPin": "Pin",
+  "pvPinned": "Pinned",
+  "pvPlanColumn": "Plan",
+  "pvPlanFirstTask": "Plan your first task",
+  "pvPlanned": "Planned",
+  "pvPostpone": "Postpone",
+  "pvPostponeMinutes": "{minutes, plural, =1{1 minute} other{{minutes} minutes}}",
+  "pvPostponeNextWeek": "Next week",
+  "pvPostponeTomorrow": "Tomorrow",
+  "pvPrevious": "Previous",
+  "pvPreviousDay": "Previous day",
+  "pvPreviousWeek": "Previous week",
+  "pvPriorities": "Priorities",
+  "pvQuadDelegate": "Delegate",
+  "pvQuadDo": "Do",
+  "pvQuadEliminate": "Eliminate",
+  "pvQuadSchedule": "Schedule",
+  "pvQuickCreateHint": "What's the plan?",
+  "pvQuickCreateTitle": "New task",
+  "pvRadial12": "12 h",
+  "pvRadial24": "24 h",
+  "pvRadialHours": "Dial",
+  "pvRecurring": "Recurring",
+  "pvRenameView": "Rename view",
+  "pvRenderAuto": "Auto",
+  "pvRenderMode": "Render",
+  "pvRenderTable": "Table",
+  "pvRenderTimeline": "Timeline",
+  "pvRepeatedHour": "{time} ({offset})",
+  "pvRepeats": "repeats",
+  "pvResetView": "Reset view settings",
+  "pvResizedSnack": "Duration {duration}",
+  "pvRibbonStyle": "Ribbon",
+  "pvRoutineComplete": "Routine complete",
+  "pvRoutineStart": "Start routine",
+  "pvRoutineSummary": "{done} of {total} steps done",
+  "pvRowHeight": "Row height",
+  "pvRowsOccurrences": "Occurrences",
+  "pvRowsPerDay": "{count, plural, =1{1 row per day} other{{count} rows per day}}",
+  "pvRowsTasks": "Tasks",
+  "pvRules": "Rules",
+  "pvSaveAsNewView": "Save as new view",
+  "pvSaveViewAs": "Save view as…",
+  "pvSavedViews": "Saved views",
+  "pvScale": "Scale",
+  "pvScaleDays": "Days",
+  "pvScaleHours": "Hours",
+  "pvScaleMonths": "Months",
+  "pvScaleWeeks": "Weeks",
+  "pvScheduleOn": "Schedule on…",
+  "pvScheduledSnack": "Scheduled",
+  "pvScopeAll": "All occurrences",
+  "pvScopeFollowing": "This and following",
+  "pvScopeThis": "This occurrence",
+  "pvScopeTitle": "Change a recurring task",
+  "pvSelected": "{count} selected",
+  "pvSetDefaultView": "Set as default",
+  "pvShareAvailability": "Share availability",
+  "pvShowCancelled": "Show cancelled",
+  "pvShowCompleted": "Show completed",
+  "pvShowEmptyDays": "Show empty days",
+  "pvShowNotes": "Show notes",
+  "pvShowWeekends": "Show weekends",
+  "pvSinceGroup": "Since",
+  "pvSkip": "Skip",
+  "pvSkipRemaining": "Skip remaining",
+  "pvSkipStep": "Skip step",
+  "pvSlotCustom": "Custom size",
+  "pvSlotCustomHint": "Minutes or h:mm (1 min – 24 h)",
+  "pvSlotInvalid": "Enter a size between 1 minute and 24 hours",
+  "pvSlotPresets": "Presets",
+  "pvSlotSize": "Slot size",
+  "pvSlotsStyle": "Slots",
+  "pvSnap": "Snap",
+  "pvSortBy": "Sort by",
+  "pvStart": "Start",
+  "pvStartsAt": "Starts at {time}",
+  "pvStatusCancelled": "Cancelled",
+  "pvStatusDone": "Done",
+  "pvStatusInProgress": "In progress",
+  "pvStatusMissed": "Missed",
+  "pvStatusScheduled": "Planned",
+  "pvStatusSkipped": "Skipped",
+  "pvStatusSnack": "Marked {status}",
+  "pvStatuses": "Statuses",
+  "pvStep": "Step {n} of {total}",
+  "pvStop": "Stop",
+  "pvSwipeVertical": "Swipe vertically",
+  "pvTableThreshold": "Table from {size}",
+  "pvTextFilterHint": "Search titles and notes",
+  "pvTileSemantics": "{title}, {day}, {start} to {end}, {status}",
+  "pvTimeLeft": "{duration} left",
+  "pvTo": "To",
+  "pvTopCategories": "Top categories",
+  "pvTracked": "Tracked",
+  "pvTrackingCheck": "Check",
+  "pvTrackingEvent": "Event",
+  "pvTrackingModes": "Tracking",
+  "pvTrackingTimer": "Timer",
+  "pvUnpin": "Unpin",
+  "pvUnscheduleUnsupported": "Moving tasks back to the backlog isn't available yet",
+  "pvUnscheduled": "Unscheduled",
+  "pvUntimed": "Untimed",
+  "pvUpcoming": "Upcoming",
+  "pvUrgencyRule": "{days, plural, =1{Urgent within 1 day} other{Urgent within {days} days}}",
+  "pvVarianceLate": "Started late",
+  "pvVarianceNotDone": "Not done",
+  "pvVarianceOnPlan": "On plan",
+  "pvVarianceOverran": "Overran",
+  "pvVarianceUnplanned": "Unplanned",
+  "pvViewAgenda": "Agenda",
+  "pvViewBacklog": "Backlog",
+  "pvViewCountdown": "Countdowns",
+  "pvViewDayList": "Day list",
+  "pvViewFocus": "Focus",
+  "pvViewFreeSlots": "Free slots",
+  "pvViewHorizons": "Horizons",
+  "pvViewKanban": "Kanban",
+  "pvViewLoadHeatmap": "Load heatmap",
+  "pvViewMap": "Map",
+  "pvViewMatrix": "Eisenhower matrix",
+  "pvViewMonth": "Month",
+  "pvViewMultiWeek": "Multi-week",
+  "pvViewNDay": "N days",
+  "pvViewName": "View name",
+  "pvViewPlanVsActual": "Plan vs actual",
+  "pvViewQuarter": "Quarter",
+  "pvViewRadial": "24-hour clock",
+  "pvViewRibbon": "Ribbon",
+  "pvViewRoutine": "Routine player",
+  "pvViewSaved": "View saved",
+  "pvViewSettings": "View settings",
+  "pvViewSwimlanes": "Swimlanes",
+  "pvViewSwitcher": "Change view",
+  "pvViewTable": "Table",
+  "pvViewTimeline": "Timeline",
+  "pvViewWeekList": "Week list",
+  "pvViewWeekTable": "Week table",
+  "pvViewWorkWeek": "Work week",
+  "pvViewYear": "Year",
+  "pvVisibleHours": "Visible hours",
+  "pvVisibleHoursAll": "All 24 hours",
+  "pvWeekNumber": "W{week}",
+  "pvWeekNumbers": "Week numbers",
+  "pvWeekRibbon": "Week",
+  "pvWeekSummary": "Week summary",
+  "pvWeeksCount": "{count, plural, =1{1 week} other{{count} weeks}}",
+  "pvWithPlace": "Tasks with a place",
+  "pvWorkHours": "Work hours",
+  "pvZoneHint": "e.g. Asia/Tokyo",
+  "pvZoomAroundNow": "Zoom around now",
+  "pvZoomFixed": "Fixed slot",
+  "pvZoomMode": "Zoom",
+  "pvZoomSemantic": "Semantic",
   "relativeDaysAgo": "{count, plural, =1{yesterday} other{{count} days ago}}",
   "relativeHoursAgo": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
   "relativeInDays": "{count, plural, =1{tomorrow} other{in {count} days}}",

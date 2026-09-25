@@ -586,6 +586,1914 @@ abstract class AppLocalizations {
   /// **'Urgent'**
   String get priorityUrgent;
 
+  /// No description provided for @pvActualColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Actual'**
+  String get pvActualColumn;
+
+  /// No description provided for @pvAddTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Add task'**
+  String get pvAddTask;
+
+  /// No description provided for @pvAddZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Add time zone'**
+  String get pvAddZone;
+
+  /// No description provided for @pvAllDay.
+  ///
+  /// In en, this message translates to:
+  /// **'All day'**
+  String get pvAllDay;
+
+  /// No description provided for @pvAllDaySection.
+  ///
+  /// In en, this message translates to:
+  /// **'All day & untimed'**
+  String get pvAllDaySection;
+
+  /// No description provided for @pvApplyToView.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply to this view'**
+  String get pvApplyToView;
+
+  /// No description provided for @pvAutoAdvance.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-advance'**
+  String get pvAutoAdvance;
+
+  /// No description provided for @pvAutoScrollNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll to now on open'**
+  String get pvAutoScrollNow;
+
+  /// No description provided for @pvBacklogEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Your backlog is empty'**
+  String get pvBacklogEmpty;
+
+  /// No description provided for @pvCancelOccurrence.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel this occurrence'**
+  String get pvCancelOccurrence;
+
+  /// No description provided for @pvCannotUnschedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring occurrences can\'t be moved to the backlog'**
+  String get pvCannotUnschedule;
+
+  /// No description provided for @pvCapacity.
+  ///
+  /// In en, this message translates to:
+  /// **'Capacity'**
+  String get pvCapacity;
+
+  /// No description provided for @pvCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get pvCategories;
+
+  /// No description provided for @pvClearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get pvClearFilters;
+
+  /// No description provided for @pvClocksForward.
+  ///
+  /// In en, this message translates to:
+  /// **'Clocks forward'**
+  String get pvClocksForward;
+
+  /// No description provided for @pvColCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get pvColCategory;
+
+  /// No description provided for @pvColDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get pvColDate;
+
+  /// No description provided for @pvColDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get pvColDuration;
+
+  /// No description provided for @pvColEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get pvColEnd;
+
+  /// No description provided for @pvColLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Place'**
+  String get pvColLocation;
+
+  /// No description provided for @pvColPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get pvColPriority;
+
+  /// No description provided for @pvColRecurrence.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats'**
+  String get pvColRecurrence;
+
+  /// No description provided for @pvColStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get pvColStart;
+
+  /// No description provided for @pvColStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get pvColStatus;
+
+  /// No description provided for @pvColTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get pvColTitle;
+
+  /// No description provided for @pvColTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking'**
+  String get pvColTracking;
+
+  /// No description provided for @pvCollapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse'**
+  String get pvCollapse;
+
+  /// No description provided for @pvColorBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Color by'**
+  String get pvColorBy;
+
+  /// No description provided for @pvColorByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get pvColorByCategory;
+
+  /// No description provided for @pvColorByPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get pvColorByPriority;
+
+  /// No description provided for @pvColorByStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get pvColorByStatus;
+
+  /// No description provided for @pvColorByTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get pvColorByTask;
+
+  /// No description provided for @pvColumns.
+  ///
+  /// In en, this message translates to:
+  /// **'Columns'**
+  String get pvColumns;
+
+  /// No description provided for @pvCompletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Completion'**
+  String get pvCompletion;
+
+  /// No description provided for @pvContinues.
+  ///
+  /// In en, this message translates to:
+  /// **'continues'**
+  String get pvContinues;
+
+  /// No description provided for @pvCopySuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} (copy)'**
+  String pvCopySuffix(String name);
+
+  /// No description provided for @pvCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get pvCreate;
+
+  /// No description provided for @pvCreateHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Create here'**
+  String get pvCreateHere;
+
+  /// No description provided for @pvCreatedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Task created'**
+  String get pvCreatedSnack;
+
+  /// No description provided for @pvDayHeaderSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{day}, {items}'**
+  String pvDayHeaderSemantics(String day, String items);
+
+  /// No description provided for @pvDayRibbon.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get pvDayRibbon;
+
+  /// No description provided for @pvDayStats.
+  ///
+  /// In en, this message translates to:
+  /// **'{done}/{total} · {planned}'**
+  String pvDayStats(String done, String total, String planned);
+
+  /// No description provided for @pvDaySummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Day summary'**
+  String get pvDaySummary;
+
+  /// No description provided for @pvDayTicker.
+  ///
+  /// In en, this message translates to:
+  /// **'Day ticker'**
+  String get pvDayTicker;
+
+  /// No description provided for @pvDaysSince.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{today} =1{1 day ago} other{{count} days ago}}'**
+  String pvDaysSince(int count);
+
+  /// No description provided for @pvDaysUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{today} =1{in 1 day} other{in {count} days}}'**
+  String pvDaysUntil(int count);
+
+  /// No description provided for @pvDaysVisible.
+  ///
+  /// In en, this message translates to:
+  /// **'Days visible'**
+  String get pvDaysVisible;
+
+  /// No description provided for @pvDaysVisibleLandscape.
+  ///
+  /// In en, this message translates to:
+  /// **'Days in landscape'**
+  String get pvDaysVisibleLandscape;
+
+  /// No description provided for @pvDefaultBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get pvDefaultBadge;
+
+  /// No description provided for @pvDeleteView.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete view'**
+  String get pvDeleteView;
+
+  /// No description provided for @pvDemoData.
+  ///
+  /// In en, this message translates to:
+  /// **'Demo data (developer)'**
+  String get pvDemoData;
+
+  /// No description provided for @pvDensity.
+  ///
+  /// In en, this message translates to:
+  /// **'Density'**
+  String get pvDensity;
+
+  /// No description provided for @pvDensityComfortable.
+  ///
+  /// In en, this message translates to:
+  /// **'Comfortable'**
+  String get pvDensityComfortable;
+
+  /// No description provided for @pvDensityCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Compact'**
+  String get pvDensityCompact;
+
+  /// No description provided for @pvDimPast.
+  ///
+  /// In en, this message translates to:
+  /// **'Dim past'**
+  String get pvDimPast;
+
+  /// No description provided for @pvDoneTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get pvDoneTotal;
+
+  /// No description provided for @pvDragToSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag onto the grid to schedule'**
+  String get pvDragToSchedule;
+
+  /// No description provided for @pvDropNotSupported.
+  ///
+  /// In en, this message translates to:
+  /// **'This grouping can\'t be changed by dragging yet'**
+  String get pvDropNotSupported;
+
+  /// No description provided for @pvDuplicateView.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate view'**
+  String get pvDuplicateView;
+
+  /// No description provided for @pvElapsed.
+  ///
+  /// In en, this message translates to:
+  /// **'{duration} elapsed'**
+  String pvElapsed(String duration);
+
+  /// No description provided for @pvEmptyDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing planned'**
+  String get pvEmptyDay;
+
+  /// No description provided for @pvEmptyRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing in this range'**
+  String get pvEmptyRange;
+
+  /// No description provided for @pvEmptySlotSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{day} {time}, empty, double-tap to create'**
+  String pvEmptySlotSemantics(String day, String time);
+
+  /// No description provided for @pvEmptyWeekTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing planned this week'**
+  String get pvEmptyWeekTitle;
+
+  /// No description provided for @pvExpand.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand'**
+  String get pvExpand;
+
+  /// No description provided for @pvExpandInline.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand day inline'**
+  String get pvExpandInline;
+
+  /// No description provided for @pvExtend.
+  ///
+  /// In en, this message translates to:
+  /// **'Extend'**
+  String get pvExtend;
+
+  /// No description provided for @pvExtendBy.
+  ///
+  /// In en, this message translates to:
+  /// **'+{minutes} min'**
+  String pvExtendBy(int minutes);
+
+  /// No description provided for @pvExtraZones.
+  ///
+  /// In en, this message translates to:
+  /// **'Extra time zones'**
+  String get pvExtraZones;
+
+  /// No description provided for @pvFillFromBacklog.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill from backlog'**
+  String get pvFillFromBacklog;
+
+  /// No description provided for @pvFillGap.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill this gap'**
+  String get pvFillGap;
+
+  /// No description provided for @pvFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get pvFilter;
+
+  /// No description provided for @pvFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get pvFilters;
+
+  /// No description provided for @pvFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get pvFinish;
+
+  /// No description provided for @pvFreeGap.
+  ///
+  /// In en, this message translates to:
+  /// **'free {duration}'**
+  String pvFreeGap(String duration);
+
+  /// No description provided for @pvFreeInWorkHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Free in work hours'**
+  String get pvFreeInWorkHours;
+
+  /// No description provided for @pvFreeRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Free {from}–{to} · {duration}'**
+  String pvFreeRun(String from, String to, String duration);
+
+  /// No description provided for @pvFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get pvFrom;
+
+  /// No description provided for @pvGotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get pvGotIt;
+
+  /// No description provided for @pvGroupBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Group by'**
+  String get pvGroupBy;
+
+  /// No description provided for @pvGroupCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get pvGroupCategory;
+
+  /// No description provided for @pvGroupDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get pvGroupDay;
+
+  /// No description provided for @pvGroupNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get pvGroupNone;
+
+  /// No description provided for @pvGroupPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get pvGroupPriority;
+
+  /// No description provided for @pvGroupStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get pvGroupStatus;
+
+  /// No description provided for @pvGroupTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get pvGroupTask;
+
+  /// No description provided for @pvHeatMetric.
+  ///
+  /// In en, this message translates to:
+  /// **'Metric'**
+  String get pvHeatMetric;
+
+  /// No description provided for @pvHiddenRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden {from}–{to}'**
+  String pvHiddenRange(String from, String to);
+
+  /// No description provided for @pvHideEmptySlots.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse empty slots'**
+  String get pvHideEmptySlots;
+
+  /// No description provided for @pvHintLongPress.
+  ///
+  /// In en, this message translates to:
+  /// **'Long-press empty space to create a task'**
+  String get pvHintLongPress;
+
+  /// No description provided for @pvHintPinch.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinch to zoom; pinch sideways to change the number of days'**
+  String get pvHintPinch;
+
+  /// No description provided for @pvHintSlotSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap {size} to change the row size'**
+  String pvHintSlotSize(String size);
+
+  /// No description provided for @pvHorizonDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get pvHorizonDay;
+
+  /// No description provided for @pvHorizonMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get pvHorizonMonth;
+
+  /// No description provided for @pvHorizonQuarter.
+  ///
+  /// In en, this message translates to:
+  /// **'This quarter'**
+  String get pvHorizonQuarter;
+
+  /// No description provided for @pvHorizonWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get pvHorizonWeek;
+
+  /// No description provided for @pvHorizonYear.
+  ///
+  /// In en, this message translates to:
+  /// **'This year'**
+  String get pvHorizonYear;
+
+  /// No description provided for @pvHorizonsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Unscheduled intentions per horizon (stored on this device until horizons sync).'**
+  String get pvHorizonsHint;
+
+  /// No description provided for @pvIgnoreLowPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Ignore low-priority tasks'**
+  String get pvIgnoreLowPriority;
+
+  /// No description provided for @pvImportanceRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Important from priority {priority}'**
+  String pvImportanceRule(String priority);
+
+  /// No description provided for @pvItemsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No items} =1{1 item} other{{count} items}}'**
+  String pvItemsCount(int count);
+
+  /// No description provided for @pvJumpToDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to date'**
+  String get pvJumpToDate;
+
+  /// No description provided for @pvKeepScreenOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep screen on'**
+  String get pvKeepScreenOn;
+
+  /// No description provided for @pvLaneCap.
+  ///
+  /// In en, this message translates to:
+  /// **'Side-by-side lanes'**
+  String get pvLaneCap;
+
+  /// No description provided for @pvLanes.
+  ///
+  /// In en, this message translates to:
+  /// **'Lanes'**
+  String get pvLanes;
+
+  /// No description provided for @pvLastRowShort.
+  ///
+  /// In en, this message translates to:
+  /// **'the last one {duration}'**
+  String pvLastRowShort(String duration);
+
+  /// No description provided for @pvLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Less'**
+  String get pvLess;
+
+  /// No description provided for @pvListBelow.
+  ///
+  /// In en, this message translates to:
+  /// **'List below'**
+  String get pvListBelow;
+
+  /// No description provided for @pvListMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Accessible list'**
+  String get pvListMode;
+
+  /// No description provided for @pvMapPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'The map needs task coordinates, which arrive with the place picker. Tasks with a place are listed below.'**
+  String get pvMapPlaceholder;
+
+  /// No description provided for @pvMarkDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark done'**
+  String get pvMarkDone;
+
+  /// No description provided for @pvMarkNotDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark not done'**
+  String get pvMarkNotDone;
+
+  /// No description provided for @pvMetricCompletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Completion rate'**
+  String get pvMetricCompletion;
+
+  /// No description provided for @pvMetricCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of items'**
+  String get pvMetricCount;
+
+  /// No description provided for @pvMetricPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned hours'**
+  String get pvMetricPlanned;
+
+  /// No description provided for @pvMinGap.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum gap'**
+  String get pvMinGap;
+
+  /// No description provided for @pvMonthBars.
+  ///
+  /// In en, this message translates to:
+  /// **'Bars'**
+  String get pvMonthBars;
+
+  /// No description provided for @pvMonthDots.
+  ///
+  /// In en, this message translates to:
+  /// **'Dots'**
+  String get pvMonthDots;
+
+  /// No description provided for @pvMonthTitles.
+  ///
+  /// In en, this message translates to:
+  /// **'Titles'**
+  String get pvMonthTitles;
+
+  /// No description provided for @pvMonthTitlesTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Titles and times'**
+  String get pvMonthTitlesTimes;
+
+  /// No description provided for @pvMore.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count}'**
+  String pvMore(String count);
+
+  /// No description provided for @pvMoreItems.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 more item} other{{count} more items}}'**
+  String pvMoreItems(int count);
+
+  /// No description provided for @pvMoreLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get pvMoreLegend;
+
+  /// No description provided for @pvMoreOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get pvMoreOptions;
+
+  /// No description provided for @pvMove.
+  ///
+  /// In en, this message translates to:
+  /// **'Move'**
+  String get pvMove;
+
+  /// No description provided for @pvMoveDoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s already done — moving it changes its history.'**
+  String get pvMoveDoneBody;
+
+  /// No description provided for @pvMoveDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Move a completed task?'**
+  String get pvMoveDoneTitle;
+
+  /// No description provided for @pvMoveEarlier.
+  ///
+  /// In en, this message translates to:
+  /// **'Move {minutes} min earlier'**
+  String pvMoveEarlier(int minutes);
+
+  /// No description provided for @pvMoveLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Move {minutes} min later'**
+  String pvMoveLater(int minutes);
+
+  /// No description provided for @pvMoveTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to…'**
+  String get pvMoveTo;
+
+  /// No description provided for @pvMoveUnfinishedTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Move unfinished to tomorrow'**
+  String get pvMoveUnfinishedTomorrow;
+
+  /// No description provided for @pvMovedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved to {when}'**
+  String pvMovedSnack(String when);
+
+  /// No description provided for @pvNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get pvNext;
+
+  /// No description provided for @pvNextDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Next day'**
+  String get pvNextDay;
+
+  /// No description provided for @pvNextDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Next day} other{Next {count} days}}'**
+  String pvNextDays(int count);
+
+  /// No description provided for @pvNextUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Next up'**
+  String get pvNextUp;
+
+  /// No description provided for @pvNextWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Next week'**
+  String get pvNextWeek;
+
+  /// No description provided for @pvNoCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'No category'**
+  String get pvNoCategory;
+
+  /// No description provided for @pvNoOpenings.
+  ///
+  /// In en, this message translates to:
+  /// **'No free time found'**
+  String get pvNoOpenings;
+
+  /// No description provided for @pvNoRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item didn\'t fit} other{{count} items didn\'t fit}}'**
+  String pvNoRoom(int count);
+
+  /// No description provided for @pvNoRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'No routine block today'**
+  String get pvNoRoutine;
+
+  /// No description provided for @pvNoTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks'**
+  String get pvNoTasks;
+
+  /// No description provided for @pvNothingNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing scheduled right now'**
+  String get pvNothingNow;
+
+  /// No description provided for @pvNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get pvNow;
+
+  /// No description provided for @pvOneOff.
+  ///
+  /// In en, this message translates to:
+  /// **'One-off'**
+  String get pvOneOff;
+
+  /// No description provided for @pvOpenDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Open day'**
+  String get pvOpenDay;
+
+  /// No description provided for @pvOpenings.
+  ///
+  /// In en, this message translates to:
+  /// **'Openings'**
+  String get pvOpenings;
+
+  /// No description provided for @pvOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get pvOverdue;
+
+  /// No description provided for @pvOverlapCascade.
+  ///
+  /// In en, this message translates to:
+  /// **'Cascade'**
+  String get pvOverlapCascade;
+
+  /// No description provided for @pvOverlapColumns.
+  ///
+  /// In en, this message translates to:
+  /// **'Columns'**
+  String get pvOverlapColumns;
+
+  /// No description provided for @pvOverlapStyle.
+  ///
+  /// In en, this message translates to:
+  /// **'Overlap style'**
+  String get pvOverlapStyle;
+
+  /// No description provided for @pvOverlayChecklistDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist items due'**
+  String get pvOverlayChecklistDue;
+
+  /// No description provided for @pvOverlayDeviceCalendars.
+  ///
+  /// In en, this message translates to:
+  /// **'Device calendars'**
+  String get pvOverlayDeviceCalendars;
+
+  /// No description provided for @pvOverlayFreeSlots.
+  ///
+  /// In en, this message translates to:
+  /// **'Free time'**
+  String get pvOverlayFreeSlots;
+
+  /// No description provided for @pvOverlayHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits due'**
+  String get pvOverlayHabits;
+
+  /// No description provided for @pvOverlayHeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Busy-hour heat'**
+  String get pvOverlayHeat;
+
+  /// No description provided for @pvOverlays.
+  ///
+  /// In en, this message translates to:
+  /// **'Overlays'**
+  String get pvOverlays;
+
+  /// No description provided for @pvPagingDay.
+  ///
+  /// In en, this message translates to:
+  /// **'One day'**
+  String get pvPagingDay;
+
+  /// No description provided for @pvPagingFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Free scroll'**
+  String get pvPagingFree;
+
+  /// No description provided for @pvPagingMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe moves'**
+  String get pvPagingMode;
+
+  /// No description provided for @pvPagingWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'One week'**
+  String get pvPagingWeek;
+
+  /// No description provided for @pvPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get pvPause;
+
+  /// No description provided for @pvPickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date'**
+  String get pvPickDate;
+
+  /// No description provided for @pvPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin'**
+  String get pvPin;
+
+  /// No description provided for @pvPinned.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned'**
+  String get pvPinned;
+
+  /// No description provided for @pvPlanColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan'**
+  String get pvPlanColumn;
+
+  /// No description provided for @pvPlanFirstTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan your first task'**
+  String get pvPlanFirstTask;
+
+  /// No description provided for @pvPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned'**
+  String get pvPlanned;
+
+  /// No description provided for @pvPostpone.
+  ///
+  /// In en, this message translates to:
+  /// **'Postpone'**
+  String get pvPostpone;
+
+  /// No description provided for @pvPostponeMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes, plural, =1{1 minute} other{{minutes} minutes}}'**
+  String pvPostponeMinutes(int minutes);
+
+  /// No description provided for @pvPostponeNextWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Next week'**
+  String get pvPostponeNextWeek;
+
+  /// No description provided for @pvPostponeTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get pvPostponeTomorrow;
+
+  /// No description provided for @pvPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get pvPrevious;
+
+  /// No description provided for @pvPreviousDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous day'**
+  String get pvPreviousDay;
+
+  /// No description provided for @pvPreviousWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous week'**
+  String get pvPreviousWeek;
+
+  /// No description provided for @pvPriorities.
+  ///
+  /// In en, this message translates to:
+  /// **'Priorities'**
+  String get pvPriorities;
+
+  /// No description provided for @pvQuadDelegate.
+  ///
+  /// In en, this message translates to:
+  /// **'Delegate'**
+  String get pvQuadDelegate;
+
+  /// No description provided for @pvQuadDo.
+  ///
+  /// In en, this message translates to:
+  /// **'Do'**
+  String get pvQuadDo;
+
+  /// No description provided for @pvQuadEliminate.
+  ///
+  /// In en, this message translates to:
+  /// **'Eliminate'**
+  String get pvQuadEliminate;
+
+  /// No description provided for @pvQuadSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule'**
+  String get pvQuadSchedule;
+
+  /// No description provided for @pvQuickCreateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s the plan?'**
+  String get pvQuickCreateHint;
+
+  /// No description provided for @pvQuickCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New task'**
+  String get pvQuickCreateTitle;
+
+  /// No description provided for @pvRadial12.
+  ///
+  /// In en, this message translates to:
+  /// **'12 h'**
+  String get pvRadial12;
+
+  /// No description provided for @pvRadial24.
+  ///
+  /// In en, this message translates to:
+  /// **'24 h'**
+  String get pvRadial24;
+
+  /// No description provided for @pvRadialHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Dial'**
+  String get pvRadialHours;
+
+  /// No description provided for @pvRecurring.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring'**
+  String get pvRecurring;
+
+  /// No description provided for @pvRenameView.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename view'**
+  String get pvRenameView;
+
+  /// No description provided for @pvRenderAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get pvRenderAuto;
+
+  /// No description provided for @pvRenderMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Render'**
+  String get pvRenderMode;
+
+  /// No description provided for @pvRenderTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Table'**
+  String get pvRenderTable;
+
+  /// No description provided for @pvRenderTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get pvRenderTimeline;
+
+  /// No description provided for @pvRepeatedHour.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} ({offset})'**
+  String pvRepeatedHour(String time, String offset);
+
+  /// No description provided for @pvRepeats.
+  ///
+  /// In en, this message translates to:
+  /// **'repeats'**
+  String get pvRepeats;
+
+  /// No description provided for @pvResetView.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset view settings'**
+  String get pvResetView;
+
+  /// No description provided for @pvResizedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration {duration}'**
+  String pvResizedSnack(String duration);
+
+  /// No description provided for @pvRibbonStyle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ribbon'**
+  String get pvRibbonStyle;
+
+  /// No description provided for @pvRoutineComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Routine complete'**
+  String get pvRoutineComplete;
+
+  /// No description provided for @pvRoutineStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start routine'**
+  String get pvRoutineStart;
+
+  /// No description provided for @pvRoutineSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} steps done'**
+  String pvRoutineSummary(int done, int total);
+
+  /// No description provided for @pvRowHeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Row height'**
+  String get pvRowHeight;
+
+  /// No description provided for @pvRowsOccurrences.
+  ///
+  /// In en, this message translates to:
+  /// **'Occurrences'**
+  String get pvRowsOccurrences;
+
+  /// No description provided for @pvRowsPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 row per day} other{{count} rows per day}}'**
+  String pvRowsPerDay(int count);
+
+  /// No description provided for @pvRowsTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get pvRowsTasks;
+
+  /// No description provided for @pvRules.
+  ///
+  /// In en, this message translates to:
+  /// **'Rules'**
+  String get pvRules;
+
+  /// No description provided for @pvSaveAsNewView.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as new view'**
+  String get pvSaveAsNewView;
+
+  /// No description provided for @pvSaveViewAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Save view as…'**
+  String get pvSaveViewAs;
+
+  /// No description provided for @pvSavedViews.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved views'**
+  String get pvSavedViews;
+
+  /// No description provided for @pvScale.
+  ///
+  /// In en, this message translates to:
+  /// **'Scale'**
+  String get pvScale;
+
+  /// No description provided for @pvScaleDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Days'**
+  String get pvScaleDays;
+
+  /// No description provided for @pvScaleHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours'**
+  String get pvScaleHours;
+
+  /// No description provided for @pvScaleMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'Months'**
+  String get pvScaleMonths;
+
+  /// No description provided for @pvScaleWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'Weeks'**
+  String get pvScaleWeeks;
+
+  /// No description provided for @pvScheduleOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule on…'**
+  String get pvScheduleOn;
+
+  /// No description provided for @pvScheduledSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled'**
+  String get pvScheduledSnack;
+
+  /// No description provided for @pvScopeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All occurrences'**
+  String get pvScopeAll;
+
+  /// No description provided for @pvScopeFollowing.
+  ///
+  /// In en, this message translates to:
+  /// **'This and following'**
+  String get pvScopeFollowing;
+
+  /// No description provided for @pvScopeThis.
+  ///
+  /// In en, this message translates to:
+  /// **'This occurrence'**
+  String get pvScopeThis;
+
+  /// No description provided for @pvScopeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change a recurring task'**
+  String get pvScopeTitle;
+
+  /// No description provided for @pvSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String pvSelected(int count);
+
+  /// No description provided for @pvSetDefaultView.
+  ///
+  /// In en, this message translates to:
+  /// **'Set as default'**
+  String get pvSetDefaultView;
+
+  /// No description provided for @pvShareAvailability.
+  ///
+  /// In en, this message translates to:
+  /// **'Share availability'**
+  String get pvShareAvailability;
+
+  /// No description provided for @pvShowCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Show cancelled'**
+  String get pvShowCancelled;
+
+  /// No description provided for @pvShowCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Show completed'**
+  String get pvShowCompleted;
+
+  /// No description provided for @pvShowEmptyDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Show empty days'**
+  String get pvShowEmptyDays;
+
+  /// No description provided for @pvShowNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Show notes'**
+  String get pvShowNotes;
+
+  /// No description provided for @pvShowWeekends.
+  ///
+  /// In en, this message translates to:
+  /// **'Show weekends'**
+  String get pvShowWeekends;
+
+  /// No description provided for @pvSinceGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Since'**
+  String get pvSinceGroup;
+
+  /// No description provided for @pvSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get pvSkip;
+
+  /// No description provided for @pvSkipRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip remaining'**
+  String get pvSkipRemaining;
+
+  /// No description provided for @pvSkipStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip step'**
+  String get pvSkipStep;
+
+  /// No description provided for @pvSlotCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom size'**
+  String get pvSlotCustom;
+
+  /// No description provided for @pvSlotCustomHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes or h:mm (1 min – 24 h)'**
+  String get pvSlotCustomHint;
+
+  /// No description provided for @pvSlotInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a size between 1 minute and 24 hours'**
+  String get pvSlotInvalid;
+
+  /// No description provided for @pvSlotPresets.
+  ///
+  /// In en, this message translates to:
+  /// **'Presets'**
+  String get pvSlotPresets;
+
+  /// No description provided for @pvSlotSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Slot size'**
+  String get pvSlotSize;
+
+  /// No description provided for @pvSlotsStyle.
+  ///
+  /// In en, this message translates to:
+  /// **'Slots'**
+  String get pvSlotsStyle;
+
+  /// No description provided for @pvSnap.
+  ///
+  /// In en, this message translates to:
+  /// **'Snap'**
+  String get pvSnap;
+
+  /// No description provided for @pvSortBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get pvSortBy;
+
+  /// No description provided for @pvStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get pvStart;
+
+  /// No description provided for @pvStartsAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts at {time}'**
+  String pvStartsAt(String time);
+
+  /// No description provided for @pvStatusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get pvStatusCancelled;
+
+  /// No description provided for @pvStatusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get pvStatusDone;
+
+  /// No description provided for @pvStatusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get pvStatusInProgress;
+
+  /// No description provided for @pvStatusMissed.
+  ///
+  /// In en, this message translates to:
+  /// **'Missed'**
+  String get pvStatusMissed;
+
+  /// No description provided for @pvStatusScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned'**
+  String get pvStatusScheduled;
+
+  /// No description provided for @pvStatusSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped'**
+  String get pvStatusSkipped;
+
+  /// No description provided for @pvStatusSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked {status}'**
+  String pvStatusSnack(String status);
+
+  /// No description provided for @pvStatuses.
+  ///
+  /// In en, this message translates to:
+  /// **'Statuses'**
+  String get pvStatuses;
+
+  /// No description provided for @pvStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {n} of {total}'**
+  String pvStep(int n, int total);
+
+  /// No description provided for @pvStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get pvStop;
+
+  /// No description provided for @pvSwipeVertical.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe vertically'**
+  String get pvSwipeVertical;
+
+  /// No description provided for @pvTableThreshold.
+  ///
+  /// In en, this message translates to:
+  /// **'Table from {size}'**
+  String pvTableThreshold(String size);
+
+  /// No description provided for @pvTextFilterHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search titles and notes'**
+  String get pvTextFilterHint;
+
+  /// No description provided for @pvTileSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{title}, {day}, {start} to {end}, {status}'**
+  String pvTileSemantics(
+    String title,
+    String day,
+    String start,
+    String end,
+    String status,
+  );
+
+  /// No description provided for @pvTimeLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{duration} left'**
+  String pvTimeLeft(String duration);
+
+  /// No description provided for @pvTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get pvTo;
+
+  /// No description provided for @pvTopCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Top categories'**
+  String get pvTopCategories;
+
+  /// No description provided for @pvTracked.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracked'**
+  String get pvTracked;
+
+  /// No description provided for @pvTrackingCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Check'**
+  String get pvTrackingCheck;
+
+  /// No description provided for @pvTrackingEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Event'**
+  String get pvTrackingEvent;
+
+  /// No description provided for @pvTrackingModes.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking'**
+  String get pvTrackingModes;
+
+  /// No description provided for @pvTrackingTimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer'**
+  String get pvTrackingTimer;
+
+  /// No description provided for @pvUnpin.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpin'**
+  String get pvUnpin;
+
+  /// No description provided for @pvUnscheduleUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Moving tasks back to the backlog isn\'t available yet'**
+  String get pvUnscheduleUnsupported;
+
+  /// No description provided for @pvUnscheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Unscheduled'**
+  String get pvUnscheduled;
+
+  /// No description provided for @pvUntimed.
+  ///
+  /// In en, this message translates to:
+  /// **'Untimed'**
+  String get pvUntimed;
+
+  /// No description provided for @pvUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get pvUpcoming;
+
+  /// No description provided for @pvUrgencyRule.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{Urgent within 1 day} other{Urgent within {days} days}}'**
+  String pvUrgencyRule(int days);
+
+  /// No description provided for @pvVarianceLate.
+  ///
+  /// In en, this message translates to:
+  /// **'Started late'**
+  String get pvVarianceLate;
+
+  /// No description provided for @pvVarianceNotDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Not done'**
+  String get pvVarianceNotDone;
+
+  /// No description provided for @pvVarianceOnPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'On plan'**
+  String get pvVarianceOnPlan;
+
+  /// No description provided for @pvVarianceOverran.
+  ///
+  /// In en, this message translates to:
+  /// **'Overran'**
+  String get pvVarianceOverran;
+
+  /// No description provided for @pvVarianceUnplanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Unplanned'**
+  String get pvVarianceUnplanned;
+
+  /// No description provided for @pvViewAgenda.
+  ///
+  /// In en, this message translates to:
+  /// **'Agenda'**
+  String get pvViewAgenda;
+
+  /// No description provided for @pvViewBacklog.
+  ///
+  /// In en, this message translates to:
+  /// **'Backlog'**
+  String get pvViewBacklog;
+
+  /// No description provided for @pvViewCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Countdowns'**
+  String get pvViewCountdown;
+
+  /// No description provided for @pvViewDayList.
+  ///
+  /// In en, this message translates to:
+  /// **'Day list'**
+  String get pvViewDayList;
+
+  /// No description provided for @pvViewFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus'**
+  String get pvViewFocus;
+
+  /// No description provided for @pvViewFreeSlots.
+  ///
+  /// In en, this message translates to:
+  /// **'Free slots'**
+  String get pvViewFreeSlots;
+
+  /// No description provided for @pvViewHorizons.
+  ///
+  /// In en, this message translates to:
+  /// **'Horizons'**
+  String get pvViewHorizons;
+
+  /// No description provided for @pvViewKanban.
+  ///
+  /// In en, this message translates to:
+  /// **'Kanban'**
+  String get pvViewKanban;
+
+  /// No description provided for @pvViewLoadHeatmap.
+  ///
+  /// In en, this message translates to:
+  /// **'Load heatmap'**
+  String get pvViewLoadHeatmap;
+
+  /// No description provided for @pvViewMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Map'**
+  String get pvViewMap;
+
+  /// No description provided for @pvViewMatrix.
+  ///
+  /// In en, this message translates to:
+  /// **'Eisenhower matrix'**
+  String get pvViewMatrix;
+
+  /// No description provided for @pvViewMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get pvViewMonth;
+
+  /// No description provided for @pvViewMultiWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Multi-week'**
+  String get pvViewMultiWeek;
+
+  /// No description provided for @pvViewNDay.
+  ///
+  /// In en, this message translates to:
+  /// **'N days'**
+  String get pvViewNDay;
+
+  /// No description provided for @pvViewName.
+  ///
+  /// In en, this message translates to:
+  /// **'View name'**
+  String get pvViewName;
+
+  /// No description provided for @pvViewPlanVsActual.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan vs actual'**
+  String get pvViewPlanVsActual;
+
+  /// No description provided for @pvViewQuarter.
+  ///
+  /// In en, this message translates to:
+  /// **'Quarter'**
+  String get pvViewQuarter;
+
+  /// No description provided for @pvViewRadial.
+  ///
+  /// In en, this message translates to:
+  /// **'24-hour clock'**
+  String get pvViewRadial;
+
+  /// No description provided for @pvViewRibbon.
+  ///
+  /// In en, this message translates to:
+  /// **'Ribbon'**
+  String get pvViewRibbon;
+
+  /// No description provided for @pvViewRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Routine player'**
+  String get pvViewRoutine;
+
+  /// No description provided for @pvViewSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'View saved'**
+  String get pvViewSaved;
+
+  /// No description provided for @pvViewSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'View settings'**
+  String get pvViewSettings;
+
+  /// No description provided for @pvViewSwimlanes.
+  ///
+  /// In en, this message translates to:
+  /// **'Swimlanes'**
+  String get pvViewSwimlanes;
+
+  /// No description provided for @pvViewSwitcher.
+  ///
+  /// In en, this message translates to:
+  /// **'Change view'**
+  String get pvViewSwitcher;
+
+  /// No description provided for @pvViewTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Table'**
+  String get pvViewTable;
+
+  /// No description provided for @pvViewTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get pvViewTimeline;
+
+  /// No description provided for @pvViewWeekList.
+  ///
+  /// In en, this message translates to:
+  /// **'Week list'**
+  String get pvViewWeekList;
+
+  /// No description provided for @pvViewWeekTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Week table'**
+  String get pvViewWeekTable;
+
+  /// No description provided for @pvViewWorkWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Work week'**
+  String get pvViewWorkWeek;
+
+  /// No description provided for @pvViewYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get pvViewYear;
+
+  /// No description provided for @pvVisibleHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Visible hours'**
+  String get pvVisibleHours;
+
+  /// No description provided for @pvVisibleHoursAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All 24 hours'**
+  String get pvVisibleHoursAll;
+
+  /// No description provided for @pvWeekNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'W{week}'**
+  String pvWeekNumber(int week);
+
+  /// No description provided for @pvWeekNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Week numbers'**
+  String get pvWeekNumbers;
+
+  /// No description provided for @pvWeekRibbon.
+  ///
+  /// In en, this message translates to:
+  /// **'Week'**
+  String get pvWeekRibbon;
+
+  /// No description provided for @pvWeekSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Week summary'**
+  String get pvWeekSummary;
+
+  /// No description provided for @pvWeeksCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 week} other{{count} weeks}}'**
+  String pvWeeksCount(int count);
+
+  /// No description provided for @pvWithPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks with a place'**
+  String get pvWithPlace;
+
+  /// No description provided for @pvWorkHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Work hours'**
+  String get pvWorkHours;
+
+  /// No description provided for @pvZoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Asia/Tokyo'**
+  String get pvZoneHint;
+
+  /// No description provided for @pvZoomAroundNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom around now'**
+  String get pvZoomAroundNow;
+
+  /// No description provided for @pvZoomFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed slot'**
+  String get pvZoomFixed;
+
+  /// No description provided for @pvZoomMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom'**
+  String get pvZoomMode;
+
+  /// No description provided for @pvZoomSemantic.
+  ///
+  /// In en, this message translates to:
+  /// **'Semantic'**
+  String get pvZoomSemantic;
+
   /// No description provided for @relativeDaysAgo.
   ///
   /// In en, this message translates to:
