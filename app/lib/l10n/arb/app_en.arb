@@ -45,6 +45,69 @@
       }
     }
   },
+  "@recurAnchorMoved": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@recurEndsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@recurExceptionMoved": {
+    "placeholders": {
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@recurIssueQuota": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "@recurIssueTooFrequent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@recurMonthDayFromEnd": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "@recurRemoveTime": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@recurWarnPerDay": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@recurZoneNote": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
   "@relativeDaysAgo": {
     "placeholders": {
       "count": {
@@ -91,6 +154,227 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "@tasksAnchorMoved": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksBulkDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksBulkTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksChecklistProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksCompletionValue": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksDuplicateToConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksDuplicatedTo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksEvtOccurrence": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksEvtRescheduled": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksEvtSkippedReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksEvtUpdated": {
+    "placeholders": {
+      "fields": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksMovedFrom": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksNextLabel": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksOpenLinkBody": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksOrphansCompleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksOrphansMoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksOrphansOther": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksOrphansSkipped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksOverlapHint": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "range": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksOverlapMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksPlannedVsActual": {
+    "placeholders": {
+      "planned": {
+        "type": "String"
+      },
+      "actual": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksPlusDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksQuotaProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksRatingValue": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksRolledOver": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksRunningTimer": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "elapsed": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksShareRepeats": {
+    "placeholders": {
+      "rule": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksTracked": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksZoneBadge": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
       }
     }
   },
@@ -175,6 +459,115 @@
   "priorityMedium": "Medium",
   "priorityNone": "No priority",
   "priorityUrgent": "Urgent",
+  "recurAddDate": "Add",
+  "recurAddTime": "Add a time",
+  "recurAdvancedTitle": "Custom repeat",
+  "recurAfterHint": "The next one is due this long after you complete the previous one.",
+  "recurAnchorMoved": "First occurrence: {date}",
+  "recurCountCompletions": "Completions",
+  "recurCountMode": "Count",
+  "recurCountOccurrences": "Occurrences",
+  "recurCurrent": "Current rule",
+  "recurEnds": "Ends",
+  "recurEndsAfter": "After a number of times",
+  "recurEndsCount": "{count, plural, =1{1 time} other{{count} times}}",
+  "recurEndsNever": "Never",
+  "recurEndsOn": "On a date",
+  "recurExceptionCancelled": "Removed",
+  "recurExceptionEdited": "Edited",
+  "recurExceptionMoved": "Moved to {to}",
+  "recurExceptionOpen": "Open",
+  "recurExceptionRestore": "Restore",
+  "recurExceptionRestoreAll": "Restore all",
+  "recurExceptionsEmpty": "No skipped or moved occurrences",
+  "recurExceptionsRestored": "Restored",
+  "recurExceptionsTitle": "Skipped & moved occurrences",
+  "recurExdates": "Excluded occurrences",
+  "recurFloatingNote": "Times follow your current time zone",
+  "recurFrequency": "Frequency",
+  "recurHours": "Hours",
+  "recurInterval": "Every",
+  "recurIssueCount": "The number of times must be at least 1",
+  "recurIssueCountAndUntil": "Choose either an end date or a number of times",
+  "recurIssueDate": "Invalid date",
+  "recurIssueEmptyWeekdays": "Select at least one day",
+  "recurIssueInterval": "The interval must be at least 1",
+  "recurIssueMissing": "The rule is incomplete",
+  "recurIssueOrdinal": "“1st”, “last”… only work with monthly or yearly repeats",
+  "recurIssueQuota": "This quota can't be met with that gap ({max} max)",
+  "recurIssueTooFrequent": "Too frequent: {count} per day (1440 max)",
+  "recurIssueUnsupported": "These options can't be combined",
+  "recurIssueUntilBeforeStart": "The end date is before the start",
+  "recurIssueValue": "A value is out of range",
+  "recurIssueWindow": "The window must end after it starts",
+  "recurLess": "Fewer options",
+  "recurMinutes": "Minutes",
+  "recurMonthDayFromEnd": "Day {day} from the end",
+  "recurMonthDays": "Days of the month",
+  "recurMonthDaysFromEnd": "Counting from the end",
+  "recurMonths": "Months",
+  "recurMore": "More options",
+  "recurOrdinal1": "1st",
+  "recurOrdinal2": "2nd",
+  "recurOrdinal3": "3rd",
+  "recurOrdinal4": "4th",
+  "recurOrdinal5": "5th",
+  "recurOrdinalEvery": "Every",
+  "recurOrdinalLast": "Last",
+  "recurOrdinalSecondLast": "2nd to last",
+  "recurOverflow": "When a month is too short",
+  "recurOverflowClamp": "Use its last day",
+  "recurOverflowSkip": "Skip that month",
+  "recurPerDay": "Day",
+  "recurPerMonth": "Month",
+  "recurPerWeek": "Week",
+  "recurPerYear": "Year",
+  "recurPickerTitle": "Repeat",
+  "recurPresetAfterCompletion": "After completion…",
+  "recurPresetCustom": "Custom…",
+  "recurPresetEveryNDays": "Every few days…",
+  "recurPresetIntraday": "Every few hours or minutes…",
+  "recurPresetNone": "Does not repeat",
+  "recurPresetQuota": "Several times per week or month…",
+  "recurPresetSpecificDays": "Specific days…",
+  "recurPresetTimesPerDay": "Several times a day…",
+  "recurPreview": "Next occurrences",
+  "recurPreviewCalendar": "Next 60 days",
+  "recurPreviewEmpty": "No upcoming occurrence",
+  "recurQuotaMinGap": "Minimum days between",
+  "recurQuotaOnDays": "Only on these days",
+  "recurQuotaPer": "Per",
+  "recurQuotaTimes": "How many times",
+  "recurRdates": "Extra occurrences",
+  "recurRemoveTime": "Remove {time}",
+  "recurSetPos": "Keep only positions",
+  "recurSetPosHint": "1 = first, −1 = last matching date of each period",
+  "recurSummary": "Summary",
+  "recurTimes": "Times of day",
+  "recurType": "Type",
+  "recurTypeAfter": "After completion",
+  "recurTypeFixed": "Schedule",
+  "recurTypeQuota": "Quota",
+  "recurUnitDay": "Days",
+  "recurUnitHour": "Hours",
+  "recurUnitMinute": "Minutes",
+  "recurUnitMonth": "Months",
+  "recurUnitWeek": "Weeks",
+  "recurUnitYear": "Years",
+  "recurWarnAllDaySubDaily": "All-day items can't repeat within a day",
+  "recurWarnDst": "Some times fall in a daylight-saving change and are shifted",
+  "recurWarnNever": "Never occurs in the next 5 years",
+  "recurWarnPerDay": "{count, plural, =1{1 occurrence per day} other{{count} occurrences per day}}",
+  "recurWeekStart": "Week starts on",
+  "recurWeekdayOrdinal": "Which one in the period",
+  "recurWeekdays": "Days of the week",
+  "recurWindow": "Daily window",
+  "recurWindowAnchorSeries": "Continue the chain from the first occurrence",
+  "recurWindowAnchorWindow": "Restart each day at the window start",
+  "recurWindowEnd": "Until",
+  "recurWindowNone": "Whole day",
+  "recurWindowStart": "From",
+  "recurZoneNote": "Times in {zone}",
   "relativeDaysAgo": "{count, plural, =1{yesterday} other{{count} days ago}}",
   "relativeHoursAgo": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
   "relativeInDays": "{count, plural, =1{tomorrow} other{in {count} days}}",
@@ -198,5 +591,263 @@
   "tabInsights": "Insights",
   "tabLists": "Lists",
   "tabPlan": "Plan",
-  "tabToday": "Today"
+  "tabToday": "Today",
+  "tasksActionDuplicateSeries": "Duplicate as new series",
+  "tasksActionDuplicateTo": "Duplicate to…",
+  "tasksActionExceptions": "Skipped & moved occurrences",
+  "tasksActionMoveToToday": "Move to today",
+  "tasksActionOpenSeries": "Open series",
+  "tasksActionPause": "Pause series",
+  "tasksActionPauseTimer": "Pause",
+  "tasksActionReopen": "Reopen",
+  "tasksActionReschedule": "Reschedule…",
+  "tasksActionRestoreSeries": "Restore to series",
+  "tasksActionResume": "Resume series",
+  "tasksActionResumeTimer": "Resume",
+  "tasksActionSeriesHistory": "Series history",
+  "tasksActionShare": "Share as text",
+  "tasksActionStart": "Start",
+  "tasksActionStop": "Stop",
+  "tasksActionUnschedule": "Move to backlog",
+  "tasksActualAsPlanned": "As planned",
+  "tasksActualCustom": "Custom…",
+  "tasksActualEndBeforeStart": "The end must be after the start",
+  "tasksActualJustNow": "Just now",
+  "tasksActualNotSet": "Not recorded",
+  "tasksActualTime": "Actual time",
+  "tasksActualTitle": "When did you do it?",
+  "tasksAddEntry": "Add session",
+  "tasksAnchorMoved": "Start moved to {date} to match the repeat rule",
+  "tasksAttachments": "Attachments",
+  "tasksAttachmentsPlaceholder": "Photos and files will be available here soon",
+  "tasksBacklogLabel": "Unscheduled",
+  "tasksBulkDelete": "Delete",
+  "tasksBulkDone": "{count, plural, =1{1 item updated} other{{count} items updated}}",
+  "tasksBulkDuplicate": "Duplicate",
+  "tasksBulkEarlier15": "15 min earlier",
+  "tasksBulkEarlierDay": "1 day earlier",
+  "tasksBulkLater15": "15 min later",
+  "tasksBulkLater1h": "1 hour later",
+  "tasksBulkLaterDay": "1 day later",
+  "tasksBulkLaterWeek": "1 week later",
+  "tasksBulkMove": "Move",
+  "tasksBulkSetCategory": "Set category",
+  "tasksBulkSetPriority": "Set priority",
+  "tasksBulkSetTracking": "Set tracking mode",
+  "tasksBulkTarget": "For recurring items",
+  "tasksBulkTargetOccurrence": "Only these occurrences",
+  "tasksBulkTargetSeries": "Whole series",
+  "tasksBulkTitle": "{count, plural, =1{1 item selected} other{{count} items selected}}",
+  "tasksChecklistEmpty": "No checklists yet",
+  "tasksChecklistNone": "None",
+  "tasksChecklistOpen": "Open checklist",
+  "tasksChecklistPick": "Link a checklist",
+  "tasksChecklistProgress": "{done}/{total} done",
+  "tasksChecklistUnlink": "Unlink",
+  "tasksColorCategoryDefault": "Category color",
+  "tasksCompletion": "Progress",
+  "tasksCompletionValue": "{percent}%",
+  "tasksCreated": "Task created",
+  "tasksCustomDuration": "Custom…",
+  "tasksDeadlineNone": "No deadline",
+  "tasksDeadlineWarning": "Planned after the deadline",
+  "tasksDeleteConfirmBody": "It stays in Trash for 30 days.",
+  "tasksDeleteConfirmTitle": "Delete this task?",
+  "tasksDeleted": "Task deleted",
+  "tasksDetailNotFound": "This task no longer exists",
+  "tasksDetailTitle": "Task",
+  "tasksDiscard": "Discard",
+  "tasksDuplicateToConfirm": "{count, plural, =0{Pick dates} =1{Duplicate to 1 date} other{Duplicate to {count} dates}}",
+  "tasksDuplicateToTitle": "Duplicate to…",
+  "tasksDuplicated": "Task duplicated",
+  "tasksDuplicatedTo": "{count, plural, =1{Copied to 1 date} other{Copied to {count} dates}}",
+  "tasksDurationMode": "Duration",
+  "tasksEditorEditOccurrenceTitle": "Edit occurrence",
+  "tasksEditorEditTitle": "Edit task",
+  "tasksEditorNewTitle": "New task",
+  "tasksEndMode": "End time",
+  "tasksEntryDelete": "Delete session",
+  "tasksEntryEdit": "Edit session",
+  "tasksEntryFuture": "A session can't start in the future",
+  "tasksEntryNegative": "The end must be after the start",
+  "tasksEntryOverlap": "Overlaps another session",
+  "tasksEntryRunning": "Running",
+  "tasksErrAllDay": "All-day tasks span whole days",
+  "tasksErrDuration": "Duration must be between 0 minutes and 365 days",
+  "tasksErrEstimate": "The estimate is out of range",
+  "tasksErrPriority": "Invalid priority",
+  "tasksErrRecurrenceInvalid": "The repeat rule is invalid",
+  "tasksErrRecurrenceNoDate": "Repeating tasks need a date",
+  "tasksErrTitleEmpty": "Enter a title",
+  "tasksErrTitleTooLong": "The title is too long (300 characters max)",
+  "tasksErrZone": "Unknown time zone",
+  "tasksEvtCompleted": "Completed",
+  "tasksEvtCreated": "Created",
+  "tasksEvtDeleted": "Deleted",
+  "tasksEvtDeletedOccurrence": "Occurrence removed",
+  "tasksEvtOccurrence": "Occurrence of {date}",
+  "tasksEvtPaused": "Series paused",
+  "tasksEvtReopened": "Reopened",
+  "tasksEvtRescheduled": "Rescheduled from {from} to {to}",
+  "tasksEvtRestored": "Restored",
+  "tasksEvtResumed": "Series resumed",
+  "tasksEvtScheduled": "Scheduled",
+  "tasksEvtSkipped": "Skipped",
+  "tasksEvtSkippedReason": "Skipped: {reason}",
+  "tasksEvtSplit": "Series split",
+  "tasksEvtStarted": "Started",
+  "tasksEvtStatusChanged": "Status changed",
+  "tasksEvtStopped": "Stopped",
+  "tasksEvtTimeEntry": "Session added",
+  "tasksEvtUnscheduled": "Moved to the backlog",
+  "tasksEvtUpdated": "Edited: {fields}",
+  "tasksFieldAllDay": "All day",
+  "tasksFieldCategory": "Category",
+  "tasksFieldChecklist": "Linked checklist",
+  "tasksFieldColor": "Color",
+  "tasksFieldDate": "Date",
+  "tasksFieldDeadline": "Deadline",
+  "tasksFieldDuration": "Duration",
+  "tasksFieldEnd": "End",
+  "tasksFieldEndDate": "End date",
+  "tasksFieldEstimate": "Estimate",
+  "tasksFieldIcon": "Icon",
+  "tasksFieldLocation": "Location",
+  "tasksFieldNoDate": "No date (backlog)",
+  "tasksFieldNotes": "Notes",
+  "tasksFieldPriority": "Priority",
+  "tasksFieldRepeat": "Repeat",
+  "tasksFieldStart": "Start",
+  "tasksFieldStartDate": "Start date",
+  "tasksFieldTimeZone": "Time zone",
+  "tasksFieldTitle": "Title",
+  "tasksFieldTitleHint": "What do you want to do?",
+  "tasksFieldTracking": "Tracking",
+  "tasksFieldUrl": "Link",
+  "tasksFilterAll": "All",
+  "tasksFilterDone": "Done",
+  "tasksFilterMissed": "Missed",
+  "tasksFilterMoved": "Moved",
+  "tasksFilterSkipped": "Skipped",
+  "tasksFromTemplate": "From template…",
+  "tasksHistory": "History",
+  "tasksHistoryEmpty": "No history yet",
+  "tasksHistoryLoadMore": "Load more",
+  "tasksIconDefault": "Category icon",
+  "tasksMarkedDone": "Marked as done",
+  "tasksMarkedSkipped": "Skipped",
+  "tasksMdBold": "Bold",
+  "tasksMdBullet": "Bulleted list",
+  "tasksMdCheckbox": "Checkbox",
+  "tasksMdCode": "Code",
+  "tasksMdHeading": "Heading",
+  "tasksMdItalic": "Italic",
+  "tasksMdNumbered": "Numbered list",
+  "tasksMoved": "Moved",
+  "tasksMovedFrom": "Moved from {time}",
+  "tasksNextDay": "+1 day",
+  "tasksNextLabel": "Next: {when}",
+  "tasksNextMonth": "Next month",
+  "tasksNextOccurrences": "Next occurrences",
+  "tasksNoUpcoming": "Nothing upcoming",
+  "tasksNotesEdit": "Edit",
+  "tasksNotesHint": "Add notes (bold, lists, checkboxes…)",
+  "tasksNotesPreview": "Preview",
+  "tasksOccurrenceDeleted": "Occurrence removed",
+  "tasksOpenLinkBody": "{url} will open outside Everslot.",
+  "tasksOpenLinkTitle": "Open link?",
+  "tasksOrphansBody": "Occurrences with history are always kept as one-off tasks.",
+  "tasksOrphansCompleted": "{count, plural, =1{1 completed occurrence} other{{count} completed occurrences}}",
+  "tasksOrphansDiscard": "Discard moved ones",
+  "tasksOrphansKeep": "Keep as one-off tasks",
+  "tasksOrphansMoved": "{count, plural, =1{1 moved occurrence} other{{count} moved occurrences}}",
+  "tasksOrphansOther": "{count, plural, =1{1 occurrence with notes or tracked time} other{{count} occurrences with notes or tracked time}}",
+  "tasksOrphansSkipped": "{count, plural, =1{1 skipped occurrence} other{{count} skipped occurrences}}",
+  "tasksOrphansTitle": "Some occurrences no longer match",
+  "tasksOutcomeNote": "Outcome note",
+  "tasksOutcomeNoteHint": "How did it go?",
+  "tasksOverdue": "Overdue",
+  "tasksOverlapHint": "Overlaps with {title} {range}",
+  "tasksOverlapMore": "{count, plural, =1{and 1 more} other{and {count} more}}",
+  "tasksPauseSnack": "Series paused",
+  "tasksPausedBadge": "Paused",
+  "tasksPlannedVsActual": "Planned {planned} · actual {actual}",
+  "tasksPlusDays": "{count, plural, =1{+1 day} other{+{count} days}}",
+  "tasksPostpone15": "+15 min",
+  "tasksPostpone1h": "+1 hour",
+  "tasksPostponeEvening": "This evening",
+  "tasksPostponeNextWeek": "Next week, same time",
+  "tasksPostponePick": "Pick a date and time…",
+  "tasksPostponeTitle": "Reschedule",
+  "tasksPostponeTomorrow": "Tomorrow, same time",
+  "tasksPrevMonth": "Previous month",
+  "tasksQuickAdd": "Add",
+  "tasksQuickAddNew": "Add & new",
+  "tasksQuickMore": "More options",
+  "tasksQuickTitleHint": "New task",
+  "tasksQuotaDone": "Done for this period",
+  "tasksQuotaProgress": "{done}/{total} this period",
+  "tasksRating": "Rating",
+  "tasksRatingValue": "{value} of 5",
+  "tasksReminders": "Reminders",
+  "tasksRemindersDefault": "Default",
+  "tasksReopened": "Reopened",
+  "tasksRepeatNone": "Does not repeat",
+  "tasksRestored": "Task restored",
+  "tasksResumeSnack": "Series resumed",
+  "tasksRolledOver": "{count, plural, =1{1 unfinished task moved to today} other{{count} unfinished tasks moved to today}}",
+  "tasksRunningTimer": "Timer running: {title}, {elapsed}",
+  "tasksSaveAsTemplate": "Save as template",
+  "tasksSaved": "Task saved",
+  "tasksScopeAll": "All occurrences",
+  "tasksScopeDeleteTitle": "Delete recurring task",
+  "tasksScopeFollowing": "This and following",
+  "tasksScopePastKept": "Past occurrences keep their original times.",
+  "tasksScopeRewritePast": "Also rewrite past occurrences",
+  "tasksScopeThis": "This occurrence",
+  "tasksScopeThisDisabled": "Only the time, duration, title and notes can change for a single occurrence.",
+  "tasksScopeTitle": "Apply changes to",
+  "tasksSeriesEmpty": "No occurrences in this period",
+  "tasksSeriesHistoryTitle": "Series history",
+  "tasksSeriesStats": "Series statistics",
+  "tasksShareRepeats": "Repeats: {rule}",
+  "tasksSkipCustomHint": "Another reason (optional)",
+  "tasksSkipForgot": "Forgot",
+  "tasksSkipNotNeeded": "Not needed",
+  "tasksSkipOther": "Other",
+  "tasksSkipSick": "Sick",
+  "tasksSkipTitle": "Why skip it?",
+  "tasksSkipTooBusy": "Too busy",
+  "tasksStatusCancelled": "Cancelled",
+  "tasksStatusDone": "Done",
+  "tasksStatusInProgress": "In progress",
+  "tasksStatusMissed": "Missed",
+  "tasksStatusScheduled": "Scheduled",
+  "tasksStatusSkipped": "Skipped",
+  "tasksTemplateDelete": "Delete template",
+  "tasksTemplateSaved": "Template saved",
+  "tasksTemplatesEmpty": "No templates yet. Save a task as a template from its menu.",
+  "tasksTemplatesTitle": "Templates",
+  "tasksTimeEntries": "Sessions",
+  "tasksTimeTracking": "Time tracking",
+  "tasksTooManyOccurrences": "Too many occurrences to display — zoom in",
+  "tasksTracked": "Tracked: {duration}",
+  "tasksTrackingCheck": "Check",
+  "tasksTrackingCheckHint": "Mark it done or skip it; it can be missed.",
+  "tasksTrackingEvent": "Event",
+  "tasksTrackingEventHint": "A time block (meeting, meal): no checkbox, never missed.",
+  "tasksTrackingTimer": "Timer",
+  "tasksTrackingTimerHint": "Track the time you spend; done when you stop the timer.",
+  "tasksUnsavedBody": "Your changes will be lost.",
+  "tasksUnsavedTitle": "Discard changes?",
+  "tasksUntitled": "Untitled task",
+  "tasksUpdated": "Updated",
+  "tasksUrlInvalid": "Enter a valid web address",
+  "tasksZoneBadge": "{zone} time",
+  "tasksZoneFixed": "Fixed",
+  "tasksZoneFixedHint": "Anchored to one time zone",
+  "tasksZoneFloating": "Floating",
+  "tasksZoneFloatingHint": "Same clock time wherever you are",
+  "tasksZonePickTitle": "Choose a time zone",
+  "tasksZoneSearch": "Search time zones"
 }
