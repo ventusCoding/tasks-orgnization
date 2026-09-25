@@ -416,7 +416,15 @@ final class ResolvedPeriod {
         return range.shiftDays(-range.days);
     }
     if (mode == CompareMode.toDate && inProgress) {
-      final end = full.start.plusDays(elapsedDays - 1);
+      // Days and weeks compare the same number of elapsed days (Mon–Wed vs Mon–Wed); months,
+      // quarters and years compare up to the same calendar date (clamped to the period's end,
+      // e.g. YTD to Feb 29 vs YTD to Feb 28).
+      final end = switch (unit) {
+        PeriodUnit.month => today.plusMonths(-1),
+        PeriodUnit.quarter => today.plusMonths(-3),
+        PeriodUnit.year => today.plusYears(-1),
+        _ => full.start.plusDays(elapsedDays - 1),
+      };
       return DateRange(full.start, LocalDate.min(end, full.end));
     }
     return full;

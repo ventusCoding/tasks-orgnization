@@ -202,14 +202,25 @@ final class const TrendResult(
   final ConfidenceInterval? interval,
 });
 
+/// OLS residuals of (xs, ys); the values themselves when OLS is not defined.
+List<double> _residuals(List<num> xs, List<double> ys) {
+  final fit = ols(xs, ys).valueOrNull;
+  if (fit == null) return ys;
+  return [
+    for (var i = 0; i < ys.length; i++)
+      ys[i] - (fit.intercept + fit.slope * xs[i]),
+  ];
+}
+
 /// Minimum buckets to compute a trend, and to label it significant (T6.1.14).
 const int trendMinBuckets = 6;
 const int trendSignificanceMinBuckets = 8;
 
 /// Trend of a bucketed series [ys] (`null` buckets are skipped; x = bucket index).
 ///
-/// - Theil–Sen is used when more than 5 % of the values lie beyond 1.5·IQR (outliers), else OLS
-///   (override with [method]).
+/// - Theil–Sen is used when more than 5 % of the points lie beyond 1.5·IQR (outliers), else OLS
+///   (override with [method]). Outliers are measured on the OLS residuals, so a steadily trending
+///   series is not mistaken for one with outliers.
 /// - "rising"/"falling" needs n ≥ 8 buckets and p < [alphaLevel] (OLS) or a bootstrap 95 % CI that
 ///   excludes 0 (Theil–Sen); otherwise "stable".
 /// - The slope is reported per week: slope × 7 / [bucketDays].
@@ -235,7 +246,9 @@ Stat<TrendResult> trend(
   }
   final chosen =
       method ??
-      (outlierShare(vs) > 0.05 ? TrendMethod.theilSen : TrendMethod.ols);
+      (outlierShare(_residuals(xs, vs)) > 0.05
+          ? TrendMethod.theilSen
+          : TrendMethod.ols);
   final canLabel = vs.length >= trendSignificanceMinBuckets;
   final perWeek = 7 / bucketDays;
   if (chosen == TrendMethod.ols) {
