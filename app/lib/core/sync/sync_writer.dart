@@ -91,6 +91,7 @@ class SyncWriter {
     await db.transaction(() async {
       tx = WriteTx._(this, id, cause, scheduledAt);
       await body(tx);
+      await _coalesceSingleRowGroup(id);
       await db.customStatement(
         'INSERT INTO local_kv(key, value) VALUES (?, ?) '
         'ON CONFLICT(key) DO UPDATE SET value = excluded.value',
@@ -103,6 +104,64 @@ class SyncWriter {
       _committed.add(record);
     }
     return record;
+  }
+
+  /// Cross-operation coalescing (T1.4.04 — "100 rapid edits of one row produce one pending
+  /// patch"): when operation [opId] produced exactly one outbox entry and an older **pending**
+  /// entry of the same row is also alone in its group, the new patch is merged into it (latest
+  /// value and max clock per field, `entry_version + 1`). Entries of multi-row groups, in-flight
+  /// or failed entries are never merged, so operation groups stay atomic.
+  Future<void> _coalesceSingleRowGroup(String opId) async {
+    final mine = await db
+        .customSelect(
+          'SELECT change_id, table_name, row_id, op, fields, clock FROM sync_outbox WHERE op_id = ?',
+          variables: [Variable<String>(opId)],
+        )
+        .get();
+    if (mine.length != 1) return;
+    final m = mine.single.data;
+    final target = await db
+        .customSelect(
+          'SELECT o.change_id, o.op, o.fields, o.clock FROM sync_outbox o '
+          "WHERE o.table_name = ? AND o.row_id = ? AND o.state = 'pending' AND o.op_id != ? "
+          'AND (SELECT COUNT(*) FROM sync_outbox g WHERE g.op_id = o.op_id) = 1 '
+          'ORDER BY o.seq DESC LIMIT 1',
+          variables: [
+            Variable<String>(m['table_name'] as String),
+            Variable<String>(m['row_id'] as String),
+            Variable<String>(opId),
+          ],
+        )
+        .getSingleOrNull();
+    if (target == null) return;
+    final t = target.data;
+    final fields = {...WriteTx._decodeMap(t['fields']), ...WriteTx._decodeMap(m['fields'])};
+    final clock = WriteTx._decodeMap(t['clock']);
+    for (final e in WriteTx._decodeMap(m['clock']).entries) {
+      final previous = clock[e.key];
+      if (previous is! String || (e.value is String && (e.value! as String).compareTo(previous) > 0)) {
+        clock[e.key] = e.value;
+      }
+    }
+    final op = m['op'] == 'insert' ? 'insert' : t['op'];
+    await db.customUpdate(
+      'UPDATE sync_outbox SET op = ?, fields = ?, clock = ?, entry_version = entry_version + 1 '
+      'WHERE change_id = ?',
+      variables: [
+        Variable<String>(op as String),
+        Variable<String>(jsonEncode(fields)),
+        Variable<String>(jsonEncode(clock)),
+        Variable<String>(t['change_id'] as String),
+      ],
+      updates: {db.syncOutbox},
+      updateKind: UpdateKind.update,
+    );
+    await db.customUpdate(
+      'DELETE FROM sync_outbox WHERE change_id = ?',
+      variables: [Variable<String>(m['change_id'] as String)],
+      updates: {db.syncOutbox},
+      updateKind: UpdateKind.delete,
+    );
   }
 
   /// Reverts an operation (undo) as a new operation.

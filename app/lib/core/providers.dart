@@ -4,8 +4,10 @@ import 'package:everslot/core/database/app_database.dart';
 import 'package:everslot/core/env/env.dart';
 import 'package:everslot/core/lifecycle/app_lifecycle.dart';
 import 'package:everslot/core/preferences/user_preferences.dart';
+import 'package:everslot/core/session/local_data_owner.dart';
 import 'package:everslot/core/session/session.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
+import 'package:everslot/core/sync/device_registrar.dart';
 import 'package:everslot/core/sync/hlc.dart';
 import 'package:everslot/core/sync/sync_api.dart';
 import 'package:everslot/core/sync/sync_service.dart';
@@ -127,30 +129,72 @@ final syncWriterProvider = Provider<SyncWriter>((ref) {
   return writer;
 });
 
+/// Server API of the sync engine (null when Supabase isn't configured). Tests override it with a
+/// fake to exercise the engine without a backend.
+final syncApiProvider = Provider<SyncApi?>((ref) {
+  final client = ref.watch(supabaseClientProvider);
+  return client == null ? null : SupabaseSyncApi(client);
+});
+
+/// Device registry client (T1.4.05), or null in local-only mode / when signed out.
+final deviceRegistrarProvider = Provider<DeviceRegistrar?>((ref) {
+  final api = ref.watch(syncApiProvider);
+  final session = ref.watch(sessionProvider);
+  if (api == null || session == null || session.isLocalOnly) return null;
+  return DeviceRegistrar(
+    api: api,
+    db: ref.watch(appDatabaseProvider),
+    clock: ref.watch(clockProvider),
+    userId: () => ref.read(currentUserIdProvider),
+    loadInfo: platformDeviceInfoLoader(
+      deviceId: ref.watch(deviceIdProvider),
+      timeZone: () => ref.read(deviceZoneProvider),
+      locale: () =>
+          ref.read(profileRowProvider).value?.locale ??
+          PlatformDispatcher.instance.locale.toLanguageTag(),
+      build: ref.watch(appBuildProvider),
+    ),
+  );
+});
+
 /// Sync engine, or null in local-only mode / when signed out.
 final syncServiceProvider = Provider<SyncService?>((ref) {
-  final client = ref.watch(supabaseClientProvider);
+  final api = ref.watch(syncApiProvider);
   final session = ref.watch(sessionProvider);
-  if (client == null || session == null || session.isLocalOnly) return null;
+  if (api == null || session == null || session.isLocalOnly) return null;
+  final db = ref.watch(appDatabaseProvider);
   final service = SyncService(
-    db: ref.watch(appDatabaseProvider),
+    db: db,
     registry: ref.watch(tableRegistryProvider),
-    api: SupabaseSyncApi(client),
+    api: api,
     hlc: ref.watch(hlcProvider),
     clock: ref.watch(clockProvider),
     userId: () => ref.read(currentUserIdProvider),
     deviceId: ref.watch(deviceIdProvider),
     appBuild: ref.watch(appBuildProvider),
+    // Account-switch safety (T1.5.08): never push/pull before the local data is bound to this user.
+    guard: () => LocalDataOwner.matches(db, session.userId),
   )..start();
+  final registrar = ref.watch(deviceRegistrarProvider);
+  Future<void> register() async {
+    final revoked = await registrar?.maybeRegister();
+    if (revoked ?? false) service.markRevoked();
+  }
+
+  unawaited(register());
   final lifecycle = ref.watch(lifecycleProvider);
-  final sub = lifecycle.onResume.listen((_) => service.schedulePull(Duration.zero));
+  final sub = lifecycle.onResume.listen((_) {
+    service.schedulePull(Duration.zero);
+    unawaited(register());
+  });
+  final client = ref.watch(supabaseClientProvider);
   final channel = client
-      .channel('user:${session.userId}', opts: const RealtimeChannelConfig(private: true))
+      ?.channel('user:${session.userId}', opts: const RealtimeChannelConfig(private: true))
       .onBroadcast(event: 'sync', callback: (_) => service.schedulePull())
       .subscribe();
   ref.onDispose(() {
     unawaited(sub.cancel());
-    unawaited(client.removeChannel(channel));
+    if (channel != null) unawaited(client!.removeChannel(channel));
     service.dispose();
   });
   return service;
