@@ -128,5 +128,39 @@
   },
   "galleryWindowCompact": "compact",
   "galleryWindowMedium": "medium",
-  "galleryWindowExpanded": "expanded"
+  "galleryWindowExpanded": "expanded",
+  "categoryErrorInvalid": "Use 1 to 60 characters.",
+  "categoryErrorDuplicate": "A category with this name already exists.",
+  "categoryUsage": "{count, plural, =0{Not used} =1{1 item} other{{count} items}}",
+  "@categoryUsage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "categoryDeleteUsedBody": "{count, plural, =1{1 item uses “{name}”.} other{{count} items use “{name}”.}} What should happen to them?",
+  "@categoryDeleteUsedBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryReassignAction": "Move them to another category",
+  "categoryClearAction": "Remove the category from them",
+  "categoryReassignTitle": "Move items to",
+  "categorySearch": "Search or create a category",
+  "categoryCreateNamed": "Create category “{name}”",
+  "@categoryCreateNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryReorderHint": "Drag to reorder"
 }

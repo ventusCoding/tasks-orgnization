@@ -5,7 +5,21 @@ import 'package:everslot/features/organization/domain/category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
-/// Category management (T2.3.01): create, rename, recolor, icon, reorder, archive, delete.
+/// Localized message of a category validation error.
+String categoryErrorText(BuildContext context, Object error) {
+  final l = context.l10n;
+  if (error is ValidationException) {
+    return switch (error.message) {
+      CategoryNames.errorDuplicate => l.categoryErrorDuplicate,
+      CategoryNames.errorInvalid => l.categoryErrorInvalid,
+      _ => ErrorState.messageFor(context, error),
+    };
+  }
+  return ErrorState.messageFor(context, error);
+}
+
+/// Category management (T2.3.01): create, rename, recolor, icon, reorder, archive, delete with a
+/// reassignment prompt.
 class CategoriesScreen extends ConsumerWidget {
   const CategoriesScreen({super.key});
 
@@ -13,6 +27,7 @@ class CategoriesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     final categories = ref.watch(allCategoriesProvider);
+    final usage = ref.watch(categoryUsageCountsProvider).value ?? const {};
     return Scaffold(
       appBar: AppBar(title: Text(l.categoriesTitle)),
       floatingActionButton: FloatingActionButton.extended(
@@ -45,27 +60,30 @@ class CategoriesScreen extends ConsumerWidget {
             },
             itemBuilder: (context, i) {
               final c = items[i];
+              final count = usage[c.id] ?? 0;
+              final brightness = Theme.of(context).brightness;
               return ListTile(
                 key: ValueKey(c.id),
                 leading: CircleAvatar(
                   backgroundColor: CategoryColors.background(
                     c.color,
-                    Theme.of(context).brightness,
+                    brightness,
                   ),
                   child: Icon(
                     IconCatalog.iconFor(c.icon),
-                    color: CategoryColors.accent(
-                      c.color,
-                      Theme.of(context).brightness,
-                    ),
+                    color: CategoryColors.accent(c.color, brightness),
                   ),
                 ),
                 title: Text(c.name),
-                subtitle: c.archived ? Text(l.categoryArchived) : null,
+                subtitle: Text(
+                  c.archived
+                      ? '${l.categoryArchived} · ${l.categoryUsage(count)}'
+                      : l.categoryUsage(count),
+                ),
                 onTap: () => showCategoryEditor(context, ref, existing: c),
                 trailing: PopupMenuButton<String>(
-                  onSelected: (action) =>
-                      _onAction(context, ref, c, action, items),
+                  tooltip: l.actionMore,
+                  onSelected: (action) => _onAction(context, ref, c, action),
                   itemBuilder: (_) => [
                     PopupMenuItem(value: 'edit', child: Text(l.actionEdit)),
                     PopupMenuItem(
@@ -90,7 +108,6 @@ class CategoriesScreen extends ConsumerWidget {
     WidgetRef ref,
     Category c,
     String action,
-    List<Category> all,
   ) async {
     final repo = ref.read(categoriesRepositoryProvider);
     final l = context.l10n;
@@ -99,54 +116,113 @@ class CategoriesScreen extends ConsumerWidget {
         await showCategoryEditor(context, ref, existing: c);
       case 'archive':
         final record = await repo.setArchived(c.id, archived: !c.archived);
-        if (context.mounted)
-          showUndoSnackBar(context, ref, message: l.savedSnack, record: record);
-      case 'delete':
-        final ok = await confirmDialog(
-          context,
-          title: l.confirmDeleteTitle(c.name),
-          body: l.categoryDeleteBody,
-          destructive: true,
-          confirmLabel: l.actionDelete,
-        );
-        if (!ok) return;
-        final record = await repo.delete(c.id);
         if (context.mounted) {
-          showUndoSnackBar(
-            context,
-            ref,
-            message: l.deletedSnack(c.name),
-            record: record,
-          );
+          showUndoSnackBar(context, ref, message: l.savedSnack, record: record);
         }
+      case 'delete':
+        await deleteCategoryFlow(context, ref, c);
     }
   }
 }
 
-/// Create/edit sheet for a category. Returns the new/edited category id (null on cancel).
+enum _DeleteChoice { reassign, clear }
+
+/// Deletes [category] after asking what happens to the items using it: move them to another
+/// category or remove the category from them (one undoable operation).
+Future<void> deleteCategoryFlow(
+  BuildContext context,
+  WidgetRef ref,
+  Category category,
+) async {
+  final l = context.l10n;
+  final repo = ref.read(categoriesRepositoryProvider);
+  final count = await repo.usageCount(category.id);
+  if (!context.mounted) return;
+  String? reassignTo;
+  if (count == 0) {
+    final ok = await confirmDialog(
+      context,
+      title: l.confirmDeleteTitle(category.name),
+      body: l.confirmDeleteBody,
+      destructive: true,
+      confirmLabel: l.actionDelete,
+    );
+    if (!ok) return;
+  } else {
+    final choice = await showDialog<_DeleteChoice>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(ctx.l10n.confirmDeleteTitle(category.name)),
+        content: Text(ctx.l10n.categoryDeleteUsedBody(count, category.name)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(ctx.l10n.actionCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, _DeleteChoice.clear),
+            child: Text(ctx.l10n.categoryClearAction),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, _DeleteChoice.reassign),
+            child: Text(ctx.l10n.categoryReassignAction),
+          ),
+        ],
+      ),
+    );
+    if (choice == null || !context.mounted) return;
+    if (choice == _DeleteChoice.reassign) {
+      final target = await pickCategory(
+        context,
+        ref,
+        title: l.categoryReassignTitle,
+        exclude: {category.id},
+        allowNone: false,
+      );
+      if (target == null || target.isEmpty || !context.mounted) return;
+      reassignTo = target;
+    }
+  }
+  final record = await repo.delete(category.id, reassignTo: reassignTo);
+  if (context.mounted) {
+    showUndoSnackBar(
+      context,
+      ref,
+      message: l.deletedSnack(category.name),
+      record: record,
+    );
+  }
+}
+
+/// Create/edit sheet for a category.
 Future<void> showCategoryEditor(
   BuildContext context,
   WidgetRef ref, {
   Category? existing,
+  String? initialName,
 }) => showAppSheet<void>(
   context,
   title: existing == null
       ? context.l10n.categoryNew
       : context.l10n.categoryEdit,
-  builder: (ctx) => _CategoryEditor(existing: existing),
+  builder: (ctx) =>
+      _CategoryEditor(existing: existing, initialName: initialName),
 );
 
 class _CategoryEditor extends ConsumerStatefulWidget {
-  const _CategoryEditor({this.existing});
+  const _CategoryEditor({this.existing, this.initialName});
 
   final Category? existing;
+  final String? initialName;
 
   @override
   ConsumerState<_CategoryEditor> createState() => _CategoryEditorState();
 }
 
 class _CategoryEditorState extends ConsumerState<_CategoryEditor> {
-  late final _name = TextEditingController(text: widget.existing?.name);
+  late final _name = TextEditingController(
+    text: widget.existing?.name ?? widget.initialName,
+  );
   late int _color = widget.existing?.color ?? CategoryPalette.colors.first;
   late String? _icon = widget.existing?.icon ?? 'star';
   late bool _unavailable = widget.existing?.countsAsUnavailable ?? false;
@@ -174,7 +250,7 @@ class _CategoryEditorState extends ConsumerState<_CategoryEditor> {
       }
       if (mounted) Navigator.pop(context);
     } on ValidationException catch (e) {
-      setState(() => _error = e.message);
+      if (mounted) setState(() => _error = categoryErrorText(context, e));
     }
   }
 
@@ -182,14 +258,19 @@ class _CategoryEditorState extends ConsumerState<_CategoryEditor> {
   Widget build(BuildContext context) {
     final l = context.l10n;
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(Space.xl, 0, Space.xl, Space.xl),
+      padding: const EdgeInsetsDirectional.fromSTEB(
+        Space.xl,
+        0,
+        Space.xl,
+        Space.xl,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TextField(
             controller: _name,
             autofocus: widget.existing == null,
-            maxLength: 60,
+            maxLength: CategoryNames.maxLength,
             decoration: InputDecoration(
               labelText: l.categoryName,
               errorText: _error,
@@ -197,7 +278,9 @@ class _CategoryEditorState extends ConsumerState<_CategoryEditor> {
             onSubmitted: (_) => _save(),
           ),
           const SizedBox(height: Space.md),
-          Row(
+          Wrap(
+            spacing: Space.md,
+            runSpacing: Space.sm,
             children: [
               OutlinedButton.icon(
                 onPressed: () async {
@@ -207,7 +290,6 @@ class _CategoryEditorState extends ConsumerState<_CategoryEditor> {
                 icon: ColorDot(Color(_color), size: 16),
                 label: Text(l.pickerColor),
               ),
-              const SizedBox(width: Space.md),
               OutlinedButton.icon(
                 onPressed: () async {
                   final i = await pickIcon(context, selected: _icon);
@@ -233,46 +315,131 @@ class _CategoryEditorState extends ConsumerState<_CategoryEditor> {
   }
 }
 
-/// Category picker sheet with inline create. Returns the selected id, '' for "none", null on cancel.
+/// Category picker sheet with search and inline create (T2.3.01). Returns the selected id, `''`
+/// for "No category" (when [allowNone]), or null when dismissed. Archived categories are hidden.
 Future<String?> pickCategory(
   BuildContext context,
   WidgetRef ref, {
   String? selectedId,
+  String? title,
+  Set<String> exclude = const {},
+  bool allowNone = true,
 }) => showAppSheet<String>(
   context,
-  title: context.l10n.categoryPick,
-  builder: (ctx) => Consumer(
-    builder: (ctx, ref, _) {
-      final categories =
-          ref.watch(categoriesProvider).value ?? const <Category>[];
-      return ListView(
-        shrinkWrap: true,
-        children: [
-          ListTile(
-            leading: const Icon(Icons.block),
-            title: Text(ctx.l10n.categoryNone),
-            selected: selectedId == null,
-            onTap: () => Navigator.pop(ctx, ''),
-          ),
-          for (final c in categories)
-            ListTile(
-              leading: Icon(
-                IconCatalog.iconFor(c.icon),
-                color: CategoryColors.accent(c.color, Theme.of(ctx).brightness),
-              ),
-              title: Text(c.name),
-              selected: c.id == selectedId,
-              onTap: () => Navigator.pop(ctx, c.id),
-            ),
-          ListTile(
-            leading: const Icon(Icons.add),
-            title: Text(ctx.l10n.categoryNew),
-            onTap: () async {
-              await showCategoryEditor(ctx, ref);
-            },
-          ),
-        ],
-      );
-    },
+  title: title ?? context.l10n.categoryPick,
+  builder: (ctx) => _CategoryPicker(
+    selectedId: selectedId,
+    exclude: exclude,
+    allowNone: allowNone,
   ),
 );
+
+class _CategoryPicker extends ConsumerStatefulWidget {
+  const _CategoryPicker({
+    required this.selectedId,
+    required this.exclude,
+    required this.allowNone,
+  });
+
+  final String? selectedId;
+  final Set<String> exclude;
+  final bool allowNone;
+
+  @override
+  ConsumerState<_CategoryPicker> createState() => _CategoryPickerState();
+}
+
+class _CategoryPickerState extends ConsumerState<_CategoryPicker> {
+  final _query = TextEditingController();
+  String? _error;
+
+  @override
+  void dispose() {
+    _query.dispose();
+    super.dispose();
+  }
+
+  Future<void> _create(String name, int colorIndex) async {
+    try {
+      final created = await ref
+          .read(categoriesRepositoryProvider)
+          .add(
+            name: name,
+            color: CategoryPalette.at(colorIndex),
+            icon: 'label',
+          );
+      if (mounted) Navigator.pop(context, created.id);
+    } on ValidationException catch (e) {
+      if (mounted) setState(() => _error = categoryErrorText(context, e));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final all = ref.watch(categoriesProvider).value ?? const <Category>[];
+    final query = CategoryNames.normalize(_query.text);
+    final key = query.toLowerCase();
+    final visible = [
+      for (final c in all)
+        if (!widget.exclude.contains(c.id) &&
+            (key.isEmpty || c.name.toLowerCase().contains(key)))
+          c,
+    ];
+    final exact = all.any((c) => CategoryNames.key(c.name) == key);
+    final brightness = Theme.of(context).brightness;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
+          child: TextField(
+            controller: _query,
+            decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.search),
+              hintText: l.categorySearch,
+              errorText: _error,
+            ),
+            onChanged: (_) => setState(() => _error = null),
+          ),
+        ),
+        Flexible(
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              if (widget.allowNone && key.isEmpty)
+                ListTile(
+                  leading: const Icon(Icons.block),
+                  title: Text(l.categoryNone),
+                  selected: widget.selectedId == null,
+                  onTap: () => Navigator.pop(context, ''),
+                ),
+              for (final c in visible)
+                ListTile(
+                  leading: Icon(
+                    IconCatalog.iconFor(c.icon),
+                    color: CategoryColors.accent(c.color, brightness),
+                  ),
+                  title: Text(c.name),
+                  selected: c.id == widget.selectedId,
+                  onTap: () => Navigator.pop(context, c.id),
+                ),
+              if (query.isNotEmpty && !exact)
+                ListTile(
+                  leading: const Icon(Icons.add),
+                  title: Text(l.categoryCreateNamed(query)),
+                  onTap: () => _create(query, all.length),
+                )
+              else if (query.isEmpty)
+                ListTile(
+                  leading: const Icon(Icons.add),
+                  title: Text(l.categoryNew),
+                  onTap: () => showCategoryEditor(context, ref),
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}

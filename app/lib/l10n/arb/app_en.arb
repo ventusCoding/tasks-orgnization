@@ -145,6 +145,30 @@
       }
     }
   },
+  "@categoryCreateNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@categoryDeleteUsedBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@categoryUsage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@confirmDeleteTitle": {
     "placeholders": {
       "item": {
@@ -1544,6 +1568,8 @@
   "categoriesEmpty": "No categories yet",
   "categoriesTitle": "Categories",
   "categoryArchived": "Archived",
+  "categoryClearAction": "Remove the category from them",
+  "categoryCreateNamed": "Create category “{name}”",
   "categoryDefaultHealth": "Health",
   "categoryDefaultHome": "Home",
   "categoryDefaultPersonal": "Personal",
@@ -1551,13 +1577,21 @@
   "categoryDefaultStudy": "Study",
   "categoryDefaultWork": "Work",
   "categoryDeleteBody": "Items in this category will keep existing without a category.",
+  "categoryDeleteUsedBody": "{count, plural, =1{1 item uses “{name}”.} other{{count} items use “{name}”.}} What should happen to them?",
   "categoryEdit": "Edit category",
+  "categoryErrorDuplicate": "A category with this name already exists.",
+  "categoryErrorInvalid": "Use 1 to 60 characters.",
   "categoryName": "Name",
   "categoryNew": "New category",
   "categoryNone": "No category",
   "categoryPick": "Category",
+  "categoryReassignAction": "Move them to another category",
+  "categoryReassignTitle": "Move items to",
+  "categoryReorderHint": "Drag to reorder",
+  "categorySearch": "Search or create a category",
   "categoryUnavailable": "Counts as unavailable time",
   "categoryUnavailableHint": "Excluded from capacity stats (e.g. sleep, time off).",
+  "categoryUsage": "{count, plural, =0{Not used} =1{1 item} other{{count} items}}",
   "comingSoon": "Coming soon",
   "confirmDeleteBody": "You can restore it from Trash for 30 days.",
   "confirmDeleteTitle": "Delete {item}?",

@@ -37,6 +37,14 @@ final categoryByIdProvider = Provider.family<Category?, String?>((ref, id) {
   return null;
 });
 
+/// Number of live tasks, habits and checklists per category id (management screen, delete
+/// reassignment prompt).
+final categoryUsageCountsProvider =
+    StreamProvider.autoDispose<Map<String, int>>((ref) {
+      ref.watch(currentUserIdProvider);
+      return ref.watch(categoriesRepositoryProvider).watchUsageCounts();
+    });
+
 // ------------------------------------------------------------------------------------ tags --
 
 /// Tags & entity tags (T2.3.10) — other features use this provider (never the data class).

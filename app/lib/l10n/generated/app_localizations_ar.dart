@@ -345,6 +345,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get categoryArchived => 'مؤرشف';
 
   @override
+  String get categoryClearAction => 'إزالة الفئة منها';
+
+  @override
+  String categoryCreateNamed(String name) {
+    return 'إنشاء الفئة «$name»';
+  }
+
+  @override
   String get categoryDefaultHealth => 'الصحة';
 
   @override
@@ -366,7 +374,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get categoryDeleteBody => 'ستبقى العناصر في هذا التصنيف بدون تصنيف.';
 
   @override
+  String categoryDeleteUsedBody(int count, String name) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر يستخدم «$name».',
+      many: '$count عنصرًا يستخدم «$name».',
+      few: '$count عناصر تستخدم «$name».',
+      two: 'عنصران يستخدمان «$name».',
+      one: 'عنصر واحد يستخدم «$name».',
+    );
+    return '$_temp0 ماذا تريد أن تفعل بها؟';
+  }
+
+  @override
   String get categoryEdit => 'تعديل التصنيف';
+
+  @override
+  String get categoryErrorDuplicate => 'توجد فئة بهذا الاسم بالفعل.';
+
+  @override
+  String get categoryErrorInvalid => 'استخدم من 1 إلى 60 حرفًا.';
 
   @override
   String get categoryName => 'الاسم';
@@ -381,11 +409,38 @@ class AppLocalizationsAr extends AppLocalizations {
   String get categoryPick => 'التصنيف';
 
   @override
+  String get categoryReassignAction => 'نقلها إلى فئة أخرى';
+
+  @override
+  String get categoryReassignTitle => 'نقل العناصر إلى';
+
+  @override
+  String get categoryReorderHint => 'اسحب لإعادة الترتيب';
+
+  @override
+  String get categorySearch => 'ابحث عن فئة أو أنشئ واحدة';
+
+  @override
   String get categoryUnavailable => 'يُحتسب وقتًا غير متاح';
 
   @override
   String get categoryUnavailableHint =>
       'يُستثنى من إحصاءات السعة (مثل النوم والإجازات).';
+
+  @override
+  String categoryUsage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر',
+      many: '$count عنصرًا',
+      few: '$count عناصر',
+      two: 'عنصران',
+      one: 'عنصر واحد',
+      zero: 'غير مستخدمة',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get comingSoon => 'قريبًا';
