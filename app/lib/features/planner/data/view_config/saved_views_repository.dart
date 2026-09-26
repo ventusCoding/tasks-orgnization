@@ -5,40 +5,8 @@ import 'package:everslot/core/database/app_database.dart';
 import 'package:everslot/core/ids/ids.dart';
 import 'package:everslot/core/ordering/fractional_index.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
-import 'package:everslot/features/planner/presentation/view_config/planner_view_config.dart';
-import 'package:meta/meta.dart';
-
-/// A persisted planner view (`saved_views`, section `planner`).
-@immutable
-class SavedView {
-  const SavedView({
-    required this.id,
-    required this.name,
-    required this.config,
-    required this.isDefault,
-    required this.sortKey,
-  });
-
-  final String id;
-  final String name;
-  final PlannerViewConfig config;
-  final bool isDefault;
-  final String sortKey;
-
-  PlannerViewType get type => config.type;
-
-  @override
-  bool operator ==(Object other) =>
-      other is SavedView &&
-      other.id == id &&
-      other.name == name &&
-      other.config == config &&
-      other.isDefault == isDefault &&
-      other.sortKey == sortKey;
-
-  @override
-  int get hashCode => Object.hash(id, name, config, isDefault, sortKey);
-}
+import 'package:everslot/features/planner/domain/view_config/planner_view_config.dart';
+import 'package:everslot/features/planner/domain/view_config/saved_view.dart';
 
 /// Saved views of the planner (T3.3.01 / T3.6.02): read from Drift, written through [SyncWriter] so
 /// presets sync across devices.

@@ -31,3 +31,18 @@ melos:
     test:
       description: Run all tests.
       run: (cd packages/everslot_recurrence && dart test) && (cd packages/everslot_metrics && dart test) && (cd app && flutter test)
+    test:coverage:
+      description: Run all tests with coverage (lcov under each package's coverage/ folder).
+      run: (cd packages/everslot_recurrence && dart test --coverage-path=coverage/lcov.info) && (cd packages/everslot_metrics && dart test --coverage-path=coverage/lcov.info) && (cd app && flutter test --coverage)
+    gen:watch:
+      description: Drift code generation in watch mode.
+      run: cd app && dart run build_runner watch --delete-conflicting-outputs
+    imports:
+      description: Import-boundary and RTL checks over app/lib.
+      run: dart run tool/check_imports.dart
+    outdated:
+      description: List outdated dependencies across the workspace.
+      run: dart pub outdated
+    clean:
+      description: Remove build outputs and tool caches.
+      run: (cd app && flutter clean) && rm -rf packages/*/coverage packages/*/.dart_tool

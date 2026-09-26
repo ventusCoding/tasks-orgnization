@@ -1874,6 +1874,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifModeOff => 'متوقف';
 
   @override
+  String get notifModeOffHint => 'لا إشعارات لهذا العنصر';
+
+  @override
   String get notifMultiDevice => 'التسليم إلى';
 
   @override
@@ -2160,6 +2163,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifSectionHabits => 'العادات';
+
+  @override
+  String notifSectionOffHint(String section) {
+    return 'إشعارات «$section» متوقفة في الإعدادات';
+  }
 
   @override
   String get notifSectionPlanner => 'الخطة';
@@ -2637,132 +2645,132 @@ class AppLocalizationsAr extends AppLocalizations {
   String get priorityUrgent => 'عاجلة';
 
   @override
-  String get pvActualColumn => 'Actual';
+  String get pvActualColumn => 'الفعلي';
 
   @override
-  String get pvAddTask => 'Add task';
+  String get pvAddTask => 'إضافة مهمة';
 
   @override
-  String get pvAddZone => 'Add time zone';
+  String get pvAddZone => 'إضافة منطقة زمنية';
 
   @override
-  String get pvAllDay => 'All day';
+  String get pvAllDay => 'طوال اليوم';
 
   @override
-  String get pvAllDaySection => 'All day & untimed';
+  String get pvAllDaySection => 'طوال اليوم وبلا وقت';
 
   @override
-  String get pvApplyToView => 'Apply to this view';
+  String get pvApplyToView => 'تطبيق على هذا العرض';
 
   @override
-  String get pvAutoAdvance => 'Auto-advance';
+  String get pvAutoAdvance => 'الانتقال التلقائي';
 
   @override
-  String get pvAutoScrollNow => 'Scroll to now on open';
+  String get pvAutoScrollNow => 'الانتقال إلى الوقت الحالي عند الفتح';
 
   @override
-  String get pvBacklogEmpty => 'Your backlog is empty';
+  String get pvBacklogEmpty => 'لا توجد مهام غير مجدولة';
 
   @override
-  String get pvCancelOccurrence => 'Cancel this occurrence';
+  String get pvCancelOccurrence => 'إلغاء هذا الموعد';
 
   @override
   String get pvCannotUnschedule =>
-      'Recurring occurrences can\'t be moved to the backlog';
+      'لا يمكن إعادة المواعيد المتكررة إلى المهام غير المجدولة';
 
   @override
-  String get pvCapacity => 'Capacity';
+  String get pvCapacity => 'السعة';
 
   @override
-  String get pvCategories => 'Categories';
+  String get pvCategories => 'الفئات';
 
   @override
-  String get pvClearFilters => 'Clear';
+  String get pvClearFilters => 'مسح';
 
   @override
-  String get pvClocksForward => 'Clocks forward';
+  String get pvClocksForward => 'تقديم الساعة';
 
   @override
-  String get pvColCategory => 'Category';
+  String get pvColCategory => 'الفئة';
 
   @override
-  String get pvColDate => 'Date';
+  String get pvColDate => 'التاريخ';
 
   @override
-  String get pvColDuration => 'Duration';
+  String get pvColDuration => 'المدة';
 
   @override
-  String get pvColEnd => 'End';
+  String get pvColEnd => 'النهاية';
 
   @override
-  String get pvColLocation => 'Place';
+  String get pvColLocation => 'المكان';
 
   @override
-  String get pvColPriority => 'Priority';
+  String get pvColPriority => 'الأولوية';
 
   @override
-  String get pvColRecurrence => 'Repeats';
+  String get pvColRecurrence => 'التكرار';
 
   @override
-  String get pvColStart => 'Start';
+  String get pvColStart => 'البداية';
 
   @override
-  String get pvColStatus => 'Status';
+  String get pvColStatus => 'الحالة';
 
   @override
-  String get pvColTitle => 'Title';
+  String get pvColTitle => 'العنوان';
 
   @override
-  String get pvColTracking => 'Tracking';
+  String get pvColTracking => 'التتبع';
 
   @override
-  String get pvCollapse => 'Collapse';
+  String get pvCollapse => 'طي';
 
   @override
-  String get pvColorBy => 'Color by';
+  String get pvColorBy => 'التلوين حسب';
 
   @override
-  String get pvColorByCategory => 'Category';
+  String get pvColorByCategory => 'الفئة';
 
   @override
-  String get pvColorByPriority => 'Priority';
+  String get pvColorByPriority => 'الأولوية';
 
   @override
-  String get pvColorByStatus => 'Status';
+  String get pvColorByStatus => 'الحالة';
 
   @override
-  String get pvColorByTask => 'Task';
+  String get pvColorByTask => 'المهمة';
 
   @override
-  String get pvColumns => 'Columns';
+  String get pvColumns => 'الأعمدة';
 
   @override
-  String get pvCompletion => 'Completion';
+  String get pvCompletion => 'نسبة الإنجاز';
 
   @override
-  String get pvContinues => 'continues';
+  String get pvContinues => 'مستمرة';
 
   @override
   String pvCopySuffix(String name) {
-    return '$name (copy)';
+    return '$name (نسخة)';
   }
 
   @override
-  String get pvCreate => 'Create';
+  String get pvCreate => 'إنشاء';
 
   @override
-  String get pvCreateHere => 'Create here';
+  String get pvCreateHere => 'إنشاء هنا';
 
   @override
-  String get pvCreatedSnack => 'Task created';
+  String get pvCreatedSnack => 'أُنشئت المهمة';
 
   @override
   String pvDayHeaderSemantics(String day, String items) {
-    return '$day, $items';
+    return '$day، $items';
   }
 
   @override
-  String get pvDayRibbon => 'Day';
+  String get pvDayRibbon => 'اليوم';
 
   @override
   String pvDayStats(String done, String total, String planned) {
@@ -2770,19 +2778,22 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get pvDaySummary => 'Day summary';
+  String get pvDaySummary => 'ملخص اليوم';
 
   @override
-  String get pvDayTicker => 'Day ticker';
+  String get pvDayTicker => 'شريط الأيام';
 
   @override
   String pvDaysSince(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
-      zero: 'today',
+      other: 'منذ $count يوم',
+      many: 'منذ $count يومًا',
+      few: 'منذ $count أيام',
+      two: 'منذ يومين',
+      one: 'منذ يوم واحد',
+      zero: 'اليوم',
     );
     return '$_temp0';
   }
@@ -2792,192 +2803,194 @@ class AppLocalizationsAr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'in $count days',
-      one: 'in 1 day',
-      zero: 'today',
+      other: 'بعد $count يوم',
+      many: 'بعد $count يومًا',
+      few: 'بعد $count أيام',
+      two: 'بعد يومين',
+      one: 'بعد يوم واحد',
+      zero: 'اليوم',
     );
     return '$_temp0';
   }
 
   @override
-  String get pvDaysVisible => 'Days visible';
+  String get pvDaysVisible => 'الأيام الظاهرة';
 
   @override
-  String get pvDaysVisibleLandscape => 'Days in landscape';
+  String get pvDaysVisibleLandscape => 'الأيام في الوضع الأفقي';
 
   @override
-  String get pvDefaultBadge => 'Default';
+  String get pvDefaultBadge => 'افتراضي';
 
   @override
-  String get pvDeleteView => 'Delete view';
+  String get pvDeleteView => 'حذف العرض';
 
   @override
-  String get pvDemoData => 'Demo data (developer)';
+  String get pvDemoData => 'بيانات تجريبية (للمطوّرين)';
 
   @override
-  String get pvDensity => 'Density';
+  String get pvDensity => 'الكثافة';
 
   @override
-  String get pvDensityComfortable => 'Comfortable';
+  String get pvDensityComfortable => 'مريحة';
 
   @override
-  String get pvDensityCompact => 'Compact';
+  String get pvDensityCompact => 'مضغوطة';
 
   @override
-  String get pvDimPast => 'Dim past';
+  String get pvDimPast => 'تعتيم ما مضى';
 
   @override
-  String get pvDoneTotal => 'Done';
+  String get pvDoneTotal => 'المنجز';
 
   @override
-  String get pvDragToSchedule => 'Drag onto the grid to schedule';
+  String get pvDragToSchedule => 'اسحب إلى الشبكة للجدولة';
 
   @override
-  String get pvDropNotSupported =>
-      'This grouping can\'t be changed by dragging yet';
+  String get pvDropNotSupported => 'لا يمكن تغيير هذا التجميع بالسحب بعد';
 
   @override
-  String get pvDuplicateView => 'Duplicate view';
+  String get pvDuplicateView => 'تكرار العرض';
 
   @override
   String pvElapsed(String duration) {
-    return '$duration elapsed';
+    return 'المنقضي: $duration';
   }
 
   @override
-  String get pvEmptyDay => 'Nothing planned';
+  String get pvEmptyDay => 'لا شيء مخطط';
 
   @override
-  String get pvEmptyRange => 'Nothing in this range';
+  String get pvEmptyRange => 'لا شيء في هذه الفترة';
 
   @override
   String pvEmptySlotSemantics(String day, String time) {
-    return '$day $time, empty, double-tap to create';
+    return '$day $time، فارغة، انقر مرتين للإنشاء';
   }
 
   @override
-  String get pvEmptyWeekTitle => 'Nothing planned this week';
+  String get pvEmptyWeekTitle => 'لا شيء مخطط هذا الأسبوع';
 
   @override
-  String get pvExpand => 'Expand';
+  String get pvExpand => 'توسيع';
 
   @override
-  String get pvExpandInline => 'Expand day inline';
+  String get pvExpandInline => 'توسيع اليوم في مكانه';
 
   @override
-  String get pvExtend => 'Extend';
+  String get pvExtend => 'تمديد';
 
   @override
   String pvExtendBy(int minutes) {
-    return '+$minutes min';
+    return '+$minutes د';
   }
 
   @override
-  String get pvExtraZones => 'Extra time zones';
+  String get pvExtraZones => 'مناطق زمنية إضافية';
 
   @override
-  String get pvFillFromBacklog => 'Fill from backlog';
+  String get pvFillFromBacklog => 'ملء بمهمة غير مجدولة';
 
   @override
-  String get pvFillGap => 'Fill this gap';
+  String get pvFillGap => 'ملء هذه الفجوة';
 
   @override
-  String get pvFilter => 'Filter';
+  String get pvFilter => 'تصفية';
 
   @override
-  String get pvFilters => 'Filters';
+  String get pvFilters => 'عوامل التصفية';
 
   @override
-  String get pvFinish => 'Finish';
+  String get pvFinish => 'إنهاء';
 
   @override
   String pvFreeGap(String duration) {
-    return 'free $duration';
+    return 'متاح $duration';
   }
 
   @override
-  String get pvFreeInWorkHours => 'Free in work hours';
+  String get pvFreeInWorkHours => 'الوقت الحر في ساعات العمل';
 
   @override
   String pvFreeRun(String from, String to, String duration) {
-    return 'Free $from–$to · $duration';
+    return 'متاح $from–$to · $duration';
   }
 
   @override
-  String get pvFrom => 'From';
+  String get pvFrom => 'من';
 
   @override
-  String get pvGotIt => 'Got it';
+  String get pvGotIt => 'فهمت';
 
   @override
-  String get pvGroupBy => 'Group by';
+  String get pvGroupBy => 'التجميع حسب';
 
   @override
-  String get pvGroupCategory => 'Category';
+  String get pvGroupCategory => 'الفئة';
 
   @override
-  String get pvGroupDay => 'Day';
+  String get pvGroupDay => 'اليوم';
 
   @override
-  String get pvGroupNone => 'None';
+  String get pvGroupNone => 'بلا تجميع';
 
   @override
-  String get pvGroupPriority => 'Priority';
+  String get pvGroupPriority => 'الأولوية';
 
   @override
-  String get pvGroupStatus => 'Status';
+  String get pvGroupStatus => 'الحالة';
 
   @override
-  String get pvGroupTask => 'Task';
+  String get pvGroupTask => 'المهمة';
 
   @override
-  String get pvHeatMetric => 'Metric';
+  String get pvHeatMetric => 'المقياس';
 
   @override
   String pvHiddenRange(String from, String to) {
-    return 'Hidden $from–$to';
+    return 'مخفي $from–$to';
   }
 
   @override
-  String get pvHideEmptySlots => 'Collapse empty slots';
+  String get pvHideEmptySlots => 'طي الفترات الفارغة';
 
   @override
-  String get pvHintLongPress => 'Long-press empty space to create a task';
+  String get pvHintLongPress => 'اضغط مطولًا على مساحة فارغة لإنشاء مهمة';
 
   @override
   String get pvHintPinch =>
-      'Pinch to zoom; pinch sideways to change the number of days';
+      'باعد أو قارب إصبعيك للتكبير، وأفقيًا لتغيير عدد الأيام';
 
   @override
   String pvHintSlotSize(String size) {
-    return 'Tap $size to change the row size';
+    return 'انقر $size لتغيير حجم الصف';
   }
 
   @override
-  String get pvHorizonDay => 'Today';
+  String get pvHorizonDay => 'اليوم';
 
   @override
-  String get pvHorizonMonth => 'This month';
+  String get pvHorizonMonth => 'هذا الشهر';
 
   @override
-  String get pvHorizonQuarter => 'This quarter';
+  String get pvHorizonQuarter => 'هذا الربع';
 
   @override
-  String get pvHorizonWeek => 'This week';
+  String get pvHorizonWeek => 'هذا الأسبوع';
 
   @override
-  String get pvHorizonYear => 'This year';
+  String get pvHorizonYear => 'هذا العام';
 
   @override
   String get pvHorizonsHint =>
-      'Unscheduled intentions per horizon (stored on this device until horizons sync).';
+      'نوايا غير مجدولة لكل أفق (تُحفظ على هذا الجهاز إلى أن تتوفر مزامنة الآفاق).';
 
   @override
-  String get pvIgnoreLowPriority => 'Ignore low-priority tasks';
+  String get pvIgnoreLowPriority => 'تجاهل المهام منخفضة الأولوية';
 
   @override
   String pvImportanceRule(String priority) {
-    return 'Important from priority $priority';
+    return 'مهمة ابتداءً من الأولوية $priority';
   }
 
   @override
@@ -2985,72 +2998,75 @@ class AppLocalizationsAr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count items',
-      one: '1 item',
-      zero: 'No items',
+      other: '$count عنصر',
+      many: '$count عنصرًا',
+      few: '$count عناصر',
+      two: 'عنصران',
+      one: 'عنصر واحد',
+      zero: 'لا عناصر',
     );
     return '$_temp0';
   }
 
   @override
-  String get pvJumpToDate => 'Jump to date';
+  String get pvJumpToDate => 'الانتقال إلى تاريخ';
 
   @override
-  String get pvKeepScreenOn => 'Keep screen on';
+  String get pvKeepScreenOn => 'إبقاء الشاشة مضاءة';
 
   @override
-  String get pvLaneCap => 'Side-by-side lanes';
+  String get pvLaneCap => 'المسارات المتجاورة';
 
   @override
-  String get pvLanes => 'Lanes';
+  String get pvLanes => 'المسارات';
 
   @override
   String pvLastRowShort(String duration) {
-    return 'the last one $duration';
+    return 'والأخير مدته $duration';
   }
 
   @override
-  String get pvLess => 'Less';
+  String get pvLess => 'أقل';
 
   @override
-  String get pvListBelow => 'List below';
+  String get pvListBelow => 'القائمة في الأسفل';
 
   @override
-  String get pvListMode => 'Accessible list';
+  String get pvListMode => 'قائمة ميسّرة';
 
   @override
   String get pvMapPlaceholder =>
-      'The map needs task coordinates, which arrive with the place picker. Tasks with a place are listed below.';
+      'تحتاج الخريطة إلى إحداثيات المهام، وستتوفر مع أداة اختيار المكان. المهام التي لها مكان مدرجة أدناه.';
 
   @override
-  String get pvMarkDone => 'Mark done';
+  String get pvMarkDone => 'تحديد كمنجزة';
 
   @override
-  String get pvMarkNotDone => 'Mark not done';
+  String get pvMarkNotDone => 'تحديد كغير منجزة';
 
   @override
-  String get pvMetricCompletion => 'Completion rate';
+  String get pvMetricCompletion => 'معدل الإنجاز';
 
   @override
-  String get pvMetricCount => 'Number of items';
+  String get pvMetricCount => 'عدد العناصر';
 
   @override
-  String get pvMetricPlanned => 'Planned hours';
+  String get pvMetricPlanned => 'الساعات المخططة';
 
   @override
-  String get pvMinGap => 'Minimum gap';
+  String get pvMinGap => 'أقل مدة';
 
   @override
-  String get pvMonthBars => 'Bars';
+  String get pvMonthBars => 'أشرطة';
 
   @override
-  String get pvMonthDots => 'Dots';
+  String get pvMonthDots => 'نقاط';
 
   @override
-  String get pvMonthTitles => 'Titles';
+  String get pvMonthTitles => 'عناوين';
 
   @override
-  String get pvMonthTitlesTimes => 'Titles and times';
+  String get pvMonthTitlesTimes => 'عناوين وأوقات';
 
   @override
   String pvMore(String count) {
@@ -3062,249 +3078,278 @@ class AppLocalizationsAr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count more items',
-      one: '1 more item',
+      other: '$count عنصر آخر',
+      many: '$count عنصرًا آخر',
+      few: '$count عناصر أخرى',
+      two: 'عنصران آخران',
+      one: 'عنصر آخر',
     );
     return '$_temp0';
   }
 
   @override
-  String get pvMoreLegend => 'More';
+  String get pvMoreLegend => 'أكثر';
 
   @override
-  String get pvMoreOptions => 'More options';
+  String get pvMoreOptions => 'خيارات أخرى';
 
   @override
-  String get pvMove => 'Move';
+  String get pvMove => 'نقل';
 
   @override
-  String get pvMoveDoneBody =>
-      'It\'s already done — moving it changes its history.';
+  String get pvMoveDoneBody => 'هذه المهمة منجزة بالفعل، ونقلها يغيّر سجلّها.';
 
   @override
-  String get pvMoveDoneTitle => 'Move a completed task?';
+  String get pvMoveDoneTitle => 'نقل مهمة منجزة؟';
 
   @override
   String pvMoveEarlier(int minutes) {
-    return 'Move $minutes min earlier';
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: 'تقديم $minutes دقيقة',
+      many: 'تقديم $minutes دقيقة',
+      few: 'تقديم $minutes دقائق',
+      two: 'تقديم دقيقتين',
+      one: 'تقديم دقيقة واحدة',
+    );
+    return '$_temp0';
   }
 
   @override
   String pvMoveLater(int minutes) {
-    return 'Move $minutes min later';
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: 'تأخير $minutes دقيقة',
+      many: 'تأخير $minutes دقيقة',
+      few: 'تأخير $minutes دقائق',
+      two: 'تأخير دقيقتين',
+      one: 'تأخير دقيقة واحدة',
+    );
+    return '$_temp0';
   }
 
   @override
-  String get pvMoveTo => 'Move to…';
+  String get pvMoveTo => 'نقل إلى…';
 
   @override
-  String get pvMoveUnfinishedTomorrow => 'Move unfinished to tomorrow';
+  String get pvMoveUnfinishedTomorrow => 'نقل غير المنجز إلى الغد';
 
   @override
   String pvMovedSnack(String when) {
-    return 'Moved to $when';
+    return 'نُقلت إلى $when';
   }
 
   @override
-  String get pvNext => 'Next';
+  String get pvNext => 'التالي';
 
   @override
-  String get pvNextDay => 'Next day';
+  String get pvNextDay => 'اليوم التالي';
 
   @override
   String pvNextDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Next $count days',
-      one: 'Next day',
+      other: 'الـ$count يوم القادمة',
+      many: 'الـ$count يومًا القادمة',
+      few: 'الأيام الـ$count القادمة',
+      two: 'اليومان القادمان',
+      one: 'اليوم التالي',
     );
     return '$_temp0';
   }
 
   @override
-  String get pvNextUp => 'Next up';
+  String get pvNextUp => 'التالي';
 
   @override
-  String get pvNextWeek => 'Next week';
+  String get pvNextWeek => 'الأسبوع التالي';
 
   @override
-  String get pvNoCategory => 'No category';
+  String get pvNoCategory => 'بلا فئة';
 
   @override
-  String get pvNoOpenings => 'No free time found';
+  String get pvNoOpenings => 'لم يُعثر على وقت متاح';
 
   @override
   String pvNoRoom(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count items didn\'t fit',
-      one: '1 item didn\'t fit',
+      other: '$count عنصر لم يتسع له الوقت',
+      many: '$count عنصرًا لم يتسع له الوقت',
+      few: '$count عناصر لم يتسع لها الوقت',
+      two: 'عنصران لم يتسع لهما الوقت',
+      one: 'عنصر واحد لم يتسع له الوقت',
     );
     return '$_temp0';
   }
 
   @override
-  String get pvNoRoutine => 'No routine block today';
+  String get pvNoRoutine => 'لا توجد فترة روتين اليوم';
 
   @override
-  String get pvNoTasks => 'No tasks';
+  String get pvNoTasks => 'لا مهام';
 
   @override
-  String get pvNothingNow => 'Nothing scheduled right now';
+  String get pvNothingNow => 'لا شيء مجدول الآن';
 
   @override
-  String get pvNow => 'Now';
+  String get pvNow => 'الآن';
 
   @override
-  String get pvOneOff => 'One-off';
+  String get pvOneOff => 'لمرة واحدة';
 
   @override
-  String get pvOpenDay => 'Open day';
+  String get pvOpenDay => 'فتح اليوم';
 
   @override
-  String get pvOpenings => 'Openings';
+  String get pvOpenings => 'الأوقات المتاحة';
 
   @override
-  String get pvOverdue => 'Overdue';
+  String get pvOverdue => 'متأخرة';
 
   @override
-  String get pvOverlapCascade => 'Cascade';
+  String get pvOverlapCascade => 'متدرّج';
 
   @override
-  String get pvOverlapColumns => 'Columns';
+  String get pvOverlapColumns => 'أعمدة';
 
   @override
-  String get pvOverlapStyle => 'Overlap style';
+  String get pvOverlapStyle => 'نمط التداخل';
 
   @override
-  String get pvOverlayChecklistDue => 'Checklist items due';
+  String get pvOverlayChecklistDue => 'عناصر القوائم المستحقة';
 
   @override
-  String get pvOverlayDeviceCalendars => 'Device calendars';
+  String get pvOverlayDeviceCalendars => 'تقويمات الجهاز';
 
   @override
-  String get pvOverlayFreeSlots => 'Free time';
+  String get pvOverlayFreeSlots => 'الوقت الحر';
 
   @override
-  String get pvOverlayHabits => 'Habits due';
+  String get pvOverlayHabits => 'العادات المستحقة';
 
   @override
-  String get pvOverlayHeat => 'Busy-hour heat';
+  String get pvOverlayHeat => 'كثافة الساعات المزدحمة';
 
   @override
-  String get pvOverlays => 'Overlays';
+  String get pvOverlays => 'الطبقات الإضافية';
 
   @override
-  String get pvPagingDay => 'One day';
+  String get pvPagingDay => 'يومًا واحدًا';
 
   @override
-  String get pvPagingFree => 'Free scroll';
+  String get pvPagingFree => 'تمرير حر';
 
   @override
-  String get pvPagingMode => 'Swipe moves';
+  String get pvPagingMode => 'السحب الأفقي ينتقل';
 
   @override
-  String get pvPagingWeek => 'One week';
+  String get pvPagingWeek => 'أسبوعًا واحدًا';
 
   @override
-  String get pvPause => 'Pause';
+  String get pvPause => 'إيقاف مؤقت';
 
   @override
-  String get pvPickDate => 'Pick a date';
+  String get pvPickDate => 'اختر تاريخًا';
 
   @override
-  String get pvPin => 'Pin';
+  String get pvPin => 'تثبيت';
 
   @override
-  String get pvPinned => 'Pinned';
+  String get pvPinned => 'المثبتة';
 
   @override
-  String get pvPlanColumn => 'Plan';
+  String get pvPlanColumn => 'المخطط';
 
   @override
-  String get pvPlanFirstTask => 'Plan your first task';
+  String get pvPlanFirstTask => 'خطّط لمهمتك الأولى';
 
   @override
-  String get pvPlanned => 'Planned';
+  String get pvPlanned => 'المخطط';
 
   @override
-  String get pvPostpone => 'Postpone';
+  String get pvPostpone => 'تأجيل';
 
   @override
   String pvPostponeMinutes(int minutes) {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '$minutes minutes',
-      one: '1 minute',
+      other: '$minutes دقيقة',
+      many: '$minutes دقيقة',
+      few: '$minutes دقائق',
+      two: 'دقيقتان',
+      one: 'دقيقة واحدة',
     );
     return '$_temp0';
   }
 
   @override
-  String get pvPostponeNextWeek => 'Next week';
+  String get pvPostponeNextWeek => 'الأسبوع القادم';
 
   @override
-  String get pvPostponeTomorrow => 'Tomorrow';
+  String get pvPostponeTomorrow => 'غدًا';
 
   @override
-  String get pvPrevious => 'Previous';
+  String get pvPrevious => 'السابق';
 
   @override
-  String get pvPreviousDay => 'Previous day';
+  String get pvPreviousDay => 'اليوم السابق';
 
   @override
-  String get pvPreviousWeek => 'Previous week';
+  String get pvPreviousWeek => 'الأسبوع السابق';
 
   @override
-  String get pvPriorities => 'Priorities';
+  String get pvPriorities => 'الأولويات';
 
   @override
-  String get pvQuadDelegate => 'Delegate';
+  String get pvQuadDelegate => 'فوّض';
 
   @override
-  String get pvQuadDo => 'Do';
+  String get pvQuadDo => 'نفّذ';
 
   @override
-  String get pvQuadEliminate => 'Eliminate';
+  String get pvQuadEliminate => 'احذف';
 
   @override
-  String get pvQuadSchedule => 'Schedule';
+  String get pvQuadSchedule => 'جدول';
 
   @override
-  String get pvQuickCreateHint => 'What\'s the plan?';
+  String get pvQuickCreateHint => 'ما الذي تخطط له؟';
 
   @override
-  String get pvQuickCreateTitle => 'New task';
+  String get pvQuickCreateTitle => 'مهمة جديدة';
 
   @override
-  String get pvRadial12 => '12 h';
+  String get pvRadial12 => '12 ساعة';
 
   @override
-  String get pvRadial24 => '24 h';
+  String get pvRadial24 => '24 ساعة';
 
   @override
-  String get pvRadialHours => 'Dial';
+  String get pvRadialHours => 'القرص';
 
   @override
-  String get pvRecurring => 'Recurring';
+  String get pvRecurring => 'متكررة';
 
   @override
-  String get pvRenameView => 'Rename view';
+  String get pvRenameView => 'إعادة تسمية العرض';
 
   @override
-  String get pvRenderAuto => 'Auto';
+  String get pvRenderAuto => 'تلقائي';
 
   @override
-  String get pvRenderMode => 'Render';
+  String get pvRenderMode => 'طريقة العرض';
 
   @override
-  String get pvRenderTable => 'Table';
+  String get pvRenderTable => 'جدول';
 
   @override
-  String get pvRenderTimeline => 'Timeline';
+  String get pvRenderTimeline => 'مخطط زمني';
 
   @override
   String pvRepeatedHour(String time, String offset) {
@@ -3312,209 +3357,212 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get pvRepeats => 'repeats';
+  String get pvRepeats => 'متكررة';
 
   @override
-  String get pvResetView => 'Reset view settings';
+  String get pvResetView => 'إعادة ضبط إعدادات العرض';
 
   @override
   String pvResizedSnack(String duration) {
-    return 'Duration $duration';
+    return 'المدة: $duration';
   }
 
   @override
-  String get pvRibbonStyle => 'Ribbon';
+  String get pvRibbonStyle => 'شريط';
 
   @override
-  String get pvRoutineComplete => 'Routine complete';
+  String get pvRoutineComplete => 'اكتمل الروتين';
 
   @override
-  String get pvRoutineStart => 'Start routine';
+  String get pvRoutineStart => 'بدء الروتين';
 
   @override
   String pvRoutineSummary(int done, int total) {
-    return '$done of $total steps done';
+    return 'الخطوات المنجزة: $done من $total';
   }
 
   @override
-  String get pvRowHeight => 'Row height';
+  String get pvRowHeight => 'ارتفاع الصف';
 
   @override
-  String get pvRowsOccurrences => 'Occurrences';
+  String get pvRowsOccurrences => 'المواعيد';
 
   @override
   String pvRowsPerDay(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count rows per day',
-      one: '1 row per day',
+      other: '$count صف في اليوم',
+      many: '$count صفًا في اليوم',
+      few: '$count صفوف في اليوم',
+      two: 'صفّان في اليوم',
+      one: 'صف واحد في اليوم',
     );
     return '$_temp0';
   }
 
   @override
-  String get pvRowsTasks => 'Tasks';
+  String get pvRowsTasks => 'المهام';
 
   @override
-  String get pvRules => 'Rules';
+  String get pvRules => 'القواعد';
 
   @override
-  String get pvSaveAsNewView => 'Save as new view';
+  String get pvSaveAsNewView => 'حفظ كعرض جديد';
 
   @override
-  String get pvSaveViewAs => 'Save view as…';
+  String get pvSaveViewAs => 'حفظ العرض باسم…';
 
   @override
-  String get pvSavedViews => 'Saved views';
+  String get pvSavedViews => 'العروض المحفوظة';
 
   @override
-  String get pvScale => 'Scale';
+  String get pvScale => 'المقياس';
 
   @override
-  String get pvScaleDays => 'Days';
+  String get pvScaleDays => 'أيام';
 
   @override
-  String get pvScaleHours => 'Hours';
+  String get pvScaleHours => 'ساعات';
 
   @override
-  String get pvScaleMonths => 'Months';
+  String get pvScaleMonths => 'أشهر';
 
   @override
-  String get pvScaleWeeks => 'Weeks';
+  String get pvScaleWeeks => 'أسابيع';
 
   @override
-  String get pvScheduleOn => 'Schedule on…';
+  String get pvScheduleOn => 'جدولة في…';
 
   @override
-  String get pvScheduledSnack => 'Scheduled';
+  String get pvScheduledSnack => 'جُدولت';
 
   @override
-  String get pvScopeAll => 'All occurrences';
+  String get pvScopeAll => 'كل المواعيد';
 
   @override
-  String get pvScopeFollowing => 'This and following';
+  String get pvScopeFollowing => 'هذا الموعد وما يليه';
 
   @override
-  String get pvScopeThis => 'This occurrence';
+  String get pvScopeThis => 'هذا الموعد فقط';
 
   @override
-  String get pvScopeTitle => 'Change a recurring task';
+  String get pvScopeTitle => 'تعديل مهمة متكررة';
 
   @override
   String pvSelected(int count) {
-    return '$count selected';
+    return 'المحدد: $count';
   }
 
   @override
-  String get pvSetDefaultView => 'Set as default';
+  String get pvSetDefaultView => 'تعيين كعرض افتراضي';
 
   @override
-  String get pvShareAvailability => 'Share availability';
+  String get pvShareAvailability => 'مشاركة أوقات التوفر';
 
   @override
-  String get pvShowCancelled => 'Show cancelled';
+  String get pvShowCancelled => 'إظهار المهام الملغاة';
 
   @override
-  String get pvShowCompleted => 'Show completed';
+  String get pvShowCompleted => 'إظهار المهام المنجزة';
 
   @override
-  String get pvShowEmptyDays => 'Show empty days';
+  String get pvShowEmptyDays => 'إظهار الأيام الفارغة';
 
   @override
-  String get pvShowNotes => 'Show notes';
+  String get pvShowNotes => 'إظهار الملاحظات';
 
   @override
-  String get pvShowWeekends => 'Show weekends';
+  String get pvShowWeekends => 'إظهار عطلة نهاية الأسبوع';
 
   @override
-  String get pvSinceGroup => 'Since';
+  String get pvSinceGroup => 'منذ';
 
   @override
-  String get pvSkip => 'Skip';
+  String get pvSkip => 'تخطٍّ';
 
   @override
-  String get pvSkipRemaining => 'Skip remaining';
+  String get pvSkipRemaining => 'تخطي المتبقي';
 
   @override
-  String get pvSkipStep => 'Skip step';
+  String get pvSkipStep => 'تخطي الخطوة';
 
   @override
-  String get pvSlotCustom => 'Custom size';
+  String get pvSlotCustom => 'حجم مخصص';
 
   @override
-  String get pvSlotCustomHint => 'Minutes or h:mm (1 min – 24 h)';
+  String get pvSlotCustomHint => 'دقائق أو س:د (من دقيقة إلى 24 ساعة)';
 
   @override
-  String get pvSlotInvalid => 'Enter a size between 1 minute and 24 hours';
+  String get pvSlotInvalid => 'أدخل حجمًا بين دقيقة واحدة و24 ساعة';
 
   @override
-  String get pvSlotPresets => 'Presets';
+  String get pvSlotPresets => 'أحجام جاهزة';
 
   @override
-  String get pvSlotSize => 'Slot size';
+  String get pvSlotSize => 'حجم الفترة';
 
   @override
-  String get pvSlotsStyle => 'Slots';
+  String get pvSlotsStyle => 'فترات';
 
   @override
-  String get pvSnap => 'Snap';
+  String get pvSnap => 'المحاذاة';
 
   @override
-  String get pvSortBy => 'Sort by';
+  String get pvSortBy => 'الترتيب حسب';
 
   @override
-  String get pvStart => 'Start';
+  String get pvStart => 'بدء';
 
   @override
   String pvStartsAt(String time) {
-    return 'Starts at $time';
+    return 'تبدأ في $time';
   }
 
   @override
-  String get pvStatusCancelled => 'Cancelled';
+  String get pvStatusCancelled => 'ملغاة';
 
   @override
-  String get pvStatusDone => 'Done';
+  String get pvStatusDone => 'منجزة';
 
   @override
-  String get pvStatusInProgress => 'In progress';
+  String get pvStatusInProgress => 'قيد التنفيذ';
 
   @override
-  String get pvStatusMissed => 'Missed';
+  String get pvStatusMissed => 'فائتة';
 
   @override
-  String get pvStatusScheduled => 'Planned';
+  String get pvStatusScheduled => 'مجدولة';
 
   @override
-  String get pvStatusSkipped => 'Skipped';
+  String get pvStatusSkipped => 'متخطاة';
 
   @override
   String pvStatusSnack(String status) {
-    return 'Marked $status';
+    return 'الحالة: $status';
   }
 
   @override
-  String get pvStatuses => 'Statuses';
+  String get pvStatuses => 'الحالات';
 
   @override
   String pvStep(int n, int total) {
-    return 'Step $n of $total';
+    return 'الخطوة $n من $total';
   }
 
   @override
-  String get pvStop => 'Stop';
+  String get pvStop => 'إيقاف';
 
   @override
-  String get pvSwipeVertical => 'Swipe vertically';
+  String get pvSwipeVertical => 'السحب عموديًا';
 
   @override
   String pvTableThreshold(String size) {
-    return 'Table from $size';
+    return 'جدول ابتداءً من $size';
   }
 
   @override
-  String get pvTextFilterHint => 'Search titles and notes';
+  String get pvTextFilterHint => 'ابحث في العناوين والملاحظات';
 
   @override
   String pvTileSemantics(
@@ -3524,218 +3572,224 @@ class AppLocalizationsAr extends AppLocalizations {
     String end,
     String status,
   ) {
-    return '$title, $day, $start to $end, $status';
+    return '$title، $day، من $start إلى $end، $status';
   }
 
   @override
   String pvTimeLeft(String duration) {
-    return '$duration left';
+    return 'المتبقي: $duration';
   }
 
   @override
-  String get pvTo => 'To';
+  String get pvTo => 'إلى';
 
   @override
-  String get pvTopCategories => 'Top categories';
+  String get pvTopCategories => 'أبرز الفئات';
 
   @override
-  String get pvTracked => 'Tracked';
+  String get pvTracked => 'المتتبَّع';
 
   @override
-  String get pvTrackingCheck => 'Check';
+  String get pvTrackingCheck => 'تأشير';
 
   @override
-  String get pvTrackingEvent => 'Event';
+  String get pvTrackingEvent => 'حدث';
 
   @override
-  String get pvTrackingModes => 'Tracking';
+  String get pvTrackingModes => 'طريقة التتبع';
 
   @override
-  String get pvTrackingTimer => 'Timer';
+  String get pvTrackingTimer => 'مؤقت';
 
   @override
-  String get pvUnpin => 'Unpin';
+  String get pvUnpin => 'إلغاء التثبيت';
 
   @override
   String get pvUnscheduleUnsupported =>
-      'Moving tasks back to the backlog isn\'t available yet';
+      'إعادة المهام إلى قائمة غير المجدولة غير متاحة بعد';
 
   @override
-  String get pvUnscheduled => 'Unscheduled';
+  String get pvUnscheduled => 'غير مجدولة';
 
   @override
-  String get pvUntimed => 'Untimed';
+  String get pvUntimed => 'بلا وقت';
 
   @override
-  String get pvUpcoming => 'Upcoming';
+  String get pvUpcoming => 'القادمة';
 
   @override
   String pvUrgencyRule(int days) {
     String _temp0 = intl.Intl.pluralLogic(
       days,
       locale: localeName,
-      other: 'Urgent within $days days',
-      one: 'Urgent within 1 day',
+      other: 'عاجلة خلال $days يوم',
+      many: 'عاجلة خلال $days يومًا',
+      few: 'عاجلة خلال $days أيام',
+      two: 'عاجلة خلال يومين',
+      one: 'عاجلة خلال يوم واحد',
     );
     return '$_temp0';
   }
 
   @override
-  String get pvVarianceLate => 'Started late';
+  String get pvVarianceLate => 'بدأت متأخرة';
 
   @override
-  String get pvVarianceNotDone => 'Not done';
+  String get pvVarianceNotDone => 'غير منجزة';
 
   @override
-  String get pvVarianceOnPlan => 'On plan';
+  String get pvVarianceOnPlan => 'حسب الخطة';
 
   @override
-  String get pvVarianceOverran => 'Overran';
+  String get pvVarianceOverran => 'تجاوزت الوقت';
 
   @override
-  String get pvVarianceUnplanned => 'Unplanned';
+  String get pvVarianceUnplanned => 'غير مخططة';
 
   @override
-  String get pvViewAgenda => 'Agenda';
+  String get pvViewAgenda => 'جدول الأعمال';
 
   @override
-  String get pvViewBacklog => 'Backlog';
+  String get pvViewBacklog => 'بانتظار الجدولة';
 
   @override
-  String get pvViewCountdown => 'Countdowns';
+  String get pvViewCountdown => 'العدّ التنازلي';
 
   @override
-  String get pvViewDayList => 'Day list';
+  String get pvViewDayList => 'قائمة اليوم';
 
   @override
-  String get pvViewFocus => 'Focus';
+  String get pvViewFocus => 'التركيز';
 
   @override
-  String get pvViewFreeSlots => 'Free slots';
+  String get pvViewFreeSlots => 'الأوقات الحرة';
 
   @override
-  String get pvViewHorizons => 'Horizons';
+  String get pvViewHorizons => 'الآفاق';
 
   @override
-  String get pvViewKanban => 'Kanban';
+  String get pvViewKanban => 'كانبان';
 
   @override
-  String get pvViewLoadHeatmap => 'Load heatmap';
+  String get pvViewLoadHeatmap => 'خريطة الانشغال';
 
   @override
-  String get pvViewMap => 'Map';
+  String get pvViewMap => 'الخريطة';
 
   @override
-  String get pvViewMatrix => 'Eisenhower matrix';
+  String get pvViewMatrix => 'مصفوفة أيزنهاور';
 
   @override
-  String get pvViewMonth => 'Month';
+  String get pvViewMonth => 'الشهر';
 
   @override
-  String get pvViewMultiWeek => 'Multi-week';
+  String get pvViewMultiWeek => 'عدة أسابيع';
 
   @override
-  String get pvViewNDay => 'N days';
+  String get pvViewNDay => 'عدة أيام';
 
   @override
-  String get pvViewName => 'View name';
+  String get pvViewName => 'اسم العرض';
 
   @override
-  String get pvViewPlanVsActual => 'Plan vs actual';
+  String get pvViewPlanVsActual => 'المخطط مقابل الفعلي';
 
   @override
-  String get pvViewQuarter => 'Quarter';
+  String get pvViewQuarter => 'ربع السنة';
 
   @override
-  String get pvViewRadial => '24-hour clock';
+  String get pvViewRadial => 'الساعة الدائرية';
 
   @override
-  String get pvViewRibbon => 'Ribbon';
+  String get pvViewRibbon => 'الشريط';
 
   @override
-  String get pvViewRoutine => 'Routine player';
+  String get pvViewRoutine => 'مشغّل الروتين';
 
   @override
-  String get pvViewSaved => 'View saved';
+  String get pvViewSaved => 'حُفظ العرض';
 
   @override
-  String get pvViewSettings => 'View settings';
+  String get pvViewSettings => 'إعدادات العرض';
 
   @override
-  String get pvViewSwimlanes => 'Swimlanes';
+  String get pvViewSwimlanes => 'المسارات';
 
   @override
-  String get pvViewSwitcher => 'Change view';
+  String get pvViewSwitcher => 'تغيير العرض';
 
   @override
-  String get pvViewTable => 'Table';
+  String get pvViewTable => 'جدول بيانات';
 
   @override
-  String get pvViewTimeline => 'Timeline';
+  String get pvViewTimeline => 'المخطط الزمني';
 
   @override
-  String get pvViewWeekList => 'Week list';
+  String get pvViewWeekList => 'قائمة الأسبوع';
 
   @override
-  String get pvViewWeekTable => 'Week table';
+  String get pvViewWeekTable => 'جدول الأسبوع';
 
   @override
-  String get pvViewWorkWeek => 'Work week';
+  String get pvViewWorkWeek => 'أسبوع العمل';
 
   @override
-  String get pvViewYear => 'Year';
+  String get pvViewYear => 'السنة';
 
   @override
-  String get pvVisibleHours => 'Visible hours';
+  String get pvVisibleHours => 'الساعات الظاهرة';
 
   @override
-  String get pvVisibleHoursAll => 'All 24 hours';
+  String get pvVisibleHoursAll => 'كل الساعات الأربع والعشرين';
 
   @override
   String pvWeekNumber(int week) {
-    return 'W$week';
+    return 'أسبوع $week';
   }
 
   @override
-  String get pvWeekNumbers => 'Week numbers';
+  String get pvWeekNumbers => 'أرقام الأسابيع';
 
   @override
-  String get pvWeekRibbon => 'Week';
+  String get pvWeekRibbon => 'الأسبوع';
 
   @override
-  String get pvWeekSummary => 'Week summary';
+  String get pvWeekSummary => 'ملخص الأسبوع';
 
   @override
   String pvWeeksCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count weeks',
-      one: '1 week',
+      other: '$count أسبوع',
+      many: '$count أسبوعًا',
+      few: '$count أسابيع',
+      two: 'أسبوعان',
+      one: 'أسبوع واحد',
     );
     return '$_temp0';
   }
 
   @override
-  String get pvWithPlace => 'Tasks with a place';
+  String get pvWithPlace => 'مهام لها مكان';
 
   @override
-  String get pvWorkHours => 'Work hours';
+  String get pvWorkHours => 'ساعات العمل';
 
   @override
-  String get pvZoneHint => 'e.g. Asia/Tokyo';
+  String get pvZoneHint => 'مثال: Asia/Tokyo';
 
   @override
-  String get pvZoomAroundNow => 'Zoom around now';
+  String get pvZoomAroundNow => 'التكبير حول الوقت الحالي';
 
   @override
-  String get pvZoomFixed => 'Fixed slot';
+  String get pvZoomFixed => 'فترة ثابتة';
 
   @override
-  String get pvZoomMode => 'Zoom';
+  String get pvZoomMode => 'التكبير';
 
   @override
-  String get pvZoomSemantic => 'Semantic';
+  String get pvZoomSemantic => 'دلالي';
 
   @override
   String get recurAddDate => 'إضافة';

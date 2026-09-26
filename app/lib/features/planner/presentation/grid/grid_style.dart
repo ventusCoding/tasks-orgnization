@@ -1,7 +1,7 @@
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/organization/application/providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
-import 'package:everslot/features/planner/presentation/view_config/planner_view_config.dart';
+import 'package:everslot/features/planner/domain/view_config/planner_view_config.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';

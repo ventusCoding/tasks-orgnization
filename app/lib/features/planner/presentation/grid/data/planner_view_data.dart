@@ -4,7 +4,7 @@ import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/data/demo_planner_data.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/day_slices.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/day_timeline.dart';
-import 'package:everslot/features/planner/presentation/grid/engine/item_filter.dart';
+import 'package:everslot/features/planner/domain/view_config/item_filter.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meta/meta.dart';

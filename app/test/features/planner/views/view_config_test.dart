@@ -1,12 +1,8 @@
 import 'dart:convert';
 
+import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/page_axis.dart';
-import 'package:everslot/features/planner/presentation/grid/engine/paging.dart';
-import 'package:everslot/features/planner/presentation/view_config/planner_view_config.dart';
-import 'package:everslot/features/planner/presentation/view_config/saved_views_repository.dart';
-import 'package:everslot/features/planner/presentation/view_config/view_config_providers.dart';
-import 'package:everslot/features/planner/presentation/view_config/view_state.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -135,7 +131,7 @@ void main() {
       await repo.ensureDefaults(entries);
       final views = await repo.all();
       expect(views, hasLength(2));
-      expect(views.first.id, SavedViewsRepository.entryViewId('user-1', 'week_table'));
+      expect(views.first.id, entryViewId('user-1', 'week_table'));
       expect(views.first.isDefault, isTrue);
       expect(views.first.config.slotMinutes, 30);
     });
@@ -169,13 +165,13 @@ void main() {
 
     test('local view state: minute ↔ offset and persistence', () async {
       final axis = PageAxis.regular();
-      final offset = ViewState.offsetForMinute(axis, 1.6, 540, viewportExtent: 600, anchorFraction: 1 / 3);
+      final offset = axis.offsetForMinute(1.6, 540, viewportExtent: 600, anchorFraction: 1 / 3);
       expect(offset, 540 * 1.6 - 200);
-      expect(ViewState.minuteAtOffset(axis, 1.6, offset, viewportExtent: 600, anchorFraction: 1 / 3), closeTo(540, 1e-9));
+      expect(axis.minuteAtOffset(1.6, offset, viewportExtent: 600, anchorFraction: 1 / 3), closeTo(540, 1e-9));
       // Zoom change keeps the minute at the viewport centre.
-      final centre = ViewState.minuteAtOffset(axis, 1.6, 400, viewportExtent: 600, anchorFraction: 0.5);
-      final zoomed = ViewState.offsetForMinute(axis, 3.2, centre, viewportExtent: 600, anchorFraction: 0.5);
-      expect(ViewState.minuteAtOffset(axis, 3.2, zoomed, viewportExtent: 600, anchorFraction: 0.5), closeTo(centre, 1e-9));
+      final centre = axis.minuteAtOffset(1.6, 400, viewportExtent: 600, anchorFraction: 0.5);
+      final zoomed = axis.offsetForMinute(3.2, centre, viewportExtent: 600, anchorFraction: 0.5);
+      expect(axis.minuteAtOffset(3.2, zoomed, viewportExtent: 600, anchorFraction: 0.5), closeTo(centre, 1e-9));
 
       final repo = h.read(viewStateRepositoryProvider);
       await repo.write('week_table', ViewState(anchor: LocalDate(2026, 9, 21), scrollMinute: 480, pxPerMinute: 2));
@@ -185,6 +181,24 @@ void main() {
       expect(back.scrollMinute, 480);
       expect(back.daysPortrait, 3);
       expect(await repo.read('missing'), isNull);
+    });
+
+    test('view state controller loads, updates and persists (restart restores week and time)', () async {
+      ViewStateController.saveDelay = Duration.zero;
+      await h.read(viewStateRepositoryProvider).write('week_table', ViewState(anchor: LocalDate(2026, 9, 14), scrollMinute: 420));
+      final sub = h.container.listen(plannerViewStateProvider('week_table'), (_, _) {});
+      final loaded = await h.read(plannerViewStateProvider('week_table').notifier).ready;
+      expect(loaded!.anchor, LocalDate(2026, 9, 14));
+      expect(h.read(plannerViewStateProvider('week_table'))!.scrollMinute, 420);
+      h.read(plannerViewStateProvider('week_table').notifier).update((s) => s.copyWith(scrollMinute: 600, pxPerMinute: 1.5));
+      await h.read(plannerViewStateProvider('week_table').notifier).flush();
+      sub.close();
+      final back = await h.read(viewStateRepositoryProvider).read('week_table');
+      expect(back!.scrollMinute, 600);
+      expect(back.pxPerMinute, 1.5);
+      expect(back.anchor, LocalDate(2026, 9, 14));
+      expect(const ViewState().isEmpty, isTrue);
+      expect(const ViewState().withExtra('style', 'ribbon').extra['style'], 'ribbon');
     });
   });
 }

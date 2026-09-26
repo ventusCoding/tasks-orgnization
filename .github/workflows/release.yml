@@ -91,7 +91,7 @@ jobs:
         with: { flutter-version: '${{ steps.fvm.outputs.version }}', channel: stable, cache: true }
       - run: mkdir -p app/env && echo '${{ secrets.ENV_PROD_JSON }}' > app/env/prod.json
       - run: dart pub get && dart run tool/merge_arb.dart && (cd app && flutter gen-l10n)
-      - run: cd app && flutter build ipa --release -t lib/main_prod.dart --dart-define-from-file=env/prod.json --build-name=${GITHUB_REF_NAME#v} --build-number=${{ github.run_number }} --no-codesign
+      - run: cd app && flutter build ipa --release --flavor prod -t lib/main_prod.dart --dart-define-from-file=env/prod.json --build-name=${GITHUB_REF_NAME#v} --build-number=${{ github.run_number }} --no-codesign
       - uses: ruby/setup-ruby@v1
         with: { ruby-version: '3.3', bundler-cache: true, working-directory: app/ios }
       - name: Sign & upload (fastlane)
