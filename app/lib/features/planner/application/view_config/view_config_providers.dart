@@ -129,7 +129,8 @@ abstract final class ViewKeys {
         daysVisibleLandscape: 5,
         showWeekends: false,
         firstDay: 'week_start',
-        options: const {'rolling': false, 'workWeek': true},
+        paging: PagingMode.week,
+        options: const {'rolling': false, 'workWeek': true, 'followWorkHours': true},
       );
     }
     return PlannerViewConfig.defaultsFor(PlannerViewType.tryParse(entryId) ?? PlannerViewType.weekTable);

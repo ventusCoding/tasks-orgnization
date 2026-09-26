@@ -2392,6 +2392,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvCreatedSnack => 'أُنشئت المهمة';
 
   @override
+  String pvCurrentSize(String size) {
+    return 'الحالي: $size';
+  }
+
+  @override
   String pvDayHeaderSemantics(String day, String items) {
     return '$day، $items';
   }
@@ -2468,6 +2473,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvDimPast => 'تعتيم ما مضى';
 
   @override
+  String get pvDisplay => 'العرض';
+
+  @override
   String get pvDoneTotal => 'المنجز';
 
   @override
@@ -2531,6 +2539,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvFinish => 'إنهاء';
 
   @override
+  String get pvFollowWorkHours => 'استخدام ساعات عملي';
+
+  @override
   String pvFreeGap(String duration) {
     return 'متاح $duration';
   }
@@ -2553,6 +2564,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvGroupBy => 'التجميع حسب';
 
   @override
+  String get pvGroupCalendar => 'عروض التقويم';
+
+  @override
   String get pvGroupCategory => 'الفئة';
 
   @override
@@ -2563,6 +2577,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvGroupPriority => 'الأولوية';
+
+  @override
+  String get pvGroupProductivity => 'التركيز والإنتاجية';
 
   @override
   String get pvGroupStatus => 'الحالة';
@@ -2653,6 +2670,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get pvLayout => 'التخطيط';
+
+  @override
   String get pvLess => 'أقل';
 
   @override
@@ -2730,6 +2750,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvMoveDoneTitle => 'نقل مهمة منجزة؟';
 
   @override
+  String get pvMoveDown => 'نقل للأسفل';
+
+  @override
   String pvMoveEarlier(int minutes) {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
@@ -2762,6 +2785,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvMoveUnfinishedTomorrow => 'نقل غير المنجز إلى الغد';
+
+  @override
+  String get pvMoveUp => 'نقل للأعلى';
 
   @override
   String pvMovedSnack(String when) {
@@ -2816,6 +2842,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvNoRoutine => 'لا توجد فترة روتين اليوم';
+
+  @override
+  String get pvNoSavedViews => 'لا توجد عروض محفوظة بعد';
 
   @override
   String get pvNoTasks => 'لا مهام';
@@ -2888,6 +2917,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvPinned => 'المثبتة';
+
+  @override
+  String pvPixels(String value) {
+    return '$value بكسل';
+  }
 
   @override
   String get pvPlanColumn => 'المخطط';
@@ -3082,6 +3116,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get pvSetAsPlanDefault => 'فتح تبويب الخطة على هذا العرض';
+
+  @override
   String get pvSetDefaultView => 'تعيين كعرض افتراضي';
 
   @override
@@ -3187,6 +3224,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String pvTableThreshold(String size) {
     return 'جدول ابتداءً من $size';
   }
+
+  @override
+  String get pvTags => 'الوسوم';
 
   @override
   String get pvTextFilterHint => 'ابحث في العناوين والملاحظات';
@@ -3399,6 +3439,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvWithPlace => 'مهام لها مكان';
+
+  @override
+  String get pvWorkDaysOnly => 'أيام العمل فقط';
 
   @override
   String get pvWorkHours => 'ساعات العمل';

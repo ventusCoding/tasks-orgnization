@@ -2314,6 +2314,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvCreatedSnack => 'Tâche créée';
 
   @override
+  String pvCurrentSize(String size) {
+    return 'Actuel : $size';
+  }
+
+  @override
   String pvDayHeaderSemantics(String day, String items) {
     return '$day, $items';
   }
@@ -2384,6 +2389,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvDimPast => 'Estomper le passé';
 
   @override
+  String get pvDisplay => 'Affichage';
+
+  @override
   String get pvDoneTotal => 'Faites';
 
   @override
@@ -2448,6 +2456,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvFinish => 'Terminer';
 
   @override
+  String get pvFollowWorkHours => 'Utiliser mes heures de travail';
+
+  @override
   String pvFreeGap(String duration) {
     return 'libre $duration';
   }
@@ -2470,6 +2481,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvGroupBy => 'Regrouper par';
 
   @override
+  String get pvGroupCalendar => 'Vues calendrier';
+
+  @override
   String get pvGroupCategory => 'Catégorie';
 
   @override
@@ -2480,6 +2494,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvGroupPriority => 'Priorité';
+
+  @override
+  String get pvGroupProductivity => 'Concentration et productivité';
 
   @override
   String get pvGroupStatus => 'Statut';
@@ -2568,6 +2585,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get pvLayout => 'Disposition';
+
+  @override
   String get pvLess => 'Moins';
 
   @override
@@ -2643,6 +2663,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvMoveDoneTitle => 'Déplacer une tâche faite ?';
 
   @override
+  String get pvMoveDown => 'Descendre';
+
+  @override
   String pvMoveEarlier(int minutes) {
     return 'Avancer de $minutes min';
   }
@@ -2658,6 +2681,9 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get pvMoveUnfinishedTomorrow =>
       'Reporter les tâches non faites à demain';
+
+  @override
+  String get pvMoveUp => 'Monter';
 
   @override
   String pvMovedSnack(String when) {
@@ -2706,6 +2732,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvNoRoutine => 'Aucun bloc de routine aujourd’hui';
+
+  @override
+  String get pvNoSavedViews => 'Aucune vue enregistrée pour l’instant';
 
   @override
   String get pvNoTasks => 'Aucune tâche';
@@ -2778,6 +2807,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvPinned => 'Épinglés';
+
+  @override
+  String pvPixels(String value) {
+    return '$value px';
+  }
 
   @override
   String get pvPlanColumn => 'Prévu';
@@ -2966,6 +3000,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get pvSetAsPlanDefault => 'Ouvrir l’onglet Plan sur cette vue';
+
+  @override
   String get pvSetDefaultView => 'Définir par défaut';
 
   @override
@@ -3072,6 +3109,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String pvTableThreshold(String size) {
     return 'Tableau à partir de $size';
   }
+
+  @override
+  String get pvTags => 'Étiquettes';
 
   @override
   String get pvTextFilterHint => 'Rechercher dans les titres et les notes';
@@ -3278,6 +3318,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvWithPlace => 'Tâches avec un lieu';
+
+  @override
+  String get pvWorkDaysOnly => 'Jours ouvrés uniquement';
 
   @override
   String get pvWorkHours => 'Heures de travail';

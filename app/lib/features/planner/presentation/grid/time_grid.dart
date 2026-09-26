@@ -303,6 +303,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
   LocalDate? _initialAnchor;
   (double, double)? _pendingScroll;
   double? _ppm;
+  double? _lastConfigPpm;
   int? _daysPortrait;
   int? _daysLandscape;
   bool _landscape = false;
@@ -482,7 +483,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
   // --------------------------------------------------------------------- GridNavigator API --
 
   @override
-  Future<void> jumpToDate(LocalDate date, {bool animate = true, double? minute}) async {
+  Future<void> jumpToDate(LocalDate date, {bool animate = true, double? minute, double anchorFraction = 0}) async {
     final paging = _paging;
     final pages = _pages;
     if (paging == null || pages == null || !pages.hasClients) return;
@@ -493,7 +494,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       pages.jumpToPage(target);
     }
     if (target != _page) _onPageChanged(target);
-    if (minute != null) scrollToMinute(minute, animate: animate);
+    if (minute != null) scrollToMinute(minute, animate: animate, anchorFraction: anchorFraction);
   }
 
   @override
@@ -531,11 +532,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final f = _frame;
     if (f == null) return;
     final centre = _minuteAtContent(_vertical.hasClients ? _vertical.offset + f.metrics.bodyHeight / 2 : 0);
+    _pendingScroll = (centre, 0.5);
     setState(() => _ppm = f.ppm * factor);
     _viewState.update((s) => s.copyWith(pxPerMinute: _ppm));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) scrollToMinute(centre, animate: false, anchorFraction: 0.5);
-    });
   }
 
   double _offsetForMinute(double minute, {double anchorFraction = 0}) {
@@ -601,6 +600,18 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       if (!_viewState.isLoaded) return const SizedBox.expand();
       _init(config);
     }
+    // Settings may clear the local days / zoom overrides.
+    ref.listen<ViewState?>(plannerViewStateProvider(widget.viewKey), (prev, next) {
+      if (!_ready || _pinch != null || next == null) return;
+      final clearZoom = next.pxPerMinute == null && _ppm != null;
+      if (next.daysPortrait != _daysPortrait || next.daysLandscape != _daysLandscape || clearZoom) {
+        setState(() {
+          _daysPortrait = next.daysPortrait;
+          _daysLandscape = next.daysLandscape;
+          if (clearZoom) _ppm = null;
+        });
+      }
+    });
     final prefs = ref.watch(userPreferencesProvider);
     final zone = ref.watch(plannerZoneProvider);
     final today = ref.watch(plannerTodayProvider);
@@ -624,6 +635,10 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final paging = _paging!;
     final renderer = rendererFor(config);
     final visible = paging.daysOnScreen(_page);
+    // A new row height / slot from the slot-size sheet replaces the local pinch zoom.
+    final configPpm = config.pxPerMinute;
+    if (_lastConfigPpm != null && (_lastConfigPpm! - configPpm).abs() > 1e-9 && _pinch == null) _ppm = null;
+    _lastConfigPpm = configPpm;
     // Neighbour pages share the lane height (no jump while swiping).
     final around = <LocalDate>{
       ...visible,
@@ -631,7 +646,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       ...paging.daysOnScreen(_page + (paging.isWeekPaging ? 1 : paging.daysVisible)),
     }.toList()
       ..sort();
-    final filter = config.itemFilter;
+    final filter = viewItemFilter(ref, config);
     final slices = _watchSlices(ref, around, filter, weekStart).$1;
     final nowLocal = ref.read(plannerNowProvider);
     final l = context.l10n;
@@ -729,6 +744,16 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
             weekStart: weekStart,
             filter: filter,
           );
+          final old = _frame;
+          if (old != null &&
+              _pinch == null &&
+              _pendingScroll == null &&
+              _initialScrollDone &&
+              _vertical.hasClients &&
+              (old.renderer != frame.renderer || old.ppm != frame.ppm || old.axis != frame.axis || old.rows?.height != frame.rows?.height)) {
+            // Keep the time at the top of the viewport (T3.4.06 / T3.3.02).
+            _pendingScroll = (_minuteAtContent(_vertical.offset), 0);
+          }
           _frame = frame;
           _afterLayout(frame, visible);
           final locked = _pinch != null;

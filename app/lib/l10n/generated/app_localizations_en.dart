@@ -2278,6 +2278,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvCreatedSnack => 'Task created';
 
   @override
+  String pvCurrentSize(String size) {
+    return 'Current: $size';
+  }
+
+  @override
   String pvDayHeaderSemantics(String day, String items) {
     return '$day, $items';
   }
@@ -2348,6 +2353,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvDimPast => 'Dim past';
 
   @override
+  String get pvDisplay => 'Display';
+
+  @override
   String get pvDoneTotal => 'Done';
 
   @override
@@ -2412,6 +2420,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvFinish => 'Finish';
 
   @override
+  String get pvFollowWorkHours => 'Use my work hours';
+
+  @override
   String pvFreeGap(String duration) {
     return 'free $duration';
   }
@@ -2434,6 +2445,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvGroupBy => 'Group by';
 
   @override
+  String get pvGroupCalendar => 'Calendar views';
+
+  @override
   String get pvGroupCategory => 'Category';
 
   @override
@@ -2444,6 +2458,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvGroupPriority => 'Priority';
+
+  @override
+  String get pvGroupProductivity => 'Focus & productivity';
 
   @override
   String get pvGroupStatus => 'Status';
@@ -2531,6 +2548,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get pvLayout => 'Layout';
+
+  @override
   String get pvLess => 'Less';
 
   @override
@@ -2606,6 +2626,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvMoveDoneTitle => 'Move a completed task?';
 
   @override
+  String get pvMoveDown => 'Move down';
+
+  @override
   String pvMoveEarlier(int minutes) {
     return 'Move $minutes min earlier';
   }
@@ -2620,6 +2643,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvMoveUnfinishedTomorrow => 'Move unfinished to tomorrow';
+
+  @override
+  String get pvMoveUp => 'Move up';
 
   @override
   String pvMovedSnack(String when) {
@@ -2668,6 +2694,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvNoRoutine => 'No routine block today';
+
+  @override
+  String get pvNoSavedViews => 'No saved views yet';
 
   @override
   String get pvNoTasks => 'No tasks';
@@ -2740,6 +2769,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvPinned => 'Pinned';
+
+  @override
+  String pvPixels(String value) {
+    return '$value px';
+  }
 
   @override
   String get pvPlanColumn => 'Plan';
@@ -2928,6 +2962,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get pvSetAsPlanDefault => 'Open the Plan tab on this view';
+
+  @override
   String get pvSetDefaultView => 'Set as default';
 
   @override
@@ -3033,6 +3070,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String pvTableThreshold(String size) {
     return 'Table from $size';
   }
+
+  @override
+  String get pvTags => 'Tags';
 
   @override
   String get pvTextFilterHint => 'Search titles and notes';
@@ -3239,6 +3279,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvWithPlace => 'Tasks with a place';
+
+  @override
+  String get pvWorkDaysOnly => 'Work days only';
 
   @override
   String get pvWorkHours => 'Work hours';

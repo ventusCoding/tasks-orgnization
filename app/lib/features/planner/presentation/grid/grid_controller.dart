@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 
 /// Implemented by the grid state (and other date-paged views) to receive navigation commands.
 abstract interface class GridNavigator {
-  Future<void> jumpToDate(LocalDate date, {bool animate = true, double? minute});
+  Future<void> jumpToDate(LocalDate date, {bool animate = true, double? minute, double anchorFraction = 0});
 
   Future<void> step(int pages);
 
-  void scrollToMinute(double minute, {bool animate = true});
+  void scrollToMinute(double minute, {bool animate = true, double anchorFraction = 0});
 
   void zoomBy(double factor);
 }
@@ -36,14 +36,16 @@ class PlannerGridController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> jumpTo(LocalDate date, {bool animate = true, double? minute}) async =>
-      _navigator?.jumpToDate(date, animate: animate, minute: minute);
+  /// Shows [date]; with [minute], scrolls so it sits at [anchorFraction] of the viewport.
+  Future<void> jumpTo(LocalDate date, {bool animate = true, double? minute, double anchorFraction = 0}) async =>
+      _navigator?.jumpToDate(date, animate: animate, minute: minute, anchorFraction: anchorFraction);
 
   Future<void> next() async => _navigator?.step(1);
 
   Future<void> previous() async => _navigator?.step(-1);
 
-  void scrollToMinute(double minute, {bool animate = true}) => _navigator?.scrollToMinute(minute, animate: animate);
+  void scrollToMinute(double minute, {bool animate = true, double anchorFraction = 0}) =>
+      _navigator?.scrollToMinute(minute, animate: animate, anchorFraction: anchorFraction);
 
   void zoomBy(double factor) => _navigator?.zoomBy(factor);
 }

@@ -38,7 +38,6 @@
   "pvViewSaved": "حُفظ العرض",
   "pvResetView": "إعادة ضبط إعدادات العرض",
   "pvCopySuffix": "{name} (نسخة)",
-
   "pvSlotSize": "حجم الفترة",
   "pvSlotPresets": "أحجام جاهزة",
   "pvSlotCustom": "حجم مخصص",
@@ -58,7 +57,6 @@
   "pvSnap": "المحاذاة",
   "pvApplyToView": "تطبيق على هذا العرض",
   "pvSaveAsNewView": "حفظ كعرض جديد",
-
   "pvPrevious": "السابق",
   "pvNext": "التالي",
   "pvPreviousWeek": "الأسبوع السابق",
@@ -118,7 +116,6 @@
   "pvTrackingModes": "طريقة التتبع",
   "pvNoCategory": "بلا فئة",
   "pvListMode": "قائمة ميسّرة",
-
   "pvStatusScheduled": "مجدولة",
   "pvStatusInProgress": "قيد التنفيذ",
   "pvStatusDone": "منجزة",
@@ -128,7 +125,6 @@
   "pvTrackingCheck": "تأشير",
   "pvTrackingEvent": "حدث",
   "pvTrackingTimer": "مؤقت",
-
   "pvAllDay": "طوال اليوم",
   "pvMore": "+{count}",
   "pvMoreItems": "{count, plural, =1{عنصر آخر} =2{عنصران آخران} few{{count} عناصر أخرى} many{{count} عنصرًا آخر} other{{count} عنصر آخر}}",
@@ -141,7 +137,6 @@
   "pvTileSemantics": "{title}، {day}، من {start} إلى {end}، {status}",
   "pvEmptySlotSemantics": "{day} {time}، فارغة، انقر مرتين للإنشاء",
   "pvDayHeaderSemantics": "{day}، {items}",
-
   "pvMarkDone": "تحديد كمنجزة",
   "pvMarkNotDone": "تحديد كغير منجزة",
   "pvSkip": "تخطٍّ",
@@ -192,7 +187,6 @@
   "pvPlanFirstTask": "خطّط لمهمتك الأولى",
   "pvEmptyDay": "لا شيء مخطط",
   "pvEmptyRange": "لا شيء في هذه الفترة",
-
   "pvFreeRun": "متاح {from}–{to} · {duration}",
   "pvCreateHere": "إنشاء هنا",
   "pvFillFromBacklog": "ملء بمهمة غير مجدولة",
@@ -203,7 +197,6 @@
   "pvRibbonStyle": "شريط",
   "pvFreeGap": "متاح {duration}",
   "pvAllDaySection": "طوال اليوم وبلا وقت",
-
   "pvMonthDots": "نقاط",
   "pvMonthBars": "أشرطة",
   "pvMonthTitles": "عناوين",
@@ -238,7 +231,6 @@
   "pvCapacity": "السعة",
   "pvWeekRibbon": "الأسبوع",
   "pvDayRibbon": "اليوم",
-
   "pvNextUp": "التالي",
   "pvNothingNow": "لا شيء مجدول الآن",
   "pvTimeLeft": "المتبقي: {duration}",
@@ -247,7 +239,6 @@
   "pvExtendBy": "+{minutes} د",
   "pvStartsAt": "تبدأ في {time}",
   "pvKeepScreenOn": "إبقاء الشاشة مضاءة",
-
   "pvUnscheduled": "غير مجدولة",
   "pvOverdue": "متأخرة",
   "pvUntimed": "بلا وقت",
@@ -258,7 +249,6 @@
   "pvBacklogEmpty": "لا توجد مهام غير مجدولة",
   "pvSelected": "المحدد: {count}",
   "pvNoRoom": "{count, plural, =1{عنصر واحد لم يتسع له الوقت} =2{عنصران لم يتسع لهما الوقت} few{{count} عناصر لم يتسع لها الوقت} many{{count} عنصرًا لم يتسع له الوقت} other{{count} عنصر لم يتسع له الوقت}}",
-
   "pvOpenings": "الأوقات المتاحة",
   "pvMinGap": "أقل مدة",
   "pvIgnoreLowPriority": "تجاهل المهام منخفضة الأولوية",
@@ -267,7 +257,6 @@
   "pvNoOpenings": "لم يُعثر على وقت متاح",
   "pvWorkHours": "ساعات العمل",
   "pvNextDays": "{count, plural, =1{اليوم التالي} =2{اليومان القادمان} few{الأيام الـ{count} القادمة} many{الـ{count} يومًا القادمة} other{الـ{count} يوم القادمة}}",
-
   "pvColumns": "الأعمدة",
   "pvColTitle": "العنوان",
   "pvColDate": "التاريخ",
@@ -285,7 +274,6 @@
   "pvRecurring": "متكررة",
   "pvOneOff": "لمرة واحدة",
   "pvSortBy": "الترتيب حسب",
-
   "pvPlanColumn": "المخطط",
   "pvActualColumn": "الفعلي",
   "pvVarianceLate": "بدأت متأخرة",
@@ -293,7 +281,6 @@
   "pvVarianceNotDone": "غير منجزة",
   "pvVarianceUnplanned": "غير مخططة",
   "pvVarianceOnPlan": "حسب الخطة",
-
   "pvRoutineStart": "بدء الروتين",
   "pvStep": "الخطوة {n} من {total}",
   "pvRoutineComplete": "اكتمل الروتين",
@@ -302,7 +289,6 @@
   "pvSkipStep": "تخطي الخطوة",
   "pvNoRoutine": "لا توجد فترة روتين اليوم",
   "pvAutoAdvance": "الانتقال التلقائي",
-
   "pvDropNotSupported": "لا يمكن تغيير هذا التجميع بالسحب بعد",
   "pvQuadDo": "نفّذ",
   "pvQuadSchedule": "جدول",
@@ -330,5 +316,18 @@
   "pvUpcoming": "القادمة",
   "pvSinceGroup": "منذ",
   "pvMapPlaceholder": "تحتاج الخريطة إلى إحداثيات المهام، وستتوفر مع أداة اختيار المكان. المهام التي لها مكان مدرجة أدناه.",
-  "pvWithPlace": "مهام لها مكان"
+  "pvWithPlace": "مهام لها مكان",
+  "pvMoveUp": "نقل للأعلى",
+  "pvMoveDown": "نقل للأسفل",
+  "pvNoSavedViews": "لا توجد عروض محفوظة بعد",
+  "pvGroupCalendar": "عروض التقويم",
+  "pvGroupProductivity": "التركيز والإنتاجية",
+  "pvPixels": "{value} بكسل",
+  "pvDisplay": "العرض",
+  "pvLayout": "التخطيط",
+  "pvTags": "الوسوم",
+  "pvWorkDaysOnly": "أيام العمل فقط",
+  "pvFollowWorkHours": "استخدام ساعات عملي",
+  "pvSetAsPlanDefault": "فتح تبويب الخطة على هذا العرض",
+  "pvCurrentSize": "الحالي: {size}"
 }

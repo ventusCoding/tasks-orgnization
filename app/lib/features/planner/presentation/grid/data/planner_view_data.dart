@@ -1,11 +1,13 @@
 import 'package:everslot/core/providers.dart';
+import 'package:everslot/features/organization/application/providers.dart';
+import 'package:everslot/features/organization/domain/tag.dart';
 import 'package:everslot/features/planner/application/planner_contract.dart';
 import 'package:everslot/features/planner/application/view_config/view_actions.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
+import 'package:everslot/features/planner/domain/view_config/planner_view_config.dart';
 import 'package:everslot/features/planner/presentation/grid/data/demo_planner_data.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/day_slices.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/day_timeline.dart';
-import 'package:everslot/features/planner/domain/view_config/item_filter.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meta/meta.dart';
@@ -115,6 +117,19 @@ final viewExtraActionsProvider = Provider<PlannerViewActions>((ref) {
   }
   return ref.watch(plannerViewActionsProvider);
 });
+
+/// The item filter of a view: its config filters plus tag filters resolved to task ids.
+ItemFilter viewItemFilter(WidgetRef ref, PlannerViewConfig config) {
+  final base = config.itemFilter;
+  final tags = config.filters.tags;
+  if (tags.isEmpty) return base;
+  final byTask = ref.watch(tagsByEntityProvider(TaggableType.task)).value ?? const <String, List<Tag>>{};
+  final wanted = tags.toSet();
+  return base.withTaskIds({
+    for (final e in byTask.entries)
+      if (e.value.any((t) => wanted.contains(t.id))) e.key,
+  });
+}
 
 /// Key of a sliced range.
 @immutable

@@ -6,6 +6,7 @@ import 'package:everslot/core/env/env.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/session/session.dart';
 import 'package:everslot/core/time/clock.dart';
+import 'package:everslot/features/notifications/application/inbox_providers.dart';
 import 'package:everslot/features/planner/application/planner_contract.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/data/item_copy.dart';
@@ -171,6 +172,8 @@ class PlannerHarness {
         backlogItemsProvider.overrideWith((ref) => Stream.value(backend.backlog)),
         plannerActionsProvider.overrideWithValue(backend),
         plannerNavProvider.overrideWithValue(nav),
+        // The app bar's inbox badge re-evaluates on a 1-minute timer; keep tests timer-free.
+        inboxUnreadCountProvider.overrideWith((ref) => Stream.value(0)),
         ...overrides,
       ],
     );
