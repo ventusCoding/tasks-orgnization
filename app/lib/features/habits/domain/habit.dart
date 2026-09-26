@@ -266,14 +266,12 @@ final class BuildHabit extends Habit {
       return;
     }
     final target = goal.target;
-    if (target == null || target.isNaN) {
+    // Every measurable goal needs a target > 0 (server CHECK `habits_build_goal`); a limit of 0 is
+    // not a habit — the editor suggests a quit tracker instead (T5.1.10).
+    if (target == null || target.isNaN || target <= 0) {
       throw HabitValidationException(HabitValidationCode.targetRequired, field: 'target_value');
     }
-    // A limit of 0 is allowed (the editor suggests a quit tracker instead); build targets must be > 0.
-    if (target < 0 || (target == 0 && goal.op != TargetOp.lte)) {
-      throw HabitValidationException(HabitValidationCode.targetRequired, field: 'target_value');
-    }
-    if (goal.type == HabitGoalType.duration && (target > 1440 || (target < 1 && goal.op != TargetOp.lte))) {
+    if (goal.type == HabitGoalType.duration && (target > 1440 || target < 1)) {
       throw HabitValidationException(HabitValidationCode.durationOutOfRange, field: 'target_value');
     }
     final unit = goal.unit?.trim();
