@@ -726,6 +726,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get categoryArchived => 'Archived';
 
   @override
+  String get categoryClearAction => 'Remove the category from them';
+
+  @override
+  String categoryCreateNamed(String name) {
+    return 'Create category “$name”';
+  }
+
+  @override
   String get categoryDefaultHealth => 'Health';
 
   @override
@@ -748,7 +756,25 @@ class AppLocalizationsEn extends AppLocalizations {
       'Items in this category will keep existing without a category.';
 
   @override
+  String categoryDeleteUsedBody(int count, String name) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items use “$name”.',
+      one: '1 item uses “$name”.',
+    );
+    return '$_temp0 What should happen to them?';
+  }
+
+  @override
   String get categoryEdit => 'Edit category';
+
+  @override
+  String get categoryErrorDuplicate =>
+      'A category with this name already exists.';
+
+  @override
+  String get categoryErrorInvalid => 'Use 1 to 60 characters.';
 
   @override
   String get categoryName => 'Name';
@@ -763,11 +789,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String get categoryPick => 'Category';
 
   @override
+  String get categoryReassignAction => 'Move them to another category';
+
+  @override
+  String get categoryReassignTitle => 'Move items to';
+
+  @override
+  String get categoryReorderHint => 'Drag to reorder';
+
+  @override
+  String get categorySearch => 'Search or create a category';
+
+  @override
   String get categoryUnavailable => 'Counts as unavailable time';
 
   @override
   String get categoryUnavailableHint =>
       'Excluded from capacity stats (e.g. sleep, time off).';
+
+  @override
+  String categoryUsage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '1 item',
+      zero: 'Not used',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get checklistAddItem => 'Add item';

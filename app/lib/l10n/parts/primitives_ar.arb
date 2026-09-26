@@ -55,5 +55,15 @@
   "galleryWindowSize": "النافذة: {size}",
   "galleryWindowCompact": "مضغوطة",
   "galleryWindowMedium": "متوسطة",
-  "galleryWindowExpanded": "موسّعة"
+  "galleryWindowExpanded": "موسّعة",
+  "categoryErrorInvalid": "استخدم من 1 إلى 60 حرفًا.",
+  "categoryErrorDuplicate": "توجد فئة بهذا الاسم بالفعل.",
+  "categoryUsage": "{count, plural, =0{غير مستخدمة} =1{عنصر واحد} =2{عنصران} few{{count} عناصر} many{{count} عنصرًا} other{{count} عنصر}}",
+  "categoryDeleteUsedBody": "{count, plural, =1{عنصر واحد يستخدم «{name}».} =2{عنصران يستخدمان «{name}».} few{{count} عناصر تستخدم «{name}».} many{{count} عنصرًا يستخدم «{name}».} other{{count} عنصر يستخدم «{name}».}} ماذا تريد أن تفعل بها؟",
+  "categoryReassignAction": "نقلها إلى فئة أخرى",
+  "categoryClearAction": "إزالة الفئة منها",
+  "categoryReassignTitle": "نقل العناصر إلى",
+  "categorySearch": "ابحث عن فئة أو أنشئ واحدة",
+  "categoryCreateNamed": "إنشاء الفئة «{name}»",
+  "categoryReorderHint": "اسحب لإعادة الترتيب"
 }

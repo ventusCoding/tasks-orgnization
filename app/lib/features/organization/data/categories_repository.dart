@@ -41,56 +41,93 @@ class CategoriesRepository {
                 ..where(
                   (c) => c.deletedAt.isNull() & c.userId.equals(_userId()),
                 )
-                ..orderBy([(c) => OrderingTerm.asc(c.sortKey)]))
+                ..orderBy([
+                  (c) => OrderingTerm.asc(c.sortKey),
+                  (c) => OrderingTerm.asc(c.id),
+                ]))
               .get())
           .map(_map)
           .toList();
 
+  static const _usageSql = '''
+SELECT category_id AS id, COUNT(*) AS c FROM (
+  SELECT category_id FROM tasks WHERE category_id IS NOT NULL AND deleted_at IS NULL AND user_id = ?1
+  UNION ALL
+  SELECT category_id FROM habits WHERE category_id IS NOT NULL AND deleted_at IS NULL AND user_id = ?1
+  UNION ALL
+  SELECT category_id FROM checklists WHERE category_id IS NOT NULL AND deleted_at IS NULL AND user_id = ?1
+) GROUP BY category_id''';
+
+  /// Number of live tasks, habits and checklists per category id.
+  Stream<Map<String, int>> watchUsageCounts() => _db
+      .customSelect(
+        _usageSql,
+        variables: [Variable<String>(_userId())],
+        readsFrom: {_db.tasks, _db.habits, _db.checklists},
+      )
+      .watch()
+      .map(
+        (rows) => {
+          for (final r in rows) r.read<String>('id'): r.read<int>('c'),
+        },
+      );
+
+  /// Number of live entities using [id].
+  Future<int> usageCount(String id) async =>
+      (await watchUsageCounts().first)[id] ?? 0;
+
+  /// Creates a category at the end of the list. Throws [ValidationException] with
+  /// [CategoryNames.errorInvalid] / [CategoryNames.errorDuplicate].
   Future<OpRecord> create({
     required String name,
     required int color,
     String? icon,
+  }) async => (await add(name: name, color: color, icon: icon)).record;
+
+  /// [create] that also returns the new id (inline create in pickers).
+  Future<({String id, OpRecord record})> add({
+    required String name,
+    required int color,
+    String? icon,
   }) async {
-    final trimmed = name.trim();
-    if (trimmed.isEmpty || trimmed.length > 60) {
-      throw const ValidationException(
-        'Category name must be 1–60 characters',
-        field: 'name',
-      );
-    }
+    final normalized = _validName(name);
     final existing = await all();
-    if (existing.any((c) => c.name.toLowerCase() == trimmed.toLowerCase())) {
-      throw const ValidationException(
-        'A category with this name exists',
-        field: 'name',
-      );
-    }
+    _ensureUnique(existing, normalized);
     final last = existing.isEmpty ? null : existing.last.sortKey;
-    return _writer.run(
-      (tx) => tx.insert('categories', Ids.v7(), {
-        'name': trimmed,
+    final id = Ids.v7();
+    final record = await _writer.run(
+      (tx) => tx.insert('categories', id, {
+        'name': normalized,
         'color': color,
         'icon': icon,
         'sort_key': FractionalIndex.between(last, null),
       }),
     );
+    return (id: id, record: record);
   }
 
+  /// Renames, recolors, changes the icon or the capacity flag in one operation.
   Future<OpRecord> update(
     String id, {
     String? name,
     int? color,
     String? icon,
     bool? countsAsUnavailable,
-  }) => _writer.run(
-    (tx) => tx.update('categories', id, {
-      if (name != null) 'name': name.trim(),
-      if (color != null) 'color': color,
-      if (icon != null) 'icon': icon,
-      if (countsAsUnavailable != null)
-        'counts_as_unavailable': countsAsUnavailable,
-    }),
-  );
+  }) async {
+    String? normalized;
+    if (name != null) {
+      normalized = _validName(name);
+      _ensureUnique(await all(), normalized, exceptId: id);
+    }
+    return _writer.run(
+      (tx) => tx.update('categories', id, {
+        'name': ?normalized,
+        'color': ?color,
+        'icon': ?icon,
+        'counts_as_unavailable': ?countsAsUnavailable,
+      }),
+    );
+  }
 
   Future<OpRecord> setArchived(String id, {required bool archived}) =>
       _writer.run(
@@ -107,30 +144,50 @@ class CategoriesRepository {
         }),
       );
 
-  /// Deletes a category, reassigning ([reassignTo]) or clearing it on referencing items.
-  Future<OpRecord> delete(String id, {String? reassignTo}) => _writer.run((
-    tx,
-  ) async {
-    for (final table in const ['tasks', 'habits', 'checklists']) {
-      final refs = await _db
-          .customSelect(
-            'SELECT id FROM $table WHERE category_id = ? AND deleted_at IS NULL',
-            variables: [Variable<String>(id)],
-          )
-          .get();
-      for (final r in refs) {
-        await tx.update(table, r.data['id'] as String, {
-          'category_id': reassignTo,
-        });
-      }
+  /// Deletes a category, reassigning ([reassignTo]) or clearing it on the referencing tasks,
+  /// habits and checklists — one operation (one undo), with an `updated` activity event per
+  /// affected entity, so no `category_id` is ever left dangling.
+  Future<OpRecord> delete(String id, {String? reassignTo}) {
+    if (reassignTo == id) {
+      throw const ValidationException(
+        'Cannot reassign to the deleted category',
+        field: 'reassignTo',
+      );
     }
-    await tx.softDelete('categories', id);
-    await tx.logEvent(
-      entityType: 'category',
-      entityId: id,
-      eventType: 'deleted',
-    );
-  });
+    return _writer.run((tx) async {
+      var affected = 0;
+      for (final e in CategorizedTables.entityTypeByTable.entries) {
+        final refs = await _db
+            .customSelect(
+              'SELECT id FROM ${e.key} WHERE category_id = ? AND deleted_at IS NULL',
+              variables: [Variable<String>(id)],
+            )
+            .get();
+        for (final r in refs) {
+          final entityId = r.data['id'] as String;
+          await tx.update(e.key, entityId, {'category_id': reassignTo});
+          await tx.logEvent(
+            entityType: e.value,
+            entityId: entityId,
+            eventType: 'updated',
+            payload: {
+              'fields': const ['category_id'],
+              'from': id,
+              'to': reassignTo,
+            },
+          );
+          affected++;
+        }
+      }
+      await tx.softDelete('categories', id);
+      await tx.logEvent(
+        entityType: 'category',
+        entityId: id,
+        eventType: 'deleted',
+        payload: {'items': affected, 'reassignedTo': ?reassignTo},
+      );
+    });
+  }
 
   /// Seeds localized default categories once per account (T2.3.02). Deterministic ids make two
   /// offline devices converge on the same 6 rows.
@@ -163,5 +220,32 @@ class CategoriesRepository {
   Future<String?> _lastSortKey() async {
     final rows = await all();
     return rows.isEmpty ? null : rows.last.sortKey;
+  }
+
+  static String _validName(String name) {
+    final normalized = CategoryNames.normalize(name);
+    if (!CategoryNames.isValid(normalized)) {
+      throw const ValidationException(
+        CategoryNames.errorInvalid,
+        field: 'name',
+      );
+    }
+    return normalized;
+  }
+
+  static void _ensureUnique(
+    List<Category> existing,
+    String normalized, {
+    String? exceptId,
+  }) {
+    final key = normalized.toLowerCase();
+    if (existing.any(
+      (c) => c.id != exceptId && CategoryNames.key(c.name) == key,
+    )) {
+      throw const ValidationException(
+        CategoryNames.errorDuplicate,
+        field: 'name',
+      );
+    }
   }
 }

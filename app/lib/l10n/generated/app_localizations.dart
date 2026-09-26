@@ -1294,6 +1294,18 @@ abstract class AppLocalizations {
   /// **'Archived'**
   String get categoryArchived;
 
+  /// No description provided for @categoryClearAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the category from them'**
+  String get categoryClearAction;
+
+  /// No description provided for @categoryCreateNamed.
+  ///
+  /// In en, this message translates to:
+  /// **'Create category “{name}”'**
+  String categoryCreateNamed(String name);
+
   /// No description provided for @categoryDefaultHealth.
   ///
   /// In en, this message translates to:
@@ -1336,11 +1348,29 @@ abstract class AppLocalizations {
   /// **'Items in this category will keep existing without a category.'**
   String get categoryDeleteBody;
 
+  /// No description provided for @categoryDeleteUsedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item uses “{name}”.} other{{count} items use “{name}”.}} What should happen to them?'**
+  String categoryDeleteUsedBody(int count, String name);
+
   /// No description provided for @categoryEdit.
   ///
   /// In en, this message translates to:
   /// **'Edit category'**
   String get categoryEdit;
+
+  /// No description provided for @categoryErrorDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'A category with this name already exists.'**
+  String get categoryErrorDuplicate;
+
+  /// No description provided for @categoryErrorInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Use 1 to 60 characters.'**
+  String get categoryErrorInvalid;
 
   /// No description provided for @categoryName.
   ///
@@ -1366,6 +1396,30 @@ abstract class AppLocalizations {
   /// **'Category'**
   String get categoryPick;
 
+  /// No description provided for @categoryReassignAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Move them to another category'**
+  String get categoryReassignAction;
+
+  /// No description provided for @categoryReassignTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Move items to'**
+  String get categoryReassignTitle;
+
+  /// No description provided for @categoryReorderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag to reorder'**
+  String get categoryReorderHint;
+
+  /// No description provided for @categorySearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search or create a category'**
+  String get categorySearch;
+
   /// No description provided for @categoryUnavailable.
   ///
   /// In en, this message translates to:
@@ -1377,6 +1431,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Excluded from capacity stats (e.g. sleep, time off).'**
   String get categoryUnavailableHint;
+
+  /// No description provided for @categoryUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Not used} =1{1 item} other{{count} items}}'**
+  String categoryUsage(int count);
 
   /// No description provided for @checklistAddItem.
   ///

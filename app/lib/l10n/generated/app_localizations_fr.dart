@@ -737,6 +737,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get categoryArchived => 'Archivée';
 
   @override
+  String get categoryClearAction => 'Leur retirer la catégorie';
+
+  @override
+  String categoryCreateNamed(String name) {
+    return 'Créer la catégorie « $name »';
+  }
+
+  @override
   String get categoryDefaultHealth => 'Santé';
 
   @override
@@ -759,7 +767,24 @@ class AppLocalizationsFr extends AppLocalizations {
       'Les éléments de cette catégorie resteront, sans catégorie.';
 
   @override
+  String categoryDeleteUsedBody(int count, String name) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments utilisent « $name ».',
+      one: '1 élément utilise « $name ».',
+    );
+    return '$_temp0 Que faire de ces éléments ?';
+  }
+
+  @override
   String get categoryEdit => 'Modifier la catégorie';
+
+  @override
+  String get categoryErrorDuplicate => 'Une catégorie porte déjà ce nom.';
+
+  @override
+  String get categoryErrorInvalid => 'Utilisez 1 à 60 caractères.';
 
   @override
   String get categoryName => 'Nom';
@@ -774,11 +799,35 @@ class AppLocalizationsFr extends AppLocalizations {
   String get categoryPick => 'Catégorie';
 
   @override
+  String get categoryReassignAction => 'Les déplacer vers une autre catégorie';
+
+  @override
+  String get categoryReassignTitle => 'Déplacer les éléments vers';
+
+  @override
+  String get categoryReorderHint => 'Faites glisser pour réorganiser';
+
+  @override
+  String get categorySearch => 'Rechercher ou créer une catégorie';
+
+  @override
   String get categoryUnavailable => 'Compte comme temps indisponible';
 
   @override
   String get categoryUnavailableHint =>
       'Exclu des statistiques de capacité (sommeil, congés…).';
+
+  @override
+  String categoryUsage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments',
+      one: '1 élément',
+      zero: 'Non utilisée',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get checklistAddItem => 'Ajouter un élément';
