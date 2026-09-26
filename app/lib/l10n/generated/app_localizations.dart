@@ -7132,6 +7132,276 @@ abstract class AppLocalizations {
   /// **'Saved'**
   String get savedSnack;
 
+  /// No description provided for @settingsAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get settingsAbout;
+
+  /// No description provided for @settingsAboutSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Version, licenses, help'**
+  String get settingsAboutSubtitle;
+
+  /// No description provided for @settingsAccessibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Accessibility'**
+  String get settingsAccessibility;
+
+  /// No description provided for @settingsAccessibilitySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Motion, haptics, contrast, labels'**
+  String get settingsAccessibilitySubtitle;
+
+  /// No description provided for @settingsAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get settingsAccount;
+
+  /// No description provided for @settingsAccountLocalOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'On this device only'**
+  String get settingsAccountLocalOnly;
+
+  /// No description provided for @settingsAppearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get settingsAppearance;
+
+  /// No description provided for @settingsAppearanceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme, density, language'**
+  String get settingsAppearanceSubtitle;
+
+  /// No description provided for @settingsArabicDigits.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic-Indic digits'**
+  String get settingsArabicDigits;
+
+  /// No description provided for @settingsArabicDigitsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show ٠١٢٣ instead of 0123 when the app is in Arabic'**
+  String get settingsArabicDigitsSubtitle;
+
+  /// No description provided for @settingsClock.
+  ///
+  /// In en, this message translates to:
+  /// **'Clock'**
+  String get settingsClock;
+
+  /// No description provided for @settingsClock12.
+  ///
+  /// In en, this message translates to:
+  /// **'12-hour'**
+  String get settingsClock12;
+
+  /// No description provided for @settingsClock24.
+  ///
+  /// In en, this message translates to:
+  /// **'24-hour'**
+  String get settingsClock24;
+
+  /// No description provided for @settingsCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency for quit savings'**
+  String get settingsCurrency;
+
+  /// No description provided for @settingsCurrentZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Current time zone (this device)'**
+  String get settingsCurrentZone;
+
+  /// No description provided for @settingsDayStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit day starts at'**
+  String get settingsDayStart;
+
+  /// No description provided for @settingsDayStartSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-ins before this time count for the previous day. Applies to new check-ins only.'**
+  String get settingsDayStartSubtitle;
+
+  /// No description provided for @settingsDensity.
+  ///
+  /// In en, this message translates to:
+  /// **'Density'**
+  String get settingsDensity;
+
+  /// No description provided for @settingsDensityComfortable.
+  ///
+  /// In en, this message translates to:
+  /// **'Comfortable'**
+  String get settingsDensityComfortable;
+
+  /// No description provided for @settingsDensityCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Compact'**
+  String get settingsDensityCompact;
+
+  /// No description provided for @settingsDeviceLastSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'Last seen {when}'**
+  String settingsDeviceLastSeen(String when);
+
+  /// No description provided for @settingsDevicePushOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Push notifications off'**
+  String get settingsDevicePushOff;
+
+  /// No description provided for @settingsDevicePushOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Push notifications on'**
+  String get settingsDevicePushOn;
+
+  /// No description provided for @settingsDeviceRevoke.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove device'**
+  String get settingsDeviceRevoke;
+
+  /// No description provided for @settingsDeviceRevokeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It stops receiving notifications and is signed out the next time it connects.'**
+  String get settingsDeviceRevokeBody;
+
+  /// No description provided for @settingsDeviceRevokeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name}?'**
+  String settingsDeviceRevokeTitle(String name);
+
+  /// No description provided for @settingsDeviceRevoked.
+  ///
+  /// In en, this message translates to:
+  /// **'Device removed'**
+  String get settingsDeviceRevoked;
+
+  /// No description provided for @settingsDeviceThis.
+  ///
+  /// In en, this message translates to:
+  /// **'This device'**
+  String get settingsDeviceThis;
+
+  /// No description provided for @settingsDeviceUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown device'**
+  String get settingsDeviceUnknown;
+
+  /// No description provided for @settingsDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices'**
+  String get settingsDevices;
+
+  /// No description provided for @settingsDevicesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No devices registered yet.'**
+  String get settingsDevicesEmpty;
+
+  /// No description provided for @settingsDevicesOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect to the internet to see your devices.'**
+  String get settingsDevicesOffline;
+
+  /// No description provided for @settingsGroupData.
+  ///
+  /// In en, this message translates to:
+  /// **'Data & privacy'**
+  String get settingsGroupData;
+
+  /// No description provided for @settingsGroupGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get settingsGroupGeneral;
+
+  /// No description provided for @settingsGroupHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get settingsGroupHelp;
+
+  /// No description provided for @settingsGroupSections.
+  ///
+  /// In en, this message translates to:
+  /// **'Sections'**
+  String get settingsGroupSections;
+
+  /// No description provided for @settingsHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits'**
+  String get settingsHabits;
+
+  /// No description provided for @settingsHabitsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip policy, streak freezes'**
+  String get settingsHabitsSubtitle;
+
+  /// No description provided for @settingsHomeZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Home time zone'**
+  String get settingsHomeZone;
+
+  /// No description provided for @settingsHomeZoneAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow this device'**
+  String get settingsHomeZoneAuto;
+
+  /// No description provided for @settingsHomeZoneAutoSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update the home zone automatically when you travel'**
+  String get settingsHomeZoneAutoSubtitle;
+
+  /// No description provided for @settingsHomeZoneSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed-time tasks and habits use this zone'**
+  String get settingsHomeZoneSubtitle;
+
+  /// No description provided for @settingsInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'Insights'**
+  String get settingsInsights;
+
+  /// No description provided for @settingsInsightsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Default period, comparisons'**
+  String get settingsInsightsSubtitle;
+
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguage;
+
   /// No description provided for @settingsLanguageArabic.
   ///
   /// In en, this message translates to:
@@ -7155,6 +7425,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'System default'**
   String get settingsLanguageSystem;
+
+  /// No description provided for @settingsLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists'**
+  String get settingsLists;
+
+  /// No description provided for @settingsListsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Statuses, progress, completed items'**
+  String get settingsListsSubtitle;
+
+  /// No description provided for @settingsNotificationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders, quiet hours, inbox'**
+  String get settingsNotificationsSubtitle;
+
+  /// No description provided for @settingsOrganizationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories and tags used across the app'**
+  String get settingsOrganizationSubtitle;
+
+  /// No description provided for @settingsPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan'**
+  String get settingsPlan;
+
+  /// No description provided for @settingsPlanSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Default view, durations, work hours'**
+  String get settingsPlanSubtitle;
+
+  /// No description provided for @settingsPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get settingsPreview;
+
+  /// No description provided for @settingsPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy & security'**
+  String get settingsPrivacy;
+
+  /// No description provided for @settingsPrivacySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock, hidden notification content'**
+  String get settingsPrivacySubtitle;
+
+  /// No description provided for @settingsRegional.
+  ///
+  /// In en, this message translates to:
+  /// **'Regional'**
+  String get settingsRegional;
+
+  /// No description provided for @settingsRegionalSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time zone, week start, clock, currency'**
+  String get settingsRegionalSubtitle;
+
+  /// No description provided for @settingsSyncData.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync & data'**
+  String get settingsSyncData;
+
+  /// No description provided for @settingsSyncDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices, export, import, trash'**
+  String get settingsSyncDataSubtitle;
+
+  /// No description provided for @settingsSyncDiagnostics.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync diagnostics'**
+  String get settingsSyncDiagnostics;
+
+  /// No description provided for @settingsSyncDiscardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The server\'s version of these items is restored on this device.'**
+  String get settingsSyncDiscardBody;
+
+  /// No description provided for @settingsSyncDiscardFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard rejected changes'**
+  String get settingsSyncDiscardFailed;
+
+  /// No description provided for @settingsSyncDiscardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard rejected changes?'**
+  String get settingsSyncDiscardTitle;
+
+  /// No description provided for @settingsSyncFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 change was rejected by the server} other{{count} changes were rejected by the server}}'**
+  String settingsSyncFailed(int count);
+
+  /// No description provided for @settingsSyncInitialProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading your data… {percent}%'**
+  String settingsSyncInitialProgress(int percent);
+
+  /// No description provided for @settingsSyncLastError.
+  ///
+  /// In en, this message translates to:
+  /// **'Last error'**
+  String get settingsSyncLastError;
+
+  /// No description provided for @settingsSyncLastSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Last synced {when}'**
+  String settingsSyncLastSuccess(String when);
+
+  /// No description provided for @settingsSyncNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Not synced yet'**
+  String get settingsSyncNever;
+
+  /// No description provided for @settingsSyncNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync now'**
+  String get settingsSyncNow;
+
+  /// No description provided for @settingsSyncOffBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data is stored on this device only.'**
+  String get settingsSyncOffBody;
+
+  /// No description provided for @settingsSyncOffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync is off'**
+  String get settingsSyncOffTitle;
+
+  /// No description provided for @settingsSyncRefreshLocalOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything is saved on this device.'**
+  String get settingsSyncRefreshLocalOnly;
+
+  /// No description provided for @settingsSyncResync.
+  ///
+  /// In en, this message translates to:
+  /// **'Force full resync'**
+  String get settingsSyncResync;
+
+  /// No description provided for @settingsSyncResyncBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot downloads all your data again. Changes that haven\'t synced yet are kept.'**
+  String get settingsSyncResyncBody;
+
+  /// No description provided for @settingsSyncResyncTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Resync everything?'**
+  String get settingsSyncResyncTitle;
+
+  /// No description provided for @settingsSyncRetryFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry rejected changes'**
+  String get settingsSyncRetryFailed;
+
+  /// No description provided for @settingsSyncStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get settingsSyncStatus;
+
+  /// No description provided for @settingsSyncTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync & devices'**
+  String get settingsSyncTitle;
+
+  /// No description provided for @settingsSyncTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync status'**
+  String get settingsSyncTooltip;
+
+  /// No description provided for @settingsTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsTheme;
+
+  /// No description provided for @settingsThemeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settingsThemeDark;
+
+  /// No description provided for @settingsThemeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settingsThemeLight;
+
+  /// No description provided for @settingsThemeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get settingsThemeSystem;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @settingsTrash.
+  ///
+  /// In en, this message translates to:
+  /// **'Trash'**
+  String get settingsTrash;
+
+  /// No description provided for @settingsUnknownPage.
+  ///
+  /// In en, this message translates to:
+  /// **'This settings page doesn\'t exist.'**
+  String get settingsUnknownPage;
+
+  /// No description provided for @settingsWeekStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Week starts on'**
+  String get settingsWeekStart;
 
   /// No description provided for @stateEmpty.
   ///

@@ -1294,6 +1294,41 @@
       }
     }
   },
+  "@settingsDeviceLastSeen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsDeviceRevokeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsSyncFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@settingsSyncInitialProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@settingsSyncLastSuccess": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
   "@syncPending": {
     "placeholders": {
       "count": {
@@ -2752,10 +2787,96 @@
   "relativeMinutesAgo": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
   "relativeNow": "now",
   "savedSnack": "Saved",
+  "settingsAbout": "About",
+  "settingsAboutSubtitle": "Version, licenses, help",
+  "settingsAccessibility": "Accessibility",
+  "settingsAccessibilitySubtitle": "Motion, haptics, contrast, labels",
+  "settingsAccount": "Account",
+  "settingsAccountLocalOnly": "On this device only",
+  "settingsAppearance": "Appearance",
+  "settingsAppearanceSubtitle": "Theme, density, language",
+  "settingsArabicDigits": "Arabic-Indic digits",
+  "settingsArabicDigitsSubtitle": "Show ٠١٢٣ instead of 0123 when the app is in Arabic",
+  "settingsClock": "Clock",
+  "settingsClock12": "12-hour",
+  "settingsClock24": "24-hour",
+  "settingsCurrency": "Currency for quit savings",
+  "settingsCurrentZone": "Current time zone (this device)",
+  "settingsDayStart": "Habit day starts at",
+  "settingsDayStartSubtitle": "Check-ins before this time count for the previous day. Applies to new check-ins only.",
+  "settingsDensity": "Density",
+  "settingsDensityComfortable": "Comfortable",
+  "settingsDensityCompact": "Compact",
+  "settingsDeviceLastSeen": "Last seen {when}",
+  "settingsDevicePushOff": "Push notifications off",
+  "settingsDevicePushOn": "Push notifications on",
+  "settingsDeviceRevoke": "Remove device",
+  "settingsDeviceRevokeBody": "It stops receiving notifications and is signed out the next time it connects.",
+  "settingsDeviceRevokeTitle": "Remove {name}?",
+  "settingsDeviceRevoked": "Device removed",
+  "settingsDeviceThis": "This device",
+  "settingsDeviceUnknown": "Unknown device",
+  "settingsDevices": "Devices",
+  "settingsDevicesEmpty": "No devices registered yet.",
+  "settingsDevicesOffline": "Connect to the internet to see your devices.",
+  "settingsGroupData": "Data & privacy",
+  "settingsGroupGeneral": "General",
+  "settingsGroupHelp": "Help",
+  "settingsGroupSections": "Sections",
+  "settingsHabits": "Habits",
+  "settingsHabitsSubtitle": "Skip policy, streak freezes",
+  "settingsHomeZone": "Home time zone",
+  "settingsHomeZoneAuto": "Follow this device",
+  "settingsHomeZoneAutoSubtitle": "Update the home zone automatically when you travel",
+  "settingsHomeZoneSubtitle": "Fixed-time tasks and habits use this zone",
+  "settingsInsights": "Insights",
+  "settingsInsightsSubtitle": "Default period, comparisons",
+  "settingsLanguage": "Language",
   "settingsLanguageArabic": "العربية",
   "settingsLanguageEnglish": "English",
   "settingsLanguageFrench": "Français",
   "settingsLanguageSystem": "System default",
+  "settingsLists": "Lists",
+  "settingsListsSubtitle": "Statuses, progress, completed items",
+  "settingsNotificationsSubtitle": "Reminders, quiet hours, inbox",
+  "settingsOrganizationSubtitle": "Categories and tags used across the app",
+  "settingsPlan": "Plan",
+  "settingsPlanSubtitle": "Default view, durations, work hours",
+  "settingsPreview": "Preview",
+  "settingsPrivacy": "Privacy & security",
+  "settingsPrivacySubtitle": "App lock, hidden notification content",
+  "settingsRegional": "Regional",
+  "settingsRegionalSubtitle": "Time zone, week start, clock, currency",
+  "settingsSyncData": "Sync & data",
+  "settingsSyncDataSubtitle": "Devices, export, import, trash",
+  "settingsSyncDiagnostics": "Sync diagnostics",
+  "settingsSyncDiscardBody": "The server's version of these items is restored on this device.",
+  "settingsSyncDiscardFailed": "Discard rejected changes",
+  "settingsSyncDiscardTitle": "Discard rejected changes?",
+  "settingsSyncFailed": "{count, plural, =1{1 change was rejected by the server} other{{count} changes were rejected by the server}}",
+  "settingsSyncInitialProgress": "Downloading your data… {percent}%",
+  "settingsSyncLastError": "Last error",
+  "settingsSyncLastSuccess": "Last synced {when}",
+  "settingsSyncNever": "Not synced yet",
+  "settingsSyncNow": "Sync now",
+  "settingsSyncOffBody": "Your data is stored on this device only.",
+  "settingsSyncOffTitle": "Sync is off",
+  "settingsSyncRefreshLocalOnly": "Everything is saved on this device.",
+  "settingsSyncResync": "Force full resync",
+  "settingsSyncResyncBody": "Everslot downloads all your data again. Changes that haven't synced yet are kept.",
+  "settingsSyncResyncTitle": "Resync everything?",
+  "settingsSyncRetryFailed": "Retry rejected changes",
+  "settingsSyncStatus": "Status",
+  "settingsSyncTitle": "Sync & devices",
+  "settingsSyncTooltip": "Sync status",
+  "settingsTheme": "Theme",
+  "settingsThemeDark": "Dark",
+  "settingsThemeLight": "Light",
+  "settingsThemeSystem": "System",
+  "settingsTitle": "Settings",
+  "settingsTrash": "Trash",
+  "settingsUnknownPage": "This settings page doesn't exist.",
+  "settingsWeekStart": "Week starts on",
   "stateEmpty": "Nothing here yet",
   "stateErrorBody": "Please try again.",
   "stateErrorTitle": "Something went wrong",

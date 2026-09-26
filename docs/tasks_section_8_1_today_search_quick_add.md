@@ -26,7 +26,7 @@ palette (P2).
 - [ ] T8.1.06 — Habits-due block with inline check-in
 - [ ] T8.1.07 — Quit counters block
 - [ ] T8.1.08 — Checklists block (pinned, due, follow-ups)
-- [ ] T8.1.09 — Pull-to-refresh & sync indicator
+- [x] T8.1.09 — Pull-to-refresh & sync indicator
 - [ ] T8.1.10 — Universal quick-add sheet
 - [ ] T8.1.11 — Day progress header
 - [ ] T8.1.12 — Today customization (reorder/hide blocks)
@@ -128,6 +128,7 @@ completing from Today updates roll-ups.
 shows offline / syncing / error with a tap-through to Settings › Sync.
 **Acceptance criteria:** refresh completes or fails gracefully offline (message, no spinner lock).
 **Tests:** widget test with a fake sync service in each state.
+**Notes:** `SyncIndicator` (in `AppBarActions`, so every tab root shows it: hidden when synced/local-only, spinner or initial-sync progress, cloud-off, warning with tap-through to Settings › Sync) and `SyncRefresh`/`refreshSync` (push+pull, 30 s cap, offline/error/local-only snackbars) in `features/settings/presentation/widgets/sync_indicator.dart`. TODO(integration): each tab root's owner wraps its main scrollable with `SyncRefresh` (Today is still a placeholder).
 
 ### T8.1.10 — Universal quick-add sheet
 **Priority:** P0 · **Size:** M · **Depends on:** [3.1], [4.1], [5.1]

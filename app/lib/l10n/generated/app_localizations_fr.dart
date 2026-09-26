@@ -4306,6 +4306,153 @@ class AppLocalizationsFr extends AppLocalizations {
   String get savedSnack => 'Enregistré';
 
   @override
+  String get settingsAbout => 'À propos';
+
+  @override
+  String get settingsAboutSubtitle => 'Version, licences, aide';
+
+  @override
+  String get settingsAccessibility => 'Accessibilité';
+
+  @override
+  String get settingsAccessibilitySubtitle =>
+      'Animations, vibrations, contraste, libellés';
+
+  @override
+  String get settingsAccount => 'Compte';
+
+  @override
+  String get settingsAccountLocalOnly => 'Sur cet appareil uniquement';
+
+  @override
+  String get settingsAppearance => 'Apparence';
+
+  @override
+  String get settingsAppearanceSubtitle => 'Thème, densité, langue';
+
+  @override
+  String get settingsArabicDigits => 'Chiffres arabes orientaux';
+
+  @override
+  String get settingsArabicDigitsSubtitle =>
+      'Afficher ٠١٢٣ au lieu de 0123 lorsque l\'app est en arabe';
+
+  @override
+  String get settingsClock => 'Horloge';
+
+  @override
+  String get settingsClock12 => '12 heures';
+
+  @override
+  String get settingsClock24 => '24 heures';
+
+  @override
+  String get settingsCurrency => 'Devise des économies (sevrage)';
+
+  @override
+  String get settingsCurrentZone => 'Fuseau horaire actuel (cet appareil)';
+
+  @override
+  String get settingsDayStart => 'La journée des habitudes commence à';
+
+  @override
+  String get settingsDayStartSubtitle =>
+      'Les validations avant cette heure comptent pour la veille. S\'applique uniquement aux nouvelles validations.';
+
+  @override
+  String get settingsDensity => 'Densité';
+
+  @override
+  String get settingsDensityComfortable => 'Confortable';
+
+  @override
+  String get settingsDensityCompact => 'Compacte';
+
+  @override
+  String settingsDeviceLastSeen(String when) {
+    return 'Vu pour la dernière fois $when';
+  }
+
+  @override
+  String get settingsDevicePushOff => 'Notifications push désactivées';
+
+  @override
+  String get settingsDevicePushOn => 'Notifications push activées';
+
+  @override
+  String get settingsDeviceRevoke => 'Retirer l\'appareil';
+
+  @override
+  String get settingsDeviceRevokeBody =>
+      'Il ne recevra plus de notifications et sera déconnecté à sa prochaine connexion.';
+
+  @override
+  String settingsDeviceRevokeTitle(String name) {
+    return 'Retirer $name ?';
+  }
+
+  @override
+  String get settingsDeviceRevoked => 'Appareil retiré';
+
+  @override
+  String get settingsDeviceThis => 'Cet appareil';
+
+  @override
+  String get settingsDeviceUnknown => 'Appareil inconnu';
+
+  @override
+  String get settingsDevices => 'Appareils';
+
+  @override
+  String get settingsDevicesEmpty =>
+      'Aucun appareil enregistré pour l\'instant.';
+
+  @override
+  String get settingsDevicesOffline =>
+      'Connectez-vous à Internet pour voir vos appareils.';
+
+  @override
+  String get settingsGroupData => 'Données et confidentialité';
+
+  @override
+  String get settingsGroupGeneral => 'Général';
+
+  @override
+  String get settingsGroupHelp => 'Aide';
+
+  @override
+  String get settingsGroupSections => 'Sections';
+
+  @override
+  String get settingsHabits => 'Habitudes';
+
+  @override
+  String get settingsHabitsSubtitle => 'Jours sautés, gels de série';
+
+  @override
+  String get settingsHomeZone => 'Fuseau horaire de référence';
+
+  @override
+  String get settingsHomeZoneAuto => 'Suivre cet appareil';
+
+  @override
+  String get settingsHomeZoneAutoSubtitle =>
+      'Mettre à jour le fuseau de référence automatiquement en voyage';
+
+  @override
+  String get settingsHomeZoneSubtitle =>
+      'Les tâches et habitudes à heure fixe utilisent ce fuseau';
+
+  @override
+  String get settingsInsights => 'Statistiques';
+
+  @override
+  String get settingsInsightsSubtitle => 'Période par défaut, comparaisons';
+
+  @override
+  String get settingsLanguage => 'Langue';
+
+  @override
   String get settingsLanguageArabic => 'العربية';
 
   @override
@@ -4316,6 +4463,152 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settingsLanguageSystem => 'Langue du système';
+
+  @override
+  String get settingsLists => 'Listes';
+
+  @override
+  String get settingsListsSubtitle => 'Statuts, progression, éléments terminés';
+
+  @override
+  String get settingsNotificationsSubtitle =>
+      'Rappels, heures calmes, boîte de réception';
+
+  @override
+  String get settingsOrganizationSubtitle =>
+      'Catégories et étiquettes utilisées dans l\'app';
+
+  @override
+  String get settingsPlan => 'Planning';
+
+  @override
+  String get settingsPlanSubtitle =>
+      'Vue par défaut, durées, heures de travail';
+
+  @override
+  String get settingsPreview => 'Aperçu';
+
+  @override
+  String get settingsPrivacy => 'Confidentialité et sécurité';
+
+  @override
+  String get settingsPrivacySubtitle =>
+      'Verrouillage, contenu des notifications masqué';
+
+  @override
+  String get settingsRegional => 'Région';
+
+  @override
+  String get settingsRegionalSubtitle =>
+      'Fuseau horaire, début de semaine, horloge, devise';
+
+  @override
+  String get settingsSyncData => 'Synchronisation et données';
+
+  @override
+  String get settingsSyncDataSubtitle => 'Appareils, export, import, corbeille';
+
+  @override
+  String get settingsSyncDiagnostics => 'Diagnostic de synchronisation';
+
+  @override
+  String get settingsSyncDiscardBody =>
+      'La version du serveur de ces éléments est rétablie sur cet appareil.';
+
+  @override
+  String get settingsSyncDiscardFailed =>
+      'Abandonner les modifications refusées';
+
+  @override
+  String get settingsSyncDiscardTitle =>
+      'Abandonner les modifications refusées ?';
+
+  @override
+  String settingsSyncFailed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count modifications ont été refusées par le serveur',
+      one: '$count modification a été refusée par le serveur',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String settingsSyncInitialProgress(int percent) {
+    return 'Téléchargement de vos données… $percent %';
+  }
+
+  @override
+  String get settingsSyncLastError => 'Dernière erreur';
+
+  @override
+  String settingsSyncLastSuccess(String when) {
+    return 'Dernière synchronisation $when';
+  }
+
+  @override
+  String get settingsSyncNever => 'Pas encore synchronisé';
+
+  @override
+  String get settingsSyncNow => 'Synchroniser maintenant';
+
+  @override
+  String get settingsSyncOffBody =>
+      'Vos données sont stockées uniquement sur cet appareil.';
+
+  @override
+  String get settingsSyncOffTitle => 'La synchronisation est désactivée';
+
+  @override
+  String get settingsSyncRefreshLocalOnly =>
+      'Tout est enregistré sur cet appareil.';
+
+  @override
+  String get settingsSyncResync => 'Forcer une resynchronisation complète';
+
+  @override
+  String get settingsSyncResyncBody =>
+      'Everslot télécharge à nouveau toutes vos données. Les modifications pas encore synchronisées sont conservées.';
+
+  @override
+  String get settingsSyncResyncTitle => 'Tout resynchroniser ?';
+
+  @override
+  String get settingsSyncRetryFailed => 'Renvoyer les modifications refusées';
+
+  @override
+  String get settingsSyncStatus => 'État';
+
+  @override
+  String get settingsSyncTitle => 'Synchronisation et appareils';
+
+  @override
+  String get settingsSyncTooltip => 'État de la synchronisation';
+
+  @override
+  String get settingsTheme => 'Thème';
+
+  @override
+  String get settingsThemeDark => 'Sombre';
+
+  @override
+  String get settingsThemeLight => 'Clair';
+
+  @override
+  String get settingsThemeSystem => 'Système';
+
+  @override
+  String get settingsTitle => 'Paramètres';
+
+  @override
+  String get settingsTrash => 'Corbeille';
+
+  @override
+  String get settingsUnknownPage => 'Cette page de paramètres n\'existe pas.';
+
+  @override
+  String get settingsWeekStart => 'La semaine commence le';
 
   @override
   String get stateEmpty => 'Rien pour l\'instant';

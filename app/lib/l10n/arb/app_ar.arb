@@ -87,6 +87,41 @@
       }
     }
   },
+  "@settingsDeviceLastSeen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsDeviceRevokeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsSyncFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@settingsSyncInitialProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@settingsSyncLastSuccess": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
   "actionAdd": "إضافة",
   "actionApply": "تطبيق",
   "actionArchive": "أرشفة",
@@ -1258,10 +1293,96 @@
   "relativeMinutesAgo": "{count, plural, =1{منذ دقيقة} =2{منذ دقيقتين} few{منذ {count} دقائق} many{منذ {count} دقيقة} other{منذ {count} دقيقة}}",
   "relativeNow": "الآن",
   "savedSnack": "تم الحفظ",
+  "settingsAbout": "حول التطبيق",
+  "settingsAboutSubtitle": "الإصدار والتراخيص والمساعدة",
+  "settingsAccessibility": "تسهيلات الاستخدام",
+  "settingsAccessibilitySubtitle": "الحركة والاهتزاز والتباين والتسميات",
+  "settingsAccount": "الحساب",
+  "settingsAccountLocalOnly": "على هذا الجهاز فقط",
+  "settingsAppearance": "المظهر",
+  "settingsAppearanceSubtitle": "السمة والكثافة واللغة",
+  "settingsArabicDigits": "الأرقام العربية المشرقية",
+  "settingsArabicDigitsSubtitle": "عرض ٠١٢٣ بدلًا من 0123 عندما يكون التطبيق بالعربية",
+  "settingsClock": "الساعة",
+  "settingsClock12": "12 ساعة",
+  "settingsClock24": "24 ساعة",
+  "settingsCurrency": "عملة مدّخرات الإقلاع",
+  "settingsCurrentZone": "المنطقة الزمنية الحالية (هذا الجهاز)",
+  "settingsDayStart": "يبدأ يوم العادات عند",
+  "settingsDayStartSubtitle": "تُحتسب التسجيلات قبل هذا الوقت لليوم السابق. ينطبق على التسجيلات الجديدة فقط.",
+  "settingsDensity": "الكثافة",
+  "settingsDensityComfortable": "مريحة",
+  "settingsDensityCompact": "مضغوطة",
+  "settingsDeviceLastSeen": "آخر ظهور {when}",
+  "settingsDevicePushOff": "إشعارات الدفع متوقفة",
+  "settingsDevicePushOn": "إشعارات الدفع مفعّلة",
+  "settingsDeviceRevoke": "إزالة الجهاز",
+  "settingsDeviceRevokeBody": "سيتوقف عن تلقي الإشعارات وسيُسجَّل خروجه عند اتصاله التالي.",
+  "settingsDeviceRevokeTitle": "إزالة {name}؟",
+  "settingsDeviceRevoked": "تمت إزالة الجهاز",
+  "settingsDeviceThis": "هذا الجهاز",
+  "settingsDeviceUnknown": "جهاز غير معروف",
+  "settingsDevices": "الأجهزة",
+  "settingsDevicesEmpty": "لا توجد أجهزة مسجّلة بعد.",
+  "settingsDevicesOffline": "اتصل بالإنترنت لعرض أجهزتك.",
+  "settingsGroupData": "البيانات والخصوصية",
+  "settingsGroupGeneral": "عام",
+  "settingsGroupHelp": "المساعدة",
+  "settingsGroupSections": "الأقسام",
+  "settingsHabits": "العادات",
+  "settingsHabitsSubtitle": "سياسة التخطي وتجميد السلاسل",
+  "settingsHomeZone": "المنطقة الزمنية الأساسية",
+  "settingsHomeZoneAuto": "اتباع هذا الجهاز",
+  "settingsHomeZoneAutoSubtitle": "تحديث المنطقة الأساسية تلقائيًا عند السفر",
+  "settingsHomeZoneSubtitle": "تستخدم المهام والعادات ذات التوقيت الثابت هذه المنطقة",
+  "settingsInsights": "الإحصاءات",
+  "settingsInsightsSubtitle": "الفترة الافتراضية والمقارنات",
+  "settingsLanguage": "اللغة",
   "settingsLanguageArabic": "العربية",
   "settingsLanguageEnglish": "English",
   "settingsLanguageFrench": "Français",
   "settingsLanguageSystem": "لغة النظام",
+  "settingsLists": "القوائم",
+  "settingsListsSubtitle": "الحالات والتقدّم والعناصر المكتملة",
+  "settingsNotificationsSubtitle": "التذكيرات وساعات الهدوء وصندوق الوارد",
+  "settingsOrganizationSubtitle": "الفئات والوسوم المستخدمة في التطبيق",
+  "settingsPlan": "التخطيط",
+  "settingsPlanSubtitle": "العرض الافتراضي والمدد وساعات العمل",
+  "settingsPreview": "معاينة",
+  "settingsPrivacy": "الخصوصية والأمان",
+  "settingsPrivacySubtitle": "قفل التطبيق وإخفاء محتوى الإشعارات",
+  "settingsRegional": "المنطقة",
+  "settingsRegionalSubtitle": "المنطقة الزمنية وبداية الأسبوع والساعة والعملة",
+  "settingsSyncData": "المزامنة والبيانات",
+  "settingsSyncDataSubtitle": "الأجهزة والتصدير والاستيراد والمهملات",
+  "settingsSyncDiagnostics": "تشخيص المزامنة",
+  "settingsSyncDiscardBody": "ستُستعاد نسخة الخادم من هذه العناصر على هذا الجهاز.",
+  "settingsSyncDiscardFailed": "تجاهل التعديلات المرفوضة",
+  "settingsSyncDiscardTitle": "تجاهل التعديلات المرفوضة؟",
+  "settingsSyncFailed": "{count, plural, =1{رفض الخادم تعديلًا واحدًا} =2{رفض الخادم تعديلين} few{رفض الخادم {count} تعديلات} many{رفض الخادم {count} تعديلًا} other{رفض الخادم {count} تعديل}}",
+  "settingsSyncInitialProgress": "جارٍ تنزيل بياناتك… {percent}٪",
+  "settingsSyncLastError": "آخر خطأ",
+  "settingsSyncLastSuccess": "آخر مزامنة {when}",
+  "settingsSyncNever": "لم تتم المزامنة بعد",
+  "settingsSyncNow": "المزامنة الآن",
+  "settingsSyncOffBody": "بياناتك محفوظة على هذا الجهاز فقط.",
+  "settingsSyncOffTitle": "المزامنة متوقفة",
+  "settingsSyncRefreshLocalOnly": "كل شيء محفوظ على هذا الجهاز.",
+  "settingsSyncResync": "فرض مزامنة كاملة",
+  "settingsSyncResyncBody": "سيعيد Everslot تنزيل جميع بياناتك. تُحفظ التغييرات التي لم تتم مزامنتها بعد.",
+  "settingsSyncResyncTitle": "إعادة مزامنة كل شيء؟",
+  "settingsSyncRetryFailed": "إعادة إرسال التعديلات المرفوضة",
+  "settingsSyncStatus": "الحالة",
+  "settingsSyncTitle": "المزامنة والأجهزة",
+  "settingsSyncTooltip": "حالة المزامنة",
+  "settingsTheme": "السمة",
+  "settingsThemeDark": "داكنة",
+  "settingsThemeLight": "فاتحة",
+  "settingsThemeSystem": "حسب النظام",
+  "settingsTitle": "الإعدادات",
+  "settingsTrash": "المهملات",
+  "settingsUnknownPage": "صفحة الإعدادات هذه غير موجودة.",
+  "settingsWeekStart": "يبدأ الأسبوع يوم",
   "stateEmpty": "لا يوجد شيء بعد",
   "stateErrorBody": "يرجى المحاولة مرة أخرى.",
   "stateErrorTitle": "حدث خطأ ما",

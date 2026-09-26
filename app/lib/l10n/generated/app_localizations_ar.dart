@@ -4448,6 +4448,151 @@ class AppLocalizationsAr extends AppLocalizations {
   String get savedSnack => 'تم الحفظ';
 
   @override
+  String get settingsAbout => 'حول التطبيق';
+
+  @override
+  String get settingsAboutSubtitle => 'الإصدار والتراخيص والمساعدة';
+
+  @override
+  String get settingsAccessibility => 'تسهيلات الاستخدام';
+
+  @override
+  String get settingsAccessibilitySubtitle =>
+      'الحركة والاهتزاز والتباين والتسميات';
+
+  @override
+  String get settingsAccount => 'الحساب';
+
+  @override
+  String get settingsAccountLocalOnly => 'على هذا الجهاز فقط';
+
+  @override
+  String get settingsAppearance => 'المظهر';
+
+  @override
+  String get settingsAppearanceSubtitle => 'السمة والكثافة واللغة';
+
+  @override
+  String get settingsArabicDigits => 'الأرقام العربية المشرقية';
+
+  @override
+  String get settingsArabicDigitsSubtitle =>
+      'عرض ٠١٢٣ بدلًا من 0123 عندما يكون التطبيق بالعربية';
+
+  @override
+  String get settingsClock => 'الساعة';
+
+  @override
+  String get settingsClock12 => '12 ساعة';
+
+  @override
+  String get settingsClock24 => '24 ساعة';
+
+  @override
+  String get settingsCurrency => 'عملة مدّخرات الإقلاع';
+
+  @override
+  String get settingsCurrentZone => 'المنطقة الزمنية الحالية (هذا الجهاز)';
+
+  @override
+  String get settingsDayStart => 'يبدأ يوم العادات عند';
+
+  @override
+  String get settingsDayStartSubtitle =>
+      'تُحتسب التسجيلات قبل هذا الوقت لليوم السابق. ينطبق على التسجيلات الجديدة فقط.';
+
+  @override
+  String get settingsDensity => 'الكثافة';
+
+  @override
+  String get settingsDensityComfortable => 'مريحة';
+
+  @override
+  String get settingsDensityCompact => 'مضغوطة';
+
+  @override
+  String settingsDeviceLastSeen(String when) {
+    return 'آخر ظهور $when';
+  }
+
+  @override
+  String get settingsDevicePushOff => 'إشعارات الدفع متوقفة';
+
+  @override
+  String get settingsDevicePushOn => 'إشعارات الدفع مفعّلة';
+
+  @override
+  String get settingsDeviceRevoke => 'إزالة الجهاز';
+
+  @override
+  String get settingsDeviceRevokeBody =>
+      'سيتوقف عن تلقي الإشعارات وسيُسجَّل خروجه عند اتصاله التالي.';
+
+  @override
+  String settingsDeviceRevokeTitle(String name) {
+    return 'إزالة $name؟';
+  }
+
+  @override
+  String get settingsDeviceRevoked => 'تمت إزالة الجهاز';
+
+  @override
+  String get settingsDeviceThis => 'هذا الجهاز';
+
+  @override
+  String get settingsDeviceUnknown => 'جهاز غير معروف';
+
+  @override
+  String get settingsDevices => 'الأجهزة';
+
+  @override
+  String get settingsDevicesEmpty => 'لا توجد أجهزة مسجّلة بعد.';
+
+  @override
+  String get settingsDevicesOffline => 'اتصل بالإنترنت لعرض أجهزتك.';
+
+  @override
+  String get settingsGroupData => 'البيانات والخصوصية';
+
+  @override
+  String get settingsGroupGeneral => 'عام';
+
+  @override
+  String get settingsGroupHelp => 'المساعدة';
+
+  @override
+  String get settingsGroupSections => 'الأقسام';
+
+  @override
+  String get settingsHabits => 'العادات';
+
+  @override
+  String get settingsHabitsSubtitle => 'سياسة التخطي وتجميد السلاسل';
+
+  @override
+  String get settingsHomeZone => 'المنطقة الزمنية الأساسية';
+
+  @override
+  String get settingsHomeZoneAuto => 'اتباع هذا الجهاز';
+
+  @override
+  String get settingsHomeZoneAutoSubtitle =>
+      'تحديث المنطقة الأساسية تلقائيًا عند السفر';
+
+  @override
+  String get settingsHomeZoneSubtitle =>
+      'تستخدم المهام والعادات ذات التوقيت الثابت هذه المنطقة';
+
+  @override
+  String get settingsInsights => 'الإحصاءات';
+
+  @override
+  String get settingsInsightsSubtitle => 'الفترة الافتراضية والمقارنات';
+
+  @override
+  String get settingsLanguage => 'اللغة';
+
+  @override
   String get settingsLanguageArabic => 'العربية';
 
   @override
@@ -4458,6 +4603,150 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsLanguageSystem => 'لغة النظام';
+
+  @override
+  String get settingsLists => 'القوائم';
+
+  @override
+  String get settingsListsSubtitle => 'الحالات والتقدّم والعناصر المكتملة';
+
+  @override
+  String get settingsNotificationsSubtitle =>
+      'التذكيرات وساعات الهدوء وصندوق الوارد';
+
+  @override
+  String get settingsOrganizationSubtitle =>
+      'الفئات والوسوم المستخدمة في التطبيق';
+
+  @override
+  String get settingsPlan => 'التخطيط';
+
+  @override
+  String get settingsPlanSubtitle => 'العرض الافتراضي والمدد وساعات العمل';
+
+  @override
+  String get settingsPreview => 'معاينة';
+
+  @override
+  String get settingsPrivacy => 'الخصوصية والأمان';
+
+  @override
+  String get settingsPrivacySubtitle => 'قفل التطبيق وإخفاء محتوى الإشعارات';
+
+  @override
+  String get settingsRegional => 'المنطقة';
+
+  @override
+  String get settingsRegionalSubtitle =>
+      'المنطقة الزمنية وبداية الأسبوع والساعة والعملة';
+
+  @override
+  String get settingsSyncData => 'المزامنة والبيانات';
+
+  @override
+  String get settingsSyncDataSubtitle =>
+      'الأجهزة والتصدير والاستيراد والمهملات';
+
+  @override
+  String get settingsSyncDiagnostics => 'تشخيص المزامنة';
+
+  @override
+  String get settingsSyncDiscardBody =>
+      'ستُستعاد نسخة الخادم من هذه العناصر على هذا الجهاز.';
+
+  @override
+  String get settingsSyncDiscardFailed => 'تجاهل التعديلات المرفوضة';
+
+  @override
+  String get settingsSyncDiscardTitle => 'تجاهل التعديلات المرفوضة؟';
+
+  @override
+  String settingsSyncFailed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'رفض الخادم $count تعديل',
+      many: 'رفض الخادم $count تعديلًا',
+      few: 'رفض الخادم $count تعديلات',
+      two: 'رفض الخادم تعديلين',
+      one: 'رفض الخادم تعديلًا واحدًا',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String settingsSyncInitialProgress(int percent) {
+    return 'جارٍ تنزيل بياناتك… $percent٪';
+  }
+
+  @override
+  String get settingsSyncLastError => 'آخر خطأ';
+
+  @override
+  String settingsSyncLastSuccess(String when) {
+    return 'آخر مزامنة $when';
+  }
+
+  @override
+  String get settingsSyncNever => 'لم تتم المزامنة بعد';
+
+  @override
+  String get settingsSyncNow => 'المزامنة الآن';
+
+  @override
+  String get settingsSyncOffBody => 'بياناتك محفوظة على هذا الجهاز فقط.';
+
+  @override
+  String get settingsSyncOffTitle => 'المزامنة متوقفة';
+
+  @override
+  String get settingsSyncRefreshLocalOnly => 'كل شيء محفوظ على هذا الجهاز.';
+
+  @override
+  String get settingsSyncResync => 'فرض مزامنة كاملة';
+
+  @override
+  String get settingsSyncResyncBody =>
+      'سيعيد Everslot تنزيل جميع بياناتك. تُحفظ التغييرات التي لم تتم مزامنتها بعد.';
+
+  @override
+  String get settingsSyncResyncTitle => 'إعادة مزامنة كل شيء؟';
+
+  @override
+  String get settingsSyncRetryFailed => 'إعادة إرسال التعديلات المرفوضة';
+
+  @override
+  String get settingsSyncStatus => 'الحالة';
+
+  @override
+  String get settingsSyncTitle => 'المزامنة والأجهزة';
+
+  @override
+  String get settingsSyncTooltip => 'حالة المزامنة';
+
+  @override
+  String get settingsTheme => 'السمة';
+
+  @override
+  String get settingsThemeDark => 'داكنة';
+
+  @override
+  String get settingsThemeLight => 'فاتحة';
+
+  @override
+  String get settingsThemeSystem => 'حسب النظام';
+
+  @override
+  String get settingsTitle => 'الإعدادات';
+
+  @override
+  String get settingsTrash => 'المهملات';
+
+  @override
+  String get settingsUnknownPage => 'صفحة الإعدادات هذه غير موجودة.';
+
+  @override
+  String get settingsWeekStart => 'يبدأ الأسبوع يوم';
 
   @override
   String get stateEmpty => 'لا يوجد شيء بعد';

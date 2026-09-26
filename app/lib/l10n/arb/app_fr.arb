@@ -87,6 +87,41 @@
       }
     }
   },
+  "@settingsDeviceLastSeen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsDeviceRevokeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsSyncFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@settingsSyncInitialProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@settingsSyncLastSuccess": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
   "actionAdd": "Ajouter",
   "actionApply": "Appliquer",
   "actionArchive": "Archiver",
@@ -1258,10 +1293,96 @@
   "relativeMinutesAgo": "{count, plural, =1{il y a 1 minute} other{il y a {count} minutes}}",
   "relativeNow": "maintenant",
   "savedSnack": "Enregistré",
+  "settingsAbout": "À propos",
+  "settingsAboutSubtitle": "Version, licences, aide",
+  "settingsAccessibility": "Accessibilité",
+  "settingsAccessibilitySubtitle": "Animations, vibrations, contraste, libellés",
+  "settingsAccount": "Compte",
+  "settingsAccountLocalOnly": "Sur cet appareil uniquement",
+  "settingsAppearance": "Apparence",
+  "settingsAppearanceSubtitle": "Thème, densité, langue",
+  "settingsArabicDigits": "Chiffres arabes orientaux",
+  "settingsArabicDigitsSubtitle": "Afficher ٠١٢٣ au lieu de 0123 lorsque l'app est en arabe",
+  "settingsClock": "Horloge",
+  "settingsClock12": "12 heures",
+  "settingsClock24": "24 heures",
+  "settingsCurrency": "Devise des économies (sevrage)",
+  "settingsCurrentZone": "Fuseau horaire actuel (cet appareil)",
+  "settingsDayStart": "La journée des habitudes commence à",
+  "settingsDayStartSubtitle": "Les validations avant cette heure comptent pour la veille. S'applique uniquement aux nouvelles validations.",
+  "settingsDensity": "Densité",
+  "settingsDensityComfortable": "Confortable",
+  "settingsDensityCompact": "Compacte",
+  "settingsDeviceLastSeen": "Vu pour la dernière fois {when}",
+  "settingsDevicePushOff": "Notifications push désactivées",
+  "settingsDevicePushOn": "Notifications push activées",
+  "settingsDeviceRevoke": "Retirer l'appareil",
+  "settingsDeviceRevokeBody": "Il ne recevra plus de notifications et sera déconnecté à sa prochaine connexion.",
+  "settingsDeviceRevokeTitle": "Retirer {name} ?",
+  "settingsDeviceRevoked": "Appareil retiré",
+  "settingsDeviceThis": "Cet appareil",
+  "settingsDeviceUnknown": "Appareil inconnu",
+  "settingsDevices": "Appareils",
+  "settingsDevicesEmpty": "Aucun appareil enregistré pour l'instant.",
+  "settingsDevicesOffline": "Connectez-vous à Internet pour voir vos appareils.",
+  "settingsGroupData": "Données et confidentialité",
+  "settingsGroupGeneral": "Général",
+  "settingsGroupHelp": "Aide",
+  "settingsGroupSections": "Sections",
+  "settingsHabits": "Habitudes",
+  "settingsHabitsSubtitle": "Jours sautés, gels de série",
+  "settingsHomeZone": "Fuseau horaire de référence",
+  "settingsHomeZoneAuto": "Suivre cet appareil",
+  "settingsHomeZoneAutoSubtitle": "Mettre à jour le fuseau de référence automatiquement en voyage",
+  "settingsHomeZoneSubtitle": "Les tâches et habitudes à heure fixe utilisent ce fuseau",
+  "settingsInsights": "Statistiques",
+  "settingsInsightsSubtitle": "Période par défaut, comparaisons",
+  "settingsLanguage": "Langue",
   "settingsLanguageArabic": "العربية",
   "settingsLanguageEnglish": "English",
   "settingsLanguageFrench": "Français",
   "settingsLanguageSystem": "Langue du système",
+  "settingsLists": "Listes",
+  "settingsListsSubtitle": "Statuts, progression, éléments terminés",
+  "settingsNotificationsSubtitle": "Rappels, heures calmes, boîte de réception",
+  "settingsOrganizationSubtitle": "Catégories et étiquettes utilisées dans l'app",
+  "settingsPlan": "Planning",
+  "settingsPlanSubtitle": "Vue par défaut, durées, heures de travail",
+  "settingsPreview": "Aperçu",
+  "settingsPrivacy": "Confidentialité et sécurité",
+  "settingsPrivacySubtitle": "Verrouillage, contenu des notifications masqué",
+  "settingsRegional": "Région",
+  "settingsRegionalSubtitle": "Fuseau horaire, début de semaine, horloge, devise",
+  "settingsSyncData": "Synchronisation et données",
+  "settingsSyncDataSubtitle": "Appareils, export, import, corbeille",
+  "settingsSyncDiagnostics": "Diagnostic de synchronisation",
+  "settingsSyncDiscardBody": "La version du serveur de ces éléments est rétablie sur cet appareil.",
+  "settingsSyncDiscardFailed": "Abandonner les modifications refusées",
+  "settingsSyncDiscardTitle": "Abandonner les modifications refusées ?",
+  "settingsSyncFailed": "{count, plural, one{{count} modification a été refusée par le serveur} other{{count} modifications ont été refusées par le serveur}}",
+  "settingsSyncInitialProgress": "Téléchargement de vos données… {percent} %",
+  "settingsSyncLastError": "Dernière erreur",
+  "settingsSyncLastSuccess": "Dernière synchronisation {when}",
+  "settingsSyncNever": "Pas encore synchronisé",
+  "settingsSyncNow": "Synchroniser maintenant",
+  "settingsSyncOffBody": "Vos données sont stockées uniquement sur cet appareil.",
+  "settingsSyncOffTitle": "La synchronisation est désactivée",
+  "settingsSyncRefreshLocalOnly": "Tout est enregistré sur cet appareil.",
+  "settingsSyncResync": "Forcer une resynchronisation complète",
+  "settingsSyncResyncBody": "Everslot télécharge à nouveau toutes vos données. Les modifications pas encore synchronisées sont conservées.",
+  "settingsSyncResyncTitle": "Tout resynchroniser ?",
+  "settingsSyncRetryFailed": "Renvoyer les modifications refusées",
+  "settingsSyncStatus": "État",
+  "settingsSyncTitle": "Synchronisation et appareils",
+  "settingsSyncTooltip": "État de la synchronisation",
+  "settingsTheme": "Thème",
+  "settingsThemeDark": "Sombre",
+  "settingsThemeLight": "Clair",
+  "settingsThemeSystem": "Système",
+  "settingsTitle": "Paramètres",
+  "settingsTrash": "Corbeille",
+  "settingsUnknownPage": "Cette page de paramètres n'existe pas.",
+  "settingsWeekStart": "La semaine commence le",
   "stateEmpty": "Rien pour l'instant",
   "stateErrorBody": "Veuillez réessayer.",
   "stateErrorTitle": "Un problème est survenu",

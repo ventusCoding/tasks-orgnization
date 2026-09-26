@@ -4257,6 +4257,152 @@ class AppLocalizationsEn extends AppLocalizations {
   String get savedSnack => 'Saved';
 
   @override
+  String get settingsAbout => 'About';
+
+  @override
+  String get settingsAboutSubtitle => 'Version, licenses, help';
+
+  @override
+  String get settingsAccessibility => 'Accessibility';
+
+  @override
+  String get settingsAccessibilitySubtitle =>
+      'Motion, haptics, contrast, labels';
+
+  @override
+  String get settingsAccount => 'Account';
+
+  @override
+  String get settingsAccountLocalOnly => 'On this device only';
+
+  @override
+  String get settingsAppearance => 'Appearance';
+
+  @override
+  String get settingsAppearanceSubtitle => 'Theme, density, language';
+
+  @override
+  String get settingsArabicDigits => 'Arabic-Indic digits';
+
+  @override
+  String get settingsArabicDigitsSubtitle =>
+      'Show ٠١٢٣ instead of 0123 when the app is in Arabic';
+
+  @override
+  String get settingsClock => 'Clock';
+
+  @override
+  String get settingsClock12 => '12-hour';
+
+  @override
+  String get settingsClock24 => '24-hour';
+
+  @override
+  String get settingsCurrency => 'Currency for quit savings';
+
+  @override
+  String get settingsCurrentZone => 'Current time zone (this device)';
+
+  @override
+  String get settingsDayStart => 'Habit day starts at';
+
+  @override
+  String get settingsDayStartSubtitle =>
+      'Check-ins before this time count for the previous day. Applies to new check-ins only.';
+
+  @override
+  String get settingsDensity => 'Density';
+
+  @override
+  String get settingsDensityComfortable => 'Comfortable';
+
+  @override
+  String get settingsDensityCompact => 'Compact';
+
+  @override
+  String settingsDeviceLastSeen(String when) {
+    return 'Last seen $when';
+  }
+
+  @override
+  String get settingsDevicePushOff => 'Push notifications off';
+
+  @override
+  String get settingsDevicePushOn => 'Push notifications on';
+
+  @override
+  String get settingsDeviceRevoke => 'Remove device';
+
+  @override
+  String get settingsDeviceRevokeBody =>
+      'It stops receiving notifications and is signed out the next time it connects.';
+
+  @override
+  String settingsDeviceRevokeTitle(String name) {
+    return 'Remove $name?';
+  }
+
+  @override
+  String get settingsDeviceRevoked => 'Device removed';
+
+  @override
+  String get settingsDeviceThis => 'This device';
+
+  @override
+  String get settingsDeviceUnknown => 'Unknown device';
+
+  @override
+  String get settingsDevices => 'Devices';
+
+  @override
+  String get settingsDevicesEmpty => 'No devices registered yet.';
+
+  @override
+  String get settingsDevicesOffline =>
+      'Connect to the internet to see your devices.';
+
+  @override
+  String get settingsGroupData => 'Data & privacy';
+
+  @override
+  String get settingsGroupGeneral => 'General';
+
+  @override
+  String get settingsGroupHelp => 'Help';
+
+  @override
+  String get settingsGroupSections => 'Sections';
+
+  @override
+  String get settingsHabits => 'Habits';
+
+  @override
+  String get settingsHabitsSubtitle => 'Skip policy, streak freezes';
+
+  @override
+  String get settingsHomeZone => 'Home time zone';
+
+  @override
+  String get settingsHomeZoneAuto => 'Follow this device';
+
+  @override
+  String get settingsHomeZoneAutoSubtitle =>
+      'Update the home zone automatically when you travel';
+
+  @override
+  String get settingsHomeZoneSubtitle =>
+      'Fixed-time tasks and habits use this zone';
+
+  @override
+  String get settingsInsights => 'Insights';
+
+  @override
+  String get settingsInsightsSubtitle => 'Default period, comparisons';
+
+  @override
+  String get settingsLanguage => 'Language';
+
+  @override
   String get settingsLanguageArabic => 'العربية';
 
   @override
@@ -4267,6 +4413,146 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsLanguageSystem => 'System default';
+
+  @override
+  String get settingsLists => 'Lists';
+
+  @override
+  String get settingsListsSubtitle => 'Statuses, progress, completed items';
+
+  @override
+  String get settingsNotificationsSubtitle => 'Reminders, quiet hours, inbox';
+
+  @override
+  String get settingsOrganizationSubtitle =>
+      'Categories and tags used across the app';
+
+  @override
+  String get settingsPlan => 'Plan';
+
+  @override
+  String get settingsPlanSubtitle => 'Default view, durations, work hours';
+
+  @override
+  String get settingsPreview => 'Preview';
+
+  @override
+  String get settingsPrivacy => 'Privacy & security';
+
+  @override
+  String get settingsPrivacySubtitle => 'App lock, hidden notification content';
+
+  @override
+  String get settingsRegional => 'Regional';
+
+  @override
+  String get settingsRegionalSubtitle =>
+      'Time zone, week start, clock, currency';
+
+  @override
+  String get settingsSyncData => 'Sync & data';
+
+  @override
+  String get settingsSyncDataSubtitle => 'Devices, export, import, trash';
+
+  @override
+  String get settingsSyncDiagnostics => 'Sync diagnostics';
+
+  @override
+  String get settingsSyncDiscardBody =>
+      'The server\'s version of these items is restored on this device.';
+
+  @override
+  String get settingsSyncDiscardFailed => 'Discard rejected changes';
+
+  @override
+  String get settingsSyncDiscardTitle => 'Discard rejected changes?';
+
+  @override
+  String settingsSyncFailed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count changes were rejected by the server',
+      one: '1 change was rejected by the server',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String settingsSyncInitialProgress(int percent) {
+    return 'Downloading your data… $percent%';
+  }
+
+  @override
+  String get settingsSyncLastError => 'Last error';
+
+  @override
+  String settingsSyncLastSuccess(String when) {
+    return 'Last synced $when';
+  }
+
+  @override
+  String get settingsSyncNever => 'Not synced yet';
+
+  @override
+  String get settingsSyncNow => 'Sync now';
+
+  @override
+  String get settingsSyncOffBody => 'Your data is stored on this device only.';
+
+  @override
+  String get settingsSyncOffTitle => 'Sync is off';
+
+  @override
+  String get settingsSyncRefreshLocalOnly =>
+      'Everything is saved on this device.';
+
+  @override
+  String get settingsSyncResync => 'Force full resync';
+
+  @override
+  String get settingsSyncResyncBody =>
+      'Everslot downloads all your data again. Changes that haven\'t synced yet are kept.';
+
+  @override
+  String get settingsSyncResyncTitle => 'Resync everything?';
+
+  @override
+  String get settingsSyncRetryFailed => 'Retry rejected changes';
+
+  @override
+  String get settingsSyncStatus => 'Status';
+
+  @override
+  String get settingsSyncTitle => 'Sync & devices';
+
+  @override
+  String get settingsSyncTooltip => 'Sync status';
+
+  @override
+  String get settingsTheme => 'Theme';
+
+  @override
+  String get settingsThemeDark => 'Dark';
+
+  @override
+  String get settingsThemeLight => 'Light';
+
+  @override
+  String get settingsThemeSystem => 'System';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsTrash => 'Trash';
+
+  @override
+  String get settingsUnknownPage => 'This settings page doesn\'t exist.';
+
+  @override
+  String get settingsWeekStart => 'Week starts on';
 
   @override
   String get stateEmpty => 'Nothing here yet';
