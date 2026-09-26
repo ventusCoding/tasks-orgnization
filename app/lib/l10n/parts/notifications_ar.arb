@@ -446,5 +446,9 @@
   "notifMetricMoney": "المال الموفَّر",
   "notifMetricUnits": "الوحدات المتجنبة",
   "notifModeOffHint": "لا إشعارات لهذا العنصر",
-  "notifSectionOffHint": "إشعارات «{section}» متوقفة في الإعدادات"
+  "notifSectionOffHint": "إشعارات «{section}» متوقفة في الإعدادات",
+  "notifFieldRepeats": "التكرار",
+  "notifFreqDaily": "كل يوم",
+  "notifFreqWeekly": "كل أسبوع",
+  "notifFreqMonthly": "كل شهر"
 }

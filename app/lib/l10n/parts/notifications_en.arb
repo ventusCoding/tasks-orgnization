@@ -978,5 +978,9 @@
         "type": "String"
       }
     }
-  }
+  },
+  "notifFieldRepeats": "Repeats",
+  "notifFreqDaily": "Every day",
+  "notifFreqWeekly": "Every week",
+  "notifFreqMonthly": "Every month"
 }

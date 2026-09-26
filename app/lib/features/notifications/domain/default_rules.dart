@@ -163,7 +163,9 @@ abstract final class DefaultRules {
         'type': 'fixed',
         'freq': 'weekly',
         'interval': 1,
-        'byWeekday': [Weekday.fromIso(weekday.clamp(1, 7)).code],
+        'byWeekday': [
+          {'day': Weekday.fromIso(weekday.clamp(1, 7)).code},
+        ],
         'times': [time.toIso()],
       },
       'monthly_report' => {

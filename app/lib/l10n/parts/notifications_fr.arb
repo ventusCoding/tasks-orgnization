@@ -446,5 +446,9 @@
   "notifMetricMoney": "Argent économisé",
   "notifMetricUnits": "Unités évitées",
   "notifModeOffHint": "Aucune notification pour cet élément",
-  "notifSectionOffHint": "Les notifications « {section} » sont désactivées dans les réglages"
+  "notifSectionOffHint": "Les notifications « {section} » sont désactivées dans les réglages",
+  "notifFieldRepeats": "Répétition",
+  "notifFreqDaily": "Tous les jours",
+  "notifFreqWeekly": "Toutes les semaines",
+  "notifFreqMonthly": "Tous les mois"
 }

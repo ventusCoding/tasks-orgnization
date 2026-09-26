@@ -1196,6 +1196,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifFieldOffset => 'الفارق بالدقائق (سالب = قبل)';
 
   @override
+  String get notifFieldRepeats => 'التكرار';
+
+  @override
   String get notifFieldStatuses => 'الحالات';
 
   @override
@@ -1206,6 +1209,15 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifFieldUntil => 'حتى';
+
+  @override
+  String get notifFreqDaily => 'كل يوم';
+
+  @override
+  String get notifFreqMonthly => 'كل شهر';
+
+  @override
+  String get notifFreqWeekly => 'كل أسبوع';
 
   @override
   String get notifFrom => 'من';

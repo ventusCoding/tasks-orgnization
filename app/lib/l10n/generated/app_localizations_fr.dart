@@ -1143,6 +1143,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifFieldOffset => 'Décalage en minutes (négatif = avant)';
 
   @override
+  String get notifFieldRepeats => 'Répétition';
+
+  @override
   String get notifFieldStatuses => 'Statuts';
 
   @override
@@ -1154,6 +1157,15 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get notifFieldUntil => 'Jusqu’à';
+
+  @override
+  String get notifFreqDaily => 'Tous les jours';
+
+  @override
+  String get notifFreqMonthly => 'Tous les mois';
+
+  @override
+  String get notifFreqWeekly => 'Toutes les semaines';
 
   @override
   String get notifFrom => 'De';

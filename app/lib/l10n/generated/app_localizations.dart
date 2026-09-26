@@ -1852,6 +1852,12 @@ abstract class AppLocalizations {
   /// **'Offset in minutes (negative = before)'**
   String get notifFieldOffset;
 
+  /// No description provided for @notifFieldRepeats.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats'**
+  String get notifFieldRepeats;
+
   /// No description provided for @notifFieldStatuses.
   ///
   /// In en, this message translates to:
@@ -1875,6 +1881,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Until'**
   String get notifFieldUntil;
+
+  /// No description provided for @notifFreqDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get notifFreqDaily;
+
+  /// No description provided for @notifFreqMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every month'**
+  String get notifFreqMonthly;
+
+  /// No description provided for @notifFreqWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every week'**
+  String get notifFreqWeekly;
 
   /// No description provided for @notifFrom.
   ///

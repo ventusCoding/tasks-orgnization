@@ -40,7 +40,13 @@ class EngineRecurrenceExpander implements RecurrenceExpander {
     try {
       final rule = RecurrenceRule.fromJson({
         for (final e in json.entries)
-          if (e.key != 'start') e.key: e.value,
+          if (e.key == 'byWeekday' && e.value is List)
+            e.key: [
+              // Tolerates the short form `["MO"]` next to §8.1's `[{"day": "MO"}]`.
+              for (final d in e.value! as List) d is String ? {'day': d} : d,
+            ]
+          else if (e.key != 'start')
+            e.key: e.value,
       });
       final startRaw = asString(json['start']);
       final times = asStringList(json['times']) ?? const <String>[];

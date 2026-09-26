@@ -1121,6 +1121,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifFieldOffset => 'Offset in minutes (negative = before)';
 
   @override
+  String get notifFieldRepeats => 'Repeats';
+
+  @override
   String get notifFieldStatuses => 'Statuses';
 
   @override
@@ -1132,6 +1135,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifFieldUntil => 'Until';
+
+  @override
+  String get notifFreqDaily => 'Every day';
+
+  @override
+  String get notifFreqMonthly => 'Every month';
+
+  @override
+  String get notifFreqWeekly => 'Every week';
 
   @override
   String get notifFrom => 'From';

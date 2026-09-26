@@ -834,14 +834,27 @@ class _ScheduleFields extends StatelessWidget {
       for (final t in (recurrence['times'] as List?) ?? const <Object?>[])
         ?LocalTime.tryParse('$t'),
     ];
+    // §8.1 form `{"day": "MO"}` (the short form `"MO"` is read too).
     final weekdays = {
       for (final d in (recurrence['byWeekday'] as List?) ?? const <Object?>[])
-        if (d is String) Weekday.fromCode(d).iso,
+        if (d is String)
+          Weekday.fromCode(d).iso
+        else if (d is Map && d['day'] is String)
+          Weekday.fromCode(d['day'] as String).iso,
     };
     Map<String, Object?> with_(Map<String, Object?> patch) {
       final next = {...recurrence, ...patch};
       next.removeWhere((_, v) => v == null);
       return next;
+    }
+
+    // Schedules built elsewhere (recurrence builder: hourly, minutely, windows…) are kept as is.
+    if (!const ['daily', 'weekly', 'monthly'].contains(freq)) {
+      return ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: const Icon(Icons.event_repeat),
+        title: Text(l.notifSumSchedule),
+      );
     }
 
     return Column(
@@ -852,14 +865,19 @@ class _ScheduleFields extends StatelessWidget {
           onChanged: (f) => onChanged(
             with_({
               'freq': f,
-              'byWeekday': f == 'weekly' ? ['MO'] : null,
+              'byWeekday': f == 'weekly'
+                  ? [
+                      {'day': 'MO'},
+                    ]
+                  : null,
               'byMonthDay': f == 'monthly' ? [1] : null,
             }),
           ),
+          decoration: InputDecoration(labelText: l.notifFieldRepeats),
           items: [
-            DropdownMenuItem(value: 'daily', child: Text(l.notifUnitDays)),
-            DropdownMenuItem(value: 'weekly', child: Text(l.notifUnitWeeks)),
-            const DropdownMenuItem(value: 'monthly', child: Text('1…31')),
+            DropdownMenuItem(value: 'daily', child: Text(l.notifFreqDaily)),
+            DropdownMenuItem(value: 'weekly', child: Text(l.notifFreqWeekly)),
+            DropdownMenuItem(value: 'monthly', child: Text(l.notifFreqMonthly)),
           ],
         ),
         if (freq == 'weekly')
@@ -869,7 +887,7 @@ class _ScheduleFields extends StatelessWidget {
               with_({
                 'byWeekday': [
                   for (final d in days.toList()..sort())
-                    Weekday.fromIso(d).code,
+                    {'day': Weekday.fromIso(d).code},
                 ],
               }),
             ),
