@@ -18,5 +18,19 @@
   "filterOneOffOnly": "لمرة واحدة",
   "filterAny": "الكل",
   "filterChipValue": "{field}: {value}",
-  "filterChipCount": "{field} · {count}"
+  "filterChipCount": "{field} · {count}",
+  "entityStatusTodo": "للقيام به",
+  "entityStatusOngoing": "قيد التنفيذ",
+  "entityStatusWaiting": "في الانتظار",
+  "entityStatusBlocked": "محظور",
+  "entityStatusCompleted": "مكتمل",
+  "entityStatusCancelled": "ملغى",
+  "entityStatusScheduled": "مجدول",
+  "entityStatusInProgress": "جارٍ",
+  "entityStatusDone": "منجز",
+  "entityStatusSkipped": "متخطّى",
+  "entityStatusMissed": "فائت",
+  "entityStatusActive": "نشط",
+  "entityStatusPaused": "متوقف مؤقتًا",
+  "entityStatusArchived": "مؤرشف"
 }

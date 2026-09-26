@@ -33,11 +33,11 @@ handling/logging, and a dev-only debug menu.
 - [ ] T1.3.12 — App scaffold: bottom bar, app bar actions, contextual FAB, adaptive layout
 - [x] T1.3.13 — Localization (EN/FR/AR) & formatting helpers
 - [x] T1.3.14 — RTL baseline
-- [ ] T1.3.15 — Accessibility baseline
+- [x] T1.3.15 — Accessibility baseline
 - [ ] T1.3.16 — Feature flags & dev debug menu (incl. time travel)
 - [ ] T1.3.17 — Haptics & sound service
-- [ ] T1.3.18 — Motion & page transitions
-- [ ] T1.3.19 — Tablet/landscape layout foundations
+- [x] T1.3.18 — Motion & page transitions
+- [x] T1.3.19 — Tablet/landscape layout foundations
 
 ## Tasks
 
@@ -200,6 +200,7 @@ order, text scale support up to 2.0 without clipping, `MediaQuery.disableAnimati
 `reduceMotion` provider, live-region announcements helper for async results ("Task completed").
 **Acceptance criteria:** Flutter accessibility guidelines pass on the component gallery.
 **Tests:** `meetsGuideline` checks (tap targets, labels, contrast) in widget tests.
+**Notes:** `ReduceMotionScope` (`design_system/motion.dart`, mounted at the app root) joins the in-app `appearance.reduceMotion` setting to the OS flag, so `context.reduceMotion` / `AppMotion.reduced` honour both; `announce()` is the live-region helper. `app/test/design_system/accessibility_test.dart` runs `androidTapTargetGuideline`, `iOSTapTargetGuideline`, `labeledTapTargetGuideline` and `textContrastGuideline` on the component gallery (light/LTR, dark/RTL, Arabic, text scale 2.0). Fixes found by it: interactive `TagChip`s dropped compact density (40 → 48 dp targets), `StatusPill` text/icon now ≥ 4.5:1 on its own tint, `PriorityBadge` no longer announces its label twice, color swatches 44 → 48 dp.
 
 ### T1.3.16 — Feature flags & dev debug menu (incl. time travel)
 **Priority:** P1 · **Size:** M · **Depends on:** T1.3.03, T1.3.05
@@ -223,6 +224,7 @@ completion) off by default.
 **Description:** Consistent transitions (shared-axis for tab-internal navigation, fade-through between
 tabs, container transform for opening items), all disabled/replaced by fades when reduce motion is on.
 **Tests:** widget test verifying reduced-motion path.
+**Notes:** `design_system/motion.dart`: `AppMotion.sharedAxisRoute/fadeThroughRoute/containerRoute` (+ go_router `sharedAxisPage`/`fadeThroughPage`), `SharedAxisTransition` (mirrored in RTL), `FadeThroughTransition`, `FadeThroughSwitcher`, `SharedAxisPageTransitionsBuilder` for `ThemeData.pageTransitionsTheme`. No `animations` dependency: the container transform is approximated by a scaled shared-axis zoom. Reduced motion → cross-fade (routes) or no animation (switcher/implicit durations). Tests: `app/test/design_system/motion_test.dart`.
 
 ### T1.3.19 — Tablet/landscape layout foundations
 **Priority:** P1 · **Size:** S · **Depends on:** T1.3.12
@@ -230,3 +232,5 @@ tabs, container transform for opening items), all disabled/replaced by fades whe
 keyboard shortcuts infrastructure (`Shortcuts`/`Actions`) for tablets with keyboards; full multi-pane
 screens are [9.3] T9.3.01.
 **Tests:** widget tests at expanded width.
+**Notes:** `design_system/adaptive.dart`: `WindowSizeClass` (+ `context.windowSize`), `AdaptiveBuilder` (uses the available width), `TwoPaneScaffold` (list/detail, start-edge list pane, single-pane back handling) and the shortcut infrastructure (`AppShortcuts.defaults` with Ctrl and ⌘ variants, intents Undo/Redo/OpenSearch/OpenCommandPalette/NewItem, `AppShortcutScope` that steps aside while a text field has focus). Tests: `app/test/design_system/adaptive_test.dart`.
+

@@ -190,8 +190,8 @@ class _Swatch extends StatelessWidget {
       onTap: onTap,
       customBorder: const CircleBorder(),
       child: Container(
-        width: 44,
-        height: 44,
+        width: 48,
+        height: 48,
         decoration: BoxDecoration(
           color: color,
           shape: BoxShape.circle,

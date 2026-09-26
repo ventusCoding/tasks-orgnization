@@ -4,10 +4,10 @@
 /// Unicode isolates (UAX #9) keep the wrapped run from reordering its neighbours — unlike
 /// embeddings, they never leak direction into the surrounding text. Flutter renders them invisibly.
 abstract final class BidiText {
-  static const lri = '⁦'; // LEFT-TO-RIGHT ISOLATE
-  static const rli = '⁧'; // RIGHT-TO-LEFT ISOLATE
-  static const fsi = '⁨'; // FIRST STRONG ISOLATE
-  static const pdi = '⁩'; // POP DIRECTIONAL ISOLATE
+  static const lri = '\u2066'; // LEFT-TO-RIGHT ISOLATE
+  static const rli = '\u2067'; // RIGHT-TO-LEFT ISOLATE
+  static const fsi = '\u2068'; // FIRST STRONG ISOLATE
+  static const pdi = '\u2069'; // POP DIRECTIONAL ISOLATE
 
   /// A run that must read left-to-right (codes, file names, URLs, "#tag", "v1.2.3").
   static String ltr(String text) => '$lri$text$pdi';
@@ -22,7 +22,7 @@ abstract final class BidiText {
   /// Removes isolate/embedding/mark controls (for comparisons, search and copy).
   static String strip(String text) => text.replaceAll(_controls, '');
 
-  static final _controls = RegExp('[‎‏‪-‮⁦-⁩]');
+  static final _controls = RegExp('[\u200e\u200f\u202a-\u202e\u2066-\u2069]');
 
   /// Whether [text] starts (first strong character) right-to-left.
   static bool startsRtl(String text) {

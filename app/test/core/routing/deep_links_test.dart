@@ -77,7 +77,7 @@ void main() {
     const alphabet =
         'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
         r'-._~:/?#[]@!$&()*+,;=%<> "{}|\^`'
-        'éàçعربي\u0000‏';
+        'éàçعربي\u0000\u200f';
 
     String randomString(Random r, int maxLength) => String.fromCharCodes([
       for (var i = 0; i < r.nextInt(maxLength); i++)
