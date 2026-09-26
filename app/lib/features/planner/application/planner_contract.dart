@@ -78,14 +78,15 @@ abstract interface class PlannerActions {
   Future<void> scheduleBacklogItem(PlannerItem item, LocalDateTime start, int durationMinutes);
 }
 
-/// Planner data layer implementation: every call is one transaction registered on the undo
-/// stack. `createAt` returns the new task id.
+/// Planner data layer implementation: every call is one transaction. Views register the undo
+/// entry themselves (from the committed operations), so this service instance doesn't.
+/// `createAt` returns the new task id.
 class _PlannerActionsImpl implements PlannerActions {
   _PlannerActionsImpl(this._ref);
 
   final Ref _ref;
 
-  PlannerService get _service => _ref.read(plannerServiceProvider);
+  PlannerService get _service => PlannerService(_ref, registerUndo: false);
 
   @override
   Future<String?> createAt(LocalDateTime start, int durationMinutes, {String? title, bool allDay = false}) async =>
