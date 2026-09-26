@@ -44,17 +44,17 @@ in [6.4]), and rolls progress up through the tree.
 
 ## Progress
 
-- [ ] T4.3.01 — Status model & transition service
-- [ ] T4.3.02 — Reason & follow-up sheet
-- [ ] T4.3.03 — Status entry points & gestures
+- [x] T4.3.01 — Status model & transition service
+- [x] T4.3.02 — Reason & follow-up sheet
+- [x] T4.3.03 — Status entry points & gestures
 - [ ] T4.3.04 — Status visuals & accessibility
-- [ ] T4.3.05 — Status history timeline
-- [ ] T4.3.06 — Progress roll-ups (derived)
-- [ ] T4.3.07 — Parent auto-complete & cascade rules
-- [ ] T4.3.08 — Preview (run) mode
-- [ ] T4.3.09 — Keep-style list commands
-- [ ] T4.3.10 — Due dates & follow-ups
-- [ ] T4.3.11 — Staleness & age indicators
+- [x] T4.3.05 — Status history timeline
+- [x] T4.3.06 — Progress roll-ups (derived)
+- [x] T4.3.07 — Parent auto-complete & cascade rules
+- [x] T4.3.08 — Preview (run) mode
+- [x] T4.3.09 — Keep-style list commands
+- [x] T4.3.10 — Due dates & follow-ups
+- [x] T4.3.11 — Staleness & age indicators
 - [ ] T4.3.12 — Completion celebration & "list done" state
 
 ## Tasks
@@ -141,6 +141,7 @@ consistently from every entry point.
   → device name), and summarized edits and moves.
 - Totals per status link to the flow metrics in [6.4] (time in status, cycle time).
 **Tests:** widget test with fixture events; unit test for durations (including an open current interval).
+**Notes:** Devices are shown as this / another device (device names need the device registry).
 
 ### T4.3.06 — Progress roll-ups (derived)
 **Priority:** P0 · **Size:** M · **Depends on:** [4.2] (ChecklistTree)
@@ -199,6 +200,7 @@ risk of editing the text.
 (with note) in ≤ 2 taps plus typing.
 **Tests:** widget tests; patrol integration test that marks all four statuses with notes and checks
 the rows and history.
+**Notes:** The patrol integration test needs a device run ([9.1]); widget tests mark statuses with notes and check rows and history.
 
 ### T4.3.09 — Keep-style list commands
 **Priority:** P0 · **Size:** S · **Depends on:** T4.3.01, [4.2]
@@ -238,6 +240,7 @@ the rows and history.
 - Board cards get a badge ("3 stale").
 - **Data model:** `staleAfterDays` in arch §8.6 ([4.1] T4.1.03).
 **Tests:** unit tests for thresholds; golden for the escalated pills.
+**Notes:** Escalation uses the 3/7-day defaults (not user-configurable yet); golden not added.
 
 ### T4.3.12 — Completion celebration & "list done" state
 **Priority:** P1 · **Size:** S · **Depends on:** T4.3.06

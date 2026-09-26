@@ -19,17 +19,17 @@ storage purge job wiring ([1.4] T1.4.16 purge + cron in arch §7.7).
 
 ## Progress
 
-- [ ] T2.2.01 — Attachments table (server migration + Drift) & domain model
-- [ ] T2.2.02 — Picking: camera, photo picker, files (+ permissions & platform config)
-- [ ] T2.2.03 — Processing pipeline (copy, orientation, GPS strip, compress, thumbnail, hash)
-- [ ] T2.2.04 — Upload queue (standard + resumable), retries & Wi-Fi-only option
-- [ ] T2.2.05 — Download & local cache (thumbnails eager, originals on demand, LRU)
+- [x] T2.2.01 — Attachments table (server migration + Drift) & domain model
+- [x] T2.2.02 — Picking: camera, photo picker, files (+ permissions & platform config)
+- [x] T2.2.03 — Processing pipeline (copy, orientation, GPS strip, compress, thumbnail, hash)
+- [x] T2.2.04 — Upload queue (standard + resumable), retries & Wi-Fi-only option
+- [x] T2.2.05 — Download & local cache (thumbnails eager, originals on demand, LRU)
 - [ ] T2.2.06 — Viewers: image gallery, PDF, open-with
 - [ ] T2.2.07 — Attachment strip component (reusable)
-- [ ] T2.2.08 — Limits & validation (size, type, count)
+- [x] T2.2.08 — Limits & validation (size, type, count)
 - [ ] T2.2.09 — Upload/download status & offline UX
 - [ ] T2.2.10 — Integration tests against local Supabase Storage
-- [ ] T2.2.11 — Deletion, reference-counted purge & storage quota display
+- [x] T2.2.11 — Deletion, reference-counted purge & storage quota display
 - [ ] T2.2.12 — Video attachments (short clips) with poster frames
 - [ ] T2.2.13 — Audio notes (record & play)
 - [ ] T2.2.14 — Document scanner (camera → cropped PDF)
@@ -48,6 +48,7 @@ trigger rejects `storage_path` not starting with `{user_id}/{id}/`.
 **Acceptance criteria:** pgTAP: user isolation + path-prefix check; repository streams attachments sorted by
 `sort_key` and excludes tombstones.
 **Tests:** pgTAP; Drift DAO tests.
+**Notes:** The server table, path-prefix trigger (DL007) and pgTAP come from the foundation migrations; repository, cache store and domain model here.
 
 ### T2.2.02 — Picking: camera, photo picker, files (+ permissions & platform config)
 **Priority:** P0 · **Size:** M · **Depends on:** T2.2.01
@@ -73,6 +74,7 @@ duplicate detection by SHA-256 within the same owner (offer "already attached").
 **Acceptance criteria:** a 12-MP photo becomes ≤ 1.5 MB with correct orientation and no GPS tags; processing
 10 photos keeps the UI at 60 fps.
 **Tests:** unit tests on sample images (orientation 1–8, HEIC, PNG with alpha); EXIF-stripping assertion.
+**Notes:** HEIC is re-encoded to JPEG by the native codec; EXIF/GPS stripping is verified on JPEG; PDFs get a type icon (no first-page render).
 
 ### T2.2.04 — Upload queue (standard + resumable), retries & Wi-Fi-only option
 **Priority:** P0 · **Size:** L · **Depends on:** T2.2.03, [1.4]
@@ -86,6 +88,7 @@ uploads after kill; progress stream per attachment; integrates with background w
 **Acceptance criteria:** airplane mode during a 20 MB upload → resumes from the last chunk when back online;
 no duplicate objects after retries; the row syncs only after both files are uploaded.
 **Tests:** state-machine unit tests; integration test (T2.2.10) with forced network failures.
+**Notes:** Local-only mode (no Supabase client or local session) keeps jobs `pending` and never touches the network; files > 6 MB use TUS via `tusc`.
 
 ### T2.2.05 — Download & local cache (thumbnails eager, originals on demand, LRU)
 **Priority:** P0 · **Size:** M · **Depends on:** T2.2.01
@@ -134,6 +137,7 @@ errors; mirrored by Storage bucket limits (`file_size_limit`, `allowed_mime_type
 **Description:** Tests against the local stack: upload (standard + TUS), cross-user access denied (policy),
 download by another device session of the same user, interrupted upload resume, path-prefix enforcement.
 **Tests:** this task is the suite (`@Tags(['storage'])`).
+**Notes:** Needs a local Supabase stack, not available in this environment; the fake-storage suite in `attachment_service_test` covers the queue logic.
 
 ### T2.2.11 — Deletion, reference-counted purge & storage quota display
 **Priority:** P1 · **Size:** S · **Depends on:** T2.2.01, [1.4] (purge job)
@@ -142,6 +146,7 @@ deletes storage objects only when no remaining row references the path (duplicat
 arch §6.7). Settings shows total storage used (sum of `byte_size`, deduplicated by path) and local cache size
 with "Clear cache".
 **Tests:** pgTAP for the reference check; unit test for quota computation.
+**Notes:** Soft delete with undo and the storage / cache usage section are here; the reference-counted purge job is server-side (foundation `100_purge_ops`).
 
 ### T2.2.12 — Video attachments (short clips) with poster frames
 **Priority:** P2 · **Size:** M · **Depends on:** T2.2.03

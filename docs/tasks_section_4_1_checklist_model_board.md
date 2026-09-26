@@ -25,22 +25,22 @@ reminders ([7.1], [7.5]), the Trash screen ([8.3]).
 
 ## Progress
 
-- [ ] T4.1.01 — Server schema: checklists, checklist_items, checklist_runs
-- [ ] T4.1.02 — Local schema: Drift tables, DAOs & UI-state tables
-- [ ] T4.1.03 — Domain entities & checklist settings value object
-- [ ] T4.1.04 — Repositories, write rules & operation groups
+- [x] T4.1.01 — Server schema: checklists, checklist_items, checklist_runs
+- [x] T4.1.02 — Local schema: Drift tables, DAOs & UI-state tables
+- [x] T4.1.03 — Domain entities & checklist settings value object
+- [x] T4.1.04 — Repositories, write rules & operation groups
 - [ ] T4.1.05 — Tree-aware sync conflict handling
-- [ ] T4.1.06 — Lists routes & deep links
-- [ ] T4.1.07 — Lists board screen
-- [ ] T4.1.08 — Checklist card widget
-- [ ] T4.1.09 — Create & edit checklists and note cards
-- [ ] T4.1.10 — Pin, reorder, archive & delete with undo
+- [x] T4.1.06 — Lists routes & deep links
+- [x] T4.1.07 — Lists board screen
+- [x] T4.1.08 — Checklist card widget
+- [x] T4.1.09 — Create & edit checklists and note cards
+- [x] T4.1.10 — Pin, reorder, archive & delete with undo
 - [ ] T4.1.11 — Markdown-lite body rendering
 - [ ] T4.1.12 — Labels on checklists & label drawer
 - [ ] T4.1.13 — Board search & filters
-- [ ] T4.1.14 — Duplicate checklist
-- [ ] T4.1.15 — Move items between checklists
-- [ ] T4.1.16 — Board view configuration (synced)
+- [x] T4.1.14 — Duplicate checklist
+- [x] T4.1.15 — Move items between checklists
+- [x] T4.1.16 — Board view configuration (synced)
 - [ ] T4.1.17 — Checklist cover image
 
 ## Tasks
@@ -75,6 +75,7 @@ hold an invalid tree (wrong-checklist parent or cycle).
 - A cycle or cross-checklist parent is rejected with the stable error codes.
 **Tests:** pgTAP: RLS isolation (user A vs B); cycle rejection; parent-mismatch rejection; the
 deferred child-first subtree move; tombstone-only update allowed; `completed_at` invariant.
+**Notes:** Built with the app foundation — migration `20260922000070_create_checklists.sql` (deferred DL001/DL002 triggers, CHECKs, indexes) and pgTAP `070_domain_constraints`; `sync_push` maps DL errors to `integrity_refetch`. Not changed by this section.
 
 ### T4.1.02 — Local schema: Drift tables, DAOs & UI-state tables
 **Priority:** P0 · **Size:** M · **Depends on:** T4.1.01, [1.4]
@@ -99,6 +100,7 @@ and the local-only UI-state tables.
 **Acceptance criteria:** schema version bumped and migration test green; `watchItems` for
 5 000 rows < 30 ms; `subtreeIds` correct for a depth-50 chain.
 **Tests:** in-memory Drift DAO tests; Drift migration test.
+**Notes:** Drift tables and `ui_node_state` / `ui_checklist_state` come from the foundation schema (no schema change, so no new migration test). DAOs live in `ChecklistsRepository` (`watchBoard`, `watchChecklist`, `watchCardSummaries`, `watchSmartItems`), `ChecklistItemsRepository` (`watchItems`, `subtreeIds`) and `ChecklistUiStateStore`.
 
 ### T4.1.03 — Domain entities & checklist settings value object
 **Priority:** P0 · **Size:** S · **Depends on:** T4.1.02
@@ -115,6 +117,7 @@ and the local-only UI-state tables.
 - **Data model:** `hideCheckboxes`, `defaultOpenMode`, `staleAfterDays` (arch §8.6).
 **Acceptance criteria:** unknown JSON keys survive a round trip; missing keys fall back to defaults.
 **Tests:** JSON round-trip and upgrade tests; value-object validation tests.
+**Notes:** Hand-written immutable classes (ADR-016, no freezed). Settings also carry `showAttachmentsInPreview` / `showNotesInPreview`; existing lists default to preview, new cards open in edit.
 
 ### T4.1.04 — Repositories, write rules & operation groups
 **Priority:** P0 · **Size:** M · **Depends on:** T4.1.03, [2.3] (activity events, undo stack)
@@ -138,6 +141,7 @@ one sync operation group.
 - Deleting a checklist with 1 000 items takes one transaction, < 200 ms.
 - `restore(opId)` restores exactly what that operation deleted, and nothing deleted earlier.
 **Tests:** repository tests (in-memory Drift); op-group batching test with a fake sync API.
+**Notes:** Every command is one `SyncWriter.run` (rows + outbox + events + attachment/tag/reminder cascades); group-aware batching is the sync engine's (`_nextBatch` never splits an op group). Text edits log one `updated` event per editing session.
 
 ### T4.1.05 — Tree-aware sync conflict handling
 **Priority:** P0 · **Size:** M · **Depends on:** T4.1.04, [1.4]
@@ -158,6 +162,7 @@ server state without losing data.
 first; no item is lost or duplicated.
 **Tests:** unit test of the reject→revert path with a fake API; scenario added to the two-client
 convergence suite ([9.1]).
+**Notes:** Partial: the server rejects cyclic/mismatched groups as `integrity_refetch` and the sync engine drops and refetches them (foundation); the tree builder tolerates transient cycles/orphans (tests). Missing: the undo-stack marker and the 'move conflicted' notice need a rejection event from `core/sync` — TODO(integration).
 
 ### T4.1.06 — Lists routes & deep links
 **Priority:** P0 · **Size:** S · **Depends on:** [1.3] (router, deep-link parser)
@@ -170,6 +175,7 @@ convergence suite ([9.1]).
 - Invalid or deleted ids go to a friendly "not found" page. A tombstoned checklist offers its Trash entry.
 **Acceptance criteria:** every route opens from a cold start and from a notification payload.
 **Tests:** parser unit tests (valid, invalid, fuzzed); router widget test.
+**Notes:** The router's `/lists/:id` route also serves `/lists/archive` and `/lists/templates` inside `ChecklistScreen`, plus a not-found page and a Trash entry for tombstoned lists. `?item=` zooms into a parent or shows a leaf highlighted inside its parent; the shared router forwards only `item` and `mode=preview` (no `focus=1` / `mode=edit`). Link parsing is covered by the foundation's deep-link tests.
 
 ### T4.1.07 — Lists board screen
 **Priority:** P0 · **Size:** M · **Depends on:** T4.1.02, T4.1.06, [1.3]
@@ -190,6 +196,7 @@ convergence suite ([9.1]).
 - The layout choice is stored locally until T4.1.16 syncs it.
 **Acceptance criteria:** 500 cards scroll at 60 fps; RTL mirrors column order; text scale 2.0 has no overflow.
 **Tests:** widget tests; goldens grid/list × light/dark × LTR/RTL.
+**Notes:** Widget tests (create from the empty state, grid/list config, smart chips) instead of goldens — no golden baseline infrastructure yet.
 
 ### T4.1.08 — Checklist card widget
 **Priority:** P0 · **Size:** M · **Depends on:** T4.1.07
@@ -210,6 +217,7 @@ convergence suite ([9.1]).
 - **Staged rollout:** the progress and thumbnail slots render empty until [4.3]/[4.4] land.
 **Acceptance criteria:** card height adapts to content; no N+1 queries during scroll (verified in a DAO call-count test).
 **Tests:** goldens: note-only, checklist-only, mixed, very long text, Arabic, dark mode.
+**Notes:** Card data comes from two batched aggregate queries per board (`watchCardSummaries`, `watchCardThumbnails`); widget tests cover the content instead of goldens. A bell shows when the list has its own reminders.
 
 ### T4.1.09 — Create & edit checklists and note cards
 **Priority:** P0 · **Size:** M · **Depends on:** T4.1.04, T4.1.07
@@ -244,6 +252,7 @@ settings changes are undoable.
 - Card context menu: Pin, Color, Archive, Duplicate (P1), Move items… (P1), Delete.
 **Acceptance criteria:** reorder persists and syncs; undo restores the exact previous state including items.
 **Tests:** widget tests for drag reorder and undo; repository tests.
+**Notes:** Reorder = long-press drag onto another card (fractional key between neighbours); undo through snackbars. Widget tests cover pin, archive + undo and drag reorder.
 
 ### T4.1.11 — Markdown-lite body rendering
 **Priority:** P1 · **Size:** S · **Depends on:** T4.1.09
@@ -287,6 +296,7 @@ and French diacritics.
 **Acceptance criteria:** copying 2 000 items takes < 500 ms and leaves the original untouched; if the
 original is later purged, the copy's files still load.
 **Tests:** repository test; attachment shared-reference test.
+**Notes:** Reminder rules of the list and of its items are copied with it (notifications host API).
 
 ### T4.1.15 — Move items between checklists
 **Priority:** P1 · **Size:** M · **Depends on:** T4.1.05, [4.2] (move operation)
@@ -300,6 +310,7 @@ target parent in a mini tree picker.
 **Acceptance criteria:** the moved subtree keeps its order and data; the server's deferred integrity
 triggers accept the move; the other device shows it after sync.
 **Tests:** repository test; pgTAP deferred-trigger test (T4.1.01); convergence scenario ([9.1]).
+**Notes:** Move-to sheet (target list + parent picker) → one op group updating `checklist_id` on the whole subtree with `moved` events; pure test in `tree_ops_test`. pgTAP / convergence scenarios belong to T4.1.01 / [9.1].
 
 ### T4.1.16 — Board view configuration (synced)
 **Priority:** P1 · **Size:** S · **Depends on:** T4.1.07, [2.3] (saved views)
@@ -319,6 +330,7 @@ triggers accept the move; the other device shows it after sync.
 }
 ```
 **Tests:** config JSON round-trip; widget test applying a config.
+**Notes:** Stored as the deterministic saved view `uuidv5(user|saved_view|lists_board)`; JSON round-trip, persistence and widget toggle tests.
 
 ### T4.1.17 — Checklist cover image
 **Priority:** P2 · **Size:** S · **Depends on:** T4.1.08, [4.4]

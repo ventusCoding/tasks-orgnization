@@ -27,22 +27,22 @@ alternative views, templates, import/export ([4.5]).
 
 ## Progress
 
-- [ ] T4.2.01 — ChecklistTree domain model
-- [ ] T4.2.02 — Structural operations (pure)
-- [ ] T4.2.03 — Subtree operations: delete & duplicate (pure)
-- [ ] T4.2.04 — Promote to checklist & sort children
-- [ ] T4.2.05 — Visible list builder (collapse, focus, filters)
-- [ ] T4.2.06 — Local UI state (collapse, mode, focus, scroll)
-- [ ] T4.2.07 — Checklist screen scaffold (Edit / Preview)
-- [ ] T4.2.08 — Item row widget
-- [ ] T4.2.09 — Inline editing & keyboard flow
-- [ ] T4.2.10 — Touch structure gestures & swipe actions
-- [ ] T4.2.11 — Drag & drop reorder / reparent
-- [ ] T4.2.12 — Collapse & expand (single, all, to level N)
-- [ ] T4.2.13 — Focus (zoom) mode with breadcrumbs
-- [ ] T4.2.14 — Undo / redo for tree edits
-- [ ] T4.2.15 — Item details sheet
-- [ ] T4.2.16 — Multi-select & bulk actions
+- [x] T4.2.01 — ChecklistTree domain model
+- [x] T4.2.02 — Structural operations (pure)
+- [x] T4.2.03 — Subtree operations: delete & duplicate (pure)
+- [x] T4.2.04 — Promote to checklist & sort children
+- [x] T4.2.05 — Visible list builder (collapse, focus, filters)
+- [x] T4.2.06 — Local UI state (collapse, mode, focus, scroll)
+- [x] T4.2.07 — Checklist screen scaffold (Edit / Preview)
+- [x] T4.2.08 — Item row widget
+- [x] T4.2.09 — Inline editing & keyboard flow
+- [x] T4.2.10 — Touch structure gestures & swipe actions
+- [x] T4.2.11 — Drag & drop reorder / reparent
+- [x] T4.2.12 — Collapse & expand (single, all, to level N)
+- [x] T4.2.13 — Focus (zoom) mode with breadcrumbs
+- [x] T4.2.14 — Undo / redo for tree edits
+- [x] T4.2.15 — Item details sheet
+- [x] T4.2.16 — Multi-select & bulk actions
 - [ ] T4.2.17 — Copy, cut & paste subtrees
 - [ ] T4.2.18 — Tree accessibility
 - [ ] T4.2.19 — Performance hardening for huge lists
@@ -69,6 +69,7 @@ else in the section builds on it.
 **Acceptance criteria:** building 5 000 items / depth 50 takes < 10 ms (release, mid-range device);
 identical output on any device for the same rows.
 **Tests:** unit tests covering orphans, cycles, duplicate keys and deep chains; property tests on random forests.
+**Notes:** Memoized per Drift emission (`checklistTreeProvider` rebuilds only when the rows change) instead of an explicit `(max(updated_at), rowCount)` key.
 
 ### T4.2.02 — Structural operations (pure)
 **Priority:** P0 · **Size:** L · **Depends on:** T4.2.01, [1.3] (fractional index util)
@@ -166,6 +167,7 @@ operations the invariants hold (no cycles, every live item reachable, strict sib
 **Acceptance criteria:** a 5 000-item list shows its first frame in < 300 ms; reopening restores the
 scroll position and focus root.
 **Tests:** widget tests; goldens (edit and preview).
+**Notes:** Widget tests instead of goldens. The per-device view state (mode, focus root, view, sort/filter, scroll) is restored on reopen.
 
 ### T4.2.08 — Item row widget
 **Priority:** P0 · **Size:** M · **Depends on:** T4.2.07
@@ -188,6 +190,7 @@ scroll position and focus root.
 **Acceptance criteria:** minimum row height 48 dp; no overflow at text scale 2.0; row rebuilds only
 when its own data changes.
 **Tests:** goldens: every status × edit/preview × LTR/RTL × depth 0/3/12.
+**Notes:** Rows are memoized widget instances keyed by `(VisibleRow, RowContext)` so a single-row change rebuilds one row; goldens not added (no baseline infrastructure).
 
 ### T4.2.09 — Inline editing & keyboard flow
 **Priority:** P0 · **Size:** L · **Depends on:** T4.2.02, T4.2.08
@@ -216,6 +219,7 @@ when its own data changes.
 **Acceptance criteria:** typing at 60 wpm in a 5 000-item list stays jank-free; killing the app right
 after blur loses no characters.
 **Tests:** widget tests driving key events and focus moves; IME composition test where the test framework supports it.
+**Notes:** An invisible sentinel character makes Backspace-at-start observable on soft keyboards. IME composition is not exercised (unsupported by the widget test framework here).
 
 ### T4.2.10 — Touch structure gestures & swipe actions
 **Priority:** P0 · **Size:** M · **Depends on:** T4.2.02, T4.2.08
@@ -252,6 +256,7 @@ after blur loses no characters.
 **Acceptance criteria:** dragging through 500 rows with auto-scroll stays at 60 fps; parent and order
 are correct after drops in both LTR and RTL.
 **Tests:** unit tests for drop-target resolution; widget tests with gesture simulation.
+**Notes:** Lifted row and drop indicator are drawn in an overlay; auto-scroll near the edges; 600 ms hover expands collapsed parents. Dropping onto a breadcrumb (P1 detail) is not implemented.
 
 ### T4.2.12 — Collapse & expand (single, all, to level N)
 **Priority:** P0 · **Size:** S · **Depends on:** T4.2.06
@@ -308,6 +313,7 @@ editing works there.
 - **Insights** link to item stats ([6.4]).
 - The status, attachment and due sections become active as [4.3]/[4.4] land.
 **Tests:** widget tests; save/cancel behaviour with undo.
+**Notes:** Reminders = the notifications feature's `NotificationSettingsSection` (item target with checklist, ancestors and item kind); Insights opens `/insights/checklistItem/:id`.
 
 ### T4.2.16 — Multi-select & bulk actions
 **Priority:** P1 · **Size:** M · **Depends on:** T4.2.11, T4.2.14
@@ -319,6 +325,7 @@ editing works there.
   copy as text, add label (P1).
 - Each bulk action is one op group and one undo step.
 **Tests:** widget tests; unit tests that bulk ops produce one op group.
+**Notes:** Selection starts from the row / overflow menu (long-press is taken by drag in preview); long-press in selection mode selects a range.
 
 ### T4.2.17 — Copy, cut & paste subtrees
 **Priority:** P1 · **Size:** S · **Depends on:** T4.2.03
