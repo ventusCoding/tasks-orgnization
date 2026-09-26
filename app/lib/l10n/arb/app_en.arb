@@ -145,6 +145,493 @@
       }
     }
   },
+  "@chartsAnonymousItem": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsBytesGb": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsBytesKb": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsBytesMb": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsCounterSemantics": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "hours": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsCrosshair": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsDaysHours": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsDaysOnly": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@chartsDeltaDown": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsDeltaUp": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsEstimate": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsFrozen": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@chartsHour": {
+    "placeholders": {
+      "hour": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsHoursMinutes": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsHoursOnly": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsKilo": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsKpiSemantics": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      },
+      "delta": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsMedianAt": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsMega": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsMilestoneEta": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsMilestoneSources": {
+    "placeholders": {
+      "sources": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsMinutesOnly": {
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsNeedsMore": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@chartsOrdinalAttempt": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsOrdinalDepth": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsOrdinalLevel": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsOrdinalMonth": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsOrdinalPriority": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsOrdinalRun": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsOrdinalWeek": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsOrdinalYear": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsOver": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsPerDay": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsPerWeek": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsPlusMinus": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsPp": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsPpSpoken": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsPrevious": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsProbability": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsRatio": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsSecondsOnly": {
+    "placeholders": {
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsSeriesToggle": {
+    "placeholders": {
+      "series": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsSummaryBars": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      },
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsSummaryCalendar": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsSummaryLine": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "range": {
+        "type": "String"
+      },
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      },
+      "trend": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsSummaryList": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsSummaryMilestones": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsSummaryMinMax": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsSummaryPunchCard": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "weekday": {
+        "type": "String"
+      },
+      "hour": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsSummaryShare": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "label": {
+        "type": "String"
+      },
+      "share": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsSummaryStreaks": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "length": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsSummaryValue": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsTableSort": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsTarget": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsTooltip": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsTrendFalling": {
+    "placeholders": {
+      "slope": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsTrendRising": {
+    "placeholders": {
+      "slope": {
+        "type": "String"
+      }
+    }
+  },
   "@confirmDeleteTitle": {
     "placeholders": {
       "item": {
@@ -1121,6 +1608,390 @@
       }
     }
   },
+  "@statsDetailAllTime": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsDetailBacklog": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@statsDetailBest": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsDetailCoverage": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsDetailDelta30": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsDetailLastDone": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsDetailOfTotal": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsDetailOpen": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsDetailPerDay": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsDetailPeriods": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@statsDetailPlanned": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsDetailQueue": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsDetailReduction": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsDetailSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsDetailWorkItem": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsDrillMore": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsExclusionCancelled": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@statsExclusionExcused": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@statsExclusionFrozen": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@statsExclusionPaused": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@statsExclusionSkipped": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@statsExclusionUnknown": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@statsExclusionUnplanned": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@statsExplainId": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsExplainInterval": {
+    "placeholders": {
+      "lower": {
+        "type": "String"
+      },
+      "upper": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsExplainIntervalRule": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsExplainMinData": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsExplainPrevious": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsExplainSample": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@statsExplainValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsFiltersActive": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@statsHealthRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsOpenInsights": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsOverviewNextUp": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsPeriodCustomRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsPeriodRolling": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsPeriodSelected": {
+    "placeholders": {
+      "period": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsReviewAtRisk": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsReviewBlocked": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsReviewFollowUp": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsReviewHealth": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsReviewLoad": {
+    "placeholders": {
+      "planned": {
+        "type": "String"
+      },
+      "capacity": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsReviewOverbooked": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsReviewOverdue": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsReviewPerfectDays": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "@statsReviewRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsReviewRecord": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsReviewStale": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsReviewStreak": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsSectionCollapse": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsSectionExpand": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
   "@syncPending": {
     "placeholders": {
       "count": {
@@ -1510,6 +2381,240 @@
   "categoryPick": "Category",
   "categoryUnavailable": "Counts as unavailable time",
   "categoryUnavailableHint": "Excluded from capacity stats (e.g. sleep, time off).",
+  "chartsAnonymousItem": "Item {n}",
+  "chartsBytesGb": "{value} GB",
+  "chartsBytesKb": "{value} KB",
+  "chartsBytesMb": "{value} MB",
+  "chartsColumnLabel": "Label",
+  "chartsCounterSemantics": "{days} days, {hours} hours, {minutes} minutes",
+  "chartsCrosshair": "{label}: {value}",
+  "chartsDaysHours": "{days} d {hours} h",
+  "chartsDaysOnly": "{count, plural, =1{1 day} other{{count} days}}",
+  "chartsDeltaDown": "down {value}",
+  "chartsDeltaFlat": "no change",
+  "chartsDeltaNew": "new",
+  "chartsDeltaUp": "up {value}",
+  "chartsEmpty": "No data for this period",
+  "chartsError": "This chart couldn’t be computed",
+  "chartsEstimate": "≈ {value}",
+  "chartsExplain": "About this metric",
+  "chartsFrozen": "{count, plural, =1{1 frozen} other{{count} frozen}}",
+  "chartsGalleryDark": "Dark theme",
+  "chartsGalleryRtl": "Right to left",
+  "chartsGalleryTextScale": "Large text",
+  "chartsGalleryTitle": "Chart gallery",
+  "chartsGalleryVision": "Color vision",
+  "chartsHistogramCount": "Count",
+  "chartsHistogramDensity": "Share",
+  "chartsHour": "{hour} h",
+  "chartsHoursMinutes": "{hours} h {minutes} min",
+  "chartsHoursOnly": "{hours} h",
+  "chartsKilo": "{value} k",
+  "chartsKpiSemantics": "{title}: {value}. {delta}",
+  "chartsLabelAbstinent": "Abstinent",
+  "chartsLabelActual": "Actual",
+  "chartsLabelAfterHours": "After hours",
+  "chartsLabelAgenda": "Agenda",
+  "chartsLabelArchived": "Archived",
+  "chartsLabelArrivals": "Arrivals",
+  "chartsLabelAttempt": "Attempt",
+  "chartsLabelAttention": "Needs attention",
+  "chartsLabelBaseline": "Baseline",
+  "chartsLabelBest": "Best",
+  "chartsLabelBlocked": "Blocked",
+  "chartsLabelCancelled": "Cancelled",
+  "chartsLabelCapacity": "Capacity",
+  "chartsLabelCheckIns": "Check-ins",
+  "chartsLabelCompleted": "Completed",
+  "chartsLabelCount": "Count",
+  "chartsLabelCravings": "Cravings",
+  "chartsLabelCreated": "Created",
+  "chartsLabelCurrent": "Current",
+  "chartsLabelDeepWork": "Deep work",
+  "chartsLabelDepartures": "Departures",
+  "chartsLabelDone": "Done",
+  "chartsLabelDoneLate": "Late",
+  "chartsLabelDoneOnTime": "On time",
+  "chartsLabelEarly": "Early",
+  "chartsLabelEvent": "Events",
+  "chartsLabelExcused": "Excused",
+  "chartsLabelFailed": "Not done",
+  "chartsLabelFiles": "Files",
+  "chartsLabelFocus": "Focus",
+  "chartsLabelFree": "Free",
+  "chartsLabelFrozen": "Frozen",
+  "chartsLabelFuture": "Upcoming",
+  "chartsLabelGoal": "Goal",
+  "chartsLabelHabits": "Habits",
+  "chartsLabelHighPriority": "High priority",
+  "chartsLabelIdeal": "Ideal",
+  "chartsLabelImages": "Images",
+  "chartsLabelInProgress": "Active",
+  "chartsLabelIntensity": "Intensity",
+  "chartsLabelItems": "Items",
+  "chartsLabelLapse": "Slip",
+  "chartsLabelLate": "Late",
+  "chartsLabelLifeRegained": "Life regained",
+  "chartsLabelLimit": "Limit",
+  "chartsLabelLists": "Lists",
+  "chartsLabelLowPriority": "Low priority",
+  "chartsLabelMaxIntensity": "Peak intensity",
+  "chartsLabelMean": "Mean",
+  "chartsLabelMeanIntensity": "Average intensity",
+  "chartsLabelMeanUse": "Average use",
+  "chartsLabelMedian": "Median",
+  "chartsLabelMissed": "Missed",
+  "chartsLabelMoney": "Money",
+  "chartsLabelMonth": "Month",
+  "chartsLabelMoods": "Moods",
+  "chartsLabelMoved": "Moved",
+  "chartsLabelMovedIn": "Moved in",
+  "chartsLabelMovedOut": "Moved out",
+  "chartsLabelNet": "Net flow",
+  "chartsLabelNextUp": "Next up",
+  "chartsLabelNo": "No",
+  "chartsLabelNotDue": "Not due",
+  "chartsLabelNotTracked": "Not tracked",
+  "chartsLabelOnTime": "On time",
+  "chartsLabelOneOff": "One-off",
+  "chartsLabelOngoing": "Ongoing",
+  "chartsLabelOther": "Other",
+  "chartsLabelOver": "Over",
+  "chartsLabelOverLimit": "Over limit",
+  "chartsLabelOverdue": "Overdue",
+  "chartsLabelOverdue1": "1–6 days",
+  "chartsLabelOverdue14": "14–29 days",
+  "chartsLabelOverdue30": "30+ days",
+  "chartsLabelOverdue7": "7–13 days",
+  "chartsLabelOverdueToday": "< 1 day",
+  "chartsLabelOverlap": "Overlap",
+  "chartsLabelP50": "P50",
+  "chartsLabelP70": "P70",
+  "chartsLabelP85": "P85",
+  "chartsLabelP95": "P95",
+  "chartsLabelPace": "Pace",
+  "chartsLabelPartial": "Partial",
+  "chartsLabelPaused": "Paused",
+  "chartsLabelPdfs": "PDFs",
+  "chartsLabelPending": "Pending",
+  "chartsLabelPerDay": "Per day",
+  "chartsLabelPerfectDay": "Perfect day",
+  "chartsLabelPlaces": "Places",
+  "chartsLabelPlanned": "Planned",
+  "chartsLabelPrevious": "Previous",
+  "chartsLabelProjection": "Projection",
+  "chartsLabelProjection1m": "Next month",
+  "chartsLabelProjection1y": "Next year",
+  "chartsLabelProjection5y": "In 5 years",
+  "chartsLabelQuit": "Quit",
+  "chartsLabelRate": "Rate",
+  "chartsLabelRecurring": "Recurring",
+  "chartsLabelReduction": "Reduction",
+  "chartsLabelRelapse": "Relapse",
+  "chartsLabelRemaining": "Remaining",
+  "chartsLabelRemoved": "Removed",
+  "chartsLabelReopened": "Reopened",
+  "chartsLabelRollingMean": "Rolling mean",
+  "chartsLabelSaved": "Saved",
+  "chartsLabelScope": "Scope",
+  "chartsLabelScore": "Score",
+  "chartsLabelSkipped": "Skipped",
+  "chartsLabelSpent": "Spent",
+  "chartsLabelStale": "Stale",
+  "chartsLabelStreak": "Streak",
+  "chartsLabelSuccess": "Success",
+  "chartsLabelTarget": "Target",
+  "chartsLabelTask": "Tasks",
+  "chartsLabelTasks": "Tasks",
+  "chartsLabelTemplates": "Templates",
+  "chartsLabelTimeNotSpent": "Time not spent",
+  "chartsLabelTodo": "To do",
+  "chartsLabelTotal": "Total",
+  "chartsLabelTrend": "Trend",
+  "chartsLabelTriggers": "Triggers",
+  "chartsLabelUncategorized": "Uncategorized",
+  "chartsLabelUnder": "Under",
+  "chartsLabelUnits": "Units",
+  "chartsLabelUnplanned": "Unplanned",
+  "chartsLabelUnspecified": "Unspecified",
+  "chartsLabelUsed": "Used",
+  "chartsLabelVolume": "Volume",
+  "chartsLabelWaiting": "Waiting",
+  "chartsLabelWeek": "Week",
+  "chartsLabelWeekend": "Weekend",
+  "chartsLabelWhenLabel": "When",
+  "chartsLabelWins": "Wins",
+  "chartsLabelWip": "In progress",
+  "chartsLabelWithinLimit": "Within limit",
+  "chartsLabelWithinLimitDays": "Days within limit",
+  "chartsLabelYear": "Year",
+  "chartsLabelYes": "Yes",
+  "chartsLegend": "Legend",
+  "chartsLoading": "Loading…",
+  "chartsMedianAt": "Median {value}",
+  "chartsMedianNotReached": "Median not reached",
+  "chartsMega": "{value} M",
+  "chartsMilestoneEta": "in {time}",
+  "chartsMilestoneInWindow": "In progress",
+  "chartsMilestoneNext": "Next",
+  "chartsMilestoneReached": "Reached",
+  "chartsMilestoneRestarted": "The clock restarted after a slip — every day you already did still counts.",
+  "chartsMilestoneSources": "Sources: {sources}",
+  "chartsMinutesOnly": "{minutes} min",
+  "chartsNeedsMore": "{count, plural, =1{Needs 1 more data point} other{Needs {count} more data points}}",
+  "chartsNoConsistentTime": "No consistent time",
+  "chartsNotApplicable": "—",
+  "chartsOrdinalAttempt": "Attempt {n}",
+  "chartsOrdinalDepth": "Depth {n}",
+  "chartsOrdinalLevel": "Level {n}",
+  "chartsOrdinalMonth": "Month {n}",
+  "chartsOrdinalPriority": "Priority {n}",
+  "chartsOrdinalRun": "Run {n}",
+  "chartsOrdinalWeek": "Week {n}",
+  "chartsOrdinalYear": "Year {n}",
+  "chartsOver": "+{value}",
+  "chartsPerDay": "{value}/day",
+  "chartsPerWeek": "{value}/week",
+  "chartsPlusMinus": "± {value}",
+  "chartsPopulationEstimate": "Population estimate",
+  "chartsPp": "{value} pp",
+  "chartsPpSpoken": "{value} percentage points",
+  "chartsPrevious": "Previous {value}",
+  "chartsProbability": "{value} chance",
+  "chartsRange": "{from}–{to}",
+  "chartsRatio": "{value}×",
+  "chartsSecondsOnly": "{seconds} s",
+  "chartsSelected": "Selected",
+  "chartsSeriesToggle": "Show or hide {series}",
+  "chartsShare": "Share chart",
+  "chartsShareHideNames": "Hide names",
+  "chartsShareMark": "Made with Everslot",
+  "chartsStreakBest": "Best",
+  "chartsStreakCurrent": "Current",
+  "chartsSummaryBars": "{title}: {count} bars, highest {label} with {value}.",
+  "chartsSummaryCalendar": "{title}: {count} days shown.",
+  "chartsSummaryLine": "{title}, {range}: from {first} to {last}. {trend}",
+  "chartsSummaryList": "{title}: {count} entries.",
+  "chartsSummaryMilestones": "{title}: {done} of {total} reached.",
+  "chartsSummaryMinMax": "Lowest {min}, highest {max}.",
+  "chartsSummaryPunchCard": "{title}: busiest {weekday} at {hour}.",
+  "chartsSummaryShare": "{title}: largest part {label}, {share}.",
+  "chartsSummaryStreaks": "{title}: longest streak {length}.",
+  "chartsSummaryValue": "{title}: {value}.",
+  "chartsTableSort": "Sort by {column}",
+  "chartsTapForDetails": "Double tap for details",
+  "chartsTarget": "Target {value}",
+  "chartsTooltip": "{label}: {value}",
+  "chartsTrendFalling": "Falling {slope} per week.",
+  "chartsTrendRising": "Rising {slope} per week.",
+  "chartsTrendStable": "No clear trend.",
+  "chartsViewAsChart": "View as chart",
+  "chartsViewAsTable": "View as table",
+  "chartsVisionDeuteranopia": "Deuteranopia",
+  "chartsVisionNormal": "Normal",
+  "chartsVisionProtanopia": "Protanopia",
+  "chartsVisionTritanopia": "Tritanopia",
+  "chartsVsPrevious": "vs previous period",
   "comingSoon": "Coming soon",
   "confirmDeleteBody": "You can restore it from Trash for 30 days.",
   "confirmDeleteTitle": "Delete {item}?",
@@ -2429,6 +3534,462 @@
   "stateErrorBody": "Please try again.",
   "stateErrorTitle": "Something went wrong",
   "stateLoading": "Loading…",
+  "statsCardError": "This card couldn’t be computed.",
+  "statsCompareToggle": "Compare with previous period",
+  "statsDetailAllTime": "All time: {value}",
+  "statsDetailBacklog": "{count, plural, =1{1 unscheduled task} other{{count} unscheduled tasks}}",
+  "statsDetailBest": "Best: {value}",
+  "statsDetailCoverage": "Time tracked on {value} of done tasks",
+  "statsDetailDelta30": "{value} vs 30 days ago",
+  "statsDetailLastDone": "Last done {date}",
+  "statsDetailOfTotal": "{done} of {total}",
+  "statsDetailOpen": "{count} open",
+  "statsDetailPerDay": "{value} per day",
+  "statsDetailPeriods": "{count, plural, =1{1 period} other{{count} periods}}",
+  "statsDetailPlanned": "Planned: {value}",
+  "statsDetailQueue": "Waiting to start for {time}",
+  "statsDetailReduction": "Down {value} from baseline",
+  "statsDetailSince": "Since {date}",
+  "statsDetailWorkItem": "In progress for {time}",
+  "statsDrillEmpty": "Nothing to show",
+  "statsDrillMore": "{count} more",
+  "statsDrillTitle": "Behind this number",
+  "statsEmptyHabits": "Add a habit to follow your consistency.",
+  "statsEmptyLists": "Create a list to see how work flows through it.",
+  "statsEmptyPlanner": "Plan a few tasks and come back for insights.",
+  "statsEmptyQuit": "No quit trackers yet",
+  "statsEmptyQuitBody": "Create one in Habits to see your progress here.",
+  "statsEmptyTitle": "Nothing to show yet",
+  "statsExclusionCancelled": "{count, plural, =1{1 cancelled occurrence} other{{count} cancelled occurrences}}",
+  "statsExclusionExcused": "{count, plural, =1{1 excused unit} other{{count} excused units}}",
+  "statsExclusionFrozen": "{count, plural, =1{1 frozen unit} other{{count} frozen units}}",
+  "statsExclusionPaused": "{count, plural, =1{1 paused unit} other{{count} paused units}}",
+  "statsExclusionSkipped": "{count, plural, =1{1 skipped unit} other{{count} skipped units}}",
+  "statsExclusionUnknown": "{count, plural, =1{1 unlogged day} other{{count} unlogged days}}",
+  "statsExclusionUnplanned": "{count, plural, =1{1 unplanned addition} other{{count} unplanned additions}}",
+  "statsExplainEstimate": "This number is an estimate.",
+  "statsExplainExcluded": "Excluded",
+  "statsExplainFormula": "How it’s computed",
+  "statsExplainGlossary": "Metric glossary",
+  "statsExplainId": "Metric {id}",
+  "statsExplainInterval": "95 % interval: {lower} – {upper}",
+  "statsExplainIntervalRule": "A ± range is shown below {count} units.",
+  "statsExplainMinData": "Shown once at least {count} units exist.",
+  "statsExplainNothingExcluded": "Nothing excluded",
+  "statsExplainPopulation": "Population estimate: harm is non-linear and varies between individuals; it is not a personal prediction.",
+  "statsExplainPrevious": "Previous period: {value}",
+  "statsExplainSample": "{count, plural, =1{Based on 1 unit} other{Based on {count} units}}",
+  "statsExplainSources": "Sources",
+  "statsExplainThisView": "In this view",
+  "statsExplainValue": "Value: {value}",
+  "statsExplainWhat": "What it measures",
+  "statsFilterApply": "Apply",
+  "statsFilterCategories": "Categories",
+  "statsFilterClear": "Clear",
+  "statsFilterPriority": "Priority",
+  "statsFilterTags": "Tags",
+  "statsFilterTracking": "Tracking",
+  "statsFilterTrackingCheck": "Check",
+  "statsFilterTrackingEvent": "Event",
+  "statsFilterTrackingTimer": "Timer",
+  "statsFilters": "Filters",
+  "statsFiltersActive": "{count, plural, =1{1 filter} other{{count} filters}}",
+  "statsHealthClockNote": "Milestones follow your current smoke-free time: the clock restarts after a slip.",
+  "statsHealthDisclaimer": "Educational estimates based on population averages from WHO, NHS, CDC and the American Cancer Society; individual results vary. Not medical advice. Consult a healthcare professional.",
+  "statsHealthElapsedNote": "Percentages show elapsed time only, not physiological measurements.",
+  "statsHealthRange": "{from} – {to}",
+  "statsMetricClI01Desc": "How long this item spent in each status.",
+  "statsMetricClI01Formula": "Sum of the intervals in each status until now (or deletion).",
+  "statsMetricClI01Title": "Time in status",
+  "statsMetricClI02Desc": "Time from starting work to completion.",
+  "statsMetricClI02Formula": "Done − start (first move out of to do).",
+  "statsMetricClI02Title": "Cycle time",
+  "statsMetricClI03Desc": "Time from creation to completion.",
+  "statsMetricClI03Formula": "Done − created.",
+  "statsMetricClI03Title": "Lead time",
+  "statsMetricClI04Desc": "How long an open item has been in progress or waiting to start.",
+  "statsMetricClI04Formula": "Started: now − start; not started: now − created.",
+  "statsMetricClI04Title": "Age",
+  "statsMetricClI05Desc": "Time since anything last happened on this item.",
+  "statsMetricClI05Formula": "Now − last activity (status change, edit, attachment or child change).",
+  "statsMetricClI05Title": "Staleness",
+  "statsMetricClI06Desc": "Completion of this item’s nested items.",
+  "statsMetricClI06Formula": "Completed leaves ÷ countable leaves (cancelled excluded).",
+  "statsMetricClI06Title": "Subtree progress",
+  "statsMetricClI07Desc": "The item’s history as colored segments with notes.",
+  "statsMetricClI07Formula": "Each status interval from creation to now.",
+  "statsMetricClI07Title": "Status timeline",
+  "statsMetricClL01Desc": "How the list’s items are split across statuses.",
+  "statsMetricClL01Formula": "Items per status; % done over leaves and over all nodes.",
+  "statsMetricClL01Title": "Status mix",
+  "statsMetricClL02Desc": "Daily completion of the list.",
+  "statsMetricClL02Formula": "Completed ÷ (items in scope − cancelled) at each day end.",
+  "statsMetricClL02Title": "Progress over time",
+  "statsMetricClL03Desc": "Items completed per week, with a 4-week rolling mean.",
+  "statsMetricClL03Formula": "Completions per bucket (a reopened item counts once, on its final completion).",
+  "statsMetricClL03Title": "Throughput",
+  "statsMetricClL04Desc": "Items ongoing, waiting or blocked at each day end.",
+  "statsMetricClL04Formula": "Count of ongoing + waiting + blocked items.",
+  "statsMetricClL04Title": "Work in progress",
+  "statsMetricClL05Desc": "Items added vs completed each week.",
+  "statsMetricClL05Formula": "Weekly created (or moved in) vs completed; net flow = difference.",
+  "statsMetricClL05Title": "Arrivals vs departures",
+  "statsMetricClL06Desc": "Open items without activity for a while, and the oldest ones.",
+  "statsMetricClL06Formula": "Open items with staleness ≥ the stale threshold; 10 oldest by age.",
+  "statsMetricClL06Title": "Stale items",
+  "statsMetricClX01Desc": "Your lists: active, archived, templates and stale ones.",
+  "statsMetricClX01Formula": "Counts of lists; stale = no activity for N days while holding open items.",
+  "statsMetricClX01Title": "Lists overview",
+  "statsMetricClX02Desc": "Items added vs completed each week across lists.",
+  "statsMetricClX02Formula": "Weekly created vs completed; net flow = difference.",
+  "statsMetricClX02Title": "Arrivals vs departures (all lists)",
+  "statsMetricClX03Desc": "Items ongoing, waiting or blocked now, and the oldest open items.",
+  "statsMetricClX03Formula": "Counts across active lists (archived excluded).",
+  "statsMetricClX03Title": "Work in progress across lists",
+  "statsMetricClX04Desc": "Items completed in the period.",
+  "statsMetricClX04Formula": "Final completions in the period, compared with the previous period.",
+  "statsMetricClX04Title": "Items completed",
+  "statsMetricClX05Desc": "Items per status across all lists.",
+  "statsMetricClX05Formula": "Count of live items per status.",
+  "statsMetricClX05Title": "Status distribution",
+  "statsMetricGl01Desc": "Your day across sections: agenda, habits, lists and quit.",
+  "statsMetricGl01Formula": "Same numbers as each section’s metrics for today.",
+  "statsMetricGl01Title": "Today",
+  "statsMetricGl02Desc": "This week so far vs the same days last week.",
+  "statsMetricGl02Formula": "Section KPIs to date with their change vs the previous week.",
+  "statsMetricGl02Title": "Week at a glance",
+  "statsMetricGl03Desc": "Your week: headline numbers, wins, what needs attention and next week’s load.",
+  "statsMetricGl03Formula": "Section KPIs with their change vs the previous week.",
+  "statsMetricGl03Title": "Weekly review",
+  "statsMetricHbH01Desc": "How well the habit is established — recent days count more.",
+  "statsMetricHbH01Formula": "Loop score: score = previous × m + credit × (1 − m), m = 0.5^(√f ÷ 13).",
+  "statsMetricHbH01Title": "Habit strength",
+  "statsMetricHbH02Desc": "Consecutive successful units up to now; today stays open until it ends.",
+  "statsMetricHbH02Formula": "Streak engine: skips, excuses, pauses and freezes are neutral.",
+  "statsMetricHbH02Title": "Current streak",
+  "statsMetricHbH03Desc": "Your longest run of successful units.",
+  "statsMetricHbH03Formula": "Maximum streak length, with its date range.",
+  "statsMetricHbH03Title": "Best streak",
+  "statsMetricHbH04Desc": "Your ten longest streaks.",
+  "statsMetricHbH04Formula": "Streaks ordered by length, then recency.",
+  "statsMetricHbH04Title": "Top streaks",
+  "statsMetricHbH05Desc": "Share of scheduled units you completed.",
+  "statsMetricHbH05Formula": "Done ÷ (closed scheduled units − excused); Wilson interval below 20 units.",
+  "statsMetricHbH05Title": "Success rate",
+  "statsMetricHbH06Desc": "How each scheduled unit ended.",
+  "statsMetricHbH06Formula": "Counts of success, partial, not done, missed, skipped and excused units.",
+  "statsMetricHbH06Title": "Outcome counts",
+  "statsMetricHbH07Desc": "Successes (and volume) per week, month or year.",
+  "statsMetricHbH07Formula": "Sums per bucket.",
+  "statsMetricHbH07Title": "History",
+  "statsMetricHbH08Desc": "Each day’s status.",
+  "statsMetricHbH08Formula": "One cell per day: done, partial, not done, missed, skipped, excused, paused, frozen.",
+  "statsMetricHbH08Title": "Calendar",
+  "statsMetricHbH09Desc": "Every check-in is a vote for the person you want to be.",
+  "statsMetricHbH09Formula": "All-time count of manual done and progress logs.",
+  "statsMetricHbH09Title": "Total repetitions",
+  "statsMetricHbH10Desc": "How much of the period’s target you reached.",
+  "statsMetricHbH10Formula": "Achieved ÷ (daily target × scheduled days − skipped days).",
+  "statsMetricHbH10Title": "Target progress",
+  "statsMetricHbH11Desc": "Everything you logged, in the habit’s unit.",
+  "statsMetricHbH11Formula": "Sum of logged values in the period and all time.",
+  "statsMetricHbH11Title": "Total volume",
+  "statsMetricHbX01Desc": "Due habits done today.",
+  "statsMetricHbX01Formula": "Done ÷ due day units today (build habits).",
+  "statsMetricHbX01Title": "Today’s progress",
+  "statsMetricHbX02Desc": "Days where every due habit was done.",
+  "statsMetricHbX02Formula": "Days with all due units done; perfect-day streak (days with nothing due are neutral).",
+  "statsMetricHbX02Title": "Perfect days",
+  "statsMetricHbX03Desc": "How much of each day’s habits you completed.",
+  "statsMetricHbX03Formula": "Per day: done ÷ due across habits.",
+  "statsMetricHbX03Title": "Daily completion",
+  "statsMetricHbX04Desc": "Weekly success rate across habits.",
+  "statsMetricHbX04Formula": "Weekly done ÷ due, with a 4-week rolling line; Δ vs previous week in points.",
+  "statsMetricHbX04Title": "Adherence trend",
+  "statsMetricHbX05Desc": "Money saved, units avoided and life regained across quit trackers.",
+  "statsMetricHbX05Formula": "Sums over active quit trackers (life regained is a population estimate).",
+  "statsMetricHbX05Title": "Quit trackers roll-up",
+  "statsMetricPlS01Desc": "How many times the series was due in the period.",
+  "statsMetricPlS01Formula": "Occurrences from the recurrence rule in the window; closed and open counted separately.",
+  "statsMetricPlS01Title": "Expected occurrences",
+  "statsMetricPlS02Desc": "Breakdown of the series’ occurrences by outcome.",
+  "statsMetricPlS02Formula": "Counts of done (D), missed (M), skipped (K) and excused (X) occurrences.",
+  "statsMetricPlS02Title": "Done, missed, skipped",
+  "statsMetricPlS03Desc": "Share of due occurrences you completed.",
+  "statsMetricPlS03Formula": "Done ÷ (expected − excused), with a 4-week rolling line and a weekly trend.",
+  "statsMetricPlS03Title": "Adherence",
+  "statsMetricPlS04Desc": "Share of due occurrences that were missed or not done.",
+  "statsMetricPlS04Formula": "(Missed + not done) ÷ (expected − excused).",
+  "statsMetricPlS04Title": "Miss rate",
+  "statsMetricPlS05Desc": "Consecutive completed occurrences; skips are neutral by default.",
+  "statsMetricPlS05Formula": "Streak engine with one unit per occurrence.",
+  "statsMetricPlS05Title": "Current & best streak",
+  "statsMetricPlS06Desc": "Cumulative tracked and planned time since the series started.",
+  "statsMetricPlS06Formula": "Running totals of actual and planned minutes.",
+  "statsMetricPlS06Title": "Time invested",
+  "statsMetricPlS07Desc": "All-time number of completed occurrences.",
+  "statsMetricPlS07Formula": "Count of done occurrences.",
+  "statsMetricPlS07Title": "Total done",
+  "statsMetricPlS08Desc": "Days since the last completed occurrence.",
+  "statsMetricPlS08Formula": "Today − date of the last completion.",
+  "statsMetricPlS08Title": "Last done",
+  "statsMetricPlS09Desc": "Each day’s outcome for the series.",
+  "statsMetricPlS09Formula": "Worst outcome of the day: missed > partial > late > skipped > done > excused.",
+  "statsMetricPlS09Title": "Outcome calendar",
+  "statsMetricPlT01Desc": "How long this occurrence was planned to take.",
+  "statsMetricPlT01Formula": "Planned end − planned start.",
+  "statsMetricPlT01Title": "Planned duration",
+  "statsMetricPlT02Desc": "Time actually tracked on this occurrence, pauses excluded.",
+  "statsMetricPlT02Formula": "Sum of tracked session lengths; unknown when nothing was tracked.",
+  "statsMetricPlT02Title": "Actual duration",
+  "statsMetricPlT03Desc": "Difference between actual and planned time, and their ratio.",
+  "statsMetricPlT03Formula": "Actual − planned; ratio R = actual ÷ planned (only when planned ≥ 5 min).",
+  "statsMetricPlT03Title": "Duration variance",
+  "statsMetricPlT04Desc": "How early or late you started compared with the plan.",
+  "statsMetricPlT04Formula": "First session start − planned start; on time within the grace period.",
+  "statsMetricPlT04Title": "Start delay",
+  "statsMetricPlT05Desc": "How early or late the occurrence was finished.",
+  "statsMetricPlT05Formula": "Completion (or last session end for timers) − planned end.",
+  "statsMetricPlT05Title": "Finish delay",
+  "statsMetricPlT06Desc": "What happened to this occurrence.",
+  "statsMetricPlT06Formula": "Done on time, done late, partial, skipped, missed, cancelled, pending or upcoming.",
+  "statsMetricPlT06Title": "Outcome",
+  "statsMetricPlT07Desc": "How long an unfinished occurrence has been overdue.",
+  "statsMetricPlT07Formula": "Now − planned end, bucketed 1 / 7 / 14 / 30+ days.",
+  "statsMetricPlT07Title": "Overdue age",
+  "statsMetricPlX01Desc": "Share of what was planned at the start of the period that you completed.",
+  "statsMetricPlX01Formula": "Planned and done in the period ÷ planned as of the period start; tasks added later are excluded.",
+  "statsMetricPlX01Title": "Completion vs plan",
+  "statsMetricPlX02Desc": "Planned and completed tasks for each day.",
+  "statsMetricPlX02Formula": "Per day: planned (plan snapshot) and done counts.",
+  "statsMetricPlX02Title": "Done vs planned per day",
+  "statsMetricPlX03Desc": "Tasks added after the period started, and tasks moved out of or into it.",
+  "statsMetricPlX03Formula": "Counts of unplanned additions, moved-out and moved-in occurrences.",
+  "statsMetricPlX03Title": "Unplanned & moved",
+  "statsMetricPlX04Desc": "Tasks created vs completed each week, and the open backlog.",
+  "statsMetricPlX04Formula": "Created and completed per week; backlog = unscheduled tasks + overdue occurrences.",
+  "statsMetricPlX04Title": "Backlog flow",
+  "statsMetricPlX05Desc": "Share of completed tasks finished by their planned end.",
+  "statsMetricPlX05Formula": "Done on time ÷ done (grace period included).",
+  "statsMetricPlX05Title": "On-time completion",
+  "statsMetricPlX06Desc": "Unfinished tasks past their planned end, by age.",
+  "statsMetricPlX06Formula": "Open overdue occurrences, bucketed 1 / 7 / 14 / 30+ days.",
+  "statsMetricPlX06Title": "Overdue now",
+  "statsMetricPlX07Desc": "Time available for planned work in the period.",
+  "statsMetricPlX07Formula": "Work hours per day minus unavailable blocks, summed over the period.",
+  "statsMetricPlX07Title": "Capacity",
+  "statsMetricPlX08Desc": "How much of your capacity is filled with planned tasks.",
+  "statsMetricPlX08Formula": "Planned minutes inside work hours ÷ capacity (can exceed 100 % with overlaps).",
+  "statsMetricPlX08Title": "Planned utilization",
+  "statsMetricPlX09Desc": "How much of your capacity was spent on tracked work.",
+  "statsMetricPlX09Formula": "Tracked minutes inside work hours ÷ capacity; needs 60 % tracking coverage.",
+  "statsMetricPlX09Title": "Actual utilization",
+  "statsMetricPlX10Desc": "Days where more is planned than the time available.",
+  "statsMetricPlX10Formula": "Days with planned load > capacity; overbooked minutes = load − capacity.",
+  "statsMetricPlX10Title": "Overbooked days",
+  "statsMetricPlX11Desc": "Capacity left from now until the end of the period.",
+  "statsMetricPlX11Formula": "Remaining capacity − remaining planned time (from now).",
+  "statsMetricPlX11Title": "Remaining free time",
+  "statsMetricPlX12Desc": "Planned and tracked time per day and category.",
+  "statsMetricPlX12Formula": "Sum of planned minutes vs sum of tracked minutes.",
+  "statsMetricPlX12Title": "Planned vs actual hours",
+  "statsMetricPlX13Desc": "Where your time goes, by category.",
+  "statsMetricPlX13Formula": "Tracked minutes per category (planned when tracking covers < 60 %); share of total.",
+  "statsMetricPlX13Title": "Time by category",
+  "statsMetricPlX14Desc": "Weekly time per category.",
+  "statsMetricPlX14Formula": "Minutes per category per week.",
+  "statsMetricPlX14Title": "Category trend",
+  "statsMetricPlX15Desc": "Share of planned time taken by events rather than tasks.",
+  "statsMetricPlX15Formula": "Event minutes ÷ (event + task minutes).",
+  "statsMetricPlX15Title": "Events vs tasks",
+  "statsMetricQt01Desc": "Time since your quit date.",
+  "statsMetricQt01Formula": "Now − quit date (live).",
+  "statsMetricQt01Title": "Time since quitting",
+  "statsMetricQt02Desc": "Time since the last use (or your quit date).",
+  "statsMetricQt02Formula": "Now − max(quit date, last use) (live).",
+  "statsMetricQt02Title": "Current abstinence",
+  "statsMetricQt03Desc": "Your longest stretch without using.",
+  "statsMetricQt03Formula": "Longest gap between quit date, uses and now.",
+  "statsMetricQt03Title": "Longest abstinence",
+  "statsMetricQt04Desc": "Local days since quitting without any use.",
+  "statsMetricQt04Formula": "Count of closed days with no use.",
+  "statsMetricQt04Title": "Abstinent days",
+  "statsMetricQt05Desc": "Share of days since quitting without any use.",
+  "statsMetricQt05Formula": "Abstinent days ÷ closed days since the quit date.",
+  "statsMetricQt05Title": "Abstinent days share",
+  "statsMetricQt06Desc": "How many units you did not consume thanks to quitting.",
+  "statsMetricQt06Formula": "Baseline per day × days − units used (floored at 0).",
+  "statsMetricQt06Title": "Units avoided",
+  "statsMetricQt07Desc": "Money not spent thanks to quitting.",
+  "statsMetricQt07Formula": "Units avoided each day × unit cost in force that day.",
+  "statsMetricQt07Title": "Money saved",
+  "statsMetricQt08Desc": "Money spent on uses since quitting.",
+  "statsMetricQt08Formula": "Units used × unit cost at the time.",
+  "statsMetricQt08Title": "Spent on slips",
+  "statsMetricQt09Desc": "What you will save if you keep going.",
+  "statsMetricQt09Formula": "Current baseline × unit cost over the next month, year and 5 years.",
+  "statsMetricQt09Title": "Savings projection",
+  "statsMetricQt10Desc": "Population estimate of life expectancy regained — not a personal prediction.",
+  "statsMetricQt10Formula": "Units avoided × minutes of life per unit (≈ 20 min per cigarette, Jackson et al. 2025).",
+  "statsMetricQt10Title": "Life regained",
+  "statsMetricQt11Desc": "Typical recovery milestones after the last cigarette.",
+  "statsMetricQt11Formula": "Progress = current abstinence ÷ milestone time; the clock restarts after a slip.",
+  "statsMetricQt11Title": "Health milestones",
+  "statsMetricQt12Desc": "How often you stayed within your daily limit, and how much you cut down.",
+  "statsMetricQt12Formula": "Days within limit ÷ days; reduction = 1 − average use ÷ baseline.",
+  "statsMetricQt12Title": "Reduction progress",
+  "statsMetricQt13Desc": "How often cravings hit, and how strong they were.",
+  "statsMetricQt13Formula": "Cravings per day over the period; mean and peak intensity; 7-day rolling mean.",
+  "statsMetricQt13Title": "Craving load",
+  "statsMetricQt14Desc": "What triggers cravings, where and when.",
+  "statsMetricQt14Formula": "Pareto by trigger, place and mood; weekday × hour matrix.",
+  "statsMetricQt14Title": "Craving context",
+  "statsNoteAbstainMode": "Only for reduce-mode trackers.",
+  "statsNoteAllDay": "All-day tasks have no duration.",
+  "statsNoteClosed": "This item is closed.",
+  "statsNoteError": "Couldn’t compute",
+  "statsNoteLimitHabit": "Limit habits show within-limit days instead.",
+  "statsNoteLowCoverage": "Track time on at least 60 % of done tasks to see this.",
+  "statsNoteNew": "New",
+  "statsNoteNoData": "No data yet",
+  "statsNoteNoGoal": "No goal set",
+  "statsNoteNoHabit": "This habit couldn’t be found.",
+  "statsNoteNoItem": "This item couldn’t be found.",
+  "statsNoteNoLifeEstimate": "Set minutes of life per unit to see this estimate.",
+  "statsNoteNoOccurrence": "This occurrence couldn’t be found.",
+  "statsNoteNoQuitTrackers": "No quit trackers yet.",
+  "statsNoteNoTracker": "This quit tracker couldn’t be found.",
+  "statsNoteNoUnitCost": "Set a unit cost to see savings.",
+  "statsNoteNotApplicable": "Not applicable",
+  "statsNoteNotDone": "Not done yet",
+  "statsNoteNotOverdue": "Not overdue",
+  "statsNoteNotScheduled": "Not scheduled",
+  "statsNoteNotSmoking": "Health milestones are shown for smoking trackers only.",
+  "statsNoteNotStarted": "Not started",
+  "statsNoteNotTracked": "Actual time not tracked",
+  "statsNotePastPeriod": "Only for current and future periods.",
+  "statsNotePopulationEstimate": "Population estimate",
+  "statsNoteUsedPlanned": "Planned time shown: actual time is tracked on fewer than 60 % of done tasks.",
+  "statsNoteYesNoHabit": "Not available for yes/no habits.",
+  "statsNoteZeroDenominator": "Nothing was due in this period.",
+  "statsOpenInsights": "Open {section}",
+  "statsOverviewNextUp": "Next up: {title} at {time}",
+  "statsOverviewOpenReview": "Weekly review",
+  "statsPeriodAll": "All",
+  "statsPeriodCustom": "Custom",
+  "statsPeriodCustomRange": "{from} – {to}",
+  "statsPeriodLastMonth": "Last month",
+  "statsPeriodLastQuarter": "Last quarter",
+  "statsPeriodLastWeek": "Last week",
+  "statsPeriodLastYear": "Last year",
+  "statsPeriodMonth": "Month",
+  "statsPeriodQuarter": "Quarter",
+  "statsPeriodRolling": "Last {days} days",
+  "statsPeriodRollingMenu": "Rolling",
+  "statsPeriodSelected": "Period: {period}",
+  "statsPeriodToday": "Today",
+  "statsPeriodWeek": "Week",
+  "statsPeriodYear": "Year",
+  "statsPeriodYesterday": "Yesterday",
+  "statsQuitMilestoneBreathing72h": "Breathing gets easier; energy rises",
+  "statsQuitMilestoneCancers20y": "Mouth, throat, larynx and pancreas cancer risk near a never-smoker’s",
+  "statsQuitMilestoneChd15y": "Coronary heart disease risk close to a non-smoker’s",
+  "statsQuitMilestoneChdAdded": "Added coronary heart disease risk halves",
+  "statsQuitMilestoneCirculation": "Circulation and lung function improve",
+  "statsQuitMilestoneCo12h": "Blood carbon monoxide back to normal",
+  "statsQuitMilestoneCo8h": "Carbon monoxide in the blood is halved; oxygen levels recover",
+  "statsQuitMilestoneCravings": "Cravings usually ease (a single craving lasts about 3–5 min)",
+  "statsQuitMilestoneHeart20m": "Heart rate and blood pressure drop; pulse returns to normal",
+  "statsQuitMilestoneHeartAttack": "Heart-attack risk drops sharply",
+  "statsQuitMilestoneHeartHalf1y": "Coronary heart disease risk about half that of a smoker",
+  "statsQuitMilestoneLifeExpectancy": "Quitting at 30 / 40 / 50 / 60 gains about 10 / 9 / 6 / 3 years of life expectancy",
+  "statsQuitMilestoneLungCancer10y": "Lung-cancer risk about half that of a smoker",
+  "statsQuitMilestoneLungs": "Coughing and shortness of breath decrease; lung function up to ~10 % better",
+  "statsQuitMilestoneMouthCancer": "Mouth, throat and larynx cancer risk halves; stroke risk falls",
+  "statsQuitMilestoneNicotine24h": "Nicotine in the blood falls to zero",
+  "statsQuitMilestoneTaste48h": "Lungs clear mucus; taste and smell improve",
+  "statsReviewAtRisk": "At risk: {title}",
+  "statsReviewBlocked": "Blocked or waiting: {title}",
+  "statsReviewFollowUp": "Follow-up overdue: {title}",
+  "statsReviewHeadline": "Headline numbers",
+  "statsReviewHealth": "Health milestone reached: {title}",
+  "statsReviewLastWeek": "Last week",
+  "statsReviewLoad": "{planned} planned of {capacity}",
+  "statsReviewNextWeek": "Next week",
+  "statsReviewNothing": "Nothing here this week.",
+  "statsReviewOverbooked": "{date} is overbooked by {time}",
+  "statsReviewOverdue": "Overdue: {title}",
+  "statsReviewPerfectDays": "{count, plural, =1{1 perfect day} other{{count} perfect days}}",
+  "statsReviewRange": "{from} – {to}",
+  "statsReviewRecord": "New record: {title}",
+  "statsReviewStale": "No recent activity: {title}",
+  "statsReviewStreak": "{title}: {count}-day streak",
+  "statsReviewThisWeek": "This week so far",
+  "statsReviewTime": "Where the time went",
+  "statsScopeChecklist": "List insights",
+  "statsScopeChecklists": "Lists insights",
+  "statsScopeGlobal": "Overview",
+  "statsScopeHabit": "Habit insights",
+  "statsScopeHabits": "Habits insights",
+  "statsScopeItem": "Item insights",
+  "statsScopePlanner": "Plan insights",
+  "statsScopeQuit": "Quit insights",
+  "statsScopeReview": "Weekly review",
+  "statsScopeSeries": "Series insights",
+  "statsScopeTask": "Task insights",
+  "statsScopeYear": "Year in review",
+  "statsSectionAbstinence": "Abstinence",
+  "statsSectionAdvanced": "Advanced",
+  "statsSectionAllocation": "Time allocation",
+  "statsSectionCalendar": "Calendar",
+  "statsSectionCapacity": "Capacity",
+  "statsSectionCollapse": "Collapse {section}",
+  "statsSectionCravings": "Cravings",
+  "statsSectionExecution": "Execution",
+  "statsSectionExpand": "Expand {section}",
+  "statsSectionFlow": "Flow",
+  "statsSectionFocus": "Focus & balance",
+  "statsSectionHabitTable": "Your habits",
+  "statsSectionHistory": "History",
+  "statsSectionItem": "This item",
+  "statsSectionLists": "Lists",
+  "statsSectionMilestones": "Health milestones",
+  "statsSectionMoney": "Money & units",
+  "statsSectionOccurrence": "This occurrence",
+  "statsSectionOutcomes": "Outcomes",
+  "statsSectionPatterns": "Patterns",
+  "statsSectionPlanning": "Planning",
+  "statsSectionPlanningQuality": "Planning quality",
+  "statsSectionQuality": "Quality",
+  "statsSectionQuitTrackers": "Quit trackers",
+  "statsSectionReduction": "Reduction",
+  "statsSectionSeries": "Execution",
+  "statsSectionShortcuts": "Sections",
+  "statsSectionStale": "Stale items",
+  "statsSectionStatus": "Status",
+  "statsSectionStreaks": "Streaks",
+  "statsSectionStrength": "Strength",
+  "statsSectionTargetVolume": "Target & volume",
+  "statsSectionTiming": "Timing & patterns",
+  "statsSectionToday": "Today",
+  "statsSectionTrend": "Trend",
+  "statsSectionWeek": "Week at a glance",
+  "statsSeeAll": "See all stats",
+  "statsSeeSeries": "See series stats",
+  "statsSegmentHabits": "Habits",
+  "statsSegmentLists": "Lists",
+  "statsSegmentOverview": "Overview",
+  "statsSegmentPlan": "Plan",
+  "statsSegmentQuit": "Quit",
+  "statsSourceAcs": "American Cancer Society",
+  "statsSourceBmj2000": "Shaw et al., BMJ 2000",
+  "statsSourceCdc": "CDC",
+  "statsSourceHse": "HSE",
+  "statsSourceJackson2025": "Jackson et al., Addiction 2025",
+  "statsSourceNci": "National Cancer Institute",
+  "statsSourceNhs": "NHS",
+  "statsSourceWho": "WHO",
+  "statsUnknownScope": "This insight doesn’t exist.",
   "syncError": "Sync problem",
   "syncIdle": "Synced",
   "syncLocalOnly": "On this device only",

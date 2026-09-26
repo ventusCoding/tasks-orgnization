@@ -22,18 +22,18 @@ time-grid painter ([3.3], specified in [6.3]).
 
 ## Progress
 
-- [ ] T6.2.01 — Chart foundations: theme tokens, frame, axes & RTL
-- [ ] T6.2.02 — KPI tile with delta, interval & sparkline
-- [ ] T6.2.03 — Line & area chart
-- [ ] T6.2.04 — Bar charts (vertical, horizontal, stacked, grouped, 100 %)
-- [ ] T6.2.05 — Donut & Pareto
-- [ ] T6.2.06 — Calendar heatmap & year grid
-- [ ] T6.2.07 — Progress visuals: rings, bullet chart, milestone bars, live counter
-- [ ] T6.2.08 — Streak bars & streak timeline
-- [ ] T6.2.09 — Punch card (7 × 24)
-- [ ] T6.2.10 — Basic interactions: tooltips & drill-down payloads
-- [ ] T6.2.11 — Chart accessibility: semantic summaries & "view as table"
-- [ ] T6.2.12 — Chart goldens & rendering performance
+- [x] T6.2.01 — Chart foundations: theme tokens, frame, axes & RTL
+- [x] T6.2.02 — KPI tile with delta, interval & sparkline
+- [x] T6.2.03 — Line & area chart
+- [x] T6.2.04 — Bar charts (vertical, horizontal, stacked, grouped, 100 %)
+- [x] T6.2.05 — Donut & Pareto
+- [x] T6.2.06 — Calendar heatmap & year grid
+- [x] T6.2.07 — Progress visuals: rings, bullet chart, milestone bars, live counter
+- [x] T6.2.08 — Streak bars & streak timeline
+- [x] T6.2.09 — Punch card (7 × 24)
+- [x] T6.2.10 — Basic interactions: tooltips & drill-down payloads
+- [x] T6.2.11 — Chart accessibility: semantic summaries & "view as table"
+- [x] T6.2.12 — Chart goldens & rendering performance
 - [ ] T6.2.13 — Gantt: planned vs actual & move timeline
 - [ ] T6.2.14 — Histogram & box plot
 - [ ] T6.2.15 — Scatter plots (y = x, percentile lines, aging WIP)
@@ -82,6 +82,7 @@ plus an adapter layer that isolates `fl_chart`.
 **Acceptance criteria:** switching theme or locale restyles every chart without rebuilding data; RTL
 mirrors the time axes; every chart state (loading, empty, insufficient, error, data) renders correctly.
 **Tests:** widget tests for the frame states; goldens for axes in LTR/RTL.
+**Notes:** Chart kit under `features/stats/presentation/charts/`, public barrel `features/stats/charts.dart` (no `fl_chart` types leak). `ChartTheme` is a `ThemeExtension` that falls back to the ambient theme, so no design-system registration is needed; `ChartPrefs` (inherited widget) passes 12/24 h, digits, week start, day start and haptics without Riverpod. Axes use 1-2-5 ticks (`niceScale`); RTL mirrors time axes with the value axis on the start side; goldens cover LTR/RTL (T6.2.12).
 
 ### T6.2.02 — KPI tile with delta, interval & sparkline
 **Priority:** P0 · **Size:** S · **Depends on:** T6.2.01
@@ -98,6 +99,7 @@ mirrors the time axes; every chart state (loading, empty, insufficient, error, d
 **Acceptance criteria:** readable at text scale 2.0 (the sparkline hides before text truncates); the
 delta is announced by screen readers as "up 5 percentage points".
 **Tests:** widget tests for each state; goldens.
+**Notes:** `KpiTile` + `DeltaChip` + `Sparkline`; the ± half-width follows the metric's `MinSampleRule`; the sparkline hides at text scale ≥ 1.5 or below 120 dp.
 
 ### T6.2.03 — Line & area chart
 **Priority:** P0 · **Size:** M · **Depends on:** T6.2.01, [6.1] (trend T6.1.04)
@@ -116,6 +118,7 @@ delta is announced by screen readers as "up 5 percentage points".
 **Acceptance criteria:** a 1 825-point series renders under the T6.2.12 budget; gaps stay visible;
 annotations are tappable and announced.
 **Tests:** unit tests for LTTB (keeps extrema); goldens with trend, goal and gap.
+**Notes:** `TimeSeriesChart` on `fl_chart` `LineChart`; LTTB downsampling via `lttb()` (unit-tested: keeps extrema and gaps). Annotation markers are labeled vertical lines; tapping them is part of the P1 scrubbing work (T6.2.22).
 
 ### T6.2.04 — Bar charts (vertical, horizontal, stacked, grouped, 100 %)
 **Priority:** P0 · **Size:** M · **Depends on:** T6.2.01
@@ -131,6 +134,7 @@ and weekday profiles.
 **Acceptance criteria:** a stacked bar tooltip lists every segment with its share; capacity overlay
 lines render above the bars; RTL mirrors the category order.
 **Tests:** goldens per variant; widget test for the tap payload.
+**Notes:** `BarsChart` is a `CustomPainter` (pattern fills for status tones, exact RTL mirroring, crowd-aware value labels); > 60 bars scroll horizontally.
 
 ### T6.2.05 — Donut & Pareto
 **Priority:** P0 · **Size:** M · **Depends on:** T6.2.01
@@ -143,6 +147,7 @@ triggers and blocker reasons (Pareto).
   reference line. At most 12 bars plus "Other".
 **Acceptance criteria:** slices under 2 % are merged into "Other"; Pareto cumulative values end at 100 %.
 **Tests:** unit tests for the grouping logic; goldens.
+**Notes:** Donut on `fl_chart` `PieChart`; Pareto is a custom painter. Grouping rules live in the domain models (`groupDonutSlices`, `ParetoData`).
 
 ### T6.2.06 — Calendar heatmap & year grid
 **Priority:** P0 · **Size:** M · **Depends on:** T6.2.01
@@ -159,6 +164,7 @@ completions per day, abstinent days and cravings.
 **Acceptance criteria:** week start MO/SA/SU and RTL lay out correctly; 365 cells render in < 4 ms per
 frame; statuses are distinguishable in grayscale.
 **Tests:** goldens per mode, week start, RTL and dark theme; a performance test.
+**Notes:** Month grids for ranges ≤ 45 days, year grid otherwise (scrolls when wider than the screen). The 365-cell frame budget is covered by the heavy-scene smoke test; profile-mode timing belongs to the [9.1] device suite.
 
 ### T6.2.07 — Progress visuals: rings, bullet chart, milestone bars, live counter
 **Priority:** P0 · **Size:** M · **Depends on:** T6.2.01
@@ -174,6 +180,7 @@ frame; statuses are distinguishable in grayscale.
 **Acceptance criteria:** the counter stays accurate across background/foreground and DST (it uses
 instants); rings never exceed 100 % visually but can show "+20 %" over-achievement text.
 **Tests:** widget tests with a fake ticker; goldens.
+**Notes:** `LiveCounter` uses the shared `CounterTicker` (one 1 Hz timer, only while `TickerMode` is enabled) and an injectable clock for tests.
 
 ### T6.2.08 — Streak bars & streak timeline
 **Priority:** P0 · **Size:** S · **Depends on:** T6.2.01, [6.1] (streak engine T6.1.09)
@@ -197,6 +204,7 @@ punctuality.
 **Acceptance criteria:** the column for 00:00 respects the day-start hour when configured; an empty
 matrix shows the empty state, not a blank grid.
 **Tests:** goldens (week starts, RTL, dark theme).
+**Notes:** Punch card columns rotate to `ChartPrefs.dayStartMinutes`; taps return `weekday:<iso>:<hour>`.
 
 ### T6.2.10 — Basic interactions: tooltips & drill-down payloads
 **Priority:** P0 · **Size:** S · **Depends on:** T6.2.01
@@ -209,6 +217,7 @@ matrix shows the empty state, not a blank grid.
 **Acceptance criteria:** every P0 chart returns a meaningful payload; tooltips never overflow the
 screen edges in RTL.
 **Tests:** widget tests per chart type.
+**Notes:** Typed `ChartTap` payloads (drill key, label, series, value) from line, bars, donut, Pareto, calendar, punch card and streak charts; bar tooltips list every segment with its share; selection haptics honour `appearance.haptics` via `ChartPrefs.haptics`.
 
 ### T6.2.11 — Chart accessibility: semantic summaries & "view as table"
 **Priority:** P0 · **Size:** M · **Depends on:** T6.2.01
@@ -224,6 +233,7 @@ screen edges in RTL.
 **Acceptance criteria:** automated `meetsGuideline(textContrastGuideline)` and labeled-tap-target checks
 pass; TalkBack/VoiceOver read the summary and allow table navigation.
 **Tests:** widget semantics tests per chart type; an a11y audit entry in [9.1].
+**Notes:** Every chart in a `ChartFrame` is announced by `chartSummary` and has a sortable `ChartDataTable`. Keyboard focus is provided by the table rows; per-bar focus traversal is left to the [9.1] accessibility audit.
 
 ### T6.2.12 — Chart goldens & rendering performance
 **Priority:** P0 · **Size:** M · **Depends on:** T6.2.02, T6.2.03, T6.2.04, T6.2.05, T6.2.06, T6.2.07, T6.2.08, T6.2.09
@@ -237,6 +247,7 @@ pass; TalkBack/VoiceOver read the summary and allow table navigation.
 **Acceptance criteria:** CI goldens are stable across runs; the performance test passes on the reference
 emulator.
 **Tests:** this task is the suite.
+**Notes:** Golden matrix `test/features/stats/charts/goldens/p0_charts_{light,dark}_{ltr,rtl}_{1x,2x}.png` (one gallery per variant, tagged `golden`); the 2.0 text-scale variant caught and fixed a ring-label overflow. The heavy scene (year heatmap + 1 825-point line + 60 bars) has a debug-mode smoke budget; profile-mode ≤ 8 ms frame budgets are measured by the [9.1] device suite.
 
 ### T6.2.13 — Gantt: planned vs actual & move timeline
 **Priority:** P1 · **Size:** M · **Depends on:** T6.2.01, T6.2.10

@@ -380,6 +380,854 @@ class AppLocalizationsFr extends AppLocalizations {
       'Exclu des statistiques de capacité (sommeil, congés…).';
 
   @override
+  String chartsAnonymousItem(String n) {
+    return 'Élément $n';
+  }
+
+  @override
+  String chartsBytesGb(String value) {
+    return '$value Go';
+  }
+
+  @override
+  String chartsBytesKb(String value) {
+    return '$value Ko';
+  }
+
+  @override
+  String chartsBytesMb(String value) {
+    return '$value Mo';
+  }
+
+  @override
+  String get chartsColumnLabel => 'Libellé';
+
+  @override
+  String chartsCounterSemantics(String days, String hours, String minutes) {
+    return '$days jours, $hours heures, $minutes minutes';
+  }
+
+  @override
+  String chartsCrosshair(String label, String value) {
+    return '$label : $value';
+  }
+
+  @override
+  String chartsDaysHours(String days, String hours) {
+    return '$days j $hours h';
+  }
+
+  @override
+  String chartsDaysOnly(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jours',
+      one: '1 jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chartsDeltaDown(String value) {
+    return 'en baisse de $value';
+  }
+
+  @override
+  String get chartsDeltaFlat => 'stable';
+
+  @override
+  String get chartsDeltaNew => 'nouveau';
+
+  @override
+  String chartsDeltaUp(String value) {
+    return 'en hausse de $value';
+  }
+
+  @override
+  String get chartsEmpty => 'Aucune donnée sur cette période';
+
+  @override
+  String get chartsError => 'Ce graphique n’a pas pu être calculé';
+
+  @override
+  String chartsEstimate(String value) {
+    return '≈ $value';
+  }
+
+  @override
+  String get chartsExplain => 'À propos de cet indicateur';
+
+  @override
+  String chartsFrozen(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count gelés',
+      one: '1 gelé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get chartsGalleryDark => 'Thème sombre';
+
+  @override
+  String get chartsGalleryRtl => 'De droite à gauche';
+
+  @override
+  String get chartsGalleryTextScale => 'Grand texte';
+
+  @override
+  String get chartsGalleryTitle => 'Galerie de graphiques';
+
+  @override
+  String get chartsGalleryVision => 'Vision des couleurs';
+
+  @override
+  String get chartsHistogramCount => 'Nombre';
+
+  @override
+  String get chartsHistogramDensity => 'Part';
+
+  @override
+  String chartsHour(String hour) {
+    return '$hour h';
+  }
+
+  @override
+  String chartsHoursMinutes(String hours, String minutes) {
+    return '$hours h $minutes min';
+  }
+
+  @override
+  String chartsHoursOnly(String hours) {
+    return '$hours h';
+  }
+
+  @override
+  String chartsKilo(String value) {
+    return '$value k';
+  }
+
+  @override
+  String chartsKpiSemantics(String title, String value, String delta) {
+    return '$title : $value. $delta';
+  }
+
+  @override
+  String get chartsLabelAbstinent => 'Abstinent';
+
+  @override
+  String get chartsLabelActual => 'Réel';
+
+  @override
+  String get chartsLabelAfterHours => 'Hors horaires';
+
+  @override
+  String get chartsLabelAgenda => 'Agenda';
+
+  @override
+  String get chartsLabelArchived => 'Archivées';
+
+  @override
+  String get chartsLabelArrivals => 'Arrivées';
+
+  @override
+  String get chartsLabelAttempt => 'Tentative';
+
+  @override
+  String get chartsLabelAttention => 'À surveiller';
+
+  @override
+  String get chartsLabelBaseline => 'Référence';
+
+  @override
+  String get chartsLabelBest => 'Record';
+
+  @override
+  String get chartsLabelBlocked => 'Bloqué';
+
+  @override
+  String get chartsLabelCancelled => 'Annulé';
+
+  @override
+  String get chartsLabelCapacity => 'Capacité';
+
+  @override
+  String get chartsLabelCheckIns => 'Validations';
+
+  @override
+  String get chartsLabelCompleted => 'Terminé';
+
+  @override
+  String get chartsLabelCount => 'Nombre';
+
+  @override
+  String get chartsLabelCravings => 'Envies';
+
+  @override
+  String get chartsLabelCreated => 'Créés';
+
+  @override
+  String get chartsLabelCurrent => 'Actuel';
+
+  @override
+  String get chartsLabelDeepWork => 'Travail profond';
+
+  @override
+  String get chartsLabelDepartures => 'Sorties';
+
+  @override
+  String get chartsLabelDone => 'Fait';
+
+  @override
+  String get chartsLabelDoneLate => 'En retard';
+
+  @override
+  String get chartsLabelDoneOnTime => 'À l’heure';
+
+  @override
+  String get chartsLabelEarly => 'En avance';
+
+  @override
+  String get chartsLabelEvent => 'Événements';
+
+  @override
+  String get chartsLabelExcused => 'Excusé';
+
+  @override
+  String get chartsLabelFailed => 'Non fait';
+
+  @override
+  String get chartsLabelFiles => 'Fichiers';
+
+  @override
+  String get chartsLabelFocus => 'Concentration';
+
+  @override
+  String get chartsLabelFree => 'Libre';
+
+  @override
+  String get chartsLabelFrozen => 'Gelé';
+
+  @override
+  String get chartsLabelFuture => 'À venir';
+
+  @override
+  String get chartsLabelGoal => 'Objectif';
+
+  @override
+  String get chartsLabelHabits => 'Habitudes';
+
+  @override
+  String get chartsLabelHighPriority => 'Priorité haute';
+
+  @override
+  String get chartsLabelIdeal => 'Idéal';
+
+  @override
+  String get chartsLabelImages => 'Images';
+
+  @override
+  String get chartsLabelInProgress => 'Actives';
+
+  @override
+  String get chartsLabelIntensity => 'Intensité';
+
+  @override
+  String get chartsLabelItems => 'Éléments';
+
+  @override
+  String get chartsLabelLapse => 'Écart';
+
+  @override
+  String get chartsLabelLate => 'En retard';
+
+  @override
+  String get chartsLabelLifeRegained => 'Vie regagnée';
+
+  @override
+  String get chartsLabelLimit => 'Limite';
+
+  @override
+  String get chartsLabelLists => 'Listes';
+
+  @override
+  String get chartsLabelLowPriority => 'Priorité basse';
+
+  @override
+  String get chartsLabelMaxIntensity => 'Intensité maximale';
+
+  @override
+  String get chartsLabelMean => 'Moyenne';
+
+  @override
+  String get chartsLabelMeanIntensity => 'Intensité moyenne';
+
+  @override
+  String get chartsLabelMeanUse => 'Consommation moyenne';
+
+  @override
+  String get chartsLabelMedian => 'Médiane';
+
+  @override
+  String get chartsLabelMissed => 'Manqué';
+
+  @override
+  String get chartsLabelMoney => 'Argent';
+
+  @override
+  String get chartsLabelMonth => 'Mois';
+
+  @override
+  String get chartsLabelMoods => 'Humeurs';
+
+  @override
+  String get chartsLabelMoved => 'Déplacé';
+
+  @override
+  String get chartsLabelMovedIn => 'Arrivés';
+
+  @override
+  String get chartsLabelMovedOut => 'Sortis';
+
+  @override
+  String get chartsLabelNet => 'Flux net';
+
+  @override
+  String get chartsLabelNextUp => 'À suivre';
+
+  @override
+  String get chartsLabelNo => 'Non';
+
+  @override
+  String get chartsLabelNotDue => 'Non prévu';
+
+  @override
+  String get chartsLabelNotTracked => 'Non suivi';
+
+  @override
+  String get chartsLabelOnTime => 'À l’heure';
+
+  @override
+  String get chartsLabelOneOff => 'Ponctuel';
+
+  @override
+  String get chartsLabelOngoing => 'En cours';
+
+  @override
+  String get chartsLabelOther => 'Autre';
+
+  @override
+  String get chartsLabelOver => 'Dépassement';
+
+  @override
+  String get chartsLabelOverLimit => 'Au-delà de la limite';
+
+  @override
+  String get chartsLabelOverdue => 'En retard';
+
+  @override
+  String get chartsLabelOverdue1 => '1–6 jours';
+
+  @override
+  String get chartsLabelOverdue14 => '14–29 jours';
+
+  @override
+  String get chartsLabelOverdue30 => '30 jours et +';
+
+  @override
+  String get chartsLabelOverdue7 => '7–13 jours';
+
+  @override
+  String get chartsLabelOverdueToday => '< 1 jour';
+
+  @override
+  String get chartsLabelOverlap => 'Chevauchement';
+
+  @override
+  String get chartsLabelP50 => 'P50';
+
+  @override
+  String get chartsLabelP70 => 'P70';
+
+  @override
+  String get chartsLabelP85 => 'P85';
+
+  @override
+  String get chartsLabelP95 => 'P95';
+
+  @override
+  String get chartsLabelPace => 'Rythme';
+
+  @override
+  String get chartsLabelPartial => 'Partiel';
+
+  @override
+  String get chartsLabelPaused => 'En pause';
+
+  @override
+  String get chartsLabelPdfs => 'PDF';
+
+  @override
+  String get chartsLabelPending => 'En attente';
+
+  @override
+  String get chartsLabelPerDay => 'Par jour';
+
+  @override
+  String get chartsLabelPerfectDay => 'Journée parfaite';
+
+  @override
+  String get chartsLabelPlaces => 'Lieux';
+
+  @override
+  String get chartsLabelPlanned => 'Prévu';
+
+  @override
+  String get chartsLabelPrevious => 'Précédent';
+
+  @override
+  String get chartsLabelProjection => 'Projection';
+
+  @override
+  String get chartsLabelProjection1m => 'Mois prochain';
+
+  @override
+  String get chartsLabelProjection1y => 'L’an prochain';
+
+  @override
+  String get chartsLabelProjection5y => 'Dans 5 ans';
+
+  @override
+  String get chartsLabelQuit => 'Arrêt';
+
+  @override
+  String get chartsLabelRate => 'Taux';
+
+  @override
+  String get chartsLabelRecurring => 'Récurrent';
+
+  @override
+  String get chartsLabelReduction => 'Réduction';
+
+  @override
+  String get chartsLabelRelapse => 'Rechute';
+
+  @override
+  String get chartsLabelRemaining => 'Restant';
+
+  @override
+  String get chartsLabelRemoved => 'Retirés';
+
+  @override
+  String get chartsLabelReopened => 'Rouverts';
+
+  @override
+  String get chartsLabelRollingMean => 'Moyenne glissante';
+
+  @override
+  String get chartsLabelSaved => 'Économisé';
+
+  @override
+  String get chartsLabelScope => 'Périmètre';
+
+  @override
+  String get chartsLabelScore => 'Score';
+
+  @override
+  String get chartsLabelSkipped => 'Passé';
+
+  @override
+  String get chartsLabelSpent => 'Dépensé';
+
+  @override
+  String get chartsLabelStale => 'Inactives';
+
+  @override
+  String get chartsLabelStreak => 'Série';
+
+  @override
+  String get chartsLabelSuccess => 'Réussi';
+
+  @override
+  String get chartsLabelTarget => 'Objectif';
+
+  @override
+  String get chartsLabelTask => 'Tâches';
+
+  @override
+  String get chartsLabelTasks => 'Tâches';
+
+  @override
+  String get chartsLabelTemplates => 'Modèles';
+
+  @override
+  String get chartsLabelTimeNotSpent => 'Temps économisé';
+
+  @override
+  String get chartsLabelTodo => 'À faire';
+
+  @override
+  String get chartsLabelTotal => 'Total';
+
+  @override
+  String get chartsLabelTrend => 'Tendance';
+
+  @override
+  String get chartsLabelTriggers => 'Déclencheurs';
+
+  @override
+  String get chartsLabelUncategorized => 'Sans catégorie';
+
+  @override
+  String get chartsLabelUnder => 'En dessous';
+
+  @override
+  String get chartsLabelUnits => 'Unités';
+
+  @override
+  String get chartsLabelUnplanned => 'Non prévus';
+
+  @override
+  String get chartsLabelUnspecified => 'Non précisé';
+
+  @override
+  String get chartsLabelUsed => 'Consommé';
+
+  @override
+  String get chartsLabelVolume => 'Volume';
+
+  @override
+  String get chartsLabelWaiting => 'En attente';
+
+  @override
+  String get chartsLabelWeek => 'Semaine';
+
+  @override
+  String get chartsLabelWeekend => 'Week-end';
+
+  @override
+  String get chartsLabelWhenLabel => 'Quand';
+
+  @override
+  String get chartsLabelWins => 'Victoires';
+
+  @override
+  String get chartsLabelWip => 'En cours';
+
+  @override
+  String get chartsLabelWithinLimit => 'Dans la limite';
+
+  @override
+  String get chartsLabelWithinLimitDays => 'Jours dans la limite';
+
+  @override
+  String get chartsLabelYear => 'Année';
+
+  @override
+  String get chartsLabelYes => 'Oui';
+
+  @override
+  String get chartsLegend => 'Légende';
+
+  @override
+  String get chartsLoading => 'Chargement…';
+
+  @override
+  String chartsMedianAt(String value) {
+    return 'Médiane $value';
+  }
+
+  @override
+  String get chartsMedianNotReached => 'Médiane non atteinte';
+
+  @override
+  String chartsMega(String value) {
+    return '$value M';
+  }
+
+  @override
+  String chartsMilestoneEta(String time) {
+    return 'dans $time';
+  }
+
+  @override
+  String get chartsMilestoneInWindow => 'En cours';
+
+  @override
+  String get chartsMilestoneNext => 'Prochain';
+
+  @override
+  String get chartsMilestoneReached => 'Atteint';
+
+  @override
+  String get chartsMilestoneRestarted =>
+      'Le compteur a redémarré après un écart — chaque jour déjà accompli compte toujours.';
+
+  @override
+  String chartsMilestoneSources(String sources) {
+    return 'Sources : $sources';
+  }
+
+  @override
+  String chartsMinutesOnly(String minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String chartsNeedsMore(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Encore $count données nécessaires',
+      one: 'Encore 1 donnée nécessaire',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get chartsNoConsistentTime => 'Pas d’heure régulière';
+
+  @override
+  String get chartsNotApplicable => '—';
+
+  @override
+  String chartsOrdinalAttempt(String n) {
+    return 'Tentative $n';
+  }
+
+  @override
+  String chartsOrdinalDepth(String n) {
+    return 'Profondeur $n';
+  }
+
+  @override
+  String chartsOrdinalLevel(String n) {
+    return 'Niveau $n';
+  }
+
+  @override
+  String chartsOrdinalMonth(String n) {
+    return 'Mois $n';
+  }
+
+  @override
+  String chartsOrdinalPriority(String n) {
+    return 'Priorité $n';
+  }
+
+  @override
+  String chartsOrdinalRun(String n) {
+    return 'Exécution $n';
+  }
+
+  @override
+  String chartsOrdinalWeek(String n) {
+    return 'Semaine $n';
+  }
+
+  @override
+  String chartsOrdinalYear(String n) {
+    return 'Année $n';
+  }
+
+  @override
+  String chartsOver(String value) {
+    return '+$value';
+  }
+
+  @override
+  String chartsPerDay(String value) {
+    return '$value/jour';
+  }
+
+  @override
+  String chartsPerWeek(String value) {
+    return '$value/semaine';
+  }
+
+  @override
+  String chartsPlusMinus(String value) {
+    return '± $value';
+  }
+
+  @override
+  String get chartsPopulationEstimate => 'Estimation populationnelle';
+
+  @override
+  String chartsPp(String value) {
+    return '$value pts';
+  }
+
+  @override
+  String chartsPpSpoken(String value) {
+    return '$value points de pourcentage';
+  }
+
+  @override
+  String chartsPrevious(String value) {
+    return 'Précédent $value';
+  }
+
+  @override
+  String chartsProbability(String value) {
+    return '$value de probabilité';
+  }
+
+  @override
+  String chartsRange(String from, String to) {
+    return '$from–$to';
+  }
+
+  @override
+  String chartsRatio(String value) {
+    return '$value×';
+  }
+
+  @override
+  String chartsSecondsOnly(String seconds) {
+    return '$seconds s';
+  }
+
+  @override
+  String get chartsSelected => 'Sélectionné';
+
+  @override
+  String chartsSeriesToggle(String series) {
+    return 'Afficher ou masquer $series';
+  }
+
+  @override
+  String get chartsShare => 'Partager le graphique';
+
+  @override
+  String get chartsShareHideNames => 'Masquer les noms';
+
+  @override
+  String get chartsShareMark => 'Créé avec Everslot';
+
+  @override
+  String get chartsStreakBest => 'Record';
+
+  @override
+  String get chartsStreakCurrent => 'En cours';
+
+  @override
+  String chartsSummaryBars(
+    String title,
+    String count,
+    String label,
+    String value,
+  ) {
+    return '$title : $count barres, la plus haute $label avec $value.';
+  }
+
+  @override
+  String chartsSummaryCalendar(String title, String count) {
+    return '$title : $count jours affichés.';
+  }
+
+  @override
+  String chartsSummaryLine(
+    String title,
+    String range,
+    String first,
+    String last,
+    String trend,
+  ) {
+    return '$title, $range : de $first à $last. $trend';
+  }
+
+  @override
+  String chartsSummaryList(String title, String count) {
+    return '$title : $count éléments.';
+  }
+
+  @override
+  String chartsSummaryMilestones(String title, String done, String total) {
+    return '$title : $done sur $total atteints.';
+  }
+
+  @override
+  String chartsSummaryMinMax(String min, String max) {
+    return 'Minimum $min, maximum $max.';
+  }
+
+  @override
+  String chartsSummaryPunchCard(String title, String weekday, String hour) {
+    return '$title : pic le $weekday à $hour.';
+  }
+
+  @override
+  String chartsSummaryShare(String title, String label, String share) {
+    return '$title : part la plus grande $label, $share.';
+  }
+
+  @override
+  String chartsSummaryStreaks(String title, String length) {
+    return '$title : plus longue série $length.';
+  }
+
+  @override
+  String chartsSummaryValue(String title, String value) {
+    return '$title : $value.';
+  }
+
+  @override
+  String chartsTableSort(String column) {
+    return 'Trier par $column';
+  }
+
+  @override
+  String get chartsTapForDetails => 'Touchez deux fois pour les détails';
+
+  @override
+  String chartsTarget(String value) {
+    return 'Objectif $value';
+  }
+
+  @override
+  String chartsTooltip(String label, String value) {
+    return '$label : $value';
+  }
+
+  @override
+  String chartsTrendFalling(String slope) {
+    return 'En baisse de $slope par semaine.';
+  }
+
+  @override
+  String chartsTrendRising(String slope) {
+    return 'En hausse de $slope par semaine.';
+  }
+
+  @override
+  String get chartsTrendStable => 'Pas de tendance nette.';
+
+  @override
+  String get chartsViewAsChart => 'Afficher le graphique';
+
+  @override
+  String get chartsViewAsTable => 'Afficher le tableau';
+
+  @override
+  String get chartsVisionDeuteranopia => 'Deutéranopie';
+
+  @override
+  String get chartsVisionNormal => 'Normale';
+
+  @override
+  String get chartsVisionProtanopia => 'Protanopie';
+
+  @override
+  String get chartsVisionTritanopia => 'Tritanopie';
+
+  @override
+  String get chartsVsPrevious => 'vs période précédente';
+
+  @override
   String get comingSoon => 'Bientôt disponible';
 
   @override
@@ -3735,6 +4583,1717 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get stateLoading => 'Chargement…';
+
+  @override
+  String get statsCardError => 'Cette carte n’a pas pu être calculée.';
+
+  @override
+  String get statsCompareToggle => 'Comparer à la période précédente';
+
+  @override
+  String statsDetailAllTime(String value) {
+    return 'Au total : $value';
+  }
+
+  @override
+  String statsDetailBacklog(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tâches non planifiées',
+      one: '1 tâche non planifiée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsDetailBest(String value) {
+    return 'Record : $value';
+  }
+
+  @override
+  String statsDetailCoverage(String value) {
+    return 'Temps suivi sur $value des tâches faites';
+  }
+
+  @override
+  String statsDetailDelta30(String value) {
+    return '$value vs il y a 30 jours';
+  }
+
+  @override
+  String statsDetailLastDone(String date) {
+    return 'Dernière fois le $date';
+  }
+
+  @override
+  String statsDetailOfTotal(String done, String total) {
+    return '$done sur $total';
+  }
+
+  @override
+  String statsDetailOpen(String count) {
+    return '$count ouvertes';
+  }
+
+  @override
+  String statsDetailPerDay(String value) {
+    return '$value par jour';
+  }
+
+  @override
+  String statsDetailPeriods(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count périodes',
+      one: '1 période',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsDetailPlanned(String value) {
+    return 'Prévu : $value';
+  }
+
+  @override
+  String statsDetailQueue(String time) {
+    return 'En attente de démarrage depuis $time';
+  }
+
+  @override
+  String statsDetailReduction(String value) {
+    return 'En baisse de $value vs référence';
+  }
+
+  @override
+  String statsDetailSince(String date) {
+    return 'Depuis le $date';
+  }
+
+  @override
+  String statsDetailWorkItem(String time) {
+    return 'En cours depuis $time';
+  }
+
+  @override
+  String get statsDrillEmpty => 'Rien à afficher';
+
+  @override
+  String statsDrillMore(String count) {
+    return '$count de plus';
+  }
+
+  @override
+  String get statsDrillTitle => 'Derrière ce chiffre';
+
+  @override
+  String get statsEmptyHabits =>
+      'Ajoutez une habitude pour suivre votre régularité.';
+
+  @override
+  String get statsEmptyLists =>
+      'Créez une liste pour voir comment le travail avance.';
+
+  @override
+  String get statsEmptyPlanner =>
+      'Planifiez quelques tâches et revenez voir vos statistiques.';
+
+  @override
+  String get statsEmptyQuit => 'Aucun suivi d’arrêt pour l’instant';
+
+  @override
+  String get statsEmptyQuitBody =>
+      'Créez-en un dans Habitudes pour voir vos progrès ici.';
+
+  @override
+  String get statsEmptyTitle => 'Rien à afficher pour l’instant';
+
+  @override
+  String statsExclusionCancelled(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count occurrences annulées',
+      one: '1 occurrence annulée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsExclusionExcused(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unités excusées',
+      one: '1 unité excusée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsExclusionFrozen(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unités gelées',
+      one: '1 unité gelée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsExclusionPaused(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unités en pause',
+      one: '1 unité en pause',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsExclusionSkipped(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unités passées',
+      one: '1 unité passée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsExclusionUnknown(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jours non renseignés',
+      one: '1 jour non renseigné',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsExclusionUnplanned(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ajouts imprévus',
+      one: '1 ajout imprévu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statsExplainEstimate => 'Ce chiffre est une estimation.';
+
+  @override
+  String get statsExplainExcluded => 'Exclus';
+
+  @override
+  String get statsExplainFormula => 'Mode de calcul';
+
+  @override
+  String get statsExplainGlossary => 'Glossaire des indicateurs';
+
+  @override
+  String statsExplainId(String id) {
+    return 'Indicateur $id';
+  }
+
+  @override
+  String statsExplainInterval(String lower, String upper) {
+    return 'Intervalle à 95 % : $lower – $upper';
+  }
+
+  @override
+  String statsExplainIntervalRule(String count) {
+    return 'Une marge ± est affichée sous $count unités.';
+  }
+
+  @override
+  String statsExplainMinData(String count) {
+    return 'Affiché dès $count unités.';
+  }
+
+  @override
+  String get statsExplainNothingExcluded => 'Rien d’exclu';
+
+  @override
+  String get statsExplainPopulation =>
+      'Estimation populationnelle : les effets ne sont pas linéaires et varient selon les personnes ; ce n’est pas une prédiction personnelle.';
+
+  @override
+  String statsExplainPrevious(String value) {
+    return 'Période précédente : $value';
+  }
+
+  @override
+  String statsExplainSample(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Basé sur $count unités',
+      one: 'Basé sur 1 unité',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statsExplainSources => 'Sources';
+
+  @override
+  String get statsExplainThisView => 'Dans cette vue';
+
+  @override
+  String statsExplainValue(String value) {
+    return 'Valeur : $value';
+  }
+
+  @override
+  String get statsExplainWhat => 'Ce qui est mesuré';
+
+  @override
+  String get statsFilterApply => 'Appliquer';
+
+  @override
+  String get statsFilterCategories => 'Catégories';
+
+  @override
+  String get statsFilterClear => 'Effacer';
+
+  @override
+  String get statsFilterPriority => 'Priorité';
+
+  @override
+  String get statsFilterTags => 'Étiquettes';
+
+  @override
+  String get statsFilterTracking => 'Suivi';
+
+  @override
+  String get statsFilterTrackingCheck => 'Case à cocher';
+
+  @override
+  String get statsFilterTrackingEvent => 'Événement';
+
+  @override
+  String get statsFilterTrackingTimer => 'Minuteur';
+
+  @override
+  String get statsFilters => 'Filtres';
+
+  @override
+  String statsFiltersActive(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count filtres',
+      one: '1 filtre',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statsHealthClockNote =>
+      'Les étapes suivent votre temps actuel sans tabac : le compteur redémarre après un écart.';
+
+  @override
+  String get statsHealthDisclaimer =>
+      'Estimations éducatives fondées sur des moyennes de population de l’OMS, du NHS, des CDC et de l’American Cancer Society ; les résultats individuels varient. Ceci n’est pas un avis médical. Consultez un professionnel de santé.';
+
+  @override
+  String get statsHealthElapsedNote =>
+      'Les pourcentages indiquent le temps écoulé, pas des mesures physiologiques.';
+
+  @override
+  String statsHealthRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get statsMetricClI01Desc =>
+      'Temps passé par cet élément dans chaque statut.';
+
+  @override
+  String get statsMetricClI01Formula =>
+      'Somme des intervalles par statut jusqu’à maintenant (ou suppression).';
+
+  @override
+  String get statsMetricClI01Title => 'Temps par statut';
+
+  @override
+  String get statsMetricClI02Desc =>
+      'Temps entre le début du travail et l’achèvement.';
+
+  @override
+  String get statsMetricClI02Formula =>
+      'Terminé − démarré (première sortie de « à faire »).';
+
+  @override
+  String get statsMetricClI02Title => 'Temps de cycle';
+
+  @override
+  String get statsMetricClI03Desc => 'Temps entre la création et l’achèvement.';
+
+  @override
+  String get statsMetricClI03Formula => 'Terminé − créé.';
+
+  @override
+  String get statsMetricClI03Title => 'Délai total';
+
+  @override
+  String get statsMetricClI04Desc =>
+      'Depuis combien de temps un élément ouvert est en cours ou attend.';
+
+  @override
+  String get statsMetricClI04Formula =>
+      'Démarré : maintenant − début ; non démarré : maintenant − création.';
+
+  @override
+  String get statsMetricClI04Title => 'Âge';
+
+  @override
+  String get statsMetricClI05Desc =>
+      'Temps écoulé depuis la dernière activité sur cet élément.';
+
+  @override
+  String get statsMetricClI05Formula =>
+      'Maintenant − dernière activité (statut, modification, pièce jointe ou enfant).';
+
+  @override
+  String get statsMetricClI05Title => 'Inactivité';
+
+  @override
+  String get statsMetricClI06Desc => 'Achèvement des éléments imbriqués.';
+
+  @override
+  String get statsMetricClI06Formula =>
+      'Feuilles terminées ÷ feuilles comptables (annulées exclues).';
+
+  @override
+  String get statsMetricClI06Title => 'Avancement du sous-arbre';
+
+  @override
+  String get statsMetricClI07Desc =>
+      'L’historique de l’élément en segments colorés avec notes.';
+
+  @override
+  String get statsMetricClI07Formula =>
+      'Chaque intervalle de statut de la création à maintenant.';
+
+  @override
+  String get statsMetricClI07Title => 'Chronologie des statuts';
+
+  @override
+  String get statsMetricClL01Desc =>
+      'Répartition des éléments de la liste par statut.';
+
+  @override
+  String get statsMetricClL01Formula =>
+      'Éléments par statut ; % terminé sur les feuilles et sur tous les nœuds.';
+
+  @override
+  String get statsMetricClL01Title => 'Répartition des statuts';
+
+  @override
+  String get statsMetricClL02Desc => 'Achèvement quotidien de la liste.';
+
+  @override
+  String get statsMetricClL02Formula =>
+      'Terminés ÷ (éléments − annulés) à la fin de chaque jour.';
+
+  @override
+  String get statsMetricClL02Title => 'Avancement dans le temps';
+
+  @override
+  String get statsMetricClL03Desc =>
+      'Éléments terminés par semaine, avec moyenne glissante sur 4 semaines.';
+
+  @override
+  String get statsMetricClL03Formula =>
+      'Achèvements par tranche (un élément rouvert compte une fois).';
+
+  @override
+  String get statsMetricClL03Title => 'Débit';
+
+  @override
+  String get statsMetricClL04Desc =>
+      'Éléments en cours, en attente ou bloqués à la fin de chaque jour.';
+
+  @override
+  String get statsMetricClL04Formula =>
+      'Nombre d’éléments en cours + en attente + bloqués.';
+
+  @override
+  String get statsMetricClL04Title => 'Travail en cours';
+
+  @override
+  String get statsMetricClL05Desc =>
+      'Éléments ajoutés vs terminés chaque semaine.';
+
+  @override
+  String get statsMetricClL05Formula =>
+      'Créés (ou déplacés ici) vs terminés par semaine ; flux net = différence.';
+
+  @override
+  String get statsMetricClL05Title => 'Arrivées vs sorties';
+
+  @override
+  String get statsMetricClL06Desc =>
+      'Éléments ouverts sans activité depuis un moment, et les plus anciens.';
+
+  @override
+  String get statsMetricClL06Formula =>
+      'Éléments ouverts inactifs ≥ au seuil ; les 10 plus anciens.';
+
+  @override
+  String get statsMetricClL06Title => 'Éléments inactifs';
+
+  @override
+  String get statsMetricClX01Desc =>
+      'Vos listes : actives, archivées, modèles et inactives.';
+
+  @override
+  String get statsMetricClX01Formula =>
+      'Nombre de listes ; inactive = aucune activité depuis N jours avec des éléments ouverts.';
+
+  @override
+  String get statsMetricClX01Title => 'Vue des listes';
+
+  @override
+  String get statsMetricClX02Desc =>
+      'Éléments ajoutés vs terminés chaque semaine, toutes listes.';
+
+  @override
+  String get statsMetricClX02Formula =>
+      'Créés vs terminés par semaine ; flux net = différence.';
+
+  @override
+  String get statsMetricClX02Title => 'Arrivées vs sorties (toutes les listes)';
+
+  @override
+  String get statsMetricClX03Desc =>
+      'Éléments en cours, en attente ou bloqués, et les plus anciens.';
+
+  @override
+  String get statsMetricClX03Formula =>
+      'Nombres sur les listes actives (archivées exclues).';
+
+  @override
+  String get statsMetricClX03Title => 'Travail en cours (toutes les listes)';
+
+  @override
+  String get statsMetricClX04Desc => 'Éléments terminés sur la période.';
+
+  @override
+  String get statsMetricClX04Formula =>
+      'Achèvements finaux sur la période, comparés à la précédente.';
+
+  @override
+  String get statsMetricClX04Title => 'Éléments terminés';
+
+  @override
+  String get statsMetricClX05Desc =>
+      'Éléments par statut dans toutes les listes.';
+
+  @override
+  String get statsMetricClX05Formula => 'Nombre d’éléments par statut.';
+
+  @override
+  String get statsMetricClX05Title => 'Répartition par statut';
+
+  @override
+  String get statsMetricGl01Desc =>
+      'Votre journée, toutes sections : agenda, habitudes, listes et arrêts.';
+
+  @override
+  String get statsMetricGl01Formula =>
+      'Mêmes chiffres que les indicateurs de chaque section pour aujourd’hui.';
+
+  @override
+  String get statsMetricGl01Title => 'Aujourd’hui';
+
+  @override
+  String get statsMetricGl02Desc =>
+      'Cette semaine jusqu’ici vs les mêmes jours la semaine dernière.';
+
+  @override
+  String get statsMetricGl02Formula =>
+      'Indicateurs des sections à date et leur évolution vs la semaine précédente.';
+
+  @override
+  String get statsMetricGl02Title => 'La semaine en bref';
+
+  @override
+  String get statsMetricGl03Desc =>
+      'Votre semaine : chiffres clés, victoires, points d’attention et charge de la semaine suivante.';
+
+  @override
+  String get statsMetricGl03Formula =>
+      'Indicateurs des sections et leur évolution vs la semaine précédente.';
+
+  @override
+  String get statsMetricGl03Title => 'Bilan hebdomadaire';
+
+  @override
+  String get statsMetricHbH01Desc =>
+      'À quel point l’habitude est ancrée — les jours récents comptent plus.';
+
+  @override
+  String get statsMetricHbH01Formula =>
+      'Score Loop : score = précédent × m + crédit × (1 − m), m = 0,5^(√f ÷ 13).';
+
+  @override
+  String get statsMetricHbH01Title => 'Force de l’habitude';
+
+  @override
+  String get statsMetricHbH02Desc =>
+      'Unités réussies d’affilée jusqu’à maintenant ; aujourd’hui reste ouvert.';
+
+  @override
+  String get statsMetricHbH02Formula =>
+      'Moteur de séries : passages, excuses, pauses et gels sont neutres.';
+
+  @override
+  String get statsMetricHbH02Title => 'Série actuelle';
+
+  @override
+  String get statsMetricHbH03Desc =>
+      'Votre plus longue suite d’unités réussies.';
+
+  @override
+  String get statsMetricHbH03Formula =>
+      'Longueur maximale de série, avec ses dates.';
+
+  @override
+  String get statsMetricHbH03Title => 'Meilleure série';
+
+  @override
+  String get statsMetricHbH04Desc => 'Vos dix plus longues séries.';
+
+  @override
+  String get statsMetricHbH04Formula =>
+      'Séries triées par longueur puis par récence.';
+
+  @override
+  String get statsMetricHbH04Title => 'Meilleures séries';
+
+  @override
+  String get statsMetricHbH05Desc =>
+      'Part des unités prévues que vous avez réussies.';
+
+  @override
+  String get statsMetricHbH05Formula =>
+      'Réussies ÷ (unités prévues closes − excusées) ; intervalle de Wilson sous 20 unités.';
+
+  @override
+  String get statsMetricHbH05Title => 'Taux de réussite';
+
+  @override
+  String get statsMetricHbH06Desc =>
+      'Comment chaque unité prévue s’est terminée.';
+
+  @override
+  String get statsMetricHbH06Formula =>
+      'Nombre d’unités réussies, partielles, non faites, manquées, passées et excusées.';
+
+  @override
+  String get statsMetricHbH06Title => 'Bilan des résultats';
+
+  @override
+  String get statsMetricHbH07Desc =>
+      'Réussites (et volume) par semaine, mois ou année.';
+
+  @override
+  String get statsMetricHbH07Formula => 'Sommes par tranche.';
+
+  @override
+  String get statsMetricHbH07Title => 'Historique';
+
+  @override
+  String get statsMetricHbH08Desc => 'Statut de chaque jour.';
+
+  @override
+  String get statsMetricHbH08Formula =>
+      'Une case par jour : fait, partiel, non fait, manqué, passé, excusé, en pause, gelé.';
+
+  @override
+  String get statsMetricHbH08Title => 'Calendrier';
+
+  @override
+  String get statsMetricHbH09Desc =>
+      'Chaque validation est un vote pour la personne que vous voulez être.';
+
+  @override
+  String get statsMetricHbH09Formula =>
+      'Nombre total de validations manuelles (faites et progression).';
+
+  @override
+  String get statsMetricHbH09Title => 'Répétitions totales';
+
+  @override
+  String get statsMetricHbH10Desc =>
+      'Part de l’objectif de la période atteinte.';
+
+  @override
+  String get statsMetricHbH10Formula =>
+      'Réalisé ÷ (objectif quotidien × jours prévus − jours passés).';
+
+  @override
+  String get statsMetricHbH10Title => 'Progression vers l’objectif';
+
+  @override
+  String get statsMetricHbH11Desc =>
+      'Tout ce que vous avez enregistré, dans l’unité de l’habitude.';
+
+  @override
+  String get statsMetricHbH11Formula =>
+      'Somme des valeurs enregistrées sur la période et au total.';
+
+  @override
+  String get statsMetricHbH11Title => 'Volume total';
+
+  @override
+  String get statsMetricHbX01Desc => 'Habitudes prévues réalisées aujourd’hui.';
+
+  @override
+  String get statsMetricHbX01Formula =>
+      'Faites ÷ prévues aujourd’hui (habitudes à construire).';
+
+  @override
+  String get statsMetricHbX01Title => 'Progression du jour';
+
+  @override
+  String get statsMetricHbX02Desc =>
+      'Jours où toutes les habitudes prévues ont été faites.';
+
+  @override
+  String get statsMetricHbX02Formula =>
+      'Jours où toutes les unités dues sont faites ; série de journées parfaites.';
+
+  @override
+  String get statsMetricHbX02Title => 'Journées parfaites';
+
+  @override
+  String get statsMetricHbX03Desc =>
+      'Part des habitudes de chaque jour réalisée.';
+
+  @override
+  String get statsMetricHbX03Formula =>
+      'Par jour : faites ÷ prévues, toutes habitudes.';
+
+  @override
+  String get statsMetricHbX03Title => 'Réalisation quotidienne';
+
+  @override
+  String get statsMetricHbX04Desc =>
+      'Taux de réussite hebdomadaire de toutes les habitudes.';
+
+  @override
+  String get statsMetricHbX04Formula =>
+      'Faites ÷ prévues par semaine, moyenne glissante 4 semaines ; Δ vs semaine précédente.';
+
+  @override
+  String get statsMetricHbX04Title => 'Tendance d’assiduité';
+
+  @override
+  String get statsMetricHbX05Desc =>
+      'Argent économisé, unités évitées et vie regagnée, tous arrêts confondus.';
+
+  @override
+  String get statsMetricHbX05Formula =>
+      'Sommes sur les suivis d’arrêt actifs (la vie regagnée est une estimation).';
+
+  @override
+  String get statsMetricHbX05Title => 'Bilan des arrêts';
+
+  @override
+  String get statsMetricPlS01Desc =>
+      'Nombre d’échéances de la série sur la période.';
+
+  @override
+  String get statsMetricPlS01Formula =>
+      'Occurrences de la règle dans la fenêtre ; closes et ouvertes comptées à part.';
+
+  @override
+  String get statsMetricPlS01Title => 'Occurrences attendues';
+
+  @override
+  String get statsMetricPlS02Desc =>
+      'Répartition des occurrences de la série par résultat.';
+
+  @override
+  String get statsMetricPlS02Formula =>
+      'Nombre d’occurrences faites (D), manquées (M), passées (K) et excusées (X).';
+
+  @override
+  String get statsMetricPlS02Title => 'Faits, manqués, passés';
+
+  @override
+  String get statsMetricPlS03Desc =>
+      'Part des occurrences dues que vous avez réalisées.';
+
+  @override
+  String get statsMetricPlS03Formula =>
+      'Faits ÷ (attendus − excusés), avec moyenne glissante sur 4 semaines et tendance hebdomadaire.';
+
+  @override
+  String get statsMetricPlS03Title => 'Assiduité';
+
+  @override
+  String get statsMetricPlS04Desc =>
+      'Part des occurrences dues manquées ou non faites.';
+
+  @override
+  String get statsMetricPlS04Formula =>
+      '(Manqués + non faits) ÷ (attendus − excusés).';
+
+  @override
+  String get statsMetricPlS04Title => 'Taux d’oubli';
+
+  @override
+  String get statsMetricPlS05Desc =>
+      'Occurrences réalisées d’affilée ; les passages sont neutres par défaut.';
+
+  @override
+  String get statsMetricPlS05Formula =>
+      'Moteur de séries, une unité par occurrence.';
+
+  @override
+  String get statsMetricPlS05Title => 'Série actuelle et record';
+
+  @override
+  String get statsMetricPlS06Desc =>
+      'Temps suivi et prévu cumulé depuis le début de la série.';
+
+  @override
+  String get statsMetricPlS06Formula =>
+      'Totaux cumulés des minutes réelles et prévues.';
+
+  @override
+  String get statsMetricPlS06Title => 'Temps investi';
+
+  @override
+  String get statsMetricPlS07Desc => 'Nombre total d’occurrences réalisées.';
+
+  @override
+  String get statsMetricPlS07Formula => 'Nombre d’occurrences faites.';
+
+  @override
+  String get statsMetricPlS07Title => 'Total réalisé';
+
+  @override
+  String get statsMetricPlS08Desc =>
+      'Jours depuis la dernière occurrence réalisée.';
+
+  @override
+  String get statsMetricPlS08Formula =>
+      'Aujourd’hui − date de la dernière réalisation.';
+
+  @override
+  String get statsMetricPlS08Title => 'Dernière réalisation';
+
+  @override
+  String get statsMetricPlS09Desc => 'Résultat de chaque jour pour la série.';
+
+  @override
+  String get statsMetricPlS09Formula =>
+      'Pire résultat du jour : manqué > partiel > en retard > passé > fait > excusé.';
+
+  @override
+  String get statsMetricPlS09Title => 'Calendrier des résultats';
+
+  @override
+  String get statsMetricPlT01Desc => 'Durée prévue pour cette occurrence.';
+
+  @override
+  String get statsMetricPlT01Formula => 'Fin prévue − début prévu.';
+
+  @override
+  String get statsMetricPlT01Title => 'Durée prévue';
+
+  @override
+  String get statsMetricPlT02Desc =>
+      'Temps réellement suivi sur cette occurrence, pauses exclues.';
+
+  @override
+  String get statsMetricPlT02Formula =>
+      'Somme des sessions suivies ; inconnue si rien n’a été suivi.';
+
+  @override
+  String get statsMetricPlT02Title => 'Durée réelle';
+
+  @override
+  String get statsMetricPlT03Desc =>
+      'Différence entre temps réel et prévu, et leur rapport.';
+
+  @override
+  String get statsMetricPlT03Formula =>
+      'Réel − prévu ; rapport R = réel ÷ prévu (si prévu ≥ 5 min).';
+
+  @override
+  String get statsMetricPlT03Title => 'Écart de durée';
+
+  @override
+  String get statsMetricPlT04Desc =>
+      'Avance ou retard du démarrage par rapport au plan.';
+
+  @override
+  String get statsMetricPlT04Formula =>
+      'Début de la 1re session − début prévu ; à l’heure dans la marge de tolérance.';
+
+  @override
+  String get statsMetricPlT04Title => 'Retard au démarrage';
+
+  @override
+  String get statsMetricPlT05Desc =>
+      'Avance ou retard de la fin de l’occurrence.';
+
+  @override
+  String get statsMetricPlT05Formula =>
+      'Achèvement (ou fin de la dernière session) − fin prévue.';
+
+  @override
+  String get statsMetricPlT05Title => 'Retard de fin';
+
+  @override
+  String get statsMetricPlT06Desc => 'Ce qu’il est advenu de cette occurrence.';
+
+  @override
+  String get statsMetricPlT06Formula =>
+      'Fait à l’heure, en retard, partiel, passé, manqué, annulé, en attente ou à venir.';
+
+  @override
+  String get statsMetricPlT06Title => 'Résultat';
+
+  @override
+  String get statsMetricPlT07Desc =>
+      'Depuis combien de temps une occurrence non terminée est en retard.';
+
+  @override
+  String get statsMetricPlT07Formula =>
+      'Maintenant − fin prévue, par tranches 1 / 7 / 14 / 30+ jours.';
+
+  @override
+  String get statsMetricPlT07Title => 'Ancienneté du retard';
+
+  @override
+  String get statsMetricPlX01Desc =>
+      'Part de ce qui était prévu en début de période que vous avez réalisé.';
+
+  @override
+  String get statsMetricPlX01Formula =>
+      'Prévus et faits dans la période ÷ prévus au début de la période ; les ajouts ultérieurs sont exclus.';
+
+  @override
+  String get statsMetricPlX01Title => 'Réalisation du plan';
+
+  @override
+  String get statsMetricPlX02Desc => 'Tâches prévues et réalisées chaque jour.';
+
+  @override
+  String get statsMetricPlX02Formula =>
+      'Par jour : nombre prévu (plan initial) et fait.';
+
+  @override
+  String get statsMetricPlX02Title => 'Faits vs prévus par jour';
+
+  @override
+  String get statsMetricPlX03Desc =>
+      'Tâches ajoutées après le début de la période et tâches déplacées hors ou dans la période.';
+
+  @override
+  String get statsMetricPlX03Formula =>
+      'Nombre d’ajouts imprévus, d’occurrences sorties et entrées.';
+
+  @override
+  String get statsMetricPlX03Title => 'Imprévus et déplacés';
+
+  @override
+  String get statsMetricPlX04Desc =>
+      'Tâches créées vs réalisées chaque semaine, et backlog ouvert.';
+
+  @override
+  String get statsMetricPlX04Formula =>
+      'Créées et réalisées par semaine ; backlog = tâches non planifiées + occurrences en retard.';
+
+  @override
+  String get statsMetricPlX04Title => 'Flux du backlog';
+
+  @override
+  String get statsMetricPlX05Desc =>
+      'Part des tâches réalisées avant leur fin prévue.';
+
+  @override
+  String get statsMetricPlX05Formula =>
+      'Faites à l’heure ÷ faites (marge de tolérance incluse).';
+
+  @override
+  String get statsMetricPlX05Title => 'Réalisation à l’heure';
+
+  @override
+  String get statsMetricPlX06Desc =>
+      'Tâches non terminées dont la fin prévue est dépassée, par ancienneté.';
+
+  @override
+  String get statsMetricPlX06Formula =>
+      'Occurrences ouvertes en retard, par tranches 1 / 7 / 14 / 30+ jours.';
+
+  @override
+  String get statsMetricPlX06Title => 'En retard maintenant';
+
+  @override
+  String get statsMetricPlX07Desc =>
+      'Temps disponible pour le travail planifié sur la période.';
+
+  @override
+  String get statsMetricPlX07Formula =>
+      'Heures de travail par jour moins les blocs indisponibles, sur la période.';
+
+  @override
+  String get statsMetricPlX07Title => 'Capacité';
+
+  @override
+  String get statsMetricPlX08Desc =>
+      'Part de votre capacité occupée par des tâches prévues.';
+
+  @override
+  String get statsMetricPlX08Formula =>
+      'Minutes prévues dans les heures de travail ÷ capacité (peut dépasser 100 %).';
+
+  @override
+  String get statsMetricPlX08Title => 'Taux de charge prévu';
+
+  @override
+  String get statsMetricPlX09Desc =>
+      'Part de votre capacité consacrée au travail suivi.';
+
+  @override
+  String get statsMetricPlX09Formula =>
+      'Minutes suivies dans les heures de travail ÷ capacité ; requiert 60 % de suivi.';
+
+  @override
+  String get statsMetricPlX09Title => 'Taux de charge réel';
+
+  @override
+  String get statsMetricPlX10Desc =>
+      'Jours où plus est prévu que le temps disponible.';
+
+  @override
+  String get statsMetricPlX10Formula =>
+      'Jours où la charge prévue > capacité ; dépassement = charge − capacité.';
+
+  @override
+  String get statsMetricPlX10Title => 'Jours surchargés';
+
+  @override
+  String get statsMetricPlX11Desc =>
+      'Capacité restante d’ici la fin de la période.';
+
+  @override
+  String get statsMetricPlX11Formula =>
+      'Capacité restante − temps prévu restant (à partir de maintenant).';
+
+  @override
+  String get statsMetricPlX11Title => 'Temps libre restant';
+
+  @override
+  String get statsMetricPlX12Desc =>
+      'Temps prévu et suivi par jour et par catégorie.';
+
+  @override
+  String get statsMetricPlX12Formula =>
+      'Somme des minutes prévues vs somme des minutes suivies.';
+
+  @override
+  String get statsMetricPlX12Title => 'Heures prévues vs réelles';
+
+  @override
+  String get statsMetricPlX13Desc => 'Où va votre temps, par catégorie.';
+
+  @override
+  String get statsMetricPlX13Formula =>
+      'Minutes suivies par catégorie (prévues si le suivi couvre < 60 %) ; part du total.';
+
+  @override
+  String get statsMetricPlX13Title => 'Temps par catégorie';
+
+  @override
+  String get statsMetricPlX14Desc => 'Temps hebdomadaire par catégorie.';
+
+  @override
+  String get statsMetricPlX14Formula => 'Minutes par catégorie et par semaine.';
+
+  @override
+  String get statsMetricPlX14Title => 'Tendance par catégorie';
+
+  @override
+  String get statsMetricPlX15Desc =>
+      'Part du temps prévu occupée par des événements plutôt que des tâches.';
+
+  @override
+  String get statsMetricPlX15Formula =>
+      'Minutes d’événements ÷ (minutes d’événements + de tâches).';
+
+  @override
+  String get statsMetricPlX15Title => 'Événements vs tâches';
+
+  @override
+  String get statsMetricQt01Desc => 'Temps écoulé depuis votre date d’arrêt.';
+
+  @override
+  String get statsMetricQt01Formula => 'Maintenant − date d’arrêt (en direct).';
+
+  @override
+  String get statsMetricQt01Title => 'Depuis l’arrêt';
+
+  @override
+  String get statsMetricQt02Desc =>
+      'Temps depuis la dernière consommation (ou l’arrêt).';
+
+  @override
+  String get statsMetricQt02Formula =>
+      'Maintenant − max(date d’arrêt, dernière consommation) (en direct).';
+
+  @override
+  String get statsMetricQt02Title => 'Abstinence actuelle';
+
+  @override
+  String get statsMetricQt03Desc => 'Votre plus longue période sans consommer.';
+
+  @override
+  String get statsMetricQt03Formula =>
+      'Plus long écart entre l’arrêt, les consommations et maintenant.';
+
+  @override
+  String get statsMetricQt03Title => 'Plus longue abstinence';
+
+  @override
+  String get statsMetricQt04Desc =>
+      'Jours depuis l’arrêt sans aucune consommation.';
+
+  @override
+  String get statsMetricQt04Formula =>
+      'Nombre de jours clos sans consommation.';
+
+  @override
+  String get statsMetricQt04Title => 'Jours d’abstinence';
+
+  @override
+  String get statsMetricQt05Desc =>
+      'Part des jours sans consommation depuis l’arrêt.';
+
+  @override
+  String get statsMetricQt05Formula =>
+      'Jours d’abstinence ÷ jours clos depuis l’arrêt.';
+
+  @override
+  String get statsMetricQt05Title => 'Part de jours d’abstinence';
+
+  @override
+  String get statsMetricQt06Desc => 'Unités non consommées grâce à l’arrêt.';
+
+  @override
+  String get statsMetricQt06Formula =>
+      'Référence par jour × jours − unités consommées (minimum 0).';
+
+  @override
+  String get statsMetricQt06Title => 'Unités évitées';
+
+  @override
+  String get statsMetricQt07Desc => 'Argent non dépensé grâce à l’arrêt.';
+
+  @override
+  String get statsMetricQt07Formula =>
+      'Unités évitées chaque jour × coût unitaire en vigueur ce jour-là.';
+
+  @override
+  String get statsMetricQt07Title => 'Argent économisé';
+
+  @override
+  String get statsMetricQt08Desc =>
+      'Argent dépensé en consommations depuis l’arrêt.';
+
+  @override
+  String get statsMetricQt08Formula =>
+      'Unités consommées × coût unitaire du moment.';
+
+  @override
+  String get statsMetricQt08Title => 'Dépensé lors des écarts';
+
+  @override
+  String get statsMetricQt09Desc => 'Ce que vous économiserez en continuant.';
+
+  @override
+  String get statsMetricQt09Formula =>
+      'Référence actuelle × coût unitaire sur 1 mois, 1 an et 5 ans.';
+
+  @override
+  String get statsMetricQt09Title => 'Projection d’économies';
+
+  @override
+  String get statsMetricQt10Desc =>
+      'Estimation populationnelle de l’espérance de vie regagnée — pas une prédiction personnelle.';
+
+  @override
+  String get statsMetricQt10Formula =>
+      'Unités évitées × minutes de vie par unité (≈ 20 min par cigarette, Jackson et al. 2025).';
+
+  @override
+  String get statsMetricQt10Title => 'Vie regagnée';
+
+  @override
+  String get statsMetricQt11Desc =>
+      'Étapes de récupération typiques après la dernière cigarette.';
+
+  @override
+  String get statsMetricQt11Formula =>
+      'Progression = abstinence actuelle ÷ délai de l’étape ; le compteur redémarre après un écart.';
+
+  @override
+  String get statsMetricQt11Title => 'Étapes santé';
+
+  @override
+  String get statsMetricQt12Desc =>
+      'À quelle fréquence vous êtes resté sous la limite, et combien vous avez réduit.';
+
+  @override
+  String get statsMetricQt12Formula =>
+      'Jours sous la limite ÷ jours ; réduction = 1 − consommation moyenne ÷ référence.';
+
+  @override
+  String get statsMetricQt12Title => 'Progrès de réduction';
+
+  @override
+  String get statsMetricQt13Desc => 'Fréquence et intensité des envies.';
+
+  @override
+  String get statsMetricQt13Formula =>
+      'Envies par jour sur la période ; intensité moyenne et maximale ; moyenne glissante 7 jours.';
+
+  @override
+  String get statsMetricQt13Title => 'Charge d’envies';
+
+  @override
+  String get statsMetricQt14Desc => 'Ce qui déclenche les envies, où et quand.';
+
+  @override
+  String get statsMetricQt14Formula =>
+      'Pareto par déclencheur, lieu et humeur ; matrice jour × heure.';
+
+  @override
+  String get statsMetricQt14Title => 'Contexte des envies';
+
+  @override
+  String get statsNoteAbstainMode =>
+      'Uniquement pour les suivis en mode réduction.';
+
+  @override
+  String get statsNoteAllDay => 'Les tâches sur la journée n’ont pas de durée.';
+
+  @override
+  String get statsNoteClosed => 'Cet élément est clos.';
+
+  @override
+  String get statsNoteError => 'Calcul impossible';
+
+  @override
+  String get statsNoteLimitHabit =>
+      'Les habitudes à limite affichent plutôt les jours sous la limite.';
+
+  @override
+  String get statsNoteLowCoverage =>
+      'Suivez le temps d’au moins 60 % des tâches faites pour voir ceci.';
+
+  @override
+  String get statsNoteNew => 'Nouveau';
+
+  @override
+  String get statsNoteNoData => 'Pas encore de données';
+
+  @override
+  String get statsNoteNoGoal => 'Aucun objectif défini';
+
+  @override
+  String get statsNoteNoHabit => 'Habitude introuvable.';
+
+  @override
+  String get statsNoteNoItem => 'Élément introuvable.';
+
+  @override
+  String get statsNoteNoLifeEstimate =>
+      'Indiquez les minutes de vie par unité pour voir cette estimation.';
+
+  @override
+  String get statsNoteNoOccurrence => 'Occurrence introuvable.';
+
+  @override
+  String get statsNoteNoQuitTrackers => 'Aucun suivi d’arrêt pour l’instant.';
+
+  @override
+  String get statsNoteNoTracker => 'Suivi d’arrêt introuvable.';
+
+  @override
+  String get statsNoteNoUnitCost =>
+      'Indiquez un coût unitaire pour voir les économies.';
+
+  @override
+  String get statsNoteNotApplicable => 'Sans objet';
+
+  @override
+  String get statsNoteNotDone => 'Pas encore fait';
+
+  @override
+  String get statsNoteNotOverdue => 'Pas en retard';
+
+  @override
+  String get statsNoteNotScheduled => 'Non planifié';
+
+  @override
+  String get statsNoteNotSmoking =>
+      'Les étapes santé ne concernent que l’arrêt du tabac.';
+
+  @override
+  String get statsNoteNotStarted => 'Pas démarré';
+
+  @override
+  String get statsNoteNotTracked => 'Temps réel non suivi';
+
+  @override
+  String get statsNotePastPeriod =>
+      'Uniquement pour les périodes en cours ou à venir.';
+
+  @override
+  String get statsNotePopulationEstimate => 'Estimation populationnelle';
+
+  @override
+  String get statsNoteUsedPlanned =>
+      'Temps prévu affiché : le temps réel est suivi sur moins de 60 % des tâches faites.';
+
+  @override
+  String get statsNoteYesNoHabit => 'Indisponible pour les habitudes oui/non.';
+
+  @override
+  String get statsNoteZeroDenominator =>
+      'Rien n’était prévu sur cette période.';
+
+  @override
+  String statsOpenInsights(String section) {
+    return 'Ouvrir $section';
+  }
+
+  @override
+  String statsOverviewNextUp(String title, String time) {
+    return 'À suivre : $title à $time';
+  }
+
+  @override
+  String get statsOverviewOpenReview => 'Bilan hebdomadaire';
+
+  @override
+  String get statsPeriodAll => 'Tout';
+
+  @override
+  String get statsPeriodCustom => 'Personnalisé';
+
+  @override
+  String statsPeriodCustomRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get statsPeriodLastMonth => 'Mois dernier';
+
+  @override
+  String get statsPeriodLastQuarter => 'Trimestre dernier';
+
+  @override
+  String get statsPeriodLastWeek => 'Semaine dernière';
+
+  @override
+  String get statsPeriodLastYear => 'Année dernière';
+
+  @override
+  String get statsPeriodMonth => 'Mois';
+
+  @override
+  String get statsPeriodQuarter => 'Trimestre';
+
+  @override
+  String statsPeriodRolling(String days) {
+    return '$days derniers jours';
+  }
+
+  @override
+  String get statsPeriodRollingMenu => 'Glissant';
+
+  @override
+  String statsPeriodSelected(String period) {
+    return 'Période : $period';
+  }
+
+  @override
+  String get statsPeriodToday => 'Aujourd’hui';
+
+  @override
+  String get statsPeriodWeek => 'Semaine';
+
+  @override
+  String get statsPeriodYear => 'Année';
+
+  @override
+  String get statsPeriodYesterday => 'Hier';
+
+  @override
+  String get statsQuitMilestoneBreathing72h =>
+      'La respiration devient plus facile ; l’énergie augmente';
+
+  @override
+  String get statsQuitMilestoneCancers20y =>
+      'Risque de cancers bouche, gorge, larynx et pancréas proche d’un non-fumeur';
+
+  @override
+  String get statsQuitMilestoneChd15y =>
+      'Risque coronarien proche de celui d’un non-fumeur';
+
+  @override
+  String get statsQuitMilestoneChdAdded =>
+      'Le risque coronarien supplémentaire est divisé par deux';
+
+  @override
+  String get statsQuitMilestoneCirculation =>
+      'La circulation et la fonction pulmonaire s’améliorent';
+
+  @override
+  String get statsQuitMilestoneCo12h =>
+      'Monoxyde de carbone sanguin revenu à la normale';
+
+  @override
+  String get statsQuitMilestoneCo8h =>
+      'Le monoxyde de carbone sanguin est divisé par deux ; l’oxygène remonte';
+
+  @override
+  String get statsQuitMilestoneCravings =>
+      'Les envies s’atténuent généralement (une envie dure environ 3 à 5 min)';
+
+  @override
+  String get statsQuitMilestoneHeart20m =>
+      'La fréquence cardiaque et la tension baissent ; le pouls redevient normal';
+
+  @override
+  String get statsQuitMilestoneHeartAttack =>
+      'Le risque d’infarctus chute fortement';
+
+  @override
+  String get statsQuitMilestoneHeartHalf1y =>
+      'Risque coronarien environ moitié de celui d’un fumeur';
+
+  @override
+  String get statsQuitMilestoneLifeExpectancy =>
+      'Arrêter à 30 / 40 / 50 / 60 ans fait gagner environ 10 / 9 / 6 / 3 ans d’espérance de vie';
+
+  @override
+  String get statsQuitMilestoneLungCancer10y =>
+      'Risque de cancer du poumon environ moitié de celui d’un fumeur';
+
+  @override
+  String get statsQuitMilestoneLungs =>
+      'Toux et essoufflement diminuent ; fonction pulmonaire jusqu’à ~10 % meilleure';
+
+  @override
+  String get statsQuitMilestoneMouthCancer =>
+      'Le risque de cancers de la bouche, de la gorge et du larynx diminue de moitié ; le risque d’AVC baisse';
+
+  @override
+  String get statsQuitMilestoneNicotine24h => 'La nicotine disparaît du sang';
+
+  @override
+  String get statsQuitMilestoneTaste48h =>
+      'Les poumons évacuent le mucus ; le goût et l’odorat s’améliorent';
+
+  @override
+  String statsReviewAtRisk(String title) {
+    return 'À risque : $title';
+  }
+
+  @override
+  String statsReviewBlocked(String title) {
+    return 'Bloqué ou en attente : $title';
+  }
+
+  @override
+  String statsReviewFollowUp(String title) {
+    return 'Relance en retard : $title';
+  }
+
+  @override
+  String get statsReviewHeadline => 'Chiffres clés';
+
+  @override
+  String statsReviewHealth(String title) {
+    return 'Étape santé atteinte : $title';
+  }
+
+  @override
+  String get statsReviewLastWeek => 'Semaine dernière';
+
+  @override
+  String statsReviewLoad(String planned, String capacity) {
+    return '$planned prévus sur $capacity';
+  }
+
+  @override
+  String get statsReviewNextWeek => 'Semaine prochaine';
+
+  @override
+  String get statsReviewNothing => 'Rien cette semaine.';
+
+  @override
+  String statsReviewOverbooked(String date, String time) {
+    return '$date est surchargé de $time';
+  }
+
+  @override
+  String statsReviewOverdue(String title) {
+    return 'En retard : $title';
+  }
+
+  @override
+  String statsReviewPerfectDays(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count journées parfaites',
+      one: '1 journée parfaite',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsReviewRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String statsReviewRecord(String title) {
+    return 'Nouveau record : $title';
+  }
+
+  @override
+  String statsReviewStale(String title) {
+    return 'Aucune activité récente : $title';
+  }
+
+  @override
+  String statsReviewStreak(String title, String count) {
+    return '$title : série de $count jours';
+  }
+
+  @override
+  String get statsReviewThisWeek => 'Cette semaine jusqu’ici';
+
+  @override
+  String get statsReviewTime => 'Où est passé le temps';
+
+  @override
+  String get statsScopeChecklist => 'Statistiques de la liste';
+
+  @override
+  String get statsScopeChecklists => 'Statistiques des listes';
+
+  @override
+  String get statsScopeGlobal => 'Vue d’ensemble';
+
+  @override
+  String get statsScopeHabit => 'Statistiques de l’habitude';
+
+  @override
+  String get statsScopeHabits => 'Statistiques des habitudes';
+
+  @override
+  String get statsScopeItem => 'Statistiques de l’élément';
+
+  @override
+  String get statsScopePlanner => 'Statistiques du plan';
+
+  @override
+  String get statsScopeQuit => 'Statistiques de l’arrêt';
+
+  @override
+  String get statsScopeReview => 'Bilan hebdomadaire';
+
+  @override
+  String get statsScopeSeries => 'Statistiques de la série';
+
+  @override
+  String get statsScopeTask => 'Statistiques de la tâche';
+
+  @override
+  String get statsScopeYear => 'L’année en revue';
+
+  @override
+  String get statsSectionAbstinence => 'Abstinence';
+
+  @override
+  String get statsSectionAdvanced => 'Avancé';
+
+  @override
+  String get statsSectionAllocation => 'Répartition du temps';
+
+  @override
+  String get statsSectionCalendar => 'Calendrier';
+
+  @override
+  String get statsSectionCapacity => 'Capacité';
+
+  @override
+  String statsSectionCollapse(String section) {
+    return 'Replier $section';
+  }
+
+  @override
+  String get statsSectionCravings => 'Envies';
+
+  @override
+  String get statsSectionExecution => 'Exécution';
+
+  @override
+  String statsSectionExpand(String section) {
+    return 'Déplier $section';
+  }
+
+  @override
+  String get statsSectionFlow => 'Flux';
+
+  @override
+  String get statsSectionFocus => 'Concentration et équilibre';
+
+  @override
+  String get statsSectionHabitTable => 'Vos habitudes';
+
+  @override
+  String get statsSectionHistory => 'Historique';
+
+  @override
+  String get statsSectionItem => 'Cet élément';
+
+  @override
+  String get statsSectionLists => 'Listes';
+
+  @override
+  String get statsSectionMilestones => 'Étapes santé';
+
+  @override
+  String get statsSectionMoney => 'Argent et unités';
+
+  @override
+  String get statsSectionOccurrence => 'Cette occurrence';
+
+  @override
+  String get statsSectionOutcomes => 'Résultats';
+
+  @override
+  String get statsSectionPatterns => 'Tendances';
+
+  @override
+  String get statsSectionPlanning => 'Planification';
+
+  @override
+  String get statsSectionPlanningQuality => 'Qualité de planification';
+
+  @override
+  String get statsSectionQuality => 'Qualité';
+
+  @override
+  String get statsSectionQuitTrackers => 'Suivis d’arrêt';
+
+  @override
+  String get statsSectionReduction => 'Réduction';
+
+  @override
+  String get statsSectionSeries => 'Exécution';
+
+  @override
+  String get statsSectionShortcuts => 'Sections';
+
+  @override
+  String get statsSectionStale => 'Éléments inactifs';
+
+  @override
+  String get statsSectionStatus => 'Statut';
+
+  @override
+  String get statsSectionStreaks => 'Séries';
+
+  @override
+  String get statsSectionStrength => 'Force';
+
+  @override
+  String get statsSectionTargetVolume => 'Objectif et volume';
+
+  @override
+  String get statsSectionTiming => 'Horaires et habitudes';
+
+  @override
+  String get statsSectionToday => 'Aujourd’hui';
+
+  @override
+  String get statsSectionTrend => 'Tendance';
+
+  @override
+  String get statsSectionWeek => 'La semaine en bref';
+
+  @override
+  String get statsSeeAll => 'Voir toutes les statistiques';
+
+  @override
+  String get statsSeeSeries => 'Voir les statistiques de la série';
+
+  @override
+  String get statsSegmentHabits => 'Habitudes';
+
+  @override
+  String get statsSegmentLists => 'Listes';
+
+  @override
+  String get statsSegmentOverview => 'Vue d’ensemble';
+
+  @override
+  String get statsSegmentPlan => 'Plan';
+
+  @override
+  String get statsSegmentQuit => 'Arrêts';
+
+  @override
+  String get statsSourceAcs => 'American Cancer Society';
+
+  @override
+  String get statsSourceBmj2000 => 'Shaw et al., BMJ 2000';
+
+  @override
+  String get statsSourceCdc => 'CDC';
+
+  @override
+  String get statsSourceHse => 'HSE';
+
+  @override
+  String get statsSourceJackson2025 => 'Jackson et al., Addiction 2025';
+
+  @override
+  String get statsSourceNci => 'National Cancer Institute';
+
+  @override
+  String get statsSourceNhs => 'NHS';
+
+  @override
+  String get statsSourceWho => 'OMS';
+
+  @override
+  String get statsUnknownScope => 'Cette statistique n’existe pas.';
 
   @override
   String get syncError => 'Problème de synchronisation';

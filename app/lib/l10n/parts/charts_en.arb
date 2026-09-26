@@ -1,0 +1,724 @@
+{
+  "@@locale": "en",
+  "chartsViewAsTable": "View as table",
+  "chartsViewAsChart": "View as chart",
+  "chartsExplain": "About this metric",
+  "chartsShare": "Share chart",
+  "chartsLegend": "Legend",
+  "chartsLoading": "Loading…",
+  "chartsEmpty": "No data for this period",
+  "chartsError": "This chart couldn’t be computed",
+  "chartsNeedsMore": "{count, plural, =1{Needs 1 more data point} other{Needs {count} more data points}}",
+  "@chartsNeedsMore": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "chartsNotApplicable": "—",
+  "chartsColumnLabel": "Label",
+  "chartsTableSort": "Sort by {column}",
+  "@chartsTableSort": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsTooltip": "{label}: {value}",
+  "@chartsTooltip": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsSeriesToggle": "Show or hide {series}",
+  "@chartsSeriesToggle": {
+    "placeholders": {
+      "series": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsDeltaUp": "up {value}",
+  "@chartsDeltaUp": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsDeltaDown": "down {value}",
+  "@chartsDeltaDown": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsDeltaFlat": "no change",
+  "chartsDeltaNew": "new",
+  "chartsVsPrevious": "vs previous period",
+  "chartsPlusMinus": "± {value}",
+  "@chartsPlusMinus": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsPp": "{value} pp",
+  "@chartsPp": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsPpSpoken": "{value} percentage points",
+  "@chartsPpSpoken": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsPerDay": "{value}/day",
+  "@chartsPerDay": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsPerWeek": "{value}/week",
+  "@chartsPerWeek": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsEstimate": "≈ {value}",
+  "@chartsEstimate": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsPopulationEstimate": "Population estimate",
+  "chartsDaysHours": "{days} d {hours} h",
+  "@chartsDaysHours": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsHoursMinutes": "{hours} h {minutes} min",
+  "@chartsHoursMinutes": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsMinutesOnly": "{minutes} min",
+  "@chartsMinutesOnly": {
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsHoursOnly": "{hours} h",
+  "@chartsHoursOnly": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsRatio": "{value}×",
+  "@chartsRatio": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsKpiSemantics": "{title}: {value}. {delta}",
+  "@chartsKpiSemantics": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      },
+      "delta": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsSecondsOnly": "{seconds} s",
+  "@chartsSecondsOnly": {
+    "placeholders": {
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsDaysOnly": "{count, plural, =1{1 day} other{{count} days}}",
+  "@chartsDaysOnly": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "chartsRange": "{from}–{to}",
+  "@chartsRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsKilo": "{value} k",
+  "@chartsKilo": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsMega": "{value} M",
+  "@chartsMega": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsBytesKb": "{value} KB",
+  "@chartsBytesKb": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsBytesMb": "{value} MB",
+  "@chartsBytesMb": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsBytesGb": "{value} GB",
+  "@chartsBytesGb": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsOrdinalWeek": "Week {n}",
+  "@chartsOrdinalWeek": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsOrdinalRun": "Run {n}",
+  "@chartsOrdinalRun": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsOrdinalLevel": "Level {n}",
+  "@chartsOrdinalLevel": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsOrdinalPriority": "Priority {n}",
+  "@chartsOrdinalPriority": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsOrdinalDepth": "Depth {n}",
+  "@chartsOrdinalDepth": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsOrdinalAttempt": "Attempt {n}",
+  "@chartsOrdinalAttempt": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsOrdinalMonth": "Month {n}",
+  "@chartsOrdinalMonth": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsOrdinalYear": "Year {n}",
+  "@chartsOrdinalYear": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsHour": "{hour} h",
+  "@chartsHour": {
+    "placeholders": {
+      "hour": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsSummaryLine": "{title}, {range}: from {first} to {last}. {trend}",
+  "@chartsSummaryLine": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "range": {
+        "type": "String"
+      },
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      },
+      "trend": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsSummaryMinMax": "Lowest {min}, highest {max}.",
+  "@chartsSummaryMinMax": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsTrendRising": "Rising {slope} per week.",
+  "@chartsTrendRising": {
+    "placeholders": {
+      "slope": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsTrendFalling": "Falling {slope} per week.",
+  "@chartsTrendFalling": {
+    "placeholders": {
+      "slope": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsTrendStable": "No clear trend.",
+  "chartsSummaryBars": "{title}: {count} bars, highest {label} with {value}.",
+  "@chartsSummaryBars": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      },
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsSummaryShare": "{title}: largest part {label}, {share}.",
+  "@chartsSummaryShare": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "label": {
+        "type": "String"
+      },
+      "share": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsSummaryCalendar": "{title}: {count} days shown.",
+  "@chartsSummaryCalendar": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsSummaryPunchCard": "{title}: busiest {weekday} at {hour}.",
+  "@chartsSummaryPunchCard": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "weekday": {
+        "type": "String"
+      },
+      "hour": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsSummaryStreaks": "{title}: longest streak {length}.",
+  "@chartsSummaryStreaks": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "length": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsSummaryValue": "{title}: {value}.",
+  "@chartsSummaryValue": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsSummaryList": "{title}: {count} entries.",
+  "@chartsSummaryList": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsSummaryMilestones": "{title}: {done} of {total} reached.",
+  "@chartsSummaryMilestones": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsMilestoneReached": "Reached",
+  "chartsMilestoneInWindow": "In progress",
+  "chartsMilestoneEta": "in {time}",
+  "@chartsMilestoneEta": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsMilestoneNext": "Next",
+  "chartsMilestoneRestarted": "The clock restarted after a slip — every day you already did still counts.",
+  "chartsMilestoneSources": "Sources: {sources}",
+  "@chartsMilestoneSources": {
+    "placeholders": {
+      "sources": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsCounterSemantics": "{days} days, {hours} hours, {minutes} minutes",
+  "@chartsCounterSemantics": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "hours": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsStreakCurrent": "Current",
+  "chartsStreakBest": "Best",
+  "chartsFrozen": "{count, plural, =1{1 frozen} other{{count} frozen}}",
+  "@chartsFrozen": {
+    "placeholders": {
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "chartsOver": "+{value}",
+  "@chartsOver": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsTarget": "Target {value}",
+  "@chartsTarget": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsPrevious": "Previous {value}",
+  "@chartsPrevious": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsMedianNotReached": "Median not reached",
+  "chartsMedianAt": "Median {value}",
+  "@chartsMedianAt": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsProbability": "{value} chance",
+  "@chartsProbability": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsHistogramCount": "Count",
+  "chartsHistogramDensity": "Share",
+  "chartsNoConsistentTime": "No consistent time",
+  "chartsSelected": "Selected",
+  "chartsTapForDetails": "Double tap for details",
+  "chartsGalleryTitle": "Chart gallery",
+  "chartsGalleryRtl": "Right to left",
+  "chartsGalleryDark": "Dark theme",
+  "chartsGalleryTextScale": "Large text",
+  "chartsGalleryVision": "Color vision",
+  "chartsVisionNormal": "Normal",
+  "chartsVisionProtanopia": "Protanopia",
+  "chartsVisionDeuteranopia": "Deuteranopia",
+  "chartsVisionTritanopia": "Tritanopia",
+  "chartsShareHideNames": "Hide names",
+  "chartsAnonymousItem": "Item {n}",
+  "@chartsAnonymousItem": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsShareMark": "Made with Everslot",
+  "chartsCrosshair": "{label}: {value}",
+  "@chartsCrosshair": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsLabelDone": "Done",
+  "chartsLabelDoneOnTime": "On time",
+  "chartsLabelDoneLate": "Late",
+  "chartsLabelPartial": "Partial",
+  "chartsLabelFailed": "Not done",
+  "chartsLabelMissed": "Missed",
+  "chartsLabelSkipped": "Skipped",
+  "chartsLabelExcused": "Excused",
+  "chartsLabelPaused": "Paused",
+  "chartsLabelFrozen": "Frozen",
+  "chartsLabelPending": "Pending",
+  "chartsLabelNotDue": "Not due",
+  "chartsLabelFuture": "Upcoming",
+  "chartsLabelCancelled": "Cancelled",
+  "chartsLabelNotTracked": "Not tracked",
+  "chartsLabelTodo": "To do",
+  "chartsLabelOngoing": "Ongoing",
+  "chartsLabelWaiting": "Waiting",
+  "chartsLabelBlocked": "Blocked",
+  "chartsLabelCompleted": "Completed",
+  "chartsLabelPlanned": "Planned",
+  "chartsLabelActual": "Actual",
+  "chartsLabelCapacity": "Capacity",
+  "chartsLabelTarget": "Target",
+  "chartsLabelGoal": "Goal",
+  "chartsLabelPace": "Pace",
+  "chartsLabelRollingMean": "Rolling mean",
+  "chartsLabelTrend": "Trend",
+  "chartsLabelRemaining": "Remaining",
+  "chartsLabelScope": "Scope",
+  "chartsLabelIdeal": "Ideal",
+  "chartsLabelCreated": "Created",
+  "chartsLabelArrivals": "Arrivals",
+  "chartsLabelDepartures": "Departures",
+  "chartsLabelNet": "Net flow",
+  "chartsLabelWip": "In progress",
+  "chartsLabelPrevious": "Previous",
+  "chartsLabelCurrent": "Current",
+  "chartsLabelProjection": "Projection",
+  "chartsLabelEvent": "Events",
+  "chartsLabelTask": "Tasks",
+  "chartsLabelRecurring": "Recurring",
+  "chartsLabelOneOff": "One-off",
+  "chartsLabelHighPriority": "High priority",
+  "chartsLabelLowPriority": "Low priority",
+  "chartsLabelUncategorized": "Uncategorized",
+  "chartsLabelOther": "Other",
+  "chartsLabelUnspecified": "Unspecified",
+  "chartsLabelEarly": "Early",
+  "chartsLabelOnTime": "On time",
+  "chartsLabelLate": "Late",
+  "chartsLabelOver": "Over",
+  "chartsLabelUnder": "Under",
+  "chartsLabelAbstinent": "Abstinent",
+  "chartsLabelUsed": "Used",
+  "chartsLabelWithinLimit": "Within limit",
+  "chartsLabelOverLimit": "Over limit",
+  "chartsLabelSuccess": "Success",
+  "chartsLabelCravings": "Cravings",
+  "chartsLabelIntensity": "Intensity",
+  "chartsLabelCheckIns": "Check-ins",
+  "chartsLabelVolume": "Volume",
+  "chartsLabelMoney": "Money",
+  "chartsLabelUnits": "Units",
+  "chartsLabelImages": "Images",
+  "chartsLabelPdfs": "PDFs",
+  "chartsLabelFiles": "Files",
+  "chartsLabelTasks": "Tasks",
+  "chartsLabelHabits": "Habits",
+  "chartsLabelItems": "Items",
+  "chartsLabelLists": "Lists",
+  "chartsLabelQuit": "Quit",
+  "chartsLabelDeepWork": "Deep work",
+  "chartsLabelAfterHours": "After hours",
+  "chartsLabelWeekend": "Weekend",
+  "chartsLabelFocus": "Focus",
+  "chartsLabelFree": "Free",
+  "chartsLabelOverlap": "Overlap",
+  "chartsLabelInProgress": "Active",
+  "chartsLabelMoved": "Moved",
+  "chartsLabelMovedIn": "Moved in",
+  "chartsLabelMovedOut": "Moved out",
+  "chartsLabelUnplanned": "Unplanned",
+  "chartsLabelReopened": "Reopened",
+  "chartsLabelRemoved": "Removed",
+  "chartsLabelLapse": "Slip",
+  "chartsLabelRelapse": "Relapse",
+  "chartsLabelAttempt": "Attempt",
+  "chartsLabelStreak": "Streak",
+  "chartsLabelBest": "Best",
+  "chartsLabelScore": "Score",
+  "chartsLabelMedian": "Median",
+  "chartsLabelP50": "P50",
+  "chartsLabelP70": "P70",
+  "chartsLabelP85": "P85",
+  "chartsLabelP95": "P95",
+  "chartsLabelMean": "Mean",
+  "chartsLabelTotal": "Total",
+  "chartsLabelCount": "Count",
+  "chartsLabelRate": "Rate",
+  "chartsLabelYes": "Yes",
+  "chartsLabelNo": "No",
+  "chartsLabelOverdueToday": "< 1 day",
+  "chartsLabelOverdue1": "1–6 days",
+  "chartsLabelOverdue7": "7–13 days",
+  "chartsLabelOverdue14": "14–29 days",
+  "chartsLabelOverdue30": "30+ days",
+  "chartsLabelArchived": "Archived",
+  "chartsLabelTemplates": "Templates",
+  "chartsLabelStale": "Stale",
+  "chartsLabelLifeRegained": "Life regained",
+  "chartsLabelTimeNotSpent": "Time not spent",
+  "chartsLabelSpent": "Spent",
+  "chartsLabelSaved": "Saved",
+  "chartsLabelWeek": "Week",
+  "chartsLabelMonth": "Month",
+  "chartsLabelYear": "Year",
+  "chartsLabelProjection1m": "Next month",
+  "chartsLabelProjection1y": "Next year",
+  "chartsLabelProjection5y": "In 5 years",
+  "chartsLabelWithinLimitDays": "Days within limit",
+  "chartsLabelMeanUse": "Average use",
+  "chartsLabelBaseline": "Baseline",
+  "chartsLabelLimit": "Limit",
+  "chartsLabelReduction": "Reduction",
+  "chartsLabelPerDay": "Per day",
+  "chartsLabelMaxIntensity": "Peak intensity",
+  "chartsLabelMeanIntensity": "Average intensity",
+  "chartsLabelWins": "Wins",
+  "chartsLabelAttention": "Needs attention",
+  "chartsLabelTriggers": "Triggers",
+  "chartsLabelPlaces": "Places",
+  "chartsLabelMoods": "Moods",
+  "chartsLabelWhenLabel": "When",
+  "chartsLabelAgenda": "Agenda",
+  "chartsLabelPerfectDay": "Perfect day",
+  "chartsLabelOverdue": "Overdue",
+  "chartsLabelNextUp": "Next up"
+}

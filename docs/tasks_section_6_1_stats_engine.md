@@ -35,7 +35,7 @@ for stats defaults ([8.3]).
 - [x] T6.1.04 — Time-series utilities: bucketing, rolling windows, EWMA, OLS & Theil–Sen trends
 - [ ] T6.1.05 — Period model & comparisons
 - [ ] T6.1.06 — Metric registry & definition format
-- [ ] T6.1.07 — Units, formatting & delta presentation
+- [x] T6.1.07 — Units, formatting & delta presentation
 - [x] T6.1.08 — Expected-occurrences ledger (adherence denominators)
 - [x] T6.1.09 — Streak engine
 - [x] T6.1.10 — Habit-strength score (Loop-compatible EWMA)
@@ -221,6 +221,7 @@ declared inputs alone (verified by the fixture framework, T6.1.15).
 **Acceptance criteria:** golden snapshots of the formatter output for EN/FR/AR, and a lowerIsBetter
 metric shows a green down-arrow.
 **Tests:** unit tests per unit type and locale.
+**Notes:** `StatFormat` (`presentation/format/stat_format.dart`): long/compact durations, days, %, pp, compact numbers, currency, score, clock, bytes, "≈" estimates, digits per `appearance.arabicDigits`; deltas carry arrow + sign + good/bad from `direction` and speak "percentage points". Snapshot tests per locale in `test/features/stats/format/`.
 
 ### T6.1.08 — Expected-occurrences ledger (adherence denominators)
 **Priority:** P0 · **Size:** L · **Depends on:** T6.1.03, T6.1.05, [2.1], [3.2] (occurrence resolver), [5.1] (period evaluation)

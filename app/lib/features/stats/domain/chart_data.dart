@@ -233,6 +233,19 @@ final class HourLabel extends ChartLabel {
   int get hashCode => hour.hashCode;
 }
 
+/// An instant (live counters, reschedule times).
+final class InstantLabel extends ChartLabel {
+  const InstantLabel(this.instant);
+
+  final DateTime instant;
+
+  @override
+  bool operator ==(Object other) => other is InstantLabel && other.instant == instant;
+
+  @override
+  int get hashCode => instant.hashCode;
+}
+
 /// A formatted number (bins, thresholds).
 final class NumberLabel extends ChartLabel {
   const NumberLabel(this.value, this.unit);
@@ -1371,7 +1384,7 @@ final class CounterData extends ChartData {
   ChartTable toTable() => ChartTable(
     const [TokenLabel(LabelToken.current)],
     [
-      [ChartCell.number(since.millisecondsSinceEpoch.toDouble(), StatUnit.count)],
+      [ChartCell.label(InstantLabel(since))],
     ],
   );
 }
@@ -1642,10 +1655,7 @@ final class MoveTimelineData extends ChartData {
     const [TokenLabel(LabelToken.moved), TokenLabel(LabelToken.total)],
     [
       for (final m in moves)
-        [
-          ChartCell.number(m.at.millisecondsSinceEpoch.toDouble(), StatUnit.count),
-          ChartCell.number(m.deltaMinutes.toDouble(), StatUnit.minutes),
-        ],
+        [ChartCell.label(InstantLabel(m.at)), ChartCell.number(m.deltaMinutes.toDouble(), StatUnit.minutes)],
     ],
   );
 }
