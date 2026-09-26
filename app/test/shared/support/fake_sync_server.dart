@@ -91,17 +91,21 @@ class FakeSyncServer implements SyncApi {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> fetchRows(
-    String table,
-    List<String> ids,
-  ) async => [
-    for (final id in ids)
-      if (_rows[table]?[id] != null)
-        Map<String, dynamic>.of(_rows[table]![id]!),
-  ];
+  Future<FetchRowsResult> fetchRows(String table, List<String> ids) async =>
+      FetchRowsResult(
+        rows: [
+          for (final id in ids)
+            if (_rows[table]?[id] != null)
+              Map<String, dynamic>.of(_rows[table]![id]!),
+        ],
+        missing: [
+          for (final id in ids)
+            if (_rows[table]?[id] == null) id,
+        ],
+      );
 
   @override
-  Future<bool> registerDevice(Map<String, Object?> info) async => false;
+  Future<bool> registerDevice(DeviceRegistration device) async => false;
 
   @override
   Future<bool> reportDeviceState(
