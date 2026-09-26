@@ -13,6 +13,7 @@ import 'package:everslot/core/sync/hlc.dart';
 import 'package:everslot/core/sync/sync_api.dart';
 import 'package:everslot/core/sync/sync_service.dart';
 import 'package:everslot/core/sync/sync_status.dart';
+import 'package:everslot/core/sync/sync_triggers.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/core/sync/table_registry.dart';
 import 'package:everslot/core/time/clock.dart';
@@ -199,18 +200,17 @@ final syncServiceProvider = Provider<SyncService?>((ref) {
 
   unawaited(register());
   final lifecycle = ref.watch(lifecycleProvider);
-  final sub = lifecycle.onResume.listen((_) {
-    service.schedulePull(Duration.zero);
-    unawaited(register());
-  });
   final client = ref.watch(supabaseClientProvider);
-  final channel = client
-      ?.channel('user:${session.userId}', opts: const RealtimeChannelConfig(private: true))
-      .onBroadcast(event: 'sync', callback: (_) => service.schedulePull())
-      .subscribe();
+  final triggers = SyncTriggers(
+    service: service,
+    onResume: lifecycle.onResume,
+    onPause: lifecycle.onPause,
+    onlineChanges: ref.watch(syncOnlineChangesProvider),
+    subscribeBroadcast: client == null ? null : supabaseBroadcastSubscriber(client, session.userId),
+    onResumed: () => unawaited(register()),
+  )..start(foreground: lifecycle.isForeground);
   ref.onDispose(() {
-    unawaited(sub.cancel());
-    if (channel != null) unawaited(client!.removeChannel(channel));
+    triggers.dispose();
     service.dispose();
   });
   return service;
