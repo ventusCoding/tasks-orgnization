@@ -6,10 +6,13 @@ import 'package:material_ui/material_ui.dart';
 class InsightsScreen extends StatelessWidget {
   const InsightsScreen({super.key});
 
-
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: Text(context.l10n.tabInsights), actions: const [AppBarActions()]),
-    body: EmptyState(icon: Icons.construction, title: context.l10n.tabInsights, message: context.l10n.placeholderScreen),
+    body: EmptyState(
+      icon: Icons.construction,
+      title: context.l10n.tabInsights,
+      message: context.l10n.placeholderScreen,
+    ),
   );
 }
