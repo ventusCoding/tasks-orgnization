@@ -1,0 +1,14 @@
+{
+  "onboardingTitle": "Set up Everslot",
+  "onboardingEssentialsTitle": "Your week, your clock",
+  "onboardingEssentialsBody": "We picked these from your device. Adjust anything that's off — you can change them later in Settings › Regional.",
+  "onboardingTimeZone": "Home time zone",
+  "onboardingWeekStart": "Week starts on",
+  "onboardingClock": "Clock",
+  "onboardingClock12": "12-hour",
+  "onboardingClock24": "24-hour",
+  "onboardingLanguage": "Language",
+  "onboardingGetStarted": "Get started",
+  "onboardingStepOf": "Step {current} of {total}",
+  "@onboardingStepOf": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}}
+}

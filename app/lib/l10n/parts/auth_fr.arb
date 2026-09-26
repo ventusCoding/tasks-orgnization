@@ -112,5 +112,8 @@
   "authMfaSecret": "Clé de configuration",
   "authMfaEnabled": "La validation en deux étapes est activée.",
   "authMfaDisable": "Désactiver",
-  "authMfaVerifyTitle": "Saisissez le code de votre application d'authentification"
+  "authMfaVerifyTitle": "Saisissez le code de votre application d'authentification",
+  "authZoneSearch": "Rechercher un fuseau horaire",
+  "authZoneDetected": "Détecté sur cet appareil",
+  "authZoneNoMatch": "Aucun fuseau horaire ne correspond à votre recherche"
 }

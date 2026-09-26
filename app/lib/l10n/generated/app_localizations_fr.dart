@@ -695,12 +695,22 @@ class AppLocalizationsFr extends AppLocalizations {
   String get authZoneChangedTitle => 'Nouveau fuseau horaire';
 
   @override
+  String get authZoneDetected => 'Détecté sur cet appareil';
+
+  @override
   String authZoneKeepHome(String zone) {
     return 'Garder $zone';
   }
 
   @override
   String get authZoneMakeHome => 'En faire la référence';
+
+  @override
+  String get authZoneNoMatch =>
+      'Aucun fuseau horaire ne correspond à votre recherche';
+
+  @override
+  String get authZoneSearch => 'Rechercher un fuseau horaire';
 
   @override
   String get categoriesEmpty => 'Aucune catégorie';
@@ -2522,6 +2532,42 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifYes => 'Oui';
 
   @override
+  String get onboardingClock => 'Horloge';
+
+  @override
+  String get onboardingClock12 => '12 heures';
+
+  @override
+  String get onboardingClock24 => '24 heures';
+
+  @override
+  String get onboardingEssentialsBody =>
+      'Nous avons repris ces réglages de votre appareil. Corrigez ce qui ne va pas : vous pourrez les modifier plus tard dans Paramètres › Région.';
+
+  @override
+  String get onboardingEssentialsTitle => 'Votre semaine, votre horloge';
+
+  @override
+  String get onboardingGetStarted => 'Commencer';
+
+  @override
+  String get onboardingLanguage => 'Langue';
+
+  @override
+  String onboardingStepOf(int current, int total) {
+    return 'Étape $current sur $total';
+  }
+
+  @override
+  String get onboardingTimeZone => 'Fuseau horaire de référence';
+
+  @override
+  String get onboardingTitle => 'Configurer Everslot';
+
+  @override
+  String get onboardingWeekStart => 'La semaine commence le';
+
+  @override
   String get pickerColor => 'Couleur';
 
   @override
@@ -4110,6 +4156,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get savedSnack => 'Enregistré';
+
+  @override
+  String get settingsLanguageArabic => 'العربية';
+
+  @override
+  String get settingsLanguageEnglish => 'English';
+
+  @override
+  String get settingsLanguageFrench => 'Français';
+
+  @override
+  String get settingsLanguageSystem => 'Langue du système';
 
   @override
   String get stateEmpty => 'Rien pour l\'instant';

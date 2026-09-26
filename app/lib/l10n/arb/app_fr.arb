@@ -77,6 +77,16 @@
       }
     }
   },
+  "@onboardingStepOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "actionAdd": "Ajouter",
   "actionApply": "Appliquer",
   "actionArchive": "Archiver",
@@ -263,8 +273,11 @@
   "authWelcomeTitle": "Bienvenue dans Everslot",
   "authZoneChangedBody": "Vous êtes maintenant sur {zone}. Les tâches à heure fixe gardent leur heure exacte et les tâches flottantes vous suivent. Faire de {zone} votre fuseau de référence ?",
   "authZoneChangedTitle": "Nouveau fuseau horaire",
+  "authZoneDetected": "Détecté sur cet appareil",
   "authZoneKeepHome": "Garder {zone}",
   "authZoneMakeHome": "En faire la référence",
+  "authZoneNoMatch": "Aucun fuseau horaire ne correspond à votre recherche",
+  "authZoneSearch": "Rechercher un fuseau horaire",
   "categoriesEmpty": "Aucune catégorie",
   "categoriesTitle": "Catégories",
   "categoryArchived": "Archivée",
@@ -749,6 +762,17 @@
   "notifVibrationShort": "Courte",
   "notifWeekdays": "Seulement le",
   "notifYes": "Oui",
+  "onboardingClock": "Horloge",
+  "onboardingClock12": "12 heures",
+  "onboardingClock24": "24 heures",
+  "onboardingEssentialsBody": "Nous avons repris ces réglages de votre appareil. Corrigez ce qui ne va pas : vous pourrez les modifier plus tard dans Paramètres › Région.",
+  "onboardingEssentialsTitle": "Votre semaine, votre horloge",
+  "onboardingGetStarted": "Commencer",
+  "onboardingLanguage": "Langue",
+  "onboardingStepOf": "Étape {current} sur {total}",
+  "onboardingTimeZone": "Fuseau horaire de référence",
+  "onboardingTitle": "Configurer Everslot",
+  "onboardingWeekStart": "La semaine commence le",
   "pickerColor": "Couleur",
   "pickerDate": "Date",
   "pickerDays": "Jours",
@@ -1199,6 +1223,10 @@
   "relativeMinutesAgo": "{count, plural, =1{il y a 1 minute} other{il y a {count} minutes}}",
   "relativeNow": "maintenant",
   "savedSnack": "Enregistré",
+  "settingsLanguageArabic": "العربية",
+  "settingsLanguageEnglish": "English",
+  "settingsLanguageFrench": "Français",
+  "settingsLanguageSystem": "Langue du système",
   "stateEmpty": "Rien pour l'instant",
   "stateErrorBody": "Veuillez réessayer.",
   "stateErrorTitle": "Un problème est survenu",

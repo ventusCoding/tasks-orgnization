@@ -799,6 +799,16 @@
       }
     }
   },
+  "@onboardingStepOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "@pvCopySuffix": {
     "placeholders": {
       "name": {
@@ -1678,8 +1688,11 @@
   "authWelcomeTitle": "Welcome to Everslot",
   "authZoneChangedBody": "You're now in {zone}. Fixed-time tasks keep their exact time and floating tasks follow you. Make {zone} your home time zone?",
   "authZoneChangedTitle": "New time zone",
+  "authZoneDetected": "Detected on this device",
   "authZoneKeepHome": "Keep {zone}",
   "authZoneMakeHome": "Make it home",
+  "authZoneNoMatch": "No time zone matches your search",
+  "authZoneSearch": "Search time zones",
   "categoriesEmpty": "No categories yet",
   "categoriesTitle": "Categories",
   "categoryArchived": "Archived",
@@ -2164,6 +2177,17 @@
   "notifVibrationShort": "Short",
   "notifWeekdays": "Only on",
   "notifYes": "Yes",
+  "onboardingClock": "Clock",
+  "onboardingClock12": "12-hour",
+  "onboardingClock24": "24-hour",
+  "onboardingEssentialsBody": "We picked these from your device. Adjust anything that's off — you can change them later in Settings › Regional.",
+  "onboardingEssentialsTitle": "Your week, your clock",
+  "onboardingGetStarted": "Get started",
+  "onboardingLanguage": "Language",
+  "onboardingStepOf": "Step {current} of {total}",
+  "onboardingTimeZone": "Home time zone",
+  "onboardingTitle": "Set up Everslot",
+  "onboardingWeekStart": "Week starts on",
   "pickerColor": "Color",
   "pickerDate": "Date",
   "pickerDays": "Days",
@@ -2614,6 +2638,10 @@
   "relativeMinutesAgo": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
   "relativeNow": "now",
   "savedSnack": "Saved",
+  "settingsLanguageArabic": "العربية",
+  "settingsLanguageEnglish": "English",
+  "settingsLanguageFrench": "Français",
+  "settingsLanguageSystem": "System default",
   "stateEmpty": "Nothing here yet",
   "stateErrorBody": "Please try again.",
   "stateErrorTitle": "Something went wrong",

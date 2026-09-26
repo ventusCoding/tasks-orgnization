@@ -685,12 +685,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authZoneChangedTitle => 'New time zone';
 
   @override
+  String get authZoneDetected => 'Detected on this device';
+
+  @override
   String authZoneKeepHome(String zone) {
     return 'Keep $zone';
   }
 
   @override
   String get authZoneMakeHome => 'Make it home';
+
+  @override
+  String get authZoneNoMatch => 'No time zone matches your search';
+
+  @override
+  String get authZoneSearch => 'Search time zones';
 
   @override
   String get categoriesEmpty => 'No categories yet';
@@ -2479,6 +2488,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifYes => 'Yes';
 
   @override
+  String get onboardingClock => 'Clock';
+
+  @override
+  String get onboardingClock12 => '12-hour';
+
+  @override
+  String get onboardingClock24 => '24-hour';
+
+  @override
+  String get onboardingEssentialsBody =>
+      'We picked these from your device. Adjust anything that\'s off — you can change them later in Settings › Regional.';
+
+  @override
+  String get onboardingEssentialsTitle => 'Your week, your clock';
+
+  @override
+  String get onboardingGetStarted => 'Get started';
+
+  @override
+  String get onboardingLanguage => 'Language';
+
+  @override
+  String onboardingStepOf(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get onboardingTimeZone => 'Home time zone';
+
+  @override
+  String get onboardingTitle => 'Set up Everslot';
+
+  @override
+  String get onboardingWeekStart => 'Week starts on';
+
+  @override
   String get pickerColor => 'Color';
 
   @override
@@ -4062,6 +4107,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get savedSnack => 'Saved';
+
+  @override
+  String get settingsLanguageArabic => 'العربية';
+
+  @override
+  String get settingsLanguageEnglish => 'English';
+
+  @override
+  String get settingsLanguageFrench => 'Français';
+
+  @override
+  String get settingsLanguageSystem => 'System default';
 
   @override
   String get stateEmpty => 'Nothing here yet';

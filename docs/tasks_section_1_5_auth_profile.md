@@ -25,8 +25,8 @@ registration ([7.4]).
 - [x] T1.5.01 — Supabase Auth configuration (email OTP, redirects, providers)
 - [x] T1.5.02 — Secure session storage, auth state & router redirect
 - [x] T1.5.03 — Email OTP sign-in UI
-- [ ] T1.5.04 — Profiles table, auto-creation trigger & repository
-- [ ] T1.5.05 — First-run essentials (zone, locale, week start, 12/24 h)
+- [x] T1.5.04 — Profiles table, auto-creation trigger & repository
+- [x] T1.5.05 — First-run essentials (zone, locale, week start, 12/24 h)
 - [ ] T1.5.06 — Current time-zone tracking & zone-change events
 - [ ] T1.5.07 — Sign-out
 - [ ] T1.5.08 — Account switch safety on shared devices
@@ -79,6 +79,7 @@ on `auth.users` insert creating the profile (defaults; `home_time_zone` from sig
 Drift mirror; `ProfileRepository.watch()` / `update(...)` through `SyncWriter`.
 **Acceptance criteria:** a new user gets exactly one profile row; profile edits sync across devices.
 **Tests:** pgTAP (trigger, isolation); repository tests.
+**Notes:** server table, auth trigger and pgTAP came with [1.2]; client side = `features/profile` (`Profile` model, `ProfileRepository.watch/read/update` through SyncWriter with validation, `profileProvider`). Two-device per-field merge covered by `test/features/profile/profile_repository_test.dart`.
 
 ### T1.5.05 — First-run essentials (zone, locale, week start, 12/24 h)
 **Priority:** P0 · **Size:** S · **Depends on:** T1.5.04
@@ -87,6 +88,7 @@ week start (locale's first day of week), 12/24 h (`MediaQuery.alwaysUse24HourFor
 confirmation screen (editable) and write the profile. The full onboarding tour is [8.3] T8.3.11.
 **Acceptance criteria:** second device on the same account skips this screen (profile already set).
 **Tests:** unit tests for defaults per locale (en_US Sunday, fr_FR Monday, ar_TN Monday/Saturday per CLDR).
+**Notes:** the confirmation screen is the first step of `OnboardingScreen` (language, searchable zone picker with the detected zone pinned, week start, 12/24 h preview); CLDR table in `FirstRunDefaults` (bare languages use likely regions; `ar_TN` = Monday per CLDR). Completion = `profiles.onboarding_completed_at`, so a second device of the account skips it (`needsOnboardingProvider`).
 
 ### T1.5.06 — Current time-zone tracking & zone-change events
 **Priority:** P0 · **Size:** S · **Depends on:** T1.5.04, [1.3] (lifecycle)

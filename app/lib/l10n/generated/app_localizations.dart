@@ -1216,6 +1216,12 @@ abstract class AppLocalizations {
   /// **'New time zone'**
   String get authZoneChangedTitle;
 
+  /// No description provided for @authZoneDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Detected on this device'**
+  String get authZoneDetected;
+
   /// No description provided for @authZoneKeepHome.
   ///
   /// In en, this message translates to:
@@ -1227,6 +1233,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Make it home'**
   String get authZoneMakeHome;
+
+  /// No description provided for @authZoneNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No time zone matches your search'**
+  String get authZoneNoMatch;
+
+  /// No description provided for @authZoneSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search time zones'**
+  String get authZoneSearch;
 
   /// No description provided for @categoriesEmpty.
   ///
@@ -4132,6 +4150,72 @@ abstract class AppLocalizations {
   /// **'Yes'**
   String get notifYes;
 
+  /// No description provided for @onboardingClock.
+  ///
+  /// In en, this message translates to:
+  /// **'Clock'**
+  String get onboardingClock;
+
+  /// No description provided for @onboardingClock12.
+  ///
+  /// In en, this message translates to:
+  /// **'12-hour'**
+  String get onboardingClock12;
+
+  /// No description provided for @onboardingClock24.
+  ///
+  /// In en, this message translates to:
+  /// **'24-hour'**
+  String get onboardingClock24;
+
+  /// No description provided for @onboardingEssentialsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We picked these from your device. Adjust anything that\'s off — you can change them later in Settings › Regional.'**
+  String get onboardingEssentialsBody;
+
+  /// No description provided for @onboardingEssentialsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your week, your clock'**
+  String get onboardingEssentialsTitle;
+
+  /// No description provided for @onboardingGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get onboardingGetStarted;
+
+  /// No description provided for @onboardingLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get onboardingLanguage;
+
+  /// No description provided for @onboardingStepOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String onboardingStepOf(int current, int total);
+
+  /// No description provided for @onboardingTimeZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Home time zone'**
+  String get onboardingTimeZone;
+
+  /// No description provided for @onboardingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up Everslot'**
+  String get onboardingTitle;
+
+  /// No description provided for @onboardingWeekStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Week starts on'**
+  String get onboardingWeekStart;
+
   /// No description provided for @pickerColor.
   ///
   /// In en, this message translates to:
@@ -6837,6 +6921,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saved'**
   String get savedSnack;
+
+  /// No description provided for @settingsLanguageArabic.
+  ///
+  /// In en, this message translates to:
+  /// **'العربية'**
+  String get settingsLanguageArabic;
+
+  /// No description provided for @settingsLanguageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get settingsLanguageEnglish;
+
+  /// No description provided for @settingsLanguageFrench.
+  ///
+  /// In en, this message translates to:
+  /// **'Français'**
+  String get settingsLanguageFrench;
+
+  /// No description provided for @settingsLanguageSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get settingsLanguageSystem;
 
   /// No description provided for @stateEmpty.
   ///

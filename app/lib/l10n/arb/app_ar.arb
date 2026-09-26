@@ -77,6 +77,16 @@
       }
     }
   },
+  "@onboardingStepOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "actionAdd": "إضافة",
   "actionApply": "تطبيق",
   "actionArchive": "أرشفة",
@@ -263,8 +273,11 @@
   "authWelcomeTitle": "مرحبًا بك في Everslot",
   "authZoneChangedBody": "أنت الآن في {zone}. تحتفظ المهام ذات التوقيت الثابت بوقتها الدقيق وتتبعك المهام المرنة. هل تريد جعل {zone} منطقتك الزمنية الأساسية؟",
   "authZoneChangedTitle": "منطقة زمنية جديدة",
+  "authZoneDetected": "تم اكتشافها على هذا الجهاز",
   "authZoneKeepHome": "الإبقاء على {zone}",
   "authZoneMakeHome": "جعلها الأساسية",
+  "authZoneNoMatch": "لا توجد منطقة زمنية تطابق بحثك",
+  "authZoneSearch": "البحث عن منطقة زمنية",
   "categoriesEmpty": "لا توجد تصنيفات بعد",
   "categoriesTitle": "التصنيفات",
   "categoryArchived": "مؤرشف",
@@ -749,6 +762,17 @@
   "notifVibrationShort": "قصير",
   "notifWeekdays": "فقط في",
   "notifYes": "نعم",
+  "onboardingClock": "الساعة",
+  "onboardingClock12": "12 ساعة",
+  "onboardingClock24": "24 ساعة",
+  "onboardingEssentialsBody": "اخترنا هذه الإعدادات من جهازك. عدّل ما لا يناسبك، ويمكنك تغييرها لاحقًا من الإعدادات › المنطقة.",
+  "onboardingEssentialsTitle": "أسبوعك وساعتك",
+  "onboardingGetStarted": "لنبدأ",
+  "onboardingLanguage": "اللغة",
+  "onboardingStepOf": "الخطوة {current} من {total}",
+  "onboardingTimeZone": "المنطقة الزمنية الأساسية",
+  "onboardingTitle": "إعداد Everslot",
+  "onboardingWeekStart": "يبدأ الأسبوع يوم",
   "pickerColor": "اللون",
   "pickerDate": "التاريخ",
   "pickerDays": "أيام",
@@ -1199,6 +1223,10 @@
   "relativeMinutesAgo": "{count, plural, =1{منذ دقيقة} =2{منذ دقيقتين} few{منذ {count} دقائق} many{منذ {count} دقيقة} other{منذ {count} دقيقة}}",
   "relativeNow": "الآن",
   "savedSnack": "تم الحفظ",
+  "settingsLanguageArabic": "العربية",
+  "settingsLanguageEnglish": "English",
+  "settingsLanguageFrench": "Français",
+  "settingsLanguageSystem": "لغة النظام",
   "stateEmpty": "لا يوجد شيء بعد",
   "stateErrorBody": "يرجى المحاولة مرة أخرى.",
   "stateErrorTitle": "حدث خطأ ما",

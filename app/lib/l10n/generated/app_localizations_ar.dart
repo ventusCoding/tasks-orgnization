@@ -701,12 +701,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authZoneChangedTitle => 'منطقة زمنية جديدة';
 
   @override
+  String get authZoneDetected => 'تم اكتشافها على هذا الجهاز';
+
+  @override
   String authZoneKeepHome(String zone) {
     return 'الإبقاء على $zone';
   }
 
   @override
   String get authZoneMakeHome => 'جعلها الأساسية';
+
+  @override
+  String get authZoneNoMatch => 'لا توجد منطقة زمنية تطابق بحثك';
+
+  @override
+  String get authZoneSearch => 'البحث عن منطقة زمنية';
 
   @override
   String get categoriesEmpty => 'لا توجد تصنيفات بعد';
@@ -2597,6 +2606,42 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifYes => 'نعم';
 
   @override
+  String get onboardingClock => 'الساعة';
+
+  @override
+  String get onboardingClock12 => '12 ساعة';
+
+  @override
+  String get onboardingClock24 => '24 ساعة';
+
+  @override
+  String get onboardingEssentialsBody =>
+      'اخترنا هذه الإعدادات من جهازك. عدّل ما لا يناسبك، ويمكنك تغييرها لاحقًا من الإعدادات › المنطقة.';
+
+  @override
+  String get onboardingEssentialsTitle => 'أسبوعك وساعتك';
+
+  @override
+  String get onboardingGetStarted => 'لنبدأ';
+
+  @override
+  String get onboardingLanguage => 'اللغة';
+
+  @override
+  String onboardingStepOf(int current, int total) {
+    return 'الخطوة $current من $total';
+  }
+
+  @override
+  String get onboardingTimeZone => 'المنطقة الزمنية الأساسية';
+
+  @override
+  String get onboardingTitle => 'إعداد Everslot';
+
+  @override
+  String get onboardingWeekStart => 'يبدأ الأسبوع يوم';
+
+  @override
   String get pickerColor => 'اللون';
 
   @override
@@ -4246,6 +4291,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get savedSnack => 'تم الحفظ';
+
+  @override
+  String get settingsLanguageArabic => 'العربية';
+
+  @override
+  String get settingsLanguageEnglish => 'English';
+
+  @override
+  String get settingsLanguageFrench => 'Français';
+
+  @override
+  String get settingsLanguageSystem => 'لغة النظام';
 
   @override
   String get stateEmpty => 'لا يوجد شيء بعد';
