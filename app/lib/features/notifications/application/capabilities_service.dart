@@ -8,9 +8,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Reactive notification capabilities (T7.2.04): re-checked on every resume; permission requests
 /// always go through a primer first (T7.2.05, presentation layer).
 final notificationCapabilitiesProvider =
-    NotifierProvider<NotificationCapabilitiesController, NotificationCapabilities>(NotificationCapabilitiesController.new);
+    NotifierProvider<
+      NotificationCapabilitiesController,
+      NotificationCapabilities
+    >(NotificationCapabilitiesController.new);
 
-class NotificationCapabilitiesController extends Notifier<NotificationCapabilities> {
+class NotificationCapabilitiesController
+    extends Notifier<NotificationCapabilities> {
   LocalNotificationsPort get _port => ref.read(localNotificationsPortProvider);
 
   /// Primers already shown this session (never twice per session).
@@ -18,7 +22,10 @@ class NotificationCapabilitiesController extends Notifier<NotificationCapabiliti
 
   @override
   NotificationCapabilities build() {
-    final sub = ref.watch(lifecycleProvider).onResume.listen((_) => unawaited(refresh()));
+    final sub = ref
+        .watch(lifecycleProvider)
+        .onResume
+        .listen((_) => unawaited(refresh()));
     ref.onDispose(sub.cancel);
     unawaited(Future<void>.microtask(refresh));
     return NotificationCapabilities.unknown;

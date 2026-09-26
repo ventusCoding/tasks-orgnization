@@ -24,7 +24,9 @@ class InAppBannerHost extends ConsumerStatefulWidget {
 }
 
 class _InAppBannerHostState extends ConsumerState<InAppBannerHost> {
-  late final InAppBannerController _controller = ref.read(inAppBannerControllerProvider);
+  late final InAppBannerController _controller = ref.read(
+    inAppBannerControllerProvider,
+  );
   Timer? _timer;
   BannerItem? _shown;
 
@@ -49,9 +51,12 @@ class _InAppBannerHostState extends ConsumerState<InAppBannerHost> {
     _timer?.cancel();
     if (item == null) return;
     final media = MediaQuery.maybeOf(context);
-    final long = item.actions.isNotEmpty || (media?.accessibleNavigation ?? false);
+    final long =
+        item.actions.isNotEmpty || (media?.accessibleNavigation ?? false);
     _timer = Timer(Duration(seconds: long ? 8 : 5), _controller.dismissCurrent);
-    final title = item.collapsed ? context.l10n.notifBannerCollapsed(item.count) : item.title;
+    final title = item.collapsed
+        ? context.l10n.notifBannerCollapsed(item.count)
+        : item.title;
     announce(context, [title, item.body].whereType<String>().join('. '));
   }
 
@@ -60,10 +65,13 @@ class _InAppBannerHostState extends ConsumerState<InAppBannerHost> {
     final engine = ref.read(notificationsEngineProvider);
     final payload = item.payload;
     if (payload == null) {
-      if (item.link != null) engine.emit(ActionDispatchResult(openLink: item.link));
+      if (item.link != null)
+        engine.emit(ActionDispatchResult(openLink: item.link));
       return;
     }
-    final result = await ref.read(notificationActionDispatcherProvider).handleTap(payload, origin: ActionOrigin.banner);
+    final result = await ref
+        .read(notificationActionDispatcherProvider)
+        .handleTap(payload, origin: ActionOrigin.banner);
     engine.emit(result);
   }
 
@@ -76,18 +84,29 @@ class _InAppBannerHostState extends ConsumerState<InAppBannerHost> {
     if (action == NotificationActionIds.snooze) {
       final ctx = rootNavigatorKey.currentContext;
       if (ctx == null) return;
-      final minutes = await pickSnooze(ctx, ref, options: payload.snoozeOptions);
+      final minutes = await pickSnooze(
+        ctx,
+        ref,
+        options: payload.snoozeOptions,
+      );
       if (minutes == null) return;
       engine.emit(await dispatcher.snooze(payload, minutes: minutes));
       return;
     }
-    engine.emit(await dispatcher.handleAction(action, payload, origin: ActionOrigin.banner));
+    engine.emit(
+      await dispatcher.handleAction(
+        action,
+        payload,
+        origin: ActionOrigin.banner,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final item = _shown;
-    final reduceMotion = MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+    final reduceMotion =
+        MediaQuery.maybeOf(context)?.disableAnimations ?? false;
     return Align(
       alignment: AlignmentDirectional.topCenter,
       child: SafeArea(
@@ -96,7 +115,10 @@ class _InAppBannerHostState extends ConsumerState<InAppBannerHost> {
           transitionBuilder: (child, animation) => reduceMotion
               ? FadeTransition(opacity: animation, child: child)
               : SlideTransition(
-                  position: Tween(begin: const Offset(0, -1), end: Offset.zero).animate(animation),
+                  position: Tween(
+                    begin: const Offset(0, -1),
+                    end: Offset.zero,
+                  ).animate(animation),
                   child: FadeTransition(opacity: animation, child: child),
                 ),
           child: item == null
@@ -119,7 +141,12 @@ class _InAppBannerHostState extends ConsumerState<InAppBannerHost> {
 }
 
 class _BannerCard extends StatelessWidget {
-  const _BannerCard({required this.item, required this.onTap, required this.onAction, required this.onClose});
+  const _BannerCard({
+    required this.item,
+    required this.onTap,
+    required this.onAction,
+    required this.onClose,
+  });
 
   final BannerItem item;
   final VoidCallback onTap;
@@ -130,7 +157,9 @@ class _BannerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final labels = NotificationLabels.of(context);
-    final title = item.collapsed ? l.notifBannerCollapsed(item.count) : item.title;
+    final title = item.collapsed
+        ? l.notifBannerCollapsed(item.count)
+        : item.title;
     final body = item.collapsed ? item.titles.join(', ') : item.body;
     return Padding(
       padding: const EdgeInsets.all(Space.sm),
@@ -147,12 +176,20 @@ class _BannerCard extends StatelessWidget {
               liveRegion: true,
               label: [title, ?body].join('. '),
               child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.md, Space.xs, Space.md),
+                padding: const EdgeInsetsDirectional.fromSTEB(
+                  Space.lg,
+                  Space.md,
+                  Space.xs,
+                  Space.md,
+                ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(
-                      InboxTile.iconFor(item.section, item.payload?.category ?? InboxCategory.reminder),
+                      InboxTile.iconFor(
+                        item.section,
+                        item.payload?.category ?? InboxCategory.reminder,
+                      ),
                       color: context.colors.primary,
                     ),
                     const SizedBox(width: Space.md),
@@ -164,7 +201,12 @@ class _BannerCard extends StatelessWidget {
                           Text(title, style: context.text.titleSmall),
                           if (body != null && body.isNotEmpty) ...[
                             const SizedBox(height: Space.xxs),
-                            Text(body, style: context.text.bodyMedium, maxLines: 3, overflow: TextOverflow.ellipsis),
+                            Text(
+                              body,
+                              style: context.text.bodyMedium,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ],
                           if (item.actions.isNotEmpty) ...[
                             const SizedBox(height: Space.xs),
@@ -172,14 +214,21 @@ class _BannerCard extends StatelessWidget {
                               spacing: Space.sm,
                               children: [
                                 for (final a in item.actions)
-                                  TextButton(onPressed: () => onAction(a), child: Text(labels.action(a))),
+                                  TextButton(
+                                    onPressed: () => onAction(a),
+                                    child: Text(labels.action(a)),
+                                  ),
                               ],
                             ),
                           ],
                         ],
                       ),
                     ),
-                    IconButton(tooltip: l.notifBannerDismiss, icon: const Icon(Icons.close), onPressed: onClose),
+                    IconButton(
+                      tooltip: l.notifBannerDismiss,
+                      icon: const Icon(Icons.close),
+                      onPressed: onClose,
+                    ),
                   ],
                 ),
               ),
@@ -209,7 +258,10 @@ abstract final class NotificationOverlay {
       _entry = OverlayEntry(builder: (_) => const InAppBannerHost());
       overlay.insert(_entry!);
       unawaited(_events?.cancel());
-      _events = container.read(notificationUiEventsProvider).stream.listen((event) => _handle(container, event));
+      _events = container
+          .read(notificationUiEventsProvider)
+          .stream
+          .listen((event) => _handle(container, event));
     });
   }
 
@@ -219,10 +271,14 @@ abstract final class NotificationOverlay {
       case OpenLinkEvent(:final link, :final alreadyDone):
         unawaited(container.read(routerProvider).push<void>(link));
         if (alreadyDone && context != null) {
-          ScaffoldMessenger.maybeOf(context)?.showSnackBar(SnackBar(content: Text(context.l10n.notifInboxAlreadyDone)));
+          ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+            SnackBar(content: Text(context.l10n.notifInboxAlreadyDone)),
+          );
         }
       case MessageEvent(:final message):
-        if (context != null) ScaffoldMessenger.maybeOf(context)?.showSnackBar(SnackBar(content: Text(message)));
+        if (context != null)
+          ScaffoldMessenger.maybeOf(context)
+              ?.showSnackBar(SnackBar(content: Text(message)));
     }
   }
 }

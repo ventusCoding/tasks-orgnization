@@ -18,7 +18,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Result of the advanced editor.
-typedef RuleEdit = ({NotificationRuleSpec spec, String? profileId, String? name});
+typedef RuleEdit = ({
+  NotificationRuleSpec spec,
+  String? profileId,
+  String? name,
+});
 
 /// Opens the advanced editor (T7.1.12). Saving without edits returns the original spec object
 /// (unknown keys and key order survive).
@@ -71,19 +75,35 @@ class AdvancedRuleEditorScreen extends ConsumerStatefulWidget {
   final bool showItemKind;
 
   @override
-  ConsumerState<AdvancedRuleEditorScreen> createState() => _AdvancedRuleEditorScreenState();
+  ConsumerState<AdvancedRuleEditorScreen> createState() =>
+      _AdvancedRuleEditorScreenState();
 }
 
-class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScreen> {
+class _AdvancedRuleEditorScreenState
+    extends ConsumerState<AdvancedRuleEditorScreen> {
   late NotificationRuleSpec _spec = widget.spec;
   late String? _profileId = widget.profileId;
   late final _name = TextEditingController(text: widget.name ?? '');
-  late final _title = TextEditingController(text: widget.spec.content.title ?? '');
-  late final _body = TextEditingController(text: widget.spec.content.body ?? '');
+  late final _title = TextEditingController(
+    text: widget.spec.content.title ?? '',
+  );
+  late final _body = TextEditingController(
+    text: widget.spec.content.body ?? '',
+  );
   TextEditingController? _focusedTemplate;
   bool _dirty = false;
 
-  static const _statuses = ['scheduled', 'in_progress', 'todo', 'ongoing', 'waiting', 'blocked', 'completed', 'done', 'skipped'];
+  static const _statuses = [
+    'scheduled',
+    'in_progress',
+    'todo',
+    'ongoing',
+    'waiting',
+    'blocked',
+    'completed',
+    'done',
+    'skipped',
+  ];
 
   @override
   void dispose() {
@@ -100,11 +120,18 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
 
   NotificationTarget get _target =>
       widget.previewTarget ??
-      ref.read(rulePreviewServiceProvider).sampleTarget(widget.targetType, widget.section, kind: widget.itemKind);
+      ref
+          .read(rulePreviewServiceProvider)
+          .sampleTarget(
+            widget.targetType,
+            widget.section,
+            kind: widget.itemKind,
+          );
 
   NotificationRule get _rule => NotificationRule(
     id: 'editor',
-    targetType: RuleTargetType.forTarget(widget.targetType) ?? RuleTargetType.section,
+    targetType:
+        RuleTargetType.forTarget(widget.targetType) ?? RuleTargetType.section,
     targetId: 'editor',
     section: widget.section,
     profileId: _profileId,
@@ -113,22 +140,37 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
 
   Future<void> _save() async {
     final l = context.l10n;
-    if (!_dirty && _profileId == widget.profileId && _name.text == (widget.name ?? '')) {
-      Navigator.pop(context, (spec: widget.spec, profileId: _profileId, name: widget.name));
+    if (!_dirty &&
+        _profileId == widget.profileId &&
+        _name.text == (widget.name ?? '')) {
+      Navigator.pop(context, (
+        spec: widget.spec,
+        profileId: _profileId,
+        name: widget.name,
+      ));
       return;
     }
-    final noise = await ref.read(rulePreviewServiceProvider).noise(_rule, _target);
+    final noise = await ref
+        .read(rulePreviewServiceProvider)
+        .noise(_rule, _target);
     if (!mounted) return;
     if (noise.level == NoiseLevel.blocked) {
       showInfoSnackBar(context, l.notifNoiseBlocked);
       return;
     }
     if (noise.level == NoiseLevel.confirm) {
-      final ok = await confirmDialog(context, title: l.notifNoiseConfirm(noise.firesPerDay.round()));
+      final ok = await confirmDialog(
+        context,
+        title: l.notifNoiseConfirm(noise.firesPerDay.round()),
+      );
       if (!ok || !mounted) return;
     }
     final name = _name.text.trim();
-    Navigator.pop(context, (spec: _spec, profileId: _profileId, name: name.isEmpty ? null : name));
+    Navigator.pop(context, (
+      spec: _spec,
+      profileId: _profileId,
+      name: name.isEmpty ? null : name,
+    ));
   }
 
   void _insertVariable(String name) {
@@ -163,20 +205,34 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
   Widget build(BuildContext context) {
     final l = context.l10n;
     final labels = NotificationLabels.of(context);
-    final profiles = [for (final p in ref.watch(notificationProfilesProvider).value ?? const <NotificationProfile>[]) if (!p.hidden) p];
+    final profiles = [
+      for (final p
+          in ref.watch(notificationProfilesProvider).value ??
+              const <NotificationProfile>[])
+        if (!p.hidden) p,
+    ];
     final issues = NotificationRuleValidator.validate(
       _spec,
       targetType: widget.targetType,
       itemKind: widget.itemKind,
       acceptExtraActions: true,
     );
-    final errors = [for (final i in issues) if (i.isError) i];
-    final profileName = profiles.where((p) => p.id == _profileId).map(labels.profileName).firstOrNull;
+    final errors = [
+      for (final i in issues)
+        if (i.isError) i,
+    ];
+    final profileName = profiles
+        .where((p) => p.id == _profileId)
+        .map(labels.profileName)
+        .firstOrNull;
     return Scaffold(
       appBar: AppBar(
         title: Text(l.notifAdvancedTitle),
         actions: [
-          TextButton(onPressed: errors.isEmpty ? () => unawaited(_save()) : null, child: Text(l.actionSave)),
+          TextButton(
+            onPressed: errors.isEmpty ? () => unawaited(_save()) : null,
+            child: Text(l.actionSave),
+          ),
         ],
       ),
       body: ListView(
@@ -186,7 +242,10 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
             padding: const EdgeInsets.symmetric(horizontal: Space.lg),
             child: Column(
               children: [
-                TextField(controller: _name, decoration: InputDecoration(labelText: l.notifProfileName)),
+                TextField(
+                  controller: _name,
+                  decoration: InputDecoration(labelText: l.notifProfileName),
+                ),
                 DropdownButtonFormField<String?>(
                   initialValue: _profileId,
                   isExpanded: true,
@@ -194,7 +253,11 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
                   onChanged: (v) => setState(() => _profileId = v),
                   items: [
                     DropdownMenuItem<String?>(child: Text(l.notifProfileNone)),
-                    for (final p in profiles) DropdownMenuItem(value: p.id, child: Text(labels.profileName(p))),
+                    for (final p in profiles)
+                      DropdownMenuItem(
+                        value: p.id,
+                        child: Text(labels.profileName(p)),
+                      ),
                   ],
                 ),
               ],
@@ -202,24 +265,56 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
           ),
           for (final e in errors)
             Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, 0),
-              child: Text(labels.issue(e), style: context.text.bodySmall?.copyWith(color: context.colors.error)),
+              padding: const EdgeInsetsDirectional.fromSTEB(
+                Space.lg,
+                Space.sm,
+                Space.lg,
+                0,
+              ),
+              child: Text(
+                labels.issue(e),
+                style: context.text.bodySmall?.copyWith(
+                  color: context.colors.error,
+                ),
+              ),
             ),
           ExpansionTile(
             initiallyExpanded: true,
             title: Text(l.notifTrigger),
             subtitle: Text(labels.trigger(_spec.trigger)),
-            childrenPadding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.md),
-            children: [_TriggerEditor(spec: _spec, targetType: widget.targetType, itemKind: widget.itemKind, onChanged: _update)],
+            childrenPadding: const EdgeInsetsDirectional.fromSTEB(
+              Space.lg,
+              0,
+              Space.lg,
+              Space.md,
+            ),
+            children: [
+              _TriggerEditor(
+                spec: _spec,
+                targetType: widget.targetType,
+                itemKind: widget.itemKind,
+                onChanged: _update,
+              ),
+            ],
           ),
           ExpansionTile(
             title: Text(l.notifRepeat),
-            childrenPadding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.md),
+            childrenPadding: const EdgeInsetsDirectional.fromSTEB(
+              Space.lg,
+              0,
+              Space.lg,
+              Space.md,
+            ),
             children: [_RepeatEditor(spec: _spec, onChanged: _update)],
           ),
           ExpansionTile(
             title: Text(l.notifConditions),
-            childrenPadding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.md),
+            childrenPadding: const EdgeInsetsDirectional.fromSTEB(
+              Space.lg,
+              0,
+              Space.lg,
+              Space.md,
+            ),
             children: [
               _ConditionsEditor(
                 conditions: _spec.conditions,
@@ -231,7 +326,12 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
           ),
           ExpansionTile(
             title: Text(l.notifDelivery),
-            childrenPadding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.md),
+            childrenPadding: const EdgeInsetsDirectional.fromSTEB(
+              Space.lg,
+              0,
+              Space.lg,
+              Space.md,
+            ),
             children: [
               DeliveryFieldsEditor(
                 value: _spec.delivery,
@@ -242,7 +342,12 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
           ),
           ExpansionTile(
             title: Text(l.notifContent),
-            childrenPadding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.md),
+            childrenPadding: const EdgeInsetsDirectional.fromSTEB(
+              Space.lg,
+              0,
+              Space.lg,
+              Space.md,
+            ),
             children: [
               Focus(
                 onFocusChange: (f) => f ? _focusedTemplate = _title : null,
@@ -263,13 +368,21 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
                 ),
               ),
               const SizedBox(height: Space.sm),
-              Align(alignment: AlignmentDirectional.centerStart, child: Text(l.notifVariables, style: context.text.labelLarge)),
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(l.notifVariables, style: context.text.labelLarge),
+              ),
               Wrap(
                 spacing: Space.xs,
                 runSpacing: Space.xs,
                 children: [
-                  for (final v in TemplateVariables.forTarget(widget.targetType))
-                    ActionChip(label: Text('{${v.name}}'), onPressed: () => _insertVariable(v.name)),
+                  for (final v in TemplateVariables.forTarget(
+                    widget.targetType,
+                  ))
+                    ActionChip(
+                      label: Text('{${v.name}}'),
+                      onPressed: () => _insertVariable(v.name),
+                    ),
                 ],
               ),
               const SizedBox(height: Space.md),
@@ -284,13 +397,19 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
     );
   }
 
-  String builtinFallbackName(NotificationLabels labels) => labels.l.notifProfileStandard;
+  String builtinFallbackName(NotificationLabels labels) =>
+      labels.l.notifProfileStandard;
 }
 
 // ------------------------------------------------------------------------------------ trigger --
 
 class _TriggerEditor extends StatelessWidget {
-  const _TriggerEditor({required this.spec, required this.targetType, required this.itemKind, required this.onChanged});
+  const _TriggerEditor({
+    required this.spec,
+    required this.targetType,
+    required this.itemKind,
+    required this.onChanged,
+  });
 
   final NotificationRuleSpec spec;
   final NotificationTargetType targetType;
@@ -298,17 +417,42 @@ class _TriggerEditor extends StatelessWidget {
   final ValueChanged<NotificationRuleSpec> onChanged;
 
   NotificationTrigger _defaultFor(TriggerType type) => switch (type) {
-    TriggerType.relative => RelativeTrigger(anchor: anchorsFor(targetType, kind: itemKind).first, offsetMinutes: 0),
-    TriggerType.absolute => AbsoluteTrigger(at: LocalDateTime.of(2026, 1, 1, 9)),
-    TriggerType.schedule => const ScheduleTrigger(recurrence: {'v': 1, 'type': 'fixed', 'freq': 'daily', 'interval': 1, 'times': ['09:00']}),
-    TriggerType.notDoneBy => NotDoneByTrigger(anchor: 'time', atTime: LocalTime(21, 0)),
-    TriggerType.statusAge => const StatusAgeTrigger(statuses: ['waiting', 'blocked'], afterMinutes: 2880),
+    TriggerType.relative => RelativeTrigger(
+      anchor: anchorsFor(targetType, kind: itemKind).first,
+      offsetMinutes: 0,
+    ),
+    TriggerType.absolute => AbsoluteTrigger(
+      at: LocalDateTime.of(2026, 1, 1, 9),
+    ),
+    TriggerType.schedule => const ScheduleTrigger(
+      recurrence: {
+        'v': 1,
+        'type': 'fixed',
+        'freq': 'daily',
+        'interval': 1,
+        'times': ['09:00'],
+      },
+    ),
+    TriggerType.notDoneBy => NotDoneByTrigger(
+      anchor: 'time',
+      atTime: LocalTime(21, 0),
+    ),
+    TriggerType.statusAge => const StatusAgeTrigger(
+      statuses: ['waiting', 'blocked'],
+      afterMinutes: 2880,
+    ),
     TriggerType.overdue => const OverdueTrigger(afterMinutes: 0),
-    TriggerType.streakRisk => StreakRiskTrigger(atTime: LocalTime(21, 0), minStreak: 3),
+    TriggerType.streakRisk => StreakRiskTrigger(
+      atTime: LocalTime(21, 0),
+      minStreak: 3,
+    ),
     TriggerType.quotaBehind => QuotaBehindTrigger(atTime: LocalTime(20, 0)),
     TriggerType.milestone => const MilestoneTrigger(metric: 'clean_days'),
     TriggerType.inactivity => const InactivityTrigger(afterDays: 3),
-    TriggerType.digest => DefaultRules.digestSpec('daily_agenda', LocalTime(7, 7)).trigger,
+    TriggerType.digest => DefaultRules.digestSpec(
+      'daily_agenda',
+      LocalTime(7, 7),
+    ).trigger,
     TriggerType.statusChange => const StatusChangeTrigger(to: 'blocked'),
     TriggerType.childrenComplete => const ChildrenCompleteTrigger(),
     TriggerType.childOverdue => const ChildOverdueTrigger(),
@@ -323,22 +467,36 @@ class _TriggerEditor extends StatelessWidget {
     final labels = NotificationLabels.of(context);
     final use24h = MediaQuery.alwaysUse24HourFormatOf(context);
     final trigger = spec.trigger;
-    Future<void> pickAt(LocalTime? initial, void Function(LocalTime t) apply) async {
+    Future<void> pickAt(
+      LocalTime? initial,
+      void Function(LocalTime t) apply,
+    ) async {
       final t = await pickTime(context, initial: initial, use24h: use24h);
       if (t != null) apply(t);
     }
 
-    Widget timeTile(String label, LocalTime? value, void Function(LocalTime t) apply) => ListTile(
+    Widget timeTile(
+      String label,
+      LocalTime? value,
+      void Function(LocalTime t) apply,
+    ) => ListTile(
       contentPadding: EdgeInsets.zero,
       title: Text(label),
       trailing: Text(value == null ? '—' : labels.time(value)),
       onTap: () => unawaited(pickAt(value, apply)),
     );
 
-    Widget intField(String label, int value, void Function(int v) apply, {bool signed = false}) => TextFormField(
+    Widget intField(
+      String label,
+      int value,
+      void Function(int v) apply, {
+      bool signed = false,
+    }) => TextFormField(
       initialValue: '$value',
       keyboardType: TextInputType.numberWithOptions(signed: signed),
-      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(signed ? r'[-0-9]' : '[0-9]'))],
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(signed ? r'[-0-9]' : '[0-9]')),
+      ],
       decoration: InputDecoration(labelText: label),
       onChanged: (text) {
         final v = int.tryParse(text);
@@ -347,29 +505,72 @@ class _TriggerEditor extends StatelessWidget {
     );
 
     final params = switch (trigger) {
-      RelativeTrigger(:final anchor, :final offsetMinutes, :final dayOffset, :final atTime, :final usesDayForm) => [
-        DropdownButtonFormField<TriggerAnchor>(
-          initialValue: anchor,
-          decoration: InputDecoration(labelText: l.notifAnchorStart),
-          onChanged: (a) => _set(RelativeTrigger(anchor: a ?? anchor, offsetMinutes: offsetMinutes, dayOffset: dayOffset, atTime: atTime)),
-          items: [for (final a in TriggerAnchor.values) DropdownMenuItem(value: a, child: Text(labels.anchor(a)))],
-        ),
-        SwitchListTile(
-          contentPadding: EdgeInsets.zero,
-          title: Text(l.notifFieldDayForm),
-          value: usesDayForm,
-          onChanged: (v) => _set(
-            v
-                ? RelativeTrigger(anchor: anchor, dayOffset: -1, atTime: LocalTime(20, 0))
-                : RelativeTrigger(anchor: anchor, offsetMinutes: 0),
+      RelativeTrigger(
+        :final anchor,
+        :final offsetMinutes,
+        :final dayOffset,
+        :final atTime,
+        :final usesDayForm,
+      ) =>
+        [
+          DropdownButtonFormField<TriggerAnchor>(
+            initialValue: anchor,
+            decoration: InputDecoration(labelText: l.notifAnchorStart),
+            onChanged: (a) => _set(
+              RelativeTrigger(
+                anchor: a ?? anchor,
+                offsetMinutes: offsetMinutes,
+                dayOffset: dayOffset,
+                atTime: atTime,
+              ),
+            ),
+            items: [
+              for (final a in TriggerAnchor.values)
+                DropdownMenuItem(value: a, child: Text(labels.anchor(a))),
+            ],
           ),
-        ),
-        if (usesDayForm) ...[
-          intField(l.notifFieldDayOffset, dayOffset ?? 0, (v) => _set(RelativeTrigger(anchor: anchor, dayOffset: v, atTime: atTime)), signed: true),
-          timeTile(l.notifFieldAtTime, atTime, (t) => _set(RelativeTrigger(anchor: anchor, dayOffset: dayOffset, atTime: t))),
-        ] else
-          intField(l.notifFieldOffset, offsetMinutes ?? 0, (v) => _set(RelativeTrigger(anchor: anchor, offsetMinutes: v)), signed: true),
-      ],
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(l.notifFieldDayForm),
+            value: usesDayForm,
+            onChanged: (v) => _set(
+              v
+                  ? RelativeTrigger(
+                      anchor: anchor,
+                      dayOffset: -1,
+                      atTime: LocalTime(20, 0),
+                    )
+                  : RelativeTrigger(anchor: anchor, offsetMinutes: 0),
+            ),
+          ),
+          if (usesDayForm) ...[
+            intField(
+              l.notifFieldDayOffset,
+              dayOffset ?? 0,
+              (v) => _set(
+                RelativeTrigger(anchor: anchor, dayOffset: v, atTime: atTime),
+              ),
+              signed: true,
+            ),
+            timeTile(
+              l.notifFieldAtTime,
+              atTime,
+              (t) => _set(
+                RelativeTrigger(
+                  anchor: anchor,
+                  dayOffset: dayOffset,
+                  atTime: t,
+                ),
+              ),
+            ),
+          ] else
+            intField(
+              l.notifFieldOffset,
+              offsetMinutes ?? 0,
+              (v) => _set(RelativeTrigger(anchor: anchor, offsetMinutes: v)),
+              signed: true,
+            ),
+        ],
       AbsoluteTrigger(:final at, :final timeZone) => [
         ListTile(
           contentPadding: EdgeInsets.zero,
@@ -379,27 +580,62 @@ class _TriggerEditor extends StatelessWidget {
             final d = await pickDate(context, initial: at.date);
             if (d == null || !context.mounted) return;
             final t = await pickTime(context, initial: at.time, use24h: use24h);
-            _set(AbsoluteTrigger(at: LocalDateTime(d, t ?? at.time), timeZone: timeZone));
+            _set(
+              AbsoluteTrigger(
+                at: LocalDateTime(d, t ?? at.time),
+                timeZone: timeZone,
+              ),
+            );
           },
         ),
       ],
-      ScheduleTrigger(:final recurrence) => [_ScheduleFields(recurrence: recurrence, onChanged: (r) => _set(ScheduleTrigger(recurrence: r)))],
-      NotDoneByTrigger(anchor: final a, :final offsetMinutes, :final atTime) => [
-        DropdownButtonFormField<String>(
-          initialValue: a,
-          decoration: InputDecoration(labelText: l.notifAnchorEnd),
-          onChanged: (v) => _set(NotDoneByTrigger(anchor: v ?? a, offsetMinutes: offsetMinutes, atTime: atTime ?? LocalTime(21, 0))),
-          items: [
-            DropdownMenuItem(value: 'time', child: Text(l.notifFieldAtTime)),
-            DropdownMenuItem(value: 'period_end', child: Text(l.notifAnchorPeriodEnd)),
-            DropdownMenuItem(value: 'end', child: Text(l.notifAnchorEnd)),
-          ],
+      ScheduleTrigger(:final recurrence) => [
+        _ScheduleFields(
+          recurrence: recurrence,
+          onChanged: (r) => _set(ScheduleTrigger(recurrence: r)),
         ),
-        if (a == 'time')
-          timeTile(l.notifFieldAtTime, atTime, (t) => _set(NotDoneByTrigger(anchor: a, offsetMinutes: offsetMinutes, atTime: t)))
-        else
-          intField(l.notifFieldOffset, offsetMinutes ?? 0, (v) => _set(NotDoneByTrigger(anchor: a, offsetMinutes: v)), signed: true),
       ],
+      NotDoneByTrigger(anchor: final a, :final offsetMinutes, :final atTime) =>
+        [
+          DropdownButtonFormField<String>(
+            initialValue: a,
+            decoration: InputDecoration(labelText: l.notifAnchorEnd),
+            onChanged: (v) => _set(
+              NotDoneByTrigger(
+                anchor: v ?? a,
+                offsetMinutes: offsetMinutes,
+                atTime: atTime ?? LocalTime(21, 0),
+              ),
+            ),
+            items: [
+              DropdownMenuItem(value: 'time', child: Text(l.notifFieldAtTime)),
+              DropdownMenuItem(
+                value: 'period_end',
+                child: Text(l.notifAnchorPeriodEnd),
+              ),
+              DropdownMenuItem(value: 'end', child: Text(l.notifAnchorEnd)),
+            ],
+          ),
+          if (a == 'time')
+            timeTile(
+              l.notifFieldAtTime,
+              atTime,
+              (t) => _set(
+                NotDoneByTrigger(
+                  anchor: a,
+                  offsetMinutes: offsetMinutes,
+                  atTime: t,
+                ),
+              ),
+            )
+          else
+            intField(
+              l.notifFieldOffset,
+              offsetMinutes ?? 0,
+              (v) => _set(NotDoneByTrigger(anchor: a, offsetMinutes: v)),
+              signed: true,
+            ),
+        ],
       StatusAgeTrigger(:final statuses, :final afterMinutes) => [
         Wrap(
           spacing: Space.xs,
@@ -409,69 +645,152 @@ class _TriggerEditor extends StatelessWidget {
                 label: Text(s),
                 selected: statuses.contains(s),
                 onSelected: (v) => _set(
-                  StatusAgeTrigger(statuses: v ? [...statuses, s] : [for (final x in statuses) if (x != s) x], afterMinutes: afterMinutes),
+                  StatusAgeTrigger(
+                    statuses: v
+                        ? [...statuses, s]
+                        : [
+                            for (final x in statuses)
+                              if (x != s) x,
+                          ],
+                    afterMinutes: afterMinutes,
+                  ),
                 ),
               ),
           ],
         ),
-        intField(l.notifFieldAfterMinutes, afterMinutes, (v) => _set(StatusAgeTrigger(statuses: statuses, afterMinutes: v))),
+        intField(
+          l.notifFieldAfterMinutes,
+          afterMinutes,
+          (v) => _set(StatusAgeTrigger(statuses: statuses, afterMinutes: v)),
+        ),
       ],
       OverdueTrigger(:final effectiveAfter) => [
-        intField(l.notifFieldAfterMinutes, effectiveAfter, (v) => _set(OverdueTrigger(afterMinutes: v))),
+        intField(
+          l.notifFieldAfterMinutes,
+          effectiveAfter,
+          (v) => _set(OverdueTrigger(afterMinutes: v)),
+        ),
       ],
       StreakRiskTrigger(:final atTime, :final effectiveMinStreak) => [
-        timeTile(l.notifFieldAtTime, atTime, (t) => _set(StreakRiskTrigger(atTime: t, minStreak: effectiveMinStreak))),
-        intField(l.notifFieldMinStreak, effectiveMinStreak, (v) => _set(StreakRiskTrigger(atTime: atTime, minStreak: v))),
+        timeTile(
+          l.notifFieldAtTime,
+          atTime,
+          (t) =>
+              _set(StreakRiskTrigger(atTime: t, minStreak: effectiveMinStreak)),
+        ),
+        intField(
+          l.notifFieldMinStreak,
+          effectiveMinStreak,
+          (v) => _set(StreakRiskTrigger(atTime: atTime, minStreak: v)),
+        ),
       ],
-      QuotaBehindTrigger(:final atTime) => [timeTile(l.notifFieldAtTime, atTime, (t) => _set(QuotaBehindTrigger(atTime: t)))],
+      QuotaBehindTrigger(:final atTime) => [
+        timeTile(
+          l.notifFieldAtTime,
+          atTime,
+          (t) => _set(QuotaBehindTrigger(atTime: t)),
+        ),
+      ],
       MilestoneTrigger(:final metric, :final thresholds) => [
         DropdownButtonFormField<String>(
           initialValue: metric,
           decoration: InputDecoration(labelText: l.notifFieldMetric),
-          onChanged: (m) => _set(MilestoneTrigger(metric: m ?? metric, thresholds: thresholds)),
+          onChanged: (m) => _set(
+            MilestoneTrigger(metric: m ?? metric, thresholds: thresholds),
+          ),
           items: [
-            DropdownMenuItem(value: 'clean_days', child: Text(l.notifMetricCleanDays)),
+            DropdownMenuItem(
+              value: 'clean_days',
+              child: Text(l.notifMetricCleanDays),
+            ),
             DropdownMenuItem(value: 'streak', child: Text(l.notifMetricStreak)),
-            DropdownMenuItem(value: 'total_value', child: Text(l.notifMetricTotal)),
-            DropdownMenuItem(value: 'money_saved', child: Text(l.notifMetricMoney)),
-            DropdownMenuItem(value: 'units_avoided', child: Text(l.notifMetricUnits)),
+            DropdownMenuItem(
+              value: 'total_value',
+              child: Text(l.notifMetricTotal),
+            ),
+            DropdownMenuItem(
+              value: 'money_saved',
+              child: Text(l.notifMetricMoney),
+            ),
+            DropdownMenuItem(
+              value: 'units_avoided',
+              child: Text(l.notifMetricUnits),
+            ),
           ],
         ),
         TextFormField(
           initialValue: thresholds?.join(', ') ?? '',
           decoration: InputDecoration(labelText: l.notifFieldThresholds),
           onChanged: (text) {
-            final values = [for (final p in text.split(',')) ?num.tryParse(p.trim())];
-            _set(MilestoneTrigger(metric: metric, thresholds: text.trim().isEmpty ? null : values));
+            final values = [
+              for (final p in text.split(',')) ?num.tryParse(p.trim()),
+            ];
+            _set(
+              MilestoneTrigger(
+                metric: metric,
+                thresholds: text.trim().isEmpty ? null : values,
+              ),
+            );
           },
         ),
       ],
       InactivityTrigger(:final afterDays, :final atTime) => [
-        intField(l.notifFieldAfterDays, afterDays, (v) => _set(InactivityTrigger(afterDays: v, atTime: atTime))),
-        timeTile(l.notifFieldAtTime, atTime, (t) => _set(InactivityTrigger(afterDays: afterDays, atTime: t))),
+        intField(
+          l.notifFieldAfterDays,
+          afterDays,
+          (v) => _set(InactivityTrigger(afterDays: v, atTime: atTime)),
+        ),
+        timeTile(
+          l.notifFieldAtTime,
+          atTime,
+          (t) => _set(InactivityTrigger(afterDays: afterDays, atTime: t)),
+        ),
       ],
       StaleTrigger(:final afterDays, :final atTime) => [
-        intField(l.notifFieldAfterDays, afterDays, (v) => _set(StaleTrigger(afterDays: v, atTime: atTime))),
-        timeTile(l.notifFieldAtTime, atTime, (t) => _set(StaleTrigger(afterDays: afterDays, atTime: t))),
+        intField(
+          l.notifFieldAfterDays,
+          afterDays,
+          (v) => _set(StaleTrigger(afterDays: v, atTime: atTime)),
+        ),
+        timeTile(
+          l.notifFieldAtTime,
+          atTime,
+          (t) => _set(StaleTrigger(afterDays: afterDays, atTime: t)),
+        ),
       ],
       DigestTrigger(:final kind, :final schedule) => [
         DropdownButtonFormField<String>(
           initialValue: kind,
           decoration: InputDecoration(labelText: l.notifFieldDigestKind),
-          onChanged: (k) => _set(DigestTrigger(kind: k ?? kind, schedule: schedule)),
-          items: [for (final k in DigestTrigger.kinds) DropdownMenuItem(value: k, child: Text(labels.digestTitle(k)))],
+          onChanged: (k) =>
+              _set(DigestTrigger(kind: k ?? kind, schedule: schedule)),
+          items: [
+            for (final k in DigestTrigger.kinds)
+              DropdownMenuItem(value: k, child: Text(labels.digestTitle(k))),
+          ],
         ),
-        _ScheduleFields(recurrence: schedule, onChanged: (r) => _set(DigestTrigger(kind: kind, schedule: r))),
+        _ScheduleFields(
+          recurrence: schedule,
+          onChanged: (r) => _set(DigestTrigger(kind: kind, schedule: r)),
+        ),
       ],
       StatusChangeTrigger(:final from, :final to, :final atTime) => [
         TextFormField(
           initialValue: to,
           decoration: InputDecoration(labelText: l.notifFieldToStatus),
-          onChanged: (v) => _set(StatusChangeTrigger(from: from, to: v.trim(), atTime: atTime)),
+          onChanged: (v) => _set(
+            StatusChangeTrigger(from: from, to: v.trim(), atTime: atTime),
+          ),
         ),
-        timeTile(l.notifFieldAtTime, atTime, (t) => _set(StatusChangeTrigger(from: from, to: to, atTime: t))),
+        timeTile(
+          l.notifFieldAtTime,
+          atTime,
+          (t) => _set(StatusChangeTrigger(from: from, to: to, atTime: t)),
+        ),
       ],
-      ChildrenCompleteTrigger() || ChildOverdueTrigger() || UnknownTrigger() => const <Widget>[],
+      ChildrenCompleteTrigger() ||
+      ChildOverdueTrigger() ||
+      UnknownTrigger() => const <Widget>[],
     };
 
     return Column(
@@ -486,7 +805,9 @@ class _TriggerEditor extends StatelessWidget {
           },
           items: [
             for (final t in TriggerType.values)
-              if (t != TriggerType.digest || targetType == NotificationTargetType.digest || trigger is DigestTrigger)
+              if (t != TriggerType.digest ||
+                  targetType == NotificationTargetType.digest ||
+                  trigger is DigestTrigger)
                 DropdownMenuItem(value: t, child: Text(labels.triggerType(t))),
           ],
         ),
@@ -509,7 +830,10 @@ class _ScheduleFields extends StatelessWidget {
     final l = context.l10n;
     final labels = NotificationLabels.of(context);
     final freq = recurrence['freq'] as String? ?? 'daily';
-    final times = [for (final t in (recurrence['times'] as List?) ?? const <Object?>[]) ?LocalTime.tryParse('$t')];
+    final times = [
+      for (final t in (recurrence['times'] as List?) ?? const <Object?>[])
+        ?LocalTime.tryParse('$t'),
+    ];
     final weekdays = {
       for (final d in (recurrence['byWeekday'] as List?) ?? const <Object?>[])
         if (d is String) Weekday.fromCode(d).iso,
@@ -525,7 +849,13 @@ class _ScheduleFields extends StatelessWidget {
       children: [
         DropdownButtonFormField<String>(
           initialValue: freq,
-          onChanged: (f) => onChanged(with_({'freq': f, 'byWeekday': f == 'weekly' ? ['MO'] : null, 'byMonthDay': f == 'monthly' ? [1] : null})),
+          onChanged: (f) => onChanged(
+            with_({
+              'freq': f,
+              'byWeekday': f == 'weekly' ? ['MO'] : null,
+              'byMonthDay': f == 'monthly' ? [1] : null,
+            }),
+          ),
           items: [
             DropdownMenuItem(value: 'daily', child: Text(l.notifUnitDays)),
             DropdownMenuItem(value: 'weekly', child: Text(l.notifUnitWeeks)),
@@ -535,7 +865,14 @@ class _ScheduleFields extends StatelessWidget {
         if (freq == 'weekly')
           WeekdayChips(
             selected: weekdays,
-            onChanged: (days) => onChanged(with_({'byWeekday': [for (final d in days.toList()..sort()) Weekday.fromIso(d).code]})),
+            onChanged: (days) => onChanged(
+              with_({
+                'byWeekday': [
+                  for (final d in days.toList()..sort())
+                    Weekday.fromIso(d).code,
+                ],
+              }),
+            ),
           ),
         Wrap(
           spacing: Space.xs,
@@ -544,16 +881,35 @@ class _ScheduleFields extends StatelessWidget {
               InputChip(
                 label: Text(labels.time(t)),
                 onDeleted: times.length > 1
-                    ? () => onChanged(with_({'times': [for (final x in times) if (x != t) x.toIso()]}))
+                    ? () => onChanged(
+                        with_({
+                          'times': [
+                            for (final x in times)
+                              if (x != t) x.toIso(),
+                          ],
+                        }),
+                      )
                     : null,
               ),
             ActionChip(
               avatar: const Icon(Icons.add, size: 18),
               label: Text(l.notifFieldAtTime),
               onPressed: () async {
-                final t = await pickTime(context, initial: LocalTime(9, 0), use24h: MediaQuery.alwaysUse24HourFormatOf(context));
+                final t = await pickTime(
+                  context,
+                  initial: LocalTime(9, 0),
+                  use24h: MediaQuery.alwaysUse24HourFormatOf(context),
+                );
                 if (t == null) return;
-                onChanged(with_({'times': [...{for (final x in [...times, t]) x.toIso()}]..sort()}));
+                onChanged(
+                  with_({
+                    'times': [
+                      ...{
+                        for (final x in [...times, t]) x.toIso(),
+                      },
+                    ]..sort(),
+                  }),
+                );
               },
             ),
           ],
@@ -589,7 +945,10 @@ class _RepeatEditor extends StatelessWidget {
           onSelectionChanged: (s) => onChanged(switch (s.first) {
             0 => spec.copyWith(clearRepeat: true),
             1 => spec.copyWith(clearRepeat: true, repeatDisabled: true),
-            _ => spec.copyWith(repeat: const RepeatSpec(everyMinutes: 5, maxTimes: 5), repeatDisabled: false),
+            _ => spec.copyWith(
+              repeat: const RepeatSpec(everyMinutes: 5, maxTimes: 5),
+              repeatDisabled: false,
+            ),
           }),
         ),
         if (repeat != null) ...[
@@ -598,23 +957,45 @@ class _RepeatEditor extends StatelessWidget {
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: InputDecoration(labelText: l.notifFieldEveryMinutes),
-            onChanged: (v) => onChanged(spec.copyWith(repeat: repeat.copyWith(everyMinutes: int.tryParse(v) ?? repeat.everyMinutes))),
+            onChanged: (v) => onChanged(
+              spec.copyWith(
+                repeat: repeat.copyWith(
+                  everyMinutes: int.tryParse(v) ?? repeat.everyMinutes,
+                ),
+              ),
+            ),
           ),
           TextFormField(
             initialValue: '${repeat.maxTimes}',
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: InputDecoration(labelText: l.notifFieldMaxTimes),
-            onChanged: (v) => onChanged(spec.copyWith(repeat: repeat.copyWith(maxTimes: int.tryParse(v) ?? repeat.maxTimes))),
+            onChanged: (v) => onChanged(
+              spec.copyWith(
+                repeat: repeat.copyWith(
+                  maxTimes: int.tryParse(v) ?? repeat.maxTimes,
+                ),
+              ),
+            ),
           ),
           DropdownButtonFormField<RepeatUntil>(
             initialValue: repeat.until,
             decoration: InputDecoration(labelText: l.notifFieldUntil),
-            onChanged: (u) => onChanged(spec.copyWith(repeat: repeat.copyWith(until: u))),
+            onChanged: (u) =>
+                onChanged(spec.copyWith(repeat: repeat.copyWith(until: u))),
             items: [
-              DropdownMenuItem(value: RepeatUntil.acknowledged, child: Text(l.notifUntilAcknowledged)),
-              DropdownMenuItem(value: RepeatUntil.completed, child: Text(l.notifUntilCompleted)),
-              DropdownMenuItem(value: RepeatUntil.max, child: Text(l.notifUntilMax)),
+              DropdownMenuItem(
+                value: RepeatUntil.acknowledged,
+                child: Text(l.notifUntilAcknowledged),
+              ),
+              DropdownMenuItem(
+                value: RepeatUntil.completed,
+                child: Text(l.notifUntilCompleted),
+              ),
+              DropdownMenuItem(
+                value: RepeatUntil.max,
+                child: Text(l.notifUntilMax),
+              ),
             ],
           ),
         ],
@@ -626,7 +1007,12 @@ class _RepeatEditor extends StatelessWidget {
 // -------------------------------------------------------------------------------- conditions --
 
 class _ConditionsEditor extends StatelessWidget {
-  const _ConditionsEditor({required this.conditions, required this.statuses, required this.showItemKind, required this.onChanged});
+  const _ConditionsEditor({
+    required this.conditions,
+    required this.statuses,
+    required this.showItemKind,
+    required this.onChanged,
+  });
 
   final ConditionsSpec conditions;
   final List<String> statuses;
@@ -651,8 +1037,17 @@ class _ConditionsEditor extends StatelessWidget {
                 label: Text(s),
                 selected: only.contains(s),
                 onSelected: (v) {
-                  final next = v ? [...only, s] : [for (final x in only) if (x != s) x];
-                  onChanged(next.isEmpty ? conditions.copyWith(clearOnlyIfStatusIn: true) : conditions.copyWith(onlyIfStatusIn: next));
+                  final next = v
+                      ? [...only, s]
+                      : [
+                          for (final x in only)
+                            if (x != s) x,
+                        ];
+                  onChanged(
+                    next.isEmpty
+                        ? conditions.copyWith(clearOnlyIfStatusIn: true)
+                        : conditions.copyWith(onlyIfStatusIn: next),
+                  );
                 },
               ),
           ],
@@ -662,7 +1057,9 @@ class _ConditionsEditor extends StatelessWidget {
         WeekdayChips(
           selected: {...?conditions.weekdays},
           onChanged: (days) => onChanged(
-            days.isEmpty ? conditions.copyWith(clearWeekdays: true) : conditions.copyWith(weekdays: days.toList()..sort()),
+            days.isEmpty
+                ? conditions.copyWith(clearWeekdays: true)
+                : conditions.copyWith(weekdays: days.toList()..sort()),
           ),
         ),
         SwitchListTile(
@@ -671,7 +1068,12 @@ class _ConditionsEditor extends StatelessWidget {
           value: window != null,
           onChanged: (v) => onChanged(
             v
-                ? conditions.copyWith(timeWindow: TimeWindowSpec(from: LocalTime(8, 0), to: LocalTime(22, 0)))
+                ? conditions.copyWith(
+                    timeWindow: TimeWindowSpec(
+                      from: LocalTime(8, 0),
+                      to: LocalTime(22, 0),
+                    ),
+                  )
                 : conditions.copyWith(clearTimeWindow: true),
           ),
         ),
@@ -681,8 +1083,21 @@ class _ConditionsEditor extends StatelessWidget {
             title: Text(l.notifFrom),
             trailing: Text(labels.time(window.from)),
             onTap: () async {
-              final t = await pickTime(context, initial: window.from, use24h: MediaQuery.alwaysUse24HourFormatOf(context));
-              if (t != null) onChanged(conditions.copyWith(timeWindow: TimeWindowSpec(from: t, to: window.to, outside: window.outside)));
+              final t = await pickTime(
+                context,
+                initial: window.from,
+                use24h: MediaQuery.alwaysUse24HourFormatOf(context),
+              );
+              if (t != null)
+                onChanged(
+                  conditions.copyWith(
+                    timeWindow: TimeWindowSpec(
+                      from: t,
+                      to: window.to,
+                      outside: window.outside,
+                    ),
+                  ),
+                );
             },
           ),
           ListTile(
@@ -690,19 +1105,47 @@ class _ConditionsEditor extends StatelessWidget {
             title: Text(l.notifTo),
             trailing: Text(labels.time(window.to)),
             onTap: () async {
-              final t = await pickTime(context, initial: window.to, use24h: MediaQuery.alwaysUse24HourFormatOf(context));
-              if (t != null) onChanged(conditions.copyWith(timeWindow: TimeWindowSpec(from: window.from, to: t, outside: window.outside)));
+              final t = await pickTime(
+                context,
+                initial: window.to,
+                use24h: MediaQuery.alwaysUse24HourFormatOf(context),
+              );
+              if (t != null)
+                onChanged(
+                  conditions.copyWith(
+                    timeWindow: TimeWindowSpec(
+                      from: window.from,
+                      to: t,
+                      outside: window.outside,
+                    ),
+                  ),
+                );
             },
           ),
           DropdownButtonFormField<OutsideWindow>(
             initialValue: window.outside,
             onChanged: (o) => onChanged(
-              conditions.copyWith(timeWindow: TimeWindowSpec(from: window.from, to: window.to, outside: o ?? window.outside)),
+              conditions.copyWith(
+                timeWindow: TimeWindowSpec(
+                  from: window.from,
+                  to: window.to,
+                  outside: o ?? window.outside,
+                ),
+              ),
             ),
             items: [
-              DropdownMenuItem(value: OutsideWindow.drop, child: Text(l.notifOutsideDrop)),
-              DropdownMenuItem(value: OutsideWindow.shiftStart, child: Text(l.notifOutsideShiftStart)),
-              DropdownMenuItem(value: OutsideWindow.shiftEnd, child: Text(l.notifOutsideShiftEnd)),
+              DropdownMenuItem(
+                value: OutsideWindow.drop,
+                child: Text(l.notifOutsideDrop),
+              ),
+              DropdownMenuItem(
+                value: OutsideWindow.shiftStart,
+                child: Text(l.notifOutsideShiftStart),
+              ),
+              DropdownMenuItem(
+                value: OutsideWindow.shiftEnd,
+                child: Text(l.notifOutsideShiftEnd),
+              ),
             ],
           ),
         ],
@@ -712,7 +1155,9 @@ class _ConditionsEditor extends StatelessWidget {
           options: const [true, false],
           optionLabel: (v) => v ? l.notifYes : l.notifNo,
           onChanged: (v) => onChanged(
-            v == null ? conditions.copyWith(clearRespectQuietHours: true) : conditions.copyWith(respectQuietHours: v),
+            v == null
+                ? conditions.copyWith(clearRespectQuietHours: true)
+                : conditions.copyWith(respectQuietHours: v),
           ),
         ),
         if (showItemKind)
@@ -726,7 +1171,11 @@ class _ConditionsEditor extends StatelessWidget {
               ItemKind.dateOnly => l.notifItemKindDateOnly,
               _ => l.notifItemKindAny,
             },
-            onChanged: (v) => onChanged(v == null ? conditions.copyWith(clearItemKind: true) : conditions.copyWith(itemKind: v)),
+            onChanged: (v) => onChanged(
+              v == null
+                  ? conditions.copyWith(clearItemKind: true)
+                  : conditions.copyWith(itemKind: v),
+            ),
           ),
       ],
     );
@@ -759,16 +1208,32 @@ class _ContentPreview extends ConsumerWidget {
       'checklist_title': 'Groceries',
     };
     final rtl = context.isRtl;
-    final title = spec.content.title == null ? '' : TemplateEngine.render(spec.content.title!, sample, rtl: rtl, maxLength: TemplateEngine.titleMax);
-    final body = spec.content.body == null ? '' : TemplateEngine.render(spec.content.body!, sample, rtl: rtl, maxLength: TemplateEngine.bodyMax);
+    final title = spec.content.title == null
+        ? ''
+        : TemplateEngine.render(
+            spec.content.title!,
+            sample,
+            rtl: rtl,
+            maxLength: TemplateEngine.titleMax,
+          );
+    final body = spec.content.body == null
+        ? ''
+        : TemplateEngine.render(
+            spec.content.body!,
+            sample,
+            rtl: rtl,
+            maxLength: TemplateEngine.bodyMax,
+          );
     return Card(
       child: ListTile(
         leading: const Icon(Icons.visibility_outlined),
         title: Text(title.isEmpty ? l.notifPreview : title),
-        subtitle: Text([
-          if (body.isNotEmpty) body,
-          if (hide) '${l.notifHideContent}: ${l.notifRedactedTitle}',
-        ].join('\n')),
+        subtitle: Text(
+          [
+            if (body.isNotEmpty) body,
+            if (hide) '${l.notifHideContent}: ${l.notifRedactedTitle}',
+          ].join('\n'),
+        ),
       ),
     );
   }

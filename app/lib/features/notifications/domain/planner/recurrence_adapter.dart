@@ -33,18 +33,23 @@ class EngineRecurrenceExpander implements RecurrenceExpander {
 
   final Expando<RecurrenceEngine> _engines = Expando('engines');
 
-  RecurrenceEngine _engineFor(ZoneResolver zones) =>
-      _engines[zones] ??= RecurrenceEngine(zones, maxOccurrencesPerCall: _maxPerCall);
+  RecurrenceEngine _engineFor(ZoneResolver zones) => _engines[zones] ??=
+      RecurrenceEngine(zones, maxOccurrencesPerCall: _maxPerCall);
 
   static (RecurrenceRule, RecurrenceAnchor)? _parse(Map<String, Object?> json) {
     try {
-      final rule = RecurrenceRule.fromJson({for (final e in json.entries) if (e.key != 'start') e.key: e.value});
+      final rule = RecurrenceRule.fromJson({
+        for (final e in json.entries)
+          if (e.key != 'start') e.key: e.value,
+      });
       final startRaw = asString(json['start']);
       final times = asStringList(json['times']) ?? const <String>[];
       final firstTime = times.isEmpty ? null : LocalTime.tryParse(times.first);
-      final start = (startRaw == null ? null : LocalDateTime.tryParse(startRaw)) ??
+      final start =
+          (startRaw == null ? null : LocalDateTime.tryParse(startRaw)) ??
           LocalDateTime(
-            (startRaw == null ? null : LocalDate.tryParse(startRaw)) ?? LocalDate(2024, 1, 1),
+            (startRaw == null ? null : LocalDate.tryParse(startRaw)) ??
+                LocalDate(2024, 1, 1),
             firstTime ?? LocalTime(9, 0),
           );
       return (rule, RecurrenceAnchor(start, null));
@@ -70,7 +75,9 @@ class EngineRecurrenceExpander implements RecurrenceExpander {
     required ZoneResolver zones,
   }) {
     final parsed = _parse(rule);
-    if (parsed == null || !_validator.validate(parsed.$1, anchor: parsed.$2).isValid) return const [];
+    if (parsed == null ||
+        !_validator.validate(parsed.$1, anchor: parsed.$2).isValid)
+      return const [];
     try {
       final occurrences = _engineFor(zones).betweenInstants(
         parsed.$1,
@@ -83,7 +90,8 @@ class EngineRecurrenceExpander implements RecurrenceExpander {
       );
       return [
         for (final o in occurrences)
-          if (!o.startUtc.isBefore(fromUtc) && !o.startUtc.isAfter(toUtc)) o.startUtc,
+          if (!o.startUtc.isBefore(fromUtc) && !o.startUtc.isAfter(toUtc))
+            o.startUtc,
       ]..sort();
     } on Object {
       return const [];

@@ -73,12 +73,18 @@ sealed class NotificationTrigger {
 
   Set<String> get _knownKeys;
 
-  Map<String, Object?> toJson() =>
-      mergeOrdered(raw, {'type': typeWire, ..._fields}, {'type', ..._knownKeys});
+  Map<String, Object?> toJson() => mergeOrdered(
+    raw,
+    {'type': typeWire, ..._fields},
+    {'type', ..._knownKeys},
+  );
 
   /// True for triggers evaluated once per target (not per occurrence): dedupe is by fire time.
   bool get isTargetLevel => switch (this) {
-    AbsoluteTrigger() || ScheduleTrigger() || InactivityTrigger() || StaleTrigger() => true,
+    AbsoluteTrigger() ||
+    ScheduleTrigger() ||
+    InactivityTrigger() ||
+    StaleTrigger() => true,
     DigestTrigger() => true,
     _ => false,
   };
@@ -92,14 +98,18 @@ sealed class NotificationTrigger {
 
     return switch (type) {
       TriggerType.relative => RelativeTrigger(
-        anchor: TriggerAnchor.tryParse(asString(json['anchor'])) ?? TriggerAnchor.start,
+        anchor:
+            TriggerAnchor.tryParse(asString(json['anchor'])) ??
+            TriggerAnchor.start,
         offsetMinutes: asInt(json['offsetMinutes']),
         dayOffset: asInt(json['dayOffset']),
         atTime: time('atTime'),
         raw: json,
       ),
       TriggerType.absolute => AbsoluteTrigger(
-        at: LocalDateTime.tryParse(asString(json['at']) ?? '') ?? LocalDateTime.of(1970, 1, 1),
+        at:
+            LocalDateTime.tryParse(asString(json['at']) ?? '') ??
+            LocalDateTime.of(1970, 1, 1),
         timeZone: asString(json['timeZone']),
         raw: json,
       ),
@@ -118,17 +128,26 @@ sealed class NotificationTrigger {
         afterMinutes: asInt(json['afterMinutes']) ?? 0,
         raw: json,
       ),
-      TriggerType.overdue => OverdueTrigger(afterMinutes: asInt(json['afterMinutes']), raw: json),
+      TriggerType.overdue => OverdueTrigger(
+        afterMinutes: asInt(json['afterMinutes']),
+        raw: json,
+      ),
       TriggerType.streakRisk => StreakRiskTrigger(
         atTime: time('atTime') ?? LocalTime(21, 0),
         minStreak: asInt(json['minStreak']),
         raw: json,
       ),
-      TriggerType.quotaBehind => QuotaBehindTrigger(atTime: time('atTime') ?? LocalTime(20, 0), raw: json),
+      TriggerType.quotaBehind => QuotaBehindTrigger(
+        atTime: time('atTime') ?? LocalTime(20, 0),
+        raw: json,
+      ),
       TriggerType.milestone => MilestoneTrigger(
         metric: asString(json['metric']) ?? 'clean_days',
         thresholds: json['thresholds'] is List
-            ? [for (final v in json['thresholds']! as List) if (asNum(v) != null) asNum(v)!]
+            ? [
+                for (final v in json['thresholds']! as List)
+                  if (asNum(v) != null) asNum(v)!,
+              ]
             : null,
         raw: json,
       ),
@@ -150,7 +169,11 @@ sealed class NotificationTrigger {
       ),
       TriggerType.childrenComplete => ChildrenCompleteTrigger(raw: json),
       TriggerType.childOverdue => ChildOverdueTrigger(raw: json),
-      TriggerType.stale => StaleTrigger(afterDays: asInt(json['afterDays']) ?? 7, atTime: time('atTime'), raw: json),
+      TriggerType.stale => StaleTrigger(
+        afterDays: asInt(json['afterDays']) ?? 7,
+        atTime: time('atTime'),
+        raw: json,
+      ),
       null => UnknownTrigger(typeWire: asString(json['type']) ?? '', raw: json),
     };
   }
@@ -191,7 +214,12 @@ final class RelativeTrigger extends NotificationTrigger {
   String get typeWire => 'relative';
 
   @override
-  Set<String> get _knownKeys => const {'anchor', 'offsetMinutes', 'dayOffset', 'atTime'};
+  Set<String> get _knownKeys => const {
+    'anchor',
+    'offsetMinutes',
+    'dayOffset',
+    'atTime',
+  };
 
   @override
   Map<String, Object?> get _fields => {
@@ -201,13 +229,17 @@ final class RelativeTrigger extends NotificationTrigger {
     'atTime': ?atTime?.toIso(),
   };
 
-  RelativeTrigger copyWith({TriggerAnchor? anchor, int? offsetMinutes, int? dayOffset, LocalTime? atTime}) =>
-      RelativeTrigger(
-        anchor: anchor ?? this.anchor,
-        offsetMinutes: offsetMinutes ?? this.offsetMinutes,
-        dayOffset: dayOffset ?? this.dayOffset,
-        atTime: atTime ?? this.atTime,
-      );
+  RelativeTrigger copyWith({
+    TriggerAnchor? anchor,
+    int? offsetMinutes,
+    int? dayOffset,
+    LocalTime? atTime,
+  }) => RelativeTrigger(
+    anchor: anchor ?? this.anchor,
+    offsetMinutes: offsetMinutes ?? this.offsetMinutes,
+    dayOffset: dayOffset ?? this.dayOffset,
+    atTime: atTime ?? this.atTime,
+  );
 }
 
 /// A fixed wall-clock moment (zone = [timeZone] or floating).
@@ -245,7 +277,12 @@ final class ScheduleTrigger extends NotificationTrigger {
 
 /// "If not done by …" — `anchor`: `period_end` | `end` | `time` (+ `atTime`).
 final class NotDoneByTrigger extends NotificationTrigger {
-  const NotDoneByTrigger({required this.anchor, this.offsetMinutes, this.atTime, super.raw});
+  const NotDoneByTrigger({
+    required this.anchor,
+    this.offsetMinutes,
+    this.atTime,
+    super.raw,
+  });
 
   final String anchor;
   final int? offsetMinutes;
@@ -269,7 +306,11 @@ final class NotDoneByTrigger extends NotificationTrigger {
 
 /// Item still in one of [statuses] [afterMinutes] after entering it.
 final class StatusAgeTrigger extends NotificationTrigger {
-  const StatusAgeTrigger({required this.statuses, required this.afterMinutes, super.raw});
+  const StatusAgeTrigger({
+    required this.statuses,
+    required this.afterMinutes,
+    super.raw,
+  });
 
   final List<String> statuses;
   final int afterMinutes;
@@ -281,7 +322,10 @@ final class StatusAgeTrigger extends NotificationTrigger {
   Set<String> get _knownKeys => const {'statuses', 'afterMinutes'};
 
   @override
-  Map<String, Object?> get _fields => {'statuses': statuses, 'afterMinutes': afterMinutes};
+  Map<String, Object?> get _fields => {
+    'statuses': statuses,
+    'afterMinutes': afterMinutes,
+  };
 }
 
 /// Still open [afterMinutes] after the end (or due) instant.
@@ -318,7 +362,10 @@ final class StreakRiskTrigger extends NotificationTrigger {
   Set<String> get _knownKeys => const {'atTime', 'minStreak'};
 
   @override
-  Map<String, Object?> get _fields => {'atTime': atTime.toIso(), 'minStreak': ?minStreak};
+  Map<String, Object?> get _fields => {
+    'atTime': atTime.toIso(),
+    'minStreak': ?minStreak,
+  };
 }
 
 /// Quota habit behind pace (completions still needed ≥ eligible days left), checked at [atTime].
@@ -345,7 +392,20 @@ final class MilestoneTrigger extends NotificationTrigger {
   final String metric;
   final List<num>? thresholds;
 
-  static const autoDays = <num>[1, 2, 3, 7, 14, 30, 60, 90, 180, 365, 730, 1095];
+  static const autoDays = <num>[
+    1,
+    2,
+    3,
+    7,
+    14,
+    30,
+    60,
+    90,
+    180,
+    365,
+    730,
+    1095,
+  ];
 
   List<num> get effectiveThresholds => thresholds ?? autoDays;
 
@@ -356,7 +416,10 @@ final class MilestoneTrigger extends NotificationTrigger {
   Set<String> get _knownKeys => const {'metric', 'thresholds'};
 
   @override
-  Map<String, Object?> get _fields => {'metric': metric, 'thresholds': thresholds ?? 'auto'};
+  Map<String, Object?> get _fields => {
+    'metric': metric,
+    'thresholds': thresholds ?? 'auto',
+  };
 }
 
 /// No activity for [afterDays] days.
@@ -373,7 +436,10 @@ final class InactivityTrigger extends NotificationTrigger {
   Set<String> get _knownKeys => const {'afterDays', 'atTime'};
 
   @override
-  Map<String, Object?> get _fields => {'afterDays': afterDays, 'atTime': ?atTime?.toIso()};
+  Map<String, Object?> get _fields => {
+    'afterDays': afterDays,
+    'atTime': ?atTime?.toIso(),
+  };
 }
 
 /// Digest (`daily_agenda | plan_tomorrow | evening_review | overdue_summary | weekly_review |
@@ -405,7 +471,12 @@ final class DigestTrigger extends NotificationTrigger {
 
 /// Event-driven: the target changed status (`from` optional) to [to].
 final class StatusChangeTrigger extends NotificationTrigger {
-  const StatusChangeTrigger({required this.to, this.from, this.atTime, super.raw});
+  const StatusChangeTrigger({
+    required this.to,
+    this.from,
+    this.atTime,
+    super.raw,
+  });
 
   final String? from;
   final String to;
@@ -420,7 +491,11 @@ final class StatusChangeTrigger extends NotificationTrigger {
   Set<String> get _knownKeys => const {'from', 'to', 'atTime'};
 
   @override
-  Map<String, Object?> get _fields => {'from': ?from, 'to': to, 'atTime': ?atTime?.toIso()};
+  Map<String, Object?> get _fields => {
+    'from': ?from,
+    'to': to,
+    'atTime': ?atTime?.toIso(),
+  };
 }
 
 /// Event-driven: all children of the watched item are complete.
@@ -465,7 +540,10 @@ final class StaleTrigger extends NotificationTrigger {
   Set<String> get _knownKeys => const {'afterDays', 'atTime'};
 
   @override
-  Map<String, Object?> get _fields => {'afterDays': afterDays, 'atTime': ?atTime?.toIso()};
+  Map<String, Object?> get _fields => {
+    'afterDays': afterDays,
+    'atTime': ?atTime?.toIso(),
+  };
 }
 
 /// A trigger type this app version doesn't know (kept verbatim, never fires).
