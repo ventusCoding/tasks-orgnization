@@ -1,0 +1,209 @@
+{
+  "cases": [
+    {
+      "name": "Paris spring-forward day: 10 min before an 08:00 CEST task",
+      "now": "2026-03-28T12:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Run", "occurrenceKey": "2026-03-29T08:00", "start": "2026-03-29T06:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "b", "target": "t", "fireAtUtc": "2026-03-29T05:50:00Z"}
+      ]
+    },
+    {
+      "name": "Paris: 1 day before at 20:00, reminder day before the change (CET)",
+      "now": "2026-03-28T12:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "eve", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "dayOffset": -1, "atTime": "20:00"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Brunch", "itemKind": "all_day", "occurrenceKey": "2026-03-29", "start": "2026-03-28T23:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "eve", "target": "t", "fireAtUtc": "2026-03-28T19:00:00Z"}
+      ]
+    },
+    {
+      "name": "Paris: 1 day before at 20:00 across spring forward (CEST)",
+      "now": "2026-03-28T12:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "eve", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "dayOffset": -1, "atTime": "20:00"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Monday", "itemKind": "all_day", "occurrenceKey": "2026-03-30", "start": "2026-03-29T22:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "eve", "target": "t", "fireAtUtc": "2026-03-29T18:00:00Z"}
+      ]
+    },
+    {
+      "name": "Paris: a reminder time inside the DST gap shifts forward (02:30 → 03:30 CEST)",
+      "now": "2026-03-28T12:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "gap", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "dayOffset": 0, "atTime": "02:30"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Night", "itemKind": "all_day", "occurrenceKey": "2026-03-29", "start": "2026-03-28T23:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "gap", "target": "t", "fireAtUtc": "2026-03-29T01:30:00Z"}
+      ]
+    },
+    {
+      "name": "Paris fall-back: ambiguous 02:30 resolves to the earlier instant",
+      "now": "2026-10-24T12:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "amb", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "dayOffset": 0, "atTime": "02:30"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Night", "itemKind": "all_day", "occurrenceKey": "2026-10-25", "start": "2026-10-24T22:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "amb", "target": "t", "fireAtUtc": "2026-10-25T00:30:00Z"}
+      ]
+    },
+    {
+      "name": "Paris: 1 day before at 20:00 across fall back (CET)",
+      "now": "2026-10-24T12:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "eve", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "dayOffset": -1, "atTime": "20:00"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Monday", "itemKind": "all_day", "occurrenceKey": "2026-10-26", "start": "2026-10-25T23:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "eve", "target": "t", "fireAtUtc": "2026-10-25T19:00:00Z"}
+      ]
+    },
+    {
+      "name": "daily 08:00 schedule keeps local time across fall back",
+      "now": "2026-10-24T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"horizonDays": 3},
+      "rules": [
+        {"id": "daily", "targetType": "checklist_item", "targetId": "i", "section": "checklists", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "schedule", "recurrence": {"v": 1, "type": "fixed", "freq": "daily", "interval": 1, "times": ["08:00"], "start": "2026-10-01"}}}}
+      ],
+      "targets": [
+        {"type": "checklist_item", "id": "i", "section": "checklists", "title": "Water plants", "notifyMode": "custom", "checklistId": "L"}
+      ],
+      "expected": [
+        {"rule": "daily", "target": "i", "occ": "sch:2026-10-25T08:00", "fireAtUtc": "2026-10-25T07:00:00Z"},
+        {"rule": "daily", "target": "i", "occ": "sch:2026-10-26T08:00", "fireAtUtc": "2026-10-26T07:00:00Z"},
+        {"rule": "daily", "target": "i", "occ": "sch:2026-10-27T08:00", "fireAtUtc": "2026-10-27T07:00:00Z"}
+      ]
+    },
+    {
+      "name": "daily 08:00 schedule across spring forward",
+      "now": "2026-03-27T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"horizonDays": 3},
+      "rules": [
+        {"id": "daily", "targetType": "checklist_item", "targetId": "i", "section": "checklists", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "schedule", "recurrence": {"v": 1, "type": "fixed", "freq": "daily", "interval": 1, "times": ["08:00"]}}}}
+      ],
+      "targets": [
+        {"type": "checklist_item", "id": "i", "section": "checklists", "title": "Water plants", "notifyMode": "custom", "checklistId": "L"}
+      ],
+      "expected": [
+        {"rule": "daily", "target": "i", "fireAtUtc": "2026-03-28T07:00:00Z"},
+        {"rule": "daily", "target": "i", "fireAtUtc": "2026-03-29T06:00:00Z"},
+        {"rule": "daily", "target": "i", "fireAtUtc": "2026-03-30T06:00:00Z"}
+      ]
+    },
+    {
+      "name": "New York spring forward: fixed-zone task 09:00 EDT",
+      "now": "2026-03-07T00:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "b", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": -10}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Call NYC", "timeZone": "America/New_York", "occurrenceKey": "2026-03-08T09:00", "start": "2026-03-08T13:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "b", "target": "t", "fireAtUtc": "2026-03-08T12:50:00Z"}
+      ]
+    },
+    {
+      "name": "New York fall back: 1 day before at 20:00 in the task's zone",
+      "now": "2026-10-31T00:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "eve", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "dayOffset": -1, "atTime": "20:00"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "NY day", "timeZone": "America/New_York", "itemKind": "all_day", "occurrenceKey": "2026-11-02", "start": "2026-11-02T05:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "eve", "target": "t", "fireAtUtc": "2026-11-02T01:00:00Z"}
+      ]
+    },
+    {
+      "name": "floating daily 08:00 follows the device zone (Paris)",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"horizonDays": 1},
+      "rules": [
+        {"id": "d", "targetType": "habit", "targetId": "h", "section": "habits", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "schedule", "recurrence": {"v": 1, "type": "fixed", "freq": "daily", "times": ["08:00"]}}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "h", "section": "habits", "title": "Vitamins", "notifyMode": "custom"}
+      ],
+      "expected": [
+        {"rule": "d", "target": "h", "fireAtUtc": "2026-09-22T06:00:00Z"}
+      ]
+    },
+    {
+      "name": "floating daily 08:00 after travelling to Tunis fires at 08:00 Tunis time",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Africa/Tunis",
+      "settings": {"horizonDays": 1},
+      "rules": [
+        {"id": "d", "targetType": "habit", "targetId": "h", "section": "habits", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "schedule", "recurrence": {"v": 1, "type": "fixed", "freq": "daily", "times": ["08:00"]}}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "h", "section": "habits", "title": "Vitamins", "notifyMode": "custom"}
+      ],
+      "expected": [
+        {"rule": "d", "target": "h", "fireAtUtc": "2026-09-22T07:00:00Z"}
+      ]
+    },
+    {
+      "name": "fixed-zone 10:00 New York meeting keeps its instant from Tunis",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Africa/Tunis",
+      "rules": [
+        {"id": "abs", "targetType": "task", "targetId": "m", "section": "planner", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "absolute", "at": "2026-09-24T10:00", "timeZone": "America/New_York"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "m", "section": "planner", "title": "Board", "notifyMode": "custom", "timeZone": "America/New_York"}
+      ],
+      "expected": [
+        {"rule": "abs", "target": "m", "occ": "abs:2026-09-24T10:00", "fireAtUtc": "2026-09-24T14:00:00Z"}
+      ]
+    },
+    {
+      "name": "Tokyo quiet hours evaluated in the device zone",
+      "now": "2026-09-21T00:00:00Z",
+      "zone": "Asia/Tokyo",
+      "settings": {"quietHours": [{"days": [1, 2, 3, 4, 5, 6, 7], "from": "22:00", "to": "07:00", "mode": "defer"}]},
+      "rules": [
+        {"id": "at", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "t", "section": "planner", "title": "Early", "occurrenceKey": "2026-09-22T06:00", "start": "2026-09-21T21:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "at", "target": "t", "fireAtUtc": "2026-09-21T22:00:00Z", "adjust": ["deferredQuietHours"]}
+      ]
+    }
+  ]
+}
