@@ -21,7 +21,13 @@ import 'package:meta/meta.dart';
 /// What the UI should do after an action / tap.
 @immutable
 class ActionDispatchResult {
-  const ActionDispatchResult({this.openLink, this.alreadyDone = false, this.message, this.duplicate = false, this.snoozedUntil});
+  const ActionDispatchResult({
+    this.openLink,
+    this.alreadyDone = false,
+    this.message,
+    this.duplicate = false,
+    this.snoozedUntil,
+  });
 
   static const none = ActionDispatchResult();
 
@@ -37,7 +43,11 @@ class ActionDispatchResult {
 /// One handler for OS responses (foreground callback and the background isolate), in-app banner
 /// buttons, inbox row actions and pushes — identical behaviour everywhere (T7.2.14, T7.3.04).
 class NotificationActionDispatcher {
-  NotificationActionDispatcher(this.read, {this.onReplanNeeded, this.onTargetsDirty});
+  NotificationActionDispatcher(
+    this.read, {
+    this.onReplanNeeded,
+    this.onTargetsDirty,
+  });
 
   final ProviderReader read;
 
@@ -53,18 +63,26 @@ class NotificationActionDispatcher {
   Future<ActionDispatchResult> handleResponse(OsResponse response) async {
     final payload = NotificationPayload.tryDecode(response.payload);
     if (payload == null) return ActionDispatchResult.none;
-    final origin = response.background ? ActionOrigin.systemBackground : ActionOrigin.system;
+    final origin = response.background
+        ? ActionOrigin.systemBackground
+        : ActionOrigin.system;
     if (response.isTap) return handleTap(payload, origin: origin);
     // iOS custom dismiss action.
-    final action = response.actionId == 'com.apple.UNNotificationDismissActionIdentifier'
+    final action =
+        response.actionId == 'com.apple.UNNotificationDismissActionIdentifier'
         ? NotificationActionIds.dismiss
         : response.actionId!;
     return handleAction(action, payload, input: response.input, origin: origin);
   }
 
   /// Tap on a notification / banner / inbox row: mark opened (acknowledges nags), open the target.
-  Future<ActionDispatchResult> handleTap(NotificationPayload p, {ActionOrigin origin = ActionOrigin.system}) async {
-    if (p.kind == ScheduleKind.merged || p.kind == ScheduleKind.sentinel || p.kind == ScheduleKind.test) {
+  Future<ActionDispatchResult> handleTap(
+    NotificationPayload p, {
+    ActionOrigin origin = ActionOrigin.system,
+  }) async {
+    if (p.kind == ScheduleKind.merged ||
+        p.kind == ScheduleKind.sentinel ||
+        p.kind == ScheduleKind.test) {
       if (p.kind == ScheduleKind.merged) await _reconcile(p.members.toSet());
       return ActionDispatchResult(openLink: p.deepLink ?? AppLinks.inbox());
     }
@@ -85,14 +103,18 @@ class NotificationActionDispatcher {
     ActionOrigin origin = ActionOrigin.system,
     int? snoozeMinutes,
   }) async {
-    if (actionId == NotificationActionIds.open || actionId == NotificationActionIds.tap) {
+    if (actionId == NotificationActionIds.open ||
+        actionId == NotificationActionIds.tap) {
       return handleTap(p, origin: origin);
     }
     await _reconcile({p.dedupeKey});
     final inbox = read(inboxRepositoryProvider);
     final inboxId = Ids.inbox(p.dedupeKey);
     final row = await inbox.byId(inboxId);
-    if (row != null && row.actedAt != null && row.action == actionId && actionId != NotificationActionIds.snooze) {
+    if (row != null &&
+        row.actedAt != null &&
+        row.action == actionId &&
+        actionId != NotificationActionIds.snooze) {
       return const ActionDispatchResult(duplicate: true);
     }
     final now = read(clockProvider).nowUtc();
@@ -119,9 +141,15 @@ class NotificationActionDispatcher {
         await inbox.markActed(inboxId, actionId);
         await read(localSchedulerProvider).cancelChain(p.chainKey);
         _afterWrite(p, 'mute');
-        return ActionDispatchResult(message: read(notificationTextsProvider).l10n.notifMutedSnack);
+        return ActionDispatchResult(
+          message: read(notificationTextsProvider).l10n.notifMutedSnack,
+        );
     }
-    final handler = findActionHandler(read(notificationActionHandlersProvider), actionId, p.targetType);
+    final handler = findActionHandler(
+      read(notificationActionHandlersProvider),
+      actionId,
+      p.targetType,
+    );
     if (handler == null) {
       // No feature handler yet: open the target so the user can act in the app.
       await inbox.markOpened(inboxId);
@@ -130,7 +158,14 @@ class NotificationActionDispatcher {
     NotificationActionResult result;
     try {
       result = await handler.handle(
-        NotificationActionContext(actionId: actionId, payload: p, origin: origin, now: now, read: read, input: input),
+        NotificationActionContext(
+          actionId: actionId,
+          payload: p,
+          origin: origin,
+          now: now,
+          read: read,
+          input: input,
+        ),
       );
     } on Object catch (e, st) {
       _log.warning('action $actionId failed', e, st);
@@ -140,20 +175,34 @@ class NotificationActionDispatcher {
       await inbox.markActed(inboxId, actionId);
       await read(localSchedulerProvider).cancelChain(p.chainKey);
     }
-    if (!result.success && result.message != null && origin == ActionOrigin.systemBackground) {
+    if (!result.success &&
+        result.message != null &&
+        origin == ActionOrigin.systemBackground) {
       await _followUp(p, result.message!);
     }
     _afterWrite(p, 'action');
-    return ActionDispatchResult(openLink: result.openLink, message: result.message);
+    return ActionDispatchResult(
+      openLink: result.openLink,
+      message: result.message,
+    );
   }
 
   /// Snooze (T7.2.15): first preset from the notification, any preset from the app. The snooze
   /// is a new local instance in the reserved budget; the inbox row gets `snoozed_until`.
-  Future<ActionDispatchResult> snooze(NotificationPayload p, {int? minutes, DateTime? until}) async {
+  Future<ActionDispatchResult> snooze(
+    NotificationPayload p, {
+    int? minutes,
+    DateTime? until,
+  }) async {
     final settings = read(notificationSettingsProvider);
     final now = read(clockProvider).nowUtc();
-    final chosen = minutes ??
-        (p.snoozeOptions.isNotEmpty ? p.snoozeOptions.first : (settings.snoozePresets.isNotEmpty ? settings.snoozePresets.first : 10));
+    final chosen =
+        minutes ??
+        (p.snoozeOptions.isNotEmpty
+            ? p.snoozeOptions.first
+            : (settings.snoozePresets.isNotEmpty
+                  ? settings.snoozePresets.first
+                  : 10));
     final at = until ?? now.add(Duration(minutes: chosen));
     await _reconcile({p.dedupeKey});
     final inbox = read(inboxRepositoryProvider);
@@ -179,7 +228,8 @@ class NotificationActionDispatcher {
       exactAllowed: caps.exactAlarm || !caps.determined,
       presentInForeground: !settings.bannerInApp,
     );
-    if (scheduled == null) return ActionDispatchResult(message: l.notifSnoozeLimit);
+    if (scheduled == null)
+      return ActionDispatchResult(message: l.notifSnoozeLimit);
     if (row != null) {
       await inbox.setSnoozedUntil(inboxId, at);
       await inbox.markActed(inboxId, NotificationActionIds.snooze);
@@ -195,7 +245,8 @@ class NotificationActionDispatcher {
     final store = read(localScheduleStoreProvider);
     final port = read(localNotificationsPortProvider);
     for (final e in await store.all()) {
-      if (e.kind == ScheduleKind.snooze && asString(e.content['orig']) == dedupeKey) {
+      if (e.kind == ScheduleKind.snooze &&
+          asString(e.content['orig']) == dedupeKey) {
         await port.cancel(e.platformId, tag: e.dedupeKey);
         await store.remove([e.dedupeKey]);
       }
@@ -212,7 +263,13 @@ class NotificationActionDispatcher {
       if (source.section != section.wire) continue;
       try {
         return await source.guardOpen(
-          NotificationTarget(type: type, id: id, section: section, title: '', occurrenceKey: p.occurrenceKey),
+          NotificationTarget(
+            type: type,
+            id: id,
+            section: section,
+            title: '',
+            occurrenceKey: p.occurrenceKey,
+          ),
         );
       } on Object {
         return true;
@@ -238,7 +295,11 @@ class NotificationActionDispatcher {
           id: PlatformIds.hash(key),
           title: message,
           channelId: ChannelCatalog.system,
-          payload: NotificationPayload(dedupeKey: key, deepLink: p.deepLink, kind: ScheduleKind.test).encode(),
+          payload: NotificationPayload(
+            dedupeKey: key,
+            deepLink: p.deepLink,
+            kind: ScheduleKind.test,
+          ).encode(),
         ),
       );
     } on Object catch (e) {

@@ -4,6 +4,7 @@ import 'package:everslot/core/database/app_database.dart';
 import 'package:everslot/core/env/env.dart';
 import 'package:everslot/core/lifecycle/app_lifecycle.dart';
 import 'package:everslot/core/preferences/user_preferences.dart';
+import 'package:everslot/core/session/device_identity.dart';
 import 'package:everslot/core/session/local_data_owner.dart';
 import 'package:everslot/core/session/session.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
@@ -12,6 +13,7 @@ import 'package:everslot/core/sync/hlc.dart';
 import 'package:everslot/core/sync/sync_api.dart';
 import 'package:everslot/core/sync/sync_service.dart';
 import 'package:everslot/core/sync/sync_status.dart';
+import 'package:everslot/core/sync/sync_triggers.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/core/sync/table_registry.dart';
 import 'package:everslot/core/time/clock.dart';
@@ -129,6 +131,21 @@ final syncWriterProvider = Provider<SyncWriter>((ref) {
   return writer;
 });
 
+/// Device id used for the device registry and pushes. Starts as [deviceIdProvider]; rotated
+/// after the server revoked this device (T1.5.14) so the next sign-in registers a new device.
+final activeDeviceIdProvider = NotifierProvider<ActiveDeviceIdController, String>(
+  ActiveDeviceIdController.new,
+);
+
+class ActiveDeviceIdController extends Notifier<String> {
+  @override
+  String build() => ref.watch(deviceIdProvider);
+
+  Future<void> rotate() async {
+    state = await DeviceIdentity.rotate(ref.read(appDatabaseProvider));
+  }
+}
+
 /// Server API of the sync engine (null when Supabase isn't configured). Tests override it with a
 /// fake to exercise the engine without a backend.
 final syncApiProvider = Provider<SyncApi?>((ref) {
@@ -147,7 +164,7 @@ final deviceRegistrarProvider = Provider<DeviceRegistrar?>((ref) {
     clock: ref.watch(clockProvider),
     userId: () => ref.read(currentUserIdProvider),
     loadInfo: platformDeviceInfoLoader(
-      deviceId: ref.watch(deviceIdProvider),
+      deviceId: ref.watch(activeDeviceIdProvider),
       timeZone: () => ref.read(deviceZoneProvider),
       locale: () =>
           ref.read(profileRowProvider).value?.locale ??
@@ -170,7 +187,7 @@ final syncServiceProvider = Provider<SyncService?>((ref) {
     hlc: ref.watch(hlcProvider),
     clock: ref.watch(clockProvider),
     userId: () => ref.read(currentUserIdProvider),
-    deviceId: ref.watch(deviceIdProvider),
+    deviceId: ref.watch(activeDeviceIdProvider),
     appBuild: ref.watch(appBuildProvider),
     // Account-switch safety (T1.5.08): never push/pull before the local data is bound to this user.
     guard: () => LocalDataOwner.matches(db, session.userId),
@@ -183,18 +200,17 @@ final syncServiceProvider = Provider<SyncService?>((ref) {
 
   unawaited(register());
   final lifecycle = ref.watch(lifecycleProvider);
-  final sub = lifecycle.onResume.listen((_) {
-    service.schedulePull(Duration.zero);
-    unawaited(register());
-  });
   final client = ref.watch(supabaseClientProvider);
-  final channel = client
-      ?.channel('user:${session.userId}', opts: const RealtimeChannelConfig(private: true))
-      .onBroadcast(event: 'sync', callback: (_) => service.schedulePull())
-      .subscribe();
+  final triggers = SyncTriggers(
+    service: service,
+    onResume: lifecycle.onResume,
+    onPause: lifecycle.onPause,
+    onlineChanges: ref.watch(syncOnlineChangesProvider),
+    subscribeBroadcast: client == null ? null : supabaseBroadcastSubscriber(client, session.userId),
+    onResumed: () => unawaited(register()),
+  )..start(foreground: lifecycle.isForeground);
   ref.onDispose(() {
-    unawaited(sub.cancel());
-    if (channel != null) unawaited(client!.removeChannel(channel));
+    triggers.dispose();
     service.dispose();
   });
   return service;

@@ -20,29 +20,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // ------------------------------------------------------------------------------ repositories --
 
-final notificationRulesRepositoryProvider = Provider<NotificationRulesRepository>(
-  (ref) => NotificationRulesRepository(
-    ref.watch(appDatabaseProvider),
-    ref.watch(syncWriterProvider),
-    () => ref.read(currentUserIdProvider),
-  ),
-);
+final notificationRulesRepositoryProvider =
+    Provider<NotificationRulesRepository>(
+      (ref) => NotificationRulesRepository(
+        ref.watch(appDatabaseProvider),
+        ref.watch(syncWriterProvider),
+        () => ref.read(currentUserIdProvider),
+      ),
+    );
 
-final notificationProfilesRepositoryProvider = Provider<NotificationProfilesRepository>(
-  (ref) => NotificationProfilesRepository(
-    ref.watch(appDatabaseProvider),
-    ref.watch(syncWriterProvider),
-    () => ref.read(currentUserIdProvider),
-  ),
-);
+final notificationProfilesRepositoryProvider =
+    Provider<NotificationProfilesRepository>(
+      (ref) => NotificationProfilesRepository(
+        ref.watch(appDatabaseProvider),
+        ref.watch(syncWriterProvider),
+        () => ref.read(currentUserIdProvider),
+      ),
+    );
 
-final notificationMutesRepositoryProvider = Provider<NotificationMutesRepository>(
-  (ref) => NotificationMutesRepository(
-    ref.watch(appDatabaseProvider),
-    ref.watch(syncWriterProvider),
-    () => ref.read(currentUserIdProvider),
-  ),
-);
+final notificationMutesRepositoryProvider =
+    Provider<NotificationMutesRepository>(
+      (ref) => NotificationMutesRepository(
+        ref.watch(appDatabaseProvider),
+        ref.watch(syncWriterProvider),
+        () => ref.read(currentUserIdProvider),
+      ),
+    );
 
 final inboxRepositoryProvider = Provider<InboxRepository>(
   (ref) => InboxRepository(
@@ -53,10 +56,15 @@ final inboxRepositoryProvider = Provider<InboxRepository>(
   ),
 );
 
-final localScheduleStoreProvider = Provider<LocalScheduleStore>((ref) => LocalScheduleStore(ref.watch(appDatabaseProvider)));
+final localScheduleStoreProvider = Provider<LocalScheduleStore>(
+  (ref) => LocalScheduleStore(ref.watch(appDatabaseProvider)),
+);
 
 final notifyModeStoreProvider = Provider<NotifyModeStore>(
-  (ref) => NotifyModeStore(ref.watch(appDatabaseProvider), ref.watch(syncWriterProvider)),
+  (ref) => NotifyModeStore(
+    ref.watch(appDatabaseProvider),
+    ref.watch(syncWriterProvider),
+  ),
 );
 
 // ----------------------------------------------------------------------------------- streams --
@@ -66,7 +74,9 @@ final notificationRulesProvider = StreamProvider<List<NotificationRule>>((ref) {
   return ref.watch(notificationRulesRepositoryProvider).watchAll();
 });
 
-final notificationProfilesProvider = StreamProvider<List<NotificationProfile>>((ref) {
+final notificationProfilesProvider = StreamProvider<List<NotificationProfile>>((
+  ref,
+) {
   ref.watch(currentUserIdProvider);
   return ref.watch(notificationProfilesRepositoryProvider).watchAll();
 });
@@ -77,37 +87,53 @@ final notificationMutesProvider = StreamProvider<List<NotificationMute>>((ref) {
 });
 
 /// Own rules of one target (`(ruleTargetType, id)`).
-final targetRulesProvider = StreamProvider.autoDispose.family<List<NotificationRule>, (RuleTargetType, String)>((ref, key) {
-  ref.watch(currentUserIdProvider);
-  return ref.watch(notificationRulesRepositoryProvider).watchForTarget(key.$1, key.$2);
-});
+final targetRulesProvider = StreamProvider.autoDispose
+    .family<List<NotificationRule>, (RuleTargetType, String)>((ref, key) {
+      ref.watch(currentUserIdProvider);
+      return ref
+          .watch(notificationRulesRepositoryProvider)
+          .watchForTarget(key.$1, key.$2);
+    });
 
 /// `notify_mode` of a host item (null when the row doesn't exist yet).
-final targetNotifyModeProvider = StreamProvider.autoDispose.family<NotifyMode?, (RuleTargetType, String)>(
-  (ref, key) => ref.watch(notifyModeStoreProvider).watch(key.$1, key.$2),
-);
+final targetNotifyModeProvider = StreamProvider.autoDispose
+    .family<NotifyMode?, (RuleTargetType, String)>(
+      (ref, key) => ref.watch(notifyModeStoreProvider).watch(key.$1, key.$2),
+    );
 
 /// Typed notification settings (+ privacy "hide content"), live.
 final notificationSettingsProvider = Provider<NotificationSettings>((ref) {
-  final notifications = ref.watch(settingsProvider(SettingsNs.notifications)).value ?? const {};
-  final privacy = ref.watch(settingsProvider(SettingsNs.privacy)).value ?? const {};
+  final notifications =
+      ref.watch(settingsProvider(SettingsNs.notifications)).value ?? const {};
+  final privacy =
+      ref.watch(settingsProvider(SettingsNs.privacy)).value ?? const {};
   return NotificationSettings.fromMaps(notifications, privacy);
 });
 
 /// Writes keys of the `notifications` settings namespace (merged, versioned).
-final notificationSettingsWriterProvider = Provider<Future<void> Function(Map<String, Object?> patch)>(
-  (ref) => (patch) => ref.read(settingsRepositoryProvider).update(SettingsNs.notifications, patch),
-);
+final notificationSettingsWriterProvider =
+    Provider<Future<void> Function(Map<String, Object?> patch)>(
+      (ref) =>
+          (patch) => ref
+              .read(settingsRepositoryProvider)
+              .update(SettingsNs.notifications, patch),
+    );
 
 /// Localized planner texts following the user's language and 12/24 h preference.
 final notificationTextsProvider = Provider<L10nNotificationTexts>((ref) {
   final prefs = ref.watch(userPreferencesProvider);
-  return L10nNotificationTexts.forLocale(prefs.localeCode, use24h: prefs.use24h);
+  return L10nNotificationTexts.forLocale(
+    prefs.localeCode,
+    use24h: prefs.use24h,
+  );
 });
 
 // ------------------------------------------------------------------------------------ inbox --
 
-final inboxFilterProvider = NotifierProvider<InboxFilterController, InboxFilter>(InboxFilterController.new);
+final inboxFilterProvider =
+    NotifierProvider<InboxFilterController, InboxFilter>(
+      InboxFilterController.new,
+    );
 
 class InboxFilterController extends Notifier<InboxFilter> {
   @override
@@ -128,10 +154,11 @@ final snoozedInboxProvider = StreamProvider.autoDispose<List<InboxItem>>((ref) {
   return ref.watch(inboxRepositoryProvider).watchSnoozed();
 });
 
-final inboxHistoryProvider = StreamProvider.autoDispose.family<List<InboxItem>, (String, String)>((ref, key) {
-  ref.watch(currentUserIdProvider);
-  return ref.watch(inboxRepositoryProvider).watchForSource(key.$1, key.$2);
-});
+final inboxHistoryProvider = StreamProvider.autoDispose
+    .family<List<InboxItem>, (String, String)>((ref, key) {
+      ref.watch(currentUserIdProvider);
+      return ref.watch(inboxRepositoryProvider).watchForSource(key.$1, key.$2);
+    });
 
 // ----------------------------------------------------------------------------- OS & scheduler --
 
@@ -153,7 +180,8 @@ final localNotificationsPortProvider = Provider<LocalNotificationsPort>((ref) {
           TargetPlatform.iOS => 'ios',
           _ => 'other',
         };
-  if (platform == 'other' || _isFlutterTest) return InMemoryLocalNotificationsPort(platform: platform);
+  if (platform == 'other' || _isFlutterTest)
+    return InMemoryLocalNotificationsPort(platform: platform);
   return PluginLocalNotificationsPort();
 });
 

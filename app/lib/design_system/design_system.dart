@@ -1,6 +1,7 @@
 /// Everslot design system barrel.
 library;
 
+export 'bidi.dart';
 export 'components/basics.dart';
 export 'components/dialogs.dart';
 export 'components/priority.dart';

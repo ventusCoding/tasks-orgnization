@@ -130,6 +130,7 @@ class SyncService {
   bool simulateOffline = false;
 
   int _batchSize;
+  int? _cursor;
   Timer? _pushDebounce;
   Timer? _pullDebounce;
   Timer? _periodic;
@@ -182,6 +183,18 @@ class SyncService {
     _pullDebounce?.cancel();
     _pullDebounce = Timer(delay, () => unawaited(syncNow()));
   }
+
+  /// Realtime Broadcast nudge (`user:<uid>`, event `sync`, payload `{"rev": <head>}`, T1.4.12):
+  /// schedules a debounced pull unless the announced revision is already pulled.
+  void onBroadcast(Map<String, dynamic> payload) {
+    final rev = (payload['rev'] as num?)?.toInt();
+    final cursor = _cursor;
+    if (rev != null && cursor != null && rev <= cursor) return;
+    schedulePull();
+  }
+
+  /// Last pull cursor known to this service (null until the first pull or state read).
+  int? get knownCursor => _cursor;
 
   /// Marks the device as revoked (also used by the device registrar).
   void markRevoked() {
@@ -305,6 +318,7 @@ class SyncService {
   /// manual run (Settings › Sync › Force full resync, T8.3.04).
   Future<void> resync() async {
     await _saveState(cursor: 0);
+    _cursor = 0;
     await syncNow(manual: true);
   }
 
@@ -520,6 +534,7 @@ class SyncService {
   Future<void> _pull() async {
     final state = await _loadState();
     var cursor = state?.cursor ?? 0;
+    _cursor ??= cursor;
     final lastSuccess = state?.lastSuccessAt;
     final full =
         cursor == 0 ||
@@ -535,6 +550,7 @@ class SyncService {
         // Our cursor predates purged tombstones → full resync.
         _log.info('cursor $cursor < purge watermark ${page.purgeWatermark}: full resync');
         await _saveState(cursor: 0);
+        _cursor = 0;
         return _pull();
       }
       first = false;
@@ -583,6 +599,7 @@ class SyncService {
         purgeWatermark: page.purgeWatermark,
       );
     });
+    _cursor = page.next;
     if (touched.isNotEmpty) {
       db.notifyUpdates({for (final t in touched) TableUpdate.onTable(t)});
     }

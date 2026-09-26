@@ -35,7 +35,10 @@ abstract final class NotificationBackground {
   /// when the app is alive, otherwise a direct WAL connection), rebuilds a minimal provider
   /// container for [userId] and runs [body]. Writes go through SyncWriter + outbox; they are pushed
   /// on the next foreground sync.
-  static Future<void> run(Future<void> Function(ProviderContainer container) body, {String? userId}) async {
+  static Future<void> run(
+    Future<void> Function(ProviderContainer container) body, {
+    String? userId,
+  }) async {
     WidgetsFlutterBinding.ensureInitialized();
     DartPluginRegistrant.ensureInitialized();
     tzdata.initializeTimeZones();
@@ -48,13 +51,20 @@ abstract final class NotificationBackground {
           .getSingleOrNull();
       HlcBootstrap.initialState = hlc?.data['value'] as String?;
       final storedUser = await db
-          .customSelect('SELECT value FROM local_kv WHERE key = ?', variables: [Variable<String>(userKey)])
+          .customSelect(
+            'SELECT value FROM local_kv WHERE key = ?',
+            variables: [Variable<String>(userKey)],
+          )
           .getSingleOrNull();
       final uid = userId ?? storedUser?.data['value'] as String?;
       if (uid == null || uid.isEmpty) return;
-      SessionController.initial = AppSession(userId: uid, mode: SessionMode.localOnly);
+      SessionController.initial = AppSession(
+        userId: uid,
+        mode: SessionMode.localOnly,
+      );
       try {
-        DeviceZoneController.initialZone = (await FlutterTimezone.getLocalTimezone()).identifier;
+        DeviceZoneController.initialZone =
+            (await FlutterTimezone.getLocalTimezone()).identifier;
       } on Object {
         // keep UTC
       }
@@ -98,15 +108,15 @@ abstract final class NotificationBackground {
 void notificationBackgroundResponse(NotificationResponse response) {
   final payload = NotificationPayload.tryDecode(response.payload);
   unawaited(
-    NotificationBackground.run(
-      (c) async {
-        final dispatcher = NotificationActionDispatcher(c.read);
-        await dispatcher.handleResponse(PluginLocalNotificationsPort.mapResponse(response, background: true));
-        // Re-plan so the rest of the occurrence's reminders and nag chain disappear.
-        await NotificationPipeline(c.read).run('background-action', foreground: false);
-      },
-      userId: payload?.userId,
-    ),
+    NotificationBackground.run((c) async {
+      final dispatcher = NotificationActionDispatcher(c.read);
+      await dispatcher.handleResponse(
+        PluginLocalNotificationsPort.mapResponse(response, background: true),
+      );
+      // Re-plan so the rest of the occurrence's reminders and nag chain disappear.
+      await NotificationPipeline(c.read)
+          .run('background-action', foreground: false);
+    }, userId: payload?.userId),
   );
 }
 
@@ -121,7 +131,8 @@ void notificationsWorkmanagerDispatcher() {
         inbox: c.read(inboxRepositoryProvider),
         clock: c.read(clockProvider),
       ).reconcile();
-      await NotificationPipeline(c.read).run('periodic-background', foreground: false);
+      await NotificationPipeline(c.read)
+          .run('periodic-background', foreground: false);
     });
     return true;
   });
@@ -134,7 +145,9 @@ void notificationsWorkmanagerDispatcher() {
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (!DefaultFirebaseOptions.isConfigured) return;
   try {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   } on Object {
     // already initialized
   }
@@ -143,7 +156,10 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     await NotificationBackground.run((c) async {
       await c.read(appDatabaseProvider).customStatement(
         'INSERT INTO local_kv(key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value',
-        [NotificationBackground.pendingPullKey, message.data['head']?.toString() ?? '1'],
+        [
+          NotificationBackground.pendingPullKey,
+          message.data['head']?.toString() ?? '1',
+        ],
       );
     });
   }

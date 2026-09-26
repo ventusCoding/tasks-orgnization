@@ -9,7 +9,6 @@ import 'package:everslot/features/attachments/domain/attachment.dart';
 import 'package:everslot/features/checklists/application/checklist_service.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
 import 'package:everslot/features/checklists/data/checklist_items_repository.dart';
-import 'package:everslot/features/checklists/data/checklist_ui_state_store.dart';
 import 'package:everslot/features/checklists/data/checklists_repository.dart';
 import 'package:everslot/features/checklists/domain/board.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
@@ -17,6 +16,9 @@ import 'package:everslot/features/checklists/domain/checklist_tree.dart';
 import 'package:everslot/features/checklists/domain/item_status.dart';
 import 'package:everslot/features/checklists/domain/tree_ops.dart';
 import 'package:everslot/features/checklists/domain/visible_list.dart';
+import 'package:everslot/features/notifications/application/notification_host_api.dart';
+import 'package:everslot/features/notifications/domain/notification_types.dart';
+import 'package:everslot/features/notifications/domain/rule_spec.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../support/test_app.dart';
@@ -115,6 +117,55 @@ void main() {
       await h.read(syncWriterProvider).revert(del!.record);
       expect((await treeOf(id)).length, 4);
       expect(await attRepo.listFor(AttachmentOwnerType.checklistItem, a1), hasLength(1));
+    });
+
+    test('reminder rules follow item copies and deletes in the same operation; undo restores them', () async {
+      final id = await create([
+        n('A', [n('A1')]),
+      ]);
+      final t = await treeOf(id);
+      final a = t.order.first;
+      final a1 = t.childIds(a).first;
+      final spec = NotificationRuleSpec.fromJson(const {
+        'v': 1,
+        'trigger': {'type': 'relative', 'anchor': 'start'},
+      });
+      await h
+          .read(syncWriterProvider)
+          .run(
+            (tx) => h
+                .read(notificationHostApiProvider)
+                .saveDraftInTx(
+                  tx,
+                  NotificationRulesDraft(
+                    rules: [
+                      RuleDraft(
+                        targetType: RuleTargetType.checklistItem,
+                        section: NotificationSection.checklists,
+                        spec: spec,
+                      ),
+                    ],
+                  ),
+                  type: NotificationTargetType.checklistItem,
+                  targetId: a1,
+                ),
+          );
+      Future<int> rulesOf(String itemId) async => (await h.db
+              .customSelect(
+                'SELECT COUNT(*) AS n FROM notification_rules WHERE target_id = ? AND deleted_at IS NULL',
+                variables: [Variable<String>(itemId)],
+              )
+              .getSingle())
+          .read<int>('n');
+      expect(await rulesOf(a1), 1);
+
+      final dup = await service.run(id, (tree, ctx, _) => TreeOps.duplicateSubtrees(tree, ctx, [a]));
+      expect(await rulesOf(dup!.change.copiedItemIds[a1]!), 1);
+
+      final del = await service.run(id, (tree, ctx, _) => TreeOps.deleteSubtrees(tree, ctx, [a]));
+      expect(await rulesOf(a1), 0);
+      await h.read(syncWriterProvider).revert(del!.record);
+      expect(await rulesOf(a1), 1);
     });
 
     test('subtreeIds for a depth-50 chain; watchItems on 5 000 rows', () async {

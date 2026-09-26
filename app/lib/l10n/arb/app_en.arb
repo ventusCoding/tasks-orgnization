@@ -145,6 +145,182 @@
       }
     }
   },
+  "@authCodeBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@authDeleteReauthBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@authDeleteWeb": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "@authLinked": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "@authResendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "@authSignOutPendingBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@authSignedInAs": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@authUnlinkConfirm": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "@authUpgradeEmailInUseBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@authZoneChangedBody": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "@authZoneKeepHome": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "@checklistBelowBadges": {
+    "placeholders": {
+      "blocked": {
+        "type": "int"
+      },
+      "waiting": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistCarrying": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistDepthBadge": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistExpandToLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistItemsDeleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistItemsDuplicated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistRowSemantics": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      },
+      "level": {
+        "type": "int"
+      },
+      "index": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistSortedBy": {
+    "placeholders": {
+      "criterion": {
+        "type": "String"
+      }
+    }
+  },
+  "@checklistSubItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistUncheckConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@confirmDeleteTitle": {
     "placeholders": {
       "item": {
@@ -187,6 +363,154 @@
     "placeholders": {
       "minutes": {
         "type": "int"
+      }
+    }
+  },
+  "@filterActiveCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@filterChipCount": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@filterChipValue": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@filterClear": {
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "@importDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@importItemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@itemCompletedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@itemCreated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@itemEdited": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@itemHistoryDevice": {
+    "placeholders": {
+      "device": {
+        "type": "String"
+      }
+    }
+  },
+  "@itemHistoryTransition": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@listsBadgeBlocked": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@listsBadgeStale": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@listsBadgeWaiting": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@listsCardMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@listsCardProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@listsCardSemantics": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "@listsCopyOf": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@moveDone": {
+    "placeholders": {
+      "title": {
+        "type": "String"
       }
     }
   },
@@ -722,6 +1046,16 @@
       }
     }
   },
+  "@onboardingStepOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "@pvCopySuffix": {
     "placeholders": {
       "name": {
@@ -1173,6 +1507,95 @@
       }
     }
   },
+  "@repeatChip": {
+    "placeholders": {
+      "rule": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@repeatRunSummary": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@settingsStaleDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@smartChip": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@statusAgeDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@statusAgeHours": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@statusAgeMinutes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@statusCascadeTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@statusFollowUpChip": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@statusMarked": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "@statusWithAge": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      },
+      "age": {
+        "type": "String"
+      }
+    }
+  },
   "@syncPending": {
     "placeholders": {
       "count": {
@@ -1496,11 +1919,16 @@
   "attachmentsCameraPrimerBody": "Everslot asks for camera access so you can attach photos. Photos stay on your device until they're uploaded to your account.",
   "attachmentsCameraPrimerTitle": "Use your camera",
   "attachmentsCaption": "Caption",
+  "attachmentsChecklistLevel": "On the list",
   "attachmentsClearCache": "Clear cache",
   "attachmentsCount": "{count, plural, =1{1 attachment} other{{count} attachments}}",
   "attachmentsDownloadWhenOnline": "This file will download when you're online.",
   "attachmentsEditCaption": "Edit caption",
   "attachmentsEmpty": "No attachments yet",
+  "attachmentsFilterAll": "All",
+  "attachmentsFilterImages": "Images",
+  "attachmentsFilterOther": "Other",
+  "attachmentsFilterPdfs": "PDFs",
   "attachmentsGoToItem": "Go to item",
   "attachmentsKindAudio": "Audio",
   "attachmentsKindFile": "File",
@@ -1545,6 +1973,112 @@
   "attachmentsStorageUsed": "Storage used: {size}",
   "attachmentsViewerPosition": "{index} / {total}",
   "attachmentsWifiOnly": "Upload attachments on Wi-Fi only",
+  "authAvatarChange": "Change photo",
+  "authAvatarRemove": "Remove photo",
+  "authBrowserFlowStarted": "Finish signing in in your browser, then come back to Everslot.",
+  "authChangeEmail": "Use a different email",
+  "authCodeBody": "Enter the 6-digit code sent to {email}, or tap the link in that email.",
+  "authCodeLabel": "6-digit code",
+  "authCodeResent": "A new code is on its way.",
+  "authCodeTitle": "Check your inbox",
+  "authContinueApple": "Continue with Apple",
+  "authContinueGoogle": "Continue with Google",
+  "authContinueGuest": "Continue without an account",
+  "authCurrentZone": "Current time zone",
+  "authDeleteAccount": "Delete account",
+  "authDeleteBody": "This permanently deletes your account and all your data — plans, lists, habits and attachments — on every device. It can't be undone.",
+  "authDeleteConfirm": "Delete forever",
+  "authDeleteExportFirst": "Export my data first",
+  "authDeleteReauthBody": "To confirm it's you, enter the code we sent to {email}.",
+  "authDeleteTitle": "Delete your account?",
+  "authDeleteUnderstand": "I understand this can't be undone",
+  "authDeleteWeb": "You can also request deletion on the web: {url}",
+  "authDeleted": "Your account has been deleted.",
+  "authDeleting": "Deleting your account…",
+  "authDeviceRevokedBody": "This device was removed from your account on another device. Export your data first if you want a copy, then sign out.",
+  "authDeviceRevokedTitle": "This device was removed",
+  "authDisplayName": "Display name",
+  "authDisplayNameHint": "What should we call you?",
+  "authEmailHint": "you@example.com",
+  "authEmailLabel": "Email",
+  "authErrorCaptcha": "The security check failed. Please try again.",
+  "authErrorEmailInUse": "This email already belongs to another account.",
+  "authErrorGuestDisabled": "Guest mode is turned off on this server.",
+  "authErrorIdentityInUse": "This sign-in method is already linked to another account.",
+  "authErrorInvalidCode": "This code is invalid or has expired.",
+  "authErrorInvalidEmail": "Please enter a valid email address.",
+  "authErrorLastIdentity": "You can't remove your only sign-in method.",
+  "authErrorNotConfigured": "Cloud sync isn't configured on this build (see guide.md).",
+  "authErrorOffline": "You're offline. Check your connection and try again.",
+  "authErrorProviderNotConfigured": "This sign-in method isn't set up yet (see guide.md).",
+  "authErrorRateLimited": "Too many attempts. Please wait a moment and try again.",
+  "authErrorSessionExpired": "Your session has expired. Please sign in again.",
+  "authErrorUnknown": "Something went wrong. Please try again.",
+  "authExportFirst": "Export data",
+  "authGuestAccount": "Guest account",
+  "authGuestBanner": "You're using a guest account. Add an email so your data survives if you delete the app.",
+  "authGuestBannerAction": "Secure my data",
+  "authGuestHint": "Try Everslot right away and add an email later to keep your data.",
+  "authHomeZone": "Home time zone",
+  "authLegalNote": "By continuing you accept the Terms of Service and the Privacy Policy.",
+  "authLink": "Link",
+  "authLinked": "{provider} linked",
+  "authLinkedAccounts": "Sign-in methods",
+  "authLocalOnlyAccount": "Data stays on this device",
+  "authLocalOnlyAccountBody": "You're not signed in. Sign in to sync across devices — your data comes along.",
+  "authMfaBody": "Ask for a code from an authenticator app when you sign in or delete your account.",
+  "authMfaDisable": "Turn off",
+  "authMfaEnabled": "Two-step verification is on.",
+  "authMfaEnroll": "Set up",
+  "authMfaEnrollBody": "Add this key to your authenticator app, then enter the 6-digit code it shows.",
+  "authMfaSecret": "Setup key",
+  "authMfaTitle": "Two-step verification",
+  "authMfaVerifyTitle": "Enter your authenticator code",
+  "authNotConfiguredBody": "This build isn't connected to a Supabase project yet (see guide.md). Everslot works fully on this device in the meantime.",
+  "authNotConfiguredTitle": "Cloud sync isn't configured",
+  "authOr": "or",
+  "authProfileTitle": "Account",
+  "authProviderApple": "Apple",
+  "authProviderEmail": "Email",
+  "authProviderGoogle": "Google",
+  "authReauthBody": "Your session has expired. Sign in again to resume syncing — everything you did offline is kept.",
+  "authReauthTitle": "Sign in again",
+  "authRegionalSettings": "Regional settings",
+  "authResend": "Resend code",
+  "authResendIn": "{seconds, plural, =1{Resend code in 1 second} other{Resend code in {seconds} seconds}}",
+  "authSendCode": "Send code",
+  "authSessionExpiredBanner": "Your session expired. Your changes are saved on this device and will sync once you sign in again.",
+  "authSignInAgain": "Sign in again",
+  "authSignInToSync": "Sign in to sync",
+  "authSignOut": "Sign out",
+  "authSignOutAnyway": "Sign out anyway",
+  "authSignOutBody": "Your data will be removed from this device. It stays safe in your account.",
+  "authSignOutPendingBody": "{count, plural, =1{1 change hasn't synced yet and will be lost.} other{{count} changes haven't synced yet and will be lost.}} Export your data first, or sign out anyway.",
+  "authSignOutSyncing": "Syncing your last changes…",
+  "authSignOutTitle": "Sign out?",
+  "authSignedInAs": "Signed in as {email}",
+  "authSignedOut": "Signed out",
+  "authUnlink": "Unlink",
+  "authUnlinkConfirm": "Unlink {provider}?",
+  "authUpdateRequired": "Update Everslot to keep syncing. Your changes are kept on this device.",
+  "authUpgradeBody": "Add a sign-in method to your guest account. Your data stays exactly as it is.",
+  "authUpgradeDone": "Your account is secured.",
+  "authUpgradeEmail": "Add an email",
+  "authUpgradeEmailInUseBody": "{email} already has an Everslot account. Use another email — or export your guest data, sign out, sign in to that account and import the file.",
+  "authUpgradeEmailInUseTitle": "Email already in use",
+  "authUpgradeTitle": "Keep your data",
+  "authUseLocalOnly": "Use on this device only",
+  "authUseLocalOnlyHint": "No account and no sync. Sign in later and your data comes along.",
+  "authVerify": "Verify",
+  "authWelcomeBody": "Sign in to keep your plans, lists and habits in sync on all your devices.",
+  "authWelcomeTitle": "Welcome to Everslot",
+  "authZoneChangedBody": "You're now in {zone}. Fixed-time tasks keep their exact time and floating tasks follow you. Make {zone} your home time zone?",
+  "authZoneChangedTitle": "New time zone",
+  "authZoneDetected": "Detected on this device",
+  "authZoneKeepHome": "Keep {zone}",
+  "authZoneMakeHome": "Make it home",
+  "authZoneNoMatch": "No time zone matches your search",
+  "authZoneSearch": "Search time zones",
   "categoriesEmpty": "No categories yet",
   "categoriesTitle": "Categories",
   "categoryArchived": "Archived",
@@ -1562,6 +2096,120 @@
   "categoryPick": "Category",
   "categoryUnavailable": "Counts as unavailable time",
   "categoryUnavailableHint": "Excluded from capacity stats (e.g. sleep, time off).",
+  "checklistAddItem": "Add item",
+  "checklistAddSubItem": "Add sub-item",
+  "checklistAllAttachments": "All attachments",
+  "checklistAllLists": "All lists",
+  "checklistAttach": "Attach",
+  "checklistBelowBadges": "{blocked} blocked · {waiting} waiting below",
+  "checklistBodyHint": "Note",
+  "checklistCarrying": "{count, plural, =1{Moving 1 item} other{Moving {count} items}}",
+  "checklistCollapse": "Collapse",
+  "checklistCollapseAll": "Collapse all",
+  "checklistCollapsedState": "collapsed",
+  "checklistCompleted": "List completed!",
+  "checklistCompletedArchive": "Archive",
+  "checklistCompletedKeep": "Keep",
+  "checklistCompletedReset": "Reset",
+  "checklistCopied": "Copied",
+  "checklistCopy": "Copy",
+  "checklistCopyText": "Copy as text",
+  "checklistCut": "Cut",
+  "checklistDelete": "Delete list",
+  "checklistDeleteCompleted": "Delete completed items",
+  "checklistDeleteItem": "Delete",
+  "checklistDepthBadge": "L{level}",
+  "checklistDetails": "Details",
+  "checklistDragHandle": "Drag to move",
+  "checklistDue": "Due date",
+  "checklistDuplicate": "Duplicate list",
+  "checklistDuplicateItem": "Duplicate",
+  "checklistEmptyFocus": "No sub-items yet",
+  "checklistExpand": "Expand",
+  "checklistExpandAll": "Expand all",
+  "checklistExpandToLevel": "Expand to level {level}",
+  "checklistExpandToLevelMenu": "Expand to level…",
+  "checklistFilterAll": "All",
+  "checklistFilterDueSoon": "Due soon",
+  "checklistFilterHasAttachments": "Has attachments",
+  "checklistFilterOpen": "Open",
+  "checklistFilterText": "Search in list",
+  "checklistFiltered": "Filtered view",
+  "checklistFocus": "Focus",
+  "checklistHasReminders": "Has reminders",
+  "checklistHideCheckboxes": "Hide checkboxes",
+  "checklistHideCompleted": "Hide completed",
+  "checklistHideKeyboard": "Hide keyboard",
+  "checklistImport": "Import items…",
+  "checklistInTrash": "This list is in the trash",
+  "checklistIndent": "Indent",
+  "checklistInsights": "Insights",
+  "checklistItemHint": "List item",
+  "checklistItemsDeleted": "{count, plural, =1{1 item deleted} other{{count} items deleted}}",
+  "checklistItemsDuplicated": "{count, plural, =1{1 item duplicated} other{{count} items duplicated}}",
+  "checklistItemsMoved": "Moved",
+  "checklistLabelName": "Label name",
+  "checklistLabels": "Labels",
+  "checklistLineBreak": "Line break",
+  "checklistLinkedTask": "Linked task",
+  "checklistModeEdit": "Edit",
+  "checklistModePreview": "Preview",
+  "checklistMoveConflict": "A move conflicted with a change on another device and was undone.",
+  "checklistMoveDown": "Move down",
+  "checklistMoveTo": "Move to…",
+  "checklistMoveUp": "Move up",
+  "checklistNewLabel": "New label",
+  "checklistNextOpen": "Next open item",
+  "checklistNoItems": "No items yet",
+  "checklistNoLabels": "No labels yet",
+  "checklistNotFound": "This list doesn't exist",
+  "checklistOpenTrash": "Open trash",
+  "checklistOutdent": "Outdent",
+  "checklistPaste": "Paste",
+  "checklistPasteHere": "Paste here",
+  "checklistPendingUploads": "Uploads pending",
+  "checklistProgress": "{done} of {total} done",
+  "checklistPromote": "Promote to list",
+  "checklistPromoted": "Created a new list",
+  "checklistRecovered": "Recovered",
+  "checklistRepeat": "Repeat…",
+  "checklistResetConfirm": "Every item goes back to to-do and reason notes are cleared.",
+  "checklistResetDone": "List reset",
+  "checklistResetNow": "Reset now",
+  "checklistResetStatuses": "Reset all statuses",
+  "checklistResetView": "Reset",
+  "checklistRowSemantics": "{text}, level {level}, item {index} of {count}",
+  "checklistSaveAsTemplate": "Save as template",
+  "checklistScheduleTask": "Schedule as task",
+  "checklistSelect": "Select",
+  "checklistSelectAll": "Select all",
+  "checklistSelectSubtree": "Select sub-items",
+  "checklistSelected": "{count} selected",
+  "checklistSettings": "List settings",
+  "checklistShare": "Share / export",
+  "checklistShowCheckboxes": "Show checkboxes",
+  "checklistSortAlpha": "Alphabetical",
+  "checklistSortChildren": "Sort sub-items",
+  "checklistSortCompletedBottom": "Sort completed to bottom",
+  "checklistSortDescending": "Descending",
+  "checklistSortDue": "Due date",
+  "checklistSortFilter": "Sort & filter",
+  "checklistSortManual": "Manual",
+  "checklistSortPriority": "Priority",
+  "checklistSortRecent": "Recently changed",
+  "checklistSortStatus": "Status",
+  "checklistSortedBy": "Sorted by {criterion}",
+  "checklistStatusChanged": "Status changed",
+  "checklistSubItems": "{count, plural, =1{1 sub-item} other{{count} sub-items}}",
+  "checklistTaskPlaceholder": "Linking to planner tasks arrives with the planner.",
+  "checklistTemplateSaved": "Saved as template",
+  "checklistTitleHint": "Title",
+  "checklistUncheckAll": "Uncheck all",
+  "checklistUncheckConfirm": "{count, plural, =1{Uncheck 1 item?} other{Uncheck {count} items?}}",
+  "checklistViewGallery": "Gallery",
+  "checklistViewKanban": "Kanban",
+  "checklistViewOutline": "Outline",
+  "checklistZoomOut": "Zoom out",
   "comingSoon": "Coming soon",
   "confirmDeleteBody": "You can restore it from Trash for 30 days.",
   "confirmDeleteTitle": "Delete {item}?",
@@ -1579,7 +2227,138 @@
   "errorUnknown": "Unexpected error.",
   "errorUnsupportedVersion": "Please update Everslot to keep syncing.",
   "errorValidation": "Please check the highlighted fields.",
+  "exportBranchOnly": "Only this branch",
+  "exportCopied": "Copied to clipboard",
+  "exportCopy": "Copy to clipboard",
+  "exportMarkdown": "Markdown",
+  "exportOpml": "OPML",
+  "exportPlain": "Plain text",
+  "exportShare": "Share…",
+  "exportTitle": "Share / export",
+  "filterActiveCount": "{count, plural, =0{No filters} =1{1 filter active} other{{count} filters active}}",
+  "filterAny": "Any",
+  "filterAttachments": "Attachments",
+  "filterCategory": "Category",
+  "filterChipCount": "{field} · {count}",
+  "filterChipValue": "{field}: {value}",
+  "filterClear": "Clear filter {filter}",
+  "filterClearAll": "Clear all",
+  "filterDate": "Date",
+  "filterNoCategory": "No category",
+  "filterOneOffOnly": "One-off",
+  "filterPriority": "Priority",
+  "filterRecurring": "Repeats",
+  "filterRecurringOnly": "Recurring",
+  "filterStatus": "Status",
+  "filterTag": "Tag",
+  "filterText": "Text",
+  "filterTextPrompt": "Contains text",
+  "filterWithAttachments": "With attachments",
+  "filterWithoutAttachments": "Without attachments",
+  "galleryEmpty": "No items with images",
+  "galleryOnlyImages": "Only items with images",
+  "importAction": "Import",
+  "importChooseFile": "Choose file",
+  "importConvertBody": "Convert note to items",
+  "importDone": "{count, plural, =1{1 item imported} other{{count} items imported}}",
+  "importItemsCount": "{count, plural, =1{1 item} other{{count} items}}",
+  "importKeepOne": "Keep as one item",
+  "importPasteHint": "Paste indented text, Markdown or OPML",
+  "importSplit": "Split into items (keep nesting)",
+  "importTitle": "Import",
+  "importWarningAttachments": "Attachment references were skipped",
+  "importWarningEmpty": "Nothing to import",
+  "importWarningMalformed": "This file couldn't be read",
+  "importWarningTooMany": "Only the first 10 000 lines were imported",
+  "itemAddTime": "Add time",
+  "itemAttachments": "Attachments",
+  "itemClearDue": "Remove due date",
+  "itemCompletedOn": "Completed {date}",
+  "itemCreated": "Created {date}",
+  "itemDetailsTitle": "Item details",
+  "itemDue": "Due",
+  "itemDueOverdue": "Overdue",
+  "itemDueToday": "Today",
+  "itemDueTomorrow": "Tomorrow",
+  "itemEdited": "Edited {date}",
+  "itemHistory": "History",
+  "itemHistoryCause": "automatic",
+  "itemHistoryDevice": "on {device}",
+  "itemHistoryEmpty": "No status changes yet",
+  "itemHistoryTransition": "{from} → {to}",
+  "itemInsights": "Insights",
+  "itemNoDue": "No due date",
+  "itemNote": "Note",
+  "itemOtherDevice": "another device",
+  "itemPriority": "Priority",
+  "itemText": "Text",
+  "itemThisDevice": "this device",
+  "itemTimeInStatus": "Time in status",
+  "kanbanAll": "All items",
+  "kanbanChildren": "Direct sub-items",
+  "kanbanEmptyColumn": "Drop items here",
+  "kanbanLeaves": "Leaves only",
+  "kanbanScope": "Show",
+  "kanbanShowCancelled": "Show cancelled",
+  "listsArchive": "Archive",
+  "listsArchiveAction": "Archive",
+  "listsArchiveEmpty": "No archived lists",
+  "listsArchived": "List archived",
+  "listsBadgeBlocked": "{count} blocked",
+  "listsBadgeStale": "{count} stale",
+  "listsBadgeWaiting": "{count} waiting",
+  "listsBoardSort": "Sort cards",
+  "listsBoardSortManual": "Manual",
+  "listsBoardSortRecent": "Recently edited",
+  "listsBoardSortTitle": "Title",
+  "listsCardActions": "List actions",
+  "listsCardMore": "+{count} more",
+  "listsCardProgress": "{done}/{total}",
+  "listsCardSemantics": "{title}, {progress}",
+  "listsColor": "Color",
+  "listsCopyOf": "Copy of {title}",
+  "listsDelete": "Delete",
+  "listsDeleted": "List deleted",
+  "listsDragHint": "Long-press and drag to reorder",
+  "listsDuplicate": "Duplicate",
+  "listsDuplicated": "List duplicated",
+  "listsEmptyAction": "Create your first list",
+  "listsEmptyMessage": "Checklists, notes and routines — nested as deep as you need.",
+  "listsEmptyTitle": "No lists yet",
+  "listsFilterColor": "Color",
+  "listsFilterHasAttachments": "With attachments",
+  "listsFilterHasBlocked": "Waiting or blocked",
+  "listsFilterPinned": "Pinned",
+  "listsFilterRepeating": "Repeating",
+  "listsFromTemplate": "From template",
+  "listsGridView": "Grid view",
+  "listsImportFile": "Import file…",
+  "listsListView": "List view",
+  "listsMoveItems": "Move items…",
+  "listsNewChecklist": "New checklist",
+  "listsNewNote": "New note",
+  "listsOthers": "Others",
+  "listsPin": "Pin",
+  "listsPinned": "Pinned",
+  "listsPreferences": "Lists settings",
+  "listsRepeats": "Repeats",
+  "listsResetStatusesOption": "Reset all statuses to to-do",
+  "listsSearchHint": "Search lists",
+  "listsSearchItems": "Items",
+  "listsSearchNoResults": "No matching lists or items",
+  "listsShowBody": "Show note text on cards",
+  "listsShowSmartChips": "Show waiting / blocked chips",
+  "listsTemplates": "Templates",
+  "listsTrash": "Trash",
+  "listsUnarchive": "Unarchive",
+  "listsUnarchived": "List restored from archive",
+  "listsUnpin": "Unpin",
+  "listsUntitled": "Untitled",
   "localOnlyBanner": "Cloud sync isn't configured — your data stays on this device.",
+  "moveChooseParent": "Choose where",
+  "moveDone": "Moved to {title}",
+  "moveToList": "Move to list",
+  "moveToTop": "Top level",
   "notFoundTitle": "Page not found",
   "notifActionComplete": "Complete",
   "notifActionDone": "Done",
@@ -1752,10 +2531,14 @@
   "notifFieldMetric": "Metric",
   "notifFieldMinStreak": "Minimum streak",
   "notifFieldOffset": "Offset in minutes (negative = before)",
+  "notifFieldRepeats": "Repeats",
   "notifFieldStatuses": "Statuses",
   "notifFieldThresholds": "Thresholds (comma separated, empty = automatic)",
   "notifFieldToStatus": "New status",
   "notifFieldUntil": "Until",
+  "notifFreqDaily": "Every day",
+  "notifFreqMonthly": "Every month",
+  "notifFreqWeekly": "Every week",
   "notifFrom": "From",
   "notifHideContent": "Hide content in notifications",
   "notifImpact": "Affects {count, plural, =1{1 item} other{{count} items}} that use defaults",
@@ -1957,6 +2740,17 @@
   "notifSoundNone": "None",
   "notifSoundPop": "Pop",
   "notifSoundSoft": "Soft",
+  "notifStatusBlocked": "blocked",
+  "notifStatusCancelled": "cancelled",
+  "notifStatusCompleted": "completed",
+  "notifStatusDone": "done",
+  "notifStatusInProgress": "in progress",
+  "notifStatusMissed": "missed",
+  "notifStatusOngoing": "ongoing",
+  "notifStatusScheduled": "scheduled",
+  "notifStatusSkipped": "skipped",
+  "notifStatusTodo": "to do",
+  "notifStatusWaiting": "waiting",
   "notifSticky": "Keep until done (Android)",
   "notifSumAbsolute": "On {dateTime}",
   "notifSumAfterDue": "{duration} after due",
@@ -2029,6 +2823,17 @@
   "notifVibrationShort": "Short",
   "notifWeekdays": "Only on",
   "notifYes": "Yes",
+  "onboardingClock": "Clock",
+  "onboardingClock12": "12-hour",
+  "onboardingClock24": "24-hour",
+  "onboardingEssentialsBody": "We picked these from your device. Adjust anything that's off — you can change them later in Settings › Regional.",
+  "onboardingEssentialsTitle": "Your week, your clock",
+  "onboardingGetStarted": "Get started",
+  "onboardingLanguage": "Language",
+  "onboardingStepOf": "Step {current} of {total}",
+  "onboardingTimeZone": "Home time zone",
+  "onboardingTitle": "Set up Everslot",
+  "onboardingWeekStart": "Week starts on",
   "pickerColor": "Color",
   "pickerDate": "Date",
   "pickerDays": "Days",
@@ -2492,11 +3297,98 @@
   "relativeInMinutes": "{count, plural, =1{in 1 minute} other{in {count} minutes}}",
   "relativeMinutesAgo": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
   "relativeNow": "now",
+  "repeatChip": "Resets {rule} · next {when}",
+  "repeatCustom": "Custom rule",
+  "repeatModeAll": "Everything back to to-do",
+  "repeatModeCompleted": "Uncheck completed items only",
+  "repeatNoRuns": "No finished runs yet",
+  "repeatNone": "Doesn't repeat",
+  "repeatResetTime": "Reset time",
+  "repeatRunSummary": "{done}/{total} done",
+  "repeatRuns": "Run history",
+  "repeatTitle": "Repeat",
   "savedSnack": "Saved",
+  "settingsAutoComplete": "Complete parents automatically",
+  "settingsCascadeAlways": "Complete sub-items too",
+  "settingsCascadeAsk": "Ask",
+  "settingsCascadeNever": "Leave sub-items",
+  "settingsCategory": "Category",
+  "settingsCompleteChildren": "When completing a parent",
+  "settingsDefaultOpen": "Open in",
+  "settingsHideCheckboxes": "Hide checkboxes (bullets)",
+  "settingsLanguageArabic": "العربية",
+  "settingsLanguageEnglish": "English",
+  "settingsLanguageFrench": "Français",
+  "settingsLanguageSystem": "System default",
+  "settingsProgressChildren": "Direct sub-items only",
+  "settingsProgressLeaves": "All sub-items",
+  "settingsProgressMode": "Progress counts",
+  "settingsRequireReason": "Require a reason for",
+  "settingsShowAttachments": "Show attachments in preview",
+  "settingsShowNotes": "Show notes in preview",
+  "settingsSortCompleted": "Sort completed to bottom",
+  "settingsStaleDays": "Mark stale after {days} days",
+  "settingsSwipeComplete": "Complete",
+  "settingsSwipeEditLeft": "Edit mode · swipe left",
+  "settingsSwipeEditRight": "Edit mode · swipe right",
+  "settingsSwipeIndent": "Indent",
+  "settingsSwipeMenu": "Actions menu",
+  "settingsSwipeNone": "Nothing",
+  "settingsSwipeOutdent": "Outdent",
+  "settingsSwipePreviewLeft": "Preview · swipe left",
+  "settingsSwipePreviewRight": "Preview · swipe right",
+  "settingsSwipeTitle": "Swipe actions",
+  "smartBlocked": "Blocked",
+  "smartChip": "{label} · {count}",
+  "smartClearFollowUp": "Clear follow-up",
+  "smartEmpty": "Nothing here — nice.",
+  "smartFollowUps": "Follow-ups",
+  "smartGroupByList": "Group by list",
+  "smartOngoing": "Ongoing",
+  "smartOpenInList": "Open in list",
+  "smartSetFollowUp": "Set follow-up",
+  "smartSortAge": "Age",
+  "smartSortFollowUp": "Follow-up",
+  "smartSortList": "List",
+  "smartUnknown": "Unknown smart list",
+  "smartWaiting": "Waiting",
   "stateEmpty": "Nothing here yet",
   "stateErrorBody": "Please try again.",
   "stateErrorTitle": "Something went wrong",
   "stateLoading": "Loading…",
+  "statusAddNote": "Add note…",
+  "statusAgeDays": "{n} d",
+  "statusAgeHours": "{n} h",
+  "statusAgeMinutes": "{n} min",
+  "statusBlocked": "Blocked",
+  "statusCancelled": "Cancelled",
+  "statusCascadeAll": "Complete all",
+  "statusCascadeOnlyThis": "Only this one",
+  "statusCascadeTitle": "{count, plural, =1{Also complete 1 open sub-item?} other{Also complete {count} open sub-items?}}",
+  "statusChange": "Change status",
+  "statusCompleted": "Completed",
+  "statusFollowUp": "Follow up",
+  "statusFollowUpChip": "Check back {when}",
+  "statusFollowUpCustom": "Custom…",
+  "statusFollowUpIn3Days": "In 3 days",
+  "statusFollowUpLaterToday": "Later today",
+  "statusFollowUpNextWeek": "Next week",
+  "statusFollowUpNone": "No follow-up",
+  "statusFollowUpOverdue": "Check back now",
+  "statusFollowUpTomorrow": "Tomorrow 09:00",
+  "statusKeepFollowUp": "Keep follow-up",
+  "statusMarked": "Marked {status}",
+  "statusOngoing": "In progress",
+  "statusReasonBlocked": "What's blocking it?",
+  "statusReasonOther": "Add a note (optional)",
+  "statusReasonRequired": "A reason is required",
+  "statusReasonWaiting": "Waiting on whom / what?",
+  "statusRecentReasons": "Recent",
+  "statusSheetTitle": "Status",
+  "statusStale": "Stale",
+  "statusTodo": "To do",
+  "statusWaiting": "Waiting",
+  "statusWithAge": "{status} · {age}",
   "syncError": "Sync problem",
   "syncIdle": "Synced",
   "syncLocalOnly": "On this device only",
@@ -2790,5 +3682,12 @@
   "tasksZoneFloating": "Floating",
   "tasksZoneFloatingHint": "Same clock time wherever you are",
   "tasksZonePickTitle": "Choose a time zone",
-  "tasksZoneSearch": "Search time zones"
+  "tasksZoneSearch": "Search time zones",
+  "templatesBuiltin": "Built-in",
+  "templatesCreated": "List created from template",
+  "templatesEdit": "Edit template",
+  "templatesEmpty": "Save any list as a template from its menu.",
+  "templatesMine": "My templates",
+  "templatesRename": "Rename",
+  "templatesUse": "Use template"
 }

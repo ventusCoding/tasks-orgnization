@@ -129,6 +129,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get attachmentsCaption => 'Caption';
 
   @override
+  String get attachmentsChecklistLevel => 'On the list';
+
+  @override
   String get attachmentsClearCache => 'Clear cache';
 
   @override
@@ -151,6 +154,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get attachmentsEmpty => 'No attachments yet';
+
+  @override
+  String get attachmentsFilterAll => 'All';
+
+  @override
+  String get attachmentsFilterImages => 'Images';
+
+  @override
+  String get attachmentsFilterOther => 'Other';
+
+  @override
+  String get attachmentsFilterPdfs => 'PDFs';
 
   @override
   String get attachmentsGoToItem => 'Go to item';
@@ -324,6 +339,384 @@ class AppLocalizationsEn extends AppLocalizations {
   String get attachmentsWifiOnly => 'Upload attachments on Wi-Fi only';
 
   @override
+  String get authAvatarChange => 'Change photo';
+
+  @override
+  String get authAvatarRemove => 'Remove photo';
+
+  @override
+  String get authBrowserFlowStarted =>
+      'Finish signing in in your browser, then come back to Everslot.';
+
+  @override
+  String get authChangeEmail => 'Use a different email';
+
+  @override
+  String authCodeBody(String email) {
+    return 'Enter the 6-digit code sent to $email, or tap the link in that email.';
+  }
+
+  @override
+  String get authCodeLabel => '6-digit code';
+
+  @override
+  String get authCodeResent => 'A new code is on its way.';
+
+  @override
+  String get authCodeTitle => 'Check your inbox';
+
+  @override
+  String get authContinueApple => 'Continue with Apple';
+
+  @override
+  String get authContinueGoogle => 'Continue with Google';
+
+  @override
+  String get authContinueGuest => 'Continue without an account';
+
+  @override
+  String get authCurrentZone => 'Current time zone';
+
+  @override
+  String get authDeleteAccount => 'Delete account';
+
+  @override
+  String get authDeleteBody =>
+      'This permanently deletes your account and all your data — plans, lists, habits and attachments — on every device. It can\'t be undone.';
+
+  @override
+  String get authDeleteConfirm => 'Delete forever';
+
+  @override
+  String get authDeleteExportFirst => 'Export my data first';
+
+  @override
+  String authDeleteReauthBody(String email) {
+    return 'To confirm it\'s you, enter the code we sent to $email.';
+  }
+
+  @override
+  String get authDeleteTitle => 'Delete your account?';
+
+  @override
+  String get authDeleteUnderstand => 'I understand this can\'t be undone';
+
+  @override
+  String authDeleteWeb(String url) {
+    return 'You can also request deletion on the web: $url';
+  }
+
+  @override
+  String get authDeleted => 'Your account has been deleted.';
+
+  @override
+  String get authDeleting => 'Deleting your account…';
+
+  @override
+  String get authDeviceRevokedBody =>
+      'This device was removed from your account on another device. Export your data first if you want a copy, then sign out.';
+
+  @override
+  String get authDeviceRevokedTitle => 'This device was removed';
+
+  @override
+  String get authDisplayName => 'Display name';
+
+  @override
+  String get authDisplayNameHint => 'What should we call you?';
+
+  @override
+  String get authEmailHint => 'you@example.com';
+
+  @override
+  String get authEmailLabel => 'Email';
+
+  @override
+  String get authErrorCaptcha => 'The security check failed. Please try again.';
+
+  @override
+  String get authErrorEmailInUse =>
+      'This email already belongs to another account.';
+
+  @override
+  String get authErrorGuestDisabled =>
+      'Guest mode is turned off on this server.';
+
+  @override
+  String get authErrorIdentityInUse =>
+      'This sign-in method is already linked to another account.';
+
+  @override
+  String get authErrorInvalidCode => 'This code is invalid or has expired.';
+
+  @override
+  String get authErrorInvalidEmail => 'Please enter a valid email address.';
+
+  @override
+  String get authErrorLastIdentity =>
+      'You can\'t remove your only sign-in method.';
+
+  @override
+  String get authErrorNotConfigured =>
+      'Cloud sync isn\'t configured on this build (see guide.md).';
+
+  @override
+  String get authErrorOffline =>
+      'You\'re offline. Check your connection and try again.';
+
+  @override
+  String get authErrorProviderNotConfigured =>
+      'This sign-in method isn\'t set up yet (see guide.md).';
+
+  @override
+  String get authErrorRateLimited =>
+      'Too many attempts. Please wait a moment and try again.';
+
+  @override
+  String get authErrorSessionExpired =>
+      'Your session has expired. Please sign in again.';
+
+  @override
+  String get authErrorUnknown => 'Something went wrong. Please try again.';
+
+  @override
+  String get authExportFirst => 'Export data';
+
+  @override
+  String get authGuestAccount => 'Guest account';
+
+  @override
+  String get authGuestBanner =>
+      'You\'re using a guest account. Add an email so your data survives if you delete the app.';
+
+  @override
+  String get authGuestBannerAction => 'Secure my data';
+
+  @override
+  String get authGuestHint =>
+      'Try Everslot right away and add an email later to keep your data.';
+
+  @override
+  String get authHomeZone => 'Home time zone';
+
+  @override
+  String get authLegalNote =>
+      'By continuing you accept the Terms of Service and the Privacy Policy.';
+
+  @override
+  String get authLink => 'Link';
+
+  @override
+  String authLinked(String provider) {
+    return '$provider linked';
+  }
+
+  @override
+  String get authLinkedAccounts => 'Sign-in methods';
+
+  @override
+  String get authLocalOnlyAccount => 'Data stays on this device';
+
+  @override
+  String get authLocalOnlyAccountBody =>
+      'You\'re not signed in. Sign in to sync across devices — your data comes along.';
+
+  @override
+  String get authMfaBody =>
+      'Ask for a code from an authenticator app when you sign in or delete your account.';
+
+  @override
+  String get authMfaDisable => 'Turn off';
+
+  @override
+  String get authMfaEnabled => 'Two-step verification is on.';
+
+  @override
+  String get authMfaEnroll => 'Set up';
+
+  @override
+  String get authMfaEnrollBody =>
+      'Add this key to your authenticator app, then enter the 6-digit code it shows.';
+
+  @override
+  String get authMfaSecret => 'Setup key';
+
+  @override
+  String get authMfaTitle => 'Two-step verification';
+
+  @override
+  String get authMfaVerifyTitle => 'Enter your authenticator code';
+
+  @override
+  String get authNotConfiguredBody =>
+      'This build isn\'t connected to a Supabase project yet (see guide.md). Everslot works fully on this device in the meantime.';
+
+  @override
+  String get authNotConfiguredTitle => 'Cloud sync isn\'t configured';
+
+  @override
+  String get authOr => 'or';
+
+  @override
+  String get authProfileTitle => 'Account';
+
+  @override
+  String get authProviderApple => 'Apple';
+
+  @override
+  String get authProviderEmail => 'Email';
+
+  @override
+  String get authProviderGoogle => 'Google';
+
+  @override
+  String get authReauthBody =>
+      'Your session has expired. Sign in again to resume syncing — everything you did offline is kept.';
+
+  @override
+  String get authReauthTitle => 'Sign in again';
+
+  @override
+  String get authRegionalSettings => 'Regional settings';
+
+  @override
+  String get authResend => 'Resend code';
+
+  @override
+  String authResendIn(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'Resend code in $seconds seconds',
+      one: 'Resend code in 1 second',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get authSendCode => 'Send code';
+
+  @override
+  String get authSessionExpiredBanner =>
+      'Your session expired. Your changes are saved on this device and will sync once you sign in again.';
+
+  @override
+  String get authSignInAgain => 'Sign in again';
+
+  @override
+  String get authSignInToSync => 'Sign in to sync';
+
+  @override
+  String get authSignOut => 'Sign out';
+
+  @override
+  String get authSignOutAnyway => 'Sign out anyway';
+
+  @override
+  String get authSignOutBody =>
+      'Your data will be removed from this device. It stays safe in your account.';
+
+  @override
+  String authSignOutPendingBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count changes haven\'t synced yet and will be lost.',
+      one: '1 change hasn\'t synced yet and will be lost.',
+    );
+    return '$_temp0 Export your data first, or sign out anyway.';
+  }
+
+  @override
+  String get authSignOutSyncing => 'Syncing your last changes…';
+
+  @override
+  String get authSignOutTitle => 'Sign out?';
+
+  @override
+  String authSignedInAs(String email) {
+    return 'Signed in as $email';
+  }
+
+  @override
+  String get authSignedOut => 'Signed out';
+
+  @override
+  String get authUnlink => 'Unlink';
+
+  @override
+  String authUnlinkConfirm(String provider) {
+    return 'Unlink $provider?';
+  }
+
+  @override
+  String get authUpdateRequired =>
+      'Update Everslot to keep syncing. Your changes are kept on this device.';
+
+  @override
+  String get authUpgradeBody =>
+      'Add a sign-in method to your guest account. Your data stays exactly as it is.';
+
+  @override
+  String get authUpgradeDone => 'Your account is secured.';
+
+  @override
+  String get authUpgradeEmail => 'Add an email';
+
+  @override
+  String authUpgradeEmailInUseBody(String email) {
+    return '$email already has an Everslot account. Use another email — or export your guest data, sign out, sign in to that account and import the file.';
+  }
+
+  @override
+  String get authUpgradeEmailInUseTitle => 'Email already in use';
+
+  @override
+  String get authUpgradeTitle => 'Keep your data';
+
+  @override
+  String get authUseLocalOnly => 'Use on this device only';
+
+  @override
+  String get authUseLocalOnlyHint =>
+      'No account and no sync. Sign in later and your data comes along.';
+
+  @override
+  String get authVerify => 'Verify';
+
+  @override
+  String get authWelcomeBody =>
+      'Sign in to keep your plans, lists and habits in sync on all your devices.';
+
+  @override
+  String get authWelcomeTitle => 'Welcome to Everslot';
+
+  @override
+  String authZoneChangedBody(String zone) {
+    return 'You\'re now in $zone. Fixed-time tasks keep their exact time and floating tasks follow you. Make $zone your home time zone?';
+  }
+
+  @override
+  String get authZoneChangedTitle => 'New time zone';
+
+  @override
+  String get authZoneDetected => 'Detected on this device';
+
+  @override
+  String authZoneKeepHome(String zone) {
+    return 'Keep $zone';
+  }
+
+  @override
+  String get authZoneMakeHome => 'Make it home';
+
+  @override
+  String get authZoneNoMatch => 'No time zone matches your search';
+
+  @override
+  String get authZoneSearch => 'Search time zones';
+
+  @override
   String get categoriesEmpty => 'No categories yet';
 
   @override
@@ -375,6 +768,405 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get categoryUnavailableHint =>
       'Excluded from capacity stats (e.g. sleep, time off).';
+
+  @override
+  String get checklistAddItem => 'Add item';
+
+  @override
+  String get checklistAddSubItem => 'Add sub-item';
+
+  @override
+  String get checklistAllAttachments => 'All attachments';
+
+  @override
+  String get checklistAllLists => 'All lists';
+
+  @override
+  String get checklistAttach => 'Attach';
+
+  @override
+  String checklistBelowBadges(int blocked, int waiting) {
+    return '$blocked blocked · $waiting waiting below';
+  }
+
+  @override
+  String get checklistBodyHint => 'Note';
+
+  @override
+  String checklistCarrying(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Moving $count items',
+      one: 'Moving 1 item',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get checklistCollapse => 'Collapse';
+
+  @override
+  String get checklistCollapseAll => 'Collapse all';
+
+  @override
+  String get checklistCollapsedState => 'collapsed';
+
+  @override
+  String get checklistCompleted => 'List completed!';
+
+  @override
+  String get checklistCompletedArchive => 'Archive';
+
+  @override
+  String get checklistCompletedKeep => 'Keep';
+
+  @override
+  String get checklistCompletedReset => 'Reset';
+
+  @override
+  String get checklistCopied => 'Copied';
+
+  @override
+  String get checklistCopy => 'Copy';
+
+  @override
+  String get checklistCopyText => 'Copy as text';
+
+  @override
+  String get checklistCut => 'Cut';
+
+  @override
+  String get checklistDelete => 'Delete list';
+
+  @override
+  String get checklistDeleteCompleted => 'Delete completed items';
+
+  @override
+  String get checklistDeleteItem => 'Delete';
+
+  @override
+  String checklistDepthBadge(int level) {
+    return 'L$level';
+  }
+
+  @override
+  String get checklistDetails => 'Details';
+
+  @override
+  String get checklistDragHandle => 'Drag to move';
+
+  @override
+  String get checklistDue => 'Due date';
+
+  @override
+  String get checklistDuplicate => 'Duplicate list';
+
+  @override
+  String get checklistDuplicateItem => 'Duplicate';
+
+  @override
+  String get checklistEmptyFocus => 'No sub-items yet';
+
+  @override
+  String get checklistExpand => 'Expand';
+
+  @override
+  String get checklistExpandAll => 'Expand all';
+
+  @override
+  String checklistExpandToLevel(int level) {
+    return 'Expand to level $level';
+  }
+
+  @override
+  String get checklistExpandToLevelMenu => 'Expand to level…';
+
+  @override
+  String get checklistFilterAll => 'All';
+
+  @override
+  String get checklistFilterDueSoon => 'Due soon';
+
+  @override
+  String get checklistFilterHasAttachments => 'Has attachments';
+
+  @override
+  String get checklistFilterOpen => 'Open';
+
+  @override
+  String get checklistFilterText => 'Search in list';
+
+  @override
+  String get checklistFiltered => 'Filtered view';
+
+  @override
+  String get checklistFocus => 'Focus';
+
+  @override
+  String get checklistHasReminders => 'Has reminders';
+
+  @override
+  String get checklistHideCheckboxes => 'Hide checkboxes';
+
+  @override
+  String get checklistHideCompleted => 'Hide completed';
+
+  @override
+  String get checklistHideKeyboard => 'Hide keyboard';
+
+  @override
+  String get checklistImport => 'Import items…';
+
+  @override
+  String get checklistInTrash => 'This list is in the trash';
+
+  @override
+  String get checklistIndent => 'Indent';
+
+  @override
+  String get checklistInsights => 'Insights';
+
+  @override
+  String get checklistItemHint => 'List item';
+
+  @override
+  String checklistItemsDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items deleted',
+      one: '1 item deleted',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String checklistItemsDuplicated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items duplicated',
+      one: '1 item duplicated',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get checklistItemsMoved => 'Moved';
+
+  @override
+  String get checklistLabelName => 'Label name';
+
+  @override
+  String get checklistLabels => 'Labels';
+
+  @override
+  String get checklistLineBreak => 'Line break';
+
+  @override
+  String get checklistLinkedTask => 'Linked task';
+
+  @override
+  String get checklistModeEdit => 'Edit';
+
+  @override
+  String get checklistModePreview => 'Preview';
+
+  @override
+  String get checklistMoveConflict =>
+      'A move conflicted with a change on another device and was undone.';
+
+  @override
+  String get checklistMoveDown => 'Move down';
+
+  @override
+  String get checklistMoveTo => 'Move to…';
+
+  @override
+  String get checklistMoveUp => 'Move up';
+
+  @override
+  String get checklistNewLabel => 'New label';
+
+  @override
+  String get checklistNextOpen => 'Next open item';
+
+  @override
+  String get checklistNoItems => 'No items yet';
+
+  @override
+  String get checklistNoLabels => 'No labels yet';
+
+  @override
+  String get checklistNotFound => 'This list doesn\'t exist';
+
+  @override
+  String get checklistOpenTrash => 'Open trash';
+
+  @override
+  String get checklistOutdent => 'Outdent';
+
+  @override
+  String get checklistPaste => 'Paste';
+
+  @override
+  String get checklistPasteHere => 'Paste here';
+
+  @override
+  String get checklistPendingUploads => 'Uploads pending';
+
+  @override
+  String checklistProgress(int done, int total) {
+    return '$done of $total done';
+  }
+
+  @override
+  String get checklistPromote => 'Promote to list';
+
+  @override
+  String get checklistPromoted => 'Created a new list';
+
+  @override
+  String get checklistRecovered => 'Recovered';
+
+  @override
+  String get checklistRepeat => 'Repeat…';
+
+  @override
+  String get checklistResetConfirm =>
+      'Every item goes back to to-do and reason notes are cleared.';
+
+  @override
+  String get checklistResetDone => 'List reset';
+
+  @override
+  String get checklistResetNow => 'Reset now';
+
+  @override
+  String get checklistResetStatuses => 'Reset all statuses';
+
+  @override
+  String get checklistResetView => 'Reset';
+
+  @override
+  String checklistRowSemantics(String text, int level, int index, int count) {
+    return '$text, level $level, item $index of $count';
+  }
+
+  @override
+  String get checklistSaveAsTemplate => 'Save as template';
+
+  @override
+  String get checklistScheduleTask => 'Schedule as task';
+
+  @override
+  String get checklistSelect => 'Select';
+
+  @override
+  String get checklistSelectAll => 'Select all';
+
+  @override
+  String get checklistSelectSubtree => 'Select sub-items';
+
+  @override
+  String checklistSelected(int count) {
+    return '$count selected';
+  }
+
+  @override
+  String get checklistSettings => 'List settings';
+
+  @override
+  String get checklistShare => 'Share / export';
+
+  @override
+  String get checklistShowCheckboxes => 'Show checkboxes';
+
+  @override
+  String get checklistSortAlpha => 'Alphabetical';
+
+  @override
+  String get checklistSortChildren => 'Sort sub-items';
+
+  @override
+  String get checklistSortCompletedBottom => 'Sort completed to bottom';
+
+  @override
+  String get checklistSortDescending => 'Descending';
+
+  @override
+  String get checklistSortDue => 'Due date';
+
+  @override
+  String get checklistSortFilter => 'Sort & filter';
+
+  @override
+  String get checklistSortManual => 'Manual';
+
+  @override
+  String get checklistSortPriority => 'Priority';
+
+  @override
+  String get checklistSortRecent => 'Recently changed';
+
+  @override
+  String get checklistSortStatus => 'Status';
+
+  @override
+  String checklistSortedBy(String criterion) {
+    return 'Sorted by $criterion';
+  }
+
+  @override
+  String get checklistStatusChanged => 'Status changed';
+
+  @override
+  String checklistSubItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sub-items',
+      one: '1 sub-item',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get checklistTaskPlaceholder =>
+      'Linking to planner tasks arrives with the planner.';
+
+  @override
+  String get checklistTemplateSaved => 'Saved as template';
+
+  @override
+  String get checklistTitleHint => 'Title';
+
+  @override
+  String get checklistUncheckAll => 'Uncheck all';
+
+  @override
+  String checklistUncheckConfirm(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Uncheck $count items?',
+      one: 'Uncheck 1 item?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get checklistViewGallery => 'Gallery';
+
+  @override
+  String get checklistViewKanban => 'Kanban';
+
+  @override
+  String get checklistViewOutline => 'Outline';
+
+  @override
+  String get checklistZoomOut => 'Zoom out';
 
   @override
   String get comingSoon => 'Coming soon';
@@ -448,8 +1240,460 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorValidation => 'Please check the highlighted fields.';
 
   @override
+  String get exportBranchOnly => 'Only this branch';
+
+  @override
+  String get exportCopied => 'Copied to clipboard';
+
+  @override
+  String get exportCopy => 'Copy to clipboard';
+
+  @override
+  String get exportMarkdown => 'Markdown';
+
+  @override
+  String get exportOpml => 'OPML';
+
+  @override
+  String get exportPlain => 'Plain text';
+
+  @override
+  String get exportShare => 'Share…';
+
+  @override
+  String get exportTitle => 'Share / export';
+
+  @override
+  String filterActiveCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count filters active',
+      one: '1 filter active',
+      zero: 'No filters',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get filterAny => 'Any';
+
+  @override
+  String get filterAttachments => 'Attachments';
+
+  @override
+  String get filterCategory => 'Category';
+
+  @override
+  String filterChipCount(String field, int count) {
+    return '$field · $count';
+  }
+
+  @override
+  String filterChipValue(String field, String value) {
+    return '$field: $value';
+  }
+
+  @override
+  String filterClear(String filter) {
+    return 'Clear filter $filter';
+  }
+
+  @override
+  String get filterClearAll => 'Clear all';
+
+  @override
+  String get filterDate => 'Date';
+
+  @override
+  String get filterNoCategory => 'No category';
+
+  @override
+  String get filterOneOffOnly => 'One-off';
+
+  @override
+  String get filterPriority => 'Priority';
+
+  @override
+  String get filterRecurring => 'Repeats';
+
+  @override
+  String get filterRecurringOnly => 'Recurring';
+
+  @override
+  String get filterStatus => 'Status';
+
+  @override
+  String get filterTag => 'Tag';
+
+  @override
+  String get filterText => 'Text';
+
+  @override
+  String get filterTextPrompt => 'Contains text';
+
+  @override
+  String get filterWithAttachments => 'With attachments';
+
+  @override
+  String get filterWithoutAttachments => 'Without attachments';
+
+  @override
+  String get galleryEmpty => 'No items with images';
+
+  @override
+  String get galleryOnlyImages => 'Only items with images';
+
+  @override
+  String get importAction => 'Import';
+
+  @override
+  String get importChooseFile => 'Choose file';
+
+  @override
+  String get importConvertBody => 'Convert note to items';
+
+  @override
+  String importDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items imported',
+      one: '1 item imported',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importItemsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '1 item',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importKeepOne => 'Keep as one item';
+
+  @override
+  String get importPasteHint => 'Paste indented text, Markdown or OPML';
+
+  @override
+  String get importSplit => 'Split into items (keep nesting)';
+
+  @override
+  String get importTitle => 'Import';
+
+  @override
+  String get importWarningAttachments => 'Attachment references were skipped';
+
+  @override
+  String get importWarningEmpty => 'Nothing to import';
+
+  @override
+  String get importWarningMalformed => 'This file couldn\'t be read';
+
+  @override
+  String get importWarningTooMany =>
+      'Only the first 10 000 lines were imported';
+
+  @override
+  String get itemAddTime => 'Add time';
+
+  @override
+  String get itemAttachments => 'Attachments';
+
+  @override
+  String get itemClearDue => 'Remove due date';
+
+  @override
+  String itemCompletedOn(String date) {
+    return 'Completed $date';
+  }
+
+  @override
+  String itemCreated(String date) {
+    return 'Created $date';
+  }
+
+  @override
+  String get itemDetailsTitle => 'Item details';
+
+  @override
+  String get itemDue => 'Due';
+
+  @override
+  String get itemDueOverdue => 'Overdue';
+
+  @override
+  String get itemDueToday => 'Today';
+
+  @override
+  String get itemDueTomorrow => 'Tomorrow';
+
+  @override
+  String itemEdited(String date) {
+    return 'Edited $date';
+  }
+
+  @override
+  String get itemHistory => 'History';
+
+  @override
+  String get itemHistoryCause => 'automatic';
+
+  @override
+  String itemHistoryDevice(String device) {
+    return 'on $device';
+  }
+
+  @override
+  String get itemHistoryEmpty => 'No status changes yet';
+
+  @override
+  String itemHistoryTransition(String from, String to) {
+    return '$from → $to';
+  }
+
+  @override
+  String get itemInsights => 'Insights';
+
+  @override
+  String get itemNoDue => 'No due date';
+
+  @override
+  String get itemNote => 'Note';
+
+  @override
+  String get itemOtherDevice => 'another device';
+
+  @override
+  String get itemPriority => 'Priority';
+
+  @override
+  String get itemText => 'Text';
+
+  @override
+  String get itemThisDevice => 'this device';
+
+  @override
+  String get itemTimeInStatus => 'Time in status';
+
+  @override
+  String get kanbanAll => 'All items';
+
+  @override
+  String get kanbanChildren => 'Direct sub-items';
+
+  @override
+  String get kanbanEmptyColumn => 'Drop items here';
+
+  @override
+  String get kanbanLeaves => 'Leaves only';
+
+  @override
+  String get kanbanScope => 'Show';
+
+  @override
+  String get kanbanShowCancelled => 'Show cancelled';
+
+  @override
+  String get listsArchive => 'Archive';
+
+  @override
+  String get listsArchiveAction => 'Archive';
+
+  @override
+  String get listsArchiveEmpty => 'No archived lists';
+
+  @override
+  String get listsArchived => 'List archived';
+
+  @override
+  String listsBadgeBlocked(int count) {
+    return '$count blocked';
+  }
+
+  @override
+  String listsBadgeStale(int count) {
+    return '$count stale';
+  }
+
+  @override
+  String listsBadgeWaiting(int count) {
+    return '$count waiting';
+  }
+
+  @override
+  String get listsBoardSort => 'Sort cards';
+
+  @override
+  String get listsBoardSortManual => 'Manual';
+
+  @override
+  String get listsBoardSortRecent => 'Recently edited';
+
+  @override
+  String get listsBoardSortTitle => 'Title';
+
+  @override
+  String get listsCardActions => 'List actions';
+
+  @override
+  String listsCardMore(int count) {
+    return '+$count more';
+  }
+
+  @override
+  String listsCardProgress(int done, int total) {
+    return '$done/$total';
+  }
+
+  @override
+  String listsCardSemantics(String title, String progress) {
+    return '$title, $progress';
+  }
+
+  @override
+  String get listsColor => 'Color';
+
+  @override
+  String listsCopyOf(String title) {
+    return 'Copy of $title';
+  }
+
+  @override
+  String get listsDelete => 'Delete';
+
+  @override
+  String get listsDeleted => 'List deleted';
+
+  @override
+  String get listsDragHint => 'Long-press and drag to reorder';
+
+  @override
+  String get listsDuplicate => 'Duplicate';
+
+  @override
+  String get listsDuplicated => 'List duplicated';
+
+  @override
+  String get listsEmptyAction => 'Create your first list';
+
+  @override
+  String get listsEmptyMessage =>
+      'Checklists, notes and routines — nested as deep as you need.';
+
+  @override
+  String get listsEmptyTitle => 'No lists yet';
+
+  @override
+  String get listsFilterColor => 'Color';
+
+  @override
+  String get listsFilterHasAttachments => 'With attachments';
+
+  @override
+  String get listsFilterHasBlocked => 'Waiting or blocked';
+
+  @override
+  String get listsFilterPinned => 'Pinned';
+
+  @override
+  String get listsFilterRepeating => 'Repeating';
+
+  @override
+  String get listsFromTemplate => 'From template';
+
+  @override
+  String get listsGridView => 'Grid view';
+
+  @override
+  String get listsImportFile => 'Import file…';
+
+  @override
+  String get listsListView => 'List view';
+
+  @override
+  String get listsMoveItems => 'Move items…';
+
+  @override
+  String get listsNewChecklist => 'New checklist';
+
+  @override
+  String get listsNewNote => 'New note';
+
+  @override
+  String get listsOthers => 'Others';
+
+  @override
+  String get listsPin => 'Pin';
+
+  @override
+  String get listsPinned => 'Pinned';
+
+  @override
+  String get listsPreferences => 'Lists settings';
+
+  @override
+  String get listsRepeats => 'Repeats';
+
+  @override
+  String get listsResetStatusesOption => 'Reset all statuses to to-do';
+
+  @override
+  String get listsSearchHint => 'Search lists';
+
+  @override
+  String get listsSearchItems => 'Items';
+
+  @override
+  String get listsSearchNoResults => 'No matching lists or items';
+
+  @override
+  String get listsShowBody => 'Show note text on cards';
+
+  @override
+  String get listsShowSmartChips => 'Show waiting / blocked chips';
+
+  @override
+  String get listsTemplates => 'Templates';
+
+  @override
+  String get listsTrash => 'Trash';
+
+  @override
+  String get listsUnarchive => 'Unarchive';
+
+  @override
+  String get listsUnarchived => 'List restored from archive';
+
+  @override
+  String get listsUnpin => 'Unpin';
+
+  @override
+  String get listsUntitled => 'Untitled';
+
+  @override
   String get localOnlyBanner =>
       'Cloud sync isn\'t configured — your data stays on this device.';
+
+  @override
+  String get moveChooseParent => 'Choose where';
+
+  @override
+  String moveDone(String title) {
+    return 'Moved to $title';
+  }
+
+  @override
+  String get moveToList => 'Move to list';
+
+  @override
+  String get moveToTop => 'Top level';
 
   @override
   String get notFoundTitle => 'Page not found';
@@ -1121,6 +2365,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifFieldOffset => 'Offset in minutes (negative = before)';
 
   @override
+  String get notifFieldRepeats => 'Repeats';
+
+  @override
   String get notifFieldStatuses => 'Statuses';
 
   @override
@@ -1132,6 +2379,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifFieldUntil => 'Until';
+
+  @override
+  String get notifFreqDaily => 'Every day';
+
+  @override
+  String get notifFreqMonthly => 'Every month';
+
+  @override
+  String get notifFreqWeekly => 'Every week';
 
   @override
   String get notifFrom => 'From';
@@ -1832,6 +3088,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifSoundSoft => 'Soft';
 
   @override
+  String get notifStatusBlocked => 'blocked';
+
+  @override
+  String get notifStatusCancelled => 'cancelled';
+
+  @override
+  String get notifStatusCompleted => 'completed';
+
+  @override
+  String get notifStatusDone => 'done';
+
+  @override
+  String get notifStatusInProgress => 'in progress';
+
+  @override
+  String get notifStatusMissed => 'missed';
+
+  @override
+  String get notifStatusOngoing => 'ongoing';
+
+  @override
+  String get notifStatusScheduled => 'scheduled';
+
+  @override
+  String get notifStatusSkipped => 'skipped';
+
+  @override
+  String get notifStatusTodo => 'to do';
+
+  @override
+  String get notifStatusWaiting => 'waiting';
+
+  @override
   String get notifSticky => 'Keep until done (Android)';
 
   @override
@@ -2108,6 +3397,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifYes => 'Yes';
+
+  @override
+  String get onboardingClock => 'Clock';
+
+  @override
+  String get onboardingClock12 => '12-hour';
+
+  @override
+  String get onboardingClock24 => '24-hour';
+
+  @override
+  String get onboardingEssentialsBody =>
+      'We picked these from your device. Adjust anything that\'s off — you can change them later in Settings › Regional.';
+
+  @override
+  String get onboardingEssentialsTitle => 'Your week, your clock';
+
+  @override
+  String get onboardingGetStarted => 'Get started';
+
+  @override
+  String get onboardingLanguage => 'Language';
+
+  @override
+  String onboardingStepOf(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get onboardingTimeZone => 'Home time zone';
+
+  @override
+  String get onboardingTitle => 'Set up Everslot';
+
+  @override
+  String get onboardingWeekStart => 'Week starts on';
 
   @override
   String get pickerColor => 'Color';
@@ -3761,7 +5086,177 @@ class AppLocalizationsEn extends AppLocalizations {
   String get relativeNow => 'now';
 
   @override
+  String repeatChip(String rule, String when) {
+    return 'Resets $rule · next $when';
+  }
+
+  @override
+  String get repeatCustom => 'Custom rule';
+
+  @override
+  String get repeatModeAll => 'Everything back to to-do';
+
+  @override
+  String get repeatModeCompleted => 'Uncheck completed items only';
+
+  @override
+  String get repeatNoRuns => 'No finished runs yet';
+
+  @override
+  String get repeatNone => 'Doesn\'t repeat';
+
+  @override
+  String get repeatResetTime => 'Reset time';
+
+  @override
+  String repeatRunSummary(int done, int total) {
+    return '$done/$total done';
+  }
+
+  @override
+  String get repeatRuns => 'Run history';
+
+  @override
+  String get repeatTitle => 'Repeat';
+
+  @override
   String get savedSnack => 'Saved';
+
+  @override
+  String get settingsAutoComplete => 'Complete parents automatically';
+
+  @override
+  String get settingsCascadeAlways => 'Complete sub-items too';
+
+  @override
+  String get settingsCascadeAsk => 'Ask';
+
+  @override
+  String get settingsCascadeNever => 'Leave sub-items';
+
+  @override
+  String get settingsCategory => 'Category';
+
+  @override
+  String get settingsCompleteChildren => 'When completing a parent';
+
+  @override
+  String get settingsDefaultOpen => 'Open in';
+
+  @override
+  String get settingsHideCheckboxes => 'Hide checkboxes (bullets)';
+
+  @override
+  String get settingsLanguageArabic => 'العربية';
+
+  @override
+  String get settingsLanguageEnglish => 'English';
+
+  @override
+  String get settingsLanguageFrench => 'Français';
+
+  @override
+  String get settingsLanguageSystem => 'System default';
+
+  @override
+  String get settingsProgressChildren => 'Direct sub-items only';
+
+  @override
+  String get settingsProgressLeaves => 'All sub-items';
+
+  @override
+  String get settingsProgressMode => 'Progress counts';
+
+  @override
+  String get settingsRequireReason => 'Require a reason for';
+
+  @override
+  String get settingsShowAttachments => 'Show attachments in preview';
+
+  @override
+  String get settingsShowNotes => 'Show notes in preview';
+
+  @override
+  String get settingsSortCompleted => 'Sort completed to bottom';
+
+  @override
+  String settingsStaleDays(int days) {
+    return 'Mark stale after $days days';
+  }
+
+  @override
+  String get settingsSwipeComplete => 'Complete';
+
+  @override
+  String get settingsSwipeEditLeft => 'Edit mode · swipe left';
+
+  @override
+  String get settingsSwipeEditRight => 'Edit mode · swipe right';
+
+  @override
+  String get settingsSwipeIndent => 'Indent';
+
+  @override
+  String get settingsSwipeMenu => 'Actions menu';
+
+  @override
+  String get settingsSwipeNone => 'Nothing';
+
+  @override
+  String get settingsSwipeOutdent => 'Outdent';
+
+  @override
+  String get settingsSwipePreviewLeft => 'Preview · swipe left';
+
+  @override
+  String get settingsSwipePreviewRight => 'Preview · swipe right';
+
+  @override
+  String get settingsSwipeTitle => 'Swipe actions';
+
+  @override
+  String get smartBlocked => 'Blocked';
+
+  @override
+  String smartChip(String label, int count) {
+    return '$label · $count';
+  }
+
+  @override
+  String get smartClearFollowUp => 'Clear follow-up';
+
+  @override
+  String get smartEmpty => 'Nothing here — nice.';
+
+  @override
+  String get smartFollowUps => 'Follow-ups';
+
+  @override
+  String get smartGroupByList => 'Group by list';
+
+  @override
+  String get smartOngoing => 'Ongoing';
+
+  @override
+  String get smartOpenInList => 'Open in list';
+
+  @override
+  String get smartSetFollowUp => 'Set follow-up';
+
+  @override
+  String get smartSortAge => 'Age';
+
+  @override
+  String get smartSortFollowUp => 'Follow-up';
+
+  @override
+  String get smartSortList => 'List';
+
+  @override
+  String get smartUnknown => 'Unknown smart list';
+
+  @override
+  String get smartWaiting => 'Waiting';
 
   @override
   String get stateEmpty => 'Nothing here yet';
@@ -3774,6 +5269,125 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stateLoading => 'Loading…';
+
+  @override
+  String get statusAddNote => 'Add note…';
+
+  @override
+  String statusAgeDays(int n) {
+    return '$n d';
+  }
+
+  @override
+  String statusAgeHours(int n) {
+    return '$n h';
+  }
+
+  @override
+  String statusAgeMinutes(int n) {
+    return '$n min';
+  }
+
+  @override
+  String get statusBlocked => 'Blocked';
+
+  @override
+  String get statusCancelled => 'Cancelled';
+
+  @override
+  String get statusCascadeAll => 'Complete all';
+
+  @override
+  String get statusCascadeOnlyThis => 'Only this one';
+
+  @override
+  String statusCascadeTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Also complete $count open sub-items?',
+      one: 'Also complete 1 open sub-item?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statusChange => 'Change status';
+
+  @override
+  String get statusCompleted => 'Completed';
+
+  @override
+  String get statusFollowUp => 'Follow up';
+
+  @override
+  String statusFollowUpChip(String when) {
+    return 'Check back $when';
+  }
+
+  @override
+  String get statusFollowUpCustom => 'Custom…';
+
+  @override
+  String get statusFollowUpIn3Days => 'In 3 days';
+
+  @override
+  String get statusFollowUpLaterToday => 'Later today';
+
+  @override
+  String get statusFollowUpNextWeek => 'Next week';
+
+  @override
+  String get statusFollowUpNone => 'No follow-up';
+
+  @override
+  String get statusFollowUpOverdue => 'Check back now';
+
+  @override
+  String get statusFollowUpTomorrow => 'Tomorrow 09:00';
+
+  @override
+  String get statusKeepFollowUp => 'Keep follow-up';
+
+  @override
+  String statusMarked(String status) {
+    return 'Marked $status';
+  }
+
+  @override
+  String get statusOngoing => 'In progress';
+
+  @override
+  String get statusReasonBlocked => 'What\'s blocking it?';
+
+  @override
+  String get statusReasonOther => 'Add a note (optional)';
+
+  @override
+  String get statusReasonRequired => 'A reason is required';
+
+  @override
+  String get statusReasonWaiting => 'Waiting on whom / what?';
+
+  @override
+  String get statusRecentReasons => 'Recent';
+
+  @override
+  String get statusSheetTitle => 'Status';
+
+  @override
+  String get statusStale => 'Stale';
+
+  @override
+  String get statusTodo => 'To do';
+
+  @override
+  String get statusWaiting => 'Waiting';
+
+  @override
+  String statusWithAge(String status, String age) {
+    return '$status · $age';
+  }
 
   @override
   String get syncError => 'Sync problem';
@@ -4832,4 +6446,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tasksZoneSearch => 'Search time zones';
+
+  @override
+  String get templatesBuiltin => 'Built-in';
+
+  @override
+  String get templatesCreated => 'List created from template';
+
+  @override
+  String get templatesEdit => 'Edit template';
+
+  @override
+  String get templatesEmpty => 'Save any list as a template from its menu.';
+
+  @override
+  String get templatesMine => 'My templates';
+
+  @override
+  String get templatesRename => 'Rename';
+
+  @override
+  String get templatesUse => 'Use template';
 }

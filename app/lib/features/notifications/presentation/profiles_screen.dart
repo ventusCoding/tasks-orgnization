@@ -18,7 +18,12 @@ enum _ProfileAction { rename, duplicate, delete }
 class NotificationProfilesScreen extends ConsumerWidget {
   const NotificationProfilesScreen({super.key});
 
-  Future<void> _delete(BuildContext context, WidgetRef ref, NotificationProfile profile, List<NotificationProfile> all) async {
+  Future<void> _delete(
+    BuildContext context,
+    WidgetRef ref,
+    NotificationProfile profile,
+    List<NotificationProfile> all,
+  ) async {
     final l = context.l10n;
     final labels = NotificationLabels.of(context);
     final repo = ref.read(notificationProfilesRepositoryProvider);
@@ -32,17 +37,31 @@ class NotificationProfilesScreen extends ConsumerWidget {
         builder: (ctx) => ListView(
           shrinkWrap: true,
           children: [
-            Padding(padding: const EdgeInsets.all(Space.lg), child: Text(l.notifProfileDeleteBody(used))),
-            ListTile(title: Text(l.notifProfileNone), onTap: () => Navigator.pop(ctx, (id: null))),
+            Padding(
+              padding: const EdgeInsets.all(Space.lg),
+              child: Text(l.notifProfileDeleteBody(used)),
+            ),
+            ListTile(
+              title: Text(l.notifProfileNone),
+              onTap: () => Navigator.pop(ctx, (id: null)),
+            ),
             for (final p in all)
-              if (p.id != profile.id) ListTile(title: Text(labels.profileName(p)), onTap: () => Navigator.pop(ctx, (id: p.id))),
+              if (p.id != profile.id)
+                ListTile(
+                  title: Text(labels.profileName(p)),
+                  onTap: () => Navigator.pop(ctx, (id: p.id)),
+                ),
           ],
         ),
       );
       if (choice == null) return;
       target = choice.id;
     } else {
-      final ok = await confirmDialog(context, title: l.notifProfileDelete, destructive: true);
+      final ok = await confirmDialog(
+        context,
+        title: l.notifProfileDelete,
+        destructive: true,
+      );
       if (!ok) return;
     }
     await repo.delete(profile.id, moveRulesTo: target);
@@ -60,49 +79,94 @@ class NotificationProfilesScreen extends ConsumerWidget {
         label: Text(l.notifProfileNew),
         onPressed: () async {
           final name = await promptText(context, title: l.notifProfileNew);
-          if (name != null) await ref.read(notificationProfilesRepositoryProvider).create(name: name, spec: const ProfileSpec());
+          if (name != null)
+            await ref
+                .read(notificationProfilesRepositoryProvider)
+                .create(name: name, spec: const ProfileSpec());
         },
       ),
       body: AsyncValueView<List<NotificationProfile>>(
         value: profiles,
         data: (all) {
-          final visible = [for (final p in all) if (!p.hidden) p];
+          final visible = [
+            for (final p in all)
+              if (!p.hidden) p,
+          ];
           return ListView(
             padding: const EdgeInsets.only(bottom: Space.xxxl * 2),
             children: [
               Padding(
                 padding: const EdgeInsets.all(Space.lg),
-                child: Text(l.notifProfileChannelWarning, style: context.text.bodySmall),
+                child: Text(
+                  l.notifProfileChannelWarning,
+                  style: context.text.bodySmall,
+                ),
               ),
               for (final p in visible)
                 ListTile(
-                  leading: Icon(p.isBuiltin ? Icons.verified_outlined : Icons.style_outlined),
+                  leading: Icon(
+                    p.isBuiltin
+                        ? Icons.verified_outlined
+                        : Icons.style_outlined,
+                  ),
                   title: Text(labels.profileName(p)),
-                  subtitle: Text([
-                    if (p.isBuiltin) l.notifProfileBuiltin,
-                    labels.importance(NotificationImportance.tryParse(p.spec.delivery.importance) ?? NotificationImportance.normal),
-                    labels.sound(p.spec.delivery.sound ?? 'default'),
-                  ].join(' · ')),
+                  subtitle: Text(
+                    [
+                      if (p.isBuiltin) l.notifProfileBuiltin,
+                      labels.importance(
+                        NotificationImportance.tryParse(
+                              p.spec.delivery.importance,
+                            ) ??
+                            NotificationImportance.normal,
+                      ),
+                      labels.sound(p.spec.delivery.sound ?? 'default'),
+                    ].join(' · '),
+                  ),
                   onTap: () => unawaited(
-                    Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => ProfileEditorScreen(profile: p))),
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => ProfileEditorScreen(profile: p),
+                      ),
+                    ),
                   ),
                   trailing: PopupMenuButton<_ProfileAction>(
                     onSelected: (a) async {
-                      final repo = ref.read(notificationProfilesRepositoryProvider);
+                      final repo = ref.read(
+                        notificationProfilesRepositoryProvider,
+                      );
                       switch (a) {
                         case _ProfileAction.rename:
-                          final name = await promptText(context, title: l.notifProfileRename, initial: labels.profileName(p));
+                          final name = await promptText(
+                            context,
+                            title: l.notifProfileRename,
+                            initial: labels.profileName(p),
+                          );
                           if (name != null) await repo.update(p.id, name: name);
                         case _ProfileAction.duplicate:
-                          await repo.duplicate(p.id, '${labels.profileName(p)} 2');
+                          await repo.duplicate(
+                            p.id,
+                            '${labels.profileName(p)} 2',
+                          );
                         case _ProfileAction.delete:
-                          if (context.mounted) await _delete(context, ref, p, visible);
+                          if (context.mounted)
+                            await _delete(context, ref, p, visible);
                       }
                     },
                     itemBuilder: (_) => [
-                      if (!p.isBuiltin) PopupMenuItem(value: _ProfileAction.rename, child: Text(l.notifProfileRename)),
-                      PopupMenuItem(value: _ProfileAction.duplicate, child: Text(l.notifProfileDuplicate)),
-                      if (!p.isBuiltin) PopupMenuItem(value: _ProfileAction.delete, child: Text(l.notifProfileDelete)),
+                      if (!p.isBuiltin)
+                        PopupMenuItem(
+                          value: _ProfileAction.rename,
+                          child: Text(l.notifProfileRename),
+                        ),
+                      PopupMenuItem(
+                        value: _ProfileAction.duplicate,
+                        child: Text(l.notifProfileDuplicate),
+                      ),
+                      if (!p.isBuiltin)
+                        PopupMenuItem(
+                          value: _ProfileAction.delete,
+                          child: Text(l.notifProfileDelete),
+                        ),
                     ],
                   ),
                 ),
@@ -121,7 +185,8 @@ class ProfileEditorScreen extends ConsumerStatefulWidget {
   final NotificationProfile profile;
 
   @override
-  ConsumerState<ProfileEditorScreen> createState() => _ProfileEditorScreenState();
+  ConsumerState<ProfileEditorScreen> createState() =>
+      _ProfileEditorScreenState();
 }
 
 class _ProfileEditorScreenState extends ConsumerState<ProfileEditorScreen> {
@@ -139,7 +204,9 @@ class _ProfileEditorScreenState extends ConsumerState<ProfileEditorScreen> {
         actions: [
           TextButton(
             onPressed: () async {
-              await ref.read(notificationProfilesRepositoryProvider).update(widget.profile.id, spec: _spec);
+              await ref
+                  .read(notificationProfilesRepositoryProvider)
+                  .update(widget.profile.id, spec: _spec);
               if (context.mounted) Navigator.pop(context);
             },
             child: Text(l.actionSave),
@@ -154,7 +221,8 @@ class _ProfileEditorScreenState extends ConsumerState<ProfileEditorScreen> {
           DeliveryFieldsEditor(
             value: _spec.delivery,
             inheritedFrom: l.notifProfileStandard,
-            onChanged: (d) => setState(() => _spec = _spec.copyWith(delivery: d)),
+            onChanged: (d) =>
+                setState(() => _spec = _spec.copyWith(delivery: d)),
           ),
           const SizedBox(height: Space.lg),
           Text(l.notifRepeat, style: context.text.titleSmall),
@@ -169,7 +237,10 @@ class _ProfileEditorScreenState extends ConsumerState<ProfileEditorScreen> {
               () => _spec = switch (s.first) {
                 0 => _spec.copyWith(clearRepeat: true, repeatDisabled: false),
                 1 => _spec.copyWith(clearRepeat: true, repeatDisabled: true),
-                _ => _spec.copyWith(repeat: const RepeatSpec(everyMinutes: 5, maxTimes: 5), repeatDisabled: false),
+                _ => _spec.copyWith(
+                  repeat: const RepeatSpec(everyMinutes: 5, maxTimes: 5),
+                  repeatDisabled: false,
+                ),
               },
             ),
           ),
@@ -179,7 +250,13 @@ class _ProfileEditorScreenState extends ConsumerState<ProfileEditorScreen> {
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration: InputDecoration(labelText: l.notifFieldEveryMinutes),
-              onChanged: (v) => setState(() => _spec = _spec.copyWith(repeat: repeat.copyWith(everyMinutes: int.tryParse(v) ?? repeat.everyMinutes))),
+              onChanged: (v) => setState(
+                () => _spec = _spec.copyWith(
+                  repeat: repeat.copyWith(
+                    everyMinutes: int.tryParse(v) ?? repeat.everyMinutes,
+                  ),
+                ),
+              ),
             ),
             TextFormField(
               initialValue: '${repeat.maxTimes}',
@@ -187,7 +264,14 @@ class _ProfileEditorScreenState extends ConsumerState<ProfileEditorScreen> {
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration: InputDecoration(labelText: l.notifFieldMaxTimes),
               onChanged: (v) => setState(
-                () => _spec = _spec.copyWith(repeat: repeat.copyWith(maxTimes: (int.tryParse(v) ?? repeat.maxTimes).clamp(1, RepeatSpec.hardMaxTimes))),
+                () => _spec = _spec.copyWith(
+                  repeat: repeat.copyWith(
+                    maxTimes: (int.tryParse(v) ?? repeat.maxTimes).clamp(
+                      1,
+                      RepeatSpec.hardMaxTimes,
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
@@ -195,7 +279,8 @@ class _ProfileEditorScreenState extends ConsumerState<ProfileEditorScreen> {
             contentPadding: EdgeInsets.zero,
             title: Text(l.notifRespectQuiet),
             value: _spec.respectQuietHours ?? true,
-            onChanged: (v) => setState(() => _spec = _spec.copyWith(respectQuietHours: v)),
+            onChanged: (v) =>
+                setState(() => _spec = _spec.copyWith(respectQuietHours: v)),
           ),
         ],
       ),

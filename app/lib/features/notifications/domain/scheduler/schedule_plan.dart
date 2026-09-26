@@ -26,7 +26,11 @@ abstract final class ScheduleKind {
 /// Android ≤ 250.
 @immutable
 class ScheduleBudget {
-  const ScheduleBudget({required this.regular, this.reserve = 0, this.sentinel = false});
+  const ScheduleBudget({
+    required this.regular,
+    this.reserve = 0,
+    this.sentinel = false,
+  });
 
   static const ios = ScheduleBudget(regular: 56, reserve: 8, sentinel: true);
   static const android = ScheduleBudget(regular: 250);
@@ -150,7 +154,10 @@ class ScheduleEntry {
   final Map<String, Object?> content;
 
   bool get createsInboxRow =>
-      inbox && kind != ScheduleKind.merged && kind != ScheduleKind.sentinel && kind != ScheduleKind.test;
+      inbox &&
+      kind != ScheduleKind.merged &&
+      kind != ScheduleKind.sentinel &&
+      kind != ScheduleKind.test;
 
   String encodePayload() => jsonEncode({
     'k': kind,
@@ -203,7 +210,8 @@ class ScheduleEntry {
       other.reconciledAt == reconciledAt;
 
   @override
-  int get hashCode => Object.hash(dedupeKey, platformId, fireAt, kind, os, hash);
+  int get hashCode =>
+      Object.hash(dedupeKey, platformId, fireAt, kind, os, hash);
 }
 
 /// A desired schedule item computed from the plan.
@@ -234,7 +242,10 @@ class DesiredItem {
   /// Inbox content map stored in the schedule row.
   Map<String, Object?> get content {
     final p = planned;
-    if (p == null) return {if (members.isNotEmpty) 'mem': [for (final m in members) m.inboxTitle]};
+    if (p == null)
+      return {
+        if (members.isNotEmpty) 'mem': [for (final m in members) m.inboxTitle],
+      };
     return {
       't': p.inboxTitle,
       'b': ?p.inboxBody,
@@ -258,7 +269,12 @@ class DesiredItem {
 /// Changes needed to make the OS match the plan (T7.2.09).
 @immutable
 class ScheduleDiff {
-  const ScheduleDiff({required this.cancel, required this.upsert, required this.remove, required this.unchanged});
+  const ScheduleDiff({
+    required this.cancel,
+    required this.upsert,
+    required this.remove,
+    required this.unchanged,
+  });
 
   /// Rows whose OS request must be cancelled (removed or changed).
   final List<ScheduleEntry> cancel;
@@ -273,7 +289,8 @@ class ScheduleDiff {
   bool get isEmpty => cancel.isEmpty && upsert.isEmpty && remove.isEmpty;
 
   /// Number of platform calls this diff needs.
-  int get platformCalls => cancel.where((e) => e.os).length + upsert.where((u) => u.os).length;
+  int get platformCalls =>
+      cancel.where((e) => e.os).length + upsert.where((u) => u.os).length;
 }
 
 abstract final class ScheduleComputation {
@@ -286,7 +303,10 @@ abstract final class ScheduleComputation {
     required String Function(int count) mergedTitle,
     bool merge = true,
   }) {
-    final local = [for (final p in planned) if (p.scheduleLocally) p];
+    final local = [
+      for (final p in planned)
+        if (p.scheduleLocally) p,
+    ];
     final result = <DesiredItem>[];
     final osCandidates = <PlannedNotification>[];
     for (final p in local) {
@@ -315,11 +335,18 @@ abstract final class ScheduleComputation {
     final osItems = <DesiredItem>[];
     for (final g in groups) {
       if (g.length == 1) {
-        osItems.add(_single(g.single, os: true, kind: g.single.isNag ? ScheduleKind.nag : ScheduleKind.oneShot));
+        osItems.add(
+          _single(
+            g.single,
+            os: true,
+            kind: g.single.isNag ? ScheduleKind.nag : ScheduleKind.oneShot,
+          ),
+        );
         continue;
       }
       final keys = [for (final p in g) p.dedupeKey]..sort();
-      final key = 'merged:${sha1.convert(utf8.encode(keys.join('|'))).toString().substring(0, 32)}';
+      final key =
+          'merged:${sha1.convert(utf8.encode(keys.join('|'))).toString().substring(0, 32)}';
       osItems.add(
         DesiredItem(
           key: key,
@@ -380,7 +407,11 @@ abstract final class ScheduleComputation {
     // Members of merged groups are already tracked individually.
   }
 
-  static DesiredItem _single(PlannedNotification p, {required bool os, required String kind}) => DesiredItem(
+  static DesiredItem _single(
+    PlannedNotification p, {
+    required bool os,
+    required String kind,
+  }) => DesiredItem(
     key: p.dedupeKey,
     fireAt: p.fireAt,
     kind: kind,
@@ -397,14 +428,20 @@ abstract final class ScheduleComputation {
     return i != 0 ? i : a.dedupeKey.compareTo(b.dedupeKey);
   }
 
-  static String _hash(List<String> parts) => sha1.convert(utf8.encode(parts.join('|'))).toString().substring(0, 16);
+  static String _hash(List<String> parts) =>
+      sha1.convert(utf8.encode(parts.join('|'))).toString().substring(0, 16);
 
   /// Diff between the stored schedule and the desired items. Past rows are kept (they await
   /// inbox reconciliation); snooze and test rows are never touched by replans.
-  static ScheduleDiff diff(List<ScheduleEntry> current, List<DesiredItem> desired, DateTime now) {
+  static ScheduleDiff diff(
+    List<ScheduleEntry> current,
+    List<DesiredItem> desired,
+    DateTime now,
+  ) {
     final managed = {
       for (final e in current)
-        if (e.kind != ScheduleKind.snooze && e.kind != ScheduleKind.test) e.dedupeKey: e,
+        if (e.kind != ScheduleKind.snooze && e.kind != ScheduleKind.test)
+          e.dedupeKey: e,
     };
     final desiredKeys = <String>{};
     final cancel = <ScheduleEntry>[];
@@ -432,35 +469,62 @@ abstract final class ScheduleComputation {
     }
     for (final e in managed.values) {
       if (desiredKeys.contains(e.dedupeKey)) continue;
-      if (!e.fireAt.isAfter(now)) continue; // fired → keep for reconciliation / cleanup
+      if (!e.fireAt.isAfter(now))
+        continue; // fired → keep for reconciliation / cleanup
       if (e.os) {
         cancel.add(e);
       } else {
         remove.add(e);
       }
     }
-    return ScheduleDiff(cancel: cancel, upsert: upsert, remove: remove, unchanged: unchanged);
+    return ScheduleDiff(
+      cancel: cancel,
+      upsert: upsert,
+      remove: remove,
+      unchanged: unchanged,
+    );
   }
 
   /// `devices.local_coverage_until`: fire time of the last OS-scheduled one-shot, or the horizon
   /// end when everything fit (T7.2.11).
-  static DateTime? coverageUntil(List<DesiredItem> desired, {required DateTime horizonEnd}) {
-    final saturated = desired.any((d) => d.kind == ScheduleKind.sentinel) ||
-        desired.any((d) => !d.os && d.kind == ScheduleKind.tracked && d.planned?.deliverSystem == true && _isOverflow(d, desired));
-    final osTimes = [for (final d in desired) if (d.os && d.kind != ScheduleKind.sentinel) d.fireAt];
+  static DateTime? coverageUntil(
+    List<DesiredItem> desired, {
+    required DateTime horizonEnd,
+  }) {
+    final saturated =
+        desired.any((d) => d.kind == ScheduleKind.sentinel) ||
+        desired.any(
+          (d) =>
+              !d.os &&
+              d.kind == ScheduleKind.tracked &&
+              d.planned?.deliverSystem == true &&
+              _isOverflow(d, desired),
+        );
+    final osTimes = [
+      for (final d in desired)
+        if (d.os && d.kind != ScheduleKind.sentinel) d.fireAt,
+    ];
     if (!saturated) return horizonEnd;
     if (osTimes.isEmpty) return null;
     osTimes.sort();
-    final sentinel = desired.where((d) => d.kind == ScheduleKind.sentinel).map((d) => d.fireAt);
+    final sentinel = desired
+        .where((d) => d.kind == ScheduleKind.sentinel)
+        .map((d) => d.fireAt);
     return sentinel.isNotEmpty ? sentinel.first : osTimes.last;
   }
 
   static bool _isOverflow(DesiredItem tracked, List<DesiredItem> all) {
     // A tracked system notification that is not part of a merged group = over budget.
     final key = tracked.key;
-    return !all.any((d) => d.kind == ScheduleKind.merged && d.members.any((m) => m.dedupeKey == key));
+    return !all.any(
+      (d) =>
+          d.kind == ScheduleKind.merged &&
+          d.members.any((m) => m.dedupeKey == key),
+    );
   }
 
   /// Importance helper for sorting in UIs.
-  static int importanceRank(String? wire) => (NotificationImportance.tryParse(wire) ?? NotificationImportance.normal).rank;
+  static int importanceRank(String? wire) =>
+      (NotificationImportance.tryParse(wire) ?? NotificationImportance.normal)
+          .rank;
 }

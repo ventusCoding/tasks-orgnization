@@ -32,13 +32,26 @@ class NotifyModeStore {
     final info = table == null ? null : _info(table);
     if (table == null || info == null) return Stream.value(null);
     return _db
-        .customSelect('SELECT notify_mode FROM $table WHERE id = ?', variables: [Variable<String>(id)], readsFrom: {info})
+        .customSelect(
+          'SELECT notify_mode FROM $table WHERE id = ?',
+          variables: [Variable<String>(id)],
+          readsFrom: {info},
+        )
         .watchSingleOrNull()
-        .map((row) => row == null ? null : NotifyMode.parse(row.data['notify_mode'] as String?));
+        .map(
+          (row) => row == null
+              ? null
+              : NotifyMode.parse(row.data['notify_mode'] as String?),
+        );
   }
 
   /// Writes inside an existing transaction (Customize snapshot, host editors).
-  Future<void> setInTx(WriteTx tx, RuleTargetType type, String id, NotifyMode mode) async {
+  Future<void> setInTx(
+    WriteTx tx,
+    RuleTargetType type,
+    String id,
+    NotifyMode mode,
+  ) async {
     final table = tableFor(type);
     if (table == null || !await tx.exists(table, id)) return;
     await tx.update(table, id, {'notify_mode': mode.wire});

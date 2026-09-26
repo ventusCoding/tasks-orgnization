@@ -95,9 +95,17 @@ class PushService {
     if (started) return;
     started = true;
     try {
-      await port.setForegroundPresentation(alert: !bannerInApp, badge: true, sound: !bannerInApp);
+      await port.setForegroundPresentation(
+        alert: !bannerInApp,
+        badge: true,
+        sound: !bannerInApp,
+      );
       token = await port.getToken();
-      if (token != null) reporter.report({'push_token': token, 'push_enabled': true}, immediate: true);
+      if (token != null)
+        reporter.report({
+          'push_token': token,
+          'push_enabled': true,
+        }, immediate: true);
     } on Object catch (e) {
       _log.warning('FCM token unavailable', e);
     }
@@ -105,10 +113,15 @@ class PushService {
       ..add(
         port.onTokenRefresh.listen((t) {
           token = t;
-          reporter.report({'push_token': t, 'push_enabled': true}, immediate: true);
+          reporter.report({
+            'push_token': t,
+            'push_enabled': true,
+          }, immediate: true);
         }),
       )
-      ..add(port.onMessage.listen((m) => unawaited(handle(m, foreground: true))))
+      ..add(
+        port.onMessage.listen((m) => unawaited(handle(m, foreground: true))),
+      )
       ..add(port.onMessageOpenedApp.listen((m) => unawaited(onOpened(m))));
     final initial = await port.getInitialMessage();
     if (initial != null) await onOpened(initial);
@@ -134,7 +147,10 @@ class PushService {
       _log.fine('deleteToken failed', e);
     }
     token = null;
-    reporter.report({'push_token': null, 'push_enabled': false}, immediate: true);
+    reporter.report({
+      'push_token': null,
+      'push_enabled': false,
+    }, immediate: true);
   }
 
   Future<void> dispose() async {

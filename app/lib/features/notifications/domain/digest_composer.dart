@@ -19,7 +19,8 @@ abstract final class DigestComposer {
   }) {
     final kinds = {
       for (final r in rules)
-        if (r.enabled && r.spec.trigger is DigestTrigger) (r.spec.trigger as DigestTrigger).kind,
+        if (r.enabled && r.spec.trigger is DigestTrigger)
+          (r.spec.trigger as DigestTrigger).kind,
     };
     if (kinds.isEmpty) return const [];
     final today = zones.toLocal(now, zone).date;
@@ -30,7 +31,16 @@ abstract final class DigestComposer {
         final day = today.plusDays(i);
         final from = startOf(day);
         final to = startOf(day.plusDays(1));
-        final (tasks, habits, items, first) = _counts(kind, targets, from, to, day, zone, zones, texts);
+        final (tasks, habits, items, first) = _counts(
+          kind,
+          targets,
+          from,
+          to,
+          day,
+          zone,
+          zones,
+          texts,
+        );
         out.add(
           NotificationTarget(
             type: NotificationTargetType.digest,
@@ -42,7 +52,13 @@ abstract final class DigestComposer {
             periodEnd: to,
             variables: {
               'kind': kind,
-              'summary': texts.digestSummary(kind, tasks: tasks, habits: habits, items: items, first: first),
+              'summary': texts.digestSummary(
+                kind,
+                tasks: tasks,
+                habits: habits,
+                items: items,
+                first: first,
+              ),
               'open_items': items,
             },
           ),
@@ -65,7 +81,9 @@ abstract final class DigestComposer {
     bool inDay(DateTime? t) => t != null && !t.isBefore(from) && t.isBefore(to);
     bool beforeEnd(DateTime? t) => t != null && t.isBefore(to);
     // plan_tomorrow looks at the next day.
-    final shift = kind == 'plan_tomorrow' ? const Duration(days: 1) : Duration.zero;
+    final shift = kind == 'plan_tomorrow'
+        ? const Duration(days: 1)
+        : Duration.zero;
     final f = from.add(shift);
     final t2 = to.add(shift);
     bool inWindow(DateTime? t) => t != null && !t.isBefore(f) && t.isBefore(t2);
@@ -81,26 +99,37 @@ abstract final class DigestComposer {
       final bool counts;
       switch (kind) {
         case 'overdue_summary' || 'evening_review':
-          counts = beforeEnd(t.end ?? t.due) && !(inDay(t.start) && kind == 'overdue_summary' && t.end == null);
+          counts =
+              beforeEnd(t.end ?? t.due) &&
+              !(inDay(t.start) && kind == 'overdue_summary' && t.end == null);
         case 'weekly_review' || 'monthly_report':
           counts = false;
         default:
-          counts = inWindow(t.start) || inWindow(t.due) || inWindow(t.slot) || inWindow(t.periodStart);
+          counts =
+              inWindow(t.start) ||
+              inWindow(t.due) ||
+              inWindow(t.slot) ||
+              inWindow(t.periodStart);
       }
       if (!counts) continue;
       switch (t.type) {
         case NotificationTargetType.task:
           tasks++;
-          if (t.start != null && (firstTask == null || t.start!.isBefore(firstTask.start!))) firstTask = t;
+          if (t.start != null &&
+              (firstTask == null || t.start!.isBefore(firstTask.start!)))
+            firstTask = t;
         case NotificationTargetType.habit:
           habits++;
-        case NotificationTargetType.checklist || NotificationTargetType.checklistItem:
+        case NotificationTargetType.checklist ||
+            NotificationTargetType.checklistItem:
           items++;
         case NotificationTargetType.digest || NotificationTargetType.custom:
           break;
       }
     }
-    final first = firstTask == null ? null : '${firstTask.title} ${texts.time(zones.toLocal(firstTask.start!, zone))}';
+    final first = firstTask == null
+        ? null
+        : '${firstTask.title} ${texts.time(zones.toLocal(firstTask.start!, zone))}';
     return (tasks, habits, items, first);
   }
 }
