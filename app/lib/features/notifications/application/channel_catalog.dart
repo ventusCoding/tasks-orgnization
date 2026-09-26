@@ -16,14 +16,21 @@ abstract final class ChannelCatalog {
   static String groupId(NotificationSection s) => 'dl.group.${s.wire}';
 
   static List<OsChannelGroup> groups(AppLocalizations l) => [
-    for (final s in NotificationSection.values) OsChannelGroup(groupId(s), sectionLabelOf(l, s)),
+    for (final s in NotificationSection.values)
+      OsChannelGroup(groupId(s), sectionLabelOf(l, s)),
   ];
 
-  static String channelId(NotificationSection section, String profileKey, int version) =>
-      'dl.${section.wire}.$profileKey.v$version';
+  static String channelId(
+    NotificationSection section,
+    String profileKey,
+    int version,
+  ) => 'dl.${section.wire}.$profileKey.v$version';
 
   /// Every channel the app needs for [profiles] plus the ids of superseded versions to delete.
-  static ({List<OsChannel> channels, Set<String> obsolete}) channels(List<NotificationProfile> profiles, AppLocalizations l) {
+  static ({List<OsChannel> channels, Set<String> obsolete}) channels(
+    List<NotificationProfile> profiles,
+    AppLocalizations l,
+  ) {
     final standard = BuiltinProfiles.specs[BuiltinProfiles.standard]!;
     final out = <OsChannel>[];
     final obsolete = <String>{};
@@ -35,19 +42,30 @@ abstract final class ChannelCatalog {
     final all = [
       ...profiles,
       if (!profiles.any((p) => p.code == BuiltinProfiles.standard))
-        NotificationProfile(id: 'standard', code: BuiltinProfiles.standard, name: 'standard', isBuiltin: true, spec: standard),
+        NotificationProfile(
+          id: 'standard',
+          code: BuiltinProfiles.standard,
+          name: 'standard',
+          isBuiltin: true,
+          spec: standard,
+        ),
     ];
     for (final section in NotificationSection.itemSections) {
       for (final p in all) {
         final d = p.spec.delivery;
         final version = p.spec.channelVersion;
-        final name = p.isBuiltin && p.code != null ? builtinProfileName(l, p.code!) : p.name;
+        final name = p.isBuiltin && p.code != null
+            ? builtinProfileName(l, p.code!)
+            : p.name;
         add(
           OsChannel(
             id: channelId(section, p.channelKey, version),
             name: l.notifChannelName(sectionLabelOf(l, section), name),
             groupId: groupId(section),
-            importance: NotificationImportance.tryParse(d.importance ?? standard.delivery.importance) ??
+            importance:
+                NotificationImportance.tryParse(
+                  d.importance ?? standard.delivery.importance,
+                ) ??
                 NotificationImportance.normal,
             sound: d.sound ?? standard.delivery.sound ?? 'default',
             vibration: d.vibration ?? standard.delivery.vibration ?? 'default',
@@ -58,9 +76,33 @@ abstract final class ChannelCatalog {
         }
       }
     }
-    add(OsChannel(id: quiet, name: l.notifChannelQuiet, groupId: groupId(NotificationSection.system), importance: NotificationImportance.low, sound: 'none', vibration: 'none'));
-    add(OsChannel(id: digest, name: l.notifChannelDigest, groupId: groupId(NotificationSection.system), importance: NotificationImportance.low, sound: 'none'));
-    add(OsChannel(id: system, name: l.notifChannelSystem, groupId: groupId(NotificationSection.system), importance: NotificationImportance.normal));
+    add(
+      OsChannel(
+        id: quiet,
+        name: l.notifChannelQuiet,
+        groupId: groupId(NotificationSection.system),
+        importance: NotificationImportance.low,
+        sound: 'none',
+        vibration: 'none',
+      ),
+    );
+    add(
+      OsChannel(
+        id: digest,
+        name: l.notifChannelDigest,
+        groupId: groupId(NotificationSection.system),
+        importance: NotificationImportance.low,
+        sound: 'none',
+      ),
+    );
+    add(
+      OsChannel(
+        id: system,
+        name: l.notifChannelSystem,
+        groupId: groupId(NotificationSection.system),
+        importance: NotificationImportance.normal,
+      ),
+    );
     add(
       OsChannel(
         id: foregroundSilent,
@@ -92,12 +134,20 @@ abstract final class ChannelCatalog {
         id: id,
         title: actionLabelOf(l, id),
         textInput: NotificationActionIds.textInput.contains(id),
-        placeholder: NotificationActionIds.textInput.contains(id) ? l.notifActionInputPlaceholder : null,
-        buttonTitle: NotificationActionIds.textInput.contains(id) ? l.notifActionSend : null,
+        placeholder: NotificationActionIds.textInput.contains(id)
+            ? l.notifActionInputPlaceholder
+            : null,
+        buttonTitle: NotificationActionIds.textInput.contains(id)
+            ? l.notifActionSend
+            : null,
         // Open-type actions, and feature actions nobody registered yet, bring the app forward.
-        foreground: NotificationActionIds.foreground.contains(id) ||
-            (!NotificationActionIds.generic.contains(id) && findActionHandler(handlers, id, targetType) == null),
-        authenticationRequired: authenticationRequired && !NotificationActionIds.generic.contains(id),
+        foreground:
+            NotificationActionIds.foreground.contains(id) ||
+            (!NotificationActionIds.generic.contains(id) &&
+                findActionHandler(handlers, id, targetType) == null),
+        authenticationRequired:
+            authenticationRequired &&
+            !NotificationActionIds.generic.contains(id),
       ),
   ];
 
@@ -112,7 +162,11 @@ abstract final class ChannelCatalog {
       final id = categoryIdFor(actions, nag: nag);
       byId.putIfAbsent(
         id,
-        () => OsCategory(id: id, actions: osActions(actions, l, handlers: handlers), customDismiss: nag),
+        () => OsCategory(
+          id: id,
+          actions: osActions(actions, l, handlers: handlers),
+          customDismiss: nag,
+        ),
       );
     }
 

@@ -6,7 +6,12 @@ import 'package:flutter/foundation.dart';
 /// A push message (data + optional visible notification).
 @immutable
 class PushMessage {
-  const PushMessage({this.data = const {}, this.title, this.body, this.messageId});
+  const PushMessage({
+    this.data = const {},
+    this.title,
+    this.body,
+    this.messageId,
+  });
 
   factory PushMessage.fromRemote(RemoteMessage m) => PushMessage(
     data: {for (final e in m.data.entries) e.key: e.value?.toString() ?? ''},
@@ -35,13 +40,18 @@ abstract interface class PushMessagingPort {
   Future<PushMessage?> getInitialMessage();
 
   /// iOS foreground presentation (alert/sound off when in-app banners are on).
-  Future<void> setForegroundPresentation({required bool alert, required bool badge, required bool sound});
+  Future<void> setForegroundPresentation({
+    required bool alert,
+    required bool badge,
+    required bool sound,
+  });
 }
 
 /// `firebase_messaging` 16.x implementation. Only created when Firebase is configured and
 /// initialized (see `pushAvailableProvider`).
 class FirebasePushMessagingPort implements PushMessagingPort {
-  FirebasePushMessagingPort([FirebaseMessaging? messaging]) : _messaging = messaging ?? FirebaseMessaging.instance;
+  FirebasePushMessagingPort([FirebaseMessaging? messaging])
+    : _messaging = messaging ?? FirebaseMessaging.instance;
 
   final FirebaseMessaging _messaging;
 
@@ -62,10 +72,12 @@ class FirebasePushMessagingPort implements PushMessagingPort {
   Future<void> deleteToken() => _messaging.deleteToken();
 
   @override
-  Stream<PushMessage> get onMessage => FirebaseMessaging.onMessage.map(PushMessage.fromRemote);
+  Stream<PushMessage> get onMessage =>
+      FirebaseMessaging.onMessage.map(PushMessage.fromRemote);
 
   @override
-  Stream<PushMessage> get onMessageOpenedApp => FirebaseMessaging.onMessageOpenedApp.map(PushMessage.fromRemote);
+  Stream<PushMessage> get onMessageOpenedApp =>
+      FirebaseMessaging.onMessageOpenedApp.map(PushMessage.fromRemote);
 
   @override
   Future<PushMessage?> getInitialMessage() async {
@@ -74,8 +86,15 @@ class FirebasePushMessagingPort implements PushMessagingPort {
   }
 
   @override
-  Future<void> setForegroundPresentation({required bool alert, required bool badge, required bool sound}) =>
-      _messaging.setForegroundNotificationPresentationOptions(alert: alert, badge: badge, sound: sound);
+  Future<void> setForegroundPresentation({
+    required bool alert,
+    required bool badge,
+    required bool sound,
+  }) => _messaging.setForegroundNotificationPresentationOptions(
+    alert: alert,
+    badge: badge,
+    sound: sound,
+  );
 }
 
 /// In-memory port for tests.
@@ -112,6 +131,9 @@ class FakePushMessagingPort implements PushMessagingPort {
   Future<PushMessage?> getInitialMessage() async => initial;
 
   @override
-  Future<void> setForegroundPresentation({required bool alert, required bool badge, required bool sound}) async =>
-      presentation = (alert: alert, badge: badge, sound: sound);
+  Future<void> setForegroundPresentation({
+    required bool alert,
+    required bool badge,
+    required bool sound,
+  }) async => presentation = (alert: alert, badge: badge, sound: sound);
 }

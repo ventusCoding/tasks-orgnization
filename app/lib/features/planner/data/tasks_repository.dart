@@ -157,7 +157,12 @@ class TasksRepository {
         return OrphanReport.none;
       case EditScope.thisAndFollowing:
         final k = occurrenceKey!;
-        final target = edited.copyWith(recurrence: edited.recurrence == current.recurrence ? _safeSplit(current, k)?.newRule ?? edited.recurrence : edited.recurrence);
+        final split = _safeSplit(current, k);
+        final unchangedStart = edited.startLocal == null || edited.startLocal == current.startLocal;
+        final target = edited.copyWith(
+          recurrence: edited.recurrence == current.recurrence ? split?.newRule ?? edited.recurrence : edited.recurrence,
+          startLocal: unchangedStart ? (split?.newAnchor.start ?? edited.startLocal) : edited.startLocal,
+        );
         return _orphansFor(current, target, records.where((r) => r.occurrenceKey.compareTo(k) >= 0), shiftFrom: _originalStart(current, k));
       case EditScope.allOccurrences:
         final k0 = rewritePast ? null : _firstNonPastKey(current);
@@ -377,11 +382,16 @@ class TasksRepository {
 
     final newId = Ids.v7();
     final ruleUnchanged = edited.recurrence == rule;
+    // [edited.startLocal] is the new start of occurrence k. An unchanged *series* start means the
+    // caller edited other fields only: the new part then starts at k's own start (never before
+    // the split, which would duplicate the truncated part's occurrences).
+    final editedStart = edited.startLocal;
+    final newStart = editedStart == null || editedStart == current.startLocal ? split.newAnchor.start : editedStart;
     var newTask = edited.copyWith(
       id: newId,
       seriesId: current.seriesId,
       recurrence: ruleUnchanged ? split.newRule : edited.recurrence,
-      startLocal: edited.startLocal ?? split.newAnchor.start,
+      startLocal: newStart,
       status: TaskStatus.active,
     );
     newTask = newTask.copyWith(recurrenceUntilLocal: TaskSchedule.of(newTask).recurrenceUntilLocal(_svc.engine));

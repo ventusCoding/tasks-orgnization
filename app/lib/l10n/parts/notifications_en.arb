@@ -969,5 +969,29 @@
   "notifMetricStreak": "Streak",
   "notifMetricTotal": "Total",
   "notifMetricMoney": "Money saved",
-  "notifMetricUnits": "Units avoided"
+  "notifMetricUnits": "Units avoided",
+  "notifModeOffHint": "No notifications for this item",
+  "notifSectionOffHint": "{section} notifications are turned off in Settings",
+  "@notifSectionOffHint": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "notifFieldRepeats": "Repeats",
+  "notifFreqDaily": "Every day",
+  "notifFreqWeekly": "Every week",
+  "notifFreqMonthly": "Every month",
+  "notifStatusScheduled": "scheduled",
+  "notifStatusInProgress": "in progress",
+  "notifStatusDone": "done",
+  "notifStatusSkipped": "skipped",
+  "notifStatusMissed": "missed",
+  "notifStatusCancelled": "cancelled",
+  "notifStatusTodo": "to do",
+  "notifStatusOngoing": "ongoing",
+  "notifStatusWaiting": "waiting",
+  "notifStatusBlocked": "blocked",
+  "notifStatusCompleted": "completed"
 }

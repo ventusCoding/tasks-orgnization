@@ -3,6 +3,7 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
 import 'package:everslot/design_system/motion.dart';
 import 'package:everslot/design_system/theme.dart';
+import 'package:everslot/features/auth/presentation/session_banner_host.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -48,8 +49,12 @@ class EverslotApp extends ConsumerWidget {
         final media = MediaQuery.of(context);
         Widget wrapped = MediaQuery(
           data: media.copyWith(alwaysUse24HourFormat: prefs.use24h),
-          // The in-app "Reduce motion" setting joins the OS one (T1.3.15).
-          child: ReduceMotionScope(child: child ?? const SizedBox.shrink()),
+          // Session / time-zone banners above every screen (T1.5.06, T1.5.14); the in-app
+          // "Reduce motion" setting joins the OS one (T1.3.15).
+          child: SessionBannerHost(
+            onOpen: router.go,
+            child: ReduceMotionScope(child: child ?? const SizedBox.shrink()),
+          ),
         );
         // Dev-flavor corner marker (T1.1.10), like the debug banner: painted only, not localized.
         if (isDevFlavor) {

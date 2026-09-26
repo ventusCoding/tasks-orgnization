@@ -133,6 +133,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get attachmentsCaption => 'التعليق';
 
   @override
+  String get attachmentsChecklistLevel => 'على القائمة';
+
+  @override
   String get attachmentsClearCache => 'مسح ذاكرة التخزين المؤقت';
 
   @override
@@ -159,6 +162,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get attachmentsEmpty => 'لا توجد مرفقات بعد';
+
+  @override
+  String get attachmentsFilterAll => 'الكل';
+
+  @override
+  String get attachmentsFilterImages => 'الصور';
+
+  @override
+  String get attachmentsFilterOther => 'أخرى';
+
+  @override
+  String get attachmentsFilterPdfs => 'ملفات PDF';
 
   @override
   String get attachmentsGoToItem => 'الانتقال إلى العنصر';
@@ -336,6 +351,388 @@ class AppLocalizationsAr extends AppLocalizations {
   String get attachmentsWifiOnly => 'رفع المرفقات عبر Wi-Fi فقط';
 
   @override
+  String get authAvatarChange => 'تغيير الصورة';
+
+  @override
+  String get authAvatarRemove => 'إزالة الصورة';
+
+  @override
+  String get authBrowserFlowStarted =>
+      'أكمل تسجيل الدخول في المتصفح ثم عُد إلى Everslot.';
+
+  @override
+  String get authChangeEmail => 'استخدام بريد إلكتروني آخر';
+
+  @override
+  String authCodeBody(String email) {
+    return 'أدخل الرمز المكوّن من 6 أرقام المُرسل إلى $email، أو اضغط على الرابط الموجود في تلك الرسالة.';
+  }
+
+  @override
+  String get authCodeLabel => 'رمز من 6 أرقام';
+
+  @override
+  String get authCodeResent => 'رمز جديد في الطريق إليك.';
+
+  @override
+  String get authCodeTitle => 'تحقّق من بريدك الوارد';
+
+  @override
+  String get authContinueApple => 'المتابعة باستخدام Apple';
+
+  @override
+  String get authContinueGoogle => 'المتابعة باستخدام Google';
+
+  @override
+  String get authContinueGuest => 'المتابعة بدون حساب';
+
+  @override
+  String get authCurrentZone => 'المنطقة الزمنية الحالية';
+
+  @override
+  String get authDeleteAccount => 'حذف الحساب';
+
+  @override
+  String get authDeleteBody =>
+      'سيُحذف حسابك وجميع بياناتك نهائيًا (الخطط والقوائم والعادات والمرفقات) على كل أجهزتك. لا يمكن التراجع عن ذلك.';
+
+  @override
+  String get authDeleteConfirm => 'حذف نهائي';
+
+  @override
+  String get authDeleteExportFirst => 'تصدير بياناتي أولًا';
+
+  @override
+  String authDeleteReauthBody(String email) {
+    return 'للتأكد من هويتك، أدخل الرمز المُرسل إلى $email.';
+  }
+
+  @override
+  String get authDeleteTitle => 'حذف حسابك؟';
+
+  @override
+  String get authDeleteUnderstand => 'أفهم أنه لا يمكن التراجع عن ذلك';
+
+  @override
+  String authDeleteWeb(String url) {
+    return 'يمكنك أيضًا طلب الحذف عبر الويب: $url';
+  }
+
+  @override
+  String get authDeleted => 'تم حذف حسابك.';
+
+  @override
+  String get authDeleting => 'جارٍ حذف حسابك…';
+
+  @override
+  String get authDeviceRevokedBody =>
+      'أُزيل هذا الجهاز من حسابك عبر جهاز آخر. صدّر بياناتك أولًا إن أردت الاحتفاظ بنسخة منها، ثم سجّل الخروج.';
+
+  @override
+  String get authDeviceRevokedTitle => 'تمت إزالة هذا الجهاز';
+
+  @override
+  String get authDisplayName => 'الاسم المعروض';
+
+  @override
+  String get authDisplayNameHint => 'بماذا تحب أن نناديك؟';
+
+  @override
+  String get authEmailHint => 'you@example.com';
+
+  @override
+  String get authEmailLabel => 'البريد الإلكتروني';
+
+  @override
+  String get authErrorCaptcha => 'فشل التحقق الأمني. يُرجى إعادة المحاولة.';
+
+  @override
+  String get authErrorEmailInUse => 'هذا البريد الإلكتروني مرتبط بحساب آخر.';
+
+  @override
+  String get authErrorGuestDisabled => 'وضع الضيف معطّل على هذا الخادم.';
+
+  @override
+  String get authErrorIdentityInUse =>
+      'طريقة تسجيل الدخول هذه مرتبطة بحساب آخر.';
+
+  @override
+  String get authErrorInvalidCode => 'هذا الرمز غير صالح أو منتهي الصلاحية.';
+
+  @override
+  String get authErrorInvalidEmail => 'يُرجى إدخال بريد إلكتروني صحيح.';
+
+  @override
+  String get authErrorLastIdentity =>
+      'لا يمكنك إزالة طريقة تسجيل الدخول الوحيدة لديك.';
+
+  @override
+  String get authErrorNotConfigured =>
+      'المزامنة السحابية غير مُعدّة في هذا الإصدار (راجع guide.md).';
+
+  @override
+  String get authErrorOffline =>
+      'أنت غير متصل بالإنترنت. تحقّق من اتصالك ثم أعد المحاولة.';
+
+  @override
+  String get authErrorProviderNotConfigured =>
+      'طريقة تسجيل الدخول هذه غير مُعدّة بعد (راجع guide.md).';
+
+  @override
+  String get authErrorRateLimited =>
+      'محاولات كثيرة جدًا. انتظر قليلًا ثم أعد المحاولة.';
+
+  @override
+  String get authErrorSessionExpired =>
+      'انتهت صلاحية جلستك. يُرجى تسجيل الدخول مجددًا.';
+
+  @override
+  String get authErrorUnknown => 'حدث خطأ ما. يُرجى إعادة المحاولة.';
+
+  @override
+  String get authExportFirst => 'تصدير البيانات';
+
+  @override
+  String get authGuestAccount => 'حساب ضيف';
+
+  @override
+  String get authGuestBanner =>
+      'أنت تستخدم حساب ضيف. أضف بريدًا إلكترونيًا حتى لا تضيع بياناتك إذا حذفت التطبيق.';
+
+  @override
+  String get authGuestBannerAction => 'تأمين بياناتي';
+
+  @override
+  String get authGuestHint =>
+      'جرّب Everslot فورًا وأضف بريدًا إلكترونيًا لاحقًا للاحتفاظ ببياناتك.';
+
+  @override
+  String get authHomeZone => 'المنطقة الزمنية الأساسية';
+
+  @override
+  String get authLegalNote =>
+      'بالمتابعة، فإنك توافق على شروط الخدمة وسياسة الخصوصية.';
+
+  @override
+  String get authLink => 'ربط';
+
+  @override
+  String authLinked(String provider) {
+    return 'تم ربط $provider';
+  }
+
+  @override
+  String get authLinkedAccounts => 'طرق تسجيل الدخول';
+
+  @override
+  String get authLocalOnlyAccount => 'البيانات محفوظة على هذا الجهاز';
+
+  @override
+  String get authLocalOnlyAccountBody =>
+      'لم تسجّل الدخول. سجّل الدخول للمزامنة بين أجهزتك وستنتقل بياناتك معك.';
+
+  @override
+  String get authMfaBody =>
+      'طلب رمز من تطبيق المصادقة عند تسجيل الدخول وقبل حذف الحساب.';
+
+  @override
+  String get authMfaDisable => 'إيقاف';
+
+  @override
+  String get authMfaEnabled => 'التحقق بخطوتين مفعّل.';
+
+  @override
+  String get authMfaEnroll => 'إعداد';
+
+  @override
+  String get authMfaEnrollBody =>
+      'أضف هذا المفتاح إلى تطبيق المصادقة، ثم أدخل الرمز المكوّن من 6 أرقام الذي يظهر فيه.';
+
+  @override
+  String get authMfaSecret => 'مفتاح الإعداد';
+
+  @override
+  String get authMfaTitle => 'التحقق بخطوتين';
+
+  @override
+  String get authMfaVerifyTitle => 'أدخل الرمز من تطبيق المصادقة';
+
+  @override
+  String get authNotConfiguredBody =>
+      'هذا الإصدار غير متصل بمشروع Supabase بعد (راجع guide.md). يعمل Everslot بالكامل على هذا الجهاز في هذه الأثناء.';
+
+  @override
+  String get authNotConfiguredTitle => 'المزامنة السحابية غير مُعدّة';
+
+  @override
+  String get authOr => 'أو';
+
+  @override
+  String get authProfileTitle => 'الحساب';
+
+  @override
+  String get authProviderApple => 'Apple';
+
+  @override
+  String get authProviderEmail => 'البريد الإلكتروني';
+
+  @override
+  String get authProviderGoogle => 'Google';
+
+  @override
+  String get authReauthBody =>
+      'انتهت صلاحية جلستك. سجّل الدخول مجددًا لاستئناف المزامنة، فكل ما أنجزته دون اتصال محفوظ.';
+
+  @override
+  String get authReauthTitle => 'سجّل الدخول مجددًا';
+
+  @override
+  String get authRegionalSettings => 'الإعدادات الإقليمية';
+
+  @override
+  String get authResend => 'إعادة إرسال الرمز';
+
+  @override
+  String authResendIn(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'إعادة إرسال الرمز بعد $seconds ثانية',
+      many: 'إعادة إرسال الرمز بعد $seconds ثانية',
+      few: 'إعادة إرسال الرمز بعد $seconds ثوانٍ',
+      two: 'إعادة إرسال الرمز بعد ثانيتين',
+      one: 'إعادة إرسال الرمز بعد ثانية واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get authSendCode => 'إرسال الرمز';
+
+  @override
+  String get authSessionExpiredBanner =>
+      'انتهت صلاحية جلستك. تغييراتك محفوظة على هذا الجهاز وستُزامَن بمجرد تسجيل دخولك مجددًا.';
+
+  @override
+  String get authSignInAgain => 'تسجيل الدخول مجددًا';
+
+  @override
+  String get authSignInToSync => 'تسجيل الدخول للمزامنة';
+
+  @override
+  String get authSignOut => 'تسجيل الخروج';
+
+  @override
+  String get authSignOutAnyway => 'تسجيل الخروج على أي حال';
+
+  @override
+  String get authSignOutBody =>
+      'ستُزال بياناتك من هذا الجهاز، وتبقى آمنة في حسابك.';
+
+  @override
+  String authSignOutPendingBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'لم تتم مزامنة $count تعديل بعد وسيُفقد.',
+      many: 'لم تتم مزامنة $count تعديلًا بعد وسيُفقد.',
+      few: 'لم تتم مزامنة $count تعديلات بعد وستُفقد.',
+      two: 'لم تتم مزامنة تعديلين بعد وسيُفقدان.',
+      one: 'لم تتم مزامنة تعديل واحد بعد وسيُفقد.',
+    );
+    return '$_temp0 صدّر بياناتك أولًا، أو سجّل الخروج على أي حال.';
+  }
+
+  @override
+  String get authSignOutSyncing => 'جارٍ مزامنة آخر تغييراتك…';
+
+  @override
+  String get authSignOutTitle => 'تسجيل الخروج؟';
+
+  @override
+  String authSignedInAs(String email) {
+    return 'مسجّل الدخول باسم $email';
+  }
+
+  @override
+  String get authSignedOut => 'تم تسجيل الخروج';
+
+  @override
+  String get authUnlink => 'إلغاء الربط';
+
+  @override
+  String authUnlinkConfirm(String provider) {
+    return 'إلغاء ربط $provider؟';
+  }
+
+  @override
+  String get authUpdateRequired =>
+      'حدّث Everslot لمواصلة المزامنة. تغييراتك محفوظة على هذا الجهاز.';
+
+  @override
+  String get authUpgradeBody =>
+      'أضف طريقة تسجيل دخول إلى حساب الضيف. ستبقى بياناتك كما هي تمامًا.';
+
+  @override
+  String get authUpgradeDone => 'تم تأمين حسابك.';
+
+  @override
+  String get authUpgradeEmail => 'إضافة بريد إلكتروني';
+
+  @override
+  String authUpgradeEmailInUseBody(String email) {
+    return 'لدى $email حساب Everslot بالفعل. استخدم بريدًا آخر، أو صدّر بيانات الضيف ثم سجّل الخروج وادخل إلى ذلك الحساب واستورد الملف.';
+  }
+
+  @override
+  String get authUpgradeEmailInUseTitle => 'البريد الإلكتروني مستخدم بالفعل';
+
+  @override
+  String get authUpgradeTitle => 'احتفظ ببياناتك';
+
+  @override
+  String get authUseLocalOnly => 'الاستخدام على هذا الجهاز فقط';
+
+  @override
+  String get authUseLocalOnlyHint =>
+      'بدون حساب وبدون مزامنة. سجّل الدخول لاحقًا وستنتقل بياناتك معك.';
+
+  @override
+  String get authVerify => 'تحقّق';
+
+  @override
+  String get authWelcomeBody =>
+      'سجّل الدخول لمزامنة خططك وقوائمك وعاداتك على جميع أجهزتك.';
+
+  @override
+  String get authWelcomeTitle => 'مرحبًا بك في Everslot';
+
+  @override
+  String authZoneChangedBody(String zone) {
+    return 'أنت الآن في $zone. تحتفظ المهام ذات التوقيت الثابت بوقتها الدقيق وتتبعك المهام المرنة. هل تريد جعل $zone منطقتك الزمنية الأساسية؟';
+  }
+
+  @override
+  String get authZoneChangedTitle => 'منطقة زمنية جديدة';
+
+  @override
+  String get authZoneDetected => 'تم اكتشافها على هذا الجهاز';
+
+  @override
+  String authZoneKeepHome(String zone) {
+    return 'الإبقاء على $zone';
+  }
+
+  @override
+  String get authZoneMakeHome => 'جعلها الأساسية';
+
+  @override
+  String get authZoneNoMatch => 'لا توجد منطقة زمنية تطابق بحثك';
+
+  @override
+  String get authZoneSearch => 'البحث عن منطقة زمنية';
+
+  @override
   String get categoriesEmpty => 'لا توجد تصنيفات بعد';
 
   @override
@@ -441,6 +838,424 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get checklistAddItem => 'إضافة عنصر';
+
+  @override
+  String get checklistAddSubItem => 'إضافة عنصر فرعي';
+
+  @override
+  String get checklistAllAttachments => 'كل المرفقات';
+
+  @override
+  String get checklistAllLists => 'كل القوائم';
+
+  @override
+  String get checklistAttach => 'إرفاق';
+
+  @override
+  String checklistBelowBadges(int blocked, int waiting) {
+    return '$blocked محظور · $waiting قيد الانتظار أدناه';
+  }
+
+  @override
+  String get checklistBodyHint => 'ملاحظة';
+
+  @override
+  String checklistCarrying(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نقل $count عنصر',
+      many: 'نقل $count عنصرًا',
+      few: 'نقل $count عناصر',
+      two: 'نقل عنصرين',
+      one: 'نقل عنصر واحد',
+      zero: 'لا شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get checklistCollapse => 'طي';
+
+  @override
+  String get checklistCollapseAll => 'طي الكل';
+
+  @override
+  String get checklistCollapsedState => 'مطوي';
+
+  @override
+  String get checklistCompleted => 'اكتملت القائمة!';
+
+  @override
+  String get checklistCompletedArchive => 'أرشفة';
+
+  @override
+  String get checklistCompletedKeep => 'الإبقاء';
+
+  @override
+  String get checklistCompletedReset => 'إعادة تعيين';
+
+  @override
+  String get checklistCopied => 'تم النسخ';
+
+  @override
+  String get checklistCopy => 'نسخ';
+
+  @override
+  String get checklistCopyText => 'نسخ كنص';
+
+  @override
+  String get checklistCut => 'قص';
+
+  @override
+  String get checklistDelete => 'حذف القائمة';
+
+  @override
+  String get checklistDeleteCompleted => 'حذف العناصر المكتملة';
+
+  @override
+  String get checklistDeleteItem => 'حذف';
+
+  @override
+  String checklistDepthBadge(int level) {
+    return 'م$level';
+  }
+
+  @override
+  String get checklistDetails => 'التفاصيل';
+
+  @override
+  String get checklistDragHandle => 'اسحب للنقل';
+
+  @override
+  String get checklistDue => 'تاريخ الاستحقاق';
+
+  @override
+  String get checklistDuplicate => 'تكرار القائمة';
+
+  @override
+  String get checklistDuplicateItem => 'تكرار';
+
+  @override
+  String get checklistEmptyFocus => 'لا توجد عناصر فرعية بعد';
+
+  @override
+  String get checklistExpand => 'توسيع';
+
+  @override
+  String get checklistExpandAll => 'توسيع الكل';
+
+  @override
+  String checklistExpandToLevel(int level) {
+    return 'التوسيع حتى المستوى $level';
+  }
+
+  @override
+  String get checklistExpandToLevelMenu => 'التوسيع حتى المستوى…';
+
+  @override
+  String get checklistFilterAll => 'الكل';
+
+  @override
+  String get checklistFilterDueSoon => 'يستحق قريبًا';
+
+  @override
+  String get checklistFilterHasAttachments => 'بها مرفقات';
+
+  @override
+  String get checklistFilterOpen => 'المفتوحة';
+
+  @override
+  String get checklistFilterText => 'البحث في القائمة';
+
+  @override
+  String get checklistFiltered => 'عرض مُصفّى';
+
+  @override
+  String get checklistFocus => 'تركيز';
+
+  @override
+  String get checklistHasReminders => 'توجد تذكيرات';
+
+  @override
+  String get checklistHideCheckboxes => 'إخفاء مربعات الاختيار';
+
+  @override
+  String get checklistHideCompleted => 'إخفاء المكتملة';
+
+  @override
+  String get checklistHideKeyboard => 'إخفاء لوحة المفاتيح';
+
+  @override
+  String get checklistImport => 'استيراد عناصر…';
+
+  @override
+  String get checklistInTrash => 'هذه القائمة في المهملات';
+
+  @override
+  String get checklistIndent => 'زيادة المسافة البادئة';
+
+  @override
+  String get checklistInsights => 'الإحصاءات';
+
+  @override
+  String get checklistItemHint => 'عنصر';
+
+  @override
+  String checklistItemsDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'حُذف $count عنصر',
+      many: 'حُذف $count عنصرًا',
+      few: 'حُذفت $count عناصر',
+      two: 'حُذف عنصران',
+      one: 'حُذف عنصر واحد',
+      zero: 'لم يُحذف شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String checklistItemsDuplicated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم تكرار $count عنصر',
+      many: 'تم تكرار $count عنصرًا',
+      few: 'تم تكرار $count عناصر',
+      two: 'تم تكرار عنصرين',
+      one: 'تم تكرار عنصر واحد',
+      zero: 'لم يُكرَّر أي عنصر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get checklistItemsMoved => 'تم النقل';
+
+  @override
+  String get checklistLabelName => 'اسم التسمية';
+
+  @override
+  String get checklistLabels => 'التسميات';
+
+  @override
+  String get checklistLineBreak => 'سطر جديد';
+
+  @override
+  String get checklistLinkedTask => 'مهمة مرتبطة';
+
+  @override
+  String get checklistModeEdit => 'تحرير';
+
+  @override
+  String get checklistModePreview => 'معاينة';
+
+  @override
+  String get checklistMoveConflict =>
+      'تعارض نقلٌ مع تغيير على جهاز آخر فتم التراجع عنه.';
+
+  @override
+  String get checklistMoveDown => 'نقل لأسفل';
+
+  @override
+  String get checklistMoveTo => 'نقل إلى…';
+
+  @override
+  String get checklistMoveUp => 'نقل لأعلى';
+
+  @override
+  String get checklistNewLabel => 'تسمية جديدة';
+
+  @override
+  String get checklistNextOpen => 'العنصر المفتوح التالي';
+
+  @override
+  String get checklistNoItems => 'لا توجد عناصر بعد';
+
+  @override
+  String get checklistNoLabels => 'لا توجد تسميات بعد';
+
+  @override
+  String get checklistNotFound => 'هذه القائمة غير موجودة';
+
+  @override
+  String get checklistOpenTrash => 'فتح المهملات';
+
+  @override
+  String get checklistOutdent => 'إنقاص المسافة البادئة';
+
+  @override
+  String get checklistPaste => 'لصق';
+
+  @override
+  String get checklistPasteHere => 'لصق هنا';
+
+  @override
+  String get checklistPendingUploads => 'عمليات رفع معلقة';
+
+  @override
+  String checklistProgress(int done, int total) {
+    return '$done من $total مكتمل';
+  }
+
+  @override
+  String get checklistPromote => 'تحويل إلى قائمة';
+
+  @override
+  String get checklistPromoted => 'تم إنشاء قائمة جديدة';
+
+  @override
+  String get checklistRecovered => 'مُستعاد';
+
+  @override
+  String get checklistRepeat => 'التكرار…';
+
+  @override
+  String get checklistResetConfirm =>
+      'ستعود كل العناصر إلى «للإنجاز» وتُمسح ملاحظات الأسباب.';
+
+  @override
+  String get checklistResetDone => 'تمت إعادة تعيين القائمة';
+
+  @override
+  String get checklistResetNow => 'إعادة التعيين الآن';
+
+  @override
+  String get checklistResetStatuses => 'إعادة تعيين كل الحالات';
+
+  @override
+  String get checklistResetView => 'إعادة الضبط';
+
+  @override
+  String checklistRowSemantics(String text, int level, int index, int count) {
+    return '$text، المستوى $level، العنصر $index من $count';
+  }
+
+  @override
+  String get checklistSaveAsTemplate => 'حفظ كقالب';
+
+  @override
+  String get checklistScheduleTask => 'جدولة كمهمة';
+
+  @override
+  String get checklistSelect => 'تحديد';
+
+  @override
+  String get checklistSelectAll => 'تحديد الكل';
+
+  @override
+  String get checklistSelectSubtree => 'تحديد العناصر الفرعية';
+
+  @override
+  String checklistSelected(int count) {
+    return '$count محدد';
+  }
+
+  @override
+  String get checklistSettings => 'إعدادات القائمة';
+
+  @override
+  String get checklistShare => 'مشاركة / تصدير';
+
+  @override
+  String get checklistShowCheckboxes => 'إظهار مربعات الاختيار';
+
+  @override
+  String get checklistSortAlpha => 'أبجدي';
+
+  @override
+  String get checklistSortChildren => 'ترتيب العناصر الفرعية';
+
+  @override
+  String get checklistSortCompletedBottom => 'نقل المكتملة إلى الأسفل';
+
+  @override
+  String get checklistSortDescending => 'تنازلي';
+
+  @override
+  String get checklistSortDue => 'تاريخ الاستحقاق';
+
+  @override
+  String get checklistSortFilter => 'الترتيب والتصفية';
+
+  @override
+  String get checklistSortManual => 'يدوي';
+
+  @override
+  String get checklistSortPriority => 'الأولوية';
+
+  @override
+  String get checklistSortRecent => 'المعدلة مؤخرًا';
+
+  @override
+  String get checklistSortStatus => 'الحالة';
+
+  @override
+  String checklistSortedBy(String criterion) {
+    return 'مرتبة حسب $criterion';
+  }
+
+  @override
+  String get checklistStatusChanged => 'تم تغيير الحالة';
+
+  @override
+  String checklistSubItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر فرعي',
+      many: '$count عنصرًا فرعيًا',
+      few: '$count عناصر فرعية',
+      two: 'عنصران فرعيان',
+      one: 'عنصر فرعي واحد',
+      zero: 'لا عناصر فرعية',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get checklistTaskPlaceholder => 'سيتوفر الربط بالمهام مع المخطط.';
+
+  @override
+  String get checklistTemplateSaved => 'تم الحفظ كقالب';
+
+  @override
+  String get checklistTitleHint => 'العنوان';
+
+  @override
+  String get checklistUncheckAll => 'إلغاء تحديد الكل';
+
+  @override
+  String checklistUncheckConfirm(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'إلغاء تحديد $count عنصر؟',
+      many: 'إلغاء تحديد $count عنصرًا؟',
+      few: 'إلغاء تحديد $count عناصر؟',
+      two: 'إلغاء تحديد عنصرين؟',
+      one: 'إلغاء تحديد عنصر واحد؟',
+      zero: 'لا عناصر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get checklistViewGallery => 'معرض';
+
+  @override
+  String get checklistViewKanban => 'كانبان';
+
+  @override
+  String get checklistViewOutline => 'مخطط';
+
+  @override
+  String get checklistZoomOut => 'تصغير';
 
   @override
   String get comingSoon => 'قريبًا';
@@ -559,6 +1374,30 @@ class AppLocalizationsAr extends AppLocalizations {
   String get errorValidation => 'يرجى مراجعة الحقول المحدّدة.';
 
   @override
+  String get exportBranchOnly => 'هذا الفرع فقط';
+
+  @override
+  String get exportCopied => 'تم النسخ إلى الحافظة';
+
+  @override
+  String get exportCopy => 'نسخ إلى الحافظة';
+
+  @override
+  String get exportMarkdown => 'Markdown';
+
+  @override
+  String get exportOpml => 'OPML';
+
+  @override
+  String get exportPlain => 'نص عادي';
+
+  @override
+  String get exportShare => 'مشاركة…';
+
+  @override
+  String get exportTitle => 'مشاركة / تصدير';
+
+  @override
   String filterActiveCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -661,6 +1500,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get galleryDisabled => 'معطّل';
 
   @override
+  String get galleryEmpty => 'لا توجد عناصر بصور';
+
+  @override
   String get galleryFadeThrough => 'تلاشٍ متتابع';
 
   @override
@@ -680,6 +1522,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get galleryMotion => 'الحركة';
+
+  @override
+  String get galleryOnlyImages => 'العناصر ذات الصور فقط';
 
   @override
   String galleryPicked(String value) {
@@ -740,8 +1585,362 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get importAction => 'استيراد';
+
+  @override
+  String get importChooseFile => 'اختيار ملف';
+
+  @override
+  String get importConvertBody => 'تحويل الملاحظة إلى عناصر';
+
+  @override
+  String importDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'استُورد $count عنصر',
+      many: 'استُورد $count عنصرًا',
+      few: 'استُوردت $count عناصر',
+      two: 'استُورد عنصران',
+      one: 'استُورد عنصر واحد',
+      zero: 'لم يُستورد شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importItemsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر',
+      many: '$count عنصرًا',
+      few: '$count عناصر',
+      two: 'عنصران',
+      one: 'عنصر واحد',
+      zero: 'لا عناصر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importKeepOne => 'الإبقاء كعنصر واحد';
+
+  @override
+  String get importPasteHint => 'الصق نصًا بمسافات بادئة أو Markdown أو OPML';
+
+  @override
+  String get importSplit => 'التقسيم إلى عناصر (مع الحفاظ على التفرع)';
+
+  @override
+  String get importTitle => 'استيراد';
+
+  @override
+  String get importWarningAttachments => 'تم تجاهل مراجع المرفقات';
+
+  @override
+  String get importWarningEmpty => 'لا شيء للاستيراد';
+
+  @override
+  String get importWarningMalformed => 'تعذرت قراءة هذا الملف';
+
+  @override
+  String get importWarningTooMany => 'تم استيراد أول 10000 سطر فقط';
+
+  @override
+  String get itemAddTime => 'إضافة وقت';
+
+  @override
+  String get itemAttachments => 'المرفقات';
+
+  @override
+  String get itemClearDue => 'إزالة تاريخ الاستحقاق';
+
+  @override
+  String itemCompletedOn(String date) {
+    return 'اكتمل $date';
+  }
+
+  @override
+  String itemCreated(String date) {
+    return 'أُنشئ $date';
+  }
+
+  @override
+  String get itemDetailsTitle => 'تفاصيل العنصر';
+
+  @override
+  String get itemDue => 'الاستحقاق';
+
+  @override
+  String get itemDueOverdue => 'متأخر';
+
+  @override
+  String get itemDueToday => 'اليوم';
+
+  @override
+  String get itemDueTomorrow => 'غدًا';
+
+  @override
+  String itemEdited(String date) {
+    return 'عُدّل $date';
+  }
+
+  @override
+  String get itemHistory => 'السجل';
+
+  @override
+  String get itemHistoryCause => 'تلقائي';
+
+  @override
+  String itemHistoryDevice(String device) {
+    return 'على $device';
+  }
+
+  @override
+  String get itemHistoryEmpty => 'لا توجد تغييرات في الحالة بعد';
+
+  @override
+  String itemHistoryTransition(String from, String to) {
+    return '$from ← $to';
+  }
+
+  @override
+  String get itemInsights => 'الإحصاءات';
+
+  @override
+  String get itemNoDue => 'بدون تاريخ استحقاق';
+
+  @override
+  String get itemNote => 'ملاحظة';
+
+  @override
+  String get itemOtherDevice => 'جهاز آخر';
+
+  @override
+  String get itemPriority => 'الأولوية';
+
+  @override
+  String get itemText => 'النص';
+
+  @override
+  String get itemThisDevice => 'هذا الجهاز';
+
+  @override
+  String get itemTimeInStatus => 'الوقت في كل حالة';
+
+  @override
+  String get kanbanAll => 'كل العناصر';
+
+  @override
+  String get kanbanChildren => 'العناصر الفرعية المباشرة';
+
+  @override
+  String get kanbanEmptyColumn => 'أفلت العناصر هنا';
+
+  @override
+  String get kanbanLeaves => 'العناصر النهائية فقط';
+
+  @override
+  String get kanbanScope => 'عرض';
+
+  @override
+  String get kanbanShowCancelled => 'إظهار الملغاة';
+
+  @override
+  String get listsArchive => 'الأرشيف';
+
+  @override
+  String get listsArchiveAction => 'أرشفة';
+
+  @override
+  String get listsArchiveEmpty => 'لا توجد قوائم مؤرشفة';
+
+  @override
+  String get listsArchived => 'تمت أرشفة القائمة';
+
+  @override
+  String listsBadgeBlocked(int count) {
+    return '$count محظور';
+  }
+
+  @override
+  String listsBadgeStale(int count) {
+    return '$count راكد';
+  }
+
+  @override
+  String listsBadgeWaiting(int count) {
+    return '$count قيد الانتظار';
+  }
+
+  @override
+  String get listsBoardSort => 'ترتيب البطاقات';
+
+  @override
+  String get listsBoardSortManual => 'يدوي';
+
+  @override
+  String get listsBoardSortRecent => 'المعدلة مؤخرًا';
+
+  @override
+  String get listsBoardSortTitle => 'العنوان';
+
+  @override
+  String get listsCardActions => 'إجراءات القائمة';
+
+  @override
+  String listsCardMore(int count) {
+    return '+$count أخرى';
+  }
+
+  @override
+  String listsCardProgress(int done, int total) {
+    return '$done/$total';
+  }
+
+  @override
+  String listsCardSemantics(String title, String progress) {
+    return '$title، $progress';
+  }
+
+  @override
+  String get listsColor => 'اللون';
+
+  @override
+  String listsCopyOf(String title) {
+    return 'نسخة من $title';
+  }
+
+  @override
+  String get listsDelete => 'حذف';
+
+  @override
+  String get listsDeleted => 'تم حذف القائمة';
+
+  @override
+  String get listsDragHint => 'اضغط مطولًا واسحب لإعادة الترتيب';
+
+  @override
+  String get listsDuplicate => 'تكرار';
+
+  @override
+  String get listsDuplicated => 'تم تكرار القائمة';
+
+  @override
+  String get listsEmptyAction => 'أنشئ قائمتك الأولى';
+
+  @override
+  String get listsEmptyMessage =>
+      'قوائم وملاحظات وروتين — بتفرّع بالعمق الذي تحتاجه.';
+
+  @override
+  String get listsEmptyTitle => 'لا توجد قوائم بعد';
+
+  @override
+  String get listsFilterColor => 'اللون';
+
+  @override
+  String get listsFilterHasAttachments => 'بها مرفقات';
+
+  @override
+  String get listsFilterHasBlocked => 'قيد الانتظار أو محظور';
+
+  @override
+  String get listsFilterPinned => 'مثبتة';
+
+  @override
+  String get listsFilterRepeating => 'متكررة';
+
+  @override
+  String get listsFromTemplate => 'من قالب';
+
+  @override
+  String get listsGridView => 'عرض شبكي';
+
+  @override
+  String get listsImportFile => 'استيراد ملف…';
+
+  @override
+  String get listsListView => 'عرض قائمة';
+
+  @override
+  String get listsMoveItems => 'نقل العناصر…';
+
+  @override
+  String get listsNewChecklist => 'قائمة جديدة';
+
+  @override
+  String get listsNewNote => 'ملاحظة جديدة';
+
+  @override
+  String get listsOthers => 'أخرى';
+
+  @override
+  String get listsPin => 'تثبيت';
+
+  @override
+  String get listsPinned => 'المثبتة';
+
+  @override
+  String get listsPreferences => 'إعدادات القوائم';
+
+  @override
+  String get listsRepeats => 'تتكرر';
+
+  @override
+  String get listsResetStatusesOption => 'إعادة كل الحالات إلى «للإنجاز»';
+
+  @override
+  String get listsSearchHint => 'البحث في القوائم';
+
+  @override
+  String get listsSearchItems => 'العناصر';
+
+  @override
+  String get listsSearchNoResults => 'لا توجد قوائم أو عناصر مطابقة';
+
+  @override
+  String get listsShowBody => 'إظهار نص الملاحظة على البطاقات';
+
+  @override
+  String get listsShowSmartChips => 'إظهار شارات قيد الانتظار / محظور';
+
+  @override
+  String get listsTemplates => 'القوالب';
+
+  @override
+  String get listsTrash => 'المهملات';
+
+  @override
+  String get listsUnarchive => 'إلغاء الأرشفة';
+
+  @override
+  String get listsUnarchived => 'تمت استعادة القائمة من الأرشيف';
+
+  @override
+  String get listsUnpin => 'إلغاء التثبيت';
+
+  @override
+  String get listsUntitled => 'بلا عنوان';
+
+  @override
   String get localOnlyBanner =>
       'مزامنة السحابة غير مُعدّة — بياناتك تبقى على هذا الجهاز.';
+
+  @override
+  String get moveChooseParent => 'اختر المكان';
+
+  @override
+  String moveDone(String title) {
+    return 'نُقل إلى $title';
+  }
+
+  @override
+  String get moveToList => 'نقل إلى قائمة';
+
+  @override
+  String get moveToTop => 'المستوى الأعلى';
 
   @override
   String get notFoundTitle => 'الصفحة غير موجودة';
@@ -1474,6 +2673,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifFieldOffset => 'الفارق بالدقائق (سالب = قبل)';
 
   @override
+  String get notifFieldRepeats => 'التكرار';
+
+  @override
   String get notifFieldStatuses => 'الحالات';
 
   @override
@@ -1484,6 +2686,15 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifFieldUntil => 'حتى';
+
+  @override
+  String get notifFreqDaily => 'كل يوم';
+
+  @override
+  String get notifFreqMonthly => 'كل شهر';
+
+  @override
+  String get notifFreqWeekly => 'كل أسبوع';
 
   @override
   String get notifFrom => 'من';
@@ -1779,6 +2990,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifModeOff => 'متوقف';
 
   @override
+  String get notifModeOffHint => 'لا إشعارات لهذا العنصر';
+
+  @override
   String get notifMultiDevice => 'التسليم إلى';
 
   @override
@@ -2067,6 +3281,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifSectionHabits => 'العادات';
 
   @override
+  String notifSectionOffHint(String section) {
+    return 'إشعارات «$section» متوقفة في الإعدادات';
+  }
+
+  @override
   String get notifSectionPlanner => 'الخطة';
 
   @override
@@ -2198,6 +3417,39 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifSoundSoft => 'ناعم';
+
+  @override
+  String get notifStatusBlocked => 'متوقفًا';
+
+  @override
+  String get notifStatusCancelled => 'ملغًى';
+
+  @override
+  String get notifStatusCompleted => 'مكتملًا';
+
+  @override
+  String get notifStatusDone => 'منجزًا';
+
+  @override
+  String get notifStatusInProgress => 'قيد التنفيذ';
+
+  @override
+  String get notifStatusMissed => 'فائتًا';
+
+  @override
+  String get notifStatusOngoing => 'جاريًا';
+
+  @override
+  String get notifStatusScheduled => 'مجدولًا';
+
+  @override
+  String get notifStatusSkipped => 'متخطًّى';
+
+  @override
+  String get notifStatusTodo => 'غير منجز';
+
+  @override
+  String get notifStatusWaiting => 'في الانتظار';
 
   @override
   String get notifSticky => 'إبقاء حتى الإنجاز (Android)';
@@ -2492,6 +3744,42 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifYes => 'نعم';
+
+  @override
+  String get onboardingClock => 'الساعة';
+
+  @override
+  String get onboardingClock12 => '12 ساعة';
+
+  @override
+  String get onboardingClock24 => '24 ساعة';
+
+  @override
+  String get onboardingEssentialsBody =>
+      'اخترنا هذه الإعدادات من جهازك. عدّل ما لا يناسبك، ويمكنك تغييرها لاحقًا من الإعدادات › المنطقة.';
+
+  @override
+  String get onboardingEssentialsTitle => 'أسبوعك وساعتك';
+
+  @override
+  String get onboardingGetStarted => 'لنبدأ';
+
+  @override
+  String get onboardingLanguage => 'اللغة';
+
+  @override
+  String onboardingStepOf(int current, int total) {
+    return 'الخطوة $current من $total';
+  }
+
+  @override
+  String get onboardingTimeZone => 'المنطقة الزمنية الأساسية';
+
+  @override
+  String get onboardingTitle => 'إعداد Everslot';
+
+  @override
+  String get onboardingWeekStart => 'يبدأ الأسبوع يوم';
 
   @override
   String get pickerColor => 'اللون';
@@ -3692,6 +4980,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recurAddDate => 'إضافة';
 
   @override
+  String get recurAddOrdinal => 'إضافة يوم مثل «يوم الثلاثاء الثاني»';
+
+  @override
   String get recurAddTime => 'إضافة وقت';
 
   @override
@@ -3702,8 +4993,26 @@ class AppLocalizationsAr extends AppLocalizations {
       'يحين الموعد التالي بعد هذه المدة من إنجاز السابق.';
 
   @override
+  String get recurAfterPreview => 'تعتمد المواعيد التالية على وقت إنجازك له';
+
+  @override
   String recurAnchorMoved(String date) {
     return 'أول موعد: $date';
+  }
+
+  @override
+  String recurCalendarSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count يوم فيه مواعيد',
+      many: '$count يومًا فيه مواعيد',
+      few: '$count أيام فيها مواعيد',
+      two: 'يومان فيهما مواعيد',
+      one: 'يوم واحد فيه مواعيد',
+      zero: 'لا يوم فيه مواعيد',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -3717,6 +5026,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recurCurrent => 'القاعدة الحالية';
+
+  @override
+  String get recurCustomValue => 'قيمة أخرى…';
 
   @override
   String get recurEnds => 'الانتهاء';
@@ -3751,6 +5063,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recurExceptionEdited => 'معدّل';
 
   @override
+  String get recurExceptionExcluded => 'مستبعد';
+
+  @override
   String recurExceptionMoved(String to) {
     return 'نُقل إلى $to';
   }
@@ -3763,6 +5078,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recurExceptionRestoreAll => 'استعادة الكل';
+
+  @override
+  String recurExceptionRestoreAllTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'استعادة $count موعد؟',
+      many: 'استعادة $count موعدًا؟',
+      few: 'استعادة $count مواعيد؟',
+      two: 'استعادة موعدين؟',
+      one: 'استعادة موعد واحد؟',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get recurExceptionsEmpty => 'لا مواعيد مزالة أو منقولة';
@@ -3856,6 +5185,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recurMore => 'خيارات أكثر';
 
   @override
+  String get recurNumbersHint => 'أرقام مفصولة بفواصل (السالب = من النهاية)';
+
+  @override
   String get recurOrdinal1 => 'الأول';
 
   @override
@@ -3877,7 +5209,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recurOrdinalLast => 'الأخير';
 
   @override
+  String get recurOrdinalPick => 'أي يوم؟';
+
+  @override
   String get recurOrdinalSecondLast => 'قبل الأخير';
+
+  @override
+  String recurOrdinalWeekday(String ordinal, String weekday) {
+    return 'يوم $weekday $ordinal';
+  }
 
   @override
   String get recurOverflow => 'عندما يكون الشهر أقصر';
@@ -3899,6 +5239,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recurPerYear => 'السنة';
+
+  @override
+  String recurPeriodWeek(String date) {
+    return 'أسبوع $date';
+  }
 
   @override
   String get recurPickerTitle => 'التكرار';
@@ -3952,6 +5297,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recurRdates => 'مواعيد إضافية';
 
   @override
+  String recurRemove(String item) {
+    return 'إزالة $item';
+  }
+
+  @override
   String recurRemoveTime(String time) {
     return 'إزالة $time';
   }
@@ -3967,6 +5317,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recurTimes => 'أوقات اليوم';
+
+  @override
+  String recurTimesDefault(String time) {
+    return 'في وقت البدء ($time)';
+  }
 
   @override
   String get recurType => 'النوع';
@@ -4023,6 +5378,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get recurWeekNumbers => 'أرقام الأسابيع';
+
+  @override
   String get recurWeekStart => 'يبدأ الأسبوع يوم';
 
   @override
@@ -4048,6 +5406,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recurWindowStart => 'من';
+
+  @override
+  String get recurYearDays => 'أيام السنة';
 
   @override
   String recurZoneNote(String zone) {
@@ -4142,7 +5503,177 @@ class AppLocalizationsAr extends AppLocalizations {
   String get relativeNow => 'الآن';
 
   @override
+  String repeatChip(String rule, String when) {
+    return 'إعادة تعيين $rule · التالية $when';
+  }
+
+  @override
+  String get repeatCustom => 'قاعدة مخصصة';
+
+  @override
+  String get repeatModeAll => 'إعادة كل شيء إلى «للإنجاز»';
+
+  @override
+  String get repeatModeCompleted => 'إلغاء تحديد المكتملة فقط';
+
+  @override
+  String get repeatNoRuns => 'لا توجد دورات مكتملة بعد';
+
+  @override
+  String get repeatNone => 'لا يتكرر';
+
+  @override
+  String get repeatResetTime => 'وقت إعادة التعيين';
+
+  @override
+  String repeatRunSummary(int done, int total) {
+    return '$done/$total مكتمل';
+  }
+
+  @override
+  String get repeatRuns => 'سجل الدورات';
+
+  @override
+  String get repeatTitle => 'التكرار';
+
+  @override
   String get savedSnack => 'تم الحفظ';
+
+  @override
+  String get settingsAutoComplete => 'إكمال العناصر الأصلية تلقائيًا';
+
+  @override
+  String get settingsCascadeAlways => 'إكمال العناصر الفرعية أيضًا';
+
+  @override
+  String get settingsCascadeAsk => 'السؤال';
+
+  @override
+  String get settingsCascadeNever => 'ترك العناصر الفرعية';
+
+  @override
+  String get settingsCategory => 'الفئة';
+
+  @override
+  String get settingsCompleteChildren => 'عند إكمال عنصر أصلي';
+
+  @override
+  String get settingsDefaultOpen => 'الفتح في وضع';
+
+  @override
+  String get settingsHideCheckboxes => 'إخفاء مربعات الاختيار (نقاط)';
+
+  @override
+  String get settingsLanguageArabic => 'العربية';
+
+  @override
+  String get settingsLanguageEnglish => 'English';
+
+  @override
+  String get settingsLanguageFrench => 'Français';
+
+  @override
+  String get settingsLanguageSystem => 'لغة النظام';
+
+  @override
+  String get settingsProgressChildren => 'العناصر الفرعية المباشرة فقط';
+
+  @override
+  String get settingsProgressLeaves => 'كل العناصر الفرعية';
+
+  @override
+  String get settingsProgressMode => 'طريقة حساب التقدم';
+
+  @override
+  String get settingsRequireReason => 'طلب سبب لـ';
+
+  @override
+  String get settingsShowAttachments => 'إظهار المرفقات في المعاينة';
+
+  @override
+  String get settingsShowNotes => 'إظهار الملاحظات في المعاينة';
+
+  @override
+  String get settingsSortCompleted => 'نقل المكتملة إلى الأسفل';
+
+  @override
+  String settingsStaleDays(int days) {
+    return 'اعتباره راكدًا بعد $days يومًا';
+  }
+
+  @override
+  String get settingsSwipeComplete => 'إكمال';
+
+  @override
+  String get settingsSwipeEditLeft => 'وضع التحرير · السحب لليسار';
+
+  @override
+  String get settingsSwipeEditRight => 'وضع التحرير · السحب لليمين';
+
+  @override
+  String get settingsSwipeIndent => 'زيادة المسافة';
+
+  @override
+  String get settingsSwipeMenu => 'قائمة الإجراءات';
+
+  @override
+  String get settingsSwipeNone => 'لا شيء';
+
+  @override
+  String get settingsSwipeOutdent => 'إنقاص المسافة';
+
+  @override
+  String get settingsSwipePreviewLeft => 'المعاينة · السحب لليسار';
+
+  @override
+  String get settingsSwipePreviewRight => 'المعاينة · السحب لليمين';
+
+  @override
+  String get settingsSwipeTitle => 'إجراءات السحب';
+
+  @override
+  String get smartBlocked => 'محظور';
+
+  @override
+  String smartChip(String label, int count) {
+    return '$label · $count';
+  }
+
+  @override
+  String get smartClearFollowUp => 'إزالة المتابعة';
+
+  @override
+  String get smartEmpty => 'لا شيء هنا — رائع.';
+
+  @override
+  String get smartFollowUps => 'المتابعات';
+
+  @override
+  String get smartGroupByList => 'التجميع حسب القائمة';
+
+  @override
+  String get smartOngoing => 'قيد التنفيذ';
+
+  @override
+  String get smartOpenInList => 'فتح في القائمة';
+
+  @override
+  String get smartSetFollowUp => 'تعيين متابعة';
+
+  @override
+  String get smartSortAge => 'المدة';
+
+  @override
+  String get smartSortFollowUp => 'المتابعة';
+
+  @override
+  String get smartSortList => 'القائمة';
+
+  @override
+  String get smartUnknown => 'قائمة ذكية غير معروفة';
+
+  @override
+  String get smartWaiting => 'قيد الانتظار';
 
   @override
   String get stateEmpty => 'لا يوجد شيء بعد';
@@ -4155,6 +5686,129 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get stateLoading => 'جارٍ التحميل…';
+
+  @override
+  String get statusAddNote => 'إضافة ملاحظة…';
+
+  @override
+  String statusAgeDays(int n) {
+    return '$n ي';
+  }
+
+  @override
+  String statusAgeHours(int n) {
+    return '$n س';
+  }
+
+  @override
+  String statusAgeMinutes(int n) {
+    return '$n د';
+  }
+
+  @override
+  String get statusBlocked => 'محظور';
+
+  @override
+  String get statusCancelled => 'ملغى';
+
+  @override
+  String get statusCascadeAll => 'إكمال الكل';
+
+  @override
+  String get statusCascadeOnlyThis => 'هذا فقط';
+
+  @override
+  String statusCascadeTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'هل تريد إكمال $count عنصر فرعي مفتوح أيضًا؟',
+      many: 'هل تريد إكمال $count عنصرًا فرعيًا مفتوحًا أيضًا؟',
+      few: 'هل تريد إكمال $count عناصر فرعية مفتوحة أيضًا؟',
+      two: 'هل تريد إكمال العنصرين الفرعيين المفتوحين أيضًا؟',
+      one: 'هل تريد إكمال العنصر الفرعي المفتوح أيضًا؟',
+      zero: 'لا عناصر فرعية مفتوحة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statusChange => 'تغيير الحالة';
+
+  @override
+  String get statusCompleted => 'مكتمل';
+
+  @override
+  String get statusFollowUp => 'المتابعة';
+
+  @override
+  String statusFollowUpChip(String when) {
+    return 'المتابعة $when';
+  }
+
+  @override
+  String get statusFollowUpCustom => 'مخصص…';
+
+  @override
+  String get statusFollowUpIn3Days => 'بعد 3 أيام';
+
+  @override
+  String get statusFollowUpLaterToday => 'لاحقًا اليوم';
+
+  @override
+  String get statusFollowUpNextWeek => 'الأسبوع القادم';
+
+  @override
+  String get statusFollowUpNone => 'بدون متابعة';
+
+  @override
+  String get statusFollowUpOverdue => 'حان وقت المتابعة';
+
+  @override
+  String get statusFollowUpTomorrow => 'غدًا 09:00';
+
+  @override
+  String get statusKeepFollowUp => 'الإبقاء على المتابعة';
+
+  @override
+  String statusMarked(String status) {
+    return 'تم التعيين: $status';
+  }
+
+  @override
+  String get statusOngoing => 'قيد التنفيذ';
+
+  @override
+  String get statusReasonBlocked => 'ما الذي يعيقه؟';
+
+  @override
+  String get statusReasonOther => 'إضافة ملاحظة (اختياري)';
+
+  @override
+  String get statusReasonRequired => 'السبب مطلوب';
+
+  @override
+  String get statusReasonWaiting => 'بانتظار من / ماذا؟';
+
+  @override
+  String get statusRecentReasons => 'الأحدث';
+
+  @override
+  String get statusSheetTitle => 'الحالة';
+
+  @override
+  String get statusStale => 'راكد';
+
+  @override
+  String get statusTodo => 'للإنجاز';
+
+  @override
+  String get statusWaiting => 'قيد الانتظار';
+
+  @override
+  String statusWithAge(String status, String age) {
+    return '$status · $age';
+  }
 
   @override
   String get syncError => 'مشكلة في المزامنة';
@@ -5249,4 +6903,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tasksZoneSearch => 'ابحث عن منطقة زمنية';
+
+  @override
+  String get templatesBuiltin => 'مدمجة';
+
+  @override
+  String get templatesCreated => 'تم إنشاء قائمة من القالب';
+
+  @override
+  String get templatesEdit => 'تعديل القالب';
+
+  @override
+  String get templatesEmpty => 'احفظ أي قائمة كقالب من قائمتها.';
+
+  @override
+  String get templatesMine => 'قوالبي';
+
+  @override
+  String get templatesRename => 'إعادة تسمية';
+
+  @override
+  String get templatesUse => 'استخدام القالب';
 }

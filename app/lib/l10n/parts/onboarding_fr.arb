@@ -1,0 +1,14 @@
+{
+  "onboardingTitle": "Configurer Everslot",
+  "onboardingEssentialsTitle": "Votre semaine, votre horloge",
+  "onboardingEssentialsBody": "Nous avons repris ces réglages de votre appareil. Corrigez ce qui ne va pas : vous pourrez les modifier plus tard dans Paramètres › Région.",
+  "onboardingTimeZone": "Fuseau horaire de référence",
+  "onboardingWeekStart": "La semaine commence le",
+  "onboardingClock": "Horloge",
+  "onboardingClock12": "12 heures",
+  "onboardingClock24": "24 heures",
+  "onboardingLanguage": "Langue",
+  "onboardingGetStarted": "Commencer",
+  "onboardingStepOf": "Étape {current} sur {total}",
+  "@onboardingStepOf": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}}
+}

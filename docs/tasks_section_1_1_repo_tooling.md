@@ -100,7 +100,7 @@ background fetch/processing) added later by their tasks; `ITSAppUsesNonExemptEnc
 **Acceptance criteria:** clean build with Xcode 27; app launches (no "fails to launch" UIScene error);
 plugin registration works after scene connection.
 **Tests:** CI iOS build job (T1.1.12, macOS runner, no signing).
-**Notes:** Deployment target 15.0, SwiftPM, UIScene (`SceneDelegate`) and `ITSAppUsesNonExemptEncryption` are in place; still open: a verified clean iOS build.
+**Notes:** Deployment target 15.0, UIScene (`SceneDelegate`) and `ITSAppUsesNonExemptEncryption` are in place. All plugins resolve as Swift packages, so CocoaPods was removed (no Podfile). A dev-flavor simulator build (2026-09-26) got through package resolution and Xcode configuration but needs **Xcode ≥ 26**: `workmanager_apple` 0.9.11 uses the iOS 26 SDK (`BGContinuedProcessingTask`), and this machine has Xcode 16.4. Still open: a clean build with Xcode 26/27.
 
 ### T1.1.06 — Android project setup: SDK levels, Gradle/AGP/Kotlin, namespaces
 **Priority:** P0 · **Size:** S · **Depends on:** T1.1.04

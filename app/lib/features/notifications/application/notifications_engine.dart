@@ -25,7 +25,7 @@ import 'package:everslot/features/notifications/application/push/push_service.da
 import 'package:everslot/features/notifications/data/inbox_repository.dart';
 import 'package:everslot/features/notifications/domain/notification_actions.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
-import 'package:everslot/features/notifications/domain/notification_types.dart';
+import 'package:everslot/features/notifications/domain/notification_target.dart';
 import 'package:everslot/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -55,12 +55,19 @@ class MessageEvent extends NotificationUiEvent {
 
 // ------------------------------------------------------------------------------- providers --
 
-final notificationPipelineProvider = Provider<NotificationPipeline>((ref) => NotificationPipeline(ref.read));
+final notificationPipelineProvider = Provider<NotificationPipeline>(
+  (ref) => NotificationPipeline(ref.read),
+);
 
-final notificationReplanServiceProvider = Provider<NotificationReplanService>((ref) {
+final notificationReplanServiceProvider = Provider<NotificationReplanService>((
+  ref,
+) {
   final pipeline = ref.watch(notificationPipelineProvider);
   final service = NotificationReplanService(
-    runner: (reason) => pipeline.run(reason, foreground: ref.read(lifecycleProvider).isForeground),
+    runner: (reason) => pipeline.run(
+      reason,
+      foreground: ref.read(lifecycleProvider).isForeground,
+    ),
   );
   ref.onDispose(service.dispose);
   return service;
@@ -80,11 +87,12 @@ final inAppBannerControllerProvider = Provider<InAppBannerController>((ref) {
   return controller;
 });
 
-final notificationUiEventsProvider = Provider<StreamController<NotificationUiEvent>>((ref) {
-  final controller = StreamController<NotificationUiEvent>.broadcast();
-  ref.onDispose(() => unawaited(controller.close()));
-  return controller;
-});
+final notificationUiEventsProvider =
+    Provider<StreamController<NotificationUiEvent>>((ref) {
+      final controller = StreamController<NotificationUiEvent>.broadcast();
+      ref.onDispose(() => unawaited(controller.close()));
+      return controller;
+    });
 
 final jobUploaderProvider = Provider<JobUploader>(
   (ref) => JobUploader(
@@ -108,19 +116,23 @@ final deviceStateReporterProvider = Provider<DeviceStateReporter>((ref) {
   return reporter;
 });
 
-final notificationActionDispatcherProvider = Provider<NotificationActionDispatcher>(
-  (ref) => NotificationActionDispatcher(
-    ref.read,
-    onReplanNeeded: (reason) => ref.read(notificationReplanServiceProvider).request(reason),
-    onTargetsDirty: (keys) => unawaited(ref.read(jobUploaderProvider).markDirty(keys)),
-  ),
-);
+final notificationActionDispatcherProvider =
+    Provider<NotificationActionDispatcher>(
+      (ref) => NotificationActionDispatcher(
+        ref.read,
+        onReplanNeeded: (reason) =>
+            ref.read(notificationReplanServiceProvider).request(reason),
+        onTargetsDirty: (keys) =>
+            unawaited(ref.read(jobUploaderProvider).markDirty(keys)),
+      ),
+    );
 
 /// Push (FCM) is active only with `FIREBASE_ENABLED`, real FlutterFire options, an initialized
 /// Firebase app, a configured Supabase client and a cloud session (T7.4 configuration checks).
 final pushAvailableProvider = Provider<bool>((ref) {
   final env = ref.watch(envProvider);
-  if (!env.firebaseEnabled || !DefaultFirebaseOptions.isConfigured) return false;
+  if (!env.firebaseEnabled || !DefaultFirebaseOptions.isConfigured)
+    return false;
   if (ref.watch(supabaseClientProvider) == null) return false;
   final session = ref.watch(sessionProvider);
   if (session == null || !session.isCloud) return false;
@@ -133,7 +145,8 @@ final pushAvailableProvider = Provider<bool>((ref) {
 
 /// Override in tests with a [FakePushMessagingPort].
 final pushMessagingPortProvider = Provider<PushMessagingPort?>(
-  (ref) => ref.watch(pushAvailableProvider) ? FirebasePushMessagingPort() : null,
+  (ref) =>
+      ref.watch(pushAvailableProvider) ? FirebasePushMessagingPort() : null,
 );
 
 final notificationsEngineProvider = Provider<NotificationsEngine>((ref) {
@@ -181,6 +194,7 @@ class NotificationsEngine {
   static final _log = AppLog.get('notifications.engine');
 
   final List<StreamSubscription<Object?>> _subs = [];
+  final Set<NotificationTargetSource> _subscribedSources = Set.identity();
   final List<ProviderSubscription<Object?>> _listens = [];
   Timer? _periodic;
   ForegroundTicker? _ticker;
@@ -189,13 +203,21 @@ class NotificationsEngine {
   Map<String, String> _targetHashes = {};
   DateTime? _lastSyncSuccess;
 
-  NotificationReplanService get _replan => ref.read(notificationReplanServiceProvider);
+  /// User the engine currently runs for (an account switch restarts it).
+  String? _userId;
+  String? get userId => _userId;
 
+  NotificationReplanService get _replan =>
+      ref.read(notificationReplanServiceProvider);
+
+  /// Starts (or, after an account switch, restarts) every notification trigger for the current
+  /// user. Idempotent for the same user; does nothing without a user.
   Future<void> start() async {
-    if (started) return;
-    started = true;
     final userId = ref.read(currentUserIdProvider);
-    if (userId.isEmpty) return;
+    if (userId.isEmpty || userId == _userId) return;
+    if (_userId != null) _stop();
+    _userId = userId;
+    started = true;
     final db = ref.read(appDatabaseProvider);
     await db.customStatement(
       'INSERT INTO local_kv(key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value',
@@ -206,7 +228,10 @@ class NotificationsEngine {
     final port = ref.read(localNotificationsPortProvider);
     final scheduler = ref.read(localSchedulerProvider);
     try {
-      await port.initialize(categories: scheduler.initialCategories(), onResponse: (r) => unawaited(_onResponse(r)));
+      await port.initialize(
+        categories: scheduler.initialCategories(),
+        onResponse: (r) => unawaited(_onResponse(r)),
+      );
     } on Object catch (e, st) {
       _log.warning('notification plugin init failed', e, st);
     }
@@ -220,7 +245,8 @@ class NotificationsEngine {
       banners: banners,
       clock: ref.read(clockProvider),
       bannerEnabled: () => ref.read(notificationSettingsProvider).bannerInApp,
-      guardOpen: (p) => ref.read(notificationActionDispatcherProvider).guardOpen(p),
+      guardOpen: (p) =>
+          ref.read(notificationActionDispatcherProvider).guardOpen(p),
     )..start();
 
     await ref.read(inboxReconcilerProvider).reconcile();
@@ -233,7 +259,9 @@ class NotificationsEngine {
     } on Object catch (e) {
       _log.fine('launch details unavailable', e);
     }
-    if (defaultTargetPlatform == TargetPlatform.android && !kIsWeb && port.platform == 'android') {
+    if (defaultTargetPlatform == TargetPlatform.android &&
+        !kIsWeb &&
+        port.platform == 'android') {
       unawaited(NotificationBackground.registerPeriodic());
     }
     unawaited(_startPush());
@@ -243,77 +271,129 @@ class NotificationsEngine {
     final writer = ref.read(syncWriterProvider);
     _subs.add(
       writer.committed.listen((record) {
-        if (record.changes.any((c) => notificationRelevantTables.contains(c.table))) _replan.request('write');
+        if (record.changes.any(
+          (c) => notificationRelevantTables.contains(c.table),
+        ))
+          _replan.request('write');
       }),
     );
     final db = ref.read(appDatabaseProvider);
-    final infos = [for (final t in db.allTables) if (notificationRelevantTables.contains(t.actualTableName)) t];
-    _subs.add(db.tableUpdates(TableUpdateQuery.onAllTables(infos)).listen((_) => _replan.request('data')));
+    final infos = [
+      for (final t in db.allTables)
+        if (notificationRelevantTables.contains(t.actualTableName)) t,
+    ];
+    _subs.add(
+      db
+          .tableUpdates(TableUpdateQuery.onAllTables(infos))
+          .listen((_) => _replan.request('data')),
+    );
 
     void subscribeSources() {
       for (final source in ref.read(notificationTargetSourcesProvider)) {
-        _subs.add(source.changes.listen((_) => _replan.request('source:${source.section}')));
+        if (!_subscribedSources.add(source)) continue;
+        _subs.add(
+          source.changes.listen(
+            (_) => _replan.request('source:${source.section}'),
+          ),
+        );
       }
     }
 
     subscribeSources();
-    _subs.add(ref.read(notificationRegistryProvider).changes.listen((_) {
-      subscribeSources();
-      _replan.request('registry');
-    }));
+    _subs.add(
+      ref.read(notificationRegistryProvider).changes.listen((_) {
+        // After the sources provider recomputed (it listens to the same stream).
+        scheduleMicrotask(subscribeSources);
+        _replan.request('registry');
+      }),
+    );
 
     final lifecycle = ref.read(lifecycleProvider);
     _subs
       ..add(lifecycle.onResume.listen((_) => unawaited(_onResume())))
-      ..add(lifecycle.onPause.listen((_) {
-        _ticker?.stop();
-        ref.read(inAppBannerControllerProvider).clear();
-        _replan.request('pause', immediate: true);
-      }))
-      ..add(_replan.reports.listen((report) => unawaited(_afterReplan(report))));
+      ..add(
+        lifecycle.onPause.listen((_) {
+          _ticker?.stop();
+          ref.read(inAppBannerControllerProvider).clear();
+          _replan.request('pause', immediate: true);
+        }),
+      )
+      ..add(
+        _replan.reports.listen((report) => unawaited(_afterReplan(report))),
+      );
 
     _listens
-      ..add(ref.listen<String>(deviceZoneProvider, (_, zone) {
-        _replan.request('zone', immediate: true);
-        ref.read(deviceStateReporterProvider).report({'time_zone': zone});
-      }))
-      ..add(ref.listen<(String?, bool)>(userPreferencesProvider.select((p) => (p.localeCode, p.use24h)), (_, _) => _replan.request('locale')))
-      ..add(ref.listen<NotificationCapabilities>(notificationCapabilitiesProvider, (previous, caps) {
-        if (previous != null && previous.determined) _replan.request('capabilities');
-        ref.read(deviceStateReporterProvider).report({
-          'capabilities': {
-            'notifications': caps.notifications,
-            'exactAlarm': caps.exactAlarm,
-            'timeSensitive': caps.timeSensitive,
-            'alarmKit': false,
-            'fullScreenIntent': caps.fullScreenIntent,
-            'badge': caps.badge,
-          },
-          'local_notifications_enabled': caps.notifications,
-        });
-      }))
-      ..add(ref.listen<SyncStatus>(syncStatusProvider, (_, status) => unawaited(_onSyncStatus(status))))
-      ..add(ref.listen<AppSession?>(sessionProvider, (previous, next) {
-        if (previous != null && next == null) unawaited(_onSignOut());
-      }));
+      ..add(
+        ref.listen<String>(deviceZoneProvider, (_, zone) {
+          _replan.request('zone', immediate: true);
+          ref.read(deviceStateReporterProvider).report({'time_zone': zone});
+        }),
+      )
+      ..add(
+        ref.listen<(String?, bool)>(
+          userPreferencesProvider.select((p) => (p.localeCode, p.use24h)),
+          (_, _) => _replan.request('locale'),
+        ),
+      )
+      ..add(
+        ref.listen<NotificationCapabilities>(notificationCapabilitiesProvider, (
+          previous,
+          caps,
+        ) {
+          if (previous != null && previous.determined)
+            _replan.request('capabilities');
+          ref.read(deviceStateReporterProvider).report({
+            'capabilities': {
+              'notifications': caps.notifications,
+              'exactAlarm': caps.exactAlarm,
+              'timeSensitive': caps.timeSensitive,
+              'alarmKit': false,
+              'fullScreenIntent': caps.fullScreenIntent,
+              'badge': caps.badge,
+            },
+            'local_notifications_enabled': caps.notifications,
+          });
+        }),
+      )
+      ..add(
+        ref.listen<SyncStatus>(
+          syncStatusProvider,
+          (_, status) => unawaited(_onSyncStatus(status)),
+        ),
+      )
+      ..add(
+        ref.listen<AppSession?>(sessionProvider, (previous, next) {
+          if (previous != null && next == null) unawaited(_onSignOut());
+        }),
+      );
     // Day rollover / horizon extension while the app stays open.
-    _periodic = Timer.periodic(const Duration(minutes: 15), (_) => _replan.request('periodic'));
+    _periodic = Timer.periodic(
+      const Duration(minutes: 15),
+      (_) => _replan.request('periodic'),
+    );
   }
 
   Future<void> _onResume() async {
     final reporter = ref.read(deviceStateReporterProvider)
-      ..report({'last_seen_at': ref.read(clockProvider).nowUtc().toIso8601String()});
+      ..report({
+        'last_seen_at': ref.read(clockProvider).nowUtc().toIso8601String(),
+      });
     unawaited(reporter.flush());
     await ref.read(inboxReconcilerProvider).reconcile();
     _ticker?.start();
     _replan.request('resume', immediate: true);
     final db = ref.read(appDatabaseProvider);
     final pending = await db
-        .customSelect('SELECT value FROM local_kv WHERE key = ?', variables: [Variable<String>(NotificationBackground.pendingPullKey)])
+        .customSelect(
+          'SELECT value FROM local_kv WHERE key = ?',
+          variables: [Variable<String>(NotificationBackground.pendingPullKey)],
+        )
         .getSingleOrNull();
     if (pending != null) {
       ref.read(syncServiceProvider)?.schedulePull(Duration.zero);
-      await db.customStatement('DELETE FROM local_kv WHERE key = ?', [NotificationBackground.pendingPullKey]);
+      await db.customStatement('DELETE FROM local_kv WHERE key = ?', [
+        NotificationBackground.pendingPullKey,
+      ]);
     }
   }
 
@@ -327,7 +407,10 @@ class NotificationsEngine {
         (hashes[p.targetKey] ??= []).add('${p.dedupeKey}:${p.contentHash}');
       }
       final next = {
-        for (final e in hashes.entries) e.key: sha1.convert(utf8.encode((e.value..sort()).join('|'))).toString(),
+        for (final e in hashes.entries)
+          e.key: sha1
+              .convert(utf8.encode((e.value..sort()).join('|')))
+              .toString(),
       };
       final changed = <String>{
         for (final e in next.entries)
@@ -346,7 +429,9 @@ class NotificationsEngine {
     final userId = ref.read(currentUserIdProvider);
     final rev = await ref.read(jobUploaderProvider).sourceRev(userId);
     ref.read(deviceStateReporterProvider).report({
-      'local_coverage_until': report.scheduler.coverageUntil?.toUtc().toIso8601String(),
+      'local_coverage_until': report.scheduler.coverageUntil
+          ?.toUtc()
+          .toIso8601String(),
       'schedule_rev': rev,
       'local_repeating_rules': const <String>[],
     });
@@ -363,10 +448,15 @@ class NotificationsEngine {
   Future<bool> uploadJobs() async {
     final client = ref.read(supabaseClientProvider);
     final plan = ref.read(notificationPipelineProvider).lastPlan;
-    if (client == null || plan == null || !ref.read(pushAvailableProvider)) return false;
+    if (client == null || plan == null || !ref.read(pushAvailableProvider))
+      return false;
     final uploader = ref.read(jobUploaderProvider);
     final rev = await uploader.sourceRev(ref.read(currentUserIdProvider));
-    return uploader.upload(SupabaseNotificationJobsApi(client), plan, sourceRev: rev);
+    return uploader.upload(
+      SupabaseNotificationJobsApi(client),
+      plan,
+      sourceRev: rev,
+    );
   }
 
   Future<void> _startPush() async {
@@ -384,7 +474,9 @@ class NotificationsEngine {
       onForegroundReminder: _onForegroundPush,
       onOpened: _onPushOpened,
     );
-    await _push!.start(bannerInApp: ref.read(notificationSettingsProvider).bannerInApp);
+    await _push!.start(
+      bannerInApp: ref.read(notificationSettingsProvider).bannerInApp,
+    );
   }
 
   Future<void> _onForegroundPush(PushMessage m) async {
@@ -393,49 +485,68 @@ class NotificationsEngine {
     final target = (m.data['target'] ?? '').split(':');
     final link = _routerLink(m.data['deepLink']);
     final now = ref.read(clockProvider).nowUtc();
-    final actions = (m.data['actions'] ?? '').split(',').where((a) => a.isNotEmpty).toList();
-    await ref.read(inboxRepositoryProvider).upsertDelivered(
-      InboxDelivery(
-        dedupeKey: dk,
-        category: InboxCategory.parse(m.type),
-        title: m.title ?? '',
-        body: m.body,
-        fireAt: DateTime.tryParse(m.data['fireAt'] ?? '')?.toUtc() ?? now,
-        sourceType: target.isNotEmpty ? target.first : null,
-        sourceId: target.length > 1 ? target[1] : null,
-        occurrenceKey: m.data['occ'],
-        payload: {'v': 1, 'dk': dk, 'tk': m.data['target'], 'occ': m.data['occ'], 'link': link, 'acts': actions},
-        via: 'push',
-        deliveredAt: now,
-      ),
-    );
+    final actions = (m.data['actions'] ?? '')
+        .split(',')
+        .where((a) => a.isNotEmpty)
+        .toList();
+    await ref
+        .read(inboxRepositoryProvider)
+        .upsertDelivered(
+          InboxDelivery(
+            dedupeKey: dk,
+            category: InboxCategory.parse(m.type),
+            title: m.title ?? '',
+            body: m.body,
+            fireAt: DateTime.tryParse(m.data['fireAt'] ?? '')?.toUtc() ?? now,
+            sourceType: target.isNotEmpty ? target.first : null,
+            sourceId: target.length > 1 ? target[1] : null,
+            occurrenceKey: m.data['occ'],
+            payload: {
+              'v': 1,
+              'dk': dk,
+              'tk': m.data['target'],
+              'occ': m.data['occ'],
+              'link': link,
+              'acts': actions,
+            },
+            via: 'push',
+            deliveredAt: now,
+          ),
+        );
     if (ref.read(notificationSettingsProvider).bannerInApp) {
-      ref.read(inAppBannerControllerProvider).show(
-        BannerItem(
-          key: dk,
-          title: m.title ?? '',
-          body: m.body,
-          link: link,
-          actions: [for (final a in actions) if (a != NotificationActionIds.open) a].take(2).toList(),
-          payload: NotificationPayload.fromJson({
-            'dk': dk,
-            'tk': m.data['target'],
-            'tt': target.isNotEmpty ? target.first : null,
-            'tid': target.length > 1 ? target[1] : null,
-            'occ': m.data['occ'],
-            'link': link,
-            'acts': actions,
-          }),
-        ),
-      );
+      ref
+          .read(inAppBannerControllerProvider)
+          .show(
+            BannerItem(
+              key: dk,
+              title: m.title ?? '',
+              body: m.body,
+              link: link,
+              actions: [
+                for (final a in actions)
+                  if (a != NotificationActionIds.open) a,
+              ].take(2).toList(),
+              payload: NotificationPayload.fromJson({
+                'dk': dk,
+                'tk': m.data['target'],
+                'tt': target.isNotEmpty ? target.first : null,
+                'tid': target.length > 1 ? target[1] : null,
+                'occ': m.data['occ'],
+                'link': link,
+                'acts': actions,
+              }),
+            ),
+          );
     }
   }
 
   Future<void> _onPushOpened(PushMessage m) async {
     final dk = m.dedupeKey;
-    if (dk != null) await ref.read(inboxRepositoryProvider).markOpened(Ids.inbox(dk));
+    if (dk != null)
+      await ref.read(inboxRepositoryProvider).markOpened(Ids.inbox(dk));
     final link = _routerLink(m.data['deepLink']);
-    if (link != null) ref.read(notificationUiEventsProvider).add(OpenLinkEvent(link));
+    if (link != null)
+      ref.read(notificationUiEventsProvider).add(OpenLinkEvent(link));
   }
 
   static String? _routerLink(String? raw) {
@@ -446,7 +557,9 @@ class NotificationsEngine {
 
   Future<void> _onResponse(OsResponse response) async {
     try {
-      final result = await ref.read(notificationActionDispatcherProvider).handleResponse(response);
+      final result = await ref
+          .read(notificationActionDispatcherProvider)
+          .handleResponse(response);
       emit(result);
     } on Object catch (e, st) {
       _log.warning('notification response failed', e, st);
@@ -456,7 +569,10 @@ class NotificationsEngine {
   /// Forwards a dispatcher result to the UI (navigation / "Already done" / messages).
   void emit(ActionDispatchResult result) {
     final events = ref.read(notificationUiEventsProvider);
-    if (result.openLink != null) events.add(OpenLinkEvent(result.openLink!, alreadyDone: result.alreadyDone));
+    if (result.openLink != null)
+      events.add(
+        OpenLinkEvent(result.openLink!, alreadyDone: result.alreadyDone),
+      );
     if (result.message != null) events.add(MessageEvent(result.message!));
   }
 
@@ -465,23 +581,39 @@ class NotificationsEngine {
     await _push?.signOut();
   }
 
-  void dispose() {
+  void _stop() {
     for (final s in _subs) {
       unawaited(s.cancel());
     }
+    _subs.clear();
+    _subscribedSources.clear();
     for (final l in _listens) {
       l.close();
     }
+    _listens.clear();
     _periodic?.cancel();
+    _periodic = null;
     _ticker?.stop();
+    _ticker = null;
     unawaited(_push?.dispose());
+    _push = null;
+    _targetHashes = {};
+    started = false;
   }
+
+  void dispose() => _stop();
 }
 
 /// Seeds the built-in profiles and section default rules (idempotent, deterministic ids — T7.1.07).
 Future<void> seedNotificationDefaults(ProviderReader read) async {
-  final l10n = L10nNotificationTexts.forLocale(read(userPreferencesProvider).localeCode).l10n;
+  final l10n = L10nNotificationTexts.forLocale(
+    read(userPreferencesProvider).localeCode,
+  ).l10n;
   final profiles = read(notificationProfilesRepositoryProvider);
-  await profiles.seedBuiltins({for (final code in BuiltinProfiles.codes) code: builtinProfileName(l10n, code)});
-  await read(notificationRulesRepositoryProvider).seedDefaults(profiles.builtinId);
+  await profiles.seedBuiltins({
+    for (final code in BuiltinProfiles.codes)
+      code: builtinProfileName(l10n, code),
+  });
+  await read(notificationRulesRepositoryProvider)
+      .seedDefaults(profiles.builtinId);
 }

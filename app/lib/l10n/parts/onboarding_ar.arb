@@ -1,0 +1,14 @@
+{
+  "onboardingTitle": "إعداد Everslot",
+  "onboardingEssentialsTitle": "أسبوعك وساعتك",
+  "onboardingEssentialsBody": "اخترنا هذه الإعدادات من جهازك. عدّل ما لا يناسبك، ويمكنك تغييرها لاحقًا من الإعدادات › المنطقة.",
+  "onboardingTimeZone": "المنطقة الزمنية الأساسية",
+  "onboardingWeekStart": "يبدأ الأسبوع يوم",
+  "onboardingClock": "الساعة",
+  "onboardingClock12": "12 ساعة",
+  "onboardingClock24": "24 ساعة",
+  "onboardingLanguage": "اللغة",
+  "onboardingGetStarted": "لنبدأ",
+  "onboardingStepOf": "الخطوة {current} من {total}",
+  "@onboardingStepOf": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}}
+}

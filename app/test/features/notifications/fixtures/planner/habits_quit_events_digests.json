@@ -1,0 +1,345 @@
+{
+  "cases": [
+    {
+      "name": "count habit not done by 21:00 with partial progress",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "ndb", "targetType": "section", "section": "habits", "profileId": "gentle",
+         "spec": {"v": 1, "trigger": {"type": "not_done_by", "anchor": "time", "atTime": "21:00"}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "pushups", "section": "habits", "title": "Push-ups", "occurrenceKey": "2026-09-22",
+         "periodStart": "2026-09-21T22:00:00Z", "periodEnd": "2026-09-22T22:00:00Z",
+         "variables": {"logged_today": 5, "target": 15}}
+      ],
+      "expected": [
+        {"rule": "ndb", "target": "pushups", "occ": "2026-09-22", "fireAtUtc": "2026-09-22T19:00:00Z",
+         "channel": "dl.habits.gentle.v1", "category": "reminder", "body": "You haven't logged Push-ups today"}
+      ]
+    },
+    {
+      "name": "not done by: a completed period produces nothing",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "ndb", "targetType": "section", "section": "habits",
+         "spec": {"v": 1, "trigger": {"type": "not_done_by", "anchor": "time", "atTime": "21:00"}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "pushups", "section": "habits", "title": "Push-ups", "occurrenceKey": "2026-09-22",
+         "periodStart": "2026-09-21T22:00:00Z", "periodEnd": "2026-09-22T22:00:00Z", "isOpen": false}
+      ],
+      "expectedCount": 0,
+      "expectedSkipped": [{"rule": "ndb", "reason": "guardClosed"}]
+    },
+    {
+      "name": "not done by: 1 h before the period ends",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "ndb", "targetType": "section", "section": "habits",
+         "spec": {"v": 1, "trigger": {"type": "not_done_by", "anchor": "period_end", "offsetMinutes": -60}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "read", "section": "habits", "title": "Read", "occurrenceKey": "2026-09-22",
+         "periodStart": "2026-09-21T22:00:00Z", "periodEnd": "2026-09-22T22:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "ndb", "target": "read", "fireAtUtc": "2026-09-22T21:00:00Z"}
+      ]
+    },
+    {
+      "name": "streak at risk at 21:00 when the streak reaches the minimum",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "risk", "targetType": "section", "section": "habits", "profileId": "gentle",
+         "spec": {"v": 1, "trigger": {"type": "streak_risk", "atTime": "21:00", "minStreak": 3}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "run", "section": "habits", "title": "Run", "occurrenceKey": "2026-09-22", "streak": 5,
+         "periodStart": "2026-09-21T22:00:00Z", "periodEnd": "2026-09-22T22:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "risk", "target": "run", "fireAtUtc": "2026-09-22T19:00:00Z", "category": "streak",
+         "body": "Keep your 5-day streak alive"}
+      ]
+    },
+    {
+      "name": "no streak-risk notification below the minimum streak",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "risk", "targetType": "section", "section": "habits",
+         "spec": {"v": 1, "trigger": {"type": "streak_risk", "atTime": "21:00", "minStreak": 3}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "run", "section": "habits", "title": "Run", "occurrenceKey": "2026-09-22", "streak": 2,
+         "periodStart": "2026-09-21T22:00:00Z", "periodEnd": "2026-09-22T22:00:00Z"}
+      ],
+      "expectedCount": 0
+    },
+    {
+      "name": "quota behind pace: 2 still needed with 2 eligible days left",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "pace", "targetType": "section", "section": "habits",
+         "spec": {"v": 1, "trigger": {"type": "quota_behind", "atTime": "20:00"}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "swim", "section": "habits", "title": "Swim", "occurrenceKey": "2026-W39",
+         "periodStart": "2026-09-21T22:00:00Z", "periodEnd": "2026-09-22T22:00:00Z",
+         "quota": {"done": 1, "target": 3, "eligibleDaysLeft": 2}}
+      ],
+      "expected": [
+        {"rule": "pace", "target": "swim", "fireAtUtc": "2026-09-22T18:00:00Z", "body": "Behind pace: 1/3"}
+      ]
+    },
+    {
+      "name": "quota on pace produces nothing",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "pace", "targetType": "section", "section": "habits",
+         "spec": {"v": 1, "trigger": {"type": "quota_behind", "atTime": "20:00"}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "swim", "section": "habits", "title": "Swim", "occurrenceKey": "2026-W39",
+         "periodStart": "2026-09-21T22:00:00Z", "periodEnd": "2026-09-22T22:00:00Z",
+         "quota": {"done": 2, "target": 3, "eligibleDaysLeft": 3}}
+      ],
+      "expectedCount": 0
+    },
+    {
+      "name": "clean-time milestones are projected from the quit baseline (inside the horizon)",
+      "now": "2026-09-20T12:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "ms", "targetType": "section", "section": "quit",
+         "spec": {"v": 1, "trigger": {"type": "milestone", "metric": "clean_days", "thresholds": [1, 3, 7, 30]}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "smoke", "section": "quit", "title": "Smoke-free", "milestoneBaseline": "2026-09-20T10:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "ms", "target": "smoke", "fireAtUtc": "2026-09-21T10:00:00Z", "category": "milestone",
+         "channel": "dl.quit.standard.v1"},
+        {"rule": "ms", "target": "smoke", "fireAtUtc": "2026-09-23T10:00:00Z"},
+        {"rule": "ms", "target": "smoke", "fireAtUtc": "2026-09-27T10:00:00Z"}
+      ]
+    },
+    {
+      "name": "a relapse re-projects the milestones from the new baseline",
+      "now": "2026-09-21T09:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "ms", "targetType": "section", "section": "quit",
+         "spec": {"v": 1, "trigger": {"type": "milestone", "metric": "clean_days", "thresholds": [1, 3, 7]}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "smoke", "section": "quit", "title": "Smoke-free", "milestoneBaseline": "2026-09-21T08:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "ms", "target": "smoke", "fireAtUtc": "2026-09-22T08:00:00Z"},
+        {"rule": "ms", "target": "smoke", "fireAtUtc": "2026-09-24T08:00:00Z"},
+        {"rule": "ms", "target": "smoke", "fireAtUtc": "2026-09-28T08:00:00Z"}
+      ]
+    },
+    {
+      "name": "money-saved milestone projected by the source",
+      "now": "2026-09-21T09:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "money", "targetType": "section", "section": "quit",
+         "spec": {"v": 1, "trigger": {"type": "milestone", "metric": "money_saved", "thresholds": "auto"}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "smoke", "section": "quit", "title": "Smoke-free",
+         "milestones": [{"metric": "money_saved", "threshold": 50, "at": "2026-09-25T18:30:00Z"},
+                        {"metric": "units_avoided", "threshold": 100, "at": "2026-09-24T12:00:00Z"}]}
+      ],
+      "expected": [
+        {"rule": "money", "target": "smoke", "fireAtUtc": "2026-09-25T18:30:00Z", "category": "milestone"}
+      ]
+    },
+    {
+      "name": "inactivity after 3 days at the date-only default time",
+      "now": "2026-09-21T09:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "idle", "targetType": "section", "section": "habits",
+         "spec": {"v": 1, "trigger": {"type": "inactivity", "afterDays": 3}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "journal", "section": "habits", "title": "Journal", "lastActivityAt": "2026-09-20T19:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "idle", "target": "journal", "fireAtUtc": "2026-09-23T07:00:00Z", "body": "No activity for 3 days"}
+      ]
+    },
+    {
+      "name": "status age: waiting for 2 days, anchored on the status change",
+      "now": "2026-09-21T09:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "age", "targetType": "section", "section": "checklists",
+         "spec": {"v": 1, "trigger": {"type": "status_age", "statuses": ["waiting", "blocked"], "afterMinutes": 2880}}}
+      ],
+      "targets": [
+        {"type": "checklist_item", "id": "call", "section": "checklists", "title": "Call the plumber",
+         "status": "waiting", "statusChangedAt": "2026-09-20T09:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "age", "target": "call", "fireAtUtc": "2026-09-22T09:00:00Z"}
+      ]
+    },
+    {
+      "name": "status age restarts when the status is re-entered; other statuses produce nothing",
+      "now": "2026-09-21T16:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "age", "targetType": "section", "section": "checklists",
+         "spec": {"v": 1, "trigger": {"type": "status_age", "statuses": ["waiting"], "afterMinutes": 2880}}}
+      ],
+      "targets": [
+        {"type": "checklist_item", "id": "call", "section": "checklists", "title": "Call the plumber",
+         "status": "waiting", "statusChangedAt": "2026-09-21T15:00:00Z"},
+        {"type": "checklist_item", "id": "paint", "section": "checklists", "title": "Paint",
+         "status": "ongoing", "statusChangedAt": "2026-09-19T15:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "age", "target": "call", "fireAtUtc": "2026-09-23T15:00:00Z"}
+      ]
+    },
+    {
+      "name": "status change to blocked notifies at 18:00 the same day",
+      "now": "2026-09-21T10:20:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "blocked", "targetType": "section", "section": "checklists",
+         "spec": {"v": 1, "trigger": {"type": "status_change", "to": "blocked", "atTime": "18:00"}}}
+      ],
+      "targets": [
+        {"type": "checklist_item", "id": "deploy", "section": "checklists", "title": "Deploy",
+         "events": [{"kind": "status_change", "at": "2026-09-21T10:15:00Z", "data": {"from": "ongoing", "to": "blocked"}},
+                    {"kind": "status_change", "at": "2026-09-21T09:00:00Z", "data": {"from": "todo", "to": "ongoing"}}]}
+      ],
+      "expected": [
+        {"rule": "blocked", "target": "deploy", "fireAtUtc": "2026-09-21T16:00:00Z", "body": "Now blocked"}
+      ]
+    },
+    {
+      "name": "all children complete: notified right away (catch-up inside the lateness window)",
+      "now": "2026-09-21T10:00:30Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "kids", "targetType": "section", "section": "checklists",
+         "spec": {"v": 1, "trigger": {"type": "children_complete"}}}
+      ],
+      "targets": [
+        {"type": "checklist_item", "id": "trip", "section": "checklists", "title": "Trip",
+         "events": [{"kind": "children_complete", "at": "2026-09-21T10:00:00Z"}]}
+      ],
+      "expected": [
+        {"rule": "kids", "target": "trip", "fireAtUtc": "2026-09-21T10:00:00Z", "adjust": ["catchUp"],
+         "body": "All sub-items are done — complete it?"}
+      ]
+    },
+    {
+      "name": "overdue 15 min after the end",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "late", "targetType": "section", "section": "planner",
+         "spec": {"v": 1, "trigger": {"type": "overdue", "afterMinutes": 15}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "report", "section": "planner", "title": "Report", "occurrenceKey": "2026-09-22T10:00",
+         "start": "2026-09-22T08:00:00Z", "end": "2026-09-22T09:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "late", "target": "report", "fireAtUtc": "2026-09-22T09:15:00Z", "body": "Report is overdue"}
+      ]
+    },
+    {
+      "name": "morning agenda digest summarises each day's targets",
+      "now": "2026-09-22T04:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"horizonDays": 2},
+      "composeDigests": true,
+      "rules": [
+        {"id": "agenda", "targetType": "section", "section": "system",
+         "spec": {"v": 1, "trigger": {"type": "digest", "kind": "daily_agenda",
+                  "schedule": {"v": 1, "type": "fixed", "freq": "daily", "interval": 1, "times": ["07:07"]}},
+                  "delivery": {"actions": ["open"], "importance": "low"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "gym", "section": "planner", "title": "Gym", "occurrenceKey": "2026-09-22T08:00",
+         "start": "2026-09-22T06:00:00Z", "end": "2026-09-22T07:00:00Z"},
+        {"type": "task", "id": "call", "section": "planner", "title": "Call", "occurrenceKey": "2026-09-23T09:00",
+         "start": "2026-09-23T07:00:00Z", "end": "2026-09-23T07:30:00Z"}
+      ],
+      "expected": [
+        {"rule": "agenda", "target": "daily_agenda", "occ": "dg:2026-09-22", "fireAtUtc": "2026-09-22T05:07:00Z",
+         "channel": "dl.digest.v1", "category": "digest", "title": "Today's agenda",
+         "body": "1 tasks · 0 habits · 0 items · first: Gym 08:00"},
+        {"rule": "agenda", "target": "daily_agenda", "fireAtUtc": "2026-09-23T05:07:00Z",
+         "body": "1 tasks · 0 habits · 0 items · first: Call 09:00"}
+      ]
+    },
+    {
+      "name": "weekly review digest on Sunday 18:07",
+      "now": "2026-09-24T04:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"horizonDays": 7},
+      "composeDigests": true,
+      "rules": [
+        {"id": "weekly", "targetType": "section", "section": "system",
+         "spec": {"v": 1, "trigger": {"type": "digest", "kind": "weekly_review",
+                  "schedule": {"v": 1, "type": "fixed", "freq": "weekly", "interval": 1,
+                               "byWeekday": [{"day": "SU"}], "times": ["18:07"]}}}}
+      ],
+      "targets": [],
+      "expected": [
+        {"rule": "weekly", "target": "weekly_review", "fireAtUtc": "2026-09-27T16:07:00Z", "category": "digest",
+         "title": "Weekly review"}
+      ]
+    },
+    {
+      "name": "weekly digest written with the short byWeekday form still fires",
+      "now": "2026-09-24T04:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"horizonDays": 7},
+      "composeDigests": true,
+      "rules": [
+        {"id": "weekly", "targetType": "section", "section": "system",
+         "spec": {"v": 1, "trigger": {"type": "digest", "kind": "weekly_review",
+                  "schedule": {"v": 1, "type": "fixed", "freq": "weekly", "interval": 1,
+                               "byWeekday": ["SU"], "times": ["18:07"]}}}}
+      ],
+      "targets": [],
+      "expected": [
+        {"rule": "weekly", "target": "weekly_review", "fireAtUtc": "2026-09-27T16:07:00Z"}
+      ]
+    },
+    {
+      "name": "a disabled digest produces nothing",
+      "now": "2026-09-22T04:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"horizonDays": 2},
+      "composeDigests": true,
+      "rules": [
+        {"id": "agenda", "targetType": "section", "section": "system", "enabled": false,
+         "spec": {"v": 1, "trigger": {"type": "digest", "kind": "daily_agenda",
+                  "schedule": {"v": 1, "type": "fixed", "freq": "daily", "interval": 1, "times": ["07:07"]}}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "gym", "section": "planner", "title": "Gym", "occurrenceKey": "2026-09-22T08:00",
+         "start": "2026-09-22T06:00:00Z", "end": "2026-09-22T07:00:00Z"}
+      ],
+      "expectedCount": 0
+    }
+  ]
+}

@@ -89,6 +89,18 @@ class ChecklistService {
     return StatusEngine.openDescendantCount(loaded.tree, itemId);
   }
 
+  /// Discards a card created from the board that is still completely empty (no title, body,
+  /// item text or attachments) when its screen closes (T4.1.09). Returns true when deleted.
+  Future<bool> discardIfEmpty(String checklistId) => _serialized(checklistId, () async {
+    final c = await _checklists.byId(checklistId);
+    if (c == null || c.isDeleted || c.title.trim().isNotEmpty || c.hasBody || c.isTemplate) return false;
+    final items = await _items.items(checklistId);
+    if (items.any((i) => i.text.trim().isNotEmpty || i.hasNote)) return false;
+    if (await _items.attachmentCount(checklistId) > 0) return false;
+    await _checklists.delete(checklistId);
+    return true;
+  });
+
   /// Plain field edits (note, due, priority, follow-up…).
   Future<OpRecord?> setFields(String checklistId, String itemId, Map<String, Object?> fields) async =>
       (await run(checklistId, (tree, ctx, _) => TreeOps.setFields(tree, ctx, itemId, fields)))?.record;

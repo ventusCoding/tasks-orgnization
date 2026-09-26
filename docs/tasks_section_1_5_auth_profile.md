@@ -22,12 +22,12 @@ registration ([7.4]).
 
 ## Progress
 
-- [ ] T1.5.01 — Supabase Auth configuration (email OTP, redirects, providers)
-- [ ] T1.5.02 — Secure session storage, auth state & router redirect
-- [ ] T1.5.03 — Email OTP sign-in UI
-- [ ] T1.5.04 — Profiles table, auto-creation trigger & repository
-- [ ] T1.5.05 — First-run essentials (zone, locale, week start, 12/24 h)
-- [ ] T1.5.06 — Current time-zone tracking & zone-change events
+- [x] T1.5.01 — Supabase Auth configuration (email OTP, redirects, providers)
+- [x] T1.5.02 — Secure session storage, auth state & router redirect
+- [x] T1.5.03 — Email OTP sign-in UI
+- [x] T1.5.04 — Profiles table, auto-creation trigger & repository
+- [x] T1.5.05 — First-run essentials (zone, locale, week start, 12/24 h)
+- [x] T1.5.06 — Current time-zone tracking & zone-change events
 - [ ] T1.5.07 — Sign-out
 - [ ] T1.5.08 — Account switch safety on shared devices
 - [ ] T1.5.09 — Google sign-in (native ID token)
@@ -49,6 +49,7 @@ redirect URLs for `everslot://auth-callback` (dev/prod), minimum password policy
 enabled), rate limits; prepare Google and Apple provider settings (client ids) for P1 tasks; anonymous
 sign-ins enabled in local/dev (CAPTCHA before production).
 **Acceptance criteria:** local and cloud configs match (`config.toml` ↔ dashboard checklist).
+**Notes:** `supabase/config.toml` verified (6-digit email OTP, `everslot://auth-callback` redirects, anonymous sign-ins, rate limits); manual linking enabled (guest upgrade) and a disabled Google provider placeholder added. Cloud-dashboard checklist (redirect URLs, Google/Apple ids, CAPTCHA, SMTP) goes into guide.md — client ids are `TODO(config)` dart-defines in `features/auth/data/auth_config.dart`.
 
 ### T1.5.02 — Secure session storage, auth state & router redirect
 **Priority:** P0 · **Size:** M · **Depends on:** T1.5.01, [1.3] (router)
@@ -59,6 +60,7 @@ profile essentials → first-run (T1.5.05), else shell; deep links preserved acr
 **Acceptance criteria:** app restarts signed-in offline; token refresh happens silently online; a deep link
 opened while signed out resumes after sign-in.
 **Tests:** unit tests for redirect logic; storage adapter tests with a fake secure storage.
+**Notes:** `SecureSessionStorage` / `SecurePkceStorage` (Keychain `first_unlock_this_device`) wired in bootstrap; `authStatusProvider` (signedOut/localOnly/anonymous/signedIn); router redirect = pure `AuthRedirect.resolve` (deep links kept in `?from`, open-redirect safe, onboarding guard); `AuthBinding` started at bootstrap so magic links/OAuth bind the session.
 
 ### T1.5.03 — Email OTP sign-in UI
 **Priority:** P0 · **Size:** M · **Depends on:** T1.5.02, [1.3] (components, l10n)
@@ -68,6 +70,7 @@ code, expired, rate limited, offline).
 **Acceptance criteria:** full flow works against the local stack (Inbucket/Mailpit) and cloud; screen
 reader friendly; RTL correct.
 **Tests:** widget tests with a fake auth repository; integration test on local stack.
+**Notes:** Single autofill-friendly code field (`oneTimeCode`, paste, Arabic-Indic digits, auto-submit) instead of 6 boxes; magic link completes through Supabase's deep-link handling + `AuthBinding`. Widget tests with a fake repository (EN + AR); the local-stack integration test waits for a configured Supabase project.
 
 ### T1.5.04 — Profiles table, auto-creation trigger & repository
 **Priority:** P0 · **Size:** M · **Depends on:** [1.2] (T1.2.05), [1.4] (T1.4.06)
@@ -76,6 +79,7 @@ on `auth.users` insert creating the profile (defaults; `home_time_zone` from sig
 Drift mirror; `ProfileRepository.watch()` / `update(...)` through `SyncWriter`.
 **Acceptance criteria:** a new user gets exactly one profile row; profile edits sync across devices.
 **Tests:** pgTAP (trigger, isolation); repository tests.
+**Notes:** server table, auth trigger and pgTAP came with [1.2]; client side = `features/profile` (`Profile` model, `ProfileRepository.watch/read/update` through SyncWriter with validation, `profileProvider`). Two-device per-field merge covered by `test/features/profile/profile_repository_test.dart`.
 
 ### T1.5.05 — First-run essentials (zone, locale, week start, 12/24 h)
 **Priority:** P0 · **Size:** S · **Depends on:** T1.5.04
@@ -84,6 +88,7 @@ week start (locale's first day of week), 12/24 h (`MediaQuery.alwaysUse24HourFor
 confirmation screen (editable) and write the profile. The full onboarding tour is [8.3] T8.3.11.
 **Acceptance criteria:** second device on the same account skips this screen (profile already set).
 **Tests:** unit tests for defaults per locale (en_US Sunday, fr_FR Monday, ar_TN Monday/Saturday per CLDR).
+**Notes:** the confirmation screen is the first step of `OnboardingScreen` (language, searchable zone picker with the detected zone pinned, week start, 12/24 h preview); CLDR table in `FirstRunDefaults` (bare languages use likely regions; `ar_TN` = Monday per CLDR). Completion = `profiles.onboarding_completed_at`, so a second device of the account skips it (`needsOnboardingProvider`).
 
 ### T1.5.06 — Current time-zone tracking & zone-change events
 **Priority:** P0 · **Size:** S · **Depends on:** T1.5.04, [1.3] (lifecycle)
@@ -94,6 +99,7 @@ re-planning ([7.2]); optional prompt "You're in a new time zone — keep home zo
 **Acceptance criteria:** simulated travel (debug zone override) updates floating task times instantly and
 leaves fixed-zone tasks at their absolute instants.
 **Tests:** unit tests with fake zone provider.
+**Notes:** `ZoneTracker` (`features/profile/application/zone_tracker.dart`, startup task) compares the device zone with the last zone *this device* saw (local_kv, so devices in different zones don't flip-flop), emits `zoneChangesProvider` events, writes `profiles.current_time_zone` at most every 10 min, and raises the "make it home?" banner (`SessionBannerHost`). Floating tasks re-resolve because planner providers watch `deviceZoneProvider` (refreshed on resume / `debugSet`). The Android `TIMEZONE_CHANGED` broadcast isn't wired (needs a native receiver) — resume detection covers it.
 
 ### T1.5.07 — Sign-out
 **Priority:** P0 · **Size:** S · **Depends on:** T1.5.02, [1.4]

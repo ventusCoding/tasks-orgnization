@@ -4,7 +4,9 @@ import 'package:drift/drift.dart';
 import 'package:everslot/core/database/app_database.dart';
 import 'package:everslot/core/ids/ids.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
-import 'package:everslot/features/attachments/application/providers.dart' show AttachmentOwnerType, AttachmentTx;
+import 'package:everslot/features/attachments/application/providers.dart'
+    show Attachment, AttachmentOwnerType, AttachmentTx;
+import 'package:everslot/features/checklists/data/checklist_cascades.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
 import 'package:everslot/features/checklists/domain/item_status.dart';
 import 'package:everslot/features/checklists/domain/item_time.dart';
@@ -15,11 +17,13 @@ import 'package:everslot_recurrence/everslot_recurrence.dart';
 /// coming from the tree engine and the status service: one [TreeChange] = one Drift transaction =
 /// one operation group (rows + outbox + activity events + attachment/tag cascades).
 class ChecklistItemsRepository {
-  ChecklistItemsRepository(this._db, this._writer, this._userId);
+  ChecklistItemsRepository(this._db, this._writer, this._userId, {ChecklistCascades? cascades})
+    : _cascades = cascades;
 
   final AppDatabase _db;
   final SyncWriter _writer;
   final String Function() _userId;
+  final ChecklistCascades? _cascades;
 
   static ChecklistItem map(ChecklistItemRow r) => ChecklistItem(
     id: r.id,
@@ -92,6 +96,52 @@ class ChecklistItemsRepository {
       .watch()
       .map((rows) => {for (final r in rows) r.read<String>('id'): r.read<int>('n')});
 
+  /// Every live attachment of a checklist: checklist-level ones and those of its live items
+  /// (attachments gallery T4.4.07, gallery view T4.5.04).
+  Stream<List<Attachment>> watchChecklistAttachments(String checklistId) => _db
+      .customSelect(
+        'SELECT a.* FROM attachments a WHERE a.deleted_at IS NULL AND ('
+        "(a.owner_type = 'checklist' AND a.owner_id = ?1) OR "
+        "(a.owner_type = 'checklist_item' AND a.owner_id IN "
+        '(SELECT id FROM checklist_items WHERE checklist_id = ?1 AND deleted_at IS NULL))) '
+        'ORDER BY a.owner_type, a.owner_id, a.sort_key, a.id',
+        variables: [Variable<String>(checklistId)],
+        readsFrom: {_db.attachments, _db.checklistItems},
+      )
+      .watch()
+      .map((rows) => [for (final r in rows) _db.attachments.map(r.data)].map(AttachmentTx.fromRow).toList());
+
+  /// Live attachments of a checklist and of its live items (empty-card detection).
+  Future<int> attachmentCount(String checklistId) async {
+    final row = await _db
+        .customSelect(
+          'SELECT COUNT(*) AS n FROM attachments a WHERE a.deleted_at IS NULL AND ('
+          "(a.owner_type = 'checklist' AND a.owner_id = ?1) OR "
+          "(a.owner_type = 'checklist_item' AND a.owner_id IN "
+          '(SELECT id FROM checklist_items WHERE checklist_id = ?1 AND deleted_at IS NULL)))',
+          variables: [Variable<String>(checklistId)],
+        )
+        .getSingle();
+    return row.read<int>('n');
+  }
+
+  /// Attachment file names per item (listed in Markdown exports, T4.4.08).
+  Future<Map<String, List<String>>> attachmentNames(String checklistId) async {
+    final rows = await _db
+        .customSelect(
+          'SELECT a.owner_id AS id, a.file_name AS name FROM attachments a JOIN checklist_items i ON i.id = a.owner_id '
+          "WHERE a.owner_type = 'checklist_item' AND a.deleted_at IS NULL AND i.checklist_id = ? AND i.deleted_at IS NULL "
+          'ORDER BY a.sort_key, a.id',
+          variables: [Variable<String>(checklistId)],
+        )
+        .get();
+    final out = <String, List<String>>{};
+    for (final r in rows) {
+      (out[r.read<String>('id')] ??= []).add(r.read<String>('name'));
+    }
+    return out;
+  }
+
   static StatusEvent? _statusEvent(ActivityEventRow r) {
     Map<String, Object?> p;
     try {
@@ -151,13 +201,13 @@ class ChecklistItemsRepository {
 
   /// Applies a pure change as ONE operation (T4.1.04).
   Future<OpRecord> apply(TreeChange change) => _writer.run(
-    (tx) => applyInTx(tx, change),
+    (tx) => applyInTx(tx, change, cascades: _cascades),
     cause: change.cause,
     scheduledAt: change.scheduledAt,
   );
 
   /// Same as [apply] inside an existing operation (checklist-level commands).
-  static Future<void> applyInTx(WriteTx tx, TreeChange change) async {
+  static Future<void> applyInTx(WriteTx tx, TreeChange change, {ChecklistCascades? cascades}) async {
     for (final w in change.writes) {
       if (w.isInsert) {
         await tx.insert(w.table, w.id, w.values);
@@ -186,10 +236,12 @@ class ChecklistItemsRepository {
     if (change.copiedItemIds.isNotEmpty) {
       await AttachmentTx.copyForOwners(tx, fromType: AttachmentOwnerType.checklistItem, ownerIdMap: change.copiedItemIds);
       await copyEntityTags(tx, 'checklist_item', change.copiedItemIds);
+      await cascades?.itemsCopied(tx, change.copiedItemIds);
     }
     if (change.deletedItemIds.isNotEmpty) {
       await AttachmentTx.softDeleteForOwners(tx, AttachmentOwnerType.checklistItem, change.deletedItemIds);
       await deleteEntityTags(tx, 'checklist_item', change.deletedItemIds);
+      await cascades?.itemsDeleted(tx, change.deletedItemIds);
     }
     for (final e in change.events) {
       await insertEvent(tx, e);

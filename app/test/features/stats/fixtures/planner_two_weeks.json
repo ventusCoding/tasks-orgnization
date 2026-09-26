@@ -1,0 +1,999 @@
+{
+ "name": "planner_two_weeks",
+ "source": "fixtures/stats/planner_two_weeks.json",
+ "description": "Two DST-free weeks (Mon 2026-09-07 .. Sun 2026-09-20), Europe/Paris, week start MO, work hours 09:00-17:00 Mon-Fri. 3 series (Gym MO/WE/FR 18:00, Standup weekdays 09:30 timer, Reading daily 21:00) and 12 one-off tasks (snowballing reschedule o4, moved-out o3, unplanned o5, events o6/o7 with o7 in an unavailable category, all-day o11, skipped o12, overdue o9) plus one cancelled Standup occurrence. All times are local.",
+ "now": "2026-09-21T06:00:00.000Z",
+ "zone": "Europe/Paris",
+ "weekStart": 1,
+ "settings": {
+  "stats": {
+   "graceMinutes": 5
+  },
+  "planner": {
+   "workHours": {
+    "start": "09:00",
+    "end": "17:00"
+   },
+   "workDays": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "missedGraceMinutes": 0
+  }
+ },
+ "tables": {
+  "categories": [
+   {
+    "id": "work",
+    "name": "Work",
+    "color": 4282090230,
+    "sort_key": "a0",
+    "counts_as_unavailable": false
+   },
+   {
+    "id": "health",
+    "name": "Health",
+    "color": 4279286145,
+    "sort_key": "a1",
+    "counts_as_unavailable": false
+   },
+   {
+    "id": "personal",
+    "name": "Personal",
+    "color": 4287323382,
+    "sort_key": "a2",
+    "counts_as_unavailable": false
+   },
+   {
+    "id": "social",
+    "name": "Social",
+    "color": 4293675161,
+    "sort_key": "a3",
+    "counts_as_unavailable": false
+   },
+   {
+    "id": "timeoff",
+    "name": "Timeoff",
+    "color": 4284773515,
+    "sort_key": "a4",
+    "counts_as_unavailable": true
+   }
+  ],
+  "tasks": [
+   {
+    "id": "gym",
+    "series_id": "gym",
+    "title": "Gym",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "health",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-07T18:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"weekly\", \"interval\": 1, \"byWeekday\": [{\"day\": \"MO\"}, {\"day\": \"WE\"}, {\"day\": \"FR\"}]}",
+    "status": "active"
+   },
+   {
+    "id": "standup",
+    "series_id": "standup",
+    "title": "Standup",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 0,
+    "tracking_mode": "timer",
+    "is_all_day": false,
+    "start_local": "2026-09-07T09:30",
+    "duration_minutes": 15,
+    "time_zone": "Europe/Paris",
+    "recurrence": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"weekly\", \"interval\": 1, \"byWeekday\": [{\"day\": \"MO\"}, {\"day\": \"TU\"}, {\"day\": \"WE\"}, {\"day\": \"TH\"}, {\"day\": \"FR\"}]}",
+    "status": "active"
+   },
+   {
+    "id": "reading",
+    "series_id": "reading",
+    "title": "Reading",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "personal",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-07T21:00",
+    "duration_minutes": 30,
+    "time_zone": "Europe/Paris",
+    "recurrence": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"daily\", \"interval\": 1}",
+    "status": "active"
+   },
+   {
+    "id": "o1",
+    "series_id": "o1",
+    "title": "O1",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 3,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-14T10:00",
+    "duration_minutes": 120,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o2",
+    "series_id": "o2",
+    "title": "O2",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 1,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-15T13:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o3",
+    "series_id": "o3",
+    "title": "O3",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 2,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-21T14:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o4",
+    "series_id": "o4",
+    "title": "O4",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-10T11:30",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o5",
+    "series_id": "o5",
+    "title": "O5",
+    "created_at": "2026-09-16T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-16T15:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o6",
+    "series_id": "o6",
+    "title": "O6",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "social",
+    "priority": 0,
+    "tracking_mode": "event",
+    "is_all_day": false,
+    "start_local": "2026-09-17T12:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o7",
+    "series_id": "o7",
+    "title": "O7",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "timeoff",
+    "priority": 0,
+    "tracking_mode": "event",
+    "is_all_day": false,
+    "start_local": "2026-09-18T14:00",
+    "duration_minutes": 120,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o8",
+    "series_id": "o8",
+    "title": "O8",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 4,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-17T10:00",
+    "duration_minutes": 90,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o9",
+    "series_id": "o9",
+    "title": "O9",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-18T09:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o10",
+    "series_id": "o10",
+    "title": "O10",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-08T15:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o11",
+    "series_id": "o11",
+    "title": "O11",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "personal",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": true,
+    "start_local": "2026-09-19T00:00",
+    "duration_minutes": null,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o12",
+    "series_id": "o12",
+    "title": "O12",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-10T16:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   }
+  ],
+  "task_occurrences": [
+   {
+    "task_id": "gym",
+    "occurrence_key": "2026-09-07T18:00",
+    "status": "done",
+    "completed_at": "2026-09-07T17:05:00.000Z",
+    "status_changed_at": "2026-09-07T17:05:00.000Z",
+    "id": "occ-gym-2026-09-07T18:00"
+   },
+   {
+    "task_id": "gym",
+    "occurrence_key": "2026-09-09T18:00",
+    "status": "done",
+    "completed_at": "2026-09-09T17:30:00.000Z",
+    "status_changed_at": "2026-09-09T17:30:00.000Z",
+    "id": "occ-gym-2026-09-09T18:00"
+   },
+   {
+    "task_id": "gym",
+    "occurrence_key": "2026-09-11T18:00",
+    "status": "skipped",
+    "skip_reason": "sick",
+    "id": "occ-gym-2026-09-11T18:00"
+   },
+   {
+    "task_id": "gym",
+    "occurrence_key": "2026-09-14T18:00",
+    "status": "done",
+    "completed_at": "2026-09-14T16:55:00.000Z",
+    "status_changed_at": "2026-09-14T16:55:00.000Z",
+    "id": "occ-gym-2026-09-14T18:00"
+   },
+   {
+    "task_id": "gym",
+    "occurrence_key": "2026-09-18T18:00",
+    "status": "done",
+    "completed_at": "2026-09-18T17:00:00.000Z",
+    "status_changed_at": "2026-09-18T17:00:00.000Z",
+    "id": "occ-gym-2026-09-18T18:00"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-07T09:30",
+    "status": "done",
+    "completed_at": "2026-09-07T07:47:00.000Z",
+    "status_changed_at": "2026-09-07T07:47:00.000Z",
+    "id": "occ-standup-2026-09-07T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-08T09:30",
+    "status": "done",
+    "completed_at": "2026-09-08T07:50:00.000Z",
+    "status_changed_at": "2026-09-08T07:50:00.000Z",
+    "id": "occ-standup-2026-09-08T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-09T09:30",
+    "status": "done",
+    "completed_at": "2026-09-09T07:55:00.000Z",
+    "status_changed_at": "2026-09-09T07:55:00.000Z",
+    "id": "occ-standup-2026-09-09T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-10T09:30",
+    "status": "done",
+    "completed_at": "2026-09-10T07:43:00.000Z",
+    "status_changed_at": "2026-09-10T07:43:00.000Z",
+    "id": "occ-standup-2026-09-10T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-11T09:30",
+    "status": "cancelled",
+    "is_cancelled": true,
+    "status_changed_at": "2026-09-10T10:00:00.000Z",
+    "id": "occ-standup-2026-09-11T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-14T09:30",
+    "status": "done",
+    "completed_at": "2026-09-14T07:46:00.000Z",
+    "status_changed_at": "2026-09-14T07:46:00.000Z",
+    "id": "occ-standup-2026-09-14T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-15T09:30",
+    "status": "done",
+    "completed_at": "2026-09-15T08:00:00.000Z",
+    "status_changed_at": "2026-09-15T08:00:00.000Z",
+    "id": "occ-standup-2026-09-15T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-16T09:30",
+    "status": "done",
+    "completed_at": "2026-09-16T07:45:00.000Z",
+    "status_changed_at": "2026-09-16T07:45:00.000Z",
+    "id": "occ-standup-2026-09-16T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-17T09:30",
+    "status": "done",
+    "completed_at": "2026-09-17T07:50:00.000Z",
+    "status_changed_at": "2026-09-17T07:50:00.000Z",
+    "id": "occ-standup-2026-09-17T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-18T09:30",
+    "status": "done",
+    "completed_at": "2026-09-18T07:51:00.000Z",
+    "status_changed_at": "2026-09-18T07:51:00.000Z",
+    "id": "occ-standup-2026-09-18T09:30"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-07T21:00",
+    "status": "done",
+    "completed_at": "2026-09-07T19:30:00.000Z",
+    "status_changed_at": "2026-09-07T19:30:00.000Z",
+    "id": "occ-reading-2026-09-07T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-08T21:00",
+    "status": "done",
+    "completed_at": "2026-09-08T19:30:00.000Z",
+    "status_changed_at": "2026-09-08T19:30:00.000Z",
+    "id": "occ-reading-2026-09-08T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-09T21:00",
+    "status": "done",
+    "completed_at": "2026-09-09T19:30:00.000Z",
+    "status_changed_at": "2026-09-09T19:30:00.000Z",
+    "id": "occ-reading-2026-09-09T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-10T21:00",
+    "status": "done",
+    "completed_at": "2026-09-10T19:30:00.000Z",
+    "status_changed_at": "2026-09-10T19:30:00.000Z",
+    "id": "occ-reading-2026-09-10T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-11T21:00",
+    "status": "done",
+    "completed_at": "2026-09-11T19:30:00.000Z",
+    "status_changed_at": "2026-09-11T19:30:00.000Z",
+    "id": "occ-reading-2026-09-11T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-12T21:00",
+    "status": "skipped",
+    "skip_reason": "tired",
+    "id": "occ-reading-2026-09-12T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-13T21:00",
+    "status": "skipped",
+    "skip_reason": "tired",
+    "id": "occ-reading-2026-09-13T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-14T21:00",
+    "status": "done",
+    "completed_at": "2026-09-14T19:30:00.000Z",
+    "status_changed_at": "2026-09-14T19:30:00.000Z",
+    "id": "occ-reading-2026-09-14T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-15T21:00",
+    "status": "done",
+    "completed_at": "2026-09-15T19:30:00.000Z",
+    "status_changed_at": "2026-09-15T19:30:00.000Z",
+    "id": "occ-reading-2026-09-15T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-16T21:00",
+    "status": "done",
+    "completed_at": "2026-09-16T19:30:00.000Z",
+    "status_changed_at": "2026-09-16T19:30:00.000Z",
+    "id": "occ-reading-2026-09-16T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-17T21:00",
+    "status": "done",
+    "completed_at": "2026-09-17T19:30:00.000Z",
+    "status_changed_at": "2026-09-17T19:30:00.000Z",
+    "id": "occ-reading-2026-09-17T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-18T21:00",
+    "status": "done",
+    "completed_at": "2026-09-18T19:30:00.000Z",
+    "status_changed_at": "2026-09-18T19:30:00.000Z",
+    "id": "occ-reading-2026-09-18T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-20T21:00",
+    "status": "done",
+    "completed_at": "2026-09-20T19:30:00.000Z",
+    "status_changed_at": "2026-09-20T19:30:00.000Z",
+    "id": "occ-reading-2026-09-20T21:00"
+   },
+   {
+    "task_id": "o1",
+    "occurrence_key": "2026-09-14T10:00",
+    "status": "done",
+    "completed_at": "2026-09-14T09:50:00.000Z",
+    "status_changed_at": "2026-09-14T09:50:00.000Z",
+    "id": "occ-o1-2026-09-14T10:00"
+   },
+   {
+    "task_id": "o2",
+    "occurrence_key": "2026-09-15T13:00",
+    "status": "done",
+    "completed_at": "2026-09-15T12:30:00.000Z",
+    "status_changed_at": "2026-09-15T12:30:00.000Z",
+    "id": "occ-o2-2026-09-15T13:00"
+   },
+   {
+    "task_id": "o4",
+    "occurrence_key": "2026-09-10T11:30",
+    "status": "done",
+    "completed_at": "2026-09-10T10:30:00.000Z",
+    "status_changed_at": "2026-09-10T10:30:00.000Z",
+    "id": "occ-o4-2026-09-10T11:30"
+   },
+   {
+    "task_id": "o5",
+    "occurrence_key": "2026-09-16T15:00",
+    "status": "done",
+    "completed_at": "2026-09-16T14:00:00.000Z",
+    "status_changed_at": "2026-09-16T14:00:00.000Z",
+    "id": "occ-o5-2026-09-16T15:00"
+   },
+   {
+    "task_id": "o8",
+    "occurrence_key": "2026-09-17T10:00",
+    "status": "done",
+    "completed_at": "2026-09-17T09:20:00.000Z",
+    "status_changed_at": "2026-09-17T09:20:00.000Z",
+    "id": "occ-o8-2026-09-17T10:00"
+   },
+   {
+    "task_id": "o10",
+    "occurrence_key": "2026-09-08T15:00",
+    "status": "done",
+    "completed_at": "2026-09-08T13:50:00.000Z",
+    "status_changed_at": "2026-09-08T13:50:00.000Z",
+    "id": "occ-o10-2026-09-08T15:00"
+   },
+   {
+    "task_id": "o11",
+    "occurrence_key": "2026-09-19",
+    "status": "done",
+    "completed_at": "2026-09-19T10:00:00.000Z",
+    "status_changed_at": "2026-09-19T10:00:00.000Z",
+    "id": "occ-o11-2026-09-19"
+   },
+   {
+    "task_id": "o12",
+    "occurrence_key": "2026-09-10T16:00",
+    "status": "skipped",
+    "skip_reason": "blocked by client",
+    "id": "occ-o12-2026-09-10T16:00"
+   }
+  ],
+  "time_entries": [
+   {
+    "id": "te-standup-2026-09-07T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-07T09:30",
+    "started_at": "2026-09-07T07:32:00.000Z",
+    "ended_at": "2026-09-07T07:47:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-08T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-08T09:30",
+    "started_at": "2026-09-08T07:30:00.000Z",
+    "ended_at": "2026-09-08T07:50:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-09T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-09T09:30",
+    "started_at": "2026-09-09T07:40:00.000Z",
+    "ended_at": "2026-09-09T07:55:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-10T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-10T09:30",
+    "started_at": "2026-09-10T07:28:00.000Z",
+    "ended_at": "2026-09-10T07:43:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-14T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-14T09:30",
+    "started_at": "2026-09-14T07:31:00.000Z",
+    "ended_at": "2026-09-14T07:46:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-15T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-15T09:30",
+    "started_at": "2026-09-15T07:45:00.000Z",
+    "ended_at": "2026-09-15T08:00:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-16T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-16T09:30",
+    "started_at": "2026-09-16T07:30:00.000Z",
+    "ended_at": "2026-09-16T07:45:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-17T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-17T09:30",
+    "started_at": "2026-09-17T07:35:00.000Z",
+    "ended_at": "2026-09-17T07:50:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-18T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-18T09:30",
+    "started_at": "2026-09-18T07:36:00.000Z",
+    "ended_at": "2026-09-18T07:51:00.000Z"
+   },
+   {
+    "id": "te-o1-2026-09-14T10:00-0",
+    "task_id": "o1",
+    "occurrence_key": "2026-09-14T10:00",
+    "started_at": "2026-09-14T08:00:00.000Z",
+    "ended_at": "2026-09-14T09:45:00.000Z"
+   },
+   {
+    "id": "te-o8-2026-09-17T10:00-0",
+    "task_id": "o8",
+    "occurrence_key": "2026-09-17T10:00",
+    "started_at": "2026-09-17T08:05:00.000Z",
+    "ended_at": "2026-09-17T08:55:00.000Z"
+   },
+   {
+    "id": "te-o8-2026-09-17T10:00-1",
+    "task_id": "o8",
+    "occurrence_key": "2026-09-17T10:00",
+    "started_at": "2026-09-17T08:56:00.000Z",
+    "ended_at": "2026-09-17T09:16:00.000Z"
+   }
+  ],
+  "activity_events": [
+   {
+    "id": "ev-o3-0",
+    "entity_type": "task",
+    "entity_id": "o3",
+    "parent_id": "o3",
+    "event_type": "rescheduled",
+    "occurred_at": "2026-09-15T07:00:00.000Z",
+    "payload": {
+     "occurrenceKey": "2026-09-14T14:00",
+     "fromStart": "2026-09-14T14:00",
+     "toStart": "2026-09-21T14:00",
+     "fromDuration": 60,
+     "toDuration": 60,
+     "zone": "Europe/Paris",
+     "source": "drag",
+     "opId": "op-o3-0",
+     "cause": "user"
+    }
+   },
+   {
+    "id": "ev-o4-0",
+    "entity_type": "task",
+    "entity_id": "o4",
+    "parent_id": "o4",
+    "event_type": "rescheduled",
+    "occurred_at": "2026-09-08T08:00:00.000Z",
+    "payload": {
+     "occurrenceKey": "2026-09-09T10:00",
+     "fromStart": "2026-09-09T10:00",
+     "toStart": "2026-09-10T10:00",
+     "fromDuration": 60,
+     "toDuration": 60,
+     "zone": "Europe/Paris",
+     "source": "drag",
+     "opId": "op-o4-0",
+     "cause": "user"
+    }
+   },
+   {
+    "id": "ev-o4-1",
+    "entity_type": "task",
+    "entity_id": "o4",
+    "parent_id": "o4",
+    "event_type": "rescheduled",
+    "occurred_at": "2026-09-09T08:00:00.000Z",
+    "payload": {
+     "occurrenceKey": "2026-09-10T10:00",
+     "fromStart": "2026-09-10T10:00",
+     "toStart": "2026-09-10T12:00",
+     "fromDuration": 60,
+     "toDuration": 60,
+     "zone": "Europe/Paris",
+     "source": "drag",
+     "opId": "op-o4-1",
+     "cause": "user"
+    }
+   },
+   {
+    "id": "ev-o4-2",
+    "entity_type": "task",
+    "entity_id": "o4",
+    "parent_id": "o4",
+    "event_type": "rescheduled",
+    "occurred_at": "2026-09-10T06:00:00.000Z",
+    "payload": {
+     "occurrenceKey": "2026-09-10T12:00",
+     "fromStart": "2026-09-10T12:00",
+     "toStart": "2026-09-10T11:30",
+     "fromDuration": 60,
+     "toDuration": 60,
+     "zone": "Europe/Paris",
+     "source": "drag",
+     "opId": "op-o4-2",
+     "cause": "user"
+    }
+   }
+  ]
+ },
+ "expect": [
+  {
+   "scope": "series",
+   "scopeId": "gym",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-01",
+   "value": 6
+  },
+  {
+   "scope": "series",
+   "scopeId": "gym",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-02",
+   "value": 4,
+   "args": {
+    "skipped": 1,
+    "missed": 1
+   }
+  },
+  {
+   "scope": "series",
+   "scopeId": "gym",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-03",
+   "value": 0.8
+  },
+  {
+   "scope": "series",
+   "scopeId": "gym",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-04",
+   "value": 0.2
+  },
+  {
+   "scope": "series",
+   "scopeId": "gym",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-05",
+   "value": 1,
+   "args": {
+    "best": 3
+   }
+  },
+  {
+   "scope": "series",
+   "scopeId": "gym",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-07",
+   "value": 4
+  },
+  {
+   "scope": "series",
+   "scopeId": "gym",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-08",
+   "value": 3,
+   "args": {
+    "date": "2026-09-18"
+   }
+  },
+  {
+   "scope": "series",
+   "scopeId": "standup",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-01",
+   "value": 10
+  },
+  {
+   "scope": "series",
+   "scopeId": "standup",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-02",
+   "value": 9,
+   "args": {
+    "skipped": 0,
+    "missed": 0
+   }
+  },
+  {
+   "scope": "series",
+   "scopeId": "standup",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-03",
+   "value": 1.0
+  },
+  {
+   "scope": "series",
+   "scopeId": "standup",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-04",
+   "value": 0.0
+  },
+  {
+   "scope": "series",
+   "scopeId": "standup",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-05",
+   "value": 9,
+   "args": {
+    "best": 9
+   }
+  },
+  {
+   "scope": "series",
+   "scopeId": "reading",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-01",
+   "value": 14
+  },
+  {
+   "scope": "series",
+   "scopeId": "reading",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-02",
+   "value": 11,
+   "args": {
+    "skipped": 2,
+    "missed": 1
+   }
+  },
+  {
+   "scope": "series",
+   "scopeId": "reading",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-03",
+   "value": 0.9166666666666666
+  },
+  {
+   "scope": "series",
+   "scopeId": "reading",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-04",
+   "value": 0.08333333333333333
+  },
+  {
+   "scope": "series",
+   "scopeId": "reading",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-05",
+   "value": 1,
+   "args": {
+    "best": 10
+   }
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-01",
+   "value": 0.8095238095238095,
+   "args": {
+    "planned": 21,
+    "done": 17
+   }
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-03",
+   "value": 2
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-05",
+   "value": 0.8333333333333334
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-06",
+   "value": 3
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-07",
+   "value": 2280
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-08",
+   "value": 0.23026315789473684
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-10",
+   "value": 0
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-13",
+   "value": 1035,
+   "note": "usedPlanned"
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-15",
+   "value": 0.17391304347826086,
+   "args": {
+    "eventMinutes": 180,
+    "taskMinutes": 855
+   }
+  },
+  {
+   "scope": "task",
+   "scopeId": "o4",
+   "extra": "2026-09-10T11:30",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-T-06",
+   "args": {
+    "outcome": "doneOnTime"
+   }
+  },
+  {
+   "scope": "task",
+   "scopeId": "o8",
+   "extra": "2026-09-17T10:00",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-T-02",
+   "value": 70
+  },
+  {
+   "scope": "task",
+   "scopeId": "o9",
+   "extra": "2026-09-18T09:00",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-T-06",
+   "args": {
+    "outcome": "missed"
+   }
+  },
+  {
+   "scope": "task",
+   "scopeId": "o9",
+   "extra": "2026-09-18T09:00",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-T-07",
+   "args": {
+    "bucket": "oneDay"
+   }
+  },
+  {
+   "scope": "task",
+   "scopeId": "o11",
+   "extra": "2026-09-19",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-T-06",
+   "args": {
+    "outcome": "doneOnTime"
+   }
+  }
+ ]
+}

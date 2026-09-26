@@ -43,17 +43,28 @@ Map<String, Object?>? asJsonMap(Object? value) {
 
 String? asString(Object? value) => value is String ? value : null;
 
-int? asInt(Object? value) => value is num ? value.toInt() : (value is String ? int.tryParse(value) : null);
+int? asInt(Object? value) => value is num
+    ? value.toInt()
+    : (value is String ? int.tryParse(value) : null);
 
-num? asNum(Object? value) => value is num ? value : (value is String ? num.tryParse(value) : null);
+num? asNum(Object? value) =>
+    value is num ? value : (value is String ? num.tryParse(value) : null);
 
 bool? asBool(Object? value) => value is bool ? value : null;
 
-List<String>? asStringList(Object? value) =>
-    value is List ? [for (final v in value) if (v != null) v.toString()] : null;
+List<String>? asStringList(Object? value) => value is List
+    ? [
+        for (final v in value)
+          if (v != null) v.toString(),
+      ]
+    : null;
 
-List<int>? asIntList(Object? value) =>
-    value is List ? [for (final v in value) if (asInt(v) != null) asInt(v)!] : null;
+List<int>? asIntList(Object? value) => value is List
+    ? [
+        for (final v in value)
+          if (asInt(v) != null) asInt(v)!,
+      ]
+    : null;
 
 /// Deep equality for JSON-like values (maps, lists, scalars).
 bool jsonEquals(Object? a, Object? b) {

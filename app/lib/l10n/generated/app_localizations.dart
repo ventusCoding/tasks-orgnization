@@ -316,6 +316,12 @@ abstract class AppLocalizations {
   /// **'Caption'**
   String get attachmentsCaption;
 
+  /// No description provided for @attachmentsChecklistLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'On the list'**
+  String get attachmentsChecklistLevel;
+
   /// No description provided for @attachmentsClearCache.
   ///
   /// In en, this message translates to:
@@ -345,6 +351,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No attachments yet'**
   String get attachmentsEmpty;
+
+  /// No description provided for @attachmentsFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get attachmentsFilterAll;
+
+  /// No description provided for @attachmentsFilterImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Images'**
+  String get attachmentsFilterImages;
+
+  /// No description provided for @attachmentsFilterOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get attachmentsFilterOther;
+
+  /// No description provided for @attachmentsFilterPdfs.
+  ///
+  /// In en, this message translates to:
+  /// **'PDFs'**
+  String get attachmentsFilterPdfs;
 
   /// No description provided for @attachmentsGoToItem.
   ///
@@ -610,6 +640,642 @@ abstract class AppLocalizations {
   /// **'Upload attachments on Wi-Fi only'**
   String get attachmentsWifiOnly;
 
+  /// No description provided for @authAvatarChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get authAvatarChange;
+
+  /// No description provided for @authAvatarRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get authAvatarRemove;
+
+  /// No description provided for @authBrowserFlowStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish signing in in your browser, then come back to Everslot.'**
+  String get authBrowserFlowStarted;
+
+  /// No description provided for @authChangeEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a different email'**
+  String get authChangeEmail;
+
+  /// No description provided for @authCodeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 6-digit code sent to {email}, or tap the link in that email.'**
+  String authCodeBody(String email);
+
+  /// No description provided for @authCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'6-digit code'**
+  String get authCodeLabel;
+
+  /// No description provided for @authCodeResent.
+  ///
+  /// In en, this message translates to:
+  /// **'A new code is on its way.'**
+  String get authCodeResent;
+
+  /// No description provided for @authCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your inbox'**
+  String get authCodeTitle;
+
+  /// No description provided for @authContinueApple.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Apple'**
+  String get authContinueApple;
+
+  /// No description provided for @authContinueGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get authContinueGoogle;
+
+  /// No description provided for @authContinueGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue without an account'**
+  String get authContinueGuest;
+
+  /// No description provided for @authCurrentZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Current time zone'**
+  String get authCurrentZone;
+
+  /// No description provided for @authDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get authDeleteAccount;
+
+  /// No description provided for @authDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This permanently deletes your account and all your data — plans, lists, habits and attachments — on every device. It can\'t be undone.'**
+  String get authDeleteBody;
+
+  /// No description provided for @authDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete forever'**
+  String get authDeleteConfirm;
+
+  /// No description provided for @authDeleteExportFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Export my data first'**
+  String get authDeleteExportFirst;
+
+  /// No description provided for @authDeleteReauthBody.
+  ///
+  /// In en, this message translates to:
+  /// **'To confirm it\'s you, enter the code we sent to {email}.'**
+  String authDeleteReauthBody(String email);
+
+  /// No description provided for @authDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account?'**
+  String get authDeleteTitle;
+
+  /// No description provided for @authDeleteUnderstand.
+  ///
+  /// In en, this message translates to:
+  /// **'I understand this can\'t be undone'**
+  String get authDeleteUnderstand;
+
+  /// No description provided for @authDeleteWeb.
+  ///
+  /// In en, this message translates to:
+  /// **'You can also request deletion on the web: {url}'**
+  String authDeleteWeb(String url);
+
+  /// No description provided for @authDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been deleted.'**
+  String get authDeleted;
+
+  /// No description provided for @authDeleting.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting your account…'**
+  String get authDeleting;
+
+  /// No description provided for @authDeviceRevokedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This device was removed from your account on another device. Export your data first if you want a copy, then sign out.'**
+  String get authDeviceRevokedBody;
+
+  /// No description provided for @authDeviceRevokedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This device was removed'**
+  String get authDeviceRevokedTitle;
+
+  /// No description provided for @authDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Display name'**
+  String get authDisplayName;
+
+  /// No description provided for @authDisplayNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What should we call you?'**
+  String get authDisplayNameHint;
+
+  /// No description provided for @authEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'you@example.com'**
+  String get authEmailHint;
+
+  /// No description provided for @authEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get authEmailLabel;
+
+  /// No description provided for @authErrorCaptcha.
+  ///
+  /// In en, this message translates to:
+  /// **'The security check failed. Please try again.'**
+  String get authErrorCaptcha;
+
+  /// No description provided for @authErrorEmailInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'This email already belongs to another account.'**
+  String get authErrorEmailInUse;
+
+  /// No description provided for @authErrorGuestDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest mode is turned off on this server.'**
+  String get authErrorGuestDisabled;
+
+  /// No description provided for @authErrorIdentityInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'This sign-in method is already linked to another account.'**
+  String get authErrorIdentityInUse;
+
+  /// No description provided for @authErrorInvalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'This code is invalid or has expired.'**
+  String get authErrorInvalidCode;
+
+  /// No description provided for @authErrorInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get authErrorInvalidEmail;
+
+  /// No description provided for @authErrorLastIdentity.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t remove your only sign-in method.'**
+  String get authErrorLastIdentity;
+
+  /// No description provided for @authErrorNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud sync isn\'t configured on this build (see guide.md).'**
+  String get authErrorNotConfigured;
+
+  /// No description provided for @authErrorOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline. Check your connection and try again.'**
+  String get authErrorOffline;
+
+  /// No description provided for @authErrorProviderNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'This sign-in method isn\'t set up yet (see guide.md).'**
+  String get authErrorProviderNotConfigured;
+
+  /// No description provided for @authErrorRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please wait a moment and try again.'**
+  String get authErrorRateLimited;
+
+  /// No description provided for @authErrorSessionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session has expired. Please sign in again.'**
+  String get authErrorSessionExpired;
+
+  /// No description provided for @authErrorUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get authErrorUnknown;
+
+  /// No description provided for @authExportFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Export data'**
+  String get authExportFirst;
+
+  /// No description provided for @authGuestAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest account'**
+  String get authGuestAccount;
+
+  /// No description provided for @authGuestBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re using a guest account. Add an email so your data survives if you delete the app.'**
+  String get authGuestBanner;
+
+  /// No description provided for @authGuestBannerAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure my data'**
+  String get authGuestBannerAction;
+
+  /// No description provided for @authGuestHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Everslot right away and add an email later to keep your data.'**
+  String get authGuestHint;
+
+  /// No description provided for @authHomeZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Home time zone'**
+  String get authHomeZone;
+
+  /// No description provided for @authLegalNote.
+  ///
+  /// In en, this message translates to:
+  /// **'By continuing you accept the Terms of Service and the Privacy Policy.'**
+  String get authLegalNote;
+
+  /// No description provided for @authLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Link'**
+  String get authLink;
+
+  /// No description provided for @authLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'{provider} linked'**
+  String authLinked(String provider);
+
+  /// No description provided for @authLinkedAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in methods'**
+  String get authLinkedAccounts;
+
+  /// No description provided for @authLocalOnlyAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Data stays on this device'**
+  String get authLocalOnlyAccount;
+
+  /// No description provided for @authLocalOnlyAccountBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re not signed in. Sign in to sync across devices — your data comes along.'**
+  String get authLocalOnlyAccountBody;
+
+  /// No description provided for @authMfaBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for a code from an authenticator app when you sign in or delete your account.'**
+  String get authMfaBody;
+
+  /// No description provided for @authMfaDisable.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off'**
+  String get authMfaDisable;
+
+  /// No description provided for @authMfaEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-step verification is on.'**
+  String get authMfaEnabled;
+
+  /// No description provided for @authMfaEnroll.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up'**
+  String get authMfaEnroll;
+
+  /// No description provided for @authMfaEnrollBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add this key to your authenticator app, then enter the 6-digit code it shows.'**
+  String get authMfaEnrollBody;
+
+  /// No description provided for @authMfaSecret.
+  ///
+  /// In en, this message translates to:
+  /// **'Setup key'**
+  String get authMfaSecret;
+
+  /// No description provided for @authMfaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-step verification'**
+  String get authMfaTitle;
+
+  /// No description provided for @authMfaVerifyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your authenticator code'**
+  String get authMfaVerifyTitle;
+
+  /// No description provided for @authNotConfiguredBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This build isn\'t connected to a Supabase project yet (see guide.md). Everslot works fully on this device in the meantime.'**
+  String get authNotConfiguredBody;
+
+  /// No description provided for @authNotConfiguredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud sync isn\'t configured'**
+  String get authNotConfiguredTitle;
+
+  /// No description provided for @authOr.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get authOr;
+
+  /// No description provided for @authProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get authProfileTitle;
+
+  /// No description provided for @authProviderApple.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple'**
+  String get authProviderApple;
+
+  /// No description provided for @authProviderEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get authProviderEmail;
+
+  /// No description provided for @authProviderGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Google'**
+  String get authProviderGoogle;
+
+  /// No description provided for @authReauthBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session has expired. Sign in again to resume syncing — everything you did offline is kept.'**
+  String get authReauthBody;
+
+  /// No description provided for @authReauthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again'**
+  String get authReauthTitle;
+
+  /// No description provided for @authRegionalSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Regional settings'**
+  String get authRegionalSettings;
+
+  /// No description provided for @authResend.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code'**
+  String get authResend;
+
+  /// No description provided for @authResendIn.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds, plural, =1{Resend code in 1 second} other{Resend code in {seconds} seconds}}'**
+  String authResendIn(int seconds);
+
+  /// No description provided for @authSendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code'**
+  String get authSendCode;
+
+  /// No description provided for @authSessionExpiredBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session expired. Your changes are saved on this device and will sync once you sign in again.'**
+  String get authSessionExpiredBanner;
+
+  /// No description provided for @authSignInAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again'**
+  String get authSignInAgain;
+
+  /// No description provided for @authSignInToSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to sync'**
+  String get authSignInToSync;
+
+  /// No description provided for @authSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get authSignOut;
+
+  /// No description provided for @authSignOutAnyway.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out anyway'**
+  String get authSignOutAnyway;
+
+  /// No description provided for @authSignOutBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data will be removed from this device. It stays safe in your account.'**
+  String get authSignOutBody;
+
+  /// No description provided for @authSignOutPendingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 change hasn\'t synced yet and will be lost.} other{{count} changes haven\'t synced yet and will be lost.}} Export your data first, or sign out anyway.'**
+  String authSignOutPendingBody(int count);
+
+  /// No description provided for @authSignOutSyncing.
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing your last changes…'**
+  String get authSignOutSyncing;
+
+  /// No description provided for @authSignOutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out?'**
+  String get authSignOutTitle;
+
+  /// No description provided for @authSignedInAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in as {email}'**
+  String authSignedInAs(String email);
+
+  /// No description provided for @authSignedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed out'**
+  String get authSignedOut;
+
+  /// No description provided for @authUnlink.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlink'**
+  String get authUnlink;
+
+  /// No description provided for @authUnlinkConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlink {provider}?'**
+  String authUnlinkConfirm(String provider);
+
+  /// No description provided for @authUpdateRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Everslot to keep syncing. Your changes are kept on this device.'**
+  String get authUpdateRequired;
+
+  /// No description provided for @authUpgradeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a sign-in method to your guest account. Your data stays exactly as it is.'**
+  String get authUpgradeBody;
+
+  /// No description provided for @authUpgradeDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is secured.'**
+  String get authUpgradeDone;
+
+  /// No description provided for @authUpgradeEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an email'**
+  String get authUpgradeEmail;
+
+  /// No description provided for @authUpgradeEmailInUseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{email} already has an Everslot account. Use another email — or export your guest data, sign out, sign in to that account and import the file.'**
+  String authUpgradeEmailInUseBody(String email);
+
+  /// No description provided for @authUpgradeEmailInUseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Email already in use'**
+  String get authUpgradeEmailInUseTitle;
+
+  /// No description provided for @authUpgradeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your data'**
+  String get authUpgradeTitle;
+
+  /// No description provided for @authUseLocalOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Use on this device only'**
+  String get authUseLocalOnly;
+
+  /// No description provided for @authUseLocalOnlyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No account and no sync. Sign in later and your data comes along.'**
+  String get authUseLocalOnlyHint;
+
+  /// No description provided for @authVerify.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get authVerify;
+
+  /// No description provided for @authWelcomeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to keep your plans, lists and habits in sync on all your devices.'**
+  String get authWelcomeBody;
+
+  /// No description provided for @authWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Everslot'**
+  String get authWelcomeTitle;
+
+  /// No description provided for @authZoneChangedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re now in {zone}. Fixed-time tasks keep their exact time and floating tasks follow you. Make {zone} your home time zone?'**
+  String authZoneChangedBody(String zone);
+
+  /// No description provided for @authZoneChangedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New time zone'**
+  String get authZoneChangedTitle;
+
+  /// No description provided for @authZoneDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Detected on this device'**
+  String get authZoneDetected;
+
+  /// No description provided for @authZoneKeepHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep {zone}'**
+  String authZoneKeepHome(String zone);
+
+  /// No description provided for @authZoneMakeHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Make it home'**
+  String get authZoneMakeHome;
+
+  /// No description provided for @authZoneNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No time zone matches your search'**
+  String get authZoneNoMatch;
+
+  /// No description provided for @authZoneSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search time zones'**
+  String get authZoneSearch;
+
   /// No description provided for @categoriesEmpty.
   ///
   /// In en, this message translates to:
@@ -771,6 +1437,690 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =0{Not used} =1{1 item} other{{count} items}}'**
   String categoryUsage(int count);
+
+  /// No description provided for @checklistAddItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Add item'**
+  String get checklistAddItem;
+
+  /// No description provided for @checklistAddSubItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Add sub-item'**
+  String get checklistAddSubItem;
+
+  /// No description provided for @checklistAllAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'All attachments'**
+  String get checklistAllAttachments;
+
+  /// No description provided for @checklistAllLists.
+  ///
+  /// In en, this message translates to:
+  /// **'All lists'**
+  String get checklistAllLists;
+
+  /// No description provided for @checklistAttach.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach'**
+  String get checklistAttach;
+
+  /// No description provided for @checklistBelowBadges.
+  ///
+  /// In en, this message translates to:
+  /// **'{blocked} blocked · {waiting} waiting below'**
+  String checklistBelowBadges(int blocked, int waiting);
+
+  /// No description provided for @checklistBodyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get checklistBodyHint;
+
+  /// No description provided for @checklistCarrying.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Moving 1 item} other{Moving {count} items}}'**
+  String checklistCarrying(int count);
+
+  /// No description provided for @checklistCollapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse'**
+  String get checklistCollapse;
+
+  /// No description provided for @checklistCollapseAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse all'**
+  String get checklistCollapseAll;
+
+  /// No description provided for @checklistCollapsedState.
+  ///
+  /// In en, this message translates to:
+  /// **'collapsed'**
+  String get checklistCollapsedState;
+
+  /// No description provided for @checklistCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'List completed!'**
+  String get checklistCompleted;
+
+  /// No description provided for @checklistCompletedArchive.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get checklistCompletedArchive;
+
+  /// No description provided for @checklistCompletedKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep'**
+  String get checklistCompletedKeep;
+
+  /// No description provided for @checklistCompletedReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get checklistCompletedReset;
+
+  /// No description provided for @checklistCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get checklistCopied;
+
+  /// No description provided for @checklistCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get checklistCopy;
+
+  /// No description provided for @checklistCopyText.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy as text'**
+  String get checklistCopyText;
+
+  /// No description provided for @checklistCut.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut'**
+  String get checklistCut;
+
+  /// No description provided for @checklistDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete list'**
+  String get checklistDelete;
+
+  /// No description provided for @checklistDeleteCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete completed items'**
+  String get checklistDeleteCompleted;
+
+  /// No description provided for @checklistDeleteItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get checklistDeleteItem;
+
+  /// No description provided for @checklistDepthBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'L{level}'**
+  String checklistDepthBadge(int level);
+
+  /// No description provided for @checklistDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get checklistDetails;
+
+  /// No description provided for @checklistDragHandle.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag to move'**
+  String get checklistDragHandle;
+
+  /// No description provided for @checklistDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due date'**
+  String get checklistDue;
+
+  /// No description provided for @checklistDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate list'**
+  String get checklistDuplicate;
+
+  /// No description provided for @checklistDuplicateItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get checklistDuplicateItem;
+
+  /// No description provided for @checklistEmptyFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'No sub-items yet'**
+  String get checklistEmptyFocus;
+
+  /// No description provided for @checklistExpand.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand'**
+  String get checklistExpand;
+
+  /// No description provided for @checklistExpandAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand all'**
+  String get checklistExpandAll;
+
+  /// No description provided for @checklistExpandToLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand to level {level}'**
+  String checklistExpandToLevel(int level);
+
+  /// No description provided for @checklistExpandToLevelMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand to level…'**
+  String get checklistExpandToLevelMenu;
+
+  /// No description provided for @checklistFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get checklistFilterAll;
+
+  /// No description provided for @checklistFilterDueSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Due soon'**
+  String get checklistFilterDueSoon;
+
+  /// No description provided for @checklistFilterHasAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Has attachments'**
+  String get checklistFilterHasAttachments;
+
+  /// No description provided for @checklistFilterOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get checklistFilterOpen;
+
+  /// No description provided for @checklistFilterText.
+  ///
+  /// In en, this message translates to:
+  /// **'Search in list'**
+  String get checklistFilterText;
+
+  /// No description provided for @checklistFiltered.
+  ///
+  /// In en, this message translates to:
+  /// **'Filtered view'**
+  String get checklistFiltered;
+
+  /// No description provided for @checklistFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus'**
+  String get checklistFocus;
+
+  /// No description provided for @checklistHasReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Has reminders'**
+  String get checklistHasReminders;
+
+  /// No description provided for @checklistHideCheckboxes.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide checkboxes'**
+  String get checklistHideCheckboxes;
+
+  /// No description provided for @checklistHideCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide completed'**
+  String get checklistHideCompleted;
+
+  /// No description provided for @checklistHideKeyboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide keyboard'**
+  String get checklistHideKeyboard;
+
+  /// No description provided for @checklistImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import items…'**
+  String get checklistImport;
+
+  /// No description provided for @checklistInTrash.
+  ///
+  /// In en, this message translates to:
+  /// **'This list is in the trash'**
+  String get checklistInTrash;
+
+  /// No description provided for @checklistIndent.
+  ///
+  /// In en, this message translates to:
+  /// **'Indent'**
+  String get checklistIndent;
+
+  /// No description provided for @checklistInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'Insights'**
+  String get checklistInsights;
+
+  /// No description provided for @checklistItemHint.
+  ///
+  /// In en, this message translates to:
+  /// **'List item'**
+  String get checklistItemHint;
+
+  /// No description provided for @checklistItemsDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item deleted} other{{count} items deleted}}'**
+  String checklistItemsDeleted(int count);
+
+  /// No description provided for @checklistItemsDuplicated.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item duplicated} other{{count} items duplicated}}'**
+  String checklistItemsDuplicated(int count);
+
+  /// No description provided for @checklistItemsMoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved'**
+  String get checklistItemsMoved;
+
+  /// No description provided for @checklistLabelName.
+  ///
+  /// In en, this message translates to:
+  /// **'Label name'**
+  String get checklistLabelName;
+
+  /// No description provided for @checklistLabels.
+  ///
+  /// In en, this message translates to:
+  /// **'Labels'**
+  String get checklistLabels;
+
+  /// No description provided for @checklistLineBreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Line break'**
+  String get checklistLineBreak;
+
+  /// No description provided for @checklistLinkedTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Linked task'**
+  String get checklistLinkedTask;
+
+  /// No description provided for @checklistModeEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get checklistModeEdit;
+
+  /// No description provided for @checklistModePreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get checklistModePreview;
+
+  /// No description provided for @checklistMoveConflict.
+  ///
+  /// In en, this message translates to:
+  /// **'A move conflicted with a change on another device and was undone.'**
+  String get checklistMoveConflict;
+
+  /// No description provided for @checklistMoveDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down'**
+  String get checklistMoveDown;
+
+  /// No description provided for @checklistMoveTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to…'**
+  String get checklistMoveTo;
+
+  /// No description provided for @checklistMoveUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get checklistMoveUp;
+
+  /// No description provided for @checklistNewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New label'**
+  String get checklistNewLabel;
+
+  /// No description provided for @checklistNextOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Next open item'**
+  String get checklistNextOpen;
+
+  /// No description provided for @checklistNoItems.
+  ///
+  /// In en, this message translates to:
+  /// **'No items yet'**
+  String get checklistNoItems;
+
+  /// No description provided for @checklistNoLabels.
+  ///
+  /// In en, this message translates to:
+  /// **'No labels yet'**
+  String get checklistNoLabels;
+
+  /// No description provided for @checklistNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This list doesn\'t exist'**
+  String get checklistNotFound;
+
+  /// No description provided for @checklistOpenTrash.
+  ///
+  /// In en, this message translates to:
+  /// **'Open trash'**
+  String get checklistOpenTrash;
+
+  /// No description provided for @checklistOutdent.
+  ///
+  /// In en, this message translates to:
+  /// **'Outdent'**
+  String get checklistOutdent;
+
+  /// No description provided for @checklistPaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste'**
+  String get checklistPaste;
+
+  /// No description provided for @checklistPasteHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste here'**
+  String get checklistPasteHere;
+
+  /// No description provided for @checklistPendingUploads.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploads pending'**
+  String get checklistPendingUploads;
+
+  /// No description provided for @checklistProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} done'**
+  String checklistProgress(int done, int total);
+
+  /// No description provided for @checklistPromote.
+  ///
+  /// In en, this message translates to:
+  /// **'Promote to list'**
+  String get checklistPromote;
+
+  /// No description provided for @checklistPromoted.
+  ///
+  /// In en, this message translates to:
+  /// **'Created a new list'**
+  String get checklistPromoted;
+
+  /// No description provided for @checklistRecovered.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovered'**
+  String get checklistRecovered;
+
+  /// No description provided for @checklistRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat…'**
+  String get checklistRepeat;
+
+  /// No description provided for @checklistResetConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Every item goes back to to-do and reason notes are cleared.'**
+  String get checklistResetConfirm;
+
+  /// No description provided for @checklistResetDone.
+  ///
+  /// In en, this message translates to:
+  /// **'List reset'**
+  String get checklistResetDone;
+
+  /// No description provided for @checklistResetNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset now'**
+  String get checklistResetNow;
+
+  /// No description provided for @checklistResetStatuses.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset all statuses'**
+  String get checklistResetStatuses;
+
+  /// No description provided for @checklistResetView.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get checklistResetView;
+
+  /// No description provided for @checklistRowSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{text}, level {level}, item {index} of {count}'**
+  String checklistRowSemantics(String text, int level, int index, int count);
+
+  /// No description provided for @checklistSaveAsTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as template'**
+  String get checklistSaveAsTemplate;
+
+  /// No description provided for @checklistScheduleTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule as task'**
+  String get checklistScheduleTask;
+
+  /// No description provided for @checklistSelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get checklistSelect;
+
+  /// No description provided for @checklistSelectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Select all'**
+  String get checklistSelectAll;
+
+  /// No description provided for @checklistSelectSubtree.
+  ///
+  /// In en, this message translates to:
+  /// **'Select sub-items'**
+  String get checklistSelectSubtree;
+
+  /// No description provided for @checklistSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String checklistSelected(int count);
+
+  /// No description provided for @checklistSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'List settings'**
+  String get checklistSettings;
+
+  /// No description provided for @checklistShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share / export'**
+  String get checklistShare;
+
+  /// No description provided for @checklistShowCheckboxes.
+  ///
+  /// In en, this message translates to:
+  /// **'Show checkboxes'**
+  String get checklistShowCheckboxes;
+
+  /// No description provided for @checklistSortAlpha.
+  ///
+  /// In en, this message translates to:
+  /// **'Alphabetical'**
+  String get checklistSortAlpha;
+
+  /// No description provided for @checklistSortChildren.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort sub-items'**
+  String get checklistSortChildren;
+
+  /// No description provided for @checklistSortCompletedBottom.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort completed to bottom'**
+  String get checklistSortCompletedBottom;
+
+  /// No description provided for @checklistSortDescending.
+  ///
+  /// In en, this message translates to:
+  /// **'Descending'**
+  String get checklistSortDescending;
+
+  /// No description provided for @checklistSortDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due date'**
+  String get checklistSortDue;
+
+  /// No description provided for @checklistSortFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort & filter'**
+  String get checklistSortFilter;
+
+  /// No description provided for @checklistSortManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual'**
+  String get checklistSortManual;
+
+  /// No description provided for @checklistSortPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get checklistSortPriority;
+
+  /// No description provided for @checklistSortRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently changed'**
+  String get checklistSortRecent;
+
+  /// No description provided for @checklistSortStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get checklistSortStatus;
+
+  /// No description provided for @checklistSortedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorted by {criterion}'**
+  String checklistSortedBy(String criterion);
+
+  /// No description provided for @checklistStatusChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Status changed'**
+  String get checklistStatusChanged;
+
+  /// No description provided for @checklistSubItems.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 sub-item} other{{count} sub-items}}'**
+  String checklistSubItems(int count);
+
+  /// No description provided for @checklistTaskPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Linking to planner tasks arrives with the planner.'**
+  String get checklistTaskPlaceholder;
+
+  /// No description provided for @checklistTemplateSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved as template'**
+  String get checklistTemplateSaved;
+
+  /// No description provided for @checklistTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get checklistTitleHint;
+
+  /// No description provided for @checklistUncheckAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Uncheck all'**
+  String get checklistUncheckAll;
+
+  /// No description provided for @checklistUncheckConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Uncheck 1 item?} other{Uncheck {count} items?}}'**
+  String checklistUncheckConfirm(int count);
+
+  /// No description provided for @checklistViewGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get checklistViewGallery;
+
+  /// No description provided for @checklistViewKanban.
+  ///
+  /// In en, this message translates to:
+  /// **'Kanban'**
+  String get checklistViewKanban;
+
+  /// No description provided for @checklistViewOutline.
+  ///
+  /// In en, this message translates to:
+  /// **'Outline'**
+  String get checklistViewOutline;
+
+  /// No description provided for @checklistZoomOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom out'**
+  String get checklistZoomOut;
 
   /// No description provided for @comingSoon.
   ///
@@ -958,6 +2308,54 @@ abstract class AppLocalizations {
   /// **'Please check the highlighted fields.'**
   String get errorValidation;
 
+  /// No description provided for @exportBranchOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Only this branch'**
+  String get exportBranchOnly;
+
+  /// No description provided for @exportCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to clipboard'**
+  String get exportCopied;
+
+  /// No description provided for @exportCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy to clipboard'**
+  String get exportCopy;
+
+  /// No description provided for @exportMarkdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Markdown'**
+  String get exportMarkdown;
+
+  /// No description provided for @exportOpml.
+  ///
+  /// In en, this message translates to:
+  /// **'OPML'**
+  String get exportOpml;
+
+  /// No description provided for @exportPlain.
+  ///
+  /// In en, this message translates to:
+  /// **'Plain text'**
+  String get exportPlain;
+
+  /// No description provided for @exportShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share…'**
+  String get exportShare;
+
+  /// No description provided for @exportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share / export'**
+  String get exportTitle;
+
   /// No description provided for @filterActiveCount.
   ///
   /// In en, this message translates to:
@@ -1126,6 +2524,12 @@ abstract class AppLocalizations {
   /// **'Disabled'**
   String get galleryDisabled;
 
+  /// No description provided for @galleryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No items with images'**
+  String get galleryEmpty;
+
   /// No description provided for @galleryFadeThrough.
   ///
   /// In en, this message translates to:
@@ -1167,6 +2571,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Motion'**
   String get galleryMotion;
+
+  /// No description provided for @galleryOnlyImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Only items with images'**
+  String get galleryOnlyImages;
 
   /// No description provided for @galleryPicked.
   ///
@@ -1276,11 +2686,617 @@ abstract class AppLocalizations {
   /// **'Window: {size}'**
   String galleryWindowSize(String size);
 
+  /// No description provided for @importAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get importAction;
+
+  /// No description provided for @importChooseFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose file'**
+  String get importChooseFile;
+
+  /// No description provided for @importConvertBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Convert note to items'**
+  String get importConvertBody;
+
+  /// No description provided for @importDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item imported} other{{count} items imported}}'**
+  String importDone(int count);
+
+  /// No description provided for @importItemsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item} other{{count} items}}'**
+  String importItemsCount(int count);
+
+  /// No description provided for @importKeepOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep as one item'**
+  String get importKeepOne;
+
+  /// No description provided for @importPasteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste indented text, Markdown or OPML'**
+  String get importPasteHint;
+
+  /// No description provided for @importSplit.
+  ///
+  /// In en, this message translates to:
+  /// **'Split into items (keep nesting)'**
+  String get importSplit;
+
+  /// No description provided for @importTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get importTitle;
+
+  /// No description provided for @importWarningAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachment references were skipped'**
+  String get importWarningAttachments;
+
+  /// No description provided for @importWarningEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to import'**
+  String get importWarningEmpty;
+
+  /// No description provided for @importWarningMalformed.
+  ///
+  /// In en, this message translates to:
+  /// **'This file couldn\'t be read'**
+  String get importWarningMalformed;
+
+  /// No description provided for @importWarningTooMany.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the first 10 000 lines were imported'**
+  String get importWarningTooMany;
+
+  /// No description provided for @itemAddTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Add time'**
+  String get itemAddTime;
+
+  /// No description provided for @itemAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments'**
+  String get itemAttachments;
+
+  /// No description provided for @itemClearDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove due date'**
+  String get itemClearDue;
+
+  /// No description provided for @itemCompletedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed {date}'**
+  String itemCompletedOn(String date);
+
+  /// No description provided for @itemCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created {date}'**
+  String itemCreated(String date);
+
+  /// No description provided for @itemDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Item details'**
+  String get itemDetailsTitle;
+
+  /// No description provided for @itemDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due'**
+  String get itemDue;
+
+  /// No description provided for @itemDueOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get itemDueOverdue;
+
+  /// No description provided for @itemDueToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get itemDueToday;
+
+  /// No description provided for @itemDueTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get itemDueTomorrow;
+
+  /// No description provided for @itemEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'Edited {date}'**
+  String itemEdited(String date);
+
+  /// No description provided for @itemHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get itemHistory;
+
+  /// No description provided for @itemHistoryCause.
+  ///
+  /// In en, this message translates to:
+  /// **'automatic'**
+  String get itemHistoryCause;
+
+  /// No description provided for @itemHistoryDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'on {device}'**
+  String itemHistoryDevice(String device);
+
+  /// No description provided for @itemHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No status changes yet'**
+  String get itemHistoryEmpty;
+
+  /// No description provided for @itemHistoryTransition.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} → {to}'**
+  String itemHistoryTransition(String from, String to);
+
+  /// No description provided for @itemInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'Insights'**
+  String get itemInsights;
+
+  /// No description provided for @itemNoDue.
+  ///
+  /// In en, this message translates to:
+  /// **'No due date'**
+  String get itemNoDue;
+
+  /// No description provided for @itemNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get itemNote;
+
+  /// No description provided for @itemOtherDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'another device'**
+  String get itemOtherDevice;
+
+  /// No description provided for @itemPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get itemPriority;
+
+  /// No description provided for @itemText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get itemText;
+
+  /// No description provided for @itemThisDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'this device'**
+  String get itemThisDevice;
+
+  /// No description provided for @itemTimeInStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Time in status'**
+  String get itemTimeInStatus;
+
+  /// No description provided for @kanbanAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All items'**
+  String get kanbanAll;
+
+  /// No description provided for @kanbanChildren.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct sub-items'**
+  String get kanbanChildren;
+
+  /// No description provided for @kanbanEmptyColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop items here'**
+  String get kanbanEmptyColumn;
+
+  /// No description provided for @kanbanLeaves.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaves only'**
+  String get kanbanLeaves;
+
+  /// No description provided for @kanbanScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Show'**
+  String get kanbanScope;
+
+  /// No description provided for @kanbanShowCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Show cancelled'**
+  String get kanbanShowCancelled;
+
+  /// No description provided for @listsArchive.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get listsArchive;
+
+  /// No description provided for @listsArchiveAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get listsArchiveAction;
+
+  /// No description provided for @listsArchiveEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No archived lists'**
+  String get listsArchiveEmpty;
+
+  /// No description provided for @listsArchived.
+  ///
+  /// In en, this message translates to:
+  /// **'List archived'**
+  String get listsArchived;
+
+  /// No description provided for @listsBadgeBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} blocked'**
+  String listsBadgeBlocked(int count);
+
+  /// No description provided for @listsBadgeStale.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} stale'**
+  String listsBadgeStale(int count);
+
+  /// No description provided for @listsBadgeWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} waiting'**
+  String listsBadgeWaiting(int count);
+
+  /// No description provided for @listsBoardSort.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort cards'**
+  String get listsBoardSort;
+
+  /// No description provided for @listsBoardSortManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual'**
+  String get listsBoardSortManual;
+
+  /// No description provided for @listsBoardSortRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently edited'**
+  String get listsBoardSortRecent;
+
+  /// No description provided for @listsBoardSortTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get listsBoardSortTitle;
+
+  /// No description provided for @listsCardActions.
+  ///
+  /// In en, this message translates to:
+  /// **'List actions'**
+  String get listsCardActions;
+
+  /// No description provided for @listsCardMore.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} more'**
+  String listsCardMore(int count);
+
+  /// No description provided for @listsCardProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done}/{total}'**
+  String listsCardProgress(int done, int total);
+
+  /// No description provided for @listsCardSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{title}, {progress}'**
+  String listsCardSemantics(String title, String progress);
+
+  /// No description provided for @listsColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get listsColor;
+
+  /// No description provided for @listsCopyOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy of {title}'**
+  String listsCopyOf(String title);
+
+  /// No description provided for @listsDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get listsDelete;
+
+  /// No description provided for @listsDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'List deleted'**
+  String get listsDeleted;
+
+  /// No description provided for @listsDragHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Long-press and drag to reorder'**
+  String get listsDragHint;
+
+  /// No description provided for @listsDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get listsDuplicate;
+
+  /// No description provided for @listsDuplicated.
+  ///
+  /// In en, this message translates to:
+  /// **'List duplicated'**
+  String get listsDuplicated;
+
+  /// No description provided for @listsEmptyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first list'**
+  String get listsEmptyAction;
+
+  /// No description provided for @listsEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklists, notes and routines — nested as deep as you need.'**
+  String get listsEmptyMessage;
+
+  /// No description provided for @listsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No lists yet'**
+  String get listsEmptyTitle;
+
+  /// No description provided for @listsFilterColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get listsFilterColor;
+
+  /// No description provided for @listsFilterHasAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'With attachments'**
+  String get listsFilterHasAttachments;
+
+  /// No description provided for @listsFilterHasBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting or blocked'**
+  String get listsFilterHasBlocked;
+
+  /// No description provided for @listsFilterPinned.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned'**
+  String get listsFilterPinned;
+
+  /// No description provided for @listsFilterRepeating.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeating'**
+  String get listsFilterRepeating;
+
+  /// No description provided for @listsFromTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'From template'**
+  String get listsFromTemplate;
+
+  /// No description provided for @listsGridView.
+  ///
+  /// In en, this message translates to:
+  /// **'Grid view'**
+  String get listsGridView;
+
+  /// No description provided for @listsImportFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Import file…'**
+  String get listsImportFile;
+
+  /// No description provided for @listsListView.
+  ///
+  /// In en, this message translates to:
+  /// **'List view'**
+  String get listsListView;
+
+  /// No description provided for @listsMoveItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Move items…'**
+  String get listsMoveItems;
+
+  /// No description provided for @listsNewChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'New checklist'**
+  String get listsNewChecklist;
+
+  /// No description provided for @listsNewNote.
+  ///
+  /// In en, this message translates to:
+  /// **'New note'**
+  String get listsNewNote;
+
+  /// No description provided for @listsOthers.
+  ///
+  /// In en, this message translates to:
+  /// **'Others'**
+  String get listsOthers;
+
+  /// No description provided for @listsPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin'**
+  String get listsPin;
+
+  /// No description provided for @listsPinned.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned'**
+  String get listsPinned;
+
+  /// No description provided for @listsPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists settings'**
+  String get listsPreferences;
+
+  /// No description provided for @listsRepeats.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats'**
+  String get listsRepeats;
+
+  /// No description provided for @listsResetStatusesOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset all statuses to to-do'**
+  String get listsResetStatusesOption;
+
+  /// No description provided for @listsSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search lists'**
+  String get listsSearchHint;
+
+  /// No description provided for @listsSearchItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Items'**
+  String get listsSearchItems;
+
+  /// No description provided for @listsSearchNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching lists or items'**
+  String get listsSearchNoResults;
+
+  /// No description provided for @listsShowBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Show note text on cards'**
+  String get listsShowBody;
+
+  /// No description provided for @listsShowSmartChips.
+  ///
+  /// In en, this message translates to:
+  /// **'Show waiting / blocked chips'**
+  String get listsShowSmartChips;
+
+  /// No description provided for @listsTemplates.
+  ///
+  /// In en, this message translates to:
+  /// **'Templates'**
+  String get listsTemplates;
+
+  /// No description provided for @listsTrash.
+  ///
+  /// In en, this message translates to:
+  /// **'Trash'**
+  String get listsTrash;
+
+  /// No description provided for @listsUnarchive.
+  ///
+  /// In en, this message translates to:
+  /// **'Unarchive'**
+  String get listsUnarchive;
+
+  /// No description provided for @listsUnarchived.
+  ///
+  /// In en, this message translates to:
+  /// **'List restored from archive'**
+  String get listsUnarchived;
+
+  /// No description provided for @listsUnpin.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpin'**
+  String get listsUnpin;
+
+  /// No description provided for @listsUntitled.
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled'**
+  String get listsUntitled;
+
   /// No description provided for @localOnlyBanner.
   ///
   /// In en, this message translates to:
   /// **'Cloud sync isn\'t configured — your data stays on this device.'**
   String get localOnlyBanner;
+
+  /// No description provided for @moveChooseParent.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose where'**
+  String get moveChooseParent;
+
+  /// No description provided for @moveDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved to {title}'**
+  String moveDone(String title);
+
+  /// No description provided for @moveToList.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to list'**
+  String get moveToList;
+
+  /// No description provided for @moveToTop.
+  ///
+  /// In en, this message translates to:
+  /// **'Top level'**
+  String get moveToTop;
 
   /// No description provided for @notFoundTitle.
   ///
@@ -2314,6 +4330,12 @@ abstract class AppLocalizations {
   /// **'Offset in minutes (negative = before)'**
   String get notifFieldOffset;
 
+  /// No description provided for @notifFieldRepeats.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats'**
+  String get notifFieldRepeats;
+
   /// No description provided for @notifFieldStatuses.
   ///
   /// In en, this message translates to:
@@ -2337,6 +4359,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Until'**
   String get notifFieldUntil;
+
+  /// No description provided for @notifFreqDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get notifFreqDaily;
+
+  /// No description provided for @notifFreqMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every month'**
+  String get notifFreqMonthly;
+
+  /// No description provided for @notifFreqWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every week'**
+  String get notifFreqWeekly;
 
   /// No description provided for @notifFrom.
   ///
@@ -2799,6 +4839,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Off'**
   String get notifModeOff;
+
+  /// No description provided for @notifModeOffHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications for this item'**
+  String get notifModeOffHint;
 
   /// No description provided for @notifMultiDevice.
   ///
@@ -3322,6 +5368,12 @@ abstract class AppLocalizations {
   /// **'Habits'**
   String get notifSectionHabits;
 
+  /// No description provided for @notifSectionOffHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{section} notifications are turned off in Settings'**
+  String notifSectionOffHint(String section);
+
   /// No description provided for @notifSectionPlanner.
   ///
   /// In en, this message translates to:
@@ -3531,6 +5583,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Soft'**
   String get notifSoundSoft;
+
+  /// No description provided for @notifStatusBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'blocked'**
+  String get notifStatusBlocked;
+
+  /// No description provided for @notifStatusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'cancelled'**
+  String get notifStatusCancelled;
+
+  /// No description provided for @notifStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'completed'**
+  String get notifStatusCompleted;
+
+  /// No description provided for @notifStatusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'done'**
+  String get notifStatusDone;
+
+  /// No description provided for @notifStatusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'in progress'**
+  String get notifStatusInProgress;
+
+  /// No description provided for @notifStatusMissed.
+  ///
+  /// In en, this message translates to:
+  /// **'missed'**
+  String get notifStatusMissed;
+
+  /// No description provided for @notifStatusOngoing.
+  ///
+  /// In en, this message translates to:
+  /// **'ongoing'**
+  String get notifStatusOngoing;
+
+  /// No description provided for @notifStatusScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'scheduled'**
+  String get notifStatusScheduled;
+
+  /// No description provided for @notifStatusSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'skipped'**
+  String get notifStatusSkipped;
+
+  /// No description provided for @notifStatusTodo.
+  ///
+  /// In en, this message translates to:
+  /// **'to do'**
+  String get notifStatusTodo;
+
+  /// No description provided for @notifStatusWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'waiting'**
+  String get notifStatusWaiting;
 
   /// No description provided for @notifSticky.
   ///
@@ -3963,6 +6081,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yes'**
   String get notifYes;
+
+  /// No description provided for @onboardingClock.
+  ///
+  /// In en, this message translates to:
+  /// **'Clock'**
+  String get onboardingClock;
+
+  /// No description provided for @onboardingClock12.
+  ///
+  /// In en, this message translates to:
+  /// **'12-hour'**
+  String get onboardingClock12;
+
+  /// No description provided for @onboardingClock24.
+  ///
+  /// In en, this message translates to:
+  /// **'24-hour'**
+  String get onboardingClock24;
+
+  /// No description provided for @onboardingEssentialsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We picked these from your device. Adjust anything that\'s off — you can change them later in Settings › Regional.'**
+  String get onboardingEssentialsBody;
+
+  /// No description provided for @onboardingEssentialsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your week, your clock'**
+  String get onboardingEssentialsTitle;
+
+  /// No description provided for @onboardingGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get onboardingGetStarted;
+
+  /// No description provided for @onboardingLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get onboardingLanguage;
+
+  /// No description provided for @onboardingStepOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String onboardingStepOf(int current, int total);
+
+  /// No description provided for @onboardingTimeZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Home time zone'**
+  String get onboardingTimeZone;
+
+  /// No description provided for @onboardingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up Everslot'**
+  String get onboardingTitle;
+
+  /// No description provided for @onboardingWeekStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Week starts on'**
+  String get onboardingWeekStart;
 
   /// No description provided for @pickerColor.
   ///
@@ -5974,6 +8158,12 @@ abstract class AppLocalizations {
   /// **'Add'**
   String get recurAddDate;
 
+  /// No description provided for @recurAddOrdinal.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a day like “2nd Tuesday”'**
+  String get recurAddOrdinal;
+
   /// No description provided for @recurAddTime.
   ///
   /// In en, this message translates to:
@@ -5992,11 +8182,23 @@ abstract class AppLocalizations {
   /// **'The next one is due this long after you complete the previous one.'**
   String get recurAfterHint;
 
+  /// No description provided for @recurAfterPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'The next ones depend on when you complete it'**
+  String get recurAfterPreview;
+
   /// No description provided for @recurAnchorMoved.
   ///
   /// In en, this message translates to:
   /// **'First occurrence: {date}'**
   String recurAnchorMoved(String date);
+
+  /// No description provided for @recurCalendarSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{no day with occurrences} =1{1 day with occurrences} other{{count} days with occurrences}}'**
+  String recurCalendarSummary(int count);
 
   /// No description provided for @recurCountCompletions.
   ///
@@ -6021,6 +8223,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Current rule'**
   String get recurCurrent;
+
+  /// No description provided for @recurCustomValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Other value…'**
+  String get recurCustomValue;
 
   /// No description provided for @recurEnds.
   ///
@@ -6064,6 +8272,12 @@ abstract class AppLocalizations {
   /// **'Edited'**
   String get recurExceptionEdited;
 
+  /// No description provided for @recurExceptionExcluded.
+  ///
+  /// In en, this message translates to:
+  /// **'Excluded'**
+  String get recurExceptionExcluded;
+
   /// No description provided for @recurExceptionMoved.
   ///
   /// In en, this message translates to:
@@ -6087,6 +8301,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Restore all'**
   String get recurExceptionRestoreAll;
+
+  /// No description provided for @recurExceptionRestoreAllTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Restore 1 occurrence?} other{Restore {count} occurrences?}}'**
+  String recurExceptionRestoreAllTitle(int count);
 
   /// No description provided for @recurExceptionsEmpty.
   ///
@@ -6256,6 +8476,12 @@ abstract class AppLocalizations {
   /// **'More options'**
   String get recurMore;
 
+  /// No description provided for @recurNumbersHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Numbers separated by commas (negative = from the end)'**
+  String get recurNumbersHint;
+
   /// No description provided for @recurOrdinal1.
   ///
   /// In en, this message translates to:
@@ -6298,11 +8524,23 @@ abstract class AppLocalizations {
   /// **'Last'**
   String get recurOrdinalLast;
 
+  /// No description provided for @recurOrdinalPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Which day?'**
+  String get recurOrdinalPick;
+
   /// No description provided for @recurOrdinalSecondLast.
   ///
   /// In en, this message translates to:
   /// **'2nd to last'**
   String get recurOrdinalSecondLast;
+
+  /// No description provided for @recurOrdinalWeekday.
+  ///
+  /// In en, this message translates to:
+  /// **'{ordinal} {weekday}'**
+  String recurOrdinalWeekday(String ordinal, String weekday);
 
   /// No description provided for @recurOverflow.
   ///
@@ -6345,6 +8583,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Year'**
   String get recurPerYear;
+
+  /// No description provided for @recurPeriodWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Week of {date}'**
+  String recurPeriodWeek(String date);
 
   /// No description provided for @recurPickerTitle.
   ///
@@ -6448,6 +8692,12 @@ abstract class AppLocalizations {
   /// **'Extra occurrences'**
   String get recurRdates;
 
+  /// No description provided for @recurRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {item}'**
+  String recurRemove(String item);
+
   /// No description provided for @recurRemoveTime.
   ///
   /// In en, this message translates to:
@@ -6477,6 +8727,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Times of day'**
   String get recurTimes;
+
+  /// No description provided for @recurTimesDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'At the start time ({time})'**
+  String recurTimesDefault(String time);
 
   /// No description provided for @recurType.
   ///
@@ -6562,6 +8818,12 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{1 occurrence per day} other{{count} occurrences per day}}'**
   String recurWarnPerDay(int count);
 
+  /// No description provided for @recurWeekNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Week numbers'**
+  String get recurWeekNumbers;
+
   /// No description provided for @recurWeekStart.
   ///
   /// In en, this message translates to:
@@ -6616,6 +8878,12 @@ abstract class AppLocalizations {
   /// **'From'**
   String get recurWindowStart;
 
+  /// No description provided for @recurYearDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Days of the year'**
+  String get recurYearDays;
+
   /// No description provided for @recurZoneNote.
   ///
   /// In en, this message translates to:
@@ -6664,11 +8932,335 @@ abstract class AppLocalizations {
   /// **'now'**
   String get relativeNow;
 
+  /// No description provided for @repeatChip.
+  ///
+  /// In en, this message translates to:
+  /// **'Resets {rule} · next {when}'**
+  String repeatChip(String rule, String when);
+
+  /// No description provided for @repeatCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom rule'**
+  String get repeatCustom;
+
+  /// No description provided for @repeatModeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything back to to-do'**
+  String get repeatModeAll;
+
+  /// No description provided for @repeatModeCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Uncheck completed items only'**
+  String get repeatModeCompleted;
+
+  /// No description provided for @repeatNoRuns.
+  ///
+  /// In en, this message translates to:
+  /// **'No finished runs yet'**
+  String get repeatNoRuns;
+
+  /// No description provided for @repeatNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Doesn\'t repeat'**
+  String get repeatNone;
+
+  /// No description provided for @repeatResetTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset time'**
+  String get repeatResetTime;
+
+  /// No description provided for @repeatRunSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{done}/{total} done'**
+  String repeatRunSummary(int done, int total);
+
+  /// No description provided for @repeatRuns.
+  ///
+  /// In en, this message translates to:
+  /// **'Run history'**
+  String get repeatRuns;
+
+  /// No description provided for @repeatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat'**
+  String get repeatTitle;
+
   /// No description provided for @savedSnack.
   ///
   /// In en, this message translates to:
   /// **'Saved'**
   String get savedSnack;
+
+  /// No description provided for @settingsAutoComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete parents automatically'**
+  String get settingsAutoComplete;
+
+  /// No description provided for @settingsCascadeAlways.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete sub-items too'**
+  String get settingsCascadeAlways;
+
+  /// No description provided for @settingsCascadeAsk.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask'**
+  String get settingsCascadeAsk;
+
+  /// No description provided for @settingsCascadeNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave sub-items'**
+  String get settingsCascadeNever;
+
+  /// No description provided for @settingsCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get settingsCategory;
+
+  /// No description provided for @settingsCompleteChildren.
+  ///
+  /// In en, this message translates to:
+  /// **'When completing a parent'**
+  String get settingsCompleteChildren;
+
+  /// No description provided for @settingsDefaultOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in'**
+  String get settingsDefaultOpen;
+
+  /// No description provided for @settingsHideCheckboxes.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide checkboxes (bullets)'**
+  String get settingsHideCheckboxes;
+
+  /// No description provided for @settingsLanguageArabic.
+  ///
+  /// In en, this message translates to:
+  /// **'العربية'**
+  String get settingsLanguageArabic;
+
+  /// No description provided for @settingsLanguageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get settingsLanguageEnglish;
+
+  /// No description provided for @settingsLanguageFrench.
+  ///
+  /// In en, this message translates to:
+  /// **'Français'**
+  String get settingsLanguageFrench;
+
+  /// No description provided for @settingsLanguageSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get settingsLanguageSystem;
+
+  /// No description provided for @settingsProgressChildren.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct sub-items only'**
+  String get settingsProgressChildren;
+
+  /// No description provided for @settingsProgressLeaves.
+  ///
+  /// In en, this message translates to:
+  /// **'All sub-items'**
+  String get settingsProgressLeaves;
+
+  /// No description provided for @settingsProgressMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress counts'**
+  String get settingsProgressMode;
+
+  /// No description provided for @settingsRequireReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Require a reason for'**
+  String get settingsRequireReason;
+
+  /// No description provided for @settingsShowAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Show attachments in preview'**
+  String get settingsShowAttachments;
+
+  /// No description provided for @settingsShowNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Show notes in preview'**
+  String get settingsShowNotes;
+
+  /// No description provided for @settingsSortCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort completed to bottom'**
+  String get settingsSortCompleted;
+
+  /// No description provided for @settingsStaleDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark stale after {days} days'**
+  String settingsStaleDays(int days);
+
+  /// No description provided for @settingsSwipeComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete'**
+  String get settingsSwipeComplete;
+
+  /// No description provided for @settingsSwipeEditLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit mode · swipe left'**
+  String get settingsSwipeEditLeft;
+
+  /// No description provided for @settingsSwipeEditRight.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit mode · swipe right'**
+  String get settingsSwipeEditRight;
+
+  /// No description provided for @settingsSwipeIndent.
+  ///
+  /// In en, this message translates to:
+  /// **'Indent'**
+  String get settingsSwipeIndent;
+
+  /// No description provided for @settingsSwipeMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions menu'**
+  String get settingsSwipeMenu;
+
+  /// No description provided for @settingsSwipeNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing'**
+  String get settingsSwipeNone;
+
+  /// No description provided for @settingsSwipeOutdent.
+  ///
+  /// In en, this message translates to:
+  /// **'Outdent'**
+  String get settingsSwipeOutdent;
+
+  /// No description provided for @settingsSwipePreviewLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview · swipe left'**
+  String get settingsSwipePreviewLeft;
+
+  /// No description provided for @settingsSwipePreviewRight.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview · swipe right'**
+  String get settingsSwipePreviewRight;
+
+  /// No description provided for @settingsSwipeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe actions'**
+  String get settingsSwipeTitle;
+
+  /// No description provided for @smartBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked'**
+  String get smartBlocked;
+
+  /// No description provided for @smartChip.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} · {count}'**
+  String smartChip(String label, int count);
+
+  /// No description provided for @smartClearFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear follow-up'**
+  String get smartClearFollowUp;
+
+  /// No description provided for @smartEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here — nice.'**
+  String get smartEmpty;
+
+  /// No description provided for @smartFollowUps.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-ups'**
+  String get smartFollowUps;
+
+  /// No description provided for @smartGroupByList.
+  ///
+  /// In en, this message translates to:
+  /// **'Group by list'**
+  String get smartGroupByList;
+
+  /// No description provided for @smartOngoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Ongoing'**
+  String get smartOngoing;
+
+  /// No description provided for @smartOpenInList.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in list'**
+  String get smartOpenInList;
+
+  /// No description provided for @smartSetFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Set follow-up'**
+  String get smartSetFollowUp;
+
+  /// No description provided for @smartSortAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get smartSortAge;
+
+  /// No description provided for @smartSortFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up'**
+  String get smartSortFollowUp;
+
+  /// No description provided for @smartSortList.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get smartSortList;
+
+  /// No description provided for @smartUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown smart list'**
+  String get smartUnknown;
+
+  /// No description provided for @smartWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting'**
+  String get smartWaiting;
 
   /// No description provided for @stateEmpty.
   ///
@@ -6693,6 +9285,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading…'**
   String get stateLoading;
+
+  /// No description provided for @statusAddNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Add note…'**
+  String get statusAddNote;
+
+  /// No description provided for @statusAgeDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} d'**
+  String statusAgeDays(int n);
+
+  /// No description provided for @statusAgeHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} h'**
+  String statusAgeHours(int n);
+
+  /// No description provided for @statusAgeMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} min'**
+  String statusAgeMinutes(int n);
+
+  /// No description provided for @statusBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked'**
+  String get statusBlocked;
+
+  /// No description provided for @statusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get statusCancelled;
+
+  /// No description provided for @statusCascadeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete all'**
+  String get statusCascadeAll;
+
+  /// No description provided for @statusCascadeOnlyThis.
+  ///
+  /// In en, this message translates to:
+  /// **'Only this one'**
+  String get statusCascadeOnlyThis;
+
+  /// No description provided for @statusCascadeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Also complete 1 open sub-item?} other{Also complete {count} open sub-items?}}'**
+  String statusCascadeTitle(int count);
+
+  /// No description provided for @statusChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Change status'**
+  String get statusChange;
+
+  /// No description provided for @statusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get statusCompleted;
+
+  /// No description provided for @statusFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow up'**
+  String get statusFollowUp;
+
+  /// No description provided for @statusFollowUpChip.
+  ///
+  /// In en, this message translates to:
+  /// **'Check back {when}'**
+  String statusFollowUpChip(String when);
+
+  /// No description provided for @statusFollowUpCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom…'**
+  String get statusFollowUpCustom;
+
+  /// No description provided for @statusFollowUpIn3Days.
+  ///
+  /// In en, this message translates to:
+  /// **'In 3 days'**
+  String get statusFollowUpIn3Days;
+
+  /// No description provided for @statusFollowUpLaterToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Later today'**
+  String get statusFollowUpLaterToday;
+
+  /// No description provided for @statusFollowUpNextWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Next week'**
+  String get statusFollowUpNextWeek;
+
+  /// No description provided for @statusFollowUpNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No follow-up'**
+  String get statusFollowUpNone;
+
+  /// No description provided for @statusFollowUpOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Check back now'**
+  String get statusFollowUpOverdue;
+
+  /// No description provided for @statusFollowUpTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow 09:00'**
+  String get statusFollowUpTomorrow;
+
+  /// No description provided for @statusKeepFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep follow-up'**
+  String get statusKeepFollowUp;
+
+  /// No description provided for @statusMarked.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked {status}'**
+  String statusMarked(String status);
+
+  /// No description provided for @statusOngoing.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get statusOngoing;
+
+  /// No description provided for @statusReasonBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s blocking it?'**
+  String get statusReasonBlocked;
+
+  /// No description provided for @statusReasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a note (optional)'**
+  String get statusReasonOther;
+
+  /// No description provided for @statusReasonRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'A reason is required'**
+  String get statusReasonRequired;
+
+  /// No description provided for @statusReasonWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting on whom / what?'**
+  String get statusReasonWaiting;
+
+  /// No description provided for @statusRecentReasons.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent'**
+  String get statusRecentReasons;
+
+  /// No description provided for @statusSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get statusSheetTitle;
+
+  /// No description provided for @statusStale.
+  ///
+  /// In en, this message translates to:
+  /// **'Stale'**
+  String get statusStale;
+
+  /// No description provided for @statusTodo.
+  ///
+  /// In en, this message translates to:
+  /// **'To do'**
+  String get statusTodo;
+
+  /// No description provided for @statusWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting'**
+  String get statusWaiting;
+
+  /// No description provided for @statusWithAge.
+  ///
+  /// In en, this message translates to:
+  /// **'{status} · {age}'**
+  String statusWithAge(String status, String age);
 
   /// No description provided for @syncError.
   ///
@@ -8457,6 +11247,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search time zones'**
   String get tasksZoneSearch;
+
+  /// No description provided for @templatesBuiltin.
+  ///
+  /// In en, this message translates to:
+  /// **'Built-in'**
+  String get templatesBuiltin;
+
+  /// No description provided for @templatesCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'List created from template'**
+  String get templatesCreated;
+
+  /// No description provided for @templatesEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit template'**
+  String get templatesEdit;
+
+  /// No description provided for @templatesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Save any list as a template from its menu.'**
+  String get templatesEmpty;
+
+  /// No description provided for @templatesMine.
+  ///
+  /// In en, this message translates to:
+  /// **'My templates'**
+  String get templatesMine;
+
+  /// No description provided for @templatesRename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get templatesRename;
+
+  /// No description provided for @templatesUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Use template'**
+  String get templatesUse;
 }
 
 class _AppLocalizationsDelegate

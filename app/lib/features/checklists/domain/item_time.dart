@@ -35,9 +35,11 @@ abstract final class ItemTimeRules {
   }
 
   /// Waiting/blocked pills escalate after [warnDays] and [alertDays].
-  static AgeLevel escalation(ChecklistItem item, DateTime now, {int warnDays = 3, int alertDays = 7}) {
-    if (item.status != ItemStatus.waiting && item.status != ItemStatus.blocked) return AgeLevel.normal;
-    final since = item.statusSince;
+  static AgeLevel escalation(ChecklistItem item, DateTime now, {int warnDays = 3, int alertDays = 7}) =>
+      escalationFor(item.status, item.statusSince, now, warnDays: warnDays, alertDays: alertDays);
+
+  static AgeLevel escalationFor(ItemStatus status, DateTime? since, DateTime now, {int warnDays = 3, int alertDays = 7}) {
+    if (status != ItemStatus.waiting && status != ItemStatus.blocked) return AgeLevel.normal;
     if (since == null) return AgeLevel.normal;
     final days = now.difference(since).inDays;
     if (days >= alertDays) return AgeLevel.alert;

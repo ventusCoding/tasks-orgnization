@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found · Everslot</title>
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <!-- Served for any missing path, so links are root-absolute: the site must live at the domain root. -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="picker">
+    <img src="/favicon.svg" alt="" width="72" height="72">
+    <h1>Page not found</h1>
+    <p><span lang="fr">Page introuvable</span> · <span lang="ar" dir="rtl">الصفحة غير موجودة</span></p>
+    <div id="app-link" hidden>
+      <p>This link opens in the Everslot app. · <span lang="fr">Ce lien s’ouvre dans l’app Everslot.</span> ·
+      <span lang="ar" dir="rtl">يُفتح هذا الرابط في تطبيق Everslot.</span></p>
+      <p><a class="btn btn-primary" href="/">Open in Everslot</a></p>
+    </div>
+    <ul>
+      <li><a class="btn btn-secondary" href="/en/" hreflang="en">English</a></li>
+      <li><a class="btn btn-secondary" href="/fr/" hreflang="fr" lang="fr">Français</a></li>
+      <li><a class="btn btn-secondary" href="/ar/" hreflang="ar" lang="ar" dir="rtl">العربية</a></li>
+    </ul>
+  </main>
+  <script>
+    // App links (https://<domain>/task/…, see .well-known/) land here when the app is not installed:
+    // offer the equivalent everslot:// link. Roots mirror DeepLinkParser (app/lib/core/routing/deep_links.dart).
+    (function () {
+      var roots = ["today", "plan", "task", "task-new", "lists", "habits", "habit-new", "quit", "insights",
+        "inbox", "search", "settings"];
+      var first = location.pathname.split("/")[1] || "";
+      if (roots.indexOf(first) === -1) return;
+      var box = document.getElementById("app-link");
+      box.querySelector("a").href = "everslot:/" + location.pathname + location.search;
+      box.hidden = false;
+    })();
+  </script>
+</body>
+</html>
