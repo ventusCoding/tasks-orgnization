@@ -50,13 +50,15 @@ final needsOnboardingProvider = Provider<bool>((ref) {
 });
 
 /// Everything the router redirect depends on (router.dart refreshes when it changes).
-final authRouteStateProvider = Provider<AuthRouteState>(
-  (ref) => AuthRouteState(
+final authRouteStateProvider = Provider<AuthRouteState>((ref) {
+  final session = ref.watch(sessionProvider);
+  return AuthRouteState(
     cloudConfigured: ref.watch(cloudAuthAvailableProvider),
-    session: ref.watch(sessionProvider),
+    signedIn: session != null,
+    localOnly: session?.isLocalOnly ?? false,
     needsOnboarding: ref.watch(needsOnboardingProvider),
-  ),
-);
+  );
+});
 
 /// Metadata sent with a new sign-up so the server-created profile starts with the right zone
 /// and language (T1.5.04 trigger reads `time_zone` / `locale`).
