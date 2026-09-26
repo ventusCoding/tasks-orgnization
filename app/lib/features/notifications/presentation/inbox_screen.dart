@@ -317,112 +317,128 @@ class InboxTile extends ConsumerWidget {
       for (final a in item.actions)
         if (a != NotificationActionIds.open && item.actedAt == null) a,
     ].take(2).toList();
-    final tile = Semantics(
-      button: true,
-      label: unread ? l.notifInboxUnreadSemantics(item.title) : item.title,
-      child: InkWell(
-        onTap: () => unawaited(_open(context, ref)),
-        child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(
-            Space.lg,
-            dense ? Space.sm : Space.md,
-            Space.lg,
-            dense ? Space.sm : Space.md,
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircleAvatar(
-                radius: 18,
-                backgroundColor: context.colors.secondaryContainer,
-                child: Icon(
-                  iconFor(item.section, item.category),
-                  size: 18,
-                  color: context.colors.onSecondaryContainer,
-                ),
+    // One sentence for screen readers: "Unread reminder, Gym, Starts in 10 min, 5 minutes ago".
+    final semanticLabel = [
+      if (unread) l.notifInboxUnreadSemantics(item.title) else item.title,
+      if (item.body != null && item.body!.isNotEmpty) item.body!,
+      format.relative(item.fireAt, now),
+      if (chainCount > 1) l.notifInboxNagCount(chainCount),
+      if (item.late) l.notifInboxLate,
+      if (item.action != null) labels.action(item.action!),
+    ].join(', ');
+    final tile = InkWell(
+      onTap: () => unawaited(_open(context, ref)),
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(
+          Space.lg,
+          dense ? Space.sm : Space.md,
+          Space.lg,
+          dense ? Space.sm : Space.md,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              radius: 18,
+              backgroundColor: context.colors.secondaryContainer,
+              child: Icon(
+                iconFor(item.section, item.category),
+                size: 18,
+                color: context.colors.onSecondaryContainer,
               ),
-              const SizedBox(width: Space.md),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+            ),
+            const SizedBox(width: Space.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Semantics(
+                    button: true,
+                    label: semanticLabel,
+                    excludeSemantics: true,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Text(
-                            item.title,
-                            style: context.text.titleSmall?.copyWith(
-                              fontWeight: unread
-                                  ? FontWeight.w700
-                                  : FontWeight.w500,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                item.title,
+                                style: context.text.titleSmall?.copyWith(
+                                  fontWeight: unread
+                                      ? FontWeight.w700
+                                      : FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            if (chainCount > 1) ...[
+                              const SizedBox(width: Space.xs),
+                              StatusPill(
+                                label: l.notifInboxNagCount(chainCount),
+                                color: context.colors.tertiary,
+                                dense: true,
+                              ),
+                            ],
+                            if (item.late) ...[
+                              const SizedBox(width: Space.xs),
+                              StatusPill(
+                                label: l.notifInboxLate,
+                                color: context.appColors.warning,
+                                dense: true,
+                              ),
+                            ],
+                          ],
+                        ),
+                        if (item.body != null && item.body!.isNotEmpty) ...[
+                          const SizedBox(height: Space.xxs),
+                          Text(
+                            item.body!,
+                            style: context.text.bodyMedium?.copyWith(
+                              color: context.colors.onSurfaceVariant,
                             ),
                           ),
+                        ],
+                        const SizedBox(height: Space.xxs),
+                        Text(
+                          [
+                            format.relative(item.fireAt, now),
+                            labels.category(item.category),
+                            if (item.action != null)
+                              labels.action(item.action!),
+                          ].join(' · '),
+                          style: context.text.labelSmall?.copyWith(
+                            color: context.colors.onSurfaceVariant,
+                          ),
                         ),
-                        if (chainCount > 1) ...[
-                          const SizedBox(width: Space.xs),
-                          StatusPill(
-                            label: l.notifInboxNagCount(chainCount),
-                            color: context.colors.tertiary,
-                            dense: true,
-                          ),
-                        ],
-                        if (item.late) ...[
-                          const SizedBox(width: Space.xs),
-                          StatusPill(
-                            label: l.notifInboxLate,
-                            color: context.appColors.warning,
-                            dense: true,
-                          ),
-                        ],
                       ],
                     ),
-                    if (item.body != null && item.body!.isNotEmpty) ...[
-                      const SizedBox(height: Space.xxs),
-                      Text(
-                        item.body!,
-                        style: context.text.bodyMedium?.copyWith(
-                          color: context.colors.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
-                    const SizedBox(height: Space.xxs),
-                    Text(
-                      [
-                        format.relative(item.fireAt, now),
-                        labels.category(item.category),
-                        if (item.action != null) labels.action(item.action!),
-                      ].join(' · '),
-                      style: context.text.labelSmall?.copyWith(
-                        color: context.colors.onSurfaceVariant,
-                      ),
-                    ),
-                    if (actions.isNotEmpty || item.actedAt == null) ...[
-                      const SizedBox(height: Space.xs),
-                      Wrap(
-                        spacing: Space.sm,
-                        runSpacing: Space.xs,
-                        children: [
-                          for (final a in actions)
-                            ActionChip(
-                              label: Text(labels.action(a)),
-                              onPressed: () => unawaited(_act(context, ref, a)),
-                            ),
-                        ],
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-              if (unread)
-                Padding(
-                  padding: const EdgeInsetsDirectional.only(
-                    start: Space.sm,
-                    top: Space.xs,
                   ),
-                  child: ColorDot(context.colors.primary),
+                  if (actions.isNotEmpty || item.actedAt == null) ...[
+                    const SizedBox(height: Space.xs),
+                    Wrap(
+                      spacing: Space.sm,
+                      runSpacing: Space.xs,
+                      children: [
+                        for (final a in actions)
+                          ActionChip(
+                            label: Text(labels.action(a)),
+                            onPressed: () => unawaited(_act(context, ref, a)),
+                          ),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            if (unread)
+              Padding(
+                padding: const EdgeInsetsDirectional.only(
+                  start: Space.sm,
+                  top: Space.xs,
                 ),
-            ],
-          ),
+                child: ColorDot(context.colors.primary),
+              ),
+          ],
         ),
       ),
     );
