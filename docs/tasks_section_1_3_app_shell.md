@@ -31,7 +31,7 @@ handling/logging, and a dev-only debug menu.
 - [ ] T1.3.10 — Core components v1
 - [ ] T1.3.11 — Pickers: date, time (1-min), duration, color, icon
 - [ ] T1.3.12 — App scaffold: bottom bar, app bar actions, contextual FAB, adaptive layout
-- [ ] T1.3.13 — Localization (EN/FR/AR) & formatting helpers
+- [x] T1.3.13 — Localization (EN/FR/AR) & formatting helpers
 - [ ] T1.3.14 — RTL baseline
 - [ ] T1.3.15 — Accessibility baseline
 - [ ] T1.3.16 — Feature flags & dev debug menu (incl. time travel)
@@ -173,6 +173,11 @@ times, ICU plurals (Arabic zero/one/two/few/many/other); optional Arabic-Indic d
 **Acceptance criteria:** switching locale at runtime updates strings, formats and direction; CI fails on
 missing keys or placeholder mismatches.
 **Tests:** unit tests for plural/format helpers per locale; CI l10n check script.
+**Notes:** `tool/check_l10n.dart` (run by `app/test/tool/check_l10n_test.dart` in the app suite, so CI fails)
+checks that every ARB part area ships EN/FR/AR with the same keys, valid ICU (plural/select need `other`),
+declared placeholders and preserved plural/select arguments. `AppFormat` gained the optional Arabic-Indic
+digits (`arabicDigits:`, from `UserPreferences.useArabicDigits`), honours an explicit 12 h preference in every
+locale and localizes end-of-day in 12 h mode. Tests: `app/test/design_system/formatting_test.dart`.
 
 ### T1.3.14 — RTL baseline
 **Priority:** P0 · **Size:** S · **Depends on:** T1.3.13
