@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/session/session.dart';
+import 'package:everslot/features/attachments/application/providers.dart' show startAttachmentUploads;
+import 'package:everslot/features/checklists/application/reset_service.dart' show runChecklistResets;
 import 'package:everslot/startup/profile_bootstrap.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,7 +14,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// run due checklist resets). Every task must be fast (< 200 ms) or run unawaited.
 typedef StartupTask = Future<void> Function(ProviderContainer container);
 
-final List<StartupTask> startupTasks = [ensureProfileAndDefaults];
+final List<StartupTask> startupTasks = [
+  ensureProfileAndDefaults,
+  startAttachmentUploads, // resumes queued attachment uploads (T2.2.04)
+  runChecklistResets, // due checklist resets at start, on resume and after pulls (T4.5.06)
+];
 
 Future<void> runStartupTasks(ProviderContainer container) async {
   final log = AppLog.get('startup');

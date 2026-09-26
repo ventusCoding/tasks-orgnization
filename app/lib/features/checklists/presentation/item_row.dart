@@ -126,6 +126,9 @@ abstract class RowActions {
   void openMenu(ChecklistItem item);
   void zoom(String id);
   void toggleSelected(String id);
+
+  /// Selects every visible row from the last toggled one to [id] (range selection).
+  void selectRangeTo(String id);
   void enter(String id, String text, int cursor);
   void backspaceAtStart(String id, String text);
   Future<bool> multilinePaste(String id, String pasted);
@@ -164,6 +167,15 @@ class RowTextController extends TextEditingController {
     final c = (cursor ?? plain.length).clamp(0, plain.length);
     selection = TextSelection.collapsed(offset: c + 1);
   }
+}
+
+/// Inserts a line break at the caret of the row built with [rowContext] (keyboard toolbar).
+bool insertRowLineBreak(BuildContext? rowContext) {
+  if (rowContext is! StatefulElement || !rowContext.mounted) return false;
+  final state = rowContext.state;
+  if (state is! _ItemRowState || state._controller == null) return false;
+  state._insertLineBreak();
+  return true;
 }
 
 /// Keeps the sentinel, detects Backspace-at-start, Enter-as-newline and multi-line pastes.
@@ -633,7 +645,12 @@ class _ItemRowState extends ConsumerState<ItemRow> {
         child: body,
       );
     } else if (ctx.selecting) {
-      body = GestureDetector(behavior: HitTestBehavior.opaque, onTap: () => a.toggleSelected(item.id), child: body);
+      body = GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => a.toggleSelected(item.id),
+        onLongPress: () => a.selectRangeTo(item.id),
+        child: body,
+      );
     }
 
     final swipeEnabled = !ctx.selecting && (ctx.preview || ctx.canRestructure);

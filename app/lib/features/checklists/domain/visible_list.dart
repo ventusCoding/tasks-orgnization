@@ -6,6 +6,19 @@ import 'package:everslot/features/checklists/domain/tree_ops.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:meta/meta.dart';
 
+/// Checklist views (T4.5.02), remembered per checklist in `ui_checklist_state.view_type`.
+enum ChecklistViewType {
+  outline,
+  kanban,
+  gallery;
+
+  static ChecklistViewType parse(String? v) => switch (v) {
+    'kanban' => ChecklistViewType.kanban,
+    'gallery' => ChecklistViewType.gallery,
+    _ => ChecklistViewType.outline,
+  };
+}
+
 /// One row the outline actually renders (T4.2.05).
 @immutable
 class VisibleRow {

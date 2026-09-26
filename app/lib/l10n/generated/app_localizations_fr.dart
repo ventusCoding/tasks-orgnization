@@ -505,6 +505,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get checklistExpandToLevelMenu => 'Déplier jusqu’au niveau…';
+
+  @override
   String get checklistFilterAll => 'Tous';
 
   @override
@@ -560,6 +563,17 @@ class AppLocalizationsFr extends AppLocalizations {
       locale: localeName,
       other: '$count éléments supprimés',
       one: '1 élément supprimé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String checklistItemsDuplicated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments dupliqués',
+      one: '1 élément dupliqué',
     );
     return '$_temp0';
   }

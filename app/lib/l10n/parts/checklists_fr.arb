@@ -323,5 +323,7 @@
   "checklistNewLabel": "Nouveau libellé",
   "checklistLabelName": "Nom du libellé",
   "checklistNoLabels": "Aucun libellé",
-  "checklistAllLists": "Toutes les listes"
+  "checklistAllLists": "Toutes les listes",
+  "checklistExpandToLevelMenu": "Déplier jusqu’au niveau…",
+  "checklistItemsDuplicated": "{count, plural, =1{1 élément dupliqué} other{{count} éléments dupliqués}}"
 }

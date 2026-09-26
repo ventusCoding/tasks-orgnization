@@ -108,6 +108,20 @@ class ChecklistItemsRepository {
       .watch()
       .map((rows) => [for (final r in rows) _db.attachments.map(r.data)].map(AttachmentTx.fromRow).toList());
 
+  /// Live attachments of a checklist and of its live items (empty-card detection).
+  Future<int> attachmentCount(String checklistId) async {
+    final row = await _db
+        .customSelect(
+          'SELECT COUNT(*) AS n FROM attachments a WHERE a.deleted_at IS NULL AND ('
+          "(a.owner_type = 'checklist' AND a.owner_id = ?1) OR "
+          "(a.owner_type = 'checklist_item' AND a.owner_id IN "
+          '(SELECT id FROM checklist_items WHERE checklist_id = ?1 AND deleted_at IS NULL)))',
+          variables: [Variable<String>(checklistId)],
+        )
+        .getSingle();
+    return row.read<int>('n');
+  }
+
   /// Attachment file names per item (listed in Markdown exports, T4.4.08).
   Future<Map<String, List<String>>> attachmentNames(String checklistId) async {
     final rows = await _db

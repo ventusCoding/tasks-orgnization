@@ -517,6 +517,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get checklistExpandToLevelMenu => 'التوسيع حتى المستوى…';
+
+  @override
   String get checklistFilterAll => 'الكل';
 
   @override
@@ -576,6 +579,21 @@ class AppLocalizationsAr extends AppLocalizations {
       two: 'حُذف عنصران',
       one: 'حُذف عنصر واحد',
       zero: 'لم يُحذف شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String checklistItemsDuplicated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم تكرار $count عنصر',
+      many: 'تم تكرار $count عنصرًا',
+      few: 'تم تكرار $count عناصر',
+      two: 'تم تكرار عنصرين',
+      one: 'تم تكرار عنصر واحد',
+      zero: 'لم يُكرَّر أي عنصر',
     );
     return '$_temp0';
   }

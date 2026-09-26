@@ -323,5 +323,7 @@
   "checklistNewLabel": "تسمية جديدة",
   "checklistLabelName": "اسم التسمية",
   "checklistNoLabels": "لا توجد تسميات بعد",
-  "checklistAllLists": "كل القوائم"
+  "checklistAllLists": "كل القوائم",
+  "checklistExpandToLevelMenu": "التوسيع حتى المستوى…",
+  "checklistItemsDuplicated": "{count, plural, =0{لم يُكرَّر أي عنصر} =1{تم تكرار عنصر واحد} =2{تم تكرار عنصرين} few{تم تكرار {count} عناصر} many{تم تكرار {count} عنصرًا} other{تم تكرار {count} عنصر}}"
 }

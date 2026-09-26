@@ -618,5 +618,14 @@
   "checklistNewLabel": "New label",
   "checklistLabelName": "Label name",
   "checklistNoLabels": "No labels yet",
-  "checklistAllLists": "All lists"
+  "checklistAllLists": "All lists",
+  "checklistExpandToLevelMenu": "Expand to level…",
+  "checklistItemsDuplicated": "{count, plural, =1{1 item duplicated} other{{count} items duplicated}}",
+  "@checklistItemsDuplicated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

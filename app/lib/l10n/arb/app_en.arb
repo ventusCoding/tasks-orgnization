@@ -183,6 +183,13 @@
       }
     }
   },
+  "@checklistItemsDuplicated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@checklistProgress": {
     "placeholders": {
       "done": {
@@ -1842,6 +1849,7 @@
   "checklistExpand": "Expand",
   "checklistExpandAll": "Expand all",
   "checklistExpandToLevel": "Expand to level {level}",
+  "checklistExpandToLevelMenu": "Expand to level…",
   "checklistFilterAll": "All",
   "checklistFilterDueSoon": "Due soon",
   "checklistFilterHasAttachments": "Has attachments",
@@ -1859,6 +1867,7 @@
   "checklistInsightsPlaceholder": "Checklist insights arrive with the stats section.",
   "checklistItemHint": "List item",
   "checklistItemsDeleted": "{count, plural, =1{1 item deleted} other{{count} items deleted}}",
+  "checklistItemsDuplicated": "{count, plural, =1{1 item duplicated} other{{count} items duplicated}}",
   "checklistItemsMoved": "Moved",
   "checklistLabelName": "Label name",
   "checklistLabels": "Labels",

@@ -9,7 +9,6 @@ import 'package:everslot/features/attachments/domain/attachment.dart';
 import 'package:everslot/features/checklists/application/checklist_service.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
 import 'package:everslot/features/checklists/data/checklist_items_repository.dart';
-import 'package:everslot/features/checklists/data/checklist_ui_state_store.dart';
 import 'package:everslot/features/checklists/data/checklists_repository.dart';
 import 'package:everslot/features/checklists/domain/board.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';

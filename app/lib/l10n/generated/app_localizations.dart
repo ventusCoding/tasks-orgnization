@@ -934,6 +934,12 @@ abstract class AppLocalizations {
   /// **'Expand to level {level}'**
   String checklistExpandToLevel(int level);
 
+  /// No description provided for @checklistExpandToLevelMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand to level…'**
+  String get checklistExpandToLevelMenu;
+
   /// No description provided for @checklistFilterAll.
   ///
   /// In en, this message translates to:
@@ -1035,6 +1041,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 item deleted} other{{count} items deleted}}'**
   String checklistItemsDeleted(int count);
+
+  /// No description provided for @checklistItemsDuplicated.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item duplicated} other{{count} items duplicated}}'**
+  String checklistItemsDuplicated(int count);
 
   /// No description provided for @checklistItemsMoved.
   ///

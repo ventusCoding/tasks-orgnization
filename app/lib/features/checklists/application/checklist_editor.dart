@@ -146,6 +146,9 @@ class ChecklistEditor extends Notifier<EditorState> {
   int _focusSeq = 0;
   StreamSubscription<void>? _pauseSub;
 
+  /// Record on top of the undo stack when it was pushed by this editor (snackbar undo).
+  OpRecord? _lastPushed;
+
   UndoStack get undoStack => _undo;
 
   @override
@@ -174,6 +177,13 @@ class ChecklistEditor extends Notifier<EditorState> {
       unawaited(_pauseSub?.cancel());
     });
     return const EditorState();
+  }
+
+  void _push(String label, OpRecord record) {
+    // Late writes (drafts flushed while the screen closes) are kept but no longer undoable.
+    if (record.isEmpty || !ref.mounted) return;
+    _undo.push(label, record);
+    _lastPushed = record;
   }
 
   void _onUndoChanged() {
@@ -317,8 +327,21 @@ class ChecklistEditor extends Notifier<EditorState> {
       _sessionLogged = true;
       _sessionRecords.add(record);
     } else {
-      _undo.push('text', record);
+      _push('text', record);
     }
+  }
+
+  /// Writes pending drafts without touching the undo stack (the screen is closing).
+  Future<void> flushForClose() {
+    for (final t in _timers.values) {
+      t.cancel();
+    }
+    _timers.clear();
+    final pending = Map.of(_drafts);
+    _drafts.clear();
+    return Future.wait([
+      for (final e in pending.entries) _service.setText(checklistId, e.key, e.value, logEvent: true),
+    ]);
   }
 
   Future<void> flushAll() async {
@@ -328,7 +351,7 @@ class ChecklistEditor extends Notifier<EditorState> {
   }
 
   void _endSession() {
-    if (_sessionRecords.isNotEmpty) _undo.push('text', mergeRecords(List.of(_sessionRecords)));
+    if (_sessionRecords.isNotEmpty) _push('text', mergeRecords(List.of(_sessionRecords)));
     _sessionRecords.clear();
     _sessionItem = null;
     _sessionLogged = false;
@@ -370,7 +393,7 @@ class ChecklistEditor extends Notifier<EditorState> {
     _endSession();
     final result = await _service.run(checklistId, build, cause: cause);
     if (result == null) return null;
-    _undo.push(label, result.record);
+    _push(label, result.record);
     final f = result.change.focus;
     if (focusResult && f != null && !state.preview && ref.mounted) requestFocus(f.itemId, cursor: f.cursor);
     return result.record;
@@ -547,7 +570,7 @@ class ChecklistEditor extends Notifier<EditorState> {
       ),
     );
     if (result == null) return null;
-    _undo.push('move', result.record);
+    _push('move', result.record);
     return result.record;
   }
 
@@ -617,7 +640,7 @@ class ChecklistEditor extends Notifier<EditorState> {
     final c = await ref.read(checklistsRepositoryProvider).byId(checklistId);
     if (c == null) return null;
     final record = await ref.read(checklistsRepositoryProvider).update(checklistId, settings: edit(c.settings));
-    _undo.push('settings', record);
+    _push('settings', record);
     return record;
   }
 
@@ -625,10 +648,14 @@ class ChecklistEditor extends Notifier<EditorState> {
 
   void startSelection(String id) => state = state.copyWith(selecting: true, selection: {id});
 
+  /// Selection mode with nothing selected yet (menu entry).
+  void enterSelection() => state = state.copyWith(selecting: true, selection: const {});
+
+  /// Toggles one row; selection mode stays on until [clearSelection] (close button / back).
   void toggleSelected(String id) {
     final s = {...state.selection};
     if (!s.remove(id)) s.add(id);
-    state = state.copyWith(selection: s, selecting: s.isNotEmpty);
+    state = state.copyWith(selection: s, selecting: true);
   }
 
   void selectSubtree(String id) {
@@ -657,17 +684,32 @@ class ChecklistEditor extends Notifier<EditorState> {
   Future<bool> undo() async {
     await flushAll();
     _endSession();
+    _lastPushed = null;
     return _undo.undo();
   }
 
   Future<bool> redo() async {
     await flushAll();
     _endSession();
+    _lastPushed = null;
     return _undo.redo();
   }
 
+  /// Undo from a snackbar: pops the undo stack when [record] is still on top of it, otherwise
+  /// reverts the record directly (never undoes an unrelated later edit).
+  Future<void> undoRecord(OpRecord record) async {
+    if (identical(record, _lastPushed) && _undo.canUndo) {
+      await undo();
+    } else {
+      await ref.read(syncWriterProvider).revert(record);
+    }
+  }
+
   /// Registers an operation made elsewhere on this screen (attachments, header) as an undo step.
-  void pushUndo(String label, OpRecord record) => _undo.push(label, record);
+  void pushUndo(String label, OpRecord record) => _push(label, record);
+
+  /// Briefly highlights a row (search hits, smart views, "next open item").
+  void highlight(String? id) => state = id == null ? state.copyWith(clearHighlight: true) : state.copyWith(highlightId: id);
 }
 
 final checklistEditorProvider = NotifierProvider.autoDispose.family<ChecklistEditor, EditorState, String>(

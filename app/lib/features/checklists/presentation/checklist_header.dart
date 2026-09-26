@@ -30,6 +30,8 @@ class ChecklistTitleBody extends ConsumerStatefulWidget {
     super.key,
     this.pending,
     this.onCreated,
+    this.create,
+    this.onTitleSubmitted,
   });
 
   final String checklistId;
@@ -37,6 +39,12 @@ class ChecklistTitleBody extends ConsumerStatefulWidget {
   final bool preview;
   final PendingCard? pending;
   final VoidCallback? onCreated;
+
+  /// Creates the pending card (the screen owns creation so every path creates it exactly once).
+  final Future<void> Function(String title, String body)? create;
+
+  /// Enter on the title; return false to fall back to focusing the note field.
+  final bool Function()? onTitleSubmitted;
 
   @override
   ConsumerState<ChecklistTitleBody> createState() => _ChecklistTitleBodyState();
@@ -70,6 +78,12 @@ class _ChecklistTitleBodyState extends ConsumerState<ChecklistTitleBody> {
     super.didUpdateWidget(old);
     final c = widget.checklist;
     if (c == null) return;
+    if (old.checklist == null) {
+      // Created meanwhile: write what was typed while the row was being created.
+      _debounce?.cancel();
+      _debounce = Timer(const Duration(milliseconds: 300), () => unawaited(_flush()));
+      return;
+    }
     if (!_titleFocus.hasFocus && _title.text != c.title) _title.text = c.title;
     if (!_bodyFocus.hasFocus && _body.text != (c.body ?? '')) _body.text = c.body ?? '';
   }
@@ -109,7 +123,12 @@ class _ChecklistTitleBodyState extends ConsumerState<ChecklistTitleBody> {
     if (_creating || widget.checklist != null) return;
     if (_title.text.trim().isEmpty && _body.text.trim().isEmpty) return;
     _creating = true;
-    await ref.read(checklistsRepositoryProvider).create(id: widget.checklistId, title: _title.text, body: _body.text);
+    final create = widget.create;
+    if (create != null) {
+      await create(_title.text, _body.text);
+    } else {
+      await ref.read(checklistsRepositoryProvider).create(id: widget.checklistId, title: _title.text, body: _body.text);
+    }
     widget.onCreated?.call();
   }
 
@@ -162,7 +181,10 @@ class _ChecklistTitleBodyState extends ConsumerState<ChecklistTitleBody> {
             textInputAction: TextInputAction.next,
             decoration: InputDecoration(hintText: l.checklistTitleHint, border: InputBorder.none),
             onChanged: (_) => _changed(),
-            onSubmitted: (_) => _bodyFocus.requestFocus(),
+            onSubmitted: (_) {
+              if (widget.onTitleSubmitted?.call() ?? false) return;
+              _bodyFocus.requestFocus();
+            },
           ),
           TextField(
             controller: _body,
