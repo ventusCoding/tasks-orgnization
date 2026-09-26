@@ -733,10 +733,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authZoneSearch => 'البحث عن منطقة زمنية';
 
   @override
-  String get categoriesEmpty => 'لا توجد تصنيفات بعد';
+  String get categoriesEmpty => 'لا توجد فئات بعد';
 
   @override
-  String get categoriesTitle => 'التصنيفات';
+  String get categoriesTitle => 'الفئات';
 
   @override
   String get categoryArchived => 'مؤرشف';
@@ -768,7 +768,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get categoryDefaultWork => 'العمل';
 
   @override
-  String get categoryDeleteBody => 'ستبقى العناصر في هذا التصنيف بدون تصنيف.';
+  String get categoryDeleteBody => 'ستبقى العناصر في هذه الفئة بدون فئة.';
 
   @override
   String categoryDeleteUsedBody(int count, String name) {
@@ -785,7 +785,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get categoryEdit => 'تعديل التصنيف';
+  String get categoryEdit => 'تعديل الفئة';
 
   @override
   String get categoryErrorDuplicate => 'توجد فئة بهذا الاسم بالفعل.';
@@ -797,13 +797,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get categoryName => 'الاسم';
 
   @override
-  String get categoryNew => 'تصنيف جديد';
+  String get categoryNew => 'فئة جديدة';
 
   @override
-  String get categoryNone => 'بلا تصنيف';
+  String get categoryNone => 'بلا فئة';
 
   @override
-  String get categoryPick => 'التصنيف';
+  String get categoryPick => 'الفئة';
 
   @override
   String get categoryReassignAction => 'نقلها إلى فئة أخرى';

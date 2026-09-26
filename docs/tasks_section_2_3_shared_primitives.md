@@ -18,8 +18,8 @@ index, and entity deep-link builders.
 
 ## Progress
 
-- [ ] T2.3.01 — Categories (table, repository, management UI)
-- [ ] T2.3.02 — Default categories on first run
+- [x] T2.3.01 — Categories (table, repository, management UI)
+- [x] T2.3.02 — Default categories on first run
 - [x] T2.3.03 — Priorities model & visual language
 - [x] T2.3.04 — Color & icon system for user entities
 - [ ] T2.3.05 — Activity events (append-only log) & `ActivityLogger`
@@ -44,6 +44,7 @@ hidden from pickers; deleting asks to reassign or clear on affected items (one t
 **Acceptance criteria:** used by tasks, habits and checklists; reorder syncs; deletion never leaves dangling
 `category_id` values.
 **Tests:** pgTAP (isolation, unique index); repository tests; widget tests for picker & management.
+**Notes:** Name rules in `CategoryNames` (validation codes → EN/FR/AR messages; renames validated too). Delete asks to move the items to another category or remove it from them; `CategoriesRepository.delete` rewrites every referencing task/habit/checklist and logs one `updated` event each plus the category `deleted` event in one operation (one undo). `pickCategory` has search, inline create (`add()` returns the id), `exclude`/`allowNone`. Arabic wording harmonized to "فئة/الفئات" (other features already used it). Tests: `app/test/features/organization/categories_{repository,widgets}_test.dart`; pgTAP `supabase/tests/database/120_organization.test.sql` (unique `lower(name)` index) written but not run locally (no Docker on this machine) — isolation is covered by `030_isolation`.
 
 ### T2.3.02 — Default categories on first run
 **Priority:** P0 · **Size:** S · **Depends on:** T2.3.01
@@ -52,6 +53,7 @@ distinct palette colors and icons, using deterministic ids `uuidv5(user_id | 'de
 two devices seeding offline converge instead of duplicating.
 **Acceptance criteria:** first sign-in on two offline devices → after sync exactly 6 categories.
 **Tests:** convergence test in the sync suite ([9.1]).
+**Notes:** Verified: `ensureProfileAndDefaults` (startup) seeds the 6 localized defaults with deterministic ids `Ids.defaultCategory`; two-device convergence to exactly 6 in `app/test/features/organization/organization_convergence_test.dart` (`@Tags(['sync'])`).
 
 ### T2.3.03 — Priorities model & visual language
 **Priority:** P0 · **Size:** S · **Depends on:** [1.3]
