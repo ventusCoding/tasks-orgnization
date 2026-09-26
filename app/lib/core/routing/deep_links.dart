@@ -53,8 +53,17 @@ abstract final class DeepLinkParser {
     'inbox', 'search', 'settings', 'auth', 'onboarding', 'dev',
   };
 
-  /// Returns a router path or null when the link is invalid/unknown.
+  /// Returns a router path or null when the link is invalid/unknown. Never throws: malformed
+  /// percent-encoding (decoded lazily by [Uri]) makes the link invalid.
   static String? parse(Uri uri) {
+    try {
+      return _parse(uri);
+    } on FormatException {
+      return null;
+    }
+  }
+
+  static String? _parse(Uri uri) {
     final raw = uri.toString();
     if (raw.length > _maxLength) return null;
     List<String> segments;

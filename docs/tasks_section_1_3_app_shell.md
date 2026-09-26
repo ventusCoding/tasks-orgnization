@@ -19,13 +19,13 @@ handling/logging, and a dev-only debug menu.
 
 ## Progress
 
-- [ ] T1.3.01 — Layer skeleton & import boundaries
+- [x] T1.3.01 — Layer skeleton & import boundaries
 - [ ] T1.3.02 — Bootstrap sequence
 - [ ] T1.3.03 — Core utilities: clock, ids (v7/v5), fractional index
 - [ ] T1.3.04 — App lifecycle & connectivity services
 - [ ] T1.3.05 — Error model, global handlers & logging
 - [ ] T1.3.06 — Routing: typed routes, 5-tab shell, modal editors
-- [ ] T1.3.07 — Deep-link parser (single source for all entry points)
+- [x] T1.3.07 — Deep-link parser (single source for all entry points)
 - [ ] T1.3.08 — Design tokens & themes (light/dark, category palette)
 - [ ] T1.3.09 — Typography & bundled fonts (Latin + Arabic)
 - [ ] T1.3.10 — Core components v1
@@ -50,6 +50,9 @@ Supabase or other features' `data/`; `presentation/` may not import `data/`.
 scans imports per layer and fails with actionable messages.
 **Acceptance criteria:** a deliberate forbidden import fails CI with the offending file and rule.
 **Tests:** script unit tests with sample files.
+**Notes:** `tool/check_imports.dart` (CI step "Import boundaries") also runs the RTL grep checks of
+T1.3.14; `app/test/tool/check_imports_test.dart` runs it over all of `app/lib`, so a violation anywhere
+fails the app test suite too. Opt-outs: `// boundary-ok <reason>` / `// rtl-ok <reason>`.
 
 ### T1.3.02 — Bootstrap sequence
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.01, T1.3.05
@@ -107,6 +110,9 @@ exit); iOS swipe-back works on pushed routes.
 unknown/oversized parameters.
 **Acceptance criteria:** every canonical path parses and round-trips with the builders ([2.3] T2.3.12).
 **Tests:** table tests + fuzz test (random strings never throw).
+**Notes:** the parser returns router path strings (go_router consumes paths), not a typed `AppLocation`;
+the fuzz test found that malformed percent-encoding threw `FormatException` — `parse` now returns null.
+Tests: `app/test/core/routing/deep_links_test.dart` (table, fuzz, builder ↔ parser property test).
 
 ### T1.3.08 — Design tokens & themes (light/dark, category palette)
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.01
