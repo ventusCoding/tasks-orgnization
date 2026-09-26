@@ -43,27 +43,33 @@ class StatusPill extends StatelessWidget {
   final bool dense;
 
   @override
-  Widget build(BuildContext context) => Container(
-    padding: EdgeInsets.symmetric(horizontal: dense ? Space.xs + 2 : Space.sm, vertical: dense ? 1 : Space.xxs + 1),
-    decoration: BoxDecoration(
-      color: color.withValues(alpha: 0.14),
-      borderRadius: BorderRadius.circular(Radii.pill),
-      border: Border.all(color: color.withValues(alpha: 0.4)),
-    ),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (icon != null) ...[
-          Icon(icon, size: dense ? 12 : 14, color: color),
-          const SizedBox(width: Space.xs),
+  Widget build(BuildContext context) {
+    final tint = color.withValues(alpha: 0.14);
+    // Text/icon stay ≥ 4.5:1 on the pill's own tint (T1.3.15): the status color is darkened
+    // (light theme) or lightened (dark theme) only as much as needed.
+    final foreground = CategoryColors.readableOn(color, Color.alphaBlend(tint, context.colors.surface));
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: dense ? Space.xs + 2 : Space.sm, vertical: dense ? 1 : Space.xxs + 1),
+      decoration: BoxDecoration(
+        color: tint,
+        borderRadius: BorderRadius.circular(Radii.pill),
+        border: Border.all(color: color.withValues(alpha: 0.4)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null) ...[
+            Icon(icon, size: dense ? 12 : 14, color: foreground),
+            const SizedBox(width: Space.xs),
+          ],
+          Text(
+            label,
+            style: (dense ? context.text.labelSmall : context.text.labelMedium)?.copyWith(color: foreground),
+          ),
         ],
-        Text(
-          label,
-          style: (dense ? context.text.labelSmall : context.text.labelMedium)?.copyWith(color: color),
-        ),
-      ],
-    ),
-  );
+      ),
+    );
+  }
 }
 
 /// Circular progress ring with centered child (habits, checklists).

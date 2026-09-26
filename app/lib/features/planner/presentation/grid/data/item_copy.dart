@@ -1,7 +1,8 @@
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 
-/// Copy helper for [PlannerItem] (the contract class has no copyWith).
+/// Copy helper for [PlannerItem] covering fields the contract's `copyWith` doesn't expose
+/// (priority, category, override flags). Every other field is preserved.
 PlannerItem copyItem(
   PlannerItem i, {
   String? title,
@@ -13,10 +14,13 @@ PlannerItem copyItem(
   int? priority,
   String? categoryId,
   bool? isOverridden,
+  String? manualSortKey,
+  LocalDateTime? deadlineLocal,
 }) {
   final newStartUtc = startUtc ??
       (startLocal == null ? i.startUtc : i.startUtc.add(Duration(minutes: i.startLocal.minutesUntil(startLocal))));
   final minutes = durationMinutes ?? i.durationMinutes;
+  final moved = startLocal != null && startLocal != i.startLocal;
   return PlannerItem(
     taskId: i.taskId,
     seriesId: i.seriesId,
@@ -40,6 +44,20 @@ PlannerItem copyItem(
     location: i.location,
     linkedChecklistId: i.linkedChecklistId,
     notes: i.notes,
+    recordId: i.recordId,
+    isMoved: i.isMoved || moved,
+    isCurrent: i.isCurrent,
+    isQuotaSlot: i.isQuotaSlot,
+    quotaPeriodKey: i.quotaPeriodKey,
+    originalStartLocal: i.originalStartLocal,
+    ownZoneStartLocal: i.ownZoneStartLocal,
+    deadlineLocal: deadlineLocal ?? i.deadlineLocal,
+    estimateMinutes: i.estimateMinutes,
+    manualSortKey: manualSortKey ?? i.manualSortKey,
+    completionPercent: i.completionPercent,
+    trackedSeconds: i.trackedSeconds,
+    rating: i.rating,
+    isPaused: i.isPaused,
   );
 }
 

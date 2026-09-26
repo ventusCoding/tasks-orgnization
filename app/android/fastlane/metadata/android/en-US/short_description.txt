@@ -1,0 +1,1 @@
+Week planner with 1-minute slots, nested checklists, habit and quit trackers.

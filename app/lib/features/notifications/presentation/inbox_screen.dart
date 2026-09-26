@@ -26,7 +26,8 @@ class InboxScreen extends ConsumerWidget {
     final l = context.l10n;
     final filter = ref.watch(inboxFilterProvider);
     final items = ref.watch(inboxItemsProvider);
-    final snoozed = ref.watch(snoozedInboxProvider).value ?? const <InboxItem>[];
+    final snoozed =
+        ref.watch(snoozedInboxProvider).value ?? const <InboxItem>[];
     return Scaffold(
       appBar: AppBar(
         title: Text(l.notifInboxTitle),
@@ -34,13 +35,21 @@ class InboxScreen extends ConsumerWidget {
           IconButton(
             tooltip: l.notifInboxMarkAllRead,
             icon: const Icon(Icons.done_all),
-            onPressed: () => unawaited(ref.read(inboxRepositoryProvider).markAllRead(section: filter.section)),
+            onPressed: () => unawaited(
+              ref
+                  .read(inboxRepositoryProvider)
+                  .markAllRead(section: filter.section),
+            ),
           ),
           IconButton(
             tooltip: l.notifSettingsTitle,
             icon: const Icon(Icons.tune),
             onPressed: () => unawaited(
-              Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const NotificationsSettingsPage())),
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const NotificationsSettingsPage(),
+                ),
+              ),
             ),
           ),
         ],
@@ -56,7 +65,11 @@ class InboxScreen extends ConsumerWidget {
               },
               child: AsyncValueView<List<InboxItem>>(
                 value: items,
-                data: (rows) => _InboxList(rows: rows, snoozed: filter == InboxFilter.all ? snoozed : const [], filter: filter),
+                data: (rows) => _InboxList(
+                  rows: rows,
+                  snoozed: filter == InboxFilter.all ? snoozed : const [],
+                  filter: filter,
+                ),
               ),
             ),
           ),
@@ -85,7 +98,12 @@ class _Filters extends ConsumerWidget {
     ];
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, Space.sm),
+      padding: const EdgeInsetsDirectional.fromSTEB(
+        Space.lg,
+        Space.sm,
+        Space.lg,
+        Space.sm,
+      ),
       child: Row(
         children: [
           ChoiceChip(
@@ -104,7 +122,11 @@ class _Filters extends ConsumerWidget {
             FilterChip(
               label: Text(labels.section(s)),
               selected: filter.section == s,
-              onSelected: (v) => set(v ? filter.copyWith(section: s) : filter.copyWith(clearSection: true)),
+              onSelected: (v) => set(
+                v
+                    ? filter.copyWith(section: s)
+                    : filter.copyWith(clearSection: true),
+              ),
             ),
           ],
         ],
@@ -122,7 +144,11 @@ class _Row {
 }
 
 class _InboxList extends ConsumerWidget {
-  const _InboxList({required this.rows, required this.snoozed, required this.filter});
+  const _InboxList({
+    required this.rows,
+    required this.snoozed,
+    required this.filter,
+  });
 
   final List<InboxItem> rows;
   final List<InboxItem> snoozed;
@@ -134,8 +160,15 @@ class _InboxList extends ConsumerWidget {
     final now = ref.watch(clockProvider).nowUtc();
     final zone = ref.watch(deviceZoneProvider);
     final zones = ref.watch(zoneResolverProvider);
-    final format = AppFormat(context.localeName, use24h: MediaQuery.alwaysUse24HourFormatOf(context), l10n: l);
-    final visible = [for (final r in rows) if (!r.isSnoozedAt(now)) r];
+    final format = AppFormat(
+      context.localeName,
+      use24h: MediaQuery.alwaysUse24HourFormatOf(context),
+      l10n: l,
+    );
+    final visible = [
+      for (final r in rows)
+        if (!r.isSnoozedAt(now)) r,
+    ];
     // Collapse nag chains into their newest row.
     final chains = <String, _Row>{};
     final order = <String>[];
@@ -161,8 +194,12 @@ class _InboxList extends ConsumerWidget {
           const SizedBox(height: Space.xxxl),
           EmptyState(
             icon: filter.unreadOnly ? Icons.done_all : Icons.notifications_none,
-            title: filter.unreadOnly || rows.isNotEmpty ? l.notifInboxCaughtUp : l.notifInboxEmpty,
-            message: filter.unreadOnly || rows.isNotEmpty ? null : l.notifInboxEmptyBody,
+            title: filter.unreadOnly || rows.isNotEmpty
+                ? l.notifInboxCaughtUp
+                : l.notifInboxEmpty,
+            message: filter.unreadOnly || rows.isNotEmpty
+                ? null
+                : l.notifInboxEmptyBody,
           ),
         ],
       );
@@ -176,11 +213,18 @@ class _InboxList extends ConsumerWidget {
       children: [
         if (snoozed.isNotEmpty) ...[
           SectionHeader(l.notifInboxSnoozed),
-          for (final s in snoozed) _SnoozedTile(item: s, format: format, now: now),
+          for (final s in snoozed)
+            _SnoozedTile(item: s, format: format, now: now),
         ],
         for (final e in grouped.entries) ...[
           SectionHeader(dayLabel(e.key)),
-          for (final r in e.value) InboxTile(item: r.item, chainCount: r.count, format: format, now: now),
+          for (final r in e.value)
+            InboxTile(
+              item: r.item,
+              chainCount: r.count,
+              format: format,
+              now: now,
+            ),
         ],
       ],
     );
@@ -189,7 +233,14 @@ class _InboxList extends ConsumerWidget {
 
 /// One inbox row (also used by the per-item history).
 class InboxTile extends ConsumerWidget {
-  const InboxTile({required this.item, required this.format, required this.now, this.chainCount = 1, this.dense = false, super.key});
+  const InboxTile({
+    required this.item,
+    required this.format,
+    required this.now,
+    this.chainCount = 1,
+    this.dense = false,
+    super.key,
+  });
 
   final InboxItem item;
   final int chainCount;
@@ -197,19 +248,20 @@ class InboxTile extends ConsumerWidget {
   final DateTime now;
   final bool dense;
 
-  static IconData iconFor(NotificationSection? s, InboxCategory c) => switch (c) {
-    InboxCategory.digest => Icons.summarize_outlined,
-    InboxCategory.milestone => Icons.emoji_events_outlined,
-    InboxCategory.streak => Icons.local_fire_department_outlined,
-    InboxCategory.system => Icons.info_outline,
-    _ => switch (s) {
-      NotificationSection.planner => Icons.calendar_view_week_outlined,
-      NotificationSection.checklists => Icons.checklist,
-      NotificationSection.habits => Icons.repeat,
-      NotificationSection.quit => Icons.smoke_free,
-      _ => Icons.notifications_none,
-    },
-  };
+  static IconData iconFor(NotificationSection? s, InboxCategory c) =>
+      switch (c) {
+        InboxCategory.digest => Icons.summarize_outlined,
+        InboxCategory.milestone => Icons.emoji_events_outlined,
+        InboxCategory.streak => Icons.local_fire_department_outlined,
+        InboxCategory.system => Icons.info_outline,
+        _ => switch (s) {
+          NotificationSection.planner => Icons.calendar_view_week_outlined,
+          NotificationSection.checklists => Icons.checklist,
+          NotificationSection.habits => Icons.repeat,
+          NotificationSection.quit => Icons.smoke_free,
+          _ => Icons.notifications_none,
+        },
+      };
 
   NotificationPayload get payload => NotificationPayload.fromJson({
     ...item.payload,
@@ -222,9 +274,12 @@ class InboxTile extends ConsumerWidget {
   });
 
   Future<void> _open(BuildContext context, WidgetRef ref) async {
-    final result = await ref.read(notificationActionDispatcherProvider).handleTap(payload, origin: ActionOrigin.inbox);
+    final result = await ref
+        .read(notificationActionDispatcherProvider)
+        .handleTap(payload, origin: ActionOrigin.inbox);
     if (!context.mounted) return;
-    if (result.alreadyDone) showInfoSnackBar(context, context.l10n.notifInboxAlreadyDone);
+    if (result.alreadyDone)
+      showInfoSnackBar(context, context.l10n.notifInboxAlreadyDone);
     final link = result.openLink;
     if (link != null) unawaited(context.push(link));
   }
@@ -232,14 +287,22 @@ class InboxTile extends ConsumerWidget {
   Future<void> _act(BuildContext context, WidgetRef ref, String action) async {
     final dispatcher = ref.read(notificationActionDispatcherProvider);
     if (action == NotificationActionIds.snooze) {
-      final minutes = await pickSnooze(context, ref, options: item.snoozeOptions);
+      final minutes = await pickSnooze(
+        context,
+        ref,
+        options: item.snoozeOptions,
+      );
       if (minutes == null) return;
       final result = await dispatcher.snooze(payload, minutes: minutes);
       if (!context.mounted) return;
       if (result.message != null) showInfoSnackBar(context, result.message!);
       return;
     }
-    final result = await dispatcher.handleAction(action, payload, origin: ActionOrigin.inbox);
+    final result = await dispatcher.handleAction(
+      action,
+      payload,
+      origin: ActionOrigin.inbox,
+    );
     if (!context.mounted) return;
     if (result.message != null) showInfoSnackBar(context, result.message!);
     if (result.openLink != null) unawaited(context.push(result.openLink!));
@@ -260,14 +323,23 @@ class InboxTile extends ConsumerWidget {
       child: InkWell(
         onTap: () => unawaited(_open(context, ref)),
         child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(Space.lg, dense ? Space.sm : Space.md, Space.lg, dense ? Space.sm : Space.md),
+          padding: EdgeInsetsDirectional.fromSTEB(
+            Space.lg,
+            dense ? Space.sm : Space.md,
+            Space.lg,
+            dense ? Space.sm : Space.md,
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(
                 radius: 18,
                 backgroundColor: context.colors.secondaryContainer,
-                child: Icon(iconFor(item.section, item.category), size: 18, color: context.colors.onSecondaryContainer),
+                child: Icon(
+                  iconFor(item.section, item.category),
+                  size: 18,
+                  color: context.colors.onSecondaryContainer,
+                ),
               ),
               const SizedBox(width: Space.md),
               Expanded(
@@ -279,22 +351,39 @@ class InboxTile extends ConsumerWidget {
                         Expanded(
                           child: Text(
                             item.title,
-                            style: context.text.titleSmall?.copyWith(fontWeight: unread ? FontWeight.w700 : FontWeight.w500),
+                            style: context.text.titleSmall?.copyWith(
+                              fontWeight: unread
+                                  ? FontWeight.w700
+                                  : FontWeight.w500,
+                            ),
                           ),
                         ),
                         if (chainCount > 1) ...[
                           const SizedBox(width: Space.xs),
-                          StatusPill(label: l.notifInboxNagCount(chainCount), color: context.colors.tertiary, dense: true),
+                          StatusPill(
+                            label: l.notifInboxNagCount(chainCount),
+                            color: context.colors.tertiary,
+                            dense: true,
+                          ),
                         ],
                         if (item.late) ...[
                           const SizedBox(width: Space.xs),
-                          StatusPill(label: l.notifInboxLate, color: context.appColors.warning, dense: true),
+                          StatusPill(
+                            label: l.notifInboxLate,
+                            color: context.appColors.warning,
+                            dense: true,
+                          ),
                         ],
                       ],
                     ),
                     if (item.body != null && item.body!.isNotEmpty) ...[
                       const SizedBox(height: Space.xxs),
-                      Text(item.body!, style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant)),
+                      Text(
+                        item.body!,
+                        style: context.text.bodyMedium?.copyWith(
+                          color: context.colors.onSurfaceVariant,
+                        ),
+                      ),
                     ],
                     const SizedBox(height: Space.xxs),
                     Text(
@@ -303,7 +392,9 @@ class InboxTile extends ConsumerWidget {
                         labels.category(item.category),
                         if (item.action != null) labels.action(item.action!),
                       ].join(' · '),
-                      style: context.text.labelSmall?.copyWith(color: context.colors.onSurfaceVariant),
+                      style: context.text.labelSmall?.copyWith(
+                        color: context.colors.onSurfaceVariant,
+                      ),
                     ),
                     if (actions.isNotEmpty || item.actedAt == null) ...[
                       const SizedBox(height: Space.xs),
@@ -312,7 +403,10 @@ class InboxTile extends ConsumerWidget {
                         runSpacing: Space.xs,
                         children: [
                           for (final a in actions)
-                            ActionChip(label: Text(labels.action(a)), onPressed: () => unawaited(_act(context, ref, a))),
+                            ActionChip(
+                              label: Text(labels.action(a)),
+                              onPressed: () => unawaited(_act(context, ref, a)),
+                            ),
                         ],
                       ),
                     ],
@@ -321,7 +415,10 @@ class InboxTile extends ConsumerWidget {
               ),
               if (unread)
                 Padding(
-                  padding: const EdgeInsetsDirectional.only(start: Space.sm, top: Space.xs),
+                  padding: const EdgeInsetsDirectional.only(
+                    start: Space.sm,
+                    top: Space.xs,
+                  ),
                   child: ColorDot(context.colors.primary),
                 ),
             ],
@@ -333,7 +430,9 @@ class InboxTile extends ConsumerWidget {
     return Dismissible(
       key: ValueKey('inbox-${item.id}'),
       background: _SwipeBackground(
-        icon: unread ? Icons.mark_email_read_outlined : Icons.mark_email_unread_outlined,
+        icon: unread
+            ? Icons.mark_email_read_outlined
+            : Icons.mark_email_unread_outlined,
         alignment: AlignmentDirectional.centerStart,
         color: context.colors.primaryContainer,
       ),
@@ -347,15 +446,23 @@ class InboxTile extends ConsumerWidget {
         if (direction == DismissDirection.startToEnd) {
           if (unread) {
             await repo.markRead([item.id]);
-            if (context.mounted) showInfoSnackBar(context, l.notifInboxMarkedRead);
+            if (context.mounted)
+              showInfoSnackBar(context, l.notifInboxMarkedRead);
           } else {
             await repo.markUnread(item.id);
-            if (context.mounted) showInfoSnackBar(context, l.notifInboxMarkedUnread);
+            if (context.mounted)
+              showInfoSnackBar(context, l.notifInboxMarkedUnread);
           }
           return false;
         }
         final record = await repo.dismiss(item.id);
-        if (context.mounted) showUndoSnackBar(context, ref, message: l.notifInboxDismissed, record: record);
+        if (context.mounted)
+          showUndoSnackBar(
+            context,
+            ref,
+            message: l.notifInboxDismissed,
+            record: record,
+          );
         return true;
       },
       child: tile,
@@ -364,7 +471,11 @@ class InboxTile extends ConsumerWidget {
 }
 
 class _SwipeBackground extends StatelessWidget {
-  const _SwipeBackground({required this.icon, required this.alignment, required this.color});
+  const _SwipeBackground({
+    required this.icon,
+    required this.alignment,
+    required this.color,
+  });
 
   final IconData icon;
   final AlignmentGeometry alignment;
@@ -375,13 +486,20 @@ class _SwipeBackground extends StatelessWidget {
     color: color,
     child: Align(
       alignment: alignment,
-      child: Padding(padding: const EdgeInsets.symmetric(horizontal: Space.xl), child: Icon(icon)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Space.xl),
+        child: Icon(icon),
+      ),
     ),
   );
 }
 
 class _SnoozedTile extends ConsumerWidget {
-  const _SnoozedTile({required this.item, required this.format, required this.now});
+  const _SnoozedTile({
+    required this.item,
+    required this.format,
+    required this.now,
+  });
 
   final InboxItem item;
   final AppFormat format;
@@ -396,7 +514,9 @@ class _SnoozedTile extends ConsumerWidget {
     return ListTile(
       leading: const Icon(Icons.snooze),
       title: Text(item.title),
-      subtitle: Text('${l.notifInboxSnoozedUntil(format.timeOf(until))} · ${format.relative(item.snoozedUntil!, now)}'),
+      subtitle: Text(
+        '${l.notifInboxSnoozedUntil(format.timeOf(until))} · ${format.relative(item.snoozedUntil!, now)}',
+      ),
       trailing: Wrap(
         spacing: Space.xs,
         children: [
@@ -404,15 +524,29 @@ class _SnoozedTile extends ConsumerWidget {
             tooltip: l.notifInboxChangeSnooze,
             icon: const Icon(Icons.edit_calendar_outlined),
             onPressed: () async {
-              final minutes = await pickSnooze(context, ref, options: item.snoozeOptions);
+              final minutes = await pickSnooze(
+                context,
+                ref,
+                options: item.snoozeOptions,
+              );
               if (minutes == null) return;
               final dispatcher = ref.read(notificationActionDispatcherProvider);
               await dispatcher.wakeNow(item.dedupeKey);
-              await dispatcher.snooze(NotificationPayload.fromJson({...item.payload, 'dk': item.dedupeKey}), minutes: minutes);
+              await dispatcher.snooze(
+                NotificationPayload.fromJson({
+                  ...item.payload,
+                  'dk': item.dedupeKey,
+                }),
+                minutes: minutes,
+              );
             },
           ),
           TextButton(
-            onPressed: () => unawaited(ref.read(notificationActionDispatcherProvider).wakeNow(item.dedupeKey)),
+            onPressed: () => unawaited(
+              ref
+                  .read(notificationActionDispatcherProvider)
+                  .wakeNow(item.dedupeKey),
+            ),
             child: Text(l.notifInboxWakeNow),
           ),
         ],

@@ -640,6 +640,642 @@ abstract class AppLocalizations {
   /// **'Upload attachments on Wi-Fi only'**
   String get attachmentsWifiOnly;
 
+  /// No description provided for @authAvatarChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get authAvatarChange;
+
+  /// No description provided for @authAvatarRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get authAvatarRemove;
+
+  /// No description provided for @authBrowserFlowStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish signing in in your browser, then come back to Everslot.'**
+  String get authBrowserFlowStarted;
+
+  /// No description provided for @authChangeEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a different email'**
+  String get authChangeEmail;
+
+  /// No description provided for @authCodeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 6-digit code sent to {email}, or tap the link in that email.'**
+  String authCodeBody(String email);
+
+  /// No description provided for @authCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'6-digit code'**
+  String get authCodeLabel;
+
+  /// No description provided for @authCodeResent.
+  ///
+  /// In en, this message translates to:
+  /// **'A new code is on its way.'**
+  String get authCodeResent;
+
+  /// No description provided for @authCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your inbox'**
+  String get authCodeTitle;
+
+  /// No description provided for @authContinueApple.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Apple'**
+  String get authContinueApple;
+
+  /// No description provided for @authContinueGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get authContinueGoogle;
+
+  /// No description provided for @authContinueGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue without an account'**
+  String get authContinueGuest;
+
+  /// No description provided for @authCurrentZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Current time zone'**
+  String get authCurrentZone;
+
+  /// No description provided for @authDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get authDeleteAccount;
+
+  /// No description provided for @authDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This permanently deletes your account and all your data — plans, lists, habits and attachments — on every device. It can\'t be undone.'**
+  String get authDeleteBody;
+
+  /// No description provided for @authDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete forever'**
+  String get authDeleteConfirm;
+
+  /// No description provided for @authDeleteExportFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Export my data first'**
+  String get authDeleteExportFirst;
+
+  /// No description provided for @authDeleteReauthBody.
+  ///
+  /// In en, this message translates to:
+  /// **'To confirm it\'s you, enter the code we sent to {email}.'**
+  String authDeleteReauthBody(String email);
+
+  /// No description provided for @authDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account?'**
+  String get authDeleteTitle;
+
+  /// No description provided for @authDeleteUnderstand.
+  ///
+  /// In en, this message translates to:
+  /// **'I understand this can\'t be undone'**
+  String get authDeleteUnderstand;
+
+  /// No description provided for @authDeleteWeb.
+  ///
+  /// In en, this message translates to:
+  /// **'You can also request deletion on the web: {url}'**
+  String authDeleteWeb(String url);
+
+  /// No description provided for @authDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been deleted.'**
+  String get authDeleted;
+
+  /// No description provided for @authDeleting.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting your account…'**
+  String get authDeleting;
+
+  /// No description provided for @authDeviceRevokedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This device was removed from your account on another device. Export your data first if you want a copy, then sign out.'**
+  String get authDeviceRevokedBody;
+
+  /// No description provided for @authDeviceRevokedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This device was removed'**
+  String get authDeviceRevokedTitle;
+
+  /// No description provided for @authDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Display name'**
+  String get authDisplayName;
+
+  /// No description provided for @authDisplayNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What should we call you?'**
+  String get authDisplayNameHint;
+
+  /// No description provided for @authEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'you@example.com'**
+  String get authEmailHint;
+
+  /// No description provided for @authEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get authEmailLabel;
+
+  /// No description provided for @authErrorCaptcha.
+  ///
+  /// In en, this message translates to:
+  /// **'The security check failed. Please try again.'**
+  String get authErrorCaptcha;
+
+  /// No description provided for @authErrorEmailInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'This email already belongs to another account.'**
+  String get authErrorEmailInUse;
+
+  /// No description provided for @authErrorGuestDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest mode is turned off on this server.'**
+  String get authErrorGuestDisabled;
+
+  /// No description provided for @authErrorIdentityInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'This sign-in method is already linked to another account.'**
+  String get authErrorIdentityInUse;
+
+  /// No description provided for @authErrorInvalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'This code is invalid or has expired.'**
+  String get authErrorInvalidCode;
+
+  /// No description provided for @authErrorInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get authErrorInvalidEmail;
+
+  /// No description provided for @authErrorLastIdentity.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t remove your only sign-in method.'**
+  String get authErrorLastIdentity;
+
+  /// No description provided for @authErrorNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud sync isn\'t configured on this build (see guide.md).'**
+  String get authErrorNotConfigured;
+
+  /// No description provided for @authErrorOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline. Check your connection and try again.'**
+  String get authErrorOffline;
+
+  /// No description provided for @authErrorProviderNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'This sign-in method isn\'t set up yet (see guide.md).'**
+  String get authErrorProviderNotConfigured;
+
+  /// No description provided for @authErrorRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please wait a moment and try again.'**
+  String get authErrorRateLimited;
+
+  /// No description provided for @authErrorSessionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session has expired. Please sign in again.'**
+  String get authErrorSessionExpired;
+
+  /// No description provided for @authErrorUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get authErrorUnknown;
+
+  /// No description provided for @authExportFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Export data'**
+  String get authExportFirst;
+
+  /// No description provided for @authGuestAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest account'**
+  String get authGuestAccount;
+
+  /// No description provided for @authGuestBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re using a guest account. Add an email so your data survives if you delete the app.'**
+  String get authGuestBanner;
+
+  /// No description provided for @authGuestBannerAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure my data'**
+  String get authGuestBannerAction;
+
+  /// No description provided for @authGuestHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Everslot right away and add an email later to keep your data.'**
+  String get authGuestHint;
+
+  /// No description provided for @authHomeZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Home time zone'**
+  String get authHomeZone;
+
+  /// No description provided for @authLegalNote.
+  ///
+  /// In en, this message translates to:
+  /// **'By continuing you accept the Terms of Service and the Privacy Policy.'**
+  String get authLegalNote;
+
+  /// No description provided for @authLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Link'**
+  String get authLink;
+
+  /// No description provided for @authLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'{provider} linked'**
+  String authLinked(String provider);
+
+  /// No description provided for @authLinkedAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in methods'**
+  String get authLinkedAccounts;
+
+  /// No description provided for @authLocalOnlyAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Data stays on this device'**
+  String get authLocalOnlyAccount;
+
+  /// No description provided for @authLocalOnlyAccountBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re not signed in. Sign in to sync across devices — your data comes along.'**
+  String get authLocalOnlyAccountBody;
+
+  /// No description provided for @authMfaBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for a code from an authenticator app when you sign in or delete your account.'**
+  String get authMfaBody;
+
+  /// No description provided for @authMfaDisable.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off'**
+  String get authMfaDisable;
+
+  /// No description provided for @authMfaEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-step verification is on.'**
+  String get authMfaEnabled;
+
+  /// No description provided for @authMfaEnroll.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up'**
+  String get authMfaEnroll;
+
+  /// No description provided for @authMfaEnrollBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add this key to your authenticator app, then enter the 6-digit code it shows.'**
+  String get authMfaEnrollBody;
+
+  /// No description provided for @authMfaSecret.
+  ///
+  /// In en, this message translates to:
+  /// **'Setup key'**
+  String get authMfaSecret;
+
+  /// No description provided for @authMfaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-step verification'**
+  String get authMfaTitle;
+
+  /// No description provided for @authMfaVerifyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your authenticator code'**
+  String get authMfaVerifyTitle;
+
+  /// No description provided for @authNotConfiguredBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This build isn\'t connected to a Supabase project yet (see guide.md). Everslot works fully on this device in the meantime.'**
+  String get authNotConfiguredBody;
+
+  /// No description provided for @authNotConfiguredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud sync isn\'t configured'**
+  String get authNotConfiguredTitle;
+
+  /// No description provided for @authOr.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get authOr;
+
+  /// No description provided for @authProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get authProfileTitle;
+
+  /// No description provided for @authProviderApple.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple'**
+  String get authProviderApple;
+
+  /// No description provided for @authProviderEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get authProviderEmail;
+
+  /// No description provided for @authProviderGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Google'**
+  String get authProviderGoogle;
+
+  /// No description provided for @authReauthBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session has expired. Sign in again to resume syncing — everything you did offline is kept.'**
+  String get authReauthBody;
+
+  /// No description provided for @authReauthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again'**
+  String get authReauthTitle;
+
+  /// No description provided for @authRegionalSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Regional settings'**
+  String get authRegionalSettings;
+
+  /// No description provided for @authResend.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code'**
+  String get authResend;
+
+  /// No description provided for @authResendIn.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds, plural, =1{Resend code in 1 second} other{Resend code in {seconds} seconds}}'**
+  String authResendIn(int seconds);
+
+  /// No description provided for @authSendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code'**
+  String get authSendCode;
+
+  /// No description provided for @authSessionExpiredBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session expired. Your changes are saved on this device and will sync once you sign in again.'**
+  String get authSessionExpiredBanner;
+
+  /// No description provided for @authSignInAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again'**
+  String get authSignInAgain;
+
+  /// No description provided for @authSignInToSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to sync'**
+  String get authSignInToSync;
+
+  /// No description provided for @authSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get authSignOut;
+
+  /// No description provided for @authSignOutAnyway.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out anyway'**
+  String get authSignOutAnyway;
+
+  /// No description provided for @authSignOutBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data will be removed from this device. It stays safe in your account.'**
+  String get authSignOutBody;
+
+  /// No description provided for @authSignOutPendingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 change hasn\'t synced yet and will be lost.} other{{count} changes haven\'t synced yet and will be lost.}} Export your data first, or sign out anyway.'**
+  String authSignOutPendingBody(int count);
+
+  /// No description provided for @authSignOutSyncing.
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing your last changes…'**
+  String get authSignOutSyncing;
+
+  /// No description provided for @authSignOutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out?'**
+  String get authSignOutTitle;
+
+  /// No description provided for @authSignedInAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in as {email}'**
+  String authSignedInAs(String email);
+
+  /// No description provided for @authSignedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed out'**
+  String get authSignedOut;
+
+  /// No description provided for @authUnlink.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlink'**
+  String get authUnlink;
+
+  /// No description provided for @authUnlinkConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlink {provider}?'**
+  String authUnlinkConfirm(String provider);
+
+  /// No description provided for @authUpdateRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Everslot to keep syncing. Your changes are kept on this device.'**
+  String get authUpdateRequired;
+
+  /// No description provided for @authUpgradeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a sign-in method to your guest account. Your data stays exactly as it is.'**
+  String get authUpgradeBody;
+
+  /// No description provided for @authUpgradeDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is secured.'**
+  String get authUpgradeDone;
+
+  /// No description provided for @authUpgradeEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an email'**
+  String get authUpgradeEmail;
+
+  /// No description provided for @authUpgradeEmailInUseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{email} already has an Everslot account. Use another email — or export your guest data, sign out, sign in to that account and import the file.'**
+  String authUpgradeEmailInUseBody(String email);
+
+  /// No description provided for @authUpgradeEmailInUseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Email already in use'**
+  String get authUpgradeEmailInUseTitle;
+
+  /// No description provided for @authUpgradeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your data'**
+  String get authUpgradeTitle;
+
+  /// No description provided for @authUseLocalOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Use on this device only'**
+  String get authUseLocalOnly;
+
+  /// No description provided for @authUseLocalOnlyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No account and no sync. Sign in later and your data comes along.'**
+  String get authUseLocalOnlyHint;
+
+  /// No description provided for @authVerify.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get authVerify;
+
+  /// No description provided for @authWelcomeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to keep your plans, lists and habits in sync on all your devices.'**
+  String get authWelcomeBody;
+
+  /// No description provided for @authWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Everslot'**
+  String get authWelcomeTitle;
+
+  /// No description provided for @authZoneChangedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re now in {zone}. Fixed-time tasks keep their exact time and floating tasks follow you. Make {zone} your home time zone?'**
+  String authZoneChangedBody(String zone);
+
+  /// No description provided for @authZoneChangedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New time zone'**
+  String get authZoneChangedTitle;
+
+  /// No description provided for @authZoneDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Detected on this device'**
+  String get authZoneDetected;
+
+  /// No description provided for @authZoneKeepHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep {zone}'**
+  String authZoneKeepHome(String zone);
+
+  /// No description provided for @authZoneMakeHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Make it home'**
+  String get authZoneMakeHome;
+
+  /// No description provided for @authZoneNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No time zone matches your search'**
+  String get authZoneNoMatch;
+
+  /// No description provided for @authZoneSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search time zones'**
+  String get authZoneSearch;
+
   /// No description provided for @categoriesEmpty.
   ///
   /// In en, this message translates to:
@@ -1480,6 +2116,90 @@ abstract class AppLocalizations {
   /// **'{minutes} min'**
   String durationMinutesShort(int minutes);
 
+  /// No description provided for @entityStatusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get entityStatusActive;
+
+  /// No description provided for @entityStatusArchived.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get entityStatusArchived;
+
+  /// No description provided for @entityStatusBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked'**
+  String get entityStatusBlocked;
+
+  /// No description provided for @entityStatusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get entityStatusCancelled;
+
+  /// No description provided for @entityStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get entityStatusCompleted;
+
+  /// No description provided for @entityStatusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get entityStatusDone;
+
+  /// No description provided for @entityStatusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get entityStatusInProgress;
+
+  /// No description provided for @entityStatusMissed.
+  ///
+  /// In en, this message translates to:
+  /// **'Missed'**
+  String get entityStatusMissed;
+
+  /// No description provided for @entityStatusOngoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Ongoing'**
+  String get entityStatusOngoing;
+
+  /// No description provided for @entityStatusPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get entityStatusPaused;
+
+  /// No description provided for @entityStatusScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled'**
+  String get entityStatusScheduled;
+
+  /// No description provided for @entityStatusSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped'**
+  String get entityStatusSkipped;
+
+  /// No description provided for @entityStatusTodo.
+  ///
+  /// In en, this message translates to:
+  /// **'To do'**
+  String get entityStatusTodo;
+
+  /// No description provided for @entityStatusWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting'**
+  String get entityStatusWaiting;
+
   /// No description provided for @errorAuth.
   ///
   /// In en, this message translates to:
@@ -1576,17 +2296,335 @@ abstract class AppLocalizations {
   /// **'Share / export'**
   String get exportTitle;
 
+  /// No description provided for @filterActiveCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No filters} =1{1 filter active} other{{count} filters active}}'**
+  String filterActiveCount(int count);
+
+  /// No description provided for @filterAny.
+  ///
+  /// In en, this message translates to:
+  /// **'Any'**
+  String get filterAny;
+
+  /// No description provided for @filterAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments'**
+  String get filterAttachments;
+
+  /// No description provided for @filterCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get filterCategory;
+
+  /// No description provided for @filterChipCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{field} · {count}'**
+  String filterChipCount(String field, int count);
+
+  /// No description provided for @filterChipValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{field}: {value}'**
+  String filterChipValue(String field, String value);
+
+  /// No description provided for @filterClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filter {filter}'**
+  String filterClear(String filter);
+
+  /// No description provided for @filterClearAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all'**
+  String get filterClearAll;
+
+  /// No description provided for @filterDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get filterDate;
+
+  /// No description provided for @filterNoCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'No category'**
+  String get filterNoCategory;
+
+  /// No description provided for @filterOneOffOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'One-off'**
+  String get filterOneOffOnly;
+
+  /// No description provided for @filterPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get filterPriority;
+
+  /// No description provided for @filterRecurring.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats'**
+  String get filterRecurring;
+
+  /// No description provided for @filterRecurringOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring'**
+  String get filterRecurringOnly;
+
+  /// No description provided for @filterStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get filterStatus;
+
+  /// No description provided for @filterTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag'**
+  String get filterTag;
+
+  /// No description provided for @filterText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get filterText;
+
+  /// No description provided for @filterTextPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Contains text'**
+  String get filterTextPrompt;
+
+  /// No description provided for @filterWithAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'With attachments'**
+  String get filterWithAttachments;
+
+  /// No description provided for @filterWithoutAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Without attachments'**
+  String get filterWithoutAttachments;
+
+  /// No description provided for @galleryButtons.
+  ///
+  /// In en, this message translates to:
+  /// **'Buttons'**
+  String get galleryButtons;
+
+  /// No description provided for @galleryChips.
+  ///
+  /// In en, this message translates to:
+  /// **'Chips & tags'**
+  String get galleryChips;
+
+  /// No description provided for @galleryColors.
+  ///
+  /// In en, this message translates to:
+  /// **'Category colors'**
+  String get galleryColors;
+
+  /// No description provided for @galleryConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation'**
+  String get galleryConfirm;
+
+  /// No description provided for @galleryContainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Open item'**
+  String get galleryContainer;
+
+  /// No description provided for @galleryDarkTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark theme'**
+  String get galleryDarkTheme;
+
+  /// No description provided for @galleryDialogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Dialogs, sheets & pickers'**
+  String get galleryDialogs;
+
+  /// No description provided for @galleryDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled'**
+  String get galleryDisabled;
+
   /// No description provided for @galleryEmpty.
   ///
   /// In en, this message translates to:
   /// **'No items with images'**
   String get galleryEmpty;
 
+  /// No description provided for @galleryFadeThrough.
+  ///
+  /// In en, this message translates to:
+  /// **'Fade through'**
+  String get galleryFadeThrough;
+
+  /// No description provided for @galleryFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get galleryFilters;
+
+  /// No description provided for @galleryIcons.
+  ///
+  /// In en, this message translates to:
+  /// **'Icons'**
+  String get galleryIcons;
+
+  /// No description provided for @galleryInputs.
+  ///
+  /// In en, this message translates to:
+  /// **'Inputs'**
+  String get galleryInputs;
+
+  /// No description provided for @galleryLargeText.
+  ///
+  /// In en, this message translates to:
+  /// **'Large text (200 %)'**
+  String get galleryLargeText;
+
+  /// No description provided for @galleryLayout.
+  ///
+  /// In en, this message translates to:
+  /// **'Adaptive layout'**
+  String get galleryLayout;
+
+  /// No description provided for @galleryMotion.
+  ///
+  /// In en, this message translates to:
+  /// **'Motion'**
+  String get galleryMotion;
+
   /// No description provided for @galleryOnlyImages.
   ///
   /// In en, this message translates to:
   /// **'Only items with images'**
   String get galleryOnlyImages;
+
+  /// No description provided for @galleryPicked.
+  ///
+  /// In en, this message translates to:
+  /// **'Picked: {value}'**
+  String galleryPicked(String value);
+
+  /// No description provided for @galleryPriorities.
+  ///
+  /// In en, this message translates to:
+  /// **'Priorities'**
+  String get galleryPriorities;
+
+  /// No description provided for @galleryProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get galleryProgress;
+
+  /// No description provided for @galleryPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Text prompt'**
+  String get galleryPrompt;
+
+  /// No description provided for @galleryReduceMotion.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduce motion'**
+  String get galleryReduceMotion;
+
+  /// No description provided for @galleryRtl.
+  ///
+  /// In en, this message translates to:
+  /// **'Right-to-left'**
+  String get galleryRtl;
+
+  /// No description provided for @gallerySampleText.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample text'**
+  String get gallerySampleText;
+
+  /// No description provided for @gallerySharedAxis.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared axis'**
+  String get gallerySharedAxis;
+
+  /// No description provided for @gallerySheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Bottom sheet'**
+  String get gallerySheet;
+
+  /// No description provided for @gallerySheetBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A bottom sheet with Everslot styling.'**
+  String get gallerySheetBody;
+
+  /// No description provided for @galleryStates.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty, error & loading states'**
+  String get galleryStates;
+
+  /// No description provided for @galleryStatuses.
+  ///
+  /// In en, this message translates to:
+  /// **'Statuses'**
+  String get galleryStatuses;
+
+  /// No description provided for @galleryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Component gallery'**
+  String get galleryTitle;
+
+  /// No description provided for @galleryUndoSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo snackbar'**
+  String get galleryUndoSnack;
+
+  /// No description provided for @galleryWindowCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'compact'**
+  String get galleryWindowCompact;
+
+  /// No description provided for @galleryWindowExpanded.
+  ///
+  /// In en, this message translates to:
+  /// **'expanded'**
+  String get galleryWindowExpanded;
+
+  /// No description provided for @galleryWindowMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'medium'**
+  String get galleryWindowMedium;
+
+  /// No description provided for @galleryWindowSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Window: {size}'**
+  String galleryWindowSize(String size);
 
   /// No description provided for @importAction.
   ///
@@ -3232,6 +4270,12 @@ abstract class AppLocalizations {
   /// **'Offset in minutes (negative = before)'**
   String get notifFieldOffset;
 
+  /// No description provided for @notifFieldRepeats.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats'**
+  String get notifFieldRepeats;
+
   /// No description provided for @notifFieldStatuses.
   ///
   /// In en, this message translates to:
@@ -3255,6 +4299,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Until'**
   String get notifFieldUntil;
+
+  /// No description provided for @notifFreqDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get notifFreqDaily;
+
+  /// No description provided for @notifFreqMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every month'**
+  String get notifFreqMonthly;
+
+  /// No description provided for @notifFreqWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every week'**
+  String get notifFreqWeekly;
 
   /// No description provided for @notifFrom.
   ///
@@ -4462,6 +5524,72 @@ abstract class AppLocalizations {
   /// **'Soft'**
   String get notifSoundSoft;
 
+  /// No description provided for @notifStatusBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'blocked'**
+  String get notifStatusBlocked;
+
+  /// No description provided for @notifStatusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'cancelled'**
+  String get notifStatusCancelled;
+
+  /// No description provided for @notifStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'completed'**
+  String get notifStatusCompleted;
+
+  /// No description provided for @notifStatusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'done'**
+  String get notifStatusDone;
+
+  /// No description provided for @notifStatusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'in progress'**
+  String get notifStatusInProgress;
+
+  /// No description provided for @notifStatusMissed.
+  ///
+  /// In en, this message translates to:
+  /// **'missed'**
+  String get notifStatusMissed;
+
+  /// No description provided for @notifStatusOngoing.
+  ///
+  /// In en, this message translates to:
+  /// **'ongoing'**
+  String get notifStatusOngoing;
+
+  /// No description provided for @notifStatusScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'scheduled'**
+  String get notifStatusScheduled;
+
+  /// No description provided for @notifStatusSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'skipped'**
+  String get notifStatusSkipped;
+
+  /// No description provided for @notifStatusTodo.
+  ///
+  /// In en, this message translates to:
+  /// **'to do'**
+  String get notifStatusTodo;
+
+  /// No description provided for @notifStatusWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'waiting'**
+  String get notifStatusWaiting;
+
   /// No description provided for @notifSticky.
   ///
   /// In en, this message translates to:
@@ -4893,6 +6021,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yes'**
   String get notifYes;
+
+  /// No description provided for @onboardingClock.
+  ///
+  /// In en, this message translates to:
+  /// **'Clock'**
+  String get onboardingClock;
+
+  /// No description provided for @onboardingClock12.
+  ///
+  /// In en, this message translates to:
+  /// **'12-hour'**
+  String get onboardingClock12;
+
+  /// No description provided for @onboardingClock24.
+  ///
+  /// In en, this message translates to:
+  /// **'24-hour'**
+  String get onboardingClock24;
+
+  /// No description provided for @onboardingEssentialsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We picked these from your device. Adjust anything that\'s off — you can change them later in Settings › Regional.'**
+  String get onboardingEssentialsBody;
+
+  /// No description provided for @onboardingEssentialsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your week, your clock'**
+  String get onboardingEssentialsTitle;
+
+  /// No description provided for @onboardingGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get onboardingGetStarted;
+
+  /// No description provided for @onboardingLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get onboardingLanguage;
+
+  /// No description provided for @onboardingStepOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String onboardingStepOf(int current, int total);
+
+  /// No description provided for @onboardingTimeZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Home time zone'**
+  String get onboardingTimeZone;
+
+  /// No description provided for @onboardingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up Everslot'**
+  String get onboardingTitle;
+
+  /// No description provided for @onboardingWeekStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Week starts on'**
+  String get onboardingWeekStart;
 
   /// No description provided for @pickerColor.
   ///
@@ -7791,6 +8985,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hide checkboxes (bullets)'**
   String get settingsHideCheckboxes;
+
+  /// No description provided for @settingsLanguageArabic.
+  ///
+  /// In en, this message translates to:
+  /// **'العربية'**
+  String get settingsLanguageArabic;
+
+  /// No description provided for @settingsLanguageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get settingsLanguageEnglish;
+
+  /// No description provided for @settingsLanguageFrench.
+  ///
+  /// In en, this message translates to:
+  /// **'Français'**
+  String get settingsLanguageFrench;
+
+  /// No description provided for @settingsLanguageSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get settingsLanguageSystem;
 
   /// No description provided for @settingsProgressChildren.
   ///

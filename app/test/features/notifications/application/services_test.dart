@@ -20,16 +20,20 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../../support/test_app.dart';
 
-NotificationRule ruleFor(String id, int offset, {bool nag = false}) => NotificationRule(
-  id: id,
-  targetType: RuleTargetType.task,
-  targetId: 't1',
-  section: NotificationSection.planner,
-  spec: NotificationRuleSpec(
-    trigger: RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: offset),
-    repeat: nag ? const RepeatSpec(everyMinutes: 5, maxTimes: 2) : null,
-  ),
-);
+NotificationRule ruleFor(String id, int offset, {bool nag = false}) =>
+    NotificationRule(
+      id: id,
+      targetType: RuleTargetType.task,
+      targetId: 't1',
+      section: NotificationSection.planner,
+      spec: NotificationRuleSpec(
+        trigger: RelativeTrigger(
+          anchor: TriggerAnchor.start,
+          offsetMinutes: offset,
+        ),
+        repeat: nag ? const RepeatSpec(everyMinutes: 5, maxTimes: 2) : null,
+      ),
+    );
 
 ReplanReport _report(String reason) => ReplanReport(
   at: DateTime.utc(2026),
@@ -42,8 +46,10 @@ ReplanReport _report(String reason) => ReplanReport(
 );
 
 class _FakeJobsApi implements NotificationJobsApi {
-  final List<({List<String> targets, List<Map<String, Object?>> jobs, int rev})> calls = [];
-  JobUploadResult Function(List<String> targets) respond = (_) => const JobUploadResult(status: 'ok');
+  final List<({List<String> targets, List<Map<String, Object?>> jobs, int rev})>
+  calls = [];
+  JobUploadResult Function(List<String> targets) respond = (_) =>
+      const JobUploadResult(status: 'ok');
 
   @override
   Future<JobUploadResult> replaceJobs({
@@ -61,7 +67,10 @@ class _FakeSyncApi implements SyncApi {
   final List<Map<String, Object?>> reports = [];
 
   @override
-  Future<bool> reportDeviceState(String deviceId, Map<String, Object?> state) async {
+  Future<bool> reportDeviceState(
+    String deviceId,
+    Map<String, Object?> state,
+  ) async {
     reports.add(state);
     return false;
   }
@@ -92,30 +101,33 @@ void main() {
       expect(reasons, ['source:planner+write']);
     });
 
-    test('single flight: requests during a run coalesce into one follow-up', () async {
-      final gate = Completer<void>();
-      final reasons = <String>[];
-      final service = NotificationReplanService(
-        runner: (r) async {
-          reasons.add(r);
-          if (reasons.length == 1) await gate.future;
-          return _report(r);
-        },
-        debounce: const Duration(milliseconds: 10),
-      );
-      addTearDown(service.dispose);
-      final first = service.flush();
-      service
-        ..request('a', immediate: true)
-        ..request('b', immediate: true);
-      gate.complete();
-      await first;
-      await Future<void>.delayed(const Duration(milliseconds: 50));
-      expect(reasons.first, 'manual');
-      expect(reasons.length, 2);
-      expect(reasons.last, 'a+b');
-      expect(service.runs, 2);
-    });
+    test(
+      'single flight: requests during a run coalesce into one follow-up',
+      () async {
+        final gate = Completer<void>();
+        final reasons = <String>[];
+        final service = NotificationReplanService(
+          runner: (r) async {
+            reasons.add(r);
+            if (reasons.length == 1) await gate.future;
+            return _report(r);
+          },
+          debounce: const Duration(milliseconds: 10),
+        );
+        addTearDown(service.dispose);
+        final first = service.flush();
+        service
+          ..request('a', immediate: true)
+          ..request('b', immediate: true);
+        gate.complete();
+        await first;
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+        expect(reasons.first, 'manual');
+        expect(reasons.length, 2);
+        expect(reasons.last, 'a+b');
+        expect(service.runs, 2);
+      },
+    );
   });
 
   group('JobUploader (T7.4.04)', () {
@@ -129,10 +141,7 @@ void main() {
         deviceZone: 'UTC',
         zones: h.read(zoneResolverProvider),
         settings: h.read(notificationSettingsProvider),
-        rules: [
-          ruleFor('before', -10),
-          ruleFor('nag', 0, nag: true),
-        ],
+        rules: [ruleFor('before', -10), ruleFor('nag', 0, nag: true)],
         targets: [
           NotificationTarget(
             type: NotificationTargetType.task,
@@ -142,7 +151,10 @@ void main() {
             occurrenceKey: '2026-09-22T08:00',
             start: DateTime.utc(2026, 9, 22, 8),
             notifyMode: NotifyMode.custom,
-            guard: NotificationGuard.taskOccurrenceOpen('t1', '2026-09-22T08:00'),
+            guard: NotificationGuard.taskOccurrenceOpen(
+              't1',
+              '2026-09-22T08:00',
+            ),
           ),
         ],
         userId: 'user-1',
@@ -152,9 +164,15 @@ void main() {
 
     test('job JSON follows the server contract (flat guards, nag guard array, deep link, importance)', () {
       final p = plan().planned;
-      final base = JobUploader.jobFor(p.firstWhere((x) => x.ruleId == 'before'));
+      final base = JobUploader.jobFor(
+        p.firstWhere((x) => x.ruleId == 'before'),
+      );
       expect(base['target_key'], 'task:t1');
-      expect(base['guard'], {'kind': 'task_occurrence_open', 'taskId': 't1', 'occurrenceKey': '2026-09-22T08:00'});
+      expect(base['guard'], {
+        'kind': 'task_occurrence_open',
+        'taskId': 't1',
+        'occurrenceKey': '2026-09-22T08:00',
+      });
       expect(base['importance'], 'default');
       final payload = base['payload']! as Map<String, Object?>;
       expect(payload['deepLink'], startsWith('everslot://task/t1'));
@@ -163,22 +181,34 @@ void main() {
       expect((payload['data']! as Map)['dk'], base['dedupe_key']);
       final nag = JobUploader.jobFor(p.firstWhere((x) => x.repeatIdx == 1));
       expect(nag['guard'], isA<List<Object?>>());
-      expect((nag['guard']! as List).last, {'kind': 'inbox_not_acted', 'dedupeKey': p.firstWhere((x) => x.ruleId == 'nag').dedupeKey});
+      expect((nag['guard']! as List).last, {
+        'kind': 'inbox_not_acted',
+        'dedupeKey': p.firstWhere((x) => x.ruleId == 'nag').dedupeKey,
+      });
       expect((nag['payload']! as Map)['type'], 'nag');
     });
 
     test('uploads dirty targets, clears them on ok, keeps them on stale and asks for a pull', () async {
       var staleCalls = 0;
-      final uploader = JobUploader(db: h.db, clock: h.clock, deviceId: 'device-test', onStale: () => staleCalls++);
+      final uploader = JobUploader(
+        db: h.db,
+        clock: h.clock,
+        deviceId: 'device-test',
+        onStale: () => staleCalls++,
+      );
       final api = _FakeJobsApi();
       await uploader.markDirty({'task:t1', 'task:gone'});
       expect(await uploader.upload(api, plan(), sourceRev: 42), isTrue);
       expect(api.calls.single.targets, ['task:gone', 'task:t1']);
       expect(api.calls.single.rev, 42);
-      expect(api.calls.single.jobs.every((j) => j['target_key'] == 'task:t1'), isTrue);
+      expect(
+        api.calls.single.jobs.every((j) => j['target_key'] == 'task:t1'),
+        isTrue,
+      );
       expect(await uploader.dirty(), isEmpty);
 
-      api.respond = (_) => const JobUploadResult(status: 'stale', staleTargets: ['task:t1']);
+      api.respond = (_) =>
+          const JobUploadResult(status: 'stale', staleTargets: ['task:t1']);
       await uploader.markDirty({'task:t1'});
       expect(await uploader.upload(api, plan(), sourceRev: 41), isFalse);
       expect(staleCalls, 1);
@@ -186,8 +216,16 @@ void main() {
     });
 
     test("'*' uploads everything in one call; errors back off", () async {
-      final uploader = JobUploader(db: h.db, clock: h.clock, deviceId: 'device-test');
-      final api = _FakeJobsApi()..respond = (_) => const JobUploadResult(status: 'error', errorCode: 'job_cap_exceeded');
+      final uploader = JobUploader(
+        db: h.db,
+        clock: h.clock,
+        deviceId: 'device-test',
+      );
+      final api = _FakeJobsApi()
+        ..respond = (_) => const JobUploadResult(
+          status: 'error',
+          errorCode: 'job_cap_exceeded',
+        );
       await uploader.markDirty({'task:a'});
       await uploader.markDirty({'*'});
       expect(await uploader.dirty(), {'*'});
@@ -201,7 +239,11 @@ void main() {
     });
 
     test('more than 200 targets are split into batches', () async {
-      final uploader = JobUploader(db: h.db, clock: h.clock, deviceId: 'device-test');
+      final uploader = JobUploader(
+        db: h.db,
+        clock: h.clock,
+        deviceId: 'device-test',
+      );
       final api = _FakeJobsApi();
       await uploader.markDirty([for (var i = 0; i < 450; i++) 'task:$i']);
       await uploader.upload(api, PlanResult.empty, sourceRev: 1);
@@ -213,11 +255,17 @@ void main() {
     test('reports the token and its refreshes, routes sync / foreground / opened messages, signs out', () async {
       final port = FakePushMessagingPort();
       final api = _FakeSyncApi();
-      final reporter = DeviceStateReporter(api: () => api, deviceId: 'd', clock: FakeClock(DateTime.utc(2026)));
+      final reporter = DeviceStateReporter(
+        api: () => api,
+        deviceId: 'd',
+        clock: FakeClock(DateTime.utc(2026)),
+      );
       var syncs = 0;
       final foreground = <PushMessage>[];
       final opened = <PushMessage>[];
-      port.initial = const PushMessage(data: {'type': 'reminder', 'dk': 'k0', 'deepLink': 'everslot://inbox'});
+      port.initial = const PushMessage(
+        data: {'type': 'reminder', 'dk': 'k0', 'deepLink': 'everslot://inbox'},
+      );
       final service = PushService(
         port: port,
         reporter: reporter,
@@ -228,12 +276,20 @@ void main() {
       await service.start(bannerInApp: true);
       await Future<void>.delayed(Duration.zero);
       expect(port.presentation, (alert: false, badge: true, sound: false));
-      expect(api.reports.first, {'push_token': 'fake-token', 'push_enabled': true});
+      expect(api.reports.first, {
+        'push_token': 'fake-token',
+        'push_enabled': true,
+      });
       expect(opened.single.dedupeKey, 'k0');
       port.refresh.add('new-token');
       port.messages
         ..add(const PushMessage(data: {'type': 'sync', 'head': '12'}))
-        ..add(const PushMessage(data: {'type': 'reminder', 'dk': 'k1'}, title: 'Gym'));
+        ..add(
+          const PushMessage(
+            data: {'type': 'reminder', 'dk': 'k1'},
+            title: 'Gym',
+          ),
+        );
       await Future<void>.delayed(Duration.zero);
       await reporter.flush();
       expect(syncs, 1);
@@ -257,7 +313,9 @@ void main() {
 
   group('In-app banners (T7.3.05)', () {
     test('de-duplicates by key and collapses bursts into one banner', () async {
-      final c = InAppBannerController(burstWindow: const Duration(milliseconds: 20));
+      final c = InAppBannerController(
+        burstWindow: const Duration(milliseconds: 20),
+      );
       addTearDown(c.dispose);
       for (var i = 0; i < 5; i++) {
         c.show(BannerItem(key: 'k$i', title: 'R$i'));
@@ -309,7 +367,11 @@ void main() {
       expect(shown.single.actions, ['start', 'snooze']);
       expect(await h.read(inboxRepositoryProvider).inbox(), hasLength(1));
       h.clock.set(DateTime.utc(2026, 9, 22, 8, 30));
-      expect(await ticker.tick(), isEmpty, reason: 'stale firings only go to the inbox');
+      expect(
+        await ticker.tick(),
+        isEmpty,
+        reason: 'stale firings only go to the inbox',
+      );
       expect(await h.read(inboxRepositoryProvider).inbox(), hasLength(2));
     });
   });

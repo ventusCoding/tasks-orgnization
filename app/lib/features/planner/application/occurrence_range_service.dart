@@ -138,15 +138,21 @@ class OccurrenceRangeService {
     unawaited(_versions.close());
   }
 
-  /// One-shot resolution of `[from, to)` (viewer wall clock).
-  Future<ResolvedRange> resolveRange(LocalDateTime from, LocalDateTime to) async {
+  /// Resolution of `[from, to)` (viewer wall clock).
+  ///
+  /// One-shot callers always read fresh data. Watchers pass [useCache]: their cache key carries
+  /// the data version, which advances (asynchronously) on every relevant table update and then
+  /// re-triggers them — so a cached result is never served after the change was observed.
+  Future<ResolvedRange> resolveRange(LocalDateTime from, LocalDateTime to, {bool useCache = false}) async {
     final now = clock.nowUtc();
     final minute = now.millisecondsSinceEpoch ~/ 60000;
     final key = '$from|$to|$viewerZone|$_version|$minute|${settings.hashCode}';
-    final cached = _cache.remove(key);
-    if (cached != null) {
-      _cache[key] = cached;
-      return cached;
+    if (useCache) {
+      final cached = _cache.remove(key);
+      if (cached != null) {
+        _cache[key] = cached;
+        return cached;
+      }
     }
     final version = _version;
     final data = await queries.loadRange(from, to);
@@ -214,7 +220,7 @@ class OccurrenceRangeService {
       try {
         do {
           pending = false;
-          final result = await resolveRange(from, to);
+          final result = await resolveRange(from, to, useCache: true);
           if (controller.isClosed) return;
           final stable = stabilize(previous, result.items);
           final changed = first || previous.length != stable.length || !_sameInstances(previous, stable) || truncated != result.truncated;

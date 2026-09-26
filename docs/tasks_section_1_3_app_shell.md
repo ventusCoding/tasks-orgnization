@@ -19,25 +19,25 @@ handling/logging, and a dev-only debug menu.
 
 ## Progress
 
-- [ ] T1.3.01 — Layer skeleton & import boundaries
+- [x] T1.3.01 — Layer skeleton & import boundaries
 - [ ] T1.3.02 — Bootstrap sequence
 - [ ] T1.3.03 — Core utilities: clock, ids (v7/v5), fractional index
 - [ ] T1.3.04 — App lifecycle & connectivity services
 - [ ] T1.3.05 — Error model, global handlers & logging
 - [ ] T1.3.06 — Routing: typed routes, 5-tab shell, modal editors
-- [ ] T1.3.07 — Deep-link parser (single source for all entry points)
+- [x] T1.3.07 — Deep-link parser (single source for all entry points)
 - [ ] T1.3.08 — Design tokens & themes (light/dark, category palette)
 - [ ] T1.3.09 — Typography & bundled fonts (Latin + Arabic)
 - [ ] T1.3.10 — Core components v1
 - [ ] T1.3.11 — Pickers: date, time (1-min), duration, color, icon
 - [ ] T1.3.12 — App scaffold: bottom bar, app bar actions, contextual FAB, adaptive layout
-- [ ] T1.3.13 — Localization (EN/FR/AR) & formatting helpers
-- [ ] T1.3.14 — RTL baseline
-- [ ] T1.3.15 — Accessibility baseline
+- [x] T1.3.13 — Localization (EN/FR/AR) & formatting helpers
+- [x] T1.3.14 — RTL baseline
+- [x] T1.3.15 — Accessibility baseline
 - [ ] T1.3.16 — Feature flags & dev debug menu (incl. time travel)
 - [ ] T1.3.17 — Haptics & sound service
-- [ ] T1.3.18 — Motion & page transitions
-- [ ] T1.3.19 — Tablet/landscape layout foundations
+- [x] T1.3.18 — Motion & page transitions
+- [x] T1.3.19 — Tablet/landscape layout foundations
 
 ## Tasks
 
@@ -50,6 +50,9 @@ Supabase or other features' `data/`; `presentation/` may not import `data/`.
 scans imports per layer and fails with actionable messages.
 **Acceptance criteria:** a deliberate forbidden import fails CI with the offending file and rule.
 **Tests:** script unit tests with sample files.
+**Notes:** `tool/check_imports.dart` (CI step "Import boundaries") also runs the RTL grep checks of
+T1.3.14; `app/test/tool/check_imports_test.dart` runs it over all of `app/lib`, so a violation anywhere
+fails the app test suite too. Opt-outs: `// boundary-ok <reason>` / `// rtl-ok <reason>`.
 
 ### T1.3.02 — Bootstrap sequence
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.01, T1.3.05
@@ -107,6 +110,9 @@ exit); iOS swipe-back works on pushed routes.
 unknown/oversized parameters.
 **Acceptance criteria:** every canonical path parses and round-trips with the builders ([2.3] T2.3.12).
 **Tests:** table tests + fuzz test (random strings never throw).
+**Notes:** the parser returns router path strings (go_router consumes paths), not a typed `AppLocation`;
+the fuzz test found that malformed percent-encoding threw `FormatException` — `parse` now returns null.
+Tests: `app/test/core/routing/deep_links_test.dart` (table, fuzz, builder ↔ parser property test).
 
 ### T1.3.08 — Design tokens & themes (light/dark, category palette)
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.01
@@ -167,6 +173,11 @@ times, ICU plurals (Arabic zero/one/two/few/many/other); optional Arabic-Indic d
 **Acceptance criteria:** switching locale at runtime updates strings, formats and direction; CI fails on
 missing keys or placeholder mismatches.
 **Tests:** unit tests for plural/format helpers per locale; CI l10n check script.
+**Notes:** `tool/check_l10n.dart` (run by `app/test/tool/check_l10n_test.dart` in the app suite, so CI fails)
+checks that every ARB part area ships EN/FR/AR with the same keys, valid ICU (plural/select need `other`),
+declared placeholders and preserved plural/select arguments. `AppFormat` gained the optional Arabic-Indic
+digits (`arabicDigits:`, from `UserPreferences.useArabicDigits`), honours an explicit 12 h preference in every
+locale and localizes end-of-day in 12 h mode. Tests: `app/test/design_system/formatting_test.dart`.
 
 ### T1.3.14 — RTL baseline
 **Priority:** P0 · **Size:** S · **Depends on:** T1.3.13
@@ -176,6 +187,11 @@ non-directional ones (clock, check) are not; bidi helpers for mixed content (e.g
 times); lint/grep check for non-directional insets in features.
 **Acceptance criteria:** all shell screens pass an RTL golden review.
 **Tests:** RTL goldens; grep-based CI check.
+**Notes:** grep-based check = `tool/check_imports.dart` RTL rules (`Positioned`, `EdgeInsets.only/fromLTRB`,
+`Alignment.*Left/Right`, `TextAlign.left/right`). Bidi helpers: `BidiText` (`design_system/bidi.dart`: LTR/RTL/
+first-strong isolates). The repo has no golden files (Ahem/font rendering differs between macOS and the Ubuntu
+CI), so RTL is verified structurally in widget tests (`app/test/design_system/rtl_test.dart`: mirroring of
+directional icons, start/end placement, runtime locale switch) — goldens can be added on a pinned CI runner.
 
 ### T1.3.15 — Accessibility baseline
 **Priority:** P0 · **Size:** S · **Depends on:** T1.3.10
@@ -184,6 +200,7 @@ order, text scale support up to 2.0 without clipping, `MediaQuery.disableAnimati
 `reduceMotion` provider, live-region announcements helper for async results ("Task completed").
 **Acceptance criteria:** Flutter accessibility guidelines pass on the component gallery.
 **Tests:** `meetsGuideline` checks (tap targets, labels, contrast) in widget tests.
+**Notes:** `ReduceMotionScope` (`design_system/motion.dart`, mounted at the app root) joins the in-app `appearance.reduceMotion` setting to the OS flag, so `context.reduceMotion` / `AppMotion.reduced` honour both; `announce()` is the live-region helper. `app/test/design_system/accessibility_test.dart` runs `androidTapTargetGuideline`, `iOSTapTargetGuideline`, `labeledTapTargetGuideline` and `textContrastGuideline` on the component gallery (light/LTR, dark/RTL, Arabic, text scale 2.0). Fixes found by it: interactive `TagChip`s dropped compact density (40 → 48 dp targets), `StatusPill` text/icon now ≥ 4.5:1 on its own tint, `PriorityBadge` no longer announces its label twice, color swatches 44 → 48 dp.
 
 ### T1.3.16 — Feature flags & dev debug menu (incl. time travel)
 **Priority:** P1 · **Size:** M · **Depends on:** T1.3.03, T1.3.05
@@ -207,6 +224,7 @@ completion) off by default.
 **Description:** Consistent transitions (shared-axis for tab-internal navigation, fade-through between
 tabs, container transform for opening items), all disabled/replaced by fades when reduce motion is on.
 **Tests:** widget test verifying reduced-motion path.
+**Notes:** `design_system/motion.dart`: `AppMotion.sharedAxisRoute/fadeThroughRoute/containerRoute` (+ go_router `sharedAxisPage`/`fadeThroughPage`), `SharedAxisTransition` (mirrored in RTL), `FadeThroughTransition`, `FadeThroughSwitcher`, `SharedAxisPageTransitionsBuilder` for `ThemeData.pageTransitionsTheme`. No `animations` dependency: the container transform is approximated by a scaled shared-axis zoom. Reduced motion → cross-fade (routes) or no animation (switcher/implicit durations). Tests: `app/test/design_system/motion_test.dart`.
 
 ### T1.3.19 — Tablet/landscape layout foundations
 **Priority:** P1 · **Size:** S · **Depends on:** T1.3.12
@@ -214,3 +232,5 @@ tabs, container transform for opening items), all disabled/replaced by fades whe
 keyboard shortcuts infrastructure (`Shortcuts`/`Actions`) for tablets with keyboards; full multi-pane
 screens are [9.3] T9.3.01.
 **Tests:** widget tests at expanded width.
+**Notes:** `design_system/adaptive.dart`: `WindowSizeClass` (+ `context.windowSize`), `AdaptiveBuilder` (uses the available width), `TwoPaneScaffold` (list/detail, start-edge list pane, single-pane back handling) and the shortcut infrastructure (`AppShortcuts.defaults` with Ctrl and ⌘ variants, intents Undo/Redo/OpenSearch/OpenCommandPalette/NewItem, `AppShortcutScope` that steps aside while a text field has focus). Tests: `app/test/design_system/adaptive_test.dart`.
+

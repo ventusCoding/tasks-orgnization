@@ -15,7 +15,12 @@ import 'package:meta/meta.dart';
 /// One row of the "next firings" preview (T7.1.11): planned or skipped with a reason.
 @immutable
 class PreviewEntry {
-  const PreviewEntry({required this.fireAt, required this.ruleId, this.planned, this.skipReason});
+  const PreviewEntry({
+    required this.fireAt,
+    required this.ruleId,
+    this.planned,
+    this.skipReason,
+  });
 
   final DateTime fireAt;
   final String ruleId;
@@ -25,7 +30,9 @@ class PreviewEntry {
   bool get skipped => skipReason != null;
 }
 
-final rulePreviewServiceProvider = Provider<RulePreviewService>((ref) => RulePreviewService(ref.read));
+final rulePreviewServiceProvider = Provider<RulePreviewService>(
+  (ref) => RulePreviewService(ref.read),
+);
 
 /// Preview, noise estimate and test notifications share the planner code path with real
 /// scheduling (T7.1.04 / T7.1.11).
@@ -37,12 +44,18 @@ class RulePreviewService {
   NotificationPipeline get _pipeline => read(notificationPipelineProvider);
 
   /// Targets of one item from the registered sources (all occurrences in the horizon).
-  Future<List<NotificationTarget>> targetsOf(NotificationTargetType type, String id) async {
+  Future<List<NotificationTarget>> targetsOf(
+    NotificationTargetType type,
+    String id,
+  ) async {
     final now = read(clockProvider).nowUtc();
     final out = <NotificationTarget>[];
     for (final source in read(notificationTargetSourcesProvider)) {
       try {
-        for (final t in await source.targetsBetween(now.subtract(const Duration(days: 1)), now.add(const Duration(days: 45)))) {
+        for (final t in await source.targetsBetween(
+          now.subtract(const Duration(days: 1)),
+          now.add(const Duration(days: 45)),
+        )) {
           if (t.type == type && t.id == id) out.add(t);
         }
       } on Object {
@@ -53,12 +66,18 @@ class RulePreviewService {
   }
 
   /// A representative target when the item has no data yet (new drafts, section defaults).
-  NotificationTarget sampleTarget(NotificationTargetType type, NotificationSection section, {ItemKind kind = ItemKind.timed, String id = 'preview'}) {
+  NotificationTarget sampleTarget(
+    NotificationTargetType type,
+    NotificationSection section, {
+    ItemKind kind = ItemKind.timed,
+    String id = 'preview',
+  }) {
     final now = read(clockProvider).nowUtc();
     final zone = read(deviceZoneProvider);
     final zones = read(zoneResolverProvider);
     final tomorrow = zones.toLocal(now, zone).date.plusDays(1);
-    DateTime at(int hour) => zones.resolve(LocalDateTime(tomorrow, LocalTime(hour, 0)), zone).utc;
+    DateTime at(int hour) =>
+        zones.resolve(LocalDateTime(tomorrow, LocalTime(hour, 0)), zone).utc;
     final dayStart = zones.resolve(tomorrow.atStartOfDay, zone).utc;
     final dayEnd = zones.resolve(tomorrow.plusDays(1).atStartOfDay, zone).utc;
     return NotificationTarget(
@@ -66,7 +85,9 @@ class RulePreviewService {
       id: id,
       section: section,
       title: '…',
-      occurrenceKey: kind == ItemKind.timed ? LocalDateTime(tomorrow, LocalTime(9, 0)).toIso() : tomorrow.toIso(),
+      occurrenceKey: kind == ItemKind.timed
+          ? LocalDateTime(tomorrow, LocalTime(9, 0)).toIso()
+          : tomorrow.toIso(),
       itemKind: kind,
       start: kind == ItemKind.timed ? at(9) : dayStart,
       end: kind == ItemKind.timed ? at(10) : dayEnd,
@@ -83,15 +104,26 @@ class RulePreviewService {
   }
 
   /// Next [limit] firings of [rules] for [targets] (planned + skipped with reasons).
-  Future<List<PreviewEntry>> nextFirings(List<NotificationRule> rules, List<NotificationTarget> targets, {int limit = 5}) async {
+  Future<List<PreviewEntry>> nextFirings(
+    List<NotificationRule> rules,
+    List<NotificationTarget> targets, {
+    int limit = 5,
+  }) async {
     if (rules.isEmpty || targets.isEmpty) return const [];
-    final ctx = await _pipeline.buildContext(targetsOverride: targets, applyCaps: false);
+    final ctx = await _pipeline.buildContext(
+      targetsOverride: targets,
+      applyCaps: false,
+    );
     final out = <PreviewEntry>[];
     for (final t in targets) {
       final resolved = t.notifyMode == NotifyMode.custom || t.id == 'preview'
           ? rules
           : [
-              for (final e in EffectiveRulesResolver(RuleIndex(rules), ctx.settings).forTarget(t)) e.rule,
+              for (final e in EffectiveRulesResolver(
+                RuleIndex(rules),
+                ctx.settings,
+              ).forTarget(t))
+                e.rule,
             ];
       for (final rule in resolved) {
         final result = NotificationPlanner.planRule(ctx, rule, t);
@@ -100,8 +132,15 @@ class RulePreviewService {
           out.add(PreviewEntry(fireAt: p.fireAt, ruleId: rule.id, planned: p));
         }
         for (final s in result.skipped) {
-          if (s.fireAt.isBefore(ctx.now) || s.reason == SkipReason.expired) continue;
-          out.add(PreviewEntry(fireAt: s.fireAt, ruleId: rule.id, skipReason: s.reason));
+          if (s.fireAt.isBefore(ctx.now) || s.reason == SkipReason.expired)
+            continue;
+          out.add(
+            PreviewEntry(
+              fireAt: s.fireAt,
+              ruleId: rule.id,
+              skipReason: s.reason,
+            ),
+          );
         }
       }
     }
@@ -109,13 +148,22 @@ class RulePreviewService {
     final seen = <String>{};
     return [
       for (final e in out)
-        if (seen.add('${e.ruleId}|${e.fireAt.toIso8601String()}|${e.planned?.repeatIdx ?? -1}')) e,
+        if (seen.add(
+          '${e.ruleId}|${e.fireAt.toIso8601String()}|${e.planned?.repeatIdx ?? -1}',
+        ))
+          e,
     ].take(limit).toList();
   }
 
   /// Fires per day over the next 7 days (+ same-minute clusters with the current plan).
-  Future<NoiseEstimate> noise(NotificationRule rule, NotificationTarget target) async {
-    final ctx = await _pipeline.buildContext(targetsOverride: [target], applyCaps: false);
+  Future<NoiseEstimate> noise(
+    NotificationRule rule,
+    NotificationTarget target,
+  ) async {
+    final ctx = await _pipeline.buildContext(
+      targetsOverride: [target],
+      applyCaps: false,
+    );
     final week = PlanningContext(
       now: ctx.now,
       deviceZone: ctx.deviceZone,
@@ -130,14 +178,33 @@ class RulePreviewService {
       applyCaps: false,
     );
     final result = NotificationPlanner.planRule(week, rule, target);
-    final others = [for (final p in _pipeline.lastPlan?.planned ?? const <PlannedNotification>[]) p.fireAt];
-    return NoiseEstimate.fromPlan(result, const Duration(days: 7), others: others);
+    final others = [
+      for (final p
+          in _pipeline.lastPlan?.planned ?? const <PlannedNotification>[])
+        p.fireAt,
+    ];
+    return NoiseEstimate.fromPlan(
+      result,
+      const Duration(days: 7),
+      others: others,
+      from: ctx.now,
+    );
   }
 
   /// "Send test now": a real local notification in 5 s with the rule's delivery and content.
-  Future<void> sendTest(NotificationRule rule, NotificationTarget target) async {
-    final ctx = await _pipeline.buildContext(targetsOverride: [target], applyCaps: false);
-    final first = NotificationPlanner.planRule(ctx, rule, target).planned.firstOrNull;
+  Future<void> sendTest(
+    NotificationRule rule,
+    NotificationTarget target,
+  ) async {
+    final ctx = await _pipeline.buildContext(
+      targetsOverride: [target],
+      applyCaps: false,
+    );
+    final first = NotificationPlanner.planRule(
+      ctx,
+      rule,
+      target,
+    ).planned.firstOrNull;
     final l = read(notificationTextsProvider).l10n;
     await read(localSchedulerProvider).showTest(
       title: first?.title ?? l.notifBodyTest,

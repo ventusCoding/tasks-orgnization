@@ -6,7 +6,7 @@ import 'package:everslot/core/session/session.dart';
 import 'package:everslot/core/time/clock.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
+import 'package:flutter_riverpod/misc.dart' show Override, ProviderListenable;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
@@ -17,7 +17,12 @@ class TestHarness {
 
   static bool _tzReady = false;
 
-  static TestHarness create({DateTime? now, String userId = 'user-1', String zone = 'UTC'}) {
+  static TestHarness create({
+    DateTime? now,
+    String userId = 'user-1',
+    String zone = 'UTC',
+    List<Override> overrides = const [],
+  }) {
     if (!_tzReady) {
       tzdata.initializeTimeZones();
       _tzReady = true;
@@ -40,6 +45,7 @@ class TestHarness {
         appDatabaseProvider.overrideWithValue(db),
         clockProvider.overrideWithValue(clock),
         deviceIdProvider.overrideWithValue('device-test'),
+        ...overrides,
       ],
     );
     return TestHarness._(db, container, clock);

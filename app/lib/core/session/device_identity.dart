@@ -24,4 +24,17 @@ abstract final class DeviceIdentity {
     }
     return id;
   }
+
+  /// Replaces the install id after the server revoked this device (T1.5.14): the next sign-in
+  /// registers a brand-new device row instead of hitting `device_revoked` again.
+  static Future<String> rotate(AppDatabase db, {FlutterSecureStorage? storage}) async {
+    final id = Ids.v7();
+    await db.into(db.localKv).insertOnConflictUpdate(LocalKvRow(key: _key, value: id));
+    try {
+      await (storage ?? const FlutterSecureStorage()).write(key: _key, value: id);
+    } on Object {
+      // Secure storage unavailable → the local DB copy is used on next start.
+    }
+    return id;
+  }
 }

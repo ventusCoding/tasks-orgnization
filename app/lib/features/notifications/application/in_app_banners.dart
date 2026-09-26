@@ -156,7 +156,10 @@ class ForegroundTicker {
     final now = clock.nowUtc();
     final next = [
       for (final e in await store.all())
-        if (e.fireAt.isAfter(now) && e.reconciledAt == null && e.kind != ScheduleKind.test) e.fireAt,
+        if (e.fireAt.isAfter(now) &&
+            e.reconciledAt == null &&
+            e.kind != ScheduleKind.test)
+          e.fireAt,
     ];
     if (next.isEmpty || !_active) return;
     next.sort();

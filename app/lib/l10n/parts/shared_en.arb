@@ -1,0 +1,70 @@
+{
+  "filterActiveCount": "{count, plural, =0{No filters} =1{1 filter active} other{{count} filters active}}",
+  "@filterActiveCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "filterClearAll": "Clear all",
+  "filterClear": "Clear filter {filter}",
+  "@filterClear": {
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "filterCategory": "Category",
+  "filterTag": "Tag",
+  "filterPriority": "Priority",
+  "filterStatus": "Status",
+  "filterDate": "Date",
+  "filterAttachments": "Attachments",
+  "filterRecurring": "Repeats",
+  "filterText": "Text",
+  "filterTextPrompt": "Contains text",
+  "filterNoCategory": "No category",
+  "filterWithAttachments": "With attachments",
+  "filterWithoutAttachments": "Without attachments",
+  "filterRecurringOnly": "Recurring",
+  "filterOneOffOnly": "One-off",
+  "filterAny": "Any",
+  "filterChipValue": "{field}: {value}",
+  "@filterChipValue": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "filterChipCount": "{field} · {count}",
+  "@filterChipCount": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "entityStatusTodo": "To do",
+  "entityStatusOngoing": "Ongoing",
+  "entityStatusWaiting": "Waiting",
+  "entityStatusBlocked": "Blocked",
+  "entityStatusCompleted": "Completed",
+  "entityStatusCancelled": "Cancelled",
+  "entityStatusScheduled": "Scheduled",
+  "entityStatusInProgress": "In progress",
+  "entityStatusDone": "Done",
+  "entityStatusSkipped": "Skipped",
+  "entityStatusMissed": "Missed",
+  "entityStatusActive": "Active",
+  "entityStatusPaused": "Paused",
+  "entityStatusArchived": "Archived"
+}

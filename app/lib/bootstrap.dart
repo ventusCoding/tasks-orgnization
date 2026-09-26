@@ -7,7 +7,10 @@ import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/session/device_identity.dart';
 import 'package:everslot/core/session/local_account.dart';
+import 'package:everslot/core/session/local_only_choice.dart';
+import 'package:everslot/core/session/secure_session_storage.dart';
 import 'package:everslot/core/session/session.dart';
+import 'package:everslot/features/auth/application/auth_binding.dart';
 import 'package:everslot/firebase_options.dart';
 import 'package:everslot/startup/startup_tasks.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -71,7 +74,12 @@ Future<void> bootstrap(Flavor flavor) async {
       await Supabase.initialize(
         url: env.supabaseUrl,
         publishableKey: env.supabasePublishableKey,
-        authOptions: const FlutterAuthClientOptions(authFlowType: AuthFlowType.pkce),
+        // Session + PKCE verifier in the Keychain/Keystore, never plain preferences (T1.5.02).
+        authOptions: FlutterAuthClientOptions(
+          authFlowType: AuthFlowType.pkce,
+          localStorage: SecureSessionStorage(),
+          pkceAsyncStorage: SecurePkceStorage(),
+        ),
       );
       supabase = Supabase.instance.client;
     } on Object catch (e) {
@@ -93,14 +101,22 @@ Future<void> bootstrap(Flavor flavor) async {
     );
   } else {
     final user = supabase.auth.currentUser;
-    SessionController.initial = user == null
-        ? null
-        : AppSession(
-            userId: user.id,
-            mode: SessionMode.cloud,
-            email: user.email,
-            isAnonymous: user.isAnonymous,
-          );
+    if (user != null) {
+      SessionController.initial = AppSession(
+        userId: user.id,
+        mode: SessionMode.cloud,
+        email: user.email,
+        isAnonymous: user.isAnonymous,
+      );
+    } else if (await LocalOnlyChoice.isChosen(db)) {
+      // "Use on this device only" was chosen on the sign-in screen (ADR-017).
+      SessionController.initial = AppSession(
+        userId: await LocalAccount.ensureUserId(db),
+        mode: SessionMode.localOnly,
+      );
+    } else {
+      SessionController.initial = null;
+    }
   }
 
   var build = 1;
@@ -119,6 +135,10 @@ Future<void> bootstrap(Flavor flavor) async {
       supabaseClientProvider.overrideWithValue(supabase),
     ],
   );
+
+  // Auth state → session (claim / wipe / re-auth), T1.5.02. Listens even while signed out so
+  // magic links and OAuth redirects bind the new session.
+  if (supabase != null) container.read(authBindingProvider);
 
   await runStartupTasks(container);
 

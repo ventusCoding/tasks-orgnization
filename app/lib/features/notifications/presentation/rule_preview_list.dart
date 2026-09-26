@@ -11,7 +11,13 @@ import 'package:material_ui/material_ui.dart';
 /// "Next 5 firings" with reasons (quiet hours, paused, skipped…) and *Send test now* (T7.1.11).
 /// Uses the same planner code path as real scheduling.
 class RulePreviewList extends ConsumerStatefulWidget {
-  const RulePreviewList({required this.rules, required this.targets, this.showNoise = false, this.limit = 5, super.key});
+  const RulePreviewList({
+    required this.rules,
+    required this.targets,
+    this.showNoise = false,
+    this.limit = 5,
+    super.key,
+  });
 
   final List<NotificationRule> rules;
   final List<NotificationTarget> targets;
@@ -28,9 +34,15 @@ class _RulePreviewListState extends ConsumerState<RulePreviewList> {
 
   Future<(List<PreviewEntry>, NoiseEstimate?)> _load() async {
     final service = ref.read(rulePreviewServiceProvider);
-    final entries = await service.nextFirings(widget.rules, widget.targets, limit: widget.limit);
+    final entries = await service.nextFirings(
+      widget.rules,
+      widget.targets,
+      limit: widget.limit,
+    );
     NoiseEstimate? noise;
-    if (widget.showNoise && widget.rules.length == 1 && widget.targets.isNotEmpty) {
+    if (widget.showNoise &&
+        widget.rules.length == 1 &&
+        widget.targets.isNotEmpty) {
       noise = await service.noise(widget.rules.single, widget.targets.first);
     }
     return (entries, noise);
@@ -39,8 +51,10 @@ class _RulePreviewListState extends ConsumerState<RulePreviewList> {
   @override
   Widget build(BuildContext context) {
     final signature = [
-      for (final r in widget.rules) '${r.id}:${r.enabled}:${r.profileId}:${r.spec.encode()}',
-      for (final t in widget.targets) '${t.targetKey}:${t.occurrenceKey}:${t.start}',
+      for (final r in widget.rules)
+        '${r.id}:${r.enabled}:${r.profileId}:${r.spec.encode()}',
+      for (final t in widget.targets)
+        '${t.targetKey}:${t.occurrenceKey}:${t.start}',
     ].join('|');
     if (signature != _signature || _future == null) {
       _signature = signature;
@@ -54,7 +68,11 @@ class _RulePreviewListState extends ConsumerState<RulePreviewList> {
     return FutureBuilder<(List<PreviewEntry>, NoiseEstimate?)>(
       future: _future,
       builder: (context, snap) {
-        if (!snap.hasData) return const Padding(padding: EdgeInsets.all(Space.lg), child: LinearProgressIndicator());
+        if (!snap.hasData)
+          return const Padding(
+            padding: EdgeInsets.all(Space.lg),
+            child: LinearProgressIndicator(),
+          );
         final (entries, noise) = snap.data!;
         final ruleById = {for (final r in widget.rules) r.id: r};
         return Column(
@@ -62,13 +80,26 @@ class _RulePreviewListState extends ConsumerState<RulePreviewList> {
           children: [
             if (entries.isEmpty)
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.sm),
-                child: Text(l.notifNoUpcoming, style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant)),
+                padding: const EdgeInsetsDirectional.fromSTEB(
+                  Space.lg,
+                  0,
+                  Space.lg,
+                  Space.sm,
+                ),
+                child: Text(
+                  l.notifNoUpcoming,
+                  style: context.text.bodyMedium?.copyWith(
+                    color: context.colors.onSurfaceVariant,
+                  ),
+                ),
               ),
             for (final e in entries)
               ListTile(
                 dense: true,
-                leading: Icon(e.skipped ? Icons.block : Icons.notifications_active_outlined, size: 20),
+                leading: Icon(
+                  e.skipped ? Icons.block : Icons.notifications_active_outlined,
+                  size: 20,
+                ),
                 title: Text(
                   '${labels.format.dayShort(zones.toLocal(e.fireAt, zone).date)} · ${labels.format.timeOf(zones.toLocal(e.fireAt, zone))}'
                   ' — ${ruleById[e.ruleId] == null ? '' : labels.trigger(ruleById[e.ruleId]!.spec.trigger)}',
@@ -77,21 +108,36 @@ class _RulePreviewListState extends ConsumerState<RulePreviewList> {
                   [
                     labels.format.relative(e.fireAt, now),
                     if (e.skipReason != null) labels.skipReason(e.skipReason!),
-                    for (final a in e.planned?.adjustments ?? const {}) labels.adjustment(a),
+                    for (final a in e.planned?.adjustments ?? const {})
+                      labels.adjustment(a),
                   ].join(' · '),
                 ),
               ),
             if (noise != null && noise.level != NoiseLevel.ok)
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.sm),
+                padding: const EdgeInsetsDirectional.fromSTEB(
+                  Space.lg,
+                  0,
+                  Space.lg,
+                  Space.sm,
+                ),
                 child: Text(
-                  noise.level == NoiseLevel.blocked ? l.notifNoiseBlocked : l.notifNoiseWarn(noise.firesPerDay.round()),
-                  style: context.text.bodySmall?.copyWith(color: context.appColors.warning),
+                  noise.level == NoiseLevel.blocked
+                      ? l.notifNoiseBlocked
+                      : l.notifNoiseWarn(noise.firesPerDay.round()),
+                  style: context.text.bodySmall?.copyWith(
+                    color: context.appColors.warning,
+                  ),
                 ),
               ),
             if (noise != null && noise.sameMinuteClusters > 0)
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.sm),
+                padding: const EdgeInsetsDirectional.fromSTEB(
+                  Space.lg,
+                  0,
+                  Space.lg,
+                  Space.sm,
+                ),
                 child: Text(l.notifNoiseCluster, style: context.text.bodySmall),
               ),
             if (widget.rules.isNotEmpty && widget.targets.isNotEmpty)
@@ -103,8 +149,11 @@ class _RulePreviewListState extends ConsumerState<RulePreviewList> {
                     icon: const Icon(Icons.send_outlined),
                     label: Text(l.notifSendTest),
                     onPressed: () async {
-                      await ref.read(rulePreviewServiceProvider).sendTest(widget.rules.first, widget.targets.first);
-                      if (context.mounted) showInfoSnackBar(context, l.notifTestSent);
+                      await ref
+                          .read(rulePreviewServiceProvider)
+                          .sendTest(widget.rules.first, widget.targets.first);
+                      if (context.mounted)
+                        showInfoSnackBar(context, l.notifTestSent);
                     },
                   ),
                 ),

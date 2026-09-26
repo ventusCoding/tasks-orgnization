@@ -19,10 +19,15 @@ void main() {
         '"snoozeOptionsMinutes":[5,10,30,60]},'
         '"content":{"title":"{title}","body":"Starts in {minutes_until} min · {start_time}–{end_time}"}}';
 
-    test('round-trips byte-identically', () => expect(roundTrip(example), example));
+    test(
+      'round-trips byte-identically',
+      () => expect(roundTrip(example), example),
+    );
 
     test('decodes every field', () {
-      final spec = NotificationRuleSpec.fromJson(Map<String, Object?>.from(jsonDecode(example) as Map));
+      final spec = NotificationRuleSpec.fromJson(
+        Map<String, Object?>.from(jsonDecode(example) as Map),
+      );
       final trigger = spec.trigger as RelativeTrigger;
       expect(trigger.anchor, TriggerAnchor.start);
       expect(trigger.offsetMinutes, -10);
@@ -106,7 +111,8 @@ void main() {
   });
 
   test('repeat false sentinel round-trips and means disabled', () {
-    const json = '{"v":1,"trigger":{"type":"relative","anchor":"start","offsetMinutes":0},"repeat":false}';
+    const json =
+        '{"v":1,"trigger":{"type":"relative","anchor":"start","offsetMinutes":0},"repeat":false}';
     expect(roundTrip(json), json);
     final spec = NotificationRuleSpec.tryDecode(json)!;
     expect(spec.repeatDisabled, isTrue);
@@ -121,8 +127,11 @@ void main() {
     final decoded = NotificationRuleSpec.tryDecode(spec.encode())!;
     expect(decoded, spec);
     expect(decoded.delivery.actions, isEmpty);
-    expect(spec.encode(), '{"v":1,"trigger":{"type":"relative","anchor":"start","offsetMinutes":-15},'
-        '"delivery":{"sound":"none","actions":[]}}');
+    expect(
+      spec.encode(),
+      '{"v":1,"trigger":{"type":"relative","anchor":"start","offsetMinutes":-15},'
+      '"delivery":{"sound":"none","actions":[]}}',
+    );
   });
 
   test('delivery copyWith clear makes a field absent (inherit)', () {
@@ -134,11 +143,32 @@ void main() {
   });
 
   test('profile spec round-trips and detects channel changes', () {
-    const p = ProfileSpec(delivery: DeliverySpec(importance: 'low', sound: 'none'), respectQuietHours: false);
+    const p = ProfileSpec(
+      delivery: DeliverySpec(importance: 'low', sound: 'none'),
+      respectQuietHours: false,
+    );
     final decoded = ProfileSpec.tryDecode(p.encode());
     expect(decoded, p);
-    expect(p.channelChanged(p.copyWith(delivery: const DeliverySpec(importance: 'high', sound: 'none'))), isTrue);
-    expect(p.channelChanged(p.copyWith(delivery: const DeliverySpec(importance: 'low', sound: 'none', actions: ['done']))), isFalse);
+    expect(
+      p.channelChanged(
+        p.copyWith(
+          delivery: const DeliverySpec(importance: 'high', sound: 'none'),
+        ),
+      ),
+      isTrue,
+    );
+    expect(
+      p.channelChanged(
+        p.copyWith(
+          delivery: const DeliverySpec(
+            importance: 'low',
+            sound: 'none',
+            actions: ['done'],
+          ),
+        ),
+      ),
+      isFalse,
+    );
   });
 
   test('tryDecode returns null for garbage', () {

@@ -93,9 +93,6 @@ class TaskTile extends StatelessWidget {
               borderRadius: radius,
               border: BorderDirectional(
                 start: BorderSide(color: leading, width: item.status == OccurrenceStatus.missed ? 4 : 3),
-                top: selected ? BorderSide(color: context.colors.primary, width: 2) : BorderSide.none,
-                bottom: selected ? BorderSide(color: context.colors.primary, width: 2) : BorderSide.none,
-                end: selected ? BorderSide(color: context.colors.primary, width: 2) : BorderSide.none,
               ),
               boxShadow: lifted ? const [BoxShadow(blurRadius: 8, offset: Offset(0, 3), color: Color(0x33000000))] : null,
             ),
@@ -103,6 +100,13 @@ class TaskTile extends StatelessWidget {
                 ? CustomPaint(painter: _HatchPainter(context.appColors.skipped.withValues(alpha: 0.25)), child: _content(context))
                 : _content(context),
           );
+    if (selected) {
+      body = DecoratedBox(
+        position: DecorationPosition.foreground,
+        decoration: BoxDecoration(border: Border.all(color: context.colors.primary, width: 2), borderRadius: radius),
+        child: body,
+      );
+    }
     if (item.status == OccurrenceStatus.inProgress && variant != TileVariant.minimal) {
       body = context.reduceMotion
           ? DecoratedBox(
@@ -123,92 +127,105 @@ class TaskTile extends StatelessWidget {
     );
   }
 
-  Widget _content(BuildContext context) {
-    final fg = colors.foreground;
-    final size = compactDensity ? 11.0 : 12.0;
-    final titleStyle = TextStyle(
-      color: fg,
-      fontSize: size,
-      fontWeight: FontWeight.w600,
-      height: 1.15,
-      decoration: _struck ? TextDecoration.lineThrough : null,
-      decorationColor: fg,
-    );
-    final timeStyle = TextStyle(color: fg.withValues(alpha: 0.85), fontSize: size - 1, height: 1.15);
-    final check = _hasCheck
-        ? Padding(
-            padding: const EdgeInsetsDirectional.only(end: 3),
-            child: Icon(_done ? Icons.check_circle : Icons.radio_button_unchecked, size: size + 3, color: fg),
-          )
-        : (_done ? Padding(padding: const EdgeInsetsDirectional.only(end: 3), child: Icon(Icons.check, size: size + 2, color: fg)) : null);
-    final pad = EdgeInsetsDirectional.fromSTEB(compactDensity ? 3 : 5, 2, 3, 2);
-    switch (variant) {
-      case TileVariant.minimal:
-        return const SizedBox.shrink();
-      case TileVariant.chip:
-        return Padding(
-          padding: pad,
-          child: Row(
-            children: [
-              ?check,
-              Flexible(
-                child: Text.rich(
-                  TextSpan(children: [
-                    TextSpan(text: '$timeText ', style: timeStyle),
-                    TextSpan(text: item.title, style: titleStyle),
-                  ]),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                ),
-              ),
-            ],
-          ),
-        );
-      case TileVariant.compact:
-        return Padding(
-          padding: pad,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ?check,
-              Expanded(child: Text(item.title, style: titleStyle, maxLines: 2, overflow: TextOverflow.ellipsis)),
-            ],
-          ),
-        );
-      case TileVariant.full:
-        final icons = <IconData>[
-          if (item.isRecurring) Icons.repeat,
-          if (item.timeZone != null) Icons.public,
-          if (item.linkedChecklistId != null) Icons.checklist,
-          if (item.location != null) Icons.place_outlined,
-        ];
-        return Padding(
-          padding: pad,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ?check,
-                  Expanded(child: Text(item.title, style: titleStyle, maxLines: 2, overflow: TextOverflow.ellipsis)),
-                ],
-              ),
-              Flexible(
-                child: Text(timeText, style: timeStyle, maxLines: 1, overflow: TextOverflow.clip, softWrap: false),
-              ),
-              if (icons.isNotEmpty)
+  Widget _content(BuildContext context) => LayoutBuilder(
+    builder: (context, constraints) {
+      final fg = colors.foreground;
+      final size = compactDensity ? 11.0 : 12.0;
+      final width = constraints.maxWidth.isFinite ? constraints.maxWidth : 200.0;
+      final narrow = width < 40;
+      final titleStyle = TextStyle(
+        color: fg,
+        fontSize: size,
+        fontWeight: FontWeight.w600,
+        height: 1.15,
+        decoration: _struck ? TextDecoration.lineThrough : null,
+        decorationColor: fg,
+      );
+      final timeStyle = TextStyle(color: fg.withValues(alpha: 0.85), fontSize: size - 1, height: 1.15);
+      final Widget? check = narrow
+          ? null
+          : _hasCheck
+          ? Padding(
+              padding: const EdgeInsetsDirectional.only(end: 3),
+              child: Icon(_done ? Icons.check_circle : Icons.radio_button_unchecked, size: size + 3, color: fg),
+            )
+          : (_done ? Padding(padding: const EdgeInsetsDirectional.only(end: 3), child: Icon(Icons.check, size: size + 2, color: fg)) : null);
+      final pad = EdgeInsetsDirectional.fromSTEB(narrow ? 2 : (compactDensity ? 3 : 5), 2, narrow ? 1 : 3, 2);
+      // Content never overflows: it is laid out with unbounded height and clipped to the tile.
+      Widget clipped(Widget child) => ClipRect(
+        child: OverflowBox(
+          alignment: AlignmentDirectional.topStart,
+          minHeight: 0,
+          maxHeight: double.infinity,
+          child: Padding(padding: pad, child: child),
+        ),
+      );
+      switch (variant) {
+        case TileVariant.minimal:
+          return const SizedBox.shrink();
+        case TileVariant.chip:
+          return clipped(
+            Row(
+              children: [
+                ?check,
                 Flexible(
-                  child: Row(
-                    children: [for (final i in icons) Padding(padding: const EdgeInsetsDirectional.only(end: 2), child: Icon(i, size: 11, color: fg))],
+                  child: Text.rich(
+                    TextSpan(children: [
+                      TextSpan(text: '$timeText ', style: timeStyle),
+                      TextSpan(text: item.title, style: titleStyle),
+                    ]),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
                   ),
                 ),
-            ],
-          ),
-        );
-    }
-  }
+              ],
+            ),
+          );
+        case TileVariant.compact:
+          return clipped(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ?check,
+                Expanded(child: Text(item.title, style: titleStyle, maxLines: 2, overflow: TextOverflow.ellipsis)),
+              ],
+            ),
+          );
+        case TileVariant.full:
+          final icons = <IconData>[
+            if (item.isRecurring) Icons.repeat,
+            if (item.timeZone != null) Icons.public,
+            if (item.linkedChecklistId != null) Icons.checklist,
+            if (item.location != null) Icons.place_outlined,
+          ];
+          final fit = ((width - pad.horizontal) / 13).floor().clamp(0, icons.length);
+          return clipped(
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ?check,
+                    Expanded(child: Text(item.title, style: titleStyle, maxLines: 2, overflow: TextOverflow.ellipsis)),
+                  ],
+                ),
+                Text(timeText, style: timeStyle, maxLines: 1, overflow: TextOverflow.clip, softWrap: false),
+                if (fit > 0)
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      for (final i in icons.take(fit)) Padding(padding: const EdgeInsetsDirectional.only(end: 2), child: Icon(i, size: 11, color: fg)),
+                    ],
+                  ),
+              ],
+            ),
+          );
+      }
+    },
+  );
 }
 
 class _HatchPainter extends CustomPainter {
