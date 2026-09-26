@@ -34,13 +34,18 @@ void main() {
 
   test('update only records changed fields; same-op writes coalesce', () async {
     final writer = h.read(syncWriterProvider);
-    await writer.run((tx) => tx.insert('categories', 'c1', {'name': 'A', 'color': 1, 'sort_key': 'a0'}));
+    // A two-row operation: its entries are never merged with later operations (group atomicity);
+    // cross-operation coalescing of single-row groups is covered in test/core/sync/.
+    await writer.run((tx) async {
+      await tx.insert('categories', 'c1', {'name': 'A', 'color': 1, 'sort_key': 'a0'});
+      await tx.insert('categories', 'c2', {'name': 'Z', 'color': 1, 'sort_key': 'a1'});
+    });
     await writer.run((tx) async {
       await tx.update('categories', 'c1', {'name': 'B', 'color': 1});
       await tx.update('categories', 'c1', {'name': 'C'});
     });
     final outbox = await (h.db.select(h.db.syncOutbox)..orderBy([(o) => OrderingTerm.asc(o.seq)])).get();
-    expect(outbox, hasLength(2));
+    expect(outbox, hasLength(3));
     final patch = jsonDecode(outbox.last.fields) as Map<String, dynamic>;
     expect(patch['name'], 'C');
     expect(patch.containsKey('color'), isFalse);

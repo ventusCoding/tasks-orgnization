@@ -45,13 +45,17 @@ class Hlc {
   String at(DateTime scheduledAt) =>
       format(scheduledAt.toUtc().millisecondsSinceEpoch, 0, deviceId);
 
+  /// Guard against corrupted remote clocks. The server already clamps every clock to its own
+  /// time + 5 min, so a remote clock ahead of *this device's* clock usually means this device runs
+  /// late — it must still adopt it, or its later edits would keep losing (arch §6.6).
+  static const maxObservedAhead = Duration(days: 1);
+
   /// Merge a timestamp seen from the server.
   void observe(String remote) {
     final parsed = tryParse(remote);
     if (parsed == null) return;
     final nowMs = _clock.nowUtc().millisecondsSinceEpoch;
-    // Ignore absurd future values (the server clamps to +5 min anyway).
-    if (parsed.ms > nowMs + const Duration(minutes: 5).inMilliseconds) return;
+    if (parsed.ms > nowMs + maxObservedAhead.inMilliseconds) return;
     if (parsed.ms > _lastMs || (parsed.ms == _lastMs && parsed.counter > _counter)) {
       _lastMs = parsed.ms;
       _counter = parsed.counter;
