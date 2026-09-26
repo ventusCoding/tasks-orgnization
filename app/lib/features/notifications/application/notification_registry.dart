@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:everslot/features/notifications/domain/notification_actions.dart';
 import 'package:everslot/features/notifications/notification_contributions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
@@ -129,24 +128,37 @@ final notificationRegistryProvider = Provider<NotificationRegistry>((ref) {
   return registry;
 });
 
-/// Every registered target source: static contributions + runtime registry.
-final notificationTargetSourcesProvider = Provider<List<NotificationTargetSource>>((ref) {
-  final registry = ref.watch(notificationRegistryProvider);
-  return [
+/// Sources of the static contributions — created once per container (stable instances, so
+/// subscriptions to their `changes` stay valid).
+final _contributedSourcesProvider = Provider<List<NotificationTargetSource>>(
+  (ref) => [
     for (final c in notificationContributions)
       for (final factory in c.sources) factory(ref),
-    ...registry.sources,
-  ];
+  ],
+);
+
+final _contributedHandlersProvider = Provider<List<NotificationActionHandler>>(
+  (ref) => [
+    for (final c in notificationContributions)
+      for (final factory in c.actionHandlers) factory(ref),
+  ],
+);
+
+/// Every registered target source: static contributions + runtime registry (recomputed when the
+/// registry changes).
+final notificationTargetSourcesProvider = Provider<List<NotificationTargetSource>>((ref) {
+  final registry = ref.watch(notificationRegistryProvider);
+  final sub = registry.changes.listen((_) => ref.invalidateSelf());
+  ref.onDispose(sub.cancel);
+  return [...ref.watch(_contributedSourcesProvider), ...registry.sources];
 });
 
 /// Every feature action handler: static contributions + runtime registry.
 final notificationActionHandlersProvider = Provider<List<NotificationActionHandler>>((ref) {
   final registry = ref.watch(notificationRegistryProvider);
-  return [
-    for (final c in notificationContributions)
-      for (final factory in c.actionHandlers) factory(ref),
-    ...registry.actionHandlers,
-  ];
+  final sub = registry.changes.listen((_) => ref.invalidateSelf());
+  ref.onDispose(sub.cancel);
+  return [...ref.watch(_contributedHandlersProvider), ...registry.actionHandlers];
 });
 
 /// Finds the handler for an action on a target type (most specific first).

@@ -25,7 +25,7 @@ import 'package:everslot/features/notifications/application/push/push_service.da
 import 'package:everslot/features/notifications/data/inbox_repository.dart';
 import 'package:everslot/features/notifications/domain/notification_actions.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
-import 'package:everslot/features/notifications/domain/notification_types.dart';
+import 'package:everslot/features/notifications/domain/notification_target.dart';
 import 'package:everslot/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -181,6 +181,7 @@ class NotificationsEngine {
   static final _log = AppLog.get('notifications.engine');
 
   final List<StreamSubscription<Object?>> _subs = [];
+  final Set<NotificationTargetSource> _subscribedSources = Set.identity();
   final List<ProviderSubscription<Object?>> _listens = [];
   Timer? _periodic;
   ForegroundTicker? _ticker;
@@ -259,13 +260,15 @@ class NotificationsEngine {
 
     void subscribeSources() {
       for (final source in ref.read(notificationTargetSourcesProvider)) {
+        if (!_subscribedSources.add(source)) continue;
         _subs.add(source.changes.listen((_) => _replan.request('source:${source.section}')));
       }
     }
 
     subscribeSources();
     _subs.add(ref.read(notificationRegistryProvider).changes.listen((_) {
-      subscribeSources();
+      // After the sources provider recomputed (it listens to the same stream).
+      scheduleMicrotask(subscribeSources);
       _replan.request('registry');
     }));
 
@@ -477,6 +480,7 @@ class NotificationsEngine {
       unawaited(s.cancel());
     }
     _subs.clear();
+    _subscribedSources.clear();
     for (final l in _listens) {
       l.close();
     }
