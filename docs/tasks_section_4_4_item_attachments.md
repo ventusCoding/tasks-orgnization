@@ -24,8 +24,8 @@ board cards ([4.1] T4.1.17); the gallery *view* of items ([4.5]).
 - [ ] T4.4.01 — Attach images & files to an item
 - [ ] T4.4.02 — Attachment strip on item rows
 - [ ] T4.4.03 — Upload status & offline behaviour
-- [ ] T4.4.04 — Attachment semantics for tree operations
-- [ ] T4.4.05 — Checklist-level attachments
+- [x] T4.4.04 — Attachment semantics for tree operations
+- [x] T4.4.05 — Checklist-level attachments
 - [ ] T4.4.06 — Captions, reorder & remove with undo
 - [ ] T4.4.07 — Checklist attachments gallery
 - [ ] T4.4.08 — Attachments in export & import bundles
@@ -113,6 +113,7 @@ a whiteboard for a note card.
 - Shown in the checklist header.
 - The board card uses the first image as a thumbnail when no cover is set ([4.1] T4.1.08).
 **Tests:** widget test; board card thumbnail fallback test.
+**Notes:** Checklist-level strip under the title; the card thumbnail falls back to the first checklist image, then to item images.
 
 ### T4.4.06 — Captions, reorder & remove with undo
 **Priority:** P1 · **Size:** S · **Depends on:** T4.4.02

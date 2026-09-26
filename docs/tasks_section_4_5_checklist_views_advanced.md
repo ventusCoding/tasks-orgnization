@@ -23,15 +23,15 @@ reminders for follow-ups and resets ([7.5]); share-into-app ([8.2]).
 
 ## Progress
 
-- [ ] T4.5.01 — Smart views: Waiting, Blocked, Ongoing, Follow-ups due
-- [ ] T4.5.02 — Checklist view switcher
-- [ ] T4.5.03 — Kanban-by-status view
-- [ ] T4.5.04 — Gallery view
+- [x] T4.5.01 — Smart views: Waiting, Blocked, Ongoing, Follow-ups due
+- [x] T4.5.02 — Checklist view switcher
+- [x] T4.5.03 — Kanban-by-status view
+- [x] T4.5.04 — Gallery view
 - [ ] T4.5.05 — Templates
-- [ ] T4.5.06 — Resettable / recurring checklists with run history
-- [ ] T4.5.07 — Import parser (indented text, Markdown, OPML)
+- [x] T4.5.06 — Resettable / recurring checklists with run history
+- [x] T4.5.07 — Import parser (indented text, Markdown, OPML)
 - [ ] T4.5.08 — Import UX (paste, file, note → items)
-- [ ] T4.5.09 — Export & share (Markdown, OPML, plain text)
+- [x] T4.5.09 — Export & share (Markdown, OPML, plain text)
 - [ ] T4.5.10 — PDF export / print
 - [ ] T4.5.11 — In-list sort & filter
 - [ ] T4.5.12 — Link checklist ↔ planner task
@@ -87,6 +87,7 @@ by default and can be toggled.
   so no extra data is needed.
 - **Layout:** snapping horizontal scroll on phones; landscape and tablets show all columns.
 **Tests:** widget tests (render, drop → transition, reason sheet); golden.
+**Notes:** No manual in-column ordering (outline order), as specified; phones page through the columns, ≥ 900 dp shows all.
 
 ### T4.5.04 — Gallery view
 **Priority:** P1 · **Size:** M · **Depends on:** T4.5.02, [4.4]
@@ -150,6 +151,7 @@ weekly review every Sunday. Item order is always preserved. Each finished period
 - A completion made on device A after the reset time is not undone when device B's late reset syncs.
 **Tests:** planner unit tests (keys, idempotency, missed periods, DST); repository tests; two-client
 convergence scenario ([9.1]).
+**Notes:** Uses the shared recurrence picker (`RecurrencePickerMode.checklistReset`) and the `RecurrenceService` engine; resets run at start, on resume, after pulls and when a list opens. The two-client convergence scenario belongs to the [9.1] suite.
 
 ### T4.5.07 — Import parser (indented text, Markdown, OPML)
 **Priority:** P1 · **Size:** M · **Depends on:** [4.2] (tree operations)
@@ -194,6 +196,7 @@ Arabic text, malformed input.
 - Output goes to the clipboard or the share sheet.
 - Every export round-trips through T4.5.07.
 **Tests:** golden text outputs; round-trip test (export → import → identical structure and statuses).
+**Notes:** Clipboard or share sheet (`share_plus`); the Markdown export lists attachment file names.
 
 ### T4.5.10 — PDF export / print
 **Priority:** P2 · **Size:** M · **Depends on:** T4.5.09
