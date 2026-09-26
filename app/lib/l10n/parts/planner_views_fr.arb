@@ -38,7 +38,6 @@
   "pvViewSaved": "Vue enregistrée",
   "pvResetView": "Réinitialiser les réglages de la vue",
   "pvCopySuffix": "{name} (copie)",
-
   "pvSlotSize": "Taille des créneaux",
   "pvSlotPresets": "Préréglages",
   "pvSlotCustom": "Taille personnalisée",
@@ -58,7 +57,6 @@
   "pvSnap": "Aimantation",
   "pvApplyToView": "Appliquer à cette vue",
   "pvSaveAsNewView": "Enregistrer comme nouvelle vue",
-
   "pvPrevious": "Précédent",
   "pvNext": "Suivant",
   "pvPreviousWeek": "Semaine précédente",
@@ -118,7 +116,6 @@
   "pvTrackingModes": "Suivi",
   "pvNoCategory": "Sans catégorie",
   "pvListMode": "Liste accessible",
-
   "pvStatusScheduled": "Planifiée",
   "pvStatusInProgress": "En cours",
   "pvStatusDone": "Faite",
@@ -128,7 +125,6 @@
   "pvTrackingCheck": "Case à cocher",
   "pvTrackingEvent": "Événement",
   "pvTrackingTimer": "Minuteur",
-
   "pvAllDay": "Toute la journée",
   "pvMore": "+{count}",
   "pvMoreItems": "{count, plural, =1{1 élément de plus} other{{count} éléments de plus}}",
@@ -141,7 +137,6 @@
   "pvTileSemantics": "{title}, {day}, de {start} à {end}, {status}",
   "pvEmptySlotSemantics": "{day} {time}, libre, touchez deux fois pour créer",
   "pvDayHeaderSemantics": "{day}, {items}",
-
   "pvMarkDone": "Marquer comme faite",
   "pvMarkNotDone": "Marquer comme non faite",
   "pvSkip": "Passer",
@@ -192,7 +187,6 @@
   "pvPlanFirstTask": "Planifiez votre première tâche",
   "pvEmptyDay": "Rien de prévu",
   "pvEmptyRange": "Rien sur cette période",
-
   "pvFreeRun": "Libre {from}–{to} · {duration}",
   "pvCreateHere": "Créer ici",
   "pvFillFromBacklog": "Remplir avec une tâche à planifier",
@@ -203,7 +197,6 @@
   "pvRibbonStyle": "Ruban",
   "pvFreeGap": "libre {duration}",
   "pvAllDaySection": "Toute la journée et sans heure",
-
   "pvMonthDots": "Points",
   "pvMonthBars": "Barres",
   "pvMonthTitles": "Titres",
@@ -238,7 +231,6 @@
   "pvCapacity": "Capacité",
   "pvWeekRibbon": "Semaine",
   "pvDayRibbon": "Jour",
-
   "pvNextUp": "Ensuite",
   "pvNothingNow": "Rien de prévu en ce moment",
   "pvTimeLeft": "Reste : {duration}",
@@ -247,7 +239,6 @@
   "pvExtendBy": "+{minutes} min",
   "pvStartsAt": "Commence à {time}",
   "pvKeepScreenOn": "Garder l’écran allumé",
-
   "pvUnscheduled": "Non planifiées",
   "pvOverdue": "En retard",
   "pvUntimed": "Sans heure",
@@ -258,7 +249,6 @@
   "pvBacklogEmpty": "Aucune tâche à planifier",
   "pvSelected": "Sélection : {count}",
   "pvNoRoom": "{count, plural, =1{1 élément n’a pas trouvé de place} other{{count} éléments n’ont pas trouvé de place}}",
-
   "pvOpenings": "Disponibilités",
   "pvMinGap": "Durée minimale",
   "pvIgnoreLowPriority": "Ignorer les tâches peu prioritaires",
@@ -267,7 +257,6 @@
   "pvNoOpenings": "Aucun temps libre trouvé",
   "pvWorkHours": "Heures de travail",
   "pvNextDays": "{count, plural, =1{Le jour suivant} other{Les {count} prochains jours}}",
-
   "pvColumns": "Colonnes",
   "pvColTitle": "Titre",
   "pvColDate": "Date",
@@ -285,7 +274,6 @@
   "pvRecurring": "Récurrente",
   "pvOneOff": "Ponctuelle",
   "pvSortBy": "Trier par",
-
   "pvPlanColumn": "Prévu",
   "pvActualColumn": "Réel",
   "pvVarianceLate": "Commencée en retard",
@@ -293,7 +281,6 @@
   "pvVarianceNotDone": "Non faite",
   "pvVarianceUnplanned": "Imprévue",
   "pvVarianceOnPlan": "Conforme au plan",
-
   "pvRoutineStart": "Lancer la routine",
   "pvStep": "Étape {n} sur {total}",
   "pvRoutineComplete": "Routine terminée",
@@ -302,7 +289,6 @@
   "pvSkipStep": "Passer l’étape",
   "pvNoRoutine": "Aucun bloc de routine aujourd’hui",
   "pvAutoAdvance": "Avance automatique",
-
   "pvDropNotSupported": "Ce regroupement ne peut pas encore être modifié par glisser-déposer",
   "pvQuadDo": "Faire",
   "pvQuadSchedule": "Planifier",
@@ -330,5 +316,18 @@
   "pvUpcoming": "À venir",
   "pvSinceGroup": "Depuis",
   "pvMapPlaceholder": "La carte a besoin des coordonnées des tâches, qui arriveront avec le sélecteur de lieu. Les tâches qui ont un lieu sont listées ci-dessous.",
-  "pvWithPlace": "Tâches avec un lieu"
+  "pvWithPlace": "Tâches avec un lieu",
+  "pvMoveUp": "Monter",
+  "pvMoveDown": "Descendre",
+  "pvNoSavedViews": "Aucune vue enregistrée pour l’instant",
+  "pvGroupCalendar": "Vues calendrier",
+  "pvGroupProductivity": "Concentration et productivité",
+  "pvPixels": "{value} px",
+  "pvDisplay": "Affichage",
+  "pvLayout": "Disposition",
+  "pvTags": "Étiquettes",
+  "pvWorkDaysOnly": "Jours ouvrés uniquement",
+  "pvFollowWorkHours": "Utiliser mes heures de travail",
+  "pvSetAsPlanDefault": "Ouvrir l’onglet Plan sur cette vue",
+  "pvCurrentSize": "Actuel : {size}"
 }

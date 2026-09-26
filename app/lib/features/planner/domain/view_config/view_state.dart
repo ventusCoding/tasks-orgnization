@@ -72,6 +72,13 @@ class ViewState {
   /// Sets one view-specific local value.
   ViewState withExtra(String key, Object? value) => copyWith(extra: {...extra, key: value});
 
+  /// Drops the local days-visible overrides (the view's configured days apply again).
+  ViewState withoutDays() => ViewState(anchor: anchor, scrollMinute: scrollMinute, pxPerMinute: pxPerMinute, extra: extra);
+
+  /// Drops the local pinch zoom (the configured row height applies again).
+  ViewState withoutZoom() =>
+      ViewState(anchor: anchor, scrollMinute: scrollMinute, daysPortrait: daysPortrait, daysLandscape: daysLandscape, extra: extra);
+
   @override
   bool operator ==(Object other) => other is ViewState && jsonEncode(other.toJson()) == jsonEncode(toJson());
 

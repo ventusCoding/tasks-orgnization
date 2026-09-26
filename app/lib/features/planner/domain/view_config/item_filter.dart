@@ -12,6 +12,7 @@ class ItemFilter {
     this.statuses = const {},
     this.trackingModes = const {},
     this.text,
+    this.taskIds,
   });
 
   static const none = ItemFilter(showCancelled: true);
@@ -26,11 +27,15 @@ class ItemFilter {
   final Set<TrackingMode> trackingModes;
   final String? text;
 
+  /// Tasks allowed by tag filters (resolved by the view from entity tags); null = no constraint.
+  final Set<String>? taskIds;
+
   bool get isActive =>
       categories.isNotEmpty ||
       priorities.isNotEmpty ||
       statuses.isNotEmpty ||
       trackingModes.isNotEmpty ||
+      taskIds != null ||
       (text != null && text!.trim().isNotEmpty);
 
   bool accepts(PlannerItem item) {
@@ -40,6 +45,7 @@ class ItemFilter {
     if (priorities.isNotEmpty && !priorities.contains(item.priority)) return false;
     if (statuses.isNotEmpty && !statuses.contains(item.status)) return false;
     if (trackingModes.isNotEmpty && !trackingModes.contains(item.trackingMode)) return false;
+    if (taskIds != null && !taskIds!.contains(item.taskId)) return false;
     final q = text?.trim().toLowerCase();
     if (q != null && q.isNotEmpty) {
       final hay = '${item.title} ${item.notes ?? ''} ${item.location ?? ''}'.toLowerCase();
@@ -47,6 +53,17 @@ class ItemFilter {
     }
     return true;
   }
+
+  ItemFilter withTaskIds(Set<String>? ids) => ItemFilter(
+    showCompleted: showCompleted,
+    showCancelled: showCancelled,
+    categories: categories,
+    priorities: priorities,
+    statuses: statuses,
+    trackingModes: trackingModes,
+    text: text,
+    taskIds: ids,
+  );
 
   List<PlannerItem> apply(List<PlannerItem> items) {
     if (showCompleted && showCancelled && !isActive) return items;
@@ -62,6 +79,8 @@ class ItemFilter {
       _setEq(other.priorities, priorities) &&
       _setEq(other.statuses, statuses) &&
       _setEq(other.trackingModes, trackingModes) &&
+      (other.taskIds == null) == (taskIds == null) &&
+      (taskIds == null || _setEq(other.taskIds!, taskIds!)) &&
       other.text == text;
 
   @override
@@ -73,6 +92,7 @@ class ItemFilter {
     Object.hashAllUnordered(statuses),
     Object.hashAllUnordered(trackingModes),
     text,
+    taskIds == null ? null : Object.hashAllUnordered(taskIds!),
   );
 }
 

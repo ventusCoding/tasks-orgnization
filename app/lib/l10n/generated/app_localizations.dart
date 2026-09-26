@@ -6496,6 +6496,12 @@ abstract class AppLocalizations {
   /// **'Task created'**
   String get pvCreatedSnack;
 
+  /// No description provided for @pvCurrentSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Current: {size}'**
+  String pvCurrentSize(String size);
+
   /// No description provided for @pvDayHeaderSemantics.
   ///
   /// In en, this message translates to:
@@ -6591,6 +6597,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dim past'**
   String get pvDimPast;
+
+  /// No description provided for @pvDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Display'**
+  String get pvDisplay;
 
   /// No description provided for @pvDoneTotal.
   ///
@@ -6706,6 +6718,12 @@ abstract class AppLocalizations {
   /// **'Finish'**
   String get pvFinish;
 
+  /// No description provided for @pvFollowWorkHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Use my work hours'**
+  String get pvFollowWorkHours;
+
   /// No description provided for @pvFreeGap.
   ///
   /// In en, this message translates to:
@@ -6742,6 +6760,12 @@ abstract class AppLocalizations {
   /// **'Group by'**
   String get pvGroupBy;
 
+  /// No description provided for @pvGroupCalendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar views'**
+  String get pvGroupCalendar;
+
   /// No description provided for @pvGroupCategory.
   ///
   /// In en, this message translates to:
@@ -6765,6 +6789,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Priority'**
   String get pvGroupPriority;
+
+  /// No description provided for @pvGroupProductivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus & productivity'**
+  String get pvGroupProductivity;
 
   /// No description provided for @pvGroupStatus.
   ///
@@ -6898,6 +6928,12 @@ abstract class AppLocalizations {
   /// **'the last one {duration}'**
   String pvLastRowShort(String duration);
 
+  /// No description provided for @pvLayout.
+  ///
+  /// In en, this message translates to:
+  /// **'Layout'**
+  String get pvLayout;
+
   /// No description provided for @pvLess.
   ///
   /// In en, this message translates to:
@@ -7024,6 +7060,12 @@ abstract class AppLocalizations {
   /// **'Move a completed task?'**
   String get pvMoveDoneTitle;
 
+  /// No description provided for @pvMoveDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down'**
+  String get pvMoveDown;
+
   /// No description provided for @pvMoveEarlier.
   ///
   /// In en, this message translates to:
@@ -7047,6 +7089,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Move unfinished to tomorrow'**
   String get pvMoveUnfinishedTomorrow;
+
+  /// No description provided for @pvMoveUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get pvMoveUp;
 
   /// No description provided for @pvMovedSnack.
   ///
@@ -7107,6 +7155,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No routine block today'**
   String get pvNoRoutine;
+
+  /// No description provided for @pvNoSavedViews.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved views yet'**
+  String get pvNoSavedViews;
 
   /// No description provided for @pvNoTasks.
   ///
@@ -7251,6 +7305,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pinned'**
   String get pvPinned;
+
+  /// No description provided for @pvPixels.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} px'**
+  String pvPixels(String value);
 
   /// No description provided for @pvPlanColumn.
   ///
@@ -7576,6 +7636,12 @@ abstract class AppLocalizations {
   /// **'{count} selected'**
   String pvSelected(int count);
 
+  /// No description provided for @pvSetAsPlanDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the Plan tab on this view'**
+  String get pvSetAsPlanDefault;
+
   /// No description provided for @pvSetDefaultView.
   ///
   /// In en, this message translates to:
@@ -7773,6 +7839,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Table from {size}'**
   String pvTableThreshold(String size);
+
+  /// No description provided for @pvTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get pvTags;
 
   /// No description provided for @pvTextFilterHint.
   ///
@@ -8133,6 +8205,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tasks with a place'**
   String get pvWithPlace;
+
+  /// No description provided for @pvWorkDaysOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Work days only'**
+  String get pvWorkDaysOnly;
 
   /// No description provided for @pvWorkHours.
   ///
