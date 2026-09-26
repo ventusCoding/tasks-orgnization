@@ -1252,6 +1252,48 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get entityStatusActive => 'نشط';
+
+  @override
+  String get entityStatusArchived => 'مؤرشف';
+
+  @override
+  String get entityStatusBlocked => 'محظور';
+
+  @override
+  String get entityStatusCancelled => 'ملغى';
+
+  @override
+  String get entityStatusCompleted => 'مكتمل';
+
+  @override
+  String get entityStatusDone => 'منجز';
+
+  @override
+  String get entityStatusInProgress => 'جارٍ';
+
+  @override
+  String get entityStatusMissed => 'فائت';
+
+  @override
+  String get entityStatusOngoing => 'قيد التنفيذ';
+
+  @override
+  String get entityStatusPaused => 'متوقف مؤقتًا';
+
+  @override
+  String get entityStatusScheduled => 'مجدول';
+
+  @override
+  String get entityStatusSkipped => 'متخطّى';
+
+  @override
+  String get entityStatusTodo => 'للقيام به';
+
+  @override
+  String get entityStatusWaiting => 'في الانتظار';
+
+  @override
   String get errorAuth => 'يرجى تسجيل الدخول مرة أخرى.';
 
   @override
@@ -1379,10 +1421,113 @@ class AppLocalizationsAr extends AppLocalizations {
   String get filterWithoutAttachments => 'بدون مرفقات';
 
   @override
+  String get galleryButtons => 'الأزرار';
+
+  @override
+  String get galleryChips => 'الشرائح والوسوم';
+
+  @override
+  String get galleryColors => 'ألوان الفئات';
+
+  @override
+  String get galleryConfirm => 'تأكيد';
+
+  @override
+  String get galleryContainer => 'فتح عنصر';
+
+  @override
+  String get galleryDarkTheme => 'المظهر الداكن';
+
+  @override
+  String get galleryDialogs => 'الحوارات والأوراق والمنتقيات';
+
+  @override
+  String get galleryDisabled => 'معطّل';
+
+  @override
   String get galleryEmpty => 'لا توجد عناصر بصور';
 
   @override
+  String get galleryFadeThrough => 'تلاشٍ متتابع';
+
+  @override
+  String get galleryFilters => 'عوامل التصفية';
+
+  @override
+  String get galleryIcons => 'الأيقونات';
+
+  @override
+  String get galleryInputs => 'حقول الإدخال';
+
+  @override
+  String get galleryLargeText => 'نص كبير (200٪)';
+
+  @override
+  String get galleryLayout => 'التخطيط المتجاوب';
+
+  @override
+  String get galleryMotion => 'الحركة';
+
+  @override
   String get galleryOnlyImages => 'العناصر ذات الصور فقط';
+
+  @override
+  String galleryPicked(String value) {
+    return 'المختار: $value';
+  }
+
+  @override
+  String get galleryPriorities => 'الأولويات';
+
+  @override
+  String get galleryProgress => 'التقدم';
+
+  @override
+  String get galleryPrompt => 'إدخال نص';
+
+  @override
+  String get galleryReduceMotion => 'تقليل الحركة';
+
+  @override
+  String get galleryRtl => 'من اليمين إلى اليسار';
+
+  @override
+  String get gallerySampleText => 'نص تجريبي';
+
+  @override
+  String get gallerySharedAxis => 'محور مشترك';
+
+  @override
+  String get gallerySheet => 'ورقة سفلية';
+
+  @override
+  String get gallerySheetBody => 'ورقة سفلية بنمط Everslot.';
+
+  @override
+  String get galleryStates => 'حالات الفراغ والخطأ والتحميل';
+
+  @override
+  String get galleryStatuses => 'الحالات';
+
+  @override
+  String get galleryTitle => 'معرض المكونات';
+
+  @override
+  String get galleryUndoSnack => 'شريط التراجع';
+
+  @override
+  String get galleryWindowCompact => 'مضغوطة';
+
+  @override
+  String get galleryWindowExpanded => 'موسّعة';
+
+  @override
+  String get galleryWindowMedium => 'متوسطة';
+
+  @override
+  String galleryWindowSize(String size) {
+    return 'النافذة: $size';
+  }
 
   @override
   String get importAction => 'استيراد';

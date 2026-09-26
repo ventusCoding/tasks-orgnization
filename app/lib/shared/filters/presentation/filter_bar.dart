@@ -285,7 +285,7 @@ class FilterBar extends ConsumerWidget {
                 p,
                 PriorityStyle.label(context, p),
                 icon: PriorityStyle.icon(p),
-                color: PriorityStyle.color(p),
+                color: PriorityStyle.foregroundOf(context, p),
               ),
           ],
         );

@@ -1226,6 +1226,48 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get entityStatusActive => 'Actif';
+
+  @override
+  String get entityStatusArchived => 'Archivé';
+
+  @override
+  String get entityStatusBlocked => 'Bloqué';
+
+  @override
+  String get entityStatusCancelled => 'Annulé';
+
+  @override
+  String get entityStatusCompleted => 'Terminé';
+
+  @override
+  String get entityStatusDone => 'Fait';
+
+  @override
+  String get entityStatusInProgress => 'En cours';
+
+  @override
+  String get entityStatusMissed => 'Manqué';
+
+  @override
+  String get entityStatusOngoing => 'En cours';
+
+  @override
+  String get entityStatusPaused => 'En pause';
+
+  @override
+  String get entityStatusScheduled => 'Planifié';
+
+  @override
+  String get entityStatusSkipped => 'Ignoré';
+
+  @override
+  String get entityStatusTodo => 'À faire';
+
+  @override
+  String get entityStatusWaiting => 'En attente';
+
+  @override
   String get errorAuth => 'Veuillez vous reconnecter.';
 
   @override
@@ -1351,10 +1393,113 @@ class AppLocalizationsFr extends AppLocalizations {
   String get filterWithoutAttachments => 'Sans pièces jointes';
 
   @override
+  String get galleryButtons => 'Boutons';
+
+  @override
+  String get galleryChips => 'Puces et étiquettes';
+
+  @override
+  String get galleryColors => 'Couleurs des catégories';
+
+  @override
+  String get galleryConfirm => 'Confirmation';
+
+  @override
+  String get galleryContainer => 'Ouvrir un élément';
+
+  @override
+  String get galleryDarkTheme => 'Thème sombre';
+
+  @override
+  String get galleryDialogs => 'Dialogues, feuilles et sélecteurs';
+
+  @override
+  String get galleryDisabled => 'Désactivé';
+
+  @override
   String get galleryEmpty => 'Aucun élément avec image';
 
   @override
+  String get galleryFadeThrough => 'Fondu enchaîné';
+
+  @override
+  String get galleryFilters => 'Filtres';
+
+  @override
+  String get galleryIcons => 'Icônes';
+
+  @override
+  String get galleryInputs => 'Champs de saisie';
+
+  @override
+  String get galleryLargeText => 'Grand texte (200 %)';
+
+  @override
+  String get galleryLayout => 'Mise en page adaptative';
+
+  @override
+  String get galleryMotion => 'Animations';
+
+  @override
   String get galleryOnlyImages => 'Seulement avec images';
+
+  @override
+  String galleryPicked(String value) {
+    return 'Choisi : $value';
+  }
+
+  @override
+  String get galleryPriorities => 'Priorités';
+
+  @override
+  String get galleryProgress => 'Progression';
+
+  @override
+  String get galleryPrompt => 'Saisie de texte';
+
+  @override
+  String get galleryReduceMotion => 'Réduire les animations';
+
+  @override
+  String get galleryRtl => 'De droite à gauche';
+
+  @override
+  String get gallerySampleText => 'Exemple de texte';
+
+  @override
+  String get gallerySharedAxis => 'Axe partagé';
+
+  @override
+  String get gallerySheet => 'Feuille modale';
+
+  @override
+  String get gallerySheetBody => 'Une feuille modale au style Everslot.';
+
+  @override
+  String get galleryStates => 'États vide, erreur et chargement';
+
+  @override
+  String get galleryStatuses => 'Statuts';
+
+  @override
+  String get galleryTitle => 'Galerie de composants';
+
+  @override
+  String get galleryUndoSnack => 'Barre d’annulation';
+
+  @override
+  String get galleryWindowCompact => 'compacte';
+
+  @override
+  String get galleryWindowExpanded => 'étendue';
+
+  @override
+  String get galleryWindowMedium => 'moyenne';
+
+  @override
+  String galleryWindowSize(String size) {
+    return 'Fenêtre : $size';
+  }
 
   @override
   String get importAction => 'Importer';

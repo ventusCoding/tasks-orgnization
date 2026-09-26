@@ -20,13 +20,13 @@ index, and entity deep-link builders.
 
 - [ ] T2.3.01 — Categories (table, repository, management UI)
 - [ ] T2.3.02 — Default categories on first run
-- [ ] T2.3.03 — Priorities model & visual language
-- [ ] T2.3.04 — Color & icon system for user entities
+- [x] T2.3.03 — Priorities model & visual language
+- [x] T2.3.04 — Color & icon system for user entities
 - [ ] T2.3.05 — Activity events (append-only log) & `ActivityLogger`
 - [ ] T2.3.06 — Undo/redo command stack
 - [ ] T2.3.07 — App time & calendar utilities
 - [ ] T2.3.08 — Saved views (table + repository)
-- [ ] T2.3.09 — Shared filter model & filter bar
+- [x] T2.3.09 — Shared filter model & filter bar
 - [ ] T2.3.10 — Tags (table, entity tags, picker, management)
 - [ ] T2.3.11 — Global search index (SQLite FTS5)
 - [ ] T2.3.12 — Entity deep-link builders & cross-entity links
@@ -59,6 +59,7 @@ two devices seeding offline converge instead of duplicating.
 (flag variants), color tokens, sort order, and a compact picker; used by tasks and checklist items.
 **Acceptance criteria:** color is never the only signal (icon + label); accessible names.
 **Tests:** widget test; golden of all levels light/dark.
+**Notes:** Value object `Priority` (`features/organization/domain/priority.dart`: 0–4, urgent-first sort) + `PriorityStyle` (localized labels, flag icons, colors; `foreground()` keeps labels/flags ≥ 4.5:1 in both themes), `PriorityBadge` (one accessible name) and `PrioritySelector`. The repo has no golden files (platform-dependent rendering): levels are verified by widget tests in EN/FR/AR, light/dark readability and contrast tests (`app/test/design_system/priority_and_patterns_test.dart`, `color_contrast_test.dart`).
 
 ### T2.3.04 — Color & icon system for user entities
 **Priority:** P0 · **Size:** S · **Depends on:** [1.3] (tokens)
@@ -67,6 +68,7 @@ two devices seeding offline converge instead of duplicating.
 grid, and an icon catalog (curated Material Symbols subset with search keywords in EN/FR/AR).
 **Acceptance criteria:** any palette color yields legible text on tiles in both themes (automated contrast test).
 **Tests:** unit test computing contrast for every palette entry × theme.
+**Notes:** Palette, light/dark variants and icon catalog existed; added `CategoryColors.readableOn` (automatic readable foreground ≥ 4.5:1) and `design_system/patterns.dart` (16 distinct color-blind-safe textures for the palette, `CategoryPatternPainter`, setting `appearance.categoryPatterns` via `categoryPatternsEnabledProvider`). Contrast test for every palette entry × theme: `app/test/design_system/color_contrast_test.dart`. TODO(integration): planner-views paints `CategoryPatternPainter.forCategory` over grid tiles when the setting is on; the toggle belongs to Settings › Appearance.
 
 ### T2.3.05 — Activity events (append-only log) & `ActivityLogger`
 **Priority:** P0 · **Size:** M · **Depends on:** [1.4]
@@ -120,6 +122,7 @@ has-attachments, recurring/non-recurring) with a pure predicate and SQL builder 
 reusable filter bar (chips, active-filter count, clear all) used by planner views, lists board, habits and stats.
 **Acceptance criteria:** the same filter produces identical results via predicate and SQL (property test).
 **Tests:** property test predicate vs SQL on generated data; widget test for the bar.
+**Notes:** `shared/filters/`: `EntityFilter` (domain, JSON = arch §8.3 `filters`), `EntityFilterSql` + `FilterColumns` presets for tasks/checklists/items/habits (data), `FilterBar` (presentation: pinned count badge and "Clear all", scrolling chips, no fixed height). Status labels/icons for hosts: `EntityStatusStyle.filterOptions` (`shared/status/`). Property test predicate ≡ SQL on generated multilingual data (`app/test/shared/filters/`).
 
 ### T2.3.10 — Tags (table, entity tags, picker, management)
 **Priority:** P1 · **Size:** M · **Depends on:** T2.3.09

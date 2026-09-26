@@ -18,5 +18,19 @@
   "filterOneOffOnly": "Ponctuel",
   "filterAny": "Tous",
   "filterChipValue": "{field} : {value}",
-  "filterChipCount": "{field} · {count}"
+  "filterChipCount": "{field} · {count}",
+  "entityStatusTodo": "À faire",
+  "entityStatusOngoing": "En cours",
+  "entityStatusWaiting": "En attente",
+  "entityStatusBlocked": "Bloqué",
+  "entityStatusCompleted": "Terminé",
+  "entityStatusCancelled": "Annulé",
+  "entityStatusScheduled": "Planifié",
+  "entityStatusInProgress": "En cours",
+  "entityStatusDone": "Fait",
+  "entityStatusSkipped": "Ignoré",
+  "entityStatusMissed": "Manqué",
+  "entityStatusActive": "Actif",
+  "entityStatusPaused": "En pause",
+  "entityStatusArchived": "Archivé"
 }
