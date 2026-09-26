@@ -844,6 +844,84 @@ class AppLocalizationsAr extends AppLocalizations {
   String get errorValidation => 'يرجى مراجعة الحقول المحدّدة.';
 
   @override
+  String filterActiveCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عامل تصفية نشط',
+      many: '$count عامل تصفية نشطًا',
+      few: '$count عوامل تصفية نشطة',
+      two: 'عاملا تصفية نشطان',
+      one: 'عامل تصفية واحد نشط',
+      zero: 'لا توجد عوامل تصفية',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get filterAny => 'الكل';
+
+  @override
+  String get filterAttachments => 'المرفقات';
+
+  @override
+  String get filterCategory => 'الفئة';
+
+  @override
+  String filterChipCount(String field, int count) {
+    return '$field · $count';
+  }
+
+  @override
+  String filterChipValue(String field, String value) {
+    return '$field: $value';
+  }
+
+  @override
+  String filterClear(String filter) {
+    return 'إزالة عامل التصفية $filter';
+  }
+
+  @override
+  String get filterClearAll => 'مسح الكل';
+
+  @override
+  String get filterDate => 'التاريخ';
+
+  @override
+  String get filterNoCategory => 'بدون فئة';
+
+  @override
+  String get filterOneOffOnly => 'لمرة واحدة';
+
+  @override
+  String get filterPriority => 'الأولوية';
+
+  @override
+  String get filterRecurring => 'التكرار';
+
+  @override
+  String get filterRecurringOnly => 'متكرر';
+
+  @override
+  String get filterStatus => 'الحالة';
+
+  @override
+  String get filterTag => 'الوسم';
+
+  @override
+  String get filterText => 'النص';
+
+  @override
+  String get filterTextPrompt => 'يحتوي على النص';
+
+  @override
+  String get filterWithAttachments => 'مع مرفقات';
+
+  @override
+  String get filterWithoutAttachments => 'بدون مرفقات';
+
+  @override
   String get localOnlyBanner =>
       'مزامنة السحابة غير مُعدّة — بياناتك تبقى على هذا الجهاز.';
 

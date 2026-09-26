@@ -267,6 +267,40 @@
       }
     }
   },
+  "@filterActiveCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@filterChipCount": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@filterChipValue": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@filterClear": {
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
   "@notifBannerCollapsed": {
     "placeholders": {
       "count": {
@@ -1772,6 +1806,26 @@
   "errorUnknown": "Unexpected error.",
   "errorUnsupportedVersion": "Please update Everslot to keep syncing.",
   "errorValidation": "Please check the highlighted fields.",
+  "filterActiveCount": "{count, plural, =0{No filters} =1{1 filter active} other{{count} filters active}}",
+  "filterAny": "Any",
+  "filterAttachments": "Attachments",
+  "filterCategory": "Category",
+  "filterChipCount": "{field} · {count}",
+  "filterChipValue": "{field}: {value}",
+  "filterClear": "Clear filter {filter}",
+  "filterClearAll": "Clear all",
+  "filterDate": "Date",
+  "filterNoCategory": "No category",
+  "filterOneOffOnly": "One-off",
+  "filterPriority": "Priority",
+  "filterRecurring": "Repeats",
+  "filterRecurringOnly": "Recurring",
+  "filterStatus": "Status",
+  "filterTag": "Tag",
+  "filterText": "Text",
+  "filterTextPrompt": "Contains text",
+  "filterWithAttachments": "With attachments",
+  "filterWithoutAttachments": "Without attachments",
   "localOnlyBanner": "Cloud sync isn't configured — your data stays on this device.",
   "notFoundTitle": "Page not found",
   "notifActionComplete": "Complete",

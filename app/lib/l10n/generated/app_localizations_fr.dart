@@ -838,6 +838,81 @@ class AppLocalizationsFr extends AppLocalizations {
   String get errorValidation => 'Veuillez vérifier les champs indiqués.';
 
   @override
+  String filterActiveCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count filtres actifs',
+      one: '1 filtre actif',
+      zero: 'Aucun filtre',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get filterAny => 'Tous';
+
+  @override
+  String get filterAttachments => 'Pièces jointes';
+
+  @override
+  String get filterCategory => 'Catégorie';
+
+  @override
+  String filterChipCount(String field, int count) {
+    return '$field · $count';
+  }
+
+  @override
+  String filterChipValue(String field, String value) {
+    return '$field : $value';
+  }
+
+  @override
+  String filterClear(String filter) {
+    return 'Retirer le filtre $filter';
+  }
+
+  @override
+  String get filterClearAll => 'Tout effacer';
+
+  @override
+  String get filterDate => 'Date';
+
+  @override
+  String get filterNoCategory => 'Sans catégorie';
+
+  @override
+  String get filterOneOffOnly => 'Ponctuel';
+
+  @override
+  String get filterPriority => 'Priorité';
+
+  @override
+  String get filterRecurring => 'Répétition';
+
+  @override
+  String get filterRecurringOnly => 'Récurrent';
+
+  @override
+  String get filterStatus => 'Statut';
+
+  @override
+  String get filterTag => 'Étiquette';
+
+  @override
+  String get filterText => 'Texte';
+
+  @override
+  String get filterTextPrompt => 'Contient le texte';
+
+  @override
+  String get filterWithAttachments => 'Avec pièces jointes';
+
+  @override
+  String get filterWithoutAttachments => 'Sans pièces jointes';
+
+  @override
   String get localOnlyBanner =>
       'La synchronisation cloud n\'est pas configurée — vos données restent sur cet appareil.';
 

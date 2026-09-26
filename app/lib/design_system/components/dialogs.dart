@@ -73,31 +73,56 @@ Future<String?> promptText(
   int maxLines = 1,
   bool allowEmpty = false,
 }) async {
-  final controller = TextEditingController(text: initial);
   final result = await showDialog<String>(
     context: context,
-    builder: (ctx) => AlertDialog(
-      title: Text(title),
-      content: TextField(
-        controller: controller,
-        autofocus: true,
-        maxLines: maxLines,
-        decoration: InputDecoration(hintText: hint),
-        onSubmitted: maxLines == 1 ? (v) => Navigator.pop(ctx, v) : null,
-      ),
-      actions: [
-        TextButton(onPressed: () => Navigator.pop(ctx), child: Text(ctx.l10n.actionCancel)),
-        FilledButton(
-          onPressed: () => Navigator.pop(ctx, controller.text),
-          child: Text(ctx.l10n.actionSave),
-        ),
-      ],
-    ),
+    builder: (ctx) => _PromptTextDialog(title: title, initial: initial, hint: hint, maxLines: maxLines),
   );
-  controller.dispose();
   if (result == null) return null;
   if (!allowEmpty && result.trim().isEmpty) return null;
   return result.trim();
+}
+
+/// Owns its controller so it is disposed only once the dialog route is gone (disposing it when
+/// `showDialog` completes breaks the exit animation, which still rebuilds the field).
+class _PromptTextDialog extends StatefulWidget {
+  const _PromptTextDialog({required this.title, required this.maxLines, this.initial, this.hint});
+
+  final String title;
+  final String? initial;
+  final String? hint;
+  final int maxLines;
+
+  @override
+  State<_PromptTextDialog> createState() => _PromptTextDialogState();
+}
+
+class _PromptTextDialogState extends State<_PromptTextDialog> {
+  late final TextEditingController _controller = TextEditingController(text: widget.initial);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => AlertDialog(
+    title: Text(widget.title),
+    content: TextField(
+      controller: _controller,
+      autofocus: true,
+      maxLines: widget.maxLines,
+      decoration: InputDecoration(hintText: widget.hint),
+      onSubmitted: widget.maxLines == 1 ? (v) => Navigator.pop(context, v) : null,
+    ),
+    actions: [
+      TextButton(onPressed: () => Navigator.pop(context), child: Text(context.l10n.actionCancel)),
+      FilledButton(
+        onPressed: () => Navigator.pop(context, _controller.text),
+        child: Text(context.l10n.actionSave),
+      ),
+    ],
+  );
 }
 
 /// Shows a snackbar with an Undo action and registers [record] on the undo stack (T2.3.06).
