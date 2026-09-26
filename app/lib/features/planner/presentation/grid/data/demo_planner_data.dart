@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:everslot/design_system/tokens.dart';
 import 'package:everslot/features/planner/application/planner_contract.dart';
+import 'package:everslot/features/planner/application/view_config/view_actions.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/data/item_copy.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -185,13 +186,13 @@ List<PlannerItem> demoItemsIn(DemoPlannerData data, DemoPlannerState state, DayR
 }
 
 /// Demo implementation of [PlannerActions] mutating the in-memory demo state.
-class DemoPlannerActions implements PlannerActions {
+class DemoPlannerActions implements PlannerActions, PlannerViewActions {
   DemoPlannerActions(this.read, this.write, this.data);
 
   final DemoPlannerState Function() read;
   final void Function(DemoPlannerState) write;
   final DemoPlannerData data;
-  var _seq = 0;
+  static var _seq = 0;
 
   void _apply(DemoPlannerState Function(DemoPlannerState s) f) {
     final s = read();
@@ -206,7 +207,7 @@ class DemoPlannerActions implements PlannerActions {
 
   @override
   Future<String?> createAt(LocalDateTime start, int durationMinutes, {String? title, bool allDay = false}) async {
-    final id = 'demo-new-${DateTime.now().microsecondsSinceEpoch}-${_seq++}';
+    final id = 'demo-new-${start.toIso()}-${_seq++}';
     final item = data.make(id: id, title: title ?? 'New task', start: start, minutes: durationMinutes, allDay: allDay, category: 'personal');
     _apply((s) => DemoPlannerState(edits: s.edits, created: [...s.created, item], backlog: s.backlog));
     return id;
@@ -229,6 +230,43 @@ class DemoPlannerActions implements PlannerActions {
   Future<void> setStatus(PlannerItem item, OccurrenceStatus status, {String? skipReason}) async {
     _apply((s) => _replace(s, item, copyItem(item, status: status)));
   }
+
+  @override
+  Future<void> delete(PlannerItem item, {EditScope scope = EditScope.allOccurrences}) async {
+    _apply((s) => _isCreated(s, item)
+        ? DemoPlannerState(edits: s.edits, created: [for (final c in s.created) if (c.key != item.key) c], backlog: s.backlog)
+        : DemoPlannerState(edits: {...s.edits, item.key: null}, created: s.created, backlog: [for (final b in s.backlog) if (b.key != item.key) b]));
+  }
+
+  @override
+  Future<String?> duplicate(PlannerItem item) =>
+      createAt(item.startLocal, item.durationMinutes, title: item.title, allDay: item.allDay);
+
+  @override
+  Future<void> reorder(PlannerItem item, {String? afterKey, String? beforeKey}) async {
+    final key = '${afterKey ?? ''}m${beforeKey ?? ''}';
+    _apply((s) => _replace(s, item, copyItem(item, manualSortKey: key)));
+  }
+
+  @override
+  Future<void> unschedule(PlannerItem item) async {
+    if (item.isRecurring) throw StateError('recurring');
+    _apply((s) {
+      final removed = _isCreated(s, item)
+          ? DemoPlannerState(edits: s.edits, created: [for (final c in s.created) if (c.key != item.key) c], backlog: s.backlog)
+          : DemoPlannerState(edits: {...s.edits, item.key: null}, created: s.created, backlog: s.backlog);
+      return DemoPlannerState(edits: removed.edits, created: removed.created, backlog: [...s.backlog, item]);
+    });
+  }
+
+  @override
+  Future<void> startTimer(PlannerItem item) => setStatus(item, OccurrenceStatus.inProgress);
+
+  @override
+  Future<void> pauseTimer(PlannerItem item) async {}
+
+  @override
+  Future<void> stopTimer(PlannerItem item) => setStatus(item, OccurrenceStatus.done);
 
   @override
   Future<void> scheduleBacklogItem(PlannerItem item, LocalDateTime start, int durationMinutes) async {
