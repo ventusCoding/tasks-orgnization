@@ -324,6 +324,375 @@ class AppLocalizationsEn extends AppLocalizations {
   String get attachmentsWifiOnly => 'Upload attachments on Wi-Fi only';
 
   @override
+  String get authAvatarChange => 'Change photo';
+
+  @override
+  String get authAvatarRemove => 'Remove photo';
+
+  @override
+  String get authBrowserFlowStarted =>
+      'Finish signing in in your browser, then come back to Everslot.';
+
+  @override
+  String get authChangeEmail => 'Use a different email';
+
+  @override
+  String authCodeBody(String email) {
+    return 'Enter the 6-digit code sent to $email, or tap the link in that email.';
+  }
+
+  @override
+  String get authCodeLabel => '6-digit code';
+
+  @override
+  String get authCodeResent => 'A new code is on its way.';
+
+  @override
+  String get authCodeTitle => 'Check your inbox';
+
+  @override
+  String get authContinueApple => 'Continue with Apple';
+
+  @override
+  String get authContinueGoogle => 'Continue with Google';
+
+  @override
+  String get authContinueGuest => 'Continue without an account';
+
+  @override
+  String get authCurrentZone => 'Current time zone';
+
+  @override
+  String get authDeleteAccount => 'Delete account';
+
+  @override
+  String get authDeleteBody =>
+      'This permanently deletes your account and all your data — plans, lists, habits and attachments — on every device. It can\'t be undone.';
+
+  @override
+  String get authDeleteConfirm => 'Delete forever';
+
+  @override
+  String get authDeleteExportFirst => 'Export my data first';
+
+  @override
+  String authDeleteReauthBody(String email) {
+    return 'To confirm it\'s you, enter the code we sent to $email.';
+  }
+
+  @override
+  String get authDeleteTitle => 'Delete your account?';
+
+  @override
+  String get authDeleteUnderstand => 'I understand this can\'t be undone';
+
+  @override
+  String authDeleteWeb(String url) {
+    return 'You can also request deletion on the web: $url';
+  }
+
+  @override
+  String get authDeleted => 'Your account has been deleted.';
+
+  @override
+  String get authDeleting => 'Deleting your account…';
+
+  @override
+  String get authDeviceRevokedBody =>
+      'This device was removed from your account on another device. Export your data first if you want a copy, then sign out.';
+
+  @override
+  String get authDeviceRevokedTitle => 'This device was removed';
+
+  @override
+  String get authDisplayName => 'Display name';
+
+  @override
+  String get authDisplayNameHint => 'What should we call you?';
+
+  @override
+  String get authEmailHint => 'you@example.com';
+
+  @override
+  String get authEmailLabel => 'Email';
+
+  @override
+  String get authErrorCaptcha => 'The security check failed. Please try again.';
+
+  @override
+  String get authErrorEmailInUse =>
+      'This email already belongs to another account.';
+
+  @override
+  String get authErrorGuestDisabled =>
+      'Guest mode is turned off on this server.';
+
+  @override
+  String get authErrorIdentityInUse =>
+      'This sign-in method is already linked to another account.';
+
+  @override
+  String get authErrorInvalidCode => 'This code is invalid or has expired.';
+
+  @override
+  String get authErrorInvalidEmail => 'Please enter a valid email address.';
+
+  @override
+  String get authErrorLastIdentity =>
+      'You can\'t remove your only sign-in method.';
+
+  @override
+  String get authErrorNotConfigured =>
+      'Cloud sync isn\'t configured on this build (see guide.md).';
+
+  @override
+  String get authErrorOffline =>
+      'You\'re offline. Check your connection and try again.';
+
+  @override
+  String get authErrorProviderNotConfigured =>
+      'This sign-in method isn\'t set up yet (see guide.md).';
+
+  @override
+  String get authErrorRateLimited =>
+      'Too many attempts. Please wait a moment and try again.';
+
+  @override
+  String get authErrorSessionExpired =>
+      'Your session has expired. Please sign in again.';
+
+  @override
+  String get authErrorUnknown => 'Something went wrong. Please try again.';
+
+  @override
+  String get authExportFirst => 'Export data';
+
+  @override
+  String get authGuestAccount => 'Guest account';
+
+  @override
+  String get authGuestBanner =>
+      'You\'re using a guest account. Add an email so your data survives if you delete the app.';
+
+  @override
+  String get authGuestBannerAction => 'Secure my data';
+
+  @override
+  String get authGuestHint =>
+      'Try Everslot right away and add an email later to keep your data.';
+
+  @override
+  String get authHomeZone => 'Home time zone';
+
+  @override
+  String get authLegalNote =>
+      'By continuing you accept the Terms of Service and the Privacy Policy.';
+
+  @override
+  String get authLink => 'Link';
+
+  @override
+  String authLinked(String provider) {
+    return '$provider linked';
+  }
+
+  @override
+  String get authLinkedAccounts => 'Sign-in methods';
+
+  @override
+  String get authLocalOnlyAccount => 'Data stays on this device';
+
+  @override
+  String get authLocalOnlyAccountBody =>
+      'You\'re not signed in. Sign in to sync across devices — your data comes along.';
+
+  @override
+  String get authMfaBody =>
+      'Ask for a code from an authenticator app when you sign in or delete your account.';
+
+  @override
+  String get authMfaDisable => 'Turn off';
+
+  @override
+  String get authMfaEnabled => 'Two-step verification is on.';
+
+  @override
+  String get authMfaEnroll => 'Set up';
+
+  @override
+  String get authMfaEnrollBody =>
+      'Add this key to your authenticator app, then enter the 6-digit code it shows.';
+
+  @override
+  String get authMfaSecret => 'Setup key';
+
+  @override
+  String get authMfaTitle => 'Two-step verification';
+
+  @override
+  String get authMfaVerifyTitle => 'Enter your authenticator code';
+
+  @override
+  String get authNotConfiguredBody =>
+      'This build isn\'t connected to a Supabase project yet (see guide.md). Everslot works fully on this device in the meantime.';
+
+  @override
+  String get authNotConfiguredTitle => 'Cloud sync isn\'t configured';
+
+  @override
+  String get authOr => 'or';
+
+  @override
+  String get authProfileTitle => 'Account';
+
+  @override
+  String get authProviderApple => 'Apple';
+
+  @override
+  String get authProviderEmail => 'Email';
+
+  @override
+  String get authProviderGoogle => 'Google';
+
+  @override
+  String get authReauthBody =>
+      'Your session has expired. Sign in again to resume syncing — everything you did offline is kept.';
+
+  @override
+  String get authReauthTitle => 'Sign in again';
+
+  @override
+  String get authRegionalSettings => 'Regional settings';
+
+  @override
+  String get authResend => 'Resend code';
+
+  @override
+  String authResendIn(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'Resend code in $seconds seconds',
+      one: 'Resend code in 1 second',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get authSendCode => 'Send code';
+
+  @override
+  String get authSessionExpiredBanner =>
+      'Your session expired. Your changes are saved on this device and will sync once you sign in again.';
+
+  @override
+  String get authSignInAgain => 'Sign in again';
+
+  @override
+  String get authSignInToSync => 'Sign in to sync';
+
+  @override
+  String get authSignOut => 'Sign out';
+
+  @override
+  String get authSignOutAnyway => 'Sign out anyway';
+
+  @override
+  String get authSignOutBody =>
+      'Your data will be removed from this device. It stays safe in your account.';
+
+  @override
+  String authSignOutPendingBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count changes haven\'t synced yet and will be lost.',
+      one: '1 change hasn\'t synced yet and will be lost.',
+    );
+    return '$_temp0 Export your data first, or sign out anyway.';
+  }
+
+  @override
+  String get authSignOutSyncing => 'Syncing your last changes…';
+
+  @override
+  String get authSignOutTitle => 'Sign out?';
+
+  @override
+  String authSignedInAs(String email) {
+    return 'Signed in as $email';
+  }
+
+  @override
+  String get authSignedOut => 'Signed out';
+
+  @override
+  String get authUnlink => 'Unlink';
+
+  @override
+  String authUnlinkConfirm(String provider) {
+    return 'Unlink $provider?';
+  }
+
+  @override
+  String get authUpdateRequired =>
+      'Update Everslot to keep syncing. Your changes are kept on this device.';
+
+  @override
+  String get authUpgradeBody =>
+      'Add a sign-in method to your guest account. Your data stays exactly as it is.';
+
+  @override
+  String get authUpgradeDone => 'Your account is secured.';
+
+  @override
+  String get authUpgradeEmail => 'Add an email';
+
+  @override
+  String authUpgradeEmailInUseBody(String email) {
+    return '$email already has an Everslot account. Use another email — or export your guest data, sign out, sign in to that account and import the file.';
+  }
+
+  @override
+  String get authUpgradeEmailInUseTitle => 'Email already in use';
+
+  @override
+  String get authUpgradeTitle => 'Keep your data';
+
+  @override
+  String get authUseLocalOnly => 'Use on this device only';
+
+  @override
+  String get authUseLocalOnlyHint =>
+      'No account and no sync. Sign in later and your data comes along.';
+
+  @override
+  String get authVerify => 'Verify';
+
+  @override
+  String get authWelcomeBody =>
+      'Sign in to keep your plans, lists and habits in sync on all your devices.';
+
+  @override
+  String get authWelcomeTitle => 'Welcome to Everslot';
+
+  @override
+  String authZoneChangedBody(String zone) {
+    return 'You\'re now in $zone. Fixed-time tasks keep their exact time and floating tasks follow you. Make $zone your home time zone?';
+  }
+
+  @override
+  String get authZoneChangedTitle => 'New time zone';
+
+  @override
+  String authZoneKeepHome(String zone) {
+    return 'Keep $zone';
+  }
+
+  @override
+  String get authZoneMakeHome => 'Make it home';
+
+  @override
   String get categoriesEmpty => 'No categories yet';
 
   @override

@@ -1,5 +1,82 @@
 {
   "@@locale": "fr",
+  "@authCodeBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@authDeleteReauthBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@authDeleteWeb": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "@authLinked": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "@authResendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "@authSignOutPendingBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@authSignedInAs": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@authUnlinkConfirm": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "@authUpgradeEmailInUseBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@authZoneChangedBody": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "@authZoneKeepHome": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
   "actionAdd": "Ajouter",
   "actionApply": "Appliquer",
   "actionArchive": "Archiver",
@@ -85,6 +162,109 @@
   "attachmentsStorageUsed": "Stockage utilisé : {size}",
   "attachmentsViewerPosition": "{index} / {total}",
   "attachmentsWifiOnly": "Envoyer les pièces jointes en Wi-Fi uniquement",
+  "authAvatarChange": "Changer la photo",
+  "authAvatarRemove": "Retirer la photo",
+  "authBrowserFlowStarted": "Terminez la connexion dans votre navigateur, puis revenez dans Everslot.",
+  "authChangeEmail": "Utiliser une autre adresse",
+  "authCodeBody": "Saisissez le code à 6 chiffres envoyé à {email}, ou touchez le lien contenu dans cet e-mail.",
+  "authCodeLabel": "Code à 6 chiffres",
+  "authCodeResent": "Un nouveau code est en route.",
+  "authCodeTitle": "Consultez votre boîte de réception",
+  "authContinueApple": "Continuer avec Apple",
+  "authContinueGoogle": "Continuer avec Google",
+  "authContinueGuest": "Continuer sans compte",
+  "authCurrentZone": "Fuseau horaire actuel",
+  "authDeleteAccount": "Supprimer le compte",
+  "authDeleteBody": "Votre compte et toutes vos données (plannings, listes, habitudes et pièces jointes) seront définitivement supprimés sur tous vos appareils. Cette action est irréversible.",
+  "authDeleteConfirm": "Supprimer définitivement",
+  "authDeleteExportFirst": "Exporter mes données d'abord",
+  "authDeleteReauthBody": "Pour confirmer qu'il s'agit bien de vous, saisissez le code envoyé à {email}.",
+  "authDeleteTitle": "Supprimer votre compte ?",
+  "authDeleteUnderstand": "Je comprends que cette action est irréversible",
+  "authDeleteWeb": "Vous pouvez aussi demander la suppression sur le web : {url}",
+  "authDeleted": "Votre compte a été supprimé.",
+  "authDeleting": "Suppression de votre compte…",
+  "authDeviceRevokedBody": "Cet appareil a été retiré de votre compte depuis un autre appareil. Exportez d'abord vos données si vous souhaitez en garder une copie, puis déconnectez-vous.",
+  "authDeviceRevokedTitle": "Cet appareil a été retiré",
+  "authDisplayName": "Nom affiché",
+  "authDisplayNameHint": "Comment souhaitez-vous être appelé ?",
+  "authEmailHint": "vous@exemple.com",
+  "authEmailLabel": "E-mail",
+  "authErrorCaptcha": "La vérification de sécurité a échoué. Veuillez réessayer.",
+  "authErrorEmailInUse": "Cette adresse appartient déjà à un autre compte.",
+  "authErrorGuestDisabled": "Le mode invité est désactivé sur ce serveur.",
+  "authErrorIdentityInUse": "Ce moyen de connexion est déjà associé à un autre compte.",
+  "authErrorInvalidCode": "Ce code est invalide ou a expiré.",
+  "authErrorInvalidEmail": "Veuillez saisir une adresse e-mail valide.",
+  "authErrorLastIdentity": "Vous ne pouvez pas retirer votre unique moyen de connexion.",
+  "authErrorNotConfigured": "La synchronisation n'est pas configurée dans cette version (voir guide.md).",
+  "authErrorOffline": "Vous êtes hors ligne. Vérifiez votre connexion et réessayez.",
+  "authErrorProviderNotConfigured": "Ce moyen de connexion n'est pas encore configuré (voir guide.md).",
+  "authErrorRateLimited": "Trop de tentatives. Patientez un instant puis réessayez.",
+  "authErrorSessionExpired": "Votre session a expiré. Veuillez vous reconnecter.",
+  "authErrorUnknown": "Une erreur est survenue. Veuillez réessayer.",
+  "authExportFirst": "Exporter les données",
+  "authGuestAccount": "Compte invité",
+  "authGuestBanner": "Vous utilisez un compte invité. Ajoutez un e-mail pour que vos données survivent si vous supprimez l'app.",
+  "authGuestBannerAction": "Sécuriser mes données",
+  "authGuestHint": "Essayez Everslot tout de suite et ajoutez un e-mail plus tard pour conserver vos données.",
+  "authHomeZone": "Fuseau horaire de référence",
+  "authLegalNote": "En continuant, vous acceptez les Conditions d'utilisation et la Politique de confidentialité.",
+  "authLink": "Associer",
+  "authLinked": "{provider} associé",
+  "authLinkedAccounts": "Moyens de connexion",
+  "authLocalOnlyAccount": "Données conservées sur cet appareil",
+  "authLocalOnlyAccountBody": "Vous n'êtes pas connecté. Connectez-vous pour synchroniser vos appareils : vos données suivront.",
+  "authMfaBody": "Demander un code d'une application d'authentification à la connexion et avant de supprimer le compte.",
+  "authMfaDisable": "Désactiver",
+  "authMfaEnabled": "La validation en deux étapes est activée.",
+  "authMfaEnroll": "Configurer",
+  "authMfaEnrollBody": "Ajoutez cette clé à votre application d'authentification, puis saisissez le code à 6 chiffres affiché.",
+  "authMfaSecret": "Clé de configuration",
+  "authMfaTitle": "Validation en deux étapes",
+  "authMfaVerifyTitle": "Saisissez le code de votre application d'authentification",
+  "authNotConfiguredBody": "Cette version n'est pas encore reliée à un projet Supabase (voir guide.md). En attendant, Everslot fonctionne entièrement sur cet appareil.",
+  "authNotConfiguredTitle": "La synchronisation n'est pas configurée",
+  "authOr": "ou",
+  "authProfileTitle": "Compte",
+  "authProviderApple": "Apple",
+  "authProviderEmail": "E-mail",
+  "authProviderGoogle": "Google",
+  "authReauthBody": "Votre session a expiré. Reconnectez-vous pour reprendre la synchronisation : tout ce que vous avez fait hors ligne est conservé.",
+  "authReauthTitle": "Reconnectez-vous",
+  "authRegionalSettings": "Paramètres régionaux",
+  "authResend": "Renvoyer le code",
+  "authResendIn": "{seconds, plural, one{Renvoyer le code dans {seconds} seconde} other{Renvoyer le code dans {seconds} secondes}}",
+  "authSendCode": "Recevoir un code",
+  "authSessionExpiredBanner": "Votre session a expiré. Vos modifications sont enregistrées sur cet appareil et seront synchronisées dès que vous vous reconnecterez.",
+  "authSignInAgain": "Me reconnecter",
+  "authSignInToSync": "Se connecter pour synchroniser",
+  "authSignOut": "Se déconnecter",
+  "authSignOutAnyway": "Me déconnecter quand même",
+  "authSignOutBody": "Vos données seront retirées de cet appareil. Elles restent en sécurité dans votre compte.",
+  "authSignOutPendingBody": "{count, plural, one{{count} modification n'est pas encore synchronisée et sera perdue.} other{{count} modifications ne sont pas encore synchronisées et seront perdues.}} Exportez d'abord vos données, ou déconnectez-vous quand même.",
+  "authSignOutSyncing": "Synchronisation de vos dernières modifications…",
+  "authSignOutTitle": "Se déconnecter ?",
+  "authSignedInAs": "Connecté en tant que {email}",
+  "authSignedOut": "Déconnecté",
+  "authUnlink": "Dissocier",
+  "authUnlinkConfirm": "Dissocier {provider} ?",
+  "authUpdateRequired": "Mettez Everslot à jour pour continuer la synchronisation. Vos modifications restent sur cet appareil.",
+  "authUpgradeBody": "Ajoutez un moyen de connexion à votre compte invité. Vos données restent exactement telles qu'elles sont.",
+  "authUpgradeDone": "Votre compte est sécurisé.",
+  "authUpgradeEmail": "Ajouter un e-mail",
+  "authUpgradeEmailInUseBody": "{email} possède déjà un compte Everslot. Utilisez une autre adresse, ou exportez vos données d'invité, déconnectez-vous, connectez-vous à ce compte puis importez le fichier.",
+  "authUpgradeEmailInUseTitle": "Adresse déjà utilisée",
+  "authUpgradeTitle": "Conservez vos données",
+  "authUseLocalOnly": "Utiliser sur cet appareil uniquement",
+  "authUseLocalOnlyHint": "Ni compte ni synchronisation. Connectez-vous plus tard : vos données suivront.",
+  "authVerify": "Valider",
+  "authWelcomeBody": "Connectez-vous pour synchroniser vos plannings, listes et habitudes sur tous vos appareils.",
+  "authWelcomeTitle": "Bienvenue dans Everslot",
+  "authZoneChangedBody": "Vous êtes maintenant sur {zone}. Les tâches à heure fixe gardent leur heure exacte et les tâches flottantes vous suivent. Faire de {zone} votre fuseau de référence ?",
+  "authZoneChangedTitle": "Nouveau fuseau horaire",
+  "authZoneKeepHome": "Garder {zone}",
+  "authZoneMakeHome": "En faire la référence",
   "categoriesEmpty": "Aucune catégorie",
   "categoriesTitle": "Catégories",
   "categoryArchived": "Archivée",

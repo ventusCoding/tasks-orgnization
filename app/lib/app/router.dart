@@ -224,7 +224,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
         ],
       ),
-      GoRoute(path: '/auth/sign-in', builder: (_, _) => const SignInScreen()),
+      GoRoute(
+        path: '/auth/sign-in',
+        builder: (_, s) => SignInScreen(from: s.uri.queryParameters['from'], mode: s.uri.queryParameters['mode']),
+      ),
       GoRoute(path: '/onboarding', builder: (_, _) => const OnboardingScreen()),
       if (devTools)
         GoRoute(

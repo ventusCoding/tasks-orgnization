@@ -7,6 +7,7 @@ import 'package:everslot/core/session/session.dart';
 import 'package:everslot/features/auth/application/auth_binding.dart';
 import 'package:everslot/features/auth/application/auth_providers.dart';
 import 'package:everslot/features/auth/domain/auth_models.dart';
+import 'package:everslot/features/auth/domain/auth_repository.dart';
 import 'package:everslot/startup/startup_tasks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -69,6 +70,12 @@ class SignInController extends Notifier<SignInState> {
 
   DateTime _now() => ref.read(clockProvider).nowUtc();
 
+  /// State updates after an async gap: the screen (and this auto-disposed controller) may be gone
+  /// once the session is bound and the router redirects.
+  void _set(SignInState Function(SignInState s) update) {
+    if (ref.mounted) state = update(state);
+  }
+
   /// Prefills the e-mail (re-authentication).
   void prefill(String email) {
     if (state.email.isEmpty) state = state.copyWith(email: email);
@@ -88,13 +95,11 @@ class SignInController extends Notifier<SignInState> {
     state = state.copyWith(busy: AuthMethod.email, clearError: true, email: normalized);
     try {
       await repo.sendEmailCode(normalized, metadata: ref.read(signUpMetadataProvider));
-      state = state.copyWith(
-        step: SignInStep.code,
-        clearBusy: true,
-        resendAvailableAt: _now().add(resendCooldown),
+      _set(
+        (s) => s.copyWith(step: SignInStep.code, clearBusy: true, resendAvailableAt: _now().add(resendCooldown)),
       );
     } on AuthFailure catch (e) {
-      state = state.copyWith(clearBusy: true, error: e.code);
+      _set((s) => s.copyWith(clearBusy: true, error: e.code));
     }
   }
 
@@ -103,14 +108,15 @@ class SignInController extends Notifier<SignInState> {
     final repo = ref.read(authRepositoryProvider);
     final digits = normalizeOtp(code);
     if (repo == null || digits.length != 6 || state.isBusy) return false;
+    final binding = ref.read(authBindingProvider);
     state = state.copyWith(busy: AuthMethod.email, clearError: true);
     try {
       final user = await repo.verifyEmailCode(state.email, digits);
-      await ref.read(authBindingProvider).bind(user);
-      state = state.copyWith(clearBusy: true);
+      await binding.bind(user);
+      _set((s) => s.copyWith(clearBusy: true));
       return true;
     } on AuthFailure catch (e) {
-      state = state.copyWith(clearBusy: true, error: e.code);
+      _set((s) => s.copyWith(clearBusy: true, error: e.code));
       return false;
     }
   }
@@ -123,42 +129,37 @@ class SignInController extends Notifier<SignInState> {
 
   void changeEmail() => state = SignInState(email: state.email);
 
-  Future<bool> signInWithGoogle() => _provider(AuthMethod.google, () async {
-    final repo = ref.read(authRepositoryProvider)!;
-    return repo.signInWithGoogle();
-  });
+  Future<bool> signInWithGoogle() => _provider(AuthMethod.google, (repo) => repo.signInWithGoogle());
 
-  Future<bool> signInWithApple() => _provider(AuthMethod.apple, () async {
-    final repo = ref.read(authRepositoryProvider)!;
+  Future<bool> signInWithApple() => _provider(AuthMethod.apple, (repo) async {
     final user = await repo.signInWithApple();
-    if (user == null) state = state.copyWith(browserFlowStarted: true);
+    if (user == null) _set((s) => s.copyWith(browserFlowStarted: true));
     return user;
   });
 
-  Future<bool> continueAsGuest() => _provider(AuthMethod.anonymous, () async {
-    final repo = ref.read(authRepositoryProvider)!;
+  Future<bool> continueAsGuest() {
+    final metadata = ref.read(signUpMetadataProvider);
     // TODO(config): pass a Turnstile/hCaptcha token here once CAPTCHA_SITE_KEY is configured.
-    return repo.continueAsGuest(metadata: ref.read(signUpMetadataProvider));
-  });
+    return _provider(AuthMethod.anonymous, (repo) => repo.continueAsGuest(metadata: metadata));
+  }
 
-  Future<bool> _provider(AuthMethod method, Future<AuthUser?> Function() run) async {
-    if (ref.read(authRepositoryProvider) == null) {
+  Future<bool> _provider(AuthMethod method, Future<AuthUser?> Function(AuthRepository repo) run) async {
+    final repo = ref.read(authRepositoryProvider);
+    if (repo == null) {
       state = state.copyWith(error: AuthFailureCode.notConfigured);
       return false;
     }
     if (state.isBusy) return false;
+    final binding = ref.read(authBindingProvider);
     state = state.copyWith(busy: method, clearError: true);
     try {
-      final user = await run();
-      if (user != null) await ref.read(authBindingProvider).bind(user);
-      state = state.copyWith(clearBusy: true);
+      final user = await run(repo);
+      if (user != null) await binding.bind(user);
+      _set((s) => s.copyWith(clearBusy: true));
       return user != null;
     } on AuthFailure catch (e) {
-      state = state.copyWith(
-        clearBusy: true,
-        error: e.code == AuthFailureCode.cancelled ? null : e.code,
-        clearError: e.code == AuthFailureCode.cancelled,
-      );
+      final cancelled = e.code == AuthFailureCode.cancelled;
+      _set((s) => s.copyWith(clearBusy: true, error: cancelled ? null : e.code, clearError: cancelled));
       return false;
     }
   }
@@ -166,11 +167,13 @@ class SignInController extends Notifier<SignInState> {
   /// "Use on this device only": local-only session even though cloud sync is configured
   /// (offline first launch, privacy). Signing in later claims the data (ADR-017).
   Future<void> useOnThisDeviceOnly() async {
+    final container = ref.container;
     final db = ref.read(appDatabaseProvider);
+    final session = ref.read(sessionProvider.notifier);
     await LocalOnlyChoice.choose(db);
     final id = await LocalAccount.ensureUserId(db);
-    ref.read(sessionProvider.notifier).set(AppSession(userId: id, mode: SessionMode.localOnly));
-    unawaited(runStartupTasks(ref.container));
+    session.set(AppSession(userId: id, mode: SessionMode.localOnly));
+    unawaited(runStartupTasks(container));
   }
 
   void clearError() => state = state.copyWith(clearError: true);

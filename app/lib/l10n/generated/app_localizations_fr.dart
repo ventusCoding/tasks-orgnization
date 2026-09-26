@@ -327,6 +327,382 @@ class AppLocalizationsFr extends AppLocalizations {
       'Envoyer les pièces jointes en Wi-Fi uniquement';
 
   @override
+  String get authAvatarChange => 'Changer la photo';
+
+  @override
+  String get authAvatarRemove => 'Retirer la photo';
+
+  @override
+  String get authBrowserFlowStarted =>
+      'Terminez la connexion dans votre navigateur, puis revenez dans Everslot.';
+
+  @override
+  String get authChangeEmail => 'Utiliser une autre adresse';
+
+  @override
+  String authCodeBody(String email) {
+    return 'Saisissez le code à 6 chiffres envoyé à $email, ou touchez le lien contenu dans cet e-mail.';
+  }
+
+  @override
+  String get authCodeLabel => 'Code à 6 chiffres';
+
+  @override
+  String get authCodeResent => 'Un nouveau code est en route.';
+
+  @override
+  String get authCodeTitle => 'Consultez votre boîte de réception';
+
+  @override
+  String get authContinueApple => 'Continuer avec Apple';
+
+  @override
+  String get authContinueGoogle => 'Continuer avec Google';
+
+  @override
+  String get authContinueGuest => 'Continuer sans compte';
+
+  @override
+  String get authCurrentZone => 'Fuseau horaire actuel';
+
+  @override
+  String get authDeleteAccount => 'Supprimer le compte';
+
+  @override
+  String get authDeleteBody =>
+      'Votre compte et toutes vos données (plannings, listes, habitudes et pièces jointes) seront définitivement supprimés sur tous vos appareils. Cette action est irréversible.';
+
+  @override
+  String get authDeleteConfirm => 'Supprimer définitivement';
+
+  @override
+  String get authDeleteExportFirst => 'Exporter mes données d\'abord';
+
+  @override
+  String authDeleteReauthBody(String email) {
+    return 'Pour confirmer qu\'il s\'agit bien de vous, saisissez le code envoyé à $email.';
+  }
+
+  @override
+  String get authDeleteTitle => 'Supprimer votre compte ?';
+
+  @override
+  String get authDeleteUnderstand =>
+      'Je comprends que cette action est irréversible';
+
+  @override
+  String authDeleteWeb(String url) {
+    return 'Vous pouvez aussi demander la suppression sur le web : $url';
+  }
+
+  @override
+  String get authDeleted => 'Votre compte a été supprimé.';
+
+  @override
+  String get authDeleting => 'Suppression de votre compte…';
+
+  @override
+  String get authDeviceRevokedBody =>
+      'Cet appareil a été retiré de votre compte depuis un autre appareil. Exportez d\'abord vos données si vous souhaitez en garder une copie, puis déconnectez-vous.';
+
+  @override
+  String get authDeviceRevokedTitle => 'Cet appareil a été retiré';
+
+  @override
+  String get authDisplayName => 'Nom affiché';
+
+  @override
+  String get authDisplayNameHint => 'Comment souhaitez-vous être appelé ?';
+
+  @override
+  String get authEmailHint => 'vous@exemple.com';
+
+  @override
+  String get authEmailLabel => 'E-mail';
+
+  @override
+  String get authErrorCaptcha =>
+      'La vérification de sécurité a échoué. Veuillez réessayer.';
+
+  @override
+  String get authErrorEmailInUse =>
+      'Cette adresse appartient déjà à un autre compte.';
+
+  @override
+  String get authErrorGuestDisabled =>
+      'Le mode invité est désactivé sur ce serveur.';
+
+  @override
+  String get authErrorIdentityInUse =>
+      'Ce moyen de connexion est déjà associé à un autre compte.';
+
+  @override
+  String get authErrorInvalidCode => 'Ce code est invalide ou a expiré.';
+
+  @override
+  String get authErrorInvalidEmail =>
+      'Veuillez saisir une adresse e-mail valide.';
+
+  @override
+  String get authErrorLastIdentity =>
+      'Vous ne pouvez pas retirer votre unique moyen de connexion.';
+
+  @override
+  String get authErrorNotConfigured =>
+      'La synchronisation n\'est pas configurée dans cette version (voir guide.md).';
+
+  @override
+  String get authErrorOffline =>
+      'Vous êtes hors ligne. Vérifiez votre connexion et réessayez.';
+
+  @override
+  String get authErrorProviderNotConfigured =>
+      'Ce moyen de connexion n\'est pas encore configuré (voir guide.md).';
+
+  @override
+  String get authErrorRateLimited =>
+      'Trop de tentatives. Patientez un instant puis réessayez.';
+
+  @override
+  String get authErrorSessionExpired =>
+      'Votre session a expiré. Veuillez vous reconnecter.';
+
+  @override
+  String get authErrorUnknown => 'Une erreur est survenue. Veuillez réessayer.';
+
+  @override
+  String get authExportFirst => 'Exporter les données';
+
+  @override
+  String get authGuestAccount => 'Compte invité';
+
+  @override
+  String get authGuestBanner =>
+      'Vous utilisez un compte invité. Ajoutez un e-mail pour que vos données survivent si vous supprimez l\'app.';
+
+  @override
+  String get authGuestBannerAction => 'Sécuriser mes données';
+
+  @override
+  String get authGuestHint =>
+      'Essayez Everslot tout de suite et ajoutez un e-mail plus tard pour conserver vos données.';
+
+  @override
+  String get authHomeZone => 'Fuseau horaire de référence';
+
+  @override
+  String get authLegalNote =>
+      'En continuant, vous acceptez les Conditions d\'utilisation et la Politique de confidentialité.';
+
+  @override
+  String get authLink => 'Associer';
+
+  @override
+  String authLinked(String provider) {
+    return '$provider associé';
+  }
+
+  @override
+  String get authLinkedAccounts => 'Moyens de connexion';
+
+  @override
+  String get authLocalOnlyAccount => 'Données conservées sur cet appareil';
+
+  @override
+  String get authLocalOnlyAccountBody =>
+      'Vous n\'êtes pas connecté. Connectez-vous pour synchroniser vos appareils : vos données suivront.';
+
+  @override
+  String get authMfaBody =>
+      'Demander un code d\'une application d\'authentification à la connexion et avant de supprimer le compte.';
+
+  @override
+  String get authMfaDisable => 'Désactiver';
+
+  @override
+  String get authMfaEnabled => 'La validation en deux étapes est activée.';
+
+  @override
+  String get authMfaEnroll => 'Configurer';
+
+  @override
+  String get authMfaEnrollBody =>
+      'Ajoutez cette clé à votre application d\'authentification, puis saisissez le code à 6 chiffres affiché.';
+
+  @override
+  String get authMfaSecret => 'Clé de configuration';
+
+  @override
+  String get authMfaTitle => 'Validation en deux étapes';
+
+  @override
+  String get authMfaVerifyTitle =>
+      'Saisissez le code de votre application d\'authentification';
+
+  @override
+  String get authNotConfiguredBody =>
+      'Cette version n\'est pas encore reliée à un projet Supabase (voir guide.md). En attendant, Everslot fonctionne entièrement sur cet appareil.';
+
+  @override
+  String get authNotConfiguredTitle =>
+      'La synchronisation n\'est pas configurée';
+
+  @override
+  String get authOr => 'ou';
+
+  @override
+  String get authProfileTitle => 'Compte';
+
+  @override
+  String get authProviderApple => 'Apple';
+
+  @override
+  String get authProviderEmail => 'E-mail';
+
+  @override
+  String get authProviderGoogle => 'Google';
+
+  @override
+  String get authReauthBody =>
+      'Votre session a expiré. Reconnectez-vous pour reprendre la synchronisation : tout ce que vous avez fait hors ligne est conservé.';
+
+  @override
+  String get authReauthTitle => 'Reconnectez-vous';
+
+  @override
+  String get authRegionalSettings => 'Paramètres régionaux';
+
+  @override
+  String get authResend => 'Renvoyer le code';
+
+  @override
+  String authResendIn(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'Renvoyer le code dans $seconds secondes',
+      one: 'Renvoyer le code dans $seconds seconde',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get authSendCode => 'Recevoir un code';
+
+  @override
+  String get authSessionExpiredBanner =>
+      'Votre session a expiré. Vos modifications sont enregistrées sur cet appareil et seront synchronisées dès que vous vous reconnecterez.';
+
+  @override
+  String get authSignInAgain => 'Me reconnecter';
+
+  @override
+  String get authSignInToSync => 'Se connecter pour synchroniser';
+
+  @override
+  String get authSignOut => 'Se déconnecter';
+
+  @override
+  String get authSignOutAnyway => 'Me déconnecter quand même';
+
+  @override
+  String get authSignOutBody =>
+      'Vos données seront retirées de cet appareil. Elles restent en sécurité dans votre compte.';
+
+  @override
+  String authSignOutPendingBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count modifications ne sont pas encore synchronisées et seront perdues.',
+      one: '$count modification n\'est pas encore synchronisée et sera perdue.',
+    );
+    return '$_temp0 Exportez d\'abord vos données, ou déconnectez-vous quand même.';
+  }
+
+  @override
+  String get authSignOutSyncing =>
+      'Synchronisation de vos dernières modifications…';
+
+  @override
+  String get authSignOutTitle => 'Se déconnecter ?';
+
+  @override
+  String authSignedInAs(String email) {
+    return 'Connecté en tant que $email';
+  }
+
+  @override
+  String get authSignedOut => 'Déconnecté';
+
+  @override
+  String get authUnlink => 'Dissocier';
+
+  @override
+  String authUnlinkConfirm(String provider) {
+    return 'Dissocier $provider ?';
+  }
+
+  @override
+  String get authUpdateRequired =>
+      'Mettez Everslot à jour pour continuer la synchronisation. Vos modifications restent sur cet appareil.';
+
+  @override
+  String get authUpgradeBody =>
+      'Ajoutez un moyen de connexion à votre compte invité. Vos données restent exactement telles qu\'elles sont.';
+
+  @override
+  String get authUpgradeDone => 'Votre compte est sécurisé.';
+
+  @override
+  String get authUpgradeEmail => 'Ajouter un e-mail';
+
+  @override
+  String authUpgradeEmailInUseBody(String email) {
+    return '$email possède déjà un compte Everslot. Utilisez une autre adresse, ou exportez vos données d\'invité, déconnectez-vous, connectez-vous à ce compte puis importez le fichier.';
+  }
+
+  @override
+  String get authUpgradeEmailInUseTitle => 'Adresse déjà utilisée';
+
+  @override
+  String get authUpgradeTitle => 'Conservez vos données';
+
+  @override
+  String get authUseLocalOnly => 'Utiliser sur cet appareil uniquement';
+
+  @override
+  String get authUseLocalOnlyHint =>
+      'Ni compte ni synchronisation. Connectez-vous plus tard : vos données suivront.';
+
+  @override
+  String get authVerify => 'Valider';
+
+  @override
+  String get authWelcomeBody =>
+      'Connectez-vous pour synchroniser vos plannings, listes et habitudes sur tous vos appareils.';
+
+  @override
+  String get authWelcomeTitle => 'Bienvenue dans Everslot';
+
+  @override
+  String authZoneChangedBody(String zone) {
+    return 'Vous êtes maintenant sur $zone. Les tâches à heure fixe gardent leur heure exacte et les tâches flottantes vous suivent. Faire de $zone votre fuseau de référence ?';
+  }
+
+  @override
+  String get authZoneChangedTitle => 'Nouveau fuseau horaire';
+
+  @override
+  String authZoneKeepHome(String zone) {
+    return 'Garder $zone';
+  }
+
+  @override
+  String get authZoneMakeHome => 'En faire la référence';
+
+  @override
   String get categoriesEmpty => 'Aucune catégorie';
 
   @override
