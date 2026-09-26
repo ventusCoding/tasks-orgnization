@@ -1501,6 +1501,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifModeOff => 'متوقف';
 
   @override
+  String get notifModeOffHint => 'لا إشعارات لهذا العنصر';
+
+  @override
   String get notifMultiDevice => 'التسليم إلى';
 
   @override
@@ -1787,6 +1790,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifSectionHabits => 'العادات';
+
+  @override
+  String notifSectionOffHint(String section) {
+    return 'إشعارات «$section» متوقفة في الإعدادات';
+  }
 
   @override
   String get notifSectionPlanner => 'الخطة';

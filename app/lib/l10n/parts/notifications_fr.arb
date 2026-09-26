@@ -444,5 +444,7 @@
   "notifMetricStreak": "Série",
   "notifMetricTotal": "Total",
   "notifMetricMoney": "Argent économisé",
-  "notifMetricUnits": "Unités évitées"
+  "notifMetricUnits": "Unités évitées",
+  "notifModeOffHint": "Aucune notification pour cet élément",
+  "notifSectionOffHint": "Les notifications « {section} » sont désactivées dans les réglages"
 }
