@@ -318,6 +318,58 @@ class ChecklistsRepository {
     };
   }
 
+  /// Board search over titles, bodies and item texts through the FTS index (T4.1.13).
+  /// Matching ignores case, French diacritics and Arabic letter variants.
+  Future<BoardSearchResult> search(String query) async {
+    final tokens = AppDatabase.normalizeForSearch(query)
+        .split(RegExp(r'\s+'))
+        .where((t) => t.trim().isNotEmpty)
+        .map((t) => '"${t.replaceAll('"', '""')}"*')
+        .toList();
+    if (tokens.isEmpty) return const BoardSearchResult();
+    final rows = await _db
+        .customSelect(
+          'SELECT s.entity_type AS et, s.entity_id AS eid, s.parent_id AS pid FROM search_index s '
+          "WHERE search_index MATCH ? AND s.entity_type IN ('checklist', 'checklist_item') LIMIT 1000",
+          variables: [Variable<String>(tokens.join(' '))],
+        )
+        .get();
+    final live = {
+      for (final c in await (_db.select(_db.checklists)
+            ..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId()) & c.isTemplate.equals(false)))
+          .get())
+        c.id: c,
+    };
+    final checklistIds = <String>{};
+    final itemIds = <String>[];
+    for (final r in rows) {
+      final et = r.read<String>('et');
+      final eid = r.read<String>('eid');
+      final pid = r.readNullable<String>('pid');
+      if (et == 'checklist' && live.containsKey(eid)) checklistIds.add(eid);
+      if (et == 'checklist_item' && pid != null && live.containsKey(pid)) {
+        checklistIds.add(pid);
+        itemIds.add(eid);
+      }
+    }
+    if (itemIds.isEmpty) return BoardSearchResult(checklistIds: checklistIds);
+    final items = await (_db.select(_db.checklistItems)..where((i) => i.id.isIn(itemIds) & i.deletedAt.isNull())).get();
+    final paths = await _paths([for (final i in items) i.id]);
+    return BoardSearchResult(
+      checklistIds: checklistIds,
+      items: [
+        for (final i in items)
+          SearchHit(
+            itemId: i.id,
+            checklistId: i.checklistId,
+            text: i.itemText,
+            checklistTitle: live[i.checklistId]?.title ?? '',
+            path: paths[i.id] ?? const [],
+          ),
+      ],
+    );
+  }
+
   /// Keys of the first card of a board section (new cards go on top).
   Future<String?> _firstKey({required bool pinned}) async {
     final row = await (_db.select(_db.checklists)
@@ -335,6 +387,9 @@ class ChecklistsRepository {
     return row?.sortKey;
   }
 
+  /// Sort key placing a new card at the top of the unpinned section.
+  Future<String> topSortKey() async => SortKeys.between(null, await _firstKey(pinned: false));
+
   // ------------------------------------------------------------------ writes
 
   /// Creates a card at the top of its section (T4.1.04 / T4.1.09).
@@ -349,11 +404,12 @@ class ChecklistsRepository {
     String? templateId,
     List<NodeSpec> items = const [],
     DateTime? now,
+    String? id,
   }) async {
-    final id = Ids.v7();
+    final newId = id ?? Ids.v7();
     final key = SortKeys.between(null, isTemplate ? null : await _firstKey(pinned: isPinned));
     final record = await _writer.run((tx) async {
-      await tx.insert('checklists', id, {
+      await tx.insert('checklists', newId, {
         'title': ChecklistTitle(title).value,
         'body': ItemText.body(body),
         'color': color,
@@ -364,17 +420,17 @@ class ChecklistsRepository {
         'is_template': isTemplate,
         'template_id': templateId,
       });
-      await tx.logEvent(entityType: 'checklist', entityId: id, eventType: 'created');
+      await tx.logEvent(entityType: 'checklist', entityId: newId, eventType: 'created');
       if (items.isNotEmpty) {
         final change = TreeOps.insertNodes(
           ChecklistTree.empty,
-          TreeOpContext(checklistId: id, now: now ?? tx.now, newId: Ids.v7, settings: settings, cause: tx.cause),
+          TreeOpContext(checklistId: newId, now: now ?? tx.now, newId: Ids.v7, settings: settings, cause: tx.cause),
           items,
         );
         await ChecklistItemsRepository.applyInTx(tx, change);
       }
     });
-    return (id: id, record: record);
+    return (id: newId, record: record);
   }
 
   Future<OpRecord> update(

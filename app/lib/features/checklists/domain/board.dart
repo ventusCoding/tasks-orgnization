@@ -228,6 +228,33 @@ class SmartItem {
   int get hashCode => Object.hash(item, checklistTitle, Object.hashAll(path));
 }
 
+/// An item matching a board search, with its list and breadcrumb (T4.1.13).
+@immutable
+class SearchHit {
+  const SearchHit({
+    required this.itemId,
+    required this.checklistId,
+    required this.text,
+    required this.checklistTitle,
+    this.path = const [],
+  });
+
+  final String itemId;
+  final String checklistId;
+  final String text;
+  final String checklistTitle;
+  final List<String> path;
+}
+
+/// Board search result: matching cards (by title, body or items) and matching items.
+@immutable
+class BoardSearchResult {
+  const BoardSearchResult({this.checklistIds = const {}, this.items = const []});
+
+  final Set<String> checklistIds;
+  final List<SearchHit> items;
+}
+
 /// Counts for the board's smart chips.
 @immutable
 class SmartCounts {
