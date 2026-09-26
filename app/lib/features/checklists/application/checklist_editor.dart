@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:everslot/core/ids/ids.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/core/undo/undo_stack.dart';
@@ -145,6 +146,9 @@ class ChecklistEditor extends Notifier<EditorState> {
   int _focusSeq = 0;
   StreamSubscription<void>? _pauseSub;
 
+  /// Record on top of the undo stack when it was pushed by this editor (snackbar undo).
+  OpRecord? _lastPushed;
+
   UndoStack get undoStack => _undo;
 
   @override
@@ -173,6 +177,13 @@ class ChecklistEditor extends Notifier<EditorState> {
       unawaited(_pauseSub?.cancel());
     });
     return const EditorState();
+  }
+
+  void _push(String label, OpRecord record) {
+    // Late writes (drafts flushed while the screen closes) are kept but no longer undoable.
+    if (record.isEmpty || !ref.mounted) return;
+    _undo.push(label, record);
+    _lastPushed = record;
   }
 
   void _onUndoChanged() {
@@ -316,8 +327,21 @@ class ChecklistEditor extends Notifier<EditorState> {
       _sessionLogged = true;
       _sessionRecords.add(record);
     } else {
-      _undo.push('text', record);
+      _push('text', record);
     }
+  }
+
+  /// Writes pending drafts without touching the undo stack (the screen is closing).
+  Future<void> flushForClose() {
+    for (final t in _timers.values) {
+      t.cancel();
+    }
+    _timers.clear();
+    final pending = Map.of(_drafts);
+    _drafts.clear();
+    return Future.wait([
+      for (final e in pending.entries) _service.setText(checklistId, e.key, e.value, logEvent: true),
+    ]);
   }
 
   Future<void> flushAll() async {
@@ -327,7 +351,7 @@ class ChecklistEditor extends Notifier<EditorState> {
   }
 
   void _endSession() {
-    if (_sessionRecords.isNotEmpty) _undo.push('text', mergeRecords(List.of(_sessionRecords)));
+    if (_sessionRecords.isNotEmpty) _push('text', mergeRecords(List.of(_sessionRecords)));
     _sessionRecords.clear();
     _sessionItem = null;
     _sessionLogged = false;
@@ -369,7 +393,7 @@ class ChecklistEditor extends Notifier<EditorState> {
     _endSession();
     final result = await _service.run(checklistId, build, cause: cause);
     if (result == null) return null;
-    _undo.push(label, result.record);
+    _push(label, result.record);
     final f = result.change.focus;
     if (focusResult && f != null && !state.preview && ref.mounted) requestFocus(f.itemId, cursor: f.cursor);
     return result.record;
@@ -460,6 +484,96 @@ class ChecklistEditor extends Notifier<EditorState> {
   Future<OpRecord?> setFields(String id, Map<String, Object?> fields, {String label = 'edit'}) =>
       run(label, (t, ctx, _) => TreeOps.setFields(t, ctx, id, fields), focusResult: false);
 
+  /// Promote to its own checklist (T4.2.04): new list titled with the item text (color and
+  /// category inherited) + children moved + attachments made checklist-level, in ONE op group.
+  Future<String?> promote(String itemId, {bool keepOriginal = false}) async {
+    final newId = Ids.v7();
+    final key = await ref.read(checklistsRepositoryProvider).topSortKey();
+    final record = await run('promote', (t, ctx, c) {
+      final item = t[itemId];
+      if (item == null) return TreeChange.none;
+      return TreeChange(
+        writes: [
+          RowWrite.insert('checklists', newId, {
+            'title': ChecklistTitle(item.text).value,
+            'body': item.note,
+            'color': c.color,
+            'category_id': c.categoryId,
+            'sort_key': key,
+            'settings': c.settings.toJson(),
+          }),
+        ],
+        events: [
+          EventSpec(entityType: 'checklist', entityId: newId, eventType: 'created', payload: {'promotedFrom': itemId}),
+        ],
+      ).merge(TreeOps.promote(t, ctx, itemId, newChecklistId: newId, keepOriginal: keepOriginal));
+    }, focusResult: false);
+    return record == null ? null : newId;
+  }
+
+  /// Moves subtrees to another checklist under [targetParentId] (appended, T4.1.15).
+  Future<OpRecord?> moveToChecklist(Iterable<String> ids, {required String targetChecklistId, String? targetParentId}) async {
+    if (targetChecklistId == checklistId) {
+      final t = tree;
+      final last = t == null ? null : (t.childIds(targetParentId).isEmpty ? null : t.childIds(targetParentId).last);
+      return moveTo(ids, parentId: targetParentId, afterId: last);
+    }
+    final targetItems = await ref.read(checklistItemsRepositoryProvider).items(targetChecklistId);
+    final target = ChecklistTree.build(targetItems);
+    final siblings = target.childIds(target.contains(targetParentId) ? targetParentId : null);
+    final afterKey = siblings.isEmpty ? null : target[siblings.last]!.sortKey;
+    return run(
+      'move',
+      (t, ctx, _) => TreeOps.moveToChecklist(
+        t,
+        ctx,
+        ids,
+        targetChecklistId: targetChecklistId,
+        targetParentId: target.contains(targetParentId) ? targetParentId : null,
+        afterKey: afterKey,
+      ),
+      focusResult: false,
+    );
+  }
+
+  /// Pastes the internal clipboard after [afterId] (sibling) or at the end of the focus root.
+  /// Cut = move (across checklists too); copy = new rows with attachments by reference.
+  Future<OpRecord?> paste(ClipboardContent content, {String? afterId}) async {
+    final t = tree;
+    final parent = afterId != null && t != null && t.contains(afterId) ? t.parentOf(afterId) : state.focusRootId;
+    if (content.isCut) {
+      final record = content.sourceChecklistId == checklistId
+          ? await moveTo(content.cutIds, parentId: parent, afterId: afterId)
+          : await _moveIn(content, parent);
+      ref.read(checklistClipboardProvider.notifier).clear();
+      return record;
+    }
+    return run(
+      'paste',
+      (tree, ctx, _) => TreeOps.insertNodes(tree, ctx, content.nodes, parentId: parent, afterId: afterId, atEnd: afterId == null),
+    );
+  }
+
+  Future<OpRecord?> _moveIn(ClipboardContent content, String? parent) async {
+    final t = tree;
+    final siblings = t?.childIds(parent) ?? const <String>[];
+    final afterKey = siblings.isEmpty ? null : t![siblings.last]!.sortKey;
+    final result = await _service.run(
+      content.sourceChecklistId,
+      (src, ctx, _) => TreeOps.moveToChecklist(
+        src,
+        ctx,
+        content.cutIds,
+        targetChecklistId: checklistId,
+        targetParentId: parent,
+        afterKey: afterKey,
+      ),
+    );
+    if (result == null) return null;
+    _push('move', result.record);
+    return result.record;
+  }
+
   // ------------------------------------------------------------------ statuses (T4.3)
 
   Future<OpRecord?> setStatus(
@@ -526,7 +640,7 @@ class ChecklistEditor extends Notifier<EditorState> {
     final c = await ref.read(checklistsRepositoryProvider).byId(checklistId);
     if (c == null) return null;
     final record = await ref.read(checklistsRepositoryProvider).update(checklistId, settings: edit(c.settings));
-    _undo.push('settings', record);
+    _push('settings', record);
     return record;
   }
 
@@ -534,10 +648,14 @@ class ChecklistEditor extends Notifier<EditorState> {
 
   void startSelection(String id) => state = state.copyWith(selecting: true, selection: {id});
 
+  /// Selection mode with nothing selected yet (menu entry).
+  void enterSelection() => state = state.copyWith(selecting: true, selection: const {});
+
+  /// Toggles one row; selection mode stays on until [clearSelection] (close button / back).
   void toggleSelected(String id) {
     final s = {...state.selection};
     if (!s.remove(id)) s.add(id);
-    state = state.copyWith(selection: s, selecting: s.isNotEmpty);
+    state = state.copyWith(selection: s, selecting: true);
   }
 
   void selectSubtree(String id) {
@@ -566,17 +684,32 @@ class ChecklistEditor extends Notifier<EditorState> {
   Future<bool> undo() async {
     await flushAll();
     _endSession();
+    _lastPushed = null;
     return _undo.undo();
   }
 
   Future<bool> redo() async {
     await flushAll();
     _endSession();
+    _lastPushed = null;
     return _undo.redo();
   }
 
+  /// Undo from a snackbar: pops the undo stack when [record] is still on top of it, otherwise
+  /// reverts the record directly (never undoes an unrelated later edit).
+  Future<void> undoRecord(OpRecord record) async {
+    if (identical(record, _lastPushed) && _undo.canUndo) {
+      await undo();
+    } else {
+      await ref.read(syncWriterProvider).revert(record);
+    }
+  }
+
   /// Registers an operation made elsewhere on this screen (attachments, header) as an undo step.
-  void pushUndo(String label, OpRecord record) => _undo.push(label, record);
+  void pushUndo(String label, OpRecord record) => _push(label, record);
+
+  /// Briefly highlights a row (search hits, smart views, "next open item").
+  void highlight(String? id) => state = id == null ? state.copyWith(clearHighlight: true) : state.copyWith(highlightId: id);
 }
 
 final checklistEditorProvider = NotifierProvider.autoDispose.family<ChecklistEditor, EditorState, String>(

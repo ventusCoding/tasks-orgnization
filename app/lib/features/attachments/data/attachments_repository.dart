@@ -220,6 +220,9 @@ class AttachmentsRepository {
 /// Attachment row operations usable inside another feature's [SyncWriter.run] (arch §6.7,
 /// T4.4.04): cascades for deletes, copies by reference for duplicates, re-owning for merges.
 abstract final class AttachmentTx {
+  /// Maps a Drift row (e.g. from another feature's custom query) to the domain entity.
+  static Attachment fromRow(AttachmentRow r) => AttachmentsRepository.map(r);
+
   static Future<List<Map<String, Object?>>> _rowsFor(
     WriteTx tx,
     String ownerType,

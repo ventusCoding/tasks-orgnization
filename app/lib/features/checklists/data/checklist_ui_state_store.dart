@@ -9,18 +9,7 @@ import 'package:everslot/features/checklists/domain/checklist.dart';
 import 'package:everslot/features/checklists/domain/visible_list.dart';
 import 'package:meta/meta.dart';
 
-/// Checklist views (T4.5.02).
-enum ChecklistViewType {
-  outline,
-  kanban,
-  gallery;
-
-  static ChecklistViewType parse(String? v) => switch (v) {
-    'kanban' => ChecklistViewType.kanban,
-    'gallery' => ChecklistViewType.gallery,
-    _ => ChecklistViewType.outline,
-  };
-}
+export 'package:everslot/features/checklists/domain/visible_list.dart' show ChecklistViewType;
 
 /// Per-device view state of one checklist (`ui_checklist_state`, T4.2.06). Never synced.
 @immutable
