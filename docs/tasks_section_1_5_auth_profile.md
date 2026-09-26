@@ -27,7 +27,7 @@ registration ([7.4]).
 - [x] T1.5.03 — Email OTP sign-in UI
 - [x] T1.5.04 — Profiles table, auto-creation trigger & repository
 - [x] T1.5.05 — First-run essentials (zone, locale, week start, 12/24 h)
-- [ ] T1.5.06 — Current time-zone tracking & zone-change events
+- [x] T1.5.06 — Current time-zone tracking & zone-change events
 - [ ] T1.5.07 — Sign-out
 - [ ] T1.5.08 — Account switch safety on shared devices
 - [ ] T1.5.09 — Google sign-in (native ID token)
@@ -99,6 +99,7 @@ re-planning ([7.2]); optional prompt "You're in a new time zone — keep home zo
 **Acceptance criteria:** simulated travel (debug zone override) updates floating task times instantly and
 leaves fixed-zone tasks at their absolute instants.
 **Tests:** unit tests with fake zone provider.
+**Notes:** `ZoneTracker` (`features/profile/application/zone_tracker.dart`, startup task) compares the device zone with the last zone *this device* saw (local_kv, so devices in different zones don't flip-flop), emits `zoneChangesProvider` events, writes `profiles.current_time_zone` at most every 10 min, and raises the "make it home?" banner (`SessionBannerHost`). Floating tasks re-resolve because planner providers watch `deviceZoneProvider` (refreshed on resume / `debugSet`). The Android `TIMEZONE_CHANGED` broadcast isn't wired (needs a native receiver) — resume detection covers it.
 
 ### T1.5.07 — Sign-out
 **Priority:** P0 · **Size:** S · **Depends on:** T1.5.02, [1.4]
