@@ -14,9 +14,9 @@ Name chosen 2026-09-22 (arch §14.1); the trademark check is still open (see the
 | Android application id | `app.everslot` | `app/android/app/build.gradle.kts` (`applicationId`) |
 | Android dev application id | `app.everslot.dev` | `dev` flavor, `applicationIdSuffix = ".dev"` |
 | Android namespace | `app.everslot` | `build.gradle.kts` (`namespace`, code only) |
-| iOS bundle id | `app.everslot` | `Runner.xcodeproj` (`PRODUCT_BUNDLE_IDENTIFIER`) |
-| iOS dev bundle id | `app.everslot.dev` | dev scheme/xcconfig when iOS flavors land (ADR-019) |
-| iOS test bundle | `app.everslot.RunnerTests` | `Runner.xcodeproj` |
+| iOS bundle id | `app.everslot` | `prod` scheme, `Runner.xcodeproj` (`PRODUCT_BUNDLE_IDENTIFIER`) |
+| iOS dev bundle id | `app.everslot.dev` | `dev` scheme (`-dev` build configurations) |
+| iOS test bundles | `app.everslot.RunnerTests`, `app.everslot.dev.RunnerTests` | `Runner.xcodeproj` |
 | URL scheme | `everslot://` | `AndroidManifest.xml`, `Info.plist` (`CFBundleURLTypes`) |
 | Background task id | `app.everslot.sync` | `Info.plist` (`BGTaskSchedulerPermittedIdentifiers`) |
 | App Group (widgets) | `group.app.everslot.shared` | created with the first widget ([8.2] T8.2.02) |
@@ -24,8 +24,8 @@ Name chosen 2026-09-22 (arch §14.1); the trademark check is still open (see the
 | Supabase projects | `everslot-dev`, `everslot-prod` | arch §7.1, `docs/ops/supabase_prod.md` |
 | fastlane | `app.everslot` | `app/android/fastlane/Appfile`, `app/ios/fastlane/Appfile` |
 
-Dev and prod install side by side on Android (different application ids and the "Everslot Dev" label);
-on iOS once the dev scheme exists.
+Dev and prod install side by side: different application / bundle ids, and the "Everslot Dev" label on
+Android. The fastlane lanes build the `prod` flavor.
 
 ## Names
 
