@@ -5,7 +5,6 @@ import 'package:everslot/features/habits/application/check_in_service.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/application/quit_service.dart';
 import 'package:everslot/features/habits/data/habit_sections_repository.dart';
-import 'package:everslot/features/habits/domain/check_in.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_periods.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
