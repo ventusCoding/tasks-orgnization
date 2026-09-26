@@ -9,6 +9,8 @@ import 'package:everslot/features/checklists/domain/checklist.dart';
 import 'package:everslot/features/checklists/domain/checklist_tree.dart';
 import 'package:everslot/features/checklists/domain/item_time.dart';
 import 'package:everslot/features/checklists/domain/rollup.dart';
+import 'package:everslot/features/notifications/application/notification_providers.dart' show notificationRulesProvider;
+import 'package:everslot/features/notifications/domain/notification_types.dart' show RuleTargetType;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final checklistsRepositoryProvider = Provider<ChecklistsRepository>(
@@ -135,3 +137,17 @@ final itemStatusEventsProvider = StreamProvider.autoDispose.family<List<StatusEv
 final checklistRunsProvider = StreamProvider.autoDispose.family<List<ChecklistRun>, String>(
   (ref, id) => ref.watch(checklistsRepositoryProvider).watchRuns(id),
 );
+
+/// Checklists and items with their own enabled reminder rules (bell icons on rows and cards,
+/// T4.2.08 / T4.1.08). Rules themselves are edited through the notifications section.
+final ownReminderTargetsProvider = Provider<Set<String>>((ref) {
+  final rules = ref.watch(notificationRulesProvider).value ?? const [];
+  return {
+    for (final r in rules)
+      if (r.enabled &&
+          !r.isDefault &&
+          r.targetId != null &&
+          (r.targetType == RuleTargetType.checklist || r.targetType == RuleTargetType.checklistItem))
+        r.targetId!,
+  };
+});

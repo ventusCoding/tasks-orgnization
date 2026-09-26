@@ -7,6 +7,7 @@ import 'package:everslot/features/checklists/domain/checklist.dart';
 import 'package:everslot/features/checklists/domain/item_status.dart';
 import 'package:everslot/features/checklists/domain/reset.dart';
 import 'package:everslot/features/checklists/presentation/status_visuals.dart';
+import 'package:everslot/features/notifications/presentation/notification_settings_section.dart';
 import 'package:everslot/features/organization/application/providers.dart';
 import 'package:everslot/features/organization/presentation/categories_screen.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -154,6 +155,14 @@ class _ChecklistSettingsSheet extends ConsumerWidget {
           ),
           const Divider(),
           _RepeatSection(checklist: c),
+          const Divider(),
+          // Reminders of the list and of its items ([7.1] rule editor, [7.5] catalog).
+          NotificationSettingsSection(
+            targetType: NotificationTargetType.checklist,
+            targetId: checklistId,
+            section: NotificationSection.checklists,
+            categoryId: c.categoryId,
+          ),
         ],
       ),
     );

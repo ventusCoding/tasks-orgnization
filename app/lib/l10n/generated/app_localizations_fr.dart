@@ -529,6 +529,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get checklistFocus => 'Zoomer';
 
   @override
+  String get checklistHasReminders => 'Rappels définis';
+
+  @override
   String get checklistHideCheckboxes => 'Masquer les cases';
 
   @override
@@ -548,10 +551,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get checklistInsights => 'Statistiques';
-
-  @override
-  String get checklistInsightsPlaceholder =>
-      'Les statistiques de liste arrivent avec la section Statistiques.';
 
   @override
   String get checklistItemHint => 'Élément';
@@ -955,9 +954,6 @@ class AppLocalizationsFr extends AppLocalizations {
       'Seules les 10 000 premières lignes ont été importées';
 
   @override
-  String get itemAddReminder => 'Ajouter un rappel';
-
-  @override
   String get itemAddTime => 'Ajouter une heure';
 
   @override
@@ -1029,13 +1025,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get itemPriority => 'Priorité';
-
-  @override
-  String get itemReminders => 'Rappels';
-
-  @override
-  String get itemRemindersPlaceholder =>
-      'Les rappels de cet élément se régleront ici.';
 
   @override
   String get itemText => 'Texte';

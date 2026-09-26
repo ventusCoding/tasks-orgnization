@@ -541,6 +541,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistFocus => 'تركيز';
 
   @override
+  String get checklistHasReminders => 'توجد تذكيرات';
+
+  @override
   String get checklistHideCheckboxes => 'إخفاء مربعات الاختيار';
 
   @override
@@ -560,10 +563,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checklistInsights => 'الإحصاءات';
-
-  @override
-  String get checklistInsightsPlaceholder =>
-      'ستتوفر إحصاءات القائمة مع قسم الإحصاءات.';
 
   @override
   String get checklistItemHint => 'عنصر';
@@ -989,9 +988,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get importWarningTooMany => 'تم استيراد أول 10000 سطر فقط';
 
   @override
-  String get itemAddReminder => 'إضافة تذكير';
-
-  @override
   String get itemAddTime => 'إضافة وقت';
 
   @override
@@ -1063,12 +1059,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get itemPriority => 'الأولوية';
-
-  @override
-  String get itemReminders => 'التذكيرات';
-
-  @override
-  String get itemRemindersPlaceholder => 'سيتم ضبط تذكيرات هذا العنصر هنا.';
 
   @override
   String get itemText => 'النص';

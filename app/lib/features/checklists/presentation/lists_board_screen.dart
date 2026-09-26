@@ -431,6 +431,7 @@ class _BoardCard extends ConsumerWidget {
       thumbnail: thumbnail,
       showBody: config.showBody,
       maxRows: config.rowsPerCard,
+      hasReminders: ref.watch(ownReminderTargetsProvider.select((s) => s.contains(checklist.id))),
       onTap: () => openChecklist(context, checklist.id),
       onMenu: () => showCardMenu(context, ref, checklist),
     );

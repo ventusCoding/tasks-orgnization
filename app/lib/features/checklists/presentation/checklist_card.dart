@@ -36,6 +36,7 @@ class ChecklistCard extends ConsumerWidget {
     this.maxRows = 6,
     this.onTap,
     this.onMenu,
+    this.hasReminders = false,
   });
 
   final Checklist checklist;
@@ -45,6 +46,9 @@ class ChecklistCard extends ConsumerWidget {
   final int maxRows;
   final VoidCallback? onTap;
   final VoidCallback? onMenu;
+
+  /// The list has its own reminder rules (bell, T4.1.08).
+  final bool hasReminders;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -98,9 +102,19 @@ class ChecklistCard extends ConsumerWidget {
                                   ),
                           ),
                         ),
+                        if (hasReminders)
+                          Padding(
+                            padding: const EdgeInsetsDirectional.only(top: Space.sm, start: Space.xs),
+                            child: Icon(
+                              Icons.notifications_active_outlined,
+                              size: 16,
+                              color: muted,
+                              semanticLabel: l.checklistHasReminders,
+                            ),
+                          ),
                         if (checklist.isRecurring)
                           Padding(
-                            padding: const EdgeInsetsDirectional.only(top: Space.sm),
+                            padding: const EdgeInsetsDirectional.only(top: Space.sm, start: Space.xs),
                             child: Icon(Icons.repeat, size: 16, color: muted, semanticLabel: l.listsRepeats),
                           ),
                         if (onMenu != null)

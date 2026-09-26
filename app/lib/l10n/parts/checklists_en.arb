@@ -425,9 +425,6 @@
   "itemDueOverdue": "Overdue",
   "itemClearDue": "Remove due date",
   "itemAddTime": "Add time",
-  "itemReminders": "Reminders",
-  "itemRemindersPlaceholder": "Reminders for this item will be set here.",
-  "itemAddReminder": "Add reminder",
   "itemHistory": "History",
   "itemHistoryEmpty": "No status changes yet",
   "itemTimeInStatus": "Time in status",
@@ -613,7 +610,6 @@
     }
   },
   "checklistTaskPlaceholder": "Linking to planner tasks arrives with the planner.",
-  "checklistInsightsPlaceholder": "Checklist insights arrive with the stats section.",
   "checklistLabels": "Labels",
   "checklistNewLabel": "New label",
   "checklistLabelName": "Label name",
@@ -627,5 +623,6 @@
         "type": "int"
       }
     }
-  }
+  },
+  "checklistHasReminders": "Has reminders"
 }

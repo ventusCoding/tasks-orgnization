@@ -216,9 +216,6 @@
   "itemDueOverdue": "En retard",
   "itemClearDue": "Supprimer l'échéance",
   "itemAddTime": "Ajouter une heure",
-  "itemReminders": "Rappels",
-  "itemRemindersPlaceholder": "Les rappels de cet élément se régleront ici.",
-  "itemAddReminder": "Ajouter un rappel",
   "itemHistory": "Historique",
   "itemHistoryEmpty": "Aucun changement de statut",
   "itemTimeInStatus": "Temps par statut",
@@ -318,12 +315,12 @@
   "moveChooseParent": "Choisir l'emplacement",
   "moveDone": "Déplacé vers {title}",
   "checklistTaskPlaceholder": "Le lien avec les tâches arrive avec le planificateur.",
-  "checklistInsightsPlaceholder": "Les statistiques de liste arrivent avec la section Statistiques.",
   "checklistLabels": "Libellés",
   "checklistNewLabel": "Nouveau libellé",
   "checklistLabelName": "Nom du libellé",
   "checklistNoLabels": "Aucun libellé",
   "checklistAllLists": "Toutes les listes",
   "checklistExpandToLevelMenu": "Déplier jusqu’au niveau…",
-  "checklistItemsDuplicated": "{count, plural, =1{1 élément dupliqué} other{{count} éléments dupliqués}}"
+  "checklistItemsDuplicated": "{count, plural, =1{1 élément dupliqué} other{{count} éléments dupliqués}}",
+  "checklistHasReminders": "Rappels définis"
 }

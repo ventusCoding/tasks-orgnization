@@ -9,6 +9,7 @@ import 'package:everslot/features/checklists/domain/item_status.dart';
 import 'package:everslot/features/checklists/domain/item_time.dart';
 import 'package:everslot/features/checklists/presentation/status_sheet.dart';
 import 'package:everslot/features/checklists/presentation/status_visuals.dart';
+import 'package:everslot/features/notifications/presentation/notification_settings_section.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -180,11 +181,17 @@ class _ItemDetailsState extends ConsumerState<_ItemDetails> {
             maxVisible: 12,
             onOperation: _editor.pushUndo,
           ),
-          SectionHeader(l.itemReminders, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
-          Text(l.itemRemindersPlaceholder, style: context.text.bodySmall),
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: TextButton.icon(onPressed: null, icon: const Icon(Icons.add_alarm), label: Text(l.itemAddReminder)),
+          // Reminders of this item (T4.2.15 → [7.1] rule editor, [7.5] catalog).
+          const SizedBox(height: Space.md),
+          NotificationSettingsSection(
+            targetType: NotificationTargetType.checklistItem,
+            targetId: item.id,
+            section: NotificationSection.checklists,
+            checklistId: widget.checklistId,
+            ancestorItemIds: [...?tree?.ancestors(item.id).reversed],
+            itemKind: due == null
+                ? ItemKind.any
+                : (ItemTimeRules.isDateOnly(due) ? ItemKind.dateOnly : ItemKind.timed),
           ),
           SectionHeader(l.itemHistory, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
           StatusTimeline(item: item, now: now),

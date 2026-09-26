@@ -982,6 +982,12 @@ abstract class AppLocalizations {
   /// **'Focus'**
   String get checklistFocus;
 
+  /// No description provided for @checklistHasReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Has reminders'**
+  String get checklistHasReminders;
+
   /// No description provided for @checklistHideCheckboxes.
   ///
   /// In en, this message translates to:
@@ -1023,12 +1029,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Insights'**
   String get checklistInsights;
-
-  /// No description provided for @checklistInsightsPlaceholder.
-  ///
-  /// In en, this message translates to:
-  /// **'Checklist insights arrive with the stats section.'**
-  String get checklistInsightsPlaceholder;
 
   /// No description provided for @checklistItemHint.
   ///
@@ -1666,12 +1666,6 @@ abstract class AppLocalizations {
   /// **'Only the first 10 000 lines were imported'**
   String get importWarningTooMany;
 
-  /// No description provided for @itemAddReminder.
-  ///
-  /// In en, this message translates to:
-  /// **'Add reminder'**
-  String get itemAddReminder;
-
   /// No description provided for @itemAddTime.
   ///
   /// In en, this message translates to:
@@ -1797,18 +1791,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Priority'**
   String get itemPriority;
-
-  /// No description provided for @itemReminders.
-  ///
-  /// In en, this message translates to:
-  /// **'Reminders'**
-  String get itemReminders;
-
-  /// No description provided for @itemRemindersPlaceholder.
-  ///
-  /// In en, this message translates to:
-  /// **'Reminders for this item will be set here.'**
-  String get itemRemindersPlaceholder;
 
   /// No description provided for @itemText.
   ///

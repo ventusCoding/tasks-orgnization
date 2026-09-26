@@ -51,6 +51,7 @@ class RowContext {
     this.staleAfterDays = 14,
     this.dueState,
     this.dimmed = false,
+    this.hasReminder = false,
   });
 
   final bool preview;
@@ -74,6 +75,9 @@ class RowContext {
   /// Row being dragged.
   final bool dimmed;
 
+  /// The item has its own reminder rules (bell icon).
+  final bool hasReminder;
+
   @override
   bool operator ==(Object other) =>
       other is RowContext &&
@@ -92,7 +96,8 @@ class RowContext {
       other.canRestructure == canRestructure &&
       other.staleAfterDays == staleAfterDays &&
       other.dueState == dueState &&
-      other.dimmed == dimmed;
+      other.dimmed == dimmed &&
+      other.hasReminder == hasReminder;
 
   @override
   int get hashCode => Object.hash(
@@ -112,6 +117,7 @@ class RowContext {
     staleAfterDays,
     dueState,
     dimmed,
+    hasReminder,
   );
 }
 
@@ -789,6 +795,7 @@ class _MetaLine extends StatelessWidget {
       item.followUpAt != null ||
       item.dueLocal != null ||
       row.isOrphan ||
+      ctx.hasReminder ||
       ItemTimeRules.isStale(item, ctx.now, ctx.staleAfterDays) ||
       (ctx.collapsedRollup != null && ctx.collapsedRollup!.descendants > 0) ||
       (ctx.attachmentCount > 0 && (row.collapsed || (ctx.preview && !ctx.showAttachments)));
@@ -844,6 +851,13 @@ class _MetaLine extends StatelessWidget {
             ),
           if (ItemTimeRules.isStale(item, ctx.now, ctx.staleAfterDays))
             Icon(Icons.hourglass_empty, size: 14, color: context.appColors.skipped, semanticLabel: l.statusStale),
+          if (ctx.hasReminder)
+            Icon(
+              Icons.notifications_active_outlined,
+              size: 14,
+              color: context.colors.onSurfaceVariant,
+              semanticLabel: l.checklistHasReminders,
+            ),
           if (r != null && r.leafCountable > 0) ...[
             Text(l.listsCardProgress(r.leafCompleted, r.leafCountable), style: muted),
             SizedBox(width: 48, child: SegmentedBar(segments: statusSegments(context, r), height: 4)),

@@ -315,6 +315,7 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
       tree: tree,
       rollups: rollups,
       counts: counts,
+      reminders: ref.watch(ownReminderTargetsProvider),
       settings: settings,
       state: state,
       now: now,
@@ -432,6 +433,7 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
       staleAfterDays: env.settings.staleAfterDays,
       dueState: due == null ? null : ItemTimeRules.classifyDue(due, env.nowLocal),
       dimmed: _drag?.id == row.id,
+      hasReminder: env.reminders.contains(row.id),
     );
     final cached = _rowCache[row.id];
     if (cached != null && cached.row == row && cached.ctx == ctx) return cached.widget;
@@ -1447,6 +1449,7 @@ class _RowEnv {
     required this.tree,
     required this.rollups,
     required this.counts,
+    required this.reminders,
     required this.settings,
     required this.state,
     required this.now,
@@ -1456,6 +1459,7 @@ class _RowEnv {
   final ChecklistTree? tree;
   final Map<String, Rollup> rollups;
   final Map<String, int> counts;
+  final Set<String> reminders;
   final ChecklistSettings settings;
   final EditorState state;
   final DateTime now;
