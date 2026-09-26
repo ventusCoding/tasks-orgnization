@@ -345,6 +345,7 @@ class ChecklistItem {
     this.timeZone,
     this.waitingOn,
     this.priority = 0,
+    this.notifyMode = 'inherit',
     this.createdAt,
     this.updatedAt,
   });
@@ -368,6 +369,9 @@ class ChecklistItem {
 
   /// 0 none … 4 urgent.
   final int priority;
+
+  /// Reminder mode of the item (`notify_mode`: inherit | custom | inherit_plus | off).
+  final String notifyMode;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -411,6 +415,7 @@ class ChecklistItem {
     timeZone: timeZone,
     waitingOn: waitingOn,
     priority: priority ?? this.priority,
+    notifyMode: notifyMode,
     createdAt: createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
   );
@@ -433,6 +438,7 @@ class ChecklistItem {
       other.timeZone == timeZone &&
       other.waitingOn == waitingOn &&
       other.priority == priority &&
+      other.notifyMode == notifyMode &&
       other.updatedAt == updatedAt;
 
   @override

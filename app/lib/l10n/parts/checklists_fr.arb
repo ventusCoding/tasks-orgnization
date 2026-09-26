@@ -318,5 +318,6 @@
   "checklistAllLists": "Toutes les listes",
   "checklistExpandToLevelMenu": "Déplier jusqu’au niveau…",
   "checklistItemsDuplicated": "{count, plural, =1{1 élément dupliqué} other{{count} éléments dupliqués}}",
-  "checklistHasReminders": "Rappels définis"
+  "checklistHasReminders": "Rappels définis",
+  "checklistNotifItemGone": "Cet élément n’existe plus"
 }

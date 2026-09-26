@@ -620,5 +620,6 @@
       }
     }
   },
-  "checklistHasReminders": "Has reminders"
+  "checklistHasReminders": "Has reminders",
+  "checklistNotifItemGone": "This item no longer exists"
 }

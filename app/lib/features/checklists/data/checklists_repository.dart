@@ -86,6 +86,19 @@ class ChecklistsRepository {
     return r == null ? null : map(r);
   }
 
+  /// Live, non-archived, non-template lists of the user (notification targets).
+  Future<List<Checklist>> notifiableLists() async => (await (_db.select(_db.checklists)
+            ..where(
+              (c) =>
+                  c.deletedAt.isNull() &
+                  c.userId.equals(_userId()) &
+                  c.archivedAt.isNull() &
+                  c.isTemplate.equals(false),
+            ))
+          .get())
+      .map(map)
+      .toList();
+
   /// Live, non-template checklists that have a reset rule (reset service).
   Future<List<Checklist>> recurring() async => (await (_db.select(_db.checklists)
             ..where(

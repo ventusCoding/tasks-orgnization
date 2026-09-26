@@ -1062,6 +1062,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get checklistNotFound => 'Cette liste n\'existe pas';
 
   @override
+  String get checklistNotifItemGone => 'Cet élément n’existe plus';
+
+  @override
   String get checklistOpenTrash => 'Ouvrir la corbeille';
 
   @override

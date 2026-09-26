@@ -41,6 +41,7 @@ class ChecklistItemsRepository {
     timeZone: r.timeZone,
     waitingOn: r.waitingOn,
     priority: r.priority,
+    notifyMode: r.notifyMode,
     createdAt: r.createdAt,
     updatedAt: r.updatedAt,
   );
@@ -60,6 +61,27 @@ class ChecklistItemsRepository {
 
   Future<List<ChecklistItem>> items(String checklistId) async =>
       (await _live(checklistId).get()).map(map).toList(growable: false);
+
+  /// Live items of the user's live, non-archived, non-template lists (notification targets).
+  Future<List<ChecklistItem>> notifiableItems() async {
+    final rows = await _db
+        .customSelect(
+          'SELECT i.* FROM checklist_items i JOIN checklists c ON c.id = i.checklist_id '
+          'WHERE i.user_id = ? AND i.deleted_at IS NULL AND c.deleted_at IS NULL '
+          'AND c.archived_at IS NULL AND c.is_template = 0',
+          variables: [Variable<String>(_userId())],
+          readsFrom: {_db.checklistItems, _db.checklists},
+        )
+        .get();
+    return [for (final r in rows) map(_db.checklistItems.map(r.data))];
+  }
+
+  /// A live (not tombstoned) item.
+  Future<ChecklistItem?> liveById(String id) async {
+    final r = await (_db.select(_db.checklistItems)..where((i) => i.id.equals(id) & i.deletedAt.isNull()))
+        .getSingleOrNull();
+    return r == null ? null : map(r);
+  }
 
   Future<ChecklistItem?> byId(String id) async {
     final r = await (_db.select(_db.checklistItems)..where((i) => i.id.equals(id))).getSingleOrNull();
@@ -182,6 +204,24 @@ class ChecklistItemsRepository {
         ..orderBy([(e) => OrderingTerm.desc(e.occurredAt)])
         ..limit(100))
       .watch();
+
+  /// Item status changes since [since] (event triggers of reminder rules): item id → event.
+  Future<List<(String, StatusEvent)>> recentStatusChanges(DateTime since) async {
+    final rows = await (_db.select(_db.activityEvents)
+          ..where(
+            (e) =>
+                e.deletedAt.isNull() &
+                e.userId.equals(_userId()) &
+                e.entityType.equals('checklist_item') &
+                e.eventType.equals('status_changed') &
+                e.occurredAt.isBiggerOrEqualValue(since),
+          ))
+        .get();
+    return [
+      for (final r in rows)
+        if (_statusEvent(r) case final e?) (r.entityId, e),
+    ];
+  }
 
   /// Last 20 status events for [status] across items (quick reason chips, T4.3.02).
   Future<List<StatusEvent>> recentStatusEvents(ItemStatus status) async {

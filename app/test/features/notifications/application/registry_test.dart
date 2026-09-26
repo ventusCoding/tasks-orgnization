@@ -12,8 +12,9 @@ void main() {
     () async {
       final h = TestHarness.create();
       addTearDown(h.dispose);
-      expect(h.read(notificationTargetSourcesProvider), isEmpty);
-      expect(h.read(notificationActionHandlersProvider), isEmpty);
+      // Static feature contributions (notification_contributions.dart) are always present.
+      final baseSources = h.read(notificationTargetSourcesProvider);
+      final baseHandlers = h.read(notificationActionHandlersProvider);
 
       final source = InMemoryNotificationTargetSource(section: 'planner');
       addTearDown(source.dispose);
@@ -27,8 +28,8 @@ void main() {
         ..registerActionHandler(handler);
       await Future<void>.delayed(Duration.zero);
 
-      expect(h.read(notificationTargetSourcesProvider), [source]);
-      expect(h.read(notificationActionHandlersProvider), [handler]);
+      expect(h.read(notificationTargetSourcesProvider), [...baseSources, source]);
+      expect(h.read(notificationActionHandlersProvider), [...baseHandlers, handler]);
       expect(
         findActionHandler(
           h.read(notificationActionHandlersProvider),
@@ -48,7 +49,7 @@ void main() {
 
       h.read(notificationRegistryProvider).unregisterSource(source);
       await Future<void>.delayed(Duration.zero);
-      expect(h.read(notificationTargetSourcesProvider), isEmpty);
+      expect(h.read(notificationTargetSourcesProvider), baseSources);
     },
   );
 }

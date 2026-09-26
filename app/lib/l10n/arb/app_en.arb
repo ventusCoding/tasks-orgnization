@@ -2232,6 +2232,7 @@
   "checklistNoItems": "No items yet",
   "checklistNoLabels": "No labels yet",
   "checklistNotFound": "This list doesn't exist",
+  "checklistNotifItemGone": "This item no longer exists",
   "checklistOpenTrash": "Open trash",
   "checklistOutdent": "Outdent",
   "checklistPaste": "Paste",
