@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/bucketing.dart';
+import 'package:everslot/features/planner/presentation/grid/engine/day_rows.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/day_slices.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/day_timeline.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/page_axis.dart';
@@ -102,25 +103,6 @@ class TableRowsLayout {
 
   @override
   int get hashCode => Object.hash(Object.hashAll(rows), Object.hashAll(heights));
-}
-
-/// Elapsed-minute ranges of [rows] on the day of [timeline] (monotonic; rows missing that day are
-/// empty so nothing lands in them).
-List<(int, int)> rowRangesFor(DayTimeline timeline, List<AxisRow> rows) {
-  final result = <(int, int)>[];
-  var prev = 0;
-  for (final r in rows) {
-    final exists = r.repeat == 0 || timeline.hasWall(r.wallStart, repeat: 1);
-    if (!exists) {
-      result.add((prev, prev));
-      continue;
-    }
-    final a = math.max(prev, timeline.tOfWall(r.wallStart, repeat: r.repeat));
-    final b = math.max(a, r.wallEnd >= 1440 ? timeline.lengthMinutes : timeline.tOfWallEnd(r.wallEnd, repeat: r.repeat));
-    result.add((a, b));
-    prev = b;
-  }
-  return result;
 }
 
 /// Buckets of one day for [rows] (T3.3.06).
