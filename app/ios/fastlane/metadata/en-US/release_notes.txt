@@ -1,0 +1,1 @@
+Welcome to Everslot 1.0: a week table with slots from 1 minute to 24 hours, nested checklists with statuses, habit and quit trackers, detailed insights, reminders with an in-app inbox, offline-first sync, and English, French and Arabic.

@@ -1,0 +1,25 @@
+Everslot is a personal organizer: a week planner with 1-minute to 24-hour slots, nested checklists, habit and quit trackers, statistics and reminders. There is no in-app purchase, no ads and no user-to-user content.
+
+SIGN-IN
+- No demo credentials are needed. On the sign-in screen, tap "Continue without account" (guest mode): every feature works and the data syncs like any account.
+- You can also use Sign in with Apple (offered next to Google, "Hide My Email" works) or a one-time code sent to any e-mail address you can read. Apple only shares the name at the first sign-in; the app stores it in the profile.
+
+OFFLINE-FIRST / LOCAL DATA
+- Everything is saved on the device first (SQLite) and syncs in the background, so the app is fully usable in airplane mode; changes sync when the connection returns.
+- Statistics are computed on the device. Builds without a cloud configuration run in local-only mode (a banner says so) and keep all data on the device.
+
+NOTIFICATIONS
+- Permission is requested only after an explanation screen (onboarding or the first reminder) and the app remains usable without it.
+- Reminders are scheduled locally; push notifications (APNs through Firebase Cloud Messaging) deliver reminders to the user's other signed-in devices and silent background pushes trigger a sync. No marketing notifications are sent.
+- Background modes: remote-notification (silent sync pushes), fetch and processing (refresh sync data and upcoming reminders).
+
+ACCOUNT DELETION
+- Settings > Account > Delete account: confirm, re-authenticate, then the account, its data and uploaded files are deleted from our servers and the device is wiped. Web instructions: https://YOUR_SITE_DOMAIN/en/delete-account.html
+
+PERMISSIONS
+- Camera and Photos: only when the user attaches a photo to an item. Face ID: only for the optional app lock.
+
+HEALTH CONTENT
+- Quit trackers show optional health milestones for smoking with sources and a disclaimer ("educational estimates, not medical advice"). The app does not use HealthKit in this version.
+
+Contact: [FIRST NAME] [LAST NAME], [CONTACT EMAIL], [PHONE NUMBER].

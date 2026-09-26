@@ -1,0 +1,49 @@
+Everslot helps you own every slot of your day: plan your week on a time table, keep checklists as deep as you need, build habits, quit the ones you don't want — and see exactly how it's going.
+
+PLAN YOUR TIME, YOUR WAY
+• A week table with 7 day columns and time slots from 1 minute to 24 hours. Pinch to zoom, drag to move or resize.
+• Day list, N-day and work-week views, week list, month, agenda and a year heatmap.
+• Fully free recurrence: every N minutes within a time window, several times a day, N times a week, after completion, with exceptions.
+• Edit one occurrence, this and the following ones, or the whole series. Skip, reschedule and roll over unfinished tasks.
+• A backlog with timeboxing, a free-slot finder, a focus view of what's now and next, timers and plan-versus-actual tracking.
+
+LISTS WITHOUT LIMITS
+• Card-style checklists with notes and items nested as deep as you need.
+• A status for every item: to do, ongoing, waiting, blocked, completed or cancelled — with a reason note.
+• Photos and files on items, a run mode to tick through a routine, progress roll-ups and smart views of everything waiting or blocked.
+• Templates, resettable (recurring) checklists, Kanban-by-status and gallery views, import and export (Markdown, OPML, plain text).
+
+HABITS
+• Yes/no, count, duration, numeric or "at most" goals on any schedule — including several times a day or N times a week.
+• Check in as done, not done, partial, skipped or excused; backfill past days; add notes and mood.
+• Goals, challenges and streak freezes.
+
+QUIT TRACKERS
+• Smoking, vaping, alcohol, caffeine, sugar, social media, gaming or anything else.
+• A live clean-time counter, relapses and cravings with intensity and triggers, money and time saved, milestones, and a cut-down mode with a daily limit.
+
+INSIGHTS THAT GO DEEP
+• Statistics for every task, series, checklist, item, habit and quit tracker, and for each section: streaks, habit strength, completion and punctuality, planned versus actual time, time per category, time in each status, trends and personal records.
+• Weekly and monthly reviews. Every chart has a table view, and everything is computed on your device.
+
+REMINDERS THAT FOLLOW YOUR RULES
+• Several reminders per item at any offset, repeat-until-done nudges, quiet hours, snooze and actions right from the notification.
+• An in-app inbox keeps every reminder, and push delivery reaches your other signed-in devices.
+• Daily agenda and weekly review digests.
+
+YOUR DAY AT A GLANCE
+• A Today screen with your agenda, due habits, quit counters and pinned lists, plus quick add and global search.
+• Home-screen widgets for today's agenda, habit check-ins and quit counters.
+
+OFFLINE FIRST, SYNCED EVERYWHERE
+Everything is saved on your device first and works without a connection. Sign in with an email code, Google or Apple — or start as a guest — to sync across your devices.
+
+PRIVATE BY DESIGN
+• No ads, no tracking and no selling of your data. Habit and quit-tracker data is never used for advertising.
+• Export all your data (JSON or CSV), restore deleted items from the Trash for 30 days and delete your account from the app.
+• Optional app lock and hidden notification content.
+
+MADE FOR EVERYONE
+English, French and Arabic with a full right-to-left layout, dark mode, screen-reader labels and large text support.
+
+Quit-tracker health milestones are general educational information based on public health sources, not medical advice.
