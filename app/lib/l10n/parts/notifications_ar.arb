@@ -444,5 +444,7 @@
   "notifMetricStreak": "السلسلة",
   "notifMetricTotal": "الإجمالي",
   "notifMetricMoney": "المال الموفَّر",
-  "notifMetricUnits": "الوحدات المتجنبة"
+  "notifMetricUnits": "الوحدات المتجنبة",
+  "notifModeOffHint": "لا إشعارات لهذا العنصر",
+  "notifSectionOffHint": "إشعارات «{section}» متوقفة في الإعدادات"
 }

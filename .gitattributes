@@ -1,0 +1,17 @@
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.jar binary
+*.ttf binary
+*.otf binary
+
+# Generated files: collapsed in diffs, excluded from language stats.
+app/lib/core/database/app_database.g.dart linguist-generated=true -diff
+app/lib/l10n/generated/** linguist-generated=true
+app/lib/l10n/arb/** linguist-generated=true
