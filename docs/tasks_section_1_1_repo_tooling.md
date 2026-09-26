@@ -19,23 +19,23 @@ skeleton, local scripts, hooks, dependency automation, versioning.
 
 ## Progress
 
-- [ ] T1.1.01 — Initialize repository & conventions
-- [ ] T1.1.02 — Upgrade Flutter & pin it with FVM
-- [ ] T1.1.03 — Pub workspace root + melos scripts
-- [ ] T1.1.04 — Scaffold the Flutter app (`app/`)
+- [x] T1.1.01 — Initialize repository & conventions
+- [x] T1.1.02 — Upgrade Flutter & pin it with FVM
+- [x] T1.1.03 — Pub workspace root + melos scripts
+- [x] T1.1.04 — Scaffold the Flutter app (`app/`)
 - [ ] T1.1.05 — iOS project setup: SwiftPM, UIScene, deployment target
 - [ ] T1.1.06 — Android project setup: SDK levels, Gradle/AGP/Kotlin, namespaces
-- [ ] T1.1.07 — Pure-Dart packages skeletons
+- [x] T1.1.07 — Pure-Dart packages skeletons
 - [ ] T1.1.08 — Strict analysis: very_good_analysis + riverpod_lint plugin
-- [ ] T1.1.09 — Code generation setup
-- [ ] T1.1.10 — Flavors (dev / prod) & entrypoints
-- [ ] T1.1.11 — Environment configuration (`--dart-define-from-file`)
+- [x] T1.1.09 — Code generation setup
+- [x] T1.1.10 — Flavors (dev / prod) & entrypoints
+- [x] T1.1.11 — Environment configuration (`--dart-define-from-file`)
 - [ ] T1.1.12 — CI skeleton (GitHub Actions)
-- [ ] T1.1.13 — Local developer scripts & IDE launch configs
-- [ ] T1.1.14 — Git hooks (format/analyze/commit message)
-- [ ] T1.1.15 — Dependency update automation
-- [ ] T1.1.16 — Versioning & changelog tooling
-- [ ] T1.1.17 — Contributor docs (README, CONTRIBUTING, PR template)
+- [x] T1.1.13 — Local developer scripts & IDE launch configs
+- [x] T1.1.14 — Git hooks (format/analyze/commit message)
+- [x] T1.1.15 — Dependency update automation
+- [x] T1.1.16 — Versioning & changelog tooling
+- [x] T1.1.17 — Contributor docs (README, CONTRIBUTING, PR template)
 
 ## Tasks
 
@@ -51,6 +51,7 @@ keep prod out), Supabase `.branches`/`.temp`, Deno caches, `.fvm/flutter_sdk`), 
 `main`, squash merge with conventional-commit titles.
 **Acceptance criteria:** `git status` clean after a full build; no secrets or generated files tracked.
 **Tests:** CI secret scan (added in [9.1] T9.1.12) passes on the initial commit.
+**Notes:** Root README, .gitignore, .editorconfig, .gitattributes (LF, generated files marked). Secret scan arrives with T9.1.12.
 
 ### T1.1.02 — Upgrade Flutter & pin it with FVM
 **Priority:** P0 · **Size:** S · **Depends on:** T1.1.01
@@ -61,6 +62,7 @@ policy (upgrade within 4 weeks of a new stable, in a dedicated PR with full CI +
 **Acceptance criteria:** `fvm flutter --version` prints 3.47.5 in the repo; `flutter doctor` clean for
 iOS & Android toolchains (Xcode 27 command line tools, Android SDK 36, Java 17).
 **Tests:** CI reads the version from `.fvmrc` (T1.1.12).
+**Notes:** `.fvmrc` pins 3.47.5. The dev machine has Xcode 16.4, so the Xcode 27 doctor check is still open.
 
 ### T1.1.03 — Pub workspace root + melos scripts
 **Priority:** P0 · **Size:** S · **Depends on:** T1.1.02
@@ -73,6 +75,7 @@ also works with plain `fvm dart run` commands documented in `CLAUDE.md`.
 **Acceptance criteria:** `fvm dart pub get` at the root resolves all members; `melos run analyze` and
 `melos run test` run across all packages.
 **Tests:** CI job uses these scripts.
+**Notes:** melos scripts: gen, gen:watch, l10n, analyze, imports, format, format:check, test, test:coverage (lcov via `--coverage-path`), outdated, clean.
 
 ### T1.1.04 — Scaffold the Flutter app (`app/`)
 **Priority:** P0 · **Size:** M · **Depends on:** T1.1.03
@@ -86,6 +89,7 @@ upload); app display name "Everslot" (dev: "Everslot Dev"); **do not** add `sqli
 **Acceptance criteria:** app builds and runs on an iOS simulator and an Android emulator showing a
 placeholder screen; `dart analyze` clean.
 **Tests:** a smoke widget test pumping the root widget.
+**Notes:** Smoke test: `app/test/app/app_smoke_test.dart` boots `EverslotApp` in local-only mode.
 
 ### T1.1.05 — iOS project setup: SwiftPM, UIScene, deployment target
 **Priority:** P0 · **Size:** S · **Depends on:** T1.1.04
@@ -96,6 +100,7 @@ background fetch/processing) added later by their tasks; `ITSAppUsesNonExemptEnc
 **Acceptance criteria:** clean build with Xcode 27; app launches (no "fails to launch" UIScene error);
 plugin registration works after scene connection.
 **Tests:** CI iOS build job (T1.1.12, macOS runner, no signing).
+**Notes:** Deployment target 15.0, UIScene (`SceneDelegate`) and `ITSAppUsesNonExemptEncryption` are in place. All plugins resolve as Swift packages, so CocoaPods was removed (no Podfile). A dev-flavor simulator build (2026-09-26) got through package resolution and Xcode configuration but needs **Xcode ≥ 26**: `workmanager_apple` 0.9.11 uses the iOS 26 SDK (`BGContinuedProcessingTask`), and this machine has Xcode 16.4. Still open: a clean build with Xcode 26/27.
 
 ### T1.1.06 — Android project setup: SDK levels, Gradle/AGP/Kotlin, namespaces
 **Priority:** P0 · **Size:** S · **Depends on:** T1.1.04
@@ -105,6 +110,7 @@ keep rules placeholder, core library desugaring enabled (required by notificatio
 **Acceptance criteria:** `fvm flutter build apk --flavor dev` succeeds; release build minifies without
 missing-class errors.
 **Tests:** CI Android build job.
+**Notes:** SDK levels, AGP 9.1, Gradle 9.3.1, Kotlin 2.4, Kotlin DSL, desugaring and flavors done; a dev debug APK builds. Still open: R8/minify for release with keep rules (needs a verified release build).
 
 ### T1.1.07 — Pure-Dart packages skeletons
 **Priority:** P0 · **Size:** S · **Depends on:** T1.1.03
@@ -123,6 +129,7 @@ inheriting the root, README describing purpose & public API policy (only barrel 
 `public_member_api_docs` off for app code (on for pure packages).
 **Acceptance criteria:** `melos run analyze` passes with `--fatal-infos`; a deliberate `print()` fails CI.
 **Tests:** CI analyze job.
+**Notes:** Root options are strict, but `app/analysis_options.yaml` still includes `flutter_lints` (unresolvable), so app code is not yet analyzed with very_good_analysis; `riverpod_lint` plugin not yet enabled. Planned for the integration quality pass.
 
 ### T1.1.09 — Code generation setup
 **Priority:** P0 · **Size:** S · **Depends on:** T1.1.08
@@ -132,6 +139,7 @@ inheriting the root, README describing purpose & public API policy (only barrel 
 (`--workspace` builds). Policy: generated files are **not committed**; CI and bootstrap run `gen`.
 **Acceptance criteria:** fresh clone → bootstrap → `gen` → analyze clean in < 3 min on CI.
 **Tests:** CI step ordering (gen before analyze/test).
+**Notes:** ADR-016: codegen is limited to Drift and `app_database.g.dart` is committed; CI fails when it is stale.
 
 ### T1.1.10 — Flavors (dev / prod) & entrypoints
 **Priority:** P0 · **Size:** M · **Depends on:** T1.1.05, T1.1.06
@@ -142,6 +150,7 @@ corner banner in dev.
 **Acceptance criteria:** dev and prod installable side by side on the same device; `Flavor.current`
 available to code.
 **Tests:** unit test for flavor → config mapping.
+**Notes:** Android: `dev`/`prod` product flavors. iOS: configurations `{Debug,Release,Profile}-{dev,prod}`, shared schemes `dev`/`prod`, `APP_DISPLAY_NAME`, dev icon set `AppIcon-dev`; the plain `Runner` scheme keeps the prod identity. DEV corner banner in `app/lib/app/app.dart`; tests in `app/test/core/env/env_test.dart`.
 
 ### T1.1.11 — Environment configuration (`--dart-define-from-file`)
 **Priority:** P0 · **Size:** S · **Depends on:** T1.1.10
@@ -152,6 +161,7 @@ available to code.
 local values from `supabase status`.
 **Acceptance criteria:** running without an env file shows a readable configuration error (dev), never a crash loop.
 **Tests:** unit tests for `Env` validation.
+**Notes:** ADR-017: missing or placeholder Supabase values start local-only mode instead of an error screen; `Env.warnings` feed the debug menu.
 
 ### T1.1.12 — CI skeleton (GitHub Actions)
 **Priority:** P0 · **Size:** M · **Depends on:** T1.1.09, T1.1.11
@@ -162,6 +172,7 @@ local values from `supabase status`.
 are added by [1.2].
 **Acceptance criteria:** a PR with a failing test or unformatted file is blocked; typical run < 12 min.
 **Tests:** open a test PR that breaks formatting (must fail).
+**Notes:** Workflow in place (format, import checks, analyze, tests + coverage, Android dev APK, iOS dev build). Not green yet: format page width and app lint set are settled in the quality pass (see T1.1.08).
 
 ### T1.1.13 — Local developer scripts & IDE launch configs
 **Priority:** P1 · **Size:** S · **Depends on:** T1.1.12
@@ -169,6 +180,7 @@ are added by [1.2].
 `tool/reset_local_backend.sh` (db reset + seed), `tool/new_migration.sh <name>`; VS Code
 `launch.json` for dev/prod flavors with env files; Android Studio run configurations documented.
 **Acceptance criteria:** a new machine goes from clone to running app with ≤ 3 commands (documented).
+**Notes:** `tool/bootstrap.sh`, `tool/reset_local_backend.sh`, `tool/new_migration.sh`, VS Code launch configs for both flavors.
 
 ### T1.1.14 — Git hooks (format/analyze/commit message)
 **Priority:** P1 · **Size:** S · **Depends on:** T1.1.12
@@ -189,6 +201,7 @@ monthly review noted in the release checklist ([9.2]).
 from CI; changelog generated from conventional commits (melos version or release-please) into
 `CHANGELOG.md`; tags `vX.Y.Z` trigger release workflows ([9.2]).
 **Acceptance criteria:** a dry-run release produces the next SemVer version and a changelog grouped by type.
+**Notes:** `CHANGELOG.md` + `tool/release_notes.dart` (conventional commits → release notes / store text).
 
 ### T1.1.17 — Contributor docs (README, CONTRIBUTING, PR template)
 **Priority:** P2 · **Size:** S · **Depends on:** T1.1.13

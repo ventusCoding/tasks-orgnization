@@ -1,13 +1,20 @@
 import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
-import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
-import 'package:everslot/features/planner/presentation/grid/engine/item_filter.dart';
-import 'package:everslot/features/planner/presentation/grid/engine/page_axis.dart';
-import 'package:everslot/features/planner/presentation/grid/engine/paging.dart';
-import 'package:everslot/features/planner/presentation/grid/engine/snapping.dart';
+import 'package:everslot/features/planner/domain/view_config/day_window.dart';
+import 'package:everslot/features/planner/domain/view_config/item_filter.dart';
+import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
+
+export 'package:everslot/features/planner/domain/view_config/day_window.dart';
+export 'package:everslot/features/planner/domain/view_config/item_filter.dart';
+
+/// Horizontal paging of time-based views (arch §6.9 `ColumnsSpec.paging`).
+enum PagingMode { week, day, free }
+
+/// Default snap = min(slot, 15), clamped to 1–60 (T3.3.17).
+int defaultSnapMinutes(int slotMinutes) => math.min(slotMinutes, 15).clamp(1, 60);
 
 /// View types of arch §8.3.
 enum PlannerViewType {
@@ -202,7 +209,7 @@ class PlannerViewConfig {
   });
 
   static const currentVersion = 1;
-  static final _log = AppLog.get('planner.view_config');
+  static final _log = Logger('planner.view_config');
 
   /// Per-type defaults (T3.4.02: week table = 7 days × 30-min rows × 24 h, 48 px rows, fixed zoom,
   /// auto render mode with table from 120 min, snap 15, paging week).
@@ -323,7 +330,7 @@ class PlannerViewConfig {
       zoomMode: enumOf('zoomMode', ZoomMode.values, d.zoomMode),
       renderMode: enumOf('renderMode', RenderMode.values, d.renderMode),
       autoTableThresholdMinutes: intOf('autoTableThresholdMinutes', d.autoTableThresholdMinutes, 1, 1440),
-      snapMinutes: intOf('snapMinutes', json.containsKey('snapMinutes') ? d.snapMinutes : SnapEngine.defaultSnapFor(slot), 1, 60),
+      snapMinutes: intOf('snapMinutes', json.containsKey('snapMinutes') ? d.snapMinutes : defaultSnapMinutes(slot), 1, 60),
       daysVisible: intOf('daysVisible', d.daysVisible, 1, 14),
       firstDay: firstDay is String && _validFirstDay(firstDay) ? firstDay : d.firstDay,
       paging: enumOf('paging', PagingMode.values, d.paging),
@@ -570,8 +577,8 @@ class PlannerViewConfig {
   PlannerViewConfig withSlot(int minutes, {bool keepPxPerMinute = false}) {
     final slot = minutes.clamp(1, 1440);
     final extent = keepPxPerMinute ? (pxPerMinute * slot).clamp(8.0, 400.0) : slotExtentPx;
-    final wasDefault = snapMinutes == SnapEngine.defaultSnapFor(slotMinutes);
-    final snap = wasDefault ? SnapEngine.defaultSnapFor(slot) : math.min(snapMinutes, math.max(1, math.min(slot, 60)));
+    final wasDefault = snapMinutes == defaultSnapMinutes(slotMinutes);
+    final snap = wasDefault ? defaultSnapMinutes(slot) : math.min(snapMinutes, math.max(1, math.min(slot, 60)));
     return copyWith(slotMinutes: slot, slotExtentPx: extent, snapMinutes: snap);
   }
 

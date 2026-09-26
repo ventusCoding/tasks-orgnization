@@ -2338,6 +2338,12 @@ abstract class AppLocalizations {
   /// **'Off'**
   String get notifModeOff;
 
+  /// No description provided for @notifModeOffHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications for this item'**
+  String get notifModeOffHint;
+
   /// No description provided for @notifMultiDevice.
   ///
   /// In en, this message translates to:
@@ -2859,6 +2865,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Habits'**
   String get notifSectionHabits;
+
+  /// No description provided for @notifSectionOffHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{section} notifications are turned off in Settings'**
+  String notifSectionOffHint(String section);
 
   /// No description provided for @notifSectionPlanner.
   ///

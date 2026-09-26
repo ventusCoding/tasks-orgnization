@@ -21,22 +21,22 @@ dispatcher ([7.4]), production hardening ([9.2]).
 
 ## Progress
 
-- [ ] T1.2.01 — Supabase CLI & local stack
+- [x] T1.2.01 — Supabase CLI & local stack
 - [ ] T1.2.02 — Cloud projects, API keys & linking
-- [ ] T1.2.03 — Migration & SQL conventions
-- [ ] T1.2.04 — Baseline migration: schemas, extensions, grants, helpers
-- [ ] T1.2.05 — Sync plumbing: `sync_heads`, triggers, `app.enable_sync()`
-- [ ] T1.2.06 — Realtime Broadcast authorization (`user:<uid>` private channel)
-- [ ] T1.2.07 — pgTAP harness & CI database job
-- [ ] T1.2.08 — Storage bucket `attachments` & policies
-- [ ] T1.2.09 — Edge Functions workspace (Deno 2.1-compatible) & CI job
-- [ ] T1.2.10 — Seed data & test users for local development
-- [ ] T1.2.11 — App config table & minimum-version gate (server side)
-- [ ] T1.2.12 — pg_cron + pg_net + Vault wiring (`app.invoke_edge`)
+- [x] T1.2.03 — Migration & SQL conventions
+- [x] T1.2.04 — Baseline migration: schemas, extensions, grants, helpers
+- [x] T1.2.05 — Sync plumbing: `sync_heads`, triggers, `app.enable_sync()`
+- [x] T1.2.06 — Realtime Broadcast authorization (`user:<uid>` private channel)
+- [x] T1.2.07 — pgTAP harness & CI database job
+- [x] T1.2.08 — Storage bucket `attachments` & policies
+- [x] T1.2.09 — Edge Functions workspace (Deno 2.1-compatible) & CI job
+- [x] T1.2.10 — Seed data & test users for local development
+- [x] T1.2.11 — App config table & minimum-version gate (server side)
+- [x] T1.2.12 — pg_cron + pg_net + Vault wiring (`app.invoke_edge`)
 - [ ] T1.2.13 — Firebase projects per flavor (FlutterFire)
 - [ ] T1.2.14 — APNs key & iOS push capabilities
 - [ ] T1.2.15 — Crashlytics integration
-- [ ] T1.2.16 — Database advisors & security baseline in CI
+- [x] T1.2.16 — Database advisors & security baseline in CI
 - [ ] T1.2.17 — Generated TypeScript types for Edge Functions
 
 ## Tasks
@@ -50,6 +50,7 @@ limits, realtime enabled.
 **Acceptance criteria:** `supabase start` brings up the stack; `supabase status` prints URLs and keys
 used by `env/dev.json` (local).
 **Tests:** CI job starts the stack (T1.2.07).
+**Notes:** `supabase/config.toml` (API schema `app`, email OTP, anonymous sign-ins, Postgres 17). Verified with Supabase CLI 2.117.0.
 
 ### T1.2.02 — Cloud projects, API keys & linking
 **Priority:** P0 · **Size:** S · **Depends on:** T1.2.01
@@ -60,6 +61,7 @@ for server code) and asymmetric JWT signing; `supabase link`; store project refs
 **Acceptance criteria:** `supabase db push --dry-run` works against the linked project; legacy
 anon/service_role keys are not used anywhere.
 **Tests:** manual verification checklist in `supabase/README.md`.
+**Notes:** Cloud projects are skipped on purpose (the user's instruction): the app runs local-only until `env/*.json` holds real values. Step-by-step setup lives in `docs/guide.md`.
 
 ### T1.2.03 — Migration & SQL conventions
 **Priority:** P0 · **Size:** S · **Depends on:** T1.2.01
@@ -115,6 +117,7 @@ template isolation test, and CI job: `supabase/setup-cli` → `supabase start` �
 `supabase test db`.
 **Acceptance criteria:** CI fails when any test fails; runs < 6 min.
 **Tests:** the harness self-test.
+**Notes:** 491 pgTAP assertions in 12 files; CI job in `.github/workflows/backend.yml`.
 
 ### T1.2.08 — Storage bucket `attachments` & policies
 **Priority:** P0 · **Size:** S · **Depends on:** T1.2.07
@@ -170,6 +173,7 @@ per flavor; `flutterfire configure` per flavor → `firebase_options_dev.dart` /
 Analytics collection disabled (`FIREBASE_ANALYTICS_COLLECTION_ENABLED=false`).
 **Acceptance criteria:** `Firebase.initializeApp` succeeds in both flavors; no analytics events sent.
 **Tests:** bootstrap smoke test in both flavors.
+**Notes:** Placeholder: `app/lib/firebase_options.dart` reports `isConfigured == false` and Firebase stays off until `flutterfire configure` is run per flavor (`docs/guide.md`).
 
 ### T1.2.14 — APNs key & iOS push capabilities
 **Priority:** P1 · **Size:** S · **Depends on:** T1.2.13
@@ -178,12 +182,14 @@ enable Push Notifications, Time Sensitive Notifications and Background Modes (re
 background fetch, background processing) capabilities; configure the UIScene-compatible notification
 delegate (`configureNotificationCenterDelegate()` in AppDelegate).
 **Acceptance criteria:** a test push from the Firebase console reaches a device (dev flavor).
+**Notes:** `UIBackgroundModes` (remote-notification, fetch, processing) are set. Still open: `Runner.entitlements` (`aps-environment`) and the APNs key upload (manual, `docs/guide.md`).
 
 ### T1.2.15 — Crashlytics integration
 **Priority:** P1 · **Size:** S · **Depends on:** T1.2.13, [1.3] (error handling)
 **Description:** `firebase_crashlytics` wired to the global error handlers (release builds only), user
 opt-out setting ([8.3]), no PII (user id hashed or omitted), dSYM/mapping upload in release builds ([9.2]).
 **Acceptance criteria:** a forced test crash appears in the Crashlytics dashboard for the dev project.
+**Notes:** Dart side done (`bootstrap.dart` wires Crashlytics when Firebase is configured). The native Gradle/Xcode Crashlytics plugins are added by `flutterfire configure` (manual step).
 
 ### T1.2.16 — Database advisors & security baseline in CI
 **Priority:** P1 · **Size:** S · **Depends on:** T1.2.07
@@ -191,9 +197,12 @@ opt-out setting ([8.3]), no PII (user id hashed or omitted), dSYM/mapping upload
 unused auth providers; email confirmation on; minimum password length; rate limits reviewed; RLS on
 every `app` table (enforced by [9.1] T9.1.06).
 **Acceptance criteria:** CI fails on advisor errors; the security checklist in `supabase/README.md` is complete.
+**Notes:** `supabase db lint` (plpgsql) in CI; RLS on every `app` table is asserted by pgTAP; security baseline in `supabase/README.md`.
 
 ### T1.2.17 — Generated TypeScript types for Edge Functions
 **Priority:** P1 · **Size:** S · **Depends on:** T1.2.09
 **Description:** `supabase gen types typescript --local > supabase/functions/_shared/database.types.ts`
 script; CI check that types are up to date after migrations.
 **Acceptance criteria:** a migration without regenerated types fails CI with the regeneration command in the message.
+**Notes:** Open: `_shared/types.ts` is hand-written for the notification pipeline; generating `database.types.ts` and the CI freshness check still need a local stack run.
+

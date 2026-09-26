@@ -134,8 +134,9 @@ class NotificationSettings {
       dailyCap: asInt(notifications['dailyCap']) ?? 500,
       horizonDays: (asInt(notifications['horizonDays']) ?? 14).clamp(1, 14),
       badgePolicy: asString(notifications['badgePolicy']) ?? 'unread',
+      // arch §8.5 key first; `hideNotificationContent` is accepted as an alias.
       hideContent:
-          asBool(privacy['hideNotificationContent']) ?? asBool(privacy['hideContentInNotifications']) ?? false,
+          asBool(privacy['hideContentInNotifications']) ?? asBool(privacy['hideNotificationContent']) ?? false,
     );
   }
 

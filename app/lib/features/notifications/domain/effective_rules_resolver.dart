@@ -86,9 +86,10 @@ class EffectiveRulesResolver {
     ];
   }
 
-  /// Rules a target inherits (also used by the editor to show greyed inherited rules).
+  /// Enabled rules a target inherits whatever its `notify_mode` (the editor shows them greyed and
+  /// *Customize* copies them). Disabled defaults are left out: they never fire.
   List<EffectiveRule> inheritedFor(NotificationTarget target) =>
-      [for (final e in _defaults(target)) if (_matchesKind(e.rule, target)) e];
+      [for (final e in _defaults(target)) if (e.rule.enabled && _matchesKind(e.rule, target)) e];
 
   Iterable<EffectiveRule> _own(NotificationTarget target) sync* {
     final type = RuleTargetType.forTarget(target.type);

@@ -969,5 +969,14 @@
   "notifMetricStreak": "Streak",
   "notifMetricTotal": "Total",
   "notifMetricMoney": "Money saved",
-  "notifMetricUnits": "Units avoided"
+  "notifMetricUnits": "Units avoided",
+  "notifModeOffHint": "No notifications for this item",
+  "notifSectionOffHint": "{section} notifications are turned off in Settings",
+  "@notifSectionOffHint": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  }
 }

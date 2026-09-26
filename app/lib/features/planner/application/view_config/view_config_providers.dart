@@ -2,11 +2,17 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:everslot/core/providers.dart';
-import 'package:everslot/features/planner/presentation/view_config/planner_view_config.dart';
-import 'package:everslot/features/planner/presentation/view_config/saved_views_repository.dart';
-import 'package:everslot/features/planner/presentation/view_config/view_state.dart';
+import 'package:everslot/features/planner/data/view_config/saved_views_repository.dart';
+import 'package:everslot/features/planner/data/view_config/view_state_repository.dart';
+import 'package:everslot/features/planner/domain/view_config/planner_view_config.dart';
+import 'package:everslot/features/planner/domain/view_config/saved_view.dart';
+import 'package:everslot/features/planner/domain/view_config/view_state.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+export 'package:everslot/features/planner/domain/view_config/planner_view_config.dart';
+export 'package:everslot/features/planner/domain/view_config/saved_view.dart';
+export 'package:everslot/features/planner/domain/view_config/view_state.dart';
 
 final savedViewsRepositoryProvider = Provider<SavedViewsRepository>(
   (ref) => SavedViewsRepository(
@@ -25,6 +31,87 @@ final plannerSavedViewsProvider = StreamProvider<List<SavedView>>((ref) {
 final viewStateRepositoryProvider = Provider<ViewStateRepository>(
   (ref) => ViewStateRepository(ref.watch(appDatabaseProvider), ref.watch(clockProvider)),
 );
+
+/// Deterministic id of the built-in saved view of a registry entry (converges across devices).
+String entryViewId(String userId, String entryId) => SavedViewsRepository.entryViewId(userId, entryId);
+
+/// Local view state of one view (T3.3.02): loaded once, then kept in memory; writes are debounced
+/// to the local-only `ui_view_state` table (never synced).
+final plannerViewStateProvider = NotifierProvider.family<ViewStateController, ViewState?, String>(ViewStateController.new);
+
+class ViewStateController extends Notifier<ViewState?> {
+  ViewStateController(this.viewKey);
+
+  /// Debounce of persistence (tests set it to zero).
+  static Duration saveDelay = const Duration(milliseconds: 600);
+
+  final String viewKey;
+  Timer? _timer;
+  ViewState? _pending;
+  var _loaded = false;
+
+  /// Completes once the stored state was read (or failed to load).
+  final Completer<ViewState?> _ready = Completer<ViewState?>();
+  Future<ViewState?> get ready => _ready.future;
+
+  @override
+  ViewState? build() {
+    ref.onDispose(() {
+      _timer?.cancel();
+      final pending = _pending;
+      if (pending != null) unawaited(_persist(pending));
+    });
+    unawaited(_load());
+    return null;
+  }
+
+  Future<void> _load() async {
+    ViewState? stored;
+    try {
+      stored = await ref.read(viewStateRepositoryProvider).read(viewKey);
+    } on Object {
+      stored = null; // No database (previews): state stays in memory.
+    }
+    _loaded = true;
+    if (!ref.mounted) {
+      if (!_ready.isCompleted) _ready.complete(stored);
+      return;
+    }
+    if (_pending == null && stored != null) state = stored;
+    if (!_ready.isCompleted) _ready.complete(state ?? stored);
+  }
+
+  bool get isLoaded => _loaded;
+
+  void update(ViewState Function(ViewState current) change) {
+    final next = change(state ?? const ViewState());
+    if (next == state) return;
+    state = next;
+    _pending = next;
+    _timer?.cancel();
+    if (saveDelay == Duration.zero) {
+      unawaited(flush());
+    } else {
+      _timer = Timer(saveDelay, () => unawaited(flush()));
+    }
+  }
+
+  Future<void> flush() async {
+    _timer?.cancel();
+    final pending = _pending;
+    if (pending == null) return;
+    await _persist(pending);
+    if (identical(_pending, pending)) _pending = null;
+  }
+
+  Future<void> _persist(ViewState s) async {
+    try {
+      await ref.read(viewStateRepositoryProvider).write(viewKey, s);
+    } on Object {
+      // Best effort: view state is a convenience.
+    }
+  }
+}
 
 /// A view key is a registry entry id (`week_table`, `work_week`, `month`…) or `saved:<id>`.
 abstract final class ViewKeys {

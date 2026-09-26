@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Regenerates launcher icons (prod + Android dev flavor with a DEV badge) and the native splash (T9.2.01).
+# Regenerates launcher icons (prod + Android/iOS dev flavor with a DEV badge) and the native splash (T9.2.01).
 # flutter_launcher_icons runs as a global tool (it pins cli_util <0.5, which conflicts with melos in the
 # workspace); flutter_native_splash is a dev dependency of the app (it needs the Flutter SDK).
 #   Needs: rsvg-convert (brew install librsvg) to re-render assets/branding/*.svg → *.png.
@@ -11,7 +11,7 @@ fvm dart pub global activate flutter_launcher_icons 0.14.4 >/dev/null
 if command -v rsvg-convert >/dev/null; then
   for f in app/assets/branding/*.svg; do rsvg-convert "$f" -o "${f%.svg}.png"; done
   # The store icon must not have an alpha channel.
-  python3 -c "from PIL import Image; [Image.open(p).convert('RGB').save(p) for p in ['app/assets/branding/icon.png','app/assets/branding/icon_tinted.png']]" 2>/dev/null ||
+  python3 -c "from PIL import Image; [Image.open(p).convert('RGB').save(p) for p in ['app/assets/branding/icon.png','app/assets/branding/icon_tinted.png','app/assets/branding/icon_dev.png']]" 2>/dev/null ||
     echo "⚠️  PIL missing: make sure icon.png has no alpha channel"
 fi
 
@@ -39,6 +39,10 @@ YAML
 rm -rf "$ROOT/app/android/app/src/dev/res"
 mkdir -p "$ROOT/app/android/app/src/dev/res"
 cp -R "$TMP/android/app/src/main/res/." "$ROOT/app/android/app/src/dev/res/"
+
+# iOS dev flavor: single-size 1024 icon set (AppIcon-dev, selected by the Debug/Release/Profile-dev configs).
+python3 -c "from PIL import Image; Image.open('app/assets/branding/icon_dev.png').convert('RGB').save('app/ios/Runner/Assets.xcassets/AppIcon-dev.appiconset/Icon-App-Dev-1024x1024@1x.png')" ||
+  cp app/assets/branding/icon_dev.png "app/ios/Runner/Assets.xcassets/AppIcon-dev.appiconset/Icon-App-Dev-1024x1024@1x.png"
 
 (cd app && fvm dart run flutter_native_splash:create --path=flutter_native_splash.yaml)
 # Both generators touch files we keep hand-maintained: flutter_launcher_icons 0.14.4 corrupts

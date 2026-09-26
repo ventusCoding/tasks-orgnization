@@ -9,7 +9,7 @@ import 'package:everslot/core/time/clock.dart';
 import 'package:everslot/features/planner/application/planner_contract.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/data/item_copy.dart';
-import 'package:everslot/features/planner/presentation/view_config/view_config_providers.dart';
+import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
