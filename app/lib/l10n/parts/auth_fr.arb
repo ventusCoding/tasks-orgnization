@@ -63,6 +63,7 @@
   "authSignOutSyncing": "Synchronisation de vos dernières modifications…",
   "authSignOutAnyway": "Me déconnecter quand même",
   "authSignedOut": "Déconnecté",
+  "authSignOutGuestBody": "Ce compte invité n’existe que sur cet appareil. Vous déconnecter le supprimera définitivement avec toutes ses données : ajoutez d’abord un e-mail pour le conserver.",
   "authDeleteAccount": "Supprimer le compte",
   "authDeleteTitle": "Supprimer votre compte ?",
   "authDeleteBody": "Votre compte et toutes vos données (plannings, listes, habitudes et pièces jointes) seront définitivement supprimés sur tous vos appareils. Cette action est irréversible.",

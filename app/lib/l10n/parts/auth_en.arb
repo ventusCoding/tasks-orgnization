@@ -63,6 +63,7 @@
   "authSignOutSyncing": "Syncing your last changes…",
   "authSignOutAnyway": "Sign out anyway",
   "authSignedOut": "Signed out",
+  "authSignOutGuestBody": "This guest account only exists on this device. Signing out deletes it and all its data for good — add an email first to keep it.",
   "authDeleteAccount": "Delete account",
   "authDeleteTitle": "Delete your account?",
   "authDeleteBody": "This permanently deletes your account and all your data — plans, lists, habits and attachments — on every device. It can't be undone.",

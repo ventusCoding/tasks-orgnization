@@ -28,8 +28,8 @@ registration ([7.4]).
 - [x] T1.5.04 — Profiles table, auto-creation trigger & repository
 - [x] T1.5.05 — First-run essentials (zone, locale, week start, 12/24 h)
 - [x] T1.5.06 — Current time-zone tracking & zone-change events
-- [ ] T1.5.07 — Sign-out
-- [ ] T1.5.08 — Account switch safety on shared devices
+- [x] T1.5.07 — Sign-out
+- [x] T1.5.08 — Account switch safety on shared devices
 - [ ] T1.5.09 — Google sign-in (native ID token)
 - [ ] T1.5.10 — Sign in with Apple (iOS native, Android web flow)
 - [ ] T1.5.11 — Guest mode (anonymous) & account upgrade
@@ -108,12 +108,14 @@ synced will be lost") with cancel/export options; then cancel local notification
 (when [7.4] exists), close realtime, wipe synced tables, caches and secure storage session, sign out.
 **Acceptance criteria:** after sign-out no user data remains on disk (verified by listing DB tables & cache dirs).
 **Tests:** integration test on local stack; unit tests for the pending-changes guard.
+**Notes:** `SignOutService` (final push → pending guard with count → cleanups while the session is valid: push token nulled via `report_device_state`, local notifications cancelled → session end (sync engine + Broadcast disposed) → `LocalDataWiper.wipeAll` (every table incl. FTS, non-device `local_kv`, attachments/exports/imports/thumbnails dirs) → Supabase/Google sign-out, secure session removed); UI `runSignOutFlow` (guest warning, export / cancel / sign out anyway). `SyncWriter.run` now refuses writes without a user so no late background write survives the wipe. "Nothing left on disk" verified by listing tables & dirs in `test/features/auth/session_lifecycle_test.dart`; the local-stack integration test waits for a configured project.
 
 ### T1.5.08 — Account switch safety on shared devices
 **Priority:** P0 · **Size:** S · **Depends on:** T1.5.07
 **Description:** If a different user signs in on a device holding another user's local data (e.g. after an
 interrupted sign-out), wipe before the first pull; `sync_state.user_id` guards every sync operation.
 **Tests:** unit test: mismatched user id triggers wipe; no cross-user push possible.
+**Notes:** `AuthBinding._bind`: owner null → `LocalAccount.claimForCloudUser` (re-derives user-scoped deterministic ids); owner ≠ user → optional backup hook (`beforeAccountWipeProvider`) then full wipe, before the first pull; the sync engine's guard (`LocalDataOwner.matches`) blocks any push/pull until the data is bound — tested (mismatch wipe, no cross-user push, same account keeps its outbox, claim of local-only data).
 
 ### T1.5.09 — Google sign-in (native ID token)
 **Priority:** P1 · **Size:** M · **Depends on:** T1.5.02

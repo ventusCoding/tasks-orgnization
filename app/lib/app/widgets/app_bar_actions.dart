@@ -1,6 +1,7 @@
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/notifications/application/inbox_providers.dart';
+import 'package:everslot/features/settings/presentation/widgets/sync_indicator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
@@ -15,6 +16,8 @@ class AppBarActions extends ConsumerWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
+        // Offline / syncing / error indicator, hidden when synced (T8.1.09).
+        const SyncIndicator(),
         IconButton(
           tooltip: context.l10n.actionSearch,
           icon: const Icon(Icons.search),

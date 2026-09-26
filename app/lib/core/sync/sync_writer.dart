@@ -86,6 +86,9 @@ class SyncWriter {
     String cause = 'user',
     DateTime? scheduledAt,
   }) async {
+    // No session (signed out / sign-out in progress): a late background write must never
+    // recreate user rows after the local wipe (T1.5.07).
+    if (userId().isEmpty) throw const AuthException('SyncWriter.run without a signed-in user');
     final id = opId ?? Ids.v7();
     late WriteTx tx;
     await db.transaction(() async {
