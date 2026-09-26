@@ -32,7 +32,7 @@ handling/logging, and a dev-only debug menu.
 - [ ] T1.3.11 — Pickers: date, time (1-min), duration, color, icon
 - [ ] T1.3.12 — App scaffold: bottom bar, app bar actions, contextual FAB, adaptive layout
 - [x] T1.3.13 — Localization (EN/FR/AR) & formatting helpers
-- [ ] T1.3.14 — RTL baseline
+- [x] T1.3.14 — RTL baseline
 - [ ] T1.3.15 — Accessibility baseline
 - [ ] T1.3.16 — Feature flags & dev debug menu (incl. time travel)
 - [ ] T1.3.17 — Haptics & sound service
@@ -187,6 +187,11 @@ non-directional ones (clock, check) are not; bidi helpers for mixed content (e.g
 times); lint/grep check for non-directional insets in features.
 **Acceptance criteria:** all shell screens pass an RTL golden review.
 **Tests:** RTL goldens; grep-based CI check.
+**Notes:** grep-based check = `tool/check_imports.dart` RTL rules (`Positioned`, `EdgeInsets.only/fromLTRB`,
+`Alignment.*Left/Right`, `TextAlign.left/right`). Bidi helpers: `BidiText` (`design_system/bidi.dart`: LTR/RTL/
+first-strong isolates). The repo has no golden files (Ahem/font rendering differs between macOS and the Ubuntu
+CI), so RTL is verified structurally in widget tests (`app/test/design_system/rtl_test.dart`: mirroring of
+directional icons, start/end placement, runtime locale switch) — goldens can be added on a pinned CI runner.
 
 ### T1.3.15 — Accessibility baseline
 **Priority:** P0 · **Size:** S · **Depends on:** T1.3.10
