@@ -99,7 +99,7 @@ class HabitTarget {
   HabitTarget copyWith({HabitGoalType? type, Object? target = _unset, TargetOp? op, Object? unit = _unset}) =>
       HabitTarget(
         type: type ?? this.type,
-        target: identical(target, _unset) ? this.target : target as double?,
+        target: identical(target, _unset) ? this.target : (target as num?)?.toDouble(),
         op: op ?? this.op,
         unit: identical(unit, _unset) ? this.unit : unit as String?,
       );
@@ -497,16 +497,16 @@ final class QuitHabit extends Habit {
     mode: mode ?? this.mode,
     substance: identical(substance, _unset) ? this.substance : substance as QuitSubstance?,
     quitStartedAt: quitStartedAt ?? this.quitStartedAt,
-    dailyLimit: identical(dailyLimit, _unset) ? this.dailyLimit : dailyLimit as double?,
+    dailyLimit: identical(dailyLimit, _unset) ? this.dailyLimit : (dailyLimit as num?)?.toDouble(),
     baselinePerDay: baselinePerDay ?? this.baselinePerDay,
     unitCost: identical(unitCost, _unset) ? this.unitCost : unitCost as Decimal?,
     currency: identical(currency, _unset) ? this.currency : currency as String?,
     timePerUnitMinutes: identical(timePerUnitMinutes, _unset)
         ? this.timePerUnitMinutes
-        : timePerUnitMinutes as double?,
+        : (timePerUnitMinutes as num?)?.toDouble(),
     lifeMinutesPerUnit: identical(lifeMinutesPerUnit, _unset)
         ? this.lifeMinutesPerUnit
-        : lifeMinutesPerUnit as double?,
+        : (lifeMinutesPerUnit as num?)?.toDouble(),
     unit: identical(unit, _unset) ? this.unit : unit as String?,
   );
 

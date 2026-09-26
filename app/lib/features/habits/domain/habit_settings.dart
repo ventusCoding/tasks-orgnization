@@ -284,7 +284,7 @@ class HabitSettings {
     incrementStep: incrementStep ?? this.incrementStep,
     quickValues: quickValues ?? this.quickValues,
     askNoteAfterCheckIn: askNoteAfterCheckIn ?? this.askNoteAfterCheckIn,
-    minPerDay: identical(minPerDay, _unset) ? this.minPerDay : minPerDay as double?,
+    minPerDay: identical(minPerDay, _unset) ? this.minPerDay : (minPerDay as num?)?.toDouble(),
     pledge: pledge ?? this.pledge,
     challenge: identical(challenge, _unset) ? this.challenge : challenge as ChallengeSettings?,
     targetProgression: identical(targetProgression, _unset)

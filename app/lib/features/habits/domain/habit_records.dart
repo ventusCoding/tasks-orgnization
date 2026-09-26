@@ -113,7 +113,7 @@ class HabitLogEntry {
     loggedAt: loggedAt ?? this.loggedAt,
     localDate: localDate,
     occurrenceKey: occurrenceKey,
-    value: identical(value, _unset) ? this.value : value as double?,
+    value: identical(value, _unset) ? this.value : (value as num?)?.toDouble(),
     mood: identical(mood, _unset) ? this.mood : mood as int?,
     intensity: intensity,
     resisted: resisted,
