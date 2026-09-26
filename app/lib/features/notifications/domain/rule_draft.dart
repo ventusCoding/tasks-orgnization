@@ -18,7 +18,12 @@ class RuleDraft {
     this.profileId,
   });
 
-  factory RuleDraft.fromRule(NotificationRule r, {RuleTargetType? targetType, String? targetId, bool? isDefault}) => RuleDraft(
+  factory RuleDraft.fromRule(
+    NotificationRule r, {
+    RuleTargetType? targetType,
+    String? targetId,
+    bool? isDefault,
+  }) => RuleDraft(
     targetType: targetType ?? r.targetType,
     targetId: targetId ?? r.targetId,
     section: r.section,
@@ -72,5 +77,14 @@ class RuleDraft {
       other.profileId == profileId;
 
   @override
-  int get hashCode => Object.hash(targetType, targetId, section, spec, isDefault, enabled, name, profileId);
+  int get hashCode => Object.hash(
+    targetType,
+    targetId,
+    section,
+    spec,
+    isDefault,
+    enabled,
+    name,
+    profileId,
+  );
 }

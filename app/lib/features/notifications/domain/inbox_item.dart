@@ -54,13 +54,16 @@ class InboxItem {
   final DateTime? snoozedUntil;
 
   bool get isRead => readAt != null;
-  bool isSnoozedAt(DateTime now) => snoozedUntil != null && snoozedUntil!.isAfter(now);
+  bool isSnoozedAt(DateTime now) =>
+      snoozedUntil != null && snoozedUntil!.isAfter(now);
 
   /// Unread = not read, not dismissed, not currently snoozed (T7.3.01).
-  bool isUnreadAt(DateTime now) => readAt == null && dismissedAt == null && !isSnoozedAt(now);
+  bool isUnreadAt(DateTime now) =>
+      readAt == null && dismissedAt == null && !isSnoozedAt(now);
 
   /// Acknowledged (stops nag chains on every device).
-  bool get acknowledged => actedAt != null || openedAt != null || dismissedAt != null;
+  bool get acknowledged =>
+      actedAt != null || openedAt != null || dismissedAt != null;
 
   String? get deepLink => asString(payload['link']);
   List<String> get actions => asStringList(payload['acts']) ?? const [];
@@ -102,13 +105,29 @@ class InboxItem {
       other.deliveredAt == deliveredAt;
 
   @override
-  int get hashCode => Object.hash(id, title, body, readAt, dismissedAt, actedAt, openedAt, snoozedUntil);
+  int get hashCode => Object.hash(
+    id,
+    title,
+    body,
+    readAt,
+    dismissedAt,
+    actedAt,
+    openedAt,
+    snoozedUntil,
+  );
 }
 
 /// Inbox list filter (T7.3.01).
 @immutable
 class InboxFilter {
-  const InboxFilter({this.unreadOnly = false, this.section, this.category, this.from, this.to, this.query});
+  const InboxFilter({
+    this.unreadOnly = false,
+    this.section,
+    this.category,
+    this.from,
+    this.to,
+    this.query,
+  });
 
   static const all = InboxFilter();
 
@@ -119,15 +138,21 @@ class InboxFilter {
   final DateTime? to;
   final String? query;
 
-  InboxFilter copyWith({bool? unreadOnly, NotificationSection? section, bool clearSection = false, InboxCategory? category, bool clearCategory = false, String? query}) =>
-      InboxFilter(
-        unreadOnly: unreadOnly ?? this.unreadOnly,
-        section: clearSection ? null : (section ?? this.section),
-        category: clearCategory ? null : (category ?? this.category),
-        from: from,
-        to: to,
-        query: query ?? this.query,
-      );
+  InboxFilter copyWith({
+    bool? unreadOnly,
+    NotificationSection? section,
+    bool clearSection = false,
+    InboxCategory? category,
+    bool clearCategory = false,
+    String? query,
+  }) => InboxFilter(
+    unreadOnly: unreadOnly ?? this.unreadOnly,
+    section: clearSection ? null : (section ?? this.section),
+    category: clearCategory ? null : (category ?? this.category),
+    from: from,
+    to: to,
+    query: query ?? this.query,
+  );
 
   @override
   bool operator ==(Object other) =>
@@ -140,5 +165,6 @@ class InboxFilter {
       other.query == query;
 
   @override
-  int get hashCode => Object.hash(unreadOnly, section, category, from, to, query);
+  int get hashCode =>
+      Object.hash(unreadOnly, section, category, from, to, query);
 }

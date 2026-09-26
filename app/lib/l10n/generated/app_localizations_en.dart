@@ -1574,6 +1574,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifFieldOffset => 'Offset in minutes (negative = before)';
 
   @override
+  String get notifFieldRepeats => 'Repeats';
+
+  @override
   String get notifFieldStatuses => 'Statuses';
 
   @override
@@ -1585,6 +1588,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifFieldUntil => 'Until';
+
+  @override
+  String get notifFreqDaily => 'Every day';
+
+  @override
+  String get notifFreqMonthly => 'Every month';
+
+  @override
+  String get notifFreqWeekly => 'Every week';
 
   @override
   String get notifFrom => 'From';
@@ -2283,6 +2295,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifSoundSoft => 'Soft';
+
+  @override
+  String get notifStatusBlocked => 'blocked';
+
+  @override
+  String get notifStatusCancelled => 'cancelled';
+
+  @override
+  String get notifStatusCompleted => 'completed';
+
+  @override
+  String get notifStatusDone => 'done';
+
+  @override
+  String get notifStatusInProgress => 'in progress';
+
+  @override
+  String get notifStatusMissed => 'missed';
+
+  @override
+  String get notifStatusOngoing => 'ongoing';
+
+  @override
+  String get notifStatusScheduled => 'scheduled';
+
+  @override
+  String get notifStatusSkipped => 'skipped';
+
+  @override
+  String get notifStatusTodo => 'to do';
+
+  @override
+  String get notifStatusWaiting => 'waiting';
 
   @override
   String get notifSticky => 'Keep until done (Android)';

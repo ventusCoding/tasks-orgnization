@@ -1,9 +1,11 @@
 import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/features/notifications/application/background_entry.dart';
 import 'package:everslot/features/notifications/application/local_notifications_port.dart';
-import 'package:everslot/features/notifications/domain/notification_types.dart' as nt;
+import 'package:everslot/features/notifications/domain/notification_types.dart'
+    as nt;
 import 'package:flutter/foundation.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart' as fln;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart'
+    as fln;
 import 'package:timezone/timezone.dart' as tz;
 
 /// [LocalNotificationsPort] over `flutter_local_notifications` 22.x (T7.2.01).
@@ -33,22 +35,36 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
     _ => 'other',
   };
 
-  fln.AndroidFlutterLocalNotificationsPlugin? get _android =>
-      _plugin.resolvePlatformSpecificImplementation<fln.AndroidFlutterLocalNotificationsPlugin>();
+  fln.AndroidFlutterLocalNotificationsPlugin? get _android => _plugin
+      .resolvePlatformSpecificImplementation<
+        fln.AndroidFlutterLocalNotificationsPlugin
+      >();
 
-  fln.IOSFlutterLocalNotificationsPlugin? get _ios =>
-      _plugin.resolvePlatformSpecificImplementation<fln.IOSFlutterLocalNotificationsPlugin>();
+  fln.IOSFlutterLocalNotificationsPlugin? get _ios => _plugin
+      .resolvePlatformSpecificImplementation<
+        fln.IOSFlutterLocalNotificationsPlugin
+      >();
 
-  static OsResponse mapResponse(fln.NotificationResponse r, {bool background = false}) => OsResponse(
+  static OsResponse mapResponse(
+    fln.NotificationResponse r, {
+    bool background = false,
+  }) => OsResponse(
     id: r.id,
-    actionId: r.notificationResponseType == fln.NotificationResponseType.selectedNotificationAction ? r.actionId : null,
+    actionId:
+        r.notificationResponseType ==
+            fln.NotificationResponseType.selectedNotificationAction
+        ? r.actionId
+        : null,
     input: r.input,
     payload: r.payload,
     background: background,
   );
 
   @override
-  Future<void> initialize({required List<OsCategory> categories, required void Function(OsResponse) onResponse}) async {
+  Future<void> initialize({
+    required List<OsCategory> categories,
+    required void Function(OsResponse) onResponse,
+  }) async {
     _onResponse = onResponse;
     await _plugin.initialize(
       settings: fln.InitializationSettings(
@@ -60,8 +76,10 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
           notificationCategories: [for (final c in categories) _category(c)],
         ),
       ),
-      onDidReceiveNotificationResponse: (r) => _onResponse?.call(mapResponse(r)),
-      onDidReceiveBackgroundNotificationResponse: notificationBackgroundResponse,
+      onDidReceiveNotificationResponse: (r) =>
+          _onResponse?.call(mapResponse(r)),
+      onDidReceiveBackgroundNotificationResponse:
+          notificationBackgroundResponse,
     );
   }
 
@@ -71,7 +89,9 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
     await initialize(categories: categories, onResponse: _onResponse!);
   }
 
-  fln.DarwinNotificationCategory _category(OsCategory c) => fln.DarwinNotificationCategory(
+  fln.DarwinNotificationCategory _category(
+    OsCategory c,
+  ) => fln.DarwinNotificationCategory(
     c.id,
     actions: [
       for (final a in c.actions)
@@ -81,18 +101,26 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
                 a.title,
                 buttonTitle: a.buttonTitle ?? a.title,
                 placeholder: a.placeholder,
-                options: {if (a.authenticationRequired) fln.DarwinNotificationActionOption.authenticationRequired},
+                options: {
+                  if (a.authenticationRequired)
+                    fln.DarwinNotificationActionOption.authenticationRequired,
+                },
               )
             : fln.DarwinNotificationAction.plain(
                 a.id,
                 a.title,
                 options: {
-                  if (a.foreground) fln.DarwinNotificationActionOption.foreground,
-                  if (a.authenticationRequired) fln.DarwinNotificationActionOption.authenticationRequired,
+                  if (a.foreground)
+                    fln.DarwinNotificationActionOption.foreground,
+                  if (a.authenticationRequired)
+                    fln.DarwinNotificationActionOption.authenticationRequired,
                 },
               ),
     ],
-    options: {if (c.customDismiss) fln.DarwinNotificationCategoryOption.customDismissAction},
+    options: {
+      if (c.customDismiss)
+        fln.DarwinNotificationCategoryOption.customDismissAction,
+    },
   );
 
   static fln.Importance _importance(nt.NotificationImportance i) => switch (i) {
@@ -122,12 +150,18 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
   static const bundledSounds = <String>{};
 
   @override
-  Future<void> ensureChannels(List<OsChannelGroup> groups, List<OsChannel> channels, {Set<String> delete = const {}}) async {
+  Future<void> ensureChannels(
+    List<OsChannelGroup> groups,
+    List<OsChannel> channels, {
+    Set<String> delete = const {},
+  }) async {
     _channels = {for (final c in channels) c.id: c};
     final android = _android;
     if (android == null) return;
     for (final g in groups) {
-      await android.createNotificationChannelGroup(fln.AndroidNotificationChannelGroup(g.id, g.name));
+      await android.createNotificationChannelGroup(
+        fln.AndroidNotificationChannelGroup(g.id, g.name),
+      );
     }
     for (final c in channels) {
       await android.createNotificationChannel(
@@ -138,7 +172,9 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
           groupId: c.groupId,
           importance: _importance(c.importance),
           playSound: c.sound != 'none',
-          sound: bundledSounds.contains(c.sound) ? fln.RawResourceAndroidNotificationSound(c.sound) : null,
+          sound: bundledSounds.contains(c.sound)
+              ? fln.RawResourceAndroidNotificationSound(c.sound)
+              : null,
           enableVibration: c.vibration != 'none',
           vibrationPattern: _vibration(c.vibration),
           showBadge: c.showBadge,
@@ -161,11 +197,15 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
         importance: _importance(channel?.importance ?? r.importance),
         priority: _priority(r.importance),
         playSound: !r.silent && r.sound != 'none',
-        sound: bundledSounds.contains(r.sound) ? fln.RawResourceAndroidNotificationSound(r.sound) : null,
+        sound: bundledSounds.contains(r.sound)
+            ? fln.RawResourceAndroidNotificationSound(r.sound)
+            : null,
         enableVibration: !r.silent && r.vibration != 'none',
         vibrationPattern: _vibration(r.vibration),
         groupKey: r.groupKey,
-        category: r.alarmClock ? fln.AndroidNotificationCategory.alarm : fln.AndroidNotificationCategory.reminder,
+        category: r.alarmClock
+            ? fln.AndroidNotificationCategory.alarm
+            : fln.AndroidNotificationCategory.reminder,
         visibility: fln.NotificationVisibility.private,
         ongoing: r.sticky,
         autoCancel: !r.sticky,
@@ -200,7 +240,8 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
         interruptionLevel: switch (r.interruptionLevel) {
           nt.InterruptionLevel.passive => fln.InterruptionLevel.passive,
           nt.InterruptionLevel.active => fln.InterruptionLevel.active,
-          nt.InterruptionLevel.timeSensitive => fln.InterruptionLevel.timeSensitive,
+          nt.InterruptionLevel.timeSensitive =>
+            fln.InterruptionLevel.timeSensitive,
         },
       ),
     );
@@ -209,7 +250,8 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
   @override
   Future<void> schedule(OsNotificationRequest request) async {
     final at = request.fireAt;
-    if (at == null || !at.isAfter(DateTime.now().toUtc().add(const Duration(seconds: 1)))) {
+    if (at == null ||
+        !at.isAfter(DateTime.now().toUtc().add(const Duration(seconds: 1)))) {
       await show(request);
       return;
     }
@@ -221,7 +263,9 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
       notificationDetails: _details(request),
       androidScheduleMode: request.alarmClock
           ? fln.AndroidScheduleMode.alarmClock
-          : (request.exact ? fln.AndroidScheduleMode.exactAllowWhileIdle : fln.AndroidScheduleMode.inexactAllowWhileIdle),
+          : (request.exact
+                ? fln.AndroidScheduleMode.exactAllowWhileIdle
+                : fln.AndroidScheduleMode.inexactAllowWhileIdle),
       payload: request.payload,
     );
   }
@@ -236,14 +280,16 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
   );
 
   @override
-  Future<void> cancel(int id, {String? tag}) => _plugin.cancel(id: id, tag: tag);
+  Future<void> cancel(int id, {String? tag}) =>
+      _plugin.cancel(id: id, tag: tag);
 
   @override
   Future<void> cancelAll() => _plugin.cancelAll();
 
   @override
   Future<List<PendingOsRequest>> pending() async => [
-    for (final p in await _plugin.pendingNotificationRequests()) PendingOsRequest(p.id, title: p.title, payload: p.payload),
+    for (final p in await _plugin.pendingNotificationRequests())
+      PendingOsRequest(p.id, title: p.title, payload: p.payload),
   ];
 
   @override
@@ -251,7 +297,12 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
     try {
       return [
         for (final a in await _plugin.getActiveNotifications())
-          ActiveOsNotification(a.id, tag: a.tag, payload: a.payload, channelId: a.channelId),
+          ActiveOsNotification(
+            a.id,
+            tag: a.tag,
+            payload: a.payload,
+            channelId: a.channelId,
+          ),
       ];
     } on Object catch (e) {
       _log.fine('getActiveNotifications unavailable', e);
@@ -263,7 +314,10 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
   Future<OsResponse?> launchResponse() async {
     final details = await _plugin.getNotificationAppLaunchDetails();
     final response = details?.notificationResponse;
-    if (details == null || !details.didNotificationLaunchApp || response == null) return null;
+    if (details == null ||
+        !details.didNotificationLaunchApp ||
+        response == null)
+      return null;
     return mapResponse(response);
   }
 
@@ -274,14 +328,19 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
       if (android != null) {
         final enabled = await android.areNotificationsEnabled() ?? false;
         final exact = await android.canScheduleExactNotifications() ?? false;
-        final channels = await android.getNotificationChannels() ?? const <fln.AndroidNotificationChannel>[];
+        final channels =
+            await android.getNotificationChannels() ??
+            const <fln.AndroidNotificationChannel>[];
         return NotificationCapabilities(
           platform: 'android',
           notifications: enabled,
           exactAlarm: exact,
           timeSensitive: true,
           badge: true,
-          blockedChannels: {for (final c in channels) if (c.importance == fln.Importance.none) c.id},
+          blockedChannels: {
+            for (final c in channels)
+              if (c.importance == fln.Importance.none) c.id,
+          },
         );
       }
       final ios = _ios;
@@ -308,21 +367,30 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
   @override
   Future<bool> requestPermission({bool provisional = false}) async {
     final android = _android;
-    if (android != null) return await android.requestNotificationsPermission() ?? false;
+    if (android != null)
+      return await android.requestNotificationsPermission() ?? false;
     final ios = _ios;
     if (ios != null) {
-      return await ios.requestPermissions(alert: true, badge: true, sound: true, provisional: provisional) ?? false;
+      return await ios.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+            provisional: provisional,
+          ) ??
+          false;
     }
     return false;
   }
 
   @override
-  Future<bool> requestExactAlarms() async => await _android?.requestExactAlarmsPermission() ?? true;
+  Future<bool> requestExactAlarms() async =>
+      await _android?.requestExactAlarmsPermission() ?? true;
 
   @override
   Future<bool> openSettings() async {
     final android = _android;
-    if (android != null) return await android.openAppNotificationSettings() ?? false;
+    if (android != null)
+      return await android.openAppNotificationSettings() ?? false;
     return await _ios?.openAppNotificationSettings() ?? false;
   }
 

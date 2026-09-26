@@ -76,26 +76,39 @@ class LocalNotificationScheduler {
 
   Set<String> _registeredCategories = {};
 
-  ScheduleBudget get budget => port.platform == 'ios' ? ScheduleBudget.ios : ScheduleBudget.android;
+  ScheduleBudget get budget =>
+      port.platform == 'ios' ? ScheduleBudget.ios : ScheduleBudget.android;
 
   /// Creates / refreshes Android channels for [profiles] (localized names; obsolete versions deleted).
   Future<void> ensureChannels(List<NotificationProfile> profiles) async {
     final l = l10n();
     final catalog = ChannelCatalog.channels(profiles, l);
-    await port.ensureChannels(ChannelCatalog.groups(l), catalog.channels, delete: catalog.obsolete);
+    await port.ensureChannels(
+      ChannelCatalog.groups(l),
+      catalog.channels,
+      delete: catalog.obsolete,
+    );
   }
 
   /// Registers iOS categories when the action combinations in use changed.
-  Future<void> ensureCategories(Iterable<PlannedNotification> planned, {bool force = false}) async {
+  Future<void> ensureCategories(
+    Iterable<PlannedNotification> planned, {
+    bool force = false,
+  }) async {
     final combos = {for (final p in planned) (p.actions, p.isNag)};
-    final categories = ChannelCatalog.categories(combos, l10n(), handlers: handlers());
+    final categories = ChannelCatalog.categories(
+      combos,
+      l10n(),
+      handlers: handlers(),
+    );
     final ids = {for (final c in categories) c.id};
     if (!force && ids.difference(_registeredCategories).isEmpty) return;
     _registeredCategories = ids;
     await port.setCategories(categories);
   }
 
-  List<OsCategory> initialCategories() => ChannelCatalog.categories(const [], l10n(), handlers: handlers());
+  List<OsCategory> initialCategories() =>
+      ChannelCatalog.categories(const [], l10n(), handlers: handlers());
 
   /// Applies the plan. [exactAllowed]: Android exact alarms granted. [foreground] + [bannerInApp]:
   /// in-app banners replace system banners for imminent notifications.
@@ -111,7 +124,10 @@ class LocalNotificationScheduler {
     final isAndroid = port.platform == 'android';
     final adjusted = [
       for (final p in planned)
-        if (isAndroid && foreground && bannerInApp && p.fireAt.difference(now) < foregroundWindow)
+        if (isAndroid &&
+            foreground &&
+            bannerInApp &&
+            p.fireAt.difference(now) < foregroundWindow)
           p.copyWith(channelId: ChannelCatalog.foregroundSilent)
         else
           p,
@@ -136,7 +152,10 @@ class LocalNotificationScheduler {
         _log.warning('cancel failed', err);
       }
     }
-    await store.remove([...diff.cancel.map((e) => e.dedupeKey), ...diff.remove.map((e) => e.dedupeKey)]);
+    await store.remove([
+      ...diff.cancel.map((e) => e.dedupeKey),
+      ...diff.remove.map((e) => e.dedupeKey),
+    ]);
     final existing = {for (final e in current) e.dedupeKey: e};
     final used = {
       for (final e in current)
@@ -195,7 +214,10 @@ class LocalNotificationScheduler {
       cancelled: diff.cancel.length,
       scheduledNow: scheduledNow,
       platformCalls: calls,
-      coverageUntil: ScheduleComputation.coverageUntil(desired, horizonEnd: horizonEnd),
+      coverageUntil: ScheduleComputation.coverageUntil(
+        desired,
+        horizonEnd: horizonEnd,
+      ),
       saturated: desired.any((d) => d.kind == ScheduleKind.sentinel),
       budget: budget,
     );
@@ -244,7 +266,9 @@ class LocalNotificationScheduler {
     }
     if (d.kind == ScheduleKind.merged) {
       final first = d.members.first;
-      final importance = d.members.map((m) => m.importance).reduce((a, b) => a.rank >= b.rank ? a : b);
+      final importance = d.members
+          .map((m) => m.importance)
+          .reduce((a, b) => a.rank >= b.rank ? a : b);
       return OsNotificationRequest(
         id: id,
         title: l.notifMergedTitle(d.members.length),
@@ -262,8 +286,14 @@ class LocalNotificationScheduler {
         importance: importance,
         sound: first.sound,
         vibration: first.vibration,
-        actions: ChannelCatalog.osActions(const [NotificationActionIds.open], l, handlers: const []),
-        categoryId: ChannelCatalog.categoryIdFor(const [NotificationActionIds.open]),
+        actions: ChannelCatalog.osActions(
+          const [NotificationActionIds.open],
+          l,
+          handlers: const [],
+        ),
+        categoryId: ChannelCatalog.categoryIdFor(const [
+          NotificationActionIds.open,
+        ]),
         threadId: 'merged',
         exact: exactAllowed,
         presentInForeground: presentInForeground,
@@ -276,7 +306,12 @@ class LocalNotificationScheduler {
       body: l.notifSaturationBody,
       fireAt: d.fireAt,
       channelId: ChannelCatalog.system,
-      payload: jsonEncode({'v': 1, 'kind': ScheduleKind.sentinel, 'dk': d.key, 'link': AppLinks.inbox()}),
+      payload: jsonEncode({
+        'v': 1,
+        'kind': ScheduleKind.sentinel,
+        'dk': d.key,
+        'link': AppLinks.inbox(),
+      }),
       importance: NotificationImportance.low,
       interruptionLevel: InterruptionLevel.passive,
       sound: 'none',
@@ -290,7 +325,11 @@ class LocalNotificationScheduler {
   Future<int> snoozeCount(String originalKey) async {
     final original = await store.byKey(originalKey);
     final pending = (await store.all())
-        .where((e) => e.kind == ScheduleKind.snooze && asString(e.content['orig']) == originalKey)
+        .where(
+          (e) =>
+              e.kind == ScheduleKind.snooze &&
+              asString(e.content['orig']) == originalKey,
+        )
         .length;
     final stored = asInt(original?.content['sn']) ?? 0;
     return stored > pending ? stored : pending;
@@ -314,9 +353,16 @@ class LocalNotificationScheduler {
     final previous = await snoozeCount(originalKey);
     if (previous >= maxSnoozes) return null;
     final key = snoozeKeyFor(originalKey, previous + 1);
-    if (original != null) await store.put(original.copyWith(content: {...original.content, 'sn': previous + 1}));
+    if (original != null)
+      await store.put(
+        original.copyWith(content: {...original.content, 'sn': previous + 1}),
+      );
     final id = PlatformIds.assign(key, {for (final e in all) e.platformId});
-    final snoozePayload = NotificationPayload.fromJson({...payload.toJson(), 'dk': key, 'bk': originalKey});
+    final snoozePayload = NotificationPayload.fromJson({
+      ...payload.toJson(),
+      'dk': key,
+      'bk': originalKey,
+    });
     final l = l10n();
     final request = OsNotificationRequest(
       id: id,
@@ -325,7 +371,12 @@ class LocalNotificationScheduler {
       fireAt: until,
       channelId: channelId,
       payload: snoozePayload.encode(),
-      actions: ChannelCatalog.osActions(payload.actions, l, handlers: handlers(), targetType: payload.targetType),
+      actions: ChannelCatalog.osActions(
+        payload.actions,
+        l,
+        handlers: handlers(),
+        targetType: payload.targetType,
+      ),
       categoryId: ChannelCatalog.categoryIdFor(payload.actions),
       threadId: 'nag:$originalKey',
       exact: exactAllowed,
@@ -373,7 +424,12 @@ class LocalNotificationScheduler {
         body: body,
         fireAt: now.add(delay),
         channelId: channelId,
-        payload: jsonEncode({'v': 1, 'kind': ScheduleKind.test, 'dk': key, 'link': AppLinks.inbox()}),
+        payload: jsonEncode({
+          'v': 1,
+          'kind': ScheduleKind.test,
+          'dk': key,
+          'link': AppLinks.inbox(),
+        }),
         importance: importance,
         interruptionLevel: interruptionLevel,
         sound: sound,
@@ -404,7 +460,9 @@ class LocalNotificationScheduler {
     var count = 0;
     final keys = <String>[];
     for (final e in await store.all()) {
-      final chain = asString(e.content['bk']) ?? (e.kind == ScheduleKind.snooze ? asString(e.content['orig']) : null);
+      final chain =
+          asString(e.content['bk']) ??
+          (e.kind == ScheduleKind.snooze ? asString(e.content['orig']) : null);
       final inChain = e.dedupeKey == baseKey || chain == baseKey;
       if (!inChain || !e.fireAt.isAfter(now)) continue;
       if (e.os) {
@@ -426,7 +484,8 @@ class LocalNotificationScheduler {
     for (final e in await store.all()) {
       if (!e.os || e.fireAt.isAfter(now)) continue;
       final occ = asString(e.content['occ']) ?? '';
-      if (closed.contains('${e.targetKey}|$occ') || closed.contains('${e.targetKey}|')) {
+      if (closed.contains('${e.targetKey}|$occ') ||
+          closed.contains('${e.targetKey}|')) {
         await port.cancel(e.platformId, tag: e.dedupeKey);
         count++;
       }

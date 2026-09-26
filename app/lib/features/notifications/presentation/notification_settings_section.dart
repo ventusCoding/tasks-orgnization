@@ -18,7 +18,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 export 'package:everslot/features/notifications/application/notification_host_api.dart'
-    show NotificationHostApi, NotificationRulesDraft, notificationHostApiProvider;
+    show
+        NotificationHostApi,
+        NotificationRulesDraft,
+        notificationHostApiProvider;
 export 'package:everslot/features/notifications/domain/notification_types.dart'
     show ItemKind, NotificationSection, NotificationTargetType, NotifyMode;
 
@@ -83,10 +86,12 @@ class NotificationSettingsSection extends ConsumerStatefulWidget {
   final int maxVisible;
 
   @override
-  ConsumerState<NotificationSettingsSection> createState() => _NotificationSettingsSectionState();
+  ConsumerState<NotificationSettingsSection> createState() =>
+      _NotificationSettingsSectionState();
 }
 
-class _NotificationSettingsSectionState extends ConsumerState<NotificationSettingsSection> {
+class _NotificationSettingsSectionState
+    extends ConsumerState<NotificationSettingsSection> {
   bool _showAll = false;
   Future<List<NotificationTarget>>? _targets;
 
@@ -94,7 +99,8 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
   /// tree synchronously).
   final Set<String> _hidden = {};
 
-  RuleTargetType get _ruleType => RuleTargetType.forTarget(widget.targetType) ?? RuleTargetType.task;
+  RuleTargetType get _ruleType =>
+      RuleTargetType.forTarget(widget.targetType) ?? RuleTargetType.task;
 
   @override
   void initState() {
@@ -109,7 +115,9 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
       oldWidget.draft?.removeListener(_onDraft);
       widget.draft?.addListener(_onDraft);
     }
-    if (oldWidget.targetId != widget.targetId || oldWidget.targetType != widget.targetType) _targets = null;
+    if (oldWidget.targetId != widget.targetId ||
+        oldWidget.targetType != widget.targetType)
+      _targets = null;
   }
 
   @override
@@ -140,11 +148,18 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
     } else if (widget.draft != null) {
       widget.draft!.notifyMode = mode;
     } else {
-      await ref.read(notifyModeStoreProvider).set(_ruleType, widget.targetId, mode);
+      await ref
+          .read(notifyModeStoreProvider)
+          .set(_ruleType, widget.targetId, mode);
     }
   }
 
-  RuleDraft _draftOf(NotificationRuleSpec spec, {String? profileId, String? name, bool enabled = true}) => RuleDraft(
+  RuleDraft _draftOf(
+    NotificationRuleSpec spec, {
+    String? profileId,
+    String? name,
+    bool enabled = true,
+  }) => RuleDraft(
     targetType: _ruleType,
     targetId: widget.targetId,
     section: widget.section,
@@ -176,13 +191,23 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
       if (edit == null || !mounted) return;
       rules = [(spec: edit.spec, profileId: edit.profileId)];
     }
-    final drafts = [for (final r in rules) _draftOf(r.spec, profileId: r.profileId)];
+    final drafts = [
+      for (final r in rules) _draftOf(r.spec, profileId: r.profileId),
+    ];
     final draft = widget.draft;
     if (draft != null) {
       drafts.forEach(draft.add);
     } else {
-      final record = await ref.read(notificationRulesRepositoryProvider).create(drafts);
-      if (mounted) showUndoSnackBar(context, ref, message: context.l10n.notifRuleSaved, record: record);
+      final record = await ref
+          .read(notificationRulesRepositoryProvider)
+          .create(drafts);
+      if (mounted)
+        showUndoSnackBar(
+          context,
+          ref,
+          message: context.l10n.notifRuleSaved,
+          record: record,
+        );
     }
     // Own reminders are ignored in "Use defaults": switch to "Defaults + mine".
     if (mode == NotifyMode.inherit) await _setMode(NotifyMode.inheritPlus);
@@ -203,26 +228,45 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
     final draft = widget.draft;
     if (draftIndex != null && draft != null) {
       final current = draft.rules[draftIndex];
-      draft.replaceAt(draftIndex, _draftOf(edit.spec, profileId: edit.profileId, name: edit.name, enabled: current.enabled));
+      draft.replaceAt(
+        draftIndex,
+        _draftOf(
+          edit.spec,
+          profileId: edit.profileId,
+          name: edit.name,
+          enabled: current.enabled,
+        ),
+      );
       return;
     }
-    await ref.read(notificationRulesRepositoryProvider).update(
-      rule.id,
-      spec: edit.spec,
-      profileId: edit.profileId,
-      clearProfile: edit.profileId == null,
-      name: edit.name,
-      clearName: edit.name == null,
-    );
+    await ref
+        .read(notificationRulesRepositoryProvider)
+        .update(
+          rule.id,
+          spec: edit.spec,
+          profileId: edit.profileId,
+          clearProfile: edit.profileId == null,
+          name: edit.name,
+          clearName: edit.name == null,
+        );
   }
 
-  Future<void> _toggle(NotificationRule rule, bool enabled, {int? draftIndex}) async {
+  Future<void> _toggle(
+    NotificationRule rule,
+    bool enabled, {
+    int? draftIndex,
+  }) async {
     final draft = widget.draft;
     if (draftIndex != null && draft != null) {
-      draft.replaceAt(draftIndex, draft.rules[draftIndex].copyWith(enabled: enabled));
+      draft.replaceAt(
+        draftIndex,
+        draft.rules[draftIndex].copyWith(enabled: enabled),
+      );
       return;
     }
-    await ref.read(notificationRulesRepositoryProvider).update(rule.id, enabled: enabled);
+    await ref
+        .read(notificationRulesRepositoryProvider)
+        .update(rule.id, enabled: enabled);
   }
 
   Future<void> _delete(NotificationRule rule, {int? draftIndex}) async {
@@ -233,28 +277,52 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
     }
     setState(() => _hidden.add(rule.id));
     final l = context.l10n;
-    final record = await ref.read(notificationRulesRepositoryProvider).delete(rule.id);
-    if (mounted) showUndoSnackBar(context, ref, message: l.notifRuleDeleted, record: record);
+    final record = await ref
+        .read(notificationRulesRepositoryProvider)
+        .delete(rule.id);
+    if (mounted)
+      showUndoSnackBar(
+        context,
+        ref,
+        message: l.notifRuleDeleted,
+        record: record,
+      );
   }
 
   Future<void> _customize(List<EffectiveRule> inherited) async {
     final draft = widget.draft;
     if (draft != null) {
       for (final e in inherited) {
-        draft.add(RuleDraft.fromRule(e.rule, targetType: _ruleType, targetId: widget.targetId, isDefault: false));
+        draft.add(
+          RuleDraft.fromRule(
+            e.rule,
+            targetType: _ruleType,
+            targetId: widget.targetId,
+            isDefault: false,
+          ),
+        );
       }
       await _setMode(NotifyMode.custom);
       return;
     }
     final store = ref.read(notifyModeStoreProvider);
-    final record = await ref.read(notificationRulesRepositoryProvider).snapshot(
-      type: _ruleType,
-      targetId: widget.targetId,
-      inherited: inherited,
-      setNotifyMode: (tx) => store.setInTx(tx, _ruleType, widget.targetId, NotifyMode.custom),
-    );
+    final record = await ref
+        .read(notificationRulesRepositoryProvider)
+        .snapshot(
+          type: _ruleType,
+          targetId: widget.targetId,
+          inherited: inherited,
+          setNotifyMode: (tx) =>
+              store.setInTx(tx, _ruleType, widget.targetId, NotifyMode.custom),
+        );
     widget.onNotifyModeChanged?.call(NotifyMode.custom);
-    if (mounted) showUndoSnackBar(context, ref, message: context.l10n.notifRuleSaved, record: record);
+    if (mounted)
+      showUndoSnackBar(
+        context,
+        ref,
+        message: context.l10n.notifRuleSaved,
+        record: record,
+      );
   }
 
   List<NotificationRule> _ownRules() {
@@ -274,9 +342,14 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
           ),
       ];
     }
-    final stored = ref.watch(targetRulesProvider((_ruleType, widget.targetId))).value ?? const <NotificationRule>[];
+    final stored =
+        ref.watch(targetRulesProvider((_ruleType, widget.targetId))).value ??
+        const <NotificationRule>[];
     _hidden.retainAll({for (final r in stored) r.id});
-    return [for (final r in stored) if (!_hidden.contains(r.id)) r];
+    return [
+      for (final r in stored)
+        if (!_hidden.contains(r.id)) r,
+    ];
   }
 
   @override
@@ -287,16 +360,25 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
     final mode =
         widget.notifyMode ??
         draft?.notifyMode ??
-        ref.watch(targetNotifyModeProvider((_ruleType, widget.targetId))).value ??
+        ref
+            .watch(targetNotifyModeProvider((_ruleType, widget.targetId)))
+            .value ??
         NotifyMode.inherit;
     final own = _ownRules();
-    final allRules = ref.watch(notificationRulesProvider).value ?? const <NotificationRule>[];
+    final allRules =
+        ref.watch(notificationRulesProvider).value ??
+        const <NotificationRule>[];
     final settings = ref.watch(notificationSettingsProvider);
     final profiles = {
-      for (final p in ref.watch(notificationProfilesProvider).value ?? const <NotificationProfile>[]) p.id: p,
+      for (final p
+          in ref.watch(notificationProfilesProvider).value ??
+              const <NotificationProfile>[])
+        p.id: p,
     };
     final resolver = EffectiveRulesResolver(RuleIndex(allRules), settings);
-    final inherited = mode.usesDefaults ? resolver.inheritedFor(_pseudoTarget(mode)) : const <EffectiveRule>[];
+    final inherited = mode.usesDefaults
+        ? resolver.inheritedFor(_pseudoTarget(mode))
+        : const <EffectiveRule>[];
     final effective = [
       ...inherited,
       if (mode.usesOwn)
@@ -318,9 +400,14 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
             rule: own[i],
             summary: labels.rule(own[i], profile: profiles[own[i].profileId]),
             active: mode.usesOwn,
-            onTap: () => unawaited(_edit(own[i], draftIndex: draft == null ? null : i)),
-            onToggle: (v) => unawaited(_toggle(own[i], v, draftIndex: draft == null ? null : i)),
-            onDelete: () => unawaited(_delete(own[i], draftIndex: draft == null ? null : i)),
+            onTap: () =>
+                unawaited(_edit(own[i], draftIndex: draft == null ? null : i)),
+            onToggle: (v) => unawaited(
+              _toggle(own[i], v, draftIndex: draft == null ? null : i),
+            ),
+            onDelete: () => unawaited(
+              _delete(own[i], draftIndex: draft == null ? null : i),
+            ),
           ),
     ];
     final visible = _showAll ? rows : rows.take(widget.maxVisible).toList();
@@ -330,13 +417,21 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
         SectionHeader(
           l.notifSectionTitle,
           trailing: draft == null
-              ? MuteMenuButton(targetType: _ruleType.wire, targetId: widget.targetId, section: widget.section)
+              ? MuteMenuButton(
+                  targetType: _ruleType.wire,
+                  targetId: widget.targetId,
+                  section: widget.section,
+                )
               : null,
         ),
-        if (draft == null) MuteBadge(targetType: _ruleType.wire, targetId: widget.targetId),
+        if (draft == null)
+          MuteBadge(targetType: _ruleType.wire, targetId: widget.targetId),
         const NotificationPermissionBanner(showExact: false),
         if (!settings.sectionEnabled(widget.section))
-          _Hint(icon: Icons.notifications_off_outlined, text: l.notifSectionOffHint(labels.section(widget.section))),
+          _Hint(
+            icon: Icons.notifications_off_outlined,
+            text: l.notifSectionOffHint(labels.section(widget.section)),
+          ),
         Padding(
           padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
           child: Wrap(
@@ -354,7 +449,12 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
         ),
         if (rows.isEmpty)
           Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, 0),
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              Space.lg,
+              Space.sm,
+              Space.lg,
+              0,
+            ),
             child: Text(
               mode == NotifyMode.off ? l.notifModeOffHint : l.notifNoReminders,
               style: context.text.bodyMedium?.copyWith(color: muted),
@@ -371,7 +471,9 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
           ),
         if (mode != NotifyMode.off)
           Padding(
-            padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.sm),
+            padding: const EdgeInsetsDirectional.symmetric(
+              horizontal: Space.sm,
+            ),
             child: Wrap(
               spacing: Space.sm,
               children: [
@@ -394,7 +496,9 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
             title: Text(l.notifNextFirings),
             onExpansionChanged: (open) {
               if (open && _targets == null && widget.previewTargets == null) {
-                final targets = ref.read(rulePreviewServiceProvider).targetsOf(widget.targetType, widget.targetId);
+                final targets = ref
+                    .read(rulePreviewServiceProvider)
+                    .targetsOf(widget.targetType, widget.targetId);
                 setState(() {
                   _targets = targets;
                 });
@@ -402,7 +506,10 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
             },
             children: [
               if (widget.previewTargets != null)
-                RulePreviewList(rules: [for (final e in effective) e.rule], targets: widget.previewTargets!)
+                RulePreviewList(
+                  rules: [for (final e in effective) e.rule],
+                  targets: widget.previewTargets!,
+                )
               else
                 FutureBuilder<List<NotificationTarget>>(
                   future: _targets,
@@ -412,10 +519,20 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
                         ? [
                             ref
                                 .read(rulePreviewServiceProvider)
-                                .sampleTarget(widget.targetType, widget.section, kind: widget.itemKind),
+                                .sampleTarget(
+                                  widget.targetType,
+                                  widget.section,
+                                  kind: widget.itemKind,
+                                ),
                           ]
-                        : [for (final t in snap.data!) t.copyWith(notifyMode: NotifyMode.custom)];
-                    return RulePreviewList(rules: [for (final e in effective) e.rule], targets: targets);
+                        : [
+                            for (final t in snap.data!)
+                              t.copyWith(notifyMode: NotifyMode.custom),
+                          ];
+                    return RulePreviewList(
+                      rules: [for (final e in effective) e.rule],
+                      targets: targets,
+                    );
                   },
                 ),
             ],
@@ -427,7 +544,11 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
 
 /// An inherited (default) rule: greyed, with where it comes from.
 class _InheritedRuleTile extends StatelessWidget {
-  const _InheritedRuleTile({required this.summary, required this.source, super.key});
+  const _InheritedRuleTile({
+    required this.summary,
+    required this.source,
+    super.key,
+  });
 
   final String summary;
   final String source;
@@ -474,7 +595,10 @@ class _OwnRuleTile extends StatelessWidget {
         alignment: AlignmentDirectional.centerEnd,
         child: Padding(
           padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
-          child: Icon(Icons.delete_outline, color: context.colors.onErrorContainer),
+          child: Icon(
+            Icons.delete_outline,
+            color: context.colors.onErrorContainer,
+          ),
         ),
       ),
     ),
@@ -503,13 +627,23 @@ class _Hint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.xs, Space.lg, Space.sm),
+    padding: const EdgeInsetsDirectional.fromSTEB(
+      Space.lg,
+      Space.xs,
+      Space.lg,
+      Space.sm,
+    ),
     child: Row(
       children: [
         Icon(icon, size: 18, color: context.colors.onSurfaceVariant),
         const SizedBox(width: Space.sm),
         Expanded(
-          child: Text(text, style: context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant)),
+          child: Text(
+            text,
+            style: context.text.bodySmall?.copyWith(
+              color: context.colors.onSurfaceVariant,
+            ),
+          ),
         ),
       ],
     ),

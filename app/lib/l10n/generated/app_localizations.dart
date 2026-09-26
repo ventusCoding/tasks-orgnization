@@ -2608,6 +2608,12 @@ abstract class AppLocalizations {
   /// **'Offset in minutes (negative = before)'**
   String get notifFieldOffset;
 
+  /// No description provided for @notifFieldRepeats.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats'**
+  String get notifFieldRepeats;
+
   /// No description provided for @notifFieldStatuses.
   ///
   /// In en, this message translates to:
@@ -2631,6 +2637,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Until'**
   String get notifFieldUntil;
+
+  /// No description provided for @notifFreqDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get notifFreqDaily;
+
+  /// No description provided for @notifFreqMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every month'**
+  String get notifFreqMonthly;
+
+  /// No description provided for @notifFreqWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every week'**
+  String get notifFreqWeekly;
 
   /// No description provided for @notifFrom.
   ///
@@ -3837,6 +3861,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Soft'**
   String get notifSoundSoft;
+
+  /// No description provided for @notifStatusBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'blocked'**
+  String get notifStatusBlocked;
+
+  /// No description provided for @notifStatusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'cancelled'**
+  String get notifStatusCancelled;
+
+  /// No description provided for @notifStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'completed'**
+  String get notifStatusCompleted;
+
+  /// No description provided for @notifStatusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'done'**
+  String get notifStatusDone;
+
+  /// No description provided for @notifStatusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'in progress'**
+  String get notifStatusInProgress;
+
+  /// No description provided for @notifStatusMissed.
+  ///
+  /// In en, this message translates to:
+  /// **'missed'**
+  String get notifStatusMissed;
+
+  /// No description provided for @notifStatusOngoing.
+  ///
+  /// In en, this message translates to:
+  /// **'ongoing'**
+  String get notifStatusOngoing;
+
+  /// No description provided for @notifStatusScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'scheduled'**
+  String get notifStatusScheduled;
+
+  /// No description provided for @notifStatusSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'skipped'**
+  String get notifStatusSkipped;
+
+  /// No description provided for @notifStatusTodo.
+  ///
+  /// In en, this message translates to:
+  /// **'to do'**
+  String get notifStatusTodo;
+
+  /// No description provided for @notifStatusWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'waiting'**
+  String get notifStatusWaiting;
 
   /// No description provided for @notifSticky.
   ///

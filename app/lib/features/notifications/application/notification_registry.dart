@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:everslot/features/notifications/domain/notification_actions.dart';
 import 'package:everslot/features/notifications/notification_contributions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
@@ -39,12 +38,20 @@ class NotificationActionContext {
 
 /// Outcome of a handled action.
 class NotificationActionResult {
-  const NotificationActionResult({this.success = true, this.message, this.openLink, this.markActed = true});
+  const NotificationActionResult({
+    this.success = true,
+    this.message,
+    this.openLink,
+    this.markActed = true,
+  });
 
   static const ok = NotificationActionResult();
 
   /// Input invalid / target gone — a follow-up notification explains [message].
-  const NotificationActionResult.failed(this.message) : success = false, openLink = null, markActed = false;
+  const NotificationActionResult.failed(this.message)
+    : success = false,
+      openLink = null,
+      markActed = false;
 
   final bool success;
 
@@ -73,7 +80,11 @@ abstract interface class NotificationActionHandler {
 
 /// A handler built from a closure (convenient for small features and tests).
 class CallbackActionHandler implements NotificationActionHandler {
-  CallbackActionHandler({required this.actionIds, required this.onHandle, this.targetTypes});
+  CallbackActionHandler({
+    required this.actionIds,
+    required this.onHandle,
+    this.targetTypes,
+  });
 
   @override
   final Set<String> actionIds;
@@ -81,10 +92,14 @@ class CallbackActionHandler implements NotificationActionHandler {
   @override
   final Set<NotificationTargetType>? targetTypes;
 
-  final Future<NotificationActionResult> Function(NotificationActionContext context) onHandle;
+  final Future<NotificationActionResult> Function(
+    NotificationActionContext context,
+  )
+  onHandle;
 
   @override
-  Future<NotificationActionResult> handle(NotificationActionContext context) => onHandle(context);
+  Future<NotificationActionResult> handle(NotificationActionContext context) =>
+      onHandle(context);
 }
 
 /// Runtime registry (dynamic registration from startup code, tests, debug tools). Static
@@ -95,7 +110,8 @@ class NotificationRegistry {
   final _changes = StreamController<void>.broadcast();
 
   List<NotificationTargetSource> get sources => List.unmodifiable(_sources);
-  List<NotificationActionHandler> get actionHandlers => List.unmodifiable(_handlers);
+  List<NotificationActionHandler> get actionHandlers =>
+      List.unmodifiable(_handlers);
 
   /// Emits when sources/handlers are (un)registered.
   Stream<void> get changes => _changes.stream;
@@ -129,25 +145,43 @@ final notificationRegistryProvider = Provider<NotificationRegistry>((ref) {
   return registry;
 });
 
-/// Every registered target source: static contributions + runtime registry.
-final notificationTargetSourcesProvider = Provider<List<NotificationTargetSource>>((ref) {
-  final registry = ref.watch(notificationRegistryProvider);
-  return [
+/// Sources of the static contributions — created once per container (stable instances, so
+/// subscriptions to their `changes` stay valid).
+final _contributedSourcesProvider = Provider<List<NotificationTargetSource>>(
+  (ref) => [
     for (final c in notificationContributions)
       for (final factory in c.sources) factory(ref),
-    ...registry.sources,
-  ];
-});
+  ],
+);
 
-/// Every feature action handler: static contributions + runtime registry.
-final notificationActionHandlersProvider = Provider<List<NotificationActionHandler>>((ref) {
-  final registry = ref.watch(notificationRegistryProvider);
-  return [
+final _contributedHandlersProvider = Provider<List<NotificationActionHandler>>(
+  (ref) => [
     for (final c in notificationContributions)
       for (final factory in c.actionHandlers) factory(ref),
-    ...registry.actionHandlers,
-  ];
-});
+  ],
+);
+
+/// Every registered target source: static contributions + runtime registry (recomputed when the
+/// registry changes).
+final notificationTargetSourcesProvider =
+    Provider<List<NotificationTargetSource>>((ref) {
+      final registry = ref.watch(notificationRegistryProvider);
+      final sub = registry.changes.listen((_) => ref.invalidateSelf());
+      ref.onDispose(sub.cancel);
+      return [...ref.watch(_contributedSourcesProvider), ...registry.sources];
+    });
+
+/// Every feature action handler: static contributions + runtime registry.
+final notificationActionHandlersProvider =
+    Provider<List<NotificationActionHandler>>((ref) {
+      final registry = ref.watch(notificationRegistryProvider);
+      final sub = registry.changes.listen((_) => ref.invalidateSelf());
+      ref.onDispose(sub.cancel);
+      return [
+        ...ref.watch(_contributedHandlersProvider),
+        ...registry.actionHandlers,
+      ];
+    });
 
 /// Finds the handler for an action on a target type (most specific first).
 NotificationActionHandler? findActionHandler(

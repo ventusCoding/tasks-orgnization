@@ -446,5 +446,20 @@
   "notifMetricMoney": "المال الموفَّر",
   "notifMetricUnits": "الوحدات المتجنبة",
   "notifModeOffHint": "لا إشعارات لهذا العنصر",
-  "notifSectionOffHint": "إشعارات «{section}» متوقفة في الإعدادات"
+  "notifSectionOffHint": "إشعارات «{section}» متوقفة في الإعدادات",
+  "notifFieldRepeats": "التكرار",
+  "notifFreqDaily": "كل يوم",
+  "notifFreqWeekly": "كل أسبوع",
+  "notifFreqMonthly": "كل شهر",
+  "notifStatusScheduled": "مجدولًا",
+  "notifStatusInProgress": "قيد التنفيذ",
+  "notifStatusDone": "منجزًا",
+  "notifStatusSkipped": "متخطًّى",
+  "notifStatusMissed": "فائتًا",
+  "notifStatusCancelled": "ملغًى",
+  "notifStatusTodo": "غير منجز",
+  "notifStatusOngoing": "جاريًا",
+  "notifStatusWaiting": "في الانتظار",
+  "notifStatusBlocked": "متوقفًا",
+  "notifStatusCompleted": "مكتملًا"
 }
