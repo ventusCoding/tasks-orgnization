@@ -1,0 +1,49 @@
+Everslot vous aide à maîtriser chaque créneau de votre journée : planifiez votre semaine, tenez des listes détaillées, prenez de bonnes habitudes, arrêtez les mauvaises — et voyez où vous en êtes.
+
+PLANIFIEZ VOTRE TEMPS, À VOTRE FAÇON
+• Un tableau semaine de 7 colonnes et des créneaux de 1 minute à 24 heures. Pincez pour zoomer, faites glisser pour déplacer ou redimensionner.
+• Liste du jour, vues sur N jours et semaine de travail, semaine en liste, mois, agenda et carte de chaleur annuelle.
+• Une récurrence entièrement libre : toutes les N minutes dans une plage horaire, plusieurs fois par jour, N fois par semaine, après achèvement, avec des exceptions.
+• Modifiez une occurrence, les suivantes ou toute la série. Sautez, reprogrammez et reportez les tâches inachevées.
+• Tâches à planifier plus tard, recherche de créneaux libres, vue focus sur le présent et la suite, minuteurs et suivi du prévu face au réel.
+
+DES LISTES SANS LIMITES
+• Des listes en cartes, avec notes et éléments imbriqués sans limite de profondeur.
+• Un statut pour chaque élément : à faire, en cours, en attente, bloqué, terminé ou annulé — avec une note de motif.
+• Photos et fichiers, mode exécution pour dérouler une routine, progression cumulée et vues intelligentes de ce qui est en attente ou bloqué.
+• Modèles, listes réinitialisables (récurrentes), vues Kanban par statut et galerie, import et export (Markdown, OPML, texte brut).
+
+HABITUDES
+• Objectifs oui/non, nombre, durée, valeur ou « au plus », sur le rythme de votre choix — y compris plusieurs fois par jour ou N fois par semaine.
+• Pointez fait, non fait, partiel, sauté ou excusé ; complétez les jours passés ; ajoutez notes et humeur.
+• Objectifs, défis et jokers de série.
+
+SUIVI D’ARRÊT
+• Tabac, vapotage, alcool, caféine, sucre, réseaux sociaux, jeux vidéo ou tout autre chose.
+• Compteur en direct du temps d’abstinence, rechutes et envies avec intensité et déclencheurs, argent et temps économisés, paliers et mode réduction avec limite quotidienne.
+
+DES STATISTIQUES APPROFONDIES
+• Des statistiques pour chaque tâche, liste, élément, habitude et suivi d’arrêt, et pour chaque section : séries, solidité des habitudes, ponctualité, temps prévu et réel, temps par catégorie et par statut, tendances et records.
+• Bilans hebdomadaires et mensuels. Chaque graphique a sa vue en tableau, et tout est calculé sur votre appareil.
+
+DES RAPPELS QUI SUIVENT VOS RÈGLES
+• Plusieurs rappels par élément, relances jusqu’à ce que ce soit fait, heures calmes, report et actions depuis la notification.
+• Une boîte de réception dans l’app conserve chaque rappel, et les notifications push atteignent vos autres appareils connectés.
+• Résumés quotidiens de l’agenda et bilans de la semaine.
+
+VOTRE JOURNÉE EN UN COUP D’ŒIL
+• Un écran Aujourd’hui : agenda, habitudes du jour, compteurs d’arrêt et listes épinglées, avec ajout rapide et recherche globale.
+• Des widgets d’écran d’accueil pour l’agenda du jour, le pointage des habitudes et les compteurs d’arrêt.
+
+HORS CONNEXION, SYNCHRONISÉ PARTOUT
+Tout est d’abord enregistré sur votre appareil et fonctionne sans connexion. Connectez-vous avec un code reçu par e-mail, Google ou Apple — ou commencez en invité — pour synchroniser vos appareils.
+
+CONFIDENTIALITÉ DÈS LA CONCEPTION
+• Pas de publicité, pas de pistage, aucune vente de vos données. Les données d’habitudes et de suivi d’arrêt ne servent jamais à la publicité.
+• Exportez toutes vos données (JSON ou CSV), restaurez les éléments supprimés depuis la corbeille pendant 30 jours et supprimez votre compte depuis l’app.
+• Verrouillage facultatif de l’app et contenu des notifications masquable.
+
+PENSÉ POUR TOUT LE MONDE
+Français, anglais et arabe (mise en page de droite à gauche), mode sombre, libellés pour lecteurs d’écran et grandes tailles de texte.
+
+Les paliers de santé du suivi d’arrêt sont des informations éducatives générales fondées sur des sources de santé publique, et non des conseils médicaux.
