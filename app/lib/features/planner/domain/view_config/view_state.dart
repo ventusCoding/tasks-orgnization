@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-import 'package:everslot/core/database/app_database.dart';
-import 'package:everslot/core/time/clock.dart';
-import 'package:everslot/features/planner/presentation/grid/engine/page_axis.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:meta/meta.dart';
 
@@ -39,6 +36,14 @@ class ViewState {
   /// View-specific local data (ribbon/slots style, collapsed sections, pinned countdowns…).
   final Map<String, Object?> extra;
 
+  bool get isEmpty =>
+      anchor == null &&
+      scrollMinute == null &&
+      pxPerMinute == null &&
+      daysPortrait == null &&
+      daysLandscape == null &&
+      extra.isEmpty;
+
   Map<String, Object?> toJson() => {
     if (anchor != null) 'anchor': anchor!.toIso(),
     if (scrollMinute != null) 'scrollMinute': scrollMinute,
@@ -64,56 +69,15 @@ class ViewState {
     extra: extra ?? this.extra,
   );
 
-  /// Scroll offset showing [minute] at the top (or at [anchorFraction] of the viewport).
-  static double offsetForMinute(
-    PageAxis axis,
-    double ppm,
-    double minute, {
-    double viewportExtent = 0,
-    double anchorFraction = 0,
-  }) {
-    final y = axis.yOf(minute, ppm: ppm) - viewportExtent * anchorFraction;
-    final max = axis.height(ppm) - viewportExtent;
-    return y.clamp(0.0, max < 0 ? 0.0 : max);
-  }
-
-  /// Minute of day at scroll [offset] (+ [viewportExtent] × [anchorFraction]).
-  static double minuteAtOffset(PageAxis axis, double ppm, double offset, {double viewportExtent = 0, double anchorFraction = 0}) =>
-      axis.locate(offset + viewportExtent * anchorFraction, ppm).wall;
+  /// Sets one view-specific local value.
+  ViewState withExtra(String key, Object? value) => copyWith(extra: {...extra, key: value});
 
   @override
   bool operator ==(Object other) => other is ViewState && jsonEncode(other.toJson()) == jsonEncode(toJson());
 
   @override
   int get hashCode => jsonEncode(toJson()).hashCode;
-}
 
-/// Reads/writes [ViewState] rows (local only, never synced).
-class ViewStateRepository {
-  ViewStateRepository(this._db, this._clock);
-
-  final AppDatabase _db;
-  final Clock _clock;
-
-  Future<ViewState?> read(String viewId) async {
-    final row = await (_db.select(_db.uiViewState)..where((s) => s.viewId.equals(viewId))).getSingleOrNull();
-    if (row == null) return null;
-    try {
-      final decoded = jsonDecode(row.json);
-      return decoded is Map ? ViewState.fromJson(Map<String, Object?>.from(decoded)) : null;
-    } on FormatException {
-      return null;
-    }
-  }
-
-  Future<void> write(String viewId, ViewState state) => _db
-      .into(_db.uiViewState)
-      .insertOnConflictUpdate(
-        UiViewStateCompanion.insert(viewId: viewId, json: jsonEncode(state.toJson()), updatedAt: _clock.nowUtc()),
-      );
-
-  Future<void> update(String viewId, ViewState Function(ViewState current) change) async {
-    final current = await read(viewId) ?? const ViewState();
-    await write(viewId, change(current));
-  }
+  @override
+  String toString() => 'ViewState(${toJson()})';
 }

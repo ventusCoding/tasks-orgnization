@@ -454,9 +454,10 @@ class AllDayLane extends StatelessWidget {
         decoration: BoxDecoration(border: Border(bottom: BorderSide(color: context.colors.outlineVariant))),
         child: Stack(
           children: [
+            // Columns run from the reading start: PositionedDirectional mirrors them in RTL.
             for (final bar in model.packing.bars)
-              Positioned(
-                left: rtl ? width - bar.endCol * colW + 1 : bar.startCol * colW + 1,
+              PositionedDirectional(
+                start: bar.startCol * colW + 1,
                 top: bar.row * rowExtent + 2,
                 width: bar.span * colW - 2,
                 height: rowExtent - 3,
@@ -472,8 +473,8 @@ class AllDayLane extends StatelessWidget {
               ),
             for (var c = 0; c < n; c++)
               if (model.packing.hiddenPerColumn[c] > 0)
-                Positioned(
-                  left: rtl ? width - (c + 1) * colW : c * colW,
+                PositionedDirectional(
+                  start: c * colW,
                   width: colW,
                   bottom: 0,
                   height: 14,
