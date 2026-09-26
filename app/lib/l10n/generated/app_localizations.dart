@@ -478,6 +478,126 @@ abstract class AppLocalizations {
   /// **'Please check the highlighted fields.'**
   String get errorValidation;
 
+  /// No description provided for @filterActiveCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No filters} =1{1 filter active} other{{count} filters active}}'**
+  String filterActiveCount(int count);
+
+  /// No description provided for @filterAny.
+  ///
+  /// In en, this message translates to:
+  /// **'Any'**
+  String get filterAny;
+
+  /// No description provided for @filterAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments'**
+  String get filterAttachments;
+
+  /// No description provided for @filterCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get filterCategory;
+
+  /// No description provided for @filterChipCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{field} · {count}'**
+  String filterChipCount(String field, int count);
+
+  /// No description provided for @filterChipValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{field}: {value}'**
+  String filterChipValue(String field, String value);
+
+  /// No description provided for @filterClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filter {filter}'**
+  String filterClear(String filter);
+
+  /// No description provided for @filterClearAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all'**
+  String get filterClearAll;
+
+  /// No description provided for @filterDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get filterDate;
+
+  /// No description provided for @filterNoCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'No category'**
+  String get filterNoCategory;
+
+  /// No description provided for @filterOneOffOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'One-off'**
+  String get filterOneOffOnly;
+
+  /// No description provided for @filterPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get filterPriority;
+
+  /// No description provided for @filterRecurring.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats'**
+  String get filterRecurring;
+
+  /// No description provided for @filterRecurringOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring'**
+  String get filterRecurringOnly;
+
+  /// No description provided for @filterStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get filterStatus;
+
+  /// No description provided for @filterTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag'**
+  String get filterTag;
+
+  /// No description provided for @filterText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get filterText;
+
+  /// No description provided for @filterTextPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Contains text'**
+  String get filterTextPrompt;
+
+  /// No description provided for @filterWithAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'With attachments'**
+  String get filterWithAttachments;
+
+  /// No description provided for @filterWithoutAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Without attachments'**
+  String get filterWithoutAttachments;
+
   /// No description provided for @localOnlyBanner.
   ///
   /// In en, this message translates to:

@@ -221,6 +221,81 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorValidation => 'Please check the highlighted fields.';
 
   @override
+  String filterActiveCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count filters active',
+      one: '1 filter active',
+      zero: 'No filters',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get filterAny => 'Any';
+
+  @override
+  String get filterAttachments => 'Attachments';
+
+  @override
+  String get filterCategory => 'Category';
+
+  @override
+  String filterChipCount(String field, int count) {
+    return '$field · $count';
+  }
+
+  @override
+  String filterChipValue(String field, String value) {
+    return '$field: $value';
+  }
+
+  @override
+  String filterClear(String filter) {
+    return 'Clear filter $filter';
+  }
+
+  @override
+  String get filterClearAll => 'Clear all';
+
+  @override
+  String get filterDate => 'Date';
+
+  @override
+  String get filterNoCategory => 'No category';
+
+  @override
+  String get filterOneOffOnly => 'One-off';
+
+  @override
+  String get filterPriority => 'Priority';
+
+  @override
+  String get filterRecurring => 'Repeats';
+
+  @override
+  String get filterRecurringOnly => 'Recurring';
+
+  @override
+  String get filterStatus => 'Status';
+
+  @override
+  String get filterTag => 'Tag';
+
+  @override
+  String get filterText => 'Text';
+
+  @override
+  String get filterTextPrompt => 'Contains text';
+
+  @override
+  String get filterWithAttachments => 'With attachments';
+
+  @override
+  String get filterWithoutAttachments => 'Without attachments';
+
+  @override
   String get localOnlyBanner =>
       'Cloud sync isn\'t configured — your data stays on this device.';
 
