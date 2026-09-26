@@ -1,0 +1,28 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["<TEAM_ID>.app.everslot", "<TEAM_ID>.app.everslot.dev"],
+        "components": [
+          { "/": "/today", "comment": "Today" },
+          { "/": "/plan", "comment": "Planner" },
+          { "/": "/plan/*", "comment": "Planner views: /plan/week?date=…, /plan/day, /plan/view/<type>" },
+          { "/": "/task/*", "comment": "Task or occurrence: /task/<id>?occ=<occurrence_key>, /task/<id>/edit" },
+          { "/": "/task-new", "comment": "Quick create a task" },
+          { "/": "/lists", "comment": "Lists board" },
+          { "/": "/lists/*", "comment": "Checklist (/lists/<id>?item=<id>) or smart list (/lists/smart/<kind>)" },
+          { "/": "/habits", "comment": "Habits" },
+          { "/": "/habits/*", "comment": "Habit detail or editor" },
+          { "/": "/habit-new", "comment": "New habit or quit tracker" },
+          { "/": "/quit/*", "comment": "Quit tracker dashboard" },
+          { "/": "/insights", "comment": "Insights" },
+          { "/": "/insights/*", "comment": "Insights for a scope: /insights/<scope>/<id>" },
+          { "/": "/inbox", "comment": "Notification inbox" },
+          { "/": "/search", "comment": "Search: /search?q=…" },
+          { "/": "/settings", "comment": "Settings" },
+          { "/": "/settings/*", "comment": "Settings pages (trash, categories, tags…)" }
+        ]
+      }
+    ]
+  }
+}

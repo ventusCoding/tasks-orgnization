@@ -1,0 +1,137 @@
+# Publishes site/ to GitHub Pages (T9.2.09): product page, privacy policy, terms, support, account
+# deletion page and the app/universal-link association files in site/.well-known/ ([8.2] T8.2.01).
+#
+# One-time setup (docs/ops/app_identity.md, "Website & app links"):
+#   1. Settings › Pages › Build and deployment › Source = "GitHub Actions".
+#   2. Custom domain served at the site root (required for /.well-known/…), "Enforce HTTPS" on.
+#   3. Fill the placeholders, remove the template notes after legal review.
+#   4. Repository variable PAGES_ENABLED=true (Settings › Secrets and variables › Actions › Variables).
+# Until step 4, runs only validate the site. Once enabled, a push that still contains placeholders or
+# template notes fails instead of publishing them; a manual run can override that for a preview.
+name: pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+    inputs:
+      allow_placeholders:
+        description: "Publish even if placeholders or template notes remain (preview only)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate site
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Well-formed HTML, internal links, association files
+        shell: python
+        run: |
+          import json, pathlib, sys
+          from html.parser import HTMLParser
+          from urllib.parse import urlparse, unquote
+
+          site = pathlib.Path("site")
+          void = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
+          required = ["index.html", "404.html", "styles.css", ".nojekyll", ".well-known/apple-app-site-association",
+                      ".well-known/assetlinks.json"] + [f"{l}/{p}.html" for l in ("en", "fr", "ar")
+                      for p in ("index", "privacy", "terms", "support", "delete-account")]
+          errors = [f"missing site/{r}" for r in required if not (site / r).exists()]
+
+          class Page(HTMLParser):
+              def __init__(self, name):
+                  super().__init__()
+                  self.name, self.stack, self.ids, self.links, self.root = name, [], set(), [], {}
+              def handle_starttag(self, tag, attrs):
+                  a = dict(attrs)
+                  self.root = a if tag == "html" else self.root
+                  if "id" in a:
+                      if a["id"] in self.ids:
+                          errors.append(f"{self.name}: duplicate id {a['id']}")
+                      self.ids.add(a["id"])
+                  self.links += [a[k] for k in ("href", "src") if k in a]
+                  if tag not in void:
+                      self.stack.append(tag)
+              def handle_startendtag(self, tag, attrs):
+                  self.handle_starttag(tag, attrs)
+                  if tag not in void:
+                      self.stack.pop()
+              def handle_endtag(self, tag):
+                  if tag not in void and (not self.stack or self.stack.pop() != tag):
+                      errors.append(f"{self.name}:{self.getpos()[0]}: unbalanced </{tag}>")
+
+          pages = {}
+          for f in sorted(site.rglob("*.html")):
+              name = f.relative_to(site).as_posix()
+              p = pages[name] = Page(name)
+              p.feed(f.read_text(encoding="utf-8"))
+              errors += [f"{name}: <{t}> not closed" for t in p.stack]
+              if not p.root.get("lang") or (name.startswith("ar/") and p.root.get("dir") != "rtl"):
+                  errors.append(f"{name}: missing lang (or dir=rtl on Arabic pages)")
+          for name, p in pages.items():
+              for link in p.links:
+                  u = urlparse(link)
+                  if u.scheme or link.startswith("//"):
+                      continue
+                  path = unquote(u.path)
+                  target = path.lstrip("/") if path.startswith("/") else str(pathlib.PurePosixPath(name).parent / path)
+                  resolved = (site / target).resolve()
+                  if path == "" or path.endswith("/"):
+                      resolved = resolved / "index.html" if path else (site / name).resolve()
+                  if not resolved.exists():
+                      errors.append(f"{name}: broken link {link}")
+          for f in (".well-known/apple-app-site-association", ".well-known/assetlinks.json"):
+              try:
+                  json.loads((site / f).read_text(encoding="utf-8"))
+              except Exception as e:
+                  errors.append(f"site/{f}: invalid JSON ({e})")
+          print("\n".join(errors) or f"OK: {len(pages)} pages")
+          sys.exit(1 if errors else 0)
+
+      - name: No placeholders or template notes left (when publishing)
+        if: ${{ vars.PAGES_ENABLED == 'true' && !(github.event_name == 'workflow_dispatch' && inputs.allow_placeholders) }}
+        run: |
+          pattern='\[(DEVELOPER NAME|CONTACT EMAIL|EFFECTIVE DATE|SUPABASE REGION|COUNTRY/GOVERNING LAW)\]'
+          pattern="$pattern|YOUR_SITE_DOMAIN|APP_STORE_ID|<(DEV_)?SHA256_CERT_FINGERPRINT>|<TEAM_ID>|class=\"template-note\""
+          if grep -rnE "$pattern" site; then
+            echo "::error::Fill the placeholders and remove the template notes after legal review (docs/ops/app_identity.md)."
+            exit 1
+          fi
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: validate
+    if: vars.PAGES_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+          # v4+ drops dotfiles by default: keep site/.well-known (app links) and site/.nojekyll.
+          include-hidden-files: true
+      - id: deployment
+        uses: actions/deploy-pages@v5
