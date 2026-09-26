@@ -1,5 +1,4 @@
-import 'dart:math' as math;
-
+import 'package:everslot/features/planner/domain/view_config/planner_view_config.dart' show defaultSnapMinutes;
 import 'package:meta/meta.dart';
 
 enum SnapKind { none, grid, magnet }
@@ -34,7 +33,7 @@ class SnapEngine {
   });
 
   /// Default snap = min(slot, 15), clamped to 1–60.
-  static int defaultSnapFor(int slotMinutes) => math.min(slotMinutes, 15).clamp(1, 60);
+  static int defaultSnapFor(int slotMinutes) => defaultSnapMinutes(slotMinutes);
 
   final int snapMinutes;
   final double pxPerMinute;

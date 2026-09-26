@@ -1,33 +1,10 @@
 import 'dart:math' as math;
 
+import 'package:everslot/features/planner/domain/view_config/day_window.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/day_timeline.dart';
 import 'package:meta/meta.dart';
 
-/// Visible hours of a day (T3.4.09), minute precision, `start < end`.
-@immutable
-class DayWindow {
-  const DayWindow(this.startMinute, this.endMinute);
-
-  static const full = DayWindow(0, 1440);
-
-  final int startMinute;
-  final int endMinute;
-
-  bool get isFull => startMinute <= 0 && endMinute >= 1440;
-  int get minutes => endMinute - startMinute;
-
-  bool contains(int minute) => minute >= startMinute && minute < endMinute;
-
-  @override
-  bool operator ==(Object other) =>
-      other is DayWindow && other.startMinute == startMinute && other.endMinute == endMinute;
-
-  @override
-  int get hashCode => Object.hash(startMinute, endMinute);
-
-  @override
-  String toString() => 'DayWindow($startMinute–$endMinute)';
-}
+export 'package:everslot/features/planner/domain/view_config/day_window.dart';
 
 enum AxisBandKind {
   /// Proportional rows.
@@ -322,6 +299,18 @@ class PageAxis {
     }
     return rows;
   }
+
+  /// Scroll offset showing wall minute [minute] at the top of the viewport, or at [anchorFraction]
+  /// of a viewport of [viewportExtent] (T3.3.02: the view state stores minutes, not pixels).
+  double offsetForMinute(double ppm, double minute, {double viewportExtent = 0, double anchorFraction = 0}) {
+    final y = yOf(minute, ppm: ppm) - viewportExtent * anchorFraction;
+    final max = height(ppm) - viewportExtent;
+    return y.clamp(0.0, max < 0 ? 0.0 : max);
+  }
+
+  /// Wall minute at scroll [offset] (+ [viewportExtent] × [anchorFraction]).
+  double minuteAtOffset(double ppm, double offset, {double viewportExtent = 0, double anchorFraction = 0}) =>
+      locate(offset + viewportExtent * anchorFraction, ppm).wall;
 
   /// y ranges of normal bands where [day] has no wall-clock time (paint as unavailable).
   List<(double, double)> unavailableRanges(DayTimeline day, double ppm) {
