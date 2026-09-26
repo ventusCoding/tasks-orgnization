@@ -1780,6 +1780,12 @@ abstract class AppLocalizations {
   /// **'This list doesn\'t exist'**
   String get checklistNotFound;
 
+  /// No description provided for @checklistNotifItemGone.
+  ///
+  /// In en, this message translates to:
+  /// **'This item no longer exists'**
+  String get checklistNotifItemGone;
+
   /// No description provided for @checklistOpenTrash.
   ///
   /// In en, this message translates to:

@@ -367,6 +367,7 @@
   "checklistNoItems": "Aucun élément",
   "checklistNoLabels": "Aucun libellé",
   "checklistNotFound": "Cette liste n'existe pas",
+  "checklistNotifItemGone": "Cet élément n’existe plus",
   "checklistOpenTrash": "Ouvrir la corbeille",
   "checklistOutdent": "Diminuer le retrait",
   "checklistPaste": "Coller",

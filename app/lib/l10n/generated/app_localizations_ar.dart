@@ -1029,6 +1029,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistNotFound => 'هذه القائمة غير موجودة';
 
   @override
+  String get checklistNotifItemGone => 'هذا العنصر لم يعد موجودًا';
+
+  @override
   String get checklistOpenTrash => 'فتح المهملات';
 
   @override

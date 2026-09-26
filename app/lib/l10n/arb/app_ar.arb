@@ -367,6 +367,7 @@
   "checklistNoItems": "لا توجد عناصر بعد",
   "checklistNoLabels": "لا توجد تسميات بعد",
   "checklistNotFound": "هذه القائمة غير موجودة",
+  "checklistNotifItemGone": "هذا العنصر لم يعد موجودًا",
   "checklistOpenTrash": "فتح المهملات",
   "checklistOutdent": "إنقاص المسافة البادئة",
   "checklistPaste": "لصق",

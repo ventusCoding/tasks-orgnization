@@ -1002,6 +1002,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checklistNotFound => 'This list doesn\'t exist';
 
   @override
+  String get checklistNotifItemGone => 'This item no longer exists';
+
+  @override
   String get checklistOpenTrash => 'Open trash';
 
   @override

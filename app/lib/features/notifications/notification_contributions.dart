@@ -1,3 +1,4 @@
+import 'package:everslot/features/checklists/application/checklist_notifications.dart';
 import 'package:everslot/features/notifications/application/notification_registry.dart';
 import 'package:everslot/features/notifications/domain/notification_target.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,4 +47,9 @@ class NotificationContribution {
 /// notification actions while the app is killed, so registrations must not depend on widgets.
 /// Factories receive the `Ref` of a long-lived provider: keep it and use `ref.read` lazily inside
 /// `targetsBetween` / `handle` (never `ref.watch` in the factory).
-final List<NotificationContribution> notificationContributions = [];
+final List<NotificationContribution> notificationContributions = [
+  NotificationContribution(
+    sources: [ChecklistsNotificationSource.new],
+    actionHandlers: [ChecklistNotificationActions.new],
+  ),
+];
