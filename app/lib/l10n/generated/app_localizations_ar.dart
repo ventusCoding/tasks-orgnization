@@ -3422,6 +3422,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recurAddDate => 'إضافة';
 
   @override
+  String get recurAddOrdinal => 'إضافة يوم مثل «يوم الثلاثاء الثاني»';
+
+  @override
   String get recurAddTime => 'إضافة وقت';
 
   @override
@@ -3432,8 +3435,26 @@ class AppLocalizationsAr extends AppLocalizations {
       'يحين الموعد التالي بعد هذه المدة من إنجاز السابق.';
 
   @override
+  String get recurAfterPreview => 'تعتمد المواعيد التالية على وقت إنجازك له';
+
+  @override
   String recurAnchorMoved(String date) {
     return 'أول موعد: $date';
+  }
+
+  @override
+  String recurCalendarSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count يوم فيه مواعيد',
+      many: '$count يومًا فيه مواعيد',
+      few: '$count أيام فيها مواعيد',
+      two: 'يومان فيهما مواعيد',
+      one: 'يوم واحد فيه مواعيد',
+      zero: 'لا يوم فيه مواعيد',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -3447,6 +3468,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recurCurrent => 'القاعدة الحالية';
+
+  @override
+  String get recurCustomValue => 'قيمة أخرى…';
 
   @override
   String get recurEnds => 'الانتهاء';
@@ -3481,6 +3505,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recurExceptionEdited => 'معدّل';
 
   @override
+  String get recurExceptionExcluded => 'مستبعد';
+
+  @override
   String recurExceptionMoved(String to) {
     return 'نُقل إلى $to';
   }
@@ -3493,6 +3520,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recurExceptionRestoreAll => 'استعادة الكل';
+
+  @override
+  String recurExceptionRestoreAllTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'استعادة $count موعد؟',
+      many: 'استعادة $count موعدًا؟',
+      few: 'استعادة $count مواعيد؟',
+      two: 'استعادة موعدين؟',
+      one: 'استعادة موعد واحد؟',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get recurExceptionsEmpty => 'لا مواعيد مزالة أو منقولة';
@@ -3586,6 +3627,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recurMore => 'خيارات أكثر';
 
   @override
+  String get recurNumbersHint => 'أرقام مفصولة بفواصل (السالب = من النهاية)';
+
+  @override
   String get recurOrdinal1 => 'الأول';
 
   @override
@@ -3607,7 +3651,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recurOrdinalLast => 'الأخير';
 
   @override
+  String get recurOrdinalPick => 'أي يوم؟';
+
+  @override
   String get recurOrdinalSecondLast => 'قبل الأخير';
+
+  @override
+  String recurOrdinalWeekday(String ordinal, String weekday) {
+    return 'يوم $weekday $ordinal';
+  }
 
   @override
   String get recurOverflow => 'عندما يكون الشهر أقصر';
@@ -3629,6 +3681,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recurPerYear => 'السنة';
+
+  @override
+  String recurPeriodWeek(String date) {
+    return 'أسبوع $date';
+  }
 
   @override
   String get recurPickerTitle => 'التكرار';
@@ -3682,6 +3739,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recurRdates => 'مواعيد إضافية';
 
   @override
+  String recurRemove(String item) {
+    return 'إزالة $item';
+  }
+
+  @override
   String recurRemoveTime(String time) {
     return 'إزالة $time';
   }
@@ -3697,6 +3759,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recurTimes => 'أوقات اليوم';
+
+  @override
+  String recurTimesDefault(String time) {
+    return 'في وقت البدء ($time)';
+  }
 
   @override
   String get recurType => 'النوع';
@@ -3753,6 +3820,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get recurWeekNumbers => 'أرقام الأسابيع';
+
+  @override
   String get recurWeekStart => 'يبدأ الأسبوع يوم';
 
   @override
@@ -3778,6 +3848,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recurWindowStart => 'من';
+
+  @override
+  String get recurYearDays => 'أيام السنة';
 
   @override
   String recurZoneNote(String zone) {
