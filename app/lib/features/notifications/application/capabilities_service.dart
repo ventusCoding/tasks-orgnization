@@ -32,13 +32,16 @@ class NotificationCapabilitiesController
   }
 
   Future<NotificationCapabilities> refresh() async {
+    if (!ref.mounted) return NotificationCapabilities.unknown;
     try {
       final caps = await _port.capabilities();
+      // The provider may have been disposed (sign-out, tests) while the OS answered.
+      if (!ref.mounted) return caps;
       if (caps != state) state = caps;
     } on Object {
       // keep the previous value
     }
-    return state;
+    return ref.mounted ? state : NotificationCapabilities.unknown;
   }
 
   /// OS permission prompt (call only after a primer). Android 13+ POST_NOTIFICATIONS / iOS

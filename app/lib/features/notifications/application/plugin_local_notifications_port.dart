@@ -1,4 +1,5 @@
 import 'package:everslot/core/logging/log.dart';
+import 'package:everslot/design_system/theme.dart';
 import 'package:everslot/features/notifications/application/background_entry.dart';
 import 'package:everslot/features/notifications/application/local_notifications_port.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart'
@@ -16,13 +17,14 @@ import 'package:timezone/timezone.dart' as tz;
 ///   actions, tag = dedupe key (pushes replace the local entry).
 /// - iOS: categories registered at initialization (re-registered on change), interruption levels,
 ///   foreground presentation off when in-app banners are on, thread ids for grouping.
-/// - Small icon: `@mipmap/ic_launcher` until the monochrome `ic_stat_everslot` asset is added.
+/// - Small icon: the monochrome `@drawable/ic_stat_everslot` (kept from R8 resource shrinking by
+///   `res/raw/keep.xml`) tinted with the brand accent.
 class PluginLocalNotificationsPort implements LocalNotificationsPort {
   PluginLocalNotificationsPort({fln.FlutterLocalNotificationsPlugin? plugin})
     : _plugin = plugin ?? fln.FlutterLocalNotificationsPlugin();
 
   static final _log = AppLog.get('notifications.port');
-  static const androidIcon = '@mipmap/ic_launcher';
+  static const androidIcon = '@drawable/ic_stat_everslot';
 
   final fln.FlutterLocalNotificationsPlugin _plugin;
   void Function(OsResponse response)? _onResponse;
@@ -207,6 +209,7 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
             ? fln.AndroidNotificationCategory.alarm
             : fln.AndroidNotificationCategory.reminder,
         visibility: fln.NotificationVisibility.private,
+        color: AppTheme.seed,
         ongoing: r.sticky,
         autoCancel: !r.sticky,
         silent: r.silent,
