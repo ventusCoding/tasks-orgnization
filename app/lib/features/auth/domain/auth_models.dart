@@ -1,6 +1,19 @@
 /// Sign-in methods (T1.5.03, T1.5.09–T1.5.11).
 enum AuthMethod { email, google, apple, anonymous }
 
+/// Coarse authentication state (T1.5.02). "Signing in" is transient UI state of the sign-in
+/// controller; the session itself is either absent, local-only, a guest or a full account.
+enum AuthStatus {
+  signedOut,
+
+  /// Data stays on this device (Supabase not configured, or "use on this device only").
+  localOnly,
+
+  /// Cloud guest account (anonymous sign-in) — upgradeable without changing its id.
+  anonymous,
+  signedIn,
+}
+
 /// A signed-in Supabase user as the app sees it (no tokens here).
 class AuthUser {
   const AuthUser({

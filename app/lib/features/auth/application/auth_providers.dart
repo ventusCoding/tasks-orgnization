@@ -20,6 +20,14 @@ final authRepositoryProvider = Provider<AuthRepository?>((ref) {
 /// True when sign-in is possible on this build.
 final cloudAuthAvailableProvider = Provider<bool>((ref) => ref.watch(authRepositoryProvider) != null);
 
+/// Coarse auth state derived from the session (T1.5.02).
+final authStatusProvider = Provider<AuthStatus>((ref) {
+  final session = ref.watch(sessionProvider);
+  if (session == null) return AuthStatus.signedOut;
+  if (session.isLocalOnly) return AuthStatus.localOnly;
+  return session.isAnonymous ? AuthStatus.anonymous : AuthStatus.signedIn;
+});
+
 /// Session problems shown by the session guard (T1.5.14).
 final sessionIssuesProvider = NotifierProvider<SessionIssuesController, Set<SessionIssue>>(
   SessionIssuesController.new,

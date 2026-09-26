@@ -2,6 +2,8 @@ import 'package:everslot/app/shell_scaffold.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/auth/application/auth_providers.dart';
+import 'package:everslot/features/auth/domain/auth_redirect.dart';
 import 'package:everslot/features/auth/presentation/sign_in_screen.dart';
 import 'package:everslot/features/checklists/presentation/checklist_screen.dart';
 import 'package:everslot/features/checklists/presentation/lists_board_screen.dart';
@@ -35,23 +37,18 @@ final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final routerProvider = Provider<GoRouter>((ref) {
   final refresh = ValueNotifier<int>(0);
   ref
-    ..listen(sessionProvider, (_, _) => refresh.value++)
+    ..listen(authRouteStateProvider, (_, _) => refresh.value++)
     ..onDispose(refresh.dispose);
+  // The debug menu only exists in dev builds (T1.3.16).
+  final devTools = ref.read(envProvider).isDev;
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: AppLinks.today(),
     refreshListenable: refresh,
-    redirect: (context, state) {
-      final env = ref.read(envProvider);
-      final session = ref.read(sessionProvider);
-      final atAuth = state.matchedLocation.startsWith('/auth');
-      if (env.isSupabaseConfigured && session == null) {
-        return atAuth ? null : AppLinks.signIn();
-      }
-      if (session != null && atAuth) return AppLinks.today();
-      return null;
-    },
+    // Auth guard, deep links preserved across sign-in, onboarding (T1.5.02).
+    redirect: (context, state) =>
+        AuthRedirect.resolve(state.uri, state.matchedLocation, ref.read(authRouteStateProvider)),
     errorBuilder: (context, state) => Scaffold(
       appBar: AppBar(),
       body: EmptyState(icon: Icons.link_off, title: context.l10n.notFoundTitle),
@@ -229,11 +226,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: '/auth/sign-in', builder: (_, _) => const SignInScreen()),
       GoRoute(path: '/onboarding', builder: (_, _) => const OnboardingScreen()),
-      GoRoute(
-        path: '/dev',
-        parentNavigatorKey: rootNavigatorKey,
-        builder: (_, _) => const DebugMenuScreen(),
-      ),
+      if (devTools)
+        GoRoute(
+          path: '/dev',
+          parentNavigatorKey: rootNavigatorKey,
+          builder: (_, _) => const DebugMenuScreen(),
+        ),
     ],
   );
 });
