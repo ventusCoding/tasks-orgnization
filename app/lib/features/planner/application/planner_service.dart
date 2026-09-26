@@ -3,6 +3,9 @@ import 'dart:ui' show Locale, PlatformDispatcher;
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/core/time/recurrence_service.dart';
+import 'package:everslot/features/notifications/application/notification_host_api.dart'
+    show NotificationRulesDraft, notificationHostApiProvider;
+import 'package:everslot/features/notifications/domain/notification_types.dart' show NotificationTargetType;
 import 'package:everslot/features/planner/application/occurrence_range_service.dart';
 import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot/features/planner/application/planner_settings.dart';
@@ -29,11 +32,13 @@ final plannerL10nProvider = Provider<AppLocalizations>((ref) {
 
 /// Application facade of the planner used by the editors, the occurrence sheet and the planner
 /// contract. Converts the viewer's wall clock to each task's own zone, applies settings
-/// (actual-time capture, timer policy) and registers every write on the undo stack.
+/// (actual-time capture, timer policy) and registers every write on the undo stack — except
+/// when [registerUndo] is false (the planner contract: views register their own undo entry).
 class PlannerService {
-  PlannerService(this._ref);
+  PlannerService(this._ref, {this.registerUndo = true});
 
   final Ref _ref;
+  final bool registerUndo;
 
   TasksRepository get tasks => _ref.read(tasksRepositoryProvider);
   OccurrencesRepository get occurrences => _ref.read(occurrencesRepositoryProvider);
@@ -49,7 +54,7 @@ class PlannerService {
   LocalDateTime get nowLocal => zones.toLocal(nowUtc, viewerZone);
 
   OpRecord _undo(String label, OpRecord record) {
-    _ref.read(undoStackProvider).push(label, record);
+    if (registerUndo) _ref.read(undoStackProvider).push(label, record);
     return record;
   }
 
@@ -95,10 +100,182 @@ class PlannerService {
     return result;
   }
 
-  Future<TaskWriteResult> createTask(Task draft, {String source = 'editor'}) async {
-    final result = await tasks.create(draft, source: source);
+  /// Creates [draft]; the editor's pending [reminders] are saved in the same operation (one
+  /// undo, one atomic push — T7.1.09).
+  Future<TaskWriteResult> createTask(Task draft, {String source = 'editor', NotificationRulesDraft? reminders}) async {
+    final pending = reminders == null || reminders.isEmpty ? null : reminders;
+    final host = pending == null ? null : _ref.read(notificationHostApiProvider);
+    final result = await tasks.create(
+      draft,
+      source: source,
+      inTx: host == null
+          ? null
+          : (tx, task) async {
+              await host.saveDraftInTx(tx, pending!, type: NotificationTargetType.task, targetId: task.id);
+            },
+    );
     _undo(l10n.tasksCreated, result.record);
     return result;
+  }
+
+  /// Saves an edited task with the chosen scope (T3.2.06–T3.2.09).
+  Future<TaskWriteResult> updateTask(
+    Task edited, {
+    EditScope scope = EditScope.allOccurrences,
+    String? occurrenceKey,
+    bool rewritePast = false,
+    OrphanPolicy orphanPolicy = OrphanPolicy.keepAsOneOff,
+    String source = 'editor',
+  }) async {
+    final result = await tasks.update(
+      edited,
+      scope: scope,
+      occurrenceKey: occurrenceKey,
+      rewritePast: rewritePast,
+      orphanPolicy: orphanPolicy,
+      source: source,
+    );
+    _undo(l10n.tasksSaved, result.record);
+    return result;
+  }
+
+  /// Orphans an edit would leave (confirmation dialog, T3.2.09).
+  Future<OrphanReport> previewOrphans(
+    Task edited, {
+    EditScope scope = EditScope.allOccurrences,
+    String? occurrenceKey,
+    bool rewritePast = false,
+  }) => tasks.previewOrphans(edited, scope: scope, occurrenceKey: occurrenceKey, rewritePast: rewritePast);
+
+  // ---------------------------------------------------------------------------
+  // Series operations (T3.1.19, T3.1.20, T3.2.21, T2.1.19)
+
+  Future<TaskWriteResult> duplicate(String taskId, {bool asOneOff = false, String? occurrenceKey}) async {
+    final result = await tasks.duplicate(taskId, asOneOff: asOneOff, occurrenceKey: occurrenceKey);
+    _undo(l10n.tasksDuplicated, result.record);
+    return result;
+  }
+
+  Future<OpRecord> duplicateToDates(String taskId, List<LocalDate> dates, {String? occurrenceKey}) async =>
+      _undo(l10n.tasksDuplicatedTo(dates.length), await tasks.duplicateToDates(taskId, dates, occurrenceKey: occurrenceKey));
+
+  Future<TaskWriteResult> saveAsTemplate(Task task) async {
+    final result = await tasks.saveAsTemplate(task);
+    _undo(l10n.tasksTemplateSaved, result.record);
+    return result;
+  }
+
+  Future<OpRecord> deleteTemplate(String id) async => _undo(l10n.tasksDeleted, await tasks.deleteTemplate(id));
+
+  /// A new-task draft from [template] (fresh ids, not a template) at [start] (null = backlog).
+  Task draftFromTemplate(Task template, {LocalDateTime? start, bool allDay = false}) => template.copyWith(
+    id: '',
+    seriesId: '',
+    isTemplate: false,
+    startLocal: start == null ? null : (allDay || template.isAllDay ? start.date.atStartOfDay : start),
+    isAllDay: start != null && (allDay || template.isAllDay),
+    durationMinutes: template.isAllDay || allDay ? 1440 : template.durationMinutes,
+    status: TaskStatus.active,
+    manualSortKey: null,
+  );
+
+  Future<OpRecord> pauseSeries(String taskId) async => _undo(l10n.tasksPauseSnack, await tasks.pauseSeries(taskId));
+
+  Future<OpRecord> resumeSeries(String taskId) async => _undo(l10n.tasksResumeSnack, await tasks.resumeSeries(taskId));
+
+  Future<OpRecord> unschedule(String taskId) async => _undo(l10n.tasksMoved, await tasks.unschedule(taskId));
+
+  Future<OpRecord> restoreTask(String taskId) async => _undo(l10n.tasksRestored, await tasks.restoreTask(taskId));
+
+  /// *Restore to series* for one exception (T2.1.19).
+  Future<OpRecord> restoreToSeries(String taskId, String key) async =>
+      _undo(l10n.recurExceptionsRestored, await occurrences.restoreToSeries(taskId, key));
+
+  Future<OpRecord> restoreAllExceptions(String taskId) async =>
+      _undo(l10n.recurExceptionsRestored, await occurrences.restoreAllExceptions(taskId));
+
+  /// Removes [key] from the rule's `exdates` (the occurrence comes back; no key disappears, so
+  /// the master is edited directly).
+  Future<OpRecord?> removeExdate(String taskId, String key) async {
+    final task = await queries.task(taskId);
+    final rule = task?.recurrence;
+    if (task == null || rule == null || !rule.exdates.contains(key)) return null;
+    final result = await tasks.update(
+      task.copyWith(recurrence: rule.copyWith(exdates: [...rule.exdates.where((e) => e != key)])),
+      rewritePast: true,
+      source: 'exceptions',
+    );
+    return _undo(l10n.recurExceptionsRestored, result.record);
+  }
+
+  /// Links (or unlinks with null) a checklist (T3.1.16).
+  Future<OpRecord?> linkChecklist(String taskId, String? checklistId) async {
+    final task = await queries.task(taskId);
+    if (task == null || task.linkedChecklistId == checklistId) return null;
+    final result = await tasks.update(task.copyWith(linkedChecklistId: checklistId), source: 'checklist');
+    return _undo(l10n.tasksUpdated, result.record);
+  }
+
+  /// Bulk edit (T3.1.18): one transaction, one undo.
+  Future<OpRecord> bulk(List<BulkTarget> targets, BulkChange change) async =>
+      _undo(l10n.tasksBulkDone(targets.length), await tasks.bulk(targets, change));
+
+  // ---------------------------------------------------------------------------
+  // Occurrence outcome (T3.2.04, T3.2.22) and sessions (T3.2.18)
+
+  Future<OpRecord> skip(PlannerItem item, {String? reason}) =>
+      setStatus(item, OccurrenceStatus.skipped, skipReason: reason);
+
+  Future<OpRecord> reopen(PlannerItem item) => setStatus(item, OccurrenceStatus.scheduled);
+
+  Future<OpRecord> setCompletionPercent(PlannerItem item, int? percent) async =>
+      _undo(l10n.tasksUpdated, await occurrences.setCompletionPercent(item.taskId, item.occurrenceKey, percent));
+
+  Future<OpRecord> rate(PlannerItem item, int? rating) async =>
+      _undo(l10n.tasksUpdated, await occurrences.rate(item.taskId, item.occurrenceKey, rating));
+
+  Future<OpRecord> setOutcomeNote(PlannerItem item, String? note) async =>
+      _undo(l10n.tasksUpdated, await occurrences.setOutcomeNote(item.taskId, item.occurrenceKey, note));
+
+  Future<OpRecord> setActualTimes(PlannerItem item, {required DateTime start, required DateTime end}) async =>
+      _undo(l10n.tasksUpdated, await occurrences.setActualTimes(item.taskId, item.occurrenceKey, start: start, end: end));
+
+  Future<OpRecord> resumeTimer(PlannerItem item) =>
+      occurrences.resume(item.taskId, item.occurrenceKey, policy: settings.timerPolicy);
+
+  Future<OpRecord> addTimeEntry(PlannerItem item, {required DateTime start, DateTime? end, String? note}) async =>
+      _undo(l10n.tasksEvtTimeEntry, await occurrences.addTimeEntry(item.taskId, item.occurrenceKey, start: start, end: end, note: note));
+
+  Future<OpRecord> updateTimeEntry(String entryId, {required DateTime start, DateTime? end, String? note}) async =>
+      _undo(l10n.tasksUpdated, await occurrences.updateTimeEntry(entryId, start: start, end: end, note: note));
+
+  Future<OpRecord> deleteTimeEntry(String entryId) async =>
+      _undo(l10n.tasksUpdated, await occurrences.deleteTimeEntry(entryId));
+
+  // ---------------------------------------------------------------------------
+  // Overlap warning (T3.1.14)
+
+  /// Open `check`/`timer` occurrences (plus `event` ones when the setting says so) overlapping
+  /// `[start, start + duration)` in the viewer's wall clock, excluding the edited task/occurrence.
+  Future<List<PlannerItem>> overlapsFor({
+    required LocalDateTime start,
+    required int durationMinutes,
+    String? excludeTaskId,
+    String? excludeKey,
+  }) async {
+    if (!settings.overlapHint || durationMinutes <= 0) return const [];
+    final end = start.plusMinutes(durationMinutes);
+    final range = await ranges.resolveRange(start.date.atStartOfDay, end.date.plusDays(1).atStartOfDay);
+    final startUtc = zones.resolve(start, viewerZone).utc;
+    final endUtc = zones.resolve(end, viewerZone).utc;
+    return findOverlaps(
+      startUtc: startUtc,
+      endUtc: endUtc,
+      items: range.items,
+      excludeTaskId: excludeTaskId,
+      excludeKey: excludeKey,
+      includeEvents: settings.overlapIncludesEvents,
+    );
   }
 
   // ---------------------------------------------------------------------------

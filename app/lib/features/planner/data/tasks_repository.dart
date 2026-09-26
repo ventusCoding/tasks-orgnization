@@ -104,10 +104,19 @@ class TasksRepository {
   // ---------------------------------------------------------------------------
   // Create
 
-  /// Validates and inserts [draft] (empty `id`/`seriesId` get fresh ids).
-  Future<TaskWriteResult> create(Task draft, {String source = 'editor', Map<String, Object?> payload = const {}}) async {
+  /// Validates and inserts [draft] (empty `id`/`seriesId` get fresh ids). [inTx] runs in the same
+  /// transaction right after the insert (e.g. the editor's pending reminders, T7.1.09).
+  Future<TaskWriteResult> create(
+    Task draft, {
+    String source = 'editor',
+    Map<String, Object?> payload = const {},
+    Future<void> Function(WriteTx tx, Task task)? inTx,
+  }) async {
     final task = prepare(draft);
-    final record = await _writer.run((tx) => _insertTask(tx, task, source: source, payload: payload));
+    final record = await _writer.run((tx) async {
+      await _insertTask(tx, task, source: source, payload: payload);
+      if (inTx != null) await inTx(tx, task);
+    });
     return TaskWriteResult(task.id, record);
   }
 
@@ -745,6 +754,10 @@ class TasksRepository {
       "SELECT id FROM notification_rules WHERE deleted_at IS NULL AND target_type = 'task' AND target_id = ?",
       [task.id],
     );
+    final mutes = await ids(
+      "SELECT id FROM notification_mutes WHERE deleted_at IS NULL AND target_type = 'task' AND target_id = ?",
+      [task.id],
+    );
     final tags = await ids(
       "SELECT id FROM entity_tags WHERE deleted_at IS NULL AND entity_type = 'task' AND entity_id = ?",
       [task.id],
@@ -754,6 +767,7 @@ class TasksRepository {
       'time_entries': entries,
       'attachments': attachments,
       'notification_rules': rules,
+      'notification_mutes': mutes,
       'entity_tags': tags,
     };
     for (final e in cascade.entries) {
@@ -884,6 +898,8 @@ class TasksRepository {
     copy = copy.copyWith(recurrenceUntilLocal: TaskSchedule.of(copy).recurrenceUntilLocal(_svc.engine));
     await _insertTask(tx, copy, source: 'duplicate', payload: {'duplicatedFrom': src.id, 'occurrenceKey': ?occurrenceKey});
     await tx.copyOwnedRows('attachments', 'owner_id', src.id, id, typeColumn: 'owner_type', typeValue: 'task');
+    // The copy keeps its own reminders (T7.1.15 "duplicate item").
+    await tx.copyOwnedRows('notification_rules', 'target_id', src.id, id, typeColumn: 'target_type', typeValue: 'task');
     return id;
   }
 
