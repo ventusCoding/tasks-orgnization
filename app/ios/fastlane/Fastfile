@@ -1,6 +1,6 @@
 # iOS lanes (T9.2.03). Run from app/ios: `bundle exec fastlane <lane>`.
 # Needs APP_STORE_CONNECT_API_KEY_JSON ({"key_id", "issuer_id", "key"}), MATCH_GIT_URL, MATCH_PASSWORD
-# (see docs/guide.md "Release"). Build first: flutter build ipa --release --no-codesign -t lib/main_prod.dart …
+# (see docs/guide.md "Release"). Build first: flutter build ipa --release --no-codesign --flavor prod -t lib/main_prod.dart …
 default_platform(:ios)
 
 BUNDLE_ID = "app.everslot"
@@ -34,7 +34,8 @@ platform :ios do
     )
     build_app(
       workspace: "Runner.xcworkspace",
-      scheme: "Runner",
+      scheme: "prod",
+      configuration: "Release-prod",
       export_method: "app-store",
       export_options: { provisioningProfiles: { BUNDLE_ID => profile } },
     )
