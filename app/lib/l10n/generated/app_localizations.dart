@@ -2338,6 +2338,12 @@ abstract class AppLocalizations {
   /// **'Off'**
   String get notifModeOff;
 
+  /// No description provided for @notifModeOffHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications for this item'**
+  String get notifModeOffHint;
+
   /// No description provided for @notifMultiDevice.
   ///
   /// In en, this message translates to:
@@ -2859,6 +2865,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Habits'**
   String get notifSectionHabits;
+
+  /// No description provided for @notifSectionOffHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{section} notifications are turned off in Settings'**
+  String notifSectionOffHint(String section);
 
   /// No description provided for @notifSectionPlanner.
   ///
@@ -5512,6 +5524,12 @@ abstract class AppLocalizations {
   /// **'Add'**
   String get recurAddDate;
 
+  /// No description provided for @recurAddOrdinal.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a day like “2nd Tuesday”'**
+  String get recurAddOrdinal;
+
   /// No description provided for @recurAddTime.
   ///
   /// In en, this message translates to:
@@ -5530,11 +5548,23 @@ abstract class AppLocalizations {
   /// **'The next one is due this long after you complete the previous one.'**
   String get recurAfterHint;
 
+  /// No description provided for @recurAfterPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'The next ones depend on when you complete it'**
+  String get recurAfterPreview;
+
   /// No description provided for @recurAnchorMoved.
   ///
   /// In en, this message translates to:
   /// **'First occurrence: {date}'**
   String recurAnchorMoved(String date);
+
+  /// No description provided for @recurCalendarSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{no day with occurrences} =1{1 day with occurrences} other{{count} days with occurrences}}'**
+  String recurCalendarSummary(int count);
 
   /// No description provided for @recurCountCompletions.
   ///
@@ -5559,6 +5589,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Current rule'**
   String get recurCurrent;
+
+  /// No description provided for @recurCustomValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Other value…'**
+  String get recurCustomValue;
 
   /// No description provided for @recurEnds.
   ///
@@ -5602,6 +5638,12 @@ abstract class AppLocalizations {
   /// **'Edited'**
   String get recurExceptionEdited;
 
+  /// No description provided for @recurExceptionExcluded.
+  ///
+  /// In en, this message translates to:
+  /// **'Excluded'**
+  String get recurExceptionExcluded;
+
   /// No description provided for @recurExceptionMoved.
   ///
   /// In en, this message translates to:
@@ -5625,6 +5667,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Restore all'**
   String get recurExceptionRestoreAll;
+
+  /// No description provided for @recurExceptionRestoreAllTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Restore 1 occurrence?} other{Restore {count} occurrences?}}'**
+  String recurExceptionRestoreAllTitle(int count);
 
   /// No description provided for @recurExceptionsEmpty.
   ///
@@ -5794,6 +5842,12 @@ abstract class AppLocalizations {
   /// **'More options'**
   String get recurMore;
 
+  /// No description provided for @recurNumbersHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Numbers separated by commas (negative = from the end)'**
+  String get recurNumbersHint;
+
   /// No description provided for @recurOrdinal1.
   ///
   /// In en, this message translates to:
@@ -5836,11 +5890,23 @@ abstract class AppLocalizations {
   /// **'Last'**
   String get recurOrdinalLast;
 
+  /// No description provided for @recurOrdinalPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Which day?'**
+  String get recurOrdinalPick;
+
   /// No description provided for @recurOrdinalSecondLast.
   ///
   /// In en, this message translates to:
   /// **'2nd to last'**
   String get recurOrdinalSecondLast;
+
+  /// No description provided for @recurOrdinalWeekday.
+  ///
+  /// In en, this message translates to:
+  /// **'{ordinal} {weekday}'**
+  String recurOrdinalWeekday(String ordinal, String weekday);
 
   /// No description provided for @recurOverflow.
   ///
@@ -5883,6 +5949,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Year'**
   String get recurPerYear;
+
+  /// No description provided for @recurPeriodWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Week of {date}'**
+  String recurPeriodWeek(String date);
 
   /// No description provided for @recurPickerTitle.
   ///
@@ -5986,6 +6058,12 @@ abstract class AppLocalizations {
   /// **'Extra occurrences'**
   String get recurRdates;
 
+  /// No description provided for @recurRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {item}'**
+  String recurRemove(String item);
+
   /// No description provided for @recurRemoveTime.
   ///
   /// In en, this message translates to:
@@ -6015,6 +6093,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Times of day'**
   String get recurTimes;
+
+  /// No description provided for @recurTimesDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'At the start time ({time})'**
+  String recurTimesDefault(String time);
 
   /// No description provided for @recurType.
   ///
@@ -6100,6 +6184,12 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{1 occurrence per day} other{{count} occurrences per day}}'**
   String recurWarnPerDay(int count);
 
+  /// No description provided for @recurWeekNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Week numbers'**
+  String get recurWeekNumbers;
+
   /// No description provided for @recurWeekStart.
   ///
   /// In en, this message translates to:
@@ -6153,6 +6243,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'From'**
   String get recurWindowStart;
+
+  /// No description provided for @recurYearDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Days of the year'**
+  String get recurYearDays;
 
   /// No description provided for @recurZoneNote.
   ///

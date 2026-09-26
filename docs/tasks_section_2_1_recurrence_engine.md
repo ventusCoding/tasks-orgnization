@@ -41,9 +41,9 @@ quotas or after-completion rules. We keep RFC 5545 semantics where they exist an
 - [x] T2.1.11 — Series split helper ("this and following")
 - [x] T2.1.12 — Human-readable descriptions (EN / FR / AR)
 - [x] T2.1.13 — Fixture suite & runner
-- [ ] T2.1.14 — App integration: `RecurrenceService` & providers
-- [ ] T2.1.15 — Recurrence builder UI: presets
-- [ ] T2.1.16 — Recurrence builder UI: advanced editor, preview & warnings
+- [x] T2.1.14 — App integration: `RecurrenceService` & providers
+- [x] T2.1.15 — Recurrence builder UI: presets
+- [x] T2.1.16 — Recurrence builder UI: advanced editor, preview & warnings
 - [x] T2.1.17 — RRULE import / export (RFC 5545 text)
 - [x] T2.1.18 — Performance benchmarks & safety caps
 - [ ] T2.1.19 — Exceptions manager UI (skipped/moved occurrences of a series)
@@ -224,6 +224,7 @@ readable diff of keys.
 **Tests:** the runner itself (a deliberately broken fixture fails with a clear message).
 
 ### T2.1.14 — App integration: `RecurrenceService` & providers
+**Notes:** `recurrenceServiceProvider` (rebuilt on zone/preferences change → cache dropped) with LRU `between`, `betweenAsync` isolate offload, `nextOccurrences`, `alignAnchor`, density/never helpers; planner and the recurrence UI use it. The notification planner's pure `domain/` adapter keeps its own engine (domain can't depend on the app facade).
 **Priority:** P0 · **Size:** S · **Depends on:** T2.1.06, T2.1.07, [1.3]
 **Description:** App-side facade (`core/time/recurrence_service.dart`): injects `Clock`, the user's
 current zone, week start and day-start settings; exposes range expansion with caching (LRU by rule hash +
@@ -233,6 +234,7 @@ device zone invalidates floating-rule caches.
 **Tests:** unit tests with fake clock/zone provider; cache invalidation test.
 
 ### T2.1.15 — Recurrence builder UI: presets
+**Notes:** Public API in `features/recurrence_ui/recurrence_ui.dart`: `showRecurrencePicker(context, {initial, required anchor, mode})` returns the rule to use (null = *Does not repeat*, `initial` when dismissed); `showRecurrencePickerDetailed` also returns the aligned anchor. Preset labels are the engine's localized descriptions; anchor-derived presets use the RFC minimal form. Habits never get *Does not repeat*. Goldens wait for T9.1.05 — widget tests cover EN/AR (RTL), dark theme and text scale 2.0 without overflow.
 **Priority:** P0 · **Size:** M · **Depends on:** T2.1.12, T2.1.14, [1.3] (pickers)
 **Description:** Bottom-sheet picker used by task/habit/checklist/notification editors: *Does not repeat*,
 *Daily*, *Weekdays*, *Weekly on <day>*, *Specific days…* (weekday chips), *Every N days*, *Monthly on day
@@ -245,6 +247,7 @@ available presets depend on context (quota only for habits; after-completion for
 **Tests:** widget tests per preset; golden in AR/RTL.
 
 ### T2.1.16 — Recurrence builder UI: advanced editor, preview & warnings
+**Notes:** `showRecurrenceEditor` / `RecurrenceEditorScreen` (pinned live summary, inline errors per field, Save disabled while invalid). Weekday ordinals are added as "Nth weekday" entries; year days / week numbers are comma lists; exdates are whole days, rdates date + time. Warnings: > 24/day, nothing within 5 years, DST gap shifts (scan of the next 366 days), all-day + sub-daily. Preview budget asserted < 50 ms in `recurrence_preview_test.dart`. The "saving a rule on a task" integration test lives with the task editor tests (T3.1.06).
 **Priority:** P0 · **Size:** L · **Depends on:** T2.1.15
 **Description:** Full editor exposing every field: frequency, interval, weekday chips with ordinals (1st,
 2nd, 3rd, 4th, last), month-day grid (incl. negatives "2nd to last"), months, set positions, hours &

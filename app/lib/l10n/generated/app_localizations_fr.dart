@@ -1440,6 +1440,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifModeOff => 'Désactivé';
 
   @override
+  String get notifModeOffHint => 'Aucune notification pour cet élément';
+
+  @override
   String get notifMultiDevice => 'Envoyer à';
 
   @override
@@ -1725,6 +1728,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get notifSectionHabits => 'Habitudes';
+
+  @override
+  String notifSectionOffHint(String section) {
+    return 'Les notifications « $section » sont désactivées dans les réglages';
+  }
 
   @override
   String get notifSectionPlanner => 'Planning';
@@ -3293,6 +3301,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get recurAddDate => 'Ajouter';
 
   @override
+  String get recurAddOrdinal => 'Ajouter un jour comme « 2e mardi »';
+
+  @override
   String get recurAddTime => 'Ajouter une heure';
 
   @override
@@ -3303,8 +3314,24 @@ class AppLocalizationsFr extends AppLocalizations {
       'La suivante arrive ce délai après l’achèvement de la précédente.';
 
   @override
+  String get recurAfterPreview =>
+      'Les suivantes dépendent du moment où vous le terminez';
+
+  @override
   String recurAnchorMoved(String date) {
     return 'Première occurrence : $date';
+  }
+
+  @override
+  String recurCalendarSummary(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jours avec des occurrences',
+      one: '1 jour avec des occurrences',
+      zero: 'aucun jour avec des occurrences',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -3318,6 +3345,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get recurCurrent => 'Règle actuelle';
+
+  @override
+  String get recurCustomValue => 'Autre valeur…';
 
   @override
   String get recurEnds => 'Fin';
@@ -3349,6 +3379,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get recurExceptionEdited => 'Modifiée';
 
   @override
+  String get recurExceptionExcluded => 'Exclue';
+
+  @override
   String recurExceptionMoved(String to) {
     return 'Déplacée au $to';
   }
@@ -3361,6 +3394,17 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get recurExceptionRestoreAll => 'Tout restaurer';
+
+  @override
+  String recurExceptionRestoreAllTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Restaurer $count occurrences ?',
+      one: 'Restaurer 1 occurrence ?',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get recurExceptionsEmpty => 'Aucune occurrence retirée ou déplacée';
@@ -3456,6 +3500,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get recurMore => 'Plus d’options';
 
   @override
+  String get recurNumbersHint =>
+      'Nombres séparés par des virgules (négatif = depuis la fin)';
+
+  @override
   String get recurOrdinal1 => '1er';
 
   @override
@@ -3477,7 +3525,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get recurOrdinalLast => 'Dernier';
 
   @override
+  String get recurOrdinalPick => 'Quel jour ?';
+
+  @override
   String get recurOrdinalSecondLast => 'Avant-dernier';
+
+  @override
+  String recurOrdinalWeekday(String ordinal, String weekday) {
+    return '$ordinal $weekday';
+  }
 
   @override
   String get recurOverflow => 'Quand un mois est trop court';
@@ -3499,6 +3555,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get recurPerYear => 'Année';
+
+  @override
+  String recurPeriodWeek(String date) {
+    return 'Semaine du $date';
+  }
 
   @override
   String get recurPickerTitle => 'Répétition';
@@ -3552,6 +3613,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get recurRdates => 'Occurrences ajoutées';
 
   @override
+  String recurRemove(String item) {
+    return 'Retirer $item';
+  }
+
+  @override
   String recurRemoveTime(String time) {
     return 'Retirer $time';
   }
@@ -3568,6 +3634,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get recurTimes => 'Heures de la journée';
+
+  @override
+  String recurTimesDefault(String time) {
+    return 'À l’heure de début ($time)';
+  }
 
   @override
   String get recurType => 'Type';
@@ -3622,6 +3693,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get recurWeekNumbers => 'Numéros de semaine';
+
+  @override
   String get recurWeekStart => 'La semaine commence le';
 
   @override
@@ -3649,6 +3723,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get recurWindowStart => 'De';
+
+  @override
+  String get recurYearDays => 'Jours de l’année';
 
   @override
   String recurZoneNote(String zone) {

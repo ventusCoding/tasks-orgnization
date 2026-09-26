@@ -189,13 +189,20 @@ class NotificationsEngine {
   Map<String, String> _targetHashes = {};
   DateTime? _lastSyncSuccess;
 
+  /// User the engine currently runs for (an account switch restarts it).
+  String? _userId;
+  String? get userId => _userId;
+
   NotificationReplanService get _replan => ref.read(notificationReplanServiceProvider);
 
+  /// Starts (or, after an account switch, restarts) every notification trigger for the current
+  /// user. Idempotent for the same user; does nothing without a user.
   Future<void> start() async {
-    if (started) return;
-    started = true;
     final userId = ref.read(currentUserIdProvider);
-    if (userId.isEmpty) return;
+    if (userId.isEmpty || userId == _userId) return;
+    if (_userId != null) _stop();
+    _userId = userId;
+    started = true;
     final db = ref.read(appDatabaseProvider);
     await db.customStatement(
       'INSERT INTO local_kv(key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value',
@@ -465,17 +472,26 @@ class NotificationsEngine {
     await _push?.signOut();
   }
 
-  void dispose() {
+  void _stop() {
     for (final s in _subs) {
       unawaited(s.cancel());
     }
+    _subs.clear();
     for (final l in _listens) {
       l.close();
     }
+    _listens.clear();
     _periodic?.cancel();
+    _periodic = null;
     _ticker?.stop();
+    _ticker = null;
     unawaited(_push?.dispose());
+    _push = null;
+    _targetHashes = {};
+    started = false;
   }
+
+  void dispose() => _stop();
 }
 
 /// Seeds the built-in profiles and section default rules (idempotent, deterministic ids — T7.1.07).
