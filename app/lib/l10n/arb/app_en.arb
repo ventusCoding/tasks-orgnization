@@ -714,6 +714,13 @@
       }
     }
   },
+  "@notifChipLastDayAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "@notifChipOnDayAt": {
     "placeholders": {
       "time": {
@@ -2544,12 +2551,15 @@
   "notifChipAtStart": "At start",
   "notifChipAtTime": "At a time…",
   "notifChipBefore": "{minutes, plural, =1{1 min before} other{{minutes} min before}}",
+  "notifChipChangeTime": "Change the time",
   "notifChipCustom": "Custom…",
   "notifChipDayBeforeAt": "1 day before at {time}",
   "notifChipEvery": "Every day at…",
   "notifChipIfNotDoneBy": "If not done by…",
+  "notifChipLastDayAt": "On the last day at {time}",
   "notifChipMilestones": "Milestones",
   "notifChipOnDayAt": "On the day at {time}",
+  "notifChipRepeat": "Repeat…",
   "notifChipStreakRisk": "Streak at risk",
   "notifConditions": "Conditions",
   "notifContent": "Content",

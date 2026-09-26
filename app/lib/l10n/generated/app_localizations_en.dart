@@ -2268,6 +2268,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get notifChipChangeTime => 'Change the time';
+
+  @override
   String get notifChipCustom => 'Custom…';
 
   @override
@@ -2282,12 +2285,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifChipIfNotDoneBy => 'If not done by…';
 
   @override
+  String notifChipLastDayAt(String time) {
+    return 'On the last day at $time';
+  }
+
+  @override
   String get notifChipMilestones => 'Milestones';
 
   @override
   String notifChipOnDayAt(String time) {
     return 'On the day at $time';
   }
+
+  @override
+  String get notifChipRepeat => 'Repeat…';
 
   @override
   String get notifChipStreakRisk => 'Streak at risk';

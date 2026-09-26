@@ -36,6 +36,17 @@ class EngineRecurrenceExpander implements RecurrenceExpander {
   RecurrenceEngine _engineFor(ZoneResolver zones) => _engines[zones] ??=
       RecurrenceEngine(zones, maxOccurrencesPerCall: _maxPerCall);
 
+  /// Rule + anchor of a reminder schedule JSON (§8.1 + additive `start`), or null when invalid
+  /// JSON. Used by editors to describe and edit schedules.
+  static (RecurrenceRule, RecurrenceAnchor)? parse(Map<String, Object?> json) =>
+      _parse(json);
+
+  /// Schedule JSON for [rule] anchored at [start] (inverse of [parse]).
+  static Map<String, Object?> encode(
+    RecurrenceRule rule,
+    LocalDateTime start,
+  ) => {...rule.toJson(), 'start': start.toIso()};
+
   static (RecurrenceRule, RecurrenceAnchor)? _parse(Map<String, Object?> json) {
     try {
       final rule = RecurrenceRule.fromJson({

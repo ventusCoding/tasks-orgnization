@@ -228,6 +228,22 @@
       "expected": [
         {"rule": "b", "target": "t", "fireAtUtc": "2026-09-22T05:50:00Z", "title": "Therapy", "systemTitle": "Reminder from Everslot"}
       ]
+    },
+    {
+      "name": "multi-day all-day task: 1 day before at 20:00 and on the last day at 18:00",
+      "now": "2026-09-22T08:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "eve", "targetType": "task", "targetId": "trip", "section": "planner", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "dayOffset": -1, "atTime": "20:00"}}},
+        {"id": "last", "targetType": "task", "targetId": "trip", "section": "planner", "isDefault": false, "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "end", "dayOffset": 0, "atTime": "18:00"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "trip", "section": "planner", "title": "Trip", "occurrenceKey": "2026-09-25", "notifyMode": "custom", "itemKind": "all_day", "start": "2026-09-24T22:00:00Z", "end": "2026-09-27T22:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "eve", "target": "trip", "fireAtUtc": "2026-09-24T18:00:00Z", "body": "In 1 days · 2026-09-25"},
+        {"rule": "last", "target": "trip", "fireAtUtc": "2026-09-27T16:00:00Z", "body": "Today · 2026-09-27"}
+      ]
     }
   ]
 }

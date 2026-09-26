@@ -461,5 +461,8 @@
   "notifStatusOngoing": "جاريًا",
   "notifStatusWaiting": "في الانتظار",
   "notifStatusBlocked": "متوقفًا",
-  "notifStatusCompleted": "مكتملًا"
+  "notifStatusCompleted": "مكتملًا",
+  "notifChipRepeat": "تكرار…",
+  "notifChipLastDayAt": "في اليوم الأخير الساعة {time}",
+  "notifChipChangeTime": "تغيير الوقت"
 }

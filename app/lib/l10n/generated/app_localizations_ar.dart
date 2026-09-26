@@ -2364,6 +2364,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get notifChipChangeTime => 'تغيير الوقت';
+
+  @override
   String get notifChipCustom => 'مخصص…';
 
   @override
@@ -2378,12 +2381,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifChipIfNotDoneBy => 'إن لم يُنجز قبل…';
 
   @override
+  String notifChipLastDayAt(String time) {
+    return 'في اليوم الأخير الساعة $time';
+  }
+
+  @override
   String get notifChipMilestones => 'الإنجازات';
 
   @override
   String notifChipOnDayAt(String time) {
     return 'في اليوم نفسه عند $time';
   }
+
+  @override
+  String get notifChipRepeat => 'تكرار…';
 
   @override
   String get notifChipStreakRisk => 'السلسلة في خطر';

@@ -4,6 +4,7 @@ import 'package:everslot/features/notifications/application/notification_texts_l
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:everslot/features/notifications/domain/planner/planned_notification.dart';
+import 'package:everslot/features/notifications/domain/planner/recurrence_adapter.dart';
 import 'package:everslot/features/notifications/domain/rule_spec.dart';
 import 'package:everslot/features/notifications/domain/rule_validation.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
@@ -88,17 +89,21 @@ class NotificationLabels {
     };
   }
 
+  /// Localized schedule description ("Every Monday and Tuesday at 08:00") from the recurrence
+  /// package's describer; falls back to a generic label for rules it can't read.
   String _schedule(Map<String, Object?> recurrence) {
-    final times = recurrence['times'];
-    if (recurrence['freq'] == 'daily' &&
-        (recurrence['interval'] ?? 1) == 1 &&
-        times is List &&
-        times.length == 1) {
-      final t = LocalTime.tryParse(times.first.toString());
-      if (t != null)
-        return '${l.notifChipEvery.replaceAll('…', '').trim()} ${time(t)}';
+    final parsed = EngineRecurrenceExpander.parse(recurrence);
+    if (parsed == null) return l.notifSumSchedule;
+    try {
+      return const RecurrenceDescriber().describe(
+        parsed.$1,
+        parsed.$2,
+        locale: l.localeName,
+        use24h: format.use24h,
+      );
+    } on Object {
+      return l.notifSumSchedule;
     }
-    return l.notifSumSchedule;
   }
 
   /// "10 min before start · Standard · repeats every 5 min ×5"
