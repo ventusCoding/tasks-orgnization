@@ -199,9 +199,5 @@ final class MetricResult {
 }
 
 /// Error placeholder when a metric's compute throws (the card shows the error state).
-MetricResult metricError(String id, Object error) => MetricResult(
-  id,
-  value: const NotApplicable<double>('error'),
-  note: 'error',
-  args: {'error': error.toString()},
-);
+MetricResult metricError(String id, Object error) =>
+    MetricResult(id, value: const NotApplicable<double>('error'), note: 'error', args: {'error': error.toString()});

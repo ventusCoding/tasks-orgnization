@@ -46,8 +46,7 @@ enum InsightsRoute {
 
   /// The metric scope computed on this route (null for non-metric screens).
   MetricScope? get metricScope => switch (this) {
-    overview || review || year || feed || goals || records || quality || correlations || budget =>
-      MetricScope.global,
+    overview || review || year || feed || goals || records || quality || correlations || budget => MetricScope.global,
     planner => MetricScope.planner,
     series => MetricScope.series,
     task => MetricScope.task,
@@ -64,12 +63,7 @@ enum InsightsRoute {
 /// Period + comparison chosen on a screen.
 @immutable
 final class PeriodSelection {
-  const PeriodSelection(
-    this.period, {
-    this.compare = true,
-    this.mode = CompareMode.toDate,
-    this.granularity,
-  });
+  const PeriodSelection(this.period, {this.compare = true, this.mode = CompareMode.toDate, this.granularity});
 
   final StatsPeriod period;
 
@@ -153,11 +147,9 @@ final class StatsFilters {
   final Set<int> priorities;
   final Set<String> trackingModes;
 
-  bool get isEmpty =>
-      categoryIds.isEmpty && tagIds.isEmpty && priorities.isEmpty && trackingModes.isEmpty;
+  bool get isEmpty => categoryIds.isEmpty && tagIds.isEmpty && priorities.isEmpty && trackingModes.isEmpty;
 
-  int get count =>
-      categoryIds.length + tagIds.length + priorities.length + trackingModes.length;
+  int get count => categoryIds.length + tagIds.length + priorities.length + trackingModes.length;
 
   String get key =>
       '${(categoryIds.toList()..sort()).join(',')}|${(tagIds.toList()..sort()).join(',')}|'

@@ -7,10 +7,8 @@
 library;
 
 import 'package:everslot/features/stats/domain/stats_types.dart';
-import 'package:everslot_metrics/everslot_metrics.dart'
-    show Granularity, TrendDirection;
-import 'package:everslot_recurrence/everslot_recurrence.dart'
-    show LocalDate, Weekday;
+import 'package:everslot_metrics/everslot_metrics.dart' show Granularity, TrendDirection;
+import 'package:everslot_recurrence/everslot_recurrence.dart' show LocalDate, Weekday;
 import 'package:meta/meta.dart';
 
 // ---------------------------------------------------------------------------------------------
@@ -124,6 +122,42 @@ enum LabelToken {
   rate,
   yes,
   no,
+  overdueToday,
+  overdue1,
+  overdue7,
+  overdue14,
+  overdue30,
+  archived,
+  templates,
+  stale,
+  lifeRegained,
+  timeNotSpent,
+  spent,
+  saved,
+  week,
+  month,
+  year,
+  projection1m,
+  projection1y,
+  projection5y,
+  withinLimitDays,
+  meanUse,
+  baseline,
+  limit,
+  reduction,
+  perDay,
+  maxIntensity,
+  meanIntensity,
+  wins,
+  attention,
+  triggers,
+  places,
+  moods,
+  whenLabel,
+  agenda,
+  perfectDay,
+  overdue,
+  nextUp,
 }
 
 /// A chart label: resolved to text by the presentation layer.
@@ -154,8 +188,7 @@ final class TokenLabel extends ChartLabel {
   final LabelToken token;
 
   @override
-  bool operator ==(Object other) =>
-      other is TokenLabel && other.token == token;
+  bool operator ==(Object other) => other is TokenLabel && other.token == token;
 
   @override
   int get hashCode => token.hashCode;
@@ -169,10 +202,7 @@ final class DateLabel extends ChartLabel {
   final Granularity granularity;
 
   @override
-  bool operator ==(Object other) =>
-      other is DateLabel &&
-      other.date == date &&
-      other.granularity == granularity;
+  bool operator ==(Object other) => other is DateLabel && other.date == date && other.granularity == granularity;
 
   @override
   int get hashCode => Object.hash(date, granularity);
@@ -184,8 +214,7 @@ final class WeekdayLabel extends ChartLabel {
   final Weekday weekday;
 
   @override
-  bool operator ==(Object other) =>
-      other is WeekdayLabel && other.weekday == weekday;
+  bool operator ==(Object other) => other is WeekdayLabel && other.weekday == weekday;
 
   @override
   int get hashCode => weekday.hashCode;
@@ -212,8 +241,7 @@ final class NumberLabel extends ChartLabel {
   final StatUnit unit;
 
   @override
-  bool operator ==(Object other) =>
-      other is NumberLabel && other.value == value && other.unit == unit;
+  bool operator ==(Object other) => other is NumberLabel && other.value == value && other.unit == unit;
 
   @override
   int get hashCode => Object.hash(value, unit);
@@ -229,10 +257,7 @@ final class RangeLabel extends ChartLabel {
 
   @override
   bool operator ==(Object other) =>
-      other is RangeLabel &&
-      other.lower == lower &&
-      other.upper == upper &&
-      other.unit == unit;
+      other is RangeLabel && other.lower == lower && other.upper == upper && other.unit == unit;
 
   @override
   int get hashCode => Object.hash(lower, upper, unit);
@@ -246,8 +271,7 @@ final class OrdinalLabel extends ChartLabel {
   final int n;
 
   @override
-  bool operator ==(Object other) =>
-      other is OrdinalLabel && other.kind == kind && other.n == n;
+  bool operator ==(Object other) => other is OrdinalLabel && other.kind == kind && other.n == n;
 
   @override
   int get hashCode => Object.hash(kind, n);
@@ -294,8 +318,7 @@ final class SeriesColor extends ChartColor {
   final int index;
 
   @override
-  bool operator ==(Object other) =>
-      other is SeriesColor && other.index == index;
+  bool operator ==(Object other) => other is SeriesColor && other.index == index;
 
   @override
   int get hashCode => index.hashCode;
@@ -342,11 +365,7 @@ final class DrillRef {
   final String? subtitle;
 
   @override
-  bool operator ==(Object other) =>
-      other is DrillRef &&
-      other.kind == kind &&
-      other.id == id &&
-      other.extra == extra;
+  bool operator ==(Object other) => other is DrillRef && other.kind == kind && other.id == id && other.extra == extra;
 
   @override
   int get hashCode => Object.hash(kind, id, extra);
@@ -366,10 +385,7 @@ final class ChartTap {
 
   @override
   bool operator ==(Object other) =>
-      other is ChartTap &&
-      other.drillKey == drillKey &&
-      other.seriesIndex == seriesIndex &&
-      other.value == value;
+      other is ChartTap && other.drillKey == drillKey && other.seriesIndex == seriesIndex && other.value == value;
 
   @override
   int get hashCode => Object.hash(drillKey, seriesIndex, value);
@@ -429,12 +445,7 @@ enum SeriesRole { main, rollingMean, trend, goal, pace, previous, band }
 /// One series of a [TimeSeriesData] (null values leave gaps — never interpolated).
 @immutable
 final class ChartSeries {
-  const ChartSeries(
-    this.label,
-    this.values, {
-    this.color = const SeriesColor(0),
-    this.role = SeriesRole.main,
-  });
+  const ChartSeries(this.label, this.values, {this.color = const SeriesColor(0), this.role = SeriesRole.main});
 
   final ChartLabel label;
   final List<double?> values;
@@ -515,8 +526,7 @@ final class TimeSeriesData extends ChartData {
   final List<String?>? drillKeys;
 
   @override
-  bool get isEmpty =>
-      buckets.isEmpty || series.every((s) => s.values.every((v) => v == null));
+  bool get isEmpty => buckets.isEmpty || series.every((s) => s.values.every((v) => v == null));
 
   @override
   ChartTable toTable() => ChartTable(
@@ -526,9 +536,7 @@ final class TimeSeriesData extends ChartData {
         [
           ChartCell.label(DateLabel(buckets[i], granularity)),
           for (final s in series)
-            i < s.values.length && s.values[i] != null
-                ? ChartCell.number(s.values[i], unit)
-                : const ChartCell.empty(),
+            i < s.values.length && s.values[i] != null ? ChartCell.number(s.values[i], unit) : const ChartCell.empty(),
         ],
     ],
   );
@@ -596,29 +604,18 @@ final class BarData extends ChartData {
   final bool isTimeAxis;
 
   @override
-  bool get isEmpty =>
-      categories.isEmpty || series.every((s) => s.values.every((v) => v == 0));
+  bool get isEmpty => categories.isEmpty || series.every((s) => s.values.every((v) => v == 0));
 
   @override
   ChartTable toTable() => ChartTable(
-    [
-      const TokenLabel(LabelToken.current),
-      for (final s in series) s.label,
-      for (final o in overlays) o.label,
-    ],
+    [const TokenLabel(LabelToken.current), for (final s in series) s.label, for (final o in overlays) o.label],
     [
       for (var i = 0; i < categories.length; i++)
         [
           ChartCell.label(categories[i]),
-          for (final s in series)
-            ChartCell.number(i < s.values.length ? s.values[i] : null, unit),
+          for (final s in series) ChartCell.number(i < s.values.length ? s.values[i] : null, unit),
           for (final o in overlays)
-            ChartCell.number(
-              o.values.length == 1
-                  ? o.values.first
-                  : (i < o.values.length ? o.values[i] : null),
-              unit,
-            ),
+            ChartCell.number(o.values.length == 1 ? o.values.first : (i < o.values.length ? o.values[i] : null), unit),
         ],
     ],
   );
@@ -653,11 +650,7 @@ final class DonutData extends ChartData {
 
   @override
   ChartTable toTable() => ChartTable(
-    const [
-      TokenLabel(LabelToken.current),
-      TokenLabel(LabelToken.total),
-      TokenLabel(LabelToken.rate),
-    ],
+    const [TokenLabel(LabelToken.current), TokenLabel(LabelToken.total), TokenLabel(LabelToken.rate)],
     [
       for (final s in slices)
         [
@@ -670,11 +663,7 @@ final class DonutData extends ChartData {
 }
 
 /// Groups donut slices: sorted by value, slices < 2 % and beyond the 7th merge into "Other".
-List<DonutSlice> groupDonutSlices(
-  List<DonutSlice> slices, {
-  int maxSlices = 7,
-  double minShare = 0.02,
-}) {
+List<DonutSlice> groupDonutSlices(List<DonutSlice> slices, {int maxSlices = 7, double minShare = 0.02}) {
   final positive = [
     for (final s in slices)
       if (s.value > 0) s,
@@ -691,13 +680,7 @@ List<DonutSlice> groupDonutSlices(
     }
   }
   if (other > 0) {
-    kept.add(
-      DonutSlice(
-        const TokenLabel(LabelToken.other),
-        other,
-        color: const ToneColor(ChartTone.muted),
-      ),
-    );
+    kept.add(DonutSlice(const TokenLabel(LabelToken.other), other, color: const ToneColor(ChartTone.muted)));
   }
   return kept;
 }
@@ -727,11 +710,7 @@ final class ParetoData extends ChartData {
   ChartTable toTable() {
     final cum = cumulative;
     return ChartTable(
-      const [
-        TokenLabel(LabelToken.current),
-        TokenLabel(LabelToken.count),
-        TokenLabel(LabelToken.total),
-      ],
+      const [TokenLabel(LabelToken.current), TokenLabel(LabelToken.count), TokenLabel(LabelToken.total)],
       [
         for (var i = 0; i < entries.length; i++)
           [
@@ -756,11 +735,7 @@ List<(ChartLabel, double)> _groupPareto(List<(ChartLabel, double)> entries) {
   ]..sort((a, b) => b.$2.compareTo(a.$2));
   if (rest.length <= 12) return [...rest, ...unspecified];
   final other = rest.skip(12).fold<double>(0, (a, e) => a + e.$2);
-  return [
-    ...rest.take(12),
-    (const TokenLabel(LabelToken.other), other),
-    ...unspecified,
-  ];
+  return [...rest.take(12), (const TokenLabel(LabelToken.other), other), ...unspecified];
 }
 
 /// Calendar cell: a discrete status or a continuous intensity.
@@ -817,9 +792,7 @@ final class CalendarData extends ChartData {
             if (mode == CalendarMode.intensity)
               ChartCell.number(cells[d]!.value, unit)
             else
-              cells[d]!.label == null
-                  ? const ChartCell.empty()
-                  : ChartCell.label(cells[d]!.label),
+              cells[d]!.label == null ? const ChartCell.empty() : ChartCell.label(cells[d]!.label),
           ],
       ],
     );
@@ -828,11 +801,7 @@ final class CalendarData extends ChartData {
 
 /// Weekday × hour punch card (T6.2.09): 7 rows (ISO weekday order in [values]) × 24 columns.
 final class PunchCardData extends ChartData {
-  const PunchCardData(
-    this.values, {
-    this.unit = StatUnit.count,
-    this.bubbles = false,
-  });
+  const PunchCardData(this.values, {this.unit = StatUnit.count, this.bubbles = false});
 
   /// `values[weekday.iso - 1][hour]`.
   final List<List<double>> values;
@@ -846,10 +815,7 @@ final class PunchCardData extends ChartData {
 
   @override
   ChartTable toTable() => ChartTable(
-    [
-      const TokenLabel(LabelToken.current),
-      for (var h = 0; h < 24; h++) HourLabel(h),
-    ],
+    [const TokenLabel(LabelToken.current), for (var h = 0; h < 24; h++) HourLabel(h)],
     [
       for (var w = 0; w < 7; w++)
         [
@@ -898,11 +864,7 @@ final class StreakData extends ChartData {
 
   @override
   ChartTable toTable() => ChartTable(
-    const [
-      TokenLabel(LabelToken.streak),
-      TokenLabel(LabelToken.count),
-      TokenLabel(LabelToken.frozen),
-    ],
+    const [TokenLabel(LabelToken.streak), TokenLabel(LabelToken.count), TokenLabel(LabelToken.frozen)],
     [
       for (final s in streaks)
         [
@@ -935,12 +897,8 @@ final class HistogramData extends ChartData {
     const [TokenLabel(LabelToken.current), TokenLabel(LabelToken.count)],
     [
       for (final b in bins)
-        [
-          ChartCell.label(RangeLabel(b.$1, b.$2, unit)),
-          ChartCell.number(b.$3.toDouble(), StatUnit.count),
-        ],
-      for (final m in markers)
-        [ChartCell.label(m.$2), ChartCell.number(m.$1, unit)],
+        [ChartCell.label(RangeLabel(b.$1, b.$2, unit)), ChartCell.number(b.$3.toDouble(), StatUnit.count)],
+      for (final m in markers) [ChartCell.label(m.$2), ChartCell.number(m.$1, unit)],
     ],
   );
 }
@@ -1094,12 +1052,7 @@ final class StackedAreaData extends ChartData {
   bool get isEmpty => buckets.isEmpty || bands.isEmpty;
 
   @override
-  ChartTable toTable() => TimeSeriesData(
-    buckets,
-    bands,
-    unit: unit,
-    granularity: granularity,
-  ).toTable();
+  ChartTable toTable() => TimeSeriesData(buckets, bands, unit: unit, granularity: granularity).toTable();
 }
 
 /// Radar chart (T6.2.18): 3–12 axes, 1–2 series; null = no data on that axis (dashed).
@@ -1118,23 +1071,14 @@ final class RadarData extends ChartData {
     [const TokenLabel(LabelToken.current), for (final s in series) s.$1],
     [
       for (var i = 0; i < axes.length; i++)
-        [
-          ChartCell.label(axes[i]),
-          for (final s in series) ChartCell.number(s.$2[i], unit),
-        ],
+        [ChartCell.label(axes[i]), for (final s in series) ChartCell.number(s.$2[i], unit)],
     ],
   );
 }
 
 /// 24-hour rose (T6.2.19): counts per sector, circular mean and SD.
 final class RoseData extends ChartData {
-  const RoseData(
-    this.sectors, {
-    this.meanMinute,
-    this.sdMinutes,
-    this.dayStartMinute = 0,
-    this.consistent = true,
-  });
+  const RoseData(this.sectors, {this.meanMinute, this.sdMinutes, this.dayStartMinute = 0, this.consistent = true});
 
   /// 24 or 48 sector counts starting at 00:00 (civil time).
   final List<double> sectors;
@@ -1153,15 +1097,9 @@ final class RoseData extends ChartData {
       const [TokenLabel(LabelToken.current), TokenLabel(LabelToken.count)],
       [
         for (var i = 0; i < sectors.length; i++)
-          [
-            ChartCell.number((i * minutesPer).toDouble(), StatUnit.clock),
-            ChartCell.number(sectors[i], StatUnit.count),
-          ],
+          [ChartCell.number((i * minutesPer).toDouble(), StatUnit.clock), ChartCell.number(sectors[i], StatUnit.count)],
         if (meanMinute != null)
-          [
-            const ChartCell.label(TokenLabel(LabelToken.mean)),
-            ChartCell.number(meanMinute, StatUnit.clock),
-          ],
+          [const ChartCell.label(TokenLabel(LabelToken.mean)), ChartCell.number(meanMinute, StatUnit.clock)],
       ],
     );
   }
@@ -1170,7 +1108,13 @@ final class RoseData extends ChartData {
 /// A treemap node (T6.2.20).
 @immutable
 final class TreemapNode {
-  const TreemapNode(this.label, this.value, {this.color = const SeriesColor(0), this.children = const [], this.drillKey});
+  const TreemapNode(
+    this.label,
+    this.value, {
+    this.color = const SeriesColor(0),
+    this.children = const [],
+    this.drillKey,
+  });
 
   final ChartLabel label;
   final double value;
@@ -1195,8 +1139,7 @@ final class TreemapData extends ChartData {
     [
       for (final n in nodes) ...[
         [ChartCell.label(n.label), ChartCell.number(n.value, unit)],
-        for (final c in n.children)
-          [ChartCell.label(c.label), ChartCell.number(c.value, unit)],
+        for (final c in n.children) [ChartCell.label(c.label), ChartCell.number(c.value, unit)],
       ],
     ],
   );
@@ -1234,10 +1177,7 @@ final class MatrixData extends ChartData {
     [const TokenLabel(LabelToken.current), ...columns],
     [
       for (var r = 0; r < rows.length; r++)
-        [
-          ChartCell.label(rows[r]),
-          for (final v in values[r]) ChartCell.number(v, unit),
-        ],
+        [ChartCell.label(rows[r]), for (final v in values[r]) ChartCell.number(v, unit)],
     ],
   );
 }
@@ -1269,16 +1209,9 @@ final class KmData extends ChartData {
 
   @override
   ChartTable toTable() => ChartTable(
-    const [
-      TokenLabel(LabelToken.current),
-      TokenLabel(LabelToken.rate),
-    ],
+    const [TokenLabel(LabelToken.current), TokenLabel(LabelToken.rate)],
     [
-      for (final p in points)
-        [
-          ChartCell.number(p.t, StatUnit.hours),
-          ChartCell.number(p.survival, StatUnit.percent),
-        ],
+      for (final p in points) [ChartCell.number(p.t, StatUnit.hours), ChartCell.number(p.survival, StatUnit.percent)],
     ],
   );
 }
@@ -1314,10 +1247,7 @@ final class ForecastData extends ChartData {
       const [TokenLabel(LabelToken.current), TokenLabel(LabelToken.rate)],
       [
         for (final k in keys)
-          [
-            ChartCell.label(DateLabel(from.plusDays(k))),
-            ChartCell.number(histogram[k]! / trials, StatUnit.percent),
-          ],
+          [ChartCell.label(DateLabel(from.plusDays(k))), ChartCell.number(histogram[k]! / trials, StatUnit.percent)],
       ],
     );
   }
@@ -1352,11 +1282,7 @@ final class BulletData extends ChartData {
   ChartTable toTable() => ChartTable(
     const [TokenLabel(LabelToken.actual), TokenLabel(LabelToken.target), TokenLabel(LabelToken.previous)],
     [
-      [
-        ChartCell.number(actual, unit),
-        ChartCell.number(target, unit),
-        ChartCell.number(previous, unit),
-      ],
+      [ChartCell.number(actual, unit), ChartCell.number(target, unit), ChartCell.number(previous, unit)],
     ],
   );
 }
@@ -1377,8 +1303,7 @@ final class RingData extends ChartData {
   ChartTable toTable() => ChartTable(
     const [TokenLabel(LabelToken.current), TokenLabel(LabelToken.rate)],
     [
-      for (final r in rings)
-        [ChartCell.label(r.$1), ChartCell.number(r.$2, StatUnit.percent)],
+      for (final r in rings) [ChartCell.label(r.$1), ChartCell.number(r.$2, StatUnit.percent)],
     ],
   );
 }
@@ -1427,8 +1352,7 @@ final class MilestoneData extends ChartData {
   ChartTable toTable() => ChartTable(
     const [TokenLabel(LabelToken.current), TokenLabel(LabelToken.rate)],
     [
-      for (final r in rows)
-        [ChartCell.label(r.label), ChartCell.number(r.progress, StatUnit.percent)],
+      for (final r in rows) [ChartCell.label(r.label), ChartCell.number(r.progress, StatUnit.percent)],
     ],
   );
 }
@@ -1455,7 +1379,19 @@ final class CounterData extends ChartData {
 /// One small value tile.
 @immutable
 final class ValueTile {
-  const ValueTile(this.label, this.value, this.unit, {this.secondary, this.drillKey, this.estimate = false});
+  const ValueTile(
+    this.label,
+    this.value,
+    this.unit, {
+    this.secondary,
+    this.drillKey,
+    this.estimate = false,
+    this.delta,
+    this.deltaIsPp = false,
+    this.direction = MetricDirection.higherIsBetter,
+    this.metricId,
+    this.currency,
+  });
 
   final ChartLabel label;
   final double? value;
@@ -1463,6 +1399,15 @@ final class ValueTile {
   final ChartLabel? secondary;
   final String? drillKey;
   final bool estimate;
+
+  /// Δ vs the previous period (pp when [deltaIsPp]).
+  final double? delta;
+  final bool deltaIsPp;
+  final MetricDirection direction;
+
+  /// Metric the tile summarizes (opens its explain sheet / scope).
+  final String? metricId;
+  final String? currency;
 }
 
 /// A group of value tiles.
@@ -1550,11 +1495,7 @@ final class GanttData extends ChartData {
 
   @override
   ChartTable toTable() => ChartTable(
-    const [
-      TokenLabel(LabelToken.current),
-      TokenLabel(LabelToken.planned),
-      TokenLabel(LabelToken.actual),
-    ],
+    const [TokenLabel(LabelToken.current), TokenLabel(LabelToken.planned), TokenLabel(LabelToken.actual)],
     [
       for (final r in rows)
         [
@@ -1605,6 +1546,86 @@ final class MoveEvent {
   final int toEpochMinute;
 
   int get deltaMinutes => toEpochMinute - fromEpochMinute;
+}
+
+/// Kinds of review entries (wins and attention items, T6.7.02).
+enum ReviewEntryKind {
+  streakMilestone,
+  perfectDays,
+  healthMilestone,
+  newRecord,
+  overdueTasks,
+  blockedWaiting,
+  staleLists,
+  overdueFollowUps,
+  habitsAtRisk,
+  overbookedDay,
+}
+
+/// One win or attention entry (tapping it opens [ref]).
+@immutable
+final class ReviewEntry {
+  const ReviewEntry(this.kind, {this.ref, this.title, this.value, this.date});
+
+  final ReviewEntryKind kind;
+  final DrillRef? ref;
+  final String? title;
+  final double? value;
+  final LocalDate? date;
+}
+
+/// A report layout (weekly / monthly review, T6.7.02/T6.7.04).
+final class ReviewData extends ChartData {
+  const ReviewData({
+    required this.from,
+    required this.to,
+    required this.headline,
+    this.wins = const [],
+    this.attention = const [],
+    this.topCategories = const [],
+    this.nextWeek = const [],
+    this.perDay = false,
+  });
+
+  final LocalDate from;
+  final LocalDate to;
+
+  /// Headline KPI tiles with their Δ.
+  final List<ValueTile> headline;
+  final List<ReviewEntry> wins;
+  final List<ReviewEntry> attention;
+
+  /// (category, minutes, Δ minutes or null when new).
+  final List<(ChartLabel, double, double?)> topCategories;
+
+  /// Next week's load: (date, planned minutes, capacity minutes, overbooked).
+  final List<(LocalDate, double, double, bool)> nextWeek;
+
+  /// Comparisons use per-day averages (monthly reviews of unequal months).
+  final bool perDay;
+
+  @override
+  bool get isEmpty => headline.isEmpty && wins.isEmpty && attention.isEmpty;
+
+  @override
+  ChartTable toTable() => TilesData(headline).toTable();
+}
+
+/// Several related charts shown as tabs in one card (e.g. craving Pareto + punch card).
+final class ChartGroup extends ChartData {
+  const ChartGroup(this.charts);
+
+  /// (tab label, chart).
+  final List<(ChartLabel, ChartData)> charts;
+
+  @override
+  bool get isEmpty => charts.every((c) => c.$2.isEmpty);
+
+  @override
+  ChartTable toTable() {
+    final first = charts.firstWhere((c) => !c.$2.isEmpty, orElse: () => charts.first);
+    return first.$2.toTable();
+  }
 }
 
 /// Move timeline: one dot per reschedule with an arrow old → new.

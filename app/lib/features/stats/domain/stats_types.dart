@@ -143,9 +143,7 @@ String metricKeyStem(String id) {
   for (final p in parts) {
     if (p.isEmpty) continue;
     final isNumber = int.tryParse(p) != null;
-    buffer.write(
-      isNumber ? p : p[0].toUpperCase() + p.substring(1).toLowerCase(),
-    );
+    buffer.write(isNumber ? p : p[0].toUpperCase() + p.substring(1).toLowerCase());
   }
   return buffer.toString();
 }
