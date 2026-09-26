@@ -97,6 +97,245 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appTagline => 'تحكّم في كل خانة من يومك.';
 
   @override
+  String get attachmentsAdd => 'إضافة مرفق';
+
+  @override
+  String attachmentsAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'أُضيف $count مرفق',
+      many: 'أُضيف $count مرفقًا',
+      few: 'أُضيفت $count مرفقات',
+      two: 'أُضيف مرفقان',
+      one: 'أُضيف مرفق واحد',
+      zero: 'لم يُضف أي مرفق',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get attachmentsCacheCleared => 'تم مسح ذاكرة التخزين المؤقت';
+
+  @override
+  String attachmentsCacheSize(String size) {
+    return 'ذاكرة التخزين المؤقت المحلية: $size';
+  }
+
+  @override
+  String get attachmentsCameraPrimerBody =>
+      'يطلب Everslot الوصول إلى الكاميرا لتتمكن من إرفاق الصور. تبقى الصور على جهازك حتى تُرفع إلى حسابك.';
+
+  @override
+  String get attachmentsCameraPrimerTitle => 'استخدام الكاميرا';
+
+  @override
+  String get attachmentsCaption => 'التعليق';
+
+  @override
+  String get attachmentsClearCache => 'مسح ذاكرة التخزين المؤقت';
+
+  @override
+  String attachmentsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مرفق',
+      many: '$count مرفقًا',
+      few: '$count مرفقات',
+      two: 'مرفقان',
+      one: 'مرفق واحد',
+      zero: 'لا مرفقات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get attachmentsDownloadWhenOnline =>
+      'سيُنزَّل هذا الملف عند اتصالك بالإنترنت.';
+
+  @override
+  String get attachmentsEditCaption => 'تعديل التعليق';
+
+  @override
+  String get attachmentsEmpty => 'لا توجد مرفقات بعد';
+
+  @override
+  String get attachmentsGoToItem => 'الانتقال إلى العنصر';
+
+  @override
+  String get attachmentsKindAudio => 'صوت';
+
+  @override
+  String get attachmentsKindFile => 'ملف';
+
+  @override
+  String get attachmentsKindPdf => 'ملف PDF';
+
+  @override
+  String get attachmentsKindPhoto => 'صورة';
+
+  @override
+  String get attachmentsKindVideo => 'فيديو';
+
+  @override
+  String get attachmentsLocalOnly => 'مخزّن على هذا الجهاز';
+
+  @override
+  String attachmentsMore(int count) {
+    return '+$count';
+  }
+
+  @override
+  String get attachmentsMoveEarlier => 'نقل إلى الأمام';
+
+  @override
+  String get attachmentsMoveLater => 'نقل إلى الخلف';
+
+  @override
+  String get attachmentsNoPreview => 'لا تتوفر معاينة لهذا النوع من الملفات';
+
+  @override
+  String get attachmentsOpenSettings => 'فتح الإعدادات';
+
+  @override
+  String get attachmentsOpenWith => 'فتح باستخدام…';
+
+  @override
+  String attachmentsPendingUploads(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عملية رفع معلقة',
+      many: '$count عملية رفع معلقة',
+      few: '$count عمليات رفع معلقة',
+      two: 'عمليتا رفع معلقتان',
+      one: 'عملية رفع واحدة معلقة',
+      zero: 'لا عمليات رفع معلقة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get attachmentsPermissionBody =>
+      'لا يستطيع Everslot الوصول إلى الكاميرا أو الصور. يمكنك السماح بذلك من إعدادات النظام.';
+
+  @override
+  String get attachmentsPermissionTitle => 'يلزم منح الإذن';
+
+  @override
+  String attachmentsRejectedDuplicate(String name) {
+    return '$name مرفق بالفعل';
+  }
+
+  @override
+  String attachmentsRejectedEmpty(String name) {
+    return '$name فارغ';
+  }
+
+  @override
+  String attachmentsRejectedTooLarge(String name, String limit) {
+    return '$name أكبر من $limit';
+  }
+
+  @override
+  String attachmentsRejectedTooMany(int count) {
+    return 'تم بلوغ الحد الأقصى وهو $count مرفقًا';
+  }
+
+  @override
+  String attachmentsRejectedType(String name) {
+    return '$name: نوع الملف هذا غير مدعوم';
+  }
+
+  @override
+  String attachmentsRejectedUnreadable(String name) {
+    return 'تعذّرت قراءة $name';
+  }
+
+  @override
+  String get attachmentsRemove => 'إزالة';
+
+  @override
+  String get attachmentsRemoved => 'تمت إزالة المرفق';
+
+  @override
+  String get attachmentsRetry => 'إعادة محاولة الرفع';
+
+  @override
+  String attachmentsSemantics(String kind, int index, int total) {
+    return '$kind $index من $total';
+  }
+
+  @override
+  String get attachmentsSettingsTitle => 'المرفقات';
+
+  @override
+  String attachmentsSizeB(String size) {
+    return '$size بايت';
+  }
+
+  @override
+  String attachmentsSizeGb(String size) {
+    return '$size ج.ب';
+  }
+
+  @override
+  String attachmentsSizeKb(String size) {
+    return '$size ك.ب';
+  }
+
+  @override
+  String attachmentsSizeMb(String size) {
+    return '$size م.ب';
+  }
+
+  @override
+  String get attachmentsSourceCamera => 'التقاط صورة';
+
+  @override
+  String get attachmentsSourceFiles => 'اختيار ملفات';
+
+  @override
+  String get attachmentsSourcePhotos => 'اختيار صور';
+
+  @override
+  String get attachmentsStatusDownloading => 'جارٍ التنزيل';
+
+  @override
+  String get attachmentsStatusFailed => 'فشل الرفع — اضغط لإعادة المحاولة';
+
+  @override
+  String get attachmentsStatusNotDownloaded => 'لم يُنزَّل — اضغط للتنزيل';
+
+  @override
+  String get attachmentsStatusProcessing => 'جارٍ المعالجة';
+
+  @override
+  String attachmentsStatusUploading(int percent) {
+    return 'جارٍ الرفع $percent٪';
+  }
+
+  @override
+  String get attachmentsStatusUploadingShort => 'جارٍ الرفع';
+
+  @override
+  String get attachmentsStatusWaiting => 'بانتظار الاتصال بالشبكة';
+
+  @override
+  String attachmentsStorageUsed(String size) {
+    return 'المساحة المستخدمة: $size';
+  }
+
+  @override
+  String attachmentsViewerPosition(int index, int total) {
+    return '$index / $total';
+  }
+
+  @override
+  String get attachmentsWifiOnly => 'رفع المرفقات عبر Wi-Fi فقط';
+
+  @override
   String get categoriesEmpty => 'لا توجد تصنيفات بعد';
 
   @override

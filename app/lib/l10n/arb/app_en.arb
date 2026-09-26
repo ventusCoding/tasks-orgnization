@@ -1,5 +1,150 @@
 {
   "@@locale": "en",
+  "@attachmentsAdded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@attachmentsCacheSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "@attachmentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@attachmentsMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@attachmentsPendingUploads": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@attachmentsRejectedDuplicate": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@attachmentsRejectedEmpty": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@attachmentsRejectedTooLarge": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "@attachmentsRejectedTooMany": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@attachmentsRejectedType": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@attachmentsRejectedUnreadable": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@attachmentsSemantics": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      },
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@attachmentsSizeB": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "@attachmentsSizeGb": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "@attachmentsSizeKb": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "@attachmentsSizeMb": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "@attachmentsStatusUploading": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@attachmentsStorageUsed": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "@attachmentsViewerPosition": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "@confirmDeleteTitle": {
     "placeholders": {
       "item": {
@@ -708,6 +853,62 @@
   "actionUndo": "Undo",
   "appName": "Everslot",
   "appTagline": "Own every slot of your day.",
+  "attachmentsAdd": "Add attachment",
+  "attachmentsAdded": "{count, plural, =1{1 attachment added} other{{count} attachments added}}",
+  "attachmentsCacheCleared": "Cache cleared",
+  "attachmentsCacheSize": "Local cache: {size}",
+  "attachmentsCameraPrimerBody": "Everslot asks for camera access so you can attach photos. Photos stay on your device until they're uploaded to your account.",
+  "attachmentsCameraPrimerTitle": "Use your camera",
+  "attachmentsCaption": "Caption",
+  "attachmentsClearCache": "Clear cache",
+  "attachmentsCount": "{count, plural, =1{1 attachment} other{{count} attachments}}",
+  "attachmentsDownloadWhenOnline": "This file will download when you're online.",
+  "attachmentsEditCaption": "Edit caption",
+  "attachmentsEmpty": "No attachments yet",
+  "attachmentsGoToItem": "Go to item",
+  "attachmentsKindAudio": "Audio",
+  "attachmentsKindFile": "File",
+  "attachmentsKindPdf": "PDF",
+  "attachmentsKindPhoto": "Photo",
+  "attachmentsKindVideo": "Video",
+  "attachmentsLocalOnly": "Stored on this device",
+  "attachmentsMore": "+{count}",
+  "attachmentsMoveEarlier": "Move earlier",
+  "attachmentsMoveLater": "Move later",
+  "attachmentsNoPreview": "No preview for this file type",
+  "attachmentsOpenSettings": "Open settings",
+  "attachmentsOpenWith": "Open with…",
+  "attachmentsPendingUploads": "{count, plural, =1{1 upload pending} other{{count} uploads pending}}",
+  "attachmentsPermissionBody": "Everslot can't access your camera or photos. You can allow access in the system settings.",
+  "attachmentsPermissionTitle": "Access needed",
+  "attachmentsRejectedDuplicate": "{name} is already attached",
+  "attachmentsRejectedEmpty": "{name} is empty",
+  "attachmentsRejectedTooLarge": "{name} is larger than {limit}",
+  "attachmentsRejectedTooMany": "Limit of {count} attachments reached",
+  "attachmentsRejectedType": "{name}: this file type isn't supported",
+  "attachmentsRejectedUnreadable": "{name} couldn't be read",
+  "attachmentsRemove": "Remove",
+  "attachmentsRemoved": "Attachment removed",
+  "attachmentsRetry": "Retry upload",
+  "attachmentsSemantics": "{kind} {index} of {total}",
+  "attachmentsSettingsTitle": "Attachments",
+  "attachmentsSizeB": "{size} B",
+  "attachmentsSizeGb": "{size} GB",
+  "attachmentsSizeKb": "{size} KB",
+  "attachmentsSizeMb": "{size} MB",
+  "attachmentsSourceCamera": "Take photo",
+  "attachmentsSourceFiles": "Choose files",
+  "attachmentsSourcePhotos": "Choose photos",
+  "attachmentsStatusDownloading": "Downloading",
+  "attachmentsStatusFailed": "Upload failed — tap to retry",
+  "attachmentsStatusNotDownloaded": "Not downloaded — tap to fetch",
+  "attachmentsStatusProcessing": "Processing",
+  "attachmentsStatusUploading": "Uploading {percent} %",
+  "attachmentsStatusUploadingShort": "Uploading",
+  "attachmentsStatusWaiting": "Waiting for network",
+  "attachmentsStorageUsed": "Storage used: {size}",
+  "attachmentsViewerPosition": "{index} / {total}",
+  "attachmentsWifiOnly": "Upload attachments on Wi-Fi only",
   "categoriesEmpty": "No categories yet",
   "categoriesTitle": "Categories",
   "categoryArchived": "Archived",

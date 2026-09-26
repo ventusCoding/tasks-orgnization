@@ -97,6 +97,236 @@ class AppLocalizationsFr extends AppLocalizations {
   String get appTagline => 'Maîtrisez chaque créneau de votre journée.';
 
   @override
+  String get attachmentsAdd => 'Ajouter une pièce jointe';
+
+  @override
+  String attachmentsAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pièces jointes ajoutées',
+      one: '1 pièce jointe ajoutée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get attachmentsCacheCleared => 'Cache vidé';
+
+  @override
+  String attachmentsCacheSize(String size) {
+    return 'Cache local : $size';
+  }
+
+  @override
+  String get attachmentsCameraPrimerBody =>
+      'Everslot demande l\'accès à l\'appareil photo pour joindre des photos. Elles restent sur votre appareil jusqu\'à leur envoi sur votre compte.';
+
+  @override
+  String get attachmentsCameraPrimerTitle => 'Utiliser l\'appareil photo';
+
+  @override
+  String get attachmentsCaption => 'Légende';
+
+  @override
+  String get attachmentsClearCache => 'Vider le cache';
+
+  @override
+  String attachmentsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pièces jointes',
+      one: '1 pièce jointe',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get attachmentsDownloadWhenOnline =>
+      'Ce fichier sera téléchargé lorsque vous serez en ligne.';
+
+  @override
+  String get attachmentsEditCaption => 'Modifier la légende';
+
+  @override
+  String get attachmentsEmpty => 'Aucune pièce jointe';
+
+  @override
+  String get attachmentsGoToItem => 'Aller à l\'élément';
+
+  @override
+  String get attachmentsKindAudio => 'Audio';
+
+  @override
+  String get attachmentsKindFile => 'Fichier';
+
+  @override
+  String get attachmentsKindPdf => 'PDF';
+
+  @override
+  String get attachmentsKindPhoto => 'Photo';
+
+  @override
+  String get attachmentsKindVideo => 'Vidéo';
+
+  @override
+  String get attachmentsLocalOnly => 'Stocké sur cet appareil';
+
+  @override
+  String attachmentsMore(int count) {
+    return '+$count';
+  }
+
+  @override
+  String get attachmentsMoveEarlier => 'Déplacer avant';
+
+  @override
+  String get attachmentsMoveLater => 'Déplacer après';
+
+  @override
+  String get attachmentsNoPreview => 'Aucun aperçu pour ce type de fichier';
+
+  @override
+  String get attachmentsOpenSettings => 'Ouvrir les réglages';
+
+  @override
+  String get attachmentsOpenWith => 'Ouvrir avec…';
+
+  @override
+  String attachmentsPendingUploads(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count envois en attente',
+      one: '1 envoi en attente',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get attachmentsPermissionBody =>
+      'Everslot ne peut pas accéder à votre appareil photo ou à vos photos. Vous pouvez l\'autoriser dans les réglages du système.';
+
+  @override
+  String get attachmentsPermissionTitle => 'Accès nécessaire';
+
+  @override
+  String attachmentsRejectedDuplicate(String name) {
+    return '$name est déjà joint';
+  }
+
+  @override
+  String attachmentsRejectedEmpty(String name) {
+    return '$name est vide';
+  }
+
+  @override
+  String attachmentsRejectedTooLarge(String name, String limit) {
+    return '$name dépasse $limit';
+  }
+
+  @override
+  String attachmentsRejectedTooMany(int count) {
+    return 'Limite de $count pièces jointes atteinte';
+  }
+
+  @override
+  String attachmentsRejectedType(String name) {
+    return '$name : ce type de fichier n\'est pas pris en charge';
+  }
+
+  @override
+  String attachmentsRejectedUnreadable(String name) {
+    return 'Impossible de lire $name';
+  }
+
+  @override
+  String get attachmentsRemove => 'Retirer';
+
+  @override
+  String get attachmentsRemoved => 'Pièce jointe retirée';
+
+  @override
+  String get attachmentsRetry => 'Réessayer l\'envoi';
+
+  @override
+  String attachmentsSemantics(String kind, int index, int total) {
+    return '$kind $index sur $total';
+  }
+
+  @override
+  String get attachmentsSettingsTitle => 'Pièces jointes';
+
+  @override
+  String attachmentsSizeB(String size) {
+    return '$size o';
+  }
+
+  @override
+  String attachmentsSizeGb(String size) {
+    return '$size Go';
+  }
+
+  @override
+  String attachmentsSizeKb(String size) {
+    return '$size Ko';
+  }
+
+  @override
+  String attachmentsSizeMb(String size) {
+    return '$size Mo';
+  }
+
+  @override
+  String get attachmentsSourceCamera => 'Prendre une photo';
+
+  @override
+  String get attachmentsSourceFiles => 'Choisir des fichiers';
+
+  @override
+  String get attachmentsSourcePhotos => 'Choisir des photos';
+
+  @override
+  String get attachmentsStatusDownloading => 'Téléchargement';
+
+  @override
+  String get attachmentsStatusFailed =>
+      'Échec de l\'envoi — touchez pour réessayer';
+
+  @override
+  String get attachmentsStatusNotDownloaded =>
+      'Non téléchargé — touchez pour récupérer';
+
+  @override
+  String get attachmentsStatusProcessing => 'Traitement';
+
+  @override
+  String attachmentsStatusUploading(int percent) {
+    return 'Envoi $percent %';
+  }
+
+  @override
+  String get attachmentsStatusUploadingShort => 'Envoi en cours';
+
+  @override
+  String get attachmentsStatusWaiting => 'En attente du réseau';
+
+  @override
+  String attachmentsStorageUsed(String size) {
+    return 'Stockage utilisé : $size';
+  }
+
+  @override
+  String attachmentsViewerPosition(int index, int total) {
+    return '$index / $total';
+  }
+
+  @override
+  String get attachmentsWifiOnly =>
+      'Envoyer les pièces jointes en Wi-Fi uniquement';
+
+  @override
   String get categoriesEmpty => 'Aucune catégorie';
 
   @override

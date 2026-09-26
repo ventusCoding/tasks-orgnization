@@ -1,0 +1,203 @@
+{
+  "attachmentsAdd": "Add attachment",
+  "attachmentsSourceCamera": "Take photo",
+  "attachmentsSourcePhotos": "Choose photos",
+  "attachmentsSourceFiles": "Choose files",
+  "attachmentsRejectedTooLarge": "{name} is larger than {limit}",
+  "@attachmentsRejectedTooLarge": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "attachmentsRejectedType": "{name}: this file type isn't supported",
+  "@attachmentsRejectedType": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "attachmentsRejectedTooMany": "Limit of {count} attachments reached",
+  "@attachmentsRejectedTooMany": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "attachmentsRejectedDuplicate": "{name} is already attached",
+  "@attachmentsRejectedDuplicate": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "attachmentsRejectedUnreadable": "{name} couldn't be read",
+  "@attachmentsRejectedUnreadable": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "attachmentsRejectedEmpty": "{name} is empty",
+  "@attachmentsRejectedEmpty": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "attachmentsAdded": "{count, plural, =1{1 attachment added} other{{count} attachments added}}",
+  "@attachmentsAdded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "attachmentsCount": "{count, plural, =1{1 attachment} other{{count} attachments}}",
+  "@attachmentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "attachmentsPermissionTitle": "Access needed",
+  "attachmentsPermissionBody": "Everslot can't access your camera or photos. You can allow access in the system settings.",
+  "attachmentsOpenSettings": "Open settings",
+  "attachmentsCameraPrimerTitle": "Use your camera",
+  "attachmentsCameraPrimerBody": "Everslot asks for camera access so you can attach photos. Photos stay on your device until they're uploaded to your account.",
+  "attachmentsStatusProcessing": "Processing",
+  "attachmentsStatusWaiting": "Waiting for network",
+  "attachmentsStatusUploading": "Uploading {percent} %",
+  "@attachmentsStatusUploading": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "attachmentsStatusUploadingShort": "Uploading",
+  "attachmentsStatusFailed": "Upload failed — tap to retry",
+  "attachmentsStatusNotDownloaded": "Not downloaded — tap to fetch",
+  "attachmentsStatusDownloading": "Downloading",
+  "attachmentsSemantics": "{kind} {index} of {total}",
+  "@attachmentsSemantics": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      },
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "attachmentsKindPhoto": "Photo",
+  "attachmentsKindPdf": "PDF",
+  "attachmentsKindVideo": "Video",
+  "attachmentsKindAudio": "Audio",
+  "attachmentsKindFile": "File",
+  "attachmentsMore": "+{count}",
+  "@attachmentsMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "attachmentsCaption": "Caption",
+  "attachmentsEditCaption": "Edit caption",
+  "attachmentsRemove": "Remove",
+  "attachmentsRemoved": "Attachment removed",
+  "attachmentsMoveEarlier": "Move earlier",
+  "attachmentsMoveLater": "Move later",
+  "attachmentsRetry": "Retry upload",
+  "attachmentsDownloadWhenOnline": "This file will download when you're online.",
+  "attachmentsNoPreview": "No preview for this file type",
+  "attachmentsOpenWith": "Open with…",
+  "attachmentsPendingUploads": "{count, plural, =1{1 upload pending} other{{count} uploads pending}}",
+  "@attachmentsPendingUploads": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "attachmentsWifiOnly": "Upload attachments on Wi-Fi only",
+  "attachmentsStorageUsed": "Storage used: {size}",
+  "@attachmentsStorageUsed": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "attachmentsCacheSize": "Local cache: {size}",
+  "@attachmentsCacheSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "attachmentsClearCache": "Clear cache",
+  "attachmentsCacheCleared": "Cache cleared",
+  "attachmentsSettingsTitle": "Attachments",
+  "attachmentsViewerPosition": "{index} / {total}",
+  "@attachmentsViewerPosition": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "attachmentsSizeB": "{size} B",
+  "@attachmentsSizeB": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "attachmentsSizeKb": "{size} KB",
+  "@attachmentsSizeKb": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "attachmentsSizeMb": "{size} MB",
+  "@attachmentsSizeMb": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "attachmentsSizeGb": "{size} GB",
+  "@attachmentsSizeGb": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "attachmentsLocalOnly": "Stored on this device",
+  "attachmentsEmpty": "No attachments yet",
+  "attachmentsGoToItem": "Go to item"
+}
