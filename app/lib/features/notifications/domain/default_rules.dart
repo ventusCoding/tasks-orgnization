@@ -1,3 +1,4 @@
+import 'package:everslot/core/ids/ids.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:everslot/features/notifications/domain/rule_spec.dart';
@@ -120,6 +121,9 @@ abstract final class DefaultRules {
     'weekly_review': LocalTime(18, 7),
     'monthly_report': LocalTime(9, 7),
   };
+
+  /// Deterministic id of the digest rule of [kind] (one per user, T7.5.18).
+  static String digestRuleId(String userId, String kind) => Ids.v5('$userId|digest-rule|$kind');
 
   /// Digest rule spec for [kind] at [time] (weekly/monthly kinds on [weekday]/day 1).
   static NotificationRuleSpec digestSpec(String kind, LocalTime time, {int weekday = 7}) {

@@ -4,7 +4,6 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/notifications/application/notification_providers.dart';
-import 'package:everslot/features/notifications/data/notification_rules_repository.dart';
 import 'package:everslot/features/notifications/domain/default_rules.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
 import 'package:everslot/features/notifications/domain/notification_settings.dart';
@@ -68,7 +67,6 @@ class _SettingsList extends ConsumerWidget {
     ];
     final rules = ref.watch(notificationRulesProvider).value ?? const <NotificationRule>[];
     final userId = ref.watch(currentUserIdProvider);
-    final privacy = ref.watch(settingsProvider(SettingsNs.privacy)).value ?? const {};
 
     Future<DateTime?> pickInstant() async {
       final today = zones.toLocal(now, zone);
@@ -270,9 +268,10 @@ class _SettingsList extends ConsumerWidget {
         ),
         SwitchListTile(
           title: Text(l.notifHideContent),
-          value: (privacy['hideNotificationContent'] ?? privacy['hideContentInNotifications']) == true,
+          value: settings.hideContent,
+          // Written under the arch §8.5 key and its alias so both readers agree.
           onChanged: (v) => unawaited(
-            ref.read(settingsRepositoryProvider).update(SettingsNs.privacy, {'hideNotificationContent': v, 'hideContentInNotifications': v}),
+            ref.read(settingsRepositoryProvider).update(SettingsNs.privacy, {'hideContentInNotifications': v, 'hideNotificationContent': v}),
           ),
         ),
         // ---- Mutes
@@ -318,7 +317,7 @@ class _DigestTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     final labels = NotificationLabels.of(context);
-    final id = NotificationRulesRepository.digestRuleId(userId, kind);
+    final id = DefaultRules.digestRuleId(userId, kind);
     final rule = rules.where((r) => r.id == id).firstOrNull;
     final trigger = rule?.spec.trigger;
     final times = trigger is DigestTrigger ? (trigger.schedule['times'] as List?) : null;

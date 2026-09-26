@@ -5,9 +5,9 @@ import 'package:everslot/core/settings/settings_repository.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/notifications/application/notification_providers.dart';
 import 'package:everslot/features/notifications/application/notification_registry.dart';
-import 'package:everslot/features/notifications/data/notification_rules_repository.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
 import 'package:everslot/features/notifications/domain/notification_target.dart';
+import 'package:everslot/features/notifications/domain/rule_draft.dart';
 import 'package:everslot/features/notifications/presentation/advanced_rule_editor.dart';
 import 'package:everslot/features/notifications/presentation/notification_labels.dart';
 import 'package:everslot/features/notifications/presentation/simple_rule_editor.dart';
@@ -130,10 +130,26 @@ class _SectionDefaults extends ConsumerWidget {
     Widget ruleTile(NotificationRule r, {ItemKind kind = ItemKind.timed}) => Dismissible(
       key: ValueKey('default-${r.id}'),
       direction: DismissDirection.endToStart,
-      background: ColoredBox(color: context.colors.errorContainer),
-      onDismissed: (_) async {
-        final record = await ref.read(notificationRulesRepositoryProvider).delete(r.id);
-        if (context.mounted) showUndoSnackBar(context, ref, message: l.notifRuleDeleted, record: record);
+      background: ColoredBox(
+        color: context.colors.errorContainer,
+        child: Align(
+          alignment: AlignmentDirectional.centerEnd,
+          child: Padding(
+            padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
+            child: Icon(Icons.delete_outline, color: context.colors.onErrorContainer),
+          ),
+        ),
+      ),
+      // Delete first: the row then leaves the list through the rules stream (a dismissed
+      // Dismissible must not stay in the tree).
+      confirmDismiss: (_) async {
+        try {
+          final record = await ref.read(notificationRulesRepositoryProvider).delete(r.id);
+          if (context.mounted) showUndoSnackBar(context, ref, message: l.notifRuleDeleted, record: record);
+          return true;
+        } on Object {
+          return false;
+        }
       },
       child: ListTile(
         title: Text(labels.rule(r, profile: profileById[r.profileId])),

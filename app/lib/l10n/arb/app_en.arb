@@ -545,6 +545,13 @@
       }
     }
   },
+  "@notifSectionOffHint": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
   "@notifShowAll": {
     "placeholders": {
       "count": {
@@ -1781,6 +1788,7 @@
   "notifModeInherit": "Use defaults",
   "notifModeInheritPlus": "Defaults + mine",
   "notifModeOff": "Off",
+  "notifModeOffHint": "No notifications for this item",
   "notifMultiDevice": "Deliver to",
   "notifMute1h": "1 hour",
   "notifMuteFor": "Mute…",
@@ -1868,6 +1876,7 @@
   "notifSectionChecklists": "Lists",
   "notifSectionDigests": "Digests",
   "notifSectionHabits": "Habits",
+  "notifSectionOffHint": "{section} notifications are turned off in Settings",
   "notifSectionPlanner": "Plan",
   "notifSectionQuit": "Quit",
   "notifSectionSystem": "System",

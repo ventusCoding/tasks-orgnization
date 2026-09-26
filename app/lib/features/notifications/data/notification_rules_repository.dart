@@ -8,42 +8,11 @@ import 'package:everslot/features/notifications/domain/default_rules.dart';
 import 'package:everslot/features/notifications/domain/effective_rules_resolver.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
+import 'package:everslot/features/notifications/domain/rule_draft.dart';
 import 'package:everslot/features/notifications/domain/rule_spec.dart';
 import 'package:everslot/features/notifications/domain/rule_validation.dart';
 
-/// A rule to create (target + spec), used for single and bulk creation.
-class RuleDraft {
-  const RuleDraft({
-    required this.targetType,
-    required this.section,
-    required this.spec,
-    this.targetId,
-    this.isDefault = false,
-    this.enabled = true,
-    this.name,
-    this.profileId,
-  });
-
-  factory RuleDraft.fromRule(NotificationRule r, {RuleTargetType? targetType, String? targetId, bool? isDefault}) => RuleDraft(
-    targetType: targetType ?? r.targetType,
-    targetId: targetId ?? r.targetId,
-    section: r.section,
-    spec: r.spec,
-    isDefault: isDefault ?? r.isDefault,
-    enabled: r.enabled,
-    name: r.name,
-    profileId: r.profileId,
-  );
-
-  final RuleTargetType targetType;
-  final String? targetId;
-  final NotificationSection section;
-  final NotificationRuleSpec spec;
-  final bool isDefault;
-  final bool enabled;
-  final String? name;
-  final String? profileId;
-}
+export 'package:everslot/features/notifications/domain/rule_draft.dart';
 
 /// `notification_rules` (T7.1.02): reads Drift, writes through [SyncWriter] (row + outbox +
 /// activity event).
@@ -162,6 +131,7 @@ class NotificationRulesRepository {
     String? profileId,
     bool clearProfile = false,
     String? name,
+    bool clearName = false,
   }) => _writer.run((tx) async {
     if (spec != null) {
       final errors = NotificationRuleValidator.validate(spec, acceptExtraActions: true).where((i) => i.isError);
@@ -171,7 +141,7 @@ class NotificationRulesRepository {
       if (spec != null) 'spec': spec.toJson(),
       'enabled': ?enabled,
       if (profileId != null || clearProfile) 'profile_id': profileId,
-      'name': ?name,
+      if (name != null || clearName) 'name': name,
     });
     if (changed) await tx.logEvent(entityType: 'notification_rule', entityId: id, eventType: 'updated');
   });
@@ -247,7 +217,7 @@ class NotificationRulesRepository {
   }
 
   /// Deterministic id of the digest rule of [kind] (one per user).
-  static String digestRuleId(String userId, String kind) => Ids.v5('$userId|digest-rule|$kind');
+  static String digestRuleId(String userId, String kind) => DefaultRules.digestRuleId(userId, kind);
 
   /// Enables / updates / disables a digest rule (settings page, T7.5.18).
   Future<OpRecord> setDigest({required String kind, required bool enabled, required NotificationRuleSpec spec}) =>
@@ -442,6 +412,16 @@ class NotificationMutesRepository {
       }
     }
   });
+
+  /// Cascade helper: soft-deletes the mutes of a deleted target inside the caller's transaction.
+  Future<void> softDeleteForTargetInTx(WriteTx tx, String targetType, String targetId) async {
+    final rows = await (_db.select(_db.notificationMutes)
+          ..where((m) => m.targetType.equals(targetType) & m.targetId.equals(targetId) & m.deletedAt.isNull()))
+        .get();
+    for (final r in rows) {
+      await tx.softDelete('notification_mutes', r.id);
+    }
+  }
 
   /// Soft-deletes expired mutes (housekeeping; they are already ignored by the planner).
   Future<void> purgeExpired(DateTime now) async {
