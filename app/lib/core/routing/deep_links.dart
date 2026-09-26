@@ -31,6 +31,7 @@ abstract final class AppLinks {
   static String settings([String? page]) => page == null ? '/settings' : '/settings/$page';
   static String trash() => '/settings/trash';
   static String categories() => '/settings/categories';
+  static String tags() => '/settings/tags';
   static String signIn() => '/auth/sign-in';
   static String onboarding() => '/onboarding';
   static String debug() => '/dev';

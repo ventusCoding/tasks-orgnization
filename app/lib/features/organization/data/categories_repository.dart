@@ -28,34 +28,52 @@ class CategoriesRepository {
   Stream<List<Category>> watchAll({bool includeArchived = false}) {
     final q = _db.select(_db.categories)
       ..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId()))
-      ..orderBy([(c) => OrderingTerm.asc(c.sortKey), (c) => OrderingTerm.asc(c.id)]);
+      ..orderBy([
+        (c) => OrderingTerm.asc(c.sortKey),
+        (c) => OrderingTerm.asc(c.id),
+      ]);
     if (!includeArchived) q.where((c) => c.archivedAt.isNull());
     return q.watch().map((rows) => rows.map(_map).toList());
   }
 
-  Future<List<Category>> all() async => (await (_db.select(_db.categories)
-            ..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId()))
-            ..orderBy([(c) => OrderingTerm.asc(c.sortKey)]))
-          .get())
-      .map(_map)
-      .toList();
+  Future<List<Category>> all() async =>
+      (await (_db.select(_db.categories)
+                ..where(
+                  (c) => c.deletedAt.isNull() & c.userId.equals(_userId()),
+                )
+                ..orderBy([(c) => OrderingTerm.asc(c.sortKey)]))
+              .get())
+          .map(_map)
+          .toList();
 
-  Future<OpRecord> create({required String name, required int color, String? icon}) async {
+  Future<OpRecord> create({
+    required String name,
+    required int color,
+    String? icon,
+  }) async {
     final trimmed = name.trim();
     if (trimmed.isEmpty || trimmed.length > 60) {
-      throw const ValidationException('Category name must be 1–60 characters', field: 'name');
+      throw const ValidationException(
+        'Category name must be 1–60 characters',
+        field: 'name',
+      );
     }
     final existing = await all();
     if (existing.any((c) => c.name.toLowerCase() == trimmed.toLowerCase())) {
-      throw const ValidationException('A category with this name exists', field: 'name');
+      throw const ValidationException(
+        'A category with this name exists',
+        field: 'name',
+      );
     }
     final last = existing.isEmpty ? null : existing.last.sortKey;
-    return _writer.run((tx) => tx.insert('categories', Ids.v7(), {
-      'name': trimmed,
-      'color': color,
-      'icon': icon,
-      'sort_key': FractionalIndex.between(last, null),
-    }));
+    return _writer.run(
+      (tx) => tx.insert('categories', Ids.v7(), {
+        'name': trimmed,
+        'color': color,
+        'icon': icon,
+        'sort_key': FractionalIndex.between(last, null),
+      }),
+    );
   }
 
   Future<OpRecord> update(
@@ -64,24 +82,35 @@ class CategoriesRepository {
     int? color,
     String? icon,
     bool? countsAsUnavailable,
-  }) => _writer.run((tx) => tx.update('categories', id, {
-    if (name != null) 'name': name.trim(),
-    if (color != null) 'color': color,
-    if (icon != null) 'icon': icon,
-    if (countsAsUnavailable != null) 'counts_as_unavailable': countsAsUnavailable,
-  }));
-
-  Future<OpRecord> setArchived(String id, {required bool archived}) => _writer.run(
-    (tx) => tx.update('categories', id, {'archived_at': archived ? tx.now : null}),
+  }) => _writer.run(
+    (tx) => tx.update('categories', id, {
+      if (name != null) 'name': name.trim(),
+      if (color != null) 'color': color,
+      if (icon != null) 'icon': icon,
+      if (countsAsUnavailable != null)
+        'counts_as_unavailable': countsAsUnavailable,
+    }),
   );
+
+  Future<OpRecord> setArchived(String id, {required bool archived}) =>
+      _writer.run(
+        (tx) => tx.update('categories', id, {
+          'archived_at': archived ? tx.now : null,
+        }),
+      );
 
   /// Moves [id] between two neighbours (fractional order).
-  Future<OpRecord> move(String id, {String? afterKey, String? beforeKey}) => _writer.run(
-    (tx) => tx.update('categories', id, {'sort_key': FractionalIndex.between(afterKey, beforeKey)}),
-  );
+  Future<OpRecord> move(String id, {String? afterKey, String? beforeKey}) =>
+      _writer.run(
+        (tx) => tx.update('categories', id, {
+          'sort_key': FractionalIndex.between(afterKey, beforeKey),
+        }),
+      );
 
   /// Deletes a category, reassigning ([reassignTo]) or clearing it on referencing items.
-  Future<OpRecord> delete(String id, {String? reassignTo}) => _writer.run((tx) async {
+  Future<OpRecord> delete(String id, {String? reassignTo}) => _writer.run((
+    tx,
+  ) async {
     for (final table in const ['tasks', 'habits', 'checklists']) {
       final refs = await _db
           .customSelect(
@@ -90,11 +119,17 @@ class CategoriesRepository {
           )
           .get();
       for (final r in refs) {
-        await tx.update(table, r.data['id'] as String, {'category_id': reassignTo});
+        await tx.update(table, r.data['id'] as String, {
+          'category_id': reassignTo,
+        });
       }
     }
     await tx.softDelete('categories', id);
-    await tx.logEvent(entityType: 'category', entityId: id, eventType: 'deleted');
+    await tx.logEvent(
+      entityType: 'category',
+      entityId: id,
+      eventType: 'deleted',
+    );
   });
 
   /// Seeds localized default categories once per account (T2.3.02). Deterministic ids make two

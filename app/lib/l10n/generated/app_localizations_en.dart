@@ -3744,6 +3744,109 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabToday => 'Today';
 
   @override
+  String get tagAdd => 'Add tag';
+
+  @override
+  String tagChipSemantics(String name) {
+    return 'Tag $name';
+  }
+
+  @override
+  String tagCreateNamed(String name) {
+    return 'Create tag “$name”';
+  }
+
+  @override
+  String tagDeleteBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'It will be removed from $count items.',
+      one: 'It will be removed from 1 item.',
+      zero: 'This tag isn\'t used yet.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tagEdit => 'Edit tag';
+
+  @override
+  String get tagErrorDuplicate => 'A tag with this name already exists.';
+
+  @override
+  String get tagErrorInvalid => 'Use 1 to 40 characters.';
+
+  @override
+  String get tagMerge => 'Merge into…';
+
+  @override
+  String get tagMergeAction => 'Merge';
+
+  @override
+  String tagMergeConfirmBody(String source, String target) {
+    return 'Everything tagged “$source” will be tagged “$target” instead, and “$source” will be deleted.';
+  }
+
+  @override
+  String get tagMergeConfirmTitle => 'Merge tags?';
+
+  @override
+  String tagMergeTitle(String name) {
+    return 'Merge “$name” into';
+  }
+
+  @override
+  String tagMergedSnack(String name) {
+    return 'Merged into “$name”';
+  }
+
+  @override
+  String get tagName => 'Tag name';
+
+  @override
+  String get tagNew => 'New tag';
+
+  @override
+  String get tagNoColor => 'No color';
+
+  @override
+  String get tagPickerSearch => 'Search or create a tag';
+
+  @override
+  String get tagPickerTitle => 'Tags';
+
+  @override
+  String tagRemoveSemantics(String name) {
+    return 'Remove tag $name';
+  }
+
+  @override
+  String tagUsage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '1 item',
+      zero: 'Not used',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tagsEmpty => 'No tags yet';
+
+  @override
+  String get tagsEmptyHint =>
+      'Tags work across sections — use them for contexts like errands or waiting on others.';
+
+  @override
+  String get tagsTitle => 'Tags';
+
+  @override
+  String get tagsUpdatedSnack => 'Tags updated';
+
+  @override
   String get tasksActionDuplicateSeries => 'Duplicate as new series';
 
   @override

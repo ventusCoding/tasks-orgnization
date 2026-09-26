@@ -1128,6 +1128,65 @@
       }
     }
   },
+  "@tagChipSemantics": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@tagCreateNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@tagDeleteBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tagMergeConfirmBody": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "@tagMergeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@tagMergedSnack": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@tagRemoveSemantics": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@tagUsage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@tasksAnchorMoved": {
     "placeholders": {
       "date": {
@@ -2382,6 +2441,30 @@
   "tabLists": "Lists",
   "tabPlan": "Plan",
   "tabToday": "Today",
+  "tagAdd": "Add tag",
+  "tagChipSemantics": "Tag {name}",
+  "tagCreateNamed": "Create tag “{name}”",
+  "tagDeleteBody": "{count, plural, =0{This tag isn't used yet.} =1{It will be removed from 1 item.} other{It will be removed from {count} items.}}",
+  "tagEdit": "Edit tag",
+  "tagErrorDuplicate": "A tag with this name already exists.",
+  "tagErrorInvalid": "Use 1 to 40 characters.",
+  "tagMerge": "Merge into…",
+  "tagMergeAction": "Merge",
+  "tagMergeConfirmBody": "Everything tagged “{source}” will be tagged “{target}” instead, and “{source}” will be deleted.",
+  "tagMergeConfirmTitle": "Merge tags?",
+  "tagMergeTitle": "Merge “{name}” into",
+  "tagMergedSnack": "Merged into “{name}”",
+  "tagName": "Tag name",
+  "tagNew": "New tag",
+  "tagNoColor": "No color",
+  "tagPickerSearch": "Search or create a tag",
+  "tagPickerTitle": "Tags",
+  "tagRemoveSemantics": "Remove tag {name}",
+  "tagUsage": "{count, plural, =0{Not used} =1{1 item} other{{count} items}}",
+  "tagsEmpty": "No tags yet",
+  "tagsEmptyHint": "Tags work across sections — use them for contexts like errands or waiting on others.",
+  "tagsTitle": "Tags",
+  "tagsUpdatedSnack": "Tags updated",
   "tasksActionDuplicateSeries": "Duplicate as new series",
   "tasksActionDuplicateTo": "Duplicate to…",
   "tasksActionExceptions": "Skipped & moved occurrences",

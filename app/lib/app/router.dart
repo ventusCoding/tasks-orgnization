@@ -14,6 +14,7 @@ import 'package:everslot/features/habits/presentation/quit_dashboard_screen.dart
 import 'package:everslot/features/notifications/presentation/inbox_screen.dart';
 import 'package:everslot/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:everslot/features/organization/presentation/categories_screen.dart';
+import 'package:everslot/features/organization/presentation/tags_screen.dart';
 import 'package:everslot/features/planner/presentation/planner_screen.dart';
 import 'package:everslot/features/planner/presentation/task_detail_screen.dart';
 import 'package:everslot/features/planner/presentation/task_editor_screen.dart';
@@ -213,6 +214,11 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: 'categories',
             parentNavigatorKey: rootNavigatorKey,
             builder: (_, _) => const CategoriesScreen(),
+          ),
+          GoRoute(
+            path: 'tags',
+            parentNavigatorKey: rootNavigatorKey,
+            builder: (_, _) => const TagsScreen(),
           ),
           GoRoute(
             path: ':page',

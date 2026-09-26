@@ -3,8 +3,6 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
 import 'package:everslot/design_system/theme.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart'
-    show GlobalCupertinoLocalizations, GlobalWidgetsLocalizations;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -38,9 +36,8 @@ class EverslotApp extends ConsumerWidget {
       supportedLocales: supportedLocales,
       localizationsDelegates: const [
         AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+        // material_ui's list includes the cupertino_ui Cupertino delegate (needed for Arabic).
+        ...GlobalMaterialLocalizations.delegates,
       ],
       builder: (context, child) {
         final media = MediaQuery.of(context);
