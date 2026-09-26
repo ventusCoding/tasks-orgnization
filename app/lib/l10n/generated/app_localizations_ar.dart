@@ -278,6 +278,372 @@ class AppLocalizationsAr extends AppLocalizations {
   String get priorityUrgent => 'عاجلة';
 
   @override
+  String get recurAddDate => 'إضافة';
+
+  @override
+  String get recurAddTime => 'إضافة وقت';
+
+  @override
+  String get recurAdvancedTitle => 'تكرار مخصص';
+
+  @override
+  String get recurAfterHint =>
+      'يحين الموعد التالي بعد هذه المدة من إنجاز السابق.';
+
+  @override
+  String recurAnchorMoved(String date) {
+    return 'أول موعد: $date';
+  }
+
+  @override
+  String get recurCountCompletions => 'مرات الإنجاز';
+
+  @override
+  String get recurCountMode => 'العدّ';
+
+  @override
+  String get recurCountOccurrences => 'المواعيد';
+
+  @override
+  String get recurCurrent => 'القاعدة الحالية';
+
+  @override
+  String get recurEnds => 'الانتهاء';
+
+  @override
+  String get recurEndsAfter => 'بعد عدد من المرات';
+
+  @override
+  String recurEndsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مرة',
+      many: '$count مرة',
+      few: '$count مرات',
+      two: 'مرتان',
+      one: 'مرة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recurEndsNever => 'أبدًا';
+
+  @override
+  String get recurEndsOn => 'في تاريخ';
+
+  @override
+  String get recurExceptionCancelled => 'مزال';
+
+  @override
+  String get recurExceptionEdited => 'معدّل';
+
+  @override
+  String recurExceptionMoved(String to) {
+    return 'نُقل إلى $to';
+  }
+
+  @override
+  String get recurExceptionOpen => 'فتح';
+
+  @override
+  String get recurExceptionRestore => 'استعادة';
+
+  @override
+  String get recurExceptionRestoreAll => 'استعادة الكل';
+
+  @override
+  String get recurExceptionsEmpty => 'لا مواعيد مزالة أو منقولة';
+
+  @override
+  String get recurExceptionsRestored => 'تمت الاستعادة';
+
+  @override
+  String get recurExceptionsTitle => 'المواعيد المتخطاة والمنقولة';
+
+  @override
+  String get recurExdates => 'مواعيد مستبعدة';
+
+  @override
+  String get recurFloatingNote => 'الأوقات تتبع منطقتك الزمنية الحالية';
+
+  @override
+  String get recurFrequency => 'التواتر';
+
+  @override
+  String get recurHours => 'الساعات';
+
+  @override
+  String get recurInterval => 'كل';
+
+  @override
+  String get recurIssueCount => 'يجب أن يكون عدد المرات 1 على الأقل';
+
+  @override
+  String get recurIssueCountAndUntil => 'اختر تاريخ انتهاء أو عدد مرات';
+
+  @override
+  String get recurIssueDate => 'تاريخ غير صالح';
+
+  @override
+  String get recurIssueEmptyWeekdays => 'اختر يومًا واحدًا على الأقل';
+
+  @override
+  String get recurIssueInterval => 'يجب أن تكون الفترة 1 على الأقل';
+
+  @override
+  String get recurIssueMissing => 'القاعدة غير مكتملة';
+
+  @override
+  String get recurIssueOrdinal =>
+      '«الأول» و«الأخير»… تعمل فقط مع التكرار الشهري أو السنوي';
+
+  @override
+  String recurIssueQuota(int max) {
+    return 'لا يمكن تحقيق هذه الحصة مع هذا الفاصل (الحد $max)';
+  }
+
+  @override
+  String recurIssueTooFrequent(int count) {
+    return 'متكرر جدًا: $count في اليوم (الحد 1440)';
+  }
+
+  @override
+  String get recurIssueUnsupported => 'لا يمكن الجمع بين هذه الخيارات';
+
+  @override
+  String get recurIssueUntilBeforeStart => 'تاريخ الانتهاء قبل البداية';
+
+  @override
+  String get recurIssueValue => 'قيمة خارج النطاق';
+
+  @override
+  String get recurIssueWindow => 'يجب أن تنتهي النافذة بعد بدايتها';
+
+  @override
+  String get recurLess => 'خيارات أقل';
+
+  @override
+  String get recurMinutes => 'الدقائق';
+
+  @override
+  String recurMonthDayFromEnd(int day) {
+    return 'اليوم $day من النهاية';
+  }
+
+  @override
+  String get recurMonthDays => 'أيام الشهر';
+
+  @override
+  String get recurMonthDaysFromEnd => 'العد من النهاية';
+
+  @override
+  String get recurMonths => 'الأشهر';
+
+  @override
+  String get recurMore => 'خيارات أكثر';
+
+  @override
+  String get recurOrdinal1 => 'الأول';
+
+  @override
+  String get recurOrdinal2 => 'الثاني';
+
+  @override
+  String get recurOrdinal3 => 'الثالث';
+
+  @override
+  String get recurOrdinal4 => 'الرابع';
+
+  @override
+  String get recurOrdinal5 => 'الخامس';
+
+  @override
+  String get recurOrdinalEvery => 'كل';
+
+  @override
+  String get recurOrdinalLast => 'الأخير';
+
+  @override
+  String get recurOrdinalSecondLast => 'قبل الأخير';
+
+  @override
+  String get recurOverflow => 'عندما يكون الشهر أقصر';
+
+  @override
+  String get recurOverflowClamp => 'استخدام آخر يوم فيه';
+
+  @override
+  String get recurOverflowSkip => 'تخطي ذلك الشهر';
+
+  @override
+  String get recurPerDay => 'اليوم';
+
+  @override
+  String get recurPerMonth => 'الشهر';
+
+  @override
+  String get recurPerWeek => 'الأسبوع';
+
+  @override
+  String get recurPerYear => 'السنة';
+
+  @override
+  String get recurPickerTitle => 'التكرار';
+
+  @override
+  String get recurPresetAfterCompletion => 'بعد الإنجاز…';
+
+  @override
+  String get recurPresetCustom => 'مخصص…';
+
+  @override
+  String get recurPresetEveryNDays => 'كل بضعة أيام…';
+
+  @override
+  String get recurPresetIntraday => 'كل بضع ساعات أو دقائق…';
+
+  @override
+  String get recurPresetNone => 'لا يتكرر';
+
+  @override
+  String get recurPresetQuota => 'عدة مرات في الأسبوع أو الشهر…';
+
+  @override
+  String get recurPresetSpecificDays => 'أيام محددة…';
+
+  @override
+  String get recurPresetTimesPerDay => 'عدة مرات في اليوم…';
+
+  @override
+  String get recurPreview => 'المواعيد القادمة';
+
+  @override
+  String get recurPreviewCalendar => 'الأيام الستون القادمة';
+
+  @override
+  String get recurPreviewEmpty => 'لا مواعيد قادمة';
+
+  @override
+  String get recurQuotaMinGap => 'أدنى عدد أيام بين مرتين';
+
+  @override
+  String get recurQuotaOnDays => 'في هذه الأيام فقط';
+
+  @override
+  String get recurQuotaPer => 'في';
+
+  @override
+  String get recurQuotaTimes => 'كم مرة';
+
+  @override
+  String get recurRdates => 'مواعيد إضافية';
+
+  @override
+  String recurRemoveTime(String time) {
+    return 'إزالة $time';
+  }
+
+  @override
+  String get recurSetPos => 'الاحتفاظ بالمواضع فقط';
+
+  @override
+  String get recurSetPosHint => '1 = الأول، −1 = آخر تاريخ مطابق في كل فترة';
+
+  @override
+  String get recurSummary => 'الملخص';
+
+  @override
+  String get recurTimes => 'أوقات اليوم';
+
+  @override
+  String get recurType => 'النوع';
+
+  @override
+  String get recurTypeAfter => 'بعد الإنجاز';
+
+  @override
+  String get recurTypeFixed => 'جدول زمني';
+
+  @override
+  String get recurTypeQuota => 'حصة';
+
+  @override
+  String get recurUnitDay => 'أيام';
+
+  @override
+  String get recurUnitHour => 'ساعات';
+
+  @override
+  String get recurUnitMinute => 'دقائق';
+
+  @override
+  String get recurUnitMonth => 'أشهر';
+
+  @override
+  String get recurUnitWeek => 'أسابيع';
+
+  @override
+  String get recurUnitYear => 'سنوات';
+
+  @override
+  String get recurWarnAllDaySubDaily =>
+      'لا يمكن لعناصر اليوم الكامل أن تتكرر داخل اليوم';
+
+  @override
+  String get recurWarnDst => 'بعض الأوقات تقع عند تغيير التوقيت الصيفي فتُزاح';
+
+  @override
+  String get recurWarnNever => 'لا يحدث خلال السنوات الخمس القادمة';
+
+  @override
+  String recurWarnPerDay(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count موعد في اليوم',
+      many: '$count موعدًا في اليوم',
+      few: '$count مواعيد في اليوم',
+      two: 'موعدان في اليوم',
+      one: 'موعد واحد في اليوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recurWeekStart => 'يبدأ الأسبوع يوم';
+
+  @override
+  String get recurWeekdayOrdinal => 'أيّها في الفترة';
+
+  @override
+  String get recurWeekdays => 'أيام الأسبوع';
+
+  @override
+  String get recurWindow => 'النافذة اليومية';
+
+  @override
+  String get recurWindowAnchorSeries => 'متابعة السلسلة من أول موعد';
+
+  @override
+  String get recurWindowAnchorWindow => 'إعادة البدء كل يوم عند بداية النافذة';
+
+  @override
+  String get recurWindowEnd => 'حتى';
+
+  @override
+  String get recurWindowNone => 'اليوم كله';
+
+  @override
+  String get recurWindowStart => 'من';
+
+  @override
+  String recurZoneNote(String zone) {
+    return 'الأوقات بتوقيت $zone';
+  }
+
+  @override
   String relativeDaysAgo(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -426,4 +792,941 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tabToday => 'اليوم';
+
+  @override
+  String get tasksActionDuplicateSeries => 'تكرار كسلسلة جديدة';
+
+  @override
+  String get tasksActionDuplicateTo => 'تكرار إلى…';
+
+  @override
+  String get tasksActionExceptions => 'المواعيد المتخطاة والمنقولة';
+
+  @override
+  String get tasksActionMoveToToday => 'نقل إلى اليوم';
+
+  @override
+  String get tasksActionOpenSeries => 'فتح السلسلة';
+
+  @override
+  String get tasksActionPause => 'إيقاف السلسلة مؤقتًا';
+
+  @override
+  String get tasksActionPauseTimer => 'إيقاف مؤقت';
+
+  @override
+  String get tasksActionReopen => 'إعادة فتح';
+
+  @override
+  String get tasksActionReschedule => 'إعادة الجدولة…';
+
+  @override
+  String get tasksActionRestoreSeries => 'إعادة إلى السلسلة';
+
+  @override
+  String get tasksActionResume => 'استئناف السلسلة';
+
+  @override
+  String get tasksActionResumeTimer => 'استئناف';
+
+  @override
+  String get tasksActionSeriesHistory => 'سجل السلسلة';
+
+  @override
+  String get tasksActionShare => 'مشاركة كنص';
+
+  @override
+  String get tasksActionStart => 'ابدأ';
+
+  @override
+  String get tasksActionStop => 'إيقاف';
+
+  @override
+  String get tasksActionUnschedule => 'إرجاع إلى غير المجدولة';
+
+  @override
+  String get tasksActualAsPlanned => 'كما هو مخطط';
+
+  @override
+  String get tasksActualCustom => 'مخصص…';
+
+  @override
+  String get tasksActualEndBeforeStart => 'يجب أن تكون النهاية بعد البداية';
+
+  @override
+  String get tasksActualJustNow => 'الآن';
+
+  @override
+  String get tasksActualNotSet => 'غير مسجل';
+
+  @override
+  String get tasksActualTime => 'الوقت الفعلي';
+
+  @override
+  String get tasksActualTitle => 'متى أنجزتها؟';
+
+  @override
+  String get tasksAddEntry => 'إضافة جلسة';
+
+  @override
+  String tasksAnchorMoved(String date) {
+    return 'نُقلت البداية إلى $date لتطابق قاعدة التكرار';
+  }
+
+  @override
+  String get tasksAttachments => 'المرفقات';
+
+  @override
+  String get tasksAttachmentsPlaceholder => 'ستتوفر الصور والملفات هنا قريبًا';
+
+  @override
+  String get tasksBacklogLabel => 'غير مجدولة';
+
+  @override
+  String get tasksBulkDelete => 'حذف';
+
+  @override
+  String tasksBulkDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'حُدّث $count عنصر',
+      many: 'حُدّث $count عنصرًا',
+      few: 'حُدّثت $count عناصر',
+      two: 'حُدّث عنصران',
+      one: 'حُدّث عنصر واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksBulkDuplicate => 'تكرار';
+
+  @override
+  String get tasksBulkEarlier15 => 'قبل 15 دقيقة';
+
+  @override
+  String get tasksBulkEarlierDay => 'قبل يوم';
+
+  @override
+  String get tasksBulkLater15 => 'بعد 15 دقيقة';
+
+  @override
+  String get tasksBulkLater1h => 'بعد ساعة';
+
+  @override
+  String get tasksBulkLaterDay => 'بعد يوم';
+
+  @override
+  String get tasksBulkLaterWeek => 'بعد أسبوع';
+
+  @override
+  String get tasksBulkMove => 'نقل';
+
+  @override
+  String get tasksBulkSetCategory => 'تعيين الفئة';
+
+  @override
+  String get tasksBulkSetPriority => 'تعيين الأولوية';
+
+  @override
+  String get tasksBulkSetTracking => 'تعيين نمط المتابعة';
+
+  @override
+  String get tasksBulkTarget => 'للعناصر المتكررة';
+
+  @override
+  String get tasksBulkTargetOccurrence => 'هذه المواعيد فقط';
+
+  @override
+  String get tasksBulkTargetSeries => 'السلسلة كاملة';
+
+  @override
+  String tasksBulkTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر محدد',
+      many: '$count عنصرًا محددًا',
+      few: '$count عناصر محددة',
+      two: 'عنصران محددان',
+      one: 'عنصر واحد محدد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksChecklistEmpty => 'لا توجد قوائم بعد';
+
+  @override
+  String get tasksChecklistNone => 'لا شيء';
+
+  @override
+  String get tasksChecklistOpen => 'فتح القائمة';
+
+  @override
+  String get tasksChecklistPick => 'ربط قائمة';
+
+  @override
+  String tasksChecklistProgress(int done, int total) {
+    return 'أُنجز $done من $total';
+  }
+
+  @override
+  String get tasksChecklistUnlink => 'إلغاء الربط';
+
+  @override
+  String get tasksColorCategoryDefault => 'لون الفئة';
+
+  @override
+  String get tasksCompletion => 'التقدم';
+
+  @override
+  String tasksCompletionValue(int percent) {
+    return '$percent٪';
+  }
+
+  @override
+  String get tasksCreated => 'تم إنشاء المهمة';
+
+  @override
+  String get tasksCustomDuration => 'مخصص…';
+
+  @override
+  String get tasksDeadlineNone => 'بلا موعد نهائي';
+
+  @override
+  String get tasksDeadlineWarning => 'مخطط لها بعد الموعد النهائي';
+
+  @override
+  String get tasksDeleteConfirmBody => 'تبقى في سلة المهملات 30 يومًا.';
+
+  @override
+  String get tasksDeleteConfirmTitle => 'حذف هذه المهمة؟';
+
+  @override
+  String get tasksDeleted => 'تم حذف المهمة';
+
+  @override
+  String get tasksDetailNotFound => 'هذه المهمة لم تعد موجودة';
+
+  @override
+  String get tasksDetailTitle => 'مهمة';
+
+  @override
+  String get tasksDiscard => 'تجاهل';
+
+  @override
+  String tasksDuplicateToConfirm(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تكرار إلى $count تاريخ',
+      many: 'تكرار إلى $count تاريخًا',
+      few: 'تكرار إلى $count تواريخ',
+      two: 'تكرار إلى تاريخين',
+      one: 'تكرار إلى تاريخ واحد',
+      zero: 'اختر تواريخ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksDuplicateToTitle => 'تكرار إلى…';
+
+  @override
+  String get tasksDuplicated => 'تم تكرار المهمة';
+
+  @override
+  String tasksDuplicatedTo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نُسخت إلى $count تاريخ',
+      many: 'نُسخت إلى $count تاريخًا',
+      few: 'نُسخت إلى $count تواريخ',
+      two: 'نُسخت إلى تاريخين',
+      one: 'نُسخت إلى تاريخ واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksDurationMode => 'المدة';
+
+  @override
+  String get tasksEditorEditOccurrenceTitle => 'تعديل الموعد';
+
+  @override
+  String get tasksEditorEditTitle => 'تعديل المهمة';
+
+  @override
+  String get tasksEditorNewTitle => 'مهمة جديدة';
+
+  @override
+  String get tasksEndMode => 'وقت الانتهاء';
+
+  @override
+  String get tasksEntryDelete => 'حذف الجلسة';
+
+  @override
+  String get tasksEntryEdit => 'تعديل الجلسة';
+
+  @override
+  String get tasksEntryFuture => 'لا يمكن أن تبدأ الجلسة في المستقبل';
+
+  @override
+  String get tasksEntryNegative => 'يجب أن تكون النهاية بعد البداية';
+
+  @override
+  String get tasksEntryOverlap => 'تتداخل مع جلسة أخرى';
+
+  @override
+  String get tasksEntryRunning => 'جارية';
+
+  @override
+  String get tasksErrAllDay => 'مهام اليوم الكامل تمتد لأيام كاملة';
+
+  @override
+  String get tasksErrDuration => 'يجب أن تكون المدة بين 0 دقيقة و365 يومًا';
+
+  @override
+  String get tasksErrEstimate => 'التقدير خارج النطاق';
+
+  @override
+  String get tasksErrPriority => 'أولوية غير صالحة';
+
+  @override
+  String get tasksErrRecurrenceInvalid => 'قاعدة التكرار غير صالحة';
+
+  @override
+  String get tasksErrRecurrenceNoDate => 'المهام المتكررة تحتاج إلى تاريخ';
+
+  @override
+  String get tasksErrTitleEmpty => 'أدخل عنوانًا';
+
+  @override
+  String get tasksErrTitleTooLong => 'العنوان طويل جدًا (300 حرف كحد أقصى)';
+
+  @override
+  String get tasksErrZone => 'منطقة زمنية غير معروفة';
+
+  @override
+  String get tasksEvtCompleted => 'أُنجزت';
+
+  @override
+  String get tasksEvtCreated => 'أُنشئت';
+
+  @override
+  String get tasksEvtDeleted => 'حُذفت';
+
+  @override
+  String get tasksEvtDeletedOccurrence => 'أُزيل الموعد';
+
+  @override
+  String tasksEvtOccurrence(String date) {
+    return 'موعد $date';
+  }
+
+  @override
+  String get tasksEvtPaused => 'أُوقفت السلسلة مؤقتًا';
+
+  @override
+  String get tasksEvtReopened => 'أُعيد فتحها';
+
+  @override
+  String tasksEvtRescheduled(String from, String to) {
+    return 'أُعيدت جدولتها من $from إلى $to';
+  }
+
+  @override
+  String get tasksEvtRestored => 'استُعيدت';
+
+  @override
+  String get tasksEvtResumed => 'استُؤنفت السلسلة';
+
+  @override
+  String get tasksEvtScheduled => 'جُدولت';
+
+  @override
+  String get tasksEvtSkipped => 'تم تخطيها';
+
+  @override
+  String tasksEvtSkippedReason(String reason) {
+    return 'تم تخطيها: $reason';
+  }
+
+  @override
+  String get tasksEvtSplit => 'قُسّمت السلسلة';
+
+  @override
+  String get tasksEvtStarted => 'بدأت';
+
+  @override
+  String get tasksEvtStatusChanged => 'تغيّرت الحالة';
+
+  @override
+  String get tasksEvtStopped => 'توقفت';
+
+  @override
+  String get tasksEvtTimeEntry => 'أُضيفت جلسة';
+
+  @override
+  String get tasksEvtUnscheduled => 'أُعيدت إلى قائمة غير المجدولة';
+
+  @override
+  String tasksEvtUpdated(String fields) {
+    return 'عُدّلت: $fields';
+  }
+
+  @override
+  String get tasksFieldAllDay => 'طوال اليوم';
+
+  @override
+  String get tasksFieldCategory => 'الفئة';
+
+  @override
+  String get tasksFieldChecklist => 'القائمة المرتبطة';
+
+  @override
+  String get tasksFieldColor => 'اللون';
+
+  @override
+  String get tasksFieldDate => 'التاريخ';
+
+  @override
+  String get tasksFieldDeadline => 'الموعد النهائي';
+
+  @override
+  String get tasksFieldDuration => 'المدة';
+
+  @override
+  String get tasksFieldEnd => 'النهاية';
+
+  @override
+  String get tasksFieldEndDate => 'تاريخ الانتهاء';
+
+  @override
+  String get tasksFieldEstimate => 'التقدير';
+
+  @override
+  String get tasksFieldIcon => 'الأيقونة';
+
+  @override
+  String get tasksFieldLocation => 'المكان';
+
+  @override
+  String get tasksFieldNoDate => 'بلا تاريخ (للجدولة لاحقًا)';
+
+  @override
+  String get tasksFieldNotes => 'ملاحظات';
+
+  @override
+  String get tasksFieldPriority => 'الأولوية';
+
+  @override
+  String get tasksFieldRepeat => 'التكرار';
+
+  @override
+  String get tasksFieldStart => 'البداية';
+
+  @override
+  String get tasksFieldStartDate => 'تاريخ البدء';
+
+  @override
+  String get tasksFieldTimeZone => 'المنطقة الزمنية';
+
+  @override
+  String get tasksFieldTitle => 'العنوان';
+
+  @override
+  String get tasksFieldTitleHint => 'ماذا تريد أن تفعل؟';
+
+  @override
+  String get tasksFieldTracking => 'المتابعة';
+
+  @override
+  String get tasksFieldUrl => 'الرابط';
+
+  @override
+  String get tasksFilterAll => 'الكل';
+
+  @override
+  String get tasksFilterDone => 'المنجزة';
+
+  @override
+  String get tasksFilterMissed => 'الفائتة';
+
+  @override
+  String get tasksFilterMoved => 'المنقولة';
+
+  @override
+  String get tasksFilterSkipped => 'المتخطاة';
+
+  @override
+  String get tasksFromTemplate => 'من قالب…';
+
+  @override
+  String get tasksHistory => 'السجل';
+
+  @override
+  String get tasksHistoryEmpty => 'لا يوجد سجل بعد';
+
+  @override
+  String get tasksHistoryLoadMore => 'تحميل المزيد';
+
+  @override
+  String get tasksIconDefault => 'أيقونة الفئة';
+
+  @override
+  String get tasksMarkedDone => 'تم التأشير كمنجزة';
+
+  @override
+  String get tasksMarkedSkipped => 'تم التخطي';
+
+  @override
+  String get tasksMdBold => 'عريض';
+
+  @override
+  String get tasksMdBullet => 'قائمة نقطية';
+
+  @override
+  String get tasksMdCheckbox => 'خانة تأشير';
+
+  @override
+  String get tasksMdCode => 'رمز';
+
+  @override
+  String get tasksMdHeading => 'عنوان';
+
+  @override
+  String get tasksMdItalic => 'مائل';
+
+  @override
+  String get tasksMdNumbered => 'قائمة مرقمة';
+
+  @override
+  String get tasksMoved => 'تم النقل';
+
+  @override
+  String tasksMovedFrom(String time) {
+    return 'نُقلت من $time';
+  }
+
+  @override
+  String get tasksNextDay => '+يوم واحد';
+
+  @override
+  String tasksNextLabel(String when) {
+    return 'التالي: $when';
+  }
+
+  @override
+  String get tasksNextMonth => 'الشهر التالي';
+
+  @override
+  String get tasksNextOccurrences => 'المواعيد القادمة';
+
+  @override
+  String get tasksNoUpcoming => 'لا شيء قادم';
+
+  @override
+  String get tasksNotesEdit => 'تعديل';
+
+  @override
+  String get tasksNotesHint => 'أضف ملاحظات (عريض، قوائم، خانات…)';
+
+  @override
+  String get tasksNotesPreview => 'معاينة';
+
+  @override
+  String get tasksOccurrenceDeleted => 'تمت إزالة الموعد';
+
+  @override
+  String tasksOpenLinkBody(String url) {
+    return 'سيُفتح $url خارج Everslot.';
+  }
+
+  @override
+  String get tasksOpenLinkTitle => 'فتح الرابط؟';
+
+  @override
+  String get tasksOrphansBody =>
+      'المواعيد التي لها سجل تُحفظ دائمًا كمهام منفردة.';
+
+  @override
+  String tasksOrphansCompleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count موعد منجز',
+      many: '$count موعدًا منجزًا',
+      few: '$count مواعيد منجزة',
+      two: 'موعدان منجزان',
+      one: 'موعد واحد منجز',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksOrphansDiscard => 'حذف المنقولة';
+
+  @override
+  String get tasksOrphansKeep => 'الاحتفاظ بها كمهام منفردة';
+
+  @override
+  String tasksOrphansMoved(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count موعد منقول',
+      many: '$count موعدًا منقولًا',
+      few: '$count مواعيد منقولة',
+      two: 'موعدان منقولان',
+      one: 'موعد واحد منقول',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String tasksOrphansOther(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count موعد بملاحظات أو وقت متتبع',
+      many: '$count موعدًا بملاحظات أو وقت متتبع',
+      few: '$count مواعيد بملاحظات أو وقت متتبع',
+      two: 'موعدان بملاحظات أو وقت متتبع',
+      one: 'موعد واحد بملاحظات أو وقت متتبع',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String tasksOrphansSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count موعد متخطى',
+      many: '$count موعدًا متخطى',
+      few: '$count مواعيد متخطاة',
+      two: 'موعدان متخطيان',
+      one: 'موعد واحد متخطى',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksOrphansTitle => 'بعض المواعيد لم تعد مطابقة';
+
+  @override
+  String get tasksOutcomeNote => 'ملاحظة النتيجة';
+
+  @override
+  String get tasksOutcomeNoteHint => 'كيف جرى الأمر؟';
+
+  @override
+  String get tasksOverdue => 'متأخرة';
+
+  @override
+  String tasksOverlapHint(String title, String range) {
+    return 'يتداخل مع $title $range';
+  }
+
+  @override
+  String tasksOverlapMore(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'و$count عنصر آخر',
+      many: 'و$count عنصرًا آخر',
+      few: 'و$count عناصر أخرى',
+      two: 'وعنصران آخران',
+      one: 'وعنصر آخر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksPauseSnack => 'أُوقفت السلسلة مؤقتًا';
+
+  @override
+  String get tasksPausedBadge => 'متوقفة مؤقتًا';
+
+  @override
+  String tasksPlannedVsActual(String planned, String actual) {
+    return 'المخطط $planned · الفعلي $actual';
+  }
+
+  @override
+  String tasksPlusDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+$count يوم',
+      many: '+$count يومًا',
+      few: '+$count أيام',
+      two: '+يومان',
+      one: '+يوم واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksPostpone15 => '+15 دقيقة';
+
+  @override
+  String get tasksPostpone1h => '+ساعة';
+
+  @override
+  String get tasksPostponeEvening => 'هذا المساء';
+
+  @override
+  String get tasksPostponeNextWeek => 'الأسبوع القادم في نفس الوقت';
+
+  @override
+  String get tasksPostponePick => 'اختر تاريخًا ووقتًا…';
+
+  @override
+  String get tasksPostponeTitle => 'إعادة الجدولة';
+
+  @override
+  String get tasksPostponeTomorrow => 'غدًا في نفس الوقت';
+
+  @override
+  String get tasksPrevMonth => 'الشهر السابق';
+
+  @override
+  String get tasksQuickAdd => 'إضافة';
+
+  @override
+  String get tasksQuickAddNew => 'إضافة وأخرى';
+
+  @override
+  String get tasksQuickMore => 'خيارات أكثر';
+
+  @override
+  String get tasksQuickTitleHint => 'مهمة جديدة';
+
+  @override
+  String get tasksQuotaDone => 'اكتمل لهذه الفترة';
+
+  @override
+  String tasksQuotaProgress(int done, int total) {
+    return '$done/$total في هذه الفترة';
+  }
+
+  @override
+  String get tasksRating => 'التقييم';
+
+  @override
+  String tasksRatingValue(int value) {
+    return '$value من 5';
+  }
+
+  @override
+  String get tasksReminders => 'التذكيرات';
+
+  @override
+  String get tasksRemindersDefault => 'افتراضي';
+
+  @override
+  String get tasksReopened => 'أُعيد فتحها';
+
+  @override
+  String get tasksRepeatNone => 'لا يتكرر';
+
+  @override
+  String get tasksRestored => 'تمت استعادة المهمة';
+
+  @override
+  String get tasksResumeSnack => 'استُؤنفت السلسلة';
+
+  @override
+  String tasksRolledOver(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نُقلت $count مهمة غير منجزة إلى اليوم',
+      many: 'نُقلت $count مهمة غير منجزة إلى اليوم',
+      few: 'نُقلت $count مهام غير منجزة إلى اليوم',
+      two: 'نُقلت مهمتان غير منجزتين إلى اليوم',
+      one: 'نُقلت مهمة غير منجزة إلى اليوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String tasksRunningTimer(String title, String elapsed) {
+    return 'مؤقت يعمل: $title، $elapsed';
+  }
+
+  @override
+  String get tasksSaveAsTemplate => 'حفظ كقالب';
+
+  @override
+  String get tasksSaved => 'تم حفظ المهمة';
+
+  @override
+  String get tasksScopeAll => 'كل المواعيد';
+
+  @override
+  String get tasksScopeDeleteTitle => 'حذف مهمة متكررة';
+
+  @override
+  String get tasksScopeFollowing => 'هذا الموعد وما بعده';
+
+  @override
+  String get tasksScopePastKept => 'تحتفظ المواعيد الماضية بأوقاتها الأصلية.';
+
+  @override
+  String get tasksScopeRewritePast => 'إعادة كتابة المواعيد الماضية أيضًا';
+
+  @override
+  String get tasksScopeThis => 'هذا الموعد';
+
+  @override
+  String get tasksScopeThisDisabled =>
+      'لموعد واحد يمكن تغيير الوقت والمدة والعنوان والملاحظات فقط.';
+
+  @override
+  String get tasksScopeTitle => 'تطبيق التغييرات على';
+
+  @override
+  String get tasksSeriesEmpty => 'لا مواعيد في هذه الفترة';
+
+  @override
+  String get tasksSeriesHistoryTitle => 'سجل السلسلة';
+
+  @override
+  String get tasksSeriesStats => 'إحصاءات السلسلة';
+
+  @override
+  String tasksShareRepeats(String rule) {
+    return 'التكرار: $rule';
+  }
+
+  @override
+  String get tasksSkipCustomHint => 'سبب آخر (اختياري)';
+
+  @override
+  String get tasksSkipForgot => 'نسيت';
+
+  @override
+  String get tasksSkipNotNeeded => 'غير ضرورية';
+
+  @override
+  String get tasksSkipOther => 'سبب آخر';
+
+  @override
+  String get tasksSkipSick => 'مريض';
+
+  @override
+  String get tasksSkipTitle => 'لماذا تتخطاها؟';
+
+  @override
+  String get tasksSkipTooBusy => 'مشغول جدًا';
+
+  @override
+  String get tasksStatusCancelled => 'ملغاة';
+
+  @override
+  String get tasksStatusDone => 'منجزة';
+
+  @override
+  String get tasksStatusInProgress => 'قيد التنفيذ';
+
+  @override
+  String get tasksStatusMissed => 'فائتة';
+
+  @override
+  String get tasksStatusScheduled => 'مجدولة';
+
+  @override
+  String get tasksStatusSkipped => 'متخطاة';
+
+  @override
+  String get tasksTemplateDelete => 'حذف القالب';
+
+  @override
+  String get tasksTemplateSaved => 'تم حفظ القالب';
+
+  @override
+  String get tasksTemplatesEmpty =>
+      'لا توجد قوالب. احفظ مهمة كقالب من قائمتها.';
+
+  @override
+  String get tasksTemplatesTitle => 'القوالب';
+
+  @override
+  String get tasksTimeEntries => 'الجلسات';
+
+  @override
+  String get tasksTimeTracking => 'تتبع الوقت';
+
+  @override
+  String get tasksTooManyOccurrences => 'مواعيد كثيرة جدًا للعرض — كبّر العرض';
+
+  @override
+  String tasksTracked(String duration) {
+    return 'الوقت المتتبع: $duration';
+  }
+
+  @override
+  String get tasksTrackingCheck => 'تأشير';
+
+  @override
+  String get tasksTrackingCheckHint => 'أشّر عليها أو تخطّها؛ قد تفوتك.';
+
+  @override
+  String get tasksTrackingEvent => 'حدث';
+
+  @override
+  String get tasksTrackingEventHint =>
+      'فترة زمنية (اجتماع، وجبة): بلا خانة تأشير ولا تفوت أبدًا.';
+
+  @override
+  String get tasksTrackingTimer => 'مؤقت';
+
+  @override
+  String get tasksTrackingTimerHint =>
+      'تتبّع الوقت الذي تقضيه؛ تكتمل عند إيقاف المؤقت.';
+
+  @override
+  String get tasksUnsavedBody => 'ستضيع تغييراتك.';
+
+  @override
+  String get tasksUnsavedTitle => 'تجاهل التغييرات؟';
+
+  @override
+  String get tasksUntitled => 'مهمة بلا عنوان';
+
+  @override
+  String get tasksUpdated => 'تم التحديث';
+
+  @override
+  String get tasksUrlInvalid => 'أدخل عنوان ويب صالحًا';
+
+  @override
+  String tasksZoneBadge(String zone) {
+    return 'توقيت $zone';
+  }
+
+  @override
+  String get tasksZoneFixed => 'ثابتة';
+
+  @override
+  String get tasksZoneFixedHint => 'مرتبطة بمنطقة زمنية واحدة';
+
+  @override
+  String get tasksZoneFloating => 'عائمة';
+
+  @override
+  String get tasksZoneFloatingHint => 'نفس الساعة أينما كنت';
+
+  @override
+  String get tasksZonePickTitle => 'اختر منطقة زمنية';
+
+  @override
+  String get tasksZoneSearch => 'ابحث عن منطقة زمنية';
 }

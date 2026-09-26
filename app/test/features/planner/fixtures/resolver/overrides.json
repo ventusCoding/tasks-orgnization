@@ -1,0 +1,112 @@
+{
+  "defaults": {"viewerZone": "UTC", "now": "2026-09-20T12:00:00Z", "range": {"from": "2026-09-21T00:00", "to": "2026-09-24T00:00"}},
+  "cases": [
+    {
+      "name": "occurrence moved within the range keeps its key",
+      "tasks": [{"id": "d", "start_local": "2026-09-21T08:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "records": [{"task_id": "d", "occurrence_key": "2026-09-22T08:00", "override_start_local": "2026-09-22T10:00"}],
+      "expected": [
+        {"task": "d", "key": "2026-09-21T08:00", "start": "2026-09-21T08:00", "moved": false},
+        {"task": "d", "key": "2026-09-22T08:00", "start": "2026-09-22T10:00", "end": "2026-09-22T11:00", "moved": true, "overridden": true},
+        {"task": "d", "key": "2026-09-23T08:00", "start": "2026-09-23T08:00", "moved": false}
+      ]
+    },
+    {
+      "name": "occurrence moved out of the range disappears",
+      "range": {"from": "2026-09-21T00:00", "to": "2026-09-23T00:00"},
+      "tasks": [{"id": "d", "start_local": "2026-09-21T08:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "records": [{"task_id": "d", "occurrence_key": "2026-09-22T08:00", "override_start_local": "2026-09-25T09:00"}],
+      "expected": [{"task": "d", "key": "2026-09-21T08:00", "start": "2026-09-21T08:00"}]
+    },
+    {
+      "name": "occurrence moved into the range from outside appears",
+      "range": {"from": "2026-09-21T00:00", "to": "2026-09-23T00:00"},
+      "tasks": [{"id": "d", "start_local": "2026-09-21T08:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "records": [{"task_id": "d", "occurrence_key": "2026-09-25T08:00", "override_start_local": "2026-09-22T12:00"}],
+      "expected": [
+        {"task": "d", "key": "2026-09-21T08:00", "start": "2026-09-21T08:00"},
+        {"task": "d", "key": "2026-09-22T08:00", "start": "2026-09-22T08:00"},
+        {"task": "d", "key": "2026-09-25T08:00", "start": "2026-09-22T12:00", "moved": true}
+      ]
+    },
+    {
+      "name": "cancelled occurrence is hidden",
+      "tasks": [{"id": "d", "start_local": "2026-09-21T08:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "records": [{"task_id": "d", "occurrence_key": "2026-09-22T08:00", "is_cancelled": true, "status": "cancelled"}],
+      "expected": [
+        {"task": "d", "key": "2026-09-21T08:00"},
+        {"task": "d", "key": "2026-09-23T08:00"}
+      ]
+    },
+    {
+      "name": "cancelled occurrence is listed with showCancelled",
+      "settings": {"showCancelled": true},
+      "tasks": [{"id": "d", "start_local": "2026-09-21T08:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "records": [{"task_id": "d", "occurrence_key": "2026-09-22T08:00", "is_cancelled": true, "status": "cancelled"}],
+      "expected": [
+        {"task": "d", "key": "2026-09-21T08:00", "status": "scheduled"},
+        {"task": "d", "key": "2026-09-22T08:00", "status": "cancelled"},
+        {"task": "d", "key": "2026-09-23T08:00", "status": "scheduled"}
+      ]
+    },
+    {
+      "name": "title and duration override on one occurrence",
+      "tasks": [{"id": "d", "title": "Standup", "start_local": "2026-09-21T08:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "records": [{"task_id": "d", "occurrence_key": "2026-09-22T08:00", "override_title": "Special", "override_duration_minutes": 30}],
+      "expected": [
+        {"task": "d", "key": "2026-09-21T08:00", "title": "Standup", "end": "2026-09-21T09:00"},
+        {"task": "d", "key": "2026-09-22T08:00", "title": "Special", "end": "2026-09-22T08:30", "overridden": true, "moved": false},
+        {"task": "d", "key": "2026-09-23T08:00", "title": "Standup", "end": "2026-09-23T09:00"}
+      ]
+    },
+    {
+      "name": "stale record whose key the rule no longer generates is ignored",
+      "tasks": [{"id": "d", "start_local": "2026-09-21T08:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "records": [{"task_id": "d", "occurrence_key": "2026-09-22T09:00", "override_start_local": "2026-09-22T11:00"}],
+      "expected": [
+        {"task": "d", "key": "2026-09-21T08:00"},
+        {"task": "d", "key": "2026-09-22T08:00"},
+        {"task": "d", "key": "2026-09-23T08:00"}
+      ]
+    },
+    {
+      "name": "moved occurrence with a long override crosses into the range",
+      "range": {"from": "2026-09-22T00:00", "to": "2026-09-23T00:00"},
+      "tasks": [{"id": "d", "start_local": "2026-09-21T08:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "records": [{"task_id": "d", "occurrence_key": "2026-09-21T08:00", "override_start_local": "2026-09-21T20:00", "override_duration_minutes": 360}],
+      "expected": [
+        {"task": "d", "key": "2026-09-21T08:00", "start": "2026-09-21T20:00", "end": "2026-09-22T02:00", "moved": true},
+        {"task": "d", "key": "2026-09-22T08:00", "start": "2026-09-22T08:00"}
+      ]
+    },
+    {
+      "name": "one-off moved through its record override",
+      "tasks": [{"id": "o", "start_local": "2026-09-22T08:00", "duration_minutes": 30}],
+      "records": [{"task_id": "o", "occurrence_key": "2026-09-22T08:00", "override_start_local": "2026-09-22T15:00"}],
+      "expected": [{"task": "o", "key": "2026-09-22T08:00", "start": "2026-09-22T15:00", "end": "2026-09-22T15:30", "moved": true}]
+    },
+    {
+      "name": "record restored to the series has no override",
+      "tasks": [{"id": "d", "start_local": "2026-09-21T08:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "records": [{"task_id": "d", "occurrence_key": "2026-09-22T08:00", "status": "scheduled"}],
+      "expected": [
+        {"task": "d", "key": "2026-09-21T08:00", "hasRecord": false},
+        {"task": "d", "key": "2026-09-22T08:00", "start": "2026-09-22T08:00", "moved": false, "overridden": false, "hasRecord": true},
+        {"task": "d", "key": "2026-09-23T08:00", "hasRecord": false}
+      ]
+    },
+    {
+      "name": "done and skipped outcomes on recurring occurrences",
+      "tasks": [{"id": "d", "start_local": "2026-09-21T08:00", "duration_minutes": 60, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "records": [
+        {"task_id": "d", "occurrence_key": "2026-09-21T08:00", "status": "done"},
+        {"task_id": "d", "occurrence_key": "2026-09-22T08:00", "status": "skipped", "skip_reason": "sick"}
+      ],
+      "expected": [
+        {"task": "d", "key": "2026-09-21T08:00", "status": "done"},
+        {"task": "d", "key": "2026-09-22T08:00", "status": "skipped"},
+        {"task": "d", "key": "2026-09-23T08:00", "status": "scheduled"}
+      ]
+    }
+  ]
+}

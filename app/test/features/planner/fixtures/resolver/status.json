@@ -1,0 +1,84 @@
+{
+  "defaults": {"viewerZone": "UTC", "now": "2026-09-22T12:00:00Z", "range": {"from": "2026-09-22T00:00", "to": "2026-09-23T00:00"}},
+  "cases": [
+    {
+      "name": "not missed before the grace period ends",
+      "now": "2026-09-22T10:10:00Z",
+      "tasks": [{"id": "c", "start_local": "2026-09-22T09:00", "duration_minutes": 60}],
+      "expected": [{"task": "c", "key": "2026-09-22T09:00", "status": "scheduled", "overdue": false}]
+    },
+    {
+      "name": "missed exactly at end plus grace",
+      "now": "2026-09-22T10:15:00Z",
+      "tasks": [{"id": "c", "start_local": "2026-09-22T09:00", "duration_minutes": 60}],
+      "expected": [{"task": "c", "key": "2026-09-22T09:00", "status": "missed", "overdue": true}]
+    },
+    {
+      "name": "custom grace of 60 minutes",
+      "now": "2026-09-22T10:30:00Z",
+      "settings": {"missedGraceMinutes": 60},
+      "tasks": [{"id": "c", "start_local": "2026-09-22T09:00", "duration_minutes": 60}],
+      "expected": [{"task": "c", "key": "2026-09-22T09:00", "status": "scheduled"}]
+    },
+    {
+      "name": "event tasks are never missed",
+      "now": "2026-09-23T12:00:00Z",
+      "tasks": [{"id": "e", "start_local": "2026-09-22T09:00", "duration_minutes": 60, "tracking_mode": "event"}],
+      "expected": [{"task": "e", "key": "2026-09-22T09:00", "status": "scheduled", "overdue": false}]
+    },
+    {
+      "name": "timer tasks never started are missed",
+      "now": "2026-09-22T10:20:00Z",
+      "tasks": [{"id": "t", "start_local": "2026-09-22T09:00", "duration_minutes": 60, "tracking_mode": "timer"}],
+      "expected": [{"task": "t", "key": "2026-09-22T09:00", "status": "missed", "overdue": true}]
+    },
+    {
+      "name": "recurring missed occurrences are not overdue",
+      "tasks": [{"id": "d", "start_local": "2026-09-20T08:00", "duration_minutes": 30, "recurrence": {"v": 1, "type": "fixed", "freq": "daily"}}],
+      "expected": [{"task": "d", "key": "2026-09-22T08:00", "status": "missed", "overdue": false}]
+    },
+    {
+      "name": "one-off missed within the look-back is overdue",
+      "range": {"from": "2026-09-18T00:00", "to": "2026-09-19T00:00"},
+      "tasks": [{"id": "o", "start_local": "2026-09-18T09:00", "duration_minutes": 30}],
+      "expected": [{"task": "o", "key": "2026-09-18T09:00", "status": "missed", "overdue": true}]
+    },
+    {
+      "name": "one-off missed beyond the look-back is not overdue",
+      "range": {"from": "2026-09-10T00:00", "to": "2026-09-11T00:00"},
+      "tasks": [{"id": "o", "start_local": "2026-09-10T09:00", "duration_minutes": 30}],
+      "expected": [{"task": "o", "key": "2026-09-10T09:00", "status": "missed", "overdue": false}]
+    },
+    {
+      "name": "explicit missed record applies even to events",
+      "tasks": [{"id": "e", "start_local": "2026-09-22T09:00", "duration_minutes": 60, "tracking_mode": "event"}],
+      "records": [{"task_id": "e", "occurrence_key": "2026-09-22T09:00", "status": "missed"}],
+      "expected": [{"task": "e", "key": "2026-09-22T09:00", "status": "missed"}]
+    },
+    {
+      "name": "skipped record",
+      "tasks": [{"id": "c", "start_local": "2026-09-22T09:00", "duration_minutes": 60}],
+      "records": [{"task_id": "c", "occurrence_key": "2026-09-22T09:00", "status": "skipped", "skip_reason": "too_busy"}],
+      "expected": [{"task": "c", "key": "2026-09-22T09:00", "status": "skipped", "overdue": false}]
+    },
+    {
+      "name": "open occurrence containing now is current",
+      "now": "2026-09-22T09:30:00Z",
+      "tasks": [{"id": "c", "start_local": "2026-09-22T09:00", "duration_minutes": 60}],
+      "expected": [{"task": "c", "key": "2026-09-22T09:00", "status": "scheduled", "current": true}]
+    },
+    {
+      "name": "done occurrence is never current",
+      "now": "2026-09-22T09:30:00Z",
+      "tasks": [{"id": "c", "start_local": "2026-09-22T09:00", "duration_minutes": 60}],
+      "records": [{"task_id": "c", "occurrence_key": "2026-09-22T09:00", "status": "done"}],
+      "expected": [{"task": "c", "key": "2026-09-22T09:00", "status": "done", "current": false}]
+    },
+    {
+      "name": "all-day check task is missed after its day plus grace",
+      "now": "2026-09-23T00:20:00Z",
+      "tasks": [{"id": "ad", "start_local": "2026-09-22T00:00", "duration_minutes": 1440, "is_all_day": true}],
+      "expected": [{"task": "ad", "key": "2026-09-22", "status": "missed", "overdue": true, "allDay": true}]
+    }
+  ]
+}
