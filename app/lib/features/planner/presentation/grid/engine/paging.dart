@@ -1,7 +1,8 @@
+import 'package:everslot/features/planner/domain/view_config/planner_view_config.dart' show PagingMode;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:meta/meta.dart';
 
-enum PagingMode { week, day, free }
+export 'package:everslot/features/planner/domain/view_config/planner_view_config.dart' show PagingMode;
 
 /// Pure date ↔ page mapping for the horizontal pager (T3.3.13).
 ///

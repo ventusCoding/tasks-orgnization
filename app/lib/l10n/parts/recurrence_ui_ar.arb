@@ -108,5 +108,19 @@
   "recurExceptionRestore": "استعادة",
   "recurExceptionRestoreAll": "استعادة الكل",
   "recurExceptionOpen": "فتح",
-  "recurExceptionsRestored": "تمت الاستعادة"
+  "recurExceptionsRestored": "تمت الاستعادة",
+  "recurExceptionExcluded": "مستبعد",
+  "recurExceptionRestoreAllTitle": "{count, plural, =1{استعادة موعد واحد؟} =2{استعادة موعدين؟} few{استعادة {count} مواعيد؟} many{استعادة {count} موعدًا؟} other{استعادة {count} موعد؟}}",
+  "recurOrdinalWeekday": "يوم {weekday} {ordinal}",
+  "recurOrdinalPick": "أي يوم؟",
+  "recurAddOrdinal": "إضافة يوم مثل «يوم الثلاثاء الثاني»",
+  "recurRemove": "إزالة {item}",
+  "recurTimesDefault": "في وقت البدء ({time})",
+  "recurCustomValue": "قيمة أخرى…",
+  "recurYearDays": "أيام السنة",
+  "recurWeekNumbers": "أرقام الأسابيع",
+  "recurNumbersHint": "أرقام مفصولة بفواصل (السالب = من النهاية)",
+  "recurPeriodWeek": "أسبوع {date}",
+  "recurAfterPreview": "تعتمد المواعيد التالية على وقت إنجازك له",
+  "recurCalendarSummary": "{count, plural, =0{لا يوم فيه مواعيد} =1{يوم واحد فيه مواعيد} =2{يومان فيهما مواعيد} few{{count} أيام فيها مواعيد} many{{count} يومًا فيه مواعيد} other{{count} يوم فيه مواعيد}}"
 }

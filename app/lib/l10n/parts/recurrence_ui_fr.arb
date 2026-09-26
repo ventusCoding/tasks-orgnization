@@ -108,5 +108,19 @@
   "recurExceptionRestore": "Restaurer",
   "recurExceptionRestoreAll": "Tout restaurer",
   "recurExceptionOpen": "Ouvrir",
-  "recurExceptionsRestored": "Restaurées"
+  "recurExceptionsRestored": "Restaurées",
+  "recurExceptionExcluded": "Exclue",
+  "recurExceptionRestoreAllTitle": "{count, plural, =1{Restaurer 1 occurrence ?} other{Restaurer {count} occurrences ?}}",
+  "recurOrdinalWeekday": "{ordinal} {weekday}",
+  "recurOrdinalPick": "Quel jour ?",
+  "recurAddOrdinal": "Ajouter un jour comme « 2e mardi »",
+  "recurRemove": "Retirer {item}",
+  "recurTimesDefault": "À l’heure de début ({time})",
+  "recurCustomValue": "Autre valeur…",
+  "recurYearDays": "Jours de l’année",
+  "recurWeekNumbers": "Numéros de semaine",
+  "recurNumbersHint": "Nombres séparés par des virgules (négatif = depuis la fin)",
+  "recurPeriodWeek": "Semaine du {date}",
+  "recurAfterPreview": "Les suivantes dépendent du moment où vous le terminez",
+  "recurCalendarSummary": "{count, plural, =0{aucun jour avec des occurrences} =1{1 jour avec des occurrences} other{{count} jours avec des occurrences}}"
 }
