@@ -1942,6 +1942,39 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifSoundSoft => 'ناعم';
 
   @override
+  String get notifStatusBlocked => 'متوقفًا';
+
+  @override
+  String get notifStatusCancelled => 'ملغًى';
+
+  @override
+  String get notifStatusCompleted => 'مكتملًا';
+
+  @override
+  String get notifStatusDone => 'منجزًا';
+
+  @override
+  String get notifStatusInProgress => 'قيد التنفيذ';
+
+  @override
+  String get notifStatusMissed => 'فائتًا';
+
+  @override
+  String get notifStatusOngoing => 'جاريًا';
+
+  @override
+  String get notifStatusScheduled => 'مجدولًا';
+
+  @override
+  String get notifStatusSkipped => 'متخطًّى';
+
+  @override
+  String get notifStatusTodo => 'غير منجز';
+
+  @override
+  String get notifStatusWaiting => 'في الانتظار';
+
+  @override
   String get notifSticky => 'إبقاء حتى الإنجاز (Android)';
 
   @override

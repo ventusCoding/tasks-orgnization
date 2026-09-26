@@ -642,7 +642,7 @@ class _TriggerEditor extends StatelessWidget {
           children: [
             for (final s in const ['waiting', 'blocked', 'ongoing', 'todo'])
               FilterChip(
-                label: Text(s),
+                label: Text(labels.status(s)),
                 selected: statuses.contains(s),
                 onSelected: (v) => _set(
                   StatusAgeTrigger(
@@ -1052,7 +1052,7 @@ class _ConditionsEditor extends StatelessWidget {
           children: [
             for (final s in statuses)
               FilterChip(
-                label: Text(s),
+                label: Text(labels.status(s)),
                 selected: only.contains(s),
                 onSelected: (v) {
                   final next = v

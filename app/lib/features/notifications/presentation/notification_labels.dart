@@ -59,7 +59,7 @@ class NotificationLabels {
     MilestoneTrigger() => l.notifSumMilestones,
     InactivityTrigger(:final afterDays) => l.notifSumInactivity(afterDays),
     DigestTrigger(:final kind) => digestTitle(kind),
-    StatusChangeTrigger(:final to) => l.notifSumStatusChange(to),
+    StatusChangeTrigger(:final to) => l.notifSumStatusChange(status(to)),
     ChildrenCompleteTrigger() => l.notifSumChildrenComplete,
     ChildOverdueTrigger() => l.notifSumChildOverdue,
     StaleTrigger(:final afterDays) => l.notifSumStale(afterDays),
@@ -117,6 +117,9 @@ class NotificationLabels {
       p.isBuiltin && p.code != null ? builtinProfileName(l, p.code!) : p.name;
 
   String section(NotificationSection s) => sectionLabelOf(l, s);
+
+  /// Localized status (`waiting` → "waiting" / "en attente" / "في الانتظار").
+  String status(String wire) => statusLabelOf(l, wire);
 
   String action(String id) => actionLabelOf(l, id);
 

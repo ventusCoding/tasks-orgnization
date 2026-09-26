@@ -262,12 +262,23 @@ class NoiseEstimate {
   static const confirmAbove = 96;
   static const hardCap = 1440;
 
+  /// Fires per day of [result] over [window]. With [from], only firings in `[from, from + window)`
+  /// count (catch-ups of the lateness window before "now" are not noise).
   static NoiseEstimate fromPlan(
     PlanResult result,
     Duration window, {
     List<DateTime> others = const [],
+    DateTime? from,
   }) {
-    final perDay = result.firesPerDay(window);
+    final end = from?.add(window);
+    final counted = from == null
+        ? result.planned.length
+        : result.planned
+              .where((p) => !p.fireAt.isBefore(from) && p.fireAt.isBefore(end!))
+              .length;
+    final perDay = window.inMinutes <= 0
+        ? 0.0
+        : counted / (window.inMinutes / 1440);
     final level = perDay > hardCap
         ? NoiseLevel.blocked
         : perDay > confirmAbove

@@ -1874,6 +1874,39 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifSoundSoft => 'Doux';
 
   @override
+  String get notifStatusBlocked => 'bloqué';
+
+  @override
+  String get notifStatusCancelled => 'annulé';
+
+  @override
+  String get notifStatusCompleted => 'terminé';
+
+  @override
+  String get notifStatusDone => 'fait';
+
+  @override
+  String get notifStatusInProgress => 'en cours';
+
+  @override
+  String get notifStatusMissed => 'manqué';
+
+  @override
+  String get notifStatusOngoing => 'en cours';
+
+  @override
+  String get notifStatusScheduled => 'planifié';
+
+  @override
+  String get notifStatusSkipped => 'passé';
+
+  @override
+  String get notifStatusTodo => 'à faire';
+
+  @override
+  String get notifStatusWaiting => 'en attente';
+
+  @override
   String get notifSticky => 'Garder jusqu’à fait (Android)';
 
   @override

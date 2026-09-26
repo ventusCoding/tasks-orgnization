@@ -529,7 +529,7 @@ abstract final class NotificationPlanner {
                 time == null ? e.at : _laterOf(e.at, at(dateOf(e.at), time)),
                 'evt:status:$to:${e.at.toUtc().toIso8601String()}',
                 DefaultContentKind.statusChange,
-                extraVars: {'status': to},
+                extraVars: {'status': ctx.texts.status(to)},
               ),
         ];
 
@@ -925,7 +925,7 @@ abstract final class NotificationPlanner {
       vars['due_relative'] = texts.relative(
         target.due!.difference(fireAt).inMinutes,
       );
-    if (target.status != null) vars['status'] = target.status!;
+    if (target.status != null) vars['status'] = texts.status(target.status!);
     if (target.statusChangedAt != null) {
       vars['status_age'] = texts.duration(
         fireAt.difference(target.statusChangedAt!).inMinutes.abs(),

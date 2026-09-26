@@ -982,5 +982,16 @@
   "notifFieldRepeats": "Repeats",
   "notifFreqDaily": "Every day",
   "notifFreqWeekly": "Every week",
-  "notifFreqMonthly": "Every month"
+  "notifFreqMonthly": "Every month",
+  "notifStatusScheduled": "scheduled",
+  "notifStatusInProgress": "in progress",
+  "notifStatusDone": "done",
+  "notifStatusSkipped": "skipped",
+  "notifStatusMissed": "missed",
+  "notifStatusCancelled": "cancelled",
+  "notifStatusTodo": "to do",
+  "notifStatusOngoing": "ongoing",
+  "notifStatusWaiting": "waiting",
+  "notifStatusBlocked": "blocked",
+  "notifStatusCompleted": "completed"
 }

@@ -197,6 +197,10 @@ abstract interface class NotificationTexts {
   String actionLabel(String actionId);
   String digestTitle(String kind);
 
+  /// Localized label of an item / occurrence status wire value (`waiting`, `in_progress`…) for
+  /// `{status}`; unknown values are returned as is.
+  String status(String wire);
+
   /// One-line digest summary ("3 tasks · 2 habits · first: Gym at 08:00").
   String digestSummary(
     String kind, {
@@ -384,6 +388,9 @@ class PlainNotificationTexts implements NotificationTexts {
     'open' => 'Open',
     _ => actionId,
   };
+
+  @override
+  String status(String wire) => wire.replaceAll('_', ' ');
 
   @override
   String digestTitle(String kind) => switch (kind) {

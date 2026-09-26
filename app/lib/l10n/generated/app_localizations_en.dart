@@ -1844,6 +1844,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifSoundSoft => 'Soft';
 
   @override
+  String get notifStatusBlocked => 'blocked';
+
+  @override
+  String get notifStatusCancelled => 'cancelled';
+
+  @override
+  String get notifStatusCompleted => 'completed';
+
+  @override
+  String get notifStatusDone => 'done';
+
+  @override
+  String get notifStatusInProgress => 'in progress';
+
+  @override
+  String get notifStatusMissed => 'missed';
+
+  @override
+  String get notifStatusOngoing => 'ongoing';
+
+  @override
+  String get notifStatusScheduled => 'scheduled';
+
+  @override
+  String get notifStatusSkipped => 'skipped';
+
+  @override
+  String get notifStatusTodo => 'to do';
+
+  @override
+  String get notifStatusWaiting => 'waiting';
+
+  @override
   String get notifSticky => 'Keep until done (Android)';
 
   @override

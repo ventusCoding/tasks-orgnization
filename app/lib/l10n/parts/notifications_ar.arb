@@ -450,5 +450,16 @@
   "notifFieldRepeats": "التكرار",
   "notifFreqDaily": "كل يوم",
   "notifFreqWeekly": "كل أسبوع",
-  "notifFreqMonthly": "كل شهر"
+  "notifFreqMonthly": "كل شهر",
+  "notifStatusScheduled": "مجدولًا",
+  "notifStatusInProgress": "قيد التنفيذ",
+  "notifStatusDone": "منجزًا",
+  "notifStatusSkipped": "متخطًّى",
+  "notifStatusMissed": "فائتًا",
+  "notifStatusCancelled": "ملغًى",
+  "notifStatusTodo": "غير منجز",
+  "notifStatusOngoing": "جاريًا",
+  "notifStatusWaiting": "في الانتظار",
+  "notifStatusBlocked": "متوقفًا",
+  "notifStatusCompleted": "مكتملًا"
 }

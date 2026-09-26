@@ -207,6 +207,9 @@ class L10nNotificationTexts implements NotificationTexts {
   String actionLabel(String actionId) => actionLabelOf(l10n, actionId);
 
   @override
+  String status(String wire) => statusLabelOf(l10n, wire);
+
+  @override
   String digestTitle(String kind) => switch (kind) {
     'daily_agenda' => l10n.notifDigestDailyAgenda,
     'plan_tomorrow' => l10n.notifDigestPlanTomorrow,
@@ -234,6 +237,22 @@ class L10nNotificationTexts implements NotificationTexts {
 }
 
 /// Localized label of a notification action id.
+/// Localized item / occurrence / habit-period status (`{status}` in templates, editors).
+String statusLabelOf(AppLocalizations l10n, String wire) => switch (wire) {
+  'scheduled' => l10n.notifStatusScheduled,
+  'in_progress' => l10n.notifStatusInProgress,
+  'done' => l10n.notifStatusDone,
+  'skipped' => l10n.notifStatusSkipped,
+  'missed' => l10n.notifStatusMissed,
+  'cancelled' => l10n.notifStatusCancelled,
+  'todo' => l10n.notifStatusTodo,
+  'ongoing' => l10n.notifStatusOngoing,
+  'waiting' => l10n.notifStatusWaiting,
+  'blocked' => l10n.notifStatusBlocked,
+  'completed' => l10n.notifStatusCompleted,
+  _ => wire,
+};
+
 String actionLabelOf(AppLocalizations l10n, String actionId) =>
     switch (actionId) {
       NotificationActionIds.done => l10n.notifActionDone,

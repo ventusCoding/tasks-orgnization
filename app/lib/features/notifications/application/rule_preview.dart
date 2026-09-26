@@ -187,6 +187,7 @@ class RulePreviewService {
       result,
       const Duration(days: 7),
       others: others,
+      from: ctx.now,
     );
   }
 

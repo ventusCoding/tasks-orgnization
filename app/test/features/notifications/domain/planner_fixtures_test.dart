@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:everslot/features/notifications/domain/digest_composer.dart';
 import 'package:everslot/features/notifications/domain/json_fields.dart';
 import 'package:everslot/features/notifications/domain/notification_settings.dart';
 import 'package:everslot/features/notifications/domain/planner/notification_planner.dart';
+import 'package:everslot/features/notifications/domain/template_engine.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
@@ -48,18 +50,39 @@ void main() {
 }
 
 void _runCase(Map<String, Object?> c) {
+  final now = parseInstant(c['now'])!;
+  final zone = asString(c['zone']) ?? 'UTC';
+  final settings = NotificationSettings.fromMaps(
+    Map<String, dynamic>.from(asJsonMap(c['settings']) ?? const {}),
+    Map<String, dynamic>.from(asJsonMap(c['privacy']) ?? const {}),
+  );
+  final rules = [
+    for (final r in (c['rules']! as List)) ruleFromJson(asJsonMap(r)!),
+  ];
+  final targets = [
+    for (final t in (c['targets']! as List)) targetFromJson(asJsonMap(t)!),
+  ];
+  // `composeDigests`: add the synthetic digest targets the pipeline builds (T7.5.18).
+  if (asBool(c['composeDigests']) ?? false) {
+    targets.addAll(
+      DigestComposer.compose(
+        rules: rules,
+        targets: targets,
+        now: now,
+        horizonDays: settings.horizonDays,
+        zone: zone,
+        zones: TzZoneResolver(),
+        texts: const PlainNotificationTexts(),
+      ),
+    );
+  }
   final ctx = PlanningContext(
-    now: parseInstant(c['now'])!,
-    deviceZone: asString(c['zone']) ?? 'UTC',
+    now: now,
+    deviceZone: zone,
     zones: TzZoneResolver(),
-    settings: NotificationSettings.fromMaps(
-      Map<String, dynamic>.from(asJsonMap(c['settings']) ?? const {}),
-      Map<String, dynamic>.from(asJsonMap(c['privacy']) ?? const {}),
-    ),
-    rules: [for (final r in (c['rules']! as List)) ruleFromJson(asJsonMap(r)!)],
-    targets: [
-      for (final t in (c['targets']! as List)) targetFromJson(asJsonMap(t)!),
-    ],
+    settings: settings,
+    rules: rules,
+    targets: targets,
     profiles: builtinProfilesById(),
     mutes: [
       for (final m in (c['mutes'] as List?) ?? const <Object?>[])
