@@ -6,6 +6,7 @@ import 'package:everslot/core/ids/ids.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/features/attachments/application/providers.dart'
     show Attachment, AttachmentOwnerType, AttachmentTx;
+import 'package:everslot/features/checklists/data/checklist_cascades.dart';
 import 'package:everslot/features/checklists/data/checklist_items_repository.dart';
 import 'package:everslot/features/checklists/domain/board.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
@@ -22,11 +23,12 @@ typedef CreatedChecklist = ({String id, OpRecord record});
 /// Checklists / note cards (T4.1.02, T4.1.04): board queries, header writes, cascading deletes
 /// with `restore(opId)`, duplicates, templates.
 class ChecklistsRepository {
-  ChecklistsRepository(this._db, this._writer, this._userId);
+  ChecklistsRepository(this._db, this._writer, this._userId, {ChecklistCascades? cascades}) : _cascades = cascades;
 
   final AppDatabase _db;
   final SyncWriter _writer;
   final String Function() _userId;
+  final ChecklistCascades? _cascades;
 
   static Map<String, Object?>? _json(String? s) {
     if (s == null || s.isEmpty) return null;
@@ -427,7 +429,7 @@ class ChecklistsRepository {
           TreeOpContext(checklistId: newId, now: now ?? tx.now, newId: Ids.v7, settings: settings, cause: tx.cause),
           items,
         );
-        await ChecklistItemsRepository.applyInTx(tx, change);
+        await ChecklistItemsRepository.applyInTx(tx, change, cascades: _cascades);
       }
     });
     return (id: newId, record: record);
@@ -503,6 +505,8 @@ class ChecklistsRepository {
     await AttachmentTx.softDeleteForOwners(tx, AttachmentOwnerType.checklist, [id]);
     await ChecklistItemsRepository.deleteEntityTags(tx, 'checklist_item', itemIds);
     await ChecklistItemsRepository.deleteEntityTags(tx, 'checklist', [id]);
+    await _cascades?.itemsDeleted(tx, itemIds);
+    await _cascades?.checklistDeleted(tx, id);
     await tx.softDelete('checklists', id);
     await tx.logEvent(
       entityType: 'checklist',
@@ -615,6 +619,8 @@ class ChecklistsRepository {
       await AttachmentTx.copyForOwners(tx, fromType: AttachmentOwnerType.checklist, ownerIdMap: {sourceId: newId});
       await ChecklistItemsRepository.copyEntityTags(tx, 'checklist_item', idMap);
       await ChecklistItemsRepository.copyEntityTags(tx, 'checklist', {sourceId: newId});
+      await _cascades?.itemsCopied(tx, idMap);
+      await _cascades?.checklistCopied(tx, fromId: sourceId, toId: newId);
       await tx.logEvent(
         entityType: 'checklist',
         entityId: newId,
@@ -639,7 +645,7 @@ class ChecklistsRepository {
       );
 
   Future<OpRecord> applyChange(TreeChange change) => _writer.run(
-    (tx) => ChecklistItemsRepository.applyInTx(tx, change),
+    (tx) => ChecklistItemsRepository.applyInTx(tx, change, cascades: _cascades),
     cause: change.cause,
     scheduledAt: change.scheduledAt,
   );

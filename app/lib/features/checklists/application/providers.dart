@@ -1,6 +1,8 @@
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/features/attachments/application/providers.dart' show Attachment;
+import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/features/checklists/application/checklist_service.dart';
+import 'package:everslot/features/checklists/data/checklist_cascades.dart';
 import 'package:everslot/features/checklists/data/checklist_items_repository.dart';
 import 'package:everslot/features/checklists/data/checklist_ui_state_store.dart';
 import 'package:everslot/features/checklists/data/checklists_repository.dart';
@@ -9,15 +11,53 @@ import 'package:everslot/features/checklists/domain/checklist.dart';
 import 'package:everslot/features/checklists/domain/checklist_tree.dart';
 import 'package:everslot/features/checklists/domain/item_time.dart';
 import 'package:everslot/features/checklists/domain/rollup.dart';
+import 'package:everslot/features/notifications/application/notification_host_api.dart'
+    show NotificationHostApi, notificationHostApiProvider;
 import 'package:everslot/features/notifications/application/notification_providers.dart' show notificationRulesProvider;
-import 'package:everslot/features/notifications/domain/notification_types.dart' show RuleTargetType;
+import 'package:everslot/features/notifications/domain/notification_types.dart'
+    show NotificationTargetType, RuleTargetType;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+/// Reminder rules and mutes follow item / checklist deletes and copies in the same operation
+/// (notifications host API, [7.1] cascades).
+class ReminderCascades implements ChecklistCascades {
+  ReminderCascades(this._api);
+
+  final NotificationHostApi _api;
+
+  @override
+  Future<void> itemsDeleted(WriteTx tx, Iterable<String> itemIds) async {
+    for (final id in itemIds) {
+      await _api.deleteForTargetInTx(tx, NotificationTargetType.checklistItem, id);
+    }
+  }
+
+  @override
+  Future<void> itemsCopied(WriteTx tx, Map<String, String> idMap) async {
+    for (final e in idMap.entries) {
+      await _api.copyRulesInTx(tx, NotificationTargetType.checklistItem, fromId: e.key, toId: e.value);
+    }
+  }
+
+  @override
+  Future<void> checklistDeleted(WriteTx tx, String checklistId) =>
+      _api.deleteForTargetInTx(tx, NotificationTargetType.checklist, checklistId);
+
+  @override
+  Future<void> checklistCopied(WriteTx tx, {required String fromId, required String toId}) =>
+      _api.copyRulesInTx(tx, NotificationTargetType.checklist, fromId: fromId, toId: toId);
+}
+
+final checklistCascadesProvider = Provider<ChecklistCascades>(
+  (ref) => ReminderCascades(ref.watch(notificationHostApiProvider)),
+);
 
 final checklistsRepositoryProvider = Provider<ChecklistsRepository>(
   (ref) => ChecklistsRepository(
     ref.watch(appDatabaseProvider),
     ref.watch(syncWriterProvider),
     () => ref.read(currentUserIdProvider),
+    cascades: ref.watch(checklistCascadesProvider),
   ),
 );
 
@@ -26,6 +66,7 @@ final checklistItemsRepositoryProvider = Provider<ChecklistItemsRepository>(
     ref.watch(appDatabaseProvider),
     ref.watch(syncWriterProvider),
     () => ref.read(currentUserIdProvider),
+    cascades: ref.watch(checklistCascadesProvider),
   ),
 );
 

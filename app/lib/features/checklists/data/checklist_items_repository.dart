@@ -6,6 +6,7 @@ import 'package:everslot/core/ids/ids.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/features/attachments/application/providers.dart'
     show Attachment, AttachmentOwnerType, AttachmentTx;
+import 'package:everslot/features/checklists/data/checklist_cascades.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
 import 'package:everslot/features/checklists/domain/item_status.dart';
 import 'package:everslot/features/checklists/domain/item_time.dart';
@@ -16,11 +17,13 @@ import 'package:everslot_recurrence/everslot_recurrence.dart';
 /// coming from the tree engine and the status service: one [TreeChange] = one Drift transaction =
 /// one operation group (rows + outbox + activity events + attachment/tag cascades).
 class ChecklistItemsRepository {
-  ChecklistItemsRepository(this._db, this._writer, this._userId);
+  ChecklistItemsRepository(this._db, this._writer, this._userId, {ChecklistCascades? cascades})
+    : _cascades = cascades;
 
   final AppDatabase _db;
   final SyncWriter _writer;
   final String Function() _userId;
+  final ChecklistCascades? _cascades;
 
   static ChecklistItem map(ChecklistItemRow r) => ChecklistItem(
     id: r.id,
@@ -198,13 +201,13 @@ class ChecklistItemsRepository {
 
   /// Applies a pure change as ONE operation (T4.1.04).
   Future<OpRecord> apply(TreeChange change) => _writer.run(
-    (tx) => applyInTx(tx, change),
+    (tx) => applyInTx(tx, change, cascades: _cascades),
     cause: change.cause,
     scheduledAt: change.scheduledAt,
   );
 
   /// Same as [apply] inside an existing operation (checklist-level commands).
-  static Future<void> applyInTx(WriteTx tx, TreeChange change) async {
+  static Future<void> applyInTx(WriteTx tx, TreeChange change, {ChecklistCascades? cascades}) async {
     for (final w in change.writes) {
       if (w.isInsert) {
         await tx.insert(w.table, w.id, w.values);
@@ -233,10 +236,12 @@ class ChecklistItemsRepository {
     if (change.copiedItemIds.isNotEmpty) {
       await AttachmentTx.copyForOwners(tx, fromType: AttachmentOwnerType.checklistItem, ownerIdMap: change.copiedItemIds);
       await copyEntityTags(tx, 'checklist_item', change.copiedItemIds);
+      await cascades?.itemsCopied(tx, change.copiedItemIds);
     }
     if (change.deletedItemIds.isNotEmpty) {
       await AttachmentTx.softDeleteForOwners(tx, AttachmentOwnerType.checklistItem, change.deletedItemIds);
       await deleteEntityTags(tx, 'checklist_item', change.deletedItemIds);
+      await cascades?.itemsDeleted(tx, change.deletedItemIds);
     }
     for (final e in change.events) {
       await insertEvent(tx, e);
