@@ -1030,6 +1030,13 @@
       }
     }
   },
+  "@recurCalendarSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@recurEndsCount": {
     "placeholders": {
       "count": {
@@ -1041,6 +1048,13 @@
     "placeholders": {
       "to": {
         "type": "String"
+      }
+    }
+  },
+  "@recurExceptionRestoreAllTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
       }
     }
   },
@@ -1065,7 +1079,38 @@
       }
     }
   },
+  "@recurOrdinalWeekday": {
+    "placeholders": {
+      "ordinal": {
+        "type": "String"
+      },
+      "weekday": {
+        "type": "String"
+      }
+    }
+  },
+  "@recurPeriodWeek": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@recurRemove": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
   "@recurRemoveTime": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@recurTimesDefault": {
     "placeholders": {
       "time": {
         "type": "String"
@@ -2318,14 +2363,18 @@
   "pvZoomMode": "Zoom",
   "pvZoomSemantic": "Semantic",
   "recurAddDate": "Add",
+  "recurAddOrdinal": "Add a day like “2nd Tuesday”",
   "recurAddTime": "Add a time",
   "recurAdvancedTitle": "Custom repeat",
   "recurAfterHint": "The next one is due this long after you complete the previous one.",
+  "recurAfterPreview": "The next ones depend on when you complete it",
   "recurAnchorMoved": "First occurrence: {date}",
+  "recurCalendarSummary": "{count, plural, =0{no day with occurrences} =1{1 day with occurrences} other{{count} days with occurrences}}",
   "recurCountCompletions": "Completions",
   "recurCountMode": "Count",
   "recurCountOccurrences": "Occurrences",
   "recurCurrent": "Current rule",
+  "recurCustomValue": "Other value…",
   "recurEnds": "Ends",
   "recurEndsAfter": "After a number of times",
   "recurEndsCount": "{count, plural, =1{1 time} other{{count} times}}",
@@ -2333,10 +2382,12 @@
   "recurEndsOn": "On a date",
   "recurExceptionCancelled": "Removed",
   "recurExceptionEdited": "Edited",
+  "recurExceptionExcluded": "Excluded",
   "recurExceptionMoved": "Moved to {to}",
   "recurExceptionOpen": "Open",
   "recurExceptionRestore": "Restore",
   "recurExceptionRestoreAll": "Restore all",
+  "recurExceptionRestoreAllTitle": "{count, plural, =1{Restore 1 occurrence?} other{Restore {count} occurrences?}}",
   "recurExceptionsEmpty": "No skipped or moved occurrences",
   "recurExceptionsRestored": "Restored",
   "recurExceptionsTitle": "Skipped & moved occurrences",
@@ -2365,6 +2416,7 @@
   "recurMonthDaysFromEnd": "Counting from the end",
   "recurMonths": "Months",
   "recurMore": "More options",
+  "recurNumbersHint": "Numbers separated by commas (negative = from the end)",
   "recurOrdinal1": "1st",
   "recurOrdinal2": "2nd",
   "recurOrdinal3": "3rd",
@@ -2372,7 +2424,9 @@
   "recurOrdinal5": "5th",
   "recurOrdinalEvery": "Every",
   "recurOrdinalLast": "Last",
+  "recurOrdinalPick": "Which day?",
   "recurOrdinalSecondLast": "2nd to last",
+  "recurOrdinalWeekday": "{ordinal} {weekday}",
   "recurOverflow": "When a month is too short",
   "recurOverflowClamp": "Use its last day",
   "recurOverflowSkip": "Skip that month",
@@ -2380,6 +2434,7 @@
   "recurPerMonth": "Month",
   "recurPerWeek": "Week",
   "recurPerYear": "Year",
+  "recurPeriodWeek": "Week of {date}",
   "recurPickerTitle": "Repeat",
   "recurPresetAfterCompletion": "After completion…",
   "recurPresetCustom": "Custom…",
@@ -2397,11 +2452,13 @@
   "recurQuotaPer": "Per",
   "recurQuotaTimes": "How many times",
   "recurRdates": "Extra occurrences",
+  "recurRemove": "Remove {item}",
   "recurRemoveTime": "Remove {time}",
   "recurSetPos": "Keep only positions",
   "recurSetPosHint": "1 = first, −1 = last matching date of each period",
   "recurSummary": "Summary",
   "recurTimes": "Times of day",
+  "recurTimesDefault": "At the start time ({time})",
   "recurType": "Type",
   "recurTypeAfter": "After completion",
   "recurTypeFixed": "Schedule",
@@ -2416,6 +2473,7 @@
   "recurWarnDst": "Some times fall in a daylight-saving change and are shifted",
   "recurWarnNever": "Never occurs in the next 5 years",
   "recurWarnPerDay": "{count, plural, =1{1 occurrence per day} other{{count} occurrences per day}}",
+  "recurWeekNumbers": "Week numbers",
   "recurWeekStart": "Week starts on",
   "recurWeekdayOrdinal": "Which one in the period",
   "recurWeekdays": "Days of the week",
@@ -2425,6 +2483,7 @@
   "recurWindowEnd": "Until",
   "recurWindowNone": "Whole day",
   "recurWindowStart": "From",
+  "recurYearDays": "Days of the year",
   "recurZoneNote": "Times in {zone}",
   "relativeDaysAgo": "{count, plural, =1{yesterday} other{{count} days ago}}",
   "relativeHoursAgo": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
