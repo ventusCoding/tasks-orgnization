@@ -1589,6 +1589,13 @@
       }
     }
   },
+  "@redoDoneSnack": {
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
   "@relativeDaysAgo": {
     "placeholders": {
       "count": {
@@ -2003,6 +2010,13 @@
   "@tasksZoneBadge": {
     "placeholders": {
       "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "@undoDoneSnack": {
+    "placeholders": {
+      "action": {
         "type": "String"
       }
     }
@@ -3533,6 +3547,8 @@
   "recurWindowStart": "From",
   "recurYearDays": "Days of the year",
   "recurZoneNote": "Times in {zone}",
+  "redoDoneSnack": "Redone: {action}",
+  "redoNothing": "Nothing to redo",
   "relativeDaysAgo": "{count, plural, =1{yesterday} other{{count} days ago}}",
   "relativeHoursAgo": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
   "relativeInDays": "{count, plural, =1{tomorrow} other{in {count} days}}",
@@ -3932,5 +3948,7 @@
   "templatesEmpty": "Save any list as a template from its menu.",
   "templatesMine": "My templates",
   "templatesRename": "Rename",
-  "templatesUse": "Use template"
+  "templatesUse": "Use template",
+  "undoDoneSnack": "Undone: {action}",
+  "undoNothing": "Nothing to undo"
 }

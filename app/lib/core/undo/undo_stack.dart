@@ -21,6 +21,7 @@ class UndoStack extends ChangeNotifier {
   bool get canUndo => _undo.isNotEmpty;
   bool get canRedo => _redo.isNotEmpty;
   String? get undoLabel => _undo.isEmpty ? null : _undo.last.label;
+  String? get redoLabel => _redo.isEmpty ? null : _redo.last.label;
 
   void push(String label, OpRecord record) {
     if (record.isEmpty) return;

@@ -9262,6 +9262,18 @@ abstract class AppLocalizations {
   /// **'Times in {zone}'**
   String recurZoneNote(String zone);
 
+  /// No description provided for @redoDoneSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Redone: {action}'**
+  String redoDoneSnack(String action);
+
+  /// No description provided for @redoNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to redo'**
+  String get redoNothing;
+
   /// No description provided for @relativeDaysAgo.
   ///
   /// In en, this message translates to:
@@ -11661,6 +11673,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use template'**
   String get templatesUse;
+
+  /// No description provided for @undoDoneSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Undone: {action}'**
+  String undoDoneSnack(String action);
+
+  /// No description provided for @undoNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to undo'**
+  String get undoNothing;
 }
 
 class _AppLocalizationsDelegate

@@ -23,7 +23,7 @@ index, and entity deep-link builders.
 - [x] T2.3.03 — Priorities model & visual language
 - [x] T2.3.04 — Color & icon system for user entities
 - [x] T2.3.05 — Activity events (append-only log) & `ActivityLogger`
-- [ ] T2.3.06 — Undo/redo command stack
+- [x] T2.3.06 — Undo/redo command stack
 - [ ] T2.3.07 — App time & calendar utilities
 - [ ] T2.3.08 — Saved views (table + repository)
 - [x] T2.3.09 — Shared filter model & filter bar
@@ -98,6 +98,7 @@ inverse of a delete = restore (clears `deleted_at` of the same operation's rows)
 **Acceptance criteria:** undoing a subtree delete restores all descendants exactly; undoing a drag restores
 the original start/duration and logs a compensating `rescheduled` event.
 **Tests:** unit tests for command inversion; integration test in the checklist editor.
+**Notes:** `UndoStack` (core/undo, max depth 50, redo invalidated by new commands) now clears on sign-out/account switch (`undoStackProvider` listens to `currentUserIdProvider`) and exposes `redoLabel`. Keyboard undo/redo with "Undone: …/Redo" feedback: `GlobalShortcuts` (`shared/shortcuts/`, mounted at the app root; also Ctrl/⌘+F search). Deviation: undo reverts through `SyncWriter.revert`, which tombstones the operation's own activity events (append-only: only `deleted_at` changes) instead of logging a compensating `rescheduled` event — history and punctuality stats then show the net effect, and redo brings the events back; changing that belongs to `SyncWriter.revert` (core/sync). The checklist-editor integration test is the checklists feature's. Tests: `app/test/shared/undo/undo_stack_test.dart`.
 
 ### T2.3.07 — App time & calendar utilities
 **Priority:** P0 · **Size:** M · **Depends on:** [2.1] (core types)
