@@ -336,6 +336,388 @@ class AppLocalizationsAr extends AppLocalizations {
   String get attachmentsWifiOnly => 'رفع المرفقات عبر Wi-Fi فقط';
 
   @override
+  String get authAvatarChange => 'تغيير الصورة';
+
+  @override
+  String get authAvatarRemove => 'إزالة الصورة';
+
+  @override
+  String get authBrowserFlowStarted =>
+      'أكمل تسجيل الدخول في المتصفح ثم عُد إلى Everslot.';
+
+  @override
+  String get authChangeEmail => 'استخدام بريد إلكتروني آخر';
+
+  @override
+  String authCodeBody(String email) {
+    return 'أدخل الرمز المكوّن من 6 أرقام المُرسل إلى $email، أو اضغط على الرابط الموجود في تلك الرسالة.';
+  }
+
+  @override
+  String get authCodeLabel => 'رمز من 6 أرقام';
+
+  @override
+  String get authCodeResent => 'رمز جديد في الطريق إليك.';
+
+  @override
+  String get authCodeTitle => 'تحقّق من بريدك الوارد';
+
+  @override
+  String get authContinueApple => 'المتابعة باستخدام Apple';
+
+  @override
+  String get authContinueGoogle => 'المتابعة باستخدام Google';
+
+  @override
+  String get authContinueGuest => 'المتابعة بدون حساب';
+
+  @override
+  String get authCurrentZone => 'المنطقة الزمنية الحالية';
+
+  @override
+  String get authDeleteAccount => 'حذف الحساب';
+
+  @override
+  String get authDeleteBody =>
+      'سيُحذف حسابك وجميع بياناتك نهائيًا (الخطط والقوائم والعادات والمرفقات) على كل أجهزتك. لا يمكن التراجع عن ذلك.';
+
+  @override
+  String get authDeleteConfirm => 'حذف نهائي';
+
+  @override
+  String get authDeleteExportFirst => 'تصدير بياناتي أولًا';
+
+  @override
+  String authDeleteReauthBody(String email) {
+    return 'للتأكد من هويتك، أدخل الرمز المُرسل إلى $email.';
+  }
+
+  @override
+  String get authDeleteTitle => 'حذف حسابك؟';
+
+  @override
+  String get authDeleteUnderstand => 'أفهم أنه لا يمكن التراجع عن ذلك';
+
+  @override
+  String authDeleteWeb(String url) {
+    return 'يمكنك أيضًا طلب الحذف عبر الويب: $url';
+  }
+
+  @override
+  String get authDeleted => 'تم حذف حسابك.';
+
+  @override
+  String get authDeleting => 'جارٍ حذف حسابك…';
+
+  @override
+  String get authDeviceRevokedBody =>
+      'أُزيل هذا الجهاز من حسابك عبر جهاز آخر. صدّر بياناتك أولًا إن أردت الاحتفاظ بنسخة منها، ثم سجّل الخروج.';
+
+  @override
+  String get authDeviceRevokedTitle => 'تمت إزالة هذا الجهاز';
+
+  @override
+  String get authDisplayName => 'الاسم المعروض';
+
+  @override
+  String get authDisplayNameHint => 'بماذا تحب أن نناديك؟';
+
+  @override
+  String get authEmailHint => 'you@example.com';
+
+  @override
+  String get authEmailLabel => 'البريد الإلكتروني';
+
+  @override
+  String get authErrorCaptcha => 'فشل التحقق الأمني. يُرجى إعادة المحاولة.';
+
+  @override
+  String get authErrorEmailInUse => 'هذا البريد الإلكتروني مرتبط بحساب آخر.';
+
+  @override
+  String get authErrorGuestDisabled => 'وضع الضيف معطّل على هذا الخادم.';
+
+  @override
+  String get authErrorIdentityInUse =>
+      'طريقة تسجيل الدخول هذه مرتبطة بحساب آخر.';
+
+  @override
+  String get authErrorInvalidCode => 'هذا الرمز غير صالح أو منتهي الصلاحية.';
+
+  @override
+  String get authErrorInvalidEmail => 'يُرجى إدخال بريد إلكتروني صحيح.';
+
+  @override
+  String get authErrorLastIdentity =>
+      'لا يمكنك إزالة طريقة تسجيل الدخول الوحيدة لديك.';
+
+  @override
+  String get authErrorNotConfigured =>
+      'المزامنة السحابية غير مُعدّة في هذا الإصدار (راجع guide.md).';
+
+  @override
+  String get authErrorOffline =>
+      'أنت غير متصل بالإنترنت. تحقّق من اتصالك ثم أعد المحاولة.';
+
+  @override
+  String get authErrorProviderNotConfigured =>
+      'طريقة تسجيل الدخول هذه غير مُعدّة بعد (راجع guide.md).';
+
+  @override
+  String get authErrorRateLimited =>
+      'محاولات كثيرة جدًا. انتظر قليلًا ثم أعد المحاولة.';
+
+  @override
+  String get authErrorSessionExpired =>
+      'انتهت صلاحية جلستك. يُرجى تسجيل الدخول مجددًا.';
+
+  @override
+  String get authErrorUnknown => 'حدث خطأ ما. يُرجى إعادة المحاولة.';
+
+  @override
+  String get authExportFirst => 'تصدير البيانات';
+
+  @override
+  String get authGuestAccount => 'حساب ضيف';
+
+  @override
+  String get authGuestBanner =>
+      'أنت تستخدم حساب ضيف. أضف بريدًا إلكترونيًا حتى لا تضيع بياناتك إذا حذفت التطبيق.';
+
+  @override
+  String get authGuestBannerAction => 'تأمين بياناتي';
+
+  @override
+  String get authGuestHint =>
+      'جرّب Everslot فورًا وأضف بريدًا إلكترونيًا لاحقًا للاحتفاظ ببياناتك.';
+
+  @override
+  String get authHomeZone => 'المنطقة الزمنية الأساسية';
+
+  @override
+  String get authLegalNote =>
+      'بالمتابعة، فإنك توافق على شروط الخدمة وسياسة الخصوصية.';
+
+  @override
+  String get authLink => 'ربط';
+
+  @override
+  String authLinked(String provider) {
+    return 'تم ربط $provider';
+  }
+
+  @override
+  String get authLinkedAccounts => 'طرق تسجيل الدخول';
+
+  @override
+  String get authLocalOnlyAccount => 'البيانات محفوظة على هذا الجهاز';
+
+  @override
+  String get authLocalOnlyAccountBody =>
+      'لم تسجّل الدخول. سجّل الدخول للمزامنة بين أجهزتك وستنتقل بياناتك معك.';
+
+  @override
+  String get authMfaBody =>
+      'طلب رمز من تطبيق المصادقة عند تسجيل الدخول وقبل حذف الحساب.';
+
+  @override
+  String get authMfaDisable => 'إيقاف';
+
+  @override
+  String get authMfaEnabled => 'التحقق بخطوتين مفعّل.';
+
+  @override
+  String get authMfaEnroll => 'إعداد';
+
+  @override
+  String get authMfaEnrollBody =>
+      'أضف هذا المفتاح إلى تطبيق المصادقة، ثم أدخل الرمز المكوّن من 6 أرقام الذي يظهر فيه.';
+
+  @override
+  String get authMfaSecret => 'مفتاح الإعداد';
+
+  @override
+  String get authMfaTitle => 'التحقق بخطوتين';
+
+  @override
+  String get authMfaVerifyTitle => 'أدخل الرمز من تطبيق المصادقة';
+
+  @override
+  String get authNotConfiguredBody =>
+      'هذا الإصدار غير متصل بمشروع Supabase بعد (راجع guide.md). يعمل Everslot بالكامل على هذا الجهاز في هذه الأثناء.';
+
+  @override
+  String get authNotConfiguredTitle => 'المزامنة السحابية غير مُعدّة';
+
+  @override
+  String get authOr => 'أو';
+
+  @override
+  String get authProfileTitle => 'الحساب';
+
+  @override
+  String get authProviderApple => 'Apple';
+
+  @override
+  String get authProviderEmail => 'البريد الإلكتروني';
+
+  @override
+  String get authProviderGoogle => 'Google';
+
+  @override
+  String get authReauthBody =>
+      'انتهت صلاحية جلستك. سجّل الدخول مجددًا لاستئناف المزامنة، فكل ما أنجزته دون اتصال محفوظ.';
+
+  @override
+  String get authReauthTitle => 'سجّل الدخول مجددًا';
+
+  @override
+  String get authRegionalSettings => 'الإعدادات الإقليمية';
+
+  @override
+  String get authResend => 'إعادة إرسال الرمز';
+
+  @override
+  String authResendIn(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'إعادة إرسال الرمز بعد $seconds ثانية',
+      many: 'إعادة إرسال الرمز بعد $seconds ثانية',
+      few: 'إعادة إرسال الرمز بعد $seconds ثوانٍ',
+      two: 'إعادة إرسال الرمز بعد ثانيتين',
+      one: 'إعادة إرسال الرمز بعد ثانية واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get authSendCode => 'إرسال الرمز';
+
+  @override
+  String get authSessionExpiredBanner =>
+      'انتهت صلاحية جلستك. تغييراتك محفوظة على هذا الجهاز وستُزامَن بمجرد تسجيل دخولك مجددًا.';
+
+  @override
+  String get authSignInAgain => 'تسجيل الدخول مجددًا';
+
+  @override
+  String get authSignInToSync => 'تسجيل الدخول للمزامنة';
+
+  @override
+  String get authSignOut => 'تسجيل الخروج';
+
+  @override
+  String get authSignOutAnyway => 'تسجيل الخروج على أي حال';
+
+  @override
+  String get authSignOutBody =>
+      'ستُزال بياناتك من هذا الجهاز، وتبقى آمنة في حسابك.';
+
+  @override
+  String authSignOutPendingBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'لم تتم مزامنة $count تعديل بعد وسيُفقد.',
+      many: 'لم تتم مزامنة $count تعديلًا بعد وسيُفقد.',
+      few: 'لم تتم مزامنة $count تعديلات بعد وستُفقد.',
+      two: 'لم تتم مزامنة تعديلين بعد وسيُفقدان.',
+      one: 'لم تتم مزامنة تعديل واحد بعد وسيُفقد.',
+    );
+    return '$_temp0 صدّر بياناتك أولًا، أو سجّل الخروج على أي حال.';
+  }
+
+  @override
+  String get authSignOutSyncing => 'جارٍ مزامنة آخر تغييراتك…';
+
+  @override
+  String get authSignOutTitle => 'تسجيل الخروج؟';
+
+  @override
+  String authSignedInAs(String email) {
+    return 'مسجّل الدخول باسم $email';
+  }
+
+  @override
+  String get authSignedOut => 'تم تسجيل الخروج';
+
+  @override
+  String get authUnlink => 'إلغاء الربط';
+
+  @override
+  String authUnlinkConfirm(String provider) {
+    return 'إلغاء ربط $provider؟';
+  }
+
+  @override
+  String get authUpdateRequired =>
+      'حدّث Everslot لمواصلة المزامنة. تغييراتك محفوظة على هذا الجهاز.';
+
+  @override
+  String get authUpgradeBody =>
+      'أضف طريقة تسجيل دخول إلى حساب الضيف. ستبقى بياناتك كما هي تمامًا.';
+
+  @override
+  String get authUpgradeDone => 'تم تأمين حسابك.';
+
+  @override
+  String get authUpgradeEmail => 'إضافة بريد إلكتروني';
+
+  @override
+  String authUpgradeEmailInUseBody(String email) {
+    return 'لدى $email حساب Everslot بالفعل. استخدم بريدًا آخر، أو صدّر بيانات الضيف ثم سجّل الخروج وادخل إلى ذلك الحساب واستورد الملف.';
+  }
+
+  @override
+  String get authUpgradeEmailInUseTitle => 'البريد الإلكتروني مستخدم بالفعل';
+
+  @override
+  String get authUpgradeTitle => 'احتفظ ببياناتك';
+
+  @override
+  String get authUseLocalOnly => 'الاستخدام على هذا الجهاز فقط';
+
+  @override
+  String get authUseLocalOnlyHint =>
+      'بدون حساب وبدون مزامنة. سجّل الدخول لاحقًا وستنتقل بياناتك معك.';
+
+  @override
+  String get authVerify => 'تحقّق';
+
+  @override
+  String get authWelcomeBody =>
+      'سجّل الدخول لمزامنة خططك وقوائمك وعاداتك على جميع أجهزتك.';
+
+  @override
+  String get authWelcomeTitle => 'مرحبًا بك في Everslot';
+
+  @override
+  String authZoneChangedBody(String zone) {
+    return 'أنت الآن في $zone. تحتفظ المهام ذات التوقيت الثابت بوقتها الدقيق وتتبعك المهام المرنة. هل تريد جعل $zone منطقتك الزمنية الأساسية؟';
+  }
+
+  @override
+  String get authZoneChangedTitle => 'منطقة زمنية جديدة';
+
+  @override
+  String get authZoneDetected => 'تم اكتشافها على هذا الجهاز';
+
+  @override
+  String authZoneKeepHome(String zone) {
+    return 'الإبقاء على $zone';
+  }
+
+  @override
+  String get authZoneMakeHome => 'جعلها الأساسية';
+
+  @override
+  String get authZoneNoMatch => 'لا توجد منطقة زمنية تطابق بحثك';
+
+  @override
+  String get authZoneSearch => 'البحث عن منطقة زمنية';
+
+  @override
   String get categoriesEmpty => 'لا توجد تصنيفات بعد';
 
   @override
@@ -2224,6 +2606,42 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifYes => 'نعم';
 
   @override
+  String get onboardingClock => 'الساعة';
+
+  @override
+  String get onboardingClock12 => '12 ساعة';
+
+  @override
+  String get onboardingClock24 => '24 ساعة';
+
+  @override
+  String get onboardingEssentialsBody =>
+      'اخترنا هذه الإعدادات من جهازك. عدّل ما لا يناسبك، ويمكنك تغييرها لاحقًا من الإعدادات › المنطقة.';
+
+  @override
+  String get onboardingEssentialsTitle => 'أسبوعك وساعتك';
+
+  @override
+  String get onboardingGetStarted => 'لنبدأ';
+
+  @override
+  String get onboardingLanguage => 'اللغة';
+
+  @override
+  String onboardingStepOf(int current, int total) {
+    return 'الخطوة $current من $total';
+  }
+
+  @override
+  String get onboardingTimeZone => 'المنطقة الزمنية الأساسية';
+
+  @override
+  String get onboardingTitle => 'إعداد Everslot';
+
+  @override
+  String get onboardingWeekStart => 'يبدأ الأسبوع يوم';
+
+  @override
   String get pickerColor => 'اللون';
 
   @override
@@ -3946,6 +4364,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get savedSnack => 'تم الحفظ';
+
+  @override
+  String get settingsLanguageArabic => 'العربية';
+
+  @override
+  String get settingsLanguageEnglish => 'English';
+
+  @override
+  String get settingsLanguageFrench => 'Français';
+
+  @override
+  String get settingsLanguageSystem => 'لغة النظام';
 
   @override
   String get stateEmpty => 'لا يوجد شيء بعد';

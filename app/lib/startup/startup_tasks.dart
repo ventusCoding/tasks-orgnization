@@ -4,6 +4,7 @@ import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/session/session.dart';
 import 'package:everslot/features/notifications/notifications_startup.dart';
+import 'package:everslot/features/profile/application/zone_tracker.dart';
 import 'package:everslot/startup/profile_bootstrap.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,7 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// run due checklist resets). Every task must be fast (< 200 ms) or run unawaited.
 typedef StartupTask = Future<void> Function(ProviderContainer container);
 
-final List<StartupTask> startupTasks = [ensureProfileAndDefaults, startNotifications];
+final List<StartupTask> startupTasks = [ensureProfileAndDefaults, startNotifications, startZoneTracking];
 
 Future<void> runStartupTasks(ProviderContainer container) async {
   final log = AppLog.get('startup');

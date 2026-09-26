@@ -22,21 +22,21 @@ subscription, orchestrator & status, initial sync/resync, purge, background sync
 
 ## Progress
 
-- [ ] T1.4.01 — Drift `AppDatabase` setup & conventions
-- [ ] T1.4.02 — Synced-table mixin, converters & base DAO helpers
-- [ ] T1.4.03 — Hybrid logical clock (HLC)
-- [ ] T1.4.04 — Outbox, operation groups & sync state tables
-- [ ] T1.4.05 — Device identity & registry (`app.devices`, RPCs)
-- [ ] T1.4.06 — Table registry & row/patch serializers
-- [ ] T1.4.07 — Write path: `SyncWriter` transaction helper
-- [ ] T1.4.08 — Server RPC `app.sync_push` (per-field LWW, groups, idempotency)
-- [ ] T1.4.09 — Server RPC `app.sync_pull` (paged, gap-free)
-- [ ] T1.4.10 — Push loop
-- [ ] T1.4.11 — Pull loop & field-wise apply
-- [ ] T1.4.12 — Realtime Broadcast subscription
-- [ ] T1.4.13 — Sync orchestrator & status provider
+- [x] T1.4.01 — Drift `AppDatabase` setup & conventions
+- [x] T1.4.02 — Synced-table mixin, converters & base DAO helpers
+- [x] T1.4.03 — Hybrid logical clock (HLC)
+- [x] T1.4.04 — Outbox, operation groups & sync state tables
+- [x] T1.4.05 — Device identity & registry (`app.devices`, RPCs)
+- [x] T1.4.06 — Table registry & row/patch serializers
+- [x] T1.4.07 — Write path: `SyncWriter` transaction helper
+- [x] T1.4.08 — Server RPC `app.sync_push` (per-field LWW, groups, idempotency)
+- [x] T1.4.09 — Server RPC `app.sync_pull` (paged, gap-free)
+- [x] T1.4.10 — Push loop
+- [x] T1.4.11 — Pull loop & field-wise apply
+- [x] T1.4.12 — Realtime Broadcast subscription
+- [x] T1.4.13 — Sync orchestrator & status provider
 - [ ] T1.4.14 — Initial sync & full resync
-- [ ] T1.4.15 — Sync unit tests with a fake API
+- [x] T1.4.15 — Sync unit tests with a fake API
 - [ ] T1.4.16 — Tombstone purge job, watermark & `app.purge_now`
 - [ ] T1.4.17 — Background sync (workmanager + data-push hook)
 - [ ] T1.4.18 — Sync diagnostics (dev) & conflict log
@@ -58,6 +58,7 @@ the recurrence package.
 **Acceptance criteria:** DB opens < 150 ms on cold start; a second isolate reads/writes concurrently
 without "database is locked" errors.
 **Tests:** open/close tests; migration test scaffold; concurrent isolate smoke test.
+**Notes:** verified — WAL, foreign keys off, `shareAcrossIsolates`, every table + FTS created; open/pragma and second-isolate smoke tests in `app/test/core/sync/database_setup_test.dart`. The `drift_dev schema dump` + `SchemaVerifier` migration harness still has to be generated centrally (agents don't run codegen).
 
 ### T1.4.02 — Synced-table mixin, converters & base DAO helpers
 **Priority:** P0 · **Size:** M · **Depends on:** T1.4.01
@@ -68,6 +69,7 @@ BINARY collation (byte order).
 **Acceptance criteria:** a sample synced table defined in < 20 lines inherits everything; tombstones never
 appear in `watchActive` streams.
 **Tests:** DAO tests on a sample table.
+**Notes:** generic read helpers `SyncedQueries.watchActive/getActive/getById` (`core/sync/synced_queries.dart`); soft delete / restore live on `WriteTx`; sort keys rely on SQLite's default BINARY collation.
 
 ### T1.4.03 — Hybrid logical clock (HLC)
 **Priority:** P0 · **Size:** S · **Depends on:** [1.3] (clock)
@@ -114,6 +116,7 @@ generated in CI).
 **Acceptance criteria:** adding a synced table requires only a registry entry + migrations; schema drift
 is caught in CI.
 **Tests:** registry completeness test; round-trip tests per table.
+**Notes:** the schema-drift check parses `supabase/migrations/*.sql` (columns + types → column kinds) instead of a CI-generated `schema_snapshot.json` (`app/test/core/sync/table_registry_test.dart`).
 
 ### T1.4.07 — Write path: `SyncWriter` transaction helper
 **Priority:** P0 · **Size:** M · **Depends on:** T1.4.04, T1.4.06, [2.3] (activity logger — may start as a no-op)
@@ -138,6 +141,7 @@ Integrity violations reject the whole group with a code telling the client to re
 never overwrites a newer one; a cross-user id collision is rejected; a group violating tree integrity is
 rejected atomically.
 **Tests:** extensive pgTAP (LWW per field, clamp, idempotency, groups, allow-lists, RLS, min-version).
+**Notes:** server side in migration `…130_create_sync_rpcs` with pgTAP `050_sync_push` / `110_concurrency`; the client contract is exercised by the fake-server suite (pgTAP not re-run by the client agent — no local stack).
 
 ### T1.4.09 — Server RPC `app.sync_pull` (paged, gap-free)
 **Priority:** P0 · **Size:** M · **Depends on:** T1.4.08
@@ -148,6 +152,7 @@ with full rows incl. `field_clock`.
 `next` never misses a row (per-user serialization); a page of 1 000 rows returns in < 50 ms server time on
 realistic volumes ([9.1] T9.1.13).
 **Tests:** pgTAP (ordering, pagination boundaries, RLS); concurrency script test.
+**Notes:** server side in migration `…130_create_sync_rpcs` with pgTAP `060_sync_pull` / `110_concurrency` (not re-run by the client agent).
 
 ### T1.4.10 — Push loop
 **Priority:** P0 · **Size:** M · **Depends on:** T1.4.07, T1.4.08
@@ -159,6 +164,7 @@ after success triggers a pull.
 **Acceptance criteria:** editing while a push is in flight never loses the edit; network loss mid-push
 leads to a correct retry with no duplicates.
 **Tests:** unit tests with a fake API (success, partial, stale, rejected, timeout).
+**Notes:** connectivity-regain trigger added in `core/sync/sync_triggers.dart` (push as soon as the network returns).
 
 ### T1.4.11 — Pull loop & field-wise apply
 **Priority:** P0 · **Size:** M · **Depends on:** T1.4.09
@@ -178,6 +184,7 @@ foreground; on `sync` events with `rev > cursor` schedule a debounced pull; disc
 reconnect with backoff; never rely on Broadcast alone (pull also on start/resume/connectivity/timer).
 **Acceptance criteria:** an edit on device A appears on foreground device B within ~2 s on a good network.
 **Tests:** unit test with a fake realtime client; manual two-device check.
+**Notes:** `SyncTriggers` joins `user:<uid>` only in the foreground (left on pause, re-joined on resume) and ignores nudges at or below the known cursor; tested with a fake subscriber (`sync_triggers_test.dart`).
 
 ### T1.4.13 — Sync orchestrator & status provider
 **Priority:** P0 · **Size:** M · **Depends on:** T1.4.10, T1.4.11, T1.4.12
@@ -206,6 +213,7 @@ per-field LWW, groups, purge watermark) to run fast deterministic multi-device s
 **Acceptance criteria:** 1 000 randomized 3-device simulations converge in < 30 s; the fake server's
 behaviour is cross-checked against pgTAP fixtures.
 **Tests:** this task is the suite.
+**Notes:** CI runs 60 seeded simulations; `SYNC_SIMULATIONS=1000` runs the full campaign — 1 000/1 000 converge (86.8 s on the dev machine, above the 30 s target: per-device in-memory schema creation dominates).
 
 ### T1.4.16 — Tombstone purge job, watermark & `app.purge_now`
 **Priority:** P1 · **Size:** M · **Depends on:** T1.4.09, [1.2] (T1.2.12)

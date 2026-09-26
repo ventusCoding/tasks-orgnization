@@ -1,5 +1,92 @@
 {
   "@@locale": "ar",
+  "@authCodeBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@authDeleteReauthBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@authDeleteWeb": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "@authLinked": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "@authResendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "@authSignOutPendingBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@authSignedInAs": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@authUnlinkConfirm": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "@authUpgradeEmailInUseBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "@authZoneChangedBody": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "@authZoneKeepHome": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "@onboardingStepOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "actionAdd": "إضافة",
   "actionApply": "تطبيق",
   "actionArchive": "أرشفة",
@@ -85,6 +172,112 @@
   "attachmentsStorageUsed": "المساحة المستخدمة: {size}",
   "attachmentsViewerPosition": "{index} / {total}",
   "attachmentsWifiOnly": "رفع المرفقات عبر Wi-Fi فقط",
+  "authAvatarChange": "تغيير الصورة",
+  "authAvatarRemove": "إزالة الصورة",
+  "authBrowserFlowStarted": "أكمل تسجيل الدخول في المتصفح ثم عُد إلى Everslot.",
+  "authChangeEmail": "استخدام بريد إلكتروني آخر",
+  "authCodeBody": "أدخل الرمز المكوّن من 6 أرقام المُرسل إلى {email}، أو اضغط على الرابط الموجود في تلك الرسالة.",
+  "authCodeLabel": "رمز من 6 أرقام",
+  "authCodeResent": "رمز جديد في الطريق إليك.",
+  "authCodeTitle": "تحقّق من بريدك الوارد",
+  "authContinueApple": "المتابعة باستخدام Apple",
+  "authContinueGoogle": "المتابعة باستخدام Google",
+  "authContinueGuest": "المتابعة بدون حساب",
+  "authCurrentZone": "المنطقة الزمنية الحالية",
+  "authDeleteAccount": "حذف الحساب",
+  "authDeleteBody": "سيُحذف حسابك وجميع بياناتك نهائيًا (الخطط والقوائم والعادات والمرفقات) على كل أجهزتك. لا يمكن التراجع عن ذلك.",
+  "authDeleteConfirm": "حذف نهائي",
+  "authDeleteExportFirst": "تصدير بياناتي أولًا",
+  "authDeleteReauthBody": "للتأكد من هويتك، أدخل الرمز المُرسل إلى {email}.",
+  "authDeleteTitle": "حذف حسابك؟",
+  "authDeleteUnderstand": "أفهم أنه لا يمكن التراجع عن ذلك",
+  "authDeleteWeb": "يمكنك أيضًا طلب الحذف عبر الويب: {url}",
+  "authDeleted": "تم حذف حسابك.",
+  "authDeleting": "جارٍ حذف حسابك…",
+  "authDeviceRevokedBody": "أُزيل هذا الجهاز من حسابك عبر جهاز آخر. صدّر بياناتك أولًا إن أردت الاحتفاظ بنسخة منها، ثم سجّل الخروج.",
+  "authDeviceRevokedTitle": "تمت إزالة هذا الجهاز",
+  "authDisplayName": "الاسم المعروض",
+  "authDisplayNameHint": "بماذا تحب أن نناديك؟",
+  "authEmailHint": "you@example.com",
+  "authEmailLabel": "البريد الإلكتروني",
+  "authErrorCaptcha": "فشل التحقق الأمني. يُرجى إعادة المحاولة.",
+  "authErrorEmailInUse": "هذا البريد الإلكتروني مرتبط بحساب آخر.",
+  "authErrorGuestDisabled": "وضع الضيف معطّل على هذا الخادم.",
+  "authErrorIdentityInUse": "طريقة تسجيل الدخول هذه مرتبطة بحساب آخر.",
+  "authErrorInvalidCode": "هذا الرمز غير صالح أو منتهي الصلاحية.",
+  "authErrorInvalidEmail": "يُرجى إدخال بريد إلكتروني صحيح.",
+  "authErrorLastIdentity": "لا يمكنك إزالة طريقة تسجيل الدخول الوحيدة لديك.",
+  "authErrorNotConfigured": "المزامنة السحابية غير مُعدّة في هذا الإصدار (راجع guide.md).",
+  "authErrorOffline": "أنت غير متصل بالإنترنت. تحقّق من اتصالك ثم أعد المحاولة.",
+  "authErrorProviderNotConfigured": "طريقة تسجيل الدخول هذه غير مُعدّة بعد (راجع guide.md).",
+  "authErrorRateLimited": "محاولات كثيرة جدًا. انتظر قليلًا ثم أعد المحاولة.",
+  "authErrorSessionExpired": "انتهت صلاحية جلستك. يُرجى تسجيل الدخول مجددًا.",
+  "authErrorUnknown": "حدث خطأ ما. يُرجى إعادة المحاولة.",
+  "authExportFirst": "تصدير البيانات",
+  "authGuestAccount": "حساب ضيف",
+  "authGuestBanner": "أنت تستخدم حساب ضيف. أضف بريدًا إلكترونيًا حتى لا تضيع بياناتك إذا حذفت التطبيق.",
+  "authGuestBannerAction": "تأمين بياناتي",
+  "authGuestHint": "جرّب Everslot فورًا وأضف بريدًا إلكترونيًا لاحقًا للاحتفاظ ببياناتك.",
+  "authHomeZone": "المنطقة الزمنية الأساسية",
+  "authLegalNote": "بالمتابعة، فإنك توافق على شروط الخدمة وسياسة الخصوصية.",
+  "authLink": "ربط",
+  "authLinked": "تم ربط {provider}",
+  "authLinkedAccounts": "طرق تسجيل الدخول",
+  "authLocalOnlyAccount": "البيانات محفوظة على هذا الجهاز",
+  "authLocalOnlyAccountBody": "لم تسجّل الدخول. سجّل الدخول للمزامنة بين أجهزتك وستنتقل بياناتك معك.",
+  "authMfaBody": "طلب رمز من تطبيق المصادقة عند تسجيل الدخول وقبل حذف الحساب.",
+  "authMfaDisable": "إيقاف",
+  "authMfaEnabled": "التحقق بخطوتين مفعّل.",
+  "authMfaEnroll": "إعداد",
+  "authMfaEnrollBody": "أضف هذا المفتاح إلى تطبيق المصادقة، ثم أدخل الرمز المكوّن من 6 أرقام الذي يظهر فيه.",
+  "authMfaSecret": "مفتاح الإعداد",
+  "authMfaTitle": "التحقق بخطوتين",
+  "authMfaVerifyTitle": "أدخل الرمز من تطبيق المصادقة",
+  "authNotConfiguredBody": "هذا الإصدار غير متصل بمشروع Supabase بعد (راجع guide.md). يعمل Everslot بالكامل على هذا الجهاز في هذه الأثناء.",
+  "authNotConfiguredTitle": "المزامنة السحابية غير مُعدّة",
+  "authOr": "أو",
+  "authProfileTitle": "الحساب",
+  "authProviderApple": "Apple",
+  "authProviderEmail": "البريد الإلكتروني",
+  "authProviderGoogle": "Google",
+  "authReauthBody": "انتهت صلاحية جلستك. سجّل الدخول مجددًا لاستئناف المزامنة، فكل ما أنجزته دون اتصال محفوظ.",
+  "authReauthTitle": "سجّل الدخول مجددًا",
+  "authRegionalSettings": "الإعدادات الإقليمية",
+  "authResend": "إعادة إرسال الرمز",
+  "authResendIn": "{seconds, plural, =1{إعادة إرسال الرمز بعد ثانية واحدة} =2{إعادة إرسال الرمز بعد ثانيتين} few{إعادة إرسال الرمز بعد {seconds} ثوانٍ} many{إعادة إرسال الرمز بعد {seconds} ثانية} other{إعادة إرسال الرمز بعد {seconds} ثانية}}",
+  "authSendCode": "إرسال الرمز",
+  "authSessionExpiredBanner": "انتهت صلاحية جلستك. تغييراتك محفوظة على هذا الجهاز وستُزامَن بمجرد تسجيل دخولك مجددًا.",
+  "authSignInAgain": "تسجيل الدخول مجددًا",
+  "authSignInToSync": "تسجيل الدخول للمزامنة",
+  "authSignOut": "تسجيل الخروج",
+  "authSignOutAnyway": "تسجيل الخروج على أي حال",
+  "authSignOutBody": "ستُزال بياناتك من هذا الجهاز، وتبقى آمنة في حسابك.",
+  "authSignOutPendingBody": "{count, plural, =1{لم تتم مزامنة تعديل واحد بعد وسيُفقد.} =2{لم تتم مزامنة تعديلين بعد وسيُفقدان.} few{لم تتم مزامنة {count} تعديلات بعد وستُفقد.} many{لم تتم مزامنة {count} تعديلًا بعد وسيُفقد.} other{لم تتم مزامنة {count} تعديل بعد وسيُفقد.}} صدّر بياناتك أولًا، أو سجّل الخروج على أي حال.",
+  "authSignOutSyncing": "جارٍ مزامنة آخر تغييراتك…",
+  "authSignOutTitle": "تسجيل الخروج؟",
+  "authSignedInAs": "مسجّل الدخول باسم {email}",
+  "authSignedOut": "تم تسجيل الخروج",
+  "authUnlink": "إلغاء الربط",
+  "authUnlinkConfirm": "إلغاء ربط {provider}؟",
+  "authUpdateRequired": "حدّث Everslot لمواصلة المزامنة. تغييراتك محفوظة على هذا الجهاز.",
+  "authUpgradeBody": "أضف طريقة تسجيل دخول إلى حساب الضيف. ستبقى بياناتك كما هي تمامًا.",
+  "authUpgradeDone": "تم تأمين حسابك.",
+  "authUpgradeEmail": "إضافة بريد إلكتروني",
+  "authUpgradeEmailInUseBody": "لدى {email} حساب Everslot بالفعل. استخدم بريدًا آخر، أو صدّر بيانات الضيف ثم سجّل الخروج وادخل إلى ذلك الحساب واستورد الملف.",
+  "authUpgradeEmailInUseTitle": "البريد الإلكتروني مستخدم بالفعل",
+  "authUpgradeTitle": "احتفظ ببياناتك",
+  "authUseLocalOnly": "الاستخدام على هذا الجهاز فقط",
+  "authUseLocalOnlyHint": "بدون حساب وبدون مزامنة. سجّل الدخول لاحقًا وستنتقل بياناتك معك.",
+  "authVerify": "تحقّق",
+  "authWelcomeBody": "سجّل الدخول لمزامنة خططك وقوائمك وعاداتك على جميع أجهزتك.",
+  "authWelcomeTitle": "مرحبًا بك في Everslot",
+  "authZoneChangedBody": "أنت الآن في {zone}. تحتفظ المهام ذات التوقيت الثابت بوقتها الدقيق وتتبعك المهام المرنة. هل تريد جعل {zone} منطقتك الزمنية الأساسية؟",
+  "authZoneChangedTitle": "منطقة زمنية جديدة",
+  "authZoneDetected": "تم اكتشافها على هذا الجهاز",
+  "authZoneKeepHome": "الإبقاء على {zone}",
+  "authZoneMakeHome": "جعلها الأساسية",
+  "authZoneNoMatch": "لا توجد منطقة زمنية تطابق بحثك",
+  "authZoneSearch": "البحث عن منطقة زمنية",
   "categoriesEmpty": "لا توجد تصنيفات بعد",
   "categoriesTitle": "التصنيفات",
   "categoryArchived": "مؤرشف",
@@ -569,6 +762,17 @@
   "notifVibrationShort": "قصير",
   "notifWeekdays": "فقط في",
   "notifYes": "نعم",
+  "onboardingClock": "الساعة",
+  "onboardingClock12": "12 ساعة",
+  "onboardingClock24": "24 ساعة",
+  "onboardingEssentialsBody": "اخترنا هذه الإعدادات من جهازك. عدّل ما لا يناسبك، ويمكنك تغييرها لاحقًا من الإعدادات › المنطقة.",
+  "onboardingEssentialsTitle": "أسبوعك وساعتك",
+  "onboardingGetStarted": "لنبدأ",
+  "onboardingLanguage": "اللغة",
+  "onboardingStepOf": "الخطوة {current} من {total}",
+  "onboardingTimeZone": "المنطقة الزمنية الأساسية",
+  "onboardingTitle": "إعداد Everslot",
+  "onboardingWeekStart": "يبدأ الأسبوع يوم",
   "pickerColor": "اللون",
   "pickerDate": "التاريخ",
   "pickerDays": "أيام",
@@ -1033,6 +1237,10 @@
   "relativeMinutesAgo": "{count, plural, =1{منذ دقيقة} =2{منذ دقيقتين} few{منذ {count} دقائق} many{منذ {count} دقيقة} other{منذ {count} دقيقة}}",
   "relativeNow": "الآن",
   "savedSnack": "تم الحفظ",
+  "settingsLanguageArabic": "العربية",
+  "settingsLanguageEnglish": "English",
+  "settingsLanguageFrench": "Français",
+  "settingsLanguageSystem": "لغة النظام",
   "stateEmpty": "لا يوجد شيء بعد",
   "stateErrorBody": "يرجى المحاولة مرة أخرى.",
   "stateErrorTitle": "حدث خطأ ما",
