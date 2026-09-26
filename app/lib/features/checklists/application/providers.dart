@@ -123,6 +123,11 @@ final itemAttachmentCountsProvider = StreamProvider.autoDispose.family<Map<Strin
   (ref, id) => ref.watch(checklistItemsRepositoryProvider).watchAttachmentCounts(id),
 );
 
+/// Every attachment of a checklist (items + checklist-level).
+final checklistAttachmentsProvider = StreamProvider.autoDispose.family<List<Attachment>, String>(
+  (ref, id) => ref.watch(checklistItemsRepositoryProvider).watchChecklistAttachments(id),
+);
+
 final itemStatusEventsProvider = StreamProvider.autoDispose.family<List<StatusEvent>, String>(
   (ref, itemId) => ref.watch(checklistItemsRepositoryProvider).watchStatusEvents(itemId),
 );
