@@ -262,6 +262,378 @@ abstract class AppLocalizations {
   /// **'Undo'**
   String get actionUndo;
 
+  /// No description provided for @activityArchived.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get activityArchived;
+
+  /// No description provided for @activityAttachmentAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachment added: {name}'**
+  String activityAttachmentAdded(String name);
+
+  /// No description provided for @activityAttachmentRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachment removed: {name}'**
+  String activityAttachmentRemoved(String name);
+
+  /// No description provided for @activityCauseAutomatic.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic'**
+  String get activityCauseAutomatic;
+
+  /// No description provided for @activityCauseBulk.
+  ///
+  /// In en, this message translates to:
+  /// **'Bulk change'**
+  String get activityCauseBulk;
+
+  /// No description provided for @activityCauseImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported'**
+  String get activityCauseImport;
+
+  /// No description provided for @activityChangedFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Changed {fields}'**
+  String activityChangedFields(String fields);
+
+  /// No description provided for @activityCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get activityCompleted;
+
+  /// No description provided for @activityCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get activityCreated;
+
+  /// No description provided for @activityCreatedCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Created as a copy'**
+  String get activityCreatedCopy;
+
+  /// No description provided for @activityCreatedFromTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Created from a template'**
+  String get activityCreatedFromTemplate;
+
+  /// No description provided for @activityDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get activityDeleted;
+
+  /// No description provided for @activityDeletedWithItems.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Deleted with 1 item} other{Deleted with {count} items}}'**
+  String activityDeletedWithItems(int count);
+
+  /// No description provided for @activityDurationChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration changed from {from} to {to}'**
+  String activityDurationChanged(String from, String to);
+
+  /// No description provided for @activityEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'Edited'**
+  String get activityEdited;
+
+  /// No description provided for @activityEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No history yet'**
+  String get activityEmpty;
+
+  /// No description provided for @activityFieldCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'category'**
+  String get activityFieldCategory;
+
+  /// No description provided for @activityFieldColor.
+  ///
+  /// In en, this message translates to:
+  /// **'color'**
+  String get activityFieldColor;
+
+  /// No description provided for @activityFieldDue.
+  ///
+  /// In en, this message translates to:
+  /// **'due date'**
+  String get activityFieldDue;
+
+  /// No description provided for @activityFieldDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'duration'**
+  String get activityFieldDuration;
+
+  /// No description provided for @activityFieldIcon.
+  ///
+  /// In en, this message translates to:
+  /// **'icon'**
+  String get activityFieldIcon;
+
+  /// No description provided for @activityFieldName.
+  ///
+  /// In en, this message translates to:
+  /// **'name'**
+  String get activityFieldName;
+
+  /// No description provided for @activityFieldNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'notes'**
+  String get activityFieldNotes;
+
+  /// No description provided for @activityFieldPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'priority'**
+  String get activityFieldPriority;
+
+  /// No description provided for @activityFieldRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'repeat'**
+  String get activityFieldRepeat;
+
+  /// No description provided for @activityFieldTags.
+  ///
+  /// In en, this message translates to:
+  /// **'tags'**
+  String get activityFieldTags;
+
+  /// No description provided for @activityFieldText.
+  ///
+  /// In en, this message translates to:
+  /// **'text'**
+  String get activityFieldText;
+
+  /// No description provided for @activityFieldTime.
+  ///
+  /// In en, this message translates to:
+  /// **'time'**
+  String get activityFieldTime;
+
+  /// No description provided for @activityFieldTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'title'**
+  String get activityFieldTitle;
+
+  /// No description provided for @activityFile.
+  ///
+  /// In en, this message translates to:
+  /// **'file'**
+  String get activityFile;
+
+  /// No description provided for @activityItemsAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item added} other{{count} items added}}'**
+  String activityItemsAdded(int count);
+
+  /// No description provided for @activityListSeparator.
+  ///
+  /// In en, this message translates to:
+  /// **', '**
+  String get activityListSeparator;
+
+  /// No description provided for @activityMerged.
+  ///
+  /// In en, this message translates to:
+  /// **'Merged'**
+  String get activityMerged;
+
+  /// No description provided for @activityMoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved'**
+  String get activityMoved;
+
+  /// No description provided for @activityMovedToList.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved to another list'**
+  String get activityMovedToList;
+
+  /// No description provided for @activityOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Changed'**
+  String get activityOther;
+
+  /// No description provided for @activityPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get activityPaused;
+
+  /// No description provided for @activityQuoted.
+  ///
+  /// In en, this message translates to:
+  /// **'“{text}”'**
+  String activityQuoted(String text);
+
+  /// No description provided for @activityRelapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Relapse logged'**
+  String get activityRelapse;
+
+  /// No description provided for @activityReopened.
+  ///
+  /// In en, this message translates to:
+  /// **'Reopened'**
+  String get activityReopened;
+
+  /// No description provided for @activityRescheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved from {from} to {to}'**
+  String activityRescheduled(String from, String to);
+
+  /// No description provided for @activityReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get activityReset;
+
+  /// No description provided for @activityRestored.
+  ///
+  /// In en, this message translates to:
+  /// **'Restored'**
+  String get activityRestored;
+
+  /// No description provided for @activityResumed.
+  ///
+  /// In en, this message translates to:
+  /// **'Resumed'**
+  String get activityResumed;
+
+  /// No description provided for @activityRollover.
+  ///
+  /// In en, this message translates to:
+  /// **'Rolled over'**
+  String get activityRollover;
+
+  /// No description provided for @activityScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled'**
+  String get activityScheduled;
+
+  /// No description provided for @activityScopeFollowing.
+  ///
+  /// In en, this message translates to:
+  /// **'This and following occurrences'**
+  String get activityScopeFollowing;
+
+  /// No description provided for @activityScopeSeries.
+  ///
+  /// In en, this message translates to:
+  /// **'All occurrences'**
+  String get activityScopeSeries;
+
+  /// No description provided for @activitySeriesSplit.
+  ///
+  /// In en, this message translates to:
+  /// **'Series split'**
+  String get activitySeriesSplit;
+
+  /// No description provided for @activitySkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped'**
+  String get activitySkipped;
+
+  /// No description provided for @activitySkippedReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped: {reason}'**
+  String activitySkippedReason(String reason);
+
+  /// No description provided for @activitySorted.
+  ///
+  /// In en, this message translates to:
+  /// **'Items sorted'**
+  String get activitySorted;
+
+  /// No description provided for @activityStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Started'**
+  String get activityStarted;
+
+  /// No description provided for @activityStatusChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Status changed from {from} to {to}'**
+  String activityStatusChanged(String from, String to);
+
+  /// No description provided for @activityStatusNoteChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason updated'**
+  String get activityStatusNoteChanged;
+
+  /// No description provided for @activityStatusSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Status set to {to}'**
+  String activityStatusSet(String to);
+
+  /// No description provided for @activityStopped.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped'**
+  String get activityStopped;
+
+  /// No description provided for @activityTagsChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags updated'**
+  String get activityTagsChanged;
+
+  /// No description provided for @activityTimeLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Time logged'**
+  String get activityTimeLogged;
+
+  /// No description provided for @activityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get activityTitle;
+
+  /// No description provided for @activityUnarchived.
+  ///
+  /// In en, this message translates to:
+  /// **'Unarchived'**
+  String get activityUnarchived;
+
+  /// No description provided for @activityUnscheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved to the backlog'**
+  String get activityUnscheduled;
+
   /// No description provided for @appName.
   ///
   /// In en, this message translates to:

@@ -91,6 +91,232 @@ class AppLocalizationsAr extends AppLocalizations {
   String get actionUndo => 'تراجع';
 
   @override
+  String get activityArchived => 'أُرشف';
+
+  @override
+  String activityAttachmentAdded(String name) {
+    return 'أُضيف مرفق: $name';
+  }
+
+  @override
+  String activityAttachmentRemoved(String name) {
+    return 'أُزيل مرفق: $name';
+  }
+
+  @override
+  String get activityCauseAutomatic => 'تلقائي';
+
+  @override
+  String get activityCauseBulk => 'تغيير جماعي';
+
+  @override
+  String get activityCauseImport => 'مستورد';
+
+  @override
+  String activityChangedFields(String fields) {
+    return 'تم تغيير $fields';
+  }
+
+  @override
+  String get activityCompleted => 'اكتمل';
+
+  @override
+  String get activityCreated => 'تم الإنشاء';
+
+  @override
+  String get activityCreatedCopy => 'أُنشئ كنسخة';
+
+  @override
+  String get activityCreatedFromTemplate => 'أُنشئ من قالب';
+
+  @override
+  String get activityDeleted => 'حُذف';
+
+  @override
+  String activityDeletedWithItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'حُذف مع $count عنصر',
+      many: 'حُذف مع $count عنصرًا',
+      few: 'حُذف مع $count عناصر',
+      two: 'حُذف مع عنصرين',
+      one: 'حُذف مع عنصر واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String activityDurationChanged(String from, String to) {
+    return 'تغيّرت المدة من $from إلى $to';
+  }
+
+  @override
+  String get activityEdited => 'تم التعديل';
+
+  @override
+  String get activityEmpty => 'لا يوجد سجل بعد';
+
+  @override
+  String get activityFieldCategory => 'الفئة';
+
+  @override
+  String get activityFieldColor => 'اللون';
+
+  @override
+  String get activityFieldDue => 'تاريخ الاستحقاق';
+
+  @override
+  String get activityFieldDuration => 'المدة';
+
+  @override
+  String get activityFieldIcon => 'الأيقونة';
+
+  @override
+  String get activityFieldName => 'الاسم';
+
+  @override
+  String get activityFieldNotes => 'الملاحظات';
+
+  @override
+  String get activityFieldPriority => 'الأولوية';
+
+  @override
+  String get activityFieldRepeat => 'التكرار';
+
+  @override
+  String get activityFieldTags => 'الوسوم';
+
+  @override
+  String get activityFieldText => 'النص';
+
+  @override
+  String get activityFieldTime => 'الوقت';
+
+  @override
+  String get activityFieldTitle => 'العنوان';
+
+  @override
+  String get activityFile => 'ملف';
+
+  @override
+  String activityItemsAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'أُضيف $count عنصر',
+      many: 'أُضيف $count عنصرًا',
+      few: 'أُضيفت $count عناصر',
+      two: 'أُضيف عنصران',
+      one: 'أُضيف عنصر واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get activityListSeparator => '، ';
+
+  @override
+  String get activityMerged => 'دُمج';
+
+  @override
+  String get activityMoved => 'نُقل';
+
+  @override
+  String get activityMovedToList => 'نُقل إلى قائمة أخرى';
+
+  @override
+  String get activityOther => 'تم التغيير';
+
+  @override
+  String get activityPaused => 'أُوقف مؤقتًا';
+
+  @override
+  String activityQuoted(String text) {
+    return '«$text»';
+  }
+
+  @override
+  String get activityRelapse => 'سُجّلت انتكاسة';
+
+  @override
+  String get activityReopened => 'أُعيد فتحه';
+
+  @override
+  String activityRescheduled(String from, String to) {
+    return 'نُقل من $from إلى $to';
+  }
+
+  @override
+  String get activityReset => 'أُعيد تعيينه';
+
+  @override
+  String get activityRestored => 'استُعيد';
+
+  @override
+  String get activityResumed => 'استُؤنف';
+
+  @override
+  String get activityRollover => 'رُحّل';
+
+  @override
+  String get activityScheduled => 'تمت الجدولة';
+
+  @override
+  String get activityScopeFollowing => 'هذا التكرار وما يليه';
+
+  @override
+  String get activityScopeSeries => 'كل التكرارات';
+
+  @override
+  String get activitySeriesSplit => 'قُسّمت السلسلة';
+
+  @override
+  String get activitySkipped => 'تم التخطي';
+
+  @override
+  String activitySkippedReason(String reason) {
+    return 'تم التخطي: $reason';
+  }
+
+  @override
+  String get activitySorted => 'رُتّبت العناصر';
+
+  @override
+  String get activityStarted => 'بدأ';
+
+  @override
+  String activityStatusChanged(String from, String to) {
+    return 'تغيّرت الحالة من $from إلى $to';
+  }
+
+  @override
+  String get activityStatusNoteChanged => 'تم تحديث السبب';
+
+  @override
+  String activityStatusSet(String to) {
+    return 'عُيّنت الحالة إلى $to';
+  }
+
+  @override
+  String get activityStopped => 'توقّف';
+
+  @override
+  String get activityTagsChanged => 'تم تحديث الوسوم';
+
+  @override
+  String get activityTimeLogged => 'سُجّل الوقت';
+
+  @override
+  String get activityTitle => 'السجل';
+
+  @override
+  String get activityUnarchived => 'أُلغيت أرشفته';
+
+  @override
+  String get activityUnscheduled => 'نُقل إلى المهام غير المجدولة';
+
+  @override
   String get appName => 'Everslot';
 
   @override

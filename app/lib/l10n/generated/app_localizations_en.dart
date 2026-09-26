@@ -91,6 +91,226 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionUndo => 'Undo';
 
   @override
+  String get activityArchived => 'Archived';
+
+  @override
+  String activityAttachmentAdded(String name) {
+    return 'Attachment added: $name';
+  }
+
+  @override
+  String activityAttachmentRemoved(String name) {
+    return 'Attachment removed: $name';
+  }
+
+  @override
+  String get activityCauseAutomatic => 'Automatic';
+
+  @override
+  String get activityCauseBulk => 'Bulk change';
+
+  @override
+  String get activityCauseImport => 'Imported';
+
+  @override
+  String activityChangedFields(String fields) {
+    return 'Changed $fields';
+  }
+
+  @override
+  String get activityCompleted => 'Completed';
+
+  @override
+  String get activityCreated => 'Created';
+
+  @override
+  String get activityCreatedCopy => 'Created as a copy';
+
+  @override
+  String get activityCreatedFromTemplate => 'Created from a template';
+
+  @override
+  String get activityDeleted => 'Deleted';
+
+  @override
+  String activityDeletedWithItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Deleted with $count items',
+      one: 'Deleted with 1 item',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String activityDurationChanged(String from, String to) {
+    return 'Duration changed from $from to $to';
+  }
+
+  @override
+  String get activityEdited => 'Edited';
+
+  @override
+  String get activityEmpty => 'No history yet';
+
+  @override
+  String get activityFieldCategory => 'category';
+
+  @override
+  String get activityFieldColor => 'color';
+
+  @override
+  String get activityFieldDue => 'due date';
+
+  @override
+  String get activityFieldDuration => 'duration';
+
+  @override
+  String get activityFieldIcon => 'icon';
+
+  @override
+  String get activityFieldName => 'name';
+
+  @override
+  String get activityFieldNotes => 'notes';
+
+  @override
+  String get activityFieldPriority => 'priority';
+
+  @override
+  String get activityFieldRepeat => 'repeat';
+
+  @override
+  String get activityFieldTags => 'tags';
+
+  @override
+  String get activityFieldText => 'text';
+
+  @override
+  String get activityFieldTime => 'time';
+
+  @override
+  String get activityFieldTitle => 'title';
+
+  @override
+  String get activityFile => 'file';
+
+  @override
+  String activityItemsAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items added',
+      one: '1 item added',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get activityListSeparator => ', ';
+
+  @override
+  String get activityMerged => 'Merged';
+
+  @override
+  String get activityMoved => 'Moved';
+
+  @override
+  String get activityMovedToList => 'Moved to another list';
+
+  @override
+  String get activityOther => 'Changed';
+
+  @override
+  String get activityPaused => 'Paused';
+
+  @override
+  String activityQuoted(String text) {
+    return '“$text”';
+  }
+
+  @override
+  String get activityRelapse => 'Relapse logged';
+
+  @override
+  String get activityReopened => 'Reopened';
+
+  @override
+  String activityRescheduled(String from, String to) {
+    return 'Moved from $from to $to';
+  }
+
+  @override
+  String get activityReset => 'Reset';
+
+  @override
+  String get activityRestored => 'Restored';
+
+  @override
+  String get activityResumed => 'Resumed';
+
+  @override
+  String get activityRollover => 'Rolled over';
+
+  @override
+  String get activityScheduled => 'Scheduled';
+
+  @override
+  String get activityScopeFollowing => 'This and following occurrences';
+
+  @override
+  String get activityScopeSeries => 'All occurrences';
+
+  @override
+  String get activitySeriesSplit => 'Series split';
+
+  @override
+  String get activitySkipped => 'Skipped';
+
+  @override
+  String activitySkippedReason(String reason) {
+    return 'Skipped: $reason';
+  }
+
+  @override
+  String get activitySorted => 'Items sorted';
+
+  @override
+  String get activityStarted => 'Started';
+
+  @override
+  String activityStatusChanged(String from, String to) {
+    return 'Status changed from $from to $to';
+  }
+
+  @override
+  String get activityStatusNoteChanged => 'Reason updated';
+
+  @override
+  String activityStatusSet(String to) {
+    return 'Status set to $to';
+  }
+
+  @override
+  String get activityStopped => 'Stopped';
+
+  @override
+  String get activityTagsChanged => 'Tags updated';
+
+  @override
+  String get activityTimeLogged => 'Time logged';
+
+  @override
+  String get activityTitle => 'History';
+
+  @override
+  String get activityUnarchived => 'Unarchived';
+
+  @override
+  String get activityUnscheduled => 'Moved to the backlog';
+
+  @override
   String get appName => 'Everslot';
 
   @override

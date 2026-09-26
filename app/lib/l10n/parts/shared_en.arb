@@ -66,5 +66,153 @@
   "entityStatusMissed": "Missed",
   "entityStatusActive": "Active",
   "entityStatusPaused": "Paused",
-  "entityStatusArchived": "Archived"
+  "entityStatusArchived": "Archived",
+  "activityTitle": "History",
+  "activityEmpty": "No history yet",
+  "activityCreated": "Created",
+  "activityCreatedCopy": "Created as a copy",
+  "activityCreatedFromTemplate": "Created from a template",
+  "activityEdited": "Edited",
+  "activityChangedFields": "Changed {fields}",
+  "@activityChangedFields": {
+    "placeholders": {
+      "fields": {
+        "type": "String"
+      }
+    }
+  },
+  "activityListSeparator": ", ",
+  "activityStatusChanged": "Status changed from {from} to {to}",
+  "@activityStatusChanged": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "activityStatusSet": "Status set to {to}",
+  "@activityStatusSet": {
+    "placeholders": {
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "activityStatusNoteChanged": "Reason updated",
+  "activityQuoted": "“{text}”",
+  "@activityQuoted": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "activityRescheduled": "Moved from {from} to {to}",
+  "@activityRescheduled": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "activityDurationChanged": "Duration changed from {from} to {to}",
+  "@activityDurationChanged": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "activityScopeSeries": "All occurrences",
+  "activityScopeFollowing": "This and following occurrences",
+  "activityScheduled": "Scheduled",
+  "activityUnscheduled": "Moved to the backlog",
+  "activitySeriesSplit": "Series split",
+  "activityStarted": "Started",
+  "activityStopped": "Stopped",
+  "activityTimeLogged": "Time logged",
+  "activityPaused": "Paused",
+  "activityResumed": "Resumed",
+  "activityRollover": "Rolled over",
+  "activityMoved": "Moved",
+  "activityMovedToList": "Moved to another list",
+  "activityCompleted": "Completed",
+  "activityReopened": "Reopened",
+  "activitySkipped": "Skipped",
+  "activitySkippedReason": "Skipped: {reason}",
+  "@activitySkippedReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "activityDeleted": "Deleted",
+  "activityDeletedWithItems": "{count, plural, =1{Deleted with 1 item} other{Deleted with {count} items}}",
+  "@activityDeletedWithItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "activityRestored": "Restored",
+  "activityArchived": "Archived",
+  "activityUnarchived": "Unarchived",
+  "activityAttachmentAdded": "Attachment added: {name}",
+  "@activityAttachmentAdded": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activityAttachmentRemoved": "Attachment removed: {name}",
+  "@activityAttachmentRemoved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activityFile": "file",
+  "activityTagsChanged": "Tags updated",
+  "activityItemsAdded": "{count, plural, =1{1 item added} other{{count} items added}}",
+  "@activityItemsAdded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "activitySorted": "Items sorted",
+  "activityReset": "Reset",
+  "activityRelapse": "Relapse logged",
+  "activityMerged": "Merged",
+  "activityOther": "Changed",
+  "activityCauseAutomatic": "Automatic",
+  "activityCauseBulk": "Bulk change",
+  "activityCauseImport": "Imported",
+  "activityFieldTitle": "title",
+  "activityFieldNotes": "notes",
+  "activityFieldCategory": "category",
+  "activityFieldPriority": "priority",
+  "activityFieldTags": "tags",
+  "activityFieldTime": "time",
+  "activityFieldDuration": "duration",
+  "activityFieldRepeat": "repeat",
+  "activityFieldColor": "color",
+  "activityFieldName": "name",
+  "activityFieldDue": "due date",
+  "activityFieldText": "text",
+  "activityFieldIcon": "icon"
 }

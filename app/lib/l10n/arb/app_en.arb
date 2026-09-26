@@ -1,5 +1,91 @@
 {
   "@@locale": "en",
+  "@activityAttachmentAdded": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@activityAttachmentRemoved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@activityChangedFields": {
+    "placeholders": {
+      "fields": {
+        "type": "String"
+      }
+    }
+  },
+  "@activityDeletedWithItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@activityDurationChanged": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@activityItemsAdded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@activityQuoted": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "@activityRescheduled": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@activitySkippedReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@activityStatusChanged": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@activityStatusSet": {
+    "placeholders": {
+      "to": {
+        "type": "String"
+      }
+    }
+  },
   "@attachmentsAdded": {
     "placeholders": {
       "count": {
@@ -1948,6 +2034,68 @@
   "actionSkip": "Skip",
   "actionToday": "Today",
   "actionUndo": "Undo",
+  "activityArchived": "Archived",
+  "activityAttachmentAdded": "Attachment added: {name}",
+  "activityAttachmentRemoved": "Attachment removed: {name}",
+  "activityCauseAutomatic": "Automatic",
+  "activityCauseBulk": "Bulk change",
+  "activityCauseImport": "Imported",
+  "activityChangedFields": "Changed {fields}",
+  "activityCompleted": "Completed",
+  "activityCreated": "Created",
+  "activityCreatedCopy": "Created as a copy",
+  "activityCreatedFromTemplate": "Created from a template",
+  "activityDeleted": "Deleted",
+  "activityDeletedWithItems": "{count, plural, =1{Deleted with 1 item} other{Deleted with {count} items}}",
+  "activityDurationChanged": "Duration changed from {from} to {to}",
+  "activityEdited": "Edited",
+  "activityEmpty": "No history yet",
+  "activityFieldCategory": "category",
+  "activityFieldColor": "color",
+  "activityFieldDue": "due date",
+  "activityFieldDuration": "duration",
+  "activityFieldIcon": "icon",
+  "activityFieldName": "name",
+  "activityFieldNotes": "notes",
+  "activityFieldPriority": "priority",
+  "activityFieldRepeat": "repeat",
+  "activityFieldTags": "tags",
+  "activityFieldText": "text",
+  "activityFieldTime": "time",
+  "activityFieldTitle": "title",
+  "activityFile": "file",
+  "activityItemsAdded": "{count, plural, =1{1 item added} other{{count} items added}}",
+  "activityListSeparator": ", ",
+  "activityMerged": "Merged",
+  "activityMoved": "Moved",
+  "activityMovedToList": "Moved to another list",
+  "activityOther": "Changed",
+  "activityPaused": "Paused",
+  "activityQuoted": "“{text}”",
+  "activityRelapse": "Relapse logged",
+  "activityReopened": "Reopened",
+  "activityRescheduled": "Moved from {from} to {to}",
+  "activityReset": "Reset",
+  "activityRestored": "Restored",
+  "activityResumed": "Resumed",
+  "activityRollover": "Rolled over",
+  "activityScheduled": "Scheduled",
+  "activityScopeFollowing": "This and following occurrences",
+  "activityScopeSeries": "All occurrences",
+  "activitySeriesSplit": "Series split",
+  "activitySkipped": "Skipped",
+  "activitySkippedReason": "Skipped: {reason}",
+  "activitySorted": "Items sorted",
+  "activityStarted": "Started",
+  "activityStatusChanged": "Status changed from {from} to {to}",
+  "activityStatusNoteChanged": "Reason updated",
+  "activityStatusSet": "Status set to {to}",
+  "activityStopped": "Stopped",
+  "activityTagsChanged": "Tags updated",
+  "activityTimeLogged": "Time logged",
+  "activityTitle": "History",
+  "activityUnarchived": "Unarchived",
+  "activityUnscheduled": "Moved to the backlog",
   "appName": "Everslot",
   "appTagline": "Own every slot of your day.",
   "attachmentsAdd": "Add attachment",

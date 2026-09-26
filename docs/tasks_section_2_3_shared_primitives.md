@@ -22,7 +22,7 @@ index, and entity deep-link builders.
 - [x] T2.3.02 — Default categories on first run
 - [x] T2.3.03 — Priorities model & visual language
 - [x] T2.3.04 — Color & icon system for user entities
-- [ ] T2.3.05 — Activity events (append-only log) & `ActivityLogger`
+- [x] T2.3.05 — Activity events (append-only log) & `ActivityLogger`
 - [ ] T2.3.06 — Undo/redo command stack
 - [ ] T2.3.07 — App time & calendar utilities
 - [ ] T2.3.08 — Saved views (table + repository)
@@ -86,6 +86,7 @@ occurred_at)`; history timeline widget (reusable) renders localized sentences fr
 **Acceptance criteria:** status history, reschedule history and Trash grouping read only from this table;
 update attempts on events are rejected server-side (pgTAP).
 **Tests:** pgTAP immutability; unit tests for payload builders; widget test for the timeline.
+**Notes:** Table, append-only trigger and pgTAP immutability (`070_domain_constraints`) came with the foundation; `WriteTx.logEvent` adds `opId`/`cause`. Added `shared/activity/`: event catalog + payload contracts (`ActivityEventTypes`, `ActivityPayloads` — small payloads, clipped texts, time-field before/after only), `ActivityLogger` (`tx.activity.statusChanged(...)`, application layer so feature data layers may use it), `ActivityRepository` (per entity incl. children and event-type filters, per operation, delete operations grouped for the Trash) behind `activityRepositoryProvider`/`entityActivityProvider`/`deleteOperationsProvider`, and `ActivityTimeline(entityType:, entityId:)` rendering EN/FR/AR sentences for the whole catalog. Features that already call `tx.logEvent` directly keep compatible payloads. Tests: `app/test/shared/activity/`.
 
 ### T2.3.06 — Undo/redo command stack
 **Priority:** P0 · **Size:** M · **Depends on:** T2.3.05

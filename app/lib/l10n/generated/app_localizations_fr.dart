@@ -91,6 +91,226 @@ class AppLocalizationsFr extends AppLocalizations {
   String get actionUndo => 'Annuler';
 
   @override
+  String get activityArchived => 'Archivé';
+
+  @override
+  String activityAttachmentAdded(String name) {
+    return 'Pièce jointe ajoutée : $name';
+  }
+
+  @override
+  String activityAttachmentRemoved(String name) {
+    return 'Pièce jointe retirée : $name';
+  }
+
+  @override
+  String get activityCauseAutomatic => 'Automatique';
+
+  @override
+  String get activityCauseBulk => 'Modification groupée';
+
+  @override
+  String get activityCauseImport => 'Importé';
+
+  @override
+  String activityChangedFields(String fields) {
+    return 'Modifié : $fields';
+  }
+
+  @override
+  String get activityCompleted => 'Terminé';
+
+  @override
+  String get activityCreated => 'Créé';
+
+  @override
+  String get activityCreatedCopy => 'Créé par duplication';
+
+  @override
+  String get activityCreatedFromTemplate => 'Créé à partir d’un modèle';
+
+  @override
+  String get activityDeleted => 'Supprimé';
+
+  @override
+  String activityDeletedWithItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Supprimé avec $count éléments',
+      one: 'Supprimé avec 1 élément',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String activityDurationChanged(String from, String to) {
+    return 'Durée modifiée de $from à $to';
+  }
+
+  @override
+  String get activityEdited => 'Modifié';
+
+  @override
+  String get activityEmpty => 'Aucun historique pour l’instant';
+
+  @override
+  String get activityFieldCategory => 'catégorie';
+
+  @override
+  String get activityFieldColor => 'couleur';
+
+  @override
+  String get activityFieldDue => 'échéance';
+
+  @override
+  String get activityFieldDuration => 'durée';
+
+  @override
+  String get activityFieldIcon => 'icône';
+
+  @override
+  String get activityFieldName => 'nom';
+
+  @override
+  String get activityFieldNotes => 'notes';
+
+  @override
+  String get activityFieldPriority => 'priorité';
+
+  @override
+  String get activityFieldRepeat => 'répétition';
+
+  @override
+  String get activityFieldTags => 'étiquettes';
+
+  @override
+  String get activityFieldText => 'texte';
+
+  @override
+  String get activityFieldTime => 'horaire';
+
+  @override
+  String get activityFieldTitle => 'titre';
+
+  @override
+  String get activityFile => 'fichier';
+
+  @override
+  String activityItemsAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments ajoutés',
+      one: '1 élément ajouté',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get activityListSeparator => ', ';
+
+  @override
+  String get activityMerged => 'Fusionné';
+
+  @override
+  String get activityMoved => 'Déplacé';
+
+  @override
+  String get activityMovedToList => 'Déplacé vers une autre liste';
+
+  @override
+  String get activityOther => 'Modifié';
+
+  @override
+  String get activityPaused => 'Mis en pause';
+
+  @override
+  String activityQuoted(String text) {
+    return '« $text »';
+  }
+
+  @override
+  String get activityRelapse => 'Rechute enregistrée';
+
+  @override
+  String get activityReopened => 'Rouvert';
+
+  @override
+  String activityRescheduled(String from, String to) {
+    return 'Déplacé de $from à $to';
+  }
+
+  @override
+  String get activityReset => 'Réinitialisé';
+
+  @override
+  String get activityRestored => 'Restauré';
+
+  @override
+  String get activityResumed => 'Repris';
+
+  @override
+  String get activityRollover => 'Reporté';
+
+  @override
+  String get activityScheduled => 'Planifié';
+
+  @override
+  String get activityScopeFollowing => 'Cette occurrence et les suivantes';
+
+  @override
+  String get activityScopeSeries => 'Toutes les occurrences';
+
+  @override
+  String get activitySeriesSplit => 'Série scindée';
+
+  @override
+  String get activitySkipped => 'Ignoré';
+
+  @override
+  String activitySkippedReason(String reason) {
+    return 'Ignoré : $reason';
+  }
+
+  @override
+  String get activitySorted => 'Éléments triés';
+
+  @override
+  String get activityStarted => 'Démarré';
+
+  @override
+  String activityStatusChanged(String from, String to) {
+    return 'Statut changé de $from à $to';
+  }
+
+  @override
+  String get activityStatusNoteChanged => 'Motif modifié';
+
+  @override
+  String activityStatusSet(String to) {
+    return 'Statut défini sur $to';
+  }
+
+  @override
+  String get activityStopped => 'Arrêté';
+
+  @override
+  String get activityTagsChanged => 'Étiquettes modifiées';
+
+  @override
+  String get activityTimeLogged => 'Temps enregistré';
+
+  @override
+  String get activityTitle => 'Historique';
+
+  @override
+  String get activityUnarchived => 'Désarchivé';
+
+  @override
+  String get activityUnscheduled => 'Replacé dans les tâches à planifier';
+
+  @override
   String get appName => 'Everslot';
 
   @override
