@@ -1,3 +1,4 @@
+import 'package:everslot/core/providers.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/notifications/application/notification_providers.dart';
 import 'package:everslot/features/notifications/domain/default_rules.dart';
@@ -6,6 +7,7 @@ import 'package:everslot/features/notifications/domain/notification_target.dart'
 import 'package:everslot/features/notifications/domain/rule_spec.dart';
 import 'package:everslot/features/notifications/domain/rule_validation.dart';
 import 'package:everslot/features/notifications/presentation/notification_labels.dart';
+import 'package:everslot/features/notifications/presentation/schedule_picker.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,6 +49,11 @@ class _Choice {
   LocalTime? time;
 }
 
+/// Quick chips per target (tasks: at start / N min before / 1 day before at… / at end; all-day:
+/// on the day / 1 day before / last day at…; lists & items: at due / follow-up / every day at…;
+/// habits: at slot / every day / if not done by / streak at risk; quit: every day / milestones),
+/// plus *At a time…* (absolute), *Repeat…* (recurrence picker) and *Custom…* (any offset from
+/// 1 minute to 30 days before or after any available anchor, or N days before/after at a time).
 class SimpleRuleEditor extends ConsumerStatefulWidget {
   const SimpleRuleEditor({
     required this.targetType,
@@ -68,18 +75,34 @@ enum _Unit { minutes, hours, days, weeks }
 class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
   late final List<_Choice> _choices = _choicesFor();
   final Set<String> _selected = {};
+
+  /// *At a time…* (absolute date-time) and *Repeat…* (schedule) selections.
+  LocalDateTime? _absolute;
+  Map<String, Object?>? _schedule;
+
   bool _custom = false;
+  bool _dayForm = false;
   final _amount = TextEditingController(text: '20');
   _Unit _unit = _Unit.minutes;
   bool _before = true;
-  late TriggerAnchor _anchor = anchorsFor(
-    widget.targetType,
-    kind: widget.itemKind,
-  ).first;
+  LocalTime _dayTime = LocalTime(20, 0);
+  late TriggerAnchor _anchor = _anchors.first;
+
   String? _profileId;
   bool _sound = true;
   bool _system = true;
   bool _inbox = true;
+
+  List<TriggerAnchor> get _anchors =>
+      anchorsFor(widget.targetType, kind: widget.itemKind).toList();
+
+  bool get _isDigest =>
+      widget.targetType == NotificationTargetType.digest ||
+      widget.targetType == NotificationTargetType.custom;
+
+  /// Standalone reminders (absolute, repeating) make sense for everything but tasks and digests.
+  bool get _offersStandalone =>
+      !_isDigest && widget.targetType != NotificationTargetType.task;
 
   @override
   void dispose() {
@@ -112,10 +135,16 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
     ),
   );
 
+  String _every(NotificationLabels lb, LocalTime t) =>
+      '${lb.l.notifChipEvery.replaceAll('…', '').trim()} ${lb.time(t)}';
+
   List<_Choice> _choicesFor() {
     final l = context.l10n;
+    final dayTime = ref
+        .read(notificationSettingsProvider)
+        .effectiveDateOnlyTime;
     final nine = LocalTime(9, 0);
-    final eight = LocalTime(20, 0);
+    final evening = LocalTime(20, 0);
     switch (widget.targetType) {
       case NotificationTargetType.task when widget.itemKind == ItemKind.timed:
         return [
@@ -134,7 +163,7 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
             'day',
             (lb, t) => l.notifChipDayBeforeAt(lb.time(t!)),
             (t) => _day(TriggerAnchor.start, -1, t!),
-            time: eight,
+            time: evening,
           ),
           _Choice(
             'end',
@@ -148,14 +177,21 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
             'onday',
             (lb, t) => l.notifChipOnDayAt(lb.time(t!)),
             (t) => _day(TriggerAnchor.start, 0, t!),
-            time: nine,
+            time: dayTime,
           ),
           _Choice(
             'day',
             (lb, t) => l.notifChipDayBeforeAt(lb.time(t!)),
             (t) => _day(TriggerAnchor.start, -1, t!),
-            time: eight,
+            time: evening,
           ),
+          if (widget.itemKind == ItemKind.allDay)
+            _Choice(
+              'lastday',
+              (lb, t) => l.notifChipLastDayAt(lb.time(t!)),
+              (t) => _day(TriggerAnchor.end, 0, t!),
+              time: LocalTime(18, 0),
+            ),
         ];
       case NotificationTargetType.checklist ||
           NotificationTargetType.checklistItem:
@@ -175,12 +211,11 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
             'daybefore',
             (lb, t) => l.notifChipDayBeforeAt(lb.time(t!)),
             (t) => _day(TriggerAnchor.due, -1, t!),
-            time: eight,
+            time: evening,
           ),
           _Choice(
             'every',
-            (lb, t) =>
-                '${l.notifChipEvery.replaceAll('…', '').trim()} ${lb.time(t!)}',
+            (lb, t) => _every(lb, t!),
             (t) => _daily(t!),
             time: nine,
           ),
@@ -190,8 +225,7 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
         return [
           _Choice(
             'every',
-            (lb, t) =>
-                '${l.notifChipEvery.replaceAll('…', '').trim()} ${lb.time(t!)}',
+            (lb, t) => _every(lb, t!),
             (t) => _daily(t!),
             time: nine,
           ),
@@ -212,8 +246,7 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
           ),
           _Choice(
             'every',
-            (lb, t) =>
-                '${l.notifChipEvery.replaceAll('…', '').trim()} ${lb.time(t!)}',
+            (lb, t) => _every(lb, t!),
             (t) => _daily(t!),
             time: nine,
           ),
@@ -253,6 +286,7 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
   NotificationRuleSpec? _customSpec() {
     final amount = int.tryParse(_amount.text.trim());
     if (amount == null || amount < 0) return null;
+    if (_dayForm) return _day(_anchor, _before ? -amount : amount, _dayTime);
     final minutes =
         amount *
         switch (_unit) {
@@ -275,8 +309,49 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
   List<NotificationRuleSpec> get _specs => [
     for (final c in _choices)
       if (_selected.contains(c.id)) _withDelivery(c.build(c.time)),
+    if (_absolute != null)
+      _withDelivery(
+        NotificationRuleSpec(trigger: AbsoluteTrigger(at: _absolute!)),
+      ),
+    if (_schedule != null)
+      _withDelivery(
+        NotificationRuleSpec(trigger: ScheduleTrigger(recurrence: _schedule!)),
+      ),
     if (_custom && _customSpec() != null) _withDelivery(_customSpec()!),
   ];
+
+  bool get _use24h => MediaQuery.alwaysUse24HourFormatOf(context);
+
+  Future<void> _pickAbsolute() async {
+    final now = ref.read(clockProvider).nowUtc();
+    final local = ref
+        .read(zoneResolverProvider)
+        .toLocal(now, ref.read(deviceZoneProvider));
+    final initial =
+        _absolute ?? LocalDateTime(local.date.plusDays(1), LocalTime(9, 0));
+    final date = await pickDate(
+      context,
+      initial: initial.date,
+      first: local.date,
+    );
+    if (date == null || !mounted) return;
+    final time = await pickTime(
+      context,
+      initial: initial.time,
+      use24h: _use24h,
+    );
+    if (time == null || !mounted) return;
+    setState(() => _absolute = LocalDateTime(date, time));
+  }
+
+  Future<void> _pickSchedule() async {
+    final schedule = await pickReminderSchedule(
+      context,
+      ref,
+      initial: _schedule,
+    );
+    if (schedule != null && mounted) setState(() => _schedule = schedule);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -322,16 +397,16 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
                   deleteIcon: c.time == null
                       ? null
                       : const Icon(Icons.schedule, size: 18),
-                  deleteButtonTooltipMessage: l.notifFieldAtTime,
+                  deleteButtonTooltipMessage: l.notifChipChangeTime,
                   onDeleted: c.time == null
                       ? null
                       : () async {
                           final t = await pickTime(
                             context,
                             initial: c.time,
-                            use24h: MediaQuery.alwaysUse24HourFormatOf(context),
+                            use24h: _use24h,
                           );
-                          if (t != null) {
+                          if (t != null && mounted) {
                             setState(() {
                               c.time = t;
                               _selected.add(c.id);
@@ -339,77 +414,43 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
                           }
                         },
                 ),
-              FilterChip(
-                label: Text(l.notifChipCustom),
-                selected: _custom,
-                onSelected: (v) => setState(() => _custom = v),
-              ),
-            ],
-          ),
-          if (_custom) ...[
-            const SizedBox(height: Space.md),
-            Wrap(
-              spacing: Space.sm,
-              runSpacing: Space.sm,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                SizedBox(
-                  width: 96,
-                  child: TextField(
-                    controller: _amount,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    decoration: InputDecoration(labelText: l.notifOffsetAmount),
-                    onChanged: (_) => setState(() {}),
+              if (_offersStandalone) ...[
+                FilterChip(
+                  label: Text(
+                    _absolute == null
+                        ? l.notifChipAtTime
+                        : labels.trigger(AbsoluteTrigger(at: _absolute!)),
                   ),
+                  selected: _absolute != null,
+                  onSelected: (v) =>
+                      v ? _pickAbsolute() : setState(() => _absolute = null),
                 ),
-                DropdownButton<_Unit>(
-                  value: _unit,
-                  onChanged: (u) => setState(() => _unit = u ?? _unit),
-                  items: [
-                    DropdownMenuItem(
-                      value: _Unit.minutes,
-                      child: Text(l.notifUnitMinutes),
-                    ),
-                    DropdownMenuItem(
-                      value: _Unit.hours,
-                      child: Text(l.notifUnitHours),
-                    ),
-                    DropdownMenuItem(
-                      value: _Unit.days,
-                      child: Text(l.notifUnitDays),
-                    ),
-                    DropdownMenuItem(
-                      value: _Unit.weeks,
-                      child: Text(l.notifUnitWeeks),
-                    ),
-                  ],
-                ),
-                DropdownButton<bool>(
-                  value: _before,
-                  onChanged: (v) => setState(() => _before = v ?? _before),
-                  items: [
-                    DropdownMenuItem(value: true, child: Text(l.notifBefore)),
-                    DropdownMenuItem(value: false, child: Text(l.notifAfter)),
-                  ],
-                ),
-                DropdownButton<TriggerAnchor>(
-                  value: _anchor,
-                  onChanged: (a) => setState(() => _anchor = a ?? _anchor),
-                  items: [
-                    for (final a in anchorsFor(
-                      widget.targetType,
-                      kind: widget.itemKind,
-                    ))
-                      DropdownMenuItem(value: a, child: Text(labels.anchor(a))),
-                  ],
+                FilterChip(
+                  label: Text(
+                    _schedule == null
+                        ? l.notifChipRepeat
+                        : labels.trigger(
+                            ScheduleTrigger(recurrence: _schedule!),
+                          ),
+                  ),
+                  selected: _schedule != null,
+                  onSelected: (v) =>
+                      v ? _pickSchedule() : setState(() => _schedule = null),
                 ),
               ],
-            ),
-          ],
+              if (!_isDigest)
+                FilterChip(
+                  label: Text(l.notifChipCustom),
+                  selected: _custom,
+                  onSelected: (v) => setState(() => _custom = v),
+                ),
+            ],
+          ),
+          if (_custom) ..._customFields(context, labels),
           const SizedBox(height: Space.lg),
           DropdownButtonFormField<String?>(
             initialValue: _profileId,
+            isExpanded: true,
             decoration: InputDecoration(labelText: l.notifProfile),
             onChanged: (v) => setState(() => _profileId = v),
             items: [
@@ -422,26 +463,26 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
             ],
           ),
           SwitchListTile(
-            contentPadding: EdgeInsets.zero,
+            contentPadding: EdgeInsetsDirectional.zero,
             title: Text(l.notifSound),
             value: _sound,
             onChanged: (v) => setState(() => _sound = v),
           ),
           SwitchListTile(
-            contentPadding: EdgeInsets.zero,
+            contentPadding: EdgeInsetsDirectional.zero,
             title: Text(l.notifSystemNotification),
             value: _system,
             onChanged: (v) => setState(() => _system = v),
           ),
           SwitchListTile(
-            contentPadding: EdgeInsets.zero,
+            contentPadding: EdgeInsetsDirectional.zero,
             title: Text(l.notifInboxToggle),
             value: _inbox,
             onChanged: (v) => setState(() => _inbox = v),
           ),
           for (final issue in issues)
             Padding(
-              padding: const EdgeInsets.only(top: Space.xs),
+              padding: const EdgeInsetsDirectional.only(top: Space.xs),
               child: Text(
                 issue,
                 style: context.text.bodySmall?.copyWith(
@@ -458,13 +499,7 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
                   SimpleEditorOutcome([
                     (
                       spec: specs.isEmpty
-                          ? _rel(
-                              anchorsFor(
-                                widget.targetType,
-                                kind: widget.itemKind,
-                              ).first,
-                              0,
-                            )
+                          ? _rel(_anchors.first, 0)
                           : specs.first,
                       profileId: _profileId,
                     ),
@@ -473,22 +508,116 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
                 child: Text(l.notifAdvanced),
               ),
               const Spacer(),
-              FilledButton(
-                onPressed: specs.isEmpty || issues.isNotEmpty
-                    ? null
-                    : () => Navigator.pop(
-                        context,
-                        SimpleEditorOutcome([
-                          for (final s in specs)
-                            (spec: s, profileId: _profileId),
-                        ]),
-                      ),
-                child: Text(l.notifCreateCount(specs.length)),
+              Flexible(
+                child: FilledButton(
+                  onPressed: specs.isEmpty || issues.isNotEmpty
+                      ? null
+                      : () => Navigator.pop(
+                          context,
+                          SimpleEditorOutcome([
+                            for (final s in specs)
+                              (spec: s, profileId: _profileId),
+                          ]),
+                        ),
+                  child: Text(
+                    l.notifCreateCount(specs.length),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ),
             ],
           ),
         ],
       ),
     );
+  }
+
+  /// Custom offset: amount + unit + before/after + anchor, or "N days before/after at HH:MM".
+  List<Widget> _customFields(BuildContext context, NotificationLabels labels) {
+    final l = labels.l;
+    return [
+      SwitchListTile(
+        contentPadding: EdgeInsetsDirectional.zero,
+        title: Text(l.notifFieldDayForm),
+        value: _dayForm,
+        onChanged: (v) => setState(() {
+          _dayForm = v;
+          _amount.text = v ? '1' : '20';
+        }),
+      ),
+      Wrap(
+        spacing: Space.sm,
+        runSpacing: Space.sm,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          SizedBox(
+            width: 96,
+            child: TextField(
+              key: const ValueKey('notif-custom-amount'),
+              controller: _amount,
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              decoration: InputDecoration(
+                labelText: _dayForm ? l.notifUnitDays : l.notifOffsetAmount,
+              ),
+              onChanged: (_) => setState(() {}),
+            ),
+          ),
+          if (!_dayForm)
+            DropdownButton<_Unit>(
+              value: _unit,
+              onChanged: (u) => setState(() => _unit = u ?? _unit),
+              items: [
+                DropdownMenuItem(
+                  value: _Unit.minutes,
+                  child: Text(l.notifUnitMinutes),
+                ),
+                DropdownMenuItem(
+                  value: _Unit.hours,
+                  child: Text(l.notifUnitHours),
+                ),
+                DropdownMenuItem(
+                  value: _Unit.days,
+                  child: Text(l.notifUnitDays),
+                ),
+                DropdownMenuItem(
+                  value: _Unit.weeks,
+                  child: Text(l.notifUnitWeeks),
+                ),
+              ],
+            ),
+          DropdownButton<bool>(
+            value: _before,
+            onChanged: (v) => setState(() => _before = v ?? _before),
+            items: [
+              DropdownMenuItem(value: true, child: Text(l.notifBefore)),
+              DropdownMenuItem(value: false, child: Text(l.notifAfter)),
+            ],
+          ),
+          DropdownButton<TriggerAnchor>(
+            value: _anchor,
+            onChanged: (a) => setState(() => _anchor = a ?? _anchor),
+            items: [
+              for (final a in _anchors)
+                DropdownMenuItem(value: a, child: Text(labels.anchor(a))),
+            ],
+          ),
+          if (_dayForm)
+            ActionChip(
+              avatar: const Icon(Icons.schedule, size: 18),
+              label: Text(labels.time(_dayTime)),
+              tooltip: l.notifChipChangeTime,
+              onPressed: () async {
+                final t = await pickTime(
+                  context,
+                  initial: _dayTime,
+                  use24h: _use24h,
+                );
+                if (t != null && mounted) setState(() => _dayTime = t);
+              },
+            ),
+        ],
+      ),
+    ];
   }
 }

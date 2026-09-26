@@ -1360,6 +1360,12 @@ abstract class AppLocalizations {
   /// **'{minutes, plural, =1{1 min before} other{{minutes} min before}}'**
   String notifChipBefore(int minutes);
 
+  /// No description provided for @notifChipChangeTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Change the time'**
+  String get notifChipChangeTime;
+
   /// No description provided for @notifChipCustom.
   ///
   /// In en, this message translates to:
@@ -1384,6 +1390,12 @@ abstract class AppLocalizations {
   /// **'If not done by…'**
   String get notifChipIfNotDoneBy;
 
+  /// No description provided for @notifChipLastDayAt.
+  ///
+  /// In en, this message translates to:
+  /// **'On the last day at {time}'**
+  String notifChipLastDayAt(String time);
+
   /// No description provided for @notifChipMilestones.
   ///
   /// In en, this message translates to:
@@ -1395,6 +1407,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'On the day at {time}'**
   String notifChipOnDayAt(String time);
+
+  /// No description provided for @notifChipRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat…'**
+  String get notifChipRepeat;
 
   /// No description provided for @notifChipStreakRisk.
   ///

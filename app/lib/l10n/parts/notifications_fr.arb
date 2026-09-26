@@ -461,5 +461,8 @@
   "notifStatusOngoing": "en cours",
   "notifStatusWaiting": "en attente",
   "notifStatusBlocked": "bloqué",
-  "notifStatusCompleted": "terminé"
+  "notifStatusCompleted": "terminé",
+  "notifChipRepeat": "Répéter…",
+  "notifChipLastDayAt": "Le dernier jour à {time}",
+  "notifChipChangeTime": "Modifier l’heure"
 }

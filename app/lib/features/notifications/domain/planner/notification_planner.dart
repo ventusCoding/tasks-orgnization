@@ -295,7 +295,12 @@ abstract final class NotificationPlanner {
         }
         if (anchorAt == null) return const [];
         if (usesDayForm) {
-          final date = dateOf(anchorAt).plusDays(dayOffset!);
+          // End-like anchors are exclusive instants (an all-day span ends at the next midnight):
+          // their day is the last included one, so "on the last day at 18:00" = end, dayOffset 0.
+          final anchorDate = anchor.isEndLike
+              ? dateOf(anchorAt.subtract(const Duration(minutes: 1)))
+              : dateOf(anchorAt);
+          final date = anchorDate.plusDays(dayOffset!);
           return [
             _Candidate(
               at(date, atTime!),
@@ -305,6 +310,7 @@ abstract final class NotificationPlanner {
                   : DefaultContentKind.daysBefore,
               count: dayOffset.abs(),
               anchor: anchorAt,
+              extraVars: {'date': ctx.texts.date(anchorDate)},
             ),
           ];
         }

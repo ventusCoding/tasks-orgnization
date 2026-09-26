@@ -64,10 +64,11 @@ Set<TriggerAnchor> anchorsFor(
   NotificationTargetType type, {
   ItemKind kind = ItemKind.timed,
 }) => switch (type) {
+  // All-day spans have an end (the day after the last day); date-only tasks don't.
   NotificationTargetType.task =>
-    kind == ItemKind.timed
-        ? {TriggerAnchor.start, TriggerAnchor.end}
-        : {TriggerAnchor.start},
+    kind == ItemKind.dateOnly
+        ? {TriggerAnchor.start}
+        : {TriggerAnchor.start, TriggerAnchor.end},
   NotificationTargetType.checklist => {TriggerAnchor.due},
   NotificationTargetType.checklistItem => {
     TriggerAnchor.due,
