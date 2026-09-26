@@ -615,6 +615,10 @@ class AppLocalizationsAr extends AppLocalizations {
       'ستُزال بياناتك من هذا الجهاز، وتبقى آمنة في حسابك.';
 
   @override
+  String get authSignOutGuestBody =>
+      'حساب الضيف هذا موجود على هذا الجهاز فقط. سيؤدي تسجيل الخروج إلى حذفه نهائيًا مع كل بياناته، فأضف بريدًا إلكترونيًا أولًا للاحتفاظ به.';
+
+  @override
   String authSignOutPendingBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

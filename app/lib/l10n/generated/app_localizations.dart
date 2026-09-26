@@ -1090,6 +1090,12 @@ abstract class AppLocalizations {
   /// **'Your data will be removed from this device. It stays safe in your account.'**
   String get authSignOutBody;
 
+  /// No description provided for @authSignOutGuestBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This guest account only exists on this device. Signing out deletes it and all its data for good — add an email first to keep it.'**
+  String get authSignOutGuestBody;
+
   /// No description provided for @authSignOutPendingBody.
   ///
   /// In en, this message translates to:

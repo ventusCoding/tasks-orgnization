@@ -153,7 +153,15 @@ class AuthBinding {
 
     service.revoked.addListener(onRevoked);
     service.status.addListener(onStatus);
-    onRevoked();
+    // Not synchronously: `_attach` also runs while providers build (fireImmediately), and
+    // providers may not modify other providers during their initialization.
+    scheduleMicrotask(() {
+      try {
+        onRevoked();
+      } on Object {
+        // Binding or service disposed meanwhile.
+      }
+    });
     _detachService = () {
       try {
         service.revoked.removeListener(onRevoked);

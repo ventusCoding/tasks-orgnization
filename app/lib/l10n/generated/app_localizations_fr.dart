@@ -610,6 +610,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Vos données seront retirées de cet appareil. Elles restent en sécurité dans votre compte.';
 
   @override
+  String get authSignOutGuestBody =>
+      'Ce compte invité n’existe que sur cet appareil. Vous déconnecter le supprimera définitivement avec toutes ses données : ajoutez d’abord un e-mail pour le conserver.';
+
+  @override
   String authSignOutPendingBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

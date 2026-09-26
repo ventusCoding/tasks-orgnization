@@ -1746,6 +1746,7 @@
   "authSignOut": "Sign out",
   "authSignOutAnyway": "Sign out anyway",
   "authSignOutBody": "Your data will be removed from this device. It stays safe in your account.",
+  "authSignOutGuestBody": "This guest account only exists on this device. Signing out deletes it and all its data for good — add an email first to keep it.",
   "authSignOutPendingBody": "{count, plural, =1{1 change hasn't synced yet and will be lost.} other{{count} changes haven't synced yet and will be lost.}} Export your data first, or sign out anyway.",
   "authSignOutSyncing": "Syncing your last changes…",
   "authSignOutTitle": "Sign out?",

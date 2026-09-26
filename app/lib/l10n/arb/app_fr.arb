@@ -252,6 +252,7 @@
   "authSignOut": "Se déconnecter",
   "authSignOutAnyway": "Me déconnecter quand même",
   "authSignOutBody": "Vos données seront retirées de cet appareil. Elles restent en sécurité dans votre compte.",
+  "authSignOutGuestBody": "Ce compte invité n’existe que sur cet appareil. Vous déconnecter le supprimera définitivement avec toutes ses données : ajoutez d’abord un e-mail pour le conserver.",
   "authSignOutPendingBody": "{count, plural, one{{count} modification n'est pas encore synchronisée et sera perdue.} other{{count} modifications ne sont pas encore synchronisées et seront perdues.}} Exportez d'abord vos données, ou déconnectez-vous quand même.",
   "authSignOutSyncing": "Synchronisation de vos dernières modifications…",
   "authSignOutTitle": "Se déconnecter ?",

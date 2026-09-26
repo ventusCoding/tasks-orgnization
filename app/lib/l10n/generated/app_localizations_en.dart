@@ -602,6 +602,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your data will be removed from this device. It stays safe in your account.';
 
   @override
+  String get authSignOutGuestBody =>
+      'This guest account only exists on this device. Signing out deletes it and all its data for good — add an email first to keep it.';
+
+  @override
   String authSignOutPendingBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
