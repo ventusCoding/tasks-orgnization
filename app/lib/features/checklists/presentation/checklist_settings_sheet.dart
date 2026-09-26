@@ -10,6 +10,7 @@ import 'package:everslot/features/checklists/presentation/status_visuals.dart';
 import 'package:everslot/features/notifications/presentation/notification_settings_section.dart';
 import 'package:everslot/features/organization/application/providers.dart';
 import 'package:everslot/features/organization/presentation/categories_screen.dart';
+import 'package:everslot/features/recurrence_ui/recurrence_ui.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -174,24 +175,12 @@ class _RepeatSection extends ConsumerWidget {
 
   final Checklist checklist;
 
-  String _presetLabel(BuildContext context, ResetPreset? p) {
-    final l = context.l10n;
-    return switch (p) {
-      null => l.repeatNone,
-      ResetPreset.daily => l.repeatDaily,
-      ResetPreset.weekdays => l.repeatWeekdays,
-      ResetPreset.weekly => l.repeatWeekly,
-      ResetPreset.monthly => l.repeatMonthly,
-    };
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     final service = ref.read(checklistResetServiceProvider);
     final editor = ref.read(checklistEditorProvider(checklist.id).notifier);
     final schedule = ResetSchedule.fromJson(checklist.resetRule);
-    final preset = schedule?.preset;
     final mode = checklist.resetMode ?? ResetMode.completedToTodo;
     final prefs = ref.watch(userPreferencesProvider);
     final zone = ref.watch(deviceZoneProvider);
@@ -203,11 +192,39 @@ class _RepeatSection extends ConsumerWidget {
       return today.atTime(time);
     }
 
-    Future<void> configure(ResetPreset? p, {LocalTime? time, ResetMode? newMode}) async {
-      final t = time ?? schedule?.anchorStart.time ?? LocalTime(5, 0);
-      final next = p == null ? null : ResetSchedule.preset(p, anchorStart: anchorFor(t));
+    Future<void> save(ResetSchedule? next, {ResetMode? newMode}) async {
       final r = await service.configure(checklist.id, next, mode: newMode ?? mode);
       editor.pushUndo('repeat', r);
+    }
+
+    // The shared recurrence picker (T2.1.15) in checklist-reset mode: fixed rules only.
+    Future<void> pick() async {
+      final anchor = schedule?.anchor ?? RecurrenceAnchor(anchorFor(LocalTime(5, 0)), null);
+      final result = await showRecurrencePickerDetailed(
+        context,
+        anchor: anchor,
+        initial: schedule?.rule,
+        mode: RecurrencePickerMode.checklistReset,
+      );
+      if (result == null) return;
+      final rule = result.rule;
+      await save(
+        rule == null ? null : ResetSchedule(rule: rule, anchorStart: result.anchor.start, zone: result.anchor.zoneId),
+      );
+    }
+
+    String describe(ResetSchedule s) {
+      try {
+        return const RecurrenceDescriber().describe(
+          s.rule,
+          s.anchor,
+          locale: context.localeName.split('-').first,
+          use24h: prefs.use24h,
+          weekStart: prefs.weekStart,
+        );
+      } on Object {
+        return l.repeatCustom;
+      }
     }
 
     final nextAt = schedule == null ? null : service.nextReset(schedule);
@@ -217,29 +234,17 @@ class _RepeatSection extends ConsumerWidget {
         SectionHeader(l.repeatTitle),
         ListTile(
           leading: const Icon(Icons.repeat),
-          title: Text(schedule != null && preset == null ? l.repeatCustom : _presetLabel(context, preset)),
+          title: Text(schedule == null ? l.repeatNone : describe(schedule)),
           subtitle: schedule == null
               ? null
               : Text(
                   l.repeatChip(
-                    const RecurrenceDescriber().describe(
-                      schedule.rule,
-                      schedule.anchor,
-                      locale: context.localeName.split('-').first,
-                      use24h: prefs.use24h,
-                      weekStart: prefs.weekStart,
-                    ),
+                    describe(schedule),
                     nextAt == null ? '—' : fmt.relative(nextAt, ref.read(clockProvider).nowUtc()),
                   ),
                 ),
-          trailing: DropdownButton<ResetPreset?>(
-            value: preset,
-            onChanged: (p) => configure(p),
-            items: [
-              DropdownMenuItem<ResetPreset?>(child: Text(l.repeatNone)),
-              for (final p in ResetPreset.values) DropdownMenuItem(value: p, child: Text(_presetLabel(context, p))),
-            ],
-          ),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: pick,
         ),
         if (schedule != null) ...[
           ListTile(
@@ -248,12 +253,15 @@ class _RepeatSection extends ConsumerWidget {
             trailing: Text(fmt.time(schedule.anchorStart.time)),
             onTap: () async {
               final t = await pickTime(context, initial: schedule.anchorStart.time, use24h: prefs.use24h);
-              if (t != null) await configure(preset ?? ResetPreset.daily, time: t);
+              if (t == null) return;
+              await save(
+                ResetSchedule(rule: schedule.rule, anchorStart: schedule.anchorStart.date.atTime(t), zone: schedule.zone),
+              );
             },
           ),
           RadioGroup<ResetMode>(
             groupValue: mode,
-            onChanged: (m) => m == null ? null : configure(preset ?? ResetPreset.daily, newMode: m),
+            onChanged: (m) => m == null ? null : save(schedule, newMode: m),
             child: Column(
               children: [
                 RadioListTile<ResetMode>(value: ResetMode.completedToTodo, title: Text(l.repeatModeCompleted)),

@@ -6,6 +6,7 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/sync/sync_status.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/core/time/clock.dart';
+import 'package:everslot/core/time/recurrence_service.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
 import 'package:everslot/features/checklists/data/checklist_items_repository.dart';
 import 'package:everslot/features/checklists/data/checklists_repository.dart';
@@ -139,13 +140,12 @@ class ChecklistResetService {
       ResetPlanner.next(_engine, schedule, now: _clock.nowUtc(), evalZone: _zone());
 }
 
-final recurrenceEngineProvider = Provider<RecurrenceEngine>((ref) => RecurrenceEngine(ref.watch(zoneResolverProvider)));
-
 final checklistResetServiceProvider = Provider<ChecklistResetService>(
   (ref) => ChecklistResetService(
     lists: ref.watch(checklistsRepositoryProvider),
     items: ref.watch(checklistItemsRepositoryProvider),
-    engine: ref.watch(recurrenceEngineProvider),
+    // The shared facade's engine (T2.1.14): one resolver and zone handling app-wide.
+    engine: ref.watch(recurrenceServiceProvider).engine,
     clock: ref.watch(clockProvider),
     zone: () => ref.read(deviceZoneProvider),
   ),

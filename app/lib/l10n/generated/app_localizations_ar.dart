@@ -4770,16 +4770,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get repeatCustom => 'قاعدة مخصصة';
 
   @override
-  String get repeatDaily => 'كل يوم';
-
-  @override
   String get repeatModeAll => 'إعادة كل شيء إلى «للإنجاز»';
 
   @override
   String get repeatModeCompleted => 'إلغاء تحديد المكتملة فقط';
-
-  @override
-  String get repeatMonthly => 'كل شهر';
 
   @override
   String get repeatNoRuns => 'لا توجد دورات مكتملة بعد';
@@ -4800,12 +4794,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get repeatTitle => 'التكرار';
-
-  @override
-  String get repeatWeekdays => 'كل أيام العمل';
-
-  @override
-  String get repeatWeekly => 'كل أسبوع';
 
   @override
   String get savedSnack => 'تم الحفظ';

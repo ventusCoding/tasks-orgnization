@@ -4560,16 +4560,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get repeatCustom => 'Custom rule';
 
   @override
-  String get repeatDaily => 'Every day';
-
-  @override
   String get repeatModeAll => 'Everything back to to-do';
 
   @override
   String get repeatModeCompleted => 'Uncheck completed items only';
-
-  @override
-  String get repeatMonthly => 'Every month';
 
   @override
   String get repeatNoRuns => 'No finished runs yet';
@@ -4590,12 +4584,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get repeatTitle => 'Repeat';
-
-  @override
-  String get repeatWeekdays => 'Every weekday';
-
-  @override
-  String get repeatWeekly => 'Every week';
 
   @override
   String get savedSnack => 'Saved';

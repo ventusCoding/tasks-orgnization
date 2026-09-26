@@ -7690,12 +7690,6 @@ abstract class AppLocalizations {
   /// **'Custom rule'**
   String get repeatCustom;
 
-  /// No description provided for @repeatDaily.
-  ///
-  /// In en, this message translates to:
-  /// **'Every day'**
-  String get repeatDaily;
-
   /// No description provided for @repeatModeAll.
   ///
   /// In en, this message translates to:
@@ -7707,12 +7701,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Uncheck completed items only'**
   String get repeatModeCompleted;
-
-  /// No description provided for @repeatMonthly.
-  ///
-  /// In en, this message translates to:
-  /// **'Every month'**
-  String get repeatMonthly;
 
   /// No description provided for @repeatNoRuns.
   ///
@@ -7749,18 +7737,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Repeat'**
   String get repeatTitle;
-
-  /// No description provided for @repeatWeekdays.
-  ///
-  /// In en, this message translates to:
-  /// **'Every weekday'**
-  String get repeatWeekdays;
-
-  /// No description provided for @repeatWeekly.
-  ///
-  /// In en, this message translates to:
-  /// **'Every week'**
-  String get repeatWeekly;
 
   /// No description provided for @savedSnack.
   ///

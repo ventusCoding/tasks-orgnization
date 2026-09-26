@@ -4604,16 +4604,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get repeatCustom => 'Règle personnalisée';
 
   @override
-  String get repeatDaily => 'Tous les jours';
-
-  @override
   String get repeatModeAll => 'Tout remettre à faire';
 
   @override
   String get repeatModeCompleted => 'Décocher seulement les terminés';
-
-  @override
-  String get repeatMonthly => 'Tous les mois';
 
   @override
   String get repeatNoRuns => 'Aucun cycle terminé';
@@ -4634,12 +4628,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get repeatTitle => 'Répétition';
-
-  @override
-  String get repeatWeekdays => 'Tous les jours ouvrés';
-
-  @override
-  String get repeatWeekly => 'Toutes les semaines';
 
   @override
   String get savedSnack => 'Enregistré';
