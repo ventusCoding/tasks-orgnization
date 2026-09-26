@@ -12,6 +12,14 @@ Future<void> ensureProfileAndDefaults(ProviderContainer container) async {
   final db = container.read(appDatabaseProvider);
   final userId = container.read(currentUserIdProvider);
   if (userId.isEmpty) return;
+  // Cloud accounts: the server creates the profile (auth trigger) and other devices may already
+  // have edited it or seeded the defaults — wait for the first pull, otherwise this device's
+  // fresh defaults (newer clocks) would overwrite them. The auth binding calls this again once
+  // the first sync succeeded (T1.5.05).
+  if (container.read(sessionProvider)?.isCloud ?? false) {
+    final state = await (db.select(db.syncState)..where((s) => s.userId.equals(userId))).getSingleOrNull();
+    if (state?.lastPullAt == null) return;
+  }
   final writer = container.read(syncWriterProvider);
   final existing = await (db.select(db.profiles)..where((p) => p.id.equals(userId))).getSingleOrNull();
   final systemLocale = PlatformDispatcher.instance.locale;

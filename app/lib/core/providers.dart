@@ -4,6 +4,7 @@ import 'package:everslot/core/database/app_database.dart';
 import 'package:everslot/core/env/env.dart';
 import 'package:everslot/core/lifecycle/app_lifecycle.dart';
 import 'package:everslot/core/preferences/user_preferences.dart';
+import 'package:everslot/core/session/device_identity.dart';
 import 'package:everslot/core/session/local_data_owner.dart';
 import 'package:everslot/core/session/session.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
@@ -129,6 +130,21 @@ final syncWriterProvider = Provider<SyncWriter>((ref) {
   return writer;
 });
 
+/// Device id used for the device registry and pushes. Starts as [deviceIdProvider]; rotated
+/// after the server revoked this device (T1.5.14) so the next sign-in registers a new device.
+final activeDeviceIdProvider = NotifierProvider<ActiveDeviceIdController, String>(
+  ActiveDeviceIdController.new,
+);
+
+class ActiveDeviceIdController extends Notifier<String> {
+  @override
+  String build() => ref.watch(deviceIdProvider);
+
+  Future<void> rotate() async {
+    state = await DeviceIdentity.rotate(ref.read(appDatabaseProvider));
+  }
+}
+
 /// Server API of the sync engine (null when Supabase isn't configured). Tests override it with a
 /// fake to exercise the engine without a backend.
 final syncApiProvider = Provider<SyncApi?>((ref) {
@@ -147,7 +163,7 @@ final deviceRegistrarProvider = Provider<DeviceRegistrar?>((ref) {
     clock: ref.watch(clockProvider),
     userId: () => ref.read(currentUserIdProvider),
     loadInfo: platformDeviceInfoLoader(
-      deviceId: ref.watch(deviceIdProvider),
+      deviceId: ref.watch(activeDeviceIdProvider),
       timeZone: () => ref.read(deviceZoneProvider),
       locale: () =>
           ref.read(profileRowProvider).value?.locale ??
@@ -170,7 +186,7 @@ final syncServiceProvider = Provider<SyncService?>((ref) {
     hlc: ref.watch(hlcProvider),
     clock: ref.watch(clockProvider),
     userId: () => ref.read(currentUserIdProvider),
-    deviceId: ref.watch(deviceIdProvider),
+    deviceId: ref.watch(activeDeviceIdProvider),
     appBuild: ref.watch(appBuildProvider),
     // Account-switch safety (T1.5.08): never push/pull before the local data is bound to this user.
     guard: () => LocalDataOwner.matches(db, session.userId),
