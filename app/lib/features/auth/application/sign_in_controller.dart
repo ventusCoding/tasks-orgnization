@@ -8,7 +8,6 @@ import 'package:everslot/features/auth/application/auth_binding.dart';
 import 'package:everslot/features/auth/application/auth_providers.dart';
 import 'package:everslot/features/auth/domain/auth_models.dart';
 import 'package:everslot/features/auth/domain/auth_repository.dart';
-import 'package:everslot/startup/startup_tasks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum SignInStep { start, code }
@@ -168,12 +167,13 @@ class SignInController extends Notifier<SignInState> {
   /// (offline first launch, privacy). Signing in later claims the data (ADR-017).
   Future<void> useOnThisDeviceOnly() async {
     final container = ref.container;
+    final startup = ref.read(accountStartupProvider);
     final db = ref.read(appDatabaseProvider);
     final session = ref.read(sessionProvider.notifier);
     await LocalOnlyChoice.choose(db);
     final id = await LocalAccount.ensureUserId(db);
     session.set(AppSession(userId: id, mode: SessionMode.localOnly));
-    unawaited(runStartupTasks(container));
+    unawaited(startup(container));
   }
 
   void clearError() => state = state.copyWith(clearError: true);

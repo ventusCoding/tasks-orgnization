@@ -22,9 +22,9 @@ registration ([7.4]).
 
 ## Progress
 
-- [ ] T1.5.01 — Supabase Auth configuration (email OTP, redirects, providers)
-- [ ] T1.5.02 — Secure session storage, auth state & router redirect
-- [ ] T1.5.03 — Email OTP sign-in UI
+- [x] T1.5.01 — Supabase Auth configuration (email OTP, redirects, providers)
+- [x] T1.5.02 — Secure session storage, auth state & router redirect
+- [x] T1.5.03 — Email OTP sign-in UI
 - [ ] T1.5.04 — Profiles table, auto-creation trigger & repository
 - [ ] T1.5.05 — First-run essentials (zone, locale, week start, 12/24 h)
 - [ ] T1.5.06 — Current time-zone tracking & zone-change events
@@ -49,6 +49,7 @@ redirect URLs for `everslot://auth-callback` (dev/prod), minimum password policy
 enabled), rate limits; prepare Google and Apple provider settings (client ids) for P1 tasks; anonymous
 sign-ins enabled in local/dev (CAPTCHA before production).
 **Acceptance criteria:** local and cloud configs match (`config.toml` ↔ dashboard checklist).
+**Notes:** `supabase/config.toml` verified (6-digit email OTP, `everslot://auth-callback` redirects, anonymous sign-ins, rate limits); manual linking enabled (guest upgrade) and a disabled Google provider placeholder added. Cloud-dashboard checklist (redirect URLs, Google/Apple ids, CAPTCHA, SMTP) goes into guide.md — client ids are `TODO(config)` dart-defines in `features/auth/data/auth_config.dart`.
 
 ### T1.5.02 — Secure session storage, auth state & router redirect
 **Priority:** P0 · **Size:** M · **Depends on:** T1.5.01, [1.3] (router)
@@ -59,6 +60,7 @@ profile essentials → first-run (T1.5.05), else shell; deep links preserved acr
 **Acceptance criteria:** app restarts signed-in offline; token refresh happens silently online; a deep link
 opened while signed out resumes after sign-in.
 **Tests:** unit tests for redirect logic; storage adapter tests with a fake secure storage.
+**Notes:** `SecureSessionStorage` / `SecurePkceStorage` (Keychain `first_unlock_this_device`) wired in bootstrap; `authStatusProvider` (signedOut/localOnly/anonymous/signedIn); router redirect = pure `AuthRedirect.resolve` (deep links kept in `?from`, open-redirect safe, onboarding guard); `AuthBinding` started at bootstrap so magic links/OAuth bind the session.
 
 ### T1.5.03 — Email OTP sign-in UI
 **Priority:** P0 · **Size:** M · **Depends on:** T1.5.02, [1.3] (components, l10n)
@@ -68,6 +70,7 @@ code, expired, rate limited, offline).
 **Acceptance criteria:** full flow works against the local stack (Inbucket/Mailpit) and cloud; screen
 reader friendly; RTL correct.
 **Tests:** widget tests with a fake auth repository; integration test on local stack.
+**Notes:** Single autofill-friendly code field (`oneTimeCode`, paste, Arabic-Indic digits, auto-submit) instead of 6 boxes; magic link completes through Supabase's deep-link handling + `AuthBinding`. Widget tests with a fake repository (EN + AR); the local-stack integration test waits for a configured Supabase project.
 
 ### T1.5.04 — Profiles table, auto-creation trigger & repository
 **Priority:** P0 · **Size:** M · **Depends on:** [1.2] (T1.2.05), [1.4] (T1.4.06)

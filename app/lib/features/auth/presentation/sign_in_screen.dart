@@ -38,7 +38,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     final email = ref.read(sessionProvider)?.email;
     if (_reauth && email != null) {
       _email.text = email;
-      ref.read(signInControllerProvider.notifier).prefill(email);
+      // Providers can't be modified while the tree builds.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) ref.read(signInControllerProvider.notifier).prefill(email);
+      });
     }
     // Re-renders the resend countdown.
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) {

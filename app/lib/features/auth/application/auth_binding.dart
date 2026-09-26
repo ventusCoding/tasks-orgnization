@@ -37,6 +37,12 @@ final authBindingProvider = Provider<AuthBinding>((ref) {
 /// Optional backup hook (see [BeforeAccountWipe]).
 final beforeAccountWipeProvider = Provider<BeforeAccountWipe?>((ref) => null);
 
+/// Runs the per-account startup tasks (profile/defaults, notifications…) after the session
+/// changed to another account. Overridden with a no-op in widget tests (plugins).
+final accountStartupProvider = Provider<Future<void> Function(ProviderContainer container)>(
+  (ref) => runStartupTasks,
+);
+
 class AuthBinding {
   AuthBinding(this._ref);
 
@@ -120,7 +126,7 @@ class AuthBinding {
     if (previous != session) _ref.read(sessionProvider.notifier).set(session);
     if (previous?.userId != user.id) {
       // New account on this device: its startup tasks (profile/defaults wait for the first pull).
-      unawaited(runStartupTasks(_ref.container));
+      unawaited(_ref.read(accountStartupProvider)(_ref.container));
     }
     unawaited(_ref.read(syncServiceProvider)?.syncNow(manual: true));
   }
