@@ -103,7 +103,22 @@ class DayHeaderCell extends StatelessWidget {
         child: Container(
           color: tint,
           padding: const EdgeInsets.symmetric(vertical: Space.xxs),
-          child: Column(
+          // Laid out at the column width, then scaled down if taller than the header (text scale).
+          child: LayoutBuilder(
+            builder: (context, constraints) => FittedBox(
+              fit: BoxFit.scaleDown,
+              child: SizedBox(
+                width: constraints.maxWidth.isFinite ? constraints.maxWidth : 56,
+                child: _content(context, c, dayNumber),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _content(BuildContext context, ColorScheme c, String dayNumber) => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               FittedBox(
@@ -139,9 +154,5 @@ class DayHeaderCell extends StatelessWidget {
                   child: Text(statsText!, style: context.text.labelSmall?.copyWith(fontSize: 10, color: c.onSurfaceVariant)),
                 ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
+          );
 }

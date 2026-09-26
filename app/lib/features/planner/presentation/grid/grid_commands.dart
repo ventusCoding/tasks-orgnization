@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
+import 'package:everslot/core/undo/undo_stack.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/planner/application/planner_contract.dart';
+import 'package:everslot/features/planner/application/view_config/view_actions.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/data/planner_view_data.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/snapping.dart';
@@ -58,12 +60,24 @@ class PlannerCommands {
 
   PlannerActions get actions => ref.read(viewActionsProvider);
 
-  Future<void> run(String message, Future<void> Function(PlannerActions a) body) async {
+  /// Extra mutations (delete, duplicate, manual order, unschedule, timers).
+  PlannerViewActions get extra => ref.read(viewExtraActionsProvider);
+
+  /// Runs one user command through the contract actions (one undo entry in the snackbar).
+  Future<void> run(String message, Future<void> Function(PlannerActions a) body) => track(message, () => body(actions));
+
+  /// Runs one user command through the extra view actions.
+  Future<void> runExtra(String message, Future<void> Function(PlannerViewActions a) body) => track(message, () => body(extra));
+
+  /// Runs [body] and shows [message] with an *Undo* action covering everything it wrote. The planner
+  /// service registers its own undo entries (undone from the snackbar); other SyncWriter operations
+  /// are merged into one entry; demo mode rewinds the demo store.
+  Future<void> track(String message, Future<void> Function() body) async {
     if (ref.read(plannerDemoModeProvider)) {
       final store = ref.read(demoPlannerStoreProvider.notifier);
-      final before = ref.read(demoPlannerStoreProvider).history.length;
-      await body(actions);
-      final steps = ref.read(demoPlannerStoreProvider).history.length - before;
+      final before = store.historyLength;
+      await body();
+      final steps = store.historyLength - before;
       if (!context.mounted) return;
       _snack(message, steps <= 0 ? null : () {
         for (var i = 0; i < steps; i++) {
@@ -73,20 +87,37 @@ class PlannerCommands {
       return;
     }
     SyncWriter? writer;
+    UndoStack? stack;
     try {
       writer = ref.read(syncWriterProvider);
+      stack = ref.read(undoStackProvider);
     } on Object {
       writer = null;
+      stack = null;
     }
     final records = <OpRecord>[];
+    var pushes = 0;
+    void onStack() => pushes++;
+    stack?.addListener(onStack);
     final sub = writer?.committed.listen(records.add);
     try {
-      await body(actions);
+      await body();
       await Future<void>.microtask(() {});
     } finally {
       await sub?.cancel();
+      stack?.removeListener(onStack);
     }
     if (!context.mounted) return;
+    if (pushes > 0 && stack != null) {
+      final target = stack;
+      final count = pushes;
+      _snack(message, () async {
+        for (var i = 0; i < count; i++) {
+          if (!await target.undo()) break;
+        }
+      });
+      return;
+    }
     if (records.isEmpty) {
       _snack(message, null);
       return;
@@ -144,12 +175,13 @@ class PlannerCommands {
     bool? allDay,
     required String message,
   }) async {
+    final haptics = ref.read(plannerHapticsProvider);
     if (!await confirmMoveDone(item)) return false;
     if (!context.mounted) return false;
     final scope = await askScope(item);
     if (scope == null || !context.mounted) return false;
     await run(message, (a) => a.reschedule(item, newStart: start, newDurationMinutes: duration, allDay: allDay, scope: scope));
-    ref.read(plannerHapticsProvider).success();
+    haptics.success();
     return true;
   }
 
@@ -181,10 +213,19 @@ class PlannerCommands {
     return id;
   }
 
-  Future<void> duplicate(PlannerItem item) => run(
-    context.l10n.pvCreatedSnack,
-    (a) => a.createAt(item.startLocal, item.durationMinutes, title: item.title, allDay: item.allDay),
-  );
+  Future<void> duplicate(PlannerItem item) => runExtra(context.l10n.pvCreatedSnack, (a) => a.duplicate(item));
+
+  /// Deletes [item]; recurring tasks ask for the scope (*this occurrence* cancels one occurrence).
+  Future<void> delete(PlannerItem item) async {
+    final l = context.l10n;
+    final scope = item.isRecurring && !item.isBacklog
+        ? await askScope(item)
+        : (await confirmDialog(context, title: l.actionDelete, body: item.title, confirmLabel: l.actionDelete, destructive: true)
+              ? EditScope.allOccurrences
+              : null);
+    if (scope == null || !context.mounted) return;
+    await runExtra(l.actionDelete, (a) => a.delete(item, scope: scope));
+  }
 
   /// Long-press-release quick menu (T3.4.12): Done, Skip, Start, Postpone ▸, Edit, Duplicate, Cancel.
   Future<void> showTileMenu(PlannerItem item) async {
@@ -223,7 +264,13 @@ class PlannerCommands {
           ),
           ListTile(leading: const Icon(Icons.edit_outlined), title: Text(l.actionEdit), onTap: () => Navigator.pop(ctx, 'edit')),
           ListTile(leading: const Icon(Icons.copy_outlined), title: Text(l.actionDuplicate), onTap: () => Navigator.pop(ctx, 'duplicate')),
-          ListTile(leading: const Icon(Icons.block), title: Text(l.pvCancelOccurrence), onTap: () => Navigator.pop(ctx, 'cancel')),
+          if (item.isRecurring)
+            ListTile(leading: const Icon(Icons.block), title: Text(l.pvCancelOccurrence), onTap: () => Navigator.pop(ctx, 'cancel')),
+          ListTile(
+            leading: Icon(Icons.delete_outline, color: ctx.colors.error),
+            title: Text(l.actionDelete, style: TextStyle(color: ctx.colors.error)),
+            onTap: () => Navigator.pop(ctx, 'delete'),
+          ),
           const SizedBox(height: Space.sm),
         ],
       ),
@@ -253,6 +300,8 @@ class PlannerCommands {
         await duplicate(item);
       case 'cancel':
         await setStatus(item, OccurrenceStatus.cancelled);
+      case 'delete':
+        await delete(item);
     }
   }
 

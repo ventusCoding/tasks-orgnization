@@ -1,5 +1,6 @@
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/features/planner/application/planner_contract.dart';
+import 'package:everslot/features/planner/application/view_config/view_actions.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/data/demo_planner_data.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/day_slices.dart';
@@ -66,6 +67,9 @@ class DemoPlannerStore extends Notifier<DemoPlannerState> {
   // ignore: use_setters_to_change_properties
   void set(DemoPlannerState next) => state = next;
 
+  /// Number of recorded demo edits (undo depth).
+  int get historyLength => state.history.length;
+
   bool undo() {
     if (state.history.isEmpty) return false;
     final previous = state.history.last;
@@ -101,6 +105,15 @@ final viewActionsProvider = Provider<PlannerActions>((ref) {
     return DemoPlannerActions(() => ref.read(demoPlannerStoreProvider), store.set, ref.watch(demoPlannerDataProvider));
   }
   return ref.watch(plannerActionsProvider);
+});
+
+/// Extra mutations beyond the contract (delete, duplicate, manual order, unschedule, timers).
+final viewExtraActionsProvider = Provider<PlannerViewActions>((ref) {
+  if (ref.watch(plannerDemoModeProvider)) {
+    final store = ref.read(demoPlannerStoreProvider.notifier);
+    return DemoPlannerActions(() => ref.read(demoPlannerStoreProvider), store.set, ref.watch(demoPlannerDataProvider));
+  }
+  return ref.watch(plannerViewActionsProvider);
 });
 
 /// Key of a sliced range.

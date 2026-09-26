@@ -16,18 +16,20 @@ class ScrolledContent extends StatelessWidget {
   final double contentHeight;
   final Widget child;
 
+  // The translation sits inside the viewport-sized OverflowBox so hit testing reaches content below
+  // the first screen (RenderTransform skips its own bounds check; the full-height child is hit).
   @override
   Widget build(BuildContext context) => ClipRect(
-    child: AnimatedBuilder(
-      animation: vertical,
-      builder: (context, child) => Transform.translate(
-        offset: Offset(0, -(vertical.hasClients ? vertical.offset : 0.0)),
-        child: child,
-      ),
-      child: OverflowBox(
-        alignment: Alignment.topCenter,
-        minHeight: contentHeight,
-        maxHeight: contentHeight,
+    child: OverflowBox(
+      alignment: Alignment.topCenter,
+      minHeight: contentHeight,
+      maxHeight: contentHeight,
+      child: AnimatedBuilder(
+        animation: vertical,
+        builder: (context, child) => Transform.translate(
+          offset: Offset(0, -(vertical.hasClients ? vertical.offset : 0.0)),
+          child: child,
+        ),
         child: child,
       ),
     ),
