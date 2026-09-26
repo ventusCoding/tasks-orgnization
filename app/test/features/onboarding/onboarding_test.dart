@@ -1,4 +1,3 @@
-import 'package:everslot/core/providers.dart';
 import 'package:everslot/features/auth/application/auth_providers.dart';
 import 'package:everslot/features/onboarding/application/onboarding_controller.dart';
 import 'package:everslot/features/onboarding/presentation/onboarding_screen.dart';
