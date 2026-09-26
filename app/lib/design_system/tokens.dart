@@ -74,6 +74,25 @@ abstract final class CategoryColors {
       ? const Color(0xFF111827)
       : Colors.white;
 
+  /// [color] itself when it already reaches [minContrast] against [background], otherwise the
+  /// closest darker (light backgrounds) or lighter (dark backgrounds) shade that does — for text
+  /// and icons drawn in a user/priority color (T2.3.04, WCAG 1.4.3).
+  static Color readableOn(Color color, Color background, {double minContrast = 4.5}) {
+    if (contrastRatio(color, background) >= minContrast) return color;
+    final towards = background.computeLuminance() > 0.18 ? Colors.black : Colors.white;
+    var lo = 0.0;
+    var hi = 1.0;
+    for (var i = 0; i < 24; i++) {
+      final mid = (lo + hi) / 2;
+      if (contrastRatio(Color.lerp(color, towards, mid)!, background) >= minContrast) {
+        hi = mid;
+      } else {
+        lo = mid;
+      }
+    }
+    return Color.lerp(color, towards, hi)!;
+  }
+
   static double contrastRatio(Color a, Color b) {
     final la = a.computeLuminance();
     final lb = b.computeLuminance();

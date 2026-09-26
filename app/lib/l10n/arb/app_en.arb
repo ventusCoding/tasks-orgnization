@@ -224,6 +224,20 @@
       }
     }
   },
+  "@galleryPicked": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@galleryWindowSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
   "@notifBannerCollapsed": {
     "placeholders": {
       "count": {
@@ -1553,6 +1567,20 @@
   "durationHoursMinutesShort": "{hours} h {minutes} min",
   "durationHoursShort": "{hours} h",
   "durationMinutesShort": "{minutes} min",
+  "entityStatusActive": "Active",
+  "entityStatusArchived": "Archived",
+  "entityStatusBlocked": "Blocked",
+  "entityStatusCancelled": "Cancelled",
+  "entityStatusCompleted": "Completed",
+  "entityStatusDone": "Done",
+  "entityStatusInProgress": "In progress",
+  "entityStatusMissed": "Missed",
+  "entityStatusOngoing": "Ongoing",
+  "entityStatusPaused": "Paused",
+  "entityStatusScheduled": "Scheduled",
+  "entityStatusSkipped": "Skipped",
+  "entityStatusTodo": "To do",
+  "entityStatusWaiting": "Waiting",
   "errorAuth": "Please sign in again.",
   "errorNetwork": "Can't reach the server. Check your connection.",
   "errorNotConfigured": "This feature needs cloud configuration (see guide.md).",
@@ -1581,6 +1609,39 @@
   "filterTextPrompt": "Contains text",
   "filterWithAttachments": "With attachments",
   "filterWithoutAttachments": "Without attachments",
+  "galleryButtons": "Buttons",
+  "galleryChips": "Chips & tags",
+  "galleryColors": "Category colors",
+  "galleryConfirm": "Confirmation",
+  "galleryContainer": "Open item",
+  "galleryDarkTheme": "Dark theme",
+  "galleryDialogs": "Dialogs, sheets & pickers",
+  "galleryDisabled": "Disabled",
+  "galleryFadeThrough": "Fade through",
+  "galleryFilters": "Filters",
+  "galleryIcons": "Icons",
+  "galleryInputs": "Inputs",
+  "galleryLargeText": "Large text (200 %)",
+  "galleryLayout": "Adaptive layout",
+  "galleryMotion": "Motion",
+  "galleryPicked": "Picked: {value}",
+  "galleryPriorities": "Priorities",
+  "galleryProgress": "Progress",
+  "galleryPrompt": "Text prompt",
+  "galleryReduceMotion": "Reduce motion",
+  "galleryRtl": "Right-to-left",
+  "gallerySampleText": "Sample text",
+  "gallerySharedAxis": "Shared axis",
+  "gallerySheet": "Bottom sheet",
+  "gallerySheetBody": "A bottom sheet with Everslot styling.",
+  "galleryStates": "Empty, error & loading states",
+  "galleryStatuses": "Statuses",
+  "galleryTitle": "Component gallery",
+  "galleryUndoSnack": "Undo snackbar",
+  "galleryWindowCompact": "compact",
+  "galleryWindowExpanded": "expanded",
+  "galleryWindowMedium": "medium",
+  "galleryWindowSize": "Window: {size}",
   "localOnlyBanner": "Cloud sync isn't configured — your data stays on this device.",
   "notFoundTitle": "Page not found",
   "notifActionComplete": "Complete",

@@ -23,8 +23,8 @@ void main() {
     arabicDigits: arabicDigits,
   );
 
-  /// CLDR uses narrow/no-break spaces (e.g. "7:03 PM"); compare with plain spaces.
-  String plain(String s) => s.replaceAll(RegExp('[  ]'), ' ');
+  /// CLDR uses narrow/no-break spaces (e.g. "7:03\u202fPM"); compare with plain spaces.
+  String plain(String s) => s.replaceAll(RegExp('[\u00a0\u202f]'), ' ');
 
   group('time', () {
     test('24 h in every locale, including 07:03 entered by keyboard', () {

@@ -422,6 +422,48 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get entityStatusActive => 'Active';
+
+  @override
+  String get entityStatusArchived => 'Archived';
+
+  @override
+  String get entityStatusBlocked => 'Blocked';
+
+  @override
+  String get entityStatusCancelled => 'Cancelled';
+
+  @override
+  String get entityStatusCompleted => 'Completed';
+
+  @override
+  String get entityStatusDone => 'Done';
+
+  @override
+  String get entityStatusInProgress => 'In progress';
+
+  @override
+  String get entityStatusMissed => 'Missed';
+
+  @override
+  String get entityStatusOngoing => 'Ongoing';
+
+  @override
+  String get entityStatusPaused => 'Paused';
+
+  @override
+  String get entityStatusScheduled => 'Scheduled';
+
+  @override
+  String get entityStatusSkipped => 'Skipped';
+
+  @override
+  String get entityStatusTodo => 'To do';
+
+  @override
+  String get entityStatusWaiting => 'Waiting';
+
+  @override
   String get errorAuth => 'Please sign in again.';
 
   @override
@@ -521,6 +563,109 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get filterWithoutAttachments => 'Without attachments';
+
+  @override
+  String get galleryButtons => 'Buttons';
+
+  @override
+  String get galleryChips => 'Chips & tags';
+
+  @override
+  String get galleryColors => 'Category colors';
+
+  @override
+  String get galleryConfirm => 'Confirmation';
+
+  @override
+  String get galleryContainer => 'Open item';
+
+  @override
+  String get galleryDarkTheme => 'Dark theme';
+
+  @override
+  String get galleryDialogs => 'Dialogs, sheets & pickers';
+
+  @override
+  String get galleryDisabled => 'Disabled';
+
+  @override
+  String get galleryFadeThrough => 'Fade through';
+
+  @override
+  String get galleryFilters => 'Filters';
+
+  @override
+  String get galleryIcons => 'Icons';
+
+  @override
+  String get galleryInputs => 'Inputs';
+
+  @override
+  String get galleryLargeText => 'Large text (200 %)';
+
+  @override
+  String get galleryLayout => 'Adaptive layout';
+
+  @override
+  String get galleryMotion => 'Motion';
+
+  @override
+  String galleryPicked(String value) {
+    return 'Picked: $value';
+  }
+
+  @override
+  String get galleryPriorities => 'Priorities';
+
+  @override
+  String get galleryProgress => 'Progress';
+
+  @override
+  String get galleryPrompt => 'Text prompt';
+
+  @override
+  String get galleryReduceMotion => 'Reduce motion';
+
+  @override
+  String get galleryRtl => 'Right-to-left';
+
+  @override
+  String get gallerySampleText => 'Sample text';
+
+  @override
+  String get gallerySharedAxis => 'Shared axis';
+
+  @override
+  String get gallerySheet => 'Bottom sheet';
+
+  @override
+  String get gallerySheetBody => 'A bottom sheet with Everslot styling.';
+
+  @override
+  String get galleryStates => 'Empty, error & loading states';
+
+  @override
+  String get galleryStatuses => 'Statuses';
+
+  @override
+  String get galleryTitle => 'Component gallery';
+
+  @override
+  String get galleryUndoSnack => 'Undo snackbar';
+
+  @override
+  String get galleryWindowCompact => 'compact';
+
+  @override
+  String get galleryWindowExpanded => 'expanded';
+
+  @override
+  String get galleryWindowMedium => 'medium';
+
+  @override
+  String galleryWindowSize(String size) {
+    return 'Window: $size';
+  }
 
   @override
   String get localOnlyBanner =>

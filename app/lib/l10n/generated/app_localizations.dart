@@ -766,6 +766,90 @@ abstract class AppLocalizations {
   /// **'{minutes} min'**
   String durationMinutesShort(int minutes);
 
+  /// No description provided for @entityStatusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get entityStatusActive;
+
+  /// No description provided for @entityStatusArchived.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get entityStatusArchived;
+
+  /// No description provided for @entityStatusBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked'**
+  String get entityStatusBlocked;
+
+  /// No description provided for @entityStatusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get entityStatusCancelled;
+
+  /// No description provided for @entityStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get entityStatusCompleted;
+
+  /// No description provided for @entityStatusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get entityStatusDone;
+
+  /// No description provided for @entityStatusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get entityStatusInProgress;
+
+  /// No description provided for @entityStatusMissed.
+  ///
+  /// In en, this message translates to:
+  /// **'Missed'**
+  String get entityStatusMissed;
+
+  /// No description provided for @entityStatusOngoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Ongoing'**
+  String get entityStatusOngoing;
+
+  /// No description provided for @entityStatusPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get entityStatusPaused;
+
+  /// No description provided for @entityStatusScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled'**
+  String get entityStatusScheduled;
+
+  /// No description provided for @entityStatusSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped'**
+  String get entityStatusSkipped;
+
+  /// No description provided for @entityStatusTodo.
+  ///
+  /// In en, this message translates to:
+  /// **'To do'**
+  String get entityStatusTodo;
+
+  /// No description provided for @entityStatusWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting'**
+  String get entityStatusWaiting;
+
   /// No description provided for @errorAuth.
   ///
   /// In en, this message translates to:
@@ -933,6 +1017,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Without attachments'**
   String get filterWithoutAttachments;
+
+  /// No description provided for @galleryButtons.
+  ///
+  /// In en, this message translates to:
+  /// **'Buttons'**
+  String get galleryButtons;
+
+  /// No description provided for @galleryChips.
+  ///
+  /// In en, this message translates to:
+  /// **'Chips & tags'**
+  String get galleryChips;
+
+  /// No description provided for @galleryColors.
+  ///
+  /// In en, this message translates to:
+  /// **'Category colors'**
+  String get galleryColors;
+
+  /// No description provided for @galleryConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation'**
+  String get galleryConfirm;
+
+  /// No description provided for @galleryContainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Open item'**
+  String get galleryContainer;
+
+  /// No description provided for @galleryDarkTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark theme'**
+  String get galleryDarkTheme;
+
+  /// No description provided for @galleryDialogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Dialogs, sheets & pickers'**
+  String get galleryDialogs;
+
+  /// No description provided for @galleryDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled'**
+  String get galleryDisabled;
+
+  /// No description provided for @galleryFadeThrough.
+  ///
+  /// In en, this message translates to:
+  /// **'Fade through'**
+  String get galleryFadeThrough;
+
+  /// No description provided for @galleryFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get galleryFilters;
+
+  /// No description provided for @galleryIcons.
+  ///
+  /// In en, this message translates to:
+  /// **'Icons'**
+  String get galleryIcons;
+
+  /// No description provided for @galleryInputs.
+  ///
+  /// In en, this message translates to:
+  /// **'Inputs'**
+  String get galleryInputs;
+
+  /// No description provided for @galleryLargeText.
+  ///
+  /// In en, this message translates to:
+  /// **'Large text (200 %)'**
+  String get galleryLargeText;
+
+  /// No description provided for @galleryLayout.
+  ///
+  /// In en, this message translates to:
+  /// **'Adaptive layout'**
+  String get galleryLayout;
+
+  /// No description provided for @galleryMotion.
+  ///
+  /// In en, this message translates to:
+  /// **'Motion'**
+  String get galleryMotion;
+
+  /// No description provided for @galleryPicked.
+  ///
+  /// In en, this message translates to:
+  /// **'Picked: {value}'**
+  String galleryPicked(String value);
+
+  /// No description provided for @galleryPriorities.
+  ///
+  /// In en, this message translates to:
+  /// **'Priorities'**
+  String get galleryPriorities;
+
+  /// No description provided for @galleryProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get galleryProgress;
+
+  /// No description provided for @galleryPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Text prompt'**
+  String get galleryPrompt;
+
+  /// No description provided for @galleryReduceMotion.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduce motion'**
+  String get galleryReduceMotion;
+
+  /// No description provided for @galleryRtl.
+  ///
+  /// In en, this message translates to:
+  /// **'Right-to-left'**
+  String get galleryRtl;
+
+  /// No description provided for @gallerySampleText.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample text'**
+  String get gallerySampleText;
+
+  /// No description provided for @gallerySharedAxis.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared axis'**
+  String get gallerySharedAxis;
+
+  /// No description provided for @gallerySheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Bottom sheet'**
+  String get gallerySheet;
+
+  /// No description provided for @gallerySheetBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A bottom sheet with Everslot styling.'**
+  String get gallerySheetBody;
+
+  /// No description provided for @galleryStates.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty, error & loading states'**
+  String get galleryStates;
+
+  /// No description provided for @galleryStatuses.
+  ///
+  /// In en, this message translates to:
+  /// **'Statuses'**
+  String get galleryStatuses;
+
+  /// No description provided for @galleryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Component gallery'**
+  String get galleryTitle;
+
+  /// No description provided for @galleryUndoSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo snackbar'**
+  String get galleryUndoSnack;
+
+  /// No description provided for @galleryWindowCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'compact'**
+  String get galleryWindowCompact;
+
+  /// No description provided for @galleryWindowExpanded.
+  ///
+  /// In en, this message translates to:
+  /// **'expanded'**
+  String get galleryWindowExpanded;
+
+  /// No description provided for @galleryWindowMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'medium'**
+  String get galleryWindowMedium;
+
+  /// No description provided for @galleryWindowSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Window: {size}'**
+  String galleryWindowSize(String size);
 
   /// No description provided for @localOnlyBanner.
   ///

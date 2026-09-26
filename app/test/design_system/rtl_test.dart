@@ -199,10 +199,13 @@ void main() {
 
   group('BidiText', () {
     test('wraps runs in isolates and strips controls', () {
-      expect(BidiText.ltr('v1.2'), '⁦v1.2⁩');
-      expect(BidiText.rtl('مرحبا'), '⁧مرحبا⁩');
-      expect(BidiText.isolate('Report'), '⁨Report⁩');
-      expect(BidiText.strip('‏${BidiText.isolate('Report')}‎'), 'Report');
+      expect(BidiText.ltr('v1.2'), '\u2066v1.2\u2069');
+      expect(BidiText.rtl('مرحبا'), '\u2067مرحبا\u2069');
+      expect(BidiText.isolate('Report'), '\u2068Report\u2069');
+      expect(
+        BidiText.strip('\u200f${BidiText.isolate('Report')}\u200e'),
+        'Report',
+      );
     });
 
     test('detects the first strong direction', () {

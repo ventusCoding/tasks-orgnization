@@ -44,6 +44,8 @@ class TagChip extends StatelessWidget {
         ),
       );
     }
+    // Interactive chips keep the standard density: ≥ 48 dp targets for the chip and its delete
+    // button (T1.3.15).
     return InputChip(
       avatar: avatar,
       label: label,
@@ -53,7 +55,6 @@ class TagChip extends StatelessWidget {
       onDeleted: onDeleted,
       deleteButtonTooltipMessage: l.tagRemoveSemantics(tag.name),
       tooltip: l.tagChipSemantics(tag.name),
-      visualDensity: VisualDensity.compact,
     );
   }
 }
