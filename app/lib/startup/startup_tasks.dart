@@ -5,6 +5,7 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/session/session.dart';
 import 'package:everslot/features/attachments/application/providers.dart' show startAttachmentUploads;
 import 'package:everslot/features/checklists/application/reset_service.dart' show runChecklistResets;
+import 'package:everslot/features/notifications/notifications_startup.dart';
 import 'package:everslot/startup/profile_bootstrap.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,6 +17,7 @@ typedef StartupTask = Future<void> Function(ProviderContainer container);
 
 final List<StartupTask> startupTasks = [
   ensureProfileAndDefaults,
+  startNotifications,
   startAttachmentUploads, // resumes queued attachment uploads (T2.2.04)
   runChecklistResets, // due checklist resets at start, on resume and after pulls (T4.5.06)
 ];

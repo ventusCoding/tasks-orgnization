@@ -2214,6 +2214,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifModeOff => 'Off';
 
   @override
+  String get notifModeOffHint => 'No notifications for this item';
+
+  @override
   String get notifMultiDevice => 'Deliver to';
 
   @override
@@ -2499,6 +2502,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifSectionHabits => 'Habits';
+
+  @override
+  String notifSectionOffHint(String section) {
+    return '$section notifications are turned off in Settings';
+  }
 
   @override
   String get notifSectionPlanner => 'Plan';

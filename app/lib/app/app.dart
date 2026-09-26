@@ -16,14 +16,18 @@ class EverslotApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     final prefs = ref.watch(userPreferencesProvider);
-    final appearance = ref.watch(settingsProvider(SettingsNs.appearance)).value ?? const {};
+    final appearance =
+        ref.watch(settingsProvider(SettingsNs.appearance)).value ?? const {};
     final themeMode = switch (appearance['theme']) {
       'light' => ThemeMode.light,
       'dark' => ThemeMode.dark,
       _ => ThemeMode.system,
     };
-    final density = appearance['density'] == 'compact' ? AppDensity.compact : AppDensity.comfortable;
+    final density = appearance['density'] == 'compact'
+        ? AppDensity.compact
+        : AppDensity.comfortable;
     final locale = prefs.localeCode == null ? null : Locale(prefs.localeCode!);
+    final isDevFlavor = ref.watch(envProvider).isDev;
 
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appName,
@@ -41,10 +45,19 @@ class EverslotApp extends ConsumerWidget {
       ],
       builder: (context, child) {
         final media = MediaQuery.of(context);
-        final wrapped = MediaQuery(
+        Widget wrapped = MediaQuery(
           data: media.copyWith(alwaysUse24HourFormat: prefs.use24h),
           child: child ?? const SizedBox.shrink(),
         );
+        // Dev-flavor corner marker (T1.1.10), like the debug banner: painted only, not localized.
+        if (isDevFlavor) {
+          wrapped = Banner(
+            message: 'DEV',
+            location: BannerLocation.topEnd,
+            color: const Color(0xFFFF6B00),
+            child: wrapped,
+          );
+        }
         // Legacy packages (fl_chart, …) still read `package:flutter/material.dart` themes.
         // ignore: deprecated_member_use
         return MaterialUiCompatibilityBridge(child: wrapped);
