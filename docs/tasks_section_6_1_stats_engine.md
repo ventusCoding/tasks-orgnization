@@ -29,32 +29,32 @@ for stats defaults ([8.3]).
 
 ## Progress
 
-- [ ] T6.1.01 — `everslot_metrics` package structure & result types
-- [ ] T6.1.02 — Descriptive statistics & distributions
-- [ ] T6.1.03 — Rates, proportions & Wilson intervals
-- [ ] T6.1.04 — Time-series utilities: bucketing, rolling windows, EWMA, OLS & Theil–Sen trends
+- [x] T6.1.01 — `everslot_metrics` package structure & result types
+- [x] T6.1.02 — Descriptive statistics & distributions
+- [x] T6.1.03 — Rates, proportions & Wilson intervals
+- [x] T6.1.04 — Time-series utilities: bucketing, rolling windows, EWMA, OLS & Theil–Sen trends
 - [ ] T6.1.05 — Period model & comparisons
 - [ ] T6.1.06 — Metric registry & definition format
 - [ ] T6.1.07 — Units, formatting & delta presentation
-- [ ] T6.1.08 — Expected-occurrences ledger (adherence denominators)
-- [ ] T6.1.09 — Streak engine
-- [ ] T6.1.10 — Habit-strength score (Loop-compatible EWMA)
-- [ ] T6.1.11 — Status-interval & event-log primitives
+- [x] T6.1.08 — Expected-occurrences ledger (adherence denominators)
+- [x] T6.1.09 — Streak engine
+- [x] T6.1.10 — Habit-strength score (Loop-compatible EWMA)
+- [x] T6.1.11 — Status-interval & event-log primitives
 - [ ] T6.1.12 — Stats data loaders over Drift
 - [ ] T6.1.13 — Isolate execution, caching & invalidation
 - [ ] T6.1.14 — Minimum-data, confidence & honesty rules
 - [ ] T6.1.15 — Stats fixture framework & canonical datasets
 - [ ] T6.1.16 — Stats screen framework & "explain this metric" sheet
 - [ ] T6.1.17 — Insights tab shell & navigation
-- [ ] T6.1.18 — Circular statistics for clock times
-- [ ] T6.1.19 — Group-comparison tests (Mann–Whitney, Kruskal–Wallis)
+- [x] T6.1.18 — Circular statistics for clock times
+- [x] T6.1.19 — Group-comparison tests (Mann–Whitney, Kruskal–Wallis)
 - [ ] T6.1.20 — Data-quality metrics plumbing
 - [ ] T6.1.21 — Metric glossary, catalog generation & registry lint
 - [ ] T6.1.22 — Per-scope card layout customization
 - [ ] T6.1.23 — Stats performance suite
-- [ ] T6.1.24 — Correlation toolkit & false-discovery control
-- [ ] T6.1.25 — Kaplan–Meier survival
-- [ ] T6.1.26 — Monte Carlo forecasting
+- [x] T6.1.24 — Correlation toolkit & false-discovery control
+- [x] T6.1.25 — Kaplan–Meier survival
+- [x] T6.1.26 — Monte Carlo forecasting
 - [ ] T6.1.27 — Local rollups (`stats_cache`)
 
 ## Tasks
@@ -78,6 +78,7 @@ NaN, divide-by-zero and "not enough data" from leaking into the UI.
 **Acceptance criteria:** `dart test` passes; no public API returns `double.nan`; the coverage gate
 (≥ 95 %) is active for the package.
 **Tests:** unit tests for the `Stat` helpers (map, fold, combine) and for safe division.
+**Notes:** Pure math lives in `packages/everslot_metrics` (`src/stat.dart`, barrel `everslot_metrics.dart`); verified 2026-09-26 — package suite green (157 tests). The app consumes it from `features/stats`.
 
 ### T6.1.02 — Descriptive statistics & distributions
 **Priority:** P0 · **Size:** M · **Depends on:** T6.1.01
@@ -97,6 +98,7 @@ NaN, divide-by-zero and "not enough data" from leaking into the UI.
 **Acceptance criteria:** results match reference values stored in `fixtures/stats/descriptive.json`
 (computed once with NumPy/R) within 1e-9.
 **Tests:** reference-dataset tests, including empty input, n = 1, ties and a single repeated value.
+**Notes:** Implemented in `packages/everslot_metrics/lib/src/descriptive.dart` (reference values in `fixtures/stats/descriptive.json`); verified 2026-09-26 with the package suite.
 
 ### T6.1.03 — Rates, proportions & Wilson intervals
 **Priority:** P0 · **Size:** S · **Depends on:** T6.1.01
@@ -115,6 +117,7 @@ NaN, divide-by-zero and "not enough data" from leaking into the UI.
 **Acceptance criteria:** Wilson(0 of 10) is [0, 0.278]; Wilson(10 of 10) is [0.722, 1]; Wilson(5 of 10) is
 [0.237, 0.763] (±0.001).
 **Tests:** table-driven unit tests, including n = 0 and fractional denominators.
+**Notes:** Implemented in `packages/everslot_metrics/lib/src/rates.dart`; verified 2026-09-26 with the package suite (Wilson acceptance vectors included).
 
 ### T6.1.04 — Time-series utilities: bucketing, rolling windows, EWMA, OLS & Theil–Sen trends
 **Priority:** P0 · **Size:** M · **Depends on:** T6.1.02, T6.1.05
@@ -140,6 +143,7 @@ NaN, divide-by-zero and "not enough data" from leaking into the UI.
 **Acceptance criteria:** exact fixture values for a daily series with DST days; `y = 3x + noise` yields
 b ≈ 3 with p < 0.001; Theil–Sen ignores 10 % injected outliers (|b − 3| < 0.1).
 **Tests:** unit tests with fixed seeds; week-start variants (MO/SA/SU).
+**Notes:** Implemented in `packages/everslot_metrics/lib/src/time_series.dart` and `trend.dart`; verified 2026-09-26 with the package suite.
 
 ### T6.1.05 — Period model & comparisons
 **Priority:** P0 · **Size:** M · **Depends on:** T6.1.01, [2.3] (time utilities), [1.5] (profile: zone, week start)
@@ -263,6 +267,7 @@ metric the same denominators.
 - **Quota case.** A 3×/week quota over a window of Wed–Sun with 1 excused day gives E = 3·4/7 ≈ 1.714.
 - **Rule change.** A rule change mid-month evaluates each unit with the right version.
 **Tests:** fixture-driven tests for every rule type, DST days, late/bonus completions, and quota pro-rating.
+**Notes:** Implemented in `packages/everslot_metrics/lib/src/occurrence_ledger.dart` (habits: `ledgerUnitsFromPeriods`; planner series: `plannerLedgerUnits`); verified 2026-09-26 with the package suite. The app assembles the units in `features/stats/domain/*_resolution.dart`.
 
 ### T6.1.09 — Streak engine
 **Priority:** P0 · **Size:** M · **Depends on:** T6.1.08
@@ -303,6 +308,7 @@ for skips, vacations, flexible schedules and freezes.
 - A weekly quota with 2 of 3 done and 1 day left is at-risk = false; with 0 days left it is true.
 **Tests:** fixture tests covering every rule and policy combination; property test: the current streak is
 never greater than the best streak.
+**Notes:** Implemented in `packages/everslot_metrics/lib/src/streaks.dart`; verified 2026-09-26 with the package suite.
 
 ### T6.1.10 — Habit-strength score (Loop-compatible EWMA)
 **Priority:** P0 · **Size:** M · **Depends on:** T6.1.08
@@ -331,6 +337,7 @@ planner series (P1).
 - Skipped days leave the score unchanged.
 **Tests:** parity vectors in `fixtures/stats/strength_loop.json`; property test: the score always stays
 in [0, 1].
+**Notes:** Implemented in `packages/everslot_metrics/lib/src/strength.dart` (parity vectors `fixtures/stats/strength_loop.json`); verified 2026-09-26 with the package suite.
 
 ### T6.1.11 — Status-interval & event-log primitives
 **Priority:** P0 · **Size:** M · **Depends on:** T6.1.01, [2.3] (activity events), [4.3] (status events)
@@ -353,6 +360,7 @@ metrics ([6.3]) are built on these.
 **Acceptance criteria:** for a 5-item fixture log with a reopen, a deletion and a move, the time-in-status
 totals and the A/S/F counts on 7 consecutive days match the hand-computed expectations.
 **Tests:** unit tests with out-of-order events, identical timestamps and missing `created` events.
+**Notes:** Implemented in `packages/everslot_metrics/lib/src/status_intervals.dart`; verified 2026-09-26 with the package suite.
 
 ### T6.1.12 — Stats data loaders over Drift
 **Priority:** P0 · **Size:** L · **Depends on:** [1.4], [3.1], [4.1], [5.1]
@@ -491,6 +499,7 @@ navigation stack is sane.
 **Acceptance criteria:** mean(23:00, 01:00) = 00:00; identical times give an SD of 0; uniform times give
 R̄ ≈ 0 and are reported as "no consistent time".
 **Tests:** unit tests, including wrap-around at the day start.
+**Notes:** Implemented in `packages/everslot_metrics/lib/src/circular.dart`; verified 2026-09-26 with the package suite.
 
 ### T6.1.19 — Group-comparison tests (Mann–Whitney, Kruskal–Wallis)
 **Priority:** P1 · **Size:** S · **Depends on:** T6.1.02
@@ -504,6 +513,7 @@ R̄ ≈ 0 and are reported as "no consistent time".
 **Acceptance criteria:** results match reference values from R (`wilcox.test`, `kruskal.test`) stored in
 the fixtures (±1e-4).
 **Tests:** reference-dataset unit tests.
+**Notes:** Implemented in `packages/everslot_metrics/lib/src/group_tests.dart` (R reference values in `fixtures/stats/reference_tests.json`); verified 2026-09-26.
 
 ### T6.1.20 — Data-quality metrics plumbing
 **Priority:** P1 · **Size:** S · **Depends on:** T6.1.08, T6.1.12
@@ -567,6 +577,7 @@ the fixtures (±1e-4).
 **Acceptance criteria:** reference values match R (`cor.test`, `p.adjust(method = "BH")`); with 50 random
 pairs of independent series, BH reports 0 discoveries in ≥ 95 % of seeds.
 **Tests:** reference tests; a seeded false-positive simulation.
+**Notes:** Implemented in `packages/everslot_metrics/lib/src/correlation.dart` (+ `correlationExplorer` in `global_metrics.dart`); verified 2026-09-26 with the package suite (seeded false-positive simulation included).
 
 ### T6.1.25 — Kaplan–Meier survival
 **Priority:** P2 · **Size:** S · **Depends on:** T6.1.02
@@ -579,6 +590,7 @@ pairs of independent series, BH reports 0 discoveries in ≥ 95 % of seeds.
 - The output is a step function for the KM curve in [6.2] (T6.2.25).
 **Acceptance criteria:** matches R `survival::survfit` on a reference dataset.
 **Tests:** reference tests, including all-censored and single-event cases.
+**Notes:** Implemented in `packages/everslot_metrics/lib/src/survival.dart` (R `survfit` reference); verified 2026-09-26.
 
 ### T6.1.26 — Monte Carlo forecasting
 **Priority:** P2 · **Size:** S · **Depends on:** T6.1.02
@@ -592,6 +604,7 @@ pairs of independent series, BH reports 0 discoveries in ≥ 95 % of seeds.
 **Acceptance criteria:** with constant throughput of 2/day and R = 10, all percentiles equal day 5; the
 runtime for 10 000 trials is < 50 ms.
 **Tests:** deterministic seeded tests; edge cases (R = 0, zero-throughput history → `Insufficient`).
+**Notes:** Implemented in `packages/everslot_metrics/lib/src/forecast.dart`; verified 2026-09-26 (seeded tests, R = 0 and zero-throughput edge cases).
 
 ### T6.1.27 — Local rollups (`stats_cache`)
 **Priority:** P2 · **Size:** M · **Depends on:** T6.1.23
