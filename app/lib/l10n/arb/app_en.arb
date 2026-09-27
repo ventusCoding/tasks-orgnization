@@ -1071,6 +1071,13 @@
       }
     }
   },
+  "@habitsDragHandle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "@habitsEveryNDays": {
     "placeholders": {
       "n": {
@@ -4214,6 +4221,7 @@
   "habitsAddTime": "Add a time",
   "habitsAdvancedTitle": "Advanced",
   "habitsAllDone": "All done 🎉",
+  "habitsAllHabits": "All habits",
   "habitsAllStats": "All stats",
   "habitsApplyAll": "All history",
   "habitsApplyAllWarn": "Past statistics will change.",
@@ -4228,6 +4236,7 @@
   "habitsCalendar": "Calendar",
   "habitsCellSemantics": "{habit}, {date}: {status}",
   "habitsChallengeDay": "Day {day} of {total}",
+  "habitsCompactRows": "Compact rows",
   "habitsCounts": "Done {done} · Not done {notDone} · Missed {missed} · Skipped {skipped}",
   "habitsCreateQuitInstead": "Create a quit tracker",
   "habitsCurrentStreak": "Current streak",
@@ -4239,6 +4248,7 @@
   "habitsDeleteEntry": "Delete entry",
   "habitsDeleteTitle": "Delete “{name}”?",
   "habitsDeletedSnack": "Habit deleted",
+  "habitsDragHandle": "Reorder {name}",
   "habitsEditCustom": "Edit the schedule",
   "habitsEditEntry": "Edit entry",
   "habitsEditorEditTitle": "Edit habit",
@@ -4289,7 +4299,12 @@
   "habitsGoalTypeCount": "Count",
   "habitsGoalTypeDuration": "Duration",
   "habitsGoalTypeNumeric": "Number",
+  "habitsGroupByCategory": "Category",
+  "habitsGroupByNone": "None",
+  "habitsGroupBySection": "Section",
+  "habitsGroupByTitle": "Group by",
   "habitsGroupNotDue": "Not due today ({count})",
+  "habitsHideNotDue": "Hide habits not due",
   "habitsIncrease": "Add {step}",
   "habitsIncrementStep": "Step",
   "habitsJournal": "Notes journal",
@@ -4300,6 +4315,7 @@
   "habitsLeftOfLimit": "{left} of {limit} left",
   "habitsLimitZeroHint": "A limit of 0 means quitting it completely.",
   "habitsManage": "Manage habits",
+  "habitsMatrixTapTitle": "Tapping a day in the week view",
   "habitsMinPerDay": "Minimum per day",
   "habitsMinutesValue": "{minutes} min",
   "habitsMood1": "Awful",
@@ -4317,6 +4333,7 @@
   "habitsNextMonth": "Next month",
   "habitsNextYear": "Next year",
   "habitsNoBuildHabits": "No habit to check in yet",
+  "habitsNoCategory": "No category",
   "habitsNoEntries": "No entries yet",
   "habitsNone": "None",
   "habitsNotActiveThatDay": "This habit wasn't active that day.",
@@ -4374,6 +4391,9 @@
   "habitsRate30": "30-day rate",
   "habitsReasonOptional": "Reason (optional)",
   "habitsRecentEntries": "Recent entries",
+  "habitsReorder": "Reorder",
+  "habitsReorderDone": "Done",
+  "habitsReorderHint": "Drag the handles to change the order.",
   "habitsReordered": "Order saved",
   "habitsRequireExplicit": "An empty day counts as missed",
   "habitsResume": "Resume",
@@ -4397,6 +4417,7 @@
   "habitsSectionProgress": "{done} / {total} done",
   "habitsSectionWindow": "Time window",
   "habitsSections": "Sections",
+  "habitsShowStreaks": "Show streaks",
   "habitsSkipBreaks": "Break the streak",
   "habitsSkipNeutral": "Don't break the streak",
   "habitsSkipPolicy": "Skipped days",
@@ -4419,6 +4440,9 @@
   "habitsStatusSkipped": "Skipped",
   "habitsStreakSemantics": "{days, plural, =1{1-day streak} other{{days}-day streak}}",
   "habitsStrength": "Strength",
+  "habitsTapCycleDoneFail": "Done → Not done → Clear",
+  "habitsTapCycleDoneOnly": "Done → Clear",
+  "habitsTapCycleDoneSkip": "Done → Skip → Clear",
   "habitsTemplatesChallenges": "Challenges",
   "habitsTemplatesHabits": "Habits",
   "habitsTemplatesQuit": "Quit",
@@ -4428,6 +4452,8 @@
   "habitsTimesPerMonth": "{n, plural, =1{Once a month} =2{Twice a month} other{{n} times a month}}",
   "habitsTimesPerWeek": "{n, plural, =1{Once a week} =2{Twice a week} other{{n} times a week}}",
   "habitsToday": "Today",
+  "habitsToggleShortPress": "Toggle with a short press",
+  "habitsToggleShortPressHint": "Off: a long press toggles, a short press opens the day.",
   "habitsTolerance": "Early check-in window",
   "habitsTotalOfTarget": "Total {total} of {target}",
   "habitsTplChallengeMeditate": "14 days of meditation",
@@ -4486,6 +4512,7 @@
   "habitsValueInvalid": "Enter a number greater than 0",
   "habitsValueTitle": "Log a value",
   "habitsViewMonth": "Month",
+  "habitsViewOptions": "View options",
   "habitsViewToday": "Today",
   "habitsViewWeek": "Week",
   "habitsViewYear": "Year",

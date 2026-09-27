@@ -2692,6 +2692,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsAllDone => 'Tout est fait 🎉';
 
   @override
+  String get habitsAllHabits => 'Toutes les habitudes';
+
+  @override
   String get habitsAllStats => 'Toutes les statistiques';
 
   @override
@@ -2737,6 +2740,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String habitsChallengeDay(int day, int total) {
     return 'Jour $day sur $total';
   }
+
+  @override
+  String get habitsCompactRows => 'Lignes compactes';
 
   @override
   String habitsCounts(int done, int notDone, int missed, int skipped) {
@@ -2786,6 +2792,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsDeletedSnack => 'Habitude supprimée';
+
+  @override
+  String habitsDragHandle(String name) {
+    return 'Déplacer $name';
+  }
 
   @override
   String get habitsEditCustom => 'Modifier la fréquence';
@@ -2954,9 +2965,24 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsGoalTypeNumeric => 'Valeur';
 
   @override
+  String get habitsGroupByCategory => 'Catégorie';
+
+  @override
+  String get habitsGroupByNone => 'Aucun';
+
+  @override
+  String get habitsGroupBySection => 'Moment';
+
+  @override
+  String get habitsGroupByTitle => 'Regrouper par';
+
+  @override
   String habitsGroupNotDue(int count) {
     return 'Pas prévues aujourd\'hui ($count)';
   }
+
+  @override
+  String get habitsHideNotDue => 'Masquer les habitudes non prévues';
 
   @override
   String habitsIncrease(String step) {
@@ -2993,6 +3019,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsManage => 'Gérer les habitudes';
+
+  @override
+  String get habitsMatrixTapTitle => 'Appui sur un jour dans la vue semaine';
 
   @override
   String get habitsMinPerDay => 'Minimum par jour';
@@ -3046,6 +3075,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsNoBuildHabits => 'Aucune habitude à cocher pour le moment';
+
+  @override
+  String get habitsNoCategory => 'Sans catégorie';
 
   @override
   String get habitsNoEntries => 'Aucune saisie pour le moment';
@@ -3258,6 +3290,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsRecentEntries => 'Saisies récentes';
 
   @override
+  String get habitsReorder => 'Réorganiser';
+
+  @override
+  String get habitsReorderDone => 'Terminé';
+
+  @override
+  String get habitsReorderHint =>
+      'Faites glisser les poignées pour changer l\'ordre.';
+
+  @override
   String get habitsReordered => 'Ordre enregistré';
 
   @override
@@ -3337,6 +3379,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsSections => 'Sections';
+
+  @override
+  String get habitsShowStreaks => 'Afficher les séries';
 
   @override
   String get habitsSkipBreaks => 'Cassent la série';
@@ -3427,6 +3472,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsStrength => 'Solidité';
 
   @override
+  String get habitsTapCycleDoneFail => 'Fait → Pas fait → Effacer';
+
+  @override
+  String get habitsTapCycleDoneOnly => 'Fait → Effacer';
+
+  @override
+  String get habitsTapCycleDoneSkip => 'Fait → Sauté → Effacer';
+
+  @override
   String get habitsTemplatesChallenges => 'Défis';
 
   @override
@@ -3484,6 +3538,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsToday => 'Aujourd\'hui';
+
+  @override
+  String get habitsToggleShortPress => 'Basculer par un appui court';
+
+  @override
+  String get habitsToggleShortPressHint =>
+      'Désactivé : un appui long bascule, un appui court ouvre le jour.';
 
   @override
   String get habitsTolerance => 'Validation anticipée';
@@ -3753,6 +3814,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsViewMonth => 'Mois';
+
+  @override
+  String get habitsViewOptions => 'Options d\'affichage';
 
   @override
   String get habitsViewToday => 'Aujourd\'hui';

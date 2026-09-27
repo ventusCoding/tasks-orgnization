@@ -2744,6 +2744,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsAllDone => 'أنجزت كل شيء 🎉';
 
   @override
+  String get habitsAllHabits => 'كل العادات';
+
+  @override
   String get habitsAllStats => 'كل الإحصاءات';
 
   @override
@@ -2788,6 +2791,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String habitsChallengeDay(int day, int total) {
     return 'اليوم $day من $total';
   }
+
+  @override
+  String get habitsCompactRows => 'صفوف مضغوطة';
 
   @override
   String habitsCounts(int done, int notDone, int missed, int skipped) {
@@ -2840,6 +2846,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsDeletedSnack => 'تم حذف العادة';
+
+  @override
+  String habitsDragHandle(String name) {
+    return 'نقل $name';
+  }
 
   @override
   String get habitsEditCustom => 'تعديل الجدول';
@@ -3008,9 +3019,24 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsGoalTypeNumeric => 'قيمة رقمية';
 
   @override
+  String get habitsGroupByCategory => 'الفئة';
+
+  @override
+  String get habitsGroupByNone => 'بدون';
+
+  @override
+  String get habitsGroupBySection => 'الفترة';
+
+  @override
+  String get habitsGroupByTitle => 'التجميع حسب';
+
+  @override
   String habitsGroupNotDue(int count) {
     return 'غير مستحقة اليوم ($count)';
   }
+
+  @override
+  String get habitsHideNotDue => 'إخفاء العادات غير المستحقة';
 
   @override
   String habitsIncrease(String step) {
@@ -3046,6 +3072,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsManage => 'إدارة العادات';
+
+  @override
+  String get habitsMatrixTapTitle => 'النقر على يوم في عرض الأسبوع';
 
   @override
   String get habitsMinPerDay => 'الحد الأدنى يوميًا';
@@ -3099,6 +3128,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsNoBuildHabits => 'لا توجد عادة لتسجيلها بعد';
+
+  @override
+  String get habitsNoCategory => 'بدون فئة';
 
   @override
   String get habitsNoEntries => 'لا توجد إدخالات بعد';
@@ -3317,6 +3349,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsRecentEntries => 'الإدخالات الأخيرة';
 
   @override
+  String get habitsReorder => 'إعادة الترتيب';
+
+  @override
+  String get habitsReorderDone => 'تم';
+
+  @override
+  String get habitsReorderHint => 'اسحب المقابض لتغيير الترتيب.';
+
+  @override
   String get habitsReordered => 'تم حفظ الترتيب';
 
   @override
@@ -3397,6 +3438,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsSections => 'الأقسام';
+
+  @override
+  String get habitsShowStreaks => 'إظهار السلاسل';
 
   @override
   String get habitsSkipBreaks => 'تقطع السلسلة';
@@ -3491,6 +3535,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsStrength => 'القوة';
 
   @override
+  String get habitsTapCycleDoneFail => 'تم ← لم يتم ← مسح';
+
+  @override
+  String get habitsTapCycleDoneOnly => 'تم ← مسح';
+
+  @override
+  String get habitsTapCycleDoneSkip => 'تم ← تخطٍّ ← مسح';
+
+  @override
   String get habitsTemplatesChallenges => 'التحديات';
 
   @override
@@ -3561,6 +3614,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsToday => 'اليوم';
+
+  @override
+  String get habitsToggleShortPress => 'التبديل بنقرة قصيرة';
+
+  @override
+  String get habitsToggleShortPressHint =>
+      'عند الإيقاف: الضغط المطوّل يبدّل الحالة والنقرة القصيرة تفتح اليوم.';
 
   @override
   String get habitsTolerance => 'نافذة التسجيل المبكر';
@@ -3871,6 +3931,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsViewMonth => 'الشهر';
+
+  @override
+  String get habitsViewOptions => 'خيارات العرض';
 
   @override
   String get habitsViewToday => 'اليوم';

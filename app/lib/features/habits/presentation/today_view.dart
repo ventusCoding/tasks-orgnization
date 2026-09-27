@@ -6,6 +6,8 @@ import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/habits/application/check_in_service.dart';
 import 'package:everslot/features/habits/application/habit_day_view.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
+import 'package:everslot/features/habits/application/habit_service.dart';
+import 'package:everslot/features/habits/application/habit_view_settings.dart';
 import 'package:everslot/features/habits/application/live_ticker.dart';
 import 'package:everslot/features/habits/domain/check_in.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
@@ -14,6 +16,7 @@ import 'package:everslot/features/habits/domain/habit_records.dart';
 import 'package:everslot/features/habits/presentation/check_in_sheets.dart';
 import 'package:everslot/features/habits/presentation/habit_routes.dart';
 import 'package:everslot/features/habits/presentation/habit_ui.dart';
+import 'package:everslot/features/organization/application/providers.dart' show categoriesProvider;
 import 'package:everslot_metrics/everslot_metrics.dart' show PeriodResult, PeriodStatus;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter/semantics.dart';
@@ -22,9 +25,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// The Today list of [date] (T5.2.03): habits grouped by time-of-day section (current section first),
-/// inside each *Due* → *Done* → *Not due today* (collapsed).
+/// by category or not at all (T5.2.12), inside each *Due* → *Done* → *Not due today* (collapsed, or
+/// hidden). With [reordering] every group becomes a drag-to-reorder list.
 class TodayList extends ConsumerWidget {
-  const TodayList({required this.date, super.key, this.dueOnly = false, this.sectionFilter});
+  const TodayList({required this.date, super.key, this.dueOnly = false, this.sectionFilter, this.reordering = false});
 
   final LocalDate date;
   final bool dueOnly;
@@ -32,11 +36,15 @@ class TodayList extends ConsumerWidget {
   /// Only this section (id), or null for all.
   final String? sectionFilter;
 
+  /// Drag-to-reorder mode (T5.2.12).
+  final bool reordering;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     final viewsAsync = ref.watch(habitDayViewsProvider(date));
     final sections = ref.watch(habitSectionsProvider).value ?? const <HabitSection>[];
+    final settings = ref.watch(habitViewSettingsProvider);
     return AsyncValueView<List<HabitDayView>>(
       value: viewsAsync,
       data: (views) {
@@ -47,11 +55,23 @@ class TodayList extends ConsumerWidget {
             message: l.habitsNothingThisDayBody,
           );
         }
-        final groups = _groupBySection(views, sections, ref);
+        final groups = _groups(context, ref, views, sections, settings.groupBy);
         final visible = [
           for (final g in groups)
             if (sectionFilter == null || g.section?.id == sectionFilter) g,
         ];
+        if (reordering) {
+          return ListView(
+            padding: const EdgeInsetsDirectional.only(bottom: 96),
+            children: [
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, 0),
+                child: Text(l.habitsReorderHint, style: context.text.bodySmall),
+              ),
+              for (final g in visible) _ReorderGroup(group: g, key: ValueKey('reorder-${g.key}')),
+            ],
+          );
+        }
         final allHandled = views.every((v) => v.group != DayGroup.due);
         return ListView(
           padding: const EdgeInsetsDirectional.only(bottom: 96),
@@ -64,32 +84,61 @@ class TodayList extends ConsumerWidget {
                   child: Text(l.habitsAllDone, style: context.text.titleMedium, textAlign: TextAlign.center),
                 ),
               ),
-            for (final g in visible) _SectionBlock(group: g, dueOnly: dueOnly),
+            for (final g in visible)
+              if (!(settings.hideNotDue && g.views.every((v) => v.group == DayGroup.notDue)))
+                _SectionBlock(group: g, dueOnly: dueOnly, settings: settings, key: ValueKey('group-${g.key}')),
           ],
         );
       },
     );
   }
 
-  List<_SectionGroup> _groupBySection(List<HabitDayView> views, List<HabitSection> sections, WidgetRef ref) {
-    final byId = {for (final s in sections) s.id: s};
-    final grouped = <String?, List<HabitDayView>>{};
-    for (final v in views) {
-      final sid = byId.containsKey(v.habit.sectionId) ? v.habit.sectionId : null;
-      grouped.putIfAbsent(sid, () => []).add(v);
+  List<_Group> _groups(
+    BuildContext context,
+    WidgetRef ref,
+    List<HabitDayView> views,
+    List<HabitSection> sections,
+    HabitGroupBy by,
+  ) {
+    final l = context.l10n;
+    switch (by) {
+      case HabitGroupBy.none:
+        return [_Group('all', l.habitsAllHabits, views)];
+      case HabitGroupBy.category:
+        final categories = ref.watch(categoriesProvider).value ?? const [];
+        final known = {for (final c in categories) c.id};
+        final grouped = <String?, List<HabitDayView>>{};
+        for (final v in views) {
+          final id = known.contains(v.habit.categoryId) ? v.habit.categoryId : null;
+          grouped.putIfAbsent(id, () => []).add(v);
+        }
+        return [
+          for (final c in categories)
+            if (grouped.containsKey(c.id)) _Group(c.id, c.name, grouped[c.id]!),
+          if (grouped.containsKey(null)) _Group('none', l.habitsNoCategory, grouped[null]!),
+        ];
+      case HabitGroupBy.section:
+        final byId = {for (final s in sections) s.id: s};
+        final grouped = <String?, List<HabitDayView>>{};
+        for (final v in views) {
+          final sid = byId.containsKey(v.habit.sectionId) ? v.habit.sectionId : null;
+          grouped.putIfAbsent(sid, () => []).add(v);
+        }
+        String title(HabitSection s) =>
+            s.defaultKey != null && s.name.trim().isEmpty ? l.defaultSectionName(s.defaultKey!) : s.name;
+        final ordered = [
+          for (final s in sections)
+            if (grouped.containsKey(s.id)) _Group(s.id, title(s), grouped[s.id]!, section: s),
+          if (grouped.containsKey(null)) _Group('none', l.habitsSectionNone, grouped[null]!),
+        ];
+        // The current section (by its time window) comes first on today's list.
+        if (date == ref.read(habitTodayProvider)) {
+          final nowLocal = ref.read(recurrenceNowProvider);
+          final i = ordered.indexWhere((g) => g.section?.containsTime(nowLocal.time) ?? false);
+          if (i > 0) ordered.insert(0, ordered.removeAt(i));
+        }
+        return ordered;
     }
-    final nowLocal = ref.read(recurrenceNowProvider);
-    final ordered = [
-      for (final s in sections)
-        if (grouped.containsKey(s.id)) _SectionGroup(s, grouped[s.id]!),
-      if (grouped.containsKey(null)) _SectionGroup(null, grouped[null]!),
-    ];
-    // The current section (by its time window) comes first on today's list.
-    if (date == ref.read(habitTodayProvider)) {
-      final i = ordered.indexWhere((g) => g.section?.containsTime(nowLocal.time) ?? false);
-      if (i > 0) ordered.insert(0, ordered.removeAt(i));
-    }
-    return ordered;
   }
 }
 
@@ -100,18 +149,24 @@ final recurrenceNowProvider = Provider<LocalDateTime>((ref) {
   return service.resolver.toLocal(ref.watch(clockProvider).nowUtc(), service.currentZone);
 });
 
-class _SectionGroup {
-  _SectionGroup(this.section, this.views);
+/// A group of the Today list (section, category or everything).
+class _Group {
+  _Group(this.key, this.title, this.views, {this.section});
 
-  final HabitSection? section;
+  final String key;
+  final String title;
   final List<HabitDayView> views;
+
+  /// The time-of-day section (section grouping only).
+  final HabitSection? section;
 }
 
 class _SectionBlock extends StatefulWidget {
-  const _SectionBlock({required this.group, required this.dueOnly});
+  const _SectionBlock({required this.group, required this.dueOnly, required this.settings, super.key});
 
-  final _SectionGroup group;
+  final _Group group;
   final bool dueOnly;
+  final HabitViewSettings settings;
 
   @override
   State<_SectionBlock> createState() => _SectionBlockState();
@@ -123,28 +178,31 @@ class _SectionBlockState extends State<_SectionBlock> {
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
+    final settings = widget.settings;
     final views = widget.group.views;
     final due = [for (final v in views) if (v.group == DayGroup.due) v];
     final done = [for (final v in views) if (v.group == DayGroup.done) v];
     final notDue = [for (final v in views) if (v.group == DayGroup.notDue) v];
-    final section = widget.group.section;
-    final title = section == null
-        ? l.habitsSectionNone
-        : (section.defaultKey != null && section.name.isEmpty ? l.defaultSectionName(section.defaultKey!) : section.name);
     final countable = due.length + done.length;
+    Widget row(HabitDayView v) => HabitRow(
+      view: v,
+      compact: settings.compact,
+      showStreak: settings.showStreakChips,
+      key: ValueKey('row-${v.habit.id}'),
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SectionHeader(
-          title,
+          widget.group.title,
           trailing: countable == 0
               ? null
               : Text(l.habitsSectionProgress(done.length, countable), style: context.text.labelMedium),
         ),
-        for (final v in due) HabitRow(view: v, key: ValueKey('row-${v.habit.id}')),
+        for (final v in due) row(v),
         if (!widget.dueOnly)
-          for (final v in done) HabitRow(view: v, key: ValueKey('row-${v.habit.id}')),
-        if (notDue.isNotEmpty && !widget.dueOnly) ...[
+          for (final v in done) row(v),
+        if (notDue.isNotEmpty && !widget.dueOnly && !settings.hideNotDue) ...[
           ListTile(
             dense: true,
             title: Text(l.habitsGroupNotDue(notDue.length), style: context.text.labelLarge),
@@ -152,8 +210,53 @@ class _SectionBlockState extends State<_SectionBlock> {
             onTap: () => setState(() => _showNotDue = !_showNotDue),
           ),
           if (_showNotDue)
-            for (final v in notDue) HabitRow(view: v, key: ValueKey('row-${v.habit.id}')),
+            for (final v in notDue) row(v),
         ],
+      ],
+    );
+  }
+}
+
+/// Drag-to-reorder list of one group (T5.2.12): the order is saved as fractional sort keys.
+class _ReorderGroup extends ConsumerWidget {
+  const _ReorderGroup({required this.group, super.key});
+
+  final _Group group;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final habits = [for (final v in group.views) v.habit];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SectionHeader(group.title),
+        ReorderableListView(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          buildDefaultDragHandles: false,
+          onReorderItem: (from, to) async {
+            if (from == to) return;
+            final record = await ref.read(habitServiceProvider).reorder(habits[from].id, habits, to);
+            if (context.mounted) showUndoSnackBar(context, ref, message: l.habitsReordered, record: record);
+          },
+          children: [
+            for (var i = 0; i < habits.length; i++)
+              ListTile(
+                key: ValueKey('reorder-row-${habits[i].id}'),
+                leading: HabitAvatar(habit: habits[i], size: 32),
+                title: Text(habits[i].name),
+                trailing: ReorderableDragStartListener(
+                  index: i,
+                  child: Semantics(
+                    container: true,
+                    label: l.habitsDragHandle(habits[i].name),
+                    child: const SizedBox(width: 48, height: 48, child: Icon(Icons.drag_handle)),
+                  ),
+                ),
+              ),
+          ],
+        ),
       ],
     );
   }
@@ -163,10 +266,13 @@ class _SectionBlockState extends State<_SectionBlock> {
 /// action; swipe start→end = done / quick value, end→start = reveal *Not done* & *Skip* (full swipe
 /// = not done), long-press = full menu. Directions mirror in RTL.
 class HabitRow extends ConsumerWidget {
-  const HabitRow({required this.view, super.key, this.compact = false});
+  const HabitRow({required this.view, super.key, this.compact = false, this.showStreak = true});
 
   final HabitDayView view;
   final bool compact;
+
+  /// Show the streak chip (view setting, T5.2.12).
+  final bool showStreak;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -217,7 +323,7 @@ class HabitRow extends ConsumerWidget {
                               StatusPill(label: l.habitsAtRisk, color: context.appColors.warning, icon: Icons.warning_amber, dense: true),
                             if (view.explicit != null || status == PeriodStatus.missed || status == PeriodStatus.paused)
                               HabitStatusPill(status),
-                            if (view.streak > 0) StreakChip(view.streak),
+                            if (showStreak && view.streak > 0) StreakChip(view.streak),
                           ],
                         ),
                       ],

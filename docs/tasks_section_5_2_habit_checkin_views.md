@@ -33,7 +33,7 @@ stats screens ([6.5]); the Today home block ([8.1]); widgets ([8.2]); reminders 
 - [x] T5.2.09 — Notes & mood on check-ins
 - [x] T5.2.10 — Year heatmap per habit
 - [x] T5.2.11 — Multi-habit month overview
-- [ ] T5.2.12 — Reorder, grouping & density
+- [x] T5.2.12 — Reorder, grouping & density
 - [ ] T5.2.13 — Check-in feedback & celebrations
 - [ ] T5.2.14 — Evaluation caching & performance
 - [ ] T5.2.15 — Notes journal
@@ -203,6 +203,7 @@ not-due habits don't count as due).
 not-due habits, compact vs comfortable density, show/hide streak chips.
 **Data model:** `user_settings.habits` keys `groupBy`, `density`, `showStreakChips`, `hideNotDue`.
 **Tests:** widget tests.
+**Notes:** Reordering is a mode (menu › Reorder, drag handles per group) because long-press already opens the actions menu; settings live in `HabitViewSettings` (application layer) and are edited in the new View options sheet, which also sets the week-matrix tap cycle and toggle gesture (T5.2.06).
 
 ### T5.2.13 — Check-in feedback & celebrations
 **Priority:** P1 · **Size:** S · **Depends on:** T5.2.01

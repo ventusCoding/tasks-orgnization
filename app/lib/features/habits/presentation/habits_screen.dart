@@ -14,6 +14,7 @@ import 'package:everslot/features/habits/presentation/pause_sheet.dart';
 import 'package:everslot/features/habits/presentation/quit/live_counter.dart';
 import 'package:everslot/features/habits/presentation/templates_sheet.dart';
 import 'package:everslot/features/habits/presentation/today_view.dart';
+import 'package:everslot/features/habits/presentation/view_options_sheet.dart';
 import 'package:everslot/features/habits/presentation/week_matrix.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,6 +38,9 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
 
   /// `all`, `due` or a section id.
   String _filter = 'all';
+
+  /// Drag-to-reorder mode of the Today list (T5.2.12).
+  bool _reordering = false;
   Timer? _minute;
 
   @override
@@ -126,6 +130,13 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
         await Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => const NotesJournalScreen()));
       case 'vacation':
         await showPauseSheet(context, ref);
+      case 'view':
+        await showHabitViewOptions(context);
+      case 'reorder':
+        setState(() {
+          _reordering = true;
+          _view = HabitsView.today;
+        });
     }
   }
 
@@ -187,8 +198,9 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
               child: hasBuild
                   ? TodayList(
                       date: date,
-                      dueOnly: _filter == 'due',
+                      dueOnly: _filter == 'due' && !_reordering,
                       sectionFilter: _filter == 'all' || _filter == 'due' ? null : _filter,
+                      reordering: _reordering,
                     )
                   : EmptyState(icon: Icons.add_task, title: l.habitsNoBuildHabits, message: l.habitsEmptyBody),
             ),
@@ -205,11 +217,15 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
       appBar: AppBar(
         title: Text(l.tabHabits),
         actions: [
+          if (_reordering)
+            TextButton(onPressed: () => setState(() => _reordering = false), child: Text(l.habitsReorderDone)),
           const AppBarActions(),
           PopupMenuButton<String>(
             tooltip: l.actionMore,
             onSelected: (v) => unawaited(_menu(v)),
             itemBuilder: (ctx) => [
+              PopupMenuItem(value: 'view', child: Text(l.habitsViewOptions)),
+              if (hasBuild && !_reordering) PopupMenuItem(value: 'reorder', child: Text(l.habitsReorder)),
               PopupMenuItem(value: 'manage', child: Text(l.habitsManage)),
               PopupMenuItem(value: 'journal', child: Text(l.habitsJournal)),
               PopupMenuItem(value: 'vacation', child: Text(l.habitsVacationTitle)),

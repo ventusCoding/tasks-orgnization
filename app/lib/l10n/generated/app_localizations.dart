@@ -4617,6 +4617,12 @@ abstract class AppLocalizations {
   /// **'All done 🎉'**
   String get habitsAllDone;
 
+  /// No description provided for @habitsAllHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'All habits'**
+  String get habitsAllHabits;
+
   /// No description provided for @habitsAllStats.
   ///
   /// In en, this message translates to:
@@ -4701,6 +4707,12 @@ abstract class AppLocalizations {
   /// **'Day {day} of {total}'**
   String habitsChallengeDay(int day, int total);
 
+  /// No description provided for @habitsCompactRows.
+  ///
+  /// In en, this message translates to:
+  /// **'Compact rows'**
+  String get habitsCompactRows;
+
   /// No description provided for @habitsCounts.
   ///
   /// In en, this message translates to:
@@ -4766,6 +4778,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Habit deleted'**
   String get habitsDeletedSnack;
+
+  /// No description provided for @habitsDragHandle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder {name}'**
+  String habitsDragHandle(String name);
 
   /// No description provided for @habitsEditCustom.
   ///
@@ -5067,11 +5085,41 @@ abstract class AppLocalizations {
   /// **'Number'**
   String get habitsGoalTypeNumeric;
 
+  /// No description provided for @habitsGroupByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get habitsGroupByCategory;
+
+  /// No description provided for @habitsGroupByNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get habitsGroupByNone;
+
+  /// No description provided for @habitsGroupBySection.
+  ///
+  /// In en, this message translates to:
+  /// **'Section'**
+  String get habitsGroupBySection;
+
+  /// No description provided for @habitsGroupByTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Group by'**
+  String get habitsGroupByTitle;
+
   /// No description provided for @habitsGroupNotDue.
   ///
   /// In en, this message translates to:
   /// **'Not due today ({count})'**
   String habitsGroupNotDue(int count);
+
+  /// No description provided for @habitsHideNotDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide habits not due'**
+  String get habitsHideNotDue;
 
   /// No description provided for @habitsIncrease.
   ///
@@ -5132,6 +5180,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manage habits'**
   String get habitsManage;
+
+  /// No description provided for @habitsMatrixTapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tapping a day in the week view'**
+  String get habitsMatrixTapTitle;
 
   /// No description provided for @habitsMinPerDay.
   ///
@@ -5234,6 +5288,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No habit to check in yet'**
   String get habitsNoBuildHabits;
+
+  /// No description provided for @habitsNoCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'No category'**
+  String get habitsNoCategory;
 
   /// No description provided for @habitsNoEntries.
   ///
@@ -5577,6 +5637,24 @@ abstract class AppLocalizations {
   /// **'Recent entries'**
   String get habitsRecentEntries;
 
+  /// No description provided for @habitsReorder.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder'**
+  String get habitsReorder;
+
+  /// No description provided for @habitsReorderDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get habitsReorderDone;
+
+  /// No description provided for @habitsReorderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the handles to change the order.'**
+  String get habitsReorderHint;
+
   /// No description provided for @habitsReordered.
   ///
   /// In en, this message translates to:
@@ -5715,6 +5793,12 @@ abstract class AppLocalizations {
   /// **'Sections'**
   String get habitsSections;
 
+  /// No description provided for @habitsShowStreaks.
+  ///
+  /// In en, this message translates to:
+  /// **'Show streaks'**
+  String get habitsShowStreaks;
+
   /// No description provided for @habitsSkipBreaks.
   ///
   /// In en, this message translates to:
@@ -5847,6 +5931,24 @@ abstract class AppLocalizations {
   /// **'Strength'**
   String get habitsStrength;
 
+  /// No description provided for @habitsTapCycleDoneFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Done → Not done → Clear'**
+  String get habitsTapCycleDoneFail;
+
+  /// No description provided for @habitsTapCycleDoneOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Done → Clear'**
+  String get habitsTapCycleDoneOnly;
+
+  /// No description provided for @habitsTapCycleDoneSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Done → Skip → Clear'**
+  String get habitsTapCycleDoneSkip;
+
   /// No description provided for @habitsTemplatesChallenges.
   ///
   /// In en, this message translates to:
@@ -5900,6 +6002,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today'**
   String get habitsToday;
+
+  /// No description provided for @habitsToggleShortPress.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle with a short press'**
+  String get habitsToggleShortPress;
+
+  /// No description provided for @habitsToggleShortPressHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Off: a long press toggles, a short press opens the day.'**
+  String get habitsToggleShortPressHint;
 
   /// No description provided for @habitsTolerance.
   ///
@@ -6248,6 +6362,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Month'**
   String get habitsViewMonth;
+
+  /// No description provided for @habitsViewOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'View options'**
+  String get habitsViewOptions;
 
   /// No description provided for @habitsViewToday.
   ///

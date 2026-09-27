@@ -2681,6 +2681,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitsAllDone => 'All done 🎉';
 
   @override
+  String get habitsAllHabits => 'All habits';
+
+  @override
   String get habitsAllStats => 'All stats';
 
   @override
@@ -2725,6 +2728,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String habitsChallengeDay(int day, int total) {
     return 'Day $day of $total';
   }
+
+  @override
+  String get habitsCompactRows => 'Compact rows';
 
   @override
   String habitsCounts(int done, int notDone, int missed, int skipped) {
@@ -2774,6 +2780,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsDeletedSnack => 'Habit deleted';
+
+  @override
+  String habitsDragHandle(String name) {
+    return 'Reorder $name';
+  }
 
   @override
   String get habitsEditCustom => 'Edit the schedule';
@@ -2941,9 +2952,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitsGoalTypeNumeric => 'Number';
 
   @override
+  String get habitsGroupByCategory => 'Category';
+
+  @override
+  String get habitsGroupByNone => 'None';
+
+  @override
+  String get habitsGroupBySection => 'Section';
+
+  @override
+  String get habitsGroupByTitle => 'Group by';
+
+  @override
   String habitsGroupNotDue(int count) {
     return 'Not due today ($count)';
   }
+
+  @override
+  String get habitsHideNotDue => 'Hide habits not due';
 
   @override
   String habitsIncrease(String step) {
@@ -2980,6 +3006,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsManage => 'Manage habits';
+
+  @override
+  String get habitsMatrixTapTitle => 'Tapping a day in the week view';
 
   @override
   String get habitsMinPerDay => 'Minimum per day';
@@ -3033,6 +3062,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsNoBuildHabits => 'No habit to check in yet';
+
+  @override
+  String get habitsNoCategory => 'No category';
 
   @override
   String get habitsNoEntries => 'No entries yet';
@@ -3244,6 +3276,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitsRecentEntries => 'Recent entries';
 
   @override
+  String get habitsReorder => 'Reorder';
+
+  @override
+  String get habitsReorderDone => 'Done';
+
+  @override
+  String get habitsReorderHint => 'Drag the handles to change the order.';
+
+  @override
   String get habitsReordered => 'Order saved';
 
   @override
@@ -3322,6 +3363,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsSections => 'Sections';
+
+  @override
+  String get habitsShowStreaks => 'Show streaks';
 
   @override
   String get habitsSkipBreaks => 'Break the streak';
@@ -3412,6 +3456,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitsStrength => 'Strength';
 
   @override
+  String get habitsTapCycleDoneFail => 'Done → Not done → Clear';
+
+  @override
+  String get habitsTapCycleDoneOnly => 'Done → Clear';
+
+  @override
+  String get habitsTapCycleDoneSkip => 'Done → Skip → Clear';
+
+  @override
   String get habitsTemplatesChallenges => 'Challenges';
 
   @override
@@ -3471,6 +3524,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsToday => 'Today';
+
+  @override
+  String get habitsToggleShortPress => 'Toggle with a short press';
+
+  @override
+  String get habitsToggleShortPressHint =>
+      'Off: a long press toggles, a short press opens the day.';
 
   @override
   String get habitsTolerance => 'Early check-in window';
@@ -3737,6 +3797,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsViewMonth => 'Month';
+
+  @override
+  String get habitsViewOptions => 'View options';
 
   @override
   String get habitsViewToday => 'Today';

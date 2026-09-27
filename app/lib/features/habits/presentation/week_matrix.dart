@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:everslot/core/providers.dart';
-import 'package:everslot/core/settings/settings_repository.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/habits/application/habit_day_view.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
-import 'package:everslot/features/habits/domain/check_in.dart';
+import 'package:everslot/features/habits/application/habit_view_settings.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/presentation/check_in_sheets.dart';
 import 'package:everslot/features/habits/presentation/habit_routes.dart';
@@ -15,34 +13,7 @@ import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
-/// Habits-tab settings read by the check-in views (`user_settings.habits`, arch §8.5).
-class HabitViewSettings {
-  const HabitViewSettings({
-    this.tapCycle = TapCycle.doneNotDoneClear,
-    this.toggleWithShortPress = true,
-    this.showStreakChips = true,
-    this.compact = false,
-    this.hideNotDue = false,
-  });
-
-  factory HabitViewSettings.fromMap(Map<String, dynamic> m) => HabitViewSettings(
-    tapCycle: TapCycle.parse(m['matrixTapCycle']),
-    toggleWithShortPress: m.get<bool>('toggleWithShortPress', true),
-    showStreakChips: m.get<bool>('showStreakChips', true),
-    compact: m['density'] == 'compact',
-    hideNotDue: m.get<bool>('hideNotDue', false),
-  );
-
-  final TapCycle tapCycle;
-  final bool toggleWithShortPress;
-  final bool showStreakChips;
-  final bool compact;
-  final bool hideNotDue;
-}
-
-final habitViewSettingsProvider = Provider<HabitViewSettings>(
-  (ref) => HabitViewSettings.fromMap(ref.watch(settingsProvider(SettingsNs.habits)).value ?? const {}),
-);
+export 'package:everslot/features/habits/application/habit_view_settings.dart' show HabitViewSettings, habitViewSettingsProvider;
 
 /// Loop-style week matrix (T5.2.06): habits as rows, the [days] days ending at [endDate] as columns
 /// (today at the trailing edge), sticky habit column, tap cycles the state, long-press opens the

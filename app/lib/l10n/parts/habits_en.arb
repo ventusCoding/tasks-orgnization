@@ -717,5 +717,32 @@
         "type": "String"
       }
     }
+  },
+  "habitsViewOptions": "View options",
+  "habitsGroupByTitle": "Group by",
+  "habitsGroupBySection": "Section",
+  "habitsGroupByCategory": "Category",
+  "habitsGroupByNone": "None",
+  "habitsCompactRows": "Compact rows",
+  "habitsShowStreaks": "Show streaks",
+  "habitsHideNotDue": "Hide habits not due",
+  "habitsMatrixTapTitle": "Tapping a day in the week view",
+  "habitsTapCycleDoneFail": "Done → Not done → Clear",
+  "habitsTapCycleDoneSkip": "Done → Skip → Clear",
+  "habitsTapCycleDoneOnly": "Done → Clear",
+  "habitsToggleShortPress": "Toggle with a short press",
+  "habitsToggleShortPressHint": "Off: a long press toggles, a short press opens the day.",
+  "habitsReorder": "Reorder",
+  "habitsReorderDone": "Done",
+  "habitsReorderHint": "Drag the handles to change the order.",
+  "habitsNoCategory": "No category",
+  "habitsAllHabits": "All habits",
+  "habitsDragHandle": "Reorder {name}",
+  "@habitsDragHandle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }
