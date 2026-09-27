@@ -2090,6 +2090,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checklistLinkedTask => 'Linked task';
 
   @override
+  String get checklistMdBold => 'Bold';
+
+  @override
+  String get checklistMdBullet => 'Bulleted list';
+
+  @override
+  String get checklistMdCode => 'Code';
+
+  @override
+  String get checklistMdHeading => 'Heading';
+
+  @override
+  String get checklistMdItalic => 'Italic';
+
+  @override
+  String get checklistMdLink => 'Link';
+
+  @override
+  String get checklistMdStrike => 'Strikethrough';
+
+  @override
   String get checklistModeEdit => 'Edit';
 
   @override

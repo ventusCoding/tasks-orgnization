@@ -161,7 +161,7 @@ class _ChecklistTitleBodyState extends ConsumerState<ChecklistTitleBody> {
                 onTap: () => setState(() => _bodyExpanded = !_bodyExpanded),
                 child: Padding(
                   padding: const EdgeInsets.only(top: Space.xs),
-                  child: MarkdownLite(c.body!, maxLines: _bodyExpanded ? null : 2),
+                  child: MarkdownLite(c.body!, maxLines: _bodyExpanded ? null : 2, autoDirection: true),
                 ),
               ),
           ],
@@ -194,6 +194,16 @@ class _ChecklistTitleBodyState extends ConsumerState<ChecklistTitleBody> {
             style: context.text.bodyLarge,
             decoration: InputDecoration(hintText: l.checklistBodyHint, border: InputBorder.none, isDense: true),
             onChanged: (_) => _changed(),
+          ),
+          // Formatting toolbar while the body is being edited (T4.1.11).
+          ListenableBuilder(
+            listenable: _bodyFocus,
+            builder: (context, _) => _bodyFocus.hasFocus
+                ? Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: MarkdownFormatBar(controller: _body, onChanged: _changed),
+                  )
+                : const SizedBox.shrink(),
           ),
         ],
       ),
@@ -392,6 +402,7 @@ class FocusedItemHeader extends StatelessWidget {
               padding: const EdgeInsets.only(top: Space.xs),
               child: MarkdownLite(
                 item.note!,
+                autoDirection: true,
                 style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant),
               ),
             ),

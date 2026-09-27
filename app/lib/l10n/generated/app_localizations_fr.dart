@@ -2100,6 +2100,27 @@ class AppLocalizationsFr extends AppLocalizations {
   String get checklistLinkedTask => 'Tâche liée';
 
   @override
+  String get checklistMdBold => 'Gras';
+
+  @override
+  String get checklistMdBullet => 'Liste à puces';
+
+  @override
+  String get checklistMdCode => 'Code';
+
+  @override
+  String get checklistMdHeading => 'Titre';
+
+  @override
+  String get checklistMdItalic => 'Italique';
+
+  @override
+  String get checklistMdLink => 'Lien';
+
+  @override
+  String get checklistMdStrike => 'Barré';
+
+  @override
   String get checklistModeEdit => 'Modifier';
 
   @override

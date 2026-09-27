@@ -7,6 +7,7 @@ import 'package:everslot/features/checklists/application/providers.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
 import 'package:everslot/features/checklists/domain/item_status.dart';
 import 'package:everslot/features/checklists/domain/item_time.dart';
+import 'package:everslot/features/checklists/presentation/markdown_lite.dart';
 import 'package:everslot/features/checklists/presentation/status_sheet.dart';
 import 'package:everslot/features/checklists/presentation/status_visuals.dart';
 import 'package:everslot/features/notifications/presentation/notification_settings_section.dart';
@@ -120,6 +121,8 @@ class _ItemDetailsState extends ConsumerState<_ItemDetails> {
             maxLines: 8,
             decoration: InputDecoration(labelText: l.itemNote, border: const OutlineInputBorder()),
           ),
+          // Notes are Markdown-lite (T4.1.11): plain text with a small formatting toolbar.
+          MarkdownFormatBar(controller: _note!),
           const SizedBox(height: Space.md),
           // Status + reason + follow-up (T4.3.02).
           ListTile(
@@ -130,7 +133,8 @@ class _ItemDetailsState extends ConsumerState<_ItemDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (item.statusSince != null) Text(formatAge(context, item.statusSince!, now)),
-                if (item.statusNote != null) Text(item.statusNote!, style: const TextStyle(fontStyle: FontStyle.italic)),
+                if (item.statusNote != null)
+                  Text(item.statusNote!, style: const TextStyle(fontStyle: FontStyle.italic)),
                 if (item.followUpAt != null) Text(l.statusFollowUpChip(instant(item.followUpAt!))),
               ],
             ),
@@ -174,7 +178,10 @@ class _ItemDetailsState extends ConsumerState<_ItemDetails> {
               ),
             ],
           ),
-          SectionHeader(l.itemAttachments, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.sm)),
+          SectionHeader(
+            l.itemAttachments,
+            padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.sm),
+          ),
           AttachmentStrip(
             ownerType: AttachmentOwnerType.checklistItem,
             ownerId: item.id,
@@ -189,11 +196,12 @@ class _ItemDetailsState extends ConsumerState<_ItemDetails> {
             section: NotificationSection.checklists,
             checklistId: widget.checklistId,
             ancestorItemIds: [...?tree?.ancestors(item.id).reversed],
-            itemKind: due == null
-                ? ItemKind.any
-                : (ItemTimeRules.isDateOnly(due) ? ItemKind.dateOnly : ItemKind.timed),
+            itemKind: due == null ? ItemKind.any : (ItemTimeRules.isDateOnly(due) ? ItemKind.dateOnly : ItemKind.timed),
           ),
-          SectionHeader(l.itemHistory, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
+          SectionHeader(
+            l.itemHistory,
+            padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs),
+          ),
           StatusTimeline(item: item, now: now),
           const SizedBox(height: Space.md),
           Text(
@@ -297,7 +305,8 @@ class StatusTimeline extends ConsumerWidget {
                   fmt.dateTime(ref.read(zoneResolverProvider).toLocal(e.at, zone)),
                   if (e.note != null) '“${e.note}”',
                   if (e.cause != null && e.cause != 'user') l.itemHistoryCause,
-                  if (e.deviceId != null) l.itemHistoryDevice(e.deviceId == device ? l.itemThisDevice : l.itemOtherDevice),
+                  if (e.deviceId != null)
+                    l.itemHistoryDevice(e.deviceId == device ? l.itemThisDevice : l.itemOtherDevice),
                 ].join(' · '),
               ),
             ),

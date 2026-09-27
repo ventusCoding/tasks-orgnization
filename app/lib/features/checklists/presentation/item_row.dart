@@ -623,6 +623,7 @@ class _ItemRowState extends ConsumerState<ItemRow> {
             child: MarkdownLite(
               item.note!,
               maxLines: 6,
+              autoDirection: true,
               style: context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant),
             ),
           ),
