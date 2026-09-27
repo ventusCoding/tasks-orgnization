@@ -2741,6 +2741,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get importWarningTooMany => 'تم استيراد أول 10000 سطر فقط';
 
   @override
+  String get integrationsActionFailed => 'تعذّر إتمام هذا الإجراء.';
+
+  @override
+  String integrationsHabitLogged(String habit) {
+    return 'تم التسجيل: $habit';
+  }
+
+  @override
+  String integrationsHabitNotFound(String name) {
+    return 'لا توجد عادة تطابق «$name».';
+  }
+
+  @override
+  String get integrationsLinkInTrash => 'هذا العنصر موجود في سلة المهملات.';
+
+  @override
+  String get integrationsLinkNotFound => 'لا يمكن فتح هذا الرابط في Everslot.';
+
+  @override
+  String get integrationsNothingNext => 'لا شيء آخر مخطط له اليوم.';
+
+  @override
   String get itemAddTime => 'إضافة وقت';
 
   @override

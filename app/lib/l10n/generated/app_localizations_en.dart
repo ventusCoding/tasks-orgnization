@@ -2671,6 +2671,29 @@ class AppLocalizationsEn extends AppLocalizations {
       'Only the first 10 000 lines were imported';
 
   @override
+  String get integrationsActionFailed => 'That action couldn\'t be completed.';
+
+  @override
+  String integrationsHabitLogged(String habit) {
+    return 'Logged: $habit';
+  }
+
+  @override
+  String integrationsHabitNotFound(String name) {
+    return 'No habit matches \"$name\".';
+  }
+
+  @override
+  String get integrationsLinkInTrash => 'This item is in the Trash.';
+
+  @override
+  String get integrationsLinkNotFound =>
+      'This link can\'t be opened in Everslot.';
+
+  @override
+  String get integrationsNothingNext => 'Nothing else is planned today.';
+
+  @override
   String get itemAddTime => 'Add time';
 
   @override
