@@ -8954,6 +8954,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tasksAddEntry => 'Add session';
 
   @override
+  String get tasksAddTag => 'Add a tag';
+
+  @override
   String tasksAnchorMoved(String date) {
     return 'Start moved to $date to match the repeat rule';
   }
@@ -9308,6 +9311,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tasksFieldStartDate => 'Start date';
+
+  @override
+  String get tasksFieldTags => 'Tags';
 
   @override
   String get tasksFieldTimeZone => 'Time zone';
