@@ -133,14 +133,16 @@ void main() {
         occ('Recurring', start: at(2026, 9, 21, 7), status: OccurrenceStatus.missed, recurring: true),
         occ('Quota', start: at(2026, 9, 20), allDay: true, quotaSlot: true, status: OccurrenceStatus.missed),
       ];
-      expect(
-        selectOverdue(items, today: today, lookbackDays: 7).map((i) => i.title),
-        ['Oldest', 'In range', 'Recurring', 'Timer'],
-      );
-      expect(
-        selectOverdue(items, today: today, lookbackDays: 2, includeRecurring: false).map((i) => i.title),
-        ['In range', 'Timer'],
-      );
+      expect(selectOverdue(items, today: today, lookbackDays: 7).map((i) => i.title), [
+        'Oldest',
+        'In range',
+        'Recurring',
+        'Timer',
+      ]);
+      expect(selectOverdue(items, today: today, lookbackDays: 2, includeRecurring: false).map((i) => i.title), [
+        'In range',
+        'Timer',
+      ]);
       expect(selectOverdue(items, today: today, lookbackDays: 0), isEmpty);
     });
   });

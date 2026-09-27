@@ -91,19 +91,20 @@ List<PlannerItem> selectOverdue(
 }) {
   if (lookbackDays <= 0) return const [];
   final first = today.minusDays(lookbackDays);
-  final out = <PlannerItem>[
-    for (final i in items)
-      if (!i.isBacklog &&
-          i.isOpen &&
-          !i.isQuotaSlot &&
-          TrackingPolicy.of(i.trackingMode).canBeMissed &&
-          (includeRecurring || !i.isRecurring) &&
-          i.startLocal.date.isBefore(today) &&
-          !i.startLocal.date.isBefore(first))
-        i,
-  ]..sort((a, b) {
-    final c = a.startLocal.compareTo(b.startLocal);
-    return c != 0 ? c : a.key.compareTo(b.key);
-  });
+  final out =
+      <PlannerItem>[
+        for (final i in items)
+          if (!i.isBacklog &&
+              i.isOpen &&
+              !i.isQuotaSlot &&
+              TrackingPolicy.of(i.trackingMode).canBeMissed &&
+              (includeRecurring || !i.isRecurring) &&
+              i.startLocal.date.isBefore(today) &&
+              !i.startLocal.date.isBefore(first))
+            i,
+      ]..sort((a, b) {
+        final c = a.startLocal.compareTo(b.startLocal);
+        return c != 0 ? c : a.key.compareTo(b.key);
+      });
   return out;
 }

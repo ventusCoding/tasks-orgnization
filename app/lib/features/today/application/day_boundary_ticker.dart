@@ -73,9 +73,7 @@ final todayAutoTickProvider = Provider<bool>((ref) => ref.watch(clockProvider) i
 
 /// The logical day shown by Today, in the device zone with the user's day start. Recomputed at
 /// each day boundary, on app resume and whenever the zone or the day-start preference changes.
-final todayWindowProvider = NotifierProvider.autoDispose<TodayWindowController, DayWindow>(
-  TodayWindowController.new,
-);
+final todayWindowProvider = NotifierProvider.autoDispose<TodayWindowController, DayWindow>(TodayWindowController.new);
 
 class TodayWindowController extends Notifier<DayWindow> {
   DayBoundaryTicker? _ticker;

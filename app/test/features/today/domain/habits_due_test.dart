@@ -160,17 +160,20 @@ void main() {
     final early = entry(slots, now: DateTime.utc(2026, 9, 22, 6))!;
     expect(early.checkInKey, isNull);
     expect(early.nextSlot?.key, '2026-09-22T08:00');
-    final one = entry(
-      slots,
-      logs: [log(HabitLogKind.done, '2026-09-22T08:00', DateTime.utc(2026, 9, 22, 8, 5))],
-    )!;
+    final one = entry(slots, logs: [log(HabitLogKind.done, '2026-09-22T08:00', DateTime.utc(2026, 9, 22, 8, 5))])!;
     expect(one.progress, closeTo(1 / 3, 1e-9));
     expect(one.resolved, isFalse);
   });
 
   test('paused days and archived habits are not due', () {
     final daily = habit(RecurrenceRule());
-    expect(entry(daily, pauses: [PauseSpan(id: 'p', start: LocalDate(2026, 9, 20))]), isNull);
+    expect(
+      entry(
+        daily,
+        pauses: [PauseSpan(id: 'p', start: LocalDate(2026, 9, 20))],
+      ),
+      isNull,
+    );
     expect(
       todayHabitEntry(
         habit: daily.copyWith(archivedAt: DateTime.utc(2026, 9, 21)),
@@ -191,8 +194,14 @@ void main() {
   });
 
   test('measurable and limit goals: ring progress and resolution', () {
-    final count = habit(RecurrenceRule(), goal: const HabitTarget(type: HabitGoalType.count, target: 5, unit: 'reps'));
-    final partial = entry(count, logs: [log(HabitLogKind.progress, '2026-09-22', DateTime.utc(2026, 9, 22, 9), value: 2)])!;
+    final count = habit(
+      RecurrenceRule(),
+      goal: const HabitTarget(type: HabitGoalType.count, target: 5, unit: 'reps'),
+    );
+    final partial = entry(
+      count,
+      logs: [log(HabitLogKind.progress, '2026-09-22', DateTime.utc(2026, 9, 22, 9), value: 2)],
+    )!;
     expect(partial.progress, closeTo(0.4, 1e-9));
     expect(partial.achieved, 2);
     expect(partial.target, 5);
@@ -202,10 +211,16 @@ void main() {
       RecurrenceRule(),
       goal: const HabitTarget(type: HabitGoalType.count, target: 2, op: TargetOp.lte),
     );
-    final under = entry(limit, logs: [log(HabitLogKind.progress, '2026-09-22', DateTime.utc(2026, 9, 22, 9), value: 1)])!;
+    final under = entry(
+      limit,
+      logs: [log(HabitLogKind.progress, '2026-09-22', DateTime.utc(2026, 9, 22, 9), value: 1)],
+    )!;
     expect(under.isLimit, isTrue);
     expect(under.resolved, isTrue);
-    final over = entry(limit, logs: [log(HabitLogKind.progress, '2026-09-22', DateTime.utc(2026, 9, 22, 9), value: 3)])!;
+    final over = entry(
+      limit,
+      logs: [log(HabitLogKind.progress, '2026-09-22', DateTime.utc(2026, 9, 22, 9), value: 3)],
+    )!;
     expect(over.day?.status, PeriodStatus.failed);
     expect(over.resolved, isFalse);
   });

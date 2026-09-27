@@ -109,16 +109,7 @@ class TodayLayout {
 
   static const defaults = TodayLayout();
 
-  static const _known = {
-    'v',
-    'blocks',
-    'hidden',
-    'showWhenEmpty',
-    'showHeader',
-    'agenda',
-    'overdue',
-    'dismissedHints',
-  };
+  static const _known = {'v', 'blocks', 'hidden', 'showWhenEmpty', 'showHeader', 'agenda', 'overdue', 'dismissedHints'};
 
   /// Stored order (may be partial; see [blocks]).
   final List<TodayBlockId> order;
@@ -220,7 +211,9 @@ class TodayLayout {
     agendaShowCompleted: agendaShowCompleted ?? this.agendaShowCompleted,
     swipeStart: swipeStart ?? this.swipeStart,
     swipeEnd: swipeEnd ?? this.swipeEnd,
-    overdueLookbackDays: identical(overdueLookbackDays, _unset) ? this.overdueLookbackDays : overdueLookbackDays as int?,
+    overdueLookbackDays: identical(overdueLookbackDays, _unset)
+        ? this.overdueLookbackDays
+        : overdueLookbackDays as int?,
     overdueIncludeRecurring: overdueIncludeRecurring ?? this.overdueIncludeRecurring,
     dismissedHints: dismissedHints ?? this.dismissedHints,
     extra: extra,

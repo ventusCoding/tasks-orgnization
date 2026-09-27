@@ -32,7 +32,11 @@ class CleanTime {
 
   @override
   bool operator ==(Object other) =>
-      other is CleanTime && other.days == days && other.hours == hours && other.minutes == minutes && other.seconds == seconds;
+      other is CleanTime &&
+      other.days == days &&
+      other.hours == hours &&
+      other.minutes == minutes &&
+      other.seconds == seconds;
 
   @override
   int get hashCode => Object.hash(days, hours, minutes, seconds);

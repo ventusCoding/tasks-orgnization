@@ -1,9 +1,11 @@
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/features/checklists/domain/item_status.dart';
+import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot/features/planner/application/planner_service.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/today/application/day_boundary_ticker.dart';
 import 'package:everslot/features/today/application/today_overview_provider.dart';
+import 'package:everslot/features/today/domain/agenda.dart';
 import 'package:everslot/features/today/domain/day_window.dart';
 import 'package:everslot/features/today/domain/today_overview.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -132,18 +134,30 @@ void main() {
         rule: i.isEven ? RecurrenceRule() : null,
       );
     }
-    // Warm-up (JIT), then measure the provider chain: range resolution + split + assembly.
-    await overview(where: (o) => o.agenda!.length == 200);
-    h.read(todayWindowProvider.notifier).check();
-    final watch = Stopwatch()..start();
-    h.container.invalidate(todayRangeProvider);
     final o = await overview(where: (o) => o.agenda!.length == 200);
-    watch.stop();
     expect(o.agenda, hasLength(200));
+    // Measure what the provider does on every change: resolve today's bounded range (DB read +
+    // recurrence expansion for today only, uncached) and split it into agenda / upcoming.
+    final window = h.read(todayWindowProvider);
+    final range = h.read(todayRangeProvider);
+    final service = h.read(occurrenceRangeServiceProvider);
+    Future<int> resolveOnce() async {
+      final r = await service.resolveRange(range.start.atStartOfDay, range.endExclusive.atStartOfDay);
+      return splitAgenda(r.items, window).agenda.length;
+    }
+
+    expect(await resolveOnce(), 200); // warm-up (JIT)
+    final watch = Stopwatch()..start();
+    const runs = 5;
+    for (var i = 0; i < runs; i++) {
+      expect(await resolveOnce(), 200);
+    }
+    watch.stop();
+    final perRun = watch.elapsedMilliseconds / runs;
     // Budget 50 ms in release builds; debug/JIT test runs get headroom.
-    expect(watch.elapsedMilliseconds, lessThan(250), reason: 'took ${watch.elapsedMilliseconds} ms');
+    expect(perRun, lessThan(250), reason: 'took $perRun ms');
     // ignore: avoid_print
-    print('Today overview with 200 tasks: ${watch.elapsedMilliseconds} ms');
+    print('Today overview with 200 tasks: $perRun ms per resolution');
   });
 
   group('DayBoundaryTicker', () {

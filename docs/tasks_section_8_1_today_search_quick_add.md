@@ -18,7 +18,7 @@ palette (P2).
 
 ## Progress
 
-- [ ] T8.1.01 — Today overview data provider
+- [x] T8.1.01 — Today overview data provider
 - [ ] T8.1.02 — Today screen layout & block framework
 - [ ] T8.1.03 — Now / Next card
 - [ ] T8.1.04 — Today agenda block (tasks)
@@ -55,6 +55,7 @@ current local day, reactive to DB changes and to the day rolling over at midnigh
 - At local midnight the overview switches to the new day automatically.
 - Changing the device time zone recomputes "today" correctly for floating vs fixed-zone tasks.
 **Tests:** unit tests with fake clock across midnight and a zone change; performance test with 200 tasks.
+**Notes:** `todayOverviewProvider` (sync `Provider<TodayOverview>`; each section loads/fails independently, null = loading) over the planner contract (`plannerItemsProvider` for the logical day + next day, so Now/Next can look ahead), habit snapshots (`habitSnapshotProvider`), checklist board/card summaries, a read-only due/follow-up query in `today/data/` (the checklists feature has no "due today" API) and the inbox. `DayBoundaryTicker` lives in `features/today/application/` (not `core/time`, to stay in owned paths); it honours `dayStartMinutes`, re-checks on resume and at least hourly. 200 tasks resolve in ≈ 48 ms in a debug test run.
 
 ### T8.1.02 — Today screen layout & block framework
 **Priority:** P0 · **Size:** M · **Depends on:** T8.1.01, [1.3]

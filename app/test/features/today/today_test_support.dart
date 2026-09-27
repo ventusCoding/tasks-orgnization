@@ -152,7 +152,10 @@ Future<void> settle(WidgetTester tester, {int rounds = 6}) async {
 }
 
 /// Waits (in plain tests) until [provider] yields a value matching [test].
-Future<T> until<T>(ProviderContainer container, ProviderListenable<T> provider, bool Function(T value) test, {
+Future<T> until<T>(
+  ProviderContainer container,
+  ProviderListenable<T> provider,
+  bool Function(T value) test, {
   Duration timeout = const Duration(seconds: 5),
 }) async {
   final completer = Completer<T>();

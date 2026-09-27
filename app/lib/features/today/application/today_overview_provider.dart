@@ -44,11 +44,14 @@ final todayChecklistQueriesProvider = Provider<TodayChecklistQueries>(
 final todayRangeProvider = Provider.autoDispose<DayRange>((ref) => DayRange(ref.watch(todayWindowProvider).date, 2));
 
 /// The day's agenda and the occurrences after it.
-final todayPlannerProvider =
-    Provider.autoDispose<AsyncValue<({List<PlannerItem> agenda, List<PlannerItem> upcoming})>>((ref) {
-      final window = ref.watch(todayWindowProvider);
-      return ref.watch(plannerItemsProvider(ref.watch(todayRangeProvider))).whenData((items) => splitAgenda(items, window));
-    });
+final todayPlannerProvider = Provider.autoDispose<AsyncValue<({List<PlannerItem> agenda, List<PlannerItem> upcoming})>>(
+  (ref) {
+    final window = ref.watch(todayWindowProvider);
+    return ref
+        .watch(plannerItemsProvider(ref.watch(todayRangeProvider)))
+        .whenData((items) => splitAgenda(items, window));
+  },
+);
 
 /// Overdue look-back in days: the Today setting, else `planner.overdueLookbackDays`.
 final todayOverdueLookbackProvider = Provider<int>(
@@ -69,11 +72,23 @@ final todayOverdueProvider = Provider.autoDispose<AsyncValue<List<PlannerItem>>>
       );
 });
 
+/// Whether [todayHabitsProvider] has produced a complete result once (lives as long as it does).
+class _LoadedOnce {
+  bool value = false;
+}
+
+final _todayHabitsLoadedProvider = Provider.autoDispose<_LoadedOnce>((ref) => _LoadedOnce());
+
 /// Habits due today and active quit trackers, from the habits feature's snapshots (the same
 /// evaluation as the Habits tab, T8.1.06 / T8.1.07). A snapshot computed before its habit's day
 /// boundary is refreshed by bumping `habitTickProvider` (the Habits tab's re-evaluation signal).
+///
+/// The first result waits for every snapshot (no half-loaded section); afterwards a habit whose
+/// snapshot is still loading (just created) is skipped until it arrives, so the block never
+/// flickers back to its loading state.
 final todayHabitsProvider =
     Provider.autoDispose<AsyncValue<({List<TodayHabitEntry> habits, List<TodayQuitEntry> quits})>>((ref) {
+      final loadedOnce = ref.watch(_todayHabitsLoadedProvider);
       // A new day window re-runs the staleness check below.
       ref.watch(todayWindowProvider);
       final now = ref.read(clockProvider).nowUtc();
@@ -139,7 +154,8 @@ final todayHabitsProvider =
           if (ref.mounted) ref.read(habitTickProvider.notifier).bump();
         });
       }
-      if (loading && entries.isEmpty && quits.isEmpty) return const AsyncValue.loading();
+      if (loading && !loadedOnce.value) return const AsyncValue.loading();
+      loadedOnce.value = true;
       return AsyncValue.data((habits: entries, quits: quits));
     });
 
