@@ -14,16 +14,31 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Card background derived from the stored ARGB color (tonal light/dark variants, T4.1.08).
-Color cardBackground(BuildContext context, int? argb) => argb == null
-    ? context.colors.surfaceContainerLow
-    : CategoryColors.background(argb, Theme.of(context).brightness);
+Color cardBackground(BuildContext context, int? argb) =>
+    argb == null ? context.colors.surfaceContainerLow : CategoryColors.background(argb, Theme.of(context).brightness);
 
 /// Status-split segments of a roll-up (progress bars on cards, headers, collapsed rows).
 List<BarSegment> statusSegments(BuildContext context, Rollup r) => [
-  BarSegment(r.completed.toDouble(), StatusStyle.color(context, ItemStatus.completed), StatusStyle.label(context, ItemStatus.completed)),
-  BarSegment(r.ongoing.toDouble(), StatusStyle.color(context, ItemStatus.ongoing), StatusStyle.label(context, ItemStatus.ongoing)),
-  BarSegment(r.waiting.toDouble(), StatusStyle.color(context, ItemStatus.waiting), StatusStyle.label(context, ItemStatus.waiting)),
-  BarSegment(r.blocked.toDouble(), StatusStyle.color(context, ItemStatus.blocked), StatusStyle.label(context, ItemStatus.blocked)),
+  BarSegment(
+    r.completed.toDouble(),
+    StatusStyle.color(context, ItemStatus.completed),
+    StatusStyle.label(context, ItemStatus.completed),
+  ),
+  BarSegment(
+    r.ongoing.toDouble(),
+    StatusStyle.color(context, ItemStatus.ongoing),
+    StatusStyle.label(context, ItemStatus.ongoing),
+  ),
+  BarSegment(
+    r.waiting.toDouble(),
+    StatusStyle.color(context, ItemStatus.waiting),
+    StatusStyle.label(context, ItemStatus.waiting),
+  ),
+  BarSegment(
+    r.blocked.toDouble(),
+    StatusStyle.color(context, ItemStatus.blocked),
+    StatusStyle.label(context, ItemStatus.blocked),
+  ),
   BarSegment(r.todo.toDouble(), context.colors.outlineVariant, StatusStyle.label(context, ItemStatus.todo)),
 ];
 
@@ -153,7 +168,10 @@ class ChecklistCard extends ConsumerWidget {
                           if (more > 0)
                             Padding(
                               padding: const EdgeInsets.only(top: Space.xxs),
-                              child: Text(l.listsCardMore(more), style: context.text.labelSmall?.copyWith(color: muted)),
+                              child: Text(
+                                l.listsCardMore(more),
+                                style: context.text.labelSmall?.copyWith(color: muted),
+                              ),
                             ),
                           if (!hideBoxes && rollup.leafCountable > 0) ...[
                             const SizedBox(height: Space.sm),
@@ -238,7 +256,11 @@ class _CardRowView extends StatelessWidget {
             child: bullet
                 ? Padding(
                     padding: const EdgeInsets.all(5),
-                    child: Container(width: 5, height: 5, decoration: BoxDecoration(color: muted, shape: BoxShape.circle)),
+                    child: Container(
+                      width: 5,
+                      height: 5,
+                      decoration: BoxDecoration(color: muted, shape: BoxShape.circle),
+                    ),
                   )
                 : Icon(
                     StatusStyle.icon(row.status),
