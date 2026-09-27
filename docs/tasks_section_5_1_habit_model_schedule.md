@@ -39,10 +39,10 @@ challenges, streak freezes ([5.4]); streak / strength-score / rate implementatio
 - [x] T5.1.10 — Limit ("at most") habits
 - [x] T5.1.11 — Time-of-day sections (defaults)
 - [x] T5.1.12 — Advanced options (skip policy, increments, prompts)
-- [ ] T5.1.13 — Schedule/goal changes: effective date & retro edit
-- [ ] T5.1.14 — Pauses & vacation mode
-- [ ] T5.1.15 — Manage habits: archive, restore, reorder, custom sections
-- [ ] T5.1.16 — Habit templates
+- [x] T5.1.13 — Schedule/goal changes: effective date & retro edit
+- [x] T5.1.14 — Pauses & vacation mode
+- [x] T5.1.15 — Manage habits: archive, restore, reorder, custom sections
+- [x] T5.1.16 — Habit templates
 - [ ] T5.1.17 — After-completion habits
 
 ## Tasks
@@ -296,6 +296,7 @@ completion-rate denominators ([6.5]); reminders are suppressed ([7.2]).
 a `done` logged inside a pause still counts (T5.1.06 precedence).
 **Acceptance criteria:** a 20-day streak survives a 5-day vacation; resuming mid-pause re-activates today.
 **Tests:** evaluation fixtures (habit-level, global, open-ended pauses); widget test for the pause sheet.
+**Notes:** Reminder suppression for paused periods comes from the notification source: paused periods are returned closed and the guard re-checks pauses.
 
 ### T5.1.15 — Manage habits: archive, restore, reorder, custom sections
 **Priority:** P1 · **Size:** S · **Depends on:** T5.1.04, T5.1.11
@@ -316,6 +317,7 @@ journal (yes/no). Quit templates live in [5.3].
 onboarding ([8.3]).
 **Acceptance criteria:** every template yields a habit passing T5.1.03 validation; texts exist in EN/FR/AR.
 **Tests:** unit test validating all templates.
+**Notes:** Templates are a Dart catalog (`HabitTemplate.all`, l10n keys `habitsTpl*`) rather than a JSON asset; onboarding entry point belongs to [8.3].
 
 ### T5.1.17 — After-completion habits
 **Priority:** P2 · **Size:** M · **Depends on:** T5.1.06, [2.1] (after-completion rules)
