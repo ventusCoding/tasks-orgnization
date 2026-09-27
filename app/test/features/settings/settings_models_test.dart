@@ -42,7 +42,7 @@ void main() {
         theme: ThemePreference.dark,
         density: DensityPreference.compact,
         arabicDigits: true,
-        reduceMotion: MotionPreference.on,
+        reduceMotion: true,
         haptics: false,
         sounds: true,
         highContrastCategories: true,
@@ -89,7 +89,7 @@ void main() {
       final s = AppearanceSettings.codec.decode(raw);
       expect(s.theme, ThemePreference.dark);
       expect(s.density, DensityPreference.compact);
-      expect(s.reduceMotion, MotionPreference.on);
+      expect(s.reduceMotion, isTrue, reason: 'bool, as design_system/motion.dart reads it');
       expect(s.haptics, isFalse);
       final stored = AppearanceSettings.codec.encode(s, raw);
       expect(stored['futureKey'], {'x': 1});

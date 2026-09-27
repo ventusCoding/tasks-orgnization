@@ -8,6 +8,14 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../../support/test_app.dart';
 
+/// Advances route/sheet animations by a bounded number of frames (never `pumpAndSettle`: an
+/// endless progress indicator would never settle and hang the test).
+Future<void> pumpUi(WidgetTester tester, {int frames = 8}) async {
+  for (var i = 0; i < frames; i++) {
+    await tester.pump(const Duration(milliseconds: 50));
+  }
+}
+
 /// Pumps the settings routes (`/settings`, `/settings/:page`) with stub destinations for the
 /// routes owned elsewhere; returns the router to inspect/drive navigation.
 Future<GoRouter> pumpSettingsApp(

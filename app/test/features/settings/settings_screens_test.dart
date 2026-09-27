@@ -41,7 +41,7 @@ void main() {
       }
       await tester.scrollUntilVisible(find.text('Appearance'), -80, scrollable: find.byType(Scrollable).first);
       await tester.tap(find.text('Appearance'));
-      await tester.pumpAndSettle();
+      await pumpUi(tester);
       expect(find.text('Theme'), findsOneWidget);
       await finish(tester, h);
     });
@@ -52,7 +52,7 @@ void main() {
       await settle(tester);
       expect(find.text('On this device only'), findsOneWidget);
       router.go('/settings/nope');
-      await tester.pumpAndSettle();
+      await pumpUi(tester);
       expect(find.text("This settings page doesn't exist."), findsOneWidget);
       await finish(tester, h);
     });
@@ -81,7 +81,7 @@ void main() {
       expect(h.read(appearanceSettingsProvider).density, DensityPreference.compact);
 
       await tester.tap(find.byKey(const ValueKey('appearance-language')));
-      await tester.pumpAndSettle();
+      await pumpUi(tester);
       await tester.tap(find.byKey(const ValueKey('choice-fr')));
       await settle(tester);
       final profile = await tester.runAsync(() => h.read(profileRepositoryProvider).read());
@@ -119,7 +119,7 @@ void main() {
       await settle(tester);
       expect(find.text('Monday'), findsOneWidget);
       await tester.tap(find.byKey(const ValueKey('regional-week-start')));
-      await tester.pumpAndSettle();
+      await pumpUi(tester);
       await tester.tap(find.byKey(const ValueKey('choice-6')));
       await settle(tester);
       expect((await tester.runAsync(() => h.read(profileRepositoryProvider).read()))!.weekStart, 6);
@@ -127,7 +127,7 @@ void main() {
 
       await tester.scrollUntilVisible(find.byKey(const ValueKey('regional-currency')), 80, scrollable: find.byType(Scrollable).first);
       await tester.tap(find.byKey(const ValueKey('regional-currency')));
-      await tester.pumpAndSettle();
+      await pumpUi(tester);
       await tester.tap(find.byKey(const ValueKey('choice-TND')));
       await settle(tester);
       expect(h.read(regionalSettingsProvider).currency, 'TND');

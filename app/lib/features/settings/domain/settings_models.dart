@@ -8,16 +8,13 @@ enum ThemePreference { system, light, dark }
 
 enum DensityPreference { comfortable, compact }
 
-/// Reduce motion: follow the OS, or force on/off (T8.3.12).
-enum MotionPreference { system, on, off }
-
 /// `appearance` (T8.3.02, T8.3.12).
 class AppearanceSettings {
   const AppearanceSettings({
     this.theme = ThemePreference.system,
     this.density = DensityPreference.comfortable,
     this.arabicDigits = false,
-    this.reduceMotion = MotionPreference.system,
+    this.reduceMotion = false,
     this.haptics = true,
     this.sounds = false,
     this.highContrastCategories = false,
@@ -32,7 +29,9 @@ class AppearanceSettings {
 
   /// Arabic-Indic digits when the UI is in Arabic.
   final bool arabicDigits;
-  final MotionPreference reduceMotion;
+  /// Reduce motion regardless of the OS setting (false = follow the OS). Read as a bool by
+  /// `design_system/motion.dart` (`reduceMotionSettingProvider`), T1.3.15 / T8.3.12.
+  final bool reduceMotion;
 
   /// Haptic feedback on snaps, lifts and completions (T1.3.17).
   final bool haptics;
@@ -54,14 +53,13 @@ class AppearanceSettings {
         ...j,
         if (j['darkMode'] is bool && !j.containsKey('theme')) 'theme': j['darkMode'] == true ? 'dark' : 'light',
         if (j['compact'] is bool && !j.containsKey('density')) 'density': j['compact'] == true ? 'compact' : 'comfortable',
-        if (j['reduceMotion'] is bool) 'reduceMotion': j['reduceMotion'] == true ? 'on' : 'system',
       }..removeWhere((k, _) => k == 'darkMode' || k == 'compact'),
     },
     decoder: (r) => AppearanceSettings(
       theme: r.choice('theme', ThemePreference.values, ThemePreference.system),
       density: r.choice('density', DensityPreference.values, DensityPreference.comfortable),
       arabicDigits: r.boolean('arabicDigits', false),
-      reduceMotion: r.choice('reduceMotion', MotionPreference.values, MotionPreference.system),
+      reduceMotion: r.boolean('reduceMotion', false),
       haptics: r.boolean('haptics', true),
       sounds: r.boolean('sounds', false),
       highContrastCategories: r.boolean('highContrastCategories', false),
@@ -72,7 +70,7 @@ class AppearanceSettings {
       'theme': s.theme.name,
       'density': s.density.name,
       'arabicDigits': s.arabicDigits,
-      'reduceMotion': s.reduceMotion.name,
+      'reduceMotion': s.reduceMotion,
       'haptics': s.haptics,
       'sounds': s.sounds,
       'highContrastCategories': s.highContrastCategories,
@@ -85,7 +83,7 @@ class AppearanceSettings {
     ThemePreference? theme,
     DensityPreference? density,
     bool? arabicDigits,
-    MotionPreference? reduceMotion,
+    bool? reduceMotion,
     bool? haptics,
     bool? sounds,
     bool? highContrastCategories,
