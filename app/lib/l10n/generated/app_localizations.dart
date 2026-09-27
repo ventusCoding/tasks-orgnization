@@ -13077,6 +13077,72 @@ abstract class AppLocalizations {
   /// **'Use logged'**
   String get quitUseLogged;
 
+  /// No description provided for @quitVocabAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an entry'**
+  String get quitVocabAdd;
+
+  /// No description provided for @quitVocabCoping.
+  ///
+  /// In en, this message translates to:
+  /// **'Coping'**
+  String get quitVocabCoping;
+
+  /// No description provided for @quitVocabDistractions.
+  ///
+  /// In en, this message translates to:
+  /// **'Distractions'**
+  String get quitVocabDistractions;
+
+  /// No description provided for @quitVocabEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet — add your own.'**
+  String get quitVocabEmpty;
+
+  /// No description provided for @quitVocabName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get quitVocabName;
+
+  /// No description provided for @quitVocabPlaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Places'**
+  String get quitVocabPlaces;
+
+  /// No description provided for @quitVocabRename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get quitVocabRename;
+
+  /// No description provided for @quitVocabSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Library updated'**
+  String get quitVocabSaved;
+
+  /// No description provided for @quitVocabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Triggers, places & coping'**
+  String get quitVocabTitle;
+
+  /// No description provided for @quitVocabTriggers.
+  ///
+  /// In en, this message translates to:
+  /// **'Triggers'**
+  String get quitVocabTriggers;
+
+  /// No description provided for @quitVocabUses.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Not used yet} =1{Used once} other{Used {count} times}}'**
+  String quitVocabUses(int count);
+
   /// No description provided for @quitWhen.
   ///
   /// In en, this message translates to:

@@ -324,5 +324,23 @@
   "quitReviewYesterdayQuestion": "Did you stay clean yesterday?",
   "quitReviewedClean": "Clean today — well done!",
   "quitPledgeSaved": "Pledge saved",
-  "quitCleanSaved": "Marked as a clean day"
+  "quitCleanSaved": "Marked as a clean day",
+  "quitVocabTitle": "Triggers, places & coping",
+  "quitVocabTriggers": "Triggers",
+  "quitVocabPlaces": "Places",
+  "quitVocabCoping": "Coping",
+  "quitVocabDistractions": "Distractions",
+  "quitVocabAdd": "Add an entry",
+  "quitVocabName": "Name",
+  "quitVocabRename": "Rename",
+  "quitVocabEmpty": "Nothing here yet — add your own.",
+  "quitVocabUses": "{count, plural, =0{Not used yet} =1{Used once} other{Used {count} times}}",
+  "@quitVocabUses": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quitVocabSaved": "Library updated"
 }

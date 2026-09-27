@@ -213,6 +213,16 @@ class HabitVocabRepository {
 
   Future<OpRecord> move(String id, {String? afterKey, String? beforeKey}) =>
       _writer.run((tx) => tx.update('habit_vocab', id, {'sort_key': FractionalIndex.between(afterKey, beforeKey)}));
+
+  /// Icon and/or color of an entry (null clears; omitted keeps).
+  Future<OpRecord> setLook(String id, {Object? icon = _keepLook, Object? color = _keepLook}) => _writer.run(
+    (tx) => tx.update('habit_vocab', id, {
+      if (!identical(icon, _keepLook)) 'icon': icon as String?,
+      if (!identical(color, _keepLook)) 'color': color as int?,
+    }),
+  );
+
+  static const Object _keepLook = Object();
 }
 
 /// Local-only duration timers (T5.2.04): `habit_timer_state` is never synced; a running timer

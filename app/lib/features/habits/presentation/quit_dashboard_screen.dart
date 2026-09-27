@@ -18,6 +18,7 @@ import 'package:everslot/features/habits/presentation/quit/live_counter.dart';
 import 'package:everslot/features/habits/presentation/quit/milestone_timeline.dart';
 import 'package:everslot/features/habits/presentation/quit/quit_sheets.dart';
 import 'package:everslot/features/habits/presentation/quit/ritual_card.dart';
+import 'package:everslot/features/habits/presentation/quit/vocab_manage_screen.dart';
 import 'package:everslot_metrics/everslot_metrics.dart'
     show MilestoneProgress, QuitCalculator, QuitMode, defaultDayMilestones, milestoneProgress;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -120,6 +121,8 @@ class _DashboardState extends ConsumerState<_Dashboard> {
         await HabitNav.push(context, AppLinks.insightsScope('quit', habit.id), (_) => const SizedBox());
       case 'milestones':
         await openQuitMilestones(context, habit.id);
+      case 'vocab':
+        await Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => const VocabManageScreen()));
       case 'pause':
         await showPauseSheet(context, ref, habitId: habit.id);
       case 'archive':
@@ -231,6 +234,7 @@ class _DashboardState extends ConsumerState<_Dashboard> {
             itemBuilder: (ctx) => [
               PopupMenuItem(value: 'stats', child: Text(l.habitsAllStats)),
               PopupMenuItem(value: 'milestones', child: Text(l.quitMilestonesOpen)),
+              PopupMenuItem(value: 'vocab', child: Text(l.quitVocabTitle)),
               if (!reduce) PopupMenuItem(value: 'reset', child: Text(l.quitResetCounter)),
               PopupMenuItem(value: 'pause', child: Text(l.habitsActionPause)),
               PopupMenuItem(value: 'archive', child: Text(habit.isArchived ? l.habitsUnarchive : l.actionArchive)),

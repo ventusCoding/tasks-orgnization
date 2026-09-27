@@ -7840,6 +7840,48 @@ class AppLocalizationsFr extends AppLocalizations {
   String get quitUseLogged => 'Consommation notée';
 
   @override
+  String get quitVocabAdd => 'Ajouter une entrée';
+
+  @override
+  String get quitVocabCoping => 'Stratégies';
+
+  @override
+  String get quitVocabDistractions => 'Distractions';
+
+  @override
+  String get quitVocabEmpty => 'Rien pour l\'instant — ajoutez les vôtres.';
+
+  @override
+  String get quitVocabName => 'Nom';
+
+  @override
+  String get quitVocabPlaces => 'Lieux';
+
+  @override
+  String get quitVocabRename => 'Renommer';
+
+  @override
+  String get quitVocabSaved => 'Bibliothèque mise à jour';
+
+  @override
+  String get quitVocabTitle => 'Déclencheurs, lieux et stratégies';
+
+  @override
+  String get quitVocabTriggers => 'Déclencheurs';
+
+  @override
+  String quitVocabUses(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Utilisé $count fois',
+      one: 'Utilisé une fois',
+      zero: 'Pas encore utilisé',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get quitWhen => 'Quand';
 
   @override

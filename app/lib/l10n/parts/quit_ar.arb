@@ -169,5 +169,16 @@
   "quitReviewYesterdayQuestion": "هل بقيت ممتنعًا أمس؟",
   "quitReviewedClean": "يوم نظيف — أحسنت!",
   "quitPledgeSaved": "تم حفظ التعهّد",
-  "quitCleanSaved": "تم تسجيله يومًا ناجحًا"
+  "quitCleanSaved": "تم تسجيله يومًا ناجحًا",
+  "quitVocabTitle": "المحفّزات والأماكن وطرق التأقلم",
+  "quitVocabTriggers": "المحفّزات",
+  "quitVocabPlaces": "الأماكن",
+  "quitVocabCoping": "التأقلم",
+  "quitVocabDistractions": "الإلهاءات",
+  "quitVocabAdd": "إضافة عنصر",
+  "quitVocabName": "الاسم",
+  "quitVocabRename": "إعادة التسمية",
+  "quitVocabEmpty": "لا شيء هنا بعد — أضف عناصرك.",
+  "quitVocabUses": "{count, plural, =0{لم يُستخدم بعد} =1{استُخدم مرة واحدة} =2{استُخدم مرتين} few{استُخدم {count} مرات} many{استُخدم {count} مرة} other{استُخدم {count} مرة}}",
+  "quitVocabSaved": "تم تحديث القائمة"
 }

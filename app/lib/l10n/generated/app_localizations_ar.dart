@@ -8085,6 +8085,51 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitUseLogged => 'تم تسجيل الاستهلاك';
 
   @override
+  String get quitVocabAdd => 'إضافة عنصر';
+
+  @override
+  String get quitVocabCoping => 'التأقلم';
+
+  @override
+  String get quitVocabDistractions => 'الإلهاءات';
+
+  @override
+  String get quitVocabEmpty => 'لا شيء هنا بعد — أضف عناصرك.';
+
+  @override
+  String get quitVocabName => 'الاسم';
+
+  @override
+  String get quitVocabPlaces => 'الأماكن';
+
+  @override
+  String get quitVocabRename => 'إعادة التسمية';
+
+  @override
+  String get quitVocabSaved => 'تم تحديث القائمة';
+
+  @override
+  String get quitVocabTitle => 'المحفّزات والأماكن وطرق التأقلم';
+
+  @override
+  String get quitVocabTriggers => 'المحفّزات';
+
+  @override
+  String quitVocabUses(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'استُخدم $count مرة',
+      many: 'استُخدم $count مرة',
+      few: 'استُخدم $count مرات',
+      two: 'استُخدم مرتين',
+      one: 'استُخدم مرة واحدة',
+      zero: 'لم يُستخدم بعد',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get quitWhen => 'متى';
 
   @override

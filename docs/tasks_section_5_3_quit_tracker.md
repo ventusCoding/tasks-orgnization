@@ -36,7 +36,7 @@ pledge & evening review, trigger/place/coping libraries, savings rewards, coping
 - [x] T5.3.11 — Health-milestone content asset (smoking)
 - [x] T5.3.12 — Milestone timeline
 - [x] T5.3.13 — Daily pledge & evening review
-- [ ] T5.3.14 — Trigger, place & coping libraries
+- [x] T5.3.14 — Trigger, place & coping libraries
 - [ ] T5.3.15 — Savings rewards
 - [ ] T5.3.16 — Coping toolbox
 
@@ -225,6 +225,7 @@ id (free text still allowed for ad-hoc values); renaming an entry updates every 
 icon, color, sort_key, archived_at)`.
 **Acceptance criteria:** libraries sync across devices; pickers show most-used entries first.
 **Tests:** repository tests; widget tests for picker and manage screen.
+**Notes:** Manage screen (dashboard menu) per kind with usage counts, add, rename, icon, color, archive/restore and drag-to-reorder through `HabitVocabService`; defaults are seeded at startup (see T5.1.11). The picker already sorted most-used first.
 
 ### T5.3.15 — Savings rewards
 **Priority:** P1 · **Size:** S · **Depends on:** T5.3.03, [5.4] (goals)

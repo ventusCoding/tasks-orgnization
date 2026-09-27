@@ -2587,6 +2587,13 @@
       }
     }
   },
+  "@quitVocabUses": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@recurAnchorMoved": {
     "placeholders": {
       "date": {
@@ -5706,6 +5713,17 @@
   "quitUnitsAvoided": "Avoided",
   "quitUnitsPerPack": "Units per pack",
   "quitUseLogged": "Use logged",
+  "quitVocabAdd": "Add an entry",
+  "quitVocabCoping": "Coping",
+  "quitVocabDistractions": "Distractions",
+  "quitVocabEmpty": "Nothing here yet — add your own.",
+  "quitVocabName": "Name",
+  "quitVocabPlaces": "Places",
+  "quitVocabRename": "Rename",
+  "quitVocabSaved": "Library updated",
+  "quitVocabTitle": "Triggers, places & coping",
+  "quitVocabTriggers": "Triggers",
+  "quitVocabUses": "{count, plural, =0{Not used yet} =1{Used once} other{Used {count} times}}",
   "quitWhen": "When",
   "quitWithdrawalNow": "Where you are now",
   "quitWithdrawalTitle": "Withdrawal",

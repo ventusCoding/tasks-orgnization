@@ -7779,6 +7779,48 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitUseLogged => 'Use logged';
 
   @override
+  String get quitVocabAdd => 'Add an entry';
+
+  @override
+  String get quitVocabCoping => 'Coping';
+
+  @override
+  String get quitVocabDistractions => 'Distractions';
+
+  @override
+  String get quitVocabEmpty => 'Nothing here yet — add your own.';
+
+  @override
+  String get quitVocabName => 'Name';
+
+  @override
+  String get quitVocabPlaces => 'Places';
+
+  @override
+  String get quitVocabRename => 'Rename';
+
+  @override
+  String get quitVocabSaved => 'Library updated';
+
+  @override
+  String get quitVocabTitle => 'Triggers, places & coping';
+
+  @override
+  String get quitVocabTriggers => 'Triggers';
+
+  @override
+  String quitVocabUses(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Used $count times',
+      one: 'Used once',
+      zero: 'Not used yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get quitWhen => 'When';
 
   @override
