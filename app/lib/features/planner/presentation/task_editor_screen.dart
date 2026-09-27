@@ -470,10 +470,15 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
             ? EmptyState(title: l.tasksDetailNotFound, icon: Icons.search_off)
             : form == null
             ? const LoadingState()
-            : _fields(context, form),
+            : _readableWidth(context, _fields(context, form)),
       ),
     );
   }
+
+  /// Tablets: a centered, dialog-width form instead of a stretched phone layout.
+  static Widget _readableWidth(BuildContext context, Widget child) => context.windowSize.isCompact
+      ? child
+      : Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 720), child: child));
 
   Widget _fields(BuildContext context, TaskForm form) {
     final l = context.l10n;

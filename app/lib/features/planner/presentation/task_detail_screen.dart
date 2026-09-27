@@ -69,7 +69,7 @@ class TaskDetailScreen extends ConsumerWidget {
           _DetailMenu(task: task, occurrence: occurrence),
         ],
       ),
-      body: ListView(
+      body: _readableWidth(context, ListView(
         key: const ValueKey('detail-list'),
         padding: const EdgeInsetsDirectional.only(bottom: Space.xxxl),
         children: [
@@ -112,9 +112,14 @@ class TaskDetailScreen extends ConsumerWidget {
           TaskHistoryList(taskIds: [for (final t in series) t.id]),
           ReminderHistory(sourceType: 'task', sourceId: task.id),
         ],
-      ),
+      )),
     );
   }
+
+  /// Tablets: a centered, readable column instead of a stretched phone layout.
+  static Widget _readableWidth(BuildContext context, Widget child) => context.windowSize.isCompact
+      ? child
+      : Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 720), child: child));
 }
 
 class _Summary extends ConsumerWidget {
