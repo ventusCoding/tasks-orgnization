@@ -4563,6 +4563,42 @@ abstract class AppLocalizations {
   /// **'Only the first 10 000 lines were imported'**
   String get importWarningTooMany;
 
+  /// No description provided for @integrationsActionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'That action couldn\'t be completed.'**
+  String get integrationsActionFailed;
+
+  /// No description provided for @integrationsHabitLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged: {habit}'**
+  String integrationsHabitLogged(String habit);
+
+  /// No description provided for @integrationsHabitNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No habit matches \"{name}\".'**
+  String integrationsHabitNotFound(String name);
+
+  /// No description provided for @integrationsLinkInTrash.
+  ///
+  /// In en, this message translates to:
+  /// **'This item is in the Trash.'**
+  String get integrationsLinkInTrash;
+
+  /// No description provided for @integrationsLinkNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This link can\'t be opened in Everslot.'**
+  String get integrationsLinkNotFound;
+
+  /// No description provided for @integrationsNothingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing else is planned today.'**
+  String get integrationsNothingNext;
+
   /// No description provided for @itemAddTime.
   ///
   /// In en, this message translates to:

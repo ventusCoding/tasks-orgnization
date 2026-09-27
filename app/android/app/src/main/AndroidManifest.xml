@@ -43,6 +43,29 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="everslot" />
             </intent-filter>
+            <!-- Android App Links (T8.2.01): https://<appLinksHost>/<app path>, verified through
+                 site/.well-known/assetlinks.json. The host is a manifest placeholder set in
+                 app/build.gradle.kts (YOUR_SITE_DOMAIN until the privacy site has a domain). -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" />
+                <data android:host="${appLinksHost}" />
+                <data android:pathPrefix="/today" />
+                <data android:pathPrefix="/plan" />
+                <data android:pathPrefix="/task" />
+                <data android:pathPrefix="/lists" />
+                <data android:pathPrefix="/habit" />
+                <data android:pathPrefix="/quit" />
+                <data android:pathPrefix="/insights" />
+                <data android:pathPrefix="/inbox" />
+                <data android:pathPrefix="/search" />
+                <data android:pathPrefix="/settings" />
+            </intent-filter>
+            <!-- app_links + DeepLinkParser handle every link (Flutter's own deep linking would
+                 push everslot://task/<id> as the wrong route). -->
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
         </activity>
 
         <!-- flutter_local_notifications receivers (T7.2.01) -->
