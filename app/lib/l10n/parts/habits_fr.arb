@@ -346,5 +346,10 @@
   "habitsChallengeKeepGoing": "Continuer",
   "habitsChallengeKeepGoingHint": "En faire une habitude durable — votre historique est conservé.",
   "habitsChallengeClose": "Fermer",
-  "habitsChallengeContinued": "C'est maintenant une habitude durable"
+  "habitsChallengeContinued": "C'est maintenant une habitude durable",
+  "habitsAfterCompletionDueAfter": "À refaire après",
+  "habitsAfterUnitDays": "Jours",
+  "habitsAfterUnitWeeks": "Semaines",
+  "habitsAfterUnitMonths": "Mois",
+  "habitsOverdue": "En retard"
 }

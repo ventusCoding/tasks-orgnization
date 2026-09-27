@@ -322,6 +322,8 @@ class HabitRow extends ConsumerWidget {
                             if (subtitle.isNotEmpty) Text(subtitle, style: context.text.bodySmall),
                             if (view.atRisk)
                               StatusPill(label: l.habitsAtRisk, color: context.appColors.warning, icon: Icons.warning_amber, dense: true),
+                            if (view.shape == ScheduleShape.afterCompletion && (view.result?.flags.atRisk ?? false))
+                              StatusPill(label: l.habitsOverdue, color: context.appColors.warning, icon: Icons.schedule, dense: true),
                             if (view.explicit != null || status == PeriodStatus.missed || status == PeriodStatus.paused)
                               HabitStatusPill(status),
                             if (showStreak && view.streak > 0) StreakChip(view.streak),

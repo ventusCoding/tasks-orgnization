@@ -135,6 +135,7 @@ void main() {
         windowEnd: LocalTime(18, 0),
       ),
       en.habitsPresetMonthlyDay: const SchedulePreset(SchedulePresetKind.monthlyDay, monthDay: 15),
+      en.habitsPresetAfterCompletion: const SchedulePreset(SchedulePresetKind.afterCompletion, n: 3),
     };
     for (final c in cases.entries) {
       testWidgets('reopening a "${c.key}" habit shows that preset, not Custom', (tester) async {

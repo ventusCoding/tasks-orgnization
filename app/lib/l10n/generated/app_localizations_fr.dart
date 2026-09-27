@@ -2917,6 +2917,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsAdvancedTitle => 'Avancé';
 
   @override
+  String get habitsAfterCompletionDueAfter => 'À refaire après';
+
+  @override
+  String get habitsAfterUnitDays => 'Jours';
+
+  @override
+  String get habitsAfterUnitMonths => 'Mois';
+
+  @override
+  String get habitsAfterUnitWeeks => 'Semaines';
+
+  @override
   String get habitsAllDone => 'Tout est fait 🎉';
 
   @override
@@ -3462,6 +3474,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsOverLimit => 'Limite dépassée';
+
+  @override
+  String get habitsOverdue => 'En retard';
 
   @override
   String get habitsPauseAction => 'Mettre en pause';

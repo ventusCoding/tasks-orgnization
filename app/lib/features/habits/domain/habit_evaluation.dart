@@ -184,6 +184,10 @@ HabitEvaluation evaluateHabit({
     days[d] = rollup;
     units.add(rollup);
   }
+  final rule = habit.schedule;
+  if (rule.type == RuleType.afterCompletion && rule.afterCompletion != null) {
+    _applyAfterCompletion(habit.startDate, rule.afterCompletion!, days, units, today);
+  }
   units.sort((a, b) => a.startDate.compareTo(b.startDate));
   return HabitEvaluation(
     habit: habit,
@@ -195,6 +199,82 @@ HabitEvaluation evaluateHabit({
     now: now,
     today: today,
   );
+}
+
+/// The next due date [a] after a completion (or handled day) on [d].
+LocalDate afterCompletionDue(LocalDate d, AfterCompletion a) => switch (a.unit) {
+  RecurrenceUnit.day => d.plusDays(a.amount),
+  RecurrenceUnit.week => d.plusDays(7 * a.amount),
+  RecurrenceUnit.month => d.plusMonths(a.amount),
+  RecurrenceUnit.year => d.plusMonths(12 * a.amount),
+  RecurrenceUnit.minute || RecurrenceUnit.hour => d.plusDays(1),
+};
+
+/// After-completion habits (T5.1.17): due on the start date, then [a] after each completion. Each
+/// due window (due date → completion) is one streak unit — done when completed on (or before) its
+/// due date, missed when completed late, pending while open — so the streak counts on-time
+/// windows. In the day view, days before the due date are not due, the due day of a late window
+/// shows missed, the overdue days after it are neutral, and today shows the open window (flagged
+/// at risk when overdue). Skips and excuses close a window like a completion.
+void _applyAfterCompletion(
+  LocalDate start,
+  AfterCompletion a,
+  Map<LocalDate, PeriodResult> days,
+  List<PeriodResult> units,
+  LocalDate today,
+) {
+  units.removeWhere((u) => u.kind == HabitPeriodKind.day);
+  var due = start;
+  PeriodResult window(PeriodResult first, PeriodResult last, PeriodStatus status) => PeriodResult(
+    first.key,
+    kind: HabitPeriodKind.day,
+    startDate: first.startDate,
+    endDate: last.endDate,
+    windowStart: first.windowStart,
+    windowEnd: last.windowEnd,
+    status: status,
+    achieved: last.achieved,
+    target: last.target,
+    goal: last.goal,
+    revisionId: last.revisionId,
+    entries: last.entries,
+    flags: last.flags,
+  );
+  const handled = {PeriodStatus.done, PeriodStatus.skipped, PeriodStatus.excused, PeriodStatus.frozen};
+  final dates = days.keys.toList()..sort();
+  for (final d in dates) {
+    final r = days[d]!;
+    if (r.status == PeriodStatus.paused) continue;
+    final dueDay = days[due];
+    if (d.isBefore(due)) {
+      if (r.status == PeriodStatus.done) {
+        // Early: completes the coming window on time.
+        units.add(window(r, r, PeriodStatus.done));
+        due = afterCompletionDue(d, a);
+      } else {
+        days[d] = r.withStatus(PeriodStatus.notDue);
+      }
+      continue;
+    }
+    if (handled.contains(r.status)) {
+      final onTime = d == due;
+      final status = r.status == PeriodStatus.done && !onTime ? PeriodStatus.missed : r.status;
+      units.add(window(dueDay ?? r, r, status));
+      if (!onTime && dueDay != null) days[due] = dueDay.withStatus(PeriodStatus.missed);
+      due = afterCompletionDue(d, a);
+    } else if (d == today) {
+      days[d] = r.withStatus(
+        PeriodStatus.pending,
+        flags: PeriodFlags(atRisk: d.isAfter(due), explicit: r.flags.explicit),
+      );
+      units.add(window(dueDay ?? r, r, PeriodStatus.pending));
+    } else if (d != due) {
+      // Overdue days after the due day are neutral (the window is one period).
+      days[d] = r.withStatus(PeriodStatus.notDue);
+    } else if (!r.status.isNeutral && r.status != PeriodStatus.failed) {
+      days[d] = r.withStatus(PeriodStatus.missed);
+    }
+  }
 }
 
 PeriodResult _quotaDay(

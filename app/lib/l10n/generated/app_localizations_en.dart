@@ -2905,6 +2905,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitsAdvancedTitle => 'Advanced';
 
   @override
+  String get habitsAfterCompletionDueAfter => 'Due again after';
+
+  @override
+  String get habitsAfterUnitDays => 'Days';
+
+  @override
+  String get habitsAfterUnitMonths => 'Months';
+
+  @override
+  String get habitsAfterUnitWeeks => 'Weeks';
+
+  @override
   String get habitsAllDone => 'All done 🎉';
 
   @override
@@ -3446,6 +3458,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsOverLimit => 'Over the limit';
+
+  @override
+  String get habitsOverdue => 'Overdue';
 
   @override
   String get habitsPauseAction => 'Pause';
