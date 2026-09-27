@@ -18,7 +18,13 @@ import '../support/habit_fixtures.dart';
 
 void main() {
   late TestHarness h;
-  setUp(() => h = TestHarness.create(now: DateTime.utc(2026, 9, 22, 10)));
+  setUp(
+    () => h = TestHarness.create(
+      now: DateTime.utc(2026, 9, 22, 10),
+      // The app bar's inbox badge re-evaluates on a 1-minute timer; keep tests timer-free.
+      overrides: [inboxUnreadCountProvider.overrideWith((ref) => Stream.value(0))],
+    ),
+  );
   tearDown(() => h.dispose());
 
   /// Lets Drift streams deliver without waiting on timers (live counters never settle).
@@ -29,11 +35,11 @@ void main() {
     }
   }
 
-  /// Unmounts the screen and releases app-bar providers that keep timers (inbox badge refresh).
+  /// Unmounts the screen (stops live tickers) and runs the database's zero-delay stream-close
+  /// timers (a bare pump() only flushes microtasks).
   Future<void> disposeTree(WidgetTester tester) async {
     await tester.pumpWidget(const SizedBox());
-    h.container.invalidate(inboxUnreadCountProvider);
-    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 10));
   }
 
   Future<void> seedHabits(WidgetTester tester) => tester.runAsync(() async {
@@ -114,6 +120,7 @@ void main() {
     expect(habit.name, 'Push-ups');
     expect(habit.goal, const HabitTarget(type: HabitGoalType.count, target: 15, unit: 'reps'));
     expect(habit.schedule, RecurrenceRule());
+    await disposeTree(tester);
   });
 
   testWidgets('editor validation messages are localized', (tester) async {
@@ -122,6 +129,7 @@ void main() {
     await tester.tap(find.widgetWithText(TextButton, 'Enregistrer'));
     await settle(tester);
     expect(find.text('Saisissez un nom'), findsOneWidget);
+    await disposeTree(tester);
   });
 
   testWidgets('quit dashboard shows the live counter, money saved and the population-estimate label', (tester) async {
@@ -157,5 +165,6 @@ void main() {
     final logs = await tester.runAsync(() => h.read(habitLogsRepositoryProvider).forHabit(id));
     expect(logs!.single.kind, HabitLogKind.craving);
     expect(logs.single.intensity, 5);
+    await disposeTree(tester);
   });
 }
