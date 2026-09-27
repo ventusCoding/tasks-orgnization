@@ -3405,6 +3405,27 @@
       }
     }
   },
+  "@tasksDayDoneAllSnack": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksDayMoveTomorrowSnack": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksDaySkipRestSnack": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@tasksDuplicateToConfirm": {
     "placeholders": {
       "count": {
@@ -6657,6 +6678,12 @@
   "tasksCompletionValue": "{percent}%",
   "tasksCreated": "Task created",
   "tasksCustomDuration": "Custom…",
+  "tasksDayDoneAll": "Mark all remaining as done",
+  "tasksDayDoneAllSnack": "{count, plural, =0{Nothing left to mark} =1{1 task marked as done} other{{count} tasks marked as done}}",
+  "tasksDayMoveTomorrow": "Move unfinished to tomorrow",
+  "tasksDayMoveTomorrowSnack": "{count, plural, =0{Nothing to move} =1{1 task moved to tomorrow} other{{count} tasks moved to tomorrow}}",
+  "tasksDaySkipRest": "Skip the rest of the day",
+  "tasksDaySkipRestSnack": "{count, plural, =0{Nothing left to skip} =1{1 task skipped} other{{count} tasks skipped}}",
   "tasksDeadlineNone": "No deadline",
   "tasksDeadlineWarning": "Planned after the deadline",
   "tasksDeleteConfirmBody": "It stays in Trash for 30 days.",

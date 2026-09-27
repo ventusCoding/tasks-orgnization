@@ -11002,6 +11002,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tasksCustomDuration => 'Custom…';
 
   @override
+  String get tasksDayDoneAll => 'Mark all remaining as done';
+
+  @override
+  String tasksDayDoneAllSnack(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tasks marked as done',
+      one: '1 task marked as done',
+      zero: 'Nothing left to mark',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksDayMoveTomorrow => 'Move unfinished to tomorrow';
+
+  @override
+  String tasksDayMoveTomorrowSnack(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tasks moved to tomorrow',
+      one: '1 task moved to tomorrow',
+      zero: 'Nothing to move',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksDaySkipRest => 'Skip the rest of the day';
+
+  @override
+  String tasksDaySkipRestSnack(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tasks skipped',
+      one: '1 task skipped',
+      zero: 'Nothing left to skip',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get tasksDeadlineNone => 'No deadline';
 
   @override

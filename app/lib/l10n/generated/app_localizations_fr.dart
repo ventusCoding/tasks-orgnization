@@ -11089,6 +11089,51 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tasksCustomDuration => 'Personnaliser…';
 
   @override
+  String get tasksDayDoneAll => 'Tout marquer comme fait';
+
+  @override
+  String tasksDayDoneAllSnack(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tâches marquées comme faites',
+      one: '1 tâche marquée comme faite',
+      zero: 'Plus rien à marquer',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksDayMoveTomorrow => 'Reporter l’inachevé à demain';
+
+  @override
+  String tasksDayMoveTomorrowSnack(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tâches reportées à demain',
+      one: '1 tâche reportée à demain',
+      zero: 'Rien à reporter',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksDaySkipRest => 'Ignorer le reste de la journée';
+
+  @override
+  String tasksDaySkipRestSnack(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tâches ignorées',
+      one: '1 tâche ignorée',
+      zero: 'Plus rien à ignorer',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get tasksDeadlineNone => 'Aucune échéance';
 
   @override

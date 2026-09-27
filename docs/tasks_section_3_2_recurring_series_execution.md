@@ -42,13 +42,13 @@ completion, punctuality and procrastination.
 - [x] T3.2.14 — Actual-time capture on completion
 - [x] T3.2.15 — After-completion recurrence execution
 - [x] T3.2.16 — Quota tasks ("N times per period")
-- [ ] T3.2.17 — Time tracking: timers, pauses & sessions
-- [ ] T3.2.18 — Manual time entries & editing
-- [ ] T3.2.19 — Running-timer indicator & timer policy
-- [ ] T3.2.20 — Series history view
-- [ ] T3.2.21 — Pause / resume a series
-- [ ] T3.2.22 — Occurrence notes & attachments
-- [ ] T3.2.23 — Bulk occurrence actions
+- [x] T3.2.17 — Time tracking: timers, pauses & sessions
+- [x] T3.2.18 — Manual time entries & editing
+- [x] T3.2.19 — Running-timer indicator & timer policy
+- [x] T3.2.20 — Series history view
+- [x] T3.2.21 — Pause / resume a series
+- [x] T3.2.22 — Occurrence notes & attachments
+- [x] T3.2.23 — Bulk occurrence actions
 
 ## Tasks
 
@@ -321,6 +321,7 @@ more slots appear until next week.
 **Acceptance criteria:** a timer started on the phone shows as running on the tablet after sync; stopping
 it on the tablet closes the same entry.
 **Tests:** unit tests (sums, overlap rejection); two-device scenario in the sync suite ([9.1]).
+**Notes:** Two-device scenario in `test/features/planner/data/planner_convergence_test.dart`.
 
 ### T3.2.18 — Manual time entries & editing
 **Priority:** P1 · **Size:** S · **Depends on:** T3.2.17
@@ -335,6 +336,7 @@ Negative durations are rejected; overlaps with other entries trigger a warning.
 `multiple`. The ongoing notification and Live Activity are handled in [7.2] / [8.2].
 **Data model:** settings key `planner.timerPolicy` (arch §8.5).
 **Tests:** widget test; policy unit tests.
+**Notes:** `RunningTimerChip` is shown by the shared `AppBarActions` (one additive line); the ongoing notification / Live Activity stay with [7.2] / [8.2].
 
 ### T3.2.20 — Series history view
 **Priority:** P1 · **Size:** M · **Depends on:** T3.2.01
@@ -363,3 +365,4 @@ occurrences ([6.1]).
 **Description:** Day-menu actions: *Mark all remaining today as done*, *Skip the rest of the day*,
 *Move unfinished to tomorrow*. Each is one transaction with a single undo.
 **Tests:** unit tests.
+**Notes:** Service `markRemainingDone` / `skipRestOfDay` / `moveUnfinishedToTomorrow` + reusable `DayActionsMenuButton(day:)`; placing it in the day headers is up to the views ([3.3]–[3.5]).
