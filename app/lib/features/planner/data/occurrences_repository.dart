@@ -31,7 +31,8 @@ class OccurrencesRepository {
     DateTime? actualStart,
     DateTime? actualEnd,
     String source = 'sheet',
-  }) => _writer.run((tx) async {
+    String cause = 'user',
+  }) => _writer.run(cause: cause, (tx) async {
     final task = await _task(tx, taskId);
     final rec = await tx.readRecord(taskId, key);
     if (rec != null && rec.status == OccurrenceStatus.done && !rec.isCancelled) return;
@@ -81,7 +82,8 @@ class OccurrencesRepository {
   Future<OpRecord> undoDone(String taskId, String key) => reopen(taskId, key);
 
   /// Skips with a reason key (`too_busy`, `sick`, …) or free text (≤ 200 chars).
-  Future<OpRecord> skip(String taskId, String key, {String? reason, String source = 'sheet'}) => _writer.run((tx) async {
+  Future<OpRecord> skip(String taskId, String key, {String? reason, String source = 'sheet', String cause = 'user'}) =>
+      _writer.run(cause: cause, (tx) async {
     final task = await _task(tx, taskId);
     final rec = await tx.readRecord(taskId, key);
     final text = reason?.trim();
@@ -132,8 +134,13 @@ class OccurrencesRepository {
 
   /// Starts the occurrence (→ in progress). Timer tasks open a time entry; with the `single`
   /// [policy] every other running timer is paused first.
-  Future<OpRecord> start(String taskId, String key, {TimerPolicy policy = TimerPolicy.single, String source = 'sheet'}) =>
-      _writer.run((tx) async {
+  Future<OpRecord> start(
+    String taskId,
+    String key, {
+    TimerPolicy policy = TimerPolicy.single,
+    String source = 'sheet',
+    String cause = 'user',
+  }) => _writer.run(cause: cause, (tx) async {
         final task = await _task(tx, taskId);
         final rec = await tx.readRecord(taskId, key);
         final running = await _running(tx);
@@ -176,8 +183,8 @@ class OccurrencesRepository {
 
   /// Stops the occurrence. With [complete] (default) it is marked done with actual times from
   /// its time entries; otherwise the session is just closed.
-  Future<OpRecord> stop(String taskId, String key, {bool complete = true}) async {
-    if (complete) return markDone(taskId, key, source: 'timer');
+  Future<OpRecord> stop(String taskId, String key, {bool complete = true, String cause = 'user'}) async {
+    if (complete) return markDone(taskId, key, source: 'timer', cause: cause);
     return pause(taskId, key);
   }
 
@@ -233,12 +240,15 @@ class OccurrencesRepository {
   });
 
   /// Restores every cancelled/moved occurrence of the task in one operation.
-  Future<OpRecord> restoreAllExceptions(String taskId) => _writer.run((tx) async {
+  Future<OpRecord> restoreAllExceptions(String taskId) => _writer.run((tx) => restoreAllExceptionsInTx(tx, taskId));
+
+  /// [restoreAllExceptions] inside a caller's transaction.
+  Future<void> restoreAllExceptionsInTx(WriteTx tx, String taskId) async {
     final task = await _task(tx, taskId);
     for (final r in await tx.readRecords(taskId)) {
       if (r.isCancelled || r.hasOverride) await _restoreTx(tx, task, r.occurrenceKey);
     }
-  });
+  }
 
   Future<void> _restoreTx(WriteTx tx, Task task, String key) async {
     final rec = await tx.readRecord(task.id, key);

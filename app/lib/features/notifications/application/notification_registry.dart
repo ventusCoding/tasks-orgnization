@@ -171,15 +171,17 @@ final notificationTargetSourcesProvider =
       return [...ref.watch(_contributedSourcesProvider), ...registry.sources];
     });
 
-/// Every feature action handler: static contributions + runtime registry.
+/// Every feature action handler: runtime registry first, then static contributions — an
+/// explicit runtime registration (tests, debug menu) overrides a feature's static handler for
+/// the same action and target type.
 final notificationActionHandlersProvider =
     Provider<List<NotificationActionHandler>>((ref) {
       final registry = ref.watch(notificationRegistryProvider);
       final sub = registry.changes.listen((_) => ref.invalidateSelf());
       ref.onDispose(sub.cancel);
       return [
-        ...ref.watch(_contributedHandlersProvider),
         ...registry.actionHandlers,
+        ...ref.watch(_contributedHandlersProvider),
       ];
     });
 

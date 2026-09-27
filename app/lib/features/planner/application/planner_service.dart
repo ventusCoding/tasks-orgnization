@@ -3,6 +3,7 @@ import 'dart:ui' show Locale, PlatformDispatcher;
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/core/time/recurrence_service.dart';
+import 'package:everslot/features/checklists/application/providers.dart' show checklistsRepositoryProvider;
 import 'package:everslot/features/notifications/application/notification_host_api.dart'
     show NotificationRulesDraft, notificationHostApiProvider;
 import 'package:everslot/features/notifications/domain/notification_types.dart' show NotificationTargetType;
@@ -128,6 +129,11 @@ class PlannerService {
     return result;
   }
 
+  /// Creates an empty checklist to link from the task editor (T3.1.16 "Add checklist"); the
+  /// link itself is saved with the task. Returns the new checklist id.
+  Future<String> createLinkedChecklist({required String title, String? categoryId}) async =>
+      (await _ref.read(checklistsRepositoryProvider).create(title: title.trim(), categoryId: categoryId)).id;
+
   /// Removes what an abandoned *new-task* editor attached to the pre-generated [taskId]
   /// (attachments added before saving). No-op for saved tasks.
   Future<void> discardDraft(String taskId) => tasks.discardDraft(taskId);
@@ -183,6 +189,20 @@ class PlannerService {
     return result;
   }
 
+  /// Paste (Ctrl/Cmd + V at the selected slot on tablets, T3.1.19): a one-off copy of [item]
+  /// starting at [start] (viewer wall clock) with the occurrence's duration, title and notes;
+  /// the zone mode is preserved.
+  Future<TaskWriteResult> pasteAt(PlannerItem item, LocalDateTime start) async {
+    final result = await tasks.duplicate(
+      item.taskId,
+      asOneOff: true,
+      occurrenceKey: item.isRecurring ? item.occurrenceKey : null,
+      targetStartLocal: toTaskLocal(item.timeZone, start, allDay: item.allDay),
+    );
+    _undo(l10n.tasksDuplicated, result.record);
+    return result;
+  }
+
   Future<OpRecord> duplicateToDates(String taskId, List<LocalDate> dates, {String? occurrenceKey}) async =>
       _undo(l10n.tasksDuplicatedTo(dates.length), await tasks.duplicateToDates(taskId, dates, occurrenceKey: occurrenceKey));
 
@@ -218,8 +238,22 @@ class PlannerService {
   Future<OpRecord> restoreToSeries(String taskId, String key) async =>
       _undo(l10n.recurExceptionsRestored, await occurrences.restoreToSeries(taskId, key));
 
-  Future<OpRecord> restoreAllExceptions(String taskId) async =>
-      _undo(l10n.recurExceptionsRestored, await occurrences.restoreAllExceptions(taskId));
+  /// Restores every exception of the series in ONE operation (one undo): cancelled, moved and
+  /// edited occurrences, and — unless [includeExcluded] is false — the rule's excluded dates.
+  Future<OpRecord> restoreAllExceptions(String taskId, {bool includeExcluded = true}) async {
+    final task = await queries.task(taskId);
+    final rule = task?.recurrence;
+    if (task == null || rule == null || !includeExcluded || rule.exdates.isEmpty) {
+      return _undo(l10n.recurExceptionsRestored, await occurrences.restoreAllExceptions(taskId));
+    }
+    final result = await tasks.update(
+      task.copyWith(recurrence: rule.copyWith(exdates: const [])),
+      rewritePast: true,
+      source: 'exceptions',
+      inTx: (tx) => occurrences.restoreAllExceptionsInTx(tx, taskId),
+    );
+    return _undo(l10n.recurExceptionsRestored, result.record);
+  }
 
   /// Removes [key] from the rule's `exdates` (the occurrence comes back; no key disappears, so
   /// the master is edited directly).
@@ -244,8 +278,21 @@ class PlannerService {
   }
 
   /// Bulk edit (T3.1.18): one transaction, one undo.
-  Future<OpRecord> bulk(List<BulkTarget> targets, BulkChange change) async =>
-      _undo(l10n.tasksBulkDone(targets.length), await tasks.bulk(targets, change));
+  Future<OpRecord> bulk(List<BulkTarget> targets, BulkChange change) async {
+    if (change is BulkAddTags) {
+      final tagsRepo = _ref.read(tagsRepositoryProvider);
+      final record = await tasks.bulk(
+        targets,
+        change,
+        onTask: (tx, task) async {
+          final current = {for (final t in await tagsRepo.tagsForEntity('task', task.id)) t.id};
+          await tagsRepo.writeTags(tx, 'task', task.id, {...current, ...change.tagIds});
+        },
+      );
+      return _undo(l10n.tasksBulkDone(targets.length), record);
+    }
+    return _undo(l10n.tasksBulkDone(targets.length), await tasks.bulk(targets, change));
+  }
 
   // ---------------------------------------------------------------------------
   // Occurrence outcome (T3.2.04, T3.2.22) and sessions (T3.2.18)

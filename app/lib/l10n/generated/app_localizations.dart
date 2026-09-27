@@ -17853,11 +17853,23 @@ abstract class AppLocalizations {
   /// **'Unscheduled'**
   String get tasksBacklogLabel;
 
+  /// No description provided for @tasksBulkAddTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Add tags'**
+  String get tasksBulkAddTags;
+
   /// No description provided for @tasksBulkDelete.
   ///
   /// In en, this message translates to:
   /// **'Delete'**
   String get tasksBulkDelete;
+
+  /// No description provided for @tasksBulkDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Delete 1 item?} other{Delete {count} items?}}'**
+  String tasksBulkDeleteConfirm(int count);
 
   /// No description provided for @tasksBulkDone.
   ///
@@ -17960,6 +17972,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No checklists yet'**
   String get tasksChecklistEmpty;
+
+  /// No description provided for @tasksChecklistNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New checklist'**
+  String get tasksChecklistNew;
+
+  /// No description provided for @tasksChecklistNewName.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist name'**
+  String get tasksChecklistNewName;
 
   /// No description provided for @tasksChecklistNone.
   ///
@@ -18651,6 +18675,18 @@ abstract class AppLocalizations {
   /// **'Preview'**
   String get tasksNotesPreview;
 
+  /// No description provided for @tasksNotifAlreadyClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Already done or skipped'**
+  String get tasksNotifAlreadyClosed;
+
+  /// No description provided for @tasksNotifGone.
+  ///
+  /// In en, this message translates to:
+  /// **'This task no longer exists'**
+  String get tasksNotifGone;
+
   /// No description provided for @tasksOccurrenceDeleted.
   ///
   /// In en, this message translates to:
@@ -18848,6 +18884,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done for this period'**
   String get tasksQuotaDone;
+
+  /// No description provided for @tasksQuotaIndicator.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} · {done}/{total} {unit, select, day{today} week{this week} month{this month} year{this year} other{this period}}'**
+  String tasksQuotaIndicator(String title, int done, int total, String unit);
+
+  /// No description provided for @tasksQuotaIndicatorDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} · {unit, select, day{done for today} week{done for this week} month{done for this month} year{done for this year} other{done for this period}}'**
+  String tasksQuotaIndicatorDone(String title, String unit);
 
   /// No description provided for @tasksQuotaProgress.
   ///

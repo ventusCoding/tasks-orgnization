@@ -57,12 +57,7 @@ class _TaskExceptions extends ConsumerWidget {
           await service.restoreToSeries(taskId, e.key);
         }
       },
-      onRestoreAll: () async {
-        await service.restoreAllExceptions(taskId);
-        for (final e in entries.where((e) => e.kind == RecurrenceExceptionKind.excluded)) {
-          await service.removeExdate(taskId, e.key);
-        }
-      },
+      onRestoreAll: () => service.restoreAllExceptions(taskId),
       onOpen: (e) {
         final router = GoRouter.of(context);
         Navigator.of(context).pop();

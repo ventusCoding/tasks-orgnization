@@ -46,7 +46,7 @@ quotas or after-completion rules. We keep RFC 5545 semantics where they exist an
 - [x] T2.1.16 — Recurrence builder UI: advanced editor, preview & warnings
 - [x] T2.1.17 — RRULE import / export (RFC 5545 text)
 - [x] T2.1.18 — Performance benchmarks & safety caps
-- [ ] T2.1.19 — Exceptions manager UI (skipped/moved occurrences of a series)
+- [x] T2.1.19 — Exceptions manager UI (skipped/moved occurrences of a series)
 - [x] T2.1.20 — Non-Gregorian calendar extension point (design only)
 
 ## Tasks
@@ -282,6 +282,7 @@ Hard caps: max occurrences per call (default 10 000) and per-day density (1 440)
 **Description:** From a series, list cancelled and moved occurrences with *Restore* / *Open*; bulk "restore
 all exceptions".
 **Tests:** widget test; unit test that restoring removes the override record.
+**Notes:** Reusable `RecurrenceExceptionsView` (recurrence_ui) hosted by the planner sheet `showTaskExceptionsSheet`; *Restore all* also clears the rule's excluded dates in the same operation (one undo). Tests: `test/features/planner/presentation/task_exceptions_test.dart`.
 
 ### T2.1.20 — Non-Gregorian calendar extension point (design only)
 **Priority:** P2 · **Size:** S · **Depends on:** T2.1.02

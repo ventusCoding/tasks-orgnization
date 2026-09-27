@@ -33,15 +33,15 @@ recurrence engine and rule builder UI ([2.1]); notification rule editor ([7.1]);
 - [x] T3.1.08 — Quick-create sheet
 - [x] T3.1.09 — Task details view with history
 - [x] T3.1.10 — Delete, restore & undo UX
-- [ ] T3.1.11 — Unscheduled (backlog) task model
-- [ ] T3.1.12 — Task icon
-- [ ] T3.1.13 — Deadline (due date separate from planned time)
-- [ ] T3.1.14 — Overlap / conflict warning
-- [ ] T3.1.15 — Markdown-lite notes
-- [ ] T3.1.16 — Linked checklist integration
-- [ ] T3.1.17 — Tags on tasks
-- [ ] T3.1.18 — Multi-select & bulk edit
-- [ ] T3.1.19 — Copy & duplicate to other days
+- [x] T3.1.11 — Unscheduled (backlog) task model
+- [x] T3.1.12 — Task icon
+- [x] T3.1.13 — Deadline (due date separate from planned time)
+- [x] T3.1.14 — Overlap / conflict warning
+- [x] T3.1.15 — Markdown-lite notes
+- [x] T3.1.16 — Linked checklist integration
+- [x] T3.1.17 — Tags on tasks
+- [x] T3.1.18 — Multi-select & bulk edit
+- [x] T3.1.19 — Copy & duplicate to other days
 - [ ] T3.1.20 — Task templates
 - [ ] T3.1.21 — Schedule a checklist item as a task
 
@@ -246,6 +246,7 @@ live in [3.7].
 and widgets. Defaults to the category icon.
 **Data model:** `tasks.icon text` (nullable) (arch §7.3).
 **Tests:** widget test; mapper round-trip.
+**Notes:** `PlannerItem.icon` is the effective icon: the task icon, else its category icon (range items, occurrence sheet, backlog items).
 
 ### T3.1.13 — Deadline (due date separate from planned time)
 **Priority:** P1 · **Size:** M · **Depends on:** T3.1.06
@@ -258,6 +259,7 @@ slot: "I plan it Tuesday 10:00; it's due Friday".
 **Acceptance criteria:** planning a task after its deadline shows a warning; stats can compare completion
 time with the deadline ([6.3]).
 **Tests:** validation and widget tests.
+**Notes:** Tile flag, at-risk indicators and backlog sorting are rendered by the views ([3.3]–[3.7]) from `PlannerItem.deadlineLocal`; the one-off deadline is the `due` anchor of planner notification targets.
 
 ### T3.1.14 — Overlap / conflict warning
 **Priority:** P1 · **Size:** S · **Depends on:** T3.1.06, [3.2]
@@ -275,6 +277,7 @@ details view, the occurrence sheet and search snippets, and are stored as Markdo
 **Implementation notes:** no raw HTML; confirm before opening external links; paragraph direction follows
 the first strong character (mixed Arabic/Latin).
 **Tests:** parser/renderer unit tests; goldens (LTR/RTL).
+**Notes:** Search snippets belong to the search feature ([8.1]); `markdownLiteToPlain` is available for them.
 
 ### T3.1.16 — Linked checklist integration
 **Priority:** P1 · **Size:** S · **Depends on:** T3.1.07, [4.1], [4.3]
@@ -284,12 +287,14 @@ the first strong character (mixed Arabic/Latin).
 - create a new checklist from the task ("Add checklist"), or unlink.
 The routine player ([3.7]) uses the link.
 **Tests:** widget tests; progress-provider unit test.
+**Notes:** Progress on grid tiles is drawn by the views ([3.3]) from `linkedChecklistProvider`; the routine player ([3.7]) uses the link.
 
 ### T3.1.17 — Tags on tasks
 **Priority:** P1 · **Size:** S · **Depends on:** T3.1.06, [2.3] (tags)
 **Description:** Tag picker in the editor (inline create), tag chips in details, and tag filtering in every
 Planner view.
 **Tests:** widget test; deterministic `entity_tags` id test.
+**Notes:** Tag filtering in the Planner views belongs to the views ([3.3]–[3.7]); saved tasks edit their tags live through `EntityTagChips`.
 
 ### T3.1.18 — Multi-select & bulk edit
 **Priority:** P1 · **Size:** M · **Depends on:** T3.1.05, [3.3]
@@ -301,6 +306,7 @@ or the toolbar). Bulk actions:
 - delete. For recurring items the user picks per selection whether to act on the occurrence or the series.
 **Acceptance criteria:** one bulk operation runs in one transaction and is undone as one command.
 **Tests:** repository bulk tests; widget test.
+**Notes:** Planner-core ships `showBulkActionsSheet(context, items)` (move, category, priority, tracking, add tags, duplicate, delete; occurrence vs series toggle; one op / one undo). The selection mode (long-press → Select, toolbar) in the week table, day list, agenda and table views is wired by the views agent ([3.3]–[3.7]). Bulk value types moved to `domain/bulk_change.dart` (re-exported by the repository).
 
 ### T3.1.19 — Copy & duplicate to other days
 **Priority:** P1 · **Size:** S · **Depends on:** T3.1.05
@@ -310,6 +316,7 @@ or the toolbar). Bulk actions:
 - *Duplicate as new series* copies the whole series.
 - On tablets, Ctrl/Cmd + C / V copies and pastes at the selected slot.
 **Tests:** repository tests (ids, dates and zone mode preserved).
+**Notes:** The Ctrl/Cmd + C / V shortcut belongs to the grid ([3.3]); it pastes through `PlannerService.pasteAt(item, start)` (one-off copy at the slot, zone mode kept).
 
 ### T3.1.20 — Task templates
 **Priority:** P2 · **Size:** S · **Depends on:** T3.1.05

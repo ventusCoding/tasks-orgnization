@@ -11004,7 +11004,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksBacklogLabel => 'غير مجدولة';
 
   @override
+  String get tasksBulkAddTags => 'إضافة وسوم';
+
+  @override
   String get tasksBulkDelete => 'حذف';
+
+  @override
+  String tasksBulkDeleteConfirm(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'حذف $count عنصر؟',
+      many: 'حذف $count عنصرًا؟',
+      few: 'حذف $count عناصر؟',
+      two: 'حذف عنصرين؟',
+      one: 'حذف عنصر واحد؟',
+      zero: 'لا شيء للحذف',
+    );
+    return '$_temp0';
+  }
 
   @override
   String tasksBulkDone(int count) {
@@ -11078,6 +11096,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tasksChecklistEmpty => 'لا توجد قوائم بعد';
+
+  @override
+  String get tasksChecklistNew => 'قائمة جديدة';
+
+  @override
+  String get tasksChecklistNewName => 'اسم القائمة';
 
   @override
   String get tasksChecklistNone => 'لا شيء';
@@ -11464,6 +11488,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksNotesPreview => 'معاينة';
 
   @override
+  String get tasksNotifAlreadyClosed => 'تم إنجازها أو تخطيها بالفعل';
+
+  @override
+  String get tasksNotifGone => 'هذه المهمة لم تعد موجودة';
+
+  @override
   String get tasksOccurrenceDeleted => 'تمت إزالة الموعد';
 
   @override
@@ -11634,6 +11664,30 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tasksQuotaDone => 'اكتمل لهذه الفترة';
+
+  @override
+  String tasksQuotaIndicator(String title, int done, int total, String unit) {
+    String _temp0 = intl.Intl.selectLogic(unit, {
+      'day': 'اليوم',
+      'week': 'هذا الأسبوع',
+      'month': 'هذا الشهر',
+      'year': 'هذه السنة',
+      'other': 'في هذه الفترة',
+    });
+    return '$title · $done/$total $_temp0';
+  }
+
+  @override
+  String tasksQuotaIndicatorDone(String title, String unit) {
+    String _temp0 = intl.Intl.selectLogic(unit, {
+      'day': 'اكتمل لهذا اليوم',
+      'week': 'اكتمل لهذا الأسبوع',
+      'month': 'اكتمل لهذا الشهر',
+      'year': 'اكتمل لهذه السنة',
+      'other': 'اكتمل لهذه الفترة',
+    });
+    return '$title · $_temp0';
+  }
 
   @override
   String tasksQuotaProgress(int done, int total) {

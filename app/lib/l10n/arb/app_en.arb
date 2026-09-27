@@ -3259,6 +3259,13 @@
       }
     }
   },
+  "@tasksBulkDeleteConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@tasksBulkDone": {
     "placeholders": {
       "count": {
@@ -3415,6 +3422,32 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "@tasksQuotaIndicator": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksQuotaIndicatorDone": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
       }
     }
   },
@@ -6436,7 +6469,9 @@
   "tasksAttachments": "Attachments",
   "tasksAttachmentsPlaceholder": "Photos and files will be available here soon",
   "tasksBacklogLabel": "Unscheduled",
+  "tasksBulkAddTags": "Add tags",
   "tasksBulkDelete": "Delete",
+  "tasksBulkDeleteConfirm": "{count, plural, =1{Delete 1 item?} other{Delete {count} items?}}",
   "tasksBulkDone": "{count, plural, =1{1 item updated} other{{count} items updated}}",
   "tasksBulkDuplicate": "Duplicate",
   "tasksBulkEarlier15": "15 min earlier",
@@ -6454,6 +6489,8 @@
   "tasksBulkTargetSeries": "Whole series",
   "tasksBulkTitle": "{count, plural, =1{1 item selected} other{{count} items selected}}",
   "tasksChecklistEmpty": "No checklists yet",
+  "tasksChecklistNew": "New checklist",
+  "tasksChecklistNewName": "Checklist name",
   "tasksChecklistNone": "None",
   "tasksChecklistOpen": "Open checklist",
   "tasksChecklistPick": "Link a checklist",
@@ -6569,6 +6606,8 @@
   "tasksNotesEdit": "Edit",
   "tasksNotesHint": "Add notes (bold, lists, checkboxes…)",
   "tasksNotesPreview": "Preview",
+  "tasksNotifAlreadyClosed": "Already done or skipped",
+  "tasksNotifGone": "This task no longer exists",
   "tasksOccurrenceDeleted": "Occurrence removed",
   "tasksOpenLinkBody": "{url} will open outside Everslot.",
   "tasksOpenLinkTitle": "Open link?",
@@ -6602,6 +6641,8 @@
   "tasksQuickMore": "More options",
   "tasksQuickTitleHint": "New task",
   "tasksQuotaDone": "Done for this period",
+  "tasksQuotaIndicator": "{title} · {done}/{total} {unit, select, day{today} week{this week} month{this month} year{this year} other{this period}}",
+  "tasksQuotaIndicatorDone": "{title} · {unit, select, day{done for today} week{done for this week} month{done for this month} year{done for this year} other{done for this period}}",
   "tasksQuotaProgress": "{done}/{total} this period",
   "tasksRating": "Rating",
   "tasksRatingValue": "{value} of 5",

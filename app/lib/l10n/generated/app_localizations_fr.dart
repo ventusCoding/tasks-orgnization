@@ -10741,7 +10741,21 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tasksBacklogLabel => 'Non planifiée';
 
   @override
+  String get tasksBulkAddTags => 'Ajouter des étiquettes';
+
+  @override
   String get tasksBulkDelete => 'Supprimer';
+
+  @override
+  String tasksBulkDeleteConfirm(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Supprimer $count éléments ?',
+      one: 'Supprimer 1 élément ?',
+    );
+    return '$_temp0';
+  }
 
   @override
   String tasksBulkDone(int count) {
@@ -10809,6 +10823,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get tasksChecklistEmpty => 'Aucune liste pour l’instant';
+
+  @override
+  String get tasksChecklistNew => 'Nouvelle liste';
+
+  @override
+  String get tasksChecklistNewName => 'Nom de la liste';
 
   @override
   String get tasksChecklistNone => 'Aucune';
@@ -11195,6 +11215,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tasksNotesPreview => 'Aperçu';
 
   @override
+  String get tasksNotifAlreadyClosed => 'Déjà faite ou ignorée';
+
+  @override
+  String get tasksNotifGone => 'Cette tâche n’existe plus';
+
+  @override
   String get tasksOccurrenceDeleted => 'Occurrence retirée';
 
   @override
@@ -11347,6 +11373,30 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get tasksQuotaDone => 'Terminé pour cette période';
+
+  @override
+  String tasksQuotaIndicator(String title, int done, int total, String unit) {
+    String _temp0 = intl.Intl.selectLogic(unit, {
+      'day': 'aujourd’hui',
+      'week': 'cette semaine',
+      'month': 'ce mois-ci',
+      'year': 'cette année',
+      'other': 'sur la période',
+    });
+    return '$title · $done/$total $_temp0';
+  }
+
+  @override
+  String tasksQuotaIndicatorDone(String title, String unit) {
+    String _temp0 = intl.Intl.selectLogic(unit, {
+      'day': 'fait pour aujourd’hui',
+      'week': 'fait pour cette semaine',
+      'month': 'fait pour ce mois-ci',
+      'year': 'fait pour cette année',
+      'other': 'fait pour la période',
+    });
+    return '$title · $_temp0';
+  }
 
   @override
   String tasksQuotaProgress(int done, int total) {

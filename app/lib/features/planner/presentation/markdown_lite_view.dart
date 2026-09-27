@@ -90,16 +90,25 @@ class _MarkdownLiteViewState extends State<MarkdownLiteView> {
     var blocks = parseMarkdownLite(widget.source);
     final max = widget.maxBlocks;
     if (max != null && blocks.length > max) blocks = blocks.take(max).toList();
-    Widget item(int indent, Widget marker, MdBlock block) => Padding(
-      padding: EdgeInsetsDirectional.only(start: indent * Space.lg, top: Space.xxs, bottom: Space.xxs),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(width: Space.xl, child: marker),
-          Expanded(child: _text(block, base)),
-        ],
-      ),
-    );
+    // A list item follows its own first strong character: an Arabic item in an LTR note puts
+    // its marker on the right (and vice versa).
+    Widget item(int indent, Widget marker, MdBlock block) {
+      final row = Padding(
+        padding: EdgeInsetsDirectional.only(start: indent * Space.lg, top: Space.xxs, bottom: Space.xxs),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(width: Space.xl, child: marker),
+            Expanded(child: _text(block, base)),
+          ],
+        ),
+      );
+      return switch (block.direction) {
+        MdDirection.rtl => Directionality(textDirection: TextDirection.rtl, child: row),
+        MdDirection.ltr => Directionality(textDirection: TextDirection.ltr, child: row),
+        MdDirection.neutral => row,
+      };
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,

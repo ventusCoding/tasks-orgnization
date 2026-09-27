@@ -259,5 +259,13 @@
   "tasksTooManyOccurrences": "مواعيد كثيرة جدًا للعرض — كبّر العرض",
   "tasksRolledOver": "{count, plural, =1{نُقلت مهمة غير منجزة إلى اليوم} =2{نُقلت مهمتان غير منجزتين إلى اليوم} few{نُقلت {count} مهام غير منجزة إلى اليوم} many{نُقلت {count} مهمة غير منجزة إلى اليوم} other{نُقلت {count} مهمة غير منجزة إلى اليوم}}",
   "tasksFieldTags": "الوسوم",
-  "tasksAddTag": "إضافة وسم"
+  "tasksAddTag": "إضافة وسم",
+  "tasksNotifGone": "هذه المهمة لم تعد موجودة",
+  "tasksNotifAlreadyClosed": "تم إنجازها أو تخطيها بالفعل",
+  "tasksChecklistNew": "قائمة جديدة",
+  "tasksChecklistNewName": "اسم القائمة",
+  "tasksBulkAddTags": "إضافة وسوم",
+  "tasksBulkDeleteConfirm": "{count, plural, =0{لا شيء للحذف} =1{حذف عنصر واحد؟} =2{حذف عنصرين؟} few{حذف {count} عناصر؟} many{حذف {count} عنصرًا؟} other{حذف {count} عنصر؟}}",
+  "tasksQuotaIndicator": "{title} · {done}/{total} {unit, select, day{اليوم} week{هذا الأسبوع} month{هذا الشهر} year{هذه السنة} other{في هذه الفترة}}",
+  "tasksQuotaIndicatorDone": "{title} · {unit, select, day{اكتمل لهذا اليوم} week{اكتمل لهذا الأسبوع} month{اكتمل لهذا الشهر} year{اكتمل لهذه السنة} other{اكتمل لهذه الفترة}}"
 }
