@@ -1415,6 +1415,30 @@ class AppLocalizationsFr extends AppLocalizations {
       'Seules les 10 000 premières lignes ont été importées';
 
   @override
+  String get integrationsActionFailed =>
+      'Cette action n\'a pas pu être effectuée.';
+
+  @override
+  String integrationsHabitLogged(String habit) {
+    return 'Enregistré : $habit';
+  }
+
+  @override
+  String integrationsHabitNotFound(String name) {
+    return 'Aucune habitude ne correspond à « $name ».';
+  }
+
+  @override
+  String get integrationsLinkInTrash => 'Cet élément est dans la corbeille.';
+
+  @override
+  String get integrationsLinkNotFound =>
+      'Ce lien ne peut pas être ouvert dans Everslot.';
+
+  @override
+  String get integrationsNothingNext => 'Plus rien n\'est prévu aujourd\'hui.';
+
+  @override
   String get itemAddTime => 'Ajouter une heure';
 
   @override

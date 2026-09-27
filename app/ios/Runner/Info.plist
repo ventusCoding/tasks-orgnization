@@ -21,6 +21,10 @@
 			</array>
 		</dict>
 	</array>
+	<!-- External links (T8.2.01): app_links + DeepLinkParser handle every link; Flutter's own
+	     deep linking would push `everslot://task/<id>` as the wrong route. -->
+	<key>FlutterDeepLinkingEnabled</key>
+	<false/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

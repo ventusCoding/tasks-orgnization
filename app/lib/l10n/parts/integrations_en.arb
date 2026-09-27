@@ -1,0 +1,11 @@
+{
+  "@@locale": "en",
+  "integrationsLinkNotFound": "This link can't be opened in Everslot.",
+  "integrationsLinkInTrash": "This item is in the Trash.",
+  "integrationsActionFailed": "That action couldn't be completed.",
+  "integrationsHabitLogged": "Logged: {habit}",
+  "@integrationsHabitLogged": {"placeholders": {"habit": {"type": "String"}}},
+  "integrationsHabitNotFound": "No habit matches \"{name}\".",
+  "@integrationsHabitNotFound": {"placeholders": {"name": {"type": "String"}}},
+  "integrationsNothingNext": "Nothing else is planned today."
+}
