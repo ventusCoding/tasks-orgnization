@@ -240,12 +240,15 @@ class OccurrencesRepository {
   });
 
   /// Restores every cancelled/moved occurrence of the task in one operation.
-  Future<OpRecord> restoreAllExceptions(String taskId) => _writer.run((tx) async {
+  Future<OpRecord> restoreAllExceptions(String taskId) => _writer.run((tx) => restoreAllExceptionsInTx(tx, taskId));
+
+  /// [restoreAllExceptions] inside a caller's transaction.
+  Future<void> restoreAllExceptionsInTx(WriteTx tx, String taskId) async {
     final task = await _task(tx, taskId);
     for (final r in await tx.readRecords(taskId)) {
       if (r.isCancelled || r.hasOverride) await _restoreTx(tx, task, r.occurrenceKey);
     }
-  });
+  }
 
   Future<void> _restoreTx(WriteTx tx, Task task, String key) async {
     final rec = await tx.readRecord(task.id, key);

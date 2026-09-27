@@ -218,8 +218,22 @@ class PlannerService {
   Future<OpRecord> restoreToSeries(String taskId, String key) async =>
       _undo(l10n.recurExceptionsRestored, await occurrences.restoreToSeries(taskId, key));
 
-  Future<OpRecord> restoreAllExceptions(String taskId) async =>
-      _undo(l10n.recurExceptionsRestored, await occurrences.restoreAllExceptions(taskId));
+  /// Restores every exception of the series in ONE operation (one undo): cancelled, moved and
+  /// edited occurrences, and — unless [includeExcluded] is false — the rule's excluded dates.
+  Future<OpRecord> restoreAllExceptions(String taskId, {bool includeExcluded = true}) async {
+    final task = await queries.task(taskId);
+    final rule = task?.recurrence;
+    if (task == null || rule == null || !includeExcluded || rule.exdates.isEmpty) {
+      return _undo(l10n.recurExceptionsRestored, await occurrences.restoreAllExceptions(taskId));
+    }
+    final result = await tasks.update(
+      task.copyWith(recurrence: rule.copyWith(exdates: const [])),
+      rewritePast: true,
+      source: 'exceptions',
+      inTx: (tx) => occurrences.restoreAllExceptionsInTx(tx, taskId),
+    );
+    return _undo(l10n.recurExceptionsRestored, result.record);
+  }
 
   /// Removes [key] from the rule's `exdates` (the occurrence comes back; no key disappears, so
   /// the master is edited directly).

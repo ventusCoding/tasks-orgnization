@@ -212,6 +212,7 @@ class TasksRepository {
     bool rewritePast = false,
     OrphanPolicy orphanPolicy = OrphanPolicy.keepAsOneOff,
     String source = 'editor',
+    Future<void> Function(WriteTx tx)? inTx,
   }) async {
     final current = await _queries.task(edited.id);
     if (current == null) throw NotFoundException('task ${edited.id}');
@@ -230,6 +231,8 @@ class TasksRepository {
         policy: orphanPolicy,
         source: source,
       );
+      // Extra writes of the same user command (one operation, one undo).
+      if (inTx != null) await inTx(tx);
     });
     return TaskWriteResult(edited.id, record, newTaskId: newId);
   }
