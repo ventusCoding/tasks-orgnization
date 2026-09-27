@@ -119,8 +119,10 @@ class QuitStrip extends ConsumerWidget {
     final l = context.l10n;
     final trackers = ref.watch(quitSnapshotsProvider).value ?? const [];
     if (trackers.isEmpty) return const SizedBox.shrink();
+    // Grows with large text (the counters themselves scale down to one line).
+    final scale = MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 1.6);
     return SizedBox(
-      height: 112,
+      height: 112 * scale,
       child: ListView(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, Space.sm),
@@ -177,8 +179,21 @@ class _QuitCard extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const Spacer(),
-                LiveCounter(since: quit.currentAbstinenceStart, size: CounterSize.compact, color: habitAccent(context, habit)),
+                const SizedBox(height: Space.xs),
+                Expanded(
+                  child: Align(
+                    alignment: AlignmentDirectional.bottomStart,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: AlignmentDirectional.bottomStart,
+                      child: LiveCounter(
+                        since: quit.currentAbstinenceStart,
+                        size: CounterSize.compact,
+                        color: habitAccent(context, habit),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
