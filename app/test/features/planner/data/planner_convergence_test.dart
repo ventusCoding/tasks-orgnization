@@ -105,4 +105,34 @@ void main() {
       (await b.read(plannerQueriesProvider).records([taskId])).map((r) => (r.id, r.status)),
     );
   });
+  test('a timer started on the phone runs on the tablet; stopping it there closes the same entry (T3.2.17)', () async {
+    final result = await a
+        .read(tasksRepositoryProvider)
+        .create(
+          Task(
+            id: '',
+            seriesId: '',
+            title: 'Deep work',
+            startLocal: LocalDateTime.parse('2026-09-22T09:00'),
+            durationMinutes: 60,
+            trackingMode: TrackingMode.timer,
+          ),
+        );
+    final taskId = result.taskId;
+    const occ = '2026-09-22T09:00';
+    await a.read(occurrencesRepositoryProvider).start(taskId, occ);
+    await syncAll();
+
+    final runningOnB = await b.read(plannerQueriesProvider).watchRunningEntries().first;
+    expect(runningOnB, hasLength(1));
+    final entryId = runningOnB.single.id;
+
+    await b.read(occurrencesRepositoryProvider).stop(taskId, occ);
+    await syncAll();
+    expect(await a.read(plannerQueriesProvider).watchRunningEntries().first, isEmpty);
+    final entries = await a.read(plannerQueriesProvider).watchTimeEntries(taskId, occ).first;
+    expect(entries.map((e) => e.id), [entryId], reason: 'the same entry was closed, none added');
+    expect(entries.single.endedAt, isNotNull);
+    expect((await a.read(plannerQueriesProvider).records([taskId])).single.status, OccurrenceStatus.done);
+  });
 }
