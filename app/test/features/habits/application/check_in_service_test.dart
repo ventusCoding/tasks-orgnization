@@ -283,7 +283,7 @@ void main() {
     // A new store instance (app restart) reads the persisted state.
     final reopened = HabitTimerStore(h.db);
     final row = await reopened.read('h', '2026-09-22');
-    expect(HabitTimerStore.elapsedSeconds(row!, t0.add(const Duration(minutes: 13))), 8 * 60);
+    expect(row!.elapsedSeconds(t0.add(const Duration(minutes: 13))), 8 * 60);
     expect(await reopened.stop('h', '2026-09-22', t0.add(const Duration(minutes: 13))), 8 * 60);
     expect(await reopened.read('h', '2026-09-22'), isNull);
   });

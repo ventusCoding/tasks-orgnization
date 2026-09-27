@@ -5,6 +5,7 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/session/session.dart';
 import 'package:everslot/features/attachments/application/providers.dart' show startAttachmentUploads;
 import 'package:everslot/features/checklists/application/reset_service.dart' show runChecklistResets;
+import 'package:everslot/features/habits/habits_startup.dart';
 import 'package:everslot/features/integrations/integrations_startup.dart';
 import 'package:everslot/features/notifications/notifications_startup.dart';
 import 'package:everslot/features/profile/application/zone_tracker.dart';
@@ -24,6 +25,7 @@ final List<StartupTask> startupTasks = [
   startAttachmentUploads, // resumes queued attachment uploads (T2.2.04)
   runChecklistResets, // due checklist resets at start, on resume and after pulls (T4.5.06)
   startIntegrations, // external links, widgets, shortcuts, share intake, timers, health (8.2)
+  startHabits, // default habit sections & trigger/place/coping libraries (T5.1.11, T5.3.14)
 ];
 
 Future<void> runStartupTasks(ProviderContainer container) async {

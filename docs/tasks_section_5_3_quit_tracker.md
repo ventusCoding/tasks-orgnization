@@ -23,16 +23,16 @@ pledge & evening review, trigger/place/coping libraries, savings rewards, coping
 
 ## Progress
 
-- [ ] T5.3.01 — Quit presets
-- [ ] T5.3.02 — Quit tracker editor
-- [ ] T5.3.03 — Quit calculator (`everslot_metrics`)
-- [ ] T5.3.04 — Live counter & shared ticker
-- [ ] T5.3.05 — Quit dashboard
-- [ ] T5.3.06 — Relapse logging: slip vs new attempt
-- [ ] T5.3.07 — Reduce-mode consumption logging
-- [ ] T5.3.08 — Craving logging
-- [ ] T5.3.09 — Daily status rules (auto-success vs explicit)
-- [ ] T5.3.10 — Multiple trackers & quit strip
+- [x] T5.3.01 — Quit presets
+- [x] T5.3.02 — Quit tracker editor
+- [x] T5.3.03 — Quit calculator (`everslot_metrics`)
+- [x] T5.3.04 — Live counter & shared ticker
+- [x] T5.3.05 — Quit dashboard
+- [x] T5.3.06 — Relapse logging: slip vs new attempt
+- [x] T5.3.07 — Reduce-mode consumption logging
+- [x] T5.3.08 — Craving logging
+- [x] T5.3.09 — Daily status rules (auto-success vs explicit)
+- [x] T5.3.10 — Multiple trackers & quit strip
 - [ ] T5.3.11 — Health-milestone content asset (smoking)
 - [ ] T5.3.12 — Milestone timeline
 - [ ] T5.3.13 — Daily pledge & evening review
@@ -53,6 +53,7 @@ is stored per tracker; switching preset later changes labels/defaults only, neve
 **Data model:** the preset key is stored in `habits.quit_substance` (arch §7.3); it gates health content.
 **Acceptance criteria:** presets prefill the editor in EN/FR/AR.
 **Tests:** unit test validating the presets asset.
+**Notes:** The preset catalog is Dart (`QuitPreset.all` in `domain/catalogs.dart`, labels via l10n keys) rather than a JSON asset; unit-tested, and the editor prefill is widget-tested in FR.
 
 ### T5.3.02 — Quit tracker editor
 **Priority:** P0 · **Size:** M · **Depends on:** T5.3.01, [5.1] (repository), [2.2] (motivation photo)
@@ -66,6 +67,7 @@ quit date and is never overwritten by relapses (see T5.3.06); currency defaults 
 **Acceptance criteria:** "Stop smoking, quit yesterday 21:00, 15/day, 10 € per 20-pack" shows correct live
 values immediately; a price change next month doesn't alter money saved before the change.
 **Tests:** widget tests; repository tests for revision creation.
+**Notes:** Economics changes append revisions (effective today) through `HabitsRepository.update`; the motivation photo uses the attachments strip once the tracker exists.
 
 ### T5.3.03 — Quit calculator (`everslot_metrics`)
 **Priority:** P0 · **Size:** L · **Depends on:** T5.3.02, [5.1] (period service)
@@ -93,6 +95,7 @@ re-implement them).
 **Acceptance criteria:** fixture suite (abstain & reduce, relapses, restarts, revisions, DST days, past quit
 dates) matches expected values exactly; [6.6] tiles show identical numbers.
 **Tests:** ≥ 60 fixture cases in `fixtures/quit/*.json`.
+**Notes:** The arithmetic is `everslot_metrics` `QuitCalculator` (fixtures live with the package); `quitCalculatorOf` adapts habits/revisions/logs. App tests cover the live values, slips, restarts and both daily-status modes.
 
 ### T5.3.04 — Live counter & shared ticker
 **Priority:** P0 · **Size:** S · **Depends on:** T5.3.03
@@ -115,6 +118,7 @@ timeline in T5.3.12), recent events (relapses, cravings, pledges), motivation ca
 the streak of days within the limit; *All stats* opens [6.6].
 **Acceptance criteria:** every value equals the T5.3.03 output; layout works at text scale 2.0, RTL and dark mode.
 **Tests:** widget tests; goldens.
+**Notes:** Widget-tested (counter, money, population-estimate label, reduce mode); goldens not added.
 
 ### T5.3.06 — Relapse logging: slip vs new attempt
 **Priority:** P0 · **Size:** M · **Depends on:** T5.3.03
@@ -166,6 +170,7 @@ metrics, never treated as a relapse).
 "All clocks" screen (Nomo-style) with drag reorder; each tracker keeps its own currency.
 **Acceptance criteria:** five trackers tick smoothly on one ticker; tapping a counter opens its dashboard.
 **Tests:** widget tests.
+**Notes:** The strip grows with text scale and counters scale down to one line (fixed an overflow at 1.0).
 
 ### T5.3.11 — Health-milestone content asset (smoking)
 **Priority:** P1 · **Size:** M · **Depends on:** T5.3.01
