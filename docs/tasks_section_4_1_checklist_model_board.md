@@ -41,7 +41,7 @@ reminders ([7.1], [7.5]), the Trash screen ([8.3]).
 - [x] T4.1.14 — Duplicate checklist
 - [x] T4.1.15 — Move items between checklists
 - [x] T4.1.16 — Board view configuration (synced)
-- [ ] T4.1.17 — Checklist cover image
+- [x] T4.1.17 — Checklist cover image
 
 ## Tasks
 
@@ -340,3 +340,4 @@ triggers accept the move; the other device shows it after sync.
 **Description:** Choose a cover (`cover_attachment_id`) from the checklist's attachments. It shows
 full-width at the top of the card and in the gallery view ([4.5]).
 **Tests:** widget test; fallback when the cover attachment is deleted.
+**Notes:** *Cover image…* in the list menu picks any image of the list or its items (or *Automatic*); the card thumbnail query ranks the cover first and falls back to the first list image, then the first item image, when the cover is deleted. The item-based gallery view keeps showing each item's own first image.

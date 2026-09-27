@@ -3339,6 +3339,30 @@ abstract class AppLocalizations {
   /// **'Copy as text'**
   String get checklistCopyText;
 
+  /// No description provided for @checklistCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover image…'**
+  String get checklistCover;
+
+  /// No description provided for @checklistCoverAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic (first image)'**
+  String get checklistCoverAuto;
+
+  /// No description provided for @checklistCoverNoImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an image to the list or its items first'**
+  String get checklistCoverNoImages;
+
+  /// No description provided for @checklistCoverUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover updated'**
+  String get checklistCoverUpdated;
+
   /// No description provided for @checklistCut.
   ///
   /// In en, this message translates to:

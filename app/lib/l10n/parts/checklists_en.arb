@@ -660,5 +660,9 @@
   "@checklistTaskLinked": {"placeholders": {"task": {"type": "String"}}},
   "checklistLinkedTaskSemantics": "Linked task {task}",
   "@checklistLinkedTaskSemantics": {"placeholders": {"task": {"type": "String"}}},
-  "checklistTaskScheduled": "Task created — set its time"
+  "checklistTaskScheduled": "Task created — set its time",
+  "checklistCover": "Cover image…",
+  "checklistCoverAuto": "Automatic (first image)",
+  "checklistCoverNoImages": "Add an image to the list or its items first",
+  "checklistCoverUpdated": "Cover updated"
 }

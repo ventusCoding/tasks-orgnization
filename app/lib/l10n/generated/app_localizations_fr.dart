@@ -1966,6 +1966,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get checklistCopyText => 'Copier en texte';
 
   @override
+  String get checklistCover => 'Image de couverture…';
+
+  @override
+  String get checklistCoverAuto => 'Automatique (première image)';
+
+  @override
+  String get checklistCoverNoImages =>
+      'Ajoutez d’abord une image à la liste ou à ses éléments';
+
+  @override
+  String get checklistCoverUpdated => 'Couverture mise à jour';
+
+  @override
   String get checklistCut => 'Couper';
 
   @override

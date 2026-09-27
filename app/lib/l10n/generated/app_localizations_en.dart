@@ -1956,6 +1956,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checklistCopyText => 'Copy as text';
 
   @override
+  String get checklistCover => 'Cover image…';
+
+  @override
+  String get checklistCoverAuto => 'Automatic (first image)';
+
+  @override
+  String get checklistCoverNoImages =>
+      'Add an image to the list or its items first';
+
+  @override
+  String get checklistCoverUpdated => 'Cover updated';
+
+  @override
   String get checklistCut => 'Cut';
 
   @override

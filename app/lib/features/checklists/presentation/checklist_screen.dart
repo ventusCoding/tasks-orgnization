@@ -4,7 +4,7 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/design_system/design_system.dart';
-import 'package:everslot/features/attachments/application/providers.dart' show AttachmentOwnerType;
+import 'package:everslot/features/attachments/application/providers.dart' show Attachment, AttachmentOwnerType;
 import 'package:everslot/features/attachments/presentation/attachment_ui.dart';
 import 'package:everslot/features/checklists/application/checklist_editor.dart';
 import 'package:everslot/features/checklists/application/checklist_service.dart';
@@ -520,10 +520,64 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     });
   }
 
+  /// *Cover image…* (T4.1.17): one of the list's images (list-level or items) shown full-width on
+  /// the card; *Automatic* falls back to the first image.
+  Future<void> _chooseCover(Checklist c) async {
+    final l = context.l10n;
+    // The provider may not be watched on this screen: keep it alive until its first value.
+    final keepAlive = ref.listenManual(checklistAttachmentsProvider(checklistId), (_, _) {});
+    List<Attachment> all;
+    try {
+      all = await ref.read(checklistAttachmentsProvider(checklistId).future);
+    } finally {
+      keepAlive.close();
+    }
+    if (!mounted) return;
+    final images = [
+      for (final a in all)
+        if (a.isImage) a,
+    ];
+    if (images.isEmpty) {
+      _info(l.checklistCoverNoImages);
+      return;
+    }
+    final picked = await showAppSheet<String>(
+      context,
+      title: l.checklistCover,
+      builder: (ctx) => SizedBox(
+        height: MediaQuery.sizeOf(ctx).height * 0.6,
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: ListTile(
+                leading: const Icon(Icons.auto_awesome_outlined),
+                title: Text(l.checklistCoverAuto),
+                selected: c.coverAttachmentId == null,
+                onTap: () => Navigator.pop(ctx, ''),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsetsDirectional.all(Space.md),
+              sliver: AttachmentGrid(attachments: images, onTap: (i) => Navigator.pop(ctx, images[i].id)),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (picked == null || !mounted) return;
+    final repo = ref.read(checklistsRepositoryProvider);
+    final record = picked.isEmpty
+        ? await repo.update(c.id, clearCover: true)
+        : await repo.update(c.id, coverAttachmentId: picked);
+    if (!mounted || record.isEmpty) return;
+    _editor.pushUndo('cover', record);
+    _undoSnack(l.checklistCoverUpdated, record);
+  }
+
   /// *Link to existing task…* (T4.5.12): pick a planner task; the link is stored on the task.
   Future<void> _linkExistingTask(Checklist c) async {
     final l = context.l10n;
-    final taskId = await showAppSheet<String>(
+    final picked = await showAppSheet<LinkedTask>(
       context,
       title: l.checklistLinkTaskTitle,
       builder: (ctx) => Consumer(
@@ -545,7 +599,7 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
                     leading: Icon(t.linkedChecklistId == c.id ? Icons.link : Icons.event_outlined),
                     title: Text(t.title),
                     selected: t.linkedChecklistId == c.id,
-                    onTap: () => Navigator.pop(ctx, t.id),
+                    onTap: () => Navigator.pop(ctx, t),
                   ),
               ],
             ),
@@ -553,11 +607,10 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         },
       ),
     );
-    if (taskId == null || !mounted) return;
-    await ref.read(checklistTaskLinksProvider).link(taskId, c.id);
+    if (picked == null || !mounted) return;
+    await ref.read(checklistTaskLinksProvider).link(picked.id, c.id);
     if (!mounted) return;
-    final title = ref.read(plannerTasksForLinksProvider).where((t) => t.id == taskId).firstOrNull?.title ?? '';
-    _info(l.checklistTaskLinked(title));
+    _info(l.checklistTaskLinked(picked.title));
   }
 
   /// Items completed since the start of the user's week (header summary, T4.5.13).
@@ -1143,6 +1196,7 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         if (c.hasBody && !state.preview) item('convertBody', l.importConvertBody, Icons.checklist_rtl),
         item('attach', l.checklistAttach, Icons.attach_file),
         item('attachments', l.checklistAllAttachments, Icons.photo_library_outlined),
+        item('cover', l.checklistCover, Icons.wallpaper),
         item('labels', l.checklistLabels, Icons.label_outline),
         item('share', l.checklistShare, Icons.ios_share),
         const PopupMenuDivider(),
@@ -1229,6 +1283,8 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         );
         final record = result?.record;
         if (record != null) _editor.pushUndo('attach', record);
+      case 'cover':
+        await _chooseCover(c);
       case 'attachments':
         await Navigator.of(context).push(
           MaterialPageRoute<void>(

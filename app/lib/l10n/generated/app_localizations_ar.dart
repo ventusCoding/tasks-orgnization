@@ -1998,6 +1998,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistCopyText => 'نسخ كنص';
 
   @override
+  String get checklistCover => 'صورة الغلاف…';
+
+  @override
+  String get checklistCoverAuto => 'تلقائي (أول صورة)';
+
+  @override
+  String get checklistCoverNoImages =>
+      'أضف صورة إلى القائمة أو إلى عناصرها أولًا';
+
+  @override
+  String get checklistCoverUpdated => 'تم تحديث الغلاف';
+
+  @override
   String get checklistCut => 'قص';
 
   @override
