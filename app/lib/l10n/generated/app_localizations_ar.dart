@@ -2749,6 +2749,174 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get goalsAchieved => 'محقّقة';
+
+  @override
+  String goalsAchievedOn(String date) {
+    return 'تحقّق في $date';
+  }
+
+  @override
+  String get goalsActive => 'جارية';
+
+  @override
+  String get goalsAdd => 'إضافة هدف';
+
+  @override
+  String goalsCelebrate(String title) {
+    return 'تحقّق الهدف: $title!';
+  }
+
+  @override
+  String get goalsDelete => 'حذف الهدف';
+
+  @override
+  String get goalsDeleted => 'تم حذف الهدف';
+
+  @override
+  String get goalsEdit => 'تعديل الهدف';
+
+  @override
+  String get goalsEmpty => 'لا أهداف بعد';
+
+  @override
+  String get goalsEmptyBody =>
+      'حدّد هدفًا لعادة — مثلًا 10 000 تمرين ضغط هذه السنة.';
+
+  @override
+  String get goalsEnded => 'منتهية';
+
+  @override
+  String get goalsErrDates => 'اختر تاريخ بداية وتاريخ نهاية.';
+
+  @override
+  String get goalsErrEnd => 'يجب أن تكون النهاية بعد البداية.';
+
+  @override
+  String get goalsErrMetric => 'هذا المقياس لا يناسب هذه العادة.';
+
+  @override
+  String get goalsErrScope => 'اختر موضوع الهدف.';
+
+  @override
+  String get goalsErrTarget => 'أدخل هدفًا أكبر من صفر.';
+
+  @override
+  String get goalsErrTitle => 'لا يزيد عن 80 حرفًا.';
+
+  @override
+  String goalsEta(String date) {
+    return 'متوقَّع في $date';
+  }
+
+  @override
+  String get goalsFrom => 'من';
+
+  @override
+  String get goalsHabit => 'العادة';
+
+  @override
+  String get goalsMetric => 'المقياس';
+
+  @override
+  String get goalsMetricCleanDays => 'أيام الامتناع';
+
+  @override
+  String get goalsMetricCompletions => 'الأيام المنجزة';
+
+  @override
+  String get goalsMetricItemsCompleted => 'العناصر المنجزة';
+
+  @override
+  String get goalsMetricMoneySaved => 'المال الموفَّر';
+
+  @override
+  String get goalsMetricStreakDays => 'السلسلة (أيام)';
+
+  @override
+  String get goalsMetricTotalValue => 'المجموع المسجّل';
+
+  @override
+  String get goalsMetricTrackedMinutes => 'الدقائق المتتبَّعة';
+
+  @override
+  String get goalsMetricUnitsAvoided => 'الوحدات التي تجنّبتها';
+
+  @override
+  String goalsNeedPerDay(String value) {
+    return '$value يوميًا لإنهائه في الوقت';
+  }
+
+  @override
+  String get goalsNew => 'هدف جديد';
+
+  @override
+  String get goalsPaceMarker => 'حيث يجب أن تكون اليوم';
+
+  @override
+  String get goalsPeriod => 'المدة';
+
+  @override
+  String get goalsPeriodAllTime => 'بلا حدّ زمني';
+
+  @override
+  String get goalsPeriodCustom => 'تواريخ مخصّصة';
+
+  @override
+  String get goalsPeriodMonth => 'هذا الشهر';
+
+  @override
+  String get goalsPeriodQuarter => 'هذا الربع';
+
+  @override
+  String get goalsPeriodWeek => 'هذا الأسبوع';
+
+  @override
+  String get goalsPeriodYear => 'هذه السنة';
+
+  @override
+  String goalsProgressOf(String actual, String target) {
+    return '$actual من $target';
+  }
+
+  @override
+  String get goalsSaved => 'تم حفظ الهدف';
+
+  @override
+  String get goalsStatusAchieved => 'تحقّق';
+
+  @override
+  String get goalsStatusAtRisk => 'في خطر';
+
+  @override
+  String get goalsStatusBehind => 'متأخر';
+
+  @override
+  String get goalsStatusOnTrack => 'على المسار';
+
+  @override
+  String goalsSuggestion(String value, String target) {
+    return 'بهذا الإيقاع ستصل إلى $value — هل تستهدف $target؟';
+  }
+
+  @override
+  String get goalsTarget => 'الهدف';
+
+  @override
+  String get goalsTitle => 'الأهداف';
+
+  @override
+  String get goalsTitleField => 'العنوان (اختياري)';
+
+  @override
+  String get goalsTo => 'إلى';
+
+  @override
+  String goalsUseSuggestion(String target) {
+    return 'استهدف $target';
+  }
+
+  @override
   String get habitsActionAddValue => 'إضافة قيمة';
 
   @override
@@ -2879,8 +3047,75 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String habitsChallengeBestStreak(String streak) {
+    return 'أفضل سلسلة: $streak';
+  }
+
+  @override
+  String get habitsChallengeClose => 'إغلاق';
+
+  @override
+  String get habitsChallengeContinued => 'أصبحت عادة مستمرة الآن';
+
+  @override
   String habitsChallengeDay(int day, int total) {
     return 'اليوم $day من $total';
+  }
+
+  @override
+  String habitsChallengeDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'بقي $count يوم',
+      many: 'بقي $count يومًا',
+      few: 'بقيت $count أيام',
+      two: 'بقي يومان',
+      one: 'بقي يوم واحد',
+      zero: 'آخر يوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsChallengeEveryDay => 'كل يوم مجدول';
+
+  @override
+  String get habitsChallengeKeepGoing => 'واصل';
+
+  @override
+  String get habitsChallengeKeepGoingHint =>
+      'اجعلها عادة مستمرة — يبقى سجلّك محفوظًا.';
+
+  @override
+  String habitsChallengeMinRatio(String percent) {
+    return '$percent من الأيام على الأقل';
+  }
+
+  @override
+  String get habitsChallengeMissedBody =>
+      'لم تسر كل الأيام كما خُطط لها — لكنك حضرت. أعد المحاولة أو واصل.';
+
+  @override
+  String get habitsChallengeMissedTitle => 'انتهى التحدّي';
+
+  @override
+  String habitsChallengeProgress(int done, int due) {
+    return '$done من $due أيام منجزة';
+  }
+
+  @override
+  String get habitsChallengeRuleTitle => 'للنجاح';
+
+  @override
+  String get habitsChallengeSuccessTitle => 'اكتمل التحدّي!';
+
+  @override
+  String get habitsChallengeTitle => 'التحدّي';
+
+  @override
+  String habitsChallengeVolume(String value) {
+    return 'المجموع: $value';
   }
 
   @override
@@ -7629,6 +7864,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitCleanDaysTitle => 'الأيام النظيفة';
 
   @override
+  String get quitCleanSaved => 'تم تسجيله يومًا ناجحًا';
+
+  @override
   String get quitCoping => 'ما الذي ساعد';
 
   @override
@@ -7984,6 +8222,35 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitPlaceWork => 'العمل';
 
   @override
+  String get quitPledgeAction => 'قدّم تعهّد اليوم';
+
+  @override
+  String get quitPledgeMorning => 'تعهّد الصباح';
+
+  @override
+  String get quitPledgeSaved => 'تم حفظ التعهّد';
+
+  @override
+  String quitPledgeStreak(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تعهّد لـ$count يوم متتالٍ',
+      many: 'تعهّد لـ$count يومًا متتاليًا',
+      few: 'تعهّد لـ$count أيام متتالية',
+      two: 'تعهّد ليومين متتاليين',
+      one: 'تعهّد ليوم واحد متتالٍ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get quitPledgeText => 'اليوم أختار أن أبقى ممتنعًا.';
+
+  @override
+  String get quitPledged => 'تم التعهّد لهذا اليوم';
+
+  @override
   String get quitPopulationEstimate => 'تقدير على مستوى السكان';
 
   @override
@@ -8058,6 +8325,69 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quitResisted => 'هل قاومت؟';
+
+  @override
+  String get quitReviewEvening => 'مراجعة المساء';
+
+  @override
+  String get quitReviewQuestion => 'هل بقيت ممتنعًا اليوم؟';
+
+  @override
+  String get quitReviewYesterdayQuestion => 'هل بقيت ممتنعًا أمس؟';
+
+  @override
+  String get quitReviewedClean => 'يوم نظيف — أحسنت!';
+
+  @override
+  String get quitRewardAdd => 'إضافة مكافأة';
+
+  @override
+  String get quitRewardClaim => 'الحصول عليها';
+
+  @override
+  String quitRewardClaimed(String date) {
+    return 'حصلت عليها في $date';
+  }
+
+  @override
+  String get quitRewardClaimedSnack => 'استمتع بها — لقد استحققتها.';
+
+  @override
+  String quitRewardEta(String date) {
+    return 'في المتناول نحو $date';
+  }
+
+  @override
+  String get quitRewardName => 'المكافأة';
+
+  @override
+  String get quitRewardNeedsCost =>
+      'حدّد سعر الوحدة في المتتبّع لترى ما تشتريه مدخراتك.';
+
+  @override
+  String get quitRewardPrice => 'السعر';
+
+  @override
+  String get quitRewardReady => 'يمكنك تحمّل ثمنها!';
+
+  @override
+  String get quitRewardSaved => 'تم حفظ المكافأة';
+
+  @override
+  String get quitRewardsEmpty => 'اختر شيئًا ستدفع ثمنه مدخراتك.';
+
+  @override
+  String get quitRewardsTitle => 'ما يمكن أن توفّره مدخراتي';
+
+  @override
+  String get quitRitualEnable => 'تعهّد الصباح ومراجعة المساء';
+
+  @override
+  String get quitRitualEnableHint =>
+      'تعهّد في الصباح ومراجعة في المساء. أضف تذكيرات في هذه الأوقات من قسم التذكيرات.';
+
+  @override
+  String get quitRitualTitle => 'الطقس اليومي';
 
   @override
   String get quitSinceFirstQuit => 'منذ إقلاعك الأول';
@@ -8138,6 +8468,51 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quitUseLogged => 'تم تسجيل الاستهلاك';
+
+  @override
+  String get quitVocabAdd => 'إضافة عنصر';
+
+  @override
+  String get quitVocabCoping => 'التأقلم';
+
+  @override
+  String get quitVocabDistractions => 'الإلهاءات';
+
+  @override
+  String get quitVocabEmpty => 'لا شيء هنا بعد — أضف عناصرك.';
+
+  @override
+  String get quitVocabName => 'الاسم';
+
+  @override
+  String get quitVocabPlaces => 'الأماكن';
+
+  @override
+  String get quitVocabRename => 'إعادة التسمية';
+
+  @override
+  String get quitVocabSaved => 'تم تحديث القائمة';
+
+  @override
+  String get quitVocabTitle => 'المحفّزات والأماكن وطرق التأقلم';
+
+  @override
+  String get quitVocabTriggers => 'المحفّزات';
+
+  @override
+  String quitVocabUses(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'استُخدم $count مرة',
+      many: 'استُخدم $count مرة',
+      few: 'استُخدم $count مرات',
+      two: 'استُخدم مرتين',
+      one: 'استُخدم مرة واحدة',
+      zero: 'لم يُستخدم بعد',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get quitWhen => 'متى';

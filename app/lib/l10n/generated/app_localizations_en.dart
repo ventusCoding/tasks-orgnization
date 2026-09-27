@@ -2674,6 +2674,174 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get goalsAchieved => 'Achieved';
+
+  @override
+  String goalsAchievedOn(String date) {
+    return 'Achieved $date';
+  }
+
+  @override
+  String get goalsActive => 'Active';
+
+  @override
+  String get goalsAdd => 'Add a goal';
+
+  @override
+  String goalsCelebrate(String title) {
+    return 'Goal reached: $title!';
+  }
+
+  @override
+  String get goalsDelete => 'Delete goal';
+
+  @override
+  String get goalsDeleted => 'Goal deleted';
+
+  @override
+  String get goalsEdit => 'Edit goal';
+
+  @override
+  String get goalsEmpty => 'No goals yet';
+
+  @override
+  String get goalsEmptyBody =>
+      'Set a target for a habit — for example 10 000 push-ups this year.';
+
+  @override
+  String get goalsEnded => 'Ended';
+
+  @override
+  String get goalsErrDates => 'Choose a start and an end date.';
+
+  @override
+  String get goalsErrEnd => 'The end must be after the start.';
+
+  @override
+  String get goalsErrMetric => 'This measure doesn\'t fit this habit.';
+
+  @override
+  String get goalsErrScope => 'Choose what the goal is about.';
+
+  @override
+  String get goalsErrTarget => 'Enter a target above zero.';
+
+  @override
+  String get goalsErrTitle => 'Keep it under 80 characters.';
+
+  @override
+  String goalsEta(String date) {
+    return 'Expected $date';
+  }
+
+  @override
+  String get goalsFrom => 'From';
+
+  @override
+  String get goalsHabit => 'Habit';
+
+  @override
+  String get goalsMetric => 'Measure';
+
+  @override
+  String get goalsMetricCleanDays => 'Clean days';
+
+  @override
+  String get goalsMetricCompletions => 'Days done';
+
+  @override
+  String get goalsMetricItemsCompleted => 'Items completed';
+
+  @override
+  String get goalsMetricMoneySaved => 'Money saved';
+
+  @override
+  String get goalsMetricStreakDays => 'Streak (days)';
+
+  @override
+  String get goalsMetricTotalValue => 'Total logged';
+
+  @override
+  String get goalsMetricTrackedMinutes => 'Minutes tracked';
+
+  @override
+  String get goalsMetricUnitsAvoided => 'Units avoided';
+
+  @override
+  String goalsNeedPerDay(String value) {
+    return '$value a day to finish on time';
+  }
+
+  @override
+  String get goalsNew => 'New goal';
+
+  @override
+  String get goalsPaceMarker => 'Where you should be today';
+
+  @override
+  String get goalsPeriod => 'Period';
+
+  @override
+  String get goalsPeriodAllTime => 'No time limit';
+
+  @override
+  String get goalsPeriodCustom => 'Custom dates';
+
+  @override
+  String get goalsPeriodMonth => 'This month';
+
+  @override
+  String get goalsPeriodQuarter => 'This quarter';
+
+  @override
+  String get goalsPeriodWeek => 'This week';
+
+  @override
+  String get goalsPeriodYear => 'This year';
+
+  @override
+  String goalsProgressOf(String actual, String target) {
+    return '$actual of $target';
+  }
+
+  @override
+  String get goalsSaved => 'Goal saved';
+
+  @override
+  String get goalsStatusAchieved => 'Achieved';
+
+  @override
+  String get goalsStatusAtRisk => 'At risk';
+
+  @override
+  String get goalsStatusBehind => 'Behind';
+
+  @override
+  String get goalsStatusOnTrack => 'On track';
+
+  @override
+  String goalsSuggestion(String value, String target) {
+    return 'At your pace you\'d reach $value — aim for $target?';
+  }
+
+  @override
+  String get goalsTarget => 'Target';
+
+  @override
+  String get goalsTitle => 'Goals';
+
+  @override
+  String get goalsTitleField => 'Title (optional)';
+
+  @override
+  String get goalsTo => 'To';
+
+  @override
+  String goalsUseSuggestion(String target) {
+    return 'Aim for $target';
+  }
+
+  @override
   String get habitsActionAddValue => 'Add a value';
 
   @override
@@ -2801,8 +2969,72 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String habitsChallengeBestStreak(String streak) {
+    return 'Best streak: $streak';
+  }
+
+  @override
+  String get habitsChallengeClose => 'Close';
+
+  @override
+  String get habitsChallengeContinued => 'It\'s an ongoing habit now';
+
+  @override
   String habitsChallengeDay(int day, int total) {
     return 'Day $day of $total';
+  }
+
+  @override
+  String habitsChallengeDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days left',
+      one: '1 day left',
+      zero: 'Last day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsChallengeEveryDay => 'Every scheduled day';
+
+  @override
+  String get habitsChallengeKeepGoing => 'Keep going';
+
+  @override
+  String get habitsChallengeKeepGoingHint =>
+      'Turn it into an ongoing habit — your history stays.';
+
+  @override
+  String habitsChallengeMinRatio(String percent) {
+    return 'At least $percent of the days';
+  }
+
+  @override
+  String get habitsChallengeMissedBody =>
+      'Not every day went to plan — and you still showed up. Try again or keep going.';
+
+  @override
+  String get habitsChallengeMissedTitle => 'Challenge finished';
+
+  @override
+  String habitsChallengeProgress(int done, int due) {
+    return '$done of $due days done';
+  }
+
+  @override
+  String get habitsChallengeRuleTitle => 'To succeed';
+
+  @override
+  String get habitsChallengeSuccessTitle => 'Challenge complete!';
+
+  @override
+  String get habitsChallengeTitle => 'Challenge';
+
+  @override
+  String habitsChallengeVolume(String value) {
+    return 'Total: $value';
   }
 
   @override
@@ -7322,6 +7554,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitCleanDaysTitle => 'Clean days';
 
   @override
+  String get quitCleanSaved => 'Marked as a clean day';
+
+  @override
   String get quitCoping => 'What helped';
 
   @override
@@ -7665,6 +7900,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitPlaceWork => 'Work';
 
   @override
+  String get quitPledgeAction => 'Take today\'s pledge';
+
+  @override
+  String get quitPledgeMorning => 'Morning pledge';
+
+  @override
+  String get quitPledgeSaved => 'Pledge saved';
+
+  @override
+  String quitPledgeStreak(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count-day pledge streak',
+      one: '1-day pledge streak',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get quitPledgeText => 'Today, I choose to stay clean.';
+
+  @override
+  String get quitPledged => 'Pledged for today';
+
+  @override
   String get quitPopulationEstimate => 'population estimate';
 
   @override
@@ -7740,6 +8001,69 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quitResisted => 'Did you resist?';
+
+  @override
+  String get quitReviewEvening => 'Evening review';
+
+  @override
+  String get quitReviewQuestion => 'Did you stay clean today?';
+
+  @override
+  String get quitReviewYesterdayQuestion => 'Did you stay clean yesterday?';
+
+  @override
+  String get quitReviewedClean => 'Clean today — well done!';
+
+  @override
+  String get quitRewardAdd => 'Add a reward';
+
+  @override
+  String get quitRewardClaim => 'Claim';
+
+  @override
+  String quitRewardClaimed(String date) {
+    return 'Claimed $date';
+  }
+
+  @override
+  String get quitRewardClaimedSnack => 'Enjoy it — you earned it.';
+
+  @override
+  String quitRewardEta(String date) {
+    return 'Affordable around $date';
+  }
+
+  @override
+  String get quitRewardName => 'Reward';
+
+  @override
+  String get quitRewardNeedsCost =>
+      'Set a price per unit in the tracker to see what your savings buy.';
+
+  @override
+  String get quitRewardPrice => 'Price';
+
+  @override
+  String get quitRewardReady => 'You can afford it!';
+
+  @override
+  String get quitRewardSaved => 'Reward saved';
+
+  @override
+  String get quitRewardsEmpty => 'Pick something your savings will pay for.';
+
+  @override
+  String get quitRewardsTitle => 'What my savings buy';
+
+  @override
+  String get quitRitualEnable => 'Daily pledge & evening review';
+
+  @override
+  String get quitRitualEnableHint =>
+      'A morning pledge and an evening check-in. Add reminders at these times in the Reminders section.';
+
+  @override
+  String get quitRitualTitle => 'Daily ritual';
 
   @override
   String get quitSinceFirstQuit => 'Since you first quit';
@@ -7820,6 +8144,48 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quitUseLogged => 'Use logged';
+
+  @override
+  String get quitVocabAdd => 'Add an entry';
+
+  @override
+  String get quitVocabCoping => 'Coping';
+
+  @override
+  String get quitVocabDistractions => 'Distractions';
+
+  @override
+  String get quitVocabEmpty => 'Nothing here yet — add your own.';
+
+  @override
+  String get quitVocabName => 'Name';
+
+  @override
+  String get quitVocabPlaces => 'Places';
+
+  @override
+  String get quitVocabRename => 'Rename';
+
+  @override
+  String get quitVocabSaved => 'Library updated';
+
+  @override
+  String get quitVocabTitle => 'Triggers, places & coping';
+
+  @override
+  String get quitVocabTriggers => 'Triggers';
+
+  @override
+  String quitVocabUses(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Used $count times',
+      one: 'Used once',
+      zero: 'Not used yet',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get quitWhen => 'When';

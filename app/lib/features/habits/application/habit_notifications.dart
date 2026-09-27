@@ -23,14 +23,6 @@ import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
 // notification actions while the app is killed (README §2): only database-backed providers are
 // read, lazily, and nothing depends on widgets.
 
-/// Loads one habit's snapshot (evaluation, streaks, quit calculator) from the repositories.
-Future<HabitSnapshot> _loadSnapshot(T Function<T>(ProviderListenable<T>) read, Habit habit, DateTime now) async {
-  final revisions = await read(habitsRepositoryProvider).revisionsFor(habit.id);
-  final logs = await read(habitLogsRepositoryProvider).forHabit(habit.id);
-  final pauses = await read(habitPausesRepositoryProvider).watchAll().first;
-  return computeSnapshot(read(habitPeriodServiceProvider), habit, revisions, logs, pauses, now);
-}
-
 L10nNotificationTexts? _texts(T Function<T>(ProviderListenable<T>) read) {
   try {
     return read(notificationTextsProvider);
@@ -296,7 +288,7 @@ class HabitsNotificationSource implements NotificationTargetSource {
     final texts = _texts(_ref.read);
     final out = <NotificationTarget>[];
     for (final habit in habits) {
-      final snapshot = await _loadSnapshot(_ref.read, habit, now);
+      final snapshot = await loadHabitSnapshot(_ref.read, habit, now);
       final b = snapshot.boundaries;
       out.addAll(
         buildHabitTargets(snapshot, service, from: b.dateOf(fromUtc), to: b.dateOf(toUtc), texts: texts),
@@ -313,7 +305,7 @@ class HabitsNotificationSource implements NotificationTargetSource {
     if (habit is! BuildHabit || habit.isArchived) return false;
     final key = t.occurrenceKey;
     if (key == null) return true;
-    final snapshot = await _loadSnapshot(_ref.read, habit, _ref.read(clockProvider).nowUtc());
+    final snapshot = await loadHabitSnapshot(_ref.read, habit, _ref.read(clockProvider).nowUtc());
     final status = habitPeriodStatus(snapshot, _ref.read(habitPeriodServiceProvider), key);
     return status != null && _open(status);
   }
@@ -340,7 +332,7 @@ class QuitNotificationSource implements NotificationTargetSource {
     final texts = _texts(_ref.read);
     return [
       for (final tracker in trackers)
-        if (buildQuitTarget(await _loadSnapshot(_ref.read, tracker, now), now: now, texts: texts) case final t?) t,
+        if (buildQuitTarget(await loadHabitSnapshot(_ref.read, tracker, now), now: now, texts: texts) case final t?) t,
     ];
   }
 
@@ -351,7 +343,7 @@ class QuitNotificationSource implements NotificationTargetSource {
     if (habit is! QuitHabit || habit.isArchived) return false;
     final baseline = t.milestoneBaseline;
     if (baseline == null) return true;
-    final snapshot = await _loadSnapshot(_ref.read, habit, _ref.read(clockProvider).nowUtc());
+    final snapshot = await loadHabitSnapshot(_ref.read, habit, _ref.read(clockProvider).nowUtc());
     return snapshot.quit?.currentAbstinenceStart == baseline;
   }
 }

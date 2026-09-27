@@ -520,6 +520,46 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
               if (d != null) setState(() => _end = d);
             },
           ),
+          if (_end != null) ...[
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(l.habitsChallengeTitle),
+              value: _settings.challenge != null,
+              onChanged: (v) => setState(() => _settings = _settings.copyWith(challenge: v ? const ChallengeSettings() : null)),
+            ),
+            if (_settings.challenge case final challenge?) ...[
+              Text(l.habitsChallengeRuleTitle, style: context.text.labelLarge),
+              RadioGroup<ChallengeRule>(
+                groupValue: challenge.rule,
+                onChanged: (v) => setState(
+                  () => _settings = _settings.copyWith(
+                    challenge: ChallengeSettings(rule: v ?? ChallengeRule.everyDay, minRatio: challenge.minRatio),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    RadioListTile(value: ChallengeRule.everyDay, title: Text(l.habitsChallengeEveryDay)),
+                    RadioListTile(
+                      value: ChallengeRule.minRatio,
+                      title: Text(l.habitsChallengeMinRatio(fmt.percent(challenge.minRatio))),
+                    ),
+                  ],
+                ),
+              ),
+              if (challenge.rule == ChallengeRule.minRatio)
+                _IntStepper(
+                  label: l.habitsChallengeRuleTitle,
+                  value: (challenge.minRatio * 100).round(),
+                  min: 50,
+                  max: 100,
+                  step: 5,
+                  format: (v) => fmt.percent(v / 100),
+                  onChanged: (v) => setState(
+                    () => _settings = _settings.copyWith(challenge: ChallengeSettings(rule: challenge.rule, minRatio: v / 100)),
+                  ),
+                ),
+            ],
+          ],
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
             title: Text(l.habitsZoneFixed(prefs.currentTimeZone)),

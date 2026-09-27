@@ -4551,6 +4551,312 @@ abstract class AppLocalizations {
   /// **'Window: {size}'**
   String galleryWindowSize(String size);
 
+  /// No description provided for @goalsAchieved.
+  ///
+  /// In en, this message translates to:
+  /// **'Achieved'**
+  String get goalsAchieved;
+
+  /// No description provided for @goalsAchievedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Achieved {date}'**
+  String goalsAchievedOn(String date);
+
+  /// No description provided for @goalsActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get goalsActive;
+
+  /// No description provided for @goalsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a goal'**
+  String get goalsAdd;
+
+  /// No description provided for @goalsCelebrate.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal reached: {title}!'**
+  String goalsCelebrate(String title);
+
+  /// No description provided for @goalsDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete goal'**
+  String get goalsDelete;
+
+  /// No description provided for @goalsDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal deleted'**
+  String get goalsDeleted;
+
+  /// No description provided for @goalsEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit goal'**
+  String get goalsEdit;
+
+  /// No description provided for @goalsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No goals yet'**
+  String get goalsEmpty;
+
+  /// No description provided for @goalsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a target for a habit — for example 10 000 push-ups this year.'**
+  String get goalsEmptyBody;
+
+  /// No description provided for @goalsEnded.
+  ///
+  /// In en, this message translates to:
+  /// **'Ended'**
+  String get goalsEnded;
+
+  /// No description provided for @goalsErrDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a start and an end date.'**
+  String get goalsErrDates;
+
+  /// No description provided for @goalsErrEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'The end must be after the start.'**
+  String get goalsErrEnd;
+
+  /// No description provided for @goalsErrMetric.
+  ///
+  /// In en, this message translates to:
+  /// **'This measure doesn\'t fit this habit.'**
+  String get goalsErrMetric;
+
+  /// No description provided for @goalsErrScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose what the goal is about.'**
+  String get goalsErrScope;
+
+  /// No description provided for @goalsErrTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a target above zero.'**
+  String get goalsErrTarget;
+
+  /// No description provided for @goalsErrTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep it under 80 characters.'**
+  String get goalsErrTitle;
+
+  /// No description provided for @goalsEta.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected {date}'**
+  String goalsEta(String date);
+
+  /// No description provided for @goalsFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get goalsFrom;
+
+  /// No description provided for @goalsHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit'**
+  String get goalsHabit;
+
+  /// No description provided for @goalsMetric.
+  ///
+  /// In en, this message translates to:
+  /// **'Measure'**
+  String get goalsMetric;
+
+  /// No description provided for @goalsMetricCleanDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean days'**
+  String get goalsMetricCleanDays;
+
+  /// No description provided for @goalsMetricCompletions.
+  ///
+  /// In en, this message translates to:
+  /// **'Days done'**
+  String get goalsMetricCompletions;
+
+  /// No description provided for @goalsMetricItemsCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Items completed'**
+  String get goalsMetricItemsCompleted;
+
+  /// No description provided for @goalsMetricMoneySaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Money saved'**
+  String get goalsMetricMoneySaved;
+
+  /// No description provided for @goalsMetricStreakDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak (days)'**
+  String get goalsMetricStreakDays;
+
+  /// No description provided for @goalsMetricTotalValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Total logged'**
+  String get goalsMetricTotalValue;
+
+  /// No description provided for @goalsMetricTrackedMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes tracked'**
+  String get goalsMetricTrackedMinutes;
+
+  /// No description provided for @goalsMetricUnitsAvoided.
+  ///
+  /// In en, this message translates to:
+  /// **'Units avoided'**
+  String get goalsMetricUnitsAvoided;
+
+  /// No description provided for @goalsNeedPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} a day to finish on time'**
+  String goalsNeedPerDay(String value);
+
+  /// No description provided for @goalsNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New goal'**
+  String get goalsNew;
+
+  /// No description provided for @goalsPaceMarker.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you should be today'**
+  String get goalsPaceMarker;
+
+  /// No description provided for @goalsPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get goalsPeriod;
+
+  /// No description provided for @goalsPeriodAllTime.
+  ///
+  /// In en, this message translates to:
+  /// **'No time limit'**
+  String get goalsPeriodAllTime;
+
+  /// No description provided for @goalsPeriodCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom dates'**
+  String get goalsPeriodCustom;
+
+  /// No description provided for @goalsPeriodMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get goalsPeriodMonth;
+
+  /// No description provided for @goalsPeriodQuarter.
+  ///
+  /// In en, this message translates to:
+  /// **'This quarter'**
+  String get goalsPeriodQuarter;
+
+  /// No description provided for @goalsPeriodWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get goalsPeriodWeek;
+
+  /// No description provided for @goalsPeriodYear.
+  ///
+  /// In en, this message translates to:
+  /// **'This year'**
+  String get goalsPeriodYear;
+
+  /// No description provided for @goalsProgressOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{actual} of {target}'**
+  String goalsProgressOf(String actual, String target);
+
+  /// No description provided for @goalsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal saved'**
+  String get goalsSaved;
+
+  /// No description provided for @goalsStatusAchieved.
+  ///
+  /// In en, this message translates to:
+  /// **'Achieved'**
+  String get goalsStatusAchieved;
+
+  /// No description provided for @goalsStatusAtRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'At risk'**
+  String get goalsStatusAtRisk;
+
+  /// No description provided for @goalsStatusBehind.
+  ///
+  /// In en, this message translates to:
+  /// **'Behind'**
+  String get goalsStatusBehind;
+
+  /// No description provided for @goalsStatusOnTrack.
+  ///
+  /// In en, this message translates to:
+  /// **'On track'**
+  String get goalsStatusOnTrack;
+
+  /// No description provided for @goalsSuggestion.
+  ///
+  /// In en, this message translates to:
+  /// **'At your pace you\'d reach {value} — aim for {target}?'**
+  String goalsSuggestion(String value, String target);
+
+  /// No description provided for @goalsTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'Target'**
+  String get goalsTarget;
+
+  /// No description provided for @goalsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Goals'**
+  String get goalsTitle;
+
+  /// No description provided for @goalsTitleField.
+  ///
+  /// In en, this message translates to:
+  /// **'Title (optional)'**
+  String get goalsTitleField;
+
+  /// No description provided for @goalsTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get goalsTo;
+
+  /// No description provided for @goalsUseSuggestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Aim for {target}'**
+  String goalsUseSuggestion(String target);
+
   /// No description provided for @habitsActionAddValue.
   ///
   /// In en, this message translates to:
@@ -4785,11 +5091,101 @@ abstract class AppLocalizations {
   /// **'{habit}, {date}: {status}'**
   String habitsCellSemantics(String habit, String date, String status);
 
+  /// No description provided for @habitsChallengeBestStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Best streak: {streak}'**
+  String habitsChallengeBestStreak(String streak);
+
+  /// No description provided for @habitsChallengeClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get habitsChallengeClose;
+
+  /// No description provided for @habitsChallengeContinued.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s an ongoing habit now'**
+  String get habitsChallengeContinued;
+
   /// No description provided for @habitsChallengeDay.
   ///
   /// In en, this message translates to:
   /// **'Day {day} of {total}'**
   String habitsChallengeDay(int day, int total);
+
+  /// No description provided for @habitsChallengeDaysLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Last day} =1{1 day left} other{{count} days left}}'**
+  String habitsChallengeDaysLeft(int count);
+
+  /// No description provided for @habitsChallengeEveryDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Every scheduled day'**
+  String get habitsChallengeEveryDay;
+
+  /// No description provided for @habitsChallengeKeepGoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going'**
+  String get habitsChallengeKeepGoing;
+
+  /// No description provided for @habitsChallengeKeepGoingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn it into an ongoing habit — your history stays.'**
+  String get habitsChallengeKeepGoingHint;
+
+  /// No description provided for @habitsChallengeMinRatio.
+  ///
+  /// In en, this message translates to:
+  /// **'At least {percent} of the days'**
+  String habitsChallengeMinRatio(String percent);
+
+  /// No description provided for @habitsChallengeMissedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Not every day went to plan — and you still showed up. Try again or keep going.'**
+  String get habitsChallengeMissedBody;
+
+  /// No description provided for @habitsChallengeMissedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge finished'**
+  String get habitsChallengeMissedTitle;
+
+  /// No description provided for @habitsChallengeProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {due} days done'**
+  String habitsChallengeProgress(int done, int due);
+
+  /// No description provided for @habitsChallengeRuleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'To succeed'**
+  String get habitsChallengeRuleTitle;
+
+  /// No description provided for @habitsChallengeSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge complete!'**
+  String get habitsChallengeSuccessTitle;
+
+  /// No description provided for @habitsChallengeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge'**
+  String get habitsChallengeTitle;
+
+  /// No description provided for @habitsChallengeVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Total: {value}'**
+  String habitsChallengeVolume(String value);
 
   /// No description provided for @habitsCompactRows.
   ///
@@ -12243,6 +12639,12 @@ abstract class AppLocalizations {
   /// **'Clean days'**
   String get quitCleanDaysTitle;
 
+  /// No description provided for @quitCleanSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked as a clean day'**
+  String get quitCleanSaved;
+
   /// No description provided for @quitCoping.
   ///
   /// In en, this message translates to:
@@ -12813,6 +13215,42 @@ abstract class AppLocalizations {
   /// **'Work'**
   String get quitPlaceWork;
 
+  /// No description provided for @quitPledgeAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Take today\'s pledge'**
+  String get quitPledgeAction;
+
+  /// No description provided for @quitPledgeMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning pledge'**
+  String get quitPledgeMorning;
+
+  /// No description provided for @quitPledgeSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledge saved'**
+  String get quitPledgeSaved;
+
+  /// No description provided for @quitPledgeStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1-day pledge streak} other{{count}-day pledge streak}}'**
+  String quitPledgeStreak(int count);
+
+  /// No description provided for @quitPledgeText.
+  ///
+  /// In en, this message translates to:
+  /// **'Today, I choose to stay clean.'**
+  String get quitPledgeText;
+
+  /// No description provided for @quitPledged.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledged for today'**
+  String get quitPledged;
+
   /// No description provided for @quitPopulationEstimate.
   ///
   /// In en, this message translates to:
@@ -12950,6 +13388,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Did you resist?'**
   String get quitResisted;
+
+  /// No description provided for @quitReviewEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening review'**
+  String get quitReviewEvening;
+
+  /// No description provided for @quitReviewQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Did you stay clean today?'**
+  String get quitReviewQuestion;
+
+  /// No description provided for @quitReviewYesterdayQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Did you stay clean yesterday?'**
+  String get quitReviewYesterdayQuestion;
+
+  /// No description provided for @quitReviewedClean.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean today — well done!'**
+  String get quitReviewedClean;
+
+  /// No description provided for @quitRewardAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a reward'**
+  String get quitRewardAdd;
+
+  /// No description provided for @quitRewardClaim.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim'**
+  String get quitRewardClaim;
+
+  /// No description provided for @quitRewardClaimed.
+  ///
+  /// In en, this message translates to:
+  /// **'Claimed {date}'**
+  String quitRewardClaimed(String date);
+
+  /// No description provided for @quitRewardClaimedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Enjoy it — you earned it.'**
+  String get quitRewardClaimedSnack;
+
+  /// No description provided for @quitRewardEta.
+  ///
+  /// In en, this message translates to:
+  /// **'Affordable around {date}'**
+  String quitRewardEta(String date);
+
+  /// No description provided for @quitRewardName.
+  ///
+  /// In en, this message translates to:
+  /// **'Reward'**
+  String get quitRewardName;
+
+  /// No description provided for @quitRewardNeedsCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a price per unit in the tracker to see what your savings buy.'**
+  String get quitRewardNeedsCost;
+
+  /// No description provided for @quitRewardPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get quitRewardPrice;
+
+  /// No description provided for @quitRewardReady.
+  ///
+  /// In en, this message translates to:
+  /// **'You can afford it!'**
+  String get quitRewardReady;
+
+  /// No description provided for @quitRewardSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Reward saved'**
+  String get quitRewardSaved;
+
+  /// No description provided for @quitRewardsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick something your savings will pay for.'**
+  String get quitRewardsEmpty;
+
+  /// No description provided for @quitRewardsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What my savings buy'**
+  String get quitRewardsTitle;
+
+  /// No description provided for @quitRitualEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily pledge & evening review'**
+  String get quitRitualEnable;
+
+  /// No description provided for @quitRitualEnableHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A morning pledge and an evening check-in. Add reminders at these times in the Reminders section.'**
+  String get quitRitualEnableHint;
+
+  /// No description provided for @quitRitualTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily ritual'**
+  String get quitRitualTitle;
 
   /// No description provided for @quitSinceFirstQuit.
   ///
@@ -13106,6 +13658,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use logged'**
   String get quitUseLogged;
+
+  /// No description provided for @quitVocabAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an entry'**
+  String get quitVocabAdd;
+
+  /// No description provided for @quitVocabCoping.
+  ///
+  /// In en, this message translates to:
+  /// **'Coping'**
+  String get quitVocabCoping;
+
+  /// No description provided for @quitVocabDistractions.
+  ///
+  /// In en, this message translates to:
+  /// **'Distractions'**
+  String get quitVocabDistractions;
+
+  /// No description provided for @quitVocabEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet — add your own.'**
+  String get quitVocabEmpty;
+
+  /// No description provided for @quitVocabName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get quitVocabName;
+
+  /// No description provided for @quitVocabPlaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Places'**
+  String get quitVocabPlaces;
+
+  /// No description provided for @quitVocabRename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get quitVocabRename;
+
+  /// No description provided for @quitVocabSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Library updated'**
+  String get quitVocabSaved;
+
+  /// No description provided for @quitVocabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Triggers, places & coping'**
+  String get quitVocabTitle;
+
+  /// No description provided for @quitVocabTriggers.
+  ///
+  /// In en, this message translates to:
+  /// **'Triggers'**
+  String get quitVocabTriggers;
+
+  /// No description provided for @quitVocabUses.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Not used yet} =1{Used once} other{Used {count} times}}'**
+  String quitVocabUses(int count);
 
   /// No description provided for @quitWhen.
   ///

@@ -331,5 +331,20 @@
   "habitsCelebrationDismiss": "Fermer",
   "habitsHoldToComplete": "Maintenir pour valider",
   "habitsHoldToCompleteHint": "Maintenez l'anneau appuyé pour cocher une habitude et éviter les appuis accidentels.",
-  "habitsHoldRingHint": "Maintenir appuyé pour marquer comme fait"
+  "habitsHoldRingHint": "Maintenir appuyé pour marquer comme fait",
+  "habitsChallengeTitle": "Défi",
+  "habitsChallengeRuleTitle": "Pour réussir",
+  "habitsChallengeEveryDay": "Chaque jour prévu",
+  "habitsChallengeMinRatio": "Au moins {percent} des jours",
+  "habitsChallengeDaysLeft": "{count, plural, =0{Dernier jour} =1{1 jour restant} other{{count} jours restants}}",
+  "habitsChallengeProgress": "{done} jours réussis sur {due}",
+  "habitsChallengeSuccessTitle": "Défi réussi !",
+  "habitsChallengeMissedTitle": "Défi terminé",
+  "habitsChallengeMissedBody": "Tout ne s'est pas passé comme prévu — mais vous avez été là. Recommencez ou continuez.",
+  "habitsChallengeBestStreak": "Meilleure série : {streak}",
+  "habitsChallengeVolume": "Total : {value}",
+  "habitsChallengeKeepGoing": "Continuer",
+  "habitsChallengeKeepGoingHint": "En faire une habitude durable — votre historique est conservé.",
+  "habitsChallengeClose": "Fermer",
+  "habitsChallengeContinued": "C'est maintenant une habitude durable"
 }

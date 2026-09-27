@@ -52,6 +52,7 @@ class _QuitEditorState extends ConsumerState<QuitEditor> {
   String _unit = HabitUnits.cigarettes;
   bool _perPack = false;
   bool _autoSuccess = true;
+  HabitSettings _settings = HabitSettings.defaults;
   String? _icon;
   int? _color;
   String? _sectionId;
@@ -93,6 +94,7 @@ class _QuitEditorState extends ConsumerState<QuitEditor> {
       if (e.lifeMinutesPerUnit != null) _lmu.text = _num(e.lifeMinutesPerUnit!);
       _motivation.text = e.motivation ?? '';
       _autoSuccess = e.autoSuccess;
+      _settings = e.settings;
       _icon = e.icon;
       _color = e.color;
       _sectionId = e.sectionId;
@@ -156,7 +158,7 @@ class _QuitEditorState extends ConsumerState<QuitEditor> {
       archivedAt: widget.existing?.archivedAt,
       notifyMode: widget.existing?.notifyMode ?? 'inherit',
       createdAt: widget.existing?.createdAt,
-      settings: widget.existing?.settings ?? HabitSettings.defaults,
+      settings: _settings,
     );
     return base.copyWith(startDate: service.dateOf(base, _quitAt));
   }
@@ -404,6 +406,41 @@ class _QuitEditorState extends ConsumerState<QuitEditor> {
             value: _autoSuccess,
             onChanged: (v) => setState(() => _autoSuccess = v),
           ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(l.quitRitualEnable),
+            subtitle: Text(l.quitRitualEnableHint),
+            value: _settings.pledge.enabled,
+            onChanged: (v) => setState(() {
+              final p = _settings.pledge;
+              _settings = _settings.copyWith(
+                pledge: p.copyWith(
+                  enabled: v,
+                  morning: p.morning ?? LocalTime(8, 0),
+                  evening: p.evening ?? LocalTime(21, 0),
+                ),
+              );
+            }),
+          ),
+          if (_settings.pledge.enabled)
+            for (final (label, time, isMorning) in [
+              (l.quitPledgeMorning, _settings.pledge.morning ?? LocalTime(8, 0), true),
+              (l.quitReviewEvening, _settings.pledge.evening ?? LocalTime(21, 0), false),
+            ])
+              ListTile(
+                contentPadding: const EdgeInsetsDirectional.only(start: Space.lg),
+                leading: Icon(isMorning ? Icons.wb_sunny_outlined : Icons.nightlight_outlined),
+                title: Text(label),
+                trailing: Text(fmt.time(time)),
+                onTap: () async {
+                  final t = await pickTime(context, initial: time, use24h: prefs.use24h);
+                  if (t == null) return;
+                  setState(() {
+                    final p = _settings.pledge;
+                    _settings = _settings.copyWith(pledge: isMorning ? p.copyWith(morning: t) : p.copyWith(evening: t));
+                  });
+                },
+              ),
           const SizedBox(height: Space.md),
           NotificationSettingsSection(
             targetType: NotificationTargetType.habit,

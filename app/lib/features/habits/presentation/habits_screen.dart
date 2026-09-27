@@ -2,12 +2,15 @@ import 'dart:async';
 
 import 'package:everslot/app/widgets/app_bar_actions.dart';
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/goals/presentation/goals_screen.dart';
 import 'package:everslot/features/habits/application/habit_defaults.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
+import 'package:everslot/features/habits/application/streak_freezes.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
 import 'package:everslot/features/habits/presentation/calendar_views.dart';
 import 'package:everslot/features/habits/presentation/celebration_overlay.dart';
+import 'package:everslot/features/habits/presentation/challenge_views.dart';
 import 'package:everslot/features/habits/presentation/habit_routes.dart';
 import 'package:everslot/features/habits/presentation/manage_habits_screen.dart';
 import 'package:everslot/features/habits/presentation/notes_journal_screen.dart';
@@ -42,6 +45,9 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
 
   /// Drag-to-reorder mode of the Today list (T5.2.12).
   bool _reordering = false;
+
+  /// Finished challenges were checked on this visit (T5.4.05).
+  bool _challengesChecked = false;
   Timer? _minute;
 
   @override
@@ -53,7 +59,9 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
     unawaited(_restore());
     // Default sections & libraries (idempotent; a fresh cloud device seeds after its first pull).
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) unawaited(ref.read(habitDefaultsProvider).ensure(context.l10n));
+      if (!mounted) return;
+      unawaited(ref.read(habitDefaultsProvider).ensure(context.l10n));
+      unawaited(ref.read(streakFreezeJobProvider).run());
     });
   }
 
@@ -66,7 +74,11 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) ref.read(habitTickProvider.notifier).bump();
+    if (state == AppLifecycleState.resumed) {
+      ref.read(habitTickProvider.notifier).bump();
+      // A day may have closed while away: apply streak freezes (T5.4.06).
+      unawaited(ref.read(streakFreezeJobProvider).run());
+    }
   }
 
   Future<void> _restore() async {
@@ -129,6 +141,8 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
         await Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => const ManageHabitsScreen()));
       case 'journal':
         await Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => const NotesJournalScreen()));
+      case 'goals':
+        await Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => const GoalsScreen()));
       case 'vacation':
         await showPauseSheet(context, ref);
       case 'view':
@@ -151,6 +165,10 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
     final sections = ref.watch(habitSectionsProvider).value ?? const <HabitSection>[];
     final fmt = AppFormat(context.localeName);
     final hasBuild = habits?.any((h) => h is BuildHabit) ?? false;
+    if (!_challengesChecked && habits != null) {
+      _challengesChecked = true;
+      scheduleFinishedChallenges(context, ref);
+    }
     final hasAny = habits?.isNotEmpty ?? false;
 
     Widget body;
@@ -227,6 +245,7 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
             itemBuilder: (ctx) => [
               PopupMenuItem(value: 'view', child: Text(l.habitsViewOptions)),
               if (hasBuild && !_reordering) PopupMenuItem(value: 'reorder', child: Text(l.habitsReorder)),
+              PopupMenuItem(value: 'goals', child: Text(l.goalsTitle)),
               PopupMenuItem(value: 'manage', child: Text(l.habitsManage)),
               PopupMenuItem(value: 'journal', child: Text(l.habitsJournal)),
               PopupMenuItem(value: 'vacation', child: Text(l.habitsVacationTitle)),

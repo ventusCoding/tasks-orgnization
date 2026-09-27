@@ -331,5 +331,20 @@
   "habitsCelebrationDismiss": "إغلاق",
   "habitsHoldToComplete": "الضغط المطوّل للإنجاز",
   "habitsHoldToCompleteHint": "اضغط مطوّلًا على الحلقة لتسجيل العادة وتجنّب النقرات غير المقصودة.",
-  "habitsHoldRingHint": "اضغط مطوّلًا لوضع علامة تم"
+  "habitsHoldRingHint": "اضغط مطوّلًا لوضع علامة تم",
+  "habitsChallengeTitle": "التحدّي",
+  "habitsChallengeRuleTitle": "للنجاح",
+  "habitsChallengeEveryDay": "كل يوم مجدول",
+  "habitsChallengeMinRatio": "{percent} من الأيام على الأقل",
+  "habitsChallengeDaysLeft": "{count, plural, =0{آخر يوم} =1{بقي يوم واحد} =2{بقي يومان} few{بقيت {count} أيام} many{بقي {count} يومًا} other{بقي {count} يوم}}",
+  "habitsChallengeProgress": "{done} من {due} أيام منجزة",
+  "habitsChallengeSuccessTitle": "اكتمل التحدّي!",
+  "habitsChallengeMissedTitle": "انتهى التحدّي",
+  "habitsChallengeMissedBody": "لم تسر كل الأيام كما خُطط لها — لكنك حضرت. أعد المحاولة أو واصل.",
+  "habitsChallengeBestStreak": "أفضل سلسلة: {streak}",
+  "habitsChallengeVolume": "المجموع: {value}",
+  "habitsChallengeKeepGoing": "واصل",
+  "habitsChallengeKeepGoingHint": "اجعلها عادة مستمرة — يبقى سجلّك محفوظًا.",
+  "habitsChallengeClose": "إغلاق",
+  "habitsChallengeContinued": "أصبحت عادة مستمرة الآن"
 }

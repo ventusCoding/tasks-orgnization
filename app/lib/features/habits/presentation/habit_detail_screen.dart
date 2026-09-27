@@ -4,12 +4,14 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/core/time/recurrence_service.dart';
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/goals/presentation/goal_card.dart';
 import 'package:everslot/features/habits/application/habit_day_view.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/application/habit_service.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
 import 'package:everslot/features/habits/presentation/calendar_views.dart';
+import 'package:everslot/features/habits/presentation/challenge_views.dart';
 import 'package:everslot/features/habits/presentation/celebration_overlay.dart';
 import 'package:everslot/features/habits/presentation/check_in_sheets.dart';
 import 'package:everslot/features/habits/presentation/habit_routes.dart';
@@ -163,22 +165,17 @@ class _Detail extends ConsumerWidget {
                         const SizedBox(height: Space.xs),
                         Text(habit.description!, style: context.text.bodySmall),
                       ],
-                      if (habit.isChallenge && habit.endDate != null) ...[
-                        const SizedBox(height: Space.xs),
-                        Text(
-                          l.habitsChallengeDay(
-                            (habit.startDate.daysUntil(snapshot.today) + 1).clamp(1, habit.startDate.daysUntil(habit.endDate!) + 1),
-                            habit.startDate.daysUntil(habit.endDate!) + 1,
-                          ),
-                          style: context.text.labelLarge?.copyWith(color: context.colors.primary),
-                        ),
-                      ],
                     ],
                   ),
                 ),
               ],
             ),
           ),
+          if (challengeOf(snapshot) case final challenge?)
+            Padding(
+              padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.sm),
+              child: ChallengeCard(outcome: challenge),
+            ),
           if (todayView != null && !habit.isArchived)
             Padding(
               padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.sm),
@@ -211,6 +208,7 @@ class _Detail extends ConsumerWidget {
               ),
             ),
           ),
+          HabitGoalsSection(habitId: habit.id),
           SectionHeader(l.habitsCalendar),
           Padding(
             padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.md),

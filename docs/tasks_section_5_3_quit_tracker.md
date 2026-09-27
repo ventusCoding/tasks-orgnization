@@ -35,9 +35,9 @@ pledge & evening review, trigger/place/coping libraries, savings rewards, coping
 - [x] T5.3.10 — Multiple trackers & quit strip
 - [x] T5.3.11 — Health-milestone content asset (smoking)
 - [x] T5.3.12 — Milestone timeline
-- [ ] T5.3.13 — Daily pledge & evening review
-- [ ] T5.3.14 — Trigger, place & coping libraries
-- [ ] T5.3.15 — Savings rewards
+- [x] T5.3.13 — Daily pledge & evening review
+- [x] T5.3.14 — Trigger, place & coping libraries
+- [x] T5.3.15 — Savings rewards
 - [ ] T5.3.16 — Coping toolbox
 
 ## Tasks
@@ -211,6 +211,7 @@ settings (enabled, morning time, evening time).
 **Data model:** `habit_logs.kind = 'pledge'`; pledge settings in `habits.settings`.
 **Acceptance criteria:** pledging on two devices on the same day converges to one row.
 **Tests:** service tests; widget tests.
+**Notes:** Ritual card on the dashboard (pledge + streak, evening review from the evening time; explicit-mode trackers are asked at any time and about an unconfirmed yesterday) and per-tracker settings in the quit editor. Reminder delivery at the ritual times is not auto-created: the editor points to the tracker Reminders section ([7.5] rules).
 
 ### T5.3.14 — Trigger, place & coping libraries
 **Priority:** P1 · **Size:** M · **Depends on:** T5.3.08
@@ -224,6 +225,7 @@ id (free text still allowed for ad-hoc values); renaming an entry updates every 
 icon, color, sort_key, archived_at)`.
 **Acceptance criteria:** libraries sync across devices; pickers show most-used entries first.
 **Tests:** repository tests; widget tests for picker and manage screen.
+**Notes:** Manage screen (dashboard menu) per kind with usage counts, add, rename, icon, color, archive/restore and drag-to-reorder through `HabitVocabService`; defaults are seeded at startup (see T5.1.11). The picker already sorted most-used first.
 
 ### T5.3.15 — Savings rewards
 **Priority:** P1 · **Size:** S · **Depends on:** T5.3.03, [5.4] (goals)
@@ -234,6 +236,7 @@ implemented as goals with metric `money_saved`; progress rings and ETA at the cu
 `goals` (or reuse `title`).
 **Acceptance criteria:** ETA updates live as savings grow; claimed rewards appear in the events timeline.
 **Tests:** ETA unit tests; widget tests.
+**Notes:** Rewards are money-saved goals with `reward` set (`QuitRewardsSection` on the dashboard, editor in reward mode); ETA from the goal engine refreshes each minute; claimed rewards appear in the dashboard events. The reward image (attachments with owner `goal`) is not wired yet.
 
 ### T5.3.16 — Coping toolbox
 **Priority:** P2 · **Size:** M · **Depends on:** T5.3.08
