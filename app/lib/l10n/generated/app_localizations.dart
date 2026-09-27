@@ -5325,6 +5325,18 @@ abstract class AppLocalizations {
   /// **'Habits appear here on the days they are due.'**
   String get habitsNothingThisDayBody;
 
+  /// No description provided for @habitsNotifGone.
+  ///
+  /// In en, this message translates to:
+  /// **'This habit no longer exists.'**
+  String get habitsNotifGone;
+
+  /// No description provided for @habitsNotifInvalidValue.
+  ///
+  /// In en, this message translates to:
+  /// **'“{input}” isn\'t a number — open the app to log it.'**
+  String habitsNotifInvalidValue(String input);
+
   /// No description provided for @habitsOlder.
   ///
   /// In en, this message translates to:
@@ -12398,6 +12410,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Note'**
   String get quitNote;
+
+  /// No description provided for @quitNotifInvalidIntensity.
+  ///
+  /// In en, this message translates to:
+  /// **'Intensity is a number from 1 to 10.'**
+  String get quitNotifInvalidIntensity;
+
+  /// No description provided for @quitNotifMoneyMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} saved'**
+  String quitNotifMoneyMilestone(String amount);
 
   /// No description provided for @quitOther.
   ///

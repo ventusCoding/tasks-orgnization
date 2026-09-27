@@ -135,5 +135,7 @@
   "quitDistractionRead": "القراءة",
   "quitDistractionExercise": "تمرين رياضي",
   "quitDistractionSnack": "وجبة خفيفة صحية",
-  "quitDistractionShower": "حمّام"
+  "quitDistractionShower": "حمّام",
+  "quitNotifInvalidIntensity": "الشدة رقم من 1 إلى 10.",
+  "quitNotifMoneyMilestone": "تم توفير {amount}"
 }

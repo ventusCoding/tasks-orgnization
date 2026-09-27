@@ -3147,6 +3147,14 @@ class AppLocalizationsAr extends AppLocalizations {
       'تظهر العادات هنا في الأيام المستحقة فيها.';
 
   @override
+  String get habitsNotifGone => 'لم تعد هذه العادة موجودة.';
+
+  @override
+  String habitsNotifInvalidValue(String input) {
+    return '«$input» ليس رقمًا — افتح التطبيق لتسجيله.';
+  }
+
+  @override
   String get habitsOlder => 'أيام سابقة';
 
   @override
@@ -7651,6 +7659,14 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quitNote => 'ملاحظة';
+
+  @override
+  String get quitNotifInvalidIntensity => 'الشدة رقم من 1 إلى 10.';
+
+  @override
+  String quitNotifMoneyMilestone(String amount) {
+    return 'تم توفير $amount';
+  }
 
   @override
   String get quitOther => 'أخرى…';
