@@ -9245,7 +9245,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksBacklogLabel => 'غير مجدولة';
 
   @override
+  String get tasksBulkAddTags => 'إضافة وسوم';
+
+  @override
   String get tasksBulkDelete => 'حذف';
+
+  @override
+  String tasksBulkDeleteConfirm(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'حذف $count عنصر؟',
+      many: 'حذف $count عنصرًا؟',
+      few: 'حذف $count عناصر؟',
+      two: 'حذف عنصرين؟',
+      one: 'حذف عنصر واحد؟',
+      zero: 'لا شيء للحذف',
+    );
+    return '$_temp0';
+  }
 
   @override
   String tasksBulkDone(int count) {

@@ -263,5 +263,7 @@
   "tasksNotifGone": "Cette tâche n’existe plus",
   "tasksNotifAlreadyClosed": "Déjà faite ou ignorée",
   "tasksChecklistNew": "Nouvelle liste",
-  "tasksChecklistNewName": "Nom de la liste"
+  "tasksChecklistNewName": "Nom de la liste",
+  "tasksBulkAddTags": "Ajouter des étiquettes",
+  "tasksBulkDeleteConfirm": "{count, plural, =1{Supprimer 1 élément ?} other{Supprimer {count} éléments ?}}"
 }

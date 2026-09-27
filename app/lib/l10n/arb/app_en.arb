@@ -2741,6 +2741,13 @@
       }
     }
   },
+  "@tasksBulkDeleteConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@tasksBulkDone": {
     "placeholders": {
       "count": {
@@ -5457,7 +5464,9 @@
   "tasksAttachments": "Attachments",
   "tasksAttachmentsPlaceholder": "Photos and files will be available here soon",
   "tasksBacklogLabel": "Unscheduled",
+  "tasksBulkAddTags": "Add tags",
   "tasksBulkDelete": "Delete",
+  "tasksBulkDeleteConfirm": "{count, plural, =1{Delete 1 item?} other{Delete {count} items?}}",
   "tasksBulkDone": "{count, plural, =1{1 item updated} other{{count} items updated}}",
   "tasksBulkDuplicate": "Duplicate",
   "tasksBulkEarlier15": "15 min earlier",

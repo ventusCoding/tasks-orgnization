@@ -40,7 +40,7 @@ recurrence engine and rule builder UI ([2.1]); notification rule editor ([7.1]);
 - [x] T3.1.15 — Markdown-lite notes
 - [x] T3.1.16 — Linked checklist integration
 - [x] T3.1.17 — Tags on tasks
-- [ ] T3.1.18 — Multi-select & bulk edit
+- [x] T3.1.18 — Multi-select & bulk edit
 - [ ] T3.1.19 — Copy & duplicate to other days
 - [ ] T3.1.20 — Task templates
 - [ ] T3.1.21 — Schedule a checklist item as a task
@@ -306,6 +306,7 @@ or the toolbar). Bulk actions:
 - delete. For recurring items the user picks per selection whether to act on the occurrence or the series.
 **Acceptance criteria:** one bulk operation runs in one transaction and is undone as one command.
 **Tests:** repository bulk tests; widget test.
+**Notes:** Planner-core ships `showBulkActionsSheet(context, items)` (move, category, priority, tracking, add tags, duplicate, delete; occurrence vs series toggle; one op / one undo). The selection mode (long-press → Select, toolbar) in the week table, day list, agenda and table views is wired by the views agent ([3.3]–[3.7]). Bulk value types moved to `domain/bulk_change.dart` (re-exported by the repository).
 
 ### T3.1.19 — Copy & duplicate to other days
 **Priority:** P1 · **Size:** S · **Depends on:** T3.1.05

@@ -292,5 +292,8 @@
   "tasksNotifGone": "This task no longer exists",
   "tasksNotifAlreadyClosed": "Already done or skipped",
   "tasksChecklistNew": "New checklist",
-  "tasksChecklistNewName": "Checklist name"
+  "tasksChecklistNewName": "Checklist name",
+  "tasksBulkAddTags": "Add tags",
+  "tasksBulkDeleteConfirm": "{count, plural, =1{Delete 1 item?} other{Delete {count} items?}}",
+  "@tasksBulkDeleteConfirm": {"placeholders": {"count": {"type": "int"}}}
 }

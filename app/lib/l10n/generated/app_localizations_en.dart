@@ -8972,7 +8972,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tasksBacklogLabel => 'Unscheduled';
 
   @override
+  String get tasksBulkAddTags => 'Add tags';
+
+  @override
   String get tasksBulkDelete => 'Delete';
+
+  @override
+  String tasksBulkDeleteConfirm(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Delete $count items?',
+      one: 'Delete 1 item?',
+    );
+    return '$_temp0';
+  }
 
   @override
   String tasksBulkDone(int count) {

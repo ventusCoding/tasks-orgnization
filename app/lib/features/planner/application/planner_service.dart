@@ -264,8 +264,21 @@ class PlannerService {
   }
 
   /// Bulk edit (T3.1.18): one transaction, one undo.
-  Future<OpRecord> bulk(List<BulkTarget> targets, BulkChange change) async =>
-      _undo(l10n.tasksBulkDone(targets.length), await tasks.bulk(targets, change));
+  Future<OpRecord> bulk(List<BulkTarget> targets, BulkChange change) async {
+    if (change is BulkAddTags) {
+      final tagsRepo = _ref.read(tagsRepositoryProvider);
+      final record = await tasks.bulk(
+        targets,
+        change,
+        onTask: (tx, task) async {
+          final current = {for (final t in await tagsRepo.tagsForEntity('task', task.id)) t.id};
+          await tagsRepo.writeTags(tx, 'task', task.id, {...current, ...change.tagIds});
+        },
+      );
+      return _undo(l10n.tasksBulkDone(targets.length), record);
+    }
+    return _undo(l10n.tasksBulkDone(targets.length), await tasks.bulk(targets, change));
+  }
 
   // ---------------------------------------------------------------------------
   // Occurrence outcome (T3.2.04, T3.2.22) and sessions (T3.2.18)

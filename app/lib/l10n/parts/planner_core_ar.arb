@@ -263,5 +263,7 @@
   "tasksNotifGone": "هذه المهمة لم تعد موجودة",
   "tasksNotifAlreadyClosed": "تم إنجازها أو تخطيها بالفعل",
   "tasksChecklistNew": "قائمة جديدة",
-  "tasksChecklistNewName": "اسم القائمة"
+  "tasksChecklistNewName": "اسم القائمة",
+  "tasksBulkAddTags": "إضافة وسوم",
+  "tasksBulkDeleteConfirm": "{count, plural, =0{لا شيء للحذف} =1{حذف عنصر واحد؟} =2{حذف عنصرين؟} few{حذف {count} عناصر؟} many{حذف {count} عنصرًا؟} other{حذف {count} عنصر؟}}"
 }

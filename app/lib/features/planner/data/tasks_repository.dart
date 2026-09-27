@@ -7,6 +7,7 @@ import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/core/time/recurrence_service.dart';
 import 'package:everslot/features/planner/data/planner_queries.dart';
 import 'package:everslot/features/planner/data/planner_writes.dart';
+import 'package:everslot/features/planner/domain/bulk_change.dart';
 import 'package:everslot/features/planner/domain/occurrence_record.dart';
 import 'package:everslot/features/planner/domain/occurrence_resolver.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
@@ -16,6 +17,8 @@ import 'package:everslot/features/planner/domain/task_validation.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:meta/meta.dart';
 import 'package:timezone/timezone.dart' as tz;
+
+export 'package:everslot/features/planner/domain/bulk_change.dart';
 
 /// Result of a task write: the task id, the undoable operation and — after a split — the id
 /// of the new series part.
@@ -28,55 +31,6 @@ class TaskWriteResult {
 
   /// Task created by a "this & following" (or implicit) split.
   final String? newTaskId;
-}
-
-/// Target of a bulk action (T3.1.18): one occurrence, or the whole series when [series].
-@immutable
-class BulkTarget {
-  const BulkTarget(this.taskId, {this.occurrenceKey, this.series = false});
-
-  final String taskId;
-  final String? occurrenceKey;
-  final bool series;
-}
-
-/// Bulk change (T3.1.18).
-@immutable
-sealed class BulkChange {
-  const BulkChange();
-}
-
-final class BulkMove extends BulkChange {
-  const BulkMove({this.days = 0, this.minutes = 0});
-
-  final int days;
-  final int minutes;
-}
-
-final class BulkSetCategory extends BulkChange {
-  const BulkSetCategory(this.categoryId);
-
-  final String? categoryId;
-}
-
-final class BulkSetPriority extends BulkChange {
-  const BulkSetPriority(this.priority);
-
-  final int priority;
-}
-
-final class BulkSetTrackingMode extends BulkChange {
-  const BulkSetTrackingMode(this.mode);
-
-  final TrackingMode mode;
-}
-
-final class BulkDuplicate extends BulkChange {
-  const BulkDuplicate();
-}
-
-final class BulkDelete extends BulkChange {
-  const BulkDelete();
 }
 
 /// Write side of the planner's tasks (T3.1.05 + scopes of [3.2]). Every public method is ONE
@@ -999,14 +953,19 @@ class TasksRepository {
   // ---------------------------------------------------------------------------
   // Bulk (T3.1.18)
 
-  /// Applies [change] to every target in ONE transaction (one undo).
-  Future<OpRecord> bulk(List<BulkTarget> targets, BulkChange change) => _writer.run((tx) async {
+  /// Applies [change] to every target in ONE transaction (one undo). [onTask] runs for each
+  /// distinct task of a [BulkAddTags] change (the tags repository lives in another feature).
+  Future<OpRecord> bulk(
+    List<BulkTarget> targets,
+    BulkChange change, {
+    Future<void> Function(WriteTx tx, Task task)? onTask,
+  }) => _writer.run((tx) async {
     final seen = <String>{};
     for (final target in targets) {
       final task = await tx.readTask(target.taskId);
       if (task == null) continue;
       final occurrenceLevel = task.isRecurring && !target.series && target.occurrenceKey != null;
-      final dedupeKey = occurrenceLevel ? '${task.id}|${target.occurrenceKey}' : task.id;
+      final dedupeKey = occurrenceLevel && change is! BulkAddTags ? '${task.id}|${target.occurrenceKey}' : task.id;
       if (!seen.add(dedupeKey)) continue;
       switch (change) {
         case BulkMove(:final days, :final minutes):
@@ -1037,6 +996,8 @@ class TasksRepository {
           await _directEdit(tx, task, task.copyWith(trackingMode: mode), source: 'bulk');
         case BulkDuplicate():
           await _duplicateTx(tx, task.id, asOneOff: occurrenceLevel, occurrenceKey: occurrenceLevel ? target.occurrenceKey : null);
+        case BulkAddTags():
+          await onTask?.call(tx, task);
         case BulkDelete():
           await _deleteTx(
             tx,

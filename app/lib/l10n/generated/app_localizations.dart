@@ -15087,11 +15087,23 @@ abstract class AppLocalizations {
   /// **'Unscheduled'**
   String get tasksBacklogLabel;
 
+  /// No description provided for @tasksBulkAddTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Add tags'**
+  String get tasksBulkAddTags;
+
   /// No description provided for @tasksBulkDelete.
   ///
   /// In en, this message translates to:
   /// **'Delete'**
   String get tasksBulkDelete;
+
+  /// No description provided for @tasksBulkDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Delete 1 item?} other{Delete {count} items?}}'**
+  String tasksBulkDeleteConfirm(int count);
 
   /// No description provided for @tasksBulkDone.
   ///
