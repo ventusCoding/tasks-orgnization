@@ -73,7 +73,8 @@ void main() {
     expect(config.usesTable, isTrue);
     expect(find.text('2h'), findsNothing);
     final stored = await h.read(savedViewsRepositoryProvider).all();
-    expect(stored.single.config.slotMinutes, 120);
+    expect(stored.firstWhere((v) => v.id == entryViewId('user-1', 'week_table')).config.slotMinutes, 120);
+    expect(stored.map((v) => v.id), contains(entryViewId('user-1', 'day_list')), reason: 'first run creates the MVP views');
 
     await tester.tap(find.byKey(const Key('slot-size-button')));
     await tester.pumpAndSettle();

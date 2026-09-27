@@ -660,7 +660,6 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     );
     final timelines = [for (final d in visible) cache.of(d, zone)];
     final axis = PageAxis.build(timelines, window: config.dayWindow, expandedHidden: _expandedHidden);
-    final sessionLaneTarget = _session != null && _session!.item != null && !_session!.listMode;
 
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: 1.4,
@@ -686,7 +685,6 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
               rows = math.max(rows, other.packing.rowCount);
               hidden = hidden || other.packing.hasHidden;
             }
-            if (sessionLaneTarget) rows = math.max(rows, 1);
             laneHeight = rows == 0 ? 0 : rows * laneRow + (hidden ? 14 : 0) + 4;
           }
           final bodyHeight = math.max(0.0, height - headerHeight - laneHeight);
@@ -1364,7 +1362,14 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
 
   RenderBox? get _pagesBox => _pagesKey.currentContext?.findRenderObject() as RenderBox?;
 
-  _Hit? _hitTest(Offset local) {
+  /// A move session over a grid without all-day items gets a drop strip over the body top (an
+  /// overlay, so the layout never shifts under the finger).
+  bool get _virtualLane {
+    final s = _session;
+    return s != null && s.item != null && !s.listMode && s.kind == _SessionKind.move && (_frame?.metrics.laneHeight ?? 0) == 0;
+  }
+
+  _Hit? _hitTest(Offset local, {bool session = false}) {
     final f = _frame;
     final paging = _paging;
     final pages = _pages;
@@ -1384,10 +1389,11 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final column = m.rtl ? n - 1 - physical : physical;
     final _Region region;
     final double y;
+    final laneBottom = m.laneHeight > 0 ? m.bodyTop : (session && _virtualLane ? m.headerHeight + m.laneRowExtent : m.bodyTop);
     if (local.dy < m.headerHeight) {
       region = _Region.header;
       y = local.dy;
-    } else if (local.dy < m.bodyTop) {
+    } else if (local.dy < laneBottom) {
       region = _Region.lane;
       y = local.dy - m.headerHeight;
     } else {
@@ -1452,6 +1458,10 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final y = lane ? f.metrics.headerHeight + f.metrics.laneRowExtent / 2 : f.metrics.headerHeight / 2;
     return box.localToGlobal(Offset(col.center.dx, y));
   }
+
+  /// Vertical axis of the visible days (tests).
+  @visibleForTesting
+  PageAxis? get debugAxis => _frame?.axis;
 
   /// Current zoom (px per minute) and the minute at the top of the viewport (tests).
   @visibleForTesting
@@ -1774,7 +1784,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     if (s == null || f == null) return;
     s.pointer = local;
     if ((local - s.startPointer).distance > 6) s.moved = true;
-    final hit = _hitTest(local);
+    final hit = _hitTest(local, session: true);
     if (hit == null) return;
     final item = s.item;
     switch (s.kind) {
@@ -1986,6 +1996,19 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final col = _dayColumnRect(s.refDay);
     final item = s.item;
     final colors = item == null ? null : f.colors.of(item);
+    if (_virtualLane) {
+      children.add(Positioned.fromRect(
+        rect: Rect.fromLTWH(0, m.headerHeight, m.pagesWidth, m.laneRowExtent),
+        child: DecoratedBox(
+          key: const Key('lane-drop'),
+          decoration: BoxDecoration(
+            color: context.colors.surfaceContainerHighest.withValues(alpha: 0.92),
+            border: Border(bottom: BorderSide(color: context.colors.primary)),
+          ),
+          child: Center(child: Text(f.l10n.pvAllDay, style: context.text.labelSmall)),
+        ),
+      ));
+    }
     if (col != null && !s.listMode) {
       final Rect ghost;
       if (s.toLane) {

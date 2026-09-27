@@ -104,7 +104,9 @@ class PlannerCommands {
       await body();
       await Future<void>.microtask(() {});
     } finally {
-      await sub?.cancel();
+      // Not awaited: a cancelled subscription gets no further events, and the cancel future of a
+      // broadcast stream completes in the root zone (it would stall under fake-async tests).
+      unawaited(sub?.cancel());
       stack?.removeListener(onStack);
     }
     if (!context.mounted) return;

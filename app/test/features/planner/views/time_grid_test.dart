@@ -1,9 +1,12 @@
+import 'package:everslot/core/preferences/user_preferences.dart';
+import 'package:everslot/core/providers.dart';
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/grid_controller.dart';
 import 'package:everslot/features/planner/presentation/grid/time_grid.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -19,8 +22,9 @@ Future<(PlannerHarness, PlannerGridController)> _pump(
   List<PlannerItem> items = const [],
   PlannerViewConfig Function(PlannerViewConfig c)? config,
   Locale locale = const Locale('en'),
+  List<Override> overrides = const [],
 }) async {
-  final h = PlannerHarness.create(items: items);
+  final h = PlannerHarness.create(items: items, overrides: overrides);
   addTearDown(h.dispose);
   if (config != null) {
     final notifier = h.read(plannerViewConfigProvider('week_table').notifier);
@@ -292,5 +296,79 @@ void main() {
     await tester.tap(find.text('Open day'));
     await tester.pumpAndSettle();
     expect(h.nav.log, ['view day_list 2026-09-23']);
+  });
+
+  testWidgets('dragging an all-day item into the grid makes it timed (30 min at the drop slot)', (tester) async {
+    final (h, _) = await _pump(tester, items: [item('Trip', at(2026, 9, 22), 1440, allDay: true)]);
+    final grid = _grid(tester);
+    final gesture = await tester.startGesture(grid.globalHeaderOf(LocalDate(2026, 9, 22), lane: true)!);
+    await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
+    await gesture.moveTo(grid.globalPositionOf(_wed, 10 * 60 + 5)!);
+    await tester.pump();
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(h.backend.calls, ['reschedule Trip 2026-09-23T10:00 30 allDay=false thisOccurrence']);
+  });
+
+  testWidgets('dwelling at the edge while dragging turns the page and the drag survives', (tester) async {
+    final (h, controller) = await _pump(tester, items: [item('Gym', at(2026, 9, 21, 7), 60)]);
+    final grid = _grid(tester);
+    final from = grid.globalPositionOf(_mon, 7 * 60 + 30)!;
+    final gesture = await tester.startGesture(from);
+    await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
+    final width = tester.getSize(find.byType(TimeGrid)).width;
+    await gesture.moveTo(Offset(width - 4, from.dy));
+    for (var i = 0; i < 9; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    expect(controller.firstVisibleDay, LocalDate(2026, 9, 28));
+    await gesture.moveTo(grid.globalPositionOf(LocalDate(2026, 9, 29), 7 * 60 + 30)!);
+    await tester.pump();
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(h.backend.calls, ['reschedule Gym 2026-09-29T07:00 60 thisOccurrence']);
+  });
+
+  testWidgets('the time bubble follows the 12-hour preference', (tester) async {
+    await _pump(
+      tester,
+      items: [item('Gym', at(2026, 9, 21, 7), 60)],
+      overrides: [
+        userPreferencesProvider.overrideWithValue(
+          const UserPreferences(
+            weekStart: Weekday.monday,
+            use24h: false,
+            dayStartMinutes: 0,
+            homeTimeZone: 'UTC',
+            currentTimeZone: 'UTC',
+            localeCode: null,
+            currency: 'EUR',
+            useArabicDigits: false,
+          ),
+        ),
+      ],
+    );
+    final grid = _grid(tester);
+    final gesture = await tester.startGesture(grid.globalPositionOf(_mon, 7 * 60 + 30)!);
+    await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
+    await gesture.moveTo(grid.globalPositionOf(_mon, 9 * 60 + 30)!);
+    await tester.pump();
+    final bubble = tester.widget<Text>(find.descendant(of: find.byKey(const Key('time-bubble')), matching: find.byType(Text)));
+    // intl separates the day period with a narrow no-break space (U+202F).
+    expect(bubble.data!.replaceAll('\u202f', ' '), 'Mon 21 9:00 AM – 10:00 AM · 1 h');
+    await gesture.up();
+    await tester.pumpAndSettle();
+  });
+
+  testWidgets('a DST week shows the repeated hour; a zone change re-lays the grid out', (tester) async {
+    final (h, controller) = await _pump(tester);
+    await controller.jumpTo(LocalDate(2026, 10, 25), animate: false);
+    await tester.pumpAndSettle();
+    expect(_grid(tester).debugAxis!.normalMinutes, 1440);
+    h.read(deviceZoneProvider.notifier).debugSet('Europe/Paris');
+    await tester.pumpAndSettle();
+    final axis = _grid(tester).debugAxis!;
+    expect(axis.normalMinutes, 1500, reason: 'the 25-hour Sunday repeats 02:00–03:00');
+    expect(axis.bands.expand((b) => b.pieces).where((p) => p.repeat == 1), isNotEmpty);
   });
 }
