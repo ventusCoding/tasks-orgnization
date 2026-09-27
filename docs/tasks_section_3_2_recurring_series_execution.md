@@ -48,7 +48,7 @@ completion, punctuality and procrastination.
 - [x] T3.2.20 — Series history view
 - [x] T3.2.21 — Pause / resume a series
 - [x] T3.2.22 — Occurrence notes & attachments
-- [ ] T3.2.23 — Bulk occurrence actions
+- [x] T3.2.23 — Bulk occurrence actions
 
 ## Tasks
 
@@ -365,3 +365,4 @@ occurrences ([6.1]).
 **Description:** Day-menu actions: *Mark all remaining today as done*, *Skip the rest of the day*,
 *Move unfinished to tomorrow*. Each is one transaction with a single undo.
 **Tests:** unit tests.
+**Notes:** Service `markRemainingDone` / `skipRestOfDay` / `moveUnfinishedToTomorrow` + reusable `DayActionsMenuButton(day:)`; placing it in the day headers is up to the views ([3.3]–[3.5]).

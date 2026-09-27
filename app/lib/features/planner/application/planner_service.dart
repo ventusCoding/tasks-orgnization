@@ -189,6 +189,61 @@ class PlannerService {
     return result;
   }
 
+  // ---------------------------------------------------------------------------
+  // Day menu (T3.2.23): each action is ONE operation with a single undo.
+
+  /// Occurrences of [day] (viewer wall clock) still waiting for an outcome: scheduled, in
+  /// progress or missed; unplaced quota slots are left alone.
+  Future<List<PlannerItem>> openItemsOfDay(LocalDate day) async {
+    final range = await ranges.resolveRange(day.atStartOfDay, day.plusDays(1).atStartOfDay);
+    return [
+      for (final i in range.items)
+        if (i.startLocal.date == day &&
+            !i.isQuotaSlot &&
+            (i.status == OccurrenceStatus.scheduled ||
+                i.status == OccurrenceStatus.inProgress ||
+                i.status == OccurrenceStatus.missed))
+          i,
+    ];
+  }
+
+  /// *Mark all remaining as done*: every open check/timer occurrence of [day]. Returns the count.
+  Future<int> markRemainingDone(LocalDate day) async {
+    final items = [
+      for (final i in await openItemsOfDay(day))
+        if (TrackingPolicy.of(i.trackingMode).hasCheckbox) i,
+    ];
+    if (items.isEmpty) return 0;
+    final (record, count) = await occurrences.markDoneMany([for (final i in items) (i.taskId, i.occurrenceKey)]);
+    _undo(l10n.tasksDayDoneAllSnack(count), record);
+    return count;
+  }
+
+  /// *Skip the rest of the day*: every open occurrence of [day]. Returns the count.
+  Future<int> skipRestOfDay(LocalDate day) async {
+    final items = await openItemsOfDay(day);
+    if (items.isEmpty) return 0;
+    final (record, count) = await occurrences.skipMany([for (final i in items) (i.taskId, i.occurrenceKey)]);
+    _undo(l10n.tasksDaySkipRestSnack(count), record);
+    return count;
+  }
+
+  /// *Move unfinished to tomorrow*: open check/timer occurrences of [day] that are not running
+  /// move one day later (one-offs are rescheduled, recurring occurrences overridden).
+  Future<int> moveUnfinishedToTomorrow(LocalDate day) async {
+    final items = [
+      for (final i in await openItemsOfDay(day))
+        if (TrackingPolicy.of(i.trackingMode).hasCheckbox && i.status != OccurrenceStatus.inProgress) i,
+    ];
+    if (items.isEmpty) return 0;
+    final record = await tasks.bulk(
+      [for (final i in items) BulkTarget(i.taskId, occurrenceKey: i.occurrenceKey)],
+      const BulkMove(days: 1),
+    );
+    _undo(l10n.tasksDayMoveTomorrowSnack(items.length), record);
+    return items.length;
+  }
+
   /// Paste (Ctrl/Cmd + V at the selected slot on tablets, T3.1.19): a one-off copy of [item]
   /// starting at [start] (viewer wall clock) with the occurrence's duration, title and notes;
   /// the zone mode is preserved.

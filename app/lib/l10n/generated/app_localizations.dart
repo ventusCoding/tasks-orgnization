@@ -18333,6 +18333,42 @@ abstract class AppLocalizations {
   /// **'Custom…'**
   String get tasksCustomDuration;
 
+  /// No description provided for @tasksDayDoneAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all remaining as done'**
+  String get tasksDayDoneAll;
+
+  /// No description provided for @tasksDayDoneAllSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing left to mark} =1{1 task marked as done} other{{count} tasks marked as done}}'**
+  String tasksDayDoneAllSnack(int count);
+
+  /// No description provided for @tasksDayMoveTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Move unfinished to tomorrow'**
+  String get tasksDayMoveTomorrow;
+
+  /// No description provided for @tasksDayMoveTomorrowSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing to move} =1{1 task moved to tomorrow} other{{count} tasks moved to tomorrow}}'**
+  String tasksDayMoveTomorrowSnack(int count);
+
+  /// No description provided for @tasksDaySkipRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip the rest of the day'**
+  String get tasksDaySkipRest;
+
+  /// No description provided for @tasksDaySkipRestSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing left to skip} =1{1 task skipped} other{{count} tasks skipped}}'**
+  String tasksDaySkipRestSnack(int count);
+
   /// No description provided for @tasksDeadlineNone.
   ///
   /// In en, this message translates to:

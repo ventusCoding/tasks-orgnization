@@ -11388,6 +11388,60 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksCustomDuration => 'مخصص…';
 
   @override
+  String get tasksDayDoneAll => 'وضع علامة منجز على كل ما تبقى';
+
+  @override
+  String tasksDayDoneAllSnack(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم إنجاز $count مهمة',
+      many: 'تم إنجاز $count مهمة',
+      few: 'تم إنجاز $count مهام',
+      two: 'تم إنجاز مهمتين',
+      one: 'تم إنجاز مهمة واحدة',
+      zero: 'لم يتبق شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksDayMoveTomorrow => 'نقل غير المنجز إلى الغد';
+
+  @override
+  String tasksDayMoveTomorrowSnack(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نُقلت $count مهمة إلى الغد',
+      many: 'نُقلت $count مهمة إلى الغد',
+      few: 'نُقلت $count مهام إلى الغد',
+      two: 'نُقلت مهمتان إلى الغد',
+      one: 'نُقلت مهمة واحدة إلى الغد',
+      zero: 'لا شيء للنقل',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksDaySkipRest => 'تخطي بقية اليوم';
+
+  @override
+  String tasksDaySkipRestSnack(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم تخطي $count مهمة',
+      many: 'تم تخطي $count مهمة',
+      few: 'تم تخطي $count مهام',
+      two: 'تم تخطي مهمتين',
+      one: 'تم تخطي مهمة واحدة',
+      zero: 'لم يتبق شيء للتخطي',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get tasksDeadlineNone => 'بلا موعد نهائي';
 
   @override
