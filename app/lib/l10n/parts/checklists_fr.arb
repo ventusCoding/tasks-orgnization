@@ -319,5 +319,12 @@
   "checklistExpandToLevelMenu": "Déplier jusqu’au niveau…",
   "checklistItemsDuplicated": "{count, plural, =1{1 élément dupliqué} other{{count} éléments dupliqués}}",
   "checklistHasReminders": "Rappels définis",
-  "checklistNotifItemGone": "Cet élément n’existe plus"
+  "checklistNotifItemGone": "Cet élément n’existe plus",
+  "checklistMdBold": "Gras",
+  "checklistMdItalic": "Italique",
+  "checklistMdStrike": "Barré",
+  "checklistMdCode": "Code",
+  "checklistMdHeading": "Titre",
+  "checklistMdBullet": "Liste à puces",
+  "checklistMdLink": "Lien"
 }

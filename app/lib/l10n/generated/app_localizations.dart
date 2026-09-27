@@ -3567,6 +3567,48 @@ abstract class AppLocalizations {
   /// **'Linked task'**
   String get checklistLinkedTask;
 
+  /// No description provided for @checklistMdBold.
+  ///
+  /// In en, this message translates to:
+  /// **'Bold'**
+  String get checklistMdBold;
+
+  /// No description provided for @checklistMdBullet.
+  ///
+  /// In en, this message translates to:
+  /// **'Bulleted list'**
+  String get checklistMdBullet;
+
+  /// No description provided for @checklistMdCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Code'**
+  String get checklistMdCode;
+
+  /// No description provided for @checklistMdHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading'**
+  String get checklistMdHeading;
+
+  /// No description provided for @checklistMdItalic.
+  ///
+  /// In en, this message translates to:
+  /// **'Italic'**
+  String get checklistMdItalic;
+
+  /// No description provided for @checklistMdLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Link'**
+  String get checklistMdLink;
+
+  /// No description provided for @checklistMdStrike.
+  ///
+  /// In en, this message translates to:
+  /// **'Strikethrough'**
+  String get checklistMdStrike;
+
   /// No description provided for @checklistModeEdit.
   ///
   /// In en, this message translates to:

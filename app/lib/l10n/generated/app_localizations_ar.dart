@@ -2140,6 +2140,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistLinkedTask => 'مهمة مرتبطة';
 
   @override
+  String get checklistMdBold => 'غامق';
+
+  @override
+  String get checklistMdBullet => 'قائمة نقطية';
+
+  @override
+  String get checklistMdCode => 'رمز برمجي';
+
+  @override
+  String get checklistMdHeading => 'عنوان';
+
+  @override
+  String get checklistMdItalic => 'مائل';
+
+  @override
+  String get checklistMdLink => 'رابط';
+
+  @override
+  String get checklistMdStrike => 'يتوسطه خط';
+
+  @override
   String get checklistModeEdit => 'تحرير';
 
   @override

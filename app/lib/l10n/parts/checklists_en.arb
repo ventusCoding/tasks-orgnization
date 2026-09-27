@@ -621,5 +621,12 @@
     }
   },
   "checklistHasReminders": "Has reminders",
-  "checklistNotifItemGone": "This item no longer exists"
+  "checklistNotifItemGone": "This item no longer exists",
+  "checklistMdBold": "Bold",
+  "checklistMdItalic": "Italic",
+  "checklistMdStrike": "Strikethrough",
+  "checklistMdCode": "Code",
+  "checklistMdHeading": "Heading",
+  "checklistMdBullet": "Bulleted list",
+  "checklistMdLink": "Link"
 }
