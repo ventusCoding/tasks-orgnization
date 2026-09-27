@@ -837,6 +837,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your data will be removed from this device. It stays safe in your account.';
 
   @override
+  String get authSignOutGuestBody =>
+      'This guest account only exists on this device. Signing out deletes it and all its data for good — add an email first to keep it.';
+
+  @override
   String authSignOutPendingBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -1038,6 +1042,854 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String chartsAnonymousItem(String n) {
+    return 'Item $n';
+  }
+
+  @override
+  String chartsBytesGb(String value) {
+    return '$value GB';
+  }
+
+  @override
+  String chartsBytesKb(String value) {
+    return '$value KB';
+  }
+
+  @override
+  String chartsBytesMb(String value) {
+    return '$value MB';
+  }
+
+  @override
+  String get chartsColumnLabel => 'Label';
+
+  @override
+  String chartsCounterSemantics(String days, String hours, String minutes) {
+    return '$days days, $hours hours, $minutes minutes';
+  }
+
+  @override
+  String chartsCrosshair(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String chartsDaysHours(String days, String hours) {
+    return '$days d $hours h';
+  }
+
+  @override
+  String chartsDaysOnly(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chartsDeltaDown(String value) {
+    return 'down $value';
+  }
+
+  @override
+  String get chartsDeltaFlat => 'no change';
+
+  @override
+  String get chartsDeltaNew => 'new';
+
+  @override
+  String chartsDeltaUp(String value) {
+    return 'up $value';
+  }
+
+  @override
+  String get chartsEmpty => 'No data for this period';
+
+  @override
+  String get chartsError => 'This chart couldn’t be computed';
+
+  @override
+  String chartsEstimate(String value) {
+    return '≈ $value';
+  }
+
+  @override
+  String get chartsExplain => 'About this metric';
+
+  @override
+  String chartsFrozen(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count frozen',
+      one: '1 frozen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get chartsGalleryDark => 'Dark theme';
+
+  @override
+  String get chartsGalleryRtl => 'Right to left';
+
+  @override
+  String get chartsGalleryTextScale => 'Large text';
+
+  @override
+  String get chartsGalleryTitle => 'Chart gallery';
+
+  @override
+  String get chartsGalleryVision => 'Color vision';
+
+  @override
+  String get chartsHistogramCount => 'Count';
+
+  @override
+  String get chartsHistogramDensity => 'Share';
+
+  @override
+  String chartsHour(String hour) {
+    return '$hour h';
+  }
+
+  @override
+  String chartsHoursMinutes(String hours, String minutes) {
+    return '$hours h $minutes min';
+  }
+
+  @override
+  String chartsHoursOnly(String hours) {
+    return '$hours h';
+  }
+
+  @override
+  String chartsKilo(String value) {
+    return '$value k';
+  }
+
+  @override
+  String chartsKpiSemantics(String title, String value, String delta) {
+    return '$title: $value. $delta';
+  }
+
+  @override
+  String get chartsLabelAbstinent => 'Abstinent';
+
+  @override
+  String get chartsLabelActual => 'Actual';
+
+  @override
+  String get chartsLabelAfterHours => 'After hours';
+
+  @override
+  String get chartsLabelAgenda => 'Agenda';
+
+  @override
+  String get chartsLabelArchived => 'Archived';
+
+  @override
+  String get chartsLabelArrivals => 'Arrivals';
+
+  @override
+  String get chartsLabelAttempt => 'Attempt';
+
+  @override
+  String get chartsLabelAttention => 'Needs attention';
+
+  @override
+  String get chartsLabelBaseline => 'Baseline';
+
+  @override
+  String get chartsLabelBest => 'Best';
+
+  @override
+  String get chartsLabelBlocked => 'Blocked';
+
+  @override
+  String get chartsLabelCancelled => 'Cancelled';
+
+  @override
+  String get chartsLabelCapacity => 'Capacity';
+
+  @override
+  String get chartsLabelCheckIns => 'Check-ins';
+
+  @override
+  String get chartsLabelCompleted => 'Completed';
+
+  @override
+  String get chartsLabelCount => 'Count';
+
+  @override
+  String get chartsLabelCravings => 'Cravings';
+
+  @override
+  String get chartsLabelCreated => 'Created';
+
+  @override
+  String get chartsLabelCurrent => 'Current';
+
+  @override
+  String get chartsLabelDeepWork => 'Deep work';
+
+  @override
+  String get chartsLabelDepartures => 'Departures';
+
+  @override
+  String get chartsLabelDone => 'Done';
+
+  @override
+  String get chartsLabelDoneLate => 'Late';
+
+  @override
+  String get chartsLabelDoneOnTime => 'On time';
+
+  @override
+  String get chartsLabelEarly => 'Early';
+
+  @override
+  String get chartsLabelEvent => 'Events';
+
+  @override
+  String get chartsLabelExcused => 'Excused';
+
+  @override
+  String get chartsLabelFailed => 'Not done';
+
+  @override
+  String get chartsLabelFiles => 'Files';
+
+  @override
+  String get chartsLabelFocus => 'Focus';
+
+  @override
+  String get chartsLabelFree => 'Free';
+
+  @override
+  String get chartsLabelFrozen => 'Frozen';
+
+  @override
+  String get chartsLabelFuture => 'Upcoming';
+
+  @override
+  String get chartsLabelGoal => 'Goal';
+
+  @override
+  String get chartsLabelHabits => 'Habits';
+
+  @override
+  String get chartsLabelHighPriority => 'High priority';
+
+  @override
+  String get chartsLabelIdeal => 'Ideal';
+
+  @override
+  String get chartsLabelImages => 'Images';
+
+  @override
+  String get chartsLabelInProgress => 'Active';
+
+  @override
+  String get chartsLabelIntensity => 'Intensity';
+
+  @override
+  String get chartsLabelItems => 'Items';
+
+  @override
+  String get chartsLabelLapse => 'Slip';
+
+  @override
+  String get chartsLabelLate => 'Late';
+
+  @override
+  String get chartsLabelLifeRegained => 'Life regained';
+
+  @override
+  String get chartsLabelLimit => 'Limit';
+
+  @override
+  String get chartsLabelLists => 'Lists';
+
+  @override
+  String get chartsLabelLowPriority => 'Low priority';
+
+  @override
+  String get chartsLabelMaxIntensity => 'Peak intensity';
+
+  @override
+  String get chartsLabelMean => 'Mean';
+
+  @override
+  String get chartsLabelMeanIntensity => 'Average intensity';
+
+  @override
+  String get chartsLabelMeanUse => 'Average use';
+
+  @override
+  String get chartsLabelMedian => 'Median';
+
+  @override
+  String get chartsLabelMissed => 'Missed';
+
+  @override
+  String get chartsLabelMoney => 'Money';
+
+  @override
+  String get chartsLabelMonth => 'Month';
+
+  @override
+  String get chartsLabelMoods => 'Moods';
+
+  @override
+  String get chartsLabelMoved => 'Moved';
+
+  @override
+  String get chartsLabelMovedIn => 'Moved in';
+
+  @override
+  String get chartsLabelMovedOut => 'Moved out';
+
+  @override
+  String get chartsLabelNet => 'Net flow';
+
+  @override
+  String get chartsLabelNextUp => 'Next up';
+
+  @override
+  String get chartsLabelNo => 'No';
+
+  @override
+  String get chartsLabelNotDue => 'Not due';
+
+  @override
+  String get chartsLabelNotTracked => 'Not tracked';
+
+  @override
+  String get chartsLabelOnTime => 'On time';
+
+  @override
+  String get chartsLabelOneOff => 'One-off';
+
+  @override
+  String get chartsLabelOngoing => 'Ongoing';
+
+  @override
+  String get chartsLabelOther => 'Other';
+
+  @override
+  String get chartsLabelOver => 'Over';
+
+  @override
+  String get chartsLabelOverLimit => 'Over limit';
+
+  @override
+  String get chartsLabelOverdue => 'Overdue';
+
+  @override
+  String get chartsLabelOverdue1 => '1–6 days';
+
+  @override
+  String get chartsLabelOverdue14 => '14–29 days';
+
+  @override
+  String get chartsLabelOverdue30 => '30+ days';
+
+  @override
+  String get chartsLabelOverdue7 => '7–13 days';
+
+  @override
+  String get chartsLabelOverdueToday => '< 1 day';
+
+  @override
+  String get chartsLabelOverlap => 'Overlap';
+
+  @override
+  String get chartsLabelP50 => 'P50';
+
+  @override
+  String get chartsLabelP70 => 'P70';
+
+  @override
+  String get chartsLabelP85 => 'P85';
+
+  @override
+  String get chartsLabelP95 => 'P95';
+
+  @override
+  String get chartsLabelPace => 'Pace';
+
+  @override
+  String get chartsLabelPartial => 'Partial';
+
+  @override
+  String get chartsLabelPaused => 'Paused';
+
+  @override
+  String get chartsLabelPdfs => 'PDFs';
+
+  @override
+  String get chartsLabelPending => 'Pending';
+
+  @override
+  String get chartsLabelPerDay => 'Per day';
+
+  @override
+  String get chartsLabelPerfectDay => 'Perfect day';
+
+  @override
+  String get chartsLabelPlaces => 'Places';
+
+  @override
+  String get chartsLabelPlanned => 'Planned';
+
+  @override
+  String get chartsLabelPrevious => 'Previous';
+
+  @override
+  String get chartsLabelProjection => 'Projection';
+
+  @override
+  String get chartsLabelProjection1m => 'Next month';
+
+  @override
+  String get chartsLabelProjection1y => 'Next year';
+
+  @override
+  String get chartsLabelProjection5y => 'In 5 years';
+
+  @override
+  String get chartsLabelQuit => 'Quit';
+
+  @override
+  String get chartsLabelRate => 'Rate';
+
+  @override
+  String get chartsLabelRecurring => 'Recurring';
+
+  @override
+  String get chartsLabelReduction => 'Reduction';
+
+  @override
+  String get chartsLabelRelapse => 'Relapse';
+
+  @override
+  String get chartsLabelRemaining => 'Remaining';
+
+  @override
+  String get chartsLabelRemoved => 'Removed';
+
+  @override
+  String get chartsLabelReopened => 'Reopened';
+
+  @override
+  String get chartsLabelRollingMean => 'Rolling mean';
+
+  @override
+  String get chartsLabelSaved => 'Saved';
+
+  @override
+  String get chartsLabelScope => 'Scope';
+
+  @override
+  String get chartsLabelScore => 'Score';
+
+  @override
+  String get chartsLabelSkipped => 'Skipped';
+
+  @override
+  String get chartsLabelSpent => 'Spent';
+
+  @override
+  String get chartsLabelStale => 'Stale';
+
+  @override
+  String get chartsLabelStreak => 'Streak';
+
+  @override
+  String get chartsLabelSuccess => 'Success';
+
+  @override
+  String get chartsLabelTarget => 'Target';
+
+  @override
+  String get chartsLabelTask => 'Tasks';
+
+  @override
+  String get chartsLabelTasks => 'Tasks';
+
+  @override
+  String get chartsLabelTemplates => 'Templates';
+
+  @override
+  String get chartsLabelTimeNotSpent => 'Time not spent';
+
+  @override
+  String get chartsLabelTodo => 'To do';
+
+  @override
+  String get chartsLabelTotal => 'Total';
+
+  @override
+  String get chartsLabelTrend => 'Trend';
+
+  @override
+  String get chartsLabelTriggers => 'Triggers';
+
+  @override
+  String get chartsLabelUncategorized => 'Uncategorized';
+
+  @override
+  String get chartsLabelUnder => 'Under';
+
+  @override
+  String get chartsLabelUnits => 'Units';
+
+  @override
+  String get chartsLabelUnplanned => 'Unplanned';
+
+  @override
+  String get chartsLabelUnspecified => 'Unspecified';
+
+  @override
+  String get chartsLabelUsed => 'Used';
+
+  @override
+  String get chartsLabelVolume => 'Volume';
+
+  @override
+  String get chartsLabelWaiting => 'Waiting';
+
+  @override
+  String get chartsLabelWeek => 'Week';
+
+  @override
+  String get chartsLabelWeekend => 'Weekend';
+
+  @override
+  String get chartsLabelWhenLabel => 'When';
+
+  @override
+  String get chartsLabelWins => 'Wins';
+
+  @override
+  String get chartsLabelWip => 'In progress';
+
+  @override
+  String get chartsLabelWithinLimit => 'Within limit';
+
+  @override
+  String get chartsLabelWithinLimitDays => 'Days within limit';
+
+  @override
+  String get chartsLabelYear => 'Year';
+
+  @override
+  String get chartsLabelYes => 'Yes';
+
+  @override
+  String get chartsLegend => 'Legend';
+
+  @override
+  String get chartsLoading => 'Loading…';
+
+  @override
+  String chartsMedianAt(String value) {
+    return 'Median $value';
+  }
+
+  @override
+  String get chartsMedianNotReached => 'Median not reached';
+
+  @override
+  String chartsMega(String value) {
+    return '$value M';
+  }
+
+  @override
+  String chartsMilestoneEta(String time) {
+    return 'in $time';
+  }
+
+  @override
+  String get chartsMilestoneInWindow => 'In progress';
+
+  @override
+  String get chartsMilestoneNext => 'Next';
+
+  @override
+  String get chartsMilestoneReached => 'Reached';
+
+  @override
+  String get chartsMilestoneRestarted =>
+      'The clock restarted after a slip — every day you already did still counts.';
+
+  @override
+  String chartsMilestoneSources(String sources) {
+    return 'Sources: $sources';
+  }
+
+  @override
+  String chartsMinutesOnly(String minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String chartsNeedsMore(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Needs $count more data points',
+      one: 'Needs 1 more data point',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get chartsNoConsistentTime => 'No consistent time';
+
+  @override
+  String get chartsNotApplicable => '—';
+
+  @override
+  String chartsOrdinalAttempt(String n) {
+    return 'Attempt $n';
+  }
+
+  @override
+  String chartsOrdinalDepth(String n) {
+    return 'Depth $n';
+  }
+
+  @override
+  String chartsOrdinalLevel(String n) {
+    return 'Level $n';
+  }
+
+  @override
+  String chartsOrdinalMonth(String n) {
+    return 'Month $n';
+  }
+
+  @override
+  String chartsOrdinalPriority(String n) {
+    return 'Priority $n';
+  }
+
+  @override
+  String chartsOrdinalRun(String n) {
+    return 'Run $n';
+  }
+
+  @override
+  String chartsOrdinalWeek(String n) {
+    return 'Week $n';
+  }
+
+  @override
+  String chartsOrdinalYear(String n) {
+    return 'Year $n';
+  }
+
+  @override
+  String chartsOver(String value) {
+    return '+$value';
+  }
+
+  @override
+  String chartsPerDay(String value) {
+    return '$value/day';
+  }
+
+  @override
+  String chartsPerWeek(String value) {
+    return '$value/week';
+  }
+
+  @override
+  String chartsPlusMinus(String value) {
+    return '± $value';
+  }
+
+  @override
+  String get chartsPopulationEstimate => 'Population estimate';
+
+  @override
+  String chartsPp(String value) {
+    return '$value pp';
+  }
+
+  @override
+  String chartsPpSpoken(String value) {
+    return '$value percentage points';
+  }
+
+  @override
+  String chartsPrevious(String value) {
+    return 'Previous $value';
+  }
+
+  @override
+  String chartsProbability(String value) {
+    return '$value chance';
+  }
+
+  @override
+  String chartsRange(String from, String to) {
+    return '$from–$to';
+  }
+
+  @override
+  String chartsRatio(String value) {
+    return '$value×';
+  }
+
+  @override
+  String chartsSecondsOnly(String seconds) {
+    return '$seconds s';
+  }
+
+  @override
+  String get chartsSelected => 'Selected';
+
+  @override
+  String chartsSeriesToggle(String series) {
+    return 'Show or hide $series';
+  }
+
+  @override
+  String get chartsShare => 'Share chart';
+
+  @override
+  String get chartsShareHideNames => 'Hide names';
+
+  @override
+  String get chartsShareMark => 'Made with Everslot';
+
+  @override
+  String get chartsStreakBest => 'Best';
+
+  @override
+  String get chartsStreakCurrent => 'Current';
+
+  @override
+  String chartsSummaryBars(
+    String title,
+    String count,
+    String label,
+    String value,
+  ) {
+    return '$title: $count bars, highest $label with $value.';
+  }
+
+  @override
+  String chartsSummaryCalendar(String title, String count) {
+    return '$title: $count days shown.';
+  }
+
+  @override
+  String chartsSummaryLine(
+    String title,
+    String range,
+    String first,
+    String last,
+    String trend,
+  ) {
+    return '$title, $range: from $first to $last. $trend';
+  }
+
+  @override
+  String chartsSummaryList(String title, String count) {
+    return '$title: $count entries.';
+  }
+
+  @override
+  String chartsSummaryMilestones(String title, String done, String total) {
+    return '$title: $done of $total reached.';
+  }
+
+  @override
+  String chartsSummaryMinMax(String min, String max) {
+    return 'Lowest $min, highest $max.';
+  }
+
+  @override
+  String chartsSummaryPunchCard(String title, String weekday, String hour) {
+    return '$title: busiest $weekday at $hour.';
+  }
+
+  @override
+  String chartsSummaryShare(String title, String label, String share) {
+    return '$title: largest part $label, $share.';
+  }
+
+  @override
+  String chartsSummaryStreaks(String title, String length) {
+    return '$title: longest streak $length.';
+  }
+
+  @override
+  String chartsSummaryValue(String title, String value) {
+    return '$title: $value.';
+  }
+
+  @override
+  String chartsTableSort(String column) {
+    return 'Sort by $column';
+  }
+
+  @override
+  String get chartsTapForDetails => 'Double tap for details';
+
+  @override
+  String chartsTarget(String value) {
+    return 'Target $value';
+  }
+
+  @override
+  String chartsTooltip(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String chartsTrendFalling(String slope) {
+    return 'Falling $slope per week.';
+  }
+
+  @override
+  String chartsTrendRising(String slope) {
+    return 'Rising $slope per week.';
+  }
+
+  @override
+  String get chartsTrendStable => 'No clear trend.';
+
+  @override
+  String get chartsViewAsChart => 'View as chart';
+
+  @override
+  String get chartsViewAsTable => 'View as table';
+
+  @override
+  String get chartsVisionDeuteranopia => 'Deuteranopia';
+
+  @override
+  String get chartsVisionNormal => 'Normal';
+
+  @override
+  String get chartsVisionProtanopia => 'Protanopia';
+
+  @override
+  String get chartsVisionTritanopia => 'Tritanopia';
+
+  @override
+  String get chartsVsPrevious => 'vs previous period';
 
   @override
   String get checklistAddItem => 'Add item';
@@ -5595,6 +6447,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get savedSnack => 'Saved';
 
   @override
+  String get settingsAbout => 'About';
+
+  @override
+  String get settingsAboutSubtitle => 'Version, licenses, help';
+
+  @override
+  String get settingsAccessibility => 'Accessibility';
+
+  @override
+  String get settingsAccessibilitySubtitle =>
+      'Motion, haptics, contrast, labels';
+
+  @override
+  String get settingsAccount => 'Account';
+
+  @override
+  String get settingsAccountLocalOnly => 'On this device only';
+
+  @override
+  String get settingsAppearance => 'Appearance';
+
+  @override
+  String get settingsAppearanceSubtitle => 'Theme, density, language';
+
+  @override
+  String get settingsArabicDigits => 'Arabic-Indic digits';
+
+  @override
+  String get settingsArabicDigitsSubtitle =>
+      'Show ٠١٢٣ instead of 0123 when the app is in Arabic';
+
+  @override
   String get settingsAutoComplete => 'Complete parents automatically';
 
   @override
@@ -5610,13 +6494,127 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsCategory => 'Category';
 
   @override
+  String get settingsClock => 'Clock';
+
+  @override
+  String get settingsClock12 => '12-hour';
+
+  @override
+  String get settingsClock24 => '24-hour';
+
+  @override
   String get settingsCompleteChildren => 'When completing a parent';
+
+  @override
+  String get settingsCurrency => 'Currency for quit savings';
+
+  @override
+  String get settingsCurrentZone => 'Current time zone (this device)';
+
+  @override
+  String get settingsDayStart => 'Habit day starts at';
+
+  @override
+  String get settingsDayStartSubtitle =>
+      'Check-ins before this time count for the previous day. Applies to new check-ins only.';
 
   @override
   String get settingsDefaultOpen => 'Open in';
 
   @override
+  String get settingsDensity => 'Density';
+
+  @override
+  String get settingsDensityComfortable => 'Comfortable';
+
+  @override
+  String get settingsDensityCompact => 'Compact';
+
+  @override
+  String settingsDeviceLastSeen(String when) {
+    return 'Last seen $when';
+  }
+
+  @override
+  String get settingsDevicePushOff => 'Push notifications off';
+
+  @override
+  String get settingsDevicePushOn => 'Push notifications on';
+
+  @override
+  String get settingsDeviceRevoke => 'Remove device';
+
+  @override
+  String get settingsDeviceRevokeBody =>
+      'It stops receiving notifications and is signed out the next time it connects.';
+
+  @override
+  String settingsDeviceRevokeTitle(String name) {
+    return 'Remove $name?';
+  }
+
+  @override
+  String get settingsDeviceRevoked => 'Device removed';
+
+  @override
+  String get settingsDeviceThis => 'This device';
+
+  @override
+  String get settingsDeviceUnknown => 'Unknown device';
+
+  @override
+  String get settingsDevices => 'Devices';
+
+  @override
+  String get settingsDevicesEmpty => 'No devices registered yet.';
+
+  @override
+  String get settingsDevicesOffline =>
+      'Connect to the internet to see your devices.';
+
+  @override
+  String get settingsGroupData => 'Data & privacy';
+
+  @override
+  String get settingsGroupGeneral => 'General';
+
+  @override
+  String get settingsGroupHelp => 'Help';
+
+  @override
+  String get settingsGroupSections => 'Sections';
+
+  @override
+  String get settingsHabits => 'Habits';
+
+  @override
+  String get settingsHabitsSubtitle => 'Skip policy, streak freezes';
+
+  @override
   String get settingsHideCheckboxes => 'Hide checkboxes (bullets)';
+
+  @override
+  String get settingsHomeZone => 'Home time zone';
+
+  @override
+  String get settingsHomeZoneAuto => 'Follow this device';
+
+  @override
+  String get settingsHomeZoneAutoSubtitle =>
+      'Update the home zone automatically when you travel';
+
+  @override
+  String get settingsHomeZoneSubtitle =>
+      'Fixed-time tasks and habits use this zone';
+
+  @override
+  String get settingsInsights => 'Insights';
+
+  @override
+  String get settingsInsightsSubtitle => 'Default period, comparisons';
+
+  @override
+  String get settingsLanguage => 'Language';
 
   @override
   String get settingsLanguageArabic => 'العربية';
@@ -5631,6 +6629,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLanguageSystem => 'System default';
 
   @override
+  String get settingsLists => 'Lists';
+
+  @override
+  String get settingsListsSubtitle => 'Statuses, progress, completed items';
+
+  @override
+  String get settingsNotificationsSubtitle => 'Reminders, quiet hours, inbox';
+
+  @override
+  String get settingsOrganizationSubtitle =>
+      'Categories and tags used across the app';
+
+  @override
+  String get settingsPlan => 'Plan';
+
+  @override
+  String get settingsPlanSubtitle => 'Default view, durations, work hours';
+
+  @override
+  String get settingsPreview => 'Preview';
+
+  @override
+  String get settingsPrivacy => 'Privacy & security';
+
+  @override
+  String get settingsPrivacySubtitle => 'App lock, hidden notification content';
+
+  @override
   String get settingsProgressChildren => 'Direct sub-items only';
 
   @override
@@ -5638,6 +6664,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsProgressMode => 'Progress counts';
+
+  @override
+  String get settingsRegional => 'Regional';
+
+  @override
+  String get settingsRegionalSubtitle =>
+      'Time zone, week start, clock, currency';
 
   @override
   String get settingsRequireReason => 'Require a reason for';
@@ -5685,6 +6718,111 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsSwipeTitle => 'Swipe actions';
+
+  @override
+  String get settingsSyncData => 'Sync & data';
+
+  @override
+  String get settingsSyncDataSubtitle => 'Devices, export, import, trash';
+
+  @override
+  String get settingsSyncDiagnostics => 'Sync diagnostics';
+
+  @override
+  String get settingsSyncDiscardBody =>
+      'The server\'s version of these items is restored on this device.';
+
+  @override
+  String get settingsSyncDiscardFailed => 'Discard rejected changes';
+
+  @override
+  String get settingsSyncDiscardTitle => 'Discard rejected changes?';
+
+  @override
+  String settingsSyncFailed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count changes were rejected by the server',
+      one: '1 change was rejected by the server',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String settingsSyncInitialProgress(int percent) {
+    return 'Downloading your data… $percent%';
+  }
+
+  @override
+  String get settingsSyncLastError => 'Last error';
+
+  @override
+  String settingsSyncLastSuccess(String when) {
+    return 'Last synced $when';
+  }
+
+  @override
+  String get settingsSyncNever => 'Not synced yet';
+
+  @override
+  String get settingsSyncNow => 'Sync now';
+
+  @override
+  String get settingsSyncOffBody => 'Your data is stored on this device only.';
+
+  @override
+  String get settingsSyncOffTitle => 'Sync is off';
+
+  @override
+  String get settingsSyncRefreshLocalOnly =>
+      'Everything is saved on this device.';
+
+  @override
+  String get settingsSyncResync => 'Force full resync';
+
+  @override
+  String get settingsSyncResyncBody =>
+      'Everslot downloads all your data again. Changes that haven\'t synced yet are kept.';
+
+  @override
+  String get settingsSyncResyncTitle => 'Resync everything?';
+
+  @override
+  String get settingsSyncRetryFailed => 'Retry rejected changes';
+
+  @override
+  String get settingsSyncStatus => 'Status';
+
+  @override
+  String get settingsSyncTitle => 'Sync & devices';
+
+  @override
+  String get settingsSyncTooltip => 'Sync status';
+
+  @override
+  String get settingsTheme => 'Theme';
+
+  @override
+  String get settingsThemeDark => 'Dark';
+
+  @override
+  String get settingsThemeLight => 'Light';
+
+  @override
+  String get settingsThemeSystem => 'System';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsTrash => 'Trash';
+
+  @override
+  String get settingsUnknownPage => 'This settings page doesn\'t exist.';
+
+  @override
+  String get settingsWeekStart => 'Week starts on';
 
   @override
   String get smartBlocked => 'Blocked';
@@ -5741,6 +6879,1700 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stateLoading => 'Loading…';
+
+  @override
+  String get statsCardError => 'This card couldn’t be computed.';
+
+  @override
+  String get statsCompareToggle => 'Compare with previous period';
+
+  @override
+  String statsDetailAllTime(String value) {
+    return 'All time: $value';
+  }
+
+  @override
+  String statsDetailBacklog(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unscheduled tasks',
+      one: '1 unscheduled task',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsDetailBest(String value) {
+    return 'Best: $value';
+  }
+
+  @override
+  String statsDetailCoverage(String value) {
+    return 'Time tracked on $value of done tasks';
+  }
+
+  @override
+  String statsDetailDelta30(String value) {
+    return '$value vs 30 days ago';
+  }
+
+  @override
+  String statsDetailLastDone(String date) {
+    return 'Last done $date';
+  }
+
+  @override
+  String statsDetailOfTotal(String done, String total) {
+    return '$done of $total';
+  }
+
+  @override
+  String statsDetailOpen(String count) {
+    return '$count open';
+  }
+
+  @override
+  String statsDetailPerDay(String value) {
+    return '$value per day';
+  }
+
+  @override
+  String statsDetailPeriods(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count periods',
+      one: '1 period',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsDetailPlanned(String value) {
+    return 'Planned: $value';
+  }
+
+  @override
+  String statsDetailQueue(String time) {
+    return 'Waiting to start for $time';
+  }
+
+  @override
+  String statsDetailReduction(String value) {
+    return 'Down $value from baseline';
+  }
+
+  @override
+  String statsDetailSince(String date) {
+    return 'Since $date';
+  }
+
+  @override
+  String statsDetailWorkItem(String time) {
+    return 'In progress for $time';
+  }
+
+  @override
+  String get statsDrillEmpty => 'Nothing to show';
+
+  @override
+  String statsDrillMore(String count) {
+    return '$count more';
+  }
+
+  @override
+  String get statsDrillTitle => 'Behind this number';
+
+  @override
+  String get statsEmptyHabits => 'Add a habit to follow your consistency.';
+
+  @override
+  String get statsEmptyLists =>
+      'Create a list to see how work flows through it.';
+
+  @override
+  String get statsEmptyPlanner =>
+      'Plan a few tasks and come back for insights.';
+
+  @override
+  String get statsEmptyQuit => 'No quit trackers yet';
+
+  @override
+  String get statsEmptyQuitBody =>
+      'Create one in Habits to see your progress here.';
+
+  @override
+  String get statsEmptyTitle => 'Nothing to show yet';
+
+  @override
+  String statsExclusionCancelled(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count cancelled occurrences',
+      one: '1 cancelled occurrence',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsExclusionExcused(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count excused units',
+      one: '1 excused unit',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsExclusionFrozen(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count frozen units',
+      one: '1 frozen unit',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsExclusionPaused(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count paused units',
+      one: '1 paused unit',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsExclusionSkipped(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count skipped units',
+      one: '1 skipped unit',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsExclusionUnknown(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unlogged days',
+      one: '1 unlogged day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsExclusionUnplanned(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unplanned additions',
+      one: '1 unplanned addition',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statsExplainEstimate => 'This number is an estimate.';
+
+  @override
+  String get statsExplainExcluded => 'Excluded';
+
+  @override
+  String get statsExplainFormula => 'How it’s computed';
+
+  @override
+  String get statsExplainGlossary => 'Metric glossary';
+
+  @override
+  String statsExplainId(String id) {
+    return 'Metric $id';
+  }
+
+  @override
+  String statsExplainInterval(String lower, String upper) {
+    return '95 % interval: $lower – $upper';
+  }
+
+  @override
+  String statsExplainIntervalRule(String count) {
+    return 'A ± range is shown below $count units.';
+  }
+
+  @override
+  String statsExplainMinData(String count) {
+    return 'Shown once at least $count units exist.';
+  }
+
+  @override
+  String get statsExplainNothingExcluded => 'Nothing excluded';
+
+  @override
+  String get statsExplainPopulation =>
+      'Population estimate: harm is non-linear and varies between individuals; it is not a personal prediction.';
+
+  @override
+  String statsExplainPrevious(String value) {
+    return 'Previous period: $value';
+  }
+
+  @override
+  String statsExplainSample(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Based on $count units',
+      one: 'Based on 1 unit',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statsExplainSources => 'Sources';
+
+  @override
+  String get statsExplainThisView => 'In this view';
+
+  @override
+  String statsExplainValue(String value) {
+    return 'Value: $value';
+  }
+
+  @override
+  String get statsExplainWhat => 'What it measures';
+
+  @override
+  String get statsFilterApply => 'Apply';
+
+  @override
+  String get statsFilterCategories => 'Categories';
+
+  @override
+  String get statsFilterClear => 'Clear';
+
+  @override
+  String get statsFilterPriority => 'Priority';
+
+  @override
+  String get statsFilterTags => 'Tags';
+
+  @override
+  String get statsFilterTracking => 'Tracking';
+
+  @override
+  String get statsFilterTrackingCheck => 'Check';
+
+  @override
+  String get statsFilterTrackingEvent => 'Event';
+
+  @override
+  String get statsFilterTrackingTimer => 'Timer';
+
+  @override
+  String get statsFilters => 'Filters';
+
+  @override
+  String statsFiltersActive(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count filters',
+      one: '1 filter',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statsHealthClockNote =>
+      'Milestones follow your current smoke-free time: the clock restarts after a slip.';
+
+  @override
+  String get statsHealthDisclaimer =>
+      'Educational estimates based on population averages from WHO, NHS, CDC and the American Cancer Society; individual results vary. Not medical advice. Consult a healthcare professional.';
+
+  @override
+  String get statsHealthElapsedNote =>
+      'Percentages show elapsed time only, not physiological measurements.';
+
+  @override
+  String statsHealthRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get statsMetricClI01Desc => 'How long this item spent in each status.';
+
+  @override
+  String get statsMetricClI01Formula =>
+      'Sum of the intervals in each status until now (or deletion).';
+
+  @override
+  String get statsMetricClI01Title => 'Time in status';
+
+  @override
+  String get statsMetricClI02Desc => 'Time from starting work to completion.';
+
+  @override
+  String get statsMetricClI02Formula =>
+      'Done − start (first move out of to do).';
+
+  @override
+  String get statsMetricClI02Title => 'Cycle time';
+
+  @override
+  String get statsMetricClI03Desc => 'Time from creation to completion.';
+
+  @override
+  String get statsMetricClI03Formula => 'Done − created.';
+
+  @override
+  String get statsMetricClI03Title => 'Lead time';
+
+  @override
+  String get statsMetricClI04Desc =>
+      'How long an open item has been in progress or waiting to start.';
+
+  @override
+  String get statsMetricClI04Formula =>
+      'Started: now − start; not started: now − created.';
+
+  @override
+  String get statsMetricClI04Title => 'Age';
+
+  @override
+  String get statsMetricClI05Desc =>
+      'Time since anything last happened on this item.';
+
+  @override
+  String get statsMetricClI05Formula =>
+      'Now − last activity (status change, edit, attachment or child change).';
+
+  @override
+  String get statsMetricClI05Title => 'Staleness';
+
+  @override
+  String get statsMetricClI06Desc => 'Completion of this item’s nested items.';
+
+  @override
+  String get statsMetricClI06Formula =>
+      'Completed leaves ÷ countable leaves (cancelled excluded).';
+
+  @override
+  String get statsMetricClI06Title => 'Subtree progress';
+
+  @override
+  String get statsMetricClI07Desc =>
+      'The item’s history as colored segments with notes.';
+
+  @override
+  String get statsMetricClI07Formula =>
+      'Each status interval from creation to now.';
+
+  @override
+  String get statsMetricClI07Title => 'Status timeline';
+
+  @override
+  String get statsMetricClL01Desc =>
+      'How the list’s items are split across statuses.';
+
+  @override
+  String get statsMetricClL01Formula =>
+      'Items per status; % done over leaves and over all nodes.';
+
+  @override
+  String get statsMetricClL01Title => 'Status mix';
+
+  @override
+  String get statsMetricClL02Desc => 'Daily completion of the list.';
+
+  @override
+  String get statsMetricClL02Formula =>
+      'Completed ÷ (items in scope − cancelled) at each day end.';
+
+  @override
+  String get statsMetricClL02Title => 'Progress over time';
+
+  @override
+  String get statsMetricClL03Desc =>
+      'Items completed per week, with a 4-week rolling mean.';
+
+  @override
+  String get statsMetricClL03Formula =>
+      'Completions per bucket (a reopened item counts once, on its final completion).';
+
+  @override
+  String get statsMetricClL03Title => 'Throughput';
+
+  @override
+  String get statsMetricClL04Desc =>
+      'Items ongoing, waiting or blocked at each day end.';
+
+  @override
+  String get statsMetricClL04Formula =>
+      'Count of ongoing + waiting + blocked items.';
+
+  @override
+  String get statsMetricClL04Title => 'Work in progress';
+
+  @override
+  String get statsMetricClL05Desc => 'Items added vs completed each week.';
+
+  @override
+  String get statsMetricClL05Formula =>
+      'Weekly created (or moved in) vs completed; net flow = difference.';
+
+  @override
+  String get statsMetricClL05Title => 'Arrivals vs departures';
+
+  @override
+  String get statsMetricClL06Desc =>
+      'Open items without activity for a while, and the oldest ones.';
+
+  @override
+  String get statsMetricClL06Formula =>
+      'Open items with staleness ≥ the stale threshold; 10 oldest by age.';
+
+  @override
+  String get statsMetricClL06Title => 'Stale items';
+
+  @override
+  String get statsMetricClX01Desc =>
+      'Your lists: active, archived, templates and stale ones.';
+
+  @override
+  String get statsMetricClX01Formula =>
+      'Counts of lists; stale = no activity for N days while holding open items.';
+
+  @override
+  String get statsMetricClX01Title => 'Lists overview';
+
+  @override
+  String get statsMetricClX02Desc =>
+      'Items added vs completed each week across lists.';
+
+  @override
+  String get statsMetricClX02Formula =>
+      'Weekly created vs completed; net flow = difference.';
+
+  @override
+  String get statsMetricClX02Title => 'Arrivals vs departures (all lists)';
+
+  @override
+  String get statsMetricClX03Desc =>
+      'Items ongoing, waiting or blocked now, and the oldest open items.';
+
+  @override
+  String get statsMetricClX03Formula =>
+      'Counts across active lists (archived excluded).';
+
+  @override
+  String get statsMetricClX03Title => 'Work in progress across lists';
+
+  @override
+  String get statsMetricClX04Desc => 'Items completed in the period.';
+
+  @override
+  String get statsMetricClX04Formula =>
+      'Final completions in the period, compared with the previous period.';
+
+  @override
+  String get statsMetricClX04Title => 'Items completed';
+
+  @override
+  String get statsMetricClX05Desc => 'Items per status across all lists.';
+
+  @override
+  String get statsMetricClX05Formula => 'Count of live items per status.';
+
+  @override
+  String get statsMetricClX05Title => 'Status distribution';
+
+  @override
+  String get statsMetricGl01Desc =>
+      'Your day across sections: agenda, habits, lists and quit.';
+
+  @override
+  String get statsMetricGl01Formula =>
+      'Same numbers as each section’s metrics for today.';
+
+  @override
+  String get statsMetricGl01Title => 'Today';
+
+  @override
+  String get statsMetricGl02Desc =>
+      'This week so far vs the same days last week.';
+
+  @override
+  String get statsMetricGl02Formula =>
+      'Section KPIs to date with their change vs the previous week.';
+
+  @override
+  String get statsMetricGl02Title => 'Week at a glance';
+
+  @override
+  String get statsMetricGl03Desc =>
+      'Your week: headline numbers, wins, what needs attention and next week’s load.';
+
+  @override
+  String get statsMetricGl03Formula =>
+      'Section KPIs with their change vs the previous week.';
+
+  @override
+  String get statsMetricGl03Title => 'Weekly review';
+
+  @override
+  String get statsMetricHbH01Desc =>
+      'How well the habit is established — recent days count more.';
+
+  @override
+  String get statsMetricHbH01Formula =>
+      'Loop score: score = previous × m + credit × (1 − m), m = 0.5^(√f ÷ 13).';
+
+  @override
+  String get statsMetricHbH01Title => 'Habit strength';
+
+  @override
+  String get statsMetricHbH02Desc =>
+      'Consecutive successful units up to now; today stays open until it ends.';
+
+  @override
+  String get statsMetricHbH02Formula =>
+      'Streak engine: skips, excuses, pauses and freezes are neutral.';
+
+  @override
+  String get statsMetricHbH02Title => 'Current streak';
+
+  @override
+  String get statsMetricHbH03Desc => 'Your longest run of successful units.';
+
+  @override
+  String get statsMetricHbH03Formula =>
+      'Maximum streak length, with its date range.';
+
+  @override
+  String get statsMetricHbH03Title => 'Best streak';
+
+  @override
+  String get statsMetricHbH04Desc => 'Your ten longest streaks.';
+
+  @override
+  String get statsMetricHbH04Formula =>
+      'Streaks ordered by length, then recency.';
+
+  @override
+  String get statsMetricHbH04Title => 'Top streaks';
+
+  @override
+  String get statsMetricHbH05Desc => 'Share of scheduled units you completed.';
+
+  @override
+  String get statsMetricHbH05Formula =>
+      'Done ÷ (closed scheduled units − excused); Wilson interval below 20 units.';
+
+  @override
+  String get statsMetricHbH05Title => 'Success rate';
+
+  @override
+  String get statsMetricHbH06Desc => 'How each scheduled unit ended.';
+
+  @override
+  String get statsMetricHbH06Formula =>
+      'Counts of success, partial, not done, missed, skipped and excused units.';
+
+  @override
+  String get statsMetricHbH06Title => 'Outcome counts';
+
+  @override
+  String get statsMetricHbH07Desc =>
+      'Successes (and volume) per week, month or year.';
+
+  @override
+  String get statsMetricHbH07Formula => 'Sums per bucket.';
+
+  @override
+  String get statsMetricHbH07Title => 'History';
+
+  @override
+  String get statsMetricHbH08Desc => 'Each day’s status.';
+
+  @override
+  String get statsMetricHbH08Formula =>
+      'One cell per day: done, partial, not done, missed, skipped, excused, paused, frozen.';
+
+  @override
+  String get statsMetricHbH08Title => 'Calendar';
+
+  @override
+  String get statsMetricHbH09Desc =>
+      'Every check-in is a vote for the person you want to be.';
+
+  @override
+  String get statsMetricHbH09Formula =>
+      'All-time count of manual done and progress logs.';
+
+  @override
+  String get statsMetricHbH09Title => 'Total repetitions';
+
+  @override
+  String get statsMetricHbH10Desc =>
+      'How much of the period’s target you reached.';
+
+  @override
+  String get statsMetricHbH10Formula =>
+      'Achieved ÷ (daily target × scheduled days − skipped days).';
+
+  @override
+  String get statsMetricHbH10Title => 'Target progress';
+
+  @override
+  String get statsMetricHbH11Desc =>
+      'Everything you logged, in the habit’s unit.';
+
+  @override
+  String get statsMetricHbH11Formula =>
+      'Sum of logged values in the period and all time.';
+
+  @override
+  String get statsMetricHbH11Title => 'Total volume';
+
+  @override
+  String get statsMetricHbX01Desc => 'Due habits done today.';
+
+  @override
+  String get statsMetricHbX01Formula =>
+      'Done ÷ due day units today (build habits).';
+
+  @override
+  String get statsMetricHbX01Title => 'Today’s progress';
+
+  @override
+  String get statsMetricHbX02Desc => 'Days where every due habit was done.';
+
+  @override
+  String get statsMetricHbX02Formula =>
+      'Days with all due units done; perfect-day streak (days with nothing due are neutral).';
+
+  @override
+  String get statsMetricHbX02Title => 'Perfect days';
+
+  @override
+  String get statsMetricHbX03Desc =>
+      'How much of each day’s habits you completed.';
+
+  @override
+  String get statsMetricHbX03Formula => 'Per day: done ÷ due across habits.';
+
+  @override
+  String get statsMetricHbX03Title => 'Daily completion';
+
+  @override
+  String get statsMetricHbX04Desc => 'Weekly success rate across habits.';
+
+  @override
+  String get statsMetricHbX04Formula =>
+      'Weekly done ÷ due, with a 4-week rolling line; Δ vs previous week in points.';
+
+  @override
+  String get statsMetricHbX04Title => 'Adherence trend';
+
+  @override
+  String get statsMetricHbX05Desc =>
+      'Money saved, units avoided and life regained across quit trackers.';
+
+  @override
+  String get statsMetricHbX05Formula =>
+      'Sums over active quit trackers (life regained is a population estimate).';
+
+  @override
+  String get statsMetricHbX05Title => 'Quit trackers roll-up';
+
+  @override
+  String get statsMetricPlS01Desc =>
+      'How many times the series was due in the period.';
+
+  @override
+  String get statsMetricPlS01Formula =>
+      'Occurrences from the recurrence rule in the window; closed and open counted separately.';
+
+  @override
+  String get statsMetricPlS01Title => 'Expected occurrences';
+
+  @override
+  String get statsMetricPlS02Desc =>
+      'Breakdown of the series’ occurrences by outcome.';
+
+  @override
+  String get statsMetricPlS02Formula =>
+      'Counts of done (D), missed (M), skipped (K) and excused (X) occurrences.';
+
+  @override
+  String get statsMetricPlS02Title => 'Done, missed, skipped';
+
+  @override
+  String get statsMetricPlS03Desc => 'Share of due occurrences you completed.';
+
+  @override
+  String get statsMetricPlS03Formula =>
+      'Done ÷ (expected − excused), with a 4-week rolling line and a weekly trend.';
+
+  @override
+  String get statsMetricPlS03Title => 'Adherence';
+
+  @override
+  String get statsMetricPlS04Desc =>
+      'Share of due occurrences that were missed or not done.';
+
+  @override
+  String get statsMetricPlS04Formula =>
+      '(Missed + not done) ÷ (expected − excused).';
+
+  @override
+  String get statsMetricPlS04Title => 'Miss rate';
+
+  @override
+  String get statsMetricPlS05Desc =>
+      'Consecutive completed occurrences; skips are neutral by default.';
+
+  @override
+  String get statsMetricPlS05Formula =>
+      'Streak engine with one unit per occurrence.';
+
+  @override
+  String get statsMetricPlS05Title => 'Current & best streak';
+
+  @override
+  String get statsMetricPlS06Desc =>
+      'Cumulative tracked and planned time since the series started.';
+
+  @override
+  String get statsMetricPlS06Formula =>
+      'Running totals of actual and planned minutes.';
+
+  @override
+  String get statsMetricPlS06Title => 'Time invested';
+
+  @override
+  String get statsMetricPlS07Desc =>
+      'All-time number of completed occurrences.';
+
+  @override
+  String get statsMetricPlS07Formula => 'Count of done occurrences.';
+
+  @override
+  String get statsMetricPlS07Title => 'Total done';
+
+  @override
+  String get statsMetricPlS08Desc =>
+      'Days since the last completed occurrence.';
+
+  @override
+  String get statsMetricPlS08Formula => 'Today − date of the last completion.';
+
+  @override
+  String get statsMetricPlS08Title => 'Last done';
+
+  @override
+  String get statsMetricPlS09Desc => 'Each day’s outcome for the series.';
+
+  @override
+  String get statsMetricPlS09Formula =>
+      'Worst outcome of the day: missed > partial > late > skipped > done > excused.';
+
+  @override
+  String get statsMetricPlS09Title => 'Outcome calendar';
+
+  @override
+  String get statsMetricPlT01Desc =>
+      'How long this occurrence was planned to take.';
+
+  @override
+  String get statsMetricPlT01Formula => 'Planned end − planned start.';
+
+  @override
+  String get statsMetricPlT01Title => 'Planned duration';
+
+  @override
+  String get statsMetricPlT02Desc =>
+      'Time actually tracked on this occurrence, pauses excluded.';
+
+  @override
+  String get statsMetricPlT02Formula =>
+      'Sum of tracked session lengths; unknown when nothing was tracked.';
+
+  @override
+  String get statsMetricPlT02Title => 'Actual duration';
+
+  @override
+  String get statsMetricPlT03Desc =>
+      'Difference between actual and planned time, and their ratio.';
+
+  @override
+  String get statsMetricPlT03Formula =>
+      'Actual − planned; ratio R = actual ÷ planned (only when planned ≥ 5 min).';
+
+  @override
+  String get statsMetricPlT03Title => 'Duration variance';
+
+  @override
+  String get statsMetricPlT04Desc =>
+      'How early or late you started compared with the plan.';
+
+  @override
+  String get statsMetricPlT04Formula =>
+      'First session start − planned start; on time within the grace period.';
+
+  @override
+  String get statsMetricPlT04Title => 'Start delay';
+
+  @override
+  String get statsMetricPlT05Desc =>
+      'How early or late the occurrence was finished.';
+
+  @override
+  String get statsMetricPlT05Formula =>
+      'Completion (or last session end for timers) − planned end.';
+
+  @override
+  String get statsMetricPlT05Title => 'Finish delay';
+
+  @override
+  String get statsMetricPlT06Desc => 'What happened to this occurrence.';
+
+  @override
+  String get statsMetricPlT06Formula =>
+      'Done on time, done late, partial, skipped, missed, cancelled, pending or upcoming.';
+
+  @override
+  String get statsMetricPlT06Title => 'Outcome';
+
+  @override
+  String get statsMetricPlT07Desc =>
+      'How long an unfinished occurrence has been overdue.';
+
+  @override
+  String get statsMetricPlT07Formula =>
+      'Now − planned end, bucketed 1 / 7 / 14 / 30+ days.';
+
+  @override
+  String get statsMetricPlT07Title => 'Overdue age';
+
+  @override
+  String get statsMetricPlX01Desc =>
+      'Share of what was planned at the start of the period that you completed.';
+
+  @override
+  String get statsMetricPlX01Formula =>
+      'Planned and done in the period ÷ planned as of the period start; tasks added later are excluded.';
+
+  @override
+  String get statsMetricPlX01Title => 'Completion vs plan';
+
+  @override
+  String get statsMetricPlX02Desc =>
+      'Planned and completed tasks for each day.';
+
+  @override
+  String get statsMetricPlX02Formula =>
+      'Per day: planned (plan snapshot) and done counts.';
+
+  @override
+  String get statsMetricPlX02Title => 'Done vs planned per day';
+
+  @override
+  String get statsMetricPlX03Desc =>
+      'Tasks added after the period started, and tasks moved out of or into it.';
+
+  @override
+  String get statsMetricPlX03Formula =>
+      'Counts of unplanned additions, moved-out and moved-in occurrences.';
+
+  @override
+  String get statsMetricPlX03Title => 'Unplanned & moved';
+
+  @override
+  String get statsMetricPlX04Desc =>
+      'Tasks created vs completed each week, and the open backlog.';
+
+  @override
+  String get statsMetricPlX04Formula =>
+      'Created and completed per week; backlog = unscheduled tasks + overdue occurrences.';
+
+  @override
+  String get statsMetricPlX04Title => 'Backlog flow';
+
+  @override
+  String get statsMetricPlX05Desc =>
+      'Share of completed tasks finished by their planned end.';
+
+  @override
+  String get statsMetricPlX05Formula =>
+      'Done on time ÷ done (grace period included).';
+
+  @override
+  String get statsMetricPlX05Title => 'On-time completion';
+
+  @override
+  String get statsMetricPlX06Desc =>
+      'Unfinished tasks past their planned end, by age.';
+
+  @override
+  String get statsMetricPlX06Formula =>
+      'Open overdue occurrences, bucketed 1 / 7 / 14 / 30+ days.';
+
+  @override
+  String get statsMetricPlX06Title => 'Overdue now';
+
+  @override
+  String get statsMetricPlX07Desc =>
+      'Time available for planned work in the period.';
+
+  @override
+  String get statsMetricPlX07Formula =>
+      'Work hours per day minus unavailable blocks, summed over the period.';
+
+  @override
+  String get statsMetricPlX07Title => 'Capacity';
+
+  @override
+  String get statsMetricPlX08Desc =>
+      'How much of your capacity is filled with planned tasks.';
+
+  @override
+  String get statsMetricPlX08Formula =>
+      'Planned minutes inside work hours ÷ capacity (can exceed 100 % with overlaps).';
+
+  @override
+  String get statsMetricPlX08Title => 'Planned utilization';
+
+  @override
+  String get statsMetricPlX09Desc =>
+      'How much of your capacity was spent on tracked work.';
+
+  @override
+  String get statsMetricPlX09Formula =>
+      'Tracked minutes inside work hours ÷ capacity; needs 60 % tracking coverage.';
+
+  @override
+  String get statsMetricPlX09Title => 'Actual utilization';
+
+  @override
+  String get statsMetricPlX10Desc =>
+      'Days where more is planned than the time available.';
+
+  @override
+  String get statsMetricPlX10Formula =>
+      'Days with planned load > capacity; overbooked minutes = load − capacity.';
+
+  @override
+  String get statsMetricPlX10Title => 'Overbooked days';
+
+  @override
+  String get statsMetricPlX11Desc =>
+      'Capacity left from now until the end of the period.';
+
+  @override
+  String get statsMetricPlX11Formula =>
+      'Remaining capacity − remaining planned time (from now).';
+
+  @override
+  String get statsMetricPlX11Title => 'Remaining free time';
+
+  @override
+  String get statsMetricPlX12Desc =>
+      'Planned and tracked time per day and category.';
+
+  @override
+  String get statsMetricPlX12Formula =>
+      'Sum of planned minutes vs sum of tracked minutes.';
+
+  @override
+  String get statsMetricPlX12Title => 'Planned vs actual hours';
+
+  @override
+  String get statsMetricPlX13Desc => 'Where your time goes, by category.';
+
+  @override
+  String get statsMetricPlX13Formula =>
+      'Tracked minutes per category (planned when tracking covers < 60 %); share of total.';
+
+  @override
+  String get statsMetricPlX13Title => 'Time by category';
+
+  @override
+  String get statsMetricPlX14Desc => 'Weekly time per category.';
+
+  @override
+  String get statsMetricPlX14Formula => 'Minutes per category per week.';
+
+  @override
+  String get statsMetricPlX14Title => 'Category trend';
+
+  @override
+  String get statsMetricPlX15Desc =>
+      'Share of planned time taken by events rather than tasks.';
+
+  @override
+  String get statsMetricPlX15Formula =>
+      'Event minutes ÷ (event + task minutes).';
+
+  @override
+  String get statsMetricPlX15Title => 'Events vs tasks';
+
+  @override
+  String get statsMetricQt01Desc => 'Time since your quit date.';
+
+  @override
+  String get statsMetricQt01Formula => 'Now − quit date (live).';
+
+  @override
+  String get statsMetricQt01Title => 'Time since quitting';
+
+  @override
+  String get statsMetricQt02Desc =>
+      'Time since the last use (or your quit date).';
+
+  @override
+  String get statsMetricQt02Formula => 'Now − max(quit date, last use) (live).';
+
+  @override
+  String get statsMetricQt02Title => 'Current abstinence';
+
+  @override
+  String get statsMetricQt03Desc => 'Your longest stretch without using.';
+
+  @override
+  String get statsMetricQt03Formula =>
+      'Longest gap between quit date, uses and now.';
+
+  @override
+  String get statsMetricQt03Title => 'Longest abstinence';
+
+  @override
+  String get statsMetricQt04Desc =>
+      'Local days since quitting without any use.';
+
+  @override
+  String get statsMetricQt04Formula => 'Count of closed days with no use.';
+
+  @override
+  String get statsMetricQt04Title => 'Abstinent days';
+
+  @override
+  String get statsMetricQt05Desc =>
+      'Share of days since quitting without any use.';
+
+  @override
+  String get statsMetricQt05Formula =>
+      'Abstinent days ÷ closed days since the quit date.';
+
+  @override
+  String get statsMetricQt05Title => 'Abstinent days share';
+
+  @override
+  String get statsMetricQt06Desc =>
+      'How many units you did not consume thanks to quitting.';
+
+  @override
+  String get statsMetricQt06Formula =>
+      'Baseline per day × days − units used (floored at 0).';
+
+  @override
+  String get statsMetricQt06Title => 'Units avoided';
+
+  @override
+  String get statsMetricQt07Desc => 'Money not spent thanks to quitting.';
+
+  @override
+  String get statsMetricQt07Formula =>
+      'Units avoided each day × unit cost in force that day.';
+
+  @override
+  String get statsMetricQt07Title => 'Money saved';
+
+  @override
+  String get statsMetricQt08Desc => 'Money spent on uses since quitting.';
+
+  @override
+  String get statsMetricQt08Formula => 'Units used × unit cost at the time.';
+
+  @override
+  String get statsMetricQt08Title => 'Spent on slips';
+
+  @override
+  String get statsMetricQt09Desc => 'What you will save if you keep going.';
+
+  @override
+  String get statsMetricQt09Formula =>
+      'Current baseline × unit cost over the next month, year and 5 years.';
+
+  @override
+  String get statsMetricQt09Title => 'Savings projection';
+
+  @override
+  String get statsMetricQt10Desc =>
+      'Population estimate of life expectancy regained — not a personal prediction.';
+
+  @override
+  String get statsMetricQt10Formula =>
+      'Units avoided × minutes of life per unit (≈ 20 min per cigarette, Jackson et al. 2025).';
+
+  @override
+  String get statsMetricQt10Title => 'Life regained';
+
+  @override
+  String get statsMetricQt11Desc =>
+      'Typical recovery milestones after the last cigarette.';
+
+  @override
+  String get statsMetricQt11Formula =>
+      'Progress = current abstinence ÷ milestone time; the clock restarts after a slip.';
+
+  @override
+  String get statsMetricQt11Title => 'Health milestones';
+
+  @override
+  String get statsMetricQt12Desc =>
+      'How often you stayed within your daily limit, and how much you cut down.';
+
+  @override
+  String get statsMetricQt12Formula =>
+      'Days within limit ÷ days; reduction = 1 − average use ÷ baseline.';
+
+  @override
+  String get statsMetricQt12Title => 'Reduction progress';
+
+  @override
+  String get statsMetricQt13Desc =>
+      'How often cravings hit, and how strong they were.';
+
+  @override
+  String get statsMetricQt13Formula =>
+      'Cravings per day over the period; mean and peak intensity; 7-day rolling mean.';
+
+  @override
+  String get statsMetricQt13Title => 'Craving load';
+
+  @override
+  String get statsMetricQt14Desc => 'What triggers cravings, where and when.';
+
+  @override
+  String get statsMetricQt14Formula =>
+      'Pareto by trigger, place and mood; weekday × hour matrix.';
+
+  @override
+  String get statsMetricQt14Title => 'Craving context';
+
+  @override
+  String get statsNoteAbstainMode => 'Only for reduce-mode trackers.';
+
+  @override
+  String get statsNoteAllDay => 'All-day tasks have no duration.';
+
+  @override
+  String get statsNoteClosed => 'This item is closed.';
+
+  @override
+  String get statsNoteError => 'Couldn’t compute';
+
+  @override
+  String get statsNoteLimitHabit =>
+      'Limit habits show within-limit days instead.';
+
+  @override
+  String get statsNoteLowCoverage =>
+      'Track time on at least 60 % of done tasks to see this.';
+
+  @override
+  String get statsNoteNew => 'New';
+
+  @override
+  String get statsNoteNoData => 'No data yet';
+
+  @override
+  String get statsNoteNoGoal => 'No goal set';
+
+  @override
+  String get statsNoteNoHabit => 'This habit couldn’t be found.';
+
+  @override
+  String get statsNoteNoItem => 'This item couldn’t be found.';
+
+  @override
+  String get statsNoteNoLifeEstimate =>
+      'Set minutes of life per unit to see this estimate.';
+
+  @override
+  String get statsNoteNoOccurrence => 'This occurrence couldn’t be found.';
+
+  @override
+  String get statsNoteNoQuitTrackers => 'No quit trackers yet.';
+
+  @override
+  String get statsNoteNoTracker => 'This quit tracker couldn’t be found.';
+
+  @override
+  String get statsNoteNoUnitCost => 'Set a unit cost to see savings.';
+
+  @override
+  String get statsNoteNotApplicable => 'Not applicable';
+
+  @override
+  String get statsNoteNotDone => 'Not done yet';
+
+  @override
+  String get statsNoteNotOverdue => 'Not overdue';
+
+  @override
+  String get statsNoteNotScheduled => 'Not scheduled';
+
+  @override
+  String get statsNoteNotSmoking =>
+      'Health milestones are shown for smoking trackers only.';
+
+  @override
+  String get statsNoteNotStarted => 'Not started';
+
+  @override
+  String get statsNoteNotTracked => 'Actual time not tracked';
+
+  @override
+  String get statsNotePastPeriod => 'Only for current and future periods.';
+
+  @override
+  String get statsNotePopulationEstimate => 'Population estimate';
+
+  @override
+  String get statsNoteUsedPlanned =>
+      'Planned time shown: actual time is tracked on fewer than 60 % of done tasks.';
+
+  @override
+  String get statsNoteYesNoHabit => 'Not available for yes/no habits.';
+
+  @override
+  String get statsNoteZeroDenominator => 'Nothing was due in this period.';
+
+  @override
+  String statsOpenInsights(String section) {
+    return 'Open $section';
+  }
+
+  @override
+  String statsOverviewNextUp(String title, String time) {
+    return 'Next up: $title at $time';
+  }
+
+  @override
+  String get statsOverviewOpenReview => 'Weekly review';
+
+  @override
+  String get statsPeriodAll => 'All';
+
+  @override
+  String get statsPeriodCustom => 'Custom';
+
+  @override
+  String statsPeriodCustomRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get statsPeriodLastMonth => 'Last month';
+
+  @override
+  String get statsPeriodLastQuarter => 'Last quarter';
+
+  @override
+  String get statsPeriodLastWeek => 'Last week';
+
+  @override
+  String get statsPeriodLastYear => 'Last year';
+
+  @override
+  String get statsPeriodMonth => 'Month';
+
+  @override
+  String get statsPeriodQuarter => 'Quarter';
+
+  @override
+  String statsPeriodRolling(String days) {
+    return 'Last $days days';
+  }
+
+  @override
+  String get statsPeriodRollingMenu => 'Rolling';
+
+  @override
+  String statsPeriodSelected(String period) {
+    return 'Period: $period';
+  }
+
+  @override
+  String get statsPeriodToday => 'Today';
+
+  @override
+  String get statsPeriodWeek => 'Week';
+
+  @override
+  String get statsPeriodYear => 'Year';
+
+  @override
+  String get statsPeriodYesterday => 'Yesterday';
+
+  @override
+  String get statsQuitMilestoneBreathing72h =>
+      'Breathing gets easier; energy rises';
+
+  @override
+  String get statsQuitMilestoneCancers20y =>
+      'Mouth, throat, larynx and pancreas cancer risk near a never-smoker’s';
+
+  @override
+  String get statsQuitMilestoneChd15y =>
+      'Coronary heart disease risk close to a non-smoker’s';
+
+  @override
+  String get statsQuitMilestoneChdAdded =>
+      'Added coronary heart disease risk halves';
+
+  @override
+  String get statsQuitMilestoneCirculation =>
+      'Circulation and lung function improve';
+
+  @override
+  String get statsQuitMilestoneCo12h => 'Blood carbon monoxide back to normal';
+
+  @override
+  String get statsQuitMilestoneCo8h =>
+      'Carbon monoxide in the blood is halved; oxygen levels recover';
+
+  @override
+  String get statsQuitMilestoneCravings =>
+      'Cravings usually ease (a single craving lasts about 3–5 min)';
+
+  @override
+  String get statsQuitMilestoneHeart20m =>
+      'Heart rate and blood pressure drop; pulse returns to normal';
+
+  @override
+  String get statsQuitMilestoneHeartAttack => 'Heart-attack risk drops sharply';
+
+  @override
+  String get statsQuitMilestoneHeartHalf1y =>
+      'Coronary heart disease risk about half that of a smoker';
+
+  @override
+  String get statsQuitMilestoneLifeExpectancy =>
+      'Quitting at 30 / 40 / 50 / 60 gains about 10 / 9 / 6 / 3 years of life expectancy';
+
+  @override
+  String get statsQuitMilestoneLungCancer10y =>
+      'Lung-cancer risk about half that of a smoker';
+
+  @override
+  String get statsQuitMilestoneLungs =>
+      'Coughing and shortness of breath decrease; lung function up to ~10 % better';
+
+  @override
+  String get statsQuitMilestoneMouthCancer =>
+      'Mouth, throat and larynx cancer risk halves; stroke risk falls';
+
+  @override
+  String get statsQuitMilestoneNicotine24h =>
+      'Nicotine in the blood falls to zero';
+
+  @override
+  String get statsQuitMilestoneTaste48h =>
+      'Lungs clear mucus; taste and smell improve';
+
+  @override
+  String statsReviewAtRisk(String title) {
+    return 'At risk: $title';
+  }
+
+  @override
+  String statsReviewBlocked(String title) {
+    return 'Blocked or waiting: $title';
+  }
+
+  @override
+  String statsReviewFollowUp(String title) {
+    return 'Follow-up overdue: $title';
+  }
+
+  @override
+  String get statsReviewHeadline => 'Headline numbers';
+
+  @override
+  String statsReviewHealth(String title) {
+    return 'Health milestone reached: $title';
+  }
+
+  @override
+  String get statsReviewLastWeek => 'Last week';
+
+  @override
+  String statsReviewLoad(String planned, String capacity) {
+    return '$planned planned of $capacity';
+  }
+
+  @override
+  String get statsReviewNextWeek => 'Next week';
+
+  @override
+  String get statsReviewNothing => 'Nothing here this week.';
+
+  @override
+  String statsReviewOverbooked(String date, String time) {
+    return '$date is overbooked by $time';
+  }
+
+  @override
+  String statsReviewOverdue(String title) {
+    return 'Overdue: $title';
+  }
+
+  @override
+  String statsReviewPerfectDays(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count perfect days',
+      one: '1 perfect day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsReviewRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String statsReviewRecord(String title) {
+    return 'New record: $title';
+  }
+
+  @override
+  String statsReviewStale(String title) {
+    return 'No recent activity: $title';
+  }
+
+  @override
+  String statsReviewStreak(String title, String count) {
+    return '$title: $count-day streak';
+  }
+
+  @override
+  String get statsReviewThisWeek => 'This week so far';
+
+  @override
+  String get statsReviewTime => 'Where the time went';
+
+  @override
+  String get statsScopeChecklist => 'List insights';
+
+  @override
+  String get statsScopeChecklists => 'Lists insights';
+
+  @override
+  String get statsScopeGlobal => 'Overview';
+
+  @override
+  String get statsScopeHabit => 'Habit insights';
+
+  @override
+  String get statsScopeHabits => 'Habits insights';
+
+  @override
+  String get statsScopeItem => 'Item insights';
+
+  @override
+  String get statsScopePlanner => 'Plan insights';
+
+  @override
+  String get statsScopeQuit => 'Quit insights';
+
+  @override
+  String get statsScopeReview => 'Weekly review';
+
+  @override
+  String get statsScopeSeries => 'Series insights';
+
+  @override
+  String get statsScopeTask => 'Task insights';
+
+  @override
+  String get statsScopeYear => 'Year in review';
+
+  @override
+  String get statsSectionAbstinence => 'Abstinence';
+
+  @override
+  String get statsSectionAdvanced => 'Advanced';
+
+  @override
+  String get statsSectionAllocation => 'Time allocation';
+
+  @override
+  String get statsSectionCalendar => 'Calendar';
+
+  @override
+  String get statsSectionCapacity => 'Capacity';
+
+  @override
+  String statsSectionCollapse(String section) {
+    return 'Collapse $section';
+  }
+
+  @override
+  String get statsSectionCravings => 'Cravings';
+
+  @override
+  String get statsSectionExecution => 'Execution';
+
+  @override
+  String statsSectionExpand(String section) {
+    return 'Expand $section';
+  }
+
+  @override
+  String get statsSectionFlow => 'Flow';
+
+  @override
+  String get statsSectionFocus => 'Focus & balance';
+
+  @override
+  String get statsSectionHabitTable => 'Your habits';
+
+  @override
+  String get statsSectionHistory => 'History';
+
+  @override
+  String get statsSectionItem => 'This item';
+
+  @override
+  String get statsSectionLists => 'Lists';
+
+  @override
+  String get statsSectionMilestones => 'Health milestones';
+
+  @override
+  String get statsSectionMoney => 'Money & units';
+
+  @override
+  String get statsSectionOccurrence => 'This occurrence';
+
+  @override
+  String get statsSectionOutcomes => 'Outcomes';
+
+  @override
+  String get statsSectionPatterns => 'Patterns';
+
+  @override
+  String get statsSectionPlanning => 'Planning';
+
+  @override
+  String get statsSectionPlanningQuality => 'Planning quality';
+
+  @override
+  String get statsSectionQuality => 'Quality';
+
+  @override
+  String get statsSectionQuitTrackers => 'Quit trackers';
+
+  @override
+  String get statsSectionReduction => 'Reduction';
+
+  @override
+  String get statsSectionSeries => 'Execution';
+
+  @override
+  String get statsSectionShortcuts => 'Sections';
+
+  @override
+  String get statsSectionStale => 'Stale items';
+
+  @override
+  String get statsSectionStatus => 'Status';
+
+  @override
+  String get statsSectionStreaks => 'Streaks';
+
+  @override
+  String get statsSectionStrength => 'Strength';
+
+  @override
+  String get statsSectionTargetVolume => 'Target & volume';
+
+  @override
+  String get statsSectionTiming => 'Timing & patterns';
+
+  @override
+  String get statsSectionToday => 'Today';
+
+  @override
+  String get statsSectionTrend => 'Trend';
+
+  @override
+  String get statsSectionWeek => 'Week at a glance';
+
+  @override
+  String get statsSeeAll => 'See all stats';
+
+  @override
+  String get statsSeeSeries => 'See series stats';
+
+  @override
+  String get statsSegmentHabits => 'Habits';
+
+  @override
+  String get statsSegmentLists => 'Lists';
+
+  @override
+  String get statsSegmentOverview => 'Overview';
+
+  @override
+  String get statsSegmentPlan => 'Plan';
+
+  @override
+  String get statsSegmentQuit => 'Quit';
+
+  @override
+  String get statsSourceAcs => 'American Cancer Society';
+
+  @override
+  String get statsSourceBmj2000 => 'Shaw et al., BMJ 2000';
+
+  @override
+  String get statsSourceCdc => 'CDC';
+
+  @override
+  String get statsSourceHse => 'HSE';
+
+  @override
+  String get statsSourceJackson2025 => 'Jackson et al., Addiction 2025';
+
+  @override
+  String get statsSourceNci => 'National Cancer Institute';
+
+  @override
+  String get statsSourceNhs => 'NHS';
+
+  @override
+  String get statsSourceWho => 'WHO';
+
+  @override
+  String get statsUnknownScope => 'This insight doesn’t exist.';
 
   @override
   String get statusAddNote => 'Add note…';
