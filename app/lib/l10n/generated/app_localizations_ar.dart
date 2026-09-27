@@ -4495,6 +4495,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsCurrentZone => 'المنطقة الزمنية الحالية (هذا الجهاز)';
 
   @override
+  String get settingsDataSubtitle =>
+      'انسخ بياناتك احتياطيًا أو استعدها أو انقلها';
+
+  @override
+  String get settingsDataTitle => 'التصدير والاستيراد';
+
+  @override
   String get settingsDayStart => 'يبدأ يوم العادات عند';
 
   @override
