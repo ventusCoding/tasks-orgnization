@@ -1089,6 +1089,13 @@
       }
     }
   },
+  "@habitsChallengeBestStreak": {
+    "placeholders": {
+      "streak": {
+        "type": "String"
+      }
+    }
+  },
   "@habitsChallengeDay": {
     "placeholders": {
       "day": {
@@ -1096,6 +1103,37 @@
       },
       "total": {
         "type": "int"
+      }
+    }
+  },
+  "@habitsChallengeDaysLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsChallengeMinRatio": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsChallengeProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "due": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsChallengeVolume": {
+    "placeholders": {
+      "value": {
+        "type": "String"
       }
     }
   },
@@ -4441,7 +4479,22 @@
   "habitsCelebrateStreak": "{name}: {count, plural, =1{1 day in a row} other{{count} days in a row}}!",
   "habitsCelebrationDismiss": "Dismiss",
   "habitsCellSemantics": "{habit}, {date}: {status}",
+  "habitsChallengeBestStreak": "Best streak: {streak}",
+  "habitsChallengeClose": "Close",
+  "habitsChallengeContinued": "It's an ongoing habit now",
   "habitsChallengeDay": "Day {day} of {total}",
+  "habitsChallengeDaysLeft": "{count, plural, =0{Last day} =1{1 day left} other{{count} days left}}",
+  "habitsChallengeEveryDay": "Every scheduled day",
+  "habitsChallengeKeepGoing": "Keep going",
+  "habitsChallengeKeepGoingHint": "Turn it into an ongoing habit — your history stays.",
+  "habitsChallengeMinRatio": "At least {percent} of the days",
+  "habitsChallengeMissedBody": "Not every day went to plan — and you still showed up. Try again or keep going.",
+  "habitsChallengeMissedTitle": "Challenge finished",
+  "habitsChallengeProgress": "{done} of {due} days done",
+  "habitsChallengeRuleTitle": "To succeed",
+  "habitsChallengeSuccessTitle": "Challenge complete!",
+  "habitsChallengeTitle": "Challenge",
+  "habitsChallengeVolume": "Total: {value}",
   "habitsCompactRows": "Compact rows",
   "habitsCounts": "Done {done} · Not done {notDone} · Missed {missed} · Skipped {skipped}",
   "habitsCreateQuitInstead": "Create a quit tracker",

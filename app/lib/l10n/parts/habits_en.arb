@@ -760,5 +760,58 @@
   "habitsCelebrationDismiss": "Dismiss",
   "habitsHoldToComplete": "Hold to complete",
   "habitsHoldToCompleteHint": "Press and hold the ring to check a habit off, to avoid accidental taps.",
-  "habitsHoldRingHint": "Press and hold to mark as done"
+  "habitsHoldRingHint": "Press and hold to mark as done",
+  "habitsChallengeTitle": "Challenge",
+  "habitsChallengeRuleTitle": "To succeed",
+  "habitsChallengeEveryDay": "Every scheduled day",
+  "habitsChallengeMinRatio": "At least {percent} of the days",
+  "@habitsChallengeMinRatio": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "habitsChallengeDaysLeft": "{count, plural, =0{Last day} =1{1 day left} other{{count} days left}}",
+  "@habitsChallengeDaysLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "habitsChallengeProgress": "{done} of {due} days done",
+  "@habitsChallengeProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "due": {
+        "type": "int"
+      }
+    }
+  },
+  "habitsChallengeSuccessTitle": "Challenge complete!",
+  "habitsChallengeMissedTitle": "Challenge finished",
+  "habitsChallengeMissedBody": "Not every day went to plan — and you still showed up. Try again or keep going.",
+  "habitsChallengeBestStreak": "Best streak: {streak}",
+  "@habitsChallengeBestStreak": {
+    "placeholders": {
+      "streak": {
+        "type": "String"
+      }
+    }
+  },
+  "habitsChallengeVolume": "Total: {value}",
+  "@habitsChallengeVolume": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "habitsChallengeKeepGoing": "Keep going",
+  "habitsChallengeKeepGoingHint": "Turn it into an ongoing habit — your history stays.",
+  "habitsChallengeClose": "Close",
+  "habitsChallengeContinued": "It's an ongoing habit now"
 }

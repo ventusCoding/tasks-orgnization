@@ -85,13 +85,6 @@ class CelebrationService {
   final T Function<T>(ProviderListenable<T> provider) _read;
   final Set<String> _shown = {};
 
-  Future<HabitSnapshot> _snapshot(Habit habit, DateTime now) async {
-    final revisions = await _read(habitsRepositoryProvider).revisionsFor(habit.id);
-    final logs = await _read(habitLogsRepositoryProvider).forHabit(habit.id);
-    final pauses = await _read(habitPausesRepositoryProvider).watchAll().first;
-    return computeSnapshot(_read(habitPeriodServiceProvider), habit, revisions, logs, pauses, now);
-  }
-
   /// Celebrations earned by [event] (only done / progress check-ins celebrate).
   Future<List<Celebration>> onCheckIn(HabitCheckInEvent event) async {
     if (event.kind != HabitLogKind.done && event.kind != HabitLogKind.progress) return const [];
@@ -105,7 +98,7 @@ class CelebrationService {
     final views = <HabitDayView>[];
     HabitSnapshot? checked;
     for (final h in habits) {
-      final s = await _snapshot(h, now);
+      final s = await loadHabitSnapshot(_read, h, now);
       if (h.id == habit.id) checked = s;
       final v = habitDayView(s, date, service);
       if (v != null) views.add(v);

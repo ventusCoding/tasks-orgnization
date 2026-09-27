@@ -5025,11 +5025,101 @@ abstract class AppLocalizations {
   /// **'{habit}, {date}: {status}'**
   String habitsCellSemantics(String habit, String date, String status);
 
+  /// No description provided for @habitsChallengeBestStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Best streak: {streak}'**
+  String habitsChallengeBestStreak(String streak);
+
+  /// No description provided for @habitsChallengeClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get habitsChallengeClose;
+
+  /// No description provided for @habitsChallengeContinued.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s an ongoing habit now'**
+  String get habitsChallengeContinued;
+
   /// No description provided for @habitsChallengeDay.
   ///
   /// In en, this message translates to:
   /// **'Day {day} of {total}'**
   String habitsChallengeDay(int day, int total);
+
+  /// No description provided for @habitsChallengeDaysLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Last day} =1{1 day left} other{{count} days left}}'**
+  String habitsChallengeDaysLeft(int count);
+
+  /// No description provided for @habitsChallengeEveryDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Every scheduled day'**
+  String get habitsChallengeEveryDay;
+
+  /// No description provided for @habitsChallengeKeepGoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going'**
+  String get habitsChallengeKeepGoing;
+
+  /// No description provided for @habitsChallengeKeepGoingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn it into an ongoing habit — your history stays.'**
+  String get habitsChallengeKeepGoingHint;
+
+  /// No description provided for @habitsChallengeMinRatio.
+  ///
+  /// In en, this message translates to:
+  /// **'At least {percent} of the days'**
+  String habitsChallengeMinRatio(String percent);
+
+  /// No description provided for @habitsChallengeMissedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Not every day went to plan — and you still showed up. Try again or keep going.'**
+  String get habitsChallengeMissedBody;
+
+  /// No description provided for @habitsChallengeMissedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge finished'**
+  String get habitsChallengeMissedTitle;
+
+  /// No description provided for @habitsChallengeProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {due} days done'**
+  String habitsChallengeProgress(int done, int due);
+
+  /// No description provided for @habitsChallengeRuleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'To succeed'**
+  String get habitsChallengeRuleTitle;
+
+  /// No description provided for @habitsChallengeSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge complete!'**
+  String get habitsChallengeSuccessTitle;
+
+  /// No description provided for @habitsChallengeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge'**
+  String get habitsChallengeTitle;
+
+  /// No description provided for @habitsChallengeVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Total: {value}'**
+  String habitsChallengeVolume(String value);
 
   /// No description provided for @habitsCompactRows.
   ///

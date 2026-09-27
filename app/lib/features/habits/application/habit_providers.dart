@@ -12,6 +12,7 @@ import 'package:everslot_metrics/everslot_metrics.dart'
     show DayBoundaries, HabitLogKind, HabitPeriod, PeriodResult, QuitCalculator;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
 import 'package:meta/meta.dart';
 
 // ------------------------------------------------------------------------------ repositories --
@@ -372,6 +373,15 @@ class HabitSnapshotCache {
     _snapshots.clear();
     _periods.clear();
   }
+}
+
+/// Loads [habit]'s snapshot at [now] straight from the repositories — for code that cannot wait
+/// for the reactive providers (notification sources and actions, celebrations, challenge results).
+Future<HabitSnapshot> loadHabitSnapshot(T Function<T>(ProviderListenable<T> provider) read, Habit habit, DateTime now) async {
+  final revisions = await read(habitsRepositoryProvider).revisionsFor(habit.id);
+  final logs = await read(habitLogsRepositoryProvider).forHabit(habit.id);
+  final pauses = await read(habitPausesRepositoryProvider).watchAll().first;
+  return computeSnapshot(read(habitPeriodServiceProvider), habit, revisions, logs, pauses, now);
 }
 
 /// Pure snapshot computation (also used by background jobs and tests).

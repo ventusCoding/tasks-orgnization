@@ -23,7 +23,7 @@ P2); streak freezes; achievements catalog & unlock engine; badge gallery & share
 - [x] T5.4.02 — Goal editor
 - [x] T5.4.03 — Goal progress & projection engine
 - [x] T5.4.04 — Goal surfaces & completion
-- [ ] T5.4.05 — Challenges
+- [x] T5.4.05 — Challenges
 - [ ] T5.4.06 — Streak freezes
 - [ ] T5.4.07 — Progressive challenge targets
 - [ ] T5.4.08 — Achievements: catalog & unlock engine
@@ -85,6 +85,7 @@ meditation) added to the templates asset ([5.1]); the result screen is shown onc
 **Acceptance criteria:** at the end date the challenge closes automatically and shows its result exactly once
 per device.
 **Tests:** success-rule unit tests; widget tests.
+**Notes:** `challengeOutcome` (domain) + `ChallengeCard` on the detail screen, success-rule controls in the editor, and a result sheet shown once per device (local flag in `local_kv`) when the Habits tab opens after the end date, with Keep going. The challenge templates already exist in the templates catalog. Challenge celebrations reuse the result sheet (no overlay card).
 
 ### T5.4.06 — Streak freezes
 **Priority:** P1 · **Size:** M · **Depends on:** [5.1] (period evaluation), [6.1] (streak rules)

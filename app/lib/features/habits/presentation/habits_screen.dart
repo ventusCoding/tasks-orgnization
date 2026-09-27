@@ -9,6 +9,7 @@ import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
 import 'package:everslot/features/habits/presentation/calendar_views.dart';
 import 'package:everslot/features/habits/presentation/celebration_overlay.dart';
+import 'package:everslot/features/habits/presentation/challenge_views.dart';
 import 'package:everslot/features/habits/presentation/habit_routes.dart';
 import 'package:everslot/features/habits/presentation/manage_habits_screen.dart';
 import 'package:everslot/features/habits/presentation/notes_journal_screen.dart';
@@ -43,6 +44,9 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
 
   /// Drag-to-reorder mode of the Today list (T5.2.12).
   bool _reordering = false;
+
+  /// Finished challenges were checked on this visit (T5.4.05).
+  bool _challengesChecked = false;
   Timer? _minute;
 
   @override
@@ -154,6 +158,10 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
     final sections = ref.watch(habitSectionsProvider).value ?? const <HabitSection>[];
     final fmt = AppFormat(context.localeName);
     final hasBuild = habits?.any((h) => h is BuildHabit) ?? false;
+    if (!_challengesChecked && habits != null) {
+      _challengesChecked = true;
+      scheduleFinishedChallenges(context, ref);
+    }
     final hasAny = habits?.isNotEmpty ?? false;
 
     Widget body;

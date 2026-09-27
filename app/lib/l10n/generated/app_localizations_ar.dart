@@ -2976,8 +2976,75 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String habitsChallengeBestStreak(String streak) {
+    return 'أفضل سلسلة: $streak';
+  }
+
+  @override
+  String get habitsChallengeClose => 'إغلاق';
+
+  @override
+  String get habitsChallengeContinued => 'أصبحت عادة مستمرة الآن';
+
+  @override
   String habitsChallengeDay(int day, int total) {
     return 'اليوم $day من $total';
+  }
+
+  @override
+  String habitsChallengeDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'بقي $count يوم',
+      many: 'بقي $count يومًا',
+      few: 'بقيت $count أيام',
+      two: 'بقي يومان',
+      one: 'بقي يوم واحد',
+      zero: 'آخر يوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsChallengeEveryDay => 'كل يوم مجدول';
+
+  @override
+  String get habitsChallengeKeepGoing => 'واصل';
+
+  @override
+  String get habitsChallengeKeepGoingHint =>
+      'اجعلها عادة مستمرة — يبقى سجلّك محفوظًا.';
+
+  @override
+  String habitsChallengeMinRatio(String percent) {
+    return '$percent من الأيام على الأقل';
+  }
+
+  @override
+  String get habitsChallengeMissedBody =>
+      'لم تسر كل الأيام كما خُطط لها — لكنك حضرت. أعد المحاولة أو واصل.';
+
+  @override
+  String get habitsChallengeMissedTitle => 'انتهى التحدّي';
+
+  @override
+  String habitsChallengeProgress(int done, int due) {
+    return '$done من $due أيام منجزة';
+  }
+
+  @override
+  String get habitsChallengeRuleTitle => 'للنجاح';
+
+  @override
+  String get habitsChallengeSuccessTitle => 'اكتمل التحدّي!';
+
+  @override
+  String get habitsChallengeTitle => 'التحدّي';
+
+  @override
+  String habitsChallengeVolume(String value) {
+    return 'المجموع: $value';
   }
 
   @override

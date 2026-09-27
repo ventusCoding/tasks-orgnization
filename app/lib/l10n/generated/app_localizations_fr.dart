@@ -2923,8 +2923,73 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String habitsChallengeBestStreak(String streak) {
+    return 'Meilleure série : $streak';
+  }
+
+  @override
+  String get habitsChallengeClose => 'Fermer';
+
+  @override
+  String get habitsChallengeContinued =>
+      'C\'est maintenant une habitude durable';
+
+  @override
   String habitsChallengeDay(int day, int total) {
     return 'Jour $day sur $total';
+  }
+
+  @override
+  String habitsChallengeDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jours restants',
+      one: '1 jour restant',
+      zero: 'Dernier jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsChallengeEveryDay => 'Chaque jour prévu';
+
+  @override
+  String get habitsChallengeKeepGoing => 'Continuer';
+
+  @override
+  String get habitsChallengeKeepGoingHint =>
+      'En faire une habitude durable — votre historique est conservé.';
+
+  @override
+  String habitsChallengeMinRatio(String percent) {
+    return 'Au moins $percent des jours';
+  }
+
+  @override
+  String get habitsChallengeMissedBody =>
+      'Tout ne s\'est pas passé comme prévu — mais vous avez été là. Recommencez ou continuez.';
+
+  @override
+  String get habitsChallengeMissedTitle => 'Défi terminé';
+
+  @override
+  String habitsChallengeProgress(int done, int due) {
+    return '$done jours réussis sur $due';
+  }
+
+  @override
+  String get habitsChallengeRuleTitle => 'Pour réussir';
+
+  @override
+  String get habitsChallengeSuccessTitle => 'Défi réussi !';
+
+  @override
+  String get habitsChallengeTitle => 'Défi';
+
+  @override
+  String habitsChallengeVolume(String value) {
+    return 'Total : $value';
   }
 
   @override

@@ -2910,8 +2910,72 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String habitsChallengeBestStreak(String streak) {
+    return 'Best streak: $streak';
+  }
+
+  @override
+  String get habitsChallengeClose => 'Close';
+
+  @override
+  String get habitsChallengeContinued => 'It\'s an ongoing habit now';
+
+  @override
   String habitsChallengeDay(int day, int total) {
     return 'Day $day of $total';
+  }
+
+  @override
+  String habitsChallengeDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days left',
+      one: '1 day left',
+      zero: 'Last day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsChallengeEveryDay => 'Every scheduled day';
+
+  @override
+  String get habitsChallengeKeepGoing => 'Keep going';
+
+  @override
+  String get habitsChallengeKeepGoingHint =>
+      'Turn it into an ongoing habit — your history stays.';
+
+  @override
+  String habitsChallengeMinRatio(String percent) {
+    return 'At least $percent of the days';
+  }
+
+  @override
+  String get habitsChallengeMissedBody =>
+      'Not every day went to plan — and you still showed up. Try again or keep going.';
+
+  @override
+  String get habitsChallengeMissedTitle => 'Challenge finished';
+
+  @override
+  String habitsChallengeProgress(int done, int due) {
+    return '$done of $due days done';
+  }
+
+  @override
+  String get habitsChallengeRuleTitle => 'To succeed';
+
+  @override
+  String get habitsChallengeSuccessTitle => 'Challenge complete!';
+
+  @override
+  String get habitsChallengeTitle => 'Challenge';
+
+  @override
+  String habitsChallengeVolume(String value) {
+    return 'Total: $value';
   }
 
   @override
