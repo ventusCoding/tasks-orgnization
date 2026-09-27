@@ -1,0 +1,307 @@
+{
+  "quitPresetCigarettes": "Smoking",
+  "quitPresetVape": "Vaping",
+  "quitPresetAlcohol": "Alcohol",
+  "quitPresetCannabis": "Cannabis",
+  "quitPresetCaffeine": "Caffeine",
+  "quitPresetSugar": "Sugar",
+  "quitPresetSocialMedia": "Social media",
+  "quitPresetGaming": "Gaming",
+  "quitPresetOther": "Something else",
+  "quitNameCigarettes": "Stop smoking",
+  "quitNameVape": "Stop vaping",
+  "quitNameAlcohol": "Stop drinking",
+  "quitNameCannabis": "Stop cannabis",
+  "quitNameCaffeine": "Less caffeine",
+  "quitNameSugar": "Stop sugar",
+  "quitNameSocialMedia": "Less social media",
+  "quitNameGaming": "Less gaming",
+  "quitNameOther": "Quit a habit",
+  "quitEditorNewTitle": "New quit tracker",
+  "quitEditorEditTitle": "Edit quit tracker",
+  "quitPresetTitle": "What do you want to quit?",
+  "quitModeTitle": "Goal",
+  "quitModeAbstain": "Quit completely",
+  "quitModeReduce": "Cut down",
+  "quitDailyLimit": "Daily limit",
+  "quitStartedAt": "I quit on",
+  "quitBaseline": "Before quitting, per day",
+  "quitCostTitle": "Cost",
+  "quitUnitCost": "Price per unit",
+  "quitPackPrice": "Pack price",
+  "quitUnitsPerPack": "Units per pack",
+  "quitCostPerUnit": "= {price} per unit",
+  "@quitCostPerUnit": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "quitCurrency": "Currency",
+  "quitTimePerUnit": "Time spent per unit",
+  "quitLifePerUnit": "Life expectancy per unit",
+  "quitPopulationEstimateHelp": "Population estimate: about 20 min per cigarette (Jackson et al. 2025; BMJ 2000: 11 min). Individual effects vary.",
+  "quitEstimatesNote": "All defaults are estimates — adjust them to you.",
+  "quitMotivation": "Why I am quitting",
+  "quitMotivationHint": "My reasons…",
+  "quitPhotoAfterSave": "You can add a motivating photo after saving.",
+  "quitAutoSuccess": "Days without a relapse count as clean",
+  "quitAutoSuccessHint": "Off: confirm each clean day in the evening review.",
+  "quitErrDailyLimit": "Set a daily limit of 0 or more",
+  "quitErrNegative": "Values cannot be negative",
+  "quitErrCurrency": "Use a 3-letter currency code (e.g. EUR)",
+  "quitErrStartInFuture": "The quit date cannot be in the future",
+  "quitUnitDays": "d",
+  "quitUnitHours": "h",
+  "quitUnitMinutes": "min",
+  "quitUnitSeconds": "s",
+  "quitCounterSemantics": "{days} days {hours} hours {minutes} minutes",
+  "@quitCounterSemantics": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "quitDaysHours": "{days} d {hours} h",
+  "@quitDaysHours": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "quitSinceLastRelapse": "Clean for",
+  "quitSinceLastUse": "Since the last use",
+  "quitSinceFirstQuit": "Since you first quit",
+  "quitMoneySaved": "Money saved",
+  "quitUnitsAvoided": "Avoided",
+  "quitTimeWonBack": "Time won back",
+  "quitLifeRegained": "Life regained",
+  "quitPopulationEstimate": "population estimate",
+  "quitLongest": "Longest streak",
+  "quitCleanDaysTitle": "Clean days",
+  "quitCleanDays": "{count, plural, =0{0 clean days} =1{1 clean day} other{{count} clean days}}",
+  "@quitCleanDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quitWithinLimitStreakTitle": "Days within the limit",
+  "quitTodayUse": "{used} of {limit} today",
+  "@quitTodayUse": {
+    "placeholders": {
+      "used": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "quitOverLimit": "Over today's limit",
+  "quitAddUse": "+1",
+  "quitLogUse": "Log use",
+  "quitUseLogged": "Use logged",
+  "quitNextMilestone": "Next milestone",
+  "quitMilestoneEta": "Expected {date}",
+  "@quitMilestoneEta": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "quitMotivationCard": "My reasons",
+  "quitRecentEvents": "Recent events",
+  "quitNoEvents": "Nothing logged yet — keep going!",
+  "quitEventRelapse": "Relapse",
+  "quitEventRestart": "New quit attempt",
+  "quitEventCraving": "Craving · intensity {intensity}",
+  "@quitEventCraving": {
+    "placeholders": {
+      "intensity": {
+        "type": "int"
+      }
+    }
+  },
+  "quitEventPledge": "Daily pledge",
+  "quitLogCraving": "Log craving",
+  "quitLogRelapse": "Log relapse",
+  "quitResetCounter": "Reset counter",
+  "quitResetBody": "This logs a relapse now. Your quit date stays the same.",
+  "quitManualReset": "manual reset",
+  "quitAllClocks": "All clocks",
+  "quitNoTrackers": "No quit tracker yet",
+  "quitNoTrackersBody": "Track how long you have stopped smoking, drinking or anything else.",
+  "quitRelapseTitle": "Log a relapse",
+  "quitRelapseAmount": "How many? (optional)",
+  "quitWhen": "When",
+  "quitTrigger": "Trigger",
+  "quitPlace": "Place",
+  "quitCoping": "What helped",
+  "quitNote": "Note",
+  "quitOther": "Other…",
+  "quitRelapseKindTitle": "How should it count?",
+  "quitRelapseSlip": "As a slip — keep my quit date; the streak restarts now",
+  "quitRelapseNewAttempt": "Start a new quit attempt from {time}",
+  "@quitRelapseNewAttempt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "quitRelapseSupport": "You stayed clean for {duration} — that still counts.",
+  "@quitRelapseSupport": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "quitRelapseSaved": "Logged. Be kind to yourself — every attempt teaches you something.",
+  "quitAmount": "Amount",
+  "quitCravingTitle": "Craving",
+  "quitCravingLogged": "Craving logged — well done for noticing it.",
+  "quitCravingDetails": "Add details",
+  "quitIntensity": "Intensity: {value}/10",
+  "@quitIntensity": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "quitResisted": "Did you resist?",
+  "quitYes": "Yes",
+  "quitNo": "No",
+  "quitNotSure": "Not sure",
+  "quitDuration": "Duration",
+  "quitTriggerStress": "Stress",
+  "quitTriggerCoffee": "Coffee",
+  "quitTriggerAlcohol": "Alcohol",
+  "quitTriggerAfterMeals": "After meals",
+  "quitTriggerSocial": "Social situations",
+  "quitTriggerBoredom": "Boredom",
+  "quitTriggerDriving": "Driving",
+  "quitTriggerWorkBreak": "Work break",
+  "quitTriggerPhone": "Phone",
+  "quitTriggerWakingUp": "Waking up",
+  "quitPlaceHome": "Home",
+  "quitPlaceWork": "Work",
+  "quitPlaceCar": "Car",
+  "quitPlaceBar": "Bar",
+  "quitPlaceOutside": "Outside",
+  "quitPlaceFriends": "At friends'",
+  "quitCopingBreathing": "Deep breathing",
+  "quitCopingWalk": "A walk",
+  "quitCopingWater": "Glass of water",
+  "quitCopingGum": "Chewing gum",
+  "quitCopingCallFriend": "Call a friend",
+  "quitCopingDelay10": "Wait 10 minutes",
+  "quitDistractionMusic": "Music",
+  "quitDistractionGame": "A quick game",
+  "quitDistractionRead": "Read",
+  "quitDistractionExercise": "Exercise",
+  "quitDistractionSnack": "A healthy snack",
+  "quitDistractionShower": "A shower",
+  "quitNotifInvalidIntensity": "Intensity is a number from 1 to 10.",
+  "quitNotifMoneyMilestone": "{amount} saved",
+  "@quitNotifMoneyMilestone": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "quitMilestonesTitle": "Milestones",
+  "quitMilestonesOpen": "All milestones",
+  "quitMilestonesReached": "Reached",
+  "quitMilestonesUpcoming": "Upcoming",
+  "quitHealthTitle": "Health recovery",
+  "quitDayMilestonesTitle": "Clean time",
+  "quitMilestonesClockNote": "Milestones count from your last lapse, so the clock restarts after one.",
+  "quitMilestoneReachedOn": "Reached {date}",
+  "@quitMilestoneReachedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "quitMilestoneInWindow": "Happening now · until about {date}",
+  "@quitMilestoneInWindow": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "quitMilestoneElapsed": "{percent} of the time elapsed",
+  "@quitMilestoneElapsed": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "quitMilestoneSources": "Sources",
+  "quitMilestoneDays": "{count, plural, =1{1 day clean} other{{count} days clean}}",
+  "@quitMilestoneDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quitOffsetWeeks": "{count, plural, =1{1 week} other{{count} weeks}}",
+  "@quitOffsetWeeks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quitOffsetMonths": "{count, plural, =1{1 month} other{{count} months}}",
+  "@quitOffsetMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quitOffsetYears": "{count, plural, =1{1 year} other{{count} years}}",
+  "@quitOffsetYears": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quitOffsetRange": "{from} – {to}",
+  "@quitOffsetRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "quitWithdrawalTitle": "Withdrawal",
+  "quitWithdrawalNow": "Where you are now"
+}

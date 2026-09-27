@@ -44,6 +44,39 @@ abstract final class StatusStyle {
     AgeLevel.warn => context.appColors.warning,
     AgeLevel.alert => context.appColors.danger,
   };
+
+  /// [color] shaded (only as much as needed) so pill text keeps ≥ 4.5:1 on the pill's own tint
+  /// after 8-bit rendering (T4.3.04). The design-system pill targets exactly 4.5, which renders as
+  /// 4.48 for some statuses, so status pills aim for 4.6.
+  static Color pillColor(BuildContext context, Color color) {
+    final surface = context.colors.surface;
+    bool readable(Color c) =>
+        CategoryColors.contrastRatio(c, Color.alphaBlend(c.withValues(alpha: 0.14), surface)) >= 4.6;
+    if (readable(color)) return color;
+    final towards = surface.computeLuminance() > 0.18 ? Colors.black : Colors.white;
+    var lo = 0.0;
+    var hi = 1.0;
+    for (var i = 0; i < 20; i++) {
+      final mid = (lo + hi) / 2;
+      if (readable(Color.lerp(color, towards, mid)!)) {
+        hi = mid;
+      } else {
+        lo = mid;
+      }
+    }
+    return Color.lerp(color, towards, hi)!;
+  }
+}
+
+/// Spoken age for screen readers ("4 days", "2 hours", T4.2.18).
+String formatAgeSpoken(BuildContext context, DateTime since, DateTime now) {
+  final (n, unit) = ItemTimeRules.age(since, now);
+  final l = context.l10n;
+  return switch (unit) {
+    'd' => l.checklistDurationDays(n),
+    'h' => l.checklistDurationHours(n),
+    _ => l.checklistDurationMinutes(n),
+  };
 }
 
 /// Localized compact age ("4 d", "2 h").
@@ -119,11 +152,16 @@ class ItemStatusPill extends StatelessWidget {
     final label = StatusStyle.label(context, status);
     final level = ItemTimeRules.escalationFor(status, since, now);
     final text = since == null ? label : context.l10n.statusWithAge(label, formatAge(context, since!, now));
-    return StatusPill(
-      label: text,
-      color: StatusStyle.escalated(context, status, level),
-      icon: StatusStyle.icon(status),
-      dense: dense,
+    // Scales down (never overflows) when a narrow column can't fit it at large text scales.
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      alignment: AlignmentDirectional.centerStart,
+      child: StatusPill(
+        label: text,
+        color: StatusStyle.pillColor(context, StatusStyle.escalated(context, status, level)),
+        icon: StatusStyle.icon(status),
+        dense: dense,
+      ),
     );
   }
 }

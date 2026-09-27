@@ -21,13 +21,13 @@ board cards ([4.1] T4.1.17); the gallery *view* of items ([4.5]).
 
 ## Progress
 
-- [ ] T4.4.01 — Attach images & files to an item
-- [ ] T4.4.02 — Attachment strip on item rows
-- [ ] T4.4.03 — Upload status & offline behaviour
+- [x] T4.4.01 — Attach images & files to an item
+- [x] T4.4.02 — Attachment strip on item rows
+- [x] T4.4.03 — Upload status & offline behaviour
 - [x] T4.4.04 — Attachment semantics for tree operations
 - [x] T4.4.05 — Checklist-level attachments
-- [ ] T4.4.06 — Captions, reorder & remove with undo
-- [ ] T4.4.07 — Checklist attachments gallery
+- [x] T4.4.06 — Captions, reorder & remove with undo
+- [x] T4.4.07 — Checklist attachments gallery
 - [ ] T4.4.08 — Attachments in export & import bundles
 - [ ] T4.4.09 — Paste image & scan document into an item
 
@@ -85,6 +85,7 @@ the [2.2] thumbnail cache.
 - An item with pending uploads is fully editable. Attachment failures never block text or status edits.
 - The checklist header shows "3 uploads pending" while the queue is busy.
 **Tests:** widget tests driven by fake queue states.
+**Notes:** The header pill shows the global pending-upload count (the queue is shared across owners).
 
 ### T4.4.04 — Attachment semantics for tree operations
 **Priority:** P0 · **Size:** S · **Depends on:** [4.2] (subtree operations), [2.2]
@@ -123,6 +124,7 @@ a whiteboard for a note card.
 - Drag to reorder within the strip (`sort_key`).
 - Remove tombstones the row and shows an undo snackbar.
 **Tests:** widget tests for caption editing, reorder and undo.
+**Notes:** Captions from the strip menu / viewer; reorder via "Move earlier / later" (fractional `sort_key`), no drag inside the strip; remove with undo snackbar.
 
 ### T4.4.07 — Checklist attachments gallery
 **Priority:** P1 · **Size:** M · **Depends on:** T4.4.02
@@ -134,6 +136,7 @@ a whiteboard for a note card.
 - Query: attachments joined to the checklist's live items.
 - The grid component is reused by the gallery view in [4.5].
 **Tests:** DAO test (join, live items only); widget tests.
+**Notes:** *All attachments* (list menu) groups list-level files first, then items in outline order with breadcrumbs; filters All / Images / PDFs / Other; the viewer's *Go to item* closes the gallery and focuses the item. `AttachmentGrid` is shared with the gallery view (T4.5.04).
 
 ### T4.4.08 — Attachments in export & import bundles
 **Priority:** P2 · **Size:** S · **Depends on:** [4.5] (export/import)

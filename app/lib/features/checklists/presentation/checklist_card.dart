@@ -8,20 +8,37 @@ import 'package:everslot/features/checklists/domain/item_status.dart';
 import 'package:everslot/features/checklists/domain/rollup.dart';
 import 'package:everslot/features/checklists/presentation/markdown_lite.dart';
 import 'package:everslot/features/checklists/presentation/status_visuals.dart';
+import 'package:everslot/features/organization/domain/tag.dart';
+import 'package:everslot/features/organization/presentation/tag_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Card background derived from the stored ARGB color (tonal light/dark variants, T4.1.08).
-Color cardBackground(BuildContext context, int? argb) => argb == null
-    ? context.colors.surfaceContainerLow
-    : CategoryColors.background(argb, Theme.of(context).brightness);
+Color cardBackground(BuildContext context, int? argb) =>
+    argb == null ? context.colors.surfaceContainerLow : CategoryColors.background(argb, Theme.of(context).brightness);
 
 /// Status-split segments of a roll-up (progress bars on cards, headers, collapsed rows).
 List<BarSegment> statusSegments(BuildContext context, Rollup r) => [
-  BarSegment(r.completed.toDouble(), StatusStyle.color(context, ItemStatus.completed), StatusStyle.label(context, ItemStatus.completed)),
-  BarSegment(r.ongoing.toDouble(), StatusStyle.color(context, ItemStatus.ongoing), StatusStyle.label(context, ItemStatus.ongoing)),
-  BarSegment(r.waiting.toDouble(), StatusStyle.color(context, ItemStatus.waiting), StatusStyle.label(context, ItemStatus.waiting)),
-  BarSegment(r.blocked.toDouble(), StatusStyle.color(context, ItemStatus.blocked), StatusStyle.label(context, ItemStatus.blocked)),
+  BarSegment(
+    r.completed.toDouble(),
+    StatusStyle.color(context, ItemStatus.completed),
+    StatusStyle.label(context, ItemStatus.completed),
+  ),
+  BarSegment(
+    r.ongoing.toDouble(),
+    StatusStyle.color(context, ItemStatus.ongoing),
+    StatusStyle.label(context, ItemStatus.ongoing),
+  ),
+  BarSegment(
+    r.waiting.toDouble(),
+    StatusStyle.color(context, ItemStatus.waiting),
+    StatusStyle.label(context, ItemStatus.waiting),
+  ),
+  BarSegment(
+    r.blocked.toDouble(),
+    StatusStyle.color(context, ItemStatus.blocked),
+    StatusStyle.label(context, ItemStatus.blocked),
+  ),
   BarSegment(r.todo.toDouble(), context.colors.outlineVariant, StatusStyle.label(context, ItemStatus.todo)),
 ];
 
@@ -37,6 +54,7 @@ class ChecklistCard extends ConsumerWidget {
     this.onTap,
     this.onMenu,
     this.hasReminders = false,
+    this.labels = const [],
   });
 
   final Checklist checklist;
@@ -49,6 +67,9 @@ class ChecklistCard extends ConsumerWidget {
 
   /// The list has its own reminder rules (bell, T4.1.08).
   final bool hasReminders;
+
+  /// Labels shown as chips at the bottom of the card (T4.1.12).
+  final List<Tag> labels;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -147,7 +168,10 @@ class ChecklistCard extends ConsumerWidget {
                           if (more > 0)
                             Padding(
                               padding: const EdgeInsets.only(top: Space.xxs),
-                              child: Text(l.listsCardMore(more), style: context.text.labelSmall?.copyWith(color: muted)),
+                              child: Text(
+                                l.listsCardMore(more),
+                                style: context.text.labelSmall?.copyWith(color: muted),
+                              ),
                             ),
                           if (!hideBoxes && rollup.leafCountable > 0) ...[
                             const SizedBox(height: Space.sm),
@@ -189,6 +213,14 @@ class ChecklistCard extends ConsumerWidget {
                               ],
                             ),
                           ],
+                          if (labels.isNotEmpty) ...[
+                            const SizedBox(height: Space.sm),
+                            Wrap(
+                              spacing: Space.xs,
+                              runSpacing: Space.xs,
+                              children: [for (final t in labels) TagChip(tag: t)],
+                            ),
+                          ],
                         ],
                       ),
                     ),
@@ -224,7 +256,11 @@ class _CardRowView extends StatelessWidget {
             child: bullet
                 ? Padding(
                     padding: const EdgeInsets.all(5),
-                    child: Container(width: 5, height: 5, decoration: BoxDecoration(color: muted, shape: BoxShape.circle)),
+                    child: Container(
+                      width: 5,
+                      height: 5,
+                      decoration: BoxDecoration(color: muted, shape: BoxShape.circle),
+                    ),
                   )
                 : Icon(
                     StatusStyle.icon(row.status),

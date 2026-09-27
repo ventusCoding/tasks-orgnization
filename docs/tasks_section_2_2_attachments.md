@@ -24,10 +24,10 @@ storage purge job wiring ([1.4] T1.4.16 purge + cron in arch §7.7).
 - [x] T2.2.03 — Processing pipeline (copy, orientation, GPS strip, compress, thumbnail, hash)
 - [x] T2.2.04 — Upload queue (standard + resumable), retries & Wi-Fi-only option
 - [x] T2.2.05 — Download & local cache (thumbnails eager, originals on demand, LRU)
-- [ ] T2.2.06 — Viewers: image gallery, PDF, open-with
-- [ ] T2.2.07 — Attachment strip component (reusable)
+- [x] T2.2.06 — Viewers: image gallery, PDF, open-with
+- [x] T2.2.07 — Attachment strip component (reusable)
 - [x] T2.2.08 — Limits & validation (size, type, count)
-- [ ] T2.2.09 — Upload/download status & offline UX
+- [x] T2.2.09 — Upload/download status & offline UX
 - [ ] T2.2.10 — Integration tests against local Supabase Storage
 - [x] T2.2.11 — Deletion, reference-counted purge & storage quota display
 - [ ] T2.2.12 — Video attachments (short clips) with poster frames
@@ -109,6 +109,7 @@ platform "open in" (`share_plus`), avoiding ageing packages (`photo_view`, `open
 **Acceptance criteria:** gallery opens at the tapped image, supports RTL swipe direction, hero animation
 (disabled with reduce motion); unsupported types never crash.
 **Tests:** widget tests for gallery navigation; manual QA with PDF/DOCX/ZIP.
+**Notes:** Gallery (PageView, InteractiveViewer, RTL, hero off with reduce motion), PDF via `pdfrx`, other types → share/open-with; gallery navigation widget test. Manual QA with real PDF/DOCX/ZIP files on devices still to do.
 
 ### T2.2.07 — Attachment strip component (reusable)
 **Priority:** P0 · **Size:** M · **Depends on:** T2.2.04, T2.2.06
@@ -118,6 +119,7 @@ share, remove with undo), upload/download status badges.
 **Acceptance criteria:** used unchanged by checklist items, tasks and habit logs; accessible labels
 ("Photo 2 of 5, uploading 40 %").
 **Tests:** widget tests (reorder, remove + undo, badges); goldens LTR/RTL.
+**Notes:** Reorder is offered as long-press menu "Move earlier / later" (accessible; an in-strip drag would fight the long-press menu). Goldens: light/dark × LTR/RTL × text scale 1.0/2.0; file chips drop lines / widen at large text so 2.0 never overflows.
 
 ### T2.2.08 — Limits & validation (size, type, count)
 **Priority:** P0 · **Size:** S · **Depends on:** T2.2.02
@@ -131,6 +133,7 @@ errors; mirrored by Storage bucket limits (`file_size_limit`, `allowed_mime_type
 **Description:** Visible states: *processing*, *waiting for network*, *uploading n %*, *failed — retry*,
 *not downloaded*, *downloading*; a global "N uploads pending" indicator in Settings › Sync.
 **Tests:** widget tests per state.
+**Notes:** `PendingUploadsIndicator` and `AttachmentSettingsSection` are ready for Settings › Sync — TODO(integration): the settings feature embeds them.
 
 ### T2.2.10 — Integration tests against local Supabase Storage
 **Priority:** P0 · **Size:** M · **Depends on:** T2.2.04, T2.2.05

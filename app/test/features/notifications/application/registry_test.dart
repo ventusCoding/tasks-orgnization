@@ -40,11 +40,21 @@ void main() {
         ),
         same(handler),
       );
+      // The test action is only handled for tasks.
       expect(
         findActionHandler(
           h.read(notificationActionHandlersProvider),
           testAction,
           NotificationTargetType.habit,
+        ),
+        isNull,
+      );
+      // A type no feature handles (habits register a `done` handler).
+      expect(
+        findActionHandler(
+          h.read(notificationActionHandlersProvider),
+          'done',
+          NotificationTargetType.custom,
         ),
         isNull,
       );
