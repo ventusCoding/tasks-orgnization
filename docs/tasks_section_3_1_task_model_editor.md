@@ -39,7 +39,7 @@ recurrence engine and rule builder UI ([2.1]); notification rule editor ([7.1]);
 - [x] T3.1.14 — Overlap / conflict warning
 - [x] T3.1.15 — Markdown-lite notes
 - [x] T3.1.16 — Linked checklist integration
-- [ ] T3.1.17 — Tags on tasks
+- [x] T3.1.17 — Tags on tasks
 - [ ] T3.1.18 — Multi-select & bulk edit
 - [ ] T3.1.19 — Copy & duplicate to other days
 - [ ] T3.1.20 — Task templates
@@ -294,6 +294,7 @@ The routine player ([3.7]) uses the link.
 **Description:** Tag picker in the editor (inline create), tag chips in details, and tag filtering in every
 Planner view.
 **Tests:** widget test; deterministic `entity_tags` id test.
+**Notes:** Tag filtering in the Planner views belongs to the views ([3.3]–[3.7]); saved tasks edit their tags live through `EntityTagChips`.
 
 ### T3.1.18 — Multi-select & bulk edit
 **Priority:** P1 · **Size:** M · **Depends on:** T3.1.05, [3.3]
