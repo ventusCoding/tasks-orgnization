@@ -6310,6 +6310,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsSectionPatterns => 'الأنماط';
 
   @override
+  String get statsSectionPinned => 'المثبّتة';
+
+  @override
   String get statsSectionPlanning => 'التخطيط';
 
   @override
@@ -6323,6 +6326,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsSectionReduction => 'الخفض';
+
+  @override
+  String get statsSectionReview => 'المراجعة الأسبوعية';
 
   @override
   String get statsSectionSeries => 'التنفيذ';

@@ -10191,6 +10191,12 @@ abstract class AppLocalizations {
   /// **'Patterns'**
   String get statsSectionPatterns;
 
+  /// No description provided for @statsSectionPinned.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned'**
+  String get statsSectionPinned;
+
   /// No description provided for @statsSectionPlanning.
   ///
   /// In en, this message translates to:
@@ -10220,6 +10226,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reduction'**
   String get statsSectionReduction;
+
+  /// No description provided for @statsSectionReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly review'**
+  String get statsSectionReview;
 
   /// No description provided for @statsSectionSeries.
   ///

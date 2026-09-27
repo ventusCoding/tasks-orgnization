@@ -6200,6 +6200,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsSectionPatterns => 'Tendances';
 
   @override
+  String get statsSectionPinned => 'Épinglées';
+
+  @override
   String get statsSectionPlanning => 'Planification';
 
   @override
@@ -6213,6 +6216,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsSectionReduction => 'Réduction';
+
+  @override
+  String get statsSectionReview => 'Bilan hebdomadaire';
 
   @override
   String get statsSectionSeries => 'Exécution';

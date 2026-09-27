@@ -12,6 +12,7 @@ import 'package:everslot/features/stats/application/stats_compute_service.dart';
 import 'package:everslot/features/stats/data/stats_data_source.dart';
 import 'package:everslot/features/stats/data/stats_invalidation.dart';
 import 'package:everslot/features/stats/data/stats_local_store.dart';
+import 'package:everslot/features/stats/domain/scope_entity.dart';
 import 'package:everslot/features/stats/domain/stats_inputs.dart';
 import 'package:everslot/features/stats/domain/stats_request.dart';
 import 'package:everslot/features/stats/domain/stats_settings.dart';
@@ -106,6 +107,25 @@ final metricsBatchProvider = FutureProvider.autoDispose.family<StatsBatch, Stats
   final service = ref.watch(statsComputeServiceProvider);
   final now = ref.read(clockProvider).nowUtc();
   return service.computeBatch(request, dataVersion: dataVersionKey(versions, request.scope, now));
+});
+
+/// Header entity of a scoped screen (`scope` route segment + id).
+final scopeEntityProvider = FutureProvider.autoDispose.family<ScopeEntity?, (String, String)>((ref, key) {
+  ref.watch(currentUserIdProvider);
+  return ref.watch(statsDataSourceProvider).entityOf(key.$1, key.$2);
+});
+
+/// Live quit trackers (Quit segment of the Insights tab).
+final quitTrackersProvider = StreamProvider.autoDispose<List<ScopeEntity>>((ref) {
+  ref.watch(currentUserIdProvider);
+  return ref.watch(statsDataSourceProvider).watchQuitTrackers();
+});
+
+/// Filter options of the section screens (categories and tags).
+final statsFilterOptionsProvider = FutureProvider.autoDispose<({List<FilterOption> categories, List<FilterOption> tags})>((ref) async {
+  ref.watch(currentUserIdProvider);
+  final source = ref.watch(statsDataSourceProvider);
+  return (categories: await source.categoryOptions(), tags: await source.tagOptions());
 });
 
 // ---------------------------------------------------------------------------------------------

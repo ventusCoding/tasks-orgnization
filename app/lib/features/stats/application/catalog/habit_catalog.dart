@@ -465,7 +465,22 @@ final List<MetricDefinition> habitMetrics = [
         chart: RingData([
           (const TokenLabel(LabelToken.habits), p.valueOr(0), const ToneColor(ChartTone.done)),
         ], centerValue: p.valueOrNull),
-        args: {'done': done, 'due': due},
+        args: {
+          'done': done,
+          'due': due,
+          // Per-habit mini table of the Habits screen (T6.5.17): score, streak, 30-day success.
+          'habits': [
+            for (final e in c.evaluations)
+              {
+                'id': e.habit.id,
+                'name': e.habit.name,
+                'color': e.habit.color,
+                'score': e.strength.current,
+                'streak': e.streaks.currentLength,
+                'rate30': successRate(e.units, from: c.today.minusDays(29), to: c.today, skipPolicy: e.skipPolicy).valueOrNull,
+              },
+          ],
+        },
       );
     },
   ),

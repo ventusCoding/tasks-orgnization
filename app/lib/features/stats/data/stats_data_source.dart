@@ -25,6 +25,7 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:everslot/core/database/app_database.dart';
+import 'package:everslot/features/stats/domain/scope_entity.dart';
 import 'package:everslot/features/stats/domain/stats_inputs.dart';
 import 'package:everslot_metrics/everslot_metrics.dart' show HabitPause, PlannerOccurrenceStatus, TrackingMode;
 import 'package:everslot_recurrence/everslot_recurrence.dart' show LocalDate, LocalDateTime;
@@ -554,6 +555,53 @@ class StatsDataSource {
     }
     return first;
   }
+
+  // ------------------------------------------------------------------------------------------
+  // Scope headers & pickers
+
+  /// The entity of a scoped screen (task, series, checklist, item, habit, quit tracker).
+  Future<ScopeEntity?> entityOf(String scope, String id) async {
+    switch (scope) {
+      case 'task':
+        final t = await (_db.select(_db.tasks)..where((t) => t.id.equals(id))).getSingleOrNull();
+        return t == null ? null : ScopeEntity(t.id, t.title, color: t.color, icon: t.icon, parentId: t.seriesId);
+      case 'series':
+        final t = await (_db.select(_db.tasks)
+              ..where((t) => t.seriesId.equals(id) & t.deletedAt.isNull())
+              ..orderBy([(t) => OrderingTerm.desc(t.createdAt)])
+              ..limit(1))
+            .getSingleOrNull();
+        return t == null ? null : ScopeEntity(id, t.title, color: t.color, icon: t.icon);
+      case 'checklist':
+        final c = await (_db.select(_db.checklists)..where((c) => c.id.equals(id))).getSingleOrNull();
+        return c == null ? null : ScopeEntity(c.id, c.title, color: c.color);
+      case 'item':
+        final i = await (_db.select(_db.checklistItems)..where((i) => i.id.equals(id))).getSingleOrNull();
+        return i == null ? null : ScopeEntity(i.id, i.itemText, parentId: i.checklistId);
+      case 'habit' || 'quit':
+        final h = await (_db.select(_db.habits)..where((h) => h.id.equals(id))).getSingleOrNull();
+        return h == null ? null : ScopeEntity(h.id, h.name, color: h.color, icon: h.icon, isQuit: h.kind == 'quit');
+    }
+    return null;
+  }
+
+  /// Live quit trackers (Quit segment picker).
+  Stream<List<ScopeEntity>> watchQuitTrackers() {
+    final query = _db.select(_db.habits)
+      ..where((h) => h.kind.equals('quit') & h.userId.equals(_userId()) & h.deletedAt.isNull() & h.archivedAt.isNull())
+      ..orderBy([(h) => OrderingTerm.asc(h.sortKey)]);
+    return query.watch().map((rows) => [
+      for (final h in rows) ScopeEntity(h.id, h.name, color: h.color, icon: h.icon, isQuit: true),
+    ]);
+  }
+
+  /// Filter options: live categories and tags.
+  Future<List<FilterOption>> categoryOptions() async => [
+    for (final c in await loadCategories())
+      if (!c.archived) FilterOption(c.id, c.name, color: c.color),
+  ];
+
+  Future<List<FilterOption>> tagOptions() async => [for (final t in await loadTags()) FilterOption(t.id, t.name, color: t.color)];
 
   /// Earliest checklist item creation (all-time periods).
   Future<DateTime?> firstChecklistInstant({String? checklistId}) async {

@@ -90,6 +90,7 @@ MetricResult result(
   bool estimate = false,
   double? target,
   String? note,
+  bool headline = true,
 }) => MetricResult(
   id,
   value: value,
@@ -108,6 +109,7 @@ MetricResult result(
   estimate: estimate,
   target: target,
   note: note,
+  headline: headline,
 );
 
 /// A value-less result that only carries a chart (charts, lists, calendars).
@@ -133,6 +135,7 @@ MetricResult chartResult(
   note: note,
   currency: currency,
   estimate: estimate,
+  headline: value != null,
 );
 
 /// A size figure for value-less charts (rows, points…) so "has data" is visible in the card.
