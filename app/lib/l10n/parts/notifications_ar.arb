@@ -464,5 +464,6 @@
   "notifStatusCompleted": "مكتملًا",
   "notifChipRepeat": "تكرار…",
   "notifChipLastDayAt": "في اليوم الأخير الساعة {time}",
-  "notifChipChangeTime": "تغيير الوقت"
+  "notifChipChangeTime": "تغيير الوقت",
+  "notifPausedShort": "الإشعارات موقوفة مؤقتًا"
 }

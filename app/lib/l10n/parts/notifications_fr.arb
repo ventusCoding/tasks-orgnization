@@ -464,5 +464,6 @@
   "notifStatusCompleted": "terminé",
   "notifChipRepeat": "Répéter…",
   "notifChipLastDayAt": "Le dernier jour à {time}",
-  "notifChipChangeTime": "Modifier l’heure"
+  "notifChipChangeTime": "Modifier l’heure",
+  "notifPausedShort": "Notifications en pause"
 }

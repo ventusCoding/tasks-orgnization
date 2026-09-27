@@ -1003,5 +1003,6 @@
       }
     }
   },
-  "notifChipChangeTime": "Change the time"
+  "notifChipChangeTime": "Change the time",
+  "notifPausedShort": "Notifications paused"
 }

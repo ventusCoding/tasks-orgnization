@@ -5668,6 +5668,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifPauseTomorrow => 'حتى الغد 08:00';
 
   @override
+  String get notifPausedShort => 'الإشعارات موقوفة مؤقتًا';
+
+  @override
   String notifPausedUntil(String time) {
     return 'متوقف مؤقتًا حتى $time';
   }
