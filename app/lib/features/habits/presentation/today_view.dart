@@ -491,9 +491,12 @@ class _TimerControlState extends ConsumerState<_TimerControl> {
     final timers = ref.watch(habitTimersProvider).value ?? const <HabitTimer>[];
     final row = timers.where((t) => t.habitId == habit.id && t.key == key).firstOrNull;
     final running = row?.running ?? false;
-    WidgetsBinding.instance.addPostFrameCallback((_) => _listen(running));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _listen(running);
+    });
     final store = ref.read(habitTimerStoreProvider);
-    final now = ref.read(clockProvider).nowUtc();
+    // Read the clock when a button is pressed, not at build time (the row may be stale).
+    DateTime now() => ref.read(clockProvider).nowUtc();
     if (row == null) {
       return Row(
         mainAxisSize: MainAxisSize.min,
@@ -509,12 +512,12 @@ class _TimerControlState extends ConsumerState<_TimerControl> {
           IconButton.filledTonal(
             tooltip: l.habitsActionStartTimer,
             icon: const Icon(Icons.play_arrow),
-            onPressed: () => store.start(habit.id, key, now),
+            onPressed: () => store.start(habit.id, key, now()),
           ),
         ],
       );
     }
-    final seconds = row.elapsedSeconds(ref.read(clockProvider).nowUtc());
+    final seconds = row.elapsedSeconds(now());
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -530,13 +533,13 @@ class _TimerControlState extends ConsumerState<_TimerControl> {
         IconButton(
           tooltip: running ? l.habitsActionPauseTimer : l.habitsActionStartTimer,
           icon: Icon(running ? Icons.pause : Icons.play_arrow),
-          onPressed: () => running ? store.pause(habit.id, key, now) : store.start(habit.id, key, now),
+          onPressed: () => running ? store.pause(habit.id, key, now()) : store.start(habit.id, key, now()),
         ),
         IconButton.filledTonal(
           tooltip: l.habitsActionStopTimer,
           icon: const Icon(Icons.stop),
           onPressed: () async {
-            final total = await store.stop(habit.id, key, ref.read(clockProvider).nowUtc());
+            final total = await store.stop(habit.id, key, now());
             if (total <= 0 || !context.mounted) return;
             final minutes = math.max(1, (total / 60).round()).toDouble();
             await CheckInActions(context, ref).addProgress(habit, key, minutes, durationSeconds: total);

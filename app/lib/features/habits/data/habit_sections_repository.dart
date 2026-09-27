@@ -37,6 +37,15 @@ class HabitSectionsRepository {
   /// Id of the default section [key] for the current user.
   String defaultId(String key) => Ids.habitSection(_userId(), key);
 
+  /// Whether this device completed its first pull for the current user (cloud accounts seed
+  /// defaults only afterwards, see `HabitDefaults`).
+  Future<bool> firstPullDone() async {
+    final userId = _userId();
+    if (userId.isEmpty) return false;
+    final state = await (_db.select(_db.syncState)..where((s) => s.userId.equals(userId))).getSingleOrNull();
+    return state?.lastPullAt != null;
+  }
+
   /// Seeds the four default sections once (idempotent; localized [names] by key).
   Future<void> seedDefaults(Map<String, String> names) async {
     final userId = _userId();

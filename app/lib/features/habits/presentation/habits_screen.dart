@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:everslot/app/widgets/app_bar_actions.dart';
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/habits/application/habit_defaults.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
@@ -45,6 +46,10 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
     // Time-based statuses (slots closing, the day ending) re-evaluate every minute while visible.
     _minute = Timer.periodic(const Duration(minutes: 1), (_) => ref.read(habitTickProvider.notifier).bump());
     unawaited(_restore());
+    // Default sections & libraries (idempotent; a fresh cloud device seeds after its first pull).
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) unawaited(ref.read(habitDefaultsProvider).ensure(context.l10n));
+    });
   }
 
   @override
