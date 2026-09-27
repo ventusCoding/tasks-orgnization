@@ -207,7 +207,14 @@ Widget gallery({required bool dark, required bool rtl, required double scale}) =
                 for (final (title, data) in p0Charts())
                   Padding(
                     padding: const EdgeInsets.only(top: 12),
-                    child: ChartFrame(title: title, data: data, chartHeight: 160, onExplain: () {}),
+                    // A fixed "now" keeps relative texts (milestone ETAs) stable across days.
+                    child: ChartFrame(
+                      title: title,
+                      data: data,
+                      chartHeight: 160,
+                      onExplain: () {},
+                      now: () => DateTime.utc(2026, 9, 26, 18),
+                    ),
                   ),
               ],
             ),
