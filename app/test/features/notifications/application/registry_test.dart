@@ -18,8 +18,10 @@ void main() {
 
       final source = InMemoryNotificationTargetSource(section: 'planner');
       addTearDown(source.dispose);
+      // A test-only action id: feature handlers (planner: done/skip/start/stop) are static.
+      const testAction = 'test_only_action';
       final handler = CallbackActionHandler(
-        actionIds: {NotificationActionIds.done},
+        actionIds: {testAction},
         targetTypes: {NotificationTargetType.task},
         onHandle: (_) async => NotificationActionResult.ok,
       );
@@ -29,11 +31,11 @@ void main() {
       await Future<void>.delayed(Duration.zero);
 
       expect(h.read(notificationTargetSourcesProvider), [...baseSources, source]);
-      expect(h.read(notificationActionHandlersProvider), [...baseHandlers, handler]);
+      expect(h.read(notificationActionHandlersProvider), [handler, ...baseHandlers]);
       expect(
         findActionHandler(
           h.read(notificationActionHandlersProvider),
-          'done',
+          testAction,
           NotificationTargetType.task,
         ),
         same(handler),
@@ -41,7 +43,7 @@ void main() {
       expect(
         findActionHandler(
           h.read(notificationActionHandlersProvider),
-          'done',
+          testAction,
           NotificationTargetType.habit,
         ),
         isNull,
