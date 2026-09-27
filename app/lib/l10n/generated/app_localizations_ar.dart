@@ -9705,6 +9705,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksNotesPreview => 'معاينة';
 
   @override
+  String get tasksNotifAlreadyClosed => 'تم إنجازها أو تخطيها بالفعل';
+
+  @override
+  String get tasksNotifGone => 'هذه المهمة لم تعد موجودة';
+
+  @override
   String get tasksOccurrenceDeleted => 'تمت إزالة الموعد';
 
   @override

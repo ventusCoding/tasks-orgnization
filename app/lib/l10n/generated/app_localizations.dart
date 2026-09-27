@@ -15885,6 +15885,18 @@ abstract class AppLocalizations {
   /// **'Preview'**
   String get tasksNotesPreview;
 
+  /// No description provided for @tasksNotifAlreadyClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Already done or skipped'**
+  String get tasksNotifAlreadyClosed;
+
+  /// No description provided for @tasksNotifGone.
+  ///
+  /// In en, this message translates to:
+  /// **'This task no longer exists'**
+  String get tasksNotifGone;
+
   /// No description provided for @tasksOccurrenceDeleted.
   ///
   /// In en, this message translates to:

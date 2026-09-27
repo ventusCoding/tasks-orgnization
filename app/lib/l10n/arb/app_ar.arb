@@ -2750,6 +2750,8 @@
   "tasksNotesEdit": "تعديل",
   "tasksNotesHint": "أضف ملاحظات (عريض، قوائم، خانات…)",
   "tasksNotesPreview": "معاينة",
+  "tasksNotifAlreadyClosed": "تم إنجازها أو تخطيها بالفعل",
+  "tasksNotifGone": "هذه المهمة لم تعد موجودة",
   "tasksOccurrenceDeleted": "تمت إزالة الموعد",
   "tasksOpenLinkBody": "سيُفتح {url} خارج Everslot.",
   "tasksOpenLinkTitle": "فتح الرابط؟",

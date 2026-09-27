@@ -9502,6 +9502,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tasksNotesPreview => 'Aperçu';
 
   @override
+  String get tasksNotifAlreadyClosed => 'Déjà faite ou ignorée';
+
+  @override
+  String get tasksNotifGone => 'Cette tâche n’existe plus';
+
+  @override
   String get tasksOccurrenceDeleted => 'Occurrence retirée';
 
   @override

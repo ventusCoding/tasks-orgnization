@@ -203,6 +203,14 @@ class PlannerQueries {
     return {for (final c in rows) c.id: c.color};
   }
 
+  /// Category names by id (notification template variable `category`).
+  Future<Map<String, String>> categoryNames() async {
+    final rows = await (_db.select(_db.categories)
+          ..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId())))
+        .get();
+    return {for (final c in rows) c.id: c.name};
+  }
+
   /// Everything the resolver needs for a viewer range.
   Future<RangeData> loadRange(LocalDateTime from, LocalDateTime to) async {
     var tasks = await tasksForRange(from, to);

@@ -5590,6 +5590,8 @@
   "tasksNotesEdit": "Edit",
   "tasksNotesHint": "Add notes (bold, lists, checkboxes…)",
   "tasksNotesPreview": "Preview",
+  "tasksNotifAlreadyClosed": "Already done or skipped",
+  "tasksNotifGone": "This task no longer exists",
   "tasksOccurrenceDeleted": "Occurrence removed",
   "tasksOpenLinkBody": "{url} will open outside Everslot.",
   "tasksOpenLinkTitle": "Open link?",

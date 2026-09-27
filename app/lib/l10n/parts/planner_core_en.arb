@@ -288,5 +288,7 @@
   "tasksRolledOver": "{count, plural, =1{1 unfinished task moved to today} other{{count} unfinished tasks moved to today}}",
   "@tasksRolledOver": {"placeholders": {"count": {"type": "int"}}},
   "tasksFieldTags": "Tags",
-  "tasksAddTag": "Add a tag"
+  "tasksAddTag": "Add a tag",
+  "tasksNotifGone": "This task no longer exists",
+  "tasksNotifAlreadyClosed": "Already done or skipped"
 }

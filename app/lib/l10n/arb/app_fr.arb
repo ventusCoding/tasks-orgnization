@@ -2750,6 +2750,8 @@
   "tasksNotesEdit": "Modifier",
   "tasksNotesHint": "Ajouter des notes (gras, listes, cases…)",
   "tasksNotesPreview": "Aperçu",
+  "tasksNotifAlreadyClosed": "Déjà faite ou ignorée",
+  "tasksNotifGone": "Cette tâche n’existe plus",
   "tasksOccurrenceDeleted": "Occurrence retirée",
   "tasksOpenLinkBody": "{url} va s’ouvrir en dehors d’Everslot.",
   "tasksOpenLinkTitle": "Ouvrir le lien ?",

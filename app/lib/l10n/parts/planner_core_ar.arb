@@ -259,5 +259,7 @@
   "tasksTooManyOccurrences": "مواعيد كثيرة جدًا للعرض — كبّر العرض",
   "tasksRolledOver": "{count, plural, =1{نُقلت مهمة غير منجزة إلى اليوم} =2{نُقلت مهمتان غير منجزتين إلى اليوم} few{نُقلت {count} مهام غير منجزة إلى اليوم} many{نُقلت {count} مهمة غير منجزة إلى اليوم} other{نُقلت {count} مهمة غير منجزة إلى اليوم}}",
   "tasksFieldTags": "الوسوم",
-  "tasksAddTag": "إضافة وسم"
+  "tasksAddTag": "إضافة وسم",
+  "tasksNotifGone": "هذه المهمة لم تعد موجودة",
+  "tasksNotifAlreadyClosed": "تم إنجازها أو تخطيها بالفعل"
 }

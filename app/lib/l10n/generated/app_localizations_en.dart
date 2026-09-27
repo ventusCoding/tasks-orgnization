@@ -9422,6 +9422,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tasksNotesPreview => 'Preview';
 
   @override
+  String get tasksNotifAlreadyClosed => 'Already done or skipped';
+
+  @override
+  String get tasksNotifGone => 'This task no longer exists';
+
+  @override
   String get tasksOccurrenceDeleted => 'Occurrence removed';
 
   @override

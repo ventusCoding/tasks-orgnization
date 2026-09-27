@@ -259,5 +259,7 @@
   "tasksTooManyOccurrences": "Trop d’occurrences à afficher — zoomez",
   "tasksRolledOver": "{count, plural, =1{1 tâche inachevée déplacée à aujourd’hui} other{{count} tâches inachevées déplacées à aujourd’hui}}",
   "tasksFieldTags": "Étiquettes",
-  "tasksAddTag": "Ajouter une étiquette"
+  "tasksAddTag": "Ajouter une étiquette",
+  "tasksNotifGone": "Cette tâche n’existe plus",
+  "tasksNotifAlreadyClosed": "Déjà faite ou ignorée"
 }
