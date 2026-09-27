@@ -23,16 +23,16 @@ recurrence engine and rule builder UI ([2.1]); notification rule editor ([7.1]);
 
 ## Progress
 
-- [ ] T3.1.01 — Server migration: `tasks`
-- [ ] T3.1.02 — Server migration: `task_occurrences` & `time_entries`
-- [ ] T3.1.03 — Drift tables, DAOs & sync registration
-- [ ] T3.1.04 — Domain entities & value objects
-- [ ] T3.1.05 — TasksRepository (CRUD, cascade, restore, duplicate, history)
-- [ ] T3.1.06 — Task editor: scheduling fields
-- [ ] T3.1.07 — Task editor: detail fields (notes, location, URL, checklist, attachments)
-- [ ] T3.1.08 — Quick-create sheet
-- [ ] T3.1.09 — Task details view with history
-- [ ] T3.1.10 — Delete, restore & undo UX
+- [x] T3.1.01 — Server migration: `tasks`
+- [x] T3.1.02 — Server migration: `task_occurrences` & `time_entries`
+- [x] T3.1.03 — Drift tables, DAOs & sync registration
+- [x] T3.1.04 — Domain entities & value objects
+- [x] T3.1.05 — TasksRepository (CRUD, cascade, restore, duplicate, history)
+- [x] T3.1.06 — Task editor: scheduling fields
+- [x] T3.1.07 — Task editor: detail fields (notes, location, URL, checklist, attachments)
+- [x] T3.1.08 — Quick-create sheet
+- [x] T3.1.09 — Task details view with history
+- [x] T3.1.10 — Delete, restore & undo UX
 - [ ] T3.1.11 — Unscheduled (backlog) task model
 - [ ] T3.1.12 — Task icon
 - [ ] T3.1.13 — Deadline (due date separate from planned time)
@@ -64,6 +64,7 @@ recurrence engine and rule builder UI ([2.1]); notification rule editor ([7.1]);
 - pgTAP proves: RLS isolation between two users; constraint violations rejected; the sync trigger sets
   `rev`; a stale `updated_at` update is ignored (LWW); `series_id` defaults to `id`.
 **Tests:** `supabase/tests/planner_tasks.test.sql` (pgTAP).
+**Notes:** Delivered by the foundation migration `supabase/migrations/20260922000060_create_planner.sql`; pgTAP coverage lives in the shared suites (`030_isolation`, `040_sync_triggers`, `070_domain_constraints`) instead of a separate `planner_tasks.test.sql`.
 
 ### T3.1.02 — Server migration: `task_occurrences` & `time_entries`
 **Priority:** P0 · **Size:** M · **Depends on:** T3.1.01
@@ -79,6 +80,7 @@ recurrence engine and rule builder UI ([2.1]); notification rule editor ([7.1]);
 - Two upserts of the same occurrence id from different "devices" converge to one row (LWW).
 - An insert with a mismatched id is rejected with a clear error.
 **Tests:** pgTAP (isolation, id verification, convergence, CHECKs).
+**Notes:** Delivered by the same foundation migration (deterministic-id trigger, CHECKs, indexes; pgTAP in `070_domain_constraints`). Client-side two-device convergence: `app/test/features/planner/data/planner_convergence_test.dart`.
 
 ### T3.1.03 — Drift tables, DAOs & sync registration
 **Priority:** P0 · **Size:** M · **Depends on:** T3.1.02, [1.4]
@@ -96,6 +98,7 @@ recurrence engine and rule builder UI ([2.1]); notification rule editor ([7.1]);
 - A Drift row, its JSON and the server row round-trip identically (all columns, nulls and time types).
 - The DAO range queries return exactly the expected rows on fixture data (incl. soft-deleted exclusion).
 **Tests:** in-memory Drift DAO tests; mapper tests; `SchemaVerifier` migration test.
+**Notes:** Tables, registry entries and the v1 schema baseline live centrally in `core/database` (no bump needed). Planner DAOs are `PlannerQueries` (`watchTask`, `watchUnscheduled`, `tasksForRange` pre-filter, `recordsForRange`, `watchRecords`, `watchTimeEntries`, `watchRunningEntries`), tested through the repository/range tests.
 
 ### T3.1.04 — Domain entities & value objects
 **Priority:** P0 · **Size:** M · **Depends on:** T3.1.03, [2.1]
@@ -115,6 +118,7 @@ recurrence engine and rule builder UI ([2.1]); notification rule editor ([7.1]);
 - Invalid combinations (all-day at 09:00, recurrence on an unscheduled task, 0-length all-day) are rejected.
 - `recurrenceUntilLocal` is correct for until-based, count-based and open-ended fixtures.
 **Tests:** unit tests + property tests of schedule invariants.
+**Notes:** Hand-written immutable entities and value objects (ADR-016) instead of freezed; `TaskForm` is the editor form state.
 
 ### T3.1.05 — TasksRepository (CRUD, cascade, restore, duplicate, history)
 **Priority:** P0 · **Size:** M · **Depends on:** T3.1.04, [2.3] (activity log, undo)
@@ -168,6 +172,7 @@ Fields:
   - "Standup every weekday 09:30 for 15 min, fixed Europe/Paris"
 - No overflow in RTL and at text scale 2.0.
 **Tests:** widget tests per preset; form-notifier unit tests; goldens (light/dark, LTR/RTL).
+**Notes:** Tablets get the full-screen route with a centered 720-dp form rather than a dialog route (router unchanged). Goldens: `test/features/planner/presentation/goldens/task_editor_*.png`.
 
 ### T3.1.07 — Task editor: detail fields (notes, location, URL, checklist, attachments)
 **Priority:** P0 · **Size:** M · **Depends on:** T3.1.06, [2.2]
@@ -181,6 +186,7 @@ Fields:
 **Acceptance criteria:** attachments added offline show immediately and upload later; an invalid URL shows
 an inline error; the reminders row is present but inert before [7.1].
 **Tests:** widget tests.
+**Notes:** Linked-checklist picker queries `checklists` directly (no flag: [4.1] exists). Reminders use `NotificationSettingsSection` with a draft saved in the create transaction.
 
 ### T3.1.08 — Quick-create sheet
 **Priority:** P0 · **Size:** S · **Depends on:** T3.1.06

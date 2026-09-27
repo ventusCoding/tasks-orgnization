@@ -120,6 +120,21 @@ class TasksRepository {
     return TaskWriteResult(task.id, record);
   }
 
+  /// Soft-deletes the rows an abandoned new-task editor attached to its pre-generated id
+  /// (attachments). Does nothing when the task exists.
+  Future<void> discardDraft(String taskId) async {
+    final existing = await _queries.task(taskId, includeDeleted: true);
+    if (existing != null) return;
+    await _writer.run((tx) async {
+      for (final r in await tx.rows(
+        "SELECT id FROM attachments WHERE deleted_at IS NULL AND owner_type = 'task' AND owner_id = ?",
+        [taskId],
+      )) {
+        await tx.softDelete('attachments', r['id']! as String);
+      }
+    }, cause: 'auto');
+  }
+
   /// Normalizes, validates and derives `recurrence_until_local` (throws [TaskValidationException]).
   Task prepare(Task draft) {
     final errors = validateTask(draft, isValidZone: isValidZone);

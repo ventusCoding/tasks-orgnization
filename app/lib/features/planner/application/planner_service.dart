@@ -6,6 +6,7 @@ import 'package:everslot/core/time/recurrence_service.dart';
 import 'package:everslot/features/notifications/application/notification_host_api.dart'
     show NotificationRulesDraft, notificationHostApiProvider;
 import 'package:everslot/features/notifications/domain/notification_types.dart' show NotificationTargetType;
+import 'package:everslot/features/organization/application/providers.dart' show tagsRepositoryProvider;
 import 'package:everslot/features/planner/application/occurrence_range_service.dart';
 import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot/features/planner/application/planner_settings.dart';
@@ -100,22 +101,48 @@ class PlannerService {
     return result;
   }
 
-  /// Creates [draft]; the editor's pending [reminders] are saved in the same operation (one
-  /// undo, one atomic push — T7.1.09).
-  Future<TaskWriteResult> createTask(Task draft, {String source = 'editor', NotificationRulesDraft? reminders}) async {
+  /// Creates [draft]; the editor's pending [reminders] and [tagIds] are saved in the same
+  /// operation (one undo, one atomic push — T7.1.09, T3.1.17).
+  Future<TaskWriteResult> createTask(
+    Task draft, {
+    String source = 'editor',
+    NotificationRulesDraft? reminders,
+    Set<String> tagIds = const {},
+  }) async {
     final pending = reminders == null || reminders.isEmpty ? null : reminders;
     final host = pending == null ? null : _ref.read(notificationHostApiProvider);
+    final tags = tagIds.isEmpty ? null : _ref.read(tagsRepositoryProvider);
     final result = await tasks.create(
       draft,
       source: source,
-      inTx: host == null
+      inTx: host == null && tags == null
           ? null
           : (tx, task) async {
-              await host.saveDraftInTx(tx, pending!, type: NotificationTargetType.task, targetId: task.id);
+              if (host != null) {
+                await host.saveDraftInTx(tx, pending!, type: NotificationTargetType.task, targetId: task.id);
+              }
+              if (tags != null) await tags.writeTags(tx, 'task', task.id, tagIds);
             },
     );
     _undo(l10n.tasksCreated, result.record);
     return result;
+  }
+
+  /// Removes what an abandoned *new-task* editor attached to the pre-generated [taskId]
+  /// (attachments added before saving). No-op for saved tasks.
+  Future<void> discardDraft(String taskId) => tasks.discardDraft(taskId);
+
+  /// [discardDraft] bound to the current repository, for `State.dispose`: it never touches the
+  /// provider scope again (which may already be gone) and ignores a closed database.
+  Future<void> Function(String taskId) draftDiscarder() {
+    final repository = tasks;
+    return (taskId) async {
+      try {
+        await repository.discardDraft(taskId);
+      } on Object {
+        // The session ended with the editor still open: nothing left to clean up.
+      }
+    };
   }
 
   /// Saves an edited task with the chosen scope (T3.2.06–T3.2.09).
@@ -430,8 +457,12 @@ class PlannerService {
   // ---------------------------------------------------------------------------
   // Delete (T3.1.10, T3.2.11)
 
-  Future<OpRecord> delete(PlannerItem item, {EditScope scope = EditScope.allOccurrences}) async {
-    final record = await tasks.delete(item.taskId, scope: scope, occurrenceKey: item.occurrenceKey);
+  Future<OpRecord> delete(PlannerItem item, {EditScope scope = EditScope.allOccurrences}) =>
+      deleteTask(item.taskId, scope: scope, occurrenceKey: item.occurrenceKey);
+
+  /// Deletes a task (or one/following occurrences of a series) with undo.
+  Future<OpRecord> deleteTask(String taskId, {EditScope scope = EditScope.allOccurrences, String? occurrenceKey}) async {
+    final record = await tasks.delete(taskId, scope: scope, occurrenceKey: occurrenceKey);
     return _undo(scope == EditScope.thisOccurrence ? l10n.tasksOccurrenceDeleted : l10n.tasksDeleted, record);
   }
 

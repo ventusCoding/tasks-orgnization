@@ -26,20 +26,20 @@ completion, punctuality and procrastination.
 
 ## Progress
 
-- [ ] T3.2.01 — Occurrence resolver
-- [ ] T3.2.02 — Range pre-filter, caching & isolate execution
-- [ ] T3.2.03 — Display time-zone rules (fixed vs floating, all-day, DST)
-- [ ] T3.2.04 — Occurrence actions service
-- [ ] T3.2.05 — Occurrence sheet UI
-- [ ] T3.2.06 — Edit-scope dialog & "this occurrence" overrides
-- [ ] T3.2.07 — "This & following" series split
-- [ ] T3.2.08 — "All occurrences" edits with history preservation
-- [ ] T3.2.09 — Orphaned overrides handling
-- [ ] T3.2.10 — Reschedule operations & reschedule history
-- [ ] T3.2.11 — Delete scopes
-- [ ] T3.2.12 — Missed detection, overdue & roll-over
-- [ ] T3.2.13 — Tracking-mode behaviour
-- [ ] T3.2.14 — Actual-time capture on completion
+- [x] T3.2.01 — Occurrence resolver
+- [x] T3.2.02 — Range pre-filter, caching & isolate execution
+- [x] T3.2.03 — Display time-zone rules (fixed vs floating, all-day, DST)
+- [x] T3.2.04 — Occurrence actions service
+- [x] T3.2.05 — Occurrence sheet UI
+- [x] T3.2.06 — Edit-scope dialog & "this occurrence" overrides
+- [x] T3.2.07 — "This & following" series split
+- [x] T3.2.08 — "All occurrences" edits with history preservation
+- [x] T3.2.09 — Orphaned overrides handling
+- [x] T3.2.10 — Reschedule operations & reschedule history
+- [x] T3.2.11 — Delete scopes
+- [x] T3.2.12 — Missed detection, overdue & roll-over
+- [x] T3.2.13 — Tracking-mode behaviour
+- [x] T3.2.14 — Actual-time capture on completion
 - [ ] T3.2.15 — After-completion recurrence execution
 - [ ] T3.2.16 — Quota tasks ("N times per period")
 - [ ] T3.2.17 — Time tracking: timers, pauses & sessions
@@ -111,6 +111,7 @@ pre-filtering, memoization and background execution for heavy ranges.
 - A one-year range for 300 tasks resolves off the UI thread with no dropped frames.
 - Editing one task recomputes and re-emits only that task's occurrences (diff test).
 **Tests:** service tests with fake DAOs; isolate-path test; cap test.
+**Notes:** The "Too many occurrences — zoom in" message is rendered by the views ([3.3]) from `plannerRangeTruncatedProvider`; tests in `test/features/planner/application/occurrence_range_service_test.dart`.
 
 ### T3.2.03 — Display time-zone rules (fixed vs floating, all-day, DST)
 **Priority:** P0 · **Size:** S · **Depends on:** T3.2.01
@@ -159,6 +160,7 @@ sets `status_changed_at` / `completed_at`, writes an activity event (`completed`
 Every action is reachable through semantics actions.
 **Acceptance criteria:** every action shows in all open views within one frame of the DB write.
 **Tests:** widget tests for each tracking mode; golden.
+**Notes:** Goldens: `test/features/planner/presentation/goldens/occurrence_sheet_*.png`.
 
 ### T3.2.06 — Edit-scope dialog & "this occurrence" overrides
 **Priority:** P0 · **Size:** M · **Depends on:** T3.2.04, [3.1]
