@@ -33,7 +33,7 @@ reminders for follow-ups and resets ([7.5]); share-into-app ([8.2]).
 - [x] T4.5.08 — Import UX (paste, file, note → items)
 - [x] T4.5.09 — Export & share (Markdown, OPML, plain text)
 - [ ] T4.5.10 — PDF export / print
-- [ ] T4.5.11 — In-list sort & filter
+- [x] T4.5.11 — In-list sort & filter
 - [ ] T4.5.12 — Link checklist ↔ planner task
 - [ ] T4.5.13 — Checklist Insights entry points
 - [ ] T4.5.14 — Mind map view (synced with the outline)
@@ -218,6 +218,7 @@ Arabic text, malformed input.
 - Saved per checklist in `ui_checklist_state` (local). A clear "Sorted by … · Reset" banner is shown
   while active.
 **Tests:** unit tests on the visible list; widget test for the banner.
+**Notes:** Sorting (manual, A–Z, status, due, priority, recent; ascending/descending) applies per sibling group on the visible list only; undated / never-changed items stay last in both directions. Sort and filter persist per list in the local UI state and restore on open; the banner resets both.
 
 ### T4.5.12 — Link checklist ↔ planner task
 **Priority:** P1 · **Size:** S · **Depends on:** [3.1] (task editor & `tasks.linked_checklist_id`)
