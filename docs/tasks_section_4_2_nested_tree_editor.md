@@ -45,7 +45,7 @@ alternative views, templates, import/export ([4.5]).
 - [x] T4.2.16 — Multi-select & bulk actions
 - [x] T4.2.17 — Copy, cut & paste subtrees
 - [x] T4.2.18 — Tree accessibility
-- [ ] T4.2.19 — Performance hardening for huge lists
+- [x] T4.2.19 — Performance hardening for huge lists
 
 ## Tasks
 
@@ -359,3 +359,4 @@ editing works there.
 - Structural op → next frame < 16 ms.
 - The 20 000-item list stays usable (no ANR).
 **Tests:** performance scenario with thresholds in the [9.1] suite.
+**Notes:** Rows are memoized by (row, context) in the screen's row cache and get repaint boundaries from the sliver delegate; a status change rebuilds only that row (test). Above 10 000 items the tree is built with `Isolate.run` and readers keep the previous tree meanwhile; roll-ups and the visible list stay on the UI isolate (≈ 8 ms for 20 000 items in debug). Thresholds (debug JIT): 5 000 items < 60 ms, 20 000 < 200 ms for tree + roll-ups + visible list; on-device frame timing belongs to the [9.1] integration suite.

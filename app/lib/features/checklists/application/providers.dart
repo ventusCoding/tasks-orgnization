@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/features/attachments/application/providers.dart' show Attachment;
 import 'package:everslot/core/sync/sync_writer.dart';
@@ -109,9 +111,9 @@ final templatesProvider = StreamProvider.autoDispose<List<Checklist>>((ref) {
 /// Card summaries of the active (false) or archived (true) board, in one batch.
 final cardSummariesProvider = StreamProvider.autoDispose.family<Map<String, CardSummary>, bool>((ref, archived) {
   final lists = ref.watch(archived ? archivedChecklistsProvider : boardChecklistsProvider).value ?? const [];
-  return ref
-      .watch(checklistsRepositoryProvider)
-      .watchCardSummaries([for (final c in lists) c.id], now: ref.read(clockProvider).nowUtc());
+  return ref.watch(checklistsRepositoryProvider).watchCardSummaries([
+    for (final c in lists) c.id,
+  ], now: ref.read(clockProvider).nowUtc());
 });
 
 final cardThumbnailsProvider = StreamProvider.autoDispose.family<Map<String, Attachment>, bool>((ref, archived) {
@@ -146,10 +148,26 @@ final checklistItemsProvider = StreamProvider.autoDispose.family<List<ChecklistI
   return ref.watch(checklistItemsRepositoryProvider).watchItems(id);
 });
 
-/// Tree of the open checklist (null while loading). Rebuilt only when the rows change.
+/// Lists above this size build their tree in a background isolate (T4.2.19, arch §9.6).
+const treeIsolateThreshold = 10000;
+
+/// Builds a tree off the UI isolate; only [items] travel to the worker (the result comes back
+/// without a copy through `Isolate.exit`).
+Future<ChecklistTree> buildTreeInBackground(List<ChecklistItem> items) =>
+    Isolate.run(() => ChecklistTree.build(items), debugName: 'checklist-tree');
+
+final _backgroundTreeProvider = FutureProvider.autoDispose.family<ChecklistTree, String>((ref, id) {
+  final items = ref.watch(checklistItemsProvider(id)).value ?? const <ChecklistItem>[];
+  return buildTreeInBackground(items);
+});
+
+/// Tree of the open checklist (null while loading). Rebuilt only when the rows change; huge lists
+/// build it in an isolate and keep showing the previous tree until the new one arrives.
 final checklistTreeProvider = Provider.autoDispose.family<ChecklistTree?, String>((ref, id) {
   final items = ref.watch(checklistItemsProvider(id)).value;
-  return items == null ? null : ChecklistTree.build(items);
+  if (items == null) return null;
+  if (items.length <= treeIsolateThreshold) return ChecklistTree.build(items);
+  return ref.watch(_backgroundTreeProvider(id)).value;
 });
 
 final checklistRollupsProvider = Provider.autoDispose.family<Map<String, Rollup>, String>((ref, id) {
