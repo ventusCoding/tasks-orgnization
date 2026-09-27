@@ -6885,6 +6885,114 @@ abstract class AppLocalizations {
   /// **'Time in status'**
   String get itemTimeInStatus;
 
+  /// No description provided for @itemsColAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get itemsColAge;
+
+  /// No description provided for @itemsColAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Files'**
+  String get itemsColAttachments;
+
+  /// No description provided for @itemsColChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get itemsColChecklist;
+
+  /// No description provided for @itemsColDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due'**
+  String get itemsColDue;
+
+  /// No description provided for @itemsColFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up'**
+  String get itemsColFollowUp;
+
+  /// No description provided for @itemsColPath.
+  ///
+  /// In en, this message translates to:
+  /// **'Path'**
+  String get itemsColPath;
+
+  /// No description provided for @itemsColPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get itemsColPriority;
+
+  /// No description provided for @itemsColStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get itemsColStatus;
+
+  /// No description provided for @itemsColText.
+  ///
+  /// In en, this message translates to:
+  /// **'Item'**
+  String get itemsColText;
+
+  /// No description provided for @itemsTableEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No items match'**
+  String get itemsTableEmpty;
+
+  /// No description provided for @itemsTableFilterHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by text, list or path'**
+  String get itemsTableFilterHint;
+
+  /// No description provided for @itemsTableOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'All items (table)'**
+  String get itemsTableOpen;
+
+  /// No description provided for @itemsTableSelectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Select all shown items'**
+  String get itemsTableSelectAll;
+
+  /// No description provided for @itemsTableSelectRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Select {item}'**
+  String itemsTableSelectRow(String item);
+
+  /// No description provided for @itemsTableSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 selected} other{{count} selected}}'**
+  String itemsTableSelected(int count);
+
+  /// No description provided for @itemsTableSortBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by {column}'**
+  String itemsTableSortBy(String column);
+
+  /// No description provided for @itemsTableStatusChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item updated} other{{count} items updated}}'**
+  String itemsTableStatusChanged(int count);
+
+  /// No description provided for @itemsTableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All items'**
+  String get itemsTableTitle;
+
   /// No description provided for @kanbanAll.
   ///
   /// In en, this message translates to:

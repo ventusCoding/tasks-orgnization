@@ -314,6 +314,54 @@ class ChecklistsRepository {
         });
   }
 
+  /// Every live item of the active (not archived, not template) lists with its list and
+  /// breadcrumb — the flat all-items table (T4.5.15). At most [limit] items, list order then
+  /// outline-ish order.
+  Stream<List<SmartItem>> watchAllItems({int limit = 20000}) => _db
+      .customSelect(
+        'SELECT i.id AS id, c.title AS ctitle, c.color AS ccolor FROM checklist_items i '
+        'JOIN checklists c ON c.id = i.checklist_id WHERE $_activeListFilter AND i.user_id = ? '
+        'ORDER BY c.sort_key, c.id, i.sort_key, i.id LIMIT ?',
+        variables: [Variable<String>(_userId()), Variable<int>(limit)],
+        readsFrom: {_db.checklistItems, _db.checklists},
+      )
+      .watch()
+      .asyncMap((rows) async {
+        if (rows.isEmpty) return const <SmartItem>[];
+        final ids = [for (final r in rows) r.read<String>('id')];
+        final items = <String, ChecklistItem>{};
+        for (var k = 0; k < ids.length; k += 900) {
+          final chunk = ids.sublist(k, k + 900 > ids.length ? ids.length : k + 900);
+          for (final r in await (_db.select(_db.checklistItems)..where((i) => i.id.isIn(chunk))).get()) {
+            items[r.id] = ChecklistItemsRepository.map(r);
+          }
+        }
+        final paths = await _paths(ids);
+        return [
+          for (final r in rows)
+            if (items[r.read<String>('id')] != null)
+              SmartItem(
+                item: items[r.read<String>('id')]!,
+                checklistTitle: r.read<String>('ctitle'),
+                checklistColor: r.read<int?>('ccolor'),
+                path: paths[r.read<String>('id')] ?? const [],
+              ),
+        ];
+      });
+
+  /// Live attachment counts of every item in the active lists (all-items table).
+  Stream<Map<String, int>> watchAllItemAttachmentCounts() => _db
+      .customSelect(
+        'SELECT a.owner_id AS id, COUNT(*) AS n FROM attachments a '
+        'JOIN checklist_items i ON i.id = a.owner_id JOIN checklists c ON c.id = i.checklist_id '
+        "WHERE a.owner_type = 'checklist_item' AND a.deleted_at IS NULL AND $_activeListFilter "
+        'AND i.user_id = ? GROUP BY a.owner_id',
+        variables: [Variable<String>(_userId())],
+        readsFrom: {_db.attachments, _db.checklistItems, _db.checklists},
+      )
+      .watch()
+      .map((rows) => {for (final r in rows) r.read<String>('id'): r.read<int>('n')});
+
   /// Breadcrumb texts (root first) for items, via one recursive query.
   Future<Map<String, List<String>>> _paths(List<String> ids) async {
     final out = <String, List<(int, String)>>{};

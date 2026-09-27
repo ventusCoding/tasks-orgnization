@@ -4188,6 +4188,80 @@ class AppLocalizationsFr extends AppLocalizations {
   String get itemTimeInStatus => 'Temps par statut';
 
   @override
+  String get itemsColAge => 'Âge';
+
+  @override
+  String get itemsColAttachments => 'Fichiers';
+
+  @override
+  String get itemsColChecklist => 'Liste';
+
+  @override
+  String get itemsColDue => 'Échéance';
+
+  @override
+  String get itemsColFollowUp => 'Relance';
+
+  @override
+  String get itemsColPath => 'Chemin';
+
+  @override
+  String get itemsColPriority => 'Priorité';
+
+  @override
+  String get itemsColStatus => 'Statut';
+
+  @override
+  String get itemsColText => 'Élément';
+
+  @override
+  String get itemsTableEmpty => 'Aucun élément ne correspond';
+
+  @override
+  String get itemsTableFilterHint => 'Filtrer par texte, liste ou chemin';
+
+  @override
+  String get itemsTableOpen => 'Tous les éléments (tableau)';
+
+  @override
+  String get itemsTableSelectAll => 'Sélectionner tous les éléments affichés';
+
+  @override
+  String itemsTableSelectRow(String item) {
+    return 'Sélectionner $item';
+  }
+
+  @override
+  String itemsTableSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sélectionnés',
+      one: '1 sélectionné',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String itemsTableSortBy(String column) {
+    return 'Trier par $column';
+  }
+
+  @override
+  String itemsTableStatusChanged(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments mis à jour',
+      one: '1 élément mis à jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get itemsTableTitle => 'Tous les éléments';
+
+  @override
   String get kanbanAll => 'Tous les éléments';
 
   @override

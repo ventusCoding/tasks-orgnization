@@ -37,7 +37,7 @@ reminders for follow-ups and resets ([7.5]); share-into-app ([8.2]).
 - [x] T4.5.12 — Link checklist ↔ planner task
 - [x] T4.5.13 — Checklist Insights entry points
 - [ ] T4.5.14 — Mind map view (synced with the outline)
-- [ ] T4.5.15 — Flat all-items table
+- [x] T4.5.15 — Flat all-items table
 - [ ] T4.5.16 — Mirrors (live item copies)
 - [ ] T4.5.17 — Split panes
 
@@ -260,6 +260,7 @@ checklist or item stats in [6.4].
 - Columns: text, checklist, path, status, age, due, follow-up, priority, attachments.
 - Sort and filter; bulk status changes.
 **Tests:** widget tests; DAO test.
+**Notes:** Board menu → *All items (table)*: `TableView` with pinned header and select + item columns (RTL mirrored), header taps sort (pure `ItemTableQuery`, missing values last), status chips and a text filter (item, list or path), multi-select with a status change applied as one operation per list. Items of archived / template / deleted lists are excluded; capped at 20 000 rows.
 
 ### T4.5.16 — Mirrors (live item copies)
 **Priority:** P2 · **Size:** L · **Depends on:** [4.2]

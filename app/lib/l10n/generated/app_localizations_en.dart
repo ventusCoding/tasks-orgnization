@@ -4166,6 +4166,80 @@ class AppLocalizationsEn extends AppLocalizations {
   String get itemTimeInStatus => 'Time in status';
 
   @override
+  String get itemsColAge => 'Age';
+
+  @override
+  String get itemsColAttachments => 'Files';
+
+  @override
+  String get itemsColChecklist => 'List';
+
+  @override
+  String get itemsColDue => 'Due';
+
+  @override
+  String get itemsColFollowUp => 'Follow-up';
+
+  @override
+  String get itemsColPath => 'Path';
+
+  @override
+  String get itemsColPriority => 'Priority';
+
+  @override
+  String get itemsColStatus => 'Status';
+
+  @override
+  String get itemsColText => 'Item';
+
+  @override
+  String get itemsTableEmpty => 'No items match';
+
+  @override
+  String get itemsTableFilterHint => 'Filter by text, list or path';
+
+  @override
+  String get itemsTableOpen => 'All items (table)';
+
+  @override
+  String get itemsTableSelectAll => 'Select all shown items';
+
+  @override
+  String itemsTableSelectRow(String item) {
+    return 'Select $item';
+  }
+
+  @override
+  String itemsTableSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count selected',
+      one: '1 selected',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String itemsTableSortBy(String column) {
+    return 'Sort by $column';
+  }
+
+  @override
+  String itemsTableStatusChanged(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items updated',
+      one: '1 item updated',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get itemsTableTitle => 'All items';
+
+  @override
   String get kanbanAll => 'All items';
 
   @override

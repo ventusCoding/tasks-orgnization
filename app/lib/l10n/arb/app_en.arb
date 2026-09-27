@@ -1573,6 +1573,34 @@
       }
     }
   },
+  "@itemsTableSelectRow": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "@itemsTableSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@itemsTableSortBy": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "@itemsTableStatusChanged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@listsBadgeBlocked": {
     "placeholders": {
       "count": {
@@ -4806,6 +4834,24 @@
   "itemText": "Text",
   "itemThisDevice": "this device",
   "itemTimeInStatus": "Time in status",
+  "itemsColAge": "Age",
+  "itemsColAttachments": "Files",
+  "itemsColChecklist": "List",
+  "itemsColDue": "Due",
+  "itemsColFollowUp": "Follow-up",
+  "itemsColPath": "Path",
+  "itemsColPriority": "Priority",
+  "itemsColStatus": "Status",
+  "itemsColText": "Item",
+  "itemsTableEmpty": "No items match",
+  "itemsTableFilterHint": "Filter by text, list or path",
+  "itemsTableOpen": "All items (table)",
+  "itemsTableSelectAll": "Select all shown items",
+  "itemsTableSelectRow": "Select {item}",
+  "itemsTableSelected": "{count, plural, =1{1 selected} other{{count} selected}}",
+  "itemsTableSortBy": "Sort by {column}",
+  "itemsTableStatusChanged": "{count, plural, =1{1 item updated} other{{count} items updated}}",
+  "itemsTableTitle": "All items",
   "kanbanAll": "All items",
   "kanbanChildren": "Direct sub-items",
   "kanbanEmptyColumn": "Drop items here",

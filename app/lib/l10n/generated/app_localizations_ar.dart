@@ -4330,6 +4330,88 @@ class AppLocalizationsAr extends AppLocalizations {
   String get itemTimeInStatus => 'الوقت في كل حالة';
 
   @override
+  String get itemsColAge => 'المدة';
+
+  @override
+  String get itemsColAttachments => 'الملفات';
+
+  @override
+  String get itemsColChecklist => 'القائمة';
+
+  @override
+  String get itemsColDue => 'الاستحقاق';
+
+  @override
+  String get itemsColFollowUp => 'المتابعة';
+
+  @override
+  String get itemsColPath => 'المسار';
+
+  @override
+  String get itemsColPriority => 'الأولوية';
+
+  @override
+  String get itemsColStatus => 'الحالة';
+
+  @override
+  String get itemsColText => 'العنصر';
+
+  @override
+  String get itemsTableEmpty => 'لا توجد عناصر مطابقة';
+
+  @override
+  String get itemsTableFilterHint => 'التصفية حسب النص أو القائمة أو المسار';
+
+  @override
+  String get itemsTableOpen => 'كل العناصر (جدول)';
+
+  @override
+  String get itemsTableSelectAll => 'تحديد كل العناصر المعروضة';
+
+  @override
+  String itemsTableSelectRow(String item) {
+    return 'تحديد $item';
+  }
+
+  @override
+  String itemsTableSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر محدد',
+      many: '$count عنصرًا محددًا',
+      few: '$count عناصر محددة',
+      two: 'عنصران محددان',
+      one: 'عنصر واحد محدد',
+      zero: 'لا شيء محدد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String itemsTableSortBy(String column) {
+    return 'الترتيب حسب $column';
+  }
+
+  @override
+  String itemsTableStatusChanged(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم تحديث $count عنصر',
+      many: 'تم تحديث $count عنصرًا',
+      few: 'تم تحديث $count عناصر',
+      two: 'تم تحديث عنصرين',
+      one: 'تم تحديث عنصر واحد',
+      zero: 'لم يُحدَّث شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get itemsTableTitle => 'كل العناصر';
+
+  @override
   String get kanbanAll => 'كل العناصر';
 
   @override

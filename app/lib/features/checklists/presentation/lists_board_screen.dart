@@ -14,6 +14,7 @@ import 'package:everslot/features/checklists/presentation/archive_templates_scre
 import 'package:everslot/features/checklists/presentation/checklist_card.dart';
 import 'package:everslot/features/checklists/presentation/checklist_navigation.dart';
 import 'package:everslot/features/checklists/presentation/import_export_ui.dart';
+import 'package:everslot/features/checklists/presentation/items_table_screen.dart';
 import 'package:everslot/features/checklists/presentation/lists_preferences_sheet.dart';
 import 'package:everslot/features/organization/application/providers.dart' show tagsByEntityProvider, tagsProvider;
 import 'package:everslot/features/organization/domain/tag.dart';
@@ -213,6 +214,8 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
                   await Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const ArchiveScreen()));
                 case 'templates':
                   await Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const TemplatesScreen()));
+                case 'table':
+                  await Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const ItemsTableScreen()));
                 case 'trash':
                   openTrash(context);
                 case 'import':
@@ -224,6 +227,7 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
             itemBuilder: (_) => [
               PopupMenuItem(value: 'archive', child: Text(l.listsArchive)),
               PopupMenuItem(value: 'templates', child: Text(l.listsTemplates)),
+              PopupMenuItem(value: 'table', child: Text(l.itemsTableOpen)),
               PopupMenuItem(value: 'trash', child: Text(l.listsTrash)),
               PopupMenuItem(value: 'import', child: Text(l.listsImportFile)),
               PopupMenuItem(value: 'prefs', child: Text(l.listsPreferences)),
