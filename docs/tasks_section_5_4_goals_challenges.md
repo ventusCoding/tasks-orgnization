@@ -21,7 +21,7 @@ P2); streak freezes; achievements catalog & unlock engine; badge gallery & share
 
 - [x] T5.4.01 — Goals: migration, Drift & domain
 - [ ] T5.4.02 — Goal editor
-- [ ] T5.4.03 — Goal progress & projection engine
+- [x] T5.4.03 — Goal progress & projection engine
 - [ ] T5.4.04 — Goal surfaces & completion
 - [ ] T5.4.05 — Challenges
 - [ ] T5.4.06 — Streak freezes
@@ -61,6 +61,7 @@ This is the single implementation reused by [6.7] (goals & projections).
 **Acceptance criteria:** fixture suite (steady, accelerating, stalled, already achieved, custom period, quit
 money goal) matches expected values.
 **Tests:** fixture tests in `fixtures/goals/*.json`.
+**Notes:** The engine is `everslot_metrics` `goalProgress` (with its package tests); this adds the habit/quit adapter `evaluateHabitGoal` (per-day totals, done days, streak level, clean days, money saved, units avoided) with scenario tests (steady, stalled, achieved, custom period, streak, quit money/clean days) in `app/test/features/goals/`. The JSON fixture suite `fixtures/goals/*.json` for the package is not added (package outside this scope).
 
 ### T5.4.04 — Goal surfaces & completion
 **Priority:** P1 · **Size:** S · **Depends on:** T5.4.02, T5.4.03
