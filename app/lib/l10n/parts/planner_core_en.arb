@@ -286,5 +286,7 @@
   "@tasksShareRepeats": {"placeholders": {"rule": {"type": "String"}}},
   "tasksTooManyOccurrences": "Too many occurrences to display — zoom in",
   "tasksRolledOver": "{count, plural, =1{1 unfinished task moved to today} other{{count} unfinished tasks moved to today}}",
-  "@tasksRolledOver": {"placeholders": {"count": {"type": "int"}}}
+  "@tasksRolledOver": {"placeholders": {"count": {"type": "int"}}},
+  "tasksFieldTags": "Tags",
+  "tasksAddTag": "Add a tag"
 }

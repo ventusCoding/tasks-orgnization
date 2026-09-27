@@ -9790,6 +9790,12 @@ abstract class AppLocalizations {
   /// **'Add session'**
   String get tasksAddEntry;
 
+  /// No description provided for @tasksAddTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a tag'**
+  String get tasksAddTag;
+
   /// No description provided for @tasksAnchorMoved.
   ///
   /// In en, this message translates to:
@@ -10401,6 +10407,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start date'**
   String get tasksFieldStartDate;
+
+  /// No description provided for @tasksFieldTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get tasksFieldTags;
 
   /// No description provided for @tasksFieldTimeZone.
   ///
