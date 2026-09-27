@@ -45,8 +45,8 @@ completion, punctuality and procrastination.
 - [x] T3.2.17 — Time tracking: timers, pauses & sessions
 - [x] T3.2.18 — Manual time entries & editing
 - [x] T3.2.19 — Running-timer indicator & timer policy
-- [ ] T3.2.20 — Series history view
-- [ ] T3.2.21 — Pause / resume a series
+- [x] T3.2.20 — Series history view
+- [x] T3.2.21 — Pause / resume a series
 - [ ] T3.2.22 — Occurrence notes & attachments
 - [ ] T3.2.23 — Bulk occurrence actions
 
