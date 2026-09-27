@@ -508,18 +508,28 @@ class _OutcomeSection extends ConsumerWidget {
         ),
         Padding(
           padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
-          child: Row(
+          // The stars wrap under the label when both don't fit (Arabic, text scale 2.0).
+          child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(l.tasksRating),
-              const Spacer(),
-              for (var i = 1; i <= 5; i++)
-                IconButton(
-                  key: ValueKey('occurrence-rate-$i'),
-                  tooltip: l.tasksRatingValue(i),
-                  isSelected: i <= rating,
-                  onPressed: () => service.rate(item, i == rating ? null : i),
-                  icon: Icon(i <= rating ? Icons.star : Icons.star_border, color: i <= rating ? context.appColors.warning : null),
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (var i = 1; i <= 5; i++)
+                    IconButton(
+                      key: ValueKey('occurrence-rate-$i'),
+                      tooltip: l.tasksRatingValue(i),
+                      isSelected: i <= rating,
+                      onPressed: () => service.rate(item, i == rating ? null : i),
+                      icon: Icon(
+                        i <= rating ? Icons.star : Icons.star_border,
+                        color: i <= rating ? context.appColors.warning : null,
+                      ),
+                    ),
+                ],
+              ),
             ],
           ),
         ),
@@ -656,9 +666,15 @@ class _SessionsSection extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        SectionHeader(
-          l.tasksTimeTracking,
-          trailing: Text(l.tasksTracked(format.duration((tracked / 60).round()))),
+        SectionHeader(l.tasksTimeTracking),
+        // Under the header, not beside it: long totals and text scale 2.0 must not overflow.
+        Padding(
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
+          child: Text(
+            l.tasksTracked(format.duration((tracked / 60).round())),
+            key: const ValueKey('occurrence-tracked'),
+            style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant),
+          ),
         ),
         for (final e in entries)
           ListTile(
