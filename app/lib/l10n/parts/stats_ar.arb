@@ -80,6 +80,8 @@
   "statsSectionCravings": "الرغبات الملحّة",
   "statsSectionWeek": "الأسبوع في لمحة",
   "statsSectionShortcuts": "الأقسام",
+  "statsSectionReview": "المراجعة الأسبوعية",
+  "statsSectionPinned": "المثبّتة",
   "statsSectionExpand": "توسيع {section}",
   "statsSectionCollapse": "طي {section}",
   "statsCardError": "تعذّر حساب هذه البطاقة.",
