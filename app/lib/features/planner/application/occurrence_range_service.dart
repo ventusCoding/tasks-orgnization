@@ -159,7 +159,11 @@ class OccurrenceRangeService {
     final result = await _resolve(data, from, to, now);
     resolutions++;
     final items = [
-      for (final o in result.occurrences) o.toPlannerItem(categoryColor: data.categoryColors[o.task.categoryId]),
+      for (final o in result.occurrences)
+        o.toPlannerItem(
+          categoryColor: data.categoryColors[o.task.categoryId],
+          categoryIcon: data.categoryIcons[o.task.categoryId],
+        ),
     ];
     final range = ResolvedRange(
       items: List.unmodifiable(items),

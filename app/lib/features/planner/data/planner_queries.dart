@@ -38,11 +38,19 @@ class LinkedChecklistInfo {
 /// Inputs of a range resolution: pre-filtered tasks, their records and category colors.
 @immutable
 class RangeData {
-  const RangeData({required this.tasks, required this.records, required this.categoryColors});
+  const RangeData({
+    required this.tasks,
+    required this.records,
+    required this.categoryColors,
+    this.categoryIcons = const {},
+  });
 
   final List<Task> tasks;
   final List<TaskOccurrenceRecord> records;
   final Map<String, int> categoryColors;
+
+  /// Icon keys of the categories that have one (default task icon, T3.1.12).
+  final Map<String, String> categoryIcons;
 }
 
 /// Read side of the planner (DAO role, T3.1.03): Drift streams and range pre-filters.
@@ -203,6 +211,14 @@ class PlannerQueries {
     return {for (final c in rows) c.id: c.color};
   }
 
+  /// Category icon keys by id (categories without an icon are left out).
+  Future<Map<String, String>> categoryIcons() async {
+    final rows = await (_db.select(_db.categories)
+          ..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId())))
+        .get();
+    return {for (final c in rows) if (c.icon case final icon? when icon.isNotEmpty) c.id: icon};
+  }
+
   /// Category names by id (notification template variable `category`).
   Future<Map<String, String>> categoryNames() async {
     final rows = await (_db.select(_db.categories)
@@ -220,7 +236,12 @@ class PlannerQueries {
       tasks = [for (final t in tasks) t.isPaused ? t.copyWith(pausedAt: at[t.id]) : t];
     }
     final records = await recordsForRange(tasks, from, to);
-    return RangeData(tasks: tasks, records: records, categoryColors: await categoryColors());
+    return RangeData(
+      tasks: tasks,
+      records: records,
+      categoryColors: await categoryColors(),
+      categoryIcons: await categoryIcons(),
+    );
   }
 
   /// Emits whenever planner-relevant tables change (tasks, occurrences, categories).

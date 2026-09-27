@@ -227,6 +227,17 @@ void main() {
     expect((await tasks(tester)).single.url, 'https://example.com/page');
   });
 
+  testWidgets('icon: picked from the catalog, saved, and cleared back to the default (T3.1.12)', (tester) async {
+    await openEditor(tester, const TaskEditorScreen(initialStart: '2026-09-21T09:00'));
+    await tester.enterText(key('task-title'), 'Run');
+    await tapIn(tester, key('task-icon'), scrollKey: editorList);
+    await tester.tap(find.byTooltip('run'));
+    await pumpFor(tester);
+    await tapIn(tester, key('task-save'), scrollKey: editorList);
+    await settle(tester);
+    expect((await tasks(tester)).single.icon, 'run');
+  });
+
   testWidgets('Arabic RTL and text scale 2.0 lay out without overflow', (tester) async {
     tester.platformDispatcher.textScaleFactorTestValue = 2;
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);

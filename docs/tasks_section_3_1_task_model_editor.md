@@ -33,8 +33,8 @@ recurrence engine and rule builder UI ([2.1]); notification rule editor ([7.1]);
 - [x] T3.1.08 — Quick-create sheet
 - [x] T3.1.09 — Task details view with history
 - [x] T3.1.10 — Delete, restore & undo UX
-- [ ] T3.1.11 — Unscheduled (backlog) task model
-- [ ] T3.1.12 — Task icon
+- [x] T3.1.11 — Unscheduled (backlog) task model
+- [x] T3.1.12 — Task icon
 - [ ] T3.1.13 — Deadline (due date separate from planned time)
 - [ ] T3.1.14 — Overlap / conflict warning
 - [ ] T3.1.15 — Markdown-lite notes
@@ -246,6 +246,7 @@ live in [3.7].
 and widgets. Defaults to the category icon.
 **Data model:** `tasks.icon text` (nullable) (arch §7.3).
 **Tests:** widget test; mapper round-trip.
+**Notes:** `PlannerItem.icon` is the effective icon: the task icon, else its category icon (range items, occurrence sheet, backlog items).
 
 ### T3.1.13 — Deadline (due date separate from planned time)
 **Priority:** P1 · **Size:** M · **Depends on:** T3.1.06

@@ -284,7 +284,12 @@ final occurrenceItemProvider = StreamProvider.autoDispose.family<PlannerItem?, O
       taskId: o.taskId,
       key: o.key,
     );
-    return match?.toPlannerItem(categoryColor: (await queries.categoryColors())[match.task.categoryId]);
+    if (match == null) return null;
+    final category = match.task.categoryId;
+    return match.toPlannerItem(
+      categoryColor: (await queries.categoryColors())[category],
+      categoryIcon: (await queries.categoryIcons())[category],
+    );
   }
 
   final controller = StreamController<PlannerItem?>();

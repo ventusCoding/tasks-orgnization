@@ -1,4 +1,5 @@
 import 'package:everslot/core/providers.dart';
+import 'package:everslot/features/organization/application/providers.dart' show categoriesRepositoryProvider;
 import 'package:everslot/features/planner/application/occurrence_range_service.dart';
 import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot/features/planner/application/planner_settings.dart';
@@ -138,6 +139,19 @@ void main() {
     expect(byTitle(after, 'Floating').timeZone, isNull);
     expect(byTitle(after, 'Fixed').startLocal, ldt('2026-09-23T21:00'));
     expect(byTitle(after, 'Fixed').startUtc, DateTime.utc(2026, 9, 23, 12));
+  });
+
+  test('items default to the category icon and color; own values win (T3.1.12)', () async {
+    final category = (await h.read(categoriesRepositoryProvider).add(name: 'Sport', color: 0xFF10B981, icon: 'fitness')).id;
+    await h.createTask(title: 'Default', start: '2026-09-22T08:00', categoryId: category);
+    final own = await h.createTask(title: 'Own', start: '2026-09-22T10:00', categoryId: category);
+    final task = (await h.task(own))!;
+    await h.tasks.update(task.copyWith(icon: 'run'));
+    final items = (await service().resolveRange(from, to)).items;
+    PlannerItem byTitle(String t) => items.firstWhere((i) => i.title == t);
+    expect(byTitle('Default').icon, 'fitness');
+    expect(byTitle('Default').color, 0xFF10B981);
+    expect(byTitle('Own').icon, 'run');
   });
 
   test('item counts stay consistent with PlannerItem keys', () async {
