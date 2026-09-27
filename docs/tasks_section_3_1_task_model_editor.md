@@ -333,3 +333,4 @@ backlog drawer ([3.7]). Completing the task offers to complete the item. The ite
 badge linking back to the task.
 **Data model:** `tasks.linked_item_id uuid` (nullable, FK to `checklist_items`).
 **Tests:** repository test of the bidirectional completion prompt logic.
+**Notes:** BLOCKED — the schema has no `tasks.linked_item_id` column yet (neither the server migration nor the Drift `Tasks` table; arch §7.3 lists it as a P2 column). Needs: migration + Drift column + schema bump + table-registry mapping (lead / schema owner). The item-menu entry and the drawer drag belong to [4.2] / [3.7].
