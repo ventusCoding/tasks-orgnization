@@ -35,8 +35,8 @@ recurrence engine and rule builder UI ([2.1]); notification rule editor ([7.1]);
 - [x] T3.1.10 — Delete, restore & undo UX
 - [x] T3.1.11 — Unscheduled (backlog) task model
 - [x] T3.1.12 — Task icon
-- [ ] T3.1.13 — Deadline (due date separate from planned time)
-- [ ] T3.1.14 — Overlap / conflict warning
+- [x] T3.1.13 — Deadline (due date separate from planned time)
+- [x] T3.1.14 — Overlap / conflict warning
 - [ ] T3.1.15 — Markdown-lite notes
 - [ ] T3.1.16 — Linked checklist integration
 - [ ] T3.1.17 — Tags on tasks
@@ -259,6 +259,7 @@ slot: "I plan it Tuesday 10:00; it's due Friday".
 **Acceptance criteria:** planning a task after its deadline shows a warning; stats can compare completion
 time with the deadline ([6.3]).
 **Tests:** validation and widget tests.
+**Notes:** Tile flag, at-risk indicators and backlog sorting are rendered by the views ([3.3]–[3.7]) from `PlannerItem.deadlineLocal`; the one-off deadline is the `due` anchor of planner notification targets.
 
 ### T3.1.14 — Overlap / conflict warning
 **Priority:** P1 · **Size:** S · **Depends on:** T3.1.06, [3.2]

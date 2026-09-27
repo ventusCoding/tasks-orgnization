@@ -238,6 +238,47 @@ void main() {
     expect((await tasks(tester)).single.icon, 'run');
   });
 
+  testWidgets('a task planned after its deadline shows a warning (T3.1.13)', (tester) async {
+    final id = (await tester.runAsync(() async {
+      final result = await h.tasks.create(
+        Task(
+          id: '',
+          seriesId: '',
+          title: 'Report',
+          startLocal: ldt('2026-09-26T09:00'),
+          durationMinutes: 60,
+          deadlineLocal: ldt('2026-09-25T23:59'),
+        ),
+      );
+      return result.taskId;
+    }))!;
+    await openEditor(tester, TaskEditorScreen(taskId: id));
+    final scrollable = find.descendant(of: find.byKey(editorList), matching: find.byType(Scrollable)).first;
+    await tester.scrollUntilVisible(key('task-deadline'), 150, scrollable: scrollable);
+    await pumpFor(tester);
+    expect(find.text('Planned after the deadline'), findsOneWidget);
+    await tester.tap(find.descendant(of: key('task-deadline'), matching: find.byTooltip('Clear')));
+    await pumpFor(tester);
+    expect(find.text('Planned after the deadline'), findsNothing);
+  });
+
+  testWidgets('overlap hint lists the overlapping task while editing the time (T3.1.14)', (tester) async {
+    await tester.runAsync(() => h.createTask(title: 'Team sync', start: '2026-09-21T09:30', duration: 30));
+    await openEditor(tester, const TaskEditorScreen(initialStart: '2026-09-21T09:00', initialDurationMinutes: 60));
+    await tester.pump(const Duration(milliseconds: 300)); // debounce
+    await settle(tester);
+    final scrollable = find.descendant(of: find.byKey(editorList), matching: find.byType(Scrollable)).first;
+    await tester.scrollUntilVisible(key('task-overlap'), 150, scrollable: scrollable);
+    expect(find.textContaining('Overlaps with'), findsOneWidget);
+    expect(find.textContaining('Team sync'), findsOneWidget);
+    expect(find.textContaining('09:30'), findsWidgets);
+    // Shortening the task to 30 min ends the overlap.
+    await tapIn(tester, key('task-duration-30'), scrollKey: editorList);
+    await tester.pump(const Duration(milliseconds: 300));
+    await settle(tester);
+    expect(key('task-overlap'), findsNothing);
+  });
+
   testWidgets('Arabic RTL and text scale 2.0 lay out without overflow', (tester) async {
     tester.platformDispatcher.textScaleFactorTestValue = 2;
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
