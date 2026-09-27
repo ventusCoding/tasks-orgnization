@@ -37,7 +37,7 @@ recurrence engine and rule builder UI ([2.1]); notification rule editor ([7.1]);
 - [x] T3.1.12 — Task icon
 - [x] T3.1.13 — Deadline (due date separate from planned time)
 - [x] T3.1.14 — Overlap / conflict warning
-- [ ] T3.1.15 — Markdown-lite notes
+- [x] T3.1.15 — Markdown-lite notes
 - [ ] T3.1.16 — Linked checklist integration
 - [ ] T3.1.17 — Tags on tasks
 - [ ] T3.1.18 — Multi-select & bulk edit
@@ -277,6 +277,7 @@ details view, the occurrence sheet and search snippets, and are stored as Markdo
 **Implementation notes:** no raw HTML; confirm before opening external links; paragraph direction follows
 the first strong character (mixed Arabic/Latin).
 **Tests:** parser/renderer unit tests; goldens (LTR/RTL).
+**Notes:** Search snippets belong to the search feature ([8.1]); `markdownLiteToPlain` is available for them.
 
 ### T3.1.16 — Linked checklist integration
 **Priority:** P1 · **Size:** S · **Depends on:** T3.1.07, [4.1], [4.3]
