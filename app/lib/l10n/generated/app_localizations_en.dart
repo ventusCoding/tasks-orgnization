@@ -6520,6 +6520,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsCurrentZone => 'Current time zone (this device)';
 
   @override
+  String get settingsDataSubtitle => 'Back up, restore or move your data';
+
+  @override
+  String get settingsDataTitle => 'Export & import';
+
+  @override
   String get settingsDayStart => 'Habit day starts at';
 
   @override

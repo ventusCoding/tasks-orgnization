@@ -4767,6 +4767,8 @@
   "settingsCompleteChildren": "When completing a parent",
   "settingsCurrency": "Currency for quit savings",
   "settingsCurrentZone": "Current time zone (this device)",
+  "settingsDataSubtitle": "Back up, restore or move your data",
+  "settingsDataTitle": "Export & import",
   "settingsDayStart": "Habit day starts at",
   "settingsDayStartSubtitle": "Check-ins before this time count for the previous day. Applies to new check-ins only.",
   "settingsDefaultOpen": "Open in",

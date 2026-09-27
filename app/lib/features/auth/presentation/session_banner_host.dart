@@ -43,7 +43,7 @@ class SessionBannerHost extends ConsumerWidget {
         message: l.authDeviceRevokedBody,
         actions: [
           (l.authExportFirst, () => onOpen('/settings/data')),
-          (l.authSignOut, () => onOpen('/settings/account?revoked=1')),
+          (l.authSignOut, () => onOpen('/settings/account')),
         ],
       );
     }
