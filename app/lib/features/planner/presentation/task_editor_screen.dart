@@ -115,13 +115,16 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
   final _url = TextEditingController();
   final _reminders = NotificationRulesDraft();
 
-  /// Captured once: [dispose] must not touch `ref` (discarding an abandoned draft).
   late final PlannerService _service = ref.read(plannerServiceProvider);
+
+  /// Bound in [initState]: [dispose] must not touch `ref` (discarding an abandoned draft).
+  Future<void> Function(String taskId)? _discardDraft;
 
   @override
   void initState() {
     super.initState();
     if (_isNew) {
+      _discardDraft = _service.draftDiscarder();
       final settings = ref.read(plannerSettingsProvider);
       final start = _parseStart(widget.initialStart) ?? nextQuarterHour(_service.nowLocal);
       final form = TaskForm.create(
@@ -220,7 +223,7 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
     _location.dispose();
     _url.dispose();
     _reminders.dispose();
-    if (_isNew && !_saved) unawaited(_service.discardDraft(_id));
+    if (_isNew && !_saved) unawaited(_discardDraft?.call(_id));
     super.dispose();
   }
 

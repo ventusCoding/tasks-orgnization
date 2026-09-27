@@ -26,6 +26,9 @@ Future<void> openAndSettle(WidgetTester tester) async {
 
 /// Scrolls [finder] into view inside the scrollable under [scrollKey] (top first), then taps it.
 Future<void> tapIn(WidgetTester tester, Finder finder, {required Key scrollKey}) async {
+  // A focused text field scrolls itself back on screen after typing (post-frame "show caret"):
+  // let that happen first so it cannot undo the scroll below.
+  await pumpFor(tester, const Duration(milliseconds: 200));
   final scrollable = find.descendant(of: find.byKey(scrollKey), matching: find.byType(Scrollable)).first;
   if (finder.evaluate().isEmpty) {
     tester.state<ScrollableState>(scrollable).position.jumpTo(0);

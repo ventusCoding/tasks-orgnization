@@ -132,6 +132,19 @@ class PlannerService {
   /// (attachments added before saving). No-op for saved tasks.
   Future<void> discardDraft(String taskId) => tasks.discardDraft(taskId);
 
+  /// [discardDraft] bound to the current repository, for `State.dispose`: it never touches the
+  /// provider scope again (which may already be gone) and ignores a closed database.
+  Future<void> Function(String taskId) draftDiscarder() {
+    final repository = tasks;
+    return (taskId) async {
+      try {
+        await repository.discardDraft(taskId);
+      } on Object {
+        // The session ended with the editor still open: nothing left to clean up.
+      }
+    };
+  }
+
   /// Saves an edited task with the chosen scope (T3.2.06–T3.2.09).
   Future<TaskWriteResult> updateTask(
     Task edited, {
