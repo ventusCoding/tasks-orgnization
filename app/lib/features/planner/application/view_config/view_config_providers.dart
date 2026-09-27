@@ -35,6 +35,20 @@ final viewStateRepositoryProvider = Provider<ViewStateRepository>(
 /// Deterministic id of the built-in saved view of a registry entry (converges across devices).
 String entryViewId(String userId, String entryId) => SavedViewsRepository.entryViewId(userId, entryId);
 
+/// First run (T3.3.01): one built-in saved view per MVP view (the week table is the default).
+/// Idempotent, with deterministic ids so devices converge.
+final plannerDefaultViewsProvider = FutureProvider<void>((ref) async {
+  ref.watch(currentUserIdProvider);
+  try {
+    await ref.watch(savedViewsRepositoryProvider).ensureDefaults({
+      'week_table': (ViewKeys.defaultsForEntry('week_table'), 'week_table'),
+      'day_list': (ViewKeys.defaultsForEntry('day_list'), 'day_list'),
+    });
+  } on Object {
+    // No database (widget previews): views keep their in-memory defaults.
+  }
+});
+
 /// Local view state of one view (T3.3.02): loaded once, then kept in memory; writes are debounced
 /// to the local-only `ui_view_state` table (never synced).
 final plannerViewStateProvider = NotifierProvider.family<ViewStateController, ViewState?, String>(ViewStateController.new);

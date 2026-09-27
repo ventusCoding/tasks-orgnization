@@ -147,6 +147,7 @@ class PlannerHarness {
     String zone = 'UTC',
     List<PlannerItem> items = const [],
     List<Override> overrides = const [],
+    bool realData = false,
   }) {
     if (!_tzReady) {
       tzdata.initializeTimeZones();
@@ -168,9 +169,12 @@ class PlannerHarness {
         clockProvider.overrideWithValue(clock),
         deviceIdProvider.overrideWithValue('device-test'),
         deviceZoneProvider.overrideWith(() => _TestZoneController(zone)),
-        plannerItemsProvider.overrideWith((ref, range) => backend.watch(range)),
-        backlogItemsProvider.overrideWith((ref) => Stream.value(backend.backlog)),
-        plannerActionsProvider.overrideWithValue(backend),
+        // The fake contract; [realData] runs the views on the planner data layer instead.
+        if (!realData) ...[
+          plannerItemsProvider.overrideWith((ref, range) => backend.watch(range)),
+          backlogItemsProvider.overrideWith((ref) => Stream.value(backend.backlog)),
+          plannerActionsProvider.overrideWithValue(backend),
+        ],
         plannerNavProvider.overrideWithValue(nav),
         // The app bar's inbox badge re-evaluates on a 1-minute timer; keep tests timer-free.
         inboxUnreadCountProvider.overrideWith((ref) => Stream.value(0)),

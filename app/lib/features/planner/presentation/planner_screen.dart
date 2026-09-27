@@ -17,6 +17,7 @@ class PlannerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(plannerDefaultViewsProvider);
     final registry = ref.watch(plannerViewRegistryProvider);
     final saved = ref.watch(plannerSavedViewsProvider).value ?? const <SavedView>[];
     final key = _effectiveKey(ref, registry, saved);
