@@ -652,5 +652,13 @@
   "importMoreLines": "{count, plural, =1{…and 1 more item} other{…and {count} more items}}",
   "@importMoreLines": {"placeholders": {"count": {"type": "int"}}},
   "checklistDoneThisWeek": "{count, plural, =1{1 done this week} other{{count} done this week}}",
-  "@checklistDoneThisWeek": {"placeholders": {"count": {"type": "int"}}}
+  "@checklistDoneThisWeek": {"placeholders": {"count": {"type": "int"}}},
+  "checklistLinkTask": "Link to existing task…",
+  "checklistLinkTaskTitle": "Link a task",
+  "checklistNoTasksToLink": "No tasks to link yet",
+  "checklistTaskLinked": "Linked to {task}",
+  "@checklistTaskLinked": {"placeholders": {"task": {"type": "String"}}},
+  "checklistLinkedTaskSemantics": "Linked task {task}",
+  "@checklistLinkedTaskSemantics": {"placeholders": {"task": {"type": "String"}}},
+  "checklistTaskScheduled": "Task created — set its time"
 }

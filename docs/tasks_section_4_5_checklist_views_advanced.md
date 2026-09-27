@@ -34,7 +34,7 @@ reminders for follow-ups and resets ([7.5]); share-into-app ([8.2]).
 - [x] T4.5.09 — Export & share (Markdown, OPML, plain text)
 - [ ] T4.5.10 — PDF export / print
 - [x] T4.5.11 — In-list sort & filter
-- [ ] T4.5.12 — Link checklist ↔ planner task
+- [x] T4.5.12 — Link checklist ↔ planner task
 - [x] T4.5.13 — Checklist Insights entry points
 - [ ] T4.5.14 — Mind map view (synced with the outline)
 - [ ] T4.5.15 — Flat all-items table
@@ -232,6 +232,7 @@ Arabic text, malformed input.
 - The task tile shows the list's progress ([3.1]).
 - The link is stored only on `tasks`, never duplicated.
 **Tests:** DAO test; widget tests for both directions.
+**Notes:** Through the planner's application API (`plannerServiceProvider.createTask` / `linkChecklist`): *Schedule as task* creates an unscheduled task named after the list and opens its editor; *Link to existing task…* picks from the backlog + the next 60 days of occurrences; header chips open the task. TODO(integration): a planner query by `linked_checklist_id` would also list tasks whose occurrences are further away. The task tile's list progress is the planner side (T3.1.16).
 
 ### T4.5.13 — Checklist Insights entry points
 **Priority:** P1 · **Size:** S · **Depends on:** [6.4]

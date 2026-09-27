@@ -892,6 +892,13 @@
       }
     }
   },
+  "@checklistLinkedTaskSemantics": {
+    "placeholders": {
+      "task": {
+        "type": "String"
+      }
+    }
+  },
   "@checklistProgress": {
     "placeholders": {
       "done": {
@@ -947,6 +954,13 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "@checklistTaskLinked": {
+    "placeholders": {
+      "task": {
+        "type": "String"
       }
     }
   },
@@ -3611,7 +3625,10 @@
   "checklistLabelName": "Label name",
   "checklistLabels": "Labels",
   "checklistLineBreak": "Line break",
+  "checklistLinkTask": "Link to existing task…",
+  "checklistLinkTaskTitle": "Link a task",
   "checklistLinkedTask": "Linked task",
+  "checklistLinkedTaskSemantics": "Linked task {task}",
   "checklistMdBold": "Bold",
   "checklistMdBullet": "Bulleted list",
   "checklistMdCode": "Code",
@@ -3629,6 +3646,7 @@
   "checklistNextOpen": "Next open item",
   "checklistNoItems": "No items yet",
   "checklistNoLabels": "No labels yet",
+  "checklistNoTasksToLink": "No tasks to link yet",
   "checklistNotFound": "This list doesn't exist",
   "checklistNotifItemGone": "This item no longer exists",
   "checklistOpenTrash": "Open trash",
@@ -3670,7 +3688,9 @@
   "checklistStatusChanged": "Status changed",
   "checklistStatusSpoken": "{status} for {age}",
   "checklistSubItems": "{count, plural, =1{1 sub-item} other{{count} sub-items}}",
+  "checklistTaskLinked": "Linked to {task}",
   "checklistTaskPlaceholder": "Linking to planner tasks arrives with the planner.",
+  "checklistTaskScheduled": "Task created — set its time",
   "checklistTemplateSaved": "Saved as template",
   "checklistTitleHint": "Title",
   "checklistUncheckAll": "Uncheck all",

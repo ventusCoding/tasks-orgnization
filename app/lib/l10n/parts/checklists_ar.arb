@@ -341,5 +341,11 @@
   "checklistDurationDays": "{n, plural, =0{0 يوم} =1{يوم واحد} =2{يومين} few{{n} أيام} many{{n} يومًا} other{{n} يوم}}",
   "importSplitCount": "{count, plural, =1{التقسيم إلى عنصر واحد (مع الحفاظ على التداخل)} =2{التقسيم إلى عنصرين (مع الحفاظ على التداخل)} few{التقسيم إلى {count} عناصر (مع الحفاظ على التداخل)} many{التقسيم إلى {count} عنصرًا (مع الحفاظ على التداخل)} other{التقسيم إلى {count} عنصر (مع الحفاظ على التداخل)}}",
   "importMoreLines": "{count, plural, =1{…وعنصر آخر} =2{…وعنصران آخران} few{…و{count} عناصر أخرى} many{…و{count} عنصرًا آخر} other{…و{count} عنصر آخر}}",
-  "checklistDoneThisWeek": "{count, plural, =1{عنصر واحد أُنجز هذا الأسبوع} =2{عنصران أُنجزا هذا الأسبوع} few{{count} عناصر أُنجزت هذا الأسبوع} many{{count} عنصرًا أُنجز هذا الأسبوع} other{{count} عنصر أُنجز هذا الأسبوع}}"
+  "checklistDoneThisWeek": "{count, plural, =1{عنصر واحد أُنجز هذا الأسبوع} =2{عنصران أُنجزا هذا الأسبوع} few{{count} عناصر أُنجزت هذا الأسبوع} many{{count} عنصرًا أُنجز هذا الأسبوع} other{{count} عنصر أُنجز هذا الأسبوع}}",
+  "checklistLinkTask": "ربط بمهمة موجودة…",
+  "checklistLinkTaskTitle": "ربط مهمة",
+  "checklistNoTasksToLink": "لا توجد مهام للربط بعد",
+  "checklistTaskLinked": "مرتبطة بـ{task}",
+  "checklistLinkedTaskSemantics": "مهمة مرتبطة {task}",
+  "checklistTaskScheduled": "أُنشئت المهمة — حدّد موعدها"
 }

@@ -2141,7 +2141,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String get checklistLineBreak => 'Saut de ligne';
 
   @override
+  String get checklistLinkTask => 'Lier à une tâche existante…';
+
+  @override
+  String get checklistLinkTaskTitle => 'Lier une tâche';
+
+  @override
   String get checklistLinkedTask => 'Tâche liée';
+
+  @override
+  String checklistLinkedTaskSemantics(String task) {
+    return 'Tâche liée $task';
+  }
 
   @override
   String get checklistMdBold => 'Gras';
@@ -2194,6 +2205,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get checklistNoLabels => 'Aucun libellé';
+
+  @override
+  String get checklistNoTasksToLink => 'Aucune tâche à lier pour l’instant';
 
   @override
   String get checklistNotFound => 'Cette liste n\'existe pas';
@@ -2338,8 +2352,16 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String checklistTaskLinked(String task) {
+    return 'Liée à $task';
+  }
+
+  @override
   String get checklistTaskPlaceholder =>
       'Le lien avec les tâches arrive avec le planificateur.';
+
+  @override
+  String get checklistTaskScheduled => 'Tâche créée — choisissez son horaire';
 
   @override
   String get checklistTemplateSaved => 'Enregistré comme modèle';

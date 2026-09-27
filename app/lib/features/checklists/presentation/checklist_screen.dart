@@ -9,6 +9,7 @@ import 'package:everslot/features/attachments/presentation/attachment_ui.dart';
 import 'package:everslot/features/checklists/application/checklist_editor.dart';
 import 'package:everslot/features/checklists/application/checklist_service.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
+import 'package:everslot/features/checklists/application/task_links.dart';
 import 'package:everslot/features/checklists/application/reset_service.dart';
 import 'package:everslot/features/checklists/application/swipe_actions.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
@@ -517,6 +518,46 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _scrollToRow(id, retried: true);
     });
+  }
+
+  /// *Link to existing task…* (T4.5.12): pick a planner task; the link is stored on the task.
+  Future<void> _linkExistingTask(Checklist c) async {
+    final l = context.l10n;
+    final taskId = await showAppSheet<String>(
+      context,
+      title: l.checklistLinkTaskTitle,
+      builder: (ctx) => Consumer(
+        builder: (ctx, ref, _) {
+          final tasks = ref.watch(plannerTasksForLinksProvider);
+          if (tasks.isEmpty) {
+            return Padding(
+              padding: const EdgeInsets.all(Space.lg),
+              child: Text(l.checklistNoTasksToLink, style: ctx.text.bodyMedium),
+            );
+          }
+          return ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(ctx).height * 0.6),
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                for (final t in tasks)
+                  ListTile(
+                    leading: Icon(t.linkedChecklistId == c.id ? Icons.link : Icons.event_outlined),
+                    title: Text(t.title),
+                    selected: t.linkedChecklistId == c.id,
+                    onTap: () => Navigator.pop(ctx, t.id),
+                  ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+    if (taskId == null || !mounted) return;
+    await ref.read(checklistTaskLinksProvider).link(taskId, c.id);
+    if (!mounted) return;
+    final title = ref.read(plannerTasksForLinksProvider).where((t) => t.id == taskId).firstOrNull?.title ?? '';
+    _info(l.checklistTaskLinked(title));
   }
 
   /// Items completed since the start of the user's week (header summary, T4.5.13).
@@ -1111,6 +1152,7 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         item('duplicate', l.checklistDuplicate, Icons.copy_all_outlined),
         if (!c.isTemplate) item('saveTemplate', l.checklistSaveAsTemplate, Icons.dashboard_customize_outlined),
         item('scheduleTask', l.checklistScheduleTask, Icons.event_available),
+        item('linkTask', l.checklistLinkTask, Icons.add_link),
         item('insights', l.checklistInsights, Icons.insights_outlined),
         item('archive', c.isArchived ? l.listsUnarchive : l.listsArchiveAction, Icons.archive_outlined),
         item('delete', l.checklistDelete, Icons.delete_outline, danger: true),
@@ -1237,9 +1279,12 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         );
         if (mounted) _undoSnack(l.checklistTemplateSaved, created.record);
       case 'scheduleTask':
-        // TODO(integration): create a planner task with `linked_checklist_id` through the planner's
-        // application API once it exposes one (T4.5.12); until then the entry explains itself.
-        _info(l.checklistTaskPlaceholder);
+        final taskId = await ref.read(checklistTaskLinksProvider).scheduleAsTask(c, fallbackTitle: l.listsUntitled);
+        if (!mounted) return;
+        _info(l.checklistTaskScheduled);
+        openRoute(context, AppLinks.taskEdit(taskId));
+      case 'linkTask':
+        await _linkExistingTask(c);
       case 'insights':
         openRoute(context, AppLinks.insightsScope('checklist', checklistId));
       case 'archive':
@@ -1623,6 +1668,7 @@ class _HeaderExtras extends ConsumerWidget {
     final l = context.l10n;
     final schedule = ResetSchedule.fromJson(checklist.resetRule);
     final tags = ref.watch(entityTagsProvider((type: 'checklist', id: checklist.id))).value ?? const [];
+    final linked = ref.watch(linkedTasksProvider(checklist.id));
     Widget? repeat;
     if (schedule != null) {
       final prefs = ref.watch(userPreferencesProvider);
@@ -1652,7 +1698,7 @@ class _HeaderExtras extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (tags.isNotEmpty || !preview || repeat != null)
+        if (tags.isNotEmpty || !preview || repeat != null || linked.isNotEmpty)
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.xs, Space.lg, 0),
             child: Wrap(
@@ -1661,6 +1707,18 @@ class _HeaderExtras extends ConsumerWidget {
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 ?repeat,
+                // Planner tasks linked to this list (T4.5.12): tap opens the task.
+                for (final t in linked)
+                  Semantics(
+                    label: l.checklistLinkedTaskSemantics(t.title),
+                    button: true,
+                    excludeSemantics: true,
+                    child: ActionChip(
+                      avatar: const Icon(Icons.event_available, size: 18),
+                      label: Text(t.title, overflow: TextOverflow.ellipsis),
+                      onPressed: () => openRoute(context, AppLinks.task(t.id)),
+                    ),
+                  ),
                 EntityTagChips(entityType: 'checklist', entityId: checklist.id, editable: !preview),
               ],
             ),

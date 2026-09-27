@@ -341,5 +341,11 @@
   "checklistDurationDays": "{n, plural, =1{1 jour} other{{n} jours}}",
   "importSplitCount": "{count, plural, =1{Scinder en 1 élément (garder l’imbrication)} other{Scinder en {count} éléments (garder l’imbrication)}}",
   "importMoreLines": "{count, plural, =1{…et 1 élément de plus} other{…et {count} éléments de plus}}",
-  "checklistDoneThisWeek": "{count, plural, =1{1 terminé cette semaine} other{{count} terminés cette semaine}}"
+  "checklistDoneThisWeek": "{count, plural, =1{1 terminé cette semaine} other{{count} terminés cette semaine}}",
+  "checklistLinkTask": "Lier à une tâche existante…",
+  "checklistLinkTaskTitle": "Lier une tâche",
+  "checklistNoTasksToLink": "Aucune tâche à lier pour l’instant",
+  "checklistTaskLinked": "Liée à {task}",
+  "checklistLinkedTaskSemantics": "Tâche liée {task}",
+  "checklistTaskScheduled": "Tâche créée — choisissez son horaire"
 }

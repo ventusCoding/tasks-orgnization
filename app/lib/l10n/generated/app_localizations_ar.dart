@@ -2196,7 +2196,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistLineBreak => 'سطر جديد';
 
   @override
+  String get checklistLinkTask => 'ربط بمهمة موجودة…';
+
+  @override
+  String get checklistLinkTaskTitle => 'ربط مهمة';
+
+  @override
   String get checklistLinkedTask => 'مهمة مرتبطة';
+
+  @override
+  String checklistLinkedTaskSemantics(String task) {
+    return 'مهمة مرتبطة $task';
+  }
 
   @override
   String get checklistMdBold => 'غامق';
@@ -2249,6 +2260,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checklistNoLabels => 'لا توجد تسميات بعد';
+
+  @override
+  String get checklistNoTasksToLink => 'لا توجد مهام للربط بعد';
 
   @override
   String get checklistNotFound => 'هذه القائمة غير موجودة';
@@ -2397,7 +2411,15 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String checklistTaskLinked(String task) {
+    return 'مرتبطة بـ$task';
+  }
+
+  @override
   String get checklistTaskPlaceholder => 'سيتوفر الربط بالمهام مع المخطط.';
+
+  @override
+  String get checklistTaskScheduled => 'أُنشئت المهمة — حدّد موعدها';
 
   @override
   String get checklistTemplateSaved => 'تم الحفظ كقالب';

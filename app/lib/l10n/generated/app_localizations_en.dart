@@ -2131,7 +2131,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checklistLineBreak => 'Line break';
 
   @override
+  String get checklistLinkTask => 'Link to existing task…';
+
+  @override
+  String get checklistLinkTaskTitle => 'Link a task';
+
+  @override
   String get checklistLinkedTask => 'Linked task';
+
+  @override
+  String checklistLinkedTaskSemantics(String task) {
+    return 'Linked task $task';
+  }
 
   @override
   String get checklistMdBold => 'Bold';
@@ -2184,6 +2195,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checklistNoLabels => 'No labels yet';
+
+  @override
+  String get checklistNoTasksToLink => 'No tasks to link yet';
 
   @override
   String get checklistNotFound => 'This list doesn\'t exist';
@@ -2328,8 +2342,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String checklistTaskLinked(String task) {
+    return 'Linked to $task';
+  }
+
+  @override
   String get checklistTaskPlaceholder =>
       'Linking to planner tasks arrives with the planner.';
+
+  @override
+  String get checklistTaskScheduled => 'Task created — set its time';
 
   @override
   String get checklistTemplateSaved => 'Saved as template';

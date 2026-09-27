@@ -3585,11 +3585,29 @@ abstract class AppLocalizations {
   /// **'Line break'**
   String get checklistLineBreak;
 
+  /// No description provided for @checklistLinkTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Link to existing task…'**
+  String get checklistLinkTask;
+
+  /// No description provided for @checklistLinkTaskTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Link a task'**
+  String get checklistLinkTaskTitle;
+
   /// No description provided for @checklistLinkedTask.
   ///
   /// In en, this message translates to:
   /// **'Linked task'**
   String get checklistLinkedTask;
+
+  /// No description provided for @checklistLinkedTaskSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Linked task {task}'**
+  String checklistLinkedTaskSemantics(String task);
 
   /// No description provided for @checklistMdBold.
   ///
@@ -3692,6 +3710,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No labels yet'**
   String get checklistNoLabels;
+
+  /// No description provided for @checklistNoTasksToLink.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks to link yet'**
+  String get checklistNoTasksToLink;
 
   /// No description provided for @checklistNotFound.
   ///
@@ -3939,11 +3963,23 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{1 sub-item} other{{count} sub-items}}'**
   String checklistSubItems(int count);
 
+  /// No description provided for @checklistTaskLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'Linked to {task}'**
+  String checklistTaskLinked(String task);
+
   /// No description provided for @checklistTaskPlaceholder.
   ///
   /// In en, this message translates to:
   /// **'Linking to planner tasks arrives with the planner.'**
   String get checklistTaskPlaceholder;
+
+  /// No description provided for @checklistTaskScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Task created — set its time'**
+  String get checklistTaskScheduled;
 
   /// No description provided for @checklistTemplateSaved.
   ///
