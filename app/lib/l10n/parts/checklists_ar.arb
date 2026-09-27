@@ -326,5 +326,13 @@
   "checklistMdCode": "رمز برمجي",
   "checklistMdHeading": "عنوان",
   "checklistMdBullet": "قائمة نقطية",
-  "checklistMdLink": "رابط"
+  "checklistMdLink": "رابط",
+  "listsAllLists": "كل القوائم",
+  "listsEditLabels": "تعديل التصنيفات",
+  "listsNoLabels": "لا توجد تصنيفات بعد",
+  "listsLabelSemantics": "{label}، {count, plural, =0{لا قوائم} =1{قائمة واحدة} =2{قائمتان} few{{count} قوائم} many{{count} قائمة} other{{count} قائمة}}",
+  "listsFilterHasDue": "ذات مواعيد استحقاق",
+  "listsFilterLabel": "تصنيف",
+  "listsFilterAnyLabel": "أي تصنيف",
+  "listsLabelFilterActive": "القوائم ذات التصنيف {label}"
 }

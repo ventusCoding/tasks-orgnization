@@ -4009,6 +4009,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get kanbanShowCancelled => 'Afficher les annulés';
 
   @override
+  String get listsAllLists => 'Toutes les listes';
+
+  @override
   String get listsArchive => 'Archives';
 
   @override
@@ -4089,6 +4092,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get listsDuplicated => 'Liste dupliquée';
 
   @override
+  String get listsEditLabels => 'Modifier les libellés';
+
+  @override
   String get listsEmptyAction => 'Créer votre première liste';
 
   @override
@@ -4099,6 +4105,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get listsEmptyTitle => 'Aucune liste pour l\'instant';
 
   @override
+  String get listsFilterAnyLabel => 'Tous les libellés';
+
+  @override
   String get listsFilterColor => 'Couleur';
 
   @override
@@ -4106,6 +4115,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get listsFilterHasBlocked => 'En attente ou bloqué';
+
+  @override
+  String get listsFilterHasDue => 'Avec échéances';
+
+  @override
+  String get listsFilterLabel => 'Libellé';
 
   @override
   String get listsFilterPinned => 'Épinglées';
@@ -4123,6 +4138,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get listsImportFile => 'Importer un fichier…';
 
   @override
+  String listsLabelFilterActive(String label) {
+    return 'Listes avec le libellé $label';
+  }
+
+  @override
+  String listsLabelSemantics(String label, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count listes',
+      one: '1 liste',
+      zero: 'aucune liste',
+    );
+    return '$label, $_temp0';
+  }
+
+  @override
   String get listsListView => 'Vue liste';
 
   @override
@@ -4133,6 +4165,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get listsNewNote => 'Nouvelle note';
+
+  @override
+  String get listsNoLabels => 'Aucun libellé pour l’instant';
 
   @override
   String get listsOthers => 'Autres';

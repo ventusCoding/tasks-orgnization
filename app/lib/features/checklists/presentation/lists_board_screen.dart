@@ -15,13 +15,20 @@ import 'package:everslot/features/checklists/presentation/checklist_card.dart';
 import 'package:everslot/features/checklists/presentation/checklist_navigation.dart';
 import 'package:everslot/features/checklists/presentation/import_export_ui.dart';
 import 'package:everslot/features/checklists/presentation/lists_preferences_sheet.dart';
+import 'package:everslot/features/organization/application/providers.dart' show tagsByEntityProvider, tagsProvider;
+import 'package:everslot/features/organization/domain/tag.dart';
+import 'package:everslot/features/organization/presentation/tag_widgets.dart';
+import 'package:everslot/features/organization/presentation/tags_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:material_ui/material_ui.dart';
 
-/// Quick filters of the board (T4.1.13).
-enum BoardFilter { waitingOrBlocked, attachments, repeating, pinned }
+/// Quick filters of the board (T4.1.13); they combine with AND.
+enum BoardFilter { waitingOrBlocked, attachments, dueDates, repeating, pinned }
+
+/// Checklist labels are tags on `entity_tags` with this entity type (T4.1.12).
+const checklistTagType = 'checklist';
 
 /// The Keep-like home of the Lists tab (T4.1.07).
 class ListsBoardScreen extends ConsumerStatefulWidget {
@@ -36,6 +43,9 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
   bool _searching = false;
   final Set<BoardFilter> _filters = {};
   int? _color;
+
+  /// Label filter from the drawer or the search chips (T4.1.12).
+  String? _labelId;
   BoardSearchResult? _results;
   Timer? _searchDebounce;
 
@@ -120,18 +130,25 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
     BoardSort.title => [...lists]..sort((a, b) => Collation.compare(a.title, b.title)),
   };
 
-  bool _matches(Checklist c, Map<String, CardSummary> summaries, Map<String, Attachment> thumbs) {
+  bool _matches(
+    Checklist c,
+    Map<String, CardSummary> summaries,
+    Map<String, Attachment> thumbs,
+    Map<String, List<Tag>> labels,
+  ) {
     final s = summaries[c.id] ?? CardSummary.empty;
     for (final f in _filters) {
       final ok = switch (f) {
         BoardFilter.waitingOrBlocked => s.rollup.blockedBelow + s.rollup.waitingBelow > 0,
         BoardFilter.attachments => thumbs.containsKey(c.id),
+        BoardFilter.dueDates => c.dueLocal != null || s.dueCount > 0,
         BoardFilter.repeating => c.isRecurring,
         BoardFilter.pinned => c.isPinned,
       };
       if (!ok) return false;
     }
     if (_color != null && c.color != _color) return false;
+    if (_labelId != null && !(labels[c.id]?.any((t) => t.id == _labelId) ?? false)) return false;
     final r = _results;
     if (_searching && r != null && !r.checklistIds.contains(c.id)) return false;
     return true;
@@ -145,7 +162,16 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
     final summaries = ref.watch(cardSummariesProvider(false)).value ?? const <String, CardSummary>{};
     final thumbs = ref.watch(cardThumbnailsProvider(false)).value ?? const <String, Attachment>{};
     final counts = ref.watch(smartCountsProvider).value ?? const SmartCounts();
+    final labels = ref.watch(tagsByEntityProvider(checklistTagType)).value ?? const <String, List<Tag>>{};
+    final tags = ref.watch(tagsProvider).value ?? const <Tag>[];
+    final activeLabel = _labelId == null ? null : tags.where((t) => t.id == _labelId).firstOrNull;
     return Scaffold(
+      drawer: _LabelsDrawer(
+        tags: tags,
+        counts: _labelCounts(lists.value ?? const [], labels),
+        selected: _labelId,
+        onSelected: (id) => setState(() => _labelId = id),
+      ),
       appBar: AppBar(
         title: _searching
             ? TextField(
@@ -223,7 +249,7 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
               onAction: _create,
             );
           }
-          final visible = _sorted(all, config).where((c) => _matches(c, summaries, thumbs)).toList();
+          final visible = _sorted(all, config).where((c) => _matches(c, summaries, thumbs, labels)).toList();
           final pinned = visible.where((c) => c.isPinned).toList();
           final others = visible.where((c) => !c.isPinned).toList();
           final canDrag = config.sort == BoardSort.manual && !_searching;
@@ -231,19 +257,32 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
             onRefresh: _refresh,
             child: CustomScrollView(
               slivers: [
-                if (_searching) SliverToBoxAdapter(child: _filterChips(context)),
+                if (_searching) SliverToBoxAdapter(child: _filterChips(context, tags, activeLabel)),
+                if (!_searching && activeLabel != null)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, 0),
+                      child: Semantics(
+                        label: l.listsLabelFilterActive(activeLabel.name),
+                        child: Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: TagChip(tag: activeLabel, onDeleted: () => setState(() => _labelId = null)),
+                        ),
+                      ),
+                    ),
+                  ),
                 if (!_searching && config.showSmartChips && !counts.isEmpty)
                   SliverToBoxAdapter(child: _SmartChips(counts: counts)),
                 if (_searching && _results != null && _results!.items.isNotEmpty)
                   SliverToBoxAdapter(child: _ItemHits(result: _results!)),
                 if (pinned.isNotEmpty) ...[
                   SliverToBoxAdapter(child: SectionHeader(l.listsPinned)),
-                  _section(pinned, summaries, thumbs, config, canDrag),
+                  _section(pinned, summaries, thumbs, labels, config, canDrag),
                 ],
                 if (others.isNotEmpty) ...[
                   if (pinned.isNotEmpty) SliverToBoxAdapter(child: SectionHeader(l.listsOthers)),
                   if (pinned.isEmpty) const SliverToBoxAdapter(child: SizedBox(height: Space.md)),
-                  _section(others, summaries, thumbs, config, canDrag),
+                  _section(others, summaries, thumbs, labels, config, canDrag),
                 ],
                 if (visible.isEmpty)
                   SliverFillRemaining(
@@ -259,7 +298,18 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
     );
   }
 
-  Widget _filterChips(BuildContext context) {
+  /// Live board lists per label id (drawer counts).
+  Map<String, int> _labelCounts(List<Checklist> lists, Map<String, List<Tag>> labels) {
+    final counts = <String, int>{};
+    for (final c in lists) {
+      for (final t in labels[c.id] ?? const <Tag>[]) {
+        counts[t.id] = (counts[t.id] ?? 0) + 1;
+      }
+    }
+    return counts;
+  }
+
+  Widget _filterChips(BuildContext context, List<Tag> tags, Tag? activeLabel) {
     final l = context.l10n;
     Widget chip(BoardFilter f, String label) => FilterChip(
       label: Text(label),
@@ -275,6 +325,8 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
           const SizedBox(width: Space.sm),
           chip(BoardFilter.attachments, l.listsFilterHasAttachments),
           const SizedBox(width: Space.sm),
+          chip(BoardFilter.dueDates, l.listsFilterHasDue),
+          const SizedBox(width: Space.sm),
           chip(BoardFilter.repeating, l.listsFilterRepeating),
           const SizedBox(width: Space.sm),
           chip(BoardFilter.pinned, l.listsFilterPinned),
@@ -287,15 +339,54 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
               if (c != null) setState(() => _color = c == -1 ? null : c);
             },
           ),
+          if (tags.isNotEmpty) ...[
+            const SizedBox(width: Space.sm),
+            ActionChip(
+              avatar: activeLabel == null
+                  ? const Icon(Icons.label_outline, size: 18)
+                  : ColorDot(tagColor(context, activeLabel), size: 12),
+              label: Text(activeLabel?.name ?? l.listsFilterLabel),
+              onPressed: () async {
+                final picked = await _pickLabel(context, tags);
+                if (picked != null) setState(() => _labelId = picked.isEmpty ? null : picked);
+              },
+            ),
+          ],
         ],
       ),
     );
   }
 
+  /// Single-label picker for the search chips: a tag id, '' for "any label", null when dismissed.
+  Future<String?> _pickLabel(BuildContext context, List<Tag> tags) => showAppSheet<String>(
+    context,
+    title: context.l10n.listsFilterLabel,
+    builder: (ctx) => Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListTile(
+          leading: const Icon(Icons.label_off_outlined),
+          title: Text(ctx.l10n.listsFilterAnyLabel),
+          selected: _labelId == null,
+          onTap: () => Navigator.pop(ctx, ''),
+        ),
+        for (final t in tags)
+          ListTile(
+            leading: ColorDot(tagColor(ctx, t), size: 12),
+            title: Text(t.name),
+            selected: _labelId == t.id,
+            onTap: () => Navigator.pop(ctx, t.id),
+          ),
+        const SizedBox(height: Space.md),
+      ],
+    ),
+  );
+
   Widget _section(
     List<Checklist> cards,
     Map<String, CardSummary> summaries,
     Map<String, Attachment> thumbs,
+    Map<String, List<Tag>> labels,
     BoardConfig config,
     bool canDrag,
   ) {
@@ -304,6 +395,7 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
       checklist: cards[i],
       summary: summaries[cards[i].id] ?? CardSummary.empty,
       thumbnail: thumbs[cards[i].id],
+      labels: labels[cards[i].id] ?? const [],
       config: config,
       siblings: cards,
       index: i,
@@ -413,11 +505,13 @@ class _BoardCard extends ConsumerWidget {
     required this.index,
     required this.draggable,
     super.key,
+    this.labels = const [],
   });
 
   final Checklist checklist;
   final CardSummary summary;
   final Attachment? thumbnail;
+  final List<Tag> labels;
   final BoardConfig config;
   final List<Checklist> siblings;
   final int index;
@@ -429,6 +523,7 @@ class _BoardCard extends ConsumerWidget {
       checklist: checklist,
       summary: summary,
       thumbnail: thumbnail,
+      labels: labels,
       showBody: config.showBody,
       maxRows: config.rowsPerCard,
       hasReminders: ref.watch(ownReminderTargetsProvider.select((s) => s.contains(checklist.id))),
@@ -572,4 +667,69 @@ Future<void> createListAndOpen(
 }) async {
   final created = await ref.read(checklistsRepositoryProvider).create(title: title, items: nodes, templateId: templateId);
   if (context.mounted) await openChecklist(context, created.id);
+}
+
+/// Keep-style label drawer (T4.1.12): every label with its number of lists; tapping one filters
+/// the board, "Edit labels" opens the shared tag management (rename, merge, delete — [2.3]).
+class _LabelsDrawer extends StatelessWidget {
+  const _LabelsDrawer({required this.tags, required this.counts, required this.selected, required this.onSelected});
+
+  final List<Tag> tags;
+  final Map<String, int> counts;
+  final String? selected;
+  final ValueChanged<String?> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    void pick(String? id) {
+      Navigator.of(context).pop();
+      onSelected(id);
+    }
+
+    return Drawer(
+      child: SafeArea(
+        child: ListView(
+          padding: const EdgeInsetsDirectional.symmetric(vertical: Space.sm),
+          children: [
+            ListTile(
+              leading: const Icon(Icons.checklist_rtl),
+              title: Text(l.listsAllLists),
+              selected: selected == null,
+              onTap: () => pick(null),
+            ),
+            SectionHeader(l.checklistLabels),
+            if (tags.isEmpty)
+              Padding(
+                padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg, vertical: Space.sm),
+                child: Text(l.listsNoLabels, style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant)),
+              ),
+            for (final t in tags)
+              Semantics(
+                label: l.listsLabelSemantics(t.name, counts[t.id] ?? 0),
+                selected: selected == t.id,
+                button: true,
+                excludeSemantics: true,
+                child: ListTile(
+                  leading: Icon(Icons.label_outline, color: tagColor(context, t)),
+                  title: Text(t.name, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  trailing: Text('${counts[t.id] ?? 0}', style: context.text.labelLarge),
+                  selected: selected == t.id,
+                  onTap: () => pick(t.id),
+                ),
+              ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.edit_outlined),
+              title: Text(l.listsEditLabels),
+              onTap: () {
+                Navigator.of(context).pop();
+                unawaited(Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const TagsScreen())));
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

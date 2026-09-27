@@ -4128,6 +4128,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get kanbanShowCancelled => 'إظهار الملغاة';
 
   @override
+  String get listsAllLists => 'كل القوائم';
+
+  @override
   String get listsArchive => 'الأرشيف';
 
   @override
@@ -4208,6 +4211,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get listsDuplicated => 'تم تكرار القائمة';
 
   @override
+  String get listsEditLabels => 'تعديل التصنيفات';
+
+  @override
   String get listsEmptyAction => 'أنشئ قائمتك الأولى';
 
   @override
@@ -4218,6 +4224,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get listsEmptyTitle => 'لا توجد قوائم بعد';
 
   @override
+  String get listsFilterAnyLabel => 'أي تصنيف';
+
+  @override
   String get listsFilterColor => 'اللون';
 
   @override
@@ -4225,6 +4234,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get listsFilterHasBlocked => 'قيد الانتظار أو محظور';
+
+  @override
+  String get listsFilterHasDue => 'ذات مواعيد استحقاق';
+
+  @override
+  String get listsFilterLabel => 'تصنيف';
 
   @override
   String get listsFilterPinned => 'مثبتة';
@@ -4242,6 +4257,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String get listsImportFile => 'استيراد ملف…';
 
   @override
+  String listsLabelFilterActive(String label) {
+    return 'القوائم ذات التصنيف $label';
+  }
+
+  @override
+  String listsLabelSemantics(String label, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count قائمة',
+      many: '$count قائمة',
+      few: '$count قوائم',
+      two: 'قائمتان',
+      one: 'قائمة واحدة',
+      zero: 'لا قوائم',
+    );
+    return '$label، $_temp0';
+  }
+
+  @override
   String get listsListView => 'عرض قائمة';
 
   @override
@@ -4252,6 +4287,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get listsNewNote => 'ملاحظة جديدة';
+
+  @override
+  String get listsNoLabels => 'لا توجد تصنيفات بعد';
 
   @override
   String get listsOthers => 'أخرى';

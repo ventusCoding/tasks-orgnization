@@ -1544,6 +1544,23 @@
       }
     }
   },
+  "@listsLabelFilterActive": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "@listsLabelSemantics": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@moveDone": {
     "placeholders": {
       "title": {
@@ -4555,6 +4572,7 @@
   "kanbanLeaves": "Leaves only",
   "kanbanScope": "Show",
   "kanbanShowCancelled": "Show cancelled",
+  "listsAllLists": "All lists",
   "listsArchive": "Archive",
   "listsArchiveAction": "Archive",
   "listsArchiveEmpty": "No archived lists",
@@ -4577,21 +4595,28 @@
   "listsDragHint": "Long-press and drag to reorder",
   "listsDuplicate": "Duplicate",
   "listsDuplicated": "List duplicated",
+  "listsEditLabels": "Edit labels",
   "listsEmptyAction": "Create your first list",
   "listsEmptyMessage": "Checklists, notes and routines — nested as deep as you need.",
   "listsEmptyTitle": "No lists yet",
+  "listsFilterAnyLabel": "Any label",
   "listsFilterColor": "Color",
   "listsFilterHasAttachments": "With attachments",
   "listsFilterHasBlocked": "Waiting or blocked",
+  "listsFilterHasDue": "With due dates",
+  "listsFilterLabel": "Label",
   "listsFilterPinned": "Pinned",
   "listsFilterRepeating": "Repeating",
   "listsFromTemplate": "From template",
   "listsGridView": "Grid view",
   "listsImportFile": "Import file…",
+  "listsLabelFilterActive": "Showing lists labelled {label}",
+  "listsLabelSemantics": "{label}, {count, plural, =0{no lists} =1{1 list} other{{count} lists}}",
   "listsListView": "List view",
   "listsMoveItems": "Move items…",
   "listsNewChecklist": "New checklist",
   "listsNewNote": "New note",
+  "listsNoLabels": "No labels yet",
   "listsOthers": "Others",
   "listsPin": "Pin",
   "listsPinned": "Pinned",

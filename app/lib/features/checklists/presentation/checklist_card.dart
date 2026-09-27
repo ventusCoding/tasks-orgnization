@@ -8,6 +8,8 @@ import 'package:everslot/features/checklists/domain/item_status.dart';
 import 'package:everslot/features/checklists/domain/rollup.dart';
 import 'package:everslot/features/checklists/presentation/markdown_lite.dart';
 import 'package:everslot/features/checklists/presentation/status_visuals.dart';
+import 'package:everslot/features/organization/domain/tag.dart';
+import 'package:everslot/features/organization/presentation/tag_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -37,6 +39,7 @@ class ChecklistCard extends ConsumerWidget {
     this.onTap,
     this.onMenu,
     this.hasReminders = false,
+    this.labels = const [],
   });
 
   final Checklist checklist;
@@ -49,6 +52,9 @@ class ChecklistCard extends ConsumerWidget {
 
   /// The list has its own reminder rules (bell, T4.1.08).
   final bool hasReminders;
+
+  /// Labels shown as chips at the bottom of the card (T4.1.12).
+  final List<Tag> labels;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -187,6 +193,14 @@ class ChecklistCard extends ConsumerWidget {
                                     dense: true,
                                   ),
                               ],
+                            ),
+                          ],
+                          if (labels.isNotEmpty) ...[
+                            const SizedBox(height: Space.sm),
+                            Wrap(
+                              spacing: Space.xs,
+                              runSpacing: Space.xs,
+                              children: [for (final t in labels) TagChip(tag: t)],
                             ),
                           ],
                         ],

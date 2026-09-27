@@ -3988,6 +3988,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get kanbanShowCancelled => 'Show cancelled';
 
   @override
+  String get listsAllLists => 'All lists';
+
+  @override
   String get listsArchive => 'Archive';
 
   @override
@@ -4068,6 +4071,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get listsDuplicated => 'List duplicated';
 
   @override
+  String get listsEditLabels => 'Edit labels';
+
+  @override
   String get listsEmptyAction => 'Create your first list';
 
   @override
@@ -4078,6 +4084,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get listsEmptyTitle => 'No lists yet';
 
   @override
+  String get listsFilterAnyLabel => 'Any label';
+
+  @override
   String get listsFilterColor => 'Color';
 
   @override
@@ -4085,6 +4094,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get listsFilterHasBlocked => 'Waiting or blocked';
+
+  @override
+  String get listsFilterHasDue => 'With due dates';
+
+  @override
+  String get listsFilterLabel => 'Label';
 
   @override
   String get listsFilterPinned => 'Pinned';
@@ -4102,6 +4117,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get listsImportFile => 'Import file…';
 
   @override
+  String listsLabelFilterActive(String label) {
+    return 'Showing lists labelled $label';
+  }
+
+  @override
+  String listsLabelSemantics(String label, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lists',
+      one: '1 list',
+      zero: 'no lists',
+    );
+    return '$label, $_temp0';
+  }
+
+  @override
   String get listsListView => 'List view';
 
   @override
@@ -4112,6 +4144,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get listsNewNote => 'New note';
+
+  @override
+  String get listsNoLabels => 'No labels yet';
 
   @override
   String get listsOthers => 'Others';
