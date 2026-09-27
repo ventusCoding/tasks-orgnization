@@ -41,7 +41,7 @@ recurrence engine and rule builder UI ([2.1]); notification rule editor ([7.1]);
 - [x] T3.1.16 — Linked checklist integration
 - [x] T3.1.17 — Tags on tasks
 - [x] T3.1.18 — Multi-select & bulk edit
-- [ ] T3.1.19 — Copy & duplicate to other days
+- [x] T3.1.19 — Copy & duplicate to other days
 - [ ] T3.1.20 — Task templates
 - [ ] T3.1.21 — Schedule a checklist item as a task
 
@@ -316,6 +316,7 @@ or the toolbar). Bulk actions:
 - *Duplicate as new series* copies the whole series.
 - On tablets, Ctrl/Cmd + C / V copies and pastes at the selected slot.
 **Tests:** repository tests (ids, dates and zone mode preserved).
+**Notes:** The Ctrl/Cmd + C / V shortcut belongs to the grid ([3.3]); it pastes through `PlannerService.pasteAt(item, start)` (one-off copy at the slot, zone mode kept).
 
 ### T3.1.20 — Task templates
 **Priority:** P2 · **Size:** S · **Depends on:** T3.1.05

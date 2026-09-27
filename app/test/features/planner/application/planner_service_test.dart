@@ -100,4 +100,26 @@ void main() {
     expect(excluded, isEmpty);
     expect(OccurrenceStatus.values, isNotEmpty);
   });
+  test('paste at a slot: one-off copy at the viewer time, zone mode kept, occurrence overrides (T3.1.19)', () async {
+    final ny = await h.createTask(title: 'NY sync', start: '2026-09-22T10:00', duration: 45, zone: 'America/New_York');
+    final daily = await h.createTask(title: 'Stretch', start: '2026-09-20T07:00', duration: 15, rule: RecurrenceRule());
+    await h.tasks.editOccurrence(daily, '2026-09-22T07:00', title: 'Long stretch', duration: 30);
+    final items = await h.items(ld('2026-09-22'), 1);
+    PlannerItem of(String id) => items.firstWhere((i) => i.taskId == id);
+
+    final pasted = await h.planner.pasteAt(of(ny), ldt('2026-09-24T18:00'));
+    final copy = (await h.task(pasted.newTaskId!))!;
+    expect(copy.id, isNot(ny));
+    expect(copy.timeZone, 'America/New_York');
+    expect(copy.durationMinutes, 45);
+    // 18:00 in the viewer zone (UTC) = 14:00 in New York.
+    expect(copy.startLocal, ldt('2026-09-24T14:00'));
+
+    final second = await h.planner.pasteAt(of(daily), ldt('2026-09-25T09:00'));
+    final one = (await h.task(second.newTaskId!))!;
+    expect(one.recurrence, isNull);
+    expect(one.title, 'Long stretch');
+    expect(one.durationMinutes, 30);
+    expect(one.startLocal, ldt('2026-09-25T09:00'));
+  });
 }

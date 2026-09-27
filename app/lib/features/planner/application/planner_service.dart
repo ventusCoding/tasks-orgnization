@@ -189,6 +189,20 @@ class PlannerService {
     return result;
   }
 
+  /// Paste (Ctrl/Cmd + V at the selected slot on tablets, T3.1.19): a one-off copy of [item]
+  /// starting at [start] (viewer wall clock) with the occurrence's duration, title and notes;
+  /// the zone mode is preserved.
+  Future<TaskWriteResult> pasteAt(PlannerItem item, LocalDateTime start) async {
+    final result = await tasks.duplicate(
+      item.taskId,
+      asOneOff: true,
+      occurrenceKey: item.isRecurring ? item.occurrenceKey : null,
+      targetStartLocal: toTaskLocal(item.timeZone, start, allDay: item.allDay),
+    );
+    _undo(l10n.tasksDuplicated, result.record);
+    return result;
+  }
+
   Future<OpRecord> duplicateToDates(String taskId, List<LocalDate> dates, {String? occurrenceKey}) async =>
       _undo(l10n.tasksDuplicatedTo(dates.length), await tasks.duplicateToDates(taskId, dates, occurrenceKey: occurrenceKey));
 
