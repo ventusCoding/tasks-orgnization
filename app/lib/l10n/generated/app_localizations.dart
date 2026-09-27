@@ -12219,6 +12219,12 @@ abstract class AppLocalizations {
   /// **'Daily limit'**
   String get quitDailyLimit;
 
+  /// No description provided for @quitDayMilestonesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean time'**
+  String get quitDayMilestonesTitle;
+
   /// No description provided for @quitDaysHours.
   ///
   /// In en, this message translates to:
@@ -12333,6 +12339,12 @@ abstract class AppLocalizations {
   /// **'New quit attempt'**
   String get quitEventRestart;
 
+  /// No description provided for @quitHealthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Health recovery'**
+  String get quitHealthTitle;
+
   /// No description provided for @quitIntensity.
   ///
   /// In en, this message translates to:
@@ -12381,11 +12393,71 @@ abstract class AppLocalizations {
   /// **'manual reset'**
   String get quitManualReset;
 
+  /// No description provided for @quitMilestoneDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day clean} other{{count} days clean}}'**
+  String quitMilestoneDays(int count);
+
+  /// No description provided for @quitMilestoneElapsed.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent} of the time elapsed'**
+  String quitMilestoneElapsed(String percent);
+
   /// No description provided for @quitMilestoneEta.
   ///
   /// In en, this message translates to:
   /// **'Expected {date}'**
   String quitMilestoneEta(String date);
+
+  /// No description provided for @quitMilestoneInWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Happening now · until about {date}'**
+  String quitMilestoneInWindow(String date);
+
+  /// No description provided for @quitMilestoneReachedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Reached {date}'**
+  String quitMilestoneReachedOn(String date);
+
+  /// No description provided for @quitMilestoneSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get quitMilestoneSources;
+
+  /// No description provided for @quitMilestonesClockNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestones count from your last lapse, so the clock restarts after one.'**
+  String get quitMilestonesClockNote;
+
+  /// No description provided for @quitMilestonesOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'All milestones'**
+  String get quitMilestonesOpen;
+
+  /// No description provided for @quitMilestonesReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Reached'**
+  String get quitMilestonesReached;
+
+  /// No description provided for @quitMilestonesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestones'**
+  String get quitMilestonesTitle;
+
+  /// No description provided for @quitMilestonesUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get quitMilestonesUpcoming;
 
   /// No description provided for @quitModeAbstain.
   ///
@@ -12536,6 +12608,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{amount} saved'**
   String quitNotifMoneyMilestone(String amount);
+
+  /// No description provided for @quitOffsetMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 month} other{{count} months}}'**
+  String quitOffsetMonths(int count);
+
+  /// No description provided for @quitOffsetRange.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String quitOffsetRange(String from, String to);
+
+  /// No description provided for @quitOffsetWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 week} other{{count} weeks}}'**
+  String quitOffsetWeeks(int count);
+
+  /// No description provided for @quitOffsetYears.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 year} other{{count} years}}'**
+  String quitOffsetYears(int count);
 
   /// No description provided for @quitOther.
   ///
@@ -12902,6 +12998,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When'**
   String get quitWhen;
+
+  /// No description provided for @quitWithdrawalNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you are now'**
+  String get quitWithdrawalNow;
+
+  /// No description provided for @quitWithdrawalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawal'**
+  String get quitWithdrawalTitle;
 
   /// No description provided for @quitWithinLimitStreakTitle.
   ///

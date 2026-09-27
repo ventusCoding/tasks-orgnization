@@ -7569,6 +7569,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitDailyLimit => 'الحد اليومي';
 
   @override
+  String get quitDayMilestonesTitle => 'مدة الامتناع';
+
+  @override
   String quitDaysHours(int days, int hours) {
     return '$days ي $hours س';
   }
@@ -7632,6 +7635,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitEventRestart => 'محاولة إقلاع جديدة';
 
   @override
+  String get quitHealthTitle => 'تعافي الصحة';
+
+  @override
   String quitIntensity(int value) {
     return 'الشدة: $value/10';
   }
@@ -7658,9 +7664,57 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitManualReset => 'إعادة ضبط يدوية';
 
   @override
+  String quitMilestoneDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count يوم من الامتناع',
+      many: '$count يومًا من الامتناع',
+      few: '$count أيام من الامتناع',
+      two: 'يومان من الامتناع',
+      one: 'يوم واحد من الامتناع',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitMilestoneElapsed(String percent) {
+    return 'انقضى $percent من المدة';
+  }
+
+  @override
   String quitMilestoneEta(String date) {
     return 'متوقعة في $date';
   }
+
+  @override
+  String quitMilestoneInWindow(String date) {
+    return 'جارية الآن · حتى نحو $date';
+  }
+
+  @override
+  String quitMilestoneReachedOn(String date) {
+    return 'تحققت في $date';
+  }
+
+  @override
+  String get quitMilestoneSources => 'المصادر';
+
+  @override
+  String get quitMilestonesClockNote =>
+      'تُحسب المراحل منذ آخر زلّة، لذا تبدأ الساعة من جديد بعدها.';
+
+  @override
+  String get quitMilestonesOpen => 'كل المراحل';
+
+  @override
+  String get quitMilestonesReached => 'المراحل المحققة';
+
+  @override
+  String get quitMilestonesTitle => 'المراحل';
+
+  @override
+  String get quitMilestonesUpcoming => 'المراحل القادمة';
 
   @override
   String get quitModeAbstain => 'الإقلاع التام';
@@ -7738,6 +7792,53 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String quitNotifMoneyMilestone(String amount) {
     return 'تم توفير $amount';
+  }
+
+  @override
+  String quitOffsetMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count شهر',
+      many: '$count شهرًا',
+      few: '$count أشهر',
+      two: 'شهران',
+      one: 'شهر واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitOffsetRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String quitOffsetWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count أسبوع',
+      many: '$count أسبوعًا',
+      few: '$count أسابيع',
+      two: 'أسبوعان',
+      one: 'أسبوع واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitOffsetYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count سنة',
+      many: '$count سنة',
+      few: '$count سنوات',
+      two: 'سنتان',
+      one: 'سنة واحدة',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -7931,6 +8032,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quitWhen => 'متى';
+
+  @override
+  String get quitWithdrawalNow => 'أين أنت الآن';
+
+  @override
+  String get quitWithdrawalTitle => 'أعراض الانسحاب';
 
   @override
   String get quitWithinLimitStreakTitle => 'أيام ضمن الحد';

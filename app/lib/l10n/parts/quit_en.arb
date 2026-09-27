@@ -226,5 +226,82 @@
         "type": "String"
       }
     }
-  }
+  },
+  "quitMilestonesTitle": "Milestones",
+  "quitMilestonesOpen": "All milestones",
+  "quitMilestonesReached": "Reached",
+  "quitMilestonesUpcoming": "Upcoming",
+  "quitHealthTitle": "Health recovery",
+  "quitDayMilestonesTitle": "Clean time",
+  "quitMilestonesClockNote": "Milestones count from your last lapse, so the clock restarts after one.",
+  "quitMilestoneReachedOn": "Reached {date}",
+  "@quitMilestoneReachedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "quitMilestoneInWindow": "Happening now · until about {date}",
+  "@quitMilestoneInWindow": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "quitMilestoneElapsed": "{percent} of the time elapsed",
+  "@quitMilestoneElapsed": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "quitMilestoneSources": "Sources",
+  "quitMilestoneDays": "{count, plural, =1{1 day clean} other{{count} days clean}}",
+  "@quitMilestoneDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quitOffsetWeeks": "{count, plural, =1{1 week} other{{count} weeks}}",
+  "@quitOffsetWeeks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quitOffsetMonths": "{count, plural, =1{1 month} other{{count} months}}",
+  "@quitOffsetMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quitOffsetYears": "{count, plural, =1{1 year} other{{count} years}}",
+  "@quitOffsetYears": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quitOffsetRange": "{from} – {to}",
+  "@quitOffsetRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "quitWithdrawalTitle": "Withdrawal",
+  "quitWithdrawalNow": "Where you are now"
 }

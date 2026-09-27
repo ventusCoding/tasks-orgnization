@@ -7277,6 +7277,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitDailyLimit => 'Daily limit';
 
   @override
+  String get quitDayMilestonesTitle => 'Clean time';
+
+  @override
   String quitDaysHours(int days, int hours) {
     return '$days d $hours h';
   }
@@ -7339,6 +7342,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitEventRestart => 'New quit attempt';
 
   @override
+  String get quitHealthTitle => 'Health recovery';
+
+  @override
   String quitIntensity(int value) {
     return 'Intensity: $value/10';
   }
@@ -7365,9 +7371,54 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitManualReset => 'manual reset';
 
   @override
+  String quitMilestoneDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days clean',
+      one: '1 day clean',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitMilestoneElapsed(String percent) {
+    return '$percent of the time elapsed';
+  }
+
+  @override
   String quitMilestoneEta(String date) {
     return 'Expected $date';
   }
+
+  @override
+  String quitMilestoneInWindow(String date) {
+    return 'Happening now · until about $date';
+  }
+
+  @override
+  String quitMilestoneReachedOn(String date) {
+    return 'Reached $date';
+  }
+
+  @override
+  String get quitMilestoneSources => 'Sources';
+
+  @override
+  String get quitMilestonesClockNote =>
+      'Milestones count from your last lapse, so the clock restarts after one.';
+
+  @override
+  String get quitMilestonesOpen => 'All milestones';
+
+  @override
+  String get quitMilestonesReached => 'Reached';
+
+  @override
+  String get quitMilestonesTitle => 'Milestones';
+
+  @override
+  String get quitMilestonesUpcoming => 'Upcoming';
 
   @override
   String get quitModeAbstain => 'Quit completely';
@@ -7445,6 +7496,44 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String quitNotifMoneyMilestone(String amount) {
     return '$amount saved';
+  }
+
+  @override
+  String quitOffsetMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count months',
+      one: '1 month',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitOffsetRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String quitOffsetWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count weeks',
+      one: '1 week',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitOffsetYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count years',
+      one: '1 year',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -7640,6 +7729,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quitWhen => 'When';
+
+  @override
+  String get quitWithdrawalNow => 'Where you are now';
+
+  @override
+  String get quitWithdrawalTitle => 'Withdrawal';
 
   @override
   String get quitWithinLimitStreakTitle => 'Days within the limit';

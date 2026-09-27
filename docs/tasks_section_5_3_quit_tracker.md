@@ -34,7 +34,7 @@ pledge & evening review, trigger/place/coping libraries, savings rewards, coping
 - [x] T5.3.09 — Daily status rules (auto-success vs explicit)
 - [x] T5.3.10 — Multiple trackers & quit strip
 - [x] T5.3.11 — Health-milestone content asset (smoking)
-- [ ] T5.3.12 — Milestone timeline
+- [x] T5.3.12 — Milestone timeline
 - [ ] T5.3.13 — Daily pledge & evening review
 - [ ] T5.3.14 — Trigger, place & coping libraries
 - [ ] T5.3.15 — Savings rewards
@@ -199,6 +199,7 @@ always visible on this screen; custom milestones ("30 days → concert ticket") 
 [6.6] functions; reaching a milestone triggers a celebration ([5.2]) and a notification hook ([7.5]).
 **Acceptance criteria:** display rules verified in review; RTL and text scale 2.0 layouts pass.
 **Tests:** widget tests with fixture timelines; golden.
+**Notes:** `QuitMilestonesScreen` (from the dashboard card and menu): clean-time milestones for every tracker, sourced health rows for smoking with range notes, the disclaimer at the top of the section, the clock-restart note and the current withdrawal phase; progress/ETA from `everslot_metrics` `milestoneProgress`. Custom milestones from goals come with [5.4]; reaching a milestone notifies through `QuitNotificationSource` (no in-app celebration card yet). Golden not added.
 
 ### T5.3.13 — Daily pledge & evening review
 **Priority:** P1 · **Size:** M · **Depends on:** T5.3.09
