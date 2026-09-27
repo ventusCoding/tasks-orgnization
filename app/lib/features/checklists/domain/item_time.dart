@@ -26,6 +26,11 @@ abstract final class ItemTimeRules {
 
   static bool followUpOverdue(DateTime? followUpAt, DateTime now) => followUpAt != null && !followUpAt.isAfter(now);
 
+  /// Items completed at or after [sinceUtc] (header summary "12 done this week", T4.5.13).
+  static int completedSince(Iterable<ChecklistItem> items, DateTime sinceUtc) => items
+      .where((i) => i.status == ItemStatus.completed && i.completedAt != null && !i.completedAt!.isBefore(sinceUtc))
+      .length;
+
   /// Open item unchanged for at least [staleAfterDays].
   static bool isStale(ChecklistItem item, DateTime now, int staleAfterDays) {
     if (!item.status.isOpen) return false;
@@ -38,7 +43,13 @@ abstract final class ItemTimeRules {
   static AgeLevel escalation(ChecklistItem item, DateTime now, {int warnDays = 3, int alertDays = 7}) =>
       escalationFor(item.status, item.statusSince, now, warnDays: warnDays, alertDays: alertDays);
 
-  static AgeLevel escalationFor(ItemStatus status, DateTime? since, DateTime now, {int warnDays = 3, int alertDays = 7}) {
+  static AgeLevel escalationFor(
+    ItemStatus status,
+    DateTime? since,
+    DateTime now, {
+    int warnDays = 3,
+    int alertDays = 7,
+  }) {
     if (status != ItemStatus.waiting && status != ItemStatus.blocked) return AgeLevel.normal;
     if (since == null) return AgeLevel.normal;
     final days = now.difference(since).inDays;

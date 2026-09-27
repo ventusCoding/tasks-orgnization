@@ -35,7 +35,7 @@ reminders for follow-ups and resets ([7.5]); share-into-app ([8.2]).
 - [ ] T4.5.10 — PDF export / print
 - [x] T4.5.11 — In-list sort & filter
 - [ ] T4.5.12 — Link checklist ↔ planner task
-- [ ] T4.5.13 — Checklist Insights entry points
+- [x] T4.5.13 — Checklist Insights entry points
 - [ ] T4.5.14 — Mind map view (synced with the outline)
 - [ ] T4.5.15 — Flat all-items table
 - [ ] T4.5.16 — Mirrors (live item copies)
@@ -239,6 +239,7 @@ Arabic text, malformed input.
 checklist or item stats in [6.4].
 **Implementation notes:** the header shows a tiny summary, e.g. "12 done this week · 2 blocked".
 **Tests:** navigation widget test.
+**Notes:** Entry points: list menu → `/insights/checklist/<id>`, item details → `/insights/item/<id>` (the Insights routes call checklist items `item`; the old `checklistItem` link did not resolve), and the header's "N done this week" button (completions since the user's week start, zone-aware). The blocked / waiting counts stay as header pills.
 
 ### T4.5.14 — Mind map view (synced with the outline)
 **Priority:** P2 · **Size:** L · **Depends on:** T4.5.02

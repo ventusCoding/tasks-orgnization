@@ -367,9 +367,21 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
               ),
             ),
           if (!settings.hideCheckboxes && tree != null)
-            SliverToBoxAdapter(child: ProgressHeader(rollup: rootRollup, mode: settings.progressMode)),
-          if (state.preview) SliverToBoxAdapter(child: PreviewControls(checklistId: checklistId, onNextOpen: _nextOpen)),
-          SliverToBoxAdapter(child: ViewBanner(state: state, onReset: _resetView)),
+            SliverToBoxAdapter(
+              child: ProgressHeader(
+                rollup: rootRollup,
+                mode: settings.progressMode,
+                doneThisWeek: _doneThisWeek(tree, nowLocal, zone),
+                onInsights: () => openRoute(context, AppLinks.insightsScope('checklist', checklistId)),
+              ),
+            ),
+          if (state.preview)
+            SliverToBoxAdapter(
+              child: PreviewControls(checklistId: checklistId, onNextOpen: _nextOpen),
+            ),
+          SliverToBoxAdapter(
+            child: ViewBanner(state: state, onReset: _resetView),
+          ),
           if (complete && !settings.hideCheckboxes)
             SliverToBoxAdapter(
               child: CompletedBanner(
@@ -388,7 +400,8 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
                 findChildIndexCallback: (key) => key is ValueKey<String> ? _indexOf[key.value] : null,
               ),
             ),
-          if (!state.preview && !state.selecting) SliverToBoxAdapter(child: AddItemRow(onTap: () => unawaited(_addItem()))),
+          if (!state.preview && !state.selecting)
+            SliverToBoxAdapter(child: AddItemRow(onTap: () => unawaited(_addItem()))),
           if (state.preview && tree != null && shown.isEmpty)
             SliverToBoxAdapter(
               child: EmptyState(
@@ -405,7 +418,10 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
   List<VisibleRow> _whileDragging(List<VisibleRow> rows, ChecklistTree? tree) {
     final d = _drag;
     if (d == null || tree == null) return rows;
-    return [for (final r in rows) if (!tree.isDescendant(r.id, d.id)) r];
+    return [
+      for (final r in rows)
+        if (!tree.isDescendant(r.id, d.id)) r,
+    ];
   }
 
   /// Rows are memoized: an unchanged `(row, context)` reuses the same widget instance, so a
@@ -501,6 +517,18 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _scrollToRow(id, retried: true);
     });
+  }
+
+  /// Items completed since the start of the user's week (header summary, T4.5.13).
+  int _doneThisWeek(ChecklistTree tree, LocalDateTime nowLocal, String zone) {
+    final start = nowLocal.date.startOfWeek(ref.read(userPreferencesProvider).weekStart).atStartOfDay;
+    DateTime since;
+    try {
+      since = ref.read(zoneResolverProvider).resolve(start, zone).utc;
+    } on Object {
+      since = DateTime.utc(start.year, start.month, start.day);
+    }
+    return ItemTimeRules.completedSince(tree.items, since);
   }
 
   void _celebrate(bool complete) {
@@ -687,7 +715,8 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
       case DetailsAction.delete:
         await _delete([item.id]);
       case DetailsAction.insights:
-        openRoute(context, AppLinks.insightsScope('checklistItem', item.id));
+        // The Insights routes name checklist items `item` (InsightsRoute.item).
+        openRoute(context, AppLinks.insightsScope('item', item.id));
     }
   }
 
@@ -1057,7 +1086,11 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         item('uncheckAll', l.checklistUncheckAll, Icons.remove_done),
         item('deleteCompleted', l.checklistDeleteCompleted, Icons.delete_sweep_outlined),
         item('resetStatuses', l.checklistResetStatuses, Icons.restart_alt),
-        CheckedPopupMenuItem(value: 'hideCheckboxes', checked: s.hideCheckboxes, child: Text(l.checklistHideCheckboxes)),
+        CheckedPopupMenuItem(
+          value: 'hideCheckboxes',
+          checked: s.hideCheckboxes,
+          child: Text(l.checklistHideCheckboxes),
+        ),
         CheckedPopupMenuItem(
           value: 'sortCompleted',
           checked: s.sortCompletedToBottom,
@@ -1109,7 +1142,11 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         final count = tree == null ? 0 : ListCommands.uncheckAllCount(tree);
         if (count == 0) return;
         if (count > 10) {
-          final ok = await confirmDialog(context, title: l.checklistUncheckConfirm(count), confirmLabel: l.checklistUncheckAll);
+          final ok = await confirmDialog(
+            context,
+            title: l.checklistUncheckConfirm(count),
+            confirmLabel: l.checklistUncheckAll,
+          );
           if (!ok) return;
         }
         final record = await _editor.uncheckAll();
@@ -1228,7 +1265,11 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
       ToolbarAction(Icons.keyboard_return, l.checklistLineBreak, () => insertRowLineBreak(_rowContexts[id])),
       ToolbarAction(Icons.undo, l.actionUndo, state.canUndo ? undo : null),
       ToolbarAction(Icons.redo, l.actionRedo, state.canRedo ? redo : null),
-      ToolbarAction(Icons.keyboard_hide_outlined, l.checklistHideKeyboard, () => FocusManager.instance.primaryFocus?.unfocus()),
+      ToolbarAction(
+        Icons.keyboard_hide_outlined,
+        l.checklistHideKeyboard,
+        () => FocusManager.instance.primaryFocus?.unfocus(),
+      ),
     ];
   }
 
@@ -1238,7 +1279,11 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     final any = ids.isNotEmpty;
     final structure = any && state.canRestructure;
     return [
-      ToolbarAction(Icons.flag_outlined, l.statusChange, any ? () => unawaited(_bulkStatus(state.selection.toList())) : null),
+      ToolbarAction(
+        Icons.flag_outlined,
+        l.statusChange,
+        any ? () => unawaited(_bulkStatus(state.selection.toList())) : null,
+      ),
       ToolbarAction(
         Icons.format_indent_increase,
         l.checklistIndent,
@@ -1309,12 +1354,8 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     final overlay = Overlay.of(context);
     final rtl = Directionality.of(context) == TextDirection.rtl;
     session.overlay = OverlayEntry(
-      builder: (ctx) => _DragOverlay(
-        session: session,
-        listRect: _listRect,
-        overlayBox: () => _box(overlay.context),
-        rtl: rtl,
-      ),
+      builder: (ctx) =>
+          _DragOverlay(session: session, listRect: _listRect, overlayBox: () => _box(overlay.context), rtl: rtl),
     );
     overlay.insert(session.overlay!);
     setState(() => _drag = session);
@@ -1365,7 +1406,10 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
   void _updateTarget() {
     final s = _drag;
     if (s == null || !mounted) return;
-    final candidates = [for (final r in _shown) if (r.id != s.id) r];
+    final candidates = [
+      for (final r in _shown)
+        if (r.id != s.id) r,
+    ];
     int? gap;
     double? lineY;
     int? lastLaid;
@@ -1524,10 +1568,7 @@ class _DragOverlay extends StatelessWidget {
         Positioned.fromRect(
           rect: Rect.fromLTWH(a.dx, a.dy, (end - start).clamp(8.0, double.infinity), 3),
           child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: context.colors.primary,
-              borderRadius: BorderRadius.circular(Radii.pill),
-            ),
+            decoration: BoxDecoration(color: context.colors.primary, borderRadius: BorderRadius.circular(Radii.pill)),
           ),
         ),
       );
@@ -1599,7 +1640,9 @@ class _HeaderExtras extends ConsumerWidget {
       } on Object {
         rule = l.repeatCustom;
       }
-      final when = next == null ? '—' : AppFormat(context.localeName, use24h: prefs.use24h, l10n: l).relative(next, now);
+      final when = next == null
+          ? '—'
+          : AppFormat(context.localeName, use24h: prefs.use24h, l10n: l).relative(next, now);
       repeat = ActionChip(
         avatar: const Icon(Icons.repeat, size: 18),
         label: Text(l.repeatChip(rule, when)),

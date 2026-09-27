@@ -666,6 +666,7 @@
   "checklistDeleteItem": "حذف",
   "checklistDepthBadge": "م{level}",
   "checklistDetails": "التفاصيل",
+  "checklistDoneThisWeek": "{count, plural, =1{عنصر واحد أُنجز هذا الأسبوع} =2{عنصران أُنجزا هذا الأسبوع} few{{count} عناصر أُنجزت هذا الأسبوع} many{{count} عنصرًا أُنجز هذا الأسبوع} other{{count} عنصر أُنجز هذا الأسبوع}}",
   "checklistDragHandle": "اسحب للنقل",
   "checklistDue": "تاريخ الاستحقاق",
   "checklistDuplicate": "تكرار القائمة",

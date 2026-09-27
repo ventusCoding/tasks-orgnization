@@ -3375,6 +3375,12 @@ abstract class AppLocalizations {
   /// **'Details'**
   String get checklistDetails;
 
+  /// No description provided for @checklistDoneThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 done this week} other{{count} done this week}}'**
+  String checklistDoneThisWeek(int count);
+
   /// No description provided for @checklistDragHandle.
   ///
   /// In en, this message translates to:

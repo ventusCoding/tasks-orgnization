@@ -843,6 +843,13 @@
       }
     }
   },
+  "@checklistDoneThisWeek": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@checklistDurationDays": {
     "placeholders": {
       "n": {
@@ -3569,6 +3576,7 @@
   "checklistDeleteItem": "Delete",
   "checklistDepthBadge": "L{level}",
   "checklistDetails": "Details",
+  "checklistDoneThisWeek": "{count, plural, =1{1 done this week} other{{count} done this week}}",
   "checklistDragHandle": "Drag to move",
   "checklistDue": "Due date",
   "checklistDuplicate": "Duplicate list",

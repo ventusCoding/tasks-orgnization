@@ -650,5 +650,7 @@
   "importSplitCount": "{count, plural, =1{Split into 1 item (keep nesting)} other{Split into {count} items (keep nesting)}}",
   "@importSplitCount": {"placeholders": {"count": {"type": "int"}}},
   "importMoreLines": "{count, plural, =1{…and 1 more item} other{…and {count} more items}}",
-  "@importMoreLines": {"placeholders": {"count": {"type": "int"}}}
+  "@importMoreLines": {"placeholders": {"count": {"type": "int"}}},
+  "checklistDoneThisWeek": "{count, plural, =1{1 done this week} other{{count} done this week}}",
+  "@checklistDoneThisWeek": {"placeholders": {"count": {"type": "int"}}}
 }

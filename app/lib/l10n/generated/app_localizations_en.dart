@@ -1976,6 +1976,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checklistDetails => 'Details';
 
   @override
+  String checklistDoneThisWeek(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count done this week',
+      one: '1 done this week',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get checklistDragHandle => 'Drag to move';
 
   @override

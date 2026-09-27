@@ -666,6 +666,7 @@
   "checklistDeleteItem": "Supprimer",
   "checklistDepthBadge": "N{level}",
   "checklistDetails": "Détails",
+  "checklistDoneThisWeek": "{count, plural, =1{1 terminé cette semaine} other{{count} terminés cette semaine}}",
   "checklistDragHandle": "Glisser pour déplacer",
   "checklistDue": "Échéance",
   "checklistDuplicate": "Dupliquer la liste",

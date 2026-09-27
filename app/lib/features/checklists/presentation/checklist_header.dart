@@ -240,10 +240,14 @@ class ChecklistAttachmentsHeader extends ConsumerWidget {
 
 /// Progress header (T4.3.08): x/y, %, status-split bar and blocked/waiting counts.
 class ProgressHeader extends StatelessWidget {
-  const ProgressHeader({required this.rollup, required this.mode, super.key});
+  const ProgressHeader({required this.rollup, required this.mode, super.key, this.doneThisWeek = 0, this.onInsights});
 
   final Rollup rollup;
   final ProgressMode mode;
+
+  /// "12 done this week" (T4.5.13); tapping it opens the list's Insights.
+  final int doneThisWeek;
+  final VoidCallback? onInsights;
 
   @override
   Widget build(BuildContext context) {
@@ -254,52 +258,64 @@ class ProgressHeader extends StatelessWidget {
     final pct = AppFormat(context.localeName).percent(rollup.progress(mode));
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, Space.xs),
-      child: Semantics(
-        label: '${l.checklistProgress(done, total)}, $pct',
-        child: ExcludeSemantics(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Phone widths and text scale 2.0: both halves wrap instead of overflowing.
-              Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Semantics(
+            label: '${l.checklistProgress(done, total)}, $pct',
+            child: ExcludeSemantics(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Wrap(
-                      spacing: Space.sm,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        Text(l.checklistProgress(done, total), style: context.text.labelLarge),
-                        Text(pct, style: context.text.labelLarge?.copyWith(color: context.colors.primary)),
-                      ],
-                    ),
-                  ),
-                  if (rollup.blockedBelow > 0 || rollup.waitingBelow > 0)
-                    Flexible(
-                      child: Wrap(
-                        alignment: WrapAlignment.end,
-                        spacing: Space.xs,
-                        runSpacing: Space.xs,
-                        children: [
-                          if (rollup.blockedBelow > 0)
-                            _FittedPill(
-                              label: l.listsBadgeBlocked(rollup.blockedBelow),
-                              color: StatusStyle.pillColor(context, StatusStyle.color(context, ItemStatus.blocked)),
-                            ),
-                          if (rollup.waitingBelow > 0)
-                            _FittedPill(
-                              label: l.listsBadgeWaiting(rollup.waitingBelow),
-                              color: StatusStyle.pillColor(context, StatusStyle.color(context, ItemStatus.waiting)),
-                            ),
-                        ],
+                  // Phone widths and text scale 2.0: both halves wrap instead of overflowing.
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Wrap(
+                          spacing: Space.sm,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Text(l.checklistProgress(done, total), style: context.text.labelLarge),
+                            Text(pct, style: context.text.labelLarge?.copyWith(color: context.colors.primary)),
+                          ],
+                        ),
                       ),
-                    ),
+                      if (rollup.blockedBelow > 0 || rollup.waitingBelow > 0)
+                        Flexible(
+                          child: Wrap(
+                            alignment: WrapAlignment.end,
+                            spacing: Space.xs,
+                            runSpacing: Space.xs,
+                            children: [
+                              if (rollup.blockedBelow > 0)
+                                _FittedPill(
+                                  label: l.listsBadgeBlocked(rollup.blockedBelow),
+                                  color: StatusStyle.pillColor(context, StatusStyle.color(context, ItemStatus.blocked)),
+                                ),
+                              if (rollup.waitingBelow > 0)
+                                _FittedPill(
+                                  label: l.listsBadgeWaiting(rollup.waitingBelow),
+                                  color: StatusStyle.pillColor(context, StatusStyle.color(context, ItemStatus.waiting)),
+                                ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: Space.xs),
+                  SegmentedBar(segments: statusSegments(context, rollup)),
                 ],
               ),
-              const SizedBox(height: Space.xs),
-              SegmentedBar(segments: statusSegments(context, rollup)),
-            ],
+            ),
           ),
-        ),
+          // Outside the merged progress label so screen readers can reach the button.
+          if (doneThisWeek > 0 && onInsights != null)
+            TextButton.icon(
+              onPressed: onInsights,
+              icon: const Icon(Icons.insights_outlined, size: 18),
+              label: Text(l.checklistDoneThisWeek(doneThisWeek)),
+            ),
+        ],
       ),
     );
   }

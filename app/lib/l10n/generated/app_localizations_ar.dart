@@ -2018,6 +2018,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistDetails => 'التفاصيل';
 
   @override
+  String checklistDoneThisWeek(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر أُنجز هذا الأسبوع',
+      many: '$count عنصرًا أُنجز هذا الأسبوع',
+      few: '$count عناصر أُنجزت هذا الأسبوع',
+      two: 'عنصران أُنجزا هذا الأسبوع',
+      one: 'عنصر واحد أُنجز هذا الأسبوع',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get checklistDragHandle => 'اسحب للنقل';
 
   @override
