@@ -9000,6 +9000,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tasksAddEntry => 'Ajouter une session';
 
   @override
+  String get tasksAddTag => 'Ajouter une étiquette';
+
+  @override
   String tasksAnchorMoved(String date) {
     return 'Début déplacé au $date pour correspondre à la répétition';
   }
@@ -9358,6 +9361,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get tasksFieldStartDate => 'Date de début';
+
+  @override
+  String get tasksFieldTags => 'Étiquettes';
 
   @override
   String get tasksFieldTimeZone => 'Fuseau horaire';

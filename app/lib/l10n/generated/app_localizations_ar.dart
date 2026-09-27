@@ -9200,6 +9200,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksAddEntry => 'إضافة جلسة';
 
   @override
+  String get tasksAddTag => 'إضافة وسم';
+
+  @override
   String tasksAnchorMoved(String date) {
     return 'نُقلت البداية إلى $date لتطابق قاعدة التكرار';
   }
@@ -9563,6 +9566,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tasksFieldStartDate => 'تاريخ البدء';
+
+  @override
+  String get tasksFieldTags => 'الوسوم';
 
   @override
   String get tasksFieldTimeZone => 'المنطقة الزمنية';
