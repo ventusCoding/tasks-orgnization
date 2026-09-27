@@ -20,6 +20,7 @@ import 'package:everslot/features/planner/presentation/view_config/view_settings
 import 'package:everslot/features/planner/presentation/views/day_ribbon.dart';
 import 'package:everslot/features/planner/presentation/views/mini_month.dart';
 import 'package:everslot/features/planner/presentation/views/planner_chrome.dart';
+import 'package:everslot/features/planner/presentation/views/planner_keys.dart';
 import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -30,7 +31,9 @@ import 'package:material_ui/material_ui.dart';
 
 /// The day of [slice] as items for lists: all-day / lane items (manual order, then title) and
 /// quota slots first, then timed items by start.
-({List<PlannerItem> allDay, List<DayEntry> timed}) dayListItems(DaySlice slice) {
+({List<PlannerItem> allDay, List<DayEntry> timed}) dayListItems(
+  DaySlice slice,
+) {
   final seen = <String>{};
   final allDay =
       [
@@ -72,7 +75,8 @@ class DayListView extends ConsumerStatefulWidget {
   ConsumerState<DayListView> createState() => _DayListViewState();
 }
 
-class _DayListViewState extends ConsumerState<DayListView> implements GridNavigator {
+class _DayListViewState extends ConsumerState<DayListView>
+    implements GridNavigator {
   static const _base = 100000;
   final _controller = PlannerGridController();
   late LocalDate _origin;
@@ -83,7 +87,8 @@ class _DayListViewState extends ConsumerState<DayListView> implements GridNaviga
   double? _topMinute;
 
   /// Scroll requests for the page of a day: (day, minute, anchor fraction).
-  final ValueNotifier<(LocalDate, double, double)?> _scrollRequest = ValueNotifier(null);
+  final ValueNotifier<(LocalDate, double, double)?> _scrollRequest =
+      ValueNotifier(null);
 
   String get _key => widget.args.viewKey;
 
@@ -129,11 +134,18 @@ class _DayListViewState extends ConsumerState<DayListView> implements GridNaviga
     setState(() => _day = d);
     _controller.updateVisibleDays([d]);
     ref.read(plannerAnchorProvider.notifier).set(d);
-    ref.read(plannerViewStateProvider(_key).notifier).update((s) => s.copyWith(anchor: d));
+    ref
+        .read(plannerViewStateProvider(_key).notifier)
+        .update((s) => s.copyWith(anchor: d));
   }
 
   @override
-  Future<void> jumpToDate(LocalDate date, {bool animate = true, double? minute, double anchorFraction = 0}) async {
+  Future<void> jumpToDate(
+    LocalDate date, {
+    bool animate = true,
+    double? minute,
+    double anchorFraction = 0,
+  }) async {
     if (minute != null) {
       _topMinute = minute;
       _scrollRequest.value = (date, minute, anchorFraction);
@@ -141,8 +153,14 @@ class _DayListViewState extends ConsumerState<DayListView> implements GridNaviga
     if (!_pages.hasClients) return;
     final target = _indexOf(date);
     final current = _pages.page?.round() ?? _base;
-    if (animate && (target - current).abs() <= 3 && !MediaQuery.of(context).disableAnimations) {
-      await _pages.animateToPage(target, duration: Motion.normal, curve: Motion.curve);
+    if (animate &&
+        (target - current).abs() <= 3 &&
+        !MediaQuery.of(context).disableAnimations) {
+      await _pages.animateToPage(
+        target,
+        duration: Motion.normal,
+        curve: Motion.curve,
+      );
     } else {
       _pages.jumpToPage(target);
     }
@@ -153,15 +171,22 @@ class _DayListViewState extends ConsumerState<DayListView> implements GridNaviga
   Future<void> step(int pages) => jumpToDate(_day.plusDays(pages));
 
   @override
-  void scrollToMinute(double minute, {bool animate = true, double anchorFraction = 0}) =>
-      _scrollRequest.value = (_day, minute, anchorFraction);
+  void scrollToMinute(
+    double minute, {
+    bool animate = true,
+    double anchorFraction = 0,
+  }) => _scrollRequest.value = (_day, minute, anchorFraction);
 
   @override
   void zoomBy(double factor) {}
 
   Future<void> _today() async {
     final now = ref.read(plannerNowProvider);
-    await jumpToDate(now.date, minute: now.time.minuteOfDay.toDouble(), anchorFraction: 1 / 3);
+    await jumpToDate(
+      now.date,
+      minute: now.time.minuteOfDay.toDouble(),
+      anchorFraction: 1 / 3,
+    );
   }
 
   Future<void> _pickDay() async {
@@ -199,7 +224,9 @@ class _DayListViewState extends ConsumerState<DayListView> implements GridNaviga
         trailing: [
           SlotSizeButton(
             label: slotLabel(f, config.slotMinutes),
-            onPressed: () => unawaited(showSlotSizeSheet(context, ref, viewKey: _key, timeGrid: false)),
+            onPressed: () => unawaited(
+              showSlotSizeSheet(context, ref, viewKey: _key, timeGrid: false),
+            ),
           ),
           PlannerFilterButton(viewKey: _key),
           PlannerMoreMenu(
@@ -208,49 +235,72 @@ class _DayListViewState extends ConsumerState<DayListView> implements GridNaviga
             extra: [
               (
                 'style',
-                config.option<String>('style', 'slots') == 'ribbon' ? l.pvSlotsStyle : l.pvRibbonStyle,
+                config.option<String>('style', 'slots') == 'ribbon'
+                    ? l.pvSlotsStyle
+                    : l.pvRibbonStyle,
                 () => ref
                     .read(plannerViewConfigProvider(_key).notifier)
                     .change(
-                      (c) => c.withOption('style', c.option<String>('style', 'slots') == 'ribbon' ? 'slots' : 'ribbon'),
+                      (c) => c.withOption(
+                        'style',
+                        c.option<String>('style', 'slots') == 'ribbon'
+                            ? 'slots'
+                            : 'ribbon',
+                      ),
                     ),
               ),
             ],
           ),
         ],
       ),
-      body: Column(
-        children: [
-          DateStrip(selected: _day, weekStart: prefs.weekStart, onSelect: (d) => unawaited(jumpToDate(d))),
-          ActiveFilterBar(viewKey: _key),
-          Expanded(
-            child: PageView.builder(
-              key: const Key('day-pages'),
-              controller: _pages,
-              onPageChanged: _onPage,
-              itemBuilder: (context, index) => DayListPage(
-                key: ValueKey(_dayAt(index)),
-                viewKey: _key,
-                day: _dayAt(index),
-                initialTopMinute: _topMinute,
-                onTopMinute: (m) {
-                  _topMinute = m;
-                  ref.read(plannerScrollMinuteProvider.notifier).set(m);
-                },
-                scrollRequest: _scrollRequest,
+      body: PlannerKeys(
+        onPrevious: () => unawaited(step(-1)),
+        onNext: () => unawaited(step(1)),
+        onToday: () => unawaited(_today()),
+        child: Column(
+          children: [
+            DateStrip(
+              selected: _day,
+              weekStart: prefs.weekStart,
+              onSelect: (d) => unawaited(jumpToDate(d)),
+            ),
+            ActiveFilterBar(viewKey: _key),
+            Expanded(
+              child: PageView.builder(
+                key: const Key('day-pages'),
+                controller: _pages,
+                onPageChanged: _onPage,
+                itemBuilder: (context, index) => DayListPage(
+                  key: ValueKey(_dayAt(index)),
+                  viewKey: _key,
+                  day: _dayAt(index),
+                  initialTopMinute: _topMinute,
+                  onTopMinute: (m) {
+                    _topMinute = m;
+                    ref.read(plannerScrollMinuteProvider.notifier).set(m);
+                  },
+                  scrollRequest: _scrollRequest,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-      fab: PlannerFab(start: () => suggestedStart(_day, ref.read(plannerNowProvider))),
+      fab: PlannerFab(
+        start: () => suggestedStart(_day, ref.read(plannerNowProvider)),
+      ),
     );
   }
 }
 
 /// Week strip of day chips (T3.5.01): weekday, date and a load dot; swipe to change week.
 class DateStrip extends ConsumerStatefulWidget {
-  const DateStrip({required this.selected, required this.weekStart, required this.onSelect, super.key});
+  const DateStrip({
+    required this.selected,
+    required this.weekStart,
+    required this.onSelect,
+    super.key,
+  });
 
   final LocalDate selected;
   final Weekday weekStart;
@@ -278,7 +328,13 @@ class _DateStripState extends ConsumerState<DateStrip> {
     final week = widget.selected.startOfWeek(widget.weekStart);
     final target = _base + _originWeek.daysUntil(week) ~/ 7;
     if (_pages.hasClients && (_pages.page?.round() ?? _base) != target) {
-      unawaited(_pages.animateToPage(target, duration: Motion.normal, curve: Motion.curve));
+      unawaited(
+        _pages.animateToPage(
+          target,
+          duration: Motion.normal,
+          curve: Motion.curve,
+        ),
+      );
     }
   }
 
@@ -294,13 +350,21 @@ class _DateStripState extends ConsumerState<DateStrip> {
     child: PageView.builder(
       key: const Key('date-strip'),
       controller: _pages,
-      itemBuilder: (context, i) => _WeekChips(week: _weekAt(i), selected: widget.selected, onSelect: widget.onSelect),
+      itemBuilder: (context, i) => _WeekChips(
+        week: _weekAt(i),
+        selected: widget.selected,
+        onSelect: widget.onSelect,
+      ),
     ),
   );
 }
 
 class _WeekChips extends ConsumerWidget {
-  const _WeekChips({required this.week, required this.selected, required this.onSelect});
+  const _WeekChips({
+    required this.week,
+    required this.selected,
+    required this.onSelect,
+  });
 
   final LocalDate week;
   final LocalDate selected;
@@ -309,7 +373,8 @@ class _WeekChips extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final range = DayRange(week, 7);
-    final items = ref.watch(viewItemsProvider(range)).value ?? const <PlannerItem>[];
+    final items =
+        ref.watch(viewItemsProvider(range)).value ?? const <PlannerItem>[];
     final counts = countsByDay(items, range);
     final today = ref.watch(plannerTodayProvider);
     final f = context.plannerFormat();
@@ -330,7 +395,10 @@ class _WeekChips extends ConsumerWidget {
                   label: '${f.dayLong(d)}, ${l.pvItemsCount(count)}',
                   child: ExcludeSemantics(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: Space.xs),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 2,
+                        vertical: Space.xs,
+                      ),
                       child: InkWell(
                         key: Key('strip-${d.toIso()}'),
                         borderRadius: BorderRadius.circular(Radii.md),
@@ -339,7 +407,11 @@ class _WeekChips extends ConsumerWidget {
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? c.primary
-                                : (d == today ? c.primaryContainer.withValues(alpha: 0.5) : null),
+                                : (d == today
+                                      ? c.primaryContainer.withValues(
+                                          alpha: 0.5,
+                                        )
+                                      : null),
                             borderRadius: BorderRadius.circular(Radii.md),
                           ),
                           child: FittedBox(
@@ -352,14 +424,18 @@ class _WeekChips extends ConsumerWidget {
                                   Text(
                                     f.weekdayShort(d.weekday),
                                     style: context.text.labelSmall?.copyWith(
-                                      color: isSelected ? c.onPrimary : c.onSurfaceVariant,
+                                      color: isSelected
+                                          ? c.onPrimary
+                                          : c.onSurfaceVariant,
                                     ),
                                   ),
                                   Text(
                                     f.number(d.day),
                                     style: context.text.titleSmall?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: isSelected ? c.onPrimary : c.onSurface,
+                                      color: isSelected
+                                          ? c.onPrimary
+                                          : c.onSurface,
                                     ),
                                   ),
                                   SizedBox(
@@ -367,8 +443,13 @@ class _WeekChips extends ConsumerWidget {
                                     child: count == 0
                                         ? null
                                         : ColorDot(
-                                            isSelected ? c.onPrimary : c.primary,
-                                            size: math.min(6, 3 + count.toDouble()),
+                                            isSelected
+                                                ? c.onPrimary
+                                                : c.primary,
+                                            size: math.min(
+                                              6,
+                                              3 + count.toDouble(),
+                                            ),
                                           ),
                                   ),
                                 ],
@@ -425,7 +506,8 @@ class DayListPage extends ConsumerStatefulWidget {
   ConsumerState<DayListPage> createState() => _DayListPageState();
 }
 
-class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProviderStateMixin {
+class _DayListPageState extends ConsumerState<DayListPage>
+    with SingleTickerProviderStateMixin {
   final _scroll = ScrollController();
   final _listKey = GlobalKey();
   final Set<int> _expandedRuns = {};
@@ -433,6 +515,9 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
   final ValueNotifier<int?> _nowT = ValueNotifier(null);
   final ValueNotifier<(int, int)?> _highlight = ValueNotifier(null);
   final ValueNotifier<bool> _showNowButton = ValueNotifier(false);
+
+  /// Hour (wall minute, repeat pass) of the first visible row: the sticky hour header (T3.5.03).
+  final ValueNotifier<(int, int)?> _stickyHour = ValueNotifier(null);
   Timer? _timer;
   bool _initialScrolled = false;
   _ListDrag? _drag;
@@ -464,6 +549,7 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     _nowT.dispose();
     _highlight.dispose();
     _showNowButton.dispose();
+    _stickyHour.dispose();
     super.dispose();
   }
 
@@ -491,17 +577,28 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     if (!_scroll.hasClients) return;
     final t = _tAtOffset(_scroll.offset);
     if (t != null) widget.onTopMinute(_wallOfT(t).toDouble());
+    final tl = _slice?.timeline;
+    if (t != null && tl != null && _scroll.offset > 0.5) {
+      final (wall, repeat) = tl.wallAt(
+        t.clamp(0, math.max(0, tl.lengthMinutes - 1)),
+      );
+      _stickyHour.value = ((wall ~/ 60) * 60, repeat);
+    } else {
+      _stickyHour.value = null;
+    }
     final now = _nowT.value;
     if (now == null) {
       _showNowButton.value = false;
     } else {
       final y = _offsetOfT(now);
       final viewport = _scroll.position.viewportDimension;
-      _showNowButton.value = y < _scroll.offset - 8 || y > _scroll.offset + viewport - 24;
+      _showNowButton.value =
+          y < _scroll.offset - 8 || y > _scroll.offset + viewport - 24;
     }
   }
 
-  int _tOfWall(double wall) => _slice?.timeline.tOfWall(wall.floor().clamp(0, 1440)) ?? wall.floor();
+  int _tOfWall(double wall) =>
+      _slice?.timeline.tOfWall(wall.floor().clamp(0, 1440)) ?? wall.floor();
 
   int _wallOfT(int t) => _slice?.timeline.wallAt(t).$1 ?? t;
 
@@ -521,7 +618,9 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     final i = _indexAtOffset(y);
     if (i == null) return null;
     final (a, b) = _rangeOf(_display[i]);
-    final frac = _extents[i] <= 0 ? 0.0 : ((y - _tops[i]) / _extents[i]).clamp(0.0, 1.0);
+    final frac = _extents[i] <= 0
+        ? 0.0
+        : ((y - _tops[i]) / _extents[i]).clamp(0.0, 1.0);
     return (a + frac * (b - a)).floor();
   }
 
@@ -548,26 +647,42 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
   void _scrollToT(int t, {double anchorFraction = 0, bool animate = true}) {
     if (!_scroll.hasClients) return;
     final viewport = _scroll.position.viewportDimension;
-    final target = (_offsetOfT(t) - viewport * anchorFraction).clamp(0.0, _scroll.position.maxScrollExtent);
+    final target = (_offsetOfT(t) - viewport * anchorFraction).clamp(
+      0.0,
+      _scroll.position.maxScrollExtent,
+    );
     if (animate && !MediaQuery.of(context).disableAnimations) {
-      unawaited(_scroll.animateTo(target, duration: Motion.normal, curve: Motion.curve));
+      unawaited(
+        _scroll.animateTo(target, duration: Motion.normal, curve: Motion.curve),
+      );
     } else {
       _scroll.jumpTo(target);
     }
   }
 
-  void _initialScroll(PlannerViewConfig config, LocalDate today, LocalDateTime now) {
+  void _initialScroll(
+    PlannerViewConfig config,
+    LocalDate today,
+    LocalDateTime now,
+  ) {
     if (_initialScrolled) return;
     _initialScrolled = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || !_scroll.hasClients) return;
       if (widget.day == today && config.autoScrollToNow) {
-        _scrollToT(_tOfWall(now.time.minuteOfDay.toDouble()), anchorFraction: 1 / 3, animate: false);
+        _scrollToT(
+          _tOfWall(now.time.minuteOfDay.toDouble()),
+          anchorFraction: 1 / 3,
+          animate: false,
+        );
       } else if (widget.initialTopMinute != null) {
         _scrollToT(_tOfWall(widget.initialTopMinute!), animate: false);
       } else {
         final first = _slice?.timed.firstOrNull;
-        _scrollToT(first == null ? _tOfWall(8 * 60) : math.max(0, first.tStart - 60), animate: false);
+        _scrollToT(
+          first == null ? _tOfWall(8 * 60) : math.max(0, first.tStart - 60),
+          animate: false,
+        );
       }
       _onScroll();
     });
@@ -575,7 +690,8 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
 
   // ------------------------------------------------------------------------------ drags --
 
-  RenderBox? get _listBox => _listKey.currentContext?.findRenderObject() as RenderBox?;
+  RenderBox? get _listBox =>
+      _listKey.currentContext?.findRenderObject() as RenderBox?;
 
   /// Display row at a global position (null when outside the list).
   int? _rowAtGlobal(Offset global) {
@@ -596,7 +712,12 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     if (!_ticker.isActive) unawaited(_ticker.start());
   }
 
-  void _startMove(PlannerItem item, int displayIndex, Offset global, {bool fromAllDay = false}) {
+  void _startMove(
+    PlannerItem item,
+    int displayIndex,
+    Offset global, {
+    bool fromAllDay = false,
+  }) {
     _drag = _ListDrag.move(item, displayIndex, fromAllDay: fromAllDay)
       ..toRow = displayIndex
       ..toAllDay = fromAllDay
@@ -614,7 +735,10 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     d.global = global;
     final row = _rowAtGlobal(global);
     final box = _listBox;
-    final strip = d.item != null && !d.fromAllDay && (_slice == null || dayListItems(_slice!).allDay.isEmpty)
+    final strip =
+        d.item != null &&
+            !d.fromAllDay &&
+            (_slice == null || dayListItems(_slice!).allDay.isEmpty)
         ? _allDayDropExtent
         : 0.0;
     final aboveList = box != null && box.globalToLocal(global).dy < strip;
@@ -634,7 +758,9 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
         ..moved = true
         ..toAllDay = false
         ..toRow = row;
-      _highlight.value = d.item == null ? (math.min(d.fromRow, row), math.max(d.fromRow, row)) : (row, row);
+      _highlight.value = d.item == null
+          ? (math.min(d.fromRow, row), math.max(d.fromRow, row))
+          : (row, row);
       setState(() {});
     }
   }
@@ -646,14 +772,19 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
       _ticker.stop();
       return;
     }
-    final dt = _lastTick == Duration.zero ? 0.0 : (elapsed - _lastTick).inMicroseconds / 1e6;
+    final dt = _lastTick == Duration.zero
+        ? 0.0
+        : (elapsed - _lastTick).inMicroseconds / 1e6;
     _lastTick = elapsed;
     if (dt <= 0) return;
     final y = box.globalToLocal(d.global).dy;
     final speed = DragMath.autoScrollSpeed(y, 0, box.size.height);
     if (speed == 0) return;
     final pos = _scroll.position;
-    final next = (pos.pixels + speed * dt).clamp(pos.minScrollExtent, pos.maxScrollExtent);
+    final next = (pos.pixels + speed * dt).clamp(
+      pos.minScrollExtent,
+      pos.maxScrollExtent,
+    );
     if (next != pos.pixels) {
       _scroll.jumpTo(next);
       _updateDrag(d.global);
@@ -669,7 +800,9 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     if (d == null) return;
     final commands = PlannerCommands(context, ref);
     final l = context.l10n;
-    final f = context.plannerFormat(use24h: ref.read(userPreferencesProvider).use24h);
+    final f = context.plannerFormat(
+      use24h: ref.read(userPreferencesProvider).use24h,
+    );
     final item = d.item;
     if (item == null) {
       final a = math.min(d.fromRow, d.toRow);
@@ -740,10 +873,17 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     final now = ref.read(plannerNowProvider);
     final filter = viewItemFilter(ref, config);
     final chunk = widget.day.startOfWeek(prefs.weekStart);
-    final slices = ref.watch(daySlicesProvider(SliceKey(DayRange(chunk, 7), filter: filter))).value;
+    final slices = ref
+        .watch(daySlicesProvider(SliceKey(DayRange(chunk, 7), filter: filter)))
+        .value;
     final slice =
         slices?.firstWhereOrNull((s) => s.date == widget.day) ??
-        DaySlice(date: widget.day, timeline: cache.of(widget.day, zone), timed: const [], lane: const []);
+        DaySlice(
+          date: widget.day,
+          timeline: cache.of(widget.day, zone),
+          timed: const [],
+          lane: const [],
+        );
     final f = context.plannerFormat(use24h: prefs.use24h);
     final colors = ItemColorResolver(
       colorBy: config.colorBy,
@@ -758,10 +898,19 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     }
     final lists = dayListItems(slice);
     final agenda = config.slotMinutes >= 1440;
-    final ribbon = !agenda && config.option<String>('style', 'slots') == 'ribbon';
+    final ribbon =
+        !agenda && config.option<String>('style', 'slots') == 'ribbon';
     Widget body;
     if (agenda) {
-      body = _agenda(context, lists.timed, lists.allDay, config, f, colors, now);
+      body = _agenda(
+        context,
+        lists.timed,
+        lists.allDay,
+        config,
+        f,
+        colors,
+        now,
+      );
     } else if (ribbon) {
       body = DayRibbon(
         day: widget.day,
@@ -773,8 +922,12 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
         onOpen: (i) => ref.read(plannerNavProvider).openTask(context, i),
         onToggle: (i) => unawaited(PlannerCommands(context, ref).toggleDone(i)),
         onMenu: (i) => unawaited(PlannerCommands(context, ref).showTileMenu(i)),
-        onCreate: (start, minutes) =>
-            unawaited(PlannerCommands(context, ref).quickCreate(start: start, duration: minutes)),
+        onCreate: (start, minutes) => unawaited(
+          PlannerCommands(
+            context,
+            ref,
+          ).quickCreate(start: start, duration: minutes),
+        ),
       );
     } else {
       body = _slots(context, slice, config, f, colors, now, work);
@@ -788,7 +941,9 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
             children: [
               Positioned.fill(child: body),
               // Drop target for "make all-day" when the section is empty (doesn't shift the list).
-              if (_drag?.item != null && !_drag!.fromAllDay && lists.allDay.isEmpty)
+              if (_drag?.item != null &&
+                  !_drag!.fromAllDay &&
+                  lists.allDay.isEmpty)
                 PositionedDirectional(
                   top: 0,
                   start: 0,
@@ -799,11 +954,20 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
                       key: const Key('all-day-drop'),
                       decoration: BoxDecoration(
                         color:
-                            (_drag!.toAllDay ? context.colors.primaryContainer : context.colors.surfaceContainerHighest)
+                            (_drag!.toAllDay
+                                    ? context.colors.primaryContainer
+                                    : context.colors.surfaceContainerHighest)
                                 .withValues(alpha: 0.92),
-                        border: Border(bottom: BorderSide(color: context.colors.primary)),
+                        border: Border(
+                          bottom: BorderSide(color: context.colors.primary),
+                        ),
                       ),
-                      child: Center(child: Text(l.pvAllDaySection, style: context.text.labelLarge)),
+                      child: Center(
+                        child: Text(
+                          l.pvAllDaySection,
+                          style: context.text.labelLarge,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -826,7 +990,8 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
                             label: Text(l.pvNow),
                             onPressed: () {
                               final t = _nowT.value;
-                              if (t != null) _scrollToT(t, anchorFraction: 1 / 3);
+                              if (t != null)
+                                _scrollToT(t, anchorFraction: 1 / 3);
                             },
                           ),
                         ),
@@ -841,14 +1006,23 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     );
   }
 
-  Widget _allDaySection(BuildContext context, List<PlannerItem> items, AppFormat f, ItemColorResolver colors) {
+  Widget _allDaySection(
+    BuildContext context,
+    List<PlannerItem> items,
+    AppFormat f,
+    ItemColorResolver colors,
+  ) {
     final l = context.l10n;
     final dropping = _drag?.item != null && _drag!.toAllDay;
     if (items.isEmpty) return const SizedBox.shrink();
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: dropping ? context.colors.primaryContainer.withValues(alpha: 0.5) : null,
-        border: Border(bottom: BorderSide(color: context.colors.outlineVariant)),
+        color: dropping
+            ? context.colors.primaryContainer.withValues(alpha: 0.5)
+            : null,
+        border: Border(
+          bottom: BorderSide(color: context.colors.outlineVariant),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -857,11 +1031,17 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
             key: const Key('all-day-header'),
             onTap: () => setState(() => _allDayOpen = !_allDayOpen),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Space.lg, vertical: Space.sm),
+              padding: const EdgeInsets.symmetric(
+                horizontal: Space.lg,
+                vertical: Space.sm,
+              ),
               child: Row(
                 children: [
                   Expanded(
-                    child: Text('${l.pvAllDaySection} · ${f.number(items.length)}', style: context.text.labelLarge),
+                    child: Text(
+                      '${l.pvAllDaySection} · ${f.number(items.length)}',
+                      style: context.text.labelLarge,
+                    ),
                   ),
                   Icon(_allDayOpen ? Icons.expand_less : Icons.expand_more),
                 ],
@@ -870,7 +1050,9 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
           ),
           if (_allDayOpen)
             ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.25),
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.sizeOf(context).height * 0.25,
+              ),
               child: ListView(
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(horizontal: Space.md),
@@ -884,11 +1066,13 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
                           item: i,
                           colors: colors.of(i),
                           subtitle: i.isQuotaSlot ? l.pvUntimed : l.pvAllDay,
-                          semanticsLabel: '${i.title}, ${l.pvAllDay}, ${context.statusLabel(i.status)}',
+                          semanticsLabel:
+                              '${i.title}, ${l.pvAllDay}, ${context.statusLabel(i.status)}',
                           past: false,
                           dimPast: false,
                           dragging: _drag?.item?.key == i.key,
-                          onDragStart: (g) => _startMove(i, -1, g, fromAllDay: true),
+                          onDragStart: (g) =>
+                              _startMove(i, -1, g, fromAllDay: true),
                           onDragUpdate: _updateDrag,
                           onDragEnd: () => unawaited(_endDrag()),
                         ),
@@ -923,7 +1107,11 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
         ),
     ];
     if (entries.isEmpty) {
-      return EmptyState(icon: Icons.event_available_outlined, title: l.pvEmptyDay, message: l.pvHintLongPress);
+      return EmptyState(
+        icon: Icons.event_available_outlined,
+        title: l.pvEmptyDay,
+        message: l.pvHintLongPress,
+      );
     }
     return ListView.separated(
       key: const Key('day-agenda'),
@@ -938,7 +1126,8 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
             item: item,
             colors: colors.of(item),
             subtitle: time,
-            semanticsLabel: '${item.title}, $time, ${context.statusLabel(item.status)}',
+            semanticsLabel:
+                '${item.title}, $time, ${context.statusLabel(item.status)}',
             past: item.endLocal.isBefore(now),
             dimPast: config.dimPast,
           ),
@@ -956,7 +1145,11 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     LocalDateTime now,
     WorkSettings work,
   ) {
-    final rows = buildDayRows(slice: slice, slotMinutes: config.slotMinutes, window: config.dayWindow);
+    final rows = buildDayRows(
+      slice: slice,
+      slotMinutes: config.slotMinutes,
+      window: config.dayWindow,
+    );
     final collapsed = config.hideEmptySlots;
     _display = collapsed
         ? collapseRows(rows, expanded: _expandedRuns)
@@ -970,7 +1163,8 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     for (final r in _display) {
       final e = switch (r) {
         FreeListRow() => freeExtent,
-        SlotListRow(:final row) => row.kind == AxisBandKind.normal ? extent : hiddenExtent,
+        SlotListRow(:final row) =>
+          row.kind == AxisBandKind.normal ? extent : hiddenExtent,
       };
       tops.add(y);
       extents.add(e);
@@ -978,9 +1172,12 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     }
     _tops = tops;
     _extents = extents;
-    final lanes = rows.fold<int>(0, (m, r) => r.bars.fold(m, (mm, b) => math.max(mm, b.lane + 1)));
+    final lanes = rows.fold<int>(
+      0,
+      (m, r) => r.bars.fold(m, (mm, b) => math.max(mm, b.lane + 1)),
+    );
     final repeatedDay = slice.timeline.repeatedRanges.isNotEmpty;
-    return RawScrollbar(
+    final list = RawScrollbar(
       controller: _scroll,
       child: CustomScrollView(
         key: _listKey,
@@ -988,7 +1185,8 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
         slivers: [
           SliverVariedExtentList.builder(
             itemCount: _display.length,
-            itemExtentBuilder: (i, _) => i < extents.length ? extents[i] : extent,
+            itemExtentBuilder: (i, _) =>
+                i < extents.length ? extents[i] : extent,
             itemBuilder: (context, i) {
               final r = _display[i];
               return switch (r) {
@@ -1015,6 +1213,61 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
           const SliverToBoxAdapter(child: SizedBox(height: 96)),
         ],
       ),
+    );
+    if (config.slotMinutes >= 60) return list;
+    // Sticky hour header: sub-hour rows only label their minutes, so the current hour stays pinned.
+    return Stack(
+      children: [
+        Positioned.fill(child: list),
+        PositionedDirectional(
+          top: 0,
+          start: 0,
+          child: IgnorePointer(
+            child: ValueListenableBuilder<(int, int)?>(
+              valueListenable: _stickyHour,
+              builder: (context, hour, _) {
+                if (hour == null) return const SizedBox.shrink();
+                var label = f.time(
+                  LocalTime.fromMinuteOfDay(hour.$1.clamp(0, 1439)),
+                );
+                if (hour.$2 == 1 && repeatedDay) {
+                  label = context.l10n.pvRepeatedHour(
+                    label,
+                    slice.timeline.offsetLabelAt(hour.$1, repeat: 1),
+                  );
+                }
+                return DecoratedBox(
+                  key: const Key('sticky-hour'),
+                  decoration: BoxDecoration(
+                    color: context.colors.surface,
+                    border: Border(
+                      bottom: BorderSide(color: context.colors.outlineVariant),
+                    ),
+                    borderRadius: const BorderRadiusDirectional.only(
+                      bottomEnd: Radius.circular(Radii.sm),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                      Space.sm,
+                      2,
+                      Space.sm,
+                      2,
+                    ),
+                    child: Text(
+                      label,
+                      style: context.text.labelSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        fontFeatures: const [FontFeature.tabularFigures()],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -1043,7 +1296,10 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     } else if (hourStart) {
       label = f.time(LocalTime.fromMinuteOfDay(row.wallStart));
       if (row.repeat == 1 && dstSlice != null)
-        label = l.pvRepeatedHour(label, dstSlice.timeline.offsetLabelAt(row.wallStart, repeat: 1));
+        label = l.pvRepeatedHour(
+          label,
+          dstSlice.timeline.offsetLabelAt(row.wallStart, repeat: 1),
+        );
     } else {
       label = ':${(row.wallStart % 60).toString().padLeft(2, '0')}';
     }
@@ -1067,11 +1323,16 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
           ? () => unawaited(
               PlannerCommands(context, ref).quickCreate(
                 start: day.atStartOfDay.plusMinutes(row.wallStart),
-                duration: quickCreateDuration(config.slotMinutes, ref.read(plannerWorkSettingsProvider)),
+                duration: quickCreateDuration(
+                  config.slotMinutes,
+                  ref.read(plannerWorkSettingsProvider),
+                ),
               ),
             )
           : () => unawaited(_expandHidden(config)),
-      onLongPressEmpty: row.kind == AxisBandKind.normal ? (g) => _startCreate(index, g) : null,
+      onLongPressEmpty: row.kind == AxisBandKind.normal
+          ? (g) => _startCreate(index, g)
+          : null,
       onDragUpdate: _updateDrag,
       onDragEnd: () => unawaited(_endDrag()),
       chips: [
@@ -1103,7 +1364,9 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
   }
 
   Future<void> _expandHidden(PlannerViewConfig config) async {
-    ref.read(plannerViewConfigProvider(widget.viewKey).notifier).change((c) => c.copyWith(dayWindow: DayWindow.full));
+    ref
+        .read(plannerViewConfigProvider(widget.viewKey).notifier)
+        .change((c) => c.copyWith(dayWindow: DayWindow.full));
   }
 
   Future<void> _freeRunMenu(FreeListRow run, WorkSettings work) async {
@@ -1119,12 +1382,21 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     final commands = PlannerCommands(context, ref);
     switch (action) {
       case 'create':
-        await commands.quickCreate(start: start, duration: math.min(minutes, work.defaultDuration));
+        await commands.quickCreate(
+          start: start,
+          duration: math.min(minutes, work.defaultDuration),
+        );
       case 'expand':
         setState(() => _expandedRuns.add(run.fromIndex));
       case final PlannerItem backlog:
-        final duration = math.min(minutes, backlog.estimateMinutes ?? backlog.durationMinutes);
-        await commands.run(l.pvScheduledSnack, (a) => a.scheduleBacklogItem(backlog, start, duration));
+        final duration = math.min(
+          minutes,
+          backlog.estimateMinutes ?? backlog.durationMinutes,
+        );
+        await commands.run(
+          l.pvScheduledSnack,
+          (a) => a.scheduleBacklogItem(backlog, start, duration),
+        );
     }
   }
 }
@@ -1139,8 +1411,11 @@ class _FreeRunSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
-    final f = context.plannerFormat(use24h: ref.watch(userPreferencesProvider).use24h);
-    final backlog = ref.watch(viewBacklogProvider).value ?? const <PlannerItem>[];
+    final f = context.plannerFormat(
+      use24h: ref.watch(userPreferencesProvider).use24h,
+    );
+    final backlog =
+        ref.watch(viewBacklogProvider).value ?? const <PlannerItem>[];
     final fitting = [
       for (final b in backlog)
         if ((b.estimateMinutes ?? b.durationMinutes) <= minutes) b,
@@ -1149,9 +1424,18 @@ class _FreeRunSheet extends ConsumerWidget {
       shrinkWrap: true,
       children: [
         Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(Space.xl, 0, Space.xl, Space.sm),
+          padding: const EdgeInsetsDirectional.fromSTEB(
+            Space.xl,
+            0,
+            Space.xl,
+            Space.sm,
+          ),
           child: Text(
-            l.pvFreeRun(f.timeOf(start), f.timeOf(start.plusMinutes(minutes)), f.duration(minutes)),
+            l.pvFreeRun(
+              f.timeOf(start),
+              f.timeOf(start.plusMinutes(minutes)),
+              f.duration(minutes),
+            ),
             style: context.text.titleMedium,
           ),
         ),
@@ -1167,14 +1451,26 @@ class _FreeRunSheet extends ConsumerWidget {
         ),
         if (fitting.isNotEmpty) ...[
           Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(Space.xl, Space.md, Space.xl, Space.xs),
-            child: Text(l.pvFillFromBacklog, style: context.text.labelLarge?.copyWith(color: context.colors.primary)),
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              Space.xl,
+              Space.md,
+              Space.xl,
+              Space.xs,
+            ),
+            child: Text(
+              l.pvFillFromBacklog,
+              style: context.text.labelLarge?.copyWith(
+                color: context.colors.primary,
+              ),
+            ),
           ),
           for (final b in fitting)
             ListTile(
               leading: const Icon(Icons.inbox_outlined),
               title: Text(b.title),
-              subtitle: Text(f.duration(b.estimateMinutes ?? b.durationMinutes)),
+              subtitle: Text(
+                f.duration(b.estimateMinutes ?? b.durationMinutes),
+              ),
               onTap: () => Navigator.pop(context, b),
             ),
         ],
@@ -1186,7 +1482,12 @@ class _FreeRunSheet extends ConsumerWidget {
 
 /// "Free 10:00–11:20 · 1 h 20" (T3.5.08).
 class _FreeRunTile extends StatelessWidget {
-  const _FreeRunTile({required this.run, required this.format, required this.onTap, super.key});
+  const _FreeRunTile({
+    required this.run,
+    required this.format,
+    required this.onTap,
+    super.key,
+  });
 
   final FreeListRow run;
   final AppFormat format;
@@ -1273,17 +1574,26 @@ class _SlotRowTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final shown = chips.take(chips.length > _maxChips ? _maxChips - 1 : _maxChips).toList();
+    final shown = chips
+        .take(chips.length > _maxChips ? _maxChips - 1 : _maxChips)
+        .toList();
     final more = chips.length - shown.length;
     final barsWidth = lanes == 0 ? 6.0 : 6.0 + lanes * 5;
-    final textScale = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.6);
+    final textScale = MediaQuery.textScalerOf(context)
+        .clamp(maxScaleFactor: 1.6);
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: textScale),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: row.kind == AxisBandKind.normal ? null : c.surfaceContainerHighest.withValues(alpha: 0.6),
+          color: row.kind == AxisBandKind.normal
+              ? null
+              : c.surfaceContainerHighest.withValues(alpha: 0.6),
           border: Border(
-            top: BorderSide(color: strongLabel ? c.outlineVariant : c.outlineVariant.withValues(alpha: 0.4)),
+            top: BorderSide(
+              color: strongLabel
+                  ? c.outlineVariant
+                  : c.outlineVariant.withValues(alpha: 0.4),
+            ),
           ),
         ),
         child: ValueListenableBuilder<int?>(
@@ -1292,13 +1602,23 @@ class _SlotRowTile extends StatelessWidget {
             final isNow = now != null && row.containsT(now);
             return Stack(
               children: [
-                if (isNow) Positioned.fill(child: ColoredBox(color: context.appColors.nowLine.withValues(alpha: 0.06))),
+                if (isNow)
+                  Positioned.fill(
+                    child: ColoredBox(
+                      color: context.appColors.nowLine.withValues(alpha: 0.06),
+                    ),
+                  ),
                 child!,
                 ValueListenableBuilder<(int, int)?>(
                   valueListenable: highlight,
-                  builder: (context, h, _) => h != null && index >= h.$1 && index <= h.$2
+                  builder: (context, h, _) =>
+                      h != null && index >= h.$1 && index <= h.$2
                       ? Positioned.fill(
-                          child: IgnorePointer(child: ColoredBox(color: c.primary.withValues(alpha: 0.14))),
+                          child: IgnorePointer(
+                            child: ColoredBox(
+                              color: c.primary.withValues(alpha: 0.14),
+                            ),
+                          ),
                         )
                       : const SizedBox.shrink(),
                 ),
@@ -1307,14 +1627,21 @@ class _SlotRowTile extends StatelessWidget {
                     child: IgnorePointer(
                       child: LayoutBuilder(
                         builder: (context, constraints) {
-                          final frac = row.minutes <= 0 ? 0.0 : (now - row.tStart) / row.minutes;
+                          final frac = row.minutes <= 0
+                              ? 0.0
+                              : (now - row.tStart) / row.minutes;
                           return Align(
-                            alignment: AlignmentDirectional(-1, -1 + 2 * frac.clamp(0.0, 1.0)),
+                            alignment: AlignmentDirectional(
+                              -1,
+                              -1 + 2 * frac.clamp(0.0, 1.0),
+                            ),
                             child: SizedBox(
                               key: const Key('now-divider'),
                               height: 2,
                               width: constraints.maxWidth,
-                              child: ColoredBox(color: context.appColors.nowLine),
+                              child: ColoredBox(
+                                color: context.appColors.nowLine,
+                              ),
                             ),
                           );
                         },
@@ -1331,16 +1658,25 @@ class _SlotRowTile extends StatelessWidget {
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: onTapEmpty,
-              onLongPressStart: onLongPressEmpty == null ? null : (d) => onLongPressEmpty!(d.globalPosition),
-              onLongPressMoveUpdate: onLongPressEmpty == null ? null : (d) => onDragUpdate(d.globalPosition),
-              onLongPressEnd: onLongPressEmpty == null ? null : (_) => onDragEnd(),
+              onLongPressStart: onLongPressEmpty == null
+                  ? null
+                  : (d) => onLongPressEmpty!(d.globalPosition),
+              onLongPressMoveUpdate: onLongPressEmpty == null
+                  ? null
+                  : (d) => onDragUpdate(d.globalPosition),
+              onLongPressEnd: onLongPressEmpty == null
+                  ? null
+                  : (_) => onDragEnd(),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(
                     width: 64,
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.only(start: Space.sm, top: 2),
+                      padding: const EdgeInsetsDirectional.only(
+                        start: Space.sm,
+                        top: 2,
+                      ),
                       child: Text(
                         label,
                         maxLines: 1,
@@ -1356,23 +1692,43 @@ class _SlotRowTile extends StatelessWidget {
                   ),
                   SizedBox(
                     width: barsWidth,
-                    child: CustomPaint(painter: _BarsPainter(row.bars, colors, Directionality.of(context))),
+                    child: CustomPaint(
+                      painter: _BarsPainter(
+                        row.bars,
+                        colors,
+                        Directionality.of(context),
+                      ),
+                    ),
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(0, 3, Space.sm, 3),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                        0,
+                        3,
+                        Space.sm,
+                        3,
+                      ),
                       child: Row(
                         children: [
                           for (final chip in shown)
                             Expanded(
-                              child: Padding(padding: const EdgeInsetsDirectional.only(end: 3), child: chip),
+                              child: Padding(
+                                padding: const EdgeInsetsDirectional.only(
+                                  end: 3,
+                                ),
+                                child: chip,
+                              ),
                             ),
                           if (more > 0)
                             Padding(
-                              padding: const EdgeInsetsDirectional.only(start: 2),
+                              padding: const EdgeInsetsDirectional.only(
+                                start: 2,
+                              ),
                               child: Text(
                                 context.l10n.pvMore('$more'),
-                                style: context.text.labelMedium?.copyWith(color: c.primary),
+                                style: context.text.labelMedium?.copyWith(
+                                  color: c.primary,
+                                ),
                               ),
                             ),
                         ],
@@ -1400,19 +1756,26 @@ class _BarsPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     for (final b in bars) {
-      final x = direction == TextDirection.rtl ? size.width - 4 - b.lane * 5 : 2 + b.lane * 5.0;
+      final x = direction == TextDirection.rtl
+          ? size.width - 4 - b.lane * 5
+          : 2 + b.lane * 5.0;
       final top = b.starts ? 4.0 : 0.0;
       final bottom = b.ends ? size.height - 4 : size.height;
       final paint = Paint()
         ..color = colors.of(b.item).accent
         ..strokeWidth = 3
         ..strokeCap = StrokeCap.round;
-      canvas.drawLine(Offset(x + 1.5, top), Offset(x + 1.5, math.max(top, bottom)), paint);
+      canvas.drawLine(
+        Offset(x + 1.5, top),
+        Offset(x + 1.5, math.max(top, bottom)),
+        paint,
+      );
     }
   }
 
   @override
-  bool shouldRepaint(_BarsPainter old) => old.bars != bars || old.direction != direction;
+  bool shouldRepaint(_BarsPainter old) =>
+      old.bars != bars || old.direction != direction;
 }
 
 /// An item chip of the day list (T3.5.06): check → done, swipe right = done / left = skip, tap →
@@ -1450,7 +1813,10 @@ class _EntryChip extends ConsumerWidget {
     final l = context.l10n;
     final done = item.isDone;
     final struck = done || item.status == OccurrenceStatus.cancelled;
-    final faded = done || item.status == OccurrenceStatus.skipped || item.status == OccurrenceStatus.cancelled;
+    final faded =
+        done ||
+        item.status == OccurrenceStatus.skipped ||
+        item.status == OccurrenceStatus.cancelled;
     final missed = item.status == OccurrenceStatus.missed;
     final check = item.trackingMode == TrackingMode.check;
     final commands = PlannerCommands(context, ref);
@@ -1462,7 +1828,10 @@ class _EntryChip extends ConsumerWidget {
           color: colors.background,
           borderRadius: BorderRadius.circular(Radii.sm),
           border: BorderDirectional(
-            start: BorderSide(color: missed ? context.appColors.missed : colors.accent, width: missed ? 4 : 3),
+            start: BorderSide(
+              color: missed ? context.appColors.missed : colors.accent,
+              width: missed ? 4 : 3,
+            ),
           ),
         ),
         child: Row(
@@ -1514,22 +1883,31 @@ class _EntryChip extends ConsumerWidget {
                               subtitle,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: context.text.labelSmall?.copyWith(color: fg.withValues(alpha: 0.85), height: 1.1),
+                              style: context.text.labelSmall?.copyWith(
+                                color: fg.withValues(alpha: 0.85),
+                                height: 1.1,
+                              ),
                             ),
                           ),
                           if (item.isRecurring)
                             Padding(
-                              padding: const EdgeInsetsDirectional.only(start: 3),
+                              padding: const EdgeInsetsDirectional.only(
+                                start: 3,
+                              ),
                               child: Icon(Icons.repeat, size: 12, color: fg),
                             ),
                           if (item.timeZone != null)
                             Padding(
-                              padding: const EdgeInsetsDirectional.only(start: 3),
+                              padding: const EdgeInsetsDirectional.only(
+                                start: 3,
+                              ),
                               child: Icon(Icons.public, size: 12, color: fg),
                             ),
                           if (item.linkedChecklistId != null)
                             Padding(
-                              padding: const EdgeInsetsDirectional.only(start: 3),
+                              padding: const EdgeInsetsDirectional.only(
+                                start: 3,
+                              ),
                               child: Icon(Icons.checklist, size: 12, color: fg),
                             ),
                         ],
@@ -1551,23 +1929,35 @@ class _EntryChip extends ConsumerWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => ref.read(plannerNavProvider).openTask(context, item),
-        onLongPressStart: onDragStart == null ? null : (d) => onDragStart!(d.globalPosition),
-        onLongPressMoveUpdate: onDragUpdate == null ? null : (d) => onDragUpdate!(d.globalPosition),
+        onLongPressStart: onDragStart == null
+            ? null
+            : (d) => onDragStart!(d.globalPosition),
+        onLongPressMoveUpdate: onDragUpdate == null
+            ? null
+            : (d) => onDragUpdate!(d.globalPosition),
         onLongPressEnd: onDragEnd == null ? null : (_) => onDragEnd!(),
-        onLongPress: onDragStart == null ? () => unawaited(commands.showTileMenu(item)) : null,
+        onLongPress: onDragStart == null
+            ? () => unawaited(commands.showTileMenu(item))
+            : null,
         child: chip,
       ),
     );
     if (!item.isOpen && !done) return chip;
     return Dismissible(
       key: ValueKey('swipe-${item.key}'),
-      direction: item.isOpen ? DismissDirection.horizontal : DismissDirection.startToEnd,
+      direction: item.isOpen
+          ? DismissDirection.horizontal
+          : DismissDirection.startToEnd,
       background: _SwipeBackground(
         icon: done ? Icons.remove_done : Icons.check,
         color: context.appColors.completed,
         start: true,
       ),
-      secondaryBackground: _SwipeBackground(icon: Icons.skip_next, color: context.appColors.skipped, start: false),
+      secondaryBackground: _SwipeBackground(
+        icon: Icons.skip_next,
+        color: context.appColors.skipped,
+        start: false,
+      ),
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.startToEnd) {
           await commands.toggleDone(item);
@@ -1582,7 +1972,11 @@ class _EntryChip extends ConsumerWidget {
 }
 
 class _SwipeBackground extends StatelessWidget {
-  const _SwipeBackground({required this.icon, required this.color, required this.start});
+  const _SwipeBackground({
+    required this.icon,
+    required this.color,
+    required this.start,
+  });
 
   final IconData icon;
   final Color color;
@@ -1590,9 +1984,14 @@ class _SwipeBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-    decoration: BoxDecoration(color: color.withValues(alpha: 0.25), borderRadius: BorderRadius.circular(Radii.sm)),
+    decoration: BoxDecoration(
+      color: color.withValues(alpha: 0.25),
+      borderRadius: BorderRadius.circular(Radii.sm),
+    ),
     child: Align(
-      alignment: start ? AlignmentDirectional.centerStart : AlignmentDirectional.centerEnd,
+      alignment: start
+          ? AlignmentDirectional.centerStart
+          : AlignmentDirectional.centerEnd,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Space.md),
         child: Icon(icon, color: color),
