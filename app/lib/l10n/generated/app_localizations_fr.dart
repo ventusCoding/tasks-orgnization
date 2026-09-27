@@ -2713,6 +2713,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsAllDone => 'Tout est fait 🎉';
 
   @override
+  String get habitsAllHabits => 'Toutes les habitudes';
+
+  @override
   String get habitsAllStats => 'Toutes les statistiques';
 
   @override
@@ -2750,6 +2753,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsCalendar => 'Calendrier';
 
   @override
+  String get habitsCelebratePerfectDay => 'Journée parfaite — tout est fait !';
+
+  @override
+  String habitsCelebrateStreak(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jours d\'affilée',
+      one: '1 jour d\'affilée',
+    );
+    return '$name : $_temp0 !';
+  }
+
+  @override
+  String get habitsCelebrationDismiss => 'Fermer';
+
+  @override
   String habitsCellSemantics(String habit, String date, String status) {
     return '$habit, $date : $status';
   }
@@ -2758,6 +2778,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String habitsChallengeDay(int day, int total) {
     return 'Jour $day sur $total';
   }
+
+  @override
+  String get habitsCompactRows => 'Lignes compactes';
 
   @override
   String habitsCounts(int done, int notDone, int missed, int skipped) {
@@ -2807,6 +2830,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsDeletedSnack => 'Habitude supprimée';
+
+  @override
+  String habitsDragHandle(String name) {
+    return 'Déplacer $name';
+  }
 
   @override
   String get habitsEditCustom => 'Modifier la fréquence';
@@ -2975,9 +3003,34 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsGoalTypeNumeric => 'Valeur';
 
   @override
+  String get habitsGroupByCategory => 'Catégorie';
+
+  @override
+  String get habitsGroupByNone => 'Aucun';
+
+  @override
+  String get habitsGroupBySection => 'Moment';
+
+  @override
+  String get habitsGroupByTitle => 'Regrouper par';
+
+  @override
   String habitsGroupNotDue(int count) {
     return 'Pas prévues aujourd\'hui ($count)';
   }
+
+  @override
+  String get habitsHideNotDue => 'Masquer les habitudes non prévues';
+
+  @override
+  String get habitsHoldRingHint => 'Maintenir appuyé pour marquer comme fait';
+
+  @override
+  String get habitsHoldToComplete => 'Maintenir pour valider';
+
+  @override
+  String get habitsHoldToCompleteHint =>
+      'Maintenez l\'anneau appuyé pour cocher une habitude et éviter les appuis accidentels.';
 
   @override
   String habitsIncrease(String step) {
@@ -3014,6 +3067,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsManage => 'Gérer les habitudes';
+
+  @override
+  String get habitsMatrixTapTitle => 'Appui sur un jour dans la vue semaine';
 
   @override
   String get habitsMinPerDay => 'Minimum par jour';
@@ -3067,6 +3123,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsNoBuildHabits => 'Aucune habitude à cocher pour le moment';
+
+  @override
+  String get habitsNoCategory => 'Sans catégorie';
 
   @override
   String get habitsNoEntries => 'Aucune saisie pour le moment';
@@ -3279,6 +3338,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsRecentEntries => 'Saisies récentes';
 
   @override
+  String get habitsReorder => 'Réorganiser';
+
+  @override
+  String get habitsReorderDone => 'Terminé';
+
+  @override
+  String get habitsReorderHint =>
+      'Faites glisser les poignées pour changer l\'ordre.';
+
+  @override
   String get habitsReordered => 'Ordre enregistré';
 
   @override
@@ -3358,6 +3427,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsSections => 'Sections';
+
+  @override
+  String get habitsShowStreaks => 'Afficher les séries';
 
   @override
   String get habitsSkipBreaks => 'Cassent la série';
@@ -3448,6 +3520,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsStrength => 'Solidité';
 
   @override
+  String get habitsTapCycleDoneFail => 'Fait → Pas fait → Effacer';
+
+  @override
+  String get habitsTapCycleDoneOnly => 'Fait → Effacer';
+
+  @override
+  String get habitsTapCycleDoneSkip => 'Fait → Sauté → Effacer';
+
+  @override
   String get habitsTemplatesChallenges => 'Défis';
 
   @override
@@ -3505,6 +3586,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsToday => 'Aujourd\'hui';
+
+  @override
+  String get habitsToggleShortPress => 'Basculer par un appui court';
+
+  @override
+  String get habitsToggleShortPressHint =>
+      'Désactivé : un appui long bascule, un appui court ouvre le jour.';
 
   @override
   String get habitsTolerance => 'Validation anticipée';
@@ -3774,6 +3862,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsViewMonth => 'Mois';
+
+  @override
+  String get habitsViewOptions => 'Options d\'affichage';
 
   @override
   String get habitsViewToday => 'Aujourd\'hui';
@@ -7300,6 +7391,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get quitDailyLimit => 'Limite quotidienne';
 
   @override
+  String get quitDayMilestonesTitle => 'Temps d\'abstinence';
+
+  @override
   String quitDaysHours(int days, int hours) {
     return '$days j $hours h';
   }
@@ -7364,6 +7458,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get quitEventRestart => 'Nouvelle tentative d\'arrêt';
 
   @override
+  String get quitHealthTitle => 'Récupération de la santé';
+
+  @override
   String quitIntensity(int value) {
     return 'Intensité : $value/10';
   }
@@ -7390,9 +7487,54 @@ class AppLocalizationsFr extends AppLocalizations {
   String get quitManualReset => 'remise à zéro manuelle';
 
   @override
+  String quitMilestoneDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jours d\'abstinence',
+      one: '1 jour d\'abstinence',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitMilestoneElapsed(String percent) {
+    return '$percent du temps écoulé';
+  }
+
+  @override
   String quitMilestoneEta(String date) {
     return 'Prévue le $date';
   }
+
+  @override
+  String quitMilestoneInWindow(String date) {
+    return 'En cours · jusqu\'à environ $date';
+  }
+
+  @override
+  String quitMilestoneReachedOn(String date) {
+    return 'Atteinte le $date';
+  }
+
+  @override
+  String get quitMilestoneSources => 'Sources';
+
+  @override
+  String get quitMilestonesClockNote =>
+      'Les étapes se comptent depuis votre dernier écart : l\'horloge repart à zéro après un écart.';
+
+  @override
+  String get quitMilestonesOpen => 'Toutes les étapes';
+
+  @override
+  String get quitMilestonesReached => 'Atteintes';
+
+  @override
+  String get quitMilestonesTitle => 'Étapes';
+
+  @override
+  String get quitMilestonesUpcoming => 'À venir';
 
   @override
   String get quitModeAbstain => 'Arrêter complètement';
@@ -7471,6 +7613,44 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String quitNotifMoneyMilestone(String amount) {
     return '$amount économisés';
+  }
+
+  @override
+  String quitOffsetMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mois',
+      one: '1 mois',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitOffsetRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String quitOffsetWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count semaines',
+      one: '1 semaine',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitOffsetYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ans',
+      one: '1 an',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -7666,6 +7846,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get quitWhen => 'Quand';
+
+  @override
+  String get quitWithdrawalNow => 'Là où vous en êtes';
+
+  @override
+  String get quitWithdrawalTitle => 'Sevrage';
 
   @override
   String get quitWithinLimitStreakTitle => 'Jours dans la limite';

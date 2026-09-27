@@ -33,8 +33,8 @@ pledge & evening review, trigger/place/coping libraries, savings rewards, coping
 - [x] T5.3.08 — Craving logging
 - [x] T5.3.09 — Daily status rules (auto-success vs explicit)
 - [x] T5.3.10 — Multiple trackers & quit strip
-- [ ] T5.3.11 — Health-milestone content asset (smoking)
-- [ ] T5.3.12 — Milestone timeline
+- [x] T5.3.11 — Health-milestone content asset (smoking)
+- [x] T5.3.12 — Milestone timeline
 - [ ] T5.3.13 — Daily pledge & evening review
 - [ ] T5.3.14 — Trigger, place & coping libraries
 - [ ] T5.3.15 — Savings rewards
@@ -177,7 +177,7 @@ metrics, never treated as a relapse).
 **Description:** Localized, sourced content for smoking-cessation milestones (research §E), used by the
 timeline (T5.3.12) and by the milestone metrics in [6.6].
 **Implementation notes:**
-- `assets/content/quit/smoking_milestones.json` with a JSON schema: rows for 20 min, 8 h, 12 h, 24 h, 48 h,
+- `assets/content/quit_milestones_smoking.json` with a JSON schema: rows for 20 min, 8 h, 12 h, 24 h, 48 h,
   72 h, 1 week, 2–12 weeks, 4–6 weeks, 1–9 months, 1 year, 1–2 years, 3–6 years, 5–10 years, 10 years,
   15 years, 20 years, plus life-expectancy notes; each row: offset, title and description in EN/FR/AR, a
   *range* text where sources differ, and source links (WHO, NHS, CDC, ACS, NCI, HSE).
@@ -187,6 +187,7 @@ timeline (T5.3.12) and by the milestone metrics in [6.6].
 - No health content for other presets (money and time only). Content reviewed by the owner before release.
 **Acceptance criteria:** every row has ≥ 1 source URL and text in 3 languages; asset validation runs in CI.
 **Tests:** schema validation test; l10n completeness test.
+**Notes:** Asset `app/assets/content/quit_milestones_smoking.json` (path reconciled with the assignment; T6.6.05 still names `quit_milestones_cigarettes.json`) with the T6.6.05 rows — ids match the stats fallback table — plus withdrawal phases, life-regained constants and the localized disclaimer/clock note; loaded by `smokingMilestoneContentProvider`; `reviewedByOwner: false` until the owner reviews the texts.
 
 ### T5.3.12 — Milestone timeline
 **Priority:** P1 · **Size:** M · **Depends on:** T5.3.11, T5.3.05, [5.4] (custom milestones via goals), [6.6] (milestone progress functions)
@@ -198,6 +199,7 @@ always visible on this screen; custom milestones ("30 days → concert ticket") 
 [6.6] functions; reaching a milestone triggers a celebration ([5.2]) and a notification hook ([7.5]).
 **Acceptance criteria:** display rules verified in review; RTL and text scale 2.0 layouts pass.
 **Tests:** widget tests with fixture timelines; golden.
+**Notes:** `QuitMilestonesScreen` (from the dashboard card and menu): clean-time milestones for every tracker, sourced health rows for smoking with range notes, the disclaimer at the top of the section, the clock-restart note and the current withdrawal phase; progress/ETA from `everslot_metrics` `milestoneProgress`. Custom milestones from goals come with [5.4]; reaching a milestone notifies through `QuitNotificationSource` (no in-app celebration card yet). Golden not added.
 
 ### T5.3.13 — Daily pledge & evening review
 **Priority:** P1 · **Size:** M · **Depends on:** T5.3.09

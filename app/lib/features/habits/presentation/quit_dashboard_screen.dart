@@ -15,6 +15,7 @@ import 'package:everslot/features/habits/presentation/habit_routes.dart';
 import 'package:everslot/features/habits/presentation/habit_ui.dart';
 import 'package:everslot/features/habits/presentation/pause_sheet.dart';
 import 'package:everslot/features/habits/presentation/quit/live_counter.dart';
+import 'package:everslot/features/habits/presentation/quit/milestone_timeline.dart';
 import 'package:everslot/features/habits/presentation/quit/quit_sheets.dart';
 import 'package:everslot_metrics/everslot_metrics.dart'
     show MilestoneProgress, QuitCalculator, QuitMode, defaultDayMilestones, milestoneProgress;
@@ -116,6 +117,8 @@ class _DashboardState extends ConsumerState<_Dashboard> {
         if (mounted) showUndoSnackBar(context, ref, message: l.quitRelapseSaved, record: record);
       case 'stats':
         await HabitNav.push(context, AppLinks.insightsScope('quit', habit.id), (_) => const SizedBox());
+      case 'milestones':
+        await openQuitMilestones(context, habit.id);
       case 'pause':
         await showPauseSheet(context, ref, habitId: habit.id);
       case 'archive':
@@ -226,6 +229,7 @@ class _DashboardState extends ConsumerState<_Dashboard> {
             onSelected: (v) => unawaited(_menu(v)),
             itemBuilder: (ctx) => [
               PopupMenuItem(value: 'stats', child: Text(l.habitsAllStats)),
+              PopupMenuItem(value: 'milestones', child: Text(l.quitMilestonesOpen)),
               if (!reduce) PopupMenuItem(value: 'reset', child: Text(l.quitResetCounter)),
               PopupMenuItem(value: 'pause', child: Text(l.habitsActionPause)),
               PopupMenuItem(value: 'archive', child: Text(habit.isArchived ? l.habitsUnarchive : l.actionArchive)),
@@ -285,7 +289,12 @@ class _DashboardState extends ConsumerState<_Dashboard> {
           ),
           if (next != null) ...[
             const SizedBox(height: Space.lg),
-            _NextMilestone(progress: next, fmt: fmt, eta: resolver.toLocal(next.eta, zone)),
+            _NextMilestone(
+              progress: next,
+              fmt: fmt,
+              eta: resolver.toLocal(next.eta, zone),
+              onTap: () => openQuitMilestones(context, habit.id),
+            ),
           ],
           if (habit.motivation != null) ...[
             SectionHeader(l.quitMotivationCard, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
@@ -386,7 +395,7 @@ class _DashboardState extends ConsumerState<_Dashboard> {
 }
 
 class _NextMilestone extends StatelessWidget {
-  const _NextMilestone({required this.progress, required this.fmt, required this.eta});
+  const _NextMilestone({required this.progress, required this.fmt, required this.eta, required this.onTap});
 
   final MilestoneProgress progress;
   final AppFormat fmt;
@@ -394,12 +403,18 @@ class _NextMilestone extends StatelessWidget {
   /// ETA in the tracker's zone.
   final LocalDateTime eta;
 
+  /// Opens the milestone timeline.
+  final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
     final days = progress.milestone.tMin.inDays;
     return Card(
-      child: Padding(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
         padding: const EdgeInsets.all(Space.md),
         child: Row(
           children: [
@@ -424,8 +439,10 @@ class _NextMilestone extends StatelessWidget {
                 ],
               ),
             ),
+            Icon(Icons.chevron_right, color: context.colors.onSurfaceVariant),
           ],
         ),
+      ),
       ),
     );
   }

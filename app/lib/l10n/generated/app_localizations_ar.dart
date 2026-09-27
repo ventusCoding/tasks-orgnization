@@ -2765,6 +2765,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsAllDone => 'أنجزت كل شيء 🎉';
 
   @override
+  String get habitsAllHabits => 'كل العادات';
+
+  @override
   String get habitsAllStats => 'كل الإحصاءات';
 
   @override
@@ -2801,6 +2804,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsCalendar => 'التقويم';
 
   @override
+  String get habitsCelebratePerfectDay => 'يوم مثالي — أنجزت كل شيء!';
+
+  @override
+  String habitsCelebrateStreak(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count يوم متتالٍ',
+      many: '$count يومًا متتاليًا',
+      few: '$count أيام متتالية',
+      two: 'يومان متتاليان',
+      one: 'يوم واحد متتالٍ',
+    );
+    return '$name: $_temp0!';
+  }
+
+  @override
+  String get habitsCelebrationDismiss => 'إغلاق';
+
+  @override
   String habitsCellSemantics(String habit, String date, String status) {
     return '$habit، $date: $status';
   }
@@ -2809,6 +2832,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String habitsChallengeDay(int day, int total) {
     return 'اليوم $day من $total';
   }
+
+  @override
+  String get habitsCompactRows => 'صفوف مضغوطة';
 
   @override
   String habitsCounts(int done, int notDone, int missed, int skipped) {
@@ -2861,6 +2887,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsDeletedSnack => 'تم حذف العادة';
+
+  @override
+  String habitsDragHandle(String name) {
+    return 'نقل $name';
+  }
 
   @override
   String get habitsEditCustom => 'تعديل الجدول';
@@ -3029,9 +3060,34 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsGoalTypeNumeric => 'قيمة رقمية';
 
   @override
+  String get habitsGroupByCategory => 'الفئة';
+
+  @override
+  String get habitsGroupByNone => 'بدون';
+
+  @override
+  String get habitsGroupBySection => 'الفترة';
+
+  @override
+  String get habitsGroupByTitle => 'التجميع حسب';
+
+  @override
   String habitsGroupNotDue(int count) {
     return 'غير مستحقة اليوم ($count)';
   }
+
+  @override
+  String get habitsHideNotDue => 'إخفاء العادات غير المستحقة';
+
+  @override
+  String get habitsHoldRingHint => 'اضغط مطوّلًا لوضع علامة تم';
+
+  @override
+  String get habitsHoldToComplete => 'الضغط المطوّل للإنجاز';
+
+  @override
+  String get habitsHoldToCompleteHint =>
+      'اضغط مطوّلًا على الحلقة لتسجيل العادة وتجنّب النقرات غير المقصودة.';
 
   @override
   String habitsIncrease(String step) {
@@ -3067,6 +3123,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsManage => 'إدارة العادات';
+
+  @override
+  String get habitsMatrixTapTitle => 'النقر على يوم في عرض الأسبوع';
 
   @override
   String get habitsMinPerDay => 'الحد الأدنى يوميًا';
@@ -3120,6 +3179,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsNoBuildHabits => 'لا توجد عادة لتسجيلها بعد';
+
+  @override
+  String get habitsNoCategory => 'بدون فئة';
 
   @override
   String get habitsNoEntries => 'لا توجد إدخالات بعد';
@@ -3338,6 +3400,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsRecentEntries => 'الإدخالات الأخيرة';
 
   @override
+  String get habitsReorder => 'إعادة الترتيب';
+
+  @override
+  String get habitsReorderDone => 'تم';
+
+  @override
+  String get habitsReorderHint => 'اسحب المقابض لتغيير الترتيب.';
+
+  @override
   String get habitsReordered => 'تم حفظ الترتيب';
 
   @override
@@ -3418,6 +3489,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsSections => 'الأقسام';
+
+  @override
+  String get habitsShowStreaks => 'إظهار السلاسل';
 
   @override
   String get habitsSkipBreaks => 'تقطع السلسلة';
@@ -3512,6 +3586,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsStrength => 'القوة';
 
   @override
+  String get habitsTapCycleDoneFail => 'تم ← لم يتم ← مسح';
+
+  @override
+  String get habitsTapCycleDoneOnly => 'تم ← مسح';
+
+  @override
+  String get habitsTapCycleDoneSkip => 'تم ← تخطٍّ ← مسح';
+
+  @override
   String get habitsTemplatesChallenges => 'التحديات';
 
   @override
@@ -3582,6 +3665,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsToday => 'اليوم';
+
+  @override
+  String get habitsToggleShortPress => 'التبديل بنقرة قصيرة';
+
+  @override
+  String get habitsToggleShortPressHint =>
+      'عند الإيقاف: الضغط المطوّل يبدّل الحالة والنقرة القصيرة تفتح اليوم.';
 
   @override
   String get habitsTolerance => 'نافذة التسجيل المبكر';
@@ -3892,6 +3982,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsViewMonth => 'الشهر';
+
+  @override
+  String get habitsViewOptions => 'خيارات العرض';
 
   @override
   String get habitsViewToday => 'اليوم';
@@ -7535,6 +7628,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitDailyLimit => 'الحد اليومي';
 
   @override
+  String get quitDayMilestonesTitle => 'مدة الامتناع';
+
+  @override
   String quitDaysHours(int days, int hours) {
     return '$days ي $hours س';
   }
@@ -7598,6 +7694,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitEventRestart => 'محاولة إقلاع جديدة';
 
   @override
+  String get quitHealthTitle => 'تعافي الصحة';
+
+  @override
   String quitIntensity(int value) {
     return 'الشدة: $value/10';
   }
@@ -7624,9 +7723,57 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitManualReset => 'إعادة ضبط يدوية';
 
   @override
+  String quitMilestoneDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count يوم من الامتناع',
+      many: '$count يومًا من الامتناع',
+      few: '$count أيام من الامتناع',
+      two: 'يومان من الامتناع',
+      one: 'يوم واحد من الامتناع',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitMilestoneElapsed(String percent) {
+    return 'انقضى $percent من المدة';
+  }
+
+  @override
   String quitMilestoneEta(String date) {
     return 'متوقعة في $date';
   }
+
+  @override
+  String quitMilestoneInWindow(String date) {
+    return 'جارية الآن · حتى نحو $date';
+  }
+
+  @override
+  String quitMilestoneReachedOn(String date) {
+    return 'تحققت في $date';
+  }
+
+  @override
+  String get quitMilestoneSources => 'المصادر';
+
+  @override
+  String get quitMilestonesClockNote =>
+      'تُحسب المراحل منذ آخر زلّة، لذا تبدأ الساعة من جديد بعدها.';
+
+  @override
+  String get quitMilestonesOpen => 'كل المراحل';
+
+  @override
+  String get quitMilestonesReached => 'المراحل المحققة';
+
+  @override
+  String get quitMilestonesTitle => 'المراحل';
+
+  @override
+  String get quitMilestonesUpcoming => 'المراحل القادمة';
 
   @override
   String get quitModeAbstain => 'الإقلاع التام';
@@ -7704,6 +7851,53 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String quitNotifMoneyMilestone(String amount) {
     return 'تم توفير $amount';
+  }
+
+  @override
+  String quitOffsetMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count شهر',
+      many: '$count شهرًا',
+      few: '$count أشهر',
+      two: 'شهران',
+      one: 'شهر واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitOffsetRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String quitOffsetWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count أسبوع',
+      many: '$count أسبوعًا',
+      few: '$count أسابيع',
+      two: 'أسبوعان',
+      one: 'أسبوع واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitOffsetYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count سنة',
+      many: '$count سنة',
+      few: '$count سنوات',
+      two: 'سنتان',
+      one: 'سنة واحدة',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -7897,6 +8091,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quitWhen => 'متى';
+
+  @override
+  String get quitWithdrawalNow => 'أين أنت الآن';
+
+  @override
+  String get quitWithdrawalTitle => 'أعراض الانسحاب';
 
   @override
   String get quitWithinLimitStreakTitle => 'أيام ضمن الحد';

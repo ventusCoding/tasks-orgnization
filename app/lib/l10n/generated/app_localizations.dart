@@ -4659,6 +4659,12 @@ abstract class AppLocalizations {
   /// **'All done 🎉'**
   String get habitsAllDone;
 
+  /// No description provided for @habitsAllHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'All habits'**
+  String get habitsAllHabits;
+
   /// No description provided for @habitsAllStats.
   ///
   /// In en, this message translates to:
@@ -4731,6 +4737,24 @@ abstract class AppLocalizations {
   /// **'Calendar'**
   String get habitsCalendar;
 
+  /// No description provided for @habitsCelebratePerfectDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect day — everything done!'**
+  String get habitsCelebratePerfectDay;
+
+  /// No description provided for @habitsCelebrateStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: {count, plural, =1{1 day in a row} other{{count} days in a row}}!'**
+  String habitsCelebrateStreak(String name, int count);
+
+  /// No description provided for @habitsCelebrationDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get habitsCelebrationDismiss;
+
   /// No description provided for @habitsCellSemantics.
   ///
   /// In en, this message translates to:
@@ -4742,6 +4766,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Day {day} of {total}'**
   String habitsChallengeDay(int day, int total);
+
+  /// No description provided for @habitsCompactRows.
+  ///
+  /// In en, this message translates to:
+  /// **'Compact rows'**
+  String get habitsCompactRows;
 
   /// No description provided for @habitsCounts.
   ///
@@ -4808,6 +4838,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Habit deleted'**
   String get habitsDeletedSnack;
+
+  /// No description provided for @habitsDragHandle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder {name}'**
+  String habitsDragHandle(String name);
 
   /// No description provided for @habitsEditCustom.
   ///
@@ -5109,11 +5145,59 @@ abstract class AppLocalizations {
   /// **'Number'**
   String get habitsGoalTypeNumeric;
 
+  /// No description provided for @habitsGroupByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get habitsGroupByCategory;
+
+  /// No description provided for @habitsGroupByNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get habitsGroupByNone;
+
+  /// No description provided for @habitsGroupBySection.
+  ///
+  /// In en, this message translates to:
+  /// **'Section'**
+  String get habitsGroupBySection;
+
+  /// No description provided for @habitsGroupByTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Group by'**
+  String get habitsGroupByTitle;
+
   /// No description provided for @habitsGroupNotDue.
   ///
   /// In en, this message translates to:
   /// **'Not due today ({count})'**
   String habitsGroupNotDue(int count);
+
+  /// No description provided for @habitsHideNotDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide habits not due'**
+  String get habitsHideNotDue;
+
+  /// No description provided for @habitsHoldRingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Press and hold to mark as done'**
+  String get habitsHoldRingHint;
+
+  /// No description provided for @habitsHoldToComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold to complete'**
+  String get habitsHoldToComplete;
+
+  /// No description provided for @habitsHoldToCompleteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Press and hold the ring to check a habit off, to avoid accidental taps.'**
+  String get habitsHoldToCompleteHint;
 
   /// No description provided for @habitsIncrease.
   ///
@@ -5174,6 +5258,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manage habits'**
   String get habitsManage;
+
+  /// No description provided for @habitsMatrixTapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tapping a day in the week view'**
+  String get habitsMatrixTapTitle;
 
   /// No description provided for @habitsMinPerDay.
   ///
@@ -5276,6 +5366,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No habit to check in yet'**
   String get habitsNoBuildHabits;
+
+  /// No description provided for @habitsNoCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'No category'**
+  String get habitsNoCategory;
 
   /// No description provided for @habitsNoEntries.
   ///
@@ -5619,6 +5715,24 @@ abstract class AppLocalizations {
   /// **'Recent entries'**
   String get habitsRecentEntries;
 
+  /// No description provided for @habitsReorder.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder'**
+  String get habitsReorder;
+
+  /// No description provided for @habitsReorderDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get habitsReorderDone;
+
+  /// No description provided for @habitsReorderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the handles to change the order.'**
+  String get habitsReorderHint;
+
   /// No description provided for @habitsReordered.
   ///
   /// In en, this message translates to:
@@ -5757,6 +5871,12 @@ abstract class AppLocalizations {
   /// **'Sections'**
   String get habitsSections;
 
+  /// No description provided for @habitsShowStreaks.
+  ///
+  /// In en, this message translates to:
+  /// **'Show streaks'**
+  String get habitsShowStreaks;
+
   /// No description provided for @habitsSkipBreaks.
   ///
   /// In en, this message translates to:
@@ -5889,6 +6009,24 @@ abstract class AppLocalizations {
   /// **'Strength'**
   String get habitsStrength;
 
+  /// No description provided for @habitsTapCycleDoneFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Done → Not done → Clear'**
+  String get habitsTapCycleDoneFail;
+
+  /// No description provided for @habitsTapCycleDoneOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Done → Clear'**
+  String get habitsTapCycleDoneOnly;
+
+  /// No description provided for @habitsTapCycleDoneSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Done → Skip → Clear'**
+  String get habitsTapCycleDoneSkip;
+
   /// No description provided for @habitsTemplatesChallenges.
   ///
   /// In en, this message translates to:
@@ -5942,6 +6080,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today'**
   String get habitsToday;
+
+  /// No description provided for @habitsToggleShortPress.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle with a short press'**
+  String get habitsToggleShortPress;
+
+  /// No description provided for @habitsToggleShortPressHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Off: a long press toggles, a short press opens the day.'**
+  String get habitsToggleShortPressHint;
 
   /// No description provided for @habitsTolerance.
   ///
@@ -6290,6 +6440,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Month'**
   String get habitsViewMonth;
+
+  /// No description provided for @habitsViewOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'View options'**
+  String get habitsViewOptions;
 
   /// No description provided for @habitsViewToday.
   ///
@@ -12153,6 +12309,12 @@ abstract class AppLocalizations {
   /// **'Daily limit'**
   String get quitDailyLimit;
 
+  /// No description provided for @quitDayMilestonesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean time'**
+  String get quitDayMilestonesTitle;
+
   /// No description provided for @quitDaysHours.
   ///
   /// In en, this message translates to:
@@ -12267,6 +12429,12 @@ abstract class AppLocalizations {
   /// **'New quit attempt'**
   String get quitEventRestart;
 
+  /// No description provided for @quitHealthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Health recovery'**
+  String get quitHealthTitle;
+
   /// No description provided for @quitIntensity.
   ///
   /// In en, this message translates to:
@@ -12315,11 +12483,71 @@ abstract class AppLocalizations {
   /// **'manual reset'**
   String get quitManualReset;
 
+  /// No description provided for @quitMilestoneDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day clean} other{{count} days clean}}'**
+  String quitMilestoneDays(int count);
+
+  /// No description provided for @quitMilestoneElapsed.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent} of the time elapsed'**
+  String quitMilestoneElapsed(String percent);
+
   /// No description provided for @quitMilestoneEta.
   ///
   /// In en, this message translates to:
   /// **'Expected {date}'**
   String quitMilestoneEta(String date);
+
+  /// No description provided for @quitMilestoneInWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Happening now · until about {date}'**
+  String quitMilestoneInWindow(String date);
+
+  /// No description provided for @quitMilestoneReachedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Reached {date}'**
+  String quitMilestoneReachedOn(String date);
+
+  /// No description provided for @quitMilestoneSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get quitMilestoneSources;
+
+  /// No description provided for @quitMilestonesClockNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestones count from your last lapse, so the clock restarts after one.'**
+  String get quitMilestonesClockNote;
+
+  /// No description provided for @quitMilestonesOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'All milestones'**
+  String get quitMilestonesOpen;
+
+  /// No description provided for @quitMilestonesReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Reached'**
+  String get quitMilestonesReached;
+
+  /// No description provided for @quitMilestonesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestones'**
+  String get quitMilestonesTitle;
+
+  /// No description provided for @quitMilestonesUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get quitMilestonesUpcoming;
 
   /// No description provided for @quitModeAbstain.
   ///
@@ -12470,6 +12698,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{amount} saved'**
   String quitNotifMoneyMilestone(String amount);
+
+  /// No description provided for @quitOffsetMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 month} other{{count} months}}'**
+  String quitOffsetMonths(int count);
+
+  /// No description provided for @quitOffsetRange.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String quitOffsetRange(String from, String to);
+
+  /// No description provided for @quitOffsetWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 week} other{{count} weeks}}'**
+  String quitOffsetWeeks(int count);
+
+  /// No description provided for @quitOffsetYears.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 year} other{{count} years}}'**
+  String quitOffsetYears(int count);
 
   /// No description provided for @quitOther.
   ///
@@ -12836,6 +13088,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When'**
   String get quitWhen;
+
+  /// No description provided for @quitWithdrawalNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you are now'**
+  String get quitWithdrawalNow;
+
+  /// No description provided for @quitWithdrawalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawal'**
+  String get quitWithdrawalTitle;
 
   /// No description provided for @quitWithinLimitStreakTitle.
   ///

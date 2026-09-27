@@ -1011,6 +1011,16 @@
       }
     }
   },
+  "@habitsCelebrateStreak": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@habitsCellSemantics": {
     "placeholders": {
       "habit": {
@@ -1065,6 +1075,13 @@
     }
   },
   "@habitsDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsDragHandle": {
     "placeholders": {
       "name": {
         "type": "String"
@@ -2483,7 +2500,35 @@
       }
     }
   },
+  "@quitMilestoneDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@quitMilestoneElapsed": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
   "@quitMilestoneEta": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@quitMilestoneInWindow": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@quitMilestoneReachedOn": {
     "placeholders": {
       "date": {
         "type": "String"
@@ -2494,6 +2539,37 @@
     "placeholders": {
       "amount": {
         "type": "String"
+      }
+    }
+  },
+  "@quitOffsetMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@quitOffsetRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@quitOffsetWeeks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@quitOffsetYears": {
+    "placeholders": {
+      "count": {
+        "type": "int"
       }
     }
   },
@@ -4271,6 +4347,7 @@
   "habitsAddTime": "Add a time",
   "habitsAdvancedTitle": "Advanced",
   "habitsAllDone": "All done 🎉",
+  "habitsAllHabits": "All habits",
   "habitsAllStats": "All stats",
   "habitsApplyAll": "All history",
   "habitsApplyAllWarn": "Past statistics will change.",
@@ -4283,8 +4360,12 @@
   "habitsAtRisk": "At risk",
   "habitsBestStreak": "Best streak",
   "habitsCalendar": "Calendar",
+  "habitsCelebratePerfectDay": "Perfect day — everything done!",
+  "habitsCelebrateStreak": "{name}: {count, plural, =1{1 day in a row} other{{count} days in a row}}!",
+  "habitsCelebrationDismiss": "Dismiss",
   "habitsCellSemantics": "{habit}, {date}: {status}",
   "habitsChallengeDay": "Day {day} of {total}",
+  "habitsCompactRows": "Compact rows",
   "habitsCounts": "Done {done} · Not done {notDone} · Missed {missed} · Skipped {skipped}",
   "habitsCreateQuitInstead": "Create a quit tracker",
   "habitsCurrentStreak": "Current streak",
@@ -4296,6 +4377,7 @@
   "habitsDeleteEntry": "Delete entry",
   "habitsDeleteTitle": "Delete “{name}”?",
   "habitsDeletedSnack": "Habit deleted",
+  "habitsDragHandle": "Reorder {name}",
   "habitsEditCustom": "Edit the schedule",
   "habitsEditEntry": "Edit entry",
   "habitsEditorEditTitle": "Edit habit",
@@ -4346,7 +4428,15 @@
   "habitsGoalTypeCount": "Count",
   "habitsGoalTypeDuration": "Duration",
   "habitsGoalTypeNumeric": "Number",
+  "habitsGroupByCategory": "Category",
+  "habitsGroupByNone": "None",
+  "habitsGroupBySection": "Section",
+  "habitsGroupByTitle": "Group by",
   "habitsGroupNotDue": "Not due today ({count})",
+  "habitsHideNotDue": "Hide habits not due",
+  "habitsHoldRingHint": "Press and hold to mark as done",
+  "habitsHoldToComplete": "Hold to complete",
+  "habitsHoldToCompleteHint": "Press and hold the ring to check a habit off, to avoid accidental taps.",
   "habitsIncrease": "Add {step}",
   "habitsIncrementStep": "Step",
   "habitsJournal": "Notes journal",
@@ -4357,6 +4447,7 @@
   "habitsLeftOfLimit": "{left} of {limit} left",
   "habitsLimitZeroHint": "A limit of 0 means quitting it completely.",
   "habitsManage": "Manage habits",
+  "habitsMatrixTapTitle": "Tapping a day in the week view",
   "habitsMinPerDay": "Minimum per day",
   "habitsMinutesValue": "{minutes} min",
   "habitsMood1": "Awful",
@@ -4374,6 +4465,7 @@
   "habitsNextMonth": "Next month",
   "habitsNextYear": "Next year",
   "habitsNoBuildHabits": "No habit to check in yet",
+  "habitsNoCategory": "No category",
   "habitsNoEntries": "No entries yet",
   "habitsNone": "None",
   "habitsNotActiveThatDay": "This habit wasn't active that day.",
@@ -4431,6 +4523,9 @@
   "habitsRate30": "30-day rate",
   "habitsReasonOptional": "Reason (optional)",
   "habitsRecentEntries": "Recent entries",
+  "habitsReorder": "Reorder",
+  "habitsReorderDone": "Done",
+  "habitsReorderHint": "Drag the handles to change the order.",
   "habitsReordered": "Order saved",
   "habitsRequireExplicit": "An empty day counts as missed",
   "habitsResume": "Resume",
@@ -4454,6 +4549,7 @@
   "habitsSectionProgress": "{done} / {total} done",
   "habitsSectionWindow": "Time window",
   "habitsSections": "Sections",
+  "habitsShowStreaks": "Show streaks",
   "habitsSkipBreaks": "Break the streak",
   "habitsSkipNeutral": "Don't break the streak",
   "habitsSkipPolicy": "Skipped days",
@@ -4476,6 +4572,9 @@
   "habitsStatusSkipped": "Skipped",
   "habitsStreakSemantics": "{days, plural, =1{1-day streak} other{{days}-day streak}}",
   "habitsStrength": "Strength",
+  "habitsTapCycleDoneFail": "Done → Not done → Clear",
+  "habitsTapCycleDoneOnly": "Done → Clear",
+  "habitsTapCycleDoneSkip": "Done → Skip → Clear",
   "habitsTemplatesChallenges": "Challenges",
   "habitsTemplatesHabits": "Habits",
   "habitsTemplatesQuit": "Quit",
@@ -4485,6 +4584,8 @@
   "habitsTimesPerMonth": "{n, plural, =1{Once a month} =2{Twice a month} other{{n} times a month}}",
   "habitsTimesPerWeek": "{n, plural, =1{Once a week} =2{Twice a week} other{{n} times a week}}",
   "habitsToday": "Today",
+  "habitsToggleShortPress": "Toggle with a short press",
+  "habitsToggleShortPressHint": "Off: a long press toggles, a short press opens the day.",
   "habitsTolerance": "Early check-in window",
   "habitsTotalOfTarget": "Total {total} of {target}",
   "habitsTplChallengeMeditate": "14 days of meditation",
@@ -4543,6 +4644,7 @@
   "habitsValueInvalid": "Enter a number greater than 0",
   "habitsValueTitle": "Log a value",
   "habitsViewMonth": "Month",
+  "habitsViewOptions": "View options",
   "habitsViewToday": "Today",
   "habitsViewWeek": "Week",
   "habitsViewYear": "Year",
@@ -5519,6 +5621,7 @@
   "quitCravingTitle": "Craving",
   "quitCurrency": "Currency",
   "quitDailyLimit": "Daily limit",
+  "quitDayMilestonesTitle": "Clean time",
   "quitDaysHours": "{days} d {hours} h",
   "quitDistractionExercise": "Exercise",
   "quitDistractionGame": "A quick game",
@@ -5538,6 +5641,7 @@
   "quitEventPledge": "Daily pledge",
   "quitEventRelapse": "Relapse",
   "quitEventRestart": "New quit attempt",
+  "quitHealthTitle": "Health recovery",
   "quitIntensity": "Intensity: {value}/10",
   "quitLifePerUnit": "Life expectancy per unit",
   "quitLifeRegained": "Life regained",
@@ -5546,7 +5650,17 @@
   "quitLogUse": "Log use",
   "quitLongest": "Longest streak",
   "quitManualReset": "manual reset",
+  "quitMilestoneDays": "{count, plural, =1{1 day clean} other{{count} days clean}}",
+  "quitMilestoneElapsed": "{percent} of the time elapsed",
   "quitMilestoneEta": "Expected {date}",
+  "quitMilestoneInWindow": "Happening now · until about {date}",
+  "quitMilestoneReachedOn": "Reached {date}",
+  "quitMilestoneSources": "Sources",
+  "quitMilestonesClockNote": "Milestones count from your last lapse, so the clock restarts after one.",
+  "quitMilestonesOpen": "All milestones",
+  "quitMilestonesReached": "Reached",
+  "quitMilestonesTitle": "Milestones",
+  "quitMilestonesUpcoming": "Upcoming",
   "quitModeAbstain": "Quit completely",
   "quitModeReduce": "Cut down",
   "quitModeTitle": "Goal",
@@ -5572,6 +5686,10 @@
   "quitNote": "Note",
   "quitNotifInvalidIntensity": "Intensity is a number from 1 to 10.",
   "quitNotifMoneyMilestone": "{amount} saved",
+  "quitOffsetMonths": "{count, plural, =1{1 month} other{{count} months}}",
+  "quitOffsetRange": "{from} – {to}",
+  "quitOffsetWeeks": "{count, plural, =1{1 week} other{{count} weeks}}",
+  "quitOffsetYears": "{count, plural, =1{1 year} other{{count} years}}",
   "quitOther": "Other…",
   "quitOverLimit": "Over today's limit",
   "quitPackPrice": "Pack price",
@@ -5633,6 +5751,8 @@
   "quitUnitsPerPack": "Units per pack",
   "quitUseLogged": "Use logged",
   "quitWhen": "When",
+  "quitWithdrawalNow": "Where you are now",
+  "quitWithdrawalTitle": "Withdrawal",
   "quitWithinLimitStreakTitle": "Days within the limit",
   "quitYes": "Yes",
   "recurAddDate": "Add",

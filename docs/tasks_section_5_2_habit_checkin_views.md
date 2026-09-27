@@ -31,11 +31,11 @@ stats screens ([6.5]); the Today home block ([8.1]); widgets ([8.2]); reminders 
 - [x] T5.2.07 — Habit detail screen
 - [x] T5.2.08 — Day editor & backfill
 - [x] T5.2.09 — Notes & mood on check-ins
-- [ ] T5.2.10 — Year heatmap per habit
-- [ ] T5.2.11 — Multi-habit month overview
-- [ ] T5.2.12 — Reorder, grouping & density
-- [ ] T5.2.13 — Check-in feedback & celebrations
-- [ ] T5.2.14 — Evaluation caching & performance
+- [x] T5.2.10 — Year heatmap per habit
+- [x] T5.2.11 — Multi-habit month overview
+- [x] T5.2.12 — Reorder, grouping & density
+- [x] T5.2.13 — Check-in feedback & celebrations
+- [x] T5.2.14 — Evaluation caching & performance
 - [ ] T5.2.15 — Notes journal
 
 ## Tasks
@@ -186,6 +186,7 @@ trailing edge): status colors for yes/no, intensity = achieved / target for meas
 log, tap a past day to open the day editor; scroll back through years.
 **Acceptance criteria:** legend and accessible summary ("Done on 212 of 280 scheduled days in 2026").
 **Tests:** golden; widget tap tests.
+**Notes:** Painted grid (one `CustomPaint`) instead of the [6.2] heatmap component; tapping any day opens the day editor (today included, where logging happens). Paused days are not counted as scheduled in the summary. Golden not added.
 
 ### T5.2.11 — Multi-habit month overview
 **Priority:** P1 · **Size:** M · **Depends on:** T5.2.06
@@ -194,6 +195,7 @@ days highlighted; tapping a day opens a sheet listing every habit's status that 
 **Acceptance criteria:** the perfect-day definition equals [6.5] (all due habits done; excused, paused and
 not-due habits don't count as due).
 **Tests:** widget tests; unit test for the per-day ratio.
+**Notes:** Per-day ratios come from `everslot_metrics` `dailyCompletionHeatmap` (the [6.5] perfect-day rule); the day sheet reuses the Today list for inline editing.
 
 ### T5.2.12 — Reorder, grouping & density
 **Priority:** P1 · **Size:** S · **Depends on:** T5.2.03, [5.1] (manage habits)
@@ -201,6 +203,7 @@ not-due habits don't count as due).
 not-due habits, compact vs comfortable density, show/hide streak chips.
 **Data model:** `user_settings.habits` keys `groupBy`, `density`, `showStreakChips`, `hideNotDue`.
 **Tests:** widget tests.
+**Notes:** Reordering is a mode (menu › Reorder, drag handles per group) because long-press already opens the actions menu; settings live in `HabitViewSettings` (application layer) and are edited in the new View options sheet, which also sets the week-matrix tap cycle and toggle gesture (T5.2.06).
 
 ### T5.2.13 — Check-in feedback & celebrations
 **Priority:** P1 · **Size:** S · **Depends on:** T5.2.01
@@ -211,6 +214,7 @@ days, challenge completion ([5.4]) and quit milestones ([5.3]).
 non-blocking overlays.
 **Acceptance criteria:** with reduce motion on, feedback is instant (text + haptic), no animation.
 **Tests:** widget tests with reduce motion on/off.
+**Notes:** Celebrations cover streak milestones (7/14/30/60/100/200/365/500/730/1000) and perfect days via `CelebrationService` + `CelebrationOverlay` (Habits tab, detail); challenge and quit-milestone celebrations hook in with T5.4.05 / T5.3.12. Hold-to-complete is a view setting (`holdToComplete`). No sound yet (no audio dependency; the [8.3] sound setting is not on main).
 
 ### T5.2.14 — Evaluation caching & performance
 **Priority:** P1 · **Size:** S · **Depends on:** T5.2.03, T5.2.06
@@ -219,6 +223,7 @@ incrementally from the earliest changed date, and run long ranges in a backgroun
 **Acceptance criteria:** Today list for 50 habits with 5 years of logs builds in < 100 ms; the week matrix
 scrolls at 60 fps; a check-in is reflected in the UI within one frame (optimistic).
 **Tests:** performance scenario in the [9.1] harness; cache invalidation unit tests.
+**Notes:** `HabitSnapshotCache` reuses a snapshot until its inputs change or a period boundary passes, and memoizes period expansion (logs/pauses do not change periods). Measured in the debug test VM (50 habits × 5 years): minute tick 50–80 µs (was ~450 ms), one check-in ~5 ms, cold build ~540 ms. Partial: the cold build is above the 100 ms budget and is not moved to a background isolate yet; recompute is per habit, not per changed date.
 
 ### T5.2.15 — Notes journal
 **Priority:** P2 · **Size:** S · **Depends on:** T5.2.09

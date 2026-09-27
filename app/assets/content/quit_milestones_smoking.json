@@ -1,0 +1,284 @@
+{
+  "v": 1,
+  "substance": "cigarettes",
+  "reviewedByOwner": false,
+  "disclaimer": {
+    "en": "Educational estimates based on population averages from WHO, NHS, CDC and the American Cancer Society; individual results vary. Not medical advice. Consult a healthcare professional.",
+    "fr": "Estimations éducatives fondées sur des moyennes de population issues de l'OMS, du NHS, des CDC et de l'American Cancer Society ; les résultats individuels varient. Ceci n'est pas un avis médical. Consultez un professionnel de santé.",
+    "ar": "تقديرات تثقيفية مبنية على متوسطات سكانية من منظمة الصحة العالمية وهيئة الخدمات الصحية البريطانية (NHS) ومراكز السيطرة على الأمراض (CDC) والجمعية الأمريكية للسرطان؛ وتختلف النتائج من شخص لآخر. هذه ليست نصيحة طبية. استشر أخصائي رعاية صحية."
+  },
+  "clockNote": {
+    "en": "The milestone clock restarts after a lapse. Percentages show elapsed time only — they are not a measurement of your body.",
+    "fr": "L'horloge des étapes repart à zéro après un écart. Les pourcentages indiquent seulement le temps écoulé — ce ne sont pas des mesures de votre corps.",
+    "ar": "تبدأ ساعة المراحل من جديد بعد أي زلّة. النسب المئوية تعكس الوقت المنقضي فقط — وليست قياسًا لحالة جسمك."
+  },
+  "milestones": [
+    {
+      "id": "Heart20m",
+      "tMinMinutes": 20,
+      "text": {
+        "en": {"title": "Heart rate and blood pressure drop", "body": "Within about 20 minutes your heart rate and blood pressure fall and your pulse starts returning to normal."},
+        "fr": {"title": "Le rythme cardiaque et la tension baissent", "body": "En une vingtaine de minutes, votre fréquence cardiaque et votre tension artérielle diminuent et votre pouls revient vers la normale."},
+        "ar": {"title": "انخفاض معدل ضربات القلب وضغط الدم", "body": "خلال نحو 20 دقيقة ينخفض معدل ضربات القلب وضغط الدم ويبدأ النبض بالعودة إلى طبيعته."}
+      },
+      "sources": [
+        {"name": "WHO", "url": "https://www.who.int/news-room/questions-and-answers/item/tobacco-health-benefits-of-smoking-cessation"},
+        {"name": "NHS", "url": "https://www.nhs.uk/better-health/quit-smoking/"}
+      ]
+    },
+    {
+      "id": "Co8h",
+      "tMinMinutes": 480,
+      "text": {
+        "en": {"title": "Carbon monoxide halved", "body": "After 8 hours the carbon monoxide in your blood has fallen by half and oxygen levels are recovering."},
+        "fr": {"title": "Monoxyde de carbone divisé par deux", "body": "Au bout de 8 heures, le taux de monoxyde de carbone dans le sang a diminué de moitié et l'oxygène revient vers la normale."},
+        "ar": {"title": "انخفاض أول أكسيد الكربون إلى النصف", "body": "بعد 8 ساعات ينخفض أول أكسيد الكربون في الدم إلى النصف وتبدأ مستويات الأكسجين بالتعافي."}
+      },
+      "sources": [
+        {"name": "NHS", "url": "https://www.nhs.uk/better-health/quit-smoking/"}
+      ]
+    },
+    {
+      "id": "Co12h",
+      "tMinMinutes": 720,
+      "text": {
+        "en": {"title": "Carbon monoxide back to normal", "body": "About 12 hours after your last cigarette, the carbon monoxide level in your blood drops to normal."},
+        "fr": {"title": "Monoxyde de carbone revenu à la normale", "body": "Environ 12 heures après la dernière cigarette, le taux de monoxyde de carbone dans le sang redevient normal."},
+        "ar": {"title": "عودة أول أكسيد الكربون إلى المعدل الطبيعي", "body": "بعد نحو 12 ساعة من آخر سيجارة ينخفض مستوى أول أكسيد الكربون في الدم إلى المعدل الطبيعي."}
+      },
+      "sources": [
+        {"name": "WHO", "url": "https://www.who.int/news-room/questions-and-answers/item/tobacco-health-benefits-of-smoking-cessation"}
+      ]
+    },
+    {
+      "id": "Nicotine24h",
+      "tMinMinutes": 1440,
+      "tMaxMinutes": 4320,
+      "text": {
+        "en": {"title": "Nicotine leaves your blood", "body": "Between one and a few days after quitting, the nicotine in your blood falls to zero and carbon monoxide returns to normal.", "range": "1 day to a few days (CDC, ACS)"},
+        "fr": {"title": "La nicotine quitte votre sang", "body": "Entre un et quelques jours après l'arrêt, la nicotine disparaît du sang et le monoxyde de carbone revient à la normale.", "range": "1 à quelques jours (CDC, ACS)"},
+        "ar": {"title": "خروج النيكوتين من الدم", "body": "خلال يوم إلى بضعة أيام بعد الإقلاع ينخفض النيكوتين في الدم إلى الصفر ويعود أول أكسيد الكربون إلى طبيعته.", "range": "من يوم إلى بضعة أيام (CDC وACS)"}
+      },
+      "sources": [
+        {"name": "CDC", "url": "https://www.cdc.gov/tobacco/about/benefits-of-quitting.html"},
+        {"name": "American Cancer Society", "url": "https://www.cancer.org/cancer/risk-prevention/tobacco/guide-quitting-smoking/benefits-of-quitting-smoking-over-time.html"}
+      ]
+    },
+    {
+      "id": "Taste48h",
+      "tMinMinutes": 2880,
+      "text": {
+        "en": {"title": "Taste and smell improve", "body": "After 48 hours carbon monoxide is at a non-smoker's level, your lungs start clearing out mucus, and taste and smell improve."},
+        "fr": {"title": "Le goût et l'odorat s'améliorent", "body": "Après 48 heures, le monoxyde de carbone est au niveau d'un non-fumeur, les poumons commencent à évacuer le mucus, et le goût et l'odorat s'améliorent."},
+        "ar": {"title": "تحسّن التذوق والشم", "body": "بعد 48 ساعة يصل أول أكسيد الكربون إلى مستوى غير المدخنين، وتبدأ الرئتان بالتخلص من المخاط، ويتحسن التذوق والشم."}
+      },
+      "sources": [
+        {"name": "NHS", "url": "https://www.nhs.uk/better-health/quit-smoking/"}
+      ]
+    },
+    {
+      "id": "Breathing72h",
+      "tMinMinutes": 4320,
+      "text": {
+        "en": {"title": "Breathing gets easier", "body": "After 72 hours breathing feels easier as your bronchial tubes relax, and your energy levels rise."},
+        "fr": {"title": "La respiration devient plus facile", "body": "Après 72 heures, la respiration devient plus facile car les bronches se détendent, et l'énergie remonte."},
+        "ar": {"title": "التنفس يصبح أسهل", "body": "بعد 72 ساعة يصبح التنفس أسهل مع ارتخاء الشعب الهوائية، وترتفع مستويات الطاقة."}
+      },
+      "sources": [
+        {"name": "NHS", "url": "https://www.nhs.uk/better-health/quit-smoking/"}
+      ]
+    },
+    {
+      "id": "Circulation",
+      "tMinMinutes": 20160,
+      "tMaxMinutes": 120960,
+      "text": {
+        "en": {"title": "Circulation and lung function improve", "body": "Between 2 and 12 weeks after quitting, your circulation and lung function improve.", "range": "2–12 weeks (WHO, NHS)"},
+        "fr": {"title": "La circulation et la fonction pulmonaire s'améliorent", "body": "Entre 2 et 12 semaines après l'arrêt, la circulation sanguine et la fonction pulmonaire s'améliorent.", "range": "2 à 12 semaines (OMS, NHS)"},
+        "ar": {"title": "تحسّن الدورة الدموية ووظائف الرئة", "body": "بين أسبوعين و12 أسبوعًا بعد الإقلاع تتحسن الدورة الدموية ووظائف الرئة.", "range": "من أسبوعين إلى 12 أسبوعًا (منظمة الصحة العالمية، NHS)"}
+      },
+      "sources": [
+        {"name": "WHO", "url": "https://www.who.int/news-room/questions-and-answers/item/tobacco-health-benefits-of-smoking-cessation"},
+        {"name": "NHS", "url": "https://www.nhs.uk/better-health/quit-smoking/"}
+      ]
+    },
+    {
+      "id": "Cravings",
+      "tMinMinutes": 40320,
+      "tMaxMinutes": 60480,
+      "text": {
+        "en": {"title": "Cravings usually ease", "body": "Cravings usually ease after 4 to 6 weeks. A single craving typically lasts about 3 to 5 minutes.", "range": "4–6 weeks (HSE)"},
+        "fr": {"title": "Les envies s'atténuent généralement", "body": "Les envies s'atténuent généralement après 4 à 6 semaines. Une envie dure en général 3 à 5 minutes.", "range": "4 à 6 semaines (HSE)"},
+        "ar": {"title": "الرغبة الشديدة تخفّ عادةً", "body": "تخف الرغبة الشديدة عادةً بعد 4 إلى 6 أسابيع، وتستمر الرغبة الواحدة في العادة من 3 إلى 5 دقائق.", "range": "من 4 إلى 6 أسابيع (HSE)"}
+      },
+      "sources": [
+        {"name": "HSE", "url": "https://www2.hse.ie/living-well/quit-smoking/get-help-to-quit/cravings-withdrawal/"}
+      ]
+    },
+    {
+      "id": "Lungs",
+      "tMinMinutes": 43200,
+      "tMaxMinutes": 525600,
+      "text": {
+        "en": {"title": "Less coughing and breathlessness", "body": "Coughing and shortness of breath decrease, and lung function can improve by up to about 10%.", "range": "WHO: 1–9 months · NHS: 3–9 months · CDC/ACS: 1–12 months"},
+        "fr": {"title": "Moins de toux et d'essoufflement", "body": "La toux et l'essoufflement diminuent et la fonction pulmonaire peut s'améliorer jusqu'à environ 10 %.", "range": "OMS : 1 à 9 mois · NHS : 3 à 9 mois · CDC/ACS : 1 à 12 mois"},
+        "ar": {"title": "سعال وضيق تنفس أقل", "body": "يقل السعال وضيق التنفس، وقد تتحسن وظائف الرئة بنسبة تصل إلى نحو 10٪.", "range": "منظمة الصحة العالمية: 1–9 أشهر · NHS: 3–9 أشهر · CDC/ACS: 1–12 شهرًا"}
+      },
+      "sources": [
+        {"name": "WHO", "url": "https://www.who.int/news-room/questions-and-answers/item/tobacco-health-benefits-of-smoking-cessation"},
+        {"name": "NHS", "url": "https://www.nhs.uk/better-health/quit-smoking/"},
+        {"name": "CDC", "url": "https://www.cdc.gov/tobacco/about/benefits-of-quitting.html"},
+        {"name": "American Cancer Society", "url": "https://www.cancer.org/cancer/risk-prevention/tobacco/guide-quitting-smoking/benefits-of-quitting-smoking-over-time.html"}
+      ]
+    },
+    {
+      "id": "HeartHalf1y",
+      "tMinMinutes": 525600,
+      "text": {
+        "en": {"title": "Heart disease risk halved", "body": "After 1 year your risk of coronary heart disease is about half that of a smoker."},
+        "fr": {"title": "Risque cardiaque divisé par deux", "body": "Après 1 an, votre risque de maladie coronarienne est environ la moitié de celui d'un fumeur."},
+        "ar": {"title": "انخفاض خطر أمراض القلب إلى النصف", "body": "بعد سنة يصبح خطر الإصابة بأمراض القلب التاجية نحو نصف خطره لدى المدخن."}
+      },
+      "sources": [
+        {"name": "WHO", "url": "https://www.who.int/news-room/questions-and-answers/item/tobacco-health-benefits-of-smoking-cessation"},
+        {"name": "NHS", "url": "https://www.nhs.uk/better-health/quit-smoking/"}
+      ]
+    },
+    {
+      "id": "HeartAttack",
+      "tMinMinutes": 525600,
+      "tMaxMinutes": 1051200,
+      "text": {
+        "en": {"title": "Heart-attack risk drops sharply", "body": "Between 1 and 2 years after quitting, your risk of a heart attack drops sharply.", "range": "1–2 years (CDC, ACS)"},
+        "fr": {"title": "Le risque d'infarctus chute nettement", "body": "Entre 1 et 2 ans après l'arrêt, le risque de crise cardiaque diminue fortement.", "range": "1 à 2 ans (CDC, ACS)"},
+        "ar": {"title": "انخفاض حاد في خطر النوبة القلبية", "body": "بين سنة وسنتين بعد الإقلاع ينخفض خطر الإصابة بنوبة قلبية بشكل كبير.", "range": "من سنة إلى سنتين (CDC وACS)"}
+      },
+      "sources": [
+        {"name": "CDC", "url": "https://www.cdc.gov/tobacco/about/benefits-of-quitting.html"},
+        {"name": "American Cancer Society", "url": "https://www.cancer.org/cancer/risk-prevention/tobacco/guide-quitting-smoking/benefits-of-quitting-smoking-over-time.html"}
+      ]
+    },
+    {
+      "id": "ChdAdded",
+      "tMinMinutes": 1576800,
+      "tMaxMinutes": 3153600,
+      "text": {
+        "en": {"title": "Added heart disease risk halves", "body": "Between 3 and 6 years after quitting, the added risk of coronary heart disease drops by half.", "range": "3–6 years (CDC)"},
+        "fr": {"title": "Le surrisque cardiaque diminue de moitié", "body": "Entre 3 et 6 ans après l'arrêt, le risque supplémentaire de maladie coronarienne diminue de moitié.", "range": "3 à 6 ans (CDC)"},
+        "ar": {"title": "انخفاض الخطر الإضافي لأمراض القلب إلى النصف", "body": "بين 3 و6 سنوات بعد الإقلاع ينخفض الخطر الإضافي للإصابة بأمراض القلب التاجية إلى النصف.", "range": "من 3 إلى 6 سنوات (CDC)"}
+      },
+      "sources": [
+        {"name": "CDC", "url": "https://www.cdc.gov/tobacco/about/benefits-of-quitting.html"}
+      ]
+    },
+    {
+      "id": "MouthCancer",
+      "tMinMinutes": 2628000,
+      "tMaxMinutes": 5256000,
+      "text": {
+        "en": {"title": "Mouth and throat cancer risk halves", "body": "Between 5 and 10 years after quitting, the added risk of cancers of the mouth, throat and voice box drops by half, and your risk of stroke falls.", "range": "5–10 years (CDC, ACS) · stroke: non-smoker level after 5–15 years (WHO)"},
+        "fr": {"title": "Le risque de cancer de la bouche et de la gorge diminue de moitié", "body": "Entre 5 et 10 ans après l'arrêt, le risque supplémentaire de cancers de la bouche, de la gorge et du larynx diminue de moitié, et le risque d'AVC baisse.", "range": "5 à 10 ans (CDC, ACS) · AVC : niveau d'un non-fumeur après 5 à 15 ans (OMS)"},
+        "ar": {"title": "انخفاض خطر سرطان الفم والحلق إلى النصف", "body": "بين 5 و10 سنوات بعد الإقلاع ينخفض الخطر الإضافي لسرطانات الفم والحلق والحنجرة إلى النصف، ويقل خطر السكتة الدماغية.", "range": "من 5 إلى 10 سنوات (CDC وACS) · السكتة الدماغية: مستوى غير المدخنين بعد 5–15 سنة (منظمة الصحة العالمية)"}
+      },
+      "sources": [
+        {"name": "CDC", "url": "https://www.cdc.gov/tobacco/about/benefits-of-quitting.html"},
+        {"name": "American Cancer Society", "url": "https://www.cancer.org/cancer/risk-prevention/tobacco/guide-quitting-smoking/benefits-of-quitting-smoking-over-time.html"},
+        {"name": "WHO", "url": "https://www.who.int/news-room/questions-and-answers/item/tobacco-health-benefits-of-smoking-cessation"}
+      ]
+    },
+    {
+      "id": "LungCancer10y",
+      "tMinMinutes": 5256000,
+      "text": {
+        "en": {"title": "Lung cancer risk halved", "body": "After about 10 years your lung-cancer risk is about half that of a smoker, and the risks of cancers of the bladder, oesophagus and other organs fall.", "range": "10 years (WHO, ACS, NHS) · CDC: 10–15 years"},
+        "fr": {"title": "Risque de cancer du poumon divisé par deux", "body": "Après environ 10 ans, votre risque de cancer du poumon est environ la moitié de celui d'un fumeur, et les risques de cancers de la vessie, de l'œsophage et d'autres organes diminuent.", "range": "10 ans (OMS, ACS, NHS) · CDC : 10 à 15 ans"},
+        "ar": {"title": "انخفاض خطر سرطان الرئة إلى النصف", "body": "بعد نحو 10 سنوات يصبح خطر الإصابة بسرطان الرئة نحو نصف خطره لدى المدخن، وتنخفض مخاطر سرطانات المثانة والمريء وأعضاء أخرى.", "range": "10 سنوات (منظمة الصحة العالمية، ACS، NHS) · CDC: من 10 إلى 15 سنة"}
+      },
+      "sources": [
+        {"name": "WHO", "url": "https://www.who.int/news-room/questions-and-answers/item/tobacco-health-benefits-of-smoking-cessation"},
+        {"name": "American Cancer Society", "url": "https://www.cancer.org/cancer/risk-prevention/tobacco/guide-quitting-smoking/benefits-of-quitting-smoking-over-time.html"},
+        {"name": "NHS", "url": "https://www.nhs.uk/better-health/quit-smoking/"},
+        {"name": "CDC", "url": "https://www.cdc.gov/tobacco/about/benefits-of-quitting.html"}
+      ]
+    },
+    {
+      "id": "Chd15y",
+      "tMinMinutes": 7884000,
+      "text": {
+        "en": {"title": "Heart disease risk like a non-smoker's", "body": "After 15 years your risk of coronary heart disease is that of — or close to — a non-smoker's."},
+        "fr": {"title": "Risque cardiaque proche d'un non-fumeur", "body": "Après 15 ans, votre risque de maladie coronarienne est celui d'un non-fumeur, ou s'en rapproche."},
+        "ar": {"title": "خطر أمراض القلب كغير المدخن", "body": "بعد 15 سنة يصبح خطر الإصابة بأمراض القلب التاجية مماثلًا لخطر غير المدخن أو قريبًا منه."}
+      },
+      "sources": [
+        {"name": "WHO", "url": "https://www.who.int/news-room/questions-and-answers/item/tobacco-health-benefits-of-smoking-cessation"},
+        {"name": "CDC", "url": "https://www.cdc.gov/tobacco/about/benefits-of-quitting.html"},
+        {"name": "American Cancer Society", "url": "https://www.cancer.org/cancer/risk-prevention/tobacco/guide-quitting-smoking/benefits-of-quitting-smoking-over-time.html"}
+      ]
+    },
+    {
+      "id": "Cancers20y",
+      "tMinMinutes": 10512000,
+      "text": {
+        "en": {"title": "Cancer risks near a never-smoker's", "body": "After 20 years the risk of cancers of the mouth, throat, voice box and pancreas is close to that of someone who never smoked, and the risk of cervical cancer drops by about half."},
+        "fr": {"title": "Risques de cancer proches de ceux d'un non-fumeur", "body": "Après 20 ans, le risque de cancers de la bouche, de la gorge, du larynx et du pancréas se rapproche de celui d'une personne n'ayant jamais fumé, et le risque de cancer du col de l'utérus diminue environ de moitié."},
+        "ar": {"title": "مخاطر السرطان قريبة من غير المدخنين", "body": "بعد 20 سنة يقترب خطر سرطانات الفم والحلق والحنجرة والبنكرياس من خطر من لم يدخن قط، وينخفض خطر سرطان عنق الرحم بنحو النصف."}
+      },
+      "sources": [
+        {"name": "CDC", "url": "https://www.cdc.gov/tobacco/about/benefits-of-quitting.html"},
+        {"name": "American Cancer Society", "url": "https://www.cancer.org/cancer/risk-prevention/tobacco/guide-quitting-smoking/benefits-of-quitting-smoking-over-time.html"}
+      ]
+    },
+    {
+      "id": "LifeExpectancy",
+      "tMinMinutes": 0,
+      "info": true,
+      "text": {
+        "en": {"title": "Years of life gained", "body": "Quitting at about 30, 40, 50 or 60 years old gains roughly 10, 9, 6 or 3 years of life expectancy — up to 10 years overall."},
+        "fr": {"title": "Des années de vie gagnées", "body": "Arrêter vers 30, 40, 50 ou 60 ans fait gagner environ 10, 9, 6 ou 3 ans d'espérance de vie — jusqu'à 10 ans au total."},
+        "ar": {"title": "سنوات إضافية من العمر", "body": "الإقلاع في سن 30 أو 40 أو 50 أو 60 تقريبًا يضيف نحو 10 أو 9 أو 6 أو 3 سنوات إلى متوسط العمر المتوقع — ما يصل إلى 10 سنوات إجمالًا."}
+      },
+      "sources": [
+        {"name": "WHO", "url": "https://www.who.int/news-room/questions-and-answers/item/tobacco-health-benefits-of-smoking-cessation"},
+        {"name": "CDC", "url": "https://www.cdc.gov/tobacco/about/benefits-of-quitting.html"},
+        {"name": "American Cancer Society", "url": "https://www.cancer.org/cancer/risk-prevention/tobacco/guide-quitting-smoking/benefits-of-quitting-smoking-over-time.html"}
+      ]
+    }
+  ],
+  "withdrawal": [
+    {
+      "id": "peak",
+      "fromDay": 1,
+      "toDay": 3,
+      "text": {
+        "en": "Days 1–3: withdrawal usually peaks. Irritability, restlessness and strong cravings are common — a sign your body is adjusting.",
+        "fr": "Jours 1 à 3 : le sevrage atteint généralement son pic. Irritabilité, agitation et fortes envies sont fréquentes — signe que votre corps s'adapte.",
+        "ar": "الأيام 1–3: تبلغ أعراض الانسحاب ذروتها عادةً. التهيّج والقلق والرغبة الشديدة شائعة — وهي علامة على تكيّف جسمك."
+      }
+    },
+    {
+      "id": "week1",
+      "fromDay": 4,
+      "toDay": 7,
+      "text": {
+        "en": "Days 4–7: symptoms start to ease. Cravings come in waves that usually pass within a few minutes.",
+        "fr": "Jours 4 à 7 : les symptômes commencent à s'atténuer. Les envies arrivent par vagues qui passent généralement en quelques minutes.",
+        "ar": "الأيام 4–7: تبدأ الأعراض بالتراجع. تأتي الرغبة على شكل موجات تزول عادةً خلال بضع دقائق."
+      }
+    },
+    {
+      "id": "weeks2to4",
+      "fromDay": 8,
+      "toDay": 28,
+      "text": {
+        "en": "Weeks 2–4: most physical symptoms fade. Occasional cravings can last longer, often triggered by routines — plan for them.",
+        "fr": "Semaines 2 à 4 : la plupart des symptômes physiques disparaissent. Des envies ponctuelles peuvent durer plus longtemps, souvent déclenchées par des habitudes — anticipez-les.",
+        "ar": "الأسابيع 2–4: تختفي معظم الأعراض الجسدية. قد تستمر رغبات متفرقة لفترة أطول وغالبًا ما تثيرها العادات اليومية — خطّط لها مسبقًا."
+      }
+    }
+  ],
+  "withdrawalSource": {"name": "NCI", "url": "https://www.cancer.gov/about-cancer/causes-prevention/risk/tobacco/withdrawal-fact-sheet"},
+  "lifeEstimates": [
+    {"key": "jackson2025", "minutesPerUnit": 20, "source": {"name": "Jackson et al., Addiction 2025", "url": "https://doi.org/10.1111/add.16757"}},
+    {"key": "bmj2000", "minutesPerUnit": 11, "source": {"name": "Shaw, Mitchell & Dorling, BMJ 2000", "url": "https://pubmed.ncbi.nlm.nih.gov/10617536/"}}
+  ]
+}

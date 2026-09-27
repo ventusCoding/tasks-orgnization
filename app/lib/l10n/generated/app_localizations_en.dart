@@ -2702,6 +2702,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitsAllDone => 'All done 🎉';
 
   @override
+  String get habitsAllHabits => 'All habits';
+
+  @override
   String get habitsAllStats => 'All stats';
 
   @override
@@ -2738,6 +2741,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitsCalendar => 'Calendar';
 
   @override
+  String get habitsCelebratePerfectDay => 'Perfect day — everything done!';
+
+  @override
+  String habitsCelebrateStreak(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days in a row',
+      one: '1 day in a row',
+    );
+    return '$name: $_temp0!';
+  }
+
+  @override
+  String get habitsCelebrationDismiss => 'Dismiss';
+
+  @override
   String habitsCellSemantics(String habit, String date, String status) {
     return '$habit, $date: $status';
   }
@@ -2746,6 +2766,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String habitsChallengeDay(int day, int total) {
     return 'Day $day of $total';
   }
+
+  @override
+  String get habitsCompactRows => 'Compact rows';
 
   @override
   String habitsCounts(int done, int notDone, int missed, int skipped) {
@@ -2795,6 +2818,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsDeletedSnack => 'Habit deleted';
+
+  @override
+  String habitsDragHandle(String name) {
+    return 'Reorder $name';
+  }
 
   @override
   String get habitsEditCustom => 'Edit the schedule';
@@ -2962,9 +2990,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitsGoalTypeNumeric => 'Number';
 
   @override
+  String get habitsGroupByCategory => 'Category';
+
+  @override
+  String get habitsGroupByNone => 'None';
+
+  @override
+  String get habitsGroupBySection => 'Section';
+
+  @override
+  String get habitsGroupByTitle => 'Group by';
+
+  @override
   String habitsGroupNotDue(int count) {
     return 'Not due today ($count)';
   }
+
+  @override
+  String get habitsHideNotDue => 'Hide habits not due';
+
+  @override
+  String get habitsHoldRingHint => 'Press and hold to mark as done';
+
+  @override
+  String get habitsHoldToComplete => 'Hold to complete';
+
+  @override
+  String get habitsHoldToCompleteHint =>
+      'Press and hold the ring to check a habit off, to avoid accidental taps.';
 
   @override
   String habitsIncrease(String step) {
@@ -3001,6 +3054,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsManage => 'Manage habits';
+
+  @override
+  String get habitsMatrixTapTitle => 'Tapping a day in the week view';
 
   @override
   String get habitsMinPerDay => 'Minimum per day';
@@ -3054,6 +3110,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsNoBuildHabits => 'No habit to check in yet';
+
+  @override
+  String get habitsNoCategory => 'No category';
 
   @override
   String get habitsNoEntries => 'No entries yet';
@@ -3265,6 +3324,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitsRecentEntries => 'Recent entries';
 
   @override
+  String get habitsReorder => 'Reorder';
+
+  @override
+  String get habitsReorderDone => 'Done';
+
+  @override
+  String get habitsReorderHint => 'Drag the handles to change the order.';
+
+  @override
   String get habitsReordered => 'Order saved';
 
   @override
@@ -3343,6 +3411,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsSections => 'Sections';
+
+  @override
+  String get habitsShowStreaks => 'Show streaks';
 
   @override
   String get habitsSkipBreaks => 'Break the streak';
@@ -3433,6 +3504,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitsStrength => 'Strength';
 
   @override
+  String get habitsTapCycleDoneFail => 'Done → Not done → Clear';
+
+  @override
+  String get habitsTapCycleDoneOnly => 'Done → Clear';
+
+  @override
+  String get habitsTapCycleDoneSkip => 'Done → Skip → Clear';
+
+  @override
   String get habitsTemplatesChallenges => 'Challenges';
 
   @override
@@ -3492,6 +3572,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsToday => 'Today';
+
+  @override
+  String get habitsToggleShortPress => 'Toggle with a short press';
+
+  @override
+  String get habitsToggleShortPressHint =>
+      'Off: a long press toggles, a short press opens the day.';
 
   @override
   String get habitsTolerance => 'Early check-in window';
@@ -3758,6 +3845,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsViewMonth => 'Month';
+
+  @override
+  String get habitsViewOptions => 'View options';
 
   @override
   String get habitsViewToday => 'Today';
@@ -7243,6 +7333,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitDailyLimit => 'Daily limit';
 
   @override
+  String get quitDayMilestonesTitle => 'Clean time';
+
+  @override
   String quitDaysHours(int days, int hours) {
     return '$days d $hours h';
   }
@@ -7305,6 +7398,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitEventRestart => 'New quit attempt';
 
   @override
+  String get quitHealthTitle => 'Health recovery';
+
+  @override
   String quitIntensity(int value) {
     return 'Intensity: $value/10';
   }
@@ -7331,9 +7427,54 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitManualReset => 'manual reset';
 
   @override
+  String quitMilestoneDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days clean',
+      one: '1 day clean',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitMilestoneElapsed(String percent) {
+    return '$percent of the time elapsed';
+  }
+
+  @override
   String quitMilestoneEta(String date) {
     return 'Expected $date';
   }
+
+  @override
+  String quitMilestoneInWindow(String date) {
+    return 'Happening now · until about $date';
+  }
+
+  @override
+  String quitMilestoneReachedOn(String date) {
+    return 'Reached $date';
+  }
+
+  @override
+  String get quitMilestoneSources => 'Sources';
+
+  @override
+  String get quitMilestonesClockNote =>
+      'Milestones count from your last lapse, so the clock restarts after one.';
+
+  @override
+  String get quitMilestonesOpen => 'All milestones';
+
+  @override
+  String get quitMilestonesReached => 'Reached';
+
+  @override
+  String get quitMilestonesTitle => 'Milestones';
+
+  @override
+  String get quitMilestonesUpcoming => 'Upcoming';
 
   @override
   String get quitModeAbstain => 'Quit completely';
@@ -7411,6 +7552,44 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String quitNotifMoneyMilestone(String amount) {
     return '$amount saved';
+  }
+
+  @override
+  String quitOffsetMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count months',
+      one: '1 month',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitOffsetRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String quitOffsetWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count weeks',
+      one: '1 week',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String quitOffsetYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count years',
+      one: '1 year',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -7606,6 +7785,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quitWhen => 'When';
+
+  @override
+  String get quitWithdrawalNow => 'Where you are now';
+
+  @override
+  String get quitWithdrawalTitle => 'Withdrawal';
 
   @override
   String get quitWithinLimitStreakTitle => 'Days within the limit';
