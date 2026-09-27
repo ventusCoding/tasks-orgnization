@@ -3,6 +3,7 @@ import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/domain/planning_rules.dart';
+import 'package:everslot/features/planner/presentation/value_tile.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -359,16 +360,16 @@ class _ActualTimeDialogState extends State<_ActualTimeDialog> {
               onTap: () => setState(() => _custom = true),
             ),
             if (_custom) ...[
-              ListTile(
+              ValueTile(
                 key: const ValueKey('actual-start'),
-                title: Text(l.tasksFieldStart),
-                trailing: Text(format.timeOf(_start)),
+                label: l.tasksFieldStart,
+                value: format.timeOf(_start),
                 onTap: () => pick(true),
               ),
-              ListTile(
+              ValueTile(
                 key: const ValueKey('actual-end'),
-                title: Text(l.tasksFieldEnd),
-                trailing: Text(format.timeOf(_end)),
+                label: l.tasksFieldEnd,
+                value: format.timeOf(_end),
                 onTap: () => pick(false),
               ),
               if (invalid)
@@ -426,10 +427,10 @@ Future<LocalDateTime?> showPostponeSheet(
           Builder(
             builder: (_) {
               final target = postponeTarget(option, currentStart: currentStart, nowLocal: nowLocal);
-              return ListTile(
+              return ValueTile(
                 key: ValueKey('postpone-${option.name}'),
-                title: Text(label),
-                trailing: Text(when(target)),
+                label: label,
+                value: when(target),
                 onTap: () => Navigator.pop(ctx, target),
               );
             },

@@ -22,6 +22,7 @@ import 'package:everslot/features/planner/domain/task_validation.dart';
 import 'package:everslot/features/planner/presentation/markdown_lite_view.dart';
 import 'package:everslot/features/planner/presentation/planner_dialogs.dart';
 import 'package:everslot/features/planner/presentation/templates_sheet.dart';
+import 'package:everslot/features/planner/presentation/value_tile.dart';
 import 'package:everslot/features/recurrence_ui/recurrence_ui.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -576,7 +577,6 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
     final l = context.l10n;
     final start = form.startLocal;
     final service = ref.read(recurrenceServiceProvider);
-    final muted = context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant);
     final errors = _submitted ? form.validate(isValidZone: _validZone).toSet() : const <TaskValidationError>{};
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -599,33 +599,33 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
             value: form.allDay,
             onChanged: (on) => _update((f) => f.withAllDay(on)),
           ),
-          ListTile(
+          ValueTile(
             key: const ValueKey('task-date'),
-            leading: const Icon(Icons.event_outlined),
-            title: Text(form.allDay ? l.tasksFieldStartDate : l.tasksFieldDate),
-            trailing: Text(format.dateMedium(form.date!)),
+            icon: Icons.event_outlined,
+            label: form.allDay ? l.tasksFieldStartDate : l.tasksFieldDate,
+            value: format.dateMedium(form.date!),
             onTap: () async {
               final d = await pickDate(context, initial: form.date);
               if (d != null) _update((f) => f.copyWith(date: d));
             },
           ),
           if (form.allDay)
-            ListTile(
+            ValueTile(
               key: const ValueKey('task-end-date'),
-              leading: const Icon(Icons.event_available_outlined),
-              title: Text(l.tasksFieldEndDate),
-              trailing: Text(format.dateMedium(form.lastAllDayDate!)),
+              icon: Icons.event_available_outlined,
+              label: l.tasksFieldEndDate,
+              value: format.dateMedium(form.lastAllDayDate!),
               onTap: () async {
                 final d = await pickDate(context, initial: form.lastAllDayDate, first: form.date);
                 if (d != null) _update((f) => f.withAllDayEnd(d));
               },
             )
           else ...[
-            ListTile(
+            ValueTile(
               key: const ValueKey('task-start'),
-              leading: const Icon(Icons.schedule),
-              title: Text(l.tasksFieldStart),
-              trailing: Text(format.timeOf(start!)),
+              icon: Icons.schedule,
+              label: l.tasksFieldStart,
+              value: format.timeOf(start!),
               onTap: () async {
                 final t = await pickTime(context, initial: form.startTime, use24h: use24h);
                 if (t != null) _update((f) => f.copyWith(startTime: t));
@@ -652,15 +652,13 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
               ),
             ),
             if (form.endMode)
-              ListTile(
+              ValueTile(
                 key: const ValueKey('task-end'),
-                leading: const Icon(Icons.schedule_outlined),
-                title: Text(l.tasksFieldEnd),
-                trailing: Text(
-                  form.endDayOffset > 0
-                      ? '${format.timeOf(form.endLocal!)} (${l.tasksPlusDays(form.endDayOffset)})'
-                      : format.timeOf(form.endLocal!),
-                ),
+                icon: Icons.schedule_outlined,
+                label: l.tasksFieldEnd,
+                value: form.endDayOffset > 0
+                    ? '${format.timeOf(form.endLocal!)} (${l.tasksPlusDays(form.endDayOffset)})'
+                    : format.timeOf(form.endLocal!),
                 onTap: () async {
                   final t = await pickTime(context, initial: form.endLocal!.time, use24h: use24h);
                   if (t != null) _update((f) => f.withEnd(t));
@@ -706,35 +704,31 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
           _repeatTile(context, form, format, service),
           if (_overlaps.isNotEmpty) _overlapHint(context, format),
         ] else
-          ListTile(
+          ValueTile(
             key: const ValueKey('task-estimate'),
-            leading: const Icon(Icons.hourglass_empty),
-            title: Text(l.tasksFieldEstimate),
-            trailing: Text(form.estimateMinutes == null ? '—' : format.duration(form.estimateMinutes!)),
+            icon: Icons.hourglass_empty,
+            label: l.tasksFieldEstimate,
+            value: form.estimateMinutes == null ? '—' : format.duration(form.estimateMinutes!),
             onTap: () async {
               final m = await pickDuration(context, initialMinutes: form.estimateMinutes ?? 30);
               if (m != null) _update((f) => f.copyWith(estimateMinutes: m));
             },
           ),
-        ListTile(
+        ValueTile(
           key: const ValueKey('task-deadline'),
-          leading: const Icon(Icons.flag_outlined),
-          title: Text(l.tasksFieldDeadline),
-          subtitle: form.plannedAfterDeadline
+          icon: Icons.flag_outlined,
+          label: l.tasksFieldDeadline,
+          value: form.deadline == null ? l.tasksDeadlineNone : _deadlineLabel(format, form.deadline!),
+          note: form.plannedAfterDeadline
               ? Text(l.tasksDeadlineWarning, style: context.text.bodySmall?.copyWith(color: context.appColors.warning))
               : null,
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(form.deadline == null ? l.tasksDeadlineNone : _deadlineLabel(format, form.deadline!), style: muted),
-              if (form.deadline != null)
-                IconButton(
+          action: form.deadline == null
+              ? null
+              : IconButton(
                   tooltip: l.actionClear,
                   icon: const Icon(Icons.clear),
                   onPressed: () => _update((f) => f.copyWith(deadline: null)),
                 ),
-            ],
-          ),
           onTap: () async {
             final d = await pickDate(context, initial: form.deadline?.date ?? form.date);
             if (d == null || !mounted) return;
@@ -790,11 +784,11 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
           ),
         ),
         if (fixed)
-          ListTile(
+          ValueTile(
             key: const ValueKey('task-zone'),
-            leading: const Icon(Icons.public),
-            title: Text(form.zoneId!.replaceAll('_', ' ')),
-            trailing: Text(zoneOffsetLabel(form.zoneId!, service.nowUtc)),
+            icon: Icons.public,
+            label: form.zoneId!.replaceAll('_', ' '),
+            value: zoneOffsetLabel(form.zoneId!, service.nowUtc),
             onTap: () async {
               final zone = await pickTimeZone(
                 context,
@@ -892,37 +886,45 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ListTile(
+        ValueTile(
           key: const ValueKey('task-category'),
           leading: Icon(
             IconCatalog.iconFor(category?.icon, fallback: Icons.label_outline),
             color: category == null ? null : CategoryColors.accent(category.color, brightness),
           ),
-          title: Text(l.tasksFieldCategory),
-          trailing: Text(category?.name ?? '—'),
+          label: l.tasksFieldCategory,
+          value: category?.name ?? '—',
           onTap: () async {
             final id = await pickCategory(context, ref, selectedId: form.categoryId);
             if (id != null) _update((f) => f.copyWith(categoryId: id.isEmpty ? null : id));
           },
         ),
-        ListTile(
+        ValueTile(
           key: const ValueKey('task-color'),
           leading: colorValue == null
               ? const Icon(Icons.palette_outlined)
               : ColorDot(CategoryColors.accent(colorValue, brightness), size: 20),
-          title: Text(l.tasksFieldColor),
-          trailing: Text(form.color == null ? l.tasksColorCategoryDefault : ''),
+          label: l.tasksFieldColor,
+          value: form.color == null ? l.tasksColorCategoryDefault : null,
+          action: form.color == null
+              ? null
+              : IconButton(
+                  tooltip: l.actionClear,
+                  icon: const Icon(Icons.clear),
+                  onPressed: () => _update((f) => f.copyWith(color: null)),
+                ),
           onTap: () async {
             final c = await pickColor(context, selected: form.color, allowNone: true);
             if (c != null) _update((f) => f.copyWith(color: c == -1 ? null : c));
           },
         ),
-        ListTile(
+        ValueTile(
           key: const ValueKey('task-icon'),
           leading: Icon(IconCatalog.iconFor(form.icon ?? category?.icon, fallback: Icons.emoji_symbols_outlined)),
-          title: Text(l.tasksFieldIcon),
-          trailing: form.icon == null
-              ? Text(l.tasksIconDefault)
+          label: l.tasksFieldIcon,
+          value: form.icon == null ? l.tasksIconDefault : null,
+          action: form.icon == null
+              ? null
               : IconButton(
                   tooltip: l.actionClear,
                   icon: const Icon(Icons.clear),
@@ -974,13 +976,15 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
     final l = context.l10n;
     final id = form.linkedChecklistId;
     final info = id == null ? null : ref.watch(linkedChecklistProvider(id)).value;
-    return ListTile(
+    return ValueTile(
       key: const ValueKey('task-checklist'),
-      leading: const Icon(Icons.checklist),
-      title: Text(l.tasksFieldChecklist),
-      subtitle: info == null ? null : Text('${info.title} · ${l.tasksChecklistProgress(info.completed, info.total)}'),
-      trailing: id == null
-          ? Text(l.tasksChecklistNone)
+      icon: Icons.checklist,
+      label: l.tasksFieldChecklist,
+      value: id == null
+          ? l.tasksChecklistNone
+          : (info == null ? null : '${info.title} · ${l.tasksChecklistProgress(info.completed, info.total)}'),
+      action: id == null
+          ? null
           : Row(
               mainAxisSize: MainAxisSize.min,
               children: [

@@ -32,6 +32,8 @@ Future<void> tapIn(WidgetTester tester, Finder finder, {required Key scrollKey})
     await tester.pump();
   }
   await tester.scrollUntilVisible(finder, 150, scrollable: scrollable);
+  // Built in the cache extent is not enough: bring the whole widget into the viewport.
+  await tester.ensureVisible(finder);
   await pumpFor(tester, const Duration(milliseconds: 300));
   await tester.tap(finder);
   await settle(tester, rounds: 2);
