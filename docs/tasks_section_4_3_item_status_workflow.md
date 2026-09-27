@@ -55,7 +55,7 @@ in [6.4]), and rolls progress up through the tree.
 - [x] T4.3.09 — Keep-style list commands
 - [x] T4.3.10 — Due dates & follow-ups
 - [x] T4.3.11 — Staleness & age indicators
-- [ ] T4.3.12 — Completion celebration & "list done" state
+- [x] T4.3.12 — Completion celebration & "list done" state
 
 ## Tasks
 
@@ -252,3 +252,4 @@ the rows and history.
 - The "List completed" state offers actions: *Reset* ([4.5] resettable lists / T4.3.09),
   *Archive*, *Keep*.
 **Tests:** widget test; reduce-motion test.
+**Notes:** One heavy haptic per completion; the badge pops in unless reduce-motion is on. The banner stacks its actions under the message (fits 360 dp at text scale 2.0). No in-app haptics preference exists yet — TODO(integration) to gate the haptic on it; the system setting applies meanwhile.

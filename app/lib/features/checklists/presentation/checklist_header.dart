@@ -544,17 +544,29 @@ class _CompletedBannerState extends State<CompletedBanner> with SingleTickerProv
         color: context.colors.primaryContainer,
         child: Padding(
           padding: const EdgeInsets.all(Space.md),
-          child: Row(
+          // Message on top, actions wrapping below: fits phones and text scale 2.0.
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ScaleTransition(
-                scale: CurvedAnimation(parent: _anim, curve: Curves.elasticOut),
-                child: Icon(Icons.celebration, color: context.colors.primary, size: 32),
+              Row(
+                children: [
+                  ScaleTransition(
+                    scale: CurvedAnimation(parent: _anim, curve: Curves.elasticOut),
+                    child: Icon(Icons.celebration, color: context.colors.primary, size: 32),
+                  ),
+                  const SizedBox(width: Space.md),
+                  Expanded(child: Text(l.checklistCompleted, style: context.text.titleMedium)),
+                ],
               ),
-              const SizedBox(width: Space.md),
-              Expanded(child: Text(l.checklistCompleted, style: context.text.titleMedium)),
-              TextButton(onPressed: widget.onReset, child: Text(l.checklistCompletedReset)),
-              TextButton(onPressed: widget.onArchive, child: Text(l.checklistCompletedArchive)),
-              TextButton(onPressed: () => setState(() => _kept = true), child: Text(l.checklistCompletedKeep)),
+              Wrap(
+                alignment: WrapAlignment.end,
+                spacing: Space.xs,
+                children: [
+                  TextButton(onPressed: widget.onReset, child: Text(l.checklistCompletedReset)),
+                  TextButton(onPressed: widget.onArchive, child: Text(l.checklistCompletedArchive)),
+                  TextButton(onPressed: () => setState(() => _kept = true), child: Text(l.checklistCompletedKeep)),
+                ],
+              ),
             ],
           ),
         ),
