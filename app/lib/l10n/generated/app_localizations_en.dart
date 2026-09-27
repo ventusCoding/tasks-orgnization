@@ -4056,6 +4056,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifPauseTomorrow => 'Until tomorrow 08:00';
 
   @override
+  String get notifPausedShort => 'Notifications paused';
+
+  @override
   String notifPausedUntil(String time) {
     return 'Paused until $time';
   }

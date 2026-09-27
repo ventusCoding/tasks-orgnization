@@ -1,6 +1,6 @@
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/design_system/design_system.dart';
-import 'package:everslot/features/notifications/application/inbox_providers.dart';
+import 'package:everslot/features/notifications/presentation/notification_bell_icon.dart';
 import 'package:everslot/features/settings/presentation/widgets/sync_indicator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +12,6 @@ class AppBarActions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final unread = ref.watch(inboxUnreadCountProvider).value ?? 0;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -25,11 +24,7 @@ class AppBarActions extends ConsumerWidget {
         ),
         IconButton(
           tooltip: context.l10n.actionInbox,
-          icon: Badge(
-            isLabelVisible: unread > 0,
-            label: Text(unread > 99 ? '99+' : '$unread'),
-            child: const Icon(Icons.notifications_none),
-          ),
+          icon: const NotificationBellIcon(),
           onPressed: () => context.push(AppLinks.inbox()),
         ),
         IconButton(

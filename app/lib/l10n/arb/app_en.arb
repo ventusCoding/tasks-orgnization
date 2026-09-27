@@ -4072,6 +4072,7 @@
   "notifPauseAll": "Pause all",
   "notifPauseCustom": "Custom…",
   "notifPauseTomorrow": "Until tomorrow 08:00",
+  "notifPausedShort": "Notifications paused",
   "notifPausedUntil": "Paused until {time}",
   "notifPermissionOff": "Notifications are turned off",
   "notifPermissionOffBody": "Turn them on to receive your reminders.",
