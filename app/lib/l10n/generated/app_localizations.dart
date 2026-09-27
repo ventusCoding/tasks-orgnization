@@ -4059,6 +4059,12 @@ abstract class AppLocalizations {
   /// **'Kanban'**
   String get checklistViewKanban;
 
+  /// No description provided for @checklistViewMindMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Mind map'**
+  String get checklistViewMindMap;
+
   /// No description provided for @checklistViewOutline.
   ///
   /// In en, this message translates to:
@@ -7424,6 +7430,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cloud sync isn\'t configured — your data stays on this device.'**
   String get localOnlyBanner;
+
+  /// No description provided for @mindMapExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export as image'**
+  String get mindMapExport;
+
+  /// No description provided for @mindMapHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count}'**
+  String mindMapHidden(int count);
 
   /// No description provided for @moveChooseParent.
   ///

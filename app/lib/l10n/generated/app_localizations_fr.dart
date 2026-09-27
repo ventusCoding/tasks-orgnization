@@ -2412,6 +2412,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get checklistViewKanban => 'Kanban';
 
   @override
+  String get checklistViewMindMap => 'Carte mentale';
+
+  @override
   String get checklistViewOutline => 'Plan';
 
   @override
@@ -4504,6 +4507,14 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get localOnlyBanner =>
       'La synchronisation cloud n\'est pas configurée — vos données restent sur cet appareil.';
+
+  @override
+  String get mindMapExport => 'Exporter en image';
+
+  @override
+  String mindMapHidden(int count) {
+    return '+$count';
+  }
 
   @override
   String get moveChooseParent => 'Choisir l\'emplacement';

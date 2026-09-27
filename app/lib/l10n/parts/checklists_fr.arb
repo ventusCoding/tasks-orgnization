@@ -372,5 +372,8 @@
   "itemsTableStatusChanged": "{count, plural, =1{1 élément mis à jour} other{{count} éléments mis à jour}}",
   "checklistOpenSideBySide": "Ouvrir côte à côte…",
   "checklistPickSecondList": "Afficher à côté de cette liste",
-  "checklistNoOtherLists": "Aucune autre liste à afficher"
+  "checklistNoOtherLists": "Aucune autre liste à afficher",
+  "checklistViewMindMap": "Carte mentale",
+  "mindMapExport": "Exporter en image",
+  "mindMapHidden": "+{count}"
 }

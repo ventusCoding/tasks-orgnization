@@ -1673,6 +1673,13 @@
       }
     }
   },
+  "@mindMapHidden": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@moveDone": {
     "placeholders": {
       "title": {
@@ -4363,6 +4370,7 @@
   "checklistUncheckConfirm": "{count, plural, =1{Uncheck 1 item?} other{Uncheck {count} items?}}",
   "checklistViewGallery": "Gallery",
   "checklistViewKanban": "Kanban",
+  "checklistViewMindMap": "Mind map",
   "checklistViewOutline": "Outline",
   "checklistZoomOut": "Zoom out",
   "comingSoon": "Coming soon",
@@ -4924,6 +4932,8 @@
   "listsUnpin": "Unpin",
   "listsUntitled": "Untitled",
   "localOnlyBanner": "Cloud sync isn't configured — your data stays on this device.",
+  "mindMapExport": "Export as image",
+  "mindMapHidden": "+{count}",
   "moveChooseParent": "Choose where",
   "moveDone": "Moved to {title}",
   "moveToList": "Move to list",

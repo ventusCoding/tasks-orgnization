@@ -689,5 +689,9 @@
   "@itemsTableStatusChanged": {"placeholders": {"count": {"type": "int"}}},
   "checklistOpenSideBySide": "Open side by side…",
   "checklistPickSecondList": "Show next to this list",
-  "checklistNoOtherLists": "No other list to show"
+  "checklistNoOtherLists": "No other list to show",
+  "checklistViewMindMap": "Mind map",
+  "mindMapExport": "Export as image",
+  "mindMapHidden": "+{count}",
+  "@mindMapHidden": {"placeholders": {"count": {"type": "int"}}}
 }

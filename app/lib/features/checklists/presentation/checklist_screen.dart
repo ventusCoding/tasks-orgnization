@@ -32,6 +32,7 @@ import 'package:everslot/features/checklists/presentation/import_export_ui.dart'
 import 'package:everslot/features/checklists/presentation/item_details_sheet.dart';
 import 'package:everslot/features/checklists/presentation/item_row.dart';
 import 'package:everslot/features/checklists/presentation/lists_board_screen.dart' show duplicateChecklistFlow;
+import 'package:everslot/features/checklists/presentation/mind_map_view.dart';
 import 'package:everslot/features/checklists/presentation/move_to_sheet.dart';
 import 'package:everslot/features/checklists/presentation/split_checklists_screen.dart';
 import 'package:everslot/features/checklists/presentation/status_sheet.dart';
@@ -182,6 +183,10 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     final Widget body = switch (state.viewType) {
       ChecklistViewType.kanban => KanbanView(checklistId: checklistId, onOpenItem: openDetails),
       ChecklistViewType.gallery => GalleryView(checklistId: checklistId, onOpenItem: openDetails),
+      ChecklistViewType.mindMap => MindMapView(
+        checklistId: checklistId,
+        onOpenItem: (id) => unawaited(_showInOutline(id)),
+      ),
       ChecklistViewType.outline => _outline(context, state: state, checklist: checklist, tree: tree),
     };
     final active = state.activeItemId == null ? null : tree?[state.activeItemId!];
@@ -258,11 +263,13 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
       ChecklistViewType.outline => Icons.format_list_bulleted,
       ChecklistViewType.kanban => Icons.view_kanban_outlined,
       ChecklistViewType.gallery => Icons.photo_library_outlined,
+      ChecklistViewType.mindMap => Icons.account_tree_outlined,
     };
     String label(ChecklistViewType t) => switch (t) {
       ChecklistViewType.outline => l.checklistViewOutline,
       ChecklistViewType.kanban => l.checklistViewKanban,
       ChecklistViewType.gallery => l.checklistViewGallery,
+      ChecklistViewType.mindMap => l.checklistViewMindMap,
     };
     return PopupMenuButton<ChecklistViewType>(
       tooltip: label(state.viewType),
@@ -520,6 +527,18 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _scrollToRow(id, retried: true);
     });
+  }
+
+  /// Mind map node tapped (T4.5.14): back to the outline with the item revealed and highlighted.
+  Future<void> _showInOutline(String id) async {
+    await _editor.reveal(id);
+    await _editor.setViewType(ChecklistViewType.outline);
+    if (!mounted) return;
+    _editor.highlight(id);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _scrollToRow(id);
+    });
+    _scheduleHighlightClear();
   }
 
   /// *Open side by side…* (T4.5.17): pick another list for the second pane.

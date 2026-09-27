@@ -2474,6 +2474,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistViewKanban => 'كانبان';
 
   @override
+  String get checklistViewMindMap => 'خريطة ذهنية';
+
+  @override
   String get checklistViewOutline => 'مخطط';
 
   @override
@@ -4656,6 +4659,14 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get localOnlyBanner =>
       'مزامنة السحابة غير مُعدّة — بياناتك تبقى على هذا الجهاز.';
+
+  @override
+  String get mindMapExport => 'تصدير كصورة';
+
+  @override
+  String mindMapHidden(int count) {
+    return '+$count';
+  }
 
   @override
   String get moveChooseParent => 'اختر المكان';

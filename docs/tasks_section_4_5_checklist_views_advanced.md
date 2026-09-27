@@ -36,7 +36,7 @@ reminders for follow-ups and resets ([7.5]); share-into-app ([8.2]).
 - [x] T4.5.11 — In-list sort & filter
 - [x] T4.5.12 — Link checklist ↔ planner task
 - [x] T4.5.13 — Checklist Insights entry points
-- [ ] T4.5.14 — Mind map view (synced with the outline)
+- [x] T4.5.14 — Mind map view (synced with the outline)
 - [x] T4.5.15 — Flat all-items table
 - [ ] T4.5.16 — Mirrors (live item copies)
 - [x] T4.5.17 — Split panes
@@ -252,6 +252,7 @@ checklist or item stats in [6.4].
 - Editing inside the map (add child, rename inline) comes later.
 - Export the map as an image.
 **Tests:** layout algorithm unit tests (no overlaps, deterministic); goldens.
+**Notes:** *Mind map* in the view switcher: pure tidy-tree layout (`MindMapLayout`, fixed-size nodes, RTL mirrored), `InteractiveViewer` pan/zoom, curved connectors, status borders and progress rings, collapse shared with the outline, the focused branch dims the others, tapping a node reveals and highlights it in the outline, *Export as image* shares a PNG. In-map editing is deferred as the task says.
 
 ### T4.5.15 — Flat all-items table
 **Priority:** P2 · **Size:** M · **Depends on:** T4.5.01
@@ -273,6 +274,7 @@ checklist or item stats in [6.4].
 - **Data model:** `checklist_items.mirror_of_id uuid null references app.checklist_items(id)`,
   plus a server trigger forbidding a mirror inside its original's subtree, and local cycle guards.
 **Tests:** rendering/edit-through unit tests; pgTAP for the trigger; cycle tests.
+**Notes:** Blocked: needs `checklist_items.mirror_of_id` (not in the Drift schema / migrations; schema changes are outside this agent's scope).
 
 ### T4.5.17 — Split panes
 **Priority:** P2 · **Size:** M · **Depends on:** [4.2]
