@@ -3060,6 +3060,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'Habits appear here on the days they are due.';
 
   @override
+  String get habitsNotifGone => 'This habit no longer exists.';
+
+  @override
+  String habitsNotifInvalidValue(String input) {
+    return '“$input” isn\'t a number — open the app to log it.';
+  }
+
+  @override
   String get habitsOlder => 'Earlier days';
 
   @override
@@ -7340,6 +7348,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quitNote => 'Note';
+
+  @override
+  String get quitNotifInvalidIntensity => 'Intensity is a number from 1 to 10.';
+
+  @override
+  String quitNotifMoneyMilestone(String amount) {
+    return '$amount saved';
+  }
 
   @override
   String get quitOther => 'Other…';

@@ -135,5 +135,7 @@
   "quitDistractionRead": "Lire",
   "quitDistractionExercise": "De l'exercice",
   "quitDistractionSnack": "Un en-cas sain",
-  "quitDistractionShower": "Une douche"
+  "quitDistractionShower": "Une douche",
+  "quitNotifInvalidIntensity": "L'intensité est un nombre de 1 à 10.",
+  "quitNotifMoneyMilestone": "{amount} économisés"
 }

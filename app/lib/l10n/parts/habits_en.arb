@@ -708,5 +708,14 @@
   "habitsErrEnd": "The end date is before the start date",
   "habitsErrSchedule": "This schedule isn't valid",
   "habitsErrLimitNeedsMeasurable": "“At most” needs a count, a duration or a number",
-  "habitsErrFreezes": "Between 0 and 31 freezes per month"
+  "habitsErrFreezes": "Between 0 and 31 freezes per month",
+  "habitsNotifGone": "This habit no longer exists.",
+  "habitsNotifInvalidValue": "“{input}” isn't a number — open the app to log it.",
+  "@habitsNotifInvalidValue": {
+    "placeholders": {
+      "input": {
+        "type": "String"
+      }
+    }
+  }
 }

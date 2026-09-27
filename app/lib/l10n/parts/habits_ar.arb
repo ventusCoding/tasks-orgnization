@@ -303,5 +303,7 @@
   "habitsErrEnd": "تاريخ النهاية يسبق تاريخ البداية",
   "habitsErrSchedule": "هذا الجدول غير صالح",
   "habitsErrLimitNeedsMeasurable": "«على الأكثر» يتطلب عددًا أو مدة أو قيمة",
-  "habitsErrFreezes": "بين 0 و31 تجميدًا شهريًا"
+  "habitsErrFreezes": "بين 0 و31 تجميدًا شهريًا",
+  "habitsNotifGone": "لم تعد هذه العادة موجودة.",
+  "habitsNotifInvalidValue": "«{input}» ليس رقمًا — افتح التطبيق لتسجيله."
 }

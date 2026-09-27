@@ -303,5 +303,7 @@
   "habitsErrEnd": "La date de fin précède la date de début",
   "habitsErrSchedule": "Cette fréquence n'est pas valide",
   "habitsErrLimitNeedsMeasurable": "« Au plus » nécessite un nombre, une durée ou une valeur",
-  "habitsErrFreezes": "Entre 0 et 31 gels par mois"
+  "habitsErrFreezes": "Entre 0 et 31 gels par mois",
+  "habitsNotifGone": "Cette habitude n'existe plus.",
+  "habitsNotifInvalidValue": "« {input} » n'est pas un nombre — ouvrez l'app pour l'enregistrer."
 }

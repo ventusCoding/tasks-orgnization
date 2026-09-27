@@ -1119,6 +1119,13 @@
       }
     }
   },
+  "@habitsNotifInvalidValue": {
+    "placeholders": {
+      "input": {
+        "type": "String"
+      }
+    }
+  },
   "@habitsOrdinal": {
     "placeholders": {
       "which": {
@@ -2462,6 +2469,13 @@
   "@quitMilestoneEta": {
     "placeholders": {
       "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@quitNotifMoneyMilestone": {
+    "placeholders": {
+      "amount": {
         "type": "String"
       }
     }
@@ -4311,6 +4325,8 @@
   "habitsNoteMoodTitle": "Note & mood",
   "habitsNothingThisDay": "Nothing scheduled this day",
   "habitsNothingThisDayBody": "Habits appear here on the days they are due.",
+  "habitsNotifGone": "This habit no longer exists.",
+  "habitsNotifInvalidValue": "“{input}” isn't a number — open the app to log it.",
   "habitsOlder": "Earlier days",
   "habitsOnlyOn": "Only on (optional)",
   "habitsOpAtLeast": "At least",
@@ -5489,6 +5505,8 @@
   "quitNoTrackersBody": "Track how long you have stopped smoking, drinking or anything else.",
   "quitNotSure": "Not sure",
   "quitNote": "Note",
+  "quitNotifInvalidIntensity": "Intensity is a number from 1 to 10.",
+  "quitNotifMoneyMilestone": "{amount} saved",
   "quitOther": "Other…",
   "quitOverLimit": "Over today's limit",
   "quitPackPrice": "Pack price",

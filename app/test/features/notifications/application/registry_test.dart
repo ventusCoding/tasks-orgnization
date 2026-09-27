@@ -42,7 +42,8 @@ void main() {
         findActionHandler(
           h.read(notificationActionHandlersProvider),
           'done',
-          NotificationTargetType.habit,
+          // A type no feature handles (habits register a `done` handler).
+          NotificationTargetType.custom,
         ),
         isNull,
       );

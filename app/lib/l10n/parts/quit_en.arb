@@ -217,5 +217,14 @@
   "quitDistractionRead": "Read",
   "quitDistractionExercise": "Exercise",
   "quitDistractionSnack": "A healthy snack",
-  "quitDistractionShower": "A shower"
+  "quitDistractionShower": "A shower",
+  "quitNotifInvalidIntensity": "Intensity is a number from 1 to 10.",
+  "quitNotifMoneyMilestone": "{amount} saved",
+  "@quitNotifMoneyMilestone": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }
