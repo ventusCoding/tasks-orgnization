@@ -67,3 +67,6 @@ deno.lock
 # Claude Code local state / agent worktrees
 .claude/worktrees/
 .claude/settings.local.json
+
+# Golden-test failure artifacts written by flutter test
+**/test/**/failures/
