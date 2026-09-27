@@ -4,6 +4,7 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/core/time/recurrence_service.dart';
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/goals/presentation/goal_card.dart';
 import 'package:everslot/features/habits/application/habit_day_view.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/application/habit_service.dart';
@@ -211,6 +212,7 @@ class _Detail extends ConsumerWidget {
               ),
             ),
           ),
+          HabitGoalsSection(habitId: habit.id),
           SectionHeader(l.habitsCalendar),
           Padding(
             padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.md),

@@ -20,9 +20,9 @@ P2); streak freezes; achievements catalog & unlock engine; badge gallery & share
 ## Progress
 
 - [x] T5.4.01 — Goals: migration, Drift & domain
-- [ ] T5.4.02 — Goal editor
+- [x] T5.4.02 — Goal editor
 - [x] T5.4.03 — Goal progress & projection engine
-- [ ] T5.4.04 — Goal surfaces & completion
+- [x] T5.4.04 — Goal surfaces & completion
 - [ ] T5.4.05 — Challenges
 - [ ] T5.4.06 — Streak freezes
 - [ ] T5.4.07 — Progressive challenge targets
@@ -51,6 +51,7 @@ screen: scope, metric (filtered by scope), target, period, title; smart suggesti
 ("At your pace you'd reach 8 400 reps this year — aim for 10 000?").
 **Acceptance criteria:** impossible combinations can't be chosen; all texts localized; works offline.
 **Tests:** widget tests.
+**Notes:** Editor sheet for habit/quit goals (from the habit detail, quit dashboard and the Goals screen): measures filtered by habit kind, target, period (incl. custom dates), title, pace suggestion (`niceTargetAbove` of the projected end), delete. Scopes other than habits (series, categories, checklists) belong to [6.7]/other features and are not offered here.
 
 ### T5.4.03 — Goal progress & projection engine
 **Priority:** P1 · **Size:** M · **Depends on:** T5.4.01, [6.1] (period model, trend functions)
@@ -70,6 +71,7 @@ and Today ([8.1]); a Goals screen (active, achieved, expired); on achievement se
 celebrate ([5.2]) and call the notification hook ([7.5]).
 **Acceptance criteria:** achieving the same goal offline on two devices converges to one achieved state.
 **Tests:** widget tests; service test for achievement detection.
+**Notes:** Goal cards (progress bar + pace marker, status text + color, ETA / required rate / achieved date) on the habit detail and quit dashboard, and a Goals screen (active, achieved, ended). `achieved_at` is recorded once with the start of the day it was reached (deterministic across devices) and confirmed with a snackbar + haptic. TODO(integration): the [7.5] notification hook has no API on main yet; the Today [8.1] goal card belongs to the today feature.
 
 ### T5.4.05 — Challenges
 **Priority:** P1 · **Size:** M · **Depends on:** [5.1] (schedule presets, templates)

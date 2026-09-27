@@ -342,5 +342,31 @@
       }
     }
   },
-  "quitVocabSaved": "Library updated"
+  "quitVocabSaved": "Library updated",
+  "quitRewardsTitle": "What my savings buy",
+  "quitRewardAdd": "Add a reward",
+  "quitRewardName": "Reward",
+  "quitRewardPrice": "Price",
+  "quitRewardClaim": "Claim",
+  "quitRewardClaimed": "Claimed {date}",
+  "@quitRewardClaimed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "quitRewardReady": "You can afford it!",
+  "quitRewardEta": "Affordable around {date}",
+  "@quitRewardEta": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "quitRewardSaved": "Reward saved",
+  "quitRewardClaimedSnack": "Enjoy it — you earned it.",
+  "quitRewardsEmpty": "Pick something your savings will pay for.",
+  "quitRewardNeedsCost": "Set a price per unit in the tracker to see what your savings buy."
 }

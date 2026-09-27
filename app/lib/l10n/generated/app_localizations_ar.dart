@@ -2678,6 +2678,174 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get goalsAchieved => 'محقّقة';
+
+  @override
+  String goalsAchievedOn(String date) {
+    return 'تحقّق في $date';
+  }
+
+  @override
+  String get goalsActive => 'جارية';
+
+  @override
+  String get goalsAdd => 'إضافة هدف';
+
+  @override
+  String goalsCelebrate(String title) {
+    return 'تحقّق الهدف: $title!';
+  }
+
+  @override
+  String get goalsDelete => 'حذف الهدف';
+
+  @override
+  String get goalsDeleted => 'تم حذف الهدف';
+
+  @override
+  String get goalsEdit => 'تعديل الهدف';
+
+  @override
+  String get goalsEmpty => 'لا أهداف بعد';
+
+  @override
+  String get goalsEmptyBody =>
+      'حدّد هدفًا لعادة — مثلًا 10 000 تمرين ضغط هذه السنة.';
+
+  @override
+  String get goalsEnded => 'منتهية';
+
+  @override
+  String get goalsErrDates => 'اختر تاريخ بداية وتاريخ نهاية.';
+
+  @override
+  String get goalsErrEnd => 'يجب أن تكون النهاية بعد البداية.';
+
+  @override
+  String get goalsErrMetric => 'هذا المقياس لا يناسب هذه العادة.';
+
+  @override
+  String get goalsErrScope => 'اختر موضوع الهدف.';
+
+  @override
+  String get goalsErrTarget => 'أدخل هدفًا أكبر من صفر.';
+
+  @override
+  String get goalsErrTitle => 'لا يزيد عن 80 حرفًا.';
+
+  @override
+  String goalsEta(String date) {
+    return 'متوقَّع في $date';
+  }
+
+  @override
+  String get goalsFrom => 'من';
+
+  @override
+  String get goalsHabit => 'العادة';
+
+  @override
+  String get goalsMetric => 'المقياس';
+
+  @override
+  String get goalsMetricCleanDays => 'أيام الامتناع';
+
+  @override
+  String get goalsMetricCompletions => 'الأيام المنجزة';
+
+  @override
+  String get goalsMetricItemsCompleted => 'العناصر المنجزة';
+
+  @override
+  String get goalsMetricMoneySaved => 'المال الموفَّر';
+
+  @override
+  String get goalsMetricStreakDays => 'السلسلة (أيام)';
+
+  @override
+  String get goalsMetricTotalValue => 'المجموع المسجّل';
+
+  @override
+  String get goalsMetricTrackedMinutes => 'الدقائق المتتبَّعة';
+
+  @override
+  String get goalsMetricUnitsAvoided => 'الوحدات التي تجنّبتها';
+
+  @override
+  String goalsNeedPerDay(String value) {
+    return '$value يوميًا لإنهائه في الوقت';
+  }
+
+  @override
+  String get goalsNew => 'هدف جديد';
+
+  @override
+  String get goalsPaceMarker => 'حيث يجب أن تكون اليوم';
+
+  @override
+  String get goalsPeriod => 'المدة';
+
+  @override
+  String get goalsPeriodAllTime => 'بلا حدّ زمني';
+
+  @override
+  String get goalsPeriodCustom => 'تواريخ مخصّصة';
+
+  @override
+  String get goalsPeriodMonth => 'هذا الشهر';
+
+  @override
+  String get goalsPeriodQuarter => 'هذا الربع';
+
+  @override
+  String get goalsPeriodWeek => 'هذا الأسبوع';
+
+  @override
+  String get goalsPeriodYear => 'هذه السنة';
+
+  @override
+  String goalsProgressOf(String actual, String target) {
+    return '$actual من $target';
+  }
+
+  @override
+  String get goalsSaved => 'تم حفظ الهدف';
+
+  @override
+  String get goalsStatusAchieved => 'تحقّق';
+
+  @override
+  String get goalsStatusAtRisk => 'في خطر';
+
+  @override
+  String get goalsStatusBehind => 'متأخر';
+
+  @override
+  String get goalsStatusOnTrack => 'على المسار';
+
+  @override
+  String goalsSuggestion(String value, String target) {
+    return 'بهذا الإيقاع ستصل إلى $value — هل تستهدف $target؟';
+  }
+
+  @override
+  String get goalsTarget => 'الهدف';
+
+  @override
+  String get goalsTitle => 'الأهداف';
+
+  @override
+  String get goalsTitleField => 'العنوان (اختياري)';
+
+  @override
+  String get goalsTo => 'إلى';
+
+  @override
+  String goalsUseSuggestion(String target) {
+    return 'استهدف $target';
+  }
+
+  @override
   String get habitsActionAddValue => 'إضافة قيمة';
 
   @override
@@ -7993,6 +8161,47 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quitReviewedClean => 'يوم نظيف — أحسنت!';
+
+  @override
+  String get quitRewardAdd => 'إضافة مكافأة';
+
+  @override
+  String get quitRewardClaim => 'الحصول عليها';
+
+  @override
+  String quitRewardClaimed(String date) {
+    return 'حصلت عليها في $date';
+  }
+
+  @override
+  String get quitRewardClaimedSnack => 'استمتع بها — لقد استحققتها.';
+
+  @override
+  String quitRewardEta(String date) {
+    return 'في المتناول نحو $date';
+  }
+
+  @override
+  String get quitRewardName => 'المكافأة';
+
+  @override
+  String get quitRewardNeedsCost =>
+      'حدّد سعر الوحدة في المتتبّع لترى ما تشتريه مدخراتك.';
+
+  @override
+  String get quitRewardPrice => 'السعر';
+
+  @override
+  String get quitRewardReady => 'يمكنك تحمّل ثمنها!';
+
+  @override
+  String get quitRewardSaved => 'تم حفظ المكافأة';
+
+  @override
+  String get quitRewardsEmpty => 'اختر شيئًا ستدفع ثمنه مدخراتك.';
+
+  @override
+  String get quitRewardsTitle => 'ما يمكن أن توفّره مدخراتي';
 
   @override
   String get quitRitualEnable => 'تعهّد الصباح ومراجعة المساء';

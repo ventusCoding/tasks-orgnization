@@ -1011,6 +1011,61 @@
       }
     }
   },
+  "@goalsAchievedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsCelebrate": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsEta": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsNeedPerDay": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsProgressOf": {
+    "placeholders": {
+      "actual": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsSuggestion": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsUseSuggestion": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
   "@habitsCelebrateStreak": {
     "placeholders": {
       "name": {
@@ -2573,6 +2628,20 @@
   "@quitRelapseSupport": {
     "placeholders": {
       "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@quitRewardClaimed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@quitRewardEta": {
+    "placeholders": {
+      "date": {
         "type": "String"
       }
     }
@@ -4282,6 +4351,57 @@
   "galleryWindowExpanded": "expanded",
   "galleryWindowMedium": "medium",
   "galleryWindowSize": "Window: {size}",
+  "goalsAchieved": "Achieved",
+  "goalsAchievedOn": "Achieved {date}",
+  "goalsActive": "Active",
+  "goalsAdd": "Add a goal",
+  "goalsCelebrate": "Goal reached: {title}!",
+  "goalsDelete": "Delete goal",
+  "goalsDeleted": "Goal deleted",
+  "goalsEdit": "Edit goal",
+  "goalsEmpty": "No goals yet",
+  "goalsEmptyBody": "Set a target for a habit — for example 10 000 push-ups this year.",
+  "goalsEnded": "Ended",
+  "goalsErrDates": "Choose a start and an end date.",
+  "goalsErrEnd": "The end must be after the start.",
+  "goalsErrMetric": "This measure doesn't fit this habit.",
+  "goalsErrScope": "Choose what the goal is about.",
+  "goalsErrTarget": "Enter a target above zero.",
+  "goalsErrTitle": "Keep it under 80 characters.",
+  "goalsEta": "Expected {date}",
+  "goalsFrom": "From",
+  "goalsHabit": "Habit",
+  "goalsMetric": "Measure",
+  "goalsMetricCleanDays": "Clean days",
+  "goalsMetricCompletions": "Days done",
+  "goalsMetricItemsCompleted": "Items completed",
+  "goalsMetricMoneySaved": "Money saved",
+  "goalsMetricStreakDays": "Streak (days)",
+  "goalsMetricTotalValue": "Total logged",
+  "goalsMetricTrackedMinutes": "Minutes tracked",
+  "goalsMetricUnitsAvoided": "Units avoided",
+  "goalsNeedPerDay": "{value} a day to finish on time",
+  "goalsNew": "New goal",
+  "goalsPaceMarker": "Where you should be today",
+  "goalsPeriod": "Period",
+  "goalsPeriodAllTime": "No time limit",
+  "goalsPeriodCustom": "Custom dates",
+  "goalsPeriodMonth": "This month",
+  "goalsPeriodQuarter": "This quarter",
+  "goalsPeriodWeek": "This week",
+  "goalsPeriodYear": "This year",
+  "goalsProgressOf": "{actual} of {target}",
+  "goalsSaved": "Goal saved",
+  "goalsStatusAchieved": "Achieved",
+  "goalsStatusAtRisk": "At risk",
+  "goalsStatusBehind": "Behind",
+  "goalsStatusOnTrack": "On track",
+  "goalsSuggestion": "At your pace you'd reach {value} — aim for {target}?",
+  "goalsTarget": "Target",
+  "goalsTitle": "Goals",
+  "goalsTitleField": "Title (optional)",
+  "goalsTo": "To",
+  "goalsUseSuggestion": "Aim for {target}",
   "habitsActionAddValue": "Add a value",
   "habitsActionBackfill": "Log another day",
   "habitsActionCheckNow": "Check now",
@@ -5684,6 +5804,18 @@
   "quitReviewQuestion": "Did you stay clean today?",
   "quitReviewYesterdayQuestion": "Did you stay clean yesterday?",
   "quitReviewedClean": "Clean today — well done!",
+  "quitRewardAdd": "Add a reward",
+  "quitRewardClaim": "Claim",
+  "quitRewardClaimed": "Claimed {date}",
+  "quitRewardClaimedSnack": "Enjoy it — you earned it.",
+  "quitRewardEta": "Affordable around {date}",
+  "quitRewardName": "Reward",
+  "quitRewardNeedsCost": "Set a price per unit in the tracker to see what your savings buy.",
+  "quitRewardPrice": "Price",
+  "quitRewardReady": "You can afford it!",
+  "quitRewardSaved": "Reward saved",
+  "quitRewardsEmpty": "Pick something your savings will pay for.",
+  "quitRewardsTitle": "What my savings buy",
   "quitRitualEnable": "Daily pledge & evening review",
   "quitRitualEnableHint": "A morning pledge and an evening check-in. Add reminders at these times in the Reminders section.",
   "quitRitualTitle": "Daily ritual",

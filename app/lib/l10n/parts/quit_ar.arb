@@ -180,5 +180,17 @@
   "quitVocabRename": "إعادة التسمية",
   "quitVocabEmpty": "لا شيء هنا بعد — أضف عناصرك.",
   "quitVocabUses": "{count, plural, =0{لم يُستخدم بعد} =1{استُخدم مرة واحدة} =2{استُخدم مرتين} few{استُخدم {count} مرات} many{استُخدم {count} مرة} other{استُخدم {count} مرة}}",
-  "quitVocabSaved": "تم تحديث القائمة"
+  "quitVocabSaved": "تم تحديث القائمة",
+  "quitRewardsTitle": "ما يمكن أن توفّره مدخراتي",
+  "quitRewardAdd": "إضافة مكافأة",
+  "quitRewardName": "المكافأة",
+  "quitRewardPrice": "السعر",
+  "quitRewardClaim": "الحصول عليها",
+  "quitRewardClaimed": "حصلت عليها في {date}",
+  "quitRewardReady": "يمكنك تحمّل ثمنها!",
+  "quitRewardEta": "في المتناول نحو {date}",
+  "quitRewardSaved": "تم حفظ المكافأة",
+  "quitRewardClaimedSnack": "استمتع بها — لقد استحققتها.",
+  "quitRewardsEmpty": "اختر شيئًا ستدفع ثمنه مدخراتك.",
+  "quitRewardNeedsCost": "حدّد سعر الوحدة في المتتبّع لترى ما تشتريه مدخراتك."
 }

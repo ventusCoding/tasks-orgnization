@@ -2626,6 +2626,175 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get goalsAchieved => 'Atteints';
+
+  @override
+  String goalsAchievedOn(String date) {
+    return 'Atteint le $date';
+  }
+
+  @override
+  String get goalsActive => 'En cours';
+
+  @override
+  String get goalsAdd => 'Ajouter un objectif';
+
+  @override
+  String goalsCelebrate(String title) {
+    return 'Objectif atteint : $title !';
+  }
+
+  @override
+  String get goalsDelete => 'Supprimer l\'objectif';
+
+  @override
+  String get goalsDeleted => 'Objectif supprimé';
+
+  @override
+  String get goalsEdit => 'Modifier l\'objectif';
+
+  @override
+  String get goalsEmpty => 'Aucun objectif pour l\'instant';
+
+  @override
+  String get goalsEmptyBody =>
+      'Fixez une cible pour une habitude — par exemple 10 000 pompes cette année.';
+
+  @override
+  String get goalsEnded => 'Terminés';
+
+  @override
+  String get goalsErrDates =>
+      'Choisissez une date de début et une date de fin.';
+
+  @override
+  String get goalsErrEnd => 'La fin doit être après le début.';
+
+  @override
+  String get goalsErrMetric => 'Cette mesure ne convient pas à cette habitude.';
+
+  @override
+  String get goalsErrScope => 'Choisissez sur quoi porte l\'objectif.';
+
+  @override
+  String get goalsErrTarget => 'Saisissez une cible supérieure à zéro.';
+
+  @override
+  String get goalsErrTitle => '80 caractères maximum.';
+
+  @override
+  String goalsEta(String date) {
+    return 'Prévu le $date';
+  }
+
+  @override
+  String get goalsFrom => 'Du';
+
+  @override
+  String get goalsHabit => 'Habitude';
+
+  @override
+  String get goalsMetric => 'Mesure';
+
+  @override
+  String get goalsMetricCleanDays => 'Jours d\'abstinence';
+
+  @override
+  String get goalsMetricCompletions => 'Jours réussis';
+
+  @override
+  String get goalsMetricItemsCompleted => 'Éléments terminés';
+
+  @override
+  String get goalsMetricMoneySaved => 'Argent économisé';
+
+  @override
+  String get goalsMetricStreakDays => 'Série (jours)';
+
+  @override
+  String get goalsMetricTotalValue => 'Total enregistré';
+
+  @override
+  String get goalsMetricTrackedMinutes => 'Minutes suivies';
+
+  @override
+  String get goalsMetricUnitsAvoided => 'Unités évitées';
+
+  @override
+  String goalsNeedPerDay(String value) {
+    return '$value par jour pour finir à temps';
+  }
+
+  @override
+  String get goalsNew => 'Nouvel objectif';
+
+  @override
+  String get goalsPaceMarker => 'Là où vous devriez être aujourd\'hui';
+
+  @override
+  String get goalsPeriod => 'Période';
+
+  @override
+  String get goalsPeriodAllTime => 'Sans limite de temps';
+
+  @override
+  String get goalsPeriodCustom => 'Dates personnalisées';
+
+  @override
+  String get goalsPeriodMonth => 'Ce mois-ci';
+
+  @override
+  String get goalsPeriodQuarter => 'Ce trimestre';
+
+  @override
+  String get goalsPeriodWeek => 'Cette semaine';
+
+  @override
+  String get goalsPeriodYear => 'Cette année';
+
+  @override
+  String goalsProgressOf(String actual, String target) {
+    return '$actual sur $target';
+  }
+
+  @override
+  String get goalsSaved => 'Objectif enregistré';
+
+  @override
+  String get goalsStatusAchieved => 'Atteint';
+
+  @override
+  String get goalsStatusAtRisk => 'Compromis';
+
+  @override
+  String get goalsStatusBehind => 'En retard';
+
+  @override
+  String get goalsStatusOnTrack => 'En bonne voie';
+
+  @override
+  String goalsSuggestion(String value, String target) {
+    return 'À ce rythme, vous atteindriez $value — visez $target ?';
+  }
+
+  @override
+  String get goalsTarget => 'Cible';
+
+  @override
+  String get goalsTitle => 'Objectifs';
+
+  @override
+  String get goalsTitleField => 'Titre (facultatif)';
+
+  @override
+  String get goalsTo => 'Au';
+
+  @override
+  String goalsUseSuggestion(String target) {
+    return 'Viser $target';
+  }
+
+  @override
   String get habitsActionAddValue => 'Ajouter une valeur';
 
   @override
@@ -7748,6 +7917,47 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get quitReviewedClean => 'Journée sans consommation — bravo !';
+
+  @override
+  String get quitRewardAdd => 'Ajouter une récompense';
+
+  @override
+  String get quitRewardClaim => 'Utiliser';
+
+  @override
+  String quitRewardClaimed(String date) {
+    return 'Obtenue le $date';
+  }
+
+  @override
+  String get quitRewardClaimedSnack => 'Profitez-en — vous l\'avez mérité.';
+
+  @override
+  String quitRewardEta(String date) {
+    return 'À portée vers le $date';
+  }
+
+  @override
+  String get quitRewardName => 'Récompense';
+
+  @override
+  String get quitRewardNeedsCost =>
+      'Indiquez un prix par unité dans le suivi pour voir ce que vos économies permettent.';
+
+  @override
+  String get quitRewardPrice => 'Prix';
+
+  @override
+  String get quitRewardReady => 'Vous pouvez vous l\'offrir !';
+
+  @override
+  String get quitRewardSaved => 'Récompense enregistrée';
+
+  @override
+  String get quitRewardsEmpty => 'Choisissez ce que vos économies vont payer.';
+
+  @override
+  String get quitRewardsTitle => 'Ce que mes économies m\'offrent';
 
   @override
   String get quitRitualEnable => 'Engagement du matin et bilan du soir';

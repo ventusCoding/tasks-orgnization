@@ -4,6 +4,8 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/attachments/presentation/attachment_strip.dart';
+import 'package:everslot/features/goals/application/goal_providers.dart';
+import 'package:everslot/features/goals/presentation/goal_card.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/application/habit_service.dart';
 import 'package:everslot/features/habits/application/live_ticker.dart';
@@ -17,6 +19,7 @@ import 'package:everslot/features/habits/presentation/pause_sheet.dart';
 import 'package:everslot/features/habits/presentation/quit/live_counter.dart';
 import 'package:everslot/features/habits/presentation/quit/milestone_timeline.dart';
 import 'package:everslot/features/habits/presentation/quit/quit_sheets.dart';
+import 'package:everslot/features/habits/presentation/quit/rewards_section.dart';
 import 'package:everslot/features/habits/presentation/quit/ritual_card.dart';
 import 'package:everslot/features/habits/presentation/quit/vocab_manage_screen.dart';
 import 'package:everslot_metrics/everslot_metrics.dart'
@@ -93,7 +96,10 @@ class _DashboardState extends ConsumerState<_Dashboard> {
   // Money and units grow through the day: refresh the tiles once a minute.
   void _onTick() {
     final m = _ticker.now.millisecondsSinceEpoch ~/ 60000;
-    if (m != _minute && mounted) setState(() => _minute = m);
+    if (m != _minute && mounted) {
+      setState(() => _minute = m);
+      if (_minute != -1) ref.read(habitTickProvider.notifier).bump();
+    }
   }
 
   QuitCalculator _calculator() {
@@ -180,6 +186,10 @@ class _DashboardState extends ConsumerState<_Dashboard> {
     final zone = ref.watch(habitPeriodServiceProvider).zoneOf(habit);
     final resolver = ref.watch(zoneResolverProvider);
     final pause = snapshot.pauseOn(today);
+    final claimedRewards = [
+      for (final g in ref.watch(habitGoalsProvider(habit.id)).value ?? const [])
+        if (g.isReward && g.achievedAt != null) g,
+    ]..sort((a, b) => b.achievedAt!.compareTo(a.achievedAt!));
 
     Widget tile(String label, String value, IconData icon, {String? note}) => Semantics(
       label: '$label: $value${note == null ? '' : ', $note'}',
@@ -305,6 +315,8 @@ class _DashboardState extends ConsumerState<_Dashboard> {
               onTap: () => openQuitMilestones(context, habit.id),
             ),
           ],
+          HabitGoalsSection(habitId: habit.id),
+          QuitRewardsSection(habitId: habit.id),
           if (habit.motivation != null) ...[
             SectionHeader(l.quitMotivationCard, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
             Card(
@@ -322,7 +334,14 @@ class _DashboardState extends ConsumerState<_Dashboard> {
             ),
           ],
           SectionHeader(l.quitRecentEvents, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
-          if (events.isEmpty)
+          for (final g in claimedRewards)
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.card_giftcard),
+              title: Text(g.reward ?? ''),
+              subtitle: Text(l.quitRewardClaimed(fmt.dateTime(resolver.toLocal(g.achievedAt!, zone)))),
+            ),
+          if (events.isEmpty && claimedRewards.isEmpty)
             Text(l.quitNoEvents, style: context.text.bodyMedium)
           else
             for (final e in events)

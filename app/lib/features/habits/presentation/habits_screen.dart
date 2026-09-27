@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:everslot/app/widgets/app_bar_actions.dart';
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/goals/presentation/goals_screen.dart';
 import 'package:everslot/features/habits/application/habit_defaults.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
@@ -129,6 +130,8 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
         await Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => const ManageHabitsScreen()));
       case 'journal':
         await Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => const NotesJournalScreen()));
+      case 'goals':
+        await Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => const GoalsScreen()));
       case 'vacation':
         await showPauseSheet(context, ref);
       case 'view':
@@ -227,6 +230,7 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
             itemBuilder: (ctx) => [
               PopupMenuItem(value: 'view', child: Text(l.habitsViewOptions)),
               if (hasBuild && !_reordering) PopupMenuItem(value: 'reorder', child: Text(l.habitsReorder)),
+              PopupMenuItem(value: 'goals', child: Text(l.goalsTitle)),
               PopupMenuItem(value: 'manage', child: Text(l.habitsManage)),
               PopupMenuItem(value: 'journal', child: Text(l.habitsJournal)),
               PopupMenuItem(value: 'vacation', child: Text(l.habitsVacationTitle)),
