@@ -7228,6 +7228,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitCleanDaysTitle => 'Clean days';
 
   @override
+  String get quitCleanSaved => 'Marked as a clean day';
+
+  @override
   String get quitCoping => 'What helped';
 
   @override
@@ -7571,6 +7574,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitPlaceWork => 'Work';
 
   @override
+  String get quitPledgeAction => 'Take today\'s pledge';
+
+  @override
+  String get quitPledgeMorning => 'Morning pledge';
+
+  @override
+  String get quitPledgeSaved => 'Pledge saved';
+
+  @override
+  String quitPledgeStreak(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count-day pledge streak',
+      one: '1-day pledge streak',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get quitPledgeText => 'Today, I choose to stay clean.';
+
+  @override
+  String get quitPledged => 'Pledged for today';
+
+  @override
   String get quitPopulationEstimate => 'population estimate';
 
   @override
@@ -7646,6 +7675,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quitResisted => 'Did you resist?';
+
+  @override
+  String get quitReviewEvening => 'Evening review';
+
+  @override
+  String get quitReviewQuestion => 'Did you stay clean today?';
+
+  @override
+  String get quitReviewYesterdayQuestion => 'Did you stay clean yesterday?';
+
+  @override
+  String get quitReviewedClean => 'Clean today — well done!';
+
+  @override
+  String get quitRitualEnable => 'Daily pledge & evening review';
+
+  @override
+  String get quitRitualEnableHint =>
+      'A morning pledge and an evening check-in. Add reminders at these times in the Reminders section.';
+
+  @override
+  String get quitRitualTitle => 'Daily ritual';
 
   @override
   String get quitSinceFirstQuit => 'Since you first quit';

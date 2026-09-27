@@ -155,5 +155,19 @@
   "quitOffsetYears": "{count, plural, =1{1 an} other{{count} ans}}",
   "quitOffsetRange": "{from} – {to}",
   "quitWithdrawalTitle": "Sevrage",
-  "quitWithdrawalNow": "Là où vous en êtes"
+  "quitWithdrawalNow": "Là où vous en êtes",
+  "quitRitualTitle": "Rituel quotidien",
+  "quitRitualEnable": "Engagement du matin et bilan du soir",
+  "quitRitualEnableHint": "Un engagement le matin et un bilan le soir. Ajoutez des rappels à ces heures dans la section Rappels.",
+  "quitPledgeMorning": "Engagement du matin",
+  "quitReviewEvening": "Bilan du soir",
+  "quitPledgeText": "Aujourd'hui, je choisis de tenir bon.",
+  "quitPledgeAction": "Prendre l'engagement du jour",
+  "quitPledged": "Engagement pris pour aujourd'hui",
+  "quitPledgeStreak": "{count, plural, =1{1 jour d'engagement d'affilée} other{{count} jours d'engagement d'affilée}}",
+  "quitReviewQuestion": "Avez-vous tenu bon aujourd'hui ?",
+  "quitReviewYesterdayQuestion": "Avez-vous tenu bon hier ?",
+  "quitReviewedClean": "Journée sans consommation — bravo !",
+  "quitPledgeSaved": "Engagement enregistré",
+  "quitCleanSaved": "Journée marquée comme réussie"
 }

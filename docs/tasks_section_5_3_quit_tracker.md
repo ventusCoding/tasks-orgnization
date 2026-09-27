@@ -35,7 +35,7 @@ pledge & evening review, trigger/place/coping libraries, savings rewards, coping
 - [x] T5.3.10 — Multiple trackers & quit strip
 - [x] T5.3.11 — Health-milestone content asset (smoking)
 - [x] T5.3.12 — Milestone timeline
-- [ ] T5.3.13 — Daily pledge & evening review
+- [x] T5.3.13 — Daily pledge & evening review
 - [ ] T5.3.14 — Trigger, place & coping libraries
 - [ ] T5.3.15 — Savings rewards
 - [ ] T5.3.16 — Coping toolbox
@@ -211,6 +211,7 @@ settings (enabled, morning time, evening time).
 **Data model:** `habit_logs.kind = 'pledge'`; pledge settings in `habits.settings`.
 **Acceptance criteria:** pledging on two devices on the same day converges to one row.
 **Tests:** service tests; widget tests.
+**Notes:** Ritual card on the dashboard (pledge + streak, evening review from the evening time; explicit-mode trackers are asked at any time and about an unconfirmed yesterday) and per-tracker settings in the quit editor. Reminder delivery at the ritual times is not auto-created: the editor points to the tracker Reminders section ([7.5] rules).
 
 ### T5.3.14 — Trigger, place & coping libraries
 **Priority:** P1 · **Size:** M · **Depends on:** T5.3.08

@@ -155,5 +155,19 @@
   "quitOffsetYears": "{count, plural, =1{سنة واحدة} =2{سنتان} few{{count} سنوات} many{{count} سنة} other{{count} سنة}}",
   "quitOffsetRange": "{from} – {to}",
   "quitWithdrawalTitle": "أعراض الانسحاب",
-  "quitWithdrawalNow": "أين أنت الآن"
+  "quitWithdrawalNow": "أين أنت الآن",
+  "quitRitualTitle": "الطقس اليومي",
+  "quitRitualEnable": "تعهّد الصباح ومراجعة المساء",
+  "quitRitualEnableHint": "تعهّد في الصباح ومراجعة في المساء. أضف تذكيرات في هذه الأوقات من قسم التذكيرات.",
+  "quitPledgeMorning": "تعهّد الصباح",
+  "quitReviewEvening": "مراجعة المساء",
+  "quitPledgeText": "اليوم أختار أن أبقى ممتنعًا.",
+  "quitPledgeAction": "قدّم تعهّد اليوم",
+  "quitPledged": "تم التعهّد لهذا اليوم",
+  "quitPledgeStreak": "{count, plural, =1{تعهّد ليوم واحد متتالٍ} =2{تعهّد ليومين متتاليين} few{تعهّد لـ{count} أيام متتالية} many{تعهّد لـ{count} يومًا متتاليًا} other{تعهّد لـ{count} يوم متتالٍ}}",
+  "quitReviewQuestion": "هل بقيت ممتنعًا اليوم؟",
+  "quitReviewYesterdayQuestion": "هل بقيت ممتنعًا أمس؟",
+  "quitReviewedClean": "يوم نظيف — أحسنت!",
+  "quitPledgeSaved": "تم حفظ التعهّد",
+  "quitCleanSaved": "تم تسجيله يومًا ناجحًا"
 }

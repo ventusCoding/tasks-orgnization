@@ -17,6 +17,7 @@ import 'package:everslot/features/habits/presentation/pause_sheet.dart';
 import 'package:everslot/features/habits/presentation/quit/live_counter.dart';
 import 'package:everslot/features/habits/presentation/quit/milestone_timeline.dart';
 import 'package:everslot/features/habits/presentation/quit/quit_sheets.dart';
+import 'package:everslot/features/habits/presentation/quit/ritual_card.dart';
 import 'package:everslot_metrics/everslot_metrics.dart'
     show MilestoneProgress, QuitCalculator, QuitMode, defaultDayMilestones, milestoneProgress;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -275,6 +276,10 @@ class _DashboardState extends ConsumerState<_Dashboard> {
                 ),
               ),
             ),
+          ],
+          if (QuitRitualCard.shownFor(habit)) ...[
+            const SizedBox(height: Space.lg),
+            QuitRitualCard(snapshot: snapshot),
           ],
           const SizedBox(height: Space.lg),
           LayoutBuilder(

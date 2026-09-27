@@ -7520,6 +7520,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitCleanDaysTitle => 'الأيام النظيفة';
 
   @override
+  String get quitCleanSaved => 'تم تسجيله يومًا ناجحًا';
+
+  @override
   String get quitCoping => 'ما الذي ساعد';
 
   @override
@@ -7875,6 +7878,35 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitPlaceWork => 'العمل';
 
   @override
+  String get quitPledgeAction => 'قدّم تعهّد اليوم';
+
+  @override
+  String get quitPledgeMorning => 'تعهّد الصباح';
+
+  @override
+  String get quitPledgeSaved => 'تم حفظ التعهّد';
+
+  @override
+  String quitPledgeStreak(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تعهّد لـ$count يوم متتالٍ',
+      many: 'تعهّد لـ$count يومًا متتاليًا',
+      few: 'تعهّد لـ$count أيام متتالية',
+      two: 'تعهّد ليومين متتاليين',
+      one: 'تعهّد ليوم واحد متتالٍ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get quitPledgeText => 'اليوم أختار أن أبقى ممتنعًا.';
+
+  @override
+  String get quitPledged => 'تم التعهّد لهذا اليوم';
+
+  @override
   String get quitPopulationEstimate => 'تقدير على مستوى السكان';
 
   @override
@@ -7949,6 +7981,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quitResisted => 'هل قاومت؟';
+
+  @override
+  String get quitReviewEvening => 'مراجعة المساء';
+
+  @override
+  String get quitReviewQuestion => 'هل بقيت ممتنعًا اليوم؟';
+
+  @override
+  String get quitReviewYesterdayQuestion => 'هل بقيت ممتنعًا أمس؟';
+
+  @override
+  String get quitReviewedClean => 'يوم نظيف — أحسنت!';
+
+  @override
+  String get quitRitualEnable => 'تعهّد الصباح ومراجعة المساء';
+
+  @override
+  String get quitRitualEnableHint =>
+      'تعهّد في الصباح ومراجعة في المساء. أضف تذكيرات في هذه الأوقات من قسم التذكيرات.';
+
+  @override
+  String get quitRitualTitle => 'الطقس اليومي';
 
   @override
   String get quitSinceFirstQuit => 'منذ إقلاعك الأول';

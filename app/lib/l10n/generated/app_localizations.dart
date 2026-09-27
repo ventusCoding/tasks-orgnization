@@ -12129,6 +12129,12 @@ abstract class AppLocalizations {
   /// **'Clean days'**
   String get quitCleanDaysTitle;
 
+  /// No description provided for @quitCleanSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked as a clean day'**
+  String get quitCleanSaved;
+
   /// No description provided for @quitCoping.
   ///
   /// In en, this message translates to:
@@ -12699,6 +12705,42 @@ abstract class AppLocalizations {
   /// **'Work'**
   String get quitPlaceWork;
 
+  /// No description provided for @quitPledgeAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Take today\'s pledge'**
+  String get quitPledgeAction;
+
+  /// No description provided for @quitPledgeMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning pledge'**
+  String get quitPledgeMorning;
+
+  /// No description provided for @quitPledgeSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledge saved'**
+  String get quitPledgeSaved;
+
+  /// No description provided for @quitPledgeStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1-day pledge streak} other{{count}-day pledge streak}}'**
+  String quitPledgeStreak(int count);
+
+  /// No description provided for @quitPledgeText.
+  ///
+  /// In en, this message translates to:
+  /// **'Today, I choose to stay clean.'**
+  String get quitPledgeText;
+
+  /// No description provided for @quitPledged.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledged for today'**
+  String get quitPledged;
+
   /// No description provided for @quitPopulationEstimate.
   ///
   /// In en, this message translates to:
@@ -12836,6 +12878,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Did you resist?'**
   String get quitResisted;
+
+  /// No description provided for @quitReviewEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening review'**
+  String get quitReviewEvening;
+
+  /// No description provided for @quitReviewQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Did you stay clean today?'**
+  String get quitReviewQuestion;
+
+  /// No description provided for @quitReviewYesterdayQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Did you stay clean yesterday?'**
+  String get quitReviewYesterdayQuestion;
+
+  /// No description provided for @quitReviewedClean.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean today — well done!'**
+  String get quitReviewedClean;
+
+  /// No description provided for @quitRitualEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily pledge & evening review'**
+  String get quitRitualEnable;
+
+  /// No description provided for @quitRitualEnableHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A morning pledge and an evening check-in. Add reminders at these times in the Reminders section.'**
+  String get quitRitualEnableHint;
+
+  /// No description provided for @quitRitualTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily ritual'**
+  String get quitRitualTitle;
 
   /// No description provided for @quitSinceFirstQuit.
   ///

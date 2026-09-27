@@ -303,5 +303,26 @@
     }
   },
   "quitWithdrawalTitle": "Withdrawal",
-  "quitWithdrawalNow": "Where you are now"
+  "quitWithdrawalNow": "Where you are now",
+  "quitRitualTitle": "Daily ritual",
+  "quitRitualEnable": "Daily pledge & evening review",
+  "quitRitualEnableHint": "A morning pledge and an evening check-in. Add reminders at these times in the Reminders section.",
+  "quitPledgeMorning": "Morning pledge",
+  "quitReviewEvening": "Evening review",
+  "quitPledgeText": "Today, I choose to stay clean.",
+  "quitPledgeAction": "Take today's pledge",
+  "quitPledged": "Pledged for today",
+  "quitPledgeStreak": "{count, plural, =1{1-day pledge streak} other{{count}-day pledge streak}}",
+  "@quitPledgeStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quitReviewQuestion": "Did you stay clean today?",
+  "quitReviewYesterdayQuestion": "Did you stay clean yesterday?",
+  "quitReviewedClean": "Clean today — well done!",
+  "quitPledgeSaved": "Pledge saved",
+  "quitCleanSaved": "Marked as a clean day"
 }

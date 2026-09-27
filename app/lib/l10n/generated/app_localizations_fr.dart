@@ -7286,6 +7286,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get quitCleanDaysTitle => 'Jours sans';
 
   @override
+  String get quitCleanSaved => 'Journée marquée comme réussie';
+
+  @override
   String get quitCoping => 'Ce qui m\'a aidé';
 
   @override
@@ -7632,6 +7635,32 @@ class AppLocalizationsFr extends AppLocalizations {
   String get quitPlaceWork => 'Travail';
 
   @override
+  String get quitPledgeAction => 'Prendre l\'engagement du jour';
+
+  @override
+  String get quitPledgeMorning => 'Engagement du matin';
+
+  @override
+  String get quitPledgeSaved => 'Engagement enregistré';
+
+  @override
+  String quitPledgeStreak(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jours d\'engagement d\'affilée',
+      one: '1 jour d\'engagement d\'affilée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get quitPledgeText => 'Aujourd\'hui, je choisis de tenir bon.';
+
+  @override
+  String get quitPledged => 'Engagement pris pour aujourd\'hui';
+
+  @override
   String get quitPopulationEstimate => 'estimation populationnelle';
 
   @override
@@ -7707,6 +7736,28 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get quitResisted => 'Avez-vous résisté ?';
+
+  @override
+  String get quitReviewEvening => 'Bilan du soir';
+
+  @override
+  String get quitReviewQuestion => 'Avez-vous tenu bon aujourd\'hui ?';
+
+  @override
+  String get quitReviewYesterdayQuestion => 'Avez-vous tenu bon hier ?';
+
+  @override
+  String get quitReviewedClean => 'Journée sans consommation — bravo !';
+
+  @override
+  String get quitRitualEnable => 'Engagement du matin et bilan du soir';
+
+  @override
+  String get quitRitualEnableHint =>
+      'Un engagement le matin et un bilan le soir. Ajoutez des rappels à ces heures dans la section Rappels.';
+
+  @override
+  String get quitRitualTitle => 'Rituel quotidien';
 
   @override
   String get quitSinceFirstQuit => 'Depuis votre premier arrêt';
