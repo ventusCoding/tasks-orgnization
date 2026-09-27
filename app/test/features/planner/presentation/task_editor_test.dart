@@ -207,6 +207,26 @@ void main() {
     expect(find.text('Attachments'), findsWidgets);
   });
 
+  testWidgets('an invalid URL shows an inline error and blocks saving (T3.1.07)', (tester) async {
+    await openEditor(tester, const TaskEditorScreen(initialStart: '2026-09-21T09:00'));
+    await tester.enterText(key('task-title'), 'Read');
+    final scrollable = find.descendant(of: find.byKey(editorList), matching: find.byType(Scrollable)).first;
+    await tester.scrollUntilVisible(key('task-url'), 200, scrollable: scrollable);
+    await tester.enterText(key('task-url'), 'not a url');
+    await pumpFor(tester);
+    Finder urlError() => find.descendant(of: key('task-url'), matching: find.text('Enter a valid web address'));
+    expect(urlError(), findsOneWidget);
+    await tapIn(tester, key('task-save'), scrollKey: editorList);
+    await settle(tester);
+    expect(await tasks(tester), isEmpty);
+    await tester.enterText(key('task-url'), 'example.com/page');
+    await pumpFor(tester);
+    expect(urlError(), findsNothing);
+    await tapIn(tester, key('task-save'), scrollKey: editorList);
+    await settle(tester);
+    expect((await tasks(tester)).single.url, 'https://example.com/page');
+  });
+
   testWidgets('Arabic RTL and text scale 2.0 lay out without overflow', (tester) async {
     tester.platformDispatcher.textScaleFactorTestValue = 2;
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
