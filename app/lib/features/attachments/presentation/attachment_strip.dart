@@ -53,46 +53,56 @@ class AttachmentStrip extends ConsumerWidget {
     if (attachments.isEmpty && !(editable && showAddButton)) return const SizedBox.shrink();
     final visible = attachments.length > maxVisible ? attachments.sublist(0, maxVisible) : attachments;
     final hidden = attachments.length - visible.length;
+    // The horizontal list forces its full height on children: center them so tiles keep their
+    // own (square) size.
     return SizedBox(
-      height: _size + (compact ? 0 : Space.xs),
+      height: (_size < 48 ? 48 : _size) + (compact ? 0 : Space.xs),
       child: ListView(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.zero,
-        children: [
-          for (var i = 0; i < visible.length; i++)
-            Padding(
-              padding: const EdgeInsetsDirectional.only(end: Space.sm),
-              child: AttachmentTile(
-                attachment: visible[i],
-                index: i,
-                total: attachments.length,
-                size: _size,
-                onTap: () => openAttachmentViewer(context, attachments, i, onGoToOwner: onGoToOwner),
-                onLongPress: editable ? () => _menu(context, ref, attachments, i) : null,
-              ),
-            ),
-          if (hidden > 0)
-            Padding(
-              padding: const EdgeInsetsDirectional.only(end: Space.sm),
-              child: _MoreChip(
-                count: hidden,
-                size: _size,
-                onTap: () => openAttachmentViewer(context, attachments, maxVisible, onGoToOwner: onGoToOwner),
-              ),
-            ),
-          if (editable && showAddButton)
-            _AddTile(
-              size: _size,
-              onTap: () async {
-                final result = await pickAndAddAttachments(context, ref, ownerType: ownerType, ownerId: ownerId);
-                final record = result?.record;
-                if (record != null && context.mounted) onOperation?.call(context.l10n.attachmentsAdd, record);
-              },
-            ),
-        ],
+        children: [for (final child in _tiles(context, ref, attachments, visible, hidden)) Center(child: child)],
       ),
     );
   }
+
+  List<Widget> _tiles(
+    BuildContext context,
+    WidgetRef ref,
+    List<Attachment> attachments,
+    List<Attachment> visible,
+    int hidden,
+  ) => [
+    for (var i = 0; i < visible.length; i++)
+      Padding(
+        padding: const EdgeInsetsDirectional.only(end: Space.sm),
+        child: AttachmentTile(
+          attachment: visible[i],
+          index: i,
+          total: attachments.length,
+          size: _size,
+          onTap: () => openAttachmentViewer(context, attachments, i, onGoToOwner: onGoToOwner),
+          onLongPress: editable ? () => _menu(context, ref, attachments, i) : null,
+        ),
+      ),
+    if (hidden > 0)
+      Padding(
+        padding: const EdgeInsetsDirectional.only(end: Space.sm),
+        child: _MoreChip(
+          count: hidden,
+          size: _size,
+          onTap: () => openAttachmentViewer(context, attachments, maxVisible, onGoToOwner: onGoToOwner),
+        ),
+      ),
+    if (editable && showAddButton)
+      _AddTile(
+        size: _size,
+        onTap: () async {
+          final result = await pickAndAddAttachments(context, ref, ownerType: ownerType, ownerId: ownerId);
+          final record = result?.record;
+          if (record != null && context.mounted) onOperation?.call(context.l10n.attachmentsAdd, record);
+        },
+      ),
+  ];
 
   Future<void> _menu(BuildContext context, WidgetRef ref, List<Attachment> all, int index) async {
     final a = all[index];
@@ -253,17 +263,23 @@ class _AttachmentTileState extends ConsumerState<AttachmentTile> {
     } else {
       content = _FileFace(attachment: a, size: widget.size);
     }
+    final VoidCallback? onTap = transfer.status == TransferStatus.failed
+        ? () => unawaited(ref.read(attachmentServiceProvider).retryUpload(a.id))
+        : widget.onTap;
+    // One accessible node: the label already says kind, position, name and status (file chips'
+    // inner texts would repeat the name).
     return Semantics(
       button: true,
       label: label,
+      onTap: onTap,
+      onLongPress: widget.onLongPress,
+      excludeSemantics: true,
       child: Tooltip(
         message: a.caption ?? a.fileName,
         excludeFromSemantics: true,
         child: InkWell(
           borderRadius: radius,
-          onTap: transfer.status == TransferStatus.failed
-              ? () => ref.read(attachmentServiceProvider).retryUpload(a.id)
-              : widget.onTap,
+          onTap: onTap,
           onLongPress: widget.onLongPress,
           child: ClipRRect(
             borderRadius: radius,

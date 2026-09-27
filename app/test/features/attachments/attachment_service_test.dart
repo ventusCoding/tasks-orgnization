@@ -289,7 +289,13 @@ void main() {
       expect(await downloader.ensureThumb(a), isNotNull);
       final original = await downloader.ensureOriginal(a);
       expect(File(original!).existsSync(), isTrue);
-      final capped = AttachmentDownloader(cache: cache, files: files, storage: storage, clock: h.clock, capBytes: () async => 1);
+      final capped = AttachmentDownloader(
+        cache: cache,
+        files: files,
+        storage: storage,
+        clock: h.clock,
+        capBytes: () async => 1,
+      );
       expect(await capped.enforceCap(), [a.id]);
       expect((await cache.get(a.id))!.localOriginalPath, isNull);
     });

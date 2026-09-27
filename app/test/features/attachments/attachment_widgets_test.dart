@@ -92,45 +92,63 @@ void main() {
     ),
   );
 
-  /// Lets real IO (file copies, hashing isolate, database) progress between frames; the final
-  /// settle is bounded so a lingering spinner fails fast instead of hanging.
-  Future<void> settle(WidgetTester tester, {int rounds = 10}) async {
-    for (var i = 0; i < rounds; i++) {
-      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
-      await tester.pump(const Duration(milliseconds: 100));
+  /// Real IO (file copies, hashing, the database) only progresses inside `runAsync`, and every
+  /// awaited IO call needs its own round: alternate short real waits with frames until [until]
+  /// holds (bounded, so a missing widget fails fast instead of hanging), then let trailing work
+  /// (snackbars, route transitions) finish. Never `pumpAndSettle`: spinners animate forever.
+  Future<void> settle(WidgetTester tester, {bool Function()? until, int rounds = 30, int maxRounds = 300}) async {
+    Future<void> round() async {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 2)));
+      await tester.pump(const Duration(milliseconds: 16));
     }
-    await tester.pumpAndSettle(const Duration(milliseconds: 100), EnginePhase.sendSemanticsUpdate, const Duration(seconds: 20));
+
+    if (until != null) {
+      for (var i = 0; i < maxRounds && !until(); i++) {
+        await round();
+      }
+    }
+    for (var i = 0; i < rounds; i++) {
+      await round();
+    }
+    await tester.pump(const Duration(milliseconds: 300));
   }
+
+  bool tiles(int n) => find.byType(AttachmentTile).evaluate().length == n;
 
   Future<void> addTwoPhotos(WidgetTester tester) async {
     await tester.tap(find.byIcon(Icons.add_photo_alternate_outlined));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Choose photos'));
-    await settle(tester);
+    await settle(tester, until: () => tiles(2));
   }
 
   const strip = AttachmentStrip(ownerType: AttachmentOwnerType.checklistItem, ownerId: 'item-1');
 
-  testWidgets('adding photos offline shows them at once from local files; no badge in local-only mode (T2.2.07, T4.4.01)',
-      (tester) async {
-    setUpEnv();
-    await pump(tester, strip);
-    await settle(tester);
-    await addTwoPhotos(tester);
-    expect(picker.sources, [AttachmentSource.photos]);
-    expect(find.byType(AttachmentTile), findsNWidgets(2));
-    expect(find.text('2 attachments added'), findsOneWidget);
-    expect(find.byIcon(Icons.cloud_upload_outlined), findsNothing);
-    late List<Attachment> rows;
-    await tester.runAsync(() async => rows = await c.read(attachmentsRepositoryProvider).listFor('checklist_item', 'item-1'));
-    expect(rows, hasLength(2));
-    expect(rows.every((a) => !a.isUploaded), isTrue);
-    // Accessible label: kind, position and file name.
-    expect(find.bySemanticsLabel(RegExp(r'Photo 1 of 2')), findsOneWidget);
-  });
+  testWidgets(
+    'adding photos offline shows them at once from local files; no badge in local-only mode (T2.2.07, T4.4.01)',
+    (tester) async {
+      setUpEnv();
+      await pump(tester, strip);
+      await settle(tester);
+      await addTwoPhotos(tester);
+      expect(picker.sources, [AttachmentSource.photos]);
+      expect(find.byType(AttachmentTile), findsNWidgets(2));
+      expect(find.text('2 attachments added'), findsOneWidget);
+      expect(find.byIcon(Icons.cloud_upload_outlined), findsNothing);
+      late List<Attachment> rows;
+      await tester.runAsync(
+        () async => rows = await c.read(attachmentsRepositoryProvider).listFor('checklist_item', 'item-1'),
+      );
+      expect(rows, hasLength(2));
+      expect(rows.every((a) => !a.isUploaded), isTrue);
+      // Accessible label: kind, position and file name.
+      expect(find.bySemanticsLabel(RegExp(r'Photo 1 of 2')), findsOneWidget);
+    },
+  );
 
-  testWidgets('pending uploads show "waiting for network" badges and the pending indicator (T2.2.09, T4.4.03)',
-      (tester) async {
+  testWidgets('pending uploads show "waiting for network" badges and the pending indicator (T2.2.09, T4.4.03)', (
+    tester,
+  ) async {
     setUpEnv(remote: true, network: NetworkKind.offline);
     await pump(tester, const Column(mainAxisSize: MainAxisSize.min, children: [strip, PendingUploadsIndicator()]));
     await settle(tester);
@@ -154,17 +172,48 @@ void main() {
     await tester.tap(find.widgetWithText(FilledButton, 'Save'));
     await settle(tester);
     late List<Attachment> rows;
-    await tester.runAsync(() async => rows = await c.read(attachmentsRepositoryProvider).listFor('checklist_item', 'item-1'));
+    await tester.runAsync(
+      () async => rows = await c.read(attachmentsRepositoryProvider).listFor('checklist_item', 'item-1'),
+    );
     expect(rows.first.caption, 'Receipt');
 
     await tester.longPress(find.byType(AttachmentTile).last);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Remove'));
-    await settle(tester);
+    await settle(tester, until: () => tiles(1));
     expect(find.byType(AttachmentTile), findsOneWidget);
     await tester.tap(find.text('Undo'));
-    await settle(tester);
+    await settle(tester, until: () => tiles(2));
     expect(find.byType(AttachmentTile), findsNWidgets(2));
+  });
+
+  testWidgets('reorder from the long-press menu updates the sort order (T2.2.07, T4.4.06)', (tester) async {
+    setUpEnv();
+    await pump(tester, strip);
+    await settle(tester);
+    await addTwoPhotos(tester);
+    Future<List<String>> names() async {
+      late List<Attachment> rows;
+      await tester.runAsync(
+        () async => rows = await c.read(attachmentsRepositoryProvider).listFor('checklist_item', 'item-1'),
+      );
+      return [for (final a in rows) a.fileName];
+    }
+
+    expect(await names(), ['photo0.jpg', 'photo1.jpg']);
+    await tester.longPress(find.byType(AttachmentTile).first);
+    await tester.pumpAndSettle();
+    expect(find.text('Move earlier'), findsNothing, reason: 'already first');
+    await tester.tap(find.text('Move later'));
+    await settle(tester, until: () => find.bySemanticsLabel(RegExp('^Photo 1 of 2, photo1')).evaluate().isNotEmpty);
+    expect(await names(), ['photo1.jpg', 'photo0.jpg']);
+
+    await tester.longPress(find.byType(AttachmentTile).last);
+    await tester.pumpAndSettle();
+    expect(find.text('Move later'), findsNothing, reason: 'already last');
+    await tester.tap(find.text('Move earlier'));
+    await settle(tester, until: () => find.bySemanticsLabel(RegExp('^Photo 1 of 2, photo0')).evaluate().isNotEmpty);
+    expect(await names(), ['photo0.jpg', 'photo1.jpg']);
   });
 
   testWidgets('tapping a tile opens the gallery viewer; swiping moves between attachments (T2.2.06)', (tester) async {
@@ -173,11 +222,11 @@ void main() {
     await settle(tester);
     await addTwoPhotos(tester);
     await tester.tap(find.byType(AttachmentTile).first);
-    await settle(tester);
+    await settle(tester, until: () => find.text('1 / 2').evaluate().isNotEmpty);
     expect(find.byType(AttachmentViewerScreen), findsOneWidget);
     expect(find.text('1 / 2'), findsOneWidget);
     await tester.fling(find.byType(PageView), const Offset(-500, 0), 1500);
-    await settle(tester);
+    await settle(tester, until: () => find.text('2 / 2').evaluate().isNotEmpty);
     expect(find.text('2 / 2'), findsOneWidget);
   });
 
@@ -185,10 +234,14 @@ void main() {
     setUpEnv();
     late String listId;
     await tester.runAsync(() async {
-      listId = (await c
-              .read(checklistsRepositoryProvider)
-              .create(title: 'Trip', items: const [NodeSpec(text: 'Passport')]))
-          .id;
+      listId =
+          (await c
+                  .read(checklistsRepositoryProvider)
+                  .create(
+                    title: 'Trip',
+                    items: const [NodeSpec(text: 'Passport')],
+                  ))
+              .id;
     });
     await pump(tester, ChecklistScreen(checklistId: listId, preview: true), scaffold: false);
     await settle(tester);
@@ -204,13 +257,13 @@ void main() {
     await tester.tap(find.descendant(of: find.byType(BottomSheet), matching: find.text('Attach')));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Choose photos'));
-    await settle(tester);
+    await settle(tester, until: () => tiles(2));
     expect(find.byType(AttachmentTile), findsNWidgets(2));
     // Undo from the app bar in edit mode removes both (one operation).
     await tester.tap(find.byTooltip('Edit'));
     await settle(tester);
     await tester.tap(find.byTooltip('Undo'));
-    await settle(tester);
+    await settle(tester, until: () => tiles(0));
     expect(find.byType(AttachmentTile), findsNothing);
   });
 }

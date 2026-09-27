@@ -76,7 +76,10 @@ void main() {
         limits.validate(byteSize: 10, mimeType: 'application/x-msdownload', existingCount: 0),
         AttachmentRejection.typeNotAllowed,
       );
-      expect(limits.validate(byteSize: 10, mimeType: 'video/mp4', existingCount: 0), AttachmentRejection.typeNotAllowed);
+      expect(
+        limits.validate(byteSize: 10, mimeType: 'video/mp4', existingCount: 0),
+        AttachmentRejection.typeNotAllowed,
+      );
       expect(limits.validate(byteSize: 0, mimeType: 'image/png', existingCount: 0), AttachmentRejection.empty);
       expect(limits.validate(byteSize: 10, mimeType: 'image/png', existingCount: 50), AttachmentRejection.tooMany);
     });
@@ -227,7 +230,12 @@ void main() {
       final t = DateTime.utc(2026);
       final entries = [
         CacheEntry(attachmentId: 'old', bytes: 400, pinned: false, lastAccessAt: t),
-        CacheEntry(attachmentId: 'pending', bytes: 400, pinned: true, lastAccessAt: t.subtract(const Duration(days: 9))),
+        CacheEntry(
+          attachmentId: 'pending',
+          bytes: 400,
+          pinned: true,
+          lastAccessAt: t.subtract(const Duration(days: 9)),
+        ),
         CacheEntry(attachmentId: 'new', bytes: 400, pinned: false, lastAccessAt: t.add(const Duration(days: 1))),
         const CacheEntry(attachmentId: 'never', bytes: 100, pinned: false),
       ];
@@ -273,7 +281,10 @@ void main() {
     test('each state', () {
       expect(status().status, TransferStatus.ready);
       expect(status(upload: UploadState.pending, uploaded: false).status, TransferStatus.uploading);
-      expect(status(upload: UploadState.pending, uploaded: false, online: false).status, TransferStatus.waitingForNetwork);
+      expect(
+        status(upload: UploadState.pending, uploaded: false, online: false).status,
+        TransferStatus.waitingForNetwork,
+      );
       expect(status(upload: UploadState.pending, uploaded: false, configured: false).status, TransferStatus.ready);
       expect(status(upload: UploadState.failed, uploaded: false).status, TransferStatus.failed);
       expect(status(original: false, thumb: false).status, TransferStatus.notDownloaded);
