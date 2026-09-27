@@ -1,6 +1,8 @@
 import 'package:everslot/features/checklists/application/checklist_notifications.dart';
+import 'package:everslot/features/habits/application/habit_notifications.dart';
 import 'package:everslot/features/notifications/application/notification_registry.dart';
 import 'package:everslot/features/notifications/domain/notification_target.dart';
+import 'package:everslot/features/planner/application/planner_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 export 'package:everslot/features/notifications/application/notification_registry.dart'
@@ -51,5 +53,13 @@ final List<NotificationContribution> notificationContributions = [
   NotificationContribution(
     sources: [ChecklistsNotificationSource.new],
     actionHandlers: [ChecklistNotificationActions.new],
+  ),
+  NotificationContribution(
+    sources: [HabitsNotificationSource.new, QuitNotificationSource.new],
+    actionHandlers: [HabitNotificationActions.new],
+  ),
+  NotificationContribution(
+    sources: [PlannerNotificationSource.new],
+    actionHandlers: [PlannerNotificationActions.new],
   ),
 ];

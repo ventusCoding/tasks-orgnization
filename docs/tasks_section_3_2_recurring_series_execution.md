@@ -26,29 +26,29 @@ completion, punctuality and procrastination.
 
 ## Progress
 
-- [ ] T3.2.01 — Occurrence resolver
-- [ ] T3.2.02 — Range pre-filter, caching & isolate execution
-- [ ] T3.2.03 — Display time-zone rules (fixed vs floating, all-day, DST)
-- [ ] T3.2.04 — Occurrence actions service
-- [ ] T3.2.05 — Occurrence sheet UI
-- [ ] T3.2.06 — Edit-scope dialog & "this occurrence" overrides
-- [ ] T3.2.07 — "This & following" series split
-- [ ] T3.2.08 — "All occurrences" edits with history preservation
-- [ ] T3.2.09 — Orphaned overrides handling
-- [ ] T3.2.10 — Reschedule operations & reschedule history
-- [ ] T3.2.11 — Delete scopes
-- [ ] T3.2.12 — Missed detection, overdue & roll-over
-- [ ] T3.2.13 — Tracking-mode behaviour
-- [ ] T3.2.14 — Actual-time capture on completion
-- [ ] T3.2.15 — After-completion recurrence execution
-- [ ] T3.2.16 — Quota tasks ("N times per period")
-- [ ] T3.2.17 — Time tracking: timers, pauses & sessions
-- [ ] T3.2.18 — Manual time entries & editing
-- [ ] T3.2.19 — Running-timer indicator & timer policy
-- [ ] T3.2.20 — Series history view
-- [ ] T3.2.21 — Pause / resume a series
-- [ ] T3.2.22 — Occurrence notes & attachments
-- [ ] T3.2.23 — Bulk occurrence actions
+- [x] T3.2.01 — Occurrence resolver
+- [x] T3.2.02 — Range pre-filter, caching & isolate execution
+- [x] T3.2.03 — Display time-zone rules (fixed vs floating, all-day, DST)
+- [x] T3.2.04 — Occurrence actions service
+- [x] T3.2.05 — Occurrence sheet UI
+- [x] T3.2.06 — Edit-scope dialog & "this occurrence" overrides
+- [x] T3.2.07 — "This & following" series split
+- [x] T3.2.08 — "All occurrences" edits with history preservation
+- [x] T3.2.09 — Orphaned overrides handling
+- [x] T3.2.10 — Reschedule operations & reschedule history
+- [x] T3.2.11 — Delete scopes
+- [x] T3.2.12 — Missed detection, overdue & roll-over
+- [x] T3.2.13 — Tracking-mode behaviour
+- [x] T3.2.14 — Actual-time capture on completion
+- [x] T3.2.15 — After-completion recurrence execution
+- [x] T3.2.16 — Quota tasks ("N times per period")
+- [x] T3.2.17 — Time tracking: timers, pauses & sessions
+- [x] T3.2.18 — Manual time entries & editing
+- [x] T3.2.19 — Running-timer indicator & timer policy
+- [x] T3.2.20 — Series history view
+- [x] T3.2.21 — Pause / resume a series
+- [x] T3.2.22 — Occurrence notes & attachments
+- [x] T3.2.23 — Bulk occurrence actions
 
 ## Tasks
 
@@ -111,6 +111,7 @@ pre-filtering, memoization and background execution for heavy ranges.
 - A one-year range for 300 tasks resolves off the UI thread with no dropped frames.
 - Editing one task recomputes and re-emits only that task's occurrences (diff test).
 **Tests:** service tests with fake DAOs; isolate-path test; cap test.
+**Notes:** The "Too many occurrences — zoom in" message is rendered by the views ([3.3]) from `plannerRangeTruncatedProvider`; tests in `test/features/planner/application/occurrence_range_service_test.dart`.
 
 ### T3.2.03 — Display time-zone rules (fixed vs floating, all-day, DST)
 **Priority:** P0 · **Size:** S · **Depends on:** T3.2.01
@@ -159,6 +160,7 @@ sets `status_changed_at` / `completed_at`, writes an activity event (`completed`
 Every action is reachable through semantics actions.
 **Acceptance criteria:** every action shows in all open views within one frame of the DB write.
 **Tests:** widget tests for each tracking mode; golden.
+**Notes:** Goldens: `test/features/planner/presentation/goldens/occurrence_sheet_*.png`.
 
 ### T3.2.06 — Edit-scope dialog & "this occurrence" overrides
 **Priority:** P0 · **Size:** M · **Depends on:** T3.2.04, [3.1]
@@ -307,6 +309,7 @@ suggestions.
 **Acceptance criteria:** after 3 completions in a week the indicator shows "done for this week" and no
 more slots appear until next week.
 **Tests:** resolver fixture tests; widget test of the header indicator.
+**Notes:** Planner-core ships `quotaSummaries(items)` and the `QuotaIndicator` pill ("Run · 1/3 this week" / "done for this week"); placing it in the all-day lane / week header and the backlog drawer is up to the views ([3.3]–[3.7]).
 
 ### T3.2.17 — Time tracking: timers, pauses & sessions
 **Priority:** P1 · **Size:** M · **Depends on:** T3.2.04, T3.2.13
@@ -318,6 +321,7 @@ more slots appear until next week.
 **Acceptance criteria:** a timer started on the phone shows as running on the tablet after sync; stopping
 it on the tablet closes the same entry.
 **Tests:** unit tests (sums, overlap rejection); two-device scenario in the sync suite ([9.1]).
+**Notes:** Two-device scenario in `test/features/planner/data/planner_convergence_test.dart`.
 
 ### T3.2.18 — Manual time entries & editing
 **Priority:** P1 · **Size:** S · **Depends on:** T3.2.17
@@ -332,6 +336,7 @@ Negative durations are rejected; overlaps with other entries trigger a warning.
 `multiple`. The ongoing notification and Live Activity are handled in [7.2] / [8.2].
 **Data model:** settings key `planner.timerPolicy` (arch §8.5).
 **Tests:** widget test; policy unit tests.
+**Notes:** `RunningTimerChip` is shown by the shared `AppBarActions` (one additive line); the ongoing notification / Live Activity stay with [7.2] / [8.2].
 
 ### T3.2.20 — Series history view
 **Priority:** P1 · **Size:** M · **Depends on:** T3.2.01
@@ -360,3 +365,4 @@ occurrences ([6.1]).
 **Description:** Day-menu actions: *Mark all remaining today as done*, *Skip the rest of the day*,
 *Move unfinished to tomorrow*. Each is one transaction with a single undo.
 **Tests:** unit tests.
+**Notes:** Service `markRemainingDone` / `skipRestOfDay` / `moveUnfinishedToTomorrow` + reusable `DayActionsMenuButton(day:)`; placing it in the day headers is up to the views ([3.3]–[3.5]).

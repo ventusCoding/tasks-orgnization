@@ -100,4 +100,84 @@ void main() {
     expect(excluded, isEmpty);
     expect(OccurrenceStatus.values, isNotEmpty);
   });
+  test('paste at a slot: one-off copy at the viewer time, zone mode kept, occurrence overrides (T3.1.19)', () async {
+    final ny = await h.createTask(title: 'NY sync', start: '2026-09-22T10:00', duration: 45, zone: 'America/New_York');
+    final daily = await h.createTask(title: 'Stretch', start: '2026-09-20T07:00', duration: 15, rule: RecurrenceRule());
+    await h.tasks.editOccurrence(daily, '2026-09-22T07:00', title: 'Long stretch', duration: 30);
+    final items = await h.items(ld('2026-09-22'), 1);
+    PlannerItem of(String id) => items.firstWhere((i) => i.taskId == id);
+
+    final pasted = await h.planner.pasteAt(of(ny), ldt('2026-09-24T18:00'));
+    final copy = (await h.task(pasted.newTaskId!))!;
+    expect(copy.id, isNot(ny));
+    expect(copy.timeZone, 'America/New_York');
+    expect(copy.durationMinutes, 45);
+    // 18:00 in the viewer zone (UTC) = 14:00 in New York.
+    expect(copy.startLocal, ldt('2026-09-24T14:00'));
+
+    final second = await h.planner.pasteAt(of(daily), ldt('2026-09-25T09:00'));
+    final one = (await h.task(second.newTaskId!))!;
+    expect(one.recurrence, isNull);
+    expect(one.title, 'Long stretch');
+    expect(one.durationMinutes, 30);
+    expect(one.startLocal, ldt('2026-09-25T09:00'));
+  });
+  group('day menu (T3.2.23)', () {
+    // Harness now: Tuesday 2026-09-22 09:00 UTC (viewer zone UTC).
+    Future<({String early, String late, String daily, String event, String done})> seedDay() async {
+      final early = await h.createTask(title: 'Early', start: '2026-09-22T07:00', duration: 30);
+      final late = await h.createTask(title: 'Late', start: '2026-09-22T18:00', duration: 30);
+      final daily = await h.createTask(title: 'Daily', start: '2026-09-20T12:00', duration: 15, rule: RecurrenceRule());
+      final event = await h.createTask(title: 'Lunch', start: '2026-09-22T12:30', mode: TrackingMode.event);
+      final done = await h.createTask(title: 'Done', start: '2026-09-22T06:00', duration: 30);
+      await h.occurrences.markDone(done, '2026-09-22T06:00');
+      return (early: early, late: late, daily: daily, event: event, done: done);
+    }
+
+    Future<Map<String, OccurrenceStatus>> statuses() async => {
+      for (final i in await h.items(ld('2026-09-22'), 1)) i.title: i.status,
+    };
+
+    test('mark all remaining as done: check/timer only, one operation, one undo', () async {
+      await seedDay();
+      expect(await h.planner.markRemainingDone(ld('2026-09-22')), 3);
+      final after = await statuses();
+      expect(after['Early'], OccurrenceStatus.done);
+      expect(after['Late'], OccurrenceStatus.done);
+      expect(after['Daily'], OccurrenceStatus.done);
+      expect(after['Lunch'], OccurrenceStatus.scheduled, reason: 'events have no checkbox');
+      expect(await h.planner.markRemainingDone(ld('2026-09-22')), 0, reason: 'idempotent');
+      await h.read(undoStackProvider).undo();
+      final undone = await statuses();
+      expect(undone['Early'], OccurrenceStatus.missed);
+      expect(undone['Late'], OccurrenceStatus.scheduled);
+      expect(undone['Daily'], OccurrenceStatus.scheduled);
+      expect(undone['Done'], OccurrenceStatus.done, reason: 'earlier outcomes are untouched');
+    });
+
+    test('skip the rest of the day: every open occurrence, events included', () async {
+      await seedDay();
+      expect(await h.planner.skipRestOfDay(ld('2026-09-22')), 4);
+      final after = await statuses();
+      expect(after.values.where((s) => s == OccurrenceStatus.skipped), hasLength(4));
+      expect(after['Done'], OccurrenceStatus.done);
+      await h.read(undoStackProvider).undo();
+      expect((await statuses()).values.where((s) => s == OccurrenceStatus.skipped), isEmpty);
+    });
+
+    test('move unfinished to tomorrow: one-offs rescheduled, occurrences overridden, one undo', () async {
+      final ids = await seedDay();
+      expect(await h.planner.moveUnfinishedToTomorrow(ld('2026-09-22')), 3);
+      expect((await h.task(ids.early))!.startLocal, ldt('2026-09-23T07:00'));
+      expect((await h.task(ids.late))!.startLocal, ldt('2026-09-23T18:00'));
+      final record = (await h.records(ids.daily)).single;
+      expect(record.occurrenceKey, '2026-09-22T12:00');
+      expect(record.overrideStartLocal, ldt('2026-09-23T12:00'));
+      expect((await h.task(ids.event))!.startLocal, ldt('2026-09-22T12:30'), reason: 'events stay');
+      await h.read(undoStackProvider).undo();
+      expect((await h.task(ids.early))!.startLocal, ldt('2026-09-22T07:00'));
+      expect((await h.task(ids.late))!.startLocal, ldt('2026-09-22T18:00'));
+      expect(await h.records(ids.daily), isEmpty);
+    });
+  });
 }

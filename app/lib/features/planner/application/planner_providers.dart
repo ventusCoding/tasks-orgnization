@@ -226,6 +226,47 @@ final seriesOccurrencesProvider = StreamProvider.autoDispose.family<List<Resolve
   return controller.stream;
 });
 
+/// Resolves the occurrence [key] of [taskId] (cancelled ones included) with the resolver's
+/// rules — overrides, moves, derived statuses. Null when the task is gone or the key no longer
+/// belongs to it. Shared by the occurrence sheet, the notification guard and the notification
+/// actions (it only reads the database: safe in the background isolate).
+Future<ResolvedOccurrence?> lookupOccurrence({
+  required PlannerQueries queries,
+  required OccurrenceResolver resolver,
+  required String viewerZone,
+  required ResolverSettings settings,
+  required DateTime now,
+  required String taskId,
+  required String key,
+}) async {
+  final task = await queries.task(taskId);
+  if (task == null) return null;
+  final records = await queries.records([taskId]);
+  final record = records.where((r) => r.occurrenceKey == key).firstOrNull;
+  final center = record?.overrideStartLocal ??
+      LocalDateTime.tryParse(key) ??
+      LocalDate.tryParse(key)?.atStartOfDay ??
+      _periodStart(key) ??
+      task.startLocal;
+  if (center == null) return null;
+  final span = 2 + task.effectiveDurationMinutes ~/ 1440;
+  final result = resolver.resolve(
+    tasks: [task],
+    records: records,
+    from: center.date.minusDays(span + 1).atStartOfDay,
+    to: center.date.plusDays(span + 8).atStartOfDay,
+    viewerZone: viewerZone,
+    now: now,
+    settings: ResolverSettings(
+      missedGraceMinutes: settings.missedGraceMinutes,
+      overdueLookbackDays: settings.overdueLookbackDays,
+      showCancelled: true,
+      skipAdvancesAfterCompletion: settings.skipAdvancesAfterCompletion,
+    ),
+  );
+  return result.occurrences.where((r) => r.occurrenceKey == key).firstOrNull;
+}
+
 /// One resolved occurrence of a task (occurrence sheet / details), live.
 final occurrenceItemProvider = StreamProvider.autoDispose.family<PlannerItem?, OccurrenceRef>((ref, o) {
   final queries = ref.watch(plannerQueriesProvider);
@@ -234,33 +275,21 @@ final occurrenceItemProvider = StreamProvider.autoDispose.family<PlannerItem?, O
   final settings = ref.watch(plannerSettingsProvider).resolver;
   final clock = ref.watch(clockProvider);
   Future<PlannerItem?> load() async {
-    final task = await queries.task(o.taskId);
-    if (task == null) return null;
-    final records = await queries.records([o.taskId]);
-    final record = records.where((r) => r.occurrenceKey == o.key).firstOrNull;
-    final center = record?.overrideStartLocal ??
-        LocalDateTime.tryParse(o.key) ??
-        LocalDate.tryParse(o.key)?.atStartOfDay ??
-        _periodStart(o.key) ??
-        task.startLocal;
-    if (center == null) return null;
-    final span = 2 + task.effectiveDurationMinutes ~/ 1440;
-    final result = resolver.resolve(
-      tasks: [task],
-      records: records,
-      from: center.date.minusDays(span + 1).atStartOfDay,
-      to: center.date.plusDays(span + 8).atStartOfDay,
+    final match = await lookupOccurrence(
+      queries: queries,
+      resolver: resolver,
       viewerZone: zone,
+      settings: settings,
       now: clock.nowUtc(),
-      settings: ResolverSettings(
-        missedGraceMinutes: settings.missedGraceMinutes,
-        overdueLookbackDays: settings.overdueLookbackDays,
-        showCancelled: true,
-        skipAdvancesAfterCompletion: settings.skipAdvancesAfterCompletion,
-      ),
+      taskId: o.taskId,
+      key: o.key,
     );
-    final match = result.occurrences.where((r) => r.occurrenceKey == o.key).firstOrNull;
-    return match?.toPlannerItem(categoryColor: (await queries.categoryColors())[task.categoryId]);
+    if (match == null) return null;
+    final category = match.task.categoryId;
+    return match.toPlannerItem(
+      categoryColor: (await queries.categoryColors())[category],
+      categoryIcon: (await queries.categoryIcons())[category],
+    );
   }
 
   final controller = StreamController<PlannerItem?>();

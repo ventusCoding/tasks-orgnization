@@ -31,10 +31,35 @@ class OccurrencesRepository {
     DateTime? actualStart,
     DateTime? actualEnd,
     String source = 'sheet',
-  }) => _writer.run((tx) async {
+    String cause = 'user',
+  }) => _writer.run(
+    cause: cause,
+    (tx) => _markDoneTx(tx, taskId, key, actualStart: actualStart, actualEnd: actualEnd, source: source),
+  );
+
+  /// Marks several occurrences done in ONE operation (day menu, T3.2.23). Returns how many
+  /// changed.
+  Future<(OpRecord, int)> markDoneMany(List<(String, String)> occurrences, {String source = 'day_menu'}) async {
+    var changed = 0;
+    final record = await _writer.run((tx) async {
+      for (final (taskId, key) in occurrences) {
+        if (await _markDoneTx(tx, taskId, key, source: source)) changed++;
+      }
+    });
+    return (record, changed);
+  }
+
+  Future<bool> _markDoneTx(
+    WriteTx tx,
+    String taskId,
+    String key, {
+    DateTime? actualStart,
+    DateTime? actualEnd,
+    required String source,
+  }) async {
     final task = await _task(tx, taskId);
     final rec = await tx.readRecord(taskId, key);
-    if (rec != null && rec.status == OccurrenceStatus.done && !rec.isCancelled) return;
+    if (rec != null && rec.status == OccurrenceStatus.done && !rec.isCancelled) return false;
     var start = actualStart;
     var end = actualEnd;
     int? tracked;
@@ -60,7 +85,8 @@ class OccurrencesRepository {
       'actualEnd': end?.toIso8601String(),
       'source': source,
     });
-  });
+    return true;
+  }
 
   /// Back to *scheduled* (undo done / reopen a skipped or cancelled occurrence).
   Future<OpRecord> reopen(String taskId, String key, {String source = 'sheet'}) => _writer.run((tx) async {
@@ -81,14 +107,28 @@ class OccurrencesRepository {
   Future<OpRecord> undoDone(String taskId, String key) => reopen(taskId, key);
 
   /// Skips with a reason key (`too_busy`, `sick`, …) or free text (≤ 200 chars).
-  Future<OpRecord> skip(String taskId, String key, {String? reason, String source = 'sheet'}) => _writer.run((tx) async {
+  Future<OpRecord> skip(String taskId, String key, {String? reason, String source = 'sheet', String cause = 'user'}) =>
+      _writer.run(cause: cause, (tx) => _skipTx(tx, taskId, key, reason: reason, source: source));
+
+  /// Skips several occurrences in ONE operation (day menu, T3.2.23). Returns how many changed.
+  Future<(OpRecord, int)> skipMany(List<(String, String)> occurrences, {String? reason, String source = 'day_menu'}) async {
+    var changed = 0;
+    final record = await _writer.run((tx) async {
+      for (final (taskId, key) in occurrences) {
+        if (await _skipTx(tx, taskId, key, reason: reason, source: source)) changed++;
+      }
+    });
+    return (record, changed);
+  }
+
+  Future<bool> _skipTx(WriteTx tx, String taskId, String key, {String? reason, required String source}) async {
     final task = await _task(tx, taskId);
     final rec = await tx.readRecord(taskId, key);
     final text = reason?.trim();
     final stored = text == null || text.isEmpty
         ? null
         : (text.length > SkipReasons.maxLength ? text.substring(0, SkipReasons.maxLength) : text);
-    if (rec != null && rec.status == OccurrenceStatus.skipped && rec.skipReason == stored) return;
+    if (rec != null && rec.status == OccurrenceStatus.skipped && rec.skipReason == stored) return false;
     await _closeRunning(tx, taskId, key);
     await tx.upsertRecord(taskId, key, {
       'status': OccurrenceStatus.skipped.json,
@@ -98,7 +138,8 @@ class OccurrencesRepository {
       'skip_reason': stored,
     });
     await tx.logOccurrenceEvent(task, key, 'skipped', {'from': rec?.status.json ?? 'scheduled', 'reason': stored, 'source': source});
-  });
+    return true;
+  }
 
   /// Explicit status write used by the planner contract (`missed`, `in_progress` without timer).
   Future<OpRecord> setStatus(String taskId, String key, OccurrenceStatus status, {String source = 'menu'}) =>
@@ -132,8 +173,13 @@ class OccurrencesRepository {
 
   /// Starts the occurrence (→ in progress). Timer tasks open a time entry; with the `single`
   /// [policy] every other running timer is paused first.
-  Future<OpRecord> start(String taskId, String key, {TimerPolicy policy = TimerPolicy.single, String source = 'sheet'}) =>
-      _writer.run((tx) async {
+  Future<OpRecord> start(
+    String taskId,
+    String key, {
+    TimerPolicy policy = TimerPolicy.single,
+    String source = 'sheet',
+    String cause = 'user',
+  }) => _writer.run(cause: cause, (tx) async {
         final task = await _task(tx, taskId);
         final rec = await tx.readRecord(taskId, key);
         final running = await _running(tx);
@@ -176,8 +222,8 @@ class OccurrencesRepository {
 
   /// Stops the occurrence. With [complete] (default) it is marked done with actual times from
   /// its time entries; otherwise the session is just closed.
-  Future<OpRecord> stop(String taskId, String key, {bool complete = true}) async {
-    if (complete) return markDone(taskId, key, source: 'timer');
+  Future<OpRecord> stop(String taskId, String key, {bool complete = true, String cause = 'user'}) async {
+    if (complete) return markDone(taskId, key, source: 'timer', cause: cause);
     return pause(taskId, key);
   }
 
@@ -233,12 +279,15 @@ class OccurrencesRepository {
   });
 
   /// Restores every cancelled/moved occurrence of the task in one operation.
-  Future<OpRecord> restoreAllExceptions(String taskId) => _writer.run((tx) async {
+  Future<OpRecord> restoreAllExceptions(String taskId) => _writer.run((tx) => restoreAllExceptionsInTx(tx, taskId));
+
+  /// [restoreAllExceptions] inside a caller's transaction.
+  Future<void> restoreAllExceptionsInTx(WriteTx tx, String taskId) async {
     final task = await _task(tx, taskId);
     for (final r in await tx.readRecords(taskId)) {
       if (r.isCancelled || r.hasOverride) await _restoreTx(tx, task, r.occurrenceKey);
     }
-  });
+  }
 
   Future<void> _restoreTx(WriteTx tx, Task task, String key) async {
     final rec = await tx.readRecord(task.id, key);

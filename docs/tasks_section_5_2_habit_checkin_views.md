@@ -22,20 +22,20 @@ stats screens ([6.5]); the Today home block ([8.1]); widgets ([8.2]); reminders 
 
 ## Progress
 
-- [ ] T5.2.01 — Check-in service
-- [ ] T5.2.02 — Habits tab shell & view switcher
-- [ ] T5.2.03 — Today list
-- [ ] T5.2.04 — Measurable input UX (steppers, values, timers, entries)
-- [ ] T5.2.05 — Intraday slot check-ins
-- [ ] T5.2.06 — Week matrix view
-- [ ] T5.2.07 — Habit detail screen
-- [ ] T5.2.08 — Day editor & backfill
-- [ ] T5.2.09 — Notes & mood on check-ins
-- [ ] T5.2.10 — Year heatmap per habit
-- [ ] T5.2.11 — Multi-habit month overview
-- [ ] T5.2.12 — Reorder, grouping & density
-- [ ] T5.2.13 — Check-in feedback & celebrations
-- [ ] T5.2.14 — Evaluation caching & performance
+- [x] T5.2.01 — Check-in service
+- [x] T5.2.02 — Habits tab shell & view switcher
+- [x] T5.2.03 — Today list
+- [x] T5.2.04 — Measurable input UX (steppers, values, timers, entries)
+- [x] T5.2.05 — Intraday slot check-ins
+- [x] T5.2.06 — Week matrix view
+- [x] T5.2.07 — Habit detail screen
+- [x] T5.2.08 — Day editor & backfill
+- [x] T5.2.09 — Notes & mood on check-ins
+- [x] T5.2.10 — Year heatmap per habit
+- [x] T5.2.11 — Multi-habit month overview
+- [x] T5.2.12 — Reorder, grouping & density
+- [x] T5.2.13 — Check-in feedback & celebrations
+- [x] T5.2.14 — Evaluation caching & performance
 - [ ] T5.2.15 — Notes journal
 
 ## Tasks
@@ -62,6 +62,7 @@ Habits tab, Today ([8.1]), notification actions ([7.2]), widgets ([8.2]).
 marking done offline on two devices converges to one row after sync; undo restores the exact prior state.
 **Tests:** service unit tests (fake clock, two zones, `dayStartsAt` 04:00); add a "habit day toggled on two
 devices" scenario to the [9.1] convergence suite.
+**Notes:** `CheckInService` (application) is the single entry point; unit tests cover deterministic state ids, undo, guards, backfill `logged_at`, slots/tolerance and `dayStartsAt` 04:00 in two zones. The two-device scenario in the [9.1] convergence suite is not added (core/sync tests are outside this feature).
 
 ### T5.2.02 — Habits tab shell & view switcher
 **Priority:** P0 · **Size:** S · **Depends on:** T5.2.01, [1.3] (shell, routing)
@@ -73,6 +74,7 @@ edit any past day in the Today list.
 **Acceptance criteria:** switching views keeps the selected date; deep links `/habits` and `/habits/:id`
 open the right screen.
 **Tests:** widget tests; routing test.
+**Notes:** Last view and filter are remembered in `local_kv` (`HabitUiStore`); the week matrix and month view follow the selected date. Deep links use the existing `/habits`, `/habits/:id` routes (no separate routing test).
 
 ### T5.2.03 — Today list
 **Priority:** P0 · **Size:** L · **Depends on:** T5.2.02, [5.1] (sections)
@@ -92,6 +94,7 @@ ring, a streak chip and one primary action.
 **Acceptance criteria:** a check-in updates the ring, streak chip and Today home block within one frame;
 text scale 2.0 without clipping; 50 habits scroll at 60 fps.
 **Tests:** widget tests per goal type and gesture (LTR and RTL); goldens (light/dark, 2.0 text).
+**Notes:** Widget tests for one-tap, stepper, swipe done (LTR and RTL), full swipe not done, long-press skip with reason (cancel aborts), future days; goldens not added.
 
 ### T5.2.04 — Measurable input UX (steppers, values, timers, entries)
 **Priority:** P0 · **Size:** M · **Depends on:** T5.2.01
@@ -135,6 +138,7 @@ opens the full menu.
 **Data model:** `user_settings.habits` keys `matrixTapCycle`, `toggleWithShortPress`.
 **Acceptance criteria:** toggling a past cell backfills per T5.2.08 rules; 30 habits × 60 days scroll at 60 fps.
 **Tests:** widget tests for each cycle; goldens.
+**Notes:** Tap cycle and short/long-press toggling come from `user_settings.habits` (`HabitViewSettings`); goldens not added.
 
 ### T5.2.07 — Habit detail screen
 **Priority:** P0 · **Size:** M · **Depends on:** T5.2.01, [6.1] (streak & strength functions), [6.5]
@@ -148,6 +152,7 @@ re-implement streaks or scores here; show both streak and strength (views resear
 minimum-data rules ("not enough data yet"); calendar respects week start and `dayStartsAt`.
 **Acceptance criteria:** numbers equal the [6.5] stats screen for the same habit and period.
 **Tests:** widget tests with fixture data; golden.
+**Notes:** Streaks, strength and rates come from `everslot_metrics` through `summarizeHabit`; golden not added.
 
 ### T5.2.08 — Day editor & backfill
 **Priority:** P0 · **Size:** S · **Depends on:** T5.2.01
@@ -160,6 +165,7 @@ incremental from the edited period.
 **Acceptance criteria:** backfilling last Tuesday updates streaks and score immediately; future days accept
 only skip/excuse.
 **Tests:** unit tests for `logged_at` rules; widget tests.
+**Notes:** Backfills default to noon (or the slot time); a time picker for backfills is not offered in the day editor.
 
 ### T5.2.09 — Notes & mood on check-ins
 **Priority:** P0 · **Size:** S · **Depends on:** T5.2.01
@@ -171,6 +177,7 @@ search ([2.3]); mood feeds correlations ([6.7]).
 **Acceptance criteria:** the prompt never blocks the check-in and can be dismissed; notes appear in detail
 and journal views.
 **Tests:** widget tests; FTS index test for note text.
+**Notes:** The FTS index of note text belongs to global search ([2.3]); notes are stored on the state/progress/`note` rows it indexes.
 
 ### T5.2.10 — Year heatmap per habit
 **Priority:** P1 · **Size:** M · **Depends on:** T5.2.07, [6.2] (calendar heatmap component)
@@ -179,6 +186,7 @@ trailing edge): status colors for yes/no, intensity = achieved / target for meas
 log, tap a past day to open the day editor; scroll back through years.
 **Acceptance criteria:** legend and accessible summary ("Done on 212 of 280 scheduled days in 2026").
 **Tests:** golden; widget tap tests.
+**Notes:** Painted grid (one `CustomPaint`) instead of the [6.2] heatmap component; tapping any day opens the day editor (today included, where logging happens). Paused days are not counted as scheduled in the summary. Golden not added.
 
 ### T5.2.11 — Multi-habit month overview
 **Priority:** P1 · **Size:** M · **Depends on:** T5.2.06
@@ -187,6 +195,7 @@ days highlighted; tapping a day opens a sheet listing every habit's status that 
 **Acceptance criteria:** the perfect-day definition equals [6.5] (all due habits done; excused, paused and
 not-due habits don't count as due).
 **Tests:** widget tests; unit test for the per-day ratio.
+**Notes:** Per-day ratios come from `everslot_metrics` `dailyCompletionHeatmap` (the [6.5] perfect-day rule); the day sheet reuses the Today list for inline editing.
 
 ### T5.2.12 — Reorder, grouping & density
 **Priority:** P1 · **Size:** S · **Depends on:** T5.2.03, [5.1] (manage habits)
@@ -194,6 +203,7 @@ not-due habits don't count as due).
 not-due habits, compact vs comfortable density, show/hide streak chips.
 **Data model:** `user_settings.habits` keys `groupBy`, `density`, `showStreakChips`, `hideNotDue`.
 **Tests:** widget tests.
+**Notes:** Reordering is a mode (menu › Reorder, drag handles per group) because long-press already opens the actions menu; settings live in `HabitViewSettings` (application layer) and are edited in the new View options sheet, which also sets the week-matrix tap cycle and toggle gesture (T5.2.06).
 
 ### T5.2.13 — Check-in feedback & celebrations
 **Priority:** P1 · **Size:** S · **Depends on:** T5.2.01
@@ -204,6 +214,7 @@ days, challenge completion ([5.4]) and quit milestones ([5.3]).
 non-blocking overlays.
 **Acceptance criteria:** with reduce motion on, feedback is instant (text + haptic), no animation.
 **Tests:** widget tests with reduce motion on/off.
+**Notes:** Celebrations cover streak milestones (7/14/30/60/100/200/365/500/730/1000) and perfect days via `CelebrationService` + `CelebrationOverlay` (Habits tab, detail); challenge and quit-milestone celebrations hook in with T5.4.05 / T5.3.12. Hold-to-complete is a view setting (`holdToComplete`). No sound yet (no audio dependency; the [8.3] sound setting is not on main).
 
 ### T5.2.14 — Evaluation caching & performance
 **Priority:** P1 · **Size:** S · **Depends on:** T5.2.03, T5.2.06
@@ -212,6 +223,7 @@ incrementally from the earliest changed date, and run long ranges in a backgroun
 **Acceptance criteria:** Today list for 50 habits with 5 years of logs builds in < 100 ms; the week matrix
 scrolls at 60 fps; a check-in is reflected in the UI within one frame (optimistic).
 **Tests:** performance scenario in the [9.1] harness; cache invalidation unit tests.
+**Notes:** `HabitSnapshotCache` reuses a snapshot until its inputs change or a period boundary passes, and memoizes period expansion (logs/pauses do not change periods). Measured in the debug test VM (50 habits × 5 years): minute tick 50–80 µs (was ~450 ms), one check-in ~5 ms, cold build ~540 ms. Partial: the cold build is above the 100 ms budget and is not moved to a background isolate yet; recompute is per habit, not per changed date.
 
 ### T5.2.15 — Notes journal
 **Priority:** P2 · **Size:** S · **Depends on:** T5.2.09

@@ -58,6 +58,12 @@ final habitVocabRepositoryProvider = Provider<HabitVocabRepository>(
 
 final habitTimerStoreProvider = Provider<HabitTimerStore>((ref) => HabitTimerStore(ref.watch(appDatabaseProvider)));
 
+/// Local UI memory of the Habits tab (last view & filter).
+final habitUiStoreProvider = Provider<HabitUiStore>((ref) => HabitUiStore(ref.watch(appDatabaseProvider)));
+
+/// Local duration timers (T5.2.04).
+final habitTimersProvider = StreamProvider<List<HabitTimer>>((ref) => ref.watch(habitTimerStoreProvider).watchAll());
+
 // ------------------------------------------------------------------------------ time & periods --
 
 /// The habit period service for the current zone, day start and week start (T5.1.05). It reuses
@@ -196,6 +202,22 @@ class HabitSnapshot {
   /// Quit trackers.
   final QuitCalculator? quit;
 
+  /// The same evaluation seen at [instant] (valid only while no period boundary passed — see
+  /// [HabitSnapshotCache]).
+  HabitSnapshot withNow(DateTime instant) => HabitSnapshot(
+    habit: habit,
+    revisions: revisions,
+    logs: logs,
+    pauses: pauses,
+    now: instant,
+    today: today,
+    boundaries: boundaries,
+    evaluation: evaluation,
+    summary: summary,
+    currentPeriod: currentPeriod,
+    quit: quit,
+  );
+
   BuildHabit? get build => habit is BuildHabit ? habit as BuildHabit : null;
   QuitHabit? get quitHabit => habit is QuitHabit ? habit as QuitHabit : null;
 
@@ -249,8 +271,108 @@ final habitSnapshotProvider = Provider.family<AsyncValue<HabitSnapshot>, String>
   }
   final service = ref.watch(habitPeriodServiceProvider);
   final now = ref.watch(clockProvider).nowUtc();
-  return AsyncValue.data(computeSnapshot(service, habit, revisions, logs, pauses, now));
+  return AsyncValue.data(ref.watch(habitSnapshotCacheProvider).snapshot(service, habit, revisions, logs, pauses, now));
 });
+
+/// Per-user snapshot memo (T5.2.14).
+final habitSnapshotCacheProvider = Provider<HabitSnapshotCache>((ref) {
+  ref.watch(currentUserIdProvider);
+  return HabitSnapshotCache();
+});
+
+class _SnapshotMemo {
+  _SnapshotMemo(this.inputs, this.snapshot, this.computedAt, this.validUntil);
+
+  final List<Object?> inputs;
+  final HabitSnapshot snapshot;
+  final DateTime computedAt;
+  final DateTime validUntil;
+}
+
+class _PeriodsMemo {
+  _PeriodsMemo(this.inputs, this.periods);
+
+  final List<Object?> inputs;
+  final List<HabitPeriod> periods;
+}
+
+/// Evaluation cache (T5.2.14). A habit's snapshot is reused while its inputs are the very same
+/// objects (the repositories' streams are de-duplicated, so identity changes only with real
+/// changes) and no period boundary has passed since it was computed: the minute tick and changes
+/// to other habits cost nothing. Period expansion is memoized separately because logs and pauses
+/// don't change periods, so a check-in only re-evaluates. Quit trackers are always recomputed
+/// (their values grow continuously).
+class HabitSnapshotCache {
+  final _snapshots = <String, _SnapshotMemo>{};
+  final _periods = <String, _PeriodsMemo>{};
+
+  /// Full evaluations and period expansions performed (tests, diagnostics).
+  int evaluations = 0;
+  int periodExpansions = 0;
+
+  static bool _same(List<Object?> a, List<Object?> b) {
+    if (a.length != b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if (!identical(a[i], b[i])) return false;
+    }
+    return true;
+  }
+
+  HabitSnapshot snapshot(
+    HabitPeriodService service,
+    Habit habit,
+    List<HabitRevision> revisions,
+    List<HabitLogEntry> logs,
+    List<PauseSpan> pauses,
+    DateTime now,
+  ) {
+    if (habit is! BuildHabit) return computeSnapshot(service, habit, revisions, logs, pauses, now);
+    final inputs = <Object?>[service, habit, revisions, logs, pauses];
+    final memo = _snapshots[habit.id];
+    if (memo != null &&
+        _same(memo.inputs, inputs) &&
+        !now.isBefore(memo.computedAt) &&
+        now.isBefore(memo.validUntil)) {
+      return memo.snapshot.withNow(now);
+    }
+    final boundaries = service.boundariesOf(habit);
+    final today = boundaries.dateOf(now);
+    final lastDay = habit.endDate != null && habit.endDate!.isBefore(today) ? habit.endDate! : today;
+    final periodInputs = <Object?>[service, habit, revisions, lastDay];
+    var periods = _periods[habit.id];
+    if (periods == null || !_same(periods.inputs.sublist(0, 3), periodInputs.sublist(0, 3)) || periods.inputs[3] != lastDay) {
+      periodExpansions++;
+      periods = _PeriodsMemo(periodInputs, service.periods(habit, revisions, habit.startDate, lastDay));
+      _periods[habit.id] = periods;
+    }
+    evaluations++;
+    final snapshot = computeSnapshot(service, habit, revisions, logs, pauses, now, periods: periods.periods);
+    _snapshots[habit.id] = _SnapshotMemo(inputs, snapshot, now, _validUntil(snapshot, periods.periods, now));
+    return snapshot;
+  }
+
+  /// The first instant after [now] at which a result could change with time alone: the end of the
+  /// habit's today, or a period window opening, closing or entering its early tolerance.
+  static DateTime _validUntil(HabitSnapshot s, List<HabitPeriod> periods, DateTime now) {
+    var until = s.boundaries.endOf(s.today);
+    void consider(DateTime? t) {
+      if (t != null && t.isAfter(now) && t.isBefore(until)) until = t;
+    }
+
+    for (final p in periods) {
+      consider(p.matchStart);
+      consider(p.windowStart);
+      consider(p.windowEnd);
+    }
+    return until;
+  }
+
+  /// Forgets everything (account switch, tests).
+  void clear() {
+    _snapshots.clear();
+    _periods.clear();
+  }
+}
 
 /// Pure snapshot computation (also used by background jobs and tests).
 HabitSnapshot computeSnapshot(
@@ -259,17 +381,17 @@ HabitSnapshot computeSnapshot(
   List<HabitRevision> revisions,
   List<HabitLogEntry> logs,
   List<PauseSpan> pauses,
-  DateTime now,
-) {
+  DateTime now, {
+  List<HabitPeriod>? periods,
+}) {
   final boundaries = service.boundariesOf(habit);
   final today = boundaries.dateOf(now);
   switch (habit) {
     case BuildHabit():
       final lastDay = habit.endDate != null && habit.endDate!.isBefore(today) ? habit.endDate! : today;
-      final periods = service.periods(habit, revisions, habit.startDate, lastDay);
       final evaluation = evaluateHabit(
         habit: habit,
-        periods: periods,
+        periods: periods ?? service.periods(habit, revisions, habit.startDate, lastDay),
         logs: logs,
         pauses: pauses,
         now: now,

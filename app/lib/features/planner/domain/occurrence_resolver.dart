@@ -117,7 +117,8 @@ class ResolvedOccurrence {
   /// `(taskId, key)` identity.
   String get identity => '${task.id}|$occurrenceKey';
 
-  PlannerItem toPlannerItem({int? categoryColor}) => PlannerItem(
+  /// [categoryColor] / [categoryIcon] fill in when the task has no own color / icon (T3.1.12).
+  PlannerItem toPlannerItem({int? categoryColor, String? categoryIcon}) => PlannerItem(
     taskId: task.id,
     seriesId: task.seriesId,
     occurrenceKey: occurrenceKey,
@@ -136,7 +137,7 @@ class ResolvedOccurrence {
     isOverridden: isOverridden,
     overdue: isOverdue,
     timeZone: task.timeZone,
-    icon: task.icon,
+    icon: task.icon ?? categoryIcon,
     location: task.location,
     linkedChecklistId: task.linkedChecklistId,
     notes: notes,

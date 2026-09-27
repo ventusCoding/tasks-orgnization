@@ -27,22 +27,22 @@ challenges, streak freezes ([5.4]); streak / strength-score / rate implementatio
 
 ## Progress
 
-- [ ] T5.1.01 — Server migrations: habits, logs, pauses, revisions
-- [ ] T5.1.02 — Drift tables, DAOs & mappers
-- [ ] T5.1.03 — Domain model: habits, goals, logs, pauses, revisions
-- [ ] T5.1.04 — Habits repository (CRUD, revisions, cascade, undo)
-- [ ] T5.1.05 — Habit period service (schedule → periods & keys)
-- [ ] T5.1.06 — Period evaluation engine (`everslot_metrics`)
-- [ ] T5.1.07 — Habit editor: basics & goal
-- [ ] T5.1.08 — Habit editor: schedule presets & custom schedule
-- [ ] T5.1.09 — Multiple-times-per-day semantics
-- [ ] T5.1.10 — Limit ("at most") habits
-- [ ] T5.1.11 — Time-of-day sections (defaults)
-- [ ] T5.1.12 — Advanced options (skip policy, increments, prompts)
-- [ ] T5.1.13 — Schedule/goal changes: effective date & retro edit
-- [ ] T5.1.14 — Pauses & vacation mode
-- [ ] T5.1.15 — Manage habits: archive, restore, reorder, custom sections
-- [ ] T5.1.16 — Habit templates
+- [x] T5.1.01 — Server migrations: habits, logs, pauses, revisions
+- [x] T5.1.02 — Drift tables, DAOs & mappers
+- [x] T5.1.03 — Domain model: habits, goals, logs, pauses, revisions
+- [x] T5.1.04 — Habits repository (CRUD, revisions, cascade, undo)
+- [x] T5.1.05 — Habit period service (schedule → periods & keys)
+- [x] T5.1.06 — Period evaluation engine (`everslot_metrics`)
+- [x] T5.1.07 — Habit editor: basics & goal
+- [x] T5.1.08 — Habit editor: schedule presets & custom schedule
+- [x] T5.1.09 — Multiple-times-per-day semantics
+- [x] T5.1.10 — Limit ("at most") habits
+- [x] T5.1.11 — Time-of-day sections (defaults)
+- [x] T5.1.12 — Advanced options (skip policy, increments, prompts)
+- [x] T5.1.13 — Schedule/goal changes: effective date & retro edit
+- [x] T5.1.14 — Pauses & vacation mode
+- [x] T5.1.15 — Manage habits: archive, restore, reorder, custom sections
+- [x] T5.1.16 — Habit templates
 - [ ] T5.1.17 — After-completion habits
 
 ## Tasks
@@ -71,6 +71,7 @@ as in arch §7.3, wired with `app.enable_sync(...)`, plus the constraints that k
   rejected with a clear error.
 **Tests:** pgTAP — user isolation, every `CHECK`, revision uniqueness, cross-user child rejection, sync
 triggers attached.
+**Notes:** Delivered with the foundation migration `20260922000090_create_habits_goals.sql` (kind-specific CHECKs, day/slot-only `occurrence_key`, same-owner constraint triggers, indexes, revision uniqueness) and pgTAP coverage in `070_domain_constraints.test.sql` / `020_rls_completeness.test.sql`.
 
 ### T5.1.02 — Drift tables, DAOs & mappers
 **Priority:** P0 · **Size:** M · **Depends on:** T5.1.01, [1.4]
@@ -85,6 +86,7 @@ queries used by the Habits tab, Today and stats.
 **Acceptance criteria:** range queries hit indexes (`EXPLAIN QUERY PLAN`); streams emit on every write;
 mapping round-trips losslessly.
 **Tests:** in-memory Drift DAO tests; migration test for the schema-version bump.
+**Notes:** Drift tables and the sync-registry entries come from the foundation schema; the reactive queries live in `HabitsRepository` / `HabitLogsRepository` / `HabitPausesRepository` (no separate DAO classes), tested on the in-memory DB.
 
 ### T5.1.03 — Domain model: habits, goals, logs, pauses, revisions
 **Priority:** P0 · **Size:** M · **Depends on:** T5.1.02
@@ -101,6 +103,7 @@ mapping round-trips losslessly.
 **Acceptance criteria:** invalid construction throws typed validation errors mapped to localized messages;
 `schedule` JSON round-trips losslessly.
 **Tests:** unit tests for validation and revision resolution.
+**Notes:** Hand-written immutable classes (ADR-016, no freezed): `Habit` sealed into `BuildHabit` / `QuitHabit`, `HabitTarget`, `HabitSettings` v1, `HabitLogEntry`, `PauseSpan`, `HabitRevision`; validation codes map to localized messages (`HabitLabels.validationMessage`).
 
 ### T5.1.04 — Habits repository (CRUD, revisions, cascade, undo)
 **Priority:** P0 · **Size:** M · **Depends on:** T5.1.03, [2.3] (activity events, undo)
@@ -176,6 +179,7 @@ N days, quota week/month, fixed slots, interval windows) × special cases (pause
 change mid-range, backfilled entries); results independent of log insertion order.
 **Tests:** ≥ 120 fixture cases in `fixtures/habits/*.json`; property tests (adding a progress log never lowers
 `achieved`; removing a pause never turns a done period into another status).
+**Notes:** Evaluation is `everslot_metrics` `evaluateHabitPeriod(s)` + `rollUpSlots`, wrapped by `domain/habit_evaluation.dart` (revisions, pauses, skip policy, freezes). App tests are table-driven in `habit_evaluation_test.dart`; the ≥ 120-case JSON fixture suite is not written yet (partial test coverage).
 
 ### T5.1.07 — Habit editor: basics & goal
 **Priority:** P0 · **Size:** M · **Depends on:** T5.1.04, [1.3] (pickers), [2.3] (categories)
@@ -191,6 +195,7 @@ Numeric), target, unit and comparison (at least / at most / exactly).
 **Acceptance criteria:** creating "15 push-ups every day" needs ≤ 4 taps after typing the name (defaults:
 count, at least, every day); localized validation; RTL verified.
 **Tests:** widget tests per goal type; goldens (light/dark, AR).
+**Notes:** Widget tests in `habit_editor_test.dart` (duration, numeric + unit, yes/no, validation FR); goldens not added.
 
 ### T5.1.08 — Habit editor: schedule presets & custom schedule
 **Priority:** P0 · **Size:** L · **Depends on:** T5.1.07, T5.1.05, [2.1] (rule builder UI, `describe`)
@@ -217,6 +222,7 @@ tasks, with presets for the common cases.
 **Acceptance criteria:** every preset round-trips (reopening shows the same preset, not "Custom"); quota and
 slot schedules evaluate correctly in T5.1.06 fixtures; the preview equals the evaluated periods.
 **Tests:** widget tests per preset; bidirectional preset ↔ rule mapping unit tests.
+**Notes:** "Custom…" opens the shared `showRecurrencePicker(mode: RecurrencePickerMode.habit)`; preset ↔ rule round-trips are unit- and widget-tested (reopening shows the preset, saving adds no revision).
 
 ### T5.1.09 — Multiple-times-per-day semantics
 **Priority:** P0 · **Size:** M · **Depends on:** T5.1.05, T5.1.06
@@ -259,6 +265,7 @@ archived_at)` + column `habits.section_id uuid` (arch §7.3).
 **Acceptance criteria:** seeding on two devices yields the same ids (no duplicates after sync); the current
 section is shown first on the Today list.
 **Tests:** repository tests (idempotent seeding); widget test for the section picker.
+**Notes:** Defaults are seeded by the `startHabits` startup task and again when the Habits tab opens (cloud accounts wait for the first pull so renamed defaults are never overwritten).
 
 ### T5.1.12 — Advanced options (skip policy, increments, prompts)
 **Priority:** P0 · **Size:** S · **Depends on:** T5.1.07
@@ -289,6 +296,7 @@ completion-rate denominators ([6.5]); reminders are suppressed ([7.2]).
 a `done` logged inside a pause still counts (T5.1.06 precedence).
 **Acceptance criteria:** a 20-day streak survives a 5-day vacation; resuming mid-pause re-activates today.
 **Tests:** evaluation fixtures (habit-level, global, open-ended pauses); widget test for the pause sheet.
+**Notes:** Reminder suppression for paused periods comes from the notification source: paused periods are returned closed and the guard re-checks pauses.
 
 ### T5.1.15 — Manage habits: archive, restore, reorder, custom sections
 **Priority:** P1 · **Size:** S · **Depends on:** T5.1.04, T5.1.11
@@ -309,6 +317,7 @@ journal (yes/no). Quit templates live in [5.3].
 onboarding ([8.3]).
 **Acceptance criteria:** every template yields a habit passing T5.1.03 validation; texts exist in EN/FR/AR.
 **Tests:** unit test validating all templates.
+**Notes:** Templates are a Dart catalog (`HabitTemplate.all`, l10n keys `habitsTpl*`) rather than a JSON asset; onboarding entry point belongs to [8.3].
 
 ### T5.1.17 — After-completion habits
 **Priority:** P2 · **Size:** M · **Depends on:** T5.1.06, [2.1] (after-completion rules)

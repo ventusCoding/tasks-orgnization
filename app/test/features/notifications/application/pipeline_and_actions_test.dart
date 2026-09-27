@@ -167,7 +167,8 @@ void main() {
       final result = await h
           .read(notificationActionDispatcherProvider)
           .handleResponse(
-            OsResponse(id: fired.id, actionId: 'skip', payload: fired.payload),
+            // Planner handles done/skip/start/stop for tasks; nothing handles reschedule yet.
+            OsResponse(id: fired.id, actionId: 'reschedule', payload: fired.payload),
           );
       expect(result.openLink, startsWith('/task/gym'));
     },
