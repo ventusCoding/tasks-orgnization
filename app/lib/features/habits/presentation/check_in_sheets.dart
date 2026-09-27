@@ -82,8 +82,9 @@ class CheckInActions {
       hint: l.habitsReasonOptional,
       allowEmpty: true,
     );
-    if (reason == null && !context.mounted) return;
-    await setState(habit, key, state, note: reason);
+    // Cancelling the prompt cancels the action; an empty reason is fine.
+    if (reason == null || !context.mounted) return;
+    await setState(habit, key, state, note: reason.trim().isEmpty ? null : reason);
   }
 }
 

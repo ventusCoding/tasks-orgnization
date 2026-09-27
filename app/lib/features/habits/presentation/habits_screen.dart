@@ -194,7 +194,8 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
             ),
           ],
         ),
-        HabitsView.week => WeekMatrix(endDate: today),
+        // Views share the selected date (the matrix ends on it, never in the future).
+        HabitsView.week => WeekMatrix(endDate: date.isAfter(today) ? today : date),
         HabitsView.month => MonthOverview(initialMonth: date),
         HabitsView.year => const HabitsYearView(),
       };
