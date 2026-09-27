@@ -2708,10 +2708,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get importKeepOne => 'Keep as one item';
 
   @override
+  String importMoreLines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '…and $count more items',
+      one: '…and 1 more item',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get importPasteHint => 'Paste indented text, Markdown or OPML';
 
   @override
   String get importSplit => 'Split into items (keep nesting)';
+
+  @override
+  String importSplitCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Split into $count items (keep nesting)',
+      one: 'Split into 1 item (keep nesting)',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get importTitle => 'Import';

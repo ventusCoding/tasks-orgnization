@@ -30,7 +30,7 @@ reminders for follow-ups and resets ([7.5]); share-into-app ([8.2]).
 - [x] T4.5.05 — Templates
 - [x] T4.5.06 — Resettable / recurring checklists with run history
 - [x] T4.5.07 — Import parser (indented text, Markdown, OPML)
-- [ ] T4.5.08 — Import UX (paste, file, note → items)
+- [x] T4.5.08 — Import UX (paste, file, note → items)
 - [x] T4.5.09 — Export & share (Markdown, OPML, plain text)
 - [ ] T4.5.10 — PDF export / print
 - [ ] T4.5.11 — In-list sort & filter
@@ -181,6 +181,7 @@ Arabic text, malformed input.
 - **Convert note body to items:** Keep's "show checkboxes". Each body line becomes an item and
   indentation becomes nesting.
 **Tests:** widget tests for each path; undo of an import.
+**Notes:** Paste and file imports preview the tree (indented, first 12 rows) with *Split into N items (keep nesting)* / *Keep as one item*; the file source is `importFileReaderProvider` (system picker by default). Sharing a file into the app arrives with [8.2]. Fixed: the import dialog disposed its text controller while animating out.
 
 ### T4.5.09 — Export & share (Markdown, OPML, plain text)
 **Priority:** P1 · **Size:** M · **Depends on:** [4.2]

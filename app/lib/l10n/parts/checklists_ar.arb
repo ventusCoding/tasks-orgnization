@@ -338,5 +338,7 @@
   "checklistStatusSpoken": "{status} منذ {age}",
   "checklistDurationMinutes": "{n, plural, =0{0 دقيقة} =1{دقيقة واحدة} =2{دقيقتين} few{{n} دقائق} many{{n} دقيقة} other{{n} دقيقة}}",
   "checklistDurationHours": "{n, plural, =0{0 ساعة} =1{ساعة واحدة} =2{ساعتين} few{{n} ساعات} many{{n} ساعة} other{{n} ساعة}}",
-  "checklistDurationDays": "{n, plural, =0{0 يوم} =1{يوم واحد} =2{يومين} few{{n} أيام} many{{n} يومًا} other{{n} يوم}}"
+  "checklistDurationDays": "{n, plural, =0{0 يوم} =1{يوم واحد} =2{يومين} few{{n} أيام} many{{n} يومًا} other{{n} يوم}}",
+  "importSplitCount": "{count, plural, =1{التقسيم إلى عنصر واحد (مع الحفاظ على التداخل)} =2{التقسيم إلى عنصرين (مع الحفاظ على التداخل)} few{التقسيم إلى {count} عناصر (مع الحفاظ على التداخل)} many{التقسيم إلى {count} عنصرًا (مع الحفاظ على التداخل)} other{التقسيم إلى {count} عنصر (مع الحفاظ على التداخل)}}",
+  "importMoreLines": "{count, plural, =1{…وعنصر آخر} =2{…وعنصران آخران} few{…و{count} عناصر أخرى} many{…و{count} عنصرًا آخر} other{…و{count} عنصر آخر}}"
 }

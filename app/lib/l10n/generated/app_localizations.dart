@@ -4587,6 +4587,12 @@ abstract class AppLocalizations {
   /// **'Keep as one item'**
   String get importKeepOne;
 
+  /// No description provided for @importMoreLines.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{…and 1 more item} other{…and {count} more items}}'**
+  String importMoreLines(int count);
+
   /// No description provided for @importPasteHint.
   ///
   /// In en, this message translates to:
@@ -4598,6 +4604,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Split into items (keep nesting)'**
   String get importSplit;
+
+  /// No description provided for @importSplitCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Split into 1 item (keep nesting)} other{Split into {count} items (keep nesting)}}'**
+  String importSplitCount(int count);
 
   /// No description provided for @importTitle.
   ///

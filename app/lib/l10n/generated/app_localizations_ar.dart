@@ -2791,10 +2791,38 @@ class AppLocalizationsAr extends AppLocalizations {
   String get importKeepOne => 'الإبقاء كعنصر واحد';
 
   @override
+  String importMoreLines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '…و$count عنصر آخر',
+      many: '…و$count عنصرًا آخر',
+      few: '…و$count عناصر أخرى',
+      two: '…وعنصران آخران',
+      one: '…وعنصر آخر',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get importPasteHint => 'الصق نصًا بمسافات بادئة أو Markdown أو OPML';
 
   @override
   String get importSplit => 'التقسيم إلى عناصر (مع الحفاظ على التفرع)';
+
+  @override
+  String importSplitCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'التقسيم إلى $count عنصر (مع الحفاظ على التداخل)',
+      many: 'التقسيم إلى $count عنصرًا (مع الحفاظ على التداخل)',
+      few: 'التقسيم إلى $count عناصر (مع الحفاظ على التداخل)',
+      two: 'التقسيم إلى عنصرين (مع الحفاظ على التداخل)',
+      one: 'التقسيم إلى عنصر واحد (مع الحفاظ على التداخل)',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get importTitle => 'استيراد';

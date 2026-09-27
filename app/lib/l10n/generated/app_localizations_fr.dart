@@ -2719,11 +2719,33 @@ class AppLocalizationsFr extends AppLocalizations {
   String get importKeepOne => 'Garder en un seul élément';
 
   @override
+  String importMoreLines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '…et $count éléments de plus',
+      one: '…et 1 élément de plus',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get importPasteHint =>
       'Collez du texte indenté, du Markdown ou de l\'OPML';
 
   @override
   String get importSplit => 'Découper en éléments (garder l\'imbrication)';
+
+  @override
+  String importSplitCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Scinder en $count éléments (garder l’imbrication)',
+      one: 'Scinder en 1 élément (garder l’imbrication)',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get importTitle => 'Importer';

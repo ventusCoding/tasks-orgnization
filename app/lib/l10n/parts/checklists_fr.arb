@@ -338,5 +338,7 @@
   "checklistStatusSpoken": "{status} depuis {age}",
   "checklistDurationMinutes": "{n, plural, =1{1 minute} other{{n} minutes}}",
   "checklistDurationHours": "{n, plural, =1{1 heure} other{{n} heures}}",
-  "checklistDurationDays": "{n, plural, =1{1 jour} other{{n} jours}}"
+  "checklistDurationDays": "{n, plural, =1{1 jour} other{{n} jours}}",
+  "importSplitCount": "{count, plural, =1{Scinder en 1 élément (garder l’imbrication)} other{Scinder en {count} éléments (garder l’imbrication)}}",
+  "importMoreLines": "{count, plural, =1{…et 1 élément de plus} other{…et {count} éléments de plus}}"
 }

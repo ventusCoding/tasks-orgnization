@@ -1057,6 +1057,20 @@
       }
     }
   },
+  "@importMoreLines": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@importSplitCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@integrationsHabitLogged": {
     "placeholders": {
       "habit": {
@@ -3757,8 +3771,10 @@
   "importDone": "{count, plural, =1{1 item imported} other{{count} items imported}}",
   "importItemsCount": "{count, plural, =1{1 item} other{{count} items}}",
   "importKeepOne": "Keep as one item",
+  "importMoreLines": "{count, plural, =1{…and 1 more item} other{…and {count} more items}}",
   "importPasteHint": "Paste indented text, Markdown or OPML",
   "importSplit": "Split into items (keep nesting)",
+  "importSplitCount": "{count, plural, =1{Split into 1 item (keep nesting)} other{Split into {count} items (keep nesting)}}",
   "importTitle": "Import",
   "importWarningAttachments": "Attachment references were skipped",
   "importWarningEmpty": "Nothing to import",

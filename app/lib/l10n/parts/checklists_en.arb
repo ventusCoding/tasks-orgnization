@@ -646,5 +646,9 @@
   "checklistDurationHours": "{n, plural, =1{1 hour} other{{n} hours}}",
   "@checklistDurationHours": {"placeholders": {"n": {"type": "int"}}},
   "checklistDurationDays": "{n, plural, =1{1 day} other{{n} days}}",
-  "@checklistDurationDays": {"placeholders": {"n": {"type": "int"}}}
+  "@checklistDurationDays": {"placeholders": {"n": {"type": "int"}}},
+  "importSplitCount": "{count, plural, =1{Split into 1 item (keep nesting)} other{Split into {count} items (keep nesting)}}",
+  "@importSplitCount": {"placeholders": {"count": {"type": "int"}}},
+  "importMoreLines": "{count, plural, =1{…and 1 more item} other{…and {count} more items}}",
+  "@importMoreLines": {"placeholders": {"count": {"type": "int"}}}
 }
