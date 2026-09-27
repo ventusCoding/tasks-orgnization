@@ -413,6 +413,7 @@
   "notifPauseAll": "Tout suspendre",
   "notifPauseCustom": "Personnalisé…",
   "notifPauseTomorrow": "Jusqu’à demain 08:00",
+  "notifPausedShort": "Notifications en pause",
   "notifPausedUntil": "Suspendu jusqu’à {time}",
   "notifPermissionOff": "Les notifications sont désactivées",
   "notifPermissionOffBody": "Activez-les pour recevoir vos rappels.",

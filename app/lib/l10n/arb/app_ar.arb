@@ -413,6 +413,7 @@
   "notifPauseAll": "إيقاف الكل مؤقتًا",
   "notifPauseCustom": "مخصص…",
   "notifPauseTomorrow": "حتى الغد 08:00",
+  "notifPausedShort": "الإشعارات موقوفة مؤقتًا",
   "notifPausedUntil": "متوقف مؤقتًا حتى {time}",
   "notifPermissionOff": "الإشعارات متوقفة",
   "notifPermissionOffBody": "فعّلها لتصلك تذكيراتك.",

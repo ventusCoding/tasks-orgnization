@@ -2578,6 +2578,12 @@ abstract class AppLocalizations {
   /// **'Until tomorrow 08:00'**
   String get notifPauseTomorrow;
 
+  /// No description provided for @notifPausedShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications paused'**
+  String get notifPausedShort;
+
   /// No description provided for @notifPausedUntil.
   ///
   /// In en, this message translates to:
