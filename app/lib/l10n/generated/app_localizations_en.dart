@@ -9602,6 +9602,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tasksQuotaDone => 'Done for this period';
 
   @override
+  String tasksQuotaIndicator(String title, int done, int total, String unit) {
+    String _temp0 = intl.Intl.selectLogic(unit, {
+      'day': 'today',
+      'week': 'this week',
+      'month': 'this month',
+      'year': 'this year',
+      'other': 'this period',
+    });
+    return '$title · $done/$total $_temp0';
+  }
+
+  @override
+  String tasksQuotaIndicatorDone(String title, String unit) {
+    String _temp0 = intl.Intl.selectLogic(unit, {
+      'day': 'done for today',
+      'week': 'done for this week',
+      'month': 'done for this month',
+      'year': 'done for this year',
+      'other': 'done for this period',
+    });
+    return '$title · $_temp0';
+  }
+
+  @override
   String tasksQuotaProgress(int done, int total) {
     return '$done/$total this period';
   }

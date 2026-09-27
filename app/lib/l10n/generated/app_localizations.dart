@@ -16119,6 +16119,18 @@ abstract class AppLocalizations {
   /// **'Done for this period'**
   String get tasksQuotaDone;
 
+  /// No description provided for @tasksQuotaIndicator.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} · {done}/{total} {unit, select, day{today} week{this week} month{this month} year{this year} other{this period}}'**
+  String tasksQuotaIndicator(String title, int done, int total, String unit);
+
+  /// No description provided for @tasksQuotaIndicatorDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} · {unit, select, day{done for today} week{done for this week} month{done for this month} year{done for this year} other{done for this period}}'**
+  String tasksQuotaIndicatorDone(String title, String unit);
+
   /// No description provided for @tasksQuotaProgress.
   ///
   /// In en, this message translates to:

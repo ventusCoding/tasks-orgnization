@@ -265,5 +265,7 @@
   "tasksChecklistNew": "Nouvelle liste",
   "tasksChecklistNewName": "Nom de la liste",
   "tasksBulkAddTags": "Ajouter des étiquettes",
-  "tasksBulkDeleteConfirm": "{count, plural, =1{Supprimer 1 élément ?} other{Supprimer {count} éléments ?}}"
+  "tasksBulkDeleteConfirm": "{count, plural, =1{Supprimer 1 élément ?} other{Supprimer {count} éléments ?}}",
+  "tasksQuotaIndicator": "{title} · {done}/{total} {unit, select, day{aujourd’hui} week{cette semaine} month{ce mois-ci} year{cette année} other{sur la période}}",
+  "tasksQuotaIndicatorDone": "{title} · {unit, select, day{fait pour aujourd’hui} week{fait pour cette semaine} month{fait pour ce mois-ci} year{fait pour cette année} other{fait pour la période}}"
 }

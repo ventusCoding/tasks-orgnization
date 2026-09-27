@@ -2789,6 +2789,8 @@
   "tasksQuickMore": "Plus d’options",
   "tasksQuickTitleHint": "Nouvelle tâche",
   "tasksQuotaDone": "Terminé pour cette période",
+  "tasksQuotaIndicator": "{title} · {done}/{total} {unit, select, day{aujourd’hui} week{cette semaine} month{ce mois-ci} year{cette année} other{sur la période}}",
+  "tasksQuotaIndicatorDone": "{title} · {unit, select, day{fait pour aujourd’hui} week{fait pour cette semaine} month{fait pour ce mois-ci} year{fait pour cette année} other{fait pour la période}}",
   "tasksQuotaProgress": "{done}/{total} sur la période",
   "tasksRating": "Note",
   "tasksRatingValue": "{value} sur 5",

@@ -2907,6 +2907,32 @@
       }
     }
   },
+  "@tasksQuotaIndicator": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksQuotaIndicatorDone": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "@tasksQuotaProgress": {
     "placeholders": {
       "done": {
@@ -5636,6 +5662,8 @@
   "tasksQuickMore": "More options",
   "tasksQuickTitleHint": "New task",
   "tasksQuotaDone": "Done for this period",
+  "tasksQuotaIndicator": "{title} · {done}/{total} {unit, select, day{today} week{this week} month{this month} year{this year} other{this period}}",
+  "tasksQuotaIndicatorDone": "{title} · {unit, select, day{done for today} week{done for this week} month{done for this month} year{done for this year} other{done for this period}}",
   "tasksQuotaProgress": "{done}/{total} this period",
   "tasksRating": "Rating",
   "tasksRatingValue": "{value} of 5",

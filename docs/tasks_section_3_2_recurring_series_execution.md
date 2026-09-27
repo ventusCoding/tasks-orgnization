@@ -40,8 +40,8 @@ completion, punctuality and procrastination.
 - [x] T3.2.12 — Missed detection, overdue & roll-over
 - [x] T3.2.13 — Tracking-mode behaviour
 - [x] T3.2.14 — Actual-time capture on completion
-- [ ] T3.2.15 — After-completion recurrence execution
-- [ ] T3.2.16 — Quota tasks ("N times per period")
+- [x] T3.2.15 — After-completion recurrence execution
+- [x] T3.2.16 — Quota tasks ("N times per period")
 - [ ] T3.2.17 — Time tracking: timers, pauses & sessions
 - [ ] T3.2.18 — Manual time entries & editing
 - [ ] T3.2.19 — Running-timer indicator & timer policy
@@ -309,6 +309,7 @@ suggestions.
 **Acceptance criteria:** after 3 completions in a week the indicator shows "done for this week" and no
 more slots appear until next week.
 **Tests:** resolver fixture tests; widget test of the header indicator.
+**Notes:** Planner-core ships `quotaSummaries(items)` and the `QuotaIndicator` pill ("Run · 1/3 this week" / "done for this week"); placing it in the all-day lane / week header and the backlog drawer is up to the views ([3.3]–[3.7]).
 
 ### T3.2.17 — Time tracking: timers, pauses & sessions
 **Priority:** P1 · **Size:** M · **Depends on:** T3.2.04, T3.2.13

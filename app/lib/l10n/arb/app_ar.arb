@@ -2789,6 +2789,8 @@
   "tasksQuickMore": "خيارات أكثر",
   "tasksQuickTitleHint": "مهمة جديدة",
   "tasksQuotaDone": "اكتمل لهذه الفترة",
+  "tasksQuotaIndicator": "{title} · {done}/{total} {unit, select, day{اليوم} week{هذا الأسبوع} month{هذا الشهر} year{هذه السنة} other{في هذه الفترة}}",
+  "tasksQuotaIndicatorDone": "{title} · {unit, select, day{اكتمل لهذا اليوم} week{اكتمل لهذا الأسبوع} month{اكتمل لهذا الشهر} year{اكتمل لهذه السنة} other{اكتمل لهذه الفترة}}",
   "tasksQuotaProgress": "{done}/{total} في هذه الفترة",
   "tasksRating": "التقييم",
   "tasksRatingValue": "{value} من 5",

@@ -9907,6 +9907,30 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksQuotaDone => 'اكتمل لهذه الفترة';
 
   @override
+  String tasksQuotaIndicator(String title, int done, int total, String unit) {
+    String _temp0 = intl.Intl.selectLogic(unit, {
+      'day': 'اليوم',
+      'week': 'هذا الأسبوع',
+      'month': 'هذا الشهر',
+      'year': 'هذه السنة',
+      'other': 'في هذه الفترة',
+    });
+    return '$title · $done/$total $_temp0';
+  }
+
+  @override
+  String tasksQuotaIndicatorDone(String title, String unit) {
+    String _temp0 = intl.Intl.selectLogic(unit, {
+      'day': 'اكتمل لهذا اليوم',
+      'week': 'اكتمل لهذا الأسبوع',
+      'month': 'اكتمل لهذا الشهر',
+      'year': 'اكتمل لهذه السنة',
+      'other': 'اكتمل لهذه الفترة',
+    });
+    return '$title · $_temp0';
+  }
+
+  @override
   String tasksQuotaProgress(int done, int total) {
     return '$done/$total في هذه الفترة';
   }

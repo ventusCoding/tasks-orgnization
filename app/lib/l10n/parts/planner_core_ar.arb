@@ -265,5 +265,7 @@
   "tasksChecklistNew": "قائمة جديدة",
   "tasksChecklistNewName": "اسم القائمة",
   "tasksBulkAddTags": "إضافة وسوم",
-  "tasksBulkDeleteConfirm": "{count, plural, =0{لا شيء للحذف} =1{حذف عنصر واحد؟} =2{حذف عنصرين؟} few{حذف {count} عناصر؟} many{حذف {count} عنصرًا؟} other{حذف {count} عنصر؟}}"
+  "tasksBulkDeleteConfirm": "{count, plural, =0{لا شيء للحذف} =1{حذف عنصر واحد؟} =2{حذف عنصرين؟} few{حذف {count} عناصر؟} many{حذف {count} عنصرًا؟} other{حذف {count} عنصر؟}}",
+  "tasksQuotaIndicator": "{title} · {done}/{total} {unit, select, day{اليوم} week{هذا الأسبوع} month{هذا الشهر} year{هذه السنة} other{في هذه الفترة}}",
+  "tasksQuotaIndicatorDone": "{title} · {unit, select, day{اكتمل لهذا اليوم} week{اكتمل لهذا الأسبوع} month{اكتمل لهذا الشهر} year{اكتمل لهذه السنة} other{اكتمل لهذه الفترة}}"
 }

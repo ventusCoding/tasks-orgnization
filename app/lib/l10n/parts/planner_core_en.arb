@@ -295,5 +295,9 @@
   "tasksChecklistNewName": "Checklist name",
   "tasksBulkAddTags": "Add tags",
   "tasksBulkDeleteConfirm": "{count, plural, =1{Delete 1 item?} other{Delete {count} items?}}",
-  "@tasksBulkDeleteConfirm": {"placeholders": {"count": {"type": "int"}}}
+  "@tasksBulkDeleteConfirm": {"placeholders": {"count": {"type": "int"}}},
+  "tasksQuotaIndicator": "{title} · {done}/{total} {unit, select, day{today} week{this week} month{this month} year{this year} other{this period}}",
+  "@tasksQuotaIndicator": {"placeholders": {"title": {"type": "String"}, "done": {"type": "int"}, "total": {"type": "int"}, "unit": {"type": "String"}}},
+  "tasksQuotaIndicatorDone": "{title} · {unit, select, day{done for today} week{done for this week} month{done for this month} year{done for this year} other{done for this period}}",
+  "@tasksQuotaIndicatorDone": {"placeholders": {"title": {"type": "String"}, "unit": {"type": "String"}}}
 }
