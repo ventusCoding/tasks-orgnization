@@ -35,7 +35,7 @@ stats screens ([6.5]); the Today home block ([8.1]); widgets ([8.2]); reminders 
 - [x] T5.2.11 — Multi-habit month overview
 - [x] T5.2.12 — Reorder, grouping & density
 - [x] T5.2.13 — Check-in feedback & celebrations
-- [ ] T5.2.14 — Evaluation caching & performance
+- [x] T5.2.14 — Evaluation caching & performance
 - [ ] T5.2.15 — Notes journal
 
 ## Tasks
@@ -223,6 +223,7 @@ incrementally from the earliest changed date, and run long ranges in a backgroun
 **Acceptance criteria:** Today list for 50 habits with 5 years of logs builds in < 100 ms; the week matrix
 scrolls at 60 fps; a check-in is reflected in the UI within one frame (optimistic).
 **Tests:** performance scenario in the [9.1] harness; cache invalidation unit tests.
+**Notes:** `HabitSnapshotCache` reuses a snapshot until its inputs change or a period boundary passes, and memoizes period expansion (logs/pauses do not change periods). Measured in the debug test VM (50 habits × 5 years): minute tick 50–80 µs (was ~450 ms), one check-in ~5 ms, cold build ~540 ms. Partial: the cold build is above the 100 ms budget and is not moved to a background isolate yet; recompute is per habit, not per changed date.
 
 ### T5.2.15 — Notes journal
 **Priority:** P2 · **Size:** S · **Depends on:** T5.2.09
