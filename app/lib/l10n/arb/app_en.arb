@@ -1011,6 +1011,411 @@
       }
     }
   },
+  "@habitsCellSemantics": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsChallengeDay": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsCounts": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "notDone": {
+        "type": "int"
+      },
+      "missed": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsDecrease": {
+    "placeholders": {
+      "step": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsEveryNDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsGoalSentence": {
+    "placeholders": {
+      "op": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsGroupNotDue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsIncrease": {
+    "placeholders": {
+      "step": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsLeftOfLimit": {
+    "placeholders": {
+      "left": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsMinutesValue": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsOrdinal": {
+    "placeholders": {
+      "which": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsPauseDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsPauseUntilDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsPausedUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsPerfectDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsQuotaMonth": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "times": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsQuotaWeek": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "times": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsRollupMin": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsSectionProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsSlotsProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsSnackCleared": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsSnackDone": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsSnackExcused": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsSnackLogged": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsSnackNotDone": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsSnackSkipped": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsStreakSemantics": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsTimerElapsed": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsTimesPerDay": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsTimesPerMonth": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsTimesPerWeek": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsTotalOfTarget": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsUnitCigarettes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsUnitCups": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsUnitDrinks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsUnitGlasses": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsUnitJoints": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsUnitPages": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsUnitReps": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsUnitServings": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsUnitSessions": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsUnitSteps": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsUnitTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsVacationUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsWarnManySlots": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsWeekOf": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsYearSummary": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "scheduled": {
+        "type": "int"
+      },
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsZoneFixed": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsZoneFixedHint": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
   "@importDone": {
     "placeholders": {
       "count": {
@@ -1986,6 +2391,88 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "@quitCleanDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@quitCostPerUnit": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "@quitCounterSemantics": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@quitDaysHours": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "@quitEventCraving": {
+    "placeholders": {
+      "intensity": {
+        "type": "int"
+      }
+    }
+  },
+  "@quitIntensity": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "@quitMilestoneEta": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@quitRelapseNewAttempt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@quitRelapseSupport": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "@quitTodayUse": {
+    "placeholders": {
+      "used": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
       }
     }
   },
@@ -3677,6 +4164,311 @@
   "galleryWindowExpanded": "expanded",
   "galleryWindowMedium": "medium",
   "galleryWindowSize": "Window: {size}",
+  "habitsActionAddValue": "Add a value",
+  "habitsActionBackfill": "Log another day",
+  "habitsActionCheckNow": "Check now",
+  "habitsActionClear": "Clear",
+  "habitsActionDetails": "Details",
+  "habitsActionDone": "Done",
+  "habitsActionEdit": "Edit",
+  "habitsActionEditEntries": "Edit entries",
+  "habitsActionExcuse": "Excuse",
+  "habitsActionNotDone": "Not done",
+  "habitsActionNoteMood": "Note & mood",
+  "habitsActionPause": "Pause",
+  "habitsActionPauseTimer": "Pause timer",
+  "habitsActionSkip": "Skip",
+  "habitsActionStartTimer": "Start timer",
+  "habitsActionStopTimer": "Stop and log",
+  "habitsActionUndoDone": "Mark as not checked",
+  "habitsAdd": "Add",
+  "habitsAddEntry": "Add",
+  "habitsAddTime": "Add a time",
+  "habitsAdvancedTitle": "Advanced",
+  "habitsAllDone": "All done 🎉",
+  "habitsAllStats": "All stats",
+  "habitsApplyAll": "All history",
+  "habitsApplyAllWarn": "Past statistics will change.",
+  "habitsApplyDate": "A chosen date…",
+  "habitsApplyTitle": "Apply the new schedule or goal from",
+  "habitsApplyToday": "Today",
+  "habitsArchived": "Archived",
+  "habitsArchivedSnack": "Habit archived",
+  "habitsAskNote": "Ask for a note & mood after check-in",
+  "habitsAtRisk": "At risk",
+  "habitsBestStreak": "Best streak",
+  "habitsCalendar": "Calendar",
+  "habitsCellSemantics": "{habit}, {date}: {status}",
+  "habitsChallengeDay": "Day {day} of {total}",
+  "habitsCounts": "Done {done} · Not done {notDone} · Missed {missed} · Skipped {skipped}",
+  "habitsCreateQuitInstead": "Create a quit tracker",
+  "habitsCurrentStreak": "Current streak",
+  "habitsDatesTitle": "Dates",
+  "habitsDayStateLabel": "Status",
+  "habitsDays": "{count, plural, =0{0 days} =1{1 day} other{{count} days}}",
+  "habitsDecrease": "Remove {step}",
+  "habitsDeleteBody": "Its history goes to the trash with it. You can restore it for 30 days.",
+  "habitsDeleteEntry": "Delete entry",
+  "habitsDeleteTitle": "Delete “{name}”?",
+  "habitsDeletedSnack": "Habit deleted",
+  "habitsEditCustom": "Edit the schedule",
+  "habitsEditEntry": "Edit entry",
+  "habitsEditorEditTitle": "Edit habit",
+  "habitsEditorNewTitle": "New habit",
+  "habitsEmptyAction": "Create a habit",
+  "habitsEmptyBody": "Create a habit — like 15 push-ups a day — and mark each day whether you did it.",
+  "habitsEmptyTitle": "No habits yet",
+  "habitsEndNever": "Never",
+  "habitsEntries": "Entries",
+  "habitsEntryDeleted": "Entry deleted",
+  "habitsErrDuration": "A duration goal must be between 1 min and 24 h",
+  "habitsErrEnd": "The end date is before the start date",
+  "habitsErrFreezes": "Between 0 and 31 freezes per month",
+  "habitsErrLimitNeedsMeasurable": "“At most” needs a count, a duration or a number",
+  "habitsErrNameEmpty": "Enter a name",
+  "habitsErrNameTooLong": "The name is too long (80 characters max)",
+  "habitsErrSchedule": "This schedule isn't valid",
+  "habitsErrSectionName": "Name must be 1–40 characters",
+  "habitsErrTarget": "Enter a target greater than 0",
+  "habitsErrUnit": "The unit must be 1–20 characters",
+  "habitsErrorArchived": "This habit is archived.",
+  "habitsErrorFuture": "You can't log this before it starts — skip or excuse it instead.",
+  "habitsEveryNDays": "{n, plural, =2{Every other day} other{Every {n} days}}",
+  "habitsFieldCategory": "Category",
+  "habitsFieldColor": "Color",
+  "habitsFieldDescription": "Description",
+  "habitsFieldEnd": "Ends",
+  "habitsFieldIcon": "Icon",
+  "habitsFieldName": "Name",
+  "habitsFieldNameHint": "e.g. 15 push-ups",
+  "habitsFieldSection": "Section",
+  "habitsFieldStart": "Starts",
+  "habitsFieldTarget": "Target",
+  "habitsFieldUnit": "Unit",
+  "habitsFilterAll": "All",
+  "habitsFilterDue": "Due",
+  "habitsFor30Days": "For 30 days",
+  "habitsFreezes": "Streak freezes per month",
+  "habitsFromTemplate": "From a template",
+  "habitsFutureOnlyPlanned": "Only skips and excuses can be planned for future days.",
+  "habitsGoalExampleCheck": "Did it or not",
+  "habitsGoalExampleCount": "15 push-ups",
+  "habitsGoalExampleDuration": "Read 20 min",
+  "habitsGoalExampleNumeric": "Run 5 km",
+  "habitsGoalSentence": "{op} {amount}",
+  "habitsGoalTitle": "Goal",
+  "habitsGoalTypeCheck": "Yes / No",
+  "habitsGoalTypeCount": "Count",
+  "habitsGoalTypeDuration": "Duration",
+  "habitsGoalTypeNumeric": "Number",
+  "habitsGroupNotDue": "Not due today ({count})",
+  "habitsIncrease": "Add {step}",
+  "habitsIncrementStep": "Step",
+  "habitsJournal": "Notes journal",
+  "habitsJournalEmpty": "No notes yet",
+  "habitsJournalEmptyBody": "Notes and moods you add to check-ins appear here.",
+  "habitsLast90": "Last 90 days",
+  "habitsLastDay": "Last day",
+  "habitsLeftOfLimit": "{left} of {limit} left",
+  "habitsLimitZeroHint": "A limit of 0 means quitting it completely.",
+  "habitsManage": "Manage habits",
+  "habitsMinPerDay": "Minimum per day",
+  "habitsMinutesValue": "{minutes} min",
+  "habitsMood1": "Awful",
+  "habitsMood2": "Bad",
+  "habitsMood3": "Okay",
+  "habitsMood4": "Good",
+  "habitsMood5": "Great",
+  "habitsMoodLabel": "Mood",
+  "habitsMoodTrend": "Mood trend",
+  "habitsMoveToSection": "Move to section…",
+  "habitsNewHabit": "New habit",
+  "habitsNewQuit": "New quit tracker",
+  "habitsNewer": "Later days",
+  "habitsNextDay": "Next day",
+  "habitsNextMonth": "Next month",
+  "habitsNextYear": "Next year",
+  "habitsNoBuildHabits": "No habit to check in yet",
+  "habitsNoEntries": "No entries yet",
+  "habitsNone": "None",
+  "habitsNotActiveThatDay": "This habit wasn't active that day.",
+  "habitsNotEnoughData": "Not enough data yet",
+  "habitsNoteHint": "How did it go?",
+  "habitsNoteMoodTitle": "Note & mood",
+  "habitsNothingThisDay": "Nothing scheduled this day",
+  "habitsNothingThisDayBody": "Habits appear here on the days they are due.",
+  "habitsOlder": "Earlier days",
+  "habitsOnlyOn": "Only on (optional)",
+  "habitsOpAtLeast": "At least",
+  "habitsOpAtMost": "At most",
+  "habitsOpExactly": "Exactly",
+  "habitsOrdinal": "{which, select, first{First} second{Second} third{Third} fourth{Fourth} other{Last}}",
+  "habitsOverLimit": "Over the limit",
+  "habitsPauseAction": "Pause",
+  "habitsPauseDays": "{count, plural, =1{1 day} other{{count} days}}",
+  "habitsPauseHint": "Paused days are neutral: never missed and they never break a streak.",
+  "habitsPauseIndefinitely": "Indefinitely",
+  "habitsPauseTitle": "Pause habit",
+  "habitsPauseToday": "Today",
+  "habitsPauseUntil": "Until a date…",
+  "habitsPauseUntilDate": "Until {date}",
+  "habitsPauseWeek": "1 week",
+  "habitsPausedIndefinitely": "Paused",
+  "habitsPausedSnack": "Paused",
+  "habitsPausedUntil": "Paused until {date}",
+  "habitsPerfectDays": "{count, plural, =0{No perfect day yet} =1{1 perfect day} other{{count} perfect days}}",
+  "habitsPickDuration": "Pick a duration",
+  "habitsPresetAfterCompletion": "After I finish",
+  "habitsPresetCustom": "Custom…",
+  "habitsPresetDaily": "Every day",
+  "habitsPresetEveryNDays": "Every N days",
+  "habitsPresetInterval": "Every N hours",
+  "habitsPresetMonthlyDay": "Monthly on a day",
+  "habitsPresetMonthlyWeekday": "Monthly on a weekday",
+  "habitsPresetSpecificDays": "Specific days",
+  "habitsPresetSpecificTimes": "At set times",
+  "habitsPresetTimesPerDay": "N times a day",
+  "habitsPresetTimesPerMonth": "N× a month",
+  "habitsPresetTimesPerWeek": "N× a week",
+  "habitsPresetWeekdays": "Weekdays",
+  "habitsPresetWeekends": "Weekends",
+  "habitsPrevDay": "Previous day",
+  "habitsPreviewNext": "Next",
+  "habitsPreviewTitle": "Preview",
+  "habitsPreviousMonth": "Previous month",
+  "habitsPreviousYear": "Previous year",
+  "habitsQuickValues": "Quick values",
+  "habitsQuickValuesHint": "e.g. 5 10 15",
+  "habitsQuotaMonth": "{done} of {times} this month",
+  "habitsQuotaWeek": "{done} of {times} this week",
+  "habitsRate30": "30-day rate",
+  "habitsReasonOptional": "Reason (optional)",
+  "habitsRecentEntries": "Recent entries",
+  "habitsReordered": "Order saved",
+  "habitsRequireExplicit": "An empty day counts as missed",
+  "habitsResume": "Resume",
+  "habitsResumedSnack": "Resumed",
+  "habitsRollupAll": "All check-ins must be done",
+  "habitsRollupMin": "{n, plural, =1{At least 1 check-in} other{At least {n} check-ins}}",
+  "habitsRollupMinCount": "Check-ins needed",
+  "habitsRollupMinTitle": "A day counts when some check-ins are done",
+  "habitsSavedSnack": "Saved",
+  "habitsScheduleTitle": "Schedule",
+  "habitsSectionAfternoon": "Afternoon",
+  "habitsSectionAnytime": "Anytime",
+  "habitsSectionDeleteBody": "Its habits move to Anytime.",
+  "habitsSectionDeleteTitle": "Delete this section?",
+  "habitsSectionDeleted": "Section deleted",
+  "habitsSectionEdit": "Edit section",
+  "habitsSectionEvening": "Evening",
+  "habitsSectionMorning": "Morning",
+  "habitsSectionNew": "New section",
+  "habitsSectionNone": "Other",
+  "habitsSectionProgress": "{done} / {total} done",
+  "habitsSectionWindow": "Time window",
+  "habitsSections": "Sections",
+  "habitsSkipBreaks": "Break the streak",
+  "habitsSkipNeutral": "Don't break the streak",
+  "habitsSkipPolicy": "Skipped days",
+  "habitsSlotsProgress": "{done}/{total}",
+  "habitsSnackCleared": "“{name}” cleared",
+  "habitsSnackDone": "“{name}” done",
+  "habitsSnackExcused": "“{name}” excused",
+  "habitsSnackLogged": "Logged {amount} · {name}",
+  "habitsSnackNotDone": "“{name}” marked not done",
+  "habitsSnackSkipped": "“{name}” skipped",
+  "habitsStatusDone": "Done",
+  "habitsStatusExcused": "Excused",
+  "habitsStatusFailed": "Not done",
+  "habitsStatusFrozen": "Frozen",
+  "habitsStatusMissed": "Missed",
+  "habitsStatusNotDue": "Not due",
+  "habitsStatusPartial": "Partly done",
+  "habitsStatusPaused": "Paused",
+  "habitsStatusPending": "To do",
+  "habitsStatusSkipped": "Skipped",
+  "habitsStreakSemantics": "{days, plural, =1{1-day streak} other{{days}-day streak}}",
+  "habitsStrength": "Strength",
+  "habitsTemplatesChallenges": "Challenges",
+  "habitsTemplatesHabits": "Habits",
+  "habitsTemplatesQuit": "Quit",
+  "habitsTemplatesTitle": "Templates",
+  "habitsTimerElapsed": "Timer: {minutes, plural, =1{1 minute} other{{minutes} minutes}}",
+  "habitsTimesPerDay": "{n, plural, =1{Once a day} other{{n} times a day}}",
+  "habitsTimesPerMonth": "{n, plural, =1{Once a month} =2{Twice a month} other{{n} times a month}}",
+  "habitsTimesPerWeek": "{n, plural, =1{Once a week} =2{Twice a week} other{{n} times a week}}",
+  "habitsToday": "Today",
+  "habitsTolerance": "Early check-in window",
+  "habitsTotalOfTarget": "Total {total} of {target}",
+  "habitsTplChallengeMeditate": "14 days of meditation",
+  "habitsTplChallengeMeditateDesc": "10 minutes a day for 14 days",
+  "habitsTplChallengeNoSugar": "21 days without sugar",
+  "habitsTplChallengeNoSugarDesc": "Every day for 21 days",
+  "habitsTplChallengePushUps": "30 days of push-ups",
+  "habitsTplChallengePushUpsDesc": "20 reps a day for 30 days",
+  "habitsTplCoffeeLimit": "At most 2 coffees",
+  "habitsTplCoffeeLimitDesc": "A daily limit",
+  "habitsTplGym": "Gym",
+  "habitsTplGymDesc": "3 times a week, any days",
+  "habitsTplJournal": "Journal",
+  "habitsTplJournalDesc": "Yes / no, every evening",
+  "habitsTplMeditate": "Meditate",
+  "habitsTplMeditateDesc": "10 minutes a day",
+  "habitsTplPushUps": "15 push-ups",
+  "habitsTplPushUpsDesc": "Count ≥ 15 reps, every day",
+  "habitsTplRead": "Read",
+  "habitsTplReadDesc": "20 minutes a day",
+  "habitsTplSleepEarly": "Sleep before 23:00",
+  "habitsTplSleepEarlyDesc": "Yes / no, every day",
+  "habitsTplStretch": "Stretch",
+  "habitsTplStretchDesc": "Every hour 09:00–18:00 (6 of 10)",
+  "habitsTplWalk": "Walk",
+  "habitsTplWalkDesc": "5 km a day",
+  "habitsTplWater": "Drink water",
+  "habitsTplWaterDesc": "8 glasses a day",
+  "habitsTypeBuild": "Build a habit",
+  "habitsTypeQuit": "Quit something",
+  "habitsUnarchive": "Unarchive",
+  "habitsUnarchivedSnack": "Habit restored",
+  "habitsUnitCigarettes": "{count, plural, =1{cigarette} other{cigarettes}}",
+  "habitsUnitCups": "{count, plural, =1{cup} other{cups}}",
+  "habitsUnitCustom": "Custom…",
+  "habitsUnitDrinks": "{count, plural, =1{drink} other{drinks}}",
+  "habitsUnitGlasses": "{count, plural, =1{glass} other{glasses}}",
+  "habitsUnitH": "h",
+  "habitsUnitJoints": "{count, plural, =1{joint} other{joints}}",
+  "habitsUnitKcal": "kcal",
+  "habitsUnitKm": "km",
+  "habitsUnitL": "L",
+  "habitsUnitMi": "mi",
+  "habitsUnitMin": "min",
+  "habitsUnitMl": "ml",
+  "habitsUnitPages": "{count, plural, =1{page} other{pages}}",
+  "habitsUnitReps": "{count, plural, =1{rep} other{reps}}",
+  "habitsUnitServings": "{count, plural, =1{serving} other{servings}}",
+  "habitsUnitSessions": "{count, plural, =1{session} other{sessions}}",
+  "habitsUnitSteps": "{count, plural, =1{step} other{steps}}",
+  "habitsUnitTimes": "{count, plural, =1{time} other{times}}",
+  "habitsVacationIndefinitely": "Vacation mode is on",
+  "habitsVacationTitle": "Vacation mode",
+  "habitsVacationUntil": "Vacation mode until {date}",
+  "habitsValueHint": "Amount",
+  "habitsValueInvalid": "Enter a number greater than 0",
+  "habitsValueTitle": "Log a value",
+  "habitsViewMonth": "Month",
+  "habitsViewToday": "Today",
+  "habitsViewWeek": "Week",
+  "habitsViewYear": "Year",
+  "habitsWarnManySlots": "{count} check-ins a day — that is a lot.",
+  "habitsWarnNeverDue": "This schedule has no upcoming day.",
+  "habitsWeekOf": "Week of {date}",
+  "habitsWindowFrom": "From",
+  "habitsWindowTo": "To",
+  "habitsYear": "Year",
+  "habitsYearSummary": "Done on {done} of {scheduled} scheduled days in {year}",
+  "habitsZoneFixed": "Always use {zone}",
+  "habitsZoneFixedHint": "Days follow {zone} wherever you are",
+  "habitsZoneFloating": "Days follow your current time zone",
   "importAction": "Import",
   "importChooseFile": "Choose file",
   "importConvertBody": "Convert note to items",
@@ -4603,6 +5395,143 @@
   "pvZoomFixed": "Fixed slot",
   "pvZoomMode": "Zoom",
   "pvZoomSemantic": "Semantic",
+  "quitAddUse": "+1",
+  "quitAllClocks": "All clocks",
+  "quitAmount": "Amount",
+  "quitAutoSuccess": "Days without a relapse count as clean",
+  "quitAutoSuccessHint": "Off: confirm each clean day in the evening review.",
+  "quitBaseline": "Before quitting, per day",
+  "quitCleanDays": "{count, plural, =0{0 clean days} =1{1 clean day} other{{count} clean days}}",
+  "quitCleanDaysTitle": "Clean days",
+  "quitCoping": "What helped",
+  "quitCopingBreathing": "Deep breathing",
+  "quitCopingCallFriend": "Call a friend",
+  "quitCopingDelay10": "Wait 10 minutes",
+  "quitCopingGum": "Chewing gum",
+  "quitCopingWalk": "A walk",
+  "quitCopingWater": "Glass of water",
+  "quitCostPerUnit": "= {price} per unit",
+  "quitCostTitle": "Cost",
+  "quitCounterSemantics": "{days} days {hours} hours {minutes} minutes",
+  "quitCravingDetails": "Add details",
+  "quitCravingLogged": "Craving logged — well done for noticing it.",
+  "quitCravingTitle": "Craving",
+  "quitCurrency": "Currency",
+  "quitDailyLimit": "Daily limit",
+  "quitDaysHours": "{days} d {hours} h",
+  "quitDistractionExercise": "Exercise",
+  "quitDistractionGame": "A quick game",
+  "quitDistractionMusic": "Music",
+  "quitDistractionRead": "Read",
+  "quitDistractionShower": "A shower",
+  "quitDistractionSnack": "A healthy snack",
+  "quitDuration": "Duration",
+  "quitEditorEditTitle": "Edit quit tracker",
+  "quitEditorNewTitle": "New quit tracker",
+  "quitErrCurrency": "Use a 3-letter currency code (e.g. EUR)",
+  "quitErrDailyLimit": "Set a daily limit of 0 or more",
+  "quitErrNegative": "Values cannot be negative",
+  "quitErrStartInFuture": "The quit date cannot be in the future",
+  "quitEstimatesNote": "All defaults are estimates — adjust them to you.",
+  "quitEventCraving": "Craving · intensity {intensity}",
+  "quitEventPledge": "Daily pledge",
+  "quitEventRelapse": "Relapse",
+  "quitEventRestart": "New quit attempt",
+  "quitIntensity": "Intensity: {value}/10",
+  "quitLifePerUnit": "Life expectancy per unit",
+  "quitLifeRegained": "Life regained",
+  "quitLogCraving": "Log craving",
+  "quitLogRelapse": "Log relapse",
+  "quitLogUse": "Log use",
+  "quitLongest": "Longest streak",
+  "quitManualReset": "manual reset",
+  "quitMilestoneEta": "Expected {date}",
+  "quitModeAbstain": "Quit completely",
+  "quitModeReduce": "Cut down",
+  "quitModeTitle": "Goal",
+  "quitMoneySaved": "Money saved",
+  "quitMotivation": "Why I am quitting",
+  "quitMotivationCard": "My reasons",
+  "quitMotivationHint": "My reasons…",
+  "quitNameAlcohol": "Stop drinking",
+  "quitNameCaffeine": "Less caffeine",
+  "quitNameCannabis": "Stop cannabis",
+  "quitNameCigarettes": "Stop smoking",
+  "quitNameGaming": "Less gaming",
+  "quitNameOther": "Quit a habit",
+  "quitNameSocialMedia": "Less social media",
+  "quitNameSugar": "Stop sugar",
+  "quitNameVape": "Stop vaping",
+  "quitNextMilestone": "Next milestone",
+  "quitNo": "No",
+  "quitNoEvents": "Nothing logged yet — keep going!",
+  "quitNoTrackers": "No quit tracker yet",
+  "quitNoTrackersBody": "Track how long you have stopped smoking, drinking or anything else.",
+  "quitNotSure": "Not sure",
+  "quitNote": "Note",
+  "quitOther": "Other…",
+  "quitOverLimit": "Over today's limit",
+  "quitPackPrice": "Pack price",
+  "quitPhotoAfterSave": "You can add a motivating photo after saving.",
+  "quitPlace": "Place",
+  "quitPlaceBar": "Bar",
+  "quitPlaceCar": "Car",
+  "quitPlaceFriends": "At friends'",
+  "quitPlaceHome": "Home",
+  "quitPlaceOutside": "Outside",
+  "quitPlaceWork": "Work",
+  "quitPopulationEstimate": "population estimate",
+  "quitPopulationEstimateHelp": "Population estimate: about 20 min per cigarette (Jackson et al. 2025; BMJ 2000: 11 min). Individual effects vary.",
+  "quitPresetAlcohol": "Alcohol",
+  "quitPresetCaffeine": "Caffeine",
+  "quitPresetCannabis": "Cannabis",
+  "quitPresetCigarettes": "Smoking",
+  "quitPresetGaming": "Gaming",
+  "quitPresetOther": "Something else",
+  "quitPresetSocialMedia": "Social media",
+  "quitPresetSugar": "Sugar",
+  "quitPresetTitle": "What do you want to quit?",
+  "quitPresetVape": "Vaping",
+  "quitRecentEvents": "Recent events",
+  "quitRelapseAmount": "How many? (optional)",
+  "quitRelapseKindTitle": "How should it count?",
+  "quitRelapseNewAttempt": "Start a new quit attempt from {time}",
+  "quitRelapseSaved": "Logged. Be kind to yourself — every attempt teaches you something.",
+  "quitRelapseSlip": "As a slip — keep my quit date; the streak restarts now",
+  "quitRelapseSupport": "You stayed clean for {duration} — that still counts.",
+  "quitRelapseTitle": "Log a relapse",
+  "quitResetBody": "This logs a relapse now. Your quit date stays the same.",
+  "quitResetCounter": "Reset counter",
+  "quitResisted": "Did you resist?",
+  "quitSinceFirstQuit": "Since you first quit",
+  "quitSinceLastRelapse": "Clean for",
+  "quitSinceLastUse": "Since the last use",
+  "quitStartedAt": "I quit on",
+  "quitTimePerUnit": "Time spent per unit",
+  "quitTimeWonBack": "Time won back",
+  "quitTodayUse": "{used} of {limit} today",
+  "quitTrigger": "Trigger",
+  "quitTriggerAfterMeals": "After meals",
+  "quitTriggerAlcohol": "Alcohol",
+  "quitTriggerBoredom": "Boredom",
+  "quitTriggerCoffee": "Coffee",
+  "quitTriggerDriving": "Driving",
+  "quitTriggerPhone": "Phone",
+  "quitTriggerSocial": "Social situations",
+  "quitTriggerStress": "Stress",
+  "quitTriggerWakingUp": "Waking up",
+  "quitTriggerWorkBreak": "Work break",
+  "quitUnitCost": "Price per unit",
+  "quitUnitDays": "d",
+  "quitUnitHours": "h",
+  "quitUnitMinutes": "min",
+  "quitUnitSeconds": "s",
+  "quitUnitsAvoided": "Avoided",
+  "quitUnitsPerPack": "Units per pack",
+  "quitUseLogged": "Use logged",
+  "quitWhen": "When",
+  "quitWithinLimitStreakTitle": "Days within the limit",
+  "quitYes": "Yes",
   "recurAddDate": "Add",
   "recurAddOrdinal": "Add a day like “2nd Tuesday”",
   "recurAddTime": "Add a time",
