@@ -158,7 +158,13 @@ abstract final class TreeOps {
   }
 
   static EventSpec _event(TreeOpContext ctx, String id, String type, [Map<String, Object?> payload = const {}]) =>
-      EventSpec(entityType: 'checklist_item', entityId: id, parentId: ctx.checklistId, eventType: type, payload: payload);
+      EventSpec(
+        entityType: 'checklist_item',
+        entityId: id,
+        parentId: ctx.checklistId,
+        eventType: type,
+        payload: payload,
+      );
 
   /// Groups a DFS-ordered id list into runs of adjacent siblings.
   static List<List<String>> _runs(ChecklistTree tree, List<String> tops) {
@@ -271,7 +277,11 @@ abstract final class TreeOps {
     if (kids.isNotEmpty) {
       final List<String> keys;
       if (tree.parentOf(id) == target) {
-        keys = SortKeys.nBetween(_keyOf(tree, tree.previousSibling(id)), _keyOf(tree, tree.nextSibling(id)), kids.length);
+        keys = SortKeys.nBetween(
+          _keyOf(tree, tree.previousSibling(id)),
+          _keyOf(tree, tree.nextSibling(id)),
+          kids.length,
+        );
       } else {
         keys = _keysAtEnd(tree, target, kids.length);
       }
@@ -283,7 +293,12 @@ abstract final class TreeOps {
       ..reownedAttachments.add((fromItemId: id, toItemId: target))
       ..update(id, {'deleted_at': ctx.now})
       ..deletedItemIds.add(id)
-      ..event(_event(ctx, target, 'updated', {'fields': ['text'], 'mergedFrom': id}))
+      ..event(
+        _event(ctx, target, 'updated', {
+          'fields': ['text'],
+          'mergedFrom': id,
+        }),
+      )
       ..event(_event(ctx, id, 'deleted', {'mergedInto': target}))
       ..focus = FocusHint(target, cursor: targetText.length);
     return b.build();
@@ -655,6 +670,9 @@ abstract final class ItemComparators {
     if (by == ItemSortBy.manual) return items;
     final indexed = [for (var i = 0; i < items.length; i++) (i, items[i])];
     int cmp((int, ChecklistItem) a, (int, ChecklistItem) b) {
+      // Items without a due date / change date stay last in both directions.
+      final missing = _missingRank(a.$2, by).compareTo(_missingRank(b.$2, by));
+      if (missing != 0) return missing;
       final c = compare(a.$2, b.$2, by);
       final r = descending ? -c : c;
       return r != 0 ? r : a.$1.compareTo(b.$1);
@@ -675,6 +693,12 @@ abstract final class ItemComparators {
       b.statusChangedAt ?? b.updatedAt,
       (x, y) => y.compareTo(x),
     ),
+  };
+
+  static int _missingRank(ChecklistItem i, ItemSortBy by) => switch (by) {
+    ItemSortBy.due => i.dueLocal == null ? 1 : 0,
+    ItemSortBy.recent => (i.statusChangedAt ?? i.updatedAt) == null ? 1 : 0,
+    _ => 0,
   };
 
   static int _nullsLast<T>(T? a, T? b, int Function(T, T) f) {

@@ -30,16 +30,16 @@ reminders for follow-ups and resets ([7.5]); share-into-app ([8.2]).
 - [x] T4.5.05 — Templates
 - [x] T4.5.06 — Resettable / recurring checklists with run history
 - [x] T4.5.07 — Import parser (indented text, Markdown, OPML)
-- [ ] T4.5.08 — Import UX (paste, file, note → items)
+- [x] T4.5.08 — Import UX (paste, file, note → items)
 - [x] T4.5.09 — Export & share (Markdown, OPML, plain text)
 - [ ] T4.5.10 — PDF export / print
-- [ ] T4.5.11 — In-list sort & filter
-- [ ] T4.5.12 — Link checklist ↔ planner task
-- [ ] T4.5.13 — Checklist Insights entry points
-- [ ] T4.5.14 — Mind map view (synced with the outline)
-- [ ] T4.5.15 — Flat all-items table
+- [x] T4.5.11 — In-list sort & filter
+- [x] T4.5.12 — Link checklist ↔ planner task
+- [x] T4.5.13 — Checklist Insights entry points
+- [x] T4.5.14 — Mind map view (synced with the outline)
+- [x] T4.5.15 — Flat all-items table
 - [ ] T4.5.16 — Mirrors (live item copies)
-- [ ] T4.5.17 — Split panes
+- [x] T4.5.17 — Split panes
 
 ## Tasks
 
@@ -181,6 +181,7 @@ Arabic text, malformed input.
 - **Convert note body to items:** Keep's "show checkboxes". Each body line becomes an item and
   indentation becomes nesting.
 **Tests:** widget tests for each path; undo of an import.
+**Notes:** Paste and file imports preview the tree (indented, first 12 rows) with *Split into N items (keep nesting)* / *Keep as one item*; the file source is `importFileReaderProvider` (system picker by default). Sharing a file into the app arrives with [8.2]. Fixed: the import dialog disposed its text controller while animating out.
 
 ### T4.5.09 — Export & share (Markdown, OPML, plain text)
 **Priority:** P1 · **Size:** M · **Depends on:** [4.2]
@@ -217,6 +218,7 @@ Arabic text, malformed input.
 - Saved per checklist in `ui_checklist_state` (local). A clear "Sorted by … · Reset" banner is shown
   while active.
 **Tests:** unit tests on the visible list; widget test for the banner.
+**Notes:** Sorting (manual, A–Z, status, due, priority, recent; ascending/descending) applies per sibling group on the visible list only; undated / never-changed items stay last in both directions. Sort and filter persist per list in the local UI state and restore on open; the banner resets both.
 
 ### T4.5.12 — Link checklist ↔ planner task
 **Priority:** P1 · **Size:** S · **Depends on:** [3.1] (task editor & `tasks.linked_checklist_id`)
@@ -230,6 +232,7 @@ Arabic text, malformed input.
 - The task tile shows the list's progress ([3.1]).
 - The link is stored only on `tasks`, never duplicated.
 **Tests:** DAO test; widget tests for both directions.
+**Notes:** Through the planner's application API (`plannerServiceProvider.createTask` / `linkChecklist`): *Schedule as task* creates an unscheduled task named after the list and opens its editor; *Link to existing task…* picks from the backlog + the next 60 days of occurrences; header chips open the task. TODO(integration): a planner query by `linked_checklist_id` would also list tasks whose occurrences are further away. The task tile's list progress is the planner side (T3.1.16).
 
 ### T4.5.13 — Checklist Insights entry points
 **Priority:** P1 · **Size:** S · **Depends on:** [6.4]
@@ -237,6 +240,7 @@ Arabic text, malformed input.
 checklist or item stats in [6.4].
 **Implementation notes:** the header shows a tiny summary, e.g. "12 done this week · 2 blocked".
 **Tests:** navigation widget test.
+**Notes:** Entry points: list menu → `/insights/checklist/<id>`, item details → `/insights/item/<id>` (the Insights routes call checklist items `item`; the old `checklistItem` link did not resolve), and the header's "N done this week" button (completions since the user's week start, zone-aware). The blocked / waiting counts stay as header pills.
 
 ### T4.5.14 — Mind map view (synced with the outline)
 **Priority:** P2 · **Size:** L · **Depends on:** T4.5.02
@@ -248,6 +252,7 @@ checklist or item stats in [6.4].
 - Editing inside the map (add child, rename inline) comes later.
 - Export the map as an image.
 **Tests:** layout algorithm unit tests (no overlaps, deterministic); goldens.
+**Notes:** *Mind map* in the view switcher: pure tidy-tree layout (`MindMapLayout`, fixed-size nodes, RTL mirrored), `InteractiveViewer` pan/zoom, curved connectors, status borders and progress rings, collapse shared with the outline, the focused branch dims the others, tapping a node reveals and highlights it in the outline, *Export as image* shares a PNG. In-map editing is deferred as the task says.
 
 ### T4.5.15 — Flat all-items table
 **Priority:** P2 · **Size:** M · **Depends on:** T4.5.01
@@ -256,6 +261,7 @@ checklist or item stats in [6.4].
 - Columns: text, checklist, path, status, age, due, follow-up, priority, attachments.
 - Sort and filter; bulk status changes.
 **Tests:** widget tests; DAO test.
+**Notes:** Board menu → *All items (table)*: `TableView` with pinned header and select + item columns (RTL mirrored), header taps sort (pure `ItemTableQuery`, missing values last), status chips and a text filter (item, list or path), multi-select with a status change applied as one operation per list. Items of archived / template / deleted lists are excluded; capped at 20 000 rows.
 
 ### T4.5.16 — Mirrors (live item copies)
 **Priority:** P2 · **Size:** L · **Depends on:** [4.2]
@@ -268,6 +274,7 @@ checklist or item stats in [6.4].
 - **Data model:** `checklist_items.mirror_of_id uuid null references app.checklist_items(id)`,
   plus a server trigger forbidding a mirror inside its original's subtree, and local cycle guards.
 **Tests:** rendering/edit-through unit tests; pgTAP for the trigger; cycle tests.
+**Notes:** Blocked: needs `checklist_items.mirror_of_id` (not in the Drift schema / migrations; schema changes are outside this agent's scope).
 
 ### T4.5.17 — Split panes
 **Priority:** P2 · **Size:** M · **Depends on:** [4.2]
@@ -276,3 +283,4 @@ in Workflowy Panes.
 **Implementation notes:** drag items between panes to move them (the [4.2] move operation / [4.1]
 move-between-checklists).
 **Tests:** widget tests (both panes editable; move across panes).
+**Notes:** *Open side by side…* (list menu, width ≥ 700 dp) opens `SplitChecklistsScreen` with two different lists, each a full editable pane with its own snack bars; a row drag released over the other pane moves the row and its subtree to the end of that list (one undoable operation). Two branches of the *same* list side by side would need per-pane editor state (the editor is keyed by list) — not done.

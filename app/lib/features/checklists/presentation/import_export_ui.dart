@@ -9,6 +9,7 @@ import 'package:everslot/features/checklists/domain/import_export.dart';
 import 'package:everslot/features/checklists/domain/tree_change.dart';
 import 'package:everslot/features/checklists/domain/tree_ops.dart';
 import 'package:everslot/features/checklists/presentation/checklist_navigation.dart';
+import 'package:everslot/features/checklists/presentation/status_visuals.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,24 +26,82 @@ String importWarningText(BuildContext context, ImportWarning w) {
   };
 }
 
+/// Reads an import file chosen by the user: its name and text, null on cancel.
+typedef ImportFileReader = Future<({String name, String text})?> Function();
+
+/// `.txt`, `.md` or `.opml` through the system file picker (tests override this provider).
+final importFileReaderProvider = Provider<ImportFileReader>(
+  (ref) => () async {
+    final files = await FilePicker.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: const ['txt', 'md', 'markdown', 'opml', 'xml'],
+    );
+    if (files.isEmpty || files.first.path == null) return null;
+    final f = files.first;
+    return (name: f.name, text: await File(f.path!).readAsString());
+  },
+);
+
 /// Picks a `.txt`, `.md` or `.opml` file and parses it (null on cancel / unreadable).
-Future<(ImportResult, String)?> pickImportFile(BuildContext context) async {
-  final files = await FilePicker.pickFiles(type: FileType.custom, allowedExtensions: const ['txt', 'md', 'markdown', 'opml', 'xml']);
-  if (files.isEmpty || files.first.path == null) return null;
-  final f = files.first;
+Future<(ImportResult, String)?> pickImportFile(BuildContext context, WidgetRef ref) async {
   try {
-    final text = await File(f.path!).readAsString();
-    final name = f.name.contains('.') ? f.name.substring(0, f.name.lastIndexOf('.')) : f.name;
-    return (ChecklistImport.parse(text), name);
+    final file = await ref.read(importFileReaderProvider)();
+    if (file == null) return null;
+    final f = file.name;
+    final name = f.contains('.') ? f.substring(0, f.lastIndexOf('.')) : f;
+    return (ChecklistImport.parse(file.text), name);
   } on Object {
     if (context.mounted) showInfoSnackBar(context, context.l10n.importWarningMalformed);
     return null;
   }
 }
 
+/// The tree an import will create (T4.5.08): indented rows, first [maxLines] shown.
+class ImportPreview extends StatelessWidget {
+  const ImportPreview({required this.result, super.key, this.maxLines = 12});
+
+  final ImportResult result;
+  final int maxLines;
+
+  static List<(int, NodeSpec)> _flatten(List<NodeSpec> nodes, [int depth = 0]) => [
+    for (final n in nodes) ...[(depth, n), ..._flatten(n.children, depth + 1)],
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final lines = _flatten(result.nodes);
+    final muted = context.colors.onSurfaceVariant;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final (depth, node) in lines.take(maxLines))
+          Padding(
+            padding: EdgeInsetsDirectional.only(start: depth * 16.0, top: 2, bottom: 2),
+            child: Row(
+              children: [
+                Icon(StatusStyle.icon(node.status), size: 16, color: muted),
+                const SizedBox(width: Space.xs),
+                Expanded(child: Text(node.text, maxLines: 1, overflow: TextOverflow.ellipsis)),
+              ],
+            ),
+          ),
+        if (lines.length > maxLines)
+          Padding(
+            padding: const EdgeInsetsDirectional.only(top: Space.xs),
+            child: Text(
+              context.l10n.importMoreLines(lines.length - maxLines),
+              style: context.text.bodySmall?.copyWith(color: muted),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
 /// Import file → new checklist (T4.5.08).
 Future<void> importFileAsNewList(BuildContext context, WidgetRef ref) async {
-  final picked = await pickImportFile(context);
+  final picked = await pickImportFile(context, ref);
   if (picked == null || !context.mounted) return;
   final (result, name) = picked;
   if (result.isEmpty) {
@@ -66,7 +125,12 @@ Future<bool?> _confirmImport(BuildContext context, ImportResult result) => showD
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(ctx.l10n.importItemsCount(result.count)),
-        for (final w in result.warnings) Text(importWarningText(ctx, w), style: TextStyle(color: ctx.appColors.warning)),
+        for (final w in result.warnings)
+          Text(importWarningText(ctx, w), style: TextStyle(color: ctx.appColors.warning)),
+        const SizedBox(height: Space.sm),
+        Flexible(
+          child: SingleChildScrollView(child: ImportPreview(result: result)),
+        ),
       ],
     ),
     actions: [
@@ -77,12 +141,45 @@ Future<bool?> _confirmImport(BuildContext context, ImportResult result) => showD
 );
 
 /// Paste / type text to import under [parentId] (or the focus root) of an open checklist.
-Future<void> showImportDialog(BuildContext context, WidgetRef ref, {required String checklistId, String? parentId}) async {
-  final controller = TextEditingController();
-  final l = context.l10n;
-  final text = await showDialog<String>(
-    context: context,
-    builder: (ctx) => AlertDialog(
+Future<void> showImportDialog(
+  BuildContext context,
+  WidgetRef ref, {
+  required String checklistId,
+  String? parentId,
+}) async {
+  final text = await showDialog<String>(context: context, builder: (_) => const _ImportTextDialog());
+  if (text == null || !context.mounted) return;
+  if (identical(text, _chooseFile)) {
+    final picked = await pickImportFile(context, ref);
+    if (picked == null || !context.mounted) return;
+    await _insert(context, ref, checklistId, parentId, picked.$1);
+    return;
+  }
+  await _insert(context, ref, checklistId, parentId, ChecklistImport.parse(text));
+}
+
+/// The paste box of the import dialog; it owns its controller so the text field keeps working
+/// while the dialog animates out.
+class _ImportTextDialog extends StatefulWidget {
+  const _ImportTextDialog();
+
+  @override
+  State<_ImportTextDialog> createState() => _ImportTextDialogState();
+}
+
+class _ImportTextDialogState extends State<_ImportTextDialog> {
+  final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    return AlertDialog(
       title: Text(l.importTitle),
       content: SizedBox(
         width: 480,
@@ -90,7 +187,7 @@ Future<void> showImportDialog(BuildContext context, WidgetRef ref, {required Str
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
-              controller: controller,
+              controller: _controller,
               autofocus: true,
               minLines: 6,
               maxLines: 12,
@@ -101,42 +198,44 @@ Future<void> showImportDialog(BuildContext context, WidgetRef ref, {required Str
               child: TextButton.icon(
                 icon: const Icon(Icons.file_open_outlined),
                 label: Text(l.importChooseFile),
-                onPressed: () => Navigator.pop(ctx, _chooseFile),
+                onPressed: () => Navigator.pop(context, _chooseFile),
               ),
             ),
           ],
         ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(ctx), child: Text(l.actionCancel)),
-        FilledButton(onPressed: () => Navigator.pop(ctx, controller.text), child: Text(l.importAction)),
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(l.actionCancel)),
+        FilledButton(onPressed: () => Navigator.pop(context, _controller.text), child: Text(l.importAction)),
       ],
-    ),
-  );
-  controller.dispose();
-  if (text == null || !context.mounted) return;
-  if (identical(text, _chooseFile)) {
-    final picked = await pickImportFile(context);
-    if (picked == null || !context.mounted) return;
-    await _insert(context, ref, checklistId, parentId, picked.$1);
-    return;
+    );
   }
-  await _insert(context, ref, checklistId, parentId, ChecklistImport.parse(text));
 }
 
 /// Sentinel returned by the import dialog's "Choose file" button.
 const _chooseFile = '\u0000file';
 
-Future<void> _insert(BuildContext context, WidgetRef ref, String checklistId, String? parentId, ImportResult result) async {
+Future<void> _insert(
+  BuildContext context,
+  WidgetRef ref,
+  String checklistId,
+  String? parentId,
+  ImportResult result,
+) async {
   if (result.isEmpty) {
     showInfoSnackBar(context, context.l10n.importWarningEmpty);
     return;
   }
-  final record = await ref.read(checklistEditorProvider(checklistId).notifier).insertNodes(result.nodes, parentId: parentId);
+  final record = await ref
+      .read(checklistEditorProvider(checklistId).notifier)
+      .insertNodes(result.nodes, parentId: parentId);
   if (record != null && context.mounted) {
     showInfoSnackBar(
       context,
-      [context.l10n.importDone(result.count), for (final w in result.warnings) importWarningText(context, w)].join('\n'),
+      [
+        context.l10n.importDone(result.count),
+        for (final w in result.warnings) importWarningText(context, w),
+      ].join('\n'),
     );
   }
 }
@@ -157,10 +256,10 @@ Future<bool> handleMultilinePaste(
     context: context,
     builder: (ctx) => AlertDialog(
       title: Text(l.importItemsCount(result.count)),
-      content: Text(pasted.length > 400 ? '${pasted.substring(0, 400)}…' : pasted),
+      content: SingleChildScrollView(child: ImportPreview(result: result)),
       actions: [
         TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(l.importKeepOne)),
-        FilledButton(onPressed: () => Navigator.pop(ctx, true), child: Text(l.importSplit)),
+        FilledButton(onPressed: () => Navigator.pop(ctx, true), child: Text(l.importSplitCount(result.count))),
       ],
     ),
   );
@@ -189,7 +288,11 @@ Future<void> convertBodyToItems(BuildContext context, WidgetRef ref, Checklist c
       .run(
         'import',
         (t, ctx, _) => TreeOps.insertNodes(t, ctx, result.nodes).merge(
-          TreeChange(writes: [RowWrite.update('checklists', checklist.id, {'body': null})]),
+          TreeChange(
+            writes: [
+              RowWrite.update('checklists', checklist.id, {'body': null}),
+            ],
+          ),
         ),
         cause: 'import',
         focusResult: false,
@@ -211,7 +314,8 @@ Future<void> showExportSheet(
   await showAppSheet<void>(
     context,
     title: context.l10n.exportTitle,
-    builder: (ctx) => _ExportSheet(checklist: checklist, tree: tree, branchRootId: branchRootId, attachmentNames: names),
+    builder: (ctx) =>
+        _ExportSheet(checklist: checklist, tree: tree, branchRootId: branchRootId, attachmentNames: names),
   );
 }
 

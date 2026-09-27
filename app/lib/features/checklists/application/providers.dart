@@ -185,6 +185,18 @@ final itemAttachmentCountsProvider = StreamProvider.autoDispose.family<Map<Strin
 );
 
 /// Every attachment of a checklist (items + checklist-level).
+/// Every item of the active lists with its list and path (flat all-items table, T4.5.15).
+final allItemsProvider = StreamProvider.autoDispose<List<SmartItem>>((ref) {
+  ref.watch(currentUserIdProvider);
+  return ref.watch(checklistsRepositoryProvider).watchAllItems();
+});
+
+/// Attachment counts of every item of the active lists (all-items table).
+final allItemAttachmentCountsProvider = StreamProvider.autoDispose<Map<String, int>>((ref) {
+  ref.watch(currentUserIdProvider);
+  return ref.watch(checklistsRepositoryProvider).watchAllItemAttachmentCounts();
+});
+
 final checklistAttachmentsProvider = StreamProvider.autoDispose.family<List<Attachment>, String>(
   (ref, id) => ref.watch(checklistItemsRepositoryProvider).watchChecklistAttachments(id),
 );

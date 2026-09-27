@@ -3339,6 +3339,30 @@ abstract class AppLocalizations {
   /// **'Copy as text'**
   String get checklistCopyText;
 
+  /// No description provided for @checklistCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover image…'**
+  String get checklistCover;
+
+  /// No description provided for @checklistCoverAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic (first image)'**
+  String get checklistCoverAuto;
+
+  /// No description provided for @checklistCoverNoImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an image to the list or its items first'**
+  String get checklistCoverNoImages;
+
+  /// No description provided for @checklistCoverUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover updated'**
+  String get checklistCoverUpdated;
+
   /// No description provided for @checklistCut.
   ///
   /// In en, this message translates to:
@@ -3374,6 +3398,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Details'**
   String get checklistDetails;
+
+  /// No description provided for @checklistDoneThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 done this week} other{{count} done this week}}'**
+  String checklistDoneThisWeek(int count);
 
   /// No description provided for @checklistDragHandle.
   ///
@@ -3579,11 +3609,29 @@ abstract class AppLocalizations {
   /// **'Line break'**
   String get checklistLineBreak;
 
+  /// No description provided for @checklistLinkTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Link to existing task…'**
+  String get checklistLinkTask;
+
+  /// No description provided for @checklistLinkTaskTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Link a task'**
+  String get checklistLinkTaskTitle;
+
   /// No description provided for @checklistLinkedTask.
   ///
   /// In en, this message translates to:
   /// **'Linked task'**
   String get checklistLinkedTask;
+
+  /// No description provided for @checklistLinkedTaskSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Linked task {task}'**
+  String checklistLinkedTaskSemantics(String task);
 
   /// No description provided for @checklistMdBold.
   ///
@@ -3687,6 +3735,18 @@ abstract class AppLocalizations {
   /// **'No labels yet'**
   String get checklistNoLabels;
 
+  /// No description provided for @checklistNoOtherLists.
+  ///
+  /// In en, this message translates to:
+  /// **'No other list to show'**
+  String get checklistNoOtherLists;
+
+  /// No description provided for @checklistNoTasksToLink.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks to link yet'**
+  String get checklistNoTasksToLink;
+
   /// No description provided for @checklistNotFound.
   ///
   /// In en, this message translates to:
@@ -3698,6 +3758,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This item no longer exists'**
   String get checklistNotifItemGone;
+
+  /// No description provided for @checklistOpenSideBySide.
+  ///
+  /// In en, this message translates to:
+  /// **'Open side by side…'**
+  String get checklistOpenSideBySide;
 
   /// No description provided for @checklistOpenTrash.
   ///
@@ -3728,6 +3794,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Uploads pending'**
   String get checklistPendingUploads;
+
+  /// No description provided for @checklistPickSecondList.
+  ///
+  /// In en, this message translates to:
+  /// **'Show next to this list'**
+  String get checklistPickSecondList;
 
   /// No description provided for @checklistProgress.
   ///
@@ -3933,11 +4005,23 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{1 sub-item} other{{count} sub-items}}'**
   String checklistSubItems(int count);
 
+  /// No description provided for @checklistTaskLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'Linked to {task}'**
+  String checklistTaskLinked(String task);
+
   /// No description provided for @checklistTaskPlaceholder.
   ///
   /// In en, this message translates to:
   /// **'Linking to planner tasks arrives with the planner.'**
   String get checklistTaskPlaceholder;
+
+  /// No description provided for @checklistTaskScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Task created — set its time'**
+  String get checklistTaskScheduled;
 
   /// No description provided for @checklistTemplateSaved.
   ///
@@ -3974,6 +4058,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Kanban'**
   String get checklistViewKanban;
+
+  /// No description provided for @checklistViewMindMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Mind map'**
+  String get checklistViewMindMap;
 
   /// No description provided for @checklistViewOutline.
   ///
@@ -6981,6 +7071,12 @@ abstract class AppLocalizations {
   /// **'Keep as one item'**
   String get importKeepOne;
 
+  /// No description provided for @importMoreLines.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{…and 1 more item} other{…and {count} more items}}'**
+  String importMoreLines(int count);
+
   /// No description provided for @importPasteHint.
   ///
   /// In en, this message translates to:
@@ -6992,6 +7088,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Split into items (keep nesting)'**
   String get importSplit;
+
+  /// No description provided for @importSplitCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Split into 1 item (keep nesting)} other{Split into {count} items (keep nesting)}}'**
+  String importSplitCount(int count);
 
   /// No description provided for @importTitle.
   ///
@@ -7202,6 +7304,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Time in status'**
   String get itemTimeInStatus;
+
+  /// No description provided for @itemsColAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get itemsColAge;
+
+  /// No description provided for @itemsColAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Files'**
+  String get itemsColAttachments;
+
+  /// No description provided for @itemsColChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get itemsColChecklist;
+
+  /// No description provided for @itemsColDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due'**
+  String get itemsColDue;
+
+  /// No description provided for @itemsColFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up'**
+  String get itemsColFollowUp;
+
+  /// No description provided for @itemsColPath.
+  ///
+  /// In en, this message translates to:
+  /// **'Path'**
+  String get itemsColPath;
+
+  /// No description provided for @itemsColPriority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get itemsColPriority;
+
+  /// No description provided for @itemsColStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get itemsColStatus;
+
+  /// No description provided for @itemsColText.
+  ///
+  /// In en, this message translates to:
+  /// **'Item'**
+  String get itemsColText;
+
+  /// No description provided for @itemsTableEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No items match'**
+  String get itemsTableEmpty;
+
+  /// No description provided for @itemsTableFilterHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by text, list or path'**
+  String get itemsTableFilterHint;
+
+  /// No description provided for @itemsTableOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'All items (table)'**
+  String get itemsTableOpen;
+
+  /// No description provided for @itemsTableSelectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Select all shown items'**
+  String get itemsTableSelectAll;
+
+  /// No description provided for @itemsTableSelectRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Select {item}'**
+  String itemsTableSelectRow(String item);
+
+  /// No description provided for @itemsTableSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 selected} other{{count} selected}}'**
+  String itemsTableSelected(int count);
+
+  /// No description provided for @itemsTableSortBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by {column}'**
+  String itemsTableSortBy(String column);
+
+  /// No description provided for @itemsTableStatusChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item updated} other{{count} items updated}}'**
+  String itemsTableStatusChanged(int count);
+
+  /// No description provided for @itemsTableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All items'**
+  String get itemsTableTitle;
 
   /// No description provided for @kanbanAll.
   ///
@@ -7616,6 +7826,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cloud sync isn\'t configured — your data stays on this device.'**
   String get localOnlyBanner;
+
+  /// No description provided for @mindMapExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export as image'**
+  String get mindMapExport;
+
+  /// No description provided for @mindMapHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count}'**
+  String mindMapHidden(int count);
 
   /// No description provided for @moveChooseParent.
   ///

@@ -4,11 +4,12 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/design_system/design_system.dart';
-import 'package:everslot/features/attachments/application/providers.dart' show AttachmentOwnerType;
+import 'package:everslot/features/attachments/application/providers.dart' show Attachment, AttachmentOwnerType;
 import 'package:everslot/features/attachments/presentation/attachment_ui.dart';
 import 'package:everslot/features/checklists/application/checklist_editor.dart';
 import 'package:everslot/features/checklists/application/checklist_service.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
+import 'package:everslot/features/checklists/application/task_links.dart';
 import 'package:everslot/features/checklists/application/reset_service.dart';
 import 'package:everslot/features/checklists/application/swipe_actions.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
@@ -23,6 +24,7 @@ import 'package:everslot/features/checklists/domain/visible_list.dart';
 import 'package:everslot/features/checklists/presentation/archive_templates_screens.dart';
 import 'package:everslot/features/checklists/presentation/checklist_header.dart';
 import 'package:everslot/features/checklists/presentation/checklist_navigation.dart';
+import 'package:everslot/features/checklists/presentation/checklist_pane_scope.dart';
 import 'package:everslot/features/checklists/presentation/checklist_settings_sheet.dart';
 import 'package:everslot/features/checklists/presentation/checklist_toolbars.dart';
 import 'package:everslot/features/checklists/presentation/checklist_views.dart';
@@ -30,7 +32,9 @@ import 'package:everslot/features/checklists/presentation/import_export_ui.dart'
 import 'package:everslot/features/checklists/presentation/item_details_sheet.dart';
 import 'package:everslot/features/checklists/presentation/item_row.dart';
 import 'package:everslot/features/checklists/presentation/lists_board_screen.dart' show duplicateChecklistFlow;
+import 'package:everslot/features/checklists/presentation/mind_map_view.dart';
 import 'package:everslot/features/checklists/presentation/move_to_sheet.dart';
+import 'package:everslot/features/checklists/presentation/split_checklists_screen.dart';
 import 'package:everslot/features/checklists/presentation/status_sheet.dart';
 import 'package:everslot/features/checklists/presentation/status_visuals.dart';
 import 'package:everslot/features/organization/application/providers.dart';
@@ -179,6 +183,10 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     final Widget body = switch (state.viewType) {
       ChecklistViewType.kanban => KanbanView(checklistId: checklistId, onOpenItem: openDetails),
       ChecklistViewType.gallery => GalleryView(checklistId: checklistId, onOpenItem: openDetails),
+      ChecklistViewType.mindMap => MindMapView(
+        checklistId: checklistId,
+        onOpenItem: (id) => unawaited(_showInOutline(id)),
+      ),
       ChecklistViewType.outline => _outline(context, state: state, checklist: checklist, tree: tree),
     };
     final active = state.activeItemId == null ? null : tree?[state.activeItemId!];
@@ -255,11 +263,13 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
       ChecklistViewType.outline => Icons.format_list_bulleted,
       ChecklistViewType.kanban => Icons.view_kanban_outlined,
       ChecklistViewType.gallery => Icons.photo_library_outlined,
+      ChecklistViewType.mindMap => Icons.account_tree_outlined,
     };
     String label(ChecklistViewType t) => switch (t) {
       ChecklistViewType.outline => l.checklistViewOutline,
       ChecklistViewType.kanban => l.checklistViewKanban,
       ChecklistViewType.gallery => l.checklistViewGallery,
+      ChecklistViewType.mindMap => l.checklistViewMindMap,
     };
     return PopupMenuButton<ChecklistViewType>(
       tooltip: label(state.viewType),
@@ -367,9 +377,21 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
               ),
             ),
           if (!settings.hideCheckboxes && tree != null)
-            SliverToBoxAdapter(child: ProgressHeader(rollup: rootRollup, mode: settings.progressMode)),
-          if (state.preview) SliverToBoxAdapter(child: PreviewControls(checklistId: checklistId, onNextOpen: _nextOpen)),
-          SliverToBoxAdapter(child: ViewBanner(state: state, onReset: _resetView)),
+            SliverToBoxAdapter(
+              child: ProgressHeader(
+                rollup: rootRollup,
+                mode: settings.progressMode,
+                doneThisWeek: _doneThisWeek(tree, nowLocal, zone),
+                onInsights: () => openRoute(context, AppLinks.insightsScope('checklist', checklistId)),
+              ),
+            ),
+          if (state.preview)
+            SliverToBoxAdapter(
+              child: PreviewControls(checklistId: checklistId, onNextOpen: _nextOpen),
+            ),
+          SliverToBoxAdapter(
+            child: ViewBanner(state: state, onReset: _resetView),
+          ),
           if (complete && !settings.hideCheckboxes)
             SliverToBoxAdapter(
               child: CompletedBanner(
@@ -388,7 +410,8 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
                 findChildIndexCallback: (key) => key is ValueKey<String> ? _indexOf[key.value] : null,
               ),
             ),
-          if (!state.preview && !state.selecting) SliverToBoxAdapter(child: AddItemRow(onTap: () => unawaited(_addItem()))),
+          if (!state.preview && !state.selecting)
+            SliverToBoxAdapter(child: AddItemRow(onTap: () => unawaited(_addItem()))),
           if (state.preview && tree != null && shown.isEmpty)
             SliverToBoxAdapter(
               child: EmptyState(
@@ -405,7 +428,10 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
   List<VisibleRow> _whileDragging(List<VisibleRow> rows, ChecklistTree? tree) {
     final d = _drag;
     if (d == null || tree == null) return rows;
-    return [for (final r in rows) if (!tree.isDescendant(r.id, d.id)) r];
+    return [
+      for (final r in rows)
+        if (!tree.isDescendant(r.id, d.id)) r,
+    ];
   }
 
   /// Rows are memoized: an unchanged `(row, context)` reuses the same widget instance, so a
@@ -501,6 +527,160 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _scrollToRow(id, retried: true);
     });
+  }
+
+  /// Mind map node tapped (T4.5.14): back to the outline with the item revealed and highlighted.
+  Future<void> _showInOutline(String id) async {
+    await _editor.reveal(id);
+    await _editor.setViewType(ChecklistViewType.outline);
+    if (!mounted) return;
+    _editor.highlight(id);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _scrollToRow(id);
+    });
+    _scheduleHighlightClear();
+  }
+
+  /// *Open side by side…* (T4.5.17): pick another list for the second pane.
+  Future<void> _openSideBySide() async {
+    final l = context.l10n;
+    final others = [
+      for (final c in ref.read(boardChecklistsProvider).value ?? const <Checklist>[])
+        if (c.id != checklistId) c,
+    ];
+    if (others.isEmpty) {
+      _info(l.checklistNoOtherLists);
+      return;
+    }
+    final picked = await showAppSheet<String>(
+      context,
+      title: l.checklistPickSecondList,
+      builder: (ctx) => ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(ctx).height * 0.6),
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            for (final c in others)
+              ListTile(
+                leading: const Icon(Icons.checklist),
+                title: Text(c.title.trim().isEmpty ? l.listsUntitled : c.title),
+                onTap: () => Navigator.pop(ctx, c.id),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (picked == null || !mounted) return;
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => SplitChecklistsScreen(leftId: checklistId, rightId: picked),
+      ),
+    );
+  }
+
+  /// *Cover image…* (T4.1.17): one of the list's images (list-level or items) shown full-width on
+  /// the card; *Automatic* falls back to the first image.
+  Future<void> _chooseCover(Checklist c) async {
+    final l = context.l10n;
+    // The provider may not be watched on this screen: keep it alive until its first value.
+    final keepAlive = ref.listenManual(checklistAttachmentsProvider(checklistId), (_, _) {});
+    List<Attachment> all;
+    try {
+      all = await ref.read(checklistAttachmentsProvider(checklistId).future);
+    } finally {
+      keepAlive.close();
+    }
+    if (!mounted) return;
+    final images = [
+      for (final a in all)
+        if (a.isImage) a,
+    ];
+    if (images.isEmpty) {
+      _info(l.checklistCoverNoImages);
+      return;
+    }
+    final picked = await showAppSheet<String>(
+      context,
+      title: l.checklistCover,
+      builder: (ctx) => SizedBox(
+        height: MediaQuery.sizeOf(ctx).height * 0.6,
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: ListTile(
+                leading: const Icon(Icons.auto_awesome_outlined),
+                title: Text(l.checklistCoverAuto),
+                selected: c.coverAttachmentId == null,
+                onTap: () => Navigator.pop(ctx, ''),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsetsDirectional.all(Space.md),
+              sliver: AttachmentGrid(attachments: images, onTap: (i) => Navigator.pop(ctx, images[i].id)),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (picked == null || !mounted) return;
+    final repo = ref.read(checklistsRepositoryProvider);
+    final record = picked.isEmpty
+        ? await repo.update(c.id, clearCover: true)
+        : await repo.update(c.id, coverAttachmentId: picked);
+    if (!mounted || record.isEmpty) return;
+    _editor.pushUndo('cover', record);
+    _undoSnack(l.checklistCoverUpdated, record);
+  }
+
+  /// *Link to existing task…* (T4.5.12): pick a planner task; the link is stored on the task.
+  Future<void> _linkExistingTask(Checklist c) async {
+    final l = context.l10n;
+    final picked = await showAppSheet<LinkedTask>(
+      context,
+      title: l.checklistLinkTaskTitle,
+      builder: (ctx) => Consumer(
+        builder: (ctx, ref, _) {
+          final tasks = ref.watch(plannerTasksForLinksProvider);
+          if (tasks.isEmpty) {
+            return Padding(
+              padding: const EdgeInsets.all(Space.lg),
+              child: Text(l.checklistNoTasksToLink, style: ctx.text.bodyMedium),
+            );
+          }
+          return ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(ctx).height * 0.6),
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                for (final t in tasks)
+                  ListTile(
+                    leading: Icon(t.linkedChecklistId == c.id ? Icons.link : Icons.event_outlined),
+                    title: Text(t.title),
+                    selected: t.linkedChecklistId == c.id,
+                    onTap: () => Navigator.pop(ctx, t),
+                  ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+    if (picked == null || !mounted) return;
+    await ref.read(checklistTaskLinksProvider).link(picked.id, c.id);
+    if (!mounted) return;
+    _info(l.checklistTaskLinked(picked.title));
+  }
+
+  /// Items completed since the start of the user's week (header summary, T4.5.13).
+  int _doneThisWeek(ChecklistTree tree, LocalDateTime nowLocal, String zone) {
+    final start = nowLocal.date.startOfWeek(ref.read(userPreferencesProvider).weekStart).atStartOfDay;
+    DateTime since;
+    try {
+      since = ref.read(zoneResolverProvider).resolve(start, zone).utc;
+    } on Object {
+      since = DateTime.utc(start.year, start.month, start.day);
+    }
+    return ItemTimeRules.completedSince(tree.items, since);
   }
 
   void _celebrate(bool complete) {
@@ -687,7 +867,8 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
       case DetailsAction.delete:
         await _delete([item.id]);
       case DetailsAction.insights:
-        openRoute(context, AppLinks.insightsScope('checklistItem', item.id));
+        // The Insights routes name checklist items `item` (InsightsRoute.item).
+        openRoute(context, AppLinks.insightsScope('item', item.id));
     }
   }
 
@@ -1057,7 +1238,11 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         item('uncheckAll', l.checklistUncheckAll, Icons.remove_done),
         item('deleteCompleted', l.checklistDeleteCompleted, Icons.delete_sweep_outlined),
         item('resetStatuses', l.checklistResetStatuses, Icons.restart_alt),
-        CheckedPopupMenuItem(value: 'hideCheckboxes', checked: s.hideCheckboxes, child: Text(l.checklistHideCheckboxes)),
+        CheckedPopupMenuItem(
+          value: 'hideCheckboxes',
+          checked: s.hideCheckboxes,
+          child: Text(l.checklistHideCheckboxes),
+        ),
         CheckedPopupMenuItem(
           value: 'sortCompleted',
           checked: s.sortCompletedToBottom,
@@ -1068,7 +1253,10 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         item('import', l.checklistImport, Icons.playlist_add),
         if (c.hasBody && !state.preview) item('convertBody', l.importConvertBody, Icons.checklist_rtl),
         item('attach', l.checklistAttach, Icons.attach_file),
+        if (MediaQuery.sizeOf(context).width >= 700 && ChecklistPaneScope.maybeOf(context) == null)
+          item('split', l.checklistOpenSideBySide, Icons.vertical_split_outlined),
         item('attachments', l.checklistAllAttachments, Icons.photo_library_outlined),
+        item('cover', l.checklistCover, Icons.wallpaper),
         item('labels', l.checklistLabels, Icons.label_outline),
         item('share', l.checklistShare, Icons.ios_share),
         const PopupMenuDivider(),
@@ -1078,6 +1266,7 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         item('duplicate', l.checklistDuplicate, Icons.copy_all_outlined),
         if (!c.isTemplate) item('saveTemplate', l.checklistSaveAsTemplate, Icons.dashboard_customize_outlined),
         item('scheduleTask', l.checklistScheduleTask, Icons.event_available),
+        item('linkTask', l.checklistLinkTask, Icons.add_link),
         item('insights', l.checklistInsights, Icons.insights_outlined),
         item('archive', c.isArchived ? l.listsUnarchive : l.listsArchiveAction, Icons.archive_outlined),
         item('delete', l.checklistDelete, Icons.delete_outline, danger: true),
@@ -1109,7 +1298,11 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         final count = tree == null ? 0 : ListCommands.uncheckAllCount(tree);
         if (count == 0) return;
         if (count > 10) {
-          final ok = await confirmDialog(context, title: l.checklistUncheckConfirm(count), confirmLabel: l.checklistUncheckAll);
+          final ok = await confirmDialog(
+            context,
+            title: l.checklistUncheckConfirm(count),
+            confirmLabel: l.checklistUncheckAll,
+          );
           if (!ok) return;
         }
         final record = await _editor.uncheckAll();
@@ -1150,6 +1343,10 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         );
         final record = result?.record;
         if (record != null) _editor.pushUndo('attach', record);
+      case 'cover':
+        await _chooseCover(c);
+      case 'split':
+        await _openSideBySide();
       case 'attachments':
         await Navigator.of(context).push(
           MaterialPageRoute<void>(
@@ -1200,9 +1397,12 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         );
         if (mounted) _undoSnack(l.checklistTemplateSaved, created.record);
       case 'scheduleTask':
-        // TODO(integration): create a planner task with `linked_checklist_id` through the planner's
-        // application API once it exposes one (T4.5.12); until then the entry explains itself.
-        _info(l.checklistTaskPlaceholder);
+        final taskId = await ref.read(checklistTaskLinksProvider).scheduleAsTask(c, fallbackTitle: l.listsUntitled);
+        if (!mounted) return;
+        _info(l.checklistTaskScheduled);
+        openRoute(context, AppLinks.taskEdit(taskId));
+      case 'linkTask':
+        await _linkExistingTask(c);
       case 'insights':
         openRoute(context, AppLinks.insightsScope('checklist', checklistId));
       case 'archive':
@@ -1228,7 +1428,11 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
       ToolbarAction(Icons.keyboard_return, l.checklistLineBreak, () => insertRowLineBreak(_rowContexts[id])),
       ToolbarAction(Icons.undo, l.actionUndo, state.canUndo ? undo : null),
       ToolbarAction(Icons.redo, l.actionRedo, state.canRedo ? redo : null),
-      ToolbarAction(Icons.keyboard_hide_outlined, l.checklistHideKeyboard, () => FocusManager.instance.primaryFocus?.unfocus()),
+      ToolbarAction(
+        Icons.keyboard_hide_outlined,
+        l.checklistHideKeyboard,
+        () => FocusManager.instance.primaryFocus?.unfocus(),
+      ),
     ];
   }
 
@@ -1238,7 +1442,11 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     final any = ids.isNotEmpty;
     final structure = any && state.canRestructure;
     return [
-      ToolbarAction(Icons.flag_outlined, l.statusChange, any ? () => unawaited(_bulkStatus(state.selection.toList())) : null),
+      ToolbarAction(
+        Icons.flag_outlined,
+        l.statusChange,
+        any ? () => unawaited(_bulkStatus(state.selection.toList())) : null,
+      ),
       ToolbarAction(
         Icons.format_indent_increase,
         l.checklistIndent,
@@ -1309,12 +1517,8 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     final overlay = Overlay.of(context);
     final rtl = Directionality.of(context) == TextDirection.rtl;
     session.overlay = OverlayEntry(
-      builder: (ctx) => _DragOverlay(
-        session: session,
-        listRect: _listRect,
-        overlayBox: () => _box(overlay.context),
-        rtl: rtl,
-      ),
+      builder: (ctx) =>
+          _DragOverlay(session: session, listRect: _listRect, overlayBox: () => _box(overlay.context), rtl: rtl),
     );
     overlay.insert(session.overlay!);
     setState(() => _drag = session);
@@ -1336,6 +1540,13 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     if (s == null) return;
     final target = s.target;
     _clearDrag();
+    // In a split view a drop over the other pane moves the item there (T4.5.17).
+    final pane = ChecklistPaneScope.maybeOf(context);
+    final own = _box(context);
+    if (pane != null && own != null && !(own.localToGlobal(Offset.zero) & own.size).contains(s.pointer)) {
+      unawaited(pane.onDropOutside(checklistId, s.id, s.pointer));
+      return;
+    }
     if (target == null) return;
     unawaited(_drop(s.id, target));
   }
@@ -1365,7 +1576,10 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
   void _updateTarget() {
     final s = _drag;
     if (s == null || !mounted) return;
-    final candidates = [for (final r in _shown) if (r.id != s.id) r];
+    final candidates = [
+      for (final r in _shown)
+        if (r.id != s.id) r,
+    ];
     int? gap;
     double? lineY;
     int? lastLaid;
@@ -1524,10 +1738,7 @@ class _DragOverlay extends StatelessWidget {
         Positioned.fromRect(
           rect: Rect.fromLTWH(a.dx, a.dy, (end - start).clamp(8.0, double.infinity), 3),
           child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: context.colors.primary,
-              borderRadius: BorderRadius.circular(Radii.pill),
-            ),
+            decoration: BoxDecoration(color: context.colors.primary, borderRadius: BorderRadius.circular(Radii.pill)),
           ),
         ),
       );
@@ -1582,6 +1793,7 @@ class _HeaderExtras extends ConsumerWidget {
     final l = context.l10n;
     final schedule = ResetSchedule.fromJson(checklist.resetRule);
     final tags = ref.watch(entityTagsProvider((type: 'checklist', id: checklist.id))).value ?? const [];
+    final linked = ref.watch(linkedTasksProvider(checklist.id));
     Widget? repeat;
     if (schedule != null) {
       final prefs = ref.watch(userPreferencesProvider);
@@ -1599,7 +1811,9 @@ class _HeaderExtras extends ConsumerWidget {
       } on Object {
         rule = l.repeatCustom;
       }
-      final when = next == null ? '—' : AppFormat(context.localeName, use24h: prefs.use24h, l10n: l).relative(next, now);
+      final when = next == null
+          ? '—'
+          : AppFormat(context.localeName, use24h: prefs.use24h, l10n: l).relative(next, now);
       repeat = ActionChip(
         avatar: const Icon(Icons.repeat, size: 18),
         label: Text(l.repeatChip(rule, when)),
@@ -1609,7 +1823,7 @@ class _HeaderExtras extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (tags.isNotEmpty || !preview || repeat != null)
+        if (tags.isNotEmpty || !preview || repeat != null || linked.isNotEmpty)
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.xs, Space.lg, 0),
             child: Wrap(
@@ -1618,6 +1832,18 @@ class _HeaderExtras extends ConsumerWidget {
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 ?repeat,
+                // Planner tasks linked to this list (T4.5.12): tap opens the task.
+                for (final t in linked)
+                  Semantics(
+                    label: l.checklistLinkedTaskSemantics(t.title),
+                    button: true,
+                    excludeSemantics: true,
+                    child: ActionChip(
+                      avatar: const Icon(Icons.event_available, size: 18),
+                      label: Text(t.title, overflow: TextOverflow.ellipsis),
+                      onPressed: () => openRoute(context, AppLinks.task(t.id)),
+                    ),
+                  ),
                 EntityTagChips(entityType: 'checklist', entityId: checklist.id, editable: !preview),
               ],
             ),

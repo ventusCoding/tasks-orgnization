@@ -225,7 +225,13 @@ class ChecklistEditor extends Notifier<EditorState> {
   Future<void> setPreview(bool preview) async {
     await flushAll();
     _endSession();
-    state = state.copyWith(preview: preview, selecting: false, selection: const {}, clearFocusRequest: true, clearActive: true);
+    state = state.copyWith(
+      preview: preview,
+      selecting: false,
+      selection: const {},
+      clearFocusRequest: true,
+      clearActive: true,
+    );
     await _store.save(checklistId, mode: preview ? OpenMode.preview : OpenMode.edit);
   }
 
@@ -237,7 +243,12 @@ class ChecklistEditor extends Notifier<EditorState> {
   Future<void> zoomTo(String? itemId) async {
     await flushAll();
     _endSession();
-    state = state.copyWith(focusRootId: itemId, clearFocusRoot: itemId == null, clearFocusRequest: true, clearHighlight: true);
+    state = state.copyWith(
+      focusRootId: itemId,
+      clearFocusRoot: itemId == null,
+      clearFocusRequest: true,
+      clearHighlight: true,
+    );
     await _store.save(checklistId, focusItemId: itemId, clearFocus: itemId == null);
   }
 
@@ -270,6 +281,18 @@ class ChecklistEditor extends Notifier<EditorState> {
     await _store.setCollapsed(checklistId, [id], collapsed: !collapsed.contains(id), at: _now);
   }
 
+  /// Expands [id]'s collapsed ancestors so the outline shows it (mind map → outline, T4.5.14).
+  Future<void> reveal(String id) async {
+    final t = tree;
+    if (t == null || !t.contains(id)) return;
+    final collapsed = ref.read(collapsedNodesProvider(checklistId)).value ?? const {};
+    final hidden = [
+      for (final a in t.ancestors(id))
+        if (collapsed.contains(a)) a,
+    ];
+    if (hidden.isNotEmpty) await _store.setCollapsed(checklistId, hidden, collapsed: false, at: _now);
+  }
+
   Future<void> setSubtreeCollapsed(String id, {required bool collapsed}) async {
     final t = tree;
     if (t == null) return;
@@ -280,7 +303,11 @@ class ChecklistEditor extends Notifier<EditorState> {
   Future<void> collapseAll() async {
     final t = tree;
     if (t == null) return;
-    await _store.replaceCollapsed(checklistId, VisibleListBuilder.allParents(t, focusRootId: state.focusRootId), at: _now);
+    await _store.replaceCollapsed(
+      checklistId,
+      VisibleListBuilder.allParents(t, focusRootId: state.focusRootId),
+      at: _now,
+    );
   }
 
   Future<void> expandAll() => _store.replaceCollapsed(checklistId, const {}, at: _now);
@@ -373,8 +400,9 @@ class ChecklistEditor extends Notifier<EditorState> {
     if (ref.mounted && state.activeItemId == id) state = state.copyWith(clearActive: true);
   }
 
-  void requestFocus(String itemId, {int? cursor}) =>
-      state = state.copyWith(focusRequest: FocusRequest(itemId, cursor: cursor, seq: ++_focusSeq));
+  void requestFocus(String itemId, {int? cursor}) => state = state.copyWith(
+    focusRequest: FocusRequest(itemId, cursor: cursor, seq: ++_focusSeq),
+  );
 
   void consumeFocusRequest(FocusRequest request) {
     if (state.focusRequest == request) state = state.copyWith(clearFocusRequest: true);
@@ -383,12 +411,7 @@ class ChecklistEditor extends Notifier<EditorState> {
   // ------------------------------------------------------------------ ops
 
   /// Runs one command: flush drafts, end the text session, apply, push one undo step, focus.
-  Future<OpRecord?> run(
-    String label,
-    ChangeBuilder build, {
-    String cause = 'user',
-    bool focusResult = true,
-  }) async {
+  Future<OpRecord?> run(String label, ChangeBuilder build, {String cause = 'user', bool focusResult = true}) async {
     await flushAll();
     _endSession();
     final result = await _service.run(checklistId, build, cause: cause);
@@ -512,7 +535,11 @@ class ChecklistEditor extends Notifier<EditorState> {
   }
 
   /// Moves subtrees to another checklist under [targetParentId] (appended, T4.1.15).
-  Future<OpRecord?> moveToChecklist(Iterable<String> ids, {required String targetChecklistId, String? targetParentId}) async {
+  Future<OpRecord?> moveToChecklist(
+    Iterable<String> ids, {
+    required String targetChecklistId,
+    String? targetParentId,
+  }) async {
     if (targetChecklistId == checklistId) {
       final t = tree;
       final last = t == null ? null : (t.childIds(targetParentId).isEmpty ? null : t.childIds(targetParentId).last);
@@ -550,7 +577,8 @@ class ChecklistEditor extends Notifier<EditorState> {
     }
     return run(
       'paste',
-      (tree, ctx, _) => TreeOps.insertNodes(tree, ctx, content.nodes, parentId: parent, afterId: afterId, atEnd: afterId == null),
+      (tree, ctx, _) =>
+          TreeOps.insertNodes(tree, ctx, content.nodes, parentId: parent, afterId: afterId, atEnd: afterId == null),
     );
   }
 
@@ -623,8 +651,12 @@ class ChecklistEditor extends Notifier<EditorState> {
 
   // ------------------------------------------------------------------ list commands (T4.3.09)
 
-  Future<OpRecord?> uncheckAll() =>
-      run('uncheckAll', (t, ctx, c) => ListCommands.uncheckAll(t, c.settings, now: ctx.now), cause: 'bulk', focusResult: false);
+  Future<OpRecord?> uncheckAll() => run(
+    'uncheckAll',
+    (t, ctx, c) => ListCommands.uncheckAll(t, c.settings, now: ctx.now),
+    cause: 'bulk',
+    focusResult: false,
+  );
 
   Future<OpRecord?> resetAllStatuses() =>
       run('resetAll', (t, ctx, _) => ListCommands.resetAll(t, now: ctx.now), cause: 'bulk', focusResult: false);
@@ -671,7 +703,10 @@ class ChecklistEditor extends Notifier<EditorState> {
     if (a < 0 || b < 0) return;
     final lo = a < b ? a : b;
     final hi = a < b ? b : a;
-    state = state.copyWith(selecting: true, selection: {...state.selection, for (final r in rows.sublist(lo, hi + 1)) r.id});
+    state = state.copyWith(
+      selecting: true,
+      selection: {...state.selection, for (final r in rows.sublist(lo, hi + 1)) r.id},
+    );
   }
 
   void selectAll(List<VisibleRow> rows) =>
@@ -709,7 +744,8 @@ class ChecklistEditor extends Notifier<EditorState> {
   void pushUndo(String label, OpRecord record) => _push(label, record);
 
   /// Briefly highlights a row (search hits, smart views, "next open item").
-  void highlight(String? id) => state = id == null ? state.copyWith(clearHighlight: true) : state.copyWith(highlightId: id);
+  void highlight(String? id) =>
+      state = id == null ? state.copyWith(clearHighlight: true) : state.copyWith(highlightId: id);
 }
 
 final checklistEditorProvider = NotifierProvider.autoDispose.family<ChecklistEditor, EditorState, String>(

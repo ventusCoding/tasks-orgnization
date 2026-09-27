@@ -1998,6 +1998,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistCopyText => 'نسخ كنص';
 
   @override
+  String get checklistCover => 'صورة الغلاف…';
+
+  @override
+  String get checklistCoverAuto => 'تلقائي (أول صورة)';
+
+  @override
+  String get checklistCoverNoImages =>
+      'أضف صورة إلى القائمة أو إلى عناصرها أولًا';
+
+  @override
+  String get checklistCoverUpdated => 'تم تحديث الغلاف';
+
+  @override
   String get checklistCut => 'قص';
 
   @override
@@ -2016,6 +2029,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checklistDetails => 'التفاصيل';
+
+  @override
+  String checklistDoneThisWeek(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر أُنجز هذا الأسبوع',
+      many: '$count عنصرًا أُنجز هذا الأسبوع',
+      few: '$count عناصر أُنجزت هذا الأسبوع',
+      two: 'عنصران أُنجزا هذا الأسبوع',
+      one: 'عنصر واحد أُنجز هذا الأسبوع',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get checklistDragHandle => 'اسحب للنقل';
@@ -2182,7 +2209,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistLineBreak => 'سطر جديد';
 
   @override
+  String get checklistLinkTask => 'ربط بمهمة موجودة…';
+
+  @override
+  String get checklistLinkTaskTitle => 'ربط مهمة';
+
+  @override
   String get checklistLinkedTask => 'مهمة مرتبطة';
+
+  @override
+  String checklistLinkedTaskSemantics(String task) {
+    return 'مهمة مرتبطة $task';
+  }
 
   @override
   String get checklistMdBold => 'غامق';
@@ -2237,10 +2275,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistNoLabels => 'لا توجد تسميات بعد';
 
   @override
+  String get checklistNoOtherLists => 'لا توجد قائمة أخرى للعرض';
+
+  @override
+  String get checklistNoTasksToLink => 'لا توجد مهام للربط بعد';
+
+  @override
   String get checklistNotFound => 'هذه القائمة غير موجودة';
 
   @override
   String get checklistNotifItemGone => 'هذا العنصر لم يعد موجودًا';
+
+  @override
+  String get checklistOpenSideBySide => 'فتح جنبًا إلى جنب…';
 
   @override
   String get checklistOpenTrash => 'فتح المهملات';
@@ -2256,6 +2303,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checklistPendingUploads => 'عمليات رفع معلقة';
+
+  @override
+  String get checklistPickSecondList => 'العرض بجانب هذه القائمة';
 
   @override
   String checklistProgress(int done, int total) {
@@ -2383,7 +2433,15 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String checklistTaskLinked(String task) {
+    return 'مرتبطة بـ$task';
+  }
+
+  @override
   String get checklistTaskPlaceholder => 'سيتوفر الربط بالمهام مع المخطط.';
+
+  @override
+  String get checklistTaskScheduled => 'أُنشئت المهمة — حدّد موعدها';
 
   @override
   String get checklistTemplateSaved => 'تم الحفظ كقالب';
@@ -2414,6 +2472,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checklistViewKanban => 'كانبان';
+
+  @override
+  String get checklistViewMindMap => 'خريطة ذهنية';
 
   @override
   String get checklistViewOutline => 'مخطط';
@@ -4363,10 +4424,38 @@ class AppLocalizationsAr extends AppLocalizations {
   String get importKeepOne => 'الإبقاء كعنصر واحد';
 
   @override
+  String importMoreLines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '…و$count عنصر آخر',
+      many: '…و$count عنصرًا آخر',
+      few: '…و$count عناصر أخرى',
+      two: '…وعنصران آخران',
+      one: '…وعنصر آخر',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get importPasteHint => 'الصق نصًا بمسافات بادئة أو Markdown أو OPML';
 
   @override
   String get importSplit => 'التقسيم إلى عناصر (مع الحفاظ على التفرع)';
+
+  @override
+  String importSplitCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'التقسيم إلى $count عنصر (مع الحفاظ على التداخل)',
+      many: 'التقسيم إلى $count عنصرًا (مع الحفاظ على التداخل)',
+      few: 'التقسيم إلى $count عناصر (مع الحفاظ على التداخل)',
+      two: 'التقسيم إلى عنصرين (مع الحفاظ على التداخل)',
+      one: 'التقسيم إلى عنصر واحد (مع الحفاظ على التداخل)',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get importTitle => 'استيراد';
@@ -4486,6 +4575,88 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get itemTimeInStatus => 'الوقت في كل حالة';
+
+  @override
+  String get itemsColAge => 'المدة';
+
+  @override
+  String get itemsColAttachments => 'الملفات';
+
+  @override
+  String get itemsColChecklist => 'القائمة';
+
+  @override
+  String get itemsColDue => 'الاستحقاق';
+
+  @override
+  String get itemsColFollowUp => 'المتابعة';
+
+  @override
+  String get itemsColPath => 'المسار';
+
+  @override
+  String get itemsColPriority => 'الأولوية';
+
+  @override
+  String get itemsColStatus => 'الحالة';
+
+  @override
+  String get itemsColText => 'العنصر';
+
+  @override
+  String get itemsTableEmpty => 'لا توجد عناصر مطابقة';
+
+  @override
+  String get itemsTableFilterHint => 'التصفية حسب النص أو القائمة أو المسار';
+
+  @override
+  String get itemsTableOpen => 'كل العناصر (جدول)';
+
+  @override
+  String get itemsTableSelectAll => 'تحديد كل العناصر المعروضة';
+
+  @override
+  String itemsTableSelectRow(String item) {
+    return 'تحديد $item';
+  }
+
+  @override
+  String itemsTableSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر محدد',
+      many: '$count عنصرًا محددًا',
+      few: '$count عناصر محددة',
+      two: 'عنصران محددان',
+      one: 'عنصر واحد محدد',
+      zero: 'لا شيء محدد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String itemsTableSortBy(String column) {
+    return 'الترتيب حسب $column';
+  }
+
+  @override
+  String itemsTableStatusChanged(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم تحديث $count عنصر',
+      many: 'تم تحديث $count عنصرًا',
+      few: 'تم تحديث $count عناصر',
+      two: 'تم تحديث عنصرين',
+      one: 'تم تحديث عنصر واحد',
+      zero: 'لم يُحدَّث شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get itemsTableTitle => 'كل العناصر';
 
   @override
   String get kanbanAll => 'كل العناصر';
@@ -4723,6 +4894,14 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get localOnlyBanner =>
       'مزامنة السحابة غير مُعدّة — بياناتك تبقى على هذا الجهاز.';
+
+  @override
+  String get mindMapExport => 'تصدير كصورة';
+
+  @override
+  String mindMapHidden(int count) {
+    return '+$count';
+  }
 
   @override
   String get moveChooseParent => 'اختر المكان';

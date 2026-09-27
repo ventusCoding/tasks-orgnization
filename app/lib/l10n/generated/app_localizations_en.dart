@@ -1956,6 +1956,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checklistCopyText => 'Copy as text';
 
   @override
+  String get checklistCover => 'Cover image…';
+
+  @override
+  String get checklistCoverAuto => 'Automatic (first image)';
+
+  @override
+  String get checklistCoverNoImages =>
+      'Add an image to the list or its items first';
+
+  @override
+  String get checklistCoverUpdated => 'Cover updated';
+
+  @override
   String get checklistCut => 'Cut';
 
   @override
@@ -1974,6 +1987,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checklistDetails => 'Details';
+
+  @override
+  String checklistDoneThisWeek(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count done this week',
+      one: '1 done this week',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get checklistDragHandle => 'Drag to move';
@@ -2120,7 +2144,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checklistLineBreak => 'Line break';
 
   @override
+  String get checklistLinkTask => 'Link to existing task…';
+
+  @override
+  String get checklistLinkTaskTitle => 'Link a task';
+
+  @override
   String get checklistLinkedTask => 'Linked task';
+
+  @override
+  String checklistLinkedTaskSemantics(String task) {
+    return 'Linked task $task';
+  }
 
   @override
   String get checklistMdBold => 'Bold';
@@ -2175,10 +2210,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checklistNoLabels => 'No labels yet';
 
   @override
+  String get checklistNoOtherLists => 'No other list to show';
+
+  @override
+  String get checklistNoTasksToLink => 'No tasks to link yet';
+
+  @override
   String get checklistNotFound => 'This list doesn\'t exist';
 
   @override
   String get checklistNotifItemGone => 'This item no longer exists';
+
+  @override
+  String get checklistOpenSideBySide => 'Open side by side…';
 
   @override
   String get checklistOpenTrash => 'Open trash';
@@ -2194,6 +2238,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checklistPendingUploads => 'Uploads pending';
+
+  @override
+  String get checklistPickSecondList => 'Show next to this list';
 
   @override
   String checklistProgress(int done, int total) {
@@ -2317,8 +2364,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String checklistTaskLinked(String task) {
+    return 'Linked to $task';
+  }
+
+  @override
   String get checklistTaskPlaceholder =>
       'Linking to planner tasks arrives with the planner.';
+
+  @override
+  String get checklistTaskScheduled => 'Task created — set its time';
 
   @override
   String get checklistTemplateSaved => 'Saved as template';
@@ -2345,6 +2400,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checklistViewKanban => 'Kanban';
+
+  @override
+  String get checklistViewMindMap => 'Mind map';
 
   @override
   String get checklistViewOutline => 'Outline';
@@ -4203,10 +4261,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get importKeepOne => 'Keep as one item';
 
   @override
+  String importMoreLines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '…and $count more items',
+      one: '…and 1 more item',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get importPasteHint => 'Paste indented text, Markdown or OPML';
 
   @override
   String get importSplit => 'Split into items (keep nesting)';
+
+  @override
+  String importSplitCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Split into $count items (keep nesting)',
+      one: 'Split into 1 item (keep nesting)',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get importTitle => 'Import';
@@ -4328,6 +4408,80 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get itemTimeInStatus => 'Time in status';
+
+  @override
+  String get itemsColAge => 'Age';
+
+  @override
+  String get itemsColAttachments => 'Files';
+
+  @override
+  String get itemsColChecklist => 'List';
+
+  @override
+  String get itemsColDue => 'Due';
+
+  @override
+  String get itemsColFollowUp => 'Follow-up';
+
+  @override
+  String get itemsColPath => 'Path';
+
+  @override
+  String get itemsColPriority => 'Priority';
+
+  @override
+  String get itemsColStatus => 'Status';
+
+  @override
+  String get itemsColText => 'Item';
+
+  @override
+  String get itemsTableEmpty => 'No items match';
+
+  @override
+  String get itemsTableFilterHint => 'Filter by text, list or path';
+
+  @override
+  String get itemsTableOpen => 'All items (table)';
+
+  @override
+  String get itemsTableSelectAll => 'Select all shown items';
+
+  @override
+  String itemsTableSelectRow(String item) {
+    return 'Select $item';
+  }
+
+  @override
+  String itemsTableSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count selected',
+      one: '1 selected',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String itemsTableSortBy(String column) {
+    return 'Sort by $column';
+  }
+
+  @override
+  String itemsTableStatusChanged(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items updated',
+      one: '1 item updated',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get itemsTableTitle => 'All items';
 
   @override
   String get kanbanAll => 'All items';
@@ -4562,6 +4716,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get localOnlyBanner =>
       'Cloud sync isn\'t configured — your data stays on this device.';
+
+  @override
+  String get mindMapExport => 'Export as image';
+
+  @override
+  String mindMapHidden(int count) {
+    return '+$count';
+  }
 
   @override
   String get moveChooseParent => 'Choose where';

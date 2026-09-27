@@ -10,11 +10,15 @@ import 'package:meta/meta.dart';
 enum ChecklistViewType {
   outline,
   kanban,
-  gallery;
+  gallery,
+
+  /// Live mind map of the same tree (T4.5.14).
+  mindMap;
 
   static ChecklistViewType parse(String? v) => switch (v) {
     'kanban' => ChecklistViewType.kanban,
     'gallery' => ChecklistViewType.gallery,
+    'mindMap' => ChecklistViewType.mindMap,
     _ => ChecklistViewType.outline,
   };
 }
@@ -182,10 +186,7 @@ abstract final class VisibleListBuilder {
       var items = [for (final id in ids) tree[id]!];
       if (!sort.isManual) items = ItemComparators.sort(items, sort.by, descending: sort.descending);
       if (sortCompletedToBottom) {
-        items = [
-          ...items.where((i) => !i.status.isTerminal),
-          ...items.where((i) => i.status.isTerminal),
-        ];
+        items = [...items.where((i) => !i.status.isTerminal), ...items.where((i) => i.status.isTerminal)];
       }
       return [for (final i in items) i.id];
     }
@@ -226,7 +227,10 @@ abstract final class VisibleListBuilder {
     Set<String>? include;
     Set<String>? matched;
     if (filter.isActive) {
-      matched = {for (final id in scope) if (matches(tree[id]!)) id};
+      matched = {
+        for (final id in scope)
+          if (matches(tree[id]!)) id,
+      };
       include = {...matched};
       for (final id in matched) {
         for (final a in tree.ancestors(id)) {
@@ -289,6 +293,9 @@ abstract final class VisibleListBuilder {
   /// Every parent in scope (collapse all).
   static Set<String> allParents(ChecklistTree tree, {String? focusRootId}) {
     final scope = focusRootId == null ? tree.order : tree.descendants(focusRootId);
-    return {for (final id in scope) if (tree.hasChildren(id)) id};
+    return {
+      for (final id in scope)
+        if (tree.hasChildren(id)) id,
+    };
   }
 }

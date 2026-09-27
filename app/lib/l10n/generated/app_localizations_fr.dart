@@ -1966,6 +1966,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get checklistCopyText => 'Copier en texte';
 
   @override
+  String get checklistCover => 'Image de couverture…';
+
+  @override
+  String get checklistCoverAuto => 'Automatique (première image)';
+
+  @override
+  String get checklistCoverNoImages =>
+      'Ajoutez d’abord une image à la liste ou à ses éléments';
+
+  @override
+  String get checklistCoverUpdated => 'Couverture mise à jour';
+
+  @override
   String get checklistCut => 'Couper';
 
   @override
@@ -1984,6 +1997,17 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get checklistDetails => 'Détails';
+
+  @override
+  String checklistDoneThisWeek(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count terminés cette semaine',
+      one: '1 terminé cette semaine',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get checklistDragHandle => 'Glisser pour déplacer';
@@ -2130,7 +2154,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String get checklistLineBreak => 'Saut de ligne';
 
   @override
+  String get checklistLinkTask => 'Lier à une tâche existante…';
+
+  @override
+  String get checklistLinkTaskTitle => 'Lier une tâche';
+
+  @override
   String get checklistLinkedTask => 'Tâche liée';
+
+  @override
+  String checklistLinkedTaskSemantics(String task) {
+    return 'Tâche liée $task';
+  }
 
   @override
   String get checklistMdBold => 'Gras';
@@ -2185,10 +2220,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get checklistNoLabels => 'Aucun libellé';
 
   @override
+  String get checklistNoOtherLists => 'Aucune autre liste à afficher';
+
+  @override
+  String get checklistNoTasksToLink => 'Aucune tâche à lier pour l’instant';
+
+  @override
   String get checklistNotFound => 'Cette liste n\'existe pas';
 
   @override
   String get checklistNotifItemGone => 'Cet élément n’existe plus';
+
+  @override
+  String get checklistOpenSideBySide => 'Ouvrir côte à côte…';
 
   @override
   String get checklistOpenTrash => 'Ouvrir la corbeille';
@@ -2204,6 +2248,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get checklistPendingUploads => 'Envois en attente';
+
+  @override
+  String get checklistPickSecondList => 'Afficher à côté de cette liste';
 
   @override
   String checklistProgress(int done, int total) {
@@ -2327,8 +2374,16 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String checklistTaskLinked(String task) {
+    return 'Liée à $task';
+  }
+
+  @override
   String get checklistTaskPlaceholder =>
       'Le lien avec les tâches arrive avec le planificateur.';
+
+  @override
+  String get checklistTaskScheduled => 'Tâche créée — choisissez son horaire';
 
   @override
   String get checklistTemplateSaved => 'Enregistré comme modèle';
@@ -2355,6 +2410,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get checklistViewKanban => 'Kanban';
+
+  @override
+  String get checklistViewMindMap => 'Carte mentale';
 
   @override
   String get checklistViewOutline => 'Plan';
@@ -4224,11 +4282,33 @@ class AppLocalizationsFr extends AppLocalizations {
   String get importKeepOne => 'Garder en un seul élément';
 
   @override
+  String importMoreLines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '…et $count éléments de plus',
+      one: '…et 1 élément de plus',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get importPasteHint =>
       'Collez du texte indenté, du Markdown ou de l\'OPML';
 
   @override
   String get importSplit => 'Découper en éléments (garder l\'imbrication)';
+
+  @override
+  String importSplitCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Scinder en $count éléments (garder l’imbrication)',
+      one: 'Scinder en 1 élément (garder l’imbrication)',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get importTitle => 'Importer';
@@ -4352,6 +4432,80 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get itemTimeInStatus => 'Temps par statut';
+
+  @override
+  String get itemsColAge => 'Âge';
+
+  @override
+  String get itemsColAttachments => 'Fichiers';
+
+  @override
+  String get itemsColChecklist => 'Liste';
+
+  @override
+  String get itemsColDue => 'Échéance';
+
+  @override
+  String get itemsColFollowUp => 'Relance';
+
+  @override
+  String get itemsColPath => 'Chemin';
+
+  @override
+  String get itemsColPriority => 'Priorité';
+
+  @override
+  String get itemsColStatus => 'Statut';
+
+  @override
+  String get itemsColText => 'Élément';
+
+  @override
+  String get itemsTableEmpty => 'Aucun élément ne correspond';
+
+  @override
+  String get itemsTableFilterHint => 'Filtrer par texte, liste ou chemin';
+
+  @override
+  String get itemsTableOpen => 'Tous les éléments (tableau)';
+
+  @override
+  String get itemsTableSelectAll => 'Sélectionner tous les éléments affichés';
+
+  @override
+  String itemsTableSelectRow(String item) {
+    return 'Sélectionner $item';
+  }
+
+  @override
+  String itemsTableSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sélectionnés',
+      one: '1 sélectionné',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String itemsTableSortBy(String column) {
+    return 'Trier par $column';
+  }
+
+  @override
+  String itemsTableStatusChanged(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments mis à jour',
+      one: '1 élément mis à jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get itemsTableTitle => 'Tous les éléments';
 
   @override
   String get kanbanAll => 'Tous les éléments';
@@ -4587,6 +4741,14 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get localOnlyBanner =>
       'La synchronisation cloud n\'est pas configurée — vos données restent sur cet appareil.';
+
+  @override
+  String get mindMapExport => 'Exporter en image';
+
+  @override
+  String mindMapHidden(int count) {
+    return '+$count';
+  }
 
   @override
   String get moveChooseParent => 'Choisir l\'emplacement';

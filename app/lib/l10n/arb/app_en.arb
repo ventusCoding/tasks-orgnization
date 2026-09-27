@@ -843,6 +843,13 @@
       }
     }
   },
+  "@checklistDoneThisWeek": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@checklistDurationDays": {
     "placeholders": {
       "n": {
@@ -882,6 +889,13 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "@checklistLinkedTaskSemantics": {
+    "placeholders": {
+      "task": {
+        "type": "String"
       }
     }
   },
@@ -940,6 +954,13 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "@checklistTaskLinked": {
+    "placeholders": {
+      "task": {
+        "type": "String"
       }
     }
   },
@@ -1579,6 +1600,20 @@
       }
     }
   },
+  "@importMoreLines": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@importSplitCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@integrationsHabitLogged": {
     "placeholders": {
       "habit": {
@@ -1628,6 +1663,34 @@
       },
       "to": {
         "type": "String"
+      }
+    }
+  },
+  "@itemsTableSelectRow": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "@itemsTableSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@itemsTableSortBy": {
+    "placeholders": {
+      "column": {
+        "type": "String"
+      }
+    }
+  },
+  "@itemsTableStatusChanged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
       }
     }
   },
@@ -1698,6 +1761,13 @@
       "label": {
         "type": "String"
       },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@mindMapHidden": {
+    "placeholders": {
       "count": {
         "type": "int"
       }
@@ -4301,12 +4371,17 @@
   "checklistCopied": "Copied",
   "checklistCopy": "Copy",
   "checklistCopyText": "Copy as text",
+  "checklistCover": "Cover image…",
+  "checklistCoverAuto": "Automatic (first image)",
+  "checklistCoverNoImages": "Add an image to the list or its items first",
+  "checklistCoverUpdated": "Cover updated",
   "checklistCut": "Cut",
   "checklistDelete": "Delete list",
   "checklistDeleteCompleted": "Delete completed items",
   "checklistDeleteItem": "Delete",
   "checklistDepthBadge": "L{level}",
   "checklistDetails": "Details",
+  "checklistDoneThisWeek": "{count, plural, =1{1 done this week} other{{count} done this week}}",
   "checklistDragHandle": "Drag to move",
   "checklistDue": "Due date",
   "checklistDuplicate": "Duplicate list",
@@ -4341,7 +4416,10 @@
   "checklistLabelName": "Label name",
   "checklistLabels": "Labels",
   "checklistLineBreak": "Line break",
+  "checklistLinkTask": "Link to existing task…",
+  "checklistLinkTaskTitle": "Link a task",
   "checklistLinkedTask": "Linked task",
+  "checklistLinkedTaskSemantics": "Linked task {task}",
   "checklistMdBold": "Bold",
   "checklistMdBullet": "Bulleted list",
   "checklistMdCode": "Code",
@@ -4359,13 +4437,17 @@
   "checklistNextOpen": "Next open item",
   "checklistNoItems": "No items yet",
   "checklistNoLabels": "No labels yet",
+  "checklistNoOtherLists": "No other list to show",
+  "checklistNoTasksToLink": "No tasks to link yet",
   "checklistNotFound": "This list doesn't exist",
   "checklistNotifItemGone": "This item no longer exists",
+  "checklistOpenSideBySide": "Open side by side…",
   "checklistOpenTrash": "Open trash",
   "checklistOutdent": "Outdent",
   "checklistPaste": "Paste",
   "checklistPasteHere": "Paste here",
   "checklistPendingUploads": "Uploads pending",
+  "checklistPickSecondList": "Show next to this list",
   "checklistProgress": "{done} of {total} done",
   "checklistPromote": "Promote to list",
   "checklistPromoted": "Created a new list",
@@ -4400,13 +4482,16 @@
   "checklistStatusChanged": "Status changed",
   "checklistStatusSpoken": "{status} for {age}",
   "checklistSubItems": "{count, plural, =1{1 sub-item} other{{count} sub-items}}",
+  "checklistTaskLinked": "Linked to {task}",
   "checklistTaskPlaceholder": "Linking to planner tasks arrives with the planner.",
+  "checklistTaskScheduled": "Task created — set its time",
   "checklistTemplateSaved": "Saved as template",
   "checklistTitleHint": "Title",
   "checklistUncheckAll": "Uncheck all",
   "checklistUncheckConfirm": "{count, plural, =1{Uncheck 1 item?} other{Uncheck {count} items?}}",
   "checklistViewGallery": "Gallery",
   "checklistViewKanban": "Kanban",
+  "checklistViewMindMap": "Mind map",
   "checklistViewOutline": "Outline",
   "checklistZoomOut": "Zoom out",
   "comingSoon": "Coming soon",
@@ -4908,8 +4993,10 @@
   "importDone": "{count, plural, =1{1 item imported} other{{count} items imported}}",
   "importItemsCount": "{count, plural, =1{1 item} other{{count} items}}",
   "importKeepOne": "Keep as one item",
+  "importMoreLines": "{count, plural, =1{…and 1 more item} other{…and {count} more items}}",
   "importPasteHint": "Paste indented text, Markdown or OPML",
   "importSplit": "Split into items (keep nesting)",
+  "importSplitCount": "{count, plural, =1{Split into 1 item (keep nesting)} other{Split into {count} items (keep nesting)}}",
   "importTitle": "Import",
   "importWarningAttachments": "Attachment references were skipped",
   "importWarningEmpty": "Nothing to import",
@@ -4945,6 +5032,24 @@
   "itemText": "Text",
   "itemThisDevice": "this device",
   "itemTimeInStatus": "Time in status",
+  "itemsColAge": "Age",
+  "itemsColAttachments": "Files",
+  "itemsColChecklist": "List",
+  "itemsColDue": "Due",
+  "itemsColFollowUp": "Follow-up",
+  "itemsColPath": "Path",
+  "itemsColPriority": "Priority",
+  "itemsColStatus": "Status",
+  "itemsColText": "Item",
+  "itemsTableEmpty": "No items match",
+  "itemsTableFilterHint": "Filter by text, list or path",
+  "itemsTableOpen": "All items (table)",
+  "itemsTableSelectAll": "Select all shown items",
+  "itemsTableSelectRow": "Select {item}",
+  "itemsTableSelected": "{count, plural, =1{1 selected} other{{count} selected}}",
+  "itemsTableSortBy": "Sort by {column}",
+  "itemsTableStatusChanged": "{count, plural, =1{1 item updated} other{{count} items updated}}",
+  "itemsTableTitle": "All items",
   "kanbanAll": "All items",
   "kanbanChildren": "Direct sub-items",
   "kanbanEmptyColumn": "Drop items here",
@@ -5014,6 +5119,8 @@
   "listsUnpin": "Unpin",
   "listsUntitled": "Untitled",
   "localOnlyBanner": "Cloud sync isn't configured — your data stays on this device.",
+  "mindMapExport": "Export as image",
+  "mindMapHidden": "+{count}",
   "moveChooseParent": "Choose where",
   "moveDone": "Moved to {title}",
   "moveToList": "Move to list",
