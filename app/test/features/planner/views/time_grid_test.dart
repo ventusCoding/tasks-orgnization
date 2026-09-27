@@ -2,7 +2,6 @@ import 'package:everslot/core/preferences/user_preferences.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
-import 'package:everslot/features/planner/presentation/grid/engine/page_axis.dart';
 import 'package:everslot/features/planner/presentation/grid/grid_controller.dart';
 import 'package:everslot/features/planner/presentation/grid/time_grid.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
