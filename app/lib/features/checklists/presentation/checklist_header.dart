@@ -250,28 +250,37 @@ class ProgressHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Phone widths and text scale 2.0: both halves wrap instead of overflowing.
               Row(
                 children: [
-                  Text(l.checklistProgress(done, total), style: context.text.labelLarge),
-                  const SizedBox(width: Space.sm),
-                  Text(pct, style: context.text.labelLarge?.copyWith(color: context.colors.primary)),
-                  const Spacer(),
-                  if (rollup.blockedBelow > 0)
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(start: Space.xs),
-                      child: StatusPill(
-                        label: l.listsBadgeBlocked(rollup.blockedBelow),
-                        color: StatusStyle.color(context, ItemStatus.blocked),
-                        dense: true,
-                      ),
+                  Expanded(
+                    child: Wrap(
+                      spacing: Space.sm,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Text(l.checklistProgress(done, total), style: context.text.labelLarge),
+                        Text(pct, style: context.text.labelLarge?.copyWith(color: context.colors.primary)),
+                      ],
                     ),
-                  if (rollup.waitingBelow > 0)
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(start: Space.xs),
-                      child: StatusPill(
-                        label: l.listsBadgeWaiting(rollup.waitingBelow),
-                        color: StatusStyle.color(context, ItemStatus.waiting),
-                        dense: true,
+                  ),
+                  if (rollup.blockedBelow > 0 || rollup.waitingBelow > 0)
+                    Flexible(
+                      child: Wrap(
+                        alignment: WrapAlignment.end,
+                        spacing: Space.xs,
+                        runSpacing: Space.xs,
+                        children: [
+                          if (rollup.blockedBelow > 0)
+                            _FittedPill(
+                              label: l.listsBadgeBlocked(rollup.blockedBelow),
+                              color: StatusStyle.pillColor(context, StatusStyle.color(context, ItemStatus.blocked)),
+                            ),
+                          if (rollup.waitingBelow > 0)
+                            _FittedPill(
+                              label: l.listsBadgeWaiting(rollup.waitingBelow),
+                              color: StatusStyle.pillColor(context, StatusStyle.color(context, ItemStatus.waiting)),
+                            ),
+                        ],
                       ),
                     ),
                 ],
@@ -286,9 +295,29 @@ class ProgressHeader extends StatelessWidget {
   }
 }
 
+/// A dense pill that scales down instead of overflowing a narrow column (text scale 2.0).
+class _FittedPill extends StatelessWidget {
+  const _FittedPill({required this.label, required this.color});
+
+  final String label;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) => FittedBox(
+    fit: BoxFit.scaleDown,
+    child: StatusPill(label: label, color: color, dense: true),
+  );
+}
+
 /// Breadcrumbs "Checklist › A › B" with middle ellipsis (T4.2.13). Tapping a crumb zooms out.
 class Breadcrumbs extends StatelessWidget {
-  const Breadcrumbs({required this.tree, required this.focusRootId, required this.rootTitle, required this.onTap, super.key});
+  const Breadcrumbs({
+    required this.tree,
+    required this.focusRootId,
+    required this.rootTitle,
+    required this.onTap,
+    super.key,
+  });
 
   final ChecklistTree tree;
   final String focusRootId;
@@ -316,9 +345,7 @@ class Breadcrumbs extends StatelessWidget {
           final isEllipsis = label == '…' && id == null && i == 1 && crumbs.length > 5;
           return Center(
             child: TextButton(
-              onPressed: isLast || isEllipsis
-                  ? null
-                  : () => onTap(id),
+              onPressed: isLast || isEllipsis ? null : () => onTap(id),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 160),
                 child: Text(label.isEmpty ? '·' : label, maxLines: 1, overflow: TextOverflow.ellipsis),
@@ -363,7 +390,10 @@ class FocusedItemHeader extends StatelessWidget {
           if (item.hasNote)
             Padding(
               padding: const EdgeInsets.only(top: Space.xs),
-              child: MarkdownLite(item.note!, style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant)),
+              child: MarkdownLite(
+                item.note!,
+                style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant),
+              ),
             ),
         ],
       ),

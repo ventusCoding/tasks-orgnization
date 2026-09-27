@@ -47,7 +47,7 @@ in [6.4]), and rolls progress up through the tree.
 - [x] T4.3.01 — Status model & transition service
 - [x] T4.3.02 — Reason & follow-up sheet
 - [x] T4.3.03 — Status entry points & gestures
-- [ ] T4.3.04 — Status visuals & accessibility
+- [x] T4.3.04 — Status visuals & accessibility
 - [x] T4.3.05 — Status history timeline
 - [x] T4.3.06 — Progress roll-ups (derived)
 - [x] T4.3.07 — Parent auto-complete & cascade rules
@@ -131,6 +131,7 @@ consistently from every entry point.
 - Directional icons mirror in RTL.
 - Contrast is ≥ 4.5:1 for pill text in both themes.
 **Tests:** goldens for all statuses (light/dark, LTR/RTL); contrast guideline tests.
+**Notes:** Goldens: preview gallery of every status, light/dark × LTR/RTL + text scale 2.0; contrast guideline test for every pill at every escalation level in both themes. The design-system pill targets exactly 4.5:1 and renders 4.48 for To do / In progress, so status pills pre-shade to 4.6 (`StatusStyle.pillColor`). Completed rows are struck through in `onSurfaceVariant`; cancelled are struck through and muted. The progress header and pills no longer overflow at 400 dp / text scale 2.0.
 
 ### T4.3.05 — Status history timeline
 **Priority:** P0 · **Size:** S · **Depends on:** T4.3.01
