@@ -80,6 +80,8 @@
   "statsSectionCravings": "Envies",
   "statsSectionWeek": "La semaine en bref",
   "statsSectionShortcuts": "Sections",
+  "statsSectionReview": "Bilan hebdomadaire",
+  "statsSectionPinned": "Épinglées",
   "statsSectionExpand": "Déplier {section}",
   "statsSectionCollapse": "Replier {section}",
   "statsCardError": "Cette carte n’a pas pu être calculée.",

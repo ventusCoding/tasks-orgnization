@@ -111,6 +111,8 @@
   "statsSectionCravings": "Cravings",
   "statsSectionWeek": "Week at a glance",
   "statsSectionShortcuts": "Sections",
+  "statsSectionReview": "Weekly review",
+  "statsSectionPinned": "Pinned",
   "statsSectionExpand": "Expand {section}",
   "@statsSectionExpand": {
     "placeholders": {

@@ -115,6 +115,7 @@ final class MetricResult {
     this.estimate = false,
     this.target,
     this.note,
+    this.headline = true,
   });
 
   /// A result that does not apply to this entity (e.g. volume cards of a yes/no habit).
@@ -131,7 +132,8 @@ final class MetricResult {
       currency = null,
       estimate = false,
       target = null,
-      note = reason;
+      note = reason,
+      headline = true;
 
   final String metricId;
 
@@ -172,6 +174,10 @@ final class MetricResult {
   /// Extra message key suffix (e.g. `usedPlanned`, `notSmoking`).
   final String? note;
 
+  /// Whether [value] is meaningful as a headline (false for chart-only results, whose value only
+  /// signals that there is data).
+  final bool headline;
+
   bool get hasValue => value is Value<double>;
 
   /// Returns a copy with a minimum-data rule applied (T6.1.14).
@@ -194,6 +200,7 @@ final class MetricResult {
       estimate: estimate,
       target: target,
       note: note,
+      headline: headline,
     );
   }
 }
