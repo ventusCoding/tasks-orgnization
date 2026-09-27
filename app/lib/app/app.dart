@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:everslot/app/router.dart';
 import 'package:everslot/core/providers.dart';
+import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
 import 'package:everslot/design_system/motion.dart';
 import 'package:everslot/design_system/theme.dart';
 import 'package:everslot/features/auth/presentation/session_banner_host.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
+import 'package:everslot/shared/shortcuts/presentation/global_shortcuts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -53,7 +57,13 @@ class EverslotApp extends ConsumerWidget {
           // "Reduce motion" setting joins the OS one (T1.3.15).
           child: SessionBannerHost(
             onOpen: router.go,
-            child: ReduceMotionScope(child: child ?? const SizedBox.shrink()),
+            child: ReduceMotionScope(
+              // Keyboard shortcuts: undo/redo, search… (T1.3.19, T2.3.06).
+              child: GlobalShortcuts(
+                onSearch: () => unawaited(router.push<void>(AppLinks.search())),
+                child: child ?? const SizedBox.shrink(),
+              ),
+            ),
           ),
         );
         // Dev-flavor corner marker (T1.1.10), like the debug banner: painted only, not localized.

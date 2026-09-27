@@ -235,7 +235,10 @@ class SyncStatusController extends Notifier<SyncStatus> {
 
 final undoStackProvider = Provider<UndoStack>((ref) {
   final stack = UndoStack(ref.watch(syncWriterProvider));
-  ref.onDispose(stack.dispose);
+  // Never undo another account's commands: cleared on sign-out / account switch (T2.3.06).
+  ref
+    ..listen(currentUserIdProvider, (_, _) => stack.clear())
+    ..onDispose(stack.dispose);
   return stack;
 });
 

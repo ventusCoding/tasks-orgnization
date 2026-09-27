@@ -1900,6 +1900,8 @@
   "recurWindowStart": "من",
   "recurYearDays": "أيام السنة",
   "recurZoneNote": "الأوقات بتوقيت {zone}",
+  "redoDoneSnack": "تمت الإعادة: {action}",
+  "redoNothing": "لا شيء لإعادته",
   "relativeDaysAgo": "{count, plural, =1{أمس} =2{منذ يومين} few{منذ {count} أيام} many{منذ {count} يومًا} other{منذ {count} يوم}}",
   "relativeHoursAgo": "{count, plural, =1{منذ ساعة} =2{منذ ساعتين} few{منذ {count} ساعات} many{منذ {count} ساعة} other{منذ {count} ساعة}}",
   "relativeInDays": "{count, plural, =1{غدًا} =2{بعد يومين} few{بعد {count} أيام} many{بعد {count} يومًا} other{بعد {count} يوم}}",
@@ -2841,5 +2843,7 @@
   "templatesEmpty": "احفظ أي قائمة كقالب من قائمتها.",
   "templatesMine": "قوالبي",
   "templatesRename": "إعادة تسمية",
-  "templatesUse": "استخدام القالب"
+  "templatesUse": "استخدام القالب",
+  "undoDoneSnack": "تم التراجع: {action}",
+  "undoNothing": "لا شيء للتراجع عنه"
 }

@@ -214,5 +214,23 @@
   "activityFieldName": "name",
   "activityFieldDue": "due date",
   "activityFieldText": "text",
-  "activityFieldIcon": "icon"
+  "activityFieldIcon": "icon",
+  "undoDoneSnack": "Undone: {action}",
+  "@undoDoneSnack": {
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "redoDoneSnack": "Redone: {action}",
+  "@redoDoneSnack": {
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "undoNothing": "Nothing to undo",
+  "redoNothing": "Nothing to redo"
 }

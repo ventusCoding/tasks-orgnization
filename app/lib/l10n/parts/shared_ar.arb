@@ -94,5 +94,9 @@
   "activityFieldName": "الاسم",
   "activityFieldDue": "تاريخ الاستحقاق",
   "activityFieldText": "النص",
-  "activityFieldIcon": "الأيقونة"
+  "activityFieldIcon": "الأيقونة",
+  "undoDoneSnack": "تم التراجع: {action}",
+  "redoDoneSnack": "تمت الإعادة: {action}",
+  "undoNothing": "لا شيء للتراجع عنه",
+  "redoNothing": "لا شيء لإعادته"
 }

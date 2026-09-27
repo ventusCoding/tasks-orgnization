@@ -94,5 +94,9 @@
   "activityFieldName": "nom",
   "activityFieldDue": "échéance",
   "activityFieldText": "texte",
-  "activityFieldIcon": "icône"
+  "activityFieldIcon": "icône",
+  "undoDoneSnack": "Annulé : {action}",
+  "redoDoneSnack": "Rétabli : {action}",
+  "undoNothing": "Rien à annuler",
+  "redoNothing": "Rien à rétablir"
 }

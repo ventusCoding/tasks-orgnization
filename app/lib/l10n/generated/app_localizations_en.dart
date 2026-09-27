@@ -6341,6 +6341,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String redoDoneSnack(String action) {
+    return 'Redone: $action';
+  }
+
+  @override
+  String get redoNothing => 'Nothing to redo';
+
+  @override
   String relativeDaysAgo(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -9771,4 +9779,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get templatesUse => 'Use template';
+
+  @override
+  String undoDoneSnack(String action) {
+    return 'Undone: $action';
+  }
+
+  @override
+  String get undoNothing => 'Nothing to undo';
 }

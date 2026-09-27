@@ -1900,6 +1900,8 @@
   "recurWindowStart": "De",
   "recurYearDays": "Jours de l’année",
   "recurZoneNote": "Heures de {zone}",
+  "redoDoneSnack": "Rétabli : {action}",
+  "redoNothing": "Rien à rétablir",
   "relativeDaysAgo": "{count, plural, =1{hier} other{il y a {count} jours}}",
   "relativeHoursAgo": "{count, plural, =1{il y a 1 heure} other{il y a {count} heures}}",
   "relativeInDays": "{count, plural, =1{demain} other{dans {count} jours}}",
@@ -2841,5 +2843,7 @@
   "templatesEmpty": "Enregistrez n'importe quelle liste comme modèle depuis son menu.",
   "templatesMine": "Mes modèles",
   "templatesRename": "Renommer",
-  "templatesUse": "Utiliser le modèle"
+  "templatesUse": "Utiliser le modèle",
+  "undoDoneSnack": "Annulé : {action}",
+  "undoNothing": "Rien à annuler"
 }
