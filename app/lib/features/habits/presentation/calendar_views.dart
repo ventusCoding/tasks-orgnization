@@ -171,7 +171,8 @@ class _YearHeatmapState extends ConsumerState<YearHeatmap> {
     for (var d = start; !d.isAfter(end); d = d.plusDays(1)) {
       final r = e.dayOn(d);
       cells[d] = _color(context, habit, r, accent);
-      if (r != null && r.status != PeriodStatus.notDue && r.status != PeriodStatus.pending) {
+      // Paused periods are neutral (not scheduled); pending ones are not decided yet.
+      if (r != null && r.status != PeriodStatus.notDue && r.status != PeriodStatus.pending && r.status != PeriodStatus.paused) {
         if (d.year == end.year) scheduled++;
         if (r.status == PeriodStatus.done && d.year == end.year) done++;
       }
@@ -226,7 +227,8 @@ class _YearHeatmapState extends ConsumerState<YearHeatmap> {
           ),
         ),
         const SizedBox(height: Space.xs),
-        Text(summary, style: context.text.bodySmall),
+        // Already announced by the grid's label.
+        ExcludeSemantics(child: Text(summary, style: context.text.bodySmall)),
         const SizedBox(height: Space.xs),
         Wrap(
           spacing: Space.md,

@@ -31,8 +31,8 @@ stats screens ([6.5]); the Today home block ([8.1]); widgets ([8.2]); reminders 
 - [x] T5.2.07 — Habit detail screen
 - [x] T5.2.08 — Day editor & backfill
 - [x] T5.2.09 — Notes & mood on check-ins
-- [ ] T5.2.10 — Year heatmap per habit
-- [ ] T5.2.11 — Multi-habit month overview
+- [x] T5.2.10 — Year heatmap per habit
+- [x] T5.2.11 — Multi-habit month overview
 - [ ] T5.2.12 — Reorder, grouping & density
 - [ ] T5.2.13 — Check-in feedback & celebrations
 - [ ] T5.2.14 — Evaluation caching & performance
@@ -186,6 +186,7 @@ trailing edge): status colors for yes/no, intensity = achieved / target for meas
 log, tap a past day to open the day editor; scroll back through years.
 **Acceptance criteria:** legend and accessible summary ("Done on 212 of 280 scheduled days in 2026").
 **Tests:** golden; widget tap tests.
+**Notes:** Painted grid (one `CustomPaint`) instead of the [6.2] heatmap component; tapping any day opens the day editor (today included, where logging happens). Paused days are not counted as scheduled in the summary. Golden not added.
 
 ### T5.2.11 — Multi-habit month overview
 **Priority:** P1 · **Size:** M · **Depends on:** T5.2.06
@@ -194,6 +195,7 @@ days highlighted; tapping a day opens a sheet listing every habit's status that 
 **Acceptance criteria:** the perfect-day definition equals [6.5] (all due habits done; excused, paused and
 not-due habits don't count as due).
 **Tests:** widget tests; unit test for the per-day ratio.
+**Notes:** Per-day ratios come from `everslot_metrics` `dailyCompletionHeatmap` (the [6.5] perfect-day rule); the day sheet reuses the Today list for inline editing.
 
 ### T5.2.12 — Reorder, grouping & density
 **Priority:** P1 · **Size:** S · **Depends on:** T5.2.03, [5.1] (manage habits)
