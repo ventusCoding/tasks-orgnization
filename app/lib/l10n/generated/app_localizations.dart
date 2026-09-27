@@ -5073,6 +5073,30 @@ abstract class AppLocalizations {
   /// **'Advanced'**
   String get habitsAdvancedTitle;
 
+  /// No description provided for @habitsAfterCompletionDueAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'Due again after'**
+  String get habitsAfterCompletionDueAfter;
+
+  /// No description provided for @habitsAfterUnitDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Days'**
+  String get habitsAfterUnitDays;
+
+  /// No description provided for @habitsAfterUnitMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'Months'**
+  String get habitsAfterUnitMonths;
+
+  /// No description provided for @habitsAfterUnitWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'Weeks'**
+  String get habitsAfterUnitWeeks;
+
   /// No description provided for @habitsAllDone.
   ///
   /// In en, this message translates to:
@@ -5984,6 +6008,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Over the limit'**
   String get habitsOverLimit;
+
+  /// No description provided for @habitsOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get habitsOverdue;
 
   /// No description provided for @habitsPauseAction.
   ///

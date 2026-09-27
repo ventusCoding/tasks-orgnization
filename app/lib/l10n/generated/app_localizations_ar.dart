@@ -3041,6 +3041,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsAdvancedTitle => 'متقدم';
 
   @override
+  String get habitsAfterCompletionDueAfter => 'مستحقة مجددًا بعد';
+
+  @override
+  String get habitsAfterUnitDays => 'أيام';
+
+  @override
+  String get habitsAfterUnitMonths => 'أشهر';
+
+  @override
+  String get habitsAfterUnitWeeks => 'أسابيع';
+
+  @override
   String get habitsAllDone => 'أنجزت كل شيء 🎉';
 
   @override
@@ -3591,6 +3603,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsOverLimit => 'تجاوزت الحد';
+
+  @override
+  String get habitsOverdue => 'متأخرة';
 
   @override
   String get habitsPauseAction => 'إيقاف مؤقت';

@@ -346,5 +346,10 @@
   "habitsChallengeKeepGoing": "واصل",
   "habitsChallengeKeepGoingHint": "اجعلها عادة مستمرة — يبقى سجلّك محفوظًا.",
   "habitsChallengeClose": "إغلاق",
-  "habitsChallengeContinued": "أصبحت عادة مستمرة الآن"
+  "habitsChallengeContinued": "أصبحت عادة مستمرة الآن",
+  "habitsAfterCompletionDueAfter": "مستحقة مجددًا بعد",
+  "habitsAfterUnitDays": "أيام",
+  "habitsAfterUnitWeeks": "أسابيع",
+  "habitsAfterUnitMonths": "أشهر",
+  "habitsOverdue": "متأخرة"
 }

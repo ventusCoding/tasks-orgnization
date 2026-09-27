@@ -845,6 +845,7 @@ class _ScheduleEditor extends StatelessWidget {
     SchedulePresetKind.interval,
     SchedulePresetKind.monthlyDay,
     SchedulePresetKind.monthlyWeekday,
+    SchedulePresetKind.afterCompletion,
   ];
 
   SchedulePreset _defaultFor(SchedulePresetKind k) => switch (k) {
@@ -865,6 +866,7 @@ class _ScheduleEditor extends StatelessWidget {
     ),
     SchedulePresetKind.monthlyDay => const SchedulePreset(SchedulePresetKind.monthlyDay, monthDay: 1),
     SchedulePresetKind.monthlyWeekday => const SchedulePreset(SchedulePresetKind.monthlyWeekday, ordinal: 1),
+    SchedulePresetKind.afterCompletion => const SchedulePreset(SchedulePresetKind.afterCompletion, n: 3),
     _ => SchedulePreset(k),
   };
 
@@ -1023,8 +1025,41 @@ class _ScheduleEditor extends StatelessWidget {
             ),
           ],
         );
-      case SchedulePresetKind.custom:
       case SchedulePresetKind.afterCompletion:
+        String amount(int v) => switch (preset.afterUnit) {
+          RecurrenceUnit.week => l.quitOffsetWeeks(v),
+          RecurrenceUnit.month => l.quitOffsetMonths(v),
+          _ => l.habitsDays(v),
+        };
+        params = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _IntStepper(
+              label: l.habitsAfterCompletionDueAfter,
+              value: preset.n,
+              min: 1,
+              max: 365,
+              format: amount,
+              onChanged: (v) => onChanged(preset.copyWith(n: v)),
+            ),
+            Wrap(
+              spacing: Space.xs,
+              children: [
+                for (final (unit, label) in [
+                  (RecurrenceUnit.day, l.habitsAfterUnitDays),
+                  (RecurrenceUnit.week, l.habitsAfterUnitWeeks),
+                  (RecurrenceUnit.month, l.habitsAfterUnitMonths),
+                ])
+                  ChoiceChip(
+                    label: Text(label),
+                    selected: preset.afterUnit == unit,
+                    onSelected: (_) => onChanged(preset.copyWith(afterUnit: unit)),
+                  ),
+              ],
+            ),
+          ],
+        );
+      case SchedulePresetKind.custom:
         params = OutlinedButton.icon(onPressed: onCustom, icon: const Icon(Icons.tune), label: Text(l.habitsEditCustom));
       default:
         params = const SizedBox.shrink();
@@ -1044,7 +1079,7 @@ class _ScheduleEditor extends StatelessWidget {
               ),
             ChoiceChip(
               label: Text(l.presetLabel(SchedulePresetKind.custom)),
-              selected: preset.kind == SchedulePresetKind.custom || preset.kind == SchedulePresetKind.afterCompletion,
+              selected: preset.kind == SchedulePresetKind.custom,
               onSelected: (_) => onCustom(),
             ),
           ],

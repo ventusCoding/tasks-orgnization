@@ -813,5 +813,10 @@
   "habitsChallengeKeepGoing": "Keep going",
   "habitsChallengeKeepGoingHint": "Turn it into an ongoing habit — your history stays.",
   "habitsChallengeClose": "Close",
-  "habitsChallengeContinued": "It's an ongoing habit now"
+  "habitsChallengeContinued": "It's an ongoing habit now",
+  "habitsAfterCompletionDueAfter": "Due again after",
+  "habitsAfterUnitDays": "Days",
+  "habitsAfterUnitWeeks": "Weeks",
+  "habitsAfterUnitMonths": "Months",
+  "habitsOverdue": "Overdue"
 }

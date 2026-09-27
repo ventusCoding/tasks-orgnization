@@ -43,7 +43,7 @@ challenges, streak freezes ([5.4]); streak / strength-score / rate implementatio
 - [x] T5.1.14 — Pauses & vacation mode
 - [x] T5.1.15 — Manage habits: archive, restore, reorder, custom sections
 - [x] T5.1.16 — Habit templates
-- [ ] T5.1.17 — After-completion habits
+- [x] T5.1.17 — After-completion habits
 
 ## Tasks
 
@@ -327,3 +327,4 @@ is one period (due date → completion), flagged on time or late; streak = conse
 in [6.5]).
 **Acceptance criteria:** completing late moves the next due date relative to the actual completion.
 **Tests:** evaluation fixtures.
+**Notes:** Windows are applied in the evaluation (`_applyAfterCompletion`): one streak unit per due window (on time = done, late = missed, open = pending), overdue days neutral in the day view, an Overdue pill on Today, and an After-I-finish preset (N days/weeks/months) in the editor. Uses the current rule for all history (rule changes across revisions are not split); the [6.5] after-completion metrics come with Insights.
