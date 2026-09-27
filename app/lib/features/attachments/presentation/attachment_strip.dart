@@ -284,7 +284,7 @@ class _AttachmentTileState extends ConsumerState<AttachmentTile> {
           child: ClipRRect(
             borderRadius: radius,
             child: SizedBox(
-              width: a.isImage ? widget.size : widget.size * 2.2,
+              width: a.isImage ? widget.size : widget.size * fileChipWidthFactor(context),
               height: widget.size,
               child: Stack(
                 fit: StackFit.expand,
@@ -311,6 +311,11 @@ class _AttachmentTileState extends ConsumerState<AttachmentTile> {
   }
 }
 
+/// Width factor of a file chip: grows (bounded) with the text scale so large text keeps showing
+/// a useful part of the file name.
+double fileChipWidthFactor(BuildContext context) =>
+    2.2 * (MediaQuery.textScalerOf(context).scale(10) / 10).clamp(1.0, 1.6);
+
 class _FileFace extends StatelessWidget {
   const _FileFace({required this.attachment, required this.size});
 
@@ -328,23 +333,44 @@ class _FileFace extends StatelessWidget {
           if (!attachment.isImage) ...[
             const SizedBox(width: Space.xs),
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    attachment.fileName,
-                    maxLines: compact ? 1 : 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.text.labelSmall,
-                  ),
-                  if (!compact)
-                    Text(
-                      formatBytes(context, attachment.byteSize),
-                      maxLines: 1,
-                      style: context.text.labelSmall?.copyWith(color: context.colors.onSurfaceVariant),
-                    ),
-                ],
+              // The chip has a fixed height: show as many lines as fit at the current text scale
+              // (name first, then size) so text scale 2.0 never overflows. The tooltip and the
+              // semantics label always carry the full name.
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final style = DefaultTextStyle.of(context).style.merge(context.text.labelSmall);
+                  final painter = TextPainter(
+                    text: TextSpan(text: 'Ag', style: style),
+                    textDirection: Directionality.of(context),
+                    textScaler: MediaQuery.textScalerOf(context),
+                    maxLines: 1,
+                  )..layout();
+                  final lineHeight = painter.height;
+                  painter.dispose();
+                  final fit = lineHeight <= 0 ? 3 : (constraints.maxHeight / lineHeight).floor();
+                  if (fit < 1) return const SizedBox.shrink();
+                  final showSize = !compact && fit >= 2;
+                  final nameLines = (fit - (showSize ? 1 : 0)).clamp(1, compact ? 1 : 2);
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        attachment.fileName,
+                        maxLines: nameLines,
+                        overflow: TextOverflow.ellipsis,
+                        style: context.text.labelSmall,
+                      ),
+                      if (showSize)
+                        Text(
+                          formatBytes(context, attachment.byteSize),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: context.text.labelSmall?.copyWith(color: context.colors.onSurfaceVariant),
+                        ),
+                    ],
+                  );
+                },
               ),
             ),
           ],
