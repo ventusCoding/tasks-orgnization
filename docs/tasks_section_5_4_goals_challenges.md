@@ -24,7 +24,7 @@ P2); streak freezes; achievements catalog & unlock engine; badge gallery & share
 - [x] T5.4.03 — Goal progress & projection engine
 - [x] T5.4.04 — Goal surfaces & completion
 - [x] T5.4.05 — Challenges
-- [ ] T5.4.06 — Streak freezes
+- [x] T5.4.06 — Streak freezes
 - [ ] T5.4.07 — Progressive challenge targets
 - [ ] T5.4.08 — Achievements: catalog & unlock engine
 - [ ] T5.4.09 — Badge gallery & share cards
@@ -101,6 +101,7 @@ on app start and day rollover; the allotment resets monthly (no rollover in v1);
 **Acceptance criteria:** with 1 freeze per month, the first missed day keeps the streak and the second breaks it;
 completion rate counts both misses.
 **Tests:** fixtures for allocation across month boundaries; convergence test (two devices close the same period).
+**Notes:** The streak engine (`everslot_metrics` `computeStreaks`) allots freezes per month virtually; `StreakFreezeJob` materializes them as `freeze` state rows (deterministic id, the period end as clock, source `auto`) for the last 62 days, at start-up and when the Habits tab opens or resumes. Frozen days show the snowflake + *Frozen* label. Partial: undoing a freeze is not offered — the engine would forgive the miss again from the allotment; quota periods stay virtual (logs cannot carry quota keys).
 
 ### T5.4.07 — Progressive challenge targets
 **Priority:** P2 · **Size:** S · **Depends on:** T5.4.05

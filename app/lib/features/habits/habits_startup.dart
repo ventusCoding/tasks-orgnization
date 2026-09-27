@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:everslot/features/habits/application/habit_defaults.dart';
+import 'package:everslot/features/habits/application/streak_freezes.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,4 +20,6 @@ Future<void> startHabits(ProviderContainer container) async {
     ].firstWhere((l) => l.languageCode == system.languageCode, orElse: () => const Locale('en')),
   );
   await container.read(habitDefaultsProvider).ensure(l10n);
+  // Streak freezes of periods that closed while the app was away (T5.4.06).
+  unawaited(container.read(streakFreezeJobProvider).run());
 }

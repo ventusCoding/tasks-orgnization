@@ -5,6 +5,7 @@ import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/goals/presentation/goals_screen.dart';
 import 'package:everslot/features/habits/application/habit_defaults.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
+import 'package:everslot/features/habits/application/streak_freezes.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
 import 'package:everslot/features/habits/presentation/calendar_views.dart';
@@ -58,7 +59,9 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
     unawaited(_restore());
     // Default sections & libraries (idempotent; a fresh cloud device seeds after its first pull).
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) unawaited(ref.read(habitDefaultsProvider).ensure(context.l10n));
+      if (!mounted) return;
+      unawaited(ref.read(habitDefaultsProvider).ensure(context.l10n));
+      unawaited(ref.read(streakFreezeJobProvider).run());
     });
   }
 
@@ -71,7 +74,11 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) ref.read(habitTickProvider.notifier).bump();
+    if (state == AppLifecycleState.resumed) {
+      ref.read(habitTickProvider.notifier).bump();
+      // A day may have closed while away: apply streak freezes (T5.4.06).
+      unawaited(ref.read(streakFreezeJobProvider).run());
+    }
   }
 
   Future<void> _restore() async {
