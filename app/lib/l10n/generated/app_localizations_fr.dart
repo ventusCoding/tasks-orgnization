@@ -9118,6 +9118,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tasksChecklistEmpty => 'Aucune liste pour l’instant';
 
   @override
+  String get tasksChecklistNew => 'Nouvelle liste';
+
+  @override
+  String get tasksChecklistNewName => 'Nom de la liste';
+
+  @override
   String get tasksChecklistNone => 'Aucune';
 
   @override

@@ -9042,6 +9042,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tasksChecklistEmpty => 'No checklists yet';
 
   @override
+  String get tasksChecklistNew => 'New checklist';
+
+  @override
+  String get tasksChecklistNewName => 'Checklist name';
+
+  @override
   String get tasksChecklistNone => 'None';
 
   @override

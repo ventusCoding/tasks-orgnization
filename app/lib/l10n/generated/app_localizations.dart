@@ -15195,6 +15195,18 @@ abstract class AppLocalizations {
   /// **'No checklists yet'**
   String get tasksChecklistEmpty;
 
+  /// No description provided for @tasksChecklistNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New checklist'**
+  String get tasksChecklistNew;
+
+  /// No description provided for @tasksChecklistNewName.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist name'**
+  String get tasksChecklistNewName;
+
   /// No description provided for @tasksChecklistNone.
   ///
   /// In en, this message translates to:

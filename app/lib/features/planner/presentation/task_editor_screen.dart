@@ -1010,7 +1010,15 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
             ),
       onTap: () async {
         final choice = await pickLinkedChecklist(context, selected: id);
-        if (choice != null) _update((f) => f.copyWith(linkedChecklistId: choice.id));
+        if (choice == null || !mounted) return;
+        if (!choice.createNew) {
+          _update((f) => f.copyWith(linkedChecklistId: choice.id));
+          return;
+        }
+        final title = await promptText(context, title: l.tasksChecklistNewName, initial: _title.text.trim());
+        if (title == null || title.trim().isEmpty || !mounted) return;
+        final newId = await _service.createLinkedChecklist(title: title, categoryId: form.categoryId);
+        if (mounted) _update((f) => f.copyWith(linkedChecklistId: newId));
       },
     );
   }

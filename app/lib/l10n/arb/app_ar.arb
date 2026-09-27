@@ -2635,6 +2635,8 @@
   "tasksBulkTargetSeries": "السلسلة كاملة",
   "tasksBulkTitle": "{count, plural, =1{عنصر واحد محدد} =2{عنصران محددان} few{{count} عناصر محددة} many{{count} عنصرًا محددًا} other{{count} عنصر محدد}}",
   "tasksChecklistEmpty": "لا توجد قوائم بعد",
+  "tasksChecklistNew": "قائمة جديدة",
+  "tasksChecklistNewName": "اسم القائمة",
   "tasksChecklistNone": "لا شيء",
   "tasksChecklistOpen": "فتح القائمة",
   "tasksChecklistPick": "ربط قائمة",

@@ -5475,6 +5475,8 @@
   "tasksBulkTargetSeries": "Whole series",
   "tasksBulkTitle": "{count, plural, =1{1 item selected} other{{count} items selected}}",
   "tasksChecklistEmpty": "No checklists yet",
+  "tasksChecklistNew": "New checklist",
+  "tasksChecklistNewName": "Checklist name",
   "tasksChecklistNone": "None",
   "tasksChecklistOpen": "Open checklist",
   "tasksChecklistPick": "Link a checklist",

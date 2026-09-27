@@ -261,5 +261,7 @@
   "tasksFieldTags": "الوسوم",
   "tasksAddTag": "إضافة وسم",
   "tasksNotifGone": "هذه المهمة لم تعد موجودة",
-  "tasksNotifAlreadyClosed": "تم إنجازها أو تخطيها بالفعل"
+  "tasksNotifAlreadyClosed": "تم إنجازها أو تخطيها بالفعل",
+  "tasksChecklistNew": "قائمة جديدة",
+  "tasksChecklistNewName": "اسم القائمة"
 }

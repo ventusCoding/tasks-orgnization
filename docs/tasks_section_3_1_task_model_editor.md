@@ -38,7 +38,7 @@ recurrence engine and rule builder UI ([2.1]); notification rule editor ([7.1]);
 - [x] T3.1.13 — Deadline (due date separate from planned time)
 - [x] T3.1.14 — Overlap / conflict warning
 - [x] T3.1.15 — Markdown-lite notes
-- [ ] T3.1.16 — Linked checklist integration
+- [x] T3.1.16 — Linked checklist integration
 - [ ] T3.1.17 — Tags on tasks
 - [ ] T3.1.18 — Multi-select & bulk edit
 - [ ] T3.1.19 — Copy & duplicate to other days
@@ -287,6 +287,7 @@ the first strong character (mixed Arabic/Latin).
 - create a new checklist from the task ("Add checklist"), or unlink.
 The routine player ([3.7]) uses the link.
 **Tests:** widget tests; progress-provider unit test.
+**Notes:** Progress on grid tiles is drawn by the views ([3.3]) from `linkedChecklistProvider`; the routine player ([3.7]) uses the link.
 
 ### T3.1.17 — Tags on tasks
 **Priority:** P1 · **Size:** S · **Depends on:** T3.1.06, [2.3] (tags)

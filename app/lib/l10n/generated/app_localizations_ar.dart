@@ -9321,6 +9321,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksChecklistEmpty => 'لا توجد قوائم بعد';
 
   @override
+  String get tasksChecklistNew => 'قائمة جديدة';
+
+  @override
+  String get tasksChecklistNewName => 'اسم القائمة';
+
+  @override
   String get tasksChecklistNone => 'لا شيء';
 
   @override

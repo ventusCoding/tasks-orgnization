@@ -657,12 +657,16 @@ class _ZonePickerState extends State<_ZonePicker> {
 // ---------------------------------------------------------------------------
 // Linked checklist picker (T3.1.16)
 
-/// Result of [pickLinkedChecklist]: the checklist to link, or null to unlink.
+/// Result of [pickLinkedChecklist]: the checklist to link, null to unlink, or [createNew].
 @immutable
 class ChecklistChoice {
-  const ChecklistChoice(this.id);
+  const ChecklistChoice(this.id) : createNew = false;
+
+  /// *New checklist*: the caller creates one and links it.
+  const ChecklistChoice.createNew() : id = null, createNew = true;
 
   final String? id;
+  final bool createNew;
 }
 
 /// Picks one of the user's checklists (with progress), or *None*.
@@ -691,6 +695,12 @@ class _ChecklistPicker extends ConsumerWidget {
           title: Text(l.tasksChecklistNone),
           selected: selected == null,
           onTap: () => Navigator.pop(context, const ChecklistChoice(null)),
+        ),
+        ListTile(
+          key: const ValueKey('checklist-new'),
+          leading: const Icon(Icons.add),
+          title: Text(l.tasksChecklistNew),
+          onTap: () => Navigator.pop(context, const ChecklistChoice.createNew()),
         ),
         if (lists.isEmpty)
           Padding(

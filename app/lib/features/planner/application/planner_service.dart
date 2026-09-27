@@ -3,6 +3,7 @@ import 'dart:ui' show Locale, PlatformDispatcher;
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/core/time/recurrence_service.dart';
+import 'package:everslot/features/checklists/application/providers.dart' show checklistsRepositoryProvider;
 import 'package:everslot/features/notifications/application/notification_host_api.dart'
     show NotificationRulesDraft, notificationHostApiProvider;
 import 'package:everslot/features/notifications/domain/notification_types.dart' show NotificationTargetType;
@@ -127,6 +128,11 @@ class PlannerService {
     _undo(l10n.tasksCreated, result.record);
     return result;
   }
+
+  /// Creates an empty checklist to link from the task editor (T3.1.16 "Add checklist"); the
+  /// link itself is saved with the task. Returns the new checklist id.
+  Future<String> createLinkedChecklist({required String title, String? categoryId}) async =>
+      (await _ref.read(checklistsRepositoryProvider).create(title: title.trim(), categoryId: categoryId)).id;
 
   /// Removes what an abandoned *new-task* editor attached to the pre-generated [taskId]
   /// (attachments added before saving). No-op for saved tasks.

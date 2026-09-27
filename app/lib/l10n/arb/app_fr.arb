@@ -2635,6 +2635,8 @@
   "tasksBulkTargetSeries": "Toute la série",
   "tasksBulkTitle": "{count, plural, =1{1 élément sélectionné} other{{count} éléments sélectionnés}}",
   "tasksChecklistEmpty": "Aucune liste pour l’instant",
+  "tasksChecklistNew": "Nouvelle liste",
+  "tasksChecklistNewName": "Nom de la liste",
   "tasksChecklistNone": "Aucune",
   "tasksChecklistOpen": "Ouvrir la liste",
   "tasksChecklistPick": "Associer une liste",
