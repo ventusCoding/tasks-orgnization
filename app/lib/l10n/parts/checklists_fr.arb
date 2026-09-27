@@ -326,5 +326,13 @@
   "checklistMdCode": "Code",
   "checklistMdHeading": "Titre",
   "checklistMdBullet": "Liste à puces",
-  "checklistMdLink": "Lien"
+  "checklistMdLink": "Lien",
+  "listsAllLists": "Toutes les listes",
+  "listsEditLabels": "Modifier les libellés",
+  "listsNoLabels": "Aucun libellé pour l’instant",
+  "listsLabelSemantics": "{label}, {count, plural, =0{aucune liste} =1{1 liste} other{{count} listes}}",
+  "listsFilterHasDue": "Avec échéances",
+  "listsFilterLabel": "Libellé",
+  "listsFilterAnyLabel": "Tous les libellés",
+  "listsLabelFilterActive": "Listes avec le libellé {label}"
 }

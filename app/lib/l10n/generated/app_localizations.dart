@@ -4821,6 +4821,12 @@ abstract class AppLocalizations {
   /// **'Show cancelled'**
   String get kanbanShowCancelled;
 
+  /// No description provided for @listsAllLists.
+  ///
+  /// In en, this message translates to:
+  /// **'All lists'**
+  String get listsAllLists;
+
   /// No description provided for @listsArchive.
   ///
   /// In en, this message translates to:
@@ -4953,6 +4959,12 @@ abstract class AppLocalizations {
   /// **'List duplicated'**
   String get listsDuplicated;
 
+  /// No description provided for @listsEditLabels.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit labels'**
+  String get listsEditLabels;
+
   /// No description provided for @listsEmptyAction.
   ///
   /// In en, this message translates to:
@@ -4971,6 +4983,12 @@ abstract class AppLocalizations {
   /// **'No lists yet'**
   String get listsEmptyTitle;
 
+  /// No description provided for @listsFilterAnyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Any label'**
+  String get listsFilterAnyLabel;
+
   /// No description provided for @listsFilterColor.
   ///
   /// In en, this message translates to:
@@ -4988,6 +5006,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Waiting or blocked'**
   String get listsFilterHasBlocked;
+
+  /// No description provided for @listsFilterHasDue.
+  ///
+  /// In en, this message translates to:
+  /// **'With due dates'**
+  String get listsFilterHasDue;
+
+  /// No description provided for @listsFilterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Label'**
+  String get listsFilterLabel;
 
   /// No description provided for @listsFilterPinned.
   ///
@@ -5019,6 +5049,18 @@ abstract class AppLocalizations {
   /// **'Import file…'**
   String get listsImportFile;
 
+  /// No description provided for @listsLabelFilterActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing lists labelled {label}'**
+  String listsLabelFilterActive(String label);
+
+  /// No description provided for @listsLabelSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}, {count, plural, =0{no lists} =1{1 list} other{{count} lists}}'**
+  String listsLabelSemantics(String label, int count);
+
   /// No description provided for @listsListView.
   ///
   /// In en, this message translates to:
@@ -5042,6 +5084,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New note'**
   String get listsNewNote;
+
+  /// No description provided for @listsNoLabels.
+  ///
+  /// In en, this message translates to:
+  /// **'No labels yet'**
+  String get listsNoLabels;
 
   /// No description provided for @listsOthers.
   ///

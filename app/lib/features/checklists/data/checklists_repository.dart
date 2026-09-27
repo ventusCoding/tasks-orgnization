@@ -335,8 +335,12 @@ class ChecklistsRepository {
 
   /// Board search over titles, bodies and item texts through the FTS index (T4.1.13).
   /// Matching ignores case, French diacritics and Arabic letter variants.
+  /// Arabic harakat, tanween, dagger alef and Quranic marks: the FTS tokenizer keeps them, so the
+  /// query drops them (T4.1.13 — content is almost always typed without them).
+  static final _harakat = RegExp('[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]');
+
   Future<BoardSearchResult> search(String query) async {
-    final tokens = AppDatabase.normalizeForSearch(query)
+    final tokens = AppDatabase.normalizeForSearch(query.replaceAll(_harakat, ''))
         .split(RegExp(r'\s+'))
         .where((t) => t.trim().isNotEmpty)
         .map((t) => '"${t.replaceAll('"', '""')}"*')
