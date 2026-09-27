@@ -3735,6 +3735,12 @@ abstract class AppLocalizations {
   /// **'No labels yet'**
   String get checklistNoLabels;
 
+  /// No description provided for @checklistNoOtherLists.
+  ///
+  /// In en, this message translates to:
+  /// **'No other list to show'**
+  String get checklistNoOtherLists;
+
   /// No description provided for @checklistNoTasksToLink.
   ///
   /// In en, this message translates to:
@@ -3752,6 +3758,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This item no longer exists'**
   String get checklistNotifItemGone;
+
+  /// No description provided for @checklistOpenSideBySide.
+  ///
+  /// In en, this message translates to:
+  /// **'Open side by side…'**
+  String get checklistOpenSideBySide;
 
   /// No description provided for @checklistOpenTrash.
   ///
@@ -3782,6 +3794,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Uploads pending'**
   String get checklistPendingUploads;
+
+  /// No description provided for @checklistPickSecondList.
+  ///
+  /// In en, this message translates to:
+  /// **'Show next to this list'**
+  String get checklistPickSecondList;
 
   /// No description provided for @checklistProgress.
   ///

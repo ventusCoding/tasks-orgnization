@@ -686,5 +686,8 @@
   "itemsTableSortBy": "Sort by {column}",
   "@itemsTableSortBy": {"placeholders": {"column": {"type": "String"}}},
   "itemsTableStatusChanged": "{count, plural, =1{1 item updated} other{{count} items updated}}",
-  "@itemsTableStatusChanged": {"placeholders": {"count": {"type": "int"}}}
+  "@itemsTableStatusChanged": {"placeholders": {"count": {"type": "int"}}},
+  "checklistOpenSideBySide": "Open side by side…",
+  "checklistPickSecondList": "Show next to this list",
+  "checklistNoOtherLists": "No other list to show"
 }

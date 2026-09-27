@@ -2210,6 +2210,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checklistNoLabels => 'No labels yet';
 
   @override
+  String get checklistNoOtherLists => 'No other list to show';
+
+  @override
   String get checklistNoTasksToLink => 'No tasks to link yet';
 
   @override
@@ -2217,6 +2220,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checklistNotifItemGone => 'This item no longer exists';
+
+  @override
+  String get checklistOpenSideBySide => 'Open side by side…';
 
   @override
   String get checklistOpenTrash => 'Open trash';
@@ -2232,6 +2238,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checklistPendingUploads => 'Uploads pending';
+
+  @override
+  String get checklistPickSecondList => 'Show next to this list';
 
   @override
   String checklistProgress(int done, int total) {

@@ -369,5 +369,8 @@
   "itemsTableSelectAll": "تحديد كل العناصر المعروضة",
   "itemsTableSelectRow": "تحديد {item}",
   "itemsTableSortBy": "الترتيب حسب {column}",
-  "itemsTableStatusChanged": "{count, plural, =0{لم يُحدَّث شيء} =1{تم تحديث عنصر واحد} =2{تم تحديث عنصرين} few{تم تحديث {count} عناصر} many{تم تحديث {count} عنصرًا} other{تم تحديث {count} عنصر}}"
+  "itemsTableStatusChanged": "{count, plural, =0{لم يُحدَّث شيء} =1{تم تحديث عنصر واحد} =2{تم تحديث عنصرين} few{تم تحديث {count} عناصر} many{تم تحديث {count} عنصرًا} other{تم تحديث {count} عنصر}}",
+  "checklistOpenSideBySide": "فتح جنبًا إلى جنب…",
+  "checklistPickSecondList": "العرض بجانب هذه القائمة",
+  "checklistNoOtherLists": "لا توجد قائمة أخرى للعرض"
 }

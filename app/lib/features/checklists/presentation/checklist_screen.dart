@@ -24,6 +24,7 @@ import 'package:everslot/features/checklists/domain/visible_list.dart';
 import 'package:everslot/features/checklists/presentation/archive_templates_screens.dart';
 import 'package:everslot/features/checklists/presentation/checklist_header.dart';
 import 'package:everslot/features/checklists/presentation/checklist_navigation.dart';
+import 'package:everslot/features/checklists/presentation/checklist_pane_scope.dart';
 import 'package:everslot/features/checklists/presentation/checklist_settings_sheet.dart';
 import 'package:everslot/features/checklists/presentation/checklist_toolbars.dart';
 import 'package:everslot/features/checklists/presentation/checklist_views.dart';
@@ -32,6 +33,7 @@ import 'package:everslot/features/checklists/presentation/item_details_sheet.dar
 import 'package:everslot/features/checklists/presentation/item_row.dart';
 import 'package:everslot/features/checklists/presentation/lists_board_screen.dart' show duplicateChecklistFlow;
 import 'package:everslot/features/checklists/presentation/move_to_sheet.dart';
+import 'package:everslot/features/checklists/presentation/split_checklists_screen.dart';
 import 'package:everslot/features/checklists/presentation/status_sheet.dart';
 import 'package:everslot/features/checklists/presentation/status_visuals.dart';
 import 'package:everslot/features/organization/application/providers.dart';
@@ -518,6 +520,43 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _scrollToRow(id, retried: true);
     });
+  }
+
+  /// *Open side by side…* (T4.5.17): pick another list for the second pane.
+  Future<void> _openSideBySide() async {
+    final l = context.l10n;
+    final others = [
+      for (final c in ref.read(boardChecklistsProvider).value ?? const <Checklist>[])
+        if (c.id != checklistId) c,
+    ];
+    if (others.isEmpty) {
+      _info(l.checklistNoOtherLists);
+      return;
+    }
+    final picked = await showAppSheet<String>(
+      context,
+      title: l.checklistPickSecondList,
+      builder: (ctx) => ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(ctx).height * 0.6),
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            for (final c in others)
+              ListTile(
+                leading: const Icon(Icons.checklist),
+                title: Text(c.title.trim().isEmpty ? l.listsUntitled : c.title),
+                onTap: () => Navigator.pop(ctx, c.id),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (picked == null || !mounted) return;
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => SplitChecklistsScreen(leftId: checklistId, rightId: picked),
+      ),
+    );
   }
 
   /// *Cover image…* (T4.1.17): one of the list's images (list-level or items) shown full-width on
@@ -1195,6 +1234,8 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         item('import', l.checklistImport, Icons.playlist_add),
         if (c.hasBody && !state.preview) item('convertBody', l.importConvertBody, Icons.checklist_rtl),
         item('attach', l.checklistAttach, Icons.attach_file),
+        if (MediaQuery.sizeOf(context).width >= 700 && ChecklistPaneScope.maybeOf(context) == null)
+          item('split', l.checklistOpenSideBySide, Icons.vertical_split_outlined),
         item('attachments', l.checklistAllAttachments, Icons.photo_library_outlined),
         item('cover', l.checklistCover, Icons.wallpaper),
         item('labels', l.checklistLabels, Icons.label_outline),
@@ -1285,6 +1326,8 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         if (record != null) _editor.pushUndo('attach', record);
       case 'cover':
         await _chooseCover(c);
+      case 'split':
+        await _openSideBySide();
       case 'attachments':
         await Navigator.of(context).push(
           MaterialPageRoute<void>(
@@ -1478,6 +1521,13 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     if (s == null) return;
     final target = s.target;
     _clearDrag();
+    // In a split view a drop over the other pane moves the item there (T4.5.17).
+    final pane = ChecklistPaneScope.maybeOf(context);
+    final own = _box(context);
+    if (pane != null && own != null && !(own.localToGlobal(Offset.zero) & own.size).contains(s.pointer)) {
+      unawaited(pane.onDropOutside(checklistId, s.id, s.pointer));
+      return;
+    }
     if (target == null) return;
     unawaited(_drop(s.id, target));
   }

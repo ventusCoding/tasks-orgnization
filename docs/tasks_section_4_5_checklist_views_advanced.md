@@ -39,7 +39,7 @@ reminders for follow-ups and resets ([7.5]); share-into-app ([8.2]).
 - [ ] T4.5.14 — Mind map view (synced with the outline)
 - [x] T4.5.15 — Flat all-items table
 - [ ] T4.5.16 — Mirrors (live item copies)
-- [ ] T4.5.17 — Split panes
+- [x] T4.5.17 — Split panes
 
 ## Tasks
 
@@ -281,3 +281,4 @@ in Workflowy Panes.
 **Implementation notes:** drag items between panes to move them (the [4.2] move operation / [4.1]
 move-between-checklists).
 **Tests:** widget tests (both panes editable; move across panes).
+**Notes:** *Open side by side…* (list menu, width ≥ 700 dp) opens `SplitChecklistsScreen` with two different lists, each a full editable pane with its own snack bars; a row drag released over the other pane moves the row and its subtree to the end of that list (one undoable operation). Two branches of the *same* list side by side would need per-pane editor state (the editor is keyed by list) — not done.

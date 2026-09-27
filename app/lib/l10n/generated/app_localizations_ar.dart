@@ -2275,6 +2275,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistNoLabels => 'لا توجد تسميات بعد';
 
   @override
+  String get checklistNoOtherLists => 'لا توجد قائمة أخرى للعرض';
+
+  @override
   String get checklistNoTasksToLink => 'لا توجد مهام للربط بعد';
 
   @override
@@ -2282,6 +2285,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checklistNotifItemGone => 'هذا العنصر لم يعد موجودًا';
+
+  @override
+  String get checklistOpenSideBySide => 'فتح جنبًا إلى جنب…';
 
   @override
   String get checklistOpenTrash => 'فتح المهملات';
@@ -2297,6 +2303,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checklistPendingUploads => 'عمليات رفع معلقة';
+
+  @override
+  String get checklistPickSecondList => 'العرض بجانب هذه القائمة';
 
   @override
   String checklistProgress(int done, int total) {

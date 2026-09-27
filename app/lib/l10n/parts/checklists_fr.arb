@@ -369,5 +369,8 @@
   "itemsTableSelectAll": "Sélectionner tous les éléments affichés",
   "itemsTableSelectRow": "Sélectionner {item}",
   "itemsTableSortBy": "Trier par {column}",
-  "itemsTableStatusChanged": "{count, plural, =1{1 élément mis à jour} other{{count} éléments mis à jour}}"
+  "itemsTableStatusChanged": "{count, plural, =1{1 élément mis à jour} other{{count} éléments mis à jour}}",
+  "checklistOpenSideBySide": "Ouvrir côte à côte…",
+  "checklistPickSecondList": "Afficher à côté de cette liste",
+  "checklistNoOtherLists": "Aucune autre liste à afficher"
 }

@@ -2220,6 +2220,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get checklistNoLabels => 'Aucun libellé';
 
   @override
+  String get checklistNoOtherLists => 'Aucune autre liste à afficher';
+
+  @override
   String get checklistNoTasksToLink => 'Aucune tâche à lier pour l’instant';
 
   @override
@@ -2227,6 +2230,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get checklistNotifItemGone => 'Cet élément n’existe plus';
+
+  @override
+  String get checklistOpenSideBySide => 'Ouvrir côte à côte…';
 
   @override
   String get checklistOpenTrash => 'Ouvrir la corbeille';
@@ -2242,6 +2248,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get checklistPendingUploads => 'Envois en attente';
+
+  @override
+  String get checklistPickSecondList => 'Afficher à côté de cette liste';
 
   @override
   String checklistProgress(int done, int total) {
