@@ -119,9 +119,14 @@ class EntityRef {
 /// stricter checks external input deserves: ids must be UUIDs, dates ISO, parameters bounded,
 /// and internal-only screens (debug menu, auth, onboarding) cannot be opened from outside.
 abstract final class ExternalLinkPolicy {
-  /// Hosts of the universal / App Links domain. `YOUR_SITE_DOMAIN` is the placeholder used until
-  /// the privacy site has a real domain (docs/guide.md › App links).
-  static const defaultWebHosts = {'YOUR_SITE_DOMAIN', 'www.YOUR_SITE_DOMAIN'};
+  /// Universal / App Links domain: `APP_LINKS_DOMAIN` from `--dart-define-from-file=env/<flavor>.json`
+  /// — the same value as `EVERSLOT_LINK_DOMAIN` (Xcode build setting → `Runner.entitlements`) and
+  /// `appLinksHost` (`android/app/build.gradle.kts`). `YOUR_SITE_DOMAIN` is the placeholder used
+  /// until the privacy site has a real domain (docs/guide.md › App links).
+  static const linkDomain = String.fromEnvironment('APP_LINKS_DOMAIN', defaultValue: 'YOUR_SITE_DOMAIN');
+
+  /// Hosts accepted for https links.
+  static const defaultWebHosts = {linkDomain, 'www.$linkDomain'};
 
   /// Custom-scheme hosts consumed by other components (Supabase auth redirect).
   static const ignoredHosts = {'auth-callback', 'login-callback'};

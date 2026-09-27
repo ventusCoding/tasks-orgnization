@@ -18,7 +18,7 @@ overlay, Health integrations, Live Activities / ongoing timer notification, Siri
 
 ## Progress
 
-- [ ] T8.2.01 — External deep links & app links
+- [x] T8.2.01 — External deep links & app links
 - [ ] T8.2.02 — Widget data bridge (`home_widget`)
 - [ ] T8.2.03 — Widget: Today agenda
 - [ ] T8.2.04 — Widget: Habits check-in (interactive)
@@ -48,6 +48,7 @@ other apps) and, once a domain exists, verified universal links / Android App Li
 **Acceptance criteria:** every canonical path in arch §6.4 opens the right screen from cold start, warm
 start and background; malicious/oversized parameters are rejected.
 **Tests:** parser unit tests (valid, invalid, fuzzed); integration test opening 3 links from cold start.
+**Notes:** `features/integrations`: pure `ExternalLinkPolicy` on top of the shared `DeepLinkParser` (UUID ids, ISO dates, bounded params, internal screens `/dev` `/auth` `/onboarding` refused, `everslot://do/<command>` + `everslot://share` commands) → `ExternalLinksService` (`app_links`; cold/warm/background identical, duplicate launch-link report de-duplicated) → buffered UI events → `IntegrationsOverlay` (`go` for tab roots, `push` otherwise). Flutter's built-in deep linking is disabled (Info.plist `FlutterDeepLinkingEnabled`, manifest `flutter_deeplinking_enabled`) so each link is handled once; Supabase auth callbacks are ignored. The web domain is the placeholder `YOUR_SITE_DOMAIN` in three places: `EVERSLOT_LINK_DOMAIN` (Xcode project build setting → `Runner.entitlements` `applinks:`), `appLinksHost` (`android/app/build.gradle.kts`) and the `APP_LINKS_DOMAIN` dart-define. Universal links / App Links verification is unverified on device (needs the real domain, Team ID and signing fingerprints in `site/.well-known/*`; iOS build needs Xcode 26+).
 
 ### T8.2.02 — Widget data bridge (`home_widget`)
 **Priority:** P1 · **Size:** M · **Depends on:** T8.2.01

@@ -144,7 +144,11 @@ void main() {
         source.initial = Uri.parse(link.replaceFirst('{id}', id!));
       }
       await tester.pumpWidget(UncontrolledProviderScope(container: h.container, child: const EverslotApp()));
-      await tester.runAsync(() => startIntegrations(h.container));
+      await tester.runAsync(() async {
+        await startIntegrations(h.container);
+        // The launch link may need the database (deleted-item check): wait until it is handled.
+        await h.read(externalLinksServiceProvider).start();
+      });
       for (var i = 0; i < 8; i++) {
         await tester.pump(const Duration(milliseconds: 50));
       }

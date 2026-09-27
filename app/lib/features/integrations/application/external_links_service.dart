@@ -80,12 +80,13 @@ class ExternalLinksService {
   StreamSubscription<Uri>? _sub;
   String? _lastLink;
   DateTime? _lastAt;
-  bool _started = false;
+  Future<void>? _starting;
 
-  /// Subscribes to incoming links and handles the launch link. Idempotent.
-  Future<void> start() async {
-    if (_started) return;
-    _started = true;
+  /// Subscribes to incoming links and handles the launch link. Idempotent: every call returns
+  /// the same future, which completes once the launch link (if any) has been handled.
+  Future<void> start() => _starting ??= _start();
+
+  Future<void> _start() async {
     _sub = source.links.listen((uri) => unawaited(handle(uri)));
     final initial = await source.initialLink();
     if (initial != null) await handle(initial);
