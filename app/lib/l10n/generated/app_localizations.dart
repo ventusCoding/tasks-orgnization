@@ -3399,6 +3399,24 @@ abstract class AppLocalizations {
   /// **'Duplicate'**
   String get checklistDuplicateItem;
 
+  /// No description provided for @checklistDurationDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 day} other{{n} days}}'**
+  String checklistDurationDays(int n);
+
+  /// No description provided for @checklistDurationHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 hour} other{{n} hours}}'**
+  String checklistDurationHours(int n);
+
+  /// No description provided for @checklistDurationMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 minute} other{{n} minutes}}'**
+  String checklistDurationMinutes(int n);
+
   /// No description provided for @checklistEmptyFocus.
   ///
   /// In en, this message translates to:
@@ -3566,6 +3584,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Linked task'**
   String get checklistLinkedTask;
+
+  /// No description provided for @checklistMdBold.
+  ///
+  /// In en, this message translates to:
+  /// **'Bold'**
+  String get checklistMdBold;
+
+  /// No description provided for @checklistMdBullet.
+  ///
+  /// In en, this message translates to:
+  /// **'Bulleted list'**
+  String get checklistMdBullet;
+
+  /// No description provided for @checklistMdCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Code'**
+  String get checklistMdCode;
+
+  /// No description provided for @checklistMdHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading'**
+  String get checklistMdHeading;
+
+  /// No description provided for @checklistMdItalic.
+  ///
+  /// In en, this message translates to:
+  /// **'Italic'**
+  String get checklistMdItalic;
+
+  /// No description provided for @checklistMdLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Link'**
+  String get checklistMdLink;
+
+  /// No description provided for @checklistMdStrike.
+  ///
+  /// In en, this message translates to:
+  /// **'Strikethrough'**
+  String get checklistMdStrike;
 
   /// No description provided for @checklistModeEdit.
   ///
@@ -3860,6 +3920,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Status changed'**
   String get checklistStatusChanged;
+
+  /// Screen-reader form of a status with its age, e.g. 'Waiting for 4 days'.
+  ///
+  /// In en, this message translates to:
+  /// **'{status} for {age}'**
+  String checklistStatusSpoken(String status, String age);
 
   /// No description provided for @checklistSubItems.
   ///
@@ -7173,6 +7239,12 @@ abstract class AppLocalizations {
   /// **'Show cancelled'**
   String get kanbanShowCancelled;
 
+  /// No description provided for @listsAllLists.
+  ///
+  /// In en, this message translates to:
+  /// **'All lists'**
+  String get listsAllLists;
+
   /// No description provided for @listsArchive.
   ///
   /// In en, this message translates to:
@@ -7305,6 +7377,12 @@ abstract class AppLocalizations {
   /// **'List duplicated'**
   String get listsDuplicated;
 
+  /// No description provided for @listsEditLabels.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit labels'**
+  String get listsEditLabels;
+
   /// No description provided for @listsEmptyAction.
   ///
   /// In en, this message translates to:
@@ -7323,6 +7401,12 @@ abstract class AppLocalizations {
   /// **'No lists yet'**
   String get listsEmptyTitle;
 
+  /// No description provided for @listsFilterAnyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Any label'**
+  String get listsFilterAnyLabel;
+
   /// No description provided for @listsFilterColor.
   ///
   /// In en, this message translates to:
@@ -7340,6 +7424,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Waiting or blocked'**
   String get listsFilterHasBlocked;
+
+  /// No description provided for @listsFilterHasDue.
+  ///
+  /// In en, this message translates to:
+  /// **'With due dates'**
+  String get listsFilterHasDue;
+
+  /// No description provided for @listsFilterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Label'**
+  String get listsFilterLabel;
 
   /// No description provided for @listsFilterPinned.
   ///
@@ -7371,6 +7467,18 @@ abstract class AppLocalizations {
   /// **'Import file…'**
   String get listsImportFile;
 
+  /// No description provided for @listsLabelFilterActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing lists labelled {label}'**
+  String listsLabelFilterActive(String label);
+
+  /// No description provided for @listsLabelSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}, {count, plural, =0{no lists} =1{1 list} other{{count} lists}}'**
+  String listsLabelSemantics(String label, int count);
+
   /// No description provided for @listsListView.
   ///
   /// In en, this message translates to:
@@ -7394,6 +7502,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New note'**
   String get listsNewNote;
+
+  /// No description provided for @listsNoLabels.
+  ///
+  /// In en, this message translates to:
+  /// **'No labels yet'**
+  String get listsNoLabels;
 
   /// No description provided for @listsOthers.
   ///
@@ -18615,6 +18729,12 @@ abstract class AppLocalizations {
   /// **'Add session'**
   String get tasksAddEntry;
 
+  /// No description provided for @tasksAddTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a tag'**
+  String get tasksAddTag;
+
   /// No description provided for @tasksAnchorMoved.
   ///
   /// In en, this message translates to:
@@ -18639,11 +18759,23 @@ abstract class AppLocalizations {
   /// **'Unscheduled'**
   String get tasksBacklogLabel;
 
+  /// No description provided for @tasksBulkAddTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Add tags'**
+  String get tasksBulkAddTags;
+
   /// No description provided for @tasksBulkDelete.
   ///
   /// In en, this message translates to:
   /// **'Delete'**
   String get tasksBulkDelete;
+
+  /// No description provided for @tasksBulkDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Delete 1 item?} other{Delete {count} items?}}'**
+  String tasksBulkDeleteConfirm(int count);
 
   /// No description provided for @tasksBulkDone.
   ///
@@ -18747,6 +18879,18 @@ abstract class AppLocalizations {
   /// **'No checklists yet'**
   String get tasksChecklistEmpty;
 
+  /// No description provided for @tasksChecklistNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New checklist'**
+  String get tasksChecklistNew;
+
+  /// No description provided for @tasksChecklistNewName.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist name'**
+  String get tasksChecklistNewName;
+
   /// No description provided for @tasksChecklistNone.
   ///
   /// In en, this message translates to:
@@ -18806,6 +18950,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Custom…'**
   String get tasksCustomDuration;
+
+  /// No description provided for @tasksDayDoneAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all remaining as done'**
+  String get tasksDayDoneAll;
+
+  /// No description provided for @tasksDayDoneAllSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing left to mark} =1{1 task marked as done} other{{count} tasks marked as done}}'**
+  String tasksDayDoneAllSnack(int count);
+
+  /// No description provided for @tasksDayMoveTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Move unfinished to tomorrow'**
+  String get tasksDayMoveTomorrow;
+
+  /// No description provided for @tasksDayMoveTomorrowSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing to move} =1{1 task moved to tomorrow} other{{count} tasks moved to tomorrow}}'**
+  String tasksDayMoveTomorrowSnack(int count);
+
+  /// No description provided for @tasksDaySkipRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip the rest of the day'**
+  String get tasksDaySkipRest;
+
+  /// No description provided for @tasksDaySkipRestSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing left to skip} =1{1 task skipped} other{{count} tasks skipped}}'**
+  String tasksDaySkipRestSnack(int count);
 
   /// No description provided for @tasksDeadlineNone.
   ///
@@ -19227,6 +19407,12 @@ abstract class AppLocalizations {
   /// **'Start date'**
   String get tasksFieldStartDate;
 
+  /// No description provided for @tasksFieldTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get tasksFieldTags;
+
   /// No description provided for @tasksFieldTimeZone.
   ///
   /// In en, this message translates to:
@@ -19431,6 +19617,18 @@ abstract class AppLocalizations {
   /// **'Preview'**
   String get tasksNotesPreview;
 
+  /// No description provided for @tasksNotifAlreadyClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Already done or skipped'**
+  String get tasksNotifAlreadyClosed;
+
+  /// No description provided for @tasksNotifGone.
+  ///
+  /// In en, this message translates to:
+  /// **'This task no longer exists'**
+  String get tasksNotifGone;
+
   /// No description provided for @tasksOccurrenceDeleted.
   ///
   /// In en, this message translates to:
@@ -19628,6 +19826,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done for this period'**
   String get tasksQuotaDone;
+
+  /// No description provided for @tasksQuotaIndicator.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} · {done}/{total} {unit, select, day{today} week{this week} month{this month} year{this year} other{this period}}'**
+  String tasksQuotaIndicator(String title, int done, int total, String unit);
+
+  /// No description provided for @tasksQuotaIndicatorDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} · {unit, select, day{done for today} week{done for this week} month{done for this month} year{done for this year} other{done for this period}}'**
+  String tasksQuotaIndicatorDone(String title, String unit);
 
   /// No description provided for @tasksQuotaProgress.
   ///

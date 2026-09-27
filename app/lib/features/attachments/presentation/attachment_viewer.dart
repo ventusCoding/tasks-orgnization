@@ -200,7 +200,11 @@ class _AttachmentPageState extends ConsumerState<_AttachmentPage> {
                       File(path),
                       fit: BoxFit.contain,
                       semanticLabel: a.caption ?? a.fileName,
-                      errorBuilder: (_, _, _) => _Unavailable(attachment: a),
+                      // Hero flights lay this out at every size down to 0×0: scale, never overflow.
+                      errorBuilder: (_, _, _) => FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: _Unavailable(attachment: a),
+                      ),
                     ),
                   ),
                 ),

@@ -2030,6 +2030,51 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistDuplicateItem => 'تكرار';
 
   @override
+  String checklistDurationDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n يوم',
+      many: '$n يومًا',
+      few: '$n أيام',
+      two: 'يومين',
+      one: 'يوم واحد',
+      zero: '0 يوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String checklistDurationHours(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n ساعة',
+      many: '$n ساعة',
+      few: '$n ساعات',
+      two: 'ساعتين',
+      one: 'ساعة واحدة',
+      zero: '0 ساعة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String checklistDurationMinutes(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n دقيقة',
+      many: '$n دقيقة',
+      few: '$n دقائق',
+      two: 'دقيقتين',
+      one: 'دقيقة واحدة',
+      zero: '0 دقيقة',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get checklistEmptyFocus => 'لا توجد عناصر فرعية بعد';
 
   @override
@@ -2138,6 +2183,27 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checklistLinkedTask => 'مهمة مرتبطة';
+
+  @override
+  String get checklistMdBold => 'غامق';
+
+  @override
+  String get checklistMdBullet => 'قائمة نقطية';
+
+  @override
+  String get checklistMdCode => 'رمز برمجي';
+
+  @override
+  String get checklistMdHeading => 'عنوان';
+
+  @override
+  String get checklistMdItalic => 'مائل';
+
+  @override
+  String get checklistMdLink => 'رابط';
+
+  @override
+  String get checklistMdStrike => 'يتوسطه خط';
 
   @override
   String get checklistModeEdit => 'تحرير';
@@ -2295,6 +2361,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checklistStatusChanged => 'تم تغيير الحالة';
+
+  @override
+  String checklistStatusSpoken(String status, String age) {
+    return '$status منذ $age';
+  }
 
   @override
   String checklistSubItems(int count) {
@@ -4435,6 +4506,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get kanbanShowCancelled => 'إظهار الملغاة';
 
   @override
+  String get listsAllLists => 'كل القوائم';
+
+  @override
   String get listsArchive => 'الأرشيف';
 
   @override
@@ -4515,6 +4589,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get listsDuplicated => 'تم تكرار القائمة';
 
   @override
+  String get listsEditLabels => 'تعديل التصنيفات';
+
+  @override
   String get listsEmptyAction => 'أنشئ قائمتك الأولى';
 
   @override
@@ -4525,6 +4602,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get listsEmptyTitle => 'لا توجد قوائم بعد';
 
   @override
+  String get listsFilterAnyLabel => 'أي تصنيف';
+
+  @override
   String get listsFilterColor => 'اللون';
 
   @override
@@ -4532,6 +4612,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get listsFilterHasBlocked => 'قيد الانتظار أو محظور';
+
+  @override
+  String get listsFilterHasDue => 'ذات مواعيد استحقاق';
+
+  @override
+  String get listsFilterLabel => 'تصنيف';
 
   @override
   String get listsFilterPinned => 'مثبتة';
@@ -4549,6 +4635,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String get listsImportFile => 'استيراد ملف…';
 
   @override
+  String listsLabelFilterActive(String label) {
+    return 'القوائم ذات التصنيف $label';
+  }
+
+  @override
+  String listsLabelSemantics(String label, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count قائمة',
+      many: '$count قائمة',
+      few: '$count قوائم',
+      two: 'قائمتان',
+      one: 'قائمة واحدة',
+      zero: 'لا قوائم',
+    );
+    return '$label، $_temp0';
+  }
+
+  @override
   String get listsListView => 'عرض قائمة';
 
   @override
@@ -4559,6 +4665,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get listsNewNote => 'ملاحظة جديدة';
+
+  @override
+  String get listsNoLabels => 'لا توجد تصنيفات بعد';
 
   @override
   String get listsOthers => 'أخرى';
@@ -11503,6 +11612,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksAddEntry => 'إضافة جلسة';
 
   @override
+  String get tasksAddTag => 'إضافة وسم';
+
+  @override
   String tasksAnchorMoved(String date) {
     return 'نُقلت البداية إلى $date لتطابق قاعدة التكرار';
   }
@@ -11517,7 +11629,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksBacklogLabel => 'غير مجدولة';
 
   @override
+  String get tasksBulkAddTags => 'إضافة وسوم';
+
+  @override
   String get tasksBulkDelete => 'حذف';
+
+  @override
+  String tasksBulkDeleteConfirm(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'حذف $count عنصر؟',
+      many: 'حذف $count عنصرًا؟',
+      few: 'حذف $count عناصر؟',
+      two: 'حذف عنصرين؟',
+      one: 'حذف عنصر واحد؟',
+      zero: 'لا شيء للحذف',
+    );
+    return '$_temp0';
+  }
 
   @override
   String tasksBulkDone(int count) {
@@ -11593,6 +11723,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksChecklistEmpty => 'لا توجد قوائم بعد';
 
   @override
+  String get tasksChecklistNew => 'قائمة جديدة';
+
+  @override
+  String get tasksChecklistNewName => 'اسم القائمة';
+
+  @override
   String get tasksChecklistNone => 'لا شيء';
 
   @override
@@ -11625,6 +11761,60 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tasksCustomDuration => 'مخصص…';
+
+  @override
+  String get tasksDayDoneAll => 'وضع علامة منجز على كل ما تبقى';
+
+  @override
+  String tasksDayDoneAllSnack(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم إنجاز $count مهمة',
+      many: 'تم إنجاز $count مهمة',
+      few: 'تم إنجاز $count مهام',
+      two: 'تم إنجاز مهمتين',
+      one: 'تم إنجاز مهمة واحدة',
+      zero: 'لم يتبق شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksDayMoveTomorrow => 'نقل غير المنجز إلى الغد';
+
+  @override
+  String tasksDayMoveTomorrowSnack(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نُقلت $count مهمة إلى الغد',
+      many: 'نُقلت $count مهمة إلى الغد',
+      few: 'نُقلت $count مهام إلى الغد',
+      two: 'نُقلت مهمتان إلى الغد',
+      one: 'نُقلت مهمة واحدة إلى الغد',
+      zero: 'لا شيء للنقل',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tasksDaySkipRest => 'تخطي بقية اليوم';
+
+  @override
+  String tasksDaySkipRestSnack(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم تخطي $count مهمة',
+      many: 'تم تخطي $count مهمة',
+      few: 'تم تخطي $count مهام',
+      two: 'تم تخطي مهمتين',
+      one: 'تم تخطي مهمة واحدة',
+      zero: 'لم يتبق شيء للتخطي',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get tasksDeadlineNone => 'بلا موعد نهائي';
@@ -11868,6 +12058,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksFieldStartDate => 'تاريخ البدء';
 
   @override
+  String get tasksFieldTags => 'الوسوم';
+
+  @override
   String get tasksFieldTimeZone => 'المنطقة الزمنية';
 
   @override
@@ -11972,6 +12165,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tasksNotesPreview => 'معاينة';
+
+  @override
+  String get tasksNotifAlreadyClosed => 'تم إنجازها أو تخطيها بالفعل';
+
+  @override
+  String get tasksNotifGone => 'هذه المهمة لم تعد موجودة';
 
   @override
   String get tasksOccurrenceDeleted => 'تمت إزالة الموعد';
@@ -12144,6 +12343,30 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tasksQuotaDone => 'اكتمل لهذه الفترة';
+
+  @override
+  String tasksQuotaIndicator(String title, int done, int total, String unit) {
+    String _temp0 = intl.Intl.selectLogic(unit, {
+      'day': 'اليوم',
+      'week': 'هذا الأسبوع',
+      'month': 'هذا الشهر',
+      'year': 'هذه السنة',
+      'other': 'في هذه الفترة',
+    });
+    return '$title · $done/$total $_temp0';
+  }
+
+  @override
+  String tasksQuotaIndicatorDone(String title, String unit) {
+    String _temp0 = intl.Intl.selectLogic(unit, {
+      'day': 'اكتمل لهذا اليوم',
+      'week': 'اكتمل لهذا الأسبوع',
+      'month': 'اكتمل لهذا الشهر',
+      'year': 'اكتمل لهذه السنة',
+      'other': 'اكتمل لهذه الفترة',
+    });
+    return '$title · $_temp0';
+  }
 
   @override
   String tasksQuotaProgress(int done, int total) {

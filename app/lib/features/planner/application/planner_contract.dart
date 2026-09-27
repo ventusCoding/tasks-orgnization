@@ -28,6 +28,7 @@ final backlogItemsProvider = StreamProvider.autoDispose<List<PlannerItem>>((ref)
   final defaultDuration = ref.watch(plannerSettingsProvider).defaultTaskDurationMinutes;
   return queries.watchUnscheduled().asyncMap((tasks) async {
     final colors = await queries.categoryColors();
+    final icons = await queries.categoryIcons();
     final now = clock.nowUtc();
     final today = zones.toLocal(now, zone).date.atStartOfDay;
     return [
@@ -47,7 +48,7 @@ final backlogItemsProvider = StreamProvider.autoDispose<List<PlannerItem>>((ref)
           priority: t.priority,
           trackingMode: t.trackingMode,
           timeZone: t.timeZone,
-          icon: t.icon,
+          icon: t.icon ?? icons[t.categoryId],
           location: t.location,
           linkedChecklistId: t.linkedChecklistId,
           notes: t.notes,

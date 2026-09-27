@@ -257,5 +257,21 @@
   "tasksResumeSnack": "Série reprise",
   "tasksShareRepeats": "Répétition : {rule}",
   "tasksTooManyOccurrences": "Trop d’occurrences à afficher — zoomez",
-  "tasksRolledOver": "{count, plural, =1{1 tâche inachevée déplacée à aujourd’hui} other{{count} tâches inachevées déplacées à aujourd’hui}}"
+  "tasksRolledOver": "{count, plural, =1{1 tâche inachevée déplacée à aujourd’hui} other{{count} tâches inachevées déplacées à aujourd’hui}}",
+  "tasksFieldTags": "Étiquettes",
+  "tasksAddTag": "Ajouter une étiquette",
+  "tasksNotifGone": "Cette tâche n’existe plus",
+  "tasksNotifAlreadyClosed": "Déjà faite ou ignorée",
+  "tasksChecklistNew": "Nouvelle liste",
+  "tasksChecklistNewName": "Nom de la liste",
+  "tasksBulkAddTags": "Ajouter des étiquettes",
+  "tasksBulkDeleteConfirm": "{count, plural, =1{Supprimer 1 élément ?} other{Supprimer {count} éléments ?}}",
+  "tasksQuotaIndicator": "{title} · {done}/{total} {unit, select, day{aujourd’hui} week{cette semaine} month{ce mois-ci} year{cette année} other{sur la période}}",
+  "tasksQuotaIndicatorDone": "{title} · {unit, select, day{fait pour aujourd’hui} week{fait pour cette semaine} month{fait pour ce mois-ci} year{fait pour cette année} other{fait pour la période}}",
+  "tasksDayDoneAll": "Tout marquer comme fait",
+  "tasksDaySkipRest": "Ignorer le reste de la journée",
+  "tasksDayMoveTomorrow": "Reporter l’inachevé à demain",
+  "tasksDayDoneAllSnack": "{count, plural, =0{Plus rien à marquer} =1{1 tâche marquée comme faite} other{{count} tâches marquées comme faites}}",
+  "tasksDaySkipRestSnack": "{count, plural, =0{Plus rien à ignorer} =1{1 tâche ignorée} other{{count} tâches ignorées}}",
+  "tasksDayMoveTomorrowSnack": "{count, plural, =0{Rien à reporter} =1{1 tâche reportée à demain} other{{count} tâches reportées à demain}}"
 }

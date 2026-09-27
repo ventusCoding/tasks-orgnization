@@ -87,5 +87,4 @@ class FakeConnectivity implements ConnectivityProbe {
 AttachmentFileStore tempFileStore(Directory dir) => AttachmentFileStore(() async => dir);
 
 /// Writes a source file for picking.
-File writeSource(Directory dir, String name, List<int> bytes) =>
-    File('${dir.path}/$name')..writeAsBytesSync(bytes);
+File writeSource(Directory dir, String name, List<int> bytes) => File('${dir.path}/$name')..writeAsBytesSync(bytes);

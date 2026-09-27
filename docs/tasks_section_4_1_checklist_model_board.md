@@ -35,9 +35,9 @@ reminders ([7.1], [7.5]), the Trash screen ([8.3]).
 - [x] T4.1.08 — Checklist card widget
 - [x] T4.1.09 — Create & edit checklists and note cards
 - [x] T4.1.10 — Pin, reorder, archive & delete with undo
-- [ ] T4.1.11 — Markdown-lite body rendering
-- [ ] T4.1.12 — Labels on checklists & label drawer
-- [ ] T4.1.13 — Board search & filters
+- [x] T4.1.11 — Markdown-lite body rendering
+- [x] T4.1.12 — Labels on checklists & label drawer
+- [x] T4.1.13 — Board search & filters
 - [x] T4.1.14 — Duplicate checklist
 - [x] T4.1.15 — Move items between checklists
 - [x] T4.1.16 — Board view configuration (synced)
@@ -262,6 +262,7 @@ strikethrough, headings, links, bullet lists, inline code.
 build it in `design_system/markdown_lite` so both sections share one implementation. Editing stays
 plain text with a small formatting toolbar.
 **Tests:** rendering tests incl. RTL and mixed-direction (Arabic + Latin) text.
+**Notes:** `MarkdownLite` + `MarkdownFormatBar` live in `features/checklists/presentation/markdown_lite.dart` (the planner built its own pure parser in `planner/domain/markdown_lite.dart` for T3.1.15; merging both into `design_system` is a follow-up). Bodies and notes lay out each paragraph in its own direction; rows keep the ambient direction. The toolbar shows under the list body while editing and under the item note.
 
 ### T4.1.12 — Labels on checklists & label drawer
 **Priority:** P1 · **Size:** M · **Depends on:** T4.1.07, [2.3] (tags)
@@ -271,6 +272,7 @@ plain text with a small formatting toolbar.
 - Tapping a label filters the board.
 - Rename, merge and delete delegate to [2.3]. Label chips appear on cards.
 **Tests:** DAO tests (filter by tag); widget tests.
+**Notes:** Labels = `entity_tags` rows of type `checklist` through the [2.3] tags API: the shared `pickTags` sheet (inline create) from the checklist menu / editable chips, label chips on cards, and a board drawer with per-label list counts (tap filters, *Edit labels* opens the shared tags screen for rename / merge / delete).
 
 ### T4.1.13 — Board search & filters
 **Priority:** P1 · **Size:** M · **Depends on:** T4.1.07, [2.3] (FTS index, filter model)
@@ -284,6 +286,7 @@ plain text with a small formatting toolbar.
 **Acceptance criteria:** 20 000 indexed items return results in < 100 ms; matching ignores Arabic
 and French diacritics.
 **Tests:** FTS DAO tests; widget tests.
+**Notes:** Filters: color, label, waiting/blocked, attachments, due dates, repeating, pinned (AND). Templates have their own screen and never appear on the board, so there is no template chip. The FTS tokenizer keeps Arabic harakat, so queries drop them. The 20 000-item search is checked in a debug-mode test with a 400 ms budget (the 100 ms target applies to release builds on device).
 
 ### T4.1.14 — Duplicate checklist
 **Priority:** P1 · **Size:** M · **Depends on:** T4.1.10, [4.2] (duplicate-subtree operation)

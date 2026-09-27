@@ -843,6 +843,27 @@
       }
     }
   },
+  "@checklistDurationDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistDurationHours": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistDurationMinutes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "@checklistExpandToLevel": {
     "placeholders": {
       "level": {
@@ -900,6 +921,17 @@
   "@checklistSortedBy": {
     "placeholders": {
       "criterion": {
+        "type": "String"
+      }
+    }
+  },
+  "@checklistStatusSpoken": {
+    "description": "Screen-reader form of a status with its age, e.g. 'Waiting for 4 days'.",
+    "placeholders": {
+      "status": {
+        "type": "String"
+      },
+      "age": {
         "type": "String"
       }
     }
@@ -1651,6 +1683,23 @@
     "placeholders": {
       "title": {
         "type": "String"
+      }
+    }
+  },
+  "@listsLabelFilterActive": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "@listsLabelSemantics": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
       }
     }
   },
@@ -3439,6 +3488,13 @@
       }
     }
   },
+  "@tasksBulkDeleteConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@tasksBulkDone": {
     "placeholders": {
       "count": {
@@ -3466,6 +3522,27 @@
   "@tasksCompletionValue": {
     "placeholders": {
       "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksDayDoneAllSnack": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksDayMoveTomorrowSnack": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@tasksDaySkipRestSnack": {
+    "placeholders": {
+      "count": {
         "type": "int"
       }
     }
@@ -3595,6 +3672,32 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "@tasksQuotaIndicator": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksQuotaIndicatorDone": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
       }
     }
   },
@@ -4208,6 +4311,9 @@
   "checklistDue": "Due date",
   "checklistDuplicate": "Duplicate list",
   "checklistDuplicateItem": "Duplicate",
+  "checklistDurationDays": "{n, plural, =1{1 day} other{{n} days}}",
+  "checklistDurationHours": "{n, plural, =1{1 hour} other{{n} hours}}",
+  "checklistDurationMinutes": "{n, plural, =1{1 minute} other{{n} minutes}}",
   "checklistEmptyFocus": "No sub-items yet",
   "checklistExpand": "Expand",
   "checklistExpandAll": "Expand all",
@@ -4236,6 +4342,13 @@
   "checklistLabels": "Labels",
   "checklistLineBreak": "Line break",
   "checklistLinkedTask": "Linked task",
+  "checklistMdBold": "Bold",
+  "checklistMdBullet": "Bulleted list",
+  "checklistMdCode": "Code",
+  "checklistMdHeading": "Heading",
+  "checklistMdItalic": "Italic",
+  "checklistMdLink": "Link",
+  "checklistMdStrike": "Strikethrough",
   "checklistModeEdit": "Edit",
   "checklistModePreview": "Preview",
   "checklistMoveConflict": "A move conflicted with a change on another device and was undone.",
@@ -4285,6 +4398,7 @@
   "checklistSortStatus": "Status",
   "checklistSortedBy": "Sorted by {criterion}",
   "checklistStatusChanged": "Status changed",
+  "checklistStatusSpoken": "{status} for {age}",
   "checklistSubItems": "{count, plural, =1{1 sub-item} other{{count} sub-items}}",
   "checklistTaskPlaceholder": "Linking to planner tasks arrives with the planner.",
   "checklistTemplateSaved": "Saved as template",
@@ -4837,6 +4951,7 @@
   "kanbanLeaves": "Leaves only",
   "kanbanScope": "Show",
   "kanbanShowCancelled": "Show cancelled",
+  "listsAllLists": "All lists",
   "listsArchive": "Archive",
   "listsArchiveAction": "Archive",
   "listsArchiveEmpty": "No archived lists",
@@ -4859,21 +4974,28 @@
   "listsDragHint": "Long-press and drag to reorder",
   "listsDuplicate": "Duplicate",
   "listsDuplicated": "List duplicated",
+  "listsEditLabels": "Edit labels",
   "listsEmptyAction": "Create your first list",
   "listsEmptyMessage": "Checklists, notes and routines — nested as deep as you need.",
   "listsEmptyTitle": "No lists yet",
+  "listsFilterAnyLabel": "Any label",
   "listsFilterColor": "Color",
   "listsFilterHasAttachments": "With attachments",
   "listsFilterHasBlocked": "Waiting or blocked",
+  "listsFilterHasDue": "With due dates",
+  "listsFilterLabel": "Label",
   "listsFilterPinned": "Pinned",
   "listsFilterRepeating": "Repeating",
   "listsFromTemplate": "From template",
   "listsGridView": "Grid view",
   "listsImportFile": "Import file…",
+  "listsLabelFilterActive": "Showing lists labelled {label}",
+  "listsLabelSemantics": "{label}, {count, plural, =0{no lists} =1{1 list} other{{count} lists}}",
   "listsListView": "List view",
   "listsMoveItems": "Move items…",
   "listsNewChecklist": "New checklist",
   "listsNewNote": "New note",
+  "listsNoLabels": "No labels yet",
   "listsOthers": "Others",
   "listsPin": "Pin",
   "listsPinned": "Pinned",
@@ -6743,11 +6865,14 @@
   "tasksActualTime": "Actual time",
   "tasksActualTitle": "When did you do it?",
   "tasksAddEntry": "Add session",
+  "tasksAddTag": "Add a tag",
   "tasksAnchorMoved": "Start moved to {date} to match the repeat rule",
   "tasksAttachments": "Attachments",
   "tasksAttachmentsPlaceholder": "Photos and files will be available here soon",
   "tasksBacklogLabel": "Unscheduled",
+  "tasksBulkAddTags": "Add tags",
   "tasksBulkDelete": "Delete",
+  "tasksBulkDeleteConfirm": "{count, plural, =1{Delete 1 item?} other{Delete {count} items?}}",
   "tasksBulkDone": "{count, plural, =1{1 item updated} other{{count} items updated}}",
   "tasksBulkDuplicate": "Duplicate",
   "tasksBulkEarlier15": "15 min earlier",
@@ -6765,6 +6890,8 @@
   "tasksBulkTargetSeries": "Whole series",
   "tasksBulkTitle": "{count, plural, =1{1 item selected} other{{count} items selected}}",
   "tasksChecklistEmpty": "No checklists yet",
+  "tasksChecklistNew": "New checklist",
+  "tasksChecklistNewName": "Checklist name",
   "tasksChecklistNone": "None",
   "tasksChecklistOpen": "Open checklist",
   "tasksChecklistPick": "Link a checklist",
@@ -6775,6 +6902,12 @@
   "tasksCompletionValue": "{percent}%",
   "tasksCreated": "Task created",
   "tasksCustomDuration": "Custom…",
+  "tasksDayDoneAll": "Mark all remaining as done",
+  "tasksDayDoneAllSnack": "{count, plural, =0{Nothing left to mark} =1{1 task marked as done} other{{count} tasks marked as done}}",
+  "tasksDayMoveTomorrow": "Move unfinished to tomorrow",
+  "tasksDayMoveTomorrowSnack": "{count, plural, =0{Nothing to move} =1{1 task moved to tomorrow} other{{count} tasks moved to tomorrow}}",
+  "tasksDaySkipRest": "Skip the rest of the day",
+  "tasksDaySkipRestSnack": "{count, plural, =0{Nothing left to skip} =1{1 task skipped} other{{count} tasks skipped}}",
   "tasksDeadlineNone": "No deadline",
   "tasksDeadlineWarning": "Planned after the deadline",
   "tasksDeleteConfirmBody": "It stays in Trash for 30 days.",
@@ -6845,6 +6978,7 @@
   "tasksFieldRepeat": "Repeat",
   "tasksFieldStart": "Start",
   "tasksFieldStartDate": "Start date",
+  "tasksFieldTags": "Tags",
   "tasksFieldTimeZone": "Time zone",
   "tasksFieldTitle": "Title",
   "tasksFieldTitleHint": "What do you want to do?",
@@ -6879,6 +7013,8 @@
   "tasksNotesEdit": "Edit",
   "tasksNotesHint": "Add notes (bold, lists, checkboxes…)",
   "tasksNotesPreview": "Preview",
+  "tasksNotifAlreadyClosed": "Already done or skipped",
+  "tasksNotifGone": "This task no longer exists",
   "tasksOccurrenceDeleted": "Occurrence removed",
   "tasksOpenLinkBody": "{url} will open outside Everslot.",
   "tasksOpenLinkTitle": "Open link?",
@@ -6912,6 +7048,8 @@
   "tasksQuickMore": "More options",
   "tasksQuickTitleHint": "New task",
   "tasksQuotaDone": "Done for this period",
+  "tasksQuotaIndicator": "{title} · {done}/{total} {unit, select, day{today} week{this week} month{this month} year{this year} other{this period}}",
+  "tasksQuotaIndicatorDone": "{title} · {unit, select, day{done for today} week{done for this week} month{done for this month} year{done for this year} other{done for this period}}",
   "tasksQuotaProgress": "{done}/{total} this period",
   "tasksRating": "Rating",
   "tasksRatingValue": "{value} of 5",

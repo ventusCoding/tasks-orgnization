@@ -506,6 +506,8 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
   void _celebrate(bool complete) {
     final was = _wasComplete;
     _wasComplete = complete;
+    // TODO(integration): gate on the app's haptics preference once Settings exposes one (T4.3.12);
+    // the platform's own haptics setting applies meanwhile.
     if (was == false && complete) unawaited(HapticFeedback.heavyImpact());
   }
 

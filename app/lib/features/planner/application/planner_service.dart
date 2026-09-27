@@ -3,9 +3,11 @@ import 'dart:ui' show Locale, PlatformDispatcher;
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/core/time/recurrence_service.dart';
+import 'package:everslot/features/checklists/application/providers.dart' show checklistsRepositoryProvider;
 import 'package:everslot/features/notifications/application/notification_host_api.dart'
     show NotificationRulesDraft, notificationHostApiProvider;
 import 'package:everslot/features/notifications/domain/notification_types.dart' show NotificationTargetType;
+import 'package:everslot/features/organization/application/providers.dart' show tagsRepositoryProvider;
 import 'package:everslot/features/planner/application/occurrence_range_service.dart';
 import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot/features/planner/application/planner_settings.dart';
@@ -100,22 +102,53 @@ class PlannerService {
     return result;
   }
 
-  /// Creates [draft]; the editor's pending [reminders] are saved in the same operation (one
-  /// undo, one atomic push — T7.1.09).
-  Future<TaskWriteResult> createTask(Task draft, {String source = 'editor', NotificationRulesDraft? reminders}) async {
+  /// Creates [draft]; the editor's pending [reminders] and [tagIds] are saved in the same
+  /// operation (one undo, one atomic push — T7.1.09, T3.1.17).
+  Future<TaskWriteResult> createTask(
+    Task draft, {
+    String source = 'editor',
+    NotificationRulesDraft? reminders,
+    Set<String> tagIds = const {},
+  }) async {
     final pending = reminders == null || reminders.isEmpty ? null : reminders;
     final host = pending == null ? null : _ref.read(notificationHostApiProvider);
+    final tags = tagIds.isEmpty ? null : _ref.read(tagsRepositoryProvider);
     final result = await tasks.create(
       draft,
       source: source,
-      inTx: host == null
+      inTx: host == null && tags == null
           ? null
           : (tx, task) async {
-              await host.saveDraftInTx(tx, pending!, type: NotificationTargetType.task, targetId: task.id);
+              if (host != null) {
+                await host.saveDraftInTx(tx, pending!, type: NotificationTargetType.task, targetId: task.id);
+              }
+              if (tags != null) await tags.writeTags(tx, 'task', task.id, tagIds);
             },
     );
     _undo(l10n.tasksCreated, result.record);
     return result;
+  }
+
+  /// Creates an empty checklist to link from the task editor (T3.1.16 "Add checklist"); the
+  /// link itself is saved with the task. Returns the new checklist id.
+  Future<String> createLinkedChecklist({required String title, String? categoryId}) async =>
+      (await _ref.read(checklistsRepositoryProvider).create(title: title.trim(), categoryId: categoryId)).id;
+
+  /// Removes what an abandoned *new-task* editor attached to the pre-generated [taskId]
+  /// (attachments added before saving). No-op for saved tasks.
+  Future<void> discardDraft(String taskId) => tasks.discardDraft(taskId);
+
+  /// [discardDraft] bound to the current repository, for `State.dispose`: it never touches the
+  /// provider scope again (which may already be gone) and ignores a closed database.
+  Future<void> Function(String taskId) draftDiscarder() {
+    final repository = tasks;
+    return (taskId) async {
+      try {
+        await repository.discardDraft(taskId);
+      } on Object {
+        // The session ended with the editor still open: nothing left to clean up.
+      }
+    };
   }
 
   /// Saves an edited task with the chosen scope (T3.2.06–T3.2.09).
@@ -156,6 +189,75 @@ class PlannerService {
     return result;
   }
 
+  // ---------------------------------------------------------------------------
+  // Day menu (T3.2.23): each action is ONE operation with a single undo.
+
+  /// Occurrences of [day] (viewer wall clock) still waiting for an outcome: scheduled, in
+  /// progress or missed; unplaced quota slots are left alone.
+  Future<List<PlannerItem>> openItemsOfDay(LocalDate day) async {
+    final range = await ranges.resolveRange(day.atStartOfDay, day.plusDays(1).atStartOfDay);
+    return [
+      for (final i in range.items)
+        if (i.startLocal.date == day &&
+            !i.isQuotaSlot &&
+            (i.status == OccurrenceStatus.scheduled ||
+                i.status == OccurrenceStatus.inProgress ||
+                i.status == OccurrenceStatus.missed))
+          i,
+    ];
+  }
+
+  /// *Mark all remaining as done*: every open check/timer occurrence of [day]. Returns the count.
+  Future<int> markRemainingDone(LocalDate day) async {
+    final items = [
+      for (final i in await openItemsOfDay(day))
+        if (TrackingPolicy.of(i.trackingMode).hasCheckbox) i,
+    ];
+    if (items.isEmpty) return 0;
+    final (record, count) = await occurrences.markDoneMany([for (final i in items) (i.taskId, i.occurrenceKey)]);
+    _undo(l10n.tasksDayDoneAllSnack(count), record);
+    return count;
+  }
+
+  /// *Skip the rest of the day*: every open occurrence of [day]. Returns the count.
+  Future<int> skipRestOfDay(LocalDate day) async {
+    final items = await openItemsOfDay(day);
+    if (items.isEmpty) return 0;
+    final (record, count) = await occurrences.skipMany([for (final i in items) (i.taskId, i.occurrenceKey)]);
+    _undo(l10n.tasksDaySkipRestSnack(count), record);
+    return count;
+  }
+
+  /// *Move unfinished to tomorrow*: open check/timer occurrences of [day] that are not running
+  /// move one day later (one-offs are rescheduled, recurring occurrences overridden).
+  Future<int> moveUnfinishedToTomorrow(LocalDate day) async {
+    final items = [
+      for (final i in await openItemsOfDay(day))
+        if (TrackingPolicy.of(i.trackingMode).hasCheckbox && i.status != OccurrenceStatus.inProgress) i,
+    ];
+    if (items.isEmpty) return 0;
+    final record = await tasks.bulk(
+      [for (final i in items) BulkTarget(i.taskId, occurrenceKey: i.occurrenceKey)],
+      const BulkMove(days: 1),
+    );
+    _undo(l10n.tasksDayMoveTomorrowSnack(items.length), record);
+    return items.length;
+  }
+
+  /// Paste (Ctrl/Cmd + V at the selected slot on tablets, T3.1.19): a one-off copy of [item]
+  /// starting at [start] (viewer wall clock) with the occurrence's duration, title and notes;
+  /// the zone mode is preserved.
+  Future<TaskWriteResult> pasteAt(PlannerItem item, LocalDateTime start) async {
+    final result = await tasks.duplicate(
+      item.taskId,
+      asOneOff: true,
+      occurrenceKey: item.isRecurring ? item.occurrenceKey : null,
+      targetStartLocal: toTaskLocal(item.timeZone, start, allDay: item.allDay),
+    );
+    _undo(l10n.tasksDuplicated, result.record);
+    return result;
+  }
+
   Future<OpRecord> duplicateToDates(String taskId, List<LocalDate> dates, {String? occurrenceKey}) async =>
       _undo(l10n.tasksDuplicatedTo(dates.length), await tasks.duplicateToDates(taskId, dates, occurrenceKey: occurrenceKey));
 
@@ -191,8 +293,22 @@ class PlannerService {
   Future<OpRecord> restoreToSeries(String taskId, String key) async =>
       _undo(l10n.recurExceptionsRestored, await occurrences.restoreToSeries(taskId, key));
 
-  Future<OpRecord> restoreAllExceptions(String taskId) async =>
-      _undo(l10n.recurExceptionsRestored, await occurrences.restoreAllExceptions(taskId));
+  /// Restores every exception of the series in ONE operation (one undo): cancelled, moved and
+  /// edited occurrences, and — unless [includeExcluded] is false — the rule's excluded dates.
+  Future<OpRecord> restoreAllExceptions(String taskId, {bool includeExcluded = true}) async {
+    final task = await queries.task(taskId);
+    final rule = task?.recurrence;
+    if (task == null || rule == null || !includeExcluded || rule.exdates.isEmpty) {
+      return _undo(l10n.recurExceptionsRestored, await occurrences.restoreAllExceptions(taskId));
+    }
+    final result = await tasks.update(
+      task.copyWith(recurrence: rule.copyWith(exdates: const [])),
+      rewritePast: true,
+      source: 'exceptions',
+      inTx: (tx) => occurrences.restoreAllExceptionsInTx(tx, taskId),
+    );
+    return _undo(l10n.recurExceptionsRestored, result.record);
+  }
 
   /// Removes [key] from the rule's `exdates` (the occurrence comes back; no key disappears, so
   /// the master is edited directly).
@@ -217,8 +333,21 @@ class PlannerService {
   }
 
   /// Bulk edit (T3.1.18): one transaction, one undo.
-  Future<OpRecord> bulk(List<BulkTarget> targets, BulkChange change) async =>
-      _undo(l10n.tasksBulkDone(targets.length), await tasks.bulk(targets, change));
+  Future<OpRecord> bulk(List<BulkTarget> targets, BulkChange change) async {
+    if (change is BulkAddTags) {
+      final tagsRepo = _ref.read(tagsRepositoryProvider);
+      final record = await tasks.bulk(
+        targets,
+        change,
+        onTask: (tx, task) async {
+          final current = {for (final t in await tagsRepo.tagsForEntity('task', task.id)) t.id};
+          await tagsRepo.writeTags(tx, 'task', task.id, {...current, ...change.tagIds});
+        },
+      );
+      return _undo(l10n.tasksBulkDone(targets.length), record);
+    }
+    return _undo(l10n.tasksBulkDone(targets.length), await tasks.bulk(targets, change));
+  }
 
   // ---------------------------------------------------------------------------
   // Occurrence outcome (T3.2.04, T3.2.22) and sessions (T3.2.18)
@@ -430,8 +559,12 @@ class PlannerService {
   // ---------------------------------------------------------------------------
   // Delete (T3.1.10, T3.2.11)
 
-  Future<OpRecord> delete(PlannerItem item, {EditScope scope = EditScope.allOccurrences}) async {
-    final record = await tasks.delete(item.taskId, scope: scope, occurrenceKey: item.occurrenceKey);
+  Future<OpRecord> delete(PlannerItem item, {EditScope scope = EditScope.allOccurrences}) =>
+      deleteTask(item.taskId, scope: scope, occurrenceKey: item.occurrenceKey);
+
+  /// Deletes a task (or one/following occurrences of a series) with undo.
+  Future<OpRecord> deleteTask(String taskId, {EditScope scope = EditScope.allOccurrences, String? occurrenceKey}) async {
+    final record = await tasks.delete(taskId, scope: scope, occurrenceKey: occurrenceKey);
     return _undo(scope == EditScope.thisOccurrence ? l10n.tasksOccurrenceDeleted : l10n.tasksDeleted, record);
   }
 
