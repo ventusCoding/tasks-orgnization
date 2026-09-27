@@ -47,7 +47,7 @@ completion, punctuality and procrastination.
 - [x] T3.2.19 — Running-timer indicator & timer policy
 - [x] T3.2.20 — Series history view
 - [x] T3.2.21 — Pause / resume a series
-- [ ] T3.2.22 — Occurrence notes & attachments
+- [x] T3.2.22 — Occurrence notes & attachments
 - [ ] T3.2.23 — Bulk occurrence actions
 
 ## Tasks
