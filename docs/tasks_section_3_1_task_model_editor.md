@@ -42,7 +42,7 @@ recurrence engine and rule builder UI ([2.1]); notification rule editor ([7.1]);
 - [x] T3.1.17 — Tags on tasks
 - [x] T3.1.18 — Multi-select & bulk edit
 - [x] T3.1.19 — Copy & duplicate to other days
-- [ ] T3.1.20 — Task templates
+- [x] T3.1.20 — Task templates
 - [ ] T3.1.21 — Schedule a checklist item as a task
 
 ## Tasks
