@@ -43,7 +43,7 @@ alternative views, templates, import/export ([4.5]).
 - [x] T4.2.14 — Undo / redo for tree edits
 - [x] T4.2.15 — Item details sheet
 - [x] T4.2.16 — Multi-select & bulk actions
-- [ ] T4.2.17 — Copy, cut & paste subtrees
+- [x] T4.2.17 — Copy, cut & paste subtrees
 - [ ] T4.2.18 — Tree accessibility
 - [ ] T4.2.19 — Performance hardening for huge lists
 
@@ -334,6 +334,7 @@ editing works there.
 - The internal clipboard keeps structure, optionally statuses, and attachments by reference.
 - It works across checklists; *cut* is implemented as a move.
 **Tests:** unit tests for paste at various depths; cross-checklist paste test.
+**Notes:** Copy keeps statuses and reason notes (`NodeSpec.fromTree`), attachments by reference; cut pastes as a move (ids kept) within and across checklists; the system clipboard gets indented Markdown. Entry points: row menu, selection bar, keyboard.
 
 ### T4.2.18 — Tree accessibility
 **Priority:** P1 · **Size:** M · **Depends on:** T4.2.08
