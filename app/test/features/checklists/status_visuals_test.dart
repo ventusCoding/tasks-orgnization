@@ -51,6 +51,10 @@ void main() {
   testWidgets('preview rows: completed struck through, cancelled struck through and muted; labelled controls', (
     tester,
   ) async {
+    // Tall enough for every row (the list is lazy).
+    tester.view.physicalSize = const Size(800, 1400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
     final h = TestHarness.create(now: galleryNow);
     addTearDown(h.dispose);
     final id = await seedStatusGallery(tester, h);
