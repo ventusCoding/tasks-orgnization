@@ -19,7 +19,7 @@ P2); streak freezes; achievements catalog & unlock engine; badge gallery & share
 
 ## Progress
 
-- [ ] T5.4.01 — Goals: migration, Drift & domain
+- [x] T5.4.01 — Goals: migration, Drift & domain
 - [ ] T5.4.02 — Goal editor
 - [ ] T5.4.03 — Goal progress & projection engine
 - [ ] T5.4.04 — Goal surfaces & completion
@@ -42,6 +42,7 @@ habit or task series), `streak_days` (habits), `clean_days` / `money_saved` / `u
 month | week | custom` (custom requires start/end).
 **Acceptance criteria:** invalid metric/scope combinations are rejected in domain and by a DB `CHECK`.
 **Tests:** pgTAP isolation & checks; DAO and validation unit tests.
+**Notes:** The table, sync wiring and Drift table came with the foundation; this adds migration `20260927120000_add_goals_checks.sql` (metric per scope, positive target, custom dates, scope id) with pgTAP `135_goals.test.sql` — written but not run against a local stack in this session. Domain `features/goals/domain/goal.dart` (same rules, habit-kind narrowing, period windows) and `GoalsRepository` (achieved once, habit deletion cascades).
 
 ### T5.4.02 — Goal editor
 **Priority:** P1 · **Size:** M · **Depends on:** T5.4.01
