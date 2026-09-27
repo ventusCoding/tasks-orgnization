@@ -392,6 +392,49 @@ abstract final class DefaultSections {
   ];
 }
 
+/// A local-only duration timer of a period (T5.2.04, `habit_timer_state` — never synced). The
+/// running state is derived from instants, so it survives app kills without drift.
+@immutable
+class HabitTimer {
+  const HabitTimer({
+    required this.habitId,
+    required this.key,
+    required this.startedAt,
+    this.accumulatedSeconds = 0,
+    this.running = true,
+  });
+
+  final String habitId;
+
+  /// Day or slot key.
+  final String key;
+
+  /// Start of the current running segment (or of the pause).
+  final DateTime startedAt;
+
+  /// Seconds accumulated before the current running segment.
+  final int accumulatedSeconds;
+  final bool running;
+
+  int elapsedSeconds(DateTime now) {
+    if (!running) return accumulatedSeconds;
+    final segment = now.toUtc().difference(startedAt.toUtc()).inSeconds;
+    return accumulatedSeconds + (segment < 0 ? 0 : segment);
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      other is HabitTimer &&
+      other.habitId == habitId &&
+      other.key == key &&
+      other.startedAt == startedAt &&
+      other.accumulatedSeconds == accumulatedSeconds &&
+      other.running == running;
+
+  @override
+  int get hashCode => Object.hash(habitId, key, startedAt, accumulatedSeconds, running);
+}
+
 /// `habit_vocab.kind`.
 enum VocabKind {
   trigger,

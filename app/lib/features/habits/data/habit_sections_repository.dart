@@ -213,11 +213,26 @@ class HabitTimerStore {
 
   final AppDatabase _db;
 
-  Stream<List<HabitTimerStateRow>> watchAll() => _db.select(_db.habitTimerState).watch();
+  static HabitTimer _map(HabitTimerStateRow r) => HabitTimer(
+    habitId: r.habitId,
+    key: r.occurrenceKey,
+    startedAt: r.startedAt.toUtc(),
+    accumulatedSeconds: r.accumulatedSeconds,
+    running: r.running,
+  );
 
-  Future<HabitTimerStateRow?> read(String habitId, String key) => (_db.select(_db.habitTimerState)
-        ..where((t) => t.habitId.equals(habitId) & t.occurrenceKey.equals(key)))
-      .getSingleOrNull();
+  Stream<List<HabitTimer>> watchAll() => _db
+      .select(_db.habitTimerState)
+      .watch()
+      .map((rows) => rows.map(_map).toList())
+      .distinct(const ListEquality<HabitTimer>().equals);
+
+  Future<HabitTimer?> read(String habitId, String key) async {
+    final row = await (_db.select(_db.habitTimerState)
+          ..where((t) => t.habitId.equals(habitId) & t.occurrenceKey.equals(key)))
+        .getSingleOrNull();
+    return row == null ? null : _map(row);
+  }
 
   /// Starts (or resumes) the timer at [now].
   Future<void> start(String habitId, String key, DateTime now) async {
@@ -240,7 +255,7 @@ class HabitTimerStore {
     await (_db.update(_db.habitTimerState)..where((t) => t.habitId.equals(habitId) & t.occurrenceKey.equals(key)))
         .write(
           HabitTimerStateCompanion(
-            accumulatedSeconds: Value(elapsedSeconds(current, now)),
+            accumulatedSeconds: Value(current.elapsedSeconds(now)),
             running: const Value(false),
             startedAt: Value(now.toUtc()),
           ),
@@ -251,18 +266,28 @@ class HabitTimerStore {
   Future<int> stop(String habitId, String key, DateTime now) async {
     final current = await read(habitId, key);
     if (current == null) return 0;
-    final total = elapsedSeconds(current, now);
+    final total = current.elapsedSeconds(now);
     await discard(habitId, key);
     return total;
   }
 
   Future<void> discard(String habitId, String key) =>
       (_db.delete(_db.habitTimerState)..where((t) => t.habitId.equals(habitId) & t.occurrenceKey.equals(key))).go();
+}
 
-  /// Elapsed seconds of [row] at [now] (derived from instants — no drift after app kills).
-  static int elapsedSeconds(HabitTimerStateRow row, DateTime now) {
-    if (!row.running) return row.accumulatedSeconds;
-    final running = now.toUtc().difference(row.startedAt.toUtc()).inSeconds;
-    return row.accumulatedSeconds + (running < 0 ? 0 : running);
+/// Local-only UI memory of the Habits tab (last view, filter) in `local_kv` — never synced.
+class HabitUiStore {
+  HabitUiStore(this._db);
+
+  final AppDatabase _db;
+
+  static const _prefix = 'habits.ui.';
+
+  Future<String?> read(String key) async {
+    final row = await (_db.select(_db.localKv)..where((k) => k.key.equals('$_prefix$key'))).getSingleOrNull();
+    return row?.value;
   }
+
+  Future<void> write(String key, String value) =>
+      _db.into(_db.localKv).insertOnConflictUpdate(LocalKvCompanion.insert(key: '$_prefix$key', value: value));
 }
