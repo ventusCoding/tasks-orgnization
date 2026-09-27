@@ -10,6 +10,7 @@ import 'package:everslot/features/habits/application/habit_service.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
 import 'package:everslot/features/habits/presentation/calendar_views.dart';
+import 'package:everslot/features/habits/presentation/celebration_overlay.dart';
 import 'package:everslot/features/habits/presentation/check_in_sheets.dart';
 import 'package:everslot/features/habits/presentation/habit_routes.dart';
 import 'package:everslot/features/habits/presentation/habit_ui.dart';
@@ -139,7 +140,8 @@ class _Detail extends ConsumerWidget {
           ),
         ],
       ),
-      body: ListView(
+      body: CelebrationOverlay(
+        child: ListView(
         padding: const EdgeInsetsDirectional.only(bottom: Space.xxxl),
         children: [
           if (pause != null) PauseBanner(pause: pause),
@@ -238,6 +240,7 @@ class _Detail extends ConsumerWidget {
                 onTap: () => showDayEditor(context, ref, habit.id, e.localDate),
               ),
         ],
+      ),
       ),
     );
   }

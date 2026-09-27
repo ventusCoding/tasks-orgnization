@@ -7,6 +7,7 @@ import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
 import 'package:everslot/features/habits/presentation/calendar_views.dart';
+import 'package:everslot/features/habits/presentation/celebration_overlay.dart';
 import 'package:everslot/features/habits/presentation/habit_routes.dart';
 import 'package:everslot/features/habits/presentation/manage_habits_screen.dart';
 import 'package:everslot/features/habits/presentation/notes_journal_screen.dart';
@@ -255,12 +256,14 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
         onPressed: _add,
         child: const Icon(Icons.add),
       ),
-      body: Column(
-        children: [
-          if (vacation != null && !vacation.start.isAfter(today)) PauseBanner(pause: vacation),
-          const QuitStrip(),
-          Expanded(child: body),
-        ],
+      body: CelebrationOverlay(
+        child: Column(
+          children: [
+            if (vacation != null && !vacation.start.isAfter(today)) PauseBanner(pause: vacation),
+            const QuitStrip(),
+            Expanded(child: body),
+          ],
+        ),
       ),
     );
   }

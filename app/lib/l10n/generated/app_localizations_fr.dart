@@ -2732,6 +2732,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsCalendar => 'Calendrier';
 
   @override
+  String get habitsCelebratePerfectDay => 'Journée parfaite — tout est fait !';
+
+  @override
+  String habitsCelebrateStreak(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jours d\'affilée',
+      one: '1 jour d\'affilée',
+    );
+    return '$name : $_temp0 !';
+  }
+
+  @override
+  String get habitsCelebrationDismiss => 'Fermer';
+
+  @override
   String habitsCellSemantics(String habit, String date, String status) {
     return '$habit, $date : $status';
   }
@@ -2983,6 +3000,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get habitsHideNotDue => 'Masquer les habitudes non prévues';
+
+  @override
+  String get habitsHoldRingHint => 'Maintenir appuyé pour marquer comme fait';
+
+  @override
+  String get habitsHoldToComplete => 'Maintenir pour valider';
+
+  @override
+  String get habitsHoldToCompleteHint =>
+      'Maintenez l\'anneau appuyé pour cocher une habitude et éviter les appuis accidentels.';
 
   @override
   String habitsIncrease(String step) {

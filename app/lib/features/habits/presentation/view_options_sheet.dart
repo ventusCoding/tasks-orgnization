@@ -58,6 +58,13 @@ class _ViewOptions extends ConsumerWidget {
             value: s.hideNotDue,
             onChanged: (v) => save(service.update(hideNotDue: v)),
           ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(l.habitsHoldToComplete),
+            subtitle: Text(l.habitsHoldToCompleteHint),
+            value: s.holdToComplete,
+            onChanged: (v) => save(service.update(holdToComplete: v)),
+          ),
           const Divider(),
           Text(l.habitsMatrixTapTitle, style: context.text.labelLarge),
           RadioGroup<TapCycle>(

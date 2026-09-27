@@ -25,6 +25,7 @@ class HabitViewSettings {
     this.compact = false,
     this.hideNotDue = false,
     this.groupBy = HabitGroupBy.section,
+    this.holdToComplete = false,
   });
 
   factory HabitViewSettings.fromMap(Map<String, dynamic> m) => HabitViewSettings(
@@ -34,6 +35,7 @@ class HabitViewSettings {
     compact: m['density'] == 'compact',
     hideNotDue: m.get<bool>('hideNotDue', false),
     groupBy: HabitGroupBy.parse(m['groupBy']),
+    holdToComplete: m.get<bool>('holdToComplete', false),
   );
 
   final TapCycle tapCycle;
@@ -45,6 +47,9 @@ class HabitViewSettings {
   final bool hideNotDue;
   final HabitGroupBy groupBy;
 
+  /// Yes/no rings need a press-and-hold (with a fill animation) instead of a tap (T5.2.03, T5.2.13).
+  final bool holdToComplete;
+
   @override
   bool operator ==(Object other) =>
       other is HabitViewSettings &&
@@ -53,10 +58,12 @@ class HabitViewSettings {
       other.showStreakChips == showStreakChips &&
       other.compact == compact &&
       other.hideNotDue == hideNotDue &&
-      other.groupBy == groupBy;
+      other.groupBy == groupBy &&
+      other.holdToComplete == holdToComplete;
 
   @override
-  int get hashCode => Object.hash(tapCycle, toggleWithShortPress, showStreakChips, compact, hideNotDue, groupBy);
+  int get hashCode =>
+      Object.hash(tapCycle, toggleWithShortPress, showStreakChips, compact, hideNotDue, groupBy, holdToComplete);
 }
 
 final habitViewSettingsProvider = Provider<HabitViewSettings>(
@@ -76,6 +83,7 @@ class HabitViewSettingsService {
     bool? compact,
     bool? hideNotDue,
     HabitGroupBy? groupBy,
+    bool? holdToComplete,
   }) => _settings.update(SettingsNs.habits, {
     'matrixTapCycle': ?tapCycle?.json,
     'toggleWithShortPress': ?toggleWithShortPress,
@@ -83,6 +91,7 @@ class HabitViewSettingsService {
     if (compact != null) 'density': compact ? 'compact' : 'comfortable',
     'hideNotDue': ?hideNotDue,
     'groupBy': ?groupBy?.name,
+    'holdToComplete': ?holdToComplete,
   });
 }
 

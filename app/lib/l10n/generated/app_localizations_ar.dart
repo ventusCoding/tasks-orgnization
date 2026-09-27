@@ -2783,6 +2783,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsCalendar => 'التقويم';
 
   @override
+  String get habitsCelebratePerfectDay => 'يوم مثالي — أنجزت كل شيء!';
+
+  @override
+  String habitsCelebrateStreak(String name, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count يوم متتالٍ',
+      many: '$count يومًا متتاليًا',
+      few: '$count أيام متتالية',
+      two: 'يومان متتاليان',
+      one: 'يوم واحد متتالٍ',
+    );
+    return '$name: $_temp0!';
+  }
+
+  @override
+  String get habitsCelebrationDismiss => 'إغلاق';
+
+  @override
   String habitsCellSemantics(String habit, String date, String status) {
     return '$habit، $date: $status';
   }
@@ -3037,6 +3057,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsHideNotDue => 'إخفاء العادات غير المستحقة';
+
+  @override
+  String get habitsHoldRingHint => 'اضغط مطوّلًا لوضع علامة تم';
+
+  @override
+  String get habitsHoldToComplete => 'الضغط المطوّل للإنجاز';
+
+  @override
+  String get habitsHoldToCompleteHint =>
+      'اضغط مطوّلًا على الحلقة لتسجيل العادة وتجنّب النقرات غير المقصودة.';
 
   @override
   String habitsIncrease(String step) {

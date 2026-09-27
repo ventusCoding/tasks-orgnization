@@ -34,7 +34,7 @@ stats screens ([6.5]); the Today home block ([8.1]); widgets ([8.2]); reminders 
 - [x] T5.2.10 — Year heatmap per habit
 - [x] T5.2.11 — Multi-habit month overview
 - [x] T5.2.12 — Reorder, grouping & density
-- [ ] T5.2.13 — Check-in feedback & celebrations
+- [x] T5.2.13 — Check-in feedback & celebrations
 - [ ] T5.2.14 — Evaluation caching & performance
 - [ ] T5.2.15 — Notes journal
 
@@ -214,6 +214,7 @@ days, challenge completion ([5.4]) and quit milestones ([5.3]).
 non-blocking overlays.
 **Acceptance criteria:** with reduce motion on, feedback is instant (text + haptic), no animation.
 **Tests:** widget tests with reduce motion on/off.
+**Notes:** Celebrations cover streak milestones (7/14/30/60/100/200/365/500/730/1000) and perfect days via `CelebrationService` + `CelebrationOverlay` (Habits tab, detail); challenge and quit-milestone celebrations hook in with T5.4.05 / T5.3.12. Hold-to-complete is a view setting (`holdToComplete`). No sound yet (no audio dependency; the [8.3] sound setting is not on main).
 
 ### T5.2.14 — Evaluation caching & performance
 **Priority:** P1 · **Size:** S · **Depends on:** T5.2.03, T5.2.06

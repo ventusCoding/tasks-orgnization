@@ -4695,6 +4695,24 @@ abstract class AppLocalizations {
   /// **'Calendar'**
   String get habitsCalendar;
 
+  /// No description provided for @habitsCelebratePerfectDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect day — everything done!'**
+  String get habitsCelebratePerfectDay;
+
+  /// No description provided for @habitsCelebrateStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: {count, plural, =1{1 day in a row} other{{count} days in a row}}!'**
+  String habitsCelebrateStreak(String name, int count);
+
+  /// No description provided for @habitsCelebrationDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get habitsCelebrationDismiss;
+
   /// No description provided for @habitsCellSemantics.
   ///
   /// In en, this message translates to:
@@ -5120,6 +5138,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hide habits not due'**
   String get habitsHideNotDue;
+
+  /// No description provided for @habitsHoldRingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Press and hold to mark as done'**
+  String get habitsHoldRingHint;
+
+  /// No description provided for @habitsHoldToComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold to complete'**
+  String get habitsHoldToComplete;
+
+  /// No description provided for @habitsHoldToCompleteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Press and hold the ring to check a habit off, to avoid accidental taps.'**
+  String get habitsHoldToCompleteHint;
 
   /// No description provided for @habitsIncrease.
   ///

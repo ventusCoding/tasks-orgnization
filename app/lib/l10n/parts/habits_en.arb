@@ -744,5 +744,21 @@
         "type": "String"
       }
     }
-  }
+  },
+  "habitsCelebrateStreak": "{name}: {count, plural, =1{1 day in a row} other{{count} days in a row}}!",
+  "@habitsCelebrateStreak": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "habitsCelebratePerfectDay": "Perfect day — everything done!",
+  "habitsCelebrationDismiss": "Dismiss",
+  "habitsHoldToComplete": "Hold to complete",
+  "habitsHoldToCompleteHint": "Press and hold the ring to check a habit off, to avoid accidental taps.",
+  "habitsHoldRingHint": "Press and hold to mark as done"
 }

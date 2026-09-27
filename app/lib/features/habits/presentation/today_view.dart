@@ -19,6 +19,7 @@ import 'package:everslot/features/habits/presentation/habit_ui.dart';
 import 'package:everslot/features/organization/application/providers.dart' show categoriesProvider;
 import 'package:everslot_metrics/everslot_metrics.dart' show PeriodResult, PeriodStatus;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
+import 'package:flutter/gestures.dart' show kTouchSlop;
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -427,6 +428,22 @@ class _PrimaryAction extends ConsumerWidget {
     final accent = habitAccent(context, habit);
     if (!goal.isMeasurable || view.isQuota) {
       final done = view.status == PeriodStatus.done || view.explicit?.kind == HabitLogKind.done;
+      final ring = ProgressRing(
+        progress: view.progress,
+        size: 36,
+        color: accent,
+        child: Icon(done ? Icons.check : style.icon, size: 18, color: done ? accent : style.color),
+      );
+      if (!done && ref.watch(habitViewSettingsProvider).holdToComplete) {
+        return HoldToCompleteRing(
+          label: l.habitsActionDone,
+          hint: l.habitsHoldRingHint,
+          progress: view.progress,
+          color: accent,
+          onComplete: () => actions.setState(habit, view.key, CheckInState.done),
+          child: Icon(style.icon, size: 18, color: style.color),
+        );
+      }
       return Semantics(
         button: true,
         checked: done,
@@ -435,18 +452,7 @@ class _PrimaryAction extends ConsumerWidget {
         child: InkResponse(
           radius: 28,
           onTap: () => actions.setState(habit, view.key, done ? null : CheckInState.done),
-          child: SizedBox(
-            width: 48,
-            height: 48,
-            child: Center(
-              child: ProgressRing(
-                progress: view.progress,
-                size: 36,
-                color: accent,
-                child: Icon(done ? Icons.check : style.icon, size: 18, color: done ? accent : style.color),
-              ),
-            ),
-          ),
+          child: SizedBox(width: 48, height: 48, child: Center(child: ring)),
         ),
       );
     }
@@ -462,6 +468,117 @@ class _PrimaryAction extends ConsumerWidget {
         },
       ),
     };
+  }
+}
+
+/// A yes/no ring that completes on press-and-hold (T5.2.03, T5.2.13): haptic at hold start, the ring
+/// fills while held and commits when full; releasing early cancels. With reduce motion there is no
+/// fill: a long press completes at once. Screen readers complete it with their long-press action.
+class HoldToCompleteRing extends StatefulWidget {
+  const HoldToCompleteRing({
+    required this.label,
+    required this.hint,
+    required this.progress,
+    required this.color,
+    required this.onComplete,
+    required this.child,
+    super.key,
+    this.holdFor = const Duration(milliseconds: 700),
+  });
+
+  final String label;
+  final String hint;
+  final double progress;
+  final Color color;
+  final Future<void> Function() onComplete;
+  final Widget child;
+  final Duration holdFor;
+
+  @override
+  State<HoldToCompleteRing> createState() => _HoldToCompleteRingState();
+}
+
+class _HoldToCompleteRingState extends State<HoldToCompleteRing> with SingleTickerProviderStateMixin {
+  late final AnimationController _fill = AnimationController(vsync: this, duration: widget.holdFor)
+    ..addStatusListener((status) {
+      if (status == AnimationStatus.completed) unawaited(_complete());
+    });
+
+  @override
+  void dispose() {
+    _fill.dispose();
+    super.dispose();
+  }
+
+  Future<void> _complete() async {
+    _fill.value = 0;
+    unawaited(HapticFeedback.heavyImpact());
+    await widget.onComplete();
+  }
+
+  void _start() {
+    unawaited(HapticFeedback.mediumImpact());
+    unawaited(_fill.forward(from: 0));
+  }
+
+  void _cancel() {
+    _down = null;
+    if (_fill.isAnimating) unawaited(_fill.reverse());
+  }
+
+  /// Where the current press started (null = none); moving beyond the slop (a scroll) cancels.
+  Offset? _down;
+
+  @override
+  Widget build(BuildContext context) {
+    final reduced = AppMotion.reduced(context);
+    // The fill follows the raw pointer (the gesture arena would hand long presses to the row's
+    // menu); the detector below claims taps and long presses so the row neither opens nor shows
+    // its menu while the ring is held.
+    return Semantics(
+      button: true,
+      label: widget.label,
+      hint: widget.hint,
+      excludeSemantics: true,
+      onLongPress: () => unawaited(_complete()),
+      child: Listener(
+        behavior: HitTestBehavior.opaque,
+        onPointerDown: reduced
+            ? null
+            : (e) {
+                _down = e.position;
+                _start();
+              },
+        onPointerMove: reduced
+            ? null
+            : (e) {
+                if (_down != null && (e.position - _down!).distance > kTouchSlop) _cancel();
+              },
+        onPointerUp: reduced ? null : (_) => _cancel(),
+        onPointerCancel: reduced ? null : (_) => _cancel(),
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {},
+          onLongPress: reduced ? () => unawaited(_complete()) : () {},
+          child: SizedBox(
+          width: 48,
+          height: 48,
+          child: Center(
+            child: AnimatedBuilder(
+              animation: _fill,
+              builder: (context, child) => ProgressRing(
+                progress: _fill.value > widget.progress ? _fill.value : widget.progress,
+                size: 36,
+                color: widget.color,
+                child: child,
+              ),
+              child: widget.child,
+            ),
+          ),
+        ),
+        ),
+      ),
+    );
   }
 }
 

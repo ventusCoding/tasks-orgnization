@@ -1011,6 +1011,16 @@
       }
     }
   },
+  "@habitsCelebrateStreak": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@habitsCellSemantics": {
     "placeholders": {
       "habit": {
@@ -4234,6 +4244,9 @@
   "habitsAtRisk": "At risk",
   "habitsBestStreak": "Best streak",
   "habitsCalendar": "Calendar",
+  "habitsCelebratePerfectDay": "Perfect day — everything done!",
+  "habitsCelebrateStreak": "{name}: {count, plural, =1{1 day in a row} other{{count} days in a row}}!",
+  "habitsCelebrationDismiss": "Dismiss",
   "habitsCellSemantics": "{habit}, {date}: {status}",
   "habitsChallengeDay": "Day {day} of {total}",
   "habitsCompactRows": "Compact rows",
@@ -4305,6 +4318,9 @@
   "habitsGroupByTitle": "Group by",
   "habitsGroupNotDue": "Not due today ({count})",
   "habitsHideNotDue": "Hide habits not due",
+  "habitsHoldRingHint": "Press and hold to mark as done",
+  "habitsHoldToComplete": "Hold to complete",
+  "habitsHoldToCompleteHint": "Press and hold the ring to check a habit off, to avoid accidental taps.",
   "habitsIncrease": "Add {step}",
   "habitsIncrementStep": "Step",
   "habitsJournal": "Notes journal",

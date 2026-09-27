@@ -325,5 +325,11 @@
   "habitsReorderHint": "اسحب المقابض لتغيير الترتيب.",
   "habitsNoCategory": "بدون فئة",
   "habitsAllHabits": "كل العادات",
-  "habitsDragHandle": "نقل {name}"
+  "habitsDragHandle": "نقل {name}",
+  "habitsCelebrateStreak": "{name}: {count, plural, =1{يوم واحد متتالٍ} =2{يومان متتاليان} few{{count} أيام متتالية} many{{count} يومًا متتاليًا} other{{count} يوم متتالٍ}}!",
+  "habitsCelebratePerfectDay": "يوم مثالي — أنجزت كل شيء!",
+  "habitsCelebrationDismiss": "إغلاق",
+  "habitsHoldToComplete": "الضغط المطوّل للإنجاز",
+  "habitsHoldToCompleteHint": "اضغط مطوّلًا على الحلقة لتسجيل العادة وتجنّب النقرات غير المقصودة.",
+  "habitsHoldRingHint": "اضغط مطوّلًا لوضع علامة تم"
 }
