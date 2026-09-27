@@ -58,6 +58,12 @@ final habitVocabRepositoryProvider = Provider<HabitVocabRepository>(
 
 final habitTimerStoreProvider = Provider<HabitTimerStore>((ref) => HabitTimerStore(ref.watch(appDatabaseProvider)));
 
+/// Local UI memory of the Habits tab (last view & filter).
+final habitUiStoreProvider = Provider<HabitUiStore>((ref) => HabitUiStore(ref.watch(appDatabaseProvider)));
+
+/// Local duration timers (T5.2.04).
+final habitTimersProvider = StreamProvider<List<HabitTimer>>((ref) => ref.watch(habitTimerStoreProvider).watchAll());
+
 // ------------------------------------------------------------------------------ time & periods --
 
 /// The habit period service for the current zone, day start and week start (T5.1.05). It reuses

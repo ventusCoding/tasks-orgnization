@@ -2626,6 +2626,1178 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get habitsActionAddValue => 'Ajouter une valeur';
+
+  @override
+  String get habitsActionBackfill => 'Saisir un autre jour';
+
+  @override
+  String get habitsActionCheckNow => 'Cocher maintenant';
+
+  @override
+  String get habitsActionClear => 'Effacer';
+
+  @override
+  String get habitsActionDetails => 'Détails';
+
+  @override
+  String get habitsActionDone => 'Fait';
+
+  @override
+  String get habitsActionEdit => 'Modifier';
+
+  @override
+  String get habitsActionEditEntries => 'Modifier les saisies';
+
+  @override
+  String get habitsActionExcuse => 'Excuser';
+
+  @override
+  String get habitsActionNotDone => 'Pas fait';
+
+  @override
+  String get habitsActionNoteMood => 'Note et humeur';
+
+  @override
+  String get habitsActionPause => 'Mettre en pause';
+
+  @override
+  String get habitsActionPauseTimer => 'Mettre le minuteur en pause';
+
+  @override
+  String get habitsActionSkip => 'Sauter';
+
+  @override
+  String get habitsActionStartTimer => 'Démarrer le minuteur';
+
+  @override
+  String get habitsActionStopTimer => 'Arrêter et enregistrer';
+
+  @override
+  String get habitsActionUndoDone => 'Décocher';
+
+  @override
+  String get habitsAdd => 'Ajouter';
+
+  @override
+  String get habitsAddEntry => 'Ajouter';
+
+  @override
+  String get habitsAddTime => 'Ajouter une heure';
+
+  @override
+  String get habitsAdvancedTitle => 'Avancé';
+
+  @override
+  String get habitsAllDone => 'Tout est fait 🎉';
+
+  @override
+  String get habitsAllStats => 'Toutes les statistiques';
+
+  @override
+  String get habitsApplyAll => 'Tout l\'historique';
+
+  @override
+  String get habitsApplyAllWarn => 'Les statistiques passées vont changer.';
+
+  @override
+  String get habitsApplyDate => 'Une date choisie…';
+
+  @override
+  String get habitsApplyTitle =>
+      'Appliquer la nouvelle fréquence ou le nouvel objectif à partir de';
+
+  @override
+  String get habitsApplyToday => 'Aujourd\'hui';
+
+  @override
+  String get habitsArchived => 'Archivées';
+
+  @override
+  String get habitsArchivedSnack => 'Habitude archivée';
+
+  @override
+  String get habitsAskNote => 'Demander une note et l’humeur après validation';
+
+  @override
+  String get habitsAtRisk => 'En danger';
+
+  @override
+  String get habitsBestStreak => 'Meilleure série';
+
+  @override
+  String get habitsCalendar => 'Calendrier';
+
+  @override
+  String habitsCellSemantics(String habit, String date, String status) {
+    return '$habit, $date : $status';
+  }
+
+  @override
+  String habitsChallengeDay(int day, int total) {
+    return 'Jour $day sur $total';
+  }
+
+  @override
+  String habitsCounts(int done, int notDone, int missed, int skipped) {
+    return 'Faites $done · Pas faites $notDone · Manquées $missed · Sautées $skipped';
+  }
+
+  @override
+  String get habitsCreateQuitInstead => 'Créer un suivi d\'arrêt';
+
+  @override
+  String get habitsCurrentStreak => 'Série actuelle';
+
+  @override
+  String get habitsDatesTitle => 'Dates';
+
+  @override
+  String get habitsDayStateLabel => 'Statut';
+
+  @override
+  String habitsDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jours',
+      one: '1 jour',
+      zero: '0 jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String habitsDecrease(String step) {
+    return 'Retirer $step';
+  }
+
+  @override
+  String get habitsDeleteBody =>
+      'Son historique part avec elle dans la corbeille. Vous pouvez la restaurer pendant 30 jours.';
+
+  @override
+  String get habitsDeleteEntry => 'Supprimer la saisie';
+
+  @override
+  String habitsDeleteTitle(String name) {
+    return 'Supprimer « $name » ?';
+  }
+
+  @override
+  String get habitsDeletedSnack => 'Habitude supprimée';
+
+  @override
+  String get habitsEditCustom => 'Modifier la fréquence';
+
+  @override
+  String get habitsEditEntry => 'Modifier la saisie';
+
+  @override
+  String get habitsEditorEditTitle => 'Modifier l\'habitude';
+
+  @override
+  String get habitsEditorNewTitle => 'Nouvelle habitude';
+
+  @override
+  String get habitsEmptyAction => 'Créer une habitude';
+
+  @override
+  String get habitsEmptyBody =>
+      'Créez une habitude — comme 15 pompes par jour — et indiquez chaque jour si vous l’avez faite.';
+
+  @override
+  String get habitsEmptyTitle => 'Pas encore d\'habitude';
+
+  @override
+  String get habitsEndNever => 'Jamais';
+
+  @override
+  String get habitsEntries => 'Saisies';
+
+  @override
+  String get habitsEntryDeleted => 'Saisie supprimée';
+
+  @override
+  String get habitsErrDuration =>
+      'Une durée doit être comprise entre 1 min et 24 h';
+
+  @override
+  String get habitsErrEnd => 'La date de fin précède la date de début';
+
+  @override
+  String get habitsErrFreezes => 'Entre 0 et 31 gels par mois';
+
+  @override
+  String get habitsErrLimitNeedsMeasurable =>
+      '« Au plus » nécessite un nombre, une durée ou une valeur';
+
+  @override
+  String get habitsErrNameEmpty => 'Saisissez un nom';
+
+  @override
+  String get habitsErrNameTooLong =>
+      'Le nom est trop long (80 caractères max.)';
+
+  @override
+  String get habitsErrSchedule => 'Cette fréquence n\'est pas valide';
+
+  @override
+  String get habitsErrSectionName => 'Le nom doit comporter 1 à 40 caractères';
+
+  @override
+  String get habitsErrTarget => 'Saisissez un objectif supérieur à 0';
+
+  @override
+  String get habitsErrUnit => 'L\'unité doit comporter 1 à 20 caractères';
+
+  @override
+  String get habitsErrorArchived => 'Cette habitude est archivée.';
+
+  @override
+  String get habitsErrorFuture =>
+      'Impossible de valider avant le début — vous pouvez la sauter ou l’excuser.';
+
+  @override
+  String habitsEveryNDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Tous les $n jours',
+      two: 'Un jour sur deux',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsFieldCategory => 'Catégorie';
+
+  @override
+  String get habitsFieldColor => 'Couleur';
+
+  @override
+  String get habitsFieldDescription => 'Description';
+
+  @override
+  String get habitsFieldEnd => 'Fin';
+
+  @override
+  String get habitsFieldIcon => 'Icône';
+
+  @override
+  String get habitsFieldName => 'Nom';
+
+  @override
+  String get habitsFieldNameHint => 'ex. 15 pompes';
+
+  @override
+  String get habitsFieldSection => 'Section';
+
+  @override
+  String get habitsFieldStart => 'Début';
+
+  @override
+  String get habitsFieldTarget => 'Objectif';
+
+  @override
+  String get habitsFieldUnit => 'Unité';
+
+  @override
+  String get habitsFilterAll => 'Toutes';
+
+  @override
+  String get habitsFilterDue => 'À faire';
+
+  @override
+  String get habitsFor30Days => 'Pendant 30 jours';
+
+  @override
+  String get habitsFreezes => 'Gels de série par mois';
+
+  @override
+  String get habitsFromTemplate => 'À partir d\'un modèle';
+
+  @override
+  String get habitsFutureOnlyPlanned =>
+      'Seuls les sauts et les excuses peuvent être planifiés pour les jours à venir.';
+
+  @override
+  String get habitsGoalExampleCheck => 'Fait ou pas';
+
+  @override
+  String get habitsGoalExampleCount => '15 pompes';
+
+  @override
+  String get habitsGoalExampleDuration => 'Lire 20 min';
+
+  @override
+  String get habitsGoalExampleNumeric => 'Courir 5 km';
+
+  @override
+  String habitsGoalSentence(String op, String amount) {
+    return '$op $amount';
+  }
+
+  @override
+  String get habitsGoalTitle => 'Objectif';
+
+  @override
+  String get habitsGoalTypeCheck => 'Oui / Non';
+
+  @override
+  String get habitsGoalTypeCount => 'Nombre';
+
+  @override
+  String get habitsGoalTypeDuration => 'Durée';
+
+  @override
+  String get habitsGoalTypeNumeric => 'Valeur';
+
+  @override
+  String habitsGroupNotDue(int count) {
+    return 'Pas prévues aujourd\'hui ($count)';
+  }
+
+  @override
+  String habitsIncrease(String step) {
+    return 'Ajouter $step';
+  }
+
+  @override
+  String get habitsIncrementStep => 'Pas';
+
+  @override
+  String get habitsJournal => 'Journal des notes';
+
+  @override
+  String get habitsJournalEmpty => 'Aucune note pour le moment';
+
+  @override
+  String get habitsJournalEmptyBody =>
+      'Les notes et humeurs ajoutées à vos validations s\'affichent ici.';
+
+  @override
+  String get habitsLast90 => '90 derniers jours';
+
+  @override
+  String get habitsLastDay => 'Dernier jour';
+
+  @override
+  String habitsLeftOfLimit(String left, String limit) {
+    return 'Encore $left sur $limit';
+  }
+
+  @override
+  String get habitsLimitZeroHint =>
+      'Une limite de 0 revient à arrêter complètement.';
+
+  @override
+  String get habitsManage => 'Gérer les habitudes';
+
+  @override
+  String get habitsMinPerDay => 'Minimum par jour';
+
+  @override
+  String habitsMinutesValue(int minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String get habitsMood1 => 'Terrible';
+
+  @override
+  String get habitsMood2 => 'Mauvais';
+
+  @override
+  String get habitsMood3 => 'Correct';
+
+  @override
+  String get habitsMood4 => 'Bien';
+
+  @override
+  String get habitsMood5 => 'Excellent';
+
+  @override
+  String get habitsMoodLabel => 'Humeur';
+
+  @override
+  String get habitsMoodTrend => 'Tendance de l\'humeur';
+
+  @override
+  String get habitsMoveToSection => 'Déplacer vers une section…';
+
+  @override
+  String get habitsNewHabit => 'Nouvelle habitude';
+
+  @override
+  String get habitsNewQuit => 'Nouveau suivi d\'arrêt';
+
+  @override
+  String get habitsNewer => 'Jours suivants';
+
+  @override
+  String get habitsNextDay => 'Jour suivant';
+
+  @override
+  String get habitsNextMonth => 'Mois suivant';
+
+  @override
+  String get habitsNextYear => 'Année suivante';
+
+  @override
+  String get habitsNoBuildHabits => 'Aucune habitude à cocher pour le moment';
+
+  @override
+  String get habitsNoEntries => 'Aucune saisie pour le moment';
+
+  @override
+  String get habitsNone => 'Aucune';
+
+  @override
+  String get habitsNotActiveThatDay =>
+      'Cette habitude n\'était pas active ce jour-là.';
+
+  @override
+  String get habitsNotEnoughData => 'Pas encore assez de données';
+
+  @override
+  String get habitsNoteHint => 'Comment ça s\'est passé ?';
+
+  @override
+  String get habitsNoteMoodTitle => 'Note et humeur';
+
+  @override
+  String get habitsNothingThisDay => 'Rien de prévu ce jour-là';
+
+  @override
+  String get habitsNothingThisDayBody =>
+      'Les habitudes apparaissent ici les jours où elles sont prévues.';
+
+  @override
+  String get habitsOlder => 'Jours précédents';
+
+  @override
+  String get habitsOnlyOn => 'Seulement le (facultatif)';
+
+  @override
+  String get habitsOpAtLeast => 'Au moins';
+
+  @override
+  String get habitsOpAtMost => 'Au plus';
+
+  @override
+  String get habitsOpExactly => 'Exactement';
+
+  @override
+  String habitsOrdinal(String which) {
+    String _temp0 = intl.Intl.selectLogic(which, {
+      'first': 'Premier',
+      'second': 'Deuxième',
+      'third': 'Troisième',
+      'fourth': 'Quatrième',
+      'other': 'Dernier',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsOverLimit => 'Limite dépassée';
+
+  @override
+  String get habitsPauseAction => 'Mettre en pause';
+
+  @override
+  String habitsPauseDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jours',
+      one: '1 jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsPauseHint =>
+      'Les jours en pause sont neutres : jamais manqués et ils ne cassent jamais une série.';
+
+  @override
+  String get habitsPauseIndefinitely => 'Indéfiniment';
+
+  @override
+  String get habitsPauseTitle => 'Mettre l\'habitude en pause';
+
+  @override
+  String get habitsPauseToday => 'Aujourd\'hui';
+
+  @override
+  String get habitsPauseUntil => 'Jusqu\'à une date…';
+
+  @override
+  String habitsPauseUntilDate(String date) {
+    return 'Jusqu\'au $date';
+  }
+
+  @override
+  String get habitsPauseWeek => '1 semaine';
+
+  @override
+  String get habitsPausedIndefinitely => 'En pause';
+
+  @override
+  String get habitsPausedSnack => 'En pause';
+
+  @override
+  String habitsPausedUntil(String date) {
+    return 'En pause jusqu\'au $date';
+  }
+
+  @override
+  String habitsPerfectDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jours parfaits',
+      one: '1 jour parfait',
+      zero: 'Aucun jour parfait pour le moment',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsPickDuration => 'Choisir une durée';
+
+  @override
+  String get habitsPresetAfterCompletion => 'Après chaque réalisation';
+
+  @override
+  String get habitsPresetCustom => 'Personnalisé…';
+
+  @override
+  String get habitsPresetDaily => 'Tous les jours';
+
+  @override
+  String get habitsPresetEveryNDays => 'Tous les N jours';
+
+  @override
+  String get habitsPresetInterval => 'Toutes les N heures';
+
+  @override
+  String get habitsPresetMonthlyDay => 'Chaque mois, un jour donné';
+
+  @override
+  String get habitsPresetMonthlyWeekday => 'Chaque mois, un jour de semaine';
+
+  @override
+  String get habitsPresetSpecificDays => 'Certains jours';
+
+  @override
+  String get habitsPresetSpecificTimes => 'À heures fixes';
+
+  @override
+  String get habitsPresetTimesPerDay => 'N fois par jour';
+
+  @override
+  String get habitsPresetTimesPerMonth => 'N× par mois';
+
+  @override
+  String get habitsPresetTimesPerWeek => 'N× par semaine';
+
+  @override
+  String get habitsPresetWeekdays => 'En semaine';
+
+  @override
+  String get habitsPresetWeekends => 'Le week-end';
+
+  @override
+  String get habitsPrevDay => 'Jour précédent';
+
+  @override
+  String get habitsPreviewNext => 'Prochaines';
+
+  @override
+  String get habitsPreviewTitle => 'Aperçu';
+
+  @override
+  String get habitsPreviousMonth => 'Mois précédent';
+
+  @override
+  String get habitsPreviousYear => 'Année précédente';
+
+  @override
+  String get habitsQuickValues => 'Valeurs rapides';
+
+  @override
+  String get habitsQuickValuesHint => 'ex. 5 10 15';
+
+  @override
+  String habitsQuotaMonth(int done, int times) {
+    return '$done sur $times ce mois-ci';
+  }
+
+  @override
+  String habitsQuotaWeek(int done, int times) {
+    return '$done sur $times cette semaine';
+  }
+
+  @override
+  String get habitsRate30 => 'Taux sur 30 jours';
+
+  @override
+  String get habitsReasonOptional => 'Raison (facultatif)';
+
+  @override
+  String get habitsRecentEntries => 'Saisies récentes';
+
+  @override
+  String get habitsReordered => 'Ordre enregistré';
+
+  @override
+  String get habitsRequireExplicit => 'Une journée vide compte comme manquée';
+
+  @override
+  String get habitsResume => 'Reprendre';
+
+  @override
+  String get habitsResumedSnack => 'Reprise';
+
+  @override
+  String get habitsRollupAll => 'Toutes les validations sont nécessaires';
+
+  @override
+  String habitsRollupMin(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Au moins $n validations',
+      one: 'Au moins 1 validation',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsRollupMinCount => 'Validations nécessaires';
+
+  @override
+  String get habitsRollupMinTitle =>
+      'Une journée compte avec une partie des validations';
+
+  @override
+  String get habitsSavedSnack => 'Enregistré';
+
+  @override
+  String get habitsScheduleTitle => 'Fréquence';
+
+  @override
+  String get habitsSectionAfternoon => 'Après-midi';
+
+  @override
+  String get habitsSectionAnytime => 'N\'importe quand';
+
+  @override
+  String get habitsSectionDeleteBody =>
+      'Ses habitudes passent dans « N\'importe quand ».';
+
+  @override
+  String get habitsSectionDeleteTitle => 'Supprimer cette section ?';
+
+  @override
+  String get habitsSectionDeleted => 'Section supprimée';
+
+  @override
+  String get habitsSectionEdit => 'Modifier la section';
+
+  @override
+  String get habitsSectionEvening => 'Soir';
+
+  @override
+  String get habitsSectionMorning => 'Matin';
+
+  @override
+  String get habitsSectionNew => 'Nouvelle section';
+
+  @override
+  String get habitsSectionNone => 'Autres';
+
+  @override
+  String habitsSectionProgress(int done, int total) {
+    return '$done / $total faites';
+  }
+
+  @override
+  String get habitsSectionWindow => 'Plage horaire';
+
+  @override
+  String get habitsSections => 'Sections';
+
+  @override
+  String get habitsSkipBreaks => 'Cassent la série';
+
+  @override
+  String get habitsSkipNeutral => 'Ne cassent pas la série';
+
+  @override
+  String get habitsSkipPolicy => 'Jours sautés';
+
+  @override
+  String habitsSlotsProgress(int done, int total) {
+    return '$done/$total';
+  }
+
+  @override
+  String habitsSnackCleared(String name) {
+    return '« $name » effacée';
+  }
+
+  @override
+  String habitsSnackDone(String name) {
+    return '« $name » fait';
+  }
+
+  @override
+  String habitsSnackExcused(String name) {
+    return '« $name » excusée';
+  }
+
+  @override
+  String habitsSnackLogged(String amount, String name) {
+    return '$amount enregistré · $name';
+  }
+
+  @override
+  String habitsSnackNotDone(String name) {
+    return '« $name » marqué comme non fait';
+  }
+
+  @override
+  String habitsSnackSkipped(String name) {
+    return '« $name » sautée';
+  }
+
+  @override
+  String get habitsStatusDone => 'Fait';
+
+  @override
+  String get habitsStatusExcused => 'Excusée';
+
+  @override
+  String get habitsStatusFailed => 'Pas fait';
+
+  @override
+  String get habitsStatusFrozen => 'Gelée';
+
+  @override
+  String get habitsStatusMissed => 'Manqué';
+
+  @override
+  String get habitsStatusNotDue => 'Non prévue';
+
+  @override
+  String get habitsStatusPartial => 'Partiellement';
+
+  @override
+  String get habitsStatusPaused => 'En pause';
+
+  @override
+  String get habitsStatusPending => 'À faire';
+
+  @override
+  String get habitsStatusSkipped => 'Sautée';
+
+  @override
+  String habitsStreakSemantics(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Série de $days jours',
+      one: 'Série de 1 jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsStrength => 'Solidité';
+
+  @override
+  String get habitsTemplatesChallenges => 'Défis';
+
+  @override
+  String get habitsTemplatesHabits => 'Habitudes';
+
+  @override
+  String get habitsTemplatesQuit => 'Arrêter';
+
+  @override
+  String get habitsTemplatesTitle => 'Modèles';
+
+  @override
+  String habitsTimerElapsed(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minutes',
+      one: '1 minute',
+    );
+    return 'Minuteur : $_temp0';
+  }
+
+  @override
+  String habitsTimesPerDay(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n fois par jour',
+      one: 'Une fois par jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String habitsTimesPerMonth(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n fois par mois',
+      one: 'Une fois par mois',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String habitsTimesPerWeek(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n fois par semaine',
+      one: 'Une fois par semaine',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsToday => 'Aujourd\'hui';
+
+  @override
+  String get habitsTolerance => 'Validation anticipée';
+
+  @override
+  String habitsTotalOfTarget(String total, String target) {
+    return 'Total $total sur $target';
+  }
+
+  @override
+  String get habitsTplChallengeMeditate => '14 jours de méditation';
+
+  @override
+  String get habitsTplChallengeMeditateDesc =>
+      '10 minutes par jour pendant 14 jours';
+
+  @override
+  String get habitsTplChallengeNoSugar => '21 jours sans sucre';
+
+  @override
+  String get habitsTplChallengeNoSugarDesc => 'Chaque jour pendant 21 jours';
+
+  @override
+  String get habitsTplChallengePushUps => '30 jours de pompes';
+
+  @override
+  String get habitsTplChallengePushUpsDesc =>
+      '20 répétitions par jour pendant 30 jours';
+
+  @override
+  String get habitsTplCoffeeLimit => 'Au plus 2 cafés';
+
+  @override
+  String get habitsTplCoffeeLimitDesc => 'Une limite quotidienne';
+
+  @override
+  String get habitsTplGym => 'Salle de sport';
+
+  @override
+  String get habitsTplGymDesc => '3 fois par semaine, n’importe quels jours';
+
+  @override
+  String get habitsTplJournal => 'Tenir un journal';
+
+  @override
+  String get habitsTplJournalDesc => 'Oui / non, chaque soir';
+
+  @override
+  String get habitsTplMeditate => 'Méditer';
+
+  @override
+  String get habitsTplMeditateDesc => '10 minutes par jour';
+
+  @override
+  String get habitsTplPushUps => '15 pompes';
+
+  @override
+  String get habitsTplPushUpsDesc => 'Nombre ≥ 15 répétitions, chaque jour';
+
+  @override
+  String get habitsTplRead => 'Lire';
+
+  @override
+  String get habitsTplReadDesc => '20 minutes par jour';
+
+  @override
+  String get habitsTplSleepEarly => 'Dormir avant 23 h';
+
+  @override
+  String get habitsTplSleepEarlyDesc => 'Oui / non, chaque jour';
+
+  @override
+  String get habitsTplStretch => 'S\'étirer';
+
+  @override
+  String get habitsTplStretchDesc =>
+      'Toutes les heures de 9 h à 18 h (6 sur 10)';
+
+  @override
+  String get habitsTplWalk => 'Marcher';
+
+  @override
+  String get habitsTplWalkDesc => '5 km par jour';
+
+  @override
+  String get habitsTplWater => 'Boire de l\'eau';
+
+  @override
+  String get habitsTplWaterDesc => '8 verres par jour';
+
+  @override
+  String get habitsTypeBuild => 'Prendre une habitude';
+
+  @override
+  String get habitsTypeQuit => 'Arrêter quelque chose';
+
+  @override
+  String get habitsUnarchive => 'Désarchiver';
+
+  @override
+  String get habitsUnarchivedSnack => 'Habitude restaurée';
+
+  @override
+  String habitsUnitCigarettes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'cigarettes',
+      one: 'cigarette',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String habitsUnitCups(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'tasses',
+      one: 'tasse',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsUnitCustom => 'Autre…';
+
+  @override
+  String habitsUnitDrinks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'verres',
+      one: 'verre',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String habitsUnitGlasses(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'verres',
+      one: 'verre',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsUnitH => 'h';
+
+  @override
+  String habitsUnitJoints(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'joints',
+      one: 'joint',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsUnitKcal => 'kcal';
+
+  @override
+  String get habitsUnitKm => 'km';
+
+  @override
+  String get habitsUnitL => 'L';
+
+  @override
+  String get habitsUnitMi => 'mi';
+
+  @override
+  String get habitsUnitMin => 'min';
+
+  @override
+  String get habitsUnitMl => 'ml';
+
+  @override
+  String habitsUnitPages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pages',
+      one: 'page',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String habitsUnitReps(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'répétitions',
+      one: 'répétition',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String habitsUnitServings(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'portions',
+      one: 'portion',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String habitsUnitSessions(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'sessions',
+      one: 'session',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String habitsUnitSteps(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pas',
+      one: 'pas',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String habitsUnitTimes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'fois',
+      one: 'fois',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get habitsVacationIndefinitely => 'Le mode vacances est activé';
+
+  @override
+  String get habitsVacationTitle => 'Mode vacances';
+
+  @override
+  String habitsVacationUntil(String date) {
+    return 'Mode vacances jusqu\'au $date';
+  }
+
+  @override
+  String get habitsValueHint => 'Quantité';
+
+  @override
+  String get habitsValueInvalid => 'Saisissez un nombre supérieur à 0';
+
+  @override
+  String get habitsValueTitle => 'Saisir une valeur';
+
+  @override
+  String get habitsViewMonth => 'Mois';
+
+  @override
+  String get habitsViewToday => 'Aujourd\'hui';
+
+  @override
+  String get habitsViewWeek => 'Semaine';
+
+  @override
+  String get habitsViewYear => 'Année';
+
+  @override
+  String habitsWarnManySlots(int count) {
+    return '$count validations par jour — c’est beaucoup.';
+  }
+
+  @override
+  String get habitsWarnNeverDue =>
+      'Cette fréquence ne tombe sur aucun jour à venir.';
+
+  @override
+  String habitsWeekOf(String date) {
+    return 'Semaine du $date';
+  }
+
+  @override
+  String get habitsWindowFrom => 'De';
+
+  @override
+  String get habitsWindowTo => 'À';
+
+  @override
+  String get habitsYear => 'Année';
+
+  @override
+  String habitsYearSummary(int done, int scheduled, String year) {
+    return 'Faite $done jours sur $scheduled prévus en $year';
+  }
+
+  @override
+  String habitsZoneFixed(String zone) {
+    return 'Toujours utiliser $zone';
+  }
+
+  @override
+  String habitsZoneFixedHint(String zone) {
+    return 'Les jours suivent $zone où que vous soyez';
+  }
+
+  @override
+  String get habitsZoneFloating =>
+      'Les jours suivent votre fuseau horaire actuel';
+
+  @override
   String get importAction => 'Importer';
 
   @override
@@ -5979,6 +7151,454 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvZoomSemantic => 'Sémantique';
+
+  @override
+  String get quitAddUse => '+1';
+
+  @override
+  String get quitAllClocks => 'Tous les compteurs';
+
+  @override
+  String get quitAmount => 'Quantité';
+
+  @override
+  String get quitAutoSuccess => 'Les jours sans rechute comptent comme réussis';
+
+  @override
+  String get quitAutoSuccessHint =>
+      'Désactivé : confirmez chaque jour réussi dans le bilan du soir.';
+
+  @override
+  String get quitBaseline => 'Avant d\'arrêter, par jour';
+
+  @override
+  String quitCleanDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jours sans',
+      one: '1 jour sans',
+      zero: '0 jour sans',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get quitCleanDaysTitle => 'Jours sans';
+
+  @override
+  String get quitCoping => 'Ce qui m\'a aidé';
+
+  @override
+  String get quitCopingBreathing => 'Respiration profonde';
+
+  @override
+  String get quitCopingCallFriend => 'Appeler un ami';
+
+  @override
+  String get quitCopingDelay10 => 'Attendre 10 minutes';
+
+  @override
+  String get quitCopingGum => 'Chewing-gum';
+
+  @override
+  String get quitCopingWalk => 'Une marche';
+
+  @override
+  String get quitCopingWater => 'Un verre d\'eau';
+
+  @override
+  String quitCostPerUnit(String price) {
+    return '= $price par unité';
+  }
+
+  @override
+  String get quitCostTitle => 'Coût';
+
+  @override
+  String quitCounterSemantics(int days, int hours, int minutes) {
+    return '$days jours $hours heures $minutes minutes';
+  }
+
+  @override
+  String get quitCravingDetails => 'Ajouter des détails';
+
+  @override
+  String get quitCravingLogged => 'Envie notée — bravo de l\'avoir remarquée.';
+
+  @override
+  String get quitCravingTitle => 'Envie';
+
+  @override
+  String get quitCurrency => 'Devise';
+
+  @override
+  String get quitDailyLimit => 'Limite quotidienne';
+
+  @override
+  String quitDaysHours(int days, int hours) {
+    return '$days j $hours h';
+  }
+
+  @override
+  String get quitDistractionExercise => 'De l\'exercice';
+
+  @override
+  String get quitDistractionGame => 'Un petit jeu';
+
+  @override
+  String get quitDistractionMusic => 'Musique';
+
+  @override
+  String get quitDistractionRead => 'Lire';
+
+  @override
+  String get quitDistractionShower => 'Une douche';
+
+  @override
+  String get quitDistractionSnack => 'Un en-cas sain';
+
+  @override
+  String get quitDuration => 'Durée';
+
+  @override
+  String get quitEditorEditTitle => 'Modifier le suivi d\'arrêt';
+
+  @override
+  String get quitEditorNewTitle => 'Nouveau suivi d\'arrêt';
+
+  @override
+  String get quitErrCurrency => 'Utilisez un code devise à 3 lettres (ex. EUR)';
+
+  @override
+  String get quitErrDailyLimit =>
+      'Indiquez une limite quotidienne de 0 ou plus';
+
+  @override
+  String get quitErrNegative => 'Les valeurs ne peuvent pas être négatives';
+
+  @override
+  String get quitErrStartInFuture =>
+      'La date d\'arrêt ne peut pas être dans le futur';
+
+  @override
+  String get quitEstimatesNote =>
+      'Toutes les valeurs par défaut sont des estimations — adaptez-les à votre situation.';
+
+  @override
+  String quitEventCraving(int intensity) {
+    return 'Envie · intensité $intensity';
+  }
+
+  @override
+  String get quitEventPledge => 'Engagement du jour';
+
+  @override
+  String get quitEventRelapse => 'Rechute';
+
+  @override
+  String get quitEventRestart => 'Nouvelle tentative d\'arrêt';
+
+  @override
+  String quitIntensity(int value) {
+    return 'Intensité : $value/10';
+  }
+
+  @override
+  String get quitLifePerUnit => 'Espérance de vie par unité';
+
+  @override
+  String get quitLifeRegained => 'Vie regagnée';
+
+  @override
+  String get quitLogCraving => 'Noter une envie';
+
+  @override
+  String get quitLogRelapse => 'Noter une rechute';
+
+  @override
+  String get quitLogUse => 'Noter une consommation';
+
+  @override
+  String get quitLongest => 'Plus longue série';
+
+  @override
+  String get quitManualReset => 'remise à zéro manuelle';
+
+  @override
+  String quitMilestoneEta(String date) {
+    return 'Prévue le $date';
+  }
+
+  @override
+  String get quitModeAbstain => 'Arrêter complètement';
+
+  @override
+  String get quitModeReduce => 'Réduire';
+
+  @override
+  String get quitModeTitle => 'Objectif';
+
+  @override
+  String get quitMoneySaved => 'Argent économisé';
+
+  @override
+  String get quitMotivation => 'Pourquoi j\'arrête';
+
+  @override
+  String get quitMotivationCard => 'Mes raisons';
+
+  @override
+  String get quitMotivationHint => 'Mes raisons…';
+
+  @override
+  String get quitNameAlcohol => 'Arrêter l\'alcool';
+
+  @override
+  String get quitNameCaffeine => 'Moins de caféine';
+
+  @override
+  String get quitNameCannabis => 'Arrêter le cannabis';
+
+  @override
+  String get quitNameCigarettes => 'Arrêter de fumer';
+
+  @override
+  String get quitNameGaming => 'Moins de jeux vidéo';
+
+  @override
+  String get quitNameOther => 'Arrêter une habitude';
+
+  @override
+  String get quitNameSocialMedia => 'Moins de réseaux sociaux';
+
+  @override
+  String get quitNameSugar => 'Arrêter le sucre';
+
+  @override
+  String get quitNameVape => 'Arrêter de vapoter';
+
+  @override
+  String get quitNextMilestone => 'Prochaine étape';
+
+  @override
+  String get quitNo => 'Non';
+
+  @override
+  String get quitNoEvents => 'Rien de noté pour le moment — continuez !';
+
+  @override
+  String get quitNoTrackers => 'Pas encore de suivi d\'arrêt';
+
+  @override
+  String get quitNoTrackersBody =>
+      'Suivez depuis combien de temps vous avez arrêté de fumer, de boire ou autre chose.';
+
+  @override
+  String get quitNotSure => 'Je ne sais pas';
+
+  @override
+  String get quitNote => 'Note';
+
+  @override
+  String get quitOther => 'Autre…';
+
+  @override
+  String get quitOverLimit => 'Au-delà de la limite d\'aujourd\'hui';
+
+  @override
+  String get quitPackPrice => 'Prix du paquet';
+
+  @override
+  String get quitPhotoAfterSave =>
+      'Vous pourrez ajouter une photo motivante après l’enregistrement.';
+
+  @override
+  String get quitPlace => 'Lieu';
+
+  @override
+  String get quitPlaceBar => 'Bar';
+
+  @override
+  String get quitPlaceCar => 'Voiture';
+
+  @override
+  String get quitPlaceFriends => 'Chez des amis';
+
+  @override
+  String get quitPlaceHome => 'Maison';
+
+  @override
+  String get quitPlaceOutside => 'Dehors';
+
+  @override
+  String get quitPlaceWork => 'Travail';
+
+  @override
+  String get quitPopulationEstimate => 'estimation populationnelle';
+
+  @override
+  String get quitPopulationEstimateHelp =>
+      'Estimation populationnelle : environ 20 min par cigarette (Jackson et al. 2025 ; BMJ 2000 : 11 min). Les effets varient selon les personnes.';
+
+  @override
+  String get quitPresetAlcohol => 'Alcool';
+
+  @override
+  String get quitPresetCaffeine => 'Caféine';
+
+  @override
+  String get quitPresetCannabis => 'Cannabis';
+
+  @override
+  String get quitPresetCigarettes => 'Tabac';
+
+  @override
+  String get quitPresetGaming => 'Jeux vidéo';
+
+  @override
+  String get quitPresetOther => 'Autre chose';
+
+  @override
+  String get quitPresetSocialMedia => 'Réseaux sociaux';
+
+  @override
+  String get quitPresetSugar => 'Sucre';
+
+  @override
+  String get quitPresetTitle => 'Que voulez-vous arrêter ?';
+
+  @override
+  String get quitPresetVape => 'Vapotage';
+
+  @override
+  String get quitRecentEvents => 'Événements récents';
+
+  @override
+  String get quitRelapseAmount => 'Combien ? (facultatif)';
+
+  @override
+  String get quitRelapseKindTitle => 'Comment la compter ?';
+
+  @override
+  String quitRelapseNewAttempt(String time) {
+    return 'Commencer une nouvelle tentative d\'arrêt à partir du $time';
+  }
+
+  @override
+  String get quitRelapseSaved =>
+      'C\'est noté. Soyez indulgent avec vous-même : chaque tentative vous apprend quelque chose.';
+
+  @override
+  String get quitRelapseSlip =>
+      'Comme un écart — je garde ma date d\'arrêt ; la série repart de maintenant';
+
+  @override
+  String quitRelapseSupport(String duration) {
+    return 'Vous avez tenu $duration — cela compte toujours.';
+  }
+
+  @override
+  String get quitRelapseTitle => 'Noter une rechute';
+
+  @override
+  String get quitResetBody =>
+      'Cela note une rechute maintenant. Votre date d\'arrêt reste la même.';
+
+  @override
+  String get quitResetCounter => 'Remettre à zéro';
+
+  @override
+  String get quitResisted => 'Avez-vous résisté ?';
+
+  @override
+  String get quitSinceFirstQuit => 'Depuis votre premier arrêt';
+
+  @override
+  String get quitSinceLastRelapse => 'Abstinent depuis';
+
+  @override
+  String get quitSinceLastUse => 'Depuis la dernière consommation';
+
+  @override
+  String get quitStartedAt => 'J\'ai arrêté le';
+
+  @override
+  String get quitTimePerUnit => 'Temps passé par unité';
+
+  @override
+  String get quitTimeWonBack => 'Temps regagné';
+
+  @override
+  String quitTodayUse(String used, String limit) {
+    return '$used sur $limit aujourd\'hui';
+  }
+
+  @override
+  String get quitTrigger => 'Déclencheur';
+
+  @override
+  String get quitTriggerAfterMeals => 'Après les repas';
+
+  @override
+  String get quitTriggerAlcohol => 'Alcool';
+
+  @override
+  String get quitTriggerBoredom => 'Ennui';
+
+  @override
+  String get quitTriggerCoffee => 'Café';
+
+  @override
+  String get quitTriggerDriving => 'Conduite';
+
+  @override
+  String get quitTriggerPhone => 'Téléphone';
+
+  @override
+  String get quitTriggerSocial => 'Situations sociales';
+
+  @override
+  String get quitTriggerStress => 'Stress';
+
+  @override
+  String get quitTriggerWakingUp => 'Réveil';
+
+  @override
+  String get quitTriggerWorkBreak => 'Pause au travail';
+
+  @override
+  String get quitUnitCost => 'Prix par unité';
+
+  @override
+  String get quitUnitDays => 'j';
+
+  @override
+  String get quitUnitHours => 'h';
+
+  @override
+  String get quitUnitMinutes => 'min';
+
+  @override
+  String get quitUnitSeconds => 's';
+
+  @override
+  String get quitUnitsAvoided => 'Évités';
+
+  @override
+  String get quitUnitsPerPack => 'Unités par paquet';
+
+  @override
+  String get quitUseLogged => 'Consommation notée';
+
+  @override
+  String get quitWhen => 'Quand';
+
+  @override
+  String get quitWithinLimitStreakTitle => 'Jours dans la limite';
+
+  @override
+  String get quitYes => 'Oui';
 
   @override
   String get recurAddDate => 'Ajouter';
