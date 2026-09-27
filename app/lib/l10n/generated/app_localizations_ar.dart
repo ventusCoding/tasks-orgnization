@@ -2030,6 +2030,51 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistDuplicateItem => 'تكرار';
 
   @override
+  String checklistDurationDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n يوم',
+      many: '$n يومًا',
+      few: '$n أيام',
+      two: 'يومين',
+      one: 'يوم واحد',
+      zero: '0 يوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String checklistDurationHours(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n ساعة',
+      many: '$n ساعة',
+      few: '$n ساعات',
+      two: 'ساعتين',
+      one: 'ساعة واحدة',
+      zero: '0 ساعة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String checklistDurationMinutes(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n دقيقة',
+      many: '$n دقيقة',
+      few: '$n دقائق',
+      two: 'دقيقتين',
+      one: 'دقيقة واحدة',
+      zero: '0 دقيقة',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get checklistEmptyFocus => 'لا توجد عناصر فرعية بعد';
 
   @override
@@ -2316,6 +2361,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checklistStatusChanged => 'تم تغيير الحالة';
+
+  @override
+  String checklistStatusSpoken(String status, String age) {
+    return '$status منذ $age';
+  }
 
   @override
   String checklistSubItems(int count) {

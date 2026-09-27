@@ -68,6 +68,17 @@ abstract final class StatusStyle {
   }
 }
 
+/// Spoken age for screen readers ("4 days", "2 hours", T4.2.18).
+String formatAgeSpoken(BuildContext context, DateTime since, DateTime now) {
+  final (n, unit) = ItemTimeRules.age(since, now);
+  final l = context.l10n;
+  return switch (unit) {
+    'd' => l.checklistDurationDays(n),
+    'h' => l.checklistDurationHours(n),
+    _ => l.checklistDurationMinutes(n),
+  };
+}
+
 /// Localized compact age ("4 d", "2 h").
 String formatAge(BuildContext context, DateTime since, DateTime now) {
   final (n, unit) = ItemTimeRules.age(since, now);

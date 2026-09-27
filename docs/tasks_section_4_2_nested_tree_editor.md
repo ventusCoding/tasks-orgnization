@@ -44,7 +44,7 @@ alternative views, templates, import/export ([4.5]).
 - [x] T4.2.15 — Item details sheet
 - [x] T4.2.16 — Multi-select & bulk actions
 - [x] T4.2.17 — Copy, cut & paste subtrees
-- [ ] T4.2.18 — Tree accessibility
+- [x] T4.2.18 — Tree accessibility
 - [ ] T4.2.19 — Performance hardening for huge lists
 
 ## Tasks
@@ -344,6 +344,7 @@ editing works there.
 - Custom semantic actions: indent, outdent, move up, move down, expand/collapse, change status, focus, open details.
 - Logical focus order; large-text support; reduce-motion disables drag animations.
 **Tests:** semantics tests; TalkBack/VoiceOver script entry in the [9.1] accessibility audit.
+**Notes:** Row labels speak ages in words ("Visa, level 2, item 2 of 2, Waiting for 4 days: embassy"); the text, status pill and reason note no longer repeat inside the merged label (texts with links stay reachable); collapsed parents add their roll-up. Custom actions indent / outdent / move / expand-collapse / status / focus / details are covered by semantics tests; drag has no fly animations. The TalkBack/VoiceOver script entry belongs to the [9.1] audit document (not written here).
 
 ### T4.2.19 — Performance hardening for huge lists
 **Priority:** P1 · **Size:** M · **Depends on:** T4.2.09, T4.2.11

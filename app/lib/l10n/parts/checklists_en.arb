@@ -638,5 +638,13 @@
   "listsFilterLabel": "Label",
   "listsFilterAnyLabel": "Any label",
   "listsLabelFilterActive": "Showing lists labelled {label}",
-  "@listsLabelFilterActive": {"placeholders": {"label": {"type": "String"}}}
+  "@listsLabelFilterActive": {"placeholders": {"label": {"type": "String"}}},
+  "checklistStatusSpoken": "{status} for {age}",
+  "@checklistStatusSpoken": {"description": "Screen-reader form of a status with its age, e.g. 'Waiting for 4 days'.", "placeholders": {"status": {"type": "String"}, "age": {"type": "String"}}},
+  "checklistDurationMinutes": "{n, plural, =1{1 minute} other{{n} minutes}}",
+  "@checklistDurationMinutes": {"placeholders": {"n": {"type": "int"}}},
+  "checklistDurationHours": "{n, plural, =1{1 hour} other{{n} hours}}",
+  "@checklistDurationHours": {"placeholders": {"n": {"type": "int"}}},
+  "checklistDurationDays": "{n, plural, =1{1 day} other{{n} days}}",
+  "@checklistDurationDays": {"placeholders": {"n": {"type": "int"}}}
 }
