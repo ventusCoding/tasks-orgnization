@@ -27,7 +27,7 @@ reminders for follow-ups and resets ([7.5]); share-into-app ([8.2]).
 - [x] T4.5.02 — Checklist view switcher
 - [x] T4.5.03 — Kanban-by-status view
 - [x] T4.5.04 — Gallery view
-- [ ] T4.5.05 — Templates
+- [x] T4.5.05 — Templates
 - [x] T4.5.06 — Resettable / recurring checklists with run history
 - [x] T4.5.07 — Import parser (indented text, Markdown, OPML)
 - [ ] T4.5.08 — Import UX (paste, file, note → items)
@@ -113,6 +113,7 @@ has the first image as cover, plus the text and status.
 - **Data model (recommended):** `checklists.template_id uuid null` to record where a list came
   from (useful for stats such as "runs of template X").
 **Tests:** copy unit tests; asset parsing tests; widget test for New-from-template.
+**Notes:** Built-in templates ship as Dart constants (per-locale indented Markdown parsed by the import parser, `domain/builtin_templates.dart`) instead of JSON assets: same content, compile-time checked, no asset loading. Save as template / new from template are repository deep copies (`template_id` recorded); the templates screen lists, renames, edits and deletes.
 
 ### T4.5.06 — Resettable / recurring checklists with run history
 **Priority:** P1 · **Size:** L · **Depends on:** [2.1] (recurrence builder & engine), [4.3]

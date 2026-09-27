@@ -27,7 +27,7 @@ board cards ([4.1] T4.1.17); the gallery *view* of items ([4.5]).
 - [x] T4.4.04 — Attachment semantics for tree operations
 - [x] T4.4.05 — Checklist-level attachments
 - [x] T4.4.06 — Captions, reorder & remove with undo
-- [ ] T4.4.07 — Checklist attachments gallery
+- [x] T4.4.07 — Checklist attachments gallery
 - [ ] T4.4.08 — Attachments in export & import bundles
 - [ ] T4.4.09 — Paste image & scan document into an item
 
@@ -136,6 +136,7 @@ a whiteboard for a note card.
 - Query: attachments joined to the checklist's live items.
 - The grid component is reused by the gallery view in [4.5].
 **Tests:** DAO test (join, live items only); widget tests.
+**Notes:** *All attachments* (list menu) groups list-level files first, then items in outline order with breadcrumbs; filters All / Images / PDFs / Other; the viewer's *Go to item* closes the gallery and focuses the item. `AttachmentGrid` is shared with the gallery view (T4.5.04).
 
 ### T4.4.08 — Attachments in export & import bundles
 **Priority:** P2 · **Size:** S · **Depends on:** [4.5] (export/import)

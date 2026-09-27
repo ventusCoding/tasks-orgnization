@@ -334,5 +334,9 @@
   "listsFilterHasDue": "Avec échéances",
   "listsFilterLabel": "Libellé",
   "listsFilterAnyLabel": "Tous les libellés",
-  "listsLabelFilterActive": "Listes avec le libellé {label}"
+  "listsLabelFilterActive": "Listes avec le libellé {label}",
+  "checklistStatusSpoken": "{status} depuis {age}",
+  "checklistDurationMinutes": "{n, plural, =1{1 minute} other{{n} minutes}}",
+  "checklistDurationHours": "{n, plural, =1{1 heure} other{{n} heures}}",
+  "checklistDurationDays": "{n, plural, =1{1 jour} other{{n} jours}}"
 }

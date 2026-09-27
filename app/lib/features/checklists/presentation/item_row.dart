@@ -31,6 +31,9 @@ abstract final class RowMetrics {
   static double indentFor(int depth) => (depth > maxIndentLevels ? maxIndentLevels : depth) * indent;
 }
 
+/// Item texts with links keep their text semantics (tappable links).
+final _linkPattern = RegExp(r'https?://|\]\(');
+
 /// Everything a row needs besides its [VisibleRow] (comparable, so unchanged rows are reused).
 @immutable
 class RowContext {
@@ -466,16 +469,21 @@ class _ItemRowState extends ConsumerState<ItemRow> {
       ),
       if (r.hasChildren && r.collapsed) l.checklistCollapsedState,
       if (r.hasChildren) l.checklistSubItems(r.childCount),
-      if (item.status != ItemStatus.todo)
-        item.statusSince == null
-            ? StatusStyle.label(context, item.status)
-            : l.statusWithAge(
-                StatusStyle.label(context, item.status),
-                formatAge(context, item.statusSince!, widget.ctx.now),
-              ),
-      if (item.statusNote != null) item.statusNote!,
+      if (item.status != ItemStatus.todo) _spokenStatus(context),
     ];
     return parts.join(', ');
+  }
+
+  /// "Waiting for 4 days: supplier reply" (T4.2.18): open statuses carry their age in words,
+  /// the reason note follows the status it explains.
+  String _spokenStatus(BuildContext context) {
+    final label = StatusStyle.label(context, item.status);
+    final since = item.statusSince;
+    final aged = since != null && item.status.isOpen
+        ? context.l10n.checklistStatusSpoken(label, formatAgeSpoken(context, since, widget.ctx.now))
+        : label;
+    final note = item.statusNote;
+    return note == null || note.isEmpty ? aged : '$aged: $note';
   }
 
   Map<CustomSemanticsAction, VoidCallback> _semanticActions(BuildContext context) {
@@ -605,7 +613,12 @@ class _ItemRowState extends ConsumerState<ItemRow> {
         padding: const EdgeInsets.symmetric(vertical: 13),
         child: item.text.isEmpty
             ? Text(context.l10n.checklistItemHint, style: textStyle.copyWith(color: context.colors.outline))
-            : MarkdownLite(item.text, style: textStyle),
+            // The row label already starts with the text: keep it out of the merged label unless
+            // it holds links, which must stay reachable (T4.2.18).
+            : ExcludeSemantics(
+                excluding: !_linkPattern.hasMatch(item.text),
+                child: MarkdownLite(item.text, style: textStyle),
+              ),
       );
     }
 
@@ -838,15 +851,21 @@ class _MetaLine extends StatelessWidget {
         children: [
           if (row.isOrphan)
             StatusPill(label: l.checklistRecovered, color: context.appColors.warning, icon: Icons.healing, dense: true),
-          if (_showStatusPill) ItemStatusPill(status: item.status, since: item.statusSince, now: ctx.now),
+          // Status, age and reason are spoken by the row label ("Waiting for 4 days: …").
+          if (_showStatusPill)
+            ExcludeSemantics(
+              child: ItemStatusPill(status: item.status, since: item.statusSince, now: ctx.now),
+            ),
           if (item.statusNote != null)
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 260),
-              child: Text(
-                item.statusNote!,
-                maxLines: ctx.preview ? 3 : 1,
-                overflow: TextOverflow.ellipsis,
-                style: muted?.copyWith(fontStyle: FontStyle.italic),
+            ExcludeSemantics(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 260),
+                child: Text(
+                  item.statusNote!,
+                  maxLines: ctx.preview ? 3 : 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: muted?.copyWith(fontStyle: FontStyle.italic),
+                ),
               ),
             ),
           if (item.followUpAt != null && item.status.isOpen)

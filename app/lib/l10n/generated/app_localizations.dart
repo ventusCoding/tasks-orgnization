@@ -3399,6 +3399,24 @@ abstract class AppLocalizations {
   /// **'Duplicate'**
   String get checklistDuplicateItem;
 
+  /// No description provided for @checklistDurationDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 day} other{{n} days}}'**
+  String checklistDurationDays(int n);
+
+  /// No description provided for @checklistDurationHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 hour} other{{n} hours}}'**
+  String checklistDurationHours(int n);
+
+  /// No description provided for @checklistDurationMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 minute} other{{n} minutes}}'**
+  String checklistDurationMinutes(int n);
+
   /// No description provided for @checklistEmptyFocus.
   ///
   /// In en, this message translates to:
@@ -3902,6 +3920,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Status changed'**
   String get checklistStatusChanged;
+
+  /// Screen-reader form of a status with its age, e.g. 'Waiting for 4 days'.
+  ///
+  /// In en, this message translates to:
+  /// **'{status} for {age}'**
+  String checklistStatusSpoken(String status, String age);
 
   /// No description provided for @checklistSubItems.
   ///

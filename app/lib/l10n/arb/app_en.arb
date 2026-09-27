@@ -843,6 +843,27 @@
       }
     }
   },
+  "@checklistDurationDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistDurationHours": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistDurationMinutes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "@checklistExpandToLevel": {
     "placeholders": {
       "level": {
@@ -900,6 +921,17 @@
   "@checklistSortedBy": {
     "placeholders": {
       "criterion": {
+        "type": "String"
+      }
+    }
+  },
+  "@checklistStatusSpoken": {
+    "description": "Screen-reader form of a status with its age, e.g. 'Waiting for 4 days'.",
+    "placeholders": {
+      "status": {
+        "type": "String"
+      },
+      "age": {
         "type": "String"
       }
     }
@@ -4137,6 +4169,9 @@
   "checklistDue": "Due date",
   "checklistDuplicate": "Duplicate list",
   "checklistDuplicateItem": "Duplicate",
+  "checklistDurationDays": "{n, plural, =1{1 day} other{{n} days}}",
+  "checklistDurationHours": "{n, plural, =1{1 hour} other{{n} hours}}",
+  "checklistDurationMinutes": "{n, plural, =1{1 minute} other{{n} minutes}}",
   "checklistEmptyFocus": "No sub-items yet",
   "checklistExpand": "Expand",
   "checklistExpandAll": "Expand all",
@@ -4221,6 +4256,7 @@
   "checklistSortStatus": "Status",
   "checklistSortedBy": "Sorted by {criterion}",
   "checklistStatusChanged": "Status changed",
+  "checklistStatusSpoken": "{status} for {age}",
   "checklistSubItems": "{count, plural, =1{1 sub-item} other{{count} sub-items}}",
   "checklistTaskPlaceholder": "Linking to planner tasks arrives with the planner.",
   "checklistTemplateSaved": "Saved as template",

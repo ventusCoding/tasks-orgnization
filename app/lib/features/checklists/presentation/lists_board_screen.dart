@@ -111,7 +111,8 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
       case 'note':
         await _create(note: true);
       case 'template':
-        await Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const TemplatesScreen(pickMode: true)));
+        await Navigator.of(context)
+            .push(MaterialPageRoute<void>(builder: (_) => const TemplatesScreen(pickMode: true)));
       case 'import':
         await importFileAsNewList(context, ref);
     }
@@ -124,9 +125,9 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
 
   List<Checklist> _sorted(List<Checklist> lists, BoardConfig config) => switch (config.sort) {
     BoardSort.manual => lists,
-    BoardSort.recentlyEdited => [...lists]..sort(
-      (a, b) => (b.updatedAt ?? DateTime(0)).compareTo(a.updatedAt ?? DateTime(0)),
-    ),
+    BoardSort.recentlyEdited => [
+      ...lists,
+    ]..sort((a, b) => (b.updatedAt ?? DateTime(0)).compareTo(a.updatedAt ?? DateTime(0))),
     BoardSort.title => [...lists]..sort((a, b) => Collation.compare(a.title, b.title)),
   };
 
@@ -201,7 +202,9 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
               icon: Icon(config.layout == BoardLayout.grid ? Icons.view_agenda_outlined : Icons.grid_view),
               onPressed: () => ref
                   .read(boardConfigStoreProvider)
-                  .save(config.copyWith(layout: config.layout == BoardLayout.grid ? BoardLayout.list : BoardLayout.grid)),
+                  .save(
+                    config.copyWith(layout: config.layout == BoardLayout.grid ? BoardLayout.list : BoardLayout.grid),
+                  ),
             ),
           PopupMenuButton<String>(
             onSelected: (v) async {
@@ -231,11 +234,7 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
       ),
       floatingActionButton: GestureDetector(
         onLongPress: _fabMenu,
-        child: FloatingActionButton(
-          tooltip: l.listsNewChecklist,
-          onPressed: _create,
-          child: const Icon(Icons.add),
-        ),
+        child: FloatingActionButton(tooltip: l.listsNewChecklist, onPressed: _create, child: const Icon(Icons.add)),
       ),
       body: AsyncValueView<List<Checklist>>(
         value: lists,
@@ -542,7 +541,9 @@ class _BoardCard extends ConsumerWidget {
           final list = [...siblings]..removeWhere((c) => c.id == d.data);
           final target = list.indexWhere((c) => c.id == checklist.id);
           final before = target > 0 ? list[target - 1].sortKey : null;
-          unawaited(ref.read(checklistsRepositoryProvider).move(d.data, afterKey: before, beforeKey: checklist.sortKey));
+          unawaited(
+            ref.read(checklistsRepositoryProvider).move(d.data, afterKey: before, beforeKey: checklist.sortKey),
+          );
         },
         builder: (context, candidates, _) => LongPressDraggable<String>(
           data: checklist.id,
@@ -558,10 +559,7 @@ class _BoardCard extends ConsumerWidget {
             duration: Motion.fast,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(Radii.md),
-              border: Border.all(
-                color: candidates.isEmpty ? Colors.transparent : context.colors.primary,
-                width: 2,
-              ),
+              border: Border.all(color: candidates.isEmpty ? Colors.transparent : context.colors.primary, width: 2),
             ),
             child: card,
           ),
@@ -587,13 +585,21 @@ Future<void> showCardMenu(BuildContext context, WidgetRef ref, Checklist c) asyn
             title: Text(c.isPinned ? l.listsUnpin : l.listsPin),
             onTap: () => Navigator.pop(ctx, 'pin'),
           ),
-          ListTile(leading: const Icon(Icons.palette_outlined), title: Text(l.listsColor), onTap: () => Navigator.pop(ctx, 'color')),
+          ListTile(
+            leading: const Icon(Icons.palette_outlined),
+            title: Text(l.listsColor),
+            onTap: () => Navigator.pop(ctx, 'color'),
+          ),
           ListTile(
             leading: Icon(c.isArchived ? Icons.unarchive_outlined : Icons.archive_outlined),
             title: Text(c.isArchived ? l.listsUnarchive : l.listsArchiveAction),
             onTap: () => Navigator.pop(ctx, 'archive'),
           ),
-          ListTile(leading: const Icon(Icons.copy_all_outlined), title: Text(l.listsDuplicate), onTap: () => Navigator.pop(ctx, 'dup')),
+          ListTile(
+            leading: const Icon(Icons.copy_all_outlined),
+            title: Text(l.listsDuplicate),
+            onTap: () => Navigator.pop(ctx, 'dup'),
+          ),
           ListTile(
             leading: Icon(Icons.delete_outline, color: ctx.colors.error),
             title: Text(l.listsDelete),
@@ -665,7 +671,9 @@ Future<void> createListAndOpen(
   required List<NodeSpec> nodes,
   String? templateId,
 }) async {
-  final created = await ref.read(checklistsRepositoryProvider).create(title: title, items: nodes, templateId: templateId);
+  final created = await ref
+      .read(checklistsRepositoryProvider)
+      .create(title: title, items: nodes, templateId: templateId);
   if (context.mounted) await openChecklist(context, created.id);
 }
 
@@ -702,7 +710,10 @@ class _LabelsDrawer extends StatelessWidget {
             if (tags.isEmpty)
               Padding(
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg, vertical: Space.sm),
-                child: Text(l.listsNoLabels, style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant)),
+                child: Text(
+                  l.listsNoLabels,
+                  style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant),
+                ),
               ),
             for (final t in tags)
               Semantics(

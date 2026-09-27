@@ -334,5 +334,9 @@
   "listsFilterHasDue": "ذات مواعيد استحقاق",
   "listsFilterLabel": "تصنيف",
   "listsFilterAnyLabel": "أي تصنيف",
-  "listsLabelFilterActive": "القوائم ذات التصنيف {label}"
+  "listsLabelFilterActive": "القوائم ذات التصنيف {label}",
+  "checklistStatusSpoken": "{status} منذ {age}",
+  "checklistDurationMinutes": "{n, plural, =0{0 دقيقة} =1{دقيقة واحدة} =2{دقيقتين} few{{n} دقائق} many{{n} دقيقة} other{{n} دقيقة}}",
+  "checklistDurationHours": "{n, plural, =0{0 ساعة} =1{ساعة واحدة} =2{ساعتين} few{{n} ساعات} many{{n} ساعة} other{{n} ساعة}}",
+  "checklistDurationDays": "{n, plural, =0{0 يوم} =1{يوم واحد} =2{يومين} few{{n} أيام} many{{n} يومًا} other{{n} يوم}}"
 }

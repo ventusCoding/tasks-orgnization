@@ -1998,6 +1998,39 @@ class AppLocalizationsFr extends AppLocalizations {
   String get checklistDuplicateItem => 'Dupliquer';
 
   @override
+  String checklistDurationDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n jours',
+      one: '1 jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String checklistDurationHours(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n heures',
+      one: '1 heure',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String checklistDurationMinutes(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n minutes',
+      one: '1 minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get checklistEmptyFocus => 'Aucun sous-élément';
 
   @override
@@ -2276,6 +2309,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get checklistStatusChanged => 'Statut modifié';
+
+  @override
+  String checklistStatusSpoken(String status, String age) {
+    return '$status depuis $age';
+  }
 
   @override
   String checklistSubItems(int count) {

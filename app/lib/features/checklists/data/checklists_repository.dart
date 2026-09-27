@@ -76,10 +76,10 @@ class ChecklistsRepository {
   }
 
   /// One checklist, including tombstones (the screen offers Trash for deleted ones).
-  Stream<Checklist?> watchChecklist(String id) => (_db.select(_db.checklists)
-        ..where((c) => c.id.equals(id) & c.userId.equals(_userId())))
-      .watchSingleOrNull()
-      .map((r) => r == null ? null : map(r));
+  Stream<Checklist?> watchChecklist(String id) =>
+      (_db.select(_db.checklists)..where((c) => c.id.equals(id) & c.userId.equals(_userId()))).watchSingleOrNull().map(
+        (r) => r == null ? null : map(r),
+      );
 
   Future<Checklist?> byId(String id) async {
     final r = await (_db.select(_db.checklists)..where((c) => c.id.equals(id))).getSingleOrNull();
@@ -87,27 +87,30 @@ class ChecklistsRepository {
   }
 
   /// Live, non-archived, non-template lists of the user (notification targets).
-  Future<List<Checklist>> notifiableLists() async => (await (_db.select(_db.checklists)
-            ..where(
-              (c) =>
-                  c.deletedAt.isNull() &
-                  c.userId.equals(_userId()) &
-                  c.archivedAt.isNull() &
-                  c.isTemplate.equals(false),
-            ))
-          .get())
-      .map(map)
-      .toList();
+  Future<List<Checklist>> notifiableLists() async =>
+      (await (_db.select(_db.checklists)..where(
+                (c) =>
+                    c.deletedAt.isNull() &
+                    c.userId.equals(_userId()) &
+                    c.archivedAt.isNull() &
+                    c.isTemplate.equals(false),
+              ))
+              .get())
+          .map(map)
+          .toList();
 
   /// Live, non-template checklists that have a reset rule (reset service).
-  Future<List<Checklist>> recurring() async => (await (_db.select(_db.checklists)
-            ..where(
-              (c) =>
-                  c.deletedAt.isNull() & c.userId.equals(_userId()) & c.resetRule.isNotNull() & c.isTemplate.equals(false),
-            ))
-          .get())
-      .map(map)
-      .toList();
+  Future<List<Checklist>> recurring() async =>
+      (await (_db.select(_db.checklists)..where(
+                (c) =>
+                    c.deletedAt.isNull() &
+                    c.userId.equals(_userId()) &
+                    c.resetRule.isNotNull() &
+                    c.isTemplate.equals(false),
+              ))
+              .get())
+          .map(map)
+          .toList();
 
   static String _in(int n) => List.filled(n, '?').join(', ');
 
@@ -122,7 +125,9 @@ class ChecklistsRepository {
       'THEN 1 ELSE 0 END) AS n_leaf, '
       "SUM(CASE WHEN i.status IN ('todo','ongoing','waiting','blocked') AND i.updated_at < "
       "strftime('%Y-%m-%dT%H:%M:%fZ', ?, '-' || COALESCE(json_extract(c.settings, '\$.staleAfterDays'), 14) || ' days') "
-      'THEN 1 ELSE 0 END) AS n_stale '
+      'THEN 1 ELSE 0 END) AS n_stale, '
+      "SUM(CASE WHEN i.due_local IS NOT NULL AND i.status IN ('todo','ongoing','waiting','blocked') "
+      'THEN 1 ELSE 0 END) AS n_due '
       'FROM checklist_items i JOIN checklists c ON c.id = i.checklist_id '
       'WHERE i.deleted_at IS NULL AND i.checklist_id IN (${_in(ids.length)}) GROUP BY i.checklist_id, i.status',
       variables: [Variable<String>(now.toUtc().toIso8601String()), ...vars],
@@ -154,12 +159,13 @@ class ChecklistsRepository {
           ),
         );
       }
-      final agg = <String, Map<String, (int, int, int)>>{};
+      final agg = <String, Map<String, (int, int, int, int)>>{};
       for (final r in countRows) {
         (agg[r.read<String>('cid')] ??= {})[r.read<String>('status')] = (
           r.read<int>('n_all'),
           r.read<int>('n_leaf'),
           r.read<int>('n_stale'),
+          r.read<int>('n_due'),
         );
       }
       final out = <String, CardSummary>{};
@@ -187,6 +193,7 @@ class ChecklistsRepository {
           moreCount: total - shown.length,
           itemCount: total,
           staleCount: a.values.fold(0, (x, e) => x + e.$3),
+          dueCount: a.values.fold(0, (x, e) => x + e.$4),
         );
       }
       return out;
@@ -354,9 +361,9 @@ class ChecklistsRepository {
         )
         .get();
     final live = {
-      for (final c in await (_db.select(_db.checklists)
-            ..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId()) & c.isTemplate.equals(false)))
-          .get())
+      for (final c in await (_db.select(
+        _db.checklists,
+      )..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId()) & c.isTemplate.equals(false))).get())
         c.id: c,
     };
     final checklistIds = <String>{};
@@ -391,18 +398,19 @@ class ChecklistsRepository {
 
   /// Keys of the first card of a board section (new cards go on top).
   Future<String?> _firstKey({required bool pinned}) async {
-    final row = await (_db.select(_db.checklists)
-          ..where(
-            (c) =>
-                c.deletedAt.isNull() &
-                c.userId.equals(_userId()) &
-                c.archivedAt.isNull() &
-                c.isTemplate.equals(false) &
-                c.isPinned.equals(pinned),
-          )
-          ..orderBy([(c) => OrderingTerm.asc(c.sortKey)])
-          ..limit(1))
-        .getSingleOrNull();
+    final row =
+        await (_db.select(_db.checklists)
+              ..where(
+                (c) =>
+                    c.deletedAt.isNull() &
+                    c.userId.equals(_userId()) &
+                    c.archivedAt.isNull() &
+                    c.isTemplate.equals(false) &
+                    c.isPinned.equals(pinned),
+              )
+              ..orderBy([(c) => OrderingTerm.asc(c.sortKey)])
+              ..limit(1))
+            .getSingleOrNull();
     return row?.sortKey;
   }
 
@@ -507,12 +515,13 @@ class ChecklistsRepository {
   /// Tombstones the checklist, its items, their attachments and tags under one `opId` (T4.1.04).
   Future<OpRecord> delete(String id) => _writer.run((tx) async {
     final itemIds = [
-      for (final r in await tx.db
-          .customSelect(
-            'SELECT id FROM checklist_items WHERE checklist_id = ? AND deleted_at IS NULL',
-            variables: [Variable<String>(id)],
-          )
-          .get())
+      for (final r
+          in await tx.db
+              .customSelect(
+                'SELECT id FROM checklist_items WHERE checklist_id = ? AND deleted_at IS NULL',
+                variables: [Variable<String>(id)],
+              )
+              .get())
         r.read<String>('id'),
     ];
     for (final itemId in itemIds) {
@@ -548,9 +557,8 @@ class ChecklistsRepository {
     if (deletedAt == null) return null;
     return _writer.run((tx) async {
       Future<List<String>> ids(String sql) async => [
-        for (final r in await tx.db
-            .customSelect(sql, variables: [Variable<String>(id), Variable<String>(deletedAt)])
-            .get())
+        for (final r
+            in await tx.db.customSelect(sql, variables: [Variable<String>(id), Variable<String>(deletedAt)]).get())
           r.read<String>('id'),
       ];
       final items = await ids('SELECT id FROM checklist_items WHERE checklist_id = ? AND deleted_at = ?');
@@ -642,10 +650,7 @@ class ChecklistsRepository {
         entityType: 'checklist',
         entityId: newId,
         eventType: 'created',
-        payload: {
-          if (fromTemplate) 'fromTemplateId': sourceId else 'duplicatedFrom': sourceId,
-          'count': rows.length,
-        },
+        payload: {if (fromTemplate) 'fromTemplateId': sourceId else 'duplicatedFrom': sourceId, 'count': rows.length},
       );
     });
     return (id: newId, record: record);
@@ -671,27 +676,28 @@ class ChecklistsRepository {
   Future<bool> runExists(String runId) async =>
       await (_db.select(_db.checklistRuns)..where((r) => r.id.equals(runId))).getSingleOrNull() != null;
 
-  Stream<List<ChecklistRun>> watchRuns(String checklistId) => (_db.select(_db.checklistRuns)
-        ..where((r) => r.deletedAt.isNull() & r.checklistId.equals(checklistId))
-        ..orderBy([(r) => OrderingTerm.desc(r.endedAt)]))
-      .watch()
-      .map(
-        (rows) => [
-          for (final r in rows)
-            ChecklistRun(
-              id: r.id,
-              checklistId: r.checklistId,
-              occurrenceKey: r.occurrenceKey,
-              startedAt: r.startedAt,
-              endedAt: r.endedAt,
-              totalItems: r.totalItems,
-              completedItems: r.completedItems,
-              snapshot: [
-                if (r.snapshot != null)
-                  for (final e in (jsonDecode(r.snapshot!) as List).whereType<Map<Object?, Object?>>())
-                    RunSnapshotEntry.fromJson(Map<String, Object?>.from(e)),
-              ],
-            ),
-        ],
-      );
+  Stream<List<ChecklistRun>> watchRuns(String checklistId) =>
+      (_db.select(_db.checklistRuns)
+            ..where((r) => r.deletedAt.isNull() & r.checklistId.equals(checklistId))
+            ..orderBy([(r) => OrderingTerm.desc(r.endedAt)]))
+          .watch()
+          .map(
+            (rows) => [
+              for (final r in rows)
+                ChecklistRun(
+                  id: r.id,
+                  checklistId: r.checklistId,
+                  occurrenceKey: r.occurrenceKey,
+                  startedAt: r.startedAt,
+                  endedAt: r.endedAt,
+                  totalItems: r.totalItems,
+                  completedItems: r.completedItems,
+                  snapshot: [
+                    if (r.snapshot != null)
+                      for (final e in (jsonDecode(r.snapshot!) as List).whereType<Map<Object?, Object?>>())
+                        RunSnapshotEntry.fromJson(Map<String, Object?>.from(e)),
+                  ],
+                ),
+            ],
+          );
 }
