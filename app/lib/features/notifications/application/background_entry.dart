@@ -152,6 +152,15 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     // already initialized
   }
   final type = message.data['type']?.toString();
+  if (type == 'cancel') {
+    // Completed on another device: drop the tray entry right away (T7.4.12).
+    final dk = message.data['dk']?.toString();
+    if (dk == null || dk.isEmpty) return;
+    await NotificationBackground.run(
+      (c) => c.read(localSchedulerProvider).cancelDelivered(dk),
+    );
+    return;
+  }
   if (type == 'sync') {
     await NotificationBackground.run((c) async {
       await c.read(appDatabaseProvider).customStatement(

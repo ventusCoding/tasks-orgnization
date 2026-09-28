@@ -593,6 +593,17 @@ class LocalNotificationScheduler {
   static String summaryTag(String group) => 'summary:$group';
   static int summaryId(String group) => PlatformIds.hash(summaryTag(group));
 
+  /// Removes the notification of [dedupeKey] from the tray and the schedule (`cancel` push,
+  /// T7.4.12): the local request by its stored platform id and, on Android, a push-shown copy
+  /// (FCM notification messages are posted with id 0 and the dedupe key as tag).
+  Future<void> cancelDelivered(String dedupeKey) async {
+    final entry = await store.byKey(dedupeKey);
+    if (entry != null && entry.os) {
+      await port.cancel(entry.platformId, tag: dedupeKey);
+    }
+    if (port.platform == 'android') await port.cancel(0, tag: dedupeKey);
+  }
+
   /// Sign-out: clears every OS request and the schedule table.
   Future<void> clearAll() async {
     await port.cancelAll();

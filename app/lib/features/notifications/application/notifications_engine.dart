@@ -493,12 +493,32 @@ class NotificationsEngine {
     } on Object catch (e) {
       _log.fine('FCM background handler not registered', e);
     }
+    final db = ref.read(appDatabaseProvider);
+    const registeredKey = 'notifications.fcm_registered_at';
     _push = PushService(
       port: port,
       reporter: ref.read(deviceStateReporterProvider),
       onSync: () => ref.read(syncServiceProvider)?.schedulePull(),
       onForegroundReminder: _onForegroundPush,
       onOpened: _onPushOpened,
+      onCancel: (m) async {
+        final dk = m.dedupeKey;
+        if (dk != null) {
+          await ref.read(localSchedulerProvider).cancelDelivered(dk);
+        }
+      },
+      isAndroid: ref.read(localNotificationsPortProvider).platform == 'android',
+      now: () => ref.read(clockProvider).nowUtc(),
+      readRegisteredAt: () async {
+        final row = await (db.select(
+          db.localKv,
+        )..where((k) => k.key.equals(registeredKey))).getSingleOrNull();
+        return row == null ? null : DateTime.tryParse(row.value)?.toUtc();
+      },
+      writeRegisteredAt: (at) => db.customStatement(
+        'INSERT INTO local_kv(key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value',
+        [registeredKey, at.toUtc().toIso8601String()],
+      ),
     );
     await _push!.start(
       bannerInApp: ref.read(notificationSettingsProvider).bannerInApp,

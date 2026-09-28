@@ -292,7 +292,10 @@ overlay. It restarts on account switches.
 
 Push (FCM) activates only when `FIREBASE_ENABLED` is true, `DefaultFirebaseOptions.isConfigured`,
 Supabase is configured and a cloud session exists (`pushAvailableProvider`); otherwise local
-notifications and the inbox work fully offline.
+notifications and the inbox work fully offline. Data messages the device understands:
+`{"type":"sync","head":…}` (pull + replan), `{"type":"cancel","dk":<dedupe key>}` (drop that
+reminder from the tray right away — completed on another device) and visible reminders
+(`reminder | nag | digest | milestone`, shown by the OS; foreground → banner + inbox row).
 
 ## 5. Testing your integration
 
