@@ -30,31 +30,31 @@ backlog drawer UI and drags to/from it ([3.7]).
 
 ## Progress
 
-- [ ] T3.3.01 — View config model & saved-view persistence
-- [ ] T3.3.02 — Local view state (anchor date, scroll, zoom)
-- [ ] T3.3.03 — Time scale & slot math
-- [ ] T3.3.04 — DST-aware day timeline model
-- [ ] T3.3.05 — Overlap layout algorithm (lanes, cap, "+N")
-- [ ] T3.3.06 — Bucketing algorithm (table mode)
-- [ ] T3.3.07 — Grid painter
-- [ ] T3.3.08 — Time ruler
-- [ ] T3.3.09 — Day header row
-- [ ] T3.3.10 — Task tile widget & status styling
-- [ ] T3.3.11 — Timeline renderer (proportional, culled)
-- [ ] T3.3.12 — Table renderer (bucketed) & week-list mode
-- [ ] T3.3.13 — Horizontal paging infrastructure
-- [ ] T3.3.14 — Visible-range occurrence provider
-- [ ] T3.3.15 — Create gestures
-- [ ] T3.3.16 — Move & resize gestures
-- [ ] T3.3.17 — Snapping, time bubble & haptics
-- [ ] T3.3.18 — All-day & multi-day lane
-- [ ] T3.3.19 — Drag between grid and all-day lane
-- [ ] T3.3.20 — Auto-scroll & auto-page while dragging
-- [ ] T3.3.21 — Zoom: vertical pinch, semantic zoom, horizontal pinch
-- [ ] T3.3.22 — Display options (color-by, density, dim past, completed/cancelled, filters)
-- [ ] T3.3.23 — Overlays framework
-- [ ] T3.3.24 — Accessibility: semantics, list fallback, keyboard
-- [ ] T3.3.25 — Performance harness & optimization
+- [x] T3.3.01 — View config model & saved-view persistence
+- [x] T3.3.02 — Local view state (anchor date, scroll, zoom)
+- [x] T3.3.03 — Time scale & slot math
+- [x] T3.3.04 — DST-aware day timeline model
+- [x] T3.3.05 — Overlap layout algorithm (lanes, cap, "+N")
+- [x] T3.3.06 — Bucketing algorithm (table mode)
+- [x] T3.3.07 — Grid painter
+- [x] T3.3.08 — Time ruler
+- [x] T3.3.09 — Day header row
+- [x] T3.3.10 — Task tile widget & status styling
+- [x] T3.3.11 — Timeline renderer (proportional, culled)
+- [x] T3.3.12 — Table renderer (bucketed) & week-list mode
+- [x] T3.3.13 — Horizontal paging infrastructure
+- [x] T3.3.14 — Visible-range occurrence provider
+- [x] T3.3.15 — Create gestures
+- [x] T3.3.16 — Move & resize gestures
+- [x] T3.3.17 — Snapping, time bubble & haptics
+- [x] T3.3.18 — All-day & multi-day lane
+- [x] T3.3.19 — Drag between grid and all-day lane
+- [x] T3.3.20 — Auto-scroll & auto-page while dragging
+- [x] T3.3.21 — Zoom: vertical pinch, semantic zoom, horizontal pinch
+- [x] T3.3.22 — Display options (color-by, density, dim past, completed/cancelled, filters)
+- [x] T3.3.23 — Overlays framework
+- [x] T3.3.24 — Accessibility: semantics, list fallback, keyboard
+- [x] T3.3.25 — Performance harness & optimization
 - [ ] T3.3.26 — Cascade overlap style & secondary time-zone rulers
 
 ## Tasks
@@ -79,6 +79,7 @@ backlog drawer UI and drags to/from it ([3.7]).
 **Acceptance criteria:** configs round-trip losslessly; an older-version fixture upgrades; out-of-range
 values clamp.
 **Tests:** unit tests (defaults per type, validation, upgrade, unknown-key preservation).
+**Notes:** Hand-written immutable `PlannerViewConfig` (ADR-016, no freezed) with defaults for every view type of arch §8.3; built-in views are stored as deterministic `saved_views` rows (`entryViewId`).
 
 ### T3.3.02 — Local view state (anchor date, scroll, zoom)
 **Priority:** P0 · **Size:** S · **Depends on:** T3.3.01
@@ -121,6 +122,7 @@ It maps instant ↔ y and wall-clock minute ↔ y, and generates slot grids per 
   Australia/Lord_Howe (30-min shift).
 - A floating task at 02:30 on a gap day follows the engine's shift rule.
 **Tests:** multi-zone unit tests; goldens of both Paris DST days.
+**Notes:** The Paris DST goldens are the week-table and day-list DST goldens (`week_table_goldens_test.dart`, `day_list_goldens_test.dart`).
 
 ### T3.3.05 — Overlap layout algorithm (lanes, cap, "+N")
 **Priority:** P0 · **Size:** M · **Depends on:** T3.3.03
@@ -163,6 +165,7 @@ days. A per-minute ticker updates it and pauses while the page is off-screen.
 **Acceptance criteria:** repaints happen only on scale or date change; the now layer repaints once a
 minute; RTL mirrors column order.
 **Tests:** goldens (slots 1, 5, 30, 120 min × light/dark × LTR/RTL).
+**Notes:** Painter goldens come from the week-table suite (1, 5, 30, 120, 1 440 min × light LTR / dark RTL, plus dark LTR and light RTL at 30 min).
 
 ### T3.3.08 — Time ruler
 **Priority:** P0 · **Size:** S · **Depends on:** T3.3.03
@@ -182,6 +185,7 @@ minute; RTL mirrors column order.
 
 Tap → Day list for that date. Long-press → day menu (add task, skip remaining, move unfinished to tomorrow).
 **Tests:** widget tests; golden.
+**Notes:** Long-press opens the day menu with planner-core's one-operation day actions (`runDayAction`, T3.2.23); golden via the week-table suite.
 
 ### T3.3.10 — Task tile widget & status styling
 **Priority:** P0 · **Size:** M · **Depends on:** T3.3.05, [3.2]
@@ -215,6 +219,7 @@ positioned tiles for the visible window ± one viewport only, and "+N" overflow 
 **Acceptance criteria:** 1-min slots with 2 000 occurrences in a week stay at 60 fps while scrolling in
 profile mode on the reference device (T3.3.25).
 **Tests:** widget tests for culling correctness; perf scenario.
+**Notes:** Culling is checked by `planner_perf_test.dart` (built tiles stay bounded at 1-min slots with 2 000 items); the profile-mode frame budget itself is measured by the `flutter drive --profile` suite of T9.1.08.
 
 ### T3.3.12 — Table renderer (bucketed) & week-list mode
 **Priority:** P0 · **Size:** L · **Depends on:** T3.3.06, T3.3.10
@@ -362,6 +367,7 @@ fingers; fixed mode never changes `slotMinutes`.
 - slot-occupancy heat tint from stats ([6.3]);
 - device calendars, later ([8.2]).
 **Tests:** widget tests with fake overlay providers.
+**Notes:** Layers (timeline renderer): `habits` = timed habit slots from `habitDayViewsProvider`, tap toggles the check-in (`checkInServiceProvider`); `checklistDue` = open checklist items due in the range, tap opens the list; `freeSlots` = openings of the T3.7.04 finder inside work hours; `heat` = weekday × hour occupancy of the four weeks before the page, aggregated from planner items (`OccupancyGrid`) rather than a stats [6.3] provider; `deviceCalendars` stays inert until [8.2]. Table / week-list modes draw no overlays.
 
 ### T3.3.24 — Accessibility: semantics, list fallback, keyboard
 **Priority:** P1 · **Size:** M · **Depends on:** T3.3.11, T3.3.12
@@ -375,6 +381,7 @@ fingers; fixed mode never changes `slotMinutes`.
 **Acceptance criteria:** with TalkBack or VoiceOver, a user can create, open, complete and move a task
 without any gesture.
 **Tests:** semantics tests; guideline checks ([9.1]).
+**Notes:** Tiles expose done / 15 min earlier / later / previous / next day / select actions; with accessible navigation on, empty slots become nodes (grouped to ≥ 24 px) whose tap quick-creates; the header long-press exposes the day menu (*Add task*). Keyboard on the grid: ↑/↓ select, ←/→ nearest item of the neighbour day (then page, mirrored in RTL), Enter opens, Space ticks, Shift+↑/↓ moves by the snap step, Shift+←/→ by a day, +/- zoom, Page Up/Down, Esc; Ctrl/Cmd+C/V copy / paste at the hovered or last tapped slot (planner-core `pasteAt`, T3.1.19). Selection mode (T3.1.18): tile menu *Select*, taps toggle, the toolbar becomes a selection bar opening `showBulkActionsSheet` (week table, N-day, work week, day list). Guideline checks remain part of [9.1].
 
 ### T3.3.25 — Performance harness & optimization
 **Priority:** P1 · **Size:** M · **Depends on:** T3.3.11, T3.3.12, T3.3.21
@@ -392,6 +399,7 @@ Optimizations:
 - no layout work inside paint.
 **Acceptance criteria:** arch §9.6 budgets met; results stored as CI artifacts ([9.1]).
 **Tests:** the perf scenarios.
+**Notes:** `planner_perf_test.dart` runs all five scenarios (1-min week with 2 000 items, 14 tablet days, 1 440-row table, 5 s of pinch, 20-week paging) plus the 1 440-row day list, asserting culling bounds and a debug-mode frame ceiling. Optimizations in place: label caches (ruler, hidden-band badges), a RepaintBoundary per layer, ValueListenable now / drag state, whole-pixel page area. Profile-mode frame timings stored as CI artifacts belong to the T9.1.08 drive suite, which can reuse `perfWeek`.
 
 ### T3.3.26 — Cascade overlap style & secondary time-zone rulers
 **Priority:** P2 · **Size:** M · **Depends on:** T3.3.05, T3.3.08

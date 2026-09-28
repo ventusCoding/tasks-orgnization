@@ -2160,6 +2160,13 @@
       }
     }
   },
+  "@notifCopied": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@notifCreateCount": {
     "placeholders": {
       "count": {
@@ -2533,6 +2540,13 @@
       }
     }
   },
+  "@pvCopied": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "@pvCopySuffix": {
     "placeholders": {
       "name": {
@@ -2712,6 +2726,13 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "@pvPasted": {
+    "placeholders": {
+      "time": {
+        "type": "String"
       }
     }
   },
@@ -5555,6 +5576,9 @@
   "notifContent": "Content",
   "notifContentBody": "Body template",
   "notifContentTitle": "Title template",
+  "notifCopied": "{count, plural, =1{1 reminder copied} other{{count} reminders copied}}",
+  "notifCopyFrom": "Copy reminders from…",
+  "notifCopyNothing": "That item has no reminders of its own",
   "notifCreateCount": "{count, plural, =1{Add 1 reminder} other{Add {count} reminders}}",
   "notifCustomize": "Customize",
   "notifDateOnlyTime": "Default time for date-only items",
@@ -5684,6 +5708,7 @@
   "notifIssueLateness": "Lateness must be at least 1 minute",
   "notifIssueNoChannel": "Choose at least one way to be notified",
   "notifIssueOffsetOutOfRange": "The offset must be within 30 days",
+  "notifIssueRepeatDoze": "On Android, repeats less than 10 minutes apart may arrive late while the phone sleeps",
   "notifIssueRepeatInterval": "Repeat at least every minute",
   "notifIssueRepeatMax": "At most 10 repeats",
   "notifIssueSchedule": "Invalid schedule",
@@ -5734,6 +5759,15 @@
   "notifNoiseCluster": "Several reminders share this minute — only one sound plays",
   "notifNoiseConfirm": "This reminder sends about {perDay} notifications per day. Save anyway?",
   "notifNoiseWarn": "About {perDay} notifications per day",
+  "notifNoticeChannelBody": "Open the system settings to allow them again.",
+  "notifNoticeRevokedBody": "Sign in again to keep syncing.",
+  "notifNoticeRevokedTitle": "This device was removed from your account",
+  "notifNoticeSaturatedBody": "iOS keeps only the next 64 reminders. Open Everslot regularly (or turn on push) so the later ones get scheduled.",
+  "notifNoticeSaturatedTitle": "Not all reminders fit on this device",
+  "notifNoticeSyncBody": "Your changes are safe on this device. Check your connection or sign in again.",
+  "notifNoticeSyncTitle": "Sync has been failing for over a day",
+  "notifNoticeUpdateBody": "This version can no longer sync. Install the latest version to keep your data in sync.",
+  "notifNoticeUpdateTitle": "Update Everslot",
   "notifOffsetAmount": "Amount",
   "notifOnlyIfStatus": "Only if status is",
   "notifOpenSettings": "Open settings",
@@ -5960,6 +5994,7 @@
   "pvCapacity": "Capacity",
   "pvCategories": "Categories",
   "pvClearFilters": "Clear",
+  "pvClearSelection": "Clear selection",
   "pvClocksForward": "Clocks forward",
   "pvColCategory": "Category",
   "pvColDate": "Date",
@@ -5981,6 +6016,8 @@
   "pvColumns": "Columns",
   "pvCompletion": "Completion",
   "pvContinues": "continues",
+  "pvCopied": "Copied “{title}”",
+  "pvCopy": "Copy",
   "pvCopySuffix": "{name} (copy)",
   "pvCreate": "Create",
   "pvCreateHere": "Create here",
@@ -6082,6 +6119,8 @@
   "pvMoveDown": "Move down",
   "pvMoveEarlier": "Move {minutes} min earlier",
   "pvMoveLater": "Move {minutes} min later",
+  "pvMoveNextDay": "Move to the next day",
+  "pvMovePreviousDay": "Move to the previous day",
   "pvMoveTo": "Move to…",
   "pvMoveUnfinishedTomorrow": "Move unfinished to tomorrow",
   "pvMoveUp": "Move up",
@@ -6098,6 +6137,7 @@
   "pvNoSavedViews": "No saved views yet",
   "pvNoTasks": "No tasks",
   "pvNothingNow": "Nothing scheduled right now",
+  "pvNothingToPaste": "Copy a task first",
   "pvNow": "Now",
   "pvOneOff": "One-off",
   "pvOpenDay": "Open day",
@@ -6116,6 +6156,7 @@
   "pvPagingFree": "Free scroll",
   "pvPagingMode": "Swipe moves",
   "pvPagingWeek": "One week",
+  "pvPasted": "Pasted at {time}",
   "pvPause": "Pause",
   "pvPickDate": "Pick a date",
   "pvPin": "Pin",
@@ -6174,7 +6215,9 @@
   "pvScopeFollowing": "This and following",
   "pvScopeThis": "This occurrence",
   "pvScopeTitle": "Change a recurring task",
+  "pvSelect": "Select",
   "pvSelected": "{count} selected",
+  "pvSelectionActions": "Actions",
   "pvSetAsPlanDefault": "Open the Plan tab on this view",
   "pvSetDefaultView": "Set as default",
   "pvShareAvailability": "Share availability",

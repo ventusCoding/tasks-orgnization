@@ -243,6 +243,10 @@ class DemoPlannerActions implements PlannerActions, PlannerViewActions {
       createAt(item.startLocal, item.durationMinutes, title: item.title, allDay: item.allDay);
 
   @override
+  Future<String?> paste(PlannerItem item, LocalDateTime start) =>
+      createAt(start, item.durationMinutes, title: item.title, allDay: item.allDay);
+
+  @override
   Future<void> reorder(PlannerItem item, {String? afterKey, String? beforeKey}) async {
     final key = '${afterKey ?? ''}m${beforeKey ?? ''}';
     _apply((s) => _replace(s, item, copyItem(item, manualSortKey: key)));

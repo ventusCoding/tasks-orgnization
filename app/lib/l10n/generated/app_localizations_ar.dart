@@ -5787,6 +5787,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifContentTitle => 'قالب العنوان';
 
   @override
+  String notifCopied(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نُسخ $count تذكير',
+      many: 'نُسخ $count تذكيرًا',
+      few: 'نُسخت $count تذكيرات',
+      two: 'نُسخ تذكيران',
+      one: 'نُسخ تذكير واحد',
+      zero: 'لم يُنسخ أي تذكير',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifCopyFrom => 'نسخ التذكيرات من…';
+
+  @override
+  String get notifCopyNothing => 'لا يحتوي هذا العنصر على تذكيرات خاصة به';
+
+  @override
   String notifCreateCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -6267,6 +6288,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifIssueOffsetOutOfRange => 'يجب ألا يتجاوز الفارق 30 يومًا';
 
   @override
+  String get notifIssueRepeatDoze =>
+      'على أندرويد، قد تصل التكرارات التي يفصل بينها أقل من 10 دقائق متأخرةً أثناء سكون الهاتف';
+
+  @override
   String get notifIssueRepeatInterval =>
       'يجب أن يكون التكرار كل دقيقة على الأقل';
 
@@ -6450,6 +6475,37 @@ class AppLocalizationsAr extends AppLocalizations {
   String notifNoiseWarn(int perDay) {
     return 'حوالي $perDay إشعار يوميًا';
   }
+
+  @override
+  String get notifNoticeChannelBody =>
+      'افتح إعدادات النظام للسماح بها من جديد.';
+
+  @override
+  String get notifNoticeRevokedBody => 'سجّل الدخول من جديد لمتابعة المزامنة.';
+
+  @override
+  String get notifNoticeRevokedTitle => 'أُزيل هذا الجهاز من حسابك';
+
+  @override
+  String get notifNoticeSaturatedBody =>
+      'يحتفظ iOS بالتذكيرات الـ64 التالية فقط. افتح Everslot بانتظام (أو فعّل الإشعارات الفورية) لتُجدوَل التذكيرات اللاحقة.';
+
+  @override
+  String get notifNoticeSaturatedTitle => 'لا يتّسع هذا الجهاز لكل التذكيرات';
+
+  @override
+  String get notifNoticeSyncBody =>
+      'تغييراتك محفوظة على هذا الجهاز. تحقّق من اتصالك أو سجّل الدخول من جديد.';
+
+  @override
+  String get notifNoticeSyncTitle => 'تفشل المزامنة منذ أكثر من يوم';
+
+  @override
+  String get notifNoticeUpdateBody =>
+      'لم يعد بإمكان هذا الإصدار المزامنة. ثبّت أحدث إصدار لتبقى بياناتك متزامنة.';
+
+  @override
+  String get notifNoticeUpdateTitle => 'حدّث Everslot';
 
   @override
   String get notifOffsetAmount => 'المقدار';
@@ -7262,6 +7318,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvClearFilters => 'مسح';
 
   @override
+  String get pvClearSelection => 'إلغاء التحديد';
+
+  @override
   String get pvClocksForward => 'تقديم الساعة';
 
   @override
@@ -7323,6 +7382,14 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvContinues => 'مستمرة';
+
+  @override
+  String pvCopied(String title) {
+    return 'تم نسخ «$title»';
+  }
+
+  @override
+  String get pvCopy => 'نسخ';
 
   @override
   String pvCopySuffix(String name) {
@@ -7728,6 +7795,12 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get pvMoveNextDay => 'نقل إلى اليوم التالي';
+
+  @override
+  String get pvMovePreviousDay => 'نقل إلى اليوم السابق';
+
+  @override
   String get pvMoveTo => 'نقل إلى…';
 
   @override
@@ -7800,6 +7873,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvNothingNow => 'لا شيء مجدول الآن';
 
   @override
+  String get pvNothingToPaste => 'انسخ مهمة أولًا';
+
+  @override
   String get pvNow => 'الآن';
 
   @override
@@ -7852,6 +7928,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvPagingWeek => 'أسبوعًا واحدًا';
+
+  @override
+  String pvPasted(String time) {
+    return 'تم اللصق في $time';
+  }
 
   @override
   String get pvPause => 'إيقاف مؤقت';
@@ -8058,9 +8139,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvScopeTitle => 'تعديل مهمة متكررة';
 
   @override
+  String get pvSelect => 'تحديد';
+
+  @override
   String pvSelected(int count) {
     return 'المحدد: $count';
   }
+
+  @override
+  String get pvSelectionActions => 'إجراءات';
 
   @override
   String get pvSetAsPlanDefault => 'فتح تبويب الخطة على هذا العرض';

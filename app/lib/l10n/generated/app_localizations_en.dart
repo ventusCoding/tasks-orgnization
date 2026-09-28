@@ -5550,6 +5550,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifContentTitle => 'Title template';
 
   @override
+  String notifCopied(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reminders copied',
+      one: '1 reminder copied',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifCopyFrom => 'Copy reminders from…';
+
+  @override
+  String get notifCopyNothing => 'That item has no reminders of its own';
+
+  @override
   String notifCreateCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -6007,6 +6024,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifIssueOffsetOutOfRange => 'The offset must be within 30 days';
 
   @override
+  String get notifIssueRepeatDoze =>
+      'On Android, repeats less than 10 minutes apart may arrive late while the phone sleeps';
+
+  @override
   String get notifIssueRepeatInterval => 'Repeat at least every minute';
 
   @override
@@ -6183,6 +6204,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String notifNoiseWarn(int perDay) {
     return 'About $perDay notifications per day';
   }
+
+  @override
+  String get notifNoticeChannelBody =>
+      'Open the system settings to allow them again.';
+
+  @override
+  String get notifNoticeRevokedBody => 'Sign in again to keep syncing.';
+
+  @override
+  String get notifNoticeRevokedTitle =>
+      'This device was removed from your account';
+
+  @override
+  String get notifNoticeSaturatedBody =>
+      'iOS keeps only the next 64 reminders. Open Everslot regularly (or turn on push) so the later ones get scheduled.';
+
+  @override
+  String get notifNoticeSaturatedTitle =>
+      'Not all reminders fit on this device';
+
+  @override
+  String get notifNoticeSyncBody =>
+      'Your changes are safe on this device. Check your connection or sign in again.';
+
+  @override
+  String get notifNoticeSyncTitle => 'Sync has been failing for over a day';
+
+  @override
+  String get notifNoticeUpdateBody =>
+      'This version can no longer sync. Install the latest version to keep your data in sync.';
+
+  @override
+  String get notifNoticeUpdateTitle => 'Update Everslot';
 
   @override
   String get notifOffsetAmount => 'Amount';
@@ -6969,6 +7023,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvClearFilters => 'Clear';
 
   @override
+  String get pvClearSelection => 'Clear selection';
+
+  @override
   String get pvClocksForward => 'Clocks forward';
 
   @override
@@ -7030,6 +7087,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvContinues => 'continues';
+
+  @override
+  String pvCopied(String title) {
+    return 'Copied “$title”';
+  }
+
+  @override
+  String get pvCopy => 'Copy';
 
   @override
   String pvCopySuffix(String name) {
@@ -7407,6 +7472,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get pvMoveNextDay => 'Move to the next day';
+
+  @override
+  String get pvMovePreviousDay => 'Move to the previous day';
+
+  @override
   String get pvMoveTo => 'Move to…';
 
   @override
@@ -7473,6 +7544,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvNothingNow => 'Nothing scheduled right now';
 
   @override
+  String get pvNothingToPaste => 'Copy a task first';
+
+  @override
   String get pvNow => 'Now';
 
   @override
@@ -7525,6 +7599,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvPagingWeek => 'One week';
+
+  @override
+  String pvPasted(String time) {
+    return 'Pasted at $time';
+  }
 
   @override
   String get pvPause => 'Pause';
@@ -7725,9 +7804,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvScopeTitle => 'Change a recurring task';
 
   @override
+  String get pvSelect => 'Select';
+
+  @override
   String pvSelected(int count) {
     return '$count selected';
   }
+
+  @override
+  String get pvSelectionActions => 'Actions';
 
   @override
   String get pvSetAsPlanDefault => 'Open the Plan tab on this view';

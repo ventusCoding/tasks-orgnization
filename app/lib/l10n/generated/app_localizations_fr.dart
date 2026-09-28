@@ -5589,6 +5589,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifContentTitle => 'Modèle du titre';
 
   @override
+  String notifCopied(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rappels copiés',
+      one: '1 rappel copié',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifCopyFrom => 'Copier les rappels de…';
+
+  @override
+  String get notifCopyNothing => 'Cet élément n’a pas de rappels propres';
+
+  @override
   String notifCreateCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -6056,6 +6073,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Le décalage doit rester sous 30 jours';
 
   @override
+  String get notifIssueRepeatDoze =>
+      'Sur Android, des répétitions espacées de moins de 10 minutes peuvent arriver en retard quand le téléphone est en veille';
+
+  @override
   String get notifIssueRepeatInterval => 'Répéter au moins toutes les minutes';
 
   @override
@@ -6234,6 +6255,41 @@ class AppLocalizationsFr extends AppLocalizations {
   String notifNoiseWarn(int perDay) {
     return 'Environ $perDay notifications par jour';
   }
+
+  @override
+  String get notifNoticeChannelBody =>
+      'Ouvrez les réglages du système pour les autoriser de nouveau.';
+
+  @override
+  String get notifNoticeRevokedBody =>
+      'Reconnectez-vous pour continuer la synchronisation.';
+
+  @override
+  String get notifNoticeRevokedTitle =>
+      'Cet appareil a été retiré de votre compte';
+
+  @override
+  String get notifNoticeSaturatedBody =>
+      'iOS ne garde que les 64 prochains rappels. Ouvrez Everslot régulièrement (ou activez le push) pour que les suivants soient programmés.';
+
+  @override
+  String get notifNoticeSaturatedTitle =>
+      'Tous les rappels ne tiennent pas sur cet appareil';
+
+  @override
+  String get notifNoticeSyncBody =>
+      'Vos modifications sont en sécurité sur cet appareil. Vérifiez votre connexion ou reconnectez-vous.';
+
+  @override
+  String get notifNoticeSyncTitle =>
+      'La synchronisation échoue depuis plus d’un jour';
+
+  @override
+  String get notifNoticeUpdateBody =>
+      'Cette version ne peut plus se synchroniser. Installez la dernière version pour garder vos données synchronisées.';
+
+  @override
+  String get notifNoticeUpdateTitle => 'Mettez à jour Everslot';
 
   @override
   String get notifOffsetAmount => 'Durée';
@@ -7028,6 +7084,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvClearFilters => 'Effacer';
 
   @override
+  String get pvClearSelection => 'Effacer la sélection';
+
+  @override
   String get pvClocksForward => 'Passage à l’heure d’été';
 
   @override
@@ -7089,6 +7148,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvContinues => 'suite';
+
+  @override
+  String pvCopied(String title) {
+    return '« $title » copiée';
+  }
+
+  @override
+  String get pvCopy => 'Copier';
 
   @override
   String pvCopySuffix(String name) {
@@ -7467,6 +7534,12 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get pvMoveNextDay => 'Déplacer au jour suivant';
+
+  @override
+  String get pvMovePreviousDay => 'Déplacer au jour précédent';
+
+  @override
   String get pvMoveTo => 'Déplacer vers…';
 
   @override
@@ -7534,6 +7607,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvNothingNow => 'Rien de prévu en ce moment';
 
   @override
+  String get pvNothingToPaste => 'Copiez d’abord une tâche';
+
+  @override
   String get pvNow => 'Maintenant';
 
   @override
@@ -7586,6 +7662,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvPagingWeek => 'Une semaine';
+
+  @override
+  String pvPasted(String time) {
+    return 'Collée à $time';
+  }
 
   @override
   String get pvPause => 'Pause';
@@ -7786,9 +7867,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvScopeTitle => 'Modifier une tâche récurrente';
 
   @override
+  String get pvSelect => 'Sélectionner';
+
+  @override
   String pvSelected(int count) {
     return 'Sélection : $count';
   }
+
+  @override
+  String get pvSelectionActions => 'Actions';
 
   @override
   String get pvSetAsPlanDefault => 'Ouvrir l’onglet Plan sur cette vue';

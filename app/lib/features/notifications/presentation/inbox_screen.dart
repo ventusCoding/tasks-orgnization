@@ -9,11 +9,11 @@ import 'package:everslot/features/notifications/domain/inbox_item.dart';
 import 'package:everslot/features/notifications/domain/notification_actions.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:everslot/features/notifications/presentation/notification_labels.dart';
+import 'package:everslot/features/notifications/presentation/notification_link_opener.dart';
 import 'package:everslot/features/notifications/presentation/notifications_settings_page.dart';
 import 'package:everslot/features/notifications/presentation/snooze_picker.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Notification center (T7.3.03): rows grouped by day, nag chains collapsed, filters, swipe
@@ -281,7 +281,7 @@ class InboxTile extends ConsumerWidget {
     if (result.alreadyDone)
       showInfoSnackBar(context, context.l10n.notifInboxAlreadyDone);
     final link = result.openLink;
-    if (link != null) unawaited(context.push(link));
+    if (link != null) openNotificationLink(Navigator.of(context), link);
   }
 
   Future<void> _act(BuildContext context, WidgetRef ref, String action) async {
@@ -305,7 +305,8 @@ class InboxTile extends ConsumerWidget {
     );
     if (!context.mounted) return;
     if (result.message != null) showInfoSnackBar(context, result.message!);
-    if (result.openLink != null) unawaited(context.push(result.openLink!));
+    if (result.openLink != null)
+      openNotificationLink(Navigator.of(context), result.openLink!);
   }
 
   @override
@@ -317,6 +318,15 @@ class InboxTile extends ConsumerWidget {
       for (final a in item.actions)
         if (a != NotificationActionIds.open && item.actedAt == null) a,
     ].take(2).toList();
+    // *Remind me again…* on past rows that aren't snoozed and offer no snooze chip (T7.3.08).
+    final snoozedNow =
+        item.snoozedUntil != null && item.snoozedUntil!.isAfter(now);
+    final remindAgain =
+        !dense &&
+        item.category != InboxCategory.system &&
+        !snoozedNow &&
+        !item.fireAt.isAfter(now) &&
+        !actions.contains(NotificationActionIds.snooze);
     // One sentence for screen readers: "Unread reminder, Gym, Starts in 10 min, 5 minutes ago".
     final semanticLabel = [
       if (unread) l.notifInboxUnreadSemantics(item.title) else item.title,
@@ -413,7 +423,7 @@ class InboxTile extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  if (actions.isNotEmpty || item.actedAt == null) ...[
+                  if (actions.isNotEmpty || remindAgain) ...[
                     const SizedBox(height: Space.xs),
                     Wrap(
                       spacing: Space.sm,
@@ -423,6 +433,15 @@ class InboxTile extends ConsumerWidget {
                           ActionChip(
                             label: Text(labels.action(a)),
                             onPressed: () => unawaited(_act(context, ref, a)),
+                          ),
+                        // T7.3.08: a snooze instance even for rows never snoozed.
+                        if (remindAgain)
+                          ActionChip(
+                            avatar: const Icon(Icons.alarm_add_outlined),
+                            label: Text(l.notifInboxRemindAgain),
+                            onPressed: () => unawaited(
+                              _act(context, ref, NotificationActionIds.snooze),
+                            ),
                           ),
                       ],
                     ),

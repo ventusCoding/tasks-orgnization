@@ -19,6 +19,12 @@ abstract interface class PlannerNav {
   void openView(BuildContext context, String viewKey, {LocalDate? date});
 
   void openInsights(BuildContext context, {LocalDate? from, int days = 7});
+
+  /// A checklist (optionally scrolled to one item) — checklist-due overlay markers.
+  void openChecklist(BuildContext context, String checklistId, {String? itemId});
+
+  /// A habit's details — habit overlay markers without a check-in target.
+  void openHabit(BuildContext context, String habitId);
 }
 
 class GoRouterPlannerNav implements PlannerNav {
@@ -48,6 +54,13 @@ class GoRouterPlannerNav implements PlannerNav {
   @override
   void openInsights(BuildContext context, {LocalDate? from, int days = 7}) =>
       context.push(AppLinks.insightsScope('planner'));
+
+  @override
+  void openChecklist(BuildContext context, String checklistId, {String? itemId}) =>
+      context.push(AppLinks.checklist(checklistId, itemId: itemId));
+
+  @override
+  void openHabit(BuildContext context, String habitId) => context.push(AppLinks.habit(habitId));
 }
 
 final plannerNavProvider = Provider<PlannerNav>((ref) => const GoRouterPlannerNav());

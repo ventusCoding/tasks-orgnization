@@ -9075,6 +9075,24 @@ abstract class AppLocalizations {
   /// **'Title template'**
   String get notifContentTitle;
 
+  /// No description provided for @notifCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 reminder copied} other{{count} reminders copied}}'**
+  String notifCopied(int count);
+
+  /// No description provided for @notifCopyFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy reminders from…'**
+  String get notifCopyFrom;
+
+  /// No description provided for @notifCopyNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'That item has no reminders of its own'**
+  String get notifCopyNothing;
+
   /// No description provided for @notifCreateCount.
   ///
   /// In en, this message translates to:
@@ -9849,6 +9867,12 @@ abstract class AppLocalizations {
   /// **'The offset must be within 30 days'**
   String get notifIssueOffsetOutOfRange;
 
+  /// No description provided for @notifIssueRepeatDoze.
+  ///
+  /// In en, this message translates to:
+  /// **'On Android, repeats less than 10 minutes apart may arrive late while the phone sleeps'**
+  String get notifIssueRepeatDoze;
+
   /// No description provided for @notifIssueRepeatInterval.
   ///
   /// In en, this message translates to:
@@ -10148,6 +10172,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'About {perDay} notifications per day'**
   String notifNoiseWarn(int perDay);
+
+  /// No description provided for @notifNoticeChannelBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the system settings to allow them again.'**
+  String get notifNoticeChannelBody;
+
+  /// No description provided for @notifNoticeRevokedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again to keep syncing.'**
+  String get notifNoticeRevokedBody;
+
+  /// No description provided for @notifNoticeRevokedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This device was removed from your account'**
+  String get notifNoticeRevokedTitle;
+
+  /// No description provided for @notifNoticeSaturatedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'iOS keeps only the next 64 reminders. Open Everslot regularly (or turn on push) so the later ones get scheduled.'**
+  String get notifNoticeSaturatedBody;
+
+  /// No description provided for @notifNoticeSaturatedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not all reminders fit on this device'**
+  String get notifNoticeSaturatedTitle;
+
+  /// No description provided for @notifNoticeSyncBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your changes are safe on this device. Check your connection or sign in again.'**
+  String get notifNoticeSyncBody;
+
+  /// No description provided for @notifNoticeSyncTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync has been failing for over a day'**
+  String get notifNoticeSyncTitle;
+
+  /// No description provided for @notifNoticeUpdateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This version can no longer sync. Install the latest version to keep your data in sync.'**
+  String get notifNoticeUpdateBody;
+
+  /// No description provided for @notifNoticeUpdateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Everslot'**
+  String get notifNoticeUpdateTitle;
 
   /// No description provided for @notifOffsetAmount.
   ///
@@ -11505,6 +11583,12 @@ abstract class AppLocalizations {
   /// **'Clear'**
   String get pvClearFilters;
 
+  /// No description provided for @pvClearSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear selection'**
+  String get pvClearSelection;
+
   /// No description provided for @pvClocksForward.
   ///
   /// In en, this message translates to:
@@ -11630,6 +11714,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'continues'**
   String get pvContinues;
+
+  /// No description provided for @pvCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied “{title}”'**
+  String pvCopied(String title);
+
+  /// No description provided for @pvCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get pvCopy;
 
   /// No description provided for @pvCopySuffix.
   ///
@@ -12237,6 +12333,18 @@ abstract class AppLocalizations {
   /// **'Move {minutes} min later'**
   String pvMoveLater(int minutes);
 
+  /// No description provided for @pvMoveNextDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to the next day'**
+  String get pvMoveNextDay;
+
+  /// No description provided for @pvMovePreviousDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to the previous day'**
+  String get pvMovePreviousDay;
+
   /// No description provided for @pvMoveTo.
   ///
   /// In en, this message translates to:
@@ -12332,6 +12440,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing scheduled right now'**
   String get pvNothingNow;
+
+  /// No description provided for @pvNothingToPaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy a task first'**
+  String get pvNothingToPaste;
 
   /// No description provided for @pvNow.
   ///
@@ -12440,6 +12554,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'One week'**
   String get pvPagingWeek;
+
+  /// No description provided for @pvPasted.
+  ///
+  /// In en, this message translates to:
+  /// **'Pasted at {time}'**
+  String pvPasted(String time);
 
   /// No description provided for @pvPause.
   ///
@@ -12789,11 +12909,23 @@ abstract class AppLocalizations {
   /// **'Change a recurring task'**
   String get pvScopeTitle;
 
+  /// No description provided for @pvSelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get pvSelect;
+
   /// No description provided for @pvSelected.
   ///
   /// In en, this message translates to:
   /// **'{count} selected'**
   String pvSelected(int count);
+
+  /// No description provided for @pvSelectionActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get pvSelectionActions;
 
   /// No description provided for @pvSetAsPlanDefault.
   ///

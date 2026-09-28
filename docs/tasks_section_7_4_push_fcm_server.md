@@ -24,19 +24,19 @@ compliance and alerting infrastructure ([9.2]).
 
 ## Progress
 
-- [ ] T7.4.01 — FCM client integration
-- [ ] T7.4.02 — Device registry: push fields, state reporting & token hygiene
+- [x] T7.4.01 — FCM client integration
+- [x] T7.4.02 — Device registry: push fields, state reporting & token hygiene
 - [ ] T7.4.03 — Jobs & deliveries schema + `replace_notification_jobs` RPC
-- [ ] T7.4.04 — Job upload pipeline (device → server)
+- [x] T7.4.04 — Job upload pipeline (device → server)
 - [ ] T7.4.05 — Guard evaluator catalog (SQL)
 - [ ] T7.4.06 — FCM sender module (`_shared/fcm.ts`)
 - [ ] T7.4.07 — `push-dispatch` Edge Function
 - [ ] T7.4.08 — Cron schedules, lease reaper & cleanup
 - [ ] T7.4.09 — Push payload design & size budget
-- [ ] T7.4.10 — Device-side push handling
+- [x] T7.4.10 — Device-side push handling
 - [ ] T7.4.11 — Silent sync push (`sync-nudge`)
-- [ ] T7.4.12 — Completion elsewhere & cross-device acknowledgement
-- [ ] T7.4.13 — Multi-device policy & primary device
+- [x] T7.4.12 — Completion elsewhere & cross-device acknowledgement
+- [x] T7.4.13 — Multi-device policy & primary device
 - [ ] T7.4.14 — iOS local-vs-push collapse spike
 - [ ] T7.4.15 — End-to-end push tests
 - [ ] T7.4.16 — Monitoring hooks & ops metrics
@@ -58,6 +58,7 @@ when in-app banners are enabled (Android does not show notification messages in 
 **Acceptance criteria:** a fresh install on both platforms reports a token within 5 s of sign-in; token
 refresh updates the server within one app session.
 **Tests:** unit tests with a fake messaging port; manual QA on physical iOS device (APNs sandbox + prod).
+**Notes:** Client side. FCM starts only when `env.firebaseEnabled`, `DefaultFirebaseOptions.isConfigured` and Supabase are all configured (real Firebase projects are placeholders for now). It reuses the notification permission from [7.2]. Tests use `FakePushMessagingPort`; manual QA on a physical iOS device is still to do.
 
 ### T7.4.02 — Device registry: push fields, state reporting & token hygiene
 **Priority:** P1 · **Size:** S · **Depends on:** T7.4.01, [1.4]
@@ -70,6 +71,7 @@ registrations older than 270 days are re-fetched on next launch.
 timestamptz` (T7.4.11); `last_seen_at` defined as *last foreground* (used by the 72-h rule and last-active policy).
 **Acceptance criteria:** stale tokens are never sent to; revoked devices never receive pushes.
 **Tests:** pgTAP for RPC ownership checks and staleness predicate.
+**Notes:** Client side: push token, capabilities, coverage, `schedule_rev`, `local_repeating_rules` and `last_seen_at` (on resume) are reported through `DeviceStateReporter`, and deferred offline. The token is re-reported on every start; Android re-registers after 270 days. The RPCs and pgTAP belong to the server work (`20260922000150_create_device_rpcs.sql`).
 
 ### T7.4.03 — Jobs & deliveries schema + `replace_notification_jobs` RPC
 **Priority:** P1 · **Size:** M · **Depends on:** [1.2], [7.1]
@@ -185,6 +187,7 @@ exactly once.
 **Acceptance criteria:** payload tests prove ≤ 4 KB for worst-case Arabic content; iOS actions appear via
 the registered category.
 **Tests:** unit tests (Deno) for builders and size budget; manual QA on devices.
+**Notes:** Client part done: jobs carry the payload fields the builder needs (`type, title, body, deepLink, actions, channel, group, iosCategory, sound, interruptionLevel, relevance`; see `JobUploader.jobFor`). The builders and size budget are the server's (`_shared/fcm.ts`).
 
 ### T7.4.10 — Device-side push handling
 **Priority:** P1 · **Size:** L · **Depends on:** T7.4.01, T7.4.09, [7.2] (action handler, scheduler), [7.3] (banner, inbox)
@@ -202,6 +205,7 @@ the registered category.
 **Acceptance criteria:** a pushed reminder behaves exactly like a local one (same actions, same result);
 no duplicate tray entry when both local and push fire on Android.
 **Tests:** unit tests for handler routing; patrol tests with a local FCM send script; manual iOS QA.
+**Notes:** The server sends Android *notification* messages (OS-rendered, tag = dedupe key), so the background handler only processes `sync` (pull flag) and `cancel` (tray cleanup). iOS delegate coexistence with `firebase_messaging` still needs device QA.
 
 ### T7.4.11 — Silent sync push (`sync-nudge`)
 **Priority:** P1 · **Size:** M · **Depends on:** T7.4.06, [1.4] (`sync_heads`)
@@ -215,6 +219,7 @@ priority (≥ 60 s between nudges per device); iOS `content-available: 1`, `apns
 **Acceptance criteria:** editing a task on the phone updates the tablet's local reminders within 2 min on
 Android; iOS updates on the next allowed nudge or foreground.
 **Tests:** Deno tests for throttling/origin skipping; device QA.
+**Notes:** Device part done: `sync` pushes schedule a pull in the foreground and set a pending-pull flag in the background, which the next start or resume handles. The `sync-nudge` function is the server's.
 
 ### T7.4.12 — Completion elsewhere & cross-device acknowledgement
 **Priority:** P1 · **Size:** S · **Depends on:** T7.4.05, T7.4.11, [7.2] (delivered cleanup)
@@ -226,6 +231,7 @@ completion happens inside the lateness window of a fired reminder.
 **Acceptance criteria:** marking *Done* on the phone removes the reminder from the Android tablet's tray
 within 1 min and stops its nag chain.
 **Tests:** E2E scenario in T7.4.15.
+**Notes:** Device side: `cancel` pushes clear the tray at once; a sync nudge leads to pull, replan and removal of delivered notifications; taps on stale notifications show *Already done*. The server doesn't send `cancel` pushes yet (optional).
 
 ### T7.4.13 — Multi-device policy & primary device
 **Priority:** P1 · **Size:** M · **Depends on:** T7.4.07, [8.3] (devices list)
@@ -236,6 +242,7 @@ scheduling with the same policy and the dispatcher applies it to pushes.
 **Acceptance criteria:** with "Primary only", the tablet never shows reminders while the phone does,
 including local ones.
 **Tests:** planner policy tests; dispatcher decision tests.
+**Notes:** Local scheduling follows the policy (`NotificationSettings.localSchedulingAllowed` and rule `conditions.devices`), covered by `policies.json` fixtures. The dispatcher side is server work.
 
 ### T7.4.14 — iOS local-vs-push collapse spike
 **Priority:** P1 · **Size:** S · **Depends on:** T7.4.10
@@ -245,6 +252,7 @@ and confirm a Notification Service Extension cannot remove pending local request
 decision-log note and tighten the coverage rule if needed (e.g. never push to a device that holds the
 instance locally even when stale).
 **Acceptance criteria:** written result with screenshots; coverage rule adjusted accordingly.
+**Notes:** Not done: needs physical iOS devices.
 
 ### T7.4.15 — End-to-end push tests
 **Priority:** P1 · **Size:** M · **Depends on:** T7.4.07, T7.4.10, [9.1] (sync/patrol harness)

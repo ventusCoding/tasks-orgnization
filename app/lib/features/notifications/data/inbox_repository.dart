@@ -329,6 +329,44 @@ class InboxRepository {
     return created;
   }
 
+  /// System notice (T7.3.07): creates the row of [d] once; a notice resolved earlier (dismissed)
+  /// is re-opened as a new unread row at [d.fireAt] — same deterministic id, never a duplicate.
+  /// Returns true when the notice became visible.
+  Future<bool> openNotice(InboxDelivery d) async {
+    final id = Ids.inbox(d.dedupeKey);
+    final existing = await byId(id);
+    if (existing == null) return upsertDelivered(d);
+    if (existing.dismissedAt == null) return false;
+    await _writer.run(
+      (tx) => tx.update('notifications', id, {
+        'title': d.title,
+        'body': d.body,
+        'payload': d.payload,
+        'fire_at': d.fireAt.toUtc(),
+        'delivered_at': d.fireAt.toUtc(),
+        'dismissed_at': null,
+        'read_at': null,
+        'acted_at': null,
+        'deleted_at': null,
+      }),
+      cause: 'auto',
+      scheduledAt: d.fireAt,
+    );
+    return true;
+  }
+
+  /// Resolves a system notice: dismissed automatically once its condition is fixed (T7.3.07).
+  Future<void> resolveNotice(String dedupeKey, DateTime at) async {
+    final id = Ids.inbox(dedupeKey);
+    final existing = await byId(id);
+    if (existing == null || existing.dismissedAt != null) return;
+    await _writer.run(
+      (tx) => tx.update('notifications', id, {'dismissed_at': at.toUtc()}),
+      cause: 'auto',
+      scheduledAt: at,
+    );
+  }
+
   /// Local cleanup: soft-deletes rows older than [retention] (the server does the same nightly).
   Future<int> purgeOlderThan(Duration retention) async {
     final cutoff = _clock.nowUtc().subtract(retention);

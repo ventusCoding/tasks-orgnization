@@ -18,21 +18,21 @@ all-day section; 24-hour mode; day summary; drag to reschedule; ribbon style; te
 
 ## Progress
 
-- [ ] T3.5.01 — Day list screen & date strip
-- [ ] T3.5.02 — Slot-row model (pure)
-- [ ] T3.5.03 — Lazy slot list rendering
-- [ ] T3.5.04 — Slot-size control & per-view persistence
-- [ ] T3.5.05 — Now: current-slot highlight, divider & auto-scroll
-- [ ] T3.5.06 — Row content & inline actions
-- [ ] T3.5.07 — Create from rows (tap & range)
-- [ ] T3.5.08 — Empty-run collapsing ("Free 1 h 20")
-- [ ] T3.5.09 — Day navigation (swipe, picker, Today)
-- [ ] T3.5.10 — All-day & untimed section
-- [ ] T3.5.11 — 24-hour slot mode (day agenda)
+- [x] T3.5.01 — Day list screen & date strip
+- [x] T3.5.02 — Slot-row model (pure)
+- [x] T3.5.03 — Lazy slot list rendering
+- [x] T3.5.04 — Slot-size control & per-view persistence
+- [x] T3.5.05 — Now: current-slot highlight, divider & auto-scroll
+- [x] T3.5.06 — Row content & inline actions
+- [x] T3.5.07 — Create from rows (tap & range)
+- [x] T3.5.08 — Empty-run collapsing ("Free 1 h 20")
+- [x] T3.5.09 — Day navigation (swipe, picker, Today)
+- [x] T3.5.10 — All-day & untimed section
+- [x] T3.5.11 — 24-hour slot mode (day agenda)
 - [ ] T3.5.12 — Day summary header
-- [ ] T3.5.13 — Drag to reschedule within the list
-- [ ] T3.5.14 — Visual ribbon style
-- [ ] T3.5.15 — Day list test suite
+- [x] T3.5.13 — Drag to reschedule within the list
+- [x] T3.5.14 — Visual ribbon style
+- [x] T3.5.15 — Day list test suite
 
 ## Tasks
 
@@ -160,3 +160,4 @@ Actions are the same as the slot style. Toggle *Slots / Ribbon* from the view me
 **Description:** Goldens for 1, 30, 120 and 1 440-minute slots, DST days, RTL, dark mode and text scale
 2.0, plus a fling-performance scenario over 1 440 rows ([9.1]).
 **Tests:** as described.
+**Notes:** `day_list_goldens_test.dart`: 1, 30, 120, 1 440 min (light LTR), dark RTL and text scale 2.0 at 30 min, collapsed 5-min free runs, ribbon light/dark-RTL and both Paris DST days. The 1 440-row fling scenario is in `planner_perf_test.dart` (built rows stay bounded); profile-mode timings belong to T9.1.08.

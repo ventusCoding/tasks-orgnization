@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:everslot/features/notifications/domain/notification_types.dart';
+import 'package:everslot/features/notifications/domain/scheduler/schedule_plan.dart'
+    show RepeatMatch;
 import 'package:meta/meta.dart';
 
 /// Device notification capabilities (T7.2.04), reported to `devices.capabilities`.
@@ -201,6 +203,10 @@ class OsNotificationRequest {
     this.tag,
     this.badgeNumber,
     this.subtitle,
+    this.repeat,
+    this.repeatZone,
+    this.groupSummary = false,
+    this.lines = const [],
   });
 
   final int id;
@@ -237,6 +243,16 @@ class OsNotificationRequest {
   final String? tag;
   final int? badgeNumber;
   final String? subtitle;
+
+  /// Repeating calendar trigger (T7.2.10): every day (or every week on the weekday) at the
+  /// wall-clock time of [fireAt] in [repeatZone]; [fireAt] is the first firing.
+  final RepeatMatch? repeat;
+  final String? repeatZone;
+
+  /// Android group summary of [groupKey] (T7.2.19), shown with [lines] (inbox style) and never
+  /// alerting by itself.
+  final bool groupSummary;
+  final List<String> lines;
 }
 
 /// A user response (tap or action button).
@@ -272,12 +288,21 @@ class PendingOsRequest {
 
 @immutable
 class ActiveOsNotification {
-  const ActiveOsNotification(this.id, {this.tag, this.payload, this.channelId});
+  const ActiveOsNotification(
+    this.id, {
+    this.tag,
+    this.payload,
+    this.channelId,
+    this.title,
+    this.groupKey,
+  });
 
   final int? id;
   final String? tag;
   final String? payload;
   final String? channelId;
+  final String? title;
+  final String? groupKey;
 }
 
 /// The only code touching the notification plugin (T7.2.01). Tests use
@@ -429,8 +454,24 @@ class InMemoryLocalNotificationsPort implements LocalNotificationsPort {
         tag: r.tag,
         payload: r.payload,
         channelId: r.channelId,
+        title: r.title,
+        groupKey: r.groupKey,
       ),
   ];
+
+  /// Test helper: the OS fires every scheduled request due at [now] (moves it to the tray).
+  void deliverDue(DateTime now) {
+    final due = [
+      for (final r in scheduled.values)
+        if (r.fireAt != null && !r.fireAt!.isAfter(now)) r,
+    ];
+    for (final r in due) {
+      scheduled.remove(r.id);
+      shown
+        ..removeWhere((s) => s.id == r.id)
+        ..add(r);
+    }
+  }
 
   @override
   Future<OsResponse?> launchResponse() async => launch;

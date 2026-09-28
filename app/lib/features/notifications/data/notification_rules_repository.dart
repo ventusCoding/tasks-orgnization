@@ -256,11 +256,14 @@ class NotificationRulesRepository {
   });
 
   /// *Copy reminders from…* / bulk *Set reminders* (T7.1.15): one undoable command.
+  /// [setNotifyMode] runs per target in the same transaction (own rules only count when the
+  /// item isn't in `inherit` mode).
   Future<OpRecord> copyRules({
     required List<NotificationRule> from,
     required RuleTargetType type,
     required List<String> targetIds,
     bool replace = false,
+    Future<void> Function(WriteTx tx, String targetId)? setNotifyMode,
   }) => _writer.run((tx) async {
     for (final targetId in targetIds) {
       if (replace) await softDeleteForTargetInTx(tx, type, targetId);
@@ -273,6 +276,7 @@ class NotificationRulesRepository {
             isDefault: false,
           ),
       ]);
+      if (setNotifyMode != null) await setNotifyMode(tx, targetId);
     }
   }, cause: 'bulk');
 
@@ -478,6 +482,31 @@ class NotificationProfilesRepository {
               ))
             .getSingle();
     return row.read(count) ?? 0;
+  }
+
+  /// Moves profile [id] right after [afterId] (null = first) — drag & drop in the profiles
+  /// screen (T7.1.13), which hides some profiles: one sort-key write between the neighbours.
+  Future<OpRecord?> reorder(String id, {String? afterId}) async {
+    final ordered = await all();
+    final moving = ordered.where((p) => p.id == id).firstOrNull;
+    if (moving == null || afterId == id) return null;
+    final rest = [
+      for (final p in ordered)
+        if (p.id != id) p,
+    ];
+    final at = afterId == null
+        ? 0
+        : rest.indexWhere((p) => p.id == afterId) + 1;
+    if (afterId != null && at == 0) return null; // unknown neighbour
+    final before = at == 0 ? null : rest[at - 1].sortKey;
+    final after = at >= rest.length ? null : rest[at].sortKey;
+    if (before != null && after != null && before.compareTo(after) >= 0) {
+      return null; // corrupt order: leave it
+    }
+    final key = FractionalIndex.between(before, after);
+    return _writer.run(
+      (tx) => tx.update('notification_profiles', id, {'sort_key': key}),
+    );
   }
 }
 

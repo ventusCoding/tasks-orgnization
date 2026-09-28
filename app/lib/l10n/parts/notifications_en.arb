@@ -1004,5 +1004,25 @@
     }
   },
   "notifChipChangeTime": "Change the time",
-  "notifPausedShort": "Notifications paused"
+  "notifPausedShort": "Notifications paused",
+  "notifIssueRepeatDoze": "On Android, repeats less than 10 minutes apart may arrive late while the phone sleeps",
+  "notifCopyFrom": "Copy reminders from…",
+  "notifCopyNothing": "That item has no reminders of its own",
+  "notifCopied": "{count, plural, =1{1 reminder copied} other{{count} reminders copied}}",
+  "@notifCopied": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifNoticeChannelBody": "Open the system settings to allow them again.",
+  "notifNoticeSaturatedTitle": "Not all reminders fit on this device",
+  "notifNoticeSaturatedBody": "iOS keeps only the next 64 reminders. Open Everslot regularly (or turn on push) so the later ones get scheduled.",
+  "notifNoticeSyncTitle": "Sync has been failing for over a day",
+  "notifNoticeSyncBody": "Your changes are safe on this device. Check your connection or sign in again.",
+  "notifNoticeRevokedTitle": "This device was removed from your account",
+  "notifNoticeRevokedBody": "Sign in again to keep syncing.",
+  "notifNoticeUpdateTitle": "Update Everslot",
+  "notifNoticeUpdateBody": "This version can no longer sync. Install the latest version to keep your data in sync."
 }

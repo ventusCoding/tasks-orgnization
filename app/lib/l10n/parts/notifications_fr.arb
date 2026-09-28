@@ -465,5 +465,18 @@
   "notifChipRepeat": "Répéter…",
   "notifChipLastDayAt": "Le dernier jour à {time}",
   "notifChipChangeTime": "Modifier l’heure",
-  "notifPausedShort": "Notifications en pause"
+  "notifPausedShort": "Notifications en pause",
+  "notifIssueRepeatDoze": "Sur Android, des répétitions espacées de moins de 10 minutes peuvent arriver en retard quand le téléphone est en veille",
+  "notifCopyFrom": "Copier les rappels de…",
+  "notifCopyNothing": "Cet élément n’a pas de rappels propres",
+  "notifCopied": "{count, plural, =1{1 rappel copié} other{{count} rappels copiés}}",
+  "notifNoticeChannelBody": "Ouvrez les réglages du système pour les autoriser de nouveau.",
+  "notifNoticeSaturatedTitle": "Tous les rappels ne tiennent pas sur cet appareil",
+  "notifNoticeSaturatedBody": "iOS ne garde que les 64 prochains rappels. Ouvrez Everslot régulièrement (ou activez le push) pour que les suivants soient programmés.",
+  "notifNoticeSyncTitle": "La synchronisation échoue depuis plus d’un jour",
+  "notifNoticeSyncBody": "Vos modifications sont en sécurité sur cet appareil. Vérifiez votre connexion ou reconnectez-vous.",
+  "notifNoticeRevokedTitle": "Cet appareil a été retiré de votre compte",
+  "notifNoticeRevokedBody": "Reconnectez-vous pour continuer la synchronisation.",
+  "notifNoticeUpdateTitle": "Mettez à jour Everslot",
+  "notifNoticeUpdateBody": "Cette version ne peut plus se synchroniser. Installez la dernière version pour garder vos données synchronisées."
 }

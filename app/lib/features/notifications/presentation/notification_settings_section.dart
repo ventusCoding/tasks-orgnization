@@ -48,6 +48,7 @@ class NotificationSettingsSection extends ConsumerStatefulWidget {
     this.draft,
     this.previewTargets,
     this.maxVisible = 3,
+    this.pickCopySource,
     super.key,
   });
 
@@ -84,6 +85,10 @@ class NotificationSettingsSection extends ConsumerStatefulWidget {
 
   /// Rules shown before *Show all*.
   final int maxVisible;
+
+  /// *Copy reminders from…* (T7.1.15): the host's item picker (same [targetType]); returns the
+  /// chosen item id or null. The action is hidden without it.
+  final Future<String?> Function(BuildContext context)? pickCopySource;
 
   @override
   ConsumerState<NotificationSettingsSection> createState() =>
@@ -325,6 +330,52 @@ class _NotificationSettingsSectionState
       );
   }
 
+  /// Copies the own reminders of an item picked by the host into this one (as own rules) and
+  /// switches to *Custom* — one undoable command (T7.1.15).
+  Future<void> _copyFrom() async {
+    final pick = widget.pickCopySource;
+    if (pick == null) return;
+    final sourceId = await pick(context);
+    if (sourceId == null || sourceId == widget.targetId || !mounted) return;
+    final host = ref.read(notificationHostApiProvider);
+    final rules = await host.rulesOf(widget.targetType, sourceId);
+    if (!mounted) return;
+    final l = context.l10n;
+    if (rules.isEmpty) {
+      showInfoSnackBar(context, l.notifCopyNothing);
+      return;
+    }
+    final draft = widget.draft;
+    if (draft != null) {
+      for (final r in rules) {
+        draft.add(
+          RuleDraft.fromRule(
+            r,
+            targetType: _ruleType,
+            targetId: widget.targetId,
+            isDefault: false,
+          ),
+        );
+      }
+      await _setMode(NotifyMode.custom);
+      return;
+    }
+    final record = await host.setReminders(
+      widget.targetType,
+      [widget.targetId],
+      rules,
+      replace: false,
+    );
+    widget.onNotifyModeChanged?.call(NotifyMode.custom);
+    if (mounted)
+      showUndoSnackBar(
+        context,
+        ref,
+        message: l.notifCopied(rules.length),
+        record: record,
+      );
+  }
+
   List<NotificationRule> _ownRules() {
     final draft = widget.draft;
     if (draft != null) {
@@ -487,6 +538,12 @@ class _NotificationSettingsSectionState
                     icon: const Icon(Icons.tune),
                     label: Text(l.notifCustomize),
                     onPressed: () => unawaited(_customize(inherited)),
+                  ),
+                if (widget.pickCopySource != null)
+                  TextButton.icon(
+                    icon: const Icon(Icons.copy_all_outlined),
+                    label: Text(l.notifCopyFrom),
+                    onPressed: () => unawaited(_copyFrom()),
                   ),
               ],
             ),

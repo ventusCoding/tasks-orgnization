@@ -92,18 +92,33 @@ class NotificationProfilesScreen extends ConsumerWidget {
             for (final p in all)
               if (!p.hidden) p,
           ];
-          return ListView(
+          // Drag handles reorder the list (sort keys; hidden profiles keep their place).
+          return ReorderableListView(
             padding: const EdgeInsets.only(bottom: Space.xxxl * 2),
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(Space.lg),
-                child: Text(
-                  l.notifProfileChannelWarning,
-                  style: context.text.bodySmall,
-                ),
+            header: Padding(
+              padding: const EdgeInsets.all(Space.lg),
+              child: Text(
+                l.notifProfileChannelWarning,
+                style: context.text.bodySmall,
               ),
+            ),
+            // `onReorderItem` already adjusts [to] for the removed item.
+            onReorderItem: (oldIndex, to) {
+              if (to == oldIndex) return;
+              final rest = [...visible]..removeAt(oldIndex);
+              unawaited(
+                ref
+                    .read(notificationProfilesRepositoryProvider)
+                    .reorder(
+                      visible[oldIndex].id,
+                      afterId: to == 0 ? null : rest[to - 1].id,
+                    ),
+              );
+            },
+            children: [
               for (final p in visible)
                 ListTile(
+                  key: ValueKey('profile-${p.id}'),
                   leading: Icon(
                     p.isBuiltin
                         ? Icons.verified_outlined

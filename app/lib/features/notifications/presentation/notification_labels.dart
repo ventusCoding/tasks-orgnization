@@ -187,6 +187,7 @@ class NotificationLabels {
     NotificationIssueCode.unknownTrigger => l.notifIssueUnknownTrigger,
     NotificationIssueCode.thresholdsInvalid => l.notifIssueThresholds,
     NotificationIssueCode.statusesEmpty => l.notifIssueStatuses,
+    NotificationIssueCode.repeatMayBeDelayed => l.notifIssueRepeatDoze,
   };
 
   String triggerType(TriggerType t) => switch (t) {

@@ -30,8 +30,14 @@ void main() {
         ..registerActionHandler(handler);
       await Future<void>.delayed(Duration.zero);
 
-      expect(h.read(notificationTargetSourcesProvider), [...baseSources, source]);
-      expect(h.read(notificationActionHandlersProvider), [handler, ...baseHandlers]);
+      expect(h.read(notificationTargetSourcesProvider), [
+        ...baseSources,
+        source,
+      ]);
+      expect(h.read(notificationActionHandlersProvider), [
+        handler,
+        ...baseHandlers,
+      ]);
       expect(
         findActionHandler(
           h.read(notificationActionHandlersProvider),
