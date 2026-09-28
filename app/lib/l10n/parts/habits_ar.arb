@@ -357,5 +357,11 @@
   "habitsProgressionStep": "الإضافة في كل مرة",
   "habitsProgressionEvery": "كل",
   "habitsProgressionMax": "حتى (0 = بلا حد)",
-  "habitsProgressionToday": "هدف اليوم: {value}"
+  "habitsProgressionToday": "هدف اليوم: {value}",
+  "habitsRecordNew": "رقم قياسي جديد!",
+  "habitsRecordBestDay": "أفضل يوم على الإطلاق: {value}",
+  "habitsRecordBestWeek": "أفضل أسبوع على الإطلاق: {value}",
+  "habitsRecordStreak": "أطول سلسلة على الإطلاق: {value}",
+  "habitsRecordAbstinence": "أطول فترة امتناع على الإطلاق: {value}",
+  "habitsRecordCravings": "أكثر رغبات قاومتها في يوم: {count}"
 }

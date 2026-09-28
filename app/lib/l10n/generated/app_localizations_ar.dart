@@ -3795,6 +3795,34 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsRecentEntries => 'الإدخالات الأخيرة';
 
   @override
+  String habitsRecordAbstinence(String value) {
+    return 'أطول فترة امتناع على الإطلاق: $value';
+  }
+
+  @override
+  String habitsRecordBestDay(String value) {
+    return 'أفضل يوم على الإطلاق: $value';
+  }
+
+  @override
+  String habitsRecordBestWeek(String value) {
+    return 'أفضل أسبوع على الإطلاق: $value';
+  }
+
+  @override
+  String habitsRecordCravings(int count) {
+    return 'أكثر رغبات قاومتها في يوم: $count';
+  }
+
+  @override
+  String get habitsRecordNew => 'رقم قياسي جديد!';
+
+  @override
+  String habitsRecordStreak(String value) {
+    return 'أطول سلسلة على الإطلاق: $value';
+  }
+
+  @override
   String get habitsReorder => 'إعادة الترتيب';
 
   @override

@@ -21,6 +21,7 @@ import 'package:everslot/features/habits/presentation/quit/live_counter.dart';
 import 'package:everslot/features/habits/presentation/quit/milestone_timeline.dart';
 import 'package:everslot/features/habits/presentation/quit/quit_sheets.dart';
 import 'package:everslot/features/habits/presentation/quit/rewards_section.dart';
+import 'package:everslot/features/habits/presentation/record_banner.dart';
 import 'package:everslot/features/habits/presentation/quit/ritual_card.dart';
 import 'package:everslot/features/habits/presentation/quit/vocab_manage_screen.dart';
 import 'package:everslot_metrics/everslot_metrics.dart'
@@ -297,6 +298,7 @@ class _DashboardState extends ConsumerState<_Dashboard> {
               ),
             ),
           ],
+          RecordBanner(habitId: habit.id),
           if (QuitRitualCard.shownFor(habit)) ...[
             const SizedBox(height: Space.lg),
             QuitRitualCard(snapshot: snapshot),

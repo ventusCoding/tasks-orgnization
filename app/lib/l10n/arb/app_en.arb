@@ -1382,6 +1382,41 @@
       }
     }
   },
+  "@habitsRecordAbstinence": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsRecordBestDay": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsRecordBestWeek": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsRecordCravings": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsRecordStreak": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "@habitsRollupMin": {
     "placeholders": {
       "n": {
@@ -4881,6 +4916,12 @@
   "habitsRate30": "30-day rate",
   "habitsReasonOptional": "Reason (optional)",
   "habitsRecentEntries": "Recent entries",
+  "habitsRecordAbstinence": "Longest clean stretch ever: {value}",
+  "habitsRecordBestDay": "Best day ever: {value}",
+  "habitsRecordBestWeek": "Best week ever: {value}",
+  "habitsRecordCravings": "Most cravings resisted in a day: {count}",
+  "habitsRecordNew": "New record!",
+  "habitsRecordStreak": "Longest streak ever: {value}",
   "habitsReorder": "Reorder",
   "habitsReorderDone": "Done",
   "habitsReorderHint": "Drag the handles to change the order.",

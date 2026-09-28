@@ -28,7 +28,7 @@ P2); streak freezes; achievements catalog & unlock engine; badge gallery & share
 - [x] T5.4.07 — Progressive challenge targets
 - [x] T5.4.08 — Achievements: catalog & unlock engine
 - [x] T5.4.09 — Badge gallery & share cards
-- [ ] T5.4.10 — Personal-record moments
+- [x] T5.4.10 — Personal-record moments
 
 ## Tasks
 
@@ -138,3 +138,4 @@ an image card containing only what the user chooses.
 week, longest abstinence, most cravings resisted in a day — as "New record!" moments in the Habits tab and
 detail screens.
 **Tests:** widget tests.
+**Notes:** `recordMoments` (best day/week via `everslot_metrics` `habitRecords`, current streak beating all earlier ones, longest abstinence, most cravings resisted in a day) shown as a New record! banner on the habit detail and quit dashboard and a pill on the Today row. Records are not persisted as announced (the stats `announcedRecords` setting belongs to [6.7]).

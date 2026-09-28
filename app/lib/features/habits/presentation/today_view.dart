@@ -8,6 +8,7 @@ import 'package:everslot/features/habits/application/habit_day_view.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/application/habit_service.dart';
 import 'package:everslot/features/habits/application/habit_view_settings.dart';
+import 'package:everslot/features/habits/application/record_moments.dart';
 import 'package:everslot/features/habits/application/live_ticker.dart';
 import 'package:everslot/features/habits/domain/check_in.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
@@ -327,6 +328,8 @@ class HabitRow extends ConsumerWidget {
                             if (view.explicit != null || status == PeriodStatus.missed || status == PeriodStatus.paused)
                               HabitStatusPill(status),
                             if (showStreak && view.streak > 0) StreakChip(view.streak),
+                            if (!view.future && buildRecordMoments(view.snapshot).isNotEmpty)
+                              StatusPill(label: l.habitsRecordNew, color: context.appColors.success, icon: Icons.emoji_events, dense: true),
                           ],
                         ),
                       ],

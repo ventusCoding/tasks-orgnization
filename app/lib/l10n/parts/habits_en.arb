@@ -831,5 +831,46 @@
         "type": "String"
       }
     }
+  },
+  "habitsRecordNew": "New record!",
+  "habitsRecordBestDay": "Best day ever: {value}",
+  "@habitsRecordBestDay": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "habitsRecordBestWeek": "Best week ever: {value}",
+  "@habitsRecordBestWeek": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "habitsRecordStreak": "Longest streak ever: {value}",
+  "@habitsRecordStreak": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "habitsRecordAbstinence": "Longest clean stretch ever: {value}",
+  "@habitsRecordAbstinence": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "habitsRecordCravings": "Most cravings resisted in a day: {count}",
+  "@habitsRecordCravings": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

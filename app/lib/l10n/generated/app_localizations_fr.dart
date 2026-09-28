@@ -3721,6 +3721,34 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsRecentEntries => 'Saisies récentes';
 
   @override
+  String habitsRecordAbstinence(String value) {
+    return 'Plus longue période sans consommer : $value';
+  }
+
+  @override
+  String habitsRecordBestDay(String value) {
+    return 'Meilleure journée : $value';
+  }
+
+  @override
+  String habitsRecordBestWeek(String value) {
+    return 'Meilleure semaine : $value';
+  }
+
+  @override
+  String habitsRecordCravings(int count) {
+    return 'Le plus d\'envies surmontées en un jour : $count';
+  }
+
+  @override
+  String get habitsRecordNew => 'Nouveau record !';
+
+  @override
+  String habitsRecordStreak(String value) {
+    return 'Plus longue série : $value';
+  }
+
+  @override
   String get habitsReorder => 'Réorganiser';
 
   @override

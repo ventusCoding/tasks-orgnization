@@ -6321,6 +6321,42 @@ abstract class AppLocalizations {
   /// **'Recent entries'**
   String get habitsRecentEntries;
 
+  /// No description provided for @habitsRecordAbstinence.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest clean stretch ever: {value}'**
+  String habitsRecordAbstinence(String value);
+
+  /// No description provided for @habitsRecordBestDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Best day ever: {value}'**
+  String habitsRecordBestDay(String value);
+
+  /// No description provided for @habitsRecordBestWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Best week ever: {value}'**
+  String habitsRecordBestWeek(String value);
+
+  /// No description provided for @habitsRecordCravings.
+  ///
+  /// In en, this message translates to:
+  /// **'Most cravings resisted in a day: {count}'**
+  String habitsRecordCravings(int count);
+
+  /// No description provided for @habitsRecordNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New record!'**
+  String get habitsRecordNew;
+
+  /// No description provided for @habitsRecordStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest streak ever: {value}'**
+  String habitsRecordStreak(String value);
+
   /// No description provided for @habitsReorder.
   ///
   /// In en, this message translates to:

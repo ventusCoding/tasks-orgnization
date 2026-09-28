@@ -28,6 +28,16 @@ class RecordMoment {
   String toString() => 'RecordMoment(${kind.name}, $value)';
 }
 
+final _byEvaluation = Expando<List<RecordMoment>>('record moments');
+
+/// [recordMoments] of a build habit, memoized per evaluation (the snapshot cache keeps the same
+/// evaluation across ticks, so list rows don't recompute records every minute).
+List<RecordMoment> buildRecordMoments(HabitSnapshot snapshot, {Weekday weekStart = Weekday.monday}) {
+  final evaluation = snapshot.evaluation;
+  if (evaluation == null) return recordMoments(snapshot, weekStart: weekStart);
+  return _byEvaluation[evaluation] ??= recordMoments(snapshot, weekStart: weekStart);
+}
+
 /// The records [snapshot] sets as of its today.
 List<RecordMoment> recordMoments(HabitSnapshot snapshot, {Weekday weekStart = Weekday.monday}) {
   final out = <RecordMoment>[];
