@@ -38,7 +38,7 @@ subscription, orchestrator & status, initial sync/resync, purge, background sync
 - [x] T1.4.14 — Initial sync & full resync
 - [x] T1.4.15 — Sync unit tests with a fake API
 - [x] T1.4.16 — Tombstone purge job, watermark & `app.purge_now`
-- [ ] T1.4.17 — Background sync (workmanager + data-push hook)
+- [x] T1.4.17 — Background sync (workmanager + data-push hook)
 - [x] T1.4.18 — Sync diagnostics (dev) & conflict log
 - [x] T1.4.19 — Automatic writes policy (scheduled-instant clocks)
 
@@ -234,6 +234,7 @@ messages `{"type":"sync"}` ([7.4]) doing the same in the background isolate with
 **Acceptance criteria:** background runs never corrupt state when the foreground app starts concurrently
 (mutex across isolates via a DB lock row).
 **Tests:** unit tests for the cross-isolate lock; manual QA on both platforms.
+**Notes:** `core/sync/background_sync.dart`: `BackgroundSync.runTask()` (background isolate: restores the session from the secure storage — refreshed tokens are written back —, opens the shared DB, runs a `bg-` engine within a 25 s budget; outcomes synced/skipped/failed/timedOut), periodic task `everslot.sync.periodic` (30 min, network required) registered by the `scheduleBackgroundSync` startup task for cloud sessions and cancelled on sign-out / local-only. Cross-isolate safety = the `SyncLock` lease (atomic UPSERT, TTL) — tests in `test/core/sync/background_sync_test.dart` (lock held by the foreground → skipped, simultaneous start pushes once, budget timeout + lease expiry, offline). TODO(integration): WorkManager allows one dispatcher — `notificationsWorkmanagerDispatcher` ([7.2]) must route `BackgroundSync.periodicTask` to `BackgroundSync.runTask()` then re-plan, and the FCM `sync` data handler should call `BackgroundSync.runTask()` (it only marks a pending pull today). iOS BGAppRefresh identifiers: see guide.md.
 
 ### T1.4.18 — Sync diagnostics (dev) & conflict log
 **Priority:** P1 · **Size:** S · **Depends on:** T1.4.13
