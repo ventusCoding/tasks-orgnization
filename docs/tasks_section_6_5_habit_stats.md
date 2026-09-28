@@ -43,11 +43,11 @@ streaks and strength ([6.1]); charts ([6.2]); quit metrics ([6.6]).
 
 ## Progress
 
-- [ ] T6.5.01 — Habit stats adapter
-- [ ] T6.5.02 — Strength score per habit
-- [ ] T6.5.03 — Streak metrics
-- [ ] T6.5.04 — Success & outcome metrics
-- [ ] T6.5.05 — Target & volume metrics
+- [x] T6.5.01 — Habit stats adapter
+- [x] T6.5.02 — Strength score per habit
+- [x] T6.5.03 — Streak metrics
+- [x] T6.5.04 — Success & outcome metrics
+- [x] T6.5.05 — Target & volume metrics
 - [ ] T6.5.06 — Volume analytics & personal records
 - [ ] T6.5.07 — Limit-habit metrics
 - [ ] T6.5.08 — Consistency index
@@ -55,12 +55,12 @@ streaks and strength ([6.1]); charts ([6.2]); quit metrics ([6.6]).
 - [ ] T6.5.10 — Recovery, freezes & momentum
 - [ ] T6.5.11 — Data completeness
 - [ ] T6.5.12 — Goal pace & projection
-- [ ] T6.5.13 — Habits section core metrics
+- [x] T6.5.13 — Habits section core metrics
 - [ ] T6.5.14 — Habits section extended metrics
 - [ ] T6.5.15 — Advanced habit analytics
-- [ ] T6.5.16 — Habit Insights screen
-- [ ] T6.5.17 — Habits section Insights screen
-- [ ] T6.5.18 — Habit stats fixtures & Loop parity
+- [x] T6.5.16 — Habit Insights screen
+- [x] T6.5.17 — Habits section Insights screen
+- [x] T6.5.18 — Habit stats fixtures & Loop parity
 
 ## Tasks
 
@@ -77,6 +77,7 @@ All habit metrics consume this.
 **Acceptance criteria:** a schedule change from daily to weekdays on 2026-09-15 evaluates earlier days
 as daily and later weekend days as `not_due`.
 **Tests:** fixture tests covering a revision change, pauses and intraday slots.
+**Notes:** `domain/habit_resolution.dart` builds each habit's versions from `habit_revisions` (history never shifts), expands day / slot / quota units, evaluates them with the package's period evaluation and routes quit trackers to [6.6]. Success and outcome metrics use day-level results (slot roll-ups), like streaks and calendars. Tests: `habits_portfolio` table fixture (revision daily → weekdays, vacation pause, 8 slots, quota, limit).
 
 ### T6.5.02 — Strength score per habit
 **Priority:** P0 · **Size:** S · **Depends on:** T6.5.01, [6.1] (T6.1.10)
@@ -88,6 +89,7 @@ as daily and later weekend days as `not_due`.
 **Acceptance criteria:** parity with `fixtures/stats/strength_loop.json` (±0.001); an at-most habit
 starts at 1.0.
 **Tests:** fixture tests.
+**Notes:** HB-H-01 with per-revision frequency; package parity vectors (`strength_loop.json`) plus app-level parity (0.500 after 13 days, 0.798 after 30, at-most starts at 1.0) in `habits/habit_metrics_app_test.dart`. Today's open unit is scored like Loop does.
 
 ### T6.5.03 — Streak metrics
 **Priority:** P0 · **Size:** S · **Depends on:** T6.5.01, [6.1] (T6.1.09), [6.2] (streak bars T6.2.08)
@@ -101,6 +103,7 @@ starts at 1.0.
 **Acceptance criteria:** quota habits count streaks in periods ("5-week streak"); frozen units show a
 snowflake marker.
 **Tests:** fixture tests.
+**Notes:** HB-H-02…04; quota habits count periods (`unitKind: period`), frozen units are marked on the streak bars. Tests: fixtures + `habits/habit_metrics_app_test.dart`.
 
 ### T6.5.04 — Success & outcome metrics
 **Priority:** P0 · **Size:** M · **Depends on:** T6.5.01, [6.2] (calendar heatmap T6.2.06, bars T6.2.04, KPI T6.2.02)
@@ -118,6 +121,7 @@ and failed units are shown separately.
 - Setup: 30 scheduled days — 24 done at value 15, 3 partial at value 10, 2 missed, 1 skip.
 - Expected: success rate = 24/29 = 82.8 %.
 **Tests:** fixture tests.
+**Notes:** HB-H-05…09; the push-ups month (24/29 = 82.8 %) is in `habit_pushups_month`; history buckets and calendars tested on `habits_portfolio`.
 
 ### T6.5.05 — Target & volume metrics
 **Priority:** P0 · **Size:** M · **Depends on:** T6.5.04, [6.2] (bullet chart T6.2.07)
@@ -132,6 +136,7 @@ and failed units are shown separately.
 - T_P = 15·30 − 15·1 = 435.
 - Target progress = 390 ÷ 435 = 89.7 %.
 **Tests:** fixture tests.
+**Notes:** HB-H-10/11; 390 / 435 = 89.7 % in `habit_pushups_month`.
 
 ### T6.5.06 — Volume analytics & personal records
 **Priority:** P1 · **Size:** M · **Depends on:** T6.5.05, [6.2] (histogram T6.2.14)
@@ -238,6 +243,7 @@ closed next unit), longest gap 2 and 0 comebacks.
 **Acceptance criteria:** archived habits are excluded from today and from trends after their archive
 date, but remain in history.
 **Tests:** fixture tests.
+**Notes:** HB-X-01…05; archived habits leave today and trends after their archive date but stay in history (`presentation/habit_screens_test.dart`). The adherence trend now ends with the (elapsed) period so a past week compares with the week before it.
 
 ### T6.5.14 — Habits section extended metrics
 **Priority:** P1 · **Size:** M · **Depends on:** T6.5.13, T6.5.10, [6.2] (radar T6.2.18)
@@ -292,6 +298,7 @@ screen in [5.2].
 **Acceptance criteria:** a yes/no habit hides volume cards; limit habits show limit metrics instead of
 target progress; drill-down from any day opens its logs.
 **Tests:** widget tests per goal type; goldens.
+**Notes:** `habitLayout` (KPIs HB-H-01/02/03/05/09; Strength, Calendar, History, Target & volume, Streaks, Outcomes). Cards that don't apply to the habit's kind are hidden (`yesNoHabit` volume, `limitHabit` target); calendar days drill into the day's refs. Widget tests per goal type and goldens.
 
 ### T6.5.17 — Habits section Insights screen
 **Priority:** P0 · **Size:** M · **Depends on:** T6.5.13, [6.1] (T6.1.16, T6.1.17)
@@ -301,6 +308,7 @@ target progress; drill-down from any day opens its logs.
 - **P2:** HB-X-13 and HB-X-14.
 **Acceptance criteria:** 30 habits × 5 years render within the [6.1] T6.1.23 budget.
 **Tests:** widget tests; goldens.
+**Notes:** `habitsLayout` with HB-X-01…05 and the per-habit mini table (`HabitMiniTable`: score, streak, 30-day success, each row opening the habit's Insights). Widget test and goldens; the 30 × 5 years budget is measured by T6.1.23.
 
 ### T6.5.18 — Habit stats fixtures & Loop parity
 **Priority:** P0 · **Size:** M · **Depends on:** [6.1] (T6.1.15)
@@ -312,3 +320,4 @@ target progress; drill-down from any day opens its logs.
   revision change and a vacation.
 **Acceptance criteria:** the fixture runner passes for all P0 metrics.
 **Tests:** provides fixtures for the tasks above.
+**Notes:** Table fixtures `habit_pushups_month` and `habits_portfolio` cover every P0 habit metric except the strength line, whose Loop parity is asserted by the package (`strength_loop.json`) and app-level parity tests.

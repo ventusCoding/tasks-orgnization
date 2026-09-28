@@ -24,9 +24,16 @@ import 'package:everslot/features/stats/presentation/widgets/period_selector.dar
 import 'package:everslot/shared/filters/domain/entity_filter.dart';
 import 'package:everslot/shared/filters/presentation/filter_bar.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
-import 'package:everslot_metrics/everslot_metrics.dart' show StatsPeriod, Value;
+import 'package:everslot_metrics/everslot_metrics.dart' show NotApplicable, StatsPeriod, Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
+
+/// Notes of results that do not apply to the entity's kind (volume of a yes/no habit, target of a
+/// limit habit): their cards are hidden rather than shown empty (T6.5.16).
+const hiddenResultNotes = {'yesNoHabit', 'limitHabit'};
+
+/// Whether [r] hides its card.
+bool isHiddenResult(MetricResult? r) => r != null && r.value is NotApplicable<double> && hiddenResultNotes.contains(r.note);
 
 /// Key of the remembered period/compare state and of the layout customization of [scope].
 String statsScopeKey(MetricScope scope) => scope.name;
@@ -189,7 +196,18 @@ class _StatsScopeViewState extends ConsumerState<StatsScopeView> {
           ),
         if (!loading && results.isNotEmpty && _allEmpty(results))
           SliverToBoxAdapter(child: _EmptyBanner(scope: widget.scope)),
-        for (final section in layout.sections) ...[
+        for (final section in [
+          for (final s in layout.sections)
+            if (s.items.any((i) => !isHiddenResult(results[i.metricId])))
+              StatsLayoutSection(
+                s.id,
+                [
+                  for (final i in s.items)
+                    if (!isHiddenResult(results[i.metricId])) i,
+                ],
+                collapsedByDefault: s.collapsedByDefault,
+              ),
+        ]) ...[
           SliverToBoxAdapter(
             child: _SectionTitle(
               id: section.id,
@@ -298,7 +316,7 @@ class _KpiRow extends ConsumerWidget {
           runSpacing: Space.sm,
           children: [
             for (final id in ids)
-              if (registry.byId(id) case final def?)
+              if (registry.byId(id) case final def? when !isHiddenResult(results[id]))
                 SizedBox(
                   width: width,
                   child: results[id] == null

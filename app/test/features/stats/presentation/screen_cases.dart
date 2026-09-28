@@ -58,4 +58,16 @@ final screenCases = <ScreenCase>[
     () => const ScopeStatsScreen(scope: 'checklists', query: {'period': 'custom:2026-09-01..2026-09-07'}),
     height: 2600,
   ),
+  ScreenCase(
+    'habit',
+    () => StatsFixture.load('habits_portfolio').seed(),
+    () => const ScopeStatsScreen(scope: 'habit', scopeId: 'water', query: {'period': 'custom:2026-09-14..2026-09-27'}),
+    height: 4200,
+  ),
+  ScreenCase(
+    'habits',
+    () => StatsFixture.load('habits_portfolio').seed(),
+    () => const ScopeStatsScreen(scope: 'habits', query: {'period': 'custom:2026-09-14..2026-09-27'}),
+    height: 2600,
+  ),
 ];

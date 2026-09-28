@@ -1,0 +1,1600 @@
+{
+ "name": "habits_portfolio",
+ "source": "fixtures/stats/habits_portfolio.json",
+ "description": "Six habits over two weeks (Mon 2026-09-14 .. Sun 2026-09-27, Europe/Paris, now 2026-09-28 08:00): water (count >= 8), gym (3x/week quota), meds (8 hourly slots 09:00-16:00, all-slots roll-up), coffee (limit <= 2, auto-success), read (daily, revised to weekdays from 2026-09-21) and journal (daily, vacation 2026-09-18..20).",
+ "now": "2026-09-28T06:00:00.000Z",
+ "zone": "Europe/Paris",
+ "weekStart": 1,
+ "settings": {},
+ "tables": {
+  "categories": [
+   {
+    "id": "health",
+    "name": "Health",
+    "color": 4281236786,
+    "sort_key": "a"
+   },
+   {
+    "id": "food",
+    "name": "Food",
+    "color": 4293880832,
+    "sort_key": "b"
+   },
+   {
+    "id": "mind",
+    "name": "Mind",
+    "color": 4281944491,
+    "sort_key": "c"
+   }
+  ],
+  "habits": [
+   {
+    "id": "water",
+    "kind": "build",
+    "name": "Water",
+    "sort_key": "water",
+    "category_id": "health",
+    "goal_type": "count",
+    "target_op": "gte",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"daily\", \"interval\": 1}",
+    "start_date": "2026-09-14",
+    "time_zone": "Europe/Paris",
+    "created_at": "2026-09-13T18:00:00.000Z",
+    "target_value": 8
+   },
+   {
+    "id": "gym",
+    "kind": "build",
+    "name": "Gym",
+    "sort_key": "gym",
+    "category_id": "health",
+    "goal_type": "check",
+    "target_op": "gte",
+    "schedule": "{\"v\": 1, \"type\": \"quota\", \"freq\": \"weekly\", \"interval\": 1, \"quota\": {\"times\": 3, \"per\": \"week\", \"minGapDays\": 0}}",
+    "start_date": "2026-09-14",
+    "time_zone": "Europe/Paris",
+    "created_at": "2026-09-13T18:00:00.000Z"
+   },
+   {
+    "id": "meds",
+    "kind": "build",
+    "name": "Meds",
+    "sort_key": "meds",
+    "category_id": "health",
+    "goal_type": "check",
+    "target_op": "gte",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"daily\", \"interval\": 1, \"times\": [\"09:00\", \"10:00\", \"11:00\", \"12:00\", \"13:00\", \"14:00\", \"15:00\", \"16:00\"]}",
+    "start_date": "2026-09-14",
+    "time_zone": "Europe/Paris",
+    "created_at": "2026-09-13T18:00:00.000Z"
+   },
+   {
+    "id": "coffee",
+    "kind": "build",
+    "name": "Coffee",
+    "sort_key": "coffee",
+    "category_id": "food",
+    "goal_type": "count",
+    "target_op": "lte",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"daily\", \"interval\": 1}",
+    "start_date": "2026-09-14",
+    "time_zone": "Europe/Paris",
+    "created_at": "2026-09-13T18:00:00.000Z",
+    "target_value": 2,
+    "auto_success": true
+   },
+   {
+    "id": "read",
+    "kind": "build",
+    "name": "Read",
+    "sort_key": "read",
+    "category_id": "mind",
+    "goal_type": "check",
+    "target_op": "gte",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"weekly\", \"interval\": 1, \"byWeekday\": [{\"day\": \"MO\"}, {\"day\": \"TU\"}, {\"day\": \"WE\"}, {\"day\": \"TH\"}, {\"day\": \"FR\"}]}",
+    "start_date": "2026-09-14",
+    "time_zone": "Europe/Paris",
+    "created_at": "2026-09-13T18:00:00.000Z"
+   },
+   {
+    "id": "journal",
+    "kind": "build",
+    "name": "Journal",
+    "sort_key": "journal",
+    "category_id": "mind",
+    "goal_type": "check",
+    "target_op": "gte",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"daily\", \"interval\": 1}",
+    "start_date": "2026-09-14",
+    "time_zone": "Europe/Paris",
+    "created_at": "2026-09-13T18:00:00.000Z"
+   }
+  ],
+  "habit_revisions": [
+   {
+    "id": "rev-read-0",
+    "habit_id": "read",
+    "effective_from": "2026-09-14",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"daily\", \"interval\": 1}",
+    "goal_type": "check"
+   },
+   {
+    "id": "rev-read-1",
+    "habit_id": "read",
+    "effective_from": "2026-09-21",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"weekly\", \"interval\": 1, \"byWeekday\": [{\"day\": \"MO\"}, {\"day\": \"TU\"}, {\"day\": \"WE\"}, {\"day\": \"TH\"}, {\"day\": \"FR\"}]}",
+    "goal_type": "check"
+   }
+  ],
+  "habit_pauses": [
+   {
+    "id": "pause-journal",
+    "habit_id": "journal",
+    "start_date": "2026-09-18",
+    "end_date": "2026-09-20",
+    "reason": "vacation"
+   }
+  ],
+  "habit_logs": [
+   {
+    "id": "log-1",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-14T18:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14",
+    "value": 8
+   },
+   {
+    "id": "log-2",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-15T18:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15",
+    "value": 6
+   },
+   {
+    "id": "log-3",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-16T18:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16",
+    "value": 8
+   },
+   {
+    "id": "log-4",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-17T18:00:00.000Z",
+    "local_date": "2026-09-17",
+    "occurrence_key": "2026-09-17",
+    "value": 9
+   },
+   {
+    "id": "log-5",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-18T18:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18",
+    "value": 8
+   },
+   {
+    "id": "log-6",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-20T18:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20",
+    "value": 8
+   },
+   {
+    "id": "log-7",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-21T18:00:00.000Z",
+    "local_date": "2026-09-21",
+    "occurrence_key": "2026-09-21",
+    "value": 8
+   },
+   {
+    "id": "log-8",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-22T18:00:00.000Z",
+    "local_date": "2026-09-22",
+    "occurrence_key": "2026-09-22",
+    "value": 8
+   },
+   {
+    "id": "log-9",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-23T18:00:00.000Z",
+    "local_date": "2026-09-23",
+    "occurrence_key": "2026-09-23",
+    "value": 4
+   },
+   {
+    "id": "log-10",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-24T18:00:00.000Z",
+    "local_date": "2026-09-24",
+    "occurrence_key": "2026-09-24",
+    "value": 8
+   },
+   {
+    "id": "log-11",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-25T18:00:00.000Z",
+    "local_date": "2026-09-25",
+    "occurrence_key": "2026-09-25",
+    "value": 8
+   },
+   {
+    "id": "log-12",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-26T18:00:00.000Z",
+    "local_date": "2026-09-26",
+    "occurrence_key": "2026-09-26",
+    "value": 10
+   },
+   {
+    "id": "log-13",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-27T18:00:00.000Z",
+    "local_date": "2026-09-27",
+    "occurrence_key": "2026-09-27",
+    "value": 8
+   },
+   {
+    "id": "log-14",
+    "habit_id": "gym",
+    "kind": "done",
+    "logged_at": "2026-09-14T16:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14"
+   },
+   {
+    "id": "log-15",
+    "habit_id": "gym",
+    "kind": "done",
+    "logged_at": "2026-09-16T16:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16"
+   },
+   {
+    "id": "log-16",
+    "habit_id": "gym",
+    "kind": "done",
+    "logged_at": "2026-09-18T16:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18"
+   },
+   {
+    "id": "log-17",
+    "habit_id": "gym",
+    "kind": "done",
+    "logged_at": "2026-09-22T16:00:00.000Z",
+    "local_date": "2026-09-22",
+    "occurrence_key": "2026-09-22"
+   },
+   {
+    "id": "log-18",
+    "habit_id": "gym",
+    "kind": "done",
+    "logged_at": "2026-09-25T16:00:00.000Z",
+    "local_date": "2026-09-25",
+    "occurrence_key": "2026-09-25"
+   },
+   {
+    "id": "log-19",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T07:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T09:00"
+   },
+   {
+    "id": "log-20",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T08:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T10:00"
+   },
+   {
+    "id": "log-21",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T09:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T11:00"
+   },
+   {
+    "id": "log-22",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T10:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T12:00"
+   },
+   {
+    "id": "log-23",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T11:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T13:00"
+   },
+   {
+    "id": "log-24",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T12:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T14:00"
+   },
+   {
+    "id": "log-25",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T13:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T15:00"
+   },
+   {
+    "id": "log-26",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T14:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T16:00"
+   },
+   {
+    "id": "log-27",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T07:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T09:00"
+   },
+   {
+    "id": "log-28",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T08:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T10:00"
+   },
+   {
+    "id": "log-29",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T09:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T11:00"
+   },
+   {
+    "id": "log-30",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T10:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T12:00"
+   },
+   {
+    "id": "log-31",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T11:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T13:00"
+   },
+   {
+    "id": "log-32",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T12:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T14:00"
+   },
+   {
+    "id": "log-33",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T13:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T15:00"
+   },
+   {
+    "id": "log-34",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T14:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T16:00"
+   },
+   {
+    "id": "log-35",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T07:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T09:00"
+   },
+   {
+    "id": "log-36",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T08:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T10:00"
+   },
+   {
+    "id": "log-37",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T09:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T11:00"
+   },
+   {
+    "id": "log-38",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T10:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T12:00"
+   },
+   {
+    "id": "log-39",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T11:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T13:00"
+   },
+   {
+    "id": "log-40",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T12:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T14:00"
+   },
+   {
+    "id": "log-41",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T13:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T15:00"
+   },
+   {
+    "id": "log-42",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T14:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T16:00"
+   },
+   {
+    "id": "log-43",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-17T07:00:00.000Z",
+    "local_date": "2026-09-17",
+    "occurrence_key": "2026-09-17T09:00"
+   },
+   {
+    "id": "log-44",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-17T08:00:00.000Z",
+    "local_date": "2026-09-17",
+    "occurrence_key": "2026-09-17T10:00"
+   },
+   {
+    "id": "log-45",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-17T09:00:00.000Z",
+    "local_date": "2026-09-17",
+    "occurrence_key": "2026-09-17T11:00"
+   },
+   {
+    "id": "log-46",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-17T10:00:00.000Z",
+    "local_date": "2026-09-17",
+    "occurrence_key": "2026-09-17T12:00"
+   },
+   {
+    "id": "log-47",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-17T11:00:00.000Z",
+    "local_date": "2026-09-17",
+    "occurrence_key": "2026-09-17T13:00"
+   },
+   {
+    "id": "log-48",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-17T12:00:00.000Z",
+    "local_date": "2026-09-17",
+    "occurrence_key": "2026-09-17T14:00"
+   },
+   {
+    "id": "log-49",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-17T13:00:00.000Z",
+    "local_date": "2026-09-17",
+    "occurrence_key": "2026-09-17T15:00"
+   },
+   {
+    "id": "log-50",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T07:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T09:00"
+   },
+   {
+    "id": "log-51",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T08:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T10:00"
+   },
+   {
+    "id": "log-52",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T09:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T11:00"
+   },
+   {
+    "id": "log-53",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T10:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T12:00"
+   },
+   {
+    "id": "log-54",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T11:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T13:00"
+   },
+   {
+    "id": "log-55",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T12:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T14:00"
+   },
+   {
+    "id": "log-56",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T13:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T15:00"
+   },
+   {
+    "id": "log-57",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T14:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T16:00"
+   },
+   {
+    "id": "log-58",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T07:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T09:00"
+   },
+   {
+    "id": "log-59",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T08:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T10:00"
+   },
+   {
+    "id": "log-60",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T09:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T11:00"
+   },
+   {
+    "id": "log-61",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T10:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T12:00"
+   },
+   {
+    "id": "log-62",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T11:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T13:00"
+   },
+   {
+    "id": "log-63",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T12:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T14:00"
+   },
+   {
+    "id": "log-64",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T13:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T15:00"
+   },
+   {
+    "id": "log-65",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T14:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T16:00"
+   },
+   {
+    "id": "log-66",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T07:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T09:00"
+   },
+   {
+    "id": "log-67",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T08:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T10:00"
+   },
+   {
+    "id": "log-68",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T09:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T11:00"
+   },
+   {
+    "id": "log-69",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T10:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T12:00"
+   },
+   {
+    "id": "log-70",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T11:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T13:00"
+   },
+   {
+    "id": "log-71",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T12:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T14:00"
+   },
+   {
+    "id": "log-72",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T13:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T15:00"
+   },
+   {
+    "id": "log-73",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T14:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T16:00"
+   },
+   {
+    "id": "log-74",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-21T07:00:00.000Z",
+    "local_date": "2026-09-21",
+    "occurrence_key": "2026-09-21T09:00"
+   },
+   {
+    "id": "log-75",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-21T08:00:00.000Z",
+    "local_date": "2026-09-21",
+    "occurrence_key": "2026-09-21T10:00"
+   },
+   {
+    "id": "log-76",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-21T09:00:00.000Z",
+    "local_date": "2026-09-21",
+    "occurrence_key": "2026-09-21T11:00"
+   },
+   {
+    "id": "log-77",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-21T10:00:00.000Z",
+    "local_date": "2026-09-21",
+    "occurrence_key": "2026-09-21T12:00"
+   },
+   {
+    "id": "log-78",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-21T11:00:00.000Z",
+    "local_date": "2026-09-21",
+    "occurrence_key": "2026-09-21T13:00"
+   },
+   {
+    "id": "log-79",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-21T12:00:00.000Z",
+    "local_date": "2026-09-21",
+    "occurrence_key": "2026-09-21T14:00"
+   },
+   {
+    "id": "log-80",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-21T13:00:00.000Z",
+    "local_date": "2026-09-21",
+    "occurrence_key": "2026-09-21T15:00"
+   },
+   {
+    "id": "log-81",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-21T14:00:00.000Z",
+    "local_date": "2026-09-21",
+    "occurrence_key": "2026-09-21T16:00"
+   },
+   {
+    "id": "log-82",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-22T07:00:00.000Z",
+    "local_date": "2026-09-22",
+    "occurrence_key": "2026-09-22T09:00"
+   },
+   {
+    "id": "log-83",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-22T08:00:00.000Z",
+    "local_date": "2026-09-22",
+    "occurrence_key": "2026-09-22T10:00"
+   },
+   {
+    "id": "log-84",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-22T09:00:00.000Z",
+    "local_date": "2026-09-22",
+    "occurrence_key": "2026-09-22T11:00"
+   },
+   {
+    "id": "log-85",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-22T10:00:00.000Z",
+    "local_date": "2026-09-22",
+    "occurrence_key": "2026-09-22T12:00"
+   },
+   {
+    "id": "log-86",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-22T11:00:00.000Z",
+    "local_date": "2026-09-22",
+    "occurrence_key": "2026-09-22T13:00"
+   },
+   {
+    "id": "log-87",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-22T12:00:00.000Z",
+    "local_date": "2026-09-22",
+    "occurrence_key": "2026-09-22T14:00"
+   },
+   {
+    "id": "log-88",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-22T13:00:00.000Z",
+    "local_date": "2026-09-22",
+    "occurrence_key": "2026-09-22T15:00"
+   },
+   {
+    "id": "log-89",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-22T14:00:00.000Z",
+    "local_date": "2026-09-22",
+    "occurrence_key": "2026-09-22T16:00"
+   },
+   {
+    "id": "log-90",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-23T07:00:00.000Z",
+    "local_date": "2026-09-23",
+    "occurrence_key": "2026-09-23T09:00"
+   },
+   {
+    "id": "log-91",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-23T08:00:00.000Z",
+    "local_date": "2026-09-23",
+    "occurrence_key": "2026-09-23T10:00"
+   },
+   {
+    "id": "log-92",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-23T09:00:00.000Z",
+    "local_date": "2026-09-23",
+    "occurrence_key": "2026-09-23T11:00"
+   },
+   {
+    "id": "log-93",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-23T10:00:00.000Z",
+    "local_date": "2026-09-23",
+    "occurrence_key": "2026-09-23T12:00"
+   },
+   {
+    "id": "log-94",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-23T11:00:00.000Z",
+    "local_date": "2026-09-23",
+    "occurrence_key": "2026-09-23T13:00"
+   },
+   {
+    "id": "log-95",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-23T12:00:00.000Z",
+    "local_date": "2026-09-23",
+    "occurrence_key": "2026-09-23T14:00"
+   },
+   {
+    "id": "log-96",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-23T13:00:00.000Z",
+    "local_date": "2026-09-23",
+    "occurrence_key": "2026-09-23T15:00"
+   },
+   {
+    "id": "log-97",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-23T14:00:00.000Z",
+    "local_date": "2026-09-23",
+    "occurrence_key": "2026-09-23T16:00"
+   },
+   {
+    "id": "log-98",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-25T07:00:00.000Z",
+    "local_date": "2026-09-25",
+    "occurrence_key": "2026-09-25T09:00"
+   },
+   {
+    "id": "log-99",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-25T08:00:00.000Z",
+    "local_date": "2026-09-25",
+    "occurrence_key": "2026-09-25T10:00"
+   },
+   {
+    "id": "log-100",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-25T09:00:00.000Z",
+    "local_date": "2026-09-25",
+    "occurrence_key": "2026-09-25T11:00"
+   },
+   {
+    "id": "log-101",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-25T10:00:00.000Z",
+    "local_date": "2026-09-25",
+    "occurrence_key": "2026-09-25T12:00"
+   },
+   {
+    "id": "log-102",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-25T11:00:00.000Z",
+    "local_date": "2026-09-25",
+    "occurrence_key": "2026-09-25T13:00"
+   },
+   {
+    "id": "log-103",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-25T12:00:00.000Z",
+    "local_date": "2026-09-25",
+    "occurrence_key": "2026-09-25T14:00"
+   },
+   {
+    "id": "log-104",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-25T13:00:00.000Z",
+    "local_date": "2026-09-25",
+    "occurrence_key": "2026-09-25T15:00"
+   },
+   {
+    "id": "log-105",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-25T14:00:00.000Z",
+    "local_date": "2026-09-25",
+    "occurrence_key": "2026-09-25T16:00"
+   },
+   {
+    "id": "log-106",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-26T07:00:00.000Z",
+    "local_date": "2026-09-26",
+    "occurrence_key": "2026-09-26T09:00"
+   },
+   {
+    "id": "log-107",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-26T08:00:00.000Z",
+    "local_date": "2026-09-26",
+    "occurrence_key": "2026-09-26T10:00"
+   },
+   {
+    "id": "log-108",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-26T09:00:00.000Z",
+    "local_date": "2026-09-26",
+    "occurrence_key": "2026-09-26T11:00"
+   },
+   {
+    "id": "log-109",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-26T10:00:00.000Z",
+    "local_date": "2026-09-26",
+    "occurrence_key": "2026-09-26T12:00"
+   },
+   {
+    "id": "log-110",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-26T11:00:00.000Z",
+    "local_date": "2026-09-26",
+    "occurrence_key": "2026-09-26T13:00"
+   },
+   {
+    "id": "log-111",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-26T12:00:00.000Z",
+    "local_date": "2026-09-26",
+    "occurrence_key": "2026-09-26T14:00"
+   },
+   {
+    "id": "log-112",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-26T13:00:00.000Z",
+    "local_date": "2026-09-26",
+    "occurrence_key": "2026-09-26T15:00"
+   },
+   {
+    "id": "log-113",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-26T14:00:00.000Z",
+    "local_date": "2026-09-26",
+    "occurrence_key": "2026-09-26T16:00"
+   },
+   {
+    "id": "log-114",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-27T07:00:00.000Z",
+    "local_date": "2026-09-27",
+    "occurrence_key": "2026-09-27T09:00"
+   },
+   {
+    "id": "log-115",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-27T08:00:00.000Z",
+    "local_date": "2026-09-27",
+    "occurrence_key": "2026-09-27T10:00"
+   },
+   {
+    "id": "log-116",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-27T09:00:00.000Z",
+    "local_date": "2026-09-27",
+    "occurrence_key": "2026-09-27T11:00"
+   },
+   {
+    "id": "log-117",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-27T10:00:00.000Z",
+    "local_date": "2026-09-27",
+    "occurrence_key": "2026-09-27T12:00"
+   },
+   {
+    "id": "log-118",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-27T11:00:00.000Z",
+    "local_date": "2026-09-27",
+    "occurrence_key": "2026-09-27T13:00"
+   },
+   {
+    "id": "log-119",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-27T12:00:00.000Z",
+    "local_date": "2026-09-27",
+    "occurrence_key": "2026-09-27T14:00"
+   },
+   {
+    "id": "log-120",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-27T13:00:00.000Z",
+    "local_date": "2026-09-27",
+    "occurrence_key": "2026-09-27T15:00"
+   },
+   {
+    "id": "log-121",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-27T14:00:00.000Z",
+    "local_date": "2026-09-27",
+    "occurrence_key": "2026-09-27T16:00"
+   },
+   {
+    "id": "log-122",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-14T18:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14",
+    "value": 1
+   },
+   {
+    "id": "log-123",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-15T18:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15",
+    "value": 2
+   },
+   {
+    "id": "log-124",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-16T18:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16",
+    "value": 3
+   },
+   {
+    "id": "log-125",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-18T18:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18",
+    "value": 2
+   },
+   {
+    "id": "log-126",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-19T18:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19",
+    "value": 5
+   },
+   {
+    "id": "log-127",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-20T18:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20",
+    "value": 1
+   },
+   {
+    "id": "log-128",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-21T18:00:00.000Z",
+    "local_date": "2026-09-21",
+    "occurrence_key": "2026-09-21",
+    "value": 2
+   },
+   {
+    "id": "log-129",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-22T18:00:00.000Z",
+    "local_date": "2026-09-22",
+    "occurrence_key": "2026-09-22",
+    "value": 2
+   },
+   {
+    "id": "log-130",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-23T18:00:00.000Z",
+    "local_date": "2026-09-23",
+    "occurrence_key": "2026-09-23",
+    "value": 0
+   },
+   {
+    "id": "log-131",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-24T18:00:00.000Z",
+    "local_date": "2026-09-24",
+    "occurrence_key": "2026-09-24",
+    "value": 4
+   },
+   {
+    "id": "log-132",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-25T18:00:00.000Z",
+    "local_date": "2026-09-25",
+    "occurrence_key": "2026-09-25",
+    "value": 1
+   },
+   {
+    "id": "log-133",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-26T18:00:00.000Z",
+    "local_date": "2026-09-26",
+    "occurrence_key": "2026-09-26",
+    "value": 2
+   },
+   {
+    "id": "log-134",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-27T18:00:00.000Z",
+    "local_date": "2026-09-27",
+    "occurrence_key": "2026-09-27",
+    "value": 3
+   },
+   {
+    "id": "log-135",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-14T18:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14"
+   },
+   {
+    "id": "log-136",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-15T18:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15"
+   },
+   {
+    "id": "log-137",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-16T18:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16"
+   },
+   {
+    "id": "log-138",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-17T18:00:00.000Z",
+    "local_date": "2026-09-17",
+    "occurrence_key": "2026-09-17"
+   },
+   {
+    "id": "log-139",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-18T18:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18"
+   },
+   {
+    "id": "log-140",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-20T18:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20"
+   },
+   {
+    "id": "log-141",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-21T18:00:00.000Z",
+    "local_date": "2026-09-21",
+    "occurrence_key": "2026-09-21"
+   },
+   {
+    "id": "log-142",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-22T18:00:00.000Z",
+    "local_date": "2026-09-22",
+    "occurrence_key": "2026-09-22"
+   },
+   {
+    "id": "log-143",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-23T18:00:00.000Z",
+    "local_date": "2026-09-23",
+    "occurrence_key": "2026-09-23"
+   },
+   {
+    "id": "log-144",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-25T18:00:00.000Z",
+    "local_date": "2026-09-25",
+    "occurrence_key": "2026-09-25"
+   },
+   {
+    "id": "log-145",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-14T18:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14"
+   },
+   {
+    "id": "log-146",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-15T18:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15"
+   },
+   {
+    "id": "log-147",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-16T18:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16"
+   },
+   {
+    "id": "log-148",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-17T18:00:00.000Z",
+    "local_date": "2026-09-17",
+    "occurrence_key": "2026-09-17"
+   },
+   {
+    "id": "log-149",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-21T18:00:00.000Z",
+    "local_date": "2026-09-21",
+    "occurrence_key": "2026-09-21"
+   },
+   {
+    "id": "log-150",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-22T18:00:00.000Z",
+    "local_date": "2026-09-22",
+    "occurrence_key": "2026-09-22"
+   },
+   {
+    "id": "log-151",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-24T18:00:00.000Z",
+    "local_date": "2026-09-24",
+    "occurrence_key": "2026-09-24"
+   },
+   {
+    "id": "log-152",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-25T18:00:00.000Z",
+    "local_date": "2026-09-25",
+    "occurrence_key": "2026-09-25"
+   },
+   {
+    "id": "log-153",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-26T18:00:00.000Z",
+    "local_date": "2026-09-26",
+    "occurrence_key": "2026-09-26"
+   },
+   {
+    "id": "log-154",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-27T18:00:00.000Z",
+    "local_date": "2026-09-27",
+    "occurrence_key": "2026-09-27"
+   }
+  ]
+ },
+ "expect": [
+  {
+   "scope": "habit",
+   "scopeId": "water",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-05",
+   "value": 0.7857142857142857,
+   "tolerance": 1e-09
+  },
+  {
+   "scope": "habit",
+   "scopeId": "meds",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-05",
+   "value": 0.8571428571428571,
+   "tolerance": 1e-09
+  },
+  {
+   "scope": "habit",
+   "scopeId": "coffee",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-05",
+   "value": 0.7142857142857143,
+   "tolerance": 1e-09
+  },
+  {
+   "scope": "habit",
+   "scopeId": "read",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-05",
+   "value": 0.8333333333333334,
+   "tolerance": 1e-09
+  },
+  {
+   "scope": "habit",
+   "scopeId": "journal",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-05",
+   "value": 0.9090909090909091,
+   "tolerance": 1e-09
+  },
+  {
+   "scope": "habit",
+   "scopeId": "gym",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-05",
+   "insufficient": true,
+   "args": {
+    "rateAll": 0.5
+   }
+  },
+  {
+   "scope": "habit",
+   "scopeId": "water",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-02",
+   "value": 4
+  },
+  {
+   "scope": "habit",
+   "scopeId": "water",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-03",
+   "value": 4
+  },
+  {
+   "scope": "habit",
+   "scopeId": "gym",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-02",
+   "value": 0
+  },
+  {
+   "scope": "habit",
+   "scopeId": "gym",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-03",
+   "value": 1
+  },
+  {
+   "scope": "habit",
+   "scopeId": "journal",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-02",
+   "value": 4
+  },
+  {
+   "scope": "habit",
+   "scopeId": "journal",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-03",
+   "value": 6
+  },
+  {
+   "scope": "habit",
+   "scopeId": "read",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-02",
+   "value": 1
+  },
+  {
+   "scope": "habit",
+   "scopeId": "read",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-03",
+   "value": 5
+  },
+  {
+   "scope": "habit",
+   "scopeId": "meds",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-06",
+   "value": 14,
+   "args": {
+    "success": 12,
+    "partial": 1,
+    "missed": 1
+   }
+  },
+  {
+   "scope": "habit",
+   "scopeId": "coffee",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-06",
+   "value": 14,
+   "args": {
+    "success": 10,
+    "failed": 4
+   }
+  },
+  {
+   "scope": "habit",
+   "scopeId": "journal",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-06",
+   "value": 14,
+   "args": {
+    "success": 10,
+    "missed": 1,
+    "paused": 3
+   }
+  },
+  {
+   "scope": "habit",
+   "scopeId": "read",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-06",
+   "value": 12,
+   "args": {
+    "success": 10,
+    "missed": 2
+   }
+  },
+  {
+   "scope": "habit",
+   "scopeId": "read",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-08",
+   "value": 13
+  },
+  {
+   "scope": "habit",
+   "scopeId": "water",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-08",
+   "value": 15
+  },
+  {
+   "scope": "habits",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-X-01",
+   "value": 0,
+   "args": {
+    "due": 4,
+    "done": 0
+   }
+  },
+  {
+   "scope": "habits",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-X-02",
+   "value": 7,
+   "args": {
+    "streak": 0,
+    "bestStreak": 3
+   }
+  },
+  {
+   "scope": "habits",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-X-04",
+   "value": 0.7941176470588235,
+   "tolerance": 1e-09
+  },
+  {
+   "scope": "habits",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-X-05",
+   "note": "noQuitTrackers"
+  }
+ ]
+}

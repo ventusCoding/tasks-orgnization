@@ -131,6 +131,10 @@ final class HabitEvaluation {
   /// Streak units: quota periods, else day-level results.
   List<PeriodResult> get streakUnits => isQuota ? units : dayResults;
 
+  /// Units of success rates and outcome counts (HB-H-05/06, per-habit rows): quota periods, else
+  /// day-level results — intraday slots count through their day roll-up, like streaks and calendars.
+  List<PeriodResult> get outcomeUnits => streakUnits;
+
   HabitVersion versionOn(LocalDate date) => effectiveOn(versions, date, (v) => v.from) ?? versions.first;
 
   HabitGoal get currentGoal => versionOn(today).goal;

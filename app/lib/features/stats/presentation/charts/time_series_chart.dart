@@ -144,8 +144,12 @@ class TimeSeriesChart extends StatelessWidget {
                 final x = v.round();
                 final i = rtl ? n - 1 - x : x;
                 if (i < 0 || i >= n || (i % labelEvery != 0 && i != n - 1)) return const SizedBox.shrink();
+                // The last bucket is always labeled; a regular label too close to it would collide.
+                if (i != n - 1 && n - 1 - i < labelEvery) return const SizedBox.shrink();
                 return SideTitleWidget(
                   meta: meta,
+                  // Edge labels shift inside the chart instead of spilling past the card.
+                  fitInside: SideTitleFitInsideData.fromTitleMeta(meta),
                   child: Text(
                     f.label(DateLabel(data.buckets[i], data.granularity)),
                     style: context.text.labelSmall?.copyWith(color: theme.label),
@@ -154,7 +158,10 @@ class TimeSeriesChart extends StatelessWidget {
               },
             ),
           );
-          return LineChart(
+          // An end inset keeps the latest point (end side in LTR and RTL) off the card edge.
+          return Padding(
+            padding: const EdgeInsetsDirectional.only(end: Space.sm),
+            child: LineChart(
             LineChartData(
               minX: 0,
               maxX: (n - 1).toDouble() == 0 ? 1 : (n - 1).toDouble(),
@@ -253,6 +260,7 @@ class TimeSeriesChart extends StatelessWidget {
             ),
             duration: chartAnimation(context),
             curve: Motion.curve,
+          ),
           );
         },
       ),

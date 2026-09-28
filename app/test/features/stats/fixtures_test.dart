@@ -6,7 +6,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'support/stats_harness.dart';
 
 /// Canonical datasets (`test/features/stats/fixtures/`, derived from `fixtures/stats/`).
-const canonicalFixtures = ['planner_two_weeks', 'habit_pushups_month', 'quit_smoking_90_days', 'checklist_flow_small'];
+const canonicalFixtures = [
+  'planner_two_weeks',
+  'habit_pushups_month',
+  'habits_portfolio',
+  'quit_smoking_90_days',
+  'checklist_flow_small',
+];
 
 void main() {
   for (final name in canonicalFixtures) {

@@ -235,12 +235,12 @@ final List<MetricDefinition> habitMetrics = [
     minSample: MinDataRules.rate,
     requires: _habitTables,
     compute: (c) => _withHabit(c, (e) {
-      final cur = successRate(e.units, from: c.range.start, to: c.range.end, skipPolicy: e.skipPolicy);
-      final prev = successRate(e.units, from: c.previous.start, to: c.previous.end, skipPolicy: e.skipPolicy);
-      final counts = outcomeCounts(e.units, from: c.range.start, to: c.range.end);
+      final cur = successRate(e.outcomeUnits, from: c.range.start, to: c.range.end, skipPolicy: e.skipPolicy);
+      final prev = successRate(e.outcomeUnits, from: c.previous.start, to: c.previous.end, skipPolicy: e.skipPolicy);
+      final counts = outcomeCounts(e.outcomeUnits, from: c.range.start, to: c.range.end);
       final weekly = bucketRate(
         [
-          for (final r in e.units)
+          for (final r in e.outcomeUnits)
             if (isClosedScheduled(r) && !isExcludedUnit(r, skipPolicy: e.skipPolicy))
               (r.endDate, r.status == PeriodStatus.done ? 1 : 0, 1),
         ],
@@ -265,12 +265,12 @@ final List<MetricDefinition> habitMetrics = [
         args: {
           for (final d in const [7, 30, 90, 365])
             'rate$d': successRate(
-              e.units,
+              e.outcomeUnits,
               from: c.today.minusDays(d - 1),
               to: c.today,
               skipPolicy: e.skipPolicy,
             ).valueOrNull,
-          'rateAll': successRate(e.units, skipPolicy: e.skipPolicy).valueOrNull,
+          'rateAll': successRate(e.outcomeUnits, skipPolicy: e.skipPolicy).valueOrNull,
         },
       );
     }, () => _noHabit('HB-H-05')),
@@ -282,7 +282,7 @@ final List<MetricDefinition> habitMetrics = [
     chart: ChartKind.stackedBars,
     requires: _habitTables,
     compute: (c) => _withHabit(c, (e) {
-      final o = outcomeCounts(e.units, from: c.range.start, to: c.range.end);
+      final o = outcomeCounts(e.outcomeUnits, from: c.range.start, to: c.range.end);
       final rows = <(LabelToken, ChartTone, int)>[
         (LabelToken.success, ChartTone.done, o.success),
         (LabelToken.partial, ChartTone.partial, o.partial),
@@ -477,7 +477,7 @@ final List<MetricDefinition> habitMetrics = [
                 'color': e.habit.color,
                 'score': e.strength.current,
                 'streak': e.streaks.currentLength,
-                'rate30': successRate(e.units, from: c.today.minusDays(29), to: c.today, skipPolicy: e.skipPolicy).valueOrNull,
+                'rate30': successRate(e.outcomeUnits, from: c.today.minusDays(29), to: c.today, skipPolicy: e.skipPolicy).valueOrNull,
               },
           ],
         },
@@ -547,7 +547,10 @@ final List<MetricDefinition> habitMetrics = [
     guard: MinDataGuard.calculator,
     requires: _habitTables,
     compute: (c) {
-      final range = c.range.days < 84 ? DateRange(c.today.minusDays(83), c.today) : c.elapsed;
+      // Short periods show the 12 weeks ending with the (elapsed) period, so a past week compares
+      // with the week before it rather than with today's empty week.
+      final end = c.elapsed.end;
+      final range = c.range.days < 84 ? DateRange(end.minusDays(83), end) : c.elapsed;
       final t = adherenceTrend(c.series, range: range, weekStart: c.weekStart);
       return MetricResult(
         'HB-X-04',
