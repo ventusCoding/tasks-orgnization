@@ -1544,6 +1544,7 @@
   "notifIssueLateness": "Le retard doit être d’au moins 1 minute",
   "notifIssueNoChannel": "Choisissez au moins un mode de notification",
   "notifIssueOffsetOutOfRange": "Le décalage doit rester sous 30 jours",
+  "notifIssueRepeatDoze": "Sur Android, des répétitions espacées de moins de 10 minutes peuvent arriver en retard quand le téléphone est en veille",
   "notifIssueRepeatInterval": "Répéter au moins toutes les minutes",
   "notifIssueRepeatMax": "10 répétitions maximum",
   "notifIssueSchedule": "Récurrence invalide",

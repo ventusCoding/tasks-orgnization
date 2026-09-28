@@ -90,6 +90,7 @@ class PlannedNotification {
     this.anchorFireAt,
     this.silent = false,
     this.targetDevices,
+    this.repeatable = false,
   });
 
   final String dedupeKey;
@@ -147,6 +148,11 @@ class PlannedNotification {
 
   /// Rule `conditions.devices` (null = all devices) — pushed as `target_devices`.
   final List<String>? targetDevices;
+
+  /// Candidate for a repeating OS trigger (T7.2.10): an unbounded daily/weekly `schedule`
+  /// instance with a target-level guard, in the device zone, untouched by policies. The scheduler
+  /// only uses a repeating trigger when the whole sequence over the horizon is regular.
+  final bool repeatable;
 
   bool get isNag => repeatIdx > 0;
 
@@ -217,6 +223,7 @@ class PlannedNotification {
     anchorFireAt: anchorFireAt,
     silent: silent,
     targetDevices: targetDevices,
+    repeatable: repeatable,
   );
 
   /// Stable hash of everything the OS shows (scheduler diffing).

@@ -1544,6 +1544,7 @@
   "notifIssueLateness": "يجب أن يكون التأخير دقيقة على الأقل",
   "notifIssueNoChannel": "اختر طريقة واحدة للإشعار على الأقل",
   "notifIssueOffsetOutOfRange": "يجب ألا يتجاوز الفارق 30 يومًا",
+  "notifIssueRepeatDoze": "على أندرويد، قد تصل التكرارات التي يفصل بينها أقل من 10 دقائق متأخرةً أثناء سكون الهاتف",
   "notifIssueRepeatInterval": "يجب أن يكون التكرار كل دقيقة على الأقل",
   "notifIssueRepeatMax": "10 تكرارات كحد أقصى",
   "notifIssueSchedule": "جدول غير صالح",

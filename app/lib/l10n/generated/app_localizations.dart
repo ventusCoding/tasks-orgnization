@@ -8643,6 +8643,12 @@ abstract class AppLocalizations {
   /// **'The offset must be within 30 days'**
   String get notifIssueOffsetOutOfRange;
 
+  /// No description provided for @notifIssueRepeatDoze.
+  ///
+  /// In en, this message translates to:
+  /// **'On Android, repeats less than 10 minutes apart may arrive late while the phone sleeps'**
+  String get notifIssueRepeatDoze;
+
   /// No description provided for @notifIssueRepeatInterval.
   ///
   /// In en, this message translates to:

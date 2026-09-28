@@ -5064,6 +5064,7 @@
   "notifIssueLateness": "Lateness must be at least 1 minute",
   "notifIssueNoChannel": "Choose at least one way to be notified",
   "notifIssueOffsetOutOfRange": "The offset must be within 30 days",
+  "notifIssueRepeatDoze": "On Android, repeats less than 10 minutes apart may arrive late while the phone sleeps",
   "notifIssueRepeatInterval": "Repeat at least every minute",
   "notifIssueRepeatMax": "At most 10 repeats",
   "notifIssueSchedule": "Invalid schedule",

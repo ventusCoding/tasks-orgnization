@@ -465,5 +465,6 @@
   "notifChipRepeat": "Répéter…",
   "notifChipLastDayAt": "Le dernier jour à {time}",
   "notifChipChangeTime": "Modifier l’heure",
-  "notifPausedShort": "Notifications en pause"
+  "notifPausedShort": "Notifications en pause",
+  "notifIssueRepeatDoze": "Sur Android, des répétitions espacées de moins de 10 minutes peuvent arriver en retard quand le téléphone est en veille"
 }

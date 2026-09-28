@@ -23,6 +23,9 @@ enum NotificationIssueCode {
   unknownTrigger,
   thresholdsInvalid,
   statusesEmpty,
+
+  /// Warning: Android Doze allows one exact alarm per ~9 minutes (T7.2.10).
+  repeatMayBeDelayed,
 }
 
 @immutable
@@ -196,6 +199,11 @@ abstract final class NotificationRuleValidator {
       if (repeat.everyMinutes < 1)
         error(
           NotificationIssueCode.repeatIntervalInvalid,
+          field: 'repeat.everyMinutes',
+        );
+      else if (repeat.everyMinutes < 10)
+        warn(
+          NotificationIssueCode.repeatMayBeDelayed,
           field: 'repeat.everyMinutes',
         );
     }

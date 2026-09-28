@@ -1004,5 +1004,6 @@
     }
   },
   "notifChipChangeTime": "Change the time",
-  "notifPausedShort": "Notifications paused"
+  "notifPausedShort": "Notifications paused",
+  "notifIssueRepeatDoze": "On Android, repeats less than 10 minutes apart may arrive late while the phone sleeps"
 }

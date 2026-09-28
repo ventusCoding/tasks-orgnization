@@ -2,6 +2,8 @@ import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/design_system/theme.dart';
 import 'package:everslot/features/notifications/application/background_entry.dart';
 import 'package:everslot/features/notifications/application/local_notifications_port.dart';
+import 'package:everslot/features/notifications/domain/scheduler/schedule_plan.dart'
+    show RepeatMatch;
 import 'package:everslot/features/notifications/domain/notification_types.dart'
     as nt;
 import 'package:flutter/foundation.dart';
@@ -253,6 +255,9 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
   @override
   Future<void> schedule(OsNotificationRequest request) async {
     final at = request.fireAt;
+    final repeat = request.repeat;
+    if (repeat != null && at != null)
+      return _scheduleRepeating(request, at, repeat);
     if (at == null ||
         !at.isAfter(DateTime.now().toUtc().add(const Duration(seconds: 1)))) {
       await show(request);
@@ -269,6 +274,48 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
           : (request.exact
                 ? fln.AndroidScheduleMode.exactAllowWhileIdle
                 : fln.AndroidScheduleMode.inexactAllowWhileIdle),
+      payload: request.payload,
+    );
+  }
+
+  /// One calendar trigger (T7.2.10) in the device zone: iOS `UNCalendarNotificationTrigger`
+  /// (repeats: true), Android an alarm re-armed after each firing.
+  Future<void> _scheduleRepeating(
+    OsNotificationRequest request,
+    DateTime at,
+    RepeatMatch repeat,
+  ) async {
+    tz.Location location;
+    try {
+      location = tz.getLocation(request.repeatZone ?? 'UTC');
+    } on Object {
+      location = tz.UTC;
+    }
+    var first = tz.TZDateTime.from(at.toUtc(), location);
+    final now = tz.TZDateTime.now(location);
+    while (!first.isAfter(now)) {
+      first = tz.TZDateTime(
+        location,
+        first.year,
+        first.month,
+        first.day + repeat.stepDays,
+        first.hour,
+        first.minute,
+      );
+    }
+    await _plugin.zonedSchedule(
+      id: request.id,
+      title: request.title,
+      body: request.body,
+      scheduledDate: first,
+      notificationDetails: _details(request),
+      androidScheduleMode: request.exact
+          ? fln.AndroidScheduleMode.exactAllowWhileIdle
+          : fln.AndroidScheduleMode.inexactAllowWhileIdle,
+      matchDateTimeComponents: switch (repeat) {
+        RepeatMatch.daily => fln.DateTimeComponents.time,
+        RepeatMatch.weekly => fln.DateTimeComponents.dayOfWeekAndTime,
+      },
       payload: request.payload,
     );
   }

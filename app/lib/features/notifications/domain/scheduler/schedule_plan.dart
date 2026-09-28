@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:everslot/features/notifications/domain/json_fields.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:everslot/features/notifications/domain/planner/planned_notification.dart';
+import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:meta/meta.dart';
 
 /// Kinds of rows in `local_notification_schedule` (stored in the payload JSON because the
@@ -20,6 +21,52 @@ abstract final class ScheduleKind {
   static const tracked = 'tracked';
 
   static const test = 'test';
+
+  /// One OS calendar trigger (daily or weekly) standing for a regular sequence of instances,
+  /// which stay `tracked` for the inbox (T7.2.10).
+  static const repeating = 'repeating';
+}
+
+/// OS calendar-trigger repetition (T7.2.10): `DateTimeComponents.time` /
+/// `DateTimeComponents.dayOfWeekAndTime`.
+enum RepeatMatch {
+  daily('time', 1),
+  weekly('day_of_week_and_time', 7);
+
+  const RepeatMatch(this.wire, this.stepDays);
+
+  final String wire;
+  final int stepDays;
+
+  static RepeatMatch? tryParse(String? wire) {
+    for (final m in values) {
+      if (m.wire == wire) return m;
+    }
+    return null;
+  }
+}
+
+/// Inputs of the repeating-trigger optimization (T7.2.10).
+@immutable
+class RepeatingOptions {
+  const RepeatingOptions({
+    required this.zones,
+    required this.zone,
+    required this.now,
+    required this.horizonEnd,
+    required this.honorsStartDate,
+  });
+
+  final ZoneResolver zones;
+
+  /// Device zone: the zone of the OS calendar trigger.
+  final String zone;
+  final DateTime now;
+  final DateTime horizonEnd;
+
+  /// Android arms the first alarm at the given date; an iOS calendar trigger fires at the next
+  /// matching time, so there a sequence must start at the first match after now.
+  final bool honorsStartDate;
 }
 
 /// OS budget (arch §9.7): iOS 56 regular + 8 reserved (nags/snoozes) with a saturation sentinel;
@@ -156,6 +203,7 @@ class ScheduleEntry {
   bool get createsInboxRow =>
       inbox &&
       kind != ScheduleKind.merged &&
+      kind != ScheduleKind.repeating &&
       kind != ScheduleKind.sentinel &&
       kind != ScheduleKind.test;
 
@@ -226,6 +274,7 @@ class DesiredItem {
     required this.hash,
     this.planned,
     this.members = const [],
+    this.repeat,
   });
 
   final String key;
@@ -235,9 +284,13 @@ class DesiredItem {
   final String targetKey;
   final String hash;
 
-  /// The single planned notification (null for merged / sentinel).
+  /// The single planned notification (null for merged / sentinel; the first member of a
+  /// repeating sequence).
   final PlannedNotification? planned;
   final List<PlannedNotification> members;
+
+  /// Repetition of a `repeating` item.
+  final RepeatMatch? repeat;
 
   /// Inbox content map stored in the schedule row.
   Map<String, Object?> get content {
@@ -302,18 +355,39 @@ abstract final class ScheduleComputation {
     required String sentinelTitle,
     required String Function(int count) mergedTitle,
     bool merge = true,
+    RepeatingOptions? repeating,
   }) {
     final local = [
       for (final p in planned)
         if (p.scheduleLocally) p,
     ];
     final result = <DesiredItem>[];
-    final osCandidates = <PlannedNotification>[];
+    var osCandidates = <PlannedNotification>[];
     for (final p in local) {
       if (p.deliverSystem) {
         osCandidates.add(p);
       } else if (p.deliverInbox || p.deliverBanner) {
         result.add(_single(p, os: false, kind: ScheduleKind.tracked));
+      }
+    }
+
+    // Regular daily/weekly sequences → one repeating OS trigger each; members stay tracked.
+    final osItems = <DesiredItem>[];
+    if (repeating != null) {
+      final sequences = repeatingSequences(osCandidates, repeating);
+      final covered = <String>{};
+      for (final item in sequences) {
+        osItems.add(item);
+        for (final m in item.members) {
+          covered.add(m.dedupeKey);
+          result.add(_single(m, os: false, kind: ScheduleKind.tracked));
+        }
+      }
+      if (covered.isNotEmpty) {
+        osCandidates = [
+          for (final p in osCandidates)
+            if (!covered.contains(p.dedupeKey)) p,
+        ];
       }
     }
     osCandidates.sort(_order);
@@ -332,7 +406,6 @@ abstract final class ScheduleComputation {
         groups.add([p]);
       }
     }
-    final osItems = <DesiredItem>[];
     for (final g in groups) {
       if (g.length == 1) {
         osItems.add(
@@ -364,6 +437,7 @@ abstract final class ScheduleComputation {
     }
 
     // Budget: nags use the reserve first, everything else the regular pool; soonest first.
+    osItems.sort(_itemOrder);
     var reserveLeft = budget.reserve;
     final regular = <DesiredItem>[];
     for (final item in osItems) {
@@ -401,6 +475,8 @@ abstract final class ScheduleComputation {
   }
 
   static void _demote(DesiredItem item, List<DesiredItem> out) {
+    // Members of merged groups and repeating sequences are already tracked individually.
+    if (item.kind == ScheduleKind.repeating) return;
     if (item.planned != null) {
       out.add(_single(item.planned!, os: false, kind: ScheduleKind.tracked));
     }
@@ -426,6 +502,139 @@ abstract final class ScheduleComputation {
     if (c != 0) return c;
     final i = b.importance.rank.compareTo(a.importance.rank);
     return i != 0 ? i : a.dedupeKey.compareTo(b.dedupeKey);
+  }
+
+  static int _itemOrder(DesiredItem a, DesiredItem b) {
+    final c = a.fireAt.compareTo(b.fireAt);
+    if (c != 0) return c;
+    int rank(DesiredItem d) => [
+      if (d.planned != null) d.planned!,
+      ...d.members,
+    ].fold(0, (r, p) => p.importance.rank > r ? p.importance.rank : r);
+    final i = rank(b).compareTo(rank(a));
+    return i != 0 ? i : a.key.compareTo(b.key);
+  }
+
+  /// Everything the OS shows for an instance except its time and identity (sequence grouping).
+  static String _shape(PlannedNotification p) => _hash([
+    p.channelId,
+    p.title,
+    p.body ?? '',
+    p.actions.join(','),
+    p.snoozeOptions.join(','),
+    p.sound,
+    p.vibration,
+    p.importance.wire,
+    p.interruptionLevel.wire,
+    p.threadId,
+    p.deepLink,
+    p.expiresAt.difference(p.fireAt).inMinutes.toString(),
+  ]);
+
+  /// Regular daily / weekly sequences among [candidates] (T7.2.10): same rule, target and
+  /// shown content, same local time in the device zone, every day (or every week on the same
+  /// weekday) without a gap from the first match after now (iOS) to beyond the horizon end.
+  static List<DesiredItem> repeatingSequences(
+    List<PlannedNotification> candidates,
+    RepeatingOptions o,
+  ) {
+    final groups = <String, List<PlannedNotification>>{};
+    for (final p in candidates) {
+      if (!p.repeatable || p.isNag || !p.fireAt.isAfter(o.now)) continue;
+      groups
+          .putIfAbsent('${p.ruleId}|${p.targetKey}|${_shape(p)}', () => [])
+          .add(p);
+    }
+    final items = <DesiredItem>[];
+    for (final group in groups.values) {
+      if (group.length < 2) continue;
+      final byTime = <LocalTime, List<(PlannedNotification, LocalDateTime)>>{};
+      for (final p in group) {
+        final local = o.zones.toLocal(p.fireAt, o.zone);
+        // A fire time that doesn't resolve back (DST gap / fold) can't be a calendar match.
+        if (o.zones.resolve(local, o.zone).utc != p.fireAt) continue;
+        byTime.putIfAbsent(local.time, () => []).add((p, local));
+      }
+      for (final sequence in byTime.values) {
+        sequence.sort((a, b) => a.$1.fireAt.compareTo(b.$1.fireAt));
+        if (_regular(sequence, RepeatMatch.daily, o)) {
+          items.add(_sequenceItem(sequence, RepeatMatch.daily, o));
+          continue;
+        }
+        final byWeekday =
+            <Weekday, List<(PlannedNotification, LocalDateTime)>>{};
+        for (final e in sequence) {
+          byWeekday.putIfAbsent(e.$2.date.weekday, () => []).add(e);
+        }
+        for (final weekly in byWeekday.values) {
+          if (_regular(weekly, RepeatMatch.weekly, o)) {
+            items.add(_sequenceItem(weekly, RepeatMatch.weekly, o));
+          }
+        }
+      }
+    }
+    items.sort(_itemOrder);
+    return items;
+  }
+
+  static bool _regular(
+    List<(PlannedNotification, LocalDateTime)> sequence,
+    RepeatMatch match,
+    RepeatingOptions o,
+  ) {
+    if (sequence.length < 2) return false;
+    for (var i = 1; i < sequence.length; i++) {
+      final expected = sequence[i - 1].$2.date.plusDays(match.stepDays);
+      if (sequence[i].$2.date != expected) return false;
+    }
+    final time = sequence.first.$2.time;
+    DateTime at(LocalDate date) =>
+        o.zones.resolve(LocalDateTime(date, time), o.zone).utc;
+    // Nothing missing after the last instance up to the horizon end…
+    final next = at(sequence.last.$2.date.plusDays(match.stepDays));
+    if (!next.isAfter(o.horizonEnd)) return false;
+    // …and on iOS nothing missing before the first one either.
+    if (o.honorsStartDate) return true;
+    final previous = at(sequence.first.$2.date.minusDays(match.stepDays));
+    return !previous.isAfter(o.now);
+  }
+
+  static DesiredItem _sequenceItem(
+    List<(PlannedNotification, LocalDateTime)> sequence,
+    RepeatMatch match,
+    RepeatingOptions o,
+  ) {
+    final first = sequence.first.$1;
+    final local = sequence.first.$2;
+    final identity = [
+      first.ruleId,
+      first.targetKey,
+      match.wire,
+      local.time.toString(),
+      if (match == RepeatMatch.weekly) local.date.weekday.name,
+    ].join('|');
+    // Starting later than the next match (Android only) must re-arm the trigger.
+    final previous = o.zones
+        .resolve(
+          LocalDateTime(local.date.minusDays(match.stepDays), local.time),
+          o.zone,
+        )
+        .utc;
+    final start = previous.isAfter(o.now)
+        ? first.fireAt.toIso8601String()
+        : 'next';
+    return DesiredItem(
+      key:
+          'rpt:${sha1.convert(utf8.encode(identity)).toString().substring(0, 32)}',
+      fireAt: first.fireAt,
+      kind: ScheduleKind.repeating,
+      os: true,
+      targetKey: first.targetKey,
+      hash: _hash([identity, _shape(first), o.zone, start]),
+      planned: first,
+      members: [for (final e in sequence) e.$1],
+      repeat: match,
+    );
   }
 
   static String _hash(List<String> parts) =>
@@ -469,8 +678,9 @@ abstract final class ScheduleComputation {
     }
     for (final e in managed.values) {
       if (desiredKeys.contains(e.dedupeKey)) continue;
-      if (!e.fireAt.isAfter(now))
-        continue; // fired → keep for reconciliation / cleanup
+      // Fired one-shots stay for reconciliation / cleanup; a repeating trigger keeps firing
+      // until cancelled.
+      if (!e.fireAt.isAfter(now) && e.kind != ScheduleKind.repeating) continue;
       if (e.os) {
         cancel.add(e);
       } else {
@@ -518,7 +728,7 @@ abstract final class ScheduleComputation {
     final key = tracked.key;
     return !all.any(
       (d) =>
-          d.kind == ScheduleKind.merged &&
+          (d.kind == ScheduleKind.merged || d.kind == ScheduleKind.repeating) &&
           d.members.any((m) => m.dedupeKey == key),
     );
   }

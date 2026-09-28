@@ -5453,6 +5453,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifIssueOffsetOutOfRange => 'يجب ألا يتجاوز الفارق 30 يومًا';
 
   @override
+  String get notifIssueRepeatDoze =>
+      'على أندرويد، قد تصل التكرارات التي يفصل بينها أقل من 10 دقائق متأخرةً أثناء سكون الهاتف';
+
+  @override
   String get notifIssueRepeatInterval =>
       'يجب أن يكون التكرار كل دقيقة على الأقل';
 

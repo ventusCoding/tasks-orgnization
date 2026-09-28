@@ -5228,6 +5228,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifIssueOffsetOutOfRange => 'The offset must be within 30 days';
 
   @override
+  String get notifIssueRepeatDoze =>
+      'On Android, repeats less than 10 minutes apart may arrive late while the phone sleeps';
+
+  @override
   String get notifIssueRepeatInterval => 'Repeat at least every minute';
 
   @override
