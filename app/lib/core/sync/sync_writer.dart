@@ -109,6 +109,17 @@ class SyncWriter {
     return record;
   }
 
+  /// An automatic, time-triggered write (T1.4.19, arch §6.6): resettable checklists, auto-success
+  /// quit days, notification bookkeeping… Its field clocks are the [scheduledAt] instant of the
+  /// triggering event (not "now"), so a later user edit always wins and two devices running the
+  /// same automation (with deterministic ids) converge.
+  Future<OpRecord> runAutomatic(
+    DateTime scheduledAt,
+    Future<void> Function(WriteTx tx) body, {
+    String cause = 'auto',
+    String? opId,
+  }) => run(body, opId: opId, cause: cause, scheduledAt: scheduledAt);
+
   /// Cross-operation coalescing (T1.4.04 — "100 rapid edits of one row produce one pending
   /// patch"): when operation [opId] produced exactly one outbox entry and an older **pending**
   /// entry of the same row is also alone in its group, the new patch is merged into it (latest

@@ -37,10 +37,10 @@ subscription, orchestrator & status, initial sync/resync, purge, background sync
 - [x] T1.4.13 — Sync orchestrator & status provider
 - [x] T1.4.14 — Initial sync & full resync
 - [x] T1.4.15 — Sync unit tests with a fake API
-- [ ] T1.4.16 — Tombstone purge job, watermark & `app.purge_now`
+- [x] T1.4.16 — Tombstone purge job, watermark & `app.purge_now`
 - [ ] T1.4.17 — Background sync (workmanager + data-push hook)
 - [x] T1.4.18 — Sync diagnostics (dev) & conflict log
-- [ ] T1.4.19 — Automatic writes policy (scheduled-instant clocks)
+- [x] T1.4.19 — Automatic writes policy (scheduled-instant clocks)
 
 ## Tasks
 
@@ -224,6 +224,7 @@ storage object deletions for purged attachments (reference-counted, [2.2] T2.2.1
 `app.purge_now(entity_type, ids)` (security definer, own tombstoned rows only) for Trash › Delete forever ([8.3]).
 **Acceptance criteria:** a device offline for 100 days performs a full resync and ends identical to others.
 **Tests:** pgTAP for purge & RPC; resync scenario in the sync suite.
+**Notes:** Server side came with [1.2] (`supabase/migrations/20260922000170_create_purge_account_ops.sql`): `private.purge_tombstones(90)` in the daily maintenance cron (children first, batches, per-user `purge_watermark`, unreferenced storage objects queued for `storage-purge`), `app.purge_now(entity_type, ids)` (security definer, own tombstones only, ≤ 1000 ids) — pgTAP `supabase/tests/database/100_purge_ops.test.sql`. Client: a cursor below the watermark or a last success older than 90 days forces a full resync that drops purged rows (`test/core/sync/sync_service_test.dart`).
 
 ### T1.4.17 — Background sync (workmanager + data-push hook)
 **Priority:** P1 · **Size:** M · **Depends on:** T1.4.13
@@ -250,3 +251,4 @@ quit days, auto-missed flags if ever stored, notification bookkeeping) stamp the
 running the same automation converge (combined with deterministic ids). Documented in arch §6.6 and
 enforced by a helper `SyncWriter.runAutomatic(scheduledAt, …)`.
 **Tests:** unit test: user edit after automated reset wins on both devices regardless of which ran the automation.
+**Notes:** `SyncWriter.runAutomatic(scheduledAt, body)` (= `run(scheduledAt:)`): the write clock is the scheduled instant, so a later user edit always wins. Two-device test for automation on A, on B and on both: `test/core/sync/automatic_writes_test.dart` (+ `sync_writer_outbox_test.dart`). Features with automatic writes (checklist resets, quit auto-success, notification bookkeeping) pass their scheduled instant.
