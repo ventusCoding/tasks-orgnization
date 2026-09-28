@@ -146,6 +146,15 @@ String labelTokenText(AppLocalizations l, LabelToken t) => switch (t) {
   LabelToken.perfectDay => l.chartsLabelPerfectDay,
   LabelToken.overdue => l.chartsLabelOverdue,
   LabelToken.nextUp => l.chartsLabelNextUp,
+  LabelToken.summary => l.chartsLabelSummary,
+  LabelToken.mostActive => l.chartsLabelMostActive,
+  LabelToken.mostBlocked => l.chartsLabelMostBlocked,
+  LabelToken.stalest => l.chartsLabelStalest,
+  LabelToken.loggedRatio => l.chartsLabelLoggedRatio,
+  LabelToken.unknownUnits => l.chartsLabelUnknownUnits,
+  LabelToken.backfillShare => l.chartsLabelBackfillShare,
+  LabelToken.trackedTime => l.chartsLabelTrackedTime,
+  LabelToken.pendingSync => l.chartsLabelPendingSync,
 };
 
 /// Title of a metric (null when the id has no texts).
@@ -171,6 +180,7 @@ String? metricTitle(AppLocalizations l, String id) => switch (id) {
   'GL-01' => l.statsMetricGl01Title,
   'GL-02' => l.statsMetricGl02Title,
   'GL-03' => l.statsMetricGl03Title,
+  'GL-10' => l.statsMetricGl10Title,
   'HB-H-01' => l.statsMetricHbH01Title,
   'HB-H-02' => l.statsMetricHbH02Title,
   'HB-H-03' => l.statsMetricHbH03Title,
@@ -182,11 +192,13 @@ String? metricTitle(AppLocalizations l, String id) => switch (id) {
   'HB-H-09' => l.statsMetricHbH09Title,
   'HB-H-10' => l.statsMetricHbH10Title,
   'HB-H-11' => l.statsMetricHbH11Title,
+  'HB-H-25' => l.statsMetricHbH25Title,
   'HB-X-01' => l.statsMetricHbX01Title,
   'HB-X-02' => l.statsMetricHbX02Title,
   'HB-X-03' => l.statsMetricHbX03Title,
   'HB-X-04' => l.statsMetricHbX04Title,
   'HB-X-05' => l.statsMetricHbX05Title,
+  'HB-X-12' => l.statsMetricHbX12Title,
   'PL-S-01' => l.statsMetricPlS01Title,
   'PL-S-02' => l.statsMetricPlS02Title,
   'PL-S-03' => l.statsMetricPlS03Title,
@@ -235,7 +247,7 @@ String? metricTitle(AppLocalizations l, String id) => switch (id) {
   _ => null,
 };
 
-/// One-sentence description of a metric.
+/// Plain-language description of a metric.
 String? metricDescription(AppLocalizations l, String id) => switch (id) {
   'CL-I-01' => l.statsMetricClI01Desc,
   'CL-I-02' => l.statsMetricClI02Desc,
@@ -258,6 +270,7 @@ String? metricDescription(AppLocalizations l, String id) => switch (id) {
   'GL-01' => l.statsMetricGl01Desc,
   'GL-02' => l.statsMetricGl02Desc,
   'GL-03' => l.statsMetricGl03Desc,
+  'GL-10' => l.statsMetricGl10Desc,
   'HB-H-01' => l.statsMetricHbH01Desc,
   'HB-H-02' => l.statsMetricHbH02Desc,
   'HB-H-03' => l.statsMetricHbH03Desc,
@@ -269,11 +282,13 @@ String? metricDescription(AppLocalizations l, String id) => switch (id) {
   'HB-H-09' => l.statsMetricHbH09Desc,
   'HB-H-10' => l.statsMetricHbH10Desc,
   'HB-H-11' => l.statsMetricHbH11Desc,
+  'HB-H-25' => l.statsMetricHbH25Desc,
   'HB-X-01' => l.statsMetricHbX01Desc,
   'HB-X-02' => l.statsMetricHbX02Desc,
   'HB-X-03' => l.statsMetricHbX03Desc,
   'HB-X-04' => l.statsMetricHbX04Desc,
   'HB-X-05' => l.statsMetricHbX05Desc,
+  'HB-X-12' => l.statsMetricHbX12Desc,
   'PL-S-01' => l.statsMetricPlS01Desc,
   'PL-S-02' => l.statsMetricPlS02Desc,
   'PL-S-03' => l.statsMetricPlS03Desc,
@@ -322,7 +337,7 @@ String? metricDescription(AppLocalizations l, String id) => switch (id) {
   _ => null,
 };
 
-/// Plain-language formula of a metric.
+/// Formula of a metric in plain words and symbols.
 String? metricFormula(AppLocalizations l, String id) => switch (id) {
   'CL-I-01' => l.statsMetricClI01Formula,
   'CL-I-02' => l.statsMetricClI02Formula,
@@ -345,6 +360,7 @@ String? metricFormula(AppLocalizations l, String id) => switch (id) {
   'GL-01' => l.statsMetricGl01Formula,
   'GL-02' => l.statsMetricGl02Formula,
   'GL-03' => l.statsMetricGl03Formula,
+  'GL-10' => l.statsMetricGl10Formula,
   'HB-H-01' => l.statsMetricHbH01Formula,
   'HB-H-02' => l.statsMetricHbH02Formula,
   'HB-H-03' => l.statsMetricHbH03Formula,
@@ -356,11 +372,13 @@ String? metricFormula(AppLocalizations l, String id) => switch (id) {
   'HB-H-09' => l.statsMetricHbH09Formula,
   'HB-H-10' => l.statsMetricHbH10Formula,
   'HB-H-11' => l.statsMetricHbH11Formula,
+  'HB-H-25' => l.statsMetricHbH25Formula,
   'HB-X-01' => l.statsMetricHbX01Formula,
   'HB-X-02' => l.statsMetricHbX02Formula,
   'HB-X-03' => l.statsMetricHbX03Formula,
   'HB-X-04' => l.statsMetricHbX04Formula,
   'HB-X-05' => l.statsMetricHbX05Formula,
+  'HB-X-12' => l.statsMetricHbX12Formula,
   'PL-S-01' => l.statsMetricPlS01Formula,
   'PL-S-02' => l.statsMetricPlS02Formula,
   'PL-S-03' => l.statsMetricPlS03Formula,
@@ -432,6 +450,7 @@ const Set<String> metricIdsWithTexts = {
   'GL-01',
   'GL-02',
   'GL-03',
+  'GL-10',
   'HB-H-01',
   'HB-H-02',
   'HB-H-03',
@@ -443,11 +462,13 @@ const Set<String> metricIdsWithTexts = {
   'HB-H-09',
   'HB-H-10',
   'HB-H-11',
+  'HB-H-25',
   'HB-X-01',
   'HB-X-02',
   'HB-X-03',
   'HB-X-04',
   'HB-X-05',
+  'HB-X-12',
   'PL-S-01',
   'PL-S-02',
   'PL-S-03',
@@ -525,6 +546,7 @@ String? noteText(AppLocalizations l, String key) => switch (key) {
   'notApplicable' => l.statsNoteNotApplicable,
   'noLifeEstimate' => l.statsNoteNoLifeEstimate,
   'noGoal' => l.statsNoteNoGoal,
+  'unloggedNotFailed' => l.statsNoteUnloggedNotFailed,
   _ => null,
 };
 
@@ -601,5 +623,15 @@ String? sectionText(AppLocalizations l, String key) => switch (key) {
   'shortcuts' => l.statsSectionShortcuts,
   'review' => l.statsSectionReview,
   'pinned' => l.statsSectionPinned,
+  'dataQuality' => l.statsSectionDataQuality,
+  _ => null,
+};
+
+/// Text of a data-quality guidance key (GL-10, T6.1.20).
+String? guidanceText(AppLocalizations l, String key) => switch (key) {
+  'logFromNotifications' => l.statsGuidanceLogFromNotifications,
+  'logSameDay' => l.statsGuidanceLogSameDay,
+  'trackTime' => l.statsGuidanceTrackTime,
+  'syncPending' => l.statsGuidanceSyncPending,
   _ => null,
 };

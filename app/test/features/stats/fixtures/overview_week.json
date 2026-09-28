@@ -1,0 +1,3412 @@
+{
+ "name": "overview_week",
+ "source": "fixtures/stats/overview_week.json",
+ "description": "overview_week table fixture (T6.7.19): the canonical planner, habits, lists and quit datasets on\none timeline — planner as is (weeks of 7 and 14 Sep 2026), habits_portfolio shifted −7 days,\nchecklist_flow_small +6 days, quit_smoking_90_days +52 days — seen on Mon 21 Sep 08:00 Paris.",
+ "now": "2026-09-21T06:00:00.000Z",
+ "zone": "Europe/Paris",
+ "weekStart": 1,
+ "settings": {
+  "stats": {
+   "graceMinutes": 5
+  },
+  "planner": {
+   "workHours": {
+    "start": "09:00",
+    "end": "17:00"
+   },
+   "workDays": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "missedGraceMinutes": 0
+  }
+ },
+ "tables": {
+  "categories": [
+   {
+    "id": "work",
+    "name": "Work",
+    "color": 4282090230,
+    "sort_key": "a0",
+    "counts_as_unavailable": false
+   },
+   {
+    "id": "health",
+    "name": "Health",
+    "color": 4279286145,
+    "sort_key": "a1",
+    "counts_as_unavailable": false
+   },
+   {
+    "id": "personal",
+    "name": "Personal",
+    "color": 4287323382,
+    "sort_key": "a2",
+    "counts_as_unavailable": false
+   },
+   {
+    "id": "social",
+    "name": "Social",
+    "color": 4293675161,
+    "sort_key": "a3",
+    "counts_as_unavailable": false
+   },
+   {
+    "id": "timeoff",
+    "name": "Timeoff",
+    "color": 4284773515,
+    "sort_key": "a4",
+    "counts_as_unavailable": true
+   },
+   {
+    "id": "food",
+    "name": "Food",
+    "color": 4293880832,
+    "sort_key": "b"
+   },
+   {
+    "id": "mind",
+    "name": "Mind",
+    "color": 4281944491,
+    "sort_key": "c"
+   }
+  ],
+  "tasks": [
+   {
+    "id": "gym",
+    "series_id": "gym",
+    "title": "Gym",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "health",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-07T18:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"weekly\", \"interval\": 1, \"byWeekday\": [{\"day\": \"MO\"}, {\"day\": \"WE\"}, {\"day\": \"FR\"}]}",
+    "status": "active"
+   },
+   {
+    "id": "standup",
+    "series_id": "standup",
+    "title": "Standup",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 0,
+    "tracking_mode": "timer",
+    "is_all_day": false,
+    "start_local": "2026-09-07T09:30",
+    "duration_minutes": 15,
+    "time_zone": "Europe/Paris",
+    "recurrence": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"weekly\", \"interval\": 1, \"byWeekday\": [{\"day\": \"MO\"}, {\"day\": \"TU\"}, {\"day\": \"WE\"}, {\"day\": \"TH\"}, {\"day\": \"FR\"}]}",
+    "status": "active"
+   },
+   {
+    "id": "reading",
+    "series_id": "reading",
+    "title": "Reading",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "personal",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-07T21:00",
+    "duration_minutes": 30,
+    "time_zone": "Europe/Paris",
+    "recurrence": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"daily\", \"interval\": 1}",
+    "status": "active"
+   },
+   {
+    "id": "o1",
+    "series_id": "o1",
+    "title": "O1",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 3,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-14T10:00",
+    "duration_minutes": 120,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o2",
+    "series_id": "o2",
+    "title": "O2",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 1,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-15T13:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o3",
+    "series_id": "o3",
+    "title": "O3",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 2,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-21T14:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o4",
+    "series_id": "o4",
+    "title": "O4",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-10T11:30",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o5",
+    "series_id": "o5",
+    "title": "O5",
+    "created_at": "2026-09-16T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-16T15:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o6",
+    "series_id": "o6",
+    "title": "O6",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "social",
+    "priority": 0,
+    "tracking_mode": "event",
+    "is_all_day": false,
+    "start_local": "2026-09-17T12:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o7",
+    "series_id": "o7",
+    "title": "O7",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "timeoff",
+    "priority": 0,
+    "tracking_mode": "event",
+    "is_all_day": false,
+    "start_local": "2026-09-18T14:00",
+    "duration_minutes": 120,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o8",
+    "series_id": "o8",
+    "title": "O8",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 4,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-17T10:00",
+    "duration_minutes": 90,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o9",
+    "series_id": "o9",
+    "title": "O9",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-18T09:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o10",
+    "series_id": "o10",
+    "title": "O10",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-08T15:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o11",
+    "series_id": "o11",
+    "title": "O11",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "personal",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": true,
+    "start_local": "2026-09-19T00:00",
+    "duration_minutes": null,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   },
+   {
+    "id": "o12",
+    "series_id": "o12",
+    "title": "O12",
+    "created_at": "2026-09-01T06:00:00.000Z",
+    "category_id": "work",
+    "priority": 0,
+    "tracking_mode": "check",
+    "is_all_day": false,
+    "start_local": "2026-09-10T16:00",
+    "duration_minutes": 60,
+    "time_zone": "Europe/Paris",
+    "recurrence": null,
+    "status": "active"
+   }
+  ],
+  "task_occurrences": [
+   {
+    "task_id": "gym",
+    "occurrence_key": "2026-09-07T18:00",
+    "status": "done",
+    "completed_at": "2026-09-07T17:05:00.000Z",
+    "status_changed_at": "2026-09-07T17:05:00.000Z",
+    "id": "occ-gym-2026-09-07T18:00"
+   },
+   {
+    "task_id": "gym",
+    "occurrence_key": "2026-09-09T18:00",
+    "status": "done",
+    "completed_at": "2026-09-09T17:30:00.000Z",
+    "status_changed_at": "2026-09-09T17:30:00.000Z",
+    "id": "occ-gym-2026-09-09T18:00"
+   },
+   {
+    "task_id": "gym",
+    "occurrence_key": "2026-09-11T18:00",
+    "status": "skipped",
+    "skip_reason": "sick",
+    "id": "occ-gym-2026-09-11T18:00"
+   },
+   {
+    "task_id": "gym",
+    "occurrence_key": "2026-09-14T18:00",
+    "status": "done",
+    "completed_at": "2026-09-14T16:55:00.000Z",
+    "status_changed_at": "2026-09-14T16:55:00.000Z",
+    "id": "occ-gym-2026-09-14T18:00"
+   },
+   {
+    "task_id": "gym",
+    "occurrence_key": "2026-09-18T18:00",
+    "status": "done",
+    "completed_at": "2026-09-18T17:00:00.000Z",
+    "status_changed_at": "2026-09-18T17:00:00.000Z",
+    "id": "occ-gym-2026-09-18T18:00"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-07T09:30",
+    "status": "done",
+    "completed_at": "2026-09-07T07:47:00.000Z",
+    "status_changed_at": "2026-09-07T07:47:00.000Z",
+    "id": "occ-standup-2026-09-07T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-08T09:30",
+    "status": "done",
+    "completed_at": "2026-09-08T07:50:00.000Z",
+    "status_changed_at": "2026-09-08T07:50:00.000Z",
+    "id": "occ-standup-2026-09-08T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-09T09:30",
+    "status": "done",
+    "completed_at": "2026-09-09T07:55:00.000Z",
+    "status_changed_at": "2026-09-09T07:55:00.000Z",
+    "id": "occ-standup-2026-09-09T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-10T09:30",
+    "status": "done",
+    "completed_at": "2026-09-10T07:43:00.000Z",
+    "status_changed_at": "2026-09-10T07:43:00.000Z",
+    "id": "occ-standup-2026-09-10T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-11T09:30",
+    "status": "cancelled",
+    "is_cancelled": true,
+    "status_changed_at": "2026-09-10T10:00:00.000Z",
+    "id": "occ-standup-2026-09-11T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-14T09:30",
+    "status": "done",
+    "completed_at": "2026-09-14T07:46:00.000Z",
+    "status_changed_at": "2026-09-14T07:46:00.000Z",
+    "id": "occ-standup-2026-09-14T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-15T09:30",
+    "status": "done",
+    "completed_at": "2026-09-15T08:00:00.000Z",
+    "status_changed_at": "2026-09-15T08:00:00.000Z",
+    "id": "occ-standup-2026-09-15T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-16T09:30",
+    "status": "done",
+    "completed_at": "2026-09-16T07:45:00.000Z",
+    "status_changed_at": "2026-09-16T07:45:00.000Z",
+    "id": "occ-standup-2026-09-16T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-17T09:30",
+    "status": "done",
+    "completed_at": "2026-09-17T07:50:00.000Z",
+    "status_changed_at": "2026-09-17T07:50:00.000Z",
+    "id": "occ-standup-2026-09-17T09:30"
+   },
+   {
+    "task_id": "standup",
+    "occurrence_key": "2026-09-18T09:30",
+    "status": "done",
+    "completed_at": "2026-09-18T07:51:00.000Z",
+    "status_changed_at": "2026-09-18T07:51:00.000Z",
+    "id": "occ-standup-2026-09-18T09:30"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-07T21:00",
+    "status": "done",
+    "completed_at": "2026-09-07T19:30:00.000Z",
+    "status_changed_at": "2026-09-07T19:30:00.000Z",
+    "id": "occ-reading-2026-09-07T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-08T21:00",
+    "status": "done",
+    "completed_at": "2026-09-08T19:30:00.000Z",
+    "status_changed_at": "2026-09-08T19:30:00.000Z",
+    "id": "occ-reading-2026-09-08T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-09T21:00",
+    "status": "done",
+    "completed_at": "2026-09-09T19:30:00.000Z",
+    "status_changed_at": "2026-09-09T19:30:00.000Z",
+    "id": "occ-reading-2026-09-09T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-10T21:00",
+    "status": "done",
+    "completed_at": "2026-09-10T19:30:00.000Z",
+    "status_changed_at": "2026-09-10T19:30:00.000Z",
+    "id": "occ-reading-2026-09-10T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-11T21:00",
+    "status": "done",
+    "completed_at": "2026-09-11T19:30:00.000Z",
+    "status_changed_at": "2026-09-11T19:30:00.000Z",
+    "id": "occ-reading-2026-09-11T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-12T21:00",
+    "status": "skipped",
+    "skip_reason": "tired",
+    "id": "occ-reading-2026-09-12T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-13T21:00",
+    "status": "skipped",
+    "skip_reason": "tired",
+    "id": "occ-reading-2026-09-13T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-14T21:00",
+    "status": "done",
+    "completed_at": "2026-09-14T19:30:00.000Z",
+    "status_changed_at": "2026-09-14T19:30:00.000Z",
+    "id": "occ-reading-2026-09-14T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-15T21:00",
+    "status": "done",
+    "completed_at": "2026-09-15T19:30:00.000Z",
+    "status_changed_at": "2026-09-15T19:30:00.000Z",
+    "id": "occ-reading-2026-09-15T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-16T21:00",
+    "status": "done",
+    "completed_at": "2026-09-16T19:30:00.000Z",
+    "status_changed_at": "2026-09-16T19:30:00.000Z",
+    "id": "occ-reading-2026-09-16T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-17T21:00",
+    "status": "done",
+    "completed_at": "2026-09-17T19:30:00.000Z",
+    "status_changed_at": "2026-09-17T19:30:00.000Z",
+    "id": "occ-reading-2026-09-17T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-18T21:00",
+    "status": "done",
+    "completed_at": "2026-09-18T19:30:00.000Z",
+    "status_changed_at": "2026-09-18T19:30:00.000Z",
+    "id": "occ-reading-2026-09-18T21:00"
+   },
+   {
+    "task_id": "reading",
+    "occurrence_key": "2026-09-20T21:00",
+    "status": "done",
+    "completed_at": "2026-09-20T19:30:00.000Z",
+    "status_changed_at": "2026-09-20T19:30:00.000Z",
+    "id": "occ-reading-2026-09-20T21:00"
+   },
+   {
+    "task_id": "o1",
+    "occurrence_key": "2026-09-14T10:00",
+    "status": "done",
+    "completed_at": "2026-09-14T09:50:00.000Z",
+    "status_changed_at": "2026-09-14T09:50:00.000Z",
+    "id": "occ-o1-2026-09-14T10:00"
+   },
+   {
+    "task_id": "o2",
+    "occurrence_key": "2026-09-15T13:00",
+    "status": "done",
+    "completed_at": "2026-09-15T12:30:00.000Z",
+    "status_changed_at": "2026-09-15T12:30:00.000Z",
+    "id": "occ-o2-2026-09-15T13:00"
+   },
+   {
+    "task_id": "o4",
+    "occurrence_key": "2026-09-10T11:30",
+    "status": "done",
+    "completed_at": "2026-09-10T10:30:00.000Z",
+    "status_changed_at": "2026-09-10T10:30:00.000Z",
+    "id": "occ-o4-2026-09-10T11:30"
+   },
+   {
+    "task_id": "o5",
+    "occurrence_key": "2026-09-16T15:00",
+    "status": "done",
+    "completed_at": "2026-09-16T14:00:00.000Z",
+    "status_changed_at": "2026-09-16T14:00:00.000Z",
+    "id": "occ-o5-2026-09-16T15:00"
+   },
+   {
+    "task_id": "o8",
+    "occurrence_key": "2026-09-17T10:00",
+    "status": "done",
+    "completed_at": "2026-09-17T09:20:00.000Z",
+    "status_changed_at": "2026-09-17T09:20:00.000Z",
+    "id": "occ-o8-2026-09-17T10:00"
+   },
+   {
+    "task_id": "o10",
+    "occurrence_key": "2026-09-08T15:00",
+    "status": "done",
+    "completed_at": "2026-09-08T13:50:00.000Z",
+    "status_changed_at": "2026-09-08T13:50:00.000Z",
+    "id": "occ-o10-2026-09-08T15:00"
+   },
+   {
+    "task_id": "o11",
+    "occurrence_key": "2026-09-19",
+    "status": "done",
+    "completed_at": "2026-09-19T10:00:00.000Z",
+    "status_changed_at": "2026-09-19T10:00:00.000Z",
+    "id": "occ-o11-2026-09-19"
+   },
+   {
+    "task_id": "o12",
+    "occurrence_key": "2026-09-10T16:00",
+    "status": "skipped",
+    "skip_reason": "blocked by client",
+    "id": "occ-o12-2026-09-10T16:00"
+   }
+  ],
+  "time_entries": [
+   {
+    "id": "te-standup-2026-09-07T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-07T09:30",
+    "started_at": "2026-09-07T07:32:00.000Z",
+    "ended_at": "2026-09-07T07:47:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-08T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-08T09:30",
+    "started_at": "2026-09-08T07:30:00.000Z",
+    "ended_at": "2026-09-08T07:50:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-09T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-09T09:30",
+    "started_at": "2026-09-09T07:40:00.000Z",
+    "ended_at": "2026-09-09T07:55:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-10T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-10T09:30",
+    "started_at": "2026-09-10T07:28:00.000Z",
+    "ended_at": "2026-09-10T07:43:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-14T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-14T09:30",
+    "started_at": "2026-09-14T07:31:00.000Z",
+    "ended_at": "2026-09-14T07:46:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-15T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-15T09:30",
+    "started_at": "2026-09-15T07:45:00.000Z",
+    "ended_at": "2026-09-15T08:00:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-16T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-16T09:30",
+    "started_at": "2026-09-16T07:30:00.000Z",
+    "ended_at": "2026-09-16T07:45:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-17T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-17T09:30",
+    "started_at": "2026-09-17T07:35:00.000Z",
+    "ended_at": "2026-09-17T07:50:00.000Z"
+   },
+   {
+    "id": "te-standup-2026-09-18T09:30-0",
+    "task_id": "standup",
+    "occurrence_key": "2026-09-18T09:30",
+    "started_at": "2026-09-18T07:36:00.000Z",
+    "ended_at": "2026-09-18T07:51:00.000Z"
+   },
+   {
+    "id": "te-o1-2026-09-14T10:00-0",
+    "task_id": "o1",
+    "occurrence_key": "2026-09-14T10:00",
+    "started_at": "2026-09-14T08:00:00.000Z",
+    "ended_at": "2026-09-14T09:45:00.000Z"
+   },
+   {
+    "id": "te-o8-2026-09-17T10:00-0",
+    "task_id": "o8",
+    "occurrence_key": "2026-09-17T10:00",
+    "started_at": "2026-09-17T08:05:00.000Z",
+    "ended_at": "2026-09-17T08:55:00.000Z"
+   },
+   {
+    "id": "te-o8-2026-09-17T10:00-1",
+    "task_id": "o8",
+    "occurrence_key": "2026-09-17T10:00",
+    "started_at": "2026-09-17T08:56:00.000Z",
+    "ended_at": "2026-09-17T09:16:00.000Z"
+   }
+  ],
+  "activity_events": [
+   {
+    "id": "ev-o3-0",
+    "entity_type": "task",
+    "entity_id": "o3",
+    "parent_id": "o3",
+    "event_type": "rescheduled",
+    "occurred_at": "2026-09-15T07:00:00.000Z",
+    "payload": {
+     "occurrenceKey": "2026-09-14T14:00",
+     "fromStart": "2026-09-14T14:00",
+     "toStart": "2026-09-21T14:00",
+     "fromDuration": 60,
+     "toDuration": 60,
+     "zone": "Europe/Paris",
+     "source": "drag",
+     "opId": "op-o3-0",
+     "cause": "user"
+    }
+   },
+   {
+    "id": "ev-o4-0",
+    "entity_type": "task",
+    "entity_id": "o4",
+    "parent_id": "o4",
+    "event_type": "rescheduled",
+    "occurred_at": "2026-09-08T08:00:00.000Z",
+    "payload": {
+     "occurrenceKey": "2026-09-09T10:00",
+     "fromStart": "2026-09-09T10:00",
+     "toStart": "2026-09-10T10:00",
+     "fromDuration": 60,
+     "toDuration": 60,
+     "zone": "Europe/Paris",
+     "source": "drag",
+     "opId": "op-o4-0",
+     "cause": "user"
+    }
+   },
+   {
+    "id": "ev-o4-1",
+    "entity_type": "task",
+    "entity_id": "o4",
+    "parent_id": "o4",
+    "event_type": "rescheduled",
+    "occurred_at": "2026-09-09T08:00:00.000Z",
+    "payload": {
+     "occurrenceKey": "2026-09-10T10:00",
+     "fromStart": "2026-09-10T10:00",
+     "toStart": "2026-09-10T12:00",
+     "fromDuration": 60,
+     "toDuration": 60,
+     "zone": "Europe/Paris",
+     "source": "drag",
+     "opId": "op-o4-1",
+     "cause": "user"
+    }
+   },
+   {
+    "id": "ev-o4-2",
+    "entity_type": "task",
+    "entity_id": "o4",
+    "parent_id": "o4",
+    "event_type": "rescheduled",
+    "occurred_at": "2026-09-10T06:00:00.000Z",
+    "payload": {
+     "occurrenceKey": "2026-09-10T12:00",
+     "fromStart": "2026-09-10T12:00",
+     "toStart": "2026-09-10T11:30",
+     "fromDuration": 60,
+     "toDuration": 60,
+     "zone": "Europe/Paris",
+     "source": "drag",
+     "opId": "op-o4-2",
+     "cause": "user"
+    }
+   },
+   {
+    "id": "ev-X-0",
+    "entity_type": "checklist_item",
+    "entity_id": "X",
+    "parent_id": "L0",
+    "event_type": "created",
+    "occurred_at": "2026-09-07T07:00:00.000Z",
+    "payload": {
+     "to": "todo"
+    }
+   },
+   {
+    "id": "ev-X-1",
+    "entity_type": "checklist_item",
+    "entity_id": "X",
+    "parent_id": "L0",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-08T08:00:00.000Z",
+    "payload": {
+     "from": "todo",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-X-2",
+    "entity_type": "checklist_item",
+    "entity_id": "X",
+    "parent_id": "L0",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-09T08:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "waiting",
+     "note": "waiting for Sam"
+    }
+   },
+   {
+    "id": "ev-X-3",
+    "entity_type": "checklist_item",
+    "entity_id": "X",
+    "parent_id": "L0",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-11T08:00:00.000Z",
+    "payload": {
+     "from": "waiting",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-X-4",
+    "entity_type": "checklist_item",
+    "entity_id": "X",
+    "parent_id": "L0",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-12T08:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "blocked",
+     "note": "supplier invoice missing"
+    }
+   },
+   {
+    "id": "ev-X-5",
+    "entity_type": "checklist_item",
+    "entity_id": "X",
+    "parent_id": "L0",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-13T08:00:00.000Z",
+    "payload": {
+     "from": "blocked",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-X-6",
+    "entity_type": "checklist_item",
+    "entity_id": "X",
+    "parent_id": "L0",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-14T08:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "completed",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-A-7",
+    "entity_type": "checklist_item",
+    "entity_id": "A",
+    "parent_id": "L1",
+    "event_type": "created",
+    "occurred_at": "2026-09-07T07:00:00.000Z",
+    "payload": {
+     "to": "todo"
+    }
+   },
+   {
+    "id": "ev-B-8",
+    "entity_type": "checklist_item",
+    "entity_id": "B",
+    "parent_id": "L1",
+    "event_type": "created",
+    "occurred_at": "2026-09-07T07:05:00.000Z",
+    "payload": {
+     "to": "todo"
+    }
+   },
+   {
+    "id": "ev-C-9",
+    "entity_type": "checklist_item",
+    "entity_id": "C",
+    "parent_id": "L1",
+    "event_type": "created",
+    "occurred_at": "2026-09-07T07:10:00.000Z",
+    "payload": {
+     "to": "todo"
+    }
+   },
+   {
+    "id": "ev-A-10",
+    "entity_type": "checklist_item",
+    "entity_id": "A",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-07T08:00:00.000Z",
+    "payload": {
+     "from": "todo",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-A-11",
+    "entity_type": "checklist_item",
+    "entity_id": "A",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-08T08:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "completed",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-B-12",
+    "entity_type": "checklist_item",
+    "entity_id": "B",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-08T09:00:00.000Z",
+    "payload": {
+     "from": "todo",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-D-13",
+    "entity_type": "checklist_item",
+    "entity_id": "D",
+    "parent_id": "L1",
+    "event_type": "created",
+    "occurred_at": "2026-09-08T07:00:00.000Z",
+    "payload": {
+     "to": "todo"
+    }
+   },
+   {
+    "id": "ev-B-14",
+    "entity_type": "checklist_item",
+    "entity_id": "B",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-09T08:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "blocked",
+     "note": "waiting on supplier"
+    }
+   },
+   {
+    "id": "ev-C-15",
+    "entity_type": "checklist_item",
+    "entity_id": "C",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-09T09:00:00.000Z",
+    "payload": {
+     "from": "todo",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-A-16",
+    "entity_type": "checklist_item",
+    "entity_id": "A",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-09T10:00:00.000Z",
+    "payload": {
+     "from": "completed",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-B-17",
+    "entity_type": "checklist_item",
+    "entity_id": "B",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-10T08:00:00.000Z",
+    "payload": {
+     "from": "blocked",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-A-18",
+    "entity_type": "checklist_item",
+    "entity_id": "A",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-10T09:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "completed",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-E-19",
+    "entity_type": "checklist_item",
+    "entity_id": "E",
+    "parent_id": "L1",
+    "event_type": "created",
+    "occurred_at": "2026-09-10T07:00:00.000Z",
+    "payload": {
+     "to": "todo"
+    }
+   },
+   {
+    "id": "ev-D-20",
+    "entity_type": "checklist_item",
+    "entity_id": "D",
+    "parent_id": "L1",
+    "event_type": "deleted",
+    "occurred_at": "2026-09-10T10:00:00.000Z",
+    "payload": {}
+   },
+   {
+    "id": "ev-B-21",
+    "entity_type": "checklist_item",
+    "entity_id": "B",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-11T08:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "completed",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-C-22",
+    "entity_type": "checklist_item",
+    "entity_id": "C",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-11T09:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "waiting",
+     "note": "@sam invoice"
+    }
+   },
+   {
+    "id": "ev-M-23",
+    "entity_type": "checklist_item",
+    "entity_id": "M",
+    "parent_id": "L2",
+    "event_type": "created",
+    "occurred_at": "2026-09-08T08:00:00.000Z",
+    "payload": {
+     "to": "todo"
+    }
+   },
+   {
+    "id": "ev-M-24",
+    "entity_type": "checklist_item",
+    "entity_id": "M",
+    "parent_id": "L3",
+    "event_type": "moved",
+    "occurred_at": "2026-09-10T08:00:00.000Z",
+    "payload": {
+     "fromChecklistId": "L2",
+     "toChecklistId": "L3",
+     "fromParentId": null,
+     "toParentId": null
+    }
+   }
+  ],
+  "habits": [
+   {
+    "id": "water",
+    "kind": "build",
+    "name": "Water",
+    "sort_key": "water",
+    "category_id": "health",
+    "goal_type": "count",
+    "target_op": "gte",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"daily\", \"interval\": 1}",
+    "start_date": "2026-09-07",
+    "time_zone": "Europe/Paris",
+    "created_at": "2026-09-06T18:00:00.000Z",
+    "target_value": 8
+   },
+   {
+    "id": "gym",
+    "kind": "build",
+    "name": "Gym",
+    "sort_key": "gym",
+    "category_id": "health",
+    "goal_type": "check",
+    "target_op": "gte",
+    "schedule": "{\"v\": 1, \"type\": \"quota\", \"freq\": \"weekly\", \"interval\": 1, \"quota\": {\"times\": 3, \"per\": \"week\", \"minGapDays\": 0}}",
+    "start_date": "2026-09-07",
+    "time_zone": "Europe/Paris",
+    "created_at": "2026-09-06T18:00:00.000Z"
+   },
+   {
+    "id": "meds",
+    "kind": "build",
+    "name": "Meds",
+    "sort_key": "meds",
+    "category_id": "health",
+    "goal_type": "check",
+    "target_op": "gte",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"daily\", \"interval\": 1, \"times\": [\"09:00\", \"10:00\", \"11:00\", \"12:00\", \"13:00\", \"14:00\", \"15:00\", \"16:00\"]}",
+    "start_date": "2026-09-07",
+    "time_zone": "Europe/Paris",
+    "created_at": "2026-09-06T18:00:00.000Z"
+   },
+   {
+    "id": "coffee",
+    "kind": "build",
+    "name": "Coffee",
+    "sort_key": "coffee",
+    "category_id": "food",
+    "goal_type": "count",
+    "target_op": "lte",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"daily\", \"interval\": 1}",
+    "start_date": "2026-09-07",
+    "time_zone": "Europe/Paris",
+    "created_at": "2026-09-06T18:00:00.000Z",
+    "target_value": 2,
+    "auto_success": true
+   },
+   {
+    "id": "read",
+    "kind": "build",
+    "name": "Read",
+    "sort_key": "read",
+    "category_id": "mind",
+    "goal_type": "check",
+    "target_op": "gte",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"weekly\", \"interval\": 1, \"byWeekday\": [{\"day\": \"MO\"}, {\"day\": \"TU\"}, {\"day\": \"WE\"}, {\"day\": \"TH\"}, {\"day\": \"FR\"}]}",
+    "start_date": "2026-09-07",
+    "time_zone": "Europe/Paris",
+    "created_at": "2026-09-06T18:00:00.000Z"
+   },
+   {
+    "id": "journal",
+    "kind": "build",
+    "name": "Journal",
+    "sort_key": "journal",
+    "category_id": "mind",
+    "goal_type": "check",
+    "target_op": "gte",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"daily\", \"interval\": 1}",
+    "start_date": "2026-09-07",
+    "time_zone": "Europe/Paris",
+    "created_at": "2026-09-06T18:00:00.000Z"
+   },
+   {
+    "id": "smoking",
+    "kind": "quit",
+    "name": "Smoking",
+    "sort_key": "a",
+    "start_date": "2026-07-23",
+    "time_zone": "Europe/Paris",
+    "quit_mode": "abstain",
+    "quit_substance": "cigarettes",
+    "quit_started_at": "2026-07-22T22:00:00.000Z",
+    "baseline_per_day": 20,
+    "unit_cost": 0.6,
+    "currency": "EUR",
+    "life_minutes_per_unit": 20,
+    "time_per_unit_minutes": 6,
+    "created_at": "2026-07-22T18:00:00.000Z"
+   }
+  ],
+  "habit_revisions": [
+   {
+    "id": "rev-read-0",
+    "habit_id": "read",
+    "effective_from": "2026-09-07",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"daily\", \"interval\": 1}",
+    "goal_type": "check"
+   },
+   {
+    "id": "rev-read-1",
+    "habit_id": "read",
+    "effective_from": "2026-09-14",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"weekly\", \"interval\": 1, \"byWeekday\": [{\"day\": \"MO\"}, {\"day\": \"TU\"}, {\"day\": \"WE\"}, {\"day\": \"TH\"}, {\"day\": \"FR\"}]}",
+    "goal_type": "check"
+   },
+   {
+    "id": "rev-0",
+    "habit_id": "smoking",
+    "effective_from": "2026-07-23",
+    "baseline_per_day": 20,
+    "unit_cost": 0.6
+   },
+   {
+    "id": "rev-1",
+    "habit_id": "smoking",
+    "effective_from": "2026-08-22",
+    "baseline_per_day": 20,
+    "unit_cost": 0.65
+   }
+  ],
+  "habit_pauses": [
+   {
+    "id": "pause-journal",
+    "habit_id": "journal",
+    "start_date": "2026-09-11",
+    "end_date": "2026-09-13",
+    "reason": "vacation"
+   }
+  ],
+  "habit_logs": [
+   {
+    "id": "hp-log-1",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-07T18:00:00.000Z",
+    "local_date": "2026-09-07",
+    "occurrence_key": "2026-09-07",
+    "created_at": "2026-09-07T18:00:00.000Z",
+    "updated_at": "2026-09-07T18:00:00.000Z",
+    "value": 8
+   },
+   {
+    "id": "hp-log-2",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-08T18:00:00.000Z",
+    "local_date": "2026-09-08",
+    "occurrence_key": "2026-09-08",
+    "created_at": "2026-09-08T18:00:00.000Z",
+    "updated_at": "2026-09-08T18:00:00.000Z",
+    "value": 6
+   },
+   {
+    "id": "hp-log-3",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-09T18:00:00.000Z",
+    "local_date": "2026-09-09",
+    "occurrence_key": "2026-09-09",
+    "created_at": "2026-09-09T18:00:00.000Z",
+    "updated_at": "2026-09-09T18:00:00.000Z",
+    "value": 8
+   },
+   {
+    "id": "hp-log-4",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-10T18:00:00.000Z",
+    "local_date": "2026-09-10",
+    "occurrence_key": "2026-09-10",
+    "created_at": "2026-09-10T18:00:00.000Z",
+    "updated_at": "2026-09-10T18:00:00.000Z",
+    "value": 9
+   },
+   {
+    "id": "hp-log-5",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-11T18:00:00.000Z",
+    "local_date": "2026-09-11",
+    "occurrence_key": "2026-09-11",
+    "created_at": "2026-09-11T18:00:00.000Z",
+    "updated_at": "2026-09-11T18:00:00.000Z",
+    "value": 8
+   },
+   {
+    "id": "hp-log-6",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-13T18:00:00.000Z",
+    "local_date": "2026-09-13",
+    "occurrence_key": "2026-09-13",
+    "created_at": "2026-09-13T18:00:00.000Z",
+    "updated_at": "2026-09-13T18:00:00.000Z",
+    "value": 8
+   },
+   {
+    "id": "hp-log-7",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-14T18:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14",
+    "created_at": "2026-09-14T18:00:00.000Z",
+    "updated_at": "2026-09-14T18:00:00.000Z",
+    "value": 8
+   },
+   {
+    "id": "hp-log-8",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-15T18:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15",
+    "created_at": "2026-09-15T18:00:00.000Z",
+    "updated_at": "2026-09-15T18:00:00.000Z",
+    "value": 8
+   },
+   {
+    "id": "hp-log-9",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-16T18:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16",
+    "created_at": "2026-09-16T18:00:00.000Z",
+    "updated_at": "2026-09-16T18:00:00.000Z",
+    "value": 4
+   },
+   {
+    "id": "hp-log-10",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-17T18:00:00.000Z",
+    "local_date": "2026-09-17",
+    "occurrence_key": "2026-09-17",
+    "created_at": "2026-09-17T18:00:00.000Z",
+    "updated_at": "2026-09-17T18:00:00.000Z",
+    "value": 8
+   },
+   {
+    "id": "hp-log-11",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-18T18:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18",
+    "created_at": "2026-09-18T18:00:00.000Z",
+    "updated_at": "2026-09-18T18:00:00.000Z",
+    "value": 8
+   },
+   {
+    "id": "hp-log-12",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-19T18:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19",
+    "created_at": "2026-09-19T18:00:00.000Z",
+    "updated_at": "2026-09-19T18:00:00.000Z",
+    "value": 10
+   },
+   {
+    "id": "hp-log-13",
+    "habit_id": "water",
+    "kind": "progress",
+    "logged_at": "2026-09-20T18:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20",
+    "created_at": "2026-09-20T18:00:00.000Z",
+    "updated_at": "2026-09-20T18:00:00.000Z",
+    "value": 8
+   },
+   {
+    "id": "hp-log-14",
+    "habit_id": "gym",
+    "kind": "done",
+    "logged_at": "2026-09-07T16:00:00.000Z",
+    "local_date": "2026-09-07",
+    "occurrence_key": "2026-09-07",
+    "created_at": "2026-09-07T16:00:00.000Z",
+    "updated_at": "2026-09-07T16:00:00.000Z"
+   },
+   {
+    "id": "hp-log-15",
+    "habit_id": "gym",
+    "kind": "done",
+    "logged_at": "2026-09-09T16:00:00.000Z",
+    "local_date": "2026-09-09",
+    "occurrence_key": "2026-09-09",
+    "created_at": "2026-09-09T16:00:00.000Z",
+    "updated_at": "2026-09-09T16:00:00.000Z"
+   },
+   {
+    "id": "hp-log-16",
+    "habit_id": "gym",
+    "kind": "done",
+    "logged_at": "2026-09-11T16:00:00.000Z",
+    "local_date": "2026-09-11",
+    "occurrence_key": "2026-09-11",
+    "created_at": "2026-09-11T16:00:00.000Z",
+    "updated_at": "2026-09-11T16:00:00.000Z"
+   },
+   {
+    "id": "hp-log-17",
+    "habit_id": "gym",
+    "kind": "done",
+    "logged_at": "2026-09-15T16:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15",
+    "created_at": "2026-09-15T16:00:00.000Z",
+    "updated_at": "2026-09-15T16:00:00.000Z"
+   },
+   {
+    "id": "hp-log-18",
+    "habit_id": "gym",
+    "kind": "done",
+    "logged_at": "2026-09-18T16:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18",
+    "created_at": "2026-09-18T16:00:00.000Z",
+    "updated_at": "2026-09-18T16:00:00.000Z"
+   },
+   {
+    "id": "hp-log-19",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-07T07:00:00.000Z",
+    "local_date": "2026-09-07",
+    "occurrence_key": "2026-09-07T09:00",
+    "created_at": "2026-09-07T07:00:00.000Z",
+    "updated_at": "2026-09-07T07:00:00.000Z"
+   },
+   {
+    "id": "hp-log-20",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-07T08:00:00.000Z",
+    "local_date": "2026-09-07",
+    "occurrence_key": "2026-09-07T10:00",
+    "created_at": "2026-09-07T08:00:00.000Z",
+    "updated_at": "2026-09-07T08:00:00.000Z"
+   },
+   {
+    "id": "hp-log-21",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-07T09:00:00.000Z",
+    "local_date": "2026-09-07",
+    "occurrence_key": "2026-09-07T11:00",
+    "created_at": "2026-09-07T09:00:00.000Z",
+    "updated_at": "2026-09-07T09:00:00.000Z"
+   },
+   {
+    "id": "hp-log-22",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-07T10:00:00.000Z",
+    "local_date": "2026-09-07",
+    "occurrence_key": "2026-09-07T12:00",
+    "created_at": "2026-09-07T10:00:00.000Z",
+    "updated_at": "2026-09-07T10:00:00.000Z"
+   },
+   {
+    "id": "hp-log-23",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-07T11:00:00.000Z",
+    "local_date": "2026-09-07",
+    "occurrence_key": "2026-09-07T13:00",
+    "created_at": "2026-09-07T11:00:00.000Z",
+    "updated_at": "2026-09-07T11:00:00.000Z"
+   },
+   {
+    "id": "hp-log-24",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-07T12:00:00.000Z",
+    "local_date": "2026-09-07",
+    "occurrence_key": "2026-09-07T14:00",
+    "created_at": "2026-09-07T12:00:00.000Z",
+    "updated_at": "2026-09-07T12:00:00.000Z"
+   },
+   {
+    "id": "hp-log-25",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-07T13:00:00.000Z",
+    "local_date": "2026-09-07",
+    "occurrence_key": "2026-09-07T15:00",
+    "created_at": "2026-09-07T13:00:00.000Z",
+    "updated_at": "2026-09-07T13:00:00.000Z"
+   },
+   {
+    "id": "hp-log-26",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-07T14:00:00.000Z",
+    "local_date": "2026-09-07",
+    "occurrence_key": "2026-09-07T16:00",
+    "created_at": "2026-09-07T14:00:00.000Z",
+    "updated_at": "2026-09-07T14:00:00.000Z"
+   },
+   {
+    "id": "hp-log-27",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-08T07:00:00.000Z",
+    "local_date": "2026-09-08",
+    "occurrence_key": "2026-09-08T09:00",
+    "created_at": "2026-09-08T07:00:00.000Z",
+    "updated_at": "2026-09-08T07:00:00.000Z"
+   },
+   {
+    "id": "hp-log-28",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-08T08:00:00.000Z",
+    "local_date": "2026-09-08",
+    "occurrence_key": "2026-09-08T10:00",
+    "created_at": "2026-09-08T08:00:00.000Z",
+    "updated_at": "2026-09-08T08:00:00.000Z"
+   },
+   {
+    "id": "hp-log-29",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-08T09:00:00.000Z",
+    "local_date": "2026-09-08",
+    "occurrence_key": "2026-09-08T11:00",
+    "created_at": "2026-09-08T09:00:00.000Z",
+    "updated_at": "2026-09-08T09:00:00.000Z"
+   },
+   {
+    "id": "hp-log-30",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-08T10:00:00.000Z",
+    "local_date": "2026-09-08",
+    "occurrence_key": "2026-09-08T12:00",
+    "created_at": "2026-09-08T10:00:00.000Z",
+    "updated_at": "2026-09-08T10:00:00.000Z"
+   },
+   {
+    "id": "hp-log-31",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-08T11:00:00.000Z",
+    "local_date": "2026-09-08",
+    "occurrence_key": "2026-09-08T13:00",
+    "created_at": "2026-09-08T11:00:00.000Z",
+    "updated_at": "2026-09-08T11:00:00.000Z"
+   },
+   {
+    "id": "hp-log-32",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-08T12:00:00.000Z",
+    "local_date": "2026-09-08",
+    "occurrence_key": "2026-09-08T14:00",
+    "created_at": "2026-09-08T12:00:00.000Z",
+    "updated_at": "2026-09-08T12:00:00.000Z"
+   },
+   {
+    "id": "hp-log-33",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-08T13:00:00.000Z",
+    "local_date": "2026-09-08",
+    "occurrence_key": "2026-09-08T15:00",
+    "created_at": "2026-09-08T13:00:00.000Z",
+    "updated_at": "2026-09-08T13:00:00.000Z"
+   },
+   {
+    "id": "hp-log-34",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-08T14:00:00.000Z",
+    "local_date": "2026-09-08",
+    "occurrence_key": "2026-09-08T16:00",
+    "created_at": "2026-09-08T14:00:00.000Z",
+    "updated_at": "2026-09-08T14:00:00.000Z"
+   },
+   {
+    "id": "hp-log-35",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-09T07:00:00.000Z",
+    "local_date": "2026-09-09",
+    "occurrence_key": "2026-09-09T09:00",
+    "created_at": "2026-09-09T07:00:00.000Z",
+    "updated_at": "2026-09-09T07:00:00.000Z"
+   },
+   {
+    "id": "hp-log-36",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-09T08:00:00.000Z",
+    "local_date": "2026-09-09",
+    "occurrence_key": "2026-09-09T10:00",
+    "created_at": "2026-09-09T08:00:00.000Z",
+    "updated_at": "2026-09-09T08:00:00.000Z"
+   },
+   {
+    "id": "hp-log-37",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-09T09:00:00.000Z",
+    "local_date": "2026-09-09",
+    "occurrence_key": "2026-09-09T11:00",
+    "created_at": "2026-09-09T09:00:00.000Z",
+    "updated_at": "2026-09-09T09:00:00.000Z"
+   },
+   {
+    "id": "hp-log-38",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-09T10:00:00.000Z",
+    "local_date": "2026-09-09",
+    "occurrence_key": "2026-09-09T12:00",
+    "created_at": "2026-09-09T10:00:00.000Z",
+    "updated_at": "2026-09-09T10:00:00.000Z"
+   },
+   {
+    "id": "hp-log-39",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-09T11:00:00.000Z",
+    "local_date": "2026-09-09",
+    "occurrence_key": "2026-09-09T13:00",
+    "created_at": "2026-09-09T11:00:00.000Z",
+    "updated_at": "2026-09-09T11:00:00.000Z"
+   },
+   {
+    "id": "hp-log-40",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-09T12:00:00.000Z",
+    "local_date": "2026-09-09",
+    "occurrence_key": "2026-09-09T14:00",
+    "created_at": "2026-09-09T12:00:00.000Z",
+    "updated_at": "2026-09-09T12:00:00.000Z"
+   },
+   {
+    "id": "hp-log-41",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-09T13:00:00.000Z",
+    "local_date": "2026-09-09",
+    "occurrence_key": "2026-09-09T15:00",
+    "created_at": "2026-09-09T13:00:00.000Z",
+    "updated_at": "2026-09-09T13:00:00.000Z"
+   },
+   {
+    "id": "hp-log-42",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-09T14:00:00.000Z",
+    "local_date": "2026-09-09",
+    "occurrence_key": "2026-09-09T16:00",
+    "created_at": "2026-09-09T14:00:00.000Z",
+    "updated_at": "2026-09-09T14:00:00.000Z"
+   },
+   {
+    "id": "hp-log-43",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-10T07:00:00.000Z",
+    "local_date": "2026-09-10",
+    "occurrence_key": "2026-09-10T09:00",
+    "created_at": "2026-09-10T07:00:00.000Z",
+    "updated_at": "2026-09-10T07:00:00.000Z"
+   },
+   {
+    "id": "hp-log-44",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-10T08:00:00.000Z",
+    "local_date": "2026-09-10",
+    "occurrence_key": "2026-09-10T10:00",
+    "created_at": "2026-09-10T08:00:00.000Z",
+    "updated_at": "2026-09-10T08:00:00.000Z"
+   },
+   {
+    "id": "hp-log-45",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-10T09:00:00.000Z",
+    "local_date": "2026-09-10",
+    "occurrence_key": "2026-09-10T11:00",
+    "created_at": "2026-09-10T09:00:00.000Z",
+    "updated_at": "2026-09-10T09:00:00.000Z"
+   },
+   {
+    "id": "hp-log-46",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-10T10:00:00.000Z",
+    "local_date": "2026-09-10",
+    "occurrence_key": "2026-09-10T12:00",
+    "created_at": "2026-09-10T10:00:00.000Z",
+    "updated_at": "2026-09-10T10:00:00.000Z"
+   },
+   {
+    "id": "hp-log-47",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-10T11:00:00.000Z",
+    "local_date": "2026-09-10",
+    "occurrence_key": "2026-09-10T13:00",
+    "created_at": "2026-09-10T11:00:00.000Z",
+    "updated_at": "2026-09-10T11:00:00.000Z"
+   },
+   {
+    "id": "hp-log-48",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-10T12:00:00.000Z",
+    "local_date": "2026-09-10",
+    "occurrence_key": "2026-09-10T14:00",
+    "created_at": "2026-09-10T12:00:00.000Z",
+    "updated_at": "2026-09-10T12:00:00.000Z"
+   },
+   {
+    "id": "hp-log-49",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-10T13:00:00.000Z",
+    "local_date": "2026-09-10",
+    "occurrence_key": "2026-09-10T15:00",
+    "created_at": "2026-09-10T13:00:00.000Z",
+    "updated_at": "2026-09-10T13:00:00.000Z"
+   },
+   {
+    "id": "hp-log-50",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-11T07:00:00.000Z",
+    "local_date": "2026-09-11",
+    "occurrence_key": "2026-09-11T09:00",
+    "created_at": "2026-09-11T07:00:00.000Z",
+    "updated_at": "2026-09-11T07:00:00.000Z"
+   },
+   {
+    "id": "hp-log-51",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-11T08:00:00.000Z",
+    "local_date": "2026-09-11",
+    "occurrence_key": "2026-09-11T10:00",
+    "created_at": "2026-09-11T08:00:00.000Z",
+    "updated_at": "2026-09-11T08:00:00.000Z"
+   },
+   {
+    "id": "hp-log-52",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-11T09:00:00.000Z",
+    "local_date": "2026-09-11",
+    "occurrence_key": "2026-09-11T11:00",
+    "created_at": "2026-09-11T09:00:00.000Z",
+    "updated_at": "2026-09-11T09:00:00.000Z"
+   },
+   {
+    "id": "hp-log-53",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-11T10:00:00.000Z",
+    "local_date": "2026-09-11",
+    "occurrence_key": "2026-09-11T12:00",
+    "created_at": "2026-09-11T10:00:00.000Z",
+    "updated_at": "2026-09-11T10:00:00.000Z"
+   },
+   {
+    "id": "hp-log-54",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-11T11:00:00.000Z",
+    "local_date": "2026-09-11",
+    "occurrence_key": "2026-09-11T13:00",
+    "created_at": "2026-09-11T11:00:00.000Z",
+    "updated_at": "2026-09-11T11:00:00.000Z"
+   },
+   {
+    "id": "hp-log-55",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-11T12:00:00.000Z",
+    "local_date": "2026-09-11",
+    "occurrence_key": "2026-09-11T14:00",
+    "created_at": "2026-09-11T12:00:00.000Z",
+    "updated_at": "2026-09-11T12:00:00.000Z"
+   },
+   {
+    "id": "hp-log-56",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-11T13:00:00.000Z",
+    "local_date": "2026-09-11",
+    "occurrence_key": "2026-09-11T15:00",
+    "created_at": "2026-09-11T13:00:00.000Z",
+    "updated_at": "2026-09-11T13:00:00.000Z"
+   },
+   {
+    "id": "hp-log-57",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-11T14:00:00.000Z",
+    "local_date": "2026-09-11",
+    "occurrence_key": "2026-09-11T16:00",
+    "created_at": "2026-09-11T14:00:00.000Z",
+    "updated_at": "2026-09-11T14:00:00.000Z"
+   },
+   {
+    "id": "hp-log-58",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-12T07:00:00.000Z",
+    "local_date": "2026-09-12",
+    "occurrence_key": "2026-09-12T09:00",
+    "created_at": "2026-09-12T07:00:00.000Z",
+    "updated_at": "2026-09-12T07:00:00.000Z"
+   },
+   {
+    "id": "hp-log-59",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-12T08:00:00.000Z",
+    "local_date": "2026-09-12",
+    "occurrence_key": "2026-09-12T10:00",
+    "created_at": "2026-09-12T08:00:00.000Z",
+    "updated_at": "2026-09-12T08:00:00.000Z"
+   },
+   {
+    "id": "hp-log-60",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-12T09:00:00.000Z",
+    "local_date": "2026-09-12",
+    "occurrence_key": "2026-09-12T11:00",
+    "created_at": "2026-09-12T09:00:00.000Z",
+    "updated_at": "2026-09-12T09:00:00.000Z"
+   },
+   {
+    "id": "hp-log-61",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-12T10:00:00.000Z",
+    "local_date": "2026-09-12",
+    "occurrence_key": "2026-09-12T12:00",
+    "created_at": "2026-09-12T10:00:00.000Z",
+    "updated_at": "2026-09-12T10:00:00.000Z"
+   },
+   {
+    "id": "hp-log-62",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-12T11:00:00.000Z",
+    "local_date": "2026-09-12",
+    "occurrence_key": "2026-09-12T13:00",
+    "created_at": "2026-09-12T11:00:00.000Z",
+    "updated_at": "2026-09-12T11:00:00.000Z"
+   },
+   {
+    "id": "hp-log-63",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-12T12:00:00.000Z",
+    "local_date": "2026-09-12",
+    "occurrence_key": "2026-09-12T14:00",
+    "created_at": "2026-09-12T12:00:00.000Z",
+    "updated_at": "2026-09-12T12:00:00.000Z"
+   },
+   {
+    "id": "hp-log-64",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-12T13:00:00.000Z",
+    "local_date": "2026-09-12",
+    "occurrence_key": "2026-09-12T15:00",
+    "created_at": "2026-09-12T13:00:00.000Z",
+    "updated_at": "2026-09-12T13:00:00.000Z"
+   },
+   {
+    "id": "hp-log-65",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-12T14:00:00.000Z",
+    "local_date": "2026-09-12",
+    "occurrence_key": "2026-09-12T16:00",
+    "created_at": "2026-09-12T14:00:00.000Z",
+    "updated_at": "2026-09-12T14:00:00.000Z"
+   },
+   {
+    "id": "hp-log-66",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-13T07:00:00.000Z",
+    "local_date": "2026-09-13",
+    "occurrence_key": "2026-09-13T09:00",
+    "created_at": "2026-09-13T07:00:00.000Z",
+    "updated_at": "2026-09-13T07:00:00.000Z"
+   },
+   {
+    "id": "hp-log-67",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-13T08:00:00.000Z",
+    "local_date": "2026-09-13",
+    "occurrence_key": "2026-09-13T10:00",
+    "created_at": "2026-09-13T08:00:00.000Z",
+    "updated_at": "2026-09-13T08:00:00.000Z"
+   },
+   {
+    "id": "hp-log-68",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-13T09:00:00.000Z",
+    "local_date": "2026-09-13",
+    "occurrence_key": "2026-09-13T11:00",
+    "created_at": "2026-09-13T09:00:00.000Z",
+    "updated_at": "2026-09-13T09:00:00.000Z"
+   },
+   {
+    "id": "hp-log-69",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-13T10:00:00.000Z",
+    "local_date": "2026-09-13",
+    "occurrence_key": "2026-09-13T12:00",
+    "created_at": "2026-09-13T10:00:00.000Z",
+    "updated_at": "2026-09-13T10:00:00.000Z"
+   },
+   {
+    "id": "hp-log-70",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-13T11:00:00.000Z",
+    "local_date": "2026-09-13",
+    "occurrence_key": "2026-09-13T13:00",
+    "created_at": "2026-09-13T11:00:00.000Z",
+    "updated_at": "2026-09-13T11:00:00.000Z"
+   },
+   {
+    "id": "hp-log-71",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-13T12:00:00.000Z",
+    "local_date": "2026-09-13",
+    "occurrence_key": "2026-09-13T14:00",
+    "created_at": "2026-09-13T12:00:00.000Z",
+    "updated_at": "2026-09-13T12:00:00.000Z"
+   },
+   {
+    "id": "hp-log-72",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-13T13:00:00.000Z",
+    "local_date": "2026-09-13",
+    "occurrence_key": "2026-09-13T15:00",
+    "created_at": "2026-09-13T13:00:00.000Z",
+    "updated_at": "2026-09-13T13:00:00.000Z"
+   },
+   {
+    "id": "hp-log-73",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-13T14:00:00.000Z",
+    "local_date": "2026-09-13",
+    "occurrence_key": "2026-09-13T16:00",
+    "created_at": "2026-09-13T14:00:00.000Z",
+    "updated_at": "2026-09-13T14:00:00.000Z"
+   },
+   {
+    "id": "hp-log-74",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T07:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T09:00",
+    "created_at": "2026-09-14T07:00:00.000Z",
+    "updated_at": "2026-09-14T07:00:00.000Z"
+   },
+   {
+    "id": "hp-log-75",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T08:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T10:00",
+    "created_at": "2026-09-14T08:00:00.000Z",
+    "updated_at": "2026-09-14T08:00:00.000Z"
+   },
+   {
+    "id": "hp-log-76",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T09:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T11:00",
+    "created_at": "2026-09-14T09:00:00.000Z",
+    "updated_at": "2026-09-14T09:00:00.000Z"
+   },
+   {
+    "id": "hp-log-77",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T10:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T12:00",
+    "created_at": "2026-09-14T10:00:00.000Z",
+    "updated_at": "2026-09-14T10:00:00.000Z"
+   },
+   {
+    "id": "hp-log-78",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T11:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T13:00",
+    "created_at": "2026-09-14T11:00:00.000Z",
+    "updated_at": "2026-09-14T11:00:00.000Z"
+   },
+   {
+    "id": "hp-log-79",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T12:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T14:00",
+    "created_at": "2026-09-14T12:00:00.000Z",
+    "updated_at": "2026-09-14T12:00:00.000Z"
+   },
+   {
+    "id": "hp-log-80",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T13:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T15:00",
+    "created_at": "2026-09-14T13:00:00.000Z",
+    "updated_at": "2026-09-14T13:00:00.000Z"
+   },
+   {
+    "id": "hp-log-81",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-14T14:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14T16:00",
+    "created_at": "2026-09-14T14:00:00.000Z",
+    "updated_at": "2026-09-14T14:00:00.000Z"
+   },
+   {
+    "id": "hp-log-82",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T07:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T09:00",
+    "created_at": "2026-09-15T07:00:00.000Z",
+    "updated_at": "2026-09-15T07:00:00.000Z"
+   },
+   {
+    "id": "hp-log-83",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T08:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T10:00",
+    "created_at": "2026-09-15T08:00:00.000Z",
+    "updated_at": "2026-09-15T08:00:00.000Z"
+   },
+   {
+    "id": "hp-log-84",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T09:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T11:00",
+    "created_at": "2026-09-15T09:00:00.000Z",
+    "updated_at": "2026-09-15T09:00:00.000Z"
+   },
+   {
+    "id": "hp-log-85",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T10:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T12:00",
+    "created_at": "2026-09-15T10:00:00.000Z",
+    "updated_at": "2026-09-15T10:00:00.000Z"
+   },
+   {
+    "id": "hp-log-86",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T11:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T13:00",
+    "created_at": "2026-09-15T11:00:00.000Z",
+    "updated_at": "2026-09-15T11:00:00.000Z"
+   },
+   {
+    "id": "hp-log-87",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T12:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T14:00",
+    "created_at": "2026-09-15T12:00:00.000Z",
+    "updated_at": "2026-09-15T12:00:00.000Z"
+   },
+   {
+    "id": "hp-log-88",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T13:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T15:00",
+    "created_at": "2026-09-15T13:00:00.000Z",
+    "updated_at": "2026-09-15T13:00:00.000Z"
+   },
+   {
+    "id": "hp-log-89",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-15T14:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15T16:00",
+    "created_at": "2026-09-15T14:00:00.000Z",
+    "updated_at": "2026-09-15T14:00:00.000Z"
+   },
+   {
+    "id": "hp-log-90",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T07:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T09:00",
+    "created_at": "2026-09-16T07:00:00.000Z",
+    "updated_at": "2026-09-16T07:00:00.000Z"
+   },
+   {
+    "id": "hp-log-91",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T08:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T10:00",
+    "created_at": "2026-09-16T08:00:00.000Z",
+    "updated_at": "2026-09-16T08:00:00.000Z"
+   },
+   {
+    "id": "hp-log-92",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T09:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T11:00",
+    "created_at": "2026-09-16T09:00:00.000Z",
+    "updated_at": "2026-09-16T09:00:00.000Z"
+   },
+   {
+    "id": "hp-log-93",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T10:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T12:00",
+    "created_at": "2026-09-16T10:00:00.000Z",
+    "updated_at": "2026-09-16T10:00:00.000Z"
+   },
+   {
+    "id": "hp-log-94",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T11:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T13:00",
+    "created_at": "2026-09-16T11:00:00.000Z",
+    "updated_at": "2026-09-16T11:00:00.000Z"
+   },
+   {
+    "id": "hp-log-95",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T12:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T14:00",
+    "created_at": "2026-09-16T12:00:00.000Z",
+    "updated_at": "2026-09-16T12:00:00.000Z"
+   },
+   {
+    "id": "hp-log-96",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T13:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T15:00",
+    "created_at": "2026-09-16T13:00:00.000Z",
+    "updated_at": "2026-09-16T13:00:00.000Z"
+   },
+   {
+    "id": "hp-log-97",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-16T14:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16T16:00",
+    "created_at": "2026-09-16T14:00:00.000Z",
+    "updated_at": "2026-09-16T14:00:00.000Z"
+   },
+   {
+    "id": "hp-log-98",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T07:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T09:00",
+    "created_at": "2026-09-18T07:00:00.000Z",
+    "updated_at": "2026-09-18T07:00:00.000Z"
+   },
+   {
+    "id": "hp-log-99",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T08:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T10:00",
+    "created_at": "2026-09-18T08:00:00.000Z",
+    "updated_at": "2026-09-18T08:00:00.000Z"
+   },
+   {
+    "id": "hp-log-100",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T09:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T11:00",
+    "created_at": "2026-09-18T09:00:00.000Z",
+    "updated_at": "2026-09-18T09:00:00.000Z"
+   },
+   {
+    "id": "hp-log-101",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T10:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T12:00",
+    "created_at": "2026-09-18T10:00:00.000Z",
+    "updated_at": "2026-09-18T10:00:00.000Z"
+   },
+   {
+    "id": "hp-log-102",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T11:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T13:00",
+    "created_at": "2026-09-18T11:00:00.000Z",
+    "updated_at": "2026-09-18T11:00:00.000Z"
+   },
+   {
+    "id": "hp-log-103",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T12:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T14:00",
+    "created_at": "2026-09-18T12:00:00.000Z",
+    "updated_at": "2026-09-18T12:00:00.000Z"
+   },
+   {
+    "id": "hp-log-104",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T13:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T15:00",
+    "created_at": "2026-09-18T13:00:00.000Z",
+    "updated_at": "2026-09-18T13:00:00.000Z"
+   },
+   {
+    "id": "hp-log-105",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-18T14:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18T16:00",
+    "created_at": "2026-09-18T14:00:00.000Z",
+    "updated_at": "2026-09-18T14:00:00.000Z"
+   },
+   {
+    "id": "hp-log-106",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T07:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T09:00",
+    "created_at": "2026-09-19T07:00:00.000Z",
+    "updated_at": "2026-09-19T07:00:00.000Z"
+   },
+   {
+    "id": "hp-log-107",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T08:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T10:00",
+    "created_at": "2026-09-19T08:00:00.000Z",
+    "updated_at": "2026-09-19T08:00:00.000Z"
+   },
+   {
+    "id": "hp-log-108",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T09:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T11:00",
+    "created_at": "2026-09-19T09:00:00.000Z",
+    "updated_at": "2026-09-19T09:00:00.000Z"
+   },
+   {
+    "id": "hp-log-109",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T10:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T12:00",
+    "created_at": "2026-09-19T10:00:00.000Z",
+    "updated_at": "2026-09-19T10:00:00.000Z"
+   },
+   {
+    "id": "hp-log-110",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T11:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T13:00",
+    "created_at": "2026-09-19T11:00:00.000Z",
+    "updated_at": "2026-09-19T11:00:00.000Z"
+   },
+   {
+    "id": "hp-log-111",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T12:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T14:00",
+    "created_at": "2026-09-19T12:00:00.000Z",
+    "updated_at": "2026-09-19T12:00:00.000Z"
+   },
+   {
+    "id": "hp-log-112",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T13:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T15:00",
+    "created_at": "2026-09-19T13:00:00.000Z",
+    "updated_at": "2026-09-19T13:00:00.000Z"
+   },
+   {
+    "id": "hp-log-113",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-19T14:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19T16:00",
+    "created_at": "2026-09-19T14:00:00.000Z",
+    "updated_at": "2026-09-19T14:00:00.000Z"
+   },
+   {
+    "id": "hp-log-114",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T07:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T09:00",
+    "created_at": "2026-09-20T07:00:00.000Z",
+    "updated_at": "2026-09-20T07:00:00.000Z"
+   },
+   {
+    "id": "hp-log-115",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T08:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T10:00",
+    "created_at": "2026-09-20T08:00:00.000Z",
+    "updated_at": "2026-09-20T08:00:00.000Z"
+   },
+   {
+    "id": "hp-log-116",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T09:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T11:00",
+    "created_at": "2026-09-20T09:00:00.000Z",
+    "updated_at": "2026-09-20T09:00:00.000Z"
+   },
+   {
+    "id": "hp-log-117",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T10:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T12:00",
+    "created_at": "2026-09-20T10:00:00.000Z",
+    "updated_at": "2026-09-20T10:00:00.000Z"
+   },
+   {
+    "id": "hp-log-118",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T11:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T13:00",
+    "created_at": "2026-09-20T11:00:00.000Z",
+    "updated_at": "2026-09-20T11:00:00.000Z"
+   },
+   {
+    "id": "hp-log-119",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T12:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T14:00",
+    "created_at": "2026-09-20T12:00:00.000Z",
+    "updated_at": "2026-09-20T12:00:00.000Z"
+   },
+   {
+    "id": "hp-log-120",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T13:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T15:00",
+    "created_at": "2026-09-20T13:00:00.000Z",
+    "updated_at": "2026-09-20T13:00:00.000Z"
+   },
+   {
+    "id": "hp-log-121",
+    "habit_id": "meds",
+    "kind": "done",
+    "logged_at": "2026-09-20T14:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20T16:00",
+    "created_at": "2026-09-20T14:00:00.000Z",
+    "updated_at": "2026-09-20T14:00:00.000Z"
+   },
+   {
+    "id": "hp-log-122",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-07T18:00:00.000Z",
+    "local_date": "2026-09-07",
+    "occurrence_key": "2026-09-07",
+    "created_at": "2026-09-07T18:00:00.000Z",
+    "updated_at": "2026-09-07T18:00:00.000Z",
+    "value": 1
+   },
+   {
+    "id": "hp-log-123",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-08T18:00:00.000Z",
+    "local_date": "2026-09-08",
+    "occurrence_key": "2026-09-08",
+    "created_at": "2026-09-08T18:00:00.000Z",
+    "updated_at": "2026-09-08T18:00:00.000Z",
+    "value": 2
+   },
+   {
+    "id": "hp-log-124",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-09T18:00:00.000Z",
+    "local_date": "2026-09-09",
+    "occurrence_key": "2026-09-09",
+    "created_at": "2026-09-09T18:00:00.000Z",
+    "updated_at": "2026-09-09T18:00:00.000Z",
+    "value": 3
+   },
+   {
+    "id": "hp-log-125",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-11T18:00:00.000Z",
+    "local_date": "2026-09-11",
+    "occurrence_key": "2026-09-11",
+    "created_at": "2026-09-11T18:00:00.000Z",
+    "updated_at": "2026-09-11T18:00:00.000Z",
+    "value": 2
+   },
+   {
+    "id": "hp-log-126",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-12T18:00:00.000Z",
+    "local_date": "2026-09-12",
+    "occurrence_key": "2026-09-12",
+    "created_at": "2026-09-12T18:00:00.000Z",
+    "updated_at": "2026-09-12T18:00:00.000Z",
+    "value": 5
+   },
+   {
+    "id": "hp-log-127",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-13T18:00:00.000Z",
+    "local_date": "2026-09-13",
+    "occurrence_key": "2026-09-13",
+    "created_at": "2026-09-13T18:00:00.000Z",
+    "updated_at": "2026-09-13T18:00:00.000Z",
+    "value": 1
+   },
+   {
+    "id": "hp-log-128",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-14T18:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14",
+    "created_at": "2026-09-14T18:00:00.000Z",
+    "updated_at": "2026-09-14T18:00:00.000Z",
+    "value": 2
+   },
+   {
+    "id": "hp-log-129",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-15T18:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15",
+    "created_at": "2026-09-15T18:00:00.000Z",
+    "updated_at": "2026-09-15T18:00:00.000Z",
+    "value": 2
+   },
+   {
+    "id": "hp-log-130",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-16T18:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16",
+    "created_at": "2026-09-16T18:00:00.000Z",
+    "updated_at": "2026-09-16T18:00:00.000Z",
+    "value": 0
+   },
+   {
+    "id": "hp-log-131",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-17T18:00:00.000Z",
+    "local_date": "2026-09-17",
+    "occurrence_key": "2026-09-17",
+    "created_at": "2026-09-17T18:00:00.000Z",
+    "updated_at": "2026-09-17T18:00:00.000Z",
+    "value": 4
+   },
+   {
+    "id": "hp-log-132",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-18T18:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18",
+    "created_at": "2026-09-18T18:00:00.000Z",
+    "updated_at": "2026-09-18T18:00:00.000Z",
+    "value": 1
+   },
+   {
+    "id": "hp-log-133",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-19T18:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19",
+    "created_at": "2026-09-19T18:00:00.000Z",
+    "updated_at": "2026-09-19T18:00:00.000Z",
+    "value": 2
+   },
+   {
+    "id": "hp-log-134",
+    "habit_id": "coffee",
+    "kind": "progress",
+    "logged_at": "2026-09-20T18:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20",
+    "created_at": "2026-09-20T18:00:00.000Z",
+    "updated_at": "2026-09-20T18:00:00.000Z",
+    "value": 3
+   },
+   {
+    "id": "hp-log-135",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-07T18:00:00.000Z",
+    "local_date": "2026-09-07",
+    "occurrence_key": "2026-09-07",
+    "created_at": "2026-09-07T18:00:00.000Z",
+    "updated_at": "2026-09-07T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-136",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-08T18:00:00.000Z",
+    "local_date": "2026-09-08",
+    "occurrence_key": "2026-09-08",
+    "created_at": "2026-09-08T18:00:00.000Z",
+    "updated_at": "2026-09-08T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-137",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-09T18:00:00.000Z",
+    "local_date": "2026-09-09",
+    "occurrence_key": "2026-09-09",
+    "created_at": "2026-09-09T18:00:00.000Z",
+    "updated_at": "2026-09-09T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-138",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-10T18:00:00.000Z",
+    "local_date": "2026-09-10",
+    "occurrence_key": "2026-09-10",
+    "created_at": "2026-09-10T18:00:00.000Z",
+    "updated_at": "2026-09-10T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-139",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-11T18:00:00.000Z",
+    "local_date": "2026-09-11",
+    "occurrence_key": "2026-09-11",
+    "created_at": "2026-09-11T18:00:00.000Z",
+    "updated_at": "2026-09-11T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-140",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-13T18:00:00.000Z",
+    "local_date": "2026-09-13",
+    "occurrence_key": "2026-09-13",
+    "created_at": "2026-09-13T18:00:00.000Z",
+    "updated_at": "2026-09-13T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-141",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-14T18:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14",
+    "created_at": "2026-09-14T18:00:00.000Z",
+    "updated_at": "2026-09-14T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-142",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-15T18:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15",
+    "created_at": "2026-09-15T18:00:00.000Z",
+    "updated_at": "2026-09-15T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-143",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-16T18:00:00.000Z",
+    "local_date": "2026-09-16",
+    "occurrence_key": "2026-09-16",
+    "created_at": "2026-09-16T18:00:00.000Z",
+    "updated_at": "2026-09-16T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-144",
+    "habit_id": "read",
+    "kind": "done",
+    "logged_at": "2026-09-18T18:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18",
+    "created_at": "2026-09-18T18:00:00.000Z",
+    "updated_at": "2026-09-18T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-145",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-07T18:00:00.000Z",
+    "local_date": "2026-09-07",
+    "occurrence_key": "2026-09-07",
+    "created_at": "2026-09-07T18:00:00.000Z",
+    "updated_at": "2026-09-07T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-146",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-08T18:00:00.000Z",
+    "local_date": "2026-09-08",
+    "occurrence_key": "2026-09-08",
+    "created_at": "2026-09-08T18:00:00.000Z",
+    "updated_at": "2026-09-08T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-147",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-09T18:00:00.000Z",
+    "local_date": "2026-09-09",
+    "occurrence_key": "2026-09-09",
+    "created_at": "2026-09-09T18:00:00.000Z",
+    "updated_at": "2026-09-09T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-148",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-10T18:00:00.000Z",
+    "local_date": "2026-09-10",
+    "occurrence_key": "2026-09-10",
+    "created_at": "2026-09-10T18:00:00.000Z",
+    "updated_at": "2026-09-10T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-149",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-14T18:00:00.000Z",
+    "local_date": "2026-09-14",
+    "occurrence_key": "2026-09-14",
+    "created_at": "2026-09-14T18:00:00.000Z",
+    "updated_at": "2026-09-14T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-150",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-15T18:00:00.000Z",
+    "local_date": "2026-09-15",
+    "occurrence_key": "2026-09-15",
+    "created_at": "2026-09-15T18:00:00.000Z",
+    "updated_at": "2026-09-15T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-151",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-17T18:00:00.000Z",
+    "local_date": "2026-09-17",
+    "occurrence_key": "2026-09-17",
+    "created_at": "2026-09-17T18:00:00.000Z",
+    "updated_at": "2026-09-17T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-152",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-18T18:00:00.000Z",
+    "local_date": "2026-09-18",
+    "occurrence_key": "2026-09-18",
+    "created_at": "2026-09-18T18:00:00.000Z",
+    "updated_at": "2026-09-18T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-153",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-19T18:00:00.000Z",
+    "local_date": "2026-09-19",
+    "occurrence_key": "2026-09-19",
+    "created_at": "2026-09-19T18:00:00.000Z",
+    "updated_at": "2026-09-19T18:00:00.000Z"
+   },
+   {
+    "id": "hp-log-154",
+    "habit_id": "journal",
+    "kind": "done",
+    "logged_at": "2026-09-20T18:00:00.000Z",
+    "local_date": "2026-09-20",
+    "occurrence_key": "2026-09-20",
+    "created_at": "2026-09-20T18:00:00.000Z",
+    "updated_at": "2026-09-20T18:00:00.000Z"
+   },
+   {
+    "id": "qt-log-0",
+    "habit_id": "smoking",
+    "kind": "relapse",
+    "logged_at": "2026-08-11T16:00:00.000Z",
+    "local_date": "2026-08-11",
+    "value": 3
+   },
+   {
+    "id": "qt-log-1",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-07-23T07:15:00.000Z",
+    "local_date": "2026-07-23",
+    "intensity": 3,
+    "trigger": "stress",
+    "place": "home",
+    "duration_seconds": 120,
+    "coping": "breathing",
+    "resisted": false
+   },
+   {
+    "id": "qt-log-2",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-07-24T10:15:00.000Z",
+    "local_date": "2026-07-24",
+    "intensity": 4,
+    "trigger": "coffee",
+    "place": "work",
+    "duration_seconds": 150,
+    "coping": "walk"
+   },
+   {
+    "id": "qt-log-3",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-07-25T13:15:00.000Z",
+    "local_date": "2026-07-25",
+    "intensity": 5,
+    "trigger": "Coffee",
+    "place": "car",
+    "duration_seconds": 180,
+    "coping": "water"
+   },
+   {
+    "id": "qt-log-4",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-07-26T16:15:00.000Z",
+    "local_date": "2026-07-26",
+    "intensity": 6,
+    "trigger": "alcohol",
+    "place": "bar",
+    "duration_seconds": 210,
+    "coping": "breathing"
+   },
+   {
+    "id": "qt-log-5",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-07-27T07:15:00.000Z",
+    "local_date": "2026-07-27",
+    "intensity": 7,
+    "trigger": "after meals",
+    "place": "home",
+    "duration_seconds": 240,
+    "coping": "walk"
+   },
+   {
+    "id": "qt-log-6",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-07-28T10:15:00.000Z",
+    "local_date": "2026-07-28",
+    "intensity": 8,
+    "trigger": null,
+    "place": "work",
+    "duration_seconds": 270,
+    "coping": "water"
+   },
+   {
+    "id": "qt-log-7",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-07-29T13:15:00.000Z",
+    "local_date": "2026-07-29",
+    "intensity": 9,
+    "trigger": "stress",
+    "place": "car",
+    "duration_seconds": 300,
+    "coping": "breathing"
+   },
+   {
+    "id": "qt-log-8",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-07-23T16:15:00.000Z",
+    "local_date": "2026-07-23",
+    "intensity": 3,
+    "trigger": "coffee",
+    "place": "bar",
+    "duration_seconds": 120,
+    "coping": "walk"
+   },
+   {
+    "id": "qt-log-9",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-07-24T07:15:00.000Z",
+    "local_date": "2026-07-24",
+    "intensity": 4,
+    "trigger": "Coffee",
+    "place": "home",
+    "duration_seconds": 150,
+    "coping": "water"
+   },
+   {
+    "id": "qt-log-10",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-07-25T10:15:00.000Z",
+    "local_date": "2026-07-25",
+    "intensity": 5,
+    "trigger": "alcohol",
+    "place": "work",
+    "duration_seconds": 180,
+    "coping": "breathing"
+   },
+   {
+    "id": "qt-log-11",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-07-30T13:15:00.000Z",
+    "local_date": "2026-07-30",
+    "intensity": 6,
+    "trigger": "after meals",
+    "place": "car",
+    "duration_seconds": 210,
+    "coping": "walk"
+   },
+   {
+    "id": "qt-log-12",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-07-31T16:15:00.000Z",
+    "local_date": "2026-07-31",
+    "intensity": 7,
+    "trigger": null,
+    "place": "bar",
+    "duration_seconds": 240,
+    "coping": "water"
+   },
+   {
+    "id": "qt-log-13",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-01T07:15:00.000Z",
+    "local_date": "2026-08-01",
+    "intensity": 8,
+    "trigger": "stress",
+    "place": "home",
+    "duration_seconds": 270,
+    "coping": "breathing"
+   },
+   {
+    "id": "qt-log-14",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-02T10:15:00.000Z",
+    "local_date": "2026-08-02",
+    "intensity": 9,
+    "trigger": "coffee",
+    "place": "work",
+    "duration_seconds": 300,
+    "coping": "walk"
+   },
+   {
+    "id": "qt-log-15",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-03T13:15:00.000Z",
+    "local_date": "2026-08-03",
+    "intensity": 3,
+    "trigger": "Coffee",
+    "place": "car",
+    "duration_seconds": 120,
+    "coping": "water"
+   },
+   {
+    "id": "qt-log-16",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-04T16:15:00.000Z",
+    "local_date": "2026-08-04",
+    "intensity": 4,
+    "trigger": "alcohol",
+    "place": "bar",
+    "duration_seconds": 150,
+    "coping": "breathing"
+   },
+   {
+    "id": "qt-log-17",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-05T07:15:00.000Z",
+    "local_date": "2026-08-05",
+    "intensity": 5,
+    "trigger": "after meals",
+    "place": "home",
+    "duration_seconds": 180,
+    "coping": "walk"
+   },
+   {
+    "id": "qt-log-18",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-07-30T10:15:00.000Z",
+    "local_date": "2026-07-30",
+    "intensity": 6,
+    "trigger": null,
+    "place": "work",
+    "duration_seconds": 210,
+    "coping": "water"
+   },
+   {
+    "id": "qt-log-19",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-06T13:15:00.000Z",
+    "local_date": "2026-08-06",
+    "intensity": 7,
+    "trigger": "stress",
+    "place": "car",
+    "duration_seconds": 240,
+    "coping": "breathing"
+   },
+   {
+    "id": "qt-log-20",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-08T07:15:00.000Z",
+    "local_date": "2026-08-08",
+    "intensity": 9,
+    "trigger": "Coffee",
+    "place": "home",
+    "duration_seconds": 300,
+    "coping": "water"
+   },
+   {
+    "id": "qt-log-21",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-09T10:15:00.000Z",
+    "local_date": "2026-08-09",
+    "intensity": 3,
+    "trigger": "alcohol",
+    "place": "work",
+    "duration_seconds": 120,
+    "coping": "breathing"
+   },
+   {
+    "id": "qt-log-22",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-10T13:15:00.000Z",
+    "local_date": "2026-08-10",
+    "intensity": 4,
+    "trigger": "after meals",
+    "place": "car",
+    "duration_seconds": 150,
+    "coping": "walk"
+   },
+   {
+    "id": "qt-log-23",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-11T16:15:00.000Z",
+    "local_date": "2026-08-11",
+    "intensity": 5,
+    "trigger": null,
+    "place": "bar",
+    "duration_seconds": 180,
+    "coping": "water"
+   },
+   {
+    "id": "qt-log-24",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-12T07:15:00.000Z",
+    "local_date": "2026-08-12",
+    "intensity": 6,
+    "trigger": "stress",
+    "place": "home",
+    "duration_seconds": 210,
+    "coping": "breathing"
+   },
+   {
+    "id": "qt-log-25",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-13T10:15:00.000Z",
+    "local_date": "2026-08-13",
+    "intensity": 7,
+    "trigger": "coffee",
+    "place": "work",
+    "duration_seconds": 240,
+    "coping": "walk"
+   },
+   {
+    "id": "qt-log-26",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-14T13:15:00.000Z",
+    "local_date": "2026-08-14",
+    "intensity": 8,
+    "trigger": "Coffee",
+    "place": "car",
+    "duration_seconds": 270,
+    "coping": "water"
+   },
+   {
+    "id": "qt-log-27",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-15T16:15:00.000Z",
+    "local_date": "2026-08-15",
+    "intensity": 9,
+    "trigger": "alcohol",
+    "place": "bar",
+    "duration_seconds": 300,
+    "coping": "breathing"
+   },
+   {
+    "id": "qt-log-28",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-16T07:15:00.000Z",
+    "local_date": "2026-08-16",
+    "intensity": 3,
+    "trigger": "after meals",
+    "place": "home",
+    "duration_seconds": 120,
+    "coping": "walk"
+   },
+   {
+    "id": "qt-log-29",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-17T10:15:00.000Z",
+    "local_date": "2026-08-17",
+    "intensity": 4,
+    "trigger": null,
+    "place": "work",
+    "duration_seconds": 150,
+    "coping": "water"
+   },
+   {
+    "id": "qt-log-30",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-20T13:15:00.000Z",
+    "local_date": "2026-08-20",
+    "intensity": 5,
+    "trigger": "stress",
+    "place": "car",
+    "duration_seconds": 180,
+    "coping": "breathing"
+   },
+   {
+    "id": "qt-log-31",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-21T16:15:00.000Z",
+    "local_date": "2026-08-21",
+    "intensity": 6,
+    "trigger": "coffee",
+    "place": "bar",
+    "duration_seconds": 210,
+    "coping": "walk"
+   },
+   {
+    "id": "qt-log-32",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-22T07:15:00.000Z",
+    "local_date": "2026-08-22",
+    "intensity": 7,
+    "trigger": "Coffee",
+    "place": "home",
+    "duration_seconds": 240,
+    "coping": "water"
+   },
+   {
+    "id": "qt-log-33",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-23T10:15:00.000Z",
+    "local_date": "2026-08-23",
+    "intensity": 8,
+    "trigger": "alcohol",
+    "place": "work",
+    "duration_seconds": 270,
+    "coping": "breathing"
+   },
+   {
+    "id": "qt-log-34",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-27T13:15:00.000Z",
+    "local_date": "2026-08-27",
+    "intensity": 9,
+    "trigger": "after meals",
+    "place": "car",
+    "duration_seconds": 300,
+    "coping": "walk"
+   },
+   {
+    "id": "qt-log-35",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-28T16:15:00.000Z",
+    "local_date": "2026-08-28",
+    "intensity": 3,
+    "trigger": null,
+    "place": "bar",
+    "duration_seconds": 120,
+    "coping": "water"
+   },
+   {
+    "id": "qt-log-36",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-29T07:15:00.000Z",
+    "local_date": "2026-08-29",
+    "intensity": 4,
+    "trigger": "stress",
+    "place": "home",
+    "duration_seconds": 150,
+    "coping": "breathing"
+   },
+   {
+    "id": "qt-log-37",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-09-03T10:15:00.000Z",
+    "local_date": "2026-09-03",
+    "intensity": 5,
+    "trigger": "coffee",
+    "place": "work",
+    "duration_seconds": 180,
+    "coping": "walk"
+   },
+   {
+    "id": "qt-log-38",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-09-04T13:15:00.000Z",
+    "local_date": "2026-09-04",
+    "intensity": 6,
+    "trigger": "Coffee",
+    "place": "car",
+    "duration_seconds": 210,
+    "coping": "water"
+   },
+   {
+    "id": "qt-log-39",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-09-10T16:15:00.000Z",
+    "local_date": "2026-09-10",
+    "intensity": 7,
+    "trigger": "alcohol",
+    "place": "bar",
+    "duration_seconds": 240,
+    "coping": "breathing"
+   },
+   {
+    "id": "qt-log-40",
+    "habit_id": "smoking",
+    "kind": "craving",
+    "logged_at": "2026-08-11T14:30:00.000Z",
+    "local_date": "2026-08-11",
+    "intensity": 9,
+    "trigger": "alcohol",
+    "place": "bar",
+    "duration_seconds": 600,
+    "coping": "walk"
+   }
+  ],
+  "checklists": [
+   {
+    "id": "L0",
+    "title": "Invoice",
+    "sort_key": "a",
+    "created_at": "2026-09-06T06:00:00.000Z"
+   },
+   {
+    "id": "L1",
+    "title": "Sprint",
+    "sort_key": "b",
+    "created_at": "2026-09-06T06:00:00.000Z"
+   },
+   {
+    "id": "L2",
+    "title": "Inbox",
+    "sort_key": "c",
+    "created_at": "2026-09-06T06:00:00.000Z"
+   },
+   {
+    "id": "L3",
+    "title": "Errands",
+    "sort_key": "d",
+    "created_at": "2026-09-06T06:00:00.000Z"
+   }
+  ],
+  "checklist_items": [
+   {
+    "id": "A",
+    "checklist_id": "L1",
+    "sort_key": "000",
+    "text": "Item A",
+    "status": "completed",
+    "created_at": "2026-09-07T07:00:00.000Z",
+    "updated_at": "2026-09-07T07:00:00.000Z",
+    "completed_at": "2026-09-10T09:00:00.000Z"
+   },
+   {
+    "id": "B",
+    "checklist_id": "L1",
+    "sort_key": "001",
+    "text": "Item B",
+    "status": "completed",
+    "created_at": "2026-09-07T07:05:00.000Z",
+    "updated_at": "2026-09-07T07:05:00.000Z",
+    "completed_at": "2026-09-11T08:00:00.000Z"
+   },
+   {
+    "id": "C",
+    "checklist_id": "L1",
+    "sort_key": "002",
+    "text": "Item C",
+    "status": "waiting",
+    "created_at": "2026-09-07T07:10:00.000Z",
+    "updated_at": "2026-09-07T07:10:00.000Z",
+    "waiting_on": "Sam"
+   },
+   {
+    "id": "D",
+    "checklist_id": "L1",
+    "sort_key": "003",
+    "text": "Item D",
+    "status": "todo",
+    "created_at": "2026-09-08T07:00:00.000Z",
+    "updated_at": "2026-09-08T07:00:00.000Z",
+    "deleted_at": "2026-09-10T10:00:00.000Z"
+   },
+   {
+    "id": "E",
+    "checklist_id": "L1",
+    "sort_key": "004",
+    "text": "Item E",
+    "status": "todo",
+    "created_at": "2026-09-10T07:00:00.000Z",
+    "updated_at": "2026-09-10T07:00:00.000Z"
+   },
+   {
+    "id": "M",
+    "checklist_id": "L3",
+    "sort_key": "005",
+    "text": "Item M",
+    "status": "todo",
+    "created_at": "2026-09-08T08:00:00.000Z",
+    "updated_at": "2026-09-08T08:00:00.000Z"
+   },
+   {
+    "id": "X",
+    "checklist_id": "L0",
+    "sort_key": "006",
+    "text": "Item X",
+    "status": "completed",
+    "created_at": "2026-09-07T07:00:00.000Z",
+    "updated_at": "2026-09-07T07:00:00.000Z",
+    "completed_at": "2026-09-14T08:00:00.000Z"
+   }
+  ]
+ },
+ "expect": [
+  {
+   "scope": "global",
+   "period": "thisWeek",
+   "metricId": "GL-01",
+   "value": 1,
+   "args": {
+    "nextUpTitle": "Standup",
+    "nextUpAt": "2026-09-21T09:30",
+    "perfectDay": false
+   }
+  },
+  {
+   "scope": "global",
+   "period": "thisWeek",
+   "metricId": "GL-02",
+   "value": 5,
+   "args": {
+    "plannedHours": 2.75,
+    "previousPlannedHours": 3.75
+   }
+  },
+  {
+   "scope": "global",
+   "period": "thisWeek",
+   "metricId": "GL-03",
+   "value": 5,
+   "args": {
+    "week": "2026-09-14",
+    "current": false
+   }
+  },
+  {
+   "scope": "global",
+   "period": "thisWeek",
+   "metricId": "GL-03",
+   "value": 5,
+   "args": {
+    "week": "2026-09-21",
+    "current": true
+   },
+   "extra": "current"
+  },
+  {
+   "scope": "global",
+   "period": "thisWeek",
+   "metricId": "GL-10",
+   "value": 2,
+   "args": {
+    "guidance": "[logFromNotifications, trackTime]",
+    "pending": 0,
+    "unknown": 5,
+    "coverage": 0.3548387096774194
+   },
+   "tolerance": 1e-09
+  }
+ ]
+}

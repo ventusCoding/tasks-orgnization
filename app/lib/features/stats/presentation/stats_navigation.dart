@@ -26,3 +26,9 @@ void openDrillRef(BuildContext context, DrillRef ref) {
 
 /// Opens an Insights scope (`/insights/<scope>[/<id>]`).
 void openInsights(BuildContext context, String scope, [String? id]) => context.push(AppLinks.insightsScope(scope, id));
+
+/// Opens the metric glossary, filtered to [query] (a metric id from an explain sheet).
+void openGlossary(BuildContext context, {String? query}) {
+  final base = AppLinks.insightsScope('glossary');
+  context.push(query == null ? base : '$base?q=${Uri.encodeQueryComponent(query)}');
+}

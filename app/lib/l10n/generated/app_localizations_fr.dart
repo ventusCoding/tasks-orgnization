@@ -1214,6 +1214,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelAttention => 'À surveiller';
 
   @override
+  String get chartsLabelBackfillShare => 'Saisies tardives';
+
+  @override
   String get chartsLabelBaseline => 'Référence';
 
   @override
@@ -1328,6 +1331,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelLists => 'Listes';
 
   @override
+  String get chartsLabelLoggedRatio => 'Saisies';
+
+  @override
   String get chartsLabelLowPriority => 'Priorité basse';
 
   @override
@@ -1356,6 +1362,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelMoods => 'Humeurs';
+
+  @override
+  String get chartsLabelMostActive => 'Les plus actives';
+
+  @override
+  String get chartsLabelMostBlocked => 'Les plus bloquées';
 
   @override
   String get chartsLabelMoved => 'Déplacé';
@@ -1448,6 +1460,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelPending => 'En attente';
 
   @override
+  String get chartsLabelPendingSync => 'En attente de synchro';
+
+  @override
   String get chartsLabelPerDay => 'Par jour';
 
   @override
@@ -1520,10 +1535,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelStale => 'Inactives';
 
   @override
+  String get chartsLabelStalest => 'Les plus inactives';
+
+  @override
   String get chartsLabelStreak => 'Série';
 
   @override
   String get chartsLabelSuccess => 'Réussi';
+
+  @override
+  String get chartsLabelSummary => 'Résumé';
 
   @override
   String get chartsLabelTarget => 'Objectif';
@@ -1547,6 +1568,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelTotal => 'Total';
 
   @override
+  String get chartsLabelTrackedTime => 'Temps suivi';
+
+  @override
   String get chartsLabelTrend => 'Tendance';
 
   @override
@@ -1560,6 +1584,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelUnits => 'Unités';
+
+  @override
+  String get chartsLabelUnknownUnits => 'Non saisies';
 
   @override
   String get chartsLabelUnplanned => 'Non prévus';
@@ -10286,6 +10313,47 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String statsGlossaryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count indicateurs',
+      one: '1 indicateur',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsGlossaryEmpty(String query) {
+    return 'Aucun indicateur ne correspond à « $query ».';
+  }
+
+  @override
+  String get statsGlossaryFormula => 'Formule';
+
+  @override
+  String get statsGlossarySearch => 'Rechercher un indicateur';
+
+  @override
+  String get statsGlossaryTitle => 'Glossaire des indicateurs';
+
+  @override
+  String get statsGuidanceLogFromNotifications =>
+      'Saisissez depuis les notifications de rappel pour plus de précision.';
+
+  @override
+  String get statsGuidanceLogSameDay =>
+      'Essayez de saisir le jour même — les saisies tardives sont sujettes aux oublis.';
+
+  @override
+  String get statsGuidanceSyncPending =>
+      'Certaines modifications d’autres appareils peuvent manquer tant que la synchronisation n’est pas terminée.';
+
+  @override
+  String get statsGuidanceTrackTime =>
+      'Lancez le minuteur sur vos tâches pour voir vos heures réelles.';
+
+  @override
   String get statsHealthClockNote =>
       'Les étapes suivent votre temps actuel sans tabac : le compteur redémarre après un écart.';
 
@@ -10531,6 +10599,17 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsMetricGl03Title => 'Bilan hebdomadaire';
 
   @override
+  String get statsMetricGl10Desc =>
+      'La fiabilité de vos statistiques : saisie des habitudes, saisies tardives, temps suivi sur les tâches et modifications en attente de synchronisation — chacune avec un conseil pour l’améliorer.';
+
+  @override
+  String get statsMetricGl10Formula =>
+      'Taux de saisie des habitudes et unités inconnues (30 derniers jours) ; part des saisies tardives (> 24 h) ; couverture du temps réel = occurrences faites avec temps suivi ÷ occurrences faites ; modifications en attente de synchronisation.';
+
+  @override
+  String get statsMetricGl10Title => 'Qualité des données';
+
+  @override
   String get statsMetricHbH01Desc =>
       'À quel point l’habitude est ancrée — les jours récents comptent plus.';
 
@@ -10649,6 +10728,17 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsMetricHbH11Title => 'Volume total';
 
   @override
+  String get statsMetricHbH25Desc =>
+      'La part de l’historique de cette habitude réellement enregistrée. Un jour non saisi est inconnu, pas un échec : il compte comme manqué uniquement parce que rien n’a été enregistré.';
+
+  @override
+  String get statsMetricHbH25Formula =>
+      'Taux de saisie = unités avec au moins une saisie ÷ unités planifiées closes · unités inconnues = unités manquées sans aucune saisie · part des saisies tardives = saisies créées plus de 24 h après la fin de leur unité ÷ toutes les saisies.';
+
+  @override
+  String get statsMetricHbH25Title => 'Complétude des données';
+
+  @override
   String get statsMetricHbX01Desc => 'Habitudes prévues réalisées aujourd’hui.';
 
   @override
@@ -10701,6 +10791,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsMetricHbX05Title => 'Bilan des arrêts';
+
+  @override
+  String get statsMetricHbX12Desc =>
+      'Les mêmes mesures de complétude pour toutes les habitudes : taux de saisie, unités non saisies (inconnues) et saisies tardives.';
+
+  @override
+  String get statsMetricHbX12Formula =>
+      'Σ unités avec saisie ÷ Σ unités planifiées closes de toutes les habitudes ; Σ unités inconnues ; Σ saisies tardives ÷ Σ saisies.';
+
+  @override
+  String get statsMetricHbX12Title =>
+      'Complétude des données (toutes les habitudes)';
 
   @override
   String get statsMetricPlS01Desc =>
@@ -11262,6 +11364,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsNotePopulationEstimate => 'Estimation populationnelle';
 
   @override
+  String get statsNoteUnloggedNotFailed =>
+      'Les jours non saisis sont inconnus, pas des échecs — ils comptent comme manqués uniquement faute de saisie.';
+
+  @override
   String get statsNoteUsedPlanned =>
       'Temps prévu affiché : le temps réel est suivi sur moins de 60 % des tâches faites.';
 
@@ -11548,6 +11654,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsSectionCravings => 'Envies';
+
+  @override
+  String get statsSectionDataQuality => 'Qualité des données';
 
   @override
   String get statsSectionExecution => 'Exécution';

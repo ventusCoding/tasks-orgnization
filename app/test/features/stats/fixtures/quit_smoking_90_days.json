@@ -602,6 +602,53 @@
    "metricId": "QT-10",
    "value": 23940,
    "tolerance": 1e-06
+  },
+  {
+   "scope": "quit",
+   "scopeId": "smoking",
+   "period": "allTime",
+   "metricId": "QT-09",
+   "value": 4745,
+   "args": {
+    "perDay": 13
+   }
+  },
+  {
+   "scope": "quit",
+   "scopeId": "smoking",
+   "period": "allTime",
+   "metricId": "QT-11",
+   "value": 6,
+   "args": {
+    "total": 16,
+    "restarted": true
+   }
+  },
+  {
+   "scope": "quit",
+   "scopeId": "smoking",
+   "period": "allTime",
+   "metricId": "QT-12",
+   "note": "abstainMode"
+  },
+  {
+   "scope": "quit",
+   "scopeId": "smoking",
+   "period": "allTime",
+   "metricId": "QT-13",
+   "value": 0.6666666666666666,
+   "tolerance": 1e-09,
+   "args": {
+    "meanIntensity": 5.9,
+    "maxIntensity": 9
+   }
+  },
+  {
+   "scope": "quit",
+   "scopeId": "smoking",
+   "period": "allTime",
+   "metricId": "QT-14",
+   "value": 40
   }
  ]
 }

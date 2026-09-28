@@ -158,6 +158,15 @@ enum LabelToken {
   perfectDay,
   overdue,
   nextUp,
+  summary,
+  mostActive,
+  mostBlocked,
+  stalest,
+  loggedRatio,
+  unknownUnits,
+  backfillShare,
+  trackedTime,
+  pendingSync,
 }
 
 /// A chart label: resolved to text by the presentation layer.

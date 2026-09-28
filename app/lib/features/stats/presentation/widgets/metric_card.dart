@@ -71,6 +71,8 @@ class MetricCard extends ConsumerWidget {
         result: r,
         direction: def.direction,
         minSample: def.minSample,
+        // Notes that qualify a value (e.g. "population estimate") stay visible next to it.
+        caption: r.value is Value<double> && r.note != null ? f.note(r.note) : null,
         onLongPress: explain,
         onTap: allRefs.isEmpty ? explain : () => showDrillSheet(context, title: title, refs: allRefs),
       );
@@ -108,6 +110,9 @@ class MetricCard extends ConsumerWidget {
         if (f.note(v.reasonKey) case final n?) n,
       for (final e in (r?.exclusions ?? const <String, num>{}).entries)
         if (exclusionText(l, e.key, e.value.round()) case final t?) t,
+      // Data-quality tips (GL-10).
+      for (final k in (r?.args['guidance'] as List?)?.whereType<String>() ?? const <String>[])
+        if (guidanceText(l, k) case final t?) t,
       if (def.id == 'QT-11' && status == ChartFrameStatus.data) ...[l.statsHealthClockNote, l.statsHealthElapsedNote],
     ];
     return _Card(

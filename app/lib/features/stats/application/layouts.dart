@@ -120,6 +120,7 @@ const habitLayout = StatsLayout(
     StatsLayoutSection('targetVolume', [StatsLayoutItem('HB-H-10'), StatsLayoutItem('HB-H-11')]),
     StatsLayoutSection('streaks', [StatsLayoutItem('HB-H-04')]),
     StatsLayoutSection('outcomes', [StatsLayoutItem('HB-H-06'), StatsLayoutItem('HB-H-05')]),
+    StatsLayoutSection('dataQuality', [StatsLayoutItem('HB-H-25')]),
   ],
 );
 
@@ -135,6 +136,7 @@ const habitsLayout = StatsLayout(
       StatsLayoutItem('HB-X-02'),
     ]),
     StatsLayoutSection('quitTrackers', [StatsLayoutItem('HB-X-05')]),
+    StatsLayoutSection('dataQuality', [StatsLayoutItem('HB-X-12')]),
   ],
 );
 
@@ -168,6 +170,7 @@ const overviewLayout = StatsLayout(
   sections: [
     StatsLayoutSection('today', [StatsLayoutItem('GL-01')]),
     StatsLayoutSection('week', [StatsLayoutItem('GL-02')]),
+    StatsLayoutSection('dataQuality', [StatsLayoutItem('GL-10')]),
   ],
 );
 

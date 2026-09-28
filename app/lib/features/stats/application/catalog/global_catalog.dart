@@ -6,6 +6,7 @@ import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:everslot/features/stats/application/catalog/catalog_support.dart';
 import 'package:everslot/features/stats/application/catalog/checklist_catalog.dart';
+import 'package:everslot/features/stats/application/catalog/data_quality.dart';
 import 'package:everslot/features/stats/application/catalog/habit_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/planner_catalog.dart';
 import 'package:everslot/features/stats/domain/chart_data.dart';
@@ -27,11 +28,18 @@ final class GlobalContext extends StatsContext {
 
   late final LocalDate thisWeekStart = today.startOfWeek(weekStart);
 
-  /// Days covered by the section facts: the period plus two weeks back and next week.
+  /// Days covered by the section facts: the period, two weeks back (at least the last 30 days, for
+  /// GL-10) and next week.
   late final DateRange window = DateRange(
-    LocalDate.min(LocalDate.min(range.start, previous.start), thisWeekStart.minusDays(14)),
+    LocalDate.min(
+      LocalDate.min(range.start, previous.start),
+      LocalDate.min(thisWeekStart.minusDays(14), today.minusDays(29)),
+    ),
     LocalDate.max(range.end, thisWeekStart.plusDays(13)),
   );
+
+  /// The last 30 days (data quality, GL-10).
+  late final DateRange last30 = DateRange(today.minusDays(29), today);
 
   StatsJob _sub(MetricScope scope) => StatsJob(
     request: StatsRequest(
@@ -189,6 +197,36 @@ ValueTile _kpiTile(KpiDelta k, {required String currency}) {
   );
 }
 
+/// Habit adherence over [r] exactly as HB-X-04 defines it (closed scheduled units — quota periods
+/// included — minus excluded units, archived habits dropped after their archive date), so the
+/// Overview and review tiles equal the Habits screen.
+Stat<double> _habitAdherence(GlobalContext c, DateRange r) {
+  var done = 0;
+  var total = 0;
+  for (final h in c.habits.series) {
+    for (final u in h.results) {
+      if (!isClosedScheduled(u) || isExcludedUnit(u, skipPolicy: h.skipPolicy)) continue;
+      if (h.archivedOn != null && u.startDate.isAfter(h.archivedOn!)) continue;
+      if (!r.contains(u.endDate)) continue;
+      total++;
+      if (u.status == PeriodStatus.done) done++;
+    }
+  }
+  return rate(done, total);
+}
+
+/// Replaces the day-fact habit KPI of [kpis] with [_habitAdherence] over [current] vs [previous].
+List<KpiDelta> _withHabitAdherence(GlobalContext c, List<KpiDelta> kpis, DateRange current, DateRange previous) => [
+  for (final k in kpis)
+    if (k.metricId == 'HB-X-04')
+      (
+        metricId: k.metricId,
+        comparison: compareWithPrevious(_habitAdherence(c, current), _habitAdherence(c, previous), isRate: true),
+      )
+    else
+      k,
+];
+
 /// Every overview metric.
 final List<MetricDefinition> globalMetrics = [
   // ---------------------------------------------------------------------------------------------
@@ -311,9 +349,16 @@ final List<MetricDefinition> globalMetrics = [
     compute: (c) {
       final w = weekAtAGlance(c.days, today: c.today, weekStart: c.weekStart);
       final currency = c.currency();
+      final elapsed = c.thisWeekStart.daysUntil(c.today);
+      final deltas = _withHabitAdherence(
+        c,
+        w.deltas,
+        DateRange(c.thisWeekStart, c.today),
+        DateRange(c.thisWeekStart.minusDays(7), c.thisWeekStart.minusDays(7).plusDays(elapsed)),
+      );
       return chartResult(
         'GL-02',
-        TilesData([for (final k in w.deltas) _kpiTile(k, currency: currency)]),
+        TilesData([for (final k in deltas) _kpiTile(k, currency: currency)]),
         value: Value<double>(w.deltas.length.toDouble()),
         args: {'plannedHours': w.current.plannedHours, 'previousPlannedHours': w.previous.plannedHours},
       );
@@ -447,7 +492,10 @@ final List<MetricDefinition> globalMetrics = [
         ReviewData(
           from: week.start,
           to: week.end,
-          headline: [for (final k in report.headline) _kpiTile(k, currency: currency)],
+          headline: [
+            for (final k in _withHabitAdherence(c, report.headline, DateRange(week.start, LocalDate.min(week.end, c.today)), prevWeek))
+              _kpiTile(k, currency: currency),
+          ],
           wins: [for (final w in report.wins) entry(w)],
           attention: [for (final a in report.attention) entry(a)],
           topCategories: [
@@ -458,6 +506,61 @@ final List<MetricDefinition> globalMetrics = [
         ),
         value: Value<double>(report.headline.length.toDouble()),
         args: {'week': week.start.toIso(), 'current': c.request.extra == 'current'},
+      );
+    },
+  ),
+
+  // ---------------------------------------------------------------------------------------------
+  // Data quality (T6.7.10, plumbing T6.1.20)
+  // ---------------------------------------------------------------------------------------------
+  metric<GlobalContext>(
+    id: 'GL-10',
+    scope: MetricScope.global,
+    unit: StatUnit.count,
+    chart: ChartKind.tiles,
+    direction: MetricDirection.neutral,
+    priority: MetricPriority.p1,
+    requires: {..._allTables, StatsTable.syncOutbox},
+    compute: (c) {
+      final habits = c.hasHabits ? habitCompletenessIn(c.habits.evaluations, c.last30) : null;
+      final coverage = c.hasPlanner ? actualTimeCoverage(c.planner.plannedIn(c.last30)) : null;
+      const none = NotApplicable<double>(Reasons.noData);
+      final q = dataQuality(
+        habitLoggedRatio: habits?.loggedRatio ?? none,
+        unknownUnits: habits?.unknownUnits ?? 0,
+        backfillShare: habits?.backfillShare ?? none,
+        plannerActualTimeCoverage: coverage ?? none,
+        pendingSyncChanges: c.job.pendingOutbox,
+      );
+      return chartResult(
+        'GL-10',
+        TilesData([
+          if (habits != null) ...completenessTiles(habits).tiles,
+          if (coverage != null)
+            ValueTile(const TokenLabel(LabelToken.trackedTime), coverage.valueOrNull, StatUnit.percent, metricId: 'PL-X-41'),
+          ValueTile(
+            const TokenLabel(LabelToken.pendingSync),
+            c.job.pendingOutbox.toDouble(),
+            StatUnit.count,
+            direction: MetricDirection.lowerIsBetter,
+          ),
+        ]),
+        value: Value<double>(q.guidanceKeys.length.toDouble()),
+        args: {
+          'guidance': q.guidanceKeys,
+          'pending': c.job.pendingOutbox,
+          'loggedRatio': habits?.loggedRatio.valueOrNull,
+          'unknown': habits?.unknownUnits,
+          'backfill': habits?.backfillShare.valueOrNull,
+          'coverage': coverage?.valueOrNull,
+        },
+        drill: {
+          if (habits != null)
+            'unknown': [
+              for (final e in c.habits.evaluations)
+                for (final u in unloggedUnits(e, c.last30)) c.habits.dayRef(e.habit.id, u.startDate),
+            ].take(200).toList(),
+        },
       );
     },
   ),

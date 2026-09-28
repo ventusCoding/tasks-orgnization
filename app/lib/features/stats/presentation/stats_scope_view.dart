@@ -10,6 +10,7 @@ import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/stats/application/layouts.dart';
 import 'package:everslot/features/stats/application/stats_compute_service.dart';
 import 'package:everslot/features/stats/application/stats_providers.dart';
+import 'package:everslot/features/stats/domain/chart_data.dart' show CounterData;
 import 'package:everslot/features/stats/domain/metric_definition.dart';
 import 'package:everslot/features/stats/domain/scope_entity.dart' show ScopeEntity;
 import 'package:everslot/features/stats/domain/stats_layout.dart';
@@ -17,6 +18,7 @@ import 'package:everslot/features/stats/domain/stats_request.dart';
 import 'package:everslot/features/stats/domain/stats_types.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_support.dart';
 import 'package:everslot/features/stats/presentation/charts/kpi_tile.dart';
+import 'package:everslot/features/stats/presentation/charts/progress_visuals.dart' show LiveCounter;
 import 'package:everslot/features/stats/presentation/l10n/stats_l10n.dart';
 import 'package:everslot/features/stats/presentation/widgets/explain_sheet.dart';
 import 'package:everslot/features/stats/presentation/widgets/metric_card.dart';
@@ -24,9 +26,17 @@ import 'package:everslot/features/stats/presentation/widgets/period_selector.dar
 import 'package:everslot/shared/filters/domain/entity_filter.dart';
 import 'package:everslot/shared/filters/presentation/filter_bar.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
-import 'package:everslot_metrics/everslot_metrics.dart' show StatsPeriod, Value;
+import 'package:everslot_metrics/everslot_metrics.dart' show NotApplicable, StatsPeriod, Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
+
+/// Notes of results that do not apply to the entity's kind (volume of a yes/no habit, target of a
+/// limit habit, health milestones and life regained of a non-smoking tracker, reduce-mode cards of
+/// an abstain tracker): their cards are hidden rather than shown empty (T6.5.16, T6.6.04/05/06).
+const hiddenResultNotes = {'yesNoHabit', 'limitHabit', 'notSmoking', 'noLifeEstimate', 'abstainMode'};
+
+/// Whether [r] hides its card.
+bool isHiddenResult(MetricResult? r) => r != null && r.value is NotApplicable<double> && hiddenResultNotes.contains(r.note);
 
 /// Key of the remembered period/compare state and of the layout customization of [scope].
 String statsScopeKey(MetricScope scope) => scope.name;
@@ -60,6 +70,7 @@ class StatsScopeView extends ConsumerStatefulWidget {
     this.header,
     this.defaultPeriod,
     this.showPeriod = true,
+    this.onReviewToggle,
   });
 
   final MetricScope scope;
@@ -85,6 +96,10 @@ class StatsScopeView extends ConsumerStatefulWidget {
 
   /// Per-entity lifetime scopes (one occurrence, one item) hide the period selector.
   final bool showPeriod;
+
+  /// Weekly review: switches between the last completed week and this week so far (`extra`
+  /// `current`).
+  final ValueChanged<bool>? onReviewToggle;
 
   @override
   ConsumerState<StatsScopeView> createState() => _StatsScopeViewState();
@@ -125,7 +140,8 @@ class _StatsScopeViewState extends ConsumerState<StatsScopeView> {
     if (batch.value case final value?) _last = value;
     final results = batch.value?.results ?? _last?.results ?? const <String, MetricResult>{};
     final loading = batch.isLoading;
-    final periodText = periodLabel(l, selection.period, locale: context.localeName);
+    // Per-entity lifetime scopes have no period, so cards carry no period subtitle.
+    final periodText = widget.showPeriod ? periodLabel(l, selection.period, locale: context.localeName) : null;
 
     void setSelection(PeriodSelection next) {
       if (next.period.key != selection.period.key) ui.setPeriod(key, next.period);
@@ -188,7 +204,18 @@ class _StatsScopeViewState extends ConsumerState<StatsScopeView> {
           ),
         if (!loading && results.isNotEmpty && _allEmpty(results))
           SliverToBoxAdapter(child: _EmptyBanner(scope: widget.scope)),
-        for (final section in layout.sections) ...[
+        for (final section in [
+          for (final s in layout.sections)
+            if (s.items.any((i) => !isHiddenResult(results[i.metricId])))
+              StatsLayoutSection(
+                s.id,
+                [
+                  for (final i in s.items)
+                    if (!isHiddenResult(results[i.metricId])) i,
+                ],
+                collapsedByDefault: s.collapsedByDefault,
+              ),
+        ]) ...[
           SliverToBoxAdapter(
             child: _SectionTitle(
               id: section.id,
@@ -200,7 +227,14 @@ class _StatsScopeViewState extends ConsumerState<StatsScopeView> {
             SliverPadding(
               padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
               sliver: SliverToBoxAdapter(
-                child: _CardGrid(items: section.items, results: results, loading: loading, periodText: periodText),
+                child: _CardGrid(
+                  items: section.items,
+                  results: results,
+                  loading: loading,
+                  periodText: periodText,
+                  onReviewToggle: widget.onReviewToggle,
+                  reviewCurrent: widget.extra == 'current',
+                ),
               ),
             ),
         ],
@@ -282,7 +316,7 @@ class _KpiRow extends ConsumerWidget {
   final List<String> ids;
   final Map<String, MetricResult> results;
   final bool loading;
-  final String periodText;
+  final String? periodText;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -297,11 +331,17 @@ class _KpiRow extends ConsumerWidget {
           runSpacing: Space.sm,
           children: [
             for (final id in ids)
-              if (registry.byId(id) case final def?)
+              if (registry.byId(id) case final def? when !isHiddenResult(results[id]))
                 SizedBox(
                   width: width,
                   child: results[id] == null
                       ? _KpiSkeleton(title: metricTitle(l, id) ?? id, loading: loading)
+                      : results[id]!.chart is CounterData
+                      ? _LiveKpi(
+                          title: metricTitle(l, id) ?? id,
+                          counter: results[id]!.chart! as CounterData,
+                          onTap: () => showExplainSheet(context, def: def, result: results[id], periodText: periodText),
+                        )
                       : KpiTile(
                           title: metricTitle(l, id) ?? id,
                           result: results[id]!,
@@ -316,6 +356,42 @@ class _KpiRow extends ConsumerWidget {
       },
     );
   }
+}
+
+/// A KPI whose value is a live duration since an instant (quit counters, T6.6.13): it ticks every
+/// second only while visible.
+class _LiveKpi extends ConsumerWidget {
+  const _LiveKpi({required this.title, required this.counter, required this.onTap});
+
+  final String title;
+  final CounterData counter;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) => Card(
+    clipBehavior: Clip.antiAlias,
+    child: InkWell(
+      onTap: onTap,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 48),
+        child: Padding(
+          padding: const EdgeInsetsDirectional.all(Space.md),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: context.text.labelMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
+              const SizedBox(height: Space.xs),
+              LiveCounter(
+                since: counter.since,
+                now: () => ref.read(clockProvider).nowUtc(),
+                style: context.text.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }
 
 class _KpiSkeleton extends StatelessWidget {
@@ -371,12 +447,21 @@ class _SectionTitle extends StatelessWidget {
 
 /// Responsive grid: 1 column on phones, 2 on tablets; half-span KPI cards pair up everywhere.
 class _CardGrid extends ConsumerWidget {
-  const _CardGrid({required this.items, required this.results, required this.loading, required this.periodText});
+  const _CardGrid({
+    required this.items,
+    required this.results,
+    required this.loading,
+    required this.periodText,
+    this.onReviewToggle,
+    this.reviewCurrent = false,
+  });
 
   final List<StatsLayoutItem> items;
   final Map<String, MetricResult> results;
   final bool loading;
-  final String periodText;
+  final String? periodText;
+  final ValueChanged<bool>? onReviewToggle;
+  final bool reviewCurrent;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -404,6 +489,8 @@ class _CardGrid extends ConsumerWidget {
             result: results[item.metricId],
             loading: loading,
             periodText: periodText,
+            onReviewToggle: onReviewToggle,
+            reviewCurrent: reviewCurrent,
           );
           rows.add(
             Padding(

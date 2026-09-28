@@ -8,6 +8,8 @@ import 'package:everslot/features/stats/application/layouts.dart';
 import 'package:everslot/features/stats/application/stats_providers.dart';
 import 'package:everslot/features/stats/domain/stats_request.dart';
 import 'package:everslot/features/stats/domain/stats_types.dart';
+import 'package:everslot/features/stats/presentation/glossary_screen.dart';
+import 'package:everslot/features/stats/presentation/item_stats_panel.dart';
 import 'package:everslot/features/stats/presentation/stats_scope_view.dart';
 import 'package:everslot/features/stats/presentation/task_stats_panel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,6 +47,7 @@ class _ScopeStatsScreenState extends ConsumerState<ScopeStatsScreen> {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final route = InsightsRoute.parse(widget.scope);
+    if (route == InsightsRoute.glossary) return GlossaryScreen(initialQuery: widget.query['q']);
     final scope = route?.metricScope;
     if (route == null || scope == null || (scope.needsId && widget.scopeId == null) || !_supported(route)) {
       return Scaffold(
@@ -60,17 +63,18 @@ class _ScopeStatsScreenState extends ConsumerState<ScopeStatsScreen> {
     };
     return Scaffold(
       appBar: AppBar(title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis)),
-      body: route == InsightsRoute.task
-          ? TaskStatsPanel(taskId: id!, occurrenceKey: widget.query['occurrence'], showHeader: true)
-          : StatsScopeView(
+      body: switch (route) {
+        InsightsRoute.task => TaskStatsPanel(taskId: id!, occurrenceKey: widget.query['occurrence'], showHeader: true),
+        InsightsRoute.item => ItemStatsPanel(itemId: id!, showHeader: true),
+        InsightsRoute.review => _WeeklyReview(current: widget.query['week'] == 'current'),
+        _ => StatsScopeView(
               key: ValueKey('${widget.scope}/$id'),
               scope: scope,
               scopeId: id,
               entity: entity,
-              layout: route == InsightsRoute.review ? reviewLayout : null,
               showFilters: scope == MetricScope.planner || scope == MetricScope.checklists,
-              showPeriod: scope != MetricScope.checklistItem,
             ),
+      },
     );
   }
 
@@ -89,4 +93,28 @@ class _ScopeStatsScreenState extends ConsumerState<ScopeStatsScreen> {
     InsightsRoute.review => true,
     _ => false,
   };
+}
+
+/// Weekly review (T6.7.02): the last completed week by default, or this week so far.
+class _WeeklyReview extends StatefulWidget {
+  const _WeeklyReview({required this.current});
+
+  final bool current;
+
+  @override
+  State<_WeeklyReview> createState() => _WeeklyReviewState();
+}
+
+class _WeeklyReviewState extends State<_WeeklyReview> {
+  late bool _current = widget.current;
+
+  @override
+  Widget build(BuildContext context) => StatsScopeView(
+    key: ValueKey('review/$_current'),
+    scope: MetricScope.global,
+    layout: reviewLayout,
+    showPeriod: false,
+    extra: _current ? 'current' : null,
+    onReviewToggle: (current) => setState(() => _current = current),
+  );
 }

@@ -9,6 +9,7 @@ import 'package:everslot/features/stats/domain/quit_health_content.dart';
 import 'package:everslot/features/stats/domain/stats_types.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_support.dart';
 import 'package:everslot/features/stats/presentation/l10n/stats_l10n.dart';
+import 'package:everslot/features/stats/presentation/stats_navigation.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:everslot_metrics/everslot_metrics.dart' show Value;
 import 'package:material_ui/material_ui.dart';
@@ -34,7 +35,18 @@ Future<void> showExplainSheet(
   VoidCallback? onGlossary,
 }) => showAppSheet<void>(
   context,
-  builder: (context) => ExplainSheet(def: def, result: result, periodText: periodText, onGlossary: onGlossary),
+  builder: (sheet) => ExplainSheet(
+    def: def,
+    result: result,
+    periodText: periodText,
+    // Every explain sheet links to the glossary (T6.1.21); the caller's context outlives the sheet.
+    onGlossary:
+        onGlossary ??
+        () {
+          Navigator.of(sheet).pop();
+          if (context.mounted) openGlossary(context, query: def.id);
+        },
+  ),
 );
 
 class ExplainSheet extends StatelessWidget {

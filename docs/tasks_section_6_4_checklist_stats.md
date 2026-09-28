@@ -45,10 +45,10 @@ primitives and forecasting ([6.1]); chart widgets ([6.2]).
 
 ## Progress
 
-- [ ] T6.4.01 — Checklist stats adapter & event normalization
-- [ ] T6.4.02 — Per-item flow metrics
+- [x] T6.4.01 — Checklist stats adapter & event normalization
+- [x] T6.4.02 — Per-item flow metrics
 - [ ] T6.4.03 — Per-item blocked, waiting & churn metrics
-- [ ] T6.4.04 — Checklist status & throughput metrics
+- [x] T6.4.04 — Checklist status & throughput metrics
 - [ ] T6.4.05 — Cumulative flow diagram (CFD)
 - [ ] T6.4.06 — Cycle-time distribution, SLE & aging WIP
 - [ ] T6.4.07 — Burn-down, burn-up & scope creep
@@ -56,13 +56,13 @@ primitives and forecasting ([6.1]); chart widgets ([6.2]).
 - [ ] T6.4.09 — Tree shape, integrity & branch contribution
 - [ ] T6.4.10 — Due-date performance
 - [ ] T6.4.11 — Recurring checklist run stats
-- [ ] T6.4.12 — Lists section overview metrics
+- [x] T6.4.12 — Lists section overview metrics
 - [ ] T6.4.13 — Section benchmarks & completion calendars
 - [ ] T6.4.14 — Advanced flow analytics
-- [ ] T6.4.15 — Item insights panel
-- [ ] T6.4.16 — Checklist Insights screen
-- [ ] T6.4.17 — Lists Insights screen
-- [ ] T6.4.18 — Checklist stats fixtures
+- [x] T6.4.15 — Item insights panel
+- [x] T6.4.16 — Checklist Insights screen
+- [x] T6.4.17 — Lists Insights screen
+- [x] T6.4.18 — Checklist stats fixtures
 
 ## Tasks
 
@@ -84,6 +84,7 @@ metric uses.
 **Acceptance criteria:** for the `checklist_flow_small` fixture, the facts (intervals, start/done,
 reopens) match the expectations exactly.
 **Tests:** unit tests covering reopen, cancel, move, delete/restore, and events with identical timestamps.
+**Notes:** `domain/checklist_resolution.dart` (`ChecklistFacts`) normalizes `created / status_changed / moved / deleted / restored` events (payload keys as written by the checklists feature) into the package's `ChecklistItemFact`s; other event types feed staleness. The single-list loader also loads items that moved out so their history stays in the source list. Tests: `checklists/checklist_adapter_test.dart` (reopen + cancel, delete/restore, identical timestamps by rev, move membership) and the `checklist_flow_small` fixture.
 
 ### T6.4.02 — Per-item flow metrics
 **Priority:** P0 · **Size:** M · **Depends on:** T6.4.01, [6.2] (bars T6.2.04, progress ring T6.2.07)
@@ -113,6 +114,7 @@ reopens) match the expectations exactly.
 It must give LT = 7 d 1 h and CT = 6 d. Time in status must be todo 1 d 1 h, ongoing 3 d, waiting 2 d
 and blocked 1 d.
 **Tests:** fixture tests; timeline golden.
+**Notes:** CL-I-01…07; the acceptance item (LT 7 d 1 h, CT 6 d, 25/72/48/24 h) is in the `checklist_flow_small` fixture; the timeline is covered by the item screen goldens.
 
 ### T6.4.03 — Per-item blocked, waiting & churn metrics
 **Priority:** P1 · **Size:** M · **Depends on:** T6.4.02
@@ -144,6 +146,7 @@ and blocked 1 d.
 **Acceptance criteria:** a reopened then re-completed item counts once in throughput, on its final
 completion day; creations in another list that were moved in count as arrivals on the move day.
 **Tests:** fixture tests.
+**Notes:** CL-L-01…06 (throughput bars now drill into the items completed each week). Fixture covers the reopen-counted-once and moved-in-arrival acceptance cases.
 
 ### T6.4.05 — Cumulative flow diagram (CFD)
 **Priority:** P1 · **Size:** M · **Depends on:** T6.4.04, [6.2] (stacked area / CFD T6.2.16)
@@ -286,6 +289,7 @@ of 91.4 %, a best streak of 3 and a current streak of 0.
 
 **Acceptance criteria:** archived lists are excluded from WIP but included in historical throughput.
 **Tests:** fixture tests.
+**Notes:** CL-X-01…05; archived lists leave WIP but keep historical throughput (`checklists/checklist_section_test.dart`).
 
 ### T6.4.13 — Section benchmarks & completion calendars
 **Priority:** P1 · **Size:** S · **Depends on:** T6.4.06, T6.4.12, [6.2] (calendar heatmap T6.2.06)
@@ -333,6 +337,7 @@ the forecast wording is probabilistic ("85 % chance by …").
 **Acceptance criteria:** opens in < 100 ms for items with 200 events; the reasons shown are the actual
 notes.
 **Tests:** widget tests; golden.
+**Notes:** `ItemStatsPanel(itemId)` (exported by `features/stats/insights.dart`) with CL-I-01…07 and the actual reason notes in the status timeline; no period selector. TODO(integration): the checklists feature embeds it in the item details sheet (checklists-owned file); `/insights/item/:id` already shows it. The 200-event budget is measured by T6.1.23.
 
 ### T6.4.16 — Checklist Insights screen
 **Priority:** P0 · **Size:** M · **Depends on:** T6.4.04, [6.1] (T6.1.16 framework)
@@ -345,6 +350,7 @@ notes.
 **Acceptance criteria:** drill-down from any chart opens the checklist filtered to those items; a
 50-item list with 6 months of history renders within budget.
 **Tests:** widget tests; goldens.
+**Notes:** `checklistLayout` (KPIs CL-L-01/03/04/06; Status, Flow, Stale sections); chart elements open a drill sheet of the items behind them, each opening the item in its list. "Blocked + waiting" joins the KPI row with the P1 blocked/waiting metrics (T6.4.08).
 
 ### T6.4.17 — Lists Insights screen
 **Priority:** P0 · **Size:** M · **Depends on:** T6.4.12, [6.1] (T6.1.16, T6.1.17)
@@ -353,6 +359,7 @@ notes.
 - **P1:** CL-X-06 to CL-X-10.
 - **P2:** CL-X-11 and CL-X-12.
 **Tests:** widget tests; goldens.
+**Notes:** `checklistsLayout` (CL-X-01…05); CL-X-01's card adds the list ranking tabs (most active, most blocked, stalest), each row opening its list.
 
 ### T6.4.18 — Checklist stats fixtures
 **Priority:** P0 · **Size:** M · **Depends on:** [6.1] (T6.1.15)
@@ -362,3 +369,4 @@ notes.
 - `checklist_runs_week`: 7 runs of a morning routine.
 **Acceptance criteria:** the fixture runner passes for all P0 metrics (P1/P2 metrics are added as implemented).
 **Tests:** provides fixtures for the tasks above.
+**Notes:** `checklist_flow_small` table fixture covers all 18 P0 checklist metrics; `checklist_tree_deep` and `checklist_runs_week` stay package fixtures until their P1 metrics (T6.4.09, T6.4.11) are registered.

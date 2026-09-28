@@ -102,13 +102,24 @@ class ReviewView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsetsDirectional.only(bottom: Space.xs),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(child: Text(f.label(label))),
-                      Text(f.duration(minutes), style: context.text.labelLarge),
                       const SizedBox(width: Space.sm),
-                      Text(
-                        delta == null ? l.chartsDeltaNew : '${delta >= 0 ? '+' : '−'}${f.duration(delta.abs())}',
-                        style: context.text.labelSmall?.copyWith(color: context.colors.onSurfaceVariant),
+                      // Values wrap under each other at large text scales.
+                      Flexible(
+                        child: Wrap(
+                          alignment: WrapAlignment.end,
+                          spacing: Space.sm,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Text(f.duration(minutes), style: context.text.labelLarge),
+                            Text(
+                              delta == null ? l.chartsDeltaNew : '${delta >= 0 ? '+' : '−'}${f.duration(delta.abs())}',
+                              style: context.text.labelSmall?.copyWith(color: context.colors.onSurfaceVariant),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -118,30 +129,42 @@ class ReviewView extends StatelessWidget {
               header(l.statsReviewNextWeek),
               for (final (date, planned, capacity, overbooked) in data.nextWeek)
                 Padding(
-                  padding: const EdgeInsetsDirectional.only(bottom: Space.xs),
-                  child: Row(
+                  padding: const EdgeInsetsDirectional.only(bottom: Space.sm),
+                  // Label line + full-width bar: never overflows, even at large text scales.
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      SizedBox(width: 64, child: Text(f.dayShort(date))),
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(Radii.pill),
-                          child: LinearProgressIndicator(
-                            value: capacity <= 0 ? 0 : (planned / capacity).clamp(0, 1),
-                            minHeight: 8,
-                            color: overbooked ? context.appColors.warning : context.colors.primary,
-                            backgroundColor: context.colors.surfaceContainerHighest,
+                      Row(
+                        children: [
+                          Expanded(child: Text(f.dayShort(date), style: context.text.labelMedium)),
+                          Flexible(
+                            child: Text(
+                              l.statsReviewLoad(f.value(planned, StatUnit.minutes), f.value(capacity, StatUnit.minutes)),
+                              style: context.text.labelSmall,
+                              textAlign: TextAlign.end,
+                            ),
                           ),
+                          if (overbooked) ...[
+                            const SizedBox(width: Space.xs),
+                            Icon(
+                              Icons.warning_amber_rounded,
+                              size: 16,
+                              color: context.appColors.warning,
+                              semanticLabel: labelTokenText(l, LabelToken.over),
+                            ),
+                          ],
+                        ],
+                      ),
+                      const SizedBox(height: Space.xxs),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(Radii.pill),
+                        child: LinearProgressIndicator(
+                          value: capacity <= 0 ? 0 : (planned / capacity).clamp(0, 1),
+                          minHeight: 8,
+                          color: overbooked ? context.appColors.warning : context.colors.primary,
+                          backgroundColor: context.colors.surfaceContainerHighest,
                         ),
                       ),
-                      const SizedBox(width: Space.sm),
-                      Text(
-                        l.statsReviewLoad(f.value(planned, StatUnit.minutes), f.value(capacity, StatUnit.minutes)),
-                        style: context.text.labelSmall,
-                      ),
-                      if (overbooked) ...[
-                        const SizedBox(width: Space.xs),
-                        Icon(Icons.warning_amber_rounded, size: 16, color: context.appColors.warning, semanticLabel: labelTokenText(l, LabelToken.over)),
-                      ],
                     ],
                   ),
                 ),

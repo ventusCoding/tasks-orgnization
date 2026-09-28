@@ -233,5 +233,14 @@
   "chartsLabelAgenda": "جدول الأعمال",
   "chartsLabelPerfectDay": "يوم مثالي",
   "chartsLabelOverdue": "متأخرة",
-  "chartsLabelNextUp": "التالي"
+  "chartsLabelNextUp": "التالي",
+  "chartsLabelSummary": "ملخّص",
+  "chartsLabelMostActive": "الأكثر نشاطًا",
+  "chartsLabelMostBlocked": "الأكثر تعطّلًا",
+  "chartsLabelStalest": "الأطول ركودًا",
+  "chartsLabelLoggedRatio": "المسجَّل",
+  "chartsLabelUnknownUnits": "غير المسجَّل",
+  "chartsLabelBackfillShare": "مسجَّل متأخرًا",
+  "chartsLabelTrackedTime": "الوقت المتتبَّع",
+  "chartsLabelPendingSync": "بانتظار المزامنة"
 }

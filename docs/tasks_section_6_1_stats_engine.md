@@ -48,8 +48,8 @@ for stats defaults ([8.3]).
 - [x] T6.1.17 — Insights tab shell & navigation
 - [x] T6.1.18 — Circular statistics for clock times
 - [x] T6.1.19 — Group-comparison tests (Mann–Whitney, Kruskal–Wallis)
-- [ ] T6.1.20 — Data-quality metrics plumbing
-- [ ] T6.1.21 — Metric glossary, catalog generation & registry lint
+- [x] T6.1.20 — Data-quality metrics plumbing
+- [x] T6.1.21 — Metric glossary, catalog generation & registry lint
 - [ ] T6.1.22 — Per-scope card layout customization
 - [ ] T6.1.23 — Stats performance suite
 - [x] T6.1.24 — Correlation toolkit & false-discovery control
@@ -537,6 +537,7 @@ the fixtures (±1e-4).
   missing".
 **Acceptance criteria:** fixture values match; the card links to the affected units.
 **Tests:** unit tests on fixtures.
+**Notes:** `application/catalog/data_quality.dart`: logged ratio, unknown (unlogged) units with drill refs to their days, backfill share (> 24 h) over day-level units, planner actual-time coverage (the package's PL-X-41 `actualTimeCoverage`) and the pending-outbox sync caveat. Consumers: HB-H-25, HB-X-12, GL-10. Fixture values: push-ups 93.3 % / 2 unlogged / 3.6 % late; portfolio 61/70 / 5 / 0 %; overview guidance.
 
 ### T6.1.21 — Metric glossary, catalog generation & registry lint
 **Priority:** P1 · **Size:** S · **Depends on:** T6.1.06, T6.1.15
@@ -551,6 +552,7 @@ the fixtures (±1e-4).
 - at least one fixture (P0 metrics)
 **Acceptance criteria:** CI fails when any of these is missing; the glossary opens from every explain sheet.
 **Tests:** the lint test itself; a widget test for glossary search.
+**Notes:** Glossary: `presentation/glossary_screen.dart` on `/insights/glossary[?q=<id>]` (search over id, title, description and formula, grouped by section); every explain sheet opens it on its metric. Catalog: `docs/generated/metrics_catalog.md` is generated from the registry by `test/features/stats/engine/metric_catalog_test.dart` (`UPDATE_STATS_SNAPSHOTS=1` regenerates; CI fails when stale). Lint in the same test: unique ids, EN/FR/AR title/description/formula, text mapping, chart kind, minimum-data policy and ≥ 1 fixture expectation per P0 metric. The metric text switches in `stats_l10n.dart` are generated from the ARB keys.
 
 ### T6.1.22 — Per-scope card layout customization
 **Priority:** P1 · **Size:** S · **Depends on:** T6.1.16, [8.3] (settings repository)

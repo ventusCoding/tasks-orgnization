@@ -75,6 +75,47 @@ T _withItem<T>(ChecklistContext c, T Function(ChecklistItemFact f) f, T Function
 
 const _itemTables = {StatsTable.checklistItems, StatsTable.activityEvents};
 
+/// List ranking (T6.4.17): most active (status events in the period), most blocked (blocked time
+/// in the period) and stalest (days since the last activity of a list holding open items). Template
+/// lists are left out; archived lists only count for activity.
+({ListData active, ListData blocked, ListData stalest}) _listRanking(ChecklistContext c, {int top = 5}) {
+  final window = c.instantsToNow(c.range);
+  final listOf = {for (final f in c.sectionFacts) f.id: f.checklistId};
+  DrillRef ref(String id) => DrillRef(DrillKind.checklist, id, title: c.data.listById(id)?.title);
+  ChartLabel name(String id) => TextLabel(c.data.listById(id)?.title ?? '');
+  final activity = <String, int>{};
+  for (final e in c.data.events) {
+    final list = listOf[e.entityId];
+    if (list == null || !window.contains(e.occurredAt)) continue;
+    activity[list] = (activity[list] ?? 0) + 1;
+  }
+  final active = activity.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+  final blocked = mostBlockedLists(c.sectionFacts, now: c.now, from: window.start, to: window.end);
+  final archived = c.data.archivedListIds;
+  final last = <String, DateTime>{};
+  for (final f in c.sectionFacts) {
+    if (f.isDeleted || archived.contains(f.checklistId)) continue;
+    if (f.status == ItemStatus.completed || f.status == ItemStatus.cancelled) continue;
+    final at = f.lastActivityAt;
+    final cur = last[f.checklistId];
+    if (cur == null || at.isAfter(cur)) last[f.checklistId] = at;
+  }
+  final stalest = last.entries.toList()..sort((a, b) => a.value.compareTo(b.value));
+  return (
+    active: ListData([
+      for (final e in active.take(top)) ListRow(name(e.key), value: e.value.toDouble(), ref: ref(e.key)),
+    ], valueLabel: const TokenLabel(LabelToken.count)),
+    blocked: ListData([
+      for (final e in blocked.take(top))
+        ListRow(name(e.checklistId), value: e.blocked.inSeconds / 60, unit: StatUnit.minutes, ref: ref(e.checklistId)),
+    ], valueLabel: const TokenLabel(LabelToken.blocked)),
+    stalest: ListData([
+      for (final e in stalest.take(top))
+        ListRow(name(e.key), value: c.now.difference(e.value).inMinutes / 1440, unit: StatUnit.days, ref: ref(e.key)),
+    ], valueLabel: const TokenLabel(LabelToken.stale)),
+  );
+}
+
 ChartTone statusTone(ItemStatus s) => switch (s) {
   ItemStatus.todo => ChartTone.todo,
   ItemStatus.ongoing => ChartTone.ongoing,
@@ -331,6 +372,15 @@ final List<MetricDefinition> checklistMetrics = [
       );
       final cur = c.completionsIn(c.range, checklistId: c.checklistId).fold<double>(0, (a, p) => a + p.value);
       final prev = c.completionsIn(c.previous, checklistId: c.checklistId).fold<double>(0, (a, p) => a + p.value);
+      // Items behind each weekly bar: their final completion falls in that week.
+      final byWeek = <String, List<ChecklistItemFact>>{};
+      for (final f in c.listFacts) {
+        final done = f.done;
+        if (done == null || f.isDeleted) continue;
+        final d = c.bounds.dateOf(done);
+        if (!c.range.contains(d)) continue;
+        byWeek.putIfAbsent(d.startOfWeek(c.weekStart).toIso(), () => []).add(f);
+      }
       return result(
         'CL-L-03',
         Value<double>(cur),
@@ -344,8 +394,10 @@ final List<MetricDefinition> checklistMetrics = [
           ],
           overlays: [BarOverlay(const TokenLabel(LabelToken.rollingMean), t.rolling4, color: const SeriesColor(1))],
           isTimeAxis: true,
+          drillKeys: [for (final p in t.weekly) p.bucket.toIso()],
         ),
         spark: sparkOf([for (final p in t.weekly) p.value]),
+        drill: {for (final e in byWeek.entries) e.key: c.refs(e.value)},
       );
     },
   ),
@@ -423,19 +475,29 @@ final List<MetricDefinition> checklistMetrics = [
     requires: {StatsTable.checklists, StatsTable.checklistItems},
     compute: (c) {
       final o = listsOverview(c.data.lists, c.data.facts, now: c.now, staleDays: c.settings.staleDays);
+      final ranking = _listRanking(c);
       return chartResult(
         'CL-X-01',
-        TilesData([
-          ValueTile(const TokenLabel(LabelToken.lists), o.total.toDouble(), StatUnit.count),
-          ValueTile(const TokenLabel(LabelToken.inProgress), o.active.toDouble(), StatUnit.count),
-          ValueTile(const TokenLabel(LabelToken.archived), o.archived.toDouble(), StatUnit.count),
-          ValueTile(const TokenLabel(LabelToken.templates), o.templates.toDouble(), StatUnit.count),
-          ValueTile(
-            const TokenLabel(LabelToken.stale),
-            o.staleListIds.length.toDouble(),
-            StatUnit.count,
-            drillKey: 'stale',
+        ChartGroup([
+          (
+            const TokenLabel(LabelToken.summary),
+            TilesData([
+              ValueTile(const TokenLabel(LabelToken.lists), o.total.toDouble(), StatUnit.count),
+              ValueTile(const TokenLabel(LabelToken.inProgress), o.active.toDouble(), StatUnit.count),
+              ValueTile(const TokenLabel(LabelToken.archived), o.archived.toDouble(), StatUnit.count),
+              ValueTile(const TokenLabel(LabelToken.templates), o.templates.toDouble(), StatUnit.count),
+              ValueTile(
+                const TokenLabel(LabelToken.stale),
+                o.staleListIds.length.toDouble(),
+                StatUnit.count,
+                drillKey: 'stale',
+              ),
+            ]),
           ),
+          // List ranking of the Lists screen (T6.4.17).
+          (const TokenLabel(LabelToken.mostActive), ranking.active),
+          (const TokenLabel(LabelToken.mostBlocked), ranking.blocked),
+          (const TokenLabel(LabelToken.stalest), ranking.stalest),
         ]),
         value: Value<double>(o.active.toDouble()),
         args: {'staleDays': c.settings.staleDays},

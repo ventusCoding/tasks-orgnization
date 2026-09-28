@@ -720,5 +720,14 @@
   "chartsLabelAgenda": "Agenda",
   "chartsLabelPerfectDay": "Perfect day",
   "chartsLabelOverdue": "Overdue",
-  "chartsLabelNextUp": "Next up"
+  "chartsLabelNextUp": "Next up",
+  "chartsLabelSummary": "Summary",
+  "chartsLabelMostActive": "Most active",
+  "chartsLabelMostBlocked": "Most blocked",
+  "chartsLabelStalest": "Stalest",
+  "chartsLabelLoggedRatio": "Logged",
+  "chartsLabelUnknownUnits": "Unlogged",
+  "chartsLabelBackfillShare": "Logged late",
+  "chartsLabelTrackedTime": "Tracked time",
+  "chartsLabelPendingSync": "Waiting to sync"
 }

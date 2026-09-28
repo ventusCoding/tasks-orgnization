@@ -1238,6 +1238,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelAttention => 'يحتاج إلى متابعة';
 
   @override
+  String get chartsLabelBackfillShare => 'مسجَّل متأخرًا';
+
+  @override
   String get chartsLabelBaseline => 'خط الأساس';
 
   @override
@@ -1352,6 +1355,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelLists => 'القوائم';
 
   @override
+  String get chartsLabelLoggedRatio => 'المسجَّل';
+
+  @override
   String get chartsLabelLowPriority => 'أولوية منخفضة';
 
   @override
@@ -1380,6 +1386,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelMoods => 'الحالات المزاجية';
+
+  @override
+  String get chartsLabelMostActive => 'الأكثر نشاطًا';
+
+  @override
+  String get chartsLabelMostBlocked => 'الأكثر تعطّلًا';
 
   @override
   String get chartsLabelMoved => 'منقول';
@@ -1472,6 +1484,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelPending => 'قيد الانتظار';
 
   @override
+  String get chartsLabelPendingSync => 'بانتظار المزامنة';
+
+  @override
   String get chartsLabelPerDay => 'في اليوم';
 
   @override
@@ -1544,10 +1559,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelStale => 'راكدة';
 
   @override
+  String get chartsLabelStalest => 'الأطول ركودًا';
+
+  @override
   String get chartsLabelStreak => 'السلسلة';
 
   @override
   String get chartsLabelSuccess => 'نجاح';
+
+  @override
+  String get chartsLabelSummary => 'ملخّص';
 
   @override
   String get chartsLabelTarget => 'الهدف';
@@ -1571,6 +1592,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelTotal => 'الإجمالي';
 
   @override
+  String get chartsLabelTrackedTime => 'الوقت المتتبَّع';
+
+  @override
   String get chartsLabelTrend => 'الاتجاه';
 
   @override
@@ -1584,6 +1608,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelUnits => 'الوحدات';
+
+  @override
+  String get chartsLabelUnknownUnits => 'غير المسجَّل';
 
   @override
   String get chartsLabelUnplanned => 'غير مخطط';
@@ -10637,6 +10664,51 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String statsGlossaryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مؤشر',
+      many: '$count مؤشرًا',
+      few: '$count مؤشرات',
+      two: 'مؤشران',
+      one: 'مؤشر واحد',
+      zero: 'لا مؤشرات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsGlossaryEmpty(String query) {
+    return 'لا يوجد مؤشر يطابق «$query».';
+  }
+
+  @override
+  String get statsGlossaryFormula => 'الصيغة';
+
+  @override
+  String get statsGlossarySearch => 'ابحث عن مؤشر';
+
+  @override
+  String get statsGlossaryTitle => 'مسرد المؤشرات';
+
+  @override
+  String get statsGuidanceLogFromNotifications =>
+      'سجِّل من إشعارات التذكير لتحسين الدقة.';
+
+  @override
+  String get statsGuidanceLogSameDay =>
+      'حاول التسجيل في اليوم نفسه — فالتسجيل المتأخر عرضة للنسيان.';
+
+  @override
+  String get statsGuidanceSyncPending =>
+      'قد تنقص بعض التغييرات من أجهزة أخرى حتى تكتمل المزامنة.';
+
+  @override
+  String get statsGuidanceTrackTime =>
+      'شغِّل المؤقت في مهامك لترى ساعاتك الفعلية.';
+
+  @override
   String get statsHealthClockNote =>
       'تتبع المحطات مدة امتناعك الحالية عن التدخين: يُعاد تشغيل العدّاد بعد الزلّة.';
 
@@ -10875,6 +10947,17 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricGl03Title => 'المراجعة الأسبوعية';
 
   @override
+  String get statsMetricGl10Desc =>
+      'مدى موثوقية إحصاءاتك: تسجيل العادات والتسجيل المتأخر والوقت المتتبَّع في المهام والتغييرات التي تنتظر المزامنة — مع نصيحة لتحسين كل منها.';
+
+  @override
+  String get statsMetricGl10Formula =>
+      'نسبة تسجيل العادات والوحدات المجهولة (آخر 30 يومًا)؛ حصة التسجيل المتأخر (> 24 ساعة)؛ تغطية الوقت الفعلي = التكرارات المنجزة ذات الوقت المتتبَّع ÷ التكرارات المنجزة؛ التغييرات التي تنتظر المزامنة.';
+
+  @override
+  String get statsMetricGl10Title => 'جودة البيانات';
+
+  @override
   String get statsMetricHbH01Desc =>
       'مدى رسوخ العادة — الأيام الأحدث وزنها أكبر.';
 
@@ -10985,6 +11068,17 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricHbH11Title => 'الحجم الإجمالي';
 
   @override
+  String get statsMetricHbH25Desc =>
+      'نسبة ما سُجِّل فعلًا من تاريخ هذه العادة. اليوم غير المسجَّل مجهول وليس فشلًا: يُحتسب فائتًا فقط لأنه لم يُسجَّل فيه شيء.';
+
+  @override
+  String get statsMetricHbH25Formula =>
+      'نسبة التسجيل = الوحدات التي فيها أي تسجيل ÷ الوحدات المجدولة المغلقة · الوحدات المجهولة = الوحدات الفائتة دون أي تسجيل · حصة التسجيل المتأخر = التسجيلات المُنشأة بعد أكثر من 24 ساعة من انتهاء وحدتها ÷ كل التسجيلات.';
+
+  @override
+  String get statsMetricHbH25Title => 'اكتمال البيانات';
+
+  @override
   String get statsMetricHbX01Desc => 'العادات المستحقة المنجزة اليوم.';
 
   @override
@@ -11034,6 +11128,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsMetricHbX05Title => 'ملخص الإقلاع';
+
+  @override
+  String get statsMetricHbX12Desc =>
+      'مقاييس الاكتمال نفسها لكل العادات: نسبة التسجيل والوحدات غير المسجَّلة (المجهولة) والتسجيل المتأخر.';
+
+  @override
+  String get statsMetricHbX12Formula =>
+      'Σ الوحدات التي فيها تسجيل ÷ Σ الوحدات المجدولة المغلقة لكل العادات؛ Σ الوحدات المجهولة؛ Σ التسجيلات المتأخرة ÷ Σ التسجيلات.';
+
+  @override
+  String get statsMetricHbX12Title => 'اكتمال البيانات (كل العادات)';
 
   @override
   String get statsMetricPlS01Desc => 'عدد مرات استحقاق السلسلة خلال الفترة.';
@@ -11573,6 +11678,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsNotePopulationEstimate => 'تقدير سكاني';
 
   @override
+  String get statsNoteUnloggedNotFailed =>
+      'الأيام غير المسجَّلة مجهولة وليست فشلًا — تُحتسب فائتة فقط لعدم تسجيل أي شيء فيها.';
+
+  @override
   String get statsNoteUsedPlanned =>
       'يُعرض الوقت المخطَّط: الوقت الفعلي متتبَّع لأقل من 60 % من المهام المنجزة.';
 
@@ -11861,6 +11970,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsSectionCravings => 'الرغبات الملحّة';
+
+  @override
+  String get statsSectionDataQuality => 'جودة البيانات';
 
   @override
   String get statsSectionExecution => 'التنفيذ';
