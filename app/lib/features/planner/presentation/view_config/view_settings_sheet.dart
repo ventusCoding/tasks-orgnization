@@ -102,6 +102,12 @@ class ViewSettingsSheet extends ConsumerWidget {
           value: config.dimPast,
           onChanged: (v) => change((c) => c.copyWith(dimPast: v)),
         ),
+        if (timeGrid)
+          _LoadThresholds(
+            warn: config.option<double>('loadWarn', 0.8),
+            over: config.option<double>('loadOver', 1.0),
+            onChanged: (warn, over) => change((c) => c.withOption('loadWarn', warn).withOption('loadOver', over)),
+          ),
         if (kind != ViewSettingsKind.list)
           SwitchListTile(
             title: Text(l.pvWeekNumbers),
@@ -328,6 +334,42 @@ class ViewSettingsSheet extends ConsumerWidget {
     ref
         .read(plannerViewConfigProvider(viewKey).notifier)
         .change((c) => c.copyWith(extraTimeZones: [...c.extraTimeZones, zone]));
+  }
+}
+
+/// Load tint thresholds of the day headers (T3.4.11): warning and over-capacity, 50–150 %.
+class _LoadThresholds extends StatelessWidget {
+  const _LoadThresholds({required this.warn, required this.over, required this.onChanged});
+
+  final double warn;
+  final double over;
+  final void Function(double warn, double over) onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final f = context.plannerFormat();
+    final values = RangeValues(warn.clamp(0.5, 1.5), over.clamp(0.5, 1.5));
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Space.xl),
+      child: Row(
+        children: [
+          Expanded(child: Text(context.l10n.pvLoadThresholds)),
+          Text('${f.percent(values.start)} · ${f.percent(values.end)}'),
+          SizedBox(
+            width: 160,
+            child: RangeSlider(
+              key: const Key('load-thresholds'),
+              min: 0.5,
+              max: 1.5,
+              divisions: 20,
+              values: values,
+              labels: RangeLabels(f.percent(values.start), f.percent(values.end)),
+              onChanged: (v) => onChanged((v.start * 100).round() / 100, (v.end * 100).round() / 100),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

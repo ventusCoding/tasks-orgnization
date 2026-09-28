@@ -29,7 +29,7 @@ all-day section; 24-hour mode; day summary; drag to reschedule; ribbon style; te
 - [x] T3.5.09 — Day navigation (swipe, picker, Today)
 - [x] T3.5.10 — All-day & untimed section
 - [x] T3.5.11 — 24-hour slot mode (day agenda)
-- [ ] T3.5.12 — Day summary header
+- [x] T3.5.12 — Day summary header
 - [x] T3.5.13 — Drag to reschedule within the list
 - [x] T3.5.14 — Visual ribbon style
 - [x] T3.5.15 — Day list test suite
@@ -136,6 +136,7 @@ time) where each item shows its time and actions. It is the simplest daily check
 time. Tap → Insights for that day.
 **Acceptance criteria:** the values equal the metric registry values for the same day.
 **Tests:** consistency unit test.
+**Notes:** `DaySummaryCard` on top of each day page (planned, free inside work hours via the T3.7.04 finder, done/total, tracked; tap → insights for the day); `plan_summary_test.dart` compares it with the registry capacity day (capacity − planned) for the same day. Hide it with view option `summary: false`.
 
 ### T3.5.13 — Drag to reschedule within the list
 **Priority:** P1 · **Size:** M · **Depends on:** T3.5.06, [3.2] (reschedule)

@@ -1,6 +1,7 @@
 {
   "@@locale": "fr",
   "pvSelect": "Sélectionner",
+  "pvLoadThresholds": "Teinte de charge (chargé · dépassé)",
   "pvSelectionActions": "Actions",
   "pvClearSelection": "Effacer la sélection",
   "pvCopy": "Copier",

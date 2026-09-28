@@ -6121,6 +6121,7 @@
   "pvLess": "Less",
   "pvListBelow": "List below",
   "pvListMode": "Accessible list",
+  "pvLoadThresholds": "Load tint (busy · over)",
   "pvMapPlaceholder": "The map needs task coordinates, which arrive with the place picker. Tasks with a place are listed below.",
   "pvMarkDone": "Mark done",
   "pvMarkNotDone": "Mark not done",

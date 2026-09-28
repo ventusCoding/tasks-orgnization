@@ -1,6 +1,7 @@
 {
   "@@locale": "ar",
   "pvSelect": "تحديد",
+  "pvLoadThresholds": "تلوين الحِمل (مزدحم · متجاوز)",
   "pvSelectionActions": "إجراءات",
   "pvClearSelection": "إلغاء التحديد",
   "pvCopy": "نسخ",

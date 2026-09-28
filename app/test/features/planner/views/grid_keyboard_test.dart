@@ -1,4 +1,3 @@
-import 'package:everslot/features/planner/application/view_config/view_actions.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/bulk_actions_sheet.dart';
 import 'package:everslot/features/planner/presentation/grid/data/planner_view_data.dart';
@@ -14,40 +13,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 
+import 'support/fake_view_actions.dart';
 import 'support/items.dart';
 import 'support/planner_harness.dart';
-
-/// Records the extra view actions (paste…) instead of writing.
-class _FakeViewActions implements PlannerViewActions {
-  final calls = <String>[];
-
-  @override
-  Future<String?> paste(PlannerItem item, LocalDateTime start) async {
-    calls.add('paste ${item.title} ${start.toIso()}');
-    return 'pasted';
-  }
-
-  @override
-  Future<void> delete(PlannerItem item, {EditScope scope = EditScope.allOccurrences}) async => calls.add('delete');
-
-  @override
-  Future<String?> duplicate(PlannerItem item) async => null;
-
-  @override
-  Future<void> reorder(PlannerItem item, {String? afterKey, String? beforeKey}) async {}
-
-  @override
-  Future<void> unschedule(PlannerItem item) async {}
-
-  @override
-  Future<void> startTimer(PlannerItem item) async {}
-
-  @override
-  Future<void> pauseTimer(PlannerItem item) async {}
-
-  @override
-  Future<void> stopTimer(PlannerItem item) async {}
-}
 
 // Keyboard, selection mode, copy / paste and screen-reader support of the grid (T3.3.24,
 // T3.1.18 / T3.1.19 wiring). Clock: Wed 23 Sep 2026 09:30 UTC.
@@ -58,8 +26,8 @@ void main() {
     item('Charlie', at(2026, 9, 22, 10), 60, id: 'c'),
   ];
 
-  Future<(PlannerHarness, _FakeViewActions)> pumpGrid(WidgetTester tester, {bool accessible = false}) async {
-    final extra = _FakeViewActions();
+  Future<(PlannerHarness, FakeViewActions)> pumpGrid(WidgetTester tester, {bool accessible = false}) async {
+    final extra = FakeViewActions();
     final h = PlannerHarness.create(items: week(), overrides: [viewExtraActionsProvider.overrideWithValue(extra)]);
     addTearDown(h.dispose);
     final controller = PlannerGridController();

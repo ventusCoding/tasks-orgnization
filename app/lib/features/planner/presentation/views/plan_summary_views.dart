@@ -45,50 +45,55 @@ class PlanSummaryFooter extends ConsumerWidget {
       '${l.pvTracked} ${f.duration(s.trackedMinutes)}',
       if (s.completion case final c?) '${l.pvCompletion} ${f.percent(c)}',
     ].join(', ');
-    return Material(
-      color: colors.surfaceContainerLow,
-      child: SafeArea(
-        top: false,
-        child: InkWell(
-          key: const Key('week-summary'),
-          onTap: () => ref.read(plannerNavProvider).openInsights(context, from: range.start, days: range.days),
-          child: Semantics(
-            button: true,
-            label: label,
-            excludeSemantics: true,
-            child: Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(Space.md, Space.xs, Space.xs, Space.xs),
-              child: Row(
-                children: [
-                  Icon(Icons.insights_outlined, size: 18, color: colors.primary),
-                  const SizedBox(width: Space.sm),
-                  Expanded(
-                    child: collapsed
-                        ? Text(l.pvWeekSummary, style: context.text.labelLarge)
-                        : Wrap(
-                            spacing: Space.md,
-                            runSpacing: Space.xxs,
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: [
-                              _Stat(label: l.pvPlanned, value: f.duration(s.plannedMinutes)),
-                              _Stat(label: l.pvTracked, value: f.duration(s.trackedMinutes)),
-                              _Stat(label: l.pvCompletion, value: s.completion == null ? '—' : f.percent(s.completion!)),
-                              if (s.topCategories.isNotEmpty)
-                                _Stat(
-                                  label: l.pvTopCategories,
-                                  value: [for (final (id, _) in s.topCategories) _categoryName(ref, context, id)].join(' · '),
-                                ),
-                            ],
-                          ),
-                  ),
-                  IconButton(
-                    key: const Key('week-summary-toggle'),
-                    tooltip: collapsed ? l.pvExpand : l.pvCollapse,
-                    visualDensity: VisualDensity.compact,
-                    icon: Icon(collapsed ? Icons.expand_less : Icons.expand_more),
-                    onPressed: toggle,
-                  ),
-                ],
+    return MediaQuery.withClampedTextScaling(
+      maxScaleFactor: 1.4,
+      child: Material(
+        color: colors.surfaceContainerLow,
+        child: SafeArea(
+          top: false,
+          child: InkWell(
+            key: const Key('week-summary'),
+            onTap: () => ref.read(plannerNavProvider).openInsights(context, from: range.start, days: range.days),
+            child: Semantics(
+              button: true,
+              label: label,
+              excludeSemantics: true,
+              child: Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(Space.md, Space.xs, Space.xs, Space.xs),
+                child: Row(
+                  children: [
+                    Icon(Icons.insights_outlined, size: 18, color: colors.primary),
+                    const SizedBox(width: Space.sm),
+                    Expanded(
+                      child: collapsed
+                          ? Text(l.pvWeekSummary, style: context.text.labelLarge)
+                          // One line (scrolls sideways when it doesn't fit) so the grid keeps its height.
+                          : SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                spacing: Space.md,
+                                children: [
+                                  _Stat(label: l.pvPlanned, value: f.duration(s.plannedMinutes)),
+                                  _Stat(label: l.pvTracked, value: f.duration(s.trackedMinutes)),
+                                  _Stat(label: l.pvCompletion, value: s.completion == null ? '—' : f.percent(s.completion!)),
+                                  if (s.topCategories.isNotEmpty)
+                                    _Stat(
+                                      label: l.pvTopCategories,
+                                      value: [for (final (id, _) in s.topCategories) _categoryName(ref, context, id)].join(' · '),
+                                    ),
+                                ],
+                              ),
+                            ),
+                    ),
+                    IconButton(
+                      key: const Key('week-summary-toggle'),
+                      tooltip: collapsed ? l.pvExpand : l.pvCollapse,
+                      visualDensity: VisualDensity.compact,
+                      icon: Icon(collapsed ? Icons.expand_less : Icons.expand_more),
+                      onPressed: toggle,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -108,8 +113,14 @@ class _Stat extends StatelessWidget {
   Widget build(BuildContext context) => Text.rich(
     TextSpan(
       children: [
-        TextSpan(text: '$label ', style: TextStyle(color: context.colors.onSurfaceVariant)),
-        TextSpan(text: value, style: const TextStyle(fontWeight: FontWeight.w600)),
+        TextSpan(
+          text: '$label ',
+          style: TextStyle(color: context.colors.onSurfaceVariant),
+        ),
+        TextSpan(
+          text: value,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
       ],
     ),
     style: context.text.labelMedium,
@@ -165,7 +176,12 @@ class DaySummaryCard extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(v, maxLines: 1, overflow: TextOverflow.ellipsis, style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w700)),
+                          Text(
+                            v,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+                          ),
                           Text(
                             k,
                             maxLines: 1,

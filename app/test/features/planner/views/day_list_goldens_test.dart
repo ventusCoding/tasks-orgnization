@@ -7,6 +7,7 @@ library;
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/planner_screen.dart';
+import 'package:everslot/features/planner/presentation/views/first_use_hints.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -26,6 +27,7 @@ void main() {
   }) async {
     final h = PlannerHarness.create(items: items ?? goldenWeek(), zone: zone);
     addTearDown(h.dispose);
+    h.read(plannerViewStateProvider('day_list').notifier).update((s) => s.withExtra('hintsSeen', plannerHintIds));
     final notifier = h.read(plannerViewConfigProvider('day_list').notifier);
     var c = h.read(plannerViewConfigProvider('day_list')).withSlot(slot);
     if (config != null) c = config(c);

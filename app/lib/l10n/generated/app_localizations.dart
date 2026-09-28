@@ -12261,6 +12261,12 @@ abstract class AppLocalizations {
   /// **'Accessible list'**
   String get pvListMode;
 
+  /// No description provided for @pvLoadThresholds.
+  ///
+  /// In en, this message translates to:
+  /// **'Load tint (busy · over)'**
+  String get pvLoadThresholds;
+
   /// No description provided for @pvMapPlaceholder.
   ///
   /// In en, this message translates to:

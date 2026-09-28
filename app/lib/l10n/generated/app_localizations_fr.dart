@@ -7482,6 +7482,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvListMode => 'Liste accessible';
 
   @override
+  String get pvLoadThresholds => 'Teinte de charge (chargé · dépassé)';
+
+  @override
   String get pvMapPlaceholder =>
       'La carte a besoin des coordonnées des tâches, qui arriveront avec le sélecteur de lieu. Les tâches qui ont un lieu sont listées ci-dessous.';
 

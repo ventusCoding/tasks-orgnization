@@ -34,16 +34,16 @@ sideways changes the week. On top of that, the view needs everything that makes 
 - [x] T3.4.06 — Render modes by slot size
 - [x] T3.4.07 — 24-hour slots: week-list mode
 - [x] T3.4.08 — Days visible, weekends & orientation
-- [ ] T3.4.09 — Visible hours & hidden-range badges
-- [ ] T3.4.10 — Filter, color-by & density toolbar
-- [ ] T3.4.11 — Day header stats & load tint
+- [x] T3.4.09 — Visible hours & hidden-range badges
+- [x] T3.4.10 — Filter, color-by & density toolbar
+- [x] T3.4.11 — Day header stats & load tint
 - [x] T3.4.12 — Tick-in-grid & tile quick menu
 - [x] T3.4.13 — Create / move / resize integration
 - [x] T3.4.14 — Crowded slots: "+N" overflow handling
 - [x] T3.4.15 — DST & time-zone correctness
-- [ ] T3.4.16 — Landscape & tablet layout
-- [ ] T3.4.17 — Week summary footer
-- [ ] T3.4.18 — First-use hints & empty week
+- [x] T3.4.16 — Landscape & tablet layout
+- [x] T3.4.17 — Week summary footer
+- [x] T3.4.18 — First-use hints & empty week
 - [ ] T3.4.19 — Week numbers & secondary time zones
 - [x] T3.4.20 — Week table test suite
 
@@ -145,6 +145,7 @@ time axis.
 band; if items fall inside, the band shows a badge like "2". Tapping the band expands it temporarily.
 The default is all 24 hours.
 **Tests:** widget tests; unit test for badge counts.
+**Notes:** Items entirely inside hidden hours are no longer laid out as tiles; they only count in the band badge, and tapping the band expands it (widget test in `time_grid_test.dart`, badge counts from `PageGeometry.hiddenCounts`).
 
 ### T3.4.10 — Filter, color-by & density toolbar
 **Priority:** P1 · **Size:** M · **Depends on:** T3.4.01, [2.3] (filter model)
@@ -156,6 +157,7 @@ The default is all 24 hours.
 
 All of this is persisted in the view config.
 **Tests:** widget tests.
+**Notes:** Filter sheet (categories, tags, priorities, statuses, tracking modes, text), active-filter chips with *Clear*, color-by / density / completed / cancelled / dim-past in view settings; all persisted in the view config.
 
 ### T3.4.11 — Day header stats & load tint
 **Priority:** P1 · **Size:** S · **Depends on:** T3.4.01, [3.3] (day header)
@@ -163,6 +165,7 @@ All of this is persisted in the view config.
 by load = planned minutes ÷ work-hours minutes, with configurable thresholds at 80 % and 100 % (similar
 to Sunsama's workload counter).
 **Tests:** unit tests for load computation; goldens.
+**Notes:** Thresholds are view config options `loadWarn` / `loadOver` (default 0.8 / 1.0), set with a range slider in view settings; unit tests in `day_header_stats_test.dart`, tinted headers in the week-table goldens.
 
 ### T3.4.12 — Tick-in-grid & tile quick menu
 **Priority:** P0 · **Size:** S · **Depends on:** T3.4.01, [3.2] (actions)
@@ -204,6 +207,7 @@ that time range, with quick actions and *Open day* (Day list scrolled to that ti
 **Description:** Landscape phones show 7 wider columns with a lane cap of 3. Tablets use a lane cap of 4
 and up to 14 days. A side-panel slot is reserved for task details; full multi-pane comes later ([9.3]).
 **Tests:** goldens at phone-landscape and tablet sizes.
+**Notes:** Lane cap follows the column width (`laneCapFor`: 2 on phone columns, 3 from 90 px — landscape phones —, 4 from 150 px — tablets); up to 14 days on tablets. `PlannerViewScaffold.sidePanel` reserves the task-details panel on wide screens (empty until [9.3]). Goldens at phone-landscape and tablet sizes in `week_table_goldens_test.dart`.
 
 ### T3.4.17 — Week summary footer
 **Priority:** P1 · **Size:** S · **Depends on:** T3.4.11, [6.3]
@@ -211,12 +215,14 @@ and up to 14 days. A side-panel slot is reserved for task details; full multi-pa
 top categories. Tap → Planner insights for that week.
 **Acceptance criteria:** the numbers equal the metric registry values for the same range.
 **Tests:** unit test comparing with the metric registry.
+**Notes:** `PlanSummaryFooter` (collapsible, remembered locally; tap → Planner insights for the range). `PlanSummary` is computed from the view items; `plan_summary_test.dart` checks it against the metric registry (`capacityReport` planned minutes, `planSnapshot` completion rate) for the same range.
 
 ### T3.4.18 — First-use hints & empty week
 **Priority:** P1 · **Size:** S · **Depends on:** T3.4.01
 **Description:** Dismissible coach marks: "Long-press to create", "Pinch to zoom", "Tap 30 min to change
 the row size". An empty week shows an illustration with *Plan your first task*.
 **Tests:** widget test (each hint shown once, persisted).
+**Notes:** Coach cards (long-press, pinch, slot size) above the grid, one at a time, remembered in the local view state (`hintsSeen`); an empty visible range shows *Nothing planned this week* with *Plan your first task* (opens the editor like the FAB).
 
 ### T3.4.19 — Week numbers & secondary time zones
 **Priority:** P2 · **Size:** S · **Depends on:** T3.4.01, [3.3] (secondary rulers)

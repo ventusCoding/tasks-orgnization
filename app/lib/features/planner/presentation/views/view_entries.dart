@@ -1,7 +1,9 @@
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/presentation/views/day_list_view.dart';
+import 'package:everslot/features/planner/presentation/views/month_view.dart';
 import 'package:everslot/features/planner/presentation/views/time_grid_view.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
+import 'package:everslot/features/planner/presentation/views/week_list_view.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Every planner view (T3.6.01). Adding a view = one entry here; P2 views ship dark (tier m3).
@@ -46,6 +48,22 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     builder: (a) => TimeGridView(args: a, configTransform: workWeekTransform),
     timeBased: true,
     supportsSlotSize: true,
+    supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'week_list',
+    type: PlannerViewType.weekList,
+    icon: Icons.view_agenda_outlined,
+    label: (l) => l.pvViewWeekList,
+    builder: (a) => WeekListView(args: a),
+    supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'month',
+    type: PlannerViewType.month,
+    icon: Icons.calendar_month_outlined,
+    label: (l) => l.pvViewMonth,
+    builder: (a) => MonthView(args: a),
     supportsDrag: true,
   ),
 ];
