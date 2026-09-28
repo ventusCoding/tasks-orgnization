@@ -14,7 +14,7 @@ void main() {
   final wed = LocalDate(2026, 9, 23);
   final queries = <OverlayQuery>[];
 
-  Future<PlannerHarness> pump(WidgetTester tester, Map<String, bool> overlays, {List<Object> items = const []}) async {
+  Future<PlannerHarness> pump(WidgetTester tester, Map<String, bool> overlays, {Locale locale = const Locale('en')}) async {
     queries.clear();
     final h = PlannerHarness.create(
       items: [
@@ -54,7 +54,7 @@ void main() {
     notifier.update(h.read(plannerViewConfigProvider('week_table')).copyWith(overlays: overlays));
     final controller = PlannerGridController();
     addTearDown(controller.dispose);
-    await pumpPlanner(tester, h, Scaffold(body: TimeGrid(viewKey: 'week_table', controller: controller)));
+    await pumpPlanner(tester, h, Scaffold(body: TimeGrid(viewKey: 'week_table', controller: controller)), locale: locale);
     await tester.pumpAndSettle();
     controller.scrollToMinute(7 * 60, animate: false);
     await tester.pumpAndSettle();
@@ -71,6 +71,14 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('overlay-item|i1')));
     await tester.pump();
     expect(h.nav.log, contains('checklist list-1 i1'));
+  });
+
+  testWidgets('markers follow the mirrored day columns in RTL', (tester) async {
+    await pump(tester, {'checklistDue': true}, locale: const Locale('ar'));
+    final grid = tester.state<TimeGridState>(find.byType(TimeGrid));
+    final inColumn = grid.globalPositionOf(wed, 11 * 60 + 5)!;
+    final rect = tester.getRect(find.byKey(const ValueKey('overlay-item|i1')));
+    expect(rect.left <= inColumn.dx && inColumn.dx <= rect.right, isTrue, reason: '$rect vs $inColumn');
   });
 
   testWidgets('turning an overlay off removes its layer', (tester) async {

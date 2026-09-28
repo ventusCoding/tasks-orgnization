@@ -248,10 +248,10 @@ List<Widget> positionedMarkers({
     // Markers at the same time of the same day stack downwards.
     final slot = '${m.day}|${(y / OverlayMarkerChip.extent).floor()}';
     final stack = usedRows[slot] = (usedRows[slot] ?? -1) + 1;
-    final x = page.rtl ? width - (i + 1) * col : i * col;
     out.add(
-      Positioned(
-        left: x + 2,
+      // Day i sits i columns from the reading start (the page mirrors its columns in RTL).
+      PositionedDirectional(
+        start: i * col + 2,
         top: y + stack * (OverlayMarkerChip.extent + 1),
         width: math.max(0.0, col - 4),
         height: OverlayMarkerChip.extent,
