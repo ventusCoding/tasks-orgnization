@@ -296,7 +296,7 @@ class LocalNotificationScheduler {
         ),
         categoryId: ChannelCatalog.categoryIdFor(p.actions, nag: p.isNag),
         threadId: p.threadId,
-        groupKey: 'dl.group.${p.section.wire}',
+        groupKey: '$groupPrefix${p.section.wire}',
         silent: p.silent,
         sticky: p.sticky,
         timeoutAfter: p.sticky ? null : p.expiresAt.difference(p.fireAt),
@@ -535,6 +535,73 @@ class LocalNotificationScheduler {
       }
     }
     return count;
+  }
+
+  /// Android group summaries (T7.2.19): every section group (`dl.group.<section>`) with at least
+  /// two notifications in the tray gets one silent inbox-style summary ("3 reminders" + their
+  /// titles); the summary goes away when fewer remain. Runs whenever the app sees the tray
+  /// (resume, reconciliation, actions) — while the app is dead Android bundles 4+ by itself.
+  Future<void> refreshGroupSummaries() async {
+    if (port.platform != 'android') return;
+    final active = await port.active();
+    final children = <String, List<ActiveOsNotification>>{};
+    final summaries = <String, ActiveOsNotification>{};
+    for (final a in active) {
+      final group = a.groupKey;
+      if (group == null || !group.startsWith(groupPrefix)) continue;
+      if (a.tag == summaryTag(group)) {
+        summaries[group] = a;
+      } else {
+        (children[group] ??= []).add(a);
+      }
+    }
+    final l = l10n();
+    for (final e in children.entries) {
+      if (e.value.length < 2) continue;
+      final titles = [
+        for (final a in e.value)
+          if (a.title != null && a.title!.isNotEmpty) a.title!,
+      ];
+      await port.show(
+        OsNotificationRequest(
+          id: summaryId(e.key),
+          title: l.notifMergedTitle(e.value.length),
+          body: titles.take(3).join(', '),
+          channelId: e.value.first.channelId ?? ChannelCatalog.system,
+          payload: jsonEncode({
+            'v': 1,
+            'kind': ScheduleKind.summary,
+            'dk': summaryTag(e.key),
+            'link': AppLinks.inbox(),
+          }),
+          groupKey: e.key,
+          groupSummary: true,
+          lines: titles.take(5).toList(),
+          silent: true,
+          sound: 'none',
+          tag: summaryTag(e.key),
+        ),
+      );
+    }
+    for (final e in summaries.entries) {
+      if ((children[e.key]?.length ?? 0) >= 2) continue;
+      await port.cancel(e.value.id ?? summaryId(e.key), tag: summaryTag(e.key));
+    }
+  }
+
+  static const groupPrefix = 'dl.group.';
+  static String summaryTag(String group) => 'summary:$group';
+  static int summaryId(String group) => PlatformIds.hash(summaryTag(group));
+
+  /// Removes the notification of [dedupeKey] from the tray and the schedule (`cancel` push,
+  /// T7.4.12): the local request by its stored platform id and, on Android, a push-shown copy
+  /// (FCM notification messages are posted with id 0 and the dedupe key as tag).
+  Future<void> cancelDelivered(String dedupeKey) async {
+    final entry = await store.byKey(dedupeKey);
+    if (entry != null && entry.os) {
+      await port.cancel(entry.platformId, tag: dedupeKey);
+    }
+    if (port.platform == 'android') await port.cancel(0, tag: dedupeKey);
   }
 
   /// Sign-out: clears every OS request and the schedule table.

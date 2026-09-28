@@ -212,7 +212,9 @@ final List<NotificationContribution> notificationContributions = [
 This list is read by the main isolate **and** by the background isolate that runs actions while
 the app is killed, so factories must not depend on widgets or on providers that only exist in the
 UI. Runtime registration (`ref.read(notificationRegistryProvider).registerSource(...)`) exists for
-tests, the debug menu and optional sources; it is invisible to the background isolate.
+tests, the debug menu and optional sources; it is invisible to the background isolate. For the same
+action and target type a runtime-registered handler takes precedence over a static one (main
+isolate only).
 
 ---
 
@@ -290,7 +292,10 @@ overlay. It restarts on account switches.
 
 Push (FCM) activates only when `FIREBASE_ENABLED` is true, `DefaultFirebaseOptions.isConfigured`,
 Supabase is configured and a cloud session exists (`pushAvailableProvider`); otherwise local
-notifications and the inbox work fully offline.
+notifications and the inbox work fully offline. Data messages the device understands:
+`{"type":"sync","head":…}` (pull + replan), `{"type":"cancel","dk":<dedupe key>}` (drop that
+reminder from the tray right away — completed on another device) and visible reminders
+(`reminder | nag | digest | milestone`, shown by the OS; foreground → banner + inbox row).
 
 ## 5. Testing your integration
 

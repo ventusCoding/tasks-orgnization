@@ -469,5 +469,14 @@
   "notifIssueRepeatDoze": "على أندرويد، قد تصل التكرارات التي يفصل بينها أقل من 10 دقائق متأخرةً أثناء سكون الهاتف",
   "notifCopyFrom": "نسخ التذكيرات من…",
   "notifCopyNothing": "لا يحتوي هذا العنصر على تذكيرات خاصة به",
-  "notifCopied": "{count, plural, =0{لم يُنسخ أي تذكير} =1{نُسخ تذكير واحد} =2{نُسخ تذكيران} few{نُسخت {count} تذكيرات} many{نُسخ {count} تذكيرًا} other{نُسخ {count} تذكير}}"
+  "notifCopied": "{count, plural, =0{لم يُنسخ أي تذكير} =1{نُسخ تذكير واحد} =2{نُسخ تذكيران} few{نُسخت {count} تذكيرات} many{نُسخ {count} تذكيرًا} other{نُسخ {count} تذكير}}",
+  "notifNoticeChannelBody": "افتح إعدادات النظام للسماح بها من جديد.",
+  "notifNoticeSaturatedTitle": "لا يتّسع هذا الجهاز لكل التذكيرات",
+  "notifNoticeSaturatedBody": "يحتفظ iOS بالتذكيرات الـ64 التالية فقط. افتح Everslot بانتظام (أو فعّل الإشعارات الفورية) لتُجدوَل التذكيرات اللاحقة.",
+  "notifNoticeSyncTitle": "تفشل المزامنة منذ أكثر من يوم",
+  "notifNoticeSyncBody": "تغييراتك محفوظة على هذا الجهاز. تحقّق من اتصالك أو سجّل الدخول من جديد.",
+  "notifNoticeRevokedTitle": "أُزيل هذا الجهاز من حسابك",
+  "notifNoticeRevokedBody": "سجّل الدخول من جديد لمتابعة المزامنة.",
+  "notifNoticeUpdateTitle": "حدّث Everslot",
+  "notifNoticeUpdateBody": "لم يعد بإمكان هذا الإصدار المزامنة. ثبّت أحدث إصدار لتبقى بياناتك متزامنة."
 }

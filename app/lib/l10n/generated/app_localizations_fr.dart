@@ -6012,6 +6012,41 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get notifNoticeChannelBody =>
+      'Ouvrez les réglages du système pour les autoriser de nouveau.';
+
+  @override
+  String get notifNoticeRevokedBody =>
+      'Reconnectez-vous pour continuer la synchronisation.';
+
+  @override
+  String get notifNoticeRevokedTitle =>
+      'Cet appareil a été retiré de votre compte';
+
+  @override
+  String get notifNoticeSaturatedBody =>
+      'iOS ne garde que les 64 prochains rappels. Ouvrez Everslot régulièrement (ou activez le push) pour que les suivants soient programmés.';
+
+  @override
+  String get notifNoticeSaturatedTitle =>
+      'Tous les rappels ne tiennent pas sur cet appareil';
+
+  @override
+  String get notifNoticeSyncBody =>
+      'Vos modifications sont en sécurité sur cet appareil. Vérifiez votre connexion ou reconnectez-vous.';
+
+  @override
+  String get notifNoticeSyncTitle =>
+      'La synchronisation échoue depuis plus d’un jour';
+
+  @override
+  String get notifNoticeUpdateBody =>
+      'Cette version ne peut plus se synchroniser. Installez la dernière version pour garder vos données synchronisées.';
+
+  @override
+  String get notifNoticeUpdateTitle => 'Mettez à jour Everslot';
+
+  @override
   String get notifOffsetAmount => 'Durée';
 
   @override

@@ -69,7 +69,12 @@ class DeviceStateReporter {
 
 /// Device-side FCM handling (T7.4.01 / T7.4.10) — only started when Firebase and Supabase are
 /// configured. Foreground messages become in-app banners + inbox rows (no OS banner on iOS when
-/// banners are on), `{"type":"sync"}` data messages trigger a pull, taps open the deep link.
+/// banners are on), `{"type":"sync"}` data messages trigger a pull, `{"type":"cancel","dk":…}`
+/// removes a completed-elsewhere notification from the tray (T7.4.12), taps open the deep link.
+///
+/// Token hygiene (T7.4.02): the token is reported on every start (the server stamps
+/// `push_token_updated_at`, so an app used at least monthly never looks stale), and on Android a
+/// registration older than [maxRegistrationAge] is deleted and fetched again.
 class PushService {
   PushService({
     required this.port,
@@ -77,7 +82,15 @@ class PushService {
     required this.onSync,
     required this.onForegroundReminder,
     required this.onOpened,
+    this.onCancel,
+    this.isAndroid = false,
+    this.now,
+    this.readRegisteredAt,
+    this.writeRegisteredAt,
   });
+
+  /// Android re-registers FCM after this long (FCM token staleness guidance).
+  static const maxRegistrationAge = Duration(days: 270);
 
   static final _log = AppLog.get('notifications.push');
 
@@ -86,6 +99,15 @@ class PushService {
   final void Function() onSync;
   final Future<void> Function(PushMessage message) onForegroundReminder;
   final Future<void> Function(PushMessage message) onOpened;
+
+  /// `cancel` data message (the dedupe key is in `data.dk`).
+  final Future<void> Function(PushMessage message)? onCancel;
+  final bool isAndroid;
+  final DateTime Function()? now;
+
+  /// Persisted time of the current FCM registration (local key-value store).
+  final Future<DateTime?> Function()? readRegisteredAt;
+  final Future<void> Function(DateTime at)? writeRegisteredAt;
 
   final List<StreamSubscription<Object?>> _subs = [];
   String? token;
@@ -100,12 +122,15 @@ class PushService {
         badge: true,
         sound: !bannerInApp,
       );
+      await _refreshStaleRegistration();
       token = await port.getToken();
-      if (token != null)
+      if (token != null) {
         reporter.report({
           'push_token': token,
           'push_enabled': true,
         }, immediate: true);
+        if (await readRegisteredAt?.call() == null) await _stampRegistration();
+      }
     } on Object catch (e) {
       _log.warning('FCM token unavailable', e);
     }
@@ -113,6 +138,7 @@ class PushService {
       ..add(
         port.onTokenRefresh.listen((t) {
           token = t;
+          unawaited(_stampRegistration());
           reporter.report({
             'push_token': t,
             'push_enabled': true,
@@ -133,10 +159,33 @@ class PushService {
       case 'sync':
         onSync();
       case 'cancel':
-        break; // local notifications are cancelled by the replan triggered by the sync pull
+        // Immediate tray cleanup; the replan after the next pull cancels the rest.
+        await onCancel?.call(m);
       default:
         if (foreground) await onForegroundReminder(m);
     }
+  }
+
+  /// Android registrations older than [maxRegistrationAge] are deleted so the next `getToken`
+  /// registers again (T7.4.02).
+  Future<void> _refreshStaleRegistration() async {
+    final clock = now;
+    if (!isAndroid || clock == null) return;
+    final at = await readRegisteredAt?.call();
+    if (at == null || clock().difference(at) <= maxRegistrationAge) return;
+    try {
+      await port.deleteToken();
+    } on Object catch (e) {
+      _log.fine('stale FCM registration not deleted', e);
+      return;
+    }
+    await _stampRegistration();
+  }
+
+  Future<void> _stampRegistration() async {
+    final clock = now;
+    if (clock == null) return;
+    await writeRegisteredAt?.call(clock());
   }
 
   /// Sign-out / account deletion: delete the token and null it server-side (T7.4.01).

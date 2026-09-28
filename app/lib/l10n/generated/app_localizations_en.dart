@@ -5962,6 +5962,39 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get notifNoticeChannelBody =>
+      'Open the system settings to allow them again.';
+
+  @override
+  String get notifNoticeRevokedBody => 'Sign in again to keep syncing.';
+
+  @override
+  String get notifNoticeRevokedTitle =>
+      'This device was removed from your account';
+
+  @override
+  String get notifNoticeSaturatedBody =>
+      'iOS keeps only the next 64 reminders. Open Everslot regularly (or turn on push) so the later ones get scheduled.';
+
+  @override
+  String get notifNoticeSaturatedTitle =>
+      'Not all reminders fit on this device';
+
+  @override
+  String get notifNoticeSyncBody =>
+      'Your changes are safe on this device. Check your connection or sign in again.';
+
+  @override
+  String get notifNoticeSyncTitle => 'Sync has been failing for over a day';
+
+  @override
+  String get notifNoticeUpdateBody =>
+      'This version can no longer sync. Install the latest version to keep your data in sync.';
+
+  @override
+  String get notifNoticeUpdateTitle => 'Update Everslot';
+
+  @override
   String get notifOffsetAmount => 'Amount';
 
   @override

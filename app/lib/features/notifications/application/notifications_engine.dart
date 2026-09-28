@@ -19,10 +19,12 @@ import 'package:everslot/features/notifications/application/notification_pipelin
 import 'package:everslot/features/notifications/application/notification_providers.dart';
 import 'package:everslot/features/notifications/application/notification_registry.dart';
 import 'package:everslot/features/notifications/application/notification_texts_l10n.dart';
+import 'package:everslot/features/notifications/application/system_notices.dart';
 import 'package:everslot/features/notifications/application/push/job_uploader.dart';
 import 'package:everslot/features/notifications/application/push/push_messaging_port.dart';
 import 'package:everslot/features/notifications/application/push/push_service.dart';
 import 'package:everslot/features/notifications/data/inbox_repository.dart';
+import 'package:everslot/features/notifications/domain/badge_count.dart';
 import 'package:everslot/features/notifications/domain/notification_actions.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
 import 'package:everslot/features/notifications/domain/notification_target.dart';
@@ -287,6 +289,15 @@ class NotificationsEngine {
           .tableUpdates(TableUpdateQuery.onAllTables(infos))
           .listen((_) => _replan.request('data')),
     );
+    // App-icon badge follows the unread count live between replans (T7.3.06).
+    _subs.add(
+      ref.read(inboxRepositoryProvider).watchUnreadCount().listen((unread) {
+        if (ref.read(notificationSettingsProvider).badgePolicy !=
+            BadgePolicy.unread)
+          return;
+        unawaited(ref.read(localNotificationsPortProvider).setBadge(unread));
+      }),
+    );
 
     void subscribeSources() {
       for (final source in ref.read(notificationTargetSourcesProvider)) {
@@ -435,9 +446,24 @@ class NotificationsEngine {
       'schedule_rev': rev,
       'local_repeating_rules': report.scheduler.repeatingRules.toList()..sort(),
     });
+    _saturated = report.scheduler.saturated;
+    await _refreshNotices();
+  }
+
+  /// Last scheduler saturation (iOS budget), for the system notices between replans.
+  bool _saturated = false;
+
+  /// System notices (T7.3.07) — best effort, never breaks a replan.
+  Future<void> _refreshNotices() async {
+    try {
+      await ref.read(systemNoticesProvider).refresh(saturated: _saturated);
+    } on Object catch (e) {
+      _log.fine('system notices unavailable', e);
+    }
   }
 
   Future<void> _onSyncStatus(SyncStatus status) async {
+    unawaited(_refreshNotices());
     final success = status.lastSuccessAt;
     if (success == null || success == _lastSyncSuccess) return;
     _lastSyncSuccess = success;
@@ -467,12 +493,32 @@ class NotificationsEngine {
     } on Object catch (e) {
       _log.fine('FCM background handler not registered', e);
     }
+    final db = ref.read(appDatabaseProvider);
+    const registeredKey = 'notifications.fcm_registered_at';
     _push = PushService(
       port: port,
       reporter: ref.read(deviceStateReporterProvider),
       onSync: () => ref.read(syncServiceProvider)?.schedulePull(),
       onForegroundReminder: _onForegroundPush,
       onOpened: _onPushOpened,
+      onCancel: (m) async {
+        final dk = m.dedupeKey;
+        if (dk != null) {
+          await ref.read(localSchedulerProvider).cancelDelivered(dk);
+        }
+      },
+      isAndroid: ref.read(localNotificationsPortProvider).platform == 'android',
+      now: () => ref.read(clockProvider).nowUtc(),
+      readRegisteredAt: () async {
+        final row = await (db.select(
+          db.localKv,
+        )..where((k) => k.key.equals(registeredKey))).getSingleOrNull();
+        return row == null ? null : DateTime.tryParse(row.value)?.toUtc();
+      },
+      writeRegisteredAt: (at) => db.customStatement(
+        'INSERT INTO local_kv(key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value',
+        [registeredKey, at.toUtc().toIso8601String()],
+      ),
     );
     await _push!.start(
       bannerInApp: ref.read(notificationSettingsProvider).bannerInApp,

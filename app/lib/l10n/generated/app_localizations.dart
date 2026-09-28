@@ -9813,6 +9813,60 @@ abstract class AppLocalizations {
   /// **'About {perDay} notifications per day'**
   String notifNoiseWarn(int perDay);
 
+  /// No description provided for @notifNoticeChannelBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the system settings to allow them again.'**
+  String get notifNoticeChannelBody;
+
+  /// No description provided for @notifNoticeRevokedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again to keep syncing.'**
+  String get notifNoticeRevokedBody;
+
+  /// No description provided for @notifNoticeRevokedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This device was removed from your account'**
+  String get notifNoticeRevokedTitle;
+
+  /// No description provided for @notifNoticeSaturatedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'iOS keeps only the next 64 reminders. Open Everslot regularly (or turn on push) so the later ones get scheduled.'**
+  String get notifNoticeSaturatedBody;
+
+  /// No description provided for @notifNoticeSaturatedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not all reminders fit on this device'**
+  String get notifNoticeSaturatedTitle;
+
+  /// No description provided for @notifNoticeSyncBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your changes are safe on this device. Check your connection or sign in again.'**
+  String get notifNoticeSyncBody;
+
+  /// No description provided for @notifNoticeSyncTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync has been failing for over a day'**
+  String get notifNoticeSyncTitle;
+
+  /// No description provided for @notifNoticeUpdateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This version can no longer sync. Install the latest version to keep your data in sync.'**
+  String get notifNoticeUpdateBody;
+
+  /// No description provided for @notifNoticeUpdateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Everslot'**
+  String get notifNoticeUpdateTitle;
+
   /// No description provided for @notifOffsetAmount.
   ///
   /// In en, this message translates to:
