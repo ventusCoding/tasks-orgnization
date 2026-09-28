@@ -35,6 +35,7 @@ class StatsHarness {
     String userId = 'user-1',
     List<Override> overrides = const [],
     QueryInterceptor? interceptor,
+    StatsExecutor executor = const InlineStatsExecutor(),
   }) {
     TestWidgetsFlutterBinding.ensureInitialized();
     if (!_tzReady) {
@@ -61,7 +62,7 @@ class StatsHarness {
         appDatabaseProvider.overrideWithValue(db),
         clockProvider.overrideWithValue(clock),
         deviceIdProvider.overrideWithValue('device-test'),
-        statsExecutorProvider.overrideWithValue(const InlineStatsExecutor()),
+        statsExecutorProvider.overrideWithValue(executor),
         ...overrides,
       ],
     );

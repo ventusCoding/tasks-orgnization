@@ -188,6 +188,42 @@ final class StatsSettings {
     categoryWeights: {for (final e in categoryWeights.entries) e.key: e.value.round().clamp(0, 4)},
   );
 
+  /// Canonical text of every field (value equality, so an unchanged settings re-read never
+  /// recomputes a batch).
+  String get _key {
+    String sorted(Iterable<Object?> values) => (values.map((v) => '$v').toList()..sort()).join(',');
+    String map(Map<String, Object?> m) => sorted(m.entries.map((e) => '${e.key}=${e.value}'));
+    return [
+      defaultPeriod,
+      compareWithPrevious,
+      weekStartOverride?.iso,
+      graceMinutes,
+      missedGraceMinutes,
+      skipPolicy.name,
+      deepWorkMinutes,
+      slotToleranceMinutes,
+      staleDays,
+      workStartMinute,
+      workEndMinute,
+      sorted(workDays),
+      capacityBasis.name,
+      vacationExcusesPlanner,
+      map(categoryWeights),
+      map(dayScoreWeights),
+      map(blockerClusters),
+      sorted(announcedRecords),
+      sorted(mutedInsights),
+      map({for (final e in layouts.entries) e.key: map(e.value)}),
+      sorted(unavailableCategoryIds),
+    ].join('|');
+  }
+
+  @override
+  bool operator ==(Object other) => other is StatsSettings && other._key == _key;
+
+  @override
+  int get hashCode => _key.hashCode;
+
   StatsSettings copyWith({Set<String>? unavailableCategoryIds}) => StatsSettings(
     defaultPeriod: defaultPeriod,
     compareWithPrevious: compareWithPrevious,

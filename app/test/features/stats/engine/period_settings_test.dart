@@ -68,6 +68,9 @@ void main() {
       expect((s.workStartMinute, s.workEndMinute), (510, 960));
       expect(s.workDays, {1, 2, 3, 4});
       expect(s.missedGraceMinutes, 30);
+      // Value equality: re-reading unchanged settings never recomputes a batch.
+      expect(StatsSettings.fromMaps(stats: {'weekStartOverride': 7}), StatsSettings.fromMaps(stats: {'weekStartOverride': 7}));
+      expect(StatsSettings.fromMaps(stats: {'weekStartOverride': 7}), isNot(const StatsSettings()));
     });
 
     test('invalid values fall back to defaults', () {

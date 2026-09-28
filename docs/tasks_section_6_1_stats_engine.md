@@ -41,7 +41,7 @@ for stats defaults ([8.3]).
 - [x] T6.1.10 — Habit-strength score (Loop-compatible EWMA)
 - [x] T6.1.11 — Status-interval & event-log primitives
 - [x] T6.1.12 — Stats data loaders over Drift
-- [ ] T6.1.13 — Isolate execution, caching & invalidation
+- [x] T6.1.13 — Isolate execution, caching & invalidation
 - [x] T6.1.14 — Minimum-data, confidence & honesty rules
 - [ ] T6.1.15 — Stats fixture framework & canonical datasets
 - [ ] T6.1.16 — Stats screen framework & "explain this metric" sheet
@@ -408,6 +408,7 @@ invalidate precisely when the underlying data changes.
 invalidates only habit metrics; the UI thread never blocks for more than 8 ms during computation.
 **Tests:** unit tests with a fake clock and fake table-update stream; a widget test proving stale results
 are discarded.
+**Notes:** `StatsComputeService.computeBatch` loads once and runs one `Isolate.run` job (`IsolateStatsExecutor`; the job carries records plus a `tz.Location` snapshot); LRU `StatsResultCache` (200) keyed by metric/scope/entity/period/compare/filters/extra/dataVersion; `watchStatsDomains` debounces Drift table updates per domain (activity_events not watched — every write also touches its entity row); the version key adds a 5-minute bucket so time-dependent values refresh. `StatsSettings` has value equality so re-read settings don't recompute. Tests: `engine/compute_cache_test.dart` (cache, isolate parity, habit-only invalidation, stale result dropped). The 8 ms UI-thread budget is profiled by T6.1.23.
 
 ### T6.1.14 — Minimum-data, confidence & honesty rules
 **Priority:** P0 · **Size:** S · **Depends on:** T6.1.03, T6.1.06
