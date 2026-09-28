@@ -189,6 +189,36 @@ ValueTile _kpiTile(KpiDelta k, {required String currency}) {
   );
 }
 
+/// Habit adherence over [r] exactly as HB-X-04 defines it (closed scheduled units — quota periods
+/// included — minus excluded units, archived habits dropped after their archive date), so the
+/// Overview and review tiles equal the Habits screen.
+Stat<double> _habitAdherence(GlobalContext c, DateRange r) {
+  var done = 0;
+  var total = 0;
+  for (final h in c.habits.series) {
+    for (final u in h.results) {
+      if (!isClosedScheduled(u) || isExcludedUnit(u, skipPolicy: h.skipPolicy)) continue;
+      if (h.archivedOn != null && u.startDate.isAfter(h.archivedOn!)) continue;
+      if (!r.contains(u.endDate)) continue;
+      total++;
+      if (u.status == PeriodStatus.done) done++;
+    }
+  }
+  return rate(done, total);
+}
+
+/// Replaces the day-fact habit KPI of [kpis] with [_habitAdherence] over [current] vs [previous].
+List<KpiDelta> _withHabitAdherence(GlobalContext c, List<KpiDelta> kpis, DateRange current, DateRange previous) => [
+  for (final k in kpis)
+    if (k.metricId == 'HB-X-04')
+      (
+        metricId: k.metricId,
+        comparison: compareWithPrevious(_habitAdherence(c, current), _habitAdherence(c, previous), isRate: true),
+      )
+    else
+      k,
+];
+
 /// Every overview metric.
 final List<MetricDefinition> globalMetrics = [
   // ---------------------------------------------------------------------------------------------
@@ -311,9 +341,16 @@ final List<MetricDefinition> globalMetrics = [
     compute: (c) {
       final w = weekAtAGlance(c.days, today: c.today, weekStart: c.weekStart);
       final currency = c.currency();
+      final elapsed = c.thisWeekStart.daysUntil(c.today);
+      final deltas = _withHabitAdherence(
+        c,
+        w.deltas,
+        DateRange(c.thisWeekStart, c.today),
+        DateRange(c.thisWeekStart.minusDays(7), c.thisWeekStart.minusDays(7).plusDays(elapsed)),
+      );
       return chartResult(
         'GL-02',
-        TilesData([for (final k in w.deltas) _kpiTile(k, currency: currency)]),
+        TilesData([for (final k in deltas) _kpiTile(k, currency: currency)]),
         value: Value<double>(w.deltas.length.toDouble()),
         args: {'plannedHours': w.current.plannedHours, 'previousPlannedHours': w.previous.plannedHours},
       );
@@ -447,7 +484,10 @@ final List<MetricDefinition> globalMetrics = [
         ReviewData(
           from: week.start,
           to: week.end,
-          headline: [for (final k in report.headline) _kpiTile(k, currency: currency)],
+          headline: [
+            for (final k in _withHabitAdherence(c, report.headline, DateRange(week.start, LocalDate.min(week.end, c.today)), prevWeek))
+              _kpiTile(k, currency: currency),
+          ],
           wins: [for (final w in report.wins) entry(w)],
           attention: [for (final a in report.attention) entry(a)],
           topCategories: [

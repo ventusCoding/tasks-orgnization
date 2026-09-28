@@ -1,0 +1,231 @@
+{
+  "lastWeek": {
+    "from": "2026-09-14",
+    "to": "2026-09-20",
+    "headline": [
+      {
+        "label": "token:agenda",
+        "metricId": "PL-X-01",
+        "value": 0.809524,
+        "delta": 4.481793,
+        "unit": "percent"
+      },
+      {
+        "label": "token:actual",
+        "metricId": "PL-X-12",
+        "value": 4.166667,
+        "delta": 3.083333,
+        "unit": "hours"
+      },
+      {
+        "label": "token:habits",
+        "metricId": "HB-X-04",
+        "value": 0.794118,
+        "delta": -2.406417,
+        "unit": "percent"
+      },
+      {
+        "label": "token:items",
+        "metricId": "CL-X-04",
+        "value": 1.0,
+        "delta": -1.0,
+        "unit": "count"
+      },
+      {
+        "label": "token:money",
+        "metricId": "QT-07",
+        "value": 91.0,
+        "delta": 0.0,
+        "unit": "currency"
+      }
+    ],
+    "wins": [
+      {
+        "kind": "perfectDays",
+        "title": null,
+        "value": 4.0,
+        "date": null,
+        "ref": null
+      }
+    ],
+    "attention": [
+      {
+        "kind": "overdueTasks",
+        "title": "Gym",
+        "value": null,
+        "date": null,
+        "ref": "occurrence:gym@2026-09-16T18:00"
+      },
+      {
+        "kind": "overdueTasks",
+        "title": "O9",
+        "value": null,
+        "date": null,
+        "ref": "occurrence:o9@2026-09-18T09:00"
+      },
+      {
+        "kind": "overdueTasks",
+        "title": "Reading",
+        "value": null,
+        "date": null,
+        "ref": "occurrence:reading@2026-09-19T21:00"
+      },
+      {
+        "kind": "blockedWaiting",
+        "title": "Item C",
+        "value": null,
+        "date": null,
+        "ref": "item:L1@C"
+      }
+    ],
+    "topCategories": [
+      {
+        "label": "Work",
+        "minutes": 465.0,
+        "delta": 225.0
+      },
+      {
+        "label": "Personal",
+        "minutes": 210.0,
+        "delta": 0.0
+      },
+      {
+        "label": "Health",
+        "minutes": 180.0,
+        "delta": 0.0
+      }
+    ],
+    "nextWeek": [
+      {
+        "date": "2026-09-28",
+        "planned": 105.0,
+        "capacity": 480.0,
+        "overbooked": false
+      },
+      {
+        "date": "2026-09-29",
+        "planned": 45.0,
+        "capacity": 480.0,
+        "overbooked": false
+      },
+      {
+        "date": "2026-09-30",
+        "planned": 105.0,
+        "capacity": 480.0,
+        "overbooked": false
+      },
+      {
+        "date": "2026-10-01",
+        "planned": 45.0,
+        "capacity": 480.0,
+        "overbooked": false
+      },
+      {
+        "date": "2026-10-02",
+        "planned": 105.0,
+        "capacity": 480.0,
+        "overbooked": false
+      },
+      {
+        "date": "2026-10-03",
+        "planned": 30.0,
+        "capacity": 0.0,
+        "overbooked": false
+      },
+      {
+        "date": "2026-10-04",
+        "planned": 30.0,
+        "capacity": 0.0,
+        "overbooked": false
+      }
+    ]
+  },
+  "today": [
+    {
+      "label": "token:agenda",
+      "metricId": "PL-X-01",
+      "value": null,
+      "delta": null,
+      "unit": "percent"
+    },
+    {
+      "label": "token:habits",
+      "metricId": "HB-X-01",
+      "value": 0.0,
+      "delta": null,
+      "unit": "percent"
+    },
+    {
+      "label": "token:cravings",
+      "metricId": "QT-13",
+      "value": 0.0,
+      "delta": null,
+      "unit": "count"
+    },
+    {
+      "label": "token:items",
+      "metricId": "CL-X-04",
+      "value": 0.0,
+      "delta": null,
+      "unit": "count"
+    },
+    {
+      "label": "token:wip",
+      "metricId": "CL-X-03",
+      "value": 1.0,
+      "delta": null,
+      "unit": "count"
+    },
+    {
+      "label": "token:blocked",
+      "metricId": "CL-X-03",
+      "value": 0.0,
+      "delta": null,
+      "unit": "count"
+    },
+    {
+      "label": "token:overdue",
+      "metricId": "PL-X-06",
+      "value": 3.0,
+      "delta": null,
+      "unit": "count"
+    }
+  ],
+  "weekAtAGlance": [
+    {
+      "label": "token:agenda",
+      "metricId": "PL-X-01",
+      "value": null,
+      "delta": null,
+      "unit": "percent"
+    },
+    {
+      "label": "token:actual",
+      "metricId": "PL-X-12",
+      "value": 0.0,
+      "delta": -2.0,
+      "unit": "hours"
+    },
+    {
+      "label": "token:habits",
+      "metricId": "HB-X-04",
+      "value": null,
+      "delta": null,
+      "unit": "percent"
+    },
+    {
+      "label": "token:items",
+      "metricId": "CL-X-04",
+      "value": 0.0,
+      "delta": -1.0,
+      "unit": "count"
+    },
+    {
+      "label": "token:money",
+      "metricId": "QT-07",
+      "value": 4.333333,
+      "delta": -8.666667,
+      "unit": "currency"
+    }
+  ]
+}

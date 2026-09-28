@@ -70,6 +70,7 @@ class StatsScopeView extends ConsumerStatefulWidget {
     this.header,
     this.defaultPeriod,
     this.showPeriod = true,
+    this.onReviewToggle,
   });
 
   final MetricScope scope;
@@ -95,6 +96,10 @@ class StatsScopeView extends ConsumerStatefulWidget {
 
   /// Per-entity lifetime scopes (one occurrence, one item) hide the period selector.
   final bool showPeriod;
+
+  /// Weekly review: switches between the last completed week and this week so far (`extra`
+  /// `current`).
+  final ValueChanged<bool>? onReviewToggle;
 
   @override
   ConsumerState<StatsScopeView> createState() => _StatsScopeViewState();
@@ -222,7 +227,14 @@ class _StatsScopeViewState extends ConsumerState<StatsScopeView> {
             SliverPadding(
               padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
               sliver: SliverToBoxAdapter(
-                child: _CardGrid(items: section.items, results: results, loading: loading, periodText: periodText),
+                child: _CardGrid(
+                  items: section.items,
+                  results: results,
+                  loading: loading,
+                  periodText: periodText,
+                  onReviewToggle: widget.onReviewToggle,
+                  reviewCurrent: widget.extra == 'current',
+                ),
               ),
             ),
         ],
@@ -435,12 +447,21 @@ class _SectionTitle extends StatelessWidget {
 
 /// Responsive grid: 1 column on phones, 2 on tablets; half-span KPI cards pair up everywhere.
 class _CardGrid extends ConsumerWidget {
-  const _CardGrid({required this.items, required this.results, required this.loading, required this.periodText});
+  const _CardGrid({
+    required this.items,
+    required this.results,
+    required this.loading,
+    required this.periodText,
+    this.onReviewToggle,
+    this.reviewCurrent = false,
+  });
 
   final List<StatsLayoutItem> items;
   final Map<String, MetricResult> results;
   final bool loading;
   final String? periodText;
+  final ValueChanged<bool>? onReviewToggle;
+  final bool reviewCurrent;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -468,6 +489,8 @@ class _CardGrid extends ConsumerWidget {
             result: results[item.metricId],
             loading: loading,
             periodText: periodText,
+            onReviewToggle: onReviewToggle,
+            reviewCurrent: reviewCurrent,
           );
           rows.add(
             Padding(

@@ -14,6 +14,7 @@ const canonicalFixtures = [
   'quit_reduce_week',
   'quit_attempts',
   'checklist_flow_small',
+  'overview_week',
 ];
 
 void main() {

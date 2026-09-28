@@ -22,8 +22,8 @@ delivery of insights and digests ([7.5]); the operational Today screen ([8.1]).
 
 ## Progress
 
-- [ ] T6.7.01 — Overview screen: Today board & week at a glance
-- [ ] T6.7.02 — Weekly review report
+- [x] T6.7.01 — Overview screen: Today board & week at a glance
+- [x] T6.7.02 — Weekly review report
 - [ ] T6.7.03 — Guided weekly review & review streak
 - [ ] T6.7.04 — Monthly review
 - [ ] T6.7.05 — Personal records engine
@@ -40,7 +40,7 @@ delivery of insights and digests ([7.5]); the operational Today screen ([8.1]).
 - [ ] T6.7.16 — Custom dashboards
 - [ ] T6.7.17 — Cross-section time budget
 - [ ] T6.7.18 — Monte Carlo goal forecasts
-- [ ] T6.7.19 — Overview fixtures & report snapshot tests
+- [x] T6.7.19 — Overview fixtures & report snapshot tests
 
 ## Tasks
 
@@ -59,6 +59,7 @@ metric IDs.
 **Acceptance criteria:** the Overview renders in < 300 ms with the `overview_week` fixture; it adapts
 when sections are empty (e.g. no quit trackers means no quit tile).
 **Tests:** widget tests with fixture results; goldens.
+**Notes:** Overview segment of `InsightsScreen`: GL-01 (today board tiles only for sections with data, next up, overdue/WIP drills) and GL-02 (this week to date vs the same days last week), plus the weekly review entry; the section links are the Insights segments. The habit tile of GL-02/GL-03 uses HB-X-04's exact definition (closed scheduled units incl. quota periods, archive rule), so it equals the Habits screen; before any unit closes it shows "—". Tests: `presentation/overview_screens_test.dart` (all sections, empty sections), goldens; numbers pinned by `overview/weekly_review_snapshot.json`.
 
 ### T6.7.02 — Weekly review report
 **Priority:** P0 · **Size:** L · **Depends on:** T6.7.01, [6.3] (T6.3.07–T6.3.09), [6.4] (T6.4.04, T6.4.12), [6.5] (T6.5.04, T6.5.13), [6.6] (T6.6.03, T6.6.05)
@@ -95,6 +96,7 @@ toggle for "this week so far".
 **Acceptance criteria:** the `overview_week` fixture produces the expected report values; tapping any
 attention item opens the relevant entity; the report is available offline.
 **Tests:** fixture test of the builder output; golden of the report.
+**Notes:** GL-03 on `/insights/review` (`?week=current` opens this week so far; the in-report toggle switches): headline KPIs with Δ, wins (streak milestones, perfect days, health milestones), attention items (overdue tasks, blocked/waiting items, stale lists) each opening its entity, top categories with Δ, next week's load vs capacity. Records, overdue follow-ups and habits-at-risk join when their P1 metrics exist. Offline by construction (local DB). TODO(integration): the "weekly review ready" digest is configured by [7.5].
 
 ### T6.7.03 — Guided weekly review & review streak
 **Priority:** P1 · **Size:** M · **Depends on:** T6.7.02
@@ -381,3 +383,4 @@ datasets across two consecutive weeks, with expected GL-01 to GL-03 values. It a
 tests of the weekly review builder output (JSON) and of the rendered report (golden).
 **Acceptance criteria:** the fixture runner passes; snapshots are stable in CI.
 **Tests:** provides fixtures for the tasks above.
+**Notes:** `overview_week` table fixture = the canonical planner, habits (−7 d), lists (+6 d) and quit (+52 d) datasets on one timeline, seen Mon 21 Sep 08:00 Paris; GL-01…03 expectations in the fixture runner, report numbers checked against the section metrics, JSON snapshot of the builder output (`UPDATE_STATS_SNAPSHOTS=1` regenerates) and report goldens.

@@ -1,4 +1,5 @@
 // Screens rendered by the screen goldens (each section adds its cases).
+import 'package:everslot/features/stats/presentation/insights_screen.dart';
 import 'package:everslot/features/stats/presentation/scope_stats_screen.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -81,5 +82,17 @@ final screenCases = <ScreenCase>[
     () => StatsFixture.load('quit_reduce_week').seed(),
     () => const ScopeStatsScreen(scope: 'quit', scopeId: 'cutdown', query: {'period': 'allTime'}),
     height: 3400,
+  ),
+  ScreenCase(
+    'overview',
+    () => StatsFixture.load('overview_week').seed(),
+    () => const InsightsScreen(),
+    height: 2400,
+  ),
+  ScreenCase(
+    'review',
+    () => StatsFixture.load('overview_week').seed(),
+    () => const ScopeStatsScreen(scope: 'review'),
+    height: 2400,
   ),
 ];
