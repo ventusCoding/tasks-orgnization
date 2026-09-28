@@ -16,6 +16,18 @@ Future<void> pumpUi(WidgetTester tester, {int frames = 8}) async {
   }
 }
 
+/// Drags the first scrollable by [step] until [finder] is built (lazy lists), then brings it
+/// fully on screen.
+Future<void> dragUntilFound(WidgetTester tester, Finder finder, Offset step, {int maxSteps = 40}) async {
+  for (var i = 0; i < maxSteps && finder.evaluate().isEmpty; i++) {
+    await tester.drag(find.byType(Scrollable).first, step);
+    await tester.pump(const Duration(milliseconds: 50));
+  }
+  expect(finder, findsWidgets);
+  await tester.ensureVisible(finder.first);
+  await tester.pump(const Duration(milliseconds: 50));
+}
+
 /// Pumps the settings routes (`/settings`, `/settings/:page`) with stub destinations for the
 /// routes owned elsewhere; returns the router to inspect/drive navigation.
 Future<GoRouter> pumpSettingsApp(

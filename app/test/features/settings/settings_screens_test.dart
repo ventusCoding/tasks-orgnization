@@ -1,4 +1,5 @@
 import 'package:everslot/app/app.dart';
+import 'package:everslot/app/router.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/time/day_utils.dart';
 import 'package:everslot/features/profile/application/profile_providers.dart';
@@ -7,6 +8,7 @@ import 'package:everslot/features/settings/domain/settings_models.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../support/test_app.dart';
@@ -36,11 +38,11 @@ void main() {
         'Trash',
         'About',
       ]) {
-        await tester.scrollUntilVisible(find.text(title).first, 80, scrollable: find.byType(Scrollable).first);
+        await dragUntilFound(tester, find.text(title), const Offset(0, -80));
         expect(find.text(title), findsWidgets, reason: title);
       }
-      await tester.scrollUntilVisible(find.text('Appearance'), -80, scrollable: find.byType(Scrollable).first);
-      await tester.tap(find.text('Appearance'));
+      await dragUntilFound(tester, find.text('Appearance'), const Offset(0, 80));
+      await tester.tap(find.text('Appearance').first);
       await pumpUi(tester);
       expect(find.text('Theme'), findsOneWidget);
       await finish(tester, h);
@@ -90,15 +92,20 @@ void main() {
     });
 
     testWidgets('the app switches theme, language and direction without restart', (tester) async {
-      final h = TestHarness.create();
+      // A one-page router: the real shell's screens own ticking timers this test doesn't need.
+      final router = GoRouter(routes: [GoRoute(path: '/', builder: (_, _) => const Scaffold(body: Text('home')))]);
+      final h = TestHarness.create(overrides: [routerProvider.overrideWithValue(router)]);
       await tester.pumpWidget(UncontrolledProviderScope(container: h.container, child: const EverslotApp()));
       await settle(tester);
       MaterialApp app() => tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(app().themeMode, ThemeMode.system);
-      await tester.runAsync(() async {
-        await h.read(settingsWriterProvider).update(AppearanceSettings.codec, (s) => s.copyWith(theme: ThemePreference.dark));
-        await h.read(profileRepositoryProvider).update(locale: 'ar');
-      });
+      // One write per runAsync, then settle: a Drift stream re-query started in the fake-async
+      // zone holds the database lock until frames are pumped (a second write would deadlock).
+      await tester.runAsync(
+        () => h.read(settingsWriterProvider).update(AppearanceSettings.codec, (s) => s.copyWith(theme: ThemePreference.dark)),
+      );
+      await settle(tester);
+      await tester.runAsync(() => h.read(profileRepositoryProvider).update(locale: 'ar'));
       await settle(tester);
       expect(app().themeMode, ThemeMode.dark);
       expect(app().locale, const Locale('ar'));
@@ -125,7 +132,7 @@ void main() {
       expect((await tester.runAsync(() => h.read(profileRepositoryProvider).read()))!.weekStart, 6);
       expect(h.read(userPreferencesProvider).weekStart, Weekday.saturday);
 
-      await tester.scrollUntilVisible(find.byKey(const ValueKey('regional-currency')), 80, scrollable: find.byType(Scrollable).first);
+      await dragUntilFound(tester, find.byKey(const ValueKey('regional-currency')), const Offset(0, -80));
       await tester.tap(find.byKey(const ValueKey('regional-currency')));
       await pumpUi(tester);
       await tester.tap(find.byKey(const ValueKey('choice-TND')));
