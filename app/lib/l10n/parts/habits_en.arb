@@ -818,5 +818,18 @@
   "habitsAfterUnitDays": "Days",
   "habitsAfterUnitWeeks": "Weeks",
   "habitsAfterUnitMonths": "Months",
-  "habitsOverdue": "Overdue"
+  "habitsOverdue": "Overdue",
+  "habitsProgressionTitle": "Grow the target",
+  "habitsProgressionHint": "Starts at the target and adds a step regularly during the challenge.",
+  "habitsProgressionStep": "Add each time",
+  "habitsProgressionEvery": "Every",
+  "habitsProgressionMax": "Up to (0 = no limit)",
+  "habitsProgressionToday": "Today's target: {value}",
+  "@habitsProgressionToday": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  }
 }

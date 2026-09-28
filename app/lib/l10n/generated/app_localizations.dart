@@ -6123,6 +6123,42 @@ abstract class AppLocalizations {
   /// **'Previous year'**
   String get habitsPreviousYear;
 
+  /// No description provided for @habitsProgressionEvery.
+  ///
+  /// In en, this message translates to:
+  /// **'Every'**
+  String get habitsProgressionEvery;
+
+  /// No description provided for @habitsProgressionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts at the target and adds a step regularly during the challenge.'**
+  String get habitsProgressionHint;
+
+  /// No description provided for @habitsProgressionMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to (0 = no limit)'**
+  String get habitsProgressionMax;
+
+  /// No description provided for @habitsProgressionStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Add each time'**
+  String get habitsProgressionStep;
+
+  /// No description provided for @habitsProgressionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grow the target'**
+  String get habitsProgressionTitle;
+
+  /// No description provided for @habitsProgressionToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s target: {value}'**
+  String habitsProgressionToday(String value);
+
   /// No description provided for @habitsQuickValues.
   ///
   /// In en, this message translates to:

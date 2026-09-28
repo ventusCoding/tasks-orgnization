@@ -3675,6 +3675,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsPreviousYear => 'السنة السابقة';
 
   @override
+  String get habitsProgressionEvery => 'كل';
+
+  @override
+  String get habitsProgressionHint =>
+      'يبدأ من الهدف ويضيف خطوة بانتظام طوال التحدّي.';
+
+  @override
+  String get habitsProgressionMax => 'حتى (0 = بلا حد)';
+
+  @override
+  String get habitsProgressionStep => 'الإضافة في كل مرة';
+
+  @override
+  String get habitsProgressionTitle => 'زيادة الهدف تدريجيًا';
+
+  @override
+  String habitsProgressionToday(String value) {
+    return 'هدف اليوم: $value';
+  }
+
+  @override
   String get habitsQuickValues => 'قيم سريعة';
 
   @override

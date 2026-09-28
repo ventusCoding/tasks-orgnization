@@ -25,7 +25,7 @@ P2); streak freezes; achievements catalog & unlock engine; badge gallery & share
 - [x] T5.4.04 — Goal surfaces & completion
 - [x] T5.4.05 — Challenges
 - [x] T5.4.06 — Streak freezes
-- [ ] T5.4.07 — Progressive challenge targets
+- [x] T5.4.07 — Progressive challenge targets
 - [ ] T5.4.08 — Achievements: catalog & unlock engine
 - [ ] T5.4.09 — Badge gallery & share cards
 - [ ] T5.4.10 — Personal-record moments
@@ -110,6 +110,7 @@ implemented as generated `habit_revisions` or a progression rule evaluated per p
 **Data model:** `habits.settings.targetProgression { start, step, everyDays, max }` (if not using
 generated revisions).
 **Tests:** evaluation fixtures.
+**Notes:** Implemented as `habits.settings.targetProgression` evaluated per period by the period service (no generated revisions); the editor sets it for measurable challenges with a today-target preview. Editing the progression re-evaluates past days too (settings are not revisioned).
 
 ### T5.4.08 — Achievements: catalog & unlock engine
 **Priority:** P2 · **Size:** M · **Depends on:** T5.4.03, [5.3] (quit calculator)

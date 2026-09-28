@@ -1303,6 +1303,13 @@
       }
     }
   },
+  "@habitsProgressionToday": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "@habitsQuotaMonth": {
     "placeholders": {
       "done": {
@@ -4789,6 +4796,12 @@
   "habitsPreviewTitle": "Preview",
   "habitsPreviousMonth": "Previous month",
   "habitsPreviousYear": "Previous year",
+  "habitsProgressionEvery": "Every",
+  "habitsProgressionHint": "Starts at the target and adds a step regularly during the challenge.",
+  "habitsProgressionMax": "Up to (0 = no limit)",
+  "habitsProgressionStep": "Add each time",
+  "habitsProgressionTitle": "Grow the target",
+  "habitsProgressionToday": "Today's target: {value}",
   "habitsQuickValues": "Quick values",
   "habitsQuickValuesHint": "e.g. 5 10 15",
   "habitsQuotaMonth": "{done} of {times} this month",

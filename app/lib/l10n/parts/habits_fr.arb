@@ -351,5 +351,11 @@
   "habitsAfterUnitDays": "Jours",
   "habitsAfterUnitWeeks": "Semaines",
   "habitsAfterUnitMonths": "Mois",
-  "habitsOverdue": "En retard"
+  "habitsOverdue": "En retard",
+  "habitsProgressionTitle": "Augmenter la cible",
+  "habitsProgressionHint": "Commence à la cible et ajoute un palier régulièrement pendant le défi.",
+  "habitsProgressionStep": "Ajouter à chaque fois",
+  "habitsProgressionEvery": "Tous les",
+  "habitsProgressionMax": "Jusqu'à (0 = sans limite)",
+  "habitsProgressionToday": "Cible du jour : {value}"
 }
