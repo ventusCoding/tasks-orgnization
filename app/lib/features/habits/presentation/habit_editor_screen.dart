@@ -558,6 +558,69 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
                     () => _settings = _settings.copyWith(challenge: ChallengeSettings(rule: challenge.rule, minRatio: v / 100)),
                   ),
                 ),
+              if (_measurable) ...[
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l.habitsProgressionTitle),
+                  subtitle: Text(l.habitsProgressionHint),
+                  value: _settings.targetProgression != null,
+                  onChanged: (v) => setState(
+                    () => _settings = _settings.copyWith(
+                      targetProgression: v
+                          ? TargetProgression(start: targetValue ?? 1, step: 1, everyDays: 1)
+                          : null,
+                    ),
+                  ),
+                ),
+                if (_settings.targetProgression case final p?) ...[
+                  _IntStepper(
+                    label: l.habitsProgressionStep,
+                    value: p.step.round(),
+                    min: 1,
+                    max: 100,
+                    onChanged: (v) => setState(
+                      () => _settings = _settings.copyWith(
+                        targetProgression: TargetProgression(start: p.start, step: v.toDouble(), everyDays: p.everyDays, max: p.max),
+                      ),
+                    ),
+                  ),
+                  _IntStepper(
+                    label: l.habitsProgressionEvery,
+                    value: p.everyDays,
+                    min: 1,
+                    max: 30,
+                    format: l.habitsDays,
+                    onChanged: (v) => setState(
+                      () => _settings = _settings.copyWith(
+                        targetProgression: TargetProgression(start: p.start, step: p.step, everyDays: v, max: p.max),
+                      ),
+                    ),
+                  ),
+                  _IntStepper(
+                    label: l.habitsProgressionMax,
+                    value: (p.max ?? 0).round(),
+                    min: 0,
+                    max: 10000,
+                    step: 5,
+                    onChanged: (v) => setState(
+                      () => _settings = _settings.copyWith(
+                        targetProgression: TargetProgression(
+                          start: p.start,
+                          step: p.step,
+                          everyDays: p.everyDays,
+                          max: v == 0 ? null : v.toDouble(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    l.habitsProgressionToday(
+                      formatAmount(context, p.targetOn(_start, ref.watch(habitTodayProvider)), _goal.unit),
+                    ),
+                    style: context.text.bodySmall,
+                  ),
+                ],
+              ],
             ],
           ],
           SwitchListTile(

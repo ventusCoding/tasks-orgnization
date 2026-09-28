@@ -7,6 +7,7 @@ import 'package:everslot/features/habits/domain/habit_records.dart';
 import 'package:everslot/features/habits/domain/habit_settings.dart';
 import 'package:everslot/features/habits/presentation/challenge_views.dart';
 import 'package:everslot/features/habits/presentation/habit_detail_screen.dart';
+import 'package:everslot/features/habits/presentation/habit_editor_screen.dart';
 import 'package:everslot/features/habits/presentation/habits_screen.dart';
 import 'package:everslot/features/notifications/application/inbox_providers.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
@@ -127,6 +128,37 @@ void main() {
       await pumpInApp(tester, h, const HabitsScreen());
       await settle(tester, rounds: 12);
       expect(find.text(en.habitsChallengeSuccessTitle), findsNothing, reason: 'shown once per device');
+      await disposeTree(tester);
+    });
+
+    testWidgets('the editor grows a challenge target step by step (T5.4.07)', (tester) async {
+      final habit = BuildHabit(
+        id: Ids.v7(),
+        name: 'Push-ups',
+        startDate: d(2026, 9, 1),
+        endDate: d(2026, 9, 30),
+        sortKey: '',
+        goal: const HabitTarget(type: HabitGoalType.count, target: 10, unit: 'reps'),
+        schedule: buildHabit().schedule,
+        settings: HabitSettings.defaults.copyWith(challenge: const ChallengeSettings()),
+      );
+      await tester.runAsync(() => h.read(habitsRepositoryProvider).create(habit));
+      await pumpInApp(tester, h, HabitEditorScreen(habitId: habit.id));
+      await settle(tester);
+      final toggle = find.text(en.habitsProgressionTitle);
+      await tester.scrollUntilVisible(toggle, 200, scrollable: find.byType(Scrollable).first);
+      await tester.tap(toggle);
+      await tester.pump();
+      final step = find.ancestor(of: find.text(en.habitsProgressionStep), matching: find.byType(Row));
+      await tester.ensureVisible(step);
+      await tester.tap(find.descendant(of: step, matching: find.byIcon(Icons.add)));
+      await tester.pump();
+      // Sept 22 is day 22: 10 + 2 × 21 = 52.
+      expect(find.text(en.habitsProgressionToday('52 reps')), findsOneWidget);
+      await tester.tap(find.widgetWithText(TextButton, en.actionSave));
+      await settle(tester);
+      final saved = (await tester.runAsync(() => h.read(habitsRepositoryProvider).byId(habit.id)))! as BuildHabit;
+      expect(saved.settings.targetProgression, const TargetProgression(start: 10, step: 2, everyDays: 1));
       await disposeTree(tester);
     });
 

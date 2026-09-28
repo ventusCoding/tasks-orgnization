@@ -2827,6 +2827,80 @@ class AppLocalizationsAr extends AppLocalizations {
   String get goalsAdd => 'إضافة هدف';
 
   @override
+  String get goalsBadgeBackfillFreeMonth => 'شهر مسجّل في وقته';
+
+  @override
+  String get goalsBadgeChallenge => 'تحدٍّ مكتمل';
+
+  @override
+  String goalsBadgeCravings(int count) {
+    return 'مقاومة $count رغبة';
+  }
+
+  @override
+  String goalsBadgeEarnedOn(String date) {
+    return 'اكتُسبت في $date';
+  }
+
+  @override
+  String get goalsBadgeFirstCheckIn => 'أول تسجيل';
+
+  @override
+  String get goalsBadgeFirstPerfectDay => 'أول يوم مثالي';
+
+  @override
+  String get goalsBadgePerfectWeek => 'أسبوع مثالي';
+
+  @override
+  String goalsBadgeProgress(String value, String target) {
+    return '$value من $target';
+  }
+
+  @override
+  String get goalsBadgeShare => 'مشاركة';
+
+  @override
+  String get goalsBadgeShareDate => 'تضمين التاريخ';
+
+  @override
+  String get goalsBadgeShareHabit => 'تضمين اسم العادة';
+
+  @override
+  String goalsBadgeShareText(String name) {
+    return 'حصلت على شارة «$name» في Everslot.';
+  }
+
+  @override
+  String get goalsBadgeShareTitle => 'مشاركة شارة';
+
+  @override
+  String goalsBadgeStreak(int count) {
+    return 'سلسلة $count يومًا';
+  }
+
+  @override
+  String goalsBadgeTotal(String value) {
+    return '$value مسجّلة';
+  }
+
+  @override
+  String goalsBadgeUnlocked(String name) {
+    return 'شارة جديدة: $name';
+  }
+
+  @override
+  String get goalsBadgesEarned => 'المكتسبة';
+
+  @override
+  String get goalsBadgesEmpty => 'سجّل عادة لتحصل على أول شارة.';
+
+  @override
+  String get goalsBadgesLocked => 'للحصول عليها';
+
+  @override
+  String get goalsBadgesTitle => 'الشارات';
+
+  @override
   String goalsCelebrate(String title) {
     return 'تحقّق الهدف: $title!';
   }
@@ -3739,6 +3813,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsPreviousYear => 'السنة السابقة';
 
   @override
+  String get habitsProgressionEvery => 'كل';
+
+  @override
+  String get habitsProgressionHint =>
+      'يبدأ من الهدف ويضيف خطوة بانتظام طوال التحدّي.';
+
+  @override
+  String get habitsProgressionMax => 'حتى (0 = بلا حد)';
+
+  @override
+  String get habitsProgressionStep => 'الإضافة في كل مرة';
+
+  @override
+  String get habitsProgressionTitle => 'زيادة الهدف تدريجيًا';
+
+  @override
+  String habitsProgressionToday(String value) {
+    return 'هدف اليوم: $value';
+  }
+
+  @override
   String get habitsQuickValues => 'قيم سريعة';
 
   @override
@@ -3762,6 +3857,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsRecentEntries => 'الإدخالات الأخيرة';
+
+  @override
+  String habitsRecordAbstinence(String value) {
+    return 'أطول فترة امتناع على الإطلاق: $value';
+  }
+
+  @override
+  String habitsRecordBestDay(String value) {
+    return 'أفضل يوم على الإطلاق: $value';
+  }
+
+  @override
+  String habitsRecordBestWeek(String value) {
+    return 'أفضل أسبوع على الإطلاق: $value';
+  }
+
+  @override
+  String habitsRecordCravings(int count) {
+    return 'أكثر رغبات قاومتها في يوم: $count';
+  }
+
+  @override
+  String get habitsRecordNew => 'رقم قياسي جديد!';
+
+  @override
+  String habitsRecordStreak(String value) {
+    return 'أطول سلسلة على الإطلاق: $value';
+  }
 
   @override
   String get habitsReorder => 'إعادة الترتيب';
@@ -8046,6 +8169,40 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitBaseline => 'قبل الإقلاع، يوميًا';
 
   @override
+  String quitBreathCycle(int cycle) {
+    return 'الدورة $cycle';
+  }
+
+  @override
+  String get quitBreathHold => 'احبس النفس';
+
+  @override
+  String get quitBreathIn => 'شهيق';
+
+  @override
+  String get quitBreathOut => 'زفير';
+
+  @override
+  String quitBreathPhase(String phase, int seconds) {
+    return '$phase · $seconds';
+  }
+
+  @override
+  String get quitBreathing478 => '4-7-8';
+
+  @override
+  String get quitBreathingBox => 'المربّع 4-4-4-4';
+
+  @override
+  String get quitBreathingStart => 'ابدأ';
+
+  @override
+  String get quitBreathingStop => 'أوقف';
+
+  @override
+  String get quitBreathingTitle => 'التنفّس';
+
+  @override
   String quitCleanDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -8140,6 +8297,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quitDistractionSnack => 'وجبة خفيفة صحية';
+
+  @override
+  String get quitDistractionsEmpty => 'أضف الإلهاءات التي تفيدك من القوائم.';
+
+  @override
+  String get quitDistractionsTitle => 'الإلهاءات';
 
   @override
   String get quitDuration => 'المدة';
@@ -8611,6 +8774,36 @@ class AppLocalizationsAr extends AppLocalizations {
   String quitTodayUse(String used, String limit) {
     return '$used من $limit اليوم';
   }
+
+  @override
+  String get quitToolboxDone => 'انقضت ثلاث دقائق — هل قاومت؟';
+
+  @override
+  String get quitToolboxLogged => 'تم تسجيل الرغبة مع مدتها.';
+
+  @override
+  String get quitToolboxOpen => 'افتح صندوق أدوات التأقلم';
+
+  @override
+  String quitToolboxRemaining(String time) {
+    return 'بقي $time';
+  }
+
+  @override
+  String get quitToolboxStart => 'ابدأ مؤقّت الدقائق الثلاث';
+
+  @override
+  String get quitToolboxThrough => 'لقد تجاوزتها';
+
+  @override
+  String get quitToolboxTimerHint =>
+      'تزول معظم الرغبات خلال 3 إلى 5 دقائق. اصمد.';
+
+  @override
+  String get quitToolboxTimerTitle => 'تجاوَز الرغبة';
+
+  @override
+  String get quitToolboxTitle => 'صندوق أدوات التأقلم';
 
   @override
   String get quitTrigger => 'المحفّز';

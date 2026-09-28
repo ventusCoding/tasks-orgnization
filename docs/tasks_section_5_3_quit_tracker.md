@@ -38,7 +38,7 @@ pledge & evening review, trigger/place/coping libraries, savings rewards, coping
 - [x] T5.3.13 — Daily pledge & evening review
 - [x] T5.3.14 — Trigger, place & coping libraries
 - [x] T5.3.15 — Savings rewards
-- [ ] T5.3.16 — Coping toolbox
+- [x] T5.3.16 — Coping toolbox
 
 ## Tasks
 
@@ -246,3 +246,4 @@ implemented as goals with metric `money_saved`; progress rings and ETA at the cu
 (reasons + photo). Reachable from the dashboard and from craving notifications.
 **Acceptance criteria:** finishing the timer logs a craving with duration and resisted flag in one confirmation.
 **Tests:** widget tests; timer state unit tests.
+**Notes:** `CopingToolboxScreen` (dashboard app-bar button): 3-minute timer logging the craving (start time, duration, resisted yes/no/not sure) in one confirmation, box and 4-7-8 breathing with a haptic per phase (text only with reduce motion), the distraction list and the motivation card. Craving notifications open the dashboard (no deep link to the toolbox itself).

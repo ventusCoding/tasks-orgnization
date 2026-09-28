@@ -36,7 +36,7 @@ stats screens ([6.5]); the Today home block ([8.1]); widgets ([8.2]); reminders 
 - [x] T5.2.12 — Reorder, grouping & density
 - [x] T5.2.13 — Check-in feedback & celebrations
 - [x] T5.2.14 — Evaluation caching & performance
-- [ ] T5.2.15 — Notes journal
+- [x] T5.2.15 — Notes journal
 
 ## Tasks
 
@@ -230,3 +230,4 @@ scrolls at 60 fps; a check-in is reflected in the UI within one frame (optimisti
 **Description:** Timeline of all notes and moods across habits (filter by habit, mood, date) with a mood
 sparkline and a jump to the day.
 **Tests:** widget tests.
+**Notes:** Journal from the Habits tab menu: notes and moods across habits (newest first), filters by habit and mood, a mood sparkline of the last 30 entries, tap to open the day editor. No date filter yet.

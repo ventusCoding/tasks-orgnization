@@ -4671,6 +4671,126 @@ abstract class AppLocalizations {
   /// **'Add a goal'**
   String get goalsAdd;
 
+  /// No description provided for @goalsBadgeBackfillFreeMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'A month logged on time'**
+  String get goalsBadgeBackfillFreeMonth;
+
+  /// No description provided for @goalsBadgeChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge completed'**
+  String get goalsBadgeChallenge;
+
+  /// No description provided for @goalsBadgeCravings.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} cravings resisted'**
+  String goalsBadgeCravings(int count);
+
+  /// No description provided for @goalsBadgeEarnedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned {date}'**
+  String goalsBadgeEarnedOn(String date);
+
+  /// No description provided for @goalsBadgeFirstCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'First check-in'**
+  String get goalsBadgeFirstCheckIn;
+
+  /// No description provided for @goalsBadgeFirstPerfectDay.
+  ///
+  /// In en, this message translates to:
+  /// **'First perfect day'**
+  String get goalsBadgeFirstPerfectDay;
+
+  /// No description provided for @goalsBadgePerfectWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect week'**
+  String get goalsBadgePerfectWeek;
+
+  /// No description provided for @goalsBadgeProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} of {target}'**
+  String goalsBadgeProgress(String value, String target);
+
+  /// No description provided for @goalsBadgeShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get goalsBadgeShare;
+
+  /// No description provided for @goalsBadgeShareDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Include the date'**
+  String get goalsBadgeShareDate;
+
+  /// No description provided for @goalsBadgeShareHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Include the habit\'s name'**
+  String get goalsBadgeShareHabit;
+
+  /// No description provided for @goalsBadgeShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'I earned the \"{name}\" badge in Everslot.'**
+  String goalsBadgeShareText(String name);
+
+  /// No description provided for @goalsBadgeShareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share a badge'**
+  String get goalsBadgeShareTitle;
+
+  /// No description provided for @goalsBadgeStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}-day streak'**
+  String goalsBadgeStreak(int count);
+
+  /// No description provided for @goalsBadgeTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} logged'**
+  String goalsBadgeTotal(String value);
+
+  /// No description provided for @goalsBadgeUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Badge unlocked: {name}'**
+  String goalsBadgeUnlocked(String name);
+
+  /// No description provided for @goalsBadgesEarned.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned'**
+  String get goalsBadgesEarned;
+
+  /// No description provided for @goalsBadgesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in to earn your first badge.'**
+  String get goalsBadgesEmpty;
+
+  /// No description provided for @goalsBadgesLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'To earn'**
+  String get goalsBadgesLocked;
+
+  /// No description provided for @goalsBadgesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Badges'**
+  String get goalsBadgesTitle;
+
   /// No description provided for @goalsCelebrate.
   ///
   /// In en, this message translates to:
@@ -6219,6 +6339,42 @@ abstract class AppLocalizations {
   /// **'Previous year'**
   String get habitsPreviousYear;
 
+  /// No description provided for @habitsProgressionEvery.
+  ///
+  /// In en, this message translates to:
+  /// **'Every'**
+  String get habitsProgressionEvery;
+
+  /// No description provided for @habitsProgressionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts at the target and adds a step regularly during the challenge.'**
+  String get habitsProgressionHint;
+
+  /// No description provided for @habitsProgressionMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to (0 = no limit)'**
+  String get habitsProgressionMax;
+
+  /// No description provided for @habitsProgressionStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Add each time'**
+  String get habitsProgressionStep;
+
+  /// No description provided for @habitsProgressionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grow the target'**
+  String get habitsProgressionTitle;
+
+  /// No description provided for @habitsProgressionToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s target: {value}'**
+  String habitsProgressionToday(String value);
+
   /// No description provided for @habitsQuickValues.
   ///
   /// In en, this message translates to:
@@ -6260,6 +6416,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recent entries'**
   String get habitsRecentEntries;
+
+  /// No description provided for @habitsRecordAbstinence.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest clean stretch ever: {value}'**
+  String habitsRecordAbstinence(String value);
+
+  /// No description provided for @habitsRecordBestDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Best day ever: {value}'**
+  String habitsRecordBestDay(String value);
+
+  /// No description provided for @habitsRecordBestWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Best week ever: {value}'**
+  String habitsRecordBestWeek(String value);
+
+  /// No description provided for @habitsRecordCravings.
+  ///
+  /// In en, this message translates to:
+  /// **'Most cravings resisted in a day: {count}'**
+  String habitsRecordCravings(int count);
+
+  /// No description provided for @habitsRecordNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New record!'**
+  String get habitsRecordNew;
+
+  /// No description provided for @habitsRecordStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest streak ever: {value}'**
+  String habitsRecordStreak(String value);
 
   /// No description provided for @habitsReorder.
   ///
@@ -12891,6 +13083,66 @@ abstract class AppLocalizations {
   /// **'Before quitting, per day'**
   String get quitBaseline;
 
+  /// No description provided for @quitBreathCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle {cycle}'**
+  String quitBreathCycle(int cycle);
+
+  /// No description provided for @quitBreathHold.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold'**
+  String get quitBreathHold;
+
+  /// No description provided for @quitBreathIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe in'**
+  String get quitBreathIn;
+
+  /// No description provided for @quitBreathOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe out'**
+  String get quitBreathOut;
+
+  /// No description provided for @quitBreathPhase.
+  ///
+  /// In en, this message translates to:
+  /// **'{phase} · {seconds}'**
+  String quitBreathPhase(String phase, int seconds);
+
+  /// No description provided for @quitBreathing478.
+  ///
+  /// In en, this message translates to:
+  /// **'4-7-8'**
+  String get quitBreathing478;
+
+  /// No description provided for @quitBreathingBox.
+  ///
+  /// In en, this message translates to:
+  /// **'Box 4-4-4-4'**
+  String get quitBreathingBox;
+
+  /// No description provided for @quitBreathingStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get quitBreathingStart;
+
+  /// No description provided for @quitBreathingStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get quitBreathingStop;
+
+  /// No description provided for @quitBreathingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathing'**
+  String get quitBreathingTitle;
+
   /// No description provided for @quitCleanDays.
   ///
   /// In en, this message translates to:
@@ -13046,6 +13298,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A healthy snack'**
   String get quitDistractionSnack;
+
+  /// No description provided for @quitDistractionsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add distractions that work for you in the libraries.'**
+  String get quitDistractionsEmpty;
+
+  /// No description provided for @quitDistractionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Distractions'**
+  String get quitDistractionsTitle;
 
   /// No description provided for @quitDuration.
   ///
@@ -13808,6 +14072,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{used} of {limit} today'**
   String quitTodayUse(String used, String limit);
+
+  /// No description provided for @quitToolboxDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Three minutes done — did you resist?'**
+  String get quitToolboxDone;
+
+  /// No description provided for @quitToolboxLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving logged with its duration.'**
+  String get quitToolboxLogged;
+
+  /// No description provided for @quitToolboxOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the coping toolbox'**
+  String get quitToolboxOpen;
+
+  /// No description provided for @quitToolboxRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} left'**
+  String quitToolboxRemaining(String time);
+
+  /// No description provided for @quitToolboxStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the 3-minute timer'**
+  String get quitToolboxStart;
+
+  /// No description provided for @quitToolboxThrough.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m through it'**
+  String get quitToolboxThrough;
+
+  /// No description provided for @quitToolboxTimerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Most cravings pass within 3 to 5 minutes. Stay with it.'**
+  String get quitToolboxTimerHint;
+
+  /// No description provided for @quitToolboxTimerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ride out the craving'**
+  String get quitToolboxTimerTitle;
+
+  /// No description provided for @quitToolboxTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coping toolbox'**
+  String get quitToolboxTitle;
 
   /// No description provided for @quitTrigger.
   ///

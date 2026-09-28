@@ -24,21 +24,63 @@
   "goalsTo": "To",
   "goalsTitleField": "Title (optional)",
   "goalsSuggestion": "At your pace you'd reach {value} — aim for {target}?",
-  "@goalsSuggestion": {"placeholders": {"value": {"type": "String"}, "target": {"type": "String"}}},
+  "@goalsSuggestion": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
   "goalsUseSuggestion": "Aim for {target}",
-  "@goalsUseSuggestion": {"placeholders": {"target": {"type": "String"}}},
+  "@goalsUseSuggestion": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
   "goalsStatusAchieved": "Achieved",
   "goalsStatusOnTrack": "On track",
   "goalsStatusBehind": "Behind",
   "goalsStatusAtRisk": "At risk",
   "goalsProgressOf": "{actual} of {target}",
-  "@goalsProgressOf": {"placeholders": {"actual": {"type": "String"}, "target": {"type": "String"}}},
+  "@goalsProgressOf": {
+    "placeholders": {
+      "actual": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
   "goalsEta": "Expected {date}",
-  "@goalsEta": {"placeholders": {"date": {"type": "String"}}},
+  "@goalsEta": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "goalsNeedPerDay": "{value} a day to finish on time",
-  "@goalsNeedPerDay": {"placeholders": {"value": {"type": "String"}}},
+  "@goalsNeedPerDay": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "goalsAchievedOn": "Achieved {date}",
-  "@goalsAchievedOn": {"placeholders": {"date": {"type": "String"}}},
+  "@goalsAchievedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "goalsPaceMarker": "Where you should be today",
   "goalsActive": "Active",
   "goalsAchieved": "Achieved",
@@ -56,5 +98,83 @@
   "goalsErrScope": "Choose what the goal is about.",
   "goalsErrTitle": "Keep it under 80 characters.",
   "goalsCelebrate": "Goal reached: {title}!",
-  "@goalsCelebrate": {"placeholders": {"title": {"type": "String"}}}
+  "@goalsCelebrate": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsBadgesTitle": "Badges",
+  "goalsBadgesEarned": "Earned",
+  "goalsBadgesLocked": "To earn",
+  "goalsBadgeUnlocked": "Badge unlocked: {name}",
+  "@goalsBadgeUnlocked": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsBadgeEarnedOn": "Earned {date}",
+  "@goalsBadgeEarnedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsBadgeFirstCheckIn": "First check-in",
+  "goalsBadgeFirstPerfectDay": "First perfect day",
+  "goalsBadgePerfectWeek": "Perfect week",
+  "goalsBadgeBackfillFreeMonth": "A month logged on time",
+  "goalsBadgeStreak": "{count}-day streak",
+  "@goalsBadgeStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "goalsBadgeTotal": "{value} logged",
+  "@goalsBadgeTotal": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsBadgeChallenge": "Challenge completed",
+  "goalsBadgeCravings": "{count} cravings resisted",
+  "@goalsBadgeCravings": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "goalsBadgeProgress": "{value} of {target}",
+  "@goalsBadgeProgress": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsBadgeShare": "Share",
+  "goalsBadgeShareHabit": "Include the habit's name",
+  "goalsBadgeShareDate": "Include the date",
+  "goalsBadgeShareTitle": "Share a badge",
+  "goalsBadgeShareText": "I earned the \"{name}\" badge in Everslot.",
+  "@goalsBadgeShareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsBadgesEmpty": "Check in to earn your first badge."
 }

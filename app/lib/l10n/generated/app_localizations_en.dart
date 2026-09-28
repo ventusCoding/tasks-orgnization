@@ -2749,6 +2749,80 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goalsAdd => 'Add a goal';
 
   @override
+  String get goalsBadgeBackfillFreeMonth => 'A month logged on time';
+
+  @override
+  String get goalsBadgeChallenge => 'Challenge completed';
+
+  @override
+  String goalsBadgeCravings(int count) {
+    return '$count cravings resisted';
+  }
+
+  @override
+  String goalsBadgeEarnedOn(String date) {
+    return 'Earned $date';
+  }
+
+  @override
+  String get goalsBadgeFirstCheckIn => 'First check-in';
+
+  @override
+  String get goalsBadgeFirstPerfectDay => 'First perfect day';
+
+  @override
+  String get goalsBadgePerfectWeek => 'Perfect week';
+
+  @override
+  String goalsBadgeProgress(String value, String target) {
+    return '$value of $target';
+  }
+
+  @override
+  String get goalsBadgeShare => 'Share';
+
+  @override
+  String get goalsBadgeShareDate => 'Include the date';
+
+  @override
+  String get goalsBadgeShareHabit => 'Include the habit\'s name';
+
+  @override
+  String goalsBadgeShareText(String name) {
+    return 'I earned the \"$name\" badge in Everslot.';
+  }
+
+  @override
+  String get goalsBadgeShareTitle => 'Share a badge';
+
+  @override
+  String goalsBadgeStreak(int count) {
+    return '$count-day streak';
+  }
+
+  @override
+  String goalsBadgeTotal(String value) {
+    return '$value logged';
+  }
+
+  @override
+  String goalsBadgeUnlocked(String name) {
+    return 'Badge unlocked: $name';
+  }
+
+  @override
+  String get goalsBadgesEarned => 'Earned';
+
+  @override
+  String get goalsBadgesEmpty => 'Check in to earn your first badge.';
+
+  @override
+  String get goalsBadgesLocked => 'To earn';
+
+  @override
+  String get goalsBadgesTitle => 'Badges';
+
+  @override
   String goalsCelebrate(String title) {
     return 'Goal reached: $title!';
   }
@@ -3645,6 +3719,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitsPreviousYear => 'Previous year';
 
   @override
+  String get habitsProgressionEvery => 'Every';
+
+  @override
+  String get habitsProgressionHint =>
+      'Starts at the target and adds a step regularly during the challenge.';
+
+  @override
+  String get habitsProgressionMax => 'Up to (0 = no limit)';
+
+  @override
+  String get habitsProgressionStep => 'Add each time';
+
+  @override
+  String get habitsProgressionTitle => 'Grow the target';
+
+  @override
+  String habitsProgressionToday(String value) {
+    return 'Today\'s target: $value';
+  }
+
+  @override
   String get habitsQuickValues => 'Quick values';
 
   @override
@@ -3668,6 +3763,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsRecentEntries => 'Recent entries';
+
+  @override
+  String habitsRecordAbstinence(String value) {
+    return 'Longest clean stretch ever: $value';
+  }
+
+  @override
+  String habitsRecordBestDay(String value) {
+    return 'Best day ever: $value';
+  }
+
+  @override
+  String habitsRecordBestWeek(String value) {
+    return 'Best week ever: $value';
+  }
+
+  @override
+  String habitsRecordCravings(int count) {
+    return 'Most cravings resisted in a day: $count';
+  }
+
+  @override
+  String get habitsRecordNew => 'New record!';
+
+  @override
+  String habitsRecordStreak(String value) {
+    return 'Longest streak ever: $value';
+  }
 
   @override
   String get habitsReorder => 'Reorder';
@@ -7722,6 +7845,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitBaseline => 'Before quitting, per day';
 
   @override
+  String quitBreathCycle(int cycle) {
+    return 'Cycle $cycle';
+  }
+
+  @override
+  String get quitBreathHold => 'Hold';
+
+  @override
+  String get quitBreathIn => 'Breathe in';
+
+  @override
+  String get quitBreathOut => 'Breathe out';
+
+  @override
+  String quitBreathPhase(String phase, int seconds) {
+    return '$phase · $seconds';
+  }
+
+  @override
+  String get quitBreathing478 => '4-7-8';
+
+  @override
+  String get quitBreathingBox => 'Box 4-4-4-4';
+
+  @override
+  String get quitBreathingStart => 'Start';
+
+  @override
+  String get quitBreathingStop => 'Stop';
+
+  @override
+  String get quitBreathingTitle => 'Breathing';
+
+  @override
   String quitCleanDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -7813,6 +7970,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quitDistractionSnack => 'A healthy snack';
+
+  @override
+  String get quitDistractionsEmpty =>
+      'Add distractions that work for you in the libraries.';
+
+  @override
+  String get quitDistractionsTitle => 'Distractions';
 
   @override
   String get quitDuration => 'Duration';
@@ -8270,6 +8434,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String quitTodayUse(String used, String limit) {
     return '$used of $limit today';
   }
+
+  @override
+  String get quitToolboxDone => 'Three minutes done — did you resist?';
+
+  @override
+  String get quitToolboxLogged => 'Craving logged with its duration.';
+
+  @override
+  String get quitToolboxOpen => 'Open the coping toolbox';
+
+  @override
+  String quitToolboxRemaining(String time) {
+    return '$time left';
+  }
+
+  @override
+  String get quitToolboxStart => 'Start the 3-minute timer';
+
+  @override
+  String get quitToolboxThrough => 'I\'m through it';
+
+  @override
+  String get quitToolboxTimerHint =>
+      'Most cravings pass within 3 to 5 minutes. Stay with it.';
+
+  @override
+  String get quitToolboxTimerTitle => 'Ride out the craving';
+
+  @override
+  String get quitToolboxTitle => 'Coping toolbox';
 
   @override
   String get quitTrigger => 'Trigger';
