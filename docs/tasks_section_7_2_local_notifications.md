@@ -55,10 +55,10 @@ per-section trigger semantics ([7.5]); Live Activities / ongoing timer notificat
 - [x] T7.2.15 — Snooze & reschedule engine
 - [x] T7.2.16 — Tap handling, cold start & stale notifications
 - [x] T7.2.17 — Foreground presentation & in-app routing
-- [ ] T7.2.18 — Nag chains (repeat until acknowledged / completed)
-- [ ] T7.2.19 — Grouping & threading
-- [ ] T7.2.20 — Delivered-notification cleanup & expiry
-- [ ] T7.2.21 — Notification diagnostics screen
+- [x] T7.2.18 — Nag chains (repeat until acknowledged / completed)
+- [x] T7.2.19 — Grouping & threading
+- [x] T7.2.20 — Delivered-notification cleanup & expiry
+- [x] T7.2.21 — Notification diagnostics screen
 - [ ] T7.2.22 — End-to-end notification tests (patrol)
 - [ ] T7.2.23 — Escalation steps
 - [ ] T7.2.24 — Alarm profile (AlarmKit / alarm clock / full-screen)
@@ -350,6 +350,7 @@ push; Doze may delay repeats < 9 min (documented in the editor).
 **Acceptance criteria:** a "Nag-until-done" task reminder repeats every 5 min up to 5 times and stops
 immediately when *Done* is pressed on any device.
 **Tests:** chain generation/cancellation unit tests; fixture cases in T7.2.08.
+**Notes:** `flutter_local_notifications` has no Android dismissal callback (no delete intent), so swiping a nag away on Android doesn't stop the chain; iOS uses `customDismissAction`. Acknowledgements from other devices arrive through synced inbox rows (`acknowledgedKeys`) and the server guard `inbox_not_acted`.
 
 ### T7.2.19 — Grouping & threading
 **Priority:** P1 · **Size:** S · **Depends on:** T7.2.09
@@ -357,6 +358,7 @@ immediately when *Done* is pressed on any device.
 are active; iOS `threadIdentifier` per section (or per target for nag chains) with `summaryArgument`.
 Relevance score set from importance so the iOS Scheduled Summary ranks reminders sensibly.
 **Tests:** unit tests for group/thread assignment.
+**Notes:** Android summaries are refreshed whenever the app sees the tray (every replan); while the app is killed, Android bundles 4+ notifications by itself. iOS uses `threadIdentifier` only; `summaryArgument` is deprecated since iOS 15 and isn't set.
 
 ### T7.2.20 — Delivered-notification cleanup & expiry
 **Priority:** P1 · **Size:** S · **Depends on:** T7.2.12
@@ -384,6 +386,7 @@ create a task with "1 min before" + "at start", lock the device, verify both not
 from the notification, assert the occurrence is done; cold start from tap; background action with the app
 killed; time-zone change → replan.
 **Acceptance criteria:** suite green in CI (Android) and documented for iOS.
+**Notes:** Not started: needs the [9.1] patrol harness (`patrol` isn't a dependency yet) and an emulator/simulator run.
 
 ### T7.2.23 — Escalation steps
 **Priority:** P2 · **Size:** M · **Depends on:** T7.2.18
