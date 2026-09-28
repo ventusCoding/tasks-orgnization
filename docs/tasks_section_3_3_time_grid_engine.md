@@ -52,7 +52,7 @@ backlog drawer UI and drags to/from it ([3.7]).
 - [x] T3.3.20 — Auto-scroll & auto-page while dragging
 - [x] T3.3.21 — Zoom: vertical pinch, semantic zoom, horizontal pinch
 - [x] T3.3.22 — Display options (color-by, density, dim past, completed/cancelled, filters)
-- [ ] T3.3.23 — Overlays framework
+- [x] T3.3.23 — Overlays framework
 - [ ] T3.3.24 — Accessibility: semantics, list fallback, keyboard
 - [ ] T3.3.25 — Performance harness & optimization
 - [ ] T3.3.26 — Cascade overlap style & secondary time-zone rulers
@@ -367,6 +367,7 @@ fingers; fixed mode never changes `slotMinutes`.
 - slot-occupancy heat tint from stats ([6.3]);
 - device calendars, later ([8.2]).
 **Tests:** widget tests with fake overlay providers.
+**Notes:** Layers (timeline renderer): `habits` = timed habit slots from `habitDayViewsProvider`, tap toggles the check-in (`checkInServiceProvider`); `checklistDue` = open checklist items due in the range, tap opens the list; `freeSlots` = openings of the T3.7.04 finder inside work hours; `heat` = weekday × hour occupancy of the four weeks before the page, aggregated from planner items (`OccupancyGrid`) rather than a stats [6.3] provider; `deviceCalendars` stays inert until [8.2]. Table / week-list modes draw no overlays.
 
 ### T3.3.24 — Accessibility: semantics, list fallback, keyboard
 **Priority:** P1 · **Size:** M · **Depends on:** T3.3.11, T3.3.12

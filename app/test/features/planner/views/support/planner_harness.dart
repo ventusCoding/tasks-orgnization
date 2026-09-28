@@ -134,6 +134,12 @@ class RecordingNav implements PlannerNav {
 
   @override
   void openInsights(BuildContext context, {LocalDate? from, int days = 7}) => log.add('insights ${from?.toIso()} $days');
+
+  @override
+  void openChecklist(BuildContext context, String checklistId, {String? itemId}) => log.add('checklist $checklistId $itemId');
+
+  @override
+  void openHabit(BuildContext context, String habitId) => log.add('habit $habitId');
 }
 
 /// Container + DB + fake contract for planner view tests.
