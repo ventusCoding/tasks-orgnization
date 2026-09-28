@@ -43,7 +43,7 @@ for stats defaults ([8.3]).
 - [x] T6.1.12 — Stats data loaders over Drift
 - [x] T6.1.13 — Isolate execution, caching & invalidation
 - [x] T6.1.14 — Minimum-data, confidence & honesty rules
-- [ ] T6.1.15 — Stats fixture framework & canonical datasets
+- [x] T6.1.15 — Stats fixture framework & canonical datasets
 - [ ] T6.1.16 — Stats screen framework & "explain this metric" sheet
 - [ ] T6.1.17 — Insights tab shell & navigation
 - [x] T6.1.18 — Circular statistics for clock times
@@ -461,6 +461,7 @@ declares its data, a clock, a zone and expected metric values.
 **Acceptance criteria:** each section catalog has at least one fixture per P0 metric; CI runs all fixtures
 in < 20 s.
 **Tests:** this task *is* the harness; include self-tests for its tolerance handling.
+**Notes:** Harness: `test/features/stats/support/stats_harness.dart` (`StatsFixture` seeds the in-memory DB, `runFixture` diffs every expectation; self-tests in `fixtures_test.dart`). Table fixtures derived from the package datasets: `planner_two_weeks`, `checklist_flow_small` (also covers a move between lists), `habit_pushups_month` (habits loop parity stays in the package's `strength_loop.json`), `quit_smoking_90_days`; `overview_week` arrives with T6.7.19. P0 coverage is completed by the section fixture tasks (T6.3.21, T6.5.18, T6.6.14, T6.7.19) and enforced by the registry lint (T6.1.21). The whole file runs in ~1 s.
 
 ### T6.1.16 — Stats screen framework & "explain this metric" sheet
 **Priority:** P0 · **Size:** L · **Depends on:** T6.1.07, T6.1.13, T6.1.14, [6.2] (chart foundations T6.2.01, KPI tile T6.2.02)

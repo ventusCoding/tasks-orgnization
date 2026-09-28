@@ -69,6 +69,9 @@ Map<String, Object?> tables() => {
     {'id': 'a3', 'entity_type': 'task', 'entity_id': 't1', 'event_type': 'rescheduled', 'occurred_at': '2026-09-02T20:00:00Z', 'payload': '{}', 'deleted_at': '2026-09-02T21:00:00Z'},
     {'id': 'a4', 'entity_type': 'checklist_item', 'entity_id': 'i1', 'parent_id': 'l1', 'event_type': 'status_changed', 'occurred_at': '2026-09-10T10:00:00Z', 'payload': '{"from":"todo","to":"ongoing"}'},
     {'id': 'a5', 'entity_type': 'checklist_item', 'entity_id': 'i9', 'parent_id': 'l2', 'event_type': 'created', 'occurred_at': '2026-09-11T10:00:00Z', 'payload': 'not json'},
+    // i8 was created in l1, then moved to l2.
+    {'id': 'a6', 'entity_type': 'checklist_item', 'entity_id': 'i8', 'parent_id': 'l1', 'event_type': 'created', 'occurred_at': '2026-09-05T10:00:00Z', 'payload': '{"to":"todo"}'},
+    {'id': 'a7', 'entity_type': 'checklist_item', 'entity_id': 'i8', 'parent_id': 'l2', 'event_type': 'moved', 'occurred_at': '2026-09-06T10:00:00Z', 'payload': '{"fromChecklistId":"l1","toChecklistId":"l2"}'},
   ],
   'checklists': [
     {
@@ -88,6 +91,7 @@ Map<String, Object?> tables() => {
     {'id': 'i1', 'checklist_id': 'l1', 'sort_key': 'a', 'text': 'Pack', 'status': 'ongoing', 'created_at': '2026-09-09T10:00:00Z'},
     {'id': 'i2', 'checklist_id': 'l1', 'parent_id': 'i1', 'sort_key': 'b', 'text': 'Books', 'status': 'completed', 'completed_at': '2026-09-12T10:00:00Z', 'created_at': '2026-09-08T10:00:00Z'},
     {'id': 'i3', 'checklist_id': 'l1', 'sort_key': 'c', 'text': 'Dropped', 'deleted_at': '2026-09-13T10:00:00Z', 'created_at': '2026-09-07T10:00:00Z'},
+    {'id': 'i8', 'checklist_id': 'l2', 'sort_key': 'b', 'text': 'Moved', 'created_at': '2026-09-05T10:00:00Z'},
     {'id': 'i9', 'checklist_id': 'l2', 'sort_key': 'a', 'text': 'Dune', 'status': 'blocked', 'status_note': 'lent', 'created_at': '2026-09-11T10:00:00Z'},
   ],
   'checklist_runs': [
@@ -225,7 +229,8 @@ void main() {
   group('checklist facts', () {
     test('one list keeps deleted items for history and decodes settings, runs and attachments', () async {
       final input = await source.loadChecklists(checklistId: 'l1');
-      expect(input.items.map((i) => i.id), unorderedEquals(['i1', 'i2', 'i3']));
+      // i8 moved to l2 but keeps its l1 history.
+      expect(input.items.map((i) => i.id), unorderedEquals(['i1', 'i2', 'i3', 'i8']));
       final i3 = input.items.firstWhere((i) => i.id == 'i3');
       expect(i3.deletedAt, DateTime.utc(2026, 9, 13, 10));
       expect(input.items.firstWhere((i) => i.id == 'i2').parentId, 'i1');
@@ -236,7 +241,7 @@ void main() {
       expect(l1.staleAfterDays, 10);
       expect(l1.dueLocal, LocalDateTime.parse('2026-10-01T18:00'));
       expect(input.checklists.map((l) => l.id), isNot(contains('l3')));
-      expect(input.events.map((e) => e.entityId), ['i1']);
+      expect(input.events.map((e) => e.entityId), unorderedEquals(['i1', 'i8', 'i8']));
       final run = input.runs.single;
       expect(run.snapshot.map((s) => (s.itemId, s.status)), [('i1', 'todo'), ('i2', 'completed')]);
       expect(run.snapshot.last.completedAt, DateTime.utc(2026, 9, 1, 9));
@@ -246,14 +251,14 @@ void main() {
 
     test('an item loads its list; the section loads every list and tolerates bad payloads', () async {
       final item = await source.loadChecklists(itemId: 'i9');
-      expect(item.items.map((i) => i.id), ['i9']);
-      expect(item.items.single.statusNote, 'lent');
+      expect(item.items.map((i) => i.id), unorderedEquals(['i8', 'i9']));
+      expect(item.items.firstWhere((i) => i.id == 'i9').statusNote, 'lent');
       final all = await source.loadChecklists();
-      expect(all.items, hasLength(4));
-      expect(all.events.map((e) => e.entityId), unorderedEquals(['i1', 'i9']));
+      expect(all.items, hasLength(5));
+      expect(all.events.map((e) => e.entityId), unorderedEquals(['i1', 'i8', 'i8', 'i9']));
       expect(all.events.firstWhere((e) => e.entityId == 'i9').payload, isEmpty);
-      expect(await source.firstChecklistInstant(), DateTime.utc(2026, 9, 7, 10));
-      expect(await source.firstChecklistInstant(checklistId: 'l2'), DateTime.utc(2026, 9, 11, 10));
+      expect(await source.firstChecklistInstant(), DateTime.utc(2026, 9, 5, 10));
+      expect(await source.firstChecklistInstant(checklistId: 'l2'), DateTime.utc(2026, 9, 5, 10));
     });
   });
 

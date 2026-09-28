@@ -278,6 +278,26 @@ class StatsDataSource {
         await (_db.select(_db.checklistItems)..where((it) => it.checklistId.isIn(part) & it.userId.equals(user))).get(),
       );
     }
+    if (listId != null) {
+      // Items that were in this list before moving elsewhere keep their history here (burn-up,
+      // arrivals): their earlier events carry this list as `parent_id`.
+      final here = {for (final i in items) i.id};
+      final movedOut = await (_db.selectOnly(_db.activityEvents, distinct: true)
+            ..addColumns([_db.activityEvents.entityId])
+            ..where(
+              _db.activityEvents.entityType.equals('checklist_item') &
+                  _db.activityEvents.parentId.equals(listId) &
+                  _db.activityEvents.userId.equals(user) &
+                  _db.activityEvents.deletedAt.isNull(),
+            ))
+          .map((r) => r.read(_db.activityEvents.entityId)!)
+          .get();
+      final extra = [for (final id in movedOut) if (!here.contains(id)) id];
+      for (var i = 0; i < extra.length; i += _chunk) {
+        final part = extra.sublist(i, i + _chunk > extra.length ? extra.length : i + _chunk);
+        items.addAll(await (_db.select(_db.checklistItems)..where((it) => it.id.isIn(part) & it.userId.equals(user))).get());
+      }
+    }
     final events = listId == null
         ? [
             for (final r

@@ -1,0 +1,368 @@
+{
+ "name": "habit_pushups_month",
+ "source": "fixtures/stats/habit_pushups_month.json",
+ "description": "Canonical '15 push-ups every day' month (T6.5.04/05/06): Sep 2026, Europe/Paris, count >= 15. 24 days done at 15, 3 partial at 10 (Sep 5, 12, 19), 2 missed (Sep 8, 22), 1 skip (Sep 15). The Sep 20 log was backfilled on Sep 22.",
+ "now": "2026-10-01T06:00:00.000Z",
+ "zone": "Europe/Paris",
+ "weekStart": 1,
+ "settings": {},
+ "tables": {
+  "habits": [
+   {
+    "id": "pushups",
+    "kind": "build",
+    "name": "Push-ups",
+    "sort_key": "a",
+    "goal_type": "count",
+    "target_value": 15,
+    "target_op": "gte",
+    "unit": "reps",
+    "schedule": "{\"v\": 1, \"type\": \"fixed\", \"freq\": \"daily\", \"interval\": 1}",
+    "start_date": "2026-09-01",
+    "end_date": "2026-09-30",
+    "time_zone": "Europe/Paris",
+    "created_at": "2026-08-31T18:00:00.000Z"
+   }
+  ],
+  "habit_logs": [
+   {
+    "id": "log-0",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-01T05:30:00.000Z",
+    "local_date": "2026-09-01",
+    "created_at": "2026-09-01T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-01"
+   },
+   {
+    "id": "log-1",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-02T05:30:00.000Z",
+    "local_date": "2026-09-02",
+    "created_at": "2026-09-02T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-02"
+   },
+   {
+    "id": "log-2",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-03T05:30:00.000Z",
+    "local_date": "2026-09-03",
+    "created_at": "2026-09-03T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-03"
+   },
+   {
+    "id": "log-3",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-04T05:30:00.000Z",
+    "local_date": "2026-09-04",
+    "created_at": "2026-09-04T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-04"
+   },
+   {
+    "id": "log-4",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-05T05:30:00.000Z",
+    "local_date": "2026-09-05",
+    "created_at": "2026-09-05T05:30:00.000Z",
+    "value": 10,
+    "occurrence_key": "2026-09-05"
+   },
+   {
+    "id": "log-5",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-06T05:30:00.000Z",
+    "local_date": "2026-09-06",
+    "created_at": "2026-09-06T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-06"
+   },
+   {
+    "id": "log-6",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-07T05:30:00.000Z",
+    "local_date": "2026-09-07",
+    "created_at": "2026-09-07T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-07"
+   },
+   {
+    "id": "log-7",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-09T05:30:00.000Z",
+    "local_date": "2026-09-09",
+    "created_at": "2026-09-09T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-09"
+   },
+   {
+    "id": "log-8",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-10T05:30:00.000Z",
+    "local_date": "2026-09-10",
+    "created_at": "2026-09-10T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-10"
+   },
+   {
+    "id": "log-9",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-11T05:30:00.000Z",
+    "local_date": "2026-09-11",
+    "created_at": "2026-09-11T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-11"
+   },
+   {
+    "id": "log-10",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-12T05:30:00.000Z",
+    "local_date": "2026-09-12",
+    "created_at": "2026-09-12T05:30:00.000Z",
+    "value": 10,
+    "occurrence_key": "2026-09-12"
+   },
+   {
+    "id": "log-11",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-13T05:30:00.000Z",
+    "local_date": "2026-09-13",
+    "created_at": "2026-09-13T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-13"
+   },
+   {
+    "id": "log-12",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-14T05:30:00.000Z",
+    "local_date": "2026-09-14",
+    "created_at": "2026-09-14T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-14"
+   },
+   {
+    "id": "log-13",
+    "habit_id": "pushups",
+    "kind": "skip",
+    "logged_at": "2026-09-15T05:30:00.000Z",
+    "local_date": "2026-09-15",
+    "created_at": "2026-09-15T05:30:00.000Z",
+    "note": "Sore shoulder"
+   },
+   {
+    "id": "log-14",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-16T05:30:00.000Z",
+    "local_date": "2026-09-16",
+    "created_at": "2026-09-16T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-16"
+   },
+   {
+    "id": "log-15",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-17T05:30:00.000Z",
+    "local_date": "2026-09-17",
+    "created_at": "2026-09-17T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-17"
+   },
+   {
+    "id": "log-16",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-18T05:30:00.000Z",
+    "local_date": "2026-09-18",
+    "created_at": "2026-09-18T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-18"
+   },
+   {
+    "id": "log-17",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-19T05:30:00.000Z",
+    "local_date": "2026-09-19",
+    "created_at": "2026-09-19T05:30:00.000Z",
+    "value": 10,
+    "occurrence_key": "2026-09-19"
+   },
+   {
+    "id": "log-18",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-20T05:30:00.000Z",
+    "local_date": "2026-09-20",
+    "created_at": "2026-09-22T07:00:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-20"
+   },
+   {
+    "id": "log-19",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-21T05:30:00.000Z",
+    "local_date": "2026-09-21",
+    "created_at": "2026-09-21T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-21"
+   },
+   {
+    "id": "log-20",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-23T05:30:00.000Z",
+    "local_date": "2026-09-23",
+    "created_at": "2026-09-23T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-23"
+   },
+   {
+    "id": "log-21",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-24T05:30:00.000Z",
+    "local_date": "2026-09-24",
+    "created_at": "2026-09-24T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-24"
+   },
+   {
+    "id": "log-22",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-25T05:30:00.000Z",
+    "local_date": "2026-09-25",
+    "created_at": "2026-09-25T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-25"
+   },
+   {
+    "id": "log-23",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-26T05:30:00.000Z",
+    "local_date": "2026-09-26",
+    "created_at": "2026-09-26T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-26"
+   },
+   {
+    "id": "log-24",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-27T05:30:00.000Z",
+    "local_date": "2026-09-27",
+    "created_at": "2026-09-27T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-27"
+   },
+   {
+    "id": "log-25",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-28T05:30:00.000Z",
+    "local_date": "2026-09-28",
+    "created_at": "2026-09-28T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-28"
+   },
+   {
+    "id": "log-26",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-29T05:30:00.000Z",
+    "local_date": "2026-09-29",
+    "created_at": "2026-09-29T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-29"
+   },
+   {
+    "id": "log-27",
+    "habit_id": "pushups",
+    "kind": "progress",
+    "logged_at": "2026-09-30T05:30:00.000Z",
+    "local_date": "2026-09-30",
+    "created_at": "2026-09-30T05:30:00.000Z",
+    "value": 15,
+    "occurrence_key": "2026-09-30"
+   }
+  ]
+ },
+ "expect": [
+  {
+   "scope": "habit",
+   "scopeId": "pushups",
+   "period": "custom:2026-09-01..2026-09-30",
+   "metricId": "HB-H-05",
+   "value": 0.8275862068965517,
+   "tolerance": 1e-09
+  },
+  {
+   "scope": "habit",
+   "scopeId": "pushups",
+   "period": "custom:2026-09-01..2026-09-30",
+   "metricId": "HB-H-06",
+   "value": 30,
+   "args": {
+    "success": 24,
+    "partial": 3,
+    "missed": 2,
+    "skipped": 1
+   }
+  },
+  {
+   "scope": "habit",
+   "scopeId": "pushups",
+   "period": "custom:2026-09-01..2026-09-30",
+   "metricId": "HB-H-02",
+   "value": 8
+  },
+  {
+   "scope": "habit",
+   "scopeId": "pushups",
+   "period": "custom:2026-09-01..2026-09-30",
+   "metricId": "HB-H-03",
+   "value": 8
+  },
+  {
+   "scope": "habit",
+   "scopeId": "pushups",
+   "period": "custom:2026-09-01..2026-09-30",
+   "metricId": "HB-H-09",
+   "value": 27
+  },
+  {
+   "scope": "habit",
+   "scopeId": "pushups",
+   "period": "custom:2026-09-01..2026-09-30",
+   "metricId": "HB-H-10",
+   "value": 0.896551724137931,
+   "tolerance": 1e-09
+  },
+  {
+   "scope": "habit",
+   "scopeId": "pushups",
+   "period": "custom:2026-09-01..2026-09-30",
+   "metricId": "HB-H-11",
+   "value": 390
+  }
+ ]
+}
