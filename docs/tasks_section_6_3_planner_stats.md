@@ -72,11 +72,11 @@ and execution capture ([3.2]); focus/Pomodoro stats (→ [9.3]).
 - [ ] T6.3.14 — Focus & balance metrics
 - [ ] T6.3.15 — Completion goal streak
 - [ ] T6.3.16 — Advanced planner metrics
-- [ ] T6.3.17 — Task stats sheet (occurrence & one-off task)
-- [ ] T6.3.18 — Series stats screen
-- [ ] T6.3.19 — Planner Insights screen
+- [x] T6.3.17 — Task stats sheet (occurrence & one-off task)
+- [x] T6.3.18 — Series stats screen
+- [x] T6.3.19 — Planner Insights screen
 - [ ] T6.3.20 — In-view insights overlays
-- [ ] T6.3.21 — Planner stats fixtures
+- [x] T6.3.21 — Planner stats fixtures
 
 ## Tasks
 
@@ -396,6 +396,7 @@ productivity score is hidden until at least one category is weighted.
 **Acceptance criteria:** opens in < 150 ms; values update live when a timer stops; every value has an
 explain entry.
 **Tests:** widget tests with fixture facts; goldens (light/dark, RTL).
+**Notes:** `TaskStatsPanel(taskId, occurrenceKey)` (exported by `features/stats/insights.dart`) renders PL-T-01…07 with the PL-T-03 planned-vs-actual bullet, no period selector, and "See series stats" for recurring tasks; `/insights/task/:id?occurrence=<key>` shows it full screen. TODO(integration): the planner's occurrence sheet adds a "Stats" tab embedding `TaskStatsPanel` (planner-owned file). Timer stops invalidate through `time_entries` table updates. Tests: `presentation/planner_screens_test.dart`, goldens `screen_goldens_test.dart`.
 
 ### T6.3.18 — Series stats screen
 **Priority:** P0 · **Size:** M · **Depends on:** T6.3.04, [6.1] (T6.1.16)
@@ -417,6 +418,7 @@ explain entry.
 **Acceptance criteria:** the period selector and compare toggle work; drill-down from any calendar day
 opens that occurrence.
 **Tests:** widget tests; goldens.
+**Notes:** `seriesLayout` (KPIs PL-S-03/05/06/07; outcome calendar, adherence trend with rolling mean + slope, done/missed/skipped bars) on `/insights/series/:seriesId`; a calendar day opens the drill sheet of its occurrences, each opening the occurrence. Tests: `presentation/planner_screens_test.dart`, goldens.
 
 ### T6.3.19 — Planner Insights screen
 **Priority:** P0 · **Size:** L · **Depends on:** T6.3.07, T6.3.08, T6.3.09, [6.1] (T6.1.16, T6.1.17)
@@ -434,6 +436,7 @@ opens that occurrence.
 **Acceptance criteria:** a one-year period renders within the [6.1] T6.1.23 budget; each chart drills
 into the list of occurrences behind it.
 **Tests:** widget tests; fixture-driven screen test; goldens.
+**Notes:** `plannerLayout`: KPI row PL-X-01/05/12/08/06, Execution, Capacity and Allocation sections; filters category, tag, priority and tracking mode (the shared filter bar's status field). Fixture-driven screen test (`planner_two_weeks`) and goldens; the one-year budget is measured by T6.1.23.
 
 ### T6.3.20 — In-view insights overlays
 **Priority:** P1 · **Size:** M · **Depends on:** T6.3.08, T6.3.13, [3.3] (grid painter, overlays), [3.4] (week table)
@@ -457,3 +460,4 @@ Expected values are hand-computed for every P0 metric, and for P1 metrics as the
 **Acceptance criteria:** the fixture runner passes; the dataset is documented in
 `fixtures/stats/README.md`.
 **Tests:** this task provides the fixtures used by the tests above.
+**Notes:** Table fixture `app/test/features/stats/fixtures/planner_two_weeks.json` (from `fixtures/stats/planner_two_weeks.json`) now has expectations for all 31 P0 planner metrics; scenario tests in `test/features/stats/planner/` cover grace boundaries, snapshot moves, capacity boundaries and series splits.

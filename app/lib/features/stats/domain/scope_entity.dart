@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 
 @immutable
 final class ScopeEntity {
-  const ScopeEntity(this.id, this.name, {this.color, this.icon, this.parentId, this.isQuit = false});
+  const ScopeEntity(this.id, this.name, {this.color, this.icon, this.parentId, this.isQuit = false, this.recurring = false});
 
   final String id;
   final String name;
@@ -17,6 +17,9 @@ final class ScopeEntity {
   /// Series of a task / checklist of an item.
   final String? parentId;
   final bool isQuit;
+
+  /// A task that belongs to a recurring series (its sheet links to the series stats).
+  final bool recurring;
 
   @override
   bool operator ==(Object other) =>

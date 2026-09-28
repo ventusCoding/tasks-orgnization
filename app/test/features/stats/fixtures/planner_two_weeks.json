@@ -994,6 +994,106 @@
    "args": {
     "outcome": "doneOnTime"
    }
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-02",
+   "value": 17
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-04",
+   "value": 3,
+   "args": {
+    "unscheduled": 0
+   }
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-09",
+   "insufficient": true,
+   "args": {
+    "coverage": 0.3888888888888889
+   },
+   "tolerance": 1e-09
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-11",
+   "note": "pastPeriod"
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-12",
+   "value": 250,
+   "args": {
+    "planned": 915
+   }
+  },
+  {
+   "scope": "planner",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-X-14",
+   "value": 1
+  },
+  {
+   "scope": "task",
+   "scopeId": "o8",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-T-01",
+   "value": 90
+  },
+  {
+   "scope": "task",
+   "scopeId": "o8",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-T-03",
+   "value": -20,
+   "args": {
+    "label": "under"
+   }
+  },
+  {
+   "scope": "task",
+   "scopeId": "o8",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-T-04",
+   "value": 5,
+   "args": {
+    "punctuality": "onTime"
+   }
+  },
+  {
+   "scope": "task",
+   "scopeId": "o8",
+   "period": "custom:2026-09-14..2026-09-20",
+   "metricId": "PL-T-05",
+   "value": -10,
+   "args": {
+    "punctuality": "onTime"
+   }
+  },
+  {
+   "scope": "series",
+   "scopeId": "standup",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-06",
+   "value": 140,
+   "args": {
+    "planned": 150
+   }
+  },
+  {
+   "scope": "series",
+   "scopeId": "reading",
+   "period": "custom:2026-09-07..2026-09-20",
+   "metricId": "PL-S-09",
+   "value": 15
   }
  ]
 }

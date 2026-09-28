@@ -11,7 +11,7 @@ import 'package:everslot/features/stats/application/layouts.dart';
 import 'package:everslot/features/stats/application/stats_compute_service.dart';
 import 'package:everslot/features/stats/application/stats_providers.dart';
 import 'package:everslot/features/stats/domain/metric_definition.dart';
-import 'package:everslot/features/stats/domain/scope_entity.dart';
+import 'package:everslot/features/stats/domain/scope_entity.dart' show ScopeEntity;
 import 'package:everslot/features/stats/domain/stats_layout.dart';
 import 'package:everslot/features/stats/domain/stats_request.dart';
 import 'package:everslot/features/stats/domain/stats_types.dart';
@@ -59,6 +59,7 @@ class StatsScopeView extends ConsumerStatefulWidget {
     this.extra,
     this.header,
     this.defaultPeriod,
+    this.showPeriod = true,
   });
 
   final MetricScope scope;
@@ -82,6 +83,9 @@ class StatsScopeView extends ConsumerStatefulWidget {
   /// Period used when nothing is remembered for this scope (else `stats.defaultPeriod`).
   final StatsPeriod? defaultPeriod;
 
+  /// Per-entity lifetime scopes (one occurrence, one item) hide the period selector.
+  final bool showPeriod;
+
   @override
   ConsumerState<StatsScopeView> createState() => _StatsScopeViewState();
 }
@@ -91,8 +95,13 @@ class _StatsScopeViewState extends ConsumerState<StatsScopeView> {
   final Set<String> _toggled = {};
   StatsBatch? _last;
 
-  StatsFilters get _filters =>
-      StatsFilters(categoryIds: _filter.categoryIds, tagIds: _filter.tagIds, priorities: _filter.priorities);
+  /// The filter bar's "status" criterion carries the planner tracking modes.
+  StatsFilters get _filters => StatsFilters(
+    categoryIds: _filter.categoryIds,
+    tagIds: _filter.tagIds,
+    priorities: _filter.priorities,
+    trackingModes: widget.scope == MetricScope.planner ? _filter.statuses : const {},
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -126,17 +135,30 @@ class _StatsScopeViewState extends ConsumerState<StatsScopeView> {
     final slivers = <Widget>[
       if (widget.entity != null) SliverToBoxAdapter(child: _ScopeHeader(entity: widget.entity!, scope: widget.scope)),
       if (widget.header != null) SliverToBoxAdapter(child: widget.header),
-      SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsetsDirectional.only(top: Space.sm),
-          child: PeriodSelector(selection: selection, onChanged: setSelection),
+      if (widget.showPeriod)
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsetsDirectional.only(top: Space.sm),
+            child: PeriodSelector(selection: selection, onChanged: setSelection),
+          ),
         ),
-      ),
       if (widget.showFilters)
         SliverToBoxAdapter(
           child: FilterBar(
             value: _filter,
-            fields: const [FilterField.category, FilterField.tag, FilterField.priority],
+            fields: [
+              FilterField.category,
+              FilterField.tag,
+              FilterField.priority,
+              if (widget.scope == MetricScope.planner) FilterField.status,
+            ],
+            statusOptions: [
+              if (widget.scope == MetricScope.planner) ...[
+                FilterOption('check', l.statsFilterTrackingCheck, icon: Icons.check_circle_outline),
+                FilterOption('event', l.statsFilterTrackingEvent, icon: Icons.event_outlined),
+                FilterOption('timer', l.statsFilterTrackingTimer, icon: Icons.timer_outlined),
+              ],
+            ],
             onChanged: (f) => setState(() => _filter = f),
           ),
         ),

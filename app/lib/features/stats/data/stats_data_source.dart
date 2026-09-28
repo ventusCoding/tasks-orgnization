@@ -588,7 +588,9 @@ class StatsDataSource {
     switch (scope) {
       case 'task':
         final t = await (_db.select(_db.tasks)..where((t) => t.id.equals(id))).getSingleOrNull();
-        return t == null ? null : ScopeEntity(t.id, t.title, color: t.color, icon: t.icon, parentId: t.seriesId);
+        return t == null
+            ? null
+            : ScopeEntity(t.id, t.title, color: t.color, icon: t.icon, parentId: t.seriesId, recurring: t.recurrence != null);
       case 'series':
         final t = await (_db.select(_db.tasks)
               ..where((t) => t.seriesId.equals(id) & t.deletedAt.isNull())
