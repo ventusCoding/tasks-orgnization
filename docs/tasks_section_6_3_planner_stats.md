@@ -56,8 +56,8 @@ and execution capture ([3.2]); focus/Pomodoro stats (→ [9.3]).
 
 ## Progress
 
-- [ ] T6.3.01 — Planner stats adapter & canonical occurrence facts
-- [ ] T6.3.02 — Per-occurrence timing & outcome metrics
+- [x] T6.3.01 — Planner stats adapter & canonical occurrence facts
+- [x] T6.3.02 — Per-occurrence timing & outcome metrics
 - [ ] T6.3.03 — Per-occurrence planning & focus metrics
 - [ ] T6.3.04 — Series execution metrics
 - [ ] T6.3.05 — Series quality & pattern metrics
@@ -104,6 +104,7 @@ Task `updated` events must carry before/after values of `start_local`, `duration
 **Acceptance criteria:** for the `planner_two_weeks` fixture, the facts equal the hand-written
 expectations, including overrides, cancelled occurrences and timer pauses.
 **Tests:** unit tests covering every outcome class and all three tracking modes.
+**Notes:** `domain/planner_resolution.dart` (`PlannerResolver`) expands series with the recurrence engine in the stats isolate, applies occurrence overrides/cancellations, attaches time sessions, reschedule moves and tags, and hands `PlannerOccurrenceFact`s to the package calculators; the context loads the period ± one look-back week (+4 weeks for moved-out detection). Settings come once per batch from `StatsSettings.planner`. Tests: `planner/planner_occurrence_test.dart` (facts for every outcome class and tracking mode) and the `planner_two_weeks` table fixture.
 
 ### T6.3.02 — Per-occurrence timing & outcome metrics
 **Priority:** P0 · **Size:** M · **Depends on:** T6.3.01, [6.2] (bars/bullet T6.2.04, T6.2.07)
@@ -126,6 +127,7 @@ task stats sheet and in drill-down lists.
 - An occurrence with no sessions shows "Actual time not tracked", not 0.
 **Tests:** fixture tests for each metric; boundary cases at exactly the grace value (on time) and at
 g + 1 minute (late).
+**Notes:** PL-T-01…07 in `planner_catalog.dart`; the task stats sheet selects the occurrence through the request `extra` (`?occurrence=<key>`). Tests cover the acceptance case, the g / g + 1 boundaries, "not tracked" and overdue buckets (`planner/planner_occurrence_test.dart`).
 
 ### T6.3.03 — Per-occurrence planning & focus metrics
 **Priority:** P1 · **Size:** M · **Depends on:** T6.3.02, [6.2] (move timeline T6.2.13)
