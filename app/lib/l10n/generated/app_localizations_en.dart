@@ -10006,6 +10006,90 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsTrash => 'Trash';
 
   @override
+  String get settingsTrashDeleteForever => 'Delete forever';
+
+  @override
+  String get settingsTrashDeleteForeverBody =>
+      'It will be removed from all your devices, with everything deleted with it. This can\'t be undone.';
+
+  @override
+  String settingsTrashDeleteForeverTitle(String title) {
+    return 'Delete \"$title\" forever?';
+  }
+
+  @override
+  String get settingsTrashDeleted => 'Deleted forever';
+
+  @override
+  String settingsTrashDeletedWhen(String when) {
+    return 'Deleted $when';
+  }
+
+  @override
+  String get settingsTrashEmptyAll => 'Empty trash';
+
+  @override
+  String settingsTrashEmptyAllBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items will be deleted forever from all your devices.',
+      one: '1 item will be deleted forever from all your devices.',
+    );
+    return '$_temp0 This can\'t be undone.';
+  }
+
+  @override
+  String get settingsTrashEmptyState => 'The trash is empty';
+
+  @override
+  String get settingsTrashHint =>
+      'Deleted items stay here for 30 days. Restoring one brings back everything deleted with it.';
+
+  @override
+  String get settingsTrashKindAttachment => 'Attachment';
+
+  @override
+  String get settingsTrashKindChecklist => 'List';
+
+  @override
+  String get settingsTrashKindHabit => 'Habit';
+
+  @override
+  String get settingsTrashKindItem => 'List item';
+
+  @override
+  String get settingsTrashKindTask => 'Task';
+
+  @override
+  String get settingsTrashNotSynced =>
+      'This deletion hasn\'t synced yet. Try again once you\'re online.';
+
+  @override
+  String get settingsTrashOffline =>
+      'Connect to the internet to delete forever.';
+
+  @override
+  String get settingsTrashRestore => 'Restore';
+
+  @override
+  String get settingsTrashRestored => 'Restored';
+
+  @override
+  String get settingsTrashUntitled => 'Untitled';
+
+  @override
+  String settingsTrashWith(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+$count related items',
+      one: '+1 related item',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get settingsUnknownPage => 'This settings page doesn\'t exist.';
 
   @override

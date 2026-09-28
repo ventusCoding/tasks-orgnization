@@ -23,7 +23,7 @@ encryption, onboarding, sample data, accessibility options, about/legal, feedbac
 - [x] T8.3.03 — Regional settings (time zone, week start, formats, day start)
 - [x] T8.3.04 — Sync & devices screen
 - [x] T8.3.05 — Section defaults pages (Plan, Lists, Habits, Insights)
-- [ ] T8.3.06 — Trash (restore / delete forever)
+- [x] T8.3.06 — Trash (restore / delete forever)
 - [ ] T8.3.07 — Export all data (JSON + CSV)
 - [ ] T8.3.08 — Import / restore from a Everslot export
 - [ ] T8.3.09 — App lock & app-switcher privacy
@@ -96,6 +96,7 @@ the last 30 days; *Restore* (restores the subtree/children deleted in the same o
 **Acceptance criteria:** restoring a checklist item restores its descendants that were deleted with it but
 not ones deleted earlier; purge removes storage objects for attachments.
 **Tests:** unit tests for "deleted together" grouping (same operation id in activity events); pgTAP for purge RPC.
+**Notes:** Trash = deletions of the last 30 days whose container is live (tasks, lists, list items with their path, habits, attachments). "Deleted together" = same operation = same `deleted_at` instant (features cascade inside one `SyncWriter` transaction; stored as ISO text with microseconds) — used instead of scanning activity events, which not every feature writes. Restore = one synced operation (+ `restored` activity event). Delete forever: synced accounts call `app.purge_now` (refused while the deletion itself is unpushed, nothing removed when offline), then rows + tombstoned children + outbox entries + attachment files are removed locally (mirrors the server cascade); local-only devices purge locally. pgTAP for the RPC: `supabase/tests/database/100_purge_ops.test.sql`. Tests: `test/features/settings/trash_repository_test.dart`, `trash_screen_test.dart`.
 
 ### T8.3.07 — Export all data (JSON + CSV)
 **Priority:** P1 · **Size:** M · **Depends on:** [1.4]

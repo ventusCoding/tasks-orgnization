@@ -10399,6 +10399,95 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsTrash => 'المهملات';
 
   @override
+  String get settingsTrashDeleteForever => 'حذف نهائي';
+
+  @override
+  String get settingsTrashDeleteForeverBody =>
+      'سيُحذف من كل أجهزتك مع كل ما حُذف معه. لا يمكن التراجع عن ذلك.';
+
+  @override
+  String settingsTrashDeleteForeverTitle(String title) {
+    return 'حذف «$title» نهائيًا؟';
+  }
+
+  @override
+  String get settingsTrashDeleted => 'حُذف نهائيًا';
+
+  @override
+  String settingsTrashDeletedWhen(String when) {
+    return 'حُذف $when';
+  }
+
+  @override
+  String get settingsTrashEmptyAll => 'إفراغ سلة المهملات';
+
+  @override
+  String settingsTrashEmptyAllBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'سيُحذف $count عنصر نهائيًا من كل أجهزتك.',
+      many: 'سيُحذف $count عنصرًا نهائيًا من كل أجهزتك.',
+      few: 'ستُحذف $count عناصر نهائيًا من كل أجهزتك.',
+      two: 'سيُحذف عنصران نهائيًا من كل أجهزتك.',
+      one: 'سيُحذف عنصر واحد نهائيًا من كل أجهزتك.',
+    );
+    return '$_temp0 لا يمكن التراجع عن ذلك.';
+  }
+
+  @override
+  String get settingsTrashEmptyState => 'سلة المهملات فارغة';
+
+  @override
+  String get settingsTrashHint =>
+      'تبقى العناصر المحذوفة هنا 30 يومًا. استعادة عنصر تُعيد كل ما حُذف معه.';
+
+  @override
+  String get settingsTrashKindAttachment => 'مرفق';
+
+  @override
+  String get settingsTrashKindChecklist => 'قائمة';
+
+  @override
+  String get settingsTrashKindHabit => 'عادة';
+
+  @override
+  String get settingsTrashKindItem => 'عنصر قائمة';
+
+  @override
+  String get settingsTrashKindTask => 'مهمة';
+
+  @override
+  String get settingsTrashNotSynced =>
+      'لم تتم مزامنة هذا الحذف بعد. أعد المحاولة عند الاتصال.';
+
+  @override
+  String get settingsTrashOffline => 'اتصل بالإنترنت للحذف النهائي.';
+
+  @override
+  String get settingsTrashRestore => 'استعادة';
+
+  @override
+  String get settingsTrashRestored => 'تمت الاستعادة';
+
+  @override
+  String get settingsTrashUntitled => 'بلا عنوان';
+
+  @override
+  String settingsTrashWith(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+ $count عنصر مرتبط',
+      many: '+ $count عنصرًا مرتبطًا',
+      few: '+ $count عناصر مرتبطة',
+      two: '+ عنصران مرتبطان',
+      one: '+ عنصر مرتبط',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get settingsUnknownPage => 'صفحة الإعدادات هذه غير موجودة.';
 
   @override

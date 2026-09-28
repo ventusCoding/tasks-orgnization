@@ -16677,6 +16677,126 @@ abstract class AppLocalizations {
   /// **'Trash'**
   String get settingsTrash;
 
+  /// No description provided for @settingsTrashDeleteForever.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete forever'**
+  String get settingsTrashDeleteForever;
+
+  /// No description provided for @settingsTrashDeleteForeverBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It will be removed from all your devices, with everything deleted with it. This can\'t be undone.'**
+  String get settingsTrashDeleteForeverBody;
+
+  /// No description provided for @settingsTrashDeleteForeverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{title}\" forever?'**
+  String settingsTrashDeleteForeverTitle(String title);
+
+  /// No description provided for @settingsTrashDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted forever'**
+  String get settingsTrashDeleted;
+
+  /// No description provided for @settingsTrashDeletedWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted {when}'**
+  String settingsTrashDeletedWhen(String when);
+
+  /// No description provided for @settingsTrashEmptyAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty trash'**
+  String get settingsTrashEmptyAll;
+
+  /// No description provided for @settingsTrashEmptyAllBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item will be deleted forever from all your devices.} other{{count} items will be deleted forever from all your devices.}} This can\'t be undone.'**
+  String settingsTrashEmptyAllBody(int count);
+
+  /// No description provided for @settingsTrashEmptyState.
+  ///
+  /// In en, this message translates to:
+  /// **'The trash is empty'**
+  String get settingsTrashEmptyState;
+
+  /// No description provided for @settingsTrashHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted items stay here for 30 days. Restoring one brings back everything deleted with it.'**
+  String get settingsTrashHint;
+
+  /// No description provided for @settingsTrashKindAttachment.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachment'**
+  String get settingsTrashKindAttachment;
+
+  /// No description provided for @settingsTrashKindChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get settingsTrashKindChecklist;
+
+  /// No description provided for @settingsTrashKindHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit'**
+  String get settingsTrashKindHabit;
+
+  /// No description provided for @settingsTrashKindItem.
+  ///
+  /// In en, this message translates to:
+  /// **'List item'**
+  String get settingsTrashKindItem;
+
+  /// No description provided for @settingsTrashKindTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get settingsTrashKindTask;
+
+  /// No description provided for @settingsTrashNotSynced.
+  ///
+  /// In en, this message translates to:
+  /// **'This deletion hasn\'t synced yet. Try again once you\'re online.'**
+  String get settingsTrashNotSynced;
+
+  /// No description provided for @settingsTrashOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect to the internet to delete forever.'**
+  String get settingsTrashOffline;
+
+  /// No description provided for @settingsTrashRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get settingsTrashRestore;
+
+  /// No description provided for @settingsTrashRestored.
+  ///
+  /// In en, this message translates to:
+  /// **'Restored'**
+  String get settingsTrashRestored;
+
+  /// No description provided for @settingsTrashUntitled.
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled'**
+  String get settingsTrashUntitled;
+
+  /// No description provided for @settingsTrashWith.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{+1 related item} other{+{count} related items}}'**
+  String settingsTrashWith(int count);
+
   /// No description provided for @settingsUnknownPage.
   ///
   /// In en, this message translates to:

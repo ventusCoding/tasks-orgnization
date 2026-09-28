@@ -202,5 +202,53 @@
     }
   },
   "settingsFewer": "One fewer",
-  "settingsMore": "One more"
+  "settingsMore": "One more",
+  "settingsTrashHint": "Deleted items stay here for 30 days. Restoring one brings back everything deleted with it.",
+  "settingsTrashEmptyState": "The trash is empty",
+  "settingsTrashRestore": "Restore",
+  "settingsTrashDeleteForever": "Delete forever",
+  "settingsTrashDeleteForeverTitle": "Delete \"{title}\" forever?",
+  "@settingsTrashDeleteForeverTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsTrashDeleteForeverBody": "It will be removed from all your devices, with everything deleted with it. This can't be undone.",
+  "settingsTrashEmptyAll": "Empty trash",
+  "settingsTrashEmptyAllBody": "{count, plural, =1{1 item will be deleted forever from all your devices.} other{{count} items will be deleted forever from all your devices.}} This can't be undone.",
+  "@settingsTrashEmptyAllBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsTrashRestored": "Restored",
+  "settingsTrashDeleted": "Deleted forever",
+  "settingsTrashDeletedWhen": "Deleted {when}",
+  "@settingsTrashDeletedWhen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsTrashWith": "{count, plural, =1{+1 related item} other{+{count} related items}}",
+  "@settingsTrashWith": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsTrashOffline": "Connect to the internet to delete forever.",
+  "settingsTrashNotSynced": "This deletion hasn't synced yet. Try again once you're online.",
+  "settingsTrashUntitled": "Untitled",
+  "settingsTrashKindTask": "Task",
+  "settingsTrashKindChecklist": "List",
+  "settingsTrashKindItem": "List item",
+  "settingsTrashKindHabit": "Habit",
+  "settingsTrashKindAttachment": "Attachment"
 }

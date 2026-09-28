@@ -3316,6 +3316,34 @@
       }
     }
   },
+  "@settingsTrashDeleteForeverTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsTrashDeletedWhen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsTrashEmptyAllBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@settingsTrashWith": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@smartChip": {
     "placeholders": {
       "label": {
@@ -6870,6 +6898,26 @@
   "settingsThemeSystem": "System",
   "settingsTitle": "Settings",
   "settingsTrash": "Trash",
+  "settingsTrashDeleteForever": "Delete forever",
+  "settingsTrashDeleteForeverBody": "It will be removed from all your devices, with everything deleted with it. This can't be undone.",
+  "settingsTrashDeleteForeverTitle": "Delete \"{title}\" forever?",
+  "settingsTrashDeleted": "Deleted forever",
+  "settingsTrashDeletedWhen": "Deleted {when}",
+  "settingsTrashEmptyAll": "Empty trash",
+  "settingsTrashEmptyAllBody": "{count, plural, =1{1 item will be deleted forever from all your devices.} other{{count} items will be deleted forever from all your devices.}} This can't be undone.",
+  "settingsTrashEmptyState": "The trash is empty",
+  "settingsTrashHint": "Deleted items stay here for 30 days. Restoring one brings back everything deleted with it.",
+  "settingsTrashKindAttachment": "Attachment",
+  "settingsTrashKindChecklist": "List",
+  "settingsTrashKindHabit": "Habit",
+  "settingsTrashKindItem": "List item",
+  "settingsTrashKindTask": "Task",
+  "settingsTrashNotSynced": "This deletion hasn't synced yet. Try again once you're online.",
+  "settingsTrashOffline": "Connect to the internet to delete forever.",
+  "settingsTrashRestore": "Restore",
+  "settingsTrashRestored": "Restored",
+  "settingsTrashUntitled": "Untitled",
+  "settingsTrashWith": "{count, plural, =1{+1 related item} other{+{count} related items}}",
   "settingsUnknownPage": "This settings page doesn't exist.",
   "settingsWeekStart": "Week starts on",
   "smartBlocked": "Blocked",

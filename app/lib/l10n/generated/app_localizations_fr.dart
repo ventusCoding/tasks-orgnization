@@ -10085,6 +10085,91 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsTrash => 'Corbeille';
 
   @override
+  String get settingsTrashDeleteForever => 'Supprimer définitivement';
+
+  @override
+  String get settingsTrashDeleteForeverBody =>
+      'Il sera effacé de tous vos appareils, avec tout ce qui a été supprimé avec lui. Action irréversible.';
+
+  @override
+  String settingsTrashDeleteForeverTitle(String title) {
+    return 'Supprimer « $title » définitivement ?';
+  }
+
+  @override
+  String get settingsTrashDeleted => 'Supprimé définitivement';
+
+  @override
+  String settingsTrashDeletedWhen(String when) {
+    return 'Supprimé $when';
+  }
+
+  @override
+  String get settingsTrashEmptyAll => 'Vider la corbeille';
+
+  @override
+  String settingsTrashEmptyAllBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count éléments seront supprimés définitivement de tous vos appareils.',
+      one: '1 élément sera supprimé définitivement de tous vos appareils.',
+    );
+    return '$_temp0 Action irréversible.';
+  }
+
+  @override
+  String get settingsTrashEmptyState => 'La corbeille est vide';
+
+  @override
+  String get settingsTrashHint =>
+      'Les éléments supprimés restent ici 30 jours. En restaurer un rétablit tout ce qui a été supprimé avec lui.';
+
+  @override
+  String get settingsTrashKindAttachment => 'Pièce jointe';
+
+  @override
+  String get settingsTrashKindChecklist => 'Liste';
+
+  @override
+  String get settingsTrashKindHabit => 'Habitude';
+
+  @override
+  String get settingsTrashKindItem => 'Élément de liste';
+
+  @override
+  String get settingsTrashKindTask => 'Tâche';
+
+  @override
+  String get settingsTrashNotSynced =>
+      'Cette suppression n’est pas encore synchronisée. Réessayez une fois en ligne.';
+
+  @override
+  String get settingsTrashOffline =>
+      'Connectez-vous à Internet pour supprimer définitivement.';
+
+  @override
+  String get settingsTrashRestore => 'Restaurer';
+
+  @override
+  String get settingsTrashRestored => 'Restauré';
+
+  @override
+  String get settingsTrashUntitled => 'Sans titre';
+
+  @override
+  String settingsTrashWith(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+$count éléments liés',
+      one: '+1 élément lié',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get settingsUnknownPage => 'Cette page de paramètres n\'existe pas.';
 
   @override
