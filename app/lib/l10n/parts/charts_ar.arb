@@ -233,5 +233,9 @@
   "chartsLabelAgenda": "جدول الأعمال",
   "chartsLabelPerfectDay": "يوم مثالي",
   "chartsLabelOverdue": "متأخرة",
-  "chartsLabelNextUp": "التالي"
+  "chartsLabelNextUp": "التالي",
+  "chartsLabelSummary": "ملخّص",
+  "chartsLabelMostActive": "الأكثر نشاطًا",
+  "chartsLabelMostBlocked": "الأكثر تعطّلًا",
+  "chartsLabelStalest": "الأطول ركودًا"
 }

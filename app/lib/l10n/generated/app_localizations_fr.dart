@@ -1358,6 +1358,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelMoods => 'Humeurs';
 
   @override
+  String get chartsLabelMostActive => 'Les plus actives';
+
+  @override
+  String get chartsLabelMostBlocked => 'Les plus bloquées';
+
+  @override
   String get chartsLabelMoved => 'Déplacé';
 
   @override
@@ -1520,10 +1526,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelStale => 'Inactives';
 
   @override
+  String get chartsLabelStalest => 'Les plus inactives';
+
+  @override
   String get chartsLabelStreak => 'Série';
 
   @override
   String get chartsLabelSuccess => 'Réussi';
+
+  @override
+  String get chartsLabelSummary => 'Résumé';
 
   @override
   String get chartsLabelTarget => 'Objectif';

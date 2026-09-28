@@ -125,7 +125,8 @@ class _StatsScopeViewState extends ConsumerState<StatsScopeView> {
     if (batch.value case final value?) _last = value;
     final results = batch.value?.results ?? _last?.results ?? const <String, MetricResult>{};
     final loading = batch.isLoading;
-    final periodText = periodLabel(l, selection.period, locale: context.localeName);
+    // Per-entity lifetime scopes have no period, so cards carry no period subtitle.
+    final periodText = widget.showPeriod ? periodLabel(l, selection.period, locale: context.localeName) : null;
 
     void setSelection(PeriodSelection next) {
       if (next.period.key != selection.period.key) ui.setPeriod(key, next.period);
@@ -282,7 +283,7 @@ class _KpiRow extends ConsumerWidget {
   final List<String> ids;
   final Map<String, MetricResult> results;
   final bool loading;
-  final String periodText;
+  final String? periodText;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -376,7 +377,7 @@ class _CardGrid extends ConsumerWidget {
   final List<StatsLayoutItem> items;
   final Map<String, MetricResult> results;
   final bool loading;
-  final String periodText;
+  final String? periodText;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

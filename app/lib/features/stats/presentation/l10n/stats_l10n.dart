@@ -146,6 +146,10 @@ String labelTokenText(AppLocalizations l, LabelToken t) => switch (t) {
   LabelToken.perfectDay => l.chartsLabelPerfectDay,
   LabelToken.overdue => l.chartsLabelOverdue,
   LabelToken.nextUp => l.chartsLabelNextUp,
+  LabelToken.summary => l.chartsLabelSummary,
+  LabelToken.mostActive => l.chartsLabelMostActive,
+  LabelToken.mostBlocked => l.chartsLabelMostBlocked,
+  LabelToken.stalest => l.chartsLabelStalest,
 };
 
 /// Title of a metric (null when the id has no texts).

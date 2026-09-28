@@ -233,5 +233,9 @@
   "chartsLabelAgenda": "Agenda",
   "chartsLabelPerfectDay": "Journée parfaite",
   "chartsLabelOverdue": "En retard",
-  "chartsLabelNextUp": "À suivre"
+  "chartsLabelNextUp": "À suivre",
+  "chartsLabelSummary": "Résumé",
+  "chartsLabelMostActive": "Les plus actives",
+  "chartsLabelMostBlocked": "Les plus bloquées",
+  "chartsLabelStalest": "Les plus inactives"
 }

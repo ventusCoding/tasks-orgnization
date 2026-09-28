@@ -1382,6 +1382,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelMoods => 'الحالات المزاجية';
 
   @override
+  String get chartsLabelMostActive => 'الأكثر نشاطًا';
+
+  @override
+  String get chartsLabelMostBlocked => 'الأكثر تعطّلًا';
+
+  @override
   String get chartsLabelMoved => 'منقول';
 
   @override
@@ -1544,10 +1550,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelStale => 'راكدة';
 
   @override
+  String get chartsLabelStalest => 'الأطول ركودًا';
+
+  @override
   String get chartsLabelStreak => 'السلسلة';
 
   @override
   String get chartsLabelSuccess => 'نجاح';
+
+  @override
+  String get chartsLabelSummary => 'ملخّص';
 
   @override
   String get chartsLabelTarget => 'الهدف';

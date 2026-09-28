@@ -40,4 +40,22 @@ final screenCases = <ScreenCase>[
     () => const ScopeStatsScreen(scope: 'planner', query: {'period': 'custom:2026-09-14..2026-09-20'}),
     height: 3600,
   ),
+  ScreenCase(
+    'item',
+    () => StatsFixture.load('checklist_flow_small').seed(),
+    () => const ScopeStatsScreen(scope: 'item', scopeId: 'X'),
+    height: 1800,
+  ),
+  ScreenCase(
+    'checklist',
+    () => StatsFixture.load('checklist_flow_small').seed(),
+    () => const ScopeStatsScreen(scope: 'checklist', scopeId: 'L1', query: {'period': 'custom:2026-09-01..2026-09-07'}),
+    height: 3000,
+  ),
+  ScreenCase(
+    'lists',
+    () => StatsFixture.load('checklist_flow_small').seed(),
+    () => const ScopeStatsScreen(scope: 'checklists', query: {'period': 'custom:2026-09-01..2026-09-07'}),
+    height: 2600,
+  ),
 ];

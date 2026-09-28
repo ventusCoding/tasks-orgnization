@@ -720,5 +720,9 @@
   "chartsLabelAgenda": "Agenda",
   "chartsLabelPerfectDay": "Perfect day",
   "chartsLabelOverdue": "Overdue",
-  "chartsLabelNextUp": "Next up"
+  "chartsLabelNextUp": "Next up",
+  "chartsLabelSummary": "Summary",
+  "chartsLabelMostActive": "Most active",
+  "chartsLabelMostBlocked": "Most blocked",
+  "chartsLabelStalest": "Stalest"
 }

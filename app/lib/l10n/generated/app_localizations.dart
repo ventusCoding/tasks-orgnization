@@ -2332,6 +2332,18 @@ abstract class AppLocalizations {
   /// **'Moods'**
   String get chartsLabelMoods;
 
+  /// No description provided for @chartsLabelMostActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Most active'**
+  String get chartsLabelMostActive;
+
+  /// No description provided for @chartsLabelMostBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Most blocked'**
+  String get chartsLabelMostBlocked;
+
   /// No description provided for @chartsLabelMoved.
   ///
   /// In en, this message translates to:
@@ -2656,6 +2668,12 @@ abstract class AppLocalizations {
   /// **'Stale'**
   String get chartsLabelStale;
 
+  /// No description provided for @chartsLabelStalest.
+  ///
+  /// In en, this message translates to:
+  /// **'Stalest'**
+  String get chartsLabelStalest;
+
   /// No description provided for @chartsLabelStreak.
   ///
   /// In en, this message translates to:
@@ -2667,6 +2685,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Success'**
   String get chartsLabelSuccess;
+
+  /// No description provided for @chartsLabelSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get chartsLabelSummary;
 
   /// No description provided for @chartsLabelTarget.
   ///
