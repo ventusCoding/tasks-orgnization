@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/auth/application/account_service.dart';
 import 'package:everslot/features/auth/application/auth_providers.dart';
 import 'package:everslot/features/auth/domain/auth_models.dart';
 import 'package:everslot/features/profile/application/profile_providers.dart';
@@ -77,6 +78,19 @@ class SessionBannerHost extends ConsumerWidget {
         actions: [
           (l.authZoneKeepHome(ZoneLabels.city(home)), () => unawaited(tracker.answerPrompt(makeHome: false))),
           (l.authZoneMakeHome, () => unawaited(tracker.answerPrompt(makeHome: true))),
+        ],
+      );
+    }
+    // Guest account (T1.5.11): data lives in an anonymous account until an e-mail or provider is
+    // added — lost if the app is removed. Dismissible; it returns a week later.
+    if (ref.watch(guestBannerProvider)) {
+      return _Banner(
+        key: const ValueKey('banner-guest'),
+        icon: Icons.shield_outlined,
+        message: l.authGuestBanner,
+        actions: [
+          (l.actionClose, () => unawaited(ref.read(guestBannerProvider.notifier).dismiss())),
+          (l.authGuestBannerAction, () => onOpen('/settings/account')),
         ],
       );
     }
