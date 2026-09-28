@@ -31,7 +31,7 @@ delivery of insights and digests ([7.5]); the operational Today screen ([8.1]).
 - [ ] T6.7.07 — Day-of-week effects
 - [ ] T6.7.08 — Insights feed (natural-language insights)
 - [ ] T6.7.09 — Goals dashboard & projections
-- [ ] T6.7.10 — Data-quality overview
+- [x] T6.7.10 — Data-quality overview
 - [ ] T6.7.11 — Cross-section year activity heatmap
 - [ ] T6.7.12 — Export metric series & share cards
 - [ ] T6.7.13 — Correlations explorer
@@ -234,6 +234,7 @@ list with `achieved_at`.
 | GL-10 | Data quality | habit logged ratio and unknown units; backfill share (> 24 h late); planner actual-time coverage; pending sync changes; each with guidance ("Log from notifications to improve accuracy") | section facts | tiles | P1 |
 
 **Tests:** fixture tests.
+**Notes:** GL-10 on the Overview (last 30 days): habit logged ratio, unlogged units (drill), late logging, planner tracked-time coverage and pending sync changes, with guidance tips rendered in the card footer.
 
 ### T6.7.11 — Cross-section year activity heatmap
 **Priority:** P1 · **Size:** S · **Depends on:** T6.7.01, [6.2] (calendar heatmap T6.2.06)

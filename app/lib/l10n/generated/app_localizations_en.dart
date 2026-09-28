@@ -1204,6 +1204,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelAttention => 'Needs attention';
 
   @override
+  String get chartsLabelBackfillShare => 'Logged late';
+
+  @override
   String get chartsLabelBaseline => 'Baseline';
 
   @override
@@ -1316,6 +1319,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chartsLabelLists => 'Lists';
+
+  @override
+  String get chartsLabelLoggedRatio => 'Logged';
 
   @override
   String get chartsLabelLowPriority => 'Low priority';
@@ -1444,6 +1450,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelPending => 'Pending';
 
   @override
+  String get chartsLabelPendingSync => 'Waiting to sync';
+
+  @override
   String get chartsLabelPerDay => 'Per day';
 
   @override
@@ -1549,6 +1558,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelTotal => 'Total';
 
   @override
+  String get chartsLabelTrackedTime => 'Tracked time';
+
+  @override
   String get chartsLabelTrend => 'Trend';
 
   @override
@@ -1562,6 +1574,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chartsLabelUnits => 'Units';
+
+  @override
+  String get chartsLabelUnknownUnits => 'Unlogged';
 
   @override
   String get chartsLabelUnplanned => 'Unplanned';
@@ -10220,6 +10235,47 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String statsGlossaryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count metrics',
+      one: '1 metric',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String statsGlossaryEmpty(String query) {
+    return 'No metric matches “$query”.';
+  }
+
+  @override
+  String get statsGlossaryFormula => 'Formula';
+
+  @override
+  String get statsGlossarySearch => 'Search metrics';
+
+  @override
+  String get statsGlossaryTitle => 'Metric glossary';
+
+  @override
+  String get statsGuidanceLogFromNotifications =>
+      'Log from the reminder notifications to improve accuracy.';
+
+  @override
+  String get statsGuidanceLogSameDay =>
+      'Try to log on the same day — late entries are easy to misremember.';
+
+  @override
+  String get statsGuidanceSyncPending =>
+      'Some changes from other devices may be missing until sync completes.';
+
+  @override
+  String get statsGuidanceTrackTime =>
+      'Start the timer on tasks to see your actual hours.';
+
+  @override
   String get statsHealthClockNote =>
       'Milestones follow your current smoke-free time: the clock restarts after a slip.';
 
@@ -10461,6 +10517,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsMetricGl03Title => 'Weekly review';
 
   @override
+  String get statsMetricGl10Desc =>
+      'How trustworthy your statistics are: habit logging, late entries, tracked time on tasks and changes still waiting to sync — each with a tip to improve it.';
+
+  @override
+  String get statsMetricGl10Formula =>
+      'Habit logged ratio and unknown units (last 30 days); late-log share (> 24 h); planner actual-time coverage = done occurrences with tracked time ÷ done occurrences; pending sync changes.';
+
+  @override
+  String get statsMetricGl10Title => 'Data quality';
+
+  @override
   String get statsMetricHbH01Desc =>
       'How well the habit is established — recent days count more.';
 
@@ -10576,6 +10643,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsMetricHbH11Title => 'Total volume';
 
   @override
+  String get statsMetricHbH25Desc =>
+      'How much of this habit\'s history is actually logged. An unlogged day is unknown, not failed: it counts as missed only because nothing was recorded.';
+
+  @override
+  String get statsMetricHbH25Formula =>
+      'Logged ratio = units with any log ÷ closed scheduled units · unknown units = missed units without any log · backfill share = logs created more than 24 h after their unit ended ÷ all logs.';
+
+  @override
+  String get statsMetricHbH25Title => 'Data completeness';
+
+  @override
   String get statsMetricHbX01Desc => 'Due habits done today.';
 
   @override
@@ -10625,6 +10703,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statsMetricHbX05Title => 'Quit trackers roll-up';
+
+  @override
+  String get statsMetricHbX12Desc =>
+      'The same completeness measures across every build habit: logged ratio, unlogged (unknown) units and late logging.';
+
+  @override
+  String get statsMetricHbX12Formula =>
+      'Σ units with any log ÷ Σ closed scheduled units across habits; Σ unknown units; Σ late logs ÷ Σ logs.';
+
+  @override
+  String get statsMetricHbX12Title => 'Data completeness (all habits)';
 
   @override
   String get statsMetricPlS01Desc =>
@@ -11182,6 +11271,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsNotePopulationEstimate => 'Population estimate';
 
   @override
+  String get statsNoteUnloggedNotFailed =>
+      'Unlogged days are unknown, not failed — they only count as missed because nothing was recorded.';
+
+  @override
   String get statsNoteUsedPlanned =>
       'Planned time shown: actual time is tracked on fewer than 60 % of done tasks.';
 
@@ -11466,6 +11559,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statsSectionCravings => 'Cravings';
+
+  @override
+  String get statsSectionDataQuality => 'Data quality';
 
   @override
   String get statsSectionExecution => 'Execution';

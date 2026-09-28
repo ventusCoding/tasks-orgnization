@@ -44,6 +44,9 @@ void main() {
     expect(find.text('Water'), findsWidgets);
     expect(find.text(en.statsMetricHbH10Title), findsOneWidget);
     expect(find.text(en.statsMetricHbH11Title), findsOneWidget);
+    // Data completeness explains that an unlogged day is unknown, not failed (T6.5.11).
+    expect(find.text(en.statsMetricHbH25Title), findsOneWidget);
+    expect(find.text(en.statsNoteUnloggedNotFailed), findsOneWidget);
     await finish(tester);
   });
 

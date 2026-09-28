@@ -48,7 +48,7 @@ for stats defaults ([8.3]).
 - [x] T6.1.17 — Insights tab shell & navigation
 - [x] T6.1.18 — Circular statistics for clock times
 - [x] T6.1.19 — Group-comparison tests (Mann–Whitney, Kruskal–Wallis)
-- [ ] T6.1.20 — Data-quality metrics plumbing
+- [x] T6.1.20 — Data-quality metrics plumbing
 - [ ] T6.1.21 — Metric glossary, catalog generation & registry lint
 - [ ] T6.1.22 — Per-scope card layout customization
 - [ ] T6.1.23 — Stats performance suite
@@ -537,6 +537,7 @@ the fixtures (±1e-4).
   missing".
 **Acceptance criteria:** fixture values match; the card links to the affected units.
 **Tests:** unit tests on fixtures.
+**Notes:** `application/catalog/data_quality.dart`: logged ratio, unknown (unlogged) units with drill refs to their days, backfill share (> 24 h) over day-level units, planner actual-time coverage (the package's PL-X-41 `actualTimeCoverage`) and the pending-outbox sync caveat. Consumers: HB-H-25, HB-X-12, GL-10. Fixture values: push-ups 93.3 % / 2 unlogged / 3.6 % late; portfolio 61/70 / 5 / 0 %; overview guidance.
 
 ### T6.1.21 — Metric glossary, catalog generation & registry lint
 **Priority:** P1 · **Size:** S · **Depends on:** T6.1.06, T6.1.15

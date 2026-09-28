@@ -363,6 +363,18 @@
    "period": "custom:2026-09-01..2026-09-30",
    "metricId": "HB-H-11",
    "value": 390
+  },
+  {
+   "scope": "habit",
+   "scopeId": "pushups",
+   "period": "custom:2026-09-01..2026-09-30",
+   "metricId": "HB-H-25",
+   "value": 0.9333333333333333,
+   "tolerance": 1e-09,
+   "args": {
+    "unknown": 2,
+    "backfill": 0.03571428571428571
+   }
   }
  ]
 }

@@ -237,5 +237,10 @@
   "chartsLabelSummary": "Résumé",
   "chartsLabelMostActive": "Les plus actives",
   "chartsLabelMostBlocked": "Les plus bloquées",
-  "chartsLabelStalest": "Les plus inactives"
+  "chartsLabelStalest": "Les plus inactives",
+  "chartsLabelLoggedRatio": "Saisies",
+  "chartsLabelUnknownUnits": "Non saisies",
+  "chartsLabelBackfillShare": "Saisies tardives",
+  "chartsLabelTrackedTime": "Temps suivi",
+  "chartsLabelPendingSync": "En attente de synchro"
 }

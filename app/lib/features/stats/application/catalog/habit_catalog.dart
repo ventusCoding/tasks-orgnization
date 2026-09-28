@@ -5,6 +5,7 @@ library;
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:everslot/features/stats/application/catalog/catalog_support.dart';
+import 'package:everslot/features/stats/application/catalog/data_quality.dart';
 import 'package:everslot/features/stats/domain/chart_data.dart';
 import 'package:everslot/features/stats/domain/habit_resolution.dart';
 import 'package:everslot/features/stats/domain/metric_definition.dart';
@@ -606,6 +607,63 @@ final List<MetricDefinition> habitMetrics = [
             for (final k in r.moneySaved.keys)
               if (k != currency && k.isNotEmpty) k,
           ],
+        },
+      );
+    },
+  ),
+
+  // ---------------------------------------------------------------------------------------------
+  // Data completeness (T6.5.11, plumbing T6.1.20)
+  // ---------------------------------------------------------------------------------------------
+  metric<HabitContext>(
+    id: 'HB-H-25',
+    scope: MetricScope.habit,
+    unit: StatUnit.percent,
+    chart: ChartKind.tiles,
+    priority: MetricPriority.p1,
+    isRate: true,
+    minSample: MinDataRules.rate,
+    requires: _habitTables,
+    compute: (c) => _withHabit(c, (e) {
+      final q = habitCompletenessIn([e], c.elapsed);
+      return result(
+        'HB-H-25',
+        q.loggedRatio,
+        unit: StatUnit.percent,
+        isRate: true,
+        note: q.unknownUnits > 0 ? 'unloggedNotFailed' : null,
+        chart: completenessTiles(q),
+        args: {'unknown': q.unknownUnits, 'backfill': q.backfillShare.valueOrNull, 'closed': q.closedUnits},
+        drill: {
+          'unknown': [for (final u in unloggedUnits(e, c.elapsed).take(200)) c.dayRef(e.habit.id, u.startDate)],
+        },
+      );
+    }, () => _noHabit('HB-H-25')),
+  ),
+  metric<HabitContext>(
+    id: 'HB-X-12',
+    scope: MetricScope.habits,
+    unit: StatUnit.percent,
+    chart: ChartKind.tiles,
+    priority: MetricPriority.p1,
+    isRate: true,
+    minSample: MinDataRules.rate,
+    requires: _habitTables,
+    compute: (c) {
+      final q = habitCompletenessIn(c.evaluations, c.elapsed);
+      return result(
+        'HB-X-12',
+        q.loggedRatio,
+        unit: StatUnit.percent,
+        isRate: true,
+        note: q.unknownUnits > 0 ? 'unloggedNotFailed' : null,
+        chart: completenessTiles(q),
+        args: {'unknown': q.unknownUnits, 'backfill': q.backfillShare.valueOrNull, 'closed': q.closedUnits},
+        drill: {
+          'unknown': [
+            for (final e in c.evaluations)
+              for (final u in unloggedUnits(e, c.elapsed)) c.dayRef(e.habit.id, u.startDate),
+          ].take(200).toList(),
         },
       );
     },

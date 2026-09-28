@@ -42,6 +42,10 @@ void main() {
     expect(find.text(en.statsMetricGl02Title), findsWidgets);
     expect(find.text(en.chartsLabelCravings), findsWidgets);
     expect(find.text(en.statsOverviewOpenReview), findsOneWidget);
+    // Data quality with its guidance (T6.7.10).
+    expect(find.text(en.statsMetricGl10Title), findsWidgets);
+    expect(find.text(en.statsGuidanceTrackTime), findsOneWidget);
+    expect(find.text(en.statsGuidanceLogFromNotifications), findsOneWidget);
     expect(tester.takeException(), isNull);
     await finish(tester);
   });

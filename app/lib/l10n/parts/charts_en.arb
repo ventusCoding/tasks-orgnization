@@ -724,5 +724,10 @@
   "chartsLabelSummary": "Summary",
   "chartsLabelMostActive": "Most active",
   "chartsLabelMostBlocked": "Most blocked",
-  "chartsLabelStalest": "Stalest"
+  "chartsLabelStalest": "Stalest",
+  "chartsLabelLoggedRatio": "Logged",
+  "chartsLabelUnknownUnits": "Unlogged",
+  "chartsLabelBackfillShare": "Logged late",
+  "chartsLabelTrackedTime": "Tracked time",
+  "chartsLabelPendingSync": "Waiting to sync"
 }

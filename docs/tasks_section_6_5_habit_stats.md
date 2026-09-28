@@ -53,7 +53,7 @@ streaks and strength ([6.1]); charts ([6.2]); quit metrics ([6.6]).
 - [ ] T6.5.08 — Consistency index
 - [ ] T6.5.09 — Timing patterns (weekday, time of day, slots, spacing)
 - [ ] T6.5.10 — Recovery, freezes & momentum
-- [ ] T6.5.11 — Data completeness
+- [x] T6.5.11 — Data completeness
 - [ ] T6.5.12 — Goal pace & projection
 - [x] T6.5.13 — Habits section core metrics
 - [ ] T6.5.14 — Habits section extended metrics
@@ -214,6 +214,7 @@ closed next unit), longest gap 2 and 0 comebacks.
 
 **Acceptance criteria:** the card explains the difference between "unlogged" and "failed".
 **Tests:** fixture tests.
+**Notes:** HB-H-25 (habit screen, Data quality section) and HB-X-12 (Habits section) as tiles; the unlogged tile opens the affected days, and the card notes that unlogged days are unknown, not failed.
 
 ### T6.5.12 — Goal pace & projection
 **Priority:** P1 · **Size:** S · **Depends on:** T6.5.05, [5.4] (goals), [6.2] (line with pace line T6.2.03)

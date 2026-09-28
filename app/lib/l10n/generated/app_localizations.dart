@@ -2044,6 +2044,12 @@ abstract class AppLocalizations {
   /// **'Needs attention'**
   String get chartsLabelAttention;
 
+  /// No description provided for @chartsLabelBackfillShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged late'**
+  String get chartsLabelBackfillShare;
+
   /// No description provided for @chartsLabelBaseline.
   ///
   /// In en, this message translates to:
@@ -2271,6 +2277,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Lists'**
   String get chartsLabelLists;
+
+  /// No description provided for @chartsLabelLoggedRatio.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged'**
+  String get chartsLabelLoggedRatio;
 
   /// No description provided for @chartsLabelLowPriority.
   ///
@@ -2524,6 +2536,12 @@ abstract class AppLocalizations {
   /// **'Pending'**
   String get chartsLabelPending;
 
+  /// No description provided for @chartsLabelPendingSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting to sync'**
+  String get chartsLabelPendingSync;
+
   /// No description provided for @chartsLabelPerDay.
   ///
   /// In en, this message translates to:
@@ -2734,6 +2752,12 @@ abstract class AppLocalizations {
   /// **'Total'**
   String get chartsLabelTotal;
 
+  /// No description provided for @chartsLabelTrackedTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracked time'**
+  String get chartsLabelTrackedTime;
+
   /// No description provided for @chartsLabelTrend.
   ///
   /// In en, this message translates to:
@@ -2763,6 +2787,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Units'**
   String get chartsLabelUnits;
+
+  /// No description provided for @chartsLabelUnknownUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlogged'**
+  String get chartsLabelUnknownUnits;
 
   /// No description provided for @chartsLabelUnplanned.
   ///
@@ -16887,6 +16917,60 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{1 filter} other{{count} filters}}'**
   String statsFiltersActive(num count);
 
+  /// No description provided for @statsGlossaryCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 metric} other{{count} metrics}}'**
+  String statsGlossaryCount(int count);
+
+  /// No description provided for @statsGlossaryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No metric matches “{query}”.'**
+  String statsGlossaryEmpty(String query);
+
+  /// No description provided for @statsGlossaryFormula.
+  ///
+  /// In en, this message translates to:
+  /// **'Formula'**
+  String get statsGlossaryFormula;
+
+  /// No description provided for @statsGlossarySearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search metrics'**
+  String get statsGlossarySearch;
+
+  /// No description provided for @statsGlossaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Metric glossary'**
+  String get statsGlossaryTitle;
+
+  /// No description provided for @statsGuidanceLogFromNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Log from the reminder notifications to improve accuracy.'**
+  String get statsGuidanceLogFromNotifications;
+
+  /// No description provided for @statsGuidanceLogSameDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Try to log on the same day — late entries are easy to misremember.'**
+  String get statsGuidanceLogSameDay;
+
+  /// No description provided for @statsGuidanceSyncPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Some changes from other devices may be missing until sync completes.'**
+  String get statsGuidanceSyncPending;
+
+  /// No description provided for @statsGuidanceTrackTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the timer on tasks to see your actual hours.'**
+  String get statsGuidanceTrackTime;
+
   /// No description provided for @statsHealthClockNote.
   ///
   /// In en, this message translates to:
@@ -17295,6 +17379,24 @@ abstract class AppLocalizations {
   /// **'Weekly review'**
   String get statsMetricGl03Title;
 
+  /// No description provided for @statsMetricGl10Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How trustworthy your statistics are: habit logging, late entries, tracked time on tasks and changes still waiting to sync — each with a tip to improve it.'**
+  String get statsMetricGl10Desc;
+
+  /// No description provided for @statsMetricGl10Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit logged ratio and unknown units (last 30 days); late-log share (> 24 h); planner actual-time coverage = done occurrences with tracked time ÷ done occurrences; pending sync changes.'**
+  String get statsMetricGl10Formula;
+
+  /// No description provided for @statsMetricGl10Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Data quality'**
+  String get statsMetricGl10Title;
+
   /// No description provided for @statsMetricHbH01Desc.
   ///
   /// In en, this message translates to:
@@ -17493,6 +17595,24 @@ abstract class AppLocalizations {
   /// **'Total volume'**
   String get statsMetricHbH11Title;
 
+  /// No description provided for @statsMetricHbH25Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How much of this habit\'s history is actually logged. An unlogged day is unknown, not failed: it counts as missed only because nothing was recorded.'**
+  String get statsMetricHbH25Desc;
+
+  /// No description provided for @statsMetricHbH25Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged ratio = units with any log ÷ closed scheduled units · unknown units = missed units without any log · backfill share = logs created more than 24 h after their unit ended ÷ all logs.'**
+  String get statsMetricHbH25Formula;
+
+  /// No description provided for @statsMetricHbH25Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Data completeness'**
+  String get statsMetricHbH25Title;
+
   /// No description provided for @statsMetricHbX01Desc.
   ///
   /// In en, this message translates to:
@@ -17582,6 +17702,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Quit trackers roll-up'**
   String get statsMetricHbX05Title;
+
+  /// No description provided for @statsMetricHbX12Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'The same completeness measures across every build habit: logged ratio, unlogged (unknown) units and late logging.'**
+  String get statsMetricHbX12Desc;
+
+  /// No description provided for @statsMetricHbX12Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Σ units with any log ÷ Σ closed scheduled units across habits; Σ unknown units; Σ late logs ÷ Σ logs.'**
+  String get statsMetricHbX12Formula;
+
+  /// No description provided for @statsMetricHbX12Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Data completeness (all habits)'**
+  String get statsMetricHbX12Title;
 
   /// No description provided for @statsMetricPlS01Desc.
   ///
@@ -18543,6 +18681,12 @@ abstract class AppLocalizations {
   /// **'Population estimate'**
   String get statsNotePopulationEstimate;
 
+  /// No description provided for @statsNoteUnloggedNotFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlogged days are unknown, not failed — they only count as missed because nothing was recorded.'**
+  String get statsNoteUnloggedNotFailed;
+
   /// No description provided for @statsNoteUsedPlanned.
   ///
   /// In en, this message translates to:
@@ -18998,6 +19142,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cravings'**
   String get statsSectionCravings;
+
+  /// No description provided for @statsSectionDataQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Data quality'**
+  String get statsSectionDataQuality;
 
   /// No description provided for @statsSectionExecution.
   ///

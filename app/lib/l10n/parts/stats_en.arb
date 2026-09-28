@@ -842,5 +842,39 @@
   "statsMetricQt14Title": "Craving context",
   "statsMetricQt14Desc": "What triggers cravings, where and when.",
   "statsMetricQt14Formula": "Pareto by trigger, place and mood; weekday × hour matrix.",
-  "statsLoading": "Updating statistics…"
+  "statsLoading": "Updating statistics…",
+  "statsMetricHbH25Title": "Data completeness",
+  "statsMetricHbH25Desc": "How much of this habit's history is actually logged. An unlogged day is unknown, not failed: it counts as missed only because nothing was recorded.",
+  "statsMetricHbH25Formula": "Logged ratio = units with any log ÷ closed scheduled units · unknown units = missed units without any log · backfill share = logs created more than 24 h after their unit ended ÷ all logs.",
+  "statsMetricHbX12Title": "Data completeness (all habits)",
+  "statsMetricHbX12Desc": "The same completeness measures across every build habit: logged ratio, unlogged (unknown) units and late logging.",
+  "statsMetricHbX12Formula": "Σ units with any log ÷ Σ closed scheduled units across habits; Σ unknown units; Σ late logs ÷ Σ logs.",
+  "statsMetricGl10Title": "Data quality",
+  "statsMetricGl10Desc": "How trustworthy your statistics are: habit logging, late entries, tracked time on tasks and changes still waiting to sync — each with a tip to improve it.",
+  "statsMetricGl10Formula": "Habit logged ratio and unknown units (last 30 days); late-log share (> 24 h); planner actual-time coverage = done occurrences with tracked time ÷ done occurrences; pending sync changes.",
+  "statsGuidanceLogFromNotifications": "Log from the reminder notifications to improve accuracy.",
+  "statsGuidanceLogSameDay": "Try to log on the same day — late entries are easy to misremember.",
+  "statsGuidanceTrackTime": "Start the timer on tasks to see your actual hours.",
+  "statsGuidanceSyncPending": "Some changes from other devices may be missing until sync completes.",
+  "statsSectionDataQuality": "Data quality",
+  "statsNoteUnloggedNotFailed": "Unlogged days are unknown, not failed — they only count as missed because nothing was recorded.",
+  "statsGlossaryTitle": "Metric glossary",
+  "statsGlossarySearch": "Search metrics",
+  "statsGlossaryEmpty": "No metric matches “{query}”.",
+  "@statsGlossaryEmpty": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "statsGlossaryCount": "{count, plural, =1{1 metric} other{{count} metrics}}",
+  "@statsGlossaryCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsGlossaryFormula": "Formula"
 }

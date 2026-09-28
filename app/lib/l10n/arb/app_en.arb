@@ -3521,6 +3521,20 @@
       }
     }
   },
+  "@statsGlossaryCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@statsGlossaryEmpty": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
   "@statsHealthRange": {
     "placeholders": {
       "from": {
@@ -4406,6 +4420,7 @@
   "chartsLabelArrivals": "Arrivals",
   "chartsLabelAttempt": "Attempt",
   "chartsLabelAttention": "Needs attention",
+  "chartsLabelBackfillShare": "Logged late",
   "chartsLabelBaseline": "Baseline",
   "chartsLabelBest": "Best",
   "chartsLabelBlocked": "Blocked",
@@ -4444,6 +4459,7 @@
   "chartsLabelLifeRegained": "Life regained",
   "chartsLabelLimit": "Limit",
   "chartsLabelLists": "Lists",
+  "chartsLabelLoggedRatio": "Logged",
   "chartsLabelLowPriority": "Low priority",
   "chartsLabelMaxIntensity": "Peak intensity",
   "chartsLabelMean": "Mean",
@@ -4486,6 +4502,7 @@
   "chartsLabelPaused": "Paused",
   "chartsLabelPdfs": "PDFs",
   "chartsLabelPending": "Pending",
+  "chartsLabelPendingSync": "Waiting to sync",
   "chartsLabelPerDay": "Per day",
   "chartsLabelPerfectDay": "Perfect day",
   "chartsLabelPlaces": "Places",
@@ -4521,11 +4538,13 @@
   "chartsLabelTimeNotSpent": "Time not spent",
   "chartsLabelTodo": "To do",
   "chartsLabelTotal": "Total",
+  "chartsLabelTrackedTime": "Tracked time",
   "chartsLabelTrend": "Trend",
   "chartsLabelTriggers": "Triggers",
   "chartsLabelUncategorized": "Uncategorized",
   "chartsLabelUnder": "Under",
   "chartsLabelUnits": "Units",
+  "chartsLabelUnknownUnits": "Unlogged",
   "chartsLabelUnplanned": "Unplanned",
   "chartsLabelUnspecified": "Unspecified",
   "chartsLabelUsed": "Used",
@@ -6877,6 +6896,15 @@
   "statsFilterTrackingTimer": "Timer",
   "statsFilters": "Filters",
   "statsFiltersActive": "{count, plural, =1{1 filter} other{{count} filters}}",
+  "statsGlossaryCount": "{count, plural, =1{1 metric} other{{count} metrics}}",
+  "statsGlossaryEmpty": "No metric matches “{query}”.",
+  "statsGlossaryFormula": "Formula",
+  "statsGlossarySearch": "Search metrics",
+  "statsGlossaryTitle": "Metric glossary",
+  "statsGuidanceLogFromNotifications": "Log from the reminder notifications to improve accuracy.",
+  "statsGuidanceLogSameDay": "Try to log on the same day — late entries are easy to misremember.",
+  "statsGuidanceSyncPending": "Some changes from other devices may be missing until sync completes.",
+  "statsGuidanceTrackTime": "Start the timer on tasks to see your actual hours.",
   "statsHealthClockNote": "Milestones follow your current smoke-free time: the clock restarts after a slip.",
   "statsHealthDisclaimer": "Educational estimates based on population averages from WHO, NHS, CDC and the American Cancer Society; individual results vary. Not medical advice. Consult a healthcare professional.",
   "statsHealthElapsedNote": "Percentages show elapsed time only, not physiological measurements.",
@@ -6945,6 +6973,9 @@
   "statsMetricGl03Desc": "Your week: headline numbers, wins, what needs attention and next week’s load.",
   "statsMetricGl03Formula": "Section KPIs with their change vs the previous week.",
   "statsMetricGl03Title": "Weekly review",
+  "statsMetricGl10Desc": "How trustworthy your statistics are: habit logging, late entries, tracked time on tasks and changes still waiting to sync — each with a tip to improve it.",
+  "statsMetricGl10Formula": "Habit logged ratio and unknown units (last 30 days); late-log share (> 24 h); planner actual-time coverage = done occurrences with tracked time ÷ done occurrences; pending sync changes.",
+  "statsMetricGl10Title": "Data quality",
   "statsMetricHbH01Desc": "How well the habit is established — recent days count more.",
   "statsMetricHbH01Formula": "Loop score: score = previous × m + credit × (1 − m), m = 0.5^(√f ÷ 13).",
   "statsMetricHbH01Title": "Habit strength",
@@ -6978,6 +7009,9 @@
   "statsMetricHbH11Desc": "Everything you logged, in the habit’s unit.",
   "statsMetricHbH11Formula": "Sum of logged values in the period and all time.",
   "statsMetricHbH11Title": "Total volume",
+  "statsMetricHbH25Desc": "How much of this habit's history is actually logged. An unlogged day is unknown, not failed: it counts as missed only because nothing was recorded.",
+  "statsMetricHbH25Formula": "Logged ratio = units with any log ÷ closed scheduled units · unknown units = missed units without any log · backfill share = logs created more than 24 h after their unit ended ÷ all logs.",
+  "statsMetricHbH25Title": "Data completeness",
   "statsMetricHbX01Desc": "Due habits done today.",
   "statsMetricHbX01Formula": "Done ÷ due day units today (build habits).",
   "statsMetricHbX01Title": "Today’s progress",
@@ -6993,6 +7027,9 @@
   "statsMetricHbX05Desc": "Money saved, units avoided and life regained across quit trackers.",
   "statsMetricHbX05Formula": "Sums over active quit trackers (life regained is a population estimate).",
   "statsMetricHbX05Title": "Quit trackers roll-up",
+  "statsMetricHbX12Desc": "The same completeness measures across every build habit: logged ratio, unlogged (unknown) units and late logging.",
+  "statsMetricHbX12Formula": "Σ units with any log ÷ Σ closed scheduled units across habits; Σ unknown units; Σ late logs ÷ Σ logs.",
+  "statsMetricHbX12Title": "Data completeness (all habits)",
   "statsMetricPlS01Desc": "How many times the series was due in the period.",
   "statsMetricPlS01Formula": "Occurrences from the recurrence rule in the window; closed and open counted separately.",
   "statsMetricPlS01Title": "Expected occurrences",
@@ -7153,6 +7190,7 @@
   "statsNoteNotTracked": "Actual time not tracked",
   "statsNotePastPeriod": "Only for current and future periods.",
   "statsNotePopulationEstimate": "Population estimate",
+  "statsNoteUnloggedNotFailed": "Unlogged days are unknown, not failed — they only count as missed because nothing was recorded.",
   "statsNoteUsedPlanned": "Planned time shown: actual time is tracked on fewer than 60 % of done tasks.",
   "statsNoteYesNoHabit": "Not available for yes/no habits.",
   "statsNoteZeroDenominator": "Nothing was due in this period.",
@@ -7229,6 +7267,7 @@
   "statsSectionCapacity": "Capacity",
   "statsSectionCollapse": "Collapse {section}",
   "statsSectionCravings": "Cravings",
+  "statsSectionDataQuality": "Data quality",
   "statsSectionExecution": "Execution",
   "statsSectionExpand": "Expand {section}",
   "statsSectionFlow": "Flow",
