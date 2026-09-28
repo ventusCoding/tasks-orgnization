@@ -149,8 +149,6 @@ void main() {
       }
       await pumpInbox(tester);
       expect(find.text('Today'), findsOneWidget);
-      expect(find.text('Yesterday'), findsOneWidget);
-      expect(find.text('Friday, September 18'), findsOneWidget);
       expect(find.text('Call Sam'), findsOneWidget);
       expect(find.text('×3'), findsOneWidget);
       expect(find.text('Late'), findsOneWidget);
@@ -162,6 +160,25 @@ void main() {
         findsOneWidget,
       );
       semantics.dispose();
+      // Older days further down the list.
+      final list = find
+          .descendant(
+            of: find.byType(RefreshIndicator),
+            matching: find.byType(Scrollable),
+          )
+          .first;
+      await tester.scrollUntilVisible(
+        find.text('Yesterday'),
+        200,
+        scrollable: list,
+      );
+      expect(find.text('Yesterday'), findsOneWidget);
+      await tester.scrollUntilVisible(
+        find.text('Friday, September 18'),
+        200,
+        scrollable: list,
+      );
+      expect(find.text('Friday, September 18'), findsOneWidget);
     },
   );
 
@@ -301,6 +318,30 @@ void main() {
     await settle(tester);
     expect((await row(tester, 'a')).snoozedUntil, isNull);
     expect(find.text('Snoozed'), findsNothing);
+  });
+
+  testWidgets('Remind me again… snoozes a past row that was never snoozed', (
+    tester,
+  ) async {
+    await deliver(tester, 'a', title: 'Gym');
+    await pumpInbox(tester);
+    expect(find.text('Remind me again…'), findsOneWidget);
+    await tester.tap(find.text('Remind me again…'));
+    await settle(tester);
+    await tester.tap(
+      find
+          .descendant(
+            of: find.byType(BottomSheet),
+            matching: find.byType(ActionChip),
+          )
+          .first,
+    );
+    await settle(tester);
+    expect((await row(tester, 'a')).snoozedUntil, isNotNull);
+    expect(find.text('Snoozed'), findsOneWidget);
+    // A snoozed row doesn't offer it again.
+    expect(find.text('Remind me again…'), findsNothing);
+    await drainReplan(tester);
   });
 
   testWidgets('Arabic: right-to-left, localized, no overflow', (tester) async {
