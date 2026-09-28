@@ -147,6 +147,7 @@ final List<MetricDefinition> quitMetrics = [
     unit: StatUnit.percent,
     chart: ChartKind.ring,
     isRate: true,
+    minSample: MinDataRules.rate,
     requires: _quitTables,
     compute: (c) => _withQuit(c, (q, s) {
       final closed = q.closedDays;
@@ -355,6 +356,7 @@ final List<MetricDefinition> quitMetrics = [
     unit: StatUnit.percent,
     chart: ChartKind.bars,
     isRate: true,
+    guard: MinDataGuard.exempt,
     requires: _quitTables,
     compute: (c) => _withQuit(c, (q, s) {
       if (!c.isReduce) return MetricResult.notApplicable('QT-12', 'abstainMode');

@@ -203,6 +203,7 @@ final List<MetricDefinition> checklistMetrics = [
     unit: StatUnit.percent,
     chart: ChartKind.ring,
     isRate: true,
+    guard: MinDataGuard.exempt,
     requires: {StatsTable.checklistItems},
     compute: (c) => _withItem(c, (f) {
       final p = subtreeProgress(c.listRows, rootId: f.id);
@@ -257,6 +258,7 @@ final List<MetricDefinition> checklistMetrics = [
     unit: StatUnit.percent,
     chart: ChartKind.donut,
     isRate: true,
+    guard: MinDataGuard.exempt,
     requires: {StatsTable.checklistItems},
     compute: (c) {
       final mix = statusMix(c.listRows);

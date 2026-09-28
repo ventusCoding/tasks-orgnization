@@ -34,7 +34,7 @@ for stats defaults ([8.3]).
 - [x] T6.1.03 — Rates, proportions & Wilson intervals
 - [x] T6.1.04 — Time-series utilities: bucketing, rolling windows, EWMA, OLS & Theil–Sen trends
 - [x] T6.1.05 — Period model & comparisons
-- [ ] T6.1.06 — Metric registry & definition format
+- [x] T6.1.06 — Metric registry & definition format
 - [x] T6.1.07 — Units, formatting & delta presentation
 - [x] T6.1.08 — Expected-occurrences ledger (adherence denominators)
 - [x] T6.1.09 — Streak engine
@@ -42,7 +42,7 @@ for stats defaults ([8.3]).
 - [x] T6.1.11 — Status-interval & event-log primitives
 - [ ] T6.1.12 — Stats data loaders over Drift
 - [ ] T6.1.13 — Isolate execution, caching & invalidation
-- [ ] T6.1.14 — Minimum-data, confidence & honesty rules
+- [x] T6.1.14 — Minimum-data, confidence & honesty rules
 - [ ] T6.1.15 — Stats fixture framework & canonical datasets
 - [ ] T6.1.16 — Stats screen framework & "explain this metric" sheet
 - [ ] T6.1.17 — Insights tab shell & navigation
@@ -203,6 +203,7 @@ compute, format, chart, explain and test it.
 **Acceptance criteria:** duplicate IDs fail at startup in debug; each metric can be computed from its
 declared inputs alone (verified by the fixture framework, T6.1.15).
 **Tests:** registry unit tests; a lint test (see T6.1.21) iterates over all definitions.
+**Notes:** `MetricDefinition` (domain) + `MetricRegistry` (application, catalogs in `application/catalog/*_catalog.dart`); l10n keys derive from the id (`statsMetric<Stem>Title|Desc|Formula`); `formatter` is `StatFormat` keyed by `unit`; results carry `value/previous/comparison/chart/spark/exclusions/args/drill` (`breakdown` = the chart model). Tests: `test/features/stats/engine/metric_registry_test.dart` (duplicates, lookups, ARB keys, layouts, every scope computes on an empty DB).
 
 ### T6.1.07 — Units, formatting & delta presentation
 **Priority:** P0 · **Size:** S · **Depends on:** T6.1.06, [1.3] (l10n, design tokens)
@@ -437,6 +438,7 @@ are discarded.
 **Acceptance criteria:** every metric in the registry declares or inherits a rule; fixtures with n below
 the threshold produce `Insufficient` with the correct counts.
 **Tests:** unit tests per rule; registry lint (T6.1.21) checks that a rule is present.
+**Notes:** Rules live in `MinDataRules` (package) and `MetricDefinition.minSample`, applied by the engine (`applyMinimumData`); each definition also exposes `minDataGuard` (`rule` / `calculator` / `exempt`) — rates must declare a rule or opt out explicitly, enforced by the registry test. Cards: greyed "Needs N more", "—" for zero denominators, "≈" for estimates, exclusions listed (`MetricCard`, `ExplainSheet`).
 
 ### T6.1.15 — Stats fixture framework & canonical datasets
 **Priority:** P0 · **Size:** M · **Depends on:** T6.1.06, T6.1.12
