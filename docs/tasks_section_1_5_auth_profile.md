@@ -36,7 +36,7 @@ registration ([7.4]).
 - [x] T1.5.12 — Account deletion (client flow + `account-delete` Edge Function)
 - [x] T1.5.13 — Profile screen
 - [x] T1.5.14 — Session edge cases (offline expiry, revoked device)
-- [ ] T1.5.15 — Localized auth email templates
+- [x] T1.5.15 — Localized auth email templates
 - [ ] T1.5.16 — Stale anonymous users cleanup
 - [ ] T1.5.17 — Optional multi-factor authentication (TOTP)
 
@@ -182,6 +182,7 @@ validation messages.
 **Description:** OTP / magic-link / email-change templates in EN, FR, AR (RTL-aware HTML), branded; locale
 chosen from signup metadata; production SMTP configured in [9.2] T9.2.05.
 **Tests:** template render check in local Mailpit for each locale.
+**Notes:** `supabase/templates/{magic_link,confirmation,email_change,reauthentication}.html` wired in `supabase/config.toml`: one GoTrue template per type with EN/FR/AR branches on the sign-up metadata `locale` (missing/unknown → EN), Arabic branch `lang="ar" dir="rtl"`, code always LTR; subjects are static and trilingual (config subjects are not templated). The locale is the one sent at sign-up (a later language change does not update auth metadata). `test/features/auth/email_templates_test.dart` evaluates each locale branch; the Mailpit visual check needs `supabase start` (manual) and hosted projects need the files pasted in the dashboard (guide.md); production SMTP = T9.2.05.
 
 ### T1.5.16 — Stale anonymous users cleanup
 **Priority:** P2 · **Size:** S · **Depends on:** T1.5.11, [1.2] (T1.2.12)

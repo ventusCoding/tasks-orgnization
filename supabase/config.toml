@@ -257,6 +257,25 @@ otp_expiry = 3600
 # admin_email = "admin@email.com"
 # sender_name = "Admin"
 
+# Everslot auth e-mails (T1.5.15): one template per type with EN / FR / AR branches chosen by the
+# sign-up metadata "locale" (RTL markup for Arabic). Subjects are static, so they are trilingual.
+# Hosted projects: paste the same files in Dashboard › Auth › Email Templates (see guide.md).
+[auth.email.template.magic_link]
+subject = "Everslot — your sign-in code · votre code · رمز الدخول"
+content_path = "./supabase/templates/magic_link.html"
+
+[auth.email.template.confirmation]
+subject = "Everslot — confirm your email · confirmez votre e-mail · تأكيد البريد"
+content_path = "./supabase/templates/confirmation.html"
+
+[auth.email.template.email_change]
+subject = "Everslot — confirm your new email · nouvelle adresse · البريد الجديد"
+content_path = "./supabase/templates/email_change.html"
+
+[auth.email.template.reauthentication]
+subject = "Everslot — confirm it's you · confirmez votre identité · تأكيد الهوية"
+content_path = "./supabase/templates/reauthentication.html"
+
 # Uncomment to customize email template
 # [auth.email.template.invite]
 # subject = "You have been invited"

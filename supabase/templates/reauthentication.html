@@ -1,0 +1,34 @@
+<!-- Everslot — reauthentication (T1.5.15). Generated: EN / FR / AR chosen by the sign-up metadata "locale"
+     (sent by the app with signInWithOtp / signInAnonymously). Keep the three branches in sync. -->
+{{ $l := or .Data.locale "en" }}
+<!doctype html>
+<html>
+<body style="margin:0;padding:24px;background:#F7F6FB;font-family:-apple-system,Segoe UI,Roboto,'Noto Sans Arabic',Tahoma,sans-serif;color:#1C1B22;line-height:1.5">
+<div style="max-width:480px;margin:0 auto;background:#ffffff;border-radius:16px;padding:32px">
+<p dir="ltr" style="margin:0 0 24px;font-weight:700;color:#5B4CDB;text-align:center">Everslot</p>
+{{ if eq $l "fr" }}
+<div lang="fr" dir="ltr" style="text-align:left">
+  <h1 style="font-size:22px;margin:0 0 12px">Confirmez qu’il s’agit bien de vous</h1>
+  <p style="margin:0 0 16px">Saisissez ce code dans Everslot pour continuer :</p>
+  <p dir="ltr" style="font-size:32px;font-weight:700;letter-spacing:8px;text-align:center;background:#F1EEFF;border-radius:12px;padding:16px;margin:0 0 16px;font-family:monospace">{{ .Token }}</p>
+  <p style="color:#6B6780;font-size:13px;margin:0">Si vous n’êtes pas à l’origine de cette demande, ignorez cet e-mail. Le code expire dans 1 heure.</p>
+</div>
+{{ else if eq $l "ar" }}
+<div lang="ar" dir="rtl" style="text-align:right">
+  <h1 style="font-size:22px;margin:0 0 12px">تأكيد هويتك</h1>
+  <p style="margin:0 0 16px">أدخل هذا الرمز في Everslot للمتابعة:</p>
+  <p dir="ltr" style="font-size:32px;font-weight:700;letter-spacing:8px;text-align:center;background:#F1EEFF;border-radius:12px;padding:16px;margin:0 0 16px;font-family:monospace">{{ .Token }}</p>
+  <p style="color:#6B6780;font-size:13px;margin:0">إذا لم تطلب ذلك، يمكنك تجاهل هذه الرسالة. تنتهي صلاحية الرمز خلال ساعة واحدة.</p>
+</div>
+{{ else }}
+<div lang="en" dir="ltr" style="text-align:left">
+  <h1 style="font-size:22px;margin:0 0 12px">Confirm it's you</h1>
+  <p style="margin:0 0 16px">Enter this code in Everslot to continue:</p>
+  <p dir="ltr" style="font-size:32px;font-weight:700;letter-spacing:8px;text-align:center;background:#F1EEFF;border-radius:12px;padding:16px;margin:0 0 16px;font-family:monospace">{{ .Token }}</p>
+  <p style="color:#6B6780;font-size:13px;margin:0">If you didn't ask for this, you can ignore this email. The code expires in 1 hour.</p>
+</div>
+{{ end }}
+</div>
+<p style="text-align:center;color:#6B6780;font-size:12px;margin:16px 0 0">{{ if eq $l "fr" }}Maîtrisez chaque créneau de votre journée{{ else if eq $l "ar" }}<span dir="rtl">امتلك كل لحظة من يومك</span>{{ else }}Own every slot of your day{{ end }}</p>
+</body>
+</html>
