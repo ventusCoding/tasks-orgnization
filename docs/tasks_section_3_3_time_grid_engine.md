@@ -53,8 +53,8 @@ backlog drawer UI and drags to/from it ([3.7]).
 - [x] T3.3.21 — Zoom: vertical pinch, semantic zoom, horizontal pinch
 - [x] T3.3.22 — Display options (color-by, density, dim past, completed/cancelled, filters)
 - [x] T3.3.23 — Overlays framework
-- [ ] T3.3.24 — Accessibility: semantics, list fallback, keyboard
-- [ ] T3.3.25 — Performance harness & optimization
+- [x] T3.3.24 — Accessibility: semantics, list fallback, keyboard
+- [x] T3.3.25 — Performance harness & optimization
 - [ ] T3.3.26 — Cascade overlap style & secondary time-zone rulers
 
 ## Tasks
@@ -381,6 +381,7 @@ fingers; fixed mode never changes `slotMinutes`.
 **Acceptance criteria:** with TalkBack or VoiceOver, a user can create, open, complete and move a task
 without any gesture.
 **Tests:** semantics tests; guideline checks ([9.1]).
+**Notes:** Tiles expose done / 15 min earlier / later / previous / next day / select actions; with accessible navigation on, empty slots become nodes (grouped to ≥ 24 px) whose tap quick-creates; the header long-press exposes the day menu (*Add task*). Keyboard on the grid: ↑/↓ select, ←/→ nearest item of the neighbour day (then page, mirrored in RTL), Enter opens, Space ticks, Shift+↑/↓ moves by the snap step, Shift+←/→ by a day, +/- zoom, Page Up/Down, Esc; Ctrl/Cmd+C/V copy / paste at the hovered or last tapped slot (planner-core `pasteAt`, T3.1.19). Selection mode (T3.1.18): tile menu *Select*, taps toggle, the toolbar becomes a selection bar opening `showBulkActionsSheet` (week table, N-day, work week, day list). Guideline checks remain part of [9.1].
 
 ### T3.3.25 — Performance harness & optimization
 **Priority:** P1 · **Size:** M · **Depends on:** T3.3.11, T3.3.12, T3.3.21
@@ -398,6 +399,7 @@ Optimizations:
 - no layout work inside paint.
 **Acceptance criteria:** arch §9.6 budgets met; results stored as CI artifacts ([9.1]).
 **Tests:** the perf scenarios.
+**Notes:** `planner_perf_test.dart` runs all five scenarios (1-min week with 2 000 items, 14 tablet days, 1 440-row table, 5 s of pinch, 20-week paging) plus the 1 440-row day list, asserting culling bounds and a debug-mode frame ceiling. Optimizations in place: label caches (ruler, hidden-band badges), a RepaintBoundary per layer, ValueListenable now / drag state, whole-pixel page area. Profile-mode frame timings stored as CI artifacts belong to the T9.1.08 drive suite, which can reuse `perfWeek`.
 
 ### T3.3.26 — Cascade overlap style & secondary time-zone rulers
 **Priority:** P2 · **Size:** M · **Depends on:** T3.3.05, T3.3.08

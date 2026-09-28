@@ -6839,6 +6839,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvClearFilters => 'Effacer';
 
   @override
+  String get pvClearSelection => 'Effacer la sélection';
+
+  @override
   String get pvClocksForward => 'Passage à l’heure d’été';
 
   @override
@@ -6900,6 +6903,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvContinues => 'suite';
+
+  @override
+  String pvCopied(String title) {
+    return '« $title » copiée';
+  }
+
+  @override
+  String get pvCopy => 'Copier';
 
   @override
   String pvCopySuffix(String name) {
@@ -7278,6 +7289,12 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get pvMoveNextDay => 'Déplacer au jour suivant';
+
+  @override
+  String get pvMovePreviousDay => 'Déplacer au jour précédent';
+
+  @override
   String get pvMoveTo => 'Déplacer vers…';
 
   @override
@@ -7345,6 +7362,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvNothingNow => 'Rien de prévu en ce moment';
 
   @override
+  String get pvNothingToPaste => 'Copiez d’abord une tâche';
+
+  @override
   String get pvNow => 'Maintenant';
 
   @override
@@ -7397,6 +7417,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvPagingWeek => 'Une semaine';
+
+  @override
+  String pvPasted(String time) {
+    return 'Collée à $time';
+  }
 
   @override
   String get pvPause => 'Pause';
@@ -7597,9 +7622,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvScopeTitle => 'Modifier une tâche récurrente';
 
   @override
+  String get pvSelect => 'Sélectionner';
+
+  @override
   String pvSelected(int count) {
     return 'Sélection : $count';
   }
+
+  @override
+  String get pvSelectionActions => 'Actions';
 
   @override
   String get pvSetAsPlanDefault => 'Ouvrir l’onglet Plan sur cette vue';

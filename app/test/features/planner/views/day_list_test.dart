@@ -143,6 +143,32 @@ void main() {
     expect(h.backend.calls, ['create 2026-09-23T10:00 90 Focus']);
   });
 
+  testWidgets('selection mode: Select from the item menu, then taps toggle items', (tester) async {
+    final h = await _pump(tester, items: [item('Gym', at(2026, 9, 23, 9, 15), 60), item('Read', at(2026, 9, 23, 11), 30)]);
+    await tester.longPress(find.text('Gym'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('tile-menu-select')));
+    await tester.pumpAndSettle();
+    expect(find.text('1 selected'), findsOneWidget);
+    await tester.tap(find.text('Read'));
+    await tester.pumpAndSettle();
+    expect(find.text('2 selected'), findsOneWidget);
+    await tester.tap(find.text('Gym'));
+    await tester.tap(find.text('Read'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('selection-toolbar')), findsNothing, reason: 'the last toggle ends selection mode');
+    expect(h.nav.log, isEmpty);
+  });
+
+  testWidgets('day actions in the menu run through planner-core (one operation)', (tester) async {
+    await _pump(tester, items: [item('Gym', at(2026, 9, 23, 18), 60)]);
+    await tester.tap(find.byKey(const Key('planner-more')));
+    await tester.pumpAndSettle();
+    expect(find.text('Mark all remaining as done'), findsOneWidget);
+    expect(find.text('Skip the rest of the day'), findsOneWidget);
+    expect(find.text('Move unfinished to tomorrow'), findsOneWidget);
+  });
+
   testWidgets('ribbon style shows blocks and free connectors', (tester) async {
     await _pump(
       tester,

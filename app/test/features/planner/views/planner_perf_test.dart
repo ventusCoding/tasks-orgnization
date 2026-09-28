@@ -120,6 +120,66 @@ void main() {
     expect(controller.firstVisibleDay, monday);
   });
 
+  testWidgets('14 days on a tablet at 5-min slots with 2 000 occurrences stay culled', (tester) async {
+    final h = PlannerHarness.create(items: [...perfWeek(monday), ...perfWeek(monday.plusDays(7), seed: 11)]);
+    addTearDown(h.dispose);
+    final notifier = h.read(plannerViewConfigProvider('week_table').notifier);
+    notifier.update(h.read(plannerViewConfigProvider('week_table')).withSlot(5).copyWith(daysVisible: 14, daysVisibleLandscape: 14));
+    final controller = PlannerGridController();
+    addTearDown(controller.dispose);
+    await pumpPlanner(
+      tester,
+      h,
+      Scaffold(body: TimeGrid(viewKey: 'week_table', controller: controller)),
+      size: const Size(1280, 800),
+    );
+    for (var i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    expect(controller.visibleDays.length, 14);
+    var maxTiles = 0;
+    for (var minute = 0; minute <= 1320; minute += 120) {
+      final took = await timed(() async {
+        controller.scrollToMinute(minute.toDouble(), animate: false);
+        await tester.pump();
+      });
+      expect(took, lessThan(frameCeiling));
+      maxTiles = math.max(maxTiles, find.byType(TaskTile).evaluate().length);
+    }
+    expect(maxTiles, lessThan(1500), reason: '14 visible days: the window ± one screen, not the 4 000 items of the range');
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('5 s of continuous pinch zooms smoothly without errors', (tester) async {
+    final h = PlannerHarness.create(items: perfWeek(monday, count: 800));
+    addTearDown(h.dispose);
+    await pumpGrid(tester, h);
+    final grid = tester.state<TimeGridState>(find.byType(TimeGrid));
+    final (ppm0, _) = grid.debugZoom;
+    final focus = grid.globalPositionOf(monday.plusDays(2), 10 * 60)!;
+    final a = await tester.startGesture(focus - const Offset(0, 30), pointer: 1);
+    final b = await tester.startGesture(focus + const Offset(0, 30), pointer: 2);
+    await tester.pump();
+    var worst = Duration.zero;
+    // 100 frames of 50 ms: spread for 2.5 s, then pinch back in for 2.5 s.
+    for (var i = 1; i <= 100; i++) {
+      final spread = 30.0 + (i <= 50 ? i : 100 - i) * 3;
+      final took = await timed(() async {
+        await a.moveTo(focus - Offset(0, spread));
+        await b.moveTo(focus + Offset(0, spread));
+        await tester.pump(const Duration(milliseconds: 50));
+      });
+      worst = took > worst ? took : worst;
+    }
+    final (ppmMid, _) = grid.debugZoom;
+    await a.up();
+    await b.up();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(ppmMid, closeTo(ppm0, ppm0 * 0.25), reason: 'the pinch ended where it started');
+    expect(worst, lessThan(frameCeiling));
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('day list with 1 440 one-minute rows flings with a bounded number of built rows', (tester) async {
     final h = PlannerHarness.create(items: perfWeek(monday, count: 300));
     addTearDown(h.dispose);

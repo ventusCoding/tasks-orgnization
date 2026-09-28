@@ -5,6 +5,7 @@ import 'package:everslot/features/planner/presentation/grid/engine/day_timeline.
 import 'package:everslot/features/planner/presentation/grid/engine/page_axis.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/time_scale.dart';
 import 'package:everslot/features/planner/presentation/grid/grid_style.dart';
+import 'package:everslot/features/planner/presentation/grid/time_ruler.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
@@ -14,6 +15,9 @@ double columnX(int i, int n, double width, {required bool rtl}) {
   final w = width / n;
   return rtl ? width - (i + 1) * w : i * w;
 }
+
+/// Hidden-band badge labels, shared by every page painter.
+final _badgeLabels = LabelCache(capacity: 64);
 
 /// One painter per page (T3.3.07): slot lines by hierarchy, weekend / off-hours / today shading,
 /// hidden-hour bands with badges and DST markers. It paints the full content height; the page
@@ -142,10 +146,8 @@ class GridPainter extends CustomPainter {
       final count = hiddenCounts[(band, i)] ?? 0;
       if (count == 0) continue;
       final x = columnX(i, n, width, rtl: rtl) + colW / 2;
-      final tp = TextPainter(
-        text: TextSpan(text: '$count', style: textStyle.copyWith(color: style.onPrimary)),
-        textDirection: TextDirection.ltr,
-      )..layout();
+      // Cached layout (T3.3.25: no text layout inside paint once warmed up).
+      final tp = _badgeLabels.get('$count', textStyle.copyWith(color: style.onPrimary), TextDirection.ltr);
       final r = math.max(tp.width, tp.height) / 2 + 3;
       final center = Offset(x, rect.center.dy);
       canvas.drawCircle(center, math.min(r, rect.height / 2 + 2), Paint()..color = style.primary);

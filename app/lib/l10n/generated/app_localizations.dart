@@ -11223,6 +11223,12 @@ abstract class AppLocalizations {
   /// **'Clear'**
   String get pvClearFilters;
 
+  /// No description provided for @pvClearSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear selection'**
+  String get pvClearSelection;
+
   /// No description provided for @pvClocksForward.
   ///
   /// In en, this message translates to:
@@ -11348,6 +11354,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'continues'**
   String get pvContinues;
+
+  /// No description provided for @pvCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied “{title}”'**
+  String pvCopied(String title);
+
+  /// No description provided for @pvCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get pvCopy;
 
   /// No description provided for @pvCopySuffix.
   ///
@@ -11955,6 +11973,18 @@ abstract class AppLocalizations {
   /// **'Move {minutes} min later'**
   String pvMoveLater(int minutes);
 
+  /// No description provided for @pvMoveNextDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to the next day'**
+  String get pvMoveNextDay;
+
+  /// No description provided for @pvMovePreviousDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to the previous day'**
+  String get pvMovePreviousDay;
+
   /// No description provided for @pvMoveTo.
   ///
   /// In en, this message translates to:
@@ -12050,6 +12080,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing scheduled right now'**
   String get pvNothingNow;
+
+  /// No description provided for @pvNothingToPaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy a task first'**
+  String get pvNothingToPaste;
 
   /// No description provided for @pvNow.
   ///
@@ -12158,6 +12194,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'One week'**
   String get pvPagingWeek;
+
+  /// No description provided for @pvPasted.
+  ///
+  /// In en, this message translates to:
+  /// **'Pasted at {time}'**
+  String pvPasted(String time);
 
   /// No description provided for @pvPause.
   ///
@@ -12507,11 +12549,23 @@ abstract class AppLocalizations {
   /// **'Change a recurring task'**
   String get pvScopeTitle;
 
+  /// No description provided for @pvSelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get pvSelect;
+
   /// No description provided for @pvSelected.
   ///
   /// In en, this message translates to:
   /// **'{count} selected'**
   String pvSelected(int count);
+
+  /// No description provided for @pvSelectionActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get pvSelectionActions;
 
   /// No description provided for @pvSetAsPlanDefault.
   ///

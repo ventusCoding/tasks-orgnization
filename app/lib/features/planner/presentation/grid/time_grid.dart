@@ -32,11 +32,13 @@ import 'package:everslot/features/planner/presentation/grid/time_ruler.dart';
 import 'package:everslot/features/planner/presentation/grid/timeline_page.dart';
 import 'package:everslot/features/planner/presentation/grid/vertical_scroll_proxy.dart';
 import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
+import 'package:everslot/features/planner/presentation/views/planner_selection.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -313,6 +315,15 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
   final Set<int> _expandedHidden = {};
   bool _laneExpanded = false;
   String? _selectedKey;
+
+  /// Multi-selection of the view (T3.1.18), mirrored from [plannerSelectionProvider].
+  Map<String, PlannerItem> _selection = const {};
+
+  /// Slot under the mouse or last tapped empty slot: the Ctrl/Cmd + V target (T3.1.19).
+  LocalDateTime? _cursor;
+
+  /// Keyboard focus of the grid (T3.3.24): arrows, Enter, Space, Shift+arrows, +/-, Ctrl/Cmd+C/V.
+  final FocusNode _focus = FocusNode(debugLabel: 'planner-grid');
   _Session? _session;
   final ValueNotifier<_SessionView?> _sessionView = ValueNotifier(null);
   bool _freeSnap = false;
@@ -379,6 +390,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     _now.dispose();
     _vertical.dispose();
     _pages?.dispose();
+    _focus.dispose();
     unawaited(_viewState.flush());
     super.dispose();
   }
@@ -621,6 +633,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final work = ref.watch(plannerWorkSettingsProvider);
     final cache = ref.watch(timelineCacheProvider);
     final lookup = ref.watch(categoryColorLookupProvider);
+    _selection = ref.watch(plannerSelectionProvider(widget.viewKey));
     ref.watch(plannerDemoModeProvider);
     final media = MediaQuery.of(context);
     _landscape = media.orientation == Orientation.landscape;
@@ -760,7 +773,11 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
           _frame = frame;
           _afterLayout(frame, visible);
           final locked = _pinch != null;
-          return Listener(
+          return Focus(
+            focusNode: _focus,
+            autofocus: true,
+            onKeyEvent: _onKey,
+            child: Listener(
             onPointerDown: _onPointerDown,
             onPointerMove: _onPointerMove,
             onPointerUp: _onPointerUp,
@@ -788,6 +805,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
                   ],
                 ),
               ),
+            ),
             ),
           );
         },
@@ -966,7 +984,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       key: _pagesKey,
       children: [
         Positioned.fill(
-          child: GestureDetector(
+          child: MouseRegion(
+            onHover: (e) => _cursor = _slotAt(e.localPosition),
+            child: GestureDetector(
             onTapUp: _onTapUp,
             onLongPressStart: _onLongPressStart,
             onLongPressMoveUpdate: _onLongPressMoveUpdate,
@@ -987,6 +1007,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
                 itemBuilder: (context, index) => _GridPage(grid: this, index: index),
               ),
             ),
+          ),
           ),
         ),
         Positioned.fill(
@@ -1095,7 +1116,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       colorsOf: f.colors.of,
       semanticsOf: (i) => _semantics(i, f),
       moreLabel: (n) => f.l10n.pvMore('$n'),
-      onTapItem: (i) => ref.read(plannerNavProvider).openTask(context, i),
+      onTapItem: _activate,
       draggingKey: _session?.item?.key,
     );
   }
@@ -1129,6 +1150,43 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       ..timeline = geom
       ..timelineDeps = deps;
     return geom;
+  }
+
+  /// Screen-reader nodes for the empty slots of a page (T3.3.24): "Monday 09:00, empty, double-tap
+  /// to create". Built only while accessible navigation is on; slots shorter than 24 px are grouped.
+  List<Widget> _emptySlotNodes(_PageData page, _Frame f) {
+    final days = page.days;
+    if (days.isEmpty) return const [];
+    final col = f.metrics.pageWidth / days.length;
+    final slot = f.config.slotMinutes;
+    final int group = slot * math.max(1, (24 / (f.ppm * slot)).ceil());
+    final window = f.config.dayWindow;
+    final out = <Widget>[];
+    for (final (i, day) in days.indexed) {
+      final items = [for (final s in page.slices[day]?.timed ?? const <DaySegment>[]) s.item];
+      for (var m = (window.startMinute ~/ group) * group; m < window.endMinute; m += group) {
+        final start = day.atStartOfDay.plusMinutes(m);
+        final end = day.atStartOfDay.plusMinutes(math.min(m + group, 1440));
+        if (items.any((it) => it.startLocal.isBefore(end) && it.endLocal.isAfter(start))) continue;
+        final top = f.axis.yOf(m, ppm: f.ppm);
+        final bottom = f.axis.yOf(math.min(m + group, 1440), ppm: f.ppm, end: true);
+        if (bottom - top < 1) continue;
+        out.add(
+          PositionedDirectional(
+            start: i * col,
+            top: top,
+            width: col,
+            height: bottom - top,
+            child: Semantics(
+              label: f.l10n.pvEmptySlotSemantics(f.format.dayLong(day), f.format.timeOf(start)),
+              onTap: () => unawaited(_commands.quickCreate(start: start, duration: quickCreateDuration(slot, f.work))),
+              child: const SizedBox.expand(),
+            ),
+          ),
+        );
+      }
+    }
+    return out;
   }
 
   /// Data of the enabled overlays of a page (T3.3.23): point markers and the occupancy heat.
@@ -1204,11 +1262,11 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
           variant: g.variant,
           past: item.endLocal.isBefore(now),
           dimPast: config.dimPast,
-          selected: item.key == _selectedKey,
+          selected: item.key == _selectedKey || _selection.containsKey(item.key),
           compactDensity: config.density == Density.compact,
           continuesBefore: g.segment.continuesBefore,
           continuesAfter: g.segment.continuesAfter,
-          onTap: () => ref.read(plannerNavProvider).openTask(context, item),
+          onTap: () => _activate(item),
           customActions: _semanticActions(item, f),
         );
         return item.key == sessionKey ? Opacity(opacity: 0.35, child: tile) : tile;
@@ -1219,6 +1277,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
         onTap: () => unawaited(_commands.showOverflow(o.items, date: page.days[o.dayIndex])),
       ),
       foreground: [
+        if (MediaQuery.accessibleNavigationOf(context)) ..._emptySlotNodes(page, f),
         ...positionedMarkers(
           markers: overlays.markers,
           days: page.days,
@@ -1319,7 +1378,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
           continuation: !isStart,
           past: item.endLocal.isBefore(f.nowLocal),
           dimPast: f.config.dimPast,
-          selected: item.key == _selectedKey,
+          selected: item.key == _selectedKey || _selection.containsKey(item.key),
           fontSize: f.config.density == Density.compact ? 10 : 11,
         );
         return item.key == sessionKey ? Opacity(opacity: 0.35, child: chip) : chip;
@@ -1376,7 +1435,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
           continuation: entry.continuation,
           past: item.endLocal.isBefore(f.nowLocal),
           dimPast: f.config.dimPast,
-          selected: item.key == _selectedKey,
+          selected: item.key == _selectedKey || _selection.containsKey(item.key),
           fontSize: f.config.density == Density.compact ? 11 : 12,
         );
         return item.key == sessionKey ? Opacity(opacity: 0.35, child: chip) : chip;
@@ -1403,6 +1462,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
         CustomSemanticsAction(label: item.isDone ? l.pvMarkNotDone : l.pvMarkDone): () => unawaited(_commands.toggleDone(item)),
       CustomSemanticsAction(label: l.pvMoveEarlier(step)): () => unawaited(_nudge(item, -step)),
       CustomSemanticsAction(label: l.pvMoveLater(step)): () => unawaited(_nudge(item, step)),
+      CustomSemanticsAction(label: l.pvMovePreviousDay): () => unawaited(_moveDays(item, -1)),
+      CustomSemanticsAction(label: l.pvMoveNextDay): () => unawaited(_moveDays(item, 1)),
+      CustomSemanticsAction(label: l.pvSelect): () => ref.read(plannerSelectionProvider(widget.viewKey).notifier).toggle(item),
     };
   }
 
@@ -1527,7 +1589,6 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final hit = _hitTest(d.localPosition);
     final f = _frame;
     if (hit == null || f == null) return;
-    final nav = ref.read(plannerNavProvider);
     switch (hit.region) {
       case _Region.header:
         _openDay(hit.day);
@@ -1536,7 +1597,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
         final row = ((hit.point.dy - 2) / f.metrics.laneRowExtent).floor();
         final item = lane?.itemAt(hit.column, row);
         if (item != null) {
-          nav.openTask(context, item);
+          _activate(item);
         } else if (lane != null && lane.packing.hiddenPerColumn.length > hit.column && lane.packing.hiddenPerColumn[hit.column] > 0) {
           setState(() => _laneExpanded = !_laneExpanded);
         } else {
@@ -1567,11 +1628,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     if (tile != null) {
       final r = tile.rect;
       final fromStart = f.metrics.rtl ? r.right - p.dx : p.dx - r.left;
-      if (tile.item.trackingMode == TrackingMode.check && tile.variant != TileVariant.minimal && fromStart <= kTileCheckExtent + 6) {
-        unawaited(_commands.toggleDone(tile.item));
-      } else {
-        ref.read(plannerNavProvider).openTask(context, tile.item);
-      }
+      _activate(tile.item, check: tile.item.trackingMode == TrackingMode.check && tile.variant != TileVariant.minimal && fromStart <= kTileCheckExtent + 6);
       return;
     }
     final loc = f.axis.locate(p.dy, f.ppm);
@@ -1586,10 +1643,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     }
     final slot = f.config.slotMinutes;
     final minute = (loc.wall ~/ slot) * slot;
-    unawaited(_commands.quickCreate(
-      start: hit.day.atStartOfDay.plusMinutes(minute.clamp(0, 1439)),
-      duration: quickCreateDuration(slot, f.work),
-    ));
+    final start = hit.day.atStartOfDay.plusMinutes(minute.clamp(0, 1439));
+    _cursor = start;
+    unawaited(_commands.quickCreate(start: start, duration: quickCreateDuration(slot, f.work)));
   }
 
   void _tapTable(_Hit hit, _Frame f) {
@@ -1599,11 +1655,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     if (t.item != null) {
       final cell = geom!.cellRect(t.dayIndex, t.row);
       final fromStart = f.metrics.rtl ? cell.right - hit.point.dx : hit.point.dx - cell.left;
-      if (t.isStart && t.item!.trackingMode == TrackingMode.check && fromStart <= 18) {
-        unawaited(_commands.toggleDone(t.item!));
-      } else {
-        ref.read(plannerNavProvider).openTask(context, t.item!);
-      }
+      _activate(t.item!, check: t.isStart && t.item!.trackingMode == TrackingMode.check && fromStart <= 18);
       return;
     }
     if (t.overflow != null) {
@@ -1634,14 +1686,183 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       final item = geom!.columns[day][index].item;
       final rect = geom.chipRect(day, index);
       final fromStart = f.metrics.rtl ? rect.right - hit.point.dx : hit.point.dx - rect.left;
-      if (item.trackingMode == TrackingMode.check && fromStart <= 22) {
-        unawaited(_commands.toggleDone(item));
-      } else {
-        ref.read(plannerNavProvider).openTask(context, item);
-      }
+      _activate(item, check: item.trackingMode == TrackingMode.check && fromStart <= 22);
       return;
     }
     unawaited(_commands.quickCreate(start: hit.days[day].atStartOfDay, duration: 1440, allDay: true));
+  }
+
+  /// Tap on an item: toggles it in selection mode (T3.1.18), else ticks it ([check]) or opens it.
+  void _activate(PlannerItem item, {bool check = false}) {
+    final selection = ref.read(plannerSelectionProvider(widget.viewKey).notifier);
+    if (selection.active) {
+      selection.toggle(item);
+    } else if (check) {
+      unawaited(_commands.toggleDone(item));
+    } else {
+      ref.read(plannerNavProvider).openTask(context, item);
+    }
+  }
+
+  // ---------------------------------------------------------------------- keyboard (T3.3.24) --
+
+  /// Items of the visible days in reading order: per day, all-day items then timed by start.
+  List<PlannerItem> _keyboardItems() {
+    final visible = _paging?.daysOnScreen(_page) ?? const <LocalDate>[];
+    final slices = <LocalDate, DaySlice>{for (final p in _pageData.values) ...p.slices};
+    final seen = <String>{};
+    return [
+      for (final d in visible)
+        if (slices[d] case final s?)
+          for (final i in [...s.lane, for (final seg in s.timed) seg.item])
+            if (seen.add(i.key)) i,
+    ];
+  }
+
+  PlannerItem? get _selectedItem => _selectedKey == null ? null : _keyboardItems().firstWhereOrNull((i) => i.key == _selectedKey);
+
+  void _select(PlannerItem item) {
+    setState(() => _selectedKey = item.key);
+    if (!item.allDay) scrollToMinute(item.startLocal.time.minuteOfDay.toDouble(), anchorFraction: 1 / 3);
+  }
+
+  /// ↑ / ↓: previous / next item of the visible days.
+  void _selectAdjacent(int dir) {
+    final items = _keyboardItems();
+    if (items.isEmpty) return;
+    final at = items.indexWhere((i) => i.key == _selectedKey);
+    final next = at < 0 ? (dir > 0 ? 0 : items.length - 1) : (at + dir).clamp(0, items.length - 1);
+    _select(items[next]);
+  }
+
+  /// ← / → with a selection: the nearest item (by start) of the previous / next visible day;
+  /// past the first / last day the page turns.
+  void _selectInNeighbourDay(PlannerItem from, int dir) {
+    final visible = _paging?.daysOnScreen(_page) ?? const <LocalDate>[];
+    final items = _keyboardItems();
+    var i = visible.indexOf(from.startLocal.date) + dir;
+    while (i >= 0 && i < visible.length) {
+      final day = visible[i];
+      final candidates = [for (final it in items) if (it.startLocal.date == day) it];
+      if (candidates.isNotEmpty) {
+        final minute = from.startLocal.time.minuteOfDay;
+        candidates.sort((a, b) => (a.startLocal.time.minuteOfDay - minute).abs().compareTo((b.startLocal.time.minuteOfDay - minute).abs()));
+        _select(candidates.first);
+        return;
+      }
+      i += dir;
+    }
+    unawaited(step(dir));
+  }
+
+  Future<void> _moveDays(PlannerItem item, int days) {
+    final start = item.startLocal.plusDays(days);
+    final f = _frame!;
+    return _commands.reschedule(item, start: start, message: context.l10n.pvMovedSnack('${f.format.dayShort(start.date)} ${f.format.timeOf(start)}'));
+  }
+
+  /// Where Ctrl/Cmd + V pastes: the hovered / last tapped slot, else right after the selected item,
+  /// else the next quarter hour today (or 09:00 on the first visible day).
+  LocalDateTime _pasteTarget(_Frame f) {
+    if (_cursor case final c?) return c;
+    if (_selectedItem case final s?) return s.endLocal;
+    final visible = _paging?.daysOnScreen(_page) ?? const <LocalDate>[];
+    if (visible.contains(f.today)) {
+      final m = f.nowLocal.time.minuteOfDay;
+      return f.today.atStartOfDay.plusMinutes(math.min(1425, ((m + 14) ~/ 15) * 15));
+    }
+    return (visible.firstOrNull ?? f.today).atTime(LocalTime(9, 0));
+  }
+
+  /// The slot start under a point of the pages area (timeline and table renderers).
+  LocalDateTime? _slotAt(Offset local) {
+    final f = _frame;
+    final hit = _hitTest(local);
+    if (f == null || hit == null || hit.region != _Region.body) return null;
+    final slot = f.config.slotMinutes;
+    return switch (f.renderer) {
+      GridRenderer.timeline => hit.day.atStartOfDay.plusMinutes(((f.axis.locate(hit.point.dy, f.ppm).wall ~/ slot) * slot).clamp(0, 1439)),
+      GridRenderer.table => () {
+        final row = _pageData[hit.page]?.table?.hit(hit.point)?.row;
+        final rows = _pageData[hit.page]?.table?.rows.rows;
+        return row == null || rows == null ? null : hit.day.atStartOfDay.plusMinutes(rows[row].wallStart.clamp(0, 1439));
+      }(),
+      GridRenderer.weekList => hit.day.atStartOfDay,
+    };
+  }
+
+  KeyEventResult _onKey(FocusNode node, KeyEvent event) {
+    if (event is! KeyDownEvent && event is! KeyRepeatEvent) return KeyEventResult.ignored;
+    final f = _frame;
+    if (f == null || _session != null) return KeyEventResult.ignored;
+    final keyboard = HardwareKeyboard.instance;
+    final shift = keyboard.isShiftPressed;
+    final command = keyboard.isControlPressed || keyboard.isMetaPressed;
+    final key = event.logicalKey;
+    final selected = _selectedItem;
+    if (command) {
+      if (key == LogicalKeyboardKey.keyC && selected != null) {
+        _commands.copy(selected);
+        return KeyEventResult.handled;
+      }
+      if (key == LogicalKeyboardKey.keyV) {
+        unawaited(_commands.paste(_pasteTarget(f)));
+        return KeyEventResult.handled;
+      }
+      return KeyEventResult.ignored;
+    }
+    final snap = math.max(1, f.config.snapMinutes);
+    // ← / → follow the reading direction (mirrored in RTL).
+    final forward = key == LogicalKeyboardKey.arrowRight ? !f.metrics.rtl : (key == LogicalKeyboardKey.arrowLeft ? f.metrics.rtl : null);
+    if (key == LogicalKeyboardKey.arrowDown || key == LogicalKeyboardKey.arrowUp) {
+      final dir = key == LogicalKeyboardKey.arrowDown ? 1 : -1;
+      if (shift && selected != null) {
+        unawaited(_nudge(selected, dir * snap));
+      } else {
+        _selectAdjacent(dir);
+      }
+      return KeyEventResult.handled;
+    }
+    if (forward != null) {
+      final dir = forward ? 1 : -1;
+      if (shift && selected != null) {
+        unawaited(_moveDays(selected, dir));
+      } else if (selected != null) {
+        _selectInNeighbourDay(selected, dir);
+      } else {
+        unawaited(this.step(dir));
+      }
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.enter || key == LogicalKeyboardKey.numpadEnter) {
+      if (selected == null) return KeyEventResult.ignored;
+      _activate(selected);
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.space) {
+      if (selected == null) return KeyEventResult.ignored;
+      _activate(selected, check: selected.trackingMode == TrackingMode.check);
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.escape) {
+      if (_selectedKey == null && _selection.isEmpty) return KeyEventResult.ignored;
+      setState(() => _selectedKey = null);
+      ref.read(plannerSelectionProvider(widget.viewKey).notifier).clear();
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.equal || key == LogicalKeyboardKey.add || key == LogicalKeyboardKey.numpadAdd) {
+      zoomBy(1.25);
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.minus || key == LogicalKeyboardKey.numpadSubtract) {
+      zoomBy(0.8);
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.pageDown || key == LogicalKeyboardKey.pageUp) {
+      unawaited(this.step(key == LogicalKeyboardKey.pageDown ? 1 : -1));
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
   }
 
   void _openDay(LocalDate day) => ref.read(plannerNavProvider).openView(context, 'day_list', date: day);
@@ -1991,7 +2212,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
           }
           if (!s.moved) {
             setState(() => _selectedKey = item.key);
-            await _commands.showTileMenu(item);
+            await _commands.showTileMenu(item, onSelect: () => ref.read(plannerSelectionProvider(widget.viewKey).notifier).select(item));
           }
           return;
         }
@@ -2123,6 +2344,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
   // ------------------------------------------------------------------------------- pinch --
 
   void _onPointerDown(PointerDownEvent e) {
+    if (!_focus.hasFocus) _focus.requestFocus();
     if (_pointers.isEmpty) _pinchedSinceDown = false;
     _pointers[e.pointer] = e.position;
     if (_pointers.length == 2) {

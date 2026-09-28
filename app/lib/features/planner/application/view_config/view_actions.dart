@@ -3,6 +3,7 @@ import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot/features/planner/application/planner_service.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
+import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Planner mutations the views need beyond the CONTRACT's [PlannerActions] (tile menu *Delete* /
@@ -16,6 +17,10 @@ abstract interface class PlannerViewActions {
 
   /// Copies the task (one occurrence of a series becomes a one-off). Returns the new task id.
   Future<String?> duplicate(PlannerItem item);
+
+  /// Pastes a copied item as a one-off task starting at [start] (Ctrl/Cmd + V, T3.1.19).
+  /// Returns the new task id.
+  Future<String?> paste(PlannerItem item, LocalDateTime start);
 
   /// Manual order between two neighbours' `manual_sort_key`s (backlog, untimed items of a day).
   Future<void> reorder(PlannerItem item, {String? afterKey, String? beforeKey});
@@ -56,6 +61,9 @@ class _ServicePlannerViewActions implements PlannerViewActions {
     _push(_ref.read(plannerL10nProvider).tasksCreated, result.record);
     return result.newTaskId;
   }
+
+  @override
+  Future<String?> paste(PlannerItem item, LocalDateTime start) async => (await _service.pasteAt(item, start)).newTaskId;
 
   @override
   Future<void> reorder(PlannerItem item, {String? afterKey, String? beforeKey}) async {
