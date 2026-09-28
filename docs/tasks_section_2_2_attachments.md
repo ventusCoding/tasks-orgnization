@@ -155,13 +155,16 @@ with "Clear cache".
 **Priority:** P2 · **Size:** M · **Depends on:** T2.2.03
 **Description:** Short videos (≤ 60 s / 50 MB) with poster frame thumbnail, inline player in the viewer,
 transcoding left to the OS picker settings.
+**Notes:** Not started: needs native plugins for playback and poster frames (e.g. `video_player` + a thumbnail plugin) — new dependencies and platform setup, outside this pass.
 
 ### T2.2.13 — Audio notes (record & play)
 **Priority:** P2 · **Size:** M · **Depends on:** T2.2.07
 **Description:** Record voice notes (AAC), waveform preview, playback in the strip; microphone permission
 primer; optional on-device transcription later ([9.3]).
+**Notes:** Not started: needs recording/playback plugins (e.g. `record` + an audio player) with microphone permissions — new native dependencies, outside this pass.
 
 ### T2.2.14 — Document scanner (camera → cropped PDF)
 **Priority:** P2 · **Size:** M · **Depends on:** T2.2.03
 **Description:** Scan paper documents with edge detection and perspective correction (platform document
 scanners where available) into a multi-page PDF attachment.
+**Notes:** Not started: needs a native document-scanner plugin (VisionKit / ML Kit) — new native dependency, outside this pass.

@@ -156,3 +156,4 @@ a whiteboard for a note card.
 - *Scan document*: camera → cropped PDF from [2.2].
 - Sharing files into a specific item is handled by [8.2].
 **Tests:** widget test with a fake clipboard.
+**Notes:** Not started: pasting images needs clipboard image access (a plugin such as `super_clipboard`; Flutter's clipboard is text-only) and scanning depends on T2.2.14.

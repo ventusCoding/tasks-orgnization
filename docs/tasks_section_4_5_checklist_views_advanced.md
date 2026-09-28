@@ -208,6 +208,7 @@ Arabic text, malformed input.
 - Page breaks try to keep small subtrees together.
 - Uses the `pdf` + `printing` packages → add them to arch §3 when implemented.
 **Tests:** text extraction from the generated PDF; RTL fixture.
+**Notes:** Not started: needs the `pdf` + `printing` packages (not yet in the lockfile) and a bundled Arabic-capable font asset for the RTL fixture.
 
 ### T4.5.11 — In-list sort & filter
 **Priority:** P1 · **Size:** S · **Depends on:** [4.2] (visible list builder)
