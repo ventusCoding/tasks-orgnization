@@ -345,7 +345,7 @@ Future<void> showExportSheet(
   );
 }
 
-class _ExportSheet extends StatefulWidget {
+class _ExportSheet extends ConsumerStatefulWidget {
   const _ExportSheet({required this.checklist, required this.tree, required this.attachmentNames, this.branchRootId});
 
   final Checklist checklist;
@@ -354,10 +354,10 @@ class _ExportSheet extends StatefulWidget {
   final Map<String, List<String>> attachmentNames;
 
   @override
-  State<_ExportSheet> createState() => _ExportSheetState();
+  ConsumerState<_ExportSheet> createState() => _ExportSheetState();
 }
 
-class _ExportSheetState extends State<_ExportSheet> {
+class _ExportSheetState extends ConsumerState<_ExportSheet> {
   ExportFormat _format = ExportFormat.markdown;
   bool _branch = false;
 
@@ -372,7 +372,12 @@ class _ExportSheetState extends State<_ExportSheet> {
         attachmentNames: widget.attachmentNames,
       ),
       ExportFormat.plain => ChecklistExport.plainText(widget.tree, title: title, rootId: root),
-      ExportFormat.opml => ChecklistExport.opml(widget.tree, title: title, rootId: root),
+      ExportFormat.opml => ChecklistExport.opml(
+        widget.tree,
+        title: title,
+        rootId: root,
+        attachmentNames: widget.attachmentNames,
+      ),
     };
   }
 
@@ -431,6 +436,28 @@ class _ExportSheetState extends State<_ExportSheet> {
               ),
             ],
           ),
+          // The whole list with its item files (T4.4.08).
+          if (widget.attachmentNames.isNotEmpty)
+            Padding(
+              padding: const EdgeInsetsDirectional.only(top: Space.sm),
+              child: TextButton.icon(
+                icon: const Icon(Icons.folder_zip_outlined),
+                label: Text(l.exportZipBundle),
+                onPressed: () async {
+                  final bundles = ref.read(checklistBundlesProvider);
+                  final c = widget.checklist;
+                  Navigator.pop(context);
+                  final bytes = await bundles.export(c.id);
+                  final name = '${c.title.trim().isEmpty ? 'checklist' : c.title.trim()}.zip';
+                  await SharePlus.instance.share(
+                    ShareParams(
+                      files: [XFile.fromData(bytes, mimeType: 'application/zip', name: name)],
+                      title: c.title,
+                    ),
+                  );
+                },
+              ),
+            ),
         ],
       ),
     );

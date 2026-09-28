@@ -4412,6 +4412,7 @@
   "exportPlain": "Plain text",
   "exportShare": "Share…",
   "exportTitle": "Share / export",
+  "exportZipBundle": "Share as zip (with files)",
   "filterActiveCount": "{count, plural, =0{No filters} =1{1 filter active} other{{count} filters active}}",
   "filterAny": "Any",
   "filterAttachments": "Attachments",

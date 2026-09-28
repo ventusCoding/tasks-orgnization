@@ -2623,6 +2623,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exportTitle => 'مشاركة / تصدير';
 
   @override
+  String get exportZipBundle => 'مشاركة كملف zip (مع الملفات)';
+
+  @override
   String filterActiveCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

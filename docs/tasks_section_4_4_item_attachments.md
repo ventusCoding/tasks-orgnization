@@ -28,7 +28,7 @@ board cards ([4.1] T4.1.17); the gallery *view* of items ([4.5]).
 - [x] T4.4.05 — Checklist-level attachments
 - [x] T4.4.06 — Captions, reorder & remove with undo
 - [x] T4.4.07 — Checklist attachments gallery
-- [ ] T4.4.08 — Attachments in export & import bundles
+- [x] T4.4.08 — Attachments in export & import bundles
 - [ ] T4.4.09 — Paste image & scan document into an item
 
 ## Tasks
@@ -146,6 +146,7 @@ a whiteboard for a note card.
 - Optional *zip bundle* export: the text file plus a `files/` folder.
 - Importing a bundle re-attaches the files through the [2.2] pipeline.
 **Tests:** round-trip test (export bundle → import → same files per item).
+**Notes:** Markdown lists `📎 name` lines under items; OPML carries `_attachments="a | b"` (not items on re-import). *Share as zip (with files)* in the export sheet (when the list has files) writes `<title>.md` + `files/<n>-<name>` (files not on the device stay listed by name); importing a `.zip` re-attaches each file to its item through the attachment pipeline. Adds `archive` 4.3 (pure Dart, already transitive; arch §3).
 
 ### T4.4.09 — Paste image & scan document into an item
 **Priority:** P2 · **Size:** S · **Depends on:** T4.4.01, [2.2] (scan document)
