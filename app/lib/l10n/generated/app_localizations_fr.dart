@@ -9607,6 +9607,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsDefaultOpen => 'Ouvrir en';
 
   @override
+  String get settingsDefaultsHint =>
+      'Valeurs par défaut des nouveaux éléments. Les éléments existants gardent leurs propres réglages.';
+
+  @override
   String get settingsDensity => 'Densité';
 
   @override
@@ -9659,6 +9663,9 @@ class AppLocalizationsFr extends AppLocalizations {
       'Connectez-vous à Internet pour voir vos appareils.';
 
   @override
+  String get settingsFewer => 'Un de moins';
+
+  @override
   String get settingsGroupData => 'Données et confidentialité';
 
   @override
@@ -9672,6 +9679,27 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settingsHabits => 'Habitudes';
+
+  @override
+  String settingsHabitsDayStartLink(String time) {
+    return 'La journée commence à $time';
+  }
+
+  @override
+  String get settingsHabitsFreezes => 'Jokers de série par mois';
+
+  @override
+  String get settingsHabitsFreezesHint =>
+      'Jours manqués pardonnés chaque mois pour les nouvelles habitudes.';
+
+  @override
+  String get settingsHabitsSkipBreaks => 'Interrompent la série';
+
+  @override
+  String get settingsHabitsSkipNeutral => 'Sans effet sur la série';
+
+  @override
+  String get settingsHabitsSkipPolicy => 'Jours sautés';
 
   @override
   String get settingsHabitsSubtitle => 'Jours sautés, gels de série';
@@ -9697,7 +9725,21 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsInsights => 'Statistiques';
 
   @override
+  String get settingsInsightsCompare => 'Comparer avec la période précédente';
+
+  @override
+  String get settingsInsightsPeriod => 'Période par défaut';
+
+  @override
   String get settingsInsightsSubtitle => 'Période par défaut, comparaisons';
+
+  @override
+  String get settingsInsightsWeekStart => 'Début de semaine (statistiques)';
+
+  @override
+  String settingsInsightsWeekStartProfile(String day) {
+    return 'Comme l’app ($day)';
+  }
 
   @override
   String get settingsLanguage => 'Langue';
@@ -9718,7 +9760,38 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsLists => 'Listes';
 
   @override
+  String get settingsListsAutoComplete =>
+      'Terminer les parents automatiquement';
+
+  @override
+  String get settingsListsAutoCompleteHint =>
+      'Un parent est terminé quand tous ses sous-éléments le sont.';
+
+  @override
+  String get settingsListsCompletedBottom =>
+      'Déplacer les éléments terminés en bas';
+
+  @override
+  String get settingsListsProgress => 'La progression compte';
+
+  @override
+  String get settingsListsProgressChildren => 'Les sous-éléments directs';
+
+  @override
+  String get settingsListsProgressLeaves => 'Chaque élément';
+
+  @override
+  String get settingsListsRequireReason =>
+      'Demander une raison quand un élément est';
+
+  @override
+  String get settingsListsShowCompleted => 'Afficher les éléments terminés';
+
+  @override
   String get settingsListsSubtitle => 'Statuts, progression, éléments terminés';
+
+  @override
+  String get settingsMore => 'Un de plus';
 
   @override
   String get settingsNotificationsSubtitle =>
@@ -9729,11 +9802,112 @@ class AppLocalizationsFr extends AppLocalizations {
       'Catégories et étiquettes utilisées dans l\'app';
 
   @override
+  String get settingsPeriodLastMonth => 'Le mois dernier';
+
+  @override
+  String get settingsPeriodLastWeek => 'La semaine dernière';
+
+  @override
+  String settingsPeriodRolling(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days derniers jours',
+      one: 'Dernier jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPeriodThisMonth => 'Ce mois-ci';
+
+  @override
+  String get settingsPeriodThisQuarter => 'Ce trimestre';
+
+  @override
+  String get settingsPeriodThisWeek => 'Cette semaine';
+
+  @override
+  String get settingsPeriodThisYear => 'Cette année';
+
+  @override
   String get settingsPlan => 'Planning';
+
+  @override
+  String get settingsPlanActualAlways => 'Toujours';
+
+  @override
+  String get settingsPlanActualNever => 'Jamais';
+
+  @override
+  String get settingsPlanActualOffSchedule => 'En cas d’écart';
+
+  @override
+  String get settingsPlanActualTime => 'Demander l’heure réelle à la fin';
+
+  @override
+  String get settingsPlanDefaultDuration => 'Durée par défaut des tâches';
+
+  @override
+  String get settingsPlanDefaultView => 'Vue par défaut';
+
+  @override
+  String get settingsPlanDefaultViewNone => 'Tableau de la semaine';
+
+  @override
+  String get settingsPlanGrace => 'Manquée après';
+
+  @override
+  String settingsPlanGraceValue(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minutes après la fin',
+      one: '1 minute après la fin',
+      zero: 'Dès la fin',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlanRollOver => 'Tâches non terminées';
+
+  @override
+  String get settingsPlanRollOverAsk => 'Me demander';
+
+  @override
+  String get settingsPlanRollOverAuto => 'Les reporter à aujourd’hui';
+
+  @override
+  String get settingsPlanRollOverOff => 'Les laisser';
 
   @override
   String get settingsPlanSubtitle =>
       'Vue par défaut, durées, heures de travail';
+
+  @override
+  String get settingsPlanTracking => 'Suivi par défaut';
+
+  @override
+  String get settingsPlanTrackingCheck => 'À cocher';
+
+  @override
+  String get settingsPlanTrackingEvent => 'Événement';
+
+  @override
+  String get settingsPlanTrackingTimer => 'Minuteur';
+
+  @override
+  String get settingsPlanWorkDays => 'Jours travaillés';
+
+  @override
+  String get settingsPlanWorkEnd => 'Fin';
+
+  @override
+  String get settingsPlanWorkHours => 'Heures de travail';
+
+  @override
+  String get settingsPlanWorkStart => 'Début';
 
   @override
   String get settingsPreview => 'Aperçu';

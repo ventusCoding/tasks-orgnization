@@ -9922,6 +9922,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsDefaultOpen => 'الفتح في وضع';
 
   @override
+  String get settingsDefaultsHint =>
+      'القيم الافتراضية للعناصر الجديدة. تحتفظ العناصر الحالية بإعداداتها.';
+
+  @override
   String get settingsDensity => 'الكثافة';
 
   @override
@@ -9972,6 +9976,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsDevicesOffline => 'اتصل بالإنترنت لعرض أجهزتك.';
 
   @override
+  String get settingsFewer => 'واحد أقل';
+
+  @override
   String get settingsGroupData => 'البيانات والخصوصية';
 
   @override
@@ -9985,6 +9992,27 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsHabits => 'العادات';
+
+  @override
+  String settingsHabitsDayStartLink(String time) {
+    return 'يبدأ اليوم عند $time';
+  }
+
+  @override
+  String get settingsHabitsFreezes => 'أيام تجميد السلسلة شهريًا';
+
+  @override
+  String get settingsHabitsFreezesHint =>
+      'أيام فائتة تُغتفر كل شهر للعادات الجديدة.';
+
+  @override
+  String get settingsHabitsSkipBreaks => 'تقطع السلسلة';
+
+  @override
+  String get settingsHabitsSkipNeutral => 'لا تؤثر على السلسلة';
+
+  @override
+  String get settingsHabitsSkipPolicy => 'الأيام المتخطّاة';
 
   @override
   String get settingsHabitsSubtitle => 'سياسة التخطي وتجميد السلاسل';
@@ -10010,7 +10038,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsInsights => 'الإحصاءات';
 
   @override
+  String get settingsInsightsCompare => 'المقارنة مع الفترة السابقة';
+
+  @override
+  String get settingsInsightsPeriod => 'الفترة الافتراضية';
+
+  @override
   String get settingsInsightsSubtitle => 'الفترة الافتراضية والمقارنات';
+
+  @override
+  String get settingsInsightsWeekStart => 'بداية الأسبوع (الإحصاءات)';
+
+  @override
+  String settingsInsightsWeekStartProfile(String day) {
+    return 'مثل التطبيق ($day)';
+  }
 
   @override
   String get settingsLanguage => 'اللغة';
@@ -10031,7 +10073,35 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsLists => 'القوائم';
 
   @override
+  String get settingsListsAutoComplete => 'إكمال العناصر الأم تلقائيًا';
+
+  @override
+  String get settingsListsAutoCompleteHint =>
+      'يكتمل العنصر الأم عند اكتمال كل عناصره الفرعية.';
+
+  @override
+  String get settingsListsCompletedBottom => 'نقل العناصر المكتملة إلى الأسفل';
+
+  @override
+  String get settingsListsProgress => 'يُحسب التقدّم على';
+
+  @override
+  String get settingsListsProgressChildren => 'العناصر الفرعية المباشرة';
+
+  @override
+  String get settingsListsProgressLeaves => 'كل العناصر';
+
+  @override
+  String get settingsListsRequireReason => 'طلب سبب عندما يكون العنصر';
+
+  @override
+  String get settingsListsShowCompleted => 'إظهار العناصر المكتملة';
+
+  @override
   String get settingsListsSubtitle => 'الحالات والتقدّم والعناصر المكتملة';
+
+  @override
+  String get settingsMore => 'واحد أكثر';
 
   @override
   String get settingsNotificationsSubtitle =>
@@ -10042,10 +10112,117 @@ class AppLocalizationsAr extends AppLocalizations {
       'الفئات والوسوم المستخدمة في التطبيق';
 
   @override
+  String get settingsPeriodLastMonth => 'الشهر الماضي';
+
+  @override
+  String get settingsPeriodLastWeek => 'الأسبوع الماضي';
+
+  @override
+  String settingsPeriodRolling(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'آخر $days يوم',
+      many: 'آخر $days يومًا',
+      few: 'آخر $days أيام',
+      two: 'آخر يومين',
+      one: 'آخر يوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPeriodThisMonth => 'هذا الشهر';
+
+  @override
+  String get settingsPeriodThisQuarter => 'هذا الربع';
+
+  @override
+  String get settingsPeriodThisWeek => 'هذا الأسبوع';
+
+  @override
+  String get settingsPeriodThisYear => 'هذه السنة';
+
+  @override
   String get settingsPlan => 'التخطيط';
 
   @override
+  String get settingsPlanActualAlways => 'دائمًا';
+
+  @override
+  String get settingsPlanActualNever => 'أبدًا';
+
+  @override
+  String get settingsPlanActualOffSchedule => 'عند الخروج عن الجدول';
+
+  @override
+  String get settingsPlanActualTime => 'طلب الوقت الفعلي عند الإنجاز';
+
+  @override
+  String get settingsPlanDefaultDuration => 'المدة الافتراضية للمهام';
+
+  @override
+  String get settingsPlanDefaultView => 'العرض الافتراضي';
+
+  @override
+  String get settingsPlanDefaultViewNone => 'جدول الأسبوع';
+
+  @override
+  String get settingsPlanGrace => 'تُعدّ فائتة بعد';
+
+  @override
+  String settingsPlanGraceValue(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes دقيقة بعد انتهائها',
+      many: '$minutes دقيقة بعد انتهائها',
+      few: '$minutes دقائق بعد انتهائها',
+      two: 'دقيقتين بعد انتهائها',
+      one: 'دقيقة واحدة بعد انتهائها',
+      zero: 'بمجرد انتهائها',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlanRollOver => 'المهام غير المنجزة';
+
+  @override
+  String get settingsPlanRollOverAsk => 'اسألني';
+
+  @override
+  String get settingsPlanRollOverAuto => 'نقلها إلى اليوم';
+
+  @override
+  String get settingsPlanRollOverOff => 'تركها';
+
+  @override
   String get settingsPlanSubtitle => 'العرض الافتراضي والمدد وساعات العمل';
+
+  @override
+  String get settingsPlanTracking => 'طريقة المتابعة الافتراضية';
+
+  @override
+  String get settingsPlanTrackingCheck => 'تأشير';
+
+  @override
+  String get settingsPlanTrackingEvent => 'حدث';
+
+  @override
+  String get settingsPlanTrackingTimer => 'مؤقّت';
+
+  @override
+  String get settingsPlanWorkDays => 'أيام العمل';
+
+  @override
+  String get settingsPlanWorkEnd => 'النهاية';
+
+  @override
+  String get settingsPlanWorkHours => 'ساعات العمل';
+
+  @override
+  String get settingsPlanWorkStart => 'البداية';
 
   @override
   String get settingsPreview => 'معاينة';

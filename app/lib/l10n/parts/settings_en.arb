@@ -62,10 +62,22 @@
   "settingsSyncTitle": "Sync & devices",
   "settingsSyncStatus": "Status",
   "settingsSyncLastSuccess": "Last synced {when}",
-  "@settingsSyncLastSuccess": {"placeholders": {"when": {"type": "String"}}},
+  "@settingsSyncLastSuccess": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
   "settingsSyncNever": "Not synced yet",
   "settingsSyncFailed": "{count, plural, =1{1 change was rejected by the server} other{{count} changes were rejected by the server}}",
-  "@settingsSyncFailed": {"placeholders": {"count": {"type": "int"}}},
+  "@settingsSyncFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "settingsSyncLastError": "Last error",
   "settingsSyncNow": "Sync now",
   "settingsSyncResync": "Force full resync",
@@ -77,7 +89,13 @@
   "settingsSyncDiscardBody": "The server's version of these items is restored on this device.",
   "settingsSyncDiagnostics": "Sync diagnostics",
   "settingsSyncInitialProgress": "Downloading your data… {percent}%",
-  "@settingsSyncInitialProgress": {"placeholders": {"percent": {"type": "int"}}},
+  "@settingsSyncInitialProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "settingsSyncOffTitle": "Sync is off",
   "settingsSyncOffBody": "Your data is stored on this device only.",
   "settingsSyncRefreshLocalOnly": "Everything is saved on this device.",
@@ -85,15 +103,104 @@
   "settingsDevices": "Devices",
   "settingsDeviceThis": "This device",
   "settingsDeviceLastSeen": "Last seen {when}",
-  "@settingsDeviceLastSeen": {"placeholders": {"when": {"type": "String"}}},
+  "@settingsDeviceLastSeen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
   "settingsDevicePushOn": "Push notifications on",
   "settingsDevicePushOff": "Push notifications off",
   "settingsDeviceRevoke": "Remove device",
   "settingsDeviceRevokeTitle": "Remove {name}?",
-  "@settingsDeviceRevokeTitle": {"placeholders": {"name": {"type": "String"}}},
+  "@settingsDeviceRevokeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "settingsDeviceRevokeBody": "It stops receiving notifications and is signed out the next time it connects.",
   "settingsDeviceRevoked": "Device removed",
   "settingsDevicesOffline": "Connect to the internet to see your devices.",
   "settingsDevicesEmpty": "No devices registered yet.",
-  "settingsDeviceUnknown": "Unknown device"
+  "settingsDeviceUnknown": "Unknown device",
+  "settingsDefaultsHint": "Defaults for new items. Existing items keep their own settings.",
+  "settingsPlanDefaultView": "Default view",
+  "settingsPlanDefaultViewNone": "Week table",
+  "settingsPlanDefaultDuration": "Default task duration",
+  "settingsPlanTracking": "Default tracking",
+  "settingsPlanTrackingCheck": "Check off",
+  "settingsPlanTrackingEvent": "Event",
+  "settingsPlanTrackingTimer": "Timer",
+  "settingsPlanGrace": "Missed after",
+  "settingsPlanGraceValue": "{minutes, plural, =0{As soon as it ends} =1{1 minute after the end} other{{minutes} minutes after the end}}",
+  "@settingsPlanGraceValue": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsPlanWorkHours": "Work hours",
+  "settingsPlanWorkStart": "Start",
+  "settingsPlanWorkEnd": "End",
+  "settingsPlanWorkDays": "Work days",
+  "settingsPlanRollOver": "Unfinished tasks",
+  "settingsPlanRollOverOff": "Leave them",
+  "settingsPlanRollOverAsk": "Ask me",
+  "settingsPlanRollOverAuto": "Move to today",
+  "settingsPlanActualTime": "Ask for the actual time when done",
+  "settingsPlanActualNever": "Never",
+  "settingsPlanActualOffSchedule": "When off schedule",
+  "settingsPlanActualAlways": "Always",
+  "settingsListsRequireReason": "Ask for a reason when an item is",
+  "settingsListsAutoComplete": "Complete parents automatically",
+  "settingsListsAutoCompleteHint": "A parent is done when all its sub-items are done.",
+  "settingsListsProgress": "Progress counts",
+  "settingsListsProgressLeaves": "Every item",
+  "settingsListsProgressChildren": "Direct sub-items",
+  "settingsListsShowCompleted": "Show completed items",
+  "settingsListsCompletedBottom": "Move completed items to the bottom",
+  "settingsHabitsSkipPolicy": "Skipped days",
+  "settingsHabitsSkipNeutral": "Don't affect the streak",
+  "settingsHabitsSkipBreaks": "Break the streak",
+  "settingsHabitsFreezes": "Streak freezes per month",
+  "settingsHabitsFreezesHint": "Missed days forgiven each month for new habits.",
+  "settingsHabitsDayStartLink": "Day starts at {time}",
+  "@settingsHabitsDayStartLink": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsInsightsPeriod": "Default period",
+  "settingsPeriodThisWeek": "This week",
+  "settingsPeriodLastWeek": "Last week",
+  "settingsPeriodThisMonth": "This month",
+  "settingsPeriodLastMonth": "Last month",
+  "settingsPeriodThisQuarter": "This quarter",
+  "settingsPeriodThisYear": "This year",
+  "settingsPeriodRolling": "{days, plural, =1{Last day} other{Last {days} days}}",
+  "@settingsPeriodRolling": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsInsightsCompare": "Compare with the previous period",
+  "settingsInsightsWeekStart": "Week starts on (insights)",
+  "settingsInsightsWeekStartProfile": "Same as the app ({day})",
+  "@settingsInsightsWeekStartProfile": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsFewer": "One fewer",
+  "settingsMore": "One more"
 }

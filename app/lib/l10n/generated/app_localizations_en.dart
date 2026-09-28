@@ -9537,6 +9537,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsDefaultOpen => 'Open in';
 
   @override
+  String get settingsDefaultsHint =>
+      'Defaults for new items. Existing items keep their own settings.';
+
+  @override
   String get settingsDensity => 'Density';
 
   @override
@@ -9588,6 +9592,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Connect to the internet to see your devices.';
 
   @override
+  String get settingsFewer => 'One fewer';
+
+  @override
   String get settingsGroupData => 'Data & privacy';
 
   @override
@@ -9601,6 +9608,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsHabits => 'Habits';
+
+  @override
+  String settingsHabitsDayStartLink(String time) {
+    return 'Day starts at $time';
+  }
+
+  @override
+  String get settingsHabitsFreezes => 'Streak freezes per month';
+
+  @override
+  String get settingsHabitsFreezesHint =>
+      'Missed days forgiven each month for new habits.';
+
+  @override
+  String get settingsHabitsSkipBreaks => 'Break the streak';
+
+  @override
+  String get settingsHabitsSkipNeutral => 'Don\'t affect the streak';
+
+  @override
+  String get settingsHabitsSkipPolicy => 'Skipped days';
 
   @override
   String get settingsHabitsSubtitle => 'Skip policy, streak freezes';
@@ -9626,7 +9654,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsInsights => 'Insights';
 
   @override
+  String get settingsInsightsCompare => 'Compare with the previous period';
+
+  @override
+  String get settingsInsightsPeriod => 'Default period';
+
+  @override
   String get settingsInsightsSubtitle => 'Default period, comparisons';
+
+  @override
+  String get settingsInsightsWeekStart => 'Week starts on (insights)';
+
+  @override
+  String settingsInsightsWeekStartProfile(String day) {
+    return 'Same as the app ($day)';
+  }
 
   @override
   String get settingsLanguage => 'Language';
@@ -9647,7 +9689,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLists => 'Lists';
 
   @override
+  String get settingsListsAutoComplete => 'Complete parents automatically';
+
+  @override
+  String get settingsListsAutoCompleteHint =>
+      'A parent is done when all its sub-items are done.';
+
+  @override
+  String get settingsListsCompletedBottom =>
+      'Move completed items to the bottom';
+
+  @override
+  String get settingsListsProgress => 'Progress counts';
+
+  @override
+  String get settingsListsProgressChildren => 'Direct sub-items';
+
+  @override
+  String get settingsListsProgressLeaves => 'Every item';
+
+  @override
+  String get settingsListsRequireReason => 'Ask for a reason when an item is';
+
+  @override
+  String get settingsListsShowCompleted => 'Show completed items';
+
+  @override
   String get settingsListsSubtitle => 'Statuses, progress, completed items';
+
+  @override
+  String get settingsMore => 'One more';
 
   @override
   String get settingsNotificationsSubtitle => 'Reminders, quiet hours, inbox';
@@ -9657,10 +9728,111 @@ class AppLocalizationsEn extends AppLocalizations {
       'Categories and tags used across the app';
 
   @override
+  String get settingsPeriodLastMonth => 'Last month';
+
+  @override
+  String get settingsPeriodLastWeek => 'Last week';
+
+  @override
+  String settingsPeriodRolling(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Last $days days',
+      one: 'Last day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPeriodThisMonth => 'This month';
+
+  @override
+  String get settingsPeriodThisQuarter => 'This quarter';
+
+  @override
+  String get settingsPeriodThisWeek => 'This week';
+
+  @override
+  String get settingsPeriodThisYear => 'This year';
+
+  @override
   String get settingsPlan => 'Plan';
 
   @override
+  String get settingsPlanActualAlways => 'Always';
+
+  @override
+  String get settingsPlanActualNever => 'Never';
+
+  @override
+  String get settingsPlanActualOffSchedule => 'When off schedule';
+
+  @override
+  String get settingsPlanActualTime => 'Ask for the actual time when done';
+
+  @override
+  String get settingsPlanDefaultDuration => 'Default task duration';
+
+  @override
+  String get settingsPlanDefaultView => 'Default view';
+
+  @override
+  String get settingsPlanDefaultViewNone => 'Week table';
+
+  @override
+  String get settingsPlanGrace => 'Missed after';
+
+  @override
+  String settingsPlanGraceValue(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minutes after the end',
+      one: '1 minute after the end',
+      zero: 'As soon as it ends',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsPlanRollOver => 'Unfinished tasks';
+
+  @override
+  String get settingsPlanRollOverAsk => 'Ask me';
+
+  @override
+  String get settingsPlanRollOverAuto => 'Move to today';
+
+  @override
+  String get settingsPlanRollOverOff => 'Leave them';
+
+  @override
   String get settingsPlanSubtitle => 'Default view, durations, work hours';
+
+  @override
+  String get settingsPlanTracking => 'Default tracking';
+
+  @override
+  String get settingsPlanTrackingCheck => 'Check off';
+
+  @override
+  String get settingsPlanTrackingEvent => 'Event';
+
+  @override
+  String get settingsPlanTrackingTimer => 'Timer';
+
+  @override
+  String get settingsPlanWorkDays => 'Work days';
+
+  @override
+  String get settingsPlanWorkEnd => 'End';
+
+  @override
+  String get settingsPlanWorkHours => 'Work hours';
+
+  @override
+  String get settingsPlanWorkStart => 'Start';
 
   @override
   String get settingsPreview => 'Preview';

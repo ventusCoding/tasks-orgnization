@@ -3260,6 +3260,34 @@
       }
     }
   },
+  "@settingsHabitsDayStartLink": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsInsightsWeekStartProfile": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsPeriodRolling": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@settingsPlanGraceValue": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "@settingsStaleDays": {
     "placeholders": {
       "days": {
@@ -6703,6 +6731,7 @@
   "settingsDayStart": "Habit day starts at",
   "settingsDayStartSubtitle": "Check-ins before this time count for the previous day. Applies to new check-ins only.",
   "settingsDefaultOpen": "Open in",
+  "settingsDefaultsHint": "Defaults for new items. Existing items keep their own settings.",
   "settingsDensity": "Density",
   "settingsDensityComfortable": "Comfortable",
   "settingsDensityCompact": "Compact",
@@ -6718,11 +6747,18 @@
   "settingsDevices": "Devices",
   "settingsDevicesEmpty": "No devices registered yet.",
   "settingsDevicesOffline": "Connect to the internet to see your devices.",
+  "settingsFewer": "One fewer",
   "settingsGroupData": "Data & privacy",
   "settingsGroupGeneral": "General",
   "settingsGroupHelp": "Help",
   "settingsGroupSections": "Sections",
   "settingsHabits": "Habits",
+  "settingsHabitsDayStartLink": "Day starts at {time}",
+  "settingsHabitsFreezes": "Streak freezes per month",
+  "settingsHabitsFreezesHint": "Missed days forgiven each month for new habits.",
+  "settingsHabitsSkipBreaks": "Break the streak",
+  "settingsHabitsSkipNeutral": "Don't affect the streak",
+  "settingsHabitsSkipPolicy": "Skipped days",
   "settingsHabitsSubtitle": "Skip policy, streak freezes",
   "settingsHideCheckboxes": "Hide checkboxes (bullets)",
   "settingsHomeZone": "Home time zone",
@@ -6730,18 +6766,59 @@
   "settingsHomeZoneAutoSubtitle": "Update the home zone automatically when you travel",
   "settingsHomeZoneSubtitle": "Fixed-time tasks and habits use this zone",
   "settingsInsights": "Insights",
+  "settingsInsightsCompare": "Compare with the previous period",
+  "settingsInsightsPeriod": "Default period",
   "settingsInsightsSubtitle": "Default period, comparisons",
+  "settingsInsightsWeekStart": "Week starts on (insights)",
+  "settingsInsightsWeekStartProfile": "Same as the app ({day})",
   "settingsLanguage": "Language",
   "settingsLanguageArabic": "العربية",
   "settingsLanguageEnglish": "English",
   "settingsLanguageFrench": "Français",
   "settingsLanguageSystem": "System default",
   "settingsLists": "Lists",
+  "settingsListsAutoComplete": "Complete parents automatically",
+  "settingsListsAutoCompleteHint": "A parent is done when all its sub-items are done.",
+  "settingsListsCompletedBottom": "Move completed items to the bottom",
+  "settingsListsProgress": "Progress counts",
+  "settingsListsProgressChildren": "Direct sub-items",
+  "settingsListsProgressLeaves": "Every item",
+  "settingsListsRequireReason": "Ask for a reason when an item is",
+  "settingsListsShowCompleted": "Show completed items",
   "settingsListsSubtitle": "Statuses, progress, completed items",
+  "settingsMore": "One more",
   "settingsNotificationsSubtitle": "Reminders, quiet hours, inbox",
   "settingsOrganizationSubtitle": "Categories and tags used across the app",
+  "settingsPeriodLastMonth": "Last month",
+  "settingsPeriodLastWeek": "Last week",
+  "settingsPeriodRolling": "{days, plural, =1{Last day} other{Last {days} days}}",
+  "settingsPeriodThisMonth": "This month",
+  "settingsPeriodThisQuarter": "This quarter",
+  "settingsPeriodThisWeek": "This week",
+  "settingsPeriodThisYear": "This year",
   "settingsPlan": "Plan",
+  "settingsPlanActualAlways": "Always",
+  "settingsPlanActualNever": "Never",
+  "settingsPlanActualOffSchedule": "When off schedule",
+  "settingsPlanActualTime": "Ask for the actual time when done",
+  "settingsPlanDefaultDuration": "Default task duration",
+  "settingsPlanDefaultView": "Default view",
+  "settingsPlanDefaultViewNone": "Week table",
+  "settingsPlanGrace": "Missed after",
+  "settingsPlanGraceValue": "{minutes, plural, =0{As soon as it ends} =1{1 minute after the end} other{{minutes} minutes after the end}}",
+  "settingsPlanRollOver": "Unfinished tasks",
+  "settingsPlanRollOverAsk": "Ask me",
+  "settingsPlanRollOverAuto": "Move to today",
+  "settingsPlanRollOverOff": "Leave them",
   "settingsPlanSubtitle": "Default view, durations, work hours",
+  "settingsPlanTracking": "Default tracking",
+  "settingsPlanTrackingCheck": "Check off",
+  "settingsPlanTrackingEvent": "Event",
+  "settingsPlanTrackingTimer": "Timer",
+  "settingsPlanWorkDays": "Work days",
+  "settingsPlanWorkEnd": "End",
+  "settingsPlanWorkHours": "Work hours",
+  "settingsPlanWorkStart": "Start",
   "settingsPreview": "Preview",
   "settingsPrivacy": "Privacy & security",
   "settingsPrivacySubtitle": "App lock, hidden notification content",

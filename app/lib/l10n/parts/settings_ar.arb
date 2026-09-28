@@ -62,10 +62,22 @@
   "settingsSyncTitle": "المزامنة والأجهزة",
   "settingsSyncStatus": "الحالة",
   "settingsSyncLastSuccess": "آخر مزامنة {when}",
-  "@settingsSyncLastSuccess": {"placeholders": {"when": {"type": "String"}}},
+  "@settingsSyncLastSuccess": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
   "settingsSyncNever": "لم تتم المزامنة بعد",
   "settingsSyncFailed": "{count, plural, =1{رفض الخادم تعديلًا واحدًا} =2{رفض الخادم تعديلين} few{رفض الخادم {count} تعديلات} many{رفض الخادم {count} تعديلًا} other{رفض الخادم {count} تعديل}}",
-  "@settingsSyncFailed": {"placeholders": {"count": {"type": "int"}}},
+  "@settingsSyncFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "settingsSyncLastError": "آخر خطأ",
   "settingsSyncNow": "المزامنة الآن",
   "settingsSyncResync": "فرض مزامنة كاملة",
@@ -77,7 +89,13 @@
   "settingsSyncDiscardBody": "ستُستعاد نسخة الخادم من هذه العناصر على هذا الجهاز.",
   "settingsSyncDiagnostics": "تشخيص المزامنة",
   "settingsSyncInitialProgress": "جارٍ تنزيل بياناتك… {percent}٪",
-  "@settingsSyncInitialProgress": {"placeholders": {"percent": {"type": "int"}}},
+  "@settingsSyncInitialProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "settingsSyncOffTitle": "المزامنة متوقفة",
   "settingsSyncOffBody": "بياناتك محفوظة على هذا الجهاز فقط.",
   "settingsSyncRefreshLocalOnly": "كل شيء محفوظ على هذا الجهاز.",
@@ -85,15 +103,76 @@
   "settingsDevices": "الأجهزة",
   "settingsDeviceThis": "هذا الجهاز",
   "settingsDeviceLastSeen": "آخر ظهور {when}",
-  "@settingsDeviceLastSeen": {"placeholders": {"when": {"type": "String"}}},
+  "@settingsDeviceLastSeen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
   "settingsDevicePushOn": "إشعارات الدفع مفعّلة",
   "settingsDevicePushOff": "إشعارات الدفع متوقفة",
   "settingsDeviceRevoke": "إزالة الجهاز",
   "settingsDeviceRevokeTitle": "إزالة {name}؟",
-  "@settingsDeviceRevokeTitle": {"placeholders": {"name": {"type": "String"}}},
+  "@settingsDeviceRevokeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "settingsDeviceRevokeBody": "سيتوقف عن تلقي الإشعارات وسيُسجَّل خروجه عند اتصاله التالي.",
   "settingsDeviceRevoked": "تمت إزالة الجهاز",
   "settingsDevicesOffline": "اتصل بالإنترنت لعرض أجهزتك.",
   "settingsDevicesEmpty": "لا توجد أجهزة مسجّلة بعد.",
-  "settingsDeviceUnknown": "جهاز غير معروف"
+  "settingsDeviceUnknown": "جهاز غير معروف",
+  "settingsDefaultsHint": "القيم الافتراضية للعناصر الجديدة. تحتفظ العناصر الحالية بإعداداتها.",
+  "settingsPlanDefaultView": "العرض الافتراضي",
+  "settingsPlanDefaultViewNone": "جدول الأسبوع",
+  "settingsPlanDefaultDuration": "المدة الافتراضية للمهام",
+  "settingsPlanTracking": "طريقة المتابعة الافتراضية",
+  "settingsPlanTrackingCheck": "تأشير",
+  "settingsPlanTrackingEvent": "حدث",
+  "settingsPlanTrackingTimer": "مؤقّت",
+  "settingsPlanGrace": "تُعدّ فائتة بعد",
+  "settingsPlanGraceValue": "{minutes, plural, =0{بمجرد انتهائها} =1{دقيقة واحدة بعد انتهائها} =2{دقيقتين بعد انتهائها} few{{minutes} دقائق بعد انتهائها} many{{minutes} دقيقة بعد انتهائها} other{{minutes} دقيقة بعد انتهائها}}",
+  "settingsPlanWorkHours": "ساعات العمل",
+  "settingsPlanWorkStart": "البداية",
+  "settingsPlanWorkEnd": "النهاية",
+  "settingsPlanWorkDays": "أيام العمل",
+  "settingsPlanRollOver": "المهام غير المنجزة",
+  "settingsPlanRollOverOff": "تركها",
+  "settingsPlanRollOverAsk": "اسألني",
+  "settingsPlanRollOverAuto": "نقلها إلى اليوم",
+  "settingsPlanActualTime": "طلب الوقت الفعلي عند الإنجاز",
+  "settingsPlanActualNever": "أبدًا",
+  "settingsPlanActualOffSchedule": "عند الخروج عن الجدول",
+  "settingsPlanActualAlways": "دائمًا",
+  "settingsListsRequireReason": "طلب سبب عندما يكون العنصر",
+  "settingsListsAutoComplete": "إكمال العناصر الأم تلقائيًا",
+  "settingsListsAutoCompleteHint": "يكتمل العنصر الأم عند اكتمال كل عناصره الفرعية.",
+  "settingsListsProgress": "يُحسب التقدّم على",
+  "settingsListsProgressLeaves": "كل العناصر",
+  "settingsListsProgressChildren": "العناصر الفرعية المباشرة",
+  "settingsListsShowCompleted": "إظهار العناصر المكتملة",
+  "settingsListsCompletedBottom": "نقل العناصر المكتملة إلى الأسفل",
+  "settingsHabitsSkipPolicy": "الأيام المتخطّاة",
+  "settingsHabitsSkipNeutral": "لا تؤثر على السلسلة",
+  "settingsHabitsSkipBreaks": "تقطع السلسلة",
+  "settingsHabitsFreezes": "أيام تجميد السلسلة شهريًا",
+  "settingsHabitsFreezesHint": "أيام فائتة تُغتفر كل شهر للعادات الجديدة.",
+  "settingsHabitsDayStartLink": "يبدأ اليوم عند {time}",
+  "settingsInsightsPeriod": "الفترة الافتراضية",
+  "settingsPeriodThisWeek": "هذا الأسبوع",
+  "settingsPeriodLastWeek": "الأسبوع الماضي",
+  "settingsPeriodThisMonth": "هذا الشهر",
+  "settingsPeriodLastMonth": "الشهر الماضي",
+  "settingsPeriodThisQuarter": "هذا الربع",
+  "settingsPeriodThisYear": "هذه السنة",
+  "settingsPeriodRolling": "{days, plural, =1{آخر يوم} =2{آخر يومين} few{آخر {days} أيام} many{آخر {days} يومًا} other{آخر {days} يوم}}",
+  "settingsInsightsCompare": "المقارنة مع الفترة السابقة",
+  "settingsInsightsWeekStart": "بداية الأسبوع (الإحصاءات)",
+  "settingsInsightsWeekStartProfile": "مثل التطبيق ({day})",
+  "settingsFewer": "واحد أقل",
+  "settingsMore": "واحد أكثر"
 }

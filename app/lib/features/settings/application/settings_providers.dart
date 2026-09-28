@@ -20,6 +20,10 @@ final appearanceSettingsProvider = Provider<AppearanceSettings>(
   (ref) => _typed(ref, AppearanceSettings.codec, AppearanceSettings.defaults),
 );
 
+final plannerDefaultsProvider = Provider<PlannerDefaults>(
+  (ref) => _typed(ref, PlannerDefaults.codec, PlannerDefaults.defaults),
+);
+
 final regionalSettingsProvider = Provider<RegionalSettings>(
   (ref) => _typed(ref, RegionalSettings.codec, RegionalSettings.defaults),
 );

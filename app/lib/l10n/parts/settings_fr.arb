@@ -62,10 +62,22 @@
   "settingsSyncTitle": "Synchronisation et appareils",
   "settingsSyncStatus": "État",
   "settingsSyncLastSuccess": "Dernière synchronisation {when}",
-  "@settingsSyncLastSuccess": {"placeholders": {"when": {"type": "String"}}},
+  "@settingsSyncLastSuccess": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
   "settingsSyncNever": "Pas encore synchronisé",
   "settingsSyncFailed": "{count, plural, one{{count} modification a été refusée par le serveur} other{{count} modifications ont été refusées par le serveur}}",
-  "@settingsSyncFailed": {"placeholders": {"count": {"type": "int"}}},
+  "@settingsSyncFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "settingsSyncLastError": "Dernière erreur",
   "settingsSyncNow": "Synchroniser maintenant",
   "settingsSyncResync": "Forcer une resynchronisation complète",
@@ -77,7 +89,13 @@
   "settingsSyncDiscardBody": "La version du serveur de ces éléments est rétablie sur cet appareil.",
   "settingsSyncDiagnostics": "Diagnostic de synchronisation",
   "settingsSyncInitialProgress": "Téléchargement de vos données… {percent} %",
-  "@settingsSyncInitialProgress": {"placeholders": {"percent": {"type": "int"}}},
+  "@settingsSyncInitialProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "settingsSyncOffTitle": "La synchronisation est désactivée",
   "settingsSyncOffBody": "Vos données sont stockées uniquement sur cet appareil.",
   "settingsSyncRefreshLocalOnly": "Tout est enregistré sur cet appareil.",
@@ -85,15 +103,76 @@
   "settingsDevices": "Appareils",
   "settingsDeviceThis": "Cet appareil",
   "settingsDeviceLastSeen": "Vu pour la dernière fois {when}",
-  "@settingsDeviceLastSeen": {"placeholders": {"when": {"type": "String"}}},
+  "@settingsDeviceLastSeen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
   "settingsDevicePushOn": "Notifications push activées",
   "settingsDevicePushOff": "Notifications push désactivées",
   "settingsDeviceRevoke": "Retirer l'appareil",
   "settingsDeviceRevokeTitle": "Retirer {name} ?",
-  "@settingsDeviceRevokeTitle": {"placeholders": {"name": {"type": "String"}}},
+  "@settingsDeviceRevokeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "settingsDeviceRevokeBody": "Il ne recevra plus de notifications et sera déconnecté à sa prochaine connexion.",
   "settingsDeviceRevoked": "Appareil retiré",
   "settingsDevicesOffline": "Connectez-vous à Internet pour voir vos appareils.",
   "settingsDevicesEmpty": "Aucun appareil enregistré pour l'instant.",
-  "settingsDeviceUnknown": "Appareil inconnu"
+  "settingsDeviceUnknown": "Appareil inconnu",
+  "settingsDefaultsHint": "Valeurs par défaut des nouveaux éléments. Les éléments existants gardent leurs propres réglages.",
+  "settingsPlanDefaultView": "Vue par défaut",
+  "settingsPlanDefaultViewNone": "Tableau de la semaine",
+  "settingsPlanDefaultDuration": "Durée par défaut des tâches",
+  "settingsPlanTracking": "Suivi par défaut",
+  "settingsPlanTrackingCheck": "À cocher",
+  "settingsPlanTrackingEvent": "Événement",
+  "settingsPlanTrackingTimer": "Minuteur",
+  "settingsPlanGrace": "Manquée après",
+  "settingsPlanGraceValue": "{minutes, plural, =0{Dès la fin} =1{1 minute après la fin} other{{minutes} minutes après la fin}}",
+  "settingsPlanWorkHours": "Heures de travail",
+  "settingsPlanWorkStart": "Début",
+  "settingsPlanWorkEnd": "Fin",
+  "settingsPlanWorkDays": "Jours travaillés",
+  "settingsPlanRollOver": "Tâches non terminées",
+  "settingsPlanRollOverOff": "Les laisser",
+  "settingsPlanRollOverAsk": "Me demander",
+  "settingsPlanRollOverAuto": "Les reporter à aujourd’hui",
+  "settingsPlanActualTime": "Demander l’heure réelle à la fin",
+  "settingsPlanActualNever": "Jamais",
+  "settingsPlanActualOffSchedule": "En cas d’écart",
+  "settingsPlanActualAlways": "Toujours",
+  "settingsListsRequireReason": "Demander une raison quand un élément est",
+  "settingsListsAutoComplete": "Terminer les parents automatiquement",
+  "settingsListsAutoCompleteHint": "Un parent est terminé quand tous ses sous-éléments le sont.",
+  "settingsListsProgress": "La progression compte",
+  "settingsListsProgressLeaves": "Chaque élément",
+  "settingsListsProgressChildren": "Les sous-éléments directs",
+  "settingsListsShowCompleted": "Afficher les éléments terminés",
+  "settingsListsCompletedBottom": "Déplacer les éléments terminés en bas",
+  "settingsHabitsSkipPolicy": "Jours sautés",
+  "settingsHabitsSkipNeutral": "Sans effet sur la série",
+  "settingsHabitsSkipBreaks": "Interrompent la série",
+  "settingsHabitsFreezes": "Jokers de série par mois",
+  "settingsHabitsFreezesHint": "Jours manqués pardonnés chaque mois pour les nouvelles habitudes.",
+  "settingsHabitsDayStartLink": "La journée commence à {time}",
+  "settingsInsightsPeriod": "Période par défaut",
+  "settingsPeriodThisWeek": "Cette semaine",
+  "settingsPeriodLastWeek": "La semaine dernière",
+  "settingsPeriodThisMonth": "Ce mois-ci",
+  "settingsPeriodLastMonth": "Le mois dernier",
+  "settingsPeriodThisQuarter": "Ce trimestre",
+  "settingsPeriodThisYear": "Cette année",
+  "settingsPeriodRolling": "{days, plural, =1{Dernier jour} other{{days} derniers jours}}",
+  "settingsInsightsCompare": "Comparer avec la période précédente",
+  "settingsInsightsWeekStart": "Début de semaine (statistiques)",
+  "settingsInsightsWeekStartProfile": "Comme l’app ({day})",
+  "settingsFewer": "Un de moins",
+  "settingsMore": "Un de plus"
 }

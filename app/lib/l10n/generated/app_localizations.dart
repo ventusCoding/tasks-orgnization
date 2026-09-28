@@ -15843,6 +15843,12 @@ abstract class AppLocalizations {
   /// **'Open in'**
   String get settingsDefaultOpen;
 
+  /// No description provided for @settingsDefaultsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Defaults for new items. Existing items keep their own settings.'**
+  String get settingsDefaultsHint;
+
   /// No description provided for @settingsDensity.
   ///
   /// In en, this message translates to:
@@ -15933,6 +15939,12 @@ abstract class AppLocalizations {
   /// **'Connect to the internet to see your devices.'**
   String get settingsDevicesOffline;
 
+  /// No description provided for @settingsFewer.
+  ///
+  /// In en, this message translates to:
+  /// **'One fewer'**
+  String get settingsFewer;
+
   /// No description provided for @settingsGroupData.
   ///
   /// In en, this message translates to:
@@ -15962,6 +15974,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Habits'**
   String get settingsHabits;
+
+  /// No description provided for @settingsHabitsDayStartLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Day starts at {time}'**
+  String settingsHabitsDayStartLink(String time);
+
+  /// No description provided for @settingsHabitsFreezes.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak freezes per month'**
+  String get settingsHabitsFreezes;
+
+  /// No description provided for @settingsHabitsFreezesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Missed days forgiven each month for new habits.'**
+  String get settingsHabitsFreezesHint;
+
+  /// No description provided for @settingsHabitsSkipBreaks.
+  ///
+  /// In en, this message translates to:
+  /// **'Break the streak'**
+  String get settingsHabitsSkipBreaks;
+
+  /// No description provided for @settingsHabitsSkipNeutral.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t affect the streak'**
+  String get settingsHabitsSkipNeutral;
+
+  /// No description provided for @settingsHabitsSkipPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped days'**
+  String get settingsHabitsSkipPolicy;
 
   /// No description provided for @settingsHabitsSubtitle.
   ///
@@ -16005,11 +16053,35 @@ abstract class AppLocalizations {
   /// **'Insights'**
   String get settingsInsights;
 
+  /// No description provided for @settingsInsightsCompare.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare with the previous period'**
+  String get settingsInsightsCompare;
+
+  /// No description provided for @settingsInsightsPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Default period'**
+  String get settingsInsightsPeriod;
+
   /// No description provided for @settingsInsightsSubtitle.
   ///
   /// In en, this message translates to:
   /// **'Default period, comparisons'**
   String get settingsInsightsSubtitle;
+
+  /// No description provided for @settingsInsightsWeekStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Week starts on (insights)'**
+  String get settingsInsightsWeekStart;
+
+  /// No description provided for @settingsInsightsWeekStartProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Same as the app ({day})'**
+  String settingsInsightsWeekStartProfile(String day);
 
   /// No description provided for @settingsLanguage.
   ///
@@ -16047,11 +16119,65 @@ abstract class AppLocalizations {
   /// **'Lists'**
   String get settingsLists;
 
+  /// No description provided for @settingsListsAutoComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete parents automatically'**
+  String get settingsListsAutoComplete;
+
+  /// No description provided for @settingsListsAutoCompleteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A parent is done when all its sub-items are done.'**
+  String get settingsListsAutoCompleteHint;
+
+  /// No description provided for @settingsListsCompletedBottom.
+  ///
+  /// In en, this message translates to:
+  /// **'Move completed items to the bottom'**
+  String get settingsListsCompletedBottom;
+
+  /// No description provided for @settingsListsProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress counts'**
+  String get settingsListsProgress;
+
+  /// No description provided for @settingsListsProgressChildren.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct sub-items'**
+  String get settingsListsProgressChildren;
+
+  /// No description provided for @settingsListsProgressLeaves.
+  ///
+  /// In en, this message translates to:
+  /// **'Every item'**
+  String get settingsListsProgressLeaves;
+
+  /// No description provided for @settingsListsRequireReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for a reason when an item is'**
+  String get settingsListsRequireReason;
+
+  /// No description provided for @settingsListsShowCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Show completed items'**
+  String get settingsListsShowCompleted;
+
   /// No description provided for @settingsListsSubtitle.
   ///
   /// In en, this message translates to:
   /// **'Statuses, progress, completed items'**
   String get settingsListsSubtitle;
+
+  /// No description provided for @settingsMore.
+  ///
+  /// In en, this message translates to:
+  /// **'One more'**
+  String get settingsMore;
 
   /// No description provided for @settingsNotificationsSubtitle.
   ///
@@ -16065,17 +16191,185 @@ abstract class AppLocalizations {
   /// **'Categories and tags used across the app'**
   String get settingsOrganizationSubtitle;
 
+  /// No description provided for @settingsPeriodLastMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Last month'**
+  String get settingsPeriodLastMonth;
+
+  /// No description provided for @settingsPeriodLastWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Last week'**
+  String get settingsPeriodLastWeek;
+
+  /// No description provided for @settingsPeriodRolling.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{Last day} other{Last {days} days}}'**
+  String settingsPeriodRolling(int days);
+
+  /// No description provided for @settingsPeriodThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get settingsPeriodThisMonth;
+
+  /// No description provided for @settingsPeriodThisQuarter.
+  ///
+  /// In en, this message translates to:
+  /// **'This quarter'**
+  String get settingsPeriodThisQuarter;
+
+  /// No description provided for @settingsPeriodThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get settingsPeriodThisWeek;
+
+  /// No description provided for @settingsPeriodThisYear.
+  ///
+  /// In en, this message translates to:
+  /// **'This year'**
+  String get settingsPeriodThisYear;
+
   /// No description provided for @settingsPlan.
   ///
   /// In en, this message translates to:
   /// **'Plan'**
   String get settingsPlan;
 
+  /// No description provided for @settingsPlanActualAlways.
+  ///
+  /// In en, this message translates to:
+  /// **'Always'**
+  String get settingsPlanActualAlways;
+
+  /// No description provided for @settingsPlanActualNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get settingsPlanActualNever;
+
+  /// No description provided for @settingsPlanActualOffSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'When off schedule'**
+  String get settingsPlanActualOffSchedule;
+
+  /// No description provided for @settingsPlanActualTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for the actual time when done'**
+  String get settingsPlanActualTime;
+
+  /// No description provided for @settingsPlanDefaultDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Default task duration'**
+  String get settingsPlanDefaultDuration;
+
+  /// No description provided for @settingsPlanDefaultView.
+  ///
+  /// In en, this message translates to:
+  /// **'Default view'**
+  String get settingsPlanDefaultView;
+
+  /// No description provided for @settingsPlanDefaultViewNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Week table'**
+  String get settingsPlanDefaultViewNone;
+
+  /// No description provided for @settingsPlanGrace.
+  ///
+  /// In en, this message translates to:
+  /// **'Missed after'**
+  String get settingsPlanGrace;
+
+  /// No description provided for @settingsPlanGraceValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes, plural, =0{As soon as it ends} =1{1 minute after the end} other{{minutes} minutes after the end}}'**
+  String settingsPlanGraceValue(int minutes);
+
+  /// No description provided for @settingsPlanRollOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfinished tasks'**
+  String get settingsPlanRollOver;
+
+  /// No description provided for @settingsPlanRollOverAsk.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask me'**
+  String get settingsPlanRollOverAsk;
+
+  /// No description provided for @settingsPlanRollOverAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to today'**
+  String get settingsPlanRollOverAuto;
+
+  /// No description provided for @settingsPlanRollOverOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave them'**
+  String get settingsPlanRollOverOff;
+
   /// No description provided for @settingsPlanSubtitle.
   ///
   /// In en, this message translates to:
   /// **'Default view, durations, work hours'**
   String get settingsPlanSubtitle;
+
+  /// No description provided for @settingsPlanTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Default tracking'**
+  String get settingsPlanTracking;
+
+  /// No description provided for @settingsPlanTrackingCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Check off'**
+  String get settingsPlanTrackingCheck;
+
+  /// No description provided for @settingsPlanTrackingEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Event'**
+  String get settingsPlanTrackingEvent;
+
+  /// No description provided for @settingsPlanTrackingTimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer'**
+  String get settingsPlanTrackingTimer;
+
+  /// No description provided for @settingsPlanWorkDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Work days'**
+  String get settingsPlanWorkDays;
+
+  /// No description provided for @settingsPlanWorkEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get settingsPlanWorkEnd;
+
+  /// No description provided for @settingsPlanWorkHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Work hours'**
+  String get settingsPlanWorkHours;
+
+  /// No description provided for @settingsPlanWorkStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get settingsPlanWorkStart;
 
   /// No description provided for @settingsPreview.
   ///
