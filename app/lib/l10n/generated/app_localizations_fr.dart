@@ -9279,6 +9279,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsCurrentZone => 'Fuseau horaire actuel (cet appareil)';
 
   @override
+  String get settingsDataSubtitle =>
+      'Sauvegarder, restaurer ou transférer vos données';
+
+  @override
+  String get settingsDataTitle => 'Export et import';
+
+  @override
   String get settingsDayStart => 'La journée des habitudes commence à';
 
   @override

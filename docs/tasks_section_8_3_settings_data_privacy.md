@@ -18,10 +18,10 @@ encryption, onboarding, sample data, accessibility options, about/legal, feedbac
 
 ## Progress
 
-- [ ] T8.3.01 — Typed settings repository & settings screen structure
-- [ ] T8.3.02 — Appearance & language settings
-- [ ] T8.3.03 — Regional settings (time zone, week start, formats, day start)
-- [ ] T8.3.04 — Sync & devices screen
+- [x] T8.3.01 — Typed settings repository & settings screen structure
+- [x] T8.3.02 — Appearance & language settings
+- [x] T8.3.03 — Regional settings (time zone, week start, formats, day start)
+- [x] T8.3.04 — Sync & devices screen
 - [ ] T8.3.05 — Section defaults pages (Plan, Lists, Habits, Insights)
 - [ ] T8.3.06 — Trash (restore / delete forever)
 - [ ] T8.3.07 — Export all data (JSON + CSV)
@@ -49,6 +49,7 @@ and go through the outbox; unknown JSON keys are preserved (forward compatibilit
 **Acceptance criteria:** changing a setting on device A appears on device B after sync; corrupted/older
 JSON falls back to defaults without crashing and logs a warning.
 **Tests:** unit tests per namespace (defaults, round-trip, upgrade from v0 fixture); widget test of root screen.
+**Notes:** Hand-written typed namespaces (ADR-016, no freezed) in `features/settings/domain/settings_models.dart` over `SettingsCodec` (defaults, `"v"` upgrades from v0, unknown keys preserved, problems logged as warnings); `SettingsWriter` writes only changed keys and debounces per-field edits into one outbox patch; typed providers (`appearanceSettingsProvider`, `regionalSettingsProvider`, `habitsDefaultsProvider`, `checklistsDefaultsProvider`, `statsDefaultsProvider`, `privacySettingsProvider`). Root screen: Account · General · Sections (+ Notifications, Categories, Tags) · Data & privacy · Help; goldens in `test/features/settings/goldens/`.
 
 ### T8.3.02 — Appearance & language settings
 **Priority:** P0 · **Size:** S · **Depends on:** T8.3.01
@@ -57,6 +58,7 @@ language (System, English, Français, العربية) with instant switch and RT
 **Acceptance criteria:** switching language updates all visible strings, date formats and layout
 direction without restart; choice persists and syncs (profile `locale`).
 **Tests:** widget tests switching locale/theme; goldens in AR.
+**Notes:** Theme, density, language (profile `locale`; instant switch + RTL flip verified through `EverslotApp`), Arabic-Indic digits, live preview; AR/dark/2x goldens. Dynamic color (Android 12+) is not offered: it needs the `dynamic_color` package, which is not in arch §3 — deferred.
 
 ### T8.3.03 — Regional settings (time zone, week start, formats, day start)
 **Priority:** P0 · **Size:** S · **Depends on:** T8.3.01, [1.5]
@@ -66,6 +68,7 @@ for quit savings.
 **Acceptance criteria:** changing week start re-lays out week table, month view and all week-based stats;
 changing day start shifts habit day boundaries for *future* logs only (existing `local_date`s unchanged).
 **Tests:** unit tests on week computations for each week start; widget test for pickers.
+**Notes:** Home zone (searchable picker, or "follow this device" = `regional.homeZoneAuto`), current zone, week start (any weekday, profile), 12/24 h with a date/time preview, habit day start (`habits.dayStartMinutes`, applies to future logs — stored `local_date`s are never rewritten), savings currency (`regional.currency`). Consumers read `userPreferencesProvider`.
 
 ### T8.3.04 — Sync & devices screen
 **Priority:** P0 · **Size:** S · **Depends on:** [1.4] (sync status + device registry)
@@ -74,6 +77,7 @@ changing day start shifts habit day boundaries for *future* logs only (existing 
 with *Revoke device* (disables push; signs out that device on next contact).
 **Acceptance criteria:** pending count decreases live during a push; revoke hides the device and stops pushes.
 **Tests:** widget tests with fake sync states; pgTAP for the revoke RPC policy.
+**Notes:** Status card (phase, last success, live pending/failed outbox counts, retry/discard rejected changes, last error with copy), Sync now, Force full resync behind a confirmation, devices list (revoked hidden, this device first, push on/off, Remove → `app.revoke_device`; pgTAP policy test in `supabase/tests/database/080_devices.test.sql`), local-only card. The devices list does not auto-retry offline (manual Retry). Widget tests: `test/features/settings/sync_page_test.dart`.
 
 ### T8.3.05 — Section defaults pages (Plan, Lists, Habits, Insights)
 **Priority:** P1 · **Size:** M · **Depends on:** T8.3.01

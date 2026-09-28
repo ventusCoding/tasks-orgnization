@@ -2660,6 +2660,8 @@
   "settingsCompleteChildren": "عند إكمال عنصر أصلي",
   "settingsCurrency": "عملة مدّخرات الإقلاع",
   "settingsCurrentZone": "المنطقة الزمنية الحالية (هذا الجهاز)",
+  "settingsDataSubtitle": "انسخ بياناتك احتياطيًا أو استعدها أو انقلها",
+  "settingsDataTitle": "التصدير والاستيراد",
   "settingsDayStart": "يبدأ يوم العادات عند",
   "settingsDayStartSubtitle": "تُحتسب التسجيلات قبل هذا الوقت لليوم السابق. ينطبق على التسجيلات الجديدة فقط.",
   "settingsDefaultOpen": "الفتح في وضع",

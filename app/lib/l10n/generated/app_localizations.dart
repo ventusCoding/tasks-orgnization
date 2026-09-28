@@ -15345,6 +15345,18 @@ abstract class AppLocalizations {
   /// **'Current time zone (this device)'**
   String get settingsCurrentZone;
 
+  /// No description provided for @settingsDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up, restore or move your data'**
+  String get settingsDataSubtitle;
+
+  /// No description provided for @settingsDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export & import'**
+  String get settingsDataTitle;
+
   /// No description provided for @settingsDayStart.
   ///
   /// In en, this message translates to:
