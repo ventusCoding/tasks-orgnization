@@ -109,6 +109,15 @@ class SignOutService {
         _log.info('sign-out cleanup skipped: $e');
       }
     }
+    // A sync run still in flight must not apply a pulled page after the wipe: stop the engine
+    // and wait (briefly) for the run to unwind before deleting anything.
+    final engine = ref.read(syncServiceProvider);
+    engine?.cancel();
+    try {
+      await engine?.whenIdle().timeout(cleanupTimeout);
+    } on TimeoutException {
+      _log.info('sync run still unwinding at sign-out; its writes are refused');
+    }
     binding.expectSignOut = true;
     try {
       // Ending the session disposes the sync engine (Broadcast channel closed) and the

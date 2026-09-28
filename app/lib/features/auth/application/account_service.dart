@@ -110,6 +110,9 @@ class AccountService {
     if (email != null && email.isNotEmpty) {
       final user = await _repo.verifyEmailCode(email, normalizeOtp(code ?? ''));
       if (user.id != session.userId) throw const AuthFailure(AuthFailureCode.unknown, 'reauth returned another user');
+      // The fresh sign-in emits an auth event; drain the binding queue now so its (idempotent)
+      // bind can never land after the wipe below and resurrect the session.
+      await _ref.read(authBindingProvider).bind(user);
     }
     await _repo.deleteAccount();
     await _ref.read(signOutServiceProvider).endSession();

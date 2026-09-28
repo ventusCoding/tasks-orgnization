@@ -163,11 +163,21 @@ class SyncService {
   }
 
   void dispose() {
-    _disposed = true;
-    stop();
+    cancel();
     status.dispose();
     revoked.dispose();
   }
+
+  /// Stops the engine for good without disposing its notifiers (the session ended): timers stop
+  /// and a run in progress applies no further pulled page nor push result, so nothing lands
+  /// after a local wipe (T1.5.07). Await [whenIdle] before wiping.
+  void cancel() {
+    _disposed = true;
+    stop();
+  }
+
+  /// Completes when no run is in progress.
+  Future<void> whenIdle() => _running?.future ?? Future<void>.value();
 
   /// Debounced push after local writes.
   void schedulePush([Duration delay = const Duration(milliseconds: 1500)]) {
@@ -333,6 +343,7 @@ class SyncService {
 
   Future<void> _push() async {
     while (true) {
+      if (_disposed) throw const SyncApiException('cancelled', message: 'sync engine stopped');
       final batch = await _nextBatch();
       if (batch.isEmpty) return;
       _set(status.value.copyWith(phase: SyncPhase.pushing));
@@ -391,6 +402,9 @@ class SyncService {
       var matched = 0;
       var unsupported = false;
       final conflicts = <ConflictLogEntry>[];
+      // The session ended while the push was in flight: the server has the changes; nothing more
+      // is written locally (the data may already be wiped).
+      if (_disposed) throw const SyncApiException('cancelled', message: 'sync engine stopped');
       await db.transaction(() async {
         for (final result in response.results) {
           final entry = byId[result.changeId];
@@ -581,6 +595,9 @@ class SyncService {
   Future<void> _applyPage(PullPage page, Map<String, Set<String>>? seen) async {
     final touched = <TableInfo<Table, Object?>>{};
     await db.transaction(() async {
+      // Checked inside the transaction: a wipe that ran while the page was downloading is never
+      // undone by applying it afterwards.
+      if (_disposed) throw const SyncApiException('cancelled', message: 'sync engine stopped');
       for (final change in page.changes) {
         if (!registry.isSynced(change.table)) {
           _log.warning('pull: unknown table ${change.table} (newer server?) — skipped');
