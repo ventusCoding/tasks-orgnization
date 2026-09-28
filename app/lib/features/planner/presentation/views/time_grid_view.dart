@@ -11,7 +11,10 @@ import 'package:everslot/features/planner/presentation/grid/time_grid.dart';
 import 'package:everslot/features/planner/presentation/grid/timeline_page.dart';
 import 'package:everslot/features/planner/presentation/view_config/slot_size_sheet.dart';
 import 'package:everslot/features/planner/presentation/views/accessible_list.dart';
+import 'package:everslot/features/planner/presentation/views/first_use_hints.dart';
 import 'package:everslot/features/planner/presentation/views/mini_month.dart';
+import 'package:everslot/features/planner/presentation/views/plan_summary_views.dart';
+import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
 import 'package:everslot/features/planner/presentation/views/planner_chrome.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -55,6 +58,13 @@ class _TimeGridViewState extends ConsumerState<TimeGridView> {
   Future<void> _today() async {
     final now = ref.read(plannerNowProvider);
     await _grid.jumpTo(now.date, minute: now.time.minuteOfDay.toDouble(), anchorFraction: 1 / 3);
+  }
+
+  /// *Plan your first task* (empty week): the editor at the next sensible start, like the FAB.
+  void _newTask() {
+    final LocalDate today = ref.read(plannerTodayProvider);
+    final start = suggestedStart(_grid.visibleDays.contains(today) ? today : (_grid.firstVisibleDay ?? today), ref.read(plannerNowProvider));
+    ref.read(plannerNavProvider).newTask(context, start: start, duration: ref.read(plannerWorkSettingsProvider).defaultDuration);
   }
 
   Future<void> _farJump() async {
@@ -114,23 +124,40 @@ class _TimeGridViewState extends ConsumerState<TimeGridView> {
       body: Column(
         children: [
           ActiveFilterBar(viewKey: _key),
+          if (!listMode) FirstUseHintCard(viewKey: _key, slotLabel: slotLabel(f, config.slotMinutes)),
           Expanded(
             child: listMode
                 ? AccessibleRangeList(
                     controller: _grid,
                     start: (ref.read(plannerAnchorProvider) ?? widget.args.date ?? today).startOfWeek(weekStart),
                   )
-                : TimeGrid(
-                    viewKey: _key,
-                    controller: _grid,
-                    initialDate: widget.args.date,
-                    configTransform: transform == null ? null : apply,
-                    tileLayout: widget.tileLayout,
-                    overlayPainters: widget.overlays,
-                    onRulerDoubleTap: () => unawaited(showSlotSizeSheet(context, ref, viewKey: _key)),
+                : Stack(
+                    children: [
+                      Positioned.fill(
+                        child: TimeGrid(
+                          viewKey: _key,
+                          controller: _grid,
+                          initialDate: widget.args.date,
+                          configTransform: transform == null ? null : apply,
+                          tileLayout: widget.tileLayout,
+                          overlayPainters: widget.overlays,
+                          onRulerDoubleTap: () => unawaited(showSlotSizeSheet(context, ref, viewKey: _key)),
+                        ),
+                      ),
+                      Positioned.fill(
+                        child: ListenableBuilder(
+                          listenable: _grid,
+                          builder: (context, _) => EmptyRangeCard(days: _grid.visibleDays, onPlan: _newTask),
+                        ),
+                      ),
+                    ],
                   ),
           ),
         ],
+      ),
+      bottomBar: ListenableBuilder(
+        listenable: _grid,
+        builder: (context, _) => PlanSummaryFooter(viewKey: _key, days: _grid.visibleDays),
       ),
       fab: PlannerFab(
         start: () => suggestedStart(

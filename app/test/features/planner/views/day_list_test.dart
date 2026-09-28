@@ -169,6 +169,19 @@ void main() {
     expect(find.text('Move unfinished to tomorrow'), findsOneWidget);
   });
 
+  testWidgets('day summary: planned, free in work hours, done/total; tap opens insights', (tester) async {
+    final h = await _pump(
+      tester,
+      items: [item('Gym', at(2026, 9, 23, 9), 60, status: OccurrenceStatus.done), item('Read', at(2026, 9, 23, 13), 30)],
+    );
+    expect(find.byKey(const Key('day-summary')), findsOneWidget);
+    expect(find.text('1/2'), findsOneWidget);
+    expect(find.text('6 h 30 min'), findsOneWidget, reason: '09:00–17:00 minus 1 h 30 planned');
+    await tester.tap(find.byKey(const Key('day-summary')));
+    await tester.pumpAndSettle();
+    expect(h.nav.log.last, 'insights 2026-09-23 1');
+  });
+
   testWidgets('ribbon style shows blocks and free connectors', (tester) async {
     await _pump(
       tester,

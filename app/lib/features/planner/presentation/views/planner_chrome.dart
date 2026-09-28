@@ -41,6 +41,7 @@ class PlannerViewScaffold extends ConsumerWidget {
     this.toolbar,
     this.fab,
     this.endDrawer,
+    this.bottomBar,
     super.key,
   });
 
@@ -49,6 +50,9 @@ class PlannerViewScaffold extends ConsumerWidget {
   final Widget? toolbar;
   final Widget? fab;
   final Widget? endDrawer;
+
+  /// Pinned under the body (e.g. the week summary footer); the FAB floats above it.
+  final Widget? bottomBar;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -65,6 +69,7 @@ class PlannerViewScaffold extends ConsumerWidget {
       ),
       endDrawer: endDrawer,
       body: body,
+      bottomNavigationBar: bottomBar,
       floatingActionButton: selecting ? null : fab,
     );
   }
