@@ -9592,6 +9592,52 @@ class AppLocalizationsEn extends AppLocalizations {
       'Connect to the internet to see your devices.';
 
   @override
+  String get settingsExportAttachments => 'Include attachment files';
+
+  @override
+  String get settingsExportAttachmentsHint =>
+      'Only files already on this device.';
+
+  @override
+  String get settingsExportBody =>
+      'A copy of all your data on this device. Works offline.';
+
+  @override
+  String get settingsExportButton => 'Export';
+
+  @override
+  String get settingsExportCsv => 'Spreadsheets (CSV)';
+
+  @override
+  String get settingsExportCsvHint =>
+      'One file per table for Excel, Numbers or Sheets.';
+
+  @override
+  String settingsExportDone(String file) {
+    return 'Export ready: $file';
+  }
+
+  @override
+  String get settingsExportFailed => 'The export failed. Please try again.';
+
+  @override
+  String get settingsExportJson => 'Everslot backup (JSON)';
+
+  @override
+  String get settingsExportJsonHint => 'A complete copy you can import again.';
+
+  @override
+  String settingsExportProgress(int percent) {
+    return 'Exporting… $percent%';
+  }
+
+  @override
+  String get settingsExportShareSubject => 'Everslot export';
+
+  @override
+  String get settingsExportTitle => 'Export';
+
+  @override
   String get settingsFewer => 'One fewer';
 
   @override

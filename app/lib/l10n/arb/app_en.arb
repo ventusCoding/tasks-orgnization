@@ -3260,6 +3260,20 @@
       }
     }
   },
+  "@settingsExportDone": {
+    "placeholders": {
+      "file": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsExportProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "@settingsHabitsDayStartLink": {
     "placeholders": {
       "time": {
@@ -6775,6 +6789,19 @@
   "settingsDevices": "Devices",
   "settingsDevicesEmpty": "No devices registered yet.",
   "settingsDevicesOffline": "Connect to the internet to see your devices.",
+  "settingsExportAttachments": "Include attachment files",
+  "settingsExportAttachmentsHint": "Only files already on this device.",
+  "settingsExportBody": "A copy of all your data on this device. Works offline.",
+  "settingsExportButton": "Export",
+  "settingsExportCsv": "Spreadsheets (CSV)",
+  "settingsExportCsvHint": "One file per table for Excel, Numbers or Sheets.",
+  "settingsExportDone": "Export ready: {file}",
+  "settingsExportFailed": "The export failed. Please try again.",
+  "settingsExportJson": "Everslot backup (JSON)",
+  "settingsExportJsonHint": "A complete copy you can import again.",
+  "settingsExportProgress": "Exporting… {percent}%",
+  "settingsExportShareSubject": "Everslot export",
+  "settingsExportTitle": "Export",
   "settingsFewer": "One fewer",
   "settingsGroupData": "Data & privacy",
   "settingsGroupGeneral": "General",
