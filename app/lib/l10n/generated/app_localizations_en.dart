@@ -10225,6 +10225,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get statsLoading => 'Updating statistics…';
+
+  @override
   String get statsMetricClI01Desc => 'How long this item spent in each status.';
 
   @override

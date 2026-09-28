@@ -44,8 +44,8 @@ for stats defaults ([8.3]).
 - [x] T6.1.13 — Isolate execution, caching & invalidation
 - [x] T6.1.14 — Minimum-data, confidence & honesty rules
 - [x] T6.1.15 — Stats fixture framework & canonical datasets
-- [ ] T6.1.16 — Stats screen framework & "explain this metric" sheet
-- [ ] T6.1.17 — Insights tab shell & navigation
+- [x] T6.1.16 — Stats screen framework & "explain this metric" sheet
+- [x] T6.1.17 — Insights tab shell & navigation
 - [x] T6.1.18 — Circular statistics for clock times
 - [x] T6.1.19 — Group-comparison tests (Mann–Whitney, Kruskal–Wallis)
 - [ ] T6.1.20 — Data-quality metrics plumbing
@@ -482,6 +482,7 @@ in < 20 s.
 updates every card within one frame after the batch completes; the explain sheet shows the actual
 exclusion counts.
 **Tests:** widget tests with fake metric results (value, insufficient, error); goldens for the scaffold.
+**Notes:** `presentation/stats_scope_view.dart` renders any `StatsLayout` (scope header, `PeriodSelector` with rolling menu, custom range and compare toggle, [2.3] `FilterBar` for category/tag/priority, KPI row, collapsible sections, 1 column on phones / 2 from 600 dp with half-span KPI pairs). One `metricsBatchProvider` batch per screen; previous numbers stay visible under a thin progress bar while a new period computes. `MetricCard` handles value/insufficient/empty/error states, drill-down (`DrillSheet`) and the explain sheet (`ExplainSheet`: formula, value, previous, n, interval, exclusions, min-data rule, sources). Tests: `presentation/stats_scope_view_test.dart` + goldens `stats_scope_goldens_test.dart` (light/dark × LTR/RTL, text scale 2.0).
 
 ### T6.1.17 — Insights tab shell & navigation
 **Priority:** P0 · **Size:** S · **Depends on:** T6.1.16, [1.3] (router)
@@ -493,6 +494,7 @@ Overview content is built in [6.7].
 **Acceptance criteria:** every canonical insights deep link opens the right scope and period; the back
 navigation stack is sane.
 **Tests:** router unit tests; a widget test for segment switching.
+**Notes:** `InsightsScreen` (tab root, `AppBarActions`, scrollable segment tabs; last segment in `local_kv` via `StatsLocalStore`) and `ScopeStatsScreen(scope, scopeId, query)`: every metric scope plus `review`; `?period=<key>` becomes the scope's remembered period, `?occurrence=<key>` feeds the task scope. The router passes `s.uri.queryParameters` (additive edit of `app/lib/app/router.dart`). Tests: `presentation/insights_shell_test.dart`.
 
 ### T6.1.18 — Circular statistics for clock times
 **Priority:** P1 · **Size:** S · **Depends on:** T6.1.02

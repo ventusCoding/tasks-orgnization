@@ -841,5 +841,6 @@
   "statsMetricQt13Formula": "Cravings per day over the period; mean and peak intensity; 7-day rolling mean.",
   "statsMetricQt14Title": "Craving context",
   "statsMetricQt14Desc": "What triggers cravings, where and when.",
-  "statsMetricQt14Formula": "Pareto by trigger, place and mood; weekday × hour matrix."
+  "statsMetricQt14Formula": "Pareto by trigger, place and mood; weekday × hour matrix.",
+  "statsLoading": "Updating statistics…"
 }

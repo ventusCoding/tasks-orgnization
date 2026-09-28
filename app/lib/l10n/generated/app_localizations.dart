@@ -16887,6 +16887,12 @@ abstract class AppLocalizations {
   /// **'{from} – {to}'**
   String statsHealthRange(String from, String to);
 
+  /// No description provided for @statsLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating statistics…'**
+  String get statsLoading;
+
   /// No description provided for @statsMetricClI01Desc.
   ///
   /// In en, this message translates to:

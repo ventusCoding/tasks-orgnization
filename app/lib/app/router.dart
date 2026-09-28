@@ -177,13 +177,17 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/insights/:scope',
         parentNavigatorKey: rootNavigatorKey,
-        builder: (_, s) => ScopeStatsScreen(scope: s.pathParameters['scope']!),
+        builder: (_, s) => ScopeStatsScreen(scope: s.pathParameters['scope']!, query: s.uri.queryParameters),
         routes: [
           GoRoute(
             path: ':id',
             parentNavigatorKey: rootNavigatorKey,
             builder: (_, s) =>
-                ScopeStatsScreen(scope: s.pathParameters['scope']!, scopeId: s.pathParameters['id']),
+                ScopeStatsScreen(
+                  scope: s.pathParameters['scope']!,
+                  scopeId: s.pathParameters['id'],
+                  query: s.uri.queryParameters,
+                ),
           ),
         ],
       ),

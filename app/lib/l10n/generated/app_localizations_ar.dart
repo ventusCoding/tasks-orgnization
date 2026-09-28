@@ -10654,6 +10654,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get statsLoading => 'جارٍ تحديث الإحصاءات…';
+
+  @override
   String get statsMetricClI01Desc => 'المدة التي قضاها هذا العنصر في كل حالة.';
 
   @override
