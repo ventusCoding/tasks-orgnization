@@ -8,6 +8,7 @@ import 'package:everslot/features/stats/application/layouts.dart';
 import 'package:everslot/features/stats/application/stats_providers.dart';
 import 'package:everslot/features/stats/domain/stats_request.dart';
 import 'package:everslot/features/stats/domain/stats_types.dart';
+import 'package:everslot/features/stats/presentation/glossary_screen.dart';
 import 'package:everslot/features/stats/presentation/item_stats_panel.dart';
 import 'package:everslot/features/stats/presentation/stats_scope_view.dart';
 import 'package:everslot/features/stats/presentation/task_stats_panel.dart';
@@ -46,6 +47,7 @@ class _ScopeStatsScreenState extends ConsumerState<ScopeStatsScreen> {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final route = InsightsRoute.parse(widget.scope);
+    if (route == InsightsRoute.glossary) return GlossaryScreen(initialQuery: widget.query['q']);
     final scope = route?.metricScope;
     if (route == null || scope == null || (scope.needsId && widget.scopeId == null) || !_supported(route)) {
       return Scaffold(

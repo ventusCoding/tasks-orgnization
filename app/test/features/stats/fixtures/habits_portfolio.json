@@ -1914,6 +1914,40 @@
     "unknown": 5,
     "backfill": 0
    }
+  },
+  {
+   "scope": "habit",
+   "scopeId": "water",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-01",
+   "value": 0.44014292907798414,
+   "tolerance": 1e-09,
+   "args": {
+    "frequency": 1
+   }
+  },
+  {
+   "scope": "habit",
+   "scopeId": "journal",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-04",
+   "value": 2
+  },
+  {
+   "scope": "habit",
+   "scopeId": "water",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-H-07",
+   "value": 11,
+   "args": {
+    "granularity": "week"
+   }
+  },
+  {
+   "scope": "habits",
+   "period": "custom:2026-09-14..2026-09-27",
+   "metricId": "HB-X-03",
+   "value": 15
   }
  ]
 }
