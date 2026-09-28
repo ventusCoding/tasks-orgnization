@@ -3,12 +3,16 @@ import 'dart:async';
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/time_grid.dart';
+import 'package:everslot/features/planner/presentation/grid/data/item_copy.dart';
+import 'package:everslot/features/planner/presentation/grid/data/planner_view_data.dart';
 import 'package:everslot/features/planner/presentation/planner_screen.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:material_ui/material_ui.dart';
 
+import 'support/fake_view_actions.dart';
 import 'support/items.dart';
 import 'support/planner_harness.dart';
 import 'support/switching_nav.dart';
@@ -107,6 +111,69 @@ void main() {
       await tester.pumpAndSettle();
       final controller = tester.widget<TimeGrid>(find.byType(TimeGrid)).controller!;
       expect(controller.visibleDays.length, 4);
+    });
+  });
+
+  group('week list (T3.6.06)', () {
+    List<PlannerItem> week() => [
+      item('Gym', at(2026, 9, 21, 7), 60, id: 'gym'),
+      item('Pay rent', at(2026, 9, 21), 1440, allDay: true, id: 'rent'),
+      item('Call', at(2026, 9, 23, 14), 30, id: 'call'),
+    ];
+
+    testWidgets('days are stacked sections: all-day first, then by time', (tester) async {
+      await pumpView(tester, 'week_list', items: week());
+      expect(find.text('Sep 21–27, 2026'), findsOneWidget);
+      final monday = find.byKey(const ValueKey('week-list-day-2026-09-21'));
+      expect(monday, findsOneWidget);
+      final rent = tester.getTopLeft(find.descendant(of: monday, matching: find.text('Pay rent')));
+      final gym = tester.getTopLeft(find.descendant(of: monday, matching: find.text('Gym')));
+      expect(rent.dy, lessThan(gym.dy));
+      await tester.tap(find.byKey(const Key('planner-next')));
+      await tester.pumpAndSettle();
+      expect(find.text('Sep 28 – Oct 4, 2026'), findsOneWidget);
+    });
+
+    testWidgets('dragging an item onto another day keeps its time', (tester) async {
+      final h = await pumpView(tester, 'week_list', items: week());
+      final gesture = await tester.startGesture(tester.getCenter(find.text('Gym')));
+      await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
+      final target = find.byKey(const ValueKey('week-list-day-2026-09-22'));
+      await gesture.moveTo(tester.getCenter(target));
+      await tester.pump();
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(h.backend.calls, ['reschedule Gym 2026-09-22T07:00 60 thisOccurrence']);
+    });
+
+    testWidgets('dropping an untimed item on another one of the same day reorders it', (tester) async {
+      final extra = FakeViewActions();
+      final a = item('Laundry', at(2026, 9, 21), 1440, allDay: true, id: 'a');
+      final b = item('Groceries', at(2026, 9, 21), 1440, allDay: true, id: 'b');
+      final h = PlannerHarness.create(
+        items: [copyItem(a, manualSortKey: 'a0'), copyItem(b, manualSortKey: 'a1')],
+        overrides: [viewExtraActionsProvider.overrideWithValue(extra)],
+      );
+      addTearDown(h.dispose);
+      await pumpPlanner(tester, h, const PlannerScreen(view: 'week_list', date: '2026-09-23'));
+      await tester.pumpAndSettle();
+      final gesture = await tester.startGesture(tester.getCenter(find.text('Groceries')));
+      await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
+      await gesture.moveTo(tester.getCenter(find.text('Laundry')));
+      await tester.pump();
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(extra.calls, ['reorder Groceries after=null before=a0']);
+    });
+
+    testWidgets('tapping a day header opens its day list; checks tick', (tester) async {
+      final h = await pumpView(tester, 'week_list', items: week());
+      await tester.tap(find.text('Wednesday, September 23'));
+      await tester.pumpAndSettle();
+      expect(h.nav.log.last, 'view day_list 2026-09-23');
+      await tester.tap(find.byKey(const ValueKey('chip-check-call|2026-09-23T14:00')));
+      await tester.pumpAndSettle();
+      expect(h.backend.calls, ['status Call done']);
     });
   });
 

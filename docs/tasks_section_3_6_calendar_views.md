@@ -24,7 +24,7 @@ multi-week; quarter; ribbon (day & week); timeline/Gantt; category swimlanes; lo
 - [x] T3.6.03 — Shared date state & view transitions
 - [x] T3.6.04 — N-day view (rolling or fixed)
 - [x] T3.6.05 — Work-week preset
-- [ ] T3.6.06 — Week list view (stacked days)
+- [x] T3.6.06 — Week list view (stacked days)
 - [ ] T3.6.07 — Month view
 - [ ] T3.6.08 — Month semantic zoom & list-below mode
 - [ ] T3.6.09 — Agenda / schedule view
@@ -89,6 +89,7 @@ hours defaulting to work hours.
 sections (Tweek / Things "Upcoming" style) instead of columns. Items can be dragged between days and untimed
 items reordered within a day.
 **Tests:** widget tests; golden.
+**Notes:** `WeekListView`: stacked day sections (all-day / untimed first by manual order, then timed), long-press-drag to another day keeps the time, drop on an untimed item reorders (`manual_sort_key`), release on its own day opens the item menu; header tap → Day list; swipe / arrows / mini-month change week. Golden in the calendar-views suite (T3.6.17).
 
 ### T3.6.07 — Month view
 **Priority:** P1 · **Size:** L · **Depends on:** T3.6.01, [3.2]
