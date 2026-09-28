@@ -8,6 +8,7 @@ import 'package:everslot/core/sync/sync_triggers.dart';
 import 'package:everslot/features/auth/application/auth_binding.dart';
 import 'package:everslot/features/auth/application/auth_providers.dart';
 import 'package:everslot/features/auth/application/sign_out_service.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 
 import '../../../core/sync/support/fake_sync_server.dart';
 import '../../../support/test_app.dart';
@@ -24,6 +25,7 @@ class CloudDevice {
     String userId = 'u1',
     bool bind = true,
     BeforeAccountWipe? beforeWipe,
+    List<Override> overrides = const [],
   }) async {
     final s = server ?? FakeSyncServer();
     final r = repo ?? FakeAuthRepository();
@@ -47,6 +49,7 @@ class CloudDevice {
           },
           () async => log.add('local-notifications-cancelled'),
         ]),
+        ...overrides,
       ],
     );
     h.read(sessionProvider.notifier).set(AppSession(userId: userId, mode: SessionMode.cloud, email: '$userId@x.io'));

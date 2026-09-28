@@ -35,7 +35,7 @@ subscription, orchestrator & status, initial sync/resync, purge, background sync
 - [x] T1.4.11 — Pull loop & field-wise apply
 - [x] T1.4.12 — Realtime Broadcast subscription
 - [x] T1.4.13 — Sync orchestrator & status provider
-- [ ] T1.4.14 — Initial sync & full resync
+- [x] T1.4.14 — Initial sync & full resync
 - [x] T1.4.15 — Sync unit tests with a fake API
 - [ ] T1.4.16 — Tombstone purge job, watermark & `app.purge_now`
 - [ ] T1.4.17 — Background sync (workmanager + data-push hook)
@@ -204,6 +204,7 @@ tombstone retention (90 days), or manually from Settings.
 **Acceptance criteria:** 50 000 rows sync in < 30 s on a 4G profile with the UI responsive; resync keeps
 unsynced local edits.
 **Tests:** performance test (T9.1.08 later); unit tests for resync decision logic.
+**Notes:** `SyncService._pull` pulls from 0 when the cursor is 0, the last success is older than the tombstone retention (90 d) or the purge watermark is above the cursor; a resync keeps the outbox (fields with pending patches are never overwritten, re-pushed afterwards) and drops local rows the server no longer has. Progress is an asymptotic estimate (`sync_pull` returns no head revision) shown by the sync indicator and Settings › Sync; the app stays usable (local-first). Decision logic unit-tested in `test/core/sync/sync_service_test.dart`; the 50 000-row performance test is T9.1.08.
 
 ### T1.4.15 — Sync unit tests with a fake API
 **Priority:** P0 · **Size:** M · **Depends on:** T1.4.13
