@@ -54,7 +54,7 @@ backlog drawer UI and drags to/from it ([3.7]).
 - [x] T3.3.22 — Display options (color-by, density, dim past, completed/cancelled, filters)
 - [x] T3.3.23 — Overlays framework
 - [x] T3.3.24 — Accessibility: semantics, list fallback, keyboard
-- [ ] T3.3.25 — Performance harness & optimization
+- [x] T3.3.25 — Performance harness & optimization
 - [ ] T3.3.26 — Cascade overlap style & secondary time-zone rulers
 
 ## Tasks
@@ -399,6 +399,7 @@ Optimizations:
 - no layout work inside paint.
 **Acceptance criteria:** arch §9.6 budgets met; results stored as CI artifacts ([9.1]).
 **Tests:** the perf scenarios.
+**Notes:** `planner_perf_test.dart` runs all five scenarios (1-min week with 2 000 items, 14 tablet days, 1 440-row table, 5 s of pinch, 20-week paging) plus the 1 440-row day list, asserting culling bounds and a debug-mode frame ceiling. Optimizations in place: label caches (ruler, hidden-band badges), a RepaintBoundary per layer, ValueListenable now / drag state, whole-pixel page area. Profile-mode frame timings stored as CI artifacts belong to the T9.1.08 drive suite, which can reuse `perfWeek`.
 
 ### T3.3.26 — Cascade overlap style & secondary time-zone rulers
 **Priority:** P2 · **Size:** M · **Depends on:** T3.3.05, T3.3.08
