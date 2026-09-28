@@ -13,6 +13,8 @@ import 'package:everslot/features/planner/presentation/grid/engine/bucketing.dar
 import 'package:everslot/features/planner/presentation/grid/engine/day_slices.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/day_timeline.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/drag_math.dart';
+import 'package:everslot/features/planner/presentation/grid/engine/free_slots.dart';
+import 'package:everslot/features/planner/presentation/grid/engine/occupancy.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/page_axis.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/paging.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/snapping.dart';
@@ -22,6 +24,7 @@ import 'package:everslot/features/planner/presentation/grid/grid_commands.dart';
 import 'package:everslot/features/planner/presentation/grid/grid_controller.dart';
 import 'package:everslot/features/planner/presentation/grid/grid_painter.dart';
 import 'package:everslot/features/planner/presentation/grid/grid_style.dart';
+import 'package:everslot/features/planner/presentation/grid/overlays.dart';
 import 'package:everslot/features/planner/presentation/grid/page_physics.dart';
 import 'package:everslot/features/planner/presentation/grid/table_page.dart';
 import 'package:everslot/features/planner/presentation/grid/task_tile.dart';
@@ -669,8 +672,10 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
           final rtl = Directionality.of(context) == TextDirection.rtl;
           final width = constraints.maxWidth.isFinite ? constraints.maxWidth : media.size.width;
           final height = constraints.maxHeight.isFinite ? constraints.maxHeight : media.size.height;
-          final rulerWidth = renderer == GridRenderer.weekList ? 0.0 : _rulerWidth(ts, prefs.use24h);
-          final pagesWidth = math.max(1.0, width - rulerWidth);
+          // Whole-pixel page area (the ruler absorbs the fraction): at the ±10 000 virtual page index
+          // a fractional viewport makes PageView's page ↔ pixel round trips drift past its tolerance.
+          final pagesWidth = math.max(1.0, (width - (renderer == GridRenderer.weekList ? 0.0 : _rulerWidth(ts, prefs.use24h))).floorToDouble());
+          final rulerWidth = renderer == GridRenderer.weekList ? 0.0 : width - pagesWidth;
           final pageWidth = pagesWidth * paging.viewportFraction;
           final headerHeight = _headerHeight(ts, config);
           final laneRow = style.laneRowExtent;
@@ -1024,7 +1029,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final m = f.metrics;
     final timelines = [for (final d in days) f.cache.of(d, f.zone)];
     final body = switch (f.renderer) {
-      GridRenderer.timeline => _timelineBody(context, index, page, timelines, f),
+      GridRenderer.timeline => _timelineBody(context, index, page, timelines, f, overlays: _watchOverlays(ref, days, f)),
       GridRenderer.table => _tableBody(context, page, timelines, f),
       GridRenderer.weekList => _weekListBody(context, page, f),
     };
@@ -1126,12 +1131,35 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     return geom;
   }
 
-  Widget _timelineBody(BuildContext context, int index, _PageData page, List<DayTimeline> timelines, _Frame f) {
+  /// Data of the enabled overlays of a page (T3.3.23): point markers and the occupancy heat.
+  ({List<OverlayMarker> markers, OccupancyGrid? heat}) _watchOverlays(WidgetRef ref, List<LocalDate> days, _Frame f) {
+    if (days.isEmpty) return (markers: const [], heat: null);
+    final c = f.config;
+    final query = OverlayQuery(DayRange(days.first, days.first.daysUntil(days.last) + 1), habits: c.overlay('habits'), checklistDue: c.overlay('checklistDue'));
+    final markers = query.isEmpty ? const <OverlayMarker>[] : ref.watch(plannerOverlayMarkersProvider(query));
+    OccupancyGrid? heat;
+    if (c.overlay('heat')) {
+      final past = DayRange(days.first.plusDays(-28), 28);
+      final items = ref.watch(viewItemsProvider(past)).value;
+      if (items != null) heat = OccupancyGrid.build(items, start: past.start, days: past.days);
+    }
+    return (markers: markers, heat: heat);
+  }
+
+  Widget _timelineBody(
+    BuildContext context,
+    int index,
+    _PageData page,
+    List<DayTimeline> timelines,
+    _Frame f, {
+    ({List<OverlayMarker> markers, OccupancyGrid? heat}) overlays = (markers: const [], heat: null),
+  }) {
     final geom = _timelineGeometry(page, f);
     final config = f.config;
     final now = f.nowLocal;
     final sessionKey = _session?.item?.key;
     final selected = _selectedKey == null ? null : geom.tiles.firstWhereOrNull((t) => t.item.key == _selectedKey);
+    final overlayContext = PageOverlayContext(days: page.days, slices: page.slices, axis: f.axis, ppm: f.ppm, rtl: f.metrics.rtl, style: f.style);
     return TimelinePageBody(
       geometry: geom,
       axis: f.axis,
@@ -1147,10 +1175,24 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       workWindow: f.work.hours,
       workDays: f.work.days,
       overlayPainters: [
+        if (overlays.heat case final heat?) HeatTintPainter(page: overlayContext, grid: heat, color: context.appColors.warning),
+        if (config.overlay('freeSlots'))
+          FreeSlotsPainter(
+            page: overlayContext,
+            color: context.appColors.success,
+            openings: freeIntervals(
+              items: pageItems(overlayContext),
+              days: page.days,
+              options: FreeSlotOptions(
+                window: f.work.hours,
+                workDays: f.work.days,
+                minGapMinutes: config.option<int>('minGap', 30),
+              ),
+              elapsed: (a, b) => elapsedMinutes(ref.read(zoneResolverProvider), f.zone, a, b),
+            ),
+          ),
         for (final b in widget.overlayPainters)
-          if (b(PageOverlayContext(days: page.days, slices: page.slices, axis: f.axis, ppm: f.ppm, rtl: f.metrics.rtl, style: f.style))
-              case final p?)
-            p,
+          if (b(overlayContext) case final p?) p,
       ],
       tileBuilder: (g) {
         final item = g.item;
@@ -1177,6 +1219,17 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
         onTap: () => unawaited(_commands.showOverflow(o.items, date: page.days[o.dayIndex])),
       ),
       foreground: [
+        ...positionedMarkers(
+          markers: overlays.markers,
+          days: page.days,
+          page: overlayContext,
+          width: f.metrics.pageWidth,
+          builder: (m) => OverlayMarkerChip(
+            marker: m,
+            timeText: f.format.timeOf(m.day.atStartOfDay.plusMinutes(m.minute)),
+            onTap: () => unawaited(openOverlayMarker(context, ref, m)),
+          ),
+        ),
         if (selected != null && !selected.item.allDay) ...[
           if (!selected.segment.continuesBefore) _resizeHandle(selected, top: true),
           if (!selected.segment.continuesAfter) _resizeHandle(selected, top: false),
