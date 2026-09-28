@@ -462,10 +462,14 @@ final List<MetricDefinition> quitMetrics = [
 ];
 
 /// The period clipped to the tracker's closed days (quit date … yesterday/today).
+/// Closed local days of the period since the quit date (today is still open); a period that only
+/// covers today falls back to today so "Today" still shows its partial load.
 DateRange _closedRange(QuitContext c) {
   final q = c.calc!;
   final first = c.bounds.dateOf(q.quitStartedAt);
   final start = LocalDate.max(first, c.range.start);
-  final end = LocalDate.min(c.today, c.range.end);
-  return end.isBefore(start) ? DateRange(end, end) : DateRange(start, end);
+  final end = LocalDate.min(c.today.minusDays(1), c.range.end);
+  if (!end.isBefore(start)) return DateRange(start, end);
+  final today = LocalDate.min(c.today, c.range.end);
+  return DateRange(today, today);
 }

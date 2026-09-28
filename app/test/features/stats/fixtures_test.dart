@@ -11,6 +11,8 @@ const canonicalFixtures = [
   'habit_pushups_month',
   'habits_portfolio',
   'quit_smoking_90_days',
+  'quit_reduce_week',
+  'quit_attempts',
   'checklist_flow_small',
 ];
 

@@ -1,0 +1,141 @@
+{
+ "name": "quit_attempts",
+ "source": "fixtures/stats/quit_attempts.json",
+ "description": "Three quit attempts (Europe/Paris, spanning the 2026-03-29 DST change): attempt 1 from 2026-03-01 00:00 with uses on days 10-16 (relapse), attempt 2 from 2026-03-20 09:00 with a single use on day 10 (lapse), attempt 3 from 2026-04-18 09:00, clean and ongoing on 2026-05-15 00:00.",
+ "now": "2026-05-14T22:00:00.000Z",
+ "zone": "Europe/Paris",
+ "weekStart": 1,
+ "settings": {},
+ "tables": {
+  "habits": [
+   {
+    "id": "attempts",
+    "kind": "quit",
+    "name": "Attempts",
+    "sort_key": "a",
+    "start_date": "2026-03-01",
+    "time_zone": "Europe/Paris",
+    "quit_mode": "abstain",
+    "quit_substance": "cigarettes",
+    "quit_started_at": "2026-02-28T23:00:00.000Z",
+    "baseline_per_day": 10,
+    "unit_cost": 0.5,
+    "currency": "EUR",
+    "created_at": "2026-02-28T23:00:00.000Z"
+   }
+  ],
+  "habit_logs": [
+   {
+    "id": "log-0",
+    "habit_id": "attempts",
+    "kind": "relapse",
+    "logged_at": "2026-03-10T19:00:00.000Z",
+    "local_date": "2026-03-10",
+    "value": 1
+   },
+   {
+    "id": "log-1",
+    "habit_id": "attempts",
+    "kind": "relapse",
+    "logged_at": "2026-03-11T19:00:00.000Z",
+    "local_date": "2026-03-11",
+    "value": 1
+   },
+   {
+    "id": "log-2",
+    "habit_id": "attempts",
+    "kind": "relapse",
+    "logged_at": "2026-03-12T19:00:00.000Z",
+    "local_date": "2026-03-12",
+    "value": 1
+   },
+   {
+    "id": "log-3",
+    "habit_id": "attempts",
+    "kind": "relapse",
+    "logged_at": "2026-03-13T19:00:00.000Z",
+    "local_date": "2026-03-13",
+    "value": 1
+   },
+   {
+    "id": "log-4",
+    "habit_id": "attempts",
+    "kind": "relapse",
+    "logged_at": "2026-03-14T19:00:00.000Z",
+    "local_date": "2026-03-14",
+    "value": 1
+   },
+   {
+    "id": "log-5",
+    "habit_id": "attempts",
+    "kind": "relapse",
+    "logged_at": "2026-03-15T19:00:00.000Z",
+    "local_date": "2026-03-15",
+    "value": 1
+   },
+   {
+    "id": "log-6",
+    "habit_id": "attempts",
+    "kind": "relapse",
+    "logged_at": "2026-03-16T19:00:00.000Z",
+    "local_date": "2026-03-16",
+    "value": 1
+   },
+   {
+    "id": "log-7",
+    "habit_id": "attempts",
+    "kind": "restart",
+    "logged_at": "2026-03-20T08:00:00.000Z",
+    "local_date": "2026-03-20"
+   },
+   {
+    "id": "log-8",
+    "habit_id": "attempts",
+    "kind": "relapse",
+    "logged_at": "2026-03-29T18:00:00.000Z",
+    "local_date": "2026-03-29",
+    "value": 1
+   },
+   {
+    "id": "log-9",
+    "habit_id": "attempts",
+    "kind": "restart",
+    "logged_at": "2026-04-18T07:00:00.000Z",
+    "local_date": "2026-04-18"
+   }
+  ]
+ },
+ "expect": [
+  {
+   "scope": "quit",
+   "scopeId": "attempts",
+   "period": "allTime",
+   "metricId": "QT-02",
+   "value": 38340
+  },
+  {
+   "scope": "quit",
+   "scopeId": "attempts",
+   "period": "allTime",
+   "metricId": "QT-01",
+   "value": 107940
+  },
+  {
+   "scope": "quit",
+   "scopeId": "attempts",
+   "period": "allTime",
+   "metricId": "QT-04",
+   "value": 67
+  },
+  {
+   "scope": "quit",
+   "scopeId": "attempts",
+   "period": "allTime",
+   "metricId": "QT-08",
+   "value": 4,
+   "args": {
+    "lapses": 8
+   }
+  }
+ ]
+}

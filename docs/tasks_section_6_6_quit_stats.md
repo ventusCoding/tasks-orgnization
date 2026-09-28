@@ -47,20 +47,20 @@ Insights screen, fixtures.
 
 ## Progress
 
-- [ ] T6.6.01 — Quit stats adapter
-- [ ] T6.6.02 — Abstinence time metrics
-- [ ] T6.6.03 — Units & money metrics
-- [ ] T6.6.04 — Life regained (population estimate)
-- [ ] T6.6.05 — Health milestones: content, progress & disclaimer
-- [ ] T6.6.06 — Reduce-mode metrics
-- [ ] T6.6.07 — Craving load & context
+- [x] T6.6.01 — Quit stats adapter
+- [x] T6.6.02 — Abstinence time metrics
+- [x] T6.6.03 — Units & money metrics
+- [x] T6.6.04 — Life regained (population estimate)
+- [x] T6.6.05 — Health milestones: content, progress & disclaimer
+- [x] T6.6.06 — Reduce-mode metrics
+- [x] T6.6.07 — Craving load & context
 - [ ] T6.6.08 — Craving resistance & decline
 - [ ] T6.6.09 — Lapse/relapse classification, use analytics & attempts
 - [ ] T6.6.10 — Savings goal, time not spent & money by period
 - [ ] T6.6.11 — Pledge streak & withdrawal phase
 - [ ] T6.6.12 — Advanced quit analytics
-- [ ] T6.6.13 — Quit Insights screen
-- [ ] T6.6.14 — Quit stats fixtures
+- [x] T6.6.13 — Quit Insights screen
+- [x] T6.6.14 — Quit stats fixtures
 
 ## Tasks
 
@@ -79,6 +79,7 @@ in the [5.3] T5.3.03 quit calculator — this task adapts its outputs into facts
 **Acceptance criteria:** the `quit_smoking_90_days` fixture produces the expected attempt and day facts,
 including the price change.
 **Tests:** fixture tests covering a revision change, two attempts and reduce mode.
+**Notes:** `domain/habit_resolution.dart` builds the [5.3] `QuitCalculator` of a tracker (revisions in force per day, `restart` logs as attempts); the catalog only adapts its outputs. Table fixtures: `quit_smoking_90_days` (price revision), `quit_attempts` (three attempts across the March DST change), `quit_reduce_week`.
 
 ### T6.6.02 — Abstinence time metrics
 **Priority:** P0 · **Size:** M · **Depends on:** T6.6.01, [6.2] (live counter T6.2.07, KPI T6.2.02)
@@ -96,6 +97,7 @@ including the price change.
 - QT-01 = 60 d 0 h; QT-02 = 40 d 6 h; QT-03 = 40 d 6 h.
 - QT-04 = 59; QT-05 = 98.3 %.
 **Tests:** fixture tests; DST-crossing test (a counter across the October change stays exact).
+**Notes:** QT-01…05 from instants (live counters) and local days; the attempts fixture checks an exact 1 799 h across the DST change.
 
 ### T6.6.03 — Units & money metrics
 **Priority:** P0 · **Size:** M · **Depends on:** T6.6.01
@@ -114,6 +116,7 @@ Using the T6.6.02 fixture:
 - Money spent on lapses = €1.80.
 - Projections use €0.65: 1 year ≈ €4 745.
 **Tests:** fixture tests; currency formatting per locale.
+**Notes:** QT-06…09 (`quit_smoking_90_days`: 1 197 units, €748.20, €1.80, €4 745/year).
 
 ### T6.6.04 — Life regained (population estimate)
 **Priority:** P0 · **Size:** S · **Depends on:** T6.6.03
@@ -127,6 +130,7 @@ LMU. Changing the preset recomputes all history.
 **Acceptance criteria:** 1 197 avoided × 20 min = 23 940 min = 16 d 15 h; the label is always visible
 next to the number.
 **Tests:** fixture test; a widget test that the label is present.
+**Notes:** QT-10 with the "population estimate" note always shown next to the number (KPI caption); hidden for other substances without an LMU (`noLifeEstimate`).
 
 ### T6.6.05 — Health milestones: content, progress & disclaimer
 **Priority:** P0 · **Size:** M · **Depends on:** T6.6.02, [6.2] (milestone bars T6.2.07)
@@ -179,6 +183,7 @@ next to the number.
 - Non-smoking trackers never show this section.
 **Tests:** widget tests (smoking vs other); golden in EN/FR/AR; content JSON schema test (every row has
 at least one source).
+**Notes:** QT-11 from the stats table in `domain/quit_health_content.dart`, checked row by row (ids, times, sources) against the habits feature's `assets/content/quit_milestones_smoking.json`; the disclaimer heads the card, the clock note follows; non-smoking trackers never show the card (`notSmoking` hides it). Tests: `quit/quit_health_content_test.dart`, `presentation/quit_screens_test.dart`, goldens.
 
 ### T6.6.06 — Reduce-mode metrics
 **Priority:** P0 · **Size:** S · **Depends on:** T6.6.01, [6.2] (bars with limit line T6.2.04)
@@ -193,6 +198,7 @@ at least one source).
 - reduction = 55 %
 - units avoided = 77
 **Tests:** fixture tests.
+**Notes:** QT-12 (`quit_reduce_week`: 5/7, mean 9.0, 55 %, 77 avoided); hidden on abstain trackers.
 
 ### T6.6.07 — Craving load & context
 **Priority:** P0 · **Size:** M · **Depends on:** T6.6.01, [6.2] (Pareto T6.2.05, punch card T6.2.09, line T6.2.03)
@@ -205,6 +211,7 @@ at least one source).
 **Acceptance criteria:** triggers are grouped case-insensitively; "Unspecified" is shown last; the punch
 card follows the user's week start.
 **Tests:** fixture tests.
+**Notes:** QT-13/14; craving load averages closed days (today excluded unless the period is only today): 40/60 per day, mean intensity 5.9, trigger Pareto 13/8/7/6 with Unspecified last.
 
 ### T6.6.08 — Craving resistance & decline
 **Priority:** P1 · **Size:** M · **Depends on:** T6.6.07
@@ -290,6 +297,7 @@ the source.
 - The screen never shows health content for non-smoking trackers.
 - Relapse sections use supportive copy, which is reviewed in the three languages.
 **Tests:** widget tests (abstain vs reduce, smoking vs other); goldens.
+**Notes:** `quitLayout` (header: live current abstinence, money saved, units avoided, life regained with its label; Milestones, Money & units, Abstinence, Reduction, Cravings); live counters tick only while visible (`LiveCounter` + `CounterTicker`). The Insights Quit segment picks a tracker. Widget tests (abstain vs reduce, smoking vs other) and goldens. TODO(integration): the [5.3] quit dashboard embeds the screen through `/insights/quit/:id` (already linked).
 
 ### T6.6.14 — Quit stats fixtures
 **Priority:** P0 · **Size:** S · **Depends on:** [6.1] (T6.1.15)
@@ -299,6 +307,7 @@ the source.
 - `quit_attempts`: 3 attempts, one relapse and one lapse.
 **Acceptance criteria:** the fixture runner passes for all P0 metrics.
 **Tests:** provides fixtures for the tasks above.
+**Notes:** Table fixtures `quit_smoking_90_days`, `quit_reduce_week`, `quit_attempts` cover every P0 quit metric.
 
 ## Sources
 

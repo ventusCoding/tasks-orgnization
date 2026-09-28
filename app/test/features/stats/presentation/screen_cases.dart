@@ -70,4 +70,16 @@ final screenCases = <ScreenCase>[
     () => const ScopeStatsScreen(scope: 'habits', query: {'period': 'custom:2026-09-14..2026-09-27'}),
     height: 2600,
   ),
+  ScreenCase(
+    'quit',
+    () => StatsFixture.load('quit_smoking_90_days').seed(),
+    () => const ScopeStatsScreen(scope: 'quit', scopeId: 'smoking', query: {'period': 'allTime'}),
+    height: 5200,
+  ),
+  ScreenCase(
+    'quit_reduce',
+    () => StatsFixture.load('quit_reduce_week').seed(),
+    () => const ScopeStatsScreen(scope: 'quit', scopeId: 'cutdown', query: {'period': 'allTime'}),
+    height: 3400,
+  ),
 ];

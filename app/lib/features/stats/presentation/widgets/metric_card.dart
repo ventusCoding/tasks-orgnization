@@ -71,6 +71,8 @@ class MetricCard extends ConsumerWidget {
         result: r,
         direction: def.direction,
         minSample: def.minSample,
+        // Notes that qualify a value (e.g. "population estimate") stay visible next to it.
+        caption: r.value is Value<double> && r.note != null ? f.note(r.note) : null,
         onLongPress: explain,
         onTap: allRefs.isEmpty ? explain : () => showDrillSheet(context, title: title, refs: allRefs),
       );

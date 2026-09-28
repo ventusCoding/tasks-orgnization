@@ -10,6 +10,7 @@ import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/stats/application/layouts.dart';
 import 'package:everslot/features/stats/application/stats_compute_service.dart';
 import 'package:everslot/features/stats/application/stats_providers.dart';
+import 'package:everslot/features/stats/domain/chart_data.dart' show CounterData;
 import 'package:everslot/features/stats/domain/metric_definition.dart';
 import 'package:everslot/features/stats/domain/scope_entity.dart' show ScopeEntity;
 import 'package:everslot/features/stats/domain/stats_layout.dart';
@@ -17,6 +18,7 @@ import 'package:everslot/features/stats/domain/stats_request.dart';
 import 'package:everslot/features/stats/domain/stats_types.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_support.dart';
 import 'package:everslot/features/stats/presentation/charts/kpi_tile.dart';
+import 'package:everslot/features/stats/presentation/charts/progress_visuals.dart' show LiveCounter;
 import 'package:everslot/features/stats/presentation/l10n/stats_l10n.dart';
 import 'package:everslot/features/stats/presentation/widgets/explain_sheet.dart';
 import 'package:everslot/features/stats/presentation/widgets/metric_card.dart';
@@ -29,8 +31,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Notes of results that do not apply to the entity's kind (volume of a yes/no habit, target of a
-/// limit habit): their cards are hidden rather than shown empty (T6.5.16).
-const hiddenResultNotes = {'yesNoHabit', 'limitHabit'};
+/// limit habit, health milestones and life regained of a non-smoking tracker, reduce-mode cards of
+/// an abstain tracker): their cards are hidden rather than shown empty (T6.5.16, T6.6.04/05/06).
+const hiddenResultNotes = {'yesNoHabit', 'limitHabit', 'notSmoking', 'noLifeEstimate', 'abstainMode'};
 
 /// Whether [r] hides its card.
 bool isHiddenResult(MetricResult? r) => r != null && r.value is NotApplicable<double> && hiddenResultNotes.contains(r.note);
@@ -321,6 +324,12 @@ class _KpiRow extends ConsumerWidget {
                   width: width,
                   child: results[id] == null
                       ? _KpiSkeleton(title: metricTitle(l, id) ?? id, loading: loading)
+                      : results[id]!.chart is CounterData
+                      ? _LiveKpi(
+                          title: metricTitle(l, id) ?? id,
+                          counter: results[id]!.chart! as CounterData,
+                          onTap: () => showExplainSheet(context, def: def, result: results[id], periodText: periodText),
+                        )
                       : KpiTile(
                           title: metricTitle(l, id) ?? id,
                           result: results[id]!,
@@ -335,6 +344,42 @@ class _KpiRow extends ConsumerWidget {
       },
     );
   }
+}
+
+/// A KPI whose value is a live duration since an instant (quit counters, T6.6.13): it ticks every
+/// second only while visible.
+class _LiveKpi extends ConsumerWidget {
+  const _LiveKpi({required this.title, required this.counter, required this.onTap});
+
+  final String title;
+  final CounterData counter;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) => Card(
+    clipBehavior: Clip.antiAlias,
+    child: InkWell(
+      onTap: onTap,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 48),
+        child: Padding(
+          padding: const EdgeInsetsDirectional.all(Space.md),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: context.text.labelMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
+              const SizedBox(height: Space.xs),
+              LiveCounter(
+                since: counter.since,
+                now: () => ref.read(clockProvider).nowUtc(),
+                style: context.text.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }
 
 class _KpiSkeleton extends StatelessWidget {
