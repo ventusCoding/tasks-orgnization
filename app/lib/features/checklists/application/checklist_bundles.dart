@@ -51,9 +51,19 @@ class ChecklistBundles {
     return ZipEncoder().encodeBytes(archive);
   }
 
-  /// Creates a new list from a bundle and re-attaches its files (extracted under [scratch]).
-  /// Returns the new list id, or null when the bundle has no Markdown file.
-  Future<String?> import(Uint8List bytes, {required Directory scratch, String fallbackTitle = ''}) async {
+  /// Creates a new list from a bundle and re-attaches its files (extracted under [scratch], or a
+  /// temporary folder removed afterwards). Returns the new list id, or null when the bundle has
+  /// no Markdown file.
+  Future<String?> import(List<int> bytes, {Directory? scratch, String fallbackTitle = ''}) async {
+    final temp = scratch ?? await Directory.systemTemp.createTemp('everslot_bundle');
+    try {
+      return await _import(bytes, temp, fallbackTitle);
+    } finally {
+      if (scratch == null && temp.existsSync()) await temp.delete(recursive: true);
+    }
+  }
+
+  Future<String?> _import(List<int> bytes, Directory scratch, String fallbackTitle) async {
     final archive = ZipDecoder().decodeBytes(bytes);
     ArchiveFile? text;
     for (final f in archive.files) {

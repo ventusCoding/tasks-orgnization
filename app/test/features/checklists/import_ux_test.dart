@@ -1,5 +1,7 @@
 // Import UX (T4.5.08): multi-line paste into a row (preview, split or keep), the import dialog, a
 // file as a new list, and converting a note body to items — each undoable.
+import 'dart:convert';
+
 import 'package:everslot/features/checklists/application/providers.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
 import 'package:everslot/features/checklists/domain/checklist_tree.dart';
@@ -128,7 +130,7 @@ void main() {
     h = TestHarness.create(
       overrides: [
         importFileReaderProvider.overrideWithValue(
-          () async => (name: 'Camping.md', text: '# Camping\n- Tent\n  - Pegs\n- Stove'),
+          () async => (name: 'Camping.md', bytes: utf8.encode('# Camping\n- Tent\n  - Pegs\n- Stove')),
         ),
       ],
     );

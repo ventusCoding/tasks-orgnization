@@ -324,7 +324,12 @@ abstract final class ChecklistExport {
       .replaceAll('\n', '&#10;');
 
   /// OPML 2.0 with `_note`, `_complete`, `_status` (+ `_statusNote`).
-  static String opml(ChecklistTree tree, {String? title, String? rootId}) {
+  static String opml(
+    ChecklistTree tree, {
+    String? title,
+    String? rootId,
+    Map<String, List<String>> attachmentNames = const {},
+  }) {
     final out = StringBuffer()
       ..writeln('<?xml version="1.0" encoding="UTF-8"?>')
       ..writeln('<opml version="2.0">')
@@ -338,6 +343,9 @@ abstract final class ChecklistExport {
       if (i.status == ItemStatus.completed) attrs.write(' _complete="true"');
       if (i.status != ItemStatus.todo) attrs.write(' _status="${i.status.name}"');
       if (i.statusNote != null) attrs.write(' _statusNote="${_esc(i.statusNote!)}"');
+      // File names ride along as an attribute so a re-import does not turn them into items.
+      final files = attachmentNames[id] ?? const <String>[];
+      if (files.isNotEmpty) attrs.write(' _attachments="${_esc(files.join(' | '))}"');
       final kids = tree.childIds(id);
       if (kids.isEmpty) {
         out.writeln('$pad<outline $attrs/>');
