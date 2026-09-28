@@ -25,8 +25,8 @@ multi-week; quarter; ribbon (day & week); timeline/Gantt; category swimlanes; lo
 - [x] T3.6.04 — N-day view (rolling or fixed)
 - [x] T3.6.05 — Work-week preset
 - [x] T3.6.06 — Week list view (stacked days)
-- [ ] T3.6.07 — Month view
-- [ ] T3.6.08 — Month semantic zoom & list-below mode
+- [x] T3.6.07 — Month view
+- [x] T3.6.08 — Month semantic zoom & list-below mode
 - [ ] T3.6.09 — Agenda / schedule view
 - [ ] T3.6.10 — Year heatmap view
 - [ ] T3.6.11 — Multi-week view
@@ -101,6 +101,7 @@ day and load dots.
 **Acceptance criteria:** months with 6 week rows and leap years render correctly; dragging a recurring
 occurrence triggers the scope dialog.
 **Tests:** widget tests; goldens.
+**Notes:** `MonthView` (months page vertically by default, `options.swipe` horizontal); tap → Day list, or inline expansion (`options.tapAction: expand`, BusyCal accordion) or list-below; drag between days goes through the reschedule command (scope dialog for recurring). Grid math unit-tested (6-row months, leap Februaries, week starts).
 
 ### T3.6.08 — Month semantic zoom & list-below mode
 **Priority:** P1 · **Size:** M · **Depends on:** T3.6.07
@@ -109,6 +110,7 @@ occurrence triggers the scope dialog.
 - *List below* mode puts a compact month on top and the selected day's items underneath (Google/Apple style).
 **Data model:** view config `options.monthMode`, `options.listBelow`.
 **Tests:** goldens for each density.
+**Notes:** Pinch uses a raw two-pointer listener (paging stays free for one finger) and steps one density per 35 % span change; `monthMode` / `listBelow` persist in the view config. Density goldens in the calendar-views suite (T3.6.17).
 
 ### T3.6.09 — Agenda / schedule view
 **Priority:** P1 · **Size:** M · **Depends on:** T3.6.01, [3.2]

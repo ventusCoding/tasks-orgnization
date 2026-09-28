@@ -1,5 +1,6 @@
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/presentation/views/day_list_view.dart';
+import 'package:everslot/features/planner/presentation/views/month_view.dart';
 import 'package:everslot/features/planner/presentation/views/time_grid_view.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
 import 'package:everslot/features/planner/presentation/views/week_list_view.dart';
@@ -55,6 +56,14 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     icon: Icons.view_agenda_outlined,
     label: (l) => l.pvViewWeekList,
     builder: (a) => WeekListView(args: a),
+    supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'month',
+    type: PlannerViewType.month,
+    icon: Icons.calendar_month_outlined,
+    label: (l) => l.pvViewMonth,
+    builder: (a) => MonthView(args: a),
     supportsDrag: true,
   ),
 ];
