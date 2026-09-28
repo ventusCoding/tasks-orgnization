@@ -52,10 +52,10 @@ trigger semantics per section and global controls such as quiet hours ([7.5]).
 - [x] T7.1.09 — Notification section component (in every editor)
 - [x] T7.1.10 — Simple rule editor (quick chips & offsets)
 - [x] T7.1.11 — Next-firings preview & test notification
-- [ ] T7.1.12 — Advanced rule editor
-- [ ] T7.1.13 — Custom profiles editor
-- [ ] T7.1.14 — Section & category default-rule editors
-- [ ] T7.1.15 — "Customize" snapshot, bulk apply & copy rules
+- [x] T7.1.12 — Advanced rule editor
+- [x] T7.1.13 — Custom profiles editor
+- [x] T7.1.14 — Section & category default-rule editors
+- [x] T7.1.15 — "Customize" snapshot, bulk apply & copy rules
 - [ ] T7.1.16 — Occurrence-level overrides
 - [ ] T7.1.17 — Motivational content variants
 - [ ] T7.1.18 — Rule sets (reusable bundles) & export/import
@@ -259,6 +259,7 @@ variable picker filtered by target type, live preview in the user's locale, reda
 **Acceptance criteria:** every field of arch §8.2 plus the conventions above is editable; round-trip edit
 of a complex rule changes nothing when saved without edits.
 **Tests:** widget tests for field groups; golden per section of the editor; round-trip test.
+**Notes:** Each field uses an inherit dropdown: empty means *Inherited from <profile>*, a value overrides it, and the field's sentinel (`none`, `[]`, `false`) disables it. Android and iOS fields are badged.
 
 ### T7.1.13 — Custom profiles editor
 **Priority:** P1 · **Size:** M · **Depends on:** T7.1.05, T7.1.12
@@ -269,6 +270,7 @@ not deleted); each profile edits delivery/repeat/content defaults with the same 
 system settings; rules keep the profile reference.
 **Acceptance criteria:** deleting a profile in use asks where to move its rules; built-ins can't be deleted.
 **Tests:** widget tests; unit test for channel-id versioning on profile change.
+**Notes:** Reordering writes one sort key after the new visible neighbour, so hidden profiles keep their place.
 
 ### T7.1.14 — Section & category default-rule editors
 **Priority:** P1 · **Size:** M · **Depends on:** T7.1.06, T7.1.12
@@ -286,6 +288,7 @@ defaults").
 (from [3.1]/[4.2] multi-select).
 **Acceptance criteria:** snapshot rules no longer change when defaults change; bulk apply is one undoable command.
 **Tests:** unit tests for snapshot/copy; undo test.
+**Notes:** Hosts expose the features: `NotificationSettingsSection(pickCopySource:)` for *Copy reminders from…* and `NotificationHostApi.setReminders` for multi-select *Set reminders* (TODO(integration): planner, checklists and habits wire their item picker and multi-select action).
 
 ### T7.1.16 — Occurrence-level overrides
 **Priority:** P2 · **Size:** M · **Depends on:** T7.1.12, [3.2]

@@ -466,5 +466,8 @@
   "notifChipLastDayAt": "Le dernier jour à {time}",
   "notifChipChangeTime": "Modifier l’heure",
   "notifPausedShort": "Notifications en pause",
-  "notifIssueRepeatDoze": "Sur Android, des répétitions espacées de moins de 10 minutes peuvent arriver en retard quand le téléphone est en veille"
+  "notifIssueRepeatDoze": "Sur Android, des répétitions espacées de moins de 10 minutes peuvent arriver en retard quand le téléphone est en veille",
+  "notifCopyFrom": "Copier les rappels de…",
+  "notifCopyNothing": "Cet élément n’a pas de rappels propres",
+  "notifCopied": "{count, plural, =1{1 rappel copié} other{{count} rappels copiés}}"
 }

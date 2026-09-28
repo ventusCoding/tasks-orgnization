@@ -5528,6 +5528,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifContentTitle => 'قالب العنوان';
 
   @override
+  String notifCopied(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نُسخ $count تذكير',
+      many: 'نُسخ $count تذكيرًا',
+      few: 'نُسخت $count تذكيرات',
+      two: 'نُسخ تذكيران',
+      one: 'نُسخ تذكير واحد',
+      zero: 'لم يُنسخ أي تذكير',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifCopyFrom => 'نسخ التذكيرات من…';
+
+  @override
+  String get notifCopyNothing => 'لا يحتوي هذا العنصر على تذكيرات خاصة به';
+
+  @override
   String notifCreateCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

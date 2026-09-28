@@ -5306,6 +5306,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifContentTitle => 'Title template';
 
   @override
+  String notifCopied(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reminders copied',
+      one: '1 reminder copied',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifCopyFrom => 'Copy reminders from…';
+
+  @override
+  String get notifCopyNothing => 'That item has no reminders of its own';
+
+  @override
   String notifCreateCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
