@@ -819,7 +819,10 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     if (_initialScrollDone && !listEquals(visible, _notifiedDays)) {
       _notifiedDays = visible;
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) widget.controller?.updateVisibleDays(visible);
+        if (!mounted) return;
+        widget.controller?.updateVisibleDays(visible);
+        // The shared anchor follows the first page too, not only page changes (T3.6.03).
+        if (visible.isNotEmpty && widget.fixedAnchor == null) _sharedAnchor.set(visible.first);
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -840,6 +843,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
         _initialScrollDone = true;
         _notifiedDays = visible;
         widget.controller?.updateVisibleDays(visible);
+        if (visible.isNotEmpty && widget.fixedAnchor == null) _sharedAnchor.set(visible.first);
       }
     });
   }

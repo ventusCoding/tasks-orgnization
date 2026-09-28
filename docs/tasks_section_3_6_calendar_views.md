@@ -20,10 +20,10 @@ multi-week; quarter; ribbon (day & week); timeline/Gantt; category swimlanes; lo
 ## Progress
 
 - [x] T3.6.01 — View registry & view switcher
-- [ ] T3.6.02 — Saved views management
-- [ ] T3.6.03 — Shared date state & view transitions
-- [ ] T3.6.04 — N-day view (rolling or fixed)
-- [ ] T3.6.05 — Work-week preset
+- [x] T3.6.02 — Saved views management
+- [x] T3.6.03 — Shared date state & view transitions
+- [x] T3.6.04 — N-day view (rolling or fixed)
+- [x] T3.6.05 — Work-week preset
 - [ ] T3.6.06 — Week list view (stacked days)
 - [ ] T3.6.07 — Month view
 - [ ] T3.6.08 — Month semantic zoom & list-below mode
@@ -51,6 +51,7 @@ Deep link: `/plan/<type>?date=YYYY-MM-DD`.
 **Acceptance criteria:** the MVP ships Week table and Day list; enabling a view's flag makes it appear in
 the switcher with no other code changes.
 **Tests:** registry unit tests; widget test.
+**Notes:** Entries are listed in `view_entries.dart`; P2 views are tier m3 (flag `planner_views_m3` or `view_<id>`, always on in dev builds).
 
 ### T3.6.02 — Saved views management
 **Priority:** P1 · **Size:** S · **Depends on:** T3.6.01, [2.3] (saved views)
@@ -58,12 +59,14 @@ the switcher with no other code changes.
 its own config, e.g. "Work week · 15 min", "Night shift 18:00–06:00", "Deep work · 5 min". Views sync
 across devices.
 **Tests:** widget and repository tests.
+**Notes:** Management sheet (save as, rename, duplicate, delete, set default, reorder) from the overflow menu or a long-press on the switcher; views sync through `saved_views`.
 
 ### T3.6.03 — Shared date state & view transitions
 **Priority:** P1 · **Size:** S · **Depends on:** T3.6.01
 **Description:** Switching views keeps the anchor date, and the time of day for time-based views.
 Transitions use shared-axis animation. Back returns to the previous view type.
 **Tests:** widget tests.
+**Notes:** Switching views passes the shared anchor (first visible day, now also published for the first page) and the shared time of day; views cross-fade (instant under reduce-motion). Back returns to the previous view through `plannerViewHistoryProvider` (a `PopScope` in `PlannerScreen`); route-level page transitions stay the platform default.
 
 ### T3.6.04 — N-day view (rolling or fixed)
 **Priority:** P1 · **Size:** S · **Depends on:** T3.6.01, [3.3]
@@ -71,6 +74,7 @@ Transitions use shared-axis animation. Back returns to the previous view type.
 to the week start. This view type defaults to 3 days in portrait (Todoist/Google style). Horizontal pinch
 changes N.
 **Tests:** widget tests; golden.
+**Notes:** N-day entry on the time-grid engine: rolling from today (`options.rolling`, `firstDay: today`) or aligned to the week start; 3 days in portrait / 7 in landscape by default; horizontal pinch changes N; the toolbar arrows move by the visible range while swipes step one day. Golden: the calendar-views golden suite (T3.6.17).
 
 ### T3.6.05 — Work-week preset
 **Priority:** P1 · **Size:** S · **Depends on:** T3.6.04

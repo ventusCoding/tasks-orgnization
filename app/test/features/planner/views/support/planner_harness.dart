@@ -154,6 +154,7 @@ class PlannerHarness {
     List<PlannerItem> items = const [],
     List<Override> overrides = const [],
     bool realData = false,
+    RecordingNav? nav,
   }) {
     if (!_tzReady) {
       tzdata.initializeTimeZones();
@@ -164,7 +165,7 @@ class PlannerHarness {
     final db = AppDatabase.forTesting(NativeDatabase.memory());
     final clock = FakeClock(now ?? DateTime.utc(2026, 9, 23, 9, 30));
     final backend = FakePlannerBackend(items);
-    final nav = RecordingNav();
+    final navigator = nav ?? RecordingNav();
     SessionController.initial = const AppSession(userId: 'user-1', mode: SessionMode.localOnly);
     DeviceZoneController.initialZone = zone;
     final container = ProviderContainer(
@@ -182,13 +183,13 @@ class PlannerHarness {
           backlogItemsProvider.overrideWith((ref) => Stream.value(backend.backlog)),
           plannerActionsProvider.overrideWithValue(backend),
         ],
-        plannerNavProvider.overrideWithValue(nav),
+        plannerNavProvider.overrideWithValue(navigator),
         // The app bar's inbox badge re-evaluates on a 1-minute timer; keep tests timer-free.
         inboxUnreadCountProvider.overrideWith((ref) => Stream.value(0)),
         ...overrides,
       ],
     );
-    return PlannerHarness._(db, container, clock, backend, nav);
+    return PlannerHarness._(db, container, clock, backend, navigator);
   }
 
   final AppDatabase db;
