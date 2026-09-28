@@ -23,6 +23,7 @@ class BannerItem {
     this.payload,
     this.count = 1,
     this.titles = const [],
+    this.importance = NotificationImportance.normal,
   });
 
   final String key;
@@ -36,6 +37,9 @@ class BannerItem {
   /// > 1 for a collapsed burst ("3 reminders").
   final int count;
   final List<String> titles;
+
+  /// Drives the haptic (none for min/low, light for default, stronger for high/urgent).
+  final NotificationImportance importance;
 
   bool get collapsed => count > 1;
 }
@@ -77,6 +81,9 @@ class InAppBannerController {
           count: items.length,
           titles: [for (final i in items) i.title],
           link: AppLinks.inbox(),
+          importance: items
+              .map((i) => i.importance)
+              .reduce((a, b) => a.rank >= b.rank ? a : b),
         ),
       );
     }
@@ -204,6 +211,9 @@ class ForegroundTicker {
             if (a != NotificationActionIds.open) a,
         ].take(2).toList(),
         payload: payload,
+        importance:
+            NotificationImportance.tryParse(asString(c['imp'])) ??
+            NotificationImportance.normal,
       );
       banners.show(item);
       shown.add(item);

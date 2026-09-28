@@ -465,5 +465,6 @@
   "notifChipRepeat": "تكرار…",
   "notifChipLastDayAt": "في اليوم الأخير الساعة {time}",
   "notifChipChangeTime": "تغيير الوقت",
-  "notifPausedShort": "الإشعارات موقوفة مؤقتًا"
+  "notifPausedShort": "الإشعارات موقوفة مؤقتًا",
+  "notifIssueRepeatDoze": "على أندرويد، قد تصل التكرارات التي يفصل بينها أقل من 10 دقائق متأخرةً أثناء سكون الهاتف"
 }

@@ -5811,6 +5811,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Le décalage doit rester sous 30 jours';
 
   @override
+  String get notifIssueRepeatDoze =>
+      'Sur Android, des répétitions espacées de moins de 10 minutes peuvent arriver en retard quand le téléphone est en veille';
+
+  @override
   String get notifIssueRepeatInterval => 'Répéter au moins toutes les minutes';
 
   @override

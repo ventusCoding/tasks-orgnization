@@ -139,6 +139,27 @@ void main() {
         ],
       );
     });
+    test('repeats under 10 min warn about Doze without blocking', () {
+      final issues = NotificationRuleValidator.validate(
+        const NotificationRuleSpec(
+          trigger: OverdueTrigger(),
+          repeat: RepeatSpec(everyMinutes: 5, maxTimes: 5),
+        ),
+      );
+      expect(issues.map((i) => i.code), [
+        NotificationIssueCode.repeatMayBeDelayed,
+      ]);
+      expect(issues.single.severity, NotificationIssueSeverity.warning);
+      expect(
+        codes(
+          const NotificationRuleSpec(
+            trigger: OverdueTrigger(),
+            repeat: RepeatSpec(everyMinutes: 10, maxTimes: 5),
+          ),
+        ),
+        isEmpty,
+      );
+    });
     test(
       'more than 3 actions is an error unless accepted (then a warning)',
       () {

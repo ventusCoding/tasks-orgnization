@@ -72,12 +72,16 @@ class _Candidate {
     this.count,
     this.anchor,
     this.extraVars = const {},
+    this.repeatable = false,
   });
 
   final DateTime fireAt;
   final String occurrenceKey;
   final DefaultContentKind kind;
   final int? count;
+
+  /// From an unbounded daily/weekly fixed-time `schedule` (T7.2.10).
+  final bool repeatable;
 
   /// Anchor instant (for `{minutes_until}`).
   final DateTime? anchor;
@@ -339,6 +343,7 @@ abstract final class NotificationPlanner {
         final from = ctx.now.subtract(
           Duration(minutes: ctx.settings.latenessMinutes),
         );
+        final repeatable = isSimpleRepeating(recurrence);
         return [
           for (final instant in ctx.effectiveExpander.instantsBetween(
             recurrence,
@@ -351,6 +356,7 @@ abstract final class NotificationPlanner {
               instant,
               'sch:${localKey(instant)}',
               DefaultContentKind.schedule,
+              repeatable: repeatable,
             ),
         ];
 
@@ -889,7 +895,52 @@ abstract final class NotificationPlanner {
       anchorFireAt: p.anchorFireAt,
       silent: p.silent,
       targetDevices: rule.spec.conditions.devices,
+      repeatable:
+          c.repeatable &&
+          repeatIdx == 0 &&
+          delivery.repeat == null &&
+          p.adjustments.isEmpty &&
+          !p.silent &&
+          !p.quietSilent &&
+          p.system &&
+          p.scheduleLocally &&
+          !delivery.alarmStyle &&
+          !delivery.sticky &&
+          targetLevelGuards.contains(effectiveGuard.kind) &&
+          (target.timeZone == null || target.timeZone == ctx.deviceZone),
     );
+  }
+
+  /// Guards that hold for every occurrence of a target alike — a repeating OS trigger can't
+  /// skip one day, so per-occurrence guards (task occurrence, habit period) never repeat.
+  static const targetLevelGuards = {'always', 'item_not_completed'};
+
+  /// Unbounded daily or weekly rule at fixed times, without exceptions: the only shape an OS
+  /// calendar trigger (`time` / `dayOfWeekAndTime`) reproduces exactly (T7.2.10).
+  static bool isSimpleRepeating(Map<String, Object?> json) {
+    final r = EngineRecurrenceExpander.parse(json)?.$1;
+    if (r == null) return false;
+    final plainWeekdays =
+        r.byWeekday == null || r.byWeekday!.every((w) => w.n == null);
+    return r.type == RuleType.fixed &&
+        (r.freq == Frequency.daily || r.freq == Frequency.weekly) &&
+        r.interval == 1 &&
+        plainWeekdays &&
+        r.times.isNotEmpty &&
+        r.window == null &&
+        r.until == null &&
+        r.count == null &&
+        r.exdates.isEmpty &&
+        r.rdates.isEmpty &&
+        r.byMonthDay.isEmpty &&
+        r.byMonth.isEmpty &&
+        r.byYearDay.isEmpty &&
+        r.byWeekNo.isEmpty &&
+        r.bySetPos.isEmpty &&
+        r.byHour.isEmpty &&
+        r.byMinute.isEmpty &&
+        r.afterCompletion == null &&
+        r.quota == null;
   }
 
   static Map<String, String> _variables(

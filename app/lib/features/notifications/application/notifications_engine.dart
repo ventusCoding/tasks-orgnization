@@ -433,7 +433,7 @@ class NotificationsEngine {
           ?.toUtc()
           .toIso8601String(),
       'schedule_rev': rev,
-      'local_repeating_rules': const <String>[],
+      'local_repeating_rules': report.scheduler.repeatingRules.toList()..sort(),
     });
   }
 

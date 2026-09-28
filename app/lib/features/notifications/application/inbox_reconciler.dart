@@ -72,7 +72,10 @@ class InboxReconciler {
       occurrenceKey: asString(c['occ']),
       section: NotificationSection.tryParse(asString(c['sec'])),
       payload: payload,
-      via: e.os || e.kind == ScheduleKind.merged ? 'local' : 'inbox_only',
+      // Members of merged / repeating notifications were shown through their group.
+      via: e.os || e.kind == ScheduleKind.merged || asBool(c['grp']) == true
+          ? 'local'
+          : 'inbox_only',
     );
   }
 }

@@ -196,6 +196,8 @@ class NotificationPipeline {
         bannerInApp: ctx.settings.bannerInApp,
         horizonEnd: ctx.now.add(ctx.effectiveHorizon),
         authenticationRequired: ctx.settings.hideContent,
+        zones: ctx.zones,
+        zone: ctx.deviceZone,
       );
       await scheduler.removeDelivered({
         for (final t in ctx.targets)

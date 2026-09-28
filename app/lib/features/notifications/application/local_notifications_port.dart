@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:everslot/features/notifications/domain/notification_types.dart';
+import 'package:everslot/features/notifications/domain/scheduler/schedule_plan.dart'
+    show RepeatMatch;
 import 'package:meta/meta.dart';
 
 /// Device notification capabilities (T7.2.04), reported to `devices.capabilities`.
@@ -201,6 +203,8 @@ class OsNotificationRequest {
     this.tag,
     this.badgeNumber,
     this.subtitle,
+    this.repeat,
+    this.repeatZone,
   });
 
   final int id;
@@ -237,6 +241,11 @@ class OsNotificationRequest {
   final String? tag;
   final int? badgeNumber;
   final String? subtitle;
+
+  /// Repeating calendar trigger (T7.2.10): every day (or every week on the weekday) at the
+  /// wall-clock time of [fireAt] in [repeatZone]; [fireAt] is the first firing.
+  final RepeatMatch? repeat;
+  final String? repeatZone;
 }
 
 /// A user response (tap or action button).

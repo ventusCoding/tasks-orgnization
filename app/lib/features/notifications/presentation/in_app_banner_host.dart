@@ -11,11 +11,16 @@ import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:everslot/features/notifications/presentation/inbox_screen.dart';
 import 'package:everslot/features/notifications/presentation/notification_labels.dart';
 import 'package:everslot/features/notifications/presentation/snooze_picker.dart';
+import 'package:flutter/services.dart' show HapticFeedback;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
-/// Shows queued in-app banners one at a time (T7.3.05): tap → deep link, swipe up to dismiss,
-/// auto-dismiss after 5 s (8 s with actions or a screen reader), reduce motion → fade only.
+/// Shows queued in-app banners one at a time (T7.3.05): tap → deep link, swipe to dismiss,
+/// auto-dismiss after 5 s (8 s with actions or a screen reader), reduce motion → fade only,
+/// haptic by importance. When the banner's target screen is already the current route it
+/// shrinks to a subtle compact banner (3 s, no actions); while the keyboard is up and the focused
+/// field sits under the top area, the banner moves above the keyboard.
 class InAppBannerHost extends ConsumerStatefulWidget {
   const InAppBannerHost({super.key});
 
@@ -29,6 +34,7 @@ class _InAppBannerHostState extends ConsumerState<InAppBannerHost> {
   );
   Timer? _timer;
   BannerItem? _shown;
+  bool _compact = false;
 
   @override
   void initState() {
@@ -47,17 +53,52 @@ class _InAppBannerHostState extends ConsumerState<InAppBannerHost> {
   void _onChanged() {
     final item = _controller.current.value;
     if (!mounted || identical(item, _shown)) return;
-    setState(() => _shown = item);
+    final compact = item != null && _targetOnScreen(item);
+    setState(() {
+      _shown = item;
+      _compact = compact;
+    });
     _timer?.cancel();
     if (item == null) return;
     final media = MediaQuery.maybeOf(context);
     final long =
-        item.actions.isNotEmpty || (media?.accessibleNavigation ?? false);
-    _timer = Timer(Duration(seconds: long ? 8 : 5), _controller.dismissCurrent);
+        !compact &&
+        (item.actions.isNotEmpty || (media?.accessibleNavigation ?? false));
+    _timer = Timer(
+      Duration(seconds: compact ? 3 : (long ? 8 : 5)),
+      _controller.dismissCurrent,
+    );
+    haptic(item.importance);
     final title = item.collapsed
         ? context.l10n.notifBannerCollapsed(item.count)
         : item.title;
     announce(context, [title, item.body].whereType<String>().join('. '));
+  }
+
+  /// The banner's target screen is already the current route (e.g. that task's page).
+  bool _targetOnScreen(BannerItem item) {
+    final link = item.link;
+    if (link == null || item.collapsed) return false;
+    final router = GoRouter.maybeOf(context);
+    if (router == null) return false;
+    try {
+      final current = router.routerDelegate.currentConfiguration.uri;
+      return current.path == Uri.parse(link).path;
+    } on Object {
+      return false;
+    }
+  }
+
+  /// Haptic per importance: silent for Gentle (min/low), light for default, stronger above.
+  static void haptic(NotificationImportance importance) {
+    switch (importance) {
+      case NotificationImportance.min || NotificationImportance.low:
+        return;
+      case NotificationImportance.normal:
+        unawaited(HapticFeedback.selectionClick());
+      case NotificationImportance.high || NotificationImportance.urgent:
+        unawaited(HapticFeedback.mediumImpact());
+    }
   }
 
   Future<void> _open(BannerItem item) async {
@@ -102,38 +143,56 @@ class _InAppBannerHostState extends ConsumerState<InAppBannerHost> {
     );
   }
 
+  /// Height below the top inset that a top banner may cover.
+  static const _topArea = 160.0;
+
   @override
   Widget build(BuildContext context) {
     final item = _shown;
-    final reduceMotion =
-        MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+    final media = MediaQuery.of(context);
+    final reduceMotion = media.disableAnimations;
+    final keyboard = media.viewInsets.bottom;
+    final focusTop = FocusManager.instance.primaryFocus?.rect.top;
+    final bottom =
+        keyboard > 0 &&
+        focusTop != null &&
+        focusTop < media.padding.top + _topArea;
     return Align(
-      alignment: AlignmentDirectional.topCenter,
-      child: SafeArea(
-        child: AnimatedSwitcher(
-          duration: reduceMotion ? Duration.zero : Motion.normal,
-          transitionBuilder: (child, animation) => reduceMotion
-              ? FadeTransition(opacity: animation, child: child)
-              : SlideTransition(
-                  position: Tween(
-                    begin: const Offset(0, -1),
-                    end: Offset.zero,
-                  ).animate(animation),
-                  child: FadeTransition(opacity: animation, child: child),
-                ),
-          child: item == null
-              ? const SizedBox.shrink()
-              : Dismissible(
-                  key: ValueKey('banner-${item.key}'),
-                  direction: DismissDirection.up,
-                  onDismissed: (_) => _controller.dismissCurrent(),
-                  child: _BannerCard(
-                    item: item,
-                    onTap: () => unawaited(_open(item)),
-                    onAction: (a) => unawaited(_act(item, a)),
-                    onClose: _controller.dismissCurrent,
+      alignment: bottom
+          ? AlignmentDirectional.bottomCenter
+          : AlignmentDirectional.topCenter,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: bottom ? keyboard : 0),
+        child: SafeArea(
+          bottom: !bottom,
+          child: AnimatedSwitcher(
+            duration: Motion.normal,
+            transitionBuilder: (child, animation) => reduceMotion
+                ? FadeTransition(opacity: animation, child: child)
+                : SlideTransition(
+                    position: Tween(
+                      begin: Offset(0, bottom ? 1 : -1),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: FadeTransition(opacity: animation, child: child),
                   ),
-                ),
+            child: item == null
+                ? const SizedBox.shrink()
+                : Dismissible(
+                    key: ValueKey('banner-${item.key}'),
+                    direction: bottom
+                        ? DismissDirection.down
+                        : DismissDirection.up,
+                    onDismissed: (_) => _controller.dismissCurrent(),
+                    child: _BannerCard(
+                      item: item,
+                      compact: _compact,
+                      onTap: () => unawaited(_open(item)),
+                      onAction: (a) => unawaited(_act(item, a)),
+                      onClose: _controller.dismissCurrent,
+                    ),
+                  ),
+          ),
         ),
       ),
     );
@@ -146,9 +205,13 @@ class _BannerCard extends StatelessWidget {
     required this.onTap,
     required this.onAction,
     required this.onClose,
+    this.compact = false,
   });
 
   final BannerItem item;
+
+  /// Subtle variant: one line of body, no actions (target screen already visible).
+  final bool compact;
   final VoidCallback onTap;
   final ValueChanged<String> onAction;
   final VoidCallback onClose;
@@ -166,7 +229,7 @@ class _BannerCard extends StatelessWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 560),
         child: Material(
-          elevation: 6,
+          elevation: compact ? 2 : 6,
           borderRadius: BorderRadius.circular(Radii.lg),
           color: context.colors.surfaceContainerHigh,
           child: InkWell(
@@ -204,11 +267,11 @@ class _BannerCard extends StatelessWidget {
                             Text(
                               body,
                               style: context.text.bodyMedium,
-                              maxLines: 3,
+                              maxLines: compact ? 1 : 3,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ],
-                          if (item.actions.isNotEmpty) ...[
+                          if (!compact && item.actions.isNotEmpty) ...[
                             const SizedBox(height: Space.xs),
                             Wrap(
                               spacing: Space.sm,

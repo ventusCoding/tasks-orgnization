@@ -61,8 +61,11 @@ class NotificationActionDispatcher {
 
   /// OS response → tap or action.
   Future<ActionDispatchResult> handleResponse(OsResponse response) async {
-    final payload = NotificationPayload.tryDecode(response.payload);
+    var payload = NotificationPayload.tryDecode(response.payload);
     if (payload == null) return ActionDispatchResult.none;
+    if (payload.kind == ScheduleKind.repeating) {
+      payload = await firedMember(payload);
+    }
     final origin = response.background
         ? ActionOrigin.systemBackground
         : ActionOrigin.system;
@@ -73,6 +76,30 @@ class NotificationActionDispatcher {
         ? NotificationActionIds.dismiss
         : response.actionId!;
     return handleAction(action, payload, input: response.input, origin: origin);
+  }
+
+  /// A repeating trigger (T7.2.10) carries its sequence identity: a response belongs to the
+  /// member instance that fired last (its inbox row and occurrence). Without a tracked member
+  /// (fired beyond the planned horizon) the sequence payload itself is used.
+  Future<NotificationPayload> firedMember(NotificationPayload p) async {
+    final now = read(clockProvider).nowUtc();
+    ScheduleEntry? best;
+    for (final e in await read(localScheduleStoreProvider).all()) {
+      if (e.kind != ScheduleKind.tracked ||
+          e.targetKey != p.targetKey ||
+          asString(e.content['rid']) != p.ruleId ||
+          e.fireAt.isAfter(now)) {
+        continue;
+      }
+      if (best == null || e.fireAt.isAfter(best.fireAt)) best = e;
+    }
+    if (best == null) return p;
+    return NotificationPayload.fromJson({
+      ...best.content,
+      'v': 1,
+      'dk': best.dedupeKey,
+      'tk': best.targetKey,
+    });
   }
 
   /// Tap on a notification / banner / inbox row: mark opened (acknowledges nags), open the target.

@@ -14,6 +14,7 @@ import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:everslot/features/notifications/domain/planner/planned_notification.dart';
 import 'package:everslot/features/notifications/domain/scheduler/schedule_plan.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
+import 'package:everslot_recurrence/everslot_recurrence.dart' show ZoneResolver;
 import 'package:meta/meta.dart';
 
 /// Result of one scheduler run (diagnostics & coverage report).
@@ -28,6 +29,7 @@ class SchedulerReport {
     required this.coverageUntil,
     required this.saturated,
     required this.budget,
+    this.repeatingRules = const {},
   });
 
   static const empty = SchedulerReport(
@@ -50,6 +52,9 @@ class SchedulerReport {
   final DateTime? coverageUntil;
   final bool saturated;
   final ScheduleBudget budget;
+
+  /// Rules covered by repeating OS triggers (`devices.local_repeating_rules`, T7.2.11).
+  final Set<String> repeatingRules;
 }
 
 /// Makes the OS match the desired top-K of the plan with minimal platform calls (T7.2.09/10/17/19).
@@ -119,6 +124,8 @@ class LocalNotificationScheduler {
     required bool bannerInApp,
     required DateTime horizonEnd,
     bool authenticationRequired = false,
+    ZoneResolver? zones,
+    String? zone,
   }) async {
     final now = clock.nowUtc();
     final isAndroid = port.platform == 'android';
@@ -139,6 +146,15 @@ class LocalNotificationScheduler {
       budget: budget,
       sentinelTitle: l.notifSaturationTitle,
       mergedTitle: l.notifMergedTitle,
+      repeating: zones == null || zone == null
+          ? null
+          : RepeatingOptions(
+              zones: zones,
+              zone: zone,
+              now: now,
+              horizonEnd: horizonEnd,
+              honorsStartDate: isAndroid,
+            ),
     );
     final current = await store.all();
     final diff = ScheduleComputation.diff(current, desired, now);
@@ -166,6 +182,9 @@ class LocalNotificationScheduler {
       final previous = existing[d.key];
       final id = previous?.platformId ?? PlatformIds.assign(d.key, used);
       used.add(id);
+      // A repeating trigger never expires and creates no inbox row / banner itself: its
+      // tracked members do.
+      final repeating = d.kind == ScheduleKind.repeating;
       final entry = ScheduleEntry(
         dedupeKey: d.key,
         platformId: id,
@@ -175,12 +194,13 @@ class LocalNotificationScheduler {
         os: d.os,
         hash: d.hash,
         scheduledAt: now,
-        expiresAt: d.planned?.expiresAt,
+        expiresAt: repeating ? null : d.planned?.expiresAt,
         channelId: d.planned?.channelId,
+        repeating: repeating,
         members: [for (final m in d.members) m.dedupeKey],
         reconciledAt: previous?.reconciledAt,
-        inbox: d.planned?.deliverInbox ?? false,
-        banner: d.planned?.deliverBanner ?? false,
+        inbox: !repeating && (d.planned?.deliverInbox ?? false),
+        banner: !repeating && (d.planned?.deliverBanner ?? false),
         content: d.content,
       );
       if (d.os) {
@@ -190,6 +210,7 @@ class LocalNotificationScheduler {
           exactAllowed: exactAllowed,
           presentInForeground: !bannerInApp,
           authenticationRequired: authenticationRequired,
+          zone: zone,
         );
         try {
           if (!d.fireAt.isAfter(now)) {
@@ -208,8 +229,10 @@ class LocalNotificationScheduler {
     }
     await store.putAll(entries);
     final all = await store.all();
+    bool live(ScheduleEntry e) =>
+        e.fireAt.isAfter(now) || e.kind == ScheduleKind.repeating;
     return SchedulerReport(
-      osScheduled: all.where((e) => e.os && e.fireAt.isAfter(now)).length,
+      osScheduled: all.where((e) => e.os && live(e)).length,
       tracked: all.where((e) => !e.os && e.fireAt.isAfter(now)).length,
       cancelled: diff.cancel.length,
       scheduledNow: scheduledNow,
@@ -220,6 +243,11 @@ class LocalNotificationScheduler {
       ),
       saturated: desired.any((d) => d.kind == ScheduleKind.sentinel),
       budget: budget,
+      repeatingRules: {
+        for (final e in all)
+          if (e.os && e.kind == ScheduleKind.repeating)
+            ?asString(e.content['rid']),
+      },
     );
   }
 
@@ -229,17 +257,31 @@ class LocalNotificationScheduler {
     required bool exactAllowed,
     required bool presentInForeground,
     required bool authenticationRequired,
+    String? zone,
   }) {
     final l = l10n();
     final p = d.planned;
     if (p != null) {
+      final repeating = d.kind == ScheduleKind.repeating;
       return OsNotificationRequest(
         id: id,
         title: p.title,
         body: p.body,
         fireAt: p.fireAt,
         channelId: p.channelId,
-        payload: jsonEncode(p.payload),
+        // A repeating trigger carries the sequence identity; the dispatcher maps a response to
+        // the member that fired last.
+        payload: jsonEncode(
+          repeating
+              ? {
+                  for (final e in p.payload.entries)
+                    if (e.key != 'occ' && e.key != 'bk' && e.key != 'rep')
+                      e.key: e.value,
+                  'dk': d.key,
+                  'kind': ScheduleKind.repeating,
+                }
+              : p.payload,
+        ),
         importance: p.importance,
         interruptionLevel: p.interruptionLevel,
         relevance: p.relevance,
@@ -261,7 +303,9 @@ class LocalNotificationScheduler {
         exact: exactAllowed,
         alarmClock: p.alarmStyle && exactAllowed,
         presentInForeground: presentInForeground,
-        tag: p.dedupeKey,
+        tag: repeating ? d.key : p.dedupeKey,
+        repeat: repeating ? d.repeat : null,
+        repeatZone: repeating ? zone : null,
       );
     }
     if (d.kind == ScheduleKind.merged) {
