@@ -2656,6 +2656,8 @@
   "settingsCompleteChildren": "En terminant un parent",
   "settingsCurrency": "Devise des économies (sevrage)",
   "settingsCurrentZone": "Fuseau horaire actuel (cet appareil)",
+  "settingsDataSubtitle": "Sauvegarder, restaurer ou transférer vos données",
+  "settingsDataTitle": "Export et import",
   "settingsDayStart": "La journée des habitudes commence à",
   "settingsDayStartSubtitle": "Les validations avant cette heure comptent pour la veille. S'applique uniquement aux nouvelles validations.",
   "settingsDefaultOpen": "Ouvrir en",

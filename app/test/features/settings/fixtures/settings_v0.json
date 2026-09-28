@@ -1,0 +1,8 @@
+{
+  "appearance": {"darkMode": true, "compact": true, "reduceMotion": true, "haptics": false, "futureKey": {"x": 1}},
+  "privacy": {"hideContentInNotifications": true, "appLock": {"enabled": true, "timeoutSeconds": 300}, "crashReporting": false},
+  "habits": {"dayStartsAt": "04:30", "matrixTapCycle": ["done", "skip"]},
+  "regional": {"currency": "TND"},
+  "checklists": {"requireReasonFor": ["blocked"], "progressMode": "children"},
+  "stats": {"defaultPeriod": "month", "weekStartOverride": 6}
+}
