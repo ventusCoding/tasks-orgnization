@@ -4806,6 +4806,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifContentTitle => 'Modèle du titre';
 
   @override
+  String notifCopied(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rappels copiés',
+      one: '1 rappel copié',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifCopyFrom => 'Copier les rappels de…';
+
+  @override
+  String get notifCopyNothing => 'Cet élément n’a pas de rappels propres';
+
+  @override
   String notifCreateCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

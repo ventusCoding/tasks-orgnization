@@ -1005,5 +1005,15 @@
   },
   "notifChipChangeTime": "Change the time",
   "notifPausedShort": "Notifications paused",
-  "notifIssueRepeatDoze": "On Android, repeats less than 10 minutes apart may arrive late while the phone sleeps"
+  "notifIssueRepeatDoze": "On Android, repeats less than 10 minutes apart may arrive late while the phone sleeps",
+  "notifCopyFrom": "Copy reminders from…",
+  "notifCopyNothing": "That item has no reminders of its own",
+  "notifCopied": "{count, plural, =1{1 reminder copied} other{{count} reminders copied}}",
+  "@notifCopied": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

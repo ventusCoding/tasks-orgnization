@@ -1793,6 +1793,13 @@
       }
     }
   },
+  "@notifCopied": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@notifCreateCount": {
     "placeholders": {
       "count": {
@@ -4935,6 +4942,9 @@
   "notifContent": "Content",
   "notifContentBody": "Body template",
   "notifContentTitle": "Title template",
+  "notifCopied": "{count, plural, =1{1 reminder copied} other{{count} reminders copied}}",
+  "notifCopyFrom": "Copy reminders from…",
+  "notifCopyNothing": "That item has no reminders of its own",
   "notifCreateCount": "{count, plural, =1{Add 1 reminder} other{Add {count} reminders}}",
   "notifCustomize": "Customize",
   "notifDateOnlyTime": "Default time for date-only items",

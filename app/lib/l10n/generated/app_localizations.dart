@@ -7869,6 +7869,24 @@ abstract class AppLocalizations {
   /// **'Title template'**
   String get notifContentTitle;
 
+  /// No description provided for @notifCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 reminder copied} other{{count} reminders copied}}'**
+  String notifCopied(int count);
+
+  /// No description provided for @notifCopyFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy reminders from…'**
+  String get notifCopyFrom;
+
+  /// No description provided for @notifCopyNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'That item has no reminders of its own'**
+  String get notifCopyNothing;
+
   /// No description provided for @notifCreateCount.
   ///
   /// In en, this message translates to:

@@ -256,11 +256,14 @@ class NotificationRulesRepository {
   });
 
   /// *Copy reminders from…* / bulk *Set reminders* (T7.1.15): one undoable command.
+  /// [setNotifyMode] runs per target in the same transaction (own rules only count when the
+  /// item isn't in `inherit` mode).
   Future<OpRecord> copyRules({
     required List<NotificationRule> from,
     required RuleTargetType type,
     required List<String> targetIds,
     bool replace = false,
+    Future<void> Function(WriteTx tx, String targetId)? setNotifyMode,
   }) => _writer.run((tx) async {
     for (final targetId in targetIds) {
       if (replace) await softDeleteForTargetInTx(tx, type, targetId);
@@ -273,6 +276,7 @@ class NotificationRulesRepository {
             isDefault: false,
           ),
       ]);
+      if (setNotifyMode != null) await setNotifyMode(tx, targetId);
     }
   }, cause: 'bulk');
 

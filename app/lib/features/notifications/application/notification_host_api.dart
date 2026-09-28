@@ -2,6 +2,7 @@ import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/features/notifications/application/notification_providers.dart';
 import 'package:everslot/features/notifications/data/notification_rules_repository.dart';
 import 'package:everslot/features/notifications/data/notify_mode_store.dart';
+import 'package:everslot/features/notifications/domain/notification_rule.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -95,6 +96,12 @@ class NotificationHostApi {
     await _mutes.softDeleteForTargetInTx(tx, type.wire, targetId);
   }
 
+  /// The own rules of item [id] (source of *Copy reminders from…*).
+  Future<List<NotificationRule>> rulesOf(
+    NotificationTargetType type,
+    String id,
+  ) => _rules.forTarget(_ruleType(type), id);
+
   /// "Duplicate item": copies the own rules of [fromId] to [toId] (as own, non-default rules).
   Future<List<String>> copyRulesInTx(
     WriteTx tx,
@@ -113,6 +120,29 @@ class NotificationHostApi {
           isDefault: false,
         ),
     ]);
+  }
+}
+
+extension NotificationBulkReminders on NotificationHostApi {
+  /// Bulk *Set reminders* on multi-selected items (T7.1.15) — one undoable command: every item
+  /// gets a copy of [rules] as its own rules (replacing its previous own rules unless [replace]
+  /// is false) and switches to [mode] (`custom` by default, `inherit_plus` keeps the defaults).
+  /// Use [NotificationHostApi.rulesOf] to copy another item's reminders.
+  Future<OpRecord> setReminders(
+    NotificationTargetType type,
+    List<String> targetIds,
+    List<NotificationRule> rules, {
+    bool replace = true,
+    NotifyMode mode = NotifyMode.custom,
+  }) {
+    final ruleType = NotificationHostApi._ruleType(type);
+    return _rules.copyRules(
+      from: rules,
+      type: ruleType,
+      targetIds: targetIds,
+      replace: replace,
+      setNotifyMode: (tx, id) => _modes.setInTx(tx, ruleType, id, mode),
+    );
   }
 }
 
