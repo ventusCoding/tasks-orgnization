@@ -40,7 +40,7 @@ for stats defaults ([8.3]).
 - [x] T6.1.09 — Streak engine
 - [x] T6.1.10 — Habit-strength score (Loop-compatible EWMA)
 - [x] T6.1.11 — Status-interval & event-log primitives
-- [ ] T6.1.12 — Stats data loaders over Drift
+- [x] T6.1.12 — Stats data loaders over Drift
 - [ ] T6.1.13 — Isolate execution, caching & invalidation
 - [x] T6.1.14 — Minimum-data, confidence & honesty rules
 - [ ] T6.1.15 — Stats fixture framework & canonical datasets
@@ -388,6 +388,7 @@ DTOs that can be sent to an isolate (records and lists of primitives, never Drif
 **Acceptance criteria:** loading a year of data for 30 habits takes < 80 ms on the reference device; no
 full table scans appear in the query plans.
 **Tests:** DAO tests on an in-memory database with seeded fixtures; a query-plan assertion test.
+**Notes:** `data/stats_data_source.dart` maps rows into the isolate records of `domain/stats_inputs.dart` (never row classes); deleted checklist items stay for history. The local DB is single-user, so the per-feature indexes omit `user_id` (residual filter). `stats_data_source_test.dart` seeds every table, checks the mapping and asserts through a query interceptor + `EXPLAIN QUERY PLAN` that the large tables are never scanned (notifications compare the ISO text so `idx_notifications_fire` applies). The 80 ms device budget is measured by the performance suite (T6.1.23).
 
 ### T6.1.13 — Isolate execution, caching & invalidation
 **Priority:** P0 · **Size:** M · **Depends on:** T6.1.06, T6.1.12

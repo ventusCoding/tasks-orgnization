@@ -3,7 +3,7 @@
 /// row classes). Tombstones are excluded except where history needs them (deleted checklist items
 /// feed burn-up/CFD).
 ///
-/// Query plans (`EXPLAIN QUERY PLAN`, asserted by `stats_query_plan_test.dart`; the local database is
+/// Query plans (`EXPLAIN QUERY PLAN`, asserted by `test/features/stats/data/stats_data_source_test.dart`; the local database is
 /// single-user, so `user_id` is a residual filter on the per-feature indexes):
 /// - tasks (section): `SEARCH tasks USING INDEX idx_tasks_start (start_local<?)` + unscheduled
 ///   `SEARCH tasks USING INDEX idx_tasks_start (start_local=?)` (IS NULL); series:
@@ -423,7 +423,11 @@ class StatsDataSource {
     final notifications = withNotifications
         ? await (_db.select(_db.notifications)..where(
                 (n) =>
-                    n.fireAt.isBiggerOrEqualValue(notificationsSince ?? DateTime.utc(1970)) &
+                    // Text comparison of the ISO column keeps `idx_notifications_fire` usable
+                    // (drift wraps DateTime comparisons in JULIANDAY()).
+                    n.fireAt.dartCast<String>().isBiggerOrEqualValue(
+                      (notificationsSince ?? DateTime.utc(1970)).toUtc().toIso8601String(),
+                    ) &
                     n.userId.equals(user) &
                     n.deletedAt.isNull() &
                     n.sourceType.equals('habit'),
