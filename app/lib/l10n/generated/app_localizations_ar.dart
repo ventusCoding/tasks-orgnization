@@ -7696,6 +7696,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvListMode => 'قائمة ميسّرة';
 
   @override
+  String get pvLoadThresholds => 'تلوين الحِمل (مزدحم · متجاوز)';
+
+  @override
   String get pvMapPlaceholder =>
       'تحتاج الخريطة إلى إحداثيات المهام، وستتوفر مع أداة اختيار المكان. المهام التي لها مكان مدرجة أدناه.';
 

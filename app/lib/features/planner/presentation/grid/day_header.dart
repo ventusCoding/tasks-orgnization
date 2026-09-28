@@ -72,9 +72,14 @@ class DayHeaderCell extends StatelessWidget {
     this.onTap,
     this.onLongPress,
     this.compact = false,
+    this.loadWarn = 0.8,
+    this.loadOver = 1.0,
     super.key,
   });
 
+  /// Load thresholds of the tint (view config options `loadWarn` / `loadOver`).
+  final double loadWarn;
+  final double loadOver;
   final LocalDate date;
   final bool isToday;
   final AppFormat format;
@@ -90,7 +95,7 @@ class DayHeaderCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final tint = stats == null ? null : loadTint(context, stats!.load);
+    final tint = stats == null ? null : loadTint(context, stats!.load, warn: loadWarn, over: loadOver);
     final dayNumber = format.number(date.day);
     return Semantics(
       button: true,

@@ -110,8 +110,15 @@ class PageGeometry {
       if (slice == null || slice.timed.isEmpty) continue;
       final layout = layouts.of(slice, laneCap: laneCap, minDuration: minDur, strategy: strategy);
       final colX = columnX(i, n, width, rtl: rtl);
+      // Items entirely inside hidden hours are only counted in the band badge (T3.4.09).
+      bool shown(DaySegment s) => axis.bands.any(
+        (b) =>
+            b.kind == AxisBandKind.normal &&
+            b.pieces.any((p) => s.wallStart < p.wallEnd && (s.wallEnd > p.wallStart || (s.tEnd == s.tStart && s.wallStart >= p.wallStart))),
+      );
       for (final t in layout.tiles) {
         final seg = slice.timed[t.index];
+        if (!shown(seg)) continue;
         final top = axis.yOf(seg.wallStart, repeat: seg.repeatStart, ppm: ppm);
         var bottom = seg.tEnd == seg.tStart ? top : axis.yOf(seg.wallEnd, repeat: seg.repeatEnd, ppm: ppm, end: true);
         if (bottom < top + minTileHeight) bottom = top + minTileHeight;
@@ -120,6 +127,7 @@ class PageGeometry {
         tiles.add(TileGeom(segment: seg, dayIndex: i, rect: rect, variant: tileVariantFor(rect.width, rect.height)));
       }
       for (final g in layout.overflow) {
+        if (!g.indices.any((idx) => shown(slice.timed[idx]))) continue;
         final top = yOfT(axis, slice.timeline, g.start, ppm);
         final bottom = math.max(yOfT(axis, slice.timeline, g.end, ppm, end: true), top + 20);
         final w = math.min(28.0, math.max(16.0, colW * 0.4));

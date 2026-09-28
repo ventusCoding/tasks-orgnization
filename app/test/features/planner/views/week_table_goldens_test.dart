@@ -8,10 +8,12 @@ library;
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/time_grid.dart';
+import 'package:everslot/features/planner/presentation/views/first_use_hints.dart';
 import 'package:everslot/features/planner/presentation/views/time_grid_view.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'support/golden_support.dart';
 import 'support/planner_harness.dart';
@@ -27,9 +29,11 @@ void main() {
     LocalDate? date,
     List<PlannerItem>? items,
     double? minute,
+    Size size = const Size(420, 860),
   }) async {
     final h = PlannerHarness.create(items: items ?? goldenWeek(), zone: zone);
     addTearDown(h.dispose);
+    h.read(plannerViewStateProvider('week_table').notifier).update((s) => s.withExtra('hintsSeen', plannerHintIds));
     final notifier = h.read(plannerViewConfigProvider('week_table').notifier);
     var c = h.read(plannerViewConfigProvider('week_table')).withSlot(slot);
     if (config != null) c = config(c);
@@ -39,6 +43,7 @@ void main() {
       h,
       TimeGridView(args: PlannerViewArgs(viewKey: 'week_table', type: PlannerViewType.weekTable, date: date)),
       variant: variant,
+      size: size,
     );
     await tester.pumpAndSettle();
     if (minute != null) {
@@ -60,6 +65,13 @@ void main() {
   for (final v in [darkLtr, lightRtl, lightLtrLarge]) {
     testWidgets('week table 30 min ${variantName(v)}', (tester) async {
       await golden(tester, '30min_${variantName(v)}', variant: v);
+    });
+  }
+
+  // T3.4.16: landscape phone (7 wider columns, lane cap 3) and tablet (lane cap 4).
+  for (final (name, size) in [('landscape', const Size(860, 420)), ('tablet', const Size(1280, 800))]) {
+    testWidgets('week table 30 min $name', (tester) async {
+      await golden(tester, '30min_$name', variant: lightLtr, size: size, minute: 7 * 60);
     });
   }
 

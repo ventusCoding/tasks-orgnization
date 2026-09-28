@@ -7393,6 +7393,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvListMode => 'Accessible list';
 
   @override
+  String get pvLoadThresholds => 'Load tint (busy · over)';
+
+  @override
   String get pvMapPlaceholder =>
       'The map needs task coordinates, which arrive with the place picker. Tasks with a place are listed below.';
 

@@ -1085,6 +1085,8 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
                     showMonth: d.day == 1 || (i == 0 && page.days.length > 1 && d.plusDays(page.days.length - 1).month != d.month),
                     weekNumber: f.config.showWeekNumbers && (i == 0 || d.weekday == f.weekStart) ? l.pvWeekNumber(d.weekOfYear(f.weekStart).week) : null,
                     stats: stats,
+                    loadWarn: f.config.option<double>('loadWarn', 0.8),
+                    loadOver: f.config.option<double>('loadOver', 1.0),
                     statsText: stats == null || (stats.total == 0 && stats.plannedMinutes == 0)
                         ? (widget.showHeaderStats ? '' : null)
                         : l.pvDayStats(fmt.number(stats.done), fmt.number(stats.total), fmt.duration(stats.plannedMinutes)),

@@ -1,5 +1,6 @@
 {
   "pvSelect": "Select",
+  "pvLoadThresholds": "Load tint (busy · over)",
   "pvSelectionActions": "Actions",
   "pvClearSelection": "Clear selection",
   "pvCopy": "Copy",

@@ -160,6 +160,7 @@ class PlannerHarness {
       _tzReady = true;
     }
     ViewConfigController.saveDelay = Duration.zero;
+    ViewStateController.saveDelay = Duration.zero;
     final db = AppDatabase.forTesting(NativeDatabase.memory());
     final clock = FakeClock(now ?? DateTime.utc(2026, 9, 23, 9, 30));
     final backend = FakePlannerBackend(items);

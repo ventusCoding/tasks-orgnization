@@ -42,8 +42,13 @@ class PlannerViewScaffold extends ConsumerWidget {
     this.fab,
     this.endDrawer,
     this.bottomBar,
+    this.sidePanel,
     super.key,
   });
+
+  /// Reserved task-details panel beside the body on wide screens (≥ 900 dp, T3.4.16); multi-pane
+  /// layouts fill it later ([9.3]).
+  final Widget? sidePanel;
 
   final String viewKey;
   final Widget body;
@@ -68,7 +73,15 @@ class PlannerViewScaffold extends ConsumerWidget {
         bottom: bar == null ? null : PreferredSize(preferredSize: const Size.fromHeight(48), child: bar),
       ),
       endDrawer: endDrawer,
-      body: body,
+      body: sidePanel == null || MediaQuery.sizeOf(context).width < 900
+          ? body
+          : Row(
+              children: [
+                Expanded(child: body),
+                const VerticalDivider(width: 1),
+                SizedBox(width: 360, child: sidePanel),
+              ],
+            ),
       bottomNavigationBar: bottomBar,
       floatingActionButton: selecting ? null : fab,
     );

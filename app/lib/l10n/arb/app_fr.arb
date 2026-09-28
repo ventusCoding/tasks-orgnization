@@ -2138,6 +2138,7 @@
   "pvLess": "Moins",
   "pvListBelow": "Liste en dessous",
   "pvListMode": "Liste accessible",
+  "pvLoadThresholds": "Teinte de charge (chargé · dépassé)",
   "pvMapPlaceholder": "La carte a besoin des coordonnées des tâches, qui arriveront avec le sélecteur de lieu. Les tâches qui ont un lieu sont listées ci-dessous.",
   "pvMarkDone": "Marquer comme faite",
   "pvMarkNotDone": "Marquer comme non faite",
