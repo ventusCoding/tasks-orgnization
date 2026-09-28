@@ -158,3 +158,60 @@ bool hasPerfectWeek(Iterable<int> perfectDays) {
   }
   return false;
 }
+
+/// The best current value toward every badge (progress hints of locked badges): streaks, totals,
+/// clean days, savings and resisted cravings take the best habit or tracker; global badges are 0
+/// or 1.
+Map<AchievementCode, num> badgeValues({
+  GlobalBadgeFacts global = const GlobalBadgeFacts(),
+  List<HabitBadgeFacts> habits = const [],
+  List<QuitBadgeFacts> quits = const [],
+}) {
+  num best(Iterable<num> values) => values.fold<num>(0, (a, b) => b > a ? b : a);
+  final streak = best(habits.map((h) => h.bestStreak));
+  final total = best(habits.map((h) => h.totalVolume));
+  final clean = best(quits.map((q) => q.longestCleanDays));
+  final saved = best(quits.map((q) => q.moneySaved));
+  final resisted = best(quits.map((q) => q.cravingsResisted));
+  return {
+    for (final c in AchievementCode.values)
+      c: switch (c) {
+        AchievementCode.firstCheckIn => global.anyCheckIn ? 1 : 0,
+        AchievementCode.firstPerfectDay => global.anyPerfectDay ? 1 : 0,
+        AchievementCode.perfectWeek => global.perfectWeek ? 1 : 0,
+        AchievementCode.backfillFreeMonth => global.backfillFreeMonth ? 1 : 0,
+        AchievementCode.challengeCompleted => habits.any((h) => h.challengeWon) ? 1 : 0,
+        AchievementCode.streak7 ||
+        AchievementCode.streak30 ||
+        AchievementCode.streak100 ||
+        AchievementCode.streak365 => streak,
+        AchievementCode.total1000 || AchievementCode.total10000 => total,
+        AchievementCode.clean1 ||
+        AchievementCode.clean7 ||
+        AchievementCode.clean30 ||
+        AchievementCode.clean100 ||
+        AchievementCode.clean365 => clean,
+        AchievementCode.saved100 || AchievementCode.saved500 || AchievementCode.saved1000 => saved,
+        AchievementCode.cravingsResisted50 => resisted,
+      },
+  };
+}
+
+/// An unlocked badge row.
+@immutable
+class UnlockedBadge {
+  const UnlockedBadge({required this.id, required this.code, required this.unlockedAt, this.habitId, this.value});
+
+  final String id;
+  final AchievementCode code;
+  final String? habitId;
+  final DateTime unlockedAt;
+  final num? value;
+
+  @override
+  bool operator ==(Object other) =>
+      other is UnlockedBadge && other.id == id && other.unlockedAt == unlockedAt && other.value == value;
+
+  @override
+  int get hashCode => Object.hash(id, unlockedAt, value);
+}

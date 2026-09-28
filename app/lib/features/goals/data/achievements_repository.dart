@@ -6,26 +6,6 @@ import 'package:everslot/core/database/app_database.dart';
 import 'package:everslot/core/ids/ids.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/features/goals/domain/achievements.dart';
-import 'package:meta/meta.dart';
-
-/// An unlocked badge row.
-@immutable
-class UnlockedBadge {
-  const UnlockedBadge({required this.id, required this.code, required this.unlockedAt, this.habitId, this.value});
-
-  final String id;
-  final AchievementCode code;
-  final String? habitId;
-  final DateTime unlockedAt;
-  final num? value;
-
-  @override
-  bool operator ==(Object other) =>
-      other is UnlockedBadge && other.id == id && other.unlockedAt == unlockedAt && other.value == value;
-
-  @override
-  int get hashCode => Object.hash(id, unlockedAt, value);
-}
 
 /// Unlocked achievements (T5.4.08). Ids are deterministic —
 /// `v5(code|scope_type|scope_id)` — so re-evaluation and several devices never duplicate a badge.
