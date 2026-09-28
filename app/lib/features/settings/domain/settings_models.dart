@@ -164,6 +164,132 @@ class RegionalSettings {
   int get hashCode => Object.hash(currency, homeZoneAuto);
 }
 
+/// `planner` defaults edited in Settings › Plan (T8.3.05). Same keys and value spellings as the
+/// planner's `PlannerSettings` / `WorkSettings` (arch §8.5); other planner keys are preserved.
+class PlannerDefaults {
+  const PlannerDefaults({
+    this.defaultTaskDurationMinutes = 30,
+    this.defaultTrackingMode = 'check',
+    this.missedGraceMinutes = 15,
+    this.rollOverIncomplete = 'off',
+    this.askActualTimeOnDone = 'if_off_schedule',
+    this.workStartMinute = 540,
+    this.workEndMinute = 1020,
+    this.workDays = const {1, 2, 3, 4, 5},
+  });
+
+  static const defaults = PlannerDefaults();
+
+  static const trackingModes = ['check', 'event', 'timer'];
+  static const rollOverPolicies = ['off', 'ask', 'auto'];
+  static const askActualTimeChoices = ['never', 'if_off_schedule', 'always'];
+  static const graceChoices = [0, 5, 10, 15, 30, 60];
+
+  final int defaultTaskDurationMinutes;
+  final String defaultTrackingMode;
+  final int missedGraceMinutes;
+  final String rollOverIncomplete;
+  final String askActualTimeOnDone;
+
+  /// Work hours, minutes after midnight (`workHours: {start: "09:00", end: "17:00"}`).
+  final int workStartMinute;
+  final int workEndMinute;
+
+  /// ISO weekdays (`workDays`).
+  final Set<int> workDays;
+
+  static String hhmm(int minutes) =>
+      '${(minutes ~/ 60).toString().padLeft(2, '0')}:${(minutes % 60).toString().padLeft(2, '0')}';
+
+  static int? parseHhmm(Object? v) {
+    if (v is! String) return null;
+    final m = RegExp(r'^(\d{1,2}):(\d{2})$').firstMatch(v.trim());
+    if (m == null) return null;
+    final minutes = int.parse(m.group(1)!) * 60 + int.parse(m.group(2)!);
+    return minutes > 1440 ? null : minutes;
+  }
+
+  static final codec = SettingsCodec<PlannerDefaults>(
+    namespace: 'planner',
+    version: 1,
+    decoder: (r) {
+      final hours = r.object('workHours');
+      var start = parseHhmm(hours['start']) ?? 540;
+      var end = parseHhmm(hours['end']) ?? 1020;
+      if (start >= end) {
+        start = 540;
+        end = 1020;
+      }
+      final days = r.json['workDays'];
+      final parsedDays = days is List ? {for (final d in days) if (d is num && d >= 1 && d <= 7) d.toInt()} : <int>{};
+      return PlannerDefaults(
+        defaultTaskDurationMinutes: r.integer('defaultTaskDurationMinutes', 30, min: 1, max: 1440),
+        defaultTrackingMode: r.string('defaultTrackingMode', 'check', allowed: trackingModes.toSet()),
+        missedGraceMinutes: r.integer('missedGraceMinutes', 15, min: 0, max: 1440),
+        rollOverIncomplete: r.string('rollOverIncomplete', 'off', allowed: rollOverPolicies.toSet()),
+        askActualTimeOnDone: r.string('askActualTimeOnDone', 'if_off_schedule', allowed: askActualTimeChoices.toSet()),
+        workStartMinute: start,
+        workEndMinute: end,
+        workDays: parsedDays.isEmpty ? const {1, 2, 3, 4, 5} : parsedDays,
+      );
+    },
+    encoder: (s) => {
+      'defaultTaskDurationMinutes': s.defaultTaskDurationMinutes,
+      'defaultTrackingMode': s.defaultTrackingMode,
+      'missedGraceMinutes': s.missedGraceMinutes,
+      'rollOverIncomplete': s.rollOverIncomplete,
+      'askActualTimeOnDone': s.askActualTimeOnDone,
+      'workHours': {'start': hhmm(s.workStartMinute), 'end': hhmm(s.workEndMinute)},
+      'workDays': [for (var d = 1; d <= 7; d++) if (s.workDays.contains(d)) d],
+    },
+  );
+
+  PlannerDefaults copyWith({
+    int? defaultTaskDurationMinutes,
+    String? defaultTrackingMode,
+    int? missedGraceMinutes,
+    String? rollOverIncomplete,
+    String? askActualTimeOnDone,
+    int? workStartMinute,
+    int? workEndMinute,
+    Set<int>? workDays,
+  }) => PlannerDefaults(
+    defaultTaskDurationMinutes: defaultTaskDurationMinutes ?? this.defaultTaskDurationMinutes,
+    defaultTrackingMode: defaultTrackingMode ?? this.defaultTrackingMode,
+    missedGraceMinutes: missedGraceMinutes ?? this.missedGraceMinutes,
+    rollOverIncomplete: rollOverIncomplete ?? this.rollOverIncomplete,
+    askActualTimeOnDone: askActualTimeOnDone ?? this.askActualTimeOnDone,
+    workStartMinute: workStartMinute ?? this.workStartMinute,
+    workEndMinute: workEndMinute ?? this.workEndMinute,
+    workDays: workDays ?? this.workDays,
+  );
+
+  @override
+  bool operator ==(Object other) =>
+      other is PlannerDefaults &&
+      other.defaultTaskDurationMinutes == defaultTaskDurationMinutes &&
+      other.defaultTrackingMode == defaultTrackingMode &&
+      other.missedGraceMinutes == missedGraceMinutes &&
+      other.rollOverIncomplete == rollOverIncomplete &&
+      other.askActualTimeOnDone == askActualTimeOnDone &&
+      other.workStartMinute == workStartMinute &&
+      other.workEndMinute == workEndMinute &&
+      other.workDays.length == workDays.length &&
+      other.workDays.containsAll(workDays);
+
+  @override
+  int get hashCode => Object.hash(
+    defaultTaskDurationMinutes,
+    defaultTrackingMode,
+    missedGraceMinutes,
+    rollOverIncomplete,
+    askActualTimeOnDone,
+    workStartMinute,
+    workEndMinute,
+    Object.hashAllUnordered(workDays),
+  );
+}
+
 /// Skips are neutral, or they break the streak (`habits.skip_policy`).
 enum SkipPolicy { neutral, breaks }
 
@@ -300,15 +426,18 @@ class ChecklistsDefaults {
   );
 }
 
-enum StatsPeriod { week, month, quarter, year }
-
-/// `stats` defaults (T8.3.05; read by the stats engine [6.1]).
+/// `stats` defaults (T8.3.05; read by the stats engine [6.1] as `StatsSettings`).
 class StatsDefaults {
-  const StatsDefaults({this.defaultPeriod = StatsPeriod.week, this.compareWithPrevious = true, this.weekStartOverride});
+  const StatsDefaults({this.defaultPeriod = 'thisWeek', this.compareWithPrevious = true, this.weekStartOverride});
 
   static const defaults = StatsDefaults();
 
-  final StatsPeriod defaultPeriod;
+  /// Periods offered in Settings › Insights (`StatsPeriod.parsePeriod` keys of the stats feature;
+  /// any other stored key — `rolling:90`, `custom:…` — is kept as is).
+  static const periodChoices = ['thisWeek', 'lastWeek', 'thisMonth', 'lastMonth', 'thisQuarter', 'thisYear', 'rolling:7', 'rolling:30'];
+
+  /// Stats period key (`thisWeek`, `thisMonth`, `rolling:30`…).
+  final String defaultPeriod;
   final bool compareWithPrevious;
 
   /// ISO weekday for week-based stats (null = the profile's week start).
@@ -317,19 +446,22 @@ class StatsDefaults {
   static final codec = SettingsCodec<StatsDefaults>(
     namespace: 'stats',
     version: 1,
-    decoder: (r) => StatsDefaults(
-      defaultPeriod: r.choice('defaultPeriod', StatsPeriod.values, StatsPeriod.week),
-      compareWithPrevious: r.boolean('compareWithPrevious', true),
-      weekStartOverride: r.optionalInt('weekStartOverride', min: 1, max: 7),
-    ),
+    decoder: (r) {
+      final period = r.string('defaultPeriod', 'thisWeek');
+      return StatsDefaults(
+        defaultPeriod: period.trim().isEmpty ? 'thisWeek' : period,
+        compareWithPrevious: r.boolean('compareWithPrevious', true),
+        weekStartOverride: r.optionalInt('weekStartOverride', min: 1, max: 7),
+      );
+    },
     encoder: (s) => {
-      'defaultPeriod': s.defaultPeriod.name,
+      'defaultPeriod': s.defaultPeriod,
       'compareWithPrevious': s.compareWithPrevious,
       'weekStartOverride': s.weekStartOverride,
     },
   );
 
-  StatsDefaults copyWith({StatsPeriod? defaultPeriod, bool? compareWithPrevious, Object? weekStartOverride = _unset}) =>
+  StatsDefaults copyWith({String? defaultPeriod, bool? compareWithPrevious, Object? weekStartOverride = _unset}) =>
       StatsDefaults(
         defaultPeriod: defaultPeriod ?? this.defaultPeriod,
         compareWithPrevious: compareWithPrevious ?? this.compareWithPrevious,

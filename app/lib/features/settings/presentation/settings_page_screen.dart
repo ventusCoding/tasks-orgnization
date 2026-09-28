@@ -3,6 +3,7 @@ import 'package:everslot/features/notifications/presentation/notifications_setti
 import 'package:everslot/features/profile/presentation/account_page.dart';
 import 'package:everslot/features/settings/presentation/pages/appearance_page.dart';
 import 'package:everslot/features/settings/presentation/pages/regional_page.dart';
+import 'package:everslot/features/settings/presentation/pages/section_pages.dart';
 import 'package:everslot/features/settings/presentation/pages/sync_page.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -42,10 +43,10 @@ class SettingsPageScreen extends StatelessWidget {
         body: const NotificationsSettingsPage(embedded: true),
       ),
       'accessibility' => PlaceholderScreen(title: l.settingsAccessibility),
-      'plan' => PlaceholderScreen(title: l.settingsPlan),
-      'lists' => PlaceholderScreen(title: l.settingsLists),
-      'habits' => PlaceholderScreen(title: l.settingsHabits),
-      'insights' => PlaceholderScreen(title: l.settingsInsights),
+      'plan' => const PlanDefaultsPage(),
+      'lists' => const ListsDefaultsPage(),
+      'habits' => const HabitsDefaultsPage(),
+      'insights' => const InsightsDefaultsPage(),
       'data' => PlaceholderScreen(title: l.settingsDataTitle),
       'privacy' => PlaceholderScreen(title: l.settingsPrivacy),
       'about' => PlaceholderScreen(title: l.settingsAbout),

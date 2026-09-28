@@ -22,8 +22,8 @@ encryption, onboarding, sample data, accessibility options, about/legal, feedbac
 - [x] T8.3.02 — Appearance & language settings
 - [x] T8.3.03 — Regional settings (time zone, week start, formats, day start)
 - [x] T8.3.04 — Sync & devices screen
-- [ ] T8.3.05 — Section defaults pages (Plan, Lists, Habits, Insights)
-- [ ] T8.3.06 — Trash (restore / delete forever)
+- [x] T8.3.05 — Section defaults pages (Plan, Lists, Habits, Insights)
+- [x] T8.3.06 — Trash (restore / delete forever)
 - [ ] T8.3.07 — Export all data (JSON + CSV)
 - [ ] T8.3.08 — Import / restore from a Everslot export
 - [ ] T8.3.09 — App lock & app-switcher privacy
@@ -86,6 +86,7 @@ work hours, roll-over behaviour. Lists: require reason for waiting/blocked, auto
 progress mode, completed items position. Habits: default skip policy, streak freezes default.
 Insights: default period, compare with previous period, week start override.
 **Tests:** widget tests; unit tests verifying consumers read the new defaults.
+**Notes:** Pages Plan / Lists / Habits / Insights (`presentation/pages/section_pages.dart`). Plan writes the `planner` keys the planner (`PlannerSettings`), the grid (`WorkSettings`) and stats already read (duration, tracking, missed grace, work hours/days, roll-over, actual-time prompt); the default view = the planner saved view flagged default (`setDefault`). `stats.defaultPeriod` is now a stats period key (`thisWeek`, `rolling:30`…) — the earlier enum would have overwritten keys like `rolling:90`. Consumer tests: `test/features/settings/section_defaults_test.dart`. TODO(integration): new checklists and new habits should read `checklistsDefaultsProvider` / `habitsDefaultsProvider` (checklists/habits creation flows don’t yet).
 
 ### T8.3.06 — Trash (restore / delete forever)
 **Priority:** P1 · **Size:** M · **Depends on:** T8.3.01, [1.4]
@@ -95,6 +96,7 @@ the last 30 days; *Restore* (restores the subtree/children deleted in the same o
 **Acceptance criteria:** restoring a checklist item restores its descendants that were deleted with it but
 not ones deleted earlier; purge removes storage objects for attachments.
 **Tests:** unit tests for "deleted together" grouping (same operation id in activity events); pgTAP for purge RPC.
+**Notes:** Trash = deletions of the last 30 days whose container is live (tasks, lists, list items with their path, habits, attachments). "Deleted together" = same operation = same `deleted_at` instant (features cascade inside one `SyncWriter` transaction; stored as ISO text with microseconds) — used instead of scanning activity events, which not every feature writes. Restore = one synced operation (+ `restored` activity event). Delete forever: synced accounts call `app.purge_now` (refused while the deletion itself is unpushed, nothing removed when offline), then rows + tombstoned children + outbox entries + attachment files are removed locally (mirrors the server cascade); local-only devices purge locally. pgTAP for the RPC: `supabase/tests/database/100_purge_ops.test.sql`. Tests: `test/features/settings/trash_repository_test.dart`, `trash_screen_test.dart`.
 
 ### T8.3.07 — Export all data (JSON + CSV)
 **Priority:** P1 · **Size:** M · **Depends on:** [1.4]

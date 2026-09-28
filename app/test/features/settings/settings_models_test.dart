@@ -62,7 +62,7 @@ void main() {
         sortCompletedToBottom: true,
       );
       expect(ChecklistsDefaults.codec.decode(_stored(ChecklistsDefaults.codec.encode(lists))), lists);
-      const stats = StatsDefaults(defaultPeriod: StatsPeriod.quarter, compareWithPrevious: false, weekStartOverride: 7);
+      const stats = StatsDefaults(defaultPeriod: 'rolling:30', compareWithPrevious: false, weekStartOverride: 7);
       expect(StatsDefaults.codec.decode(_stored(StatsDefaults.codec.encode(stats))), stats);
       const privacy = PrivacySettings(
         crashReporting: false,
@@ -116,7 +116,7 @@ void main() {
       expect(lists.requireReasonFor, {'blocked'});
       expect(lists.progressMode, ProgressModePreference.children);
       final stats = StatsDefaults.codec.decode(_fixture('stats'));
-      expect(stats.defaultPeriod, StatsPeriod.month);
+      expect(stats.defaultPeriod, 'month', reason: 'kept as stored (stats accepts week/month aliases)');
       expect(stats.weekStartOverride, 6);
     });
   });

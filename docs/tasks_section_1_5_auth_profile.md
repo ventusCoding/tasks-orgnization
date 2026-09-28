@@ -30,13 +30,13 @@ registration ([7.4]).
 - [x] T1.5.06 — Current time-zone tracking & zone-change events
 - [x] T1.5.07 — Sign-out
 - [x] T1.5.08 — Account switch safety on shared devices
-- [ ] T1.5.09 — Google sign-in (native ID token)
-- [ ] T1.5.10 — Sign in with Apple (iOS native, Android web flow)
-- [ ] T1.5.11 — Guest mode (anonymous) & account upgrade
-- [ ] T1.5.12 — Account deletion (client flow + `account-delete` Edge Function)
-- [ ] T1.5.13 — Profile screen
-- [ ] T1.5.14 — Session edge cases (offline expiry, revoked device)
-- [ ] T1.5.15 — Localized auth email templates
+- [x] T1.5.09 — Google sign-in (native ID token)
+- [x] T1.5.10 — Sign in with Apple (iOS native, Android web flow)
+- [x] T1.5.11 — Guest mode (anonymous) & account upgrade
+- [x] T1.5.12 — Account deletion (client flow + `account-delete` Edge Function)
+- [x] T1.5.13 — Profile screen
+- [x] T1.5.14 — Session edge cases (offline expiry, revoked device)
+- [x] T1.5.15 — Localized auth email templates
 - [ ] T1.5.16 — Stale anonymous users cleanup
 - [ ] T1.5.17 — Optional multi-factor authentication (TOTP)
 
@@ -125,6 +125,7 @@ handle cancel/errors.
 **Acceptance criteria:** works on iOS and Android dev/prod; linking to an existing email account follows
 Supabase identity-linking rules (documented).
 **Tests:** unit tests with fakes; manual device QA.
+**Notes:** `GoogleSignInTokenSource` (google_sign_in 7: `initialize(serverClientId: web id, clientId: iOS id)`, `authenticate` → ID token + best-effort access token) → `signInWithIdToken(google)`; cancel/config errors map to stable codes; sign-in and linking offered only when `GOOGLE_WEB_CLIENT_ID` is set (TODO(config), see guide.md). Identity linking: Supabase links a verified Google e-mail to an existing e-mail account automatically; an unverified collision surfaces as `emailInUse`. Unit tests over a real `SupabaseClient` with a mock HTTP backend: `test/features/auth/supabase_auth_repository_test.dart`; device QA pending client ids.
 
 ### T1.5.10 — Sign in with Apple (iOS native, Android web flow)
 **Priority:** P1 · **Size:** M · **Depends on:** T1.5.02
@@ -134,6 +135,7 @@ once); Android: web OAuth flow via deep link. Ops: the Apple client secret for t
 6 months** → runbook + calendar reminder ([9.2] T9.2.17).
 **Acceptance criteria:** App Store guideline 4.8 satisfied (offered alongside Google); hidden-email relay works.
 **Tests:** unit test for nonce handling; manual QA.
+**Notes:** iOS/macOS native flow: `AppleNonce` (32 URL-safe random chars; SHA-256 hex to Apple, raw nonce to `signInWithIdToken(apple)`), the name Apple sends only once is saved with `updateUser` (`full_name`/`display_name`); Android: Supabase web OAuth (PKCE) back through `everslot://auth-callback` + `AuthBinding`. Enabled with `APPLE_SIGN_IN_ENABLED` (TODO(config): service id, key, 6-month client-secret rotation — runbook T9.2.17). Nonce and request tests in `test/features/auth/supabase_auth_repository_test.dart`; device QA pending configuration.
 
 ### T1.5.11 — Guest mode (anonymous) & account upgrade
 **Priority:** P1 · **Size:** M · **Depends on:** T1.5.03
@@ -144,6 +146,7 @@ is removed before upgrading; upgrade by adding email (`updateUser`) or linking G
 **Acceptance criteria:** guest data syncs normally and survives the upgrade; upgrade to an email already in
 use shows a clear resolution path.
 **Tests:** integration test (anonymous → email upgrade) on the local stack.
+**Notes:** "Continue without account" → `signInAnonymously` (metadata; CAPTCHA token parameter wired, TODO(config) `CAPTCHA_SITE_KEY` widget); dismissible guest banner (`guestBannerProvider`, returns after 7 days, per-device `local_kv`); upgrade in Settings › Account: add an e-mail (`updateUser` + `email_change` code, same user id) or link Google/Apple (`linkIdentity*`); an e-mail already in use opens a resolution dialog (other e-mail, or export → sign in → import). Tests: repository (mock HTTP) and `test/features/auth/account_page_test.dart`; the local-stack integration test waits for a configured project.
 
 ### T1.5.12 — Account deletion (client flow + `account-delete` Edge Function)
 **Priority:** P1 · **Size:** M · **Depends on:** T1.5.07, [1.2] (T1.2.09)
@@ -155,12 +158,14 @@ the Storage API, revokes Sign in with Apple tokens when linked, deletes devices/
 **Acceptance criteria:** after deletion no rows or objects remain for the user id (verified by a service
 query in tests); the function is idempotent.
 **Tests:** Deno tests with mocks; integration test on the local stack; pgTAP verifying cascades.
+**Notes:** Client flow (`AccountService.deleteAccount` + `runDeleteAccountFlow`): consequences + "export first", explicit acknowledgement, fresh e-mail code re-authentication (guests skip it), `app.request_account_deletion` then the `account-delete` Edge Function, then `SignOutService.endSession` (local wipe). The Edge Function, its Deno tests and the pgTAP cascade checks came with [1.2]. Fixed a race found here: a sync run in flight could re-insert pulled rows after the wipe — `SyncService.cancel()/whenIdle()` + page/push guards, awaited by `endSession` (`test/core/sync/sync_cancel_test.dart`). Web deletion URL = `ACCOUNT_DELETION_URL` (TODO(config)).
 
 ### T1.5.13 — Profile screen
 **Priority:** P1 · **Size:** S · **Depends on:** T1.5.04, [2.2]
 **Description:** Display name, avatar (attachment pipeline, square crop), email, linked providers (link/
 unlink), home time zone, quick links to regional settings, sign-out, delete account.
 **Tests:** widget tests; golden.
+**Notes:** `AccountPage` (Settings › Account): header (initials avatar, name, e-mail / guest / local-only), guest upgrade card, sign-in methods with link/unlink (never the last one), display name, home & current zone, regional settings link, sign-out, delete account; goldens `test/features/profile/goldens/account_*`. Photo avatar NOT done: `attachments.owner_type` has no `profile` value and there is no avatar bucket policy (schema change needed — reported; `profiles.avatar_path` exists).
 
 ### T1.5.14 — Session edge cases (offline expiry, revoked device)
 **Priority:** P1 · **Size:** M · **Depends on:** T1.5.02, [1.4] (T1.4.05)
@@ -170,12 +175,14 @@ when online and refresh fails → non-blocking re-auth prompt that preserves the
 validation messages.
 **Acceptance criteria:** no data loss in any of these paths (tested by scripted scenarios).
 **Tests:** unit tests with fake auth errors; integration scenario tests.
+**Notes:** Expired session offline → the app stays local-first (session and data kept, writes keep queuing), non-blocking "Sign in again" banner (`SessionIssue.reauthRequired`); a 401 tries a silent refresh first; revoked device → banner + Account card with export offer, sync stopped, sign-out rotates the device id. Clock skew: the client never validates JWT expiry itself (server-side checks + refresh on 401), so a wrong device clock only shifts auto-refresh timing. Scenario tests: `test/features/auth/session_edge_cases_test.dart`.
 
 ### T1.5.15 — Localized auth email templates
 **Priority:** P1 · **Size:** S · **Depends on:** T1.5.01
 **Description:** OTP / magic-link / email-change templates in EN, FR, AR (RTL-aware HTML), branded; locale
 chosen from signup metadata; production SMTP configured in [9.2] T9.2.05.
 **Tests:** template render check in local Mailpit for each locale.
+**Notes:** `supabase/templates/{magic_link,confirmation,email_change,reauthentication}.html` wired in `supabase/config.toml`: one GoTrue template per type with EN/FR/AR branches on the sign-up metadata `locale` (missing/unknown → EN), Arabic branch `lang="ar" dir="rtl"`, code always LTR; subjects are static and trilingual (config subjects are not templated). The locale is the one sent at sign-up (a later language change does not update auth metadata). `test/features/auth/email_templates_test.dart` evaluates each locale branch; the Mailpit visual check needs `supabase start` (manual) and hosted projects need the files pasted in the dashboard (guide.md); production SMTP = T9.2.05.
 
 ### T1.5.16 — Stale anonymous users cleanup
 **Priority:** P2 · **Size:** S · **Depends on:** T1.5.11, [1.2] (T1.2.12)
