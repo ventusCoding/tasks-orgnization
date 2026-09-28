@@ -8,6 +8,7 @@ import 'package:everslot/features/notifications/application/local_scheduler.dart
 import 'package:everslot/features/notifications/application/notification_providers.dart';
 import 'package:everslot/features/notifications/application/notification_registry.dart';
 import 'package:everslot/features/notifications/application/notification_texts_l10n.dart';
+import 'package:everslot/features/notifications/domain/badge_count.dart';
 import 'package:everslot/features/notifications/domain/digest_composer.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
 import 'package:everslot/features/notifications/domain/notification_settings.dart';
@@ -171,6 +172,27 @@ class NotificationPipeline {
     );
   }
 
+  /// Last app-icon badge applied (diagnostics / tests).
+  int? lastBadge;
+
+  /// App-icon badge per `badgePolicy` (T7.3.06) after every replan, in both isolates.
+  Future<void> applyBadge(PlanningContext ctx) async {
+    final policy = ctx.settings.badgePolicy;
+    final unread = policy == BadgePolicy.unread
+        ? await read(inboxRepositoryProvider).watchUnreadCount().first
+        : 0;
+    final count = BadgeCount.compute(
+      policy,
+      unread: unread,
+      targets: ctx.targets,
+      now: ctx.now,
+      zone: ctx.deviceZone,
+      zones: ctx.zones,
+    );
+    lastBadge = count;
+    await read(localNotificationsPortProvider).setBadge(count);
+  }
+
   /// Full replan: plan → OS schedule → delivered cleanup. Never throws (errors are reported).
   Future<ReplanReport> run(String reason, {bool foreground = true}) async {
     final watch = Stopwatch()..start();
@@ -204,6 +226,7 @@ class NotificationPipeline {
           if (!t.isOpen) '${t.targetKey}|${t.occurrenceKey ?? ''}',
       });
       await scheduler.refreshGroupSummaries();
+      await applyBadge(ctx);
       lastPlan = result;
       lastContext = ctx;
       return ReplanReport(

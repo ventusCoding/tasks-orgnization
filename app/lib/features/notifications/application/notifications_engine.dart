@@ -23,6 +23,7 @@ import 'package:everslot/features/notifications/application/push/job_uploader.da
 import 'package:everslot/features/notifications/application/push/push_messaging_port.dart';
 import 'package:everslot/features/notifications/application/push/push_service.dart';
 import 'package:everslot/features/notifications/data/inbox_repository.dart';
+import 'package:everslot/features/notifications/domain/badge_count.dart';
 import 'package:everslot/features/notifications/domain/notification_actions.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
 import 'package:everslot/features/notifications/domain/notification_target.dart';
@@ -286,6 +287,15 @@ class NotificationsEngine {
       db
           .tableUpdates(TableUpdateQuery.onAllTables(infos))
           .listen((_) => _replan.request('data')),
+    );
+    // App-icon badge follows the unread count live between replans (T7.3.06).
+    _subs.add(
+      ref.read(inboxRepositoryProvider).watchUnreadCount().listen((unread) {
+        if (ref.read(notificationSettingsProvider).badgePolicy !=
+            BadgePolicy.unread)
+          return;
+        unawaited(ref.read(localNotificationsPortProvider).setBadge(unread));
+      }),
     );
 
     void subscribeSources() {
