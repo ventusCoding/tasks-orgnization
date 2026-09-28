@@ -16,6 +16,7 @@ import 'package:everslot/features/habits/domain/quit.dart';
 import 'package:everslot/features/habits/presentation/habit_routes.dart';
 import 'package:everslot/features/habits/presentation/habit_ui.dart';
 import 'package:everslot/features/habits/presentation/pause_sheet.dart';
+import 'package:everslot/features/habits/presentation/quit/coping_toolbox.dart';
 import 'package:everslot/features/habits/presentation/quit/live_counter.dart';
 import 'package:everslot/features/habits/presentation/quit/milestone_timeline.dart';
 import 'package:everslot/features/habits/presentation/quit/quit_sheets.dart';
@@ -237,6 +238,11 @@ class _DashboardState extends ConsumerState<_Dashboard> {
       appBar: AppBar(
         title: Text(habit.name),
         actions: [
+          IconButton(
+            tooltip: l.quitToolboxOpen,
+            icon: const Icon(Icons.self_improvement),
+            onPressed: () => openCopingToolbox(context, habit),
+          ),
           IconButton(tooltip: l.actionEdit, icon: const Icon(Icons.edit_outlined), onPressed: () => HabitRoutes.edit(context, habit.id)),
           PopupMenuButton<String>(
             tooltip: l.actionMore,

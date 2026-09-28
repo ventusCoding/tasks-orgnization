@@ -7614,6 +7614,40 @@ class AppLocalizationsFr extends AppLocalizations {
   String get quitBaseline => 'Avant d\'arrêter, par jour';
 
   @override
+  String quitBreathCycle(int cycle) {
+    return 'Cycle $cycle';
+  }
+
+  @override
+  String get quitBreathHold => 'Retenez';
+
+  @override
+  String get quitBreathIn => 'Inspirez';
+
+  @override
+  String get quitBreathOut => 'Expirez';
+
+  @override
+  String quitBreathPhase(String phase, int seconds) {
+    return '$phase · $seconds';
+  }
+
+  @override
+  String get quitBreathing478 => '4-7-8';
+
+  @override
+  String get quitBreathingBox => 'Carrée 4-4-4-4';
+
+  @override
+  String get quitBreathingStart => 'Démarrer';
+
+  @override
+  String get quitBreathingStop => 'Arrêter';
+
+  @override
+  String get quitBreathingTitle => 'Respiration';
+
+  @override
   String quitCleanDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -7705,6 +7739,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get quitDistractionSnack => 'Un en-cas sain';
+
+  @override
+  String get quitDistractionsEmpty =>
+      'Ajoutez les distractions qui vous aident dans les bibliothèques.';
+
+  @override
+  String get quitDistractionsTitle => 'Distractions';
 
   @override
   String get quitDuration => 'Durée';
@@ -8165,6 +8206,36 @@ class AppLocalizationsFr extends AppLocalizations {
   String quitTodayUse(String used, String limit) {
     return '$used sur $limit aujourd\'hui';
   }
+
+  @override
+  String get quitToolboxDone => 'Trois minutes écoulées — avez-vous résisté ?';
+
+  @override
+  String get quitToolboxLogged => 'Envie enregistrée avec sa durée.';
+
+  @override
+  String get quitToolboxOpen => 'Ouvrir la boîte à outils';
+
+  @override
+  String quitToolboxRemaining(String time) {
+    return 'Encore $time';
+  }
+
+  @override
+  String get quitToolboxStart => 'Lancer le minuteur de 3 minutes';
+
+  @override
+  String get quitToolboxThrough => 'C\'est passé';
+
+  @override
+  String get quitToolboxTimerHint =>
+      'La plupart des envies passent en 3 à 5 minutes. Tenez bon.';
+
+  @override
+  String get quitToolboxTimerTitle => 'Laisser passer l\'envie';
+
+  @override
+  String get quitToolboxTitle => 'Boîte à outils';
 
   @override
   String get quitTrigger => 'Déclencheur';

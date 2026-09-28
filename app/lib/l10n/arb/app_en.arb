@@ -2574,6 +2574,23 @@
       }
     }
   },
+  "@quitBreathCycle": {
+    "placeholders": {
+      "cycle": {
+        "type": "int"
+      }
+    }
+  },
+  "@quitBreathPhase": {
+    "placeholders": {
+      "phase": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "@quitCleanDays": {
     "placeholders": {
       "count": {
@@ -2739,6 +2756,13 @@
         "type": "String"
       },
       "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "@quitToolboxRemaining": {
+    "placeholders": {
+      "time": {
         "type": "String"
       }
     }
@@ -5853,6 +5877,16 @@
   "quitAutoSuccess": "Days without a relapse count as clean",
   "quitAutoSuccessHint": "Off: confirm each clean day in the evening review.",
   "quitBaseline": "Before quitting, per day",
+  "quitBreathCycle": "Cycle {cycle}",
+  "quitBreathHold": "Hold",
+  "quitBreathIn": "Breathe in",
+  "quitBreathOut": "Breathe out",
+  "quitBreathPhase": "{phase} · {seconds}",
+  "quitBreathing478": "4-7-8",
+  "quitBreathingBox": "Box 4-4-4-4",
+  "quitBreathingStart": "Start",
+  "quitBreathingStop": "Stop",
+  "quitBreathingTitle": "Breathing",
   "quitCleanDays": "{count, plural, =0{0 clean days} =1{1 clean day} other{{count} clean days}}",
   "quitCleanDaysTitle": "Clean days",
   "quitCleanSaved": "Marked as a clean day",
@@ -5879,6 +5913,8 @@
   "quitDistractionRead": "Read",
   "quitDistractionShower": "A shower",
   "quitDistractionSnack": "A healthy snack",
+  "quitDistractionsEmpty": "Add distractions that work for you in the libraries.",
+  "quitDistractionsTitle": "Distractions",
   "quitDuration": "Duration",
   "quitEditorEditTitle": "Edit quit tracker",
   "quitEditorNewTitle": "New quit tracker",
@@ -6006,6 +6042,15 @@
   "quitTimePerUnit": "Time spent per unit",
   "quitTimeWonBack": "Time won back",
   "quitTodayUse": "{used} of {limit} today",
+  "quitToolboxDone": "Three minutes done — did you resist?",
+  "quitToolboxLogged": "Craving logged with its duration.",
+  "quitToolboxOpen": "Open the coping toolbox",
+  "quitToolboxRemaining": "{time} left",
+  "quitToolboxStart": "Start the 3-minute timer",
+  "quitToolboxThrough": "I'm through it",
+  "quitToolboxTimerHint": "Most cravings pass within 3 to 5 minutes. Stay with it.",
+  "quitToolboxTimerTitle": "Ride out the craving",
+  "quitToolboxTitle": "Coping toolbox",
   "quitTrigger": "Trigger",
   "quitTriggerAfterMeals": "After meals",
   "quitTriggerAlcohol": "Alcohol",

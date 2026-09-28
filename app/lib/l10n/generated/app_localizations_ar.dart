@@ -7861,6 +7861,40 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitBaseline => 'قبل الإقلاع، يوميًا';
 
   @override
+  String quitBreathCycle(int cycle) {
+    return 'الدورة $cycle';
+  }
+
+  @override
+  String get quitBreathHold => 'احبس النفس';
+
+  @override
+  String get quitBreathIn => 'شهيق';
+
+  @override
+  String get quitBreathOut => 'زفير';
+
+  @override
+  String quitBreathPhase(String phase, int seconds) {
+    return '$phase · $seconds';
+  }
+
+  @override
+  String get quitBreathing478 => '4-7-8';
+
+  @override
+  String get quitBreathingBox => 'المربّع 4-4-4-4';
+
+  @override
+  String get quitBreathingStart => 'ابدأ';
+
+  @override
+  String get quitBreathingStop => 'أوقف';
+
+  @override
+  String get quitBreathingTitle => 'التنفّس';
+
+  @override
   String quitCleanDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -7955,6 +7989,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quitDistractionSnack => 'وجبة خفيفة صحية';
+
+  @override
+  String get quitDistractionsEmpty => 'أضف الإلهاءات التي تفيدك من القوائم.';
+
+  @override
+  String get quitDistractionsTitle => 'الإلهاءات';
 
   @override
   String get quitDuration => 'المدة';
@@ -8426,6 +8466,36 @@ class AppLocalizationsAr extends AppLocalizations {
   String quitTodayUse(String used, String limit) {
     return '$used من $limit اليوم';
   }
+
+  @override
+  String get quitToolboxDone => 'انقضت ثلاث دقائق — هل قاومت؟';
+
+  @override
+  String get quitToolboxLogged => 'تم تسجيل الرغبة مع مدتها.';
+
+  @override
+  String get quitToolboxOpen => 'افتح صندوق أدوات التأقلم';
+
+  @override
+  String quitToolboxRemaining(String time) {
+    return 'بقي $time';
+  }
+
+  @override
+  String get quitToolboxStart => 'ابدأ مؤقّت الدقائق الثلاث';
+
+  @override
+  String get quitToolboxThrough => 'لقد تجاوزتها';
+
+  @override
+  String get quitToolboxTimerHint =>
+      'تزول معظم الرغبات خلال 3 إلى 5 دقائق. اصمد.';
+
+  @override
+  String get quitToolboxTimerTitle => 'تجاوَز الرغبة';
+
+  @override
+  String get quitToolboxTitle => 'صندوق أدوات التأقلم';
 
   @override
   String get quitTrigger => 'المحفّز';

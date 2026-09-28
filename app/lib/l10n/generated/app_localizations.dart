@@ -12657,6 +12657,66 @@ abstract class AppLocalizations {
   /// **'Before quitting, per day'**
   String get quitBaseline;
 
+  /// No description provided for @quitBreathCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle {cycle}'**
+  String quitBreathCycle(int cycle);
+
+  /// No description provided for @quitBreathHold.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold'**
+  String get quitBreathHold;
+
+  /// No description provided for @quitBreathIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe in'**
+  String get quitBreathIn;
+
+  /// No description provided for @quitBreathOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe out'**
+  String get quitBreathOut;
+
+  /// No description provided for @quitBreathPhase.
+  ///
+  /// In en, this message translates to:
+  /// **'{phase} · {seconds}'**
+  String quitBreathPhase(String phase, int seconds);
+
+  /// No description provided for @quitBreathing478.
+  ///
+  /// In en, this message translates to:
+  /// **'4-7-8'**
+  String get quitBreathing478;
+
+  /// No description provided for @quitBreathingBox.
+  ///
+  /// In en, this message translates to:
+  /// **'Box 4-4-4-4'**
+  String get quitBreathingBox;
+
+  /// No description provided for @quitBreathingStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get quitBreathingStart;
+
+  /// No description provided for @quitBreathingStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get quitBreathingStop;
+
+  /// No description provided for @quitBreathingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathing'**
+  String get quitBreathingTitle;
+
   /// No description provided for @quitCleanDays.
   ///
   /// In en, this message translates to:
@@ -12812,6 +12872,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A healthy snack'**
   String get quitDistractionSnack;
+
+  /// No description provided for @quitDistractionsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add distractions that work for you in the libraries.'**
+  String get quitDistractionsEmpty;
+
+  /// No description provided for @quitDistractionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Distractions'**
+  String get quitDistractionsTitle;
 
   /// No description provided for @quitDuration.
   ///
@@ -13574,6 +13646,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{used} of {limit} today'**
   String quitTodayUse(String used, String limit);
+
+  /// No description provided for @quitToolboxDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Three minutes done — did you resist?'**
+  String get quitToolboxDone;
+
+  /// No description provided for @quitToolboxLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving logged with its duration.'**
+  String get quitToolboxLogged;
+
+  /// No description provided for @quitToolboxOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the coping toolbox'**
+  String get quitToolboxOpen;
+
+  /// No description provided for @quitToolboxRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} left'**
+  String quitToolboxRemaining(String time);
+
+  /// No description provided for @quitToolboxStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the 3-minute timer'**
+  String get quitToolboxStart;
+
+  /// No description provided for @quitToolboxThrough.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m through it'**
+  String get quitToolboxThrough;
+
+  /// No description provided for @quitToolboxTimerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Most cravings pass within 3 to 5 minutes. Stay with it.'**
+  String get quitToolboxTimerHint;
+
+  /// No description provided for @quitToolboxTimerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ride out the craving'**
+  String get quitToolboxTimerTitle;
+
+  /// No description provided for @quitToolboxTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coping toolbox'**
+  String get quitToolboxTitle;
 
   /// No description provided for @quitTrigger.
   ///

@@ -7554,6 +7554,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitBaseline => 'Before quitting, per day';
 
   @override
+  String quitBreathCycle(int cycle) {
+    return 'Cycle $cycle';
+  }
+
+  @override
+  String get quitBreathHold => 'Hold';
+
+  @override
+  String get quitBreathIn => 'Breathe in';
+
+  @override
+  String get quitBreathOut => 'Breathe out';
+
+  @override
+  String quitBreathPhase(String phase, int seconds) {
+    return '$phase · $seconds';
+  }
+
+  @override
+  String get quitBreathing478 => '4-7-8';
+
+  @override
+  String get quitBreathingBox => 'Box 4-4-4-4';
+
+  @override
+  String get quitBreathingStart => 'Start';
+
+  @override
+  String get quitBreathingStop => 'Stop';
+
+  @override
+  String get quitBreathingTitle => 'Breathing';
+
+  @override
   String quitCleanDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -7645,6 +7679,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quitDistractionSnack => 'A healthy snack';
+
+  @override
+  String get quitDistractionsEmpty =>
+      'Add distractions that work for you in the libraries.';
+
+  @override
+  String get quitDistractionsTitle => 'Distractions';
 
   @override
   String get quitDuration => 'Duration';
@@ -8102,6 +8143,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String quitTodayUse(String used, String limit) {
     return '$used of $limit today';
   }
+
+  @override
+  String get quitToolboxDone => 'Three minutes done — did you resist?';
+
+  @override
+  String get quitToolboxLogged => 'Craving logged with its duration.';
+
+  @override
+  String get quitToolboxOpen => 'Open the coping toolbox';
+
+  @override
+  String quitToolboxRemaining(String time) {
+    return '$time left';
+  }
+
+  @override
+  String get quitToolboxStart => 'Start the 3-minute timer';
+
+  @override
+  String get quitToolboxThrough => 'I\'m through it';
+
+  @override
+  String get quitToolboxTimerHint =>
+      'Most cravings pass within 3 to 5 minutes. Stay with it.';
+
+  @override
+  String get quitToolboxTimerTitle => 'Ride out the craving';
+
+  @override
+  String get quitToolboxTitle => 'Coping toolbox';
 
   @override
   String get quitTrigger => 'Trigger';
