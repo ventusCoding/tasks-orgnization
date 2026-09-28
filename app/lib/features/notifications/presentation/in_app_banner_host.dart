@@ -10,6 +10,7 @@ import 'package:everslot/features/notifications/domain/notification_actions.dart
 import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:everslot/features/notifications/presentation/inbox_screen.dart';
 import 'package:everslot/features/notifications/presentation/notification_labels.dart';
+import 'package:everslot/features/notifications/presentation/notification_link_opener.dart';
 import 'package:everslot/features/notifications/presentation/snooze_picker.dart';
 import 'package:flutter/services.dart' show HapticFeedback;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -332,7 +333,14 @@ abstract final class NotificationOverlay {
     final context = rootNavigatorKey.currentContext;
     switch (event) {
       case OpenLinkEvent(:final link, :final alreadyDone):
-        unawaited(container.read(routerProvider).push<void>(link));
+        final navigator = rootNavigatorKey.currentState;
+        if (navigator != null) {
+          openNotificationLink(
+            navigator,
+            link,
+            router: container.read(routerProvider),
+          );
+        }
         if (alreadyDone && context != null) {
           ScaffoldMessenger.maybeOf(context)?.showSnackBar(
             SnackBar(content: Text(context.l10n.notifInboxAlreadyDone)),

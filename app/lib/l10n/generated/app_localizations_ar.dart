@@ -5663,6 +5663,37 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get notifNoticeChannelBody =>
+      'افتح إعدادات النظام للسماح بها من جديد.';
+
+  @override
+  String get notifNoticeRevokedBody => 'سجّل الدخول من جديد لمتابعة المزامنة.';
+
+  @override
+  String get notifNoticeRevokedTitle => 'أُزيل هذا الجهاز من حسابك';
+
+  @override
+  String get notifNoticeSaturatedBody =>
+      'يحتفظ iOS بالتذكيرات الـ64 التالية فقط. افتح Everslot بانتظام (أو فعّل الإشعارات الفورية) لتُجدوَل التذكيرات اللاحقة.';
+
+  @override
+  String get notifNoticeSaturatedTitle => 'لا يتّسع هذا الجهاز لكل التذكيرات';
+
+  @override
+  String get notifNoticeSyncBody =>
+      'تغييراتك محفوظة على هذا الجهاز. تحقّق من اتصالك أو سجّل الدخول من جديد.';
+
+  @override
+  String get notifNoticeSyncTitle => 'تفشل المزامنة منذ أكثر من يوم';
+
+  @override
+  String get notifNoticeUpdateBody =>
+      'لم يعد بإمكان هذا الإصدار المزامنة. ثبّت أحدث إصدار لتبقى بياناتك متزامنة.';
+
+  @override
+  String get notifNoticeUpdateTitle => 'حدّث Everslot';
+
+  @override
   String get notifOffsetAmount => 'المقدار';
 
   @override

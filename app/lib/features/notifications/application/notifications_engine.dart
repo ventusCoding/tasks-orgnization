@@ -19,6 +19,7 @@ import 'package:everslot/features/notifications/application/notification_pipelin
 import 'package:everslot/features/notifications/application/notification_providers.dart';
 import 'package:everslot/features/notifications/application/notification_registry.dart';
 import 'package:everslot/features/notifications/application/notification_texts_l10n.dart';
+import 'package:everslot/features/notifications/application/system_notices.dart';
 import 'package:everslot/features/notifications/application/push/job_uploader.dart';
 import 'package:everslot/features/notifications/application/push/push_messaging_port.dart';
 import 'package:everslot/features/notifications/application/push/push_service.dart';
@@ -445,9 +446,24 @@ class NotificationsEngine {
       'schedule_rev': rev,
       'local_repeating_rules': report.scheduler.repeatingRules.toList()..sort(),
     });
+    _saturated = report.scheduler.saturated;
+    await _refreshNotices();
+  }
+
+  /// Last scheduler saturation (iOS budget), for the system notices between replans.
+  bool _saturated = false;
+
+  /// System notices (T7.3.07) — best effort, never breaks a replan.
+  Future<void> _refreshNotices() async {
+    try {
+      await ref.read(systemNoticesProvider).refresh(saturated: _saturated);
+    } on Object catch (e) {
+      _log.fine('system notices unavailable', e);
+    }
   }
 
   Future<void> _onSyncStatus(SyncStatus status) async {
+    unawaited(_refreshNotices());
     final success = status.lastSuccessAt;
     if (success == null || success == _lastSyncSuccess) return;
     _lastSyncSuccess = success;

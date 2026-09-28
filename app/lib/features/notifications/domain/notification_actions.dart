@@ -5,6 +5,13 @@ import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:meta/meta.dart';
 
 /// Action ids shared by OS notifications, pushes, in-app banners and inbox rows (T7.2.03).
+/// Deep links to the notification module's own pages (system notices, diagnostics). The app
+/// shell doesn't route them yet, so notification UI opens them directly (`openNotificationLink`).
+abstract final class NotificationLinks {
+  static const settings = '/settings/notifications';
+  static const diagnostics = '/settings/notifications/diagnostics';
+}
+
 abstract final class NotificationActionIds {
   static const done = 'done';
   static const start = 'start';
