@@ -8,6 +8,7 @@ import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/planner/application/planner_contract.dart';
 import 'package:everslot/features/planner/application/view_config/view_actions.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
+import 'package:everslot/features/planner/presentation/day_actions_menu.dart';
 import 'package:everslot/features/planner/presentation/grid/data/planner_view_data.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/snapping.dart';
 import 'package:everslot/features/planner/presentation/grid/grid_style.dart';
@@ -351,7 +352,8 @@ class PlannerCommands {
     }
   }
 
-  /// Day header long-press menu (T3.3.09): add task, skip remaining, move unfinished to tomorrow.
+  /// Day header long-press menu (T3.3.09): add task, open the day, and planner-core's day actions
+  /// (T3.2.23: mark remaining done, skip the rest, move unfinished to tomorrow).
   Future<void> showDayMenu(LocalDate date, List<PlannerItem> dayItems, {required LocalDateTime now}) async {
     final l = context.l10n;
     final f = context.plannerFormat(use24h: ref.read(userPreferencesProvider).use24h);
@@ -363,38 +365,59 @@ class PlannerCommands {
         children: [
           ListTile(leading: const Icon(Icons.add), title: Text(l.pvAddTask), onTap: () => Navigator.pop(ctx, 'add')),
           ListTile(leading: const Icon(Icons.view_day_outlined), title: Text(l.pvOpenDay), onTap: () => Navigator.pop(ctx, 'open')),
-          ListTile(leading: const Icon(Icons.skip_next_outlined), title: Text(l.pvSkipRemaining), onTap: () => Navigator.pop(ctx, 'skip')),
-          ListTile(
-            leading: const Icon(Icons.redo),
-            title: Text(l.pvMoveUnfinishedTomorrow),
-            onTap: () => Navigator.pop(ctx, 'move'),
-          ),
+          ListTile(leading: const Icon(Icons.done_all), title: Text(l.tasksDayDoneAll), onTap: () => Navigator.pop(ctx, 'done')),
+          ListTile(leading: const Icon(Icons.skip_next_outlined), title: Text(l.tasksDaySkipRest), onTap: () => Navigator.pop(ctx, 'skip')),
+          ListTile(leading: const Icon(Icons.redo), title: Text(l.tasksDayMoveTomorrow), onTap: () => Navigator.pop(ctx, 'move')),
         ],
       ),
     );
     if (action == null || !context.mounted) return;
-    final remaining = [
-      for (final i in dayItems)
-        if (i.status == OccurrenceStatus.scheduled && !i.startLocal.isBefore(now)) i,
-    ];
-    final unfinished = [
-      for (final i in dayItems)
-        if (i.status == OccurrenceStatus.scheduled || i.status == OccurrenceStatus.missed || i.status == OccurrenceStatus.inProgress) i,
-    ];
     switch (action) {
       case 'add':
         ref.read(plannerNavProvider).newTask(context, start: date.atTime(LocalTime(9, 0)), duration: 30);
       case 'open':
         ref.read(plannerNavProvider).openView(context, 'day_list', date: date);
+      case 'done':
+        await dayAction(date, DayAction.markRemainingDone, dayItems, now: now);
       case 'skip':
-        await run(l.pvStatusSnack(l.pvStatusSkipped.toLowerCase()), (a) async {
-          for (final i in remaining) {
+        await dayAction(date, DayAction.skipRest, dayItems, now: now);
+      case 'move':
+        await dayAction(date, DayAction.moveToTomorrow, dayItems, now: now);
+    }
+  }
+
+  /// Runs a day action (T3.2.23) on [date]: planner-core's service call (one operation, one undo),
+  /// or — in demo mode — the same rule applied item by item to [dayItems].
+  Future<void> dayAction(LocalDate date, DayAction action, List<PlannerItem> dayItems, {required LocalDateTime now}) async {
+    if (!ref.read(plannerDemoModeProvider)) {
+      await runDayAction(context, ref, date, action);
+      return;
+    }
+    final l = context.l10n;
+    final open = [
+      for (final i in dayItems)
+        if (i.status == OccurrenceStatus.scheduled || i.status == OccurrenceStatus.missed || i.status == OccurrenceStatus.inProgress) i,
+    ];
+    final upcoming = [
+      for (final i in open)
+        if (!i.startLocal.isBefore(now)) i,
+    ];
+    switch (action) {
+      case DayAction.markRemainingDone:
+        await run(l.tasksDayDoneAllSnack(open.length), (a) async {
+          for (final i in open) {
+            await a.setStatus(i, OccurrenceStatus.done);
+          }
+        });
+      case DayAction.skipRest:
+        await run(l.tasksDaySkipRestSnack(upcoming.length), (a) async {
+          for (final i in upcoming) {
             await a.setStatus(i, OccurrenceStatus.skipped);
           }
         });
-      case 'move':
-        await run(l.pvMovedSnack(f.dayShort(date.plusDays(1))), (a) async {
-          for (final i in unfinished) {
+      case DayAction.moveToTomorrow:
+        await run(l.tasksDayMoveTomorrowSnack(open.length), (a) async {
+          for (final i in open) {
             await a.reschedule(i, newStart: i.startLocal.plusDays(1));
           }
         });

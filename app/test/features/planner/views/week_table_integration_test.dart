@@ -1,4 +1,5 @@
 import 'package:everslot/core/providers.dart';
+import 'package:everslot/features/planner/application/planner_contract.dart';
 import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/grid_controller.dart';
@@ -79,5 +80,29 @@ void main() {
     final restored = (await items(h, tue)).single;
     expect((restored.startLocal, restored.durationMinutes), (tue.atTime(LocalTime(7, 0)), 90));
     expect(await items(h, wed), isEmpty);
+  });
+
+  testWidgets('day header menu: mark remaining done in one undoable operation (T3.2.23)', (tester) async {
+    final h = PlannerHarness.create(realData: true);
+    addTearDown(h.dispose);
+    final actions = h.read(plannerActionsProvider);
+    await actions.createAt(wed.atTime(LocalTime(14, 0)), 30, title: 'Write');
+    await actions.createAt(wed.atTime(LocalTime(16, 0)), 30, title: 'Call');
+    final controller = PlannerGridController();
+    addTearDown(controller.dispose);
+    await pumpPlanner(tester, h, Scaffold(body: TimeGrid(viewKey: 'week_table', controller: controller)));
+    await tester.pumpAndSettle();
+    final grid = tester.state<TimeGridState>(find.byType(TimeGrid));
+
+    await tester.longPressAt(grid.globalHeaderOf(wed)!);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Mark all remaining as done'));
+    await tester.pumpAndSettle();
+    expect([for (final i in await items(h, wed)) i.status], [OccurrenceStatus.done, OccurrenceStatus.done]);
+    expect(find.text('2 tasks marked as done'), findsOneWidget);
+
+    expect(await h.read(undoStackProvider).undo(), isTrue);
+    await tester.pumpAndSettle();
+    expect([for (final i in await items(h, wed)) i.status], [OccurrenceStatus.scheduled, OccurrenceStatus.scheduled]);
   });
 }

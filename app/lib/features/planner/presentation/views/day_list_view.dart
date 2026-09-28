@@ -6,6 +6,7 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
+import 'package:everslot/features/planner/presentation/day_actions_menu.dart';
 import 'package:everslot/features/planner/presentation/grid/data/planner_view_data.dart';
 import 'package:everslot/features/planner/presentation/grid/data/work_settings.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/day_rows.dart';
@@ -204,6 +205,12 @@ class _DayListViewState extends ConsumerState<DayListView>
     if (picked != null) await jumpToDate(picked, animate: false);
   }
 
+  /// Day actions of the menu (T3.2.23): one operation and one undo each.
+  Future<void> _dayAction(DayAction action) async {
+    final items = ref.read(viewItemsProvider(DayRange(_day, 1))).value ?? const <PlannerItem>[];
+    await PlannerCommands(context, ref).dayAction(_day, action, items, now: ref.read(plannerNowProvider));
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
@@ -249,6 +256,12 @@ class _DayListViewState extends ConsumerState<DayListView>
                       ),
                     ),
               ),
+              for (final (id, action, label) in [
+                ('day-done', DayAction.markRemainingDone, l.tasksDayDoneAll),
+                ('day-skip', DayAction.skipRest, l.tasksDaySkipRest),
+                ('day-move', DayAction.moveToTomorrow, l.tasksDayMoveTomorrow),
+              ])
+                (id, label, () => unawaited(_dayAction(action))),
             ],
           ),
         ],
