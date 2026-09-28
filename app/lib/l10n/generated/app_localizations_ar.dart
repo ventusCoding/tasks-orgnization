@@ -2500,7 +2500,266 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get devComponentGallery => 'معرض المكوّنات';
+
+  @override
+  String get devConfigured => 'مُهيّأ';
+
+  @override
+  String get devCopied => 'تم النسخ';
+
+  @override
+  String get devDangerZone => 'منطقة حساسة';
+
+  @override
+  String get devDatabase => 'قاعدة البيانات المحلية';
+
+  @override
+  String get devDatabaseEmpty => 'لا توجد صفوف.';
+
+  @override
+  String devDatabaseRows(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count صف',
+      many: '$count صفًا',
+      few: '$count صفوف',
+      two: 'صفّان',
+      one: 'صف واحد',
+      zero: 'فارغ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get devEnvironment => 'البيئة';
+
+  @override
+  String get devFirebase => 'Firebase';
+
+  @override
+  String get devFlags => 'الميزات التجريبية';
+
+  @override
+  String get devFlagsHint => 'تغييرات لهذه الجلسة فقط (نسخ التطوير).';
+
+  @override
+  String devFlavor(String flavor) {
+    return 'النسخة: $flavor';
+  }
+
+  @override
+  String get devLogs => 'السجلات';
+
+  @override
+  String get devLogsAll => 'الكل';
+
+  @override
+  String get devLogsCopy => 'نسخ السجلات';
+
+  @override
+  String get devLogsEmpty => 'لا توجد سجلات بعد.';
+
+  @override
   String get devMenu => 'قائمة المطوّر';
+
+  @override
+  String get devNoWarnings => 'لا توجد تحذيرات في الإعداد';
+
+  @override
+  String get devNotConfigured => 'غير مُهيّأ';
+
+  @override
+  String get devResetData => 'إعادة ضبط البيانات المحلية';
+
+  @override
+  String get devResetDataBody =>
+      'يحذف كل العناصر والإعدادات والملفات المحفوظة على هذا الجهاز. يتم تسجيل الخروج من الحساب السحابي (تبقى بياناته على الخادم). لا يمكن التراجع عن ذلك.';
+
+  @override
+  String get devResetDone => 'تمت إعادة ضبط البيانات المحلية';
+
+  @override
+  String get devSampleData => 'بيانات تجريبية';
+
+  @override
+  String get devSampleDataBody =>
+      'يضيف ما يقارب ستة أشهر من المهام والقوائم والعادات ومتتبّع إقلاع واقعية للعروض ولقطات الشاشة.';
+
+  @override
+  String devSampleDataDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'أُضيف $count عنصر',
+      many: 'أُضيف $count عنصرًا',
+      few: 'أُضيفت $count عناصر',
+      two: 'أُضيف عنصران',
+      one: 'أُضيف عنصر واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get devSampleDataGenerate => 'إنشاء بيانات تجريبية';
+
+  @override
+  String get devSampleDataRemove => 'حذف البيانات التجريبية';
+
+  @override
+  String get devSampleDataRemoved => 'تم حذف البيانات التجريبية';
+
+  @override
+  String devSession(String mode) {
+    return 'الجلسة: $mode';
+  }
+
+  @override
+  String get devSupabase => 'Supabase';
+
+  @override
+  String devSyncAttempts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count محاولة',
+      many: '$count محاولة',
+      few: '$count محاولات',
+      two: 'محاولتان',
+      one: 'محاولة واحدة',
+      zero: 'لم يُرسل بعد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String devSyncBatch(int size) {
+    return 'حجم دفعة الإرسال: $size';
+  }
+
+  @override
+  String get devSyncClear => 'مسح';
+
+  @override
+  String get devSyncConflicts => 'سجل التعارضات';
+
+  @override
+  String get devSyncConflictsEmpty => 'لم تُسجَّل أي تعارضات.';
+
+  @override
+  String devSyncCursor(int cursor, int watermark) {
+    return 'المؤشر $cursor · حدّ الحذف النهائي $watermark';
+  }
+
+  @override
+  String get devSyncDiagnostics => 'تشخيص المزامنة';
+
+  @override
+  String devSyncGroup(int count, String when) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تغيير',
+      many: '$count تغييرًا',
+      few: '$count تغييرات',
+      two: 'تغييران',
+      one: 'تغيير واحد',
+    );
+    return '$_temp0 · $when';
+  }
+
+  @override
+  String devSyncLastPull(String when) {
+    return 'آخر استلام: $when';
+  }
+
+  @override
+  String devSyncLastPush(String when) {
+    return 'آخر إرسال: $when';
+  }
+
+  @override
+  String get devSyncNever => 'أبدًا';
+
+  @override
+  String get devSyncNoPulls => 'لم يتم أي استلام في هذه الجلسة.';
+
+  @override
+  String get devSyncOff =>
+      'المزامنة متوقفة على هذا الجهاز (وضع محلي). تحتفظ قائمة الإرسال بالتغييرات لتسجيل دخول لاحق.';
+
+  @override
+  String get devSyncOutbox => 'قائمة الإرسال';
+
+  @override
+  String get devSyncOutboxEmpty => 'قائمة الإرسال فارغة.';
+
+  @override
+  String devSyncPullPage(int since, int next, int changes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      changes,
+      locale: localeName,
+      other: '$changes تغيير',
+      many: '$changes تغييرًا',
+      few: '$changes تغييرات',
+      two: 'تغييران',
+      one: 'تغيير واحد',
+    );
+    return '$since ← $next · $_temp0';
+  }
+
+  @override
+  String get devSyncPulls => 'آخر الصفحات المستلمة';
+
+  @override
+  String get devSyncSimulateOffline => 'محاكاة انقطاع الشبكة';
+
+  @override
+  String get devSyncSimulateOfflineHint =>
+      'تفشل كل مزامنة كما لو كانت الشبكة مقطوعة.';
+
+  @override
+  String get devTimeTravel => 'السفر عبر الزمن';
+
+  @override
+  String devTimeTravelNow(String time) {
+    return 'وقت التطبيق: $time';
+  }
+
+  @override
+  String get devTimeTravelOff => 'الوقت الحقيقي';
+
+  @override
+  String devTimeTravelOffset(String relative) {
+    return 'مُزاح: $relative';
+  }
+
+  @override
+  String get devTimeTravelPick => 'اختر تاريخًا ووقتًا';
+
+  @override
+  String get devTimeTravelReset => 'العودة إلى الوقت الحقيقي';
+
+  @override
+  String get devTools => 'الأدوات';
+
+  @override
+  String get devZone => 'المنطقة الزمنية';
+
+  @override
+  String devZoneDevice(String zone) {
+    return 'منطقة الجهاز: $zone';
+  }
+
+  @override
+  String get devZoneOverridden => 'مُستبدلة حتى إعادة الضبط';
+
+  @override
+  String get devZoneOverride => 'استبدال منطقة الجهاز';
+
+  @override
+  String get devZoneReset => 'استخدام منطقة الجهاز الحقيقية';
 
   @override
   String durationDaysShort(int days) {

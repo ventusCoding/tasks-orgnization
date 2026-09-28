@@ -59,6 +59,16 @@ void main() {
       await finish(tester, h);
     });
 
+    testWidgets('long-pressing the title opens the debug menu in dev builds (T1.3.16)', (tester) async {
+      final h = TestHarness.create();
+      await pumpSettingsApp(tester, h);
+      await settle(tester);
+      await tester.longPress(find.byKey(const ValueKey('settings-title')));
+      await pumpUi(tester);
+      expect(find.text('stub:dev'), findsOneWidget);
+      await finish(tester, h);
+    });
+
     testWidgets('Arabic root renders right-to-left without overflow', (tester) async {
       final h = TestHarness.create();
       await pumpSettingsApp(tester, h, locale: const Locale('ar'));

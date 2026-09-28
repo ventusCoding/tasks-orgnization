@@ -2427,7 +2427,251 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get devComponentGallery => 'Component gallery';
+
+  @override
+  String get devConfigured => 'Configured';
+
+  @override
+  String get devCopied => 'Copied';
+
+  @override
+  String get devDangerZone => 'Danger zone';
+
+  @override
+  String get devDatabase => 'Local database';
+
+  @override
+  String get devDatabaseEmpty => 'No rows.';
+
+  @override
+  String devDatabaseRows(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rows',
+      one: '1 row',
+      zero: 'empty',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get devEnvironment => 'Environment';
+
+  @override
+  String get devFirebase => 'Firebase';
+
+  @override
+  String get devFlags => 'Feature flags';
+
+  @override
+  String get devFlagsHint => 'Overrides for this session only (dev builds).';
+
+  @override
+  String devFlavor(String flavor) {
+    return 'Flavor: $flavor';
+  }
+
+  @override
+  String get devLogs => 'Logs';
+
+  @override
+  String get devLogsAll => 'All';
+
+  @override
+  String get devLogsCopy => 'Copy logs';
+
+  @override
+  String get devLogsEmpty => 'No log records yet.';
+
+  @override
   String get devMenu => 'Developer menu';
+
+  @override
+  String get devNoWarnings => 'No configuration warnings';
+
+  @override
+  String get devNotConfigured => 'Not configured';
+
+  @override
+  String get devResetData => 'Reset local data';
+
+  @override
+  String get devResetDataBody =>
+      'Deletes every item, setting and file stored on this device. A cloud account is signed out (its data stays on the server). This can\'t be undone.';
+
+  @override
+  String get devResetDone => 'Local data reset';
+
+  @override
+  String get devSampleData => 'Sample data';
+
+  @override
+  String get devSampleDataBody =>
+      'Adds about six months of realistic tasks, lists, habits and a quit tracker for demos and screenshots.';
+
+  @override
+  String devSampleDataDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items added',
+      one: '1 item added',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get devSampleDataGenerate => 'Generate sample data';
+
+  @override
+  String get devSampleDataRemove => 'Remove sample data';
+
+  @override
+  String get devSampleDataRemoved => 'Sample data removed';
+
+  @override
+  String devSession(String mode) {
+    return 'Session: $mode';
+  }
+
+  @override
+  String get devSupabase => 'Supabase';
+
+  @override
+  String devSyncAttempts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count attempts',
+      one: '1 attempt',
+      zero: 'not sent yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String devSyncBatch(int size) {
+    return 'Push batch size: $size';
+  }
+
+  @override
+  String get devSyncClear => 'Clear';
+
+  @override
+  String get devSyncConflicts => 'Conflict log';
+
+  @override
+  String get devSyncConflictsEmpty => 'No conflicts recorded.';
+
+  @override
+  String devSyncCursor(int cursor, int watermark) {
+    return 'Cursor $cursor · purge watermark $watermark';
+  }
+
+  @override
+  String get devSyncDiagnostics => 'Sync diagnostics';
+
+  @override
+  String devSyncGroup(int count, String when) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count changes',
+      one: '1 change',
+    );
+    return '$_temp0 · $when';
+  }
+
+  @override
+  String devSyncLastPull(String when) {
+    return 'Last pull: $when';
+  }
+
+  @override
+  String devSyncLastPush(String when) {
+    return 'Last push: $when';
+  }
+
+  @override
+  String get devSyncNever => 'never';
+
+  @override
+  String get devSyncNoPulls => 'No pull yet in this session.';
+
+  @override
+  String get devSyncOff =>
+      'Sync is off on this device (local-only). The outbox keeps changes for a later sign-in.';
+
+  @override
+  String get devSyncOutbox => 'Outbox';
+
+  @override
+  String get devSyncOutboxEmpty => 'The outbox is empty.';
+
+  @override
+  String devSyncPullPage(int since, int next, int changes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      changes,
+      locale: localeName,
+      other: '$changes changes',
+      one: '1 change',
+    );
+    return '$since → $next · $_temp0';
+  }
+
+  @override
+  String get devSyncPulls => 'Last pulled pages';
+
+  @override
+  String get devSyncSimulateOffline => 'Simulate offline';
+
+  @override
+  String get devSyncSimulateOfflineHint =>
+      'Every sync run fails as if the network were down.';
+
+  @override
+  String get devTimeTravel => 'Time travel';
+
+  @override
+  String devTimeTravelNow(String time) {
+    return 'App time: $time';
+  }
+
+  @override
+  String get devTimeTravelOff => 'Real time';
+
+  @override
+  String devTimeTravelOffset(String relative) {
+    return 'Shifted: $relative';
+  }
+
+  @override
+  String get devTimeTravelPick => 'Pick a date & time';
+
+  @override
+  String get devTimeTravelReset => 'Back to real time';
+
+  @override
+  String get devTools => 'Tools';
+
+  @override
+  String get devZone => 'Time zone';
+
+  @override
+  String devZoneDevice(String zone) {
+    return 'Device zone: $zone';
+  }
+
+  @override
+  String get devZoneOverridden => 'Overridden until reset';
+
+  @override
+  String get devZoneOverride => 'Override the device zone';
+
+  @override
+  String get devZoneReset => 'Use the real device zone';
 
   @override
   String durationDaysShort(int days) {

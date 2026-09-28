@@ -39,7 +39,7 @@ subscription, orchestrator & status, initial sync/resync, purge, background sync
 - [x] T1.4.15 — Sync unit tests with a fake API
 - [ ] T1.4.16 — Tombstone purge job, watermark & `app.purge_now`
 - [ ] T1.4.17 — Background sync (workmanager + data-push hook)
-- [ ] T1.4.18 — Sync diagnostics (dev) & conflict log
+- [x] T1.4.18 — Sync diagnostics (dev) & conflict log
 - [ ] T1.4.19 — Automatic writes policy (scheduled-instant clocks)
 
 ## Tasks
@@ -240,6 +240,7 @@ messages `{"type":"sync"}` ([7.4]) doing the same in the background isolate with
 cursor/head, last pages, "simulate offline", force push/pull; a local ring-buffer **conflict log**
 (stale fields rejected by the server) to debug surprising overwrites.
 **Tests:** widget smoke test (dev flavor only).
+**Notes:** `SyncDiagnosticsPage` (dev menu, or `/dev?page=sync` from Settings › Sync in dev builds): phase, cursor/purge watermark, last pull/push, batch size, last error; simulate offline; Sync now / full pull; outbox grouped by `op_id` (fields, state, attempts, errors) with retry/discard (per entry or all failed); last pulled pages; the persisted conflict log (stale fields, ring buffer of 100) with Clear. Widget smoke tests in `test/features/dev/debug_menu_test.dart`.
 
 ### T1.4.19 — Automatic writes policy (scheduled-instant clocks)
 **Priority:** P1 · **Size:** S · **Depends on:** T1.4.07

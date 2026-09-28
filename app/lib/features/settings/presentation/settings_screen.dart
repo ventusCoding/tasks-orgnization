@@ -1,3 +1,4 @@
+import 'package:everslot/core/env/env.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/design_system/design_system.dart';
@@ -23,8 +24,17 @@ class SettingsScreen extends ConsumerWidget {
       final s when s.isAnonymous => l.authGuestAccount,
       final s => s.email,
     };
+    // Hidden gesture to the dev debug menu (T1.3.16): long-press the title, dev builds only.
+    final devTools = Env.devToolsCompiled && ref.watch(envProvider).isDev;
     return Scaffold(
-      appBar: AppBar(title: Text(l.settingsTitle), actions: const [SyncIndicator()]),
+      appBar: AppBar(
+        title: GestureDetector(
+          key: const ValueKey('settings-title'),
+          onLongPress: devTools ? () => GoRouter.maybeOf(context)?.push(AppLinks.debug()) : null,
+          child: Text(l.settingsTitle),
+        ),
+        actions: const [SyncIndicator()],
+      ),
       body: ListView(
         padding: const EdgeInsetsDirectional.only(bottom: Space.xxl),
         children: [

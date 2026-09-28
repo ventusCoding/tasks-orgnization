@@ -4101,11 +4101,371 @@ abstract class AppLocalizations {
   /// **'{item} deleted'**
   String deletedSnack(String item);
 
+  /// No description provided for @devComponentGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Component gallery'**
+  String get devComponentGallery;
+
+  /// No description provided for @devConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Configured'**
+  String get devConfigured;
+
+  /// No description provided for @devCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get devCopied;
+
+  /// No description provided for @devDangerZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Danger zone'**
+  String get devDangerZone;
+
+  /// No description provided for @devDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Local database'**
+  String get devDatabase;
+
+  /// No description provided for @devDatabaseEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No rows.'**
+  String get devDatabaseEmpty;
+
+  /// No description provided for @devDatabaseRows.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{empty} =1{1 row} other{{count} rows}}'**
+  String devDatabaseRows(int count);
+
+  /// No description provided for @devEnvironment.
+  ///
+  /// In en, this message translates to:
+  /// **'Environment'**
+  String get devEnvironment;
+
+  /// No description provided for @devFirebase.
+  ///
+  /// In en, this message translates to:
+  /// **'Firebase'**
+  String get devFirebase;
+
+  /// No description provided for @devFlags.
+  ///
+  /// In en, this message translates to:
+  /// **'Feature flags'**
+  String get devFlags;
+
+  /// No description provided for @devFlagsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Overrides for this session only (dev builds).'**
+  String get devFlagsHint;
+
+  /// No description provided for @devFlavor.
+  ///
+  /// In en, this message translates to:
+  /// **'Flavor: {flavor}'**
+  String devFlavor(String flavor);
+
+  /// No description provided for @devLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Logs'**
+  String get devLogs;
+
+  /// No description provided for @devLogsAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get devLogsAll;
+
+  /// No description provided for @devLogsCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy logs'**
+  String get devLogsCopy;
+
+  /// No description provided for @devLogsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No log records yet.'**
+  String get devLogsEmpty;
+
   /// No description provided for @devMenu.
   ///
   /// In en, this message translates to:
   /// **'Developer menu'**
   String get devMenu;
+
+  /// No description provided for @devNoWarnings.
+  ///
+  /// In en, this message translates to:
+  /// **'No configuration warnings'**
+  String get devNoWarnings;
+
+  /// No description provided for @devNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Not configured'**
+  String get devNotConfigured;
+
+  /// No description provided for @devResetData.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset local data'**
+  String get devResetData;
+
+  /// No description provided for @devResetDataBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Deletes every item, setting and file stored on this device. A cloud account is signed out (its data stays on the server). This can\'t be undone.'**
+  String get devResetDataBody;
+
+  /// No description provided for @devResetDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Local data reset'**
+  String get devResetDone;
+
+  /// No description provided for @devSampleData.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample data'**
+  String get devSampleData;
+
+  /// No description provided for @devSampleDataBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Adds about six months of realistic tasks, lists, habits and a quit tracker for demos and screenshots.'**
+  String get devSampleDataBody;
+
+  /// No description provided for @devSampleDataDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item added} other{{count} items added}}'**
+  String devSampleDataDone(int count);
+
+  /// No description provided for @devSampleDataGenerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate sample data'**
+  String get devSampleDataGenerate;
+
+  /// No description provided for @devSampleDataRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove sample data'**
+  String get devSampleDataRemove;
+
+  /// No description provided for @devSampleDataRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample data removed'**
+  String get devSampleDataRemoved;
+
+  /// No description provided for @devSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Session: {mode}'**
+  String devSession(String mode);
+
+  /// No description provided for @devSupabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Supabase'**
+  String get devSupabase;
+
+  /// No description provided for @devSyncAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{not sent yet} =1{1 attempt} other{{count} attempts}}'**
+  String devSyncAttempts(int count);
+
+  /// No description provided for @devSyncBatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Push batch size: {size}'**
+  String devSyncBatch(int size);
+
+  /// No description provided for @devSyncClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get devSyncClear;
+
+  /// No description provided for @devSyncConflicts.
+  ///
+  /// In en, this message translates to:
+  /// **'Conflict log'**
+  String get devSyncConflicts;
+
+  /// No description provided for @devSyncConflictsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No conflicts recorded.'**
+  String get devSyncConflictsEmpty;
+
+  /// No description provided for @devSyncCursor.
+  ///
+  /// In en, this message translates to:
+  /// **'Cursor {cursor} · purge watermark {watermark}'**
+  String devSyncCursor(int cursor, int watermark);
+
+  /// No description provided for @devSyncDiagnostics.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync diagnostics'**
+  String get devSyncDiagnostics;
+
+  /// No description provided for @devSyncGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 change} other{{count} changes}} · {when}'**
+  String devSyncGroup(int count, String when);
+
+  /// No description provided for @devSyncLastPull.
+  ///
+  /// In en, this message translates to:
+  /// **'Last pull: {when}'**
+  String devSyncLastPull(String when);
+
+  /// No description provided for @devSyncLastPush.
+  ///
+  /// In en, this message translates to:
+  /// **'Last push: {when}'**
+  String devSyncLastPush(String when);
+
+  /// No description provided for @devSyncNever.
+  ///
+  /// In en, this message translates to:
+  /// **'never'**
+  String get devSyncNever;
+
+  /// No description provided for @devSyncNoPulls.
+  ///
+  /// In en, this message translates to:
+  /// **'No pull yet in this session.'**
+  String get devSyncNoPulls;
+
+  /// No description provided for @devSyncOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync is off on this device (local-only). The outbox keeps changes for a later sign-in.'**
+  String get devSyncOff;
+
+  /// No description provided for @devSyncOutbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Outbox'**
+  String get devSyncOutbox;
+
+  /// No description provided for @devSyncOutboxEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'The outbox is empty.'**
+  String get devSyncOutboxEmpty;
+
+  /// No description provided for @devSyncPullPage.
+  ///
+  /// In en, this message translates to:
+  /// **'{since} → {next} · {changes, plural, =1{1 change} other{{changes} changes}}'**
+  String devSyncPullPage(int since, int next, int changes);
+
+  /// No description provided for @devSyncPulls.
+  ///
+  /// In en, this message translates to:
+  /// **'Last pulled pages'**
+  String get devSyncPulls;
+
+  /// No description provided for @devSyncSimulateOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulate offline'**
+  String get devSyncSimulateOffline;
+
+  /// No description provided for @devSyncSimulateOfflineHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Every sync run fails as if the network were down.'**
+  String get devSyncSimulateOfflineHint;
+
+  /// No description provided for @devTimeTravel.
+  ///
+  /// In en, this message translates to:
+  /// **'Time travel'**
+  String get devTimeTravel;
+
+  /// No description provided for @devTimeTravelNow.
+  ///
+  /// In en, this message translates to:
+  /// **'App time: {time}'**
+  String devTimeTravelNow(String time);
+
+  /// No description provided for @devTimeTravelOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Real time'**
+  String get devTimeTravelOff;
+
+  /// No description provided for @devTimeTravelOffset.
+  ///
+  /// In en, this message translates to:
+  /// **'Shifted: {relative}'**
+  String devTimeTravelOffset(String relative);
+
+  /// No description provided for @devTimeTravelPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date & time'**
+  String get devTimeTravelPick;
+
+  /// No description provided for @devTimeTravelReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to real time'**
+  String get devTimeTravelReset;
+
+  /// No description provided for @devTools.
+  ///
+  /// In en, this message translates to:
+  /// **'Tools'**
+  String get devTools;
+
+  /// No description provided for @devZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Time zone'**
+  String get devZone;
+
+  /// No description provided for @devZoneDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Device zone: {zone}'**
+  String devZoneDevice(String zone);
+
+  /// No description provided for @devZoneOverridden.
+  ///
+  /// In en, this message translates to:
+  /// **'Overridden until reset'**
+  String get devZoneOverridden;
+
+  /// No description provided for @devZoneOverride.
+  ///
+  /// In en, this message translates to:
+  /// **'Override the device zone'**
+  String get devZoneOverride;
+
+  /// No description provided for @devZoneReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the real device zone'**
+  String get devZoneReset;
 
   /// No description provided for @durationDaysShort.
   ///
