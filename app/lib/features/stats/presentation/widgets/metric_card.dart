@@ -60,7 +60,10 @@ class MetricCard extends ConsumerWidget {
     if (r?.chart case final ReviewData review) {
       return ReviewView(data: review, current: reviewCurrent, onToggle: onReviewToggle);
     }
-    final isKpi = r != null && (def.chart == ChartKind.kpi || r.chart == null) && r.note != 'error';
+    // KPI metrics, and chart metrics that only produced a value, render as tiles; a chart metric
+    // without data keeps its frame (empty / insufficient state).
+    final isKpi =
+        r != null && r.note != 'error' && (def.chart == ChartKind.kpi || (r.chart == null && r.value is Value<double>));
     if (isKpi) {
       final allRefs = [for (final refs in r.drill.values) ...refs];
       return KpiTile(

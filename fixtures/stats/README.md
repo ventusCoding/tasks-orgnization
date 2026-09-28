@@ -24,3 +24,11 @@ reference files marked *(reference)*, which were computed once with NumPy 1.26 /
 
 Regenerating a reference file: re-run the NumPy/SciPy script it was produced with (kept out of the
 repo) and review the diff; hand-computed fixtures are edited by hand together with their tests.
+
+## App-level table fixtures
+
+The app's stats pipeline (loaders → isolate job → registry) is checked end to end by table-level
+versions of these datasets in `app/test/features/stats/fixtures/` (rows per Drift table in server
+snake_case, local times converted to UTC, plus `expect: [{scope, scopeId, period, metricId, value |
+insufficient | note | args, tolerance}]`). `app/test/features/stats/fixtures_test.dart` runs them;
+each file's `source` names the dataset it was derived from.

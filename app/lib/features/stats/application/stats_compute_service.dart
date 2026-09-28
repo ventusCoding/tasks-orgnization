@@ -142,6 +142,8 @@ final class StatsComputeService {
       habits = await source.loadHabits(
         habitId: scope == MetricScope.habit || scope == MetricScope.quit ? request.scopeId : null,
         withNotifications: scope == MetricScope.habit,
+        // Reminder effectiveness looks back at most two years.
+        notificationsSince: env.now.subtract(const Duration(days: 731)),
       );
       final f = await source.firstHabitDate(
         habitId: scope == MetricScope.habit || scope == MetricScope.quit ? request.scopeId : null,

@@ -33,19 +33,19 @@ for stats defaults ([8.3]).
 - [x] T6.1.02 — Descriptive statistics & distributions
 - [x] T6.1.03 — Rates, proportions & Wilson intervals
 - [x] T6.1.04 — Time-series utilities: bucketing, rolling windows, EWMA, OLS & Theil–Sen trends
-- [ ] T6.1.05 — Period model & comparisons
-- [ ] T6.1.06 — Metric registry & definition format
+- [x] T6.1.05 — Period model & comparisons
+- [x] T6.1.06 — Metric registry & definition format
 - [x] T6.1.07 — Units, formatting & delta presentation
 - [x] T6.1.08 — Expected-occurrences ledger (adherence denominators)
 - [x] T6.1.09 — Streak engine
 - [x] T6.1.10 — Habit-strength score (Loop-compatible EWMA)
 - [x] T6.1.11 — Status-interval & event-log primitives
-- [ ] T6.1.12 — Stats data loaders over Drift
-- [ ] T6.1.13 — Isolate execution, caching & invalidation
-- [ ] T6.1.14 — Minimum-data, confidence & honesty rules
-- [ ] T6.1.15 — Stats fixture framework & canonical datasets
-- [ ] T6.1.16 — Stats screen framework & "explain this metric" sheet
-- [ ] T6.1.17 — Insights tab shell & navigation
+- [x] T6.1.12 — Stats data loaders over Drift
+- [x] T6.1.13 — Isolate execution, caching & invalidation
+- [x] T6.1.14 — Minimum-data, confidence & honesty rules
+- [x] T6.1.15 — Stats fixture framework & canonical datasets
+- [x] T6.1.16 — Stats screen framework & "explain this metric" sheet
+- [x] T6.1.17 — Insights tab shell & navigation
 - [x] T6.1.18 — Circular statistics for clock times
 - [x] T6.1.19 — Group-comparison tests (Mann–Whitney, Kruskal–Wallis)
 - [ ] T6.1.20 — Data-quality metrics plumbing
@@ -179,6 +179,7 @@ b ≈ 3 with p < 0.001; Theil–Sen ignores 10 % injected outliers (|b − 3| < 
 - With a day start of 04:00, an event at 01:30 belongs to the previous local date.
 **Tests:** unit tests across zones (Europe/Paris, America/New_York, Africa/Tunis), leap years and DST
 transitions.
+**Notes:** Period model, day boundaries and comparisons live in `packages/everslot_metrics/lib/src/period.dart` (acceptance vectors in the package suite); the app reads `stats.defaultPeriod`, `compareWithPrevious` and `weekStartOverride` through `StatsSettings` (`statsSettingsProvider`) and applies them in every scope context (`test/features/stats/engine/period_settings_test.dart`: MO/SA/SU, DST rolling window, 04:00 day start).
 
 ### T6.1.06 — Metric registry & definition format
 **Priority:** P0 · **Size:** M · **Depends on:** T6.1.01, T6.1.05
@@ -202,6 +203,7 @@ compute, format, chart, explain and test it.
 **Acceptance criteria:** duplicate IDs fail at startup in debug; each metric can be computed from its
 declared inputs alone (verified by the fixture framework, T6.1.15).
 **Tests:** registry unit tests; a lint test (see T6.1.21) iterates over all definitions.
+**Notes:** `MetricDefinition` (domain) + `MetricRegistry` (application, catalogs in `application/catalog/*_catalog.dart`); l10n keys derive from the id (`statsMetric<Stem>Title|Desc|Formula`); `formatter` is `StatFormat` keyed by `unit`; results carry `value/previous/comparison/chart/spark/exclusions/args/drill` (`breakdown` = the chart model). Tests: `test/features/stats/engine/metric_registry_test.dart` (duplicates, lookups, ARB keys, layouts, every scope computes on an empty DB).
 
 ### T6.1.07 — Units, formatting & delta presentation
 **Priority:** P0 · **Size:** S · **Depends on:** T6.1.06, [1.3] (l10n, design tokens)
@@ -386,6 +388,7 @@ DTOs that can be sent to an isolate (records and lists of primitives, never Drif
 **Acceptance criteria:** loading a year of data for 30 habits takes < 80 ms on the reference device; no
 full table scans appear in the query plans.
 **Tests:** DAO tests on an in-memory database with seeded fixtures; a query-plan assertion test.
+**Notes:** `data/stats_data_source.dart` maps rows into the isolate records of `domain/stats_inputs.dart` (never row classes); deleted checklist items stay for history. The local DB is single-user, so the per-feature indexes omit `user_id` (residual filter). `stats_data_source_test.dart` seeds every table, checks the mapping and asserts through a query interceptor + `EXPLAIN QUERY PLAN` that the large tables are never scanned (notifications compare the ISO text so `idx_notifications_fire` applies). The 80 ms device budget is measured by the performance suite (T6.1.23).
 
 ### T6.1.13 — Isolate execution, caching & invalidation
 **Priority:** P0 · **Size:** M · **Depends on:** T6.1.06, T6.1.12
@@ -405,6 +408,7 @@ invalidate precisely when the underlying data changes.
 invalidates only habit metrics; the UI thread never blocks for more than 8 ms during computation.
 **Tests:** unit tests with a fake clock and fake table-update stream; a widget test proving stale results
 are discarded.
+**Notes:** `StatsComputeService.computeBatch` loads once and runs one `Isolate.run` job (`IsolateStatsExecutor`; the job carries records plus a `tz.Location` snapshot); LRU `StatsResultCache` (200) keyed by metric/scope/entity/period/compare/filters/extra/dataVersion; `watchStatsDomains` debounces Drift table updates per domain (activity_events not watched — every write also touches its entity row); the version key adds a 5-minute bucket so time-dependent values refresh. `StatsSettings` has value equality so re-read settings don't recompute. Tests: `engine/compute_cache_test.dart` (cache, isolate parity, habit-only invalidation, stale result dropped). The 8 ms UI-thread budget is profiled by T6.1.23.
 
 ### T6.1.14 — Minimum-data, confidence & honesty rules
 **Priority:** P0 · **Size:** S · **Depends on:** T6.1.03, T6.1.06
@@ -436,6 +440,7 @@ are discarded.
 **Acceptance criteria:** every metric in the registry declares or inherits a rule; fixtures with n below
 the threshold produce `Insufficient` with the correct counts.
 **Tests:** unit tests per rule; registry lint (T6.1.21) checks that a rule is present.
+**Notes:** Rules live in `MinDataRules` (package) and `MetricDefinition.minSample`, applied by the engine (`applyMinimumData`); each definition also exposes `minDataGuard` (`rule` / `calculator` / `exempt`) — rates must declare a rule or opt out explicitly, enforced by the registry test. Cards: greyed "Needs N more", "—" for zero denominators, "≈" for estimates, exclusions listed (`MetricCard`, `ExplainSheet`).
 
 ### T6.1.15 — Stats fixture framework & canonical datasets
 **Priority:** P0 · **Size:** M · **Depends on:** T6.1.06, T6.1.12
@@ -456,6 +461,7 @@ declares its data, a clock, a zone and expected metric values.
 **Acceptance criteria:** each section catalog has at least one fixture per P0 metric; CI runs all fixtures
 in < 20 s.
 **Tests:** this task *is* the harness; include self-tests for its tolerance handling.
+**Notes:** Harness: `test/features/stats/support/stats_harness.dart` (`StatsFixture` seeds the in-memory DB, `runFixture` diffs every expectation; self-tests in `fixtures_test.dart`). Table fixtures derived from the package datasets: `planner_two_weeks`, `checklist_flow_small` (also covers a move between lists), `habit_pushups_month` (habits loop parity stays in the package's `strength_loop.json`), `quit_smoking_90_days`; `overview_week` arrives with T6.7.19. P0 coverage is completed by the section fixture tasks (T6.3.21, T6.5.18, T6.6.14, T6.7.19) and enforced by the registry lint (T6.1.21). The whole file runs in ~1 s.
 
 ### T6.1.16 — Stats screen framework & "explain this metric" sheet
 **Priority:** P0 · **Size:** L · **Depends on:** T6.1.07, T6.1.13, T6.1.14, [6.2] (chart foundations T6.2.01, KPI tile T6.2.02)
@@ -476,6 +482,7 @@ in < 20 s.
 updates every card within one frame after the batch completes; the explain sheet shows the actual
 exclusion counts.
 **Tests:** widget tests with fake metric results (value, insufficient, error); goldens for the scaffold.
+**Notes:** `presentation/stats_scope_view.dart` renders any `StatsLayout` (scope header, `PeriodSelector` with rolling menu, custom range and compare toggle, [2.3] `FilterBar` for category/tag/priority, KPI row, collapsible sections, 1 column on phones / 2 from 600 dp with half-span KPI pairs). One `metricsBatchProvider` batch per screen; previous numbers stay visible under a thin progress bar while a new period computes. `MetricCard` handles value/insufficient/empty/error states, drill-down (`DrillSheet`) and the explain sheet (`ExplainSheet`: formula, value, previous, n, interval, exclusions, min-data rule, sources). Tests: `presentation/stats_scope_view_test.dart` + goldens `stats_scope_goldens_test.dart` (light/dark × LTR/RTL, text scale 2.0).
 
 ### T6.1.17 — Insights tab shell & navigation
 **Priority:** P0 · **Size:** S · **Depends on:** T6.1.16, [1.3] (router)
@@ -487,6 +494,7 @@ Overview content is built in [6.7].
 **Acceptance criteria:** every canonical insights deep link opens the right scope and period; the back
 navigation stack is sane.
 **Tests:** router unit tests; a widget test for segment switching.
+**Notes:** `InsightsScreen` (tab root, `AppBarActions`, scrollable segment tabs; last segment in `local_kv` via `StatsLocalStore`) and `ScopeStatsScreen(scope, scopeId, query)`: every metric scope plus `review`; `?period=<key>` becomes the scope's remembered period, `?occurrence=<key>` feeds the task scope. The router passes `s.uri.queryParameters` (additive edit of `app/lib/app/router.dart`). Tests: `presentation/insights_shell_test.dart`.
 
 ### T6.1.18 — Circular statistics for clock times
 **Priority:** P1 · **Size:** S · **Depends on:** T6.1.02

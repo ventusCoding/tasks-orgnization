@@ -711,6 +711,7 @@ final List<MetricDefinition> plannerMetrics = [
     chart: ChartKind.stackedBars,
     direction: MetricDirection.neutral,
     isRate: true,
+    guard: MinDataGuard.exempt,
     requires: {..._plannerTables, StatsTable.userSettings},
     compute: (c) {
       final days = c.capacity.days;
@@ -745,6 +746,7 @@ final List<MetricDefinition> plannerMetrics = [
     chart: ChartKind.bars,
     direction: MetricDirection.neutral,
     isRate: true,
+    guard: MinDataGuard.exempt,
     requires: {..._plannerTables, StatsTable.userSettings},
     compute: (c) {
       final days = c.capacity.days;

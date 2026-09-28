@@ -10303,6 +10303,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get statsLoading => 'Mise à jour des statistiques…';
+
+  @override
   String get statsMetricClI01Desc =>
       'Temps passé par cet élément dans chaque statut.';
 

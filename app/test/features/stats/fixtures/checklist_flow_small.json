@@ -1,0 +1,627 @@
+{
+ "name": "checklist_flow_small",
+ "source": "fixtures/stats/checklist_flow_small.json",
+ "description": "T6.4.02 single-item history (list L0) plus the T6.4.05 five-day CFD dataset (list L1, d1 = 2026-09-01) with a reopen (A) and a deletion (D), and a move of item M from L2 to L3. All times are local Europe/Paris wall-clock values. Seen on 2026-09-08 12:00.",
+ "now": "2026-09-08T10:00:00.000Z",
+ "zone": "Europe/Paris",
+ "weekStart": 1,
+ "settings": {},
+ "tables": {
+  "checklists": [
+   {
+    "id": "L0",
+    "title": "Invoice",
+    "sort_key": "a",
+    "created_at": "2026-08-31T06:00:00.000Z"
+   },
+   {
+    "id": "L1",
+    "title": "Sprint",
+    "sort_key": "b",
+    "created_at": "2026-08-31T06:00:00.000Z"
+   },
+   {
+    "id": "L2",
+    "title": "Inbox",
+    "sort_key": "c",
+    "created_at": "2026-08-31T06:00:00.000Z"
+   },
+   {
+    "id": "L3",
+    "title": "Errands",
+    "sort_key": "d",
+    "created_at": "2026-08-31T06:00:00.000Z"
+   }
+  ],
+  "checklist_items": [
+   {
+    "id": "A",
+    "checklist_id": "L1",
+    "sort_key": "000",
+    "text": "Item A",
+    "status": "completed",
+    "created_at": "2026-09-01T07:00:00.000Z",
+    "updated_at": "2026-09-01T07:00:00.000Z",
+    "completed_at": "2026-09-04T09:00:00.000Z"
+   },
+   {
+    "id": "B",
+    "checklist_id": "L1",
+    "sort_key": "001",
+    "text": "Item B",
+    "status": "completed",
+    "created_at": "2026-09-01T07:05:00.000Z",
+    "updated_at": "2026-09-01T07:05:00.000Z",
+    "completed_at": "2026-09-05T08:00:00.000Z"
+   },
+   {
+    "id": "C",
+    "checklist_id": "L1",
+    "sort_key": "002",
+    "text": "Item C",
+    "status": "waiting",
+    "created_at": "2026-09-01T07:10:00.000Z",
+    "updated_at": "2026-09-01T07:10:00.000Z",
+    "waiting_on": "Sam"
+   },
+   {
+    "id": "D",
+    "checklist_id": "L1",
+    "sort_key": "003",
+    "text": "Item D",
+    "status": "todo",
+    "created_at": "2026-09-02T07:00:00.000Z",
+    "updated_at": "2026-09-02T07:00:00.000Z",
+    "deleted_at": "2026-09-04T10:00:00.000Z"
+   },
+   {
+    "id": "E",
+    "checklist_id": "L1",
+    "sort_key": "004",
+    "text": "Item E",
+    "status": "todo",
+    "created_at": "2026-09-04T07:00:00.000Z",
+    "updated_at": "2026-09-04T07:00:00.000Z"
+   },
+   {
+    "id": "M",
+    "checklist_id": "L3",
+    "sort_key": "005",
+    "text": "Item M",
+    "status": "todo",
+    "created_at": "2026-09-02T08:00:00.000Z",
+    "updated_at": "2026-09-02T08:00:00.000Z"
+   },
+   {
+    "id": "X",
+    "checklist_id": "L0",
+    "sort_key": "006",
+    "text": "Item X",
+    "status": "completed",
+    "created_at": "2026-09-01T07:00:00.000Z",
+    "updated_at": "2026-09-01T07:00:00.000Z",
+    "completed_at": "2026-09-08T08:00:00.000Z"
+   }
+  ],
+  "activity_events": [
+   {
+    "id": "ev-X-0",
+    "entity_type": "checklist_item",
+    "entity_id": "X",
+    "parent_id": "L0",
+    "event_type": "created",
+    "occurred_at": "2026-09-01T07:00:00.000Z",
+    "payload": {
+     "to": "todo"
+    }
+   },
+   {
+    "id": "ev-X-1",
+    "entity_type": "checklist_item",
+    "entity_id": "X",
+    "parent_id": "L0",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-02T08:00:00.000Z",
+    "payload": {
+     "from": "todo",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-X-2",
+    "entity_type": "checklist_item",
+    "entity_id": "X",
+    "parent_id": "L0",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-03T08:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "waiting",
+     "note": "waiting for Sam"
+    }
+   },
+   {
+    "id": "ev-X-3",
+    "entity_type": "checklist_item",
+    "entity_id": "X",
+    "parent_id": "L0",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-05T08:00:00.000Z",
+    "payload": {
+     "from": "waiting",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-X-4",
+    "entity_type": "checklist_item",
+    "entity_id": "X",
+    "parent_id": "L0",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-06T08:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "blocked",
+     "note": "supplier invoice missing"
+    }
+   },
+   {
+    "id": "ev-X-5",
+    "entity_type": "checklist_item",
+    "entity_id": "X",
+    "parent_id": "L0",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-07T08:00:00.000Z",
+    "payload": {
+     "from": "blocked",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-X-6",
+    "entity_type": "checklist_item",
+    "entity_id": "X",
+    "parent_id": "L0",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-08T08:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "completed",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-A-7",
+    "entity_type": "checklist_item",
+    "entity_id": "A",
+    "parent_id": "L1",
+    "event_type": "created",
+    "occurred_at": "2026-09-01T07:00:00.000Z",
+    "payload": {
+     "to": "todo"
+    }
+   },
+   {
+    "id": "ev-B-8",
+    "entity_type": "checklist_item",
+    "entity_id": "B",
+    "parent_id": "L1",
+    "event_type": "created",
+    "occurred_at": "2026-09-01T07:05:00.000Z",
+    "payload": {
+     "to": "todo"
+    }
+   },
+   {
+    "id": "ev-C-9",
+    "entity_type": "checklist_item",
+    "entity_id": "C",
+    "parent_id": "L1",
+    "event_type": "created",
+    "occurred_at": "2026-09-01T07:10:00.000Z",
+    "payload": {
+     "to": "todo"
+    }
+   },
+   {
+    "id": "ev-A-10",
+    "entity_type": "checklist_item",
+    "entity_id": "A",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-01T08:00:00.000Z",
+    "payload": {
+     "from": "todo",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-A-11",
+    "entity_type": "checklist_item",
+    "entity_id": "A",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-02T08:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "completed",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-B-12",
+    "entity_type": "checklist_item",
+    "entity_id": "B",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-02T09:00:00.000Z",
+    "payload": {
+     "from": "todo",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-D-13",
+    "entity_type": "checklist_item",
+    "entity_id": "D",
+    "parent_id": "L1",
+    "event_type": "created",
+    "occurred_at": "2026-09-02T07:00:00.000Z",
+    "payload": {
+     "to": "todo"
+    }
+   },
+   {
+    "id": "ev-B-14",
+    "entity_type": "checklist_item",
+    "entity_id": "B",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-03T08:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "blocked",
+     "note": "waiting on supplier"
+    }
+   },
+   {
+    "id": "ev-C-15",
+    "entity_type": "checklist_item",
+    "entity_id": "C",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-03T09:00:00.000Z",
+    "payload": {
+     "from": "todo",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-A-16",
+    "entity_type": "checklist_item",
+    "entity_id": "A",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-03T10:00:00.000Z",
+    "payload": {
+     "from": "completed",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-B-17",
+    "entity_type": "checklist_item",
+    "entity_id": "B",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-04T08:00:00.000Z",
+    "payload": {
+     "from": "blocked",
+     "to": "ongoing",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-A-18",
+    "entity_type": "checklist_item",
+    "entity_id": "A",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-04T09:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "completed",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-E-19",
+    "entity_type": "checklist_item",
+    "entity_id": "E",
+    "parent_id": "L1",
+    "event_type": "created",
+    "occurred_at": "2026-09-04T07:00:00.000Z",
+    "payload": {
+     "to": "todo"
+    }
+   },
+   {
+    "id": "ev-D-20",
+    "entity_type": "checklist_item",
+    "entity_id": "D",
+    "parent_id": "L1",
+    "event_type": "deleted",
+    "occurred_at": "2026-09-04T10:00:00.000Z",
+    "payload": {}
+   },
+   {
+    "id": "ev-B-21",
+    "entity_type": "checklist_item",
+    "entity_id": "B",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-05T08:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "completed",
+     "note": null
+    }
+   },
+   {
+    "id": "ev-C-22",
+    "entity_type": "checklist_item",
+    "entity_id": "C",
+    "parent_id": "L1",
+    "event_type": "status_changed",
+    "occurred_at": "2026-09-05T09:00:00.000Z",
+    "payload": {
+     "from": "ongoing",
+     "to": "waiting",
+     "note": "@sam invoice"
+    }
+   },
+   {
+    "id": "ev-M-23",
+    "entity_type": "checklist_item",
+    "entity_id": "M",
+    "parent_id": "L2",
+    "event_type": "created",
+    "occurred_at": "2026-09-02T08:00:00.000Z",
+    "payload": {
+     "to": "todo"
+    }
+   },
+   {
+    "id": "ev-M-24",
+    "entity_type": "checklist_item",
+    "entity_id": "M",
+    "parent_id": "L3",
+    "event_type": "moved",
+    "occurred_at": "2026-09-04T08:00:00.000Z",
+    "payload": {
+     "fromChecklistId": "L2",
+     "toChecklistId": "L3",
+     "fromParentId": null,
+     "toParentId": null
+    }
+   }
+  ]
+ },
+ "expect": [
+  {
+   "scope": "checklistItem",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-I-03",
+   "value": 10140,
+   "scopeId": "X"
+  },
+  {
+   "scope": "checklistItem",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-I-02",
+   "value": 8640,
+   "scopeId": "X"
+  },
+  {
+   "scope": "checklistItem",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-I-01",
+   "value": 120,
+   "args": {
+    "todo": 1500,
+    "ongoing": 4320,
+    "waiting": 2880,
+    "blocked": 1440
+   },
+   "scopeId": "X"
+  },
+  {
+   "scope": "checklistItem",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-I-07",
+   "value": 6,
+   "args": {
+    "reopens": 0
+   },
+   "scopeId": "X"
+  },
+  {
+   "scope": "checklistItem",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-I-05",
+   "value": 120,
+   "scopeId": "X"
+  },
+  {
+   "scope": "checklistItem",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-I-04",
+   "note": "closed",
+   "scopeId": "X"
+  },
+  {
+   "scope": "checklistItem",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-I-06",
+   "value": 1,
+   "scopeId": "X"
+  },
+  {
+   "scope": "checklistItem",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-I-01",
+   "args": {
+    "todo": 60,
+    "ongoing": 2820
+   },
+   "scopeId": "A"
+  },
+  {
+   "scope": "checklistItem",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-I-02",
+   "value": 4380,
+   "scopeId": "A"
+  },
+  {
+   "scope": "checklistItem",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-I-03",
+   "value": 4440,
+   "scopeId": "A"
+  },
+  {
+   "scope": "checklistItem",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-I-07",
+   "value": 4,
+   "args": {
+    "reopens": 1
+   },
+   "scopeId": "A"
+  },
+  {
+   "scope": "checklist",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-L-01",
+   "value": 0.5,
+   "args": {
+    "todo": 1,
+    "waiting": 1,
+    "completed": 2
+   },
+   "scopeId": "L1"
+  },
+  {
+   "scope": "checklist",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-L-02",
+   "value": 0.5,
+   "scopeId": "L1"
+  },
+  {
+   "scope": "checklist",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-L-03",
+   "value": 2,
+   "scopeId": "L1"
+  },
+  {
+   "scope": "checklist",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-L-04",
+   "value": 1,
+   "scopeId": "L1"
+  },
+  {
+   "scope": "checklist",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-L-05",
+   "value": 3,
+   "args": {
+    "arrivals": 5,
+    "departures": 2
+   },
+   "scopeId": "L1"
+  },
+  {
+   "scope": "checklist",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-L-06",
+   "value": 0,
+   "scopeId": "L1"
+  },
+  {
+   "scope": "checklist",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-L-05",
+   "value": 1,
+   "args": {
+    "arrivals": 1,
+    "departures": 0
+   },
+   "scopeId": "L2"
+  },
+  {
+   "scope": "checklist",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-L-05",
+   "value": 1,
+   "args": {
+    "arrivals": 1,
+    "departures": 0
+   },
+   "scopeId": "L3"
+  },
+  {
+   "scope": "checklists",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-X-01",
+   "value": 4
+  },
+  {
+   "scope": "checklists",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-X-02",
+   "value": 5,
+   "args": {
+    "arrivals": 7,
+    "departures": 2
+   }
+  },
+  {
+   "scope": "checklists",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-X-03",
+   "value": 1,
+   "args": {
+    "waiting": 1,
+    "blocked": 0
+   }
+  },
+  {
+   "scope": "checklists",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-X-04",
+   "value": 2
+  },
+  {
+   "scope": "checklists",
+   "period": "custom:2026-09-01..2026-09-07",
+   "metricId": "CL-X-05",
+   "value": 6,
+   "args": {
+    "todo": 2,
+    "waiting": 1,
+    "completed": 3
+   }
+  }
+ ]
+}

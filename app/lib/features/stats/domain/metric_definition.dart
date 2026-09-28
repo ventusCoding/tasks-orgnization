@@ -6,6 +6,20 @@ import 'package:everslot/features/stats/domain/stats_types.dart';
 import 'package:everslot_metrics/everslot_metrics.dart';
 import 'package:meta/meta.dart';
 
+/// How a metric honours the minimum-data rules (T6.1.14). Every definition declares one: rates must
+/// either carry a [MetricDefinition.minSample] rule or opt out explicitly (registry lint, T6.1.21).
+enum MinDataGuard {
+  /// The engine applies [MetricDefinition.minSample] to the headline value.
+  rule,
+
+  /// The calculator returns `Insufficient` with its own counts (trends, percentiles, forecasts…).
+  calculator,
+
+  /// Counts, sums, listings, calendars, compositions and a single entity's own values: never
+  /// hidden — zero is a true zero and a missing value is `NotApplicable`.
+  exempt,
+}
+
 /// Computes one metric from its scope context (a `…ComputeContext` of the catalog).
 typedef MetricCompute = MetricResult Function(Object context);
 
@@ -24,6 +38,7 @@ final class MetricDefinition {
     this.direction = MetricDirection.higherIsBetter,
     this.priority = MetricPriority.p0,
     this.minSample,
+    this.guard,
     this.requires = const {},
     this.isRate = false,
     this.hasSources = false,
@@ -43,6 +58,15 @@ final class MetricDefinition {
   /// Minimum-data rule (T6.1.14); null = the metric returns `Insufficient` itself or is a
   /// count/listing that is never hidden.
   final MinSampleRule? minSample;
+
+  /// Declared guard when there is no [minSample] rule (see [minDataGuard]).
+  final MinDataGuard? guard;
+
+  /// The metric's minimum-data policy: [MinDataGuard.rule] when a rule is declared, else the
+  /// declared [guard]; non-rate metrics inherit [MinDataGuard.exempt]. Null = undeclared (a rate
+  /// without a rule — rejected by the registry lint).
+  MinDataGuard? get minDataGuard =>
+      minSample != null ? MinDataGuard.rule : (guard ?? (isRate ? null : MinDataGuard.exempt));
 
   /// Tables and settings the metric reads.
   final Set<StatsTable> requires;
@@ -78,6 +102,7 @@ MetricDefinition metric<C>({
   MetricDirection direction = MetricDirection.higherIsBetter,
   MetricPriority priority = MetricPriority.p0,
   MinSampleRule? minSample,
+  MinDataGuard? guard,
   Set<StatsTable> requires = const {},
   bool isRate = false,
   bool hasSources = false,
@@ -91,6 +116,7 @@ MetricDefinition metric<C>({
   direction: direction,
   priority: priority,
   minSample: minSample,
+  guard: guard,
   requires: requires,
   isRate: isRate,
   hasSources: hasSources,

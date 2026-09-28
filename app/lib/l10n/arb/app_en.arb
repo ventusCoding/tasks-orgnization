@@ -6877,6 +6877,7 @@
   "statsHealthDisclaimer": "Educational estimates based on population averages from WHO, NHS, CDC and the American Cancer Society; individual results vary. Not medical advice. Consult a healthcare professional.",
   "statsHealthElapsedNote": "Percentages show elapsed time only, not physiological measurements.",
   "statsHealthRange": "{from} – {to}",
+  "statsLoading": "Updating statistics…",
   "statsMetricClI01Desc": "How long this item spent in each status.",
   "statsMetricClI01Formula": "Sum of the intervals in each status until now (or deletion).",
   "statsMetricClI01Title": "Time in status",

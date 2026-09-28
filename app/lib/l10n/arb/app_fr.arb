@@ -2917,6 +2917,7 @@
   "statsHealthDisclaimer": "Estimations éducatives fondées sur des moyennes de population de l’OMS, du NHS, des CDC et de l’American Cancer Society ; les résultats individuels varient. Ceci n’est pas un avis médical. Consultez un professionnel de santé.",
   "statsHealthElapsedNote": "Les pourcentages indiquent le temps écoulé, pas des mesures physiologiques.",
   "statsHealthRange": "{from} – {to}",
+  "statsLoading": "Mise à jour des statistiques…",
   "statsMetricClI01Desc": "Temps passé par cet élément dans chaque statut.",
   "statsMetricClI01Formula": "Somme des intervalles par statut jusqu’à maintenant (ou suppression).",
   "statsMetricClI01Title": "Temps par statut",

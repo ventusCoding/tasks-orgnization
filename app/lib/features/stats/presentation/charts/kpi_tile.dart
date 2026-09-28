@@ -180,9 +180,12 @@ class DeltaChip extends StatelessWidget {
           children: [
             Icon(icon, size: 14, color: color),
             const SizedBox(width: 2),
-            Text(
-              delta.text,
-              style: context.text.labelSmall?.copyWith(color: color, fontWeight: FontWeight.w600),
+            // Wraps in narrow tiles at large text scales instead of overflowing.
+            Flexible(
+              child: Text(
+                delta.text,
+                style: context.text.labelSmall?.copyWith(color: color, fontWeight: FontWeight.w600),
+              ),
             ),
           ],
         ),

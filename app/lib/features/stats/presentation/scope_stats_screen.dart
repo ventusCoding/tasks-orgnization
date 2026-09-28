@@ -1,13 +1,92 @@
+/// Scoped Insights screen (T6.1.17): `/insights/:scope[/:id][?period=…&occurrence=…]` for every
+/// metric scope (task, series, planner, checklist, item, checklists, habit, habits, quit, global,
+/// review) — each one only declares a layout; [StatsScopeView] renders it.
+library;
+
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/stats/application/layouts.dart';
+import 'package:everslot/features/stats/application/stats_providers.dart';
+import 'package:everslot/features/stats/domain/stats_request.dart';
+import 'package:everslot/features/stats/domain/stats_types.dart';
+import 'package:everslot/features/stats/presentation/stats_scope_view.dart';
+import 'package:everslot/features/stats/presentation/task_stats_panel.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
-/// Placeholder — implemented by its feature section (see docs/tasks_section_*.md).
-class ScopeStatsScreen extends StatelessWidget {
-  const ScopeStatsScreen({required this.scope, this.scopeId, super.key});
+class ScopeStatsScreen extends ConsumerStatefulWidget {
+  const ScopeStatsScreen({required this.scope, this.scopeId, super.key, this.query = const {}});
 
+  /// Route segment (`habit`, `planner`, `review`…; `overview` = `global`).
   final String scope;
   final String? scopeId;
 
+  /// Query parameters: `period` (a period key such as `rolling:30`), `occurrence` (task scope).
+  final Map<String, String> query;
+
   @override
-  Widget build(BuildContext context) => PlaceholderScreen(title: 'Insights');
+  ConsumerState<ScopeStatsScreen> createState() => _ScopeStatsScreenState();
+}
+
+class _ScopeStatsScreenState extends ConsumerState<ScopeStatsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // A deep link's period becomes the remembered period of the scope.
+    final period = PeriodSelection.parsePeriod(widget.query['period']);
+    final scope = InsightsRoute.parse(widget.scope)?.metricScope;
+    if (period != null && scope != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) ref.read(statsUiStateProvider.notifier).setPeriod(statsScopeKey(scope), period);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final route = InsightsRoute.parse(widget.scope);
+    final scope = route?.metricScope;
+    if (route == null || scope == null || (scope.needsId && widget.scopeId == null) || !_supported(route)) {
+      return Scaffold(
+        appBar: AppBar(title: Text(l.tabInsights)),
+        body: EmptyState(icon: Icons.insights_outlined, title: l.statsUnknownScope, message: widget.scope),
+      );
+    }
+    final id = widget.scopeId;
+    final entity = id == null ? null : ref.watch(scopeEntityProvider((widget.scope, id))).value;
+    final title = switch (route) {
+      InsightsRoute.review => l.statsScopeReview,
+      _ => entity?.name ?? scopeTitle(l, scope, isQuit: route == InsightsRoute.quit),
+    };
+    return Scaffold(
+      appBar: AppBar(title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis)),
+      body: route == InsightsRoute.task
+          ? TaskStatsPanel(taskId: id!, occurrenceKey: widget.query['occurrence'], showHeader: true)
+          : StatsScopeView(
+              key: ValueKey('${widget.scope}/$id'),
+              scope: scope,
+              scopeId: id,
+              entity: entity,
+              layout: route == InsightsRoute.review ? reviewLayout : null,
+              showFilters: scope == MetricScope.planner || scope == MetricScope.checklists,
+              showPeriod: scope != MetricScope.checklistItem,
+            ),
+    );
+  }
+
+  /// Routes whose screens exist (later milestones add the rest).
+  static bool _supported(InsightsRoute r) => switch (r) {
+    InsightsRoute.overview ||
+    InsightsRoute.planner ||
+    InsightsRoute.series ||
+    InsightsRoute.task ||
+    InsightsRoute.checklists ||
+    InsightsRoute.checklist ||
+    InsightsRoute.item ||
+    InsightsRoute.habits ||
+    InsightsRoute.habit ||
+    InsightsRoute.quit ||
+    InsightsRoute.review => true,
+    _ => false,
+  };
 }

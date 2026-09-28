@@ -457,5 +457,6 @@
   "statsMetricQt13Formula": "Envies par jour sur la période ; intensité moyenne et maximale ; moyenne glissante 7 jours.",
   "statsMetricQt14Title": "Contexte des envies",
   "statsMetricQt14Desc": "Ce qui déclenche les envies, où et quand.",
-  "statsMetricQt14Formula": "Pareto par déclencheur, lieu et humeur ; matrice jour × heure."
+  "statsMetricQt14Formula": "Pareto par déclencheur, lieu et humeur ; matrice jour × heure.",
+  "statsLoading": "Mise à jour des statistiques…"
 }

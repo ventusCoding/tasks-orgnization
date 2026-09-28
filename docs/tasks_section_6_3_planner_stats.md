@@ -56,15 +56,15 @@ and execution capture ([3.2]); focus/Pomodoro stats (→ [9.3]).
 
 ## Progress
 
-- [ ] T6.3.01 — Planner stats adapter & canonical occurrence facts
-- [ ] T6.3.02 — Per-occurrence timing & outcome metrics
+- [x] T6.3.01 — Planner stats adapter & canonical occurrence facts
+- [x] T6.3.02 — Per-occurrence timing & outcome metrics
 - [ ] T6.3.03 — Per-occurrence planning & focus metrics
-- [ ] T6.3.04 — Series execution metrics
+- [x] T6.3.04 — Series execution metrics
 - [ ] T6.3.05 — Series quality & pattern metrics
 - [ ] T6.3.06 — Series time-of-day consistency
-- [ ] T6.3.07 — Section execution & flow metrics (plan snapshot)
-- [ ] T6.3.08 — Capacity & utilization metrics
-- [ ] T6.3.09 — Time allocation by category
+- [x] T6.3.07 — Section execution & flow metrics (plan snapshot)
+- [x] T6.3.08 — Capacity & utilization metrics
+- [x] T6.3.09 — Time allocation by category
 - [ ] T6.3.10 — Allocation by priority & tag, priority alignment
 - [ ] T6.3.11 — Estimation accuracy metrics
 - [ ] T6.3.12 — Punctuality & reschedule behaviour
@@ -72,11 +72,11 @@ and execution capture ([3.2]); focus/Pomodoro stats (→ [9.3]).
 - [ ] T6.3.14 — Focus & balance metrics
 - [ ] T6.3.15 — Completion goal streak
 - [ ] T6.3.16 — Advanced planner metrics
-- [ ] T6.3.17 — Task stats sheet (occurrence & one-off task)
-- [ ] T6.3.18 — Series stats screen
-- [ ] T6.3.19 — Planner Insights screen
+- [x] T6.3.17 — Task stats sheet (occurrence & one-off task)
+- [x] T6.3.18 — Series stats screen
+- [x] T6.3.19 — Planner Insights screen
 - [ ] T6.3.20 — In-view insights overlays
-- [ ] T6.3.21 — Planner stats fixtures
+- [x] T6.3.21 — Planner stats fixtures
 
 ## Tasks
 
@@ -104,6 +104,7 @@ Task `updated` events must carry before/after values of `start_local`, `duration
 **Acceptance criteria:** for the `planner_two_weeks` fixture, the facts equal the hand-written
 expectations, including overrides, cancelled occurrences and timer pauses.
 **Tests:** unit tests covering every outcome class and all three tracking modes.
+**Notes:** `domain/planner_resolution.dart` (`PlannerResolver`) expands series with the recurrence engine in the stats isolate, applies occurrence overrides/cancellations, attaches time sessions, reschedule moves and tags, and hands `PlannerOccurrenceFact`s to the package calculators; the context loads the period ± one look-back week (+4 weeks for moved-out detection). Settings come once per batch from `StatsSettings.planner`. Tests: `planner/planner_occurrence_test.dart` (facts for every outcome class and tracking mode) and the `planner_two_weeks` table fixture.
 
 ### T6.3.02 — Per-occurrence timing & outcome metrics
 **Priority:** P0 · **Size:** M · **Depends on:** T6.3.01, [6.2] (bars/bullet T6.2.04, T6.2.07)
@@ -126,6 +127,7 @@ task stats sheet and in drill-down lists.
 - An occurrence with no sessions shows "Actual time not tracked", not 0.
 **Tests:** fixture tests for each metric; boundary cases at exactly the grace value (on time) and at
 g + 1 minute (late).
+**Notes:** PL-T-01…07 in `planner_catalog.dart`; the task stats sheet selects the occurrence through the request `extra` (`?occurrence=<key>`). Tests cover the acceptance case, the g / g + 1 boundaries, "not tracked" and overdue buckets (`planner/planner_occurrence_test.dart`).
 
 ### T6.3.03 — Per-occurrence planning & focus metrics
 **Priority:** P1 · **Size:** M · **Depends on:** T6.3.02, [6.2] (move timeline T6.2.13)
@@ -169,6 +171,7 @@ PL-T-09 = 26.5 h and PL-T-10 = +1 d 1.5 h, and shows the snowball badge.
 **Acceptance criteria:** the `planner_two_weeks` fixture series "Gym (MO, WE, FR)" with 1 skip,
 1 miss and 4 done gives E = 6, X = 1, D = 4, adherence = 4/5 = 80 %, and miss rate = 20 %.
 **Tests:** fixture tests; test that the series-split continuity keeps the streak across a split.
+**Notes:** PL-S-01…09 in `planner_catalog.dart` over the package ledger/streak engines; the series scope groups every task row sharing `series_id` ("this & following" splits). Tests: the Gym acceptance in the `planner_two_weeks` fixture and `planner/planner_series_test.dart` (streak across a split, time invested, outcome calendar).
 
 ### T6.3.05 — Series quality & pattern metrics
 **Priority:** P1 · **Size:** M · **Depends on:** T6.3.04, [6.1] (T6.1.10 strength), [6.2] (box plot T6.2.14, punch card T6.2.09)
@@ -234,6 +237,7 @@ planned-not-done and moved-out for this week. It also counts as planned for next
 already moved when next week started. Unplanned additions do not change PL-X-01.
 **Tests:** snapshot-algorithm unit tests covering: a move before the period starts, a move during the
 period, a series edit, and a cancellation.
+**Notes:** PL-X-01…06 over the package `planSnapshot` (replays `rescheduled` events up to the period start; series-scope moves expand per affected occurrence). The resolver reads the planner feature's payload keys (`fromStart/toStart/fromDuration/toDuration/occurrenceKey/scope`); task `updated` events are loaded but series edits are logged as series-scope `rescheduled` events, which the snapshot uses. Tests: `planner/planner_section_test.dart` (move before/during the period, series edit, cancellation, unplanned addition) + fixture.
 
 ### T6.3.08 — Capacity & utilization metrics
 **Priority:** P0 · **Size:** M · **Depends on:** T6.3.01, [6.2] (bars with overlay T6.2.04)
@@ -262,6 +266,7 @@ period, a series edit, and a cancellation.
 **Acceptance criteria:** with work hours 09–17 on Mon–Fri and 10 h planned on Wednesday, Wednesday is
 flagged overbooked by 120 min and weekly planned utilization is correct to 0.1 %.
 **Tests:** fixture tests covering weekend days without capacity, and tasks crossing work-hour boundaries.
+**Notes:** Capacity = work hours (`planner.workHours/workDays`) minus `event` blocks in `counts_as_unavailable` categories; planned utilization clips to the capacity windows; days without capacity are never counted as overbooked (their load still shows in the chart). Tests: `planner/planner_capacity_test.dart` (acceptance 120 min, weekend, boundary-crossing tasks, free time from now).
 
 ### T6.3.09 — Time allocation by category
 **Priority:** P0 · **Size:** S · **Depends on:** T6.3.01, [6.2] (donut T6.2.05, stacked bars T6.2.04)
@@ -276,6 +281,7 @@ P1 chart exists; until then the trend uses stacked bars.
 
 **Acceptance criteria:** shares sum to 100 % (±0.1); uncategorized time appears as its own slice.
 **Tests:** fixture tests.
+**Notes:** PL-X-13 uses Σ Da when actual-time coverage ≥ 60 %, else Σ Dp with the "planned" note; uncategorized time is its own slice; PL-X-14 uses stacked bars until T6.2.16. Tests in `planner/planner_capacity_test.dart`.
 
 ### T6.3.10 — Allocation by priority & tag, priority alignment
 **Priority:** P1 · **Size:** S · **Depends on:** T6.3.09, [2.3] (tags), [6.2] (treemap T6.2.20)
@@ -390,6 +396,7 @@ productivity score is hidden until at least one category is weighted.
 **Acceptance criteria:** opens in < 150 ms; values update live when a timer stops; every value has an
 explain entry.
 **Tests:** widget tests with fixture facts; goldens (light/dark, RTL).
+**Notes:** `TaskStatsPanel(taskId, occurrenceKey)` (exported by `features/stats/insights.dart`) renders PL-T-01…07 with the PL-T-03 planned-vs-actual bullet, no period selector, and "See series stats" for recurring tasks; `/insights/task/:id?occurrence=<key>` shows it full screen. TODO(integration): the planner's occurrence sheet adds a "Stats" tab embedding `TaskStatsPanel` (planner-owned file). Timer stops invalidate through `time_entries` table updates. Tests: `presentation/planner_screens_test.dart`, goldens `screen_goldens_test.dart`.
 
 ### T6.3.18 — Series stats screen
 **Priority:** P0 · **Size:** M · **Depends on:** T6.3.04, [6.1] (T6.1.16)
@@ -411,6 +418,7 @@ explain entry.
 **Acceptance criteria:** the period selector and compare toggle work; drill-down from any calendar day
 opens that occurrence.
 **Tests:** widget tests; goldens.
+**Notes:** `seriesLayout` (KPIs PL-S-03/05/06/07; outcome calendar, adherence trend with rolling mean + slope, done/missed/skipped bars) on `/insights/series/:seriesId`; a calendar day opens the drill sheet of its occurrences, each opening the occurrence. Tests: `presentation/planner_screens_test.dart`, goldens.
 
 ### T6.3.19 — Planner Insights screen
 **Priority:** P0 · **Size:** L · **Depends on:** T6.3.07, T6.3.08, T6.3.09, [6.1] (T6.1.16, T6.1.17)
@@ -428,6 +436,7 @@ opens that occurrence.
 **Acceptance criteria:** a one-year period renders within the [6.1] T6.1.23 budget; each chart drills
 into the list of occurrences behind it.
 **Tests:** widget tests; fixture-driven screen test; goldens.
+**Notes:** `plannerLayout`: KPI row PL-X-01/05/12/08/06, Execution, Capacity and Allocation sections; filters category, tag, priority and tracking mode (the shared filter bar's status field). Fixture-driven screen test (`planner_two_weeks`) and goldens; the one-year budget is measured by T6.1.23.
 
 ### T6.3.20 — In-view insights overlays
 **Priority:** P1 · **Size:** M · **Depends on:** T6.3.08, T6.3.13, [3.3] (grid painter, overlays), [3.4] (week table)
@@ -451,3 +460,4 @@ Expected values are hand-computed for every P0 metric, and for P1 metrics as the
 **Acceptance criteria:** the fixture runner passes; the dataset is documented in
 `fixtures/stats/README.md`.
 **Tests:** this task provides the fixtures used by the tests above.
+**Notes:** Table fixture `app/test/features/stats/fixtures/planner_two_weeks.json` (from `fixtures/stats/planner_two_weeks.json`) now has expectations for all 31 P0 planner metrics; scenario tests in `test/features/stats/planner/` cover grace boundaries, snapshot moves, capacity boundaries and series splits.

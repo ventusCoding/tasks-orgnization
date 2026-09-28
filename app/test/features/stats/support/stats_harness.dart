@@ -34,13 +34,16 @@ class StatsHarness {
     String zone = 'UTC',
     String userId = 'user-1',
     List<Override> overrides = const [],
+    QueryInterceptor? interceptor,
+    StatsExecutor executor = const InlineStatsExecutor(),
   }) {
     TestWidgetsFlutterBinding.ensureInitialized();
     if (!_tzReady) {
       tzdata.initializeTimeZones();
       _tzReady = true;
     }
-    final db = AppDatabase.forTesting(NativeDatabase.memory());
+    final memory = NativeDatabase.memory();
+    final db = AppDatabase.forTesting(interceptor == null ? memory : memory.interceptWith(interceptor));
     final clock = FakeClock(now ?? DateTime.utc(2026, 9, 22, 9));
     SessionController.initial = AppSession(userId: userId, mode: SessionMode.localOnly);
     DeviceZoneController.initialZone = zone;
@@ -59,7 +62,7 @@ class StatsHarness {
         appDatabaseProvider.overrideWithValue(db),
         clockProvider.overrideWithValue(clock),
         deviceIdProvider.overrideWithValue('device-test'),
-        statsExecutorProvider.overrideWithValue(const InlineStatsExecutor()),
+        statsExecutorProvider.overrideWithValue(executor),
         ...overrides,
       ],
     );

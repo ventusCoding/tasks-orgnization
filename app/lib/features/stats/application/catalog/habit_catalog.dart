@@ -544,6 +544,7 @@ final List<MetricDefinition> habitMetrics = [
     unit: StatUnit.percent,
     chart: ChartKind.line,
     isRate: true,
+    guard: MinDataGuard.calculator,
     requires: _habitTables,
     compute: (c) {
       final range = c.range.days < 84 ? DateRange(c.today.minusDays(83), c.today) : c.elapsed;

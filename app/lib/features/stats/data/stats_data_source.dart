@@ -3,7 +3,7 @@
 /// row classes). Tombstones are excluded except where history needs them (deleted checklist items
 /// feed burn-up/CFD).
 ///
-/// Query plans (`EXPLAIN QUERY PLAN`, asserted by `stats_query_plan_test.dart`; the local database is
+/// Query plans (`EXPLAIN QUERY PLAN`, asserted by `test/features/stats/data/stats_data_source_test.dart`; the local database is
 /// single-user, so `user_id` is a residual filter on the per-feature indexes):
 /// - tasks (section): `SEARCH tasks USING INDEX idx_tasks_start (start_local<?)` + unscheduled
 ///   `SEARCH tasks USING INDEX idx_tasks_start (start_local=?)` (IS NULL); series:
@@ -278,6 +278,26 @@ class StatsDataSource {
         await (_db.select(_db.checklistItems)..where((it) => it.checklistId.isIn(part) & it.userId.equals(user))).get(),
       );
     }
+    if (listId != null) {
+      // Items that were in this list before moving elsewhere keep their history here (burn-up,
+      // arrivals): their earlier events carry this list as `parent_id`.
+      final here = {for (final i in items) i.id};
+      final movedOut = await (_db.selectOnly(_db.activityEvents, distinct: true)
+            ..addColumns([_db.activityEvents.entityId])
+            ..where(
+              _db.activityEvents.entityType.equals('checklist_item') &
+                  _db.activityEvents.parentId.equals(listId) &
+                  _db.activityEvents.userId.equals(user) &
+                  _db.activityEvents.deletedAt.isNull(),
+            ))
+          .map((r) => r.read(_db.activityEvents.entityId)!)
+          .get();
+      final extra = [for (final id in movedOut) if (!here.contains(id)) id];
+      for (var i = 0; i < extra.length; i += _chunk) {
+        final part = extra.sublist(i, i + _chunk > extra.length ? extra.length : i + _chunk);
+        items.addAll(await (_db.select(_db.checklistItems)..where((it) => it.id.isIn(part) & it.userId.equals(user))).get());
+      }
+    }
     final events = listId == null
         ? [
             for (final r
@@ -423,7 +443,11 @@ class StatsDataSource {
     final notifications = withNotifications
         ? await (_db.select(_db.notifications)..where(
                 (n) =>
-                    n.fireAt.isBiggerOrEqualValue(notificationsSince ?? DateTime.utc(1970)) &
+                    // Text comparison of the ISO column keeps `idx_notifications_fire` usable
+                    // (drift wraps DateTime comparisons in JULIANDAY()).
+                    n.fireAt.dartCast<String>().isBiggerOrEqualValue(
+                      (notificationsSince ?? DateTime.utc(1970)).toUtc().toIso8601String(),
+                    ) &
                     n.userId.equals(user) &
                     n.deletedAt.isNull() &
                     n.sourceType.equals('habit'),
@@ -564,7 +588,9 @@ class StatsDataSource {
     switch (scope) {
       case 'task':
         final t = await (_db.select(_db.tasks)..where((t) => t.id.equals(id))).getSingleOrNull();
-        return t == null ? null : ScopeEntity(t.id, t.title, color: t.color, icon: t.icon, parentId: t.seriesId);
+        return t == null
+            ? null
+            : ScopeEntity(t.id, t.title, color: t.color, icon: t.icon, parentId: t.seriesId, recurring: t.recurrence != null);
       case 'series':
         final t = await (_db.select(_db.tasks)
               ..where((t) => t.seriesId.equals(id) & t.deletedAt.isNull())
