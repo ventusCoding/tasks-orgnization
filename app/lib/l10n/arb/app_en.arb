@@ -1050,6 +1050,58 @@
       }
     }
   },
+  "@goalsBadgeCravings": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@goalsBadgeEarnedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsBadgeProgress": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsBadgeShareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsBadgeStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@goalsBadgeTotal": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsBadgeUnlocked": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "@goalsCelebrate": {
     "placeholders": {
       "title": {
@@ -4538,6 +4590,26 @@
   "goalsAchievedOn": "Achieved {date}",
   "goalsActive": "Active",
   "goalsAdd": "Add a goal",
+  "goalsBadgeBackfillFreeMonth": "A month logged on time",
+  "goalsBadgeChallenge": "Challenge completed",
+  "goalsBadgeCravings": "{count} cravings resisted",
+  "goalsBadgeEarnedOn": "Earned {date}",
+  "goalsBadgeFirstCheckIn": "First check-in",
+  "goalsBadgeFirstPerfectDay": "First perfect day",
+  "goalsBadgePerfectWeek": "Perfect week",
+  "goalsBadgeProgress": "{value} of {target}",
+  "goalsBadgeShare": "Share",
+  "goalsBadgeShareDate": "Include the date",
+  "goalsBadgeShareHabit": "Include the habit's name",
+  "goalsBadgeShareText": "I earned the \"{name}\" badge in Everslot.",
+  "goalsBadgeShareTitle": "Share a badge",
+  "goalsBadgeStreak": "{count}-day streak",
+  "goalsBadgeTotal": "{value} logged",
+  "goalsBadgeUnlocked": "Badge unlocked: {name}",
+  "goalsBadgesEarned": "Earned",
+  "goalsBadgesEmpty": "Check in to earn your first badge.",
+  "goalsBadgesLocked": "To earn",
+  "goalsBadgesTitle": "Badges",
   "goalsCelebrate": "Goal reached: {title}!",
   "goalsDelete": "Delete goal",
   "goalsDeleted": "Goal deleted",

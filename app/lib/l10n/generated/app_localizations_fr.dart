@@ -2699,6 +2699,81 @@ class AppLocalizationsFr extends AppLocalizations {
   String get goalsAdd => 'Ajouter un objectif';
 
   @override
+  String get goalsBadgeBackfillFreeMonth => 'Un mois noté à temps';
+
+  @override
+  String get goalsBadgeChallenge => 'Défi réussi';
+
+  @override
+  String goalsBadgeCravings(int count) {
+    return '$count envies surmontées';
+  }
+
+  @override
+  String goalsBadgeEarnedOn(String date) {
+    return 'Obtenu le $date';
+  }
+
+  @override
+  String get goalsBadgeFirstCheckIn => 'Premier pointage';
+
+  @override
+  String get goalsBadgeFirstPerfectDay => 'Première journée parfaite';
+
+  @override
+  String get goalsBadgePerfectWeek => 'Semaine parfaite';
+
+  @override
+  String goalsBadgeProgress(String value, String target) {
+    return '$value sur $target';
+  }
+
+  @override
+  String get goalsBadgeShare => 'Partager';
+
+  @override
+  String get goalsBadgeShareDate => 'Inclure la date';
+
+  @override
+  String get goalsBadgeShareHabit => 'Inclure le nom de l\'habitude';
+
+  @override
+  String goalsBadgeShareText(String name) {
+    return 'J\'ai obtenu le badge « $name » dans Everslot.';
+  }
+
+  @override
+  String get goalsBadgeShareTitle => 'Partager un badge';
+
+  @override
+  String goalsBadgeStreak(int count) {
+    return 'Série de $count jours';
+  }
+
+  @override
+  String goalsBadgeTotal(String value) {
+    return '$value enregistrés';
+  }
+
+  @override
+  String goalsBadgeUnlocked(String name) {
+    return 'Badge débloqué : $name';
+  }
+
+  @override
+  String get goalsBadgesEarned => 'Obtenus';
+
+  @override
+  String get goalsBadgesEmpty =>
+      'Pointez une habitude pour obtenir votre premier badge.';
+
+  @override
+  String get goalsBadgesLocked => 'À obtenir';
+
+  @override
+  String get goalsBadgesTitle => 'Badges';
+
+  @override
   String goalsCelebrate(String title) {
     return 'Objectif atteint : $title !';
   }

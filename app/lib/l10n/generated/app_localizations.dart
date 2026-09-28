@@ -4575,6 +4575,126 @@ abstract class AppLocalizations {
   /// **'Add a goal'**
   String get goalsAdd;
 
+  /// No description provided for @goalsBadgeBackfillFreeMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'A month logged on time'**
+  String get goalsBadgeBackfillFreeMonth;
+
+  /// No description provided for @goalsBadgeChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge completed'**
+  String get goalsBadgeChallenge;
+
+  /// No description provided for @goalsBadgeCravings.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} cravings resisted'**
+  String goalsBadgeCravings(int count);
+
+  /// No description provided for @goalsBadgeEarnedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned {date}'**
+  String goalsBadgeEarnedOn(String date);
+
+  /// No description provided for @goalsBadgeFirstCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'First check-in'**
+  String get goalsBadgeFirstCheckIn;
+
+  /// No description provided for @goalsBadgeFirstPerfectDay.
+  ///
+  /// In en, this message translates to:
+  /// **'First perfect day'**
+  String get goalsBadgeFirstPerfectDay;
+
+  /// No description provided for @goalsBadgePerfectWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect week'**
+  String get goalsBadgePerfectWeek;
+
+  /// No description provided for @goalsBadgeProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} of {target}'**
+  String goalsBadgeProgress(String value, String target);
+
+  /// No description provided for @goalsBadgeShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get goalsBadgeShare;
+
+  /// No description provided for @goalsBadgeShareDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Include the date'**
+  String get goalsBadgeShareDate;
+
+  /// No description provided for @goalsBadgeShareHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Include the habit\'s name'**
+  String get goalsBadgeShareHabit;
+
+  /// No description provided for @goalsBadgeShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'I earned the \"{name}\" badge in Everslot.'**
+  String goalsBadgeShareText(String name);
+
+  /// No description provided for @goalsBadgeShareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share a badge'**
+  String get goalsBadgeShareTitle;
+
+  /// No description provided for @goalsBadgeStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}-day streak'**
+  String goalsBadgeStreak(int count);
+
+  /// No description provided for @goalsBadgeTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} logged'**
+  String goalsBadgeTotal(String value);
+
+  /// No description provided for @goalsBadgeUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Badge unlocked: {name}'**
+  String goalsBadgeUnlocked(String name);
+
+  /// No description provided for @goalsBadgesEarned.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned'**
+  String get goalsBadgesEarned;
+
+  /// No description provided for @goalsBadgesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in to earn your first badge.'**
+  String get goalsBadgesEmpty;
+
+  /// No description provided for @goalsBadgesLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'To earn'**
+  String get goalsBadgesLocked;
+
+  /// No description provided for @goalsBadgesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Badges'**
+  String get goalsBadgesTitle;
+
   /// No description provided for @goalsCelebrate.
   ///
   /// In en, this message translates to:

@@ -26,7 +26,7 @@ P2); streak freezes; achievements catalog & unlock engine; badge gallery & share
 - [x] T5.4.05 — Challenges
 - [x] T5.4.06 — Streak freezes
 - [x] T5.4.07 — Progressive challenge targets
-- [ ] T5.4.08 — Achievements: catalog & unlock engine
+- [x] T5.4.08 — Achievements: catalog & unlock engine
 - [ ] T5.4.09 — Badge gallery & share cards
 - [ ] T5.4.10 — Personal-record moments
 
@@ -123,6 +123,7 @@ devices never duplicate; cheap predicates evaluated after relevant writes (debou
 unlocking triggers a celebration and an optional notification ([7.5]).
 **Data model:** achievements use deterministic ids (arch §9.2).
 **Tests:** unit tests per predicate; idempotency test.
+**Notes:** The table came with the foundation. Catalog + pure predicates (`goals/domain/achievements.dart`), `AchievementService` (facts from snapshots; skips the 400-day scans once those badges exist; concurrent calls coalesce), deterministic ids via `Ids.achievement`. Runs after done/progress check-ins (badge cards in the celebration overlay) and at start-up. TODO(integration): optional [7.5] notification on unlock (no event API on main).
 
 ### T5.4.09 — Badge gallery & share cards
 **Priority:** P2 · **Size:** S · **Depends on:** T5.4.08

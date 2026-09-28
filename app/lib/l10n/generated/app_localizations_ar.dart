@@ -2763,6 +2763,80 @@ class AppLocalizationsAr extends AppLocalizations {
   String get goalsAdd => 'إضافة هدف';
 
   @override
+  String get goalsBadgeBackfillFreeMonth => 'شهر مسجّل في وقته';
+
+  @override
+  String get goalsBadgeChallenge => 'تحدٍّ مكتمل';
+
+  @override
+  String goalsBadgeCravings(int count) {
+    return 'مقاومة $count رغبة';
+  }
+
+  @override
+  String goalsBadgeEarnedOn(String date) {
+    return 'اكتُسبت في $date';
+  }
+
+  @override
+  String get goalsBadgeFirstCheckIn => 'أول تسجيل';
+
+  @override
+  String get goalsBadgeFirstPerfectDay => 'أول يوم مثالي';
+
+  @override
+  String get goalsBadgePerfectWeek => 'أسبوع مثالي';
+
+  @override
+  String goalsBadgeProgress(String value, String target) {
+    return '$value من $target';
+  }
+
+  @override
+  String get goalsBadgeShare => 'مشاركة';
+
+  @override
+  String get goalsBadgeShareDate => 'تضمين التاريخ';
+
+  @override
+  String get goalsBadgeShareHabit => 'تضمين اسم العادة';
+
+  @override
+  String goalsBadgeShareText(String name) {
+    return 'حصلت على شارة «$name» في Everslot.';
+  }
+
+  @override
+  String get goalsBadgeShareTitle => 'مشاركة شارة';
+
+  @override
+  String goalsBadgeStreak(int count) {
+    return 'سلسلة $count يومًا';
+  }
+
+  @override
+  String goalsBadgeTotal(String value) {
+    return '$value مسجّلة';
+  }
+
+  @override
+  String goalsBadgeUnlocked(String name) {
+    return 'شارة جديدة: $name';
+  }
+
+  @override
+  String get goalsBadgesEarned => 'المكتسبة';
+
+  @override
+  String get goalsBadgesEmpty => 'سجّل عادة لتحصل على أول شارة.';
+
+  @override
+  String get goalsBadgesLocked => 'للحصول عليها';
+
+  @override
+  String get goalsBadgesTitle => 'الشارات';
+
+  @override
   String goalsCelebrate(String title) {
     return 'تحقّق الهدف: $title!';
   }

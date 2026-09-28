@@ -40,8 +40,12 @@ class AchievementService {
 
   final T Function<T>(ProviderListenable<T> provider) _read;
 
-  /// Facts of every active habit and tracker as of now.
-  Future<({GlobalBadgeFacts global, List<HabitBadgeFacts> habits, List<QuitBadgeFacts> quits})> facts() async {
+  /// Facts of every active habit and tracker as of now. The 400-day scans for perfect days and
+  /// backfill-free months can be skipped once their badges are unlocked.
+  Future<({GlobalBadgeFacts global, List<HabitBadgeFacts> habits, List<QuitBadgeFacts> quits})> facts({
+    bool scanPerfectDays = true,
+    bool scanBackfills = true,
+  }) async {
     final all = await _read(habitsRepositoryProvider).all(includeArchived: false);
     final now = _read(clockProvider).nowUtc();
     final service = _read(habitPeriodServiceProvider);
@@ -75,16 +79,25 @@ class AchievementService {
           );
       }
     }
-    return (global: _globalFacts(builds, service), habits: habits, quits: quits);
+    return (
+      global: _globalFacts(builds, service, scanPerfectDays: scanPerfectDays, scanBackfills: scanBackfills),
+      habits: habits,
+      quits: quits,
+    );
   }
 
-  GlobalBadgeFacts _globalFacts(List<HabitSnapshot> builds, HabitPeriodService service) {
+  GlobalBadgeFacts _globalFacts(
+    List<HabitSnapshot> builds,
+    HabitPeriodService service, {
+    required bool scanPerfectDays,
+    required bool scanBackfills,
+  }) {
     if (builds.isEmpty) return const GlobalBadgeFacts();
     final today = builds.first.today;
     final anyCheckIn = builds.any((s) => (s.summary?.repetitions ?? 0) > 0);
     final origin = today.minusDays(badgeLookbackDays);
     final perfect = <int>[];
-    for (var i = badgeLookbackDays; i >= 0; i--) {
+    for (var i = scanPerfectDays ? badgeLookbackDays : -1; i >= 0; i--) {
       final date = today.minusDays(i);
       final views = [
         for (final s in builds)
@@ -96,7 +109,7 @@ class AchievementService {
       anyCheckIn: anyCheckIn,
       anyPerfectDay: perfect.isNotEmpty,
       perfectWeek: hasPerfectWeek(perfect),
-      backfillFreeMonth: _backfillFreeMonth(builds, today),
+      backfillFreeMonth: scanBackfills && _backfillFreeMonth(builds, today),
     );
   }
 
@@ -118,11 +131,21 @@ class AchievementService {
     return byMonth.values.any((m) => m.count > 0 && !m.backfilled);
   }
 
-  /// Writes the newly earned badges; returns them.
-  Future<List<EarnedBadge>> evaluate() async {
-    final f = await facts();
+  Future<List<EarnedBadge>>? _running;
+
+  /// Writes the newly earned badges; returns them. Concurrent calls share one run.
+  Future<List<EarnedBadge>> evaluate() => _running ??= _evaluate().whenComplete(() => _running = null);
+
+  Future<List<EarnedBadge>> _evaluate() async {
+    final repo = _read(achievementsRepositoryProvider);
+    final unlocked = {for (final b in await repo.all()) b.code};
+    final f = await facts(
+      scanPerfectDays:
+          !unlocked.contains(AchievementCode.firstPerfectDay) || !unlocked.contains(AchievementCode.perfectWeek),
+      scanBackfills: !unlocked.contains(AchievementCode.backfillFreeMonth),
+    );
     final earned = earnedBadges(global: f.global, habits: f.habits, quits: f.quits);
-    return _read(achievementsRepositoryProvider).unlockMissing(earned, _read(clockProvider).nowUtc());
+    return repo.unlockMissing(earned, _read(clockProvider).nowUtc());
   }
 }
 

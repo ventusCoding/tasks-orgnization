@@ -2688,6 +2688,80 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goalsAdd => 'Add a goal';
 
   @override
+  String get goalsBadgeBackfillFreeMonth => 'A month logged on time';
+
+  @override
+  String get goalsBadgeChallenge => 'Challenge completed';
+
+  @override
+  String goalsBadgeCravings(int count) {
+    return '$count cravings resisted';
+  }
+
+  @override
+  String goalsBadgeEarnedOn(String date) {
+    return 'Earned $date';
+  }
+
+  @override
+  String get goalsBadgeFirstCheckIn => 'First check-in';
+
+  @override
+  String get goalsBadgeFirstPerfectDay => 'First perfect day';
+
+  @override
+  String get goalsBadgePerfectWeek => 'Perfect week';
+
+  @override
+  String goalsBadgeProgress(String value, String target) {
+    return '$value of $target';
+  }
+
+  @override
+  String get goalsBadgeShare => 'Share';
+
+  @override
+  String get goalsBadgeShareDate => 'Include the date';
+
+  @override
+  String get goalsBadgeShareHabit => 'Include the habit\'s name';
+
+  @override
+  String goalsBadgeShareText(String name) {
+    return 'I earned the \"$name\" badge in Everslot.';
+  }
+
+  @override
+  String get goalsBadgeShareTitle => 'Share a badge';
+
+  @override
+  String goalsBadgeStreak(int count) {
+    return '$count-day streak';
+  }
+
+  @override
+  String goalsBadgeTotal(String value) {
+    return '$value logged';
+  }
+
+  @override
+  String goalsBadgeUnlocked(String name) {
+    return 'Badge unlocked: $name';
+  }
+
+  @override
+  String get goalsBadgesEarned => 'Earned';
+
+  @override
+  String get goalsBadgesEmpty => 'Check in to earn your first badge.';
+
+  @override
+  String get goalsBadgesLocked => 'To earn';
+
+  @override
+  String get goalsBadgesTitle => 'Badges';
+
+  @override
   String goalsCelebrate(String title) {
     return 'Goal reached: $title!';
   }
