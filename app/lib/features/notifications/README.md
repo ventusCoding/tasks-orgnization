@@ -212,7 +212,9 @@ final List<NotificationContribution> notificationContributions = [
 This list is read by the main isolate **and** by the background isolate that runs actions while
 the app is killed, so factories must not depend on widgets or on providers that only exist in the
 UI. Runtime registration (`ref.read(notificationRegistryProvider).registerSource(...)`) exists for
-tests, the debug menu and optional sources; it is invisible to the background isolate.
+tests, the debug menu and optional sources; it is invisible to the background isolate. For the same
+action and target type a runtime-registered handler takes precedence over a static one (main
+isolate only).
 
 ---
 
