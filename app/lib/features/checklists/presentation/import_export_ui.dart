@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/checklists/application/checklist_bundles.dart';
 import 'package:everslot/features/checklists/application/checklist_editor.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
@@ -26,30 +28,32 @@ String importWarningText(BuildContext context, ImportWarning w) {
   };
 }
 
-/// Reads an import file chosen by the user: its name and text, null on cancel.
-typedef ImportFileReader = Future<({String name, String text})?> Function();
+/// Reads an import file chosen by the user: its name and bytes, null on cancel.
+typedef ImportFileReader = Future<({String name, List<int> bytes})?> Function();
 
-/// `.txt`, `.md` or `.opml` through the system file picker (tests override this provider).
+/// `.txt`, `.md`, `.opml` or a `.zip` bundle through the system file picker (tests override it).
 final importFileReaderProvider = Provider<ImportFileReader>(
   (ref) => () async {
     final files = await FilePicker.pickFiles(
       type: FileType.custom,
-      allowedExtensions: const ['txt', 'md', 'markdown', 'opml', 'xml'],
+      allowedExtensions: const ['txt', 'md', 'markdown', 'opml', 'xml', 'zip'],
     );
     if (files.isEmpty || files.first.path == null) return null;
     final f = files.first;
-    return (name: f.name, text: await File(f.path!).readAsString());
+    return (name: f.name, bytes: await File(f.path!).readAsBytes());
   },
 );
+
+bool _isZip(String name) => name.toLowerCase().endsWith('.zip');
+
+String _baseName(String name) => name.contains('.') ? name.substring(0, name.lastIndexOf('.')) : name;
 
 /// Picks a `.txt`, `.md` or `.opml` file and parses it (null on cancel / unreadable).
 Future<(ImportResult, String)?> pickImportFile(BuildContext context, WidgetRef ref) async {
   try {
     final file = await ref.read(importFileReaderProvider)();
     if (file == null) return null;
-    final f = file.name;
-    final name = f.contains('.') ? f.substring(0, f.lastIndexOf('.')) : f;
-    return (ChecklistImport.parse(file.text), name);
+    return (ChecklistImport.parse(utf8.decode(file.bytes, allowMalformed: true)), _baseName(file.name));
   } on Object {
     if (context.mounted) showInfoSnackBar(context, context.l10n.importWarningMalformed);
     return null;
@@ -99,10 +103,32 @@ class ImportPreview extends StatelessWidget {
   }
 }
 
-/// Import file → new checklist (T4.5.08).
+/// Import file → new checklist (T4.5.08); a `.zip` bundle also brings its files (T4.4.08).
 Future<void> importFileAsNewList(BuildContext context, WidgetRef ref) async {
-  final picked = await pickImportFile(context, ref);
-  if (picked == null || !context.mounted) return;
+  final ({String name, List<int> bytes})? file;
+  try {
+    file = await ref.read(importFileReaderProvider)();
+  } on Object {
+    if (context.mounted) showInfoSnackBar(context, context.l10n.importWarningMalformed);
+    return;
+  }
+  if (file == null || !context.mounted) return;
+  if (_isZip(file.name)) {
+    String? id;
+    try {
+      id = await ref.read(checklistBundlesProvider).import(file.bytes, fallbackTitle: _baseName(file.name));
+    } on Object {
+      id = null;
+    }
+    if (!context.mounted) return;
+    if (id == null) {
+      showInfoSnackBar(context, context.l10n.importWarningMalformed);
+      return;
+    }
+    await openChecklist(context, id);
+    return;
+  }
+  final picked = (ChecklistImport.parse(utf8.decode(file.bytes, allowMalformed: true)), _baseName(file.name));
   final (result, name) = picked;
   if (result.isEmpty) {
     showInfoSnackBar(context, context.l10n.importWarningEmpty);
@@ -319,7 +345,7 @@ Future<void> showExportSheet(
   );
 }
 
-class _ExportSheet extends StatefulWidget {
+class _ExportSheet extends ConsumerStatefulWidget {
   const _ExportSheet({required this.checklist, required this.tree, required this.attachmentNames, this.branchRootId});
 
   final Checklist checklist;
@@ -328,10 +354,10 @@ class _ExportSheet extends StatefulWidget {
   final Map<String, List<String>> attachmentNames;
 
   @override
-  State<_ExportSheet> createState() => _ExportSheetState();
+  ConsumerState<_ExportSheet> createState() => _ExportSheetState();
 }
 
-class _ExportSheetState extends State<_ExportSheet> {
+class _ExportSheetState extends ConsumerState<_ExportSheet> {
   ExportFormat _format = ExportFormat.markdown;
   bool _branch = false;
 
@@ -346,7 +372,12 @@ class _ExportSheetState extends State<_ExportSheet> {
         attachmentNames: widget.attachmentNames,
       ),
       ExportFormat.plain => ChecklistExport.plainText(widget.tree, title: title, rootId: root),
-      ExportFormat.opml => ChecklistExport.opml(widget.tree, title: title, rootId: root),
+      ExportFormat.opml => ChecklistExport.opml(
+        widget.tree,
+        title: title,
+        rootId: root,
+        attachmentNames: widget.attachmentNames,
+      ),
     };
   }
 
@@ -405,6 +436,28 @@ class _ExportSheetState extends State<_ExportSheet> {
               ),
             ],
           ),
+          // The whole list with its item files (T4.4.08).
+          if (widget.attachmentNames.isNotEmpty)
+            Padding(
+              padding: const EdgeInsetsDirectional.only(top: Space.sm),
+              child: TextButton.icon(
+                icon: const Icon(Icons.folder_zip_outlined),
+                label: Text(l.exportZipBundle),
+                onPressed: () async {
+                  final bundles = ref.read(checklistBundlesProvider);
+                  final c = widget.checklist;
+                  Navigator.pop(context);
+                  final bytes = await bundles.export(c.id);
+                  final name = '${c.title.trim().isEmpty ? 'checklist' : c.title.trim()}.zip';
+                  await SharePlus.instance.share(
+                    ShareParams(
+                      files: [XFile.fromData(bytes, mimeType: 'application/zip', name: name)],
+                      title: c.title,
+                    ),
+                  );
+                },
+              ),
+            ),
         ],
       ),
     );

@@ -822,6 +822,7 @@
   "exportPlain": "Texte brut",
   "exportShare": "Partager…",
   "exportTitle": "Partager / exporter",
+  "exportZipBundle": "Partager en zip (avec les fichiers)",
   "filterActiveCount": "{count, plural, =0{Aucun filtre} =1{1 filtre actif} other{{count} filtres actifs}}",
   "filterAny": "Tous",
   "filterAttachments": "Pièces jointes",

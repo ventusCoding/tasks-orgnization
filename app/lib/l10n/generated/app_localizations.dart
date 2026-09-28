@@ -4311,6 +4311,12 @@ abstract class AppLocalizations {
   /// **'Share / export'**
   String get exportTitle;
 
+  /// No description provided for @exportZipBundle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share as zip (with files)'**
+  String get exportZipBundle;
+
   /// No description provided for @filterActiveCount.
   ///
   /// In en, this message translates to:

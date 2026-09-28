@@ -693,5 +693,6 @@
   "checklistViewMindMap": "Mind map",
   "mindMapExport": "Export as image",
   "mindMapHidden": "+{count}",
-  "@mindMapHidden": {"placeholders": {"count": {"type": "int"}}}
+  "@mindMapHidden": {"placeholders": {"count": {"type": "int"}}},
+  "exportZipBundle": "Share as zip (with files)"
 }

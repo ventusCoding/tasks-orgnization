@@ -375,5 +375,6 @@
   "checklistNoOtherLists": "لا توجد قائمة أخرى للعرض",
   "checklistViewMindMap": "خريطة ذهنية",
   "mindMapExport": "تصدير كصورة",
-  "mindMapHidden": "+{count}"
+  "mindMapHidden": "+{count}",
+  "exportZipBundle": "مشاركة كملف zip (مع الملفات)"
 }

@@ -58,6 +58,7 @@ dependencies:
   # Media & files
   image_picker: ^1.2.3
   file_picker: ^13.1.0
+  archive: ^4.3.0
   flutter_image_compress: ^2.5.1
   pdfrx: ^2.6.5
   share_plus: ^13.3.0
