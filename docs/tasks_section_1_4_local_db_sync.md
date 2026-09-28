@@ -37,10 +37,10 @@ subscription, orchestrator & status, initial sync/resync, purge, background sync
 - [x] T1.4.13 — Sync orchestrator & status provider
 - [x] T1.4.14 — Initial sync & full resync
 - [x] T1.4.15 — Sync unit tests with a fake API
-- [ ] T1.4.16 — Tombstone purge job, watermark & `app.purge_now`
-- [ ] T1.4.17 — Background sync (workmanager + data-push hook)
-- [ ] T1.4.18 — Sync diagnostics (dev) & conflict log
-- [ ] T1.4.19 — Automatic writes policy (scheduled-instant clocks)
+- [x] T1.4.16 — Tombstone purge job, watermark & `app.purge_now`
+- [x] T1.4.17 — Background sync (workmanager + data-push hook)
+- [x] T1.4.18 — Sync diagnostics (dev) & conflict log
+- [x] T1.4.19 — Automatic writes policy (scheduled-instant clocks)
 
 ## Tasks
 
@@ -224,6 +224,7 @@ storage object deletions for purged attachments (reference-counted, [2.2] T2.2.1
 `app.purge_now(entity_type, ids)` (security definer, own tombstoned rows only) for Trash › Delete forever ([8.3]).
 **Acceptance criteria:** a device offline for 100 days performs a full resync and ends identical to others.
 **Tests:** pgTAP for purge & RPC; resync scenario in the sync suite.
+**Notes:** Server side came with [1.2] (`supabase/migrations/20260922000170_create_purge_account_ops.sql`): `private.purge_tombstones(90)` in the daily maintenance cron (children first, batches, per-user `purge_watermark`, unreferenced storage objects queued for `storage-purge`), `app.purge_now(entity_type, ids)` (security definer, own tombstones only, ≤ 1000 ids) — pgTAP `supabase/tests/database/100_purge_ops.test.sql`. Client: a cursor below the watermark or a last success older than 90 days forces a full resync that drops purged rows (`test/core/sync/sync_service_test.dart`).
 
 ### T1.4.17 — Background sync (workmanager + data-push hook)
 **Priority:** P1 · **Size:** M · **Depends on:** T1.4.13
@@ -233,6 +234,7 @@ messages `{"type":"sync"}` ([7.4]) doing the same in the background isolate with
 **Acceptance criteria:** background runs never corrupt state when the foreground app starts concurrently
 (mutex across isolates via a DB lock row).
 **Tests:** unit tests for the cross-isolate lock; manual QA on both platforms.
+**Notes:** `core/sync/background_sync.dart`: `BackgroundSync.runTask()` (background isolate: restores the session from the secure storage — refreshed tokens are written back —, opens the shared DB, runs a `bg-` engine within a 25 s budget; outcomes synced/skipped/failed/timedOut), periodic task `everslot.sync.periodic` (30 min, network required) registered by the `scheduleBackgroundSync` startup task for cloud sessions and cancelled on sign-out / local-only. Cross-isolate safety = the `SyncLock` lease (atomic UPSERT, TTL) — tests in `test/core/sync/background_sync_test.dart` (lock held by the foreground → skipped, simultaneous start pushes once, budget timeout + lease expiry, offline). TODO(integration): WorkManager allows one dispatcher — `notificationsWorkmanagerDispatcher` ([7.2]) must route `BackgroundSync.periodicTask` to `BackgroundSync.runTask()` then re-plan, and the FCM `sync` data handler should call `BackgroundSync.runTask()` (it only marks a pending pull today). iOS BGAppRefresh identifiers: see guide.md.
 
 ### T1.4.18 — Sync diagnostics (dev) & conflict log
 **Priority:** P1 · **Size:** S · **Depends on:** T1.4.13
@@ -240,6 +242,7 @@ messages `{"type":"sync"}` ([7.4]) doing the same in the background isolate with
 cursor/head, last pages, "simulate offline", force push/pull; a local ring-buffer **conflict log**
 (stale fields rejected by the server) to debug surprising overwrites.
 **Tests:** widget smoke test (dev flavor only).
+**Notes:** `SyncDiagnosticsPage` (dev menu, or `/dev?page=sync` from Settings › Sync in dev builds): phase, cursor/purge watermark, last pull/push, batch size, last error; simulate offline; Sync now / full pull; outbox grouped by `op_id` (fields, state, attempts, errors) with retry/discard (per entry or all failed); last pulled pages; the persisted conflict log (stale fields, ring buffer of 100) with Clear. Widget smoke tests in `test/features/dev/debug_menu_test.dart`.
 
 ### T1.4.19 — Automatic writes policy (scheduled-instant clocks)
 **Priority:** P1 · **Size:** S · **Depends on:** T1.4.07
@@ -249,3 +252,4 @@ quit days, auto-missed flags if ever stored, notification bookkeeping) stamp the
 running the same automation converge (combined with deterministic ids). Documented in arch §6.6 and
 enforced by a helper `SyncWriter.runAutomatic(scheduledAt, …)`.
 **Tests:** unit test: user edit after automated reset wins on both devices regardless of which ran the automation.
+**Notes:** `SyncWriter.runAutomatic(scheduledAt, body)` (= `run(scheduledAt:)`): the write clock is the scheduled instant, so a later user edit always wins. Two-device test for automation on A, on B and on both: `test/core/sync/automatic_writes_test.dart` (+ `sync_writer_outbox_test.dart`). Features with automatic writes (checklist resets, quit auto-success, notification bookkeeping) pass their scheduled instant.

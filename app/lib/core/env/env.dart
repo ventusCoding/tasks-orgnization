@@ -30,6 +30,10 @@ class Env {
     );
   }
 
+  /// Compile-time switch for dev tools (debug menu, sync diagnostics, T1.3.16): false in builds
+  /// made with `FLAVOR=prod`, so their code is tree-shaken from store builds.
+  static const devToolsCompiled = String.fromEnvironment('FLAVOR', defaultValue: 'dev') != 'prod';
+
   final Flavor flavor;
   final String supabaseUrl;
   final String supabasePublishableKey;

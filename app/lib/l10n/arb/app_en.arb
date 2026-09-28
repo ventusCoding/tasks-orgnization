@@ -985,6 +985,116 @@
       }
     }
   },
+  "@devDatabaseRows": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@devFlavor": {
+    "placeholders": {
+      "flavor": {
+        "type": "String"
+      }
+    }
+  },
+  "@devSampleDataDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@devSession": {
+    "placeholders": {
+      "mode": {
+        "type": "String"
+      }
+    }
+  },
+  "@devSyncAttempts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@devSyncBatch": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "@devSyncCursor": {
+    "placeholders": {
+      "cursor": {
+        "type": "int"
+      },
+      "watermark": {
+        "type": "int"
+      }
+    }
+  },
+  "@devSyncGroup": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@devSyncLastPull": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@devSyncLastPush": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@devSyncPullPage": {
+    "placeholders": {
+      "since": {
+        "type": "int"
+      },
+      "next": {
+        "type": "int"
+      },
+      "changes": {
+        "type": "int"
+      }
+    }
+  },
+  "@devTimeTravelNow": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@devTimeTravelOffset": {
+    "placeholders": {
+      "relative": {
+        "type": "String"
+      }
+    }
+  },
+  "@devZoneDevice": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
   "@durationDaysShort": {
     "placeholders": {
       "days": {
@@ -4637,7 +4747,67 @@
   "confirmDeleteBody": "You can restore it from Trash for 30 days.",
   "confirmDeleteTitle": "Delete {item}?",
   "deletedSnack": "{item} deleted",
+  "devComponentGallery": "Component gallery",
+  "devConfigured": "Configured",
+  "devCopied": "Copied",
+  "devDangerZone": "Danger zone",
+  "devDatabase": "Local database",
+  "devDatabaseEmpty": "No rows.",
+  "devDatabaseRows": "{count, plural, =0{empty} =1{1 row} other{{count} rows}}",
+  "devEnvironment": "Environment",
+  "devFirebase": "Firebase",
+  "devFlags": "Feature flags",
+  "devFlagsHint": "Overrides for this session only (dev builds).",
+  "devFlavor": "Flavor: {flavor}",
+  "devLogs": "Logs",
+  "devLogsAll": "All",
+  "devLogsCopy": "Copy logs",
+  "devLogsEmpty": "No log records yet.",
   "devMenu": "Developer menu",
+  "devNoWarnings": "No configuration warnings",
+  "devNotConfigured": "Not configured",
+  "devResetData": "Reset local data",
+  "devResetDataBody": "Deletes every item, setting and file stored on this device. A cloud account is signed out (its data stays on the server). This can't be undone.",
+  "devResetDone": "Local data reset",
+  "devSampleData": "Sample data",
+  "devSampleDataBody": "Adds about six months of realistic tasks, lists, habits and a quit tracker for demos and screenshots.",
+  "devSampleDataDone": "{count, plural, =1{1 item added} other{{count} items added}}",
+  "devSampleDataGenerate": "Generate sample data",
+  "devSampleDataRemove": "Remove sample data",
+  "devSampleDataRemoved": "Sample data removed",
+  "devSession": "Session: {mode}",
+  "devSupabase": "Supabase",
+  "devSyncAttempts": "{count, plural, =0{not sent yet} =1{1 attempt} other{{count} attempts}}",
+  "devSyncBatch": "Push batch size: {size}",
+  "devSyncClear": "Clear",
+  "devSyncConflicts": "Conflict log",
+  "devSyncConflictsEmpty": "No conflicts recorded.",
+  "devSyncCursor": "Cursor {cursor} · purge watermark {watermark}",
+  "devSyncDiagnostics": "Sync diagnostics",
+  "devSyncGroup": "{count, plural, =1{1 change} other{{count} changes}} · {when}",
+  "devSyncLastPull": "Last pull: {when}",
+  "devSyncLastPush": "Last push: {when}",
+  "devSyncNever": "never",
+  "devSyncNoPulls": "No pull yet in this session.",
+  "devSyncOff": "Sync is off on this device (local-only). The outbox keeps changes for a later sign-in.",
+  "devSyncOutbox": "Outbox",
+  "devSyncOutboxEmpty": "The outbox is empty.",
+  "devSyncPullPage": "{since} → {next} · {changes, plural, =1{1 change} other{{changes} changes}}",
+  "devSyncPulls": "Last pulled pages",
+  "devSyncSimulateOffline": "Simulate offline",
+  "devSyncSimulateOfflineHint": "Every sync run fails as if the network were down.",
+  "devTimeTravel": "Time travel",
+  "devTimeTravelNow": "App time: {time}",
+  "devTimeTravelOff": "Real time",
+  "devTimeTravelOffset": "Shifted: {relative}",
+  "devTimeTravelPick": "Pick a date & time",
+  "devTimeTravelReset": "Back to real time",
+  "devTools": "Tools",
+  "devZone": "Time zone",
+  "devZoneDevice": "Device zone: {zone}",
+  "devZoneOverridden": "Overridden until reset",
+  "devZoneOverride": "Override the device zone",
+  "devZoneReset": "Use the real device zone",
   "durationDaysShort": "{days, plural, =1{1 day} other{{days} days}}",
   "durationHoursMinutesShort": "{hours} h {minutes} min",
   "durationHoursShort": "{hours} h",

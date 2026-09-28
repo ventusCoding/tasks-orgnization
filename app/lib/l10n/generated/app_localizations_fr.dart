@@ -2438,7 +2438,252 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get devComponentGallery => 'Galerie de composants';
+
+  @override
+  String get devConfigured => 'Configuré';
+
+  @override
+  String get devCopied => 'Copié';
+
+  @override
+  String get devDangerZone => 'Zone sensible';
+
+  @override
+  String get devDatabase => 'Base de données locale';
+
+  @override
+  String get devDatabaseEmpty => 'Aucune ligne.';
+
+  @override
+  String devDatabaseRows(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lignes',
+      one: '1 ligne',
+      zero: 'vide',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get devEnvironment => 'Environnement';
+
+  @override
+  String get devFirebase => 'Firebase';
+
+  @override
+  String get devFlags => 'Fonctionnalités expérimentales';
+
+  @override
+  String get devFlagsHint =>
+      'Réglages valables pour cette session uniquement (versions de développement).';
+
+  @override
+  String devFlavor(String flavor) {
+    return 'Variante : $flavor';
+  }
+
+  @override
+  String get devLogs => 'Journaux';
+
+  @override
+  String get devLogsAll => 'Tous';
+
+  @override
+  String get devLogsCopy => 'Copier les journaux';
+
+  @override
+  String get devLogsEmpty => 'Aucune entrée de journal pour l’instant.';
+
+  @override
   String get devMenu => 'Menu développeur';
+
+  @override
+  String get devNoWarnings => 'Aucun avertissement de configuration';
+
+  @override
+  String get devNotConfigured => 'Non configuré';
+
+  @override
+  String get devResetData => 'Réinitialiser les données locales';
+
+  @override
+  String get devResetDataBody =>
+      'Supprime tous les éléments, réglages et fichiers enregistrés sur cet appareil. Un compte cloud est déconnecté (ses données restent sur le serveur). Action irréversible.';
+
+  @override
+  String get devResetDone => 'Données locales réinitialisées';
+
+  @override
+  String get devSampleData => 'Données d’exemple';
+
+  @override
+  String get devSampleDataBody =>
+      'Ajoute environ six mois de tâches, listes, habitudes et un suivi d’arrêt réalistes pour les démos et les captures d’écran.';
+
+  @override
+  String devSampleDataDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments ajoutés',
+      one: '1 élément ajouté',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get devSampleDataGenerate => 'Générer des données d’exemple';
+
+  @override
+  String get devSampleDataRemove => 'Supprimer les données d’exemple';
+
+  @override
+  String get devSampleDataRemoved => 'Données d’exemple supprimées';
+
+  @override
+  String devSession(String mode) {
+    return 'Session : $mode';
+  }
+
+  @override
+  String get devSupabase => 'Supabase';
+
+  @override
+  String devSyncAttempts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tentatives',
+      one: '1 tentative',
+      zero: 'pas encore envoyé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String devSyncBatch(int size) {
+    return 'Taille des lots d’envoi : $size';
+  }
+
+  @override
+  String get devSyncClear => 'Effacer';
+
+  @override
+  String get devSyncConflicts => 'Journal des conflits';
+
+  @override
+  String get devSyncConflictsEmpty => 'Aucun conflit enregistré.';
+
+  @override
+  String devSyncCursor(int cursor, int watermark) {
+    return 'Curseur $cursor · seuil de purge $watermark';
+  }
+
+  @override
+  String get devSyncDiagnostics => 'Diagnostic de synchronisation';
+
+  @override
+  String devSyncGroup(int count, String when) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count modifications',
+      one: '1 modification',
+    );
+    return '$_temp0 · $when';
+  }
+
+  @override
+  String devSyncLastPull(String when) {
+    return 'Dernière réception : $when';
+  }
+
+  @override
+  String devSyncLastPush(String when) {
+    return 'Dernier envoi : $when';
+  }
+
+  @override
+  String get devSyncNever => 'jamais';
+
+  @override
+  String get devSyncNoPulls => 'Aucune réception pendant cette session.';
+
+  @override
+  String get devSyncOff =>
+      'La synchronisation est désactivée sur cet appareil (mode local). La file d’envoi garde les modifications pour une connexion ultérieure.';
+
+  @override
+  String get devSyncOutbox => 'File d’envoi';
+
+  @override
+  String get devSyncOutboxEmpty => 'La file d’envoi est vide.';
+
+  @override
+  String devSyncPullPage(int since, int next, int changes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      changes,
+      locale: localeName,
+      other: '$changes modifications',
+      one: '1 modification',
+    );
+    return '$since → $next · $_temp0';
+  }
+
+  @override
+  String get devSyncPulls => 'Dernières pages reçues';
+
+  @override
+  String get devSyncSimulateOffline => 'Simuler l’absence de réseau';
+
+  @override
+  String get devSyncSimulateOfflineHint =>
+      'Chaque synchronisation échoue comme si le réseau était coupé.';
+
+  @override
+  String get devTimeTravel => 'Voyage dans le temps';
+
+  @override
+  String devTimeTravelNow(String time) {
+    return 'Heure de l’app : $time';
+  }
+
+  @override
+  String get devTimeTravelOff => 'Heure réelle';
+
+  @override
+  String devTimeTravelOffset(String relative) {
+    return 'Décalage : $relative';
+  }
+
+  @override
+  String get devTimeTravelPick => 'Choisir une date et une heure';
+
+  @override
+  String get devTimeTravelReset => 'Revenir à l’heure réelle';
+
+  @override
+  String get devTools => 'Outils';
+
+  @override
+  String get devZone => 'Fuseau horaire';
+
+  @override
+  String devZoneDevice(String zone) {
+    return 'Fuseau de l’appareil : $zone';
+  }
+
+  @override
+  String get devZoneOverridden => 'Remplacé jusqu’à réinitialisation';
+
+  @override
+  String get devZoneOverride => 'Remplacer le fuseau de l’appareil';
+
+  @override
+  String get devZoneReset => 'Utiliser le vrai fuseau de l’appareil';
 
   @override
   String durationDaysShort(int days) {
