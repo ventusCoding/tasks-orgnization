@@ -20,6 +20,7 @@ import 'package:everslot/features/planner/presentation/view_config/slot_size_she
 import 'package:everslot/features/planner/presentation/view_config/view_settings_sheet.dart';
 import 'package:everslot/features/planner/presentation/views/day_ribbon.dart';
 import 'package:everslot/features/planner/presentation/views/mini_month.dart';
+import 'package:everslot/features/planner/presentation/views/plan_summary_views.dart';
 import 'package:everslot/features/planner/presentation/views/planner_chrome.dart';
 import 'package:everslot/features/planner/presentation/views/planner_keys.dart';
 import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
@@ -949,8 +950,10 @@ class _DayListPageState extends ConsumerState<DayListPage>
       body = _slots(context, slice, config, f, colors, now, work);
     }
     _initialScroll(config, today, now);
+    final dayItems = ref.watch(viewItemsProvider(DayRange(widget.day, 1))).value;
     return Column(
       children: [
+        if (dayItems != null && config.option<bool>('summary', true)) DaySummaryCard(day: widget.day, items: dayItems),
         if (!agenda) _allDaySection(context, lists.allDay, f, colors),
         Expanded(
           child: Stack(

@@ -1,4 +1,5 @@
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
+import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/time_grid.dart';
 import 'package:everslot/features/planner/presentation/planner_screen.dart';
 import 'package:everslot/features/planner/presentation/view_config/slot_size_sheet.dart';
@@ -162,6 +163,46 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Deep work · 5 min'), findsOneWidget);
     expect(find.text('5 min'), findsOneWidget);
+  });
+
+  testWidgets('week summary footer: planned / completion; tap opens insights; collapse is remembered', (tester) async {
+    final h = await _pump(
+      tester,
+      items: [item('Gym', at(2026, 9, 21, 7), 90, status: OccurrenceStatus.done), item('Read', at(2026, 9, 22, 20), 30)],
+    );
+    expect(find.byKey(const Key('week-summary')), findsOneWidget);
+    expect(find.textContaining('2 h'), findsWidgets);
+    expect(find.textContaining('50'), findsWidgets, reason: '1 of 2 done');
+    await tester.tap(find.byKey(const Key('week-summary')));
+    await tester.pumpAndSettle();
+    expect(h.nav.log.last, 'insights 2026-09-21 7');
+    await tester.tap(find.byKey(const Key('week-summary-toggle')));
+    await tester.pumpAndSettle();
+    expect(h.read(plannerViewStateProvider('week_table'))!.extra['summaryCollapsed'], isTrue);
+    expect(find.text('Week summary'), findsOneWidget);
+  });
+
+  testWidgets('first-use hints show one at a time, once each', (tester) async {
+    final h = await _pump(tester, items: [item('Gym', at(2026, 9, 21, 7), 60)]);
+    expect(find.byKey(const ValueKey('hint-longPress')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('hint-got-it')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('hint-pinch')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('hint-got-it')));
+    await tester.pumpAndSettle();
+    expect(find.text('Tap 30 min to change the row size'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('hint-got-it')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('hint-got-it')), findsNothing);
+    expect(h.read(plannerViewStateProvider('week_table'))!.extra['hintsSeen'], ['longPress', 'pinch', 'slotSize']);
+  });
+
+  testWidgets('an empty week offers to plan the first task', (tester) async {
+    final h = await _pump(tester);
+    expect(find.text('Nothing planned this week'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('plan-first-task')));
+    await tester.pumpAndSettle();
+    expect(h.nav.log, ['new 2026-09-23T09:30 30']);
   });
 
   testWidgets('accessible list mode lists the range with actions', (tester) async {

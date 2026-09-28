@@ -3,6 +3,7 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/grid_controller.dart';
+import 'package:everslot/features/planner/presentation/grid/grid_painter.dart';
 import 'package:everslot/features/planner/presentation/grid/time_grid.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter/gestures.dart';
@@ -370,5 +371,25 @@ void main() {
     final axis = _grid(tester).debugAxis!;
     expect(axis.normalMinutes, 1500, reason: 'the 25-hour Sunday repeats 02:00–03:00');
     expect(axis.bands.expand((b) => b.pieces).where((p) => p.repeat == 1), isNotEmpty);
+  });
+
+  testWidgets('visible hours: hidden ranges shrink to bands with badges; tapping expands them', (tester) async {
+    await _pump(
+      tester,
+      items: [item('Early', at(2026, 9, 23, 3), 30), item('Late night', at(2026, 9, 23, 23, 15), 30)],
+      config: (c) => c.copyWith(dayWindow: const DayWindow(6 * 60, 23 * 60)),
+    );
+    final grid = _grid(tester);
+    expect(grid.debugAxis!.normalMinutes, 17 * 60);
+    final painter = tester
+        .widgetList<CustomPaint>(find.byWidgetPredicate((w) => w is CustomPaint && w.painter is GridPainter))
+        .map((w) => w.painter! as GridPainter)
+        .firstWhere((p) => p.hiddenCounts.isNotEmpty);
+    expect(painter.hiddenCounts.values.toList()..sort(), [1, 1], reason: 'one item in each hidden range (Wednesday)');
+    grid.scrollToMinute(0, animate: false);
+    await tester.pumpAndSettle();
+    await tester.tapAt(grid.globalPositionOf(_wed, 6 * 60)! - const Offset(0, 4));
+    await tester.pumpAndSettle();
+    expect(_grid(tester).debugAxis!.normalMinutes, 23 * 60, reason: 'the morning band is expanded');
   });
 }
