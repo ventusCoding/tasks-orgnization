@@ -33,7 +33,7 @@ for stats defaults ([8.3]).
 - [x] T6.1.02 — Descriptive statistics & distributions
 - [x] T6.1.03 — Rates, proportions & Wilson intervals
 - [x] T6.1.04 — Time-series utilities: bucketing, rolling windows, EWMA, OLS & Theil–Sen trends
-- [ ] T6.1.05 — Period model & comparisons
+- [x] T6.1.05 — Period model & comparisons
 - [ ] T6.1.06 — Metric registry & definition format
 - [x] T6.1.07 — Units, formatting & delta presentation
 - [x] T6.1.08 — Expected-occurrences ledger (adherence denominators)
@@ -179,6 +179,7 @@ b ≈ 3 with p < 0.001; Theil–Sen ignores 10 % injected outliers (|b − 3| < 
 - With a day start of 04:00, an event at 01:30 belongs to the previous local date.
 **Tests:** unit tests across zones (Europe/Paris, America/New_York, Africa/Tunis), leap years and DST
 transitions.
+**Notes:** Period model, day boundaries and comparisons live in `packages/everslot_metrics/lib/src/period.dart` (acceptance vectors in the package suite); the app reads `stats.defaultPeriod`, `compareWithPrevious` and `weekStartOverride` through `StatsSettings` (`statsSettingsProvider`) and applies them in every scope context (`test/features/stats/engine/period_settings_test.dart`: MO/SA/SU, DST rolling window, 04:00 day start).
 
 ### T6.1.06 — Metric registry & definition format
 **Priority:** P0 · **Size:** M · **Depends on:** T6.1.01, T6.1.05
