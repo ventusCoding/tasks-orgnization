@@ -669,8 +669,10 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
           final rtl = Directionality.of(context) == TextDirection.rtl;
           final width = constraints.maxWidth.isFinite ? constraints.maxWidth : media.size.width;
           final height = constraints.maxHeight.isFinite ? constraints.maxHeight : media.size.height;
-          final rulerWidth = renderer == GridRenderer.weekList ? 0.0 : _rulerWidth(ts, prefs.use24h);
-          final pagesWidth = math.max(1.0, width - rulerWidth);
+          // Whole-pixel page area (the ruler absorbs the fraction): at the ±10 000 virtual page index
+          // a fractional viewport makes PageView's page ↔ pixel round trips drift past its tolerance.
+          final pagesWidth = math.max(1.0, (width - (renderer == GridRenderer.weekList ? 0.0 : _rulerWidth(ts, prefs.use24h))).floorToDouble());
+          final rulerWidth = renderer == GridRenderer.weekList ? 0.0 : width - pagesWidth;
           final pageWidth = pagesWidth * paging.viewportFraction;
           final headerHeight = _headerHeight(ts, config);
           final laneRow = style.laneRowExtent;

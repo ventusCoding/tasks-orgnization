@@ -19,7 +19,7 @@ multi-week; quarter; ribbon (day & week); timeline/Gantt; category swimlanes; lo
 
 ## Progress
 
-- [ ] T3.6.01 — View registry & view switcher
+- [x] T3.6.01 — View registry & view switcher
 - [ ] T3.6.02 — Saved views management
 - [ ] T3.6.03 — Shared date state & view transitions
 - [ ] T3.6.04 — N-day view (rolling or fixed)

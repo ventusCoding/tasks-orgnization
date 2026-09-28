@@ -1191,6 +1191,7 @@ class _DayListPageState extends ConsumerState<DayListPage>
     );
     final repeatedDay = slice.timeline.repeatedRanges.isNotEmpty;
     final list = RawScrollbar(
+      key: ValueKey('day-slots-${widget.day.toIso()}'),
       controller: _scroll,
       child: CustomScrollView(
         key: _listKey,

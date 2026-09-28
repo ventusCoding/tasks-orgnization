@@ -294,7 +294,10 @@ class DatePagedToolbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
-    return SizedBox(
+    // A fixed 48-dp bar: text grows up to 1.4× here (the title ellipsizes beyond that).
+    return MediaQuery.withClampedTextScaling(
+      maxScaleFactor: 1.4,
+      child: SizedBox(
       height: 48,
       child: Row(
         children: [
@@ -316,19 +319,21 @@ class DatePagedToolbar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(Radii.sm),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: Space.sm),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                    child: LayoutBuilder(
+                      builder: (context, box) => Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                            ),
                           ),
-                        ),
-                        if (onTitleTap != null) const Icon(Icons.arrow_drop_down, size: 20),
-                      ],
+                          if (onTitleTap != null && box.maxWidth >= 48) const Icon(Icons.arrow_drop_down, size: 20),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -354,6 +359,7 @@ class DatePagedToolbar extends StatelessWidget {
           ),
           ...trailing,
         ],
+      ),
       ),
     );
   }

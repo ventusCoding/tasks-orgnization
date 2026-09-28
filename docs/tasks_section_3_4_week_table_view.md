@@ -26,26 +26,26 @@ sideways changes the week. On top of that, the view needs everything that makes 
 
 ## Progress
 
-- [ ] T3.4.01 — Week table screen composition
-- [ ] T3.4.02 — Default configuration (7 days × 30-minute rows × 24 hours)
-- [ ] T3.4.03 — Week paging & configurable week start
-- [ ] T3.4.04 — Jump to date, mini-month & Today
-- [ ] T3.4.05 — Slot-size control (presets + custom 1–1440 min)
-- [ ] T3.4.06 — Render modes by slot size
-- [ ] T3.4.07 — 24-hour slots: week-list mode
-- [ ] T3.4.08 — Days visible, weekends & orientation
+- [x] T3.4.01 — Week table screen composition
+- [x] T3.4.02 — Default configuration (7 days × 30-minute rows × 24 hours)
+- [x] T3.4.03 — Week paging & configurable week start
+- [x] T3.4.04 — Jump to date, mini-month & Today
+- [x] T3.4.05 — Slot-size control (presets + custom 1–1440 min)
+- [x] T3.4.06 — Render modes by slot size
+- [x] T3.4.07 — 24-hour slots: week-list mode
+- [x] T3.4.08 — Days visible, weekends & orientation
 - [ ] T3.4.09 — Visible hours & hidden-range badges
 - [ ] T3.4.10 — Filter, color-by & density toolbar
 - [ ] T3.4.11 — Day header stats & load tint
-- [ ] T3.4.12 — Tick-in-grid & tile quick menu
-- [ ] T3.4.13 — Create / move / resize integration
-- [ ] T3.4.14 — Crowded slots: "+N" overflow handling
-- [ ] T3.4.15 — DST & time-zone correctness
+- [x] T3.4.12 — Tick-in-grid & tile quick menu
+- [x] T3.4.13 — Create / move / resize integration
+- [x] T3.4.14 — Crowded slots: "+N" overflow handling
+- [x] T3.4.15 — DST & time-zone correctness
 - [ ] T3.4.16 — Landscape & tablet layout
 - [ ] T3.4.17 — Week summary footer
 - [ ] T3.4.18 — First-use hints & empty week
 - [ ] T3.4.19 — Week numbers & secondary time zones
-- [ ] T3.4.20 — Week table test suite
+- [x] T3.4.20 — Week table test suite
 
 ## Tasks
 
@@ -230,3 +230,4 @@ the row size". An empty week shows an illustration with *Plan your first task*.
 - The T3.4.13 integration scenario.
 - A performance scenario (1-min slots, 2 000 occurrences) wired into the [9.1] performance suite.
 **Tests:** as described.
+**Notes:** `week_table_goldens_test.dart`: 1, 5, 30, 120, 1 440 min × light LTR / dark RTL, plus dark LTR, light RTL and text scale 2.0 at 30 min, compact density and both Paris DST weeks (text scale 2.0 is covered at 30 min only). The integration scenario is `week_table_integration_test.dart` (real data layer). `planner_perf_test.dart` runs the 1-min/2 000-item, 1 440-row table and 20-week paging scenarios as structural checks; profile-mode timings belong to the T9.1.08 drive suite. The grid now keeps its page area whole-pixel (fractional widths tripped PageView's precision assertion at the ±10 000 page index).
