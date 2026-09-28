@@ -38,23 +38,23 @@ per-section trigger semantics ([7.5]); Live Activities / ongoing timer notificat
 
 ## Progress
 
-- [ ] T7.2.01 — Plugin setup & platform configuration
-- [ ] T7.2.02 — Android channels (section × profile, curated sounds)
-- [ ] T7.2.03 — Actions & categories (iOS categories, Android ≤ 3, text input)
-- [ ] T7.2.04 — Permission & capability service
-- [ ] T7.2.05 — Permission primers & recovery UX
-- [ ] T7.2.06 — NotificationPlanner core (pure Dart)
-- [ ] T7.2.07 — Planner policies: quiet hours, pause, mutes, conditions, lateness, caps
-- [ ] T7.2.08 — Planner fixture suite (DST, zones, policies)
-- [ ] T7.2.09 — Local schedule table & scheduler (diff, budgets, merge, sentinel)
-- [ ] T7.2.10 — Schedule modes & repeating-trigger optimization
-- [ ] T7.2.11 — Coverage & device-state reporting
-- [ ] T7.2.12 — Replan orchestrator & triggers
-- [ ] T7.2.13 — Time-zone & clock-change handling
-- [ ] T7.2.14 — Notification action handler (foreground + background isolate)
-- [ ] T7.2.15 — Snooze & reschedule engine
-- [ ] T7.2.16 — Tap handling, cold start & stale notifications
-- [ ] T7.2.17 — Foreground presentation & in-app routing
+- [x] T7.2.01 — Plugin setup & platform configuration
+- [x] T7.2.02 — Android channels (section × profile, curated sounds)
+- [x] T7.2.03 — Actions & categories (iOS categories, Android ≤ 3, text input)
+- [x] T7.2.04 — Permission & capability service
+- [x] T7.2.05 — Permission primers & recovery UX
+- [x] T7.2.06 — NotificationPlanner core (pure Dart)
+- [x] T7.2.07 — Planner policies: quiet hours, pause, mutes, conditions, lateness, caps
+- [x] T7.2.08 — Planner fixture suite (DST, zones, policies)
+- [x] T7.2.09 — Local schedule table & scheduler (diff, budgets, merge, sentinel)
+- [x] T7.2.10 — Schedule modes & repeating-trigger optimization
+- [x] T7.2.11 — Coverage & device-state reporting
+- [x] T7.2.12 — Replan orchestrator & triggers
+- [x] T7.2.13 — Time-zone & clock-change handling
+- [x] T7.2.14 — Notification action handler (foreground + background isolate)
+- [x] T7.2.15 — Snooze & reschedule engine
+- [x] T7.2.16 — Tap handling, cold start & stale notifications
+- [x] T7.2.17 — Foreground presentation & in-app routing
 - [ ] T7.2.18 — Nag chains (repeat until acknowledged / completed)
 - [ ] T7.2.19 — Grouping & threading
 - [ ] T7.2.20 — Delivered-notification cleanup & expiry
@@ -86,6 +86,7 @@ iOS 13+), `timezone` (`latest_all`) and `flutter_timezone` behind a `LocalNotifi
 **Acceptance criteria:** a debug "Test notification" fires on both platforms from background and killed
 states; cold start from a notification reaches the router; release builds (R8) keep the plugin classes.
 **Tests:** port contract tests with the fake; manual QA checklist entry per platform.
+**Notes:** The port lives in `features/notifications/application/` (`LocalNotificationsPort`, `PluginLocalNotificationsPort`, `InMemoryLocalNotificationsPort`) instead of `core/notifications`. Manifest receivers, desugaring, `ic_stat_everslot` and the iOS delegate/registrant are in place; the on-device QA (background/killed, R8, UIScene) is still to run.
 
 ### T7.2.02 — Android channels (section × profile, curated sounds)
 **Priority:** P0 · **Size:** M · **Depends on:** T7.2.01, [7.1] (profiles)
@@ -104,6 +105,7 @@ grouped by section with `NotificationChannelGroup`s.
 **Acceptance criteria:** system settings show tidy groups (Plan, Lists, Habits, Quit, System) in the user's
 language; a Gentle reminder never makes a sound even if the rule was edited after creation.
 **Tests:** unit tests for channel-id resolution; Android instrumentation smoke test listing channels.
+**Notes:** Curated sound keys are wired (Android `res/raw/<key>`, iOS `<key>.caf`) but the sound assets are not bundled yet, so every curated key falls back to the default sound; the Android instrumentation smoke test needs a device build.
 
 ### T7.2.03 — Actions & categories (iOS categories, Android ≤ 3, text input)
 **Priority:** P0 · **Size:** M · **Depends on:** T7.2.01
@@ -139,6 +141,7 @@ requesting permissions **in context** and reporting capability flags to `devices
 **Acceptance criteria:** denying, granting and revoking each permission is reflected within one resume;
 no OS prompt is ever shown without a primer (T7.2.05).
 **Tests:** unit tests with a fake port for each transition; patrol test for the Android 13 dialog.
+**Notes:** Permission and exact-alarm changes are detected on resume; there is no native `ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED` receiver (native Android code is outside this module). iOS time-sensitive is inferred from the authorization because the plugin exposes no `timeSensitiveSetting`.
 
 ### T7.2.05 — Permission primers & recovery UX
 **Priority:** P0 · **Size:** S · **Depends on:** T7.2.04, [1.3] (design system)
@@ -150,6 +153,7 @@ deep link. Reused by onboarding ([8.3] T8.3.11).
 **Acceptance criteria:** every blocked state has a one-tap route to fix it; primers are skippable and
 never shown twice in a session.
 **Tests:** widget tests per state; golden in AR.
+**Notes:** Goldens: recovery banner and primer in Arabic (`notification_goldens_test.dart`).
 
 ### T7.2.06 — NotificationPlanner core (pure Dart)
 **Priority:** P0 · **Size:** L · **Depends on:** [7.1] (resolver, templates), [2.1], [3.2], [4.3], [5.1]
@@ -178,6 +182,7 @@ never shown twice in a session.
 **Acceptance criteria:** identical inputs produce identical outputs (order and keys) on any device; a task
 with "10 min before" and "at start" rules yields exactly two instances per occurrence.
 **Tests:** unit tests per trigger type; property test (no duplicate keys, sorted, all within horizon).
+**Notes:** Planning runs on the main isolate: a full replan of 1 000 mixed targets takes about 0.1 s (debug JIT, `planner_properties_test.dart`), well under budget. OS calls also stay on the main isolate.
 
 ### T7.2.07 — Planner policies: quiet hours, pause, mutes, conditions, lateness, caps
 **Priority:** P0 · **Size:** M · **Depends on:** T7.2.06, [7.5] (settings model for quiet hours/pause/mutes)
@@ -210,6 +215,7 @@ satisfied; count habit not-done-by with partial progress; quota behind pace; cle
 projection; digests; caps.
 **Acceptance criteria:** adding a JSON file adds a test; failures print a readable diff.
 **Tests:** this task is the suite (also consumed by [7.4] T7.4.16 parity checks later).
+**Notes:** Fixtures live in `app/test/features/notifications/fixtures/planner/*.json` (82 cases).
 
 ### T7.2.09 — Local schedule table & scheduler (diff, budgets, merge, sentinel)
 **Priority:** P0 · **Size:** L · **Depends on:** T7.2.06, T7.2.02, T7.2.03, [1.4] (Drift)
@@ -243,6 +249,7 @@ arrives first. Warn in the rule editor when a nag interval < 10 min may be delay
 **Acceptance criteria:** a daily 07:00 water reminder occupies one iOS slot; revoking exact alarms switches
 all instances to inexact on next start.
 **Tests:** mode-selection unit tests; repeating-eligibility tests.
+**Notes:** Repeating triggers cover unbounded daily/weekly `schedule` rules with a target-level guard (`always`, `item_not_completed`) in the device zone, and only when the sequence has no gaps across the horizon (on iOS it must start at the next match). Members stay tracked for the inbox; a response maps to the member that fired last. Doze warning: validation code `repeatMayBeDelayed`.
 
 ### T7.2.11 — Coverage & device-state reporting
 **Priority:** P0 · **Size:** S · **Depends on:** T7.2.09, [1.4] (`report_device_state`)
@@ -255,6 +262,7 @@ skips jobs of rules this device covers with repeating triggers beyond `local_cov
 **Acceptance criteria:** coverage reflects budget saturation (e.g. iOS with 300 planned → coverage = 56th
 instance time); reports survive offline (sent on reconnect).
 **Tests:** unit tests for coverage computation; RPC contract test.
+**Notes:** `local_repeating_rules` lists the rules covered by repeating triggers.
 
 ### T7.2.12 — Replan orchestrator & triggers
 **Priority:** P0 · **Size:** M · **Depends on:** T7.2.09, T7.2.11, [7.1] (change events)
@@ -279,6 +287,7 @@ Floating rules shift to the new zone, fixed-zone rules keep their instants.
 **Acceptance criteria:** flying Paris → Tunis: a floating "08:00 daily" habit reminder fires at 08:00 Tunis
 time; a fixed "10:00 New York" meeting reminder keeps its instant.
 **Tests:** planner fixtures for both cases; Android emulator manual test changing the zone.
+**Notes:** Partial. Dart side is done: a zone change triggers an immediate replan, resume re-checks the zone, and the 6-hourly WorkManager replan reads the current zone. The native Android `TIMEZONE_CHANGED`/`TIME_SET` receiver and the iOS `NSSystemTimeZoneDidChange` hook are not added (native code is outside this module), so a change made while the app is closed is applied on the next resume or periodic run.
 
 ### T7.2.14 — Notification action handler (foreground + background isolate)
 **Priority:** P0 · **Size:** L · **Depends on:** T7.2.03, [3.2], [4.3], [5.2], [5.3]
@@ -306,6 +315,7 @@ in the reserved budget, sets inbox `snoozed_until`, and (P1) uploads a job so ot
 **Acceptance criteria:** maximum snoozes per instance (default 5) enforced; snoozing never moves the task
 itself; rescheduling does.
 **Tests:** unit tests for snooze keys, limits and budget usage.
+**Notes:** Snooze is complete. *Reschedule* is forwarded to the feature handler, but the planner handler doesn't implement `reschedule` yet, so it opens the occurrence instead (TODO(integration): planner-core adds `reschedule` to `PlannerNotificationActions`).
 
 ### T7.2.16 — Tap handling, cold start & stale notifications
 **Priority:** P0 · **Size:** S · **Depends on:** T7.2.14, [1.3] (deep links)
