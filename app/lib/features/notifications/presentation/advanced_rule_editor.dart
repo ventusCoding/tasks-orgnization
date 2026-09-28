@@ -221,6 +221,11 @@ class _AdvancedRuleEditorScreenState
       for (final i in issues)
         if (i.isError) i,
     ];
+    // Warnings (noise, Doze, extra actions) inform but never block saving (T7.1.04).
+    final warnings = [
+      for (final i in issues)
+        if (!i.isError) i,
+    ];
     final profileName = profiles
         .where((p) => p.id == _profileId)
         .map(labels.profileName)
@@ -275,6 +280,21 @@ class _AdvancedRuleEditorScreenState
                 labels.issue(e),
                 style: context.text.bodySmall?.copyWith(
                   color: context.colors.error,
+                ),
+              ),
+            ),
+          for (final w in warnings)
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(
+                Space.lg,
+                Space.sm,
+                Space.lg,
+                0,
+              ),
+              child: Text(
+                labels.issue(w),
+                style: context.text.bodySmall?.copyWith(
+                  color: context.colors.onSurfaceVariant,
                 ),
               ),
             ),

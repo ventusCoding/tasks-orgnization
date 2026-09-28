@@ -3,6 +3,7 @@ import 'package:everslot/features/goals/application/goal_progress.dart';
 import 'package:everslot/features/goals/application/goal_providers.dart';
 import 'package:everslot/features/goals/application/goal_service.dart';
 import 'package:everslot/features/goals/domain/goal.dart';
+import 'package:everslot/features/goals/presentation/badge_gallery.dart';
 import 'package:everslot/features/goals/presentation/goal_card.dart';
 import 'package:everslot/features/goals/presentation/goal_editor.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
@@ -75,7 +76,17 @@ class GoalsScreen extends ConsumerWidget {
       ],
     );
     return Scaffold(
-      appBar: AppBar(title: Text(l.goalsTitle)),
+      appBar: AppBar(
+        title: Text(l.goalsTitle),
+        actions: [
+          IconButton(
+            tooltip: l.goalsBadgesTitle,
+            icon: const Icon(Icons.military_tech_outlined),
+            onPressed: () =>
+                Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => const BadgeGalleryScreen())),
+          ),
+        ],
+      ),
       floatingActionButton: habits.isEmpty
           ? null
           : FloatingActionButton.extended(

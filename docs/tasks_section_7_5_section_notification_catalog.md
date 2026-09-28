@@ -46,22 +46,22 @@ live timer surfaces and widget refreshes ([8.2]); hide-content privacy option ([
 
 ## Progress
 
-- [ ] T7.5.01 — Planner: start & end reminders with multiple offsets
-- [ ] T7.5.02 — Planner: all-day & date-only reminders
+- [x] T7.5.01 — Planner: start & end reminders with multiple offsets
+- [x] T7.5.02 — Planner: all-day & date-only reminders
 - [ ] T7.5.03 — Planner: overdue reminders
 - [ ] T7.5.04 — Planner: up-next chain & timer-end alerts
-- [ ] T7.5.05 — Checklists: reminders at a chosen time (lists & items)
-- [ ] T7.5.06 — Checklists: waiting/blocked follow-up reminders
+- [x] T7.5.05 — Checklists: reminders at a chosen time (lists & items)
+- [x] T7.5.06 — Checklists: waiting/blocked follow-up reminders
 - [ ] T7.5.07 — Checklists: item & checklist due reminders
 - [ ] T7.5.08 — Checklists: status-age escalation
 - [ ] T7.5.09 — Checklists: structural event triggers
-- [ ] T7.5.10 — Habits: scheduled reminders (slots, times, several per day)
-- [ ] T7.5.11 — Habits: not-done-by & streak-at-risk
+- [x] T7.5.10 — Habits: scheduled reminders (slots, times, several per day)
+- [x] T7.5.11 — Habits: not-done-by & streak-at-risk
 - [ ] T7.5.12 — Habits: quota pace, milestones & inactivity
 - [ ] T7.5.13 — Quit: milestone notifications
 - [ ] T7.5.14 — Quit: pledge, evening review, craving support & encouragement
-- [ ] T7.5.15 — Notifications settings page & global controls
-- [ ] T7.5.16 — Mute until (rule, item, list, habit, section)
+- [x] T7.5.15 — Notifications settings page & global controls
+- [x] T7.5.16 — Mute until (rule, item, list, habit, section)
 - [ ] T7.5.17 — Notification statistics
 - [ ] T7.5.18 — Digests: agenda, plan tomorrow, overdue, weekly & monthly
 - [ ] T7.5.19 — Smart reminder suggestions
@@ -87,6 +87,7 @@ occurrences use their override time), any number of rules per task/series (e.g. 
 notifications per occurrence at the exact times, including across a DST change; completing it before start
 cancels both.
 **Tests:** planner fixtures (multiple offsets, moved occurrence, DST); patrol scenario in [7.2] T7.2.22.
+**Notes:** Verified end to end with the real planner source (`catalog_e2e_test.dart`). The planner source supplies the actions by tracking mode.
 
 ### T7.5.02 — Planner: all-day & date-only reminders
 **Priority:** P0 · **Size:** S · **Depends on:** T7.5.01
@@ -94,6 +95,7 @@ cancels both.
 09:00), "N days before at HH:MM", "on the last day at HH:MM" for multi-day spans.
 **Acceptance criteria:** an all-day task on Friday with "1 day before at 20:00" notifies Thursday 20:00 local.
 **Tests:** planner fixtures incl. multi-day tasks and zone changes.
+**Notes:** *On the last day at…* uses the `end` anchor with `dayOffset 0` (end-like anchors count their last included day).
 
 ### T7.5.03 — Planner: overdue reminders
 **Priority:** P1 · **Size:** S · **Depends on:** T7.5.01, [7.2] (nag chains)
@@ -220,6 +222,7 @@ to default-rule editors ([7.1] T7.1.14, P1), multi-device policy ([7.4] T7.4.13,
 **Acceptance criteria:** turning Habits off cancels all habit notifications on every device; quiet hours
 changes replan immediately; settings sync via `user_settings.notifications`.
 **Tests:** widget tests; unit tests that settings changes produce the expected replan scope (`*` or section).
+**Notes:** Every settings change triggers a full replan; server jobs are re-uploaded only for targets whose plan hash changed. The per-section switch, pause and quiet hours are verified end to end in `catalog_e2e_test.dart`.
 
 ### T7.5.16 — Mute until (rule, item, list, habit, section)
 **Priority:** P0 · **Size:** S · **Depends on:** T7.5.15, [7.1] (resolver)

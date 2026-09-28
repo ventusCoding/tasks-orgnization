@@ -34,8 +34,8 @@ handling/logging, and a dev-only debug menu.
 - [x] T1.3.13 — Localization (EN/FR/AR) & formatting helpers
 - [x] T1.3.14 — RTL baseline
 - [x] T1.3.15 — Accessibility baseline
-- [ ] T1.3.16 — Feature flags & dev debug menu (incl. time travel)
-- [ ] T1.3.17 — Haptics & sound service
+- [x] T1.3.16 — Feature flags & dev debug menu (incl. time travel)
+- [x] T1.3.17 — Haptics & sound service
 - [x] T1.3.18 — Motion & page transitions
 - [x] T1.3.19 — Tablet/landscape layout foundations
 
@@ -211,6 +211,7 @@ diagnostics link, component gallery.
 **Acceptance criteria:** debug menu is absent from prod builds (tree-shaken); time travel affects all
 clock consumers consistently.
 **Tests:** unit test that prod flavor exposes no debug routes.
+**Notes:** `DebugMenuScreen` (`features/dev`): environment & config warnings, feature flags (env defaults + run-time overrides, dev only), time travel (`timeTravelProvider` shifts the one shared `TravelClock` — every clock consumer moves together, nothing is rebuilt), sticky zone override (`DeviceZoneController.debugSet/debugClear`), log viewer (`AppLog.recent`, level filter, copy), local DB inspector (row counts, first rows), sync diagnostics (T1.4.18), component gallery, reset local data. Hidden gesture: long-press the Settings title (and the version in About). Prod: route absent at run time and `Env.devToolsCompiled` (const, false with `FLAVOR=prod`) makes the menu dead code for tree-shaking. Tests: `test/features/dev/`. Shared edits: `core/time/clock.dart` (TravelClock), `core/providers.dart` (clock/time travel, zone override, flag toggle guard), `core/env/env.dart`, `app/router.dart`.
 
 ### T1.3.17 — Haptics & sound service
 **Priority:** P1 · **Size:** S · **Depends on:** T1.3.02
@@ -218,6 +219,7 @@ clock consumers consistently.
 `success` for completions) respecting a user setting and OS settings; short UI sounds (check-in
 completion) off by default.
 **Tests:** unit tests with a fake platform channel.
+**Notes:** `core/platform/haptics.dart`: `hapticsProvider` (`Haptics.selection/lift/light/success/warning/denied`, `play(HapticEvent)`) over a replaceable `HapticsOutput` (`HapticFeedback` incl. success/warning/error notifications; OS feedback settings apply on top); honours `appearance.haptics` (default on) and `appearance.sounds` (default off, completion click) read at each event; `hapticsEnabledProvider` for features with their own haptics (planner grid, checklists completion T4.3.12 should switch to it). Toggles live in Settings › Accessibility (T8.3.12). Tests with a mocked platform channel: `test/core/platform/haptics_test.dart`.
 
 ### T1.3.18 — Motion & page transitions
 **Priority:** P1 · **Size:** S · **Depends on:** T1.3.06

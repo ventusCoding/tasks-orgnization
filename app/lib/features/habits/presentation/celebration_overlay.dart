@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/goals/application/achievement_service.dart';
+import 'package:everslot/features/goals/domain/achievements.dart';
+import 'package:everslot/features/goals/presentation/badge_ui.dart';
 import 'package:everslot/features/habits/application/check_in_service.dart';
 import 'package:everslot/features/habits/application/habit_celebrations.dart';
+import 'package:everslot/features/habits/domain/habit_records.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -28,7 +32,13 @@ class _CelebrationOverlayState extends ConsumerState<CelebrationOverlay> {
 
   Future<void> _onEvent(HabitCheckInEvent event) async {
     if (!(ModalRoute.of(context)?.isCurrent ?? true)) return;
-    final earned = await ref.read(celebrationServiceProvider).onCheckIn(event);
+    final earned = [
+      ...await ref.read(celebrationServiceProvider).onCheckIn(event),
+      // Badges unlocked by this check-in (T5.4.08).
+      if (event.kind == HabitLogKind.done || event.kind == HabitLogKind.progress)
+        for (final b in await ref.read(achievementServiceProvider).evaluate())
+          Celebration(CelebrationKind.badge, dedupeKey: 'badge|${b.code.wire}|${b.habitId}', badge: b.code.wire),
+    ];
     if (!mounted || earned.isEmpty) return;
     unawaited(HapticFeedback.heavyImpact());
     setState(() => _items.addAll(earned));
@@ -113,6 +123,10 @@ class _CelebrationCardState extends State<_CelebrationCard> with SingleTickerPro
     final (icon, text) = switch (c.kind) {
       CelebrationKind.streak => (Icons.local_fire_department, l.habitsCelebrateStreak(c.habitName ?? '', c.count)),
       CelebrationKind.perfectDay => (Icons.emoji_events, l.habitsCelebratePerfectDay),
+      CelebrationKind.badge => switch (AchievementCode.tryParse(c.badge)) {
+        final code? => (badgeIcon(code), l.goalsBadgeUnlocked(badgeName(context, code))),
+        null => (Icons.emoji_events, l.habitsCelebratePerfectDay),
+      },
     };
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0.85, end: 1),

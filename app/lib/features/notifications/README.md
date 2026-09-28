@@ -83,6 +83,25 @@ await notifications.deleteForTargetInTx(tx, NotificationTargetType.task, taskId)
 await notifications.copyRulesInTx(tx, NotificationTargetType.task, fromId: a, toId: b); // duplicate
 ```
 
+**Copy reminders from… / bulk Set reminders (T7.1.15)** — pass your own item picker to show
+*Copy reminders from…* in the section, and use `setReminders` from multi-select actions (one
+undoable command; the items switch to *Custom* so their own rules count):
+
+```dart
+NotificationSettingsSection(
+  targetType: NotificationTargetType.task,
+  targetId: task.id,
+  section: NotificationSection.planner,
+  pickCopySource: (context) => pickTask(context),   // returns another task id or null
+)
+
+// Multi-select "Set reminders" (planner / checklists / habits):
+final host = ref.read(notificationHostApiProvider);
+final rules = await host.rulesOf(NotificationTargetType.task, templateTaskId);
+final record = await host.setReminders(NotificationTargetType.task, selectedIds, rules);
+showUndoSnackBar(context, ref, message: …, record: record);
+```
+
 Only the `notify_mode` column of your table is written by this module (through `SyncWriter`); the
 four host tables already have it (default `inherit`).
 
@@ -193,7 +212,9 @@ final List<NotificationContribution> notificationContributions = [
 This list is read by the main isolate **and** by the background isolate that runs actions while
 the app is killed, so factories must not depend on widgets or on providers that only exist in the
 UI. Runtime registration (`ref.read(notificationRegistryProvider).registerSource(...)`) exists for
-tests, the debug menu and optional sources; it is invisible to the background isolate.
+tests, the debug menu and optional sources; it is invisible to the background isolate. For the same
+action and target type a runtime-registered handler takes precedence over a static one (main
+isolate only).
 
 ---
 
@@ -271,7 +292,10 @@ overlay. It restarts on account switches.
 
 Push (FCM) activates only when `FIREBASE_ENABLED` is true, `DefaultFirebaseOptions.isConfigured`,
 Supabase is configured and a cloud session exists (`pushAvailableProvider`); otherwise local
-notifications and the inbox work fully offline.
+notifications and the inbox work fully offline. Data messages the device understands:
+`{"type":"sync","head":…}` (pull + replan), `{"type":"cancel","dk":<dedupe key>}` (drop that
+reminder from the tray right away — completed on another device) and visible reminders
+(`reminder | nag | digest | milestone`, shown by the OS; foreground → banner + inbox row).
 
 ## 5. Testing your integration
 

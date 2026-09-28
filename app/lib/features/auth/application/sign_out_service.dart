@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/session/local_data_wiper.dart';
+import 'package:everslot/core/sync/background_sync.dart';
 import 'package:everslot/core/sync/sync_api.dart';
 import 'package:everslot/features/auth/application/auth_binding.dart';
 import 'package:everslot/features/auth/application/auth_providers.dart';
@@ -44,6 +45,7 @@ final signOutCleanupsProvider = Provider<List<SignOutCleanup>>(
       });
     },
     () => ref.read(localSchedulerProvider).clearAll(),
+    BackgroundSync.cancelPeriodic, // no background sync without a session (T1.4.17)
   ],
 );
 

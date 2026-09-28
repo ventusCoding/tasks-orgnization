@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:everslot/features/goals/application/achievement_service.dart';
 import 'package:everslot/features/habits/application/habit_defaults.dart';
 import 'package:everslot/features/habits/application/streak_freezes.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
@@ -22,4 +23,6 @@ Future<void> startHabits(ProviderContainer container) async {
   await container.read(habitDefaultsProvider).ensure(l10n);
   // Streak freezes of periods that closed while the app was away (T5.4.06).
   unawaited(container.read(streakFreezeJobProvider).run());
+  // Daily pass of the badge engine (milestones reached while the app was closed, T5.4.08).
+  unawaited(container.read(achievementServiceProvider).evaluate());
 }

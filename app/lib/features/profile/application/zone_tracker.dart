@@ -8,6 +8,7 @@ import 'package:everslot/core/time/clock.dart';
 import 'package:everslot/features/profile/application/profile_providers.dart';
 import 'package:everslot/features/profile/data/profile_repository.dart';
 import 'package:everslot/features/profile/domain/zone_change.dart';
+import 'package:everslot/features/settings/application/settings_providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,14 +21,21 @@ class ZoneTracker {
     required AppDatabase db,
     required Clock clock,
     this.throttle = const Duration(minutes: 10),
+    bool Function()? autoHome,
   }) : _profiles = profiles,
        _db = db,
-       _clock = clock;
+       _clock = clock,
+       _autoHome = autoHome ?? _never;
 
   final ProfileRepository _profiles;
   final AppDatabase _db;
   final Clock _clock;
   final Duration throttle;
+
+  /// Settings › Regional › "Follow this device": new zones become home without asking.
+  final bool Function() _autoHome;
+
+  static bool _never() => false;
 
   static const lastZoneKey = 'last_device_zone';
   static const promptAnsweredKey = 'zone_prompt_answered';
@@ -64,9 +72,14 @@ class ZoneTracker {
     await _writeKv(lastZoneKey, zone);
     if (last != null) {
       _changes.add(TimeZoneChanged(from: last, to: zone, at: _clock.nowUtc()));
-      final answered = await _readKv(promptAnsweredKey);
-      if (profile != null && profile.homeTimeZone != zone && answered != zone) prompt.value = zone;
-      if (profile != null && profile.homeTimeZone == zone) prompt.value = null;
+      if (profile != null && profile.homeTimeZone != zone && _autoHome()) {
+        prompt.value = null;
+        await _profiles.update(homeTimeZone: zone, cause: 'auto');
+      } else {
+        final answered = await _readKv(promptAnsweredKey);
+        if (profile != null && profile.homeTimeZone != zone && answered != zone) prompt.value = zone;
+        if (profile != null && profile.homeTimeZone == zone) prompt.value = null;
+      }
     }
     if (profile != null) await _record(zone);
   }
@@ -130,6 +143,7 @@ final zoneTrackerProvider = Provider<ZoneTracker>((ref) {
     profiles: ref.watch(profileRepositoryProvider),
     db: ref.watch(appDatabaseProvider),
     clock: ref.watch(clockProvider),
+    autoHome: () => ref.read(regionalSettingsProvider).homeZoneAuto,
   );
   ref
     ..listen<String>(deviceZoneProvider, (_, zone) => unawaited(tracker.observe(zone)), fireImmediately: true)

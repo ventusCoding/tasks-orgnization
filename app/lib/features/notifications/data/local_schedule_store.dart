@@ -89,13 +89,16 @@ class LocalScheduleStore {
   ];
 
   /// Deletes reconciled / fired rows older than [age] (T7.3.10: markers kept 14 days).
+  /// Repeating triggers stay: their OS request keeps firing until a replan cancels it.
   Future<int> cleanup(
     DateTime now, {
     Duration age = const Duration(days: 14),
   }) async {
     final cutoff = now.subtract(age);
-    return (_db.delete(
-      _db.localNotificationSchedule,
-    )..where((s) => s.fireAt.isSmallerThanValue(cutoff))).go();
+    return (_db.delete(_db.localNotificationSchedule)..where(
+          (s) =>
+              s.fireAt.isSmallerThanValue(cutoff) & s.repeating.equals(false),
+        ))
+        .go();
   }
 }

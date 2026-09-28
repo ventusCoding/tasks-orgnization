@@ -985,6 +985,116 @@
       }
     }
   },
+  "@devDatabaseRows": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@devFlavor": {
+    "placeholders": {
+      "flavor": {
+        "type": "String"
+      }
+    }
+  },
+  "@devSampleDataDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@devSession": {
+    "placeholders": {
+      "mode": {
+        "type": "String"
+      }
+    }
+  },
+  "@devSyncAttempts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@devSyncBatch": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "@devSyncCursor": {
+    "placeholders": {
+      "cursor": {
+        "type": "int"
+      },
+      "watermark": {
+        "type": "int"
+      }
+    }
+  },
+  "@devSyncGroup": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@devSyncLastPull": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@devSyncLastPush": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@devSyncPullPage": {
+    "placeholders": {
+      "since": {
+        "type": "int"
+      },
+      "next": {
+        "type": "int"
+      },
+      "changes": {
+        "type": "int"
+      }
+    }
+  },
+  "@devTimeTravelNow": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@devTimeTravelOffset": {
+    "placeholders": {
+      "relative": {
+        "type": "String"
+      }
+    }
+  },
+  "@devZoneDevice": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
   "@durationDaysShort": {
     "placeholders": {
       "days": {
@@ -1067,6 +1177,58 @@
   "@goalsAchievedOn": {
     "placeholders": {
       "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsBadgeCravings": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@goalsBadgeEarnedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsBadgeProgress": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsBadgeShareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsBadgeStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@goalsBadgeTotal": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@goalsBadgeUnlocked": {
+    "placeholders": {
+      "name": {
         "type": "String"
       }
     }
@@ -1324,6 +1486,13 @@
       }
     }
   },
+  "@habitsProgressionToday": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "@habitsQuotaMonth": {
     "placeholders": {
       "done": {
@@ -1341,6 +1510,41 @@
       },
       "times": {
         "type": "int"
+      }
+    }
+  },
+  "@habitsRecordAbstinence": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsRecordBestDay": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsRecordBestWeek": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@habitsRecordCravings": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitsRecordStreak": {
+    "placeholders": {
+      "value": {
+        "type": "String"
       }
     }
   },
@@ -1953,6 +2157,13 @@
     "placeholders": {
       "time": {
         "type": "String"
+      }
+    }
+  },
+  "@notifCopied": {
+    "placeholders": {
+      "count": {
+        "type": "int"
       }
     }
   },
@@ -2658,6 +2869,23 @@
       }
     }
   },
+  "@quitBreathCycle": {
+    "placeholders": {
+      "cycle": {
+        "type": "int"
+      }
+    }
+  },
+  "@quitBreathPhase": {
+    "placeholders": {
+      "phase": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "@quitCleanDays": {
     "placeholders": {
       "count": {
@@ -2823,6 +3051,13 @@
         "type": "String"
       },
       "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "@quitToolboxRemaining": {
+    "placeholders": {
+      "time": {
         "type": "String"
       }
     }
@@ -4512,7 +4747,67 @@
   "confirmDeleteBody": "You can restore it from Trash for 30 days.",
   "confirmDeleteTitle": "Delete {item}?",
   "deletedSnack": "{item} deleted",
+  "devComponentGallery": "Component gallery",
+  "devConfigured": "Configured",
+  "devCopied": "Copied",
+  "devDangerZone": "Danger zone",
+  "devDatabase": "Local database",
+  "devDatabaseEmpty": "No rows.",
+  "devDatabaseRows": "{count, plural, =0{empty} =1{1 row} other{{count} rows}}",
+  "devEnvironment": "Environment",
+  "devFirebase": "Firebase",
+  "devFlags": "Feature flags",
+  "devFlagsHint": "Overrides for this session only (dev builds).",
+  "devFlavor": "Flavor: {flavor}",
+  "devLogs": "Logs",
+  "devLogsAll": "All",
+  "devLogsCopy": "Copy logs",
+  "devLogsEmpty": "No log records yet.",
   "devMenu": "Developer menu",
+  "devNoWarnings": "No configuration warnings",
+  "devNotConfigured": "Not configured",
+  "devResetData": "Reset local data",
+  "devResetDataBody": "Deletes every item, setting and file stored on this device. A cloud account is signed out (its data stays on the server). This can't be undone.",
+  "devResetDone": "Local data reset",
+  "devSampleData": "Sample data",
+  "devSampleDataBody": "Adds about six months of realistic tasks, lists, habits and a quit tracker for demos and screenshots.",
+  "devSampleDataDone": "{count, plural, =1{1 item added} other{{count} items added}}",
+  "devSampleDataGenerate": "Generate sample data",
+  "devSampleDataRemove": "Remove sample data",
+  "devSampleDataRemoved": "Sample data removed",
+  "devSession": "Session: {mode}",
+  "devSupabase": "Supabase",
+  "devSyncAttempts": "{count, plural, =0{not sent yet} =1{1 attempt} other{{count} attempts}}",
+  "devSyncBatch": "Push batch size: {size}",
+  "devSyncClear": "Clear",
+  "devSyncConflicts": "Conflict log",
+  "devSyncConflictsEmpty": "No conflicts recorded.",
+  "devSyncCursor": "Cursor {cursor} · purge watermark {watermark}",
+  "devSyncDiagnostics": "Sync diagnostics",
+  "devSyncGroup": "{count, plural, =1{1 change} other{{count} changes}} · {when}",
+  "devSyncLastPull": "Last pull: {when}",
+  "devSyncLastPush": "Last push: {when}",
+  "devSyncNever": "never",
+  "devSyncNoPulls": "No pull yet in this session.",
+  "devSyncOff": "Sync is off on this device (local-only). The outbox keeps changes for a later sign-in.",
+  "devSyncOutbox": "Outbox",
+  "devSyncOutboxEmpty": "The outbox is empty.",
+  "devSyncPullPage": "{since} → {next} · {changes, plural, =1{1 change} other{{changes} changes}}",
+  "devSyncPulls": "Last pulled pages",
+  "devSyncSimulateOffline": "Simulate offline",
+  "devSyncSimulateOfflineHint": "Every sync run fails as if the network were down.",
+  "devTimeTravel": "Time travel",
+  "devTimeTravelNow": "App time: {time}",
+  "devTimeTravelOff": "Real time",
+  "devTimeTravelOffset": "Shifted: {relative}",
+  "devTimeTravelPick": "Pick a date & time",
+  "devTimeTravelReset": "Back to real time",
+  "devTools": "Tools",
+  "devZone": "Time zone",
+  "devZoneDevice": "Device zone: {zone}",
+  "devZoneOverridden": "Overridden until reset",
+  "devZoneOverride": "Override the device zone",
+  "devZoneReset": "Use the real device zone",
   "durationDaysShort": "{days, plural, =1{1 day} other{{days} days}}",
   "durationHoursMinutesShort": "{hours} h {minutes} min",
   "durationHoursShort": "{hours} h",
@@ -4607,6 +4902,26 @@
   "goalsAchievedOn": "Achieved {date}",
   "goalsActive": "Active",
   "goalsAdd": "Add a goal",
+  "goalsBadgeBackfillFreeMonth": "A month logged on time",
+  "goalsBadgeChallenge": "Challenge completed",
+  "goalsBadgeCravings": "{count} cravings resisted",
+  "goalsBadgeEarnedOn": "Earned {date}",
+  "goalsBadgeFirstCheckIn": "First check-in",
+  "goalsBadgeFirstPerfectDay": "First perfect day",
+  "goalsBadgePerfectWeek": "Perfect week",
+  "goalsBadgeProgress": "{value} of {target}",
+  "goalsBadgeShare": "Share",
+  "goalsBadgeShareDate": "Include the date",
+  "goalsBadgeShareHabit": "Include the habit's name",
+  "goalsBadgeShareText": "I earned the \"{name}\" badge in Everslot.",
+  "goalsBadgeShareTitle": "Share a badge",
+  "goalsBadgeStreak": "{count}-day streak",
+  "goalsBadgeTotal": "{value} logged",
+  "goalsBadgeUnlocked": "Badge unlocked: {name}",
+  "goalsBadgesEarned": "Earned",
+  "goalsBadgesEmpty": "Check in to earn your first badge.",
+  "goalsBadgesLocked": "To earn",
+  "goalsBadgesTitle": "Badges",
   "goalsCelebrate": "Goal reached: {title}!",
   "goalsDelete": "Delete goal",
   "goalsDeleted": "Goal deleted",
@@ -4865,6 +5180,12 @@
   "habitsPreviewTitle": "Preview",
   "habitsPreviousMonth": "Previous month",
   "habitsPreviousYear": "Previous year",
+  "habitsProgressionEvery": "Every",
+  "habitsProgressionHint": "Starts at the target and adds a step regularly during the challenge.",
+  "habitsProgressionMax": "Up to (0 = no limit)",
+  "habitsProgressionStep": "Add each time",
+  "habitsProgressionTitle": "Grow the target",
+  "habitsProgressionToday": "Today's target: {value}",
   "habitsQuickValues": "Quick values",
   "habitsQuickValuesHint": "e.g. 5 10 15",
   "habitsQuotaMonth": "{done} of {times} this month",
@@ -4872,6 +5193,12 @@
   "habitsRate30": "30-day rate",
   "habitsReasonOptional": "Reason (optional)",
   "habitsRecentEntries": "Recent entries",
+  "habitsRecordAbstinence": "Longest clean stretch ever: {value}",
+  "habitsRecordBestDay": "Best day ever: {value}",
+  "habitsRecordBestWeek": "Best week ever: {value}",
+  "habitsRecordCravings": "Most cravings resisted in a day: {count}",
+  "habitsRecordNew": "New record!",
+  "habitsRecordStreak": "Longest streak ever: {value}",
   "habitsReorder": "Reorder",
   "habitsReorderDone": "Done",
   "habitsReorderHint": "Drag the handles to change the order.",
@@ -5249,6 +5576,9 @@
   "notifContent": "Content",
   "notifContentBody": "Body template",
   "notifContentTitle": "Title template",
+  "notifCopied": "{count, plural, =1{1 reminder copied} other{{count} reminders copied}}",
+  "notifCopyFrom": "Copy reminders from…",
+  "notifCopyNothing": "That item has no reminders of its own",
   "notifCreateCount": "{count, plural, =1{Add 1 reminder} other{Add {count} reminders}}",
   "notifCustomize": "Customize",
   "notifDateOnlyTime": "Default time for date-only items",
@@ -5378,6 +5708,7 @@
   "notifIssueLateness": "Lateness must be at least 1 minute",
   "notifIssueNoChannel": "Choose at least one way to be notified",
   "notifIssueOffsetOutOfRange": "The offset must be within 30 days",
+  "notifIssueRepeatDoze": "On Android, repeats less than 10 minutes apart may arrive late while the phone sleeps",
   "notifIssueRepeatInterval": "Repeat at least every minute",
   "notifIssueRepeatMax": "At most 10 repeats",
   "notifIssueSchedule": "Invalid schedule",
@@ -5428,6 +5759,15 @@
   "notifNoiseCluster": "Several reminders share this minute — only one sound plays",
   "notifNoiseConfirm": "This reminder sends about {perDay} notifications per day. Save anyway?",
   "notifNoiseWarn": "About {perDay} notifications per day",
+  "notifNoticeChannelBody": "Open the system settings to allow them again.",
+  "notifNoticeRevokedBody": "Sign in again to keep syncing.",
+  "notifNoticeRevokedTitle": "This device was removed from your account",
+  "notifNoticeSaturatedBody": "iOS keeps only the next 64 reminders. Open Everslot regularly (or turn on push) so the later ones get scheduled.",
+  "notifNoticeSaturatedTitle": "Not all reminders fit on this device",
+  "notifNoticeSyncBody": "Your changes are safe on this device. Check your connection or sign in again.",
+  "notifNoticeSyncTitle": "Sync has been failing for over a day",
+  "notifNoticeUpdateBody": "This version can no longer sync. Install the latest version to keep your data in sync.",
+  "notifNoticeUpdateTitle": "Update Everslot",
   "notifOffsetAmount": "Amount",
   "notifOnlyIfStatus": "Only if status is",
   "notifOpenSettings": "Open settings",
@@ -5985,6 +6325,16 @@
   "quitAutoSuccess": "Days without a relapse count as clean",
   "quitAutoSuccessHint": "Off: confirm each clean day in the evening review.",
   "quitBaseline": "Before quitting, per day",
+  "quitBreathCycle": "Cycle {cycle}",
+  "quitBreathHold": "Hold",
+  "quitBreathIn": "Breathe in",
+  "quitBreathOut": "Breathe out",
+  "quitBreathPhase": "{phase} · {seconds}",
+  "quitBreathing478": "4-7-8",
+  "quitBreathingBox": "Box 4-4-4-4",
+  "quitBreathingStart": "Start",
+  "quitBreathingStop": "Stop",
+  "quitBreathingTitle": "Breathing",
   "quitCleanDays": "{count, plural, =0{0 clean days} =1{1 clean day} other{{count} clean days}}",
   "quitCleanDaysTitle": "Clean days",
   "quitCleanSaved": "Marked as a clean day",
@@ -6011,6 +6361,8 @@
   "quitDistractionRead": "Read",
   "quitDistractionShower": "A shower",
   "quitDistractionSnack": "A healthy snack",
+  "quitDistractionsEmpty": "Add distractions that work for you in the libraries.",
+  "quitDistractionsTitle": "Distractions",
   "quitDuration": "Duration",
   "quitEditorEditTitle": "Edit quit tracker",
   "quitEditorNewTitle": "New quit tracker",
@@ -6138,6 +6490,15 @@
   "quitTimePerUnit": "Time spent per unit",
   "quitTimeWonBack": "Time won back",
   "quitTodayUse": "{used} of {limit} today",
+  "quitToolboxDone": "Three minutes done — did you resist?",
+  "quitToolboxLogged": "Craving logged with its duration.",
+  "quitToolboxOpen": "Open the coping toolbox",
+  "quitToolboxRemaining": "{time} left",
+  "quitToolboxStart": "Start the 3-minute timer",
+  "quitToolboxThrough": "I'm through it",
+  "quitToolboxTimerHint": "Most cravings pass within 3 to 5 minutes. Stay with it.",
+  "quitToolboxTimerTitle": "Ride out the craving",
+  "quitToolboxTitle": "Coping toolbox",
   "quitTrigger": "Trigger",
   "quitTriggerAfterMeals": "After meals",
   "quitTriggerAlcohol": "Alcohol",
@@ -6337,6 +6698,8 @@
   "settingsCompleteChildren": "When completing a parent",
   "settingsCurrency": "Currency for quit savings",
   "settingsCurrentZone": "Current time zone (this device)",
+  "settingsDataSubtitle": "Back up, restore or move your data",
+  "settingsDataTitle": "Export & import",
   "settingsDayStart": "Habit day starts at",
   "settingsDayStartSubtitle": "Check-ins before this time count for the previous day. Applies to new check-ins only.",
   "settingsDefaultOpen": "Open in",

@@ -121,6 +121,7 @@ void main() {
       await settle(tester, rounds: 10);
       expect(find.text(en.habitsCelebrateStreak('Meditate', 7)), findsOneWidget);
       expect(find.text(en.habitsCelebratePerfectDay), findsOneWidget);
+      expect(find.text(en.goalsBadgeUnlocked(en.goalsBadgeStreak(7))), findsOneWidget, reason: 'badge unlocked (T5.4.08)');
       final scale = tester.widget<TweenAnimationBuilder<double>>(find.byType(TweenAnimationBuilder<double>).first);
       expect(scale.duration, isNot(Duration.zero), reason: 'cards scale in when motion is allowed');
       await tester.pump(const Duration(seconds: 5));

@@ -2427,7 +2427,251 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get devComponentGallery => 'Component gallery';
+
+  @override
+  String get devConfigured => 'Configured';
+
+  @override
+  String get devCopied => 'Copied';
+
+  @override
+  String get devDangerZone => 'Danger zone';
+
+  @override
+  String get devDatabase => 'Local database';
+
+  @override
+  String get devDatabaseEmpty => 'No rows.';
+
+  @override
+  String devDatabaseRows(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rows',
+      one: '1 row',
+      zero: 'empty',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get devEnvironment => 'Environment';
+
+  @override
+  String get devFirebase => 'Firebase';
+
+  @override
+  String get devFlags => 'Feature flags';
+
+  @override
+  String get devFlagsHint => 'Overrides for this session only (dev builds).';
+
+  @override
+  String devFlavor(String flavor) {
+    return 'Flavor: $flavor';
+  }
+
+  @override
+  String get devLogs => 'Logs';
+
+  @override
+  String get devLogsAll => 'All';
+
+  @override
+  String get devLogsCopy => 'Copy logs';
+
+  @override
+  String get devLogsEmpty => 'No log records yet.';
+
+  @override
   String get devMenu => 'Developer menu';
+
+  @override
+  String get devNoWarnings => 'No configuration warnings';
+
+  @override
+  String get devNotConfigured => 'Not configured';
+
+  @override
+  String get devResetData => 'Reset local data';
+
+  @override
+  String get devResetDataBody =>
+      'Deletes every item, setting and file stored on this device. A cloud account is signed out (its data stays on the server). This can\'t be undone.';
+
+  @override
+  String get devResetDone => 'Local data reset';
+
+  @override
+  String get devSampleData => 'Sample data';
+
+  @override
+  String get devSampleDataBody =>
+      'Adds about six months of realistic tasks, lists, habits and a quit tracker for demos and screenshots.';
+
+  @override
+  String devSampleDataDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items added',
+      one: '1 item added',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get devSampleDataGenerate => 'Generate sample data';
+
+  @override
+  String get devSampleDataRemove => 'Remove sample data';
+
+  @override
+  String get devSampleDataRemoved => 'Sample data removed';
+
+  @override
+  String devSession(String mode) {
+    return 'Session: $mode';
+  }
+
+  @override
+  String get devSupabase => 'Supabase';
+
+  @override
+  String devSyncAttempts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count attempts',
+      one: '1 attempt',
+      zero: 'not sent yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String devSyncBatch(int size) {
+    return 'Push batch size: $size';
+  }
+
+  @override
+  String get devSyncClear => 'Clear';
+
+  @override
+  String get devSyncConflicts => 'Conflict log';
+
+  @override
+  String get devSyncConflictsEmpty => 'No conflicts recorded.';
+
+  @override
+  String devSyncCursor(int cursor, int watermark) {
+    return 'Cursor $cursor · purge watermark $watermark';
+  }
+
+  @override
+  String get devSyncDiagnostics => 'Sync diagnostics';
+
+  @override
+  String devSyncGroup(int count, String when) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count changes',
+      one: '1 change',
+    );
+    return '$_temp0 · $when';
+  }
+
+  @override
+  String devSyncLastPull(String when) {
+    return 'Last pull: $when';
+  }
+
+  @override
+  String devSyncLastPush(String when) {
+    return 'Last push: $when';
+  }
+
+  @override
+  String get devSyncNever => 'never';
+
+  @override
+  String get devSyncNoPulls => 'No pull yet in this session.';
+
+  @override
+  String get devSyncOff =>
+      'Sync is off on this device (local-only). The outbox keeps changes for a later sign-in.';
+
+  @override
+  String get devSyncOutbox => 'Outbox';
+
+  @override
+  String get devSyncOutboxEmpty => 'The outbox is empty.';
+
+  @override
+  String devSyncPullPage(int since, int next, int changes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      changes,
+      locale: localeName,
+      other: '$changes changes',
+      one: '1 change',
+    );
+    return '$since → $next · $_temp0';
+  }
+
+  @override
+  String get devSyncPulls => 'Last pulled pages';
+
+  @override
+  String get devSyncSimulateOffline => 'Simulate offline';
+
+  @override
+  String get devSyncSimulateOfflineHint =>
+      'Every sync run fails as if the network were down.';
+
+  @override
+  String get devTimeTravel => 'Time travel';
+
+  @override
+  String devTimeTravelNow(String time) {
+    return 'App time: $time';
+  }
+
+  @override
+  String get devTimeTravelOff => 'Real time';
+
+  @override
+  String devTimeTravelOffset(String relative) {
+    return 'Shifted: $relative';
+  }
+
+  @override
+  String get devTimeTravelPick => 'Pick a date & time';
+
+  @override
+  String get devTimeTravelReset => 'Back to real time';
+
+  @override
+  String get devTools => 'Tools';
+
+  @override
+  String get devZone => 'Time zone';
+
+  @override
+  String devZoneDevice(String zone) {
+    return 'Device zone: $zone';
+  }
+
+  @override
+  String get devZoneOverridden => 'Overridden until reset';
+
+  @override
+  String get devZoneOverride => 'Override the device zone';
+
+  @override
+  String get devZoneReset => 'Use the real device zone';
 
   @override
   String durationDaysShort(int days) {
@@ -2747,6 +2991,80 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goalsAdd => 'Add a goal';
+
+  @override
+  String get goalsBadgeBackfillFreeMonth => 'A month logged on time';
+
+  @override
+  String get goalsBadgeChallenge => 'Challenge completed';
+
+  @override
+  String goalsBadgeCravings(int count) {
+    return '$count cravings resisted';
+  }
+
+  @override
+  String goalsBadgeEarnedOn(String date) {
+    return 'Earned $date';
+  }
+
+  @override
+  String get goalsBadgeFirstCheckIn => 'First check-in';
+
+  @override
+  String get goalsBadgeFirstPerfectDay => 'First perfect day';
+
+  @override
+  String get goalsBadgePerfectWeek => 'Perfect week';
+
+  @override
+  String goalsBadgeProgress(String value, String target) {
+    return '$value of $target';
+  }
+
+  @override
+  String get goalsBadgeShare => 'Share';
+
+  @override
+  String get goalsBadgeShareDate => 'Include the date';
+
+  @override
+  String get goalsBadgeShareHabit => 'Include the habit\'s name';
+
+  @override
+  String goalsBadgeShareText(String name) {
+    return 'I earned the \"$name\" badge in Everslot.';
+  }
+
+  @override
+  String get goalsBadgeShareTitle => 'Share a badge';
+
+  @override
+  String goalsBadgeStreak(int count) {
+    return '$count-day streak';
+  }
+
+  @override
+  String goalsBadgeTotal(String value) {
+    return '$value logged';
+  }
+
+  @override
+  String goalsBadgeUnlocked(String name) {
+    return 'Badge unlocked: $name';
+  }
+
+  @override
+  String get goalsBadgesEarned => 'Earned';
+
+  @override
+  String get goalsBadgesEmpty => 'Check in to earn your first badge.';
+
+  @override
+  String get goalsBadgesLocked => 'To earn';
+
+  @override
+  String get goalsBadgesTitle => 'Badges';
 
   @override
   String goalsCelebrate(String title) {
@@ -3645,6 +3963,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitsPreviousYear => 'Previous year';
 
   @override
+  String get habitsProgressionEvery => 'Every';
+
+  @override
+  String get habitsProgressionHint =>
+      'Starts at the target and adds a step regularly during the challenge.';
+
+  @override
+  String get habitsProgressionMax => 'Up to (0 = no limit)';
+
+  @override
+  String get habitsProgressionStep => 'Add each time';
+
+  @override
+  String get habitsProgressionTitle => 'Grow the target';
+
+  @override
+  String habitsProgressionToday(String value) {
+    return 'Today\'s target: $value';
+  }
+
+  @override
   String get habitsQuickValues => 'Quick values';
 
   @override
@@ -3668,6 +4007,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitsRecentEntries => 'Recent entries';
+
+  @override
+  String habitsRecordAbstinence(String value) {
+    return 'Longest clean stretch ever: $value';
+  }
+
+  @override
+  String habitsRecordBestDay(String value) {
+    return 'Best day ever: $value';
+  }
+
+  @override
+  String habitsRecordBestWeek(String value) {
+    return 'Best week ever: $value';
+  }
+
+  @override
+  String habitsRecordCravings(int count) {
+    return 'Most cravings resisted in a day: $count';
+  }
+
+  @override
+  String get habitsRecordNew => 'New record!';
+
+  @override
+  String habitsRecordStreak(String value) {
+    return 'Longest streak ever: $value';
+  }
 
   @override
   String get habitsReorder => 'Reorder';
@@ -5183,6 +5550,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifContentTitle => 'Title template';
 
   @override
+  String notifCopied(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reminders copied',
+      one: '1 reminder copied',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifCopyFrom => 'Copy reminders from…';
+
+  @override
+  String get notifCopyNothing => 'That item has no reminders of its own';
+
+  @override
   String notifCreateCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -5640,6 +6024,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifIssueOffsetOutOfRange => 'The offset must be within 30 days';
 
   @override
+  String get notifIssueRepeatDoze =>
+      'On Android, repeats less than 10 minutes apart may arrive late while the phone sleeps';
+
+  @override
   String get notifIssueRepeatInterval => 'Repeat at least every minute';
 
   @override
@@ -5816,6 +6204,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String notifNoiseWarn(int perDay) {
     return 'About $perDay notifications per day';
   }
+
+  @override
+  String get notifNoticeChannelBody =>
+      'Open the system settings to allow them again.';
+
+  @override
+  String get notifNoticeRevokedBody => 'Sign in again to keep syncing.';
+
+  @override
+  String get notifNoticeRevokedTitle =>
+      'This device was removed from your account';
+
+  @override
+  String get notifNoticeSaturatedBody =>
+      'iOS keeps only the next 64 reminders. Open Everslot regularly (or turn on push) so the later ones get scheduled.';
+
+  @override
+  String get notifNoticeSaturatedTitle =>
+      'Not all reminders fit on this device';
+
+  @override
+  String get notifNoticeSyncBody =>
+      'Your changes are safe on this device. Check your connection or sign in again.';
+
+  @override
+  String get notifNoticeSyncTitle => 'Sync has been failing for over a day';
+
+  @override
+  String get notifNoticeUpdateBody =>
+      'This version can no longer sync. Install the latest version to keep your data in sync.';
+
+  @override
+  String get notifNoticeUpdateTitle => 'Update Everslot';
 
   @override
   String get notifOffsetAmount => 'Amount';
@@ -7753,6 +8174,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitBaseline => 'Before quitting, per day';
 
   @override
+  String quitBreathCycle(int cycle) {
+    return 'Cycle $cycle';
+  }
+
+  @override
+  String get quitBreathHold => 'Hold';
+
+  @override
+  String get quitBreathIn => 'Breathe in';
+
+  @override
+  String get quitBreathOut => 'Breathe out';
+
+  @override
+  String quitBreathPhase(String phase, int seconds) {
+    return '$phase · $seconds';
+  }
+
+  @override
+  String get quitBreathing478 => '4-7-8';
+
+  @override
+  String get quitBreathingBox => 'Box 4-4-4-4';
+
+  @override
+  String get quitBreathingStart => 'Start';
+
+  @override
+  String get quitBreathingStop => 'Stop';
+
+  @override
+  String get quitBreathingTitle => 'Breathing';
+
+  @override
   String quitCleanDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -7844,6 +8299,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quitDistractionSnack => 'A healthy snack';
+
+  @override
+  String get quitDistractionsEmpty =>
+      'Add distractions that work for you in the libraries.';
+
+  @override
+  String get quitDistractionsTitle => 'Distractions';
 
   @override
   String get quitDuration => 'Duration';
@@ -8301,6 +8763,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String quitTodayUse(String used, String limit) {
     return '$used of $limit today';
   }
+
+  @override
+  String get quitToolboxDone => 'Three minutes done — did you resist?';
+
+  @override
+  String get quitToolboxLogged => 'Craving logged with its duration.';
+
+  @override
+  String get quitToolboxOpen => 'Open the coping toolbox';
+
+  @override
+  String quitToolboxRemaining(String time) {
+    return '$time left';
+  }
+
+  @override
+  String get quitToolboxStart => 'Start the 3-minute timer';
+
+  @override
+  String get quitToolboxThrough => 'I\'m through it';
+
+  @override
+  String get quitToolboxTimerHint =>
+      'Most cravings pass within 3 to 5 minutes. Stay with it.';
+
+  @override
+  String get quitToolboxTimerTitle => 'Ride out the craving';
+
+  @override
+  String get quitToolboxTitle => 'Coping toolbox';
 
   @override
   String get quitTrigger => 'Trigger';
@@ -9027,6 +9519,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsCurrentZone => 'Current time zone (this device)';
+
+  @override
+  String get settingsDataSubtitle => 'Back up, restore or move your data';
+
+  @override
+  String get settingsDataTitle => 'Export & import';
 
   @override
   String get settingsDayStart => 'Habit day starts at';

@@ -368,5 +368,50 @@
   "quitRewardSaved": "Reward saved",
   "quitRewardClaimedSnack": "Enjoy it — you earned it.",
   "quitRewardsEmpty": "Pick something your savings will pay for.",
-  "quitRewardNeedsCost": "Set a price per unit in the tracker to see what your savings buy."
+  "quitRewardNeedsCost": "Set a price per unit in the tracker to see what your savings buy.",
+  "quitToolboxTitle": "Coping toolbox",
+  "quitToolboxTimerTitle": "Ride out the craving",
+  "quitToolboxTimerHint": "Most cravings pass within 3 to 5 minutes. Stay with it.",
+  "quitToolboxStart": "Start the 3-minute timer",
+  "quitToolboxThrough": "I'm through it",
+  "quitToolboxRemaining": "{time} left",
+  "@quitToolboxRemaining": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "quitToolboxDone": "Three minutes done — did you resist?",
+  "quitToolboxLogged": "Craving logged with its duration.",
+  "quitBreathingTitle": "Breathing",
+  "quitBreathingBox": "Box 4-4-4-4",
+  "quitBreathing478": "4-7-8",
+  "quitBreathingStart": "Start",
+  "quitBreathingStop": "Stop",
+  "quitBreathIn": "Breathe in",
+  "quitBreathHold": "Hold",
+  "quitBreathOut": "Breathe out",
+  "quitBreathPhase": "{phase} · {seconds}",
+  "@quitBreathPhase": {
+    "placeholders": {
+      "phase": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "quitBreathCycle": "Cycle {cycle}",
+  "@quitBreathCycle": {
+    "placeholders": {
+      "cycle": {
+        "type": "int"
+      }
+    }
+  },
+  "quitDistractionsTitle": "Distractions",
+  "quitDistractionsEmpty": "Add distractions that work for you in the libraries.",
+  "quitToolboxOpen": "Open the coping toolbox"
 }

@@ -4101,11 +4101,371 @@ abstract class AppLocalizations {
   /// **'{item} deleted'**
   String deletedSnack(String item);
 
+  /// No description provided for @devComponentGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Component gallery'**
+  String get devComponentGallery;
+
+  /// No description provided for @devConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Configured'**
+  String get devConfigured;
+
+  /// No description provided for @devCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get devCopied;
+
+  /// No description provided for @devDangerZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Danger zone'**
+  String get devDangerZone;
+
+  /// No description provided for @devDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Local database'**
+  String get devDatabase;
+
+  /// No description provided for @devDatabaseEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No rows.'**
+  String get devDatabaseEmpty;
+
+  /// No description provided for @devDatabaseRows.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{empty} =1{1 row} other{{count} rows}}'**
+  String devDatabaseRows(int count);
+
+  /// No description provided for @devEnvironment.
+  ///
+  /// In en, this message translates to:
+  /// **'Environment'**
+  String get devEnvironment;
+
+  /// No description provided for @devFirebase.
+  ///
+  /// In en, this message translates to:
+  /// **'Firebase'**
+  String get devFirebase;
+
+  /// No description provided for @devFlags.
+  ///
+  /// In en, this message translates to:
+  /// **'Feature flags'**
+  String get devFlags;
+
+  /// No description provided for @devFlagsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Overrides for this session only (dev builds).'**
+  String get devFlagsHint;
+
+  /// No description provided for @devFlavor.
+  ///
+  /// In en, this message translates to:
+  /// **'Flavor: {flavor}'**
+  String devFlavor(String flavor);
+
+  /// No description provided for @devLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Logs'**
+  String get devLogs;
+
+  /// No description provided for @devLogsAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get devLogsAll;
+
+  /// No description provided for @devLogsCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy logs'**
+  String get devLogsCopy;
+
+  /// No description provided for @devLogsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No log records yet.'**
+  String get devLogsEmpty;
+
   /// No description provided for @devMenu.
   ///
   /// In en, this message translates to:
   /// **'Developer menu'**
   String get devMenu;
+
+  /// No description provided for @devNoWarnings.
+  ///
+  /// In en, this message translates to:
+  /// **'No configuration warnings'**
+  String get devNoWarnings;
+
+  /// No description provided for @devNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Not configured'**
+  String get devNotConfigured;
+
+  /// No description provided for @devResetData.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset local data'**
+  String get devResetData;
+
+  /// No description provided for @devResetDataBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Deletes every item, setting and file stored on this device. A cloud account is signed out (its data stays on the server). This can\'t be undone.'**
+  String get devResetDataBody;
+
+  /// No description provided for @devResetDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Local data reset'**
+  String get devResetDone;
+
+  /// No description provided for @devSampleData.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample data'**
+  String get devSampleData;
+
+  /// No description provided for @devSampleDataBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Adds about six months of realistic tasks, lists, habits and a quit tracker for demos and screenshots.'**
+  String get devSampleDataBody;
+
+  /// No description provided for @devSampleDataDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item added} other{{count} items added}}'**
+  String devSampleDataDone(int count);
+
+  /// No description provided for @devSampleDataGenerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate sample data'**
+  String get devSampleDataGenerate;
+
+  /// No description provided for @devSampleDataRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove sample data'**
+  String get devSampleDataRemove;
+
+  /// No description provided for @devSampleDataRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample data removed'**
+  String get devSampleDataRemoved;
+
+  /// No description provided for @devSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Session: {mode}'**
+  String devSession(String mode);
+
+  /// No description provided for @devSupabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Supabase'**
+  String get devSupabase;
+
+  /// No description provided for @devSyncAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{not sent yet} =1{1 attempt} other{{count} attempts}}'**
+  String devSyncAttempts(int count);
+
+  /// No description provided for @devSyncBatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Push batch size: {size}'**
+  String devSyncBatch(int size);
+
+  /// No description provided for @devSyncClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get devSyncClear;
+
+  /// No description provided for @devSyncConflicts.
+  ///
+  /// In en, this message translates to:
+  /// **'Conflict log'**
+  String get devSyncConflicts;
+
+  /// No description provided for @devSyncConflictsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No conflicts recorded.'**
+  String get devSyncConflictsEmpty;
+
+  /// No description provided for @devSyncCursor.
+  ///
+  /// In en, this message translates to:
+  /// **'Cursor {cursor} · purge watermark {watermark}'**
+  String devSyncCursor(int cursor, int watermark);
+
+  /// No description provided for @devSyncDiagnostics.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync diagnostics'**
+  String get devSyncDiagnostics;
+
+  /// No description provided for @devSyncGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 change} other{{count} changes}} · {when}'**
+  String devSyncGroup(int count, String when);
+
+  /// No description provided for @devSyncLastPull.
+  ///
+  /// In en, this message translates to:
+  /// **'Last pull: {when}'**
+  String devSyncLastPull(String when);
+
+  /// No description provided for @devSyncLastPush.
+  ///
+  /// In en, this message translates to:
+  /// **'Last push: {when}'**
+  String devSyncLastPush(String when);
+
+  /// No description provided for @devSyncNever.
+  ///
+  /// In en, this message translates to:
+  /// **'never'**
+  String get devSyncNever;
+
+  /// No description provided for @devSyncNoPulls.
+  ///
+  /// In en, this message translates to:
+  /// **'No pull yet in this session.'**
+  String get devSyncNoPulls;
+
+  /// No description provided for @devSyncOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync is off on this device (local-only). The outbox keeps changes for a later sign-in.'**
+  String get devSyncOff;
+
+  /// No description provided for @devSyncOutbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Outbox'**
+  String get devSyncOutbox;
+
+  /// No description provided for @devSyncOutboxEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'The outbox is empty.'**
+  String get devSyncOutboxEmpty;
+
+  /// No description provided for @devSyncPullPage.
+  ///
+  /// In en, this message translates to:
+  /// **'{since} → {next} · {changes, plural, =1{1 change} other{{changes} changes}}'**
+  String devSyncPullPage(int since, int next, int changes);
+
+  /// No description provided for @devSyncPulls.
+  ///
+  /// In en, this message translates to:
+  /// **'Last pulled pages'**
+  String get devSyncPulls;
+
+  /// No description provided for @devSyncSimulateOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulate offline'**
+  String get devSyncSimulateOffline;
+
+  /// No description provided for @devSyncSimulateOfflineHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Every sync run fails as if the network were down.'**
+  String get devSyncSimulateOfflineHint;
+
+  /// No description provided for @devTimeTravel.
+  ///
+  /// In en, this message translates to:
+  /// **'Time travel'**
+  String get devTimeTravel;
+
+  /// No description provided for @devTimeTravelNow.
+  ///
+  /// In en, this message translates to:
+  /// **'App time: {time}'**
+  String devTimeTravelNow(String time);
+
+  /// No description provided for @devTimeTravelOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Real time'**
+  String get devTimeTravelOff;
+
+  /// No description provided for @devTimeTravelOffset.
+  ///
+  /// In en, this message translates to:
+  /// **'Shifted: {relative}'**
+  String devTimeTravelOffset(String relative);
+
+  /// No description provided for @devTimeTravelPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date & time'**
+  String get devTimeTravelPick;
+
+  /// No description provided for @devTimeTravelReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to real time'**
+  String get devTimeTravelReset;
+
+  /// No description provided for @devTools.
+  ///
+  /// In en, this message translates to:
+  /// **'Tools'**
+  String get devTools;
+
+  /// No description provided for @devZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Time zone'**
+  String get devZone;
+
+  /// No description provided for @devZoneDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Device zone: {zone}'**
+  String devZoneDevice(String zone);
+
+  /// No description provided for @devZoneOverridden.
+  ///
+  /// In en, this message translates to:
+  /// **'Overridden until reset'**
+  String get devZoneOverridden;
+
+  /// No description provided for @devZoneOverride.
+  ///
+  /// In en, this message translates to:
+  /// **'Override the device zone'**
+  String get devZoneOverride;
+
+  /// No description provided for @devZoneReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the real device zone'**
+  String get devZoneReset;
 
   /// No description provided for @durationDaysShort.
   ///
@@ -4670,6 +5030,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add a goal'**
   String get goalsAdd;
+
+  /// No description provided for @goalsBadgeBackfillFreeMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'A month logged on time'**
+  String get goalsBadgeBackfillFreeMonth;
+
+  /// No description provided for @goalsBadgeChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge completed'**
+  String get goalsBadgeChallenge;
+
+  /// No description provided for @goalsBadgeCravings.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} cravings resisted'**
+  String goalsBadgeCravings(int count);
+
+  /// No description provided for @goalsBadgeEarnedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned {date}'**
+  String goalsBadgeEarnedOn(String date);
+
+  /// No description provided for @goalsBadgeFirstCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'First check-in'**
+  String get goalsBadgeFirstCheckIn;
+
+  /// No description provided for @goalsBadgeFirstPerfectDay.
+  ///
+  /// In en, this message translates to:
+  /// **'First perfect day'**
+  String get goalsBadgeFirstPerfectDay;
+
+  /// No description provided for @goalsBadgePerfectWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect week'**
+  String get goalsBadgePerfectWeek;
+
+  /// No description provided for @goalsBadgeProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} of {target}'**
+  String goalsBadgeProgress(String value, String target);
+
+  /// No description provided for @goalsBadgeShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get goalsBadgeShare;
+
+  /// No description provided for @goalsBadgeShareDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Include the date'**
+  String get goalsBadgeShareDate;
+
+  /// No description provided for @goalsBadgeShareHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Include the habit\'s name'**
+  String get goalsBadgeShareHabit;
+
+  /// No description provided for @goalsBadgeShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'I earned the \"{name}\" badge in Everslot.'**
+  String goalsBadgeShareText(String name);
+
+  /// No description provided for @goalsBadgeShareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share a badge'**
+  String get goalsBadgeShareTitle;
+
+  /// No description provided for @goalsBadgeStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}-day streak'**
+  String goalsBadgeStreak(int count);
+
+  /// No description provided for @goalsBadgeTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} logged'**
+  String goalsBadgeTotal(String value);
+
+  /// No description provided for @goalsBadgeUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Badge unlocked: {name}'**
+  String goalsBadgeUnlocked(String name);
+
+  /// No description provided for @goalsBadgesEarned.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned'**
+  String get goalsBadgesEarned;
+
+  /// No description provided for @goalsBadgesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in to earn your first badge.'**
+  String get goalsBadgesEmpty;
+
+  /// No description provided for @goalsBadgesLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'To earn'**
+  String get goalsBadgesLocked;
+
+  /// No description provided for @goalsBadgesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Badges'**
+  String get goalsBadgesTitle;
 
   /// No description provided for @goalsCelebrate.
   ///
@@ -6219,6 +6699,42 @@ abstract class AppLocalizations {
   /// **'Previous year'**
   String get habitsPreviousYear;
 
+  /// No description provided for @habitsProgressionEvery.
+  ///
+  /// In en, this message translates to:
+  /// **'Every'**
+  String get habitsProgressionEvery;
+
+  /// No description provided for @habitsProgressionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts at the target and adds a step regularly during the challenge.'**
+  String get habitsProgressionHint;
+
+  /// No description provided for @habitsProgressionMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to (0 = no limit)'**
+  String get habitsProgressionMax;
+
+  /// No description provided for @habitsProgressionStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Add each time'**
+  String get habitsProgressionStep;
+
+  /// No description provided for @habitsProgressionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grow the target'**
+  String get habitsProgressionTitle;
+
+  /// No description provided for @habitsProgressionToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s target: {value}'**
+  String habitsProgressionToday(String value);
+
   /// No description provided for @habitsQuickValues.
   ///
   /// In en, this message translates to:
@@ -6260,6 +6776,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recent entries'**
   String get habitsRecentEntries;
+
+  /// No description provided for @habitsRecordAbstinence.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest clean stretch ever: {value}'**
+  String habitsRecordAbstinence(String value);
+
+  /// No description provided for @habitsRecordBestDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Best day ever: {value}'**
+  String habitsRecordBestDay(String value);
+
+  /// No description provided for @habitsRecordBestWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Best week ever: {value}'**
+  String habitsRecordBestWeek(String value);
+
+  /// No description provided for @habitsRecordCravings.
+  ///
+  /// In en, this message translates to:
+  /// **'Most cravings resisted in a day: {count}'**
+  String habitsRecordCravings(int count);
+
+  /// No description provided for @habitsRecordNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New record!'**
+  String get habitsRecordNew;
+
+  /// No description provided for @habitsRecordStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest streak ever: {value}'**
+  String habitsRecordStreak(String value);
 
   /// No description provided for @habitsReorder.
   ///
@@ -8523,6 +9075,24 @@ abstract class AppLocalizations {
   /// **'Title template'**
   String get notifContentTitle;
 
+  /// No description provided for @notifCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 reminder copied} other{{count} reminders copied}}'**
+  String notifCopied(int count);
+
+  /// No description provided for @notifCopyFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy reminders from…'**
+  String get notifCopyFrom;
+
+  /// No description provided for @notifCopyNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'That item has no reminders of its own'**
+  String get notifCopyNothing;
+
   /// No description provided for @notifCreateCount.
   ///
   /// In en, this message translates to:
@@ -9297,6 +9867,12 @@ abstract class AppLocalizations {
   /// **'The offset must be within 30 days'**
   String get notifIssueOffsetOutOfRange;
 
+  /// No description provided for @notifIssueRepeatDoze.
+  ///
+  /// In en, this message translates to:
+  /// **'On Android, repeats less than 10 minutes apart may arrive late while the phone sleeps'**
+  String get notifIssueRepeatDoze;
+
   /// No description provided for @notifIssueRepeatInterval.
   ///
   /// In en, this message translates to:
@@ -9596,6 +10172,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'About {perDay} notifications per day'**
   String notifNoiseWarn(int perDay);
+
+  /// No description provided for @notifNoticeChannelBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the system settings to allow them again.'**
+  String get notifNoticeChannelBody;
+
+  /// No description provided for @notifNoticeRevokedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again to keep syncing.'**
+  String get notifNoticeRevokedBody;
+
+  /// No description provided for @notifNoticeRevokedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This device was removed from your account'**
+  String get notifNoticeRevokedTitle;
+
+  /// No description provided for @notifNoticeSaturatedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'iOS keeps only the next 64 reminders. Open Everslot regularly (or turn on push) so the later ones get scheduled.'**
+  String get notifNoticeSaturatedBody;
+
+  /// No description provided for @notifNoticeSaturatedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not all reminders fit on this device'**
+  String get notifNoticeSaturatedTitle;
+
+  /// No description provided for @notifNoticeSyncBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your changes are safe on this device. Check your connection or sign in again.'**
+  String get notifNoticeSyncBody;
+
+  /// No description provided for @notifNoticeSyncTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync has been failing for over a day'**
+  String get notifNoticeSyncTitle;
+
+  /// No description provided for @notifNoticeUpdateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This version can no longer sync. Install the latest version to keep your data in sync.'**
+  String get notifNoticeUpdateBody;
+
+  /// No description provided for @notifNoticeUpdateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Everslot'**
+  String get notifNoticeUpdateTitle;
 
   /// No description provided for @notifOffsetAmount.
   ///
@@ -12945,6 +13575,66 @@ abstract class AppLocalizations {
   /// **'Before quitting, per day'**
   String get quitBaseline;
 
+  /// No description provided for @quitBreathCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle {cycle}'**
+  String quitBreathCycle(int cycle);
+
+  /// No description provided for @quitBreathHold.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold'**
+  String get quitBreathHold;
+
+  /// No description provided for @quitBreathIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe in'**
+  String get quitBreathIn;
+
+  /// No description provided for @quitBreathOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe out'**
+  String get quitBreathOut;
+
+  /// No description provided for @quitBreathPhase.
+  ///
+  /// In en, this message translates to:
+  /// **'{phase} · {seconds}'**
+  String quitBreathPhase(String phase, int seconds);
+
+  /// No description provided for @quitBreathing478.
+  ///
+  /// In en, this message translates to:
+  /// **'4-7-8'**
+  String get quitBreathing478;
+
+  /// No description provided for @quitBreathingBox.
+  ///
+  /// In en, this message translates to:
+  /// **'Box 4-4-4-4'**
+  String get quitBreathingBox;
+
+  /// No description provided for @quitBreathingStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get quitBreathingStart;
+
+  /// No description provided for @quitBreathingStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get quitBreathingStop;
+
+  /// No description provided for @quitBreathingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathing'**
+  String get quitBreathingTitle;
+
   /// No description provided for @quitCleanDays.
   ///
   /// In en, this message translates to:
@@ -13100,6 +13790,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A healthy snack'**
   String get quitDistractionSnack;
+
+  /// No description provided for @quitDistractionsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add distractions that work for you in the libraries.'**
+  String get quitDistractionsEmpty;
+
+  /// No description provided for @quitDistractionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Distractions'**
+  String get quitDistractionsTitle;
 
   /// No description provided for @quitDuration.
   ///
@@ -13862,6 +14564,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{used} of {limit} today'**
   String quitTodayUse(String used, String limit);
+
+  /// No description provided for @quitToolboxDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Three minutes done — did you resist?'**
+  String get quitToolboxDone;
+
+  /// No description provided for @quitToolboxLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving logged with its duration.'**
+  String get quitToolboxLogged;
+
+  /// No description provided for @quitToolboxOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the coping toolbox'**
+  String get quitToolboxOpen;
+
+  /// No description provided for @quitToolboxRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} left'**
+  String quitToolboxRemaining(String time);
+
+  /// No description provided for @quitToolboxStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the 3-minute timer'**
+  String get quitToolboxStart;
+
+  /// No description provided for @quitToolboxThrough.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m through it'**
+  String get quitToolboxThrough;
+
+  /// No description provided for @quitToolboxTimerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Most cravings pass within 3 to 5 minutes. Stay with it.'**
+  String get quitToolboxTimerHint;
+
+  /// No description provided for @quitToolboxTimerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ride out the craving'**
+  String get quitToolboxTimerTitle;
+
+  /// No description provided for @quitToolboxTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coping toolbox'**
+  String get quitToolboxTitle;
 
   /// No description provided for @quitTrigger.
   ///
@@ -15056,6 +15812,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Current time zone (this device)'**
   String get settingsCurrentZone;
+
+  /// No description provided for @settingsDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up, restore or move your data'**
+  String get settingsDataSubtitle;
+
+  /// No description provided for @settingsDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export & import'**
+  String get settingsDataTitle;
 
   /// No description provided for @settingsDayStart.
   ///

@@ -33,6 +33,8 @@
   "settingsAboutSubtitle": "Version, licenses, help",
   "settingsOrganizationSubtitle": "Categories and tags used across the app",
   "settingsTrash": "Trash",
+  "settingsDataTitle": "Export & import",
+  "settingsDataSubtitle": "Back up, restore or move your data",
   "settingsUnknownPage": "This settings page doesn't exist.",
   "settingsTheme": "Theme",
   "settingsThemeSystem": "System",

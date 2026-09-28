@@ -41,21 +41,21 @@ trigger semantics per section and global controls such as quiet hours ([7.5]).
 
 ## Progress
 
-- [ ] T7.1.01 — Server migrations: profiles, rules, inbox
-- [ ] T7.1.02 — Drift tables, DAOs & repositories
-- [ ] T7.1.03 — Rule-spec domain model & JSON v1 codec
-- [ ] T7.1.04 — Rule validation & noise guard
-- [ ] T7.1.05 — Built-in profiles & per-field inheritance semantics
-- [ ] T7.1.06 — Inheritance resolver (effective rules per target)
-- [ ] T7.1.07 — Default rules & profiles seeding
-- [ ] T7.1.08 — Content template engine
-- [ ] T7.1.09 — Notification section component (in every editor)
-- [ ] T7.1.10 — Simple rule editor (quick chips & offsets)
-- [ ] T7.1.11 — Next-firings preview & test notification
-- [ ] T7.1.12 — Advanced rule editor
-- [ ] T7.1.13 — Custom profiles editor
-- [ ] T7.1.14 — Section & category default-rule editors
-- [ ] T7.1.15 — "Customize" snapshot, bulk apply & copy rules
+- [x] T7.1.01 — Server migrations: profiles, rules, inbox
+- [x] T7.1.02 — Drift tables, DAOs & repositories
+- [x] T7.1.03 — Rule-spec domain model & JSON v1 codec
+- [x] T7.1.04 — Rule validation & noise guard
+- [x] T7.1.05 — Built-in profiles & per-field inheritance semantics
+- [x] T7.1.06 — Inheritance resolver (effective rules per target)
+- [x] T7.1.07 — Default rules & profiles seeding
+- [x] T7.1.08 — Content template engine
+- [x] T7.1.09 — Notification section component (in every editor)
+- [x] T7.1.10 — Simple rule editor (quick chips & offsets)
+- [x] T7.1.11 — Next-firings preview & test notification
+- [x] T7.1.12 — Advanced rule editor
+- [x] T7.1.13 — Custom profiles editor
+- [x] T7.1.14 — Section & category default-rule editors
+- [x] T7.1.15 — "Customize" snapshot, bulk apply & copy rules
 - [ ] T7.1.16 — Occurrence-level overrides
 - [ ] T7.1.17 — Motivational content variants
 - [ ] T7.1.18 — Rule sets (reusable bundles) & export/import
@@ -82,6 +82,7 @@ triggers, `(user_id, rev)` index, RLS).
 rows round-trip through `sync_push`/`sync_pull`.
 **Tests:** pgTAP: constraints, RLS cross-user denial, sync trigger presence (covered by the completeness
 check in [9.1] T9.1.06), unique dedupe key per user.
+**Notes:** Built with the app foundation (`supabase/migrations/20260922000100_create_notifications.sql`, also `notification_mutes` and the private jobs/deliveries tables); pgTAP coverage in `020_rls_completeness` and `070_domain_constraints`.
 
 ### T7.1.02 — Drift tables, DAOs & repositories
 **Priority:** P0 · **Size:** M · **Depends on:** T7.1.01, [1.4]
@@ -94,6 +95,7 @@ emits a `NotificationTargetsChanged(targetKeys)` event consumed by the replan or
 **Acceptance criteria:** creating a rule on device A appears on device B after sync and triggers a replan
 there; deleting an item soft-deletes its rules in the same transaction.
 **Tests:** in-memory Drift DAO tests; repository tests with fake clock; cascade test (item delete → rules).
+**Notes:** Replans are triggered by `SyncWriter.committed` (local writes) and Drift `tableUpdates` on the notification-relevant tables (pulled rows) instead of a dedicated `NotificationTargetsChanged` event; item cascades go through `NotificationHostApi.deleteForTargetInTx` (planner, checklists, habits call it).
 
 ### T7.1.03 — Rule-spec domain model & JSON v1 codec
 **Priority:** P0 · **Size:** L · **Depends on:** T7.1.02, [2.1] (recurrence rule model)
@@ -113,6 +115,7 @@ union**: `relative` (anchor `start | end | due | follow_up | slot | period_start
 **Acceptance criteria:** every example in arch §8.2 and every trigger variant round-trips byte-identically;
 unknown future fields survive decode → encode.
 **Tests:** codec fixtures (`fixtures/notifications/specs/*.json`), sealed-union exhaustiveness tests.
+**Notes:** Hand-written immutable model (ADR-016, no freezed); the codec fixtures (arch §8.2 example + every trigger variant, byte-identical) are inline in `rule_spec_codec_test.dart`.
 
 ### T7.1.04 — Rule validation & noise guard
 **Priority:** P0 · **Size:** M · **Depends on:** T7.1.03, [7.2] (planner, for the noise estimate)
@@ -145,6 +148,7 @@ is granted else active) lives here and is reused by [7.2]/[7.4].
 **Acceptance criteria:** a rule with `sound: "none"` over the Standard profile is silent; removing the field
 restores the profile sound; changing a profile updates every rule that inherits (live inheritance).
 **Tests:** exhaustive resolution table tests (field × absent/set/disable × profile chain).
+**Notes:** The Alarm profile is defined but hidden in pickers until T7.2.24.
 
 ### T7.1.06 — Inheritance resolver (effective rules per target)
 **Priority:** P0 · **Size:** M · **Depends on:** T7.1.05, [2.3] (categories)
@@ -179,6 +183,7 @@ scheduled slot time* (or 09:00 on scheduled days when the habit has no time) + *
 **Acceptance criteria:** fresh account → a new timed task gets exactly two reminders; two offline devices
 seeding simultaneously end with one set of defaults after sync.
 **Tests:** seeding idempotency test; two-client convergence scenario added to [9.1] T9.1.03 fixtures.
+**Notes:** Checklist *at due* (item due dates exist) and quit *milestones* defaults are seeded too.
 
 ### T7.1.08 — Content template engine
 **Priority:** P0 · **Size:** M · **Depends on:** T7.1.03, [1.3] (l10n)
@@ -200,6 +205,7 @@ formatting, plurals and redaction.
 **Acceptance criteria:** golden renders for every default template in EN/FR/AR; unknown variables render
 literally and are flagged by T7.1.04.
 **Tests:** template unit tests incl. plurals, RTL mixed text, truncation, redaction.
+**Notes:** Every default template is verified as text in EN/FR/AR (`notification_texts_test.dart`) rather than image goldens.
 
 ### T7.1.09 — Notification section component (in every editor)
 **Priority:** P0 · **Size:** M · **Depends on:** T7.1.06, T7.1.10, [3.1], [4.2], [5.1]
@@ -213,6 +219,7 @@ transaction).
 **Acceptance criteria:** a user can add "10 min before" and "at start" to a task in ≤ 4 taps; the section is
 identical in all editors apart from the anchors offered.
 **Tests:** widget tests per host editor; golden light/dark/RTL.
+**Notes:** Hosted by the task editor, checklist settings, item details, habit and quit editors.
 
 ### T7.1.10 — Simple rule editor (quick chips & offsets)
 **Priority:** P0 · **Size:** M · **Depends on:** T7.1.04, T7.1.05, [1.3] (pickers)
@@ -237,6 +244,7 @@ effective delivery and rendered content).
 **Acceptance criteria:** preview matches what the planner schedules (same code path); test notification
 shows the configured actions and sound on the device.
 **Tests:** unit test comparing preview output with planner output; manual QA script entry.
+**Notes:** Preview and planner share `NotificationPlanner.plan` (`application/rule_preview.dart`); *Send test* schedules a real local notification 5 s ahead.
 
 ### T7.1.12 — Advanced rule editor
 **Priority:** P1 · **Size:** L · **Depends on:** T7.1.10, T7.1.08
@@ -251,6 +259,7 @@ variable picker filtered by target type, live preview in the user's locale, reda
 **Acceptance criteria:** every field of arch §8.2 plus the conventions above is editable; round-trip edit
 of a complex rule changes nothing when saved without edits.
 **Tests:** widget tests for field groups; golden per section of the editor; round-trip test.
+**Notes:** Each field uses an inherit dropdown: empty means *Inherited from <profile>*, a value overrides it, and the field's sentinel (`none`, `[]`, `false`) disables it. Android and iOS fields are badged.
 
 ### T7.1.13 — Custom profiles editor
 **Priority:** P1 · **Size:** M · **Depends on:** T7.1.05, T7.1.12
@@ -261,6 +270,7 @@ not deleted); each profile edits delivery/repeat/content defaults with the same 
 system settings; rules keep the profile reference.
 **Acceptance criteria:** deleting a profile in use asks where to move its rules; built-ins can't be deleted.
 **Tests:** widget tests; unit test for channel-id versioning on profile change.
+**Notes:** Reordering writes one sort key after the new visible neighbour, so hidden profiles keep their place.
 
 ### T7.1.14 — Section & category default-rule editors
 **Priority:** P1 · **Size:** M · **Depends on:** T7.1.06, T7.1.12
@@ -278,6 +288,7 @@ defaults").
 (from [3.1]/[4.2] multi-select).
 **Acceptance criteria:** snapshot rules no longer change when defaults change; bulk apply is one undoable command.
 **Tests:** unit tests for snapshot/copy; undo test.
+**Notes:** Hosts expose the features: `NotificationSettingsSection(pickCopySource:)` for *Copy reminders from…* and `NotificationHostApi.setReminders` for multi-select *Set reminders* (TODO(integration): planner, checklists and habits wire their item picker and multi-select action).
 
 ### T7.1.16 — Occurrence-level overrides
 **Priority:** P2 · **Size:** M · **Depends on:** T7.1.12, [3.2]

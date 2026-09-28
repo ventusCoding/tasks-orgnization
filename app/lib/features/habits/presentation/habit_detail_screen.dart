@@ -17,6 +17,7 @@ import 'package:everslot/features/habits/presentation/check_in_sheets.dart';
 import 'package:everslot/features/habits/presentation/habit_routes.dart';
 import 'package:everslot/features/habits/presentation/habit_ui.dart';
 import 'package:everslot/features/habits/presentation/pause_sheet.dart';
+import 'package:everslot/features/habits/presentation/record_banner.dart';
 import 'package:everslot/features/habits/presentation/today_view.dart';
 import 'package:everslot_metrics/everslot_metrics.dart' show PeriodStatus;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -170,6 +171,10 @@ class _Detail extends ConsumerWidget {
                 ),
               ],
             ),
+          ),
+          Padding(
+            padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.sm),
+            child: RecordBanner(habitId: habit.id),
           ),
           if (challengeOf(snapshot) case final challenge?)
             Padding(

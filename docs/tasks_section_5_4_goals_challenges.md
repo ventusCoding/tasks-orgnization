@@ -25,10 +25,10 @@ P2); streak freezes; achievements catalog & unlock engine; badge gallery & share
 - [x] T5.4.04 — Goal surfaces & completion
 - [x] T5.4.05 — Challenges
 - [x] T5.4.06 — Streak freezes
-- [ ] T5.4.07 — Progressive challenge targets
-- [ ] T5.4.08 — Achievements: catalog & unlock engine
-- [ ] T5.4.09 — Badge gallery & share cards
-- [ ] T5.4.10 — Personal-record moments
+- [x] T5.4.07 — Progressive challenge targets
+- [x] T5.4.08 — Achievements: catalog & unlock engine
+- [x] T5.4.09 — Badge gallery & share cards
+- [x] T5.4.10 — Personal-record moments
 
 ## Tasks
 
@@ -110,6 +110,7 @@ implemented as generated `habit_revisions` or a progression rule evaluated per p
 **Data model:** `habits.settings.targetProgression { start, step, everyDays, max }` (if not using
 generated revisions).
 **Tests:** evaluation fixtures.
+**Notes:** Implemented as `habits.settings.targetProgression` evaluated per period by the period service (no generated revisions); the editor sets it for measurable challenges with a today-target preview. Editing the progression re-evaluates past days too (settings are not revisioned).
 
 ### T5.4.08 — Achievements: catalog & unlock engine
 **Priority:** P2 · **Size:** M · **Depends on:** T5.4.03, [5.3] (quit calculator)
@@ -122,12 +123,14 @@ devices never duplicate; cheap predicates evaluated after relevant writes (debou
 unlocking triggers a celebration and an optional notification ([7.5]).
 **Data model:** achievements use deterministic ids (arch §9.2).
 **Tests:** unit tests per predicate; idempotency test.
+**Notes:** The table came with the foundation. Catalog + pure predicates (`goals/domain/achievements.dart`), `AchievementService` (facts from snapshots; skips the 400-day scans once those badges exist; concurrent calls coalesce), deterministic ids via `Ids.achievement`. Runs after done/progress check-ins (badge cards in the celebration overlay) and at start-up. TODO(integration): optional [7.5] notification on unlock (no event API on main).
 
 ### T5.4.09 — Badge gallery & share cards
 **Priority:** P2 · **Size:** S · **Depends on:** T5.4.08
 **Description:** Gallery of earned and locked badges with progress hints; share a badge or quit milestone as
 an image card containing only what the user chooses.
 **Tests:** goldens for share cards.
+**Notes:** Badge gallery (Goals screen app bar): earned badges with habit and date, locked ones with progress hints from `badgeValues`; the share sheet renders `BadgeShareCard` to a PNG (habit name off by default, date optional) and shares it with share_plus. Goldens (light/EN, dark/AR) in `badge_share_card_golden_test.dart` (tag golden, Ahem font). Sharing quit milestones as cards is not added.
 
 ### T5.4.10 — Personal-record moments
 **Priority:** P2 · **Size:** S · **Depends on:** T5.4.08, [6.5]
@@ -135,3 +138,4 @@ an image card containing only what the user chooses.
 week, longest abstinence, most cravings resisted in a day — as "New record!" moments in the Habits tab and
 detail screens.
 **Tests:** widget tests.
+**Notes:** `recordMoments` (best day/week via `everslot_metrics` `habitRecords`, current streak beating all earlier ones, longest abstinence, most cravings resisted in a day) shown as a New record! banner on the habit detail and quit dashboard and a pill on the Today row. Records are not persisted as announced (the stats `announcedRecords` setting belongs to [6.7]).

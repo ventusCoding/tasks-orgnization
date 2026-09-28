@@ -44,7 +44,26 @@ final appBuildProvider = Provider<int>((ref) => 1);
 /// Supabase client, or null in local-only mode. Override in bootstrap.
 final supabaseClientProvider = Provider<SupabaseClient?>((ref) => null);
 
-final clockProvider = Provider<Clock>((ref) => const SystemClock());
+final clockProvider = Provider<Clock>((ref) => ref.watch(timeTravelProvider.notifier).clock);
+
+/// Debug "time travel" (T1.3.16): offset of the app clock, dev builds only. The shared
+/// [TravelClock] reads it on every call, so all clock consumers move together; watch this
+/// provider to refresh UI derived from "now".
+final timeTravelProvider = NotifierProvider<TimeTravelController, Duration>(TimeTravelController.new);
+
+class TimeTravelController extends Notifier<Duration> {
+  final clock = TravelClock();
+
+  @override
+  Duration build() => clock.offset;
+
+  /// Moves the app clock by [offset] from real time (ignored outside dev builds).
+  void travel(Duration offset) {
+    if (!ref.read(envProvider).isDev) return;
+    clock.offset = offset;
+    state = offset;
+  }
+}
 
 final zoneResolverProvider = Provider<ZoneResolver>((ref) => TzZoneResolver());
 
@@ -68,7 +87,11 @@ class DeviceZoneController extends Notifier<String> {
     return initialZone;
   }
 
+  /// Debug zone override (sticks across resumes until [debugClear]).
+  String? _override;
+
   Future<void> refresh() async {
+    if (_override != null) return;
     try {
       final info = await FlutterTimezone.getLocalTimezone();
       final zone = info.identifier;
@@ -78,9 +101,19 @@ class DeviceZoneController extends Notifier<String> {
     }
   }
 
-  /// Debug override (time-zone travel simulation).
-  // ignore: use_setters_to_change_properties
-  void debugSet(String zone) => state = zone;
+  /// Debug override (time-zone travel simulation, dev debug menu).
+  void debugSet(String zone) {
+    _override = zone;
+    state = zone;
+  }
+
+  /// Ends the debug override and reads the real device zone again.
+  Future<void> debugClear() async {
+    _override = null;
+    await refresh();
+  }
+
+  bool get isOverridden => _override != null;
 }
 
 /// The signed-in or local user. The auth feature ([1.5]) drives cloud sessions.
@@ -293,8 +326,9 @@ class FeatureFlagsController extends Notifier<Set<String>> {
   @override
   Set<String> build() => ref.watch(envProvider).featureFlags;
 
+  /// Runtime override from the dev debug menu (ignored outside dev builds).
   void toggle(String flag) {
-    if (!kDebugMode) return;
+    if (!ref.read(envProvider).isDev) return;
     state = state.contains(flag) ? ({...state}..remove(flag)) : {...state, flag};
   }
 }

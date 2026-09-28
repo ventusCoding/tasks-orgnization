@@ -1,4 +1,5 @@
 import 'package:everslot/app/shell_scaffold.dart';
+import 'package:everslot/core/env/env.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/design_system/design_system.dart';
@@ -40,7 +41,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     ..listen(authRouteStateProvider, (_, _) => refresh.value++)
     ..onDispose(refresh.dispose);
   // The debug menu only exists in dev builds (T1.3.16).
-  final devTools = ref.read(envProvider).isDev;
+  final devTools = Env.devToolsCompiled && ref.read(envProvider).isDev;
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -233,7 +234,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         GoRoute(
           path: '/dev',
           parentNavigatorKey: rootNavigatorKey,
-          builder: (_, _) => const DebugMenuScreen(),
+          builder: (_, s) => DebugMenuScreen(page: s.uri.queryParameters['page']),
         ),
     ],
   );

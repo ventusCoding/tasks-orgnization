@@ -2500,7 +2500,266 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get devComponentGallery => 'معرض المكوّنات';
+
+  @override
+  String get devConfigured => 'مُهيّأ';
+
+  @override
+  String get devCopied => 'تم النسخ';
+
+  @override
+  String get devDangerZone => 'منطقة حساسة';
+
+  @override
+  String get devDatabase => 'قاعدة البيانات المحلية';
+
+  @override
+  String get devDatabaseEmpty => 'لا توجد صفوف.';
+
+  @override
+  String devDatabaseRows(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count صف',
+      many: '$count صفًا',
+      few: '$count صفوف',
+      two: 'صفّان',
+      one: 'صف واحد',
+      zero: 'فارغ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get devEnvironment => 'البيئة';
+
+  @override
+  String get devFirebase => 'Firebase';
+
+  @override
+  String get devFlags => 'الميزات التجريبية';
+
+  @override
+  String get devFlagsHint => 'تغييرات لهذه الجلسة فقط (نسخ التطوير).';
+
+  @override
+  String devFlavor(String flavor) {
+    return 'النسخة: $flavor';
+  }
+
+  @override
+  String get devLogs => 'السجلات';
+
+  @override
+  String get devLogsAll => 'الكل';
+
+  @override
+  String get devLogsCopy => 'نسخ السجلات';
+
+  @override
+  String get devLogsEmpty => 'لا توجد سجلات بعد.';
+
+  @override
   String get devMenu => 'قائمة المطوّر';
+
+  @override
+  String get devNoWarnings => 'لا توجد تحذيرات في الإعداد';
+
+  @override
+  String get devNotConfigured => 'غير مُهيّأ';
+
+  @override
+  String get devResetData => 'إعادة ضبط البيانات المحلية';
+
+  @override
+  String get devResetDataBody =>
+      'يحذف كل العناصر والإعدادات والملفات المحفوظة على هذا الجهاز. يتم تسجيل الخروج من الحساب السحابي (تبقى بياناته على الخادم). لا يمكن التراجع عن ذلك.';
+
+  @override
+  String get devResetDone => 'تمت إعادة ضبط البيانات المحلية';
+
+  @override
+  String get devSampleData => 'بيانات تجريبية';
+
+  @override
+  String get devSampleDataBody =>
+      'يضيف ما يقارب ستة أشهر من المهام والقوائم والعادات ومتتبّع إقلاع واقعية للعروض ولقطات الشاشة.';
+
+  @override
+  String devSampleDataDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'أُضيف $count عنصر',
+      many: 'أُضيف $count عنصرًا',
+      few: 'أُضيفت $count عناصر',
+      two: 'أُضيف عنصران',
+      one: 'أُضيف عنصر واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get devSampleDataGenerate => 'إنشاء بيانات تجريبية';
+
+  @override
+  String get devSampleDataRemove => 'حذف البيانات التجريبية';
+
+  @override
+  String get devSampleDataRemoved => 'تم حذف البيانات التجريبية';
+
+  @override
+  String devSession(String mode) {
+    return 'الجلسة: $mode';
+  }
+
+  @override
+  String get devSupabase => 'Supabase';
+
+  @override
+  String devSyncAttempts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count محاولة',
+      many: '$count محاولة',
+      few: '$count محاولات',
+      two: 'محاولتان',
+      one: 'محاولة واحدة',
+      zero: 'لم يُرسل بعد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String devSyncBatch(int size) {
+    return 'حجم دفعة الإرسال: $size';
+  }
+
+  @override
+  String get devSyncClear => 'مسح';
+
+  @override
+  String get devSyncConflicts => 'سجل التعارضات';
+
+  @override
+  String get devSyncConflictsEmpty => 'لم تُسجَّل أي تعارضات.';
+
+  @override
+  String devSyncCursor(int cursor, int watermark) {
+    return 'المؤشر $cursor · حدّ الحذف النهائي $watermark';
+  }
+
+  @override
+  String get devSyncDiagnostics => 'تشخيص المزامنة';
+
+  @override
+  String devSyncGroup(int count, String when) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تغيير',
+      many: '$count تغييرًا',
+      few: '$count تغييرات',
+      two: 'تغييران',
+      one: 'تغيير واحد',
+    );
+    return '$_temp0 · $when';
+  }
+
+  @override
+  String devSyncLastPull(String when) {
+    return 'آخر استلام: $when';
+  }
+
+  @override
+  String devSyncLastPush(String when) {
+    return 'آخر إرسال: $when';
+  }
+
+  @override
+  String get devSyncNever => 'أبدًا';
+
+  @override
+  String get devSyncNoPulls => 'لم يتم أي استلام في هذه الجلسة.';
+
+  @override
+  String get devSyncOff =>
+      'المزامنة متوقفة على هذا الجهاز (وضع محلي). تحتفظ قائمة الإرسال بالتغييرات لتسجيل دخول لاحق.';
+
+  @override
+  String get devSyncOutbox => 'قائمة الإرسال';
+
+  @override
+  String get devSyncOutboxEmpty => 'قائمة الإرسال فارغة.';
+
+  @override
+  String devSyncPullPage(int since, int next, int changes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      changes,
+      locale: localeName,
+      other: '$changes تغيير',
+      many: '$changes تغييرًا',
+      few: '$changes تغييرات',
+      two: 'تغييران',
+      one: 'تغيير واحد',
+    );
+    return '$since ← $next · $_temp0';
+  }
+
+  @override
+  String get devSyncPulls => 'آخر الصفحات المستلمة';
+
+  @override
+  String get devSyncSimulateOffline => 'محاكاة انقطاع الشبكة';
+
+  @override
+  String get devSyncSimulateOfflineHint =>
+      'تفشل كل مزامنة كما لو كانت الشبكة مقطوعة.';
+
+  @override
+  String get devTimeTravel => 'السفر عبر الزمن';
+
+  @override
+  String devTimeTravelNow(String time) {
+    return 'وقت التطبيق: $time';
+  }
+
+  @override
+  String get devTimeTravelOff => 'الوقت الحقيقي';
+
+  @override
+  String devTimeTravelOffset(String relative) {
+    return 'مُزاح: $relative';
+  }
+
+  @override
+  String get devTimeTravelPick => 'اختر تاريخًا ووقتًا';
+
+  @override
+  String get devTimeTravelReset => 'العودة إلى الوقت الحقيقي';
+
+  @override
+  String get devTools => 'الأدوات';
+
+  @override
+  String get devZone => 'المنطقة الزمنية';
+
+  @override
+  String devZoneDevice(String zone) {
+    return 'منطقة الجهاز: $zone';
+  }
+
+  @override
+  String get devZoneOverridden => 'مُستبدلة حتى إعادة الضبط';
+
+  @override
+  String get devZoneOverride => 'استبدال منطقة الجهاز';
+
+  @override
+  String get devZoneReset => 'استخدام منطقة الجهاز الحقيقية';
 
   @override
   String durationDaysShort(int days) {
@@ -2825,6 +3084,80 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get goalsAdd => 'إضافة هدف';
+
+  @override
+  String get goalsBadgeBackfillFreeMonth => 'شهر مسجّل في وقته';
+
+  @override
+  String get goalsBadgeChallenge => 'تحدٍّ مكتمل';
+
+  @override
+  String goalsBadgeCravings(int count) {
+    return 'مقاومة $count رغبة';
+  }
+
+  @override
+  String goalsBadgeEarnedOn(String date) {
+    return 'اكتُسبت في $date';
+  }
+
+  @override
+  String get goalsBadgeFirstCheckIn => 'أول تسجيل';
+
+  @override
+  String get goalsBadgeFirstPerfectDay => 'أول يوم مثالي';
+
+  @override
+  String get goalsBadgePerfectWeek => 'أسبوع مثالي';
+
+  @override
+  String goalsBadgeProgress(String value, String target) {
+    return '$value من $target';
+  }
+
+  @override
+  String get goalsBadgeShare => 'مشاركة';
+
+  @override
+  String get goalsBadgeShareDate => 'تضمين التاريخ';
+
+  @override
+  String get goalsBadgeShareHabit => 'تضمين اسم العادة';
+
+  @override
+  String goalsBadgeShareText(String name) {
+    return 'حصلت على شارة «$name» في Everslot.';
+  }
+
+  @override
+  String get goalsBadgeShareTitle => 'مشاركة شارة';
+
+  @override
+  String goalsBadgeStreak(int count) {
+    return 'سلسلة $count يومًا';
+  }
+
+  @override
+  String goalsBadgeTotal(String value) {
+    return '$value مسجّلة';
+  }
+
+  @override
+  String goalsBadgeUnlocked(String name) {
+    return 'شارة جديدة: $name';
+  }
+
+  @override
+  String get goalsBadgesEarned => 'المكتسبة';
+
+  @override
+  String get goalsBadgesEmpty => 'سجّل عادة لتحصل على أول شارة.';
+
+  @override
+  String get goalsBadgesLocked => 'للحصول عليها';
+
+  @override
+  String get goalsBadgesTitle => 'الشارات';
 
   @override
   String goalsCelebrate(String title) {
@@ -3739,6 +4072,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsPreviousYear => 'السنة السابقة';
 
   @override
+  String get habitsProgressionEvery => 'كل';
+
+  @override
+  String get habitsProgressionHint =>
+      'يبدأ من الهدف ويضيف خطوة بانتظام طوال التحدّي.';
+
+  @override
+  String get habitsProgressionMax => 'حتى (0 = بلا حد)';
+
+  @override
+  String get habitsProgressionStep => 'الإضافة في كل مرة';
+
+  @override
+  String get habitsProgressionTitle => 'زيادة الهدف تدريجيًا';
+
+  @override
+  String habitsProgressionToday(String value) {
+    return 'هدف اليوم: $value';
+  }
+
+  @override
   String get habitsQuickValues => 'قيم سريعة';
 
   @override
@@ -3762,6 +4116,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get habitsRecentEntries => 'الإدخالات الأخيرة';
+
+  @override
+  String habitsRecordAbstinence(String value) {
+    return 'أطول فترة امتناع على الإطلاق: $value';
+  }
+
+  @override
+  String habitsRecordBestDay(String value) {
+    return 'أفضل يوم على الإطلاق: $value';
+  }
+
+  @override
+  String habitsRecordBestWeek(String value) {
+    return 'أفضل أسبوع على الإطلاق: $value';
+  }
+
+  @override
+  String habitsRecordCravings(int count) {
+    return 'أكثر رغبات قاومتها في يوم: $count';
+  }
+
+  @override
+  String get habitsRecordNew => 'رقم قياسي جديد!';
+
+  @override
+  String habitsRecordStreak(String value) {
+    return 'أطول سلسلة على الإطلاق: $value';
+  }
 
   @override
   String get habitsReorder => 'إعادة الترتيب';
@@ -5405,6 +5787,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifContentTitle => 'قالب العنوان';
 
   @override
+  String notifCopied(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نُسخ $count تذكير',
+      many: 'نُسخ $count تذكيرًا',
+      few: 'نُسخت $count تذكيرات',
+      two: 'نُسخ تذكيران',
+      one: 'نُسخ تذكير واحد',
+      zero: 'لم يُنسخ أي تذكير',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifCopyFrom => 'نسخ التذكيرات من…';
+
+  @override
+  String get notifCopyNothing => 'لا يحتوي هذا العنصر على تذكيرات خاصة به';
+
+  @override
   String notifCreateCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -5885,6 +6288,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifIssueOffsetOutOfRange => 'يجب ألا يتجاوز الفارق 30 يومًا';
 
   @override
+  String get notifIssueRepeatDoze =>
+      'على أندرويد، قد تصل التكرارات التي يفصل بينها أقل من 10 دقائق متأخرةً أثناء سكون الهاتف';
+
+  @override
   String get notifIssueRepeatInterval =>
       'يجب أن يكون التكرار كل دقيقة على الأقل';
 
@@ -6068,6 +6475,37 @@ class AppLocalizationsAr extends AppLocalizations {
   String notifNoiseWarn(int perDay) {
     return 'حوالي $perDay إشعار يوميًا';
   }
+
+  @override
+  String get notifNoticeChannelBody =>
+      'افتح إعدادات النظام للسماح بها من جديد.';
+
+  @override
+  String get notifNoticeRevokedBody => 'سجّل الدخول من جديد لمتابعة المزامنة.';
+
+  @override
+  String get notifNoticeRevokedTitle => 'أُزيل هذا الجهاز من حسابك';
+
+  @override
+  String get notifNoticeSaturatedBody =>
+      'يحتفظ iOS بالتذكيرات الـ64 التالية فقط. افتح Everslot بانتظام (أو فعّل الإشعارات الفورية) لتُجدوَل التذكيرات اللاحقة.';
+
+  @override
+  String get notifNoticeSaturatedTitle => 'لا يتّسع هذا الجهاز لكل التذكيرات';
+
+  @override
+  String get notifNoticeSyncBody =>
+      'تغييراتك محفوظة على هذا الجهاز. تحقّق من اتصالك أو سجّل الدخول من جديد.';
+
+  @override
+  String get notifNoticeSyncTitle => 'تفشل المزامنة منذ أكثر من يوم';
+
+  @override
+  String get notifNoticeUpdateBody =>
+      'لم يعد بإمكان هذا الإصدار المزامنة. ثبّت أحدث إصدار لتبقى بياناتك متزامنة.';
+
+  @override
+  String get notifNoticeUpdateTitle => 'حدّث Everslot';
 
   @override
   String get notifOffsetAmount => 'المقدار';
@@ -8077,6 +8515,40 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitBaseline => 'قبل الإقلاع، يوميًا';
 
   @override
+  String quitBreathCycle(int cycle) {
+    return 'الدورة $cycle';
+  }
+
+  @override
+  String get quitBreathHold => 'احبس النفس';
+
+  @override
+  String get quitBreathIn => 'شهيق';
+
+  @override
+  String get quitBreathOut => 'زفير';
+
+  @override
+  String quitBreathPhase(String phase, int seconds) {
+    return '$phase · $seconds';
+  }
+
+  @override
+  String get quitBreathing478 => '4-7-8';
+
+  @override
+  String get quitBreathingBox => 'المربّع 4-4-4-4';
+
+  @override
+  String get quitBreathingStart => 'ابدأ';
+
+  @override
+  String get quitBreathingStop => 'أوقف';
+
+  @override
+  String get quitBreathingTitle => 'التنفّس';
+
+  @override
   String quitCleanDays(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -8171,6 +8643,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quitDistractionSnack => 'وجبة خفيفة صحية';
+
+  @override
+  String get quitDistractionsEmpty => 'أضف الإلهاءات التي تفيدك من القوائم.';
+
+  @override
+  String get quitDistractionsTitle => 'الإلهاءات';
 
   @override
   String get quitDuration => 'المدة';
@@ -8642,6 +9120,36 @@ class AppLocalizationsAr extends AppLocalizations {
   String quitTodayUse(String used, String limit) {
     return '$used من $limit اليوم';
   }
+
+  @override
+  String get quitToolboxDone => 'انقضت ثلاث دقائق — هل قاومت؟';
+
+  @override
+  String get quitToolboxLogged => 'تم تسجيل الرغبة مع مدتها.';
+
+  @override
+  String get quitToolboxOpen => 'افتح صندوق أدوات التأقلم';
+
+  @override
+  String quitToolboxRemaining(String time) {
+    return 'بقي $time';
+  }
+
+  @override
+  String get quitToolboxStart => 'ابدأ مؤقّت الدقائق الثلاث';
+
+  @override
+  String get quitToolboxThrough => 'لقد تجاوزتها';
+
+  @override
+  String get quitToolboxTimerHint =>
+      'تزول معظم الرغبات خلال 3 إلى 5 دقائق. اصمد.';
+
+  @override
+  String get quitToolboxTimerTitle => 'تجاوَز الرغبة';
+
+  @override
+  String get quitToolboxTitle => 'صندوق أدوات التأقلم';
 
   @override
   String get quitTrigger => 'المحفّز';
@@ -9395,6 +9903,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsCurrentZone => 'المنطقة الزمنية الحالية (هذا الجهاز)';
+
+  @override
+  String get settingsDataSubtitle =>
+      'انسخ بياناتك احتياطيًا أو استعدها أو انقلها';
+
+  @override
+  String get settingsDataTitle => 'التصدير والاستيراد';
 
   @override
   String get settingsDayStart => 'يبدأ يوم العادات عند';

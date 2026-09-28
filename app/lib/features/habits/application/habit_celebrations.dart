@@ -13,12 +13,12 @@ import 'package:meta/meta.dart';
 /// Streak lengths worth a celebration (T5.2.13).
 const streakMilestones = <int>[7, 14, 30, 60, 100, 200, 365, 500, 730, 1000];
 
-enum CelebrationKind { streak, perfectDay }
+enum CelebrationKind { streak, perfectDay, badge }
 
 /// Something to celebrate after a check-in (non-blocking overlay, T5.2.13).
 @immutable
 class Celebration {
-  const Celebration(this.kind, {required this.dedupeKey, this.habitId, this.habitName, this.count = 0});
+  const Celebration(this.kind, {required this.dedupeKey, this.habitId, this.habitName, this.count = 0, this.badge});
 
   final CelebrationKind kind;
 
@@ -29,6 +29,9 @@ class Celebration {
 
   /// Streak length (streak celebrations).
   final int count;
+
+  /// Achievement code of a badge celebration (T5.4.08).
+  final String? badge;
 
   @override
   bool operator ==(Object other) =>

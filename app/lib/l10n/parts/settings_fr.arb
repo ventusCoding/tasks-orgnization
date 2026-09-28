@@ -33,6 +33,8 @@
   "settingsAboutSubtitle": "Version, licences, aide",
   "settingsOrganizationSubtitle": "Catégories et étiquettes utilisées dans l'app",
   "settingsTrash": "Corbeille",
+  "settingsDataTitle": "Export et import",
+  "settingsDataSubtitle": "Sauvegarder, restaurer ou transférer vos données",
   "settingsUnknownPage": "Cette page de paramètres n'existe pas.",
   "settingsTheme": "Thème",
   "settingsThemeSystem": "Système",
