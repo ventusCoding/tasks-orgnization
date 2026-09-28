@@ -2329,6 +2329,13 @@
       }
     }
   },
+  "@pvCopied": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "@pvCopySuffix": {
     "placeholders": {
       "name": {
@@ -2508,6 +2515,13 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "@pvPasted": {
+    "placeholders": {
+      "time": {
+        "type": "String"
       }
     }
   },
@@ -5640,6 +5654,7 @@
   "pvCapacity": "Capacity",
   "pvCategories": "Categories",
   "pvClearFilters": "Clear",
+  "pvClearSelection": "Clear selection",
   "pvClocksForward": "Clocks forward",
   "pvColCategory": "Category",
   "pvColDate": "Date",
@@ -5661,6 +5676,8 @@
   "pvColumns": "Columns",
   "pvCompletion": "Completion",
   "pvContinues": "continues",
+  "pvCopied": "Copied “{title}”",
+  "pvCopy": "Copy",
   "pvCopySuffix": "{name} (copy)",
   "pvCreate": "Create",
   "pvCreateHere": "Create here",
@@ -5762,6 +5779,8 @@
   "pvMoveDown": "Move down",
   "pvMoveEarlier": "Move {minutes} min earlier",
   "pvMoveLater": "Move {minutes} min later",
+  "pvMoveNextDay": "Move to the next day",
+  "pvMovePreviousDay": "Move to the previous day",
   "pvMoveTo": "Move to…",
   "pvMoveUnfinishedTomorrow": "Move unfinished to tomorrow",
   "pvMoveUp": "Move up",
@@ -5778,6 +5797,7 @@
   "pvNoSavedViews": "No saved views yet",
   "pvNoTasks": "No tasks",
   "pvNothingNow": "Nothing scheduled right now",
+  "pvNothingToPaste": "Copy a task first",
   "pvNow": "Now",
   "pvOneOff": "One-off",
   "pvOpenDay": "Open day",
@@ -5796,6 +5816,7 @@
   "pvPagingFree": "Free scroll",
   "pvPagingMode": "Swipe moves",
   "pvPagingWeek": "One week",
+  "pvPasted": "Pasted at {time}",
   "pvPause": "Pause",
   "pvPickDate": "Pick a date",
   "pvPin": "Pin",
@@ -5854,7 +5875,9 @@
   "pvScopeFollowing": "This and following",
   "pvScopeThis": "This occurrence",
   "pvScopeTitle": "Change a recurring task",
+  "pvSelect": "Select",
   "pvSelected": "{count} selected",
+  "pvSelectionActions": "Actions",
   "pvSetAsPlanDefault": "Open the Plan tab on this view",
   "pvSetDefaultView": "Set as default",
   "pvShareAvailability": "Share availability",

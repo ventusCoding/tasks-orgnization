@@ -13,6 +13,7 @@ import 'package:everslot/features/planner/presentation/grid/data/planner_view_da
 import 'package:everslot/features/planner/presentation/grid/engine/snapping.dart';
 import 'package:everslot/features/planner/presentation/grid/grid_style.dart';
 import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
+import 'package:everslot/features/planner/presentation/views/planner_selection.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -230,8 +231,27 @@ class PlannerCommands {
     await runExtra(l.actionDelete, (a) => a.delete(item, scope: scope));
   }
 
-  /// Long-press-release quick menu (T3.4.12): Done, Skip, Start, Postpone ▸, Edit, Duplicate, Cancel.
-  Future<void> showTileMenu(PlannerItem item) async {
+  /// Copies [item] for Ctrl/Cmd + V (T3.1.19).
+  void copy(PlannerItem item) {
+    ref.read(plannerClipboardProvider.notifier).copy(item);
+    _snack(context.l10n.pvCopied(item.title), null);
+  }
+
+  /// Pastes the copied item as a one-off task at [start] (one undoable operation).
+  Future<void> paste(LocalDateTime start) async {
+    final l = context.l10n;
+    final item = ref.read(plannerClipboardProvider);
+    if (item == null) {
+      _snack(l.pvNothingToPaste, null);
+      return;
+    }
+    final f = context.plannerFormat(use24h: ref.read(userPreferencesProvider).use24h);
+    await runExtra(l.pvPasted('${f.dayShort(start.date)} ${f.timeOf(start)}'), (a) => a.paste(item, item.allDay ? start.date.atStartOfDay : start));
+  }
+
+  /// Long-press-release quick menu (T3.4.12): Done, Skip, Start, Postpone ▸, Edit, Duplicate, Copy,
+  /// Select (views with a selection mode pass [onSelect]), Cancel, Delete.
+  Future<void> showTileMenu(PlannerItem item, {VoidCallback? onSelect}) async {
     final l = context.l10n;
     final done = item.status == OccurrenceStatus.done;
     final action = await showAppSheet<String>(
@@ -240,6 +260,13 @@ class PlannerCommands {
       builder: (ctx) => ListView(
         shrinkWrap: true,
         children: [
+          if (onSelect != null)
+            ListTile(
+              key: const Key('tile-menu-select'),
+              leading: const Icon(Icons.check_box_outlined),
+              title: Text(l.pvSelect),
+              onTap: () => Navigator.pop(ctx, 'select'),
+            ),
           ListTile(
             leading: Icon(done ? Icons.remove_done : Icons.check_circle_outline),
             title: Text(done ? l.pvMarkNotDone : l.pvMarkDone),
@@ -267,6 +294,7 @@ class PlannerCommands {
           ),
           ListTile(leading: const Icon(Icons.edit_outlined), title: Text(l.actionEdit), onTap: () => Navigator.pop(ctx, 'edit')),
           ListTile(leading: const Icon(Icons.copy_outlined), title: Text(l.actionDuplicate), onTap: () => Navigator.pop(ctx, 'duplicate')),
+          ListTile(leading: const Icon(Icons.content_copy), title: Text(l.pvCopy), onTap: () => Navigator.pop(ctx, 'copy')),
           if (item.isRecurring)
             ListTile(leading: const Icon(Icons.block), title: Text(l.pvCancelOccurrence), onTap: () => Navigator.pop(ctx, 'cancel')),
           ListTile(
@@ -301,6 +329,10 @@ class PlannerCommands {
         ref.read(plannerNavProvider).openTask(context, item);
       case 'duplicate':
         await duplicate(item);
+      case 'copy':
+        copy(item);
+      case 'select':
+        onSelect?.call();
       case 'cancel':
         await setStatus(item, OccurrenceStatus.cancelled);
       case 'delete':

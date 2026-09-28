@@ -53,7 +53,7 @@ backlog drawer UI and drags to/from it ([3.7]).
 - [x] T3.3.21 — Zoom: vertical pinch, semantic zoom, horizontal pinch
 - [x] T3.3.22 — Display options (color-by, density, dim past, completed/cancelled, filters)
 - [x] T3.3.23 — Overlays framework
-- [ ] T3.3.24 — Accessibility: semantics, list fallback, keyboard
+- [x] T3.3.24 — Accessibility: semantics, list fallback, keyboard
 - [ ] T3.3.25 — Performance harness & optimization
 - [ ] T3.3.26 — Cascade overlap style & secondary time-zone rulers
 
@@ -381,6 +381,7 @@ fingers; fixed mode never changes `slotMinutes`.
 **Acceptance criteria:** with TalkBack or VoiceOver, a user can create, open, complete and move a task
 without any gesture.
 **Tests:** semantics tests; guideline checks ([9.1]).
+**Notes:** Tiles expose done / 15 min earlier / later / previous / next day / select actions; with accessible navigation on, empty slots become nodes (grouped to ≥ 24 px) whose tap quick-creates; the header long-press exposes the day menu (*Add task*). Keyboard on the grid: ↑/↓ select, ←/→ nearest item of the neighbour day (then page, mirrored in RTL), Enter opens, Space ticks, Shift+↑/↓ moves by the snap step, Shift+←/→ by a day, +/- zoom, Page Up/Down, Esc; Ctrl/Cmd+C/V copy / paste at the hovered or last tapped slot (planner-core `pasteAt`, T3.1.19). Selection mode (T3.1.18): tile menu *Select*, taps toggle, the toolbar becomes a selection bar opening `showBulkActionsSheet` (week table, N-day, work week, day list). Guideline checks remain part of [9.1].
 
 ### T3.3.25 — Performance harness & optimization
 **Priority:** P1 · **Size:** M · **Depends on:** T3.3.11, T3.3.12, T3.3.21

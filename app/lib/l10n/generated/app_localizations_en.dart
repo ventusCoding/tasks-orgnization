@@ -6602,6 +6602,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvClearFilters => 'Clear';
 
   @override
+  String get pvClearSelection => 'Clear selection';
+
+  @override
   String get pvClocksForward => 'Clocks forward';
 
   @override
@@ -6663,6 +6666,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvContinues => 'continues';
+
+  @override
+  String pvCopied(String title) {
+    return 'Copied “$title”';
+  }
+
+  @override
+  String get pvCopy => 'Copy';
 
   @override
   String pvCopySuffix(String name) {
@@ -7040,6 +7051,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get pvMoveNextDay => 'Move to the next day';
+
+  @override
+  String get pvMovePreviousDay => 'Move to the previous day';
+
+  @override
   String get pvMoveTo => 'Move to…';
 
   @override
@@ -7106,6 +7123,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvNothingNow => 'Nothing scheduled right now';
 
   @override
+  String get pvNothingToPaste => 'Copy a task first';
+
+  @override
   String get pvNow => 'Now';
 
   @override
@@ -7158,6 +7178,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvPagingWeek => 'One week';
+
+  @override
+  String pvPasted(String time) {
+    return 'Pasted at $time';
+  }
 
   @override
   String get pvPause => 'Pause';
@@ -7358,9 +7383,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvScopeTitle => 'Change a recurring task';
 
   @override
+  String get pvSelect => 'Select';
+
+  @override
   String pvSelected(int count) {
     return '$count selected';
   }
+
+  @override
+  String get pvSelectionActions => 'Actions';
 
   @override
   String get pvSetAsPlanDefault => 'Open the Plan tab on this view';

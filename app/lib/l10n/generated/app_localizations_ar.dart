@@ -6880,6 +6880,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvClearFilters => 'مسح';
 
   @override
+  String get pvClearSelection => 'إلغاء التحديد';
+
+  @override
   String get pvClocksForward => 'تقديم الساعة';
 
   @override
@@ -6941,6 +6944,14 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvContinues => 'مستمرة';
+
+  @override
+  String pvCopied(String title) {
+    return 'تم نسخ «$title»';
+  }
+
+  @override
+  String get pvCopy => 'نسخ';
 
   @override
   String pvCopySuffix(String name) {
@@ -7346,6 +7357,12 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get pvMoveNextDay => 'نقل إلى اليوم التالي';
+
+  @override
+  String get pvMovePreviousDay => 'نقل إلى اليوم السابق';
+
+  @override
   String get pvMoveTo => 'نقل إلى…';
 
   @override
@@ -7418,6 +7435,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvNothingNow => 'لا شيء مجدول الآن';
 
   @override
+  String get pvNothingToPaste => 'انسخ مهمة أولًا';
+
+  @override
   String get pvNow => 'الآن';
 
   @override
@@ -7470,6 +7490,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvPagingWeek => 'أسبوعًا واحدًا';
+
+  @override
+  String pvPasted(String time) {
+    return 'تم اللصق في $time';
+  }
 
   @override
   String get pvPause => 'إيقاف مؤقت';
@@ -7676,9 +7701,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvScopeTitle => 'تعديل مهمة متكررة';
 
   @override
+  String get pvSelect => 'تحديد';
+
+  @override
   String pvSelected(int count) {
     return 'المحدد: $count';
   }
+
+  @override
+  String get pvSelectionActions => 'إجراءات';
 
   @override
   String get pvSetAsPlanDefault => 'فتح تبويب الخطة على هذا العرض';

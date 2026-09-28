@@ -1,4 +1,27 @@
 {
+  "pvSelect": "Select",
+  "pvSelectionActions": "Actions",
+  "pvClearSelection": "Clear selection",
+  "pvCopy": "Copy",
+  "pvCopied": "Copied “{title}”",
+  "@pvCopied": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "pvPasted": "Pasted at {time}",
+  "@pvPasted": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "pvNothingToPaste": "Copy a task first",
+  "pvMoveNextDay": "Move to the next day",
+  "pvMovePreviousDay": "Move to the previous day",
   "pvViewWeekTable": "Week table",
   "pvViewDayList": "Day list",
   "pvViewNDay": "N days",

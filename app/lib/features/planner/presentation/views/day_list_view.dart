@@ -23,6 +23,7 @@ import 'package:everslot/features/planner/presentation/views/mini_month.dart';
 import 'package:everslot/features/planner/presentation/views/planner_chrome.dart';
 import 'package:everslot/features/planner/presentation/views/planner_keys.dart';
 import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
+import 'package:everslot/features/planner/presentation/views/planner_selection.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter/foundation.dart';
@@ -837,7 +838,7 @@ class _DayListPageState extends ConsumerState<DayListPage>
       return;
     }
     if (!d.moved) {
-      await commands.showTileMenu(item);
+      await commands.showTileMenu(item, onSelect: () => ref.read(plannerSelectionProvider(widget.viewKey).notifier).select(item));
       return;
     }
     if (d.toAllDay) {
@@ -932,9 +933,11 @@ class _DayListPageState extends ConsumerState<DayListPage>
         format: f,
         now: now,
         dimPast: config.dimPast,
-        onOpen: (i) => ref.read(plannerNavProvider).openTask(context, i),
+        onOpen: (i) => tapOrToggle(ref, widget.viewKey, i, () => ref.read(plannerNavProvider).openTask(context, i)),
         onToggle: (i) => unawaited(PlannerCommands(context, ref).toggleDone(i)),
-        onMenu: (i) => unawaited(PlannerCommands(context, ref).showTileMenu(i)),
+        onMenu: (i) => unawaited(
+          PlannerCommands(context, ref).showTileMenu(i, onSelect: () => ref.read(plannerSelectionProvider(widget.viewKey).notifier).select(i)),
+        ),
         onCreate: (start, minutes) => unawaited(
           PlannerCommands(
             context,
@@ -1075,7 +1078,7 @@ class _DayListPageState extends ConsumerState<DayListPage>
                       padding: const EdgeInsets.only(bottom: Space.xs),
                       child: SizedBox(
                         height: 40,
-                        child: _EntryChip(
+                        child: _EntryChip(viewKey: widget.viewKey, 
                           item: i,
                           colors: colors.of(i),
                           subtitle: i.isQuotaSlot ? l.pvUntimed : l.pvAllDay,
@@ -1135,7 +1138,7 @@ class _DayListPageState extends ConsumerState<DayListPage>
         final (item, time) = entries[i];
         return SizedBox(
           height: 52,
-          child: _EntryChip(
+          child: _EntryChip(viewKey: widget.viewKey, 
             item: item,
             colors: colors.of(item),
             subtitle: time,
@@ -1351,7 +1354,7 @@ class _DayListPageState extends ConsumerState<DayListPage>
       onDragEnd: () => unawaited(_endDrag()),
       chips: [
         for (final e in entries)
-          _EntryChip(
+          _EntryChip(viewKey: widget.viewKey, 
             key: ValueKey(e.item.key),
             item: e.item,
             colors: colors.of(e.item),
@@ -1796,6 +1799,7 @@ class _BarsPainter extends CustomPainter {
 /// open, long-press → quick menu, long-press + drag → reschedule.
 class _EntryChip extends ConsumerWidget {
   const _EntryChip({
+    required this.viewKey,
     required this.item,
     required this.colors,
     required this.subtitle,
@@ -1810,6 +1814,8 @@ class _EntryChip extends ConsumerWidget {
     super.key,
   });
 
+  /// The view (selection mode, T3.1.18).
+  final String viewKey;
   final PlannerItem item;
   final TileColors colors;
   final String subtitle;
@@ -1835,6 +1841,9 @@ class _EntryChip extends ConsumerWidget {
     final check = item.trackingMode == TrackingMode.check;
     final commands = PlannerCommands(context, ref);
     final fg = colors.foreground;
+    final selected = ref.watch(plannerSelectionProvider(viewKey).select((s) => s.containsKey(item.key)));
+    void open() => tapOrToggle(ref, viewKey, item, () => ref.read(plannerNavProvider).openTask(context, item));
+    void menu() => unawaited(commands.showTileMenu(item, onSelect: () => ref.read(plannerSelectionProvider(viewKey).notifier).select(item)));
     Widget chip = Opacity(
       opacity: dragging ? 0.35 : (faded ? 0.55 : (past && dimPast ? 0.75 : 1)),
       child: DecoratedBox(
@@ -1934,15 +1943,27 @@ class _EntryChip extends ConsumerWidget {
         ),
       ),
     );
+    if (selected) {
+      chip = DecoratedBox(
+        key: ValueKey('selected-${item.key}'),
+        position: DecorationPosition.foreground,
+        decoration: BoxDecoration(
+          border: Border.all(color: context.colors.primary, width: 2),
+          borderRadius: BorderRadius.circular(Radii.sm),
+        ),
+        child: chip,
+      );
+    }
     chip = Semantics(
       container: true,
       button: true,
+      selected: selected,
       label: semanticsLabel,
-      onTap: () => ref.read(plannerNavProvider).openTask(context, item),
-      onLongPress: () => unawaited(commands.showTileMenu(item)),
+      onTap: open,
+      onLongPress: menu,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: () => ref.read(plannerNavProvider).openTask(context, item),
+        onTap: open,
         onLongPressStart: onDragStart == null
             ? null
             : (d) => onDragStart!(d.globalPosition),
@@ -1950,9 +1971,7 @@ class _EntryChip extends ConsumerWidget {
             ? null
             : (d) => onDragUpdate!(d.globalPosition),
         onLongPressEnd: onDragEnd == null ? null : (_) => onDragEnd!(),
-        onLongPress: onDragStart == null
-            ? () => unawaited(commands.showTileMenu(item))
-            : null,
+        onLongPress: onDragStart == null ? menu : null,
         child: chip,
       ),
     );

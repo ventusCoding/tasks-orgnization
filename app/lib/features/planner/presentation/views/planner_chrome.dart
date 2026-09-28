@@ -8,6 +8,7 @@ import 'package:everslot/features/planner/presentation/grid/data/planner_view_da
 import 'package:everslot/features/planner/presentation/grid/data/work_settings.dart';
 import 'package:everslot/features/planner/presentation/view_config/view_settings_sheet.dart';
 import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
+import 'package:everslot/features/planner/presentation/views/planner_selection.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,18 +51,23 @@ class PlannerViewScaffold extends ConsumerWidget {
   final Widget? endDrawer;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => Scaffold(
-    appBar: AppBar(
-      automaticallyImplyLeading: false,
-      titleSpacing: Space.sm,
-      title: PlannerViewSwitcher(viewKey: viewKey),
-      actions: const [AppBarActions()],
-      bottom: toolbar == null ? null : PreferredSize(preferredSize: const Size.fromHeight(48), child: toolbar!),
-    ),
-    endDrawer: endDrawer,
-    body: body,
-    floatingActionButton: fab,
-  );
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Selection mode (T3.1.18) replaces the view toolbar with the selection bar.
+    final selecting = ref.watch(plannerSelectionProvider(viewKey).select((s) => s.isNotEmpty));
+    final bar = selecting ? SelectionToolbar(viewKey: viewKey) : toolbar;
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        titleSpacing: Space.sm,
+        title: PlannerViewSwitcher(viewKey: viewKey),
+        actions: const [AppBarActions()],
+        bottom: bar == null ? null : PreferredSize(preferredSize: const Size.fromHeight(48), child: bar),
+      ),
+      endDrawer: endDrawer,
+      body: body,
+      floatingActionButton: selecting ? null : fab,
+    );
+  }
 }
 
 /// The view switcher (T3.6.01): current view icon + name; tap → view picker, long-press → saved
