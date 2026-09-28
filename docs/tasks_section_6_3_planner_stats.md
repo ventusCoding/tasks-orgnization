@@ -62,9 +62,9 @@ and execution capture ([3.2]); focus/Pomodoro stats (→ [9.3]).
 - [x] T6.3.04 — Series execution metrics
 - [ ] T6.3.05 — Series quality & pattern metrics
 - [ ] T6.3.06 — Series time-of-day consistency
-- [ ] T6.3.07 — Section execution & flow metrics (plan snapshot)
-- [ ] T6.3.08 — Capacity & utilization metrics
-- [ ] T6.3.09 — Time allocation by category
+- [x] T6.3.07 — Section execution & flow metrics (plan snapshot)
+- [x] T6.3.08 — Capacity & utilization metrics
+- [x] T6.3.09 — Time allocation by category
 - [ ] T6.3.10 — Allocation by priority & tag, priority alignment
 - [ ] T6.3.11 — Estimation accuracy metrics
 - [ ] T6.3.12 — Punctuality & reschedule behaviour
@@ -237,6 +237,7 @@ planned-not-done and moved-out for this week. It also counts as planned for next
 already moved when next week started. Unplanned additions do not change PL-X-01.
 **Tests:** snapshot-algorithm unit tests covering: a move before the period starts, a move during the
 period, a series edit, and a cancellation.
+**Notes:** PL-X-01…06 over the package `planSnapshot` (replays `rescheduled` events up to the period start; series-scope moves expand per affected occurrence). The resolver reads the planner feature's payload keys (`fromStart/toStart/fromDuration/toDuration/occurrenceKey/scope`); task `updated` events are loaded but series edits are logged as series-scope `rescheduled` events, which the snapshot uses. Tests: `planner/planner_section_test.dart` (move before/during the period, series edit, cancellation, unplanned addition) + fixture.
 
 ### T6.3.08 — Capacity & utilization metrics
 **Priority:** P0 · **Size:** M · **Depends on:** T6.3.01, [6.2] (bars with overlay T6.2.04)
@@ -265,6 +266,7 @@ period, a series edit, and a cancellation.
 **Acceptance criteria:** with work hours 09–17 on Mon–Fri and 10 h planned on Wednesday, Wednesday is
 flagged overbooked by 120 min and weekly planned utilization is correct to 0.1 %.
 **Tests:** fixture tests covering weekend days without capacity, and tasks crossing work-hour boundaries.
+**Notes:** Capacity = work hours (`planner.workHours/workDays`) minus `event` blocks in `counts_as_unavailable` categories; planned utilization clips to the capacity windows; days without capacity are never counted as overbooked (their load still shows in the chart). Tests: `planner/planner_capacity_test.dart` (acceptance 120 min, weekend, boundary-crossing tasks, free time from now).
 
 ### T6.3.09 — Time allocation by category
 **Priority:** P0 · **Size:** S · **Depends on:** T6.3.01, [6.2] (donut T6.2.05, stacked bars T6.2.04)
@@ -279,6 +281,7 @@ P1 chart exists; until then the trend uses stacked bars.
 
 **Acceptance criteria:** shares sum to 100 % (±0.1); uncategorized time appears as its own slice.
 **Tests:** fixture tests.
+**Notes:** PL-X-13 uses Σ Da when actual-time coverage ≥ 60 %, else Σ Dp with the "planned" note; uncategorized time is its own slice; PL-X-14 uses stacked bars until T6.2.16. Tests in `planner/planner_capacity_test.dart`.
 
 ### T6.3.10 — Allocation by priority & tag, priority alignment
 **Priority:** P1 · **Size:** S · **Depends on:** T6.3.09, [2.3] (tags), [6.2] (treemap T6.2.20)
