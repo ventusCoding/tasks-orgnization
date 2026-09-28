@@ -207,6 +207,13 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
         enableVibration: !r.silent && r.vibration != 'none',
         vibrationPattern: _vibration(r.vibration),
         groupKey: r.groupKey,
+        setAsGroupSummary: r.groupSummary,
+        groupAlertBehavior: r.groupSummary
+            ? fln.GroupAlertBehavior.children
+            : fln.GroupAlertBehavior.all,
+        styleInformation: r.lines.isEmpty
+            ? null
+            : fln.InboxStyleInformation(r.lines),
         category: r.alarmClock
             ? fln.AndroidNotificationCategory.alarm
             : fln.AndroidNotificationCategory.reminder,
@@ -352,6 +359,8 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
             tag: a.tag,
             payload: a.payload,
             channelId: a.channelId,
+            title: a.title,
+            groupKey: a.groupKey,
           ),
       ];
     } on Object catch (e) {

@@ -109,6 +109,7 @@ class NotificationActionDispatcher {
   }) async {
     if (p.kind == ScheduleKind.merged ||
         p.kind == ScheduleKind.sentinel ||
+        p.kind == ScheduleKind.summary ||
         p.kind == ScheduleKind.test) {
       if (p.kind == ScheduleKind.merged) await _reconcile(p.members.toSet());
       return ActionDispatchResult(openLink: p.deepLink ?? AppLinks.inbox());

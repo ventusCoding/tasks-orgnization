@@ -203,6 +203,7 @@ class NotificationPipeline {
         for (final t in ctx.targets)
           if (!t.isOpen) '${t.targetKey}|${t.occurrenceKey ?? ''}',
       });
+      await scheduler.refreshGroupSummaries();
       lastPlan = result;
       lastContext = ctx;
       return ReplanReport(

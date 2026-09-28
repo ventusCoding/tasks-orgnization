@@ -25,6 +25,9 @@ abstract final class ScheduleKind {
   /// One OS calendar trigger (daily or weekly) standing for a regular sequence of instances,
   /// which stay `tracked` for the inbox (T7.2.10).
   static const repeating = 'repeating';
+
+  /// Payload kind of an Android group summary (T7.2.19) — shown, never stored.
+  static const summary = 'summary';
 }
 
 /// OS calendar-trigger repetition (T7.2.10): `DateTimeComponents.time` /
