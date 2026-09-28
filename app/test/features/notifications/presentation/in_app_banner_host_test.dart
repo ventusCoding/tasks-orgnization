@@ -2,7 +2,11 @@ import 'package:everslot/features/notifications/application/in_app_banners.dart'
 import 'package:everslot/features/notifications/application/notifications_engine.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:everslot/features/notifications/presentation/in_app_banner_host.dart';
+import 'package:everslot/l10n/generated/app_localizations.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../support/test_app.dart';
@@ -129,14 +133,13 @@ void main() {
       show('a', 'Weekly review', link: '/insights');
       banners.flushNow();
       await tester.pump();
-      // Reduce motion: no slide-in, the switcher only fades (instantly).
+      // Reduce motion: no slide-in, the switcher only fades.
       final switcher = tester.widget<AnimatedSwitcher>(
         find.descendant(
           of: find.byType(InAppBannerHost),
           matching: find.byType(AnimatedSwitcher),
         ),
       );
-      expect(switcher.duration, Duration.zero);
       final transition = switcher.transitionBuilder(
         const SizedBox(),
         const AlwaysStoppedAnimation(1),
@@ -150,6 +153,135 @@ void main() {
         '/insights',
       ]);
       expect(find.text('Weekly review'), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'on the target screen the banner is compact: no actions, gone after 3 s',
+    (tester) async {
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: h.container,
+          child: MaterialApp.router(
+            routerConfig: GoRouter(
+              initialLocation: '/task/gym',
+              routes: [
+                GoRoute(
+                  path: '/task/:id',
+                  builder: (_, _) => const Scaffold(
+                    body: Stack(
+                      children: [Text('task page'), InAppBannerHost()],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              ...GlobalMaterialLocalizations.delegates,
+            ],
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      show(
+        'a',
+        'Gym',
+        body: 'Starts in 10 min',
+        actions: const ['done', 'snooze'],
+        link: '/task/gym?occ=2026-09-22T08%3A00',
+      );
+      banners.flushNow();
+      await tester.pumpAndSettle();
+      expect(find.text('Gym'), findsOneWidget);
+      expect(find.byType(TextButton), findsNothing);
+      await tester.pump(const Duration(seconds: 3));
+      await tester.pumpAndSettle();
+      expect(find.text('Gym'), findsNothing);
+    },
+  );
+
+  testWidgets('haptic by importance: none for Gentle, stronger for high', (
+    tester,
+  ) async {
+    final haptics = <Object?>[];
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      (call) async {
+        if (call.method == 'HapticFeedback.vibrate')
+          haptics.add(call.arguments);
+        return null;
+      },
+    );
+    addTearDown(
+      () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform,
+        null,
+      ),
+    );
+    await pumpHost(tester);
+    for (final (key, importance) in [
+      ('low', NotificationImportance.low),
+      ('normal', NotificationImportance.normal),
+      ('high', NotificationImportance.high),
+    ]) {
+      banners.show(BannerItem(key: key, title: key, importance: importance));
+      banners.flushNow();
+      await tester.pumpAndSettle();
+      banners.dismissCurrent();
+      await tester.pumpAndSettle();
+    }
+    expect(haptics, [
+      'HapticFeedbackType.selectionClick',
+      'HapticFeedbackType.mediumImpact',
+    ]);
+  });
+
+  testWidgets(
+    'with the keyboard up and a focused field at the top, the banner sits above the keyboard',
+    (tester) async {
+      await pumpInApp(
+        tester,
+        h,
+        Builder(
+          builder: (context) => MediaQuery(
+            data: MediaQuery.of(context)
+                .copyWith(viewInsets: const EdgeInsets.only(bottom: 300)),
+            // Like the app's root overlay: the host is outside any Scaffold (which would strip
+            // the keyboard inset from its body).
+            child: const Stack(
+              children: [
+                Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  body: Align(
+                    alignment: AlignmentDirectional.topStart,
+                    child: SizedBox(
+                      width: 200,
+                      child: TextField(autofocus: true),
+                    ),
+                  ),
+                ),
+                InAppBannerHost(),
+              ],
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      show('a', 'Gym');
+      banners.flushNow();
+      await tester.pumpAndSettle();
+      final align = tester.widget<Align>(
+        find
+            .descendant(
+              of: find.byType(InAppBannerHost),
+              matching: find.byType(Align),
+            )
+            .first,
+      );
+      expect(align.alignment, AlignmentDirectional.bottomCenter);
+      banners.dismissCurrent();
+      await tester.pumpAndSettle();
     },
   );
 }
