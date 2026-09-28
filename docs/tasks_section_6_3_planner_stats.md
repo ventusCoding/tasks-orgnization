@@ -59,7 +59,7 @@ and execution capture ([3.2]); focus/Pomodoro stats (→ [9.3]).
 - [x] T6.3.01 — Planner stats adapter & canonical occurrence facts
 - [x] T6.3.02 — Per-occurrence timing & outcome metrics
 - [ ] T6.3.03 — Per-occurrence planning & focus metrics
-- [ ] T6.3.04 — Series execution metrics
+- [x] T6.3.04 — Series execution metrics
 - [ ] T6.3.05 — Series quality & pattern metrics
 - [ ] T6.3.06 — Series time-of-day consistency
 - [ ] T6.3.07 — Section execution & flow metrics (plan snapshot)
@@ -171,6 +171,7 @@ PL-T-09 = 26.5 h and PL-T-10 = +1 d 1.5 h, and shows the snowball badge.
 **Acceptance criteria:** the `planner_two_weeks` fixture series "Gym (MO, WE, FR)" with 1 skip,
 1 miss and 4 done gives E = 6, X = 1, D = 4, adherence = 4/5 = 80 %, and miss rate = 20 %.
 **Tests:** fixture tests; test that the series-split continuity keeps the streak across a split.
+**Notes:** PL-S-01…09 in `planner_catalog.dart` over the package ledger/streak engines; the series scope groups every task row sharing `series_id` ("this & following" splits). Tests: the Gym acceptance in the `planner_two_weeks` fixture and `planner/planner_series_test.dart` (streak across a split, time invested, outcome calendar).
 
 ### T6.3.05 — Series quality & pattern metrics
 **Priority:** P1 · **Size:** M · **Depends on:** T6.3.04, [6.1] (T6.1.10 strength), [6.2] (box plot T6.2.14, punch card T6.2.09)
