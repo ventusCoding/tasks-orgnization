@@ -36,11 +36,11 @@ ticker ([7.2]); server inbox writes by the dispatcher ([7.4] T7.4.07); notificat
 - [x] T7.3.03 — Inbox screen
 - [x] T7.3.04 — Inbox row actions & deep links
 - [x] T7.3.05 — In-app banner component & queue
-- [ ] T7.3.06 — Bell badge & app-icon badge policy
-- [ ] T7.3.07 — System notices in the inbox
-- [ ] T7.3.08 — Snoozed section & "remind me again"
-- [ ] T7.3.09 — Per-item notification history
-- [ ] T7.3.10 — Retention & cleanup
+- [x] T7.3.06 — Bell badge & app-icon badge policy
+- [x] T7.3.07 — System notices in the inbox
+- [x] T7.3.08 — Snoozed section & "remind me again"
+- [x] T7.3.09 — Per-item notification history
+- [x] T7.3.10 — Retention & cleanup
 - [ ] T7.3.11 — Inbox search, rule filters & bulk actions
 
 ## Tasks
@@ -122,6 +122,7 @@ rows; banners never cover the keyboard input field in use.
 (`number` where supported) — document launcher variance.
 **Acceptance criteria:** badge matches the chosen policy within 2 s of a change and after background actions.
 **Tests:** unit tests for badge computation per policy.
+**Notes:** The badge is computed and applied at every trigger point (after each replan in both isolates, on unread changes). It goes through `LocalNotificationsPort.setBadge`, but no badge plugin is bundled yet (a new dependency needs an arch §3 entry and a device build), so the plugin port doesn't draw it: TODO(integration) add a badge plugin such as `app_badge_plus`.
 
 ### T7.3.07 — System notices in the inbox
 **Priority:** P1 · **Size:** S · **Depends on:** T7.3.02, [7.2] (capabilities)
@@ -131,6 +132,7 @@ budget saturated, device revoked, sync errors persisting > 24 h, app update requ
 Each has a fix action (deep link to settings/diagnostics) and auto-resolves (dismissed) when fixed.
 **Acceptance criteria:** revoking exact alarms creates exactly one notice; granting again resolves it.
 **Tests:** unit tests for notice lifecycle (create once, resolve, no duplicates via deterministic ids).
+**Notes:** Notices link to `/settings/notifications` (or `…/diagnostics`). The notification UI opens these links directly because the settings shell doesn't route them yet.
 
 ### T7.3.08 — Snoozed section & "remind me again"
 **Priority:** P1 · **Size:** S · **Depends on:** T7.3.03, [7.2] (snooze engine)
@@ -140,6 +142,7 @@ reminders that were not snoozed).
 **Acceptance criteria:** snoozing on one device shows the row as snoozed on others and the snooze fires on the
 device(s) chosen by the multi-device policy ([7.4]).
 **Tests:** widget tests; unit tests for wake-now cancellation.
+**Notes:** Other devices show the row as snoozed through sync. The snooze itself fires on the device that snoozed: no server job is uploaded for snooze instances yet.
 
 ### T7.3.09 — Per-item notification history
 **Priority:** P1 · **Size:** S · **Depends on:** T7.3.01, [7.1] (notification section component)
@@ -158,6 +161,7 @@ older than 90 days).
 **Acceptance criteria:** inbox size stays bounded; statistics that need longer history use aggregates
 computed before deletion ([7.5] T7.5.17).
 **Tests:** pgTAP for the retention function; unit test for local cleanup.
+**Notes:** Server side: the daily ops job tombstones rows older than 90 days (`20260922000170_create_purge_account_ops.sql`, pgTAP `100_purge_ops`).
 
 ### T7.3.11 — Inbox search, rule filters & bulk actions
 **Priority:** P2 · **Size:** S · **Depends on:** T7.3.03
