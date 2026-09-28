@@ -9,11 +9,14 @@ enum ImportWarning { tooManyLines, emptyInput, malformedOpml, attachmentsSkipped
 /// Parsed external list (T4.5.07).
 @immutable
 class ImportResult {
-  const ImportResult({required this.nodes, this.title, this.warnings = const []});
+  const ImportResult({required this.nodes, this.title, this.warnings = const [], this.attachmentRefs = const []});
 
   final List<NodeSpec> nodes;
   final String? title;
   final List<ImportWarning> warnings;
+
+  /// With `keepAttachments`: the `📎` references of every node in preorder (bundles, T4.4.08).
+  final List<List<String>> attachmentRefs;
 
   int get count => nodes.fold(0, (a, n) => a + n.size);
   bool get isEmpty => nodes.isEmpty;
@@ -26,7 +29,15 @@ class _Builder {
   ItemStatus status;
   String? statusNote;
   final List<String> noteLines = [];
+  final List<String> attachments = [];
   final List<_Builder> children = [];
+
+  void collectAttachments(List<List<String>> out) {
+    for (final c in children) {
+      out.add(c.attachments);
+      c.collectAttachments(out);
+    }
+  }
 
   NodeSpec build() => NodeSpec(
     text: text,
@@ -91,7 +102,7 @@ abstract final class ChecklistImport {
     return w;
   }
 
-  static ImportResult parseText(String input) {
+  static ImportResult parseText(String input, {bool keepAttachments = false}) {
     final warnings = <ImportWarning>[];
     var lines = input.replaceAll('\r\n', '\n').replaceAll('\r', '\n').split('\n');
     if (lines.length > maxLines) {
@@ -124,7 +135,12 @@ abstract final class ChecklistImport {
       var width = _indentWidth(raw);
       var content = raw.trim();
       if (content.startsWith('📎')) {
-        if (!warnings.contains(ImportWarning.attachmentsSkipped)) warnings.add(ImportWarning.attachmentsSkipped);
+        final ref = content.substring('📎'.length).trim();
+        if (keepAttachments && stack.isNotEmpty && ref.isNotEmpty) {
+          stack.last.$2.attachments.add(ref);
+        } else if (!warnings.contains(ImportWarning.attachmentsSkipped)) {
+          warnings.add(ImportWarning.attachmentsSkipped);
+        }
         continue;
       }
       final heading = _heading.firstMatch(content);
@@ -172,7 +188,14 @@ abstract final class ChecklistImport {
       (stack.isEmpty ? root : stack.last.$2).children.add(node);
       stack.add((width, node));
     }
-    return ImportResult(nodes: [for (final c in root.children) c.build()], title: title, warnings: warnings);
+    final refs = <List<String>>[];
+    if (keepAttachments) root.collectAttachments(refs);
+    return ImportResult(
+      nodes: [for (final c in root.children) c.build()],
+      title: title,
+      warnings: warnings,
+      attachmentRefs: refs,
+    );
   }
 
   static String _decode(String s) => s
@@ -343,7 +366,9 @@ abstract final class ChecklistExport {
       final base = tree.depthOf(top);
       for (final id in [top, ...tree.descendants(top)]) {
         final i = tree[id]!;
-        out.writeln('${'  ' * (tree.depthOf(id) - base)}- ${_statusLine(i.status, i.text, i.statusNote, checkbox: true)}');
+        out.writeln(
+          '${'  ' * (tree.depthOf(id) - base)}- ${_statusLine(i.status, i.text, i.statusNote, checkbox: true)}',
+        );
       }
     }
     return out.toString();
