@@ -275,6 +275,7 @@ class DesiredItem {
     this.planned,
     this.members = const [],
     this.repeat,
+    this.grouped = false,
   });
 
   final String key;
@@ -291,6 +292,10 @@ class DesiredItem {
 
   /// Repetition of a `repeating` item.
   final RepeatMatch? repeat;
+
+  /// Tracked member of a merged notification or a repeating trigger: the OS showed it through
+  /// the group (inbox `delivered_via = local`).
+  final bool grouped;
 
   /// Inbox content map stored in the schedule row.
   Map<String, Object?> get content {
@@ -315,6 +320,7 @@ class DesiredItem {
       if (p.repeatIdx > 0) 'rep': p.repeatIdx,
       'uid': p.userId,
       'imp': p.importance.wire,
+      if (grouped) 'grp': true,
     };
   }
 }
@@ -380,7 +386,9 @@ abstract final class ScheduleComputation {
         osItems.add(item);
         for (final m in item.members) {
           covered.add(m.dedupeKey);
-          result.add(_single(m, os: false, kind: ScheduleKind.tracked));
+          result.add(
+            _single(m, os: false, kind: ScheduleKind.tracked, grouped: true),
+          );
         }
       }
       if (covered.isNotEmpty) {
@@ -432,7 +440,9 @@ abstract final class ScheduleComputation {
         ),
       );
       for (final p in g) {
-        result.add(_single(p, os: false, kind: ScheduleKind.tracked));
+        result.add(
+          _single(p, os: false, kind: ScheduleKind.tracked, grouped: true),
+        );
       }
     }
 
@@ -487,14 +497,18 @@ abstract final class ScheduleComputation {
     PlannedNotification p, {
     required bool os,
     required String kind,
+    bool grouped = false,
   }) => DesiredItem(
     key: p.dedupeKey,
     fireAt: p.fireAt,
     kind: kind,
     os: os,
     targetKey: p.targetKey,
-    hash: os ? p.contentHash : _hash([p.contentHash, 'tracked']),
+    hash: os
+        ? p.contentHash
+        : _hash([p.contentHash, grouped ? 'grouped' : 'tracked']),
     planned: p,
+    grouped: grouped,
   );
 
   static int _order(PlannedNotification a, PlannedNotification b) {

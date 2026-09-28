@@ -117,6 +117,21 @@ void main() {
         },
       );
 
+      test('fired members reach the inbox once, delivered locally', () async {
+        await replan();
+        h.clock.set(DateTime.utc(2026, 10, 22, 5, 1));
+        final reconciled = await h.read(inboxReconcilerProvider).reconcile();
+        expect(reconciled, hasLength(2)); // 21 and 22 Oct
+        expect(await h.read(inboxReconcilerProvider).reconcile(), isEmpty);
+        final inbox = await h.read(inboxRepositoryProvider).inbox();
+        expect(inbox, hasLength(2));
+        expect(inbox.every((i) => i.deliveredVia.single == 'local'), isTrue);
+        expect(inbox.map((i) => i.occurrenceKey).toSet(), {
+          'sch:2026-10-21T07:00',
+          'sch:2026-10-22T07:00',
+        });
+      });
+
       test('completing the item cancels the trigger', () async {
         await replan();
         expect(port.scheduled, hasLength(1));
