@@ -194,5 +194,18 @@
   "settingsTrashKindChecklist": "قائمة",
   "settingsTrashKindItem": "عنصر قائمة",
   "settingsTrashKindHabit": "عادة",
-  "settingsTrashKindAttachment": "مرفق"
+  "settingsTrashKindAttachment": "مرفق",
+  "settingsExportTitle": "تصدير",
+  "settingsExportBody": "نسخة من كل بياناتك على هذا الجهاز. يعمل دون اتصال.",
+  "settingsExportJson": "نسخة Everslot الاحتياطية (JSON)",
+  "settingsExportJsonHint": "نسخة كاملة يمكنك استيرادها لاحقًا.",
+  "settingsExportCsv": "جداول بيانات (CSV)",
+  "settingsExportCsvHint": "ملف لكل جدول لبرامج Excel أو Numbers أو Sheets.",
+  "settingsExportAttachments": "تضمين ملفات المرفقات",
+  "settingsExportAttachmentsHint": "الملفات الموجودة على هذا الجهاز فقط.",
+  "settingsExportButton": "تصدير",
+  "settingsExportProgress": "جارٍ التصدير… {percent}٪",
+  "settingsExportDone": "التصدير جاهز: {file}",
+  "settingsExportFailed": "فشل التصدير. حاول مرة أخرى.",
+  "settingsExportShareSubject": "تصدير Everslot"
 }

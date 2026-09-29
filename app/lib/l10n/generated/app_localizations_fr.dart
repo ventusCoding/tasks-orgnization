@@ -9693,6 +9693,53 @@ class AppLocalizationsFr extends AppLocalizations {
       'Connectez-vous à Internet pour voir vos appareils.';
 
   @override
+  String get settingsExportAttachments => 'Inclure les pièces jointes';
+
+  @override
+  String get settingsExportAttachmentsHint =>
+      'Uniquement les fichiers déjà présents sur cet appareil.';
+
+  @override
+  String get settingsExportBody =>
+      'Une copie de toutes vos données sur cet appareil. Fonctionne hors ligne.';
+
+  @override
+  String get settingsExportButton => 'Exporter';
+
+  @override
+  String get settingsExportCsv => 'Tableurs (CSV)';
+
+  @override
+  String get settingsExportCsvHint =>
+      'Un fichier par table pour Excel, Numbers ou Sheets.';
+
+  @override
+  String settingsExportDone(String file) {
+    return 'Export prêt : $file';
+  }
+
+  @override
+  String get settingsExportFailed => 'L’export a échoué. Veuillez réessayer.';
+
+  @override
+  String get settingsExportJson => 'Sauvegarde Everslot (JSON)';
+
+  @override
+  String get settingsExportJsonHint =>
+      'Une copie complète que vous pourrez réimporter.';
+
+  @override
+  String settingsExportProgress(int percent) {
+    return 'Export en cours… $percent %';
+  }
+
+  @override
+  String get settingsExportShareSubject => 'Export Everslot';
+
+  @override
+  String get settingsExportTitle => 'Exporter';
+
+  @override
   String get settingsFewer => 'Un de moins';
 
   @override

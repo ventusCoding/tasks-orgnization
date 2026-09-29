@@ -15999,6 +15999,84 @@ abstract class AppLocalizations {
   /// **'Connect to the internet to see your devices.'**
   String get settingsDevicesOffline;
 
+  /// No description provided for @settingsExportAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Include attachment files'**
+  String get settingsExportAttachments;
+
+  /// No description provided for @settingsExportAttachmentsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Only files already on this device.'**
+  String get settingsExportAttachmentsHint;
+
+  /// No description provided for @settingsExportBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A copy of all your data on this device. Works offline.'**
+  String get settingsExportBody;
+
+  /// No description provided for @settingsExportButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get settingsExportButton;
+
+  /// No description provided for @settingsExportCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Spreadsheets (CSV)'**
+  String get settingsExportCsv;
+
+  /// No description provided for @settingsExportCsvHint.
+  ///
+  /// In en, this message translates to:
+  /// **'One file per table for Excel, Numbers or Sheets.'**
+  String get settingsExportCsvHint;
+
+  /// No description provided for @settingsExportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Export ready: {file}'**
+  String settingsExportDone(String file);
+
+  /// No description provided for @settingsExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The export failed. Please try again.'**
+  String get settingsExportFailed;
+
+  /// No description provided for @settingsExportJson.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot backup (JSON)'**
+  String get settingsExportJson;
+
+  /// No description provided for @settingsExportJsonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A complete copy you can import again.'**
+  String get settingsExportJsonHint;
+
+  /// No description provided for @settingsExportProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting… {percent}%'**
+  String settingsExportProgress(int percent);
+
+  /// No description provided for @settingsExportShareSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot export'**
+  String get settingsExportShareSubject;
+
+  /// No description provided for @settingsExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get settingsExportTitle;
+
   /// No description provided for @settingsFewer.
   ///
   /// In en, this message translates to:

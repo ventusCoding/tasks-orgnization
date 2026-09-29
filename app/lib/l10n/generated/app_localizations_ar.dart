@@ -10006,6 +10006,52 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsDevicesOffline => 'اتصل بالإنترنت لعرض أجهزتك.';
 
   @override
+  String get settingsExportAttachments => 'تضمين ملفات المرفقات';
+
+  @override
+  String get settingsExportAttachmentsHint =>
+      'الملفات الموجودة على هذا الجهاز فقط.';
+
+  @override
+  String get settingsExportBody =>
+      'نسخة من كل بياناتك على هذا الجهاز. يعمل دون اتصال.';
+
+  @override
+  String get settingsExportButton => 'تصدير';
+
+  @override
+  String get settingsExportCsv => 'جداول بيانات (CSV)';
+
+  @override
+  String get settingsExportCsvHint =>
+      'ملف لكل جدول لبرامج Excel أو Numbers أو Sheets.';
+
+  @override
+  String settingsExportDone(String file) {
+    return 'التصدير جاهز: $file';
+  }
+
+  @override
+  String get settingsExportFailed => 'فشل التصدير. حاول مرة أخرى.';
+
+  @override
+  String get settingsExportJson => 'نسخة Everslot الاحتياطية (JSON)';
+
+  @override
+  String get settingsExportJsonHint => 'نسخة كاملة يمكنك استيرادها لاحقًا.';
+
+  @override
+  String settingsExportProgress(int percent) {
+    return 'جارٍ التصدير… $percent٪';
+  }
+
+  @override
+  String get settingsExportShareSubject => 'تصدير Everslot';
+
+  @override
+  String get settingsExportTitle => 'تصدير';
+
+  @override
   String get settingsFewer => 'واحد أقل';
 
   @override

@@ -194,5 +194,18 @@
   "settingsTrashKindChecklist": "Liste",
   "settingsTrashKindItem": "Élément de liste",
   "settingsTrashKindHabit": "Habitude",
-  "settingsTrashKindAttachment": "Pièce jointe"
+  "settingsTrashKindAttachment": "Pièce jointe",
+  "settingsExportTitle": "Exporter",
+  "settingsExportBody": "Une copie de toutes vos données sur cet appareil. Fonctionne hors ligne.",
+  "settingsExportJson": "Sauvegarde Everslot (JSON)",
+  "settingsExportJsonHint": "Une copie complète que vous pourrez réimporter.",
+  "settingsExportCsv": "Tableurs (CSV)",
+  "settingsExportCsvHint": "Un fichier par table pour Excel, Numbers ou Sheets.",
+  "settingsExportAttachments": "Inclure les pièces jointes",
+  "settingsExportAttachmentsHint": "Uniquement les fichiers déjà présents sur cet appareil.",
+  "settingsExportButton": "Exporter",
+  "settingsExportProgress": "Export en cours… {percent} %",
+  "settingsExportDone": "Export prêt : {file}",
+  "settingsExportFailed": "L’export a échoué. Veuillez réessayer.",
+  "settingsExportShareSubject": "Export Everslot"
 }

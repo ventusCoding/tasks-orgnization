@@ -5,6 +5,7 @@ import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/core/sync/sync_api.dart';
 import 'package:everslot/core/sync/sync_status.dart';
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/attachments/presentation/attachment_ui.dart';
 import 'package:everslot/features/auth/application/auth_providers.dart';
 import 'package:everslot/features/settings/application/sync_settings_providers.dart';
 import 'package:everslot/features/settings/domain/device_info.dart';
@@ -30,6 +31,8 @@ class SyncPage extends ConsumerWidget {
       children: [
         if (cloud) const _StatusCard() else const _SyncOffCard(),
         if (cloud) ...[SectionHeader(l.settingsDevices), const _DevicesList()],
+        // Attachments: pending uploads, Wi-Fi only, storage used, cache (T2.2.09).
+        const AttachmentSettingsSection(),
         SectionHeader(l.settingsSyncData),
         SettingsNavTile(
           icon: Icons.import_export,

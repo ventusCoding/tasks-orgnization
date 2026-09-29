@@ -250,5 +250,32 @@
   "settingsTrashKindChecklist": "List",
   "settingsTrashKindItem": "List item",
   "settingsTrashKindHabit": "Habit",
-  "settingsTrashKindAttachment": "Attachment"
+  "settingsTrashKindAttachment": "Attachment",
+  "settingsExportTitle": "Export",
+  "settingsExportBody": "A copy of all your data on this device. Works offline.",
+  "settingsExportJson": "Everslot backup (JSON)",
+  "settingsExportJsonHint": "A complete copy you can import again.",
+  "settingsExportCsv": "Spreadsheets (CSV)",
+  "settingsExportCsvHint": "One file per table for Excel, Numbers or Sheets.",
+  "settingsExportAttachments": "Include attachment files",
+  "settingsExportAttachmentsHint": "Only files already on this device.",
+  "settingsExportButton": "Export",
+  "settingsExportProgress": "Exporting… {percent}%",
+  "@settingsExportProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsExportDone": "Export ready: {file}",
+  "@settingsExportDone": {
+    "placeholders": {
+      "file": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsExportFailed": "The export failed. Please try again.",
+  "settingsExportShareSubject": "Everslot export"
 }
