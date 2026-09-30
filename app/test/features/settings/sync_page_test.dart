@@ -77,6 +77,10 @@ void main() {
     expect(find.byKey(const ValueKey('sync-now')), findsNothing);
     expect(find.text('Export & import'), findsOneWidget);
     expect(find.byKey(const ValueKey('sync-sign-in')), findsNothing, reason: 'cloud not configured on this build');
+    // Attachment preferences live next to sync (T2.2.09): Wi-Fi only, storage used, cache size.
+    expect(find.text('Upload attachments on Wi-Fi only'), findsOneWidget);
+    expect(find.text('Storage used: 0 B'), findsOneWidget);
+    expect(find.textContaining('Local cache'), findsOneWidget);
     await finish(tester, h);
   });
 
@@ -98,8 +102,7 @@ void main() {
     await settle(tester, rounds: 10);
     expect(find.text('No pending changes'), findsOneWidget);
     expect(d.server.row('categories', 'c2'), isNotNull);
-    await tester.pumpWidget(const SizedBox.shrink());
-    await tester.runAsync(d.dispose);
+    await finishCloud(tester, d);
   });
 
   testWidgets('error details and Force full resync behind a confirmation', (tester) async {
@@ -129,8 +132,7 @@ void main() {
     await settle(tester, rounds: 10);
     expect(pulls, 1, reason: 'a pull from revision 0 ran');
     expect(d.h.read(syncServiceProvider)!.knownCursor, d.server.head('u1'));
-    await tester.pumpWidget(const SizedBox.shrink());
-    await tester.runAsync(d.dispose);
+    await finishCloud(tester, d);
   });
 
   testWidgets('devices: revoked ones hidden, this device first, remove another one', (tester) async {
@@ -158,8 +160,7 @@ void main() {
     expect(find.text('Pixel 9'), findsNothing);
     expect(find.text('Device removed'), findsOneWidget);
     await tester.binding.setSurfaceSize(null);
-    await tester.pumpWidget(const SizedBox.shrink());
-    await tester.runAsync(d.dispose);
+    await finishCloud(tester, d);
   });
 
   testWidgets('devices offline: explained, with a retry', (tester) async {
@@ -176,8 +177,7 @@ void main() {
     await settle(tester);
     expect(find.text('Pixel 9'), findsOneWidget);
     await tester.binding.setSurfaceSize(null);
-    await tester.pumpWidget(const SizedBox.shrink());
-    await tester.runAsync(d.dispose);
+    await finishCloud(tester, d);
   });
 }
 

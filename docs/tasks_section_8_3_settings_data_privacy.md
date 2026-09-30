@@ -24,7 +24,7 @@ encryption, onboarding, sample data, accessibility options, about/legal, feedbac
 - [x] T8.3.04 — Sync & devices screen
 - [x] T8.3.05 — Section defaults pages (Plan, Lists, Habits, Insights)
 - [x] T8.3.06 — Trash (restore / delete forever)
-- [ ] T8.3.07 — Export all data (JSON + CSV)
+- [x] T8.3.07 — Export all data (JSON + CSV)
 - [ ] T8.3.08 — Import / restore from a Everslot export
 - [ ] T8.3.09 — App lock & app-switcher privacy
 - [ ] T8.3.10 — Hide notification content
@@ -106,6 +106,7 @@ column names); optional inclusion of attachment files; shared via system share s
 **Acceptance criteria:** export of 100 000 rows completes in < 20 s in a background isolate with progress;
 output validates against the JSON schema in `fixtures/schemas/export-v1.json`.
 **Tests:** unit test exporting a fixture DB and validating schema; CSV escaping tests (commas, newlines, RTL text).
+**Notes:** `ExportService` (`features/settings/application/export_service.dart`) pages every synced table of the local DB (registry order, live rows, server JSON representation, sync internals dropped) with progress, then encodes in a background isolate: JSON (`everslot-export-v1`, validated against `fixtures/schemas/export-v1.json` by a tiny in-test schema checker), or a zip of one CSV per table (human headers, UTF-8 BOM, formula-injection prefix, RFC 4180 quoting) + `manifest.json`; optional attachment files under `attachments/<id>/`. 100 000 rows export in ~1 s in the test. Shared through `share_plus`; UI in Settings › Export & import (`DataPage`).
 
 ### T8.3.08 — Import / restore from a Everslot export
 **Priority:** P1 · **Size:** L · **Depends on:** T8.3.07

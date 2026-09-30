@@ -27,7 +27,14 @@ class ExportSource {
   /// Live rows per table.
   Future<Map<String, int>> counts() async => {
     for (final t in tables)
-      t: (await _db.customSelect('SELECT COUNT(*) AS n FROM $t WHERE deleted_at IS NULL').getSingle()).data['n'] as int,
+      t:
+          (await _db
+                      .customSelect(
+                        'SELECT COUNT(*) AS n FROM $t WHERE deleted_at IS NULL',
+                      )
+                      .getSingle())
+                  .data['n']
+              as int,
   };
 
   Future<List<Map<String, Object?>>> page(String table, int offset) async {
@@ -40,16 +47,25 @@ class ExportSource {
         )
         .get();
     return [
-      for (final r in rows) {for (final c in cols) c: t.sqliteToServer(c, r.data[c])},
+      for (final r in rows)
+        {for (final c in cols) c: t.sqliteToServer(c, r.data[c])},
     ];
   }
 
   /// Local files of live attachments: (id, file name, absolute path) under [root]
   /// (`<root>/<attachment id>/<file>`; thumbnails skipped).
-  Future<List<({String id, String name, String path})>> attachmentFiles(Directory root) async {
+  Future<List<({String id, String name, String path})>> attachmentFiles(
+    Directory root,
+  ) async {
     if (!root.existsSync()) return const [];
     final ids = {
-      for (final r in await _db.customSelect('SELECT id FROM attachments WHERE deleted_at IS NULL').get()) r.data['id']! as String,
+      for (final r
+          in await _db
+              .customSelect(
+                'SELECT id FROM attachments WHERE deleted_at IS NULL',
+              )
+              .get())
+        r.data['id']! as String,
     };
     final files = <({String id, String name, String path})>[];
     for (final dir in root.listSync().whereType<Directory>()) {

@@ -21,7 +21,10 @@ typedef ExportProgress = ({int done, int total});
 
 /// Where exports are written (`<documents>/exports`, wiped on sign-out). Overridden in tests.
 final exportDirectoryProvider = Provider<Future<Directory> Function()>(
-  (ref) => () async => Directory(p.join((await getApplicationDocumentsDirectory()).path, 'exports')),
+  (ref) =>
+      () async => Directory(
+        p.join((await getApplicationDocumentsDirectory()).path, 'exports'),
+      ),
 );
 
 /// "1.2.0+34" (falls back to the build number when package info is unavailable).
@@ -38,14 +41,20 @@ final appVersionLabelProvider = Provider<Future<String> Function()>((ref) {
 });
 
 /// Hands a file to the system share sheet (overridden in tests).
-final shareFileProvider = Provider<Future<void> Function(File file, {String? subject})>(
-  (ref) => (file, {subject}) async {
-    await SharePlus.instance.share(ShareParams(files: [XFile(file.path)], subject: subject));
-  },
-);
+final shareFileProvider =
+    Provider<Future<void> Function(File file, {String? subject})>(
+      (ref) => (file, {subject}) async {
+        await SharePlus.instance.share(
+          ShareParams(files: [XFile(file.path)], subject: subject),
+        );
+      },
+    );
 
 final exportSourceProvider = Provider<ExportSource>(
-  (ref) => ExportSource(ref.watch(appDatabaseProvider), ref.watch(tableRegistryProvider)),
+  (ref) => ExportSource(
+    ref.watch(appDatabaseProvider),
+    ref.watch(tableRegistryProvider),
+  ),
 );
 
 final exportServiceProvider = Provider<ExportService>(ExportService.new);
@@ -83,7 +92,9 @@ class ExportService {
       tables[t] = rows;
     }
     final files = includeAttachments
-        ? await source.attachmentFiles(await _ref.read(attachmentFileStoreProvider).root())
+        ? await source.attachmentFiles(
+            await _ref.read(attachmentFileStoreProvider).root(),
+          )
         : const <({String id, String name, String path})>[];
     final columns = {for (final t in source.tables) t: source.columns(t)};
     final job = _ExportJob(
@@ -93,13 +104,18 @@ class ExportService {
       appVersion: await _ref.read(appVersionLabelProvider)(),
       tables: tables,
       columns: columns,
-      files: [for (final f in files) (zipPath: 'attachments/${f.id}/${f.name}', path: f.path)],
+      files: [
+        for (final f in files)
+          (zipPath: 'attachments/${f.id}/${f.name}', path: f.path),
+      ],
     );
     final zipped = kind == ExportKind.csv || job.files.isNotEmpty;
     final bytes = await Isolate.run(job.encode);
     final dir = await _ref.read(exportDirectoryProvider)();
     await dir.create(recursive: true);
-    final out = File(p.join(dir.path, ExportFormat.fileName(now, zipped ? 'zip' : 'json')));
+    final out = File(
+      p.join(dir.path, ExportFormat.fileName(now, zipped ? 'zip' : 'json')),
+    );
     await out.writeAsBytes(bytes, flush: true);
     return out;
   }
@@ -132,20 +148,34 @@ class _ExportJob {
       appVersion: appVersion,
       tables: tables,
     );
-    if (kind == ExportKind.json && files.isEmpty) return ExportFormat.encodeJson(document);
+    if (kind == ExportKind.json && files.isEmpty)
+      return ExportFormat.encodeJson(document);
     final archive = Archive();
     if (kind == ExportKind.json) {
-      archive.add(ArchiveFile.bytes('everslot-export.json', ExportFormat.encodeJson(document)));
+      archive.add(
+        ArchiveFile.bytes(
+          'everslot-export.json',
+          ExportFormat.encodeJson(document),
+        ),
+      );
     } else {
       for (final e in tables.entries) {
-        archive.add(ArchiveFile.bytes('${e.key}.csv', utf8.encode(Csv.table(columns[e.key]!, e.value))));
+        archive.add(
+          ArchiveFile.bytes(
+            '${e.key}.csv',
+            utf8.encode(Csv.table(columns[e.key]!, e.value)),
+          ),
+        );
       }
       final manifest = Map<String, Object?>.from(document)..remove('tables');
-      archive.add(ArchiveFile.bytes('manifest.json', utf8.encode(jsonEncode(manifest))));
+      archive.add(
+        ArchiveFile.bytes('manifest.json', utf8.encode(jsonEncode(manifest))),
+      );
     }
     for (final f in files) {
       final file = File(f.path);
-      if (file.existsSync()) archive.add(ArchiveFile.bytes(f.zipPath, file.readAsBytesSync()));
+      if (file.existsSync())
+        archive.add(ArchiveFile.bytes(f.zipPath, file.readAsBytesSync()));
     }
     return ZipEncoder().encodeBytes(archive);
   }

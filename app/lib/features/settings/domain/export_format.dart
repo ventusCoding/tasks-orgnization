@@ -14,7 +14,12 @@ abstract final class ExportFormat {
   static const version = 1;
 
   /// Columns never exported (account / sync internals).
-  static const internalColumns = {'user_id', 'rev', 'field_clock', 'server_updated_at'};
+  static const internalColumns = {
+    'user_id',
+    'rev',
+    'field_clock',
+    'server_updated_at',
+  };
 
   static Map<String, Object?> document({
     required int schemaVersion,
@@ -31,7 +36,8 @@ abstract final class ExportFormat {
   };
 
   /// Pretty enough to diff, compact enough for 100 000 rows.
-  static List<int> encodeJson(Map<String, Object?> document) => utf8.encode(jsonEncode(document));
+  static List<int> encodeJson(Map<String, Object?> document) =>
+      utf8.encode(jsonEncode(document));
 
   /// File name for an export made at [at] (`everslot-export-20260928-1405.json`).
   static String fileName(DateTime at, String extension) {
@@ -57,8 +63,17 @@ abstract final class Csv {
       final List<Object?> v => jsonEncode(v),
       _ => value.toString(),
     };
-    if (value is String && s.isNotEmpty && const {'=', '+', '-', '@', '\t', '\r'}.contains(s[0])) s = "'$s";
-    final needsQuotes = s.contains(',') || s.contains('"') || s.contains('\n') || s.contains('\r') || s.startsWith(' ') || s.endsWith(' ');
+    if (value is String &&
+        s.isNotEmpty &&
+        const {'=', '+', '-', '@', '\t', '\r'}.contains(s[0]))
+      s = "'$s";
+    final needsQuotes =
+        s.contains(',') ||
+        s.contains('"') ||
+        s.contains('\n') ||
+        s.contains('\r') ||
+        s.startsWith(' ') ||
+        s.endsWith(' ');
     return needsQuotes ? '"${s.replaceAll('"', '""')}"' : s;
   }
 
@@ -75,13 +90,24 @@ abstract final class Csv {
 
   /// `start_local` → `Start local`, `id` → `ID`, `checklist_id` → `Checklist ID`.
   static String humanize(String column) {
-    final words = column.split('_').where((w) => w.isNotEmpty).map((w) => w == 'id' ? 'ID' : w).toList();
+    final words = column
+        .split('_')
+        .where((w) => w.isNotEmpty)
+        .map((w) => w == 'id' ? 'ID' : w)
+        .toList();
     if (words.isEmpty) return column;
-    final first = words.first == 'ID' ? 'ID' : '${words.first[0].toUpperCase()}${words.first.substring(1)}';
+    final first = words.first == 'ID'
+        ? 'ID'
+        : '${words.first[0].toUpperCase()}${words.first.substring(1)}';
     return [first, ...words.skip(1)].join(' ');
   }
 
   /// A table as CSV: human headers in [columns] order.
   static String table(List<String> columns, List<Map<String, Object?>> rows) =>
-      encode([for (final c in columns) humanize(c)], [for (final r in rows) [for (final c in columns) r[c]]]);
+      encode(
+        [for (final c in columns) humanize(c)],
+        [
+          for (final r in rows) [for (final c in columns) r[c]],
+        ],
+      );
 }
