@@ -30,6 +30,8 @@ abstract final class Ids {
   static String achievement(String code, String? scopeType, String? scopeId) =>
       v5('$code|${scopeType ?? ''}|${scopeId ?? ''}');
   static String rollover(String taskId, String date) => v5('$taskId|rollover|$date');
-  static String builtinProfile(String userId, String code) => v5('$userId|notification_profile|$code');
+  /// Built-in notification profiles: `uuid_v5(user_id || '|profile|' || code)` — the same formula the
+  /// server seed and the notifications migration use, so both sides converge on one row.
+  static String builtinProfile(String userId, String code) => v5('$userId|profile|$code');
   static String review(String userId, String periodKey) => v5('$userId|review|$periodKey');
 }

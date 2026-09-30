@@ -78,6 +78,24 @@ abstract final class FractionalIndex {
     }
   }
 
+  /// Keys longer than this are legal but signal a hot spot (thousands of inserts in one gap):
+  /// a list owner may re-spread its keys with [nBetween] (arch §9.4). Realistic sequences stay
+  /// well below it.
+  static const maxHealthyLength = 64;
+
+  /// Whether [key] has grown past [maxHealthyLength].
+  static bool isOversized(String key) => key.length > maxHealthyLength;
+
+  /// Order of two keys: raw byte order (what SQLite BINARY and Postgres `COLLATE "C"` do). Keys are
+  /// ASCII, so Dart's code-unit comparison is byte order — never use a locale-aware comparison.
+  static int compare(String a, String b) => a.compareTo(b);
+
+  /// Order of two list rows: by key, equal keys by `id` (arch §9.4).
+  static int compareRows(({String key, String id}) a, ({String key, String id}) b) {
+    final byKey = compare(a.key, b.key);
+    return byKey != 0 ? byKey : a.id.compareTo(b.id);
+  }
+
   static String _midpoint(String a, String? b) {
     if (b != null && a.compareTo(b) >= 0) throw ArgumentError('$a >= $b');
     if (a.endsWith(_zero) || (b != null && b.endsWith(_zero))) {
@@ -88,7 +106,9 @@ abstract final class FractionalIndex {
       while ((n < a.length ? a[n] : _zero) == b[n]) {
         n++;
       }
-      if (n > 0) return b.substring(0, n) + _midpoint(a.substring(n), b.substring(n));
+      // JS `slice` clamps; `substring` would throw once the (implicitly zero-padded) `a` is shorter
+      // than the common prefix.
+      if (n > 0) return b.substring(0, n) + _midpoint(n < a.length ? a.substring(n) : '', b.substring(n));
     }
     final digitA = a.isNotEmpty ? digits.indexOf(a[0]) : 0;
     final digitB = b != null ? digits.indexOf(b[0]) : digits.length;

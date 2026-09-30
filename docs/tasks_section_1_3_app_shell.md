@@ -21,7 +21,7 @@ handling/logging, and a dev-only debug menu.
 
 - [x] T1.3.01 — Layer skeleton & import boundaries
 - [ ] T1.3.02 — Bootstrap sequence
-- [ ] T1.3.03 — Core utilities: clock, ids (v7/v5), fractional index
+- [x] T1.3.03 — Core utilities: clock, ids (v7/v5), fractional index
 - [ ] T1.3.04 — App lifecycle & connectivity services
 - [ ] T1.3.05 — Error model, global handlers & logging
 - [ ] T1.3.06 — Routing: typed routes, 5-tab shell, modal editors
@@ -74,6 +74,7 @@ any step shows a recoverable error screen (dev: details; prod: friendly message 
 **Acceptance criteria:** v5 ids match the SQL `app.uuid_v5` fixtures; fractional keys stay sorted under
 10 000 random inserts and remain ≤ 64 chars in realistic sequences.
 **Tests:** fixture tests (`fixtures/ids/uuid_v5.json`), property tests for ordering.
+**Notes:** `Clock` (`SystemClock`, `TravelClock` for the debug time offset, `FakeClock`, `clockProvider`), `Ids` (UUIDv7 + UUIDv5 in `EVERSLOT_NS` with a helper per deterministic id of arch §9.2) and `FractionalIndex` (`between`, `nBetween`, `isValid`, plus `compare`/`compareRows` byte-order helpers and the 64-char `isOversized` budget). Tests: `test/core/{ids,fractional_index,clock}_test.dart` — the 20 shared UUIDv5 vectors of `fixtures/ids/uuid_v5.json` (also asserted in SQL by `supabase/tests/database/010_helpers.test.sql`), the rocicorp reference vectors, 10 000 random inserts (sorted, valid, ≤ 64 chars). Bugs found and fixed: `Ids.builtinProfile` used `user|notification_profile|code` while the server seed/migration derive `user|profile|code` (built-in notification profiles would have diverged between client and server); `FractionalIndex.between` threw a `RangeError` when the lower key was shorter than the common prefix (JS `slice` clamps, Dart `substring` throws) — found by the random-insert property test.
 
 ### T1.3.04 — App lifecycle & connectivity services
 **Priority:** P0 · **Size:** S · **Depends on:** T1.3.03
