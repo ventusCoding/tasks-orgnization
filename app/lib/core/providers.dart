@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:everslot/core/database/app_database.dart';
 import 'package:everslot/core/env/env.dart';
 import 'package:everslot/core/lifecycle/app_lifecycle.dart';
+import 'package:everslot/core/platform/connectivity_service.dart';
 import 'package:everslot/core/preferences/user_preferences.dart';
 import 'package:everslot/core/session/device_identity.dart';
 import 'package:everslot/core/session/local_data_owner.dart';
@@ -72,6 +73,34 @@ final lifecycleProvider = Provider<AppLifecycleService>((ref) {
   ref.onDispose(service.dispose);
   return service;
 });
+
+/// The OS network link (`connectivity_plus`). Override in tests.
+final linkSourceProvider = Provider<LinkSource>((ref) => PlatformLinkSource());
+
+/// Online/offline state of the app: the OS link plus a reachability check of the Supabase host
+/// (T1.3.04). Started on first read; used by sync, notification re-planning and Today.
+final connectivityServiceProvider = Provider<ConnectivityService>((ref) {
+  final env = ref.watch(envProvider);
+  final service = ConnectivityService(
+    source: ref.watch(linkSourceProvider),
+    backend: env.isSupabaseConfigured ? Uri.tryParse(env.supabaseUrl) : null,
+  );
+  ref.onDispose(service.dispose);
+  unawaited(service.start());
+  return service;
+});
+
+/// `true` while the app can reach its backend (always true in local-only mode with a network link).
+final isOnlineProvider = StreamProvider<bool>((ref) async* {
+  final service = ref.watch(connectivityServiceProvider);
+  yield service.isOnline;
+  yield* service.onlineChanges;
+});
+
+/// Online/offline transitions of the device (true = online again). Overridden in tests.
+final syncOnlineChangesProvider = Provider<Stream<bool>>(
+  (ref) => ref.watch(connectivityServiceProvider).onlineChanges,
+);
 
 /// Current IANA zone of the device (refreshed on resume, T1.5.06).
 final deviceZoneProvider = NotifierProvider<DeviceZoneController, String>(DeviceZoneController.new);

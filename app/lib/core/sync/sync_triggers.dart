@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/core/sync/sync_service.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+// `syncOnlineChangesProvider` (online/offline transitions from the shared connectivity service,
+// T1.4.10 / T1.3.04) lives with the other core providers; re-exported for the sync code and its tests.
+export 'package:everslot/core/providers.dart' show syncOnlineChangesProvider;
 
 /// Joins the private Broadcast channel of the user; [onSync] receives the payload of every `sync`
 /// event. Returns a function leaving the channel.
 typedef BroadcastSubscriber =
     Future<void> Function() Function(void Function(Map<String, dynamic> payload) onSync);
-
-/// Online/offline transitions of the device (true = some network). Overridden in tests.
-final syncOnlineChangesProvider = Provider<Stream<bool>>((ref) => connectivityOnlineChanges());
 
 /// External triggers of the sync engine (T1.4.10 connectivity regain, T1.4.12 Broadcast,
 /// T1.4.13 resume): Broadcast is joined only while the app is in the foreground (arch §6.6 —
