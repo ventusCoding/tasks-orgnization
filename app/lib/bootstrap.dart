@@ -1,146 +1,84 @@
 import 'dart:async';
 
 import 'package:everslot/app/app.dart';
-import 'package:everslot/core/database/app_database.dart';
 import 'package:everslot/core/env/env.dart';
-import 'package:everslot/core/logging/log.dart';
-import 'package:everslot/core/providers.dart';
-import 'package:everslot/core/session/device_identity.dart';
-import 'package:everslot/core/session/local_account.dart';
-import 'package:everslot/core/session/local_only_choice.dart';
-import 'package:everslot/core/session/secure_session_storage.dart';
-import 'package:everslot/core/session/session.dart';
-import 'package:everslot/features/auth/application/auth_binding.dart';
-import 'package:everslot/firebase_options.dart';
-import 'package:everslot/startup/startup_tasks.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:everslot/core/errors/global_error_handlers.dart';
+import 'package:everslot/startup/bootstrap_error_app.dart';
+import 'package:everslot/startup/bootstrap_platform.dart';
+import 'package:everslot/startup/bootstrap_runner.dart';
+import 'package:everslot/startup/bootstrap_steps.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:timezone/data/latest_all.dart' as tzdata;
 
-/// App startup (T1.3.02). Order matters: logging → env → time zones → Firebase (optional) →
-/// Supabase (optional) → database → device id → session → providers → runApp.
-Future<void> bootstrap(Flavor flavor) async {
-  WidgetsFlutterBinding.ensureInitialized();
-  AppLog.init();
-  final log = AppLog.get('bootstrap');
-  final env = Env.fromEnvironment(flavor: flavor);
-  for (final w in env.warnings) {
-    log.info(w);
-  }
+/// App startup (T1.3.02). The ordered steps live in [defaultBootstrapSteps] (logging → env → time
+/// zones → Firebase → Supabase → database → session → providers → startup tasks); everything runs
+/// inside a guarded zone whose errors, like `FlutterError.onError` and `PlatformDispatcher.onError`,
+/// go to one [GlobalErrorHandlers] (T1.3.05). A failing required step shows a recoverable error
+/// screen instead of a blank app.
+///
+/// The native launch screen stays up until `runApp` is called with the first real UI, which only
+/// happens once every step succeeded, so no half-initialised frame is ever drawn.
+Future<void> bootstrap(
+  Flavor flavor, {
+  BootstrapPlatform platform = const RealBootstrapPlatform(),
+  List<BootstrapStep>? steps,
+  GlobalErrorHandlers? handlers,
+}) {
+  final errorHandlers = handlers ?? GlobalErrorHandlers();
+  final done = Completer<void>();
+  runZonedGuarded(
+    () async {
+      // Same zone as `runApp` (Flutter warns about zone mismatches).
+      WidgetsFlutterBinding.ensureInitialized();
+      errorHandlers.install();
+      final context = BootstrapContext(
+        flavor: flavor,
+        platform: platform,
+        handlers: errorHandlers,
+      );
+      await BootstrapLauncher(
+        context,
+        steps ?? defaultBootstrapSteps(),
+      ).start();
+      if (!done.isCompleted) done.complete();
+    },
+    (error, stack) {
+      errorHandlers.handleZoneError(error, stack);
+      if (!done.isCompleted) done.complete();
+    },
+  );
+  return done.future;
+}
 
-  tzdata.initializeTimeZones();
-  try {
-    DeviceZoneController.initialZone = (await FlutterTimezone.getLocalTimezone()).identifier;
-  } on Object catch (e) {
-    log.warning('Could not read device time zone', e);
-  }
+/// Runs the steps, then launches the app — or the recoverable error screen.
+class BootstrapLauncher {
+  BootstrapLauncher(this.context, List<BootstrapStep> steps)
+    : runner = BootstrapRunner(steps, context);
 
-  var firebaseReady = false;
-  if (env.firebaseEnabled && DefaultFirebaseOptions.isConfigured) {
-    try {
-      await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-      firebaseReady = true;
-      if (!kDebugMode) {
-        FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-        PlatformDispatcher.instance.onError = (error, stack) {
-          unawaited(FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
-          return true;
-        };
-      }
-    } on Object catch (e) {
-      log.warning('Firebase init failed — continuing without push/Crashlytics', e);
-    }
-  }
-  if (!firebaseReady) {
-    FlutterError.onError = (details) {
-      FlutterError.presentError(details);
-      log.severe('Flutter error', details.exception, details.stack);
-    };
-    PlatformDispatcher.instance.onError = (error, stack) {
-      log.severe('Uncaught error', error, stack);
-      return true;
-    };
-  }
+  final BootstrapContext context;
+  final BootstrapRunner runner;
 
-  SupabaseClient? supabase;
-  if (env.isSupabaseConfigured) {
-    try {
-      await Supabase.initialize(
-        url: env.supabaseUrl,
-        publishableKey: env.supabasePublishableKey,
-        // Session + PKCE verifier in the Keychain/Keystore, never plain preferences (T1.5.02).
-        authOptions: FlutterAuthClientOptions(
-          authFlowType: AuthFlowType.pkce,
-          localStorage: SecureSessionStorage(),
-          pkceAsyncStorage: SecurePkceStorage(),
+  /// Runs the sequence from step [from]; on failure shows [BootstrapErrorApp] whose retry runs it
+  /// again from the failed step.
+  Future<void> start({int from = 0}) async {
+    final failure = await runner.run(from: from);
+    if (failure == null) {
+      context.platform.launch(
+        UncontrolledProviderScope(
+          container: context.container!,
+          child: const EverslotApp(),
         ),
       );
-      supabase = Supabase.instance.client;
-    } on Object catch (e) {
-      log.severe('Supabase init failed — falling back to local-only mode', e);
+      return;
     }
-  }
-
-  final db = AppDatabase();
-  final deviceId = await DeviceIdentity.load(db);
-  final hlcState = await (db.select(db.localKv)..where((k) => k.key.equals('hlc_state')))
-      .getSingleOrNull();
-  HlcBootstrap.initialState = hlcState?.value;
-
-  // Session: cloud user when signed in, local account in local-only mode.
-  if (supabase == null) {
-    SessionController.initial = AppSession(
-      userId: await LocalAccount.ensureUserId(db),
-      mode: SessionMode.localOnly,
+    context.platform.launch(
+      BootstrapErrorApp(
+        failure: failure,
+        // Developers see what failed; prod users get the friendly message only.
+        showDetails: context.flavor == Flavor.dev || kDebugMode,
+        onRetry: () => start(from: failure.index),
+      ),
     );
-  } else {
-    final user = supabase.auth.currentUser;
-    if (user != null) {
-      SessionController.initial = AppSession(
-        userId: user.id,
-        mode: SessionMode.cloud,
-        email: user.email,
-        isAnonymous: user.isAnonymous,
-      );
-    } else if (await LocalOnlyChoice.isChosen(db)) {
-      // "Use on this device only" was chosen on the sign-in screen (ADR-017).
-      SessionController.initial = AppSession(
-        userId: await LocalAccount.ensureUserId(db),
-        mode: SessionMode.localOnly,
-      );
-    } else {
-      SessionController.initial = null;
-    }
   }
-
-  var build = 1;
-  try {
-    build = int.tryParse((await PackageInfo.fromPlatform()).buildNumber) ?? 1;
-  } on Object {
-    // tests / unsupported platforms
-  }
-
-  final container = ProviderContainer(
-    overrides: [
-      envProvider.overrideWithValue(env),
-      appDatabaseProvider.overrideWithValue(db),
-      deviceIdProvider.overrideWithValue(deviceId),
-      appBuildProvider.overrideWithValue(build),
-      supabaseClientProvider.overrideWithValue(supabase),
-    ],
-  );
-
-  // Auth state → session (claim / wipe / re-auth), T1.5.02. Listens even while signed out so
-  // magic links and OAuth redirects bind the new session.
-  if (supabase != null) container.read(authBindingProvider);
-
-  await runStartupTasks(container);
-
-  runApp(UncontrolledProviderScope(container: container, child: const EverslotApp()));
 }

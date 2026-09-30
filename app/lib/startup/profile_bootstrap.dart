@@ -17,26 +17,37 @@ Future<void> ensureProfileAndDefaults(ProviderContainer container) async {
   // fresh defaults (newer clocks) would overwrite them. The auth binding calls this again once
   // the first sync succeeded (T1.5.05).
   if (container.read(sessionProvider)?.isCloud ?? false) {
-    final state = await (db.select(db.syncState)..where((s) => s.userId.equals(userId))).getSingleOrNull();
+    final state = await (db.select(
+      db.syncState,
+    )..where((s) => s.userId.equals(userId))).getSingleOrNull();
     if (state?.lastPullAt == null) return;
   }
   final writer = container.read(syncWriterProvider);
-  final existing = await (db.select(db.profiles)..where((p) => p.id.equals(userId))).getSingleOrNull();
+  final existing = await (db.select(
+    db.profiles,
+  )..where((p) => p.id.equals(userId))).getSingleOrNull();
   final systemLocale = PlatformDispatcher.instance.locale;
   if (existing == null) {
     final zone = container.read(deviceZoneProvider);
-    await writer.run((tx) => tx.insert('profiles', userId, {
-      'home_time_zone': zone,
-      'current_time_zone': zone,
-      'week_start': FirstRunDefaults.weekStartFor(systemLocale.languageCode, systemLocale.countryCode),
-      'time_format': FirstRunDefaults.prefers24h(
-            systemLocale.languageCode,
-            systemLocale.countryCode,
-            PlatformDispatcher.instance.alwaysUse24HourFormat,
-          )
-          ? 'h24'
-          : 'h12',
-    }), cause: 'auto');
+    await writer.run(
+      (tx) => tx.insert('profiles', userId, {
+        'home_time_zone': zone,
+        'current_time_zone': zone,
+        'week_start': FirstRunDefaults.weekStartFor(
+          systemLocale.languageCode,
+          systemLocale.countryCode,
+        ),
+        'time_format':
+            FirstRunDefaults.prefers24h(
+              systemLocale.languageCode,
+              systemLocale.countryCode,
+              PlatformDispatcher.instance.alwaysUse24HourFormat,
+            )
+            ? 'h24'
+            : 'h12',
+      }),
+      cause: 'auto',
+    );
   }
   final l10n = lookupAppLocalizations(
     const [Locale('en'), Locale('fr'), Locale('ar')].firstWhere(
@@ -53,4 +64,3 @@ Future<void> ensureProfileAndDefaults(ProviderContainer container) async {
     'social': l10n.categoryDefaultSocial,
   });
 }
-

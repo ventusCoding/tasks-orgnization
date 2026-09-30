@@ -24,7 +24,8 @@ class GlobalErrorHandlers {
     : log = log ?? AppLog.get('errors'),
       releaseMode = releaseMode ?? kReleaseMode;
 
-  final ErrorReporter? reporter;
+  /// Crash-reporting sink; set once Firebase is ready (release builds).
+  ErrorReporter? reporter;
   final Logger log;
 
   /// Only release builds report (debug/profile print to the console and the log buffer).

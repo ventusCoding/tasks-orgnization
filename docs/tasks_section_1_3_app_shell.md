@@ -20,10 +20,10 @@ handling/logging, and a dev-only debug menu.
 ## Progress
 
 - [x] T1.3.01 — Layer skeleton & import boundaries
-- [ ] T1.3.02 — Bootstrap sequence
+- [x] T1.3.02 — Bootstrap sequence
 - [x] T1.3.03 — Core utilities: clock, ids (v7/v5), fractional index
 - [ ] T1.3.04 — App lifecycle & connectivity services
-- [ ] T1.3.05 — Error model, global handlers & logging
+- [x] T1.3.05 — Error model, global handlers & logging
 - [ ] T1.3.06 — Routing: typed routes, 5-tab shell, modal editors
 - [x] T1.3.07 — Deep-link parser (single source for all entry points)
 - [ ] T1.3.08 — Design tokens & themes (light/dark, category palette)
@@ -64,6 +64,7 @@ frame of the shell is ready.
 **Acceptance criteria:** cold start to first frame < 1.5 s on a mid-range Android (profile); a failure in
 any step shows a recoverable error screen (dev: details; prod: friendly message + retry).
 **Tests:** unit tests of the ordered init list with fakes; failure-path widget test.
+**Notes:** `bootstrap(Flavor)` is now an ordered list of named steps (`startup/bootstrap_steps.dart`: logging → environment → time zones → Firebase (optional) → Supabase (optional, secure session storage) → database → session → providers → startup tasks) run by `BootstrapRunner` inside a guarded zone (`bootstrap.dart`); plugins, the database file and `runApp` sit behind `BootstrapPlatform` so tests use fakes. A required step that throws returns a `BootstrapFailure` and the app shows `BootstrapErrorApp` (self-contained, EN/FR/AR: dev flavor shows step + error + stack with a copy button, prod a friendly message; Retry resumes at the failed step and never repeats finished ones); optional steps are logged and skipped (local-only mode). Per-step timings are logged ("bootstrap finished in N ms") for the cold-start budget; the native launch screen stays until `runApp`, which only runs after all steps succeeded, so no half-initialised frame is drawn. Not measurable here: the < 1.5 s profile-mode cold start on a mid-range Android. Tests: `test/startup/bootstrap_test.dart`.
 
 ### T1.3.03 — Core utilities: clock, ids (v7/v5), fractional index
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.01
@@ -93,6 +94,7 @@ levels and a ring buffer viewable in the debug menu; strict "no PII in logs" hel
 **Acceptance criteria:** an uncaught async error is logged once, reported (release) and does not crash
 the UI; every `AppException` renders a localized message.
 **Tests:** unit tests for mappers; widget test for error rendering.
+**Notes:** `AppException` (sealed) carries an `AppErrorKind` (network, auth, validation, conflict, storage, permission, notFound, unsupportedVersion, notConfigured, unknown) and `isRetryable`; `toAppException` (`core/errors/error_mapper.dart`) maps Supabase Auth / PostgREST / Functions / Storage, the sync API, Drift + SQLite (unique/PK → conflict, disk/IO/corruption → storage) and `dart:io` / `http` / platform errors — messages hold codes only, never row values; the original is `cause`. `ErrorState.messageFor` renders every kind localized (EN/FR/AR, new `errorConflict`/`errorStorage`) and unknown foreign errors get the generic "Please try again." (never raw exception text); `FriendlyErrorWidget` replaces the release-mode grey box. `GlobalErrorHandlers` (`FlutterError.onError`, `PlatformDispatcher.onError`, the bootstrap zone) logs each error once (identity dedupe), reports to an `ErrorReporter` in release only (`CrashlyticsErrorReporter`, opt-out via `privacy.crashReporting`, texts scrubbed) and always swallows it. `LogSafe` (ids-only helper + scrubbing of e-mails, JWTs, bearer tokens, keys, secret URL parameters) is applied to every `AppLog` record (ring buffer of 500, console in debug, external sink); `AppLog.init` is idempotent. Tests: `test/core/errors/*`, `test/design_system/error_state_test.dart`.
 
 ### T1.3.06 — Routing: typed routes, 5-tab shell, modal editors
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.02
