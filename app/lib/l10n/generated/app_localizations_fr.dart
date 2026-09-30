@@ -952,6 +952,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get authZoneSearch => 'Rechercher un fuseau horaire';
 
   @override
+  String get bootstrapErrorBody =>
+      'Un problème est survenu à l\'ouverture de l\'application. Vos données restent en sécurité sur cet appareil. Réessayez, et redémarrez votre téléphone si cela continue.';
+
+  @override
+  String get bootstrapErrorCopy => 'Copier les détails';
+
+  @override
+  String get bootstrapErrorDetails => 'Détails (pour les développeurs)';
+
+  @override
+  String get bootstrapErrorTitle => 'Everslot n\'a pas pu démarrer';
+
+  @override
   String get categoriesEmpty => 'Aucune catégorie';
 
   @override
@@ -2784,6 +2797,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get errorAuth => 'Veuillez vous reconnecter.';
 
   @override
+  String get errorConflict =>
+      'Cet élément a été modifié ailleurs. Rechargez puis réessayez.';
+
+  @override
   String get errorNetwork => 'Serveur injoignable. Vérifiez votre connexion.';
 
   @override
@@ -2797,6 +2814,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get errorPermission => 'Une autorisation est nécessaire.';
 
   @override
+  String get errorStorage =>
+      'Impossible de lire ou d\'écrire les données sur cet appareil. Libérez de l\'espace puis réessayez.';
+
+  @override
   String get errorUnknown => 'Erreur inattendue.';
 
   @override
@@ -2805,6 +2826,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get errorValidation => 'Veuillez vérifier les champs indiqués.';
+
+  @override
+  String get errorWidgetFallback => 'Cette partie n\'a pas pu s\'afficher.';
 
   @override
   String get exportBranchOnly => 'Seulement cette branche';

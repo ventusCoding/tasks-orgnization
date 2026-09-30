@@ -941,6 +941,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authZoneSearch => 'Search time zones';
 
   @override
+  String get bootstrapErrorBody =>
+      'Something went wrong while opening the app. Your data is safe on this device. Try again, and restart your phone if it keeps happening.';
+
+  @override
+  String get bootstrapErrorCopy => 'Copy details';
+
+  @override
+  String get bootstrapErrorDetails => 'Details (for developers)';
+
+  @override
+  String get bootstrapErrorTitle => 'Everslot couldn\'t start';
+
+  @override
   String get categoriesEmpty => 'No categories yet';
 
   @override
@@ -2772,6 +2785,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorAuth => 'Please sign in again.';
 
   @override
+  String get errorConflict =>
+      'This changed somewhere else. Reload and try again.';
+
+  @override
   String get errorNetwork => 'Can\'t reach the server. Check your connection.';
 
   @override
@@ -2785,6 +2802,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorPermission => 'Permission is needed for this.';
 
   @override
+  String get errorStorage =>
+      'Couldn\'t read or write data on this device. Free some space and try again.';
+
+  @override
   String get errorUnknown => 'Unexpected error.';
 
   @override
@@ -2793,6 +2814,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorValidation => 'Please check the highlighted fields.';
+
+  @override
+  String get errorWidgetFallback => 'This part couldn\'t be shown.';
 
   @override
   String get exportBranchOnly => 'Only this branch';

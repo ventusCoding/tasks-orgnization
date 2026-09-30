@@ -963,6 +963,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authZoneSearch => 'البحث عن منطقة زمنية';
 
   @override
+  String get bootstrapErrorBody =>
+      'حدث خطأ أثناء فتح التطبيق. بياناتك بأمان على هذا الجهاز. حاول مرة أخرى، وأعد تشغيل هاتفك إذا استمرت المشكلة.';
+
+  @override
+  String get bootstrapErrorCopy => 'نسخ التفاصيل';
+
+  @override
+  String get bootstrapErrorDetails => 'التفاصيل (للمطوّرين)';
+
+  @override
+  String get bootstrapErrorTitle => 'تعذّر تشغيل Everslot';
+
+  @override
   String get categoriesEmpty => 'لا توجد فئات بعد';
 
   @override
@@ -2863,6 +2876,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get errorAuth => 'يرجى تسجيل الدخول مرة أخرى.';
 
   @override
+  String get errorConflict =>
+      'تم تغيير هذا العنصر في مكان آخر. أعد التحميل ثم حاول مرة أخرى.';
+
+  @override
   String get errorNetwork => 'تعذّر الوصول إلى الخادم. تحقّق من اتصالك.';
 
   @override
@@ -2876,6 +2893,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get errorPermission => 'هذا يتطلّب إذنًا.';
 
   @override
+  String get errorStorage =>
+      'تعذّرت قراءة البيانات أو كتابتها على هذا الجهاز. أخلِ بعض المساحة ثم حاول مرة أخرى.';
+
+  @override
   String get errorUnknown => 'خطأ غير متوقّع.';
 
   @override
@@ -2883,6 +2904,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get errorValidation => 'يرجى مراجعة الحقول المحدّدة.';
+
+  @override
+  String get errorWidgetFallback => 'تعذّر عرض هذا الجزء.';
 
   @override
   String get exportBranchOnly => 'هذا الفرع فقط';

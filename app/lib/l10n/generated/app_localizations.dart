@@ -1654,6 +1654,30 @@ abstract class AppLocalizations {
   /// **'Search time zones'**
   String get authZoneSearch;
 
+  /// No description provided for @bootstrapErrorBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while opening the app. Your data is safe on this device. Try again, and restart your phone if it keeps happening.'**
+  String get bootstrapErrorBody;
+
+  /// No description provided for @bootstrapErrorCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy details'**
+  String get bootstrapErrorCopy;
+
+  /// No description provided for @bootstrapErrorDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Details (for developers)'**
+  String get bootstrapErrorDetails;
+
+  /// No description provided for @bootstrapErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot couldn\'t start'**
+  String get bootstrapErrorTitle;
+
   /// No description provided for @categoriesEmpty.
   ///
   /// In en, this message translates to:
@@ -4635,6 +4659,12 @@ abstract class AppLocalizations {
   /// **'Please sign in again.'**
   String get errorAuth;
 
+  /// No description provided for @errorConflict.
+  ///
+  /// In en, this message translates to:
+  /// **'This changed somewhere else. Reload and try again.'**
+  String get errorConflict;
+
   /// No description provided for @errorNetwork.
   ///
   /// In en, this message translates to:
@@ -4659,6 +4689,12 @@ abstract class AppLocalizations {
   /// **'Permission is needed for this.'**
   String get errorPermission;
 
+  /// No description provided for @errorStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t read or write data on this device. Free some space and try again.'**
+  String get errorStorage;
+
   /// No description provided for @errorUnknown.
   ///
   /// In en, this message translates to:
@@ -4676,6 +4712,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please check the highlighted fields.'**
   String get errorValidation;
+
+  /// No description provided for @errorWidgetFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'This part couldn\'t be shown.'**
+  String get errorWidgetFallback;
 
   /// No description provided for @exportBranchOnly.
   ///
