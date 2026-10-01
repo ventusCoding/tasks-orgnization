@@ -202,7 +202,7 @@ class _ItemDetailsState extends ConsumerState<_ItemDetails> {
                     onPressed: () => _editor.setFields(item.id, {'estimate_minutes': null}, label: 'estimate'),
                   ),
           ),
-                    // Scheduled as a task (T3.1.21): the link back, or *Schedule as task*.
+          // Scheduled as a task (T3.1.21): the link back, or *Schedule as task*.
           Builder(
             builder: (context) {
               final task = ref.watch(itemTasksProvider).value?[item.id];
