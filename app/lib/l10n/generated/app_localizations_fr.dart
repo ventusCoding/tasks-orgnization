@@ -10699,6 +10699,47 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get statsLayoutDone => 'Terminé';
+
+  @override
+  String get statsLayoutEdit => 'Personnaliser les cartes';
+
+  @override
+  String get statsLayoutHiddenTag => 'Masquée';
+
+  @override
+  String statsLayoutHide(String card) {
+    return 'Masquer $card';
+  }
+
+  @override
+  String get statsLayoutHint =>
+      'Faites glisser pour réordonner. Épinglez une carte pour la garder en haut ou masquez celles dont vous n’avez pas besoin.';
+
+  @override
+  String statsLayoutPin(String card) {
+    return 'Épingler $card';
+  }
+
+  @override
+  String statsLayoutReorder(String card) {
+    return 'Réordonner $card';
+  }
+
+  @override
+  String get statsLayoutReset => 'Rétablir par défaut';
+
+  @override
+  String statsLayoutShow(String card) {
+    return 'Afficher $card';
+  }
+
+  @override
+  String statsLayoutUnpin(String card) {
+    return 'Désépingler $card';
+  }
+
+  @override
   String get statsLoading => 'Mise à jour des statistiques…';
 
   @override

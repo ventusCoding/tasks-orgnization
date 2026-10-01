@@ -18129,6 +18129,66 @@ abstract class AppLocalizations {
   /// **'{from} – {to}'**
   String statsHealthRange(String from, String to);
 
+  /// No description provided for @statsLayoutDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get statsLayoutDone;
+
+  /// No description provided for @statsLayoutEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize cards'**
+  String get statsLayoutEdit;
+
+  /// No description provided for @statsLayoutHiddenTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden'**
+  String get statsLayoutHiddenTag;
+
+  /// No description provided for @statsLayoutHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide {card}'**
+  String statsLayoutHide(String card);
+
+  /// No description provided for @statsLayoutHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag to reorder. Pin a card to keep it on top, or hide the ones you don’t need.'**
+  String get statsLayoutHint;
+
+  /// No description provided for @statsLayoutPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin {card}'**
+  String statsLayoutPin(String card);
+
+  /// No description provided for @statsLayoutReorder.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder {card}'**
+  String statsLayoutReorder(String card);
+
+  /// No description provided for @statsLayoutReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to default'**
+  String get statsLayoutReset;
+
+  /// No description provided for @statsLayoutShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show {card}'**
+  String statsLayoutShow(String card);
+
+  /// No description provided for @statsLayoutUnpin.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpin {card}'**
+  String statsLayoutUnpin(String card);
+
   /// No description provided for @statsLoading.
   ///
   /// In en, this message translates to:

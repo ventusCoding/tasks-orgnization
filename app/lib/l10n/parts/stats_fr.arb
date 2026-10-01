@@ -478,5 +478,15 @@
   "statsGlossarySearch": "Rechercher un indicateur",
   "statsGlossaryEmpty": "Aucun indicateur ne correspond à « {query} ».",
   "statsGlossaryCount": "{count, plural, =1{1 indicateur} other{{count} indicateurs}}",
-  "statsGlossaryFormula": "Formule"
+  "statsGlossaryFormula": "Formule",
+  "statsLayoutEdit": "Personnaliser les cartes",
+  "statsLayoutHint": "Faites glisser pour réordonner. Épinglez une carte pour la garder en haut ou masquez celles dont vous n’avez pas besoin.",
+  "statsLayoutReset": "Rétablir par défaut",
+  "statsLayoutDone": "Terminé",
+  "statsLayoutPin": "Épingler {card}",
+  "statsLayoutUnpin": "Désépingler {card}",
+  "statsLayoutHide": "Masquer {card}",
+  "statsLayoutShow": "Afficher {card}",
+  "statsLayoutReorder": "Réordonner {card}",
+  "statsLayoutHiddenTag": "Masquée"
 }

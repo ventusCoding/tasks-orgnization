@@ -3730,6 +3730,41 @@
       }
     }
   },
+  "@statsLayoutHide": {
+    "placeholders": {
+      "card": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsLayoutPin": {
+    "placeholders": {
+      "card": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsLayoutReorder": {
+    "placeholders": {
+      "card": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsLayoutShow": {
+    "placeholders": {
+      "card": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsLayoutUnpin": {
+    "placeholders": {
+      "card": {
+        "type": "String"
+      }
+    }
+  },
   "@statsOpenInsights": {
     "placeholders": {
       "section": {
@@ -7294,6 +7329,16 @@
   "statsHealthDisclaimer": "Educational estimates based on population averages from WHO, NHS, CDC and the American Cancer Society; individual results vary. Not medical advice. Consult a healthcare professional.",
   "statsHealthElapsedNote": "Percentages show elapsed time only, not physiological measurements.",
   "statsHealthRange": "{from} – {to}",
+  "statsLayoutDone": "Done",
+  "statsLayoutEdit": "Customize cards",
+  "statsLayoutHiddenTag": "Hidden",
+  "statsLayoutHide": "Hide {card}",
+  "statsLayoutHint": "Drag to reorder. Pin a card to keep it on top, or hide the ones you don’t need.",
+  "statsLayoutPin": "Pin {card}",
+  "statsLayoutReorder": "Reorder {card}",
+  "statsLayoutReset": "Reset to default",
+  "statsLayoutShow": "Show {card}",
+  "statsLayoutUnpin": "Unpin {card}",
   "statsLoading": "Updating statistics…",
   "statsMetricClI01Desc": "How long this item spent in each status.",
   "statsMetricClI01Formula": "Sum of the intervals in each status until now (or deletion).",

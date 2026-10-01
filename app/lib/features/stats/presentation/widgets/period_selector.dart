@@ -46,11 +46,20 @@ String periodLabel(AppLocalizations l, StatsPeriod p, {String locale = 'en'}) =>
 };
 
 class PeriodSelector extends StatelessWidget {
-  const PeriodSelector({required this.selection, required this.onChanged, super.key, this.showCompare = true});
+  const PeriodSelector({
+    required this.selection,
+    required this.onChanged,
+    super.key,
+    this.showCompare = true,
+    this.trailing,
+  });
 
   final PeriodSelection selection;
   final ValueChanged<PeriodSelection> onChanged;
   final bool showCompare;
+
+  /// Pinned after the scrolling chips (the "Customize cards" button, T6.1.22).
+  final Widget? trailing;
 
   static const _chips = <StatsPeriod>[
     StatsPeriod.today(),
@@ -69,12 +78,12 @@ class PeriodSelector extends StatelessWidget {
     final current = selection.period;
     final isRolling = current is RollingPeriod;
     final isCustom = current is CustomPeriod;
-    return Semantics(
+    final chips = Semantics(
       label: l.statsPeriodSelected(periodLabel(l, current, locale: context.localeName)),
       container: true,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
+        padding: EdgeInsetsDirectional.only(start: Space.lg, end: trailing == null ? Space.lg : Space.xs),
         child: Row(
           children: [
             for (final p in _chips)
@@ -130,6 +139,16 @@ class PeriodSelector extends StatelessWidget {
           ],
         ),
       ),
+    );
+    if (trailing == null) return chips;
+    return Row(
+      children: [
+        Expanded(child: chips),
+        Padding(
+          padding: const EdgeInsetsDirectional.only(end: Space.xs),
+          child: trailing,
+        ),
+      ],
     );
   }
 

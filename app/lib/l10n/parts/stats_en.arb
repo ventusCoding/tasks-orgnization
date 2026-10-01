@@ -876,5 +876,50 @@
       }
     }
   },
-  "statsGlossaryFormula": "Formula"
+  "statsGlossaryFormula": "Formula",
+  "statsLayoutEdit": "Customize cards",
+  "statsLayoutHint": "Drag to reorder. Pin a card to keep it on top, or hide the ones you don’t need.",
+  "statsLayoutReset": "Reset to default",
+  "statsLayoutDone": "Done",
+  "statsLayoutPin": "Pin {card}",
+  "@statsLayoutPin": {
+    "placeholders": {
+      "card": {
+        "type": "String"
+      }
+    }
+  },
+  "statsLayoutUnpin": "Unpin {card}",
+  "@statsLayoutUnpin": {
+    "placeholders": {
+      "card": {
+        "type": "String"
+      }
+    }
+  },
+  "statsLayoutHide": "Hide {card}",
+  "@statsLayoutHide": {
+    "placeholders": {
+      "card": {
+        "type": "String"
+      }
+    }
+  },
+  "statsLayoutShow": "Show {card}",
+  "@statsLayoutShow": {
+    "placeholders": {
+      "card": {
+        "type": "String"
+      }
+    }
+  },
+  "statsLayoutReorder": "Reorder {card}",
+  "@statsLayoutReorder": {
+    "placeholders": {
+      "card": {
+        "type": "String"
+      }
+    }
+  },
+  "statsLayoutHiddenTag": "Hidden"
 }

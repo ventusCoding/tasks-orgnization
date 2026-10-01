@@ -478,5 +478,15 @@
   "statsGlossarySearch": "ابحث عن مؤشر",
   "statsGlossaryEmpty": "لا يوجد مؤشر يطابق «{query}».",
   "statsGlossaryCount": "{count, plural, =0{لا مؤشرات} =1{مؤشر واحد} =2{مؤشران} few{{count} مؤشرات} many{{count} مؤشرًا} other{{count} مؤشر}}",
-  "statsGlossaryFormula": "الصيغة"
+  "statsGlossaryFormula": "الصيغة",
+  "statsLayoutEdit": "تخصيص البطاقات",
+  "statsLayoutHint": "اسحب لإعادة الترتيب. ثبّت البطاقة لتبقى في الأعلى، أو أخفِ ما لا تحتاج إليه.",
+  "statsLayoutReset": "إعادة الضبط إلى الافتراضي",
+  "statsLayoutDone": "تم",
+  "statsLayoutPin": "تثبيت {card}",
+  "statsLayoutUnpin": "إلغاء تثبيت {card}",
+  "statsLayoutHide": "إخفاء {card}",
+  "statsLayoutShow": "إظهار {card}",
+  "statsLayoutReorder": "إعادة ترتيب {card}",
+  "statsLayoutHiddenTag": "مخفية"
 }

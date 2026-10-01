@@ -50,7 +50,7 @@ for stats defaults ([8.3]).
 - [x] T6.1.19 — Group-comparison tests (Mann–Whitney, Kruskal–Wallis)
 - [x] T6.1.20 — Data-quality metrics plumbing
 - [x] T6.1.21 — Metric glossary, catalog generation & registry lint
-- [ ] T6.1.22 — Per-scope card layout customization
+- [x] T6.1.22 — Per-scope card layout customization
 - [ ] T6.1.23 — Stats performance suite
 - [x] T6.1.24 — Correlation toolkit & false-discovery control
 - [x] T6.1.25 — Kaplan–Meier survival
@@ -560,6 +560,7 @@ the fixtures (±1e-4).
 `user_settings.stats` and synced across devices, with "Reset to default".
 **Acceptance criteria:** the customized layout survives restarts and appears on a second device after sync.
 **Tests:** a widget test for edit mode; a settings round-trip unit test.
+**Notes:** `LayoutPrefs` (`domain/stats_layout.dart`: `order` / `hidden` / `pinned`, stable-sort `StatsLayout.withPrefs`) is stored per scope in `user_settings.stats.layouts[<scope>]` by `StatsLayoutStore` (`application/stats_layout_store.dart`; the synced settings row, other keys and scopes untouched, a default customization removes the entry). The "Customize cards" button (tune icon pinned after the period chips) opens `LayoutEditorSheet`: drag handles (assistive technologies get the built-in move up/down/start/end actions), pin (a leading "Pinned" group) and hide toggles per card, "Reset to default"; edits save when the sheet closes (Done, swipe or back). Unpinning returns a card to its slot because the stored order is complete. Screens rendered on an explicit layout (weekly review, per-entity panels) are not customizable. Tests: `presentation/layout_customization_test.dart` (model, settings round trip + outbox, editor flows, drag, AR at text scale 2). Screen goldens regenerated for the extra button.
 
 ### T6.1.23 — Stats performance suite
 **Priority:** P1 · **Size:** M · **Depends on:** T6.1.13, [9.1] (performance harness)

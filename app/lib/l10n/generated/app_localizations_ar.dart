@@ -11301,6 +11301,46 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get statsLayoutDone => 'تم';
+
+  @override
+  String get statsLayoutEdit => 'تخصيص البطاقات';
+
+  @override
+  String get statsLayoutHiddenTag => 'مخفية';
+
+  @override
+  String statsLayoutHide(String card) {
+    return 'إخفاء $card';
+  }
+
+  @override
+  String get statsLayoutHint => 'اسحب لإعادة الترتيب. ثبّت البطاقة لتبقى في الأعلى، أو أخفِ ما لا تحتاج إليه.';
+
+  @override
+  String statsLayoutPin(String card) {
+    return 'تثبيت $card';
+  }
+
+  @override
+  String statsLayoutReorder(String card) {
+    return 'إعادة ترتيب $card';
+  }
+
+  @override
+  String get statsLayoutReset => 'إعادة الضبط إلى الافتراضي';
+
+  @override
+  String statsLayoutShow(String card) {
+    return 'إظهار $card';
+  }
+
+  @override
+  String statsLayoutUnpin(String card) {
+    return 'إلغاء تثبيت $card';
+  }
+
+  @override
   String get statsLoading => 'جارٍ تحديث الإحصاءات…';
 
   @override

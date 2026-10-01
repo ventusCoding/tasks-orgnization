@@ -21,6 +21,7 @@ import 'package:everslot/features/stats/presentation/charts/kpi_tile.dart';
 import 'package:everslot/features/stats/presentation/charts/progress_visuals.dart' show LiveCounter;
 import 'package:everslot/features/stats/presentation/l10n/stats_l10n.dart';
 import 'package:everslot/features/stats/presentation/widgets/explain_sheet.dart';
+import 'package:everslot/features/stats/presentation/widgets/layout_editor_sheet.dart';
 import 'package:everslot/features/stats/presentation/widgets/metric_card.dart';
 import 'package:everslot/features/stats/presentation/widgets/period_selector.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
@@ -46,17 +47,7 @@ String statsScopeKey(MetricScope scope) => scope.name;
 StatsLayout effectiveLayout(MetricScope scope, Map<String, Map<String, Object?>> layouts, {StatsLayout? base}) {
   final layout = base ?? defaultLayoutOf(scope);
   final custom = layouts[statsScopeKey(scope)];
-  if (custom == null) return layout;
-  List<String> strings(Object? v) => [
-    if (v is List)
-      for (final e in v)
-        if (e is String) e,
-  ];
-  return layout.customized(
-    order: strings(custom['order']),
-    hidden: strings(custom['hidden']).toSet(),
-    pinned: strings(custom['pinned']),
-  );
+  return custom == null ? layout : layout.withPrefs(LayoutPrefs.fromJson(custom));
 }
 
 class StatsScopeView extends ConsumerStatefulWidget {
@@ -159,7 +150,18 @@ class _StatsScopeViewState extends ConsumerState<StatsScopeView> {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsetsDirectional.only(top: Space.sm),
-            child: PeriodSelector(selection: selection, onChanged: setSelection),
+            child: PeriodSelector(
+              selection: selection,
+              onChanged: setSelection,
+              // Only screens on their scope's own layout can be customized (T6.1.22).
+              trailing: widget.layout != null
+                  ? null
+                  : IconButton(
+                      tooltip: l.statsLayoutEdit,
+                      icon: const Icon(Icons.tune),
+                      onPressed: () => showLayoutEditor(context, scope: widget.scope),
+                    ),
+            ),
           ),
         ),
       if (widget.showFilters)

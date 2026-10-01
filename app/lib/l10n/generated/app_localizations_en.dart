@@ -10459,6 +10459,46 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get statsLayoutDone => 'Done';
+
+  @override
+  String get statsLayoutEdit => 'Customize cards';
+
+  @override
+  String get statsLayoutHiddenTag => 'Hidden';
+
+  @override
+  String statsLayoutHide(String card) {
+    return 'Hide $card';
+  }
+
+  @override
+  String get statsLayoutHint => 'Drag to reorder. Pin a card to keep it on top, or hide the ones you don’t need.';
+
+  @override
+  String statsLayoutPin(String card) {
+    return 'Pin $card';
+  }
+
+  @override
+  String statsLayoutReorder(String card) {
+    return 'Reorder $card';
+  }
+
+  @override
+  String get statsLayoutReset => 'Reset to default';
+
+  @override
+  String statsLayoutShow(String card) {
+    return 'Show $card';
+  }
+
+  @override
+  String statsLayoutUnpin(String card) {
+    return 'Unpin $card';
+  }
+
+  @override
   String get statsLoading => 'Updating statistics…';
 
   @override
