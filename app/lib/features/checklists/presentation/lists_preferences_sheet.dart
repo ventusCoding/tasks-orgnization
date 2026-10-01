@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/attachments/presentation/attachment_ui.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
@@ -7,11 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Settings › Lists (board layout, smart chips, swipe mappings, attachments) — T4.1.16 / T4.2.10.
-Future<void> showListsPreferences(BuildContext context, WidgetRef ref) => showAppSheet<void>(
-  context,
-  title: context.l10n.listsPreferences,
-  builder: (_) => const _ListsPreferences(),
-);
+Future<void> showListsPreferences(BuildContext context, WidgetRef ref) =>
+    showAppSheet<void>(context, title: context.l10n.listsPreferences, builder: (_) => const _ListsPreferences());
 
 class _ListsPreferences extends ConsumerWidget {
   const _ListsPreferences();
@@ -39,7 +38,7 @@ class _ListsPreferences extends ConsumerWidget {
     trailing: DropdownButton<SwipeAction>(
       value: value,
       onChanged: (v) {
-        if (v != null) saveSwipeActions(ref, apply(v));
+        if (v != null) unawaited(saveSwipeActions(ref, apply(v)));
       },
       items: [for (final o in options) DropdownMenuItem(value: o, child: Text(_swipeLabel(context, o)))],
     ),
@@ -51,8 +50,20 @@ class _ListsPreferences extends ConsumerWidget {
     final config = ref.watch(boardConfigProvider).value ?? BoardConfig.defaults;
     final swipes = ref.watch(swipeActionsProvider);
     final store = ref.read(boardConfigStoreProvider);
-    const editOptions = [SwipeAction.indent, SwipeAction.outdent, SwipeAction.complete, SwipeAction.menu, SwipeAction.none];
-    const previewOptions = [SwipeAction.complete, SwipeAction.menu, SwipeAction.indent, SwipeAction.outdent, SwipeAction.none];
+    const editOptions = [
+      SwipeAction.indent,
+      SwipeAction.outdent,
+      SwipeAction.complete,
+      SwipeAction.menu,
+      SwipeAction.none,
+    ];
+    const previewOptions = [
+      SwipeAction.complete,
+      SwipeAction.menu,
+      SwipeAction.indent,
+      SwipeAction.outdent,
+      SwipeAction.none,
+    ];
     return SingleChildScrollView(
       padding: const EdgeInsets.only(bottom: Space.xl),
       child: Column(
@@ -73,7 +84,7 @@ class _ListsPreferences extends ConsumerWidget {
             trailing: DropdownButton<BoardSort>(
               value: config.sort,
               onChanged: (v) {
-                if (v != null) store.save(config.copyWith(sort: v));
+                if (v != null) unawaited(store.save(config.copyWith(sort: v)));
               },
               items: [
                 DropdownMenuItem(value: BoardSort.manual, child: Text(l.listsBoardSortManual)),
@@ -83,8 +94,22 @@ class _ListsPreferences extends ConsumerWidget {
             ),
           ),
           SectionHeader(l.settingsSwipeTitle),
-          _swipeTile(context, ref, l.settingsSwipeEditRight, swipes.editRight, editOptions, (v) => swipes.copyWith(editRight: v)),
-          _swipeTile(context, ref, l.settingsSwipeEditLeft, swipes.editLeft, editOptions, (v) => swipes.copyWith(editLeft: v)),
+          _swipeTile(
+            context,
+            ref,
+            l.settingsSwipeEditRight,
+            swipes.editRight,
+            editOptions,
+            (v) => swipes.copyWith(editRight: v),
+          ),
+          _swipeTile(
+            context,
+            ref,
+            l.settingsSwipeEditLeft,
+            swipes.editLeft,
+            editOptions,
+            (v) => swipes.copyWith(editLeft: v),
+          ),
           _swipeTile(
             context,
             ref,

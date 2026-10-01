@@ -8,11 +8,8 @@ import 'package:material_ui/material_ui.dart';
 
 /// "View options" of the Habits tab (T5.2.06, T5.2.12): grouping, density, streak chips, hiding
 /// not-due habits, the week-matrix tap cycle and toggle gesture. Changes apply (and sync) at once.
-Future<void> showHabitViewOptions(BuildContext context) => showAppSheet<void>(
-  context,
-  title: context.l10n.habitsViewOptions,
-  builder: (_) => const _ViewOptions(),
-);
+Future<void> showHabitViewOptions(BuildContext context) =>
+    showAppSheet<void>(context, title: context.l10n.habitsViewOptions, builder: (_) => const _ViewOptions());
 
 class _ViewOptions extends ConsumerWidget {
   const _ViewOptions();

@@ -29,7 +29,7 @@ abstract final class ZoomMath {
   /// when px/min changes from [oldPpm] to [newPpm]. [contentYAt] maps (ppm) → content y of the focal
   /// time; simple proportional axes can use [scaleOffset].
   static double keepFocal({required double focalContentY, required double focalViewportY, required double maxOffset}) =>
-      (focalContentY - focalViewportY).clamp(0.0, math.max(0.0, maxOffset));
+      (focalContentY - focalViewportY).clamp(0.0, math.max(0, maxOffset));
 
   /// For a proportional axis with fixed bands of [fixedBefore] px above the focal point.
   static double scaleContentY(double oldContentY, double oldPpm, double newPpm, {double fixedBefore = 0}) =>

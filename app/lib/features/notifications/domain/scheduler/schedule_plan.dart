@@ -36,7 +36,7 @@ enum RepeatMatch {
   daily('time', 1),
   weekly('day_of_week_and_time', 7);
 
-  const RepeatMatch(this.wire, this.stepDays);
+  RepeatMatch(this.wire, this.stepDays);
 
   final String wire;
   final int stepDays;
@@ -76,11 +76,7 @@ class RepeatingOptions {
 /// Android ≤ 250.
 @immutable
 class ScheduleBudget {
-  const ScheduleBudget({
-    required this.regular,
-    this.reserve = 0,
-    this.sentinel = false,
-  });
+  const ScheduleBudget({required this.regular, this.reserve = 0, this.sentinel = false});
 
   static const ios = ScheduleBudget(regular: 56, reserve: 8, sentinel: true);
   static const android = ScheduleBudget(regular: 250);
@@ -261,8 +257,7 @@ class ScheduleEntry {
       other.reconciledAt == reconciledAt;
 
   @override
-  int get hashCode =>
-      Object.hash(dedupeKey, platformId, fireAt, kind, os, hash);
+  int get hashCode => Object.hash(dedupeKey, platformId, fireAt, kind, os, hash);
 }
 
 /// A desired schedule item computed from the plan.
@@ -303,10 +298,11 @@ class DesiredItem {
   /// Inbox content map stored in the schedule row.
   Map<String, Object?> get content {
     final p = planned;
-    if (p == null)
+    if (p == null) {
       return {
         if (members.isNotEmpty) 'mem': [for (final m in members) m.inboxTitle],
       };
+    }
     return {
       't': p.inboxTitle,
       'b': ?p.inboxBody,
@@ -331,12 +327,7 @@ class DesiredItem {
 /// Changes needed to make the OS match the plan (T7.2.09).
 @immutable
 class ScheduleDiff {
-  const ScheduleDiff({
-    required this.cancel,
-    required this.upsert,
-    required this.remove,
-    required this.unchanged,
-  });
+  const ScheduleDiff({required this.cancel, required this.upsert, required this.remove, required this.unchanged});
 
   /// Rows whose OS request must be cancelled (removed or changed).
   final List<ScheduleEntry> cancel;
@@ -351,8 +342,7 @@ class ScheduleDiff {
   bool get isEmpty => cancel.isEmpty && upsert.isEmpty && remove.isEmpty;
 
   /// Number of platform calls this diff needs.
-  int get platformCalls =>
-      cancel.where((e) => e.os).length + upsert.where((u) => u.os).length;
+  int get platformCalls => cancel.where((e) => e.os).length + upsert.where((u) => u.os).length;
 }
 
 abstract final class ScheduleComputation {
@@ -389,9 +379,7 @@ abstract final class ScheduleComputation {
         osItems.add(item);
         for (final m in item.members) {
           covered.add(m.dedupeKey);
-          result.add(
-            _single(m, os: false, kind: ScheduleKind.tracked, grouped: true),
-          );
+          result.add(_single(m, os: false, kind: ScheduleKind.tracked, grouped: true));
         }
       }
       if (covered.isNotEmpty) {
@@ -419,18 +407,11 @@ abstract final class ScheduleComputation {
     }
     for (final g in groups) {
       if (g.length == 1) {
-        osItems.add(
-          _single(
-            g.single,
-            os: true,
-            kind: g.single.isNag ? ScheduleKind.nag : ScheduleKind.oneShot,
-          ),
-        );
+        osItems.add(_single(g.single, os: true, kind: g.single.isNag ? ScheduleKind.nag : ScheduleKind.oneShot));
         continue;
       }
       final keys = [for (final p in g) p.dedupeKey]..sort();
-      final key =
-          'merged:${sha1.convert(utf8.encode(keys.join('|'))).toString().substring(0, 32)}';
+      final key = 'merged:${sha1.convert(utf8.encode(keys.join('|'))).toString().substring(0, 32)}';
       osItems.add(
         DesiredItem(
           key: key,
@@ -443,9 +424,7 @@ abstract final class ScheduleComputation {
         ),
       );
       for (final p in g) {
-        result.add(
-          _single(p, os: false, kind: ScheduleKind.tracked, grouped: true),
-        );
+        result.add(_single(p, os: false, kind: ScheduleKind.tracked, grouped: true));
       }
     }
 
@@ -496,23 +475,17 @@ abstract final class ScheduleComputation {
     // Members of merged groups are already tracked individually.
   }
 
-  static DesiredItem _single(
-    PlannedNotification p, {
-    required bool os,
-    required String kind,
-    bool grouped = false,
-  }) => DesiredItem(
-    key: p.dedupeKey,
-    fireAt: p.fireAt,
-    kind: kind,
-    os: os,
-    targetKey: p.targetKey,
-    hash: os
-        ? p.contentHash
-        : _hash([p.contentHash, grouped ? 'grouped' : 'tracked']),
-    planned: p,
-    grouped: grouped,
-  );
+  static DesiredItem _single(PlannedNotification p, {required bool os, required String kind, bool grouped = false}) =>
+      DesiredItem(
+        key: p.dedupeKey,
+        fireAt: p.fireAt,
+        kind: kind,
+        os: os,
+        targetKey: p.targetKey,
+        hash: os ? p.contentHash : _hash([p.contentHash, grouped ? 'grouped' : 'tracked']),
+        planned: p,
+        grouped: grouped,
+      );
 
   static int _order(PlannedNotification a, PlannedNotification b) {
     final c = a.fireAt.compareTo(b.fireAt);
@@ -551,16 +524,11 @@ abstract final class ScheduleComputation {
   /// Regular daily / weekly sequences among [candidates] (T7.2.10): same rule, target and
   /// shown content, same local time in the device zone, every day (or every week on the same
   /// weekday) without a gap from the first match after now (iOS) to beyond the horizon end.
-  static List<DesiredItem> repeatingSequences(
-    List<PlannedNotification> candidates,
-    RepeatingOptions o,
-  ) {
+  static List<DesiredItem> repeatingSequences(List<PlannedNotification> candidates, RepeatingOptions o) {
     final groups = <String, List<PlannedNotification>>{};
     for (final p in candidates) {
       if (!p.repeatable || p.isNag || !p.fireAt.isAfter(o.now)) continue;
-      groups
-          .putIfAbsent('${p.ruleId}|${p.targetKey}|${_shape(p)}', () => [])
-          .add(p);
+      groups.putIfAbsent('${p.ruleId}|${p.targetKey}|${_shape(p)}', () => []).add(p);
     }
     final items = <DesiredItem>[];
     for (final group in groups.values) {
@@ -578,8 +546,7 @@ abstract final class ScheduleComputation {
           items.add(_sequenceItem(sequence, RepeatMatch.daily, o));
           continue;
         }
-        final byWeekday =
-            <Weekday, List<(PlannedNotification, LocalDateTime)>>{};
+        final byWeekday = <Weekday, List<(PlannedNotification, LocalDateTime)>>{};
         for (final e in sequence) {
           byWeekday.putIfAbsent(e.$2.date.weekday, () => []).add(e);
         }
@@ -594,19 +561,14 @@ abstract final class ScheduleComputation {
     return items;
   }
 
-  static bool _regular(
-    List<(PlannedNotification, LocalDateTime)> sequence,
-    RepeatMatch match,
-    RepeatingOptions o,
-  ) {
+  static bool _regular(List<(PlannedNotification, LocalDateTime)> sequence, RepeatMatch match, RepeatingOptions o) {
     if (sequence.length < 2) return false;
     for (var i = 1; i < sequence.length; i++) {
       final expected = sequence[i - 1].$2.date.plusDays(match.stepDays);
       if (sequence[i].$2.date != expected) return false;
     }
     final time = sequence.first.$2.time;
-    DateTime at(LocalDate date) =>
-        o.zones.resolve(LocalDateTime(date, time), o.zone).utc;
+    DateTime at(LocalDate date) => o.zones.resolve(LocalDateTime(date, time), o.zone).utc;
     // Nothing missing after the last instance up to the horizon end…
     final next = at(sequence.last.$2.date.plusDays(match.stepDays));
     if (!next.isAfter(o.horizonEnd)) return false;
@@ -631,18 +593,10 @@ abstract final class ScheduleComputation {
       if (match == RepeatMatch.weekly) local.date.weekday.name,
     ].join('|');
     // Starting later than the next match (Android only) must re-arm the trigger.
-    final previous = o.zones
-        .resolve(
-          LocalDateTime(local.date.minusDays(match.stepDays), local.time),
-          o.zone,
-        )
-        .utc;
-    final start = previous.isAfter(o.now)
-        ? first.fireAt.toIso8601String()
-        : 'next';
+    final previous = o.zones.resolve(LocalDateTime(local.date.minusDays(match.stepDays), local.time), o.zone).utc;
+    final start = previous.isAfter(o.now) ? first.fireAt.toIso8601String() : 'next';
     return DesiredItem(
-      key:
-          'rpt:${sha1.convert(utf8.encode(identity)).toString().substring(0, 32)}',
+      key: 'rpt:${sha1.convert(utf8.encode(identity)).toString().substring(0, 32)}',
       fireAt: first.fireAt,
       kind: ScheduleKind.repeating,
       os: true,
@@ -654,20 +608,14 @@ abstract final class ScheduleComputation {
     );
   }
 
-  static String _hash(List<String> parts) =>
-      sha1.convert(utf8.encode(parts.join('|'))).toString().substring(0, 16);
+  static String _hash(List<String> parts) => sha1.convert(utf8.encode(parts.join('|'))).toString().substring(0, 16);
 
   /// Diff between the stored schedule and the desired items. Past rows are kept (they await
   /// inbox reconciliation); snooze and test rows are never touched by replans.
-  static ScheduleDiff diff(
-    List<ScheduleEntry> current,
-    List<DesiredItem> desired,
-    DateTime now,
-  ) {
+  static ScheduleDiff diff(List<ScheduleEntry> current, List<DesiredItem> desired, DateTime now) {
     final managed = {
       for (final e in current)
-        if (e.kind != ScheduleKind.snooze && e.kind != ScheduleKind.test)
-          e.dedupeKey: e,
+        if (e.kind != ScheduleKind.snooze && e.kind != ScheduleKind.test) e.dedupeKey: e,
     };
     final desiredKeys = <String>{};
     final cancel = <ScheduleEntry>[];
@@ -704,28 +652,16 @@ abstract final class ScheduleComputation {
         remove.add(e);
       }
     }
-    return ScheduleDiff(
-      cancel: cancel,
-      upsert: upsert,
-      remove: remove,
-      unchanged: unchanged,
-    );
+    return ScheduleDiff(cancel: cancel, upsert: upsert, remove: remove, unchanged: unchanged);
   }
 
   /// `devices.local_coverage_until`: fire time of the last OS-scheduled one-shot, or the horizon
   /// end when everything fit (T7.2.11).
-  static DateTime? coverageUntil(
-    List<DesiredItem> desired, {
-    required DateTime horizonEnd,
-  }) {
+  static DateTime? coverageUntil(List<DesiredItem> desired, {required DateTime horizonEnd}) {
     final saturated =
         desired.any((d) => d.kind == ScheduleKind.sentinel) ||
         desired.any(
-          (d) =>
-              !d.os &&
-              d.kind == ScheduleKind.tracked &&
-              d.planned?.deliverSystem == true &&
-              _isOverflow(d, desired),
+          (d) => !d.os && d.kind == ScheduleKind.tracked && d.planned?.deliverSystem == true && _isOverflow(d, desired),
         );
     final osTimes = [
       for (final d in desired)
@@ -734,9 +670,7 @@ abstract final class ScheduleComputation {
     if (!saturated) return horizonEnd;
     if (osTimes.isEmpty) return null;
     osTimes.sort();
-    final sentinel = desired
-        .where((d) => d.kind == ScheduleKind.sentinel)
-        .map((d) => d.fireAt);
+    final sentinel = desired.where((d) => d.kind == ScheduleKind.sentinel).map((d) => d.fireAt);
     return sentinel.isNotEmpty ? sentinel.first : osTimes.last;
   }
 
@@ -752,6 +686,5 @@ abstract final class ScheduleComputation {
 
   /// Importance helper for sorting in UIs.
   static int importanceRank(String? wire) =>
-      (NotificationImportance.tryParse(wire) ?? NotificationImportance.normal)
-          .rank;
+      (NotificationImportance.tryParse(wire) ?? NotificationImportance.normal).rank;
 }

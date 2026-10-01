@@ -7,13 +7,7 @@ import 'package:material_ui/material_ui.dart';
 /// Ctrl/⌘+Z undo and Ctrl/⌘+Shift+Z / Ctrl+Y redo on the app's undo stack (T2.3.06), Ctrl/⌘+F
 /// search, Ctrl/⌘+K command palette, Ctrl/⌘+N new item. Text fields keep their own editing keys.
 class GlobalShortcuts extends ConsumerWidget {
-  const GlobalShortcuts({
-    required this.child,
-    super.key,
-    this.onSearch,
-    this.onCommandPalette,
-    this.onNewItem,
-  });
+  const GlobalShortcuts({required this.child, super.key, this.onSearch, this.onCommandPalette, this.onNewItem});
 
   final Widget child;
   final VoidCallback? onSearch;
@@ -23,24 +17,12 @@ class GlobalShortcuts extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) => AppShortcutScope(
     actions: {
-      UndoIntent: CallbackAction<UndoIntent>(
-        onInvoke: (_) => undoWithFeedback(context, ref),
-      ),
-      RedoIntent: CallbackAction<RedoIntent>(
-        onInvoke: (_) => redoWithFeedback(context, ref),
-      ),
-      if (onSearch != null)
-        OpenSearchIntent: CallbackAction<OpenSearchIntent>(
-          onInvoke: (_) => onSearch!(),
-        ),
+      UndoIntent: CallbackAction<UndoIntent>(onInvoke: (_) => undoWithFeedback(context, ref)),
+      RedoIntent: CallbackAction<RedoIntent>(onInvoke: (_) => redoWithFeedback(context, ref)),
+      if (onSearch != null) OpenSearchIntent: CallbackAction<OpenSearchIntent>(onInvoke: (_) => onSearch!()),
       if (onCommandPalette != null)
-        OpenCommandPaletteIntent: CallbackAction<OpenCommandPaletteIntent>(
-          onInvoke: (_) => onCommandPalette!(),
-        ),
-      if (onNewItem != null)
-        NewItemIntent: CallbackAction<NewItemIntent>(
-          onInvoke: (_) => onNewItem!(),
-        ),
+        OpenCommandPaletteIntent: CallbackAction<OpenCommandPaletteIntent>(onInvoke: (_) => onCommandPalette!()),
+      if (onNewItem != null) NewItemIntent: CallbackAction<NewItemIntent>(onInvoke: (_) => onNewItem!()),
     },
     child: child,
   );
@@ -53,18 +35,11 @@ Future<void> undoWithFeedback(BuildContext context, WidgetRef ref) async {
   final label = stack.undoLabel;
   final done = await stack.undo();
   if (!context.mounted) return;
-  final message = done && label != null
-      ? l.undoDoneSnack(label)
-      : l.undoNothing;
+  final message = done && label != null ? l.undoDoneSnack(label) : l.undoNothing;
   _feedback(
     context,
     message,
-    action: done
-        ? SnackBarAction(
-            label: l.actionRedo,
-            onPressed: () => redoWithFeedback(context, ref),
-          )
-        : null,
+    action: done ? SnackBarAction(label: l.actionRedo, onPressed: () => redoWithFeedback(context, ref)) : null,
   );
 }
 
@@ -75,18 +50,11 @@ Future<void> redoWithFeedback(BuildContext context, WidgetRef ref) async {
   final label = stack.redoLabel;
   final done = await stack.redo();
   if (!context.mounted) return;
-  final message = done && label != null
-      ? l.redoDoneSnack(label)
-      : l.redoNothing;
+  final message = done && label != null ? l.redoDoneSnack(label) : l.redoNothing;
   _feedback(
     context,
     message,
-    action: done
-        ? SnackBarAction(
-            label: l.actionUndo,
-            onPressed: () => undoWithFeedback(context, ref),
-          )
-        : null,
+    action: done ? SnackBarAction(label: l.actionUndo, onPressed: () => undoWithFeedback(context, ref)) : null,
   );
 }
 

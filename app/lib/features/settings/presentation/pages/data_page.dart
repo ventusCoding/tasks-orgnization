@@ -13,10 +13,7 @@ class DataPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
-    return SettingsPageScaffold(
-      title: l.settingsDataTitle,
-      children: const [_ExportSection()],
-    );
+    return SettingsPageScaffold(title: l.settingsDataTitle, children: const [_ExportSection()]);
   }
 }
 
@@ -43,21 +40,15 @@ class _ExportSectionState extends ConsumerState<_ExportSection> {
             kind: _kind,
             includeAttachments: _attachments,
             onProgress: (p) {
-              if (mounted)
+              if (mounted) {
                 setState(() => _progress = p.total == 0 ? 1 : p.done / p.total);
+              }
             },
           );
       if (!mounted) return;
       setState(() => _progress = null);
-      messenger?.showSnackBar(
-        SnackBar(
-          content: Text(l.settingsExportDone(file.uri.pathSegments.last)),
-        ),
-      );
-      await ref.read(shareFileProvider)(
-        file,
-        subject: l.settingsExportShareSubject,
-      );
+      messenger?.showSnackBar(SnackBar(content: Text(l.settingsExportDone(file.uri.pathSegments.last))));
+      await ref.read(shareFileProvider)(file, subject: l.settingsExportShareSubject);
     } on Object {
       if (mounted) setState(() => _progress = null);
       messenger?.showSnackBar(SnackBar(content: Text(l.settingsExportFailed)));
@@ -73,12 +64,7 @@ class _ExportSectionState extends ConsumerState<_ExportSection> {
       children: [
         SectionHeader(l.settingsExportTitle),
         Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(
-            Space.lg,
-            0,
-            Space.lg,
-            Space.sm,
-          ),
+          padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.sm),
           child: Text(l.settingsExportBody, style: context.text.bodyMedium),
         ),
         RadioGroup<ExportKind>(
@@ -112,12 +98,7 @@ class _ExportSectionState extends ConsumerState<_ExportSection> {
           onChanged: busy ? null : (v) => setState(() => _attachments = v),
         ),
         Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(
-            Space.lg,
-            Space.sm,
-            Space.lg,
-            Space.md,
-          ),
+          padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, Space.md),
           child: busy
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -125,9 +106,7 @@ class _ExportSectionState extends ConsumerState<_ExportSection> {
                     LinearProgressIndicator(value: _progress),
                     const SizedBox(height: Space.xs),
                     Text(
-                      l.settingsExportProgress(
-                        ((_progress ?? 0) * 100).round(),
-                      ),
+                      l.settingsExportProgress(((_progress ?? 0) * 100).round()),
                       key: const ValueKey('export-progress'),
                       style: context.text.bodySmall,
                     ),

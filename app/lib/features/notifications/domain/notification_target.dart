@@ -20,20 +20,12 @@ class NotificationGuard {
   const NotificationGuard(this.kind, [this.params = const {}]);
 
   factory NotificationGuard.fromJson(Map<String, Object?> json) =>
-      NotificationGuard(
-        asString(json['kind']) ?? 'always',
-        asJsonMap(json['params']) ?? const {},
-      );
+      NotificationGuard(asString(json['kind']) ?? 'always', asJsonMap(json['params']) ?? const {});
 
   static const always = NotificationGuard('always');
 
-  static NotificationGuard taskOccurrenceOpen(
-    String taskId,
-    String? occurrenceKey,
-  ) => NotificationGuard('task_occurrence_open', {
-    'taskId': taskId,
-    'occurrenceKey': ?occurrenceKey,
-  });
+  static NotificationGuard taskOccurrenceOpen(String taskId, String? occurrenceKey) =>
+      NotificationGuard('task_occurrence_open', {'taskId': taskId, 'occurrenceKey': ?occurrenceKey});
 
   static NotificationGuard habitPeriodOpen(
     String habitId,
@@ -49,22 +41,14 @@ class NotificationGuard {
     'op': ?op,
   });
 
-  static NotificationGuard checklistItemStatusIn(
-    String itemId,
-    List<String> statuses,
-  ) => NotificationGuard('checklist_item_status_in', {
-    'itemId': itemId,
-    'statuses': statuses,
-  });
+  static NotificationGuard checklistItemStatusIn(String itemId, List<String> statuses) =>
+      NotificationGuard('checklist_item_status_in', {'itemId': itemId, 'statuses': statuses});
 
   static NotificationGuard itemNotCompleted(String itemId) =>
       NotificationGuard('item_not_completed', {'itemId': itemId});
 
   static NotificationGuard quitNoRelapseSince(String habitId, DateTime since) =>
-      NotificationGuard('quit_no_relapse_since', {
-        'habitId': habitId,
-        'since': since.toUtc().toIso8601String(),
-      });
+      NotificationGuard('quit_no_relapse_since', {'habitId': habitId, 'since': since.toUtc().toIso8601String()});
 
   static NotificationGuard inboxNotActed(String dedupeKey) =>
       NotificationGuard('inbox_not_acted', {'dedupeKey': dedupeKey});
@@ -74,10 +58,7 @@ class NotificationGuard {
   final String kind;
   final Map<String, Object?> params;
 
-  Map<String, Object?> toJson() => {
-    'kind': kind,
-    if (params.isNotEmpty) 'params': params,
-  };
+  Map<String, Object?> toJson() => {'kind': kind, if (params.isNotEmpty) 'params': params};
 
   /// Server format (`private.notification_guards_ok`, supabase/README.md): flat objects
   /// `{"kind": …, "<param>": …}`; an array means "all must pass". Nag chains carry the
@@ -98,9 +79,7 @@ class NotificationGuard {
 
   @override
   bool operator ==(Object other) =>
-      other is NotificationGuard &&
-      other.kind == kind &&
-      jsonEquals(other.params, params);
+      other is NotificationGuard && other.kind == kind && jsonEquals(other.params, params);
 
   @override
   int get hashCode => Object.hash(kind, jsonHash(params));
@@ -114,12 +93,7 @@ class NotificationGuard {
 /// `clean_days` itself from [NotificationTarget.milestoneBaseline].
 @immutable
 class NotificationMilestone {
-  const NotificationMilestone({
-    required this.metric,
-    required this.threshold,
-    required this.at,
-    this.label,
-  });
+  const NotificationMilestone({required this.metric, required this.threshold, required this.at, this.label});
 
   /// clean_days | streak | total_value | money_saved | units_avoided | custom
   final String metric;
@@ -146,11 +120,7 @@ class NotificationMilestone {
 /// An observed event for event-driven triggers (status_change, children_complete, child_overdue).
 @immutable
 class NotificationEvent {
-  const NotificationEvent({
-    required this.kind,
-    required this.at,
-    this.data = const {},
-  });
+  const NotificationEvent({required this.kind, required this.at, this.data = const {}});
 
   /// status_change (data: from, to) | children_complete | child_overdue (data: childId) | reset
   final String kind;
@@ -159,10 +129,7 @@ class NotificationEvent {
 
   @override
   bool operator ==(Object other) =>
-      other is NotificationEvent &&
-      other.kind == kind &&
-      other.at == at &&
-      jsonEquals(other.data, data);
+      other is NotificationEvent && other.kind == kind && other.at == at && jsonEquals(other.data, data);
 
   @override
   int get hashCode => Object.hash(kind, at, jsonHash(data));
@@ -171,11 +138,7 @@ class NotificationEvent {
 /// Quota habit progress in the current period (quota_behind).
 @immutable
 class QuotaProgress {
-  const QuotaProgress({
-    required this.done,
-    required this.target,
-    required this.eligibleDaysLeft,
-  });
+  const QuotaProgress({required this.done, required this.target, required this.eligibleDaysLeft});
 
   final int done;
   final int target;
@@ -313,9 +276,8 @@ class NotificationTarget {
   String get targetKey => '${type.wire}:$id';
 
   /// Nearest-first ancestors used for inheritance.
-  List<String> get ancestors => ancestorItemIds.isNotEmpty
-      ? ancestorItemIds
-      : (parentItemId == null ? const [] : [parentItemId!]);
+  List<String> get ancestors =>
+      ancestorItemIds.isNotEmpty ? ancestorItemIds : (parentItemId == null ? const [] : [parentItemId!]);
 
   NotificationTarget copyWith({
     String? title,
@@ -385,23 +347,10 @@ class NotificationTarget {
       jsonEquals(other.variables, variables);
 
   @override
-  int get hashCode => Object.hash(
-    type,
-    id,
-    occurrenceKey,
-    section,
-    title,
-    notifyMode,
-    start,
-    end,
-    due,
-    status,
-    isOpen,
-  );
+  int get hashCode => Object.hash(type, id, occurrenceKey, section, title, notifyMode, start, end, due, status, isOpen);
 
   @override
-  String toString() =>
-      'NotificationTarget($targetKey${occurrenceKey == null ? '' : '@$occurrenceKey'})';
+  String toString() => 'NotificationTarget($targetKey${occurrenceKey == null ? '' : '@$occurrenceKey'})';
 }
 
 /// Implemented by each feature section and registered with the notification system.
@@ -412,10 +361,7 @@ abstract interface class NotificationTargetSource {
   /// Every target that may fire in `[fromUtc, toUtc]`: occurrences whose anchors fall in the
   /// range **plus** open non-recurring targets (their absolute/schedule/status triggers are
   /// evaluated by the planner). Closed targets may be omitted.
-  Future<List<NotificationTarget>> targetsBetween(
-    DateTime fromUtc,
-    DateTime toUtc,
-  );
+  Future<List<NotificationTarget>> targetsBetween(DateTime fromUtc, DateTime toUtc);
 
   /// Emits when this source's data changed (the replan orchestrator debounces it).
   Stream<void> get changes;
@@ -427,10 +373,8 @@ abstract interface class NotificationTargetSource {
 
 /// In-memory source (tests, demos, debug menu): set [targets] and call [notifyChanged].
 class InMemoryNotificationTargetSource implements NotificationTargetSource {
-  InMemoryNotificationTargetSource({
-    required this.section,
-    List<NotificationTarget>? targets,
-  }) : _targets = [...?targets];
+  InMemoryNotificationTargetSource({required this.section, List<NotificationTarget>? targets})
+    : _targets = [...?targets];
 
   @override
   final String section;
@@ -465,27 +409,14 @@ class InMemoryNotificationTargetSource implements NotificationTargetSource {
   Stream<void> get changes => _changes.stream;
 
   @override
-  Future<List<NotificationTarget>> targetsBetween(
-    DateTime fromUtc,
-    DateTime toUtc,
-  ) async => [
+  Future<List<NotificationTarget>> targetsBetween(DateTime fromUtc, DateTime toUtc) async => [
     for (final t in _targets)
       if (_relevant(t, fromUtc, toUtc))
-        closed.contains('${t.targetKey}|${t.occurrenceKey ?? ''}')
-            ? t.copyWith(isOpen: false)
-            : t,
+        closed.contains('${t.targetKey}|${t.occurrenceKey ?? ''}') ? t.copyWith(isOpen: false) : t,
   ];
 
   bool _relevant(NotificationTarget t, DateTime from, DateTime to) {
-    final anchors = [
-      t.start,
-      t.end,
-      t.due,
-      t.followUp,
-      t.slot,
-      t.periodStart,
-      t.periodEnd,
-    ].whereType<DateTime>();
+    final anchors = [t.start, t.end, t.due, t.followUp, t.slot, t.periodStart, t.periodEnd].whereType<DateTime>();
     if (anchors.isEmpty || t.occurrenceKey == null) return true;
     return anchors.any((a) => !a.isBefore(from) && !a.isAfter(to));
   }

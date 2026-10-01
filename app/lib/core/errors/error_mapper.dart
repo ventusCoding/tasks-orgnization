@@ -17,46 +17,24 @@ app.AppException toAppException(Object error) {
   return switch (error) {
     final app.AppException e => e,
     // ── Supabase ──────────────────────────────────────────────────────────────
-    final sb.AuthRetryableFetchException e => app.NetworkException(
-      'auth network error',
-      cause: e,
-    ),
-    final sb.AuthWeakPasswordException e => app.ValidationException(
-      'weak password',
-      field: 'password',
-      cause: e,
-    ),
+    final sb.AuthRetryableFetchException e => app.NetworkException('auth network error', cause: e),
+    final sb.AuthWeakPasswordException e => app.ValidationException('weak password', field: 'password', cause: e),
     final sb.AuthException e => _fromAuth(e),
     final sb.PostgrestException e => _fromPostgrest(e),
-    final sb.FunctionException e => _fromHttpStatus(
-      e.status,
-      'edge function ${e.status}',
-      e,
-    ),
+    final sb.FunctionException e => _fromHttpStatus(e.status, 'edge function ${e.status}', e),
     final sb.StorageException e => _fromStorage(e),
     final SyncApiException e => _fromSyncApi(e),
     // ── Drift / SQLite ────────────────────────────────────────────────────────
     final DriftWrappedException e =>
-      e.cause == null
-          ? app.StorageException('database error', cause: e)
-          : toAppException(e.cause!),
+      e.cause == null ? app.StorageException('database error', cause: e) : toAppException(e.cause!),
     final SqliteException e => _fromSqlite(e),
     // ── dart:io, dart:async, package:http, platform channels ─────────────────
     final SocketException e => app.NetworkException('socket error', cause: e),
-    final HandshakeException e => app.NetworkException(
-      'TLS handshake failed',
-      cause: e,
-    ),
+    final HandshakeException e => app.NetworkException('TLS handshake failed', cause: e),
     final TlsException e => app.NetworkException('TLS error', cause: e),
     final HttpException e => app.NetworkException('http error', cause: e),
-    final WebSocketException e => app.NetworkException(
-      'websocket error',
-      cause: e,
-    ),
-    final http.ClientException e => app.NetworkException(
-      'http client error',
-      cause: e,
-    ),
+    final WebSocketException e => app.NetworkException('websocket error', cause: e),
+    final http.ClientException e => app.NetworkException('http client error', cause: e),
     final TimeoutException e => app.NetworkException('timeout', cause: e),
     final FileSystemException e => _fromFileSystem(e),
     final PlatformException e => _fromPlatform(e),
@@ -80,30 +58,22 @@ bool isOfflineError(Object error) {
 app.AppException _fromAuth(sb.AuthException e) {
   final code = e.code ?? '';
   final status = e.statusCode ?? '';
-  if (code.contains('rate_limit') || status == '429')
+  if (code.contains('rate_limit') || status == '429') {
     return app.NetworkException('auth rate limited ($code)', cause: e);
-  if (status.startsWith('5'))
+  }
+  if (status.startsWith('5')) {
     return app.NetworkException('auth server error ($status)', cause: e);
+  }
   if (code == 'validation_failed' || code == 'email_address_invalid') {
     return app.ValidationException('auth validation ($code)', cause: e);
   }
-  if (code == 'email_exists' ||
-      code == 'user_already_exists' ||
-      code == 'identity_already_exists') {
+  if (code == 'email_exists' || code == 'user_already_exists' || code == 'identity_already_exists') {
     return app.ConflictException('auth conflict ($code)', cause: e);
   }
-  if (code == 'provider_disabled' ||
-      code == 'anonymous_provider_disabled' ||
-      code == 'email_provider_disabled') {
-    return app.NotConfiguredException(
-      'auth provider disabled ($code)',
-      cause: e,
-    );
+  if (code == 'provider_disabled' || code == 'anonymous_provider_disabled' || code == 'email_provider_disabled') {
+    return app.NotConfiguredException('auth provider disabled ($code)', cause: e);
   }
-  return app.AuthException(
-    'auth error (${code.isEmpty ? status : code})',
-    cause: e,
-  );
+  return app.AuthException('auth error (${code.isEmpty ? status : code})', cause: e);
 }
 
 app.AppException _fromPostgrest(sb.PostgrestException e) {
@@ -114,54 +84,37 @@ app.AppException _fromPostgrest(sb.PostgrestException e) {
     case '23502' || '23514' || '22P02' || '22001' || '22003' || '22007':
       return app.ValidationException('postgres $code', cause: e);
     case '42501':
-      return app.PermissionException(
-        'postgres $code (row-level security or grant)',
-        cause: e,
-      );
+      return app.PermissionException('postgres $code (row-level security or grant)', cause: e);
     case '28000' || '28P01' || 'PGRST301' || 'PGRST303':
       return app.AuthException('postgres $code', cause: e);
     case 'PGRST116':
       return app.NotFoundException('postgrest $code', cause: e);
     case '57014':
-      return app.NetworkException(
-        'postgres $code (statement timeout)',
-        cause: e,
-      );
+      return app.NetworkException('postgres $code (statement timeout)', cause: e);
     case '42P01' || '42883' || 'PGRST202' || 'PGRST205':
       // The function/table isn't there: the server side is older than this build.
-      return app.UnsupportedVersionException(
-        'postgrest $code (missing object)',
-        cause: e,
-      );
+      return app.UnsupportedVersionException('postgrest $code (missing object)', cause: e);
   }
-  if (code.startsWith('53'))
+  if (code.startsWith('53')) {
     return app.NetworkException('postgres $code (server resources)', cause: e);
+  }
   final status = int.tryParse(code);
   if (status != null) return _fromHttpStatus(status, 'postgrest $status', e);
-  return app.UnknownAppException(
-    'postgrest ${code.isEmpty ? 'error' : code}',
-    cause: e,
-  );
+  return app.UnknownAppException('postgrest ${code.isEmpty ? 'error' : code}', cause: e);
 }
 
 app.AppException _fromStorage(sb.StorageException e) {
   final status = int.tryParse(e.statusCode ?? '');
   if (status == null) return app.StorageException('storage error', cause: e);
   final mapped = _fromHttpStatus(status, 'storage $status', e);
-  return mapped is app.UnknownAppException
-      ? app.StorageException('storage $status', cause: e)
-      : mapped;
+  return mapped is app.UnknownAppException ? app.StorageException('storage $status', cause: e) : mapped;
 }
 
 app.AppException _fromSyncApi(SyncApiException e) => switch (e.code) {
-  SyncApiException.unsupportedClient => app.UnsupportedVersionException(
-    'sync: app build refused',
-    cause: e,
-  ),
-  SyncApiException.deviceRevoked || SyncApiException.notAuthenticated =>
-    app.AuthException('sync: ${e.code}', cause: e),
-  SyncApiException.tooManyChanges || SyncApiException.invalidRequest =>
-    app.ValidationException('sync: ${e.code}', cause: e),
+  SyncApiException.unsupportedClient => app.UnsupportedVersionException('sync: app build refused', cause: e),
+  SyncApiException.deviceRevoked || SyncApiException.notAuthenticated => app.AuthException('sync: ${e.code}', cause: e),
+  SyncApiException.tooManyChanges ||
+  SyncApiException.invalidRequest => app.ValidationException('sync: ${e.code}', cause: e),
   _ =>
     e.status == null
         ? app.UnknownAppException('sync: ${e.code}', cause: e)
@@ -169,8 +122,9 @@ app.AppException _fromSyncApi(SyncApiException e) => switch (e.code) {
 };
 
 app.AppException _fromHttpStatus(int status, String what, Object cause) {
-  if (status == 0)
+  if (status == 0) {
     return app.NetworkException('$what (request not sent)', cause: cause);
+  }
   return switch (status) {
     401 => app.AuthException(what, cause: cause),
     403 => app.PermissionException(what, cause: cause),
@@ -194,45 +148,35 @@ const _sqliteConstraintUnique = 2067;
 app.AppException _fromSqlite(SqliteException e) {
   final primary = e.resultCode;
   if (primary == _sqliteConstraint) {
-    return e.extendedResultCode == _sqliteConstraintUnique ||
-            e.extendedResultCode == _sqliteConstraintPrimaryKey
+    return e.extendedResultCode == _sqliteConstraintUnique || e.extendedResultCode == _sqliteConstraintPrimaryKey
         ? app.ConflictException('sqlite unique constraint', cause: e)
-        : app.ValidationException(
-            'sqlite constraint ${e.extendedResultCode}',
-            cause: e,
-          );
+        : app.ValidationException('sqlite constraint ${e.extendedResultCode}', cause: e);
   }
   return switch (primary) {
-    _sqliteBusy ||
-    _sqliteLocked => app.StorageException('sqlite busy', cause: e),
+    _sqliteBusy || _sqliteLocked => app.StorageException('sqlite busy', cause: e),
     _ => app.StorageException('sqlite error $primary', cause: e),
   };
 }
 
 app.AppException _fromFileSystem(FileSystemException e) {
   final errno = e.osError?.errorCode;
-  if (errno == 13 || errno == 1)
+  if (errno == 13 || errno == 1) {
     return app.PermissionException('file permission denied', cause: e);
+  }
   if (errno == 2) return app.NotFoundException('file not found', cause: e);
-  return app.StorageException(
-    'file error${errno == null ? '' : ' $errno'}',
-    cause: e,
-  );
+  return app.StorageException('file error${errno == null ? '' : ' $errno'}', cause: e);
 }
 
 app.AppException _fromPlatform(PlatformException e) {
   final code = e.code.toLowerCase();
-  if (code.contains('permission') ||
-      code.contains('denied') ||
-      code == 'not_authorized') {
+  if (code.contains('permission') || code.contains('denied') || code == 'not_authorized') {
     return app.PermissionException('platform: ${e.code}', cause: e);
   }
-  if (code.contains('network') ||
-      code.contains('offline') ||
-      code.contains('timeout')) {
+  if (code.contains('network') || code.contains('offline') || code.contains('timeout')) {
     return app.NetworkException('platform: ${e.code}', cause: e);
   }
-  if (code.contains('not_found') || code.contains('notfound'))
+  if (code.contains('not_found') || code.contains('notfound')) {
     return app.NotFoundException('platform: ${e.code}', cause: e);
+  }
   return app.UnknownAppException('platform: ${e.code}', cause: e);
 }

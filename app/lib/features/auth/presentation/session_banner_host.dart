@@ -27,7 +27,9 @@ class SessionBannerHost extends ConsumerWidget {
     return Column(
       children: [
         SafeArea(bottom: false, child: banner),
-        Expanded(child: MediaQuery.removePadding(context: context, removeTop: true, child: child)),
+        Expanded(
+          child: MediaQuery.removePadding(context: context, removeTop: true, child: child),
+        ),
       ],
     );
   }
@@ -53,9 +55,7 @@ class SessionBannerHost extends ConsumerWidget {
         key: const ValueKey('banner-update'),
         icon: Icons.system_update,
         message: l.authUpdateRequired,
-        actions: [
-          (l.actionRetry, () => unawaited(ref.read(syncServiceProvider)?.syncNow(manual: true))),
-        ],
+        actions: [(l.actionRetry, () => unawaited(ref.read(syncServiceProvider)?.syncNow(manual: true)))],
       );
     }
     if (issues.contains(SessionIssue.reauthRequired)) {

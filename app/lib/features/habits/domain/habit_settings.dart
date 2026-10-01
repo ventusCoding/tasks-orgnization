@@ -13,7 +13,7 @@ enum SlotRollupMode {
   /// At least `minSlots` slots (e.g. 6 of 9 stand-ups).
   minSlots('min');
 
-  const SlotRollupMode(this.json);
+  SlotRollupMode(this.json);
 
   final String json;
 
@@ -45,12 +45,11 @@ class PledgeSettings {
     if (evening != null) 'evening': evening!.toIso(),
   };
 
-  PledgeSettings copyWith({bool? enabled, Object? morning = _unset, Object? evening = _unset}) =>
-      PledgeSettings(
-        enabled: enabled ?? this.enabled,
-        morning: identical(morning, _unset) ? this.morning : morning as LocalTime?,
-        evening: identical(evening, _unset) ? this.evening : evening as LocalTime?,
-      );
+  PledgeSettings copyWith({bool? enabled, Object? morning = _unset, Object? evening = _unset}) => PledgeSettings(
+    enabled: enabled ?? this.enabled,
+    morning: identical(morning, _unset) ? this.morning : morning as LocalTime?,
+    evening: identical(evening, _unset) ? this.evening : evening as LocalTime?,
+  );
 
   @override
   bool operator ==(Object other) =>
@@ -68,7 +67,7 @@ enum ChallengeRule {
   /// At least `minRatio` of the scheduled days done.
   minRatio('min_ratio');
 
-  const ChallengeRule(this.json);
+  ChallengeRule(this.json);
 
   final String json;
 
@@ -93,8 +92,7 @@ class ChallengeSettings {
   Map<String, Object?> toJson() => {'successRule': rule.json, 'minRatio': minRatio};
 
   @override
-  bool operator ==(Object other) =>
-      other is ChallengeSettings && other.rule == rule && other.minRatio == minRatio;
+  bool operator ==(Object other) => other is ChallengeSettings && other.rule == rule && other.minRatio == minRatio;
 
   @override
   int get hashCode => Object.hash(rule, minRatio);
@@ -127,12 +125,7 @@ class TargetProgression {
     return cap != null && value > cap ? cap : value;
   }
 
-  Map<String, Object?> toJson() => {
-    'start': start,
-    'step': step,
-    'everyDays': everyDays,
-    if (max != null) 'max': max,
-  };
+  Map<String, Object?> toJson() => {'start': start, 'step': step, 'everyDays': everyDays, if (max != null) 'max': max};
 
   @override
   bool operator ==(Object other) =>
@@ -246,10 +239,7 @@ class HabitSettings {
 
   Map<String, Object?> toJson() => {
     'v': currentVersion,
-    'slotRollup': {
-      'mode': slotRollup.json,
-      if (minSlots != null) 'minSlots': minSlots,
-    },
+    'slotRollup': {'mode': slotRollup.json, if (minSlots != null) 'minSlots': minSlots},
     'earlyToleranceMinutes': earlyToleranceMinutes,
     'requireExplicitLog': requireExplicitLog,
     'incrementStep': incrementStep,
@@ -290,9 +280,7 @@ class HabitSettings {
     targetProgression: identical(targetProgression, _unset)
         ? this.targetProgression
         : targetProgression as TargetProgression?,
-    lifeEstimateSource: identical(lifeEstimateSource, _unset)
-        ? this.lifeEstimateSource
-        : lifeEstimateSource as String?,
+    lifeEstimateSource: identical(lifeEstimateSource, _unset) ? this.lifeEstimateSource : lifeEstimateSource as String?,
     extra: extra,
   );
 

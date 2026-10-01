@@ -107,7 +107,11 @@ void main() {
   group('measurable habits', () {
     test('10 then 5 push-ups keep two entries; Done logs the remaining amount', () async {
       final habit = await create(
-        buildHabit(id: Ids.v7(), start: d(2026, 9, 1), goal: const HabitTarget(type: HabitGoalType.count, target: 15, unit: 'reps')),
+        buildHabit(
+          id: Ids.v7(),
+          start: d(2026, 9, 1),
+          goal: const HabitTarget(type: HabitGoalType.count, target: 15, unit: 'reps'),
+        ),
       );
       await checkIns.addProgress(habit, '2026-09-22', 10);
       h.clock.advance(const Duration(hours: 2));
@@ -119,14 +123,21 @@ void main() {
 
       await checkIns.addProgress(habit, '2026-09-21', 4);
       await checkIns.markDone(habit, '2026-09-21');
-      logs = [for (final l in await liveLogs(habit.id)) if (l.localDate == d(2026, 9, 21)) l];
+      logs = [
+        for (final l in await liveLogs(habit.id))
+          if (l.localDate == d(2026, 9, 21)) l,
+      ];
       expect(logs.map((l) => l.value), [4, 11]);
       await expectLater(checkIns.addProgress(habit, '2026-09-23', 3), throwsA(isA<CheckInException>()));
     });
 
     test('entries can be edited and deleted', () async {
       final habit = await create(
-        buildHabit(id: Ids.v7(), start: d(2026, 9, 1), goal: const HabitTarget(type: HabitGoalType.duration, target: 20, unit: 'min')),
+        buildHabit(
+          id: Ids.v7(),
+          start: d(2026, 9, 1),
+          goal: const HabitTarget(type: HabitGoalType.duration, target: 20, unit: 'min'),
+        ),
       );
       await checkIns.addProgress(habit, '2026-09-22', 10, durationSeconds: 600);
       var entry = (await liveLogs(habit.id)).single;
@@ -232,7 +243,12 @@ void main() {
     });
 
     test('slip keeps the quit date; new attempt writes a restart; relapse 2 h ago moves the streak', () async {
-      await quit.logRelapse(tracker, at: h.clock.nowUtc().subtract(const Duration(hours: 2)), amount: 2, trigger: 'stress');
+      await quit.logRelapse(
+        tracker,
+        at: h.clock.nowUtc().subtract(const Duration(hours: 2)),
+        amount: 2,
+        trigger: 'stress',
+      );
       var v = await view();
       expect(v.current, const Duration(hours: 2));
       expect(v.attempts, 1);
@@ -250,7 +266,10 @@ void main() {
       final craving = await quit.logCraving(tracker);
       var logs = await liveLogs(tracker.id);
       expect((logs.single.kind, logs.single.intensity), (HabitLogKind.craving, 5));
-      await quit.updateLog(logs.single, craving: const CravingInput(intensity: 8, resisted: true, durationSeconds: 180, coping: 'breathing'));
+      await quit.updateLog(
+        logs.single,
+        craving: const CravingInput(intensity: 8, resisted: true, durationSeconds: 180, coping: 'breathing'),
+      );
       logs = await liveLogs(tracker.id);
       expect((logs.single.intensity, logs.single.resisted, logs.single.durationSeconds), (8, true, 180));
       expect(craving.id, logs.single.id);

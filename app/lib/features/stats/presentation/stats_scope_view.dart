@@ -23,9 +23,9 @@ import 'package:everslot/features/stats/presentation/l10n/stats_l10n.dart';
 import 'package:everslot/features/stats/presentation/widgets/explain_sheet.dart';
 import 'package:everslot/features/stats/presentation/widgets/metric_card.dart';
 import 'package:everslot/features/stats/presentation/widgets/period_selector.dart';
+import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:everslot/shared/filters/domain/entity_filter.dart';
 import 'package:everslot/shared/filters/presentation/filter_bar.dart';
-import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:everslot_metrics/everslot_metrics.dart' show NotApplicable, StatsPeriod, Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -36,7 +36,8 @@ import 'package:material_ui/material_ui.dart';
 const hiddenResultNotes = {'yesNoHabit', 'limitHabit', 'notSmoking', 'noLifeEstimate', 'abstainMode'};
 
 /// Whether [r] hides its card.
-bool isHiddenResult(MetricResult? r) => r != null && r.value is NotApplicable<double> && hiddenResultNotes.contains(r.note);
+bool isHiddenResult(MetricResult? r) =>
+    r != null && r.value is NotApplicable<double> && hiddenResultNotes.contains(r.note);
 
 /// Key of the remembered period/compare state and of the layout customization of [scope].
 String statsScopeKey(MetricScope scope) => scope.name;
@@ -149,7 +150,10 @@ class _StatsScopeViewState extends ConsumerState<StatsScopeView> {
     }
 
     final slivers = <Widget>[
-      if (widget.entity != null) SliverToBoxAdapter(child: _ScopeHeader(entity: widget.entity!, scope: widget.scope)),
+      if (widget.entity != null)
+        SliverToBoxAdapter(
+          child: _ScopeHeader(entity: widget.entity!, scope: widget.scope),
+        ),
       if (widget.header != null) SliverToBoxAdapter(child: widget.header),
       if (widget.showPeriod)
         SliverToBoxAdapter(
@@ -189,10 +193,7 @@ class _StatsScopeViewState extends ConsumerState<StatsScopeView> {
       if (batch.hasError && results.isEmpty)
         SliverFillRemaining(
           hasScrollBody: false,
-          child: ErrorState(
-            error: batch.error,
-            onRetry: () => ref.invalidate(metricsBatchProvider(request)),
-          ),
+          child: ErrorState(error: batch.error, onRetry: () => ref.invalidate(metricsBatchProvider(request))),
         )
       else ...[
         if (layout.kpis.isNotEmpty)
@@ -207,20 +208,18 @@ class _StatsScopeViewState extends ConsumerState<StatsScopeView> {
         for (final section in [
           for (final s in layout.sections)
             if (s.items.any((i) => !isHiddenResult(results[i.metricId])))
-              StatsLayoutSection(
-                s.id,
-                [
-                  for (final i in s.items)
-                    if (!isHiddenResult(results[i.metricId])) i,
-                ],
-                collapsedByDefault: s.collapsedByDefault,
-              ),
+              StatsLayoutSection(s.id, [
+                for (final i in s.items)
+                  if (!isHiddenResult(results[i.metricId])) i,
+              ], collapsedByDefault: s.collapsedByDefault),
         ]) ...[
           SliverToBoxAdapter(
             child: _SectionTitle(
               id: section.id,
               collapsed: _collapsed(section),
-              onToggle: () => setState(() => _toggled.contains(section.id) ? _toggled.remove(section.id) : _toggled.add(section.id)),
+              onToggle: () => setState(
+                () => _toggled.contains(section.id) ? _toggled.remove(section.id) : _toggled.add(section.id),
+              ),
             ),
           ),
           if (!_collapsed(section))

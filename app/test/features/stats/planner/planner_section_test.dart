@@ -17,7 +17,7 @@ void main() {
   Future<Map<String, MetricResult>> week(String period) =>
       h.compute(MetricScope.planner, period: PeriodSelection.parsePeriod(period)!, metricIds: _ids);
 
-  List<String> drill(MetricResult r, String key) => [for (final d in r.drill[key] ?? const []) d.id];
+  List<String> drill(MetricResult r, String key) => [for (final d in r.drill[key] ?? const <Never>[]) d.id];
 
   setUp(() async {
     h = StatsHarness.create(now: DateTime.utc(2026, 9, 22, 12));
@@ -72,7 +72,13 @@ void main() {
           'entity_id': 'q',
           'event_type': 'rescheduled',
           'occurred_at': '2026-09-16T12:00:00.000Z',
-          'payload': {'scope': 'series', 'fromStart': '2026-09-14T20:00', 'toStart': '2026-09-14T21:00', 'fromDuration': 30, 'toDuration': 30},
+          'payload': {
+            'scope': 'series',
+            'fromStart': '2026-09-14T20:00',
+            'toStart': '2026-09-14T21:00',
+            'fromDuration': 30,
+            'toDuration': 30,
+          },
         },
       ],
     });

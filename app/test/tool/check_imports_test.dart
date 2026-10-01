@@ -4,79 +4,37 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../../tool/check_imports.dart' as checker;
 
-List<String> _rules(String path, String source) => [
-  for (final v in checker.checkSource(path, source)) v.rule,
-];
+List<String> _rules(String path, String source) => [for (final v in checker.checkSource(path, source)) v.rule];
 
 void main() {
   group('layer locations', () {
     test('parses feature and shared layers', () {
       final l = checker.LibLocation.parse('features/planner/domain/task.dart');
       expect((l.area, l.module, l.layer), ('features', 'planner', 'domain'));
-      final s = checker.LibLocation.parse(
-        'shared/filters/presentation/filter_bar.dart',
-      );
-      expect(
-        (s.area, s.module, s.layer),
-        ('shared', 'filters', 'presentation'),
-      );
+      final s = checker.LibLocation.parse('shared/filters/presentation/filter_bar.dart');
+      expect((s.area, s.module, s.layer), ('shared', 'filters', 'presentation'));
       final c = checker.LibLocation.parse('core/time/clock.dart');
       expect((c.area, c.module, c.layer), ('core', null, null));
     });
 
     test('resolves relative imports', () {
-      final from = checker.LibLocation.parse(
-        'features/tags/presentation/screen.dart',
-      );
-      expect(
-        checker.resolveAppImport(from, '../data/repo.dart'),
-        'features/tags/data/repo.dart',
-      );
-      expect(
-        checker.resolveAppImport(from, 'package:everslot/core/ids/ids.dart'),
-        'core/ids/ids.dart',
-      );
-      expect(
-        checker.resolveAppImport(from, 'package:drift/drift.dart'),
-        isNull,
-      );
+      final from = checker.LibLocation.parse('features/tags/presentation/screen.dart');
+      expect(checker.resolveAppImport(from, '../data/repo.dart'), 'features/tags/data/repo.dart');
+      expect(checker.resolveAppImport(from, 'package:everslot/core/ids/ids.dart'), 'core/ids/ids.dart');
+      expect(checker.resolveAppImport(from, 'package:drift/drift.dart'), isNull);
       expect(checker.resolveAppImport(from, 'dart:async'), isNull);
     });
   });
 
   group('domain rules', () {
     test('domain must be pure Dart', () {
-      expect(
-        _rules(
-          'features/a/domain/x.dart',
-          "import 'package:flutter/widgets.dart';",
-        ),
-        ['domain-pure'],
-      );
-      expect(
-        _rules(
-          'features/a/domain/x.dart',
-          "import 'package:material_ui/material_ui.dart';",
-        ),
-        ['domain-pure'],
-      );
-      expect(
-        _rules(
-          'features/a/domain/x.dart',
-          "import 'package:drift/drift.dart';",
-        ),
-        ['domain-pure'],
-      );
-      expect(
-        _rules(
-          'shared/f/domain/x.dart',
-          "import 'package:flutter_riverpod/flutter_riverpod.dart';",
-        ),
-        ['domain-pure'],
-      );
-      expect(_rules('features/a/domain/x.dart', "import 'dart:ui';"), [
+      expect(_rules('features/a/domain/x.dart', "import 'package:flutter/widgets.dart';"), ['domain-pure']);
+      expect(_rules('features/a/domain/x.dart', "import 'package:material_ui/material_ui.dart';"), ['domain-pure']);
+      expect(_rules('features/a/domain/x.dart', "import 'package:drift/drift.dart';"), ['domain-pure']);
+      expect(_rules('shared/f/domain/x.dart', "import 'package:flutter_riverpod/flutter_riverpod.dart';"), [
         'domain-pure',
       ]);
+      expect(_rules('features/a/domain/x.dart', "import 'dart:ui';"), ['domain-pure']);
     });
 
     test('domain may use pure packages and domain-safe core', () {
@@ -93,144 +51,56 @@ import 'package:everslot/features/b/domain/other.dart';
     });
 
     test('domain may not reach outer layers or infrastructure', () {
-      expect(
-        _rules('features/a/domain/x.dart', "import '../data/repo.dart';"),
-        ['domain-layer'],
-      );
-      expect(
-        _rules(
-          'features/a/domain/x.dart',
-          "import 'package:everslot/features/b/application/p.dart';",
-        ),
-        ['domain-layer'],
-      );
-      expect(
-        _rules(
-          'features/a/domain/x.dart',
-          "import 'package:everslot/core/database/app_database.dart';",
-        ),
-        ['domain-layer'],
-      );
-      expect(
-        _rules(
-          'features/a/domain/x.dart',
-          "import 'package:everslot/core/providers.dart';",
-        ),
-        ['domain-layer'],
-      );
-      expect(
-        _rules(
-          'features/a/domain/x.dart',
-          "import 'package:everslot/design_system/tokens.dart';",
-        ),
-        ['domain-layer'],
-      );
+      expect(_rules('features/a/domain/x.dart', "import '../data/repo.dart';"), ['domain-layer']);
+      expect(_rules('features/a/domain/x.dart', "import 'package:everslot/features/b/application/p.dart';"), [
+        'domain-layer',
+      ]);
+      expect(_rules('features/a/domain/x.dart', "import 'package:everslot/core/database/app_database.dart';"), [
+        'domain-layer',
+      ]);
+      expect(_rules('features/a/domain/x.dart', "import 'package:everslot/core/providers.dart';"), ['domain-layer']);
+      expect(_rules('features/a/domain/x.dart', "import 'package:everslot/design_system/tokens.dart';"), [
+        'domain-layer',
+      ]);
     });
   });
 
   group('presentation & cross-module rules', () {
     test('presentation may not import data layers or the database', () {
+      expect(_rules('features/a/presentation/s.dart', "import '../data/repo.dart';"), ['presentation-data']);
+      expect(_rules('features/a/presentation/s.dart', "import 'package:everslot/shared/f/data/r.dart';"), [
+        'presentation-data',
+      ]);
+      expect(_rules('features/a/presentation/s.dart', "import 'package:drift/drift.dart';"), ['presentation-data']);
+      expect(_rules('features/a/presentation/s.dart', "import 'package:everslot/core/database/app_database.dart';"), [
+        'presentation-data',
+      ]);
       expect(
-        _rules('features/a/presentation/s.dart', "import '../data/repo.dart';"),
-        ['presentation-data'],
-      );
-      expect(
-        _rules(
-          'features/a/presentation/s.dart',
-          "import 'package:everslot/shared/f/data/r.dart';",
-        ),
-        ['presentation-data'],
-      );
-      expect(
-        _rules(
-          'features/a/presentation/s.dart',
-          "import 'package:drift/drift.dart';",
-        ),
-        ['presentation-data'],
-      );
-      expect(
-        _rules(
-          'features/a/presentation/s.dart',
-          "import 'package:everslot/core/database/app_database.dart';",
-        ),
-        ['presentation-data'],
-      );
-      expect(
-        _rules(
-          'features/a/presentation/s.dart',
-          "import 'package:everslot/features/a/application/p.dart';",
-        ),
+        _rules('features/a/presentation/s.dart', "import 'package:everslot/features/a/application/p.dart';"),
         isEmpty,
       );
       expect(
-        _rules(
-          'features/a/presentation/s.dart',
-          "import 'package:everslot/features/b/presentation/w.dart';",
-        ),
+        _rules('features/a/presentation/s.dart', "import 'package:everslot/features/b/presentation/w.dart';"),
         isEmpty,
       );
     });
 
     test('modules may not import another module data layer', () {
-      expect(
-        _rules(
-          'features/a/application/p.dart',
-          "import 'package:everslot/features/b/data/repo.dart';",
-        ),
-        ['foreign-data'],
-      );
-      expect(
-        _rules(
-          'shared/search/application/p.dart',
-          "import 'package:everslot/features/b/data/repo.dart';",
-        ),
-        ['foreign-data'],
-      );
-      expect(
-        _rules(
-          'features/a/application/p.dart',
-          "import 'package:everslot/features/a/data/repo.dart';",
-        ),
-        isEmpty,
-      );
-      expect(
-        _rules(
-          'features/a/data/r.dart',
-          "import 'package:everslot/features/b/application/p.dart';",
-        ),
-        isEmpty,
-      );
+      expect(_rules('features/a/application/p.dart', "import 'package:everslot/features/b/data/repo.dart';"), [
+        'foreign-data',
+      ]);
+      expect(_rules('shared/search/application/p.dart', "import 'package:everslot/features/b/data/repo.dart';"), [
+        'foreign-data',
+      ]);
+      expect(_rules('features/a/application/p.dart', "import 'package:everslot/features/a/data/repo.dart';"), isEmpty);
+      expect(_rules('features/a/data/r.dart', "import 'package:everslot/features/b/application/p.dart';"), isEmpty);
     });
 
     test('core and design_system stay independent of features', () {
-      expect(
-        _rules(
-          'core/x.dart',
-          "import 'package:everslot/features/a/application/p.dart';",
-        ),
-        ['core-independent'],
-      );
-      expect(
-        _rules(
-          'design_system/x.dart',
-          "import 'package:everslot/shared/f/domain/d.dart';",
-        ),
-        ['core-independent'],
-      );
-      expect(
-        _rules(
-          'design_system/x.dart',
-          "import 'package:everslot/core/providers.dart';",
-        ),
-        isEmpty,
-      );
-      expect(
-        _rules(
-          'app/router.dart',
-          "import 'package:everslot/features/a/presentation/s.dart';",
-        ),
-        isEmpty,
-      );
+      expect(_rules('core/x.dart', "import 'package:everslot/features/a/application/p.dart';"), ['core-independent']);
+      expect(_rules('design_system/x.dart', "import 'package:everslot/shared/f/domain/d.dart';"), ['core-independent']);
+      expect(_rules('design_system/x.dart', "import 'package:everslot/core/providers.dart';"), isEmpty);
+      expect(_rules('app/router.dart', "import 'package:everslot/features/a/presentation/s.dart';"), isEmpty);
     });
   });
 
@@ -242,14 +112,8 @@ import 'package:everslot/core/ids/ids.dart'
 export
   'package:flutter/widgets.dart';
 ''';
-      final violations = checker.checkSource(
-        'features/a/domain/x.dart',
-        source,
-      );
-      expect(
-        [for (final v in violations) (v.line, v.rule)],
-        [(1, 'domain-layer'), (3, 'domain-pure')],
-      );
+      final violations = checker.checkSource('features/a/domain/x.dart', source);
+      expect([for (final v in violations) (v.line, v.rule)], [(1, 'domain-layer'), (3, 'domain-pure')]);
     });
 
     test('comments and opt-outs are ignored', () {
@@ -266,41 +130,21 @@ import 'package:flutter/foundation.dart'; // boundary-ok: kDebugMode only
     String wrap(String body) => 'Widget build() => $body;';
 
     test('flags non-directional APIs', () {
-      expect(
-        _rules(
-          'features/a/presentation/s.dart',
-          wrap('Padding(padding: EdgeInsets.only(left: 8))'),
-        ),
-        ['rtl-insets'],
-      );
-      expect(
-        _rules(
-          'features/a/presentation/s.dart',
-          wrap('Padding(padding: EdgeInsets.fromLTRB(8, 0, 4, 0))'),
-        ),
-        ['rtl-insets'],
-      );
-      expect(
-        _rules(
-          'features/a/presentation/s.dart',
-          wrap('Align(alignment: Alignment.centerLeft)'),
-        ),
-        ['rtl-alignment'],
-      );
-      expect(
-        _rules(
-          'features/a/presentation/s.dart',
-          wrap("Text('x', textAlign: TextAlign.right)"),
-        ),
-        ['rtl-text-align'],
-      );
-      expect(
-        _rules(
-          'features/a/presentation/s.dart',
-          wrap('Positioned(left: 0, top: 0, child: x)'),
-        ),
-        ['rtl-positioned'],
-      );
+      expect(_rules('features/a/presentation/s.dart', wrap('Padding(padding: EdgeInsets.only(left: 8))')), [
+        'rtl-insets',
+      ]);
+      expect(_rules('features/a/presentation/s.dart', wrap('Padding(padding: EdgeInsets.fromLTRB(8, 0, 4, 0))')), [
+        'rtl-insets',
+      ]);
+      expect(_rules('features/a/presentation/s.dart', wrap('Align(alignment: Alignment.centerLeft)')), [
+        'rtl-alignment',
+      ]);
+      expect(_rules('features/a/presentation/s.dart', wrap("Text('x', textAlign: TextAlign.right)")), [
+        'rtl-text-align',
+      ]);
+      expect(_rules('features/a/presentation/s.dart', wrap('Positioned(left: 0, top: 0, child: x)')), [
+        'rtl-positioned',
+      ]);
     });
 
     test('multi-line calls are inspected as a whole', () {
@@ -310,14 +154,8 @@ final p = EdgeInsets.only(
   right: Space.md,
 );
 ''';
-      final violations = checker.checkSource(
-        'shared/x/presentation/w.dart',
-        source,
-      );
-      expect(
-        [for (final v in violations) (v.line, v.rule)],
-        [(1, 'rtl-insets')],
-      );
+      final violations = checker.checkSource('shared/x/presentation/w.dart', source);
+      expect([for (final v in violations) (v.line, v.rule)], [(1, 'rtl-insets')]);
     });
 
     test('allows symmetric and directional variants, strings, comments and opt-outs', () {
@@ -355,37 +193,19 @@ final j = TextAlign.start;
       ..createSync(recursive: true)
       ..writeAsStringSync(content);
 
-    test(
-      'fails with file, line and rule for a deliberate forbidden import',
-      () {
-        write(
-          'features/a/domain/entity.dart',
-          "import 'package:flutter/widgets.dart';\n",
-        );
-        write(
-          'features/a/data/repo.dart',
-          "import 'package:drift/drift.dart';\n",
-        );
-        write(
-          'features/a/application/providers.dart.g.dart',
-          "import 'package:flutter/widgets.dart';\n",
-        );
-        final out = StringBuffer();
-        final code = checker.run(['--lib', tmp.path], out);
-        expect(code, 1);
-        expect(
-          out.toString(),
-          contains('features/a/domain/entity.dart:1: [domain-pure]'),
-        );
-        expect(out.toString(), contains('1 boundary violation(s) in 2 files'));
-      },
-    );
+    test('fails with file, line and rule for a deliberate forbidden import', () {
+      write('features/a/domain/entity.dart', "import 'package:flutter/widgets.dart';\n");
+      write('features/a/data/repo.dart', "import 'package:drift/drift.dart';\n");
+      write('features/a/application/providers.dart.g.dart', "import 'package:flutter/widgets.dart';\n");
+      final out = StringBuffer();
+      final code = checker.run(['--lib', tmp.path], out);
+      expect(code, 1);
+      expect(out.toString(), contains('features/a/domain/entity.dart:1: [domain-pure]'));
+      expect(out.toString(), contains('1 boundary violation(s) in 2 files'));
+    });
 
     test('passes on a clean tree and rejects unknown arguments', () {
-      write(
-        'features/a/domain/entity.dart',
-        "import 'package:meta/meta.dart';\n",
-      );
+      write('features/a/domain/entity.dart', "import 'package:meta/meta.dart';\n");
       final out = StringBuffer();
       expect(checker.run(['--lib', tmp.path], out), 0);
       expect(out.toString(), contains('Boundaries OK: 1 files checked.'));

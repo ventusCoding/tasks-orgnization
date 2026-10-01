@@ -68,8 +68,7 @@ class TimeScale {
 
   int slotsIn(int dayMinutes) => (dayMinutes + slotMinutes - 1) ~/ slotMinutes;
 
-  int slotIndexOf(int minute, [int dayMinutes = kMinutesPerDay]) =>
-      minute.clamp(0, dayMinutes - 1) ~/ slotMinutes;
+  int slotIndexOf(int minute, [int dayMinutes = kMinutesPerDay]) => minute.clamp(0, dayMinutes - 1) ~/ slotMinutes;
 
   int slotStart(int index) => index * slotMinutes;
 
@@ -101,9 +100,7 @@ class TimeScale {
 
   /// Every line in [from, to) (minutes), cheapest step first.
   Iterable<(int, GridLineLevel)> lines(int from, int to) sync* {
-    final step = showMinuteLines
-        ? 1
-        : _gcd(showSlotLines ? slotMinutes : 60, showQuarterLines ? 15 : 60);
+    final step = showMinuteLines ? 1 : _gcd(showSlotLines ? slotMinutes : 60, showQuarterLines ? 15 : 60);
     var m = from - from % step;
     if (m < from) m += step;
     for (; m < to; m += step) {

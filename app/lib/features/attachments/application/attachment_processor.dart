@@ -86,7 +86,7 @@ class ProcessedAttachment {
 /// On-device processing pipeline (T2.2.03): copy, orientation, metadata strip, compression,
 /// thumbnail, hash, dimensions, MIME sniffing.
 class AttachmentProcessor {
-  AttachmentProcessor({required AttachmentFileStore files, required ImageCodec codec}) : _files = files, _codec = codec;
+  AttachmentProcessor({required this._files, required this._codec});
 
   final AttachmentFileStore _files;
   final ImageCodec _codec;

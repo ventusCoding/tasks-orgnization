@@ -51,6 +51,6 @@ void main() {
     // Other occurrences keep their own (empty) note.
     final other = (await tester.runAsync(() => h.items(ld('2026-09-23'), 1)))!.single;
     expect(other.occurrenceKey, '2026-09-23T07:00');
-    expect((await tester.runAsync(() => h.records(id)))!, hasLength(1));
+    expect(await tester.runAsync(() => h.records(id)), hasLength(1));
   });
 }

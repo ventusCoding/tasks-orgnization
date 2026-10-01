@@ -56,7 +56,7 @@ enum QuitSubstance {
   gaming('gaming'),
   other('other');
 
-  const QuitSubstance(this.db);
+  QuitSubstance(this.db);
 
   final String db;
 
@@ -134,7 +134,7 @@ enum HabitValidationCode {
 
 /// Typed validation error of a habit (T5.1.03).
 class HabitValidationException extends ValidationException {
-  HabitValidationException(this.code, {String? field}) : super('Invalid habit: ${code.name}', field: field);
+  HabitValidationException(this.code, {super.field}) : super('Invalid habit: ${code.name}');
 
   final HabitValidationCode code;
 }

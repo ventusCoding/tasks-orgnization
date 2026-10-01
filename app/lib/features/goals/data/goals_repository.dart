@@ -72,7 +72,12 @@ class GoalsRepository {
   Future<OpRecord> create(Goal goal) => _writer.run((tx) async {
     await tx.insert('goals', goal.id, _columns(goal));
     if (goal.scopeType == GoalScopeType.habit && goal.scopeId != null) {
-      await tx.logEvent(entityType: 'habit', entityId: goal.scopeId!, eventType: 'goal_created', payload: {'goalId': goal.id});
+      await tx.logEvent(
+        entityType: 'habit',
+        entityId: goal.scopeId!,
+        eventType: 'goal_created',
+        payload: {'goalId': goal.id},
+      );
     }
   });
 
@@ -92,7 +97,12 @@ class GoalsRepository {
         if (row == null || row['achieved_at'] != null) return;
         await tx.update('goals', id, {'achieved_at': at.toUtc()});
         if (existing.scopeType == GoalScopeType.habit && existing.scopeId != null) {
-          await tx.logEvent(entityType: 'habit', entityId: existing.scopeId!, eventType: 'goal_achieved', payload: {'goalId': id});
+          await tx.logEvent(
+            entityType: 'habit',
+            entityId: existing.scopeId!,
+            eventType: 'goal_achieved',
+            payload: {'goalId': id},
+          );
         }
       },
       cause: automatic ? 'auto' : 'user',

@@ -19,27 +19,19 @@ import '../support/fixture_parsing.dart';
 void main() {
   tzdata.initializeTimeZones();
   final dir = Directory('test/features/notifications/fixtures/planner');
-  final files =
-      dir
-          .listSync()
-          .whereType<File>()
-          .where((f) => f.path.endsWith('.json'))
-          .toList()
-        ..sort((a, b) => a.path.compareTo(b.path));
+  final files = dir.listSync().whereType<File>().where((f) => f.path.endsWith('.json')).toList()
+    ..sort((a, b) => a.path.compareTo(b.path));
 
   test('fixture suite has at least 60 cases', () {
     var count = 0;
     for (final f in files) {
-      count +=
-          ((jsonDecode(f.readAsStringSync()) as Map)['cases'] as List).length;
+      count += ((jsonDecode(f.readAsStringSync()) as Map)['cases'] as List).length;
     }
     expect(count, greaterThanOrEqualTo(60));
   });
 
   for (final file in files) {
-    final doc = Map<String, Object?>.from(
-      jsonDecode(file.readAsStringSync()) as Map,
-    );
+    final doc = Map<String, Object?>.from(jsonDecode(file.readAsStringSync()) as Map);
     group(file.uri.pathSegments.last, () {
       for (final raw in doc['cases']! as List) {
         final c = asJsonMap(raw)!;
@@ -56,12 +48,8 @@ void _runCase(Map<String, Object?> c) {
     Map<String, dynamic>.from(asJsonMap(c['settings']) ?? const {}),
     Map<String, dynamic>.from(asJsonMap(c['privacy']) ?? const {}),
   );
-  final rules = [
-    for (final r in (c['rules']! as List)) ruleFromJson(asJsonMap(r)!),
-  ];
-  final targets = [
-    for (final t in (c['targets']! as List)) targetFromJson(asJsonMap(t)!),
-  ];
+  final rules = [for (final r in (c['rules']! as List)) ruleFromJson(asJsonMap(r)!)];
+  final targets = [for (final t in (c['targets']! as List)) targetFromJson(asJsonMap(t)!)];
   // `composeDigests`: add the synthetic digest targets the pipeline builds (T7.5.18).
   if (asBool(c['composeDigests']) ?? false) {
     targets.addAll(
@@ -84,10 +72,7 @@ void _runCase(Map<String, Object?> c) {
     rules: rules,
     targets: targets,
     profiles: builtinProfilesById(),
-    mutes: [
-      for (final m in (c['mutes'] as List?) ?? const <Object?>[])
-        muteFromJson(asJsonMap(m)!),
-    ],
+    mutes: [for (final m in (c['mutes'] as List?) ?? const <Object?>[]) muteFromJson(asJsonMap(m)!)],
     acknowledgedKeys: {
       for (final a in (c['acknowledged'] as List?) ?? const <Object?>[])
         dedupeKeyFor(
@@ -110,11 +95,7 @@ void _runCase(Map<String, Object?> c) {
   }
   final expected = c['expected'] as List?;
   if (expected != null) {
-    expect(
-      result.planned,
-      hasLength(expected.length),
-      reason: 'planned:\n$actual',
-    );
+    expect(result.planned, hasLength(expected.length), reason: 'planned:\n$actual');
     for (var i = 0; i < expected.length; i++) {
       final e = asJsonMap(expected[i])!;
       final p = result.planned[i];
@@ -128,59 +109,46 @@ void _runCase(Map<String, Object?> c) {
         expect(p.occurrenceKey, e['occ'], reason: where);
         expect(
           p.dedupeKey,
-          dedupeKeyFor(
-            ruleId: p.ruleId,
-            targetId: p.targetId,
-            occurrenceKey: e['occ']! as String,
-            repeatIdx: repeat,
-          ),
+          dedupeKeyFor(ruleId: p.ruleId, targetId: p.targetId, occurrenceKey: e['occ']! as String, repeatIdx: repeat),
           reason: where,
         );
       }
-      if (e['channel'] != null)
+      if (e['channel'] != null) {
         expect(p.channelId, e['channel'], reason: where);
-      if (e['category'] != null)
+      }
+      if (e['category'] != null) {
         expect(p.category.wire, e['category'], reason: where);
-      if (e['system'] != null)
+      }
+      if (e['system'] != null) {
         expect(p.deliverSystem, e['system'], reason: where);
-      if (e['local'] != null)
+      }
+      if (e['local'] != null) {
         expect(p.scheduleLocally, e['local'], reason: where);
+      }
       if (e['silent'] != null) expect(p.silent, e['silent'], reason: where);
       if (e['title'] != null) expect(p.inboxTitle, e['title'], reason: where);
       if (e['body'] != null) expect(p.inboxBody, e['body'], reason: where);
-      if (e['systemTitle'] != null)
+      if (e['systemTitle'] != null) {
         expect(p.title, e['systemTitle'], reason: where);
+      }
       if (e['adjust'] != null) {
-        expect(
-          p.adjustments.map((a) => a.name).toSet(),
-          (e['adjust']! as List).cast<String>().toSet(),
-          reason: where,
-        );
+        expect(p.adjustments.map((a) => a.name).toSet(), (e['adjust']! as List).cast<String>().toSet(), reason: where);
       }
     }
   }
   final skipped = c['expectedSkipped'] as List?;
   if (skipped != null) {
-    final reasons = result.skipped
-        .map((s) => '${s.ruleId}:${s.reason.name}')
-        .toList();
+    final reasons = result.skipped.map((s) => '${s.ruleId}:${s.reason.name}').toList();
     for (final s in skipped) {
       final m = asJsonMap(s)!;
-      expect(
-        reasons,
-        contains('${m['rule']}:${m['reason']}'),
-        reason: reasons.join(', '),
-      );
+      expect(reasons, contains('${m['rule']}:${m['reason']}'), reason: reasons.join(', '));
     }
   }
   // Properties: unique keys, sorted, within horizon.
   final keys = result.planned.map((p) => p.dedupeKey).toSet();
   expect(keys, hasLength(result.planned.length));
   for (var i = 1; i < result.planned.length; i++) {
-    expect(
-      result.planned[i].fireAt.isBefore(result.planned[i - 1].fireAt),
-      isFalse,
-    );
+    expect(result.planned[i].fireAt.isBefore(result.planned[i - 1].fireAt), isFalse);
   }
   final horizonEnd = ctx.now.add(ctx.effectiveHorizon);
   for (final p in result.planned) {

@@ -39,31 +39,20 @@ void main() {
     Map<String, Object?>? enPart,
     Map<String, Object?>? frPart,
     Map<String, Object?>? arPart,
-  }) => {
-    'demo_en.arb': arb(enPart ?? en),
-    'demo_fr.arb': arb(frPart ?? fr),
-    'demo_ar.arb': arb(arPart ?? ar),
-  };
+  }) => {'demo_en.arb': arb(enPart ?? en), 'demo_fr.arb': arb(frPart ?? fr), 'demo_ar.arb': arb(arPart ?? ar)};
 
   test('a complete, consistent set passes', () {
     expect(checker.checkParts(parts()), isEmpty);
   });
 
   test('missing and extra translations are reported', () {
-    final problems = checker.checkParts(
-      parts(frPart: {...fr}..remove('hello'), arPart: {...ar, 'stale': 'قديم'}),
-    );
-    expect(problems, [
-      'demo_fr.arb: missing translation of "hello"',
-      'demo_ar.arb: "stale" is not in the EN template',
-    ]);
+    final problems = checker.checkParts(parts(frPart: {...fr}..remove('hello'), arPart: {...ar, 'stale': 'قديم'}));
+    expect(problems, ['demo_fr.arb: missing translation of "hello"', 'demo_ar.arb: "stale" is not in the EN template']);
   });
 
   test('a missing locale file is reported', () {
     final files = parts()..remove('demo_ar.arb');
-    expect(checker.checkParts(files), [
-      'demo: missing demo_ar.arb (3 untranslated keys)',
-    ]);
+    expect(checker.checkParts(files), ['demo: missing demo_ar.arb (3 untranslated keys)']);
   });
 
   test('keys must be unique across areas', () {
@@ -73,17 +62,12 @@ void main() {
       'other_fr.arb': arb({'plain': 'x'}),
       'other_ar.arb': arb({'plain': 'x'}),
     };
-    expect(checker.checkParts(files), [
-      'other: key "plain" is already defined by demo',
-    ]);
+    expect(checker.checkParts(files), ['other: key "plain" is already defined by demo']);
   });
 
   test('placeholder mismatches are reported', () {
     final problems = checker.checkParts(
-      parts(
-        frPart: {...fr, 'hello': 'Bonjour {nom}'},
-        arPart: {...ar, 'itemsCount': '{count} عنصر'},
-      ),
+      parts(frPart: {...fr, 'hello': 'Bonjour {nom}'}, arPart: {...ar, 'itemsCount': '{count} عنصر'}),
     );
     expect(problems, [
       'demo_fr.arb: "hello" uses placeholder "nom" unknown to the EN template',
@@ -92,33 +76,19 @@ void main() {
   });
 
   test('undeclared template placeholders are reported', () {
-    final problems = checker.checkParts(
-      parts(enPart: {...en, 'plain': 'Used by {who}'}),
-    );
-    expect(problems, [
-      'demo_en.arb: "plain" uses undeclared placeholder(s) who',
-    ]);
+    final problems = checker.checkParts(parts(enPart: {...en, 'plain': 'Used by {who}'}));
+    expect(problems, ['demo_en.arb: "plain" uses undeclared placeholder(s) who']);
   });
 
   group('ICU syntax', () {
     test('valid messages', () {
       expect(checker.IcuMessage.arguments('No args'), isEmpty);
-      expect(checker.IcuMessage.arguments('{a} and {b}'), {
-        'a': 'simple',
-        'b': 'simple',
+      expect(checker.IcuMessage.arguments('{a} and {b}'), {'a': 'simple', 'b': 'simple'});
+      expect(checker.IcuMessage.arguments('{n, plural, =0{none} other{{n} by {who}}}'), {
+        'n': 'plural',
+        'who': 'simple',
       });
-      expect(
-        checker.IcuMessage.arguments(
-          '{n, plural, =0{none} other{{n} by {who}}}',
-        ),
-        {'n': 'plural', 'who': 'simple'},
-      );
-      expect(
-        checker.IcuMessage.arguments(
-          '{g, select, male{il} female{elle} other{iel}}',
-        ),
-        {'g': 'select'},
-      );
+      expect(checker.IcuMessage.arguments('{g, select, male{il} female{elle} other{iel}}'), {'g': 'select'});
       expect(checker.IcuMessage.arguments('{d, date, yMd}'), {'d': 'simple'});
     });
 
@@ -138,13 +108,8 @@ void main() {
     }
 
     test('invalid ICU in a part is reported with its file and key', () {
-      final problems = checker.checkParts(
-        parts(frPart: {...fr, 'plain': 'Oups {'}),
-      );
-      expect(
-        problems.single,
-        startsWith('demo_fr.arb: "plain" is not valid ICU'),
-      );
+      final problems = checker.checkParts(parts(frPart: {...fr, 'plain': 'Oups {'}));
+      expect(problems.single, startsWith('demo_fr.arb: "plain" is not valid ICU'));
     });
   });
 
@@ -167,10 +132,7 @@ void main() {
       expect(failed.toString(), contains('1 localization problem(s)'));
 
       expect(checker.run(['--bogus'], StringBuffer()), 2);
-      expect(
-        checker.run(['--parts', '${tmp.path}/missing'], StringBuffer()),
-        2,
-      );
+      expect(checker.run(['--parts', '${tmp.path}/missing'], StringBuffer()), 2);
     });
   });
 

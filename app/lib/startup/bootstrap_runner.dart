@@ -11,12 +11,8 @@ import 'package:supabase_flutter/supabase_flutter.dart' show SupabaseClient;
 /// Mutable state the startup steps build up (T1.3.02). Reading a value before the step that
 /// produces it ran is a programming error and throws with the missing step's name.
 class BootstrapContext {
-  BootstrapContext({
-    required this.flavor,
-    required this.platform,
-    required this.handlers,
-    Logger? log,
-  }) : log = log ?? Logger('bootstrap');
+  BootstrapContext({required this.flavor, required this.platform, required this.handlers, Logger? log})
+    : log = log ?? Logger('bootstrap');
 
   final Flavor flavor;
   final BootstrapPlatform platform;
@@ -45,8 +41,7 @@ class BootstrapContext {
 
   ProviderContainer? container;
 
-  Never _missing(String step) =>
-      throw StateError('bootstrap step "$step" has not run yet');
+  Never _missing(String step) => throw StateError('bootstrap step "$step" has not run yet');
 }
 
 typedef BootstrapAction = FutureOr<void> Function(BootstrapContext ctx);
@@ -65,12 +60,7 @@ class BootstrapStep {
 
 /// The step that stopped startup.
 class BootstrapFailure {
-  const BootstrapFailure({
-    required this.step,
-    required this.index,
-    required this.error,
-    required this.stack,
-  });
+  const BootstrapFailure({required this.step, required this.index, required this.error, required this.stack});
 
   final String step;
 
@@ -107,11 +97,7 @@ class BootstrapRunner {
         skipped.remove(step.name);
       } on Object catch (e, st) {
         if (step.optional) {
-          log.warning(
-            'bootstrap step "${step.name}" failed (${e.runtimeType}) — continuing without it',
-            e,
-            st,
-          );
+          log.warning('bootstrap step "${step.name}" failed (${e.runtimeType}) — continuing without it', e, st);
           if (!skipped.contains(step.name)) skipped.add(step.name);
           continue;
         }

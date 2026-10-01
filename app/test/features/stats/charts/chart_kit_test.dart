@@ -70,13 +70,13 @@ void main() {
     });
 
     testWidgets('view as table shows the plotted numbers and toggles back', (tester) async {
-      final data = BarData(
-        [const TokenLabel(LabelToken.done), const TokenLabel(LabelToken.missed)],
+      const data = BarData(
+        [TokenLabel(LabelToken.done), TokenLabel(LabelToken.missed)],
         [
-          const BarSeries(TokenLabel(LabelToken.count), [4, 1]),
+          BarSeries(TokenLabel(LabelToken.count), [4, 1]),
         ],
       );
-      await pumpChart(tester, ChartFrame(title: 'Outcomes', data: data));
+      await pumpChart(tester, const ChartFrame(title: 'Outcomes', data: data));
       await tester.tap(find.byTooltip('View as table'));
       await tester.pumpAndSettle();
       expect(find.byType(DataTable), findsOneWidget);
@@ -90,9 +90,9 @@ void main() {
     testWidgets('legend chips toggle series', (tester) async {
       final data = BarData(
         [DateLabel(d('2026-09-14')), DateLabel(d('2026-09-15'))],
-        [
-          const BarSeries(TokenLabel(LabelToken.planned), [3, 2]),
-          const BarSeries(TokenLabel(LabelToken.done), [2, 2], color: SeriesColor(1)),
+        const [
+          BarSeries(TokenLabel(LabelToken.planned), [3, 2]),
+          BarSeries(TokenLabel(LabelToken.done), [2, 2], color: SeriesColor(1)),
         ],
       );
       await pumpChart(tester, ChartFrame(title: 'Done vs planned', data: data));
@@ -212,7 +212,7 @@ void main() {
         BarSeries(TokenLabel(LabelToken.missed), [1, 1, 3], color: ToneColor(ChartTone.missed)),
       ],
       layout: BarLayout.stacked,
-      drillKeys: ['2026-09-14', '2026-09-15', '2026-09-16'],
+      drillKeys: const ['2026-09-14', '2026-09-15', '2026-09-16'],
       isTimeAxis: true,
     );
 

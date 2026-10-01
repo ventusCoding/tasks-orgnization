@@ -13,7 +13,7 @@ enum RepeatUntil {
   completed('completed'),
   max('max');
 
-  const RepeatUntil(this.wire);
+  RepeatUntil(this.wire);
 
   final String wire;
 
@@ -28,12 +28,7 @@ enum RepeatUntil {
 /// `repeat` block — nagging (T7.2.18). Hard cap: 10 repeats.
 @immutable
 class RepeatSpec {
-  const RepeatSpec({
-    required this.everyMinutes,
-    required this.maxTimes,
-    this.until = RepeatUntil.completed,
-    this.raw,
-  });
+  const RepeatSpec({required this.everyMinutes, required this.maxTimes, this.until = RepeatUntil.completed, this.raw});
 
   factory RepeatSpec.fromJson(Map<String, Object?> json) => RepeatSpec(
     everyMinutes: asInt(json['everyMinutes']) ?? 5,
@@ -55,17 +50,15 @@ class RepeatSpec {
     const {'everyMinutes', 'maxTimes', 'until'},
   );
 
-  RepeatSpec copyWith({int? everyMinutes, int? maxTimes, RepeatUntil? until}) =>
-      RepeatSpec(
-        everyMinutes: everyMinutes ?? this.everyMinutes,
-        maxTimes: maxTimes ?? this.maxTimes,
-        until: until ?? this.until,
-        raw: raw,
-      );
+  RepeatSpec copyWith({int? everyMinutes, int? maxTimes, RepeatUntil? until}) => RepeatSpec(
+    everyMinutes: everyMinutes ?? this.everyMinutes,
+    maxTimes: maxTimes ?? this.maxTimes,
+    until: until ?? this.until,
+    raw: raw,
+  );
 
   @override
-  bool operator ==(Object other) =>
-      other is RepeatSpec && jsonEquals(toJson(), other.toJson());
+  bool operator ==(Object other) => other is RepeatSpec && jsonEquals(toJson(), other.toJson());
 
   @override
   int get hashCode => jsonHash(toJson());
@@ -77,7 +70,7 @@ enum OutsideWindow {
   shiftStart('shift_start'),
   shiftEnd('shift_end');
 
-  const OutsideWindow(this.wire);
+  OutsideWindow(this.wire);
 
   final String wire;
 
@@ -91,16 +84,10 @@ enum OutsideWindow {
 
 @immutable
 class TimeWindowSpec {
-  const TimeWindowSpec({
-    required this.from,
-    required this.to,
-    this.outside = OutsideWindow.drop,
-    this.raw,
-  });
+  const TimeWindowSpec({required this.from, required this.to, this.outside = OutsideWindow.drop, this.raw});
 
   factory TimeWindowSpec.fromJson(Map<String, Object?> json) => TimeWindowSpec(
-    from:
-        LocalTime.tryParse(asString(json['from']) ?? '') ?? LocalTime.midnight,
+    from: LocalTime.tryParse(asString(json['from']) ?? '') ?? LocalTime.midnight,
     to: LocalTime.tryParse(asString(json['to']) ?? '') ?? LocalTime.endOfDay,
     outside: OutsideWindow.parse(asString(json['outside'])),
     raw: json,
@@ -114,8 +101,9 @@ class TimeWindowSpec {
   /// True when [time] lies inside the window (windows may cross midnight).
   bool contains(LocalTime time) {
     final m = time.minuteOfDay;
-    if (from.minuteOfDay <= to.minuteOfDay)
+    if (from.minuteOfDay <= to.minuteOfDay) {
       return m >= from.minuteOfDay && m <= to.minuteOfDay;
+    }
     return m >= from.minuteOfDay || m <= to.minuteOfDay;
   }
 
@@ -186,10 +174,7 @@ class ConditionsSpec {
         'weekdays': ?weekdays,
         'timeWindow': ?timeWindow?.toJson(),
         'respectQuietHours': ?respectQuietHours,
-        if (devices != null)
-          'devices': devices
-        else if (rawDevices == 'all')
-          'devices': 'all',
+        if (devices != null) 'devices': devices else if (rawDevices == 'all') 'devices': 'all',
         'itemKind': ?itemKind,
         'occurrenceKeys': ?occurrenceKeys,
         'excludeOccurrenceKeys': ?excludeOccurrenceKeys,
@@ -223,14 +208,10 @@ class ConditionsSpec {
     bool clearDevices = false,
     bool clearItemKind = false,
   }) => ConditionsSpec(
-    onlyIfStatusIn: clearOnlyIfStatusIn
-        ? null
-        : (onlyIfStatusIn ?? this.onlyIfStatusIn),
+    onlyIfStatusIn: clearOnlyIfStatusIn ? null : (onlyIfStatusIn ?? this.onlyIfStatusIn),
     weekdays: clearWeekdays ? null : (weekdays ?? this.weekdays),
     timeWindow: clearTimeWindow ? null : (timeWindow ?? this.timeWindow),
-    respectQuietHours: clearRespectQuietHours
-        ? null
-        : (respectQuietHours ?? this.respectQuietHours),
+    respectQuietHours: clearRespectQuietHours ? null : (respectQuietHours ?? this.respectQuietHours),
     devices: clearDevices ? null : (devices ?? this.devices),
     itemKind: clearItemKind ? null : (itemKind ?? this.itemKind),
     occurrenceKeys: occurrenceKeys ?? this.occurrenceKeys,
@@ -239,8 +220,7 @@ class ConditionsSpec {
   );
 
   @override
-  bool operator ==(Object other) =>
-      other is ConditionsSpec && jsonEquals(toJson(), other.toJson());
+  bool operator ==(Object other) => other is ConditionsSpec && jsonEquals(toJson(), other.toJson());
 
   @override
   int get hashCode => jsonHash(toJson());
@@ -360,30 +340,18 @@ class DeliverySpec {
     system: clear.contains('system') ? null : (system ?? this.system),
     inbox: clear.contains('inbox') ? null : (inbox ?? this.inbox),
     banner: clear.contains('banner') ? null : (banner ?? this.banner),
-    importance: clear.contains('importance')
-        ? null
-        : (importance ?? this.importance),
-    interruptionLevel: clear.contains('interruptionLevel')
-        ? null
-        : (interruptionLevel ?? this.interruptionLevel),
-    relevance: clear.contains('relevance')
-        ? null
-        : (relevance ?? this.relevance),
+    importance: clear.contains('importance') ? null : (importance ?? this.importance),
+    interruptionLevel: clear.contains('interruptionLevel') ? null : (interruptionLevel ?? this.interruptionLevel),
+    relevance: clear.contains('relevance') ? null : (relevance ?? this.relevance),
     sound: clear.contains('sound') ? null : (sound ?? this.sound),
-    vibration: clear.contains('vibration')
-        ? null
-        : (vibration ?? this.vibration),
+    vibration: clear.contains('vibration') ? null : (vibration ?? this.vibration),
     sticky: clear.contains('sticky') ? null : (sticky ?? this.sticky),
-    alarmStyle: clear.contains('alarmStyle')
-        ? null
-        : (alarmStyle ?? this.alarmStyle),
+    alarmStyle: clear.contains('alarmStyle') ? null : (alarmStyle ?? this.alarmStyle),
     actions: clear.contains('actions') ? null : (actions ?? this.actions),
     snoozeOptionsMinutes: clear.contains('snoozeOptionsMinutes')
         ? null
         : (snoozeOptionsMinutes ?? this.snoozeOptionsMinutes),
-    latenessMinutes: clear.contains('latenessMinutes')
-        ? null
-        : (latenessMinutes ?? this.latenessMinutes),
+    latenessMinutes: clear.contains('latenessMinutes') ? null : (latenessMinutes ?? this.latenessMinutes),
     raw: raw == null
         ? null
         : {
@@ -393,8 +361,7 @@ class DeliverySpec {
   );
 
   @override
-  bool operator ==(Object other) =>
-      other is DeliverySpec && jsonEquals(toJson(), other.toJson());
+  bool operator ==(Object other) => other is DeliverySpec && jsonEquals(toJson(), other.toJson());
 
   @override
   int get hashCode => jsonHash(toJson());
@@ -404,10 +371,8 @@ class DeliverySpec {
 class ContentVariant {
   const ContentVariant({this.title, this.body});
 
-  factory ContentVariant.fromJson(Map<String, Object?> json) => ContentVariant(
-    title: asString(json['title']),
-    body: asString(json['body']),
-  );
+  factory ContentVariant.fromJson(Map<String, Object?> json) =>
+      ContentVariant(title: asString(json['title']), body: asString(json['body']));
 
   final String? title;
   final String? body;
@@ -439,8 +404,7 @@ class ContentSpec {
   final List<ContentVariant>? variants;
   final Map<String, Object?>? raw;
 
-  bool get isEmpty =>
-      title == null && body == null && (variants == null || variants!.isEmpty);
+  bool get isEmpty => title == null && body == null && (variants == null || variants!.isEmpty);
 
   Map<String, Object?> toJson() => mergeOrdered(
     raw,
@@ -453,8 +417,7 @@ class ContentSpec {
   );
 
   @override
-  bool operator ==(Object other) =>
-      other is ContentSpec && jsonEquals(toJson(), other.toJson());
+  bool operator ==(Object other) => other is ContentSpec && jsonEquals(toJson(), other.toJson());
 
   @override
   int get hashCode => jsonHash(toJson());
@@ -467,7 +430,7 @@ enum AppliesTo {
   descendants('descendants'),
   selfAndDescendants('self_and_descendants');
 
-  const AppliesTo(this.wire);
+  AppliesTo(this.wire);
 
   final String wire;
 
@@ -498,12 +461,9 @@ class NotificationRuleSpec {
     final scope = asJsonMap(json['scope']);
     return NotificationRuleSpec(
       trigger: NotificationTrigger.fromJson(
-        asJsonMap(json['trigger']) ??
-            const {'type': 'relative', 'anchor': 'start'},
+        asJsonMap(json['trigger']) ?? const {'type': 'relative', 'anchor': 'start'},
       ),
-      repeat: asJsonMap(repeat) == null
-          ? null
-          : RepeatSpec.fromJson(asJsonMap(repeat)!),
+      repeat: asJsonMap(repeat) == null ? null : RepeatSpec.fromJson(asJsonMap(repeat)!),
       repeatDisabled: repeat == false,
       conditions: asJsonMap(json['conditions']) == null
           ? ConditionsSpec.empty
@@ -514,9 +474,7 @@ class NotificationRuleSpec {
       content: asJsonMap(json['content']) == null
           ? ContentSpec.empty
           : ContentSpec.fromJson(asJsonMap(json['content'])!),
-      appliesTo: scope == null
-          ? null
-          : AppliesTo.parse(asString(scope['appliesTo'])),
+      appliesTo: scope == null ? null : AppliesTo.parse(asString(scope['appliesTo'])),
       raw: json,
     );
   }
@@ -558,32 +516,13 @@ class NotificationRuleSpec {
       {
         'v': version,
         'trigger': trigger.toJson(),
-        if (repeat != null)
-          'repeat': repeat!.toJson()
-        else if (repeatDisabled)
-          'repeat': false,
-        if (conditionsJson.isNotEmpty || raw?.containsKey('conditions') == true)
-          'conditions': conditionsJson,
-        if (deliveryJson.isNotEmpty || raw?.containsKey('delivery') == true)
-          'delivery': deliveryJson,
-        if (contentJson.isNotEmpty || raw?.containsKey('content') == true)
-          'content': contentJson,
-        if (appliesTo != null)
-          'scope': mergeOrdered(
-            scopeRaw,
-            {'appliesTo': appliesTo!.wire},
-            const {'appliesTo'},
-          ),
+        if (repeat != null) 'repeat': repeat!.toJson() else if (repeatDisabled) 'repeat': false,
+        if (conditionsJson.isNotEmpty || raw?.containsKey('conditions') == true) 'conditions': conditionsJson,
+        if (deliveryJson.isNotEmpty || raw?.containsKey('delivery') == true) 'delivery': deliveryJson,
+        if (contentJson.isNotEmpty || raw?.containsKey('content') == true) 'content': contentJson,
+        if (appliesTo != null) 'scope': mergeOrdered(scopeRaw, {'appliesTo': appliesTo!.wire}, const {'appliesTo'}),
       },
-      const {
-        'v',
-        'trigger',
-        'repeat',
-        'conditions',
-        'delivery',
-        'content',
-        'scope',
-      },
+      const {'v', 'trigger', 'repeat', 'conditions', 'delivery', 'content', 'scope'},
     );
   }
 
@@ -601,9 +540,7 @@ class NotificationRuleSpec {
   }) => NotificationRuleSpec(
     trigger: trigger ?? this.trigger,
     repeat: clearRepeat ? null : (repeat ?? this.repeat),
-    repeatDisabled: clearRepeat
-        ? (repeatDisabled ?? false)
-        : (repeatDisabled ?? this.repeatDisabled),
+    repeatDisabled: clearRepeat ? (repeatDisabled ?? false) : (repeatDisabled ?? this.repeatDisabled),
     conditions: conditions ?? this.conditions,
     delivery: delivery ?? this.delivery,
     content: content ?? this.content,
@@ -617,8 +554,7 @@ class NotificationRuleSpec {
   );
 
   @override
-  bool operator ==(Object other) =>
-      other is NotificationRuleSpec && jsonEquals(toJson(), other.toJson());
+  bool operator ==(Object other) => other is NotificationRuleSpec && jsonEquals(toJson(), other.toJson());
 
   @override
   int get hashCode => jsonHash(toJson());
@@ -645,13 +581,9 @@ class ProfileSpec {
       delivery: asJsonMap(json['delivery']) == null
           ? DeliverySpec.empty
           : DeliverySpec.fromJson(asJsonMap(json['delivery'])!),
-      repeat: asJsonMap(repeat) == null
-          ? null
-          : RepeatSpec.fromJson(asJsonMap(repeat)!),
+      repeat: asJsonMap(repeat) == null ? null : RepeatSpec.fromJson(asJsonMap(repeat)!),
       repeatDisabled: repeat == false,
-      respectQuietHours: conditions == null
-          ? null
-          : asBool(conditions['respectQuietHours']),
+      respectQuietHours: conditions == null ? null : asBool(conditions['respectQuietHours']),
       content: asJsonMap(json['content']) == null
           ? ContentSpec.empty
           : ContentSpec.fromJson(asJsonMap(json['content'])!),
@@ -691,25 +623,13 @@ class ProfileSpec {
       {
         'v': 1,
         'delivery': delivery.toJson(),
-        if (repeat != null)
-          'repeat': repeat!.toJson()
-        else if (repeatDisabled)
-          'repeat': false,
-        if (respectQuietHours != null)
-          'conditions': {'respectQuietHours': respectQuietHours},
+        if (repeat != null) 'repeat': repeat!.toJson() else if (repeatDisabled) 'repeat': false,
+        if (respectQuietHours != null) 'conditions': {'respectQuietHours': respectQuietHours},
         if (contentJson.isNotEmpty) 'content': contentJson,
         'channelVersion': channelVersion,
         if (hidden) 'hidden': true,
       },
-      const {
-        'v',
-        'delivery',
-        'repeat',
-        'conditions',
-        'content',
-        'channelVersion',
-        'hidden',
-      },
+      const {'v', 'delivery', 'repeat', 'conditions', 'content', 'channelVersion', 'hidden'},
     );
   }
 
@@ -741,8 +661,7 @@ class ProfileSpec {
       delivery.vibration != next.delivery.vibration;
 
   @override
-  bool operator ==(Object other) =>
-      other is ProfileSpec && jsonEquals(toJson(), other.toJson());
+  bool operator ==(Object other) => other is ProfileSpec && jsonEquals(toJson(), other.toJson());
 
   @override
   int get hashCode => jsonHash(toJson());

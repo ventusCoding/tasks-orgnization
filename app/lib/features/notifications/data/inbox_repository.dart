@@ -79,35 +79,32 @@ class InboxRepository {
     snoozedUntil: r.snoozedUntil?.toUtc(),
   );
 
-  SimpleSelectStatement<$NotificationsTable, NotificationRow> _query(
-    InboxFilter filter,
-    DateTime now,
-  ) {
+  SimpleSelectStatement<$NotificationsTable, NotificationRow> _query(InboxFilter filter, DateTime now) {
     final q = _db.select(_db.notifications)
       ..where((n) => n.deletedAt.isNull() & n.userId.equals(_userId()))
-      ..orderBy([
-        (n) => OrderingTerm.desc(n.fireAt),
-        (n) => OrderingTerm.desc(n.id),
-      ]);
+      ..orderBy([(n) => OrderingTerm.desc(n.fireAt), (n) => OrderingTerm.desc(n.id)]);
     if (filter.unreadOnly) {
       q.where(
         (n) =>
             n.readAt.isNull() &
             n.dismissedAt.isNull() &
-            (n.snoozedUntil.isNull() |
-                n.snoozedUntil.isSmallerOrEqualValue(now)),
+            (n.snoozedUntil.isNull() | n.snoozedUntil.isSmallerOrEqualValue(now)),
       );
     } else {
       q.where((n) => n.dismissedAt.isNull());
     }
-    if (filter.section != null)
+    if (filter.section != null) {
       q.where((n) => n.section.equals(filter.section!.wire));
-    if (filter.category != null)
+    }
+    if (filter.category != null) {
       q.where((n) => n.category.equals(filter.category!.wire));
-    if (filter.from != null)
+    }
+    if (filter.from != null) {
       q.where((n) => n.fireAt.isBiggerOrEqualValue(filter.from!));
-    if (filter.to != null)
+    }
+    if (filter.to != null) {
       q.where((n) => n.fireAt.isSmallerThanValue(filter.to!));
+    }
     final query = filter.query?.trim();
     if (query != null && query.isNotEmpty) {
       q.where((n) => n.title.like('%$query%') | n.body.like('%$query%'));
@@ -116,10 +113,7 @@ class InboxRepository {
   }
 
   /// Newest first; 90-day retention (older rows hidden, T7.3.10).
-  Stream<List<InboxItem>> watchInbox({
-    InboxFilter filter = InboxFilter.all,
-    int limit = 500,
-  }) {
+  Stream<List<InboxItem>> watchInbox({InboxFilter filter = InboxFilter.all, int limit = 500}) {
     final now = _clock.nowUtc();
     final retention = now.subtract(const Duration(days: 90));
     return (_query(filter, now)
@@ -129,13 +123,8 @@ class InboxRepository {
         .map((rows) => rows.map(mapRow).toList());
   }
 
-  Future<List<InboxItem>> inbox({
-    InboxFilter filter = InboxFilter.all,
-    int limit = 500,
-  }) async => (await (_query(
-    filter,
-    _clock.nowUtc(),
-  )..limit(limit)).get()).map(mapRow).toList();
+  Future<List<InboxItem>> inbox({InboxFilter filter = InboxFilter.all, int limit = 500}) async =>
+      (await (_query(filter, _clock.nowUtc())..limit(limit)).get()).map(mapRow).toList();
 
   /// Rows with `snoozed_until > now` (Snoozed section, T7.3.08).
   Stream<List<InboxItem>> watchSnoozed() {
@@ -165,8 +154,7 @@ class InboxRepository {
                 n.userId.equals(_userId()) &
                 n.readAt.isNull() &
                 n.dismissedAt.isNull() &
-                (n.snoozedUntil.isNull() |
-                    n.snoozedUntil.isSmallerOrEqualValue(now)),
+                (n.snoozedUntil.isNull() | n.snoozedUntil.isSmallerOrEqualValue(now)),
           ))
         .watchSingle()
         .map((row) => row.read(count) ?? 0);
@@ -175,12 +163,7 @@ class InboxRepository {
   /// Past rows of one source (per-item history, T7.3.09).
   Stream<List<InboxItem>> watchForSource(String sourceType, String sourceId) =>
       (_db.select(_db.notifications)
-            ..where(
-              (n) =>
-                  n.deletedAt.isNull() &
-                  n.sourceType.equals(sourceType) &
-                  n.sourceId.equals(sourceId),
-            )
+            ..where((n) => n.deletedAt.isNull() & n.sourceType.equals(sourceType) & n.sourceId.equals(sourceId))
             ..orderBy([(n) => OrderingTerm.desc(n.fireAt)])
             ..limit(200))
           .watch()
@@ -194,9 +177,7 @@ class InboxRepository {
   }
 
   Future<InboxItem?> byId(String id) async {
-    final row = await (_db.select(
-      _db.notifications,
-    )..where((n) => n.id.equals(id))).getSingleOrNull();
+    final row = await (_db.select(_db.notifications)..where((n) => n.id.equals(id))).getSingleOrNull();
     return row == null ? null : mapRow(row);
   }
 
@@ -207,9 +188,7 @@ class InboxRepository {
               (n) =>
                   n.deletedAt.isNull() &
                   n.fireAt.isBiggerOrEqualValue(since) &
-                  (n.actedAt.isNotNull() |
-                      n.openedAt.isNotNull() |
-                      n.dismissedAt.isNotNull()),
+                  (n.actedAt.isNotNull() | n.openedAt.isNotNull() | n.dismissedAt.isNotNull()),
             ))
             .get();
     return {for (final r in rows) mapRow(r).baseKey};
@@ -219,19 +198,16 @@ class InboxRepository {
 
   Future<OpRecord> markRead(List<String> ids) => _writer.run((tx) async {
     for (final id in ids) {
-      if (await tx.exists('notifications', id))
+      if (await tx.exists('notifications', id)) {
         await tx.update('notifications', id, {'read_at': tx.now});
+      }
     }
   });
 
-  Future<OpRecord> markUnread(String id) =>
-      _writer.run((tx) => tx.update('notifications', id, {'read_at': null}));
+  Future<OpRecord> markUnread(String id) => _writer.run((tx) => tx.update('notifications', id, {'read_at': null}));
 
   Future<OpRecord> markAllRead({NotificationSection? section}) async {
-    final unread = await inbox(
-      filter: InboxFilter(unreadOnly: true, section: section),
-      limit: 5000,
-    );
+    final unread = await inbox(filter: InboxFilter(unreadOnly: true, section: section), limit: 5000);
     return markRead([for (final i in unread) i.id]);
   }
 
@@ -239,10 +215,7 @@ class InboxRepository {
   Future<OpRecord> markOpened(String id) => _writer.run((tx) async {
     if (!await tx.exists('notifications', id)) return;
     final row = await tx.readRaw('notifications', id);
-    await tx.update('notifications', id, {
-      'opened_at': tx.now,
-      if (row?['read_at'] == null) 'read_at': tx.now,
-    });
+    await tx.update('notifications', id, {'opened_at': tx.now, if (row?['read_at'] == null) 'read_at': tx.now});
   });
 
   Future<OpRecord> markActed(String id, String action, {WriteTx? inTx}) async {
@@ -264,9 +237,7 @@ class InboxRepository {
   }
 
   /// Dismiss (undoable via the returned record).
-  Future<OpRecord> dismiss(String id) => _writer.run(
-    (tx) => tx.update('notifications', id, {'dismissed_at': tx.now}),
-  );
+  Future<OpRecord> dismiss(String id) => _writer.run((tx) => tx.update('notifications', id, {'dismissed_at': tx.now}));
 
   Future<OpRecord> dismissMany(List<String> ids) => _writer.run((tx) async {
     for (final id in ids) {
@@ -274,9 +245,8 @@ class InboxRepository {
     }
   });
 
-  Future<OpRecord> setSnoozedUntil(String id, DateTime? until) => _writer.run(
-    (tx) => tx.update('notifications', id, {'snoozed_until': until?.toUtc()}),
-  );
+  Future<OpRecord> setSnoozedUntil(String id, DateTime? until) =>
+      _writer.run((tx) => tx.update('notifications', id, {'snoozed_until': until?.toUtc()}));
 
   // ------------------------------------------------------------------------- deliveries --
 
@@ -312,13 +282,10 @@ class InboxRepository {
         }
         final via = InboxItem.decodeVia(existing['delivered_via'] as String?);
         final currentDelivered = existing['delivered_at'];
-        final current = currentDelivered is String
-            ? DateTime.tryParse(currentDelivered)
-            : null;
+        final current = currentDelivered is String ? DateTime.tryParse(currentDelivered) : null;
         await tx.update('notifications', id, {
           if (!via.contains(d.via)) 'delivered_via': [...via, d.via],
-          if (current == null || deliveredAt.isBefore(current.toUtc()))
-            'delivered_at': deliveredAt,
+          if (current == null || deliveredAt.isBefore(current.toUtc())) 'delivered_at': deliveredAt,
           if (d.late) 'late': true,
           if (existing['deleted_at'] != null) 'deleted_at': null,
         });
@@ -372,10 +339,7 @@ class InboxRepository {
     final cutoff = _clock.nowUtc().subtract(retention);
     final rows =
         await (_db.select(_db.notifications)
-              ..where(
-                (n) =>
-                    n.deletedAt.isNull() & n.fireAt.isSmallerThanValue(cutoff),
-              )
+              ..where((n) => n.deletedAt.isNull() & n.fireAt.isSmallerThanValue(cutoff))
               ..limit(500))
             .get();
     if (rows.isEmpty) return 0;

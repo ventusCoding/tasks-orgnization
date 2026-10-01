@@ -63,7 +63,8 @@ class ManageHabitsScreen extends ConsumerWidget {
         title: Text(l.habitsManage),
         actions: [
           TextButton.icon(
-            onPressed: () => Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => const SectionsScreen())),
+            onPressed: () =>
+                Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => const SectionsScreen())),
             icon: const Icon(Icons.view_agenda_outlined),
             label: Text(l.habitsSections),
           ),
@@ -72,8 +73,14 @@ class ManageHabitsScreen extends ConsumerWidget {
       body: AsyncValueView<List<Habit>>(
         value: all,
         data: (habits) {
-          final active = [for (final h in habits) if (!h.isArchived) h];
-          final archived = [for (final h in habits) if (h.isArchived) h];
+          final active = [
+            for (final h in habits)
+              if (!h.isArchived) h,
+          ];
+          final archived = [
+            for (final h in habits)
+              if (h.isArchived) h,
+          ];
           if (habits.isEmpty) {
             return EmptyState(icon: Icons.self_improvement, title: l.habitsEmptyTitle, message: l.habitsEmptyBody);
           }
@@ -96,7 +103,8 @@ class ManageHabitsScreen extends ConsumerWidget {
                     child: _ManageTile(
                       habit: h,
                       subtitle: [
-                        if (h.sectionId != null && sections[h.sectionId] != null) sectionName(ctx, sections[h.sectionId]!),
+                        if (h.sectionId != null && sections[h.sectionId] != null)
+                          sectionName(ctx, sections[h.sectionId]!),
                         if (h.isQuit) l.habitsTypeQuit,
                         if (paused) l.habitsStatusPaused,
                       ].join(' · '),
@@ -202,7 +210,10 @@ class SectionsScreen extends ConsumerWidget {
           final keys = [for (final s in sections) s.sortKey];
           final moved = sections[from];
           final index = to;
-          final others = [for (final k in keys) if (k != moved.sortKey) k];
+          final others = [
+            for (final k in keys)
+              if (k != moved.sortKey) k,
+          ];
           final after = index == 0 ? null : others[index - 1];
           final before = index >= others.length ? null : others[index];
           await ref.read(habitSectionsRepositoryProvider).move(moved.id, afterKey: after, beforeKey: before);
@@ -223,12 +234,11 @@ class SectionsScreen extends ConsumerWidget {
 }
 
 /// Create or edit a section: name, icon, optional time window; custom sections can be deleted.
-Future<void> showSectionEditor(BuildContext context, WidgetRef ref, {HabitSection? section}) =>
-    showAppSheet<void>(
-      context,
-      title: section == null ? context.l10n.habitsSectionNew : context.l10n.habitsSectionEdit,
-      builder: (ctx) => _SectionEditor(section: section, host: context),
-    );
+Future<void> showSectionEditor(BuildContext context, WidgetRef ref, {HabitSection? section}) => showAppSheet<void>(
+  context,
+  title: section == null ? context.l10n.habitsSectionNew : context.l10n.habitsSectionEdit,
+  builder: (ctx) => _SectionEditor(section: section, host: context),
+);
 
 class _SectionEditor extends ConsumerStatefulWidget {
   const _SectionEditor({required this.section, required this.host});
@@ -241,7 +251,9 @@ class _SectionEditor extends ConsumerStatefulWidget {
 }
 
 class _SectionEditorState extends ConsumerState<_SectionEditor> {
-  late final _name = TextEditingController(text: widget.section == null ? '' : sectionName(widget.host, widget.section!));
+  late final _name = TextEditingController(
+    text: widget.section == null ? '' : sectionName(widget.host, widget.section!),
+  );
   late String? _icon = widget.section?.icon;
   late LocalTime? _start = widget.section?.startTime;
   late LocalTime? _end = widget.section?.endTime;
@@ -295,9 +307,7 @@ class _SectionEditorState extends ConsumerState<_SectionEditor> {
           ListTile(
             contentPadding: EdgeInsets.zero,
             title: Text(l.habitsSectionWindow),
-            subtitle: Text(
-              _start == null || _end == null ? l.habitsNone : '${fmt.time(_start!)} – ${fmt.time(_end!)}',
-            ),
+            subtitle: Text(_start == null || _end == null ? l.habitsNone : '${fmt.time(_start!)} – ${fmt.time(_end!)}'),
             trailing: _start == null
                 ? null
                 : IconButton(
@@ -332,7 +342,7 @@ class _SectionEditorState extends ConsumerState<_SectionEditor> {
                 );
                 if (!ok) return;
                 final record = await ref.read(habitSectionsRepositoryProvider).delete(s.id);
-                if (!mounted) return;
+                if (!mounted || !context.mounted) return;
                 Navigator.pop(context);
                 if (widget.host.mounted) {
                   showUndoSnackBar(widget.host, ref, message: l.habitsSectionDeleted, record: record);

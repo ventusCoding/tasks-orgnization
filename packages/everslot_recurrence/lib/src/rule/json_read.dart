@@ -34,10 +34,7 @@ List<String> readStringList(Object? value, String field) {
   if (value is! List) throw FormatException('"$field" must be a list', value);
   return [
     for (final v in value)
-      if (v is String)
-        v
-      else
-        throw FormatException('"$field[]" must be a string', v),
+      if (v is String) v else throw FormatException('"$field[]" must be a string', v),
   ];
 }
 

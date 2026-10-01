@@ -31,8 +31,20 @@ Map<String, Object?> plannerScenario() => {
     _occ('g', '2026-09-23T07:00', 'in_progress'),
   ],
   'time_entries': [
-    {'id': 'te1', 'task_id': 'a', 'occurrence_key': '2026-09-21T09:00', 'started_at': '2026-09-21T09:07:00.000Z', 'ended_at': '2026-09-21T09:40:00.000Z'},
-    {'id': 'te2', 'task_id': 'a', 'occurrence_key': '2026-09-21T09:00', 'started_at': '2026-09-21T09:45:00.000Z', 'ended_at': '2026-09-21T10:12:00.000Z'},
+    {
+      'id': 'te1',
+      'task_id': 'a',
+      'occurrence_key': '2026-09-21T09:00',
+      'started_at': '2026-09-21T09:07:00.000Z',
+      'ended_at': '2026-09-21T09:40:00.000Z',
+    },
+    {
+      'id': 'te2',
+      'task_id': 'a',
+      'occurrence_key': '2026-09-21T09:00',
+      'started_at': '2026-09-21T09:45:00.000Z',
+      'ended_at': '2026-09-21T10:12:00.000Z',
+    },
   ],
 };
 

@@ -176,7 +176,9 @@ class _QuitEditorState extends ConsumerState<QuitEditor> {
         throw HabitValidationException(HabitValidationCode.quitStartInFuture);
       }
     } on HabitValidationException catch (e) {
-      setState(() => e.field == 'name' ? _nameError = l.validationMessage(e.code) : _error = l.validationMessage(e.code));
+      setState(
+        () => e.field == 'name' ? _nameError = l.validationMessage(e.code) : _error = l.validationMessage(e.code),
+      );
       return;
     }
     setState(() => _saving = true);
@@ -284,7 +286,10 @@ class _QuitEditorState extends ConsumerState<QuitEditor> {
               if (id != null) setState(() => _sectionId = id.isEmpty ? null : id);
             },
           ),
-          SectionHeader(l.quitModeTitle, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.sm)),
+          SectionHeader(
+            l.quitModeTitle,
+            padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.sm),
+          ),
           SegmentedButton<QuitMode>(
             segments: [
               ButtonSegment(value: QuitMode.abstain, label: Text(l.quitModeAbstain)),
@@ -318,10 +323,17 @@ class _QuitEditorState extends ConsumerState<QuitEditor> {
             runSpacing: Space.xs,
             children: [
               for (final u in HabitUnits.quit)
-                ChoiceChip(label: Text(l.unitLabel(u, 2)), selected: _unit == u, onSelected: (_) => setState(() => _unit = u)),
+                ChoiceChip(
+                  label: Text(l.unitLabel(u, 2)),
+                  selected: _unit == u,
+                  onSelected: (_) => setState(() => _unit = u),
+                ),
             ],
           ),
-          SectionHeader(l.quitCostTitle, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.sm)),
+          SectionHeader(
+            l.quitCostTitle,
+            padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.sm),
+          ),
           SegmentedButton<bool>(
             segments: [
               ButtonSegment(value: false, label: Text(l.quitUnitCost)),
@@ -387,7 +399,10 @@ class _QuitEditorState extends ConsumerState<QuitEditor> {
             padding: const EdgeInsetsDirectional.only(top: Space.sm),
             child: Text(l.quitEstimatesNote, style: context.text.bodySmall),
           ),
-          SectionHeader(l.quitMotivation, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.sm)),
+          SectionHeader(
+            l.quitMotivation,
+            padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.sm),
+          ),
           TextField(
             controller: _motivation,
             minLines: 2,
@@ -437,7 +452,9 @@ class _QuitEditorState extends ConsumerState<QuitEditor> {
                   if (t == null) return;
                   setState(() {
                     final p = _settings.pledge;
-                    _settings = _settings.copyWith(pledge: isMorning ? p.copyWith(morning: t) : p.copyWith(evening: t));
+                    _settings = _settings.copyWith(
+                      pledge: isMorning ? p.copyWith(morning: t) : p.copyWith(evening: t),
+                    );
                   });
                 },
               ),

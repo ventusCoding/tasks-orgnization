@@ -23,7 +23,7 @@ enum NotifyMode {
   inheritPlus('inherit_plus'),
   off('off');
 
-  const NotifyMode(this.json);
+  NotifyMode(this.json);
 
   final String json;
 
@@ -319,9 +319,7 @@ class Task {
     url: identical(url, _unset) ? this.url : url as String?,
     icon: identical(icon, _unset) ? this.icon : icon as String?,
     deadlineLocal: identical(deadlineLocal, _unset) ? this.deadlineLocal : deadlineLocal as LocalDateTime?,
-    linkedChecklistId: identical(linkedChecklistId, _unset)
-        ? this.linkedChecklistId
-        : linkedChecklistId as String?,
+    linkedChecklistId: identical(linkedChecklistId, _unset) ? this.linkedChecklistId : linkedChecklistId as String?,
     manualSortKey: identical(manualSortKey, _unset) ? this.manualSortKey : manualSortKey as String?,
     isTemplate: isTemplate ?? this.isTemplate,
     notifyMode: notifyMode ?? this.notifyMode,

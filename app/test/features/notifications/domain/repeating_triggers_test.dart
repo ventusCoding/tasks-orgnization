@@ -46,18 +46,17 @@ void main() {
     },
   });
 
-  NotificationTarget item({String? zone, NotificationGuard? guard}) =>
-      NotificationTarget(
-        type: NotificationTargetType.checklistItem,
-        id: 'i',
-        section: NotificationSection.checklists,
-        title: 'Water the plants',
-        checklistId: 'L',
-        notifyMode: NotifyMode.custom,
-        timeZone: zone,
-        status: 'todo',
-        guard: guard ?? NotificationGuard.itemNotCompleted('i'),
-      );
+  NotificationTarget item({String? zone, NotificationGuard? guard}) => NotificationTarget(
+    type: NotificationTargetType.checklistItem,
+    id: 'i',
+    section: NotificationSection.checklists,
+    title: 'Water the plants',
+    checklistId: 'L',
+    notifyMode: NotifyMode.custom,
+    timeZone: zone,
+    status: 'todo',
+    guard: guard ?? NotificationGuard.itemNotCompleted('i'),
+  );
 
   PlanResult plan(
     List<NotificationRule> rules,
@@ -78,11 +77,7 @@ void main() {
     ),
   );
 
-  List<DesiredItem> desired(
-    PlanResult result, {
-    bool android = false,
-    DateTime? at,
-  }) {
+  List<DesiredItem> desired(PlanResult result, {bool android = false, DateTime? at}) {
     final t = at ?? now;
     return ScheduleComputation.desired(
       result.planned,
@@ -150,63 +145,50 @@ void main() {
       expect(result.planned.every((p) => p.repeatable), isTrue);
     });
 
-    test(
-      'never for per-occurrence guards, other zones, nags or policy shifts',
-      () {
-        final habit = plan(
-          [
-            scheduleRule(
-              daily(),
-              targetType: 'habit',
-              targetId: 'h',
-              section: 'habits',
-            ),
-          ],
-          [
-            NotificationTarget(
-              type: NotificationTargetType.habit,
-              id: 'h',
-              section: NotificationSection.habits,
-              title: 'Drink water',
-              notifyMode: NotifyMode.custom,
-              guard: NotificationGuard.habitPeriodOpen('h', 'p'),
-            ),
-          ],
-        );
-        expect(habit.planned, isNotEmpty);
-        expect(habit.planned.any((p) => p.repeatable), isFalse);
+    test('never for per-occurrence guards, other zones, nags or policy shifts', () {
+      final habit = plan(
+        [scheduleRule(daily(), targetType: 'habit', targetId: 'h', section: 'habits')],
+        [
+          NotificationTarget(
+            type: NotificationTargetType.habit,
+            id: 'h',
+            section: NotificationSection.habits,
+            title: 'Drink water',
+            notifyMode: NotifyMode.custom,
+            guard: NotificationGuard.habitPeriodOpen('h', 'p'),
+          ),
+        ],
+      );
+      expect(habit.planned, isNotEmpty);
+      expect(habit.planned.any((p) => p.repeatable), isFalse);
 
-        final newYork = plan(
-          [scheduleRule(daily())],
-          [item(zone: 'America/New_York')],
-        );
-        expect(newYork.planned.any((p) => p.repeatable), isFalse);
-        final sameZone = plan([scheduleRule(daily())], [item(zone: paris)]);
-        expect(sameZone.planned.every((p) => p.repeatable), isTrue);
+      final newYork = plan([scheduleRule(daily())], [item(zone: 'America/New_York')]);
+      expect(newYork.planned.any((p) => p.repeatable), isFalse);
+      final sameZone = plan([scheduleRule(daily())], [item(zone: paris)]);
+      expect(sameZone.planned.every((p) => p.repeatable), isTrue);
 
-        // Quiet hours 06:00–08:00 on weekends defer those instances: only they lose it.
-        final quiet = plan(
-          [scheduleRule(daily())],
-          [item()],
-          settings: {
-            'quietHours': [
-              {
-                'days': [6, 7],
-                'from': '06:00',
-                'to': '08:00',
-                'mode': 'defer',
-              },
-            ],
-          },
-        );
-        final deferred = quiet.planned.where((p) => !p.repeatable).toList();
-        expect(deferred, isNotEmpty);
-        for (final p in deferred) {
-          final local = zones.toLocal(p.fireAt, paris);
-          expect(local.date.weekday.iso, greaterThanOrEqualTo(6));
-        }
-      },
-    );
+      // Quiet hours 06:00–08:00 on weekends defer those instances: only they lose it.
+      final quiet = plan(
+        [scheduleRule(daily())],
+        [item()],
+        settings: {
+          'quietHours': [
+            {
+              'days': [6, 7],
+              'from': '06:00',
+              'to': '08:00',
+              'mode': 'defer',
+            },
+          ],
+        },
+      );
+      final deferred = quiet.planned.where((p) => !p.repeatable).toList();
+      expect(deferred, isNotEmpty);
+      for (final p in deferred) {
+        final local = zones.toLocal(p.fireAt, paris);
+        expect(local.date.weekday.iso, greaterThanOrEqualTo(6));
+      }
+    });
   });
 
   group('sequence detection', () {
@@ -220,10 +202,7 @@ void main() {
       // Members stay tracked for the inbox / banners; none is lost.
       expect(items.where((d) => d.kind == ScheduleKind.tracked), hasLength(14));
       expect(
-        ScheduleComputation.coverageUntil(
-          items,
-          horizonEnd: now.add(const Duration(days: 14)),
-        ),
+        ScheduleComputation.coverageUntil(items, horizonEnd: now.add(const Duration(days: 14))),
         now.add(const Duration(days: 14)),
       );
     });
@@ -260,10 +239,7 @@ void main() {
           [item()],
         ),
       );
-      expect(items.where((d) => d.os).map((d) => d.repeat).toList(), [
-        RepeatMatch.daily,
-        RepeatMatch.daily,
-      ]);
+      expect(items.where((d) => d.os).map((d) => d.repeat).toList(), [RepeatMatch.daily, RepeatMatch.daily]);
     });
 
     test('a gap keeps the affected days as one-shots', () {
@@ -284,89 +260,63 @@ void main() {
           },
         ),
       );
-      final repeating = items
-          .where((d) => d.kind == ScheduleKind.repeating)
-          .toList();
+      final repeating = items.where((d) => d.kind == ScheduleKind.repeating).toList();
       expect(repeating, hasLength(5));
       expect(repeating.every((d) => d.repeat == RepeatMatch.weekly), isTrue);
-      final oneShots = items
-          .where((d) => d.kind == ScheduleKind.oneShot)
-          .toList();
+      final oneShots = items.where((d) => d.kind == ScheduleKind.oneShot).toList();
       expect(oneShots, hasLength(4)); // two weekends, deferred to 08:00
     });
 
-    test(
-      'iOS needs the first match after now; Android honours a later start',
-      () {
-        // Starts the day after tomorrow: the iOS trigger would fire tomorrow already.
-        final later = plan(
-          [
-            scheduleRule({...daily(), 'start': '2026-10-22'}),
-          ],
-          [item()],
-        );
-        final ios = desired(later);
-        // No daily trigger; weekly ones except for Wednesday, whose next match (21 Oct) comes
-        // before the start — its instances stay one-shots.
-        final weekly = ios
-            .where((d) => d.kind == ScheduleKind.repeating)
-            .toList();
-        expect(weekly.every((d) => d.repeat == RepeatMatch.weekly), isTrue);
-        expect(weekly, hasLength(6));
-        final oneShots = ios
-            .where((d) => d.kind == ScheduleKind.oneShot)
-            .toList();
-        expect(oneShots, hasLength(1)); // 28 Oct (4 Nov is past the horizon)
-        for (final d in oneShots) {
-          expect(
-            zones.toLocal(d.fireAt, paris).date.weekday,
-            Weekday.wednesday,
-          );
-        }
-        expect(
-          desired(
-            later,
-            android: true,
-          ).where((d) => d.kind == ScheduleKind.repeating),
-          hasLength(1),
-        );
-      },
-    );
+    test('iOS needs the first match after now; Android honours a later start', () {
+      // Starts the day after tomorrow: the iOS trigger would fire tomorrow already.
+      final later = plan(
+        [
+          scheduleRule({...daily(), 'start': '2026-10-22'}),
+        ],
+        [item()],
+      );
+      final ios = desired(later);
+      // No daily trigger; weekly ones except for Wednesday, whose next match (21 Oct) comes
+      // before the start — its instances stay one-shots.
+      final weekly = ios.where((d) => d.kind == ScheduleKind.repeating).toList();
+      expect(weekly.every((d) => d.repeat == RepeatMatch.weekly), isTrue);
+      expect(weekly, hasLength(6));
+      final oneShots = ios.where((d) => d.kind == ScheduleKind.oneShot).toList();
+      expect(oneShots, hasLength(1)); // 28 Oct (4 Nov is past the horizon)
+      for (final d in oneShots) {
+        expect(zones.toLocal(d.fireAt, paris).date.weekday, Weekday.wednesday);
+      }
+      expect(desired(later, android: true).where((d) => d.kind == ScheduleKind.repeating), hasLength(1));
+    });
 
-    test(
-      'nothing repeats without the options or with per-instance content',
-      () {
-        final result = plan([scheduleRule(daily())], [item()]);
-        final plain = ScheduleComputation.desired(
-          result.planned,
-          budget: ScheduleBudget.ios,
-          sentinelTitle: 'Open',
-          mergedTitle: (n) => '$n',
-        );
-        expect(plain.where((d) => d.kind == ScheduleKind.repeating), isEmpty);
+    test('nothing repeats without the options or with per-instance content', () {
+      final result = plan([scheduleRule(daily())], [item()]);
+      final plain = ScheduleComputation.desired(
+        result.planned,
+        budget: ScheduleBudget.ios,
+        sentinelTitle: 'Open',
+        mergedTitle: (n) => '$n',
+      );
+      expect(plain.where((d) => d.kind == ScheduleKind.repeating), isEmpty);
 
-        final dated = plan(
-          [
-            ruleFromJson({
-              'id': 'water',
-              'targetType': 'checklist_item',
-              'targetId': 'i',
-              'section': 'checklists',
-              'spec': {
-                'v': 1,
-                'trigger': {'type': 'schedule', 'recurrence': daily()},
-                'content': {'title': '{title}', 'body': '{date}'},
-              },
-            }),
-          ],
-          [item()],
-        );
-        expect(
-          desired(dated).where((d) => d.kind == ScheduleKind.repeating),
-          isEmpty,
-        );
-      },
-    );
+      final dated = plan(
+        [
+          ruleFromJson({
+            'id': 'water',
+            'targetType': 'checklist_item',
+            'targetId': 'i',
+            'section': 'checklists',
+            'spec': {
+              'v': 1,
+              'trigger': {'type': 'schedule', 'recurrence': daily()},
+              'content': {'title': '{title}', 'body': '{date}'},
+            },
+          }),
+        ],
+        [item()],
+      );
+      expect(desired(dated).where((d) => d.kind == ScheduleKind.repeating), isEmpty);
+    });
   });
 
   group('diff', () {
@@ -386,10 +336,7 @@ void main() {
       final today = desired(plan([scheduleRule(daily())], [item()]));
       final current = [for (final d in today) stored(d, now)];
       final tomorrow = now.add(const Duration(days: 1));
-      final next = desired(
-        plan([scheduleRule(daily())], [item()], at: tomorrow),
-        at: tomorrow,
-      );
+      final next = desired(plan([scheduleRule(daily())], [item()], at: tomorrow), at: tomorrow);
       final diff = ScheduleComputation.diff(current, next, tomorrow);
       expect(diff.platformCalls, 0);
       expect(diff.cancel, isEmpty);

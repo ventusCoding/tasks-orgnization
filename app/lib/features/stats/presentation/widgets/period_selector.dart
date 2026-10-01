@@ -90,10 +90,15 @@ class PeriodSelector extends StatelessWidget {
               padding: const EdgeInsetsDirectional.only(end: Space.xs),
               child: PopupMenuButton<int>(
                 tooltip: l.statsPeriodRollingMenu,
-                onSelected: (days) => onChanged(selection.copyWith(period: StatsPeriod.rolling(days), clearGranularity: true)),
+                onSelected: (days) =>
+                    onChanged(selection.copyWith(period: StatsPeriod.rolling(days), clearGranularity: true)),
                 itemBuilder: (context) => [
                   for (final d in rollingDays)
-                    CheckedPopupMenuItem(value: d, checked: current is RollingPeriod && current.days == d, child: Text(l.statsPeriodRolling('$d'))),
+                    CheckedPopupMenuItem(
+                      value: d,
+                      checked: current is RollingPeriod && current.days == d,
+                      child: Text(l.statsPeriodRolling('$d')),
+                    ),
                 ],
                 child: IgnorePointer(
                   child: ChoiceChip(

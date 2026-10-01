@@ -5,12 +5,7 @@ import 'package:logging/logging.dart';
 
 /// Where uncaught errors go in release builds (Crashlytics; `startup/crash_reporter.dart`).
 abstract interface class ErrorReporter {
-  void report(
-    Object error,
-    StackTrace stack, {
-    required bool fatal,
-    String? reason,
-  });
+  void report(Object error, StackTrace stack, {required bool fatal, String? reason});
 }
 
 /// Global error routing (T1.3.05): `FlutterError.onError` (framework errors), `PlatformDispatcher.onError`
@@ -49,9 +44,7 @@ class GlobalErrorHandlers {
       details.exception,
       details.stack ?? StackTrace.current,
       fatal: false,
-      reason: details.library == null
-          ? 'flutter framework'
-          : 'flutter: ${details.library}',
+      reason: details.library == null ? 'flutter framework' : 'flutter: ${details.library}',
     );
   }
 
@@ -65,21 +58,12 @@ class GlobalErrorHandlers {
   void handleZoneError(Object error, StackTrace stack) =>
       record(error, stack, fatal: true, reason: 'uncaught zone error');
 
-  void record(
-    Object error,
-    StackTrace stack, {
-    required bool fatal,
-    String? reason,
-  }) {
+  void record(Object error, StackTrace stack, {required bool fatal, String? reason}) {
     if (identical(error, _lastError)) return;
     _lastError = error;
     handledCount++;
     final kind = toAppException(error).kind.name;
-    log.severe(
-      '${reason ?? 'error'} [$kind] ${error.runtimeType}',
-      error,
-      stack,
-    );
+    log.severe('${reason ?? 'error'} [$kind] ${error.runtimeType}', error, stack);
     if (!releaseMode) return;
     try {
       reporter?.report(error, stack, fatal: fatal, reason: reason);

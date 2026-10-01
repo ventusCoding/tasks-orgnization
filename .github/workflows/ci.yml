@@ -33,14 +33,14 @@ jobs:
         run: dart format --output=none --set-exit-if-changed app/lib app/test packages tool
       - name: Import boundaries
         run: if [ -f tool/check_imports.dart ]; then dart run tool/check_imports.dart; fi
-      - name: Analyze
+      - name: Analyze (very_good_analysis + riverpod_lint plugin; print() fails)
         run: dart analyze --fatal-infos app packages tool
       - name: Test recurrence package
         run: cd packages/everslot_recurrence && dart test --coverage=coverage
       - name: Test metrics package
         run: cd packages/everslot_metrics && dart test --coverage=coverage
       - name: Test app
-        run: cd app && flutter test --coverage
+        run: cd app && flutter test --coverage --concurrency 4
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -65,15 +65,20 @@ jobs:
         with: { flutter-version: '${{ steps.fvm.outputs.version }}', channel: stable, cache: true }
       - run: dart pub get && dart run tool/merge_arb.dart && (cd app && flutter gen-l10n)
       - run: cd app && flutter build apk --debug --flavor dev -t lib/main_dev.dart
+      - name: Release build (R8 minify, debug-signed without a keystore)
+        run: cd app && flutter build apk --release --flavor prod -t lib/main_prod.dart
 
   ios:
     name: iOS build (no codesign)
-    runs-on: macos-latest
+    # Xcode ≥ 26 is required (workmanager_apple uses the iOS 26 SDK; UIScene is mandatory with Xcode 27).
+    runs-on: macos-26
     needs: app
     if: github.event_name == 'push'
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+      - uses: maxim-lobanov/setup-xcode@v1
+        with: { xcode-version: latest-stable }
       - id: fvm
         run: echo "version=$(python3 -c "import json;print(json.load(open('.fvmrc'))['flutter'])")" >> "$GITHUB_OUTPUT"
       - uses: subosito/flutter-action@v2

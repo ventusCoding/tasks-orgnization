@@ -51,10 +51,19 @@ class _SeriesHistoryScreenState extends ConsumerState<SeriesHistoryScreen> {
     final tasks = ref.watch(seriesTasksProvider(widget.seriesId)).value ?? const <Task>[];
     final ids = [for (final t in tasks) t.id];
     final query = SeriesRangeQuery(ids, _month.atStartOfDay, _month.plusMonths(1).atStartOfDay);
-    final all = ids.isEmpty ? const <ResolvedOccurrence>[] : (ref.watch(seriesOccurrencesProvider(query)).value ?? const []);
-    final shown = [for (final o in all) if (seriesFilterMatches(_filter, o)) o];
+    final all = ids.isEmpty
+        ? const <ResolvedOccurrence>[]
+        : (ref.watch(seriesOccurrencesProvider(query)).value ?? const []);
+    final shown = [
+      for (final o in all)
+        if (seriesFilterMatches(_filter, o)) o,
+    ];
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title == null ? l.tasksSeriesHistoryTitle : '${l.tasksSeriesHistoryTitle} · ${widget.title}')),
+      appBar: AppBar(
+        title: Text(
+          widget.title == null ? l.tasksSeriesHistoryTitle : '${l.tasksSeriesHistoryTitle} · ${widget.title}',
+        ),
+      ),
       body: ListView(
         key: const ValueKey('series-history-list'),
         padding: const EdgeInsetsDirectional.only(bottom: Space.xxxl),
@@ -66,7 +75,9 @@ class _SeriesHistoryScreenState extends ConsumerState<SeriesHistoryScreen> {
                 onPressed: () => setState(() => _month = _month.plusMonths(-1)),
                 icon: const Icon(Icons.chevron_left),
               ),
-              Expanded(child: Text(format.monthYear(_month), textAlign: TextAlign.center, style: context.text.titleMedium)),
+              Expanded(
+                child: Text(format.monthYear(_month), textAlign: TextAlign.center, style: context.text.titleMedium),
+              ),
               IconButton(
                 tooltip: l.tasksNextMonth,
                 onPressed: () => setState(() => _month = _month.plusMonths(1)),
@@ -176,7 +187,11 @@ class _MonthGrid extends StatelessWidget {
             Row(
               children: [
                 for (final d in Weekday.ordered(weekStart))
-                  Expanded(child: Center(child: Text(narrow.format(DateTime.utc(2024, 1, d.iso)), style: context.text.labelSmall))),
+                  Expanded(
+                    child: Center(
+                      child: Text(narrow.format(DateTime.utc(2024, 1, d.iso)), style: context.text.labelSmall),
+                    ),
+                  ),
               ],
             ),
             for (var w = 0; w < weeks; w++)

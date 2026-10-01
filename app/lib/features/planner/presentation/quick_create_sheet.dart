@@ -139,7 +139,12 @@ class _QuickCreateSheetState extends ConsumerState<QuickCreateSheet> {
           final stack = ref.read(undoStackProvider);
           messenger
             ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(content: Text(l.tasksCreated), action: SnackBarAction(label: l.actionUndo, onPressed: () => stack.undo())));
+            ..showSnackBar(
+              SnackBar(
+                content: Text(l.tasksCreated),
+                action: SnackBarAction(label: l.actionUndo, onPressed: stack.undo),
+              ),
+            );
         }
       }
     } finally {
@@ -174,7 +179,9 @@ class _QuickCreateSheetState extends ConsumerState<QuickCreateSheet> {
     final service = ref.watch(recurrenceServiceProvider);
     String repeat;
     try {
-      repeat = _rule == null ? l.tasksRepeatNone : service.describe(_rule!, _anchor, locale: context.localeName, use24h: prefs.use24h);
+      repeat = _rule == null
+          ? l.tasksRepeatNone
+          : service.describe(_rule!, _anchor, locale: context.localeName, use24h: prefs.use24h);
     } on Object {
       repeat = l.tasksRepeatNone;
     }
@@ -207,7 +214,7 @@ class _QuickCreateSheetState extends ConsumerState<QuickCreateSheet> {
                 label: Text(when),
                 onPressed: () async {
                   final date = await pickDate(context, initial: _slot.start.date);
-                  if (date == null || !mounted) return;
+                  if (date == null || !context.mounted) return;
                   if (_slot.allDay) {
                     setState(() => _slot = QuickCreateSlot(date.atStartOfDay, 1440, allDay: true));
                     return;

@@ -75,12 +75,7 @@ class CheckInResult {
 ///   source. Guards: no done/progress in the future, planned skips/excuses allowed, archived habits
 ///   are read-only.
 class CheckInService {
-  CheckInService({
-    required this.logs,
-    required this.habits,
-    required this.periods,
-    required this.clock,
-  });
+  CheckInService({required this.logs, required this.habits, required this.periods, required this.clock});
 
   final HabitLogsRepository logs;
   final HabitsRepository habits;
@@ -350,6 +345,4 @@ final checkInServiceProvider = Provider<CheckInService>((ref) {
 });
 
 /// Committed check-ins (celebrations, re-planning, widgets).
-final habitCheckInEventsProvider = StreamProvider<HabitCheckInEvent>(
-  (ref) => ref.watch(checkInServiceProvider).events,
-);
+final habitCheckInEventsProvider = StreamProvider<HabitCheckInEvent>((ref) => ref.watch(checkInServiceProvider).events);

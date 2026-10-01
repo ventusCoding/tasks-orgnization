@@ -304,7 +304,13 @@ class _NotConfigured extends ConsumerWidget {
 }
 
 class _SecondaryAction extends StatelessWidget {
-  const _SecondaryAction({required this.label, required this.hint, required this.onPressed, super.key, this.busy = false});
+  const _SecondaryAction({
+    required this.label,
+    required this.hint,
+    required this.onPressed,
+    super.key,
+    this.busy = false,
+  });
 
   final String label;
   final String hint;
@@ -355,9 +361,6 @@ class _Spinner extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-    width: size,
-    height: size,
-    child: const CircularProgressIndicator(strokeWidth: 2),
-  );
+  Widget build(BuildContext context) =>
+      SizedBox(width: size, height: size, child: const CircularProgressIndicator(strokeWidth: 2));
 }

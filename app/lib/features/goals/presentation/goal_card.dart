@@ -42,7 +42,14 @@ class GoalCard extends ConsumerWidget {
     );
     final detail = <String>[
       if (goal.achievedAt != null)
-        l.goalsAchievedOn(fmt.dateMedium(ref.watch(zoneResolverProvider).toLocal(goal.achievedAt!, ref.watch(habitPeriodServiceProvider).zoneOf(habit)).date))
+        l.goalsAchievedOn(
+          fmt.dateMedium(
+            ref
+                .watch(zoneResolverProvider)
+                .toLocal(goal.achievedAt!, ref.watch(habitPeriodServiceProvider).zoneOf(habit))
+                .date,
+          ),
+        )
       else if (p.achievedOn != null && achieved)
         l.goalsAchievedOn(fmt.dateMedium(p.achievedOn!))
       else ...[
@@ -72,8 +79,7 @@ class GoalCard extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  if (!e.openEnded || achieved)
-                    StatusPill(label: l.goalStatusLabel(status), color: color, dense: true),
+                  if (!e.openEnded || achieved) StatusPill(label: l.goalStatusLabel(status), color: color, dense: true),
                 ],
               ),
               const SizedBox(height: Space.sm),

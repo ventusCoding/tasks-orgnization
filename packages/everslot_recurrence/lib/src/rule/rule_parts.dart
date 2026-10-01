@@ -35,15 +35,11 @@ final class WeekdayRule {
     final ordinal = match.group(1);
     return WeekdayRule(
       Weekday.fromCode(match.group(2)!),
-      ordinal == null || ordinal.isEmpty
-          ? null
-          : int.parse(ordinal.replaceFirst('+', '')),
+      ordinal == null || ordinal.isEmpty ? null : int.parse(ordinal.replaceFirst('+', '')),
     );
   }
 
-  static final RegExp _rrule = RegExp(
-    r'^([+-]?\d{1,2})?(MO|TU|WE|TH|FR|SA|SU)$',
-  );
+  static final RegExp _rrule = RegExp(r'^([+-]?\d{1,2})?(MO|TU|WE|TH|FR|SA|SU)$');
 
   /// The weekday.
   final Weekday day;
@@ -58,8 +54,7 @@ final class WeekdayRule {
   String toRRule() => '${n ?? ''}${day.code}';
 
   @override
-  bool operator ==(Object other) =>
-      other is WeekdayRule && other.day == day && other.n == n;
+  bool operator ==(Object other) => other is WeekdayRule && other.day == day && other.n == n;
 
   @override
   int get hashCode => Object.hash(day, n);
@@ -82,9 +77,7 @@ final class DailyWindow {
     return DailyWindow(
       readTime(map['start'], 'window.start'),
       readTime(map['end'], 'window.end', allowEndOfDay: true),
-      anchor: map['anchor'] == null
-          ? WindowAnchor.windowStart
-          : WindowAnchor.fromJson(map['anchor']),
+      anchor: map['anchor'] == null ? WindowAnchor.windowStart : WindowAnchor.fromJson(map['anchor']),
     );
   }
 
@@ -106,25 +99,14 @@ final class DailyWindow {
 
   /// Minutes of the day covered: `[start, end]`, or `[start, 1440)` for a 24:00 end.
   bool containsMinuteOfDay(int minuteOfDay) =>
-      minuteOfDay >= start.minuteOfDay &&
-      (end.isEndOfDay ? minuteOfDay < 1440 : minuteOfDay <= end.minuteOfDay);
+      minuteOfDay >= start.minuteOfDay && (end.isEndOfDay ? minuteOfDay < 1440 : minuteOfDay <= end.minuteOfDay);
 
-  DailyWindow copyWith({
-    LocalTime? start,
-    LocalTime? end,
-    WindowAnchor? anchor,
-  }) => DailyWindow(
-    start ?? this.start,
-    end ?? this.end,
-    anchor: anchor ?? this.anchor,
-  );
+  DailyWindow copyWith({LocalTime? start, LocalTime? end, WindowAnchor? anchor}) =>
+      DailyWindow(start ?? this.start, end ?? this.end, anchor: anchor ?? this.anchor);
 
   @override
   bool operator ==(Object other) =>
-      other is DailyWindow &&
-      other.start == start &&
-      other.end == end &&
-      other.anchor == anchor;
+      other is DailyWindow && other.start == start && other.end == end && other.anchor == anchor;
 
   @override
   int get hashCode => Object.hash(start, end, anchor);
@@ -141,10 +123,7 @@ final class AfterCompletion {
   /// Decodes `{"amount": 2, "unit": "day"}`.
   factory fromJson(Object? json) {
     final map = readMap(json, 'afterCompletion');
-    return AfterCompletion(
-      readInt(map['amount'], 'afterCompletion.amount'),
-      RecurrenceUnit.fromJson(map['unit']),
-    );
+    return AfterCompletion(readInt(map['amount'], 'afterCompletion.amount'), RecurrenceUnit.fromJson(map['unit']));
   }
 
   /// How many [unit]s after the last completion the next one is due (≥ 1).
@@ -157,8 +136,7 @@ final class AfterCompletion {
   Map<String, Object?> toJson() => {'amount': amount, 'unit': unit.name};
 
   @override
-  bool operator ==(Object other) =>
-      other is AfterCompletion && other.amount == amount && other.unit == unit;
+  bool operator ==(Object other) => other is AfterCompletion && other.amount == amount && other.unit == unit;
 
   @override
   int get hashCode => Object.hash(amount, unit);
@@ -193,11 +171,7 @@ final class Quota {
   final int minGapDays;
 
   /// JSON form.
-  Map<String, Object?> toJson() => {
-    'times': times,
-    'per': per.name,
-    'minGapDays': minGapDays,
-  };
+  Map<String, Object?> toJson() => {'times': times, 'per': per.name, 'minGapDays': minGapDays};
 
   /// Whether the given completion days respect [minGapDays].
   bool respectsMinGap(Iterable<LocalDate> completionDays) {
@@ -212,10 +186,7 @@ final class Quota {
 
   @override
   bool operator ==(Object other) =>
-      other is Quota &&
-      other.times == times &&
-      other.per == per &&
-      other.minGapDays == minGapDays;
+      other is Quota && other.times == times && other.per == per && other.minGapDays == minGapDays;
 
   @override
   int get hashCode => Object.hash(times, per, minGapDays);

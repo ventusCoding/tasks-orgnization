@@ -24,20 +24,7 @@ int ceilDiv(int a, int b) => -floorDiv(-a, b);
 /// ISO weekday (1 = Monday) of an epoch day.
 int weekdayIsoOfEpochDay(int epochDay) => (epochDay + 3) % 7 + 1;
 
-const List<int> _cumulativeDays = [
-  0,
-  31,
-  59,
-  90,
-  120,
-  151,
-  181,
-  212,
-  243,
-  273,
-  304,
-  334,
-];
+const List<int> _cumulativeDays = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
 
 /// Issue codes that make a rule impossible to expand.
 const Set<RuleIssueCode> fatalIssueCodes = {
@@ -91,13 +78,8 @@ final class RulePlan {
   /// Compiles [rule] for a series starting at [anchorStart].
   ///
   /// Throws [InvalidRuleException] when the rule can't be expanded.
-  factory compile(
-    RecurrenceRule rule,
-    LocalDateTime anchorStart, {
-    bool allDay = false,
-  }) {
-    final validation = const RuleValidator(maxOccurrencesPerDay: 1 << 30)
-        .validate(rule);
+  factory compile(RecurrenceRule rule, LocalDateTime anchorStart, {bool allDay = false}) {
+    final validation = const RuleValidator(maxOccurrencesPerDay: 1 << 30).validate(rule);
     final fatal = [
       for (final i in validation.errors)
         if (fatalIssueCodes.contains(i.code)) i,
@@ -107,9 +89,7 @@ final class RulePlan {
     final start = allDay ? anchorStart.date.atStartOfDay : anchorStart;
     final freq = rule.freq;
     final weekdays = rule.byWeekday;
-    final ordinalCapable =
-        (freq == Frequency.monthly || freq == Frequency.yearly) &&
-        rule.byWeekNo.isEmpty;
+    final ordinalCapable = (freq == Frequency.monthly || freq == Frequency.yearly) && rule.byWeekNo.isEmpty;
 
     var byMonth = rule.byMonth.isEmpty ? null : rule.byMonth.toSet();
     var monthDays = rule.byMonthDay.toSet();
@@ -126,11 +106,7 @@ final class RulePlan {
     var weekdayFilter = weekdays != null;
 
     // RFC 5545: information missing from the rule comes from the start.
-    final noDaySpec =
-        rule.byWeekNo.isEmpty &&
-        rule.byYearDay.isEmpty &&
-        rule.byMonthDay.isEmpty &&
-        weekdays == null;
+    final noDaySpec = rule.byWeekNo.isEmpty && rule.byYearDay.isEmpty && rule.byMonthDay.isEmpty && weekdays == null;
     if (noDaySpec) {
       switch (freq) {
         case Frequency.yearly:
@@ -149,10 +125,7 @@ final class RulePlan {
     }
 
     final window = rule.window;
-    final windowStartMode =
-        freq.isSubDaily &&
-        window != null &&
-        window.anchor == WindowAnchor.windowStart;
+    final windowStartMode = freq.isSubDaily && window != null && window.anchor == WindowAnchor.windowStart;
     final unitMinutes = freq == Frequency.hourly ? 60 : 1;
     final step = rule.interval * unitMinutes;
     final hourLimit = rule.byHour.isEmpty ? null : rule.byHour.toSet();
@@ -162,9 +135,7 @@ final class RulePlan {
     if (allDay) {
       timeset = const [0];
     } else if (windowStartMode) {
-      final end = window.end.isEndOfDay
-          ? minutesPerDay - 1
-          : window.end.minuteOfDay;
+      final end = window.end.isEndOfDay ? minutesPerDay - 1 : window.end.minuteOfDay;
       timeset = [
         for (var t = window.start.minuteOfDay; t <= end; t += step)
           if ((hourLimit == null || hourLimit.contains(t ~/ 60)) &&
@@ -174,12 +145,8 @@ final class RulePlan {
     } else if (rule.times.isNotEmpty) {
       timeset = (rule.times.map((t) => t.minuteOfDay).toSet().toList()..sort());
     } else {
-      final hours = hourLimit == null
-          ? [start.hour]
-          : (hourLimit.toList()..sort());
-      final minutes = minuteLimit == null
-          ? [start.minute]
-          : (minuteLimit.toList()..sort());
+      final hours = hourLimit == null ? [start.hour] : (hourLimit.toList()..sort());
+      final minutes = minuteLimit == null ? [start.minute] : (minuteLimit.toList()..sort());
       timeset = [
         for (final h in hours)
           for (final m in minutes) h * 60 + m,
@@ -206,10 +173,7 @@ final class RulePlan {
       if (allDay) {
         rdates.add(parsed.date.epochDay * minutesPerDay);
       } else {
-        rdates.add(
-          dateTime?.epochMinute ??
-              parsed.date.epochDay * minutesPerDay + start.time.minuteOfDay,
-        );
+        rdates.add(dateTime?.epochMinute ?? parsed.date.epochDay * minutesPerDay + start.time.minuteOfDay);
       }
     }
 
@@ -246,9 +210,7 @@ final class RulePlan {
       stepMinutes: step,
       hourLimit: hourLimit,
       minuteLimit: freq == Frequency.minutely ? minuteLimit : null,
-      hourMinutes: freq == Frequency.hourly && minuteLimit != null
-          ? (minuteLimit.toList()..sort())
-          : [start.minute],
+      hourMinutes: freq == Frequency.hourly && minuteLimit != null ? (minuteLimit.toList()..sort()) : [start.minute],
       chainWindow: windowStartMode ? null : window,
       exMinutes: exMinutes,
       exDays: exDays,
@@ -298,14 +260,11 @@ final class RulePlan {
   bool get _hasMonthDay => monthDayPos.isNotEmpty || monthDayNeg.isNotEmpty;
 
   /// Earliest possible start of the series (anchor or earliest rdate).
-  int get seriesLowerBound => rdateMinutes.isEmpty
-      ? anchorMinute
-      : math.min(anchorMinute, rdateMinutes.first);
+  int get seriesLowerBound => rdateMinutes.isEmpty ? anchorMinute : math.min(anchorMinute, rdateMinutes.first);
 
   /// Typical distance between occurrences, in minutes (used to size searches).
   int get typicalGapMinutes => switch (freq) {
-    Frequency.minutely ||
-    Frequency.hourly => dayBased ? minutesPerDay : stepMinutes,
+    Frequency.minutely || Frequency.hourly => dayBased ? minutesPerDay : stepMinutes,
     Frequency.daily => interval * minutesPerDay,
     Frequency.weekly => interval * 7 * minutesPerDay,
     Frequency.monthly => interval * 31 * minutesPerDay,
@@ -323,9 +282,7 @@ final class RulePlan {
     var r = _lowerBoundIndex(rdateMinutes, from);
     int? last;
     while (true) {
-      final rdate = r < rdateMinutes.length && rdateMinutes[r] <= to
-          ? rdateMinutes[r]
-          : null;
+      final rdate = r < rdateMinutes.length && rdateMinutes[r] <= to ? rdateMinutes[r] : null;
       int value;
       if (ruleNext == null && rdate == null) return;
       if (rdate == null || (ruleNext != null && ruleNext <= rdate)) {
@@ -336,8 +293,7 @@ final class RulePlan {
         r++;
       }
       if (value == last) continue;
-      if (exMinutes.contains(value) ||
-          exDays.contains(floorDiv(value, minutesPerDay))) {
+      if (exMinutes.contains(value) || exDays.contains(floorDiv(value, minutesPerDay))) {
         continue;
       }
       last = value;
@@ -365,9 +321,7 @@ final class RulePlan {
     final stop = untilMinute == null ? to : math.min(to, untilMinute!);
     if (allDay && !dayBased) return _collapseDays(_chain(from, stop));
     if (dayBased) return _dayBased(from, stop);
-    return freq == Frequency.hourly
-        ? _hourlyChain(from, stop)
-        : _chain(from, stop);
+    return freq == Frequency.hourly ? _hourlyChain(from, stop) : _chain(from, stop);
   }
 
   Iterable<int> _collapseDays(Iterable<int> source) sync* {
@@ -400,11 +354,7 @@ final class RulePlan {
 
   int _periodStartDay(int index) => switch (_periodFreq) {
     Frequency.yearly => LocalDate(index, 1, 1).epochDay,
-    Frequency.monthly => LocalDate(
-      floorDiv(index, 12),
-      index - floorDiv(index, 12) * 12 + 1,
-      1,
-    ).epochDay,
+    Frequency.monthly => LocalDate(floorDiv(index, 12), index - floorDiv(index, 12) * 12 + 1, 1).epochDay,
     _ => index,
   };
 
@@ -415,10 +365,7 @@ final class RulePlan {
     var k = 0;
     if (!counting && from > anchorMinute) {
       final fromDate = LocalDate.fromEpochDay(floorDiv(from, minutesPerDay));
-      k = math.max(
-        0,
-        floorDiv(_periodIndexOf(fromDate) - anchorPeriod, periodStep),
-      );
+      k = math.max(0, floorDiv(_periodIndexOf(fromDate) - anchorPeriod, periodStep));
     }
     var emitted = 0;
     final days = <int>[];
@@ -453,10 +400,7 @@ final class RulePlan {
     for (final pos in setPos) {
       final index = pos > 0 ? pos - 1 : total + pos;
       if (index < 0 || index >= total) continue;
-      picked.add(
-        days[index ~/ times.length] * minutesPerDay +
-            times[index % times.length],
-      );
+      picked.add(days[index ~/ times.length] * minutesPerDay + times[index % times.length]);
     }
     return picked.toList()..sort();
   }
@@ -468,10 +412,7 @@ final class RulePlan {
         final perMonthOrdinals = byMonth != null;
         Set<int>? yearOrdinals;
         if (ordinals.isNotEmpty && !perMonthOrdinals) {
-          yearOrdinals = _ordinalDays(
-            LocalDate(year, 1, 1).epochDay,
-            LocalDate(year, 12, 31).epochDay,
-          );
+          yearOrdinals = _ordinalDays(LocalDate(year, 1, 1).epochDay, LocalDate(year, 12, 31).epochDay);
         }
         for (var month = 1; month <= 12; month++) {
           if (byMonth != null && !byMonth!.contains(month)) continue;
@@ -479,9 +420,7 @@ final class RulePlan {
           final dim = LocalDate.daysInMonth(year, month);
           final ordinalDays = ordinals.isEmpty
               ? null
-              : (perMonthOrdinals
-                    ? _ordinalDays(first, first + dim - 1)
-                    : yearOrdinals);
+              : (perMonthOrdinals ? _ordinalDays(first, first + dim - 1) : yearOrdinals);
           _collectMonth(year, month, first, dim, ordinalDays, out);
         }
       case Frequency.monthly:
@@ -490,14 +429,7 @@ final class RulePlan {
         if (byMonth != null && !byMonth!.contains(month)) return;
         final first = LocalDate(year, month, 1).epochDay;
         final dim = LocalDate.daysInMonth(year, month);
-        _collectMonth(
-          year,
-          month,
-          first,
-          dim,
-          ordinals.isEmpty ? null : _ordinalDays(first, first + dim - 1),
-          out,
-        );
+        _collectMonth(year, month, first, dim, ordinals.isEmpty ? null : _ordinalDays(first, first + dim - 1), out);
       case Frequency.weekly:
         for (var i = 0; i < 7; i++) {
           final day = period + i;
@@ -508,29 +440,13 @@ final class RulePlan {
     }
   }
 
-  void _collectMonth(
-    int year,
-    int month,
-    int first,
-    int dim,
-    Set<int>? ordinalDays,
-    List<int> out,
-  ) {
+  void _collectMonth(int year, int month, int first, int dim, Set<int>? ordinalDays, List<int> out) {
     final leap = LocalDate.isLeapYear(year);
     final yearLength = leap ? 366 : 365;
     final doyBase = _cumulativeDays[month - 1] + (leap && month > 2 ? 1 : 0);
     for (var day = 1; day <= dim; day++) {
       final epochDay = first + day - 1;
-      if (_matches(
-        epochDay,
-        year,
-        month,
-        day,
-        dim,
-        doyBase + day,
-        yearLength,
-        ordinalDays,
-      )) {
+      if (_matches(epochDay, year, month, day, dim, doyBase + day, yearLength, ordinalDays)) {
         out.add(epochDay);
       }
     }
@@ -550,9 +466,7 @@ final class RulePlan {
       date.month,
       date.day,
       LocalDate.daysInMonth(date.year, date.month),
-      _cumulativeDays[date.month - 1] +
-          (leap && date.month > 2 ? 1 : 0) +
-          date.day,
+      _cumulativeDays[date.month - 1] + (leap && date.month > 2 ? 1 : 0) + date.day,
       leap ? 366 : 365,
       null,
     );
@@ -574,9 +488,7 @@ final class RulePlan {
     if (byMonth != null && !byMonth!.contains(month)) return false;
     if (weekNos != null && !_weekNoMatches(epochDay, year)) return false;
     final yd = yearDays;
-    if (yd != null &&
-        !yd.contains(dayOfYear) &&
-        !yd.contains(dayOfYear - yearLength - 1)) {
+    if (yd != null && !yd.contains(dayOfYear) && !yd.contains(dayOfYear - yearLength - 1)) {
       return false;
     }
     if (_hasMonthDay && !_monthDayMatches(day, dim)) return false;
@@ -601,10 +513,8 @@ final class RulePlan {
 
   final Map<int, int> _weekYearStarts = {};
 
-  int _weekYearStart(int year) => _weekYearStarts.putIfAbsent(
-    year,
-    () => LocalDate.firstDayOfWeekYear(year, wkst).epochDay,
-  );
+  int _weekYearStart(int year) =>
+      _weekYearStarts.putIfAbsent(year, () => LocalDate.firstDayOfWeekYear(year, wkst).epochDay);
 
   bool _weekNoMatches(int epochDay, int year) {
     final thisYear = _weekYearStart(year);
@@ -671,9 +581,7 @@ final class RulePlan {
       return (day + 1) * minutesPerDay + windowStart - slack;
     }
     if (window != null) {
-      final windowEnd = window.end.isEndOfDay
-          ? minutesPerDay - 1
-          : window.end.minuteOfDay;
+      final windowEnd = window.end.isEndOfDay ? minutesPerDay - 1 : window.end.minuteOfDay;
       if (tod + slack < windowStart) {
         return day * minutesPerDay + windowStart - slack;
       }
@@ -695,8 +603,7 @@ final class RulePlan {
     return -1;
   }
 
-  bool get _singleSetPosOk =>
-      setPos.isEmpty || setPos.contains(1) || setPos.contains(-1);
+  bool get _singleSetPosOk => setPos.isEmpty || setPos.contains(1) || setPos.contains(-1);
 
   Iterable<int> _chain(int from, int stop) sync* {
     if (freq == Frequency.hourly) {
@@ -728,9 +635,7 @@ final class RulePlan {
     final counting = count != null;
     final base = floorDiv(anchorMinute, 60) * 60;
     final step = stepMinutes;
-    var k = !counting && from > base
-        ? math.max(0, floorDiv(from - base, step))
-        : 0;
+    var k = !counting && from > base ? math.max(0, floorDiv(from - base, step)) : 0;
     var emitted = 0;
     final window = chainWindow;
     final candidates = <int>[];
@@ -750,9 +655,7 @@ final class RulePlan {
           candidates.add(hour + m);
         }
       }
-      final selected = setPos.isEmpty
-          ? candidates
-          : _selectPositions(candidates);
+      final selected = setPos.isEmpty ? candidates : _selectPositions(candidates);
       for (final w in selected) {
         if (w < anchorMinute) continue;
         if (w > stop) return;

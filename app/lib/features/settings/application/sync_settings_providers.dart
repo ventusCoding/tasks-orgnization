@@ -15,14 +15,11 @@ final devicesRepositoryProvider = Provider<DevicesRepository?>((ref) {
 /// Visible devices (revoked ones hidden, this device first). Errors (offline) surface as
 /// AsyncError right away — no automatic retry (it would keep the list "loading" for a minute);
 /// the page offers Retry → `ref.invalidate(devicesProvider)`.
-final devicesProvider = FutureProvider.autoDispose<List<DeviceInfo>>(
-  (ref) async {
-    final repo = ref.watch(devicesRepositoryProvider);
-    if (repo == null) return const [];
-    return visibleDevices(await repo.list(), ref.watch(activeDeviceIdProvider));
-  },
-  retry: (_, _) => null,
-);
+final devicesProvider = FutureProvider.autoDispose<List<DeviceInfo>>((ref) async {
+  final repo = ref.watch(devicesRepositoryProvider);
+  if (repo == null) return const [];
+  return visibleDevices(await repo.list(), ref.watch(activeDeviceIdProvider));
+}, retry: (_, _) => null);
 
 final syncOutboxQueriesProvider = Provider<SyncOutboxQueries>(
   (ref) => SyncOutboxQueries(ref.watch(appDatabaseProvider)),

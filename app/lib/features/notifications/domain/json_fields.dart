@@ -11,11 +11,7 @@ library;
 ///   absent are dropped (unless the raw value was an explicit `null`, which is preserved);
 /// - unknown keys of [raw] survive untouched;
 /// - known keys missing from [raw] are appended in [known] order.
-Map<String, Object?> mergeOrdered(
-  Map<String, Object?>? raw,
-  Map<String, Object?> known,
-  Set<String> knownKeys,
-) {
+Map<String, Object?> mergeOrdered(Map<String, Object?>? raw, Map<String, Object?> known, Set<String> knownKeys) {
   final result = <String, Object?>{};
   if (raw != null) {
     for (final e in raw.entries) {
@@ -43,12 +39,9 @@ Map<String, Object?>? asJsonMap(Object? value) {
 
 String? asString(Object? value) => value is String ? value : null;
 
-int? asInt(Object? value) => value is num
-    ? value.toInt()
-    : (value is String ? int.tryParse(value) : null);
+int? asInt(Object? value) => value is num ? value.toInt() : (value is String ? int.tryParse(value) : null);
 
-num? asNum(Object? value) =>
-    value is num ? value : (value is String ? num.tryParse(value) : null);
+num? asNum(Object? value) => value is num ? value : (value is String ? num.tryParse(value) : null);
 
 bool? asBool(Object? value) => value is bool ? value : null;
 

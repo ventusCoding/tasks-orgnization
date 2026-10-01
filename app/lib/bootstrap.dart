@@ -27,34 +27,28 @@ Future<void> bootstrap(
 }) {
   final errorHandlers = handlers ?? GlobalErrorHandlers();
   final done = Completer<void>();
-  runZonedGuarded(
-    () async {
-      // Same zone as `runApp` (Flutter warns about zone mismatches).
-      WidgetsFlutterBinding.ensureInitialized();
-      errorHandlers.install();
-      final context = BootstrapContext(
-        flavor: flavor,
-        platform: platform,
-        handlers: errorHandlers,
-      );
-      await BootstrapLauncher(
-        context,
-        steps ?? defaultBootstrapSteps(),
-      ).start();
-      if (!done.isCompleted) done.complete();
-    },
-    (error, stack) {
-      errorHandlers.handleZoneError(error, stack);
-      if (!done.isCompleted) done.complete();
-    },
+  unawaited(
+    runZonedGuarded(
+      () async {
+        // Same zone as `runApp` (Flutter warns about zone mismatches).
+        WidgetsFlutterBinding.ensureInitialized();
+        errorHandlers.install();
+        final context = BootstrapContext(flavor: flavor, platform: platform, handlers: errorHandlers);
+        await BootstrapLauncher(context, steps ?? defaultBootstrapSteps()).start();
+        if (!done.isCompleted) done.complete();
+      },
+      (error, stack) {
+        errorHandlers.handleZoneError(error, stack);
+        if (!done.isCompleted) done.complete();
+      },
+    ),
   );
   return done.future;
 }
 
 /// Runs the steps, then launches the app — or the recoverable error screen.
 class BootstrapLauncher {
-  BootstrapLauncher(this.context, List<BootstrapStep> steps)
-    : runner = BootstrapRunner(steps, context);
+  BootstrapLauncher(this.context, List<BootstrapStep> steps) : runner = BootstrapRunner(steps, context);
 
   final BootstrapContext context;
   final BootstrapRunner runner;
@@ -64,12 +58,7 @@ class BootstrapLauncher {
   Future<void> start({int from = 0}) async {
     final failure = await runner.run(from: from);
     if (failure == null) {
-      context.platform.launch(
-        UncontrolledProviderScope(
-          container: context.container!,
-          child: const EverslotApp(),
-        ),
-      );
+      context.platform.launch(UncontrolledProviderScope(container: context.container!, child: const EverslotApp()));
       return;
     }
     context.platform.launch(

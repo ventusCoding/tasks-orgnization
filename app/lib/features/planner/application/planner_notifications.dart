@@ -39,15 +39,17 @@ class PlannerNotificationSource implements NotificationTargetSource {
     final to = zones.toLocal(toUtc, zone).date.plusDays(2).atStartOfDay;
     final data = await queries.loadRange(from, to);
     if (data.tasks.isEmpty) return const [];
-    final result = _ref.read(occurrenceResolverProvider).resolve(
-      tasks: data.tasks,
-      records: data.records,
-      from: from,
-      to: to,
-      viewerZone: zone,
-      now: _ref.read(clockProvider).nowUtc(),
-      settings: _ref.read(plannerSettingsProvider).resolver,
-    );
+    final result = _ref
+        .read(occurrenceResolverProvider)
+        .resolve(
+          tasks: data.tasks,
+          records: data.records,
+          from: from,
+          to: to,
+          viewerZone: zone,
+          now: _ref.read(clockProvider).nowUtc(),
+          settings: _ref.read(plannerSettingsProvider).resolver,
+        );
     bool inWindow(DateTime? t) => t != null && !t.isBefore(fromUtc) && !t.isAfter(toUtc);
     final relevant = [
       for (final o in result.occurrences)

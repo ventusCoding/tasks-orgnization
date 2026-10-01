@@ -4,7 +4,6 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/session/local_data_owner.dart';
 import 'package:everslot/core/session/session.dart';
 import 'package:everslot/core/sync/sync_api.dart';
-import 'package:everslot/core/sync/sync_triggers.dart';
 import 'package:everslot/features/auth/application/auth_binding.dart';
 import 'package:everslot/features/auth/application/auth_providers.dart';
 import 'package:everslot/features/auth/application/sign_out_service.dart';
@@ -69,9 +68,8 @@ class CloudDevice {
 
   FakeSyncApi get api => h.read(syncApiProvider)! as FakeSyncApi;
 
-  Future<void> addCategory(String id, String name) => h
-      .read(syncWriterProvider)
-      .run((tx) => tx.insert('categories', id, {'name': name, 'color': 1, 'sort_key': 'a0'}));
+  Future<void> addCategory(String id, String name) =>
+      h.read(syncWriterProvider).run((tx) => tx.insert('categories', id, {'name': name, 'color': 1, 'sort_key': 'a0'}));
 
   Future<int> count(String table) async =>
       (await h.db.customSelect('SELECT COUNT(*) AS n FROM $table').getSingle()).data['n'] as int;

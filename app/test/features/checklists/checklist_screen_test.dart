@@ -96,7 +96,10 @@ void main() {
     await settle(tester);
     await tester.tap(find.descendant(of: find.byType(BottomSheet), matching: find.text('Waiting')));
     await settle(tester);
-    await tester.enterText(find.descendant(of: find.byType(BottomSheet), matching: find.byType(TextField)), 'supplier reply');
+    await tester.enterText(
+      find.descendant(of: find.byType(BottomSheet), matching: find.byType(TextField)),
+      'supplier reply',
+    );
     await tester.tap(find.widgetWithText(FilledButton, 'Save'));
     await settle(tester);
 

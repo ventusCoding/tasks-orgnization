@@ -22,7 +22,7 @@ import 'package:everslot/features/notifications/presentation/notification_settin
 import 'package:everslot/features/organization/application/providers.dart';
 import 'package:everslot/features/organization/presentation/categories_screen.dart' show pickCategory;
 import 'package:everslot/features/recurrence_ui/recurrence_ui.dart';
-import 'package:everslot_metrics/everslot_metrics.dart' show HabitPeriodKind;
+import 'package:everslot_metrics/everslot_metrics.dart' show HabitPeriod, HabitPeriodKind;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -48,7 +48,10 @@ class HabitEditorScreen extends ConsumerWidget {
       value: habit,
       loading: const Scaffold(body: LoadingState()),
       data: (h) => switch (h) {
-        null => Scaffold(appBar: AppBar(), body: EmptyState(title: context.l10n.errorNotFound)),
+        null => Scaffold(
+          appBar: AppBar(),
+          body: EmptyState(title: context.l10n.errorNotFound),
+        ),
         final BuildHabit b => BuildHabitEditor(existing: b),
         final QuitHabit q => QuitEditor(existing: q),
       },
@@ -262,7 +265,10 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
             onPressed: () => Navigator.pop(ctx, 'all'),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text(l.habitsApplyAll), Text(l.habitsApplyAllWarn, style: ctx.text.bodySmall)],
+              children: [
+                Text(l.habitsApplyAll),
+                Text(l.habitsApplyAllWarn, style: ctx.text.bodySmall),
+              ],
             ),
           ),
         ],
@@ -310,9 +316,7 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_isNew ? l.habitsEditorNewTitle : l.habitsEditorEditTitle),
-        actions: [
-          TextButton(onPressed: _saving ? null : _save, child: Text(l.actionSave)),
-        ],
+        actions: [TextButton(onPressed: _saving ? null : _save, child: Text(l.actionSave))],
       ),
       body: ListView(
         padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, Space.xxxl),
@@ -338,7 +342,11 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
             controller: _name,
             autofocus: _isNew && widget.templateKey == null,
             maxLength: Habit.maxNameLength,
-            decoration: InputDecoration(labelText: l.habitsFieldName, hintText: l.habitsFieldNameHint, errorText: _nameError),
+            decoration: InputDecoration(
+              labelText: l.habitsFieldName,
+              hintText: l.habitsFieldNameHint,
+              errorText: _nameError,
+            ),
             onChanged: (_) => setState(() {}),
           ),
           Row(
@@ -393,7 +401,10 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
             minLines: 1,
             decoration: InputDecoration(labelText: l.habitsFieldDescription),
           ),
-          SectionHeader(l.habitsGoalTitle, padding: const EdgeInsetsDirectional.only(top: Space.xl, bottom: Space.sm)),
+          SectionHeader(
+            l.habitsGoalTitle,
+            padding: const EdgeInsetsDirectional.only(top: Space.xl, bottom: Space.sm),
+          ),
           _GoalTypePicker(
             value: _goalType,
             onChanged: (t) => setState(() {
@@ -407,9 +418,7 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
           if (_measurable) ...[
             const SizedBox(height: Space.md),
             SegmentedButton<TargetOp>(
-              segments: [
-                for (final op in TargetOp.values) ButtonSegment(value: op, label: Text(l.opLabel(op))),
-              ],
+              segments: [for (final op in TargetOp.values) ButtonSegment(value: op, label: Text(l.opLabel(op)))],
               selected: {_op},
               onSelectionChanged: (s) => setState(() => _op = s.first),
             ),
@@ -420,7 +429,9 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
               decoration: InputDecoration(
                 labelText: l.habitsFieldTarget,
                 errorText: _targetError,
-                suffixText: _goalType == HabitGoalType.duration ? l.habitsUnitMin : l.unitLabel(_unit, targetValue ?? 2),
+                suffixText: _goalType == HabitGoalType.duration
+                    ? l.habitsUnitMin
+                    : l.unitLabel(_unit, targetValue ?? 2),
                 helperText: _goalType == HabitGoalType.duration && (targetValue ?? 0) >= 60
                     ? fmt.duration(targetValue!.round())
                     : null,
@@ -432,7 +443,11 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
                 alignment: AlignmentDirectional.centerStart,
                 child: TextButton.icon(
                   onPressed: () async {
-                    final minutes = await pickDuration(context, initialMinutes: (targetValue ?? 20).round(), maxMinutes: 1440);
+                    final minutes = await pickDuration(
+                      context,
+                      initialMinutes: (targetValue ?? 20).round(),
+                      maxMinutes: 1440,
+                    );
                     if (minutes != null) setState(() => _target.text = '$minutes');
                   },
                   icon: const Icon(Icons.timer_outlined),
@@ -446,7 +461,11 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
                 runSpacing: Space.xs,
                 children: [
                   for (final u in unitChoices(_goalType))
-                    ChoiceChip(label: Text(l.unitLabel(u, 2)), selected: _unit == u, onSelected: (_) => setState(() => _unit = u)),
+                    ChoiceChip(
+                      label: Text(l.unitLabel(u, 2)),
+                      selected: _unit == u,
+                      onSelected: (_) => setState(() => _unit = u),
+                    ),
                   ChoiceChip(
                     label: Text(l.habitsUnitCustom),
                     selected: _unit != null && !HabitUnits.isCatalog(_unit),
@@ -473,7 +492,10 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
                 ),
               ),
           ],
-          SectionHeader(l.habitsScheduleTitle, padding: const EdgeInsetsDirectional.only(top: Space.xl, bottom: Space.sm)),
+          SectionHeader(
+            l.habitsScheduleTitle,
+            padding: const EdgeInsetsDirectional.only(top: Space.xl, bottom: Space.sm),
+          ),
           _ScheduleEditor(
             preset: _preset,
             weekStart: prefs.weekStart,
@@ -483,7 +505,10 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
           ),
           const SizedBox(height: Space.md),
           _SchedulePreview(habit: draft),
-          SectionHeader(l.habitsDatesTitle, padding: const EdgeInsetsDirectional.only(top: Space.xl, bottom: Space.sm)),
+          SectionHeader(
+            l.habitsDatesTitle,
+            padding: const EdgeInsetsDirectional.only(top: Space.xl, bottom: Space.sm),
+          ),
           ListTile(
             contentPadding: EdgeInsets.zero,
             leading: const Icon(Icons.play_arrow_outlined),
@@ -525,7 +550,8 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
               contentPadding: EdgeInsets.zero,
               title: Text(l.habitsChallengeTitle),
               value: _settings.challenge != null,
-              onChanged: (v) => setState(() => _settings = _settings.copyWith(challenge: v ? const ChallengeSettings() : null)),
+              onChanged: (v) =>
+                  setState(() => _settings = _settings.copyWith(challenge: v ? const ChallengeSettings() : null)),
             ),
             if (_settings.challenge case final challenge?) ...[
               Text(l.habitsChallengeRuleTitle, style: context.text.labelLarge),
@@ -555,7 +581,9 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
                   step: 5,
                   format: (v) => fmt.percent(v / 100),
                   onChanged: (v) => setState(
-                    () => _settings = _settings.copyWith(challenge: ChallengeSettings(rule: challenge.rule, minRatio: v / 100)),
+                    () => _settings = _settings.copyWith(
+                      challenge: ChallengeSettings(rule: challenge.rule, minRatio: v / 100),
+                    ),
                   ),
                 ),
               if (_measurable) ...[
@@ -566,9 +594,7 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
                   value: _settings.targetProgression != null,
                   onChanged: (v) => setState(
                     () => _settings = _settings.copyWith(
-                      targetProgression: v
-                          ? TargetProgression(start: targetValue ?? 1, step: 1, everyDays: 1)
-                          : null,
+                      targetProgression: v ? TargetProgression(start: targetValue ?? 1, step: 1, everyDays: 1) : null,
                     ),
                   ),
                 ),
@@ -580,7 +606,12 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
                     max: 100,
                     onChanged: (v) => setState(
                       () => _settings = _settings.copyWith(
-                        targetProgression: TargetProgression(start: p.start, step: v.toDouble(), everyDays: p.everyDays, max: p.max),
+                        targetProgression: TargetProgression(
+                          start: p.start,
+                          step: v.toDouble(),
+                          everyDays: p.everyDays,
+                          max: p.max,
+                        ),
                       ),
                     ),
                   ),
@@ -659,7 +690,7 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
                   min: 0,
                   max: 120,
                   step: 5,
-                  format: (v) => l.habitsMinutesValue(v),
+                  format: l.habitsMinutesValue,
                   onChanged: (v) => setState(() => _settings = _settings.copyWith(earlyToleranceMinutes: v)),
                 ),
                 SwitchListTile(
@@ -693,7 +724,12 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
                   title: Text(l.habitsIncrementStep),
                   trailing: Text(formatValue(context, _settings.incrementStep)),
                   onTap: () async {
-                    final v = await showValueSheet(context, draft, initial: _settings.incrementStep, title: l.habitsIncrementStep);
+                    final v = await showValueSheet(
+                      context,
+                      draft,
+                      initial: _settings.incrementStep,
+                      title: l.habitsIncrementStep,
+                    );
                     if (v != null) setState(() => _settings = _settings.copyWith(incrementStep: v));
                   },
                 ),
@@ -725,9 +761,16 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     title: Text(l.habitsMinPerDay),
-                    trailing: Text(_settings.minPerDay == null ? l.habitsNone : formatValue(context, _settings.minPerDay!)),
+                    trailing: Text(
+                      _settings.minPerDay == null ? l.habitsNone : formatValue(context, _settings.minPerDay!),
+                    ),
                     onTap: () async {
-                      final v = await showValueSheet(context, draft, initial: _settings.minPerDay, title: l.habitsMinPerDay);
+                      final v = await showValueSheet(
+                        context,
+                        draft,
+                        initial: _settings.minPerDay,
+                        title: l.habitsMinPerDay,
+                      );
                       if (v != null) setState(() => _settings = _settings.copyWith(minPerDay: v));
                     },
                   ),
@@ -912,7 +955,10 @@ class _ScheduleEditor extends StatelessWidget {
   ];
 
   SchedulePreset _defaultFor(SchedulePresetKind k) => switch (k) {
-    SchedulePresetKind.specificDays => const SchedulePreset(SchedulePresetKind.specificDays, days: [Weekday.monday, Weekday.tuesday]),
+    SchedulePresetKind.specificDays => const SchedulePreset(
+      SchedulePresetKind.specificDays,
+      days: [Weekday.monday, Weekday.tuesday],
+    ),
     SchedulePresetKind.everyNDays => const SchedulePreset(SchedulePresetKind.everyNDays, n: 2),
     SchedulePresetKind.timesPerWeek => const SchedulePreset(SchedulePresetKind.timesPerWeek, n: 3),
     SchedulePresetKind.timesPerMonth => const SchedulePreset(SchedulePresetKind.timesPerMonth, n: 10),
@@ -980,7 +1026,14 @@ class _ScheduleEditor extends StatelessWidget {
                   InputChip(
                     label: Text(fmt.time(t)),
                     onDeleted: preset.times.length > 1
-                        ? () => onChanged(preset.copyWith(times: [for (final x in preset.times) if (x != t) x]))
+                        ? () => onChanged(
+                            preset.copyWith(
+                              times: [
+                                for (final x in preset.times)
+                                  if (x != t) x,
+                              ],
+                            ),
+                          )
                         : null,
                   ),
                 ActionChip(
@@ -1123,7 +1176,11 @@ class _ScheduleEditor extends StatelessWidget {
           ],
         );
       case SchedulePresetKind.custom:
-        params = OutlinedButton.icon(onPressed: onCustom, icon: const Icon(Icons.tune), label: Text(l.habitsEditCustom));
+        params = OutlinedButton.icon(
+          onPressed: onCustom,
+          icon: const Icon(Icons.tune),
+          label: Text(l.habitsEditCustom),
+        );
       default:
         params = const SizedBox.shrink();
     }
@@ -1181,23 +1238,23 @@ class _SchedulePreview extends ConsumerWidget {
     }
     final today = ref.watch(habitTodayProvider);
     final from = habit.startDate.isAfter(today) ? habit.startDate : today;
-    final upcoming = valid ? service.upcoming(habit, const [], from, count: 10) : const [];
+    final upcoming = valid ? service.upcoming(habit, const [], from, count: 10) : const <HabitPeriod>[];
     final perDay = valid ? service.maxSlotsPerDay(habit, const [], from) : 0;
     final warnings = [
       if (!valid) l.habitsErrSchedule,
       if (valid && upcoming.isEmpty) l.habitsWarnNeverDue,
       if (perDay > 48) l.habitsWarnManySlots(perDay),
     ];
-    String label(dynamic p) {
-      final key = p.key as String;
+    String label(HabitPeriod p) {
+      final key = p.key;
       if (p.kind == HabitPeriodKind.quota) {
-        return key.startsWith('month:') ? fmt.monthYear(p.startDate as LocalDate) : l.habitsWeekOf(fmt.dateMedium(p.startDate as LocalDate));
+        return key.startsWith('month:') ? fmt.monthYear(p.startDate) : l.habitsWeekOf(fmt.dateMedium(p.startDate));
       }
       if (p.kind == HabitPeriodKind.slot) {
         final t = LocalDateTime.tryParse(key);
         return t == null ? key : '${fmt.dayShort(t.date)} ${fmt.time(t.time)}';
       }
-      return fmt.dayShort(p.startDate as LocalDate);
+      return fmt.dayShort(p.startDate);
     }
 
     return Card(

@@ -38,7 +38,13 @@ Map<String, Object?> tables() => {
     },
     {'id': 't2', 'series_id': 't2', 'title': 'Call', 'start_local': '2026-09-25', 'is_all_day': true},
     {'id': 't3', 'series_id': 't3', 'title': 'Backlog'},
-    {'id': 't4', 'series_id': 't4', 'title': 'Gone', 'start_local': '2026-09-02T09:00', 'deleted_at': '2026-09-03T00:00:00Z'},
+    {
+      'id': 't4',
+      'series_id': 't4',
+      'title': 'Gone',
+      'start_local': '2026-09-02T09:00',
+      'deleted_at': '2026-09-03T00:00:00Z',
+    },
     {'id': 't5', 'series_id': 't5', 'title': 'Template', 'start_local': '2026-09-02T09:00', 'is_template': true},
     {'id': 't6', 'series_id': 't6', 'title': 'Later', 'start_local': '2026-12-01T09:00'},
   ],
@@ -56,22 +62,94 @@ Map<String, Object?> tables() => {
     },
     {'id': 'o2', 'task_id': 't1', 'occurrence_key': '2026-09-02T07:00', 'status': 'skipped', 'skip_reason': 'rain'},
     {'id': 'o3', 'task_id': 't1', 'occurrence_key': '2026-09-03T07:00', 'is_cancelled': true},
-    {'id': 'o4', 'task_id': 't1', 'occurrence_key': '2026-09-04T07:00', 'status': 'in_progress', 'override_start_local': '2026-09-04T08:15'},
-    {'id': 'o5', 'task_id': 't1', 'occurrence_key': '2026-09-05T07:00', 'status': 'done', 'deleted_at': '2026-09-06T00:00:00Z'},
+    {
+      'id': 'o4',
+      'task_id': 't1',
+      'occurrence_key': '2026-09-04T07:00',
+      'status': 'in_progress',
+      'override_start_local': '2026-09-04T08:15',
+    },
+    {
+      'id': 'o5',
+      'task_id': 't1',
+      'occurrence_key': '2026-09-05T07:00',
+      'status': 'done',
+      'deleted_at': '2026-09-06T00:00:00Z',
+    },
   ],
   'time_entries': [
-    {'id': 'e1', 'task_id': 't1', 'occurrence_key': '2026-09-01T07:00', 'started_at': '2026-09-01T05:05:00Z', 'ended_at': '2026-09-01T05:40:00Z'},
+    {
+      'id': 'e1',
+      'task_id': 't1',
+      'occurrence_key': '2026-09-01T07:00',
+      'started_at': '2026-09-01T05:05:00Z',
+      'ended_at': '2026-09-01T05:40:00Z',
+    },
     {'id': 'e2', 'task_id': 't1', 'occurrence_key': '2026-09-04T07:00', 'started_at': '2026-09-04T06:15:00Z'},
   ],
   'activity_events': [
-    {'id': 'a1', 'entity_type': 'task', 'entity_id': 't1', 'event_type': 'rescheduled', 'occurred_at': '2026-09-03T20:00:00Z', 'payload': '{"from":"2026-09-04T07:00","to":"2026-09-04T08:15"}'},
-    {'id': 'a2', 'entity_type': 'task', 'entity_id': 't1', 'event_type': 'completed', 'occurred_at': '2026-09-01T05:40:00Z', 'payload': '{}'},
-    {'id': 'a3', 'entity_type': 'task', 'entity_id': 't1', 'event_type': 'rescheduled', 'occurred_at': '2026-09-02T20:00:00Z', 'payload': '{}', 'deleted_at': '2026-09-02T21:00:00Z'},
-    {'id': 'a4', 'entity_type': 'checklist_item', 'entity_id': 'i1', 'parent_id': 'l1', 'event_type': 'status_changed', 'occurred_at': '2026-09-10T10:00:00Z', 'payload': '{"from":"todo","to":"ongoing"}'},
-    {'id': 'a5', 'entity_type': 'checklist_item', 'entity_id': 'i9', 'parent_id': 'l2', 'event_type': 'created', 'occurred_at': '2026-09-11T10:00:00Z', 'payload': 'not json'},
+    {
+      'id': 'a1',
+      'entity_type': 'task',
+      'entity_id': 't1',
+      'event_type': 'rescheduled',
+      'occurred_at': '2026-09-03T20:00:00Z',
+      'payload': '{"from":"2026-09-04T07:00","to":"2026-09-04T08:15"}',
+    },
+    {
+      'id': 'a2',
+      'entity_type': 'task',
+      'entity_id': 't1',
+      'event_type': 'completed',
+      'occurred_at': '2026-09-01T05:40:00Z',
+      'payload': '{}',
+    },
+    {
+      'id': 'a3',
+      'entity_type': 'task',
+      'entity_id': 't1',
+      'event_type': 'rescheduled',
+      'occurred_at': '2026-09-02T20:00:00Z',
+      'payload': '{}',
+      'deleted_at': '2026-09-02T21:00:00Z',
+    },
+    {
+      'id': 'a4',
+      'entity_type': 'checklist_item',
+      'entity_id': 'i1',
+      'parent_id': 'l1',
+      'event_type': 'status_changed',
+      'occurred_at': '2026-09-10T10:00:00Z',
+      'payload': '{"from":"todo","to":"ongoing"}',
+    },
+    {
+      'id': 'a5',
+      'entity_type': 'checklist_item',
+      'entity_id': 'i9',
+      'parent_id': 'l2',
+      'event_type': 'created',
+      'occurred_at': '2026-09-11T10:00:00Z',
+      'payload': 'not json',
+    },
     // i8 was created in l1, then moved to l2.
-    {'id': 'a6', 'entity_type': 'checklist_item', 'entity_id': 'i8', 'parent_id': 'l1', 'event_type': 'created', 'occurred_at': '2026-09-05T10:00:00Z', 'payload': '{"to":"todo"}'},
-    {'id': 'a7', 'entity_type': 'checklist_item', 'entity_id': 'i8', 'parent_id': 'l2', 'event_type': 'moved', 'occurred_at': '2026-09-06T10:00:00Z', 'payload': '{"fromChecklistId":"l1","toChecklistId":"l2"}'},
+    {
+      'id': 'a6',
+      'entity_type': 'checklist_item',
+      'entity_id': 'i8',
+      'parent_id': 'l1',
+      'event_type': 'created',
+      'occurred_at': '2026-09-05T10:00:00Z',
+      'payload': '{"to":"todo"}',
+    },
+    {
+      'id': 'a7',
+      'entity_type': 'checklist_item',
+      'entity_id': 'i8',
+      'parent_id': 'l2',
+      'event_type': 'moved',
+      'occurred_at': '2026-09-06T10:00:00Z',
+      'payload': '{"fromChecklistId":"l1","toChecklistId":"l2"}',
+    },
   ],
   'checklists': [
     {
@@ -88,11 +166,42 @@ Map<String, Object?> tables() => {
     {'id': 'l3', 'title': 'Old', 'sort_key': 'c', 'deleted_at': '2026-09-01T00:00:00Z'},
   ],
   'checklist_items': [
-    {'id': 'i1', 'checklist_id': 'l1', 'sort_key': 'a', 'text': 'Pack', 'status': 'ongoing', 'created_at': '2026-09-09T10:00:00Z'},
-    {'id': 'i2', 'checklist_id': 'l1', 'parent_id': 'i1', 'sort_key': 'b', 'text': 'Books', 'status': 'completed', 'completed_at': '2026-09-12T10:00:00Z', 'created_at': '2026-09-08T10:00:00Z'},
-    {'id': 'i3', 'checklist_id': 'l1', 'sort_key': 'c', 'text': 'Dropped', 'deleted_at': '2026-09-13T10:00:00Z', 'created_at': '2026-09-07T10:00:00Z'},
+    {
+      'id': 'i1',
+      'checklist_id': 'l1',
+      'sort_key': 'a',
+      'text': 'Pack',
+      'status': 'ongoing',
+      'created_at': '2026-09-09T10:00:00Z',
+    },
+    {
+      'id': 'i2',
+      'checklist_id': 'l1',
+      'parent_id': 'i1',
+      'sort_key': 'b',
+      'text': 'Books',
+      'status': 'completed',
+      'completed_at': '2026-09-12T10:00:00Z',
+      'created_at': '2026-09-08T10:00:00Z',
+    },
+    {
+      'id': 'i3',
+      'checklist_id': 'l1',
+      'sort_key': 'c',
+      'text': 'Dropped',
+      'deleted_at': '2026-09-13T10:00:00Z',
+      'created_at': '2026-09-07T10:00:00Z',
+    },
     {'id': 'i8', 'checklist_id': 'l2', 'sort_key': 'b', 'text': 'Moved', 'created_at': '2026-09-05T10:00:00Z'},
-    {'id': 'i9', 'checklist_id': 'l2', 'sort_key': 'a', 'text': 'Dune', 'status': 'blocked', 'status_note': 'lent', 'created_at': '2026-09-11T10:00:00Z'},
+    {
+      'id': 'i9',
+      'checklist_id': 'l2',
+      'sort_key': 'a',
+      'text': 'Dune',
+      'status': 'blocked',
+      'status_note': 'lent',
+      'created_at': '2026-09-11T10:00:00Z',
+    },
   ],
   'checklist_runs': [
     {
@@ -107,8 +216,26 @@ Map<String, Object?> tables() => {
     },
   ],
   'attachments': [
-    {'id': 'f1', 'owner_type': 'checklist_item', 'owner_id': 'i1', 'sort_key': 'a', 'storage_path': 'p', 'file_name': 'a.jpg', 'mime_type': 'image/jpeg', 'byte_size': 2048},
-    {'id': 'f2', 'owner_type': 'task', 'owner_id': 't1', 'sort_key': 'a', 'storage_path': 'p', 'file_name': 'b.pdf', 'mime_type': 'application/pdf', 'byte_size': 10},
+    {
+      'id': 'f1',
+      'owner_type': 'checklist_item',
+      'owner_id': 'i1',
+      'sort_key': 'a',
+      'storage_path': 'p',
+      'file_name': 'a.jpg',
+      'mime_type': 'image/jpeg',
+      'byte_size': 2048,
+    },
+    {
+      'id': 'f2',
+      'owner_type': 'task',
+      'owner_id': 't1',
+      'sort_key': 'a',
+      'storage_path': 'p',
+      'file_name': 'b.pdf',
+      'mime_type': 'application/pdf',
+      'byte_size': 10,
+    },
   ],
   'habits': [
     {
@@ -136,12 +263,44 @@ Map<String, Object?> tables() => {
       'unit_cost': 0.5,
       'currency': 'TND',
     },
-    {'id': 'h3', 'kind': 'build', 'name': 'Deleted', 'sort_key': 'c', 'start_date': '2026-01-01', 'deleted_at': '2026-02-01T00:00:00Z'},
+    {
+      'id': 'h3',
+      'kind': 'build',
+      'name': 'Deleted',
+      'sort_key': 'c',
+      'start_date': '2026-01-01',
+      'deleted_at': '2026-02-01T00:00:00Z',
+    },
   ],
   'habit_logs': [
-    {'id': 'hl1', 'habit_id': 'h1', 'kind': 'progress', 'value': 3, 'logged_at': '2026-09-20T08:00:00Z', 'local_date': '2026-09-20', 'occurrence_key': '2026-09-20'},
-    {'id': 'hl2', 'habit_id': 'h2', 'kind': 'craving', 'logged_at': '2026-09-21T12:00:00Z', 'local_date': '2026-09-21', 'intensity': 7, 'resisted': true, 'trigger': 'coffee', 'duration_seconds': 180},
-    {'id': 'hl3', 'habit_id': 'h1', 'kind': 'done', 'logged_at': '2026-09-19T08:00:00Z', 'local_date': '2026-09-19', 'deleted_at': '2026-09-19T09:00:00Z'},
+    {
+      'id': 'hl1',
+      'habit_id': 'h1',
+      'kind': 'progress',
+      'value': 3,
+      'logged_at': '2026-09-20T08:00:00Z',
+      'local_date': '2026-09-20',
+      'occurrence_key': '2026-09-20',
+    },
+    {
+      'id': 'hl2',
+      'habit_id': 'h2',
+      'kind': 'craving',
+      'logged_at': '2026-09-21T12:00:00Z',
+      'local_date': '2026-09-21',
+      'intensity': 7,
+      'resisted': true,
+      'trigger': 'coffee',
+      'duration_seconds': 180,
+    },
+    {
+      'id': 'hl3',
+      'habit_id': 'h1',
+      'kind': 'done',
+      'logged_at': '2026-09-19T08:00:00Z',
+      'local_date': '2026-09-19',
+      'deleted_at': '2026-09-19T09:00:00Z',
+    },
   ],
   'habit_pauses': [
     {'id': 'p1', 'habit_id': 'h1', 'start_date': '2026-09-10', 'end_date': '2026-09-12', 'reason': 'trip'},
@@ -151,8 +310,26 @@ Map<String, Object?> tables() => {
     {'id': 'v1', 'habit_id': 'h1', 'effective_from': '2026-09-01', 'goal_type': 'count', 'target_value': 6},
   ],
   'notifications': [
-    {'id': 'n1', 'dedupe_key': 'd1', 'source_type': 'habit', 'source_id': 'h1', 'category': 'reminder', 'title': 'Water', 'fire_at': '2026-09-20T07:00:00Z', 'acted_at': '2026-09-20T07:05:00Z', 'action': 'done'},
-    {'id': 'n2', 'dedupe_key': 'd2', 'source_type': 'task', 'source_id': 't1', 'category': 'reminder', 'title': 'Run', 'fire_at': '2026-09-20T06:00:00Z'},
+    {
+      'id': 'n1',
+      'dedupe_key': 'd1',
+      'source_type': 'habit',
+      'source_id': 'h1',
+      'category': 'reminder',
+      'title': 'Water',
+      'fire_at': '2026-09-20T07:00:00Z',
+      'acted_at': '2026-09-20T07:05:00Z',
+      'action': 'done',
+    },
+    {
+      'id': 'n2',
+      'dedupe_key': 'd2',
+      'source_type': 'task',
+      'source_id': 't1',
+      'category': 'reminder',
+      'title': 'Run',
+      'fire_at': '2026-09-20T06:00:00Z',
+    },
   ],
 };
 
@@ -199,7 +376,10 @@ void main() {
       final input = await source.loadPlanner(seriesId: 's1');
       expect(input.tasks.single.id, 't1');
       final byKey = {for (final o in input.occurrences) o.key: o};
-      expect(byKey.keys, unorderedEquals(['2026-09-01T07:00', '2026-09-02T07:00', '2026-09-03T07:00', '2026-09-04T07:00']));
+      expect(
+        byKey.keys,
+        unorderedEquals(['2026-09-01T07:00', '2026-09-02T07:00', '2026-09-03T07:00', '2026-09-04T07:00']),
+      );
       final done = byKey['2026-09-01T07:00']!;
       expect(done.status, PlannerOccurrenceStatus.done);
       expect(done.completedAt, DateTime.utc(2026, 9, 1, 5, 40));
@@ -277,7 +457,10 @@ void main() {
       expect(h2.earlyToleranceMinutes, 30);
       expect(input.logs.map((l) => l.id), unorderedEquals(['hl1', 'hl2']));
       final craving = input.logs.firstWhere((l) => l.id == 'hl2');
-      expect((craving.kind, craving.intensity, craving.resisted, craving.trigger, craving.durationSeconds), ('craving', 7, true, 'coffee', 180));
+      expect(
+        (craving.kind, craving.intensity, craving.resisted, craving.trigger, craving.durationSeconds),
+        ('craving', 7, true, 'coffee', 180),
+      );
       expect(craving.localDate, LocalDate(2026, 9, 21));
       expect(input.pauses.single.start, LocalDate(2026, 9, 10));
       expect(input.pauses.single.end, LocalDate(2026, 9, 12));
@@ -329,11 +512,21 @@ void main() {
     await s.loadChecklists(checklistId: 'l1');
     await s.loadHabits(habitId: 'h1', withNotifications: true, notificationsSince: DateTime.utc(2026, 9));
     await s.loadHabits();
-    const large = ['tasks', 'task_occurrences', 'time_entries', 'activity_events', 'checklist_items', 'habit_logs', 'notifications'];
+    const large = [
+      'tasks',
+      'task_occurrences',
+      'time_entries',
+      'activity_events',
+      'checklist_items',
+      'habit_logs',
+      'notifications',
+    ];
     final scans = <String>[];
     final plans = <String>{};
     for (final (sql, args) in [...recorder.statements]) {
-      final rows = await traced.db.customSelect('EXPLAIN QUERY PLAN $sql', variables: [for (final a in args) Variable(a)]).get();
+      final rows = await traced.db
+          .customSelect('EXPLAIN QUERY PLAN $sql', variables: [for (final a in args) Variable(a)])
+          .get();
       for (final r in rows) {
         final detail = r.read<String>('detail');
         plans.add(detail);

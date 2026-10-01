@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart' show OrderingTerm;
 import 'package:everslot/core/ids/ids.dart';
-import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
+import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot/features/planner/data/tasks_repository.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/domain/task.dart';
@@ -113,22 +113,29 @@ void main() {
   group('soft delete cascade & restore (T3.1.05 / T3.1.10)', () {
     Future<String> attachment(String ownerType, String ownerId) async {
       final id = Ids.v7();
-      await h.writer.run((tx) => tx.insert('attachments', id, {
-        'owner_type': ownerType,
-        'owner_id': ownerId,
-        'storage_path': 'u/$id.jpg',
-        'file_name': 'a.jpg',
-        'mime_type': 'image/jpeg',
-        'byte_size': 10,
-        'sort_key': 'a0',
-      }));
+      await h.writer.run(
+        (tx) => tx.insert('attachments', id, {
+          'owner_type': ownerType,
+          'owner_id': ownerId,
+          'storage_path': 'u/$id.jpg',
+          'file_name': 'a.jpg',
+          'mime_type': 'image/jpeg',
+          'byte_size': 10,
+          'sort_key': 'a0',
+        }),
+      );
       return id;
     }
 
     test('delete cascades in one op; restore brings back exactly those rows', () async {
       final id = await h.createTask(start: '2026-09-21T08:00', rule: RecurrenceRule(), mode: TrackingMode.timer);
       await h.occurrences.markDone(id, '2026-09-21T08:00');
-      await h.occurrences.addTimeEntry(id, '2026-09-21T08:00', start: DateTime.utc(2026, 9, 21, 8), end: DateTime.utc(2026, 9, 21, 8, 30));
+      await h.occurrences.addTimeEntry(
+        id,
+        '2026-09-21T08:00',
+        start: DateTime.utc(2026, 9, 21, 8),
+        end: DateTime.utc(2026, 9, 21, 8, 30),
+      );
       await h.occurrences.skip(id, '2026-09-20T08:00');
       final att = await attachment('task', id);
       final occAtt = await attachment('task_occurrence', Ids.taskOccurrence(id, '2026-09-21T08:00'));
@@ -136,7 +143,9 @@ void main() {
       await h.writer.run((tx) => tx.softDelete('task_occurrences', Ids.taskOccurrence(id, '2026-09-20T08:00')));
 
       final record = await h.tasks.delete(id);
-      expect({for (final c in record.changes) c.table}, containsAll(['tasks', 'task_occurrences', 'time_entries', 'attachments']));
+      expect({
+        for (final c in record.changes) c.table,
+      }, containsAll(['tasks', 'task_occurrences', 'time_entries', 'attachments']));
       expect(await h.task(id), isNull);
       expect((await h.raw('attachments', att))!['deleted_at'], isNotNull);
       expect((await h.raw('attachments', occAtt))!['deleted_at'], isNotNull);
@@ -173,16 +182,23 @@ void main() {
 
   group('duplicate & copy (T3.1.05 / T3.1.19)', () {
     test('duplicate never shares ids; fresh series; attachments point at the same objects', () async {
-      final id = await h.createTask(title: 'Gym', start: '2026-09-21T07:00', rule: RecurrenceRule(freq: Frequency.weekly), zone: 'Europe/Paris');
-      await h.writer.run((tx) => tx.insert('attachments', 'att1', {
-        'owner_type': 'task',
-        'owner_id': id,
-        'storage_path': 'u/photo.jpg',
-        'file_name': 'photo.jpg',
-        'mime_type': 'image/jpeg',
-        'byte_size': 10,
-        'sort_key': 'a0',
-      }));
+      final id = await h.createTask(
+        title: 'Gym',
+        start: '2026-09-21T07:00',
+        rule: RecurrenceRule(freq: Frequency.weekly),
+        zone: 'Europe/Paris',
+      );
+      await h.writer.run(
+        (tx) => tx.insert('attachments', 'att1', {
+          'owner_type': 'task',
+          'owner_id': id,
+          'storage_path': 'u/photo.jpg',
+          'file_name': 'photo.jpg',
+          'mime_type': 'image/jpeg',
+          'byte_size': 10,
+          'sort_key': 'a0',
+        }),
+      );
       final dup = await h.tasks.duplicate(id);
       final copy = (await h.task(dup.newTaskId!))!;
       expect(copy.id, isNot(id));
@@ -198,12 +214,22 @@ void main() {
     });
 
     test('duplicate to dates copies one-offs at the same time, zone mode preserved', () async {
-      final id = await h.createTask(title: 'Standup', start: '2026-09-21T09:30', duration: 15, rule: RecurrenceRule(), zone: 'Europe/Paris');
+      final id = await h.createTask(
+        title: 'Standup',
+        start: '2026-09-21T09:30',
+        duration: 15,
+        rule: RecurrenceRule(),
+        zone: 'Europe/Paris',
+      );
       await h.tasks.editOccurrence(id, '2026-09-22T09:30', start: ldt('2026-09-22T10:00'));
       await h.tasks.duplicateToDates(id, [ld('2026-10-01'), ld('2026-10-03')], occurrenceKey: '2026-09-22T09:30');
-      final copies = (await h.liveTasks()).where((t) => t.id != id).toList()..sort((a, b) => a.startLocal!.compareTo(b.startLocal!));
+      final copies = (await h.liveTasks()).where((t) => t.id != id).toList()
+        ..sort((a, b) => a.startLocal!.compareTo(b.startLocal!));
       expect(copies.map((t) => t.startLocal), [ldt('2026-10-01T10:00'), ldt('2026-10-03T10:00')]);
-      expect(copies.every((t) => t.recurrence == null && t.timeZone == 'Europe/Paris' && t.durationMinutes == 15), isTrue);
+      expect(
+        copies.every((t) => t.recurrence == null && t.timeZone == 'Europe/Paris' && t.durationMinutes == 15),
+        isTrue,
+      );
       expect(copies.map((t) => t.id).toSet(), hasLength(2));
     });
   });
@@ -242,7 +268,12 @@ void main() {
 
   group('templates (T3.1.20)', () {
     test('saved without dates and excluded from ranges and backlog', () async {
-      final id = await h.createTask(title: 'Workout', start: '2026-09-22T07:00', rule: RecurrenceRule(), mode: TrackingMode.timer);
+      final id = await h.createTask(
+        title: 'Workout',
+        start: '2026-09-22T07:00',
+        rule: RecurrenceRule(),
+        mode: TrackingMode.timer,
+      );
       final tpl = await h.tasks.saveAsTemplate((await h.task(id))!);
       final template = (await h.task(tpl.taskId))!;
       expect(template.isTemplate, isTrue);
@@ -301,10 +332,11 @@ void main() {
   test('outbox keeps one coalesced entry per touched row and op', () async {
     final id = await h.createTask(start: '2026-09-21T08:00', rule: RecurrenceRule());
     final op = (await h.tasks.update((await h.task(id))!.copyWith(title: 'X', priority: 2))).record;
-    final outbox = await (h.db.select(h.db.syncOutbox)
-          ..where((o) => o.opId.equals(op.opId))
-          ..orderBy([(o) => OrderingTerm.asc(o.seq)]))
-        .get();
+    final outbox =
+        await (h.db.select(h.db.syncOutbox)
+              ..where((o) => o.opId.equals(op.opId))
+              ..orderBy([(o) => OrderingTerm.asc(o.seq)]))
+            .get();
     final rows = outbox.map((o) => '${o.tableName_}/${o.rowId}').toList();
     expect(rows.toSet().length, rows.length);
     final patch = jsonDecode(outbox.firstWhere((o) => o.tableName_ == 'tasks').fields) as Map<String, dynamic>;

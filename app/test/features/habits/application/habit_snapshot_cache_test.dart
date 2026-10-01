@@ -87,7 +87,10 @@ void main() {
       final fresh = computeSnapshot(service, habit, const [], logs, const [], later);
       expect(cache.evaluations, 1);
       PeriodResult? r(HabitSnapshot x) => x.todayResult;
-      expect((r(cached)!.key, r(cached)!.status, r(cached)!.achieved), (r(fresh)!.key, r(fresh)!.status, r(fresh)!.achieved));
+      expect(
+        (r(cached)!.key, r(cached)!.status, r(cached)!.achieved),
+        (r(fresh)!.key, r(fresh)!.status, r(fresh)!.achieved),
+      );
       expect(cached.summary!.currentStreak, fresh.summary!.currentStreak);
       expect(cached.summary!.bestStreak, fresh.summary!.bestStreak);
       expect(cached.currentPeriod!.key, fresh.currentPeriod!.key);

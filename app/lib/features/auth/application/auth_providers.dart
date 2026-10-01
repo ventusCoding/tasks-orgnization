@@ -29,9 +29,7 @@ final authStatusProvider = Provider<AuthStatus>((ref) {
 });
 
 /// Session problems shown by the session guard (T1.5.14).
-final sessionIssuesProvider = NotifierProvider<SessionIssuesController, Set<SessionIssue>>(
-  SessionIssuesController.new,
-);
+final sessionIssuesProvider = NotifierProvider<SessionIssuesController, Set<SessionIssue>>(SessionIssuesController.new);
 
 class SessionIssuesController extends Notifier<Set<SessionIssue>> {
   @override

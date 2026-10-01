@@ -37,9 +37,9 @@ void main() {
     await pumpOpener(
       tester,
       h,
-      (context) => Navigator.of(context).push<void>(
-        MaterialPageRoute(builder: (_) => const TaskEditorScreen(initialStart: '2026-09-25T16:00')),
-      ),
+      (context) =>
+          Navigator.of(context)
+              .push<void>(MaterialPageRoute(builder: (_) => const TaskEditorScreen(initialStart: '2026-09-25T16:00'))),
     );
     await openAndSettle(tester);
   }

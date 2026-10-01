@@ -49,20 +49,31 @@ Future<MoveTarget?> showMoveToSheet(
     context,
     title: l.moveChooseParent,
     builder: (ctx) {
-      final candidates = [for (final id in tree.order) if (!excluded.contains(id) && TreeOps.canMoveUnder(tree, const [], id)) id];
+      final candidates = [
+        for (final id in tree.order)
+          if (!excluded.contains(id) && TreeOps.canMoveUnder(tree, const [], id)) id,
+      ];
       return ListView.builder(
         shrinkWrap: true,
         itemCount: candidates.length + 1,
         itemBuilder: (_, i) {
           if (i == 0) {
-            return ListTile(leading: const Icon(Icons.vertical_align_top), title: Text(l.moveToTop), onTap: () => Navigator.pop(ctx, ''));
+            return ListTile(
+              leading: const Icon(Icons.vertical_align_top),
+              title: Text(l.moveToTop),
+              onTap: () => Navigator.pop(ctx, ''),
+            );
           }
           final id = candidates[i - 1];
           final depth = tree.depthOf(id);
           return ListTile(
             dense: true,
             contentPadding: EdgeInsetsDirectional.only(start: Space.lg + 16.0 * (depth > 8 ? 8 : depth), end: Space.lg),
-            title: Text(tree[id]!.text.isEmpty ? l.checklistItemHint : tree[id]!.text, maxLines: 1, overflow: TextOverflow.ellipsis),
+            title: Text(
+              tree[id]!.text.isEmpty ? l.checklistItemHint : tree[id]!.text,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
             onTap: () => Navigator.pop(ctx, id),
           );
         },

@@ -56,7 +56,7 @@ Toiletries
   });
 
   test('collapsed nodes keep their place and hide their subtree', () {
-    final l = MindMapLayout.compute(t, collapsed: {'Visa', 'Toiletries'});
+    final l = MindMapLayout.compute(t, collapsed: const {'Visa', 'Toiletries'});
     expect(l.nodes.map((n) => n.id), isNot(contains('Photos')));
     expect(l.nodes.map((n) => n.id), isNot(contains('Brush')));
     expect(node(l, 'Visa').hiddenChildren, 2);

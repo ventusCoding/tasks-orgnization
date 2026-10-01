@@ -268,7 +268,13 @@ void main() {
     test('unknown tables are skipped (forward compatibility)', () async {
       final b = device('B');
       server.tables['future_table'] = {
-        'x1': FakeServerRow(userId: 'u1', values: {'a': 1}, fieldClock: {}, rev: 1, serverUpdatedAt: '2026-09-22T09:00:00Z'),
+        'x1': FakeServerRow(
+          userId: 'u1',
+          values: {'a': 1},
+          fieldClock: {},
+          rev: 1,
+          serverUpdatedAt: '2026-09-22T09:00:00Z',
+        ),
       };
       server.heads['u1'] = 1;
       await b.sync.syncNow();

@@ -51,8 +51,7 @@ class AuthUser {
       other.pendingEmail == pendingEmail;
 
   @override
-  int get hashCode =>
-      Object.hash(id, email, isAnonymous, Object.hashAll(providers), displayName, pendingEmail);
+  int get hashCode => Object.hash(id, email, isAnonymous, Object.hashAll(providers), displayName, pendingEmail);
 
   @override
   String toString() => 'AuthUser($id, anonymous: $isAnonymous, providers: $providers)';
@@ -76,10 +75,7 @@ class AuthIdentity {
 
   @override
   bool operator ==(Object other) =>
-      other is AuthIdentity &&
-      other.provider == provider &&
-      other.identityId == identityId &&
-      other.email == email;
+      other is AuthIdentity && other.provider == provider && other.identityId == identityId && other.email == email;
 
   @override
   int get hashCode => Object.hash(provider, identityId, email);
@@ -137,7 +133,7 @@ bool isValidEmail(String value) {
 
 /// Normalizes a pasted/typed one-time code: keeps digits only, max [length].
 String normalizeOtp(String value, {int length = 6}) {
-  final digits = value.replaceAll(RegExp(r'[^0-9٠-٩۰-۹]'), '');
+  final digits = value.replaceAll(RegExp('[^0-9٠-٩۰-۹]'), '');
   final ascii = StringBuffer();
   for (final rune in digits.runes) {
     // Arabic-Indic (U+0660–0669) and Extended Arabic-Indic (U+06F0–06F9) digits → ASCII.

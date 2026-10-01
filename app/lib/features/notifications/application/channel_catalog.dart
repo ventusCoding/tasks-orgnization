@@ -16,15 +16,11 @@ abstract final class ChannelCatalog {
   static String groupId(NotificationSection s) => 'dl.group.${s.wire}';
 
   static List<OsChannelGroup> groups(AppLocalizations l) => [
-    for (final s in NotificationSection.values)
-      OsChannelGroup(groupId(s), sectionLabelOf(l, s)),
+    for (final s in NotificationSection.values) OsChannelGroup(groupId(s), sectionLabelOf(l, s)),
   ];
 
-  static String channelId(
-    NotificationSection section,
-    String profileKey,
-    int version,
-  ) => 'dl.${section.wire}.$profileKey.v$version';
+  static String channelId(NotificationSection section, String profileKey, int version) =>
+      'dl.${section.wire}.$profileKey.v$version';
 
   /// Every channel the app needs for [profiles] plus the ids of superseded versions to delete.
   static ({List<OsChannel> channels, Set<String> obsolete}) channels(
@@ -54,18 +50,14 @@ abstract final class ChannelCatalog {
       for (final p in all) {
         final d = p.spec.delivery;
         final version = p.spec.channelVersion;
-        final name = p.isBuiltin && p.code != null
-            ? builtinProfileName(l, p.code!)
-            : p.name;
+        final name = p.isBuiltin && p.code != null ? builtinProfileName(l, p.code!) : p.name;
         add(
           OsChannel(
             id: channelId(section, p.channelKey, version),
             name: l.notifChannelName(sectionLabelOf(l, section), name),
             groupId: groupId(section),
             importance:
-                NotificationImportance.tryParse(
-                  d.importance ?? standard.delivery.importance,
-                ) ??
+                NotificationImportance.tryParse(d.importance ?? standard.delivery.importance) ??
                 NotificationImportance.normal,
             sound: d.sound ?? standard.delivery.sound ?? 'default',
             vibration: d.vibration ?? standard.delivery.vibration ?? 'default',
@@ -134,20 +126,13 @@ abstract final class ChannelCatalog {
         id: id,
         title: actionLabelOf(l, id),
         textInput: NotificationActionIds.textInput.contains(id),
-        placeholder: NotificationActionIds.textInput.contains(id)
-            ? l.notifActionInputPlaceholder
-            : null,
-        buttonTitle: NotificationActionIds.textInput.contains(id)
-            ? l.notifActionSend
-            : null,
+        placeholder: NotificationActionIds.textInput.contains(id) ? l.notifActionInputPlaceholder : null,
+        buttonTitle: NotificationActionIds.textInput.contains(id) ? l.notifActionSend : null,
         // Open-type actions, and feature actions nobody registered yet, bring the app forward.
         foreground:
             NotificationActionIds.foreground.contains(id) ||
-            (!NotificationActionIds.generic.contains(id) &&
-                findActionHandler(handlers, id, targetType) == null),
-        authenticationRequired:
-            authenticationRequired &&
-            !NotificationActionIds.generic.contains(id),
+            (!NotificationActionIds.generic.contains(id) && findActionHandler(handlers, id, targetType) == null),
+        authenticationRequired: authenticationRequired && !NotificationActionIds.generic.contains(id),
       ),
   ];
 

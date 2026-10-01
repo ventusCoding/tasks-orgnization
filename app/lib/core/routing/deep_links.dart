@@ -24,8 +24,7 @@ abstract final class AppLinks {
   static String habitEdit(String id) => '/habits/$id/edit';
   static String quit(String id) => '/quit/$id';
   static String insights() => '/insights';
-  static String insightsScope(String scope, [String? id]) =>
-      id == null ? '/insights/$scope' : '/insights/$scope/$id';
+  static String insightsScope(String scope, [String? id]) => id == null ? '/insights/$scope' : '/insights/$scope/$id';
   static String inbox() => '/inbox';
   static String search({String? query}) => _q('/search', {'q': query});
   static String settings([String? page]) => page == null ? '/settings' : '/settings/$page';
@@ -40,7 +39,10 @@ abstract final class AppLinks {
   static Uri external(String path) => Uri.parse('$scheme:/$path');
 
   static String _q(String path, Map<String, String?> params) {
-    final p = {for (final e in params.entries) if (e.value != null && e.value!.isNotEmpty) e.key: e.value!};
+    final p = {
+      for (final e in params.entries)
+        if (e.value != null && e.value!.isNotEmpty) e.key: e.value!,
+    };
     return p.isEmpty ? path : Uri(path: path, queryParameters: p).toString();
   }
 }
@@ -49,8 +51,21 @@ abstract final class AppLinks {
 abstract final class DeepLinkParser {
   static const _maxLength = 2048;
   static final _allowedRoots = {
-    'today', 'plan', 'task', 'task-new', 'lists', 'habits', 'habit-new', 'quit', 'insights',
-    'inbox', 'search', 'settings', 'auth', 'onboarding', 'dev',
+    'today',
+    'plan',
+    'task',
+    'task-new',
+    'lists',
+    'habits',
+    'habit-new',
+    'quit',
+    'insights',
+    'inbox',
+    'search',
+    'settings',
+    'auth',
+    'onboarding',
+    'dev',
   };
 
   /// Returns a router path or null when the link is invalid/unknown. Never throws: malformed

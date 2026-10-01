@@ -69,10 +69,12 @@ extension PlannerWriteTx on WriteTx {
 
   /// Live records of a task, by key.
   Future<List<TaskOccurrenceRecord>> readRecords(String taskId) async {
-    final rows = await db.customSelect(
-      'SELECT * FROM task_occurrences WHERE task_id = ? AND deleted_at IS NULL ORDER BY occurrence_key',
-      variables: [Variable<String>(taskId)],
-    ).get();
+    final rows = await db
+        .customSelect(
+          'SELECT * FROM task_occurrences WHERE task_id = ? AND deleted_at IS NULL ORDER BY occurrence_key',
+          variables: [Variable<String>(taskId)],
+        )
+        .get();
     return [for (final r in rows) PlannerMappers.recordFromRaw(r.data)];
   }
 
@@ -108,13 +110,14 @@ extension PlannerWriteTx on WriteTx {
   );
 
   /// Activity event on one occurrence (`entity_type = task_occurrence`, parent = task).
-  Future<void> logOccurrenceEvent(Task task, String key, String type, [Map<String, Object?> payload = const {}]) => logEvent(
-    entityType: 'task_occurrence',
-    entityId: Ids.taskOccurrence(task.id, key),
-    parentId: task.id,
-    eventType: type,
-    payload: {'taskId': task.id, 'seriesId': task.seriesId, 'occurrenceKey': key, ...payload},
-  );
+  Future<void> logOccurrenceEvent(Task task, String key, String type, [Map<String, Object?> payload = const {}]) =>
+      logEvent(
+        entityType: 'task_occurrence',
+        entityId: Ids.taskOccurrence(task.id, key),
+        parentId: task.id,
+        eventType: type,
+        payload: {'taskId': task.id, 'seriesId': task.seriesId, 'occurrenceKey': key, ...payload},
+      );
 
   /// Next backlog order key (end of the list).
   Future<String> nextBacklogKey() async {
@@ -127,13 +130,30 @@ extension PlannerWriteTx on WriteTx {
 
   /// Copies the rows of [table] where [column] = [fromId] to [toId] (new ids). Used for
   /// attachments and notification rules when duplicating/splitting a task.
-  Future<int> copyOwnedRows(String table, String column, String fromId, String toId, {String? typeColumn, String? typeValue}) async {
+  Future<int> copyOwnedRows(
+    String table,
+    String column,
+    String fromId,
+    String toId, {
+    String? typeColumn,
+    String? typeValue,
+  }) async {
     final filter = typeColumn == null ? '' : ' AND $typeColumn = ?';
-    final source = await rows(
-      'SELECT * FROM $table WHERE $column = ? AND deleted_at IS NULL$filter',
-      [fromId, ?typeValue],
-    );
-    const skip = {'id', 'user_id', 'created_at', 'updated_at', 'deleted_at', 'rev', 'field_clock', 'server_updated_at', 'origin_device_id'};
+    final source = await rows('SELECT * FROM $table WHERE $column = ? AND deleted_at IS NULL$filter', [
+      fromId,
+      ?typeValue,
+    ]);
+    const skip = {
+      'id',
+      'user_id',
+      'created_at',
+      'updated_at',
+      'deleted_at',
+      'rev',
+      'field_clock',
+      'server_updated_at',
+      'origin_device_id',
+    };
     for (final row in source) {
       await insert(table, Ids.v7(), {
         for (final e in row.entries)

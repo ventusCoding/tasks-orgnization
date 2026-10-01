@@ -52,7 +52,11 @@ void main() {
       expect(AppearanceSettings.codec.decode(_stored(AppearanceSettings.codec.encode(appearance))), appearance);
       const regional = RegionalSettings(currency: 'TND', homeZoneAuto: true);
       expect(RegionalSettings.codec.decode(_stored(RegionalSettings.codec.encode(regional))), regional);
-      const habits = HabitsDefaults(dayStartMinutes: 240, defaultSkipPolicy: SkipPolicy.breaks, defaultFreezesPerMonth: 2);
+      const habits = HabitsDefaults(
+        dayStartMinutes: 240,
+        defaultSkipPolicy: SkipPolicy.breaks,
+        defaultFreezesPerMonth: 2,
+      );
       expect(HabitsDefaults.codec.decode(_stored(HabitsDefaults.codec.encode(habits))), habits);
       const lists = ChecklistsDefaults(
         requireReasonFor: {'blocked', 'ongoing'},
@@ -124,10 +128,13 @@ void main() {
   group('corrupted / foreign data', () {
     test('wrong types and unknown enum values fall back to defaults with warnings', () {
       final warnings = <String>[];
-      final s = AppearanceSettings.codec.decode(
-        {'v': 1, 'theme': 'neon', 'density': 3, 'haptics': 'yes', 'arabicDigits': true},
-        onWarning: warnings.add,
-      );
+      final s = AppearanceSettings.codec.decode({
+        'v': 1,
+        'theme': 'neon',
+        'density': 3,
+        'haptics': 'yes',
+        'arabicDigits': true,
+      }, onWarning: warnings.add);
       expect(s.theme, ThemePreference.system);
       expect(s.density, DensityPreference.comfortable);
       expect(s.haptics, isTrue);
@@ -156,8 +163,18 @@ void main() {
   });
 
   test('diff yields only the changed keys', () {
-    final before = {'v': 1, 'theme': 'light', 'haptics': true, 'x': [1, 2]};
-    final after = {'v': 1, 'theme': 'dark', 'haptics': true, 'x': [1, 2]};
+    final before = {
+      'v': 1,
+      'theme': 'light',
+      'haptics': true,
+      'x': [1, 2],
+    };
+    final after = {
+      'v': 1,
+      'theme': 'dark',
+      'haptics': true,
+      'x': [1, 2],
+    };
     expect(SettingsCodec.diff(before, after), {'theme': 'dark'});
     expect(SettingsCodec.diff(before, before), isEmpty);
   });

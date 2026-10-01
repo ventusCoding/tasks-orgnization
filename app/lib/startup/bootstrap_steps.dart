@@ -39,12 +39,11 @@ List<BootstrapStep> defaultBootstrapSteps() => [
     tzdata.initializeTimeZones();
     try {
       final zone = await c.platform.deviceTimeZone();
-      if (zone != null && zone.isNotEmpty)
+      if (zone != null && zone.isNotEmpty) {
         DeviceZoneController.initialZone = zone;
+      }
     } on Object catch (e) {
-      c.log.warning(
-        'Could not read the device time zone (${e.runtimeType}) — using UTC until it is known',
-      );
+      c.log.warning('Could not read the device time zone (${e.runtimeType}) — using UTC until it is known');
     }
   }),
   BootstrapStep(BootstrapSteps.firebase, (c) async {
@@ -57,9 +56,7 @@ List<BootstrapStep> defaultBootstrapSteps() => [
     final db = await c.platform.openDatabase();
     c.db = db;
     c.deviceId = await c.platform.loadDeviceId(db);
-    final hlcState = await (db.select(
-      db.localKv,
-    )..where((k) => k.key.equals('hlc_state'))).getSingleOrNull();
+    final hlcState = await (db.select(db.localKv)..where((k) => k.key.equals('hlc_state'))).getSingleOrNull();
     HlcBootstrap.initialState = hlcState?.value;
     try {
       c.build = await c.platform.buildNumber();
@@ -114,14 +111,10 @@ List<BootstrapStep> defaultBootstrapSteps() => [
     if (c.handlers.reporter is CrashlyticsErrorReporter) {
       container.listen(
         privacySettingsProvider,
-        (_, settings) =>
-            CrashlyticsErrorReporter.instance.enabled = settings.crashReporting,
+        (_, settings) => CrashlyticsErrorReporter.instance.enabled = settings.crashReporting,
         fireImmediately: true,
       );
     }
   }),
-  BootstrapStep(
-    BootstrapSteps.startupTasks,
-    (c) => c.platform.runStartupTasks(c.container!),
-  ),
+  BootstrapStep(BootstrapSteps.startupTasks, (c) => c.platform.runStartupTasks(c.container!)),
 ];

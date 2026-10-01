@@ -107,10 +107,7 @@ void main() {
         name: 'Push-ups',
         goal: const HabitTarget(type: HabitGoalType.count, target: 15, unit: HabitUnits.reps),
       );
-      final targets = await habitsSource().targetsBetween(
-        DateTime.utc(2026, 9, 22, 6),
-        DateTime.utc(2026, 9, 24, 6),
-      );
+      final targets = await habitsSource().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 24, 6));
       expect(targets.map((t) => t.occurrenceKey), ['2026-09-22', '2026-09-23', '2026-09-24']);
       final today = targets.first;
       expect(today.type, NotificationTargetType.habit);
@@ -118,9 +115,12 @@ void main() {
       expect(today.title, 'Push-ups');
       expect(today.isOpen, isTrue);
       expect(today.status, 'pending');
-      expect(today.slot, isNull, reason: 'untimed habits use the rules\' date-only time');
+      expect(today.slot, isNull, reason: "untimed habits use the rules' date-only time");
       expect(today.periodStart, DateTime.utc(2026, 9, 21, 22), reason: 'midnight in Paris');
-      expect(today.guard, NotificationGuard.habitPeriodOpen(habit.id, '2026-09-22', goalType: 'count', target: 15, op: 'gte'));
+      expect(
+        today.guard,
+        NotificationGuard.habitPeriodOpen(habit.id, '2026-09-22', goalType: 'count', target: 15, op: 'gte'),
+      );
       expect(today.variables['target'], '15');
       expect(today.variables['unit'], 'reps');
       expect(today.variables['logged_today'], '0');
@@ -158,9 +158,7 @@ void main() {
     test('quota habits notify on eligible days with their progress', () async {
       await createBuild(name: 'Gym', preset: const SchedulePreset(SchedulePresetKind.timesPerWeek, n: 3));
       final targets = await habitsSource().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 27, 6));
-      expect(targets.map((t) => t.occurrenceKey), [
-        for (var day = 22; day <= 27; day++) '2026-09-$day',
-      ]);
+      expect(targets.map((t) => t.occurrenceKey), [for (var day = 22; day <= 27; day++) '2026-09-$day']);
       final quota = targets.first.quota!;
       expect((quota.done, quota.target, quota.eligibleDaysLeft), (0, 3, 6));
       expect(targets.last.quota!.behind, isTrue, reason: '3 still needed with 1 eligible day left');
@@ -188,21 +186,24 @@ void main() {
       expect(logs.single.source, 'notification');
     });
 
-    test('log value: typed numbers (incl. Arabic-Indic, decimal comma), empty = one increment, invalid fails', () async {
-      final habit = await createBuild(
-        name: 'Water',
-        goal: const HabitTarget(type: HabitGoalType.count, target: 8, unit: HabitUnits.glasses),
-      );
-      expect((await handler().handle(ctx('log_value', habit.id, key: '2026-09-22', input: '2'))).success, isTrue);
-      expect((await handler().handle(ctx('log_value', habit.id, key: '2026-09-22', input: ''))).success, isTrue);
-      final invalid = await handler().handle(ctx('log_value', habit.id, key: '2026-09-22', input: '12a'));
-      expect(invalid.success, isFalse);
-      expect(invalid.message, '“12a” isn\'t a number — open the app to log it.');
-      final values = [
-        for (final l in await h.read(habitLogsRepositoryProvider).forHabit(habit.id)) (l.kind, l.value, l.source),
-      ];
-      expect(values, [(HabitLogKind.progress, 2.0, 'notification'), (HabitLogKind.progress, 1.0, 'notification')]);
-    });
+    test(
+      'log value: typed numbers (incl. Arabic-Indic, decimal comma), empty = one increment, invalid fails',
+      () async {
+        final habit = await createBuild(
+          name: 'Water',
+          goal: const HabitTarget(type: HabitGoalType.count, target: 8, unit: HabitUnits.glasses),
+        );
+        expect((await handler().handle(ctx('log_value', habit.id, key: '2026-09-22', input: '2'))).success, isTrue);
+        expect((await handler().handle(ctx('log_value', habit.id, key: '2026-09-22', input: ''))).success, isTrue);
+        final invalid = await handler().handle(ctx('log_value', habit.id, key: '2026-09-22', input: '12a'));
+        expect(invalid.success, isFalse);
+        expect(invalid.message, "“12a” isn't a number — open the app to log it.");
+        final values = [
+          for (final l in await h.read(habitLogsRepositoryProvider).forHabit(habit.id)) (l.kind, l.value, l.source),
+        ];
+        expect(values, [(HabitLogKind.progress, 2.0, 'notification'), (HabitLogKind.progress, 1.0, 'notification')]);
+      },
+    );
 
     test('skip, future guards and gone habits', () async {
       final habit = await createBuild();
@@ -222,7 +223,10 @@ void main() {
       h.clock.advance(const Duration(minutes: 5));
       expect((await handler().handle(ctx('done', tracker.id))).success, isTrue);
       final craving = (await h.read(habitLogsRepositoryProvider).forHabit(tracker.id)).single;
-      expect((craving.kind, craving.intensity, craving.resisted, craving.source), (HabitLogKind.craving, 7, true, 'notification'));
+      expect(
+        (craving.kind, craving.intensity, craving.resisted, craving.source),
+        (HabitLogKind.craving, 7, true, 'notification'),
+      );
     });
 
     test('quit: +1 logs a use in reduce mode; abstain trackers open the kind relapse flow', () async {
@@ -240,7 +244,10 @@ void main() {
   group('quit targets', () {
     test('milestones project from the current abstinence start; a relapse makes them obsolete', () async {
       final tracker = await createQuit();
-      var target = (await quitSource().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 29, 6))).single;
+      var target = (await quitSource().targetsBetween(
+        DateTime.utc(2026, 9, 22, 6),
+        DateTime.utc(2026, 9, 29, 6),
+      )).single;
       expect(target.section, NotificationSection.quit);
       expect(target.occurrenceKey, isNull);
       expect(target.milestoneBaseline, DateTime.utc(2026, 9, 21, 20));

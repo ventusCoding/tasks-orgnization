@@ -15,7 +15,9 @@ String recordText(BuildContext context, RecordMoment m, Habit habit) {
     RecordKind.bestDay => l.habitsRecordBestDay(formatAmount(context, m.value, unit)),
     RecordKind.bestWeek => l.habitsRecordBestWeek(formatAmount(context, m.value, unit)),
     RecordKind.longestStreak => l.habitsRecordStreak(l.habitsDays(m.value.toInt())),
-    RecordKind.longestAbstinence => l.habitsRecordAbstinence(AppFormat(context.localeName, l10n: l).duration(m.value.toInt())),
+    RecordKind.longestAbstinence => l.habitsRecordAbstinence(
+      AppFormat(context.localeName, l10n: l).duration(m.value.toInt()),
+    ),
     RecordKind.mostCravingsResisted => l.habitsRecordCravings(m.value.toInt()),
   };
 }
@@ -49,7 +51,10 @@ class RecordBanner extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(l.habitsRecordNew, style: context.text.titleSmall?.copyWith(color: context.colors.onTertiaryContainer)),
+                    Text(
+                      l.habitsRecordNew,
+                      style: context.text.titleSmall?.copyWith(color: context.colors.onTertiaryContainer),
+                    ),
                     for (final m in moments)
                       Text(
                         recordText(context, m, snapshot.habit),

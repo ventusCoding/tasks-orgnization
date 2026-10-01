@@ -49,12 +49,7 @@ final class const EntitySeed(
 
 /// A status interval `[start, end)`; [end] null = still open.
 @immutable
-final class const StatusInterval(
-  final String status,
-  final DateTime start, {
-  final DateTime? end,
-  final String? note,
-}) {
+final class const StatusInterval(final String status, final DateTime start, {final DateTime? end, final String? note}) {
   Duration lengthUntil(DateTime now) => (end ?? now).difference(start);
 
   /// Overlap with `[from, to)`, open intervals ending at [now].
@@ -68,20 +63,14 @@ final class const StatusInterval(
 
 /// Membership of an entity in a container `[start, end)`.
 @immutable
-final class const MembershipInterval(
-  final String containerId,
-  final DateTime start, {
-  final DateTime? end,
-}) {
-  bool containsInstant(DateTime t) =>
-      !t.isBefore(start) && (end == null || t.isBefore(end!));
+final class const MembershipInterval(final String containerId, final DateTime start, {final DateTime? end}) {
+  bool containsInstant(DateTime t) => !t.isBefore(start) && (end == null || t.isBefore(end!));
 }
 
 /// Existence interval `[start, end)` (between creation/restoration and deletion).
 @immutable
 final class const AliveInterval(final DateTime start, {final DateTime? end}) {
-  bool containsInstant(DateTime t) =>
-      !t.isBefore(start) && (end == null || t.isBefore(end!));
+  bool containsInstant(DateTime t) => !t.isBefore(start) && (end == null || t.isBefore(end!));
 }
 
 /// The reconstructed history of one entity.
@@ -120,9 +109,7 @@ final class EntityTimeline {
     DateTime? latest;
     for (final a in alive) {
       final end = a.end;
-      if (end != null &&
-          !end.isAfter(t) &&
-          (latest == null || end.isAfter(latest))) {
+      if (end != null && !end.isAfter(t) && (latest == null || end.isAfter(latest))) {
         latest = end;
       }
     }
@@ -159,11 +146,7 @@ final class EntityTimeline {
 
   /// Σ time per status within the clip window `[from, to)` (defaults: creation … [now]), counting
   /// only while the entity is alive.
-  Map<String, Duration> timeInStatus({
-    required DateTime now,
-    DateTime? from,
-    DateTime? to,
-  }) {
+  Map<String, Duration> timeInStatus({required DateTime now, DateTime? from, DateTime? to}) {
     final result = <String, Duration>{};
     final clipFrom = from ?? createdAt;
     final clipTo = to ?? now;
@@ -172,8 +155,7 @@ final class EntityTimeline {
         final s = _later(_later(i.start, a.start), clipFrom);
         final e = _earlier(_earlier(i.end ?? now, a.end ?? now), clipTo);
         if (e.isAfter(s)) {
-          result[i.status] =
-              (result[i.status] ?? Duration.zero) + e.difference(s);
+          result[i.status] = (result[i.status] ?? Duration.zero) + e.difference(s);
         }
       }
     }
@@ -206,9 +188,8 @@ final class EntityTimeline {
   }
 
   /// Number of transitions from [doneStatus] to anything else (reopens).
-  int reopenCount({String doneStatus = 'completed'}) => statusEvents
-      .where((e) => e.from == doneStatus && e.to != doneStatus)
-      .length;
+  int reopenCount({String doneStatus = 'completed'}) =>
+      statusEvents.where((e) => e.from == doneStatus && e.to != doneStatus).length;
 
   /// Number of status changes.
   int get statusChangeCount => statusEvents.length;
@@ -250,13 +231,9 @@ Map<String, EntityTimeline> buildTimelines(
   for (final entry in byEntity.entries) {
     final seed = seedById[entry.key];
     final list = [...entry.value]..sort(_compareEvents);
-    final createdEvent = list
-        .where((e) => e.type == StatusEventType.created)
-        .firstOrNull;
-    final createdAt =
-        createdEvent?.occurredAt ?? seed?.createdAt ?? list.first.occurredAt;
-    final initialStatus =
-        createdEvent?.to ?? seed?.initialStatus ?? defaultInitialStatus;
+    final createdEvent = list.where((e) => e.type == StatusEventType.created).firstOrNull;
+    final createdAt = createdEvent?.occurredAt ?? seed?.createdAt ?? list.first.occurredAt;
+    final initialStatus = createdEvent?.to ?? seed?.initialStatus ?? defaultInitialStatus;
     var status = initialStatus;
     var statusStart = createdAt;
     var statusNote = createdEvent?.note;
@@ -265,13 +242,8 @@ Map<String, EntityTimeline> buildTimelines(
     final memberships = <MembershipInterval>[];
     final alive = <AliveInterval>[];
     // Initial container: created payload, else the first move's source, else the seed.
-    final firstMove = list
-        .where((e) => e.type == StatusEventType.moved)
-        .firstOrNull;
-    var container =
-        createdEvent?.toContainerId ??
-        firstMove?.fromContainerId ??
-        seed?.containerId;
+    final firstMove = list.where((e) => e.type == StatusEventType.moved).firstOrNull;
+    var container = createdEvent?.toContainerId ?? firstMove?.fromContainerId ?? seed?.containerId;
     var containerStart = createdAt;
     DateTime? aliveStart = createdAt;
     var lastEventAt = createdAt;
@@ -287,9 +259,7 @@ Map<String, EntityTimeline> buildTimelines(
           final at = _later(e.occurredAt, createdAt);
           // Zero-length statuses (several changes at one instant) leave no interval.
           if (at.isAfter(statusStart)) {
-            intervals.add(
-              StatusInterval(status, statusStart, end: at, note: statusNote),
-            );
+            intervals.add(StatusInterval(status, statusStart, end: at, note: statusNote));
           }
           status = to;
           statusStart = at;
@@ -297,9 +267,7 @@ Map<String, EntityTimeline> buildTimelines(
         case StatusEventType.moved:
           final to = e.toContainerId;
           if (container != null && e.occurredAt.isAfter(containerStart)) {
-            memberships.add(
-              MembershipInterval(container, containerStart, end: e.occurredAt),
-            );
+            memberships.add(MembershipInterval(container, containerStart, end: e.occurredAt));
           }
           container = to;
           containerStart = e.occurredAt;
@@ -319,12 +287,7 @@ Map<String, EntityTimeline> buildTimelines(
     if (aliveStart != null) {
       final seedDeleted = seed?.deletedAt;
       alive.add(
-        AliveInterval(
-          aliveStart,
-          end: seedDeleted != null && !seedDeleted.isBefore(aliveStart)
-              ? seedDeleted
-              : null,
-        ),
+        AliveInterval(aliveStart, end: seedDeleted != null && !seedDeleted.isBefore(aliveStart) ? seedDeleted : null),
       );
     }
     result[entry.key] = EntityTimeline(
@@ -353,11 +316,8 @@ final class const BoundaryCounts(
   required final Map<String, int> byStatus,
 }) {
   /// In progress = arrived − todo − finished − cancelled (WIP).
-  int wip({
-    Set<String> wipStatuses = const {'ongoing', 'waiting', 'blocked'},
-  }) => byStatus.entries
-      .where((e) => wipStatuses.contains(e.key))
-      .fold(0, (acc, e) => acc + e.value);
+  int wip({Set<String> wipStatuses = const {'ongoing', 'waiting', 'blocked'}}) =>
+      byStatus.entries.where((e) => wipStatuses.contains(e.key)).fold(0, (acc, e) => acc + e.value);
 }
 
 /// Samples boundary counts at each instant of [sampleAt] (typically local day ends). Events at
@@ -403,8 +363,7 @@ List<BoundaryCounts> boundaryCounts(
           final state = e.stateAt(probe) ?? e.initialStatus;
           byStatus[state] = (byStatus[state] ?? 0) + 1;
           final left = e.firstExit(todoStatus);
-          if (e.initialStatus != todoStatus ||
-              (left != null && left.isBefore(t))) {
+          if (e.initialStatus != todoStatus || (left != null && left.isBefore(t))) {
             started++;
           }
           if (state == doneStatus) finished++;

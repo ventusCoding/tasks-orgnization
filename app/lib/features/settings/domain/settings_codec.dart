@@ -37,11 +37,7 @@ class SettingsCodec<T> {
   /// version never goes down (a newer client's data stays readable by it).
   Map<String, Object?> encode(T value, [Map<String, dynamic> existing = const {}]) {
     final existingV = existing['v'] is num ? (existing['v'] as num).toInt() : 0;
-    return {
-      ...existing,
-      ...encoder(value),
-      'v': existingV > version ? existingV : version,
-    };
+    return {...existing, ...encoder(value), 'v': existingV > version ? existingV : version};
   }
 
   /// Keys whose stored value differs between [before] and [after] (a minimal patch).

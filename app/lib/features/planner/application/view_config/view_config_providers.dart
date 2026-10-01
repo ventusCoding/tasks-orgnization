@@ -51,7 +51,9 @@ final plannerDefaultViewsProvider = FutureProvider<void>((ref) async {
 
 /// Local view state of one view (T3.3.02): loaded once, then kept in memory; writes are debounced
 /// to the local-only `ui_view_state` table (never synced).
-final plannerViewStateProvider = NotifierProvider.family<ViewStateController, ViewState?, String>(ViewStateController.new);
+final plannerViewStateProvider = NotifierProvider.family<ViewStateController, ViewState?, String>(
+  ViewStateController.new,
+);
 
 class ViewStateController extends Notifier<ViewState?> {
   ViewStateController(this.viewKey);

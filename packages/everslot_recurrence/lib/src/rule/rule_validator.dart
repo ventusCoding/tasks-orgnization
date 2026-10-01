@@ -58,12 +58,7 @@ enum RuleIssueSeverity { error, warning }
 /// the localized message.
 @immutable
 final class RuleIssue {
-  const new(
-    this.code, {
-    this.field,
-    this.params = const {},
-    this.severity = RuleIssueSeverity.error,
-  });
+  const new(this.code, {this.field, this.params = const {}, this.severity = RuleIssueSeverity.error});
 
   final RuleIssueCode code;
 
@@ -79,17 +74,13 @@ final class RuleIssue {
 
   @override
   bool operator ==(Object other) =>
-      other is RuleIssue &&
-      other.code == code &&
-      other.field == field &&
-      other.severity == severity;
+      other is RuleIssue && other.code == code && other.field == field && other.severity == severity;
 
   @override
   int get hashCode => Object.hash(code, field, severity);
 
   @override
-  String toString() =>
-      'RuleIssue(${code.name}${field == null ? '' : ' @$field'}${params.isEmpty ? '' : ' $params'})';
+  String toString() => 'RuleIssue(${code.name}${field == null ? '' : ' @$field'}${params.isEmpty ? '' : ' $params'})';
 }
 
 /// Result of [RuleValidator.validate].
@@ -131,31 +122,19 @@ final class RuleValidator {
   /// Validates [rule]; anchor-dependent checks run when [anchor] is given.
   ValidationResult validate(RecurrenceRule rule, {RecurrenceAnchor? anchor}) {
     final issues = <RuleIssue>[];
-    void add(
-      RuleIssueCode code, {
-      String? field,
-      Map<String, Object?> params = const {},
-      bool warning = false,
-    }) => issues.add(
-      RuleIssue(
-        code,
-        field: field,
-        params: params,
-        severity: warning ? RuleIssueSeverity.warning : RuleIssueSeverity.error,
-      ),
-    );
+    void add(RuleIssueCode code, {String? field, Map<String, Object?> params = const {}, bool warning = false}) =>
+        issues.add(
+          RuleIssue(
+            code,
+            field: field,
+            params: params,
+            severity: warning ? RuleIssueSeverity.warning : RuleIssueSeverity.error,
+          ),
+        );
 
-    void range(
-      String field,
-      Iterable<int> values,
-      int min,
-      int max, {
-      bool allowNegative = false,
-    }) {
+    void range(String field, Iterable<int> values, int min, int max, {bool allowNegative = false}) {
       for (final v in values) {
-        final ok = allowNegative
-            ? (v != 0 && v.abs() >= min && v.abs() <= max)
-            : (v >= min && v <= max);
+        final ok = allowNegative ? (v != 0 && v.abs() >= min && v.abs() <= max) : (v >= min && v <= max);
         if (!ok) {
           add(
             RuleIssueCode.valueOutOfRange,
@@ -167,11 +146,7 @@ final class RuleValidator {
     }
 
     if (rule.interval < 1) {
-      add(
-        RuleIssueCode.intervalInvalid,
-        field: 'interval',
-        params: {'value': rule.interval},
-      );
+      add(RuleIssueCode.intervalInvalid, field: 'interval', params: {'value': rule.interval});
     }
     final count = rule.count;
     if (count != null && count < 1) {
@@ -188,17 +163,10 @@ final class RuleValidator {
         params: {'until': until.toIso(), 'start': anchor.start.toIso()},
       );
     }
-    for (final (field, values) in [
-      ('exdates', rule.exdates),
-      ('rdates', rule.rdates),
-    ]) {
+    for (final (field, values) in [('exdates', rule.exdates), ('rdates', rule.rdates)]) {
       for (final value in values) {
         if (parseRuleDate(value) == null) {
-          add(
-            RuleIssueCode.invalidDate,
-            field: field,
-            params: {'value': value},
-          );
+          add(RuleIssueCode.invalidDate, field: field, params: {'value': value});
         }
       }
     }
@@ -213,13 +181,7 @@ final class RuleValidator {
     range('bySetPos', rule.bySetPos, 1, 366, allowNegative: true);
     range('byHour', rule.byHour, 0, 23);
     range('byMinute', rule.byMinute, 0, 59);
-    range(
-      'byWeekday.n',
-      [for (final w in weekdays ?? const <WeekdayRule>[]) ?w.n],
-      1,
-      53,
-      allowNegative: true,
-    );
+    range('byWeekday.n', [for (final w in weekdays ?? const <WeekdayRule>[]) ?w.n], 1, 53, allowNegative: true);
 
     switch (rule.type) {
       case RuleType.fixed:
@@ -240,34 +202,19 @@ final class RuleValidator {
   void _validateFixed(
     RecurrenceRule rule,
     RecurrenceAnchor? anchor,
-    void Function(
-      RuleIssueCode, {
-      String? field,
-      Map<String, Object?> params,
-      bool warning,
-    })
-    add,
+    void Function(RuleIssueCode, {String? field, Map<String, Object?> params, bool warning}) add,
   ) {
     final freq = rule.freq;
     final ordinalsAllowed =
         (freq == Frequency.monthly || freq == Frequency.yearly) &&
         !(freq == Frequency.yearly && rule.byWeekNo.isNotEmpty);
-    if (!ordinalsAllowed &&
-        (rule.byWeekday ?? const []).any((w) => w.n != null)) {
-      add(
-        RuleIssueCode.ordinalOnWeekly,
-        field: 'byWeekday',
-        params: {'freq': freq.json},
-      );
+    if (!ordinalsAllowed && (rule.byWeekday ?? const []).any((w) => w.n != null)) {
+      add(RuleIssueCode.ordinalOnWeekly, field: 'byWeekday', params: {'freq': freq.json});
     }
     final window = rule.window;
     if (window != null) {
       if (!freq.isSubDaily) {
-        add(
-          RuleIssueCode.unsupportedCombo,
-          field: 'window',
-          params: {'freq': freq.json},
-        );
+        add(RuleIssueCode.unsupportedCombo, field: 'window', params: {'freq': freq.json});
       }
       if (!window.end.isEndOfDay && window.end.isBefore(window.start)) {
         add(
@@ -279,43 +226,21 @@ final class RuleValidator {
     }
     if (rule.times.isNotEmpty) {
       if (freq.isSubDaily) {
-        add(
-          RuleIssueCode.unsupportedCombo,
-          field: 'times',
-          params: {'freq': freq.json},
-        );
+        add(RuleIssueCode.unsupportedCombo, field: 'times', params: {'freq': freq.json});
       }
       if (rule.byHour.isNotEmpty || rule.byMinute.isNotEmpty) {
-        add(
-          RuleIssueCode.unsupportedCombo,
-          field: 'times',
-          params: {'with': 'byHour/byMinute'},
-        );
+        add(RuleIssueCode.unsupportedCombo, field: 'times', params: {'with': 'byHour/byMinute'});
       }
     }
     if (rule.byWeekNo.isNotEmpty && freq != Frequency.yearly) {
-      add(
-        RuleIssueCode.unsupportedCombo,
-        field: 'byWeekNo',
-        params: {'freq': freq.json},
-      );
+      add(RuleIssueCode.unsupportedCombo, field: 'byWeekNo', params: {'freq': freq.json});
     }
     if (rule.byYearDay.isNotEmpty &&
-        (freq == Frequency.daily ||
-            freq == Frequency.weekly ||
-            freq == Frequency.monthly)) {
-      add(
-        RuleIssueCode.unsupportedCombo,
-        field: 'byYearDay',
-        params: {'freq': freq.json},
-      );
+        (freq == Frequency.daily || freq == Frequency.weekly || freq == Frequency.monthly)) {
+      add(RuleIssueCode.unsupportedCombo, field: 'byYearDay', params: {'freq': freq.json});
     }
     if (rule.byMonthDay.isNotEmpty && freq == Frequency.weekly) {
-      add(
-        RuleIssueCode.unsupportedCombo,
-        field: 'byMonthDay',
-        params: {'freq': freq.json},
-      );
+      add(RuleIssueCode.unsupportedCombo, field: 'byMonthDay', params: {'freq': freq.json});
     }
     final hasOtherBy =
         rule.byWeekday != null ||
@@ -331,33 +256,19 @@ final class RuleValidator {
       add(RuleIssueCode.unsupportedCombo, field: 'bySetPos');
     }
     if (anchor != null && anchor.allDay && freq.isSubDaily) {
-      add(
-        RuleIssueCode.unsupportedCombo,
-        field: 'freq',
-        params: {'allDay': true},
-        warning: true,
-      );
+      add(RuleIssueCode.unsupportedCombo, field: 'freq', params: {'allDay': true}, warning: true);
     }
     if (rule.interval >= 1) {
       final perDay = maxOccurrencesPerDayOf(rule);
       if (perDay > maxOccurrencesPerDay) {
-        add(
-          RuleIssueCode.tooFrequent,
-          params: {'perDay': perDay, 'max': maxOccurrencesPerDay},
-        );
+        add(RuleIssueCode.tooFrequent, params: {'perDay': perDay, 'max': maxOccurrencesPerDay});
       }
     }
   }
 
   void _validateQuota(
     RecurrenceRule rule,
-    void Function(
-      RuleIssueCode, {
-      String? field,
-      Map<String, Object?> params,
-      bool warning,
-    })
-    add,
+    void Function(RuleIssueCode, {String? field, Map<String, Object?> params, bool warning}) add,
     void Function(String, Iterable<int>, int, int, {bool allowNegative}) range,
   ) {
     final quota = rule.quota;
@@ -373,12 +284,7 @@ final class RuleValidator {
     if (quota.minGapDays == 0) {
       return; // several completions per day are allowed
     }
-    final max = maxQuotaCompletions(
-      quota.per,
-      quota.minGapDays,
-      eligible,
-      rule.wkst,
-    );
+    final max = maxQuotaCompletions(quota.per, quota.minGapDays, eligible, rule.wkst);
     if (quota.times > max) {
       add(
         RuleIssueCode.quotaImpossible,
@@ -401,14 +307,10 @@ int maxOccurrencesPerDayOf(RecurrenceRule rule) {
   final step = rule.interval * (rule.freq == Frequency.hourly ? 60 : 1);
   final window = rule.window;
   final start = window?.start.minuteOfDay ?? 0;
-  final end = window == null || window.end.isEndOfDay
-      ? 1439
-      : window.end.minuteOfDay;
+  final end = window == null || window.end.isEndOfDay ? 1439 : window.end.minuteOfDay;
   if (end < start) return 0;
   final span = end - start + 1;
-  final expand = rule.freq == Frequency.hourly && rule.byMinute.isNotEmpty
-      ? rule.byMinute.toSet().length
-      : 1;
+  final expand = rule.freq == Frequency.hourly && rule.byMinute.isNotEmpty ? rule.byMinute.toSet().length : 1;
   if (window != null && window.anchor == WindowAnchor.windowStart) {
     return (end - start) ~/ step + 1;
   }
@@ -416,18 +318,12 @@ int maxOccurrencesPerDayOf(RecurrenceRule rule) {
 }
 
 /// Plain weekdays eligible for a quota (all when [byWeekday] is null).
-Set<Weekday> eligibleWeekdays(List<WeekdayRule>? byWeekday) => byWeekday == null
-    ? Weekday.values.toSet()
-    : {for (final w in byWeekday) w.day};
+Set<Weekday> eligibleWeekdays(List<WeekdayRule>? byWeekday) =>
+    byWeekday == null ? Weekday.values.toSet() : {for (final w in byWeekday) w.day};
 
 /// Maximum completions possible in the worst-aligned period when completions
 /// must be on distinct [eligible] days separated by more than [minGapDays] days.
-int maxQuotaCompletions(
-  PeriodUnit per,
-  int minGapDays,
-  Set<Weekday> eligible,
-  Weekday weekStart,
-) {
+int maxQuotaCompletions(PeriodUnit per, int minGapDays, Set<Weekday> eligible, Weekday weekStart) {
   int greedy(LocalDate first, int days) {
     var picks = 0;
     int? last;
@@ -451,9 +347,7 @@ int maxQuotaCompletions(
       return greedy(monday.plusDays(weekStart.iso - 1), 7);
     case PeriodUnit.month:
     case PeriodUnit.year:
-      final lengths = per == PeriodUnit.month
-          ? const [28, 29, 30, 31]
-          : const [365, 366];
+      final lengths = per == PeriodUnit.month ? const [28, 29, 30, 31] : const [365, 366];
       var best = 1 << 30;
       for (final length in lengths) {
         for (var offset = 0; offset < 7; offset++) {

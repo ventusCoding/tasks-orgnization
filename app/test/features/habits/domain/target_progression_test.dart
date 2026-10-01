@@ -3,7 +3,7 @@ import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
 import 'package:everslot/features/habits/domain/habit_settings.dart';
 import 'package:everslot_metrics/everslot_metrics.dart' show PeriodStatus;
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../support/habit_fixtures.dart';
 
@@ -33,7 +33,12 @@ void main() {
   test('the target grows by the step every N days and stops at the max (T5.4.07)', () {
     final e = computeSnapshot(service, habit, const [], const [], const [], DateTime.utc(2026, 9, 20, 10)).evaluation!;
     double target(int day) => e.dayOn(d(2026, 9, day))!.target;
-    expect([for (final day in [1, 3, 4, 6, 7, 10, 20]) target(day)], [10, 10, 12, 12, 14, 16, 16]);
+    expect(
+      [
+        for (final day in [1, 3, 4, 6, 7, 10, 20]) target(day),
+      ],
+      [10, 10, 12, 12, 14, 16, 16],
+    );
   });
 
   test('each day is evaluated against its own target', () {

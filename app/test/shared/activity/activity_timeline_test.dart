@@ -15,9 +15,7 @@ void main() {
 
   Future<void> settle(WidgetTester tester) async {
     for (var i = 0; i < 4; i++) {
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 5)),
-      );
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 5)));
       await tester.pump(const Duration(milliseconds: 20));
     }
   }
@@ -25,10 +23,7 @@ void main() {
   /// Seeds a realistic history for task t1 at increasing times.
   Future<void> seed(WidgetTester tester) => tester.runAsync(() async {
     final writer = h.read(syncWriterProvider);
-    Future<void> step(
-      Future<void> Function(ActivityLogger log) body, {
-      String cause = 'user',
-    }) async {
+    Future<void> step(Future<void> Function(ActivityLogger log) body, {String cause = 'user'}) async {
       await writer.run((tx) => body(tx.activity), cause: cause);
       h.clock.advance(const Duration(minutes: 10));
     }
@@ -36,22 +31,8 @@ void main() {
     h.clock.set(DateTime.utc(2026, 9, 1, 8));
     await step((log) => log.created('task', 't1'));
     h.clock.set(DateTime.utc(2026, 9, 22, 9));
-    await step(
-      (log) => log.updated(
-        'task',
-        't1',
-        fields: const ['title', 'notes', 'unknown_col'],
-      ),
-    );
-    await step(
-      (log) => log.statusChanged(
-        'task',
-        't1',
-        from: 'waiting',
-        to: 'blocked',
-        note: 'Supplier late',
-      ),
-    );
+    await step((log) => log.updated('task', 't1', fields: const ['title', 'notes', 'unknown_col']));
+    await step((log) => log.statusChanged('task', 't1', from: 'waiting', to: 'blocked', note: 'Supplier late'));
     await step(
       (log) => log.rescheduled(
         'task',
@@ -62,22 +43,13 @@ void main() {
         source: 'drag',
       ),
     );
-    await step(
-      (log) => log.attachmentAdded(
-        'task',
-        't1',
-        attachmentId: 'a1',
-        fileName: 'plan.pdf',
-      ),
-    );
+    await step((log) => log.attachmentAdded('task', 't1', attachmentId: 'a1', fileName: 'plan.pdf'));
     await step((log) => log.log('task', 't1', 'rollover'), cause: 'auto');
     await step((log) => log.deleted('task', 't1', count: 3));
     h.clock.set(DateTime.utc(2026, 9, 22, 12));
   });
 
-  testWidgets('renders every event as an English sentence, newest first', (
-    tester,
-  ) async {
+  testWidgets('renders every event as an English sentence, newest first', (tester) async {
     await seed(tester);
     await pumpInApp(
       tester,
@@ -137,12 +109,7 @@ void main() {
 
   testWidgets('empty history and child events', (tester) async {
     await tester.runAsync(() async {
-      await h
-          .read(syncWriterProvider)
-          .run(
-            (tx) =>
-                tx.activity.completed('task_occurrence', 'o1', parentId: 't2'),
-          );
+      await h.read(syncWriterProvider).run((tx) => tx.activity.completed('task_occurrence', 'o1', parentId: 't2'));
     });
     await pumpInApp(
       tester,
@@ -151,16 +118,8 @@ void main() {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              ActivityTimeline(
-                entityType: 'task',
-                entityId: 'none',
-                showTitle: false,
-              ),
-              ActivityTimeline(
-                entityType: 'task',
-                entityId: 't2',
-                includeChildren: true,
-              ),
+              ActivityTimeline(entityType: 'task', entityId: 'none', showTitle: false),
+              ActivityTimeline(entityType: 'task', entityId: 't2', includeChildren: true),
             ],
           ),
         ),
@@ -184,19 +143,18 @@ void main() {
       ),
     );
     final format = AppFormatForTest.of(ctx);
-    ActivityLine line(String type, [Map<String, Object?> payload = const {}]) =>
-        ActivitySentences.describe(
-          ctx,
-          ActivityEvent(
-            id: 'e',
-            entityType: 'checklist_item',
-            entityId: 'i',
-            eventType: type,
-            occurredAt: DateTime.utc(2026),
-            payload: payload,
-          ),
-          format,
-        );
+    ActivityLine line(String type, [Map<String, Object?> payload = const {}]) => ActivitySentences.describe(
+      ctx,
+      ActivityEvent(
+        id: 'e',
+        entityType: 'checklist_item',
+        entityId: 'i',
+        eventType: type,
+        occurredAt: DateTime.utc(2026),
+        payload: payload,
+      ),
+      format,
+    );
     expect(
       line('updated', {
         'fields': ['tags'],
@@ -209,39 +167,19 @@ void main() {
       }).text,
       'Edited',
     );
-    expect(
-      line('status_changed', {'to': 'completed'}).text,
-      'Status set to Completed',
-    );
-    expect(
-      line('moved', {'fromChecklistId': 'a', 'toChecklistId': 'b'}).text,
-      'Moved to another list',
-    );
-    expect(
-      line('moved', {'fromParentId': 'a', 'toParentId': 'b'}).text,
-      'Moved',
-    );
+    expect(line('status_changed', {'to': 'completed'}).text, 'Status set to Completed');
+    expect(line('moved', {'fromChecklistId': 'a', 'toChecklistId': 'b'}).text, 'Moved to another list');
+    expect(line('moved', {'fromParentId': 'a', 'toParentId': 'b'}).text, 'Moved');
     expect(line('skipped', {'reason': 'Sick'}).text, 'Skipped: Sick');
-    expect(
-      line('created', {'fromTemplateId': 't'}).text,
-      'Created from a template',
-    );
+    expect(line('created', {'fromTemplateId': 't'}).text, 'Created from a template');
     expect(line('created', {'duplicatedFrom': 'x'}).text, 'Created as a copy');
     expect(line('items_added', {'count': 2}).text, '2 items added');
     expect(
-      line('rescheduled', {
-        'occurrenceKey': 'k',
-        'fromStart': '2026-09-22T08:00',
-        'toStart': '2026-09-23T08:00',
-      }).text,
+      line('rescheduled', {'occurrenceKey': 'k', 'fromStart': '2026-09-22T08:00', 'toStart': '2026-09-23T08:00'}).text,
       'Moved from Tue 22 08:00 to Wed 23 08:00',
     );
     expect(
-      line('rescheduled', {
-        'scope': 'this',
-        'fromDuration': 30,
-        'toDuration': 45,
-      }).text,
+      line('rescheduled', {'scope': 'this', 'fromDuration': 30, 'toDuration': 45}).text,
       'Duration changed from 30 min to 45 min',
     );
     expect(line('mystery').text, 'Changed');
@@ -253,6 +191,5 @@ void main() {
 
 /// English 24 h formatter for sentence tests.
 abstract final class AppFormatForTest {
-  static AppFormat of(BuildContext context) =>
-      AppFormat('en', l10n: context.l10n);
+  static AppFormat of(BuildContext context) => AppFormat('en', l10n: context.l10n);
 }

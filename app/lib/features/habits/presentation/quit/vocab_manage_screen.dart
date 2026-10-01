@@ -45,8 +45,14 @@ class _VocabManageScreenState extends ConsumerState<VocabManageScreen> {
     final l = context.l10n;
     final all = ref.watch(allHabitVocabProvider).value ?? const <VocabEntry>[];
     final usage = ref.watch(vocabUsageProvider(VocabPicker.columnOf(_kind))).value ?? const <String, int>{};
-    final active = [for (final e in all) if (e.kind == _kind && !e.archived) e];
-    final archived = [for (final e in all) if (e.kind == _kind && e.archived) e];
+    final active = [
+      for (final e in all)
+        if (e.kind == _kind && !e.archived) e,
+    ];
+    final archived = [
+      for (final e in all)
+        if (e.kind == _kind && e.archived) e,
+    ];
     return Scaffold(
       appBar: AppBar(
         title: Text(l.quitVocabTitle),

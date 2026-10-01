@@ -69,7 +69,8 @@ class PlannerCommands {
   Future<void> run(String message, Future<void> Function(PlannerActions a) body) => track(message, () => body(actions));
 
   /// Runs one user command through the extra view actions.
-  Future<void> runExtra(String message, Future<void> Function(PlannerViewActions a) body) => track(message, () => body(extra));
+  Future<void> runExtra(String message, Future<void> Function(PlannerViewActions a) body) =>
+      track(message, () => body(extra));
 
   /// Runs [body] and shows [message] with an *Undo* action covering everything it wrote. The planner
   /// service registers its own undo entries (undone from the snackbar); other SyncWriter operations
@@ -81,11 +82,16 @@ class PlannerCommands {
       await body();
       final steps = store.historyLength - before;
       if (!context.mounted) return;
-      _snack(message, steps <= 0 ? null : () {
-        for (var i = 0; i < steps; i++) {
-          store.undo();
-        }
-      });
+      _snack(
+        message,
+        steps <= 0
+            ? null
+            : () {
+                for (var i = 0; i < steps; i++) {
+                  store.undo();
+                }
+              },
+      );
       return;
     }
     SyncWriter? writer;
@@ -137,10 +143,12 @@ class PlannerCommands {
     if (messenger == null) return;
     messenger
       ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(
-        content: Text(message),
-        action: undo == null ? null : SnackBarAction(label: context.l10n.actionUndo, onPressed: undo),
-      ));
+      ..showSnackBar(
+        SnackBar(
+          content: Text(message),
+          action: undo == null ? null : SnackBarAction(label: context.l10n.actionUndo, onPressed: undo),
+        ),
+      );
   }
 
   Future<EditScope?> askScope(PlannerItem item) async {
@@ -158,7 +166,10 @@ class PlannerCommands {
           ])
             SimpleDialogOption(
               onPressed: () => Navigator.pop(ctx, scope),
-              child: Padding(padding: const EdgeInsets.symmetric(vertical: Space.sm), child: Text(label)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: Space.sm),
+                child: Text(label),
+              ),
             ),
         ],
       ),
@@ -184,7 +195,10 @@ class PlannerCommands {
     if (!context.mounted) return false;
     final scope = await askScope(item);
     if (scope == null || !context.mounted) return false;
-    await run(message, (a) => a.reschedule(item, newStart: start, newDurationMinutes: duration, allDay: allDay, scope: scope));
+    await run(
+      message,
+      (a) => a.reschedule(item, newStart: start, newDurationMinutes: duration, allDay: allDay, scope: scope),
+    );
     haptics.success();
     return true;
   }
@@ -198,7 +212,12 @@ class PlannerCommands {
   }
 
   /// Quick create with a title prompt (T3.3.15); "More options" opens the full editor.
-  Future<String?> quickCreate({required LocalDateTime start, required int duration, bool allDay = false, String? title}) async {
+  Future<String?> quickCreate({
+    required LocalDateTime start,
+    required int duration,
+    bool allDay = false,
+    String? title,
+  }) async {
     final result = title != null
         ? (title: title, more: false)
         : await showAppSheet<({String title, bool more})>(
@@ -224,7 +243,13 @@ class PlannerCommands {
     final l = context.l10n;
     final scope = item.isRecurring && !item.isBacklog
         ? await askScope(item)
-        : (await confirmDialog(context, title: l.actionDelete, body: item.title, confirmLabel: l.actionDelete, destructive: true)
+        : (await confirmDialog(
+                context,
+                title: l.actionDelete,
+                body: item.title,
+                confirmLabel: l.actionDelete,
+                destructive: true,
+              )
               ? EditScope.allOccurrences
               : null);
     if (scope == null || !context.mounted) return;
@@ -246,7 +271,10 @@ class PlannerCommands {
       return;
     }
     final f = context.plannerFormat(use24h: ref.read(userPreferencesProvider).use24h);
-    await runExtra(l.pvPasted('${f.dayShort(start.date)} ${f.timeOf(start)}'), (a) => a.paste(item, item.allDay ? start.date.atStartOfDay : start));
+    await runExtra(
+      l.pvPasted('${f.dayShort(start.date)} ${f.timeOf(start)}'),
+      (a) => a.paste(item, item.allDay ? start.date.atStartOfDay : start),
+    );
   }
 
   /// Long-press-release quick menu (T3.4.12): Done, Skip, Start, Postpone ▸, Edit, Duplicate, Copy,
@@ -272,9 +300,17 @@ class PlannerCommands {
             title: Text(done ? l.pvMarkNotDone : l.pvMarkDone),
             onTap: () => Navigator.pop(ctx, 'done'),
           ),
-          ListTile(leading: const Icon(Icons.skip_next_outlined), title: Text(l.pvSkip), onTap: () => Navigator.pop(ctx, 'skip')),
+          ListTile(
+            leading: const Icon(Icons.skip_next_outlined),
+            title: Text(l.pvSkip),
+            onTap: () => Navigator.pop(ctx, 'skip'),
+          ),
           if (item.status != OccurrenceStatus.inProgress)
-            ListTile(leading: const Icon(Icons.play_arrow_outlined), title: Text(l.pvStart), onTap: () => Navigator.pop(ctx, 'start')),
+            ListTile(
+              leading: const Icon(Icons.play_arrow_outlined),
+              title: Text(l.pvStart),
+              onTap: () => Navigator.pop(ctx, 'start'),
+            ),
           ExpansionTile(
             leading: const Icon(Icons.schedule_send_outlined),
             title: Text(l.pvPostpone),
@@ -292,11 +328,27 @@ class PlannerCommands {
                 ),
             ],
           ),
-          ListTile(leading: const Icon(Icons.edit_outlined), title: Text(l.actionEdit), onTap: () => Navigator.pop(ctx, 'edit')),
-          ListTile(leading: const Icon(Icons.copy_outlined), title: Text(l.actionDuplicate), onTap: () => Navigator.pop(ctx, 'duplicate')),
-          ListTile(leading: const Icon(Icons.content_copy), title: Text(l.pvCopy), onTap: () => Navigator.pop(ctx, 'copy')),
+          ListTile(
+            leading: const Icon(Icons.edit_outlined),
+            title: Text(l.actionEdit),
+            onTap: () => Navigator.pop(ctx, 'edit'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.copy_outlined),
+            title: Text(l.actionDuplicate),
+            onTap: () => Navigator.pop(ctx, 'duplicate'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.content_copy),
+            title: Text(l.pvCopy),
+            onTap: () => Navigator.pop(ctx, 'copy'),
+          ),
           if (item.isRecurring)
-            ListTile(leading: const Icon(Icons.block), title: Text(l.pvCancelOccurrence), onTap: () => Navigator.pop(ctx, 'cancel')),
+            ListTile(
+              leading: const Icon(Icons.block),
+              title: Text(l.pvCancelOccurrence),
+              onTap: () => Navigator.pop(ctx, 'cancel'),
+            ),
           ListTile(
             leading: Icon(Icons.delete_outline, color: ctx.colors.error),
             title: Text(l.actionDelete, style: TextStyle(color: ctx.colors.error)),
@@ -396,10 +448,26 @@ class PlannerCommands {
         shrinkWrap: true,
         children: [
           ListTile(leading: const Icon(Icons.add), title: Text(l.pvAddTask), onTap: () => Navigator.pop(ctx, 'add')),
-          ListTile(leading: const Icon(Icons.view_day_outlined), title: Text(l.pvOpenDay), onTap: () => Navigator.pop(ctx, 'open')),
-          ListTile(leading: const Icon(Icons.done_all), title: Text(l.tasksDayDoneAll), onTap: () => Navigator.pop(ctx, 'done')),
-          ListTile(leading: const Icon(Icons.skip_next_outlined), title: Text(l.tasksDaySkipRest), onTap: () => Navigator.pop(ctx, 'skip')),
-          ListTile(leading: const Icon(Icons.redo), title: Text(l.tasksDayMoveTomorrow), onTap: () => Navigator.pop(ctx, 'move')),
+          ListTile(
+            leading: const Icon(Icons.view_day_outlined),
+            title: Text(l.pvOpenDay),
+            onTap: () => Navigator.pop(ctx, 'open'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.done_all),
+            title: Text(l.tasksDayDoneAll),
+            onTap: () => Navigator.pop(ctx, 'done'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.skip_next_outlined),
+            title: Text(l.tasksDaySkipRest),
+            onTap: () => Navigator.pop(ctx, 'skip'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.redo),
+            title: Text(l.tasksDayMoveTomorrow),
+            onTap: () => Navigator.pop(ctx, 'move'),
+          ),
         ],
       ),
     );
@@ -420,7 +488,12 @@ class PlannerCommands {
 
   /// Runs a day action (T3.2.23) on [date]: planner-core's service call (one operation, one undo),
   /// or — in demo mode — the same rule applied item by item to [dayItems].
-  Future<void> dayAction(LocalDate date, DayAction action, List<PlannerItem> dayItems, {required LocalDateTime now}) async {
+  Future<void> dayAction(
+    LocalDate date,
+    DayAction action,
+    List<PlannerItem> dayItems, {
+    required LocalDateTime now,
+  }) async {
     if (!ref.read(plannerDemoModeProvider)) {
       await runDayAction(context, ref, date, action);
       return;
@@ -428,7 +501,10 @@ class PlannerCommands {
     final l = context.l10n;
     final open = [
       for (final i in dayItems)
-        if (i.status == OccurrenceStatus.scheduled || i.status == OccurrenceStatus.missed || i.status == OccurrenceStatus.inProgress) i,
+        if (i.status == OccurrenceStatus.scheduled ||
+            i.status == OccurrenceStatus.missed ||
+            i.status == OccurrenceStatus.inProgress)
+          i,
     ];
     final upcoming = [
       for (final i in open)

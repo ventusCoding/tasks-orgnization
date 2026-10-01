@@ -41,8 +41,7 @@ class ActivityEvent {
   /// See [ActivityCauses] (`user` when missing).
   String get cause => payload['cause'] as String? ?? ActivityCauses.user;
 
-  bool get isUserAction =>
-      cause == ActivityCauses.user || cause == ActivityCauses.undo;
+  bool get isUserAction => cause == ActivityCauses.user || cause == ActivityCauses.undo;
 
   String? string(String key) {
     final v = payload[key];
@@ -78,19 +77,10 @@ class ActivityEvent {
       _deep.equals(other.payload, payload);
 
   @override
-  int get hashCode => Object.hash(
-    id,
-    entityType,
-    entityId,
-    parentId,
-    eventType,
-    occurredAt,
-    _deep.hash(payload),
-  );
+  int get hashCode => Object.hash(id, entityType, entityId, parentId, eventType, occurredAt, _deep.hash(payload));
 
   @override
-  String toString() =>
-      'ActivityEvent($entityType/$entityId $eventType $payload)';
+  String toString() => 'ActivityEvent($entityType/$entityId $eventType $payload)';
 }
 
 /// The events of one operation (one user command), e.g. a Trash entry.
@@ -217,14 +207,7 @@ abstract final class ActivityPayloads {
   static const maxTextLength = 280;
 
   /// Time fields whose before/after values stats need to rebuild the plan (arch §7.3).
-  static const timeFields = {
-    'start_local',
-    'duration_minutes',
-    'is_all_day',
-    'time_zone',
-    'due_local',
-    'recurrence',
-  };
+  static const timeFields = {'start_local', 'duration_minutes', 'is_all_day', 'time_zone', 'due_local', 'recurrence'};
 
   static String? clip(String? text) {
     if (text == null) return null;
@@ -258,16 +241,10 @@ abstract final class ActivityPayloads {
     };
   }
 
-  static Map<String, Object?> statusChanged({
-    required String from,
-    required String to,
-    String? note,
-    String? source,
-  }) => {'from': from, 'to': to, 'note': ?clip(note), 'source': ?source};
+  static Map<String, Object?> statusChanged({required String from, required String to, String? note, String? source}) =>
+      {'from': from, 'to': to, 'note': ?clip(note), 'source': ?source};
 
-  static Map<String, Object?> statusNoteChanged({String? note}) => {
-    'note': ?clip(note),
-  };
+  static Map<String, Object?> statusNoteChanged({String? note}) => {'note': ?clip(note)};
 
   /// `rescheduled`: one occurrence ([occurrenceKey]) or a [scope] (`series`, `this`,
   /// `this_and_following`); starts are ISO wall-clock strings.
@@ -282,9 +259,7 @@ abstract final class ActivityPayloads {
     String? source,
   }) {
     if ((occurrenceKey == null) == (scope == null)) {
-      throw ArgumentError(
-        'rescheduled needs exactly one of occurrenceKey or scope',
-      );
+      throw ArgumentError('rescheduled needs exactly one of occurrenceKey or scope');
     }
     return {
       'occurrenceKey': ?occurrenceKey,
@@ -310,23 +285,17 @@ abstract final class ActivityPayloads {
     'toChecklistId': ?toChecklistId,
   };
 
-  static Map<String, Object?> skipped({
-    String? from,
-    String? reason,
-    String? source,
-  }) => {'from': ?from, 'reason': ?clip(reason), 'source': ?source};
+  static Map<String, Object?> skipped({String? from, String? reason, String? source}) => {
+    'from': ?from,
+    'reason': ?clip(reason),
+    'source': ?source,
+  };
 
   static Map<String, Object?> deleted({int? count}) => {'count': ?count};
 
-  static Map<String, Object?> restored({String? fromOpId}) => {
-    'fromOpId': ?fromOpId,
-  };
+  static Map<String, Object?> restored({String? fromOpId}) => {'fromOpId': ?fromOpId};
 
-  static Map<String, Object?> attachment({
-    required String attachmentId,
-    String? fileName,
-    String? mimeType,
-  }) => {
+  static Map<String, Object?> attachment({required String attachmentId, String? fileName, String? mimeType}) => {
     'attachmentId': attachmentId,
     'fileName': ?clip(fileName),
     'mimeType': ?mimeType,

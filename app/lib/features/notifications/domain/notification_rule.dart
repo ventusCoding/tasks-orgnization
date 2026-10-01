@@ -73,22 +73,11 @@ class NotificationRule {
       other.sortKey == sortKey;
 
   @override
-  int get hashCode => Object.hash(
-    id,
-    targetType,
-    targetId,
-    section,
-    isDefault,
-    enabled,
-    name,
-    profileId,
-    spec,
-    sortKey,
-  );
+  int get hashCode =>
+      Object.hash(id, targetType, targetId, section, isDefault, enabled, name, profileId, spec, sortKey);
 
   @override
-  String toString() =>
-      'NotificationRule($id ${targetType.wire}:${targetId ?? '-'} ${spec.trigger.typeWire})';
+  String toString() => 'NotificationRule($id ${targetType.wire}:${targetId ?? '-'} ${spec.trigger.typeWire})';
 }
 
 /// Built-in profile codes (`notification_profiles.code`).
@@ -184,11 +173,7 @@ class NotificationProfile {
 
   bool get hidden => spec.hidden;
 
-  NotificationProfile copyWith({
-    String? name,
-    ProfileSpec? spec,
-    String? sortKey,
-  }) => NotificationProfile(
+  NotificationProfile copyWith({String? name, ProfileSpec? spec, String? sortKey}) => NotificationProfile(
     id: id,
     code: code,
     name: name ?? this.name,
@@ -246,6 +231,5 @@ class NotificationMute {
       other.reason == reason;
 
   @override
-  int get hashCode =>
-      Object.hash(id, targetType, targetId, section, until, reason);
+  int get hashCode => Object.hash(id, targetType, targetId, section, until, reason);
 }

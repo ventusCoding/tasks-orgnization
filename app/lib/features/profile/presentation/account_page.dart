@@ -42,10 +42,16 @@ class AccountPage extends ConsumerWidget {
           if (revoked) _RevokedCard(onSignOut: () => runSignOutFlow(context, ref, revoked: true)),
           _Header(name: profile?.displayName, email: session?.email, guest: guest, cloud: cloud),
           if (!cloud)
-            _LocalOnlyCard(canSignIn: ref.watch(cloudAuthAvailableProvider), onSignIn: () => router?.push(AppLinks.signIn()))
+            _LocalOnlyCard(
+              canSignIn: ref.watch(cloudAuthAvailableProvider),
+              onSignIn: () => router?.push(AppLinks.signIn()),
+            )
           else if (guest)
             const _GuestUpgradeCard()
-          else ...[SectionHeader(l.authLinkedAccounts), const _SignInMethods()],
+          else ...[
+            SectionHeader(l.authLinkedAccounts),
+            const _SignInMethods(),
+          ],
           SectionHeader(l.authProfileTitle),
           ListTile(
             key: const ValueKey('account-display-name'),
@@ -100,11 +106,8 @@ class AccountPage extends ConsumerWidget {
               key: const ValueKey('account-delete'),
               leading: Icon(Icons.delete_forever_outlined, color: context.colors.error),
               title: Text(l.authDeleteAccount, style: TextStyle(color: context.colors.error)),
-              onTap: () => runDeleteAccountFlow(
-                context,
-                ref,
-                webUrl: ref.read(authConfigProvider).accountDeletionWebUrl,
-              ),
+              onTap: () =>
+                  runDeleteAccountFlow(context, ref, webUrl: ref.read(authConfigProvider).accountDeletionWebUrl),
             ),
           ],
         ],
@@ -377,7 +380,11 @@ class _RevokedCard extends StatelessWidget {
                     onPressed: () => GoRouter.maybeOf(context)?.push(AppLinks.settings('data')),
                     child: Text(l.authExportFirst),
                   ),
-                  FilledButton(key: const ValueKey('account-revoked-sign-out'), onPressed: onSignOut, child: Text(l.authSignOut)),
+                  FilledButton(
+                    key: const ValueKey('account-revoked-sign-out'),
+                    onPressed: onSignOut,
+                    child: Text(l.authSignOut),
+                  ),
                 ],
               ),
             ],

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:everslot/core/errors/app_exception.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/organization/application/providers.dart';
@@ -14,8 +16,7 @@ class TagsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     final tags = ref.watch(tagsProvider);
-    final usage =
-        ref.watch(tagUsageCountsProvider).value ?? const <String, int>{};
+    final usage = ref.watch(tagUsageCountsProvider).value ?? const <String, int>{};
     return Scaffold(
       appBar: AppBar(title: Text(l.tagsTitle)),
       floatingActionButton: FloatingActionButton.extended(
@@ -43,9 +44,7 @@ class TagsScreen extends ConsumerWidget {
               final list = [...items]..removeAt(oldIndex);
               final before = target > 0 ? list[target - 1].sortKey : null;
               final after = target < list.length ? list[target].sortKey : null;
-              ref
-                  .read(tagsRepositoryProvider)
-                  .move(moving.id, afterKey: before, beforeKey: after);
+              unawaited(ref.read(tagsRepositoryProvider).move(moving.id, afterKey: before, beforeKey: after));
             },
             itemBuilder: (context, i) {
               final tag = items[i];
@@ -55,26 +54,18 @@ class TagsScreen extends ConsumerWidget {
                 leading: CircleAvatar(
                   backgroundColor: tag.color == null
                       ? context.colors.surfaceContainerHighest
-                      : CategoryColors.background(
-                          tag.color!,
-                          Theme.of(context).brightness,
-                        ),
-                  child: Icon(
-                    Icons.sell_outlined,
-                    color: tagColor(context, tag),
-                  ),
+                      : CategoryColors.background(tag.color!, Theme.of(context).brightness),
+                  child: Icon(Icons.sell_outlined, color: tagColor(context, tag)),
                 ),
                 title: Text(tag.name),
                 subtitle: Text(l.tagUsage(count)),
                 onTap: () => showTagEditor(context, ref, existing: tag),
                 trailing: PopupMenuButton<String>(
                   tooltip: l.actionMore,
-                  onSelected: (action) =>
-                      _onAction(context, ref, tag, action, items, count),
+                  onSelected: (action) => _onAction(context, ref, tag, action, items, count),
                   itemBuilder: (_) => [
                     PopupMenuItem(value: 'edit', child: Text(l.actionEdit)),
-                    if (items.length > 1)
-                      PopupMenuItem(value: 'merge', child: Text(l.tagMerge)),
+                    if (items.length > 1) PopupMenuItem(value: 'merge', child: Text(l.tagMerge)),
                     PopupMenuItem(value: 'delete', child: Text(l.actionDelete)),
                   ],
                 ),
@@ -86,14 +77,7 @@ class TagsScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _onAction(
-    BuildContext context,
-    WidgetRef ref,
-    Tag tag,
-    String action,
-    List<Tag> all,
-    int usage,
-  ) async {
+  Future<void> _onAction(BuildContext context, WidgetRef ref, Tag tag, String action, List<Tag> all, int usage) async {
     final repo = ref.read(tagsRepositoryProvider);
     final l = context.l10n;
     switch (action) {
@@ -111,12 +95,7 @@ class TagsScreen extends ConsumerWidget {
         if (!ok) return;
         final record = await repo.merge(sourceId: tag.id, targetId: target.id);
         if (context.mounted) {
-          showUndoSnackBar(
-            context,
-            ref,
-            message: l.tagMergedSnack(target.name),
-            record: record,
-          );
+          showUndoSnackBar(context, ref, message: l.tagMergedSnack(target.name), record: record);
         }
       case 'delete':
         final ok = await confirmDialog(
@@ -129,21 +108,12 @@ class TagsScreen extends ConsumerWidget {
         if (!ok) return;
         final record = await repo.delete(tag.id);
         if (context.mounted) {
-          showUndoSnackBar(
-            context,
-            ref,
-            message: l.deletedSnack(tag.name),
-            record: record,
-          );
+          showUndoSnackBar(context, ref, message: l.deletedSnack(tag.name), record: record);
         }
     }
   }
 
-  Future<Tag?> _pickMergeTarget(
-    BuildContext context,
-    Tag source,
-    List<Tag> all,
-  ) => showAppSheet<Tag>(
+  Future<Tag?> _pickMergeTarget(BuildContext context, Tag source, List<Tag> all) => showAppSheet<Tag>(
     context,
     title: context.l10n.tagMergeTitle(source.name),
     builder: (ctx) => ListView(
@@ -162,11 +132,7 @@ class TagsScreen extends ConsumerWidget {
 }
 
 /// Create/edit sheet for a tag (name + color).
-Future<void> showTagEditor(
-  BuildContext context,
-  WidgetRef ref, {
-  Tag? existing,
-}) => showAppSheet<void>(
+Future<void> showTagEditor(BuildContext context, WidgetRef ref, {Tag? existing}) => showAppSheet<void>(
   context,
   title: existing == null ? context.l10n.tagNew : context.l10n.tagEdit,
   builder: (ctx) => _TagEditor(existing: existing),
@@ -199,12 +165,7 @@ class _TagEditorState extends ConsumerState<_TagEditor> {
       if (existing == null) {
         await repo.create(name: _name.text, color: _color);
       } else {
-        await repo.update(
-          existing.id,
-          name: _name.text,
-          color: _color,
-          clearColor: _color == null,
-        );
+        await repo.update(existing.id, name: _name.text, color: _color, clearColor: _color == null);
       }
       if (mounted) Navigator.pop(context);
     } on ValidationException catch (e) {
@@ -217,12 +178,7 @@ class _TagEditorState extends ConsumerState<_TagEditor> {
     final l = context.l10n;
     final color = _color;
     return SingleChildScrollView(
-      padding: const EdgeInsetsDirectional.fromSTEB(
-        Space.xl,
-        0,
-        Space.xl,
-        Space.xl,
-      ),
+      padding: const EdgeInsetsDirectional.fromSTEB(Space.xl, 0, Space.xl, Space.xl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -230,10 +186,7 @@ class _TagEditorState extends ConsumerState<_TagEditor> {
             controller: _name,
             autofocus: widget.existing == null,
             maxLength: TagNames.maxLength,
-            decoration: InputDecoration(
-              labelText: l.tagName,
-              errorText: _error,
-            ),
+            decoration: InputDecoration(labelText: l.tagName, errorText: _error),
             onSubmitted: (_) => _save(),
           ),
           const SizedBox(height: Space.md),
@@ -241,16 +194,10 @@ class _TagEditorState extends ConsumerState<_TagEditor> {
             alignment: AlignmentDirectional.centerStart,
             child: OutlinedButton.icon(
               onPressed: () async {
-                final c = await pickColor(
-                  context,
-                  selected: color,
-                  allowNone: true,
-                );
+                final c = await pickColor(context, selected: color, allowNone: true);
                 if (c != null) setState(() => _color = c == -1 ? null : c);
               },
-              icon: color == null
-                  ? const Icon(Icons.format_color_reset_outlined)
-                  : ColorDot(Color(color), size: 16),
+              icon: color == null ? const Icon(Icons.format_color_reset_outlined) : ColorDot(Color(color), size: 16),
               label: Text(color == null ? l.tagNoColor : l.pickerColor),
             ),
           ),

@@ -175,7 +175,10 @@ class SeriesRangeQuery {
   int get hashCode => Object.hash(taskIds.join(','), from, to);
 }
 
-final seriesOccurrencesProvider = StreamProvider.autoDispose.family<List<ResolvedOccurrence>, SeriesRangeQuery>((ref, q) {
+final seriesOccurrencesProvider = StreamProvider.autoDispose.family<List<ResolvedOccurrence>, SeriesRangeQuery>((
+  ref,
+  q,
+) {
   final queries = ref.watch(plannerQueriesProvider);
   final resolver = ref.watch(occurrenceResolverProvider);
   final zone = ref.watch(deviceZoneProvider);
@@ -243,7 +246,8 @@ Future<ResolvedOccurrence?> lookupOccurrence({
   if (task == null) return null;
   final records = await queries.records([taskId]);
   final record = records.where((r) => r.occurrenceKey == key).firstOrNull;
-  final center = record?.overrideStartLocal ??
+  final center =
+      record?.overrideStartLocal ??
       LocalDateTime.tryParse(key) ??
       LocalDate.tryParse(key)?.atStartOfDay ??
       _periodStart(key) ??

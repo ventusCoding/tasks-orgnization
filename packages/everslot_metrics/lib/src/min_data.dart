@@ -24,8 +24,7 @@ final class const MinSampleRule(
   final String reasonKey = Reasons.needsMoreData,
 }) {
   /// Whether the "±" interval should be shown for a sample of size [n].
-  bool showsInterval(num n) =>
-      intervalBelow != null && n >= hiddenBelow && n < intervalBelow!;
+  bool showsInterval(num n) => intervalBelow != null && n >= hiddenBelow && n < intervalBelow!;
 
   /// Applies the rule: a [Value] with fewer than [hiddenBelow] observations becomes
   /// [Insufficient] (the sample size defaults to the value's own `sampleSize`).

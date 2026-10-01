@@ -13,7 +13,12 @@ void main() {
     await w.run((tx) async {
       await tx.insert('checklists', 'L', {'title': 'Groceries', 'sort_key': 'a0'});
       await tx.insert('checklist_items', 'A', {'checklist_id': 'L', 'sort_key': 'a0', 'text': 'Fruit'});
-      await tx.insert('checklist_items', 'A1', {'checklist_id': 'L', 'parent_id': 'A', 'sort_key': 'a0', 'text': 'Apples'});
+      await tx.insert('checklist_items', 'A1', {
+        'checklist_id': 'L',
+        'parent_id': 'A',
+        'sort_key': 'a0',
+        'text': 'Apples',
+      });
       await tx.insert('tasks', 'T', {'series_id': 'T', 'title': 'Call mom'});
     });
     h.clock.advance(const Duration(hours: 2));
@@ -56,7 +61,9 @@ void main() {
     await tester.tap(find.descendant(of: find.byType(AlertDialog), matching: find.text('Delete forever')));
     await settle(tester);
     expect(find.text('The trash is empty'), findsOneWidget);
-    final left = await tester.runAsync(() => h.db.customSelect("SELECT COUNT(*) AS n FROM tasks WHERE id = 'T'").getSingle());
+    final left = await tester.runAsync(
+      () => h.db.customSelect("SELECT COUNT(*) AS n FROM tasks WHERE id = 'T'").getSingle(),
+    );
     expect(left!.data['n'], 0);
     await finish(tester, h);
   });

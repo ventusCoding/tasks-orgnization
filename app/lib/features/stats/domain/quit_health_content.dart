@@ -22,7 +22,7 @@ enum HealthSource {
   jackson2025('https://doi.org/10.1111/add.16757'),
   bmj2000('https://pubmed.ncbi.nlm.nih.gov/10617536/');
 
-  const HealthSource(this.url);
+  HealthSource(this.url);
 
   final String url;
 }

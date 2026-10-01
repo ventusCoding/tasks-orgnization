@@ -67,7 +67,9 @@ class _ServicePlannerViewActions implements PlannerViewActions {
 
   @override
   Future<void> reorder(PlannerItem item, {String? afterKey, String? beforeKey}) async {
-    final record = await _ref.read(tasksRepositoryProvider).moveInBacklog(item.taskId, afterKey: afterKey, beforeKey: beforeKey);
+    final record = await _ref
+        .read(tasksRepositoryProvider)
+        .moveInBacklog(item.taskId, afterKey: afterKey, beforeKey: beforeKey);
     _push(_ref.read(plannerL10nProvider).tasksMoved, record);
   }
 

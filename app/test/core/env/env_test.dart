@@ -7,13 +7,8 @@ Env _env({
   String key = '',
   bool firebase = false,
   Set<String> flags = const {},
-}) => Env(
-  flavor: flavor,
-  supabaseUrl: url,
-  supabasePublishableKey: key,
-  firebaseEnabled: firebase,
-  featureFlags: flags,
-);
+}) =>
+    Env(flavor: flavor, supabaseUrl: url, supabasePublishableKey: key, firebaseEnabled: firebase, featureFlags: flags);
 
 void main() {
   group('Env (T1.1.11)', () {
@@ -23,42 +18,23 @@ void main() {
       expect(env.warnings, hasLength(2));
     });
 
-    test(
-      'the committed example placeholders are not treated as configured',
-      () {
-        final env = _env(
-          url: 'https://YOUR_PROJECT_REF.supabase.co',
-          key: 'sb_publishable_YOUR_KEY',
-        );
-        expect(env.isSupabaseConfigured, isFalse);
-      },
-    );
+    test('the committed example placeholders are not treated as configured', () {
+      final env = _env(url: 'https://YOUR_PROJECT_REF.supabase.co', key: 'sb_publishable_YOUR_KEY');
+      expect(env.isSupabaseConfigured, isFalse);
+    });
 
     test('a real URL and publishable key enable cloud mode', () {
-      final env = _env(
-        url: 'http://127.0.0.1:54321',
-        key: 'sb_publishable_abc123',
-        firebase: true,
-      );
+      final env = _env(url: 'http://127.0.0.1:54321', key: 'sb_publishable_abc123', firebase: true);
       expect(env.isSupabaseConfigured, isTrue);
       expect(env.warnings, isEmpty);
     });
 
     test('a URL without a key is still local-only', () {
-      expect(
-        _env(url: 'https://abc.supabase.co').isSupabaseConfigured,
-        isFalse,
-      );
+      expect(_env(url: 'https://abc.supabase.co').isSupabaseConfigured, isFalse);
     });
 
     test('non-http URLs are rejected', () {
-      expect(
-        _env(
-          url: 'abc.supabase.co',
-          key: 'sb_publishable_abc',
-        ).isSupabaseConfigured,
-        isFalse,
-      );
+      expect(_env(url: 'abc.supabase.co', key: 'sb_publishable_abc').isSupabaseConfigured, isFalse);
     });
   });
 

@@ -22,18 +22,12 @@ void main() {
       ..physicalSize = const Size(1000, 16000)
       ..devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    await pumpInApp(
-      tester,
-      h,
-      const ComponentGalleryScreen(animateIndicators: false),
-    );
+    await pumpInApp(tester, h, const ComponentGalleryScreen(animateIndicators: false));
     await tester.pumpAndSettle();
   }
 
-  Finder inDialog(Finder f) =>
-      find.descendant(of: find.byType(AlertDialog), matching: f);
-  Finder inSheet(Finder f) =>
-      find.descendant(of: find.byType(BottomSheet), matching: f);
+  Finder inDialog(Finder f) => find.descendant(of: find.byType(AlertDialog), matching: f);
+  Finder inSheet(Finder f) => find.descendant(of: find.byType(BottomSheet), matching: f);
 
   Future<void> tapButton(WidgetTester tester, String label) async {
     await tester.tap(find.widgetWithText(OutlinedButton, label));
@@ -87,24 +81,18 @@ void main() {
     await tester.pumpAndSettle();
     expect(MediaQuery.textScalerOf(probe()).scale(10), 20);
 
-    await tester.tap(
-      find.widgetWithText(SwitchListTile, l.galleryReduceMotion),
-    );
+    await tester.tap(find.widgetWithText(SwitchListTile, l.galleryReduceMotion));
     await tester.pumpAndSettle();
     expect(AppMotion.reduced(probe()), isTrue);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('dialogs, sheets and pickers open and return values', (
-    tester,
-  ) async {
+  testWidgets('dialogs, sheets and pickers open and return values', (tester) async {
     await pumpGallery(tester);
 
     await tapButton(tester, l.galleryConfirm);
     expect(find.byType(AlertDialog), findsOneWidget);
-    await tester.tap(
-      inDialog(find.widgetWithText(FilledButton, l.actionDelete)),
-    );
+    await tester.tap(inDialog(find.widgetWithText(FilledButton, l.actionDelete)));
     await tester.pumpAndSettle();
     expect(find.text(l.galleryPicked('true')), findsOneWidget);
 
@@ -143,11 +131,7 @@ void main() {
 
   testWidgets('motion demos push pages', (tester) async {
     await pumpGallery(tester);
-    for (final label in [
-      l.gallerySharedAxis,
-      l.galleryFadeThrough,
-      l.galleryContainer,
-    ]) {
+    for (final label in [l.gallerySharedAxis, l.galleryFadeThrough, l.galleryContainer]) {
       await tapButton(tester, label);
       expect(find.widgetWithText(AppBar, label), findsOneWidget);
       await tester.pageBack();

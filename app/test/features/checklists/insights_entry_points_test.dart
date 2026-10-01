@@ -103,7 +103,7 @@ void main() {
     testWidgets('the header summary counts this week and opens the list Insights', (tester) async {
       final (id, _) = await seed(tester);
       await pumpRouter(tester, id);
-      expect(find.text('1 done this week'), findsOneWidget, reason: 'last week\'s completion is not counted');
+      expect(find.text('1 done this week'), findsOneWidget, reason: "last week's completion is not counted");
       await tester.tap(find.text('1 done this week'));
       await settle(tester);
       expect(find.text('insights checklist $id'), findsOneWidget);

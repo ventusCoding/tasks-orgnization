@@ -10,12 +10,7 @@ import 'package:material_ui/material_ui.dart';
 /// step failed. Self-contained — no providers, no router — because the app never started. Prod:
 /// friendly message + retry; dev flavor ([showDetails]): the failing step, the error and the stack.
 class BootstrapErrorApp extends StatefulWidget {
-  const BootstrapErrorApp({
-    required this.failure,
-    required this.onRetry,
-    super.key,
-    this.showDetails = false,
-  });
+  const BootstrapErrorApp({required this.failure, required this.onRetry, super.key, this.showDetails = false});
 
   final BootstrapFailure failure;
 
@@ -40,8 +35,7 @@ class _BootstrapErrorAppState extends State<BootstrapErrorApp> {
     }
   }
 
-  String get _details =>
-      'step: ${widget.failure.step}\n${widget.failure.error}\n\n${widget.failure.stack}';
+  String get _details => 'step: ${widget.failure.step}\n${widget.failure.error}\n\n${widget.failure.stack}';
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -50,10 +44,7 @@ class _BootstrapErrorAppState extends State<BootstrapErrorApp> {
     theme: AppTheme.light(),
     darkTheme: AppTheme.dark(),
     supportedLocales: const [Locale('en'), Locale('fr'), Locale('ar')],
-    localizationsDelegates: const [
-      AppLocalizations.delegate,
-      ...GlobalMaterialLocalizations.delegates,
-    ],
+    localizationsDelegates: const [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates],
     home: Builder(
       builder: (context) {
         final l = context.l10n;
@@ -68,11 +59,7 @@ class _BootstrapErrorAppState extends State<BootstrapErrorApp> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Icon(
-                        Icons.error_outline,
-                        size: 56,
-                        color: Theme.of(context).colorScheme.error,
-                      ),
+                      Icon(Icons.error_outline, size: 56, color: Theme.of(context).colorScheme.error),
                       const SizedBox(height: Space.lg),
                       Semantics(
                         liveRegion: true,
@@ -97,17 +84,12 @@ class _BootstrapErrorAppState extends State<BootstrapErrorApp> {
                         ),
                       if (widget.showDetails) ...[
                         const SizedBox(height: Space.xl),
-                        Text(
-                          l.bootstrapErrorDetails,
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
+                        Text(l.bootstrapErrorDetails, style: Theme.of(context).textTheme.titleSmall),
                         const SizedBox(height: Space.sm),
                         Container(
                           padding: const EdgeInsetsDirectional.all(Space.md),
                           decoration: BoxDecoration(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHighest,
+                            color: Theme.of(context).colorScheme.surfaceContainerHighest,
                             borderRadius: BorderRadius.circular(Radii.md),
                           ),
                           // Developer text: always LTR, selectable.
@@ -116,10 +98,7 @@ class _BootstrapErrorAppState extends State<BootstrapErrorApp> {
                             child: SelectableText(
                               key: const ValueKey('bootstrap-details'),
                               _details,
-                              style: const TextStyle(
-                                fontFamily: 'monospace',
-                                fontSize: 12,
-                              ),
+                              style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
                               maxLines: 12,
                             ),
                           ),
@@ -127,9 +106,7 @@ class _BootstrapErrorAppState extends State<BootstrapErrorApp> {
                         Align(
                           alignment: AlignmentDirectional.centerEnd,
                           child: TextButton.icon(
-                            onPressed: () => unawaited(
-                              Clipboard.setData(ClipboardData(text: _details)),
-                            ),
+                            onPressed: () => unawaited(Clipboard.setData(ClipboardData(text: _details))),
                             icon: const Icon(Icons.copy),
                             label: Text(l.bootstrapErrorCopy),
                           ),

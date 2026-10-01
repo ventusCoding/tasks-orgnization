@@ -18,7 +18,11 @@ Future<bool> showBulkActionsSheet(BuildContext context, List<PlannerItem> items)
 /// same task collapse into one series target).
 List<BulkTarget> bulkTargets(List<PlannerItem> items, {required bool series}) => [
   for (final i in items)
-    BulkTarget(i.taskId, occurrenceKey: i.occurrenceKey.isEmpty ? null : i.occurrenceKey, series: series && i.isRecurring),
+    BulkTarget(
+      i.taskId,
+      occurrenceKey: i.occurrenceKey.isEmpty ? null : i.occurrenceKey,
+      series: series && i.isRecurring,
+    ),
 ];
 
 class BulkActionsSheet extends ConsumerStatefulWidget {

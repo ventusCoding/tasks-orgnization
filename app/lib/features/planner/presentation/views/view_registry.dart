@@ -91,10 +91,14 @@ class PlannerViewRegistry {
   /// Resolves a view key to the entry that renders it (saved views → their type's entry).
   PlannerViewEntry? resolve(String key, List<SavedView> saved) {
     final savedId = ViewKeys.savedIdOf(key);
-    if (savedId == null) return byId(key) ?? (PlannerViewType.tryParse(key) == null ? null : forType(PlannerViewType.tryParse(key)!));
+    if (savedId == null) {
+      return byId(key) ?? (PlannerViewType.tryParse(key) == null ? null : forType(PlannerViewType.tryParse(key)!));
+    }
     final view = saved.firstWhereOrNull((v) => v.id == savedId);
     return view == null ? null : forType(view.type);
   }
 }
 
-final plannerViewRegistryProvider = Provider<PlannerViewRegistry>((ref) => PlannerViewRegistry(buildPlannerViewEntries()));
+final plannerViewRegistryProvider = Provider<PlannerViewRegistry>(
+  (ref) => PlannerViewRegistry(buildPlannerViewEntries()),
+);

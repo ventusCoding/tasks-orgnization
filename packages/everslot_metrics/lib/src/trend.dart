@@ -64,15 +64,7 @@ Stat<OlsResult> ols(List<num> xs, List<num> ys) {
     p = studentTTwoSidedP(t, n - 2.0);
   }
   return Value<OlsResult>(
-    OlsResult(
-      n,
-      slope: b,
-      intercept: a,
-      standardError: se,
-      t: t,
-      pValue: p,
-      rSquared: syy == 0 ? 1 : 1 - ssRes / syy,
-    ),
+    OlsResult(n, slope: b, intercept: a, standardError: se, t: t, pValue: p, rSquared: syy == 0 ? 1 : 1 - ssRes / syy),
     sampleSize: n,
   );
 }
@@ -108,10 +100,7 @@ Stat<TheilSenResult> theilSen(
   if (slope == null) {
     return const NotApplicable<TheilSenResult>(Reasons.noVariance);
   }
-  final intercept = quantileSorted(
-    [for (var i = 0; i < n; i++) ys[i] - slope * xs[i]]..sort(),
-    0.5,
-  );
+  final intercept = quantileSorted([for (var i = 0; i < n; i++) ys[i] - slope * xs[i]]..sort(), 0.5);
   ConfidenceInterval? interval;
   if (bootstrapIterations > 0) {
     if (random == null) {
@@ -131,10 +120,7 @@ Stat<TheilSenResult> theilSen(
     }
     if (slopes.isNotEmpty) {
       slopes.sort();
-      interval = ConfidenceInterval(
-        quantileSorted(slopes, 0.025),
-        quantileSorted(slopes, 0.975),
-      );
+      interval = ConfidenceInterval(quantileSorted(slopes, 0.025), quantileSorted(slopes, 0.975));
     }
   }
   return Value<TheilSenResult>(
@@ -143,13 +129,7 @@ Stat<TheilSenResult> theilSen(
   );
 }
 
-double? _theilSenSlope(
-  List<num> xs,
-  List<num> ys,
-  math.Random? random,
-  int maxExactPoints,
-  int sampledPairs,
-) {
+double? _theilSenSlope(List<num> xs, List<num> ys, math.Random? random, int maxExactPoints, int sampledPairs) {
   final n = xs.length;
   final slopes = <double>[];
   if (n <= maxExactPoints) {
@@ -161,9 +141,7 @@ double? _theilSenSlope(
     }
   } else {
     if (random == null) {
-      throw ArgumentError(
-        'subsampling more than $maxExactPoints points needs a seeded Random',
-      );
+      throw ArgumentError('subsampling more than $maxExactPoints points needs a seeded Random');
     }
     for (var k = 0; k < sampledPairs; k++) {
       final i = random.nextInt(n);
@@ -206,10 +184,7 @@ final class const TrendResult(
 List<double> _residuals(List<num> xs, List<double> ys) {
   final fit = ols(xs, ys).valueOrNull;
   if (fit == null) return ys;
-  return [
-    for (var i = 0; i < ys.length; i++)
-      ys[i] - (fit.intercept + fit.slope * xs[i]),
-  ];
+  return [for (var i = 0; i < ys.length; i++) ys[i] - (fit.intercept + fit.slope * xs[i])];
 }
 
 /// Minimum buckets to compute a trend, and to label it significant (T6.1.14).
@@ -244,11 +219,7 @@ Stat<TrendResult> trend(
   if (vs.length < trendMinBuckets) {
     return Insufficient<TrendResult>(trendMinBuckets, vs.length);
   }
-  final chosen =
-      method ??
-      (outlierShare(_residuals(xs, vs)) > 0.05
-          ? TrendMethod.theilSen
-          : TrendMethod.ols);
+  final chosen = method ?? (outlierShare(_residuals(xs, vs)) > 0.05 ? TrendMethod.theilSen : TrendMethod.ols);
   final canLabel = vs.length >= trendSignificanceMinBuckets;
   final perWeek = 7 / bucketDays;
   if (chosen == TrendMethod.ols) {
@@ -267,12 +238,7 @@ Stat<TrendResult> trend(
       );
     });
   }
-  return theilSen(
-    xs,
-    vs,
-    random: random,
-    bootstrapIterations: bootstrapIterations,
-  ).map((r) {
+  return theilSen(xs, vs, random: random, bootstrapIterations: bootstrapIterations).map((r) {
     final ci = r.interval;
     final significant = canLabel && ci != null && ci.excludesZero;
     return TrendResult(
@@ -280,13 +246,9 @@ Stat<TrendResult> trend(
       slopePerBucket: r.slope,
       slopePerWeek: r.slope * perWeek,
       n: r.n,
-      direction: !significant
-          ? TrendDirection.stable
-          : (r.slope > 0 ? TrendDirection.rising : TrendDirection.falling),
+      direction: !significant ? TrendDirection.stable : (r.slope > 0 ? TrendDirection.rising : TrendDirection.falling),
       significant: significant,
-      interval: ci == null
-          ? null
-          : ConfidenceInterval(ci.lower * perWeek, ci.upper * perWeek),
+      interval: ci == null ? null : ConfidenceInterval(ci.lower * perWeek, ci.upper * perWeek),
     );
   });
 }

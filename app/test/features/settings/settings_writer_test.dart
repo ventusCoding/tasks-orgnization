@@ -55,10 +55,7 @@ void main() {
     final b = SimDevice(server, userId: 'u1', deviceId: 'B');
     addTearDown(a.dispose);
     addTearDown(b.dispose);
-    await SettingsWriter(_repo(a)).update(
-      PrivacySettings.codec,
-      (s) => s.copyWith(hideNotificationContent: true),
-    );
+    await SettingsWriter(_repo(a)).update(PrivacySettings.codec, (s) => s.copyWith(hideNotificationContent: true));
     await a.sync.syncNow();
     await b.sync.syncNow();
     final onB = PrivacySettings.codec.decode(await _repo(b).read('privacy'));
@@ -73,14 +70,13 @@ void main() {
     final sub = h.container.listen(appearanceSettingsProvider, (_, _) {});
     addTearDown(sub.close);
     expect(h.read(appearanceSettingsProvider), AppearanceSettings.defaults);
-    await h.read(settingsWriterProvider).update(AppearanceSettings.codec, (s) => s.copyWith(density: DensityPreference.compact));
+    await h
+        .read(settingsWriterProvider)
+        .update(AppearanceSettings.codec, (s) => s.copyWith(density: DensityPreference.compact));
     await Future<void>.delayed(const Duration(milliseconds: 20));
     expect(h.read(appearanceSettingsProvider).density, DensityPreference.compact);
     // A corrupted row (e.g. written by a buggy build) must not crash anything.
-    await h.db.customStatement(
-      'UPDATE user_settings SET value = ? WHERE namespace = ?',
-      ['{not json', 'appearance'],
-    );
+    await h.db.customStatement('UPDATE user_settings SET value = ? WHERE namespace = ?', ['{not json', 'appearance']);
     h.db.notifyUpdates({});
     await h.read(settingsWriterProvider).update(AppearanceSettings.codec, (s) => s.copyWith(sounds: true));
     await Future<void>.delayed(const Duration(milliseconds: 20));

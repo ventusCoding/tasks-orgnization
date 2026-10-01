@@ -30,6 +30,7 @@ sealed class AppException implements Exception {
   bool get isRetryable => kind == AppErrorKind.network;
 
   @override
+  // ignore: no_runtimetype_tostring, developer text only; user-facing messages come from [kind].
   String toString() => '$runtimeType: $message';
 }
 

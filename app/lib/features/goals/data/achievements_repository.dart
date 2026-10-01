@@ -16,11 +16,8 @@ class AchievementsRepository {
   final SyncWriter _writer;
   final String Function() _userId;
 
-  static String idOf(EarnedBadge b) => Ids.achievement(
-    b.code.wire,
-    b.code.scope == AchievementScope.habit ? 'habit' : null,
-    b.habitId,
-  );
+  static String idOf(EarnedBadge b) =>
+      Ids.achievement(b.code.wire, b.code.scope == AchievementScope.habit ? 'habit' : null, b.habitId);
 
   static UnlockedBadge? _map(AchievementRow r) {
     final code = AchievementCode.tryParse(r.code);

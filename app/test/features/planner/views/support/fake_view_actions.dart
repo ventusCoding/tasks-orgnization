@@ -34,4 +34,3 @@ class FakeViewActions implements PlannerViewActions {
   @override
   Future<void> stopTimer(PlannerItem item) async {}
 }
-

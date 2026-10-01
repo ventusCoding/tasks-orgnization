@@ -12,9 +12,7 @@ class AppleNonce {
   factory AppleNonce.generate({int length = 32, Random? random}) {
     const charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
     final rnd = random ?? Random.secure();
-    final raw = String.fromCharCodes(
-      List.generate(length, (_) => charset.codeUnitAt(rnd.nextInt(charset.length))),
-    );
+    final raw = String.fromCharCodes(List.generate(length, (_) => charset.codeUnitAt(rnd.nextInt(charset.length))));
     return AppleNonce._(raw, sha256Hex(raw));
   }
 

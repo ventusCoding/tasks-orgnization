@@ -17,7 +17,9 @@ Future<PlannerHarness> _pump(
   final h = PlannerHarness.create(items: items);
   addTearDown(h.dispose);
   if (config != null) {
-    h.read(plannerViewConfigProvider('day_list').notifier).update(config(h.read(plannerViewConfigProvider('day_list'))));
+    h
+        .read(plannerViewConfigProvider('day_list').notifier)
+        .update(config(h.read(plannerViewConfigProvider('day_list'))));
   }
   await pumpPlanner(tester, h, PlannerScreen(view: 'day_list', date: date));
   await tester.pumpAndSettle();
@@ -144,7 +146,10 @@ void main() {
   });
 
   testWidgets('selection mode: Select from the item menu, then taps toggle items', (tester) async {
-    final h = await _pump(tester, items: [item('Gym', at(2026, 9, 23, 9, 15), 60), item('Read', at(2026, 9, 23, 11), 30)]);
+    final h = await _pump(
+      tester,
+      items: [item('Gym', at(2026, 9, 23, 9, 15), 60), item('Read', at(2026, 9, 23, 11), 30)],
+    );
     await tester.longPress(find.text('Gym'));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('tile-menu-select')));
@@ -172,7 +177,10 @@ void main() {
   testWidgets('day summary: planned, free in work hours, done/total; tap opens insights', (tester) async {
     final h = await _pump(
       tester,
-      items: [item('Gym', at(2026, 9, 23, 9), 60, status: OccurrenceStatus.done), item('Read', at(2026, 9, 23, 13), 30)],
+      items: [
+        item('Gym', at(2026, 9, 23, 9), 60, status: OccurrenceStatus.done),
+        item('Read', at(2026, 9, 23, 13), 30),
+      ],
     );
     expect(find.byKey(const Key('day-summary')), findsOneWidget);
     expect(find.text('1/2'), findsOneWidget);

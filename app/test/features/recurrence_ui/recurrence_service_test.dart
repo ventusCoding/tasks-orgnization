@@ -11,12 +11,8 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   tzdata.initializeTimeZones();
   final clock = FakeClock(DateTime.utc(2026, 9, 22, 6));
-  RecurrenceService service({String zone = 'Europe/Paris', int threshold = 1000}) => RecurrenceService(
-    clock: clock,
-    resolver: TzZoneResolver(),
-    currentZone: zone,
-    isolateThreshold: threshold,
-  );
+  RecurrenceService service({String zone = 'Europe/Paris', int threshold = 1000}) =>
+      RecurrenceService(clock: clock, resolver: TzZoneResolver(), currentZone: zone, isolateThreshold: threshold);
   final daily = RecurrenceRule();
   final anchor = RecurrenceAnchor(LocalDateTime.of(2026, 9, 21, 8), null, durationMinutes: 30);
 
@@ -42,7 +38,8 @@ void main() {
 
   test('floating rules resolve in the current zone', () {
     final paris = service().between(daily, anchor, LocalDateTime.of(2026, 9, 22), LocalDateTime.of(2026, 9, 23));
-    final tokyo = service(zone: 'Asia/Tokyo').between(daily, anchor, LocalDateTime.of(2026, 9, 22), LocalDateTime.of(2026, 9, 23));
+    final tokyo = service(zone: 'Asia/Tokyo')
+        .between(daily, anchor, LocalDateTime.of(2026, 9, 22), LocalDateTime.of(2026, 9, 23));
     expect(paris.single.startUtc, DateTime.utc(2026, 9, 22, 6));
     expect(tokyo.single.startUtc, DateTime.utc(2026, 9, 21, 23));
   });
@@ -81,7 +78,10 @@ void main() {
 
   test('describe uses the language part of the locale', () {
     final s = service();
-    final rule = RecurrenceRule(freq: Frequency.weekly, byWeekday: const [WeekdayRule(Weekday.monday), WeekdayRule(Weekday.tuesday)]);
+    final rule = RecurrenceRule(
+      freq: Frequency.weekly,
+      byWeekday: const [WeekdayRule(Weekday.monday), WeekdayRule(Weekday.tuesday)],
+    );
     expect(s.describe(rule, anchor, locale: 'en_US'), contains('Monday'));
     expect(s.describe(rule, anchor, locale: 'fr'), contains('lundi'));
   });
@@ -104,7 +104,10 @@ void main() {
     expect(s.shouldOffload(minutely, anchor, LocalDateTime.of(2026, 9, 21), LocalDateTime.of(2026, 9, 22)), isTrue);
     expect(s.shouldOffload(daily, anchor, LocalDateTime.of(2026, 9, 21), LocalDateTime.of(2027, 9, 22)), isFalse);
     final fixed = RecurrenceService(clock: clock, resolver: const FixedOffsetZoneResolver(), currentZone: 'UTC');
-    expect(fixed.shouldOffload(minutely, anchor, LocalDateTime.of(2026, 9, 21), LocalDateTime.of(2026, 9, 22)), isFalse);
+    expect(
+      fixed.shouldOffload(minutely, anchor, LocalDateTime.of(2026, 9, 21), LocalDateTime.of(2026, 9, 22)),
+      isFalse,
+    );
   });
 
   test('betweenAsync offloads heavy ranges to an isolate with identical results', () async {
@@ -113,7 +116,9 @@ void main() {
     final from = LocalDateTime.of(2026, 9, 21);
     final to = LocalDateTime.of(2026, 9, 22);
     final viaIsolate = await s.betweenAsync(minutely, anchor, from, to);
-    final inline = RecurrenceEngine(TzZoneResolver()).between(minutely, anchor, from, to, evalZone: 'Europe/Paris').toList();
+    final inline = RecurrenceEngine(TzZoneResolver())
+        .between(minutely, anchor, from, to, evalZone: 'Europe/Paris')
+        .toList();
     expect(viaIsolate, inline);
     expect(await s.betweenAsync(minutely, anchor, from, to), same(viaIsolate));
   });

@@ -80,7 +80,7 @@ void main() {
       final rollups = _medianMicros(() => RollupCalculator.compute(tree));
       final visible = _medianMicros(() => VisibleListBuilder.build(tree));
       final totalMs = (build + rollups + visible) ~/ 1000;
-      expect(totalMs, lessThan(budgetMs), reason: 'build ${build}µs, roll-ups ${rollups}µs, visible ${visible}µs');
+      expect(totalMs, lessThan(budgetMs), reason: 'build $buildµs, roll-ups $rollupsµs, visible $visibleµs');
     });
   }
 

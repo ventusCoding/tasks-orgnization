@@ -25,10 +25,7 @@ class BadgeShareCard extends StatelessWidget {
     return Container(
       width: 320,
       padding: const EdgeInsets.all(Space.xl),
-      decoration: BoxDecoration(
-        color: colors.primaryContainer,
-        borderRadius: BorderRadius.circular(Radii.lg),
-      ),
+      decoration: BoxDecoration(color: colors.primaryContainer, borderRadius: BorderRadius.circular(Radii.lg)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -70,5 +67,10 @@ Future<void> shareBadgeCard(GlobalKey boundaryKey, {required String text}) async
   final dir = await getTemporaryDirectory();
   final file = File('${dir.path}/everslot_badge.png');
   await file.writeAsBytes(bytes.buffer.asUint8List(), flush: true);
-  await SharePlus.instance.share(ShareParams(files: [XFile(file.path, mimeType: 'image/png')], text: text));
+  await SharePlus.instance.share(
+    ShareParams(
+      files: [XFile(file.path, mimeType: 'image/png')],
+      text: text,
+    ),
+  );
 }

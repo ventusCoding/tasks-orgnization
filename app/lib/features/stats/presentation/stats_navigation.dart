@@ -1,6 +1,8 @@
 /// Navigation from Insights to entities and scopes (drill-down, T6.1.16 / T6.2.10).
 library;
 
+import 'dart:async';
+
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/features/stats/domain/chart_data.dart';
 import 'package:go_router/go_router.dart';
@@ -21,7 +23,7 @@ String? drillPath(DrillRef ref) => switch (ref.kind) {
 /// Opens the screen of [ref].
 void openDrillRef(BuildContext context, DrillRef ref) {
   final path = drillPath(ref);
-  if (path != null) context.push(path);
+  if (path != null) unawaited(context.push(path));
 }
 
 /// Opens an Insights scope (`/insights/<scope>[/<id>]`).
@@ -30,5 +32,5 @@ void openInsights(BuildContext context, String scope, [String? id]) => context.p
 /// Opens the metric glossary, filtered to [query] (a metric id from an explain sheet).
 void openGlossary(BuildContext context, {String? query}) {
   final base = AppLinks.insightsScope('glossary');
-  context.push(query == null ? base : '$base?q=${Uri.encodeQueryComponent(query)}');
+  unawaited(context.push(query == null ? base : '$base?q=${Uri.encodeQueryComponent(query)}'));
 }

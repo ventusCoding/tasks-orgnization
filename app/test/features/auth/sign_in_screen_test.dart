@@ -103,7 +103,9 @@ void main() {
     await pumpInApp(tester, h, const SignInScreen());
     await tester.ensureVisible(find.byKey(const ValueKey('sign-in-guest')));
     await tester.pump();
-    await tester.tap(find.descendant(of: find.byKey(const ValueKey('sign-in-guest')), matching: find.byType(TextButton)));
+    await tester.tap(
+      find.descendant(of: find.byKey(const ValueKey('sign-in-guest')), matching: find.byType(TextButton)),
+    );
     await settle(tester);
     final session = h.read(sessionProvider)!;
     expect(session.isAnonymous, isTrue);
@@ -155,9 +157,9 @@ void main() {
 
   testWidgets('re-auth mode prefills the account e-mail and hides guest options', (tester) async {
     final h = cloudHarness(FakeAuthRepository(), signedOut: false);
-    h.container.read(sessionProvider.notifier).set(
-      const AppSession(userId: 'u1', mode: SessionMode.cloud, email: 'me@example.com'),
-    );
+    h.container
+        .read(sessionProvider.notifier)
+        .set(const AppSession(userId: 'u1', mode: SessionMode.cloud, email: 'me@example.com'));
     await pumpInApp(tester, h, const SignInScreen(mode: 'reauth'));
     await settle(tester);
     expect(find.text('Sign in again'), findsWidgets);

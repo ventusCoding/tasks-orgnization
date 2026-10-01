@@ -42,15 +42,9 @@ class EntityFilter {
       },
       statuses: strings(json['statuses']),
       text: json['text'] is String ? json['text'] as String : null,
-      dateFrom: json['dateFrom'] is String
-          ? LocalDate.tryParse(json['dateFrom'] as String)
-          : null,
-      dateTo: json['dateTo'] is String
-          ? LocalDate.tryParse(json['dateTo'] as String)
-          : null,
-      hasAttachments: json['hasAttachments'] is bool
-          ? json['hasAttachments'] as bool
-          : null,
+      dateFrom: json['dateFrom'] is String ? LocalDate.tryParse(json['dateFrom'] as String) : null,
+      dateTo: json['dateTo'] is String ? LocalDate.tryParse(json['dateTo'] as String) : null,
+      hasAttachments: json['hasAttachments'] is bool ? json['hasAttachments'] as bool : null,
       recurring: json['recurring'] is bool ? json['recurring'] as bool : null,
     );
   }
@@ -107,24 +101,22 @@ class EntityFilter {
 
   /// Pure predicate — must stay equivalent to the SQL builder.
   bool matches(FilterSubject s) {
-    if (categoryIds.isNotEmpty &&
-        !categoryIds.contains(s.categoryId ?? noCategory))
-      return false;
-    if (tagIds.isNotEmpty && !s.tagIds.any(tagIds.contains)) return false;
-    if (priorities.isNotEmpty &&
-        (s.priority == null || !priorities.contains(s.priority))) {
+    if (categoryIds.isNotEmpty && !categoryIds.contains(s.categoryId ?? noCategory)) {
       return false;
     }
-    if (statuses.isNotEmpty &&
-        (s.status == null || !statuses.contains(s.status)))
+    if (tagIds.isNotEmpty && !s.tagIds.any(tagIds.contains)) return false;
+    if (priorities.isNotEmpty && (s.priority == null || !priorities.contains(s.priority))) {
       return false;
+    }
+    if (statuses.isNotEmpty && (s.status == null || !statuses.contains(s.status))) {
+      return false;
+    }
     final t = effectiveText;
     if (t != null) {
       final needle = FilterText.fold(t);
-      if (!s.texts.any(
-        (field) => FilterText.fold(field ?? '').contains(needle),
-      ))
+      if (!s.texts.any((field) => FilterText.fold(field ?? '').contains(needle))) {
         return false;
+      }
     }
     if (hasDateRange) {
       final d = s.date;
@@ -132,8 +124,9 @@ class EntityFilter {
       if (dateFrom != null && d.isBefore(dateFrom!)) return false;
       if (dateTo != null && d.isAfter(dateTo!)) return false;
     }
-    if (hasAttachments != null && s.hasAttachments != hasAttachments)
+    if (hasAttachments != null && s.hasAttachments != hasAttachments) {
       return false;
+    }
     if (recurring != null && s.isRecurring != recurring) return false;
     return true;
   }
@@ -160,9 +153,7 @@ class EntityFilter {
     text: clearText ? null : (text ?? this.text),
     dateFrom: clearDates ? null : (dateFrom ?? this.dateFrom),
     dateTo: clearDates ? null : (dateTo ?? this.dateTo),
-    hasAttachments: clearHasAttachments
-        ? null
-        : (hasAttachments ?? this.hasAttachments),
+    hasAttachments: clearHasAttachments ? null : (hasAttachments ?? this.hasAttachments),
     recurring: clearRecurring ? null : (recurring ?? this.recurring),
   );
 

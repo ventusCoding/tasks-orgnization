@@ -34,8 +34,10 @@ IconData badgeIcon(AchievementCode code) => switch (code) {
   AchievementCode.firstCheckIn => Icons.check_circle,
   AchievementCode.firstPerfectDay || AchievementCode.perfectWeek => Icons.emoji_events,
   AchievementCode.backfillFreeMonth => Icons.event_available,
-  AchievementCode.streak7 || AchievementCode.streak30 || AchievementCode.streak100 || AchievementCode.streak365 =>
-    Icons.local_fire_department,
+  AchievementCode.streak7 ||
+  AchievementCode.streak30 ||
+  AchievementCode.streak100 ||
+  AchievementCode.streak365 => Icons.local_fire_department,
   AchievementCode.total1000 || AchievementCode.total10000 => Icons.stacked_bar_chart,
   AchievementCode.challengeCompleted => Icons.flag,
   AchievementCode.clean1 ||

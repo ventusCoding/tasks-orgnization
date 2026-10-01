@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/design_system/design_system.dart';
@@ -18,7 +20,10 @@ AppFormat _format(BuildContext context, WidgetRef ref) => AppFormat(
 
 Widget _hint(BuildContext context) => Padding(
   padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.md, Space.lg, 0),
-  child: Text(context.l10n.settingsDefaultsHint, style: context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant)),
+  child: Text(
+    context.l10n.settingsDefaultsHint,
+    style: context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant),
+  ),
 );
 
 /// Settings › Plan (T8.3.05): default view, task duration, tracking, missed grace, work hours &
@@ -34,7 +39,8 @@ class PlanDefaultsPage extends ConsumerWidget {
     final format = _format(context, ref);
     final views = ref.watch(plannerViewChoicesProvider);
     final current = views.where((v) => v.isDefault).firstOrNull;
-    Future<void> set(PlannerDefaults Function(PlannerDefaults s) change) => writer.update(PlannerDefaults.codec, change);
+    Future<void> set(PlannerDefaults Function(PlannerDefaults s) change) =>
+        writer.update(PlannerDefaults.codec, change);
 
     return SettingsPageScaffold(
       title: l.settingsPlan,
@@ -134,7 +140,7 @@ class PlanDefaultsPage extends ConsumerWidget {
                       onSelected: (on) {
                         final days = {...s.workDays};
                         on ? days.add(iso) : days.remove(iso);
-                        if (days.isNotEmpty) set((s) => s.copyWith(workDays: days));
+                        if (days.isNotEmpty) unawaited(set((s) => s.copyWith(workDays: days)));
                       },
                     ),
                 ],
@@ -231,7 +237,7 @@ class ListsDefaultsPage extends ConsumerWidget {
                       onSelected: (on) {
                         final next = {...s.requireReasonFor};
                         on ? next.add(e.key) : next.remove(e.key);
-                        set((s) => s.copyWith(requireReasonFor: next));
+                        unawaited(set((s) => s.copyWith(requireReasonFor: next)));
                       },
                     ),
                 ],

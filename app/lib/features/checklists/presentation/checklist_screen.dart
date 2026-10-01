@@ -9,9 +9,9 @@ import 'package:everslot/features/attachments/presentation/attachment_ui.dart';
 import 'package:everslot/features/checklists/application/checklist_editor.dart';
 import 'package:everslot/features/checklists/application/checklist_service.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
-import 'package:everslot/features/checklists/application/task_links.dart';
 import 'package:everslot/features/checklists/application/reset_service.dart';
 import 'package:everslot/features/checklists/application/swipe_actions.dart';
+import 'package:everslot/features/checklists/application/task_links.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
 import 'package:everslot/features/checklists/domain/checklist_tree.dart';
 import 'package:everslot/features/checklists/domain/drop_target.dart';
@@ -157,7 +157,7 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     final checklistValue = ref.watch(checklistProvider(checklistId));
     final checklist = checklistValue.value;
     if (checklist == null && _pending == null) {
-      if (checklistValue.isLoading || (checklistValue.hasValue == false && !checklistValue.hasError)) {
+      if (checklistValue.isLoading || (!checklistValue.hasValue && !checklistValue.hasError)) {
         return Scaffold(appBar: AppBar(), body: const LoadingState());
       }
       return Scaffold(
@@ -180,7 +180,7 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
 
     final tree = ref.watch(checklistTreeProvider(checklistId));
     if (tree != null) _resolveRouteFocus(tree);
-    final Widget body = switch (state.viewType) {
+    final body = switch (state.viewType) {
       ChecklistViewType.kanban => KanbanView(checklistId: checklistId, onOpenItem: openDetails),
       ChecklistViewType.gallery => GalleryView(checklistId: checklistId, onOpenItem: openDetails),
       ChecklistViewType.mindMap => MindMapView(
@@ -234,16 +234,8 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     return AppBar(
       actions: [
         if (outline && !state.preview) ...[
-          IconButton(
-            tooltip: l.actionUndo,
-            icon: const Icon(Icons.undo),
-            onPressed: state.canUndo ? () => undo() : null,
-          ),
-          IconButton(
-            tooltip: l.actionRedo,
-            icon: const Icon(Icons.redo),
-            onPressed: state.canRedo ? () => redo() : null,
-          ),
+          IconButton(tooltip: l.actionUndo, icon: const Icon(Icons.undo), onPressed: state.canUndo ? undo : null),
+          IconButton(tooltip: l.actionRedo, icon: const Icon(Icons.redo), onPressed: state.canRedo ? redo : null),
         ],
         if (outline && checklist != null)
           IconButton(
@@ -949,7 +941,7 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         final content = ref.read(checklistClipboardProvider);
         if (content == null) return;
         final record = await _editor.paste(content, afterId: item.id);
-        if (record != null) _undoSnack(context.l10n.checklistPaste, record);
+        if (record != null && mounted) _undoSnack(context.l10n.checklistPaste, record);
       case 'select':
         _lastToggled = item.id;
         _editor.startSelection(item.id);
@@ -1125,6 +1117,7 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
       clipboard.copy(tree, checklistId, ids);
     }
     await Clipboard.setData(ClipboardData(text: ChecklistClipboard.asText(tree, ids)));
+    if (!mounted) return;
     _info(context.l10n.checklistCopied);
   }
 

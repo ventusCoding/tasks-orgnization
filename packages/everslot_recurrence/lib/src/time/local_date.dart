@@ -44,8 +44,7 @@ final class LocalDate implements Comparable<LocalDate> {
   }
 
   /// The calendar date of [dateTime] (its own year/month/day fields, zone ignored).
-  factory fromDateTime(DateTime dateTime) =>
-      LocalDate._(dateTime.year, dateTime.month, dateTime.day);
+  factory fromDateTime(DateTime dateTime) => LocalDate._(dateTime.year, dateTime.month, dateTime.day);
 
   /// Returns null when the combination is not a valid date.
   static LocalDate? tryCreate(int year, int month, int day) {
@@ -58,8 +57,7 @@ final class LocalDate implements Comparable<LocalDate> {
   final int month;
   final int day;
 
-  static bool isLeapYear(int year) =>
-      (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+  static bool isLeapYear(int year) => (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
 
   static int daysInMonth(int year, int month) {
     const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -86,16 +84,12 @@ final class LocalDate implements Comparable<LocalDate> {
   /// 1-based day of the year.
   int get dayOfYear => epochDay - LocalDate._(year, 1, 1).epochDay + 1;
 
-  LocalDate plusDays(int days) =>
-      days == 0 ? this : LocalDate.fromEpochDay(epochDay + days);
+  LocalDate plusDays(int days) => days == 0 ? this : LocalDate.fromEpochDay(epochDay + days);
 
   LocalDate minusDays(int days) => plusDays(-days);
 
   /// Adds calendar months. With [MonthOverflow.skip] returns null when the day doesn't exist.
-  LocalDate? plusMonthsOrNull(
-    int months, {
-    MonthOverflow overflow = MonthOverflow.clamp,
-  }) {
+  LocalDate? plusMonthsOrNull(int months, {MonthOverflow overflow = MonthOverflow.clamp}) {
     final total = year * 12 + (month - 1) + months;
     final y = total >= 0 ? total ~/ 12 : -((-total + 11) ~/ 12);
     final m = total - y * 12 + 1;
@@ -115,13 +109,11 @@ final class LocalDate implements Comparable<LocalDate> {
   int daysUntil(LocalDate other) => other.epochDay - epochDay;
 
   /// First day of the week containing this date, for the given [weekStart].
-  LocalDate startOfWeek(Weekday weekStart) =>
-      minusDays(weekday.offsetFrom(weekStart));
+  LocalDate startOfWeek(Weekday weekStart) => minusDays(weekday.offsetFrom(weekStart));
 
   LocalDate get firstDayOfMonth => LocalDate._(year, month, 1);
 
-  LocalDate get lastDayOfMonth =>
-      LocalDate._(year, month, daysInMonth(year, month));
+  LocalDate get lastDayOfMonth => LocalDate._(year, month, daysInMonth(year, month));
 
   /// ISO-8601 week-based year and week number (weeks start on Monday, week 1 contains Jan 4).
   ({int weekYear, int week}) get isoWeek {
@@ -150,8 +142,7 @@ final class LocalDate implements Comparable<LocalDate> {
   }
 
   /// First day of week 1 of [weekYear] for weeks starting on [weekStart].
-  factory firstDayOfWeekYear(int weekYear, Weekday weekStart) =>
-      LocalDate._(weekYear, 1, 4).startOfWeek(weekStart);
+  factory firstDayOfWeekYear(int weekYear, Weekday weekStart) => LocalDate._(weekYear, 1, 4).startOfWeek(weekStart);
 
   /// Number of weeks (52 or 53) in [weekYear] for weeks starting on [weekStart].
   static int weeksInWeekYear(int weekYear, Weekday weekStart) =>
@@ -192,11 +183,7 @@ final class LocalDate implements Comparable<LocalDate> {
   static LocalDate? tryParse(String input) {
     final m = _iso.firstMatch(input.trim());
     if (m == null) return null;
-    return tryCreate(
-      int.parse(m.group(1)!),
-      int.parse(m.group(2)!),
-      int.parse(m.group(3)!),
-    );
+    return tryCreate(int.parse(m.group(1)!), int.parse(m.group(2)!), int.parse(m.group(3)!));
   }
 
   @override
@@ -208,10 +195,7 @@ final class LocalDate implements Comparable<LocalDate> {
 
   @override
   bool operator ==(Object other) =>
-      other is LocalDate &&
-      other.year == year &&
-      other.month == month &&
-      other.day == day;
+      other is LocalDate && other.year == year && other.month == month && other.day == day;
 
   @override
   int get hashCode => Object.hash(year, month, day);

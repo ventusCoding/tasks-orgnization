@@ -8,8 +8,8 @@ import 'package:everslot/features/habits/application/habit_day_view.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/application/habit_service.dart';
 import 'package:everslot/features/habits/application/habit_view_settings.dart';
-import 'package:everslot/features/habits/application/record_moments.dart';
 import 'package:everslot/features/habits/application/live_ticker.dart';
+import 'package:everslot/features/habits/application/record_moments.dart';
 import 'package:everslot/features/habits/domain/check_in.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_periods.dart';
@@ -182,9 +182,18 @@ class _SectionBlockState extends State<_SectionBlock> {
     final l = context.l10n;
     final settings = widget.settings;
     final views = widget.group.views;
-    final due = [for (final v in views) if (v.group == DayGroup.due) v];
-    final done = [for (final v in views) if (v.group == DayGroup.done) v];
-    final notDue = [for (final v in views) if (v.group == DayGroup.notDue) v];
+    final due = [
+      for (final v in views)
+        if (v.group == DayGroup.due) v,
+    ];
+    final done = [
+      for (final v in views)
+        if (v.group == DayGroup.done) v,
+    ];
+    final notDue = [
+      for (final v in views)
+        if (v.group == DayGroup.notDue) v,
+    ];
     final countable = due.length + done.length;
     Widget row(HabitDayView v) => HabitRow(
       view: v,
@@ -288,7 +297,9 @@ class HabitRow extends ConsumerWidget {
     Future<void> primarySwipe() async {
       if (view.future) return;
       if (habit.goal.isMeasurable && !view.isQuota) {
-        final step = habit.settings.quickValues.isNotEmpty ? habit.settings.quickValues.first : habit.settings.incrementStep;
+        final step = habit.settings.quickValues.isNotEmpty
+            ? habit.settings.quickValues.first
+            : habit.settings.incrementStep;
         await actions.addProgress(habit, view.key, step);
       } else {
         await actions.setState(habit, view.key, CheckInState.done);
@@ -301,7 +312,12 @@ class HabitRow extends ConsumerWidget {
         onTap: () => HabitRoutes.detail(context, habit.id),
         onLongPress: () => showHabitActionsSheet(context, ref, view),
         child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(Space.lg, compact ? Space.xs : Space.sm, Space.sm, compact ? Space.xs : Space.sm),
+          padding: EdgeInsetsDirectional.fromSTEB(
+            Space.lg,
+            compact ? Space.xs : Space.sm,
+            Space.sm,
+            compact ? Space.xs : Space.sm,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -322,14 +338,29 @@ class HabitRow extends ConsumerWidget {
                           children: [
                             if (subtitle.isNotEmpty) Text(subtitle, style: context.text.bodySmall),
                             if (view.atRisk)
-                              StatusPill(label: l.habitsAtRisk, color: context.appColors.warning, icon: Icons.warning_amber, dense: true),
+                              StatusPill(
+                                label: l.habitsAtRisk,
+                                color: context.appColors.warning,
+                                icon: Icons.warning_amber,
+                                dense: true,
+                              ),
                             if (view.shape == ScheduleShape.afterCompletion && (view.result?.flags.atRisk ?? false))
-                              StatusPill(label: l.habitsOverdue, color: context.appColors.warning, icon: Icons.schedule, dense: true),
+                              StatusPill(
+                                label: l.habitsOverdue,
+                                color: context.appColors.warning,
+                                icon: Icons.schedule,
+                                dense: true,
+                              ),
                             if (view.explicit != null || status == PeriodStatus.missed || status == PeriodStatus.paused)
                               HabitStatusPill(status),
                             if (showStreak && view.streak > 0) StreakChip(view.streak),
                             if (!view.future && buildRecordMoments(view.snapshot).isNotEmpty)
-                              StatusPill(label: l.habitsRecordNew, color: context.appColors.success, icon: Icons.emoji_events, dense: true),
+                              StatusPill(
+                                label: l.habitsRecordNew,
+                                color: context.appColors.success,
+                                icon: Icons.emoji_events,
+                                dense: true,
+                              ),
                           ],
                         ),
                       ],
@@ -352,8 +383,9 @@ class HabitRow extends ConsumerWidget {
     return Semantics(
       customSemanticsActions: {
         if (!view.future) CustomSemanticsAction(label: l.habitsActionDone): () => unawaited(primarySwipe()),
-        if (!view.future) CustomSemanticsAction(label: l.habitsActionNotDone): () =>
-            unawaited(actions.setState(habit, view.key, CheckInState.notDone)),
+        if (!view.future)
+          CustomSemanticsAction(label: l.habitsActionNotDone): () =>
+              unawaited(actions.setState(habit, view.key, CheckInState.notDone)),
         CustomSemanticsAction(label: l.habitsActionSkip): () =>
             unawaited(actions.skipOrExcuse(habit, view.key, CheckInState.skip)),
       },
@@ -566,21 +598,21 @@ class _HoldToCompleteRingState extends State<HoldToCompleteRing> with SingleTick
           onTap: () {},
           onLongPress: reduced ? () => unawaited(_complete()) : () {},
           child: SizedBox(
-          width: 48,
-          height: 48,
-          child: Center(
-            child: AnimatedBuilder(
-              animation: _fill,
-              builder: (context, child) => ProgressRing(
-                progress: _fill.value > widget.progress ? _fill.value : widget.progress,
-                size: 36,
-                color: widget.color,
-                child: child,
+            width: 48,
+            height: 48,
+            child: Center(
+              child: AnimatedBuilder(
+                animation: _fill,
+                builder: (context, child) => ProgressRing(
+                  progress: _fill.value > widget.progress ? _fill.value : widget.progress,
+                  size: 36,
+                  color: widget.color,
+                  child: child,
+                ),
+                child: widget.child,
               ),
-              child: widget.child,
             ),
           ),
-        ),
         ),
       ),
     );
@@ -627,7 +659,9 @@ class _StepperState extends ConsumerState<_Stepper> {
     final last = entries.last;
     final service = ref.read(checkInServiceProvider);
     final value = last.value ?? 0;
-    final record = value > _step ? await service.updateEntry(last, value: value - _step) : await service.deleteEntry(last);
+    final record = value > _step
+        ? await service.updateEntry(last, value: value - _step)
+        : await service.deleteEntry(last);
     if (mounted) showUndoSnackBar(context, ref, message: context.l10n.savedSnack, record: record);
   }
 
@@ -734,7 +768,9 @@ class _TimerControlState extends ConsumerState<_TimerControl> {
             icon: const Icon(Icons.edit_outlined),
             onPressed: () async {
               final minutes = await showValueSheet(context, habit);
-              if (minutes != null && context.mounted) await CheckInActions(context, ref).addProgress(habit, key, minutes);
+              if (minutes != null && context.mounted) {
+                await CheckInActions(context, ref).addProgress(habit, key, minutes);
+              }
             },
           ),
           IconButton.filledTonal(
@@ -792,12 +828,16 @@ class SlotChips extends ConsumerWidget {
     final fmt = AppFormat(context.localeName, use24h: ref.watch(userPreferencesProvider).use24h);
     final actions = CheckInActions(context, ref);
     final chips = [
-      for (final r in view.slots) _chip(context, r, slotChipState(r, now), fmt, () {
-        final done = r.status == PeriodStatus.done;
-        unawaited(actions.setState(view.habit, r.key, done ? null : CheckInState.done));
-      }),
+      for (final r in view.slots)
+        _chip(context, r, slotChipState(r, now), fmt, () {
+          final done = r.status == PeriodStatus.done;
+          unawaited(actions.setState(view.habit, r.key, done ? null : CheckInState.done));
+        }),
     ];
-    final label = l.habitsSlotsProgress(view.slots.where((s) => s.status == PeriodStatus.done).length, view.slots.length);
+    final label = l.habitsSlotsProgress(
+      view.slots.where((s) => s.status == PeriodStatus.done).length,
+      view.slots.length,
+    );
     if (chips.length > 8) {
       return Semantics(
         label: label,
@@ -812,7 +852,10 @@ class SlotChips extends ConsumerWidget {
         ),
       );
     }
-    return Semantics(label: label, child: Wrap(spacing: Space.xs, runSpacing: Space.xs, children: chips));
+    return Semantics(
+      label: label,
+      child: Wrap(spacing: Space.xs, runSpacing: Space.xs, children: chips),
+    );
   }
 
   Widget _chip(BuildContext context, PeriodResult r, SlotChipState state, AppFormat fmt, VoidCallback onTap) {

@@ -78,10 +78,9 @@ class _ZonePickerState extends ConsumerState<_ZonePicker> {
                         selected: selected,
                         leading: zone == detected ? const Icon(Icons.my_location) : const Icon(Icons.public),
                         title: Text(zoneDisplay(zone, now)),
-                        subtitle: Text([
-                          if (zone == detected) l.authZoneDetected,
-                          if (region.isNotEmpty) region,
-                        ].join(' · ')),
+                        subtitle: Text(
+                          [if (zone == detected) l.authZoneDetected, if (region.isNotEmpty) region].join(' · '),
+                        ),
                         trailing: selected ? const Icon(Icons.check) : null,
                         onTap: () => Navigator.pop(context, zone),
                       );

@@ -9,11 +9,7 @@ import 'package:everslot/features/notifications/domain/scheduler/schedule_plan.d
 /// (iOS runs no code when a local notification fires) — T7.3.02. Idempotent: same dedupe key →
 /// same inbox id on every device; the schedule row is marked reconciled.
 class InboxReconciler {
-  InboxReconciler({
-    required this.store,
-    required this.inbox,
-    required this.clock,
-  });
+  InboxReconciler({required this.store, required this.inbox, required this.clock});
 
   final LocalScheduleStore store;
   final InboxRepository inbox;
@@ -73,9 +69,7 @@ class InboxReconciler {
       section: NotificationSection.tryParse(asString(c['sec'])),
       payload: payload,
       // Members of merged / repeating notifications were shown through their group.
-      via: e.os || e.kind == ScheduleKind.merged || asBool(c['grp']) == true
-          ? 'local'
-          : 'inbox_only',
+      via: e.os || e.kind == ScheduleKind.merged || asBool(c['grp']) == true ? 'local' : 'inbox_only',
     );
   }
 }

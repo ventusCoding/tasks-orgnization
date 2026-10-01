@@ -306,7 +306,7 @@ final List<MetricDefinition> checklistMetrics = [
       final byStatus = groupBy([
         for (final f in c.listFacts)
           if (!f.isDeleted && f.checklistId == c.checklistId) f,
-      ], (ChecklistItemFact f) => f.status.name);
+      ], (f) => f.status.name);
       return result(
         'CL-L-01',
         mix.doneLeafBased,

@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:collection/collection.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
+import 'package:everslot/features/checklists/domain/board.dart';
 import 'package:everslot/features/habits/application/check_in_service.dart';
 import 'package:everslot/features/habits/application/habit_day_view.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
@@ -125,7 +126,7 @@ final plannerOverlayMarkersProvider = Provider.autoDispose.family<List<OverlayMa
     }
   }
   if (q.checklistDue) {
-    for (final s in ref.watch(allItemsProvider).value ?? const []) {
+    for (final s in ref.watch(allItemsProvider).value ?? const <SmartItem>[]) {
       final due = s.item.dueLocal;
       if (due == null || !s.item.status.isOpen || !q.range.contains(due.date)) continue;
       out.add(
@@ -253,7 +254,7 @@ List<Widget> positionedMarkers({
       PositionedDirectional(
         start: i * col + 2,
         top: y + stack * (OverlayMarkerChip.extent + 1),
-        width: math.max(0.0, col - 4),
+        width: math.max(0, col - 4),
         height: OverlayMarkerChip.extent,
         child: builder(m),
       ),
@@ -295,7 +296,9 @@ class FreeSlotsPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(FreeSlotsPainter old) =>
-      old.color != color || !const ListEquality<FreeInterval>().equals(old.openings, openings) || old.page.ppm != page.ppm;
+      old.color != color ||
+      !const ListEquality<FreeInterval>().equals(old.openings, openings) ||
+      old.page.ppm != page.ppm;
 }
 
 /// Occupancy heat tint (T3.3.23): each hour cell tinted by its average load over past weeks.

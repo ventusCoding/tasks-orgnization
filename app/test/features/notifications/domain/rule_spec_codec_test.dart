@@ -4,9 +4,8 @@ import 'package:everslot/features/notifications/domain/rule_spec.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  String roundTrip(String json) => NotificationRuleSpec.fromJson(
-    Map<String, Object?>.from(jsonDecode(json) as Map),
-  ).encode();
+  String roundTrip(String json) =>
+      NotificationRuleSpec.fromJson(Map<String, Object?>.from(jsonDecode(json) as Map)).encode();
 
   group('arch §8.2 example', () {
     const example =
@@ -19,15 +18,10 @@ void main() {
         '"snoozeOptionsMinutes":[5,10,30,60]},'
         '"content":{"title":"{title}","body":"Starts in {minutes_until} min · {start_time}–{end_time}"}}';
 
-    test(
-      'round-trips byte-identically',
-      () => expect(roundTrip(example), example),
-    );
+    test('round-trips byte-identically', () => expect(roundTrip(example), example));
 
     test('decodes every field', () {
-      final spec = NotificationRuleSpec.fromJson(
-        Map<String, Object?>.from(jsonDecode(example) as Map),
-      );
+      final spec = NotificationRuleSpec.fromJson(Map<String, Object?>.from(jsonDecode(example) as Map));
       final trigger = spec.trigger as RelativeTrigger;
       expect(trigger.anchor, TriggerAnchor.start);
       expect(trigger.offsetMinutes, -10);
@@ -111,8 +105,7 @@ void main() {
   });
 
   test('repeat false sentinel round-trips and means disabled', () {
-    const json =
-        '{"v":1,"trigger":{"type":"relative","anchor":"start","offsetMinutes":0},"repeat":false}';
+    const json = '{"v":1,"trigger":{"type":"relative","anchor":"start","offsetMinutes":0},"repeat":false}';
     expect(roundTrip(json), json);
     final spec = NotificationRuleSpec.tryDecode(json)!;
     expect(spec.repeatDisabled, isTrue);
@@ -160,11 +153,7 @@ void main() {
     expect(
       p.channelChanged(
         p.copyWith(
-          delivery: const DeliverySpec(
-            importance: 'low',
-            sound: 'none',
-            actions: ['done'],
-          ),
+          delivery: const DeliverySpec(importance: 'low', sound: 'none', actions: ['done']),
         ),
       ),
       isFalse,

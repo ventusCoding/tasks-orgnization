@@ -36,7 +36,13 @@ void main() {
     addTearDown(h.dispose);
     final controller = PlannerGridController();
     addTearDown(controller.dispose);
-    await pumpPlanner(tester, h, Scaffold(body: TimeGrid(viewKey: 'week_table', controller: controller)));
+    await pumpPlanner(
+      tester,
+      h,
+      Scaffold(
+        body: TimeGrid(viewKey: 'week_table', controller: controller),
+      ),
+    );
     await tester.pumpAndSettle();
     final grid = tester.state<TimeGridState>(find.byType(TimeGrid));
     await controller.jumpTo(mon, animate: false, minute: 6 * 60);
@@ -52,9 +58,16 @@ void main() {
 
     // … repeating weekly on Mon & Tue (the editor's job — done through the data layer here).
     final task = (await h.read(plannerQueriesProvider).task(created.taskId))!;
-    await h.read(tasksRepositoryProvider).update(
-      task.copyWith(recurrence: RecurrenceRule(freq: Frequency.weekly, byWeekday: const [WeekdayRule(Weekday.monday), WeekdayRule(Weekday.tuesday)])),
-    );
+    await h
+        .read(tasksRepositoryProvider)
+        .update(
+          task.copyWith(
+            recurrence: RecurrenceRule(
+              freq: Frequency.weekly,
+              byWeekday: const [WeekdayRule(Weekday.monday), WeekdayRule(Weekday.tuesday)],
+            ),
+          ),
+        );
     await tester.pumpAndSettle();
     final tuesday = (await items(h, tue)).single;
     expect(tuesday.isRecurring, isTrue);
@@ -64,7 +77,10 @@ void main() {
     await tester.tap(find.text('This occurrence'));
     await tester.pumpAndSettle();
     final moved = (await items(h, wed)).single;
-    expect((moved.startLocal, moved.durationMinutes, moved.occurrenceKey), (wed.atTime(LocalTime(10, 0)), 90, tuesday.occurrenceKey));
+    expect(
+      (moved.startLocal, moved.durationMinutes, moved.occurrenceKey),
+      (wed.atTime(LocalTime(10, 0)), 90, tuesday.occurrenceKey),
+    );
     expect(await items(h, tue), isEmpty);
 
     // 3. Resize it (bottom edge 11:30 → 12:00).
@@ -90,7 +106,13 @@ void main() {
     await actions.createAt(wed.atTime(LocalTime(16, 0)), 30, title: 'Call');
     final controller = PlannerGridController();
     addTearDown(controller.dispose);
-    await pumpPlanner(tester, h, Scaffold(body: TimeGrid(viewKey: 'week_table', controller: controller)));
+    await pumpPlanner(
+      tester,
+      h,
+      Scaffold(
+        body: TimeGrid(viewKey: 'week_table', controller: controller),
+      ),
+    );
     await tester.pumpAndSettle();
     final grid = tester.state<TimeGridState>(find.byType(TimeGrid));
 

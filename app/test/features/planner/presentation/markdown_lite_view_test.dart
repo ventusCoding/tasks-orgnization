@@ -9,7 +9,8 @@ import 'planner_ui_support.dart';
 
 /// Markdown-lite renderer and toolbar (T3.1.15).
 void main() {
-  const note = '# Plan\n'
+  const note =
+      '# Plan\n'
       'Bring **passport** and *tickets*, run `npm test`.\n'
       '- first\n'
       '  - nested\n'
@@ -31,13 +32,14 @@ void main() {
     themeMode: dark ? ThemeMode.dark : ThemeMode.light,
     supportedLocales: const [Locale('en'), Locale('fr'), Locale('ar')],
     localizationsDelegates: const [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates],
-    home: Scaffold(body: Padding(padding: const EdgeInsets.all(16), child: child)),
+    home: Scaffold(
+      body: Padding(padding: const EdgeInsets.all(16), child: child),
+    ),
   );
 
   /// All text spans rendered by rich texts (flattened).
   List<TextSpan> spans(WidgetTester tester) => [
-    for (final rich in tester.widgetList<RichText>(find.byType(RichText)))
-      ..._flatten(rich.text),
+    for (final rich in tester.widgetList<RichText>(find.byType(RichText))) ..._flatten(rich.text),
   ];
 
   testWidgets('renders headings, emphasis, code, lists, checkboxes and links', (tester) async {
@@ -60,8 +62,9 @@ void main() {
   testWidgets('paragraphs and list items follow their first strong character', (tester) async {
     await tester.pumpWidget(app(const MarkdownLiteView(note)));
     await pumpFor(tester);
-    TextDirection directionOf(String text) =>
-        Directionality.of(tester.element(find.byWidgetPredicate((w) => w is RichText && w.text.toPlainText().contains(text))));
+    TextDirection directionOf(String text) => Directionality.of(
+      tester.element(find.byWidgetPredicate((w) => w is RichText && w.text.toPlainText().contains(text))),
+    );
     expect(directionOf('مرحبا'), TextDirection.rtl);
     expect(directionOf('Bring'), TextDirection.ltr);
     // The Arabic bullet sits on the right of its text in an LTR note.

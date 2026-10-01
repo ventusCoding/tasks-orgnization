@@ -180,7 +180,8 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
     final form = _form;
     if (form == null) return;
     final next = change(form);
-    final timingChanged = next.startLocal != form.startLocal || next.effectiveDurationMinutes != form.effectiveDurationMinutes;
+    final timingChanged =
+        next.startLocal != form.startLocal || next.effectiveDurationMinutes != form.effectiveDurationMinutes;
     setState(() => _form = next);
     if (timingChanged) _scheduleOverlapCheck();
   }
@@ -258,6 +259,7 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
     final l = context.l10n;
     final service = _service;
     final current = await service.queries.task(_id) ?? _task!;
+    if (!mounted) return;
     final changed = form.diff(_initial!);
     if (changed.isEmpty) {
       _finish(null);
@@ -282,6 +284,7 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
       } else if (timing) {
         // Series editor: only "all occurrences" makes sense; past ones keep their times
         // unless the user rewrites them (T3.2.08).
+        if (!mounted) return;
         final choice = await showEditScopeDialog(
           context,
           thisAllowed: false,
@@ -320,7 +323,9 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
     var t = edited;
     if (!changed.contains('title')) t = t.copyWith(title: current.title);
     if (!changed.contains('notes')) t = t.copyWith(notes: current.notes);
-    if (!changed.contains('duration') && !changed.contains('allDay')) t = t.copyWith(durationMinutes: current.durationMinutes);
+    if (!changed.contains('duration') && !changed.contains('allDay')) {
+      t = t.copyWith(durationMinutes: current.durationMinutes);
+    }
     final original = LocalDateTime.tryParse(key) ?? LocalDate.tryParse(key)?.atStartOfDay;
     final startChanged = changed.contains('start');
     switch (scope) {
@@ -332,7 +337,9 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
         final seriesStart = current.startLocal;
         final from = _initial!.startLocal;
         final to = form.startLocal;
-        if (!startChanged || seriesStart == null || from == null || to == null) return t.copyWith(startLocal: seriesStart);
+        if (!startChanged || seriesStart == null || from == null || to == null) {
+          return t.copyWith(startLocal: seriesStart);
+        }
         return t.copyWith(startLocal: seriesStart.plusMinutes(from.minutesUntil(to)));
     }
   }
@@ -355,10 +362,12 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
       final stack = ref.read(undoStackProvider);
       messenger
         ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(
-          content: Text(message),
-          action: SnackBarAction(label: undo, onPressed: () => stack.undo()),
-        ));
+        ..showSnackBar(
+          SnackBar(
+            content: Text(message),
+            action: SnackBarAction(label: undo, onPressed: stack.undo),
+          ),
+        );
     }
   }
 
@@ -478,7 +487,9 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
   /// Tablets: a centered, dialog-width form instead of a stretched phone layout.
   static Widget _readableWidth(BuildContext context, Widget child) => context.windowSize.isCompact
       ? child
-      : Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 720), child: child));
+      : Center(
+          child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 720), child: child),
+        );
 
   Widget _fields(BuildContext context, TaskForm form) {
     final l = context.l10n;
@@ -575,7 +586,10 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
         if (recurring && !_isNew && widget.occurrenceKey == null)
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.md, Space.lg, 0),
-            child: Text(l.tasksScopePastKept, style: context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant)),
+            child: Text(
+              l.tasksScopePastKept,
+              style: context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant),
+            ),
           ),
       ],
     );
@@ -739,7 +753,7 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
                 ),
           onTap: () async {
             final d = await pickDate(context, initial: form.deadline?.date ?? form.date);
-            if (d == null || !mounted) return;
+            if (d == null || !context.mounted) return;
             final t = await pickTime(context, initial: form.deadline?.time ?? LocalTime(23, 59), use24h: use24h);
             _update((f) => f.copyWith(deadline: d.atTime(t ?? LocalTime(23, 59))));
           },
@@ -880,7 +894,9 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
         children: [
           Icon(Icons.info_outline, size: 18, color: context.appColors.warning),
           const SizedBox(width: Space.sm),
-          Expanded(child: Text(text, style: context.text.bodySmall?.copyWith(color: context.appColors.warning))),
+          Expanded(
+            child: Text(text, style: context.text.bodySmall?.copyWith(color: context.appColors.warning)),
+          ),
         ],
       ),
     );
@@ -949,7 +965,10 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
         ),
         Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.xs, Space.lg, 0),
-          child: PrioritySelector(value: form.priority, onChanged: (p) => _update((f) => f.copyWith(priority: p))),
+          child: PrioritySelector(
+            value: form.priority,
+            onChanged: (p) => _update((f) => f.copyWith(priority: p)),
+          ),
         ),
         Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.md, Space.lg, 0),
@@ -1010,7 +1029,7 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
             ),
       onTap: () async {
         final choice = await pickLinkedChecklist(context, selected: id);
-        if (choice == null || !mounted) return;
+        if (choice == null || !context.mounted) return;
         if (!choice.createNew) {
           _update((f) => f.copyWith(linkedChecklistId: choice.id));
           return;

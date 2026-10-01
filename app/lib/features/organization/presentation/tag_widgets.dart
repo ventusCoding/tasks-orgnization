@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:everslot/core/errors/app_exception.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/organization/application/providers.dart';
@@ -6,19 +8,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Display color of a tag (neutral outline when it has no color).
-Color tagColor(BuildContext context, Tag tag) => tag.color == null
-    ? context.colors.outline
-    : CategoryColors.accent(tag.color!, Theme.of(context).brightness);
+Color tagColor(BuildContext context, Tag tag) =>
+    tag.color == null ? context.colors.outline : CategoryColors.accent(tag.color!, Theme.of(context).brightness);
 
 /// Compact tag chip: color dot + name (color is never the only signal).
 class TagChip extends StatelessWidget {
-  const TagChip({
-    required this.tag,
-    super.key,
-    this.onTap,
-    this.onDeleted,
-    this.selected,
-  });
+  const TagChip({required this.tag, super.key, this.onTap, this.onDeleted, this.selected});
 
   final Tag tag;
   final VoidCallback? onTap;
@@ -61,12 +56,7 @@ class TagChip extends StatelessWidget {
 
 /// Live tag chips of one entity; with [editable] the user can add (picker) and remove tags.
 class EntityTagChips extends ConsumerWidget {
-  const EntityTagChips({
-    required this.entityType,
-    required this.entityId,
-    super.key,
-    this.editable = false,
-  });
+  const EntityTagChips({required this.entityType, required this.entityId, super.key, this.editable = false});
 
   final String entityType;
   final String entityId;
@@ -89,18 +79,9 @@ class EntityTagChips extends ConsumerWidget {
             tag: tag,
             onDeleted: editable
                 ? () async {
-                    final record = await repo.detach(
-                      tag.id,
-                      entityType,
-                      entityId,
-                    );
+                    final record = await repo.detach(tag.id, entityType, entityId);
                     if (context.mounted) {
-                      showUndoSnackBar(
-                        context,
-                        ref,
-                        message: l.tagsUpdatedSnack,
-                        record: record,
-                      );
+                      showUndoSnackBar(context, ref, message: l.tagsUpdatedSnack, record: record);
                     }
                   }
                 : null,
@@ -110,20 +91,11 @@ class EntityTagChips extends ConsumerWidget {
             avatar: const Icon(Icons.add, size: 18),
             label: Text(l.tagAdd),
             onPressed: () async {
-              final picked = await pickTags(
-                context,
-                ref,
-                selected: {for (final t in tags) t.id},
-              );
+              final picked = await pickTags(context, ref, selected: {for (final t in tags) t.id});
               if (picked == null) return;
               final record = await repo.setTags(entityType, entityId, picked);
               if (context.mounted && !record.isEmpty) {
-                showUndoSnackBar(
-                  context,
-                  ref,
-                  message: l.tagsUpdatedSnack,
-                  record: record,
-                );
+                showUndoSnackBar(context, ref, message: l.tagsUpdatedSnack, record: record);
               }
             },
           ),
@@ -147,15 +119,12 @@ String tagErrorText(BuildContext context, Object error) {
 
 /// Multi-select tag picker with search and inline create (T2.3.10). Returns the selected tag ids,
 /// or null when dismissed.
-Future<Set<String>?> pickTags(
-  BuildContext context,
-  WidgetRef ref, {
-  Set<String> selected = const {},
-}) => showAppSheet<Set<String>>(
-  context,
-  title: context.l10n.tagPickerTitle,
-  builder: (ctx) => _TagPicker(initial: selected),
-);
+Future<Set<String>?> pickTags(BuildContext context, WidgetRef ref, {Set<String> selected = const {}}) =>
+    showAppSheet<Set<String>>(
+      context,
+      title: context.l10n.tagPickerTitle,
+      builder: (ctx) => _TagPicker(initial: selected),
+    );
 
 class _TagPicker extends ConsumerStatefulWidget {
   const _TagPicker({required this.initial});
@@ -202,12 +171,7 @@ class _TagPickerState extends ConsumerState<_TagPicker> {
     ];
     final exact = tags.any((t) => TagNames.key(t.name) == key);
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(
-        Space.lg,
-        0,
-        Space.lg,
-        Space.lg,
-      ),
+      padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.lg),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -225,7 +189,7 @@ class _TagPickerState extends ConsumerState<_TagPicker> {
             ),
             onChanged: (_) => setState(() => _error = null),
             onSubmitted: (_) {
-              if (query.isNotEmpty && !exact) _create(query);
+              if (query.isNotEmpty && !exact) unawaited(_create(query));
             },
           ),
           const SizedBox(height: Space.sm),
@@ -255,20 +219,13 @@ class _TagPickerState extends ConsumerState<_TagPicker> {
                 if (visible.isEmpty && query.isEmpty)
                   Padding(
                     padding: const EdgeInsets.all(Space.lg),
-                    child: Text(
-                      l.tagsEmpty,
-                      textAlign: TextAlign.center,
-                      style: context.text.bodyMedium,
-                    ),
+                    child: Text(l.tagsEmpty, textAlign: TextAlign.center, style: context.text.bodyMedium),
                   ),
               ],
             ),
           ),
           const SizedBox(height: Space.sm),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, _selected),
-            child: Text(l.actionDone),
-          ),
+          FilledButton(onPressed: () => Navigator.pop(context, _selected), child: Text(l.actionDone)),
         ],
       ),
     );

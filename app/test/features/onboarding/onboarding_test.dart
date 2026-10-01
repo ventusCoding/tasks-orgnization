@@ -13,10 +13,7 @@ import '../auth/support/widget_helpers.dart';
 
 TestHarness _harness({Locale locale = const Locale('en', 'US'), bool device24h = false}) => TestHarness.create(
   zone: 'America/New_York',
-  overrides: [
-    deviceLocaleProvider.overrideWithValue(locale),
-    device24hProvider.overrideWithValue(device24h),
-  ],
+  overrides: [deviceLocaleProvider.overrideWithValue(locale), device24hProvider.overrideWithValue(device24h)],
 );
 
 Future<void> _waitDraft(TestHarness h) async {
@@ -74,12 +71,14 @@ void main() {
     test('a profile finished on another device skips onboarding and keeps its values', () async {
       final h = _harness();
       addTearDown(h.dispose);
-      await h.read(profileRepositoryProvider).update(
-        homeTimeZone: 'Europe/Paris',
-        weekStart: 1,
-        timeFormat: TimeFormat.h24,
-        onboardingCompletedAt: DateTime.utc(2026, 9, 1),
-      );
+      await h
+          .read(profileRepositoryProvider)
+          .update(
+            homeTimeZone: 'Europe/Paris',
+            weekStart: 1,
+            timeFormat: TimeFormat.h24,
+            onboardingCompletedAt: DateTime.utc(2026, 9, 1),
+          );
       final sub = h.container.listen(needsOnboardingProvider, (_, _) {});
       addTearDown(sub.close);
       await Future<void>.delayed(const Duration(milliseconds: 20));

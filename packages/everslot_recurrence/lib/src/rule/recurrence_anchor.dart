@@ -8,21 +8,11 @@ import 'package:meta/meta.dart';
 /// zone supplied at evaluation time (the user's current zone).
 @immutable
 final class RecurrenceAnchor {
-  const new(
-    this.start,
-    this.zoneId, {
-    this.durationMinutes,
-    this.allDay = false,
-  });
+  const new(this.start, this.zoneId, {this.durationMinutes, this.allDay = false});
 
   /// An all-day anchor on [date] (time of day ignored; keys are `YYYY-MM-DD`).
   factory allDayOn(LocalDate date, String? zoneId, {int days = 1}) =>
-      RecurrenceAnchor(
-        date.atStartOfDay,
-        zoneId,
-        durationMinutes: days * 1440,
-        allDay: true,
-      );
+      RecurrenceAnchor(date.atStartOfDay, zoneId, durationMinutes: days * 1440, allDay: true);
 
   /// Local start of the series (the first possible occurrence).
   final LocalDateTime start;
@@ -50,9 +40,7 @@ final class RecurrenceAnchor {
   }) => RecurrenceAnchor(
     start ?? this.start,
     identical(zoneId, _unset) ? this.zoneId : zoneId as String?,
-    durationMinutes: identical(durationMinutes, _unset)
-        ? this.durationMinutes
-        : durationMinutes as int?,
+    durationMinutes: identical(durationMinutes, _unset) ? this.durationMinutes : durationMinutes as int?,
     allDay: allDay ?? this.allDay,
   );
 

@@ -39,10 +39,7 @@ void main() {
 
       setUp(() async {
         port = InMemoryLocalNotificationsPort(platform: platform);
-        h = TestHarness.create(
-          now: now,
-          overrides: [localNotificationsPortProvider.overrideWithValue(port)],
-        );
+        h = TestHarness.create(now: now, overrides: [localNotificationsPortProvider.overrideWithValue(port)]);
         source = InMemoryNotificationTargetSource(
           section: 'planner',
           // Different minutes so nothing is merged: 07:50/08:00, 08:50/09:00 (+ 08:50 nag chain).
@@ -58,52 +55,33 @@ void main() {
 
       Future<void> replan() => h.read(notificationPipelineProvider).run('test');
 
-      test(
-        'threads per section, nag chains per chain; group key per section',
-        () async {
-          await h.read(notificationRulesRepositoryProvider).create([
-            RuleDraft(
-              targetType: RuleTargetType.task,
-              targetId: 'call',
-              section: NotificationSection.planner,
-              profileId: h
-                  .read(notificationProfilesRepositoryProvider)
-                  .builtinId('nag'),
-              spec: const NotificationRuleSpec(
-                trigger: RelativeTrigger(
-                  anchor: TriggerAnchor.end,
-                  offsetMinutes: 0,
-                ),
-              ),
-            ),
-          ]);
-          source.targets = [
-            task('gym'),
-            task('call', hour: 9).copyWith(notifyMode: NotifyMode.inheritPlus),
-          ];
-          await replan();
-          final requests = port.scheduled.values.toList();
-          final plain = requests
-              .where((r) => !r.threadId!.startsWith('nag:'))
-              .toList();
-          final nags = requests
-              .where((r) => r.threadId!.startsWith('nag:'))
-              .toList();
-          expect(plain, isNotEmpty);
-          expect(plain.map((r) => r.threadId).toSet(), {'sec:planner'});
-          expect(nags.length, greaterThanOrEqualTo(2));
-          expect(nags.map((r) => r.threadId).toSet(), hasLength(1));
-          expect(requests.map((r) => r.groupKey).toSet(), {'dl.group.planner'});
-          // Relevance follows importance: the high-importance nag ranks above the defaults.
-          expect(nags.first.relevance, greaterThan(plain.first.relevance));
-        },
-      );
+      test('threads per section, nag chains per chain; group key per section', () async {
+        await h.read(notificationRulesRepositoryProvider).create([
+          RuleDraft(
+            targetType: RuleTargetType.task,
+            targetId: 'call',
+            section: NotificationSection.planner,
+            profileId: h.read(notificationProfilesRepositoryProvider).builtinId('nag'),
+            spec: const NotificationRuleSpec(trigger: RelativeTrigger(anchor: TriggerAnchor.end, offsetMinutes: 0)),
+          ),
+        ]);
+        source.targets = [task('gym'), task('call', hour: 9).copyWith(notifyMode: NotifyMode.inheritPlus)];
+        await replan();
+        final requests = port.scheduled.values.toList();
+        final plain = requests.where((r) => !r.threadId!.startsWith('nag:')).toList();
+        final nags = requests.where((r) => r.threadId!.startsWith('nag:')).toList();
+        expect(plain, isNotEmpty);
+        expect(plain.map((r) => r.threadId).toSet(), {'sec:planner'});
+        expect(nags.length, greaterThanOrEqualTo(2));
+        expect(nags.map((r) => r.threadId).toSet(), hasLength(1));
+        expect(requests.map((r) => r.groupKey).toSet(), {'dl.group.planner'});
+        // Relevance follows importance: the high-importance nag ranks above the defaults.
+        expect(nags.first.relevance, greaterThan(plain.first.relevance));
+      });
 
       test('Android summarizes a section once 2+ are in the tray; the summary follows the tray', () async {
         await replan();
-        final summaryTag = LocalNotificationScheduler.summaryTag(
-          'dl.group.planner',
-        );
+        final summaryTag = LocalNotificationScheduler.summaryTag('dl.group.planner');
         // 08:01: gym's two reminders fired.
         h.clock.set(DateTime.utc(2026, 9, 22, 8, 1));
         port.deliverDue(h.clock.nowUtc());
@@ -126,24 +104,18 @@ void main() {
         expect(port.shown.where((r) => r.groupSummary), isEmpty);
       });
 
-      test(
-        'completing a target removes its delivered notification from the tray',
-        () async {
-          await replan();
-          h.clock.set(DateTime.utc(2026, 9, 22, 7, 51));
-          port.deliverDue(h.clock.nowUtc());
-          final delivered = port.shown.single;
-          source.targets = [task('gym', open: false), task('call', hour: 9)];
-          await replan();
-          expect(port.cancelled, contains(delivered.id));
-          expect(port.shown.where((r) => r.id == delivered.id), isEmpty);
-          // The other target keeps its scheduled reminders.
-          expect(
-            port.scheduled.values.map((r) => r.fireAt),
-            contains(DateTime.utc(2026, 9, 22, 8, 50)),
-          );
-        },
-      );
+      test('completing a target removes its delivered notification from the tray', () async {
+        await replan();
+        h.clock.set(DateTime.utc(2026, 9, 22, 7, 51));
+        port.deliverDue(h.clock.nowUtc());
+        final delivered = port.shown.single;
+        source.targets = [task('gym', open: false), task('call', hour: 9)];
+        await replan();
+        expect(port.cancelled, contains(delivered.id));
+        expect(port.shown.where((r) => r.id == delivered.id), isEmpty);
+        // The other target keeps its scheduled reminders.
+        expect(port.scheduled.values.map((r) => r.fireAt), contains(DateTime.utc(2026, 9, 22, 8, 50)));
+      });
 
       test('sign-out clears every OS request and the schedule table', () async {
         await replan();

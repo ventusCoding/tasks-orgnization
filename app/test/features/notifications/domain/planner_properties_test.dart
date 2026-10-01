@@ -30,13 +30,13 @@ void main() {
         spec: s.spec,
       ),
     // A nag chain on every tenth task, an overdue rule and a 1-day-before rule.
-    NotificationRule(
+    const NotificationRule(
       id: 'nag',
       targetType: RuleTargetType.section,
       section: NotificationSection.planner,
       isDefault: true,
       profileId: 'nag',
-      spec: const NotificationRuleSpec(
+      spec: NotificationRuleSpec(
         trigger: RelativeTrigger(anchor: TriggerAnchor.end, offsetMinutes: 0),
         repeat: RepeatSpec(everyMinutes: 5, maxTimes: 3),
         conditions: ConditionsSpec(itemKind: 'timed'),
@@ -49,11 +49,7 @@ void main() {
       isDefault: true,
       profileId: 'gentle',
       spec: NotificationRuleSpec(
-        trigger: RelativeTrigger(
-          anchor: TriggerAnchor.start,
-          dayOffset: -1,
-          atTime: LocalTime(20, 0),
-        ),
+        trigger: RelativeTrigger(anchor: TriggerAnchor.start, dayOffset: -1, atTime: LocalTime(20, 0)),
       ),
     ),
   ];
@@ -123,10 +119,7 @@ void main() {
     return targets;
   }
 
-  PlanningContext context(
-    List<NotificationTarget> targets, {
-    List<NotificationRule>? ruleList,
-  }) => PlanningContext(
+  PlanningContext context(List<NotificationTarget> targets, {List<NotificationRule>? ruleList}) => PlanningContext(
     now: now,
     deviceZone: 'Europe/Paris',
     zones: TzZoneResolver(),
@@ -181,11 +174,8 @@ void main() {
   test('deterministic: shuffled targets and rules give the same plan', () {
     final targets = workload(1000)..shuffle(Random(7));
     final shuffledRules = [...rules]..shuffle(Random(3));
-    final again = NotificationPlanner.plan(
-      context(targets, ruleList: shuffledRules),
-    );
-    String sig(PlannedNotification p) =>
-        '${p.dedupeKey}@${p.fireAt.toIso8601String()}';
+    final again = NotificationPlanner.plan(context(targets, ruleList: shuffledRules));
+    String sig(PlannedNotification p) => '${p.dedupeKey}@${p.fireAt.toIso8601String()}';
     expect(again.planned.map(sig).toList(), result.planned.map(sig).toList());
   });
 

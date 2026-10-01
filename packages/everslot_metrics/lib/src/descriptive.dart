@@ -13,14 +13,10 @@ import 'dart:math' as math;
 import 'package:everslot_metrics/src/stat.dart';
 import 'package:meta/meta.dart';
 
-List<double> _sorted(Iterable<num> xs) =>
-    [for (final x in xs) x.toDouble()]..sort();
+List<double> _sorted(Iterable<num> xs) => [for (final x in xs) x.toDouble()]..sort();
 
-Stat<double> _emptyGuard(int n, int required) => Insufficient<double>(
-  required,
-  n,
-  n == 0 ? Reasons.empty : Reasons.needsMoreData,
-);
+Stat<double> _emptyGuard(int n, int required) =>
+    Insufficient<double>(required, n, n == 0 ? Reasons.empty : Reasons.needsMoreData);
 
 /// Welford's online mean/variance accumulator.
 final class Welford {
@@ -43,18 +39,14 @@ final class Welford {
   void addAll(Iterable<num> xs) => xs.forEach(add);
 
   /// Sample variance Σ(x − x̄)²/(n − 1); needs n ≥ 2.
-  Stat<double> get sampleVariance => _n < 2
-      ? _emptyGuard(_n, 2)
-      : Stat.ofDouble(_m2 / (_n - 1), sampleSize: _n);
+  Stat<double> get sampleVariance => _n < 2 ? _emptyGuard(_n, 2) : Stat.ofDouble(_m2 / (_n - 1), sampleSize: _n);
 
   /// Population variance Σ(x − x̄)²/n; needs n ≥ 1.
-  Stat<double> get populationVariance =>
-      _n < 1 ? _emptyGuard(_n, 1) : Stat.ofDouble(_m2 / _n, sampleSize: _n);
+  Stat<double> get populationVariance => _n < 1 ? _emptyGuard(_n, 1) : Stat.ofDouble(_m2 / _n, sampleSize: _n);
 }
 
 /// Σx (0 for empty input).
-double sum(Iterable<num> xs) =>
-    xs.fold<double>(0, (acc, x) => acc + x.toDouble());
+double sum(Iterable<num> xs) => xs.fold<double>(0, (acc, x) => acc + x.toDouble());
 
 /// Arithmetic mean x̄ = Σx/n.
 Stat<double> mean(Iterable<num> xs) {
@@ -118,24 +110,18 @@ Stat<double> mode(Iterable<num> xs) {
 
 Stat<double> minimum(Iterable<num> xs) {
   final sorted = _sorted(xs);
-  return sorted.isEmpty
-      ? _emptyGuard(0, 1)
-      : Value<double>(sorted.first, sampleSize: sorted.length);
+  return sorted.isEmpty ? _emptyGuard(0, 1) : Value<double>(sorted.first, sampleSize: sorted.length);
 }
 
 Stat<double> maximum(Iterable<num> xs) {
   final sorted = _sorted(xs);
-  return sorted.isEmpty
-      ? _emptyGuard(0, 1)
-      : Value<double>(sorted.last, sampleSize: sorted.length);
+  return sorted.isEmpty ? _emptyGuard(0, 1) : Value<double>(sorted.last, sampleSize: sorted.length);
 }
 
 /// max − min.
 Stat<double> valueRange(Iterable<num> xs) {
   final sorted = _sorted(xs);
-  return sorted.isEmpty
-      ? _emptyGuard(0, 1)
-      : Value<double>(sorted.last - sorted.first, sampleSize: sorted.length);
+  return sorted.isEmpty ? _emptyGuard(0, 1) : Value<double>(sorted.last - sorted.first, sampleSize: sorted.length);
 }
 
 /// Variance: sample (n − 1, needs n ≥ 2) or population (n).
@@ -145,8 +131,7 @@ Stat<double> variance(Iterable<num> xs, {bool sample = true}) {
 }
 
 /// Standard deviation √variance.
-Stat<double> standardDeviation(Iterable<num> xs, {bool sample = true}) =>
-    variance(xs, sample: sample).map(math.sqrt);
+Stat<double> standardDeviation(Iterable<num> xs, {bool sample = true}) => variance(xs, sample: sample).map(math.sqrt);
 
 /// Coefficient of variation CV = SD/mean; [NotApplicable]`('zeroMean')` when the mean is 0.
 Stat<double> coefficientOfVariation(Iterable<num> xs, {bool sample = true}) {
@@ -162,10 +147,7 @@ Stat<double> coefficientOfVariation(Iterable<num> xs, {bool sample = true}) {
 Stat<double> interquartileRange(Iterable<num> xs) {
   final sorted = _sorted(xs);
   if (sorted.isEmpty) return _emptyGuard(0, 1);
-  return Value<double>(
-    quantileSorted(sorted, 0.75) - quantileSorted(sorted, 0.25),
-    sampleSize: sorted.length,
-  );
+  return Value<double>(quantileSorted(sorted, 0.75) - quantileSorted(sorted, 0.25), sampleSize: sorted.length);
 }
 
 /// Median absolute deviation median(|x − median(x)|)·[scale] (unscaled by default; pass 1.4826
@@ -175,10 +157,7 @@ Stat<double> medianAbsoluteDeviation(Iterable<num> xs, {double scale = 1}) {
   if (sorted.isEmpty) return _emptyGuard(0, 1);
   final med = quantileSorted(sorted, 0.5);
   final deviations = _sorted(sorted.map((x) => (x - med).abs()));
-  return Value<double>(
-    quantileSorted(deviations, 0.5) * scale,
-    sampleSize: sorted.length,
-  );
+  return Value<double>(quantileSorted(deviations, 0.5) * scale, sampleSize: sorted.length);
 }
 
 /// Trimmed mean: drops ⌊proportion·n⌋ values from each end (SciPy `trim_mean` semantics; default
@@ -199,10 +178,7 @@ Stat<double> geometricMean(Iterable<num> xs) {
   if (list.any((x) => x <= 0)) {
     return const NotApplicable<double>(Reasons.nonPositive);
   }
-  return Stat.ofDouble(
-    math.exp(sum(list.map(math.log)) / list.length),
-    sampleSize: list.length,
-  );
+  return Stat.ofDouble(math.exp(sum(list.map(math.log)) / list.length), sampleSize: list.length);
 }
 
 /// median(ln R) for ratios R > 0.
@@ -216,8 +192,7 @@ Stat<double> medianLogRatio(Iterable<num> ratios) {
 }
 
 /// Estimation bias b = exp(median(ln R)) − 1 (PL-X-21): > 0 means tasks take longer than planned.
-Stat<double> estimationBias(Iterable<num> ratios) =>
-    medianLogRatio(ratios).map((m) => math.exp(m) - 1);
+Stat<double> estimationBias(Iterable<num> ratios) => medianLogRatio(ratios).map((m) => math.exp(m) - 1);
 
 /// Summary of a sample (all fields from the same data).
 @immutable
@@ -249,9 +224,7 @@ Stat<DescriptiveSummary> describe(Iterable<num> xs) {
       max: sorted.last,
       q1: quantileSorted(sorted, 0.25),
       q3: quantileSorted(sorted, 0.75),
-      sampleSd: w.sampleVariance.valueOrNull == null
-          ? null
-          : math.sqrt(w.sampleVariance.valueOrNull!),
+      sampleSd: w.sampleVariance.valueOrNull == null ? null : math.sqrt(w.sampleVariance.valueOrNull!),
       populationSd: math.sqrt(w.populationVariance.valueOr(0)),
     ),
     sampleSize: sorted.length,
@@ -260,11 +233,7 @@ Stat<DescriptiveSummary> describe(Iterable<num> xs) {
 
 /// A histogram bin `[lower, upper)` (the last bin is closed `[lower, upper]`).
 @immutable
-final class const HistogramBin(
-  final double lower,
-  final double upper,
-  final int count,
-) {
+final class const HistogramBin(final double lower, final double upper, final int count) {
   double get width => upper - lower;
 
   @override
@@ -274,17 +243,10 @@ final class const HistogramBin(
 /// Histogram with its bins; values outside the explicit edges are counted in [underflow] /
 /// [overflow].
 @immutable
-final class const Histogram(
-  final List<HistogramBin> bins, {
-  final int underflow = 0,
-  final int overflow = 0,
-}) {
+final class const Histogram(final List<HistogramBin> bins, {final int underflow = 0, final int overflow = 0}) {
   int get total => bins.fold(0, (acc, b) => acc + b.count);
 
-  List<double> get edges => [
-    if (bins.isNotEmpty) bins.first.lower,
-    for (final b in bins) b.upper,
-  ];
+  List<double> get edges => [if (bins.isNotEmpty) bins.first.lower, for (final b in bins) b.upper];
 }
 
 /// Bins [xs] with explicit ascending [edges]. A value on a boundary goes into the upper bin,
@@ -325,10 +287,7 @@ Histogram histogramWithEdges(Iterable<num> xs, List<double> edges) {
     }
   }
   return Histogram(
-    [
-      for (var i = 0; i < counts.length; i++)
-        HistogramBin(edges[i], edges[i + 1], counts[i]),
-    ],
+    [for (var i = 0; i < counts.length; i++) HistogramBin(edges[i], edges[i + 1], counts[i])],
     underflow: under,
     overflow: over,
   );
@@ -336,11 +295,7 @@ Histogram histogramWithEdges(Iterable<num> xs, List<double> edges) {
 
 /// Fixed-width bins (e.g. 5-minute bins). Edges start at [origin] (default ⌊min/width⌋·width) and
 /// cover the maximum.
-Histogram histogramFixedWidth(
-  Iterable<num> xs,
-  double width, {
-  double? origin,
-}) {
+Histogram histogramFixedWidth(Iterable<num> xs, double width, {double? origin}) {
   if (width <= 0) throw ArgumentError.value(width, 'width', 'must be > 0');
   final sorted = _sorted(xs);
   if (sorted.isEmpty) return const Histogram([]);
@@ -352,11 +307,7 @@ Histogram histogramFixedWidth(
 
 /// Freedman–Diaconis binning: width = 2·IQR·n^(−1/3), bin count clamped to [minBins, maxBins]
 /// (5–40 by default); equal-width bins between min and max. A constant sample gives one bin.
-Histogram histogramFreedmanDiaconis(
-  Iterable<num> xs, {
-  int minBins = 5,
-  int maxBins = 40,
-}) {
+Histogram histogramFreedmanDiaconis(Iterable<num> xs, {int minBins = 5, int maxBins = 40}) {
   final sorted = _sorted(xs);
   if (sorted.isEmpty) return const Histogram([]);
   final lo = sorted.first;
@@ -420,9 +371,7 @@ double outlierShare(Iterable<num> xs) {
   final q1 = quantileSorted(sorted, 0.25);
   final q3 = quantileSorted(sorted, 0.75);
   final iqr = q3 - q1;
-  final outliers = sorted
-      .where((x) => x < q1 - 1.5 * iqr || x > q3 + 1.5 * iqr)
-      .length;
+  final outliers = sorted.where((x) => x < q1 - 1.5 * iqr || x > q3 + 1.5 * iqr).length;
   return outliers / sorted.length;
 }
 
@@ -431,10 +380,7 @@ typedef ParetoEntry = ({String label, int count});
 
 /// Pareto of labels (null/blank → [unspecified], shown last; case-insensitive grouping keeps the
 /// first spelling seen).
-List<ParetoEntry> pareto(
-  Iterable<String?> labels, {
-  String unspecified = 'Unspecified',
-}) {
+List<ParetoEntry> pareto(Iterable<String?> labels, {String unspecified = 'Unspecified'}) {
   final counts = <String, int>{};
   final display = <String, String>{};
   var unknown = 0;
@@ -448,12 +394,11 @@ List<ParetoEntry> pareto(
     display.putIfAbsent(key, () => label);
     counts[key] = (counts[key] ?? 0) + 1;
   }
-  final entries =
-      [for (final e in counts.entries) (label: display[e.key]!, count: e.value)]
-        ..sort((a, b) {
-          final c = b.count.compareTo(a.count);
-          return c != 0 ? c : a.label.compareTo(b.label);
-        });
+  final entries = [for (final e in counts.entries) (label: display[e.key]!, count: e.value)]
+    ..sort((a, b) {
+      final c = b.count.compareTo(a.count);
+      return c != 0 ? c : a.label.compareTo(b.label);
+    });
   if (unknown > 0) entries.add((label: unspecified, count: unknown));
   return entries;
 }

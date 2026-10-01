@@ -1,7 +1,7 @@
 // Labels on checklists (T4.1.12) and board search & filters (T4.1.13): FTS search over titles,
 // bodies and items (diacritics ignored), label filtering from the drawer, label chips on cards and
 // the AND-combined filter chips.
-import 'package:drift/drift.dart' show Batch, Value;
+import 'package:drift/drift.dart' show Value;
 import 'package:everslot/core/database/app_database.dart';
 import 'package:everslot/core/ordering/fractional_index.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
@@ -74,7 +74,7 @@ void main() {
       final db = h.db;
       final now = DateTime.utc(2026, 9, 22);
       String? key;
-      await db.batch((Batch b) {
+      await db.batch((b) {
         for (var i = 0; i < 20000; i++) {
           key = FractionalIndex.between(key, null);
           b.insert(

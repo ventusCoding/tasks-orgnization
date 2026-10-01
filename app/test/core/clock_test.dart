@@ -37,10 +37,7 @@ void main() {
       final b = clock;
       final base = a.nowUtc();
       clock.offset = const Duration(days: 7, hours: 3);
-      expect(
-        b.nowUtc().difference(base).inHours,
-        inInclusiveRange(7 * 24 + 3, 7 * 24 + 4),
-      );
+      expect(b.nowUtc().difference(base).inHours, inInclusiveRange(7 * 24 + 3, 7 * 24 + 4));
       clock.offset = Duration.zero;
       expect(a.nowUtc().difference(base).inSeconds, lessThan(2));
     });
@@ -64,15 +61,9 @@ void main() {
         ],
       );
       addTearDown(container.dispose);
-      expect(
-        container.read(clockProvider).nowUtc(),
-        DateTime.utc(2026, 9, 22, 9),
-      );
+      expect(container.read(clockProvider).nowUtc(), DateTime.utc(2026, 9, 22, 9));
       fake.advance(const Duration(minutes: 1));
-      expect(
-        container.read(clockProvider).nowUtc(),
-        DateTime.utc(2026, 9, 22, 9, 1),
-      );
+      expect(container.read(clockProvider).nowUtc(), DateTime.utc(2026, 9, 22, 9, 1));
     });
   });
 }

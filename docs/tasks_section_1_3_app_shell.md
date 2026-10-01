@@ -22,7 +22,7 @@ handling/logging, and a dev-only debug menu.
 - [x] T1.3.01 — Layer skeleton & import boundaries
 - [x] T1.3.02 — Bootstrap sequence
 - [x] T1.3.03 — Core utilities: clock, ids (v7/v5), fractional index
-- [ ] T1.3.04 — App lifecycle & connectivity services
+- [x] T1.3.04 — App lifecycle & connectivity services
 - [x] T1.3.05 — Error model, global handlers & logging
 - [ ] T1.3.06 — Routing: typed routes, 5-tab shell, modal editors
 - [x] T1.3.07 — Deep-link parser (single source for all entry points)
@@ -83,6 +83,8 @@ any step shows a recoverable error screen (dev: details; prod: friendly message 
 `ConnectivityService` (online/offline with actual reachability check to the Supabase host) exposed as
 providers; used by sync, notification replanning and Today.
 **Tests:** unit tests with fake platform streams.
+**Notes:** `AppLifecycleService` (debounced `onResume`, `onPause`, `onDetached`, raw `states`, `onReturn` with time away) and `ConnectivityService` (platform signal + reachability probe of the Supabase host) behind providers. The five lifecycle streams are synchronous broadcast controllers so one transition reaches listeners in order across streams (the checkpoint's async controllers interleaved them). Tests: `test/core/lifecycle_test.dart`, `test/core/platform/connectivity_service_test.dart`.
+
 
 ### T1.3.05 — Error model, global handlers & logging
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.01

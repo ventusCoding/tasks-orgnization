@@ -83,12 +83,7 @@ final screenCases = <ScreenCase>[
     () => const ScopeStatsScreen(scope: 'quit', scopeId: 'cutdown', query: {'period': 'allTime'}),
     height: 3400,
   ),
-  ScreenCase(
-    'overview',
-    () => StatsFixture.load('overview_week').seed(),
-    () => const InsightsScreen(),
-    height: 2400,
-  ),
+  ScreenCase('overview', () => StatsFixture.load('overview_week').seed(), () => const InsightsScreen(), height: 2400),
   ScreenCase(
     'review',
     () => StatsFixture.load('overview_week').seed(),

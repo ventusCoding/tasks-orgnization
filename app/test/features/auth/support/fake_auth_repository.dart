@@ -152,7 +152,10 @@ class FakeAuthRepository implements AuthRepository {
     calls.add('unlink:${identity.provider}');
     _maybeFail();
     if (identityList.length <= 1) throw const AuthFailure(AuthFailureCode.lastIdentity);
-    identityList = [for (final i in identityList) if (i.identityId != identity.identityId) i];
+    identityList = [
+      for (final i in identityList)
+        if (i.identityId != identity.identityId) i,
+    ];
   }
 
   @override
@@ -185,10 +188,7 @@ class FakeAuthRepository implements AuthRepository {
 /// Harness with cloud auth available (fake repository) and, by default, no session.
 TestHarness cloudHarness(FakeAuthRepository repo, {bool signedOut = true}) {
   final h = TestHarness.create(
-    overrides: [
-      authRepositoryProvider.overrideWithValue(repo),
-      accountStartupProvider.overrideWithValue((_) async {}),
-    ],
+    overrides: [authRepositoryProvider.overrideWithValue(repo), accountStartupProvider.overrideWithValue((_) async {})],
   );
   if (signedOut) h.container.read(sessionProvider.notifier).set(null);
   return h;

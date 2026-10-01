@@ -28,9 +28,7 @@ class QuotaIndicator extends StatelessWidget {
       button: onTap != null,
       label: label,
       excludeSemantics: true,
-      child: onTap == null
-          ? pill
-          : InkWell(borderRadius: BorderRadius.circular(Radii.pill), onTap: onTap, child: pill),
+      child: onTap == null ? pill : InkWell(borderRadius: BorderRadius.circular(Radii.pill), onTap: onTap, child: pill),
     );
   }
 }

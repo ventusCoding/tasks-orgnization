@@ -24,7 +24,7 @@ final class MetricRegistry {
   MetricRegistry(List<MetricDefinition> definitions)
     : all = List.unmodifiable(definitions),
       _byId = {for (final d in definitions) d.id: d},
-      _byScope = groupBy(definitions, (MetricDefinition d) => d.scope) {
+      _byScope = groupBy(definitions, (d) => d.scope) {
     if (_byId.length != all.length) {
       final seen = <String>{};
       throw DuplicateMetricException([

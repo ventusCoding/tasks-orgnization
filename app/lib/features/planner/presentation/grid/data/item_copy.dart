@@ -17,7 +17,8 @@ PlannerItem copyItem(
   String? manualSortKey,
   LocalDateTime? deadlineLocal,
 }) {
-  final newStartUtc = startUtc ??
+  final newStartUtc =
+      startUtc ??
       (startLocal == null ? i.startUtc : i.startUtc.add(Duration(minutes: i.startLocal.minutesUntil(startLocal))));
   final minutes = durationMinutes ?? i.durationMinutes;
   final moved = startLocal != null && startLocal != i.startLocal;

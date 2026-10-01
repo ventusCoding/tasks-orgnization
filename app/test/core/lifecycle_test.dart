@@ -50,15 +50,7 @@ void main() {
     clock.advance(const Duration(seconds: 30));
     go(AppLifecycleState.resumed);
     await flush();
-    expect(events, [
-      'state:inactive',
-      'state:hidden',
-      'state:paused',
-      'pause',
-      'state:resumed',
-      'return:30',
-      'resume',
-    ]);
+    expect(events, ['state:inactive', 'state:hidden', 'state:paused', 'pause', 'state:resumed', 'return:30', 'resume']);
     expect(service.isForeground, isTrue);
   });
 
@@ -128,7 +120,7 @@ void main() {
     service.dispose();
     var done = 0;
     for (final s in [service.onResume, service.onPause, service.onDetached, service.states, service.onReturn]) {
-      unawaited(s.listen((_) {}, onDone: () => done++).asFuture<void>());
+      unawaited(s.listen((_) {}).asFuture<void>().then((_) => done++));
     }
     await flush();
     expect(done, 5);

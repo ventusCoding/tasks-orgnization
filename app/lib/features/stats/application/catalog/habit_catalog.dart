@@ -386,7 +386,7 @@ final List<MetricDefinition> habitMetrics = [
     chart: ChartKind.bullet,
     requires: _habitTables,
     compute: (c) => _withHabit(c, (e) {
-      if (e.isLimit) return MetricResult.notApplicable('HB-H-10', 'limitHabit');
+      if (e.isLimit) return const MetricResult.notApplicable('HB-H-10', 'limitHabit');
       final cur = targetProgress(e.units, from: c.range.start, to: c.range.end);
       final prev = targetProgress(e.units, from: c.previous.start, to: c.previous.end);
       final achieved = totalVolume(e.units, from: c.range.start, to: c.range.end);
@@ -413,7 +413,7 @@ final List<MetricDefinition> habitMetrics = [
     chart: ChartKind.line,
     requires: {StatsTable.habitLogs},
     compute: (c) => _withHabit(c, (e) {
-      if (!e.isMeasurable) return MetricResult.notApplicable('HB-H-11', 'yesNoHabit');
+      if (!e.isMeasurable) return const MetricResult.notApplicable('HB-H-11', 'yesNoHabit');
       final inPeriod = totalVolume(e.units, from: c.range.start, to: c.range.end);
       final prev = totalVolume(e.units, from: c.previous.start, to: c.previous.end);
       final all = totalVolume(e.units);
@@ -478,7 +478,12 @@ final List<MetricDefinition> habitMetrics = [
                 'color': e.habit.color,
                 'score': e.strength.current,
                 'streak': e.streaks.currentLength,
-                'rate30': successRate(e.outcomeUnits, from: c.today.minusDays(29), to: c.today, skipPolicy: e.skipPolicy).valueOrNull,
+                'rate30': successRate(
+                  e.outcomeUnits,
+                  from: c.today.minusDays(29),
+                  to: c.today,
+                  skipPolicy: e.skipPolicy,
+                ).valueOrNull,
               },
           ],
         },
@@ -586,7 +591,7 @@ final List<MetricDefinition> habitMetrics = [
     estimate: true,
     requires: {StatsTable.habits, StatsTable.habitLogs, StatsTable.habitRevisions},
     compute: (c) {
-      if (c.quitCalculators.isEmpty) return MetricResult.notApplicable('HB-X-05', 'noQuitTrackers');
+      if (c.quitCalculators.isEmpty) return const MetricResult.notApplicable('HB-X-05', 'noQuitTrackers');
       final r = quitRollUp(c.quitCalculators);
       final currency = r.moneySaved.keys.firstWhereOrNull((k) => k.isNotEmpty) ?? c.env.currency;
       final money = r.moneySaved[currency] ?? Decimal.zero;

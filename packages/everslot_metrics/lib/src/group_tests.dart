@@ -9,8 +9,7 @@ import 'package:meta/meta.dart';
 
 /// Average ranks (1-based) of [values]; ties share the mean of their ranks.
 List<double> averageRanks(List<num> values) {
-  final order = List<int>.generate(values.length, (i) => i)
-    ..sort((a, b) => values[a].compareTo(values[b]));
+  final order = List<int>.generate(values.length, (i) => i)..sort((a, b) => values[a].compareTo(values[b]));
   final ranks = List<double>.filled(values.length, 0);
   var i = 0;
   while (i < order.length) {
@@ -69,9 +68,7 @@ Stat<MannWhitneyResult> mannWhitneyU(List<num> x, List<num> y) {
     rx += ranks[i];
   }
   final u = rx - nx * (nx + 1) / 2;
-  final sigma = math.sqrt(
-    nx * ny / 12 * ((n + 1) - _tieSum(all) / (n * (n - 1))),
-  );
+  final sigma = math.sqrt(nx * ny / 12 * ((n + 1) - _tieSum(all) / (n * (n - 1))));
   if (sigma == 0) {
     return const NotApplicable<MannWhitneyResult>(Reasons.noVariance);
   }

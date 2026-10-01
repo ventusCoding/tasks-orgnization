@@ -77,7 +77,11 @@ void main() {
     await settle(tester);
     expect(find.byType(HabitMiniTable), findsOneWidget);
     for (final name in ['Water', 'Gym', 'Meds', 'Coffee', 'Read', 'Journal']) {
-      expect(find.descendant(of: find.byType(HabitMiniTable), matching: find.text(name)), findsOneWidget, reason: name);
+      expect(
+        find.descendant(of: find.byType(HabitMiniTable), matching: find.text(name)),
+        findsOneWidget,
+        reason: name,
+      );
     }
     expect(tester.takeException(), isNull);
     await finish(tester);
@@ -94,7 +98,12 @@ void main() {
     // Week of 21 Sep without water's units after the 21st: 22 successes out of 28.
     expect(r['HB-X-04']!.value.valueOrNull, closeTo(22 / 28, 1e-9));
     // History stays.
-    final water = await h.compute(MetricScope.habit, scopeId: 'water', period: PeriodSelection.parsePeriod('custom:2026-09-14..2026-09-20')!, metricIds: {'HB-H-05'});
+    final water = await h.compute(
+      MetricScope.habit,
+      scopeId: 'water',
+      period: PeriodSelection.parsePeriod('custom:2026-09-14..2026-09-20')!,
+      metricIds: {'HB-H-05'},
+    );
     expect(water['HB-H-05']!.value.valueOrNull, closeTo(5 / 7, 1e-9));
   });
 }

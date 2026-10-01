@@ -5,7 +5,15 @@ import 'package:meta/meta.dart';
 
 @immutable
 final class ScopeEntity {
-  const ScopeEntity(this.id, this.name, {this.color, this.icon, this.parentId, this.isQuit = false, this.recurring = false});
+  const ScopeEntity(
+    this.id,
+    this.name, {
+    this.color,
+    this.icon,
+    this.parentId,
+    this.isQuit = false,
+    this.recurring = false,
+  });
 
   final String id;
   final String name;

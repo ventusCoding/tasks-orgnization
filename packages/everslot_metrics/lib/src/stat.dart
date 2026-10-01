@@ -11,11 +11,7 @@ import 'package:meta/meta.dart';
 
 /// A two-sided confidence interval `[lower, upper]` at [level] (default 95 %).
 @immutable
-final class const ConfidenceInterval(
-  final double lower,
-  final double upper, {
-  final double level = 0.95,
-}) {
+final class const ConfidenceInterval(final double lower, final double upper, {final double level = 0.95}) {
   double get width => upper - lower;
 
   bool contains(double x) => x >= lower && x <= upper;
@@ -25,10 +21,7 @@ final class const ConfidenceInterval(
 
   @override
   bool operator ==(Object other) =>
-      other is ConfidenceInterval &&
-      other.lower == lower &&
-      other.upper == upper &&
-      other.level == level;
+      other is ConfidenceInterval && other.lower == lower && other.upper == upper && other.level == level;
 
   @override
   int get hashCode => Object.hash(lower, upper, level);
@@ -43,20 +36,12 @@ sealed class Stat<T> {
   const new();
 
   /// Wraps a double, turning non-finite values into [NotApplicable]`('nonFinite')`.
-  static Stat<double> ofDouble(
-    double value, {
-    num? sampleSize,
-    ConfidenceInterval? interval,
-  }) => value.isFinite
+  static Stat<double> ofDouble(double value, {num? sampleSize, ConfidenceInterval? interval}) => value.isFinite
       ? Value<double>(value, sampleSize: sampleSize, interval: interval)
       : const NotApplicable<double>('nonFinite');
 
   /// Combines two stats; the first non-[Value] (left to right) wins.
-  static Stat<R> combine<A, B, R>(
-    Stat<A> a,
-    Stat<B> b,
-    R Function(A a, B b) combiner,
-  ) => switch (a) {
+  static Stat<R> combine<A, B, R>(Stat<A> a, Stat<B> b, R Function(A a, B b) combiner) => switch (a) {
     Value<A>(value: final va) => switch (b) {
       Value<B>(value: final vb) => Value<R>(combiner(va, vb)),
       Insufficient<B>() => b.retype<R>(),
@@ -115,10 +100,7 @@ final class Value<T> extends Stat<T> {
 
   @override
   bool operator ==(Object other) =>
-      other is Value<T> &&
-      other.value == value &&
-      other.sampleSize == sampleSize &&
-      other.interval == interval;
+      other is Value<T> && other.value == value && other.sampleSize == sampleSize && other.interval == interval;
 
   @override
   int get hashCode => Object.hash(value, sampleSize, interval);
@@ -144,10 +126,7 @@ final class Insufficient<T> extends Stat<T> {
 
   @override
   bool operator ==(Object other) =>
-      other is Insufficient<T> &&
-      other.requiredN == requiredN &&
-      other.haveN == haveN &&
-      other.reasonKey == reasonKey;
+      other is Insufficient<T> && other.requiredN == requiredN && other.haveN == haveN && other.reasonKey == reasonKey;
 
   @override
   int get hashCode => Object.hash(requiredN, haveN, reasonKey);
@@ -165,8 +144,7 @@ final class NotApplicable<T> extends Stat<T> {
   NotApplicable<R> retype<R>() => NotApplicable<R>(reasonKey);
 
   @override
-  bool operator ==(Object other) =>
-      other is NotApplicable<T> && other.reasonKey == reasonKey;
+  bool operator ==(Object other) => other is NotApplicable<T> && other.reasonKey == reasonKey;
 
   @override
   int get hashCode => reasonKey.hashCode;
@@ -237,43 +215,37 @@ final class const MetricValue(
   final bool estimate = false,
 }) {
   /// Converts a numeric [Stat]; durations become minutes.
-  factory fromStat(
-    String metricId,
-    Stat<Object> stat, {
-    required MetricUnit unit,
-    bool estimate = false,
-  }) => switch (stat) {
-    Value<Object>(:final value, :final sampleSize, :final interval) =>
-      MetricValue(
-        metricId,
-        unit: unit,
-        value: switch (value) {
-          final num n => n.toDouble(),
-          final Duration d => d.inMicroseconds / Duration.microsecondsPerMinute,
-          _ => null,
-        },
-        sampleSize: sampleSize,
-        interval: interval,
-        estimate: estimate,
-      ),
-    Insufficient<Object>(:final requiredN, :final haveN, :final reasonKey) =>
-      MetricValue(
-        metricId,
-        unit: unit,
-        insufficient: true,
-        reasonKey: reasonKey,
-        requiredN: requiredN,
-        haveN: haveN,
-        estimate: estimate,
-      ),
-    NotApplicable<Object>(:final reasonKey) => MetricValue(
-      metricId,
-      unit: unit,
-      notApplicable: true,
-      reasonKey: reasonKey,
-      estimate: estimate,
-    ),
-  };
+  factory fromStat(String metricId, Stat<Object> stat, {required MetricUnit unit, bool estimate = false}) =>
+      switch (stat) {
+        Value<Object>(:final value, :final sampleSize, :final interval) => MetricValue(
+          metricId,
+          unit: unit,
+          value: switch (value) {
+            final num n => n.toDouble(),
+            final Duration d => d.inMicroseconds / Duration.microsecondsPerMinute,
+            _ => null,
+          },
+          sampleSize: sampleSize,
+          interval: interval,
+          estimate: estimate,
+        ),
+        Insufficient<Object>(:final requiredN, :final haveN, :final reasonKey) => MetricValue(
+          metricId,
+          unit: unit,
+          insufficient: true,
+          reasonKey: reasonKey,
+          requiredN: requiredN,
+          haveN: haveN,
+          estimate: estimate,
+        ),
+        NotApplicable<Object>(:final reasonKey) => MetricValue(
+          metricId,
+          unit: unit,
+          notApplicable: true,
+          reasonKey: reasonKey,
+          estimate: estimate,
+        ),
+      };
 
   bool get hasValue => value != null;
 }

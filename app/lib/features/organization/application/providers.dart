@@ -22,9 +22,7 @@ final categoriesProvider = StreamProvider<List<Category>>((ref) {
 /// All categories including archived (management screen).
 final allCategoriesProvider = StreamProvider<List<Category>>((ref) {
   ref.watch(currentUserIdProvider);
-  return ref
-      .watch(categoriesRepositoryProvider)
-      .watchAll(includeArchived: true);
+  return ref.watch(categoriesRepositoryProvider).watchAll(includeArchived: true);
 });
 
 /// Lookup by id (null when missing / no category).
@@ -39,11 +37,10 @@ final categoryByIdProvider = Provider.family<Category?, String?>((ref, id) {
 
 /// Number of live tasks, habits and checklists per category id (management screen, delete
 /// reassignment prompt).
-final categoryUsageCountsProvider =
-    StreamProvider.autoDispose<Map<String, int>>((ref) {
-      ref.watch(currentUserIdProvider);
-      return ref.watch(categoriesRepositoryProvider).watchUsageCounts();
-    });
+final categoryUsageCountsProvider = StreamProvider.autoDispose<Map<String, int>>((ref) {
+  ref.watch(currentUserIdProvider);
+  return ref.watch(categoriesRepositoryProvider).watchUsageCounts();
+});
 
 // ------------------------------------------------------------------------------------ tags --
 
@@ -72,23 +69,19 @@ final tagByIdProvider = Provider.family<Tag?, String?>((ref, id) {
 });
 
 /// Live tags of one entity (chips on tasks, checklists, items, habits).
-final entityTagsProvider = StreamProvider.autoDispose
-    .family<List<Tag>, TaggedEntity>((ref, e) {
-      ref.watch(currentUserIdProvider);
-      return ref.watch(tagsRepositoryProvider).watchForEntity(e.type, e.id);
-    });
+final entityTagsProvider = StreamProvider.autoDispose.family<List<Tag>, TaggedEntity>((ref, e) {
+  ref.watch(currentUserIdProvider);
+  return ref.watch(tagsRepositoryProvider).watchForEntity(e.type, e.id);
+});
 
 /// Tags of every entity of a type (entity id → tags) for boards and lists.
-final tagsByEntityProvider = StreamProvider.autoDispose
-    .family<Map<String, List<Tag>>, String>((ref, entityType) {
-      ref.watch(currentUserIdProvider);
-      return ref.watch(tagsRepositoryProvider).watchByEntity(entityType);
-    });
+final tagsByEntityProvider = StreamProvider.autoDispose.family<Map<String, List<Tag>>, String>((ref, entityType) {
+  ref.watch(currentUserIdProvider);
+  return ref.watch(tagsRepositoryProvider).watchByEntity(entityType);
+});
 
 /// Number of live tagged entities per tag id (management screen).
-final tagUsageCountsProvider = StreamProvider.autoDispose<Map<String, int>>((
-  ref,
-) {
+final tagUsageCountsProvider = StreamProvider.autoDispose<Map<String, int>>((ref) {
   ref.watch(currentUserIdProvider);
   return ref.watch(tagsRepositoryProvider).watchUsageCounts();
 });

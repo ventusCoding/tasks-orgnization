@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'dart:io';
 
 import 'package:everslot/core/providers.dart';
@@ -31,9 +33,7 @@ class _FakeDevices implements DevicesRepository {
     revoked.add(id);
     devices = [
       for (final d in devices)
-        d.id == id
-            ? DeviceInfo(id: d.id, platform: d.platform, name: d.name, revokedAt: DateTime.utc(2026, 9, 22))
-            : d,
+        d.id == id ? DeviceInfo(id: d.id, platform: d.platform, name: d.name, revokedAt: DateTime.utc(2026, 9, 22)) : d,
     ];
   }
 }
@@ -52,18 +52,25 @@ class _Fixed extends SyncStatusController {
 Future<void> _write(WidgetTester tester, Future<void> Function() write) async {
   var done = false;
   Object? error;
-  write().then<void>((_) => done = true, onError: (Object e) => error = e);
+  unawaited(write().then<void>((_) => done = true, onError: (Object e) => error = e));
   for (var i = 0; i < 20 && !done && error == null; i++) {
     await tester.pump(const Duration(milliseconds: 10));
   }
-  if (error != null) throw error!;
+  if (error case final e?) fail('write failed: $e');
   expect(done, isTrue, reason: 'write did not complete');
 }
 
 final _now = DateTime.utc(2026, 9, 22, 9);
 
 List<DeviceInfo> _devices() => [
-  DeviceInfo(id: 'd2', platform: 'android', name: 'Pixel 9', lastSeenAt: _now.subtract(const Duration(hours: 2)), pushEnabled: true, hasPushToken: true),
+  DeviceInfo(
+    id: 'd2',
+    platform: 'android',
+    name: 'Pixel 9',
+    lastSeenAt: _now.subtract(const Duration(hours: 2)),
+    pushEnabled: true,
+    hasPushToken: true,
+  ),
   DeviceInfo(id: 'device-test', platform: 'ios', name: 'iPhone', lastSeenAt: _now),
   DeviceInfo(id: 'd3', platform: 'android', name: 'Old tablet', revokedAt: DateTime.utc(2026, 9)),
 ];

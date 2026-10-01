@@ -39,9 +39,7 @@ final beforeAccountWipeProvider = Provider<BeforeAccountWipe?>((ref) => null);
 
 /// Runs the per-account startup tasks (profile/defaults, notifications…) after the session
 /// changed to another account. Overridden with a no-op in widget tests (plugins).
-final accountStartupProvider = Provider<Future<void> Function(ProviderContainer container)>(
-  (ref) => runStartupTasks,
-);
+final accountStartupProvider = Provider<Future<void> Function(ProviderContainer container)>((ref) => runStartupTasks);
 
 class AuthBinding {
   AuthBinding(this._ref);

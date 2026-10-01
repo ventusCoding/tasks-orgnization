@@ -68,20 +68,17 @@ class RealBootstrapPlatform extends BootstrapPlatform {
   Env env(Flavor flavor) => Env.fromEnvironment(flavor: flavor);
 
   @override
-  Future<String?> deviceTimeZone() async =>
-      (await FlutterTimezone.getLocalTimezone()).identifier;
+  Future<String?> deviceTimeZone() async => (await FlutterTimezone.getLocalTimezone()).identifier;
 
   @override
-  Future<int> buildNumber() async =>
-      int.tryParse((await PackageInfo.fromPlatform()).buildNumber) ?? 1;
+  Future<int> buildNumber() async => int.tryParse((await PackageInfo.fromPlatform()).buildNumber) ?? 1;
 
   @override
   Future<bool> initFirebase(Env env, GlobalErrorHandlers handlers) async {
-    if (!env.firebaseEnabled || !DefaultFirebaseOptions.isConfigured)
+    if (!env.firebaseEnabled || !DefaultFirebaseOptions.isConfigured) {
       return false;
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+    }
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     // Release builds report uncaught errors (opt-out in Settings › Privacy, arch §6.15).
     if (!kDebugMode) handlers.reporter = CrashlyticsErrorReporter.instance;
     return true;
@@ -106,13 +103,7 @@ class RealBootstrapPlatform extends BootstrapPlatform {
   @override
   CloudUser? cloudUser(SupabaseClient client) {
     final user = client.auth.currentUser;
-    return user == null
-        ? null
-        : CloudUser(
-            id: user.id,
-            email: user.email,
-            isAnonymous: user.isAnonymous,
-          );
+    return user == null ? null : CloudUser(id: user.id, email: user.email, isAnonymous: user.isAnonymous);
   }
 
   @override
@@ -122,9 +113,9 @@ class RealBootstrapPlatform extends BootstrapPlatform {
   Future<String> loadDeviceId(AppDatabase db) => DeviceIdentity.load(db);
 
   @override
-  Future<void> runStartupTasks(ProviderContainer container) =>
-      tasks.runStartupTasks(container);
+  Future<void> runStartupTasks(ProviderContainer container) => tasks.runStartupTasks(container);
 
   @override
+  // ignore: riverpod_lint/missing_provider_scope, bootstrap passes an UncontrolledProviderScope as the root.
   void launch(Widget root) => runApp(root);
 }

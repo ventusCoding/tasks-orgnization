@@ -46,8 +46,7 @@ class ShellScaffold extends StatelessWidget {
         selectedIndex: shell.currentIndex,
         onDestinationSelected: _go,
         destinations: [
-          for (final d in destinations)
-            NavigationDestination(icon: Icon(d.$1), selectedIcon: Icon(d.$2), label: d.$3),
+          for (final d in destinations) NavigationDestination(icon: Icon(d.$1), selectedIcon: Icon(d.$2), label: d.$3),
         ],
       ),
     );

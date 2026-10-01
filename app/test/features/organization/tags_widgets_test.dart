@@ -15,17 +15,13 @@ void main() {
 
   Future<void> settle(WidgetTester tester) async {
     for (var i = 0; i < 5; i++) {
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 5)),
-      );
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 5)));
       await tester.pump(const Duration(milliseconds: 50));
     }
     await tester.pumpAndSettle();
   }
 
-  testWidgets('create a tag from the empty state and see it listed', (
-    tester,
-  ) async {
+  testWidgets('create a tag from the empty state and see it listed', (tester) async {
     await pumpInApp(tester, h, const TagsScreen());
     await settle(tester);
     expect(find.text('No tags yet'), findsOneWidget);
@@ -41,9 +37,7 @@ void main() {
   });
 
   testWidgets('duplicate names show a localized error', (tester) async {
-    await tester.runAsync(
-      () => h.read(tagsRepositoryProvider).create(name: 'Work'),
-    );
+    await tester.runAsync(() => h.read(tagsRepositoryProvider).create(name: 'Work'));
     await pumpInApp(tester, h, const TagsScreen());
     await settle(tester);
 
@@ -69,12 +63,7 @@ void main() {
     await tester.tap(find.text('Merge into…'));
     await tester.pumpAndSettle();
     expect(find.text('Merge “job” into'), findsOneWidget);
-    await tester.tap(
-      find.descendant(
-        of: find.byType(BottomSheet),
-        matching: find.text('work'),
-      ),
-    );
+    await tester.tap(find.descendant(of: find.byType(BottomSheet), matching: find.text('work')));
     await tester.pumpAndSettle();
     await tester.tap(find.widgetWithText(FilledButton, 'Merge'));
     await settle(tester);
@@ -88,9 +77,7 @@ void main() {
   });
 
   testWidgets('delete a tag with undo', (tester) async {
-    await tester.runAsync(
-      () => h.read(tagsRepositoryProvider).create(name: 'someday'),
-    );
+    await tester.runAsync(() => h.read(tagsRepositoryProvider).create(name: 'someday'));
     await pumpInApp(tester, h, const TagsScreen());
     await settle(tester);
 
@@ -98,7 +85,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Delete').last);
     await tester.pumpAndSettle();
-    expect(find.text('This tag isn\'t used yet.'), findsOneWidget);
+    expect(find.text("This tag isn't used yet."), findsOneWidget);
     await tester.tap(find.widgetWithText(FilledButton, 'Delete'));
     await settle(tester);
     expect(find.text('someday'), findsNothing);
@@ -108,30 +95,19 @@ void main() {
     expect(find.text('someday'), findsOneWidget);
   });
 
-  testWidgets('entity chips: add an existing tag and create one inline', (
-    tester,
-  ) async {
+  testWidgets('entity chips: add an existing tag and create one inline', (tester) async {
     final taskId = Ids.v7();
     await tester.runAsync(() async {
       await h
           .read(syncWriterProvider)
-          .run(
-            (tx) => tx.insert('tasks', taskId, {
-              'series_id': taskId,
-              'title': 'Report',
-            }),
-          );
+          .run((tx) => tx.insert('tasks', taskId, {'series_id': taskId, 'title': 'Report'}));
       await h.read(tagsRepositoryProvider).create(name: 'work');
     });
     await pumpInApp(
       tester,
       h,
       Scaffold(
-        body: EntityTagChips(
-          entityType: 'task',
-          entityId: taskId,
-          editable: true,
-        ),
+        body: EntityTagChips(entityType: 'task', entityId: taskId, editable: true),
       ),
     );
     await settle(tester);
@@ -149,9 +125,7 @@ void main() {
 
     expect(find.widgetWithText(InputChip, 'work'), findsOneWidget);
     expect(find.widgetWithText(InputChip, 'urgent'), findsOneWidget);
-    final linked = await tester.runAsync(
-      () => h.read(tagsRepositoryProvider).tagsForEntity('task', taskId),
-    );
+    final linked = await tester.runAsync(() => h.read(tagsRepositoryProvider).tagsForEntity('task', taskId));
     expect([for (final t in linked!) t.name], ['work', 'urgent']);
 
     // Removing a chip detaches the tag (with undo).
@@ -161,12 +135,8 @@ void main() {
     expect(find.text('Tags updated'), findsOneWidget);
   });
 
-  testWidgets('tags screen in Arabic is right-to-left and localized', (
-    tester,
-  ) async {
-    await tester.runAsync(
-      () => h.read(tagsRepositoryProvider).create(name: 'عمل'),
-    );
+  testWidgets('tags screen in Arabic is right-to-left and localized', (tester) async {
+    await tester.runAsync(() => h.read(tagsRepositoryProvider).create(name: 'عمل'));
     await pumpInApp(tester, h, const TagsScreen(), locale: const Locale('ar'));
     await settle(tester);
     expect(find.text('الوسوم'), findsOneWidget);

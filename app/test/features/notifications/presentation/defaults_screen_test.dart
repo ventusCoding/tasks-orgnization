@@ -21,52 +21,37 @@ void main() {
 
   Future<void> settle(WidgetTester tester) async {
     for (var i = 0; i < 6; i++) {
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 5)),
-      );
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 5)));
       await tester.pump(const Duration(milliseconds: 50));
     }
     await tester.pumpAndSettle();
   }
 
-  String defaultId(String section, String code) =>
-      Ids.v5('user-1|default-rule|$section|$code');
+  String defaultId(String section, String code) => Ids.v5('user-1|default-rule|$section|$code');
 
-  testWidgets(
-    'planner tab lists timed / all-day / date-only defaults with their impact',
-    (tester) async {
-      await tester.runAsync(() => seedNotificationDefaults(h.read));
-      await pumpInApp(tester, h, const NotificationDefaultsScreen());
-      await settle(tester);
-      for (final header in [
-        'Timed items',
-        'All-day items',
-        'Date-only items',
-      ]) {
-        expect(find.text(header), findsOneWidget, reason: header);
-      }
-      expect(find.textContaining('10 min before'), findsOneWidget);
-      expect(find.textContaining('Affects 0 items'), findsOneWidget);
-    },
-  );
+  testWidgets('planner tab lists timed / all-day / date-only defaults with their impact', (tester) async {
+    await tester.runAsync(() => seedNotificationDefaults(h.read));
+    await pumpInApp(tester, h, const NotificationDefaultsScreen());
+    await settle(tester);
+    for (final header in ['Timed items', 'All-day items', 'Date-only items']) {
+      expect(find.text(header), findsOneWidget, reason: header);
+    }
+    expect(find.textContaining('10 min before'), findsOneWidget);
+    expect(find.textContaining('Affects 0 items'), findsOneWidget);
+  });
 
   testWidgets('swiping a default deletes it with undo', (tester) async {
     await tester.runAsync(() => seedNotificationDefaults(h.read));
     await pumpInApp(tester, h, const NotificationDefaultsScreen());
     await settle(tester);
     await tester.drag(
-      find.ancestor(
-        of: find.textContaining('10 min before'),
-        matching: find.byType(Dismissible),
-      ),
+      find.ancestor(of: find.textContaining('10 min before'), matching: find.byType(Dismissible)),
       const Offset(-600, 0),
     );
     await settle(tester);
     expect(find.textContaining('10 min before'), findsNothing);
     final deleted = await tester.runAsync(
-      () => h
-          .read(notificationRulesRepositoryProvider)
-          .byId(defaultId('planner', 'timed_before_10')),
+      () => h.read(notificationRulesRepositoryProvider).byId(defaultId('planner', 'timed_before_10')),
     );
     expect(deleted, isNull);
     expect(find.byType(SnackBar), findsOneWidget);
@@ -76,9 +61,7 @@ void main() {
   });
 
   test('editing a default replans inheriting items only', () async {
-    final port = h.read(
-      localNotificationsPortProvider,
-    ) as InMemoryLocalNotificationsPort;
+    final port = h.read(localNotificationsPortProvider) as InMemoryLocalNotificationsPort;
     NotificationTarget task(String id, NotifyMode mode) => NotificationTarget(
       type: NotificationTargetType.task,
       id: id,
@@ -92,10 +75,7 @@ void main() {
     );
     final source = InMemoryNotificationTargetSource(
       section: 'planner',
-      targets: [
-        task('inheriting', NotifyMode.inherit),
-        task('own', NotifyMode.custom),
-      ],
+      targets: [task('inheriting', NotifyMode.inherit), task('own', NotifyMode.custom)],
     );
     addTearDown(source.dispose);
     h.read(notificationRegistryProvider).registerSource(source);
@@ -106,12 +86,7 @@ void main() {
         targetType: RuleTargetType.task,
         targetId: 'own',
         section: NotificationSection.planner,
-        spec: NotificationRuleSpec(
-          trigger: RelativeTrigger(
-            anchor: TriggerAnchor.start,
-            offsetMinutes: -5,
-          ),
-        ),
+        spec: NotificationRuleSpec(trigger: RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: -5)),
       ),
     ]);
     Map<String, List<DateTime>> fires() {
@@ -123,35 +98,23 @@ void main() {
     }
 
     await h.read(notificationPipelineProvider).run('before');
-    expect(fires()['inheriting'], [
-      DateTime.utc(2026, 9, 22, 7, 50),
-      DateTime.utc(2026, 9, 22, 8),
-    ]);
+    expect(fires()['inheriting'], [DateTime.utc(2026, 9, 22, 7, 50), DateTime.utc(2026, 9, 22, 8)]);
     expect(fires()['own'], [DateTime.utc(2026, 9, 22, 7, 55)]);
 
     // "10 min before" → "30 min before" in the section defaults.
     await rules.update(
       defaultId('planner', 'timed_before_10'),
       spec: const NotificationRuleSpec(
-        trigger: RelativeTrigger(
-          anchor: TriggerAnchor.start,
-          offsetMinutes: -30,
-        ),
+        trigger: RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: -30),
         conditions: ConditionsSpec(itemKind: 'timed'),
       ),
     );
     await h.read(notificationPipelineProvider).run('after');
-    expect(fires()['inheriting'], [
-      DateTime.utc(2026, 9, 22, 7, 30),
-      DateTime.utc(2026, 9, 22, 8),
-    ]);
+    expect(fires()['inheriting'], [DateTime.utc(2026, 9, 22, 7, 30), DateTime.utc(2026, 9, 22, 8)]);
     expect(fires()['own'], [DateTime.utc(2026, 9, 22, 7, 55)]);
     expect(
       port.scheduled.values.map((r) => r.fireAt),
-      containsAll([
-        DateTime.utc(2026, 9, 22, 7, 30),
-        DateTime.utc(2026, 9, 22, 7, 55),
-      ]),
+      containsAll([DateTime.utc(2026, 9, 22, 7, 30), DateTime.utc(2026, 9, 22, 7, 55)]),
     );
   });
 }

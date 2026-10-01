@@ -11,8 +11,8 @@ import 'package:everslot/features/habits/application/habit_service.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
 import 'package:everslot/features/habits/presentation/calendar_views.dart';
-import 'package:everslot/features/habits/presentation/challenge_views.dart';
 import 'package:everslot/features/habits/presentation/celebration_overlay.dart';
+import 'package:everslot/features/habits/presentation/challenge_views.dart';
 import 'package:everslot/features/habits/presentation/check_in_sheets.dart';
 import 'package:everslot/features/habits/presentation/habit_routes.dart';
 import 'package:everslot/features/habits/presentation/habit_ui.dart';
@@ -106,7 +106,12 @@ class _Detail extends ConsumerWidget {
         case 'archive':
           final record = await service.setArchived(habit.id, archived: !habit.isArchived);
           if (context.mounted) {
-            showUndoSnackBar(context, ref, message: habit.isArchived ? l.habitsUnarchivedSnack : l.habitsArchivedSnack, record: record);
+            showUndoSnackBar(
+              context,
+              ref,
+              message: habit.isArchived ? l.habitsUnarchivedSnack : l.habitsArchivedSnack,
+              record: record,
+            );
           }
         case 'delete':
           final ok = await confirmDialog(
@@ -130,7 +135,11 @@ class _Detail extends ConsumerWidget {
       appBar: AppBar(
         title: Text(habit.name),
         actions: [
-          IconButton(tooltip: l.actionEdit, icon: const Icon(Icons.edit_outlined), onPressed: () => HabitRoutes.edit(context, habit.id)),
+          IconButton(
+            tooltip: l.actionEdit,
+            icon: const Icon(Icons.edit_outlined),
+            onPressed: () => HabitRoutes.edit(context, habit.id),
+          ),
           PopupMenuButton<String>(
             tooltip: l.actionMore,
             onSelected: (v) => unawaited(menu(v)),
@@ -145,105 +154,120 @@ class _Detail extends ConsumerWidget {
       ),
       body: CelebrationOverlay(
         child: ListView(
-        padding: const EdgeInsetsDirectional.only(bottom: Space.xxxl),
-        children: [
-          if (pause != null) PauseBanner(pause: pause),
-          Padding(
-            padding: const EdgeInsets.all(Space.lg),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                HabitAvatar(habit: habit, size: 56),
-                const SizedBox(width: Space.lg),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(scheduleSentence(context, ref, habit), style: context.text.titleSmall),
-                      const SizedBox(height: Space.xs),
-                      Text(goalSentence(context, habit.goal), style: context.text.bodyMedium),
-                      if (habit.description != null) ...[
+          padding: const EdgeInsetsDirectional.only(bottom: Space.xxxl),
+          children: [
+            if (pause != null) PauseBanner(pause: pause),
+            Padding(
+              padding: const EdgeInsets.all(Space.lg),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  HabitAvatar(habit: habit, size: 56),
+                  const SizedBox(width: Space.lg),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(scheduleSentence(context, ref, habit), style: context.text.titleSmall),
                         const SizedBox(height: Space.xs),
-                        Text(habit.description!, style: context.text.bodySmall),
+                        Text(goalSentence(context, habit.goal), style: context.text.bodyMedium),
+                        if (habit.description != null) ...[
+                          const SizedBox(height: Space.xs),
+                          Text(habit.description!, style: context.text.bodySmall),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.sm),
-            child: RecordBanner(habitId: habit.id),
-          ),
-          if (challengeOf(snapshot) case final challenge?)
-            Padding(
-              padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.sm),
-              child: ChallengeCard(outcome: challenge),
-            ),
-          if (todayView != null && !habit.isArchived)
-            Padding(
-              padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.sm),
-              child: Card(child: HabitRow(view: todayView)),
-            ),
-          Padding(
-            padding: const EdgeInsets.all(Space.lg),
-            child: Wrap(
-              spacing: Space.sm,
-              runSpacing: Space.sm,
-              children: [
-                _StatChip(label: l.habitsCurrentStreak, value: l.habitsDays(summary.currentStreak), icon: Icons.local_fire_department),
-                _StatChip(label: l.habitsBestStreak, value: l.habitsDays(summary.bestStreak), icon: Icons.emoji_events_outlined),
-                _StatChip(label: l.habitsStrength, value: fmt.percent(summary.strengthScore), icon: Icons.fitness_center),
-                _StatChip(
-                  label: l.habitsRate30,
-                  value: rate == null ? l.habitsNotEnoughData : fmt.percent(rate),
-                  icon: Icons.percent,
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
-            child: Semantics(
-              label: l.habitsLast90,
-              child: Text(
-                l.habitsCounts(counts.success, counts.failed, counts.missed, counts.skipped),
-                style: context.text.bodyMedium,
+                ],
               ),
             ),
-          ),
-          HabitGoalsSection(habitId: habit.id),
-          SectionHeader(l.habitsCalendar),
-          Padding(
-            padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.md),
-            child: HabitMonthCalendar(habitId: habit.id),
-          ),
-          SectionHeader(l.habitsYear),
-          Padding(
-            padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
-            child: YearHeatmap(habitId: habit.id),
-          ),
-          SectionHeader(l.habitsRecentEntries),
-          if (recent.isEmpty)
-            Padding(padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg), child: Text(l.habitsNoEntries))
-          else
-            for (final e in recent)
-              ListTile(
-                leading: e.mood == null
-                    ? Icon(StatusStyle.of(context, _statusOfLog(e)).icon, color: StatusStyle.of(context, _statusOfLog(e)).color)
-                    : Text(MoodSelector.emojis[e.mood! - 1], style: context.text.titleLarge),
-                title: Text(_logTitle(context, habit, e)),
-                subtitle: Text(
-                  [
-                    fmt.dateTime(resolver.toLocal(e.loggedAt, zone)),
-                    if (e.note != null) e.note!,
-                  ].join(' · '),
-                ),
-                onTap: () => showDayEditor(context, ref, habit.id, e.localDate),
+            Padding(
+              padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.sm),
+              child: RecordBanner(habitId: habit.id),
+            ),
+            if (challengeOf(snapshot) case final challenge?)
+              Padding(
+                padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.sm),
+                child: ChallengeCard(outcome: challenge),
               ),
-        ],
-      ),
+            if (todayView != null && !habit.isArchived)
+              Padding(
+                padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.sm),
+                child: Card(child: HabitRow(view: todayView)),
+              ),
+            Padding(
+              padding: const EdgeInsets.all(Space.lg),
+              child: Wrap(
+                spacing: Space.sm,
+                runSpacing: Space.sm,
+                children: [
+                  _StatChip(
+                    label: l.habitsCurrentStreak,
+                    value: l.habitsDays(summary.currentStreak),
+                    icon: Icons.local_fire_department,
+                  ),
+                  _StatChip(
+                    label: l.habitsBestStreak,
+                    value: l.habitsDays(summary.bestStreak),
+                    icon: Icons.emoji_events_outlined,
+                  ),
+                  _StatChip(
+                    label: l.habitsStrength,
+                    value: fmt.percent(summary.strengthScore),
+                    icon: Icons.fitness_center,
+                  ),
+                  _StatChip(
+                    label: l.habitsRate30,
+                    value: rate == null ? l.habitsNotEnoughData : fmt.percent(rate),
+                    icon: Icons.percent,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
+              child: Semantics(
+                label: l.habitsLast90,
+                child: Text(
+                  l.habitsCounts(counts.success, counts.failed, counts.missed, counts.skipped),
+                  style: context.text.bodyMedium,
+                ),
+              ),
+            ),
+            HabitGoalsSection(habitId: habit.id),
+            SectionHeader(l.habitsCalendar),
+            Padding(
+              padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.md),
+              child: HabitMonthCalendar(habitId: habit.id),
+            ),
+            SectionHeader(l.habitsYear),
+            Padding(
+              padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
+              child: YearHeatmap(habitId: habit.id),
+            ),
+            SectionHeader(l.habitsRecentEntries),
+            if (recent.isEmpty)
+              Padding(
+                padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
+                child: Text(l.habitsNoEntries),
+              )
+            else
+              for (final e in recent)
+                ListTile(
+                  leading: e.mood == null
+                      ? Icon(
+                          StatusStyle.of(context, _statusOfLog(e)).icon,
+                          color: StatusStyle.of(context, _statusOfLog(e)).color,
+                        )
+                      : Text(MoodSelector.emojis[e.mood! - 1], style: context.text.titleLarge),
+                  title: Text(_logTitle(context, habit, e)),
+                  subtitle: Text(
+                    [fmt.dateTime(resolver.toLocal(e.loggedAt, zone)), if (e.note != null) e.note!].join(' · '),
+                  ),
+                  onTap: () => showDayEditor(context, ref, habit.id, e.localDate),
+                ),
+          ],
+        ),
       ),
     );
   }
@@ -343,7 +367,9 @@ class _HabitMonthCalendarState extends ConsumerState<HabitMonthCalendar> {
               icon: const Icon(Icons.chevron_left),
               onPressed: () => setState(() => _month = month.plusMonths(-1)),
             ),
-            Expanded(child: Text(fmt.monthYear(month), textAlign: TextAlign.center, style: context.text.titleSmall)),
+            Expanded(
+              child: Text(fmt.monthYear(month), textAlign: TextAlign.center, style: context.text.titleSmall),
+            ),
             IconButton(
               tooltip: l.habitsNextMonth,
               icon: const Icon(Icons.chevron_right),
@@ -354,7 +380,9 @@ class _HabitMonthCalendarState extends ConsumerState<HabitMonthCalendar> {
         Row(
           children: [
             for (final w in Weekday.ordered(prefs.weekStart))
-              Expanded(child: Text(fmt.weekdayShort(w), textAlign: TextAlign.center, style: context.text.labelSmall)),
+              Expanded(
+                child: Text(fmt.weekdayShort(w), textAlign: TextAlign.center, style: context.text.labelSmall),
+              ),
           ],
         ),
         for (var week = 0; week < weeks; week++)

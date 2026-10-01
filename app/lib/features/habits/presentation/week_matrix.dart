@@ -13,7 +13,8 @@ import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
-export 'package:everslot/features/habits/application/habit_view_settings.dart' show HabitViewSettings, habitViewSettingsProvider;
+export 'package:everslot/features/habits/application/habit_view_settings.dart'
+    show HabitViewSettings, habitViewSettingsProvider;
 
 /// Loop-style week matrix (T5.2.06): habits as rows, the [days] days ending at [endDate] as columns
 /// (today at the trailing edge), sticky habit column, tap cycles the state, long-press opens the
@@ -42,8 +43,13 @@ class _WeekMatrixState extends ConsumerState<WeekMatrix> {
     return AsyncValueView<List<Habit>>(
       value: habitsAsync,
       data: (all) {
-        final habits = [for (final h in all) if (h is BuildHabit) h];
-        if (habits.isEmpty) return EmptyState(icon: Icons.grid_on, title: l.habitsEmptyTitle, message: l.habitsEmptyBody);
+        final habits = [
+          for (final h in all)
+            if (h is BuildHabit) h,
+        ];
+        if (habits.isEmpty) {
+          return EmptyState(icon: Icons.grid_on, title: l.habitsEmptyTitle, message: l.habitsEmptyBody);
+        }
         return LayoutBuilder(
           builder: (context, constraints) {
             final n = columnsFor(constraints.maxWidth);
@@ -75,7 +81,9 @@ class _WeekMatrixState extends ConsumerState<WeekMatrix> {
                             IconButton(
                               tooltip: l.habitsNewer,
                               icon: const Icon(Icons.chevron_right),
-                              onPressed: _offsetDays == 0 ? null : () => setState(() => _offsetDays = (_offsetDays - n).clamp(0, 36500)),
+                              onPressed: _offsetDays == 0
+                                  ? null
+                                  : () => setState(() => _offsetDays = (_offsetDays - n).clamp(0, 36500)),
                             ),
                           ],
                         ),
@@ -149,8 +157,14 @@ class _MatrixRow extends ConsumerWidget {
                           Flexible(
                             child: Text(
                               quotaView.quota!.key.startsWith('month:')
-                                  ? l.habitsQuotaMonth(quotaView.quota!.flags.activeDays ?? 0, quotaView.quota!.flags.requiredDays ?? 0)
-                                  : l.habitsQuotaWeek(quotaView.quota!.flags.activeDays ?? 0, quotaView.quota!.flags.requiredDays ?? 0),
+                                  ? l.habitsQuotaMonth(
+                                      quotaView.quota!.flags.activeDays ?? 0,
+                                      quotaView.quota!.flags.requiredDays ?? 0,
+                                    )
+                                  : l.habitsQuotaWeek(
+                                      quotaView.quota!.flags.activeDays ?? 0,
+                                      quotaView.quota!.flags.requiredDays ?? 0,
+                                    ),
                               style: context.text.labelSmall,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -169,7 +183,10 @@ class _MatrixRow extends ConsumerWidget {
               ),
             ),
           ),
-          for (final v in views) Expanded(child: _Cell(habit: habit, view: v, settings: settings)),
+          for (final v in views)
+            Expanded(
+              child: _Cell(habit: habit, view: v, settings: settings),
+            ),
         ],
       ),
     );
@@ -215,7 +232,10 @@ class _Cell extends ConsumerWidget {
               width: 4,
               height: 18,
               margin: const EdgeInsets.symmetric(horizontal: 1),
-              color: StatusStyle.of(context, s.status).color.withValues(alpha: s.status == PeriodStatus.done ? 1 : 0.35),
+              color: StatusStyle.of(
+                context,
+                s.status,
+              ).color.withValues(alpha: s.status == PeriodStatus.done ? 1 : 0.35),
             ),
         ],
       );
@@ -228,11 +248,7 @@ class _Cell extends ConsumerWidget {
           color: accent.withValues(alpha: 0.12 + 0.6 * v.progress),
           borderRadius: BorderRadius.circular(Radii.sm),
         ),
-        child: Text(
-          formatValue(context, v.achieved),
-          style: context.text.labelSmall,
-          maxLines: 1,
-        ),
+        child: Text(formatValue(context, v.achieved), style: context.text.labelSmall, maxLines: 1),
       );
     } else {
       content = Icon(style.icon, color: faded ? style.color.withValues(alpha: 0.4) : style.color, size: 22);
@@ -243,7 +259,9 @@ class _Cell extends ConsumerWidget {
       excludeSemantics: true,
       child: InkWell(
         onTap: settings.toggleWithShortPress ? tap : () => showDayEditor(context, ref, habit.id, v.date),
-        onLongPress: settings.toggleWithShortPress ? () => showDayEditor(context, ref, habit.id, v.date) : () => unawaited(tap()),
+        onLongPress: settings.toggleWithShortPress
+            ? () => showDayEditor(context, ref, habit.id, v.date)
+            : () => unawaited(tap()),
         child: SizedBox(height: 56, child: Center(child: content)),
       ),
     );

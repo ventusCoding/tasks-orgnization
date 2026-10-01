@@ -42,12 +42,7 @@ class PullChange {
 }
 
 class PullPage {
-  const PullPage({
-    required this.changes,
-    required this.next,
-    required this.more,
-    required this.purgeWatermark,
-  });
+  const PullPage({required this.changes, required this.next, required this.more, required this.purgeWatermark});
 
   final List<PullChange> changes;
   final int next;
@@ -137,17 +132,7 @@ class DeviceRegistration {
       other.deviceName == deviceName;
 
   @override
-  int get hashCode => Object.hash(
-    id,
-    platform,
-    model,
-    osVersion,
-    appVersion,
-    appBuild,
-    locale,
-    timeZone,
-    deviceName,
-  );
+  int get hashCode => Object.hash(id, platform, model, osVersion, appVersion, appBuild, locale, timeZone, deviceName);
 }
 
 /// Keys accepted by `app.report_device_state(p_id, p_state)`; only keys present are updated
@@ -235,7 +220,7 @@ class SupabaseSyncApi implements SyncApi {
   /// Maps a PostgREST error body (`{"code", "message", "details", "hint"}`) to a
   /// [SyncApiException] when it carries one of the API's stable codes; other errors (network,
   /// transient database errors) are returned unchanged so the engine retries them.
-  static Object mapPostgrestError(PostgrestException e) {
+  static Exception mapPostgrestError(PostgrestException e) {
     final code = e.code;
     if (code != null && _statusByCode.containsKey(code)) {
       return SyncApiException(code, status: _statusByCode[code], message: e.message);
@@ -257,21 +242,14 @@ class SupabaseSyncApi implements SyncApi {
       'sync_push',
       params: {'p_device_id': deviceId, 'p_schema': schema, 'p_build': build, 'p_changes': changes},
     );
-    return PushResponse(
-      [
-        for (final r in (res['results'] as List? ?? const []))
-          PushResult.fromJson(Map<String, dynamic>.from(r as Map)),
-      ],
-      (res['head'] as num?)?.toInt() ?? 0,
-    );
+    return PushResponse([
+      for (final r in (res['results'] as List? ?? const [])) PushResult.fromJson(Map<String, dynamic>.from(r as Map)),
+    ], (res['head'] as num?)?.toInt() ?? 0);
   });
 
   @override
   Future<PullPage> pull({required int since, int limit = 1000}) => _call(() async {
-    final res = await _app.rpc<Map<String, dynamic>>(
-      'sync_pull',
-      params: {'p_since': since, 'p_limit': limit},
-    );
+    final res = await _app.rpc<Map<String, dynamic>>('sync_pull', params: {'p_since': since, 'p_limit': limit});
     return parsePullPage(res, since);
   });
 
@@ -293,10 +271,12 @@ class SupabaseSyncApi implements SyncApi {
 
   /// Parses `{"t": "<table>", "rows": [...], "missing": [...]}` (a bare list is accepted too).
   static FetchRowsResult parseFetchRows(Object? res) {
-    final rows = res is List ? res : (res is Map ? (res['rows'] as List? ?? const []) : const []);
-    final missing = res is Map ? (res['missing'] as List? ?? const []) : const [];
+    final rows = res is List
+        ? res
+        : (res is Map ? (res['rows'] as List<Object?>? ?? const <Object?>[]) : const <Object?>[]);
+    final missing = res is Map ? (res['missing'] as List<Object?>? ?? const <Object?>[]) : const <Object?>[];
     return FetchRowsResult(
-      rows: [for (final r in rows) Map<String, dynamic>.from(r as Map)],
+      rows: [for (final r in rows) Map<String, dynamic>.from(r! as Map)],
       missing: [for (final m in missing) m.toString()],
     );
   }

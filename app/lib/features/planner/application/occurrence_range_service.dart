@@ -54,7 +54,9 @@ class OccurrenceDiff {
   bool get isEmpty => added.isEmpty && removed.isEmpty && changed.isEmpty;
 
   /// Task ids touched by the diff.
-  Set<String> get taskIds => {for (final i in [...added, ...removed, ...changed]) i.taskId};
+  Set<String> get taskIds => {
+    for (final i in [...added, ...removed, ...changed]) i.taskId,
+  };
 }
 
 OccurrenceDiff diffItems(List<PlannerItem> before, List<PlannerItem> after) {
@@ -180,19 +182,22 @@ class OccurrenceRangeService {
   }
 
   Future<ResolveResult> _resolve(RangeData data, LocalDateTime from, LocalDateTime to, DateTime now) {
-    final offload = useIsolate &&
+    final offload =
+        useIsolate &&
         resolver.zones is TzZoneResolver &&
         estimateOccurrenceCount(data.tasks, from, to) > isolateThreshold;
     if (!offload) {
-      return Future.value(resolver.resolve(
-        tasks: data.tasks,
-        records: data.records,
-        from: from,
-        to: to,
-        viewerZone: viewerZone,
-        now: now,
-        settings: settings.resolver,
-      ));
+      return Future.value(
+        resolver.resolve(
+          tasks: data.tasks,
+          records: data.records,
+          from: from,
+          to: to,
+          viewerZone: viewerZone,
+          now: now,
+          settings: settings.resolver,
+        ),
+      );
     }
     isolateRuns++;
     final request = ResolveRequest(data.tasks, data.records, from, to, viewerZone, now, settings.resolver);
@@ -200,8 +205,7 @@ class OccurrenceRangeService {
   }
 
   /// Items of the local days of [range], re-emitted on relevant changes.
-  Stream<ResolvedRange> watch(DayRange range) =>
-      watchLocal(range.start.atStartOfDay, range.endExclusive.atStartOfDay);
+  Stream<ResolvedRange> watch(DayRange range) => watchLocal(range.start.atStartOfDay, range.endExclusive.atStartOfDay);
 
   /// Like [watch] for an arbitrary wall-clock range.
   Stream<ResolvedRange> watchLocal(LocalDateTime from, LocalDateTime to) {
@@ -227,7 +231,11 @@ class OccurrenceRangeService {
           final result = await resolveRange(from, to, useCache: true);
           if (controller.isClosed) return;
           final stable = stabilize(previous, result.items);
-          final changed = first || previous.length != stable.length || !_sameInstances(previous, stable) || truncated != result.truncated;
+          final changed =
+              first ||
+              previous.length != stable.length ||
+              !_sameInstances(previous, stable) ||
+              truncated != result.truncated;
           first = false;
           previous = stable;
           truncated = result.truncated;

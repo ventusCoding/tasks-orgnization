@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
@@ -28,7 +30,10 @@ class _NotesJournalScreenState extends ConsumerState<NotesJournalScreen> {
     final habits = {for (final h in ref.watch(allHabitsProvider).value ?? const <Habit>[]) h.id: h};
     final filtered = [
       for (final e in entries)
-        if ((_habitId == null || e.habitId == _habitId) && (_mood == null || e.mood == _mood) && habits.containsKey(e.habitId)) e,
+        if ((_habitId == null || e.habitId == _habitId) &&
+            (_mood == null || e.mood == _mood) &&
+            habits.containsKey(e.habitId))
+          e,
     ];
     final moods = [
       for (final e in filtered.take(30).toList().reversed)
@@ -99,7 +104,7 @@ class _NotesJournalScreenState extends ConsumerState<NotesJournalScreen> {
                 subtitle: Text('${habits[e.habitId]?.name ?? ''} · ${fmt.dayLong(e.localDate)}'),
                 onTap: () {
                   final habit = habits[e.habitId];
-                  if (habit is BuildHabit) showDayEditor(context, ref, habit.id, e.localDate);
+                  if (habit is BuildHabit) unawaited(showDayEditor(context, ref, habit.id, e.localDate));
                 },
               ),
         ],

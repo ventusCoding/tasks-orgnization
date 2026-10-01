@@ -88,11 +88,7 @@ void main() {
     await insert('c1');
     await d.sync.syncNow();
     final scheduled = d.clock.nowUtc().subtract(const Duration(hours: 1));
-    await d.writer.run(
-      (tx) => tx.update('categories', 'c1', {'name': 'Auto'}),
-      scheduledAt: scheduled,
-      cause: 'reset',
-    );
+    await d.writer.run((tx) => tx.update('categories', 'c1', {'name': 'Auto'}), scheduledAt: scheduled, cause: 'reset');
     final auto = jsonDecode((await d.outbox()).single.clock) as Map<String, dynamic>;
     expect(Hlc.tryParse(auto['name'] as String)!.ms, scheduled.millisecondsSinceEpoch);
     // Another device's user edit made before now but after the scheduled instant wins.

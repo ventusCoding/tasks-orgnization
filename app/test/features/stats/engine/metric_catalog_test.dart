@@ -53,7 +53,9 @@ String catalogMarkdown(MetricRegistry registry, Map<String, Object?> en) {
 
 void main() {
   final registry = MetricRegistry.instance;
-  final locales = {for (final l in ['en', 'fr', 'ar']) l: arb(l)};
+  final locales = {
+    for (final l in ['en', 'fr', 'ar']) l: arb(l),
+  };
 
   test('lint: every metric is complete', () {
     final problems = <String>[];

@@ -142,9 +142,8 @@ abstract final class ChecklistNotificationTargets {
     return root.isComplete(list.settings.progressMode);
   }
 
-  static ItemKind kindOf(LocalDateTime? due) => due == null
-      ? ItemKind.any
-      : (ItemTimeRules.isDateOnly(due) ? ItemKind.dateOnly : ItemKind.timed);
+  static ItemKind kindOf(LocalDateTime? due) =>
+      due == null ? ItemKind.any : (ItemTimeRules.isDateOnly(due) ? ItemKind.dateOnly : ItemKind.timed);
 
   static NotificationTarget _listTarget(
     Checklist list,
@@ -156,7 +155,7 @@ abstract final class ChecklistNotificationTargets {
     String deviceZone,
     DateTime eventsSince,
   ) {
-    DateTime? lastActivity = list.updatedAt;
+    var lastActivity = list.updatedAt;
     DateTime? completedAt;
     for (final i in tree.items) {
       final u = i.updatedAt;
@@ -204,11 +203,7 @@ abstract final class ChecklistNotificationTargets {
     final events = <NotificationEvent>[
       for (final c in changes)
         if (!c.at.isBefore(eventsSince))
-          NotificationEvent(
-            kind: 'status_change',
-            at: c.at,
-            data: {'from': ?c.from?.name, 'to': c.to.name},
-          ),
+          NotificationEvent(kind: 'status_change', at: c.at, data: {'from': ?c.from?.name, 'to': c.to.name}),
       ..._childEvents(item, tree, zones, deviceZone, eventsSince),
     ];
     final text = item.text.trim();

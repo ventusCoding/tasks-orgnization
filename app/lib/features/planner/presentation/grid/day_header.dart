@@ -1,7 +1,7 @@
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/data/work_settings.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/day_slices.dart';
-import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
@@ -43,7 +43,11 @@ class DayStats {
 
   @override
   bool operator ==(Object other) =>
-      other is DayStats && other.done == done && other.total == total && other.plannedMinutes == plannedMinutes && other.load == load;
+      other is DayStats &&
+      other.done == done &&
+      other.total == total &&
+      other.plannedMinutes == plannedMinutes &&
+      other.load == load;
 
   @override
   int get hashCode => Object.hash(done, total, plannedMinutes, load);
@@ -124,40 +128,44 @@ class DayHeaderCell extends StatelessWidget {
   }
 
   Widget _content(BuildContext context, ColorScheme c, String dayNumber) => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FittedBox(
-                child: Text(
-                  showMonth ? '${format.weekdayShort(date.weekday)} · ${DateFormat.MMM(format.locale).format(date.toDateTimeUtc())}' : format.weekdayShort(date.weekday),
-                  style: context.text.labelSmall?.copyWith(color: isToday ? c.primary : c.onSurfaceVariant),
-                  maxLines: 1,
-                ),
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      FittedBox(
+        child: Text(
+          showMonth
+              ? '${format.weekdayShort(date.weekday)} · ${DateFormat.MMM(format.locale).format(date.toDateTimeUtc())}'
+              : format.weekdayShort(date.weekday),
+          style: context.text.labelSmall?.copyWith(color: isToday ? c.primary : c.onSurfaceVariant),
+          maxLines: 1,
+        ),
+      ),
+      const SizedBox(height: 2),
+      Container(
+        width: compact ? 24 : 28,
+        height: compact ? 24 : 28,
+        alignment: Alignment.center,
+        decoration: isToday ? BoxDecoration(color: c.primary, shape: BoxShape.circle) : null,
+        child: FittedBox(
+          child: Padding(
+            padding: const EdgeInsets.all(2),
+            child: Text(
+              dayNumber,
+              style: context.text.titleSmall?.copyWith(
+                color: isToday ? c.onPrimary : c.onSurface,
+                fontWeight: FontWeight.w600,
               ),
-              const SizedBox(height: 2),
-              Container(
-                width: compact ? 24 : 28,
-                height: compact ? 24 : 28,
-                alignment: Alignment.center,
-                decoration: isToday ? BoxDecoration(color: c.primary, shape: BoxShape.circle) : null,
-                child: FittedBox(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: Text(
-                      dayNumber,
-                      style: context.text.titleSmall?.copyWith(
-                        color: isToday ? c.onPrimary : c.onSurface,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              if (weekNumber != null)
-                FittedBox(child: Text(weekNumber!, style: context.text.labelSmall?.copyWith(color: c.outline))),
-              if (statsText != null)
-                FittedBox(
-                  child: Text(statsText!, style: context.text.labelSmall?.copyWith(fontSize: 10, color: c.onSurfaceVariant)),
-                ),
-            ],
-          );
+            ),
+          ),
+        ),
+      ),
+      if (weekNumber != null)
+        FittedBox(
+          child: Text(weekNumber!, style: context.text.labelSmall?.copyWith(color: c.outline)),
+        ),
+      if (statsText != null)
+        FittedBox(
+          child: Text(statsText!, style: context.text.labelSmall?.copyWith(fontSize: 10, color: c.onSurfaceVariant)),
+        ),
+    ],
+  );
 }

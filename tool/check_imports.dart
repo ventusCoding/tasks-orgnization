@@ -33,9 +33,7 @@ int run(List<String> args, StringSink out) {
       case '--no-rtl':
         rtl = false;
       case '-h' || '--help':
-        out.writeln(
-          'Usage: dart run tool/check_imports.dart [--lib app/lib] [--no-rtl]',
-        );
+        out.writeln('Usage: dart run tool/check_imports.dart [--lib app/lib] [--no-rtl]');
         return 0;
       default:
         out.writeln('Unknown argument: ${args[i]}');
@@ -96,9 +94,7 @@ class LibLocation {
     if (segments.isEmpty) return LibLocation(libPath, '', null, null);
     final area = segments.first;
     if ((area == 'features' || area == 'shared') && segments.length > 2) {
-      final layer = segments.length > 3 && layers.contains(segments[2])
-          ? segments[2]
-          : null;
+      final layer = segments.length > 3 && layers.contains(segments[2]) ? segments[2] : null;
       return LibLocation(libPath, area, segments[1], layer);
     }
     return LibLocation(libPath, area, null, null);
@@ -117,8 +113,7 @@ class LibLocation {
   /// `domain` | `data` | `application` | `presentation` | null.
   final String? layer;
 
-  bool get isModule =>
-      (area == 'features' || area == 'shared') && module != null;
+  bool get isModule => (area == 'features' || area == 'shared') && module != null;
 
   String get moduleKey => '$area/$module';
 }
@@ -136,9 +131,7 @@ CheckResult checkLibDirectory(Directory libDir, {bool rtl = true}) {
   final violations = <Violation>[];
   for (final file in files) {
     final absolute = file.absolute.path.replaceAll(r'\', '/');
-    final relative = absolute
-        .substring(root.length)
-        .replaceFirst(RegExp('^/+'), '');
+    final relative = absolute.substring(root.length).replaceFirst(RegExp('^/+'), '');
     violations.addAll(checkSource(relative, file.readAsStringSync(), rtl: rtl));
   }
   return CheckResult(files.length, violations);
@@ -146,9 +139,7 @@ CheckResult checkLibDirectory(Directory libDir, {bool rtl = true}) {
 
 bool isGenerated(String path) {
   final p = path.replaceAll(r'\', '/');
-  return p.endsWith('.g.dart') ||
-      p.contains('/l10n/generated/') ||
-      p.endsWith('.freezed.dart');
+  return p.endsWith('.g.dart') || p.contains('/l10n/generated/') || p.endsWith('.freezed.dart');
 }
 
 /// Checks one library given its path relative to `lib/` and its source.
@@ -204,8 +195,7 @@ List<Violation> checkSource(String libPath, String source, {bool rtl = true}) {
 
 final _directive = RegExp(r'^(import|export)(\s|$)');
 
-int _lineOf(String text, int offset) =>
-    '\n'.allMatches(text.substring(0, offset)).length;
+int _lineOf(String text, int offset) => '\n'.allMatches(text.substring(0, offset)).length;
 
 /// Replaces comments and string-literal contents with spaces (line breaks are kept) so that
 /// source patterns are only matched in code.
@@ -282,12 +272,7 @@ final _uriPattern = RegExp('''['"]([^'"]+)['"]''');
 Iterable<String> _uris(String directive) => _uriPattern
     .allMatches(directive)
     .map((m) => m.group(1)!)
-    .where(
-      (u) =>
-          u.endsWith('.dart') ||
-          u.startsWith('dart:') ||
-          u.startsWith('package:'),
-    );
+    .where((u) => u.endsWith('.dart') || u.startsWith('dart:') || u.startsWith('package:'));
 
 /// Resolves [uri] seen in [from] to a lib-relative path for app imports, or returns null for
 /// external packages / SDK libraries.
@@ -349,21 +334,14 @@ String? _packageOf(String uri) {
 
 (String, String)? _checkImport(LibLocation from, String uri) {
   if (uri == 'dart:ui' && from.layer == 'domain') {
-    return (
-      'domain-pure',
-      'domain code must be pure Dart: `$uri` is Flutter engine API',
-    );
+    return ('domain-pure', 'domain code must be pure Dart: `$uri` is Flutter engine API');
   }
   final package = _packageOf(uri);
   if (package != null && package != 'everslot') {
     if (from.layer == 'domain' && _domainForbiddenPackages.contains(package)) {
-      return (
-        'domain-pure',
-        'domain code must be pure Dart (no Flutter/Drift/Supabase/Riverpod): imports `$uri`',
-      );
+      return ('domain-pure', 'domain code must be pure Dart (no Flutter/Drift/Supabase/Riverpod): imports `$uri`');
     }
-    if (from.layer == 'presentation' &&
-        const {'drift', 'drift_flutter', 'sqlite3'}.contains(package)) {
+    if (from.layer == 'presentation' && const {'drift', 'drift_flutter', 'sqlite3'}.contains(package)) {
       return (
         'presentation-data',
         'presentation must not use the database directly (`$uri`); read application providers',
@@ -377,17 +355,11 @@ String? _packageOf(String uri) {
 
   if (from.layer == 'domain') {
     if (to.isModule && to.layer != null && to.layer != 'domain') {
-      return (
-        'domain-layer',
-        'domain may not import the ${to.layer}/ layer (`$target`); depend on domain types only',
-      );
+      return ('domain-layer', 'domain may not import the ${to.layer}/ layer (`$target`); depend on domain types only');
     }
     for (final core in _domainForbiddenCore) {
       if (target.startsWith(core)) {
-        return (
-          'domain-layer',
-          'domain may not import `$target` (infrastructure, not domain-safe)',
-        );
+        return ('domain-layer', 'domain may not import `$target` (infrastructure, not domain-safe)');
       }
     }
     if (const {'design_system', 'app', 'startup', 'l10n'}.contains(to.area)) {
@@ -403,29 +375,19 @@ String? _packageOf(String uri) {
       );
     }
     if (target.startsWith('core/database/')) {
-      return (
-        'presentation-data',
-        'presentation may not import the database (`$target`)',
-      );
+      return ('presentation-data', 'presentation may not import the database (`$target`)');
     }
   }
 
-  if (from.isModule &&
-      to.isModule &&
-      to.layer == 'data' &&
-      from.moduleKey != to.moduleKey) {
+  if (from.isModule && to.isModule && to.layer == 'data' && from.moduleKey != to.moduleKey) {
     return (
       'foreign-data',
       '${from.moduleKey} may not import ${to.moduleKey}/data (`$target`); use its application/ API',
     );
   }
 
-  if ((from.area == 'core' || from.area == 'design_system') &&
-      _upperAreas.contains(to.area)) {
-    return (
-      'core-independent',
-      '${from.area}/ must not depend on ${to.area}/ (`$target`)',
-    );
+  if ((from.area == 'core' || from.area == 'design_system') && _upperAreas.contains(to.area)) {
+    return ('core-independent', '${from.area}/ must not depend on ${to.area}/ (`$target`)');
   }
   return null;
 }
@@ -460,12 +422,7 @@ Iterable<_RtlHit> _rtlHits(String masked) sync* {
     );
   }
   for (final m in _textAlign.allMatches(masked)) {
-    yield _RtlHit(
-      m.start,
-      m.end,
-      'rtl-text-align',
-      'use TextAlign.start/end instead of `${m.group(0)}`',
-    );
+    yield _RtlHit(m.start, m.end, 'rtl-text-align', 'use TextAlign.start/end instead of `${m.group(0)}`');
   }
   for (final m in _fromLtrb.allMatches(masked)) {
     final args = _balancedArgs(masked, m.end);

@@ -12,16 +12,9 @@ abstract final class LogSafe {
     return id.length <= keep ? id : '${id.substring(0, keep)}…';
   }
 
-  static final _email = RegExp(
-    r'[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}',
-  );
-  static final _jwt = RegExp(
-    r'eyJ[A-Za-z0-9_\-]{5,}\.[A-Za-z0-9_\-]{5,}\.[A-Za-z0-9_\-]*',
-  );
-  static final _bearer = RegExp(
-    r'bearer\s+[A-Za-z0-9._~+/\-]+=*',
-    caseSensitive: false,
-  );
+  static final _email = RegExp(r'[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}');
+  static final _jwt = RegExp(r'eyJ[A-Za-z0-9_\-]{5,}\.[A-Za-z0-9_\-]{5,}\.[A-Za-z0-9_\-]*');
+  static final _bearer = RegExp(r'bearer\s+[A-Za-z0-9._~+/\-]+=*', caseSensitive: false);
   static final _apiKey = RegExp(r'sb_(?:publishable|secret)_[A-Za-z0-9_\-]+');
   static final _secretParam = RegExp(
     r'(access_token|refresh_token|id_token|token|apikey|api_key|otp|password|secret|nonce)=([^&\s"]+)',
@@ -29,10 +22,7 @@ abstract final class LogSafe {
   );
 
   /// `code` and `key` are only secrets inside a URL query (`?code=…`), not in prose (`code=23505`).
-  static final _urlSecretParam = RegExp(
-    r'([?&](?:code|key|state))=([^&\s"]+)',
-    caseSensitive: false,
-  );
+  static final _urlSecretParam = RegExp(r'([?&](?:code|key|state))=([^&\s"]+)', caseSensitive: false);
   static final _longToken = RegExp(r'\b[A-Za-z0-9_\-]{40,}\b');
 
   /// Removes e-mail addresses, JWTs, bearer tokens, API keys, secret query parameters and long

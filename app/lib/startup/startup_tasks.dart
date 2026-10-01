@@ -3,12 +3,9 @@ import 'dart:async';
 import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/session/session.dart';
-import 'package:everslot/core/sync/background_sync.dart'
-    show scheduleBackgroundSync;
-import 'package:everslot/features/attachments/application/providers.dart'
-    show startAttachmentUploads;
-import 'package:everslot/features/checklists/application/reset_service.dart'
-    show runChecklistResets;
+import 'package:everslot/core/sync/background_sync.dart' show scheduleBackgroundSync;
+import 'package:everslot/features/attachments/application/providers.dart' show startAttachmentUploads;
+import 'package:everslot/features/checklists/application/reset_service.dart' show runChecklistResets;
 import 'package:everslot/features/habits/habits_startup.dart';
 import 'package:everslot/features/integrations/integrations_startup.dart';
 import 'package:everslot/features/notifications/notifications_startup.dart';
@@ -46,8 +43,6 @@ Future<void> runStartupTasks(ProviderContainer container) async {
   }
   // Keep session-dependent singletons alive.
   if (session.mode == SessionMode.cloud) {
-    unawaited(
-      Future<void>.microtask(() => container.read(syncServiceProvider)),
-    );
+    unawaited(Future<void>.microtask(() => container.read(syncServiceProvider)));
   }
 }

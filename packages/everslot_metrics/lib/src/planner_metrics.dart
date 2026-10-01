@@ -56,16 +56,12 @@ PlannerOutcome plannerOutcome(
       final pe = f.plannedEnd;
       if (pe == null) return PlannerOutcome.doneOnTime;
       final sessions = f.effectiveSessions;
-      final reference =
-          f.trackingMode == TrackingMode.timer && sessions.isNotEmpty
+      final reference = f.trackingMode == TrackingMode.timer && sessions.isNotEmpty
           ? sessions.map((s) => s.end).reduce((a, b) => a.isAfter(b) ? a : b)
           : f.doneAt;
       if (reference == null) return PlannerOutcome.doneOnTime;
-      return reference.isAfter(pe.add(settings.grace))
-          ? PlannerOutcome.doneLate
-          : PlannerOutcome.doneOnTime;
-    case PlannerOccurrenceStatus.scheduled ||
-        PlannerOccurrenceStatus.inProgress:
+      return reference.isAfter(pe.add(settings.grace)) ? PlannerOutcome.doneLate : PlannerOutcome.doneOnTime;
+    case PlannerOccurrenceStatus.scheduled || PlannerOccurrenceStatus.inProgress:
       final ps = f.plannedStart;
       if (ps != null && now.isBefore(ps)) return PlannerOutcome.future;
       if (!f.trackingMode.countsForCompletion) return PlannerOutcome.notTracked;
@@ -90,10 +86,7 @@ Stat<Duration> plannedDuration(PlannerOccurrenceFact f) {
 Stat<Duration> actualDuration(PlannerOccurrenceFact f) {
   final s = f.effectiveSessions;
   if (s.isEmpty) return const NotApplicable<Duration>(Reasons.notTracked);
-  return Value<Duration>(
-    s.fold(Duration.zero, (acc, x) => acc + x.length),
-    sampleSize: s.length,
-  );
+  return Value<Duration>(s.fold(Duration.zero, (acc, x) => acc + x.length), sampleSize: s.length);
 }
 
 /// Over/under label of PL-T-03.
@@ -144,16 +137,10 @@ enum Punctuality { early, onTime, late }
 
 /// A signed timing difference with its class.
 @immutable
-final class const TimingDelta(
-  final Duration delta, {
-  required final Punctuality punctuality,
-});
+final class const TimingDelta(final Duration delta, {required final Punctuality punctuality});
 
 /// PL-T-04 — start delay Δs = as − ps: on time if |Δs| ≤ g, early if Δs < −g, late otherwise.
-Stat<TimingDelta> startDelay(
-  PlannerOccurrenceFact f, {
-  Duration grace = const Duration(minutes: 5),
-}) {
+Stat<TimingDelta> startDelay(PlannerOccurrenceFact f, {Duration grace = const Duration(minutes: 5)}) {
   final ps = f.plannedStart;
   if (ps == null || f.isAllDay) {
     return const NotApplicable<TimingDelta>(Reasons.notScheduled);
@@ -173,10 +160,7 @@ Stat<TimingDelta> startDelay(
 }
 
 /// PL-T-05 — finish delay Δe = ae − pe (timer) or done_at − pe (check); on time if Δe ≤ g.
-Stat<TimingDelta> finishDelay(
-  PlannerOccurrenceFact f, {
-  Duration grace = const Duration(minutes: 5),
-}) {
+Stat<TimingDelta> finishDelay(PlannerOccurrenceFact f, {Duration grace = const Duration(minutes: 5)}) {
   final pe = f.plannedEnd;
   if (pe == null || f.isAllDay) {
     return const NotApplicable<TimingDelta>(Reasons.notScheduled);
@@ -190,22 +174,11 @@ Stat<TimingDelta> finishDelay(
   }
   if (end == null) return const NotApplicable<TimingDelta>(Reasons.notDone);
   final delta = end.difference(pe);
-  return Value<TimingDelta>(
-    TimingDelta(
-      delta,
-      punctuality: delta <= grace ? Punctuality.onTime : Punctuality.late,
-    ),
-  );
+  return Value<TimingDelta>(TimingDelta(delta, punctuality: delta <= grace ? Punctuality.onTime : Punctuality.late));
 }
 
 /// Aging buckets 1 / 7 / 14 / 30+ days (PL-T-07, PL-X-06).
-enum OverdueBucket {
-  underOneDay,
-  oneDay,
-  sevenDays,
-  fourteenDays,
-  thirtyPlusDays,
-}
+enum OverdueBucket { underOneDay, oneDay, sevenDays, fourteenDays, thirtyPlusDays }
 
 OverdueBucket overdueBucketFor(Duration age) {
   final days = age.inHours / 24;
@@ -218,10 +191,7 @@ OverdueBucket overdueBucketFor(Duration age) {
 
 /// PL-T-07 result.
 @immutable
-final class const OverdueAge(
-  final Duration age, {
-  required final OverdueBucket bucket,
-});
+final class const OverdueAge(final Duration age, {required final OverdueBucket bucket});
 
 bool _isOpen(PlannerOccurrenceFact f) =>
     f.status == PlannerOccurrenceStatus.scheduled ||
@@ -231,10 +201,7 @@ bool _isOpen(PlannerOccurrenceFact f) =>
 /// PL-T-07 — overdue age of an open check/timer occurrence: now − pe, bucketed.
 Stat<OverdueAge> overdueAge(PlannerOccurrenceFact f, {required DateTime now}) {
   final pe = f.plannedEnd;
-  if (!f.trackingMode.countsForCompletion ||
-      !_isOpen(f) ||
-      pe == null ||
-      !now.isAfter(pe)) {
+  if (!f.trackingMode.countsForCompletion || !_isOpen(f) || pe == null || !now.isAfter(pe)) {
     return const NotApplicable<OverdueAge>('notOverdue');
   }
   final age = now.difference(pe);
@@ -249,9 +216,8 @@ Stat<OverdueAge> overdueAge(PlannerOccurrenceFact f, {required DateTime now}) {
 int rescheduleCount(PlannerOccurrenceFact f) => f.moves.length;
 
 /// PL-T-09 — reschedule distance Σ |toStart − fromStart| (wall clock).
-Duration rescheduleDistance(PlannerOccurrenceFact f) => Duration(
-  minutes: f.moves.fold<int>(0, (acc, m) => acc + m.deltaMinutes.abs()),
-);
+Duration rescheduleDistance(PlannerOccurrenceFact f) =>
+    Duration(minutes: f.moves.fold<int>(0, (acc, m) => acc + m.deltaMinutes.abs()));
 
 /// PL-T-10 — net drift = final ps − first planned ps (wall clock).
 Duration netDrift(PlannerOccurrenceFact f) {
@@ -262,8 +228,7 @@ Duration netDrift(PlannerOccurrenceFact f) {
 }
 
 /// PL-T-11 — "snowballing" badge when moved ≥ 3 times.
-bool isSnowballing(PlannerOccurrenceFact f, {int threshold = 3}) =>
-    f.moves.length >= threshold;
+bool isSnowballing(PlannerOccurrenceFact f, {int threshold = 3}) => f.moves.length >= threshold;
 
 /// PL-T-12 — lead time = done_at − task created_at.
 Stat<Duration> leadTime(PlannerOccurrenceFact f) {
@@ -281,15 +246,10 @@ Stat<Duration> startLatency(PlannerOccurrenceFact f) {
 
 /// PL-T-14 — planning horizon = first planned ps − task created_at (how far ahead it was planned),
 /// in wall-clock time of [clock].
-Stat<Duration> planningHorizon(
-  PlannerOccurrenceFact f, {
-  required ZoneClock clock,
-}) {
+Stat<Duration> planningHorizon(PlannerOccurrenceFact f, {required ZoneClock clock}) {
   final first = f.firstPlannedStartLocal;
   if (first == null) return const NotApplicable<Duration>(Reasons.notScheduled);
-  return Value<Duration>(
-    Duration(minutes: clock.toLocal(f.taskCreatedAt).minutesUntil(first)),
-  );
+  return Value<Duration>(Duration(minutes: clock.toLocal(f.taskCreatedAt).minutesUntil(first)));
 }
 
 /// PL-T-15 result: share of Da inside [ps, pe] and minutes spilled before/after.
@@ -324,11 +284,7 @@ Stat<SlotFit> slotFit(PlannerOccurrenceFact f) {
     return const NotApplicable<SlotFit>(Reasons.notTracked);
   }
   return Value<SlotFit>(
-    SlotFit(
-      inside.inMicroseconds / total.inMicroseconds,
-      spilledBefore: before,
-      spilledAfter: after,
-    ),
+    SlotFit(inside.inMicroseconds / total.inMicroseconds, spilledBefore: before, spilledAfter: after),
   );
 }
 
@@ -357,10 +313,7 @@ final class const SessionBlock(
 /// Merges sessions separated by gaps shorter than [maxGap] (default 2 min) into blocks whose
 /// length is the tracked time (a 50-min session, a 1-min gap and a 20-min session → one 70-min
 /// block).
-List<SessionBlock> mergeSessions(
-  List<TimeSessionFact> sessions, {
-  Duration maxGap = const Duration(minutes: 2),
-}) {
+List<SessionBlock> mergeSessions(List<TimeSessionFact> sessions, {Duration maxGap = const Duration(minutes: 2)}) {
   final sorted = [...sessions]..sort((a, b) => a.start.compareTo(b.start));
   final blocks = <SessionBlock>[];
   for (final s in sorted) {
@@ -376,9 +329,7 @@ List<SessionBlock> mergeSessions(
         continue;
       }
     }
-    blocks.add(
-      SessionBlock(s.start, s.end, tracked: s.length, taskId: s.taskId),
-    );
+    blocks.add(SessionBlock(s.start, s.end, tracked: s.length, taskId: s.taskId));
   }
   return blocks;
 }
@@ -395,9 +346,7 @@ Stat<FocusSessions> focusSessions(PlannerOccurrenceFact f) {
       pauses++;
     }
   }
-  final longest = mergeSessions(s)
-      .map((b) => b.tracked)
-      .reduce((a, b) => a > b ? a : b);
+  final longest = mergeSessions(s).map((b) => b.tracked).reduce((a, b) => a > b ? a : b);
   return Value<FocusSessions>(
     FocusSessions(
       s.length,
@@ -421,8 +370,7 @@ Stat<double> partialCompletion(PlannerOccurrenceFact f) {
 }
 
 /// PL-T-18 — self-rating (1–5) and outcome note.
-({int? rating, String? note}) selfRating(PlannerOccurrenceFact f) =>
-    (rating: f.rating, note: f.outcomeNote);
+({int? rating, String? note}) selfRating(PlannerOccurrenceFact f) => (rating: f.rating, note: f.outcomeNote);
 
 // ---------------------------------------------------------------------------------------------
 // Series execution (T6.3.04–T6.3.06)
@@ -446,8 +394,7 @@ List<LedgerUnit> plannerLedgerUnits(
         state: f.seriesPaused
             ? LedgerState.paused
             : switch (plannerOutcome(f, now: now, settings: settings)) {
-                PlannerOutcome.doneOnTime ||
-                PlannerOutcome.doneLate => LedgerState.done,
+                PlannerOutcome.doneOnTime || PlannerOutcome.doneLate => LedgerState.done,
                 PlannerOutcome.partial => LedgerState.partial,
                 PlannerOutcome.skipped => LedgerState.skipped,
                 PlannerOutcome.missed => LedgerState.missed,
@@ -494,23 +441,14 @@ AdherenceTrend seriesAdherenceTrend(
     final date = e.unit.date;
     if (date == null) continue;
     final excluded = switch (e.classification) {
-      LedgerClass.excused ||
-      LedgerClass.cancelled ||
-      LedgerClass.pending ||
-      LedgerClass.future => true,
+      LedgerClass.excused || LedgerClass.cancelled || LedgerClass.pending || LedgerClass.future => true,
       LedgerClass.skipped => settings.skipPolicy == SkipPolicy.neutral,
       _ => false,
     };
     if (excluded) continue;
     rows.add((date, e.done, e.unit.weight));
   }
-  final weekly = bucketRate(
-    rows,
-    from: from,
-    to: to,
-    granularity: Granularity.week,
-    weekStart: weekStart,
-  );
+  final weekly = bucketRate(rows, from: from, to: to, granularity: Granularity.week, weekStart: weekStart);
   final values = [for (final p in weekly) p.value];
   return AdherenceTrend(
     weekly,
@@ -529,9 +467,7 @@ StreakSummary seriesStreaks(
   for (final f in facts) {
     final date = f.plannedDate;
     if (date == null || !f.trackingMode.countsForCompletion) continue;
-    final o = f.seriesPaused
-        ? null
-        : plannerOutcome(f, now: now, settings: settings);
+    final o = f.seriesPaused ? null : plannerOutcome(f, now: now, settings: settings);
     units.add(
       StreakUnit(
         f.occurrenceKey,
@@ -539,18 +475,12 @@ StreakSummary seriesStreaks(
         end: date,
         kind: switch (o) {
           null => StreakUnitKind.neutral,
-          PlannerOutcome.doneOnTime ||
-          PlannerOutcome.doneLate => StreakUnitKind.success,
-          PlannerOutcome.partial ||
-          PlannerOutcome.missed => StreakUnitKind.breaks,
+          PlannerOutcome.doneOnTime || PlannerOutcome.doneLate => StreakUnitKind.success,
+          PlannerOutcome.partial || PlannerOutcome.missed => StreakUnitKind.breaks,
           PlannerOutcome.skipped =>
-            settings.skipPolicy == SkipPolicy.breaks
-                ? StreakUnitKind.breaks
-                : StreakUnitKind.neutral,
-          PlannerOutcome.cancelled ||
-          PlannerOutcome.notTracked => StreakUnitKind.neutral,
-          PlannerOutcome.pending ||
-          PlannerOutcome.future => StreakUnitKind.open,
+            settings.skipPolicy == SkipPolicy.breaks ? StreakUnitKind.breaks : StreakUnitKind.neutral,
+          PlannerOutcome.cancelled || PlannerOutcome.notTracked => StreakUnitKind.neutral,
+          PlannerOutcome.pending || PlannerOutcome.future => StreakUnitKind.open,
         },
         freezable: o == PlannerOutcome.missed,
       ),
@@ -560,8 +490,9 @@ StreakSummary seriesStreaks(
 }
 
 /// PL-S-06 — time invested: cumulative Σ Da (actual) and Σ Dp (planned) by planned date.
-({List<(LocalDate, double)> actual, List<(LocalDate, double)> planned})
-seriesTimeInvested(Iterable<PlannerOccurrenceFact> facts) {
+({List<(LocalDate, double)> actual, List<(LocalDate, double)> planned}) seriesTimeInvested(
+  Iterable<PlannerOccurrenceFact> facts,
+) {
   final actual = <LocalDate, double>{};
   final planned = <LocalDate, double>{};
   for (final f in facts) {
@@ -597,9 +528,7 @@ Stat<({LocalDate date, int daysSince})> seriesLastDone(
     }
   }
   if (last == null) {
-    return const NotApplicable<({LocalDate date, int daysSince})>(
-      Reasons.noData,
-    );
+    return const NotApplicable<({LocalDate date, int daysSince})>(Reasons.noData);
   }
   final date = clock.toLocal(last).date;
   return Value((date: date, daysSince: date.daysUntil(today)));
@@ -635,10 +564,8 @@ Map<LocalDate, CalendarOutcome> seriesOutcomeCalendar(
       PlannerOutcome.partial => CalendarOutcome.partial,
       PlannerOutcome.missed => CalendarOutcome.missed,
       PlannerOutcome.skipped => CalendarOutcome.skipped,
-      PlannerOutcome.cancelled ||
-      PlannerOutcome.notTracked => CalendarOutcome.excused,
-      PlannerOutcome.pending ||
-      PlannerOutcome.future => CalendarOutcome.pending,
+      PlannerOutcome.cancelled || PlannerOutcome.notTracked => CalendarOutcome.excused,
+      PlannerOutcome.pending || PlannerOutcome.future => CalendarOutcome.pending,
     };
     final existing = result[date];
     if (existing == null || rank[cell]! > rank[existing]!) result[date] = cell;
@@ -654,21 +581,14 @@ Map<LocalDate, CalendarOutcome> seriesOutcomeCalendar(
 }) {
   final list = [
     for (final f in facts)
-      if (f.trackingMode.countsForCompletion &&
-          f.status != PlannerOccurrenceStatus.cancelled)
-        f,
+      if (f.trackingMode.countsForCompletion && f.status != PlannerOccurrenceStatus.cancelled) f,
   ];
   final scheduled = list.where((f) {
     final o = plannerOutcome(f, now: now, settings: settings);
     return o != PlannerOutcome.future && o != PlannerOutcome.pending;
   }).toList();
-  final skipped = scheduled
-      .where((f) => f.status == PlannerOccurrenceStatus.skipped)
-      .toList();
-  return (
-    rate: rate(skipped.length, scheduled.length),
-    reasons: pareto(skipped.map((f) => f.skipReason)),
-  );
+  final skipped = scheduled.where((f) => f.status == PlannerOccurrenceStatus.skipped).toList();
+  return (rate: rate(skipped.length, scheduled.length), reasons: pareto(skipped.map((f) => f.skipReason)));
 }
 
 /// Start-delay statistics (PL-S-11, PL-X-27, PL-X-28).
@@ -683,10 +603,7 @@ final class const StartTimeliness(
 
 /// PL-S-11 / PL-X-27 / PL-X-28 — on-time starts ÷ started; mean, median and P85 of Δs (minutes;
 /// P85 hidden below 10 samples, means/medians below 3).
-StartTimeliness startTimeliness(
-  Iterable<PlannerOccurrenceFact> facts, {
-  Duration grace = const Duration(minutes: 5),
-}) {
+StartTimeliness startTimeliness(Iterable<PlannerOccurrenceFact> facts, {Duration grace = const Duration(minutes: 5)}) {
   final delays = <double>[];
   var onTime = 0;
   for (final f in facts) {
@@ -714,9 +631,7 @@ Map<LocalDate, Stat<BoxPlotSummary>> startDelayBoxPlotsByMonth(
     final d = startDelay(f, grace: grace).valueOrNull;
     final date = f.plannedDate;
     if (d == null || date == null) continue;
-    byMonth
-        .putIfAbsent(date.firstDayOfMonth, () => [])
-        .add(d.delta.inSeconds / 60);
+    byMonth.putIfAbsent(date.firstDayOfMonth, () => []).add(d.delta.inSeconds / 60);
   }
   return {for (final e in byMonth.entries) e.key: boxPlot(e.value)};
 }
@@ -755,9 +670,7 @@ StrengthResult seriesStrength(
   LocalDate? first;
   for (final f in facts) {
     final date = f.plannedDate;
-    if (date == null ||
-        !f.trackingMode.countsForCompletion ||
-        date.isAfter(today)) {
+    if (date == null || !f.trackingMode.countsForCompletion || date.isAfter(today)) {
       continue;
     }
     if (first == null || date.isBefore(first)) first = date;
@@ -765,8 +678,7 @@ StrengthResult seriesStrength(
     final isNeutral =
         f.seriesPaused ||
         o == PlannerOutcome.cancelled ||
-        (o == PlannerOutcome.skipped &&
-            settings.skipPolicy == SkipPolicy.neutral);
+        (o == PlannerOutcome.skipped && settings.skipPolicy == SkipPolicy.neutral);
     if (isNeutral) {
       neutral.add(date);
       continue;
@@ -831,10 +743,7 @@ Map<Weekday, Stat<double>> weekdayAdherence(
     }
     final o = plannerOutcome(f, now: now, settings: settings);
     final excluded = switch (o) {
-      PlannerOutcome.cancelled ||
-      PlannerOutcome.pending ||
-      PlannerOutcome.future ||
-      PlannerOutcome.notTracked => true,
+      PlannerOutcome.cancelled || PlannerOutcome.pending || PlannerOutcome.future || PlannerOutcome.notTracked => true,
       PlannerOutcome.skipped => settings.skipPolicy == SkipPolicy.neutral,
       _ => false,
     };
@@ -942,10 +851,7 @@ List<RuleChangeMarker> ruleChangeMarkers(
 }
 
 /// PL-S-20 — time-of-day consistency: circular mean/SD of `as` (or done_at when not tracked).
-Stat<CircularSummary> seriesTimeOfDay(
-  Iterable<PlannerOccurrenceFact> facts, {
-  required ZoneClock clock,
-}) {
+Stat<CircularSummary> seriesTimeOfDay(Iterable<PlannerOccurrenceFact> facts, {required ZoneClock clock}) {
   final minutes = <int>[];
   for (final f in facts) {
     final s = f.effectiveSessions;
@@ -957,15 +863,11 @@ Stat<CircularSummary> seriesTimeOfDay(
 }
 
 /// PL-S-21 — start drift: circular mean of signed (as − ps), wrapped to ±12 h (minutes).
-Stat<double> seriesStartDrift(Iterable<PlannerOccurrenceFact> facts) =>
-    circularDrift([
-      for (final f in facts)
-        if (f.plannedStart != null && f.effectiveSessions.isNotEmpty)
-          f.effectiveSessions.first.start
-                  .difference(f.plannedStart!)
-                  .inSeconds /
-              60,
-    ]);
+Stat<double> seriesStartDrift(Iterable<PlannerOccurrenceFact> facts) => circularDrift([
+  for (final f in facts)
+    if (f.plannedStart != null && f.effectiveSessions.isNotEmpty)
+      f.effectiveSessions.first.start.difference(f.plannedStart!).inSeconds / 60,
+]);
 
 // ---------------------------------------------------------------------------------------------
 // Section execution & flow — plan snapshot (T6.3.07)
@@ -1029,15 +931,11 @@ PlanSnapshot planSnapshot(
       }
       continue;
     }
-    final cancelledBefore =
-        f.cancelledAt != null && !f.cancelledAt!.isAfter(pStart);
+    final cancelledBefore = f.cancelledAt != null && !f.cancelledAt!.isAfter(pStart);
     if (cancelledBefore) continue;
     final snap = snapshotStartAt(f, pStart);
     final snapIn = snap != null && period.contains(snap.date);
-    if (snapIn &&
-        (now.isBefore(pStart) ||
-            now.isAfter(pEnd) ||
-            !snap.isAfter(nowLocal))) {
+    if (snapIn && (now.isBefore(pStart) || now.isAfter(pEnd) || !snap.isAfter(nowLocal))) {
       planned.add(f);
       final doneAt = f.doneAt;
       if (f.status == PlannerOccurrenceStatus.done &&
@@ -1062,10 +960,7 @@ PlanSnapshot planSnapshot(
 }
 
 /// PL-X-02 — per-day planned (by snapshot date) and done (by done_at date) counts.
-Map<LocalDate, ({int planned, int done})> donePlannedPerDay(
-  PlanSnapshot snapshot, {
-  required DayBoundaries bounds,
-}) {
+Map<LocalDate, ({int planned, int done})> donePlannedPerDay(PlanSnapshot snapshot, {required DayBoundaries bounds}) {
   final pStart = bounds.startOf(snapshot.period.start);
   final result = <LocalDate, ({int planned, int done})>{
     for (final d in snapshot.period.dates) d: (planned: 0, done: 0),
@@ -1085,12 +980,7 @@ Map<LocalDate, ({int planned, int done})> donePlannedPerDay(
 
 /// PL-X-04 — backlog flow per week: tasks created vs occurrences completed; open backlog =
 /// unscheduled open tasks + open overdue occurrences.
-({
-  List<SeriesPoint<double>> created,
-  List<SeriesPoint<double>> completed,
-  int openBacklog,
-})
-backlogFlow({
+({List<SeriesPoint<double>> created, List<SeriesPoint<double>> completed, int openBacklog}) backlogFlow({
   required Iterable<DateTime> taskCreatedAt,
   required Iterable<PlannerOccurrenceFact> facts,
   required int unscheduledOpenTasks,
@@ -1109,8 +999,7 @@ backlogFlow({
   final completed = bucketSum(
     [
       for (final f in facts)
-        if (f.status == PlannerOccurrenceStatus.done && f.doneAt != null)
-          (bounds.dateOf(f.doneAt!), 1),
+        if (f.status == PlannerOccurrenceStatus.done && f.doneAt != null) (bounds.dateOf(f.doneAt!), 1),
     ],
     from: range.start,
     to: range.end,
@@ -1118,11 +1007,7 @@ backlogFlow({
     weekStart: weekStart,
   );
   final overdue = facts.where((f) => overdueAge(f, now: now).hasValue).length;
-  return (
-    created: created,
-    completed: completed,
-    openBacklog: unscheduledOpenTasks + overdue,
-  );
+  return (created: created, completed: completed, openBacklog: unscheduledOpenTasks + overdue);
 }
 
 /// PL-X-06 — overdue now.
@@ -1210,18 +1095,14 @@ final class const CapacityDay(
   required final double actualMinutes,
 }) {
   /// PL-X-10 — overbooked when L_d > cap_d. Days without capacity (days off) are never flagged.
-  bool get overbooked =>
-      capacityMinutes > 0 && plannedMinutes > capacityMinutes + 1e-9;
+  bool get overbooked => capacityMinutes > 0 && plannedMinutes > capacityMinutes + 1e-9;
 
   double get overbookedMinutes => math.max(0, plannedMinutes - capacityMinutes);
 }
 
 /// Capacity report over a range (PL-X-07 … PL-X-12).
 @immutable
-final class const CapacityReport(
-  final List<CapacityDay> days, {
-  required final double actualTimeCoverage,
-}) {
+final class const CapacityReport(final List<CapacityDay> days, {required final double actualTimeCoverage}) {
   /// PL-X-07 — Σ cap_d.
   double get capacityMinutes => days.fold(0, (a, d) => a + d.capacityMinutes);
 
@@ -1230,24 +1111,15 @@ final class const CapacityReport(
   double get actualMinutes => days.fold(0, (a, d) => a + d.actualMinutes);
 
   /// PL-X-08 — Σ Dp (clipped to capacity windows) ÷ capacity (can exceed 100 % with overlaps).
-  Stat<double> get plannedUtilization => safeDivide(
-    days.fold<double>(0, (a, d) => a + d.plannedClippedMinutes),
-    capacityMinutes,
-  );
+  Stat<double> get plannedUtilization =>
+      safeDivide(days.fold<double>(0, (a, d) => a + d.plannedClippedMinutes), capacityMinutes);
 
   /// PL-X-09 — Σ Da (clipped) ÷ capacity; insufficient when actual-time coverage < 60 %.
   Stat<double> get actualUtilization {
     if (actualTimeCoverage < 0.6) {
-      return Insufficient<double>(
-        0.6,
-        actualTimeCoverage,
-        'lowActualTimeCoverage',
-      );
+      return Insufficient<double>(0.6, actualTimeCoverage, 'lowActualTimeCoverage');
     }
-    return safeDivide(
-      days.fold<double>(0, (a, d) => a + d.actualClippedMinutes),
-      capacityMinutes,
-    );
+    return safeDivide(days.fold<double>(0, (a, d) => a + d.actualClippedMinutes), capacityMinutes);
   }
 
   /// PL-X-10 — overbooked days.
@@ -1257,19 +1129,11 @@ final class const CapacityReport(
   ];
 }
 
-List<LocalTimeWindow> _windowsFor(
-  LocalDate date,
-  PlannerStatsSettings settings,
-) =>
-    (settings.workHours.isEmpty
-        ? defaultWorkHours
-        : settings.workHours)[date.weekday] ??
-    const [];
+List<LocalTimeWindow> _windowsFor(LocalDate date, PlannerStatsSettings settings) =>
+    (settings.workHours.isEmpty ? defaultWorkHours : settings.workHours)[date.weekday] ?? const [];
 
 bool _isUnavailable(PlannerOccurrenceFact f, PlannerStatsSettings s) =>
-    f.trackingMode == TrackingMode.event &&
-    f.categoryId != null &&
-    s.unavailableCategoryIds.contains(f.categoryId);
+    f.trackingMode == TrackingMode.event && f.categoryId != null && s.unavailableCategoryIds.contains(f.categoryId);
 
 /// Capacity per day: cap_d = window minutes of the capacity basis on that weekday minus
 /// unavailable blocks (`event` tasks in unavailable categories, clipped to the windows).
@@ -1341,10 +1205,7 @@ CapacityReport capacityReport(
       ),
     );
   }
-  return CapacityReport(
-    days,
-    actualTimeCoverage: doneCount == 0 ? 0 : doneWithSessions / doneCount,
-  );
+  return CapacityReport(days, actualTimeCoverage: doneCount == 0 ? 0 : doneWithSessions / doneCount);
 }
 
 /// PL-X-11 — remaining free time from [now] to the end of [range]: remaining capacity minus planned
@@ -1361,9 +1222,7 @@ double remainingFreeMinutes(
   var planned = 0.0;
   for (final date in range.dates) {
     if (date.isBefore(nowLocal.date)) continue;
-    final from = date == nowLocal.date
-        ? nowLocal.time.minuteOfDay.toDouble()
-        : 0.0;
+    final from = date == nowLocal.date ? nowLocal.time.minuteOfDay.toDouble() : 0.0;
     final windows = _windowsFor(date, settings);
     capacity += _overlapWithWindows(from, 1440, windows);
     for (final f in facts) {
@@ -1383,9 +1242,7 @@ double remainingFreeMinutes(
 }
 
 /// PL-X-12 — planned vs actual minutes per category (null key = uncategorized).
-Map<String?, ({double planned, double actual})> plannedVsActualByCategory(
-  Iterable<PlannerOccurrenceFact> facts,
-) {
+Map<String?, ({double planned, double actual})> plannedVsActualByCategory(Iterable<PlannerOccurrenceFact> facts) {
   final result = <String?, ({double planned, double actual})>{};
   for (final f in facts) {
     if (f.status == PlannerOccurrenceStatus.cancelled) continue;
@@ -1407,26 +1264,21 @@ typedef AllocationSlice = ({String? key, double minutes, double share});
 
 /// Actual-time coverage: done occurrences with sessions ÷ done occurrences (PL-X-41, T6.1.20).
 Stat<double> actualTimeCoverage(Iterable<PlannerOccurrenceFact> facts) {
-  final done = facts
-      .where((f) => f.status == PlannerOccurrenceStatus.done)
-      .toList();
+  final done = facts.where((f) => f.status == PlannerOccurrenceStatus.done).toList();
   return rate(done.where((f) => f.hasActualTime).length, done.length);
 }
 
 List<AllocationSlice> _slices(Map<String?, double> minutes) {
   final total = minutes.values.fold<double>(0, (a, b) => a + b);
   final slices = [
-    for (final e in minutes.entries)
-      (key: e.key, minutes: e.value, share: total == 0 ? 0.0 : e.value / total),
+    for (final e in minutes.entries) (key: e.key, minutes: e.value, share: total == 0 ? 0.0 : e.value / total),
   ]..sort((a, b) => b.minutes.compareTo(a.minutes));
   return slices;
 }
 
 /// PL-X-13 — time by category: Σ Da by category, falling back to Σ Dp (`usedPlanned` = true, UI
 /// label "planned") when actual-time coverage < 60 %. Uncategorized time is its own slice (null).
-({List<AllocationSlice> slices, bool usedPlanned}) timeByCategory(
-  Iterable<PlannerOccurrenceFact> facts,
-) {
+({List<AllocationSlice> slices, bool usedPlanned}) timeByCategory(Iterable<PlannerOccurrenceFact> facts) {
   final list = [
     for (final f in facts)
       if (f.status != PlannerOccurrenceStatus.cancelled) f,
@@ -1457,20 +1309,12 @@ Map<String?, List<SeriesPoint<double>>> categoryTrend(
   }
   return {
     for (final e in byCategory.entries)
-      e.key: bucketSum(
-        e.value,
-        from: range.start,
-        to: range.end,
-        granularity: Granularity.week,
-        weekStart: weekStart,
-      ),
+      e.key: bucketSum(e.value, from: range.start, to: range.end, granularity: Granularity.week, weekStart: weekStart),
   };
 }
 
 /// PL-X-15 — planned minutes of `event` vs `check`/`timer` occurrences.
-({double event, double task}) eventVsTaskMinutes(
-  Iterable<PlannerOccurrenceFact> facts,
-) {
+({double event, double task}) eventVsTaskMinutes(Iterable<PlannerOccurrenceFact> facts) {
   var event = 0.0;
   var task = 0.0;
   for (final f in facts) {
@@ -1485,25 +1329,21 @@ Map<String?, List<SeriesPoint<double>>> categoryTrend(
   return (event: event, task: task);
 }
 
-double _minutesOf(PlannerOccurrenceFact f) =>
-    f.actualMinutes ?? f.plannedMinutes ?? 0;
+double _minutesOf(PlannerOccurrenceFact f) => f.actualMinutes ?? f.plannedMinutes ?? 0;
 
 /// PL-X-16 — Σ minutes per priority 0–4 (actual when tracked, else planned).
 Map<int, double> timeByPriority(Iterable<PlannerOccurrenceFact> facts) {
   final result = {for (var p = 0; p <= 4; p++) p: 0.0};
   for (final f in facts) {
     if (f.status == PlannerOccurrenceStatus.cancelled) continue;
-    result[f.priority.clamp(0, 4)] =
-        result[f.priority.clamp(0, 4)]! + _minutesOf(f);
+    result[f.priority.clamp(0, 4)] = result[f.priority.clamp(0, 4)]! + _minutesOf(f);
   }
   return result;
 }
 
 /// PL-X-17 — Σ minutes per tag (a multi-tag task counts fully for each tag); `overlapping` is true
 /// whenever any task has more than one tag (the UI shows an "overlapping" note).
-({Map<String, double> minutes, bool overlapping}) timeByTag(
-  Iterable<PlannerOccurrenceFact> facts,
-) {
+({Map<String, double> minutes, bool overlapping}) timeByTag(Iterable<PlannerOccurrenceFact> facts) {
   final result = <String, double>{};
   var overlapping = false;
   for (final f in facts) {
@@ -1517,12 +1357,7 @@ Map<int, double> timeByPriority(Iterable<PlannerOccurrenceFact> facts) {
 }
 
 /// PL-X-18 — priority alignment: share of time and completion rate for high (3–4) vs low (0–2).
-({
-  Stat<double> highTimeShare,
-  Stat<double> highCompletionRate,
-  Stat<double> lowCompletionRate,
-})
-priorityAlignment(
+({Stat<double> highTimeShare, Stat<double> highCompletionRate, Stat<double> lowCompletionRate}) priorityAlignment(
   Iterable<PlannerOccurrenceFact> facts, {
   required DateTime now,
   PlannerStatsSettings settings = const PlannerStatsSettings(),
@@ -1541,9 +1376,7 @@ priorityAlignment(
     if (high) highMinutes += m;
     if (!f.trackingMode.countsForCompletion) continue;
     final o = plannerOutcome(f, now: now, settings: settings);
-    if (o == PlannerOutcome.pending ||
-        o == PlannerOutcome.future ||
-        o == PlannerOutcome.skipped) {
+    if (o == PlannerOutcome.pending || o == PlannerOutcome.future || o == PlannerOutcome.skipped) {
       continue;
     }
     counts[high]![1]++;
@@ -1559,9 +1392,7 @@ priorityAlignment(
 }
 
 /// PL-X-19 — allocation treemap: category → task → minutes.
-Map<String?, Map<String, double>> allocationTreemap(
-  Iterable<PlannerOccurrenceFact> facts,
-) {
+Map<String?, Map<String, double>> allocationTreemap(Iterable<PlannerOccurrenceFact> facts) {
   final result = <String?, Map<String, double>>{};
   for (final f in facts) {
     if (f.status == PlannerOccurrenceStatus.cancelled) continue;
@@ -1574,13 +1405,9 @@ Map<String?, Map<String, double>> allocationTreemap(
 }
 
 /// PL-X-20 — recurring vs one-off: minutes and completions.
-({
-  double recurringMinutes,
-  double oneOffMinutes,
-  int recurringDone,
-  int oneOffDone,
-})
-recurringVsOneOff(Iterable<PlannerOccurrenceFact> facts) {
+({double recurringMinutes, double oneOffMinutes, int recurringDone, int oneOffDone}) recurringVsOneOff(
+  Iterable<PlannerOccurrenceFact> facts,
+) {
   var rm = 0.0;
   var om = 0.0;
   var rd = 0;
@@ -1596,12 +1423,7 @@ recurringVsOneOff(Iterable<PlannerOccurrenceFact> facts) {
       od += done;
     }
   }
-  return (
-    recurringMinutes: rm,
-    oneOffMinutes: om,
-    recurringDone: rd,
-    oneOffDone: od,
-  );
+  return (recurringMinutes: rm, oneOffMinutes: om, recurringDone: rd, oneOffDone: od);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -1646,46 +1468,34 @@ EstimationTendency estimationTendency(double bias) {
 }
 
 /// PL-X-24 — planned vs actual scatter points (Dp, Da) in minutes, with the ±20 % band flag.
-List<({double planned, double actual, bool withinBand, String? categoryId})>
-plannedVsActualPoints(Iterable<PlannerOccurrenceFact> facts) => [
+List<({double planned, double actual, bool withinBand, String? categoryId})> plannedVsActualPoints(
+  Iterable<PlannerOccurrenceFact> facts,
+) => [
   for (final f in facts)
     if (f.plannedMinutes case final dp? when dp > 0)
       if (f.actualMinutes case final da?)
-        (
-          planned: dp,
-          actual: da,
-          withinBand: (da - dp).abs() <= 0.2 * dp,
-          categoryId: f.categoryId,
-        ),
+        (planned: dp, actual: da, withinBand: (da - dp).abs() <= 0.2 * dp, categoryId: f.categoryId),
 ];
 
 /// PL-X-25 — planned duration distribution: Freedman–Diaconis histogram, mean and median of Dp.
-({Histogram histogram, Stat<double> mean, Stat<double> median})
-plannedDurationDistribution(Iterable<PlannerOccurrenceFact> facts) {
+({Histogram histogram, Stat<double> mean, Stat<double> median}) plannedDurationDistribution(
+  Iterable<PlannerOccurrenceFact> facts,
+) {
   final dp = [
     for (final f in facts)
       if (f.status != PlannerOccurrenceStatus.cancelled) ?f.plannedMinutes,
   ];
-  return (
-    histogram: histogramFreedmanDiaconis(dp),
-    mean: mean(dp),
-    median: median(dp),
-  );
+  return (histogram: histogramFreedmanDiaconis(dp), mean: mean(dp), median: median(dp));
 }
 
 /// PL-X-26 — bias and MAPE per category.
-Map<String?, EstimationAccuracy> estimationByCategory(
-  Iterable<PlannerOccurrenceFact> facts,
-) {
+Map<String?, EstimationAccuracy> estimationByCategory(Iterable<PlannerOccurrenceFact> facts) {
   final byCategory = <String?, List<double>>{};
   for (final f in facts) {
     final r = durationRatio(f);
     if (r != null) byCategory.putIfAbsent(f.categoryId, () => []).add(r);
   }
-  return {
-    for (final e in byCategory.entries)
-      e.key: estimationAccuracyFromRatios(e.value),
-  };
+  return {for (final e in byCategory.entries) e.key: estimationAccuracyFromRatios(e.value)};
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -1720,9 +1530,7 @@ Map<Weekday, List<double>> busiestHours(
   required BusyMeasure measure,
   required ZoneClock clock,
 }) {
-  final matrix = {
-    for (final w in Weekday.values) w: List<double>.filled(24, 0),
-  };
+  final matrix = {for (final w in Weekday.values) w: List<double>.filled(24, 0)};
   void spread(LocalDateTime start, double minutes) {
     var cursor = start;
     var left = minutes;
@@ -1768,17 +1576,12 @@ Map<Weekday, ({Stat<double> completionRate, double hours})> bestWorkingDays(
   for (final f in list) {
     final date = f.plannedDate;
     if (date == null) continue;
-    hours[date.weekday] =
-        (hours[date.weekday] ?? 0) + (f.actualMinutes ?? 0) / 60;
+    hours[date.weekday] = (hours[date.weekday] ?? 0) + (f.actualMinutes ?? 0) / 60;
   }
   return {
     for (final w in Weekday.values)
       if (rates.containsKey(w) || hours.containsKey(w))
-        w: (
-          completionRate:
-              rates[w] ?? const NotApplicable<double>(Reasons.zeroDenominator),
-          hours: hours[w] ?? 0,
-        ),
+        w: (completionRate: rates[w] ?? const NotApplicable<double>(Reasons.zeroDenominator), hours: hours[w] ?? 0),
   };
 }
 
@@ -1805,11 +1608,7 @@ List<SlotOccupancy> slotOccupancy(
   final slots = (1440 / slotMinutes).ceil();
   final plannedWeeks = <(Weekday, int), Set<LocalDate>>{};
   final usedWeeks = <(Weekday, int), Set<LocalDate>>{};
-  void mark(
-    Map<(Weekday, int), Set<LocalDate>> target,
-    LocalDateTime start,
-    double minutes,
-  ) {
+  void mark(Map<(Weekday, int), Set<LocalDate>> target, LocalDateTime start, double minutes) {
     if (!range.contains(start.date)) return;
     final a = start.time.minuteOfDay.toDouble();
     final b = a + minutes;
@@ -1817,9 +1616,7 @@ List<SlotOccupancy> slotOccupancy(
       final s = (i * slotMinutes).toDouble();
       final e = math.min(1440, (i + 1) * slotMinutes).toDouble();
       if (math.min(b, e) > math.max(a, s)) {
-        target
-            .putIfAbsent((start.date.weekday, i * slotMinutes), () => {})
-            .add(start.date.startOfWeek(weekStart));
+        target.putIfAbsent((start.date.weekday, i * slotMinutes), () => {}).add(start.date.startOfWeek(weekStart));
       }
     }
   }
@@ -1841,12 +1638,8 @@ List<SlotOccupancy> slotOccupancy(
         SlotOccupancy(
           w,
           i * slotMinutes,
-          plannedShare: weeks == 0
-              ? 0
-              : (plannedWeeks[(w, i * slotMinutes)]?.length ?? 0) / weeks,
-          usedShare: weeks == 0
-              ? 0
-              : (usedWeeks[(w, i * slotMinutes)]?.length ?? 0) / weeks,
+          plannedShare: weeks == 0 ? 0 : (plannedWeeks[(w, i * slotMinutes)]?.length ?? 0) / weeks,
+          usedShare: weeks == 0 ? 0 : (usedWeeks[(w, i * slotMinutes)]?.length ?? 0) / weeks,
           weeks: weeks,
         ),
   ];
@@ -1859,17 +1652,13 @@ List<SlotOccupancy> deadSlots(
   PlannerStatsSettings settings = const PlannerStatsSettings(),
   int minWeeks = 4,
 }) {
-  final workHours = settings.workHours.isEmpty
-      ? defaultWorkHours
-      : settings.workHours;
+  final workHours = settings.workHours.isEmpty ? defaultWorkHours : settings.workHours;
   return [
     for (final o in occupancy)
       if (o.weeks >= minWeeks &&
           o.plannedShare == 0 &&
           (workHours[o.weekday] ?? const []).any(
-            (w) =>
-                o.slotStartMinute >= w.startMinute &&
-                o.slotStartMinute + slotMinutes <= w.endMinute,
+            (w) => o.slotStartMinute >= w.startMinute && o.slotStartMinute + slotMinutes <= w.endMinute,
           ))
         o,
   ];
@@ -1892,8 +1681,7 @@ Map<int, Stat<double>> completionRateByHour(
     if (o == PlannerOutcome.cancelled ||
         o == PlannerOutcome.pending ||
         o == PlannerOutcome.future ||
-        (o == PlannerOutcome.skipped &&
-            settings.skipPolicy == SkipPolicy.neutral)) {
+        (o == PlannerOutcome.skipped && settings.skipPolicy == SkipPolicy.neutral)) {
       continue;
     }
     total[ps.hour] = (total[ps.hour] ?? 0) + 1;
@@ -1922,9 +1710,7 @@ List<SessionBlock> deepWorkBlocks(
   for (final e in byTask.entries) {
     for (final b in mergeSessions(e.value)) {
       if (b.minutes >= settings.deepWorkMinutes) {
-        blocks.add(
-          SessionBlock(b.start, b.end, tracked: b.tracked, taskId: e.key),
-        );
+        blocks.add(SessionBlock(b.start, b.end, tracked: b.tracked, taskId: e.key));
       }
     }
   }
@@ -1944,9 +1730,7 @@ List<SessionBlock> deepWorkBlocks(
       final local = clock.toLocal(s.start);
       final a = local.time.minuteOfDay.toDouble();
       final b = a + s.minutes;
-      outside +=
-          s.minutes -
-          _overlapWithWindows(a, b, _windowsFor(local.date, settings));
+      outside += s.minutes - _overlapWithWindows(a, b, _windowsFor(local.date, settings));
       if (local.date.weekday.isWeekend) weekend += s.minutes;
     }
   }
@@ -1955,22 +1739,15 @@ List<SessionBlock> deepWorkBlocks(
 
 /// PL-X-40 — timer usage: timed sessions count, mean session length and the share of done
 /// occurrences with sessions.
-({
-  int sessions,
-  Stat<double> meanSessionMinutes,
-  Stat<double> doneWithSessionsShare,
-})
-timerUsage(Iterable<PlannerOccurrenceFact> facts) {
+({int sessions, Stat<double> meanSessionMinutes, Stat<double> doneWithSessionsShare}) timerUsage(
+  Iterable<PlannerOccurrenceFact> facts,
+) {
   final list = facts.toList();
   final lengths = [
     for (final f in list)
       for (final s in f.sessions) s.minutes,
   ];
-  return (
-    sessions: lengths.length,
-    meanSessionMinutes: mean(lengths),
-    doneWithSessionsShare: actualTimeCoverage(list),
-  );
+  return (sessions: lengths.length, meanSessionMinutes: mean(lengths), doneWithSessionsShare: actualTimeCoverage(list));
 }
 
 /// PL-X-42 — completion goal streak: consecutive days reaching [target] completions; days
@@ -2076,14 +1853,7 @@ Stat<Fragmentation> fragmentation(
   final sessions = <TimeSessionFact>[];
   for (final f in facts) {
     for (final s in f.effectiveSessions) {
-      sessions.add(
-        TimeSessionFact(
-          s.start,
-          s.end,
-          taskId: f.taskId,
-          categoryId: s.categoryId ?? f.categoryId,
-        ),
-      );
+      sessions.add(TimeSessionFact(s.start, s.end, taskId: f.taskId, categoryId: s.categoryId ?? f.categoryId));
     }
   }
   sessions.sort((a, b) => a.start.compareTo(b.start));
@@ -2125,11 +1895,8 @@ Stat<double> productivityScore(
 
 /// PL-X-46 — planning horizon distribution (hours between task creation and the first planned
 /// start), as a Freedman–Diaconis histogram.
-Histogram planningHorizonDistribution(
-  Iterable<PlannerOccurrenceFact> facts, {
-  required ZoneClock clock,
-}) => histogramFreedmanDiaconis([
-  for (final f in facts)
-    if (planningHorizon(f, clock: clock).valueOrNull case final h?)
-      h.inMinutes / 60,
-]);
+Histogram planningHorizonDistribution(Iterable<PlannerOccurrenceFact> facts, {required ZoneClock clock}) =>
+    histogramFreedmanDiaconis([
+      for (final f in facts)
+        if (planningHorizon(f, clock: clock).valueOrNull case final h?) h.inMinutes / 60,
+    ]);

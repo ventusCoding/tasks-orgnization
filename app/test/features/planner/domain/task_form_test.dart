@@ -68,7 +68,9 @@ void main() {
       expect(ok.validate(), isEmpty);
       expect(ok.copyWith(url: 'not a url').validate(), [TaskValidationError.urlInvalid]);
       expect(ok.copyWith(durationMinutes: 600000).validate(), contains(TaskValidationError.durationOutOfRange));
-      expect(ok.withZone('Mars/Base').validate(isValidZone: (z) => z != 'Mars/Base'), [TaskValidationError.zoneInvalid]);
+      expect(ok.withZone('Mars/Base').validate(isValidZone: (z) => z != 'Mars/Base'), [
+        TaskValidationError.zoneInvalid,
+      ]);
     });
 
     test('deadline warning when planned after it (T3.1.13)', () {

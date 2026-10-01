@@ -12,8 +12,9 @@ String render(String template, {required String? locale, Map<String, String> var
   final block = RegExp(r'\{\{ if eq \$l "(\w+)" \}\}([\s\S]*?)\{\{ end \}\}');
   src = src.replaceAllMapped(block, (m) {
     final body = '{{ if eq \$l "${m[1]}" }}${m[2]}';
-    final branches = RegExp(r'\{\{ (?:if eq \$l "(\w+)"|else if eq \$l "(\w+)"|else) \}\}([\s\S]*?)(?=\{\{ (?:else|end)|$)')
-        .allMatches(body);
+    final branches = RegExp(
+      r'\{\{ (?:if eq \$l "(\w+)"|else if eq \$l "(\w+)"|else) \}\}([\s\S]*?)(?=\{\{ (?:else|end)|$)',
+    ).allMatches(body);
     for (final b in branches) {
       final cond = b[1] ?? b[2];
       if (cond == null || cond == l) return b[3]!;
@@ -47,7 +48,9 @@ void main() {
       expect(tags.where((x) => x.startsWith('{{ if ')).length, tags.where((x) => x == '{{ end }}').length, reason: t);
       for (final tag in tags) {
         expect(
-          RegExp(r'^\{\{ (\$l := or \.Data\.locale "en"|if eq \$l "(fr|ar)"|else if eq \$l "(fr|ar)"|else|end|\.(Token|ConfirmationURL|NewEmail)) \}\}$').hasMatch(tag),
+          RegExp(
+            r'^\{\{ (\$l := or \.Data\.locale "en"|if eq \$l "(fr|ar)"|else if eq \$l "(fr|ar)"|else|end|\.(Token|ConfirmationURL|NewEmail)) \}\}$',
+          ).hasMatch(tag),
           isTrue,
           reason: '$t: unexpected tag $tag',
         );

@@ -59,12 +59,10 @@ class FakePlatform extends BootstrapPlatform {
   Future<int> buildNumber() => _call('buildNumber', () => 42);
 
   @override
-  Future<bool> initFirebase(Env env, GlobalErrorHandlers handlers) =>
-      _call('initFirebase', () => false);
+  Future<bool> initFirebase(Env env, GlobalErrorHandlers handlers) => _call('initFirebase', () => false);
 
   @override
-  Future<SupabaseClient?> initSupabase(Env env) =>
-      _call<SupabaseClient?>('initSupabase', () => null);
+  Future<SupabaseClient?> initSupabase(Env env) => _call<SupabaseClient?>('initSupabase', () => null);
 
   @override
   CloudUser? cloudUser(SupabaseClient client) => null;
@@ -77,12 +75,10 @@ class FakePlatform extends BootstrapPlatform {
   });
 
   @override
-  Future<String> loadDeviceId(AppDatabase db) =>
-      _call('loadDeviceId', () => 'device-fake');
+  Future<String> loadDeviceId(AppDatabase db) => _call('loadDeviceId', () => 'device-fake');
 
   @override
-  Future<void> runStartupTasks(ProviderContainer container) =>
-      _call('runStartupTasks', () {});
+  Future<void> runStartupTasks(ProviderContainer container) => _call('runStartupTasks', () {});
 
   @override
   void launch(Widget root) {
@@ -120,38 +116,28 @@ void main() {
 
   BootstrapRunner runnerFor(FakePlatform p, {List<BootstrapStep>? steps}) {
     platform = p;
-    context = BootstrapContext(
-      flavor: Flavor.dev,
-      platform: p,
-      handlers: GlobalErrorHandlers(releaseMode: false),
-    );
+    context = BootstrapContext(flavor: Flavor.dev, platform: p, handlers: GlobalErrorHandlers(releaseMode: false));
     final runner = BootstrapRunner(steps ?? defaultBootstrapSteps(), context);
     addTearDown(() => context.container?.dispose());
     return runner;
   }
 
   group('step list', () {
-    test(
-      'runs in the documented order; only Firebase and Supabase are optional',
-      () {
-        final steps = defaultBootstrapSteps();
-        expect(steps.map((s) => s.name), [
-          BootstrapSteps.logging,
-          BootstrapSteps.environment,
-          BootstrapSteps.timeZones,
-          BootstrapSteps.firebase,
-          BootstrapSteps.supabase,
-          BootstrapSteps.database,
-          BootstrapSteps.session,
-          BootstrapSteps.providers,
-          BootstrapSteps.startupTasks,
-        ]);
-        expect(steps.where((s) => s.optional).map((s) => s.name), [
-          BootstrapSteps.firebase,
-          BootstrapSteps.supabase,
-        ]);
-      },
-    );
+    test('runs in the documented order; only Firebase and Supabase are optional', () {
+      final steps = defaultBootstrapSteps();
+      expect(steps.map((s) => s.name), [
+        BootstrapSteps.logging,
+        BootstrapSteps.environment,
+        BootstrapSteps.timeZones,
+        BootstrapSteps.firebase,
+        BootstrapSteps.supabase,
+        BootstrapSteps.database,
+        BootstrapSteps.session,
+        BootstrapSteps.providers,
+        BootstrapSteps.startupTasks,
+      ]);
+      expect(steps.where((s) => s.optional).map((s) => s.name), [BootstrapSteps.firebase, BootstrapSteps.supabase]);
+    });
   });
 
   group('BootstrapRunner with the default steps', () {
@@ -177,10 +163,7 @@ void main() {
       expect(container.read(appBuildProvider), 42);
       expect(container.read(supabaseClientProvider), isNull);
       expect(container.read(envProvider).isDev, isTrue);
-      expect(
-        identical(container.read(appDatabaseProvider), context.db),
-        isTrue,
-      );
+      expect(identical(container.read(appDatabaseProvider), context.db), isTrue);
       // Session: a local account (Supabase isn't configured).
       expect(SessionController.initial!.mode, SessionMode.localOnly);
       expect(SessionController.initial!.userId, isNotEmpty);
@@ -190,84 +173,50 @@ void main() {
     test('an unreadable device time zone only logs: startup goes on', () async {
       final runner = runnerFor(FakePlatform(failOn: {'deviceTimeZone'}));
       expect(await runner.run(), isNull);
-      expect(
-        runner.skipped,
-        isEmpty,
-        reason: 'handled inside the step, not skipped',
-      );
+      expect(runner.skipped, isEmpty, reason: 'handled inside the step, not skipped');
       expect(platform.calls, contains('openDatabase'));
     });
 
     test('Firebase and Supabase failures are skipped: the app starts in local-only mode', () async {
-      final runner = runnerFor(
-        FakePlatform(failOn: {'initFirebase', 'initSupabase'}),
-      );
+      final runner = runnerFor(FakePlatform(failOn: {'initFirebase', 'initSupabase'}));
       expect(await runner.run(), isNull);
-      expect(runner.skipped, [
-        BootstrapSteps.firebase,
-        BootstrapSteps.supabase,
-      ]);
+      expect(runner.skipped, [BootstrapSteps.firebase, BootstrapSteps.supabase]);
       expect(context.firebaseReady, isFalse);
       expect(context.supabase, isNull);
       expect(SessionController.initial!.mode, SessionMode.localOnly);
-      expect(
-        platform.calls,
-        containsAllInOrder([
-          'initFirebase',
-          'initSupabase',
-          'openDatabase',
-          'runStartupTasks',
-        ]),
-      );
+      expect(platform.calls, containsAllInOrder(['initFirebase', 'initSupabase', 'openDatabase', 'runStartupTasks']));
     });
 
-    test(
-      'a database failure stops startup at that step: later steps never run',
-      () async {
-        final runner = runnerFor(FakePlatform(failOn: {'openDatabase'}));
-        final failure = await runner.run();
-        expect(failure, isNotNull);
-        expect(failure!.step, BootstrapSteps.database);
-        expect(failure.error, isA<StateError>());
-        expect(failure.index, 5);
-        expect(platform.calls, isNot(contains('loadDeviceId')));
-        expect(platform.calls, isNot(contains('runStartupTasks')));
-        expect(context.container, isNull);
-      },
-    );
+    test('a database failure stops startup at that step: later steps never run', () async {
+      final runner = runnerFor(FakePlatform(failOn: {'openDatabase'}));
+      final failure = await runner.run();
+      expect(failure, isNotNull);
+      expect(failure!.step, BootstrapSteps.database);
+      expect(failure.error, isA<StateError>());
+      expect(failure.index, 5);
+      expect(platform.calls, isNot(contains('loadDeviceId')));
+      expect(platform.calls, isNot(contains('runStartupTasks')));
+      expect(context.container, isNull);
+    });
 
-    test(
-      'retry resumes at the failed step without repeating the earlier ones',
-      () async {
-        final runner = runnerFor(FakePlatform(failOn: {'openDatabase'}));
-        final failure = await runner.run();
-        final zoneReads = platform.calls
-            .where((c) => c == 'deviceTimeZone')
-            .length;
-        expect(await runner.run(from: failure!.index), isNull);
-        expect(
-          platform.calls.where((c) => c == 'deviceTimeZone'),
-          hasLength(zoneReads),
-          reason: 'earlier steps are not re-run',
-        );
-        expect(platform.calls.where((c) => c == 'openDatabase'), hasLength(2));
-        expect(platform.calls.last, 'runStartupTasks');
-        expect(context.container, isNotNull);
-      },
-    );
+    test('retry resumes at the failed step without repeating the earlier ones', () async {
+      final runner = runnerFor(FakePlatform(failOn: {'openDatabase'}));
+      final failure = await runner.run();
+      final zoneReads = platform.calls.where((c) => c == 'deviceTimeZone').length;
+      expect(await runner.run(from: failure!.index), isNull);
+      expect(
+        platform.calls.where((c) => c == 'deviceTimeZone'),
+        hasLength(zoneReads),
+        reason: 'earlier steps are not re-run',
+      );
+      expect(platform.calls.where((c) => c == 'openDatabase'), hasLength(2));
+      expect(platform.calls.last, 'runStartupTasks');
+      expect(context.container, isNotNull);
+    });
 
     test('reading a value before its step ran names the missing step', () {
       runnerFor(FakePlatform());
-      expect(
-        () => context.db,
-        throwsA(
-          isA<StateError>().having(
-            (e) => e.message,
-            'message',
-            contains('database'),
-          ),
-        ),
-      );
+      expect(() => context.db, throwsA(isA<StateError>().having((e) => e.message, 'message', contains('database'))));
       expect(() => context.env, throwsStateError);
     });
 
@@ -276,11 +225,7 @@ void main() {
         FakePlatform(),
         steps: [
           BootstrapStep('one', (c) => c.log.info('one')),
-          BootstrapStep(
-            'two',
-            (c) => throw const FormatException('bad'),
-            optional: true,
-          ),
+          BootstrapStep('two', (c) => throw const FormatException('bad'), optional: true),
           BootstrapStep('three', (c) => c.log.info('three')),
         ],
       );
@@ -296,9 +241,7 @@ void main() {
       await bootstrap(
         Flavor.dev,
         platform: p,
-        steps: [
-          BootstrapStep('providers', (c) => c.container = ProviderContainer()),
-        ],
+        steps: [BootstrapStep('providers', (c) => c.container = ProviderContainer())],
         handlers: GlobalErrorHandlers(releaseMode: false),
       );
       expect(p.launched, hasLength(1));
@@ -332,35 +275,25 @@ void main() {
       containers.add((p.launched.last as UncontrolledProviderScope).container);
     });
 
-    test(
-      'an uncaught async error in the bootstrap zone is handled, not fatal',
-      () async {
-        final p = platform = FakePlatform();
-        final handlers = GlobalErrorHandlers(releaseMode: false);
-        await bootstrap(
-          Flavor.dev,
-          platform: p,
-          steps: [
-            BootstrapStep('leaky', (c) {
-              unawaited(
-                Future<void>.delayed(
-                  Duration.zero,
-                  () => throw StateError('nobody awaits me'),
-                ),
-              );
-              c.container = ProviderContainer();
-            }),
-          ],
-          handlers: handlers,
-        );
-        await Future<void>.delayed(const Duration(milliseconds: 30));
-        expect(handlers.handledCount, 1);
-        expect(p.launched.single, isA<UncontrolledProviderScope>());
-        containers.add(
-          (p.launched.single as UncontrolledProviderScope).container,
-        );
-      },
-    );
+    test('an uncaught async error in the bootstrap zone is handled, not fatal', () async {
+      final p = platform = FakePlatform();
+      final handlers = GlobalErrorHandlers(releaseMode: false);
+      await bootstrap(
+        Flavor.dev,
+        platform: p,
+        steps: [
+          BootstrapStep('leaky', (c) {
+            unawaited(Future<void>.delayed(Duration.zero, () => throw StateError('nobody awaits me')));
+            c.container = ProviderContainer();
+          }),
+        ],
+        handlers: handlers,
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 30));
+      expect(handlers.handledCount, 1);
+      expect(p.launched.single, isA<UncontrolledProviderScope>());
+      containers.add((p.launched.single as UncontrolledProviderScope).container);
+    });
   });
 
   group('BootstrapErrorApp', () {
@@ -371,35 +304,22 @@ void main() {
       stack: StackTrace.fromString('#0 main (file.dart:1:1)'),
     );
 
-    testWidgets(
-      'dev: friendly message, retry and the failing step with the error',
-      (tester) async {
-        var retries = 0;
-        await tester.pumpWidget(
-          BootstrapErrorApp(
-            failure: failure(),
-            onRetry: () async => retries++,
-            showDetails: true,
-          ),
-        );
-        await tester.pump();
-        expect(find.text("Everslot couldn't start"), findsOneWidget);
-        expect(find.text('Retry'), findsOneWidget);
-        expect(find.byKey(const ValueKey('bootstrap-details')), findsOneWidget);
-        expect(find.textContaining('step: database'), findsOneWidget);
-        expect(find.textContaining('disk I/O error'), findsOneWidget);
-        await tester.tap(find.byKey(const ValueKey('bootstrap-retry')));
-        await tester.pump();
-        expect(retries, 1);
-      },
-    );
+    testWidgets('dev: friendly message, retry and the failing step with the error', (tester) async {
+      var retries = 0;
+      await tester.pumpWidget(BootstrapErrorApp(failure: failure(), onRetry: () async => retries++, showDetails: true));
+      await tester.pump();
+      expect(find.text("Everslot couldn't start"), findsOneWidget);
+      expect(find.text('Retry'), findsOneWidget);
+      expect(find.byKey(const ValueKey('bootstrap-details')), findsOneWidget);
+      expect(find.textContaining('step: database'), findsOneWidget);
+      expect(find.textContaining('disk I/O error'), findsOneWidget);
+      await tester.tap(find.byKey(const ValueKey('bootstrap-retry')));
+      await tester.pump();
+      expect(retries, 1);
+    });
 
-    testWidgets('prod: friendly message and retry only, no technical details', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        BootstrapErrorApp(failure: failure(), onRetry: () async {}),
-      );
+    testWidgets('prod: friendly message and retry only, no technical details', (tester) async {
+      await tester.pumpWidget(BootstrapErrorApp(failure: failure(), onRetry: () async {}));
       await tester.pump();
       expect(find.text("Everslot couldn't start"), findsOneWidget);
       expect(find.byKey(const ValueKey('bootstrap-retry')), findsOneWidget);
@@ -410,9 +330,7 @@ void main() {
 
     testWidgets('a retry shows progress until it finishes', (tester) async {
       final done = Completer<void>();
-      await tester.pumpWidget(
-        BootstrapErrorApp(failure: failure(), onRetry: () => done.future),
-      );
+      await tester.pumpWidget(BootstrapErrorApp(failure: failure(), onRetry: () => done.future));
       await tester.pump();
       await tester.tap(find.byKey(const ValueKey('bootstrap-retry')));
       await tester.pump();
@@ -424,32 +342,19 @@ void main() {
       expect(find.byKey(const ValueKey('bootstrap-retry')), findsOneWidget);
     });
 
-    testWidgets('French and Arabic (RTL) with text scale 2.0 do not overflow', (
-      tester,
-    ) async {
+    testWidgets('French and Arabic (RTL) with text scale 2.0 do not overflow', (tester) async {
       tester.view.physicalSize = const Size(360, 640);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
       for (final locale in [const Locale('fr'), const Locale('ar')]) {
         tester.platformDispatcher.localesTestValue = [locale];
         tester.platformDispatcher.textScaleFactorTestValue = 2;
-        await tester.pumpWidget(
-          BootstrapErrorApp(
-            failure: failure(),
-            onRetry: () async {},
-            showDetails: true,
-          ),
-        );
+        await tester.pumpWidget(BootstrapErrorApp(failure: failure(), onRetry: () async {}, showDetails: true));
         await tester.pump();
         expect(tester.takeException(), isNull, reason: locale.languageCode);
         expect(find.byKey(const ValueKey('bootstrap-retry')), findsOneWidget);
-        final direction = Directionality.of(
-          tester.element(find.byKey(const ValueKey('bootstrap-retry'))),
-        );
-        expect(
-          direction,
-          locale.languageCode == 'ar' ? TextDirection.rtl : TextDirection.ltr,
-        );
+        final direction = Directionality.of(tester.element(find.byKey(const ValueKey('bootstrap-retry'))));
+        expect(direction, locale.languageCode == 'ar' ? TextDirection.rtl : TextDirection.ltr);
       }
       addTearDown(tester.platformDispatcher.clearAllTestValues);
     });

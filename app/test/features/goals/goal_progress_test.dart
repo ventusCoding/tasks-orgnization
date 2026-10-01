@@ -36,13 +36,25 @@ void main() {
 
   List<LocalDate> days(int from, int to) => [for (var i = from; i <= to; i++) d(2026, 9, i)];
 
-  final pushUps = buildHabit(start: d(2026, 9, 1), goal: const HabitTarget(type: HabitGoalType.count, target: 20, unit: 'reps'));
+  final pushUps = buildHabit(
+    start: d(2026, 9, 1),
+    goal: const HabitTarget(type: HabitGoalType.count, target: 20, unit: 'reps'),
+  );
   final yesNo = buildHabit(start: d(2026, 9, 1));
 
-  GoalEvaluation eval(Goal goal, Habit habit, List<HabitLogEntry> logs) =>
-      evaluateHabitGoal(goal, computeSnapshot(service, habit, const [], logs, const [], now), weekStart: Weekday.monday);
+  GoalEvaluation eval(Goal goal, Habit habit, List<HabitLogEntry> logs) => evaluateHabitGoal(
+    goal,
+    computeSnapshot(service, habit, const [], logs, const [], now),
+    weekStart: Weekday.monday,
+  );
 
-  Goal goal(GoalMetric metric, double target, {GoalPeriod period = GoalPeriod.month, LocalDate? start, LocalDate? end}) => Goal(
+  Goal goal(
+    GoalMetric metric,
+    double target, {
+    GoalPeriod period = GoalPeriod.month,
+    LocalDate? start,
+    LocalDate? end,
+  }) => Goal(
     id: 'g',
     scopeType: GoalScopeType.habit,
     scopeId: 'h1',
@@ -89,7 +101,9 @@ void main() {
     });
 
     test('streak goals use the current streak as the level', () {
-      final e = eval(goal(GoalMetric.streakDays, 7, period: GoalPeriod.allTime), yesNo, [for (final day in days(18, 22)) done(day)]);
+      final e = eval(goal(GoalMetric.streakDays, 7, period: GoalPeriod.allTime), yesNo, [
+        for (final day in days(18, 22)) done(day),
+      ]);
       expect(e.openEnded, isTrue);
       expect(e.progress.actual, 5);
       expect(e.progress.eta, d(2026, 9, 24));

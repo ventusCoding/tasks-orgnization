@@ -74,8 +74,7 @@ abstract final class AuthRedirect {
     if (path == '/auth-callback' || path == 'auth-callback') return true;
     final q = uri.queryParameters;
     final rootish = path.isEmpty || path == '/';
-    return rootish &&
-        (q.containsKey('code') || q.containsKey('error_description') || q.containsKey('access_token'));
+    return rootish && (q.containsKey('code') || q.containsKey('error_description') || q.containsKey('access_token'));
   }
 
   /// [target] with `from=<location>` unless the location is the default home.

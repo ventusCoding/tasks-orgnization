@@ -72,10 +72,7 @@ class OnboardingScreen extends ConsumerWidget {
               if (state.steps.length > 1)
                 Padding(
                   padding: const EdgeInsetsDirectional.only(bottom: Space.sm),
-                  child: Text(
-                    l.onboardingStepOf(state.index + 1, state.steps.length),
-                    style: context.text.bodySmall,
-                  ),
+                  child: Text(l.onboardingStepOf(state.index + 1, state.steps.length), style: context.text.bodySmall),
                 ),
               SizedBox(
                 width: double.infinity,
@@ -171,8 +168,7 @@ class _EssentialsStep extends ConsumerWidget {
               title: l.onboardingWeekStart,
               selected: draft.weekStart,
               choices: [
-                for (final iso in const [1, 6, 7, 2, 3, 4, 5])
-                  Choice(iso, format.weekdayLong(Weekday.fromIso(iso))),
+                for (final iso in const [1, 6, 7, 2, 3, 4, 5]) Choice(iso, format.weekdayLong(Weekday.fromIso(iso))),
               ],
             );
             if (day != null) controller.setWeekStart(day);

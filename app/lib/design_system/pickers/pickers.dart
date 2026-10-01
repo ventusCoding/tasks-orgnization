@@ -6,12 +6,7 @@ import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Date picker returning a [LocalDate] (T1.3.11).
-Future<LocalDate?> pickDate(
-  BuildContext context, {
-  LocalDate? initial,
-  LocalDate? first,
-  LocalDate? last,
-}) async {
+Future<LocalDate?> pickDate(BuildContext context, {LocalDate? initial, LocalDate? first, LocalDate? last}) async {
   final now = DateTime.now();
   final init = initial?.toDateTimeUtc() ?? DateTime(now.year, now.month, now.day);
   final result = await showDatePicker(
@@ -128,49 +123,46 @@ class _DurationPickerState extends State<_DurationPicker> {
           const SizedBox(height: Space.lg),
           SizedBox(
             width: double.infinity,
-            child: FilledButton(
-              onPressed: () => Navigator.pop(context, _total),
-              child: Text(l.actionApply),
-            ),
+            child: FilledButton(onPressed: () => Navigator.pop(context, _total), child: Text(l.actionApply)),
           ),
         ],
       ),
     );
   }
 
-  String _label(int m) => m >= 1440 ? '${m ~/ 1440}d' : (m >= 60 ? (m % 60 == 0 ? '${m ~/ 60}h' : '${m ~/ 60}h${m % 60}') : '${m}m');
+  String _label(int m) =>
+      m >= 1440 ? '${m ~/ 1440}d' : (m >= 60 ? (m % 60 == 0 ? '${m ~/ 60}h' : '${m ~/ 60}h${m % 60}') : '${m}m');
 }
 
 /// Color picker over the category palette. Returns the ARGB int (or -1 for "no color").
-Future<int?> pickColor(BuildContext context, {int? selected, bool allowNone = false}) =>
-    showAppSheet<int>(
-      context,
-      title: context.l10n.pickerColor,
-      builder: (ctx) => Padding(
-        padding: const EdgeInsets.all(Space.lg),
-        child: Wrap(
-          spacing: Space.md,
-          runSpacing: Space.md,
-          children: [
-            if (allowNone)
-              _Swatch(
-                color: ctx.colors.surfaceContainerHighest,
-                selected: selected == null,
-                label: ctx.l10n.pickerNoColor,
-                onTap: () => Navigator.pop(ctx, -1),
-                icon: Icons.block,
-              ),
-            for (final c in CategoryPalette.colors)
-              _Swatch(
-                color: Color(c),
-                selected: selected == c,
-                label: '#${c.toRadixString(16).substring(2).toUpperCase()}',
-                onTap: () => Navigator.pop(ctx, c),
-              ),
-          ],
-        ),
-      ),
-    );
+Future<int?> pickColor(BuildContext context, {int? selected, bool allowNone = false}) => showAppSheet<int>(
+  context,
+  title: context.l10n.pickerColor,
+  builder: (ctx) => Padding(
+    padding: const EdgeInsets.all(Space.lg),
+    child: Wrap(
+      spacing: Space.md,
+      runSpacing: Space.md,
+      children: [
+        if (allowNone)
+          _Swatch(
+            color: ctx.colors.surfaceContainerHighest,
+            selected: selected == null,
+            label: ctx.l10n.pickerNoColor,
+            onTap: () => Navigator.pop(ctx, -1),
+            icon: Icons.block,
+          ),
+        for (final c in CategoryPalette.colors)
+          _Swatch(
+            color: Color(c),
+            selected: selected == c,
+            label: '#${c.toRadixString(16).substring(2).toUpperCase()}',
+            onTap: () => Navigator.pop(ctx, c),
+          ),
+      ],
+    ),
+  ),
+);
 
 class _Swatch extends StatelessWidget {
   const _Swatch({required this.color, required this.selected, required this.label, required this.onTap, this.icon});
@@ -195,10 +187,7 @@ class _Swatch extends StatelessWidget {
         decoration: BoxDecoration(
           color: color,
           shape: BoxShape.circle,
-          border: Border.all(
-            color: selected ? context.colors.onSurface : Colors.transparent,
-            width: 3,
-          ),
+          border: Border.all(color: selected ? context.colors.onSurface : Colors.transparent, width: 3),
         ),
         child: selected
             ? Icon(Icons.check, color: CategoryColors.onBackground(color))
@@ -236,10 +225,7 @@ class _IconPickerState extends State<_IconPicker> {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
-            decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.search),
-              hintText: context.l10n.pickerSearchIcons,
-            ),
+            decoration: InputDecoration(prefixIcon: const Icon(Icons.search), hintText: context.l10n.pickerSearchIcons),
             onChanged: (v) => setState(() => _query = v),
           ),
           const SizedBox(height: Space.md),

@@ -156,16 +156,21 @@ class BoardConfig {
     'showSmartChips': showSmartChips,
   };
 
-  BoardConfig copyWith({BoardLayout? layout, bool? showBody, int? rowsPerCard, BoardSort? sort, bool? showSmartChips}) =>
-      BoardConfig(
-        layout: layout ?? this.layout,
-        density: density,
-        showBody: showBody ?? this.showBody,
-        rowsPerCard: rowsPerCard ?? this.rowsPerCard,
-        sort: sort ?? this.sort,
-        showSmartChips: showSmartChips ?? this.showSmartChips,
-        extra: extra,
-      );
+  BoardConfig copyWith({
+    BoardLayout? layout,
+    bool? showBody,
+    int? rowsPerCard,
+    BoardSort? sort,
+    bool? showSmartChips,
+  }) => BoardConfig(
+    layout: layout ?? this.layout,
+    density: density,
+    showBody: showBody ?? this.showBody,
+    rowsPerCard: rowsPerCard ?? this.rowsPerCard,
+    sort: sort ?? this.sort,
+    showSmartChips: showSmartChips ?? this.showSmartChips,
+    extra: extra,
+  );
 
   @override
   bool operator ==(Object other) =>

@@ -45,7 +45,12 @@ class ChallengeOutcome {
 }
 
 /// Evaluates [habit]'s challenge from its [evaluation] as of [today] (null when it isn't one).
-ChallengeOutcome? challengeOutcome(BuildHabit habit, HabitEvaluation evaluation, {required LocalDate today, int bestStreak = 0}) {
+ChallengeOutcome? challengeOutcome(
+  BuildHabit habit,
+  HabitEvaluation evaluation, {
+  required LocalDate today,
+  int bestStreak = 0,
+}) {
   final settings = habit.settings.challenge;
   final end = habit.endDate;
   if (settings == null || end == null) return null;

@@ -34,12 +34,7 @@ class CrashlyticsErrorReporter implements ErrorReporter {
   }
 
   @override
-  void report(
-    Object error,
-    StackTrace stack, {
-    required bool fatal,
-    String? reason,
-  }) {
+  void report(Object error, StackTrace stack, {required bool fatal, String? reason}) {
     if (!_enabled) return;
     unawaited(
       FirebaseCrashlytics.instance.recordError(

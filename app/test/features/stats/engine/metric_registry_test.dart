@@ -62,7 +62,9 @@ void main() {
     });
 
     test('every definition has EN/FR/AR title, description and formula keys', () {
-      final locales = {for (final l in ['en', 'fr', 'ar']) l: arb(l)};
+      final locales = {
+        for (final l in ['en', 'fr', 'ar']) l: arb(l),
+      };
       for (final d in registry.all) {
         for (final key in [d.titleKey, d.descriptionKey, d.formulaKey]) {
           for (final e in locales.entries) {
@@ -100,7 +102,7 @@ void main() {
       expect(r.value, const Insufficient<double>(3, 2));
       expect((r.value as Insufficient<double>).missing, 1);
       expect(r.comparison, isNull);
-      final ok = applyMinimumData(def, MetricResult('PL-X-99', value: const Value<double>(0.4, sampleSize: 12)));
+      final ok = applyMinimumData(def, const MetricResult('PL-X-99', value: Value<double>(0.4, sampleSize: 12)));
       expect(ok.value.valueOrNull, 0.4);
       expect(MinDataRules.rate.showsInterval(12), isTrue);
       expect(MinDataRules.rate.showsInterval(20), isFalse);
@@ -112,16 +114,19 @@ void main() {
       expect(MinDataRules.p85.apply(const Value<double>(1, sampleSize: 9)), const Insufficient<double>(10, 9));
       expect(MinDataRules.p95.apply(const Value<double>(1, sampleSize: 20)), isA<Value<double>>());
       // Explicit haveN wins over the value's sample size.
-      expect(MinDataRules.trend.apply(const Value<double>(1, sampleSize: 50), haveN: 5), const Insufficient<double>(6, 5));
+      expect(
+        MinDataRules.trend.apply(const Value<double>(1, sampleSize: 50), haveN: 5),
+        const Insufficient<double>(6, 5),
+      );
       // Failures pass through untouched.
-      expect(MinDataRules.rate.apply(const NotApplicable<double>('zeroDenominator')), const NotApplicable<double>('zeroDenominator'));
+      expect(
+        MinDataRules.rate.apply(const NotApplicable<double>('zeroDenominator')),
+        const NotApplicable<double>('zeroDenominator'),
+      );
     });
 
     test('a throwing metric yields an error card, the others still compute', () {
-      final reg = MetricRegistry([
-        fake('PL-X-97', compute: (_) => throw StateError('boom')),
-        fake('PL-X-98'),
-      ]);
+      final reg = MetricRegistry([fake('PL-X-97', compute: (_) => throw StateError('boom')), fake('PL-X-98')]);
       final job = StatsJob(
         request: const StatsRequest(MetricScope.planner, selection: PeriodSelection(StatsPeriod.thisWeek())),
         env: StatsEnvironment(now: DateTime.utc(2026, 9, 23), zoneId: 'UTC', zones: const {}),

@@ -45,7 +45,7 @@ void main() {
   group('stats settings namespace (arch §8.5)', () {
     test('parses default period, compare mode, week-start override and clamps numbers', () {
       final s = StatsSettings.fromMaps(
-        stats: {
+        stats: const {
           'defaultPeriod': 'rolling:30',
           'compareWithPrevious': false,
           'weekStartOverride': 7,
@@ -53,7 +53,7 @@ void main() {
           'staleThresholdDays': 21,
           'deepWorkMinBlockMinutes': 90,
         },
-        planner: {
+        planner: const {
           'workHours': {'start': '08:30', 'end': '16:00'},
           'workDays': [1, 2, 3, 4],
           'missedGraceMinutes': 30,
@@ -69,14 +69,17 @@ void main() {
       expect(s.workDays, {1, 2, 3, 4});
       expect(s.missedGraceMinutes, 30);
       // Value equality: re-reading unchanged settings never recomputes a batch.
-      expect(StatsSettings.fromMaps(stats: {'weekStartOverride': 7}), StatsSettings.fromMaps(stats: {'weekStartOverride': 7}));
-      expect(StatsSettings.fromMaps(stats: {'weekStartOverride': 7}), isNot(const StatsSettings()));
+      expect(
+        StatsSettings.fromMaps(stats: const {'weekStartOverride': 7}),
+        StatsSettings.fromMaps(stats: const {'weekStartOverride': 7}),
+      );
+      expect(StatsSettings.fromMaps(stats: const {'weekStartOverride': 7}), isNot(const StatsSettings()));
     });
 
     test('invalid values fall back to defaults', () {
       final s = StatsSettings.fromMaps(
-        stats: {'defaultPeriod': 3, 'weekStartOverride': 9, 'compareWithPrevious': 'yes'},
-        planner: {
+        stats: const {'defaultPeriod': 3, 'weekStartOverride': 9, 'compareWithPrevious': 'yes'},
+        planner: const {
           'workHours': {'start': '18:00', 'end': '09:00'},
           'workDays': <int>[],
         },
@@ -133,7 +136,11 @@ void main() {
         (Weekday.sunday, '2026-09-20'),
       ]) {
         final c = PlannerContext(
-          job(MetricScope.planner, now: now, settings: StatsSettings(weekStartOverride: override)),
+          job(
+            MetricScope.planner,
+            now: now,
+            settings: StatsSettings(weekStartOverride: override),
+          ),
           LocationZoneResolver(const {}),
         );
         expect(c.range.start, d(start), reason: '$override');
@@ -165,8 +172,14 @@ void main() {
 
     test('habit day start 04:00: an event at 01:30 belongs to the previous date; planner uses midnight', () {
       final now = DateTime.utc(2026, 9, 23, 1, 30);
-      final habit = HabitContext(job(MetricScope.habit, now: now, dayStartMinutes: 240), LocationZoneResolver(const {}));
-      final planner = PlannerContext(job(MetricScope.planner, now: now, dayStartMinutes: 240), LocationZoneResolver(const {}));
+      final habit = HabitContext(
+        job(MetricScope.habit, now: now, dayStartMinutes: 240),
+        LocationZoneResolver(const {}),
+      );
+      final planner = PlannerContext(
+        job(MetricScope.planner, now: now, dayStartMinutes: 240),
+        LocationZoneResolver(const {}),
+      );
       expect(habit.today, d('2026-09-22'));
       expect(planner.today, d('2026-09-23'));
     });

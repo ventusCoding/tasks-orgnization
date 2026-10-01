@@ -191,11 +191,7 @@ void main() {
     );
     await tapKey(tester, 'recur-countmode-completions');
     expect(description(tester), 'Every day at 09:30, until completed 5 times');
-    await tapInList(
-      tester,
-      find.byTooltip('Remove Sep 25, 2026'),
-      scrollKey: editorList,
-    );
+    await tapInList(tester, find.byTooltip('Remove Sep 25, 2026'), scrollKey: editorList);
     await save(tester);
     expect(results.single!.rule!.countMode, CountMode.completions);
     expect(results.single!.rule!.exdates, isEmpty);

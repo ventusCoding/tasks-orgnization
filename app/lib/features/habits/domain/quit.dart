@@ -85,11 +85,8 @@ class MilestoneSource {
 class MilestoneText {
   const MilestoneText({required this.title, required this.body, this.range});
 
-  factory MilestoneText.fromJson(Map<String, Object?> json) => MilestoneText(
-    title: json['title']! as String,
-    body: json['body']! as String,
-    range: json['range'] as String?,
-  );
+  factory MilestoneText.fromJson(Map<String, Object?> json) =>
+      MilestoneText(title: json['title']! as String, body: json['body']! as String, range: json['range'] as String?);
 
   final String title;
   final String body;
@@ -119,9 +116,7 @@ class HealthMilestone {
       for (final e in (json['text']! as Map).entries)
         e.key as String: MilestoneText.fromJson(Map<String, Object?>.from(e.value as Map)),
     },
-    sources: [
-      for (final s in json['sources']! as List) MilestoneSource.fromJson(Map<String, Object?>.from(s as Map)),
-    ],
+    sources: [for (final s in json['sources']! as List) MilestoneSource.fromJson(Map<String, Object?>.from(s as Map))],
   );
 
   final String id;
@@ -207,11 +202,11 @@ class MilestoneContent {
       ],
       withdrawal: [
         for (final w in (json['withdrawal'] as List?) ?? const <Object?>[])
-          WithdrawalPhase.fromJson(Map<String, Object?>.from(w as Map)),
+          WithdrawalPhase.fromJson(Map<String, Object?>.from(w! as Map)),
       ],
       lifeEstimates: [
         for (final l in (json['lifeEstimates'] as List?) ?? const <Object?>[])
-          LifeEstimate.fromJson(Map<String, Object?>.from(l as Map)),
+          LifeEstimate.fromJson(Map<String, Object?>.from(l! as Map)),
       ],
     );
     final problems = content.validate();

@@ -19,9 +19,7 @@ void main() {
 
   Future<void> settle(WidgetTester tester) async {
     for (var i = 0; i < 6; i++) {
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 5)),
-      );
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 5)));
       await tester.pump(const Duration(milliseconds: 50));
     }
     await tester.pumpAndSettle();
@@ -65,10 +63,7 @@ void main() {
 
   final opened = <String>[];
 
-  Future<void> pumpInbox(
-    WidgetTester tester, {
-    Locale locale = const Locale('en'),
-  }) async {
+  Future<void> pumpInbox(WidgetTester tester, {Locale locale = const Locale('en')}) async {
     opened.clear();
     final router = GoRouter(
       routes: [
@@ -89,10 +84,7 @@ void main() {
           routerConfig: router,
           locale: locale,
           supportedLocales: const [Locale('en'), Locale('fr'), Locale('ar')],
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            ...GlobalMaterialLocalizations.delegates,
-          ],
+          localizationsDelegates: const [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates],
         ),
       ),
     );
@@ -100,17 +92,8 @@ void main() {
   }
 
   Future<InboxItemView> row(WidgetTester tester, String dk) async {
-    final item = await tester.runAsync(
-      () => h.read(inboxRepositoryProvider).byId(Ids.inbox(dk)),
-    );
-    return InboxItemView(
-      item!.readAt,
-      item.dismissedAt,
-      item.actedAt,
-      item.action,
-      item.openedAt,
-      item.snoozedUntil,
-    );
+    final item = await tester.runAsync(() => h.read(inboxRepositoryProvider).byId(Ids.inbox(dk)));
+    return InboxItemView(item!.readAt, item.dismissedAt, item.actedAt, item.action, item.openedAt, item.snoozedUntil);
   }
 
   testWidgets('empty inbox and "all caught up"', (tester) async {
@@ -121,66 +104,34 @@ void main() {
     expect(find.text('All caught up'), findsOneWidget);
   });
 
-  testWidgets(
-    'rows are grouped by day, nag chains collapse, late rows are flagged',
-    (tester) async {
-      await deliver(tester, 'a', title: 'Gym');
+  testWidgets('rows are grouped by day, nag chains collapse, late rows are flagged', (tester) async {
+    await deliver(tester, 'a', title: 'Gym');
+    await deliver(tester, 'b', title: 'Water', at: now.subtract(const Duration(days: 1)), late: true);
+    await deliver(tester, 'c', title: 'Report', at: DateTime.utc(2026, 9, 18, 9));
+    for (var i = 0; i < 3; i++) {
       await deliver(
         tester,
-        'b',
-        title: 'Water',
-        at: now.subtract(const Duration(days: 1)),
-        late: true,
+        'nag$i',
+        title: 'Call Sam',
+        payload: {'bk': 'nag-base'},
+        at: now.subtract(Duration(minutes: 30 - i)),
       );
-      await deliver(
-        tester,
-        'c',
-        title: 'Report',
-        at: DateTime.utc(2026, 9, 18, 9),
-      );
-      for (var i = 0; i < 3; i++) {
-        await deliver(
-          tester,
-          'nag$i',
-          title: 'Call Sam',
-          payload: {'bk': 'nag-base'},
-          at: now.subtract(Duration(minutes: 30 - i)),
-        );
-      }
-      await pumpInbox(tester);
-      expect(find.text('Today'), findsOneWidget);
-      expect(find.text('Call Sam'), findsOneWidget);
-      expect(find.text('×3'), findsOneWidget);
-      expect(find.text('Late'), findsOneWidget);
-      final semantics = tester.ensureSemantics();
-      expect(
-        find.bySemanticsLabel(
-          RegExp(r'^Unread reminder, Gym, Starts in 10 min, 5 minutes ago'),
-        ),
-        findsOneWidget,
-      );
-      semantics.dispose();
-      // Older days further down the list.
-      final list = find
-          .descendant(
-            of: find.byType(RefreshIndicator),
-            matching: find.byType(Scrollable),
-          )
-          .first;
-      await tester.scrollUntilVisible(
-        find.text('Yesterday'),
-        200,
-        scrollable: list,
-      );
-      expect(find.text('Yesterday'), findsOneWidget);
-      await tester.scrollUntilVisible(
-        find.text('Friday, September 18'),
-        200,
-        scrollable: list,
-      );
-      expect(find.text('Friday, September 18'), findsOneWidget);
-    },
-  );
+    }
+    await pumpInbox(tester);
+    expect(find.text('Today'), findsOneWidget);
+    expect(find.text('Call Sam'), findsOneWidget);
+    expect(find.text('×3'), findsOneWidget);
+    expect(find.text('Late'), findsOneWidget);
+    final semantics = tester.ensureSemantics();
+    expect(find.bySemanticsLabel(RegExp('^Unread reminder, Gym, Starts in 10 min, 5 minutes ago')), findsOneWidget);
+    semantics.dispose();
+    // Older days further down the list.
+    final list = find.descendant(of: find.byType(RefreshIndicator), matching: find.byType(Scrollable)).first;
+    await tester.scrollUntilVisible(find.text('Yesterday'), 200, scrollable: list);
+    expect(find.text('Yesterday'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('Friday, September 18'), 200, scrollable: list);
+    expect(find.text('Friday, September 18'), findsOneWidget);
+  });
 
   testWidgets('filters: unread only and per section', (tester) async {
     await deliver(tester, 'a', title: 'Gym');
@@ -191,9 +142,7 @@ void main() {
       section: NotificationSection.checklists,
       sourceType: 'checklist_item',
     );
-    await tester.runAsync(
-      () => h.read(inboxRepositoryProvider).markRead([Ids.inbox('a')]),
-    );
+    await tester.runAsync(() => h.read(inboxRepositoryProvider).markRead([Ids.inbox('a')]));
     await pumpInbox(tester);
     expect(find.text('Gym'), findsOneWidget);
 
@@ -210,85 +159,68 @@ void main() {
     expect(find.text('Buy milk'), findsNothing);
   });
 
-  testWidgets(
-    'swipe right toggles read, swipe left dismisses with undo, mark all read',
-    (tester) async {
-      await deliver(tester, 'a', title: 'Gym');
-      await deliver(tester, 'b', title: 'Water');
-      await pumpInbox(tester);
+  testWidgets('swipe right toggles read, swipe left dismisses with undo, mark all read', (tester) async {
+    await deliver(tester, 'a', title: 'Gym');
+    await deliver(tester, 'b', title: 'Water');
+    await pumpInbox(tester);
 
-      await tester.drag(find.text('Gym'), const Offset(500, 0));
-      await settle(tester);
-      expect((await row(tester, 'a')).readAt, isNotNull);
-      expect(find.text('Marked as read'), findsOneWidget);
+    await tester.drag(find.text('Gym'), const Offset(500, 0));
+    await settle(tester);
+    expect((await row(tester, 'a')).readAt, isNotNull);
+    expect(find.text('Marked as read'), findsOneWidget);
 
-      await tester.drag(find.text('Water'), const Offset(-500, 0));
-      await settle(tester);
-      expect((await row(tester, 'b')).dismissedAt, isNotNull);
-      expect(find.text('Water'), findsNothing);
-      await tester.tap(find.text('Undo'));
-      await settle(tester);
-      expect((await row(tester, 'b')).dismissedAt, isNull);
-      expect(find.text('Water'), findsOneWidget);
+    await tester.drag(find.text('Water'), const Offset(-500, 0));
+    await settle(tester);
+    expect((await row(tester, 'b')).dismissedAt, isNotNull);
+    expect(find.text('Water'), findsNothing);
+    await tester.tap(find.text('Undo'));
+    await settle(tester);
+    expect((await row(tester, 'b')).dismissedAt, isNull);
+    expect(find.text('Water'), findsOneWidget);
 
-      await tester.tap(find.byTooltip('Mark all read'));
-      await settle(tester);
-      expect((await row(tester, 'b')).readAt, isNotNull);
-    },
-  );
+    await tester.tap(find.byTooltip('Mark all read'));
+    await settle(tester);
+    expect((await row(tester, 'b')).readAt, isNotNull);
+  });
 
-  testWidgets(
-    'inline actions call the same handler as OS notifications, once',
-    (tester) async {
-      final calls = <String>[];
-      h
-          .read(notificationRegistryProvider)
-          .registerActionHandler(
-            CallbackActionHandler(
-              actionIds: {NotificationActionIds.done},
-              targetTypes: {NotificationTargetType.task},
-              onHandle: (c) async {
-                calls.add('${c.actionId}:${c.targetId}:${c.origin.name}');
-                return NotificationActionResult.ok;
-              },
-            ),
-          );
-      await deliver(
-        tester,
-        'a',
-        title: 'Gym',
-        payload: {
-          'acts': ['done', 'snooze', 'skip'],
-        },
-      );
-      await pumpInbox(tester);
-      expect(find.widgetWithText(ActionChip, 'Done'), findsOneWidget);
-      expect(find.widgetWithText(ActionChip, 'Snooze'), findsOneWidget);
-      expect(
-        find.widgetWithText(ActionChip, 'Skip'),
-        findsNothing,
-        reason: 'two inline actions at most',
-      );
-
-      await tester.tap(find.widgetWithText(ActionChip, 'Done'));
-      await settle(tester);
-      await drainReplan(tester);
-      expect(calls, ['done:gym:inbox']);
-      final r = await row(tester, 'a');
-      expect((r.action, r.actedAt != null), ('done', true));
-      expect(find.widgetWithText(ActionChip, 'Done'), findsNothing);
-    },
-  );
-
-  testWidgets('tapping a row marks it opened and navigates to its deep link', (
-    tester,
-  ) async {
+  testWidgets('inline actions call the same handler as OS notifications, once', (tester) async {
+    final calls = <String>[];
+    h
+        .read(notificationRegistryProvider)
+        .registerActionHandler(
+          CallbackActionHandler(
+            actionIds: {NotificationActionIds.done},
+            targetTypes: {NotificationTargetType.task},
+            onHandle: (c) async {
+              calls.add('${c.actionId}:${c.targetId}:${c.origin.name}');
+              return NotificationActionResult.ok;
+            },
+          ),
+        );
     await deliver(
       tester,
       'a',
       title: 'Gym',
-      payload: {'link': '/task/gym?occ=2026-09-22T12:10'},
+      payload: {
+        'acts': ['done', 'snooze', 'skip'],
+      },
     );
+    await pumpInbox(tester);
+    expect(find.widgetWithText(ActionChip, 'Done'), findsOneWidget);
+    expect(find.widgetWithText(ActionChip, 'Snooze'), findsOneWidget);
+    expect(find.widgetWithText(ActionChip, 'Skip'), findsNothing, reason: 'two inline actions at most');
+
+    await tester.tap(find.widgetWithText(ActionChip, 'Done'));
+    await settle(tester);
+    await drainReplan(tester);
+    expect(calls, ['done:gym:inbox']);
+    final r = await row(tester, 'a');
+    expect((r.action, r.actedAt != null), ('done', true));
+    expect(find.widgetWithText(ActionChip, 'Done'), findsNothing);
+  });
+
+  testWidgets('tapping a row marks it opened and navigates to its deep link', (tester) async {
+    await deliver(tester, 'a', title: 'Gym', payload: {'link': '/task/gym?occ=2026-09-22T12:10'});
     await pumpInbox(tester);
     await tester.tap(find.text('Gym'));
     await settle(tester);
@@ -298,17 +230,10 @@ void main() {
     expect((await row(tester, 'a')).openedAt, isNotNull);
   });
 
-  testWidgets('snoozed rows are listed on top; wake now clears the snooze', (
-    tester,
-  ) async {
+  testWidgets('snoozed rows are listed on top; wake now clears the snooze', (tester) async {
     await deliver(tester, 'a', title: 'Gym');
     await tester.runAsync(
-      () => h
-          .read(inboxRepositoryProvider)
-          .setSnoozedUntil(
-            Ids.inbox('a'),
-            now.add(const Duration(minutes: 30)),
-          ),
+      () => h.read(inboxRepositoryProvider).setSnoozedUntil(Ids.inbox('a'), now.add(const Duration(minutes: 30))),
     );
     await pumpInbox(tester);
     expect(find.text('Snoozed'), findsOneWidget);
@@ -320,22 +245,13 @@ void main() {
     expect(find.text('Snoozed'), findsNothing);
   });
 
-  testWidgets('Remind me again… snoozes a past row that was never snoozed', (
-    tester,
-  ) async {
+  testWidgets('Remind me again… snoozes a past row that was never snoozed', (tester) async {
     await deliver(tester, 'a', title: 'Gym');
     await pumpInbox(tester);
     expect(find.text('Remind me again…'), findsOneWidget);
     await tester.tap(find.text('Remind me again…'));
     await settle(tester);
-    await tester.tap(
-      find
-          .descendant(
-            of: find.byType(BottomSheet),
-            matching: find.byType(ActionChip),
-          )
-          .first,
-    );
+    await tester.tap(find.descendant(of: find.byType(BottomSheet), matching: find.byType(ActionChip)).first);
     await settle(tester);
     expect((await row(tester, 'a')).snoozedUntil, isNotNull);
     expect(find.text('Snoozed'), findsOneWidget);
@@ -356,24 +272,14 @@ void main() {
     await pumpInbox(tester, locale: const Locale('ar'));
     expect(find.text('صندوق الوارد'), findsOneWidget);
     expect(find.text('اليوم'), findsOneWidget);
-    expect(
-      Directionality.of(tester.element(find.text('رياضة'))),
-      TextDirection.rtl,
-    );
+    expect(Directionality.of(tester.element(find.text('رياضة'))), TextDirection.rtl);
     expect(tester.takeException(), isNull);
   });
 }
 
 /// The user-state fields a test checks.
 class InboxItemView {
-  InboxItemView(
-    this.readAt,
-    this.dismissedAt,
-    this.actedAt,
-    this.action,
-    this.openedAt,
-    this.snoozedUntil,
-  );
+  InboxItemView(this.readAt, this.dismissedAt, this.actedAt, this.action, this.openedAt, this.snoozedUntil);
 
   final DateTime? readAt;
   final DateTime? dismissedAt;

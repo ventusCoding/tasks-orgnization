@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/features/dev/presentation/debug_menu_screen.dart';
 import 'package:everslot/features/dev/presentation/sync_diagnostics_page.dart';
@@ -18,7 +20,7 @@ Future<void> _frames(WidgetTester tester, {int n = 8}) async {
 /// Runs [write] in the fake-async zone and pumps until it completes.
 Future<void> _write(WidgetTester tester, Future<void> Function() write) async {
   var done = false;
-  write().then<void>((_) => done = true);
+  unawaited(write().then<void>((_) => done = true));
   for (var i = 0; i < 20 && !done; i++) {
     await tester.pump(const Duration(milliseconds: 10));
   }

@@ -30,7 +30,13 @@ void main() {
         .create(
           title: 'Trip',
           items: const [
-            NodeSpec(text: 'Documents', children: [NodeSpec(text: 'Visa'), NodeSpec(text: 'Passport')]),
+            NodeSpec(
+              text: 'Documents',
+              children: [
+                NodeSpec(text: 'Visa'),
+                NodeSpec(text: 'Passport'),
+              ],
+            ),
             NodeSpec(text: 'Socks'),
             NodeSpec(text: 'Hat'),
           ],
@@ -60,9 +66,9 @@ void main() {
     await pumpOpener(
       tester,
       h,
-      (context) => Navigator.of(context).push<void>(
-        MaterialPageRoute(builder: (_) => const TaskEditorScreen(initialStart: '2026-09-22T09:00')),
-      ),
+      (context) =>
+          Navigator.of(context)
+              .push<void>(MaterialPageRoute(builder: (_) => const TaskEditorScreen(initialStart: '2026-09-22T09:00'))),
     );
     await openAndSettle(tester);
     await tester.enterText(key('task-title'), 'Pack');
@@ -80,9 +86,9 @@ void main() {
     await pumpOpener(
       tester,
       h,
-      (context) => Navigator.of(context).push<void>(
-        MaterialPageRoute(builder: (_) => const TaskEditorScreen(initialStart: '2026-09-22T09:00')),
-      ),
+      (context) =>
+          Navigator.of(context)
+              .push<void>(MaterialPageRoute(builder: (_) => const TaskEditorScreen(initialStart: '2026-09-22T09:00'))),
     );
     await openAndSettle(tester);
     await tester.enterText(key('task-title'), 'Groceries');
@@ -104,7 +110,8 @@ void main() {
     await pumpOpener(
       tester,
       h,
-      (context) => Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => TaskEditorScreen(taskId: task.id))),
+      (context) =>
+          Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => TaskEditorScreen(taskId: task.id))),
     );
     await openAndSettle(tester);
     // Let the "created" snackbar (with its Undo button) expire first.
@@ -141,7 +148,9 @@ void main() {
       (context) => Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => TaskDetailScreen(taskId: id))),
     );
     await openAndSettle(tester);
-    final scrollable = find.descendant(of: find.byKey(const ValueKey('detail-list')), matching: find.byType(Scrollable)).first;
+    final scrollable = find
+        .descendant(of: find.byKey(const ValueKey('detail-list')), matching: find.byType(Scrollable))
+        .first;
     await tester.scrollUntilVisible(key('detail-checklist'), 150, scrollable: scrollable);
     expect(find.descendant(of: key('detail-checklist'), matching: find.text('Trip')), findsOneWidget);
     expect(find.descendant(of: key('detail-checklist'), matching: find.text('2/3 done')), findsOneWidget);

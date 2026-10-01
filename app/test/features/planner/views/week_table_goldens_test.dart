@@ -41,7 +41,9 @@ void main() {
     await pumpGolden(
       tester,
       h,
-      TimeGridView(args: PlannerViewArgs(viewKey: 'week_table', type: PlannerViewType.weekTable, date: date)),
+      TimeGridView(
+        args: PlannerViewArgs(viewKey: 'week_table', type: PlannerViewType.weekTable, date: date),
+      ),
       variant: variant,
       size: size,
     );

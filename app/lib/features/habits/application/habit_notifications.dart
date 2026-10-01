@@ -9,12 +9,10 @@ import 'package:everslot/features/habits/domain/check_in.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_periods.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
-import 'package:everslot/features/notifications/application/notification_providers.dart'
-    show notificationTextsProvider;
+import 'package:everslot/features/notifications/application/notification_providers.dart' show notificationTextsProvider;
 import 'package:everslot/features/notifications/application/notification_texts_l10n.dart' show L10nNotificationTexts;
 import 'package:everslot/features/notifications/notification_contributions.dart';
-import 'package:everslot_metrics/everslot_metrics.dart'
-    show HabitPeriodKind, PeriodResult, PeriodStatus, QuitCalculator, QuitMode;
+import 'package:everslot_metrics/everslot_metrics.dart' show HabitPeriodKind, PeriodResult, PeriodStatus, QuitMode;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
@@ -209,7 +207,7 @@ const quitMoneyThresholds = <int>[10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 1
 /// evening review) anchor on `period_start` / `period_end`.
 NotificationTarget? buildQuitTarget(HabitSnapshot snapshot, {required DateTime now, L10nNotificationTexts? texts}) {
   final habit = snapshot.quitHabit;
-  final QuitCalculator? calc = snapshot.quit;
+  final calc = snapshot.quit;
   if (habit == null || calc == null || habit.isArchived) return null;
   final baseline = calc.currentAbstinenceStart;
   final currency = habit.currency;
@@ -290,9 +288,7 @@ class HabitsNotificationSource implements NotificationTargetSource {
     for (final habit in habits) {
       final snapshot = await loadHabitSnapshot(_ref.read, habit, now);
       final b = snapshot.boundaries;
-      out.addAll(
-        buildHabitTargets(snapshot, service, from: b.dateOf(fromUtc), to: b.dateOf(toUtc), texts: texts),
-      );
+      out.addAll(buildHabitTargets(snapshot, service, from: b.dateOf(fromUtc), to: b.dateOf(toUtc), texts: texts));
     }
     return out;
   }
@@ -383,7 +379,11 @@ class HabitNotificationActions implements NotificationActionHandler {
     };
   }
 
-  Future<NotificationActionResult> _build(NotificationActionContext c, BuildHabit habit, L10nNotificationTexts? texts) async {
+  Future<NotificationActionResult> _build(
+    NotificationActionContext c,
+    BuildHabit habit,
+    L10nNotificationTexts? texts,
+  ) async {
     final checkIn = c.read(checkInServiceProvider);
     final key = c.occurrenceKey;
     try {
@@ -421,7 +421,11 @@ class HabitNotificationActions implements NotificationActionHandler {
     return NotificationActionResult.ok;
   }
 
-  Future<NotificationActionResult> _quit(NotificationActionContext c, QuitHabit habit, L10nNotificationTexts? texts) async {
+  Future<NotificationActionResult> _quit(
+    NotificationActionContext c,
+    QuitHabit habit,
+    L10nNotificationTexts? texts,
+  ) async {
     final quit = c.read(quitServiceProvider);
     final input = c.input?.trim() ?? '';
     switch (c.actionId) {
@@ -430,14 +434,20 @@ class HabitNotificationActions implements NotificationActionHandler {
         if (intensity == null || intensity < 1 || intensity > 10) {
           return NotificationActionResult.failed(texts?.l10n.quitNotifInvalidIntensity);
         }
-        await quit.logCraving(habit, input: CravingInput(intensity: intensity), source: LogSource.notification);
+        await quit.logCraving(
+          habit,
+          input: CravingInput(intensity: intensity),
+          source: LogSource.notification,
+        );
       case NotificationActionIds.logValue:
         if (habit.mode != QuitMode.reduce) {
           // A use while quitting completely is a relapse: that deserves the kind in-app flow.
           return NotificationActionResult(openLink: AppLinks.quit(habit.id), markActed: false);
         }
         final amount = input.isEmpty ? 1.0 : parseLocalizedDecimal(input);
-        if (amount == null || amount <= 0) return NotificationActionResult.failed(texts?.l10n.habitsNotifInvalidValue(input));
+        if (amount == null || amount <= 0) {
+          return NotificationActionResult.failed(texts?.l10n.habitsNotifInvalidValue(input));
+        }
         await quit.logUse(habit, amount: amount, source: LogSource.notification);
       case NotificationActionIds.done:
         final logs = await c.read(habitLogsRepositoryProvider).forHabit(habit.id);

@@ -37,7 +37,8 @@ class PlanSummaryFooter extends ConsumerWidget {
     final collapsed = ref.watch(plannerViewStateProvider(viewKey).select((s) => s?.extra['summaryCollapsed'] == true));
     final f = context.plannerFormat(use24h: ref.watch(userPreferencesProvider).use24h);
     final s = PlanSummary.of(items, range);
-    void toggle() => ref.read(plannerViewStateProvider(viewKey).notifier).update((v) => v.withExtra('summaryCollapsed', !collapsed));
+    void toggle() =>
+        ref.read(plannerViewStateProvider(viewKey).notifier).update((v) => v.withExtra('summaryCollapsed', !collapsed));
     final colors = context.colors;
     final label = [
       l.pvWeekSummary,
@@ -75,11 +76,15 @@ class PlanSummaryFooter extends ConsumerWidget {
                                 children: [
                                   _Stat(label: l.pvPlanned, value: f.duration(s.plannedMinutes)),
                                   _Stat(label: l.pvTracked, value: f.duration(s.trackedMinutes)),
-                                  _Stat(label: l.pvCompletion, value: s.completion == null ? '—' : f.percent(s.completion!)),
+                                  _Stat(
+                                    label: l.pvCompletion,
+                                    value: s.completion == null ? '—' : f.percent(s.completion!),
+                                  ),
                                   if (s.topCategories.isNotEmpty)
                                     _Stat(
                                       label: l.pvTopCategories,
-                                      value: [for (final (id, _) in s.topCategories) _categoryName(ref, context, id)].join(' · '),
+                                      value: [for (final (id, _) in s.topCategories) _categoryName(ref, context, id)]
+                                          .join(' · '),
                                     ),
                                 ],
                               ),

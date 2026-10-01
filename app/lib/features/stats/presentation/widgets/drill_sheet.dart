@@ -10,7 +10,10 @@ import 'package:material_ui/material_ui.dart';
 /// Shows the refs behind a chart element; the chosen entity opens from the caller's context (which
 /// outlives the sheet).
 Future<void> showDrillSheet(BuildContext context, {required String title, required List<DrillRef> refs}) async {
-  final chosen = await showAppSheet<DrillRef>(context, builder: (context) => DrillSheet(title: title, refs: refs));
+  final chosen = await showAppSheet<DrillRef>(
+    context,
+    builder: (context) => DrillSheet(title: title, refs: refs),
+  );
   if (chosen != null && context.mounted) openDrillRef(context, chosen);
 }
 
@@ -39,7 +42,10 @@ class DrillSheet extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(context.l10n.statsDrillTitle, style: context.text.labelMedium?.copyWith(color: context.colors.onSurfaceVariant)),
+              Text(
+                context.l10n.statsDrillTitle,
+                style: context.text.labelMedium?.copyWith(color: context.colors.onSurfaceVariant),
+              ),
               Text(title, style: context.text.titleMedium),
             ],
           ),

@@ -26,11 +26,11 @@ skeleton, local scripts, hooks, dependency automation, versioning.
 - [ ] T1.1.05 — iOS project setup: SwiftPM, UIScene, deployment target
 - [ ] T1.1.06 — Android project setup: SDK levels, Gradle/AGP/Kotlin, namespaces
 - [x] T1.1.07 — Pure-Dart packages skeletons
-- [ ] T1.1.08 — Strict analysis: very_good_analysis + riverpod_lint plugin
+- [x] T1.1.08 — Strict analysis: very_good_analysis + riverpod_lint plugin
 - [x] T1.1.09 — Code generation setup
 - [x] T1.1.10 — Flavors (dev / prod) & entrypoints
 - [x] T1.1.11 — Environment configuration (`--dart-define-from-file`)
-- [ ] T1.1.12 — CI skeleton (GitHub Actions)
+- [x] T1.1.12 — CI skeleton (GitHub Actions)
 - [x] T1.1.13 — Local developer scripts & IDE launch configs
 - [x] T1.1.14 — Git hooks (format/analyze/commit message)
 - [x] T1.1.15 — Dependency update automation
@@ -129,7 +129,7 @@ inheriting the root, README describing purpose & public API policy (only barrel 
 `public_member_api_docs` off for app code (on for pure packages).
 **Acceptance criteria:** `melos run analyze` passes with `--fatal-infos`; a deliberate `print()` fails CI.
 **Tests:** CI analyze job.
-**Notes:** Root options are strict, but `app/analysis_options.yaml` still includes `flutter_lints` (unresolvable), so app code is not yet analyzed with very_good_analysis; `riverpod_lint` plugin not yet enabled. Planned for the integration quality pass.
+**Notes:** `app/analysis_options.yaml` now includes the root very_good_analysis set (strict casts/inference/raw types, `avoid_print`); a few style-only rules are off for app code with the reason next to each. `riverpod_lint` 3.1.9 runs as an analyzer plugin (`plugins:` in the root options; `avoid_public_notifier_properties` off — derived read-only getters are documented API). Formatter page width 120 (`formatter: page_width`). Enabling it surfaced ~45 real strict-type errors and ~60 lints (missing `mounted` checks after awaits, fire-and-forget futures, dynamic calls) — all fixed; `dart fix` for `unnecessary_type_name_in_constructor` produced broken code on Dart 3.13, so that rule stays off. `melos run analyze` → no issues.
 
 ### T1.1.09 — Code generation setup
 **Priority:** P0 · **Size:** S · **Depends on:** T1.1.08
@@ -172,7 +172,7 @@ local values from `supabase status`.
 are added by [1.2].
 **Acceptance criteria:** a PR with a failing test or unformatted file is blocked; typical run < 12 min.
 **Tests:** open a test PR that breaks formatting (must fail).
-**Notes:** Workflow in place (format, import checks, analyze, tests + coverage, Android dev APK, iOS dev build). Not green yet: format page width and app lint set are settled in the quality pass (see T1.1.08).
+**Notes:** Workflow: format check, import boundaries, analyze (`--fatal-infos`), package + app tests with coverage, Android dev debug APK + prod release APK (R8), iOS dev build on `macos-26` with the latest Xcode (≥ 26 needed). Every step passes locally (2 446 app tests, 818 package tests); the GitHub run itself was not observed in this session (nothing pushed).
 
 ### T1.1.13 — Local developer scripts & IDE launch configs
 **Priority:** P1 · **Size:** S · **Depends on:** T1.1.12

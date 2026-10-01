@@ -51,7 +51,12 @@ void main() {
     const clock = m.FixedOffsetClock();
     final period = m.DateRange(mon, mon.plusDays(6));
     final capacity = m.capacityReport(facts, range: period, clock: clock);
-    final snapshot = m.planSnapshot(facts, period: period, bounds: const m.DayBoundaries(clock), now: DateTime.utc(2026, 10, 5));
+    final snapshot = m.planSnapshot(
+      facts,
+      period: period,
+      bounds: const m.DayBoundaries(clock),
+      now: DateTime.utc(2026, 10, 5),
+    );
     expect(s.plannedMinutes, capacity.plannedMinutes.round());
     expect(s.completion, closeTo(snapshot.completionRate.valueOrNull!, 1e-9));
     expect((s.done, s.total), (2, 5), reason: 'events and cancelled items are not counted; all-day checks are');

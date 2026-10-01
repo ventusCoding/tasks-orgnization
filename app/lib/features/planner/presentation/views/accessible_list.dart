@@ -20,7 +20,9 @@ Map<LocalDate, List<PlannerItem>> groupByDay(List<PlannerItem> items, List<Local
     final first = i.startLocal.date;
     final last = i.allDay
         ? first.plusDays((i.durationMinutes <= 0 ? 1 : (i.durationMinutes + 1439) ~/ 1440) - 1)
-        : (i.endLocal.time.minuteOfDay == 0 && i.endLocal.date.isAfter(first) ? i.endLocal.date.minusDays(1) : i.endLocal.date);
+        : (i.endLocal.time.minuteOfDay == 0 && i.endLocal.date.isAfter(first)
+              ? i.endLocal.date.minusDays(1)
+              : i.endLocal.date);
     for (final d in days) {
       if (!d.isBefore(first) && !d.isAfter(last)) result[d]!.add(i);
     }
@@ -107,12 +109,16 @@ class _AccessibleRangeListState extends ConsumerState<AccessibleRangeList> imple
           Semantics(
             header: true,
             child: ListTile(
-              title: Text(f.dayLong(d), style: context.text.titleSmall?.copyWith(color: d == today ? context.colors.primary : null)),
+              title: Text(
+                f.dayLong(d),
+                style: context.text.titleSmall?.copyWith(color: d == today ? context.colors.primary : null),
+              ),
               subtitle: Text(l.pvItemsCount(byDay[d]!.length)),
               trailing: IconButton(
                 tooltip: l.pvAddTask,
                 icon: const Icon(Icons.add),
-                onPressed: () => ref.read(plannerNavProvider).newTask(context, start: d.atTime(LocalTime(9, 0)), duration: 30),
+                onPressed: () =>
+                    ref.read(plannerNavProvider).newTask(context, start: d.atTime(LocalTime(9, 0)), duration: 30),
               ),
             ),
           ),
@@ -120,10 +126,18 @@ class _AccessibleRangeListState extends ConsumerState<AccessibleRangeList> imple
             Semantics(
               customSemanticsActions: {
                 CustomSemanticsAction(label: l.pvMoveEarlier(15)): () => unawaited(
-                  commands.reschedule(item, start: item.startLocal.plusMinutes(-15), message: l.pvMovedSnack(f.timeOf(item.startLocal.plusMinutes(-15)))),
+                  commands.reschedule(
+                    item,
+                    start: item.startLocal.plusMinutes(-15),
+                    message: l.pvMovedSnack(f.timeOf(item.startLocal.plusMinutes(-15))),
+                  ),
                 ),
                 CustomSemanticsAction(label: l.pvMoveLater(15)): () => unawaited(
-                  commands.reschedule(item, start: item.startLocal.plusMinutes(15), message: l.pvMovedSnack(f.timeOf(item.startLocal.plusMinutes(15)))),
+                  commands.reschedule(
+                    item,
+                    start: item.startLocal.plusMinutes(15),
+                    message: l.pvMovedSnack(f.timeOf(item.startLocal.plusMinutes(15))),
+                  ),
                 ),
               },
               child: ListTile(
@@ -134,10 +148,7 @@ class _AccessibleRangeListState extends ConsumerState<AccessibleRangeList> imple
                         onChanged: (_) => unawaited(commands.toggleDone(item)),
                       )
                     : Icon(item.trackingMode == TrackingMode.timer ? Icons.timer_outlined : Icons.event_outlined),
-                title: Text(
-                  item.title,
-                  style: TextStyle(decoration: item.isDone ? TextDecoration.lineThrough : null),
-                ),
+                title: Text(item.title, style: TextStyle(decoration: item.isDone ? TextDecoration.lineThrough : null)),
                 subtitle: Text(
                   '${item.allDay ? l.pvAllDay : f.timeRange(item.startLocal, item.endLocal)} · ${context.statusLabel(item.status)}'
                   '${item.isRecurring ? ' · ${l.pvRepeats}' : ''}',

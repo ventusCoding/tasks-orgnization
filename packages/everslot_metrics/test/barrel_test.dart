@@ -8,9 +8,7 @@ void main() {
   test('barrel exports compose end to end', () {
     const clock = FixedOffsetClock(120);
     const bounds = DayBoundaries(clock);
-    final period = const StatsPeriod.thisWeek().resolve(
-      today: LocalDate(2026, 9, 23),
-    );
+    final period = const StatsPeriod.thisWeek().resolve(today: LocalDate(2026, 9, 23));
     final results = evaluateHabitPeriods(
       [
         for (final date in period.toDate.dates)
@@ -28,24 +26,16 @@ void main() {
         HabitLog(
           'a',
           HabitLogKind.done,
-          loggedAt: bounds
-              .startOf(LocalDate(2026, 9, 21))
-              .add(const Duration(hours: 8)),
+          loggedAt: bounds.startOf(LocalDate(2026, 9, 21)).add(const Duration(hours: 8)),
           localDate: LocalDate(2026, 9, 21),
         ),
       ],
-      now: bounds
-          .startOf(LocalDate(2026, 9, 23))
-          .add(const Duration(hours: 12)),
+      now: bounds.startOf(LocalDate(2026, 9, 23)).add(const Duration(hours: 12)),
       today: LocalDate(2026, 9, 23),
     );
     expect(successRate(results).valueOrNull, 0.5);
     expect(habitStreaks(results).currentLength, 0);
-    final value = MetricValue.fromStat(
-      'HB-H-05',
-      successRate(results),
-      unit: MetricUnit.percent,
-    );
+    final value = MetricValue.fromStat('HB-H-05', successRate(results), unit: MetricUnit.percent);
     expect(value.value, 0.5);
     expect(Weekday.monday.code, 'MO');
   });

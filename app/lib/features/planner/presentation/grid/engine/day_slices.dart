@@ -49,7 +49,8 @@ class DaySegment {
       other.continuesAfter == continuesAfter;
 
   @override
-  int get hashCode => Object.hash(item, tStart, tEnd, wallStart, repeatStart, wallEnd, repeatEnd, continuesBefore, continuesAfter);
+  int get hashCode =>
+      Object.hash(item, tStart, tEnd, wallStart, repeatStart, wallEnd, repeatEnd, continuesBefore, continuesAfter);
 }
 
 /// Everything one day column shows: timed segments and lane (all-day / multi-day) items.
@@ -125,17 +126,19 @@ List<DaySlice> sliceItems({
       if (list != null) {
         final (ws, rs) = tl.wallAt(t0);
         final (we, re) = remaining == 0 ? (ws, rs) : tl.wallAtEnd(segEnd);
-        list.add(DaySegment(
-          item: item,
-          tStart: t0,
-          tEnd: segEnd,
-          wallStart: ws,
-          repeatStart: rs,
-          wallEnd: we,
-          repeatEnd: re,
-          continuesBefore: !isFirst,
-          continuesAfter: t0 + remaining > len,
-        ));
+        list.add(
+          DaySegment(
+            item: item,
+            tStart: t0,
+            tEnd: segEnd,
+            wallStart: ws,
+            repeatStart: rs,
+            wallEnd: we,
+            repeatEnd: re,
+            continuesBefore: !isFirst,
+            continuesAfter: t0 + remaining > len,
+          ),
+        );
       }
       remaining -= segEnd - t0;
       if (remaining <= 0) break;

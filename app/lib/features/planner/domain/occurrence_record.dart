@@ -204,7 +204,8 @@ class TaskOccurrenceRecord {
   ]);
 
   @override
-  String toString() => 'TaskOccurrenceRecord($taskId|$occurrenceKey, ${status.name}${isCancelled ? ', cancelled' : ''})';
+  String toString() =>
+      'TaskOccurrenceRecord($taskId|$occurrenceKey, ${status.name}${isCancelled ? ', cancelled' : ''})';
 }
 
 /// One timer session (`time_entries`); `endedAt == null` while running.

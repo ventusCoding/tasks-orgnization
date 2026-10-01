@@ -81,7 +81,11 @@ void main() {
         contains(TaskValidationError.recurrenceWithoutStart),
       );
       expect(
-        TaskSchedule(startLocal: ldt('2026-09-22T09:00'), durationMinutes: 30, recurrence: RecurrenceRule(interval: 0)).validate(),
+        TaskSchedule(
+          startLocal: ldt('2026-09-22T09:00'),
+          durationMinutes: 30,
+          recurrence: RecurrenceRule(interval: 0),
+        ).validate(),
         contains(TaskValidationError.recurrenceInvalid),
       );
     });
@@ -97,21 +101,36 @@ void main() {
 
     test('recurrenceUntilLocal: null open-ended, last start for count, until for until-based', () {
       final start = ldt('2026-09-21T08:00');
-      expect(TaskSchedule(startLocal: start, durationMinutes: 30, recurrence: RecurrenceRule()).recurrenceUntilLocal(engine), isNull);
       expect(
-        TaskSchedule(startLocal: start, durationMinutes: 30, recurrence: RecurrenceRule(count: 5)).recurrenceUntilLocal(engine),
+        TaskSchedule(startLocal: start, durationMinutes: 30, recurrence: RecurrenceRule()).recurrenceUntilLocal(engine),
+        isNull,
+      );
+      expect(
+        TaskSchedule(
+          startLocal: start,
+          durationMinutes: 30,
+          recurrence: RecurrenceRule(count: 5),
+        ).recurrenceUntilLocal(engine),
         ldt('2026-09-25T08:00'),
       );
       expect(
         TaskSchedule(
           startLocal: start,
           durationMinutes: 30,
-          recurrence: RecurrenceRule(freq: Frequency.weekly, count: 3, byWeekday: const [WeekdayRule(Weekday.monday), WeekdayRule(Weekday.friday)]),
+          recurrence: RecurrenceRule(
+            freq: Frequency.weekly,
+            count: 3,
+            byWeekday: const [WeekdayRule(Weekday.monday), WeekdayRule(Weekday.friday)],
+          ),
         ).recurrenceUntilLocal(engine),
         ldt('2026-09-28T08:00'),
       );
       expect(
-        TaskSchedule(startLocal: start, durationMinutes: 30, recurrence: RecurrenceRule(until: ldt('2026-10-01T08:00'))).recurrenceUntilLocal(engine),
+        TaskSchedule(
+          startLocal: start,
+          durationMinutes: 30,
+          recurrence: RecurrenceRule(until: ldt('2026-10-01T08:00')),
+        ).recurrenceUntilLocal(engine),
         ldt('2026-10-01T08:00'),
       );
       expect(
@@ -132,7 +151,13 @@ void main() {
         final days = random.nextInt(4);
         final start = allDay
             ? LocalDate(2026, 1 + random.nextInt(12), 1 + random.nextInt(28)).atStartOfDay
-            : LocalDateTime.of(2026, 1 + random.nextInt(12), 1 + random.nextInt(28), random.nextInt(24), random.nextInt(60));
+            : LocalDateTime.of(
+                2026,
+                1 + random.nextInt(12),
+                1 + random.nextInt(28),
+                random.nextInt(24),
+                random.nextInt(60),
+              );
         final duration = allDay ? days * 1440 : random.nextInt(600);
         final errors = TaskSchedule(startLocal: start, durationMinutes: duration, isAllDay: allDay).validate();
         if (allDay && days == 0) {
@@ -199,7 +224,10 @@ void main() {
       expect(TaskOccurrenceRecord.fromJson(r.toJson()), r);
       expect(r.hasOutcome, isTrue);
       expect(r.isMoved, isTrue);
-      expect(const TaskOccurrenceRecord(id: 'x', taskId: 't', occurrenceKey: 'k', overrideTitle: 'T').hasOutcome, isFalse);
+      expect(
+        const TaskOccurrenceRecord(id: 'x', taskId: 't', occurrenceKey: 'k', overrideTitle: 'T').hasOutcome,
+        isFalse,
+      );
     });
 
     test('time entry duration', () {

@@ -46,10 +46,7 @@ void main() {
     expect(report.next, isNotEmpty);
     expect(report.next.first.inboxTitle, secretTitle);
     return NotificationDiagnostics(
-      capabilities: const NotificationCapabilities(
-        platform: 'android',
-        notifications: true,
-      ),
+      capabilities: const NotificationCapabilities(platform: 'android', notifications: true),
       osPending: 2,
       scheduledOs: 2,
       tracked: 0,
@@ -61,68 +58,49 @@ void main() {
     );
   }
 
-  test(
-    'the copied export holds ids and counts only — never titles or bodies',
-    () async {
-      final d = await diagnosticsAfterReplan();
-      final json = jsonEncode(d.toJson());
-      expect(json, isNot(contains(secretTitle)));
-      expect(json, isNot(contains(secretNote)));
-      expect(json, isNot(contains('Secret')));
-      final map = jsonDecode(json) as Map<String, Object?>;
-      expect(map['osPending'], 2);
-      expect((map['next']! as List).first, containsPair('section', 'planner'));
-    },
-  );
+  test('the copied export holds ids and counts only — never titles or bodies', () async {
+    final d = await diagnosticsAfterReplan();
+    final json = jsonEncode(d.toJson());
+    expect(json, isNot(contains(secretTitle)));
+    expect(json, isNot(contains(secretNote)));
+    expect(json, isNot(contains('Secret')));
+    final map = jsonDecode(json) as Map<String, Object?>;
+    expect(map['osPending'], 2);
+    expect((map['next']! as List).first, containsPair('section', 'planner'));
+  });
 
-  testWidgets(
-    'shows capabilities, budget, coverage, next firings; copies without content',
-    (tester) async {
-      final d = await tester.runAsync(diagnosticsAfterReplan);
-      String? clipboard;
-      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
-        SystemChannels.platform,
-        (call) async {
-          if (call.method == 'Clipboard.setData') {
-            clipboard = (call.arguments as Map)['text'] as String?;
-          }
-          return null;
-        },
-      );
-      addTearDown(
-        () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
-          SystemChannels.platform,
-          null,
-        ),
-      );
-      await tester.pumpWidget(const SizedBox.shrink());
-      final scoped = TestHarness.create(
-        now: DateTime.utc(2026, 9, 22, 6),
-        overrides: [
-          notificationDiagnosticsProvider.overrideWith((ref) async => d!),
-        ],
-      );
-      addTearDown(scoped.dispose);
-      await pumpInApp(tester, scoped, const NotificationDiagnosticsScreen());
-      await tester.pump();
-      await tester.pump();
-      expect(find.text('Notifications allowed'), findsOneWidget);
-      expect(find.text('Exact alarms'), findsOneWidget);
-      expect(find.textContaining('Budget'), findsOneWidget);
+  testWidgets('shows capabilities, budget, coverage, next firings; copies without content', (tester) async {
+    final d = await tester.runAsync(diagnosticsAfterReplan);
+    String? clipboard;
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(SystemChannels.platform, (call) async {
+      if (call.method == 'Clipboard.setData') {
+        clipboard = (call.arguments as Map)['text'] as String?;
+      }
+      return null;
+    });
+    addTearDown(() => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(SystemChannels.platform, null));
+    await tester.pumpWidget(const SizedBox.shrink());
+    final scoped = TestHarness.create(
+      now: DateTime.utc(2026, 9, 22, 6),
+      overrides: [notificationDiagnosticsProvider.overrideWith((ref) async => d!)],
+    );
+    addTearDown(scoped.dispose);
+    await pumpInApp(tester, scoped, const NotificationDiagnosticsScreen());
+    await tester.pump();
+    await tester.pump();
+    expect(find.text('Notifications allowed'), findsOneWidget);
+    expect(find.text('Exact alarms'), findsOneWidget);
+    expect(find.textContaining('Budget'), findsOneWidget);
 
-      await tester.scrollUntilVisible(find.text('Copy diagnostics'), 200);
-      await tester.tap(find.text('Copy diagnostics'));
-      await tester.pump();
-      await tester.pump();
-      expect(clipboard, isNotNull);
-      expect(clipboard, isNot(contains(secretTitle)));
-      expect(clipboard, contains('osPending'));
-      expect(
-        find.text('Diagnostics copied (no content included)'),
-        findsOneWidget,
-      );
-      await tester.pump(const Duration(seconds: 10));
-      await tester.pumpWidget(const SizedBox.shrink());
-    },
-  );
+    await tester.scrollUntilVisible(find.text('Copy diagnostics'), 200);
+    await tester.tap(find.text('Copy diagnostics'));
+    await tester.pump();
+    await tester.pump();
+    expect(clipboard, isNotNull);
+    expect(clipboard, isNot(contains(secretTitle)));
+    expect(clipboard, contains('osPending'));
+    expect(find.text('Diagnostics copied (no content included)'), findsOneWidget);
+    await tester.pump(const Duration(seconds: 10));
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
 }

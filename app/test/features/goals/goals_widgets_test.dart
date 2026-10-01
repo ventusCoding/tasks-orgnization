@@ -54,7 +54,8 @@ void main() {
     return habit;
   }
 
-  Future<List<Goal>> goals(WidgetTester tester) async => (await tester.runAsync(() => h.read(goalsRepositoryProvider).all()))!;
+  Future<List<Goal>> goals(WidgetTester tester) async =>
+      (await tester.runAsync(() => h.read(goalsRepositoryProvider).all()))!;
 
   Widget host(Widget child) => Scaffold(body: SingleChildScrollView(child: child));
 
@@ -74,20 +75,37 @@ void main() {
     await tester.tap(find.widgetWithText(FilledButton, en.actionSave));
     await settle(tester);
     final saved = (await goals(tester)).single;
-    expect((saved.metric, saved.target, saved.period, saved.scopeId), (GoalMetric.completions, 20.0, GoalPeriod.month, habit.id));
+    expect(
+      (saved.metric, saved.target, saved.period, saved.scopeId),
+      (GoalMetric.completions, 20.0, GoalPeriod.month, habit.id),
+    );
     expect(find.text('${en.habitsDays(20)} · ${en.goalsMetricCompletions}'), findsOneWidget, reason: 'the card');
     await disposeTree(tester);
   });
 
   testWidgets('editor suggests a round target above the current pace', (tester) async {
-    final habit = await createHabit(tester, goal: const HabitTarget(type: HabitGoalType.count, target: 20, unit: HabitUnits.reps));
+    final habit = await createHabit(
+      tester,
+      goal: const HabitTarget(type: HabitGoalType.count, target: 20, unit: HabitUnits.reps),
+    );
     await tester.runAsync(() async {
       final checkIn = h.read(checkInServiceProvider);
       for (var day = 1; day <= 22; day++) {
         await checkIn.addProgress(habit, '2026-09-${day.toString().padLeft(2, '0')}', 20);
       }
     });
-    await pumpInApp(tester, h, host(Builder(builder: (c) => TextButton(onPressed: () => showGoalEditor(c, habitId: habit.id), child: const Text('open')))));
+    await pumpInApp(
+      tester,
+      h,
+      host(
+        Builder(
+          builder: (c) => TextButton(
+            onPressed: () => showGoalEditor(c, habitId: habit.id),
+            child: const Text('open'),
+          ),
+        ),
+      ),
+    );
     await settle(tester);
     await tester.tap(find.text('open'));
     await settle(tester);
@@ -103,15 +121,19 @@ void main() {
   testWidgets('reaching a goal records achieved_at once and confirms (T5.4.04)', (tester) async {
     final habit = await createHabit(tester);
     await tester.runAsync(() async {
-      await h.read(goalsRepositoryProvider).create(Goal(
-        id: Ids.v7(),
-        scopeType: GoalScopeType.habit,
-        scopeId: habit.id,
-        metric: GoalMetric.completions,
-        target: 3,
-        period: GoalPeriod.month,
-        title: 'Three days',
-      ));
+      await h
+          .read(goalsRepositoryProvider)
+          .create(
+            Goal(
+              id: Ids.v7(),
+              scopeType: GoalScopeType.habit,
+              scopeId: habit.id,
+              metric: GoalMetric.completions,
+              target: 3,
+              period: GoalPeriod.month,
+              title: 'Three days',
+            ),
+          );
       final checkIn = h.read(checkInServiceProvider);
       for (final day in ['2026-09-18', '2026-09-19', '2026-09-20']) {
         await checkIn.markDone(habit, day);
@@ -133,14 +155,20 @@ void main() {
     await disposeTree(tester);
 
     final habit = await createHabit(tester);
-    await tester.runAsync(() => h.read(goalsRepositoryProvider).create(Goal(
-      id: Ids.v7(),
-      scopeType: GoalScopeType.habit,
-      scopeId: habit.id,
-      metric: GoalMetric.streakDays,
-      target: 30,
-      period: GoalPeriod.allTime,
-    )));
+    await tester.runAsync(
+      () => h
+          .read(goalsRepositoryProvider)
+          .create(
+            Goal(
+              id: Ids.v7(),
+              scopeType: GoalScopeType.habit,
+              scopeId: habit.id,
+              metric: GoalMetric.streakDays,
+              target: 30,
+              period: GoalPeriod.allTime,
+            ),
+          ),
+    );
     await pumpInApp(tester, h, const GoalsScreen());
     await settle(tester);
     expect(find.text(en.goalsActive), findsOneWidget);
@@ -173,7 +201,10 @@ void main() {
     await tester.tap(find.widgetWithText(FilledButton, en.actionSave));
     await settle(tester);
     final reward = (await goals(tester)).single;
-    expect((reward.metric, reward.reward, reward.target, reward.period), (GoalMetric.moneySaved, 'Headphones', 50.0, GoalPeriod.allTime));
+    expect(
+      (reward.metric, reward.reward, reward.target, reward.period),
+      (GoalMetric.moneySaved, 'Headphones', 50.0, GoalPeriod.allTime),
+    );
     // ≈ 214 € saved: affordable.
     expect(find.textContaining(en.quitRewardReady), findsOneWidget);
     await tester.tap(find.widgetWithText(FilledButton, en.quitRewardClaim));

@@ -34,11 +34,21 @@ class HabitMiniTable extends StatelessWidget {
                 padding: const EdgeInsetsDirectional.symmetric(vertical: Space.xs),
                 child: Row(
                   children: [
-                    ColorDot(r['color'] is int ? CategoryColors.accent(r['color']! as int, Theme.of(context).brightness) : context.colors.primary),
+                    ColorDot(
+                      r['color'] is int
+                          ? CategoryColors.accent(r['color']! as int, Theme.of(context).brightness)
+                          : context.colors.primary,
+                    ),
                     const SizedBox(width: Space.sm),
                     Expanded(child: Text('${r['name']}', maxLines: 2, overflow: TextOverflow.ellipsis)),
-                    _Cell(label: metricTitle(l, 'HB-H-01') ?? '', value: f.value((r['score'] as num?)?.toDouble() ?? 0, StatUnit.score)),
-                    _Cell(label: metricTitle(l, 'HB-H-02') ?? '', value: f.number(((r['streak'] as num?) ?? 0).toDouble())),
+                    _Cell(
+                      label: metricTitle(l, 'HB-H-01') ?? '',
+                      value: f.value((r['score'] as num?)?.toDouble() ?? 0, StatUnit.score),
+                    ),
+                    _Cell(
+                      label: metricTitle(l, 'HB-H-02') ?? '',
+                      value: f.number(((r['streak'] as num?) ?? 0).toDouble()),
+                    ),
                     _Cell(
                       label: metricTitle(l, 'HB-H-05') ?? '',
                       value: r['rate30'] == null ? l.chartsNotApplicable : f.percent((r['rate30']! as num).toDouble()),
@@ -65,7 +75,11 @@ class _Cell extends StatelessWidget {
     excludeSemantics: true,
     child: SizedBox(
       width: 56,
-      child: Text(value, textAlign: TextAlign.end, style: context.text.labelLarge?.copyWith(fontFeatures: AppTheme.tabular)),
+      child: Text(
+        value,
+        textAlign: TextAlign.end,
+        style: context.text.labelLarge?.copyWith(fontFeatures: AppTheme.tabular),
+      ),
     ),
   );
 }

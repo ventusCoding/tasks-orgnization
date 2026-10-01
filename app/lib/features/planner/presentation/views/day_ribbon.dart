@@ -93,23 +93,27 @@ class DayRibbon extends StatelessWidget {
       }
       switch (p) {
         case RibbonGap():
-          children.add(_Gap(
-            label: l.pvFreeGap(format.duration(p.minutes)),
-            onTap: () => onCreate(day.atStartOfDay.plusMinutes(p.start), p.minutes),
-          ));
+          children.add(
+            _Gap(
+              label: l.pvFreeGap(format.duration(p.minutes)),
+              onTap: () => onCreate(day.atStartOfDay.plusMinutes(p.start), p.minutes),
+            ),
+          );
         case RibbonBlock(:final item):
           final current = nowMinute != null && nowMinute >= p.start && nowMinute < p.end;
-          children.add(_Block(
-            piece: p,
-            colors: colors.of(item),
-            timeText: format.timeRange(item.startLocal, item.endLocal),
-            durationText: format.duration(item.durationMinutes),
-            progress: current ? (nowMinute - p.start) / math.max(1, p.minutes) : null,
-            past: dimPast && item.endLocal.isBefore(now),
-            onOpen: () => onOpen(item),
-            onToggle: () => onToggle(item),
-            onMenu: () => onMenu(item),
-          ));
+          children.add(
+            _Block(
+              piece: p,
+              colors: colors.of(item),
+              timeText: format.timeRange(item.startLocal, item.endLocal),
+              durationText: format.duration(item.durationMinutes),
+              progress: current ? (nowMinute - p.start) / math.max(1, p.minutes) : null,
+              past: dimPast && item.endLocal.isBefore(now),
+              onOpen: () => onOpen(item),
+              onToggle: () => onToggle(item),
+              onMenu: () => onMenu(item),
+            ),
+          );
           if (current) nowPlaced = true;
       }
     }
@@ -192,7 +196,11 @@ class _Block extends StatelessWidget {
                         CircleAvatar(
                           radius: 18,
                           backgroundColor: colors.accent,
-                          child: Icon(IconCatalog.iconFor(item.icon, fallback: Icons.event), size: 18, color: CategoryColors.onBackground(colors.accent)),
+                          child: Icon(
+                            IconCatalog.iconFor(item.icon, fallback: Icons.event),
+                            size: 18,
+                            color: CategoryColors.onBackground(colors.accent),
+                          ),
                         ),
                         const SizedBox(width: Space.md),
                         Expanded(
@@ -209,7 +217,12 @@ class _Block extends StatelessWidget {
                                   decorationColor: fg,
                                 ),
                               ),
-                              Text('$timeText · $durationText', maxLines: 1, overflow: TextOverflow.ellipsis, style: context.text.labelSmall?.copyWith(color: fg)),
+                              Text(
+                                '$timeText · $durationText',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: context.text.labelSmall?.copyWith(color: fg),
+                              ),
                             ],
                           ),
                         ),
@@ -249,11 +262,14 @@ class _Gap extends StatelessWidget {
           height: 36,
           child: Row(
             children: [
-              SizedBox(
-                width: 36,
-                child: CustomPaint(painter: _DottedLine(context.colors.outline)),
+              SizedBox(width: 36, child: CustomPaint(painter: _DottedLine(context.colors.outline))),
+              Text(
+                label,
+                style: context.text.labelSmall?.copyWith(
+                  color: context.colors.onSurfaceVariant,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
-              Text(label, style: context.text.labelSmall?.copyWith(color: context.colors.onSurfaceVariant, fontStyle: FontStyle.italic)),
             ],
           ),
         ),
@@ -294,7 +310,10 @@ class _NowMarker extends StatelessWidget {
           decoration: BoxDecoration(color: context.appColors.nowLine, borderRadius: BorderRadius.circular(Radii.pill)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: Space.sm, vertical: 2),
-            child: Text(label, style: context.text.labelSmall?.copyWith(color: CategoryColors.onBackground(context.appColors.nowLine))),
+            child: Text(
+              label,
+              style: context.text.labelSmall?.copyWith(color: CategoryColors.onBackground(context.appColors.nowLine)),
+            ),
           ),
         ),
         Expanded(child: Container(height: 2, color: context.appColors.nowLine)),

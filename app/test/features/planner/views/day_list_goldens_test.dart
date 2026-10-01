@@ -32,7 +32,12 @@ void main() {
     var c = h.read(plannerViewConfigProvider('day_list')).withSlot(slot);
     if (config != null) c = config(c);
     notifier.update(c);
-    await pumpGolden(tester, h, PlannerScreen(view: 'day_list', date: date), variant: variant);
+    await pumpGolden(
+      tester,
+      h,
+      PlannerScreen(view: 'day_list', date: date),
+      variant: variant,
+    );
     await tester.pumpAndSettle();
     await expectLater(find.byType(PlannerScreen), matchesGoldenFile('goldens/day_list_$name.png'));
   }

@@ -1,6 +1,5 @@
 import 'package:everslot/features/notifications/application/notification_providers.dart';
-import 'package:everslot/features/notifications/application/notifications_engine.dart'
-    show seedNotificationDefaults;
+import 'package:everslot/features/notifications/application/notifications_engine.dart' show seedNotificationDefaults;
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:everslot/features/notifications/domain/rule_draft.dart';
@@ -19,9 +18,7 @@ void main() {
 
   Future<void> settle(WidgetTester tester) async {
     for (var i = 0; i < 6; i++) {
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 5)),
-      );
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 5)));
       await tester.pump(const Duration(milliseconds: 50));
     }
     await tester.pumpAndSettle();
@@ -34,46 +31,29 @@ void main() {
   }
 
   Future<List<NotificationProfile>> profiles(WidgetTester tester) async =>
-      await tester.runAsync(
-        () => h.read(notificationProfilesRepositoryProvider).all(),
-      ) ??
-      const [];
+      await tester.runAsync(() => h.read(notificationProfilesRepositoryProvider).all()) ?? const [];
 
-  testWidgets(
-    'built-ins are listed (Alarm hidden) and can only be duplicated',
-    (tester) async {
-      await pumpScreen(tester);
-      for (final name in ['Gentle', 'Standard', 'Nag until done']) {
-        expect(
-          find.widgetWithText(ListTile, name),
-          findsOneWidget,
-          reason: name,
-        );
-      }
-      expect(find.widgetWithText(ListTile, 'Alarm'), findsNothing);
+  testWidgets('built-ins are listed (Alarm hidden) and can only be duplicated', (tester) async {
+    await pumpScreen(tester);
+    for (final name in ['Gentle', 'Standard', 'Nag until done']) {
+      expect(find.widgetWithText(ListTile, name), findsOneWidget, reason: name);
+    }
+    expect(find.widgetWithText(ListTile, 'Alarm'), findsNothing);
 
-      await tester.tap(
-        find.descendant(
-          of: find.widgetWithText(ListTile, 'Standard'),
-          matching: find.byIcon(Icons.more_vert),
-        ),
-      );
-      await settle(tester);
-      expect(find.text('Duplicate'), findsOneWidget);
-      expect(find.text('Rename'), findsNothing);
-      expect(find.text('Delete profile'), findsNothing);
-      await tester.tap(find.text('Duplicate'));
-      await settle(tester);
-      expect(find.widgetWithText(ListTile, 'Standard 2'), findsOneWidget);
-      final copy = (await profiles(tester))
-          .firstWhere((p) => p.name == 'Standard 2');
-      expect(copy.isBuiltin, isFalse);
-      expect(
-        copy.spec.delivery.importance,
-        BuiltinProfiles.specs[BuiltinProfiles.standard]!.delivery.importance,
-      );
-    },
-  );
+    await tester.tap(
+      find.descendant(of: find.widgetWithText(ListTile, 'Standard'), matching: find.byIcon(Icons.more_vert)),
+    );
+    await settle(tester);
+    expect(find.text('Duplicate'), findsOneWidget);
+    expect(find.text('Rename'), findsNothing);
+    expect(find.text('Delete profile'), findsNothing);
+    await tester.tap(find.text('Duplicate'));
+    await settle(tester);
+    expect(find.widgetWithText(ListTile, 'Standard 2'), findsOneWidget);
+    final copy = (await profiles(tester)).firstWhere((p) => p.name == 'Standard 2');
+    expect(copy.isBuiltin, isFalse);
+    expect(copy.spec.delivery.importance, BuiltinProfiles.specs[BuiltinProfiles.standard]!.delivery.importance);
+  });
 
   testWidgets('create, rename and delete a custom profile', (tester) async {
     await pumpScreen(tester);
@@ -85,10 +65,7 @@ void main() {
     expect(find.widgetWithText(ListTile, 'Work focus'), findsOneWidget);
 
     await tester.tap(
-      find.descendant(
-        of: find.widgetWithText(ListTile, 'Work focus'),
-        matching: find.byIcon(Icons.more_vert),
-      ),
+      find.descendant(of: find.widgetWithText(ListTile, 'Work focus'), matching: find.byIcon(Icons.more_vert)),
     );
     await settle(tester);
     await tester.tap(find.text('Rename'));
@@ -100,10 +77,7 @@ void main() {
 
     // Unused → a simple confirmation.
     await tester.tap(
-      find.descendant(
-        of: find.widgetWithText(ListTile, 'Deep work'),
-        matching: find.byIcon(Icons.more_vert),
-      ),
+      find.descendant(of: find.widgetWithText(ListTile, 'Deep work'), matching: find.byIcon(Icons.more_vert)),
     );
     await settle(tester);
     await tester.tap(find.text('Delete profile'));
@@ -113,9 +87,7 @@ void main() {
     expect(find.widgetWithText(ListTile, 'Deep work'), findsNothing);
   });
 
-  testWidgets('deleting a profile in use asks where its rules go', (
-    tester,
-  ) async {
+  testWidgets('deleting a profile in use asks where its rules go', (tester) async {
     await tester.runAsync(() async {
       await seedNotificationDefaults(h.read);
       final profiles = h.read(notificationProfilesRepositoryProvider);
@@ -127,22 +99,14 @@ void main() {
           targetId: 't1',
           section: NotificationSection.planner,
           profileId: loud.id,
-          spec: const NotificationRuleSpec(
-            trigger: RelativeTrigger(
-              anchor: TriggerAnchor.start,
-              offsetMinutes: 0,
-            ),
-          ),
+          spec: const NotificationRuleSpec(trigger: RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: 0)),
         ),
       ]);
     });
     await pumpInApp(tester, h, const NotificationProfilesScreen());
     await settle(tester);
     await tester.tap(
-      find.descendant(
-        of: find.widgetWithText(ListTile, 'Loud'),
-        matching: find.byIcon(Icons.more_vert),
-      ),
+      find.descendant(of: find.widgetWithText(ListTile, 'Loud'), matching: find.byIcon(Icons.more_vert)),
     );
     await settle(tester);
     await tester.tap(find.text('Delete profile'));
@@ -151,33 +115,25 @@ void main() {
     await tester.tap(find.widgetWithText(ListTile, 'Gentle').last);
     await settle(tester);
     final rules = await tester.runAsync(
-      () => h
-          .read(notificationRulesRepositoryProvider)
-          .forTarget(RuleTargetType.task, 't1'),
+      () => h.read(notificationRulesRepositoryProvider).forTarget(RuleTargetType.task, 't1'),
     );
-    final gentle = (await profiles(tester))
-        .firstWhere((p) => p.code == BuiltinProfiles.gentle);
+    final gentle = (await profiles(tester)).firstWhere((p) => p.code == BuiltinProfiles.gentle);
     expect(rules!.single.profileId, gentle.id);
     expect(find.widgetWithText(ListTile, 'Loud'), findsNothing);
   });
 
-  test(
-    'reorder moves a profile after another one (hidden ones keep their place)',
-    () async {
-      await seedNotificationDefaults(h.read);
-      final repo = h.read(notificationProfilesRepositoryProvider);
-      Future<List<String?>> codes() async => [
-        for (final p in await repo.all()) p.code,
-      ];
-      expect(await codes(), ['gentle', 'standard', 'nag', 'alarm']);
-      final byCode = {for (final p in await repo.all()) p.code: p.id};
-      await repo.reorder(byCode['nag']!);
-      expect(await codes(), ['nag', 'gentle', 'standard', 'alarm']);
-      await repo.reorder(byCode['nag']!, afterId: byCode['standard']);
-      expect(await codes(), ['gentle', 'standard', 'nag', 'alarm']);
-      await repo.reorder(byCode['gentle']!, afterId: byCode['alarm']);
-      expect(await codes(), ['standard', 'nag', 'alarm', 'gentle']);
-      expect(await repo.reorder(byCode['gentle']!, afterId: 'missing'), isNull);
-    },
-  );
+  test('reorder moves a profile after another one (hidden ones keep their place)', () async {
+    await seedNotificationDefaults(h.read);
+    final repo = h.read(notificationProfilesRepositoryProvider);
+    Future<List<String?>> codes() async => [for (final p in await repo.all()) p.code];
+    expect(await codes(), ['gentle', 'standard', 'nag', 'alarm']);
+    final byCode = {for (final p in await repo.all()) p.code: p.id};
+    await repo.reorder(byCode['nag']!);
+    expect(await codes(), ['nag', 'gentle', 'standard', 'alarm']);
+    await repo.reorder(byCode['nag']!, afterId: byCode['standard']);
+    expect(await codes(), ['gentle', 'standard', 'nag', 'alarm']);
+    await repo.reorder(byCode['gentle']!, afterId: byCode['alarm']);
+    expect(await codes(), ['standard', 'nag', 'alarm', 'gentle']);
+    expect(await repo.reorder(byCode['gentle']!, afterId: 'missing'), isNull);
+  });
 }

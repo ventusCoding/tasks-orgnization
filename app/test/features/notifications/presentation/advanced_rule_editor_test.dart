@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:everslot/design_system/design_system.dart';
-import 'package:everslot/features/notifications/application/notifications_engine.dart'
-    show seedNotificationDefaults;
+import 'package:everslot/features/notifications/application/notifications_engine.dart' show seedNotificationDefaults;
 import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:everslot/features/notifications/domain/rule_spec.dart';
 import 'package:everslot/features/notifications/presentation/advanced_rule_editor.dart';
@@ -32,9 +31,7 @@ void main() {
 
   Future<void> settle(WidgetTester tester) async {
     for (var i = 0; i < 6; i++) {
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 5)),
-      );
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 5)));
       await tester.pump(const Duration(milliseconds: 50));
     }
     await tester.pumpAndSettle();
@@ -65,10 +62,7 @@ void main() {
           darkTheme: AppTheme.dark(),
           themeMode: dark ? ThemeMode.dark : ThemeMode.light,
           supportedLocales: const [Locale('en'), Locale('fr'), Locale('ar')],
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            ...GlobalMaterialLocalizations.delegates,
-          ],
+          localizationsDelegates: const [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates],
           home: Scaffold(
             body: Builder(
               builder: (context) => Center(
@@ -100,59 +94,40 @@ void main() {
     await settle(tester);
   }
 
-  NotificationRuleSpec decode(String json) => NotificationRuleSpec.fromJson(
-    Map<String, Object?>.from(jsonDecode(json) as Map),
-  );
+  NotificationRuleSpec decode(String json) =>
+      NotificationRuleSpec.fromJson(Map<String, Object?>.from(jsonDecode(json) as Map));
 
   /// The group tile whose own title is [title] (nested fields may repeat the word).
-  Finder group(String title) => find.byWidgetPredicate(
-    (w) =>
-        w is ExpansionTile &&
-        w.title is Text &&
-        (w.title as Text).data == title,
-  );
+  Finder group(String title) =>
+      find.byWidgetPredicate((w) => w is ExpansionTile && w.title is Text && (w.title as Text).data == title);
 
   Future<void> reveal(WidgetTester tester, Finder finder) async {
     await tester.scrollUntilVisible(
       finder,
       200,
-      scrollable: find
-          .descendant(
-            of: find.byType(AdvancedRuleEditorScreen),
-            matching: find.byType(Scrollable),
-          )
-          .first,
+      scrollable: find.descendant(of: find.byType(AdvancedRuleEditorScreen), matching: find.byType(Scrollable)).first,
     );
     await tester.pump();
   }
 
   testWidgets('every field group is present', (tester) async {
     await open(tester, decode(complexJson));
-    for (final title in [
-      'Trigger',
-      'Repeat (nag)',
-      'Conditions',
-      'Delivery',
-      'Content',
-    ]) {
+    for (final title in ['Trigger', 'Repeat (nag)', 'Conditions', 'Delivery', 'Content']) {
       await reveal(tester, group(title));
       expect(group(title), findsOneWidget, reason: title);
     }
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
-  testWidgets(
-    'saving without edits returns the rule unchanged (unknown keys kept)',
-    (tester) async {
-      final spec = decode(complexJson);
-      final results = await open(tester, spec);
-      await save(tester);
-      expect(results, hasLength(1));
-      expect(results.single!.spec.encode(), spec.encode());
-      expect(results.single!.spec.encode(), contains('"future":{"x":1}'));
-      await tester.pumpWidget(const SizedBox.shrink());
-    },
-  );
+  testWidgets('saving without edits returns the rule unchanged (unknown keys kept)', (tester) async {
+    final spec = decode(complexJson);
+    final results = await open(tester, spec);
+    await save(tester);
+    expect(results, hasLength(1));
+    expect(results.single!.spec.encode(), spec.encode());
+    expect(results.single!.spec.encode(), contains('"future":{"x":1}'));
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
 
   testWidgets('editing the content template updates the rule', (tester) async {
     final results = await open(tester, decode(complexJson));
@@ -160,10 +135,7 @@ void main() {
     await tester.tap(group('Content'));
     await settle(tester);
     await reveal(tester, find.widgetWithText(TextField, 'Body template'));
-    await tester.enterText(
-      find.widgetWithText(TextField, 'Body template'),
-      'Now: {title}',
-    );
+    await tester.enterText(find.widgetWithText(TextField, 'Body template'), 'Now: {title}');
     await settle(tester);
     await save(tester);
     expect(results.single!.spec.content.body, 'Now: {title}');
@@ -173,19 +145,12 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
-  testWidgets('errors disable Save; warnings are shown but never block', (
-    tester,
-  ) async {
+  testWidgets('errors disable Save; warnings are shown but never block', (tester) async {
     await open(
       tester,
-      const NotificationRuleSpec(
-        trigger: OverdueTrigger(),
-        repeat: RepeatSpec(everyMinutes: 5, maxTimes: 11),
-      ),
+      const NotificationRuleSpec(trigger: OverdueTrigger(), repeat: RepeatSpec(everyMinutes: 5, maxTimes: 11)),
     );
-    final button = tester.widget<TextButton>(
-      find.widgetWithText(TextButton, 'Save'),
-    );
+    final button = tester.widget<TextButton>(find.widgetWithText(TextButton, 'Save'));
     expect(button.onPressed, isNull);
     expect(find.text('At most 10 repeats'), findsOneWidget);
     expect(find.textContaining('10 minutes apart'), findsOneWidget);
@@ -193,27 +158,16 @@ void main() {
 
     await open(
       tester,
-      const NotificationRuleSpec(
-        trigger: OverdueTrigger(),
-        repeat: RepeatSpec(everyMinutes: 5, maxTimes: 5),
-      ),
+      const NotificationRuleSpec(trigger: OverdueTrigger(), repeat: RepeatSpec(everyMinutes: 5, maxTimes: 5)),
     );
-    expect(
-      tester
-          .widget<TextButton>(find.widgetWithText(TextButton, 'Save'))
-          .onPressed,
-      isNotNull,
-    );
+    expect(tester.widget<TextButton>(find.widgetWithText(TextButton, 'Save')).onPressed, isNotNull);
     expect(find.textContaining('10 minutes apart'), findsOneWidget);
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
   testWidgets('Arabic: right-to-left without overflow', (tester) async {
     await open(tester, decode(complexJson), locale: const Locale('ar'));
-    expect(
-      Directionality.of(tester.element(find.byType(AdvancedRuleEditorScreen))),
-      TextDirection.rtl,
-    );
+    expect(Directionality.of(tester.element(find.byType(AdvancedRuleEditorScreen))), TextDirection.rtl);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });
@@ -229,10 +183,7 @@ void main() {
           dark: dark,
           size: const Size(360, 780),
         );
-        await expectLater(
-          find.byType(MaterialApp),
-          matchesGoldenFile('goldens/advanced_rule_editor_$name.png'),
-        );
+        await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/advanced_rule_editor_$name.png'));
         await tester.pumpWidget(const SizedBox.shrink());
       }, tags: ['golden']);
     }

@@ -107,7 +107,7 @@ void main() {
     final grid = tester.state<TimeGridState>(find.byType(TimeGrid));
     final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
     addTearDown(mouse.removePointer);
-    await mouse.addPointer(location: grid.globalPositionOf(LocalDate(2026, 9, 24), 11 * 60 + 10)!);
+    await mouse.addPointer(location: grid.globalPositionOf(LocalDate(2026, 9, 24), 11 * 60 + 10));
     await mouse.moveTo(grid.globalPositionOf(LocalDate(2026, 9, 24), 11 * 60 + 12)!);
     await tester.pump();
     await key(tester, LogicalKeyboardKey.keyV, control: true);
@@ -150,7 +150,7 @@ void main() {
   testWidgets('screen readers get empty-slot nodes and move / select actions on tiles', (tester) async {
     final semantics = tester.ensureSemantics();
     await pumpGrid(tester, accessible: true);
-    expect(find.bySemanticsLabel(RegExp(r'Wednesday, September 23 08:00, empty')), findsWidgets);
+    expect(find.bySemanticsLabel(RegExp('Wednesday, September 23 08:00, empty')), findsWidgets);
     final tile = tester.getSemantics(find.byWidgetPredicate((w) => w is TaskTile && w.item.title == 'Alpha'));
     final labels = [
       for (final id in tile.getSemanticsData().customSemanticsActionIds ?? const <int>[])

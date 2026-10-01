@@ -10,7 +10,7 @@ enum CheckInState {
   skip(HabitLogKind.skip),
   excuse(HabitLogKind.excuse);
 
-  const CheckInState(this.kind);
+  CheckInState(this.kind);
 
   final HabitLogKind kind;
 
@@ -36,7 +36,7 @@ enum TapCycle {
   /// done → clear.
   doneClear('done_clear');
 
-  const TapCycle(this.json);
+  TapCycle(this.json);
 
   final String json;
 
@@ -151,9 +151,7 @@ DateTime checkInInstant(
   LocalTime? chosenTime,
 }) {
   if (chosenTime == null && target.isOpen(now)) return now;
-  final wall = target.isSlot && chosenTime == null
-      ? LocalDateTime.tryParse(target.key)
-      : null;
+  final wall = target.isSlot && chosenTime == null ? LocalDateTime.tryParse(target.key) : null;
   final local = wall ?? target.localDate.atTime(chosenTime ?? LocalTime.noon);
   return boundaries.clock.toInstant(local);
 }
@@ -196,8 +194,8 @@ SlotChipState slotChipState(PeriodResult r, DateTime now) => switch (r.status) {
   PeriodStatus.frozen => SlotChipState.frozen,
   PeriodStatus.paused => SlotChipState.paused,
   PeriodStatus.missed => SlotChipState.missed,
-  PeriodStatus.pending || PeriodStatus.notDue =>
-    r.windowStart.isAfter(now) ? SlotChipState.upcoming : SlotChipState.current,
+  PeriodStatus.pending ||
+  PeriodStatus.notDue => r.windowStart.isAfter(now) ? SlotChipState.upcoming : SlotChipState.current,
 };
 
 /// Remaining amount to reach the target of a measurable period ("Done" logs it as one entry).

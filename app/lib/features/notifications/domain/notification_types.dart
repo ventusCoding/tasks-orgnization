@@ -9,7 +9,7 @@ enum NotificationSection {
   quit('quit'),
   system('system');
 
-  const NotificationSection(this.wire);
+  NotificationSection(this.wire);
 
   final String wire;
 
@@ -20,8 +20,7 @@ enum NotificationSection {
     return null;
   }
 
-  static NotificationSection parse(String? value) =>
-      tryParse(value) ?? NotificationSection.system;
+  static NotificationSection parse(String? value) => tryParse(value) ?? NotificationSection.system;
 
   /// Sections that hold user items (everything except `system`).
   static const itemSections = [planner, checklists, habits, quit];
@@ -40,7 +39,7 @@ enum NotificationTargetType {
   /// Anything a future feature wants to notify about (uses generic defaults only).
   custom('custom');
 
-  const NotificationTargetType(this.wire);
+  NotificationTargetType(this.wire);
 
   final String wire;
 
@@ -62,7 +61,7 @@ enum RuleTargetType {
   section('section'),
   global('global');
 
-  const RuleTargetType(this.wire);
+  RuleTargetType(this.wire);
 
   final String wire;
 
@@ -74,14 +73,13 @@ enum RuleTargetType {
   }
 
   /// Rule owner type for an item target type (null for synthetic targets).
-  static RuleTargetType? forTarget(NotificationTargetType type) =>
-      switch (type) {
-        NotificationTargetType.task => RuleTargetType.task,
-        NotificationTargetType.checklist => RuleTargetType.checklist,
-        NotificationTargetType.checklistItem => RuleTargetType.checklistItem,
-        NotificationTargetType.habit => RuleTargetType.habit,
-        NotificationTargetType.digest || NotificationTargetType.custom => null,
-      };
+  static RuleTargetType? forTarget(NotificationTargetType type) => switch (type) {
+    NotificationTargetType.task => RuleTargetType.task,
+    NotificationTargetType.checklist => RuleTargetType.checklist,
+    NotificationTargetType.checklistItem => RuleTargetType.checklistItem,
+    NotificationTargetType.habit => RuleTargetType.habit,
+    NotificationTargetType.digest || NotificationTargetType.custom => null,
+  };
 }
 
 /// `notify_mode` column of tasks, checklists, items and habits (arch §6.13).
@@ -98,7 +96,7 @@ enum NotifyMode {
   /// Nothing.
   off('off');
 
-  const NotifyMode(this.wire);
+  NotifyMode(this.wire);
 
   final String wire;
 
@@ -120,7 +118,7 @@ enum ItemKind {
   dateOnly('date_only'),
   any('any');
 
-  const ItemKind(this.wire);
+  ItemKind(this.wire);
 
   final String wire;
 
@@ -141,7 +139,7 @@ enum InboxCategory {
   streak('streak'),
   system('system');
 
-  const InboxCategory(this.wire);
+  InboxCategory(this.wire);
 
   final String wire;
 
@@ -161,7 +159,7 @@ enum NotificationImportance {
   high('high'),
   urgent('urgent');
 
-  const NotificationImportance(this.wire);
+  NotificationImportance(this.wire);
 
   final String wire;
 
@@ -182,7 +180,7 @@ enum InterruptionLevel {
   active('active'),
   timeSensitive('timeSensitive');
 
-  const InterruptionLevel(this.wire);
+  InterruptionLevel(this.wire);
 
   final String wire;
 
@@ -205,7 +203,7 @@ enum QuietHoursMode {
   /// Do not deliver (inbox keeps nothing either).
   drop('drop');
 
-  const QuietHoursMode(this.wire);
+  QuietHoursMode(this.wire);
 
   final String wire;
 
@@ -223,7 +221,7 @@ enum MultiDevicePolicy {
   primary('primary'),
   lastActive('last_active');
 
-  const MultiDevicePolicy(this.wire);
+  MultiDevicePolicy(this.wire);
 
   final String wire;
 
@@ -236,12 +234,4 @@ enum MultiDevicePolicy {
 }
 
 /// Where a rule applying to a target comes from (shown greyed in editors).
-enum RuleProvenance {
-  own,
-  ancestor,
-  checklist,
-  category,
-  section,
-  global,
-  occurrence,
-}
+enum RuleProvenance { own, ancestor, checklist, category, section, global, occurrence }

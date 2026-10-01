@@ -3,7 +3,7 @@ import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
 import 'package:everslot_metrics/everslot_metrics.dart'
-    show GoalProgress, GoalSpec, GoalStatus, PeriodStatus, QuitDayStatus, goalProgress;
+    show GoalProgress, GoalSpec, GoalStatus, PeriodStatus, QuitDayFact, QuitDayStatus, goalProgress;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:meta/meta.dart';
 
@@ -68,7 +68,7 @@ GoalEvaluation evaluateHabitGoal(Goal goal, HabitSnapshot snapshot, {required We
       actual = streak.toDouble();
       rate = streak > 0 ? 1 : 0;
     case GoalMetric.cleanDays:
-      for (final d in snapshot.quit?.days ?? const []) {
+      for (final d in snapshot.quit?.days ?? const <QuitDayFact>[]) {
         if (d.closed && d.status == QuitDayStatus.clean) add(d.localDate, 1);
       }
     case GoalMetric.moneySaved:
@@ -79,7 +79,7 @@ GoalEvaluation evaluateHabitGoal(Goal goal, HabitSnapshot snapshot, {required We
         }
       }
     case GoalMetric.unitsAvoided:
-      for (final d in snapshot.quit?.days ?? const []) {
+      for (final d in snapshot.quit?.days ?? const <QuitDayFact>[]) {
         add(d.localDate, d.avoided);
       }
     case GoalMetric.trackedMinutes:

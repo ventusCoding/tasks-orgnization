@@ -11,15 +11,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Sign-in methods of the signed-in account (empty in local-only mode). Errors (offline) surface
 /// at once; refresh with `ref.invalidate(identitiesProvider)`.
-final identitiesProvider = FutureProvider.autoDispose<List<AuthIdentity>>(
-  (ref) async {
-    final repo = ref.watch(authRepositoryProvider);
-    final session = ref.watch(sessionProvider);
-    if (repo == null || session == null || !session.isCloud) return const [];
-    return repo.identities();
-  },
-  retry: (_, _) => null,
-);
+final identitiesProvider = FutureProvider.autoDispose<List<AuthIdentity>>((ref) async {
+  final repo = ref.watch(authRepositoryProvider);
+  final session = ref.watch(sessionProvider);
+  if (repo == null || session == null || !session.isCloud) return const [];
+  return repo.identities();
+}, retry: (_, _) => null);
 
 final authPrefsProvider = Provider<AuthPrefs>((ref) => AuthPrefs(ref.watch(appDatabaseProvider)));
 

@@ -60,9 +60,9 @@ List<(String, ChartData)> p0Charts() {
     ),
     (
       'Outcomes',
-      BarData(
-        const [TokenLabel(LabelToken.total)],
-        const [
+      const BarData(
+        [TokenLabel(LabelToken.total)],
+        [
           BarSeries(TokenLabel(LabelToken.done), [24], color: ToneColor(ChartTone.done)),
           BarSeries(TokenLabel(LabelToken.partial), [3], color: ToneColor(ChartTone.partial)),
           BarSeries(TokenLabel(LabelToken.missed), [2], color: ToneColor(ChartTone.missed)),
@@ -188,20 +188,20 @@ Widget gallery({required bool dark, required bool rtl, required double scale}) =
             child: ListView(
               padding: const EdgeInsets.all(12),
               children: [
-                KpiTile(
+                const KpiTile(
                   title: 'Adherence',
                   result: MetricResult(
                     'PL-S-03',
-                    value: const Value<double>(0.8, sampleSize: 5),
+                    value: Value<double>(0.8, sampleSize: 5),
                     unit: StatUnit.percent,
                     comparison: PeriodComparison(
-                      const Value<double>(0.8),
-                      const Value<double>(0.75),
-                      delta: const Value<double>(5),
-                      deltaPct: const NotApplicable<double>('rateUsesPp'),
+                      Value<double>(0.8),
+                      Value<double>(0.75),
+                      delta: Value<double>(5),
+                      deltaPct: NotApplicable<double>('rateUsesPp'),
                       isRate: true,
                     ),
-                    spark: const [0.5, 0.6, 0.7, 0.8],
+                    spark: [0.5, 0.6, 0.7, 0.8],
                   ),
                 ),
                 for (final (title, data) in p0Charts())

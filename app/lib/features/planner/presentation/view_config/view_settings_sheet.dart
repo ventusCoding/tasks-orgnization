@@ -105,7 +105,7 @@ class ViewSettingsSheet extends ConsumerWidget {
         if (timeGrid)
           _LoadThresholds(
             warn: config.option<double>('loadWarn', 0.8),
-            over: config.option<double>('loadOver', 1.0),
+            over: config.option<double>('loadOver', 1),
             onChanged: (warn, over) => change((c) => c.withOption('loadWarn', warn).withOption('loadOver', over)),
           ),
         if (kind != ViewSettingsKind.list)

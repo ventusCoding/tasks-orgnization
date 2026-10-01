@@ -46,11 +46,14 @@ class VocabPicker extends ConsumerWidget {
     final l = context.l10n;
     final vocab = ref.watch(habitVocabProvider).value ?? const <VocabEntry>[];
     final usage = ref.watch(vocabUsageProvider(columnOf(kind))).value ?? const <String, int>{};
-    final entries = [for (final v in vocab) if (v.kind == kind) v]
-      ..sort((a, b) {
-        final c = (usage[b.id] ?? 0).compareTo(usage[a.id] ?? 0);
-        return c != 0 ? c : a.sortKey.compareTo(b.sortKey);
-      });
+    final entries =
+        [
+          for (final v in vocab)
+            if (v.kind == kind) v,
+        ]..sort((a, b) {
+          final c = (usage[b.id] ?? 0).compareTo(usage[a.id] ?? 0);
+          return c != 0 ? c : a.sortKey.compareTo(b.sortKey);
+        });
     final free = value != null && !entries.any((e) => e.id == value);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,16 +138,18 @@ class _RelapseSheetState extends ConsumerState<_RelapseSheet> {
 
   Future<void> _save() async {
     final l = context.l10n;
-    final record = await ref.read(quitServiceProvider).logRelapse(
-      widget.habit,
-      at: _at,
-      amount: parseLocalizedDecimal(_amount.text),
-      trigger: _trigger,
-      place: _place,
-      mood: _mood,
-      note: _note.text,
-      newAttempt: _newAttempt,
-    );
+    final record = await ref
+        .read(quitServiceProvider)
+        .logRelapse(
+          widget.habit,
+          at: _at,
+          amount: parseLocalizedDecimal(_amount.text),
+          trigger: _trigger,
+          place: _place,
+          mood: _mood,
+          note: _note.text,
+          newAttempt: _newAttempt,
+        );
     await HapticFeedback.mediumImpact();
     if (!mounted) return;
     Navigator.pop(context);
@@ -187,13 +192,26 @@ class _RelapseSheetState extends ConsumerState<_RelapseSheet> {
               if (at != null) setState(() => _at = at);
             },
           ),
-          VocabPicker(kind: VocabKind.trigger, value: _trigger, label: l.quitTrigger, onChanged: (v) => setState(() => _trigger = v)),
+          VocabPicker(
+            kind: VocabKind.trigger,
+            value: _trigger,
+            label: l.quitTrigger,
+            onChanged: (v) => setState(() => _trigger = v),
+          ),
           const SizedBox(height: Space.md),
-          VocabPicker(kind: VocabKind.place, value: _place, label: l.quitPlace, onChanged: (v) => setState(() => _place = v)),
+          VocabPicker(
+            kind: VocabKind.place,
+            value: _place,
+            label: l.quitPlace,
+            onChanged: (v) => setState(() => _place = v),
+          ),
           const SizedBox(height: Space.md),
           Text(l.habitsMoodLabel, style: context.text.labelLarge),
           MoodSelector(value: _mood, onChanged: (m) => setState(() => _mood = m)),
-          TextField(controller: _note, decoration: InputDecoration(labelText: l.quitNote)),
+          TextField(
+            controller: _note,
+            decoration: InputDecoration(labelText: l.quitNote),
+          ),
           const SizedBox(height: Space.lg),
           Text(l.quitRelapseKindTitle, style: context.text.titleSmall),
           RadioGroup<bool>(
@@ -254,15 +272,9 @@ class _UseSheetState extends ConsumerState<_UseSheet> {
       setState(() => _error = l.habitsValueInvalid);
       return;
     }
-    final record = await ref.read(quitServiceProvider).logUse(
-      widget.habit,
-      amount: amount,
-      at: _at,
-      trigger: _trigger,
-      place: _place,
-      mood: _mood,
-      note: _note.text,
-    );
+    final record = await ref
+        .read(quitServiceProvider)
+        .logUse(widget.habit, amount: amount, at: _at, trigger: _trigger, place: _place, mood: _mood, note: _note.text);
     if (!mounted) return;
     Navigator.pop(context);
     if (widget.host.mounted) showUndoSnackBar(widget.host, ref, message: l.quitUseLogged, record: record);
@@ -298,12 +310,25 @@ class _UseSheetState extends ConsumerState<_UseSheet> {
               if (at != null) setState(() => _at = at);
             },
           ),
-          VocabPicker(kind: VocabKind.trigger, value: _trigger, label: l.quitTrigger, onChanged: (v) => setState(() => _trigger = v)),
+          VocabPicker(
+            kind: VocabKind.trigger,
+            value: _trigger,
+            label: l.quitTrigger,
+            onChanged: (v) => setState(() => _trigger = v),
+          ),
           const SizedBox(height: Space.md),
-          VocabPicker(kind: VocabKind.place, value: _place, label: l.quitPlace, onChanged: (v) => setState(() => _place = v)),
+          VocabPicker(
+            kind: VocabKind.place,
+            value: _place,
+            label: l.quitPlace,
+            onChanged: (v) => setState(() => _place = v),
+          ),
           const SizedBox(height: Space.md),
           MoodSelector(value: _mood, onChanged: (m) => setState(() => _mood = m)),
-          TextField(controller: _note, decoration: InputDecoration(labelText: l.quitNote)),
+          TextField(
+            controller: _note,
+            decoration: InputDecoration(labelText: l.quitNote),
+          ),
           const SizedBox(height: Space.lg),
           FilledButton(onPressed: _save, child: Text(l.actionSave)),
         ],
@@ -428,11 +453,26 @@ class _CravingSheetState extends ConsumerState<_CravingSheet> {
             onSelectionChanged: (s) => setState(() => _resisted = s.first == -1 ? null : s.first == 1),
           ),
           const SizedBox(height: Space.md),
-          VocabPicker(kind: VocabKind.trigger, value: _trigger, label: l.quitTrigger, onChanged: (v) => setState(() => _trigger = v)),
+          VocabPicker(
+            kind: VocabKind.trigger,
+            value: _trigger,
+            label: l.quitTrigger,
+            onChanged: (v) => setState(() => _trigger = v),
+          ),
           const SizedBox(height: Space.md),
-          VocabPicker(kind: VocabKind.place, value: _place, label: l.quitPlace, onChanged: (v) => setState(() => _place = v)),
+          VocabPicker(
+            kind: VocabKind.place,
+            value: _place,
+            label: l.quitPlace,
+            onChanged: (v) => setState(() => _place = v),
+          ),
           const SizedBox(height: Space.md),
-          VocabPicker(kind: VocabKind.coping, value: _coping, label: l.quitCoping, onChanged: (v) => setState(() => _coping = v)),
+          VocabPicker(
+            kind: VocabKind.coping,
+            value: _coping,
+            label: l.quitCoping,
+            onChanged: (v) => setState(() => _coping = v),
+          ),
           const SizedBox(height: Space.md),
           ListTile(
             contentPadding: EdgeInsets.zero,
@@ -440,13 +480,20 @@ class _CravingSheetState extends ConsumerState<_CravingSheet> {
             title: Text(l.quitDuration),
             subtitle: Text(_duration == null ? l.habitsNone : fmt.duration((_duration! / 60).ceil())),
             onTap: () async {
-              final minutes = await pickDuration(context, initialMinutes: ((_duration ?? 180) / 60).ceil(), maxMinutes: 240);
+              final minutes = await pickDuration(
+                context,
+                initialMinutes: ((_duration ?? 180) / 60).ceil(),
+                maxMinutes: 240,
+              );
               if (minutes != null) setState(() => _duration = minutes * 60);
             },
           ),
           Text(l.habitsMoodLabel, style: context.text.labelLarge),
           MoodSelector(value: _mood, onChanged: (m) => setState(() => _mood = m)),
-          TextField(controller: _note, decoration: InputDecoration(labelText: l.quitNote)),
+          TextField(
+            controller: _note,
+            decoration: InputDecoration(labelText: l.quitNote),
+          ),
           const SizedBox(height: Space.lg),
           FilledButton(onPressed: _save, child: Text(l.actionSave)),
         ],

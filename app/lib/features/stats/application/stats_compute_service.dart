@@ -73,11 +73,12 @@ final class StatsComputeService {
   /// Metric ids of [request] (all registered metrics of the scope by default).
   List<String> metricIdsOf(StatsRequest request) {
     final ids = request.metricIds;
-    if (ids != null)
+    if (ids != null) {
       return [
         for (final id in ids)
           if (registry.contains(id)) id,
       ];
+    }
     return [for (final d in registry.byScope(request.scope)) d.id];
   }
 

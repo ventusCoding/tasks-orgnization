@@ -98,9 +98,7 @@ final isOnlineProvider = StreamProvider<bool>((ref) async* {
 });
 
 /// Online/offline transitions of the device (true = online again). Overridden in tests.
-final syncOnlineChangesProvider = Provider<Stream<bool>>(
-  (ref) => ref.watch(connectivityServiceProvider).onlineChanges,
-);
+final syncOnlineChangesProvider = Provider<Stream<bool>>((ref) => ref.watch(connectivityServiceProvider).onlineChanges);
 
 /// Current IANA zone of the device (refreshed on resume, T1.5.06).
 final deviceZoneProvider = NotifierProvider<DeviceZoneController, String>(DeviceZoneController.new);
@@ -162,9 +160,7 @@ class SessionController extends Notifier<AppSession?> {
 /// Current user id ('' when signed out).
 final currentUserIdProvider = Provider<String>((ref) => ref.watch(sessionProvider)?.userId ?? '');
 
-final tableRegistryProvider = Provider<TableRegistry>(
-  (ref) => TableRegistry(ref.watch(appDatabaseProvider)),
-);
+final tableRegistryProvider = Provider<TableRegistry>((ref) => TableRegistry(ref.watch(appDatabaseProvider)));
 
 /// Hybrid logical clock. Its persisted state is loaded in bootstrap (`Hlc.initialState`).
 final hlcProvider = Provider<Hlc>(
@@ -195,9 +191,7 @@ final syncWriterProvider = Provider<SyncWriter>((ref) {
 
 /// Device id used for the device registry and pushes. Starts as [deviceIdProvider]; rotated
 /// after the server revoked this device (T1.5.14) so the next sign-in registers a new device.
-final activeDeviceIdProvider = NotifierProvider<ActiveDeviceIdController, String>(
-  ActiveDeviceIdController.new,
-);
+final activeDeviceIdProvider = NotifierProvider<ActiveDeviceIdController, String>(ActiveDeviceIdController.new);
 
 class ActiveDeviceIdController extends Notifier<String> {
   @override
@@ -228,9 +222,7 @@ final deviceRegistrarProvider = Provider<DeviceRegistrar?>((ref) {
     loadInfo: platformDeviceInfoLoader(
       deviceId: ref.watch(activeDeviceIdProvider),
       timeZone: () => ref.read(deviceZoneProvider),
-      locale: () =>
-          ref.read(profileRowProvider).value?.locale ??
-          PlatformDispatcher.instance.locale.toLanguageTag(),
+      locale: () => ref.read(profileRowProvider).value?.locale ?? PlatformDispatcher.instance.locale.toLanguageTag(),
       build: ref.watch(appBuildProvider),
     ),
   );
@@ -279,9 +271,7 @@ final syncServiceProvider = Provider<SyncService?>((ref) {
 });
 
 /// Sync status for the UI (local-only when no service).
-final syncStatusProvider = NotifierProvider<SyncStatusController, SyncStatus>(
-  SyncStatusController.new,
-);
+final syncStatusProvider = NotifierProvider<SyncStatusController, SyncStatus>(SyncStatusController.new);
 
 class SyncStatusController extends Notifier<SyncStatus> {
   @override
@@ -313,12 +303,10 @@ final settingsRepositoryProvider = Provider<SettingsRepository>(
 );
 
 /// Settings map of one namespace (live).
-final settingsProvider = StreamProvider.family<Map<String, dynamic>, String>(
-  (ref, namespace) {
-    ref.watch(currentUserIdProvider);
-    return ref.watch(settingsRepositoryProvider).watch(namespace);
-  },
-);
+final settingsProvider = StreamProvider.family<Map<String, dynamic>, String>((ref, namespace) {
+  ref.watch(currentUserIdProvider);
+  return ref.watch(settingsRepositoryProvider).watch(namespace);
+});
 
 /// Live profile row of the current user.
 final profileRowProvider = StreamProvider<ProfileRow?>((ref) {
@@ -347,9 +335,7 @@ final userPreferencesProvider = Provider<UserPreferences>((ref) {
 });
 
 /// Debug-only feature flag overrides (T1.3.16).
-final featureFlagsProvider = NotifierProvider<FeatureFlagsController, Set<String>>(
-  FeatureFlagsController.new,
-);
+final featureFlagsProvider = NotifierProvider<FeatureFlagsController, Set<String>>(FeatureFlagsController.new);
 
 class FeatureFlagsController extends Notifier<Set<String>> {
   @override

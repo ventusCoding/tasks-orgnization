@@ -26,9 +26,7 @@ class GoalsScreen extends ConsumerWidget {
             title: context.l10n.goalsHabit,
             builder: (ctx) => ListView(
               shrinkWrap: true,
-              children: [
-                for (final h in habits) ListTile(title: Text(h.name), onTap: () => Navigator.pop(ctx, h)),
-              ],
+              children: [for (final h in habits) ListTile(title: Text(h.name), onTap: () => Navigator.pop(ctx, h))],
             ),
           );
     if (habit != null && context.mounted) await showGoalEditor(context, habitId: habit.id);

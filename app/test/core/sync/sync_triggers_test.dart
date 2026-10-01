@@ -23,12 +23,10 @@ class _SpyService extends SyncService {
   final calls = <String>[];
 
   @override
-  void schedulePull([Duration delay = const Duration(milliseconds: 400)]) =>
-      calls.add('pull:${delay.inMilliseconds}');
+  void schedulePull([Duration delay = const Duration(milliseconds: 400)]) => calls.add('pull:${delay.inMilliseconds}');
 
   @override
-  void schedulePush([Duration delay = const Duration(milliseconds: 1500)]) =>
-      calls.add('push:${delay.inMilliseconds}');
+  void schedulePush([Duration delay = const Duration(milliseconds: 1500)]) => calls.add('push:${delay.inMilliseconds}');
 }
 
 void main() {

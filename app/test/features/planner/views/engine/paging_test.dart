@@ -36,13 +36,29 @@ void main() {
     });
 
     test('year boundary and DST weeks map correctly', () {
-      final m = PagingModel(mode: PagingMode.week, anchor: LocalDate(2026, 12, 30), weekStart: Weekday.monday, daysVisible: 7);
+      final m = PagingModel(
+        mode: PagingMode.week,
+        anchor: LocalDate(2026, 12, 30),
+        weekStart: Weekday.monday,
+        daysVisible: 7,
+      );
       expect(m.daysOfPage(base).map((d) => d.toIso()), [
-        '2026-12-28', '2026-12-29', '2026-12-30', '2026-12-31', '2027-01-01', '2027-01-02', '2027-01-03',
+        '2026-12-28',
+        '2026-12-29',
+        '2026-12-30',
+        '2026-12-31',
+        '2027-01-01',
+        '2027-01-02',
+        '2027-01-03',
       ]);
       expect(m.pageOf(LocalDate(2027, 1, 3)), base);
       expect(m.pageOf(LocalDate(2027, 1, 4)), base + 1);
-      final dst = PagingModel(mode: PagingMode.week, anchor: LocalDate(2026, 10, 25), weekStart: Weekday.monday, daysVisible: 7);
+      final dst = PagingModel(
+        mode: PagingMode.week,
+        anchor: LocalDate(2026, 10, 25),
+        weekStart: Weekday.monday,
+        daysVisible: 7,
+      );
       expect(dst.daysOfPage(base).last, LocalDate(2026, 10, 25));
     });
 
@@ -52,7 +68,7 @@ void main() {
         anchor: anchor,
         weekStart: Weekday.monday,
         daysVisible: 5,
-        visibleWeekdays: {Weekday.monday, Weekday.tuesday, Weekday.wednesday, Weekday.thursday, Weekday.friday},
+        visibleWeekdays: const {Weekday.monday, Weekday.tuesday, Weekday.wednesday, Weekday.thursday, Weekday.friday},
       );
       expect(m.isWeekPaging, isTrue);
       expect(m.daysOfPage(base).map((d) => d.day), [21, 22, 23, 24, 25]);
@@ -90,7 +106,7 @@ void main() {
         anchor: LocalDate(2026, 9, 25), // Friday
         weekStart: Weekday.monday,
         daysVisible: 3,
-        visibleWeekdays: {Weekday.monday, Weekday.tuesday, Weekday.wednesday, Weekday.thursday, Weekday.friday},
+        visibleWeekdays: const {Weekday.monday, Weekday.tuesday, Weekday.wednesday, Weekday.thursday, Weekday.friday},
       );
       expect(m.daysOnScreen(base).map((d) => d.day), [25, 28, 29]);
       expect(m.pageOf(LocalDate(2026, 9, 26)), base + 1); // Saturday → next visible (Monday)

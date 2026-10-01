@@ -3,12 +3,7 @@ enum SessionMode { localOnly, cloud }
 
 /// The signed-in (or local) user.
 class AppSession {
-  const AppSession({
-    required this.userId,
-    required this.mode,
-    this.email,
-    this.isAnonymous = false,
-  });
+  const AppSession({required this.userId, required this.mode, this.email, this.isAnonymous = false});
 
   final String userId;
   final SessionMode mode;

@@ -54,15 +54,7 @@ class Category {
       other.countsAsUnavailable == countsAsUnavailable;
 
   @override
-  int get hashCode => Object.hash(
-    id,
-    name,
-    color,
-    icon,
-    sortKey,
-    archived,
-    countsAsUnavailable,
-  );
+  int get hashCode => Object.hash(id, name, color, icon, sortKey, archived, countsAsUnavailable);
 }
 
 /// Category name rules (T2.3.01): trimmed, inner whitespace collapsed, 1–60 characters, unique per
@@ -75,11 +67,9 @@ abstract final class CategoryNames {
   static const errorInvalid = 'category_name_invalid';
   static const errorDuplicate = 'category_name_duplicate';
 
-  static String normalize(String input) =>
-      input.trim().replaceAll(RegExp(r'\s+'), ' ');
+  static String normalize(String input) => input.trim().replaceAll(RegExp(r'\s+'), ' ');
 
-  static bool isValid(String normalized) =>
-      normalized.isNotEmpty && normalized.length <= maxLength;
+  static bool isValid(String normalized) => normalized.isNotEmpty && normalized.length <= maxLength;
 
   /// Case-insensitive comparison key.
   static String key(String name) => normalize(name).toLowerCase();
@@ -87,9 +77,5 @@ abstract final class CategoryNames {
 
 /// Entities that reference a category (`category_id`), by table.
 abstract final class CategorizedTables {
-  static const entityTypeByTable = {
-    'tasks': 'task',
-    'habits': 'habit',
-    'checklists': 'checklist',
-  };
+  static const entityTypeByTable = {'tasks': 'task', 'habits': 'habit', 'checklists': 'checklist'};
 }

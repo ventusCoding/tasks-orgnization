@@ -16,7 +16,8 @@ void main() {
   setUp(() => h = plannerHarness());
   tearDown(() => h.dispose());
 
-  Future<Map<String, Object?>?> record(String taskId, String key) => h.raw('task_occurrences', Ids.taskOccurrence(taskId, key));
+  Future<Map<String, Object?>?> record(String taskId, String key) =>
+      h.raw('task_occurrences', Ids.taskOccurrence(taskId, key));
 
   group('status actions (T3.2.04)', () {
     test('done uses the deterministic id, stamps times and logs completed; repeating is a no-op', () async {
@@ -94,14 +95,17 @@ void main() {
       expect(rec.outcomeNote, 'felt great');
       expect((await h.occurrences.rate(id, key, 1)).isEmpty, isTrue);
       final updates = await h.events(type: 'updated');
-      expect([for (final e in updates) (e.payload['fields']! as List).single], ['completion_percent', 'rating', 'outcome_note']);
+      expect(
+        [for (final e in updates) (e.payload['fields']! as List).single],
+        ['completion_percent', 'rating', 'outcome_note'],
+      );
     });
 
     test('cancel (delete scope "this") and restore to series (T2.1.19)', () async {
       final id = await h.createTask(start: '2026-09-21T08:00', rule: RecurrenceRule());
       const key = '2026-09-23T08:00';
       await h.occurrences.cancel(id, key);
-      expect((await h.items(ld('2026-09-23'), 1)), isEmpty);
+      expect(await h.items(ld('2026-09-23'), 1), isEmpty);
       await h.occurrences.restoreToSeries(id, key);
       expect((await record(id, key))!['deleted_at'], isNotNull, reason: 'a record without outcome is removed');
       expect((await h.items(ld('2026-09-23'), 1)).single.occurrenceKey, key);
@@ -163,10 +167,27 @@ void main() {
 
     test('the setting decides when to ask', () {
       final end = DateTime.utc(2026, 9, 22, 8);
-      expect(shouldAskActualTime(AskActualTimeOnDone.never, plannedEnd: end, now: end.add(const Duration(hours: 3))), isFalse);
+      expect(
+        shouldAskActualTime(AskActualTimeOnDone.never, plannedEnd: end, now: end.add(const Duration(hours: 3))),
+        isFalse,
+      );
       expect(shouldAskActualTime(AskActualTimeOnDone.always, plannedEnd: end, now: end), isTrue);
-      expect(shouldAskActualTime(AskActualTimeOnDone.ifOffSchedule, plannedEnd: end, now: end.add(const Duration(minutes: 10))), isFalse);
-      expect(shouldAskActualTime(AskActualTimeOnDone.ifOffSchedule, plannedEnd: end, now: end.add(const Duration(minutes: 16))), isTrue);
+      expect(
+        shouldAskActualTime(
+          AskActualTimeOnDone.ifOffSchedule,
+          plannedEnd: end,
+          now: end.add(const Duration(minutes: 10)),
+        ),
+        isFalse,
+      );
+      expect(
+        shouldAskActualTime(
+          AskActualTimeOnDone.ifOffSchedule,
+          plannedEnd: end,
+          now: end.add(const Duration(minutes: 16)),
+        ),
+        isTrue,
+      );
     });
   });
 
@@ -227,10 +248,19 @@ void main() {
     test('add, edit and delete keep tracked seconds; invalid entries are rejected', () async {
       final id = await h.createTask(start: '2026-09-22T07:00', mode: TrackingMode.timer);
       const key = '2026-09-22T07:00';
-      await h.occurrences.addTimeEntry(id, key, start: DateTime.utc(2026, 9, 22, 7), end: DateTime.utc(2026, 9, 22, 7, 30));
+      await h.occurrences.addTimeEntry(
+        id,
+        key,
+        start: DateTime.utc(2026, 9, 22, 7),
+        end: DateTime.utc(2026, 9, 22, 7, 30),
+      );
       expect((await h.records(id)).single.trackedSeconds, 1800);
       final entry = (await h.read(plannerQueriesProvider).watchTimeEntries(id, key).first).single;
-      await h.occurrences.updateTimeEntry(entry.id, start: DateTime.utc(2026, 9, 22, 7), end: DateTime.utc(2026, 9, 22, 8));
+      await h.occurrences.updateTimeEntry(
+        entry.id,
+        start: DateTime.utc(2026, 9, 22, 7),
+        end: DateTime.utc(2026, 9, 22, 8),
+      );
       expect((await h.records(id)).single.trackedSeconds, 3600);
       await expectLater(
         h.occurrences.addTimeEntry(id, key, start: DateTime.utc(2026, 9, 22, 8), end: DateTime.utc(2026, 9, 22, 7)),
@@ -247,11 +277,18 @@ void main() {
     test('overlap detection helper flags overlapping sessions', () {
       final now = DateTime.utc(2026, 9, 22, 9);
       final entries = [
-        TimeEntry(id: 'a', taskId: 't', occurrenceKey: 'k', startedAt: DateTime.utc(2026, 9, 22, 7), endedAt: DateTime.utc(2026, 9, 22, 8)),
+        TimeEntry(
+          id: 'a',
+          taskId: 't',
+          occurrenceKey: 'k',
+          startedAt: DateTime.utc(2026, 9, 22, 7),
+          endedAt: DateTime.utc(2026, 9, 22, 8),
+        ),
         TimeEntry(id: 'r', taskId: 't', occurrenceKey: 'k', startedAt: DateTime.utc(2026, 9, 22, 8, 50)),
       ];
-      List<String> ids(DateTime s, DateTime e, {String? exclude}) =>
-          [for (final x in overlappingEntries(s, e, entries, now: now, excludeId: exclude)) x.id];
+      List<String> ids(DateTime s, DateTime e, {String? exclude}) => [
+        for (final x in overlappingEntries(s, e, entries, now: now, excludeId: exclude)) x.id,
+      ];
       expect(ids(DateTime.utc(2026, 9, 22, 7, 30), DateTime.utc(2026, 9, 22, 8, 10)), ['a']);
       expect(ids(DateTime.utc(2026, 9, 22, 8), DateTime.utc(2026, 9, 22, 8, 30)), isEmpty);
       expect(ids(DateTime.utc(2026, 9, 22, 8, 55), DateTime.utc(2026, 9, 22, 10)), ['r'], reason: 'running until now');

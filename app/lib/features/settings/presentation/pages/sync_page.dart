@@ -99,7 +99,8 @@ class _StatusCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     final status = ref.watch(syncStatusProvider);
-    final counts = ref.watch(outboxCountsProvider).value ?? (pending: status.pendingChanges, failed: status.failedChanges);
+    final counts =
+        ref.watch(outboxCountsProvider).value ?? (pending: status.pendingChanges, failed: status.failedChanges);
     final state = ref.watch(syncStateProvider).value;
     final now = ref.watch(clockProvider).nowUtc();
     final format = AppFormat(Localizations.localeOf(context).toLanguageTag(), l10n: l);
@@ -234,11 +235,8 @@ class _PhaseIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) => switch (status.phase) {
     SyncPhase.idle || SyncPhase.localOnly => Icon(Icons.cloud_done_outlined, color: context.appColors.success),
-    SyncPhase.pushing || SyncPhase.pulling => const SizedBox(
-      width: 24,
-      height: 24,
-      child: CircularProgressIndicator(strokeWidth: 3),
-    ),
+    SyncPhase.pushing ||
+    SyncPhase.pulling => const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 3)),
     SyncPhase.offline => Icon(Icons.cloud_off, color: context.colors.onSurfaceVariant),
     SyncPhase.error => Icon(Icons.sync_problem, color: context.appColors.danger),
   };
@@ -274,11 +272,17 @@ class _DevicesList extends ConsumerWidget {
               ListTile(
                 key: ValueKey('device-${d.id}'),
                 leading: Icon(_platformIcon(d.platform)),
-                title: Text(d.id == thisDevice ? '${d.label ?? l.settingsDeviceUnknown} · ${l.settingsDeviceThis}' : d.label ?? l.settingsDeviceUnknown),
-                subtitle: Text([
-                  if (d.lastSeenAt != null) l.settingsDeviceLastSeen(format.relative(d.lastSeenAt!, now)),
-                  if (d.receivesPush) l.settingsDevicePushOn else l.settingsDevicePushOff,
-                ].join('\n')),
+                title: Text(
+                  d.id == thisDevice
+                      ? '${d.label ?? l.settingsDeviceUnknown} · ${l.settingsDeviceThis}'
+                      : d.label ?? l.settingsDeviceUnknown,
+                ),
+                subtitle: Text(
+                  [
+                    if (d.lastSeenAt != null) l.settingsDeviceLastSeen(format.relative(d.lastSeenAt!, now)),
+                    if (d.receivesPush) l.settingsDevicePushOn else l.settingsDevicePushOff,
+                  ].join('\n'),
+                ),
                 isThreeLine: d.lastSeenAt != null,
                 trailing: d.id == thisDevice
                     ? null

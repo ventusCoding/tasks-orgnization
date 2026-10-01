@@ -141,7 +141,10 @@ Future<void> showViewPicker(BuildContext context, WidgetRef ref, {required Strin
   final userId = ref.read(currentUserIdProvider);
   final l = context.l10n;
   final entries = registry.available(flags, dev: env.isDev);
-  final custom = [for (final v in saved) if (!registry.isEntryRow(v.id, userId)) v];
+  final custom = [
+    for (final v in saved)
+      if (!registry.isEntryRow(v.id, userId)) v,
+  ];
   final picked = await showAppSheet<String>(
     context,
     title: l.pvViewSwitcher,
@@ -192,7 +195,9 @@ Future<void> showViewPicker(BuildContext context, WidgetRef ref, {required Strin
     return;
   }
   if (picked == currentKey) return;
-  ref.read(plannerNavProvider).openView(context, picked, date: ref.read(plannerAnchorProvider) ?? ref.read(plannerTodayProvider));
+  ref
+      .read(plannerNavProvider)
+      .openView(context, picked, date: ref.read(plannerAnchorProvider) ?? ref.read(plannerTodayProvider));
 }
 
 /// Saved views management (T3.6.02): open, rename, duplicate, delete, set default, reorder, and
@@ -217,7 +222,10 @@ class _SavedViewsList extends ConsumerWidget {
     final registry = ref.watch(plannerViewRegistryProvider);
     final userId = ref.watch(currentUserIdProvider);
     final saved = ref.watch(plannerSavedViewsProvider).value ?? const <SavedView>[];
-    final custom = [for (final v in saved) if (!registry.isEntryRow(v.id, userId)) v];
+    final custom = [
+      for (final v in saved)
+        if (!registry.isEntryRow(v.id, userId)) v,
+    ];
     final repo = ref.read(savedViewsRepositoryProvider);
     return ListView(
       shrinkWrap: true,
@@ -235,14 +243,19 @@ class _SavedViewsList extends ConsumerWidget {
             Navigator.pop(context);
             if (outerContext.mounted) {
               showInfoSnackBar(outerContext, l.pvViewSaved);
-              ref.read(plannerNavProvider).openView(outerContext, ViewKeys.saved(id), date: ref.read(plannerAnchorProvider));
+              ref
+                  .read(plannerNavProvider)
+                  .openView(outerContext, ViewKeys.saved(id), date: ref.read(plannerAnchorProvider));
             }
           },
         ),
         if (custom.isEmpty)
           Padding(
             padding: const EdgeInsets.all(Space.lg),
-            child: Text(l.pvNoSavedViews, style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant)),
+            child: Text(
+              l.pvNoSavedViews,
+              style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant),
+            ),
           ),
         for (final (i, v) in custom.indexed)
           ListTile(
@@ -251,7 +264,9 @@ class _SavedViewsList extends ConsumerWidget {
             subtitle: v.isDefault ? Text(l.pvDefaultBadge) : null,
             onTap: () {
               Navigator.pop(context);
-              ref.read(plannerNavProvider).openView(outerContext, ViewKeys.saved(v.id), date: ref.read(plannerAnchorProvider));
+              ref
+                  .read(plannerNavProvider)
+                  .openView(outerContext, ViewKeys.saved(v.id), date: ref.read(plannerAnchorProvider));
             },
             trailing: PopupMenuButton<String>(
               tooltip: l.pvViewSettings,
@@ -265,11 +280,25 @@ class _SavedViewsList extends ConsumerWidget {
                   case 'default':
                     await repo.setDefault(v.id);
                   case 'up':
-                    await repo.move(v.id, afterKey: i >= 2 ? custom[i - 2].sortKey : null, beforeKey: custom[i - 1].sortKey);
+                    await repo.move(
+                      v.id,
+                      afterKey: i >= 2 ? custom[i - 2].sortKey : null,
+                      beforeKey: custom[i - 1].sortKey,
+                    );
                   case 'down':
-                    await repo.move(v.id, afterKey: custom[i + 1].sortKey, beforeKey: i + 2 < custom.length ? custom[i + 2].sortKey : null);
+                    await repo.move(
+                      v.id,
+                      afterKey: custom[i + 1].sortKey,
+                      beforeKey: i + 2 < custom.length ? custom[i + 2].sortKey : null,
+                    );
                   case 'delete':
-                    if (await confirmDialog(context, title: l.pvDeleteView, body: v.name, destructive: true, confirmLabel: l.actionDelete)) {
+                    if (await confirmDialog(
+                      context,
+                      title: l.pvDeleteView,
+                      body: v.name,
+                      destructive: true,
+                      confirmLabel: l.actionDelete,
+                    )) {
                       await repo.delete(v.id);
                     }
                 }
@@ -322,68 +351,68 @@ class DatePagedToolbar extends StatelessWidget {
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: 1.4,
       child: SizedBox(
-      height: 48,
-      child: Row(
-        children: [
-          IconButton(
-            key: const Key('planner-previous'),
-            tooltip: previousLabel,
-            visualDensity: VisualDensity.compact,
-            icon: const Icon(Icons.chevron_left),
-            onPressed: onPrevious,
-          ),
-          Expanded(
-            child: Semantics(
-              button: onTitleTap != null,
-              label: '$title, ${l.pvJumpToDate}',
-              child: ExcludeSemantics(
-                child: InkWell(
-                  key: const Key('planner-title'),
-                  onTap: onTitleTap,
-                  borderRadius: BorderRadius.circular(Radii.sm),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: Space.sm),
-                    child: LayoutBuilder(
-                      builder: (context, box) => Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+        height: 48,
+        child: Row(
+          children: [
+            IconButton(
+              key: const Key('planner-previous'),
+              tooltip: previousLabel,
+              visualDensity: VisualDensity.compact,
+              icon: const Icon(Icons.chevron_left),
+              onPressed: onPrevious,
+            ),
+            Expanded(
+              child: Semantics(
+                button: onTitleTap != null,
+                label: '$title, ${l.pvJumpToDate}',
+                child: ExcludeSemantics(
+                  child: InkWell(
+                    key: const Key('planner-title'),
+                    onTap: onTitleTap,
+                    borderRadius: BorderRadius.circular(Radii.sm),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: Space.sm),
+                      child: LayoutBuilder(
+                        builder: (context, box) => Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                              ),
                             ),
-                          ),
-                          if (onTitleTap != null && box.maxWidth >= 48) const Icon(Icons.arrow_drop_down, size: 20),
-                        ],
+                            if (onTitleTap != null && box.maxWidth >= 48) const Icon(Icons.arrow_drop_down, size: 20),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          IconButton(
-            key: const Key('planner-next'),
-            tooltip: nextLabel,
-            visualDensity: VisualDensity.compact,
-            icon: const Icon(Icons.chevron_right),
-            onPressed: onNext,
-          ),
-          GestureDetector(
-            onLongPress: onTodayLongPress,
-            child: IconButton(
-              key: const Key('planner-today'),
-              tooltip: l.actionToday,
+            IconButton(
+              key: const Key('planner-next'),
+              tooltip: nextLabel,
               visualDensity: VisualDensity.compact,
-              icon: const Icon(Icons.today_outlined),
-              onPressed: onToday,
+              icon: const Icon(Icons.chevron_right),
+              onPressed: onNext,
             ),
-          ),
-          ...trailing,
-        ],
-      ),
+            GestureDetector(
+              onLongPress: onTodayLongPress,
+              child: IconButton(
+                key: const Key('planner-today'),
+                tooltip: l.actionToday,
+                visualDensity: VisualDensity.compact,
+                icon: const Icon(Icons.today_outlined),
+                onPressed: onToday,
+              ),
+            ),
+            ...trailing,
+          ],
+        ),
       ),
     );
   }
@@ -492,7 +521,11 @@ class ActiveFilterBar extends ConsumerWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: Space.sm, vertical: Space.xs),
         children: [
-          for (final c in chips) Padding(padding: const EdgeInsetsDirectional.only(end: Space.xs), child: c),
+          for (final c in chips)
+            Padding(
+              padding: const EdgeInsetsDirectional.only(end: Space.xs),
+              child: c,
+            ),
           TextButton(
             key: const Key('clear-filters'),
             onPressed: () => notifier.change((c) => c.copyWith(filters: const ViewFilters())),
@@ -525,7 +558,12 @@ class PlannerFilterButton extends ConsumerWidget {
 
 /// Overflow menu of a view: settings, filters, saved views, *Save view as…*, Plan default.
 class PlannerMoreMenu extends ConsumerWidget {
-  const PlannerMoreMenu({required this.viewKey, this.kind = ViewSettingsKind.timeGrid, this.extra = const [], super.key});
+  const PlannerMoreMenu({
+    required this.viewKey,
+    this.kind = ViewSettingsKind.timeGrid,
+    this.extra = const [],
+    super.key,
+  });
 
   final String viewKey;
   final ViewSettingsKind kind;

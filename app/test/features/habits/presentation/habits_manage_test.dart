@@ -37,18 +37,35 @@ void main() {
     await tester.pump(const Duration(milliseconds: 10));
   }
 
-  Future<String> create(WidgetTester tester, {String name = 'Meditate', HabitTarget goal = const HabitTarget.check()}) async {
+  Future<String> create(
+    WidgetTester tester, {
+    String name = 'Meditate',
+    HabitTarget goal = const HabitTarget.check(),
+  }) async {
     final id = Ids.v7();
     await tester.runAsync(
       () => h
           .read(habitsRepositoryProvider)
-          .create(BuildHabit(id: id, name: name, startDate: d(2026, 9, 1), sortKey: '', goal: goal, schedule: buildHabit().schedule)),
+          .create(
+            BuildHabit(
+              id: id,
+              name: name,
+              startDate: d(2026, 9, 1),
+              sortKey: '',
+              goal: goal,
+              schedule: buildHabit().schedule,
+            ),
+          ),
     );
     return id;
   }
 
   testWidgets('changing the goal asks "apply from"; all history leaves one revision (T5.1.13)', (tester) async {
-    final id = await create(tester, name: 'Push-ups', goal: const HabitTarget(type: HabitGoalType.count, target: 10, unit: HabitUnits.reps));
+    final id = await create(
+      tester,
+      name: 'Push-ups',
+      goal: const HabitTarget(type: HabitGoalType.count, target: 10, unit: HabitUnits.reps),
+    );
     await pumpInApp(tester, h, HabitEditorScreen(habitId: id));
     await settle(tester);
     final target = find.widgetWithText(TextField, en.habitsFieldTarget);

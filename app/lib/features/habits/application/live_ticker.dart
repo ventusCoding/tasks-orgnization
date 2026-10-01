@@ -10,8 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// injected clock — values are derived from instants, so there is no drift after time in the
 /// background and nothing is written to the database.
 class SharedTicker extends ChangeNotifier {
-  SharedTicker(this._clock, {this.period = const Duration(seconds: 1), this.autoStart = true})
-    : _now = _clock.nowUtc();
+  SharedTicker(this._clock, {this.period = const Duration(seconds: 1), this.autoStart = true}) : _now = _clock.nowUtc();
 
   final Clock _clock;
   final Duration period;

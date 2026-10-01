@@ -24,8 +24,7 @@ abstract final class PriorityStyle {
   };
 
   /// Readable text/icon color of a priority on [surface] (≥ 4.5:1 in both themes).
-  static Color foreground(int priority, Color surface) =>
-      CategoryColors.readableOn(color(priority), surface);
+  static Color foreground(int priority, Color surface) => CategoryColors.readableOn(color(priority), surface);
 
   /// [foreground] on the current theme surface.
   static Color foregroundOf(BuildContext context, int priority) =>
@@ -56,10 +55,7 @@ class PriorityBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(PriorityStyle.icon(priority), size: 16, color: color),
-          if (showLabel) ...[
-            const SizedBox(width: 4),
-            Text(label, style: TextStyle(color: color)),
-          ],
+          if (showLabel) ...[const SizedBox(width: 4), Text(label, style: TextStyle(color: color))],
         ],
       ),
     );
@@ -68,11 +64,7 @@ class PriorityBadge extends StatelessWidget {
 
 /// Picker for priority 0–4.
 class PrioritySelector extends StatelessWidget {
-  const PrioritySelector({
-    required this.value,
-    required this.onChanged,
-    super.key,
-  });
+  const PrioritySelector({required this.value, required this.onChanged, super.key});
 
   final int value;
   final ValueChanged<int> onChanged;
@@ -84,11 +76,7 @@ class PrioritySelector extends StatelessWidget {
       for (var p = 0; p <= 4; p++)
         ChoiceChip(
           selected: value == p,
-          avatar: Icon(
-            PriorityStyle.icon(p),
-            size: 16,
-            color: PriorityStyle.foregroundOf(context, p),
-          ),
+          avatar: Icon(PriorityStyle.icon(p), size: 16, color: PriorityStyle.foregroundOf(context, p)),
           label: Text(PriorityStyle.label(context, p)),
           onSelected: (_) => onChanged(p),
         ),

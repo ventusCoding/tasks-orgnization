@@ -50,16 +50,37 @@ void main() {
     });
 
     test('row sizing: fixed shows "+N", auto-fit grows up to the cap', () {
-      final fixed = sizeRows(maxCountPerRow: [0, 1, 5], autoFit: false, rowExtent: 48, chipExtent: 20, maxChipsPerCell: 3);
+      final fixed = sizeRows(
+        maxCountPerRow: [0, 1, 5],
+        autoFit: false,
+        rowExtent: 48,
+        chipExtent: 20,
+        maxChipsPerCell: 3,
+      );
       expect(fixed.heights, [48, 48, 48]);
       expect(fixed.visibleChips, [0, 1, 1]);
-      final auto = sizeRows(maxCountPerRow: [0, 2, 5], autoFit: true, rowExtent: 30, chipExtent: 20, maxChipsPerCell: 3);
+      final auto = sizeRows(
+        maxCountPerRow: [0, 2, 5],
+        autoFit: true,
+        rowExtent: 30,
+        chipExtent: 20,
+        maxChipsPerCell: 3,
+      );
       expect(auto.heights, [30, 44, 84]);
       expect(auto.visibleChips, [0, 2, 3]);
-      expect(maxCounts([
-        [[], [const BucketEntry(0, isStart: true)]],
-        [[const BucketEntry(1, isStart: true), const BucketEntry(2, isStart: true)], []],
-      ], 2), [2, 1]);
+      expect(
+        maxCounts([
+          [
+            [],
+            [const BucketEntry(0, isStart: true)],
+          ],
+          [
+            [const BucketEntry(1, isStart: true), const BucketEntry(2, isStart: true)],
+            [],
+          ],
+        ], 2),
+        [2, 1],
+      );
     });
   });
 
@@ -71,12 +92,11 @@ void main() {
     });
 
     test('greedy rows and collapse to 2 rows + "+N"', () {
-      final p = packLane(const [
-        LaneInput(0, 0, 7),
-        LaneInput(1, 0, 2),
-        LaneInput(2, 1, 3),
-        LaneInput(3, 3, 4),
-      ], 7, maxRows: 2);
+      final p = packLane(
+        const [LaneInput(0, 0, 7), LaneInput(1, 0, 2), LaneInput(2, 1, 3), LaneInput(3, 3, 4)],
+        7,
+        maxRows: 2,
+      );
       expect(p.bars.map((b) => (b.index, b.row)), [(0, 0), (1, 1), (3, 1)]);
       expect(p.hiddenPerColumn, [0, 1, 1, 0, 0, 0, 0]);
       expect(p.hasHidden, isTrue);

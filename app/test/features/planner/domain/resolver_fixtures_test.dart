@@ -33,7 +33,9 @@ void main() {
         test(c.name, () {
           final result = c.run(resolver);
           final actual = result.occurrences;
-          final summary = actual.map((o) => '${o.taskId} ${o.occurrenceKey} @ ${o.startLocalViewer} ${o.status.name}').join('\n');
+          final summary = actual
+              .map((o) => '${o.taskId} ${o.occurrenceKey} @ ${o.startLocalViewer} ${o.status.name}')
+              .join('\n');
           expect(actual.length, c.expected.length, reason: 'got:\n$summary');
           for (var i = 0; i < actual.length; i++) {
             c.expected[i].verify(actual[i], index: i, summary: summary);
@@ -118,9 +120,8 @@ class ResolverCase {
       ),
       tasks: [
         for (final t in ((json['tasks'] as List?) ?? const []).cast<Map<String, dynamic>>())
-          Task.fromJson({'title': t['id'], ...t}).copyWith(
-            pausedAt: t['paused_at'] == null ? null : DateTime.parse(t['paused_at'] as String).toUtc(),
-          ),
+          Task.fromJson({'title': t['id'], ...t})
+              .copyWith(pausedAt: t['paused_at'] == null ? null : DateTime.parse(t['paused_at'] as String).toUtc()),
       ],
       records: [
         for (final r in ((json['records'] as List?) ?? const []).cast<Map<String, dynamic>>())

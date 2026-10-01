@@ -29,8 +29,7 @@ void main(List<String> args) {
     final match = _subject.firstMatch(line.trim());
     if (match == null) continue;
     final type = match.group(1)!;
-    if (!_titles.containsKey(type) || (store && !_storeTypes.contains(type)))
-      continue;
+    if (!_titles.containsKey(type) || (store && !_storeTypes.contains(type))) continue;
     final scope = match.group(2);
     final text = match.group(4)!;
     final entry = store ? text : (scope == null ? text : '**$scope:** $text');
@@ -39,8 +38,7 @@ void main(List<String> args) {
   }
 
   if (store) {
-    final lines = [for (final type in _storeTypes) ...?groups[type]]
-        .map((e) => '• $e');
+    final lines = [for (final type in _storeTypes) ...?groups[type]].map((e) => '• $e');
     final text = lines.isEmpty ? '• Improvements and fixes.' : lines.join('\n');
     stdout.writeln(text.length <= 500 ? text : '${text.substring(0, 497)}...');
     return;

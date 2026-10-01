@@ -105,7 +105,8 @@ class Rollup {
   );
 
   @override
-  String toString() => 'Rollup($leafCompleted/$leafCountable c=$childCompleted/$childCountable b=$blockedBelow w=$waitingBelow)';
+  String toString() =>
+      'Rollup($leafCompleted/$leafCountable c=$childCompleted/$childCountable b=$blockedBelow w=$waitingBelow)';
 }
 
 /// Pure roll-up computation over a [ChecklistTree] (T4.3.06): full O(n) pass, plus an
@@ -134,8 +135,19 @@ abstract final class RollupCalculator {
 
   /// Combines children rollups ([kids] in the same order as [kidItems]).
   static Rollup combine(List<ChecklistItem> kidItems, List<Rollup> kids) {
-    var lc = 0, ld = 0, cc = 0, cd = 0, todo = 0, ongoing = 0, waiting = 0, blocked = 0, completed = 0;
-    var cancelled = 0, bb = 0, wb = 0, desc = 0;
+    var lc = 0;
+    var ld = 0;
+    var cc = 0;
+    var cd = 0;
+    var todo = 0;
+    var ongoing = 0;
+    var waiting = 0;
+    var blocked = 0;
+    var completed = 0;
+    var cancelled = 0;
+    var bb = 0;
+    var wb = 0;
+    var desc = 0;
     DateTime? oldest;
     for (var i = 0; i < kids.length; i++) {
       final r = kids[i];

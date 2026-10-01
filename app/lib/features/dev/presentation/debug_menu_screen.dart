@@ -90,7 +90,7 @@ class DebugMenuScreen extends ConsumerWidget {
       confirmLabel: l.devResetData,
       destructive: true,
     );
-    if (!ok) return;
+    if (!ok || !context.mounted) return;
     final messenger = ScaffoldMessenger.maybeOf(context);
     final done = l.devResetDone;
     await ref.read(devToolsProvider).resetLocalData();
@@ -109,7 +109,11 @@ class _EnvironmentCard extends ConsumerWidget {
     final warnings = env.warnings;
     Widget status(String label, bool ok) => Row(
       children: [
-        Icon(ok ? Icons.check_circle_outline : Icons.warning_amber_outlined, size: 18, color: ok ? context.appColors.success : context.appColors.warning),
+        Icon(
+          ok ? Icons.check_circle_outline : Icons.warning_amber_outlined,
+          size: 18,
+          color: ok ? context.appColors.success : context.appColors.warning,
+        ),
         const SizedBox(width: Space.sm),
         Expanded(child: Text('$label · ${ok ? l.devConfigured : l.devNotConfigured}')),
       ],
@@ -167,7 +171,9 @@ class _TimeTravel extends ConsumerWidget {
           key: const ValueKey('dev-time-now'),
           leading: const Icon(Icons.schedule),
           title: Text(l.devTimeTravelNow(format.dateTime(resolver.toLocal(appNow, zone)))),
-          subtitle: Text(offset == Duration.zero ? l.devTimeTravelOff : l.devTimeTravelOffset(format.relative(appNow, realNow))),
+          subtitle: Text(
+            offset == Duration.zero ? l.devTimeTravelOff : l.devTimeTravelOffset(format.relative(appNow, realNow)),
+          ),
         ),
         Padding(
           padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),

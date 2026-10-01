@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:everslot/core/preferences/user_preferences.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/time/recurrence_service.dart';
@@ -102,7 +104,7 @@ class _RecurrencePresetsSheetState extends ConsumerState<RecurrencePresetsSheet>
   void _select(RecurrencePreset? preset) {
     if (preset == null) return;
     if (preset == RecurrencePreset.custom) {
-      _openCustom();
+      unawaited(_openCustom());
       return;
     }
     if (preset == _preset && _dirty) return;

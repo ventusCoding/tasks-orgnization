@@ -12,7 +12,12 @@ import 'package:material_ui/material_ui.dart';
 import 'support/items.dart';
 import 'support/planner_harness.dart';
 
-Future<PlannerHarness> _pump(WidgetTester tester, {String view = 'week_table', String? date, List items = const []}) async {
+Future<PlannerHarness> _pump(
+  WidgetTester tester, {
+  String view = 'week_table',
+  String? date,
+  List<PlannerItem> items = const [],
+}) async {
   final h = PlannerHarness.create(items: [for (final i in items) i]);
   addTearDown(h.dispose);
   await pumpPlanner(tester, h, PlannerScreen(view: view, date: date));
@@ -75,7 +80,11 @@ void main() {
     expect(find.text('2h'), findsNothing);
     final stored = await h.read(savedViewsRepositoryProvider).all();
     expect(stored.firstWhere((v) => v.id == entryViewId('user-1', 'week_table')).config.slotMinutes, 120);
-    expect(stored.map((v) => v.id), contains(entryViewId('user-1', 'day_list')), reason: 'first run creates the MVP views');
+    expect(
+      stored.map((v) => v.id),
+      contains(entryViewId('user-1', 'day_list')),
+      reason: 'first run creates the MVP views',
+    );
 
     await tester.tap(find.byKey(const Key('slot-size-button')));
     await tester.pumpAndSettle();
@@ -157,7 +166,10 @@ void main() {
     final h = PlannerHarness.create();
     addTearDown(h.dispose);
     final repo = h.read(savedViewsRepositoryProvider);
-    final id = await repo.create('Deep work · 5 min', PlannerViewConfig.defaultsFor(PlannerViewType.weekTable).withSlot(5));
+    final id = await repo.create(
+      'Deep work · 5 min',
+      PlannerViewConfig.defaultsFor(PlannerViewType.weekTable).withSlot(5),
+    );
     await repo.setDefault(id);
     await pumpPlanner(tester, h, const PlannerScreen());
     await tester.pumpAndSettle();
@@ -168,7 +180,10 @@ void main() {
   testWidgets('week summary footer: planned / completion; tap opens insights; collapse is remembered', (tester) async {
     final h = await _pump(
       tester,
-      items: [item('Gym', at(2026, 9, 21, 7), 90, status: OccurrenceStatus.done), item('Read', at(2026, 9, 22, 20), 30)],
+      items: [
+        item('Gym', at(2026, 9, 21, 7), 90, status: OccurrenceStatus.done),
+        item('Read', at(2026, 9, 22, 20), 30),
+      ],
     );
     expect(find.byKey(const Key('week-summary')), findsOneWidget);
     expect(find.textContaining('2 h'), findsWidgets);

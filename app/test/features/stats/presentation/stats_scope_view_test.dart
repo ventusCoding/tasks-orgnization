@@ -17,19 +17,19 @@ import '../support/fake_executor.dart';
 import '../support/stats_harness.dart';
 
 Map<String, MetricResult> plannerResults() => {
-  'PL-X-01': MetricResult(
+  'PL-X-01': const MetricResult(
     'PL-X-01',
-    value: const Value<double>(0.8, sampleSize: 25),
+    value: Value<double>(0.8, sampleSize: 25),
     unit: StatUnit.percent,
-    previous: const Value<double>(0.7),
+    previous: Value<double>(0.7),
     comparison: PeriodComparison(
-      const Value<double>(0.8),
-      const Value<double>(0.7),
-      delta: const Value<double>(10),
-      deltaPct: const NotApplicable<double>('rateUsesPp'),
+      Value<double>(0.8),
+      Value<double>(0.7),
+      delta: Value<double>(10),
+      deltaPct: NotApplicable<double>('rateUsesPp'),
       isRate: true,
     ),
-    exclusions: const {'skipped': 3},
+    exclusions: {'skipped': 3},
   ),
   'PL-X-05': const MetricResult('PL-X-05', value: Insufficient<double>(3, 1), unit: StatUnit.percent),
   'PL-X-02': metricError('PL-X-02', StateError('boom')),
@@ -61,7 +61,12 @@ Future<void> pumpView(WidgetTester tester, StatsHarness h, {Locale locale = cons
   tester.view.physicalSize = const Size(400, 2400);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
-  await pumpStats(tester, h, const Scaffold(body: StatsScopeView(scope: MetricScope.planner)), locale: locale);
+  await pumpStats(
+    tester,
+    h,
+    const Scaffold(body: StatsScopeView(scope: MetricScope.planner)),
+    locale: locale,
+  );
   await tester.pump();
   await tester.pump(const Duration(milliseconds: 400));
 }

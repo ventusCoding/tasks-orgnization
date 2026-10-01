@@ -48,8 +48,7 @@ enum PeriodStatus {
   notDue;
 
   /// Statuses that neither extend nor break a streak and are excluded from denominators.
-  bool get isNeutral =>
-      this == excused || this == paused || this == frozen || this == notDue;
+  bool get isNeutral => this == excused || this == paused || this == frozen || this == notDue;
 }
 
 /// `habit_logs.kind`.
@@ -76,21 +75,12 @@ enum HabitLogKind {
   );
 
   /// Kinds that state the outcome of a period.
-  bool get isState =>
-      this == done ||
-      this == fail ||
-      this == skip ||
-      this == excuse ||
-      this == freeze;
+  bool get isState => this == done || this == fail || this == skip || this == excuse || this == freeze;
 }
 
 /// A habit goal (arch §8.4): type, target and comparison.
 @immutable
-final class const HabitGoal(
-  final HabitGoalType type, {
-  final double? target,
-  final TargetOp op = TargetOp.gte,
-}) {
+final class const HabitGoal(final HabitGoalType type, {final double? target, final TargetOp op = TargetOp.gte}) {
   const new check() : this(HabitGoalType.check);
 
   bool get isMeasurable => type != HabitGoalType.check;
@@ -133,8 +123,7 @@ final class const HabitPause(
   final String? habitId,
   final String? reason,
 }) {
-  bool covers(LocalDate date) =>
-      !date.isBefore(start) && (end == null || !date.isAfter(end!));
+  bool covers(LocalDate date) => !date.isBefore(start) && (end == null || !date.isAfter(end!));
 }
 
 /// Kind of a period.
@@ -166,9 +155,7 @@ final class const HabitPeriod(
   final DateTime? matchStart,
 }) {
   /// Every local date covered by the period.
-  List<LocalDate> get dates => [
-    for (var d = startDate; !d.isAfter(endDate); d = d.plusDays(1)) d,
-  ];
+  List<LocalDate> get dates => [for (var d = startDate; !d.isAfter(endDate); d = d.plusDays(1)) d];
 }
 
 /// How a slot habit rolls up to a day.
@@ -233,22 +220,21 @@ final class const PeriodResult(
 
   bool get isClosed => status != PeriodStatus.pending;
 
-  PeriodResult withStatus(PeriodStatus newStatus, {PeriodFlags? flags}) =>
-      PeriodResult(
-        key,
-        kind: kind,
-        startDate: startDate,
-        endDate: endDate,
-        windowStart: windowStart,
-        windowEnd: windowEnd,
-        status: newStatus,
-        achieved: achieved,
-        target: target,
-        goal: goal,
-        revisionId: revisionId,
-        entries: entries,
-        flags: flags ?? this.flags,
-      );
+  PeriodResult withStatus(PeriodStatus newStatus, {PeriodFlags? flags}) => PeriodResult(
+    key,
+    kind: kind,
+    startDate: startDate,
+    endDate: endDate,
+    windowStart: windowStart,
+    windowEnd: windowEnd,
+    status: newStatus,
+    achieved: achieved,
+    target: target,
+    goal: goal,
+    revisionId: revisionId,
+    entries: entries,
+    flags: flags ?? this.flags,
+  );
 }
 
 /// Loop credit for a limit: c = clamp(1 − (v − limit)/limit, 0, 1) (HB-H-16). A limit of 0 gives 1
@@ -260,11 +246,7 @@ double limitCredit(double value, double limit) {
 
 /// Returns the latest element whose [effectiveFrom] is on or before [date] (revision resolution:
 /// `HabitRevision.effectiveFor(date)`), or null.
-T? effectiveOn<T>(
-  Iterable<T> revisions,
-  LocalDate date,
-  LocalDate Function(T revision) effectiveFrom,
-) {
+T? effectiveOn<T>(Iterable<T> revisions, LocalDate date, LocalDate Function(T revision) effectiveFrom) {
   T? best;
   LocalDate? bestFrom;
   for (final r in revisions) {
@@ -293,8 +275,7 @@ List<HabitLog> _logsForPeriod(HabitPeriod p, List<HabitLog> logs) {
         for (final l in logs)
           if (l.occurrenceKey == null
               ? l.localDate == p.startDate
-              : (l.occurrenceKey == dayKey ||
-                    l.occurrenceKey!.startsWith('${dayKey}T')))
+              : (l.occurrenceKey == dayKey || l.occurrenceKey!.startsWith('${dayKey}T')))
             l,
       ];
     case HabitPeriodKind.slot:
@@ -309,9 +290,7 @@ List<HabitLog> _logsForPeriod(HabitPeriod p, List<HabitLog> logs) {
     case HabitPeriodKind.quota:
       return [
         for (final l in logs)
-          if (_logDate(l) case final d
-              when !d.isBefore(p.startDate) && !d.isAfter(p.endDate))
-            l,
+          if (_logDate(l) case final d when !d.isBefore(p.startDate) && !d.isAfter(p.endDate)) l,
       ];
   }
 }
@@ -327,12 +306,10 @@ HabitLog? _latestState(Iterable<HabitLog> logs) {
   return latest;
 }
 
-double _progressSum(Iterable<HabitLog> logs) => logs
-    .where((l) => l.kind == HabitLogKind.progress)
-    .fold(0, (acc, l) => acc + (l.value ?? 0));
+double _progressSum(Iterable<HabitLog> logs) =>
+    logs.where((l) => l.kind == HabitLogKind.progress).fold(0, (acc, l) => acc + (l.value ?? 0));
 
-bool _inPause(LocalDate date, List<HabitPause> pauses) =>
-    pauses.any((p) => p.covers(date));
+bool _inPause(LocalDate date, List<HabitPause> pauses) => pauses.any((p) => p.covers(date));
 
 /// Evaluates one period. See the library documentation for the precedence rules.
 ///
@@ -360,14 +337,9 @@ PeriodResult evaluateHabitPeriod(
   final progress = _progressSum(entries);
   final achieved = period.goal.isMeasurable
       ? progress
-      : (entries.any((l) => l.kind == HabitLogKind.done) || progress >= 1
-            ? 1.0
-            : 0.0);
+      : (entries.any((l) => l.kind == HabitLogKind.done) || progress >= 1 ? 1.0 : 0.0);
 
-  PeriodResult result(
-    PeriodStatus status, [
-    PeriodFlags flags = const PeriodFlags(),
-  ]) => PeriodResult(
+  PeriodResult result(PeriodStatus status, [PeriodFlags flags = const PeriodFlags()]) => PeriodResult(
     period.key,
     kind: period.kind,
     startDate: period.startDate,
@@ -403,9 +375,7 @@ PeriodResult evaluateHabitPeriod(
       PeriodFlags(
         explicit: true,
         inPause: paused,
-        breaksStreak:
-            status == PeriodStatus.skipped &&
-            settings.skipPolicy == SkipPolicy.breaks,
+        breaksStreak: status == PeriodStatus.skipped && settings.skipPolicy == SkipPolicy.breaks,
       ),
     );
   }
@@ -493,8 +463,7 @@ PeriodResult _evaluateQuota(
         state != null &&
         (state.kind == HabitLogKind.excuse ||
             state.kind == HabitLogKind.freeze ||
-            (state.kind == HabitLogKind.skip &&
-                settings.skipPolicy == SkipPolicy.neutral));
+            (state.kind == HabitLogKind.skip && settings.skipPolicy == SkipPolicy.neutral));
     if (neutralState) {
       excusedDays++;
       continue;
@@ -507,9 +476,7 @@ PeriodResult _evaluateQuota(
     if (!date.isBefore(today)) remaining++;
   }
   final times = p.quotaTimes;
-  final scale = fullEligible <= 0
-      ? 1.0
-      : math.min(1, eligible / fullEligible).toDouble();
+  final scale = fullEligible <= 0 ? 1.0 : math.min(1, eligible / fullEligible).toDouble();
   final int requiredDays;
   final double requiredTotal;
   final double expected;
@@ -524,10 +491,7 @@ PeriodResult _evaluateQuota(
     requiredTotal = requiredDays.toDouble();
     expected = (times ?? 1) * scale;
   }
-  final done =
-      eligible > 0 &&
-      active >= requiredDays &&
-      (!p.goal.isMeasurable || total >= requiredTotal - 1e-9);
+  final done = eligible > 0 && active >= requiredDays && (!p.goal.isMeasurable || total >= requiredTotal - 1e-9);
   final closed = !p.windowEnd.isAfter(now);
   final future = p.windowStart.isAfter(now);
   final neededDays = math.max(0, requiredDays - active);
@@ -554,8 +518,7 @@ PeriodResult _evaluateQuota(
       expected: expected,
       inPause: pausedDays > 0,
       future: future,
-      atRisk:
-          status == PeriodStatus.pending && !future && neededDays > remaining,
+      atRisk: status == PeriodStatus.pending && !future && neededDays > remaining,
     ),
   );
 
@@ -563,16 +526,10 @@ PeriodResult _evaluateQuota(
   if (future) return result(PeriodStatus.pending);
   if (done) return result(PeriodStatus.done);
   if (eligible == 0) {
-    return result(
-      pausedDays > 0 && excusedDays == 0
-          ? PeriodStatus.paused
-          : PeriodStatus.excused,
-    );
+    return result(pausedDays > 0 && excusedDays == 0 ? PeriodStatus.paused : PeriodStatus.excused);
   }
   if (!closed) return result(PeriodStatus.pending);
-  return result(
-    active > 0 || total > 0 ? PeriodStatus.partial : PeriodStatus.missed,
-  );
+  return result(active > 0 || total > 0 ? PeriodStatus.partial : PeriodStatus.missed);
 }
 
 /// Pro-rated required count: N when the period is complete, else ⌈N·scale⌉ (at least 1).
@@ -593,14 +550,7 @@ List<PeriodResult> evaluateHabitPeriods(
 }) => [
   for (final p in periods)
     if (includeFuture || !p.windowStart.isAfter(now))
-      evaluateHabitPeriod(
-        p,
-        logs,
-        now: now,
-        today: today,
-        pauses: pauses,
-        settings: settings,
-      ),
+      evaluateHabitPeriod(p, logs, now: now, today: today, pauses: pauses, settings: settings),
 ];
 
 /// Rolls slot results up to one day result (T5.1.09): `all slots` (default) or `min N` slots.
@@ -614,9 +564,7 @@ PeriodResult rollUpSlots(
   HabitEvaluationSettings settings = const HabitEvaluationSettings(),
 }) {
   bool neutral(PeriodResult r) =>
-      r.status.isNeutral ||
-      (r.status == PeriodStatus.skipped &&
-          settings.skipPolicy == SkipPolicy.neutral);
+      r.status.isNeutral || (r.status == PeriodStatus.skipped && settings.skipPolicy == SkipPolicy.neutral);
   final counted = slots.where((r) => !neutral(r)).toList();
   final doneCount = counted.where((r) => r.status == PeriodStatus.done).length;
   final requiredCount = settings.slotRollup.requiresAll
@@ -628,15 +576,12 @@ PeriodResult rollUpSlots(
   } else if (counted.isEmpty) {
     status = slots.any((r) => r.status == PeriodStatus.paused)
         ? PeriodStatus.paused
-        : (slots.any((r) => r.status == PeriodStatus.frozen)
-              ? PeriodStatus.frozen
-              : PeriodStatus.excused);
+        : (slots.any((r) => r.status == PeriodStatus.frozen) ? PeriodStatus.frozen : PeriodStatus.excused);
   } else if (doneCount >= requiredCount) {
     status = PeriodStatus.done;
   } else if (counted.any((r) => r.status == PeriodStatus.pending)) {
     status = PeriodStatus.pending;
-  } else if (doneCount > 0 ||
-      counted.any((r) => r.status == PeriodStatus.partial)) {
+  } else if (doneCount > 0 || counted.any((r) => r.status == PeriodStatus.partial)) {
     status = PeriodStatus.partial;
   } else if (counted.every((r) => r.status == PeriodStatus.skipped)) {
     status = PeriodStatus.skipped;
@@ -657,10 +602,6 @@ PeriodResult rollUpSlots(
     target: requiredCount.toDouble(),
     goal: const HabitGoal(HabitGoalType.count),
     entries: [for (final s in slots) ...s.entries],
-    flags: PeriodFlags(
-      breaksStreak:
-          status == PeriodStatus.skipped &&
-          settings.skipPolicy == SkipPolicy.breaks,
-    ),
+    flags: PeriodFlags(breaksStreak: status == PeriodStatus.skipped && settings.skipPolicy == SkipPolicy.breaks),
   );
 }

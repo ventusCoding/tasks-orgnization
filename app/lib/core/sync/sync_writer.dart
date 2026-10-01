@@ -15,13 +15,7 @@ enum RowChangeKind { insert, update }
 /// One row touched by an operation; `before` holds the previous SQLite values of the changed
 /// columns (null for inserts) so the operation can be undone.
 class RowChange {
-  RowChange({
-    required this.table,
-    required this.id,
-    required this.kind,
-    required this.before,
-    required this.after,
-  });
+  RowChange({required this.table, required this.id, required this.kind, required this.before, required this.after});
 
   final String table;
   final String id;
@@ -272,20 +266,12 @@ class WriteTx {
     final assignments = [...changed.keys.map((c) => '$c = ?'), 'field_clock = ?'];
     await db.customUpdate(
       'UPDATE $table SET ${assignments.join(', ')} WHERE id = ?',
-      variables: [
-        for (final c in changed.keys) _variable(changed[c]),
-        _variable(jsonEncode(clock)),
-        _variable(id),
-      ],
+      variables: [for (final c in changed.keys) _variable(changed[c]), _variable(jsonEncode(clock)), _variable(id)],
       updates: {t.info},
       updateKind: UpdateKind.update,
     );
-    await _enqueue(t, id, 'patch', {
-      for (final c in changed.keys) c: t.sqliteToServer(c, changed[c]),
-    });
-    _changes.add(
-      RowChange(table: table, id: id, kind: RowChangeKind.update, before: before, after: changed),
-    );
+    await _enqueue(t, id, 'patch', {for (final c in changed.keys) c: t.sqliteToServer(c, changed[c])});
+    _changes.add(RowChange(table: table, id: id, kind: RowChangeKind.update, before: before, after: changed));
     return true;
   }
 
@@ -298,14 +284,11 @@ class WriteTx {
     }
   }
 
-  Future<void> softDelete(String table, String id) =>
-      update(table, id, {'deleted_at': now});
+  Future<void> softDelete(String table, String id) => update(table, id, {'deleted_at': now});
 
-  Future<void> restore(String table, String id) =>
-      update(table, id, {'deleted_at': null});
+  Future<void> restore(String table, String id) => update(table, id, {'deleted_at': null});
 
-  Future<bool> exists(String table, String id) async =>
-      (await readRaw(table, id)) != null;
+  Future<bool> exists(String table, String id) async => (await readRaw(table, id)) != null;
 
   /// Raw SQLite row (snake_case keys) or null.
   Future<Map<String, Object?>?> readRaw(String table, String id) async {
@@ -337,15 +320,10 @@ class WriteTx {
     });
   }
 
-  Future<void> _enqueue(
-    RegisteredTable t,
-    String rowId,
-    String op,
-    Map<String, Object?> fields,
-  ) async {
+  Future<void> _enqueue(RegisteredTable t, String rowId, String op, Map<String, Object?> fields) async {
     final existing = await db
         .customSelect(
-          "SELECT change_id, op, fields, clock FROM sync_outbox WHERE table_name = ? AND row_id = ? "
+          'SELECT change_id, op, fields, clock FROM sync_outbox WHERE table_name = ? AND row_id = ? '
           "AND op_id = ? AND state = 'pending' LIMIT 1",
           variables: [Variable<String>(t.name), Variable<String>(rowId), Variable<String>(opId)],
         )

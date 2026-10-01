@@ -55,12 +55,10 @@ class PlanningContext {
   final Duration? horizon;
   final RecurrenceExpander? expander;
 
-  RecurrenceExpander get effectiveExpander =>
-      expander ?? EngineRecurrenceExpander.shared;
+  RecurrenceExpander get effectiveExpander => expander ?? EngineRecurrenceExpander.shared;
   final bool applyCaps;
 
-  Duration get effectiveHorizon =>
-      horizon ?? Duration(days: settings.horizonDays);
+  Duration get effectiveHorizon => horizon ?? Duration(days: settings.horizonDays);
 }
 
 /// Base candidate before policies.
@@ -105,10 +103,7 @@ abstract final class NotificationPlanner {
       if (target.type == NotificationTargetType.digest) {
         rules = [
           for (final r in index.standalone)
-            if (r.enabled &&
-                r.spec.trigger is DigestTrigger &&
-                (r.spec.trigger as DigestTrigger).kind == target.id)
-              r,
+            if (r.enabled && r.spec.trigger is DigestTrigger && (r.spec.trigger as DigestTrigger).kind == target.id) r,
         ];
       } else {
         rules = [for (final e in resolver.forTarget(target)) e.rule];
@@ -124,30 +119,15 @@ abstract final class NotificationPlanner {
         final i = b.importance.rank.compareTo(a.importance.rank);
         return i != 0 ? i : a.dedupeKey.compareTo(b.dedupeKey);
       });
-    return PlanResult(
-      ctx.applyCaps ? _applyCaps(ctx, sorted, skipped) : sorted,
-      skipped,
-    );
+    return PlanResult(ctx.applyCaps ? _applyCaps(ctx, sorted, skipped) : sorted, skipped);
   }
 
   /// Plans a single rule for one target (preview & noise estimate share this code path).
-  static PlanResult planRule(
-    PlanningContext ctx,
-    NotificationRule rule,
-    NotificationTarget target,
-  ) {
+  static PlanResult planRule(PlanningContext ctx, NotificationRule rule, NotificationTarget target) {
     final planned = <String, PlannedNotification>{};
     final skipped = <SkippedFiring>[];
-    _planRule(
-      ctx,
-      rule,
-      target,
-      {for (final p in ctx.profiles) p.id: p},
-      planned,
-      skipped,
-    );
-    final sorted = planned.values.toList()
-      ..sort((a, b) => a.fireAt.compareTo(b.fireAt));
+    _planRule(ctx, rule, target, {for (final p in ctx.profiles) p.id: p}, planned, skipped);
+    final sorted = planned.values.toList()..sort((a, b) => a.fireAt.compareTo(b.fireAt));
     return PlanResult(sorted, skipped);
   }
 
@@ -163,8 +143,7 @@ abstract final class NotificationPlanner {
   ) {
     final zone = target.timeZone ?? ctx.deviceZone;
     final horizonEnd = ctx.now.add(ctx.effectiveHorizon);
-    final sectionDefault =
-        profiles[ctx.settings.sectionDefaultProfileId(target.section) ?? ''];
+    final sectionDefault = profiles[ctx.settings.sectionDefaultProfileId(target.section) ?? ''];
     final delivery = resolveDelivery(
       spec: rule.spec,
       ruleProfile: profiles[rule.profileId ?? ''],
@@ -184,21 +163,8 @@ abstract final class NotificationPlanner {
           reason: reason,
         ),
       );
-      final baseKey = dedupeKeyFor(
-        ruleId: rule.id,
-        targetId: target.id,
-        occurrenceKey: occurrenceKey,
-      );
-      final base = _applyPolicies(
-        ctx,
-        rule,
-        target,
-        delivery,
-        c.fireAt,
-        zone,
-        skip,
-        nag: false,
-      );
+      final baseKey = dedupeKeyFor(ruleId: rule.id, targetId: target.id, occurrenceKey: occurrenceKey);
+      final base = _applyPolicies(ctx, rule, target, delivery, c.fireAt, zone, skip, nag: false);
       if (base == null) continue;
       if (base.fireAt.isAfter(horizonEnd)) continue;
       final instance = _build(
@@ -217,8 +183,7 @@ abstract final class NotificationPlanner {
 
       final repeat = delivery.repeat;
       if (repeat == null || repeat.everyMinutes < 1) continue;
-      if (repeat.until != RepeatUntil.max &&
-          ctx.acknowledgedKeys.contains(baseKey)) {
+      if (repeat.until != RepeatUntil.max && ctx.acknowledgedKeys.contains(baseKey)) {
         skip(SkipReason.acknowledged, base.fireAt);
         continue;
       }
@@ -230,23 +195,9 @@ abstract final class NotificationPlanner {
       for (var i = 1; i <= times; i++) {
         final at = base.fireAt.add(Duration(minutes: repeat.everyMinutes * i));
         if (at.isAfter(horizonEnd)) break;
-        final nag = _applyPolicies(
-          ctx,
-          rule,
-          target,
-          delivery,
-          at,
-          zone,
-          skip,
-          nag: true,
-        );
+        final nag = _applyPolicies(ctx, rule, target, delivery, at, zone, skip, nag: true);
         if (nag == null) continue;
-        final key = dedupeKeyFor(
-          ruleId: rule.id,
-          targetId: target.id,
-          occurrenceKey: occurrenceKey,
-          repeatIdx: i,
-        );
+        final key = dedupeKeyFor(ruleId: rule.id, targetId: target.id, occurrenceKey: occurrenceKey, repeatIdx: i);
         final n = _build(
           ctx,
           rule,
@@ -275,25 +226,16 @@ abstract final class NotificationPlanner {
   ) {
     final zones = ctx.zones;
     final occ = target.occurrenceKey ?? '';
-    DateTime at(LocalDate date, LocalTime time) =>
-        zones.resolve(LocalDateTime(date, time), zone).utc;
+    DateTime at(LocalDate date, LocalTime time) => zones.resolve(LocalDateTime(date, time), zone).utc;
     LocalDate dateOf(DateTime instant) => zones.toLocal(instant, zone).date;
     String localKey(DateTime instant) => zones.toLocal(instant, zone).toIso();
     final dateOnlyTime = ctx.settings.effectiveDateOnlyTime;
 
     switch (rule.spec.trigger) {
-      case RelativeTrigger(
-        :final anchor,
-        :final dayOffset,
-        :final atTime,
-        :final effectiveOffset,
-        :final usesDayForm,
-      ):
+      case RelativeTrigger(:final anchor, :final dayOffset, :final atTime, :final effectiveOffset, :final usesDayForm):
         var anchorAt = _anchor(target, anchor);
         var fallbackUsed = false;
-        if (anchorAt == null &&
-            anchor == TriggerAnchor.slot &&
-            target.periodStart != null) {
+        if (anchorAt == null && anchor == TriggerAnchor.slot && target.periodStart != null) {
           anchorAt = at(dateOf(target.periodStart!), dateOnlyTime);
           fallbackUsed = true;
         }
@@ -309,9 +251,7 @@ abstract final class NotificationPlanner {
             _Candidate(
               at(date, atTime!),
               occ,
-              dayOffset == 0
-                  ? DefaultContentKind.onDay
-                  : DefaultContentKind.daysBefore,
+              dayOffset == 0 ? DefaultContentKind.onDay : DefaultContentKind.daysBefore,
               count: dayOffset.abs(),
               anchor: anchorAt,
               extraVars: {'date': ctx.texts.date(anchorDate)},
@@ -331,18 +271,10 @@ abstract final class NotificationPlanner {
 
       case AbsoluteTrigger(at: final local, :final timeZone):
         final instant = zones.resolve(local, timeZone ?? zone).utc;
-        return [
-          _Candidate(
-            instant,
-            'abs:${local.toIso()}',
-            DefaultContentKind.absolute,
-          ),
-        ];
+        return [_Candidate(instant, 'abs:${local.toIso()}', DefaultContentKind.absolute)];
 
       case ScheduleTrigger(:final recurrence):
-        final from = ctx.now.subtract(
-          Duration(minutes: ctx.settings.latenessMinutes),
-        );
+        final from = ctx.now.subtract(Duration(minutes: ctx.settings.latenessMinutes));
         final repeatable = isSimpleRepeating(recurrence);
         return [
           for (final instant in ctx.effectiveExpander.instantsBetween(
@@ -352,20 +284,11 @@ abstract final class NotificationPlanner {
             toUtc: horizonEnd,
             zones: zones,
           ))
-            _Candidate(
-              instant,
-              'sch:${localKey(instant)}',
-              DefaultContentKind.schedule,
-              repeatable: repeatable,
-            ),
+            _Candidate(instant, 'sch:${localKey(instant)}', DefaultContentKind.schedule, repeatable: repeatable),
         ];
 
       case DigestTrigger(:final schedule, :final kind):
-        final from =
-            target.periodStart ??
-            ctx.now.subtract(
-              Duration(minutes: ctx.settings.digestLatenessMinutes),
-            );
+        final from = target.periodStart ?? ctx.now.subtract(Duration(minutes: ctx.settings.digestLatenessMinutes));
         final to = target.periodEnd ?? horizonEnd;
         return [
           for (final instant in ctx.effectiveExpander.instantsBetween(
@@ -375,43 +298,26 @@ abstract final class NotificationPlanner {
             toUtc: to,
             zones: zones,
           ))
-            _Candidate(
-              instant,
-              'dg:${dateOf(instant).toIso()}',
-              DefaultContentKind.digest,
-              extraVars: {'kind': kind},
-            ),
+            _Candidate(instant, 'dg:${dateOf(instant).toIso()}', DefaultContentKind.digest, extraVars: {'kind': kind}),
         ];
 
-      case NotDoneByTrigger(
-        anchor: final a,
-        :final effectiveOffset,
-        :final atTime,
-      ):
+      case NotDoneByTrigger(anchor: final a, :final effectiveOffset, :final atTime):
         final DateTime? base;
         if (a == 'end') {
           base = target.end ?? target.due;
         } else if (a == 'time') {
-          final day =
-              target.periodStart ?? target.slot ?? target.start ?? target.due;
+          final day = target.periodStart ?? target.slot ?? target.start ?? target.due;
           base = day == null || atTime == null ? null : at(dateOf(day), atTime);
         } else {
           base = target.periodEnd ?? target.end;
         }
         if (base == null) return const [];
-        return [
-          _Candidate(
-            base.add(Duration(minutes: effectiveOffset)),
-            occ,
-            DefaultContentKind.notDoneBy,
-          ),
-        ];
+        return [_Candidate(base.add(Duration(minutes: effectiveOffset)), occ, DefaultContentKind.notDoneBy)];
 
       case StatusAgeTrigger(:final statuses, :final afterMinutes):
-        if (target.status == null ||
-            !statuses.contains(target.status) ||
-            target.statusChangedAt == null)
+        if (target.status == null || !statuses.contains(target.status) || target.statusChangedAt == null) {
           return const [];
+        }
         final changed = target.statusChangedAt!;
         return [
           _Candidate(
@@ -425,26 +331,13 @@ abstract final class NotificationPlanner {
       case OverdueTrigger(:final effectiveAfter):
         final base = target.end ?? target.due;
         if (base == null) return const [];
-        return [
-          _Candidate(
-            base.add(Duration(minutes: effectiveAfter)),
-            occ,
-            DefaultContentKind.overdue,
-          ),
-        ];
+        return [_Candidate(base.add(Duration(minutes: effectiveAfter)), occ, DefaultContentKind.overdue)];
 
       case StreakRiskTrigger(atTime: final time, :final effectiveMinStreak):
         if ((target.streak ?? 0) < effectiveMinStreak) return const [];
         final day = target.periodStart ?? target.slot ?? target.start;
         if (day == null) return const [];
-        return [
-          _Candidate(
-            at(dateOf(day), time),
-            occ,
-            DefaultContentKind.streakRisk,
-            count: target.streak,
-          ),
-        ];
+        return [_Candidate(at(dateOf(day), time), occ, DefaultContentKind.streakRisk, count: target.streak)];
 
       case QuotaBehindTrigger(atTime: final time):
         final quota = target.quota;
@@ -456,34 +349,22 @@ abstract final class NotificationPlanner {
             '$occ|qb:${dateOf(day).toIso()}',
             DefaultContentKind.quotaBehind,
             count: quota.remaining,
-            extraVars: {
-              'done': ctx.texts.number(quota.done),
-              'target': ctx.texts.number(quota.target),
-            },
+            extraVars: {'done': ctx.texts.number(quota.done), 'target': ctx.texts.number(quota.target)},
           ),
         ];
 
-      case MilestoneTrigger(
-        :final metric,
-        :final thresholds,
-        :final effectiveThresholds,
-      ):
+      case MilestoneTrigger(:final metric, :final thresholds, :final effectiveThresholds):
         final out = <_Candidate>[];
         if (metric == 'clean_days' && target.milestoneBaseline != null) {
           for (final t in effectiveThresholds) {
-            final instant = target.milestoneBaseline!.add(
-              Duration(minutes: (t * 1440).round()),
-            );
+            final instant = target.milestoneBaseline!.add(Duration(minutes: (t * 1440).round()));
             out.add(
               _Candidate(
                 instant,
                 'm:$metric:$t:${target.milestoneBaseline!.toUtc().toIso8601String()}',
                 DefaultContentKind.milestone,
                 count: t.round(),
-                extraVars: {
-                  'next_milestone': ctx.texts.number(t),
-                  'days_free': ctx.texts.number(t),
-                },
+                extraVars: {'next_milestone': ctx.texts.number(t), 'days_free': ctx.texts.number(t)},
               ),
             );
           }
@@ -497,9 +378,7 @@ abstract final class NotificationPlanner {
               'm:$metric:${m.threshold}',
               DefaultContentKind.milestone,
               count: m.threshold.round(),
-              extraVars: {
-                'next_milestone': m.label ?? ctx.texts.number(m.threshold),
-              },
+              extraVars: {'next_milestone': m.label ?? ctx.texts.number(m.threshold)},
             ),
           );
         }
@@ -534,9 +413,7 @@ abstract final class NotificationPlanner {
       case StatusChangeTrigger(:final from, :final to, atTime: final time):
         return [
           for (final e in target.events)
-            if (e.kind == 'status_change' &&
-                e.data['to'] == to &&
-                (from == null || e.data['from'] == from))
+            if (e.kind == 'status_change' && e.data['to'] == to && (from == null || e.data['from'] == from))
               _Candidate(
                 time == null ? e.at : _laterOf(e.at, at(dateOf(e.at), time)),
                 'evt:status:$to:${e.at.toUtc().toIso8601String()}',
@@ -549,11 +426,7 @@ abstract final class NotificationPlanner {
         return [
           for (final e in target.events)
             if (e.kind == 'children_complete')
-              _Candidate(
-                e.at,
-                'evt:children:${dateOf(e.at).toIso()}',
-                DefaultContentKind.childrenComplete,
-              ),
+              _Candidate(e.at, 'evt:children:${dateOf(e.at).toIso()}', DefaultContentKind.childrenComplete),
         ];
 
       case ChildOverdueTrigger():
@@ -574,42 +447,30 @@ abstract final class NotificationPlanner {
 
   static DateTime _laterOf(DateTime a, DateTime b) => a.isAfter(b) ? a : b;
 
-  static DateTime? _anchor(NotificationTarget t, TriggerAnchor anchor) =>
-      switch (anchor) {
-        TriggerAnchor.start => t.start,
-        TriggerAnchor.end => t.end,
-        TriggerAnchor.due => t.due,
-        TriggerAnchor.followUp => t.followUp,
-        TriggerAnchor.slot =>
-          t.slot ?? (t.type == NotificationTargetType.habit ? null : t.start),
-        TriggerAnchor.periodStart => t.periodStart,
-        TriggerAnchor.periodEnd => t.periodEnd,
-      };
+  static DateTime? _anchor(NotificationTarget t, TriggerAnchor anchor) => switch (anchor) {
+    TriggerAnchor.start => t.start,
+    TriggerAnchor.end => t.end,
+    TriggerAnchor.due => t.due,
+    TriggerAnchor.followUp => t.followUp,
+    TriggerAnchor.slot => t.slot ?? (t.type == NotificationTargetType.habit ? null : t.start),
+    TriggerAnchor.periodStart => t.periodStart,
+    TriggerAnchor.periodEnd => t.periodEnd,
+  };
 
-  static DefaultContentKind _relativeKind(
-    TriggerAnchor anchor,
-    int offset,
-    bool slotFallback,
-  ) {
+  static DefaultContentKind _relativeKind(TriggerAnchor anchor, int offset, bool slotFallback) {
     if (slotFallback) return DefaultContentKind.slot;
     return switch (anchor) {
       TriggerAnchor.start =>
         offset < 0
             ? DefaultContentKind.beforeStart
-            : (offset == 0
-                  ? DefaultContentKind.atStart
-                  : DefaultContentKind.afterStart),
+            : (offset == 0 ? DefaultContentKind.atStart : DefaultContentKind.afterStart),
       TriggerAnchor.end || TriggerAnchor.periodEnd =>
         offset < 0
             ? DefaultContentKind.beforeEnd
-            : (offset == 0
-                  ? DefaultContentKind.atEnd
-                  : DefaultContentKind.afterEnd),
-      TriggerAnchor.due =>
-        offset < 0 ? DefaultContentKind.beforeDue : DefaultContentKind.atDue,
+            : (offset == 0 ? DefaultContentKind.atEnd : DefaultContentKind.afterEnd),
+      TriggerAnchor.due => offset < 0 ? DefaultContentKind.beforeDue : DefaultContentKind.atDue,
       TriggerAnchor.followUp => DefaultContentKind.followUp,
-      TriggerAnchor.slot ||
-      TriggerAnchor.periodStart => DefaultContentKind.slot,
+      TriggerAnchor.slot || TriggerAnchor.periodStart => DefaultContentKind.slot,
     };
   }
 
@@ -636,18 +497,13 @@ abstract final class NotificationPlanner {
       return null;
     }
     final statuses = conditions.onlyIfStatusIn;
-    if (statuses != null &&
-        statuses.isNotEmpty &&
-        target.status != null &&
-        !statuses.contains(target.status)) {
+    if (statuses != null && statuses.isNotEmpty && target.status != null && !statuses.contains(target.status)) {
       skip(SkipReason.statusFilter, at);
       return null;
     }
     if (!nag) {
       final weekdays = conditions.weekdays;
-      if (weekdays != null &&
-          weekdays.isNotEmpty &&
-          !weekdays.contains(zones.toLocal(at, zone).date.weekday.iso)) {
+      if (weekdays != null && weekdays.isNotEmpty && !weekdays.contains(zones.toLocal(at, zone).date.weekday.iso)) {
         skip(SkipReason.weekdayFilter, at);
         return null;
       }
@@ -660,17 +516,13 @@ abstract final class NotificationPlanner {
               skip(SkipReason.timeWindowDrop, at);
               return null;
             case OutsideWindow.shiftStart:
-              final date = local.time.isBefore(window.from)
-                  ? local.date
-                  : local.date.plusDays(1);
+              final date = local.time.isBefore(window.from) ? local.date : local.date.plusDays(1);
               anchorFireAt = at;
               at = zones.resolve(LocalDateTime(date, window.from), zone).utc;
               adjustments.add(PlanAdjustment.shiftedToWindow);
             case OutsideWindow.shiftEnd:
               final end = window.to.isEndOfDay ? LocalTime(23, 59) : window.to;
-              final date = local.time.isAfter(end)
-                  ? local.date
-                  : local.date.minusDays(1);
+              final date = local.time.isAfter(end) ? local.date : local.date.minusDays(1);
               anchorFireAt = at;
               at = zones.resolve(LocalDateTime(date, end), zone).utc;
               adjustments.add(PlanAdjustment.shiftedToWindow);
@@ -689,9 +541,7 @@ abstract final class NotificationPlanner {
       for (final w in ctx.settings.quietHours) {
         final end = w.endIfInside(local);
         if (end == null) continue;
-        final mode = nag && w.mode == QuietHoursMode.defer
-            ? QuietHoursMode.drop
-            : w.mode;
+        final mode = nag && w.mode == QuietHoursMode.defer ? QuietHoursMode.drop : w.mode;
         switch (mode) {
           case QuietHoursMode.drop:
             skip(SkipReason.quietHoursDrop, at);
@@ -722,10 +572,7 @@ abstract final class NotificationPlanner {
 
     final isDigest = rule.spec.trigger is DigestTrigger;
     final lateness =
-        delivery.latenessMinutes ??
-        (isDigest
-            ? ctx.settings.digestLatenessMinutes
-            : ctx.settings.latenessMinutes);
+        delivery.latenessMinutes ?? (isDigest ? ctx.settings.digestLatenessMinutes : ctx.settings.latenessMinutes);
     final expiresAt = at.add(Duration(minutes: lateness < 1 ? 1 : lateness));
     if (at.isBefore(ctx.now)) {
       if (!expiresAt.isAfter(ctx.now)) {
@@ -754,23 +601,16 @@ abstract final class NotificationPlanner {
     );
   }
 
-  static bool _muted(
-    PlanningContext ctx,
-    NotificationRule rule,
-    NotificationTarget target,
-    DateTime at,
-  ) {
+  static bool _muted(PlanningContext ctx, NotificationRule rule, NotificationTarget target, DateTime at) {
     for (final m in ctx.mutes) {
       if (!m.activeAt(at)) continue;
       final hit = switch (m.targetType) {
         'rule' => m.targetId == rule.id,
         'section' => (m.section ?? m.targetId) == target.section.wire,
         'checklist' =>
-          m.targetId == target.id &&
-                  target.type == NotificationTargetType.checklist ||
+          m.targetId == target.id && target.type == NotificationTargetType.checklist ||
               m.targetId == target.checklistId,
-        'checklist_item' =>
-          m.targetId == target.id || target.ancestors.contains(m.targetId),
+        'checklist_item' => m.targetId == target.id || target.ancestors.contains(m.targetId),
         _ => m.targetType == target.type.wire && m.targetId == target.id,
       };
       if (hit) return true;
@@ -795,38 +635,22 @@ abstract final class NotificationPlanner {
     final zone = target.timeZone ?? ctx.deviceZone;
     final vars = _variables(ctx, target, zone, c, p.fireAt);
     final texts = ctx.texts;
-    final content = rule.spec.content.isEmpty
-        ? (profileContent ?? ContentSpec.empty)
-        : rule.spec.content;
+    final content = rule.spec.content.isEmpty ? (profileContent ?? ContentSpec.empty) : rule.spec.content;
     var titleTpl = content.title;
     var bodyTpl = content.body;
     final variants = content.variants;
     if (variants != null && variants.isNotEmpty) {
-      final v =
-          variants[int.parse(dedupeKey.substring(0, 8), radix: 16) %
-              variants.length];
+      final v = variants[int.parse(dedupeKey.substring(0, 8), radix: 16) % variants.length];
       titleTpl = v.title ?? titleTpl;
       bodyTpl = v.body ?? bodyTpl;
     }
     final defaults = texts.defaultContent(c.kind, vars, count: c.count);
     final title = titleTpl == null
         ? TemplateEngine.truncate(defaults.title, TemplateEngine.titleMax)
-        : TemplateEngine.render(
-            titleTpl,
-            vars,
-            rtl: texts.isRtl,
-            maxLength: TemplateEngine.titleMax,
-          );
+        : TemplateEngine.render(titleTpl, vars, rtl: texts.isRtl, maxLength: TemplateEngine.titleMax);
     final body = bodyTpl == null
-        ? (defaults.body == null
-              ? null
-              : TemplateEngine.truncate(defaults.body!, TemplateEngine.bodyMax))
-        : TemplateEngine.render(
-            bodyTpl,
-            vars,
-            rtl: texts.isRtl,
-            maxLength: TemplateEngine.bodyMax,
-          );
+        ? (defaults.body == null ? null : TemplateEngine.truncate(defaults.body!, TemplateEngine.bodyMax))
+        : TemplateEngine.render(bodyTpl, vars, rtl: texts.isRtl, maxLength: TemplateEngine.bodyMax);
 
     final trigger = rule.spec.trigger;
     final category = switch (trigger) {
@@ -843,12 +667,8 @@ abstract final class NotificationPlanner {
       quiet: p.quietSilent,
     );
     final guard = target.guard ?? NotificationGuard.always;
-    final effectiveGuard =
-        repeatIdx > 0 && delivery.repeat?.until != RepeatUntil.max
-        ? NotificationGuard(guard.kind, {
-            ...guard.params,
-            'inboxNotActed': baseKey,
-          })
+    final effectiveGuard = repeatIdx > 0 && delivery.repeat?.until != RepeatUntil.max
+        ? NotificationGuard(guard.kind, {...guard.params, 'inboxNotActed': baseKey})
         : guard;
     return PlannedNotification(
       dedupeKey: dedupeKey,
@@ -880,9 +700,7 @@ abstract final class NotificationPlanner {
       body: ctx.settings.hideContent ? texts.redactedBody : body,
       inboxTitle: title,
       inboxBody: body,
-      threadId: repeatIdx > 0 || delivery.repeat != null
-          ? 'nag:$baseKey'
-          : 'sec:${target.section.wire}',
+      threadId: repeatIdx > 0 || delivery.repeat != null ? 'nag:$baseKey' : 'sec:${target.section.wire}',
       deepLink: target.deepLink ?? defaultDeepLink(target),
       guard: effectiveGuard,
       deliverSystem: p.system,
@@ -920,8 +738,7 @@ abstract final class NotificationPlanner {
   static bool isSimpleRepeating(Map<String, Object?> json) {
     final r = EngineRecurrenceExpander.parse(json)?.$1;
     if (r == null) return false;
-    final plainWeekdays =
-        r.byWeekday == null || r.byWeekday!.every((w) => w.n == null);
+    final plainWeekdays = r.byWeekday == null || r.byWeekday!.every((w) => w.n == null);
     return r.type == RuleType.fixed &&
         (r.freq == Frequency.daily || r.freq == Frequency.weekly) &&
         r.interval == 1 &&
@@ -952,41 +769,31 @@ abstract final class NotificationPlanner {
   ) {
     final texts = ctx.texts;
     final zones = ctx.zones;
-    String fmtTime(DateTime instant) =>
-        texts.time(zones.toLocal(instant, zone));
+    String fmtTime(DateTime instant) => texts.time(zones.toLocal(instant, zone));
     final vars = <String, String>{'title': target.title};
-    final dayInstant =
-        target.start ??
-        target.due ??
-        target.slot ??
-        target.periodStart ??
-        c.anchor ??
-        fireAt;
+    final dayInstant = target.start ?? target.due ?? target.slot ?? target.periodStart ?? c.anchor ?? fireAt;
     final day = zones.toLocal(dayInstant, zone).date;
     vars['date'] = texts.date(day);
     vars['weekday'] = texts.weekday(day);
-    if (target.start != null && target.itemKind == ItemKind.timed)
+    if (target.start != null && target.itemKind == ItemKind.timed) {
       vars['start_time'] = fmtTime(target.start!);
-    if (target.end != null && target.itemKind == ItemKind.timed)
+    }
+    if (target.end != null && target.itemKind == ItemKind.timed) {
       vars['end_time'] = fmtTime(target.end!);
+    }
     if (target.start != null && target.end != null) {
-      vars['duration'] = texts.duration(
-        target.end!.difference(target.start!).inMinutes,
-      );
+      vars['duration'] = texts.duration(target.end!.difference(target.start!).inMinutes);
     }
     if (c.anchor != null) {
       final minutes = c.anchor!.difference(fireAt).inMinutes;
       vars['minutes_until'] = texts.number(minutes < 0 ? 0 : minutes);
     }
-    if (target.due != null)
-      vars['due_relative'] = texts.relative(
-        target.due!.difference(fireAt).inMinutes,
-      );
+    if (target.due != null) {
+      vars['due_relative'] = texts.relative(target.due!.difference(fireAt).inMinutes);
+    }
     if (target.status != null) vars['status'] = texts.status(target.status!);
     if (target.statusChangedAt != null) {
-      vars['status_age'] = texts.duration(
-        fireAt.difference(target.statusChangedAt!).inMinutes.abs(),
-      );
+      vars['status_age'] = texts.duration(fireAt.difference(target.statusChangedAt!).inMinutes.abs());
     }
     if (target.streak != null) vars['streak'] = texts.number(target.streak!);
     for (final e in target.variables.entries) {
@@ -1018,28 +825,20 @@ abstract final class NotificationPlanner {
   }
 
   /// Router path opened when a notification of [target] is tapped.
-  static String defaultDeepLink(NotificationTarget target) =>
-      switch (target.type) {
-        NotificationTargetType.task => AppLinks.task(
-          target.id,
-          occurrenceKey: target.occurrenceKey,
-        ),
-        NotificationTargetType.checklist => AppLinks.checklist(target.id),
-        NotificationTargetType.checklistItem =>
-          target.checklistId == null
-              ? AppLinks.lists()
-              : AppLinks.checklist(target.checklistId!, itemId: target.id),
-        NotificationTargetType.habit =>
-          target.section == NotificationSection.quit
-              ? AppLinks.quit(target.id)
-              : AppLinks.habit(target.id),
-        NotificationTargetType.digest => switch (target.id) {
-          'weekly_review' || 'monthly_report' => AppLinks.insights(),
-          'plan_tomorrow' => AppLinks.planDay(),
-          _ => AppLinks.today(),
-        },
-        NotificationTargetType.custom => AppLinks.inbox(),
-      };
+  static String defaultDeepLink(NotificationTarget target) => switch (target.type) {
+    NotificationTargetType.task => AppLinks.task(target.id, occurrenceKey: target.occurrenceKey),
+    NotificationTargetType.checklist => AppLinks.checklist(target.id),
+    NotificationTargetType.checklistItem =>
+      target.checklistId == null ? AppLinks.lists() : AppLinks.checklist(target.checklistId!, itemId: target.id),
+    NotificationTargetType.habit =>
+      target.section == NotificationSection.quit ? AppLinks.quit(target.id) : AppLinks.habit(target.id),
+    NotificationTargetType.digest => switch (target.id) {
+      'weekly_review' || 'monthly_report' => AppLinks.insights(),
+      'plan_tomorrow' => AppLinks.planDay(),
+      _ => AppLinks.today(),
+    },
+    NotificationTargetType.custom => AppLinks.inbox(),
+  };
 
   // ----------------------------------------------------------------------------------- caps --
 
@@ -1056,8 +855,7 @@ abstract final class NotificationPlanner {
       final dayCount = perDay[day] ?? 0;
       final targetDayKey = '${p.targetKey}|$day';
       final targetCount = perTargetDay[targetDayKey] ?? 0;
-      if (dayCount >= ctx.settings.dailyCap ||
-          targetCount >= ctx.settings.perTargetDailyCap) {
+      if (dayCount >= ctx.settings.dailyCap || targetCount >= ctx.settings.perTargetDailyCap) {
         skipped.add(
           SkippedFiring(
             ruleId: p.ruleId,

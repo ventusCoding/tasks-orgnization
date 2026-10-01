@@ -15,11 +15,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../../support/test_app.dart';
 
-NotificationTarget gym({
-  String occ = '2026-09-22T08:00',
-  DateTime? start,
-  bool open = true,
-}) => NotificationTarget(
+NotificationTarget gym({String occ = '2026-09-22T08:00', DateTime? start, bool open = true}) => NotificationTarget(
   type: NotificationTargetType.task,
   id: 'gym',
   section: NotificationSection.planner,
@@ -41,14 +37,9 @@ void main() {
 
   setUp(() async {
     h = TestHarness.create(now: DateTime.utc(2026, 9, 22, 6));
-    source = InMemoryNotificationTargetSource(
-      section: 'planner',
-      targets: [gym()],
-    );
+    source = InMemoryNotificationTargetSource(section: 'planner', targets: [gym()]);
     h.read(notificationRegistryProvider).registerSource(source);
-    port = h.read(
-      localNotificationsPortProvider,
-    ) as InMemoryLocalNotificationsPort;
+    port = h.read(localNotificationsPortProvider) as InMemoryLocalNotificationsPort;
     await seedNotificationDefaults(h.read);
   });
   tearDown(() async {
@@ -60,28 +51,16 @@ void main() {
 
   test('user example: seeded defaults schedule 10 min before and at start; no-change replan is free', () async {
     await replan();
-    final scheduled = port.scheduled.values.toList()
-      ..sort((a, b) => a.fireAt!.compareTo(b.fireAt!));
+    final scheduled = port.scheduled.values.toList()..sort((a, b) => a.fireAt!.compareTo(b.fireAt!));
     expect(scheduled, hasLength(2));
-    expect(scheduled.map((r) => r.fireAt), [
-      DateTime.utc(2026, 9, 22, 7, 50),
-      DateTime.utc(2026, 9, 22, 8),
-    ]);
+    expect(scheduled.map((r) => r.fireAt), [DateTime.utc(2026, 9, 22, 7, 50), DateTime.utc(2026, 9, 22, 8)]);
     expect(scheduled.first.body, contains('10'));
     expect(scheduled.first.channelId, 'dl.planner.standard.v1');
-    expect(scheduled.first.actions.map((a) => a.id), [
-      'start',
-      'snooze',
-      'skip',
-    ]);
+    expect(scheduled.first.actions.map((a) => a.id), ['start', 'snooze', 'skip']);
     expect(port.channels.keys, contains('dl.planner.standard.v1'));
     final calls = port.platformCalls;
     await replan();
-    expect(
-      port.platformCalls,
-      calls,
-      reason: 'replanning with no changes makes zero platform calls',
-    );
+    expect(port.platformCalls, calls, reason: 'replanning with no changes makes zero platform calls');
   });
 
   test('completing the occurrence cancels its reminders', () async {
@@ -134,73 +113,45 @@ void main() {
         );
     await replan();
     h.clock.set(DateTime.utc(2026, 9, 22, 7, 51));
-    final fired = port.scheduled.values.firstWhere(
-      (r) => r.fireAt == DateTime.utc(2026, 9, 22, 7, 50),
-    );
+    final fired = port.scheduled.values.firstWhere((r) => r.fireAt == DateTime.utc(2026, 9, 22, 7, 50));
     final dispatcher = h.read(notificationActionDispatcherProvider);
-    final response = OsResponse(
-      id: fired.id,
-      actionId: 'done',
-      payload: fired.payload,
-    );
+    final response = OsResponse(id: fired.id, actionId: 'done', payload: fired.payload);
     await dispatcher.handleResponse(response);
     final second = await dispatcher.handleResponse(response);
     expect(calls, 1);
     expect(second.duplicate, isTrue);
-    final key = jsonDecode(fired.payload)['dk'] as String;
+    final key = (jsonDecode(fired.payload) as Map<String, Object?>)['dk']! as String;
     final row = await h.read(inboxRepositoryProvider).byId(Ids.inbox(key));
     expect(row!.action, 'done');
     expect(row.actedAt, isNotNull);
     await replan();
-    expect(
-      port.scheduled,
-      isEmpty,
-      reason: 'the at-start reminder disappears once done',
-    );
+    expect(port.scheduled, isEmpty, reason: 'the at-start reminder disappears once done');
   });
 
-  test(
-    'an action without a feature handler opens the target instead',
-    () async {
-      await replan();
-      final fired = port.scheduled.values.first;
-      final result = await h
-          .read(notificationActionDispatcherProvider)
-          .handleResponse(
-            // Planner handles done/skip/start/stop for tasks; nothing handles reschedule yet.
-            OsResponse(
-              id: fired.id,
-              actionId: 'reschedule',
-              payload: fired.payload,
-            ),
-          );
-      expect(result.openLink, startsWith('/task/gym'));
-    },
-  );
+  test('an action without a feature handler opens the target instead', () async {
+    await replan();
+    final fired = port.scheduled.values.first;
+    final result = await h
+        .read(notificationActionDispatcherProvider)
+        .handleResponse(
+          // Planner handles done/skip/start/stop for tasks; nothing handles reschedule yet.
+          OsResponse(id: fired.id, actionId: 'reschedule', payload: fired.payload),
+        );
+    expect(result.openLink, startsWith('/task/gym'));
+  });
 
   test('snooze creates a reserved instance, marks the row snoozed and respects the limit', () async {
     await replan();
     h.clock.set(DateTime.utc(2026, 9, 22, 7, 51));
-    final fired = port.scheduled.values.firstWhere(
-      (r) => r.fireAt == DateTime.utc(2026, 9, 22, 7, 50),
-    );
+    final fired = port.scheduled.values.firstWhere((r) => r.fireAt == DateTime.utc(2026, 9, 22, 7, 50));
     final dispatcher = h.read(notificationActionDispatcherProvider);
     final payload = NotificationPayload.tryDecode(fired.payload)!;
     final result = await dispatcher.snooze(payload, minutes: 10);
     expect(result.snoozedUntil, DateTime.utc(2026, 9, 22, 8, 1));
-    final snoozes = (await h.read(localScheduleStoreProvider).all()).where(
-      (e) => e.kind == ScheduleKind.snooze,
-    );
+    final snoozes = (await h.read(localScheduleStoreProvider).all()).where((e) => e.kind == ScheduleKind.snooze);
     expect(snoozes, hasLength(1));
-    expect(
-      port.scheduled.values.where(
-        (r) => r.fireAt == DateTime.utc(2026, 9, 22, 8, 1),
-      ),
-      hasLength(1),
-    );
-    final row = await h
-        .read(inboxRepositoryProvider)
-        .byDedupeKey(payload.dedupeKey);
+    expect(port.scheduled.values.where((r) => r.fireAt == DateTime.utc(2026, 9, 22, 8, 1)), hasLength(1));
+    final row = await h.read(inboxRepositoryProvider).byDedupeKey(payload.dedupeKey);
     expect(row!.snoozedUntil, DateTime.utc(2026, 9, 22, 8, 1));
     for (var i = 0; i < 4; i++) {
       await dispatcher.snooze(payload, minutes: 5);
@@ -209,19 +160,9 @@ void main() {
     expect(limited.message, isNotNull, reason: 'max 5 snoozes per instance');
     // Re-snoozing replaces the pending snooze; snooze rows survive replans; wake-now cancels them.
     await replan();
-    expect(
-      (await h.read(localScheduleStoreProvider).all()).where(
-        (e) => e.kind == ScheduleKind.snooze,
-      ),
-      hasLength(1),
-    );
+    expect((await h.read(localScheduleStoreProvider).all()).where((e) => e.kind == ScheduleKind.snooze), hasLength(1));
     await dispatcher.wakeNow(payload.dedupeKey);
-    expect(
-      (await h.read(localScheduleStoreProvider).all()).where(
-        (e) => e.kind == ScheduleKind.snooze,
-      ),
-      isEmpty,
-    );
+    expect((await h.read(localScheduleStoreProvider).all()).where((e) => e.kind == ScheduleKind.snooze), isEmpty);
   });
 
   test('tap marks the row opened, cancels the nag chain and reports "already done" for closed targets', () async {
@@ -231,24 +172,14 @@ void main() {
         targetType: RuleTargetType.task,
         targetId: 'gym',
         section: NotificationSection.planner,
-        profileId: h
-            .read(notificationProfilesRepositoryProvider)
-            .builtinId('nag'),
-        spec: const NotificationRuleSpec(
-          trigger: RelativeTrigger(anchor: TriggerAnchor.end, offsetMinutes: 0),
-        ),
+        profileId: h.read(notificationProfilesRepositoryProvider).builtinId('nag'),
+        spec: const NotificationRuleSpec(trigger: RelativeTrigger(anchor: TriggerAnchor.end, offsetMinutes: 0)),
       ),
     ]);
     source.targets = [gym().copyWith(notifyMode: NotifyMode.custom)];
     await replan();
-    expect(
-      port.scheduled,
-      hasLength(6),
-      reason: 'nag profile: base + 5 repeats',
-    );
-    final base = port.scheduled.values.reduce(
-      (a, b) => a.fireAt!.isBefore(b.fireAt!) ? a : b,
-    );
+    expect(port.scheduled, hasLength(6), reason: 'nag profile: base + 5 repeats');
+    final base = port.scheduled.values.reduce((a, b) => a.fireAt!.isBefore(b.fireAt!) ? a : b);
     h.clock.set(DateTime.utc(2026, 9, 22, 9, 1));
     source.close('task:gym', '2026-09-22T08:00');
     final result = await h
@@ -262,7 +193,7 @@ void main() {
     );
     final row = await h
         .read(inboxRepositoryProvider)
-        .byDedupeKey(jsonDecode(base.payload)['dk'] as String);
+        .byDedupeKey((jsonDecode(base.payload) as Map<String, Object?>)['dk']! as String);
     expect(row!.openedAt, isNotNull);
     expect(row.readAt, isNotNull);
   });
@@ -272,41 +203,23 @@ void main() {
     final fired = port.scheduled.values.first;
     final result = await h
         .read(notificationActionDispatcherProvider)
-        .handleResponse(
-          OsResponse(
-            id: fired.id,
-            actionId: NotificationActionIds.muteRule,
-            payload: fired.payload,
-          ),
-        );
+        .handleResponse(OsResponse(id: fired.id, actionId: NotificationActionIds.muteRule, payload: fired.payload));
     expect(result.message, isNotNull);
     final mutes = await h.read(notificationMutesRepositoryProvider).all();
     expect(mutes.single.targetType, 'rule');
     expect(mutes.single.until, DateTime.utc(2026, 9, 23));
     await replan();
-    expect(
-      port.scheduled,
-      hasLength(1),
-      reason: 'the other default rule still fires',
-    );
+    expect(port.scheduled, hasLength(1), reason: 'the other default rule still fires');
   });
 
   test('preview shows the next firings with reasons; test notification fires in 5 s', () async {
     final preview = h.read(rulePreviewServiceProvider);
     final rules = await h.read(notificationRulesRepositoryProvider).all();
     final entries = await preview.nextFirings(rules, [gym()]);
-    expect(entries.map((e) => e.fireAt), [
-      DateTime.utc(2026, 9, 22, 7, 50),
-      DateTime.utc(2026, 9, 22, 8),
-    ]);
+    expect(entries.map((e) => e.fireAt), [DateTime.utc(2026, 9, 22, 7, 50), DateTime.utc(2026, 9, 22, 8)]);
     final noise = await preview.noise(rules.first, gym());
     expect(noise.firesPerDay, lessThan(1));
     await preview.sendTest(rules.first, gym());
-    expect(
-      port.scheduled.values.where(
-        (r) => r.fireAt == DateTime.utc(2026, 9, 22, 6, 0, 5),
-      ),
-      hasLength(1),
-    );
+    expect(port.scheduled.values.where((r) => r.fireAt == DateTime.utc(2026, 9, 22, 6, 0, 5)), hasLength(1));
   });
 }

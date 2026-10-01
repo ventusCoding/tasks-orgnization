@@ -1,5 +1,5 @@
-import 'package:drift/drift.dart' show Variable;
 import 'package:decimal/decimal.dart';
+import 'package:drift/drift.dart' show Variable;
 import 'package:everslot/core/ids/ids.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
@@ -77,7 +77,10 @@ void main() {
   test('daily → weekdays today leaves yesterday unchanged; cosmetic edits add no revision', () async {
     final habit = buildHabit(id: Ids.v7(), start: d(2026, 9, 14));
     await repo.create(habit);
-    await repo.update(habit.copyWith(name: 'Renamed', icon: 'star'), today: d(2026, 9, 23));
+    await repo.update(
+      habit.copyWith(name: 'Renamed', icon: 'star'),
+      today: d(2026, 9, 23),
+    );
     expect(await repo.revisionsFor(habit.id), hasLength(1));
     final weekdays = habit.copyWith(
       schedule: RecurrenceRule(
@@ -89,16 +92,31 @@ void main() {
     final revisions = await repo.revisionsFor(habit.id);
     expect(revisions.map((r) => r.effectiveFrom), [d(2026, 9, 14), d(2026, 9, 23)]);
     final ps = service().periods(weekdays, revisions, d(2026, 9, 19), d(2026, 9, 27));
-    expect({for (final p in ps) p.key: p.due}['2026-09-19'], isTrue, reason: 'last Saturday was due under the old rule');
+    expect(
+      {for (final p in ps) p.key: p.due}['2026-09-19'],
+      isTrue,
+      reason: 'last Saturday was due under the old rule',
+    );
     expect({for (final p in ps) p.key: p.due}['2026-09-26'], isFalse);
   });
 
   test('apply from a past date supersedes later revisions; all history leaves one (T5.1.13)', () async {
-    final habit = buildHabit(id: Ids.v7(), start: d(2026, 9, 1), goal: const HabitTarget(type: HabitGoalType.count, target: 10, unit: 'reps'));
+    final habit = buildHabit(
+      id: Ids.v7(),
+      start: d(2026, 9, 1),
+      goal: const HabitTarget(type: HabitGoalType.count, target: 10, unit: 'reps'),
+    );
     await repo.create(habit);
-    await repo.update(habit.copyWith(goal: const HabitTarget(type: HabitGoalType.count, target: 12, unit: 'reps')), today: d(2026, 9, 20));
     await repo.update(
-      habit.copyWith(goal: const HabitTarget(type: HabitGoalType.count, target: 15, unit: 'reps')),
+      habit.copyWith(
+        goal: const HabitTarget(type: HabitGoalType.count, target: 12, unit: 'reps'),
+      ),
+      today: d(2026, 9, 20),
+    );
+    await repo.update(
+      habit.copyWith(
+        goal: const HabitTarget(type: HabitGoalType.count, target: 15, unit: 'reps'),
+      ),
       today: d(2026, 9, 23),
       applyFrom: d(2026, 9, 10),
     );
@@ -107,7 +125,9 @@ void main() {
       (d(2026, 9, 10), 15),
     ]);
     await repo.update(
-      habit.copyWith(goal: const HabitTarget(type: HabitGoalType.count, target: 20, unit: 'reps')),
+      habit.copyWith(
+        goal: const HabitTarget(type: HabitGoalType.count, target: 20, unit: 'reps'),
+      ),
       today: d(2026, 9, 23),
       scope: RevisionScope.allHistory,
     );
@@ -139,10 +159,18 @@ void main() {
       await tx.insert('habit_pauses', Ids.v7(), {'habit_id': habit.id, 'start_date': '2026-10-01'});
     });
     final record = await repo.delete(habit.id);
-    expect(record.changes.map((c) => c.table).toSet(), {'habit_logs', 'habit_pauses', 'habit_revisions', 'habits', 'activity_events'});
+    expect(record.changes.map((c) => c.table).toSet(), {
+      'habit_logs',
+      'habit_pauses',
+      'habit_revisions',
+      'habits',
+      'activity_events',
+    });
     expect(await repo.byId(habit.id), isNull);
     expect(await count('habit_logs', where: 'deleted_at IS NULL'), 0);
-    final ops = await h.db.customSelect("SELECT DISTINCT op_id FROM sync_outbox WHERE table_name IN ('habits','habit_logs')").get();
+    final ops = await h.db
+        .customSelect("SELECT DISTINCT op_id FROM sync_outbox WHERE table_name IN ('habits','habit_logs')")
+        .get();
     expect(ops.length, greaterThanOrEqualTo(1));
     await repo.restore(habit.id);
     expect(await repo.byId(habit.id), isNotNull);
@@ -152,15 +180,25 @@ void main() {
   });
 
   test('undo restores the exact previous row', () async {
-    final habit = buildHabit(id: Ids.v7(), goal: const HabitTarget(type: HabitGoalType.count, target: 10, unit: 'reps'));
+    final habit = buildHabit(
+      id: Ids.v7(),
+      goal: const HabitTarget(type: HabitGoalType.count, target: 10, unit: 'reps'),
+    );
     await repo.create(habit);
-    final before = await h.db.customSelect('SELECT name, target_value FROM habits WHERE id = ?', variables: [Variable(habit.id)]).getSingle();
+    final before = await h.db
+        .customSelect('SELECT name, target_value FROM habits WHERE id = ?', variables: [Variable(habit.id)])
+        .getSingle();
     final record = await repo.update(
-      habit.copyWith(name: 'Other', goal: const HabitTarget(type: HabitGoalType.count, target: 20, unit: 'reps')),
+      habit.copyWith(
+        name: 'Other',
+        goal: const HabitTarget(type: HabitGoalType.count, target: 20, unit: 'reps'),
+      ),
       today: d(2026, 9, 23),
     );
     await h.read(syncWriterProvider).revert(record);
-    final after = await h.db.customSelect('SELECT name, target_value FROM habits WHERE id = ?', variables: [Variable(habit.id)]).getSingle();
+    final after = await h.db
+        .customSelect('SELECT name, target_value FROM habits WHERE id = ?', variables: [Variable(habit.id)])
+        .getSingle();
     expect(after.data, before.data);
     expect(await repo.revisionsFor(habit.id), hasLength(1));
   });
@@ -205,7 +243,13 @@ void main() {
     await vocab.seedDefaults({'trigger.stress': 'Stress'});
     final all = await vocab.all();
     expect(all.where((v) => v.kind == VocabKind.trigger).map((v) => v.name), contains('Stress'));
-    expect(all.length, DefaultVocab.triggers.length + DefaultVocab.places.length + DefaultVocab.coping.length + DefaultVocab.distractions.length);
+    expect(
+      all.length,
+      DefaultVocab.triggers.length +
+          DefaultVocab.places.length +
+          DefaultVocab.coping.length +
+          DefaultVocab.distractions.length,
+    );
   });
 
   test('pauses: create, resume ends yesterday, future pause deleted on resume', () async {

@@ -57,19 +57,10 @@ final class Occurrence {
       other.zoneId == zoneId;
 
   @override
-  int get hashCode => Object.hash(
-    key,
-    startLocal,
-    startUtc,
-    endUtc,
-    isAllDay,
-    resolutionKind,
-    zoneId,
-  );
+  int get hashCode => Object.hash(key, startLocal, startUtc, endUtc, isAllDay, resolutionKind, zoneId);
 
   @override
-  String toString() =>
-      'Occurrence($key @ ${startUtc.toIso8601String()} $zoneId)';
+  String toString() => 'Occurrence($key @ ${startUtc.toIso8601String()} $zoneId)';
 }
 
 /// One quota period (a week, a month…) with its pro-rated target.
@@ -115,8 +106,7 @@ final class Period {
   final int periodDays;
 
   /// Expected completions: `N · eligibleDays / periodDays` (exact, for rates).
-  double get target =>
-      periodDays == 0 ? 0 : timesPerPeriod * eligibleDays / periodDays;
+  double get target => periodDays == 0 ? 0 : timesPerPeriod * eligibleDays / periodDays;
 
   /// [target] rounded up for display and for planner slots.
   int get requiredCount {
@@ -146,19 +136,9 @@ final class Period {
       other.periodDays == periodDays;
 
   @override
-  int get hashCode => Object.hash(
-    key,
-    unit,
-    startDate,
-    endDate,
-    activeStart,
-    activeEnd,
-    timesPerPeriod,
-    eligibleDays,
-    periodDays,
-  );
+  int get hashCode =>
+      Object.hash(key, unit, startDate, endDate, activeStart, activeEnd, timesPerPeriod, eligibleDays, periodDays);
 
   @override
-  String toString() =>
-      'Period($key, target ${target.toStringAsFixed(3)}, $eligibleDays/$periodDays days)';
+  String toString() => 'Period($key, target ${target.toStringAsFixed(3)}, $eligibleDays/$periodDays days)';
 }

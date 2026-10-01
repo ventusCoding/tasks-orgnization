@@ -39,7 +39,11 @@ void main() {
     });
   });
 
-  Future<PlannerHarness> pump(WidgetTester tester, {List<PlannerItem> items = const [], PlannerViewConfig Function(PlannerViewConfig c)? config}) async {
+  Future<PlannerHarness> pump(
+    WidgetTester tester, {
+    List<PlannerItem> items = const [],
+    PlannerViewConfig Function(PlannerViewConfig c)? config,
+  }) async {
     final h = PlannerHarness.create(items: items);
     addTearDown(h.dispose);
     if (config != null) h.read(plannerViewConfigProvider('month').notifier).change(config);
@@ -72,7 +76,9 @@ void main() {
 
   testWidgets('dragging a recurring chip to another day asks for the scope and keeps the time', (tester) async {
     final h = await pump(tester, items: items);
-    final gesture = await tester.startGesture(tester.getCenter(find.byKey(const ValueKey('month-chip-dentist|2026-09-24T16:00'))));
+    final gesture = await tester.startGesture(
+      tester.getCenter(find.byKey(const ValueKey('month-chip-dentist|2026-09-24T16:00'))),
+    );
     await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
     await gesture.moveTo(tester.getCenter(find.byKey(const ValueKey('month-day-2026-09-25'))));
     await tester.pump();

@@ -12,17 +12,10 @@ PlannedNotification planned(
   int repeat = 0,
   NotificationImportance importance = NotificationImportance.normal,
 }) {
-  final key = dedupeKeyFor(
-    ruleId: 'r',
-    targetId: id,
-    occurrenceKey: '',
-    repeatIdx: repeat,
-  );
+  final key = dedupeKeyFor(ruleId: 'r', targetId: id, occurrenceKey: '', repeatIdx: repeat);
   return PlannedNotification(
     dedupeKey: key,
-    baseKey: repeat == 0
-        ? key
-        : dedupeKeyFor(ruleId: 'r', targetId: id, occurrenceKey: ''),
+    baseKey: repeat == 0 ? key : dedupeKeyFor(ruleId: 'r', targetId: id, occurrenceKey: ''),
     targetKey: 'task:$id',
     targetType: NotificationTargetType.task,
     targetId: id,
@@ -63,61 +56,41 @@ List<DesiredItem> desired(
   List<PlannedNotification> p, {
   ScheduleBudget budget = ScheduleBudget.android,
   bool merge = true,
-}) => ScheduleComputation.desired(
-  p,
-  budget: budget,
-  sentinelTitle: 'Open',
-  mergedTitle: (n) => '$n',
-  merge: merge,
-);
+}) => ScheduleComputation.desired(p, budget: budget, sentinelTitle: 'Open', mergedTitle: (n) => '$n', merge: merge);
 
-ScheduleEntry entryFor(DesiredItem d, {int? id, DateTime? scheduledAt}) =>
-    ScheduleEntry(
-      dedupeKey: d.key,
-      platformId: id ?? PlatformIds.hash(d.key),
-      fireAt: d.fireAt,
-      targetKey: d.targetKey,
-      kind: d.kind,
-      os: d.os,
-      hash: d.hash,
-      scheduledAt: scheduledAt ?? DateTime.utc(2026),
-    );
+ScheduleEntry entryFor(DesiredItem d, {int? id, DateTime? scheduledAt}) => ScheduleEntry(
+  dedupeKey: d.key,
+  platformId: id ?? PlatformIds.hash(d.key),
+  fireAt: d.fireAt,
+  targetKey: d.targetKey,
+  kind: d.kind,
+  os: d.os,
+  hash: d.hash,
+  scheduledAt: scheduledAt ?? DateTime.utc(2026),
+);
 
 void main() {
   final t0 = DateTime.utc(2026, 9, 22, 8);
 
-  test(
-    'iOS budget: 2 000 instances → 55 soonest + sentinel; Android keeps 250',
-    () {
-      final many = [
-        for (var i = 0; i < 2000; i++)
-          planned('t$i', t0.add(Duration(minutes: 2 * i + 1))),
-      ];
-      final ios = desired(many, budget: ScheduleBudget.ios);
-      final osIos = ios.where((d) => d.os).toList();
-      expect(osIos, hasLength(56));
-      expect(osIos.where((d) => d.kind == ScheduleKind.sentinel), hasLength(1));
-      final regular = osIos
-          .where((d) => d.kind != ScheduleKind.sentinel)
-          .map((d) => d.fireAt)
-          .toList();
-      expect(regular.last, many[54].fireAt);
-      expect(
-        osIos.firstWhere((d) => d.kind == ScheduleKind.sentinel).fireAt,
-        many[55].fireAt,
-      );
-      final android = desired(many);
-      expect(android.where((d) => d.os), hasLength(250));
-      expect(android.where((d) => d.os).last.fireAt, many[249].fireAt);
-      // Everything beyond the budget is still tracked for the inbox.
-      expect(android.where((d) => !d.os), hasLength(1750));
-    },
-  );
+  test('iOS budget: 2 000 instances → 55 soonest + sentinel; Android keeps 250', () {
+    final many = [for (var i = 0; i < 2000; i++) planned('t$i', t0.add(Duration(minutes: 2 * i + 1)))];
+    final ios = desired(many, budget: ScheduleBudget.ios);
+    final osIos = ios.where((d) => d.os).toList();
+    expect(osIos, hasLength(56));
+    expect(osIos.where((d) => d.kind == ScheduleKind.sentinel), hasLength(1));
+    final regular = osIos.where((d) => d.kind != ScheduleKind.sentinel).map((d) => d.fireAt).toList();
+    expect(regular.last, many[54].fireAt);
+    expect(osIos.firstWhere((d) => d.kind == ScheduleKind.sentinel).fireAt, many[55].fireAt);
+    final android = desired(many);
+    expect(android.where((d) => d.os), hasLength(250));
+    expect(android.where((d) => d.os).last.fireAt, many[249].fireAt);
+    // Everything beyond the budget is still tracked for the inbox.
+    expect(android.where((d) => !d.os), hasLength(1750));
+  });
 
   test('nags use the reserved iOS slots first', () {
     final items = [
-      for (var i = 0; i < 60; i++)
-        planned('t$i', t0.add(Duration(minutes: 2 * i + 1))),
+      for (var i = 0; i < 60; i++) planned('t$i', t0.add(Duration(minutes: 2 * i + 1))),
       planned('n', t0.add(const Duration(hours: 20)), repeat: 1),
     ];
     final ios = desired(items, budget: ScheduleBudget.ios);
@@ -135,34 +108,21 @@ void main() {
     final merged = d.where((x) => x.kind == ScheduleKind.merged).single;
     expect(merged.members.map((m) => m.targetId), ['a', 'b', 'c']);
     expect(d.where((x) => x.os), hasLength(2));
-    expect(
-      d.where((x) => !x.os && x.kind == ScheduleKind.tracked),
-      hasLength(3),
-    );
+    expect(d.where((x) => !x.os && x.kind == ScheduleKind.tracked), hasLength(3));
     expect(desired(items, merge: false).where((x) => x.os), hasLength(4));
   });
 
   test('inbox-only and non-local instances', () {
-    final d = desired([
-      planned('a', t0, system: false),
-      planned('b', t0, local: false),
-    ]);
+    final d = desired([planned('a', t0, system: false), planned('b', t0, local: false)]);
     expect(d.single.os, isFalse);
     expect(d.single.kind, ScheduleKind.tracked);
   });
 
   test('replanning with no changes makes zero platform calls', () {
-    final items = [
-      for (var i = 0; i < 10; i++)
-        planned('t$i', t0.add(Duration(minutes: 10 * i))),
-    ];
+    final items = [for (var i = 0; i < 10; i++) planned('t$i', t0.add(Duration(minutes: 10 * i)))];
     final d = desired(items);
     final current = [for (final x in d) entryFor(x)];
-    final diff = ScheduleComputation.diff(
-      current,
-      desired(items),
-      t0.subtract(const Duration(hours: 1)),
-    );
+    final diff = ScheduleComputation.diff(current, desired(items), t0.subtract(const Duration(hours: 1)));
     expect(diff.isEmpty, isTrue);
     expect(diff.platformCalls, 0);
     expect(diff.unchanged, 10);
@@ -183,14 +143,8 @@ void main() {
       planned('new', t0.add(const Duration(hours: 5))),
     ]);
     final diff = ScheduleComputation.diff(current, after, now);
-    expect(diff.cancel.map((e) => e.targetKey).toSet(), {
-      'task:gone',
-      'task:moved',
-    });
-    expect(diff.upsert.map((d) => d.targetKey).toSet(), {
-      'task:moved',
-      'task:new',
-    });
+    expect(diff.cancel.map((e) => e.targetKey).toSet(), {'task:gone', 'task:moved'});
+    expect(diff.upsert.map((d) => d.targetKey).toSet(), {'task:moved', 'task:new'});
     expect(diff.unchanged, 1);
   });
 
@@ -208,38 +162,23 @@ void main() {
     expect(ScheduleComputation.diff([snooze], const [], t0).isEmpty, isTrue);
   });
 
-  test(
-    '31-bit platform ids: no collisions across 100 000 keys with probing',
-    () {
-      final used = <int>{};
-      for (var i = 0; i < 100000; i++) {
-        final id = PlatformIds.assign(
-          dedupeKeyFor(ruleId: 'r$i', targetId: 't', occurrenceKey: '$i'),
-          used,
-        );
-        expect(id, inInclusiveRange(1, 0x7fffffff));
-        expect(used.add(id), isTrue);
-      }
-      expect(PlatformIds.hash('abc'), PlatformIds.hash('abc'));
-    },
-  );
+  test('31-bit platform ids: no collisions across 100 000 keys with probing', () {
+    final used = <int>{};
+    for (var i = 0; i < 100000; i++) {
+      final id = PlatformIds.assign(dedupeKeyFor(ruleId: 'r$i', targetId: 't', occurrenceKey: '$i'), used);
+      expect(id, inInclusiveRange(1, 0x7fffffff));
+      expect(used.add(id), isTrue);
+    }
+    expect(PlatformIds.hash('abc'), PlatformIds.hash('abc'));
+  });
 
   test('coverage until: horizon end when everything fits, 56th instance time when saturated', () {
     final horizonEnd = t0.add(const Duration(days: 14));
     final few = desired([planned('a', t0)], budget: ScheduleBudget.ios);
-    expect(
-      ScheduleComputation.coverageUntil(few, horizonEnd: horizonEnd),
-      horizonEnd,
-    );
-    final many = [
-      for (var i = 0; i < 300; i++)
-        planned('t$i', t0.add(Duration(minutes: 2 * i + 1))),
-    ];
+    expect(ScheduleComputation.coverageUntil(few, horizonEnd: horizonEnd), horizonEnd);
+    final many = [for (var i = 0; i < 300; i++) planned('t$i', t0.add(Duration(minutes: 2 * i + 1)))];
     final saturated = desired(many, budget: ScheduleBudget.ios);
-    expect(
-      ScheduleComputation.coverageUntil(saturated, horizonEnd: horizonEnd),
-      many[55].fireAt,
-    );
+    expect(ScheduleComputation.coverageUntil(saturated, horizonEnd: horizonEnd), many[55].fireAt);
   });
 
   test('schedule entry payload round-trips', () {

@@ -31,21 +31,14 @@ class AddAttachmentsResult {
 class AttachmentService {
   AttachmentService({
     required AttachmentsRepository repository,
-    required AttachmentCacheStore cache,
-    required AttachmentFileStore files,
-    required AttachmentProcessor processor,
-    required AttachmentUploadQueue queue,
-    required String Function() userId,
-    required String Function() newId,
-    AttachmentLimits limits = AttachmentLimits.defaults,
-  }) : _repo = repository,
-       _cache = cache,
-       _files = files,
-       _processor = processor,
-       _queue = queue,
-       _userId = userId,
-       _newId = newId,
-       _limits = limits;
+    required this._cache,
+    required this._files,
+    required this._processor,
+    required this._queue,
+    required this._userId,
+    required this._newId,
+    this._limits = AttachmentLimits.defaults,
+  }) : _repo = repository;
 
   final AttachmentsRepository _repo;
   final AttachmentCacheStore _cache;

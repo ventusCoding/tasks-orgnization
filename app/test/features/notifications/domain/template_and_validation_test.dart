@@ -8,10 +8,7 @@ void main() {
   group('TemplateEngine', () {
     test('substitutes known variables and keeps unknown ones literally', () {
       expect(
-        TemplateEngine.render('{title} starts in {minutes_until} min {bogus}', {
-          'title': 'Gym',
-          'minutes_until': '10',
-        }),
+        TemplateEngine.render('{title} starts in {minutes_until} min {bogus}', {'title': 'Gym', 'minutes_until': '10'}),
         'Gym starts in 10 min {bogus}',
       );
       expect(TemplateEngine.unknownIn('{title} {bogus}'), {'bogus'});
@@ -19,46 +16,24 @@ void main() {
     });
 
     test('bidi-isolates user text in RTL locales only', () {
-      final rtl = TemplateEngine.render('يبدأ {title} الآن', {
-        'title': 'Gym',
-      }, rtl: true);
+      final rtl = TemplateEngine.render('يبدأ {title} الآن', {'title': 'Gym'}, rtl: true);
       expect(rtl, 'يبدأ \u2068Gym\u2069 الآن');
-      expect(
-        TemplateEngine.render('{minutes_until}', {
-          'minutes_until': '5',
-        }, rtl: true),
-        '5',
-      );
+      expect(TemplateEngine.render('{minutes_until}', {'minutes_until': '5'}, rtl: true), '5');
       expect(TemplateEngine.render('{title}', {'title': 'Gym'}), 'Gym');
     });
 
     test('truncates with an ellipsis and keeps isolates balanced', () {
       final long = 'x' * 100;
-      final out = TemplateEngine.render('{title}', {
-        'title': long,
-      }, maxLength: TemplateEngine.titleMax);
+      final out = TemplateEngine.render('{title}', {'title': long}, maxLength: TemplateEngine.titleMax);
       expect(out.runes.length, TemplateEngine.titleMax);
       expect(out.endsWith('…'), isTrue);
-      final rtl = TemplateEngine.render(
-        '{title}',
-        {'title': long},
-        rtl: true,
-        maxLength: 20,
-      );
+      final rtl = TemplateEngine.render('{title}', {'title': long}, rtl: true, maxLength: 20);
       expect('\u2068'.allMatches(rtl).length, '\u2069'.allMatches(rtl).length);
     });
 
     test('every variable declares its providers', () {
-      expect(
-        TemplateVariables.forTarget(NotificationTargetType.habit)
-            .map((v) => v.name),
-        contains('streak'),
-      );
-      expect(
-        TemplateVariables.forTarget(NotificationTargetType.task)
-            .map((v) => v.name),
-        isNot(contains('streak')),
-      );
+      expect(TemplateVariables.forTarget(NotificationTargetType.habit).map((v) => v.name), contains('streak'));
+      expect(TemplateVariables.forTarget(NotificationTargetType.task).map((v) => v.name), isNot(contains('streak')));
     });
   });
 
@@ -68,23 +43,13 @@ void main() {
       NotificationTargetType? type,
       bool accept = false,
     }) => [
-      for (final i in NotificationRuleValidator.validate(
-        spec,
-        targetType: type,
-        acceptExtraActions: accept,
-      ))
-        i.code,
+      for (final i in NotificationRuleValidator.validate(spec, targetType: type, acceptExtraActions: accept)) i.code,
     ];
 
     test('valid rule has no issues', () {
       expect(
         codes(
-          const NotificationRuleSpec(
-            trigger: RelativeTrigger(
-              anchor: TriggerAnchor.start,
-              offsetMinutes: -10,
-            ),
-          ),
+          const NotificationRuleSpec(trigger: RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: -10)),
           type: NotificationTargetType.task,
         ),
         isEmpty,
@@ -93,9 +58,7 @@ void main() {
     test('anchor not available for the target type', () {
       expect(
         codes(
-          const NotificationRuleSpec(
-            trigger: RelativeTrigger(anchor: TriggerAnchor.due),
-          ),
+          const NotificationRuleSpec(trigger: RelativeTrigger(anchor: TriggerAnchor.due)),
           type: NotificationTargetType.task,
         ),
         [NotificationIssueCode.anchorUnavailable],
@@ -103,80 +66,42 @@ void main() {
     });
     test('offset beyond ±30 days', () {
       expect(
-        codes(
-          const NotificationRuleSpec(
-            trigger: RelativeTrigger(
-              anchor: TriggerAnchor.start,
-              offsetMinutes: -43201,
-            ),
-          ),
-        ),
+        codes(const NotificationRuleSpec(trigger: RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: -43201))),
         [NotificationIssueCode.offsetOutOfRange],
       );
       expect(
-        codes(
-          const NotificationRuleSpec(
-            trigger: RelativeTrigger(
-              anchor: TriggerAnchor.start,
-              offsetMinutes: -43200,
-            ),
-          ),
-        ),
+        codes(const NotificationRuleSpec(trigger: RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: -43200))),
         isEmpty,
       );
     });
     test('repeat max > 10 and interval < 1', () {
       expect(
-        codes(
-          const NotificationRuleSpec(
-            trigger: OverdueTrigger(),
-            repeat: RepeatSpec(everyMinutes: 0, maxTimes: 11),
-          ),
-        ),
-        [
-          NotificationIssueCode.repeatMaxTooHigh,
-          NotificationIssueCode.repeatIntervalInvalid,
-        ],
+        codes(const NotificationRuleSpec(trigger: OverdueTrigger(), repeat: RepeatSpec(everyMinutes: 0, maxTimes: 11))),
+        [NotificationIssueCode.repeatMaxTooHigh, NotificationIssueCode.repeatIntervalInvalid],
       );
     });
     test('repeats under 10 min warn about Doze without blocking', () {
       final issues = NotificationRuleValidator.validate(
-        const NotificationRuleSpec(
-          trigger: OverdueTrigger(),
-          repeat: RepeatSpec(everyMinutes: 5, maxTimes: 5),
-        ),
+        const NotificationRuleSpec(trigger: OverdueTrigger(), repeat: RepeatSpec(everyMinutes: 5, maxTimes: 5)),
       );
-      expect(issues.map((i) => i.code), [
-        NotificationIssueCode.repeatMayBeDelayed,
-      ]);
+      expect(issues.map((i) => i.code), [NotificationIssueCode.repeatMayBeDelayed]);
       expect(issues.single.severity, NotificationIssueSeverity.warning);
       expect(
-        codes(
-          const NotificationRuleSpec(
-            trigger: OverdueTrigger(),
-            repeat: RepeatSpec(everyMinutes: 10, maxTimes: 5),
-          ),
-        ),
+        codes(const NotificationRuleSpec(trigger: OverdueTrigger(), repeat: RepeatSpec(everyMinutes: 10, maxTimes: 5))),
         isEmpty,
       );
     });
-    test(
-      'more than 3 actions is an error unless accepted (then a warning)',
-      () {
-        const spec = NotificationRuleSpec(
-          trigger: OverdueTrigger(),
-          delivery: DeliverySpec(actions: ['done', 'snooze', 'skip', 'open']),
-        );
-        expect(NotificationRuleValidator.validate(spec).single.isError, isTrue);
-        expect(
-          NotificationRuleValidator.validate(
-            spec,
-            acceptExtraActions: true,
-          ).single.severity,
-          NotificationIssueSeverity.warning,
-        );
-      },
-    );
+    test('more than 3 actions is an error unless accepted (then a warning)', () {
+      const spec = NotificationRuleSpec(
+        trigger: OverdueTrigger(),
+        delivery: DeliverySpec(actions: ['done', 'snooze', 'skip', 'open']),
+      );
+      expect(NotificationRuleValidator.validate(spec).single.isError, isTrue);
+      expect(
+        NotificationRuleValidator.validate(spec, acceptExtraActions: true).single.severity,
+        NotificationIssueSeverity.warning,
+      );
+    });
     test('unknown or unavailable template variables and empty title', () {
       expect(
         codes(
@@ -208,25 +133,14 @@ void main() {
       );
     });
     test('invalid schedule delegates to the recurrence validator', () {
-      expect(
-        codes(
-          const NotificationRuleSpec(
-            trigger: ScheduleTrigger(recurrence: {'freq': 'fortnightly'}),
-          ),
-        ),
-        [NotificationIssueCode.scheduleInvalid],
-      );
+      expect(codes(const NotificationRuleSpec(trigger: ScheduleTrigger(recurrence: {'freq': 'fortnightly'}))), [
+        NotificationIssueCode.scheduleInvalid,
+      ]);
     });
     test('lateness < 1 min and no delivery channel', () {
-      expect(
-        codes(
-          const NotificationRuleSpec(
-            trigger: OverdueTrigger(),
-            delivery: DeliverySpec(latenessMinutes: 0),
-          ),
-        ),
-        [NotificationIssueCode.latenessTooSmall],
-      );
+      expect(codes(const NotificationRuleSpec(trigger: OverdueTrigger(), delivery: DeliverySpec(latenessMinutes: 0))), [
+        NotificationIssueCode.latenessTooSmall,
+      ]);
       expect(
         codes(
           const NotificationRuleSpec(

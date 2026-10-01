@@ -13,7 +13,12 @@ import 'package:meta/meta.dart';
 /// Generated weeks are a pure function of the week; user actions are recorded as edits on top.
 @immutable
 class DemoPlannerState {
-  const DemoPlannerState({this.edits = const {}, this.created = const [], this.backlog = _defaultBacklog, this.history = const []});
+  const DemoPlannerState({
+    this.edits = const {},
+    this.created = const [],
+    this.backlog = _defaultBacklog,
+    this.history = const [],
+  });
 
   /// Edited generated items by key (null = removed).
   final Map<String, PlannerItem?> edits;
@@ -52,14 +57,7 @@ class DemoPlannerData {
     ('Plan week', 'personal'),
   ];
 
-  static const _categoryColors = {
-    'work': 0,
-    'personal': 4,
-    'health': 2,
-    'study': 9,
-    'home': 3,
-    'social': 6,
-  };
+  static const _categoryColors = {'work': 0, 'personal': 4, 'health': 2, 'study': 9, 'home': 3, 'social': 6};
 
   PlannerItem make({
     required String id,
@@ -107,16 +105,18 @@ class DemoPlannerData {
       final weekend = date.weekday.isWeekend;
       // Recurring gym Mon/Wed/Fri 07:00.
       if (d.isEven && d < 6) {
-        items.add(make(
-          id: 'demo-gym-${date.toIso()}',
-          title: 'Gym',
-          start: date.atTime(LocalTime(7, 0)),
-          minutes: 60,
-          category: 'health',
-          recurring: true,
-          status: past ? OccurrenceStatus.done : OccurrenceStatus.scheduled,
-          icon: 'fitness',
-        ));
+        items.add(
+          make(
+            id: 'demo-gym-${date.toIso()}',
+            title: 'Gym',
+            start: date.atTime(LocalTime(7, 0)),
+            minutes: 60,
+            category: 'health',
+            recurring: true,
+            status: past ? OccurrenceStatus.done : OccurrenceStatus.scheduled,
+            icon: 'fitness',
+          ),
+        );
       }
       final count = weekend ? 2 + rnd.nextInt(2) : 4 + rnd.nextInt(4);
       for (var i = 0; i < count; i++) {
@@ -126,27 +126,51 @@ class DemoPlannerData {
         final minutes = [15, 30, 45, 60, 90, 120][rnd.nextInt(6)];
         final roll = rnd.nextDouble();
         final status = past
-            ? (roll < 0.6 ? OccurrenceStatus.done : roll < 0.75 ? OccurrenceStatus.skipped : OccurrenceStatus.missed)
+            ? (roll < 0.6
+                  ? OccurrenceStatus.done
+                  : roll < 0.75
+                  ? OccurrenceStatus.skipped
+                  : OccurrenceStatus.missed)
             : OccurrenceStatus.scheduled;
-        items.add(make(
-          id: 'demo-${date.toIso()}-$i',
-          title: title,
-          start: date.atTime(LocalTime(hour, minute)),
-          minutes: minutes,
-          category: cat,
-          status: status,
-          priority: rnd.nextInt(5),
-          tracking: roll > 0.85 ? TrackingMode.timer : (roll > 0.7 ? TrackingMode.event : TrackingMode.check),
-          location: cat == 'social' ? 'Café' : null,
-        ));
+        items.add(
+          make(
+            id: 'demo-${date.toIso()}-$i',
+            title: title,
+            start: date.atTime(LocalTime(hour, minute)),
+            minutes: minutes,
+            category: cat,
+            status: status,
+            priority: rnd.nextInt(5),
+            tracking: roll > 0.85 ? TrackingMode.timer : (roll > 0.7 ? TrackingMode.event : TrackingMode.check),
+            location: cat == 'social' ? 'Café' : null,
+          ),
+        );
       }
       if (rnd.nextDouble() < 0.25) {
-        items.add(make(id: 'demo-allday-${date.toIso()}', title: 'Birthday', start: date.atStartOfDay, minutes: 1440, allDay: true, category: 'social'));
+        items.add(
+          make(
+            id: 'demo-allday-${date.toIso()}',
+            title: 'Birthday',
+            start: date.atStartOfDay,
+            minutes: 1440,
+            allDay: true,
+            category: 'social',
+          ),
+        );
       }
     }
     // A 3-day trip in the middle of every 4th week.
     if (weekStart.epochDay ~/ 7 % 4 == 0) {
-      items.add(make(id: 'demo-trip-${weekStart.toIso()}', title: 'Trip', start: weekStart.plusDays(2).atStartOfDay, minutes: 3 * 1440, allDay: true, category: 'personal'));
+      items.add(
+        make(
+          id: 'demo-trip-${weekStart.toIso()}',
+          title: 'Trip',
+          start: weekStart.plusDays(2).atStartOfDay,
+          minutes: 3 * 1440,
+          allDay: true,
+          category: 'personal',
+        ),
+      );
     }
     return items;
   }
@@ -202,13 +226,24 @@ class DemoPlannerActions implements PlannerActions, PlannerViewActions {
   bool _isCreated(DemoPlannerState s, PlannerItem item) => s.created.any((c) => c.key == item.key);
 
   DemoPlannerState _replace(DemoPlannerState s, PlannerItem item, PlannerItem next) => _isCreated(s, item)
-      ? DemoPlannerState(edits: s.edits, created: [for (final c in s.created) c.key == item.key ? next : c], backlog: s.backlog)
+      ? DemoPlannerState(
+          edits: s.edits,
+          created: [for (final c in s.created) c.key == item.key ? next : c],
+          backlog: s.backlog,
+        )
       : DemoPlannerState(edits: {...s.edits, item.key: next}, created: s.created, backlog: s.backlog);
 
   @override
   Future<String?> createAt(LocalDateTime start, int durationMinutes, {String? title, bool allDay = false}) async {
     final id = 'demo-new-${start.toIso()}-${_seq++}';
-    final item = data.make(id: id, title: title ?? 'New task', start: start, minutes: durationMinutes, allDay: allDay, category: 'personal');
+    final item = data.make(
+      id: id,
+      title: title ?? 'New task',
+      start: start,
+      minutes: durationMinutes,
+      allDay: allDay,
+      category: 'personal',
+    );
     _apply((s) => DemoPlannerState(edits: s.edits, created: [...s.created, item], backlog: s.backlog));
     return id;
   }
@@ -222,7 +257,14 @@ class DemoPlannerActions implements PlannerActions, PlannerViewActions {
     EditScope scope = EditScope.thisOccurrence,
   }) async {
     final utc = data.resolver.resolve(newStart, data.zone).utc;
-    final next = copyItem(item, startLocal: newStart, durationMinutes: newDurationMinutes, allDay: allDay, startUtc: utc, isOverridden: true);
+    final next = copyItem(
+      item,
+      startLocal: newStart,
+      durationMinutes: newDurationMinutes,
+      allDay: allDay,
+      startUtc: utc,
+      isOverridden: true,
+    );
     _apply((s) => _replace(s, item, next));
   }
 
@@ -233,9 +275,25 @@ class DemoPlannerActions implements PlannerActions, PlannerViewActions {
 
   @override
   Future<void> delete(PlannerItem item, {EditScope scope = EditScope.allOccurrences}) async {
-    _apply((s) => _isCreated(s, item)
-        ? DemoPlannerState(edits: s.edits, created: [for (final c in s.created) if (c.key != item.key) c], backlog: s.backlog)
-        : DemoPlannerState(edits: {...s.edits, item.key: null}, created: s.created, backlog: [for (final b in s.backlog) if (b.key != item.key) b]));
+    _apply(
+      (s) => _isCreated(s, item)
+          ? DemoPlannerState(
+              edits: s.edits,
+              created: [
+                for (final c in s.created)
+                  if (c.key != item.key) c,
+              ],
+              backlog: s.backlog,
+            )
+          : DemoPlannerState(
+              edits: {...s.edits, item.key: null},
+              created: s.created,
+              backlog: [
+                for (final b in s.backlog)
+                  if (b.key != item.key) b,
+              ],
+            ),
+    );
   }
 
   @override
@@ -257,7 +315,14 @@ class DemoPlannerActions implements PlannerActions, PlannerViewActions {
     if (item.isRecurring) throw StateError('recurring');
     _apply((s) {
       final removed = _isCreated(s, item)
-          ? DemoPlannerState(edits: s.edits, created: [for (final c in s.created) if (c.key != item.key) c], backlog: s.backlog)
+          ? DemoPlannerState(
+              edits: s.edits,
+              created: [
+                for (final c in s.created)
+                  if (c.key != item.key) c,
+              ],
+              backlog: s.backlog,
+            )
           : DemoPlannerState(edits: {...s.edits, item.key: null}, created: s.created, backlog: s.backlog);
       return DemoPlannerState(edits: removed.edits, created: removed.created, backlog: [...s.backlog, item]);
     });
@@ -282,10 +347,15 @@ class DemoPlannerActions implements PlannerActions, PlannerViewActions {
       category: item.categoryId?.replaceFirst('demo-', ''),
       priority: item.priority,
     );
-    _apply((s) => DemoPlannerState(
-      edits: s.edits,
-      created: [...s.created, scheduled],
-      backlog: [for (final b in s.backlog) if (b.key != item.key) b],
-    ));
+    _apply(
+      (s) => DemoPlannerState(
+        edits: s.edits,
+        created: [...s.created, scheduled],
+        backlog: [
+          for (final b in s.backlog)
+            if (b.key != item.key) b,
+        ],
+      ),
+    );
   }
 }

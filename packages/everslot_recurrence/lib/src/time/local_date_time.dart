@@ -20,21 +20,14 @@ final class LocalDateTime implements Comparable<LocalDateTime> {
 
   /// Minutes since 1970-01-01T00:00 (wall clock).
   factory fromEpochMinute(int epochMinute) {
-    final day = epochMinute >= 0
-        ? epochMinute ~/ 1440
-        : -((-epochMinute + 1439) ~/ 1440);
+    final day = epochMinute >= 0 ? epochMinute ~/ 1440 : -((-epochMinute + 1439) ~/ 1440);
     final minute = epochMinute - day * 1440;
-    return LocalDateTime._(
-      LocalDate.fromEpochDay(day),
-      LocalTime.fromMinuteOfDay(minute),
-    );
+    return LocalDateTime._(LocalDate.fromEpochDay(day), LocalTime.fromMinuteOfDay(minute));
   }
 
   /// The wall-clock fields of [dateTime] (seconds truncated; zone ignored).
-  factory fromDateTime(DateTime dateTime) => LocalDateTime._(
-    LocalDate.fromDateTime(dateTime),
-    LocalTime(dateTime.hour, dateTime.minute),
-  );
+  factory fromDateTime(DateTime dateTime) =>
+      LocalDateTime._(LocalDate.fromDateTime(dateTime), LocalTime(dateTime.hour, dateTime.minute));
 
   const new _(this.date, this.time);
 
@@ -50,17 +43,13 @@ final class LocalDateTime implements Comparable<LocalDateTime> {
   /// Minutes since 1970-01-01T00:00 (wall clock).
   int get epochMinute => date.epochDay * 1440 + time.minuteOfDay;
 
-  LocalDateTime plusMinutes(int minutes) => minutes == 0
-      ? this
-      : LocalDateTime.fromEpochMinute(epochMinute + minutes);
+  LocalDateTime plusMinutes(int minutes) => minutes == 0 ? this : LocalDateTime.fromEpochMinute(epochMinute + minutes);
 
   LocalDateTime plusHours(int hours) => plusMinutes(hours * 60);
 
-  LocalDateTime plusDays(int days) =>
-      LocalDateTime._(date.plusDays(days), time);
+  LocalDateTime plusDays(int days) => LocalDateTime._(date.plusDays(days), time);
 
-  LocalDateTime plusMonths(int months) =>
-      LocalDateTime._(date.plusMonths(months), time);
+  LocalDateTime plusMonths(int months) => LocalDateTime._(date.plusMonths(months), time);
 
   /// Signed minutes from this to [other] (wall clock).
   int minutesUntil(LocalDateTime other) => other.epochMinute - epochMinute;
@@ -68,33 +57,25 @@ final class LocalDateTime implements Comparable<LocalDateTime> {
   LocalDateTime withTime(LocalTime newTime) => LocalDateTime(date, newTime);
 
   /// Treats the wall-clock value as UTC (useful for formatting only).
-  DateTime toDateTimeUtc() =>
-      DateTime.utc(date.year, date.month, date.day, time.hour, time.minute);
+  DateTime toDateTimeUtc() => DateTime.utc(date.year, date.month, date.day, time.hour, time.minute);
 
   bool isBefore(LocalDateTime other) => compareTo(other) < 0;
   bool isAfter(LocalDateTime other) => compareTo(other) > 0;
   bool isOnOrBefore(LocalDateTime other) => compareTo(other) <= 0;
   bool isOnOrAfter(LocalDateTime other) => compareTo(other) >= 0;
 
-  static LocalDateTime min(LocalDateTime a, LocalDateTime b) =>
-      a.isBefore(b) ? a : b;
-  static LocalDateTime max(LocalDateTime a, LocalDateTime b) =>
-      a.isAfter(b) ? a : b;
+  static LocalDateTime min(LocalDateTime a, LocalDateTime b) => a.isBefore(b) ? a : b;
+  static LocalDateTime max(LocalDateTime a, LocalDateTime b) => a.isAfter(b) ? a : b;
 
   /// `YYYY-MM-DDTHH:mm` — also the canonical occurrence-key format.
   String toIso() => '${date.toIso()}T${time.toIso()}';
 
-  static final RegExp _iso = RegExp(
-    r'^(-?\d{4,}-\d{2}-\d{2})[T ](\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?)$',
-  );
+  static final RegExp _iso = RegExp(r'^(-?\d{4,}-\d{2}-\d{2})[T ](\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?)$');
 
   static LocalDateTime parse(String input) {
     final result = tryParse(input);
     if (result == null) {
-      throw FormatException(
-        'Invalid local date-time (expected YYYY-MM-DDTHH:mm)',
-        input,
-      );
+      throw FormatException('Invalid local date-time (expected YYYY-MM-DDTHH:mm)', input);
     }
     return result;
   }
@@ -122,8 +103,7 @@ final class LocalDateTime implements Comparable<LocalDateTime> {
   }
 
   @override
-  bool operator ==(Object other) =>
-      other is LocalDateTime && other.date == date && other.time == time;
+  bool operator ==(Object other) => other is LocalDateTime && other.date == date && other.time == time;
 
   @override
   int get hashCode => Object.hash(date, time);

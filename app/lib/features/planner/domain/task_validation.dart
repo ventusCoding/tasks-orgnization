@@ -60,7 +60,10 @@ abstract final class TaskUrl {
     if (t.isEmpty) return null;
     final withScheme = t.contains('://') ? t : 'https://$t';
     final uri = Uri.tryParse(withScheme);
-    if (uri == null || !(uri.scheme == 'http' || uri.scheme == 'https') || uri.host.isEmpty || !uri.host.contains('.')) {
+    if (uri == null ||
+        !(uri.scheme == 'http' || uri.scheme == 'https') ||
+        uri.host.isEmpty ||
+        !uri.host.contains('.')) {
       return null;
     }
     return withScheme;
@@ -149,8 +152,7 @@ class TaskSchedule {
       final parsed = LocalDateTime.tryParse(r) ?? LocalDate.tryParse(r)?.atTime(a.start.time);
       if (parsed != null && (latestRdate == null || parsed.isAfter(latestRdate))) latestRdate = parsed;
     }
-    LocalDateTime? max(LocalDateTime? x, LocalDateTime? y) =>
-        x == null ? y : (y == null ? x : (x.isAfter(y) ? x : y));
+    LocalDateTime? max(LocalDateTime? x, LocalDateTime? y) => x == null ? y : (y == null ? x : (x.isAfter(y) ? x : y));
     switch (rule.type) {
       case RuleType.afterCompletion:
       case RuleType.quota:

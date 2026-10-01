@@ -40,10 +40,15 @@ class _WeekListViewState extends ConsumerState<WeekListView> {
   @override
   void initState() {
     super.initState();
-    _anchor = widget.args.date ?? ref.read(plannerAnchorProvider) ?? ref.read(plannerViewStateProvider(_key))?.anchor ?? ref.read(plannerTodayProvider);
+    _anchor =
+        widget.args.date ??
+        ref.read(plannerAnchorProvider) ??
+        ref.read(plannerViewStateProvider(_key))?.anchor ??
+        ref.read(plannerTodayProvider);
   }
 
-  Weekday get _weekStart => weekStartFor(ref.read(plannerViewConfigProvider(_key)), ref.read(userPreferencesProvider).weekStart);
+  Weekday get _weekStart =>
+      weekStartFor(ref.read(plannerViewConfigProvider(_key)), ref.read(userPreferencesProvider).weekStart);
 
   void _go(LocalDate date) {
     final start = date.startOfWeek(_weekStart);
@@ -116,7 +121,13 @@ class _WeekListViewState extends ConsumerState<WeekListView> {
                     padding: const EdgeInsetsDirectional.fromSTEB(Space.sm, Space.xs, Space.sm, 88),
                     children: [
                       for (final d in days)
-                        _DaySection(viewKey: _key, day: d, isToday: d == today, items: dayListOrder(itemsOnDay(list, d)), config: config),
+                        _DaySection(
+                          viewKey: _key,
+                          day: d,
+                          isToday: d == today,
+                          items: dayListOrder(itemsOnDay(list, d)),
+                          config: config,
+                        ),
                     ],
                   ),
                 ),
@@ -131,7 +142,13 @@ class _WeekListViewState extends ConsumerState<WeekListView> {
 }
 
 class _DaySection extends ConsumerWidget {
-  const _DaySection({required this.viewKey, required this.day, required this.isToday, required this.items, required this.config});
+  const _DaySection({
+    required this.viewKey,
+    required this.day,
+    required this.isToday,
+    required this.items,
+    required this.config,
+  });
 
   final String viewKey;
   final LocalDate day;
@@ -161,10 +178,16 @@ class _DaySection extends ConsumerWidget {
         await commands.showTileMenu(item);
         return;
       }
-      final untimed = [for (final i in items) if (i.allDay && i.key != item.key) i];
+      final untimed = [
+        for (final i in items)
+          if (i.allDay && i.key != item.key) i,
+      ];
       final at = untimed.indexWhere((i) => i.key == target.key);
       final after = at <= 0 ? null : untimed[at - 1].manualSortKey;
-      await commands.runExtra(l.pvMovedSnack(f.dayShort(day)), (a) => a.reorder(item, afterKey: after, beforeKey: target.manualSortKey));
+      await commands.runExtra(
+        l.pvMovedSnack(f.dayShort(day)),
+        (a) => a.reorder(item, afterKey: after, beforeKey: target.manualSortKey),
+      );
     }
 
     return DragTarget<PlannerItem>(
@@ -196,7 +219,10 @@ class _DaySection extends ConsumerWidget {
                           child: isToday
                               ? Container(
                                   padding: const EdgeInsets.symmetric(horizontal: Space.sm, vertical: 2),
-                                  decoration: BoxDecoration(color: c.primary, borderRadius: BorderRadius.circular(Radii.pill)),
+                                  decoration: BoxDecoration(
+                                    color: c.primary,
+                                    borderRadius: BorderRadius.circular(Radii.pill),
+                                  ),
                                   child: Text(
                                     f.dayLong(day),
                                     maxLines: 1,
@@ -212,12 +238,16 @@ class _DaySection extends ConsumerWidget {
                                 ),
                         ),
                       ),
-                      Text(l.pvItemsCount(items.length), style: context.text.labelSmall?.copyWith(color: c.onSurfaceVariant)),
+                      Text(
+                        l.pvItemsCount(items.length),
+                        style: context.text.labelSmall?.copyWith(color: c.onSurfaceVariant),
+                      ),
                       IconButton(
                         tooltip: l.pvAddTask,
                         visualDensity: VisualDensity.compact,
                         icon: const Icon(Icons.add),
-                        onPressed: () => unawaited(commands.quickCreate(start: day.atStartOfDay, duration: 1440, allDay: true)),
+                        onPressed: () =>
+                            unawaited(commands.quickCreate(start: day.atStartOfDay, duration: 1440, allDay: true)),
                       ),
                     ],
                   ),

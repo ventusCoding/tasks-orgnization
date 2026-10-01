@@ -34,7 +34,9 @@ Future<void> openChecklist(BuildContext context, String id, {String? itemId, boo
     return;
   }
   await Navigator.of(context).push(
-    MaterialPageRoute<void>(builder: (_) => ChecklistScreen(checklistId: id, focusItemId: itemId, preview: preview)),
+    MaterialPageRoute<void>(
+      builder: (_) => ChecklistScreen(checklistId: id, focusItemId: itemId, preview: preview),
+    ),
   );
 }
 

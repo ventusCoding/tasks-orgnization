@@ -41,28 +41,32 @@ class ChecklistUiStateStore {
 
   final AppDatabase _db;
 
-  Stream<Set<String>> watchCollapsed(String checklistId) => (_db.select(_db.uiNodeState)
-        ..where((n) => n.checklistId.equals(checklistId) & n.collapsed.equals(true)))
-      .watch()
-      .map((rows) => {for (final r in rows) r.nodeId});
+  Stream<Set<String>> watchCollapsed(String checklistId) =>
+      (_db.select(_db.uiNodeState)..where((n) => n.checklistId.equals(checklistId) & n.collapsed.equals(true)))
+          .watch()
+          .map((rows) => {for (final r in rows) r.nodeId});
 
   Future<Set<String>> collapsed(String checklistId) async => {
-    for (final r in await (_db.select(_db.uiNodeState)
-          ..where((n) => n.checklistId.equals(checklistId) & n.collapsed.equals(true)))
-        .get())
+    for (final r in await (_db.select(
+      _db.uiNodeState,
+    )..where((n) => n.checklistId.equals(checklistId) & n.collapsed.equals(true))).get())
       r.nodeId,
   };
 
-  Future<void> setCollapsed(String checklistId, Iterable<String> nodeIds, {required bool collapsed, required DateTime at}) =>
-      _db.batch((b) {
-        for (final id in nodeIds) {
-          b.insert(
-            _db.uiNodeState,
-            UiNodeStateCompanion.insert(nodeId: id, checklistId: checklistId, collapsed: Value(collapsed), updatedAt: at),
-            mode: InsertMode.insertOrReplace,
-          );
-        }
-      });
+  Future<void> setCollapsed(
+    String checklistId,
+    Iterable<String> nodeIds, {
+    required bool collapsed,
+    required DateTime at,
+  }) => _db.batch((b) {
+    for (final id in nodeIds) {
+      b.insert(
+        _db.uiNodeState,
+        UiNodeStateCompanion.insert(nodeId: id, checklistId: checklistId, collapsed: Value(collapsed), updatedAt: at),
+        mode: InsertMode.insertOrReplace,
+      );
+    }
+  });
 
   /// Replaces the collapsed set (collapse all / expand to level N).
   Future<void> replaceCollapsed(String checklistId, Set<String> nodeIds, {required DateTime at}) =>
@@ -93,14 +97,11 @@ class ChecklistUiStateStore {
     );
   }
 
-  Future<ChecklistViewState> get(String checklistId) async => _map(
-    await (_db.select(_db.uiChecklistState)..where((s) => s.checklistId.equals(checklistId))).getSingleOrNull(),
-  );
+  Future<ChecklistViewState> get(String checklistId) async =>
+      _map(await (_db.select(_db.uiChecklistState)..where((s) => s.checklistId.equals(checklistId))).getSingleOrNull());
 
   Stream<ChecklistViewState> watch(String checklistId) =>
-      (_db.select(_db.uiChecklistState)..where((s) => s.checklistId.equals(checklistId)))
-          .watchSingleOrNull()
-          .map(_map);
+      (_db.select(_db.uiChecklistState)..where((s) => s.checklistId.equals(checklistId))).watchSingleOrNull().map(_map);
 
   Future<void> save(
     String checklistId, {
@@ -119,11 +120,15 @@ class ChecklistUiStateStore {
       focusItemId: clearFocus ? const Value(null) : (focusItemId == null ? const Value.absent() : Value(focusItemId)),
       viewType: viewType == null ? const Value.absent() : Value(viewType.name),
       sortJson: sort == null ? const Value.absent() : Value(sort.isManual ? null : jsonEncode(sort.toJson())),
-      filterJson: filter == null ? const Value.absent() : Value(filter == ItemFilter.none ? null : jsonEncode(filter.toJson())),
+      filterJson: filter == null
+          ? const Value.absent()
+          : Value(filter == ItemFilter.none ? null : jsonEncode(filter.toJson())),
       scrollOffset: scrollOffset == null ? const Value.absent() : Value(scrollOffset),
       lastOpenedAt: openedAt == null ? const Value.absent() : Value(openedAt),
     );
-    final updated = await (_db.update(_db.uiChecklistState)..where((s) => s.checklistId.equals(checklistId))).write(companion);
+    final updated = await (_db.update(
+      _db.uiChecklistState,
+    )..where((s) => s.checklistId.equals(checklistId))).write(companion);
     if (updated == 0) await _db.into(_db.uiChecklistState).insert(companion);
   }
 }

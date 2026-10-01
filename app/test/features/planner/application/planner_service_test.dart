@@ -60,16 +60,20 @@ void main() {
     await h.read(notificationMutesRepositoryProvider).mute(targetType: 'task', targetId: id);
     final item = (await h.items(ld('2026-09-23'), 1)).single;
     await h.planner.delete(item);
-    final live = await h.db.customSelect(
-      "SELECT (SELECT COUNT(*) FROM notification_rules WHERE target_id = '$id' AND deleted_at IS NULL) AS r, "
-      "(SELECT COUNT(*) FROM notification_mutes WHERE target_id = '$id' AND deleted_at IS NULL) AS m",
-    ).getSingle();
+    final live = await h.db
+        .customSelect(
+          "SELECT (SELECT COUNT(*) FROM notification_rules WHERE target_id = '$id' AND deleted_at IS NULL) AS r, "
+          "(SELECT COUNT(*) FROM notification_mutes WHERE target_id = '$id' AND deleted_at IS NULL) AS m",
+        )
+        .getSingle();
     expect(live.data, {'r': 0, 'm': 0});
     await h.tasks.restoreTask(id);
-    final back = await h.db.customSelect(
-      "SELECT (SELECT COUNT(*) FROM notification_rules WHERE target_id = '$id' AND deleted_at IS NULL) AS r, "
-      "(SELECT COUNT(*) FROM notification_mutes WHERE target_id = '$id' AND deleted_at IS NULL) AS m",
-    ).getSingle();
+    final back = await h.db
+        .customSelect(
+          "SELECT (SELECT COUNT(*) FROM notification_rules WHERE target_id = '$id' AND deleted_at IS NULL) AS r, "
+          "(SELECT COUNT(*) FROM notification_mutes WHERE target_id = '$id' AND deleted_at IS NULL) AS m",
+        )
+        .getSingle();
     expect(back.data, {'r': 1, 'm': 1});
   });
 
@@ -82,7 +86,10 @@ void main() {
   });
 
   test('removing an exdate brings the occurrence back', () async {
-    final id = await h.createTask(start: '2026-09-21T08:00', rule: RecurrenceRule(exdates: const ['2026-09-23']));
+    final id = await h.createTask(
+      start: '2026-09-21T08:00',
+      rule: RecurrenceRule(exdates: const ['2026-09-23']),
+    );
     expect(await h.items(ld('2026-09-23'), 1), isEmpty);
     await h.planner.removeExdate(id, '2026-09-23');
     expect((await h.items(ld('2026-09-23'), 1)).single.taskId, id);
@@ -96,7 +103,11 @@ void main() {
     await h.occurrences.markDone(done, '2026-09-23T09:45');
     final overlaps = await h.planner.overlapsFor(start: ldt('2026-09-23T09:15'), durationMinutes: 60);
     expect(overlaps.map((i) => i.taskId), [sync]);
-    final excluded = await h.planner.overlapsFor(start: ldt('2026-09-23T09:15'), durationMinutes: 60, excludeTaskId: sync);
+    final excluded = await h.planner.overlapsFor(
+      start: ldt('2026-09-23T09:15'),
+      durationMinutes: 60,
+      excludeTaskId: sync,
+    );
     expect(excluded, isEmpty);
     expect(OccurrenceStatus.values, isNotEmpty);
   });

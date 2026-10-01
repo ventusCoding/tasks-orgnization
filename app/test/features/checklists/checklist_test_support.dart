@@ -54,7 +54,9 @@ String render(ChecklistTree t, {bool statuses = false}) {
   final out = StringBuffer();
   for (final id in t.order) {
     final i = t[id]!;
-    out.writeln('${'  ' * t.depthOf(id)}${i.text}${statuses && i.status != ItemStatus.todo ? ':${i.status.name}' : ''}');
+    out.writeln(
+      '${'  ' * t.depthOf(id)}${i.text}${statuses && i.status != ItemStatus.todo ? ':${i.status.name}' : ''}',
+    );
   }
   return out.toString().trimRight();
 }

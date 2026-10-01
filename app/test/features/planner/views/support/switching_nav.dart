@@ -1,4 +1,3 @@
-import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/planner_screen.dart';
 import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -18,9 +17,6 @@ class SwitchingNav extends RecordingNav {
     super.openView(context, viewKey, date: date);
     current.value = (viewKey, date);
   }
-
-  @override
-  void openTask(BuildContext context, PlannerItem item) => super.openTask(context, item);
 }
 
 /// Hosts [PlannerScreen] for the view selected through [nav].

@@ -33,7 +33,14 @@ Future<(PlannerHarness, PlannerGridController)> _pump(
   }
   final controller = PlannerGridController();
   addTearDown(controller.dispose);
-  await pumpPlanner(tester, h, Scaffold(body: TimeGrid(viewKey: 'week_table', controller: controller)), locale: locale);
+  await pumpPlanner(
+    tester,
+    h,
+    Scaffold(
+      body: TimeGrid(viewKey: 'week_table', controller: controller),
+    ),
+    locale: locale,
+  );
   await tester.pumpAndSettle();
   return (h, controller);
 }
@@ -140,7 +147,10 @@ void main() {
   });
 
   testWidgets('dragging a timed tile into the all-day lane makes it all-day', (tester) async {
-    final (h, _) = await _pump(tester, items: [item('Trip', at(2026, 9, 22, 0), 1440, allDay: true), item('Gym', at(2026, 9, 21, 7), 60)]);
+    final (h, _) = await _pump(
+      tester,
+      items: [item('Trip', at(2026, 9, 22, 0), 1440, allDay: true), item('Gym', at(2026, 9, 21, 7), 60)],
+    );
     final grid = _grid(tester);
     final gesture = await tester.startGesture(grid.globalPositionOf(_mon, 7 * 60 + 30)!);
     await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
@@ -271,11 +281,19 @@ void main() {
     final h = PlannerHarness.create();
     addTearDown(h.dispose);
     await h.read(plannerViewStateProvider('week_table').notifier).ready;
-    h.read(plannerViewStateProvider('week_table').notifier).update((s) => s.copyWith(anchor: LocalDate(2026, 10, 14), scrollMinute: 12 * 60));
+    h
+        .read(plannerViewStateProvider('week_table').notifier)
+        .update((s) => s.copyWith(anchor: LocalDate(2026, 10, 14), scrollMinute: 12 * 60));
     await h.read(plannerViewStateProvider('week_table').notifier).flush();
     final controller = PlannerGridController();
     addTearDown(controller.dispose);
-    await pumpPlanner(tester, h, Scaffold(body: TimeGrid(viewKey: 'week_table', controller: controller)));
+    await pumpPlanner(
+      tester,
+      h,
+      Scaffold(
+        body: TimeGrid(viewKey: 'week_table', controller: controller),
+      ),
+    );
     await tester.pumpAndSettle();
     expect(controller.firstVisibleDay, LocalDate(2026, 10, 12));
     expect(_grid(tester).debugZoom.$2, closeTo(12 * 60, 1));
@@ -354,7 +372,9 @@ void main() {
     await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
     await gesture.moveTo(grid.globalPositionOf(_mon, 9 * 60 + 30)!);
     await tester.pump();
-    final bubble = tester.widget<Text>(find.descendant(of: find.byKey(const Key('time-bubble')), matching: find.byType(Text)));
+    final bubble = tester.widget<Text>(
+      find.descendant(of: find.byKey(const Key('time-bubble')), matching: find.byType(Text)),
+    );
     // intl separates the day period with a narrow no-break space (U+202F).
     expect(bubble.data!.replaceAll('\u202f', ' '), 'Mon 21 9:00 AM – 10:00 AM · 1 h');
     await gesture.up();

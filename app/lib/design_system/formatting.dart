@@ -40,20 +40,17 @@ class AppFormat {
   String monthYear(LocalDate d) => _digits(DateFormat.yMMMM(locale).format(d.toDateTimeUtc()));
 
   /// "Mon"
-  String weekdayShort(Weekday w) =>
-      DateFormat.E(locale).format(DateTime.utc(2024, 1, w.iso)); // 2024-01-01 is a Monday
+  String weekdayShort(Weekday w) => DateFormat.E(locale).format(DateTime.utc(2024, 1, w.iso)); // 2024-01-01 is a Monday
 
   String weekdayLong(Weekday w) => DateFormat.EEEE(locale).format(DateTime.utc(2024, 1, w.iso));
 
   String dateTime(LocalDateTime t) => '${dateMedium(t.date)} ${timeOf(t)}';
 
-  String number(num value, {int decimals = 0}) => _numeric(
-    NumberFormat.decimalPatternDigits(locale: locale, decimalDigits: decimals).format(value),
-  );
+  String number(num value, {int decimals = 0}) =>
+      _numeric(NumberFormat.decimalPatternDigits(locale: locale, decimalDigits: decimals).format(value));
 
-  String percent(double ratio, {int decimals = 0}) => _numeric(
-    NumberFormat.decimalPercentPattern(locale: locale, decimalDigits: decimals).format(ratio),
-  );
+  String percent(double ratio, {int decimals = 0}) =>
+      _numeric(NumberFormat.decimalPercentPattern(locale: locale, decimalDigits: decimals).format(ratio));
 
   String currency(num value, String code) =>
       _numeric(NumberFormat.simpleCurrency(locale: locale, name: code).format(value));

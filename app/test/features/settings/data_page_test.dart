@@ -18,13 +18,9 @@ void main() {
     shared = [];
     return TestHarness.create(
       overrides: [
-        exportDirectoryProvider.overrideWithValue(
-          () async => Directory('${tmp.path}/exports'),
-        ),
+        exportDirectoryProvider.overrideWithValue(() async => Directory('${tmp.path}/exports')),
         appVersionLabelProvider.overrideWithValue(() async => '1.0.0+7'),
-        shareFileProvider.overrideWithValue(
-          (file, {subject}) async => shared.add(file.path),
-        ),
+        shareFileProvider.overrideWithValue((file, {subject}) async => shared.add(file.path)),
       ],
     );
   }
@@ -35,40 +31,31 @@ void main() {
     }
   }
 
-  testWidgets(
-    'export JSON, then CSV: files are written and handed to the share sheet (T8.3.07)',
-    (tester) async {
-      final h = harness();
-      await tester.runAsync(
-        () => h
-            .read(syncWriterProvider)
-            .run(
-              (tx) => tx.insert('categories', 'c1', {
-                'name': 'Work',
-                'color': 1,
-                'sort_key': 'a0',
-              }),
-            ),
-      );
-      await pumpSettingsApp(tester, h, initial: '/settings/data');
-      await settle(tester);
-      expect(find.text('Everslot backup (JSON)'), findsOneWidget);
+  testWidgets('export JSON, then CSV: files are written and handed to the share sheet (T8.3.07)', (tester) async {
+    final h = harness();
+    await tester.runAsync(
+      () => h
+          .read(syncWriterProvider)
+          .run((tx) => tx.insert('categories', 'c1', {'name': 'Work', 'color': 1, 'sort_key': 'a0'})),
+    );
+    await pumpSettingsApp(tester, h, initial: '/settings/data');
+    await settle(tester);
+    expect(find.text('Everslot backup (JSON)'), findsOneWidget);
 
-      await tester.tap(find.byKey(const ValueKey('export-run')));
-      await waitForShare(tester);
-      expect(shared, hasLength(1));
-      expect(shared.single, endsWith('.json'));
-      expect(File(shared.single).existsSync(), isTrue);
-      expect(find.textContaining('Export ready'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('export-run')));
+    await waitForShare(tester);
+    expect(shared, hasLength(1));
+    expect(shared.single, endsWith('.json'));
+    expect(File(shared.single).existsSync(), isTrue);
+    expect(find.textContaining('Export ready'), findsOneWidget);
 
-      await tester.tap(find.byKey(const ValueKey('export-csv')));
-      await tester.pump();
-      shared.clear();
-      await tester.tap(find.byKey(const ValueKey('export-run')));
-      await waitForShare(tester);
-      expect(shared.single, endsWith('.zip'));
-      await finish(tester, h);
-      tmp.deleteSync(recursive: true);
-    },
-  );
+    await tester.tap(find.byKey(const ValueKey('export-csv')));
+    await tester.pump();
+    shared.clear();
+    await tester.tap(find.byKey(const ValueKey('export-run')));
+    await waitForShare(tester);
+    expect(shared.single, endsWith('.zip'));
+    await finish(tester, h);
+    tmp.deleteSync(recursive: true);
+  });
 }

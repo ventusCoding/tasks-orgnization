@@ -7,7 +7,11 @@ import 'package:meta/meta.dart';
 /// Planner work hours / days from settings `planner.workHours` / `planner.workDays` (arch §8.5).
 @immutable
 class WorkSettings {
-  const WorkSettings({this.hours = const DayWindow(540, 1020), this.days = const {1, 2, 3, 4, 5}, this.defaultDuration = 30});
+  const WorkSettings({
+    this.hours = const DayWindow(540, 1020),
+    this.days = const {1, 2, 3, 4, 5},
+    this.defaultDuration = 30,
+  });
 
   final DayWindow hours;
 
@@ -25,14 +29,19 @@ class WorkSettings {
 
   factory WorkSettings.fromSettings(Map<String, dynamic> planner) {
     final hours = planner['workHours'];
-    DayWindow window = const DayWindow(540, 1020);
+    var window = const DayWindow(540, 1020);
     if (hours is Map) {
       final s = _hhmm(hours['start']);
       final e = _hhmm(hours['end']);
       if (s != null && e != null && s < e) window = DayWindow(s, e);
     }
     final daysRaw = planner['workDays'];
-    final days = daysRaw is List ? {for (final d in daysRaw) if (d is num && d >= 1 && d <= 7) d.toInt()} : <int>{};
+    final days = daysRaw is List
+        ? {
+            for (final d in daysRaw)
+              if (d is num && d >= 1 && d <= 7) d.toInt(),
+          }
+        : <int>{};
     final duration = planner['defaultTaskDurationMinutes'];
     return WorkSettings(
       hours: window,
@@ -43,7 +52,11 @@ class WorkSettings {
 
   @override
   bool operator ==(Object other) =>
-      other is WorkSettings && other.hours == hours && other.days.length == days.length && other.days.containsAll(days) && other.defaultDuration == defaultDuration;
+      other is WorkSettings &&
+      other.hours == hours &&
+      other.days.length == days.length &&
+      other.days.containsAll(days) &&
+      other.defaultDuration == defaultDuration;
 
   @override
   int get hashCode => Object.hash(hours, Object.hashAllUnordered(days), defaultDuration);

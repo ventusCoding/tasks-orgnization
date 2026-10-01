@@ -38,20 +38,12 @@ class NotificationActionContext {
 
 /// Outcome of a handled action.
 class NotificationActionResult {
-  const NotificationActionResult({
-    this.success = true,
-    this.message,
-    this.openLink,
-    this.markActed = true,
-  });
+  const NotificationActionResult({this.success = true, this.message, this.openLink, this.markActed = true});
 
   static const ok = NotificationActionResult();
 
   /// Input invalid / target gone — a follow-up notification explains [message].
-  const NotificationActionResult.failed(this.message)
-    : success = false,
-      openLink = null,
-      markActed = false;
+  const NotificationActionResult.failed(this.message) : success = false, openLink = null, markActed = false;
 
   final bool success;
 
@@ -80,11 +72,7 @@ abstract interface class NotificationActionHandler {
 
 /// A handler built from a closure (convenient for small features and tests).
 class CallbackActionHandler implements NotificationActionHandler {
-  CallbackActionHandler({
-    required this.actionIds,
-    required this.onHandle,
-    this.targetTypes,
-  });
+  CallbackActionHandler({required this.actionIds, required this.onHandle, this.targetTypes});
 
   @override
   final Set<String> actionIds;
@@ -92,14 +80,10 @@ class CallbackActionHandler implements NotificationActionHandler {
   @override
   final Set<NotificationTargetType>? targetTypes;
 
-  final Future<NotificationActionResult> Function(
-    NotificationActionContext context,
-  )
-  onHandle;
+  final Future<NotificationActionResult> Function(NotificationActionContext context) onHandle;
 
   @override
-  Future<NotificationActionResult> handle(NotificationActionContext context) =>
-      onHandle(context);
+  Future<NotificationActionResult> handle(NotificationActionContext context) => onHandle(context);
 }
 
 /// Runtime registry (dynamic registration from startup code, tests, debug tools). Static
@@ -110,8 +94,7 @@ class NotificationRegistry {
   final _changes = StreamController<void>.broadcast();
 
   List<NotificationTargetSource> get sources => List.unmodifiable(_sources);
-  List<NotificationActionHandler> get actionHandlers =>
-      List.unmodifiable(_handlers);
+  List<NotificationActionHandler> get actionHandlers => List.unmodifiable(_handlers);
 
   /// Emits when sources/handlers are (un)registered.
   Stream<void> get changes => _changes.stream;
@@ -163,27 +146,22 @@ final _contributedHandlersProvider = Provider<List<NotificationActionHandler>>(
 
 /// Every registered target source: static contributions + runtime registry (recomputed when the
 /// registry changes).
-final notificationTargetSourcesProvider =
-    Provider<List<NotificationTargetSource>>((ref) {
-      final registry = ref.watch(notificationRegistryProvider);
-      final sub = registry.changes.listen((_) => ref.invalidateSelf());
-      ref.onDispose(sub.cancel);
-      return [...ref.watch(_contributedSourcesProvider), ...registry.sources];
-    });
+final notificationTargetSourcesProvider = Provider<List<NotificationTargetSource>>((ref) {
+  final registry = ref.watch(notificationRegistryProvider);
+  final sub = registry.changes.listen((_) => ref.invalidateSelf());
+  ref.onDispose(sub.cancel);
+  return [...ref.watch(_contributedSourcesProvider), ...registry.sources];
+});
 
 /// Every feature action handler: runtime registry first, then static contributions — an
 /// explicit runtime registration (tests, debug menu) overrides a feature's static handler for
 /// the same action and target type.
-final notificationActionHandlersProvider =
-    Provider<List<NotificationActionHandler>>((ref) {
-      final registry = ref.watch(notificationRegistryProvider);
-      final sub = registry.changes.listen((_) => ref.invalidateSelf());
-      ref.onDispose(sub.cancel);
-      return [
-        ...registry.actionHandlers,
-        ...ref.watch(_contributedHandlersProvider),
-      ];
-    });
+final notificationActionHandlersProvider = Provider<List<NotificationActionHandler>>((ref) {
+  final registry = ref.watch(notificationRegistryProvider);
+  final sub = registry.changes.listen((_) => ref.invalidateSelf());
+  ref.onDispose(sub.cancel);
+  return [...registry.actionHandlers, ...ref.watch(_contributedHandlersProvider)];
+});
 
 /// Finds the handler for an action on a target type (most specific first).
 NotificationActionHandler? findActionHandler(

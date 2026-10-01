@@ -7,7 +7,7 @@ enum Priority {
   high(3),
   urgent(4);
 
-  const Priority(this.value);
+  Priority(this.value);
 
   /// Stored smallint.
   final int value;
@@ -24,10 +24,8 @@ enum Priority {
   bool get isSet => this != none;
 
   /// Sort order: most urgent first, [none] last.
-  static int compareUrgentFirst(Priority a, Priority b) =>
-      b.value.compareTo(a.value);
+  static int compareUrgentFirst(Priority a, Priority b) => b.value.compareTo(a.value);
 
   /// Same order over stored values.
-  static int compareValuesUrgentFirst(int? a, int? b) =>
-      compareUrgentFirst(fromValue(a), fromValue(b));
+  static int compareValuesUrgentFirst(int? a, int? b) => compareUrgentFirst(fromValue(a), fromValue(b));
 }

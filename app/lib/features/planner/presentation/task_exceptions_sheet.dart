@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/planner/application/planner_providers.dart';
@@ -61,7 +63,7 @@ class _TaskExceptions extends ConsumerWidget {
       onOpen: (e) {
         final router = GoRouter.of(context);
         Navigator.of(context).pop();
-        router.push(AppLinks.task(taskId, occurrenceKey: e.key));
+        unawaited(router.push(AppLinks.task(taskId, occurrenceKey: e.key)));
       },
     );
   }

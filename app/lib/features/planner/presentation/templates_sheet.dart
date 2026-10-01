@@ -8,11 +8,8 @@ import 'package:material_ui/material_ui.dart';
 
 /// Task templates (T3.1.20): pick one to start a new task from it, or delete templates.
 /// Returns the picked template, or null.
-Future<Task?> showTemplatesSheet(BuildContext context) => showAppSheet<Task>(
-  context,
-  title: context.l10n.tasksTemplatesTitle,
-  builder: (_) => const _TemplatesList(),
-);
+Future<Task?> showTemplatesSheet(BuildContext context) =>
+    showAppSheet<Task>(context, title: context.l10n.tasksTemplatesTitle, builder: (_) => const _TemplatesList());
 
 class _TemplatesList extends ConsumerWidget {
   const _TemplatesList();

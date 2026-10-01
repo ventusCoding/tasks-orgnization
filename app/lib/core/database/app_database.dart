@@ -63,10 +63,8 @@ class AppDatabase extends _$AppDatabase {
   /// In-memory database for tests.
   factory AppDatabase.forTesting(QueryExecutor executor) => AppDatabase(executor);
 
-  static QueryExecutor _openConnection() => driftDatabase(
-    name: 'everslot',
-    native: const DriftNativeOptions(shareAcrossIsolates: true),
-  );
+  static QueryExecutor _openConnection() =>
+      driftDatabase(name: 'everslot', native: const DriftNativeOptions(shareAcrossIsolates: true));
 
   @override
   int get schemaVersion => 1;
@@ -119,7 +117,7 @@ class AppDatabase extends _$AppDatabase {
       String parentExpr = 'NULL',
     }) {
       final ins =
-          "INSERT INTO search_index(entity_type, entity_id, parent_id, title, body) "
+          'INSERT INTO search_index(entity_type, entity_id, parent_id, title, body) '
           "SELECT '$entityType', NEW.id, $parentExpr, ${norm(titleExpr)}, ${norm(bodyExpr)} "
           'WHERE NEW.deleted_at IS NULL;';
       final del = "DELETE FROM search_index WHERE entity_type = '$entityType' AND entity_id = OLD.id;";
@@ -130,15 +128,11 @@ CREATE TRIGGER IF NOT EXISTS trg_${table}_fts_ad AFTER DELETE ON $table BEGIN $d
     }
 
     return [
-      '''CREATE VIRTUAL TABLE IF NOT EXISTS search_index USING fts5(
+      '''
+CREATE VIRTUAL TABLE IF NOT EXISTS search_index USING fts5(
         entity_type UNINDEXED, entity_id UNINDEXED, parent_id UNINDEXED, title, body,
         tokenize = 'unicode61 remove_diacritics 2')''',
-      ...indexTriggers(
-        table: 'tasks',
-        entityType: 'task',
-        titleExpr: 'NEW.title',
-        bodyExpr: 'NEW.notes',
-      ).split('\n'),
+      ...indexTriggers(table: 'tasks', entityType: 'task', titleExpr: 'NEW.title', bodyExpr: 'NEW.notes').split('\n'),
       ...indexTriggers(
         table: 'checklists',
         entityType: 'checklist',
@@ -169,9 +163,6 @@ CREATE TRIGGER IF NOT EXISTS trg_${table}_fts_ad AFTER DELETE ON $table BEGIN $d
   }
 
   /// Arabic/diacritic normalization applied to search queries (mirrors the trigger SQL).
-  static String normalizeForSearch(String input) => input
-      .replaceAll(RegExp('[أإآ]'), 'ا')
-      .replaceAll('ى', 'ي')
-      .replaceAll('ة', 'ه')
-      .replaceAll('ـ', '');
+  static String normalizeForSearch(String input) =>
+      input.replaceAll(RegExp('[أإآ]'), 'ا').replaceAll('ى', 'ي').replaceAll('ة', 'ه').replaceAll('ـ', '');
 }

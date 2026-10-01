@@ -13,12 +13,9 @@ import 'package:flutter/widgets.dart';
 ///  * [onReturn] fires at every return to the foreground (not debounced) with how long the app was
 ///    away — the app-lock timeout of T8.3.09 reads it.
 class AppLifecycleService with WidgetsBindingObserver {
-  AppLifecycleService({
-    Clock? clock,
-    WidgetsBinding? binding,
-    this.resumeDebounce = const Duration(seconds: 2),
-  }) : _clock = clock ?? const SystemClock(),
-       _binding = binding ?? WidgetsBinding.instance {
+  AppLifecycleService({Clock? clock, WidgetsBinding? binding, this.resumeDebounce = const Duration(seconds: 2)})
+    : _clock = clock ?? const SystemClock(),
+      _binding = binding ?? WidgetsBinding.instance {
     _binding.addObserver(this);
     _state = _binding.lifecycleState ?? AppLifecycleState.resumed;
   }
@@ -27,11 +24,13 @@ class AppLifecycleService with WidgetsBindingObserver {
   final WidgetsBinding _binding;
   final Duration resumeDebounce;
 
-  final _resumed = StreamController<void>.broadcast();
-  final _paused = StreamController<void>.broadcast();
-  final _detached = StreamController<void>.broadcast();
-  final _states = StreamController<AppLifecycleState>.broadcast();
-  final _returned = StreamController<Duration>.broadcast();
+  // Synchronous: listeners see the events of one transition in order across the five streams
+  // (raw state first, then pause / return / resume).
+  final _resumed = StreamController<void>.broadcast(sync: true);
+  final _paused = StreamController<void>.broadcast(sync: true);
+  final _detached = StreamController<void>.broadcast(sync: true);
+  final _states = StreamController<AppLifecycleState>.broadcast(sync: true);
+  final _returned = StreamController<Duration>.broadcast(sync: true);
 
   DateTime? _lastResume;
   DateTime? _backgroundedAt;

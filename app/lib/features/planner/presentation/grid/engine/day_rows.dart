@@ -18,7 +18,10 @@ List<(int, int)> rowRangesFor(DayTimeline timeline, List<AxisRow> rows) {
       continue;
     }
     final a = math.max(prev, timeline.tOfWall(r.wallStart, repeat: r.repeat));
-    final b = math.max(a, r.wallEnd >= 1440 ? timeline.lengthMinutes : timeline.tOfWallEnd(r.wallEnd, repeat: r.repeat));
+    final b = math.max(
+      a,
+      r.wallEnd >= 1440 ? timeline.lengthMinutes : timeline.tOfWallEnd(r.wallEnd, repeat: r.repeat),
+    );
     result.add((a, b));
     prev = b;
   }
@@ -28,7 +31,14 @@ List<(int, int)> rowRangesFor(DayTimeline timeline, List<AxisRow> rows) {
 /// An item in the day list: shown once, in the row where it starts (T3.5.02).
 @immutable
 class DayEntry {
-  const DayEntry({required this.item, required this.tStart, required this.tEnd, required this.lane, this.continues = false, this.continuesAfter = false});
+  const DayEntry({
+    required this.item,
+    required this.tStart,
+    required this.tEnd,
+    required this.lane,
+    this.continues = false,
+    this.continuesAfter = false,
+  });
 
   final PlannerItem item;
 
@@ -123,14 +133,16 @@ List<SlotRow> buildDayRows({required DaySlice slice, required int slotMinutes, D
     } else {
       laneEnds[lane] = end;
     }
-    entries.add(DayEntry(
-      item: s.item,
-      tStart: s.tStart,
-      tEnd: s.tEnd,
-      lane: lane,
-      continues: s.continuesBefore,
-      continuesAfter: s.continuesAfter,
-    ));
+    entries.add(
+      DayEntry(
+        item: s.item,
+        tStart: s.tStart,
+        tEnd: s.tEnd,
+        lane: lane,
+        continues: s.continuesBefore,
+        continuesAfter: s.continuesAfter,
+      ),
+    );
   }
   final starting = [for (var i = 0; i < axisRows.length; i++) <DayEntry>[]];
   final crossing = [for (var i = 0; i < axisRows.length; i++) <RowBar>[]];
@@ -160,7 +172,9 @@ List<SlotRow> buildDayRows({required DaySlice slice, required int slotMinutes, D
     for (var r = first; r < ranges.length && ranges[r].$1 < e.tEnd; r++) {
       if (ranges[r].$2 <= ranges[r].$1) continue;
       final last = r + 1 >= ranges.length || ranges[r + 1].$1 >= e.tEnd;
-      crossing[r].add(RowBar(lane: e.lane, item: e.item, starts: r == first && !e.continues, ends: last && !e.continuesAfter));
+      crossing[r].add(
+        RowBar(lane: e.lane, item: e.item, starts: r == first && !e.continues, ends: last && !e.continuesAfter),
+      );
     }
   }
   return [

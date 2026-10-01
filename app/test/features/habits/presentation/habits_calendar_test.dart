@@ -92,7 +92,10 @@ void main() {
       tester,
       h,
       Scaffold(
-        body: Padding(padding: const EdgeInsets.all(16), child: YearHeatmap(habitId: habit.id)),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: YearHeatmap(habitId: habit.id),
+        ),
       ),
     );
     await settle(tester);
@@ -105,7 +108,9 @@ void main() {
     final weekStart = h.read(userPreferencesProvider).weekStart;
     final start = d(2026, 9, 22).minusDays(52 * 7).startOfWeek(weekStart);
     final index = start.daysUntil(d(2026, 9, 21));
-    final grid = find.byWidgetPredicate((w) => w is CustomPaint && w.painter.runtimeType.toString() == '_HeatmapPainter');
+    final grid = find.byWidgetPredicate(
+      (w) => w is CustomPaint && w.painter.runtimeType.toString() == '_HeatmapPainter',
+    );
     await tester.tapAt(tester.getTopLeft(grid) + Offset((index ~/ 7) * 15 + 6, (index % 7) * 15 + 6));
     await settle(tester);
     expect(find.text(fmt.dayLong(d(2026, 9, 21))), findsOneWidget);

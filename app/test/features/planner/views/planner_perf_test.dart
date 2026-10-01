@@ -26,7 +26,12 @@ import 'support/planner_harness.dart';
 List<PlannerItem> perfWeek(LocalDate monday, {int count = 2000, int seed = 7}) {
   final random = math.Random(seed);
   const colors = [0xFF1565C0, 0xFF2E7D32, 0xFF6A1B9A, 0xFFEF6C00, 0xFFC62828, 0xFF00838F];
-  const statuses = [OccurrenceStatus.scheduled, OccurrenceStatus.done, OccurrenceStatus.skipped, OccurrenceStatus.missed];
+  const statuses = [
+    OccurrenceStatus.scheduled,
+    OccurrenceStatus.done,
+    OccurrenceStatus.skipped,
+    OccurrenceStatus.missed,
+  ];
   return [
     for (var i = 0; i < count; i++)
       item(
@@ -52,7 +57,13 @@ void main() {
   Future<PlannerGridController> pumpGrid(WidgetTester tester, PlannerHarness h) async {
     final controller = PlannerGridController();
     addTearDown(controller.dispose);
-    await pumpPlanner(tester, h, Scaffold(body: TimeGrid(viewKey: 'week_table', controller: controller)));
+    await pumpPlanner(
+      tester,
+      h,
+      Scaffold(
+        body: TimeGrid(viewKey: 'week_table', controller: controller),
+      ),
+    );
     for (var i = 0; i < 5; i++) {
       await tester.pump(const Duration(milliseconds: 100));
     }
@@ -124,13 +135,17 @@ void main() {
     final h = PlannerHarness.create(items: [...perfWeek(monday), ...perfWeek(monday.plusDays(7), seed: 11)]);
     addTearDown(h.dispose);
     final notifier = h.read(plannerViewConfigProvider('week_table').notifier);
-    notifier.update(h.read(plannerViewConfigProvider('week_table')).withSlot(5).copyWith(daysVisible: 14, daysVisibleLandscape: 14));
+    notifier.update(
+      h.read(plannerViewConfigProvider('week_table')).withSlot(5).copyWith(daysVisible: 14, daysVisibleLandscape: 14),
+    );
     final controller = PlannerGridController();
     addTearDown(controller.dispose);
     await pumpPlanner(
       tester,
       h,
-      Scaffold(body: TimeGrid(viewKey: 'week_table', controller: controller)),
+      Scaffold(
+        body: TimeGrid(viewKey: 'week_table', controller: controller),
+      ),
       size: const Size(1280, 800),
     );
     for (var i = 0; i < 5; i++) {
@@ -146,7 +161,11 @@ void main() {
       expect(took, lessThan(frameCeiling));
       maxTiles = math.max(maxTiles, find.byType(TaskTile).evaluate().length);
     }
-    expect(maxTiles, lessThan(1500), reason: '14 visible days: the window ± one screen, not the 4 000 items of the range');
+    expect(
+      maxTiles,
+      lessThan(1500),
+      reason: '14 visible days: the window ± one screen, not the 4 000 items of the range',
+    );
     expect(tester.takeException(), isNull);
   });
 

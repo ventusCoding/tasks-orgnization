@@ -26,7 +26,10 @@ abstract final class IntegrationsOverlay {
   static ProviderContainer? _container;
 
   /// Extra handlers registered by later integration screens (share sheet, ICS preview).
-  static final Map<Type, Future<void> Function(BuildContext context, ProviderContainer container, IntegrationUiEvent event)>
+  static final Map<
+    Type,
+    Future<void> Function(BuildContext context, ProviderContainer container, IntegrationUiEvent event)
+  >
   handlers = {};
 
   static void install(ProviderContainer container, {int attempts = 60}) {
@@ -54,9 +57,8 @@ abstract final class IntegrationsOverlay {
       case NoticeUiEvent(:final notice, :final detail):
         final context = rootNavigatorKey.currentContext;
         if (context == null || !context.mounted) return;
-        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-          SnackBar(content: Text(integrationNoticeText(context.l10n, notice, detail))),
-        );
+        ScaffoldMessenger.maybeOf(context)
+            ?.showSnackBar(SnackBar(content: Text(integrationNoticeText(context.l10n, notice, detail))));
       default:
         final handler = handlers[event.runtimeType];
         final context = rootNavigatorKey.currentContext;

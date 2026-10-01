@@ -184,26 +184,18 @@ final class QuitCalculator {
 
   DateTime get quitStartedAt => tracker.quitStartedAt;
 
-  HabitLogKind get _useKind => tracker.mode == QuitMode.abstain
-      ? HabitLogKind.relapse
-      : HabitLogKind.use;
+  HabitLogKind get _useKind => tracker.mode == QuitMode.abstain ? HabitLogKind.relapse : HabitLogKind.use;
 
   /// Use events (relapse in abstain mode, use in reduce mode) at or after qd and not after now.
   late final List<QuitLog> uses = [
     for (final l in logs)
-      if (l.kind == _useKind &&
-          !l.loggedAt.isBefore(quitStartedAt) &&
-          !l.loggedAt.isAfter(now))
-        l,
+      if (l.kind == _useKind && !l.loggedAt.isBefore(quitStartedAt) && !l.loggedAt.isAfter(now)) l,
   ];
 
   /// Restart logs after qd (each starts a new attempt).
   late final List<QuitLog> restarts = [
     for (final l in logs)
-      if (l.kind == HabitLogKind.restart &&
-          l.loggedAt.isAfter(quitStartedAt) &&
-          !l.loggedAt.isAfter(now))
-        l,
+      if (l.kind == HabitLogKind.restart && l.loggedAt.isAfter(quitStartedAt) && !l.loggedAt.isAfter(now)) l,
   ];
 
   /// Quit attempts (QT-20).
@@ -215,15 +207,10 @@ final class QuitCalculator {
           i + 1,
           starts[i],
           end: i + 1 < starts.length ? starts[i + 1] : null,
-          endedBy: i + 1 < starts.length
-              ? QuitEndReason.restart
-              : QuitEndReason.ongoing,
+          endedBy: i + 1 < starts.length ? QuitEndReason.restart : QuitEndReason.ongoing,
           uses: [
             for (final u in uses)
-              if (!u.loggedAt.isBefore(starts[i]) &&
-                  (i + 1 >= starts.length ||
-                      u.loggedAt.isBefore(starts[i + 1])))
-                u,
+              if (!u.loggedAt.isBefore(starts[i]) && (i + 1 >= starts.length || u.loggedAt.isBefore(starts[i + 1]))) u,
           ],
         ),
     ];
@@ -243,9 +230,7 @@ final class QuitCalculator {
       }
       if (at.isAfter(start)) start = at;
     }
-    result.add(
-      AbstinenceInterval(start, end: null, endedBy: QuitEndReason.ongoing),
-    );
+    result.add(AbstinenceInterval(start, end: null, endedBy: QuitEndReason.ongoing));
     return result;
   }();
 
@@ -259,9 +244,8 @@ final class QuitCalculator {
   Duration get currentAbstinence => now.difference(currentAbstinenceStart);
 
   /// QT-03 — longest abstinence interval (including the current one).
-  Duration get longestAbstinence => abstinenceIntervals
-      .map((i) => i.durationAt(now))
-      .fold(Duration.zero, (a, b) => a > b ? a : b);
+  Duration get longestAbstinence =>
+      abstinenceIntervals.map((i) => i.durationAt(now)).fold(Duration.zero, (a, b) => a > b ? a : b);
 
   /// Day facts from qd's local date through today.
   late final List<QuitDayFact> days = () {
@@ -284,9 +268,7 @@ final class QuitCalculator {
       final length = end.difference(start).inMicroseconds;
       final from = start.isBefore(quitStartedAt) ? quitStartedAt : start;
       final to = end.isAfter(now) ? now : end;
-      final fraction = length <= 0
-          ? 0.0
-          : (to.difference(from).inMicroseconds / length).clamp(0.0, 1.0);
+      final fraction = length <= 0 ? 0.0 : (to.difference(from).inMicroseconds / length).clamp(0.0, 1.0);
       final closed = !end.isAfter(now);
       final econ = tracker.economicsOn(d);
       final used = usedByDate[d] ?? 0;
@@ -328,19 +310,16 @@ final class QuitCalculator {
   ];
 
   /// QT-04 — clean (abstinent) closed days: no use, and — in explicit mode — a `clean` log.
-  int get cleanDays =>
-      closedDays.where((d) => d.status == QuitDayStatus.clean).length;
+  int get cleanDays => closedDays.where((d) => d.status == QuitDayStatus.clean).length;
 
   /// Closed days without any use (regardless of explicit confirmation).
   int get abstinentDays => closedDays.where((d) => d.abstinent).length;
 
   /// Explicit mode: closed days without a use and without a `clean` log.
-  int get unknownDays =>
-      closedDays.where((d) => d.status == QuitDayStatus.unknown).length;
+  int get unknownDays => closedDays.where((d) => d.status == QuitDayStatus.unknown).length;
 
   /// QT-05 — clean days ÷ closed local days since qd.
-  Stat<double> get cleanDayShare =>
-      safeDivide(cleanDays, closedDays.length, sampleSize: closedDays.length);
+  Stat<double> get cleanDayShare => safeDivide(cleanDays, closedDays.length, sampleSize: closedDays.length);
 
   /// QT-06 — units avoided (fractional current day allowed).
   double get unitsAvoided {
@@ -349,9 +328,7 @@ final class QuitCalculator {
   }
 
   /// Units avoided per day (the line of QT-06).
-  List<(LocalDate, double)> get unitsAvoidedByDay => [
-    for (final d in days) (d.localDate, d.avoided),
-  ];
+  List<(LocalDate, double)> get unitsAvoidedByDay => [for (final d in days) (d.localDate, d.avoided)];
 
   /// QT-07 — money saved: Σ_d avoided_d × cpu_d (piecewise over revisions), floored at 0.
   Decimal get moneySaved {
@@ -366,8 +343,7 @@ final class QuitCalculator {
 
   /// Money saved per local day (QT-23 bars).
   List<(LocalDate, Decimal)> get moneySavedByDay => [
-    for (final d in days)
-      (d.localDate, d.cpu == null ? Decimal.zero : _dec(d.avoided) * d.cpu!),
+    for (final d in days) (d.localDate, d.cpu == null ? Decimal.zero : _dec(d.avoided) * d.cpu!),
   ];
 
   /// QT-08 — money spent on lapses/uses: Σ a_j × cpu at t_j.
@@ -415,16 +391,13 @@ final class QuitCalculator {
   }
 
   /// Reduce mode: closed days within the limit (used ≤ limit in force).
-  int get withinLimitDays =>
-      closedDays.where((d) => d.withinLimit ?? false).length;
+  int get withinLimitDays => closedDays.where((d) => d.withinLimit ?? false).length;
 
   /// Reduce mode: consecutive successful closed days up to yesterday (0 when today is already over
   /// the limit). Abstain mode: consecutive clean closed days.
   int get dayStreak {
     final today = days.isEmpty ? null : days.last;
-    if (today != null &&
-        !today.closed &&
-        !_daySuccess(today, allowOpen: true)) {
+    if (today != null && !today.closed && !_daySuccess(today, allowOpen: true)) {
       return 0;
     }
     var streak = 0;
@@ -456,11 +429,7 @@ final class QuitCalculator {
 /// A milestone row of the (smoking) content table or a day milestone: single point ([tMax] null)
 /// or range [tMin, tMax].
 @immutable
-final class const QuitMilestone(
-  final String id, {
-  required final Duration tMin,
-  final Duration? tMax,
-}) {
+final class const QuitMilestone(final String id, {required final Duration tMin, final Duration? tMax}) {
   bool get isRange => tMax != null && tMax! > tMin;
 }
 
@@ -479,8 +448,7 @@ final class const MilestoneProgress(
 
 /// P0 day milestones (1/3/7/14/30/60/90/180/365 days).
 final List<QuitMilestone> defaultDayMilestones = [
-  for (final d in const [1, 3, 7, 14, 30, 60, 90, 180, 365])
-    QuitMilestone('day_$d', tMin: Duration(days: d)),
+  for (final d in const [1, 3, 7, 14, 30, 60, 90, 180, 365]) QuitMilestone('day_$d', tMin: Duration(days: d)),
 ];
 
 /// QT-11 — milestone progress driven by the current abstinence (the clock restarts after a lapse):
@@ -512,16 +480,12 @@ List<MilestoneProgress> milestoneProgress(
         if (isNext) nextAssigned = true;
         final progress = end.inMicroseconds <= 0
             ? 1.0
-            : math
-                  .min(1, elapsed.inMicroseconds / end.inMicroseconds)
-                  .toDouble();
+            : math.min(1, elapsed.inMicroseconds / end.inMicroseconds).toDouble();
         return MilestoneProgress(
           m,
           progress: math.max(0, progress),
           state: state,
-          eta: abstinenceStart.add(
-            state == MilestoneState.inWindow ? end : m.tMin,
-          ),
+          eta: abstinenceStart.add(state == MilestoneState.inWindow ? end : m.tMin),
           isNext: isNext,
         );
       }(),
@@ -548,10 +512,7 @@ final class const RelapseClassification({
 ///   blocks counted from the attempt start (days 1–7 = block 1, 8–14 = block 2, …);
 /// - Russell Standard sustained abstinence = ≤ 5 units in total after a 2-week grace period
 ///   (uses on days 1–14 are ignored).
-RelapseClassification classifyRelapse(
-  LocalDate attemptStartDate,
-  Iterable<(LocalDate date, double amount)> useDays,
-) {
+RelapseClassification classifyRelapse(LocalDate attemptStartDate, Iterable<(LocalDate date, double amount)> useDays) {
   final byDay = <int, double>{};
   for (final (date, amount) in useDays) {
     final day = attemptStartDate.daysUntil(date) + 1;
@@ -586,16 +547,12 @@ RelapseClassification classifyRelapse(
       break;
     }
   }
-  final afterGrace = byDay.entries
-      .where((e) => e.key > 14)
-      .fold<double>(0, (acc, e) => acc + e.value);
+  final afterGrace = byDay.entries.where((e) => e.key > 14).fold<double>(0, (acc, e) => acc + e.value);
   return RelapseClassification(
     lapseDays: daysSorted.length,
     isRelapse: rule != null,
     rule: rule,
-    detectedOn: detectedDay == null
-        ? null
-        : attemptStartDate.plusDays(detectedDay - 1),
+    detectedOn: detectedDay == null ? null : attemptStartDate.plusDays(detectedDay - 1),
     unitsAfterGrace: afterGrace,
     russellSustained: afterGrace <= 5,
   );
@@ -603,11 +560,7 @@ RelapseClassification classifyRelapse(
 
 /// QT-21 — days until a savings goal is reached at [dailySaving]: ⌈(goal − saved) ÷ dailySaving⌉
 /// (0 when reached; [NotApplicable] without a positive daily saving).
-Stat<int> savingsGoalEtaDays({
-  required Decimal saved,
-  required Decimal goal,
-  required Decimal dailySaving,
-}) {
+Stat<int> savingsGoalEtaDays({required Decimal saved, required Decimal goal, required Decimal dailySaving}) {
   if (saved >= goal) return const Value<int>(0);
   if (dailySaving <= Decimal.zero) {
     return const NotApplicable<int>(Reasons.zeroDenominator);

@@ -42,8 +42,8 @@ class SwipeActions {
   factory SwipeActions.fromSettings(Map<String, dynamic> settings) {
     final raw = settings['swipeActions'];
     if (raw is! Map) return defaults;
-    final edit = raw['edit'] is Map ? raw['edit'] as Map : const {};
-    final preview = raw['preview'] is Map ? raw['preview'] as Map : const {};
+    final edit = raw['edit'] is Map ? raw['edit'] as Map<Object?, Object?> : const <Object?, Object?>{};
+    final preview = raw['preview'] is Map ? raw['preview'] as Map<Object?, Object?> : const <Object?, Object?>{};
     return SwipeActions(
       editRight: SwipeAction.parse(edit['right'], SwipeAction.indent),
       editLeft: SwipeAction.parse(edit['left'], SwipeAction.outdent),
@@ -58,17 +58,20 @@ class SwipeActions {
   };
 
   /// Action for a swipe toward the end (true) or start (false) of the reading direction.
-  SwipeAction resolve({required bool preview, required bool towardEnd}) => preview
-      ? (towardEnd ? previewRight : previewLeft)
-      : (towardEnd ? editRight : editLeft);
+  SwipeAction resolve({required bool preview, required bool towardEnd}) =>
+      preview ? (towardEnd ? previewRight : previewLeft) : (towardEnd ? editRight : editLeft);
 
-  SwipeActions copyWith({SwipeAction? editRight, SwipeAction? editLeft, SwipeAction? previewRight, SwipeAction? previewLeft}) =>
-      SwipeActions(
-        editRight: editRight ?? this.editRight,
-        editLeft: editLeft ?? this.editLeft,
-        previewRight: previewRight ?? this.previewRight,
-        previewLeft: previewLeft ?? this.previewLeft,
-      );
+  SwipeActions copyWith({
+    SwipeAction? editRight,
+    SwipeAction? editLeft,
+    SwipeAction? previewRight,
+    SwipeAction? previewLeft,
+  }) => SwipeActions(
+    editRight: editRight ?? this.editRight,
+    editLeft: editLeft ?? this.editLeft,
+    previewRight: previewRight ?? this.previewRight,
+    previewLeft: previewLeft ?? this.previewLeft,
+  );
 
   @override
   bool operator ==(Object other) =>

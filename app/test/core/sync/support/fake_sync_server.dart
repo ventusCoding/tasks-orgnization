@@ -66,7 +66,7 @@ class FakeSyncServer {
   int minSupportedBuild = 0;
 
   /// Errors thrown by the next `push` calls (whole-call refusals).
-  final List<Object> queuedPushErrors = [];
+  final List<Exception> queuedPushErrors = [];
 
   /// Group-end integrity check; return a violation message to reject the whole group.
   String? Function(FakeSyncServer server, String userId, String table, String id)? integrityCheck;
@@ -224,11 +224,7 @@ class FakeSyncServer {
       ..values['origin_device_id'] = deviceId
       ..rev = _bump(userId)
       ..serverUpdatedAt = now.toIso8601String();
-    return PushResult(
-      changeId: changeId,
-      status: stale.isEmpty ? 'applied' : 'partial',
-      staleFields: stale,
-    );
+    return PushResult(changeId: changeId, status: stale.isEmpty ? 'applied' : 'partial', staleFields: stale);
   }
 
   int _bump(String userId) => heads[userId] = head(userId) + 1;
@@ -395,14 +391,7 @@ class SimDevice {
     clock = FakeClock(now ?? server.now);
     registry = TableRegistry(db);
     hlc = Hlc(deviceId: deviceId, clock: clock);
-    writer = SyncWriter(
-      db: db,
-      registry: registry,
-      clock: clock,
-      hlc: hlc,
-      userId: () => userId,
-      deviceId: deviceId,
-    );
+    writer = SyncWriter(db: db, registry: registry, clock: clock, hlc: hlc, userId: () => userId, deviceId: deviceId);
     api = FakeSyncApi(server, userId);
     sync = SyncService(
       db: db,
@@ -429,8 +418,7 @@ class SimDevice {
   late final FakeSyncApi api;
   late final SyncService sync;
 
-  Future<List<OutboxRow>> outbox() =>
-      (db.select(db.syncOutbox)..orderBy([(o) => OrderingTerm.asc(o.seq)])).get();
+  Future<List<OutboxRow>> outbox() => (db.select(db.syncOutbox)..orderBy([(o) => OrderingTerm.asc(o.seq)])).get();
 
   /// Local rows of [table] (id → selected columns).
   Future<Map<String, Map<String, Object?>>> rows(String table, List<String> columns) async {

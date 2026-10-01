@@ -46,8 +46,7 @@ class InheritDropdown<T> extends StatelessWidget {
         onChanged: onChanged,
         items: [
           DropdownMenuItem<T?>(child: Text(l.notifInherit)),
-          for (final o in options)
-            DropdownMenuItem<T?>(value: o, child: Text(optionLabel(o))),
+          for (final o in options) DropdownMenuItem<T?>(value: o, child: Text(optionLabel(o))),
         ],
       ),
     );
@@ -56,12 +55,7 @@ class InheritDropdown<T> extends StatelessWidget {
 
 /// Every field of the `delivery` block with inherit / set / disable semantics.
 class DeliveryFieldsEditor extends StatelessWidget {
-  const DeliveryFieldsEditor({
-    required this.value,
-    required this.onChanged,
-    this.inheritedFrom,
-    super.key,
-  });
+  const DeliveryFieldsEditor({required this.value, required this.onChanged, this.inheritedFrom, super.key});
 
   final DeliverySpec value;
   final ValueChanged<DeliverySpec> onChanged;
@@ -87,16 +81,9 @@ class DeliveryFieldsEditor extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final labels = NotificationLabels.of(context);
-    final hint = inheritedFrom == null
-        ? null
-        : l.notifInheritedFromProfile(inheritedFrom!);
+    final hint = inheritedFrom == null ? null : l.notifInheritedFromProfile(inheritedFrom!);
     String yesNo(bool v) => v ? l.notifYes : l.notifNo;
-    Widget boolField(
-      String field,
-      String label,
-      bool? current, {
-      String? badge,
-    }) => InheritDropdown<bool>(
+    Widget boolField(String field, String label, bool? current, {String? badge}) => InheritDropdown<bool>(
       label: label,
       value: current,
       options: const [true, false],
@@ -116,8 +103,7 @@ class DeliveryFieldsEditor extends StatelessWidget {
           label: l.notifImportance,
           value: value.importance,
           options: [for (final i in NotificationImportance.values) i.wire],
-          optionLabel: (w) =>
-              labels.importance(NotificationImportance.tryParse(w)!),
+          optionLabel: (w) => labels.importance(NotificationImportance.tryParse(w)!),
           inheritedHint: hint,
           onChanged: (v) => onChanged(_set('importance', v)),
         ),
@@ -125,8 +111,7 @@ class DeliveryFieldsEditor extends StatelessWidget {
           label: l.notifInterruption,
           value: value.interruptionLevel,
           options: [for (final i in InterruptionLevel.values) i.wire],
-          optionLabel: (w) =>
-              labels.interruption(InterruptionLevel.tryParse(w)!),
+          optionLabel: (w) => labels.interruption(InterruptionLevel.tryParse(w)!),
           inheritedHint: hint,
           badge: l.notifIosLabel,
           onChanged: (v) => onChanged(_set('interruptionLevel', v)),
@@ -148,29 +133,19 @@ class DeliveryFieldsEditor extends StatelessWidget {
           badge: l.notifAndroidLabel,
           onChanged: (v) => onChanged(_set('vibration', v)),
         ),
-        boolField(
-          'sticky',
-          l.notifSticky,
-          value.sticky,
-          badge: l.notifAndroidLabel,
-        ),
+        boolField('sticky', l.notifSticky, value.sticky, badge: l.notifAndroidLabel),
         const SizedBox(height: Space.sm),
         Row(
           children: [
-            Expanded(
-              child: Text(l.notifActions, style: context.text.titleSmall),
-            ),
+            Expanded(child: Text(l.notifActions, style: context.text.titleSmall)),
             SegmentedButton<bool>(
               segments: [
                 ButtonSegment(value: false, label: Text(l.notifInherit)),
                 ButtonSegment(value: true, label: Text(l.notifModeCustom)),
               ],
               selected: {actions != null},
-              onSelectionChanged: (s) => onChanged(
-                s.first
-                    ? value.copyWith(actions: const [])
-                    : value.copyWith(clear: {'actions'}),
-              ),
+              onSelectionChanged: (s) =>
+                  onChanged(s.first ? value.copyWith(actions: const []) : value.copyWith(clear: {'actions'})),
             ),
           ],
         ),
@@ -182,9 +157,7 @@ class DeliveryFieldsEditor extends StatelessWidget {
               for (final a in NotificationActionIds.all)
                 FilterChip(
                   label: Text(
-                    actions.contains(a)
-                        ? '${actions.indexOf(a) + 1}. ${labels.action(a)}'
-                        : labels.action(a),
+                    actions.contains(a) ? '${actions.indexOf(a) + 1}. ${labels.action(a)}' : labels.action(a),
                   ),
                   selected: actions.contains(a),
                   onSelected: (v) => onChanged(
@@ -201,26 +174,17 @@ class DeliveryFieldsEditor extends StatelessWidget {
             ],
           ),
         if (actions != null && actions.length > 3)
-          Text(
-            l.notifIssueTooManyActions,
-            style: context.text.bodySmall?.copyWith(
-              color: context.appColors.warning,
-            ),
-          ),
+          Text(l.notifIssueTooManyActions, style: context.text.bodySmall?.copyWith(color: context.appColors.warning)),
         _NumbersField(
           label: l.notifSnoozeOptions,
           values: value.snoozeOptionsMinutes,
           onChanged: (v) => onChanged(
-            v == null
-                ? value.copyWith(clear: {'snoozeOptionsMinutes'})
-                : value.copyWith(snoozeOptionsMinutes: v),
+            v == null ? value.copyWith(clear: {'snoozeOptionsMinutes'}) : value.copyWith(snoozeOptionsMinutes: v),
           ),
         ),
         _NumbersField(
           label: l.notifLateness,
-          values: value.latenessMinutes == null
-              ? null
-              : [value.latenessMinutes!],
+          values: value.latenessMinutes == null ? null : [value.latenessMinutes!],
           single: true,
           onChanged: (v) => onChanged(
             v == null || v.isEmpty
@@ -235,12 +199,7 @@ class DeliveryFieldsEditor extends StatelessWidget {
 
 /// Comma-separated integers (empty = inherit).
 class _NumbersField extends StatefulWidget {
-  const _NumbersField({
-    required this.label,
-    required this.values,
-    required this.onChanged,
-    this.single = false,
-  });
+  const _NumbersField({required this.label, required this.values, required this.onChanged, this.single = false});
 
   final String label;
   final List<int>? values;
@@ -252,9 +211,7 @@ class _NumbersField extends StatefulWidget {
 }
 
 class _NumbersFieldState extends State<_NumbersField> {
-  late final _controller = TextEditingController(
-    text: widget.values?.join(', ') ?? '',
-  );
+  late final _controller = TextEditingController(text: widget.values?.join(', ') ?? '');
 
   @override
   void dispose() {
@@ -268,19 +225,10 @@ class _NumbersFieldState extends State<_NumbersField> {
     child: TextField(
       controller: _controller,
       keyboardType: TextInputType.number,
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(
-          RegExp(widget.single ? '[0-9]' : '[0-9, ]'),
-        ),
-      ],
-      decoration: InputDecoration(
-        labelText: widget.label,
-        hintText: context.l10n.notifInherit,
-      ),
+      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(widget.single ? '[0-9]' : '[0-9, ]'))],
+      decoration: InputDecoration(labelText: widget.label, hintText: context.l10n.notifInherit),
       onChanged: (text) {
-        final parts = [
-          for (final p in text.split(',')) ?int.tryParse(p.trim()),
-        ];
+        final parts = [for (final p in text.split(',')) ?int.tryParse(p.trim())];
         widget.onChanged(text.trim().isEmpty ? null : parts);
       },
     ),
@@ -289,11 +237,7 @@ class _NumbersFieldState extends State<_NumbersField> {
 
 /// Weekday chips (ISO 1..7) in the user's week order.
 class WeekdayChips extends StatelessWidget {
-  const WeekdayChips({
-    required this.selected,
-    required this.onChanged,
-    super.key,
-  });
+  const WeekdayChips({required this.selected, required this.onChanged, super.key});
 
   final Set<int> selected;
   final ValueChanged<Set<int>> onChanged;
@@ -309,9 +253,7 @@ class WeekdayChips extends StatelessWidget {
           FilterChip(
             label: Text(format.weekdayShort(Weekday.fromIso(iso))),
             selected: selected.contains(iso),
-            onSelected: (v) => onChanged(
-              v ? {...selected, iso} : ({...selected}..remove(iso)),
-            ),
+            onSelected: (v) => onChanged(v ? {...selected, iso} : ({...selected}..remove(iso))),
           ),
       ],
     );

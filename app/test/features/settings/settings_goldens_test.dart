@@ -13,7 +13,14 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../support/test_app.dart';
 
-Future<void> _pump(WidgetTester tester, TestHarness h, Widget child, {required bool dark, required bool rtl, required double scale}) async {
+Future<void> _pump(
+  WidgetTester tester,
+  TestHarness h,
+  Widget child, {
+  required bool dark,
+  required bool rtl,
+  required double scale,
+}) async {
   await tester.pumpWidget(
     UncontrolledProviderScope(
       container: h.container,
@@ -47,10 +54,7 @@ void main() {
     (dark: true, rtl: true, scale: 1.0),
     (dark: false, rtl: false, scale: 2.0),
   ];
-  final screens = <String, Widget Function()>{
-    'settings_root': SettingsScreen.new,
-    'appearance': AppearancePage.new,
-  };
+  final screens = <String, Widget Function()>{'settings_root': SettingsScreen.new, 'appearance': AppearancePage.new};
   for (final s in screens.entries) {
     for (final v in variants) {
       final name = '${s.key}_${v.dark ? 'dark' : 'light'}_${v.rtl ? 'rtl' : 'ltr'}_${v.scale == 1 ? '1x' : '2x'}';

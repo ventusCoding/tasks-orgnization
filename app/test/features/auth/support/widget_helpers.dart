@@ -7,9 +7,7 @@ import 'cloud_sync_harness.dart';
 /// Lets Drift queries/streams and async work complete between frames.
 Future<void> settle(WidgetTester tester, {int rounds = 5}) async {
   for (var i = 0; i < rounds; i++) {
-    await tester.runAsync(
-      () => Future<void>.delayed(const Duration(milliseconds: 5)),
-    );
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 5)));
     await tester.pump(const Duration(milliseconds: 50));
   }
 }

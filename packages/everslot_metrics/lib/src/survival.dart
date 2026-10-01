@@ -9,10 +9,7 @@ import 'package:meta/meta.dart';
 /// One subject: observed [time] and whether the [event] happened (false = right-censored, e.g. the
 /// current attempt).
 @immutable
-final class const SurvivalObservation(
-  final double time, {
-  required final bool event,
-});
+final class const SurvivalObservation(final double time, {required final bool event});
 
 /// One step of the KM curve at an event time.
 @immutable
@@ -56,10 +53,7 @@ final class const KaplanMeierResult(
 /// - Median survival = first t where S(t) ≤ 0.5, `null` = "not reached".
 /// - Steps are emitted at event times (plus censor-only times, with unchanged S, so the curve can
 ///   show censor ticks).
-Stat<KaplanMeierResult> kaplanMeier(
-  List<SurvivalObservation> observations, {
-  int minSubjects = 2,
-}) {
+Stat<KaplanMeierResult> kaplanMeier(List<SurvivalObservation> observations, {int minSubjects = 2}) {
   if (observations.length < minSubjects) {
     return Insufficient<KaplanMeierResult>(minSubjects, observations.length);
   }
@@ -118,12 +112,7 @@ Stat<KaplanMeierResult> kaplanMeier(
     atRisk -= d + c;
   }
   return Value<KaplanMeierResult>(
-    KaplanMeierResult(
-      steps,
-      n: sorted.length,
-      events: totalEvents,
-      medianSurvival: median,
-    ),
+    KaplanMeierResult(steps, n: sorted.length, events: totalEvents, medianSurvival: median),
     sampleSize: sorted.length,
   );
 }

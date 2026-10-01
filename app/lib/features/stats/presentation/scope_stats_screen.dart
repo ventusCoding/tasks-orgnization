@@ -68,12 +68,12 @@ class _ScopeStatsScreenState extends ConsumerState<ScopeStatsScreen> {
         InsightsRoute.item => ItemStatsPanel(itemId: id!, showHeader: true),
         InsightsRoute.review => _WeeklyReview(current: widget.query['week'] == 'current'),
         _ => StatsScopeView(
-              key: ValueKey('${widget.scope}/$id'),
-              scope: scope,
-              scopeId: id,
-              entity: entity,
-              showFilters: scope == MetricScope.planner || scope == MetricScope.checklists,
-            ),
+          key: ValueKey('${widget.scope}/$id'),
+          scope: scope,
+          scopeId: id,
+          entity: entity,
+          showFilters: scope == MetricScope.planner || scope == MetricScope.checklists,
+        ),
       },
     );
   }

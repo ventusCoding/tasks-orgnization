@@ -5,10 +5,7 @@ import 'package:material_ui/material_ui.dart';
 /// Color & icon system (T2.3.04, T2.3.03): every palette entry and priority is legible on its
 /// tiles and on the app surfaces, in both themes.
 void main() {
-  final themes = {
-    Brightness.light: AppTheme.light(),
-    Brightness.dark: AppTheme.dark(),
-  };
+  final themes = {Brightness.light: AppTheme.light(), Brightness.dark: AppTheme.dark()};
 
   double contrast(Color a, Color b) => CategoryColors.contrastRatio(a, b);
 
@@ -29,33 +26,25 @@ void main() {
         expect(
           contrast(text, tile),
           greaterThanOrEqualTo(4.5),
-          reason:
-              '0x${argb.toRadixString(16)} tile ${tile.toARGB32().toRadixString(16)}',
+          reason: '0x${argb.toRadixString(16)} tile ${tile.toARGB32().toRadixString(16)}',
         );
       }
     });
 
-    test(
-      'readable text variant of any palette color is ≥ 4.5:1 ($brightness)',
-      () {
-        for (final argb in CategoryPalette.colors) {
-          for (final surface in [scheme.surface, scheme.surfaceContainerLow]) {
-            final text = CategoryColors.readableOn(Color(argb), surface);
-            expect(contrast(text, surface), greaterThanOrEqualTo(4.5));
-          }
+    test('readable text variant of any palette color is ≥ 4.5:1 ($brightness)', () {
+      for (final argb in CategoryPalette.colors) {
+        for (final surface in [scheme.surface, scheme.surfaceContainerLow]) {
+          final text = CategoryColors.readableOn(Color(argb), surface);
+          expect(contrast(text, surface), greaterThanOrEqualTo(4.5));
         }
-      },
-    );
+      }
+    });
 
     test('priority labels and flags are ≥ 4.5:1 on surfaces ($brightness)', () {
       for (var p = 0; p <= 4; p++) {
         for (final surface in [scheme.surface, scheme.surfaceContainerLow]) {
           final fg = PriorityStyle.foreground(p, surface);
-          expect(
-            contrast(fg, surface),
-            greaterThanOrEqualTo(4.5),
-            reason: 'priority $p',
-          );
+          expect(contrast(fg, surface), greaterThanOrEqualTo(4.5), reason: 'priority $p');
         }
       }
     });
@@ -68,11 +57,7 @@ void main() {
     expect(CategoryColors.readableOn(navy, white), navy);
     final amber = CategoryColors.readableOn(const Color(0xFFF59E0B), white);
     expect(contrast(amber, white), greaterThanOrEqualTo(4.5));
-    expect(
-      contrast(amber, white),
-      lessThan(6),
-      reason: 'darkened only as needed',
-    );
+    expect(contrast(amber, white), lessThan(6), reason: 'darkened only as needed');
     final onDark = CategoryColors.readableOn(navy, black);
     expect(contrast(onDark, black), greaterThanOrEqualTo(4.5));
   });

@@ -316,7 +316,7 @@ Future<void> convertBodyToItems(BuildContext context, WidgetRef ref, Checklist c
         (t, ctx, _) => TreeOps.insertNodes(t, ctx, result.nodes).merge(
           TreeChange(
             writes: [
-              RowWrite.update('checklists', checklist.id, {'body': null}),
+              RowWrite.update('checklists', checklist.id, const {'body': null}),
             ],
           ),
         ),

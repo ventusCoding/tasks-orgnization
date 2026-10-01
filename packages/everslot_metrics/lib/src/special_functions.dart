@@ -35,10 +35,7 @@ double lnGamma(double x) {
   for (var i = 1; i < 9; i++) {
     a += _lanczos[i] / (z + i);
   }
-  return 0.5 * math.log(2 * math.pi) +
-      (z + 0.5) * math.log(t) -
-      t +
-      math.log(a);
+  return 0.5 * math.log(2 * math.pi) + (z + 0.5) * math.log(t) - t + math.log(a);
 }
 
 /// Regularized lower incomplete gamma P(a, x).
@@ -92,12 +89,7 @@ double _gammaContinuedFraction(double a, double x) {
 double regularizedIncompleteBeta(double a, double b, double x) {
   if (x <= 0) return 0;
   if (x >= 1) return 1;
-  final lnFront =
-      lnGamma(a + b) -
-      lnGamma(a) -
-      lnGamma(b) +
-      a * math.log(x) +
-      b * math.log(1 - x);
+  final lnFront = lnGamma(a + b) - lnGamma(a) - lnGamma(b) + a * math.log(x) + b * math.log(1 - x);
   final front = math.exp(lnFront);
   if (x < (a + 1) / (a + b + 2)) {
     return front * _betaContinuedFraction(a, b, x) / a;
@@ -137,8 +129,7 @@ double _betaContinuedFraction(double a, double b, double x) {
 }
 
 /// Complementary error function erfc(x).
-double erfc(double x) =>
-    x >= 0 ? regularizedGammaQ(0.5, x * x) : 1 + regularizedGammaP(0.5, x * x);
+double erfc(double x) => x >= 0 ? regularizedGammaQ(0.5, x * x) : 1 + regularizedGammaP(0.5, x * x);
 
 /// Standard normal CDF Φ(z).
 double normalCdf(double z) => 0.5 * erfc(-z / math.sqrt2);
@@ -160,5 +151,4 @@ double studentTTwoSidedP(double t, double df) {
 }
 
 /// Upper tail of the χ² distribution: P(X ≥ x) with [df] degrees of freedom.
-double chiSquareUpperTail(double x, double df) =>
-    regularizedGammaQ(df / 2, x / 2);
+double chiSquareUpperTail(double x, double df) => regularizedGammaQ(df / 2, x / 2);

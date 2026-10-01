@@ -139,8 +139,7 @@ final class const Ledger(
   Stat<double> get skipRate => rate(skipped, expected - pending);
 
   /// Entries in chronological order of their units.
-  List<LedgerEntry> get chronological =>
-      [...entries]..sort((a, b) => a.unit.start.compareTo(b.unit.start));
+  List<LedgerEntry> get chronological => [...entries]..sort((a, b) => a.unit.start.compareTo(b.unit.start));
 }
 
 /// Tolerance windows for intraday units: [start − earlyTolerance, next unit start), the last one
@@ -151,18 +150,12 @@ List<(DateTime, DateTime)> intradayToleranceWindows(
   Duration earlyTolerance = const Duration(minutes: 30),
 }) => [
   for (var i = 0; i < unitStarts.length; i++)
-    (
-      unitStarts[i].subtract(earlyTolerance),
-      i + 1 < unitStarts.length ? unitStarts[i + 1] : dayEnd,
-    ),
+    (unitStarts[i].subtract(earlyTolerance), i + 1 < unitStarts.length ? unitStarts[i + 1] : dayEnd),
 ];
 
 /// Quota expectation E = N · eligibleDays / periodDays (fractional).
-double quotaExpectation(
-  int times, {
-  required int eligibleDays,
-  required int periodDays,
-}) => proRate(times, eligibleDays, periodDays);
+double quotaExpectation(int times, {required int eligibleDays, required int periodDays}) =>
+    proRate(times, eligibleDays, periodDays);
 
 /// Builds the ledger.
 ///
@@ -253,32 +246,14 @@ Ledger buildLedger(
     final closed = !u.end.isAfter(now);
     if (!started && u.state == LedgerState.open && !matched.containsKey(i)) {
       future += w;
-      entries.add(
-        LedgerEntry(
-          u,
-          classification: LedgerClass.future,
-          done: 0,
-          missed: 0,
-          pending: 0,
-        ),
-      );
+      entries.add(LedgerEntry(u, classification: LedgerClass.future, done: 0, missed: 0, pending: 0));
       continue;
     }
     e += w;
     if (u.quotaCompletions != null) {
-      if (u.state == LedgerState.excused ||
-          u.state == LedgerState.paused ||
-          u.state == LedgerState.cancelled) {
+      if (u.state == LedgerState.excused || u.state == LedgerState.paused || u.state == LedgerState.cancelled) {
         x += w;
-        entries.add(
-          LedgerEntry(
-            u,
-            classification: LedgerClass.excused,
-            done: 0,
-            missed: 0,
-            pending: 0,
-          ),
-        );
+        entries.add(LedgerEntry(u, classification: LedgerClass.excused, done: 0, missed: 0, pending: 0));
         continue;
       }
       // Quota period: D_u = min(completions, E_u); the rest is missed (closed) or pending (open).
@@ -302,15 +277,7 @@ Ledger buildLedger(
         pendingPart = rest;
         cls = LedgerClass.pending;
       }
-      entries.add(
-        LedgerEntry(
-          u,
-          classification: cls,
-          done: unitDone,
-          missed: missedPart,
-          pending: pendingPart,
-        ),
-      );
+      entries.add(LedgerEntry(u, classification: cls, done: unitDone, missed: missedPart, pending: pendingPart));
       continue;
     }
     var state = u.state;
@@ -323,9 +290,7 @@ Ledger buildLedger(
     switch (state) {
       case LedgerState.done:
         final due = u.dueAt ?? u.end;
-        cls = completedAt == null || !completedAt.isAfter(due)
-            ? LedgerClass.onTime
-            : LedgerClass.late;
+        cls = completedAt == null || !completedAt.isAfter(due) ? LedgerClass.onTime : LedgerClass.late;
       case LedgerState.partial:
         cls = LedgerClass.partial;
       case LedgerState.failed:
@@ -423,8 +388,7 @@ List<LedgerUnit> ledgerUnitsFromPeriods(Iterable<PeriodResult> results) => [
         date: r.startDate,
         revisionId: r.revisionId,
         weight: r.kind == HabitPeriodKind.quota ? (r.flags.expected ?? 1) : 1,
-        quotaCompletions:
-            r.kind == HabitPeriodKind.quota && !r.goal.isMeasurable
+        quotaCompletions: r.kind == HabitPeriodKind.quota && !r.goal.isMeasurable
             ? (r.flags.activeDays ?? 0).toDouble()
             : null,
         state: switch (r.status) {

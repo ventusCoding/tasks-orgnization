@@ -57,9 +57,7 @@ class SignInState {
   );
 }
 
-final signInControllerProvider = NotifierProvider.autoDispose<SignInController, SignInState>(
-  SignInController.new,
-);
+final signInControllerProvider = NotifierProvider.autoDispose<SignInController, SignInState>(SignInController.new);
 
 class SignInController extends Notifier<SignInState> {
   static const resendCooldown = Duration(seconds: 60);
@@ -94,9 +92,7 @@ class SignInController extends Notifier<SignInState> {
     state = state.copyWith(busy: AuthMethod.email, clearError: true, email: normalized);
     try {
       await repo.sendEmailCode(normalized, metadata: ref.read(signUpMetadataProvider));
-      _set(
-        (s) => s.copyWith(step: SignInStep.code, clearBusy: true, resendAvailableAt: _now().add(resendCooldown)),
-      );
+      _set((s) => s.copyWith(step: SignInStep.code, clearBusy: true, resendAvailableAt: _now().add(resendCooldown)));
     } on AuthFailure catch (e) {
       _set((s) => s.copyWith(clearBusy: true, error: e.code));
     }

@@ -298,7 +298,7 @@ class _Thumb extends ConsumerWidget {
     if (path == null) return const SizedBox.shrink();
     final ratio = (attachment.width ?? 4) / ((attachment.height ?? 3) == 0 ? 3 : (attachment.height ?? 3));
     return AspectRatio(
-      aspectRatio: ratio.clamp(0.75, 2.2).toDouble(),
+      aspectRatio: ratio.clamp(0.75, 2.2),
       child: Image.file(
         File(path),
         fit: BoxFit.cover,

@@ -404,7 +404,7 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
       index: i,
       draggable: canDrag,
     );
-    final padding = const EdgeInsetsDirectional.symmetric(horizontal: Space.md);
+    const padding = EdgeInsetsDirectional.symmetric(horizontal: Space.md);
     if (config.layout == BoardLayout.list) {
       return SliverPadding(
         padding: padding,

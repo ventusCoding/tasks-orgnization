@@ -62,22 +62,12 @@ class SupabaseNotificationJobsApi implements NotificationJobsApi {
           .schema('app')
           .rpc<dynamic>(
             'replace_notification_jobs',
-            params: {
-              'p_device_id': deviceId,
-              'p_source_rev': sourceRev,
-              'p_target_keys': targetKeys,
-              'p_jobs': jobs,
-            },
+            params: {'p_device_id': deviceId, 'p_source_rev': sourceRev, 'p_target_keys': targetKeys, 'p_jobs': jobs},
           );
-      final map = res is Map
-          ? Map<String, Object?>.from(res)
-          : const <String, Object?>{};
+      final map = res is Map ? Map<String, Object?>.from(res) : const <String, Object?>{};
       return JobUploadResult(
         status: map['status'] as String? ?? 'ok',
-        staleTargets: [
-          for (final t in (map['stale_targets'] as List?) ?? const <Object?>[])
-            t.toString(),
-        ],
+        staleTargets: [for (final t in (map['stale_targets'] as List?) ?? const <Object?>[]) t.toString()],
         replaced: (map['replaced'] as num?)?.toInt() ?? 0,
         upserted: (map['upserted'] as num?)?.toInt() ?? 0,
       );
@@ -91,12 +81,7 @@ class SupabaseNotificationJobsApi implements NotificationJobsApi {
 /// persistent dirty-target set (survives restarts), ≤ 200 targets per call, `stale` → pull →
 /// replan → re-upload, retries with backoff. Content is already rendered, localized and redacted.
 class JobUploader {
-  JobUploader({
-    required this.db,
-    required this.clock,
-    required this.deviceId,
-    this.onStale,
-  });
+  JobUploader({required this.db, required this.clock, required this.deviceId, this.onStale});
 
   static final _log = AppLog.get('notifications.jobs');
   static const kvKey = 'notif_jobs_dirty';
@@ -114,9 +99,7 @@ class JobUploader {
   JobUploadResult? lastResult;
 
   Future<Set<String>> dirty() async {
-    final row = await (db.select(
-      db.localKv,
-    )..where((k) => k.key.equals(kvKey))).getSingleOrNull();
+    final row = await (db.select(db.localKv)..where((k) => k.key.equals(kvKey))).getSingleOrNull();
     if (row == null) return {};
     try {
       return {for (final k in jsonDecode(row.value) as List) k.toString()};
@@ -165,12 +148,8 @@ class JobUploader {
     var body = p.body;
     var map = payload(body);
     // Payload budget (≤ 3.5 KB): shorten the body first.
-    while (body != null &&
-        utf8.encode(jsonEncode(map)).length > maxPayloadBytes &&
-        body.isNotEmpty) {
-      body = body.length <= 10
-          ? null
-          : '${body.substring(0, body.length * 3 ~/ 4)}…';
+    while (body != null && utf8.encode(jsonEncode(map)).length > maxPayloadBytes && body.isNotEmpty) {
+      body = body.length <= 10 ? null : '${body.substring(0, body.length * 3 ~/ 4)}…';
       map = payload(body);
     }
     return {
@@ -190,20 +169,13 @@ class JobUploader {
   /// Sync cursor the plan was computed from (`schedule_rev` / `source_rev`).
   Future<int> sourceRev(String userId) async {
     final row = await db
-        .customSelect(
-          'SELECT cursor FROM sync_state WHERE user_id = ?',
-          variables: [Variable<String>(userId)],
-        )
+        .customSelect('SELECT cursor FROM sync_state WHERE user_id = ?', variables: [Variable<String>(userId)])
         .getSingleOrNull();
     return (row?.data['cursor'] as int?) ?? 0;
   }
 
   /// Uploads dirty targets of [plan]. Returns false when nothing could be uploaded now.
-  Future<bool> upload(
-    NotificationJobsApi api,
-    PlanResult plan, {
-    required int sourceRev,
-  }) async {
+  Future<bool> upload(NotificationJobsApi api, PlanResult plan, {required int sourceRev}) async {
     final now = clock.nowUtc();
     if (_retryAfter != null && now.isBefore(_retryAfter!)) return false;
     final dirtyKeys = await dirty();
@@ -211,8 +183,9 @@ class JobUploader {
     final wildcard = dirtyKeys.contains('*');
     final jobsByTarget = <String, List<Map<String, Object?>>>{};
     for (final p in plan.planned) {
-      if (!(p.deliverSystem || p.deliverInbox) || !p.fireAt.isAfter(now))
+      if (!(p.deliverSystem || p.deliverInbox) || !p.fireAt.isAfter(now)) {
         continue;
+      }
       if (p.fireAt.isAfter(now.add(horizon))) continue;
       if (!wildcard && !dirtyKeys.contains(p.targetKey)) continue;
       (jobsByTarget[p.targetKey] ??= []).add(jobFor(p));
@@ -229,12 +202,7 @@ class JobUploader {
     }
     final remaining = {...dirtyKeys};
     for (final (targets, jobs) in batches) {
-      final result = await api.replaceJobs(
-        deviceId: deviceId,
-        sourceRev: sourceRev,
-        targetKeys: targets,
-        jobs: jobs,
-      );
+      final result = await api.replaceJobs(deviceId: deviceId, sourceRev: sourceRev, targetKeys: targets, jobs: jobs);
       lastResult = result;
       if (result.ok) {
         remaining.removeAll(targets);
@@ -242,20 +210,14 @@ class JobUploader {
         _retryAfter = null;
         lastUploadAt = now;
       } else if (result.stale) {
-        _log.info(
-          'stale plan for ${result.staleTargets.length} targets → pull & replan',
-        );
+        _log.info('stale plan for ${result.staleTargets.length} targets → pull & replan');
         onStale?.call();
         break;
       } else {
         _failures++;
-        final backoff = Duration(
-          seconds: min(900, pow(2, _failures).toInt() * 15),
-        );
+        final backoff = Duration(seconds: min(900, pow(2, _failures).toInt() * 15));
         _retryAfter = now.add(backoff);
-        _log.warning(
-          'job upload failed (${result.errorCode}), retry in ${backoff.inSeconds}s',
-        );
+        _log.warning('job upload failed (${result.errorCode}), retry in ${backoff.inSeconds}s');
         break;
       }
     }

@@ -42,11 +42,7 @@ class SyncIndicator extends ConsumerWidget {
         icon = Icon(Icons.sync_problem, color: colors.warning);
       case SyncPhase.pushing || SyncPhase.pulling:
         final progress = status.initialSyncProgress;
-        icon = SizedBox(
-          width: 20,
-          height: 20,
-          child: CircularProgressIndicator(strokeWidth: 2.5, value: progress),
-        );
+        icon = SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2.5, value: progress));
       case SyncPhase.offline:
         icon = Icon(Icons.cloud_off, color: context.colors.onSurfaceVariant);
       case SyncPhase.error:
@@ -73,11 +69,8 @@ class SyncRefresh extends ConsumerWidget {
   final double edgeOffset;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => RefreshIndicator(
-    edgeOffset: edgeOffset,
-    onRefresh: () => refreshSync(context, ref),
-    child: child,
-  );
+  Widget build(BuildContext context, WidgetRef ref) =>
+      RefreshIndicator(edgeOffset: edgeOffset, onRefresh: () => refreshSync(context, ref), child: child);
 }
 
 /// Runs a manual sync and reports the outcome (used by [SyncRefresh] and "Sync now").

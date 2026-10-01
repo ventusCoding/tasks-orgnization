@@ -26,7 +26,7 @@ enum AchievementCode {
   saved1000('saved_1000', AchievementScope.habit, 1000),
   cravingsResisted50('cravings_resisted_50', AchievementScope.habit, 50);
 
-  const AchievementCode(this.wire, this.scope, [this.threshold = 1]);
+  AchievementCode(this.wire, this.scope, [this.threshold = 1]);
 
   final String wire;
   final AchievementScope scope;
@@ -120,7 +120,12 @@ List<EarnedBadge> earnedBadges({
   if (global.perfectWeek) const EarnedBadge(AchievementCode.perfectWeek),
   if (global.backfillFreeMonth) const EarnedBadge(AchievementCode.backfillFreeMonth),
   for (final h in habits) ...[
-    for (final c in const [AchievementCode.streak7, AchievementCode.streak30, AchievementCode.streak100, AchievementCode.streak365])
+    for (final c in const [
+      AchievementCode.streak7,
+      AchievementCode.streak30,
+      AchievementCode.streak100,
+      AchievementCode.streak365,
+    ])
       if (h.bestStreak >= c.threshold) EarnedBadge(c, habitId: h.habitId, value: h.bestStreak),
     for (final c in const [AchievementCode.total1000, AchievementCode.total10000])
       if (h.totalVolume >= c.threshold) EarnedBadge(c, habitId: h.habitId, value: h.totalVolume),

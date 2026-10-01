@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/checklists/application/checklist_editor.dart';
 import 'package:everslot/features/checklists/domain/item_status.dart';
@@ -39,7 +41,9 @@ class EditToolbar extends StatelessWidget {
             padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.xs),
             children: [
               for (final a in actions)
-                ExcludeFocus(child: IconButton(tooltip: a.label, icon: Icon(a.icon), onPressed: a.onPressed)),
+                ExcludeFocus(
+                  child: IconButton(tooltip: a.label, icon: Icon(a.icon), onPressed: a.onPressed),
+                ),
             ],
           ),
         ),
@@ -202,7 +206,8 @@ class _SortFilterSheetState extends ConsumerState<_SortFilterSheet> {
                   avatar: Icon(StatusStyle.icon(s), size: 18, color: StatusStyle.color(context, s)),
                   label: Text(StatusStyle.label(context, s)),
                   selected: f.statuses.contains(s),
-                  onSelected: (v) => setFilter(f.copyWith(statuses: v ? {...f.statuses, s} : ({...f.statuses}..remove(s)))),
+                  onSelected: (v) =>
+                      setFilter(f.copyWith(statuses: v ? {...f.statuses, s} : ({...f.statuses}..remove(s)))),
                 ),
             ],
           ),
@@ -228,11 +233,14 @@ class _SortFilterSheetState extends ConsumerState<_SortFilterSheet> {
               ),
             ],
           ),
-          SectionHeader(l.checklistSortFilter, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
+          SectionHeader(
+            l.checklistSortFilter,
+            padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs),
+          ),
           RadioGroup<ItemSortBy>(
             groupValue: sort.by,
             onChanged: (by) {
-              if (by != null) editor.setSort(ItemSort(by: by, descending: sort.descending));
+              if (by != null) unawaited(editor.setSort(ItemSort(by: by, descending: sort.descending)));
             },
             child: Column(
               children: [

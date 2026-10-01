@@ -263,7 +263,7 @@ class _AttachmentTileState extends ConsumerState<AttachmentTile> {
     } else {
       content = _FileFace(attachment: a, size: widget.size);
     }
-    final VoidCallback? onTap = transfer.status == TransferStatus.failed
+    final onTap = transfer.status == TransferStatus.failed
         ? () => unawaited(ref.read(attachmentServiceProvider).retryUpload(a.id))
         : widget.onTap;
     // One accessible node: the label already says kind, position, name and status (file chips'

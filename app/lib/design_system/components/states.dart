@@ -17,10 +17,7 @@ class LoadingState extends StatelessWidget {
   Widget build(BuildContext context) => Center(
     child: Semantics(
       label: label ?? context.l10n.stateLoading,
-      child: const Padding(
-        padding: EdgeInsets.all(Space.xl),
-        child: CircularProgressIndicator(),
-      ),
+      child: const Padding(padding: EdgeInsets.all(Space.xl), child: CircularProgressIndicator()),
     ),
   );
 }
@@ -127,7 +124,7 @@ class FriendlyErrorWidget extends StatelessWidget {
     // No Scaffold/theme is guaranteed above a failed widget: read localizations defensively.
     final l = Localizations.of<AppLocalizations>(context, AppLocalizations);
     return Semantics(
-      label: l?.errorWidgetFallback ?? 'This part couldn\'t be shown.',
+      label: l?.errorWidgetFallback ?? "This part couldn't be shown.",
       child: Center(
         child: Padding(
           padding: const EdgeInsetsDirectional.all(Space.md),
@@ -138,7 +135,7 @@ class FriendlyErrorWidget extends StatelessWidget {
               const SizedBox(width: Space.sm),
               Flexible(
                 child: Text(
-                  l?.errorWidgetFallback ?? 'This part couldn\'t be shown.',
+                  l?.errorWidgetFallback ?? "This part couldn't be shown.",
                   textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
                 ),
               ),
@@ -152,13 +149,7 @@ class FriendlyErrorWidget extends StatelessWidget {
 
 /// Renders an [AsyncValue] with shared loading/error widgets.
 class AsyncValueView<T> extends StatelessWidget {
-  const AsyncValueView({
-    required this.value,
-    required this.data,
-    super.key,
-    this.loading,
-    this.onRetry,
-  });
+  const AsyncValueView({required this.value, required this.data, super.key, this.loading, this.onRetry});
 
   final AsyncValue<T> value;
   final Widget Function(T data) data;

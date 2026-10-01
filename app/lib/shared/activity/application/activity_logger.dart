@@ -37,13 +37,7 @@ class ActivityLogger {
     String entityId, {
     String? parentId,
     Map<String, Object?> payload = const {},
-  }) => log(
-    entityType,
-    entityId,
-    ActivityEventTypes.created,
-    parentId: parentId,
-    payload: payload,
-  );
+  }) => log(entityType, entityId, ActivityEventTypes.created, parentId: parentId, payload: payload);
 
   /// Skipped when [fields] is empty (nothing changed).
   Future<void> updated(
@@ -81,12 +75,7 @@ class ActivityLogger {
       entityId,
       ActivityEventTypes.statusChanged,
       parentId: parentId,
-      payload: ActivityPayloads.statusChanged(
-        from: from,
-        to: to,
-        note: note,
-        source: source,
-      ),
+      payload: ActivityPayloads.statusChanged(from: from, to: to, note: note, source: source),
     );
   }
 
@@ -140,27 +129,11 @@ class ActivityLogger {
     ),
   );
 
-  Future<void> completed(
-    String entityType,
-    String entityId, {
-    String? parentId,
-  }) => log(
-    entityType,
-    entityId,
-    ActivityEventTypes.completed,
-    parentId: parentId,
-  );
+  Future<void> completed(String entityType, String entityId, {String? parentId}) =>
+      log(entityType, entityId, ActivityEventTypes.completed, parentId: parentId);
 
-  Future<void> reopened(
-    String entityType,
-    String entityId, {
-    String? parentId,
-  }) => log(
-    entityType,
-    entityId,
-    ActivityEventTypes.reopened,
-    parentId: parentId,
-  );
+  Future<void> reopened(String entityType, String entityId, {String? parentId}) =>
+      log(entityType, entityId, ActivityEventTypes.reopened, parentId: parentId);
 
   Future<void> skipped(
     String entityType,
@@ -174,19 +147,10 @@ class ActivityLogger {
     entityId,
     ActivityEventTypes.skipped,
     parentId: parentId,
-    payload: ActivityPayloads.skipped(
-      from: from,
-      reason: reason,
-      source: source,
-    ),
+    payload: ActivityPayloads.skipped(from: from, reason: reason, source: source),
   );
 
-  Future<void> deleted(
-    String entityType,
-    String entityId, {
-    int? count,
-    String? parentId,
-  }) => log(
+  Future<void> deleted(String entityType, String entityId, {int? count, String? parentId}) => log(
     entityType,
     entityId,
     ActivityEventTypes.deleted,
@@ -194,12 +158,7 @@ class ActivityLogger {
     payload: ActivityPayloads.deleted(count: count),
   );
 
-  Future<void> restored(
-    String entityType,
-    String entityId, {
-    String? fromOpId,
-    String? parentId,
-  }) => log(
+  Future<void> restored(String entityType, String entityId, {String? fromOpId, String? parentId}) => log(
     entityType,
     entityId,
     ActivityEventTypes.restored,
@@ -217,11 +176,7 @@ class ActivityLogger {
     entityType,
     entityId,
     ActivityEventTypes.attachmentAdded,
-    payload: ActivityPayloads.attachment(
-      attachmentId: attachmentId,
-      fileName: fileName,
-      mimeType: mimeType,
-    ),
+    payload: ActivityPayloads.attachment(attachmentId: attachmentId, fileName: fileName, mimeType: mimeType),
   );
 
   Future<void> attachmentRemoved(
@@ -233,10 +188,7 @@ class ActivityLogger {
     entityType,
     entityId,
     ActivityEventTypes.attachmentRemoved,
-    payload: ActivityPayloads.attachment(
-      attachmentId: attachmentId,
-      fileName: fileName,
-    ),
+    payload: ActivityPayloads.attachment(attachmentId: attachmentId, fileName: fileName),
   );
 }
 

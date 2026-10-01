@@ -30,28 +30,16 @@ void main() {
 
   // Tuesday 2026-09-22 06:00 UTC = 08:00 in Paris (CEST, UTC+2).
   final now = DateTime.utc(2026, 9, 22, 6);
-  DateTime utc(int day, int hour, [int minute = 0]) =>
-      DateTime.utc(2026, 9, day, hour, minute);
+  DateTime utc(int day, int hour, [int minute = 0]) => DateTime.utc(2026, 9, day, hour, minute);
 
   setUp(() async {
     h = TestHarness.create(now: now, zone: 'Europe/Paris');
-    port = h.read(
-      localNotificationsPortProvider,
-    ) as InMemoryLocalNotificationsPort;
+    port = h.read(localNotificationsPortProvider) as InMemoryLocalNotificationsPort;
     await seedNotificationDefaults(h.read);
 
     // Planner: a timed task today 10:00 and an all-day task on Thursday.
-    await h.createTask(
-      title: 'Standup',
-      start: '2026-09-22T10:00',
-      duration: 15,
-    );
-    await h.createTask(
-      title: 'Birthday',
-      start: '2026-09-24T00:00',
-      duration: 1440,
-      allDay: true,
-    );
+    await h.createTask(title: 'Standup', start: '2026-09-22T10:00', duration: 15);
+    await h.createTask(title: 'Birthday', start: '2026-09-24T00:00', duration: 1440, allDay: true);
 
     // Checklists: an item waiting with a follow-up, another with a due time.
     listId =
@@ -61,10 +49,7 @@ void main() {
                   title: 'Trip',
                   items: [
                     const NodeSpec(text: 'Visa'),
-                    NodeSpec(
-                      text: 'Passport',
-                      dueLocal: LocalDate(2026, 9, 23).atTime(LocalTime(10, 0)),
-                    ),
+                    NodeSpec(text: 'Passport', dueLocal: LocalDate(2026, 9, 23).atTime(LocalTime(10, 0))),
                   ],
                 ))
             .id;
@@ -72,13 +57,7 @@ void main() {
     final visa = items.firstWhere((i) => i.text == 'Visa').id;
     await h
         .read(checklistServiceProvider)
-        .changeStatus(
-          listId,
-          [visa],
-          ItemStatus.waiting,
-          note: 'embassy',
-          followUpAt: utc(22, 9),
-        );
+        .changeStatus(listId, [visa], ItemStatus.waiting, note: 'embassy', followUpAt: utc(22, 9));
 
     // Habits: an untimed daily habit; quit: a smoke-free tracker started yesterday 22:00.
     await h
@@ -90,9 +69,7 @@ void main() {
             startDate: LocalDate(2026, 9, 1),
             sortKey: '',
             goal: const HabitTarget.check(),
-            schedule: const SchedulePreset.daily().toRule(
-              weekStart: Weekday.monday,
-            ),
+            schedule: const SchedulePreset.daily().toRule(weekStart: Weekday.monday),
           ),
         );
     await h
@@ -119,11 +96,7 @@ void main() {
     });
     await h
         .read(notificationRulesRepositoryProvider)
-        .setDigest(
-          kind: 'daily_agenda',
-          enabled: true,
-          spec: DefaultRules.digestSpec('daily_agenda', LocalTime(7, 7)),
-        );
+        .setDigest(kind: 'daily_agenda', enabled: true, spec: DefaultRules.digestSpec('daily_agenda', LocalTime(7, 7)));
   });
   tearDown(() => h.dispose());
 
@@ -132,30 +105,21 @@ void main() {
   /// Section of an OS request from its channel (`dl.<section>.<profile>.v<n>`, `dl.digest.v1`).
   String sectionOf(OsNotificationRequest r) => r.channelId.split('.')[1];
 
-  Set<String> sections() => {
-    for (final r in port.scheduled.values) sectionOf(r),
-  };
+  Set<String> sections() => {for (final r in port.scheduled.values) sectionOf(r)};
 
   /// Local firings of [section] from the plan (per instance: same-minute instances of
   /// different sections are merged into one OS notification).
   List<DateTime> firesIn(String section) => [
     for (final p in h.read(notificationPipelineProvider).lastPlan!.planned)
-      if (p.channelId.split('.')[1] == section &&
-          p.scheduleLocally &&
-          p.deliverSystem)
-        p.fireAt,
+      if (p.channelId.split('.')[1] == section && p.scheduleLocally && p.deliverSystem) p.fireAt,
   ]..sort();
 
-  Future<void> settings(Map<String, Object?> patch) => h
-      .read(settingsRepositoryProvider)
-      .update(SettingsNs.notifications, patch);
+  Future<void> settings(Map<String, Object?> patch) =>
+      h.read(settingsRepositoryProvider).update(SettingsNs.notifications, patch);
 
   test('every section and the digest are planned from the seeded defaults', () async {
     await replan();
-    expect(
-      sections(),
-      containsAll(['planner', 'checklists', 'habits', 'quit', 'digest']),
-    );
+    expect(sections(), containsAll(['planner', 'checklists', 'habits', 'quit', 'digest']));
 
     // Planner: 10 min before + at start (the user's example); all-day on the day at 09:00.
     final planner = firesIn('planner');
@@ -180,10 +144,7 @@ void main() {
     });
     await replan();
     expect(sections(), isNot(contains('habits')));
-    expect(
-      sections(),
-      containsAll(['planner', 'checklists', 'quit', 'digest']),
-    );
+    expect(sections(), containsAll(['planner', 'checklists', 'quit', 'digest']));
   });
 
   test('muting a checklist silences its reminders until the date, then they resume', () async {
@@ -201,18 +162,11 @@ void main() {
     await replan();
     // Nothing fires as an OS notification before 09:30 UTC…
     for (final r in port.scheduled.values) {
-      expect(
-        r.fireAt!.isBefore(utc(22, 9, 30)),
-        isFalse,
-        reason: '${r.fireAt}',
-      );
+      expect(r.fireAt!.isBefore(utc(22, 9, 30)), isFalse, reason: '${r.fireAt}');
     }
     // …but the paused firings stay tracked for the inbox.
     final tracked = await h.read(localScheduleStoreProvider).all();
-    expect(
-      tracked.where((e) => !e.os && e.fireAt.isBefore(utc(22, 9, 30))),
-      isNotEmpty,
-    );
+    expect(tracked.where((e) => !e.os && e.fireAt.isBefore(utc(22, 9, 30))), isNotEmpty);
     // Later reminders are untouched.
     expect(firesIn('checklists'), contains(utc(23, 8)));
   });

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_settings.dart';
-import 'package:everslot_metrics/everslot_metrics.dart' show HabitPeriodKind;
+import 'package:everslot_metrics/everslot_metrics.dart' show HabitPeriod, HabitPeriodKind;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -11,7 +11,7 @@ import '../support/habit_fixtures.dart';
 void main() {
   setUpAll(ensureTz);
 
-  Duration window(dynamic p) => (p.windowEnd as DateTime).difference(p.windowStart as DateTime);
+  Duration window(HabitPeriod p) => p.windowEnd.difference(p.windowStart);
 
   group('day periods, zones & day start (T5.1.05)', () {
     test('Europe/Paris DST days are 23 h and 25 h long', () {
@@ -59,20 +59,30 @@ void main() {
         ),
       );
       final week = s.periods(weekly, const [], d(2026, 9, 21), d(2026, 9, 27));
-      expect([for (final p in week) if (p.due) p.key], ['2026-09-21', '2026-09-22']);
+      expect(
+        [
+          for (final p in week)
+            if (p.due) p.key,
+        ],
+        ['2026-09-21', '2026-09-22'],
+      );
       expect(week, hasLength(7), reason: 'not-due days are still periods (not_due, never missed)');
 
       final everyOther = buildHabit(start: d(2026, 9, 2), schedule: RecurrenceRule(interval: 2));
       expect(
-        [for (final p in s.periods(everyOther, const [], d(2026, 9, 1), d(2026, 9, 8))) if (p.due) p.key],
+        [
+          for (final p in s.periods(everyOther, const [], d(2026, 9, 1), d(2026, 9, 8)))
+            if (p.due) p.key,
+        ],
         ['2026-09-02', '2026-09-04', '2026-09-06', '2026-09-08'],
       );
 
       final bounded = buildHabit(start: d(2026, 9, 5), end: d(2026, 9, 7));
-      expect(
-        s.periods(bounded, const [], d(2026, 9, 1), d(2026, 9, 30)).map((p) => p.key),
-        ['2026-09-05', '2026-09-06', '2026-09-07'],
-      );
+      expect(s.periods(bounded, const [], d(2026, 9, 1), d(2026, 9, 30)).map((p) => p.key), [
+        '2026-09-05',
+        '2026-09-06',
+        '2026-09-07',
+      ]);
       expect(s.periods(bounded, const [], d(2026, 10, 1), d(2026, 10, 3)), isEmpty);
     });
 
@@ -81,7 +91,16 @@ void main() {
       final habit = buildHabit(
         schedule: RecurrenceRule(
           freq: Frequency.weekly,
-          byWeekday: [for (final w in const [Weekday.monday, Weekday.tuesday, Weekday.wednesday, Weekday.thursday, Weekday.friday]) WeekdayRule(w)],
+          byWeekday: [
+            for (final w in const [
+              Weekday.monday,
+              Weekday.tuesday,
+              Weekday.wednesday,
+              Weekday.thursday,
+              Weekday.friday,
+            ])
+              WeekdayRule(w),
+          ],
         ),
       );
       final revs = [
@@ -89,17 +108,20 @@ void main() {
         revision('r2', d(2026, 9, 23), schedule: habit.schedule),
       ];
       final ps = s.periods(habit, revs, d(2026, 9, 19), d(2026, 9, 27));
-      expect({for (final p in ps) p.key: p.due}, {
-        '2026-09-19': true,
-        '2026-09-20': true,
-        '2026-09-21': true,
-        '2026-09-22': true,
-        '2026-09-23': true,
-        '2026-09-24': true,
-        '2026-09-25': true,
-        '2026-09-26': false,
-        '2026-09-27': false,
-      });
+      expect(
+        {for (final p in ps) p.key: p.due},
+        {
+          '2026-09-19': true,
+          '2026-09-20': true,
+          '2026-09-21': true,
+          '2026-09-22': true,
+          '2026-09-23': true,
+          '2026-09-24': true,
+          '2026-09-25': true,
+          '2026-09-26': false,
+          '2026-09-27': false,
+        },
+      );
       expect(ps.firstWhere((p) => p.key == '2026-09-22').revisionId, 'r1');
       expect(ps.firstWhere((p) => p.key == '2026-09-23').revisionId, 'r2');
       expect(s.rulesOn(habit, revs, d(2026, 9, 20)).schedule, RecurrenceRule());
@@ -107,10 +129,26 @@ void main() {
 
     test('goal revisions change the target of later periods only', () {
       final s = periodService();
-      final habit = buildHabit(goal: const HabitTarget(type: HabitGoalType.count, target: 20, unit: 'reps'));
+      final habit = buildHabit(
+        goal: const HabitTarget(type: HabitGoalType.count, target: 20, unit: 'reps'),
+      );
       final revs = [
-        revision('r1', d(2026, 9, 1), schedule: RecurrenceRule(), goalType: HabitGoalType.count, target: 15, unit: 'reps'),
-        revision('r2', d(2026, 9, 10), schedule: RecurrenceRule(), goalType: HabitGoalType.count, target: 20, unit: 'reps'),
+        revision(
+          'r1',
+          d(2026, 9, 1),
+          schedule: RecurrenceRule(),
+          goalType: HabitGoalType.count,
+          target: 15,
+          unit: 'reps',
+        ),
+        revision(
+          'r2',
+          d(2026, 9, 10),
+          schedule: RecurrenceRule(),
+          goalType: HabitGoalType.count,
+          target: 20,
+          unit: 'reps',
+        ),
       ];
       final ps = s.periods(habit, revs, d(2026, 9, 9), d(2026, 9, 10));
       expect(ps.map((p) => p.goal.target), [15, 20]);
@@ -145,7 +183,11 @@ void main() {
       final s = periodService();
       final habit = buildHabit(
         start: d(2026, 9, 21),
-        schedule: RecurrenceRule.forQuota(2, PeriodUnit.week, byWeekday: const [WeekdayRule(Weekday.saturday), WeekdayRule(Weekday.sunday)]),
+        schedule: RecurrenceRule.forQuota(
+          2,
+          PeriodUnit.week,
+          byWeekday: const [WeekdayRule(Weekday.saturday), WeekdayRule(Weekday.sunday)],
+        ),
       );
       final p = s.periods(habit, const [], d(2026, 9, 21), d(2026, 9, 21)).single;
       expect(p.eligibleDays, [d(2026, 9, 26), d(2026, 9, 27)]);
@@ -189,7 +231,11 @@ void main() {
       expect(ps.map((p) => p.key), ['2026-09-22T08:00', '2026-09-22T14:00', '2026-09-22T20:00']);
       expect(ps.map((p) => p.windowStart.hour), [7, 13, 19]);
       expect(ps.map((p) => p.windowStart.minute), [30, 30, 30]);
-      expect(ps.map((p) => p.windowEnd), [DateTime.utc(2026, 9, 22, 14), DateTime.utc(2026, 9, 22, 20), DateTime.utc(2026, 9, 23)]);
+      expect(ps.map((p) => p.windowEnd), [
+        DateTime.utc(2026, 9, 22, 14),
+        DateTime.utc(2026, 9, 22, 20),
+        DateTime.utc(2026, 9, 23),
+      ]);
       PeriodKey? at(int h, int m) => s.periodForInstant(habit, const [], DateTime.utc(2026, 9, 22, h, m))?.key;
       expect(at(13, 40), '2026-09-22T14:00', reason: 'tapping at 13:40 (tolerance 30) targets 14:00');
       expect(at(13, 29), '2026-09-22T08:00');
@@ -203,10 +249,7 @@ void main() {
     test('every hour 09:00–18:00 gives 10 slots; minutely windows stay under the engine cap', () {
       final s = periodService();
       final hourly = buildHabit(
-        schedule: RecurrenceRule(
-          freq: Frequency.hourly,
-          window: DailyWindow(LocalTime(9, 0), LocalTime(18, 0)),
-        ),
+        schedule: RecurrenceRule(freq: Frequency.hourly, window: DailyWindow(LocalTime(9, 0), LocalTime(18, 0))),
       );
       expect(s.periods(hourly, const [], d(2026, 9, 22), d(2026, 9, 22)), hasLength(10));
       expect(s.maxSlotsPerDay(hourly, const [], d(2026, 9, 22)), 10);
@@ -248,12 +291,18 @@ void main() {
       final s = periodService(zone: 'Europe/Paris', dayStartMinutes: 240);
       final habits = [
         buildHabit(start: d(2026, 1, 1)),
-        buildHabit(start: d(2026, 1, 1), schedule: RecurrenceRule(times: [LocalTime(8, 0), LocalTime(14, 0), LocalTime(20, 0)])),
+        buildHabit(
+          start: d(2026, 1, 1),
+          schedule: RecurrenceRule(times: [LocalTime(8, 0), LocalTime(14, 0), LocalTime(20, 0)]),
+        ),
         buildHabit(start: d(2026, 1, 1), schedule: RecurrenceRule.forQuota(3, PeriodUnit.week)),
       ];
       final base = DateTime.utc(2026, 1, 2).millisecondsSinceEpoch;
       for (var i = 0; i < 3000; i++) {
-        final instant = DateTime.fromMillisecondsSinceEpoch(base + rng.nextInt(360 * 1440) * 60000 + rng.nextInt(60000), isUtc: true);
+        final instant = DateTime.fromMillisecondsSinceEpoch(
+          base + rng.nextInt(360 * 1440) * 60000 + rng.nextInt(60000),
+          isUtc: true,
+        );
         final habit = habits[i % habits.length];
         final p = s.periodForInstant(habit, const [], instant);
         final date = s.dateOf(habit, instant);

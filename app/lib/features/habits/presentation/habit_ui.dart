@@ -93,8 +93,10 @@ class HabitAvatar extends StatelessWidget {
 }
 
 /// Accent color of a habit (rings, bars).
-Color habitAccent(BuildContext context, Habit habit) =>
-    CategoryColors.accent(habit.color ?? CategoryPalette.at(habit.name.hashCode.abs() % 16), Theme.of(context).brightness);
+Color habitAccent(BuildContext context, Habit habit) => CategoryColors.accent(
+  habit.color ?? CategoryPalette.at(habit.name.hashCode.abs() % 16),
+  Theme.of(context).brightness,
+);
 
 /// "🔥 12" streak chip with a spoken label.
 class StreakChip extends StatelessWidget {
@@ -115,7 +117,11 @@ class StreakChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.local_fire_department, size: 14, color: days > 0 ? context.appColors.warning : context.colors.outline),
+          Icon(
+            Icons.local_fire_department,
+            size: 14,
+            color: days > 0 ? context.appColors.warning : context.colors.outline,
+          ),
           const SizedBox(width: 2),
           Text(formatValue(context, days), style: context.text.labelMedium),
         ],

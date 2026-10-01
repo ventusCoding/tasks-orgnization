@@ -306,7 +306,7 @@ class _YearGrid extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, c) {
         const labelWidth = 26.0;
-        final cell = math.max(9.0, math.min(16.0, (c.maxWidth - labelWidth) / weeks));
+        final cell = math.max<double>(9, math.min(16, (c.maxWidth - labelWidth) / weeks));
         final width = labelWidth + cell * weeks;
         final painter = _YearPainter(
           data: data,
@@ -418,8 +418,9 @@ class _YearPainter extends CustomPainter {
           RRect.fromRectAndRadius(rect, const Radius.circular(2)),
           Paint()..color = future ? color.withValues(alpha: 0.35) : color,
         );
-        if (c?.tone != null)
+        if (c?.tone != null) {
           paintPattern(canvas, rect, theme.patternOf(c!.tone!), onColor(color).withValues(alpha: 0.45));
+        }
         if (data.today == day) {
           canvas.drawRRect(
             RRect.fromRectAndRadius(rect, const Radius.circular(2)),

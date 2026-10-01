@@ -65,8 +65,7 @@ abstract final class IconCatalog {
 
   static final Map<String, CatalogIcon> _byKey = {for (final i in all) i.key: i};
 
-  static IconData iconFor(String? key, {IconData fallback = Icons.label_outline}) =>
-      _byKey[key]?.icon ?? fallback;
+  static IconData iconFor(String? key, {IconData fallback = Icons.label_outline}) => _byKey[key]?.icon ?? fallback;
 
   static List<CatalogIcon> search(String query) {
     final q = query.trim().toLowerCase();

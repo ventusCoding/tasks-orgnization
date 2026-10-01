@@ -19,14 +19,10 @@ class SystemClock extends Clock {
 /// The app clock: system time plus a debug "time travel" offset (T1.3.16) that can change at run
 /// time — every holder of this instance sees the new time at once (no provider rebuild needed).
 class TravelClock extends Clock {
-  Duration _offset = Duration.zero;
-
-  Duration get offset => _offset;
-
-  set offset(Duration value) => _offset = value;
+  Duration offset = Duration.zero;
 
   @override
-  DateTime nowUtc() => DateTime.now().toUtc().add(_offset);
+  DateTime nowUtc() => DateTime.now().toUtc().add(offset);
 }
 
 /// Deterministic clock for tests.

@@ -8,8 +8,22 @@ import 'package:flutter_test/flutter_test.dart';
 
 DateTime t(int day, int hour) => DateTime.utc(2026, 9, day, hour);
 
-ActivityRecord ev(String item, String type, DateTime at, {Map<String, Object?> payload = const {}, int rev = 0, String list = 'L1'}) =>
-    ActivityRecord(entityType: 'checklist_item', entityId: item, parentId: list, eventType: type, occurredAt: at, payload: payload, rev: rev);
+ActivityRecord ev(
+  String item,
+  String type,
+  DateTime at, {
+  Map<String, Object?> payload = const {},
+  int rev = 0,
+  String list = 'L1',
+}) => ActivityRecord(
+  entityType: 'checklist_item',
+  entityId: item,
+  parentId: list,
+  eventType: type,
+  occurredAt: at,
+  payload: payload,
+  rev: rev,
+);
 
 ActivityRecord status(String item, String from, String to, DateTime at, {int rev = 0}) =>
     ev(item, 'status_changed', at, payload: {'from': from, 'to': to}, rev: rev);

@@ -32,77 +32,24 @@ void main() {
       ('zzzzzzzzzzzzzzzzzzzzzzzzzzz', null, 'zzzzzzzzzzzzzzzzzzzzzzzzzzzV'),
     ];
     for (final v in between) {
-      test(
-        'between(${v.$1}, ${v.$2}) = ${v.$3}',
-        () => expect(FractionalIndex.between(v.$1, v.$2), v.$3),
-      );
+      test('between(${v.$1}, ${v.$2}) = ${v.$3}', () => expect(FractionalIndex.between(v.$1, v.$2), v.$3));
     }
 
     test('invalid input is rejected', () {
-      expect(
-        () => FractionalIndex.between(null, 'A00000000000000000000000000'),
-        throwsArgumentError,
-      );
-      expect(
-        () => FractionalIndex.between('a00', null),
-        throwsArgumentError,
-        reason: 'trailing zero',
-      );
+      expect(() => FractionalIndex.between(null, 'A00000000000000000000000000'), throwsArgumentError);
+      expect(() => FractionalIndex.between('a00', null), throwsArgumentError, reason: 'trailing zero');
       expect(() => FractionalIndex.between('a00', 'a1'), throwsArgumentError);
-      expect(
-        () => FractionalIndex.between('0', '1'),
-        throwsArgumentError,
-        reason: 'invalid head',
-      );
-      expect(
-        () => FractionalIndex.between('a1', 'a0'),
-        throwsArgumentError,
-        reason: 'a >= b',
-      );
-      expect(
-        () => FractionalIndex.between('a0', 'a0'),
-        throwsArgumentError,
-        reason: 'equal keys',
-      );
-      expect(
-        () => FractionalIndex.between('a-', null),
-        throwsArgumentError,
-        reason: 'charset',
-      );
-      expect(
-        () => FractionalIndex.between('', null),
-        throwsArgumentError,
-        reason: 'empty',
-      );
+      expect(() => FractionalIndex.between('0', '1'), throwsArgumentError, reason: 'invalid head');
+      expect(() => FractionalIndex.between('a1', 'a0'), throwsArgumentError, reason: 'a >= b');
+      expect(() => FractionalIndex.between('a0', 'a0'), throwsArgumentError, reason: 'equal keys');
+      expect(() => FractionalIndex.between('a-', null), throwsArgumentError, reason: 'charset');
+      expect(() => FractionalIndex.between('', null), throwsArgumentError, reason: 'empty');
     });
 
     test('nBetween', () {
-      expect(FractionalIndex.nBetween(null, null, 5), [
-        'a0',
-        'a1',
-        'a2',
-        'a3',
-        'a4',
-      ]);
-      expect(FractionalIndex.nBetween('a4', null, 10), [
-        'a5',
-        'a6',
-        'a7',
-        'a8',
-        'a9',
-        'aA',
-        'aB',
-        'aC',
-        'aD',
-        'aE',
-      ]);
-      expect(FractionalIndex.nBetween(null, 'a0', 5), [
-        'Zv',
-        'Zw',
-        'Zx',
-        'Zy',
-        'Zz',
-      ]);
+      expect(FractionalIndex.nBetween(null, null, 5), ['a0', 'a1', 'a2', 'a3', 'a4']);
+      expect(FractionalIndex.nBetween('a4', null, 10), ['a5', 'a6', 'a7', 'a8', 'a9', 'aA', 'aB', 'aC', 'aD', 'aE']);
+      expect(FractionalIndex.nBetween(null, 'a0', 5), ['Zv', 'Zw', 'Zx', 'Zy', 'Zz']);
       expect(FractionalIndex.nBetween('a0', 'a1', 1), ['a0V']);
       expect(FractionalIndex.nBetween('a0', 'a1', 0), isEmpty);
     });
@@ -113,42 +60,22 @@ void main() {
       for (final ok in ['a0', 'a0V', 'Zz', 'b127', 'c000', 'a1G']) {
         expect(FractionalIndex.isValid(ok), isTrue, reason: ok);
       }
-      for (final bad in [
-        '',
-        'a00',
-        'A00000000000000000000000000',
-        '0',
-        'a-1',
-        'é',
-        'a0 ',
-        'a',
-      ]) {
+      for (final bad in ['', 'a00', 'A00000000000000000000000000', '0', 'a-1', 'é', 'a0 ', 'a']) {
         expect(FractionalIndex.isValid(bad), isFalse, reason: '"$bad"');
       }
     });
 
     test('byte order is the order: digits < upper case < lower case, never locale-aware', () {
       expect(FractionalIndex.compare('a0', 'a1'), lessThan(0));
-      expect(
-        FractionalIndex.compare('Zz', 'a0'),
-        lessThan(0),
-        reason: 'Z (0x5A) < a (0x61)',
-      );
-      expect(
-        FractionalIndex.compare('a0Z', 'a0a'),
-        lessThan(0),
-        reason: 'a case-insensitive collation would tie',
-      );
+      expect(FractionalIndex.compare('Zz', 'a0'), lessThan(0), reason: 'Z (0x5A) < a (0x61)');
+      expect(FractionalIndex.compare('a0Z', 'a0a'), lessThan(0), reason: 'a case-insensitive collation would tie');
       expect(FractionalIndex.compare('a0', 'a0'), 0);
       expect(
         FractionalIndex.compareRows((key: 'a1', id: 'b'), (key: 'a1', id: 'a')),
         greaterThan(0),
         reason: 'equal keys are ordered by id',
       );
-      expect(
-        FractionalIndex.compareRows((key: 'a0', id: 'z'), (key: 'a1', id: 'a')),
-        lessThan(0),
-      );
+      expect(FractionalIndex.compareRows((key: 'a0', id: 'z'), (key: 'a1', id: 'a')), lessThan(0));
     });
 
     test('length budget', () {
@@ -172,11 +99,7 @@ void main() {
         final a = p == 0 ? null : keys[p - 1];
         final b = p == keys.length ? null : keys[p];
         final k = FractionalIndex.between(a, b);
-        expect(
-          FractionalIndex.isValid(k),
-          isTrue,
-          reason: 'between($a, $b) = $k',
-        );
+        expect(FractionalIndex.isValid(k), isTrue, reason: 'between($a, $b) = $k');
         keys.insert(p, k);
         longest = max(longest, k.length);
       }
@@ -188,11 +111,7 @@ void main() {
         );
       }
       expect(keys.toSet().length, keys.length);
-      expect(
-        longest,
-        lessThanOrEqualTo(FractionalIndex.maxHealthyLength),
-        reason: 'longest key: $longest',
-      );
+      expect(longest, lessThanOrEqualTo(FractionalIndex.maxHealthyLength), reason: 'longest key: $longest');
     });
 
     test('1 000 appends and 1 000 prepends stay short and ordered', () {
@@ -249,11 +168,7 @@ void main() {
         if (FractionalIndex.isOversized(k) && oversizedAt < 0) oversizedAt = i;
         a = k;
       }
-      expect(
-        oversizedAt,
-        greaterThan(50),
-        reason: 'a hot spot needs many inserts before it matters',
-      );
+      expect(oversizedAt, greaterThan(50), reason: 'a hot spot needs many inserts before it matters');
       // Re-spreading with nBetween restores short keys.
       final respread = FractionalIndex.nBetween(null, null, 200);
       expect(respread.every((k) => k.length <= 3), isTrue);

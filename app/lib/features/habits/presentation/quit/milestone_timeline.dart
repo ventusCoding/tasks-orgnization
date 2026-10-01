@@ -107,10 +107,16 @@ class _QuitMilestonesScreenState extends ConsumerState<QuitMilestonesScreen> {
               title: Text(content?.clockNoteFor(lang) ?? l.quitMilestonesClockNote),
             ),
           ),
-          SectionHeader(l.quitDayMilestonesTitle, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
+          SectionHeader(
+            l.quitDayMilestonesTitle,
+            padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs),
+          ),
           _DayMilestones(rows: dayRows, date: date, dateTime: dateTime),
           if (smoking) ...[
-            SectionHeader(l.quitHealthTitle, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
+            SectionHeader(
+              l.quitHealthTitle,
+              padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs),
+            ),
             if (content == null)
               const LoadingState()
             else ...[
@@ -123,7 +129,10 @@ class _QuitMilestonesScreenState extends ConsumerState<QuitMilestonesScreen> {
               for (final info in content.milestones.where((m) => m.info))
                 _HealthTile(health: info, lang: lang, date: date, dateTime: dateTime),
               if (phase != null) ...[
-                SectionHeader(l.quitWithdrawalTitle, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
+                SectionHeader(
+                  l.quitWithdrawalTitle,
+                  padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs),
+                ),
                 Card(
                   child: ListTile(
                     leading: const Icon(Icons.timeline),
@@ -153,9 +162,15 @@ class _DayMilestones extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final fmt = AppFormat(context.localeName, l10n: l);
-    final reached = [for (final r in rows) if (r.state == MilestoneState.done) r];
+    final reached = [
+      for (final r in rows)
+        if (r.state == MilestoneState.done) r,
+    ];
     final next = rows.where((r) => r.isNext).firstOrNull;
-    final upcoming = [for (final r in rows) if (r.state != MilestoneState.done && !r.isNext) r];
+    final upcoming = [
+      for (final r in rows)
+        if (r.state != MilestoneState.done && !r.isNext) r,
+    ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -263,8 +278,7 @@ class _HealthTile extends StatelessWidget {
               children: [
                 Icon(icon, color: color, size: 20),
                 const SizedBox(width: Space.sm),
-                if (!health.info)
-                  Text(milestoneWhen(context, health.toMetrics()), style: context.text.labelLarge),
+                if (!health.info) Text(milestoneWhen(context, health.toMetrics()), style: context.text.labelLarge),
               ],
             ),
             const SizedBox(height: Space.xs),
@@ -282,7 +296,10 @@ class _HealthTile extends StatelessWidget {
               ),
             if (r != null && r.state != MilestoneState.done) ...[
               const SizedBox(height: Space.xs),
-              LinearProgressIndicator(value: r.progress, semanticsLabel: l.quitMilestoneElapsed(fmt.percent(r.progress))),
+              LinearProgressIndicator(
+                value: r.progress,
+                semanticsLabel: l.quitMilestoneElapsed(fmt.percent(r.progress)),
+              ),
             ],
             Wrap(
               spacing: Space.xs,

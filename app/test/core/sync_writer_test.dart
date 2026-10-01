@@ -1,6 +1,6 @@
-import 'package:drift/drift.dart' show OrderingTerm;
 import 'dart:convert';
 
+import 'package:drift/drift.dart' show OrderingTerm;
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/features/organization/application/providers.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,12 +14,8 @@ void main() {
 
   test('insert writes row, outbox patch with HLC clocks and field_clock', () async {
     final writer = h.read(syncWriterProvider);
-    await writer.run((tx) => tx.insert('categories', 'c1', {
-      'name': 'Work',
-      'color': 0xFF3B82F6,
-      'sort_key': 'a0',
-    }));
-    final row = await (h.db.select(h.db.categories)).getSingle();
+    await writer.run((tx) => tx.insert('categories', 'c1', {'name': 'Work', 'color': 0xFF3B82F6, 'sort_key': 'a0'}));
+    final row = await h.db.select(h.db.categories).getSingle();
     expect(row.name, 'Work');
     expect(row.userId, 'user-1');
     final outbox = await h.db.select(h.db.syncOutbox).get();

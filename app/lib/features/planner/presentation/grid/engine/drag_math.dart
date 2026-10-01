@@ -66,7 +66,13 @@ abstract final class DragMath {
   }
 
   /// Resize one edge; the other edge stays fixed and the length never drops below one snap step.
-  static DragRange resize({required bool endEdge, required double fingerMinute, required int start, required int end, required SnapEngine snap}) {
+  static DragRange resize({
+    required bool endEdge,
+    required double fingerMinute,
+    required int start,
+    required int end,
+    required SnapEngine snap,
+  }) {
     final step = minLength(snap);
     final r = snap.snap(fingerMinute);
     if (endEdge) return DragRange(start, math.max(r.minute, start + step), kind: r.kind);

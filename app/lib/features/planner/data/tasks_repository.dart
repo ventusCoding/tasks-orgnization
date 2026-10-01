@@ -106,7 +106,12 @@ class TasksRepository {
     return t.copyWith(recurrenceUntilLocal: TaskSchedule.of(t).recurrenceUntilLocal(_svc.engine));
   }
 
-  Future<void> _insertTask(WriteTx tx, Task t, {required String source, Map<String, Object?> payload = const {}}) async {
+  Future<void> _insertTask(
+    WriteTx tx,
+    Task t, {
+    required String source,
+    Map<String, Object?> payload = const {},
+  }) async {
     var task = t;
     if (task.isUnscheduled && task.manualSortKey == null && !task.isTemplate) {
       task = task.copyWith(manualSortKey: await tx.nextBacklogKey());
@@ -141,7 +146,12 @@ class TasksRepository {
           recurrence: edited.recurrence == current.recurrence ? split?.newRule ?? edited.recurrence : edited.recurrence,
           startLocal: unchangedStart ? (split?.newAnchor.start ?? edited.startLocal) : edited.startLocal,
         );
-        return _orphansFor(current, target, records.where((r) => r.occurrenceKey.compareTo(k) >= 0), shiftFrom: _originalStart(current, k));
+        return _orphansFor(
+          current,
+          target,
+          records.where((r) => r.occurrenceKey.compareTo(k) >= 0),
+          shiftFrom: _originalStart(current, k),
+        );
       case EditScope.allOccurrences:
         final k0 = rewritePast ? null : _firstNonPastKey(current);
         if (k0 == null || _safeSplit(current, k0)?.truncatedRule == null) {
@@ -290,7 +300,11 @@ class TasksRepository {
       } else {
         final records = await tx.readRecords(current.id);
         final report = _orphansFor(current, next, records, shiftFrom: null);
-        await _handleOrphans(tx, current, [...report.withOutcome, ...report.overridesOnly, ...report.cancelledOnly], policy);
+        await _handleOrphans(tx, current, [
+          ...report.withOutcome,
+          ...report.overridesOnly,
+          ...report.cancelledOnly,
+        ], policy);
       }
     }
 
@@ -310,21 +324,17 @@ class TasksRepository {
         'zone': zone,
         'source': source,
       });
-    } else if (!next.isUnscheduled && (changed.contains('start_local') || changed.contains('duration_minutes') || changed.contains('is_all_day'))) {
-      await tx.logTaskEvent(
-        next,
-        'rescheduled',
-        {
-          if (current.isRecurring) 'scope': 'series' else 'occurrenceKey': current.oneOffKey,
-          'fromStart': current.startLocal!.toIso(),
-          'toStart': next.startLocal!.toIso(),
-          'fromDuration': current.effectiveDurationMinutes,
-          'toDuration': next.effectiveDurationMinutes,
-          'zone': zone,
-          'source': source,
-        },
-        rescheduleEventId,
-      );
+    } else if (!next.isUnscheduled &&
+        (changed.contains('start_local') || changed.contains('duration_minutes') || changed.contains('is_all_day'))) {
+      await tx.logTaskEvent(next, 'rescheduled', {
+        if (current.isRecurring) 'scope': 'series' else 'occurrenceKey': current.oneOffKey,
+        'fromStart': current.startLocal!.toIso(),
+        'toStart': next.startLocal!.toIso(),
+        'fromDuration': current.effectiveDurationMinutes,
+        'toDuration': next.effectiveDurationMinutes,
+        'zone': zone,
+        'source': source,
+      }, rescheduleEventId);
     }
     final other = changed.where((c) => c != 'start_local' && c != 'duration_minutes').toList();
     if (logUpdated && other.isNotEmpty) {
@@ -388,14 +398,30 @@ class TasksRepository {
       if (orphanIds.contains(r.id)) continue;
       await _moveRecord(tx, r, newId, _targetKey(newTask, r.occurrenceKey, originalK)!);
     }
-    await _handleOrphans(tx, newTask, [...report.withOutcome, ...report.overridesOnly, ...report.cancelledOnly], policy);
+    await _handleOrphans(tx, newTask, [
+      ...report.withOutcome,
+      ...report.overridesOnly,
+      ...report.cancelledOnly,
+    ], policy);
 
     // Copy the attachment rows and notification rules of the series ([7.1] hook).
     await tx.copyOwnedRows('attachments', 'owner_id', current.id, newId, typeColumn: 'owner_type', typeValue: 'task');
-    await tx.copyOwnedRows('notification_rules', 'target_id', current.id, newId, typeColumn: 'target_type', typeValue: 'task');
+    await tx.copyOwnedRows(
+      'notification_rules',
+      'target_id',
+      current.id,
+      newId,
+      typeColumn: 'target_type',
+      typeValue: 'task',
+    );
 
     await tx.logTaskEvent(current, 'series_split', {'fromTaskId': current.id, 'toTaskId': newId, 'atKey': k});
-    await tx.logTaskEvent(newTask, 'created', {'source': source, 'splitFrom': current.id, 'atKey': k, ...taskTimeFields(newTask)});
+    await tx.logTaskEvent(newTask, 'created', {
+      'source': source,
+      'splitFrom': current.id,
+      'atKey': k,
+      ...taskTimeFields(newTask),
+    });
     final fromDuration = current.effectiveDurationMinutes;
     if (newTask.startLocal != originalK || newTask.effectiveDurationMinutes != fromDuration) {
       await tx.logTaskEvent(newTask, 'rescheduled', {
@@ -449,12 +475,22 @@ class TasksRepository {
     }
   }
 
-  OrphanReport _orphansFor(Task current, Task target, Iterable<TaskOccurrenceRecord> records, {required LocalDateTime? shiftFrom}) =>
-      findOrphans(records, (key) => _targetKey(target, key, shiftFrom) != null);
+  OrphanReport _orphansFor(
+    Task current,
+    Task target,
+    Iterable<TaskOccurrenceRecord> records, {
+    required LocalDateTime? shiftFrom,
+  }) => findOrphans(records, (key) => _targetKey(target, key, shiftFrom) != null);
 
   /// Moves a record to `(taskId, key)`: copies its data, tombstones the old row and re-points
   /// its time entries.
-  Future<void> _moveRecord(WriteTx tx, TaskOccurrenceRecord r, String taskId, String key, {bool clearOverrides = false}) async {
+  Future<void> _moveRecord(
+    WriteTx tx,
+    TaskOccurrenceRecord r,
+    String taskId,
+    String key, {
+    bool clearOverrides = false,
+  }) async {
     if (r.taskId == taskId && r.occurrenceKey == key) return;
     final json = r.toJson();
     await tx.upsertRecord(taskId, key, {
@@ -477,7 +513,12 @@ class TasksRepository {
 
   /// Orphan handling (T3.2.09): records with an outcome always become one-off tasks; moved/edited
   /// ones follow [policy]; bare cancellations are dropped.
-  Future<void> _handleOrphans(WriteTx tx, Task template, List<TaskOccurrenceRecord> orphans, OrphanPolicy policy) async {
+  Future<void> _handleOrphans(
+    WriteTx tx,
+    Task template,
+    List<TaskOccurrenceRecord> orphans,
+    OrphanPolicy policy,
+  ) async {
     for (final r in orphans) {
       final keep = r.hasOutcome || (r.hasOverride && policy == OrphanPolicy.keepAsOneOff);
       if (!keep || r.isCancelled && !r.hasOutcome) {
@@ -546,8 +587,7 @@ class TasksRepository {
   /// Generated start of [key] in the task's wall clock (null for quota slots).
   LocalDateTime? _originalStart(Task task, String key) => _parseKey(key);
 
-  static LocalDateTime? _parseKey(String key) =>
-      LocalDateTime.tryParse(key) ?? LocalDate.tryParse(key)?.atStartOfDay;
+  static LocalDateTime? _parseKey(String key) => LocalDateTime.tryParse(key) ?? LocalDate.tryParse(key)?.atStartOfDay;
 
   // ---------------------------------------------------------------------------
   // "This occurrence" overrides (T3.2.06) and one-off reschedules (T3.2.10)
@@ -564,7 +604,16 @@ class TasksRepository {
     String source = 'menu',
   }) => _writer.run((tx) async {
     final task = await tx.readTask(taskId) ?? (throw NotFoundException('task $taskId'));
-    await _editOccurrenceTx(tx, task, key, start: start, duration: duration, title: title, notes: notes, source: source);
+    await _editOccurrenceTx(
+      tx,
+      task,
+      key,
+      start: start,
+      duration: duration,
+      title: title,
+      notes: notes,
+      source: source,
+    );
   });
 
   Future<void> _editOccurrenceTx(
@@ -712,13 +761,14 @@ class TasksRepository {
   /// Soft-deletes the task and everything it owns in the same transaction; the ids go into the
   /// `deleted` event so [restoreTask] brings back exactly these rows.
   Future<void> _cascadeDelete(WriteTx tx, Task task) async {
-    Future<List<String>> ids(String sql, List<Object?> args) async =>
-        [for (final r in await tx.rows(sql, args)) r['id']! as String];
+    Future<List<String>> ids(String sql, List<Object?> args) async => [
+      for (final r in await tx.rows(sql, args)) r['id']! as String,
+    ];
     final records = await ids('SELECT id FROM task_occurrences WHERE task_id = ? AND deleted_at IS NULL', [task.id]);
     final entries = await ids('SELECT id FROM time_entries WHERE task_id = ? AND deleted_at IS NULL', [task.id]);
     final owners = [task.id, ...records];
     final attachments = await ids(
-      'SELECT id FROM attachments WHERE deleted_at IS NULL AND owner_type IN (\'task\', \'task_occurrence\') '
+      "SELECT id FROM attachments WHERE deleted_at IS NULL AND owner_type IN ('task', 'task_occurrence') "
       'AND owner_id IN (${List.filled(owners.length, '?').join(', ')})',
       owners,
     );
@@ -775,7 +825,7 @@ class TasksRepository {
   Future<OpRecord> restoreOperation(String opId) => _writer.run((tx) async {
     final events = await tx.rows(
       "SELECT entity_id, payload FROM activity_events WHERE entity_type = 'task' AND event_type = 'deleted' "
-      "AND deleted_at IS NULL AND json_extract(payload, '\$.opId') = ?",
+      r"AND deleted_at IS NULL AND json_extract(payload, '$.opId') = ?",
       [opId],
     );
     for (final e in events) {
@@ -822,7 +872,13 @@ class TasksRepository {
   }) async {
     late String newId;
     final record = await _writer.run((tx) async {
-      newId = await _duplicateTx(tx, taskId, asOneOff: asOneOff, targetStart: targetStartLocal, occurrenceKey: occurrenceKey);
+      newId = await _duplicateTx(
+        tx,
+        taskId,
+        asOneOff: asOneOff,
+        targetStart: targetStartLocal,
+        occurrenceKey: occurrenceKey,
+      );
     });
     return TaskWriteResult(taskId, record, newTaskId: newId);
   }
@@ -868,7 +924,12 @@ class TasksRepository {
       manualSortKey: null,
     );
     copy = copy.copyWith(recurrenceUntilLocal: TaskSchedule.of(copy).recurrenceUntilLocal(_svc.engine));
-    await _insertTask(tx, copy, source: 'duplicate', payload: {'duplicatedFrom': src.id, 'occurrenceKey': ?occurrenceKey});
+    await _insertTask(
+      tx,
+      copy,
+      source: 'duplicate',
+      payload: {'duplicatedFrom': src.id, 'occurrenceKey': ?occurrenceKey},
+    );
     await tx.copyOwnedRows('attachments', 'owner_id', src.id, id, typeColumn: 'owner_type', typeValue: 'task');
     // The copy keeps its own reminders (T7.1.15 "duplicate item").
     await tx.copyOwnedRows('notification_rules', 'target_id', src.id, id, typeColumn: 'target_type', typeValue: 'task');
@@ -914,8 +975,14 @@ class TasksRepository {
     String source = 'backlog',
   }) => _writer.run((tx) async {
     final task = await tx.readTask(taskId) ?? (throw NotFoundException('task $taskId'));
-    final duration = allDay ? 1440 : (durationMinutes ?? task.estimateMinutes ?? task.durationMinutes ?? fallbackDuration);
-    final edited = task.copyWith(startLocal: allDay ? start.date.atStartOfDay : start, durationMinutes: duration, isAllDay: allDay);
+    final duration = allDay
+        ? 1440
+        : (durationMinutes ?? task.estimateMinutes ?? task.durationMinutes ?? fallbackDuration);
+    final edited = task.copyWith(
+      startLocal: allDay ? start.date.atStartOfDay : start,
+      durationMinutes: duration,
+      isAllDay: allDay,
+    );
     _validateOrThrow(edited);
     await _directEdit(tx, task, edited, source: source, logUpdated: false);
   });
@@ -995,7 +1062,12 @@ class TasksRepository {
         case BulkSetTrackingMode(:final mode):
           await _directEdit(tx, task, task.copyWith(trackingMode: mode), source: 'bulk');
         case BulkDuplicate():
-          await _duplicateTx(tx, task.id, asOneOff: occurrenceLevel, occurrenceKey: occurrenceLevel ? target.occurrenceKey : null);
+          await _duplicateTx(
+            tx,
+            task.id,
+            asOneOff: occurrenceLevel,
+            occurrenceKey: occurrenceLevel ? target.occurrenceKey : null,
+          );
         case BulkAddTags():
           await onTask?.call(tx, task);
         case BulkDelete():
@@ -1014,24 +1086,32 @@ class TasksRepository {
 
   /// Moves unresolved one-off tasks to [today]: same time if still ahead of [nowLocal],
   /// otherwise all-day. Deterministic event ids make two devices converge.
-  Future<OpRecord> rollOver(List<Task> tasks, {required LocalDate today, required LocalDateTime nowLocal, DateTime? scheduledAt}) =>
-      _writer.run((tx) async {
-        for (final t in tasks) {
-          final task = await tx.readTask(t.id);
-          if (task == null || task.isRecurring || task.isUnscheduled) continue;
-          if (!task.startLocal!.date.isBefore(today)) continue;
-          final sameTime = sameTimeTodayIfAhead(task.startLocal!, nowLocal);
-          final edited = sameTime != null && !task.isAllDay
-              ? task.copyWith(startLocal: sameTime)
-              : task.copyWith(startLocal: today.atStartOfDay, isAllDay: true, durationMinutes: 1440);
-          await _directEdit(
-            tx,
-            task,
-            edited,
-            source: 'rollover',
-            rescheduleEventId: Ids.rollover(task.id, today.toIso()),
-            logUpdated: false,
-          );
-        }
-      }, cause: 'auto', scheduledAt: scheduledAt);
+  Future<OpRecord> rollOver(
+    List<Task> tasks, {
+    required LocalDate today,
+    required LocalDateTime nowLocal,
+    DateTime? scheduledAt,
+  }) => _writer.run(
+    (tx) async {
+      for (final t in tasks) {
+        final task = await tx.readTask(t.id);
+        if (task == null || task.isRecurring || task.isUnscheduled) continue;
+        if (!task.startLocal!.date.isBefore(today)) continue;
+        final sameTime = sameTimeTodayIfAhead(task.startLocal!, nowLocal);
+        final edited = sameTime != null && !task.isAllDay
+            ? task.copyWith(startLocal: sameTime)
+            : task.copyWith(startLocal: today.atStartOfDay, isAllDay: true, durationMinutes: 1440);
+        await _directEdit(
+          tx,
+          task,
+          edited,
+          source: 'rollover',
+          rescheduleEventId: Ids.rollover(task.id, today.toIso()),
+          logUpdated: false,
+        );
+      }
+    },
+    cause: 'auto',
+    scheduledAt: scheduledAt,
+  );
 }

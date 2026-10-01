@@ -1,11 +1,11 @@
 // Planner stats adapter (T6.3.01) and per-occurrence timing & outcome metrics (T6.3.02): facts from
 // the resolver for every outcome class and all three tracking modes, grace boundaries and the
 // "not tracked" rule.
+import 'package:everslot/features/stats/application/stats_providers.dart';
 import 'package:everslot/features/stats/domain/metric_definition.dart';
 import 'package:everslot/features/stats/domain/planner_resolution.dart';
 import 'package:everslot/features/stats/domain/stats_types.dart';
 import 'package:everslot/features/stats/domain/zone_snapshot.dart';
-import 'package:everslot/features/stats/application/stats_providers.dart';
 import 'package:everslot_metrics/everslot_metrics.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart' show LocalDate;
 import 'package:flutter_test/flutter_test.dart';
@@ -28,7 +28,12 @@ void main() {
   group('adapter (T6.3.01)', () {
     test('facts carry plan, sessions, outcome inputs and tracking modes', () async {
       final input = await h.read(statsDataSourceProvider).loadPlanner();
-      final resolver = PlannerResolver(input, resolver: LocationZoneResolver(const {}), viewerZone: 'UTC', now: DateTime.utc(2026, 9, 23, 12));
+      final resolver = PlannerResolver(
+        input,
+        resolver: LocationZoneResolver(const {}),
+        viewerZone: 'UTC',
+        now: DateTime.utc(2026, 9, 23, 12),
+      );
       final facts = resolver.resolve(from: LocalDate(2026, 9, 21), to: LocalDate(2026, 9, 24)).facts;
       final byKey = {for (final f in facts) '${f.taskId}@${f.occurrenceKey}': f};
       final a = byKey['a@2026-09-21T09:00']!;

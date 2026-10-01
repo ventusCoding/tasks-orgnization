@@ -15,13 +15,7 @@ void main() {
 
   List<NotificationProfile> builtins() => [
     for (final e in BuiltinProfiles.specs.entries)
-      NotificationProfile(
-        id: 'id-${e.key}',
-        code: e.key,
-        name: e.key,
-        isBuiltin: true,
-        spec: e.value,
-      ),
+      NotificationProfile(id: 'id-${e.key}', code: e.key, name: e.key, isBuiltin: true, spec: e.value),
   ];
 
   group('Android channels (T7.2.02)', () {
@@ -42,9 +36,7 @@ void main() {
           ChannelCatalog.foregroundSilent,
         ]),
       );
-      final plannerStandard = catalog.channels.firstWhere(
-        (c) => c.id == 'dl.planner.standard.v1',
-      );
+      final plannerStandard = catalog.channels.firstWhere((c) => c.id == 'dl.planner.standard.v1');
       expect(plannerStandard.groupId, 'dl.group.planner');
       expect(plannerStandard.name, 'Plan · Standard');
       expect(catalog.obsolete, isEmpty);
@@ -54,28 +46,19 @@ void main() {
     });
 
     test('a Gentle channel never makes a sound; the quiet and foreground channels are silent', () {
-      final channels = {
-        for (final c in ChannelCatalog.channels(builtins(), en).channels)
-          c.id: c,
-      };
+      final channels = {for (final c in ChannelCatalog.channels(builtins(), en).channels) c.id: c};
       final gentle = channels['dl.habits.gentle.v1']!;
-      expect(
-        (gentle.sound, gentle.vibration, gentle.importance),
-        ('none', 'none', NotificationImportance.low),
-      );
-      expect(
-        channels['dl.planner.nag.v1']!.importance,
-        NotificationImportance.high,
-      );
+      expect((gentle.sound, gentle.vibration, gentle.importance), ('none', 'none', NotificationImportance.low));
+      expect(channels['dl.planner.nag.v1']!.importance, NotificationImportance.high);
       expect(channels[ChannelCatalog.quiet]!.sound, 'none');
       expect(channels[ChannelCatalog.foregroundSilent]!.showBadge, isFalse);
     });
 
     test('custom profiles get stable keys; a version bump deletes the superseded channel', () {
-      final custom = NotificationProfile(
+      const custom = NotificationProfile(
         id: '0192f6c8-aaaa-7bbb-8ccc-dddddddddddd',
         name: 'Loud',
-        spec: const ProfileSpec(
+        spec: ProfileSpec(
           delivery: DeliverySpec(importance: 'high', sound: 'bell'),
           channelVersion: 3,
         ),
@@ -86,21 +69,14 @@ void main() {
       expect(ids, contains('dl.planner.p0192f6c8.v3'));
       expect(
         catalog.obsolete,
-        containsAll([
-          'dl.planner.p0192f6c8.v1',
-          'dl.planner.p0192f6c8.v2',
-          'dl.quit.p0192f6c8.v2',
-        ]),
+        containsAll(['dl.planner.p0192f6c8.v1', 'dl.planner.p0192f6c8.v2', 'dl.quit.p0192f6c8.v2']),
       );
       expect(catalog.obsolete, isNot(contains('dl.planner.p0192f6c8.v3')));
     });
 
     test('channel names follow the language', () {
       final channels = ChannelCatalog.channels(builtins(), fr).channels;
-      expect(
-        channels.firstWhere((c) => c.id == ChannelCatalog.system).name,
-        fr.notifChannelSystem,
-      );
+      expect(channels.firstWhere((c) => c.id == ChannelCatalog.system).name, fr.notifChannelSystem);
       expect(
         channels.firstWhere((c) => c.id == 'dl.planner.gentle.v1').name,
         fr.notifChannelName(fr.notifSectionPlanner, fr.notifProfileGentle),
@@ -108,9 +84,7 @@ void main() {
     });
 
     test('the standard channels exist even before profiles are seeded', () {
-      final ids = {
-        for (final c in ChannelCatalog.channels(const [], en).channels) c.id,
-      };
+      final ids = {for (final c in ChannelCatalog.channels(const [], en).channels) c.id};
       expect(ids, contains('dl.planner.standard.v1'));
     });
   });
@@ -123,14 +97,8 @@ void main() {
     );
 
     test('category ids keep the action order and flag nag chains', () {
-      expect(
-        ChannelCatalog.categoryIdFor(const ['done', 'snooze', 'skip']),
-        'c.done.snooze.skip',
-      );
-      expect(
-        ChannelCatalog.categoryIdFor(const ['snooze', 'done']),
-        'c.snooze.done',
-      );
+      expect(ChannelCatalog.categoryIdFor(const ['done', 'snooze', 'skip']), 'c.done.snooze.skip');
+      expect(ChannelCatalog.categoryIdFor(const ['snooze', 'done']), 'c.snooze.done');
       expect(ChannelCatalog.categoryIdFor(const [], nag: true), 'c.none.nag');
     });
 
@@ -148,18 +116,10 @@ void main() {
       expect(actions['log_value']!.textInput, isTrue);
       expect(actions['log_value']!.placeholder, en.notifActionInputPlaceholder);
       expect(actions['log_value']!.buttonTitle, en.notifActionSend);
-      expect(
-        actions['done']!.foreground,
-        isFalse,
-        reason: 'handled in the background isolate',
-      );
+      expect(actions['done']!.foreground, isFalse, reason: 'handled in the background isolate');
       expect(actions['open']!.foreground, isTrue);
       expect(actions['reschedule']!.foreground, isTrue);
-      expect(
-        actions['skip']!.foreground,
-        isTrue,
-        reason: 'no handler registered yet → open the app',
-      );
+      expect(actions['skip']!.foreground, isTrue, reason: 'no handler registered yet → open the app');
       expect(actions['snooze']!.foreground, isFalse, reason: 'generic action');
       expect(actions['done']!.authenticationRequired, isTrue);
       expect(actions['snooze']!.authenticationRequired, isFalse);
@@ -167,42 +127,20 @@ void main() {
     });
 
     test('built-in combinations are registered up front; nag categories get a dismiss callback; cap 50', () {
-      final initial = ChannelCatalog.categories(
-        const [],
-        en,
-        handlers: const [],
-      );
+      final initial = ChannelCatalog.categories(const [], en, handlers: const []);
       final ids = {for (final c in initial) c.id};
-      expect(
-        ids,
-        containsAll(['c.done.snooze.skip', 'c.done.snooze.skip.nag', 'c.open']),
-      );
-      expect(
-        initial
-            .firstWhere((c) => c.id == 'c.done.snooze.skip.nag')
-            .customDismiss,
-        isTrue,
-      );
-      expect(
-        initial.firstWhere((c) => c.id == 'c.done.snooze.skip').customDismiss,
-        isFalse,
-      );
+      expect(ids, containsAll(['c.done.snooze.skip', 'c.done.snooze.skip.nag', 'c.open']));
+      expect(initial.firstWhere((c) => c.id == 'c.done.snooze.skip.nag').customDismiss, isTrue);
+      expect(initial.firstWhere((c) => c.id == 'c.done.snooze.skip').customDismiss, isFalse);
 
       final many = [
         for (var i = 0; i < 80; i++) (['done', 'a$i'], false),
       ];
-      expect(
-        ChannelCatalog.categories(many, en, handlers: const []),
-        hasLength(lessThanOrEqualTo(50)),
-      );
+      expect(ChannelCatalog.categories(many, en, handlers: const []), hasLength(lessThanOrEqualTo(50)));
     });
 
     test('OS action lists keep every action; the port shows the first three on Android', () {
-      final actions = ChannelCatalog.osActions(
-        const ['done', 'snooze', 'skip', 'open'],
-        en,
-        handlers: const [],
-      );
+      final actions = ChannelCatalog.osActions(const ['done', 'snooze', 'skip', 'open'], en, handlers: const []);
       expect(actions.map((a) => a.id), ['done', 'snooze', 'skip', 'open']);
       expect(const OsAction(id: 'x', title: 'X').textInput, isFalse);
     });

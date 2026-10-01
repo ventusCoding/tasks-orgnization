@@ -103,7 +103,14 @@ void main() {
 
     testWidgets('the app switches theme, language and direction without restart', (tester) async {
       // A one-page router: the real shell's screens own ticking timers this test doesn't need.
-      final router = GoRouter(routes: [GoRoute(path: '/', builder: (_, _) => const Scaffold(body: Text('home')))]);
+      final router = GoRouter(
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (_, _) => const Scaffold(body: Text('home')),
+          ),
+        ],
+      );
       final h = TestHarness.create(overrides: [routerProvider.overrideWithValue(router)]);
       await tester.pumpWidget(UncontrolledProviderScope(container: h.container, child: const EverslotApp()));
       await settle(tester);
@@ -112,7 +119,9 @@ void main() {
       // One write per runAsync, then settle: a Drift stream re-query started in the fake-async
       // zone holds the database lock until frames are pumped (a second write would deadlock).
       await tester.runAsync(
-        () => h.read(settingsWriterProvider).update(AppearanceSettings.codec, (s) => s.copyWith(theme: ThemePreference.dark)),
+        () => h
+            .read(settingsWriterProvider)
+            .update(AppearanceSettings.codec, (s) => s.copyWith(theme: ThemePreference.dark)),
       );
       await settle(tester);
       await tester.runAsync(() => h.read(profileRepositoryProvider).update(locale: 'ar'));

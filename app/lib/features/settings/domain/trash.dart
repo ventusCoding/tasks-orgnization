@@ -6,7 +6,7 @@ enum TrashKind {
   habit('habit', 'habits'),
   attachment('attachment', 'attachments');
 
-  const TrashKind(this.entityType, this.table);
+  TrashKind(this.entityType, this.table);
 
   /// `app.purge_now` entity type.
   final String entityType;

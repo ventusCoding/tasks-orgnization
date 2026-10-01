@@ -65,21 +65,13 @@ final class const ForecastHowMany(
   required final int trials,
 });
 
-Insufficient<T>? _checkPool<T>(
-  List<num> pool,
-  int minPoolDays,
-  num minCompletions,
-) {
+Insufficient<T>? _checkPool<T>(List<num> pool, int minPoolDays, num minCompletions) {
   if (pool.length < minPoolDays) {
     return Insufficient<T>(minPoolDays, pool.length, 'monteCarloHistory');
   }
   final completions = pool.fold<num>(0, (a, b) => a + b);
   if (completions < minCompletions || completions <= 0) {
-    return Insufficient<T>(
-      math.max(minCompletions, 1),
-      completions,
-      'monteCarloCompletions',
-    );
+    return Insufficient<T>(math.max(minCompletions, 1), completions, 'monteCarloCompletions');
   }
   return null;
 }
@@ -108,11 +100,7 @@ Stat<ForecastWhen> monteCarloWhen({
   int minPoolDays = 30,
   num minCompletions = 10,
 }) {
-  final insufficient = _checkPool<ForecastWhen>(
-    pool,
-    minPoolDays,
-    minCompletions,
-  );
+  final insufficient = _checkPool<ForecastWhen>(pool, minPoolDays, minCompletions);
   if (insufficient != null) return insufficient;
   final histogram = <int, int>{};
   var unfinished = 0;
@@ -150,11 +138,7 @@ Stat<ForecastHowMany> monteCarloHowMany({
   int minPoolDays = 30,
   int minCompletions = 10,
 }) {
-  final insufficient = _checkPool<ForecastHowMany>(
-    pool,
-    minPoolDays,
-    minCompletions,
-  );
+  final insufficient = _checkPool<ForecastHowMany>(pool, minPoolDays, minCompletions);
   if (insufficient != null) return insufficient;
   final histogram = <int, int>{};
   for (var t = 0; t < trials; t++) {
@@ -190,11 +174,7 @@ Stat<ForecastHowMany> monteCarloHowMany({
 
 /// Maps a number of active forecast days to a calendar date, starting the day after [from] and
 /// skipping inactive days.
-LocalDate forecastDate(
-  LocalDate from,
-  int activeDays, {
-  bool Function(LocalDate date)? isActive,
-}) {
+LocalDate forecastDate(LocalDate from, int activeDays, {bool Function(LocalDate date)? isActive}) {
   var date = from;
   var counted = 0;
   var guard = 0;

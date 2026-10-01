@@ -37,7 +37,9 @@ List<PlannerItem> dayListOrder(Iterable<PlannerItem> items) {
 /// Items of [items] on [day] (start date, or spanning it for multi-day all-day items).
 List<PlannerItem> itemsOnDay(Iterable<PlannerItem> items, LocalDate day) => [
   for (final i in items)
-    if (i.startLocal.date == day || (i.allDay && i.startLocal.date.isBefore(day) && i.endLocal.isAfter(day.atStartOfDay))) i,
+    if (i.startLocal.date == day ||
+        (i.allDay && i.startLocal.date.isBefore(day) && i.endLocal.isAfter(day.atStartOfDay)))
+      i,
 ];
 
 /// Color resolver of a view (its `colorBy`) for the current theme.
@@ -93,8 +95,11 @@ class PlannerItemChip extends ConsumerWidget {
     final when = showDate ? '${f.dayShort(item.startLocal.date)} · $time' : time;
     final fg = colors.foreground;
     void open() => tapOrToggle(ref, viewKey, item, () => ref.read(plannerNavProvider).openTask(context, item));
-    void menu() => unawaited(commands.showTileMenu(item, onSelect: () => ref.read(plannerSelectionProvider(viewKey).notifier).select(item)));
-    final label = '${item.title}, $when, ${context.statusLabel(item.status)}${item.isRecurring ? ', ${l.pvRepeats}' : ''}';
+    void menu() => unawaited(
+      commands.showTileMenu(item, onSelect: () => ref.read(plannerSelectionProvider(viewKey).notifier).select(item)),
+    );
+    final label =
+        '${item.title}, $when, ${context.statusLabel(item.status)}${item.isRecurring ? ', ${l.pvRepeats}' : ''}';
     return Semantics(
       container: true,
       button: true,
@@ -187,7 +192,10 @@ class PlannerItemChip extends ConsumerWidget {
                   ),
                   if (item.isRecurring) Icon(Icons.repeat, size: 14, color: fg),
                   if (item.timeZone != null)
-                    Padding(padding: const EdgeInsetsDirectional.only(start: 2), child: Icon(Icons.public, size: 14, color: fg)),
+                    Padding(
+                      padding: const EdgeInsetsDirectional.only(start: 2),
+                      child: Icon(Icons.public, size: 14, color: fg),
+                    ),
                   ?trailing,
                   const SizedBox(width: Space.xs),
                 ],

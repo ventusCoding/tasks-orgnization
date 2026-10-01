@@ -11,7 +11,13 @@ import 'package:http/testing.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 /// A recorded HTTP call to the fake Supabase backend.
-typedef Call = ({String method, String path, Map<String, String> query, Map<String, dynamic> body, Map<String, String> headers});
+typedef Call = ({
+  String method,
+  String path,
+  Map<String, String> query,
+  Map<String, dynamic> body,
+  Map<String, String> headers,
+});
 
 String _b64(Map<String, Object?> json) => base64Url.encode(utf8.encode(jsonEncode(json))).replaceAll('=', '');
 
@@ -33,7 +39,10 @@ Map<String, Object?> _user({
   'new_email': ?newEmail,
   'created_at': '2026-09-01T00:00:00Z',
   'is_anonymous': anonymous,
-  'app_metadata': {'provider': anonymous ? 'anonymous' : providers.first, 'providers': anonymous ? <String>[] : providers},
+  'app_metadata': {
+    'provider': anonymous ? 'anonymous' : providers.first,
+    'providers': anonymous ? <String>[] : providers,
+  },
   'user_metadata': meta,
   'identities': [
     for (final p in providers)
@@ -65,7 +74,7 @@ class _Backend {
   final responses = <String, http.Response Function(Call call)>{};
 
   late final client = MockClient((request) async {
-    Map<String, dynamic> body = const {};
+    var body = const <String, dynamic>{};
     if (request.body.isNotEmpty) {
       final decoded = jsonDecode(request.body);
       if (decoded is Map) body = Map<String, dynamic>.from(decoded);
@@ -162,8 +171,9 @@ void main() {
   late _FakeGoogle google;
   late _FakeApple apple;
 
-  SupabaseAuthRepository repo({AuthConfig config = const AuthConfig(googleWebClientId: 'web-id', appleSignInEnabled: true)}) =>
-      SupabaseAuthRepository(client, config: config, google: google, apple: apple);
+  SupabaseAuthRepository repo({
+    AuthConfig config = const AuthConfig(googleWebClientId: 'web-id', appleSignInEnabled: true),
+  }) => SupabaseAuthRepository(client, config: config, google: google, apple: apple);
 
   setUp(() {
     backend = _Backend();
@@ -356,7 +366,11 @@ void main() {
         'something_new': AuthFailureCode.unknown,
       };
       for (final e in table.entries) {
-        expect(SupabaseAuthRepository.mapAuthException(sb.AuthException('x', code: e.key)).code, e.value, reason: e.key);
+        expect(
+          SupabaseAuthRepository.mapAuthException(sb.AuthException('x', code: e.key)).code,
+          e.value,
+          reason: e.key,
+        );
       }
       expect(
         SupabaseAuthRepository.mapAuthException(const sb.AuthException('x', statusCode: '429')).code,

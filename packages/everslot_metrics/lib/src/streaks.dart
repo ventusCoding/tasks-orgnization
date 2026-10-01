@@ -97,8 +97,7 @@ final class const StreakSummary(
     for (final s in streaks) {
       if (b == null ||
           s.calendarSpanDays > b.calendarSpanDays ||
-          (s.calendarSpanDays == b.calendarSpanDays &&
-              s.endDate.isAfter(b.endDate))) {
+          (s.calendarSpanDays == b.calendarSpanDays && s.endDate.isAfter(b.endDate))) {
         b = s;
       }
     }
@@ -106,15 +105,10 @@ final class const StreakSummary(
   }
 }
 
-String _monthKey(LocalDate d) =>
-    '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}';
+String _monthKey(LocalDate d) => '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}';
 
 /// Computes all streaks over [units] (any order; sorted by start date).
-StreakSummary computeStreaks(
-  List<StreakUnit> units, {
-  int freezesPerMonth = 0,
-  int? forgiveOneMissPerUnits,
-}) {
+StreakSummary computeStreaks(List<StreakUnit> units, {int freezesPerMonth = 0, int? forgiveOneMissPerUnits}) {
   final sorted = [...units]..sort((a, b) => a.start.compareTo(b.start));
   final used = <String, int>{};
   final frozenKeys = <String>[];
@@ -132,17 +126,14 @@ StreakSummary computeStreaks(
       frozenKeys.add(u.key);
       kind = StreakUnitKind.neutral;
       frozen = true;
-    } else if (kind == StreakUnitKind.breaks &&
-        u.freezable &&
-        (used[month] ?? 0) < freezesPerMonth) {
+    } else if (kind == StreakUnitKind.breaks && u.freezable && (used[month] ?? 0) < freezesPerMonth) {
       used[month] = (used[month] ?? 0) + 1;
       frozenKeys.add(u.key);
       kind = StreakUnitKind.neutral;
       frozen = true;
     } else if (kind == StreakUnitKind.breaks &&
         forgiveOneMissPerUnits != null &&
-        (lastForgivenIndex == null ||
-            scheduledIndex - lastForgivenIndex >= forgiveOneMissPerUnits)) {
+        (lastForgivenIndex == null || scheduledIndex - lastForgivenIndex >= forgiveOneMissPerUnits)) {
       forgivenKeys.add(u.key);
       lastForgivenIndex = scheduledIndex;
       kind = StreakUnitKind.neutral;
@@ -202,9 +193,7 @@ StreakSummary computeStreaks(
   }
   Streak? best;
   for (final s in streaks) {
-    if (best == null ||
-        s.length > best.length ||
-        (s.length == best.length && s.endDate.isAfter(best.endDate))) {
+    if (best == null || s.length > best.length || (s.length == best.length && s.endDate.isAfter(best.endDate))) {
       best = s;
     }
   }
@@ -221,44 +210,33 @@ StreakSummary computeStreaks(
 /// Streak units from habit [PeriodResult]s: done → success; failed/missed → breaks (freezable);
 /// partial → breaks; skipped → neutral or breaks per [skipPolicy]; excused/paused/not due →
 /// neutral; frozen → neutral (counts against the freeze allotment); pending → open.
-List<StreakUnit> streakUnitsFromPeriods(
-  Iterable<PeriodResult> results, {
-  SkipPolicy skipPolicy = SkipPolicy.neutral,
-}) => [
-  for (final r in results)
-    StreakUnit(
-      r.key,
-      start: r.startDate,
-      end: r.endDate,
-      kind: switch (r.status) {
-        PeriodStatus.done => StreakUnitKind.success,
-        PeriodStatus.failed ||
-        PeriodStatus.missed ||
-        PeriodStatus.partial => StreakUnitKind.breaks,
-        PeriodStatus.skipped =>
-          skipPolicy == SkipPolicy.breaks || r.flags.breaksStreak
-              ? StreakUnitKind.breaks
-              : StreakUnitKind.neutral,
-        PeriodStatus.excused ||
-        PeriodStatus.paused ||
-        PeriodStatus.notDue ||
-        PeriodStatus.frozen => StreakUnitKind.neutral,
-        PeriodStatus.pending => StreakUnitKind.open,
-      },
-      freezable:
-          r.status == PeriodStatus.failed || r.status == PeriodStatus.missed,
-      frozen: r.status == PeriodStatus.frozen,
-    ),
-];
+List<StreakUnit> streakUnitsFromPeriods(Iterable<PeriodResult> results, {SkipPolicy skipPolicy = SkipPolicy.neutral}) =>
+    [
+      for (final r in results)
+        StreakUnit(
+          r.key,
+          start: r.startDate,
+          end: r.endDate,
+          kind: switch (r.status) {
+            PeriodStatus.done => StreakUnitKind.success,
+            PeriodStatus.failed || PeriodStatus.missed || PeriodStatus.partial => StreakUnitKind.breaks,
+            PeriodStatus.skipped =>
+              skipPolicy == SkipPolicy.breaks || r.flags.breaksStreak ? StreakUnitKind.breaks : StreakUnitKind.neutral,
+            PeriodStatus.excused ||
+            PeriodStatus.paused ||
+            PeriodStatus.notDue ||
+            PeriodStatus.frozen => StreakUnitKind.neutral,
+            PeriodStatus.pending => StreakUnitKind.open,
+          },
+          freezable: r.status == PeriodStatus.failed || r.status == PeriodStatus.missed,
+          frozen: r.status == PeriodStatus.frozen,
+        ),
+    ];
 
 /// At-risk flag for fixed rules: the current unit is due, not yet done, and closes within the
 /// at-risk horizon (default: end of today).
-bool isFixedUnitAtRisk({
-  required bool dueAndNotDone,
-  required DateTime closesAt,
-  required DateTime horizonEnd,
-}) => dueAndNotDone && !closesAt.isAfter(horizonEnd);
+bool isFixedUnitAtRisk({required bool dueAndNotDone, required DateTime closesAt, required DateTime horizonEnd}) =>
+    dueAndNotDone && !closesAt.isAfter(horizonEnd);
 
 /// At-risk flag for quota rules: completions still needed exceed the eligible days left.
-bool isQuotaAtRisk({required int needed, required int eligibleDaysLeft}) =>
-    needed > eligibleDaysLeft;
+bool isQuotaAtRisk({required int needed, required int eligibleDaysLeft}) => needed > eligibleDaysLeft;

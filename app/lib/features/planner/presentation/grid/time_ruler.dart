@@ -26,10 +26,8 @@ class ScrolledContent extends StatelessWidget {
       maxHeight: contentHeight,
       child: AnimatedBuilder(
         animation: vertical,
-        builder: (context, child) => Transform.translate(
-          offset: Offset(0, -(vertical.hasClients ? vertical.offset : 0.0)),
-          child: child,
-        ),
+        builder: (context, child) =>
+            Transform.translate(offset: Offset(0, -(vertical.hasClients ? vertical.offset : 0.0)), child: child),
         child: child,
       ),
     ),
@@ -48,7 +46,10 @@ class LabelCache {
     final hit = _cache.remove(key);
     if (hit != null) return _cache[key] = hit;
     if (_cache.length >= capacity) _cache.remove(_cache.keys.first)?.dispose();
-    return _cache[key] = TextPainter(text: TextSpan(text: text, style: style), textDirection: dir)..layout();
+    return _cache[key] = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: dir,
+    )..layout();
   }
 }
 
@@ -165,7 +166,11 @@ class RulerNowPainter extends CustomPainter {
     if (t < 0 || t >= tl.lengthMinutes) return;
     final (wall, repeat) = tl.wallAt(t);
     final y = axis.yOf(wall, repeat: repeat, ppm: ppm);
-    final tp = cache.get(format(wall), textStyle.copyWith(color: onColor, fontWeight: FontWeight.w600), TextDirection.ltr);
+    final tp = cache.get(
+      format(wall),
+      textStyle.copyWith(color: onColor, fontWeight: FontWeight.w600),
+      TextDirection.ltr,
+    );
     final rect = RRect.fromRectAndRadius(
       Rect.fromCenter(center: Offset(size.width / 2, y), width: tp.width + 8, height: tp.height + 4),
       const Radius.circular(6),

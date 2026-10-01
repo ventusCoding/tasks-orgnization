@@ -60,7 +60,7 @@ abstract final class DropResolver {
     var minDepth = below == null ? 0 : below.depth;
     if (minDepth > maxDepth) minDepth = maxDepth;
     final depth = desiredDepth.clamp(minDepth, maxDepth);
-    String? parent = focusRootId;
+    var parent = focusRootId;
     String? after;
     for (var i = g - 1; i >= 0; i--) {
       final r = rows[i];

@@ -42,10 +42,20 @@ void main() {
   group('validation (T5.4.01)', () {
     test('metrics per scope and habit kind', () {
       expect(codeOf(goal(), kind: GoalHabitKind.measurable), isNull);
-      expect(codeOf(goal(), kind: GoalHabitKind.yesNo), GoalValidationCode.metricNotAllowed, reason: 'totals need a measurable goal');
+      expect(
+        codeOf(goal(), kind: GoalHabitKind.yesNo),
+        GoalValidationCode.metricNotAllowed,
+        reason: 'totals need a measurable goal',
+      );
       expect(codeOf(goal(metric: GoalMetric.moneySaved), kind: GoalHabitKind.quit), isNull);
-      expect(codeOf(goal(metric: GoalMetric.moneySaved), kind: GoalHabitKind.measurable), GoalValidationCode.metricNotAllowed);
-      expect(codeOf(goal(scope: GoalScopeType.checklist, metric: GoalMetric.streakDays)), GoalValidationCode.metricNotAllowed);
+      expect(
+        codeOf(goal(metric: GoalMetric.moneySaved), kind: GoalHabitKind.measurable),
+        GoalValidationCode.metricNotAllowed,
+      );
+      expect(
+        codeOf(goal(scope: GoalScopeType.checklist, metric: GoalMetric.streakDays)),
+        GoalValidationCode.metricNotAllowed,
+      );
       expect(codeOf(goal(scope: GoalScopeType.checklist, metric: GoalMetric.itemsCompleted)), isNull);
       expect(codeOf(goal(scope: GoalScopeType.category, metric: GoalMetric.trackedMinutes)), isNull);
     });
@@ -57,7 +67,10 @@ void main() {
         codeOf(goal(period: GoalPeriod.custom, start: d(2026, 9, 10), end: d(2026, 9, 1))),
         GoalValidationCode.endBeforeStart,
       );
-      expect(codeOf(goal(scope: GoalScopeType.global, metric: GoalMetric.completions)), GoalValidationCode.scopeIdMissing);
+      expect(
+        codeOf(goal(scope: GoalScopeType.global, metric: GoalMetric.completions)),
+        GoalValidationCode.scopeIdMissing,
+      );
       expect(codeOf(goal(scope: GoalScopeType.global, scopeId: null, metric: GoalMetric.completions)), isNull);
       expect(codeOf(goal(title: 'x' * 81)), GoalValidationCode.titleTooLong);
     });
@@ -78,8 +91,14 @@ void main() {
     });
 
     test('custom and all-time windows', () {
-      expect(w(goal(period: GoalPeriod.custom, start: d(2026, 9, 1), end: d(2026, 10, 1))), (start: d(2026, 9, 1), end: d(2026, 10, 1)));
-      expect(w(goal(period: GoalPeriod.allTime)), (start: d(2026, 3, 1), end: null), reason: 'from the origin, open-ended');
+      expect(w(goal(period: GoalPeriod.custom, start: d(2026, 9, 1), end: d(2026, 10, 1))), (
+        start: d(2026, 9, 1),
+        end: d(2026, 10, 1),
+      ));
+      expect(w(goal(period: GoalPeriod.allTime)), (
+        start: d(2026, 3, 1),
+        end: null,
+      ), reason: 'from the origin, open-ended');
     });
   });
 
@@ -118,14 +137,18 @@ void main() {
       final habit = buildHabit(id: Ids.v7(), start: d(2026, 9, 1));
       await h.read(habitsRepositoryProvider).create(habit);
       final g = goal(scopeId: habit.id);
-      await h.read(goalsRepositoryProvider).create(Goal(
-        id: Ids.v7(),
-        scopeType: g.scopeType,
-        scopeId: g.scopeId,
-        metric: GoalMetric.completions,
-        target: 30,
-        period: GoalPeriod.month,
-      ));
+      await h
+          .read(goalsRepositoryProvider)
+          .create(
+            Goal(
+              id: Ids.v7(),
+              scopeType: g.scopeType,
+              scopeId: g.scopeId,
+              metric: GoalMetric.completions,
+              target: 30,
+              period: GoalPeriod.month,
+            ),
+          );
       await h.read(habitsRepositoryProvider).delete(habit.id);
       expect(await h.read(goalsRepositoryProvider).all(), isEmpty);
     });

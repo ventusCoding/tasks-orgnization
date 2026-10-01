@@ -9,12 +9,7 @@ import 'package:meta/meta.dart';
 /// `uuidv5(user_id | 'default-rule' | section | code)`.
 @immutable
 class DefaultRuleSeed {
-  const DefaultRuleSeed({
-    required this.section,
-    required this.code,
-    required this.profileCode,
-    required this.spec,
-  });
+  const DefaultRuleSeed({required this.section, required this.code, required this.profileCode, required this.spec});
 
   final NotificationSection section;
   final String code;
@@ -26,32 +21,23 @@ abstract final class DefaultRules {
   /// Seeded defaults (all editable). Digests are off by default (created from settings).
   static final List<DefaultRuleSeed> seeds = [
     // Planner, timed: the user's own example — 10 min before start + at start.
-    DefaultRuleSeed(
+    const DefaultRuleSeed(
       section: NotificationSection.planner,
       code: 'timed_before_10',
       profileCode: BuiltinProfiles.standard,
-      spec: const NotificationRuleSpec(
-        trigger: RelativeTrigger(
-          anchor: TriggerAnchor.start,
-          offsetMinutes: -10,
-        ),
-        conditions: ConditionsSpec(
-          itemKind: 'timed',
-          onlyIfStatusIn: ['scheduled', 'in_progress'],
-        ),
+      spec: NotificationRuleSpec(
+        trigger: RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: -10),
+        conditions: ConditionsSpec(itemKind: 'timed', onlyIfStatusIn: ['scheduled', 'in_progress']),
         delivery: DeliverySpec(actions: ['start', 'snooze', 'skip']),
       ),
     ),
-    DefaultRuleSeed(
+    const DefaultRuleSeed(
       section: NotificationSection.planner,
       code: 'timed_at_start',
       profileCode: BuiltinProfiles.standard,
-      spec: const NotificationRuleSpec(
+      spec: NotificationRuleSpec(
         trigger: RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: 0),
-        conditions: ConditionsSpec(
-          itemKind: 'timed',
-          onlyIfStatusIn: ['scheduled', 'in_progress'],
-        ),
+        conditions: ConditionsSpec(itemKind: 'timed', onlyIfStatusIn: ['scheduled', 'in_progress']),
         delivery: DeliverySpec(actions: ['done', 'snooze', 'skip']),
       ),
     ),
@@ -61,11 +47,7 @@ abstract final class DefaultRules {
       code: 'allday_on_day',
       profileCode: BuiltinProfiles.standard,
       spec: NotificationRuleSpec(
-        trigger: RelativeTrigger(
-          anchor: TriggerAnchor.start,
-          dayOffset: 0,
-          atTime: LocalTime(9, 0),
-        ),
+        trigger: RelativeTrigger(anchor: TriggerAnchor.start, dayOffset: 0, atTime: LocalTime(9, 0)),
         conditions: const ConditionsSpec(itemKind: 'all_day'),
         delivery: const DeliverySpec(actions: ['done', 'snooze', 'open']),
       ),
@@ -75,43 +57,36 @@ abstract final class DefaultRules {
       code: 'dateonly_on_day',
       profileCode: BuiltinProfiles.standard,
       spec: NotificationRuleSpec(
-        trigger: RelativeTrigger(
-          anchor: TriggerAnchor.start,
-          dayOffset: 0,
-          atTime: LocalTime(9, 0),
-        ),
+        trigger: RelativeTrigger(anchor: TriggerAnchor.start, dayOffset: 0, atTime: LocalTime(9, 0)),
         conditions: const ConditionsSpec(itemKind: 'date_only'),
         delivery: const DeliverySpec(actions: ['done', 'snooze', 'open']),
       ),
     ),
     // Checklists: follow-up of waiting/blocked items + at due.
-    DefaultRuleSeed(
+    const DefaultRuleSeed(
       section: NotificationSection.checklists,
       code: 'follow_up',
       profileCode: BuiltinProfiles.standard,
-      spec: const NotificationRuleSpec(
-        trigger: RelativeTrigger(
-          anchor: TriggerAnchor.followUp,
-          offsetMinutes: 0,
-        ),
+      spec: NotificationRuleSpec(
+        trigger: RelativeTrigger(anchor: TriggerAnchor.followUp, offsetMinutes: 0),
         delivery: DeliverySpec(actions: ['mark_ongoing', 'done', 'snooze']),
       ),
     ),
-    DefaultRuleSeed(
+    const DefaultRuleSeed(
       section: NotificationSection.checklists,
       code: 'at_due',
       profileCode: BuiltinProfiles.standard,
-      spec: const NotificationRuleSpec(
+      spec: NotificationRuleSpec(
         trigger: RelativeTrigger(anchor: TriggerAnchor.due, offsetMinutes: 0),
         delivery: DeliverySpec(actions: ['done', 'snooze', 'open']),
       ),
     ),
     // Habits: at each slot (09:00 when untimed) + streak at risk at 21:00 (Gentle).
-    DefaultRuleSeed(
+    const DefaultRuleSeed(
       section: NotificationSection.habits,
       code: 'at_slot',
       profileCode: BuiltinProfiles.standard,
-      spec: const NotificationRuleSpec(
+      spec: NotificationRuleSpec(
         trigger: RelativeTrigger(anchor: TriggerAnchor.slot, offsetMinutes: 0),
         delivery: DeliverySpec(actions: ['done', 'log_value', 'skip']),
       ),
@@ -148,15 +123,10 @@ abstract final class DefaultRules {
   };
 
   /// Deterministic id of the digest rule of [kind] (one per user, T7.5.18).
-  static String digestRuleId(String userId, String kind) =>
-      Ids.v5('$userId|digest-rule|$kind');
+  static String digestRuleId(String userId, String kind) => Ids.v5('$userId|digest-rule|$kind');
 
   /// Digest rule spec for [kind] at [time] (weekly/monthly kinds on [weekday]/day 1).
-  static NotificationRuleSpec digestSpec(
-    String kind,
-    LocalTime time, {
-    int weekday = 7,
-  }) {
+  static NotificationRuleSpec digestSpec(String kind, LocalTime time, {int weekday = 7}) {
     final schedule = switch (kind) {
       'weekly_review' => {
         'v': 1,

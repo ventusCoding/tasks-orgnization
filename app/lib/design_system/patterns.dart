@@ -6,21 +6,11 @@ import 'package:material_ui/material_ui.dart';
 
 /// Texture drawn over category-colored surfaces so categories stay distinguishable without
 /// color vision (T2.3.04 "color-blind-safe pattern option for the time grid").
-enum CategoryPattern {
-  diagonal,
-  antiDiagonal,
-  horizontal,
-  vertical,
-  dots,
-  crossHatch,
-  grid,
-  zigzag,
-}
+enum CategoryPattern { diagonal, antiDiagonal, horizontal, vertical, dots, crossHatch, grid, zigzag }
 
 /// The appearance setting `categoryPatterns` (off by default).
 final categoryPatternsEnabledProvider = Provider<bool>((ref) {
-  final appearance =
-      ref.watch(settingsProvider(SettingsNs.appearance)).value ?? const {};
+  final appearance = ref.watch(settingsProvider(SettingsNs.appearance)).value ?? const {};
   return appearance['categoryPatterns'] == true;
 });
 
@@ -31,10 +21,7 @@ abstract final class CategoryPatterns {
     final index = CategoryPalette.colors.indexOf(argb);
     final i = index >= 0 ? index : (argb & 0x7FFFFFFF) % 16;
     const patterns = CategoryPattern.values;
-    return (
-      pattern: patterns[i % patterns.length],
-      dense: i >= patterns.length,
-    );
+    return (pattern: patterns[i % patterns.length], dense: i >= patterns.length);
   }
 }
 
@@ -121,10 +108,7 @@ class CategoryPatternPainter extends CustomPainter {
         for (var y = s / 2; y < h + s; y += s) {
           final path = Path()..moveTo(0, y);
           for (var x = 0.0; x < w; x += s / 2) {
-            path.lineTo(
-              x + s / 2,
-              y + (((x / (s / 2)).round().isEven) ? -amplitude : amplitude),
-            );
+            path.lineTo(x + s / 2, y + (((x / (s / 2)).round().isEven) ? -amplitude : amplitude));
           }
           canvas.drawPath(path, paint);
         }
@@ -134,8 +118,5 @@ class CategoryPatternPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CategoryPatternPainter old) =>
-      old.pattern != pattern ||
-      old.color != color ||
-      old.dense != dense ||
-      old.strokeWidth != strokeWidth;
+      old.pattern != pattern || old.color != color || old.dense != dense || old.strokeWidth != strokeWidth;
 }

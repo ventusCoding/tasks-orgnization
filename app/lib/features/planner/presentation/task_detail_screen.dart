@@ -44,11 +44,15 @@ class TaskDetailScreen extends ConsumerWidget {
     if (task == null) {
       return Scaffold(
         appBar: AppBar(title: Text(l.tasksDetailTitle)),
-        body: taskAsync.isLoading ? const LoadingState() : EmptyState(title: l.tasksDetailNotFound, icon: Icons.search_off),
+        body: taskAsync.isLoading
+            ? const LoadingState()
+            : EmptyState(title: l.tasksDetailNotFound, icon: Icons.search_off),
       );
     }
     final key = occurrenceKey;
-    final occurrence = key == null || key.isEmpty ? null : ref.watch(occurrenceItemProvider((taskId: taskId, key: key))).value;
+    final occurrence = key == null || key.isEmpty
+        ? null
+        : ref.watch(occurrenceItemProvider((taskId: taskId, key: key))).value;
     final series = ref.watch(seriesTasksProvider(task.seriesId)).value ?? [task];
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +65,10 @@ class TaskDetailScreen extends ConsumerWidget {
             onPressed: () => Navigator.of(context).push<void>(
               MaterialPageRoute(
                 fullscreenDialog: true,
-                builder: (_) => TaskEditorScreen(taskId: task.id, occurrenceKey: task.isRecurring ? occurrence?.occurrenceKey : null),
+                builder: (_) => TaskEditorScreen(
+                  taskId: task.id,
+                  occurrenceKey: task.isRecurring ? occurrence?.occurrenceKey : null,
+                ),
               ),
             ),
           ),
@@ -69,57 +76,55 @@ class TaskDetailScreen extends ConsumerWidget {
           _DetailMenu(task: task, occurrence: occurrence),
         ],
       ),
-      body: _readableWidth(context, ListView(
-        key: const ValueKey('detail-list'),
-        padding: const EdgeInsetsDirectional.only(bottom: Space.xxxl),
-        children: [
-          if (occurrence != null) ...[
-            OccurrencePanel(item: occurrence),
-            const Divider(),
-          ],
-          _Summary(task: task),
-          if (task.notes != null) ...[
-            SectionHeader(l.tasksFieldNotes),
+      body: _readableWidth(
+        context,
+        ListView(
+          key: const ValueKey('detail-list'),
+          padding: const EdgeInsetsDirectional.only(bottom: Space.xxxl),
+          children: [
+            if (occurrence != null) ...[OccurrencePanel(item: occurrence), const Divider()],
+            _Summary(task: task),
+            if (task.notes != null) ...[
+              SectionHeader(l.tasksFieldNotes),
+              Padding(
+                padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
+                child: MarkdownLiteView(task.notes!, key: const ValueKey('detail-notes')),
+              ),
+            ],
+            if (task.location != null) ListTile(leading: const Icon(Icons.place_outlined), title: Text(task.location!)),
+            if (task.url != null)
+              ListTile(
+                key: const ValueKey('detail-url'),
+                leading: const Icon(Icons.link),
+                title: Text(task.url!, maxLines: 1, overflow: TextOverflow.ellipsis),
+                onTap: () => openExternalLink(context, task.url!),
+              ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, 0),
+              child: EntityTagChips(entityType: 'task', entityId: task.id),
+            ),
+            if (task.linkedChecklistId != null) _ChecklistProgress(checklistId: task.linkedChecklistId!),
+            SectionHeader(l.tasksAttachments),
             Padding(
               padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
-              child: MarkdownLiteView(task.notes!, key: const ValueKey('detail-notes')),
+              child: AttachmentStrip(ownerType: 'task', ownerId: task.id),
             ),
+            if (!task.isUnscheduled) ...[SectionHeader(l.tasksNextOccurrences), _NextOccurrences(taskId: task.id)],
+            SectionHeader(l.tasksHistory),
+            TaskHistoryList(taskIds: [for (final t in series) t.id]),
+            ReminderHistory(sourceType: 'task', sourceId: task.id),
           ],
-          if (task.location != null)
-            ListTile(leading: const Icon(Icons.place_outlined), title: Text(task.location!)),
-          if (task.url != null)
-            ListTile(
-              key: const ValueKey('detail-url'),
-              leading: const Icon(Icons.link),
-              title: Text(task.url!, maxLines: 1, overflow: TextOverflow.ellipsis),
-              onTap: () => openExternalLink(context, task.url!),
-            ),
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, 0),
-            child: EntityTagChips(entityType: 'task', entityId: task.id),
-          ),
-          if (task.linkedChecklistId != null) _ChecklistProgress(checklistId: task.linkedChecklistId!),
-          SectionHeader(l.tasksAttachments),
-          Padding(
-            padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
-            child: AttachmentStrip(ownerType: 'task', ownerId: task.id),
-          ),
-          if (!task.isUnscheduled) ...[
-            SectionHeader(l.tasksNextOccurrences),
-            _NextOccurrences(taskId: task.id),
-          ],
-          SectionHeader(l.tasksHistory),
-          TaskHistoryList(taskIds: [for (final t in series) t.id]),
-          ReminderHistory(sourceType: 'task', sourceId: task.id),
-        ],
-      )),
+        ),
+      ),
     );
   }
 
   /// Tablets: a centered, readable column instead of a stretched phone layout.
   static Widget _readableWidth(BuildContext context, Widget child) => context.windowSize.isCompact
       ? child
-      : Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 720), child: child));
+      : Center(
+          child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 720), child: child),
+        );
 }
 
 class _Summary extends ConsumerWidget {
@@ -168,13 +173,18 @@ class _Summary extends ConsumerWidget {
             children: [
               Icon(task.isRecurring ? Icons.repeat : Icons.event_outlined, size: 20),
               const SizedBox(width: Space.sm),
-              Expanded(child: Text(schedule, key: const ValueKey('detail-schedule'), style: context.text.titleMedium)),
+              Expanded(
+                child: Text(schedule, key: const ValueKey('detail-schedule'), style: context.text.titleMedium),
+              ),
             ],
           ),
           if (next != null)
             Padding(
               padding: const EdgeInsetsDirectional.only(start: Space.xl + Space.xs, top: Space.xxs),
-              child: Text(l.tasksNextLabel(format.dateTime(service.resolver.toLocal(next.startUtc, service.currentZone))), style: muted),
+              child: Text(
+                l.tasksNextLabel(format.dateTime(service.resolver.toLocal(next.startUtc, service.currentZone))),
+                style: muted,
+              ),
             ),
           Padding(
             padding: const EdgeInsetsDirectional.only(start: Space.xl + Space.xs, top: Space.xxs),
@@ -221,7 +231,8 @@ class _Summary extends ConsumerWidget {
                   TrackingMode.timer => Icons.timer_outlined,
                 },
               ),
-              if (task.isPaused) StatusPill(label: l.tasksPausedBadge, color: context.appColors.waiting, icon: Icons.pause),
+              if (task.isPaused)
+                StatusPill(label: l.tasksPausedBadge, color: context.appColors.waiting, icon: Icons.pause),
             ],
           ),
         ],
@@ -229,7 +240,13 @@ class _Summary extends ConsumerWidget {
     );
   }
 
-  static String _describe(RecurrenceService service, RecurrenceRule rule, RecurrenceAnchor anchor, String locale, bool use24h) {
+  static String _describe(
+    RecurrenceService service,
+    RecurrenceRule rule,
+    RecurrenceAnchor anchor,
+    String locale,
+    bool use24h,
+  ) {
     try {
       return service.describe(rule, anchor, locale: locale, use24h: use24h);
     } on Object {
@@ -260,7 +277,11 @@ class _NextOccurrences extends ConsumerWidget {
             key: ValueKey('next-${item.occurrenceKey}'),
             dense: true,
             leading: Icon(occurrenceStatusVisual(context, item.status, overdue: item.overdue).icon),
-            title: Text(item.allDay ? format.dayLong(item.startLocal.date) : '${format.dayLong(item.startLocal.date)} · ${format.timeOf(item.startLocal)}'),
+            title: Text(
+              item.allDay
+                  ? format.dayLong(item.startLocal.date)
+                  : '${format.dayLong(item.startLocal.date)} · ${format.timeOf(item.startLocal)}',
+            ),
             trailing: StatusPill(
               dense: true,
               label: occurrenceStatusVisual(context, item.status, overdue: item.overdue).label,
@@ -317,7 +338,11 @@ class _DetailMenu extends ConsumerWidget {
     final prefs = ref.read(userPreferencesProvider);
     switch (action) {
       case 'duplicate':
-        await service.duplicate(task.id, asOneOff: task.isRecurring && occurrence != null, occurrenceKey: task.isRecurring ? occurrence?.occurrenceKey : null);
+        await service.duplicate(
+          task.id,
+          asOneOff: task.isRecurring && occurrence != null,
+          occurrenceKey: task.isRecurring ? occurrence?.occurrenceKey : null,
+        );
         if (context.mounted) showPlannerUndoSnack(context, ref, l.tasksDuplicated);
       case 'duplicate-series':
         await service.duplicate(task.id);
@@ -329,7 +354,11 @@ class _DetailMenu extends ConsumerWidget {
           weekStart: prefs.weekStart,
         );
         if (dates == null || dates.isEmpty) return;
-        await service.duplicateToDates(task.id, dates, occurrenceKey: task.isRecurring ? occurrence?.occurrenceKey : null);
+        await service.duplicateToDates(
+          task.id,
+          dates,
+          occurrenceKey: task.isRecurring ? occurrence?.occurrenceKey : null,
+        );
         if (context.mounted) showPlannerUndoSnack(context, ref, l.tasksDuplicatedTo(dates.length));
       case 'pause':
         await service.pauseSeries(task.id);
@@ -339,7 +368,9 @@ class _DetailMenu extends ConsumerWidget {
         if (context.mounted) showPlannerUndoSnack(context, ref, l.tasksResumeSnack);
       case 'history':
         await Navigator.of(context).push<void>(
-          MaterialPageRoute(builder: (_) => SeriesHistoryScreen(seriesId: task.seriesId, title: task.title)),
+          MaterialPageRoute(
+            builder: (_) => SeriesHistoryScreen(seriesId: task.seriesId, title: task.title),
+          ),
         );
       case 'exceptions':
         await showTaskExceptionsSheet(context, taskId: task.id);
@@ -367,6 +398,7 @@ class _DetailMenu extends ConsumerWidget {
           );
           if (!ok) return;
         }
+        if (!context.mounted) return;
         final navigator = Navigator.of(context);
         final messenger = ScaffoldMessenger.maybeOf(context);
         final undoLabel = l.actionUndo;
@@ -376,7 +408,12 @@ class _DetailMenu extends ConsumerWidget {
         final stack = ref.read(undoStackProvider);
         messenger
           ?..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(content: Text(message), action: SnackBarAction(label: undoLabel, onPressed: () => stack.undo())));
+          ..showSnackBar(
+            SnackBar(
+              content: Text(message),
+              action: SnackBarAction(label: undoLabel, onPressed: stack.undo),
+            ),
+          );
     }
   }
 
@@ -388,21 +425,29 @@ class _DetailMenu extends ConsumerWidget {
     final lines = <String>[task.title];
     final start = task.startLocal;
     if (start != null) {
-      lines.add(task.isAllDay ? format.dateMedium(start.date) : '${format.dayLong(start.date)} · ${format.timeRange(start, start.plusMinutes(task.effectiveDurationMinutes))}');
+      lines.add(
+        task.isAllDay
+            ? format.dateMedium(start.date)
+            : '${format.dayLong(start.date)} · ${format.timeRange(start, start.plusMinutes(task.effectiveDurationMinutes))}',
+      );
     }
     final rule = task.recurrence;
     if (rule != null && task.anchor != null) {
       try {
-        lines.add(l.tasksShareRepeats(service.describe(rule, task.anchor!, locale: context.localeName, use24h: prefs.use24h)));
+        lines.add(
+          l.tasksShareRepeats(service.describe(rule, task.anchor!, locale: context.localeName, use24h: prefs.use24h)),
+        );
       } on Object {
         // no description
       }
     }
     if (task.location != null) lines.add(task.location!);
     if (task.url != null) lines.add(task.url!);
-    if (task.notes != null) lines
-      ..add('')
-      ..add(markdownLiteToPlain(task.notes!));
+    if (task.notes != null) {
+      lines
+        ..add('')
+        ..add(markdownLiteToPlain(task.notes!));
+    }
     return lines.join('\n');
   }
 
@@ -417,7 +462,11 @@ class _DetailMenu extends ConsumerWidget {
         PopupMenuItem(value: 'duplicate', child: Text(l.actionDuplicate)),
         PopupMenuItem(value: 'duplicate-to', child: Text(l.tasksActionDuplicateTo)),
         if (recurring) PopupMenuItem(value: 'duplicate-series', child: Text(l.tasksActionDuplicateSeries)),
-        if (recurring) PopupMenuItem(value: task.isPaused ? 'resume' : 'pause', child: Text(task.isPaused ? l.tasksActionResume : l.tasksActionPause)),
+        if (recurring)
+          PopupMenuItem(
+            value: task.isPaused ? 'resume' : 'pause',
+            child: Text(task.isPaused ? l.tasksActionResume : l.tasksActionPause),
+          ),
         if (recurring) PopupMenuItem(value: 'history', child: Text(l.tasksActionSeriesHistory)),
         if (recurring) PopupMenuItem(value: 'exceptions', child: Text(l.tasksActionExceptions)),
         PopupMenuItem(value: 'template', child: Text(l.tasksSaveAsTemplate)),

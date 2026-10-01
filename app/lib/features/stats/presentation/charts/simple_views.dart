@@ -3,10 +3,10 @@ library;
 
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/stats/domain/chart_data.dart';
+import 'package:everslot/features/stats/domain/metric_definition.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_support.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_theme.dart';
 import 'package:everslot/features/stats/presentation/charts/kpi_tile.dart';
-import 'package:everslot/features/stats/domain/metric_definition.dart';
 import 'package:everslot_metrics/everslot_metrics.dart' show NotApplicable, PeriodComparison, Value;
 import 'package:material_ui/material_ui.dart';
 

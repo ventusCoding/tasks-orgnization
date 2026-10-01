@@ -1,5 +1,5 @@
 import 'package:everslot/features/habits/domain/coping.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('craving timer (T5.3.16)', () {

@@ -18,16 +18,11 @@ export 'package:everslot/features/notifications/domain/notification_actions.dart
 export 'package:everslot/features/notifications/domain/notification_target.dart';
 
 typedef NotificationSourceFactory = NotificationTargetSource Function(Ref ref);
-typedef NotificationActionHandlerFactory = NotificationActionHandler Function(
-  Ref ref,
-);
+typedef NotificationActionHandlerFactory = NotificationActionHandler Function(Ref ref);
 
 /// What one feature contributes to the notification system.
 class NotificationContribution {
-  const NotificationContribution({
-    this.sources = const [],
-    this.actionHandlers = const [],
-  });
+  const NotificationContribution({this.sources = const [], this.actionHandlers = const []});
 
   /// One factory per section the feature feeds (`planner`, `checklists`, `habits`, `quit`).
   final List<NotificationSourceFactory> sources;
@@ -50,15 +45,15 @@ class NotificationContribution {
 /// Factories receive the `Ref` of a long-lived provider: keep it and use `ref.read` lazily inside
 /// `targetsBetween` / `handle` (never `ref.watch` in the factory).
 final List<NotificationContribution> notificationContributions = [
-  NotificationContribution(
+  const NotificationContribution(
     sources: [ChecklistsNotificationSource.new],
     actionHandlers: [ChecklistNotificationActions.new],
   ),
-  NotificationContribution(
+  const NotificationContribution(
     sources: [HabitsNotificationSource.new, QuitNotificationSource.new],
     actionHandlers: [HabitNotificationActions.new],
   ),
-  NotificationContribution(
+  const NotificationContribution(
     sources: [PlannerNotificationSource.new],
     actionHandlers: [PlannerNotificationActions.new],
   ),

@@ -43,13 +43,17 @@ void main() {
 
   Future<String> seed(WidgetTester tester, {String title = 'Trip', List<NodeSpec> items = _trip}) async {
     late String id;
-    await tester.runAsync(() async => id = (await h.read(checklistsRepositoryProvider).create(title: title, items: items)).id);
+    await tester.runAsync(
+      () async => id = (await h.read(checklistsRepositoryProvider).create(title: title, items: items)).id,
+    );
     return id;
   }
 
   Future<ChecklistTree> treeOf(WidgetTester tester, String id) async {
     late ChecklistTree t;
-    await tester.runAsync(() async => t = ChecklistTree.build(await h.read(checklistItemsRepositoryProvider).items(id)));
+    await tester.runAsync(
+      () async => t = ChecklistTree.build(await h.read(checklistItemsRepositoryProvider).items(id)),
+    );
     return t;
   }
 
@@ -120,20 +124,32 @@ void main() {
     });
 
     testWidgets('pin moves a card to Pinned; archive hides it with undo', (tester) async {
-      await seed(tester, title: 'Alpha', items: const [NodeSpec(text: 'a')]);
-      await seed(tester, title: 'Beta', items: const [NodeSpec(text: 'b')]);
+      await seed(
+        tester,
+        title: 'Alpha',
+        items: const [NodeSpec(text: 'a')],
+      );
+      await seed(
+        tester,
+        title: 'Beta',
+        items: const [NodeSpec(text: 'b')],
+      );
       await pumpInApp(tester, h, const ListsBoardScreen());
       await settle(tester);
       expect(find.text('Pinned'), findsNothing);
 
-      await tester.tap(find.descendant(of: find.widgetWithText(ChecklistCard, 'Alpha'), matching: find.byTooltip('List actions')));
+      await tester.tap(
+        find.descendant(of: find.widgetWithText(ChecklistCard, 'Alpha'), matching: find.byTooltip('List actions')),
+      );
       await settle(tester);
       await tester.tap(find.text('Pin'));
       await settle(tester);
       expect(find.text('Pinned'), findsOneWidget);
       expect((await board(tester)).firstWhere((c) => c.title == 'Alpha').isPinned, isTrue);
 
-      await tester.tap(find.descendant(of: find.widgetWithText(ChecklistCard, 'Beta'), matching: find.byTooltip('List actions')));
+      await tester.tap(
+        find.descendant(of: find.widgetWithText(ChecklistCard, 'Beta'), matching: find.byTooltip('List actions')),
+      );
       await settle(tester);
       await tester.tap(find.text('Archive'));
       await settle(tester);
@@ -145,9 +161,21 @@ void main() {
     });
 
     testWidgets('long-press drag reorders cards within their section', (tester) async {
-      await seed(tester, title: 'Alpha', items: const [NodeSpec(text: 'a')]);
-      await seed(tester, title: 'Beta', items: const [NodeSpec(text: 'b')]);
-      await seed(tester, title: 'Gamma', items: const [NodeSpec(text: 'c')]);
+      await seed(
+        tester,
+        title: 'Alpha',
+        items: const [NodeSpec(text: 'a')],
+      );
+      await seed(
+        tester,
+        title: 'Beta',
+        items: const [NodeSpec(text: 'b')],
+      );
+      await seed(
+        tester,
+        title: 'Gamma',
+        items: const [NodeSpec(text: 'c')],
+      );
       await pumpInApp(tester, h, const ListsBoardScreen());
       await tester.tap(find.byTooltip('List view'));
       await settle(tester);
@@ -283,10 +311,7 @@ void main() {
       await tester.tap(find.descendant(of: find.byType(BottomSheet), matching: find.text('Completed')));
       await settle(tester);
       final t = await treeOf(tester, id);
-      expect(
-        t.items.where((i) => i.status == ItemStatus.completed).map((i) => i.text).toSet(),
-        {'Clothes', 'Snacks'},
-      );
+      expect(t.items.where((i) => i.status == ItemStatus.completed).map((i) => i.text).toSet(), {'Clothes', 'Snacks'});
       // One undo step for the whole bulk change.
       await tester.tap(find.text('Undo'));
       await settle(tester);

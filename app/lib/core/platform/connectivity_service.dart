@@ -78,13 +78,12 @@ Reachability tcpReachability({Duration timeout = const Duration(seconds: 3)}) =>
 /// Link flapping is debounced ([debounce]); [onlineChanges] only emits real transitions.
 class ConnectivityService {
   ConnectivityService({
-    required LinkSource source,
+    required this._source,
     this.backend,
     Reachability? reachability,
     this.debounce = const Duration(milliseconds: 500),
     this.recheckInterval = const Duration(seconds: 20),
-  }) : _source = source,
-       _reachability = reachability ?? tcpReachability();
+  }) : _reachability = reachability ?? tcpReachability();
 
   final LinkSource _source;
 

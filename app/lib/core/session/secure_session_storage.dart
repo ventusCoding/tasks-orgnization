@@ -11,9 +11,11 @@ abstract interface class SecureStore {
 /// [SecureStore] backed by `flutter_secure_storage` (iOS Keychain, Android Keystore-encrypted
 /// preferences). Values stay on the device (`first_unlock_this_device` → no iCloud Keychain sync).
 class FlutterSecureStore implements SecureStore {
-  const FlutterSecureStore([this._storage = const FlutterSecureStorage(
-    iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock_this_device),
-  )]);
+  const FlutterSecureStore([
+    this._storage = const FlutterSecureStorage(
+      iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock_this_device),
+    ),
+  ]);
 
   final FlutterSecureStorage _storage;
 
@@ -45,8 +47,7 @@ class MemorySecureStore implements SecureStore {
 /// never written to plain SharedPreferences. Wired in `bootstrap.dart` via
 /// `FlutterAuthClientOptions(localStorage: SecureSessionStorage(), pkceAsyncStorage: SecurePkceStorage())`.
 class SecureSessionStorage extends LocalStorage {
-  SecureSessionStorage({SecureStore? store, this.key = defaultKey})
-    : _store = store ?? const FlutterSecureStore();
+  SecureSessionStorage({SecureStore? store, this.key = defaultKey}) : _store = store ?? const FlutterSecureStore();
 
   static const defaultKey = 'everslot_supabase_session';
 

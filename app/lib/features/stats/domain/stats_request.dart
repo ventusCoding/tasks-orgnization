@@ -33,7 +33,7 @@ enum InsightsRoute {
   budget('budget'),
   gallery('gallery');
 
-  const InsightsRoute(this.segment);
+  InsightsRoute(this.segment);
 
   /// Path segment (`/insights/<segment>`).
   final String segment;

@@ -47,7 +47,10 @@ Future<GoRouter> pumpSettingsApp(
           GoRoute(path: 'trash', builder: (_, _) => stub('trash')),
           GoRoute(path: 'categories', builder: (_, _) => stub('categories')),
           GoRoute(path: 'tags', builder: (_, _) => stub('tags')),
-          GoRoute(path: ':page', builder: (_, s) => SettingsPageScreen(page: s.pathParameters['page']!)),
+          GoRoute(
+            path: ':page',
+            builder: (_, s) => SettingsPageScreen(page: s.pathParameters['page']!),
+          ),
         ],
       ),
       GoRoute(path: '/auth/sign-in', builder: (_, _) => stub('sign-in')),

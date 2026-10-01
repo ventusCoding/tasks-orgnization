@@ -160,11 +160,7 @@ class SupabaseAuthRepository implements AuthRepository {
     final list = await _auth.getUserIdentities();
     return [
       for (final i in list)
-        AuthIdentity(
-          provider: i.provider,
-          identityId: i.identityId,
-          email: i.identityData?['email'] as String?,
-        ),
+        AuthIdentity(provider: i.provider, identityId: i.identityId, email: i.identityData?['email'] as String?),
     ];
   });
 
@@ -269,16 +265,25 @@ class SupabaseAuthRepository implements AuthRepository {
     final code = e.code ?? '';
     final status = e.statusCode ?? '';
     final failure = switch (code) {
-      'otp_expired' || 'invalid_credentials' || 'bad_code_verifier' || 'flow_state_expired' => AuthFailureCode.invalidCode,
-      'over_email_send_rate_limit' || 'over_request_rate_limit' || 'over_sms_send_rate_limit' => AuthFailureCode.rateLimited,
+      'otp_expired' ||
+      'invalid_credentials' ||
+      'bad_code_verifier' ||
+      'flow_state_expired' => AuthFailureCode.invalidCode,
+      'over_email_send_rate_limit' ||
+      'over_request_rate_limit' ||
+      'over_sms_send_rate_limit' => AuthFailureCode.rateLimited,
       'email_exists' || 'user_already_exists' || 'email_conflict_identity_not_deletable' => AuthFailureCode.emailInUse,
       'identity_already_exists' => AuthFailureCode.identityInUse,
       'captcha_failed' => AuthFailureCode.captchaRequired,
       'anonymous_provider_disabled' => AuthFailureCode.guestDisabled,
-      'provider_disabled' || 'oauth_provider_not_supported' || 'email_provider_disabled' => AuthFailureCode.providerNotConfigured,
+      'provider_disabled' ||
+      'oauth_provider_not_supported' ||
+      'email_provider_disabled' => AuthFailureCode.providerNotConfigured,
       'email_address_invalid' || 'validation_failed' => AuthFailureCode.invalidEmail,
-      'session_expired' || 'session_not_found' || 'refresh_token_not_found' || 'refresh_token_already_used' =>
-        AuthFailureCode.sessionExpired,
+      'session_expired' ||
+      'session_not_found' ||
+      'refresh_token_not_found' ||
+      'refresh_token_already_used' => AuthFailureCode.sessionExpired,
       'single_identity_not_deletable' => AuthFailureCode.lastIdentity,
       _ when status == '429' => AuthFailureCode.rateLimited,
       _ => AuthFailureCode.unknown,

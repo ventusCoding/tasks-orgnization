@@ -13,9 +13,7 @@ Future<Map<String, Object?>?> pickReminderSchedule(
   WidgetRef ref, {
   Map<String, Object?>? initial,
 }) async {
-  final parsed = initial == null
-      ? null
-      : EngineRecurrenceExpander.parse(initial);
+  final parsed = initial == null ? null : EngineRecurrenceExpander.parse(initial);
   final anchor = parsed?.$2 ?? RecurrenceAnchor(_defaultStart(ref), null);
   final result = await showRecurrencePickerDetailed(
     context,
@@ -31,8 +29,6 @@ Future<Map<String, Object?>?> pickReminderSchedule(
 /// Today 09:00 in the device zone.
 LocalDateTime _defaultStart(WidgetRef ref) {
   final now = ref.read(clockProvider).nowUtc();
-  final local = ref
-      .read(zoneResolverProvider)
-      .toLocal(now, ref.read(deviceZoneProvider));
+  final local = ref.read(zoneResolverProvider).toLocal(now, ref.read(deviceZoneProvider));
   return LocalDateTime(local.date, LocalTime(9, 0));
 }

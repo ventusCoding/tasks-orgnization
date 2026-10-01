@@ -1,14 +1,14 @@
 import 'package:everslot/features/goals/domain/achievements.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('badge predicates (T5.4.08)', () {
     test('global badges', () {
       expect(earnedBadges(), isEmpty);
-      expect(
-        earnedBadges(global: const GlobalBadgeFacts(anyCheckIn: true, anyPerfectDay: true)).map((b) => b.code),
-        [AchievementCode.firstCheckIn, AchievementCode.firstPerfectDay],
-      );
+      expect(earnedBadges(global: const GlobalBadgeFacts(anyCheckIn: true, anyPerfectDay: true)).map((b) => b.code), [
+        AchievementCode.firstCheckIn,
+        AchievementCode.firstPerfectDay,
+      ]);
       expect(
         earnedBadges(global: const GlobalBadgeFacts(perfectWeek: true, backfillFreeMonth: true)).map((b) => b.code),
         [AchievementCode.perfectWeek, AchievementCode.backfillFreeMonth],
@@ -32,7 +32,9 @@ void main() {
     });
 
     test('quit milestones, savings and resisted cravings', () {
-      final earned = earnedBadges(quits: const [QuitBadgeFacts('q', longestCleanDays: 30, moneySaved: 520, cravingsResisted: 50)]);
+      final earned = earnedBadges(
+        quits: const [QuitBadgeFacts('q', longestCleanDays: 30, moneySaved: 520, cravingsResisted: 50)],
+      );
       expect(earned.map((b) => b.code), [
         AchievementCode.clean1,
         AchievementCode.clean7,

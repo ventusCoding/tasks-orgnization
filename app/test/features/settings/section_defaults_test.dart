@@ -33,7 +33,9 @@ void main() {
   testWidgets('Plan defaults are read by the planner, the grid and the stats engine', (tester) async {
     final h = TestHarness.create();
     // Keys this page doesn't know are kept.
-    await tester.runAsync(() => h.read(settingsRepositoryProvider).update(SettingsNs.planner, {'overlapHint': false, 'future': 1}));
+    await tester.runAsync(
+      () => h.read(settingsRepositoryProvider).update(SettingsNs.planner, {'overlapHint': false, 'future': 1}),
+    );
     await pumpSettingsApp(tester, h, initial: '/settings/plan');
     await settle(tester);
 
@@ -72,7 +74,10 @@ void main() {
     await _choose(tester, 'plan-default-view', 'choice-${target.id}');
     final after = (await tester.runAsync(() => h.read(savedViewsRepositoryProvider).byId(target.id)))!;
     expect(after.isDefault, isTrue);
-    expect(find.descendant(of: find.byKey(const ValueKey('plan-default-view')), matching: find.textContaining(target.name)), findsOneWidget);
+    expect(
+      find.descendant(of: find.byKey(const ValueKey('plan-default-view')), matching: find.textContaining(target.name)),
+      findsOneWidget,
+    );
     await finish(tester, h);
   });
 
@@ -111,7 +116,9 @@ void main() {
 
   testWidgets('Insights defaults reach the stats engine; unknown period keys are kept', (tester) async {
     final h = TestHarness.create();
-    await tester.runAsync(() => h.read(settingsRepositoryProvider).update(SettingsNs.stats, {'defaultPeriod': 'rolling:90'}));
+    await tester.runAsync(
+      () => h.read(settingsRepositoryProvider).update(SettingsNs.stats, {'defaultPeriod': 'rolling:90'}),
+    );
     await pumpSettingsApp(tester, h, initial: '/settings/insights');
     await settle(tester);
     expect(find.text('Last 90 days'), findsOneWidget);

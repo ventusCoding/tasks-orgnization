@@ -41,7 +41,13 @@ class TrashRepository {
   /// [list], re-run whenever one of the trashable tables changes.
   Stream<List<TrashEntry>> watch({required DateTime Function() since}) async* {
     yield await list(since: since());
-    final tables = TableUpdateQuery.onAllTables([_db.tasks, _db.checklists, _db.checklistItems, _db.habits, _db.attachments]);
+    final tables = TableUpdateQuery.onAllTables([
+      _db.tasks,
+      _db.checklists,
+      _db.checklistItems,
+      _db.habits,
+      _db.attachments,
+    ]);
     await for (final _ in _db.tableUpdates(tables)) {
       yield await list(since: since());
     }
@@ -52,10 +58,12 @@ class TrashRepository {
     final s = since.toUtc().toIso8601String();
     const recent = 'deleted_at IS NOT NULL AND julianday(deleted_at) >= julianday(?)';
     final roots = <(TrashKind, Map<String, Object?>)>[
-      for (final r in await _select('SELECT id, title AS t, deleted_at FROM tasks WHERE $recent', [s])) (TrashKind.task, r),
+      for (final r in await _select('SELECT id, title AS t, deleted_at FROM tasks WHERE $recent', [s]))
+        (TrashKind.task, r),
       for (final r in await _select('SELECT id, title AS t, deleted_at FROM checklists WHERE $recent', [s]))
         (TrashKind.checklist, r),
-      for (final r in await _select('SELECT id, name AS t, deleted_at FROM habits WHERE $recent', [s])) (TrashKind.habit, r),
+      for (final r in await _select('SELECT id, name AS t, deleted_at FROM habits WHERE $recent', [s]))
+        (TrashKind.habit, r),
       // Items whose checklist and parent are live (otherwise they come back with them).
       for (final r in await _select(
         'SELECT i.id, i.text AS t, i.deleted_at, i.checklist_id, i.parent_id, c.title AS list_title '
@@ -66,7 +74,10 @@ class TrashRepository {
         [s],
       ))
         (TrashKind.checklistItem, r),
-      for (final r in await _select('SELECT id, file_name AS t, deleted_at, owner_type, owner_id FROM attachments WHERE $recent', [s]))
+      for (final r in await _select(
+        'SELECT id, file_name AS t, deleted_at, owner_type, owner_id FROM attachments WHERE $recent',
+        [s],
+      ))
         if (await _ownerLive(r['owner_type'] as String?, r['owner_id'] as String?)) (TrashKind.attachment, r),
     ];
     final entries = <TrashEntry>[];
@@ -116,15 +127,23 @@ class TrashRepository {
   /// The root and every row deleted by the same operation that belongs to it (table → ids).
   Future<Map<String, Set<String>>> _group(TrashKind kind, String id, String deletedAtRaw) async {
     final t = deletedAtRaw;
-    final group = <String, Set<String>>{kind.table: {id}};
+    final group = <String, Set<String>>{
+      kind.table: {id},
+    };
     void add(String table, Iterable<String> ids) {
       if (ids.isNotEmpty) group.putIfAbsent(table, () => {}).addAll(ids);
     }
 
     switch (kind) {
       case TrashKind.checklist:
-        add('checklist_items', await _ids('SELECT id FROM checklist_items WHERE checklist_id = ? AND deleted_at = ?', [id, t]));
-        add('checklist_runs', await _ids('SELECT id FROM checklist_runs WHERE checklist_id = ? AND deleted_at = ?', [id, t]));
+        add(
+          'checklist_items',
+          await _ids('SELECT id FROM checklist_items WHERE checklist_id = ? AND deleted_at = ?', [id, t]),
+        );
+        add(
+          'checklist_runs',
+          await _ids('SELECT id FROM checklist_runs WHERE checklist_id = ? AND deleted_at = ?', [id, t]),
+        );
       case TrashKind.checklistItem:
         var frontier = {id};
         while (frontier.isNotEmpty) {
@@ -144,17 +163,38 @@ class TrashRepository {
         for (final table in const ['habit_logs', 'habit_pauses', 'habit_revisions']) {
           add(table, await _ids('SELECT id FROM $table WHERE habit_id = ? AND deleted_at = ?', [id, t]));
         }
-        add('goals', await _ids("SELECT id FROM goals WHERE scope_type = 'habit' AND scope_id = ? AND deleted_at = ?", [id, t]));
+        add(
+          'goals',
+          await _ids("SELECT id FROM goals WHERE scope_type = 'habit' AND scope_id = ? AND deleted_at = ?", [id, t]),
+        );
       case TrashKind.attachment:
         break;
     }
     final owners = {for (final ids in group.values) ...ids}.toList();
     if (kind != TrashKind.attachment) {
-      add('attachments', await _ids('SELECT id FROM attachments WHERE owner_id IN (${_in(owners.length)}) AND deleted_at = ?', [...owners, t]));
+      add(
+        'attachments',
+        await _ids('SELECT id FROM attachments WHERE owner_id IN (${_in(owners.length)}) AND deleted_at = ?', [
+          ...owners,
+          t,
+        ]),
+      );
     }
-    add('entity_tags', await _ids('SELECT id FROM entity_tags WHERE entity_id IN (${_in(owners.length)}) AND deleted_at = ?', [...owners, t]));
+    add(
+      'entity_tags',
+      await _ids('SELECT id FROM entity_tags WHERE entity_id IN (${_in(owners.length)}) AND deleted_at = ?', [
+        ...owners,
+        t,
+      ]),
+    );
     for (final table in const ['notification_rules', 'notification_mutes']) {
-      add(table, await _ids('SELECT id FROM $table WHERE target_id IN (${_in(owners.length)}) AND deleted_at = ?', [...owners, t]));
+      add(
+        table,
+        await _ids('SELECT id FROM $table WHERE target_id IN (${_in(owners.length)}) AND deleted_at = ?', [
+          ...owners,
+          t,
+        ]),
+      );
     }
     return group;
   }
@@ -189,14 +229,17 @@ class TrashRepository {
   }
 
   /// Local unsynced changes of [entry]'s row (a deletion not yet pushed can't be purged remotely).
-  Future<bool> hasPendingChanges(TrashEntry entry) async =>
-      (await _select('SELECT 1 FROM sync_outbox WHERE table_name = ? AND row_id = ? LIMIT 1', [entry.kind.table, entry.id]))
-          .isNotEmpty;
+  Future<bool> hasPendingChanges(TrashEntry entry) async => (await _select(
+    'SELECT 1 FROM sync_outbox WHERE table_name = ? AND row_id = ? LIMIT 1',
+    [entry.kind.table, entry.id],
+  )).isNotEmpty;
 
   /// Rows `app.purge_now` removes for [entry] (tombstoned descendants, like the server).
   Future<Map<String, Set<String>>> purgePlan(TrashEntry entry) async {
     final id = entry.id;
-    final plan = <String, Set<String>>{entry.kind.table: {id}};
+    final plan = <String, Set<String>>{
+      entry.kind.table: {id},
+    };
     void add(String table, Iterable<String> ids) {
       if (ids.isNotEmpty) plan.putIfAbsent(table, () => {}).addAll(ids);
     }
@@ -204,7 +247,10 @@ class TrashRepository {
     const dead = 'deleted_at IS NOT NULL';
     switch (entry.kind) {
       case TrashKind.task:
-        add('attachments', await _ids("SELECT id FROM attachments WHERE owner_type = 'task' AND owner_id = ? AND $dead", [id]));
+        add(
+          'attachments',
+          await _ids("SELECT id FROM attachments WHERE owner_type = 'task' AND owner_id = ? AND $dead", [id]),
+        );
         add('time_entries', await _ids('SELECT id FROM time_entries WHERE task_id = ? AND $dead', [id]));
         add('task_occurrences', await _ids('SELECT id FROM task_occurrences WHERE task_id = ? AND $dead', [id]));
       case TrashKind.checklist || TrashKind.checklistItem:
@@ -216,10 +262,11 @@ class TrashRepository {
           items = {};
           var frontier = {id};
           while (frontier.isNotEmpty) {
-            final children = await _ids(
-              'SELECT id FROM checklist_items WHERE parent_id IN (${_in(frontier.length)}) AND $dead',
-              [...frontier],
-            )..removeAll(items);
+            final children =
+                await _ids('SELECT id FROM checklist_items WHERE parent_id IN (${_in(frontier.length)}) AND $dead', [
+                    ...frontier,
+                  ])
+                  ..removeAll(items);
             items.addAll(children);
             frontier = children;
           }
@@ -236,10 +283,16 @@ class TrashRepository {
           );
         }
         if (entry.kind == TrashKind.checklist) {
-          add('attachments', await _ids("SELECT id FROM attachments WHERE owner_type = 'checklist' AND owner_id = ? AND $dead", [id]));
+          add(
+            'attachments',
+            await _ids("SELECT id FROM attachments WHERE owner_type = 'checklist' AND owner_id = ? AND $dead", [id]),
+          );
         }
       case TrashKind.habit:
-        add('attachments', await _ids("SELECT id FROM attachments WHERE owner_type = 'habit' AND owner_id = ? AND $dead", [id]));
+        add(
+          'attachments',
+          await _ids("SELECT id FROM attachments WHERE owner_type = 'habit' AND owner_id = ? AND $dead", [id]),
+        );
         for (final table in const ['habit_logs', 'habit_pauses', 'habit_revisions']) {
           add(table, await _ids('SELECT id FROM $table WHERE habit_id = ? AND $dead', [id]));
         }

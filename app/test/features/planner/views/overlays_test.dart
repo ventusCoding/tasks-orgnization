@@ -14,13 +14,14 @@ void main() {
   final wed = LocalDate(2026, 9, 23);
   final queries = <OverlayQuery>[];
 
-  Future<PlannerHarness> pump(WidgetTester tester, Map<String, bool> overlays, {Locale locale = const Locale('en')}) async {
+  Future<PlannerHarness> pump(
+    WidgetTester tester,
+    Map<String, bool> overlays, {
+    Locale locale = const Locale('en'),
+  }) async {
     queries.clear();
     final h = PlannerHarness.create(
-      items: [
-        item('Standup', at(2026, 9, 23, 9), 30),
-        item('Last week', at(2026, 9, 16, 14), 60),
-      ],
+      items: [item('Standup', at(2026, 9, 23, 9), 30), item('Last week', at(2026, 9, 16, 14), 60)],
       overrides: [
         plannerOverlayMarkersProvider.overrideWith((ref, q) {
           queries.add(q);
@@ -54,7 +55,14 @@ void main() {
     notifier.update(h.read(plannerViewConfigProvider('week_table')).copyWith(overlays: overlays));
     final controller = PlannerGridController();
     addTearDown(controller.dispose);
-    await pumpPlanner(tester, h, Scaffold(body: TimeGrid(viewKey: 'week_table', controller: controller)), locale: locale);
+    await pumpPlanner(
+      tester,
+      h,
+      Scaffold(
+        body: TimeGrid(viewKey: 'week_table', controller: controller),
+      ),
+      locale: locale,
+    );
     await tester.pumpAndSettle();
     controller.scrollToMinute(7 * 60, animate: false);
     await tester.pumpAndSettle();
@@ -92,10 +100,14 @@ void main() {
     await pump(tester, {'freeSlots': true, 'heat': true});
     expect(painted<FreeSlotsPainter>(), isTrue);
     expect(painted<HeatTintPainter>(), isTrue);
-    final heat = tester
-        .widgetList<CustomPaint>(find.byWidgetPredicate((w) => w is CustomPaint && w.painter is HeatTintPainter))
-        .first
-        .painter! as HeatTintPainter;
+    final heat =
+        tester
+                .widgetList<CustomPaint>(
+                  find.byWidgetPredicate((w) => w is CustomPaint && w.painter is HeatTintPainter),
+                )
+                .first
+                .painter!
+            as HeatTintPainter;
     expect(heat.grid.minutes(3, 14), 60, reason: 'last Wednesday 14:00 is in the four weeks before the page');
   });
 }

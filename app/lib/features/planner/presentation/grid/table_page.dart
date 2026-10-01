@@ -34,7 +34,9 @@ class TableRowsLayout {
     bool autoFit = true,
   }) {
     final rows = axis.slotRows(slotMinutes);
-    final counts = maxCountPerRow == null || maxCountPerRow.length != rows.length ? List.filled(rows.length, 0) : maxCountPerRow;
+    final counts = maxCountPerRow == null || maxCountPerRow.length != rows.length
+        ? List.filled(rows.length, 0)
+        : maxCountPerRow;
     final sizing = sizeRows(
       maxCountPerRow: counts,
       autoFit: autoFit,
@@ -106,13 +108,10 @@ class TableRowsLayout {
 }
 
 /// Buckets of one day for [rows] (T3.3.06).
-List<List<BucketEntry>> tableBuckets(DaySlice slice, List<AxisRow> rows) => bucketDay(
-  [
-    for (final (i, s) in slice.timed.indexed)
-      BucketInput(i, s.tStart, s.tEnd, priority: s.item.priority, continuesFromPreviousDay: s.continuesBefore),
-  ],
-  rowRangesFor(slice.timeline, rows),
-);
+List<List<BucketEntry>> tableBuckets(DaySlice slice, List<AxisRow> rows) => bucketDay([
+  for (final (i, s) in slice.timed.indexed)
+    BucketInput(i, s.tStart, s.tEnd, priority: s.item.priority, continuesFromPreviousDay: s.continuesBefore),
+], rowRangesFor(slice.timeline, rows));
 
 /// A hit in the table renderer.
 @immutable
@@ -185,7 +184,9 @@ class TablePageGeometry {
     final list = entries(day, row);
     final shown = shownIn(cell, list.length);
     final i = ((p.dy - cell.top - cellPadding) / chipExtent).floor();
-    if (i >= 0 && i < shown) return TableHit(dayIndex: day, row: row, item: itemOf(day, list[i]), isStart: list[i].isStart);
+    if (i >= 0 && i < shown) {
+      return TableHit(dayIndex: day, row: row, item: itemOf(day, list[i]), isStart: list[i].isStart);
+    }
     if (i == shown && list.length > shown) {
       return TableHit(dayIndex: day, row: row, overflow: [for (final e in list.skip(shown)) itemOf(day, e)]);
     }
@@ -211,7 +212,7 @@ class _WindowedLayerState extends State<WindowedLayer> {
   int _window = 0;
 
   int _windowOf() {
-    final vh = math.max(1.0, widget.viewportHeight);
+    final vh = math.max(1, widget.viewportHeight);
     final offset = widget.vertical.hasClients ? widget.vertical.offset : 0.0;
     return (offset / vh).floor();
   }
@@ -246,7 +247,7 @@ class _WindowedLayerState extends State<WindowedLayer> {
 
   @override
   Widget build(BuildContext context) {
-    final vh = math.max(1.0, widget.viewportHeight);
+    final vh = math.max<double>(1, widget.viewportHeight);
     return Stack(clipBehavior: Clip.none, children: widget.builder((_window - 1) * vh, (_window + 2) * vh));
   }
 }
@@ -282,7 +283,9 @@ class TableGridPainter extends CustomPainter {
     for (var i = 0; i < n; i++) {
       final x = columnX(i, n, size.width, rtl: rtl);
       final d = days[i];
-      if (shadeWeekends && d.weekday.isWeekend) canvas.drawRect(Rect.fromLTWH(x, 0, colW, rows.height), fill..color = style.weekend);
+      if (shadeWeekends && d.weekday.isWeekend) {
+        canvas.drawRect(Rect.fromLTWH(x, 0, colW, rows.height), fill..color = style.weekend);
+      }
       if (shadeOffDays && !workDays.contains(d.weekday.iso)) {
         canvas.drawRect(Rect.fromLTWH(x, 0, colW, rows.height), fill..color = style.offHours);
       }
@@ -304,7 +307,11 @@ class TableGridPainter extends CustomPainter {
         );
       }
       final y = top.roundToDouble() + 0.5;
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), row.wallStart % 60 == 0 || row.kind != AxisBandKind.normal ? major : minor);
+      canvas.drawLine(
+        Offset(0, y),
+        Offset(size.width, y),
+        row.wallStart % 60 == 0 || row.kind != AxisBandKind.normal ? major : minor,
+      );
     }
     for (var i = 1; i < n; i++) {
       final x = (i * colW).roundToDouble() + 0.5;
@@ -326,8 +333,14 @@ class TableGridPainter extends CustomPainter {
 
 /// Tints the current slot row of today's column (repaints once a minute through [now]).
 class TableNowPainter extends CustomPainter {
-  TableNowPainter({required this.now, required this.rows, required this.days, required this.timelines, required this.rtl, required this.color})
-    : super(repaint: now);
+  TableNowPainter({
+    required this.now,
+    required this.rows,
+    required this.days,
+    required this.timelines,
+    required this.rtl,
+    required this.color,
+  }) : super(repaint: now);
 
   final ValueListenable<DateTime> now;
   final TableRowsLayout rows;
@@ -360,7 +373,10 @@ class TableNowPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(TableNowPainter old) =>
-      old.rows != rows || old.rtl != rtl || old.color != color || !const ListEquality<LocalDate>().equals(old.days, days);
+      old.rows != rows ||
+      old.rtl != rtl ||
+      old.color != color ||
+      !const ListEquality<LocalDate>().equals(old.days, days);
 }
 
 /// A chip in a table cell or a week-list column.
@@ -409,48 +425,53 @@ class CellChip extends StatelessWidget {
               border: selected ? Border.all(color: context.colors.primary, width: 1.5) : null,
             ),
             child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: colors.background,
-              borderRadius: BorderRadius.circular(Radii.sm / 2),
-              border: BorderDirectional(
-                start: BorderSide(color: missed ? context.appColors.missed : colors.accent, width: missed ? 3 : 2),
+              decoration: BoxDecoration(
+                color: colors.background,
+                borderRadius: BorderRadius.circular(Radii.sm / 2),
+                border: BorderDirectional(
+                  start: BorderSide(color: missed ? context.appColors.missed : colors.accent, width: missed ? 3 : 2),
+                ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsetsDirectional.only(start: 3, end: 2),
-              child: Row(
-                children: [
-                  if (continuation)
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(end: 2),
-                      child: Icon(Icons.more_vert, size: fontSize, color: colors.foreground),
-                    )
-                  else if (check)
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(end: 2),
-                      child: Icon(done ? Icons.check_circle : Icons.radio_button_unchecked, size: fontSize + 2, color: colors.foreground),
-                    ),
-                  Expanded(
-                    child: Text(
-                      label,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: false,
-                      style: TextStyle(
-                        fontSize: fontSize,
-                        height: 1.1,
-                        fontWeight: continuation ? FontWeight.w400 : FontWeight.w600,
-                        color: colors.foreground,
-                        decoration: struck ? TextDecoration.lineThrough : null,
-                        decorationColor: colors.foreground,
+              child: Padding(
+                padding: const EdgeInsetsDirectional.only(start: 3, end: 2),
+                child: Row(
+                  children: [
+                    if (continuation)
+                      Padding(
+                        padding: const EdgeInsetsDirectional.only(end: 2),
+                        child: Icon(Icons.more_vert, size: fontSize, color: colors.foreground),
+                      )
+                    else if (check)
+                      Padding(
+                        padding: const EdgeInsetsDirectional.only(end: 2),
+                        child: Icon(
+                          done ? Icons.check_circle : Icons.radio_button_unchecked,
+                          size: fontSize + 2,
+                          color: colors.foreground,
+                        ),
+                      ),
+                    Expanded(
+                      child: Text(
+                        label,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        style: TextStyle(
+                          fontSize: fontSize,
+                          height: 1.1,
+                          fontWeight: continuation ? FontWeight.w400 : FontWeight.w600,
+                          color: colors.foreground,
+                          decoration: struck ? TextDecoration.lineThrough : null,
+                          decorationColor: colors.foreground,
+                        ),
                       ),
                     ),
-                  ),
-                  if (item.isRecurring && !continuation) Icon(Icons.repeat, size: fontSize - 1, color: colors.foreground),
-                ],
+                    if (item.isRecurring && !continuation)
+                      Icon(Icons.repeat, size: fontSize - 1, color: colors.foreground),
+                  ],
+                ),
               ),
             ),
-          ),
           ),
         ),
       ),
@@ -518,7 +539,14 @@ class TablePageBody extends StatelessWidget {
             child: IgnorePointer(
               child: RepaintBoundary(
                 child: CustomPaint(
-                  painter: TableNowPainter(now: nowUtc, rows: g.rows, days: g.days, timelines: timelines, rtl: g.rtl, color: style.nowLine),
+                  painter: TableNowPainter(
+                    now: nowUtc,
+                    rows: g.rows,
+                    days: g.days,
+                    timelines: timelines,
+                    rtl: g.rtl,
+                    color: style.nowLine,
+                  ),
                 ),
               ),
             ),
@@ -538,11 +566,15 @@ class TablePageBody extends StatelessWidget {
                       if (g.rows.rows[r].kind != AxisBandKind.normal) {
                         final count = hiddenCounts[(r, d)] ?? 0;
                         if (count > 0) {
-                          children.add(Positioned.fromRect(
-                            key: ValueKey('hidden|$r|$d'),
-                            rect: cell,
-                            child: Center(child: _Badge(count: count, style: style)),
-                          ));
+                          children.add(
+                            Positioned.fromRect(
+                              key: ValueKey('hidden|$r|$d'),
+                              rect: cell,
+                              child: Center(
+                                child: _Badge(count: count, style: style),
+                              ),
+                            ),
+                          );
                         }
                         continue;
                       }
@@ -551,18 +583,22 @@ class TablePageBody extends StatelessWidget {
                       final shown = g.shownIn(cell, list.length);
                       for (var i = 0; i < shown; i++) {
                         final item = g.itemOf(d, list[i]);
-                        children.add(Positioned.fromRect(
-                          key: ValueKey('${item.key}|$r|$d'),
-                          rect: g.chipRect(cell, i),
-                          child: chipBuilder(item, list[i].isStart, d),
-                        ));
+                        children.add(
+                          Positioned.fromRect(
+                            key: ValueKey('${item.key}|$r|$d'),
+                            rect: g.chipRect(cell, i),
+                            child: chipBuilder(item, list[i].isStart, d),
+                          ),
+                        );
                       }
                       if (list.length > shown) {
-                        children.add(Positioned.fromRect(
-                          key: ValueKey('more|$r|$d'),
-                          rect: g.chipRect(cell, shown),
-                          child: moreBuilder(list.length - shown),
-                        ));
+                        children.add(
+                          Positioned.fromRect(
+                            key: ValueKey('more|$r|$d'),
+                            rect: g.chipRect(cell, shown),
+                            child: moreBuilder(list.length - shown),
+                          ),
+                        );
                       }
                     }
                   }
@@ -588,7 +624,10 @@ class _Badge extends StatelessWidget {
     decoration: BoxDecoration(color: style.primary, borderRadius: BorderRadius.circular(Radii.pill)),
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Text('$count', style: TextStyle(color: style.onPrimary, fontSize: 10, fontWeight: FontWeight.w700)),
+      child: Text(
+        '$count',
+        style: TextStyle(color: style.onPrimary, fontSize: 10, fontWeight: FontWeight.w700),
+      ),
     ),
   );
 }
@@ -649,7 +688,10 @@ class TableRulerPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(TableRulerPainter old) =>
-      old.rows != rows || old.textStyle != textStyle || old.textDirection != textDirection || old.formatMinute != formatMinute;
+      old.rows != rows ||
+      old.textStyle != textStyle ||
+      old.textDirection != textDirection ||
+      old.formatMinute != formatMinute;
 }
 
 /// Pinned ruler column of the table renderer.
@@ -739,17 +781,18 @@ class WeekListEntry {
 /// items by start.
 List<WeekListEntry> weekListEntries(DaySlice slice) {
   final seen = <String>{};
-  final lane = [
-    for (final i in slice.lane)
-      if (seen.add(i.key)) i,
-  ]..sort((a, b) {
-      final ka = a.manualSortKey;
-      final kb = b.manualSortKey;
-      if (ka != null && kb != null && ka != kb) return ka.compareTo(kb);
-      if (ka != null && kb == null) return -1;
-      if (ka == null && kb != null) return 1;
-      return a.title.compareTo(b.title);
-    });
+  final lane =
+      [
+        for (final i in slice.lane)
+          if (seen.add(i.key)) i,
+      ]..sort((a, b) {
+        final ka = a.manualSortKey;
+        final kb = b.manualSortKey;
+        if (ka != null && kb != null && ka != kb) return ka.compareTo(kb);
+        if (ka != null && kb == null) return -1;
+        if (ka == null && kb != null) return 1;
+        return a.title.compareTo(b.title);
+      });
   return [
     for (final i in lane) WeekListEntry(i),
     for (final s in slice.timed)
@@ -845,7 +888,13 @@ class WeekListPageBody extends StatelessWidget {
           Positioned.fill(
             child: RepaintBoundary(
               child: CustomPaint(
-                painter: _WeekListPainter(days: g.days, today: today, rtl: g.rtl, style: style, shadeWeekends: shadeWeekends),
+                painter: _WeekListPainter(
+                  days: g.days,
+                  today: today,
+                  rtl: g.rtl,
+                  style: style,
+                  shadeWeekends: shadeWeekends,
+                ),
               ),
             ),
           ),
@@ -873,7 +922,13 @@ class WeekListPageBody extends StatelessWidget {
 }
 
 class _WeekListPainter extends CustomPainter {
-  _WeekListPainter({required this.days, required this.today, required this.rtl, required this.style, required this.shadeWeekends});
+  _WeekListPainter({
+    required this.days,
+    required this.today,
+    required this.rtl,
+    required this.style,
+    required this.shadeWeekends,
+  });
 
   final List<LocalDate> days;
   final LocalDate today;
@@ -889,7 +944,9 @@ class _WeekListPainter extends CustomPainter {
     final fill = Paint();
     for (var i = 0; i < n; i++) {
       final x = columnX(i, n, size.width, rtl: rtl);
-      if (shadeWeekends && days[i].weekday.isWeekend) canvas.drawRect(Rect.fromLTWH(x, 0, colW, size.height), fill..color = style.weekend);
+      if (shadeWeekends && days[i].weekday.isWeekend) {
+        canvas.drawRect(Rect.fromLTWH(x, 0, colW, size.height), fill..color = style.weekend);
+      }
       if (days[i] == today) canvas.drawRect(Rect.fromLTWH(x, 0, colW, size.height), fill..color = style.today);
     }
     final line = Paint()

@@ -32,21 +32,42 @@ void main() {
   tearDown(() => h.dispose());
 
   Future<void> tick() async => h.clock.advance(const Duration(seconds: 3));
-  Future<List<TrashEntry>> trash() => h.read(trashRepositoryProvider).list(since: h.clock.nowUtc().subtract(trashRetention));
+  Future<List<TrashEntry>> trash() =>
+      h.read(trashRepositoryProvider).list(since: h.clock.nowUtc().subtract(trashRetention));
   Future<bool> live(String table, String id) async =>
-      (await h.db.customSelect('SELECT deleted_at FROM $table WHERE id = ?', variables: [Variable<String>(id)]).getSingle())
+      (await h.db
+              .customSelect('SELECT deleted_at FROM $table WHERE id = ?', variables: [Variable<String>(id)])
+              .getSingle())
           .data['deleted_at'] ==
       null;
   Future<int> rows(String table, String id) async =>
-      (await h.db.customSelect('SELECT COUNT(*) AS n FROM $table WHERE id = ?', variables: [Variable<String>(id)]).getSingle())
-          .data['n'] as int;
+      (await h.db
+                  .customSelect('SELECT COUNT(*) AS n FROM $table WHERE id = ?', variables: [Variable<String>(id)])
+                  .getSingle())
+              .data['n']
+          as int;
 
   Future<void> seedList() => w.run((tx) async {
     await tx.insert('checklists', 'L', {'title': 'Groceries', 'sort_key': 'a0'});
     await tx.insert('checklist_items', 'A', {'checklist_id': 'L', 'sort_key': 'a0', 'text': 'Fruit'});
-    await tx.insert('checklist_items', 'A1', {'checklist_id': 'L', 'parent_id': 'A', 'sort_key': 'a0', 'text': 'Apples'});
-    await tx.insert('checklist_items', 'A2', {'checklist_id': 'L', 'parent_id': 'A', 'sort_key': 'a1', 'text': 'Pears'});
-    await tx.insert('checklist_items', 'A2x', {'checklist_id': 'L', 'parent_id': 'A2', 'sort_key': 'a0', 'text': 'Ripe'});
+    await tx.insert('checklist_items', 'A1', {
+      'checklist_id': 'L',
+      'parent_id': 'A',
+      'sort_key': 'a0',
+      'text': 'Apples',
+    });
+    await tx.insert('checklist_items', 'A2', {
+      'checklist_id': 'L',
+      'parent_id': 'A',
+      'sort_key': 'a1',
+      'text': 'Pears',
+    });
+    await tx.insert('checklist_items', 'A2x', {
+      'checklist_id': 'L',
+      'parent_id': 'A2',
+      'sort_key': 'a0',
+      'text': 'Ripe',
+    });
     await tx.insert('attachments', 'P', {
       'owner_type': 'checklist_item',
       'owner_id': 'A1',
@@ -75,7 +96,11 @@ void main() {
       });
 
       var entries = await trash();
-      expect([for (final e in entries) e.id], ['A'], reason: 'A2 lives under a deleted parent: it comes back with it later');
+      expect(
+        [for (final e in entries) e.id],
+        ['A'],
+        reason: 'A2 lives under a deleted parent: it comes back with it later',
+      );
       expect(entries.single.withCount, 2, reason: 'A1 and its photo');
       expect(entries.single.path, ['Groceries']);
 
@@ -120,8 +145,18 @@ void main() {
     test('tasks, habits and standalone attachments are listed; older than 30 days are not', () async {
       await w.run((tx) async {
         await tx.insert('tasks', 'T', {'series_id': 'T', 'title': 'Call mom'});
-        await tx.insert('habits', 'H', {'kind': 'build', 'name': 'Water', 'start_date': '2026-09-01', 'sort_key': 'a0'});
-        await tx.insert('habit_logs', 'HL', {'habit_id': 'H', 'kind': 'check', 'logged_at': h.clock.nowUtc(), 'local_date': '2026-09-20'});
+        await tx.insert('habits', 'H', {
+          'kind': 'build',
+          'name': 'Water',
+          'start_date': '2026-09-01',
+          'sort_key': 'a0',
+        });
+        await tx.insert('habit_logs', 'HL', {
+          'habit_id': 'H',
+          'kind': 'check',
+          'logged_at': h.clock.nowUtc(),
+          'local_date': '2026-09-20',
+        });
         await tx.insert('tasks', 'OLD', {'series_id': 'OLD', 'title': 'Old'});
       });
       await w.run((tx) => tx.softDelete('tasks', 'OLD'));
@@ -155,10 +190,17 @@ void main() {
     test('local-only: the rows, their tombstoned children and outbox entries are removed', () async {
       final entry = await deletedList();
       await h.read(trashServiceProvider).deleteForever(entry);
-      for (final (t, id) in [('checklists', 'L'), ('checklist_items', 'A'), ('checklist_items', 'A2x'), ('attachments', 'P')]) {
+      for (final (t, id) in [
+        ('checklists', 'L'),
+        ('checklist_items', 'A'),
+        ('checklist_items', 'A2x'),
+        ('attachments', 'P'),
+      ]) {
         expect(await rows(t, id), 0, reason: id);
       }
-      final outbox = await h.db.customSelect("SELECT COUNT(*) AS n FROM sync_outbox WHERE row_id IN ('L', 'A', 'P')").getSingle();
+      final outbox = await h.db
+          .customSelect("SELECT COUNT(*) AS n FROM sync_outbox WHERE row_id IN ('L', 'A', 'P')")
+          .getSingle();
       expect(outbox.data['n'], 0);
       expect(await trash(), isEmpty);
     });

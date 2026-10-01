@@ -73,15 +73,12 @@ final routerProvider = Provider<GoRouter>((ref) {
                   ),
                   GoRoute(
                     path: 'day',
-                    builder: (_, s) =>
-                        PlannerScreen(view: 'day_list', date: s.uri.queryParameters['date']),
+                    builder: (_, s) => PlannerScreen(view: 'day_list', date: s.uri.queryParameters['date']),
                   ),
                   GoRoute(
                     path: 'view/:type',
-                    builder: (_, s) => PlannerScreen(
-                      view: s.pathParameters['type']!,
-                      date: s.uri.queryParameters['date'],
-                    ),
+                    builder: (_, s) =>
+                        PlannerScreen(view: s.pathParameters['type']!, date: s.uri.queryParameters['date']),
                   ),
                 ],
               ),
@@ -114,18 +111,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/task/:id',
         parentNavigatorKey: rootNavigatorKey,
-        builder: (_, s) => TaskDetailScreen(
-          taskId: s.pathParameters['id']!,
-          occurrenceKey: s.uri.queryParameters['occ'],
-        ),
+        builder: (_, s) =>
+            TaskDetailScreen(taskId: s.pathParameters['id']!, occurrenceKey: s.uri.queryParameters['occ']),
         routes: [
           GoRoute(
             path: 'edit',
             parentNavigatorKey: rootNavigatorKey,
-            pageBuilder: (_, s) => MaterialPage(
-              fullscreenDialog: true,
-              child: TaskEditorScreen(taskId: s.pathParameters['id']),
-            ),
+            pageBuilder: (_, s) =>
+                MaterialPage(fullscreenDialog: true, child: TaskEditorScreen(taskId: s.pathParameters['id'])),
           ),
         ],
       ),
@@ -161,10 +154,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: 'edit',
             parentNavigatorKey: rootNavigatorKey,
-            pageBuilder: (_, s) => MaterialPage(
-              fullscreenDialog: true,
-              child: HabitEditorScreen(habitId: s.pathParameters['id']),
-            ),
+            pageBuilder: (_, s) =>
+                MaterialPage(fullscreenDialog: true, child: HabitEditorScreen(habitId: s.pathParameters['id'])),
           ),
         ],
       ),
@@ -182,21 +173,16 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: ':id',
             parentNavigatorKey: rootNavigatorKey,
-            builder: (_, s) =>
-                ScopeStatsScreen(
-                  scope: s.pathParameters['scope']!,
-                  scopeId: s.pathParameters['id'],
-                  query: s.uri.queryParameters,
-                ),
+            builder: (_, s) => ScopeStatsScreen(
+              scope: s.pathParameters['scope']!,
+              scopeId: s.pathParameters['id'],
+              query: s.uri.queryParameters,
+            ),
           ),
         ],
       ),
       // ---- Cross-cutting
-      GoRoute(
-        path: '/inbox',
-        parentNavigatorKey: rootNavigatorKey,
-        builder: (_, _) => const InboxScreen(),
-      ),
+      GoRoute(path: '/inbox', parentNavigatorKey: rootNavigatorKey, builder: (_, _) => const InboxScreen()),
       GoRoute(
         path: '/search',
         parentNavigatorKey: rootNavigatorKey,
@@ -207,21 +193,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: rootNavigatorKey,
         builder: (_, _) => const SettingsScreen(),
         routes: [
-          GoRoute(
-            path: 'trash',
-            parentNavigatorKey: rootNavigatorKey,
-            builder: (_, _) => const TrashScreen(),
-          ),
+          GoRoute(path: 'trash', parentNavigatorKey: rootNavigatorKey, builder: (_, _) => const TrashScreen()),
           GoRoute(
             path: 'categories',
             parentNavigatorKey: rootNavigatorKey,
             builder: (_, _) => const CategoriesScreen(),
           ),
-          GoRoute(
-            path: 'tags',
-            parentNavigatorKey: rootNavigatorKey,
-            builder: (_, _) => const TagsScreen(),
-          ),
+          GoRoute(path: 'tags', parentNavigatorKey: rootNavigatorKey, builder: (_, _) => const TagsScreen()),
           GoRoute(
             path: ':page',
             parentNavigatorKey: rootNavigatorKey,
@@ -233,7 +211,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/auth/sign-in',
         builder: (_, s) => SignInScreen(from: s.uri.queryParameters['from'], mode: s.uri.queryParameters['mode']),
       ),
-      GoRoute(path: '/onboarding', builder: (_, s) => OnboardingScreen(from: s.uri.queryParameters['from'])),
+      GoRoute(
+        path: '/onboarding',
+        builder: (_, s) => OnboardingScreen(from: s.uri.queryParameters['from']),
+      ),
       if (devTools)
         GoRoute(
           path: '/dev',

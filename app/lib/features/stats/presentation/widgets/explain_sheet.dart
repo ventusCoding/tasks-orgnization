@@ -74,7 +74,10 @@ class ExplainSheet extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Semantics(header: true, child: Text(title, style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600))),
+          Semantics(
+            header: true,
+            child: Text(title, style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+          ),
           const SizedBox(height: Space.xs),
           ...children,
         ],
@@ -87,7 +90,10 @@ class ExplainSheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(metricTitle(l, def.id) ?? def.id, style: context.text.titleLarge),
-            Text(l.statsExplainId(def.id), style: context.text.labelSmall?.copyWith(color: context.colors.onSurfaceVariant)),
+            Text(
+              l.statsExplainId(def.id),
+              style: context.text.labelSmall?.copyWith(color: context.colors.onSurfaceVariant),
+            ),
             section(l.statsExplainWhat, [Text(metricDescription(l, def.id) ?? '')]),
             section(l.statsExplainFormula, [Text(metricFormula(l, def.id) ?? '')]),
             if (r != null)
@@ -99,7 +105,8 @@ class ExplainSheet extends StatelessWidget {
                 if (v is Value<double> && v.sampleSize != null) Text(l.statsExplainSample(v.sampleSize!.round())),
                 if (v is Value<double> && v.interval != null && def.isRate)
                   Text(l.statsExplainInterval(f.percent(v.interval!.lower), f.percent(v.interval!.upper))),
-                if (note != null) Text(note, style: context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant)),
+                if (note != null)
+                  Text(note, style: context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant)),
                 const SizedBox(height: Space.xs),
                 Text(l.statsExplainExcluded, style: context.text.labelMedium),
                 if (exclusions.isEmpty) Text(l.statsExplainNothingExcluded, style: context.text.bodySmall),
@@ -107,17 +114,25 @@ class ExplainSheet extends StatelessWidget {
               ]),
             if (rule != null)
               section(l.statsExplainMinData(rule.hiddenBelow.round().toString()), [
-                if (rule.intervalBelow != null) Text(l.statsExplainIntervalRule(rule.intervalBelow!.round().toString())),
+                if (rule.intervalBelow != null)
+                  Text(l.statsExplainIntervalRule(rule.intervalBelow!.round().toString())),
               ]),
             if (def.estimate || (r?.estimate ?? false))
-              section(l.statsExplainEstimate, [if (def.unit == StatUnit.minutes && def.hasSources) Text(l.statsExplainPopulation)]),
+              section(l.statsExplainEstimate, [
+                if (def.unit == StatUnit.minutes && def.hasSources) Text(l.statsExplainPopulation),
+              ]),
             if (def.hasSources)
               section(l.statsExplainSources, [
-                for (final s in _sourcesOf(def.id)) Text('${sourceName(l, s.name) ?? s.name} — ${s.url}', style: context.text.bodySmall),
+                for (final s in _sourcesOf(def.id))
+                  Text('${sourceName(l, s.name) ?? s.name} — ${s.url}', style: context.text.bodySmall),
               ]),
             if (onGlossary != null) ...[
               const SizedBox(height: Space.lg),
-              TextButton.icon(onPressed: onGlossary, icon: const Icon(Icons.menu_book_outlined), label: Text(l.statsExplainGlossary)),
+              TextButton.icon(
+                onPressed: onGlossary,
+                icon: const Icon(Icons.menu_book_outlined),
+                label: Text(l.statsExplainGlossary),
+              ),
             ],
           ],
         ),
