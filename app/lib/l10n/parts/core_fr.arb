@@ -93,5 +93,18 @@
   "localOnlyBanner": "La synchronisation cloud n'est pas configurée — vos données restent sur cet appareil.",
   "devMenu": "Menu développeur",
   "placeholderScreen": "Cet écran est en construction.",
-  "notFoundTitle": "Page introuvable"
+  "notFoundTitle": "Page introuvable",
+  "pickerTomorrow": "Demain",
+  "pickerNextWeek": "Semaine prochaine",
+  "pickerPreviousMonth": "Mois précédent",
+  "pickerNextMonth": "Mois suivant",
+  "pickerTypeTime": "Saisir une heure",
+  "pickerTimeInvalid": "Saisissez une heure comme 07:03",
+  "pickerStart": "Début",
+  "pickerEnd": "Fin",
+  "pickerTimeRange": "Plage horaire",
+  "pickerCustomColor": "Couleur personnalisée",
+  "pickerHex": "Code hexadécimal",
+  "pickerHexInvalid": "Utilisez 6 chiffres hexadécimaux, par ex. 3B82F6",
+  "pickerLowContrast": "Contraste faible : cette couleur se voit mal sur le fond."
 }

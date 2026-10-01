@@ -93,5 +93,18 @@
   "localOnlyBanner": "مزامنة السحابة غير مُعدّة — بياناتك تبقى على هذا الجهاز.",
   "devMenu": "قائمة المطوّر",
   "placeholderScreen": "هذه الشاشة قيد الإنشاء.",
-  "notFoundTitle": "الصفحة غير موجودة"
+  "notFoundTitle": "الصفحة غير موجودة",
+  "pickerTomorrow": "غدًا",
+  "pickerNextWeek": "الأسبوع القادم",
+  "pickerPreviousMonth": "الشهر السابق",
+  "pickerNextMonth": "الشهر التالي",
+  "pickerTypeTime": "اكتب الوقت",
+  "pickerTimeInvalid": "أدخل وقتًا مثل 07:03",
+  "pickerStart": "البداية",
+  "pickerEnd": "النهاية",
+  "pickerTimeRange": "النطاق الزمني",
+  "pickerCustomColor": "لون مخصّص",
+  "pickerHex": "الرمز الست عشري",
+  "pickerHexInvalid": "استخدم 6 خانات ست عشرية، مثل 3B82F6",
+  "pickerLowContrast": "تباين منخفض: يصعب رؤية هذا اللون على الخلفية."
 }

@@ -7235,6 +7235,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pickerColor => 'اللون';
 
   @override
+  String get pickerCustomColor => 'لون مخصّص';
+
+  @override
   String get pickerDate => 'التاريخ';
 
   @override
@@ -7244,22 +7247,58 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pickerDuration => 'المدة';
 
   @override
+  String get pickerEnd => 'النهاية';
+
+  @override
+  String get pickerHex => 'الرمز الست عشري';
+
+  @override
+  String get pickerHexInvalid => 'استخدم 6 خانات ست عشرية، مثل 3B82F6';
+
+  @override
   String get pickerHours => 'ساعات';
 
   @override
   String get pickerIcon => 'الأيقونة';
 
   @override
+  String get pickerLowContrast => 'تباين منخفض: يصعب رؤية هذا اللون على الخلفية.';
+
+  @override
   String get pickerMinutes => 'دقائق';
+
+  @override
+  String get pickerNextMonth => 'الشهر التالي';
+
+  @override
+  String get pickerNextWeek => 'الأسبوع القادم';
 
   @override
   String get pickerNoColor => 'بلا لون';
 
   @override
+  String get pickerPreviousMonth => 'الشهر السابق';
+
+  @override
   String get pickerSearchIcons => 'البحث عن أيقونة';
 
   @override
+  String get pickerStart => 'البداية';
+
+  @override
   String get pickerTime => 'الوقت';
+
+  @override
+  String get pickerTimeInvalid => 'أدخل وقتًا مثل 07:03';
+
+  @override
+  String get pickerTimeRange => 'النطاق الزمني';
+
+  @override
+  String get pickerTomorrow => 'غدًا';
+
+  @override
+  String get pickerTypeTime => 'اكتب الوقت';
 
   @override
   String get placeholderScreen => 'هذه الشاشة قيد الإنشاء.';

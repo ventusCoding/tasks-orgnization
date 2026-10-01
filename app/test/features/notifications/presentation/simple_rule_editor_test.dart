@@ -179,9 +179,9 @@ void main() {
     await open(tester, NotificationTargetType.checklistItem, NotificationSection.checklists);
     await tester.tap(chip('At a time…'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('OK')); // date picker (tomorrow)
+    await tester.tap(find.byKey(const ValueKey('date-2026-09-23'))); // date picker (tomorrow)
     await tester.pumpAndSettle();
-    await tester.tap(find.text('OK')); // time picker (09:00)
+    await tester.tap(find.byKey(const ValueKey('time-apply'))); // time picker (09:00)
     await tester.pumpAndSettle();
     expect(chipContaining('On '), findsOneWidget);
     await add(tester);

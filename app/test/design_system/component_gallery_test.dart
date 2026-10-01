@@ -103,7 +103,7 @@ void main() {
     expect(find.text(l.galleryPicked('hello')), findsOneWidget);
 
     await tapButton(tester, l.pickerDuration);
-    await tester.tap(inSheet(find.widgetWithText(ChoiceChip, '45m')));
+    await tester.tap(inSheet(find.widgetWithText(ChoiceChip, '45 min')));
     await tester.pump();
     await tester.tap(inSheet(find.widgetWithText(FilledButton, l.actionApply)));
     await tester.pumpAndSettle();

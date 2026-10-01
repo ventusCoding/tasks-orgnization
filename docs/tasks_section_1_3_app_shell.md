@@ -29,7 +29,7 @@ handling/logging, and a dev-only debug menu.
 - [x] T1.3.08 — Design tokens & themes (light/dark, category palette)
 - [x] T1.3.09 — Typography & bundled fonts (Latin + Arabic)
 - [ ] T1.3.10 — Core components v1
-- [ ] T1.3.11 — Pickers: date, time (1-min), duration, color, icon
+- [x] T1.3.11 — Pickers: date, time (1-min), duration, color, icon
 - [ ] T1.3.12 — App scaffold: bottom bar, app bar actions, contextual FAB, adaptive layout
 - [x] T1.3.13 — Localization (EN/FR/AR) & formatting helpers
 - [x] T1.3.14 — RTL baseline
@@ -162,6 +162,8 @@ palette + custom with contrast warning), icon picker (curated Material Symbols w
 **Acceptance criteria:** entering 07:03 by keyboard works in both 12/24 h; durations format per locale;
 pickers usable with screen readers.
 **Tests:** widget tests per picker; unit tests for parsing/formatting.
+**Notes:** `design_system/pickers/pickers.dart` (same call signatures as before, so the 36 call sites are unchanged): `pickDate` — sheet with Today/Tomorrow/Next week chips and a month grid starting on the user's week start (`DatePickerPanel`, 48 dp cells labelled with the long date, range limits); `pickTime` — text entry (`parseTimeInput`: "07:03", "703", "7.03", "7h03", "7:03 pm", "7 م", Arabic-Indic digits) plus hour/minute(/AM-PM) wheels in 1-minute steps (`TimeWheels`, hidden from screen readers — the field is the accessible path); `pickDuration` — locale-formatted presets (5/15/30/45/60/90 min …) + steppers; `pickTimeRange` — start/end or start + preset, ends after midnight wrap; `pickColor` — palette, "no color", custom hex with a low-contrast warning (< 3:1 on the surface); `pickIcon` — EN/FR/AR keyword search. Tests: `test/design_system/pickers_test.dart` (parsing table, 07:03 typed in 12 h and 24 h, wheels, week starts, ranges, semantics, colors). Tests that drove Material's pickers were updated to the new keys; `task_detail_test` "Arabic RTL and text scale 2.0" hung 10 min in tearDown on `main` already (DB close waiting on a query started by the scroll under fake async) — it now unmounts and settles first.
+
 
 ### T1.3.12 — App scaffold: bottom bar, app bar actions, contextual FAB, adaptive layout
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.06, T1.3.10

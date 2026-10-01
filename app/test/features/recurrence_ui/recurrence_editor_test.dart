@@ -82,12 +82,9 @@ void main() {
     await tapKey(tester, 'recur-window-switch');
     Future<void> pickTimeViaKeyboard(String tile, String hour, String minute) async {
       await tapKey(tester, tile);
-      await tester.tap(find.byIcon(Icons.keyboard_outlined));
+      await tester.enterText(find.byKey(const ValueKey('time-input')), '$hour:$minute');
       await tester.pumpAndSettle();
-      final fields = find.byType(TextField);
-      await tester.enterText(fields.at(fields.evaluate().length - 2), hour);
-      await tester.enterText(fields.last, minute);
-      await tester.tap(find.text('OK'));
+      await tester.tap(find.byKey(const ValueKey('time-apply')));
       await tester.pumpAndSettle();
     }
 

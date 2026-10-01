@@ -6657,6 +6657,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pickerColor => 'Color';
 
   @override
+  String get pickerCustomColor => 'Custom color';
+
+  @override
   String get pickerDate => 'Date';
 
   @override
@@ -6666,22 +6669,58 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pickerDuration => 'Duration';
 
   @override
+  String get pickerEnd => 'End';
+
+  @override
+  String get pickerHex => 'Hex code';
+
+  @override
+  String get pickerHexInvalid => 'Use 6 hex digits, like 3B82F6';
+
+  @override
   String get pickerHours => 'Hours';
 
   @override
   String get pickerIcon => 'Icon';
 
   @override
+  String get pickerLowContrast => 'Low contrast: this color is hard to see on the background.';
+
+  @override
   String get pickerMinutes => 'Minutes';
+
+  @override
+  String get pickerNextMonth => 'Next month';
+
+  @override
+  String get pickerNextWeek => 'Next week';
 
   @override
   String get pickerNoColor => 'No color';
 
   @override
+  String get pickerPreviousMonth => 'Previous month';
+
+  @override
   String get pickerSearchIcons => 'Search icons';
 
   @override
+  String get pickerStart => 'Start';
+
+  @override
   String get pickerTime => 'Time';
+
+  @override
+  String get pickerTimeInvalid => 'Enter a time like 07:03';
+
+  @override
+  String get pickerTimeRange => 'Time range';
+
+  @override
+  String get pickerTomorrow => 'Tomorrow';
+
+  @override
+  String get pickerTypeTime => 'Type a time';
 
   @override
   String get placeholderScreen => 'This screen is being built.';

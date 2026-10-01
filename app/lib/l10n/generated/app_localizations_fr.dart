@@ -6856,6 +6856,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pickerColor => 'Couleur';
 
   @override
+  String get pickerCustomColor => 'Couleur personnalisée';
+
+  @override
   String get pickerDate => 'Date';
 
   @override
@@ -6865,22 +6868,58 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pickerDuration => 'Durée';
 
   @override
+  String get pickerEnd => 'Fin';
+
+  @override
+  String get pickerHex => 'Code hexadécimal';
+
+  @override
+  String get pickerHexInvalid => 'Utilisez 6 chiffres hexadécimaux, par ex. 3B82F6';
+
+  @override
   String get pickerHours => 'Heures';
 
   @override
   String get pickerIcon => 'Icône';
 
   @override
+  String get pickerLowContrast => 'Contraste faible : cette couleur se voit mal sur le fond.';
+
+  @override
   String get pickerMinutes => 'Minutes';
+
+  @override
+  String get pickerNextMonth => 'Mois suivant';
+
+  @override
+  String get pickerNextWeek => 'Semaine prochaine';
 
   @override
   String get pickerNoColor => 'Sans couleur';
 
   @override
+  String get pickerPreviousMonth => 'Mois précédent';
+
+  @override
   String get pickerSearchIcons => 'Rechercher une icône';
 
   @override
+  String get pickerStart => 'Début';
+
+  @override
   String get pickerTime => 'Heure';
+
+  @override
+  String get pickerTimeInvalid => 'Saisissez une heure comme 07:03';
+
+  @override
+  String get pickerTimeRange => 'Plage horaire';
+
+  @override
+  String get pickerTomorrow => 'Demain';
+
+  @override
+  String get pickerTypeTime => 'Saisir une heure';
 
   @override
   String get placeholderScreen => 'Cet écran est en construction.';

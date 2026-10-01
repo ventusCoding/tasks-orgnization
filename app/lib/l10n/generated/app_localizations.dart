@@ -11529,6 +11529,12 @@ abstract class AppLocalizations {
   /// **'Color'**
   String get pickerColor;
 
+  /// No description provided for @pickerCustomColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom color'**
+  String get pickerCustomColor;
+
   /// No description provided for @pickerDate.
   ///
   /// In en, this message translates to:
@@ -11547,6 +11553,24 @@ abstract class AppLocalizations {
   /// **'Duration'**
   String get pickerDuration;
 
+  /// No description provided for @pickerEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get pickerEnd;
+
+  /// No description provided for @pickerHex.
+  ///
+  /// In en, this message translates to:
+  /// **'Hex code'**
+  String get pickerHex;
+
+  /// No description provided for @pickerHexInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Use 6 hex digits, like 3B82F6'**
+  String get pickerHexInvalid;
+
   /// No description provided for @pickerHours.
   ///
   /// In en, this message translates to:
@@ -11559,11 +11583,29 @@ abstract class AppLocalizations {
   /// **'Icon'**
   String get pickerIcon;
 
+  /// No description provided for @pickerLowContrast.
+  ///
+  /// In en, this message translates to:
+  /// **'Low contrast: this color is hard to see on the background.'**
+  String get pickerLowContrast;
+
   /// No description provided for @pickerMinutes.
   ///
   /// In en, this message translates to:
   /// **'Minutes'**
   String get pickerMinutes;
+
+  /// No description provided for @pickerNextMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Next month'**
+  String get pickerNextMonth;
+
+  /// No description provided for @pickerNextWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Next week'**
+  String get pickerNextWeek;
 
   /// No description provided for @pickerNoColor.
   ///
@@ -11571,17 +11613,53 @@ abstract class AppLocalizations {
   /// **'No color'**
   String get pickerNoColor;
 
+  /// No description provided for @pickerPreviousMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous month'**
+  String get pickerPreviousMonth;
+
   /// No description provided for @pickerSearchIcons.
   ///
   /// In en, this message translates to:
   /// **'Search icons'**
   String get pickerSearchIcons;
 
+  /// No description provided for @pickerStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get pickerStart;
+
   /// No description provided for @pickerTime.
   ///
   /// In en, this message translates to:
   /// **'Time'**
   String get pickerTime;
+
+  /// No description provided for @pickerTimeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a time like 07:03'**
+  String get pickerTimeInvalid;
+
+  /// No description provided for @pickerTimeRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Time range'**
+  String get pickerTimeRange;
+
+  /// No description provided for @pickerTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get pickerTomorrow;
+
+  /// No description provided for @pickerTypeTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a time'**
+  String get pickerTypeTime;
 
   /// No description provided for @placeholderScreen.
   ///

@@ -34,9 +34,9 @@ void main() {
     await pumpFor(tester, const Duration(milliseconds: 200));
     await tester.tap(key('entry-add'));
     await pumpFor(tester);
-    await tester.tap(find.text('OK'));
+    await tester.tap(find.byKey(const ValueKey('time-apply')));
     await pumpFor(tester);
-    await tester.tap(find.text('OK'));
+    await tester.tap(find.byKey(const ValueKey('time-apply')));
     await settle(tester);
   }
 

@@ -145,5 +145,9 @@ void main() {
     await tester.drag(find.byKey(detailList), const Offset(0, -1500));
     await pumpFor(tester);
     expect(tester.takeException(), isNull);
+    // Let the queries the scroll started finish before tearDown closes the database
+    // (closing waits for them, and they can't progress in the fake-async zone).
+    await tester.pumpWidget(const SizedBox.shrink());
+    await settle(tester);
   });
 }

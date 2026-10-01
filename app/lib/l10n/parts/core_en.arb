@@ -106,5 +106,18 @@
   "localOnlyBanner": "Cloud sync isn't configured — your data stays on this device.",
   "devMenu": "Developer menu",
   "placeholderScreen": "This screen is being built.",
-  "notFoundTitle": "Page not found"
+  "notFoundTitle": "Page not found",
+  "pickerTomorrow": "Tomorrow",
+  "pickerNextWeek": "Next week",
+  "pickerPreviousMonth": "Previous month",
+  "pickerNextMonth": "Next month",
+  "pickerTypeTime": "Type a time",
+  "pickerTimeInvalid": "Enter a time like 07:03",
+  "pickerStart": "Start",
+  "pickerEnd": "End",
+  "pickerTimeRange": "Time range",
+  "pickerCustomColor": "Custom color",
+  "pickerHex": "Hex code",
+  "pickerHexInvalid": "Use 6 hex digits, like 3B82F6",
+  "pickerLowContrast": "Low contrast: this color is hard to see on the background."
 }
