@@ -4,6 +4,7 @@ import 'package:everslot/features/planner/presentation/views/day_list_view.dart'
 import 'package:everslot/features/planner/presentation/views/month_view.dart';
 import 'package:everslot/features/planner/presentation/views/multi_week_view.dart';
 import 'package:everslot/features/planner/presentation/views/quarter_view.dart';
+import 'package:everslot/features/planner/presentation/views/ribbon_view.dart';
 import 'package:everslot/features/planner/presentation/views/time_grid_view.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
 import 'package:everslot/features/planner/presentation/views/week_list_view.dart';
@@ -100,5 +101,14 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     label: (l) => l.pvViewQuarter,
     builder: (a) => QuarterView(args: a),
     tier: ViewTier.m3,
+  ),
+  PlannerViewEntry(
+    id: 'ribbon',
+    type: PlannerViewType.ribbon,
+    icon: Icons.linear_scale,
+    label: (l) => l.pvViewRibbon,
+    builder: (a) => RibbonView(args: a),
+    tier: ViewTier.m3,
+    timeBased: true,
   ),
 ];

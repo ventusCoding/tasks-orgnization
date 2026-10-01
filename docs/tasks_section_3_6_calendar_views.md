@@ -31,7 +31,7 @@ multi-week; quarter; ribbon (day & week); timeline/Gantt; category swimlanes; lo
 - [x] T3.6.10 — Year heatmap view
 - [x] T3.6.11 — Multi-week view
 - [x] T3.6.12 — Quarter view
-- [ ] T3.6.13 — Ribbon view (day & week)
+- [x] T3.6.13 — Ribbon view (day & week)
 - [ ] T3.6.14 — Timeline / Gantt view
 - [ ] T3.6.15 — Category swimlanes
 - [ ] T3.6.16 — Load heatmap view
@@ -154,6 +154,7 @@ day (Fantastical).
 **Description:** A full *ribbon* view type: the day ribbon from [3.5], plus a week ribbon that compresses each
 day to its icons in order (Structured week view).
 **Tests:** goldens.
+**Notes:** `RibbonView` with `options.scope` = day | week (toolbar toggle). Day scope renders the day list's `DayRibbon` paged by day; week scope shows seven columns of icon bubbles (all-day as rounded squares first, then timed by start, connected by short lines; current item ringed). Tap an icon → task, long-press → tile menu, day header → that day's ribbon. Goldens in the calendar-views suite (T3.6.17).
 
 ### T3.6.14 — Timeline / Gantt view
 **Priority:** P2 · **Size:** L · **Depends on:** T3.6.01, [3.2]
