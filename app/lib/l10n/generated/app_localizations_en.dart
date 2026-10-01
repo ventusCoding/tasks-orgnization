@@ -1298,6 +1298,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelCycleTime => 'Cycle time';
 
   @override
+  String get chartsLabelDaysBetween => 'Days between uses';
+
+  @override
   String get chartsLabelDeepWork => 'Deep work';
 
   @override
@@ -1727,6 +1730,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelTriggers => 'Triggers';
 
   @override
+  String get chartsLabelTypicalVaries => 'You are here — typical, individual experience varies';
+
+  @override
   String get chartsLabelUncategorized => 'Uncategorized';
 
   @override
@@ -1770,6 +1776,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chartsLabelWip => 'In progress';
+
+  @override
+  String get chartsLabelWithdrawalBeyond => 'After week 4: mostly behind you';
+
+  @override
+  String get chartsLabelWithdrawalEasing => 'Weeks 2–4: easing';
+
+  @override
+  String get chartsLabelWithdrawalFirstWeek => 'Rest of week 1: hardest';
+
+  @override
+  String get chartsLabelWithdrawalPeak => 'Days 1–3: strongest';
 
   @override
   String get chartsLabelWithinLimit => 'Within limit';
@@ -12588,6 +12606,138 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsMetricQt14Title => 'Craving context';
 
   @override
+  String get statsMetricQt15Desc => 'Share of cravings that passed without a use.';
+
+  @override
+  String get statsMetricQt15Formula =>
+      'Cravings not followed by a use within 2 h ÷ cravings (your “resisted” answer wins).';
+
+  @override
+  String get statsMetricQt15Title => 'Cravings resisted';
+
+  @override
+  String get statsMetricQt16Desc => 'How long your cravings last. Most pass within a few minutes.';
+
+  @override
+  String get statsMetricQt16Formula => 'Median and P85 of craving durations; cravings typically last 3–5 min (HSE).';
+
+  @override
+  String get statsMetricQt16Title => 'Craving duration';
+
+  @override
+  String get statsMetricQt17Desc => 'How cravings per day change week by week since you quit.';
+
+  @override
+  String get statsMetricQt17Formula =>
+      'Cravings per day for each week since the quit date; % change of the last full week vs week 1.';
+
+  @override
+  String get statsMetricQt17Title => 'Cravings over time';
+
+  @override
+  String get statsMetricQt18Desc => 'Each attempt and whether it had a slip — every clean day still counts.';
+
+  @override
+  String get statsMetricQt18Formula =>
+      'Slip = any use; setback = use on 7 days in a row or in 2 consecutive 7-day blocks (SRNT).';
+
+  @override
+  String get statsMetricQt18Title => 'Slips and attempts';
+
+  @override
+  String get statsMetricQt19Desc => 'When uses happen and what came just before them.';
+
+  @override
+  String get statsMetricQt19Formula =>
+      'Uses by weekday × hour; amount per use; days between use days; triggers logged up to 2 h before a use.';
+
+  @override
+  String get statsMetricQt19Title => 'Use patterns';
+
+  @override
+  String get statsMetricQt20Desc => 'Your attempts and how long each one lasted.';
+
+  @override
+  String get statsMetricQt20Formula => 'Number of attempts; mean and longest duration; rank of the current one.';
+
+  @override
+  String get statsMetricQt20Title => 'Quit attempts';
+
+  @override
+  String get statsMetricQt21Desc => 'Progress toward what you are saving for.';
+
+  @override
+  String get statsMetricQt21Formula => 'Money saved ÷ goal price; ETA = remaining ÷ current daily saving.';
+
+  @override
+  String get statsMetricQt21Title => 'Savings goal';
+
+  @override
+  String get statsMetricQt22Desc => 'Time you are no longer spending consuming.';
+
+  @override
+  String get statsMetricQt22Formula => 'Units avoided × time per unit.';
+
+  @override
+  String get statsMetricQt22Title => 'Time won back';
+
+  @override
+  String get statsMetricQt23Desc => 'How much you save each week or month.';
+
+  @override
+  String get statsMetricQt23Formula => 'Money saved per week (per month for long periods); mean saved per day.';
+
+  @override
+  String get statsMetricQt23Title => 'Money saved by period';
+
+  @override
+  String get statsMetricQt24Desc => 'Days in a row you renewed your pledge.';
+
+  @override
+  String get statsMetricQt24Formula => 'Consecutive days with a pledge or review.';
+
+  @override
+  String get statsMetricQt24Title => 'Pledge streak';
+
+  @override
+  String get statsMetricQt25Desc => 'Where you are in the typical withdrawal timeline. Individual experience varies.';
+
+  @override
+  String get statsMetricQt25Formula => 'Days 1–3 peak, rest of week 1 hardest, weeks 2–4 easing (NCI fact sheet).';
+
+  @override
+  String get statsMetricQt25Title => 'Withdrawal phase';
+
+  @override
+  String get statsMetricQt26Desc => 'How long attempts usually last before a first slip, across attempts.';
+
+  @override
+  String get statsMetricQt26Formula =>
+      'Kaplan–Meier curve (the current attempt counts as still going); median time, or “not reached”.';
+
+  @override
+  String get statsMetricQt26Title => 'Time to first slip';
+
+  @override
+  String get statsMetricQt27Desc => 'Which coping tools help you get through cravings.';
+
+  @override
+  String get statsMetricQt27Formula =>
+      'Cravings resisted per coping tool (tools with fewer than 5 cravings are greyed out).';
+
+  @override
+  String get statsMetricQt27Title => 'Coping that works';
+
+  @override
+  String get statsMetricQt28Desc => 'Time since your last craving and your longest craving-free stretch.';
+
+  @override
+  String get statsMetricQt28Formula => 'Now − last craving; longest gap between cravings since the quit date.';
+
+  @override
+  String get statsMetricQt28Title => 'Craving-free time';
+
+  @override
   String get statsNoteAbstainMode => 'Only for reduce-mode trackers.';
 
   @override
@@ -12595,6 +12745,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statsNoteClosed => 'This item is closed.';
+
+  @override
+  String get statsNoteCravingPasses => 'A craving usually passes within a few minutes';
 
   @override
   String get statsNoteError => 'Couldn’t compute';
@@ -12616,6 +12769,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statsNoteNoConsistentTime => 'No consistent time of day';
+
+  @override
+  String get statsNoteNoCoping => 'Note a coping tool when you log a craving to see this';
 
   @override
   String get statsNoteNoData => 'No data yet';
@@ -12660,10 +12816,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsNoteNoSignificantPairs => 'No pair of habits stands out yet';
 
   @override
+  String get statsNoteNoTimePerUnit => 'Set the time per unit in the tracker to see this';
+
+  @override
   String get statsNoteNoTracker => 'This quit tracker couldn’t be found.';
 
   @override
   String get statsNoteNoUnitCost => 'Set a unit cost to see savings.';
+
+  @override
+  String get statsNoteNoUses => 'No uses logged — keep going';
 
   @override
   String get statsNoteNonCausal => 'An association, not a cause';
@@ -12711,7 +12873,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsNotePopulationEstimate => 'Population estimate';
 
   @override
+  String get statsNoteSlipSupport => 'A slip is part of many quit journeys — every clean day still counts';
+
+  @override
   String get statsNoteTagsOverlap => 'Some tasks have several tags: totals overlap';
+
+  @override
+  String get statsNoteTypicalVaries => 'Typical timeline — individual experience varies';
 
   @override
   String get statsNoteUnloggedNotFailed =>
@@ -13142,6 +13310,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statsSourceJackson2025 => 'Jackson et al., Addiction 2025';
+
+  @override
+  String get statsSourceLally2010 => 'Lally et al. 2010 (European Journal of Social Psychology)';
 
   @override
   String get statsSourceNci => 'National Cancer Institute';

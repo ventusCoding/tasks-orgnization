@@ -3,7 +3,7 @@
 Generated from the metric registry (`app/lib/features/stats/application/catalog/`) by
 `app/test/features/stats/engine/metric_catalog_test.dart` — do not edit by hand.
 
-203 metrics.
+217 metrics.
 
 ## task
 
@@ -248,6 +248,20 @@ Generated from the metric registry (`app/lib/features/stats/application/catalog/
 | QT-12 | Reduction progress | Days within limit ÷ days; reduction = 1 − average use ÷ baseline. | P0 | bars | percent |
 | QT-13 | Craving load | Cravings per day over the period; mean and peak intensity; 7-day rolling mean. | P0 | line | perDay |
 | QT-14 | Craving context | Pareto by trigger, place and mood; weekday × hour matrix. | P0 | pareto | count |
+| QT-15 | Cravings resisted | Cravings not followed by a use within 2 h ÷ cravings (your “resisted” answer wins). | P1 | kpi | percent |
+| QT-16 | Craving duration | Median and P85 of craving durations; cravings typically last 3–5 min (HSE). | P1 | histogram | minutes |
+| QT-17 | Cravings over time | Cravings per day for each week since the quit date; % change of the last full week vs week 1. | P1 | line | percent |
+| QT-18 | Slips and attempts | Slip = any use; setback = use on 7 days in a row or in 2 consecutive 7-day blocks (SRNT). | P1 | list | count |
+| QT-19 | Use patterns | Uses by weekday × hour; amount per use; days between use days; triggers logged up to 2 h before a use. | P1 | punchCard | count |
+| QT-20 | Quit attempts | Number of attempts; mean and longest duration; rank of the current one. | P1 | bars | count |
+| QT-21 | Savings goal | Money saved ÷ goal price; ETA = remaining ÷ current daily saving. | P1 | ring | percent |
+| QT-22 | Time won back | Units avoided × time per unit. | P1 | kpi | minutes |
+| QT-23 | Money saved by period | Money saved per week (per month for long periods); mean saved per day. | P1 | bars | currency |
+| QT-24 | Pledge streak | Consecutive days with a pledge or review. | P1 | kpi | days |
+| QT-25 | Withdrawal phase | Days 1–3 peak, rest of week 1 hardest, weeks 2–4 easing (NCI fact sheet). | P1 | list | count |
+| QT-26 | Time to first slip | Kaplan–Meier curve (the current attempt counts as still going); median time, or “not reached”. | P2 | km | hours |
+| QT-27 | Coping that works | Cravings resisted per coping tool (tools with fewer than 5 cravings are greyed out). | P2 | horizontalBars | percent |
+| QT-28 | Craving-free time | Now − last craving; longest gap between cravings since the quit date. | P2 | tiles | minutes |
 
 ## global
 

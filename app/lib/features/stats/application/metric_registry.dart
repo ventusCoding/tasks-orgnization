@@ -10,6 +10,7 @@ import 'package:everslot/features/stats/application/catalog/habit_insights_catal
 import 'package:everslot/features/stats/application/catalog/planner_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/planner_insights_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/quit_catalog.dart';
+import 'package:everslot/features/stats/application/catalog/quit_insights_catalog.dart';
 import 'package:everslot/features/stats/domain/metric_definition.dart';
 import 'package:everslot/features/stats/domain/stats_types.dart';
 
@@ -46,6 +47,7 @@ final class MetricRegistry {
     ...habitMetrics,
     ...habitInsightMetrics,
     ...quitMetrics,
+    ...quitInsightMetrics,
     ...globalMetrics,
   ]);
 

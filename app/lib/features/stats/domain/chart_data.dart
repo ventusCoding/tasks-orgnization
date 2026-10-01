@@ -211,6 +211,12 @@ enum LabelToken {
   riskQuota,
   riskDueToday,
   riskScoreDrop,
+  daysBetween,
+  withdrawalPeak,
+  withdrawalFirstWeek,
+  withdrawalEasing,
+  withdrawalBeyond,
+  typicalVaries,
   today,
 }
 

@@ -281,12 +281,15 @@ const quitLayout = StatsLayout(
   MetricScope.quit,
   kpis: ['QT-02', 'QT-07', 'QT-06', 'QT-10'],
   sections: [
-    StatsLayoutSection('milestones', [StatsLayoutItem('QT-11')]),
+    StatsLayoutSection('milestones', [StatsLayoutItem('QT-25'), StatsLayoutItem('QT-11')]),
     StatsLayoutSection('money', [
       StatsLayoutItem('QT-07'),
       StatsLayoutItem('QT-06'),
       StatsLayoutItem('QT-08', span: _half),
       StatsLayoutItem('QT-10', span: _half),
+      StatsLayoutItem('QT-21'),
+      StatsLayoutItem('QT-23'),
+      StatsLayoutItem('QT-22', span: _half),
       StatsLayoutItem('QT-09'),
     ]),
     StatsLayoutSection('abstinence', [
@@ -294,9 +297,21 @@ const quitLayout = StatsLayout(
       StatsLayoutItem('QT-03', span: _half),
       StatsLayoutItem('QT-04', span: _half),
       StatsLayoutItem('QT-05', span: _half),
+      StatsLayoutItem('QT-24', span: _half),
+      StatsLayoutItem('QT-18'),
+      StatsLayoutItem('QT-20'),
+      StatsLayoutItem('QT-26'),
     ]),
-    StatsLayoutSection('reduction', [StatsLayoutItem('QT-12')]),
-    StatsLayoutSection('cravings', [StatsLayoutItem('QT-13'), StatsLayoutItem('QT-14')]),
+    StatsLayoutSection('reduction', [StatsLayoutItem('QT-12'), StatsLayoutItem('QT-19')]),
+    StatsLayoutSection('cravings', [
+      StatsLayoutItem('QT-15', span: _half),
+      StatsLayoutItem('QT-28'),
+      StatsLayoutItem('QT-13'),
+      StatsLayoutItem('QT-14'),
+      StatsLayoutItem('QT-16'),
+      StatsLayoutItem('QT-17'),
+      StatsLayoutItem('QT-27'),
+    ]),
   ],
 );
 

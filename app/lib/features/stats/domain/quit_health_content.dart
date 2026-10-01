@@ -20,7 +20,8 @@ enum HealthSource {
   hse('https://www2.hse.ie/living-well/quit-smoking/get-help-to-quit/cravings-withdrawal/'),
   nci('https://www.cancer.gov/about-cancer/causes-prevention/risk/tobacco/withdrawal-fact-sheet'),
   jackson2025('https://doi.org/10.1111/add.16757'),
-  bmj2000('https://pubmed.ncbi.nlm.nih.gov/10617536/');
+  bmj2000('https://pubmed.ncbi.nlm.nih.gov/10617536/'),
+  lally2010('https://doi.org/10.1002/ejsp.674');
 
   HealthSource(this.url);
 

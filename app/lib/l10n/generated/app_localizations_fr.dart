@@ -1318,6 +1318,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelCycleTime => 'Temps de cycle';
 
   @override
+  String get chartsLabelDaysBetween => 'Jours entre prises';
+
+  @override
   String get chartsLabelDeepWork => 'Travail profond';
 
   @override
@@ -1747,6 +1750,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelTriggers => 'Déclencheurs';
 
   @override
+  String get chartsLabelTypicalVaries => 'Vous êtes ici — typique, l’expérience varie';
+
+  @override
   String get chartsLabelUncategorized => 'Sans catégorie';
 
   @override
@@ -1790,6 +1796,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelWip => 'En cours';
+
+  @override
+  String get chartsLabelWithdrawalBeyond => 'Après la semaine 4 : surtout derrière vous';
+
+  @override
+  String get chartsLabelWithdrawalEasing => 'Semaines 2–4 : apaisement';
+
+  @override
+  String get chartsLabelWithdrawalFirstWeek => 'Reste de la semaine 1 : le plus dur';
+
+  @override
+  String get chartsLabelWithdrawalPeak => 'Jours 1–3 : le plus fort';
 
   @override
   String get chartsLabelWithinLimit => 'Dans la limite';
@@ -12855,6 +12873,142 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsMetricQt14Title => 'Contexte des envies';
 
   @override
+  String get statsMetricQt15Desc => 'Part des envies passées sans consommation.';
+
+  @override
+  String get statsMetricQt15Formula =>
+      'Envies non suivies d’une consommation dans les 2 h ÷ envies (votre réponse « surmontée » prime).';
+
+  @override
+  String get statsMetricQt15Title => 'Envies surmontées';
+
+  @override
+  String get statsMetricQt16Desc => 'Combien de temps durent vos envies. La plupart passent en quelques minutes.';
+
+  @override
+  String get statsMetricQt16Formula => 'Médiane et P85 des durées d’envie ; une envie dure en général 3 à 5 min (HSE).';
+
+  @override
+  String get statsMetricQt16Title => 'Durée des envies';
+
+  @override
+  String get statsMetricQt17Desc => 'Évolution des envies par jour, semaine après semaine depuis l’arrêt.';
+
+  @override
+  String get statsMetricQt17Formula =>
+      'Envies par jour pour chaque semaine depuis l’arrêt ; % d’évolution de la dernière semaine complète vs la semaine 1.';
+
+  @override
+  String get statsMetricQt17Title => 'Évolution des envies';
+
+  @override
+  String get statsMetricQt18Desc => 'Chaque tentative et ses éventuels écarts — chaque jour sans consommation compte.';
+
+  @override
+  String get statsMetricQt18Formula =>
+      'Écart = toute consommation ; rechute = consommation 7 jours d’affilée ou dans 2 blocs de 7 jours consécutifs (SRNT).';
+
+  @override
+  String get statsMetricQt18Title => 'Écarts et tentatives';
+
+  @override
+  String get statsMetricQt19Desc => 'Quand les consommations ont lieu et ce qui les précède.';
+
+  @override
+  String get statsMetricQt19Formula =>
+      'Consommations par jour × heure ; quantité par prise ; jours entre prises ; déclencheurs notés jusqu’à 2 h avant.';
+
+  @override
+  String get statsMetricQt19Title => 'Habitudes de consommation';
+
+  @override
+  String get statsMetricQt20Desc => 'Vos tentatives et la durée de chacune.';
+
+  @override
+  String get statsMetricQt20Formula =>
+      'Nombre de tentatives ; durée moyenne et la plus longue ; rang de la tentative actuelle.';
+
+  @override
+  String get statsMetricQt20Title => 'Tentatives d’arrêt';
+
+  @override
+  String get statsMetricQt21Desc => 'Progression vers ce pour quoi vous économisez.';
+
+  @override
+  String get statsMetricQt21Formula =>
+      'Argent économisé ÷ prix de l’objectif ; date prévue = reste ÷ économie quotidienne actuelle.';
+
+  @override
+  String get statsMetricQt21Title => 'Objectif d’épargne';
+
+  @override
+  String get statsMetricQt22Desc => 'Temps que vous ne passez plus à consommer.';
+
+  @override
+  String get statsMetricQt22Formula => 'Unités évitées × temps par unité.';
+
+  @override
+  String get statsMetricQt22Title => 'Temps regagné';
+
+  @override
+  String get statsMetricQt23Desc => 'Combien vous économisez chaque semaine ou mois.';
+
+  @override
+  String get statsMetricQt23Formula =>
+      'Argent économisé par semaine (par mois sur les longues périodes) ; moyenne par jour.';
+
+  @override
+  String get statsMetricQt23Title => 'Économies par période';
+
+  @override
+  String get statsMetricQt24Desc => 'Jours d’affilée où vous avez renouvelé votre engagement.';
+
+  @override
+  String get statsMetricQt24Formula => 'Jours consécutifs avec un engagement ou un bilan.';
+
+  @override
+  String get statsMetricQt24Title => 'Série d’engagements';
+
+  @override
+  String get statsMetricQt25Desc =>
+      'Où vous en êtes dans le déroulé typique du sevrage. L’expérience varie selon les personnes.';
+
+  @override
+  String get statsMetricQt25Formula =>
+      'Jours 1–3 pic, reste de la semaine 1 le plus dur, semaines 2–4 apaisement (fiche du NCI).';
+
+  @override
+  String get statsMetricQt25Title => 'Phase de sevrage';
+
+  @override
+  String get statsMetricQt26Desc => 'Durée habituelle des tentatives avant un premier écart.';
+
+  @override
+  String get statsMetricQt26Formula =>
+      'Courbe de Kaplan–Meier (la tentative en cours compte comme toujours active) ; durée médiane ou « non atteinte ».';
+
+  @override
+  String get statsMetricQt26Title => 'Temps avant le premier écart';
+
+  @override
+  String get statsMetricQt27Desc => 'Quelles stratégies vous aident à passer les envies.';
+
+  @override
+  String get statsMetricQt27Formula => 'Envies surmontées par stratégie (grisées sous 5 envies).';
+
+  @override
+  String get statsMetricQt27Title => 'Stratégies efficaces';
+
+  @override
+  String get statsMetricQt28Desc => 'Temps depuis la dernière envie et plus longue période sans envie.';
+
+  @override
+  String get statsMetricQt28Formula => 'Maintenant − dernière envie ; plus long écart entre envies depuis l’arrêt.';
+
+  @override
+  String get statsMetricQt28Title => 'Temps sans envie';
+
+  @override
   String get statsNoteAbstainMode => 'Uniquement pour les suivis en mode réduction.';
 
   @override
@@ -12862,6 +13016,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsNoteClosed => 'Cet élément est clos.';
+
+  @override
+  String get statsNoteCravingPasses => 'Une envie passe en général en quelques minutes';
 
   @override
   String get statsNoteError => 'Calcul impossible';
@@ -12884,6 +13041,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsNoteNoConsistentTime => 'Pas d’horaire régulier';
+
+  @override
+  String get statsNoteNoCoping => 'Notez une stratégie quand vous enregistrez une envie pour voir ceci';
 
   @override
   String get statsNoteNoData => 'Pas encore de données';
@@ -12929,10 +13089,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsNoteNoSignificantPairs => 'Aucune paire d’habitudes ne ressort encore';
 
   @override
+  String get statsNoteNoTimePerUnit => 'Indiquez le temps par unité dans le suivi pour voir ceci';
+
+  @override
   String get statsNoteNoTracker => 'Suivi d’arrêt introuvable.';
 
   @override
   String get statsNoteNoUnitCost => 'Indiquez un coût unitaire pour voir les économies.';
+
+  @override
+  String get statsNoteNoUses => 'Aucune consommation notée — continuez';
 
   @override
   String get statsNoteNonCausal => 'Une association, pas une cause';
@@ -12980,7 +13146,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsNotePopulationEstimate => 'Estimation populationnelle';
 
   @override
+  String get statsNoteSlipSupport =>
+      'Un écart fait partie de nombreux parcours d’arrêt — chaque jour sans consommation compte';
+
+  @override
   String get statsNoteTagsOverlap => 'Certaines tâches ont plusieurs étiquettes : les totaux se recoupent';
+
+  @override
+  String get statsNoteTypicalVaries => 'Déroulé typique — l’expérience varie selon les personnes';
 
   @override
   String get statsNoteUnloggedNotFailed =>
@@ -13414,6 +13587,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsSourceJackson2025 => 'Jackson et al., Addiction 2025';
+
+  @override
+  String get statsSourceLally2010 => 'Lally et al. 2010 (European Journal of Social Psychology)';
 
   @override
   String get statsSourceNci => 'National Cancer Institute';

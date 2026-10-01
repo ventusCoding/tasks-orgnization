@@ -145,6 +145,7 @@ class ExplainSheet extends StatelessWidget {
     'QT-11' => const [HealthSource.who, HealthSource.nhs, HealthSource.cdc, HealthSource.acs, HealthSource.hse],
     'QT-16' => const [HealthSource.hse],
     'QT-25' => const [HealthSource.nci],
+    'HB-H-27' => const [HealthSource.lally2010],
     _ => const [],
   };
 }

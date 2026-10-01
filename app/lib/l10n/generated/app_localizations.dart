@@ -2301,6 +2301,12 @@ abstract class AppLocalizations {
   /// **'Cycle time'**
   String get chartsLabelCycleTime;
 
+  /// No description provided for @chartsLabelDaysBetween.
+  ///
+  /// In en, this message translates to:
+  /// **'Days between uses'**
+  String get chartsLabelDaysBetween;
+
   /// No description provided for @chartsLabelDeepWork.
   ///
   /// In en, this message translates to:
@@ -3159,6 +3165,12 @@ abstract class AppLocalizations {
   /// **'Triggers'**
   String get chartsLabelTriggers;
 
+  /// No description provided for @chartsLabelTypicalVaries.
+  ///
+  /// In en, this message translates to:
+  /// **'You are here — typical, individual experience varies'**
+  String get chartsLabelTypicalVaries;
+
   /// No description provided for @chartsLabelUncategorized.
   ///
   /// In en, this message translates to:
@@ -3248,6 +3260,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'In progress'**
   String get chartsLabelWip;
+
+  /// No description provided for @chartsLabelWithdrawalBeyond.
+  ///
+  /// In en, this message translates to:
+  /// **'After week 4: mostly behind you'**
+  String get chartsLabelWithdrawalBeyond;
+
+  /// No description provided for @chartsLabelWithdrawalEasing.
+  ///
+  /// In en, this message translates to:
+  /// **'Weeks 2–4: easing'**
+  String get chartsLabelWithdrawalEasing;
+
+  /// No description provided for @chartsLabelWithdrawalFirstWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest of week 1: hardest'**
+  String get chartsLabelWithdrawalFirstWeek;
+
+  /// No description provided for @chartsLabelWithdrawalPeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Days 1–3: strongest'**
+  String get chartsLabelWithdrawalPeak;
 
   /// No description provided for @chartsLabelWithinLimit.
   ///
@@ -22239,6 +22275,258 @@ abstract class AppLocalizations {
   /// **'Craving context'**
   String get statsMetricQt14Title;
 
+  /// No description provided for @statsMetricQt15Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of cravings that passed without a use.'**
+  String get statsMetricQt15Desc;
+
+  /// No description provided for @statsMetricQt15Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings not followed by a use within 2 h ÷ cravings (your “resisted” answer wins).'**
+  String get statsMetricQt15Formula;
+
+  /// No description provided for @statsMetricQt15Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings resisted'**
+  String get statsMetricQt15Title;
+
+  /// No description provided for @statsMetricQt16Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How long your cravings last. Most pass within a few minutes.'**
+  String get statsMetricQt16Desc;
+
+  /// No description provided for @statsMetricQt16Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Median and P85 of craving durations; cravings typically last 3–5 min (HSE).'**
+  String get statsMetricQt16Formula;
+
+  /// No description provided for @statsMetricQt16Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving duration'**
+  String get statsMetricQt16Title;
+
+  /// No description provided for @statsMetricQt17Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How cravings per day change week by week since you quit.'**
+  String get statsMetricQt17Desc;
+
+  /// No description provided for @statsMetricQt17Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings per day for each week since the quit date; % change of the last full week vs week 1.'**
+  String get statsMetricQt17Formula;
+
+  /// No description provided for @statsMetricQt17Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings over time'**
+  String get statsMetricQt17Title;
+
+  /// No description provided for @statsMetricQt18Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Each attempt and whether it had a slip — every clean day still counts.'**
+  String get statsMetricQt18Desc;
+
+  /// No description provided for @statsMetricQt18Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Slip = any use; setback = use on 7 days in a row or in 2 consecutive 7-day blocks (SRNT).'**
+  String get statsMetricQt18Formula;
+
+  /// No description provided for @statsMetricQt18Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Slips and attempts'**
+  String get statsMetricQt18Title;
+
+  /// No description provided for @statsMetricQt19Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'When uses happen and what came just before them.'**
+  String get statsMetricQt19Desc;
+
+  /// No description provided for @statsMetricQt19Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Uses by weekday × hour; amount per use; days between use days; triggers logged up to 2 h before a use.'**
+  String get statsMetricQt19Formula;
+
+  /// No description provided for @statsMetricQt19Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Use patterns'**
+  String get statsMetricQt19Title;
+
+  /// No description provided for @statsMetricQt20Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your attempts and how long each one lasted.'**
+  String get statsMetricQt20Desc;
+
+  /// No description provided for @statsMetricQt20Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of attempts; mean and longest duration; rank of the current one.'**
+  String get statsMetricQt20Formula;
+
+  /// No description provided for @statsMetricQt20Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit attempts'**
+  String get statsMetricQt20Title;
+
+  /// No description provided for @statsMetricQt21Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress toward what you are saving for.'**
+  String get statsMetricQt21Desc;
+
+  /// No description provided for @statsMetricQt21Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Money saved ÷ goal price; ETA = remaining ÷ current daily saving.'**
+  String get statsMetricQt21Formula;
+
+  /// No description provided for @statsMetricQt21Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings goal'**
+  String get statsMetricQt21Title;
+
+  /// No description provided for @statsMetricQt22Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Time you are no longer spending consuming.'**
+  String get statsMetricQt22Desc;
+
+  /// No description provided for @statsMetricQt22Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Units avoided × time per unit.'**
+  String get statsMetricQt22Formula;
+
+  /// No description provided for @statsMetricQt22Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Time won back'**
+  String get statsMetricQt22Title;
+
+  /// No description provided for @statsMetricQt23Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How much you save each week or month.'**
+  String get statsMetricQt23Desc;
+
+  /// No description provided for @statsMetricQt23Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Money saved per week (per month for long periods); mean saved per day.'**
+  String get statsMetricQt23Formula;
+
+  /// No description provided for @statsMetricQt23Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Money saved by period'**
+  String get statsMetricQt23Title;
+
+  /// No description provided for @statsMetricQt24Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Days in a row you renewed your pledge.'**
+  String get statsMetricQt24Desc;
+
+  /// No description provided for @statsMetricQt24Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Consecutive days with a pledge or review.'**
+  String get statsMetricQt24Formula;
+
+  /// No description provided for @statsMetricQt24Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledge streak'**
+  String get statsMetricQt24Title;
+
+  /// No description provided for @statsMetricQt25Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you are in the typical withdrawal timeline. Individual experience varies.'**
+  String get statsMetricQt25Desc;
+
+  /// No description provided for @statsMetricQt25Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Days 1–3 peak, rest of week 1 hardest, weeks 2–4 easing (NCI fact sheet).'**
+  String get statsMetricQt25Formula;
+
+  /// No description provided for @statsMetricQt25Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawal phase'**
+  String get statsMetricQt25Title;
+
+  /// No description provided for @statsMetricQt26Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How long attempts usually last before a first slip, across attempts.'**
+  String get statsMetricQt26Desc;
+
+  /// No description provided for @statsMetricQt26Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Kaplan–Meier curve (the current attempt counts as still going); median time, or “not reached”.'**
+  String get statsMetricQt26Formula;
+
+  /// No description provided for @statsMetricQt26Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Time to first slip'**
+  String get statsMetricQt26Title;
+
+  /// No description provided for @statsMetricQt27Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Which coping tools help you get through cravings.'**
+  String get statsMetricQt27Desc;
+
+  /// No description provided for @statsMetricQt27Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings resisted per coping tool (tools with fewer than 5 cravings are greyed out).'**
+  String get statsMetricQt27Formula;
+
+  /// No description provided for @statsMetricQt27Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Coping that works'**
+  String get statsMetricQt27Title;
+
+  /// No description provided for @statsMetricQt28Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Time since your last craving and your longest craving-free stretch.'**
+  String get statsMetricQt28Desc;
+
+  /// No description provided for @statsMetricQt28Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Now − last craving; longest gap between cravings since the quit date.'**
+  String get statsMetricQt28Formula;
+
+  /// No description provided for @statsMetricQt28Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving-free time'**
+  String get statsMetricQt28Title;
+
   /// No description provided for @statsNoteAbstainMode.
   ///
   /// In en, this message translates to:
@@ -22256,6 +22544,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This item is closed.'**
   String get statsNoteClosed;
+
+  /// No description provided for @statsNoteCravingPasses.
+  ///
+  /// In en, this message translates to:
+  /// **'A craving usually passes within a few minutes'**
+  String get statsNoteCravingPasses;
 
   /// No description provided for @statsNoteError.
   ///
@@ -22298,6 +22592,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No consistent time of day'**
   String get statsNoteNoConsistentTime;
+
+  /// No description provided for @statsNoteNoCoping.
+  ///
+  /// In en, this message translates to:
+  /// **'Note a coping tool when you log a craving to see this'**
+  String get statsNoteNoCoping;
 
   /// No description provided for @statsNoteNoData.
   ///
@@ -22383,6 +22683,12 @@ abstract class AppLocalizations {
   /// **'No pair of habits stands out yet'**
   String get statsNoteNoSignificantPairs;
 
+  /// No description provided for @statsNoteNoTimePerUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Set the time per unit in the tracker to see this'**
+  String get statsNoteNoTimePerUnit;
+
   /// No description provided for @statsNoteNoTracker.
   ///
   /// In en, this message translates to:
@@ -22394,6 +22700,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Set a unit cost to see savings.'**
   String get statsNoteNoUnitCost;
+
+  /// No description provided for @statsNoteNoUses.
+  ///
+  /// In en, this message translates to:
+  /// **'No uses logged — keep going'**
+  String get statsNoteNoUses;
 
   /// No description provided for @statsNoteNonCausal.
   ///
@@ -22485,11 +22797,23 @@ abstract class AppLocalizations {
   /// **'Population estimate'**
   String get statsNotePopulationEstimate;
 
+  /// No description provided for @statsNoteSlipSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'A slip is part of many quit journeys — every clean day still counts'**
+  String get statsNoteSlipSupport;
+
   /// No description provided for @statsNoteTagsOverlap.
   ///
   /// In en, this message translates to:
   /// **'Some tasks have several tags: totals overlap'**
   String get statsNoteTagsOverlap;
+
+  /// No description provided for @statsNoteTypicalVaries.
+  ///
+  /// In en, this message translates to:
+  /// **'Typical timeline — individual experience varies'**
+  String get statsNoteTypicalVaries;
 
   /// No description provided for @statsNoteUnloggedNotFailed.
   ///
@@ -23258,6 +23582,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Jackson et al., Addiction 2025'**
   String get statsSourceJackson2025;
+
+  /// No description provided for @statsSourceLally2010.
+  ///
+  /// In en, this message translates to:
+  /// **'Lally et al. 2010 (European Journal of Social Psychology)'**
+  String get statsSourceLally2010;
 
   /// No description provided for @statsSourceNci.
   ///

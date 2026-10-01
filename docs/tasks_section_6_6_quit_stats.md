@@ -54,11 +54,11 @@ Insights screen, fixtures.
 - [x] T6.6.05 — Health milestones: content, progress & disclaimer
 - [x] T6.6.06 — Reduce-mode metrics
 - [x] T6.6.07 — Craving load & context
-- [ ] T6.6.08 — Craving resistance & decline
-- [ ] T6.6.09 — Lapse/relapse classification, use analytics & attempts
-- [ ] T6.6.10 — Savings goal, time not spent & money by period
-- [ ] T6.6.11 — Pledge streak & withdrawal phase
-- [ ] T6.6.12 — Advanced quit analytics
+- [x] T6.6.08 — Craving resistance & decline
+- [x] T6.6.09 — Lapse/relapse classification, use analytics & attempts
+- [x] T6.6.10 — Savings goal, time not spent & money by period
+- [x] T6.6.11 — Pledge streak & withdrawal phase
+- [x] T6.6.12 — Advanced quit analytics
 - [x] T6.6.13 — Quit Insights screen
 - [x] T6.6.14 — Quit stats fixtures
 
@@ -224,6 +224,7 @@ card follows the user's week start.
 
 **Acceptance criteria:** 10 cravings, 2 of them followed by a use within 2 h, give a resist rate of 80 %.
 **Tests:** fixture tests.
+**Notes:** QT-15 resist rate (cravings in the period; explicit `resisted` wins), QT-16 duration histogram in minutes with P50/P85 and the `cravingPasses` note (HSE source in the explain sheet), QT-17 cravings/day per week since the quit date with % change vs week 1, in `application/catalog/quit_insights_catalog.dart`. Test: 10 cravings / 2 uses → 80 % (`quit/quit_insights_test.dart`).
 
 ### T6.6.09 — Lapse/relapse classification, use analytics & attempts
 **Priority:** P1 · **Size:** M · **Depends on:** T6.6.02
@@ -239,6 +240,7 @@ been smoke-free 58 of 60 days." Never shame.
 **Acceptance criteria:** uses on days 10–16 of an attempt count as a relapse; a single use on day 10
 counts as a lapse; uses on days 10 and 18 (blocks 2 and 3) count as a relapse.
 **Tests:** fixture tests for the classification rules.
+**Notes:** QT-18 attempt list (newest first: clean / lapse / relapse chips, SRNT rule and Russell Standard in args, `slipSupport` note "every clean day still counts"), QT-19 use analytics (weekday × hour, preceding triggers Pareto, summary tiles), QT-20 attempt-duration bars with the current rank. Tests on `quit_attempts` (days 10–16 relapse, day 10 lapse) and the days-10/18 block rule.
 
 ### T6.6.10 — Savings goal, time not spent & money by period
 **Priority:** P1 · **Size:** S · **Depends on:** T6.6.03, [5.4] (goals)
@@ -251,6 +253,7 @@ counts as a lapse; uses on days 10 and 18 (blocks 2 and 3) count as a relapse.
 
 **Acceptance criteria:** with €748.20 saved against a €1 200 goal at €13/day, the ETA is in 35 days.
 **Tests:** fixture tests.
+**Notes:** QT-21 savings-goal ring from the tracker's `goals` row (metric `money_saved`; ETA days/date in args), QT-22 time won back (units avoided × time per unit; `noTimePerUnit` otherwise), QT-23 money saved per week (per month beyond 90 days) with the mean per day. Test: €748.20 / €1 200 / €13 a day → 35 days.
 
 ### T6.6.11 — Pledge streak & withdrawal phase
 **Priority:** P1 · **Size:** S · **Depends on:** T6.6.01, [6.1] (streaks T6.1.09)
@@ -263,6 +266,7 @@ counts as a lapse; uses on days 10 and 18 (blocks 2 and 3) count as a relapse.
 **Acceptance criteria:** the phase bar is labelled "typical, individual experience varies" and links to
 the source.
 **Tests:** widget tests.
+**Notes:** QT-24 pledge streak (days), QT-25 withdrawal phase list (smoking only): the current phase is highlighted with "You are here — typical, individual experience varies" and the explain sheet cites the NCI withdrawal fact sheet. Widget test on day 5 of the smoking fixture.
 
 ### T6.6.12 — Advanced quit analytics
 **Priority:** P2 · **Size:** M · **Depends on:** T6.6.09, [6.1] (T6.1.25 Kaplan–Meier), [6.2] (KM curve T6.2.25)
@@ -275,6 +279,7 @@ the source.
 
 **Acceptance criteria:** KM hidden with fewer than 2 attempts; coping tools with n < 5 greyed out.
 **Tests:** fixture tests.
+**Notes:** QT-26 time-to-first-slip Kaplan–Meier (`KmData`, median or "not reached"; hidden below 2 attempts), QT-27 resist rate per coping tool (tools under 5 cravings listed in `insufficient`, greyed by the min-data rule), QT-28 craving-free tiles (since last, longest). Also added the Lally 2010 source for HB-H-27's explain sheet.
 
 ### T6.6.13 — Quit Insights screen
 **Priority:** P0 · **Size:** M · **Depends on:** T6.6.02, T6.6.03, T6.6.04, T6.6.05, T6.6.06, T6.6.07, [6.1] (T6.1.16)

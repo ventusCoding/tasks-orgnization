@@ -1354,6 +1354,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelCycleTime => 'زمن الدورة';
 
   @override
+  String get chartsLabelDaysBetween => 'الأيام بين مرات الاستهلاك';
+
+  @override
   String get chartsLabelDeepWork => 'العمل العميق';
 
   @override
@@ -1783,6 +1786,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelTriggers => 'المحفّزات';
 
   @override
+  String get chartsLabelTypicalVaries => 'أنت هنا — نموذجي، وتختلف التجربة';
+
+  @override
   String get chartsLabelUncategorized => 'بلا تصنيف';
 
   @override
@@ -1826,6 +1832,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelWip => 'قيد العمل';
+
+  @override
+  String get chartsLabelWithdrawalBeyond => 'بعد الأسبوع 4: غالبًا خلفك';
+
+  @override
+  String get chartsLabelWithdrawalEasing => 'الأسابيع 2–4: تخفّ';
+
+  @override
+  String get chartsLabelWithdrawalFirstWeek => 'بقية الأسبوع 1: الأصعب';
+
+  @override
+  String get chartsLabelWithdrawalPeak => 'الأيام 1–3: الأقوى';
 
   @override
   String get chartsLabelWithinLimit => 'ضمن الحد';
@@ -13411,6 +13429,136 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricQt14Title => 'سياق الرغبات';
 
   @override
+  String get statsMetricQt15Desc => 'نسبة الرغبات التي مرّت دون استهلاك.';
+
+  @override
+  String get statsMetricQt15Formula =>
+      'الرغبات التي لم يتبعها استهلاك خلال ساعتين ÷ الرغبات (إجابتك «تجاوزتها» لها الأولوية).';
+
+  @override
+  String get statsMetricQt15Title => 'رغبات تم تجاوزها';
+
+  @override
+  String get statsMetricQt16Desc => 'كم تدوم رغباتك. معظمها يزول خلال دقائق.';
+
+  @override
+  String get statsMetricQt16Formula => 'الوسيط وP85 لمدد الرغبات؛ تدوم الرغبة عادة 3–5 دقائق (HSE).';
+
+  @override
+  String get statsMetricQt16Title => 'مدة الرغبات';
+
+  @override
+  String get statsMetricQt17Desc => 'تغيّر الرغبات اليومية أسبوعًا بعد أسبوع منذ الإقلاع.';
+
+  @override
+  String get statsMetricQt17Formula =>
+      'الرغبات لكل يوم في كل أسبوع منذ الإقلاع؛ نسبة تغيّر آخر أسبوع كامل مقارنة بالأسبوع 1.';
+
+  @override
+  String get statsMetricQt17Title => 'الرغبات عبر الزمن';
+
+  @override
+  String get statsMetricQt18Desc => 'كل محاولة وما إذا كانت فيها زلة — كل يوم نظيف يُحتسب.';
+
+  @override
+  String get statsMetricQt18Formula =>
+      'الزلة = أي استهلاك؛ الانتكاس = استهلاك 7 أيام متتالية أو في كتلتين متتاليتين من 7 أيام (SRNT).';
+
+  @override
+  String get statsMetricQt18Title => 'الزلات والمحاولات';
+
+  @override
+  String get statsMetricQt19Desc => 'متى يحدث الاستهلاك وما الذي يسبقه مباشرة.';
+
+  @override
+  String get statsMetricQt19Formula =>
+      'الاستهلاك حسب اليوم × الساعة؛ الكمية لكل مرة؛ الأيام بين مرات الاستهلاك؛ المحفزات المسجلة حتى ساعتين قبله.';
+
+  @override
+  String get statsMetricQt19Title => 'أنماط الاستهلاك';
+
+  @override
+  String get statsMetricQt20Desc => 'محاولاتك ومدة كل منها.';
+
+  @override
+  String get statsMetricQt20Formula => 'عدد المحاولات؛ متوسط المدة وأطولها؛ ترتيب المحاولة الحالية.';
+
+  @override
+  String get statsMetricQt20Title => 'محاولات الإقلاع';
+
+  @override
+  String get statsMetricQt21Desc => 'تقدّمك نحو ما تدّخر من أجله.';
+
+  @override
+  String get statsMetricQt21Formula => 'المال الموفَّر ÷ سعر الهدف؛ موعد البلوغ = المتبقي ÷ التوفير اليومي الحالي.';
+
+  @override
+  String get statsMetricQt21Title => 'هدف الادخار';
+
+  @override
+  String get statsMetricQt22Desc => 'الوقت الذي لم تعد تقضيه في الاستهلاك.';
+
+  @override
+  String get statsMetricQt22Formula => 'الوحدات المتجنَّبة × الوقت لكل وحدة.';
+
+  @override
+  String get statsMetricQt22Title => 'الوقت المستعاد';
+
+  @override
+  String get statsMetricQt23Desc => 'كم توفّر كل أسبوع أو شهر.';
+
+  @override
+  String get statsMetricQt23Formula => 'المال الموفَّر لكل أسبوع (لكل شهر في الفترات الطويلة)؛ المتوسط اليومي.';
+
+  @override
+  String get statsMetricQt23Title => 'التوفير حسب الفترة';
+
+  @override
+  String get statsMetricQt24Desc => 'الأيام المتتالية التي جددت فيها تعهدك.';
+
+  @override
+  String get statsMetricQt24Formula => 'الأيام المتتالية التي فيها تعهد أو مراجعة.';
+
+  @override
+  String get statsMetricQt24Title => 'سلسلة التعهدات';
+
+  @override
+  String get statsMetricQt25Desc => 'موقعك في المسار المعتاد لأعراض الانسحاب. تختلف التجربة من شخص لآخر.';
+
+  @override
+  String get statsMetricQt25Formula => 'الأيام 1–3 ذروة، بقية الأسبوع 1 الأصعب، الأسابيع 2–4 تخفّ (نشرة NCI).';
+
+  @override
+  String get statsMetricQt25Title => 'مرحلة الانسحاب';
+
+  @override
+  String get statsMetricQt26Desc => 'كم تدوم المحاولات عادة قبل أول زلة عبر المحاولات.';
+
+  @override
+  String get statsMetricQt26Formula => 'منحنى كابلان-ماير (المحاولة الحالية تُحتسب مستمرة)؛ الوسيط أو «لم يُبلَغ».';
+
+  @override
+  String get statsMetricQt26Title => 'الوقت حتى أول زلة';
+
+  @override
+  String get statsMetricQt27Desc => 'أي وسائل التأقلم تساعدك على تجاوز الرغبات.';
+
+  @override
+  String get statsMetricQt27Formula => 'الرغبات المتجاوزة لكل وسيلة (الوسائل بأقل من 5 رغبات مظللة).';
+
+  @override
+  String get statsMetricQt27Title => 'وسائل التأقلم الفعالة';
+
+  @override
+  String get statsMetricQt28Desc => 'الوقت منذ آخر رغبة وأطول فترة بلا رغبات.';
+
+  @override
+  String get statsMetricQt28Formula => 'الآن − آخر رغبة؛ أطول فجوة بين الرغبات منذ الإقلاع.';
+
+  @override
+  String get statsMetricQt28Title => 'وقت بلا رغبات';
+
+  @override
   String get statsNoteAbstainMode => 'لمتتبعات وضع الخفض فقط.';
 
   @override
@@ -13418,6 +13566,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsNoteClosed => 'هذا العنصر مغلق.';
+
+  @override
+  String get statsNoteCravingPasses => 'تزول الرغبة عادة خلال دقائق';
 
   @override
   String get statsNoteError => 'تعذّر الحساب';
@@ -13439,6 +13590,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsNoteNoConsistentTime => 'لا يوجد وقت منتظم في اليوم';
+
+  @override
+  String get statsNoteNoCoping => 'سجّل وسيلة تأقلم عند تسجيل رغبة لرؤية هذا';
 
   @override
   String get statsNoteNoData => 'لا توجد بيانات بعد';
@@ -13483,10 +13637,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsNoteNoSignificantPairs => 'لا يبرز أي زوج من العادات بعد';
 
   @override
+  String get statsNoteNoTimePerUnit => 'حدد الوقت لكل وحدة في المتتبع لرؤية هذا';
+
+  @override
   String get statsNoteNoTracker => 'تعذّر العثور على متتبع الإقلاع هذا.';
 
   @override
   String get statsNoteNoUnitCost => 'حدّد سعر الوحدة لرؤية المدخرات.';
+
+  @override
+  String get statsNoteNoUses => 'لا استهلاك مسجّل — واصل';
 
   @override
   String get statsNoteNonCausal => 'ارتباط وليس سببًا';
@@ -13534,7 +13694,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsNotePopulationEstimate => 'تقدير سكاني';
 
   @override
+  String get statsNoteSlipSupport => 'الزلة جزء من كثير من رحلات الإقلاع — كل يوم نظيف يُحتسب';
+
+  @override
   String get statsNoteTagsOverlap => 'بعض المهام لها عدة أوسمة: المجاميع متداخلة';
+
+  @override
+  String get statsNoteTypicalVaries => 'مسار نموذجي — تختلف التجربة من شخص لآخر';
 
   @override
   String get statsNoteUnloggedNotFailed =>
@@ -13970,6 +14136,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsSourceJackson2025 => 'Jackson وآخرون، Addiction 2025';
+
+  @override
+  String get statsSourceLally2010 => 'Lally وآخرون 2010 (European Journal of Social Psychology)';
 
   @override
   String get statsSourceNci => 'المعهد الوطني للسرطان';

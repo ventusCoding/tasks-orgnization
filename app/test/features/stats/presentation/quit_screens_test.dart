@@ -74,6 +74,8 @@ void main() {
     addTearDown(h.dispose);
     await pumpStats(tester, h, const ScopeStatsScreen(scope: 'quit', scopeId: 'cutdown', query: {'period': 'allTime'}));
     await settle(tester);
+    await tester.scrollUntilVisible(find.text(en.statsMetricQt12Title), 500, scrollable: find.byType(Scrollable).first);
+    await settle(tester);
     expect(find.text(en.statsMetricQt12Title), findsWidgets);
     await finish(tester);
   });
