@@ -1,9 +1,11 @@
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
+import 'package:everslot/features/planner/presentation/views/agenda_view.dart';
 import 'package:everslot/features/planner/presentation/views/day_list_view.dart';
 import 'package:everslot/features/planner/presentation/views/month_view.dart';
 import 'package:everslot/features/planner/presentation/views/time_grid_view.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
 import 'package:everslot/features/planner/presentation/views/week_list_view.dart';
+import 'package:everslot/features/planner/presentation/views/year_view.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Every planner view (T3.6.01). Adding a view = one entry here; P2 views ship dark (tier m3).
@@ -65,5 +67,19 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     label: (l) => l.pvViewMonth,
     builder: (a) => MonthView(args: a),
     supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'agenda',
+    type: PlannerViewType.agenda,
+    icon: Icons.view_list_outlined,
+    label: (l) => l.pvViewAgenda,
+    builder: (a) => AgendaView(args: a),
+  ),
+  PlannerViewEntry(
+    id: 'year',
+    type: PlannerViewType.year,
+    icon: Icons.grid_view_outlined,
+    label: (l) => l.pvViewYear,
+    builder: (a) => YearView(args: a),
   ),
 ];

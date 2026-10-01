@@ -27,8 +27,8 @@ multi-week; quarter; ribbon (day & week); timeline/Gantt; category swimlanes; lo
 - [x] T3.6.06 — Week list view (stacked days)
 - [x] T3.6.07 — Month view
 - [x] T3.6.08 — Month semantic zoom & list-below mode
-- [ ] T3.6.09 — Agenda / schedule view
-- [ ] T3.6.10 — Year heatmap view
+- [x] T3.6.09 — Agenda / schedule view
+- [x] T3.6.10 — Year heatmap view
 - [ ] T3.6.11 — Multi-week view
 - [ ] T3.6.12 — Quarter view
 - [ ] T3.6.13 — Ribbon view (day & week)
@@ -124,6 +124,7 @@ Data loads in 2-week resolver ranges.
 **Acceptance criteria:** scrolling from today to 6 months ahead stays smooth with 5 000 occurrences;
 edits update rows in place.
 **Tests:** widget tests; perf scenario.
+**Notes:** `AgendaView`: the anchor day starts a forward region (sticky day headers, `PinnedHeaderSliver`) and earlier 2-week ranges grow upward from it (`CustomScrollView.center`; past headers scroll with their rows — no sticky there); both ends append ranges without moving the offset, empty stretches stop at a cap unless you scroll/overscroll into them. The title, DayTicker week and shared anchor follow the day at the top (header positions read on scroll). Options `showEmptyDays` / `showNotes` / `ticker`. Perf scenario: 5 000 occurrences over six months.
 
 ### T3.6.10 — Year heatmap view
 **Priority:** P1 · **Size:** M · **Depends on:** T3.6.01, [3.2], [6.2] (calendar heatmap)
@@ -131,6 +132,7 @@ edits update rows in place.
 items. Tap a day → Day list; long-press → create; navigate between years.
 **Data model:** view config `options.heatMetric`.
 **Tests:** unit tests for metric bins; goldens.
+**Notes:** `YearView`: 12 mini-months (3 / 4 / 6 per row by width) of heat cells (`heat_calendar.dart`, shared with quarter and the load heatmap); metric `options.heatMetric` = planned | completion | count, binned by `heatLevel` (pure `dayMetric` / `heatLevel` in `calendar_metrics.dart`, unit-tested); items count on their start date. Tap → Day list, long-press → quick create (all-day), month name → Month view (the ≥ 48 dp path: single cells are small by nature), swipe / arrows change year. Cell numbers are fixed-size (dense grid); every cell has a semantics label with its value. Goldens: calendar-views suite (T3.6.17).
 
 ### T3.6.11 — Multi-week view
 **Priority:** P2 · **Size:** M · **Depends on:** T3.6.07
