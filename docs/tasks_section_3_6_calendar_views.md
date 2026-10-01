@@ -33,7 +33,7 @@ multi-week; quarter; ribbon (day & week); timeline/Gantt; category swimlanes; lo
 - [x] T3.6.12 — Quarter view
 - [x] T3.6.13 — Ribbon view (day & week)
 - [x] T3.6.14 — Timeline / Gantt view
-- [ ] T3.6.15 — Category swimlanes
+- [x] T3.6.15 — Category swimlanes
 - [ ] T3.6.16 — Load heatmap view
 - [ ] T3.6.17 — Calendar views test suite
 
@@ -174,6 +174,7 @@ Best for long multi-day tasks and series overviews (TickTick, Notion, ClickUp).
 calendars in day view; in timeline mode, rows per category instead. The user picks the lanes and their order.
 **Data model:** view config `options.lanes` (category ids).
 **Tests:** goldens.
+**Notes:** `SwimlanesView` = `TimeGridView` with a swimlane `TileLayoutStrategy` (`engine/swimlanes.dart`: lanes × 12 units so 1–4 overlap columns stay whole; overlaps share their lane, the lane cap spills to "+N"), dashed lane dividers (overlay painter) and a legend aligned after the ruler (`timeRulerWidth`). Lanes = `options.lanes`, else every category in order (max 6), plus an "Other" lane. The menu picks / orders lanes and *Show as timeline rows* opens the timeline grouped by category (the timeline mode). `TimeGridView` gained `menuExtra` and `header` hooks. Goldens in the calendar-views suite (T3.6.17).
 
 ### T3.6.16 — Load heatmap view
 **Priority:** P2 · **Size:** M · **Depends on:** T3.6.01, [6.2] (punch card)

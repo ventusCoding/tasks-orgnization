@@ -7394,7 +7394,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvLaneCap => 'Colonnes côte à côte';
 
   @override
+  String get pvLaneOther => 'Autres';
+
+  @override
   String get pvLanes => 'Couloirs';
+
+  @override
+  String get pvLanesHint => 'Choisissez les catégories affichées côte à côte et leur ordre.';
 
   @override
   String pvLastRowShort(String duration) {
@@ -7840,6 +7846,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvShareAvailability => 'Partager mes disponibilités';
+
+  @override
+  String get pvShowAsTimeline => 'Afficher en lignes de chronologie';
 
   @override
   String get pvShowCancelled => 'Afficher les tâches annulées';

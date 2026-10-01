@@ -7781,7 +7781,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvLaneCap => 'المسارات المتجاورة';
 
   @override
+  String get pvLaneOther => 'أخرى';
+
+  @override
   String get pvLanes => 'المسارات';
+
+  @override
+  String get pvLanesHint => 'اختر الفئات المعروضة جنبًا إلى جنب وترتيبها.';
 
   @override
   String pvLastRowShort(String duration) {
@@ -8265,6 +8271,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvShareAvailability => 'مشاركة أوقات التوفر';
+
+  @override
+  String get pvShowAsTimeline => 'العرض كصفوف في الخط الزمني';
 
   @override
   String get pvShowCancelled => 'إظهار المهام الملغاة';

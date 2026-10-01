@@ -5,6 +5,7 @@ import 'package:everslot/features/planner/presentation/views/month_view.dart';
 import 'package:everslot/features/planner/presentation/views/multi_week_view.dart';
 import 'package:everslot/features/planner/presentation/views/quarter_view.dart';
 import 'package:everslot/features/planner/presentation/views/ribbon_view.dart';
+import 'package:everslot/features/planner/presentation/views/swimlanes_view.dart';
 import 'package:everslot/features/planner/presentation/views/time_grid_view.dart';
 import 'package:everslot/features/planner/presentation/views/timeline_view.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
@@ -120,6 +121,17 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     builder: (a) => TimelineView(args: a),
     tier: ViewTier.m3,
     timeBased: true,
+    supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'swimlanes',
+    type: PlannerViewType.swimlanes,
+    icon: Icons.view_week,
+    label: (l) => l.pvViewSwimlanes,
+    builder: (a) => SwimlanesView(args: a),
+    tier: ViewTier.m3,
+    timeBased: true,
+    supportsSlotSize: true,
     supportsDrag: true,
   ),
 ];

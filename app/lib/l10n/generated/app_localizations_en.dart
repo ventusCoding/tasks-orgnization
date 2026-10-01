@@ -7194,7 +7194,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvLaneCap => 'Side-by-side lanes';
 
   @override
+  String get pvLaneOther => 'Other';
+
+  @override
   String get pvLanes => 'Lanes';
+
+  @override
+  String get pvLanesHint => 'Pick the categories shown side by side and their order.';
 
   @override
   String pvLastRowShort(String duration) {
@@ -7630,6 +7636,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvShareAvailability => 'Share availability';
+
+  @override
+  String get pvShowAsTimeline => 'Show as timeline rows';
 
   @override
   String get pvShowCancelled => 'Show cancelled';

@@ -38,6 +38,8 @@ class TimeGridView extends ConsumerStatefulWidget {
     this.configTransform,
     this.tileLayout = overlapStrategy,
     this.overlays = const [],
+    this.menuExtra = const [],
+    this.header,
     super.key,
   });
 
@@ -45,6 +47,12 @@ class TimeGridView extends ConsumerStatefulWidget {
   final PlannerViewConfig Function(PlannerViewConfig c, WorkSettings work)? configTransform;
   final TileLayoutStrategy tileLayout;
   final List<OverlayPainterBuilder> overlays;
+
+  /// View-specific entries of the overflow menu (value, label, action).
+  final List<(String, String, VoidCallback)> menuExtra;
+
+  /// Built above the grid with the visible days (e.g. the swimlane legend).
+  final Widget Function(List<LocalDate> visibleDays)? header;
 
   @override
   ConsumerState<TimeGridView> createState() => _TimeGridViewState();
@@ -127,7 +135,7 @@ class _TimeGridViewState extends ConsumerState<TimeGridView> {
                 onPressed: () => unawaited(showSlotSizeSheet(context, ref, viewKey: _key)),
               ),
               PlannerFilterButton(viewKey: _key),
-              PlannerMoreMenu(viewKey: _key),
+              PlannerMoreMenu(viewKey: _key, extra: widget.menuExtra),
             ],
           );
         },
@@ -136,6 +144,8 @@ class _TimeGridViewState extends ConsumerState<TimeGridView> {
         children: [
           ActiveFilterBar(viewKey: _key),
           if (!listMode) FirstUseHintCard(viewKey: _key, slotLabel: slotLabel(f, config.slotMinutes)),
+          if (!listMode && widget.header != null)
+            ListenableBuilder(listenable: _grid, builder: (context, _) => widget.header!(_grid.visibleDays)),
           Expanded(
             child: listMode
                 ? AccessibleRangeList(

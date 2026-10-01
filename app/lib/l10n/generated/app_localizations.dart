@@ -12489,11 +12489,23 @@ abstract class AppLocalizations {
   /// **'Side-by-side lanes'**
   String get pvLaneCap;
 
+  /// No description provided for @pvLaneOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get pvLaneOther;
+
   /// No description provided for @pvLanes.
   ///
   /// In en, this message translates to:
   /// **'Lanes'**
   String get pvLanes;
+
+  /// No description provided for @pvLanesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the categories shown side by side and their order.'**
+  String get pvLanesHint;
 
   /// No description provided for @pvLastRowShort.
   ///
@@ -13268,6 +13280,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share availability'**
   String get pvShareAvailability;
+
+  /// No description provided for @pvShowAsTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Show as timeline rows'**
+  String get pvShowAsTimeline;
 
   /// No description provided for @pvShowCancelled.
   ///

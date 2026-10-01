@@ -339,5 +339,8 @@
   "pvWorkDaysOnly": "أيام العمل فقط",
   "pvFollowWorkHours": "استخدام ساعات عملي",
   "pvSetAsPlanDefault": "فتح تبويب الخطة على هذا العرض",
-  "pvCurrentSize": "الحالي: {size}"
+  "pvCurrentSize": "الحالي: {size}",
+  "pvLaneOther": "أخرى",
+  "pvShowAsTimeline": "العرض كصفوف في الخط الزمني",
+  "pvLanesHint": "اختر الفئات المعروضة جنبًا إلى جنب وترتيبها."
 }

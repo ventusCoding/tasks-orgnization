@@ -80,6 +80,12 @@ int laneCapFor(double columnWidth, int configured) {
   return configured;
 }
 
+/// Width of the hour ruler at the start of time-based grids (views align headers with it).
+double timeRulerWidth(TextScaler ts, {required bool use24h}) {
+  final font = ts.scale(11);
+  return (use24h ? font * 3.3 : font * 4.6).clamp(40.0, 88.0) + 6;
+}
+
 /// The time-grid engine widget (T3.3.11–T3.3.21) behind the week table, N-day, work week, swimlanes
 /// and plan-vs-actual views: infinite horizontal paging (week / day / free, any week start, RTL
 /// mirrored) over one shared vertical scroll, a pinned ruler, day headers and the all-day lane,
@@ -903,10 +909,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     return first == null ? null : math.max(0, first - 60).toDouble();
   }
 
-  double _rulerWidth(TextScaler ts, bool use24h) {
-    final font = ts.scale(11);
-    return (use24h ? font * 3.3 : font * 4.6).clamp(40.0, 88.0) + 6;
-  }
+  double _rulerWidth(TextScaler ts, bool use24h) => timeRulerWidth(ts, use24h: use24h);
 
   double _headerHeight(TextScaler ts, PlannerViewConfig c) {
     var h = 6 + ts.scale(11) * 1.35 + 2 + 28;

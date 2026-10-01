@@ -667,5 +667,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "pvLaneOther": "Other",
+  "pvShowAsTimeline": "Show as timeline rows",
+  "pvLanesHint": "Pick the categories shown side by side and their order."
 }
