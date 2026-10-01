@@ -27,7 +27,7 @@ index, and entity deep-link builders.
 - [x] T2.3.07 — App time & calendar utilities
 - [x] T2.3.08 — Saved views (table + repository)
 - [x] T2.3.09 — Shared filter model & filter bar
-- [ ] T2.3.10 — Tags (table, entity tags, picker, management)
+- [x] T2.3.10 — Tags (table, entity tags, picker, management)
 - [ ] T2.3.11 — Global search index (SQLite FTS5)
 - [ ] T2.3.12 — Entity deep-link builders & cross-entity links
 
@@ -138,6 +138,7 @@ merge two tags, delete).
 **Acceptance criteria:** tagging the same entity on two offline devices converges to one link; merge
 rewrites links in one operation (undoable).
 **Tests:** convergence test; repository tests; widget tests.
+**Notes:** Tables, deterministic links, `TagsRepository` (create/rename/recolor/reorder/merge/delete, undoable), `pickTags` with inline create, `TagsScreen`, chips on tasks and checklists and the tests (`tags_repository_test`, `tags_widgets_test`, convergence in `organization_convergence_test`) already existed. Added the editable chips to checklist item details and the habit detail screen (read-only for archived habits); test `test/features/organization/entity_tag_surfaces_test.dart`.
 
 ### T2.3.11 — Global search index (SQLite FTS5)
 **Priority:** P1 · **Size:** M · **Depends on:** [1.4]

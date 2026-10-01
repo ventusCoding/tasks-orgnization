@@ -19,6 +19,7 @@ import 'package:everslot/features/habits/presentation/habit_ui.dart';
 import 'package:everslot/features/habits/presentation/pause_sheet.dart';
 import 'package:everslot/features/habits/presentation/record_banner.dart';
 import 'package:everslot/features/habits/presentation/today_view.dart';
+import 'package:everslot/features/organization/presentation/tag_widgets.dart';
 import 'package:everslot_metrics/everslot_metrics.dart' show PeriodStatus;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -180,6 +181,10 @@ class _Detail extends ConsumerWidget {
                   ),
                 ],
               ),
+            ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.sm),
+              child: EntityTagChips(entityType: 'habit', entityId: habit.id, editable: !habit.isArchived),
             ),
             Padding(
               padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.sm),

@@ -11,6 +11,7 @@ import 'package:everslot/features/checklists/presentation/markdown_lite.dart';
 import 'package:everslot/features/checklists/presentation/status_sheet.dart';
 import 'package:everslot/features/checklists/presentation/status_visuals.dart';
 import 'package:everslot/features/notifications/presentation/notification_settings_section.dart';
+import 'package:everslot/features/organization/presentation/tag_widgets.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -178,6 +179,11 @@ class _ItemDetailsState extends ConsumerState<_ItemDetails> {
               ),
             ],
           ),
+          SectionHeader(
+            l.tagsTitle,
+            padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.sm),
+          ),
+          EntityTagChips(entityType: 'checklist_item', entityId: item.id, editable: true),
           SectionHeader(
             l.itemAttachments,
             padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.sm),
