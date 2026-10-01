@@ -6,16 +6,26 @@
     "lint": "deno lint",
     "test": "deno test -A",
     "check": "deno check health/index.ts push-dispatch/index.ts sync-nudge/index.ts account-delete/index.ts storage-purge/index.ts",
-    "ci": "deno fmt --check && deno lint && deno test -A"
+    "ci": "deno fmt --check && deno lint && deno test -A",
+    "types": "cd .. && supabase gen types typescript --local --schema app,private > functions/_shared/database.types.ts"
   },
   "fmt": {
     "lineWidth": 110,
-    "exclude": [".env", ".env.*"]
+    "exclude": [
+      ".env",
+      ".env.*",
+      "_shared/database.types.ts"
+    ]
   },
   "lint": {
     "rules": {
-      "tags": ["recommended"]
-    }
+      "tags": [
+        "recommended"
+      ]
+    },
+    "exclude": [
+      "_shared/database.types.ts"
+    ]
   },
   "compilerOptions": {
     "strict": true

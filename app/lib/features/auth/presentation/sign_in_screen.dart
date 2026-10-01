@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/auth/application/account_service.dart';
 import 'package:everslot/features/auth/application/auth_providers.dart';
 import 'package:everslot/features/auth/application/sign_in_controller.dart';
 import 'package:everslot/features/auth/domain/auth_models.dart';
 import 'package:everslot/features/auth/domain/auth_redirect.dart';
+import 'package:everslot/features/auth/presentation/account_flows.dart';
 import 'package:everslot/features/auth/presentation/auth_messages.dart';
+import 'package:everslot/features/auth/presentation/sign_out_flow.dart';
 import 'package:everslot/features/auth/presentation/widgets/otp_field.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -56,8 +59,20 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     super.dispose();
   }
 
-  void _done() {
+  void _done() => unawaited(_finish());
+
+  Future<void> _finish() async {
     if (!mounted) return;
+    // Two-step verification (T1.5.17): the authenticator code completes the sign-in; declining
+    // signs out again through the usual flow (unsynced-changes guard).
+    while (ref.read(accountServiceProvider).mfaStepUpRequired) {
+      final verified = await runMfaStepUpFlow(context, ref);
+      if (!mounted) return;
+      if (verified) break;
+      await runSignOutFlow(context, ref);
+      // Signed out: stay here. Sign-out cancelled: ask for the code again.
+      if (!mounted || ref.read(sessionProvider) == null) return;
+    }
     GoRouter.maybeOf(context)?.go(AuthRedirect.safeFrom(widget.from) ?? AuthRedirect.home);
   }
 

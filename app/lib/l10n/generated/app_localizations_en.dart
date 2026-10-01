@@ -661,6 +661,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authErrorLastIdentity => 'You can\'t remove your only sign-in method.';
 
   @override
+  String get authErrorMfaRequired => 'Enter the code from your authenticator app to continue.';
+
+  @override
   String get authErrorNotConfigured => 'Cloud sync isn\'t configured on this build (see guide.md).';
 
   @override
@@ -722,7 +725,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authMfaBody => 'Ask for a code from an authenticator app when you sign in or delete your account.';
 
   @override
+  String get authMfaCopySecret => 'Copy key';
+
+  @override
   String get authMfaDisable => 'Turn off';
+
+  @override
+  String get authMfaDisableBody => 'Enter a code from your authenticator app to turn off two-step verification.';
+
+  @override
+  String get authMfaDisabled => 'Two-step verification is off.';
 
   @override
   String get authMfaEnabled => 'Two-step verification is on.';
@@ -734,10 +746,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authMfaEnrollBody => 'Add this key to your authenticator app, then enter the 6-digit code it shows.';
 
   @override
+  String get authMfaOpenApp => 'Open in authenticator app';
+
+  @override
   String get authMfaSecret => 'Setup key';
 
   @override
+  String get authMfaSecretCopied => 'Setup key copied.';
+
+  @override
   String get authMfaTitle => 'Two-step verification';
+
+  @override
+  String get authMfaVerifyBody => 'Open your authenticator app and enter the 6-digit code for Everslot.';
 
   @override
   String get authMfaVerifyTitle => 'Enter your authenticator code';

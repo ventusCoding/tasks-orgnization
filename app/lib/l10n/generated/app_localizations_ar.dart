@@ -689,6 +689,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authErrorLastIdentity => 'لا يمكنك إزالة طريقة تسجيل الدخول الوحيدة لديك.';
 
   @override
+  String get authErrorMfaRequired => 'أدخل الرمز من تطبيق المصادقة للمتابعة.';
+
+  @override
   String get authErrorNotConfigured => 'المزامنة السحابية غير مُعدّة في هذا الإصدار (راجع guide.md).';
 
   @override
@@ -748,7 +751,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authMfaBody => 'طلب رمز من تطبيق المصادقة عند تسجيل الدخول وقبل حذف الحساب.';
 
   @override
+  String get authMfaCopySecret => 'نسخ المفتاح';
+
+  @override
   String get authMfaDisable => 'إيقاف';
+
+  @override
+  String get authMfaDisableBody => 'أدخل رمزًا من تطبيق المصادقة لإيقاف التحقق بخطوتين.';
+
+  @override
+  String get authMfaDisabled => 'التحقق بخطوتين متوقف.';
 
   @override
   String get authMfaEnabled => 'التحقق بخطوتين مفعّل.';
@@ -760,10 +772,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authMfaEnrollBody => 'أضف هذا المفتاح إلى تطبيق المصادقة، ثم أدخل الرمز المكوّن من 6 أرقام الذي يظهر فيه.';
 
   @override
+  String get authMfaOpenApp => 'فتح في تطبيق المصادقة';
+
+  @override
   String get authMfaSecret => 'مفتاح الإعداد';
 
   @override
+  String get authMfaSecretCopied => 'تم نسخ مفتاح الإعداد.';
+
+  @override
   String get authMfaTitle => 'التحقق بخطوتين';
+
+  @override
+  String get authMfaVerifyBody => 'افتح تطبيق المصادقة وأدخل الرمز المكوّن من 6 أرقام الخاص بـ Everslot.';
 
   @override
   String get authMfaVerifyTitle => 'أدخل الرمز من تطبيق المصادقة';

@@ -179,6 +179,48 @@ class SupabaseAuthRepository implements AuthRepository {
   });
 
   @override
+  Future<List<MfaFactor>> mfaFactors() => _guard(() async {
+    final res = await _auth.mfa.listFactors();
+    return [
+      for (final f in res.all)
+        if (f.factorType == sb.FactorType.totp)
+          MfaFactor(id: f.id, verified: f.status == sb.FactorStatus.verified, friendlyName: f.friendlyName),
+    ];
+  });
+
+  @override
+  Future<TotpEnrollment> enrollTotp() => _guard(() async {
+    // An abandoned enrollment would block a new one (one pending TOTP factor at a time).
+    final existing = await _auth.mfa.listFactors();
+    for (final f in existing.all) {
+      if (f.factorType == sb.FactorType.totp && f.status != sb.FactorStatus.verified) {
+        await _auth.mfa.unenroll(f.id);
+      }
+    }
+    final res = await _auth.mfa.enroll(issuer: 'Everslot');
+    final totp = res.totp;
+    if (totp == null) throw const AuthFailure(AuthFailureCode.unknown, 'enroll returned no totp');
+    return TotpEnrollment(factorId: res.id, secret: totp.secret, uri: totp.uri);
+  });
+
+  @override
+  Future<void> verifyTotp(String factorId, String code) => _guard(() async {
+    await _auth.mfa.challengeAndVerify(factorId: factorId, code: normalizeOtp(code));
+  });
+
+  @override
+  Future<void> unenrollMfa(String factorId) => _guard(() async {
+    await _auth.mfa.unenroll(factorId);
+  });
+
+  @override
+  bool get mfaStepUpRequired {
+    final aal = _auth.mfa.getAuthenticatorAssuranceLevel();
+    return aal.nextLevel == sb.AuthenticatorAssuranceLevels.aal2 &&
+        aal.currentLevel != sb.AuthenticatorAssuranceLevels.aal2;
+  }
+
+  @override
   Future<void> deleteAccount() => _guard(() async {
     await _client.schema('app').rpc<dynamic>('request_account_deletion');
     final res = await _client.functions.invoke('account-delete');
@@ -248,8 +290,11 @@ class SupabaseAuthRepository implements AuthRepository {
     } on TimeoutException {
       throw const AuthFailure(AuthFailureCode.offline, 'timeout');
     } on sb.FunctionException catch (e) {
+      if (e.status == 403) throw AuthFailure(AuthFailureCode.mfaRequired, 'function ${e.status}');
       throw AuthFailure(AuthFailureCode.unknown, 'function ${e.status}');
     } on sb.PostgrestException catch (e) {
+      // app.request_account_deletion refuses aal1 sessions once MFA is on (T1.5.17).
+      if (e.message == 'aal2_required') throw AuthFailure(AuthFailureCode.mfaRequired, e.code);
       throw AuthFailure(AuthFailureCode.unknown, e.code);
     } on Exception catch (e) {
       final s = e.toString();
@@ -285,6 +330,8 @@ class SupabaseAuthRepository implements AuthRepository {
       'refresh_token_not_found' ||
       'refresh_token_already_used' => AuthFailureCode.sessionExpired,
       'single_identity_not_deletable' => AuthFailureCode.lastIdentity,
+      'mfa_verification_failed' || 'mfa_challenge_expired' => AuthFailureCode.invalidCode,
+      'insufficient_aal' => AuthFailureCode.mfaRequired,
       _ when status == '429' => AuthFailureCode.rateLimited,
       _ => AuthFailureCode.unknown,
     };

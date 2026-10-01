@@ -37,8 +37,8 @@ registration ([7.4]).
 - [x] T1.5.13 — Profile screen
 - [x] T1.5.14 — Session edge cases (offline expiry, revoked device)
 - [x] T1.5.15 — Localized auth email templates
-- [ ] T1.5.16 — Stale anonymous users cleanup
-- [ ] T1.5.17 — Optional multi-factor authentication (TOTP)
+- [x] T1.5.16 — Stale anonymous users cleanup
+- [x] T1.5.17 — Optional multi-factor authentication (TOTP)
 
 ## Tasks
 
@@ -189,9 +189,12 @@ chosen from signup metadata; production SMTP configured in [9.2] T9.2.05.
 **Description:** Scheduled job deleting anonymous users inactive for > 90 days (via `auth.users.last_sign_in_at`
 and devices' `last_seen_at`) — Supabase does not clean them up automatically.
 **Tests:** pgTAP/Deno test on the selection query.
+**Notes:** `private.stale_anonymous_users(p_days, p_limit)` selects anonymous users with no sign-in, no device seen and no uploaded file for 90 days; `private.delete_stale_anonymous_users` deletes them (cascades) from `private.daily_maintenance()` (cron `everslot-daily`). pgTAP: `supabase/tests/database/100_purge_ops.test.sql` (verified with `supabase test db`, 506 tests green).
+
 
 ### T1.5.17 — Optional multi-factor authentication (TOTP)
 **Priority:** P2 · **Size:** S · **Depends on:** T1.5.13
 **Description:** Enroll/verify TOTP factors (Supabase Auth MFA) for users who want extra protection; AAL2
 required for account deletion when enabled.
 **Tests:** integration test on local stack.
+**Notes:** Supabase TOTP MFA (`config.toml` enroll/verify on). Settings › Account › Two-step verification: set up (key shown grouped + copy + `otpauth://` link, first code confirms; a leftover pending factor is removed first) and turn off (a current code gives the aal2 session Supabase needs, then every factor is removed). Sign-in: with a verified factor the authenticator code is asked before leaving the sign-in screen; declining runs the normal sign-out flow. Deletion: after the e-mail code, an authenticator step when the session isn't aal2. Enforced server-side: `app.request_account_deletion()` raises `aal2_required` (migration `20261001090000`) and the `account-delete` Edge Function returns 403 `aal2_required` for an aal1 token of a user with a verified factor. Tests: `test/features/auth/mfa_test.dart`, `supabase_auth_repository_test.dart` (mock HTTP), pgTAP `140_mfa.test.sql`, Deno `shared_test.ts` / `deletion_test.ts`. The integration test against a configured project waits for real credentials (local stack verified via pgTAP).

@@ -81,6 +81,37 @@ class AuthIdentity {
   int get hashCode => Object.hash(provider, identityId, email);
 }
 
+/// An authenticator-app (TOTP) factor of the account (T1.5.17).
+class MfaFactor {
+  const MfaFactor({required this.id, required this.verified, this.friendlyName});
+
+  final String id;
+
+  /// False while an enrollment was started but its first code not confirmed yet.
+  final bool verified;
+  final String? friendlyName;
+
+  @override
+  bool operator ==(Object other) =>
+      other is MfaFactor && other.id == id && other.verified == verified && other.friendlyName == friendlyName;
+
+  @override
+  int get hashCode => Object.hash(id, verified, friendlyName);
+}
+
+/// A started TOTP enrollment: the key (and `otpauth://` URI) to add to an authenticator app.
+/// Never logged.
+class TotpEnrollment {
+  const TotpEnrollment({required this.factorId, required this.secret, required this.uri});
+
+  final String factorId;
+  final String secret;
+  final String uri;
+
+  @override
+  String toString() => 'TotpEnrollment($factorId)';
+}
+
 /// Why an auth operation failed — mapped to localized messages by the UI.
 enum AuthFailureCode {
   invalidEmail,
@@ -96,6 +127,9 @@ enum AuthFailureCode {
   guestDisabled,
   sessionExpired,
   lastIdentity,
+
+  /// The account has two-step verification: an authenticator code is needed first (aal2).
+  mfaRequired,
   unknown,
 }
 

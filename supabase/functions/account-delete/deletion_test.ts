@@ -89,6 +89,22 @@ Deno.test("account-delete handler: user JWT, cron secret, errors", async () => {
   const retry = await handler(post({ "x-cron-secret": "s" }, JSON.stringify({ user_id: USER })));
   assertEquals(await retry.json(), { deleted: true, already_deleted: true, objects_deleted: 0 });
 
+  const mfa = createHandler({
+    createClient: () => ({}) as AdminClient,
+    createPorts: () => ports,
+    isCron: () => false,
+    authenticate: (req) =>
+      Promise.resolve({
+        id: USER,
+        hasVerifiedFactor: true,
+        aal: req.headers.get("authorization") === "Bearer aal2" ? "aal2" : "aal1",
+      }),
+  });
+  const denied = await mfa(post({ authorization: "Bearer aal1" }));
+  assertEquals(denied.status, 403);
+  assertEquals((await denied.json()).error.code, "aal2_required");
+  assertEquals((await mfa(post({ authorization: "Bearer aal2" }))).status, 200);
+
   const noClient = createHandler({
     createClient: () => null,
     createPorts: () => ports,

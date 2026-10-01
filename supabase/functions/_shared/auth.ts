@@ -34,6 +34,23 @@ export function bearerToken(req: Request): string | null {
 export interface AuthUser {
   id: string;
   isAnonymous: boolean;
+  /** Authenticator assurance level of this token ("aal1" | "aal2"), null when absent. */
+  aal: string | null;
+  /** The user enrolled a verified MFA factor (T1.5.17): sensitive actions then need aal2. */
+  hasVerifiedFactor: boolean;
+}
+
+/** Reads one claim of an already verified JWT (no signature check here). Null when unreadable. */
+export function jwtClaim(token: string, name: string): unknown {
+  const part = token.split(".")[1];
+  if (!part) return null;
+  try {
+    const base64 = part.replace(/-/g, "+").replace(/_/g, "/").padEnd(Math.ceil(part.length / 4) * 4, "=");
+    const payload = JSON.parse(atob(base64)) as Record<string, unknown>;
+    return payload[name] ?? null;
+  } catch {
+    return null;
+  }
 }
 
 /** Verifies the user's access token with Supabase Auth (works with symmetric and asymmetric JWTs). */
@@ -42,5 +59,12 @@ export async function requireUser(req: Request, admin: Pick<AdminClient, "auth">
   if (!token) throw unauthorized("Missing bearer token");
   const { data, error } = await admin.auth.getUser(token);
   if (error || !data?.user) throw unauthorized("Invalid or expired token");
-  return { id: data.user.id, isAnonymous: Boolean(data.user.is_anonymous) };
+  const factors = (data.user as { factors?: { status?: string }[] }).factors ?? [];
+  const aal = jwtClaim(token, "aal");
+  return {
+    id: data.user.id,
+    isAnonymous: Boolean(data.user.is_anonymous),
+    aal: typeof aal === "string" ? aal : null,
+    hasVerifiedFactor: factors.some((f) => f.status === "verified"),
+  };
 }

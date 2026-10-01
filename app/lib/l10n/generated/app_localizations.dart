@@ -1215,6 +1215,12 @@ abstract class AppLocalizations {
   /// **'You can\'t remove your only sign-in method.'**
   String get authErrorLastIdentity;
 
+  /// No description provided for @authErrorMfaRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the code from your authenticator app to continue.'**
+  String get authErrorMfaRequired;
+
   /// No description provided for @authErrorNotConfigured.
   ///
   /// In en, this message translates to:
@@ -1329,11 +1335,29 @@ abstract class AppLocalizations {
   /// **'Ask for a code from an authenticator app when you sign in or delete your account.'**
   String get authMfaBody;
 
+  /// No description provided for @authMfaCopySecret.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy key'**
+  String get authMfaCopySecret;
+
   /// No description provided for @authMfaDisable.
   ///
   /// In en, this message translates to:
   /// **'Turn off'**
   String get authMfaDisable;
+
+  /// No description provided for @authMfaDisableBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a code from your authenticator app to turn off two-step verification.'**
+  String get authMfaDisableBody;
+
+  /// No description provided for @authMfaDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-step verification is off.'**
+  String get authMfaDisabled;
 
   /// No description provided for @authMfaEnabled.
   ///
@@ -1353,17 +1377,35 @@ abstract class AppLocalizations {
   /// **'Add this key to your authenticator app, then enter the 6-digit code it shows.'**
   String get authMfaEnrollBody;
 
+  /// No description provided for @authMfaOpenApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in authenticator app'**
+  String get authMfaOpenApp;
+
   /// No description provided for @authMfaSecret.
   ///
   /// In en, this message translates to:
   /// **'Setup key'**
   String get authMfaSecret;
 
+  /// No description provided for @authMfaSecretCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Setup key copied.'**
+  String get authMfaSecretCopied;
+
   /// No description provided for @authMfaTitle.
   ///
   /// In en, this message translates to:
   /// **'Two-step verification'**
   String get authMfaTitle;
+
+  /// No description provided for @authMfaVerifyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Open your authenticator app and enter the 6-digit code for Everslot.'**
+  String get authMfaVerifyBody;
 
   /// No description provided for @authMfaVerifyTitle.
   ///

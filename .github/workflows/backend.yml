@@ -37,13 +37,22 @@ jobs:
           version: 2.117.0
 
       - name: Start the local stack (only the services the tests need)
-        run: supabase start -x studio,postgres-meta,logflare,vector,imgproxy,supavisor,edge-runtime,mailpit
+        run: supabase start -x studio,logflare,vector,imgproxy,supavisor,edge-runtime,mailpit
 
       - name: Reset the database (all migrations + seed)
         run: supabase db reset
 
       - name: pgTAP
         run: supabase test db
+
+      - name: Generated database types are up to date (T1.2.17)
+        run: |
+          supabase gen types typescript --local --schema app,private > /tmp/database.types.ts
+          if ! diff -u supabase/functions/_shared/database.types.ts /tmp/database.types.ts; then
+            echo "::error::supabase/functions/_shared/database.types.ts is stale. Regenerate it with:"
+            echo "::error::supabase gen types typescript --local --schema app,private > supabase/functions/_shared/database.types.ts"
+            exit 1
+          fi
 
       - name: plpgsql lint (fails on errors)
         run: supabase db lint --local --schema app,private --level warning --fail-on error

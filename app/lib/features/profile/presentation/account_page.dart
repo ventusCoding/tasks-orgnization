@@ -51,6 +51,7 @@ class AccountPage extends ConsumerWidget {
           else ...[
             SectionHeader(l.authLinkedAccounts),
             const _SignInMethods(),
+            const _TwoStepTile(),
           ],
           SectionHeader(l.authProfileTitle),
           ListTile(
@@ -112,6 +113,37 @@ class AccountPage extends ConsumerWidget {
           ],
         ],
       ),
+    );
+  }
+}
+
+/// Two-step verification (T1.5.17): status and the set-up / turn-off action.
+class _TwoStepTile extends ConsumerWidget {
+  const _TwoStepTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final factors = ref.watch(mfaFactorsProvider);
+    final enabled = factors.value?.any((f) => f.verified) ?? false;
+    return ListTile(
+      key: const ValueKey('account-mfa'),
+      leading: Icon(enabled ? Icons.verified_user : Icons.shield_outlined),
+      title: Text(l.authMfaTitle),
+      subtitle: Text(enabled ? l.authMfaEnabled : l.authMfaBody),
+      trailing: factors.isLoading
+          ? const SizedBox.square(dimension: 20, child: CircularProgressIndicator(strokeWidth: 2))
+          : factors.hasError
+          ? IconButton(
+              tooltip: l.actionRetry,
+              icon: const Icon(Icons.refresh),
+              onPressed: () => ref.invalidate(mfaFactorsProvider),
+            )
+          : TextButton(
+              key: const ValueKey('account-mfa-action'),
+              onPressed: () => enabled ? runMfaDisableFlow(context, ref) : runMfaEnrollFlow(context, ref),
+              child: Text(enabled ? l.authMfaDisable : l.authMfaEnroll),
+            ),
     );
   }
 }

@@ -671,6 +671,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get authErrorLastIdentity => 'Vous ne pouvez pas retirer votre unique moyen de connexion.';
 
   @override
+  String get authErrorMfaRequired => 'Saisissez le code de votre application d\'authentification pour continuer.';
+
+  @override
   String get authErrorNotConfigured => 'La synchronisation n\'est pas configurée dans cette version (voir guide.md).';
 
   @override
@@ -735,7 +738,17 @@ class AppLocalizationsFr extends AppLocalizations {
       'Demander un code d\'une application d\'authentification à la connexion et avant de supprimer le compte.';
 
   @override
+  String get authMfaCopySecret => 'Copier la clé';
+
+  @override
   String get authMfaDisable => 'Désactiver';
+
+  @override
+  String get authMfaDisableBody =>
+      'Saisissez un code de votre application d\'authentification pour désactiver la validation en deux étapes.';
+
+  @override
+  String get authMfaDisabled => 'La validation en deux étapes est désactivée.';
 
   @override
   String get authMfaEnabled => 'La validation en deux étapes est activée.';
@@ -748,10 +761,20 @@ class AppLocalizationsFr extends AppLocalizations {
       'Ajoutez cette clé à votre application d\'authentification, puis saisissez le code à 6 chiffres affiché.';
 
   @override
+  String get authMfaOpenApp => 'Ouvrir dans l\'application d\'authentification';
+
+  @override
   String get authMfaSecret => 'Clé de configuration';
 
   @override
+  String get authMfaSecretCopied => 'Clé de configuration copiée.';
+
+  @override
   String get authMfaTitle => 'Validation en deux étapes';
+
+  @override
+  String get authMfaVerifyBody =>
+      'Ouvrez votre application d\'authentification et saisissez le code à 6 chiffres d\'Everslot.';
 
   @override
   String get authMfaVerifyTitle => 'Saisissez le code de votre application d\'authentification';

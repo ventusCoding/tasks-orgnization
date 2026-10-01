@@ -116,5 +116,12 @@
   "authMfaVerifyTitle": "أدخل الرمز من تطبيق المصادقة",
   "authZoneSearch": "البحث عن منطقة زمنية",
   "authZoneDetected": "تم اكتشافها على هذا الجهاز",
-  "authZoneNoMatch": "لا توجد منطقة زمنية تطابق بحثك"
+  "authZoneNoMatch": "لا توجد منطقة زمنية تطابق بحثك",
+  "authMfaVerifyBody": "افتح تطبيق المصادقة وأدخل الرمز المكوّن من 6 أرقام الخاص بـ Everslot.",
+  "authMfaDisableBody": "أدخل رمزًا من تطبيق المصادقة لإيقاف التحقق بخطوتين.",
+  "authMfaDisabled": "التحقق بخطوتين متوقف.",
+  "authMfaCopySecret": "نسخ المفتاح",
+  "authMfaSecretCopied": "تم نسخ مفتاح الإعداد.",
+  "authMfaOpenApp": "فتح في تطبيق المصادقة",
+  "authErrorMfaRequired": "أدخل الرمز من تطبيق المصادقة للمتابعة."
 }

@@ -37,7 +37,7 @@ dispatcher ([7.4]), production hardening ([9.2]).
 - [ ] T1.2.14 — APNs key & iOS push capabilities
 - [ ] T1.2.15 — Crashlytics integration
 - [x] T1.2.16 — Database advisors & security baseline in CI
-- [ ] T1.2.17 — Generated TypeScript types for Edge Functions
+- [x] T1.2.17 — Generated TypeScript types for Edge Functions
 
 ## Tasks
 
@@ -204,5 +204,5 @@ every `app` table (enforced by [9.1] T9.1.06).
 **Description:** `supabase gen types typescript --local > supabase/functions/_shared/database.types.ts`
 script; CI check that types are up to date after migrations.
 **Acceptance criteria:** a migration without regenerated types fails CI with the regeneration command in the message.
-**Notes:** Open: `_shared/types.ts` is hand-written for the notification pipeline; generating `database.types.ts` and the CI freshness check still need a local stack run.
+**Notes:** `supabase/functions/_shared/database.types.ts` generated from the local stack (`supabase gen types typescript --local --schema app,private`, also `deno task types`); excluded from `deno fmt`/`deno lint`. The backend workflow regenerates it after `supabase db reset` and fails with the regeneration command when it differs. The hand-written `_shared/types.ts` stays for the notification pipeline payloads.
 
