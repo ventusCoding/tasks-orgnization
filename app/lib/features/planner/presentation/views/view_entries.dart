@@ -10,6 +10,7 @@ import 'package:everslot/features/planner/presentation/views/multi_week_view.dar
 import 'package:everslot/features/planner/presentation/views/quarter_view.dart';
 import 'package:everslot/features/planner/presentation/views/ribbon_view.dart';
 import 'package:everslot/features/planner/presentation/views/swimlanes_view.dart';
+import 'package:everslot/features/planner/presentation/views/table_view.dart';
 import 'package:everslot/features/planner/presentation/views/time_grid_view.dart';
 import 'package:everslot/features/planner/presentation/views/timeline_view.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
@@ -168,6 +169,14 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     icon: Icons.inbox_outlined,
     label: (l) => l.pvViewBacklog,
     builder: (a) => BacklogView(args: a),
+    group: PlannerViewGroup.productivity,
+  ),
+  PlannerViewEntry(
+    id: 'table',
+    type: PlannerViewType.table,
+    icon: Icons.table_rows_outlined,
+    label: (l) => l.pvViewTable,
+    builder: (a) => PlannerTableView(args: a),
     group: PlannerViewGroup.productivity,
   ),
 ];

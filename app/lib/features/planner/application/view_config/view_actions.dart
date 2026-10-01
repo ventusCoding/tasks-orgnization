@@ -74,6 +74,10 @@ abstract interface class PlannerViewActions {
 
   /// Edits a backlog task's estimate, priority, deadline, category or title (T3.7.03).
   Future<void> editBacklog(PlannerItem item, BacklogEdit edit);
+
+  /// Inline field edit of a scheduled item (table / kanban, T3.7.05 / T3.7.08) through the
+  /// editor's scope logic: [scope] applies to recurring tasks (this occurrence / following / all).
+  Future<void> editFields(PlannerItem item, BacklogEdit edit, {EditScope scope = EditScope.allOccurrences});
 }
 
 class _ServicePlannerViewActions implements PlannerViewActions {
@@ -140,6 +144,19 @@ class _ServicePlannerViewActions implements PlannerViewActions {
     final task = await _service.task(item.taskId);
     if (task == null) return;
     await _service.updateTask(edit.applyTo(task), source: 'backlog');
+  }
+
+  @override
+  Future<void> editFields(PlannerItem item, BacklogEdit edit, {EditScope scope = EditScope.allOccurrences}) async {
+    final task = await _service.task(item.taskId);
+    if (task == null) return;
+    final recurring = item.isRecurring && !item.isBacklog;
+    await _service.updateTask(
+      edit.applyTo(task),
+      scope: recurring ? scope : EditScope.allOccurrences,
+      occurrenceKey: recurring ? item.occurrenceKey : null,
+      source: 'inline',
+    );
   }
 }
 

@@ -346,6 +346,12 @@ class DemoPlannerActions implements PlannerActions, PlannerViewActions {
   }
 
   @override
+  Future<void> editFields(PlannerItem item, BacklogEdit edit, {EditScope scope = EditScope.allOccurrences}) async {
+    final next = copyItem(item, title: edit.title, priority: edit.priority, categoryId: edit.categoryId);
+    _apply((s) => _replace(s, item, next));
+  }
+
+  @override
   Future<void> editBacklog(PlannerItem item, BacklogEdit edit) async {
     final next = copyItem(
       item,

@@ -13,6 +13,10 @@ class FakeViewActions implements PlannerViewActions {
   }
 
   @override
+  Future<void> editFields(PlannerItem item, BacklogEdit edit, {EditScope scope = EditScope.allOccurrences}) async =>
+      calls.add('fields ${item.title} title=${edit.title} prio=${edit.priority} cat=${edit.categoryId} ${scope.name}');
+
+  @override
   Future<void> editBacklog(PlannerItem item, BacklogEdit edit) async => calls.add(
     'edit ${item.title} est=${edit.estimateMinutes} prio=${edit.priority} '
     'deadline=${edit.deadline?.toIso()} cat=${edit.categoryId}',

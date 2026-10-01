@@ -27,7 +27,7 @@ countdown / count-up; map; tests.
 - [x] T3.7.02 — Backlog drawer & timeboxing
 - [x] T3.7.03 — Backlog list screen
 - [x] T3.7.04 — Free-slot finder & openings
-- [ ] T3.7.05 — Table (spreadsheet) view
+- [x] T3.7.05 — Table (spreadsheet) view
 - [ ] T3.7.06 — Plan-vs-actual view
 - [ ] T3.7.07 — Routine player
 - [ ] T3.7.08 — Kanban board
@@ -116,6 +116,7 @@ gaps are excluded; DST days produce correct intervals.
 **Acceptance criteria:** 2 000 rows scroll at 60 fps; inline edits go through the same repository and scope
 logic as the editor.
 **Tests:** widget tests; perf scenario.
+**Notes:** `PlannerTableView` on `two_dimensional_scrollables` `TableView` (header row and title column pinned, cells built lazily) with pure helpers in `engine/table_rows.dart` (columns, per-column comparators with ties by start, one-row-per-series mode, grouping lines). Options: `rows` occurrences | tasks, `rangeDays`, `columns` (chooser sheet; title always shown), `columnWidths` (drag the header's trailing handle; saved on release), `sortBy` / `sortAsc` (tap a header; again = reverse), `groupBy` none / day / category / status. Inline edits: date (`pickDate`), start (`pickTime`) and status go through `PlannerCommands` (reschedule with the scope dialog / setStatus); title (long-press the title cell — a tap opens the task), category and priority use `PlannerViewActions.editFields`, which updates the task with the editor's scope logic (`updateTask(scope, occurrenceKey)`, source `inline`). Recurrence column shows Recurring / One-off. Perf scenario: 2 000 rows (`perfWeek`) stay under 800 built text cells while scrolling; frame budgets are measured by the T9.1.08 drive suite.
 
 ### T3.7.06 — Plan-vs-actual view
 **Priority:** P1 · **Size:** M · **Depends on:** [3.2] (time tracking), [3.3]
