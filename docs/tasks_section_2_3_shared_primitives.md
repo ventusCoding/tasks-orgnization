@@ -29,7 +29,7 @@ index, and entity deep-link builders.
 - [x] T2.3.09 — Shared filter model & filter bar
 - [x] T2.3.10 — Tags (table, entity tags, picker, management)
 - [x] T2.3.11 — Global search index (SQLite FTS5)
-- [ ] T2.3.12 — Entity deep-link builders & cross-entity links
+- [x] T2.3.12 — Entity deep-link builders & cross-entity links
 
 ## Tasks
 
@@ -158,3 +158,4 @@ removed from the index.
 `LinkedEntityChip` widget rendering a link to another entity (e.g. task ↔ checklist) with live title/status.
 **Acceptance criteria:** builder output always round-trips through the parser (property test).
 **Tests:** property test builder ↔ parser; widget test for the chip.
+**Notes:** `AppLinks` builders and the builder ↔ parser property test came with T1.3.07; added `AppLinks.checklistItem` and `AppLinks.forEntity(type, id, parentId:, occurrenceKey:)` (activity events, search hits, links) to the property test. `shared/links/`: `LinkedEntityStore` (live title/status/parent of tasks, lists, items, habits, habit notes from Drift, "missing" once deleted), `linkedEntityProvider`, `LinkedEntityChip` (type icon, strikethrough when finished, status icon, one spoken label, disabled "Deleted" chip). The list header's linked tasks use it. Tests: `test/core/routing/deep_links_test.dart`, `test/shared/links/linked_entity_chip_test.dart`.

@@ -658,8 +658,6 @@
   "checklistNoTasksToLink": "No tasks to link yet",
   "checklistTaskLinked": "Linked to {task}",
   "@checklistTaskLinked": {"placeholders": {"task": {"type": "String"}}},
-  "checklistLinkedTaskSemantics": "Linked task {task}",
-  "@checklistLinkedTaskSemantics": {"placeholders": {"task": {"type": "String"}}},
   "checklistTaskScheduled": "Task created — set its time",
   "checklistCover": "Cover image…",
   "checklistCoverAuto": "Automatic (first image)",

@@ -17,6 +17,7 @@ abstract final class AppLinks {
   static String lists() => '/lists';
   static String checklist(String id, {String? itemId, bool preview = false}) =>
       _q('/lists/$id', {'item': itemId, 'mode': preview ? 'preview' : null});
+  static String checklistItem(String checklistId, String itemId) => checklist(checklistId, itemId: itemId);
   static String smartList(String kind) => '/lists/smart/$kind';
   static String habits() => '/habits';
   static String habit(String id) => '/habits/$id';
@@ -34,6 +35,22 @@ abstract final class AppLinks {
   static String signIn() => '/auth/sign-in';
   static String onboarding() => '/onboarding';
   static String debug() => '/dev';
+
+  /// Location of an entity by its `entity_type` (activity events, search hits, links, notification
+  /// targets). Items need their checklist and habit-log notes their habit as [parentId]; returns
+  /// null for types without a screen or a missing parent.
+  static String? forEntity(String entityType, String id, {String? parentId, String? occurrenceKey}) =>
+      switch (entityType) {
+        'task' => task(id, occurrenceKey: occurrenceKey),
+        'task_occurrence' when parentId != null => task(parentId, occurrenceKey: occurrenceKey),
+        'checklist' => checklist(id),
+        'checklist_item' when parentId != null => checklistItem(parentId, id),
+        'habit' => habit(id),
+        'habit_log' when parentId != null => habit(parentId),
+        'category' => categories(),
+        'tag' => tags(),
+        _ => null,
+      };
 
   /// External URI for a router path.
   static Uri external(String path) => Uri.parse('$scheme:/$path');

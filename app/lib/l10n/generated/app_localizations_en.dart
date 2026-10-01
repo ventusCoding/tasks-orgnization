@@ -2143,11 +2143,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checklistLinkedTask => 'Linked task';
 
   @override
-  String checklistLinkedTaskSemantics(String task) {
-    return 'Linked task $task';
-  }
-
-  @override
   String get checklistMdBold => 'Bold';
 
   @override
@@ -4753,6 +4748,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kanbanShowCancelled => 'Show cancelled';
+
+  @override
+  String get linkKindChecklist => 'List';
+
+  @override
+  String get linkKindChecklistItem => 'List item';
+
+  @override
+  String get linkKindHabit => 'Habit';
+
+  @override
+  String get linkKindHabitLog => 'Habit note';
+
+  @override
+  String get linkKindTask => 'Task';
+
+  @override
+  String get linkedEntityMissing => 'Deleted';
+
+  @override
+  String linkedEntitySemantics(String kind, String title, String status) {
+    return '$kind: $title, $status. Opens it';
+  }
+
+  @override
+  String get linkedEntityUntitled => 'Untitled';
 
   @override
   String get listsAllLists => 'All lists';

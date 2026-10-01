@@ -39,6 +39,7 @@ import 'package:everslot/features/checklists/presentation/status_sheet.dart';
 import 'package:everslot/features/checklists/presentation/status_visuals.dart';
 import 'package:everslot/features/organization/application/providers.dart';
 import 'package:everslot/features/organization/presentation/tag_widgets.dart';
+import 'package:everslot/shared/links/presentation/linked_entity_chip.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -1825,18 +1826,8 @@ class _HeaderExtras extends ConsumerWidget {
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 ?repeat,
-                // Planner tasks linked to this list (T4.5.12): tap opens the task.
-                for (final t in linked)
-                  Semantics(
-                    label: l.checklistLinkedTaskSemantics(t.title),
-                    button: true,
-                    excludeSemantics: true,
-                    child: ActionChip(
-                      avatar: const Icon(Icons.event_available, size: 18),
-                      label: Text(t.title, overflow: TextOverflow.ellipsis),
-                      onPressed: () => openRoute(context, AppLinks.task(t.id)),
-                    ),
-                  ),
+                // Planner tasks linked to this list (T4.5.12): live title/status, tap opens the task.
+                for (final t in linked) LinkedEntityChip(entityType: 'task', entityId: t.id),
                 EntityTagChips(entityType: 'checklist', entityId: checklist.id, editable: !preview),
               ],
             ),

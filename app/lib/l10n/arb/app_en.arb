@@ -892,13 +892,6 @@
       }
     }
   },
-  "@checklistLinkedTaskSemantics": {
-    "placeholders": {
-      "task": {
-        "type": "String"
-      }
-    }
-  },
   "@checklistProgress": {
     "placeholders": {
       "done": {
@@ -1895,6 +1888,19 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "@linkedEntitySemantics": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      },
+      "title": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
       }
     }
   },
@@ -4779,7 +4785,6 @@
   "checklistLinkTask": "Link to existing task…",
   "checklistLinkTaskTitle": "Link a task",
   "checklistLinkedTask": "Linked task",
-  "checklistLinkedTaskSemantics": "Linked task {task}",
   "checklistMdBold": "Bold",
   "checklistMdBullet": "Bulleted list",
   "checklistMdCode": "Code",
@@ -5522,6 +5527,14 @@
   "kanbanLeaves": "Leaves only",
   "kanbanScope": "Show",
   "kanbanShowCancelled": "Show cancelled",
+  "linkKindChecklist": "List",
+  "linkKindChecklistItem": "List item",
+  "linkKindHabit": "Habit",
+  "linkKindHabitLog": "Habit note",
+  "linkKindTask": "Task",
+  "linkedEntityMissing": "Deleted",
+  "linkedEntitySemantics": "{kind}: {title}, {status}. Opens it",
+  "linkedEntityUntitled": "Untitled",
   "listsAllLists": "All lists",
   "listsArchive": "Archive",
   "listsArchiveAction": "Archive",

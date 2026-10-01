@@ -2245,11 +2245,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistLinkedTask => 'مهمة مرتبطة';
 
   @override
-  String checklistLinkedTaskSemantics(String task) {
-    return 'مهمة مرتبطة $task';
-  }
-
-  @override
   String get checklistMdBold => 'غامق';
 
   @override
@@ -5107,6 +5102,32 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get kanbanShowCancelled => 'إظهار الملغاة';
+
+  @override
+  String get linkKindChecklist => 'قائمة';
+
+  @override
+  String get linkKindChecklistItem => 'عنصر قائمة';
+
+  @override
+  String get linkKindHabit => 'عادة';
+
+  @override
+  String get linkKindHabitLog => 'ملاحظة عادة';
+
+  @override
+  String get linkKindTask => 'مهمة';
+
+  @override
+  String get linkedEntityMissing => 'محذوف';
+
+  @override
+  String linkedEntitySemantics(String kind, String title, String status) {
+    return '$kind: $title، $status. يفتحه';
+  }
+
+  @override
+  String get linkedEntityUntitled => 'بلا عنوان';
 
   @override
   String get listsAllLists => 'كل القوائم';

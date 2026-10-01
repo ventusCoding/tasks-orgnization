@@ -232,5 +232,26 @@
     }
   },
   "undoNothing": "Nothing to undo",
-  "redoNothing": "Nothing to redo"
+  "redoNothing": "Nothing to redo",
+  "linkKindTask": "Task",
+  "linkKindChecklist": "List",
+  "linkKindChecklistItem": "List item",
+  "linkKindHabit": "Habit",
+  "linkKindHabitLog": "Habit note",
+  "linkedEntityMissing": "Deleted",
+  "linkedEntityUntitled": "Untitled",
+  "linkedEntitySemantics": "{kind}: {title}, {status}. Opens it",
+  "@linkedEntitySemantics": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      },
+      "title": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  }
 }

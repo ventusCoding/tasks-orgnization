@@ -2164,11 +2164,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get checklistLinkedTask => 'Tâche liée';
 
   @override
-  String checklistLinkedTaskSemantics(String task) {
-    return 'Tâche liée $task';
-  }
-
-  @override
   String get checklistMdBold => 'Gras';
 
   @override
@@ -4809,6 +4804,32 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get kanbanShowCancelled => 'Afficher les annulés';
+
+  @override
+  String get linkKindChecklist => 'Liste';
+
+  @override
+  String get linkKindChecklistItem => 'Élément de liste';
+
+  @override
+  String get linkKindHabit => 'Habitude';
+
+  @override
+  String get linkKindHabitLog => 'Note d’habitude';
+
+  @override
+  String get linkKindTask => 'Tâche';
+
+  @override
+  String get linkedEntityMissing => 'Supprimé';
+
+  @override
+  String linkedEntitySemantics(String kind, String title, String status) {
+    return '$kind : $title, $status. L’ouvre';
+  }
+
+  @override
+  String get linkedEntityUntitled => 'Sans titre';
 
   @override
   String get listsAllLists => 'Toutes les listes';

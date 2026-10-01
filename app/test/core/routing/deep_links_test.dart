@@ -144,6 +144,7 @@ void main() {
       ),
       AppLinks.lists,
       () => AppLinks.checklist(id(), itemId: maybe(id), preview: r.nextBool()),
+      () => AppLinks.checklistItem(id(), id()),
       () => AppLinks.smartList(['waiting', 'blocked', 'due'][r.nextInt(3)]),
       AppLinks.habits,
       () => AppLinks.habit(id()),
@@ -161,6 +162,14 @@ void main() {
       AppLinks.signIn,
       AppLinks.onboarding,
       AppLinks.debug,
+      () => AppLinks.forEntity(
+        ['task', 'task_occurrence', 'checklist', 'checklist_item', 'habit', 'habit_log', 'category', 'tag'][r.nextInt(
+          8,
+        )],
+        id(),
+        parentId: id(),
+        occurrenceKey: maybe(occurrenceKey),
+      )!,
     ];
 
     test('every builder output survives the external scheme and the parser', () {
@@ -173,6 +182,15 @@ void main() {
         expect(DeepLinkParser.parse(Uri.parse(path)), path);
         expect(DeepLinkParser.parse(Uri.parse('https://everslot.app$path')), path);
       }
+    });
+
+    test('forEntity covers the linkable types and needs parents where the route does', () {
+      expect(AppLinks.forEntity('task', 't1', occurrenceKey: '2026-09-22T08:00'), '/task/t1?occ=2026-09-22T08%3A00');
+      expect(AppLinks.forEntity('task_occurrence', 'o1', parentId: 't1'), '/task/t1');
+      expect(AppLinks.forEntity('checklist_item', 'i1', parentId: 'c1'), '/lists/c1?item=i1');
+      expect(AppLinks.forEntity('checklist_item', 'i1'), isNull, reason: 'no checklist');
+      expect(AppLinks.forEntity('habit_log', 'l1', parentId: 'h1'), '/habits/h1');
+      expect(AppLinks.forEntity('device', 'd1'), isNull);
     });
 
     test('query values keep their exact text', () {

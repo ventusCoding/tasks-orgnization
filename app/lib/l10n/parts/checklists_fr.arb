@@ -346,7 +346,6 @@
   "checklistLinkTaskTitle": "Lier une tâche",
   "checklistNoTasksToLink": "Aucune tâche à lier pour l’instant",
   "checklistTaskLinked": "Liée à {task}",
-  "checklistLinkedTaskSemantics": "Tâche liée {task}",
   "checklistTaskScheduled": "Tâche créée — choisissez son horaire",
   "checklistCover": "Image de couverture…",
   "checklistCoverAuto": "Automatique (première image)",

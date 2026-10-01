@@ -98,5 +98,13 @@
   "undoDoneSnack": "تم التراجع: {action}",
   "redoDoneSnack": "تمت الإعادة: {action}",
   "undoNothing": "لا شيء للتراجع عنه",
-  "redoNothing": "لا شيء لإعادته"
+  "redoNothing": "لا شيء لإعادته",
+  "linkKindTask": "مهمة",
+  "linkKindChecklist": "قائمة",
+  "linkKindChecklistItem": "عنصر قائمة",
+  "linkKindHabit": "عادة",
+  "linkKindHabitLog": "ملاحظة عادة",
+  "linkedEntityMissing": "محذوف",
+  "linkedEntityUntitled": "بلا عنوان",
+  "linkedEntitySemantics": "{kind}: {title}، {status}. يفتحه"
 }

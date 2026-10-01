@@ -3729,12 +3729,6 @@ abstract class AppLocalizations {
   /// **'Linked task'**
   String get checklistLinkedTask;
 
-  /// No description provided for @checklistLinkedTaskSemantics.
-  ///
-  /// In en, this message translates to:
-  /// **'Linked task {task}'**
-  String checklistLinkedTaskSemantics(String task);
-
   /// No description provided for @checklistMdBold.
   ///
   /// In en, this message translates to:
@@ -8186,6 +8180,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show cancelled'**
   String get kanbanShowCancelled;
+
+  /// No description provided for @linkKindChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get linkKindChecklist;
+
+  /// No description provided for @linkKindChecklistItem.
+  ///
+  /// In en, this message translates to:
+  /// **'List item'**
+  String get linkKindChecklistItem;
+
+  /// No description provided for @linkKindHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit'**
+  String get linkKindHabit;
+
+  /// No description provided for @linkKindHabitLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit note'**
+  String get linkKindHabitLog;
+
+  /// No description provided for @linkKindTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get linkKindTask;
+
+  /// No description provided for @linkedEntityMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get linkedEntityMissing;
+
+  /// No description provided for @linkedEntitySemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind}: {title}, {status}. Opens it'**
+  String linkedEntitySemantics(String kind, String title, String status);
+
+  /// No description provided for @linkedEntityUntitled.
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled'**
+  String get linkedEntityUntitled;
 
   /// No description provided for @listsAllLists.
   ///
