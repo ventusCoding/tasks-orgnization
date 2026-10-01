@@ -26,7 +26,7 @@ countdown / count-up; map; tests.
 - [x] T3.7.01 — Now / Next focus view
 - [ ] T3.7.02 — Backlog drawer & timeboxing
 - [ ] T3.7.03 — Backlog list screen
-- [ ] T3.7.04 — Free-slot finder & openings
+- [x] T3.7.04 — Free-slot finder & openings
 - [ ] T3.7.05 — Table (spreadsheet) view
 - [ ] T3.7.06 — Plan-vs-actual view
 - [ ] T3.7.07 — Routine player
@@ -100,6 +100,7 @@ days.
 **Acceptance criteria:** the availability text follows locale and 12/24 h; zero-length and sub-minimum
 gaps are excluded; DST days produce correct intervals.
 **Tests:** pure interval-algebra unit tests (merge busy blocks, subtract, clip to work hours, DST days).
+**Notes:** Engine `engine/free_slots.dart` (merge / subtract / clip, min gap, DST via `elapsedMinutes`, `notBefore` so today's openings start at now, `availabilityText` with injected locale formats) feeds the grid shading overlay (`overlays.freeSlots`) and the new `FreeSlotsView` (Openings: next 1/3/7/14 days, minimum gap 15–90 min, *Ignore low-priority* = priority < 2 not busy). Each opening: *Fill this gap* (backlog items whose estimate fits → `scheduleBacklogItem` at the opening start) and *Create here* (quick create). *Share availability* sends "Wed 23 Sep: 09:30–11:00, 12:00–17:00" lines (locale day format, user 12/24 h) to the share sheet.
 
 ### T3.7.05 — Table (spreadsheet) view
 **Priority:** P1 · **Size:** M · **Depends on:** [3.2], [2.3] (filters)

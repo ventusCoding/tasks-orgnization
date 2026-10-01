@@ -2,6 +2,7 @@ import 'package:everslot/features/planner/application/view_config/view_config_pr
 import 'package:everslot/features/planner/presentation/views/agenda_view.dart';
 import 'package:everslot/features/planner/presentation/views/day_list_view.dart';
 import 'package:everslot/features/planner/presentation/views/focus_view.dart';
+import 'package:everslot/features/planner/presentation/views/free_slots_view.dart';
 import 'package:everslot/features/planner/presentation/views/load_heatmap_view.dart';
 import 'package:everslot/features/planner/presentation/views/month_view.dart';
 import 'package:everslot/features/planner/presentation/views/multi_week_view.dart';
@@ -150,6 +151,14 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     icon: Icons.center_focus_strong_outlined,
     label: (l) => l.pvViewFocus,
     builder: (a) => FocusView(args: a),
+    group: PlannerViewGroup.productivity,
+  ),
+  PlannerViewEntry(
+    id: 'free_slots',
+    type: PlannerViewType.freeSlots,
+    icon: Icons.event_available_outlined,
+    label: (l) => l.pvViewFreeSlots,
+    builder: (a) => FreeSlotsView(args: a),
     group: PlannerViewGroup.productivity,
   ),
 ];

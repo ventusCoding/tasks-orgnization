@@ -101,4 +101,28 @@ void main() {
       at(2026, 9, 21, 14),
     ]);
   });
+
+  test('openings never start before notBefore (today in progress)', () {
+    final free = freeIntervals(items: const [], days: [mon], options: work, notBefore: at(2026, 9, 21, 13, 20));
+    expect(free.single.start, at(2026, 9, 21, 13, 20));
+    expect(freeIntervals(items: const [], days: [mon], options: work, notBefore: at(2026, 9, 21, 18)), isEmpty);
+  });
+
+  test('availability text: one line per day, in order, with injected locale formats', () {
+    final openings = [
+      FreeInterval(day: mon.plusDays(1), start: at(2026, 9, 22, 9), end: at(2026, 9, 22, 10), minutes: 60),
+      FreeInterval(day: mon, start: at(2026, 9, 21, 10), end: at(2026, 9, 21, 11, 30), minutes: 90),
+      FreeInterval(day: mon, start: at(2026, 9, 21, 14), end: at(2026, 9, 21, 16), minutes: 120),
+    ];
+    String day(LocalDate d) => 'D${d.day}';
+    String h24(LocalDateTime t) =>
+        '${t.time.hour.toString().padLeft(2, '0')}:${t.time.minute.toString().padLeft(2, '0')}';
+    String h12(LocalDateTime t) => '${(t.time.hour + 11) % 12 + 1}${t.time.hour < 12 ? 'am' : 'pm'}';
+    expect(
+      availabilityText(openings, formatDay: day, formatTime: h24),
+      'D21: 10:00–11:30, 14:00–16:00\nD22: 09:00–10:00',
+    );
+    expect(availabilityText(openings.sublist(2), formatDay: day, formatTime: h12), 'D21: 2pm–4pm');
+    expect(availabilityText(const [], formatDay: day, formatTime: h24), '');
+  });
 }
