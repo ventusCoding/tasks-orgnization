@@ -122,6 +122,15 @@ final itemTasksProvider = StreamProvider.autoDispose<Map<String, Task>>(
   }),
 );
 
+/// Time entries overlapping a range of local days in the device zone (plan vs actual, T3.7.06).
+final rangeTimeEntriesProvider = StreamProvider.autoDispose.family<List<TimeEntry>, DayRange>((ref, range) {
+  final zones = ref.watch(zoneResolverProvider);
+  final zone = ref.watch(deviceZoneProvider);
+  final from = zones.resolve(range.start.atStartOfDay, zone).utc;
+  final to = zones.resolve(range.endExclusive.atStartOfDay, zone).utc;
+  return ref.watch(plannerQueriesProvider).watchEntriesBetween(from, to);
+});
+
 final linkedChecklistsProvider = StreamProvider.autoDispose<List<LinkedChecklistInfo>>(
   (ref) => ref.watch(plannerQueriesProvider).watchChecklists(),
 );

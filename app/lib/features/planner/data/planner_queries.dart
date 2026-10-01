@@ -316,6 +316,20 @@ class PlannerQueries {
     return q.watch().map((rows) => rows.map(PlannerMappers.timeEntry).toList());
   }
 
+  /// Time entries overlapping [fromUtc, toUtc) (plan vs actual, T3.7.06); running ones included.
+  Stream<List<TimeEntry>> watchEntriesBetween(DateTime fromUtc, DateTime toUtc) =>
+      (_db.select(_db.timeEntries)
+            ..where(
+              (e) =>
+                  e.deletedAt.isNull() &
+                  e.userId.equals(_userId()) &
+                  e.startedAt.isSmallerThanValue(toUtc) &
+                  (e.endedAt.isNull() | e.endedAt.isBiggerThanValue(fromUtc)),
+            )
+            ..orderBy([(e) => OrderingTerm.asc(e.startedAt)]))
+          .watch()
+          .map((rows) => rows.map(PlannerMappers.timeEntry).toList());
+
   /// Running timers (T3.2.19).
   Stream<List<TimeEntry>> watchRunningEntries() =>
       (_db.select(_db.timeEntries)

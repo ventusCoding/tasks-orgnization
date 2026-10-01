@@ -7,6 +7,7 @@ import 'package:everslot/features/planner/presentation/views/free_slots_view.dar
 import 'package:everslot/features/planner/presentation/views/load_heatmap_view.dart';
 import 'package:everslot/features/planner/presentation/views/month_view.dart';
 import 'package:everslot/features/planner/presentation/views/multi_week_view.dart';
+import 'package:everslot/features/planner/presentation/views/plan_actual_view.dart';
 import 'package:everslot/features/planner/presentation/views/quarter_view.dart';
 import 'package:everslot/features/planner/presentation/views/ribbon_view.dart';
 import 'package:everslot/features/planner/presentation/views/swimlanes_view.dart';
@@ -178,5 +179,14 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     label: (l) => l.pvViewTable,
     builder: (a) => PlannerTableView(args: a),
     group: PlannerViewGroup.productivity,
+  ),
+  PlannerViewEntry(
+    id: 'plan_vs_actual',
+    type: PlannerViewType.planVsActual,
+    icon: Icons.compare_arrows,
+    label: (l) => l.pvViewPlanVsActual,
+    builder: (a) => PlanVsActualView(args: a),
+    group: PlannerViewGroup.productivity,
+    timeBased: true,
   ),
 ];

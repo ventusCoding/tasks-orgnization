@@ -28,7 +28,7 @@ countdown / count-up; map; tests.
 - [x] T3.7.03 — Backlog list screen
 - [x] T3.7.04 — Free-slot finder & openings
 - [x] T3.7.05 — Table (spreadsheet) view
-- [ ] T3.7.06 — Plan-vs-actual view
+- [x] T3.7.06 — Plan-vs-actual view
 - [ ] T3.7.07 — Routine player
 - [ ] T3.7.08 — Kanban board
 - [ ] T3.7.09 — Eisenhower matrix
@@ -124,6 +124,7 @@ logic as the editor.
 side by side (Toggl-style). Variance is highlighted: started late, overran, not done, unplanned work.
 Tapping an actual block edits its entries.
 **Tests:** unit tests for variance classification; goldens.
+**Notes:** `PlanVsActualView` (`options.scope` day | week): each day column splits into Plan (occurrences) and Actual (time entries of the range, `rangeTimeEntriesProvider` → `watchEntriesBetween`, running entries end at now) on a 1 px/min timeline. Pure `engine/plan_actual.dart`: `blocksOf` (entries of an occurrence; key-less entries belong to one-off tasks), `unplannedBlocks`, `classifyVariance` (started late / overran by > 5 min, not done = end passed with nothing tracked and still open). Flagged plans get a warning (danger for not done) border and the variance text; unplanned blocks are tinted. Tapping a block opens its occurrence sheet (entries are edited there) or, for unplanned work, the task. Golden in the productivity suite (T3.7.14).
 
 ### T3.7.07 — Routine player
 **Priority:** P2 · **Size:** M · **Depends on:** T3.7.01, [4.3]
