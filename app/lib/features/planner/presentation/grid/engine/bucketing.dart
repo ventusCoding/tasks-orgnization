@@ -117,6 +117,5 @@ RowSizing sizeRows({
 
 /// Max chip count per row across several days' buckets.
 List<int> maxCounts(List<List<List<BucketEntry>>> days, int rowCount) => [
-  for (var r = 0; r < rowCount; r++)
-    days.fold(0, (m, d) => r < d.length ? math.max(m, d[r].length) : m),
+  for (var r = 0; r < rowCount; r++) days.fold(0, (m, d) => r < d.length ? math.max(m, d[r].length) : m),
 ];

@@ -69,7 +69,7 @@ class ProfileRepository {
     }
     if (weekStart != null) {
       if (!ProfileRules.isValidWeekStart(weekStart)) {
-        throw ValidationException('week start must be 1..7', field: 'weekStart');
+        throw const ValidationException('week start must be 1..7', field: 'weekStart');
       }
       changes['week_start'] = weekStart;
     }
@@ -84,12 +84,7 @@ class ProfileRepository {
         if (await tx.exists('profiles', id)) {
           await tx.update('profiles', id, changes);
         } else {
-          await tx.insert('profiles', id, {
-            'home_time_zone': 'UTC',
-            'week_start': 1,
-            'time_format': 'h24',
-            ...changes,
-          });
+          await tx.insert('profiles', id, {'home_time_zone': 'UTC', 'week_start': 1, 'time_format': 'h24', ...changes});
         }
       },
       cause: cause,

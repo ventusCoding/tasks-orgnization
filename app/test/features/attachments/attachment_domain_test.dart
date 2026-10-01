@@ -37,7 +37,18 @@ Uint8List jpegBytes(int w, int h, {int orientation = 1}) {
   final tiff = <int>[
     0x4D, 0x4D, 0x00, 0x2A, 0x00, 0x00, 0x00, 0x08, //
     0x00, 0x02,
-    0x01, 0x12, 0x00, 0x03, 0x00, 0x00, 0x00, 0x01, 0x00, orientation, 0x00, 0x00,
+    0x01,
+    0x12,
+    0x00,
+    0x03,
+    0x00,
+    0x00,
+    0x00,
+    0x01,
+    0x00,
+    orientation,
+    0x00,
+    0x00,
     0x88, 0x25, 0x00, 0x04, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x26,
     0x00, 0x00, 0x00, 0x00,
     ...'GPS-LAT-36.8'.codeUnits,
@@ -59,7 +70,7 @@ Uint8List jpegBytes(int w, int h, {int orientation = 1}) {
 
 void main() {
   group('AttachmentLimits', () {
-    const limits = AttachmentLimits();
+    const limits = AttachmentLimits.defaults;
 
     test('accepts allowed types under the size cap', () {
       expect(limits.validate(byteSize: 1000, mimeType: 'image/jpeg', existingCount: 0), isNull);
@@ -171,7 +182,7 @@ void main() {
       final vp8l = Uint8List(30)
         ..setAll(0, 'RIFF'.codeUnits)
         ..setAll(8, 'WEBPVP8L'.codeUnits);
-      final bits = (99) | (49 << 14) | (1 << 28);
+      const bits = 99 | (49 << 14) | (1 << 28);
       vp8l.setAll(21, [bits & 255, (bits >> 8) & 255, (bits >> 16) & 255, (bits >> 24) & 255]);
       final webp = ImageHeaderParser.parse(vp8l)!;
       expect((webp.width, webp.height, webp.hasAlpha), (100, 50, true));

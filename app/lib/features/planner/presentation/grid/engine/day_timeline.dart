@@ -104,13 +104,9 @@ class DayTimeline {
     var repeatUntilWall = -1; // wall minute where a repeated pass ends
     void close(int tEnd) {
       if (tEnd > segT) {
-        segments.add(TimelineSegment(
-          tStart: segT,
-          tEnd: tEnd,
-          wallStart: segWall,
-          offsetMinutes: segOff,
-          repeat: segRepeat,
-        ));
+        segments.add(
+          TimelineSegment(tStart: segT, tEnd: tEnd, wallStart: segWall, offsetMinutes: segOff, repeat: segRepeat),
+        );
       }
     }
 
@@ -156,8 +152,7 @@ class DayTimeline {
 
   int get lengthMinutes => segments.last.tEnd;
 
-  bool get isRegular =>
-      segments.length == 1 && segments.first.wallStart == 0 && segments.first.tEnd == 1440;
+  bool get isRegular => segments.length == 1 && segments.first.wallStart == 0 && segments.first.tEnd == 1440;
 
   /// Wall-clock ranges that don't exist on this day (clocks forward).
   List<(int, int)> get gaps {
@@ -282,7 +277,9 @@ class DayTimelineCache {
     if (hit != null) return hit;
     if (_cache.length >= maxEntries) _cache.remove(_cache.keys.first);
     final r = resolver;
-    final built = (r == null || zone == 'UTC') ? DayTimeline.regular(date, zone: zone) : DayTimeline.build(date, zone, r);
+    final built = (r == null || zone == 'UTC')
+        ? DayTimeline.regular(date, zone: zone)
+        : DayTimeline.build(date, zone, r);
     return _cache[key] = built;
   }
 }

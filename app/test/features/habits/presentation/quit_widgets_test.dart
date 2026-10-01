@@ -115,12 +115,20 @@ void main() {
         final sheet = find.byType(SingleChildScrollView).last;
         if (newAttempt) {
           final option = find.textContaining('Start a new quit attempt');
-          await tester.scrollUntilVisible(option, 200, scrollable: find.descendant(of: sheet, matching: find.byType(Scrollable)).first);
+          await tester.scrollUntilVisible(
+            option,
+            200,
+            scrollable: find.descendant(of: sheet, matching: find.byType(Scrollable)).first,
+          );
           await tester.tap(option);
           await tester.pump();
         }
         final save = find.widgetWithText(FilledButton, en.actionSave);
-        await tester.scrollUntilVisible(save, 200, scrollable: find.descendant(of: sheet, matching: find.byType(Scrollable)).first);
+        await tester.scrollUntilVisible(
+          save,
+          200,
+          scrollable: find.descendant(of: sheet, matching: find.byType(Scrollable)).first,
+        );
         await tester.tap(save);
         await settle(tester);
         final kinds = (await logsOf(tester, tracker.id)).map((l) => l.kind).toList();
@@ -157,11 +165,19 @@ void main() {
     expect(find.text(en.quitCravingTitle), findsOneWidget);
     final yes = find.text(en.quitYes);
     final sheet = find.byType(SingleChildScrollView).last;
-    await tester.scrollUntilVisible(yes, 200, scrollable: find.descendant(of: sheet, matching: find.byType(Scrollable)).first);
+    await tester.scrollUntilVisible(
+      yes,
+      200,
+      scrollable: find.descendant(of: sheet, matching: find.byType(Scrollable)).first,
+    );
     await tester.tap(yes);
     await tester.pump();
     final save = find.widgetWithText(FilledButton, en.actionSave);
-    await tester.scrollUntilVisible(save, 200, scrollable: find.descendant(of: sheet, matching: find.byType(Scrollable)).first);
+    await tester.scrollUntilVisible(
+      save,
+      200,
+      scrollable: find.descendant(of: sheet, matching: find.byType(Scrollable)).first,
+    );
     await tester.tap(save);
     await settle(tester);
     final edited = (await logsOf(tester, tracker.id)).single;

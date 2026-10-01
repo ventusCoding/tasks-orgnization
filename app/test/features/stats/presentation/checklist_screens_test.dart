@@ -48,7 +48,11 @@ void main() {
   testWidgets('checklist screen: KPIs and sections for one list', (tester) async {
     final h = await seeded(tester);
     addTearDown(h.dispose);
-    await pumpStats(tester, h, const ScopeStatsScreen(scope: 'checklist', scopeId: 'L1', query: {'period': 'custom:2026-09-01..2026-09-07'}));
+    await pumpStats(
+      tester,
+      h,
+      const ScopeStatsScreen(scope: 'checklist', scopeId: 'L1', query: {'period': 'custom:2026-09-01..2026-09-07'}),
+    );
     await settle(tester);
     expect(find.text('Sprint'), findsWidgets);
     expect(find.byType(MetricCard), findsWidgets);
@@ -59,7 +63,11 @@ void main() {
   testWidgets('lists screen: overview with the ranking tabs', (tester) async {
     final h = await seeded(tester);
     addTearDown(h.dispose);
-    await pumpStats(tester, h, const ScopeStatsScreen(scope: 'checklists', query: {'period': 'custom:2026-09-01..2026-09-07'}));
+    await pumpStats(
+      tester,
+      h,
+      const ScopeStatsScreen(scope: 'checklists', query: {'period': 'custom:2026-09-01..2026-09-07'}),
+    );
     await settle(tester);
     expect(find.text('Most active'), findsOneWidget);
     await tester.tap(find.text('Most active'));
@@ -71,7 +79,11 @@ void main() {
   test('flow charts carry drill references to their items', () async {
     final h = await StatsFixture.load('checklist_flow_small').seed();
     addTearDown(h.dispose);
-    final r = await h.compute(MetricScope.checklist, scopeId: 'L1', period: PeriodSelection.parsePeriod('custom:2026-09-01..2026-09-07')!);
+    final r = await h.compute(
+      MetricScope.checklist,
+      scopeId: 'L1',
+      period: PeriodSelection.parsePeriod('custom:2026-09-01..2026-09-07')!,
+    );
     for (final id in ['CL-L-01', 'CL-L-03', 'CL-L-04']) {
       expect(r[id]!.drill.values.expand((refs) => refs), isNotEmpty, reason: id);
     }

@@ -63,6 +63,11 @@ void main() {
   });
 
   test('heat bins', () {
-    expect([for (final l in [0.0, 0.1, 0.3, 0.7, 1.0, 2.0]) heatBin(l)], [0, 1, 2, 3, 4, 4]);
+    expect(
+      [
+        for (final l in [0.0, 0.1, 0.3, 0.7, 1.0, 2.0]) heatBin(l),
+      ],
+      [0, 1, 2, 3, 4, 4],
+    );
   });
 }

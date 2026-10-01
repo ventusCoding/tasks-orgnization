@@ -1,6 +1,9 @@
 import 'package:everslot/core/errors/app_exception.dart';
+import 'package:everslot/core/errors/error_mapper.dart';
 import 'package:everslot/design_system/l10n_x.dart';
 import 'package:everslot/design_system/tokens.dart';
+import 'package:everslot/l10n/generated/app_localizations.dart';
+import 'package:flutter/foundation.dart' show FlutterErrorDetails, kReleaseMode;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -14,10 +17,7 @@ class LoadingState extends StatelessWidget {
   Widget build(BuildContext context) => Center(
     child: Semantics(
       label: label ?? context.l10n.stateLoading,
-      child: const Padding(
-        padding: EdgeInsets.all(Space.xl),
-        child: CircularProgressIndicator(),
-      ),
+      child: const Padding(padding: EdgeInsets.all(Space.xl), child: CircularProgressIndicator()),
     ),
   );
 }
@@ -83,31 +83,73 @@ class ErrorState extends StatelessWidget {
     onAction: onRetry,
   );
 
-  /// Localized message for any error (maps [AppException]s).
+  /// Localized message for any error: [AppException]s directly, Supabase / Drift / platform
+  /// exceptions through `toAppException` (T1.3.05). Unknown errors get the generic "Please try
+  /// again." — never a raw exception text.
   static String messageFor(BuildContext context, Object? error) {
     final l = context.l10n;
-    return switch (error) {
-      NetworkException() => l.errorNetwork,
-      AuthException() => l.errorAuth,
-      ValidationException() => l.errorValidation,
-      PermissionException() => l.errorPermission,
-      NotFoundException() => l.errorNotFound,
-      UnsupportedVersionException() => l.errorUnsupportedVersion,
-      NotConfiguredException() => l.errorNotConfigured,
-      _ => l.stateErrorBody,
+    if (error == null) return l.stateErrorBody;
+    return switch (toAppException(error).kind) {
+      AppErrorKind.network => l.errorNetwork,
+      AppErrorKind.auth => l.errorAuth,
+      AppErrorKind.validation => l.errorValidation,
+      AppErrorKind.conflict => l.errorConflict,
+      AppErrorKind.storage => l.errorStorage,
+      AppErrorKind.permission => l.errorPermission,
+      AppErrorKind.notFound => l.errorNotFound,
+      AppErrorKind.unsupportedVersion => l.errorUnsupportedVersion,
+      AppErrorKind.notConfigured => l.errorNotConfigured,
+      AppErrorKind.unknown => l.stateErrorBody,
     };
+  }
+}
+
+/// Replaces the grey/red framework error box in release builds: a small, localized placeholder in
+/// the space of the widget that failed to build, while the rest of the screen keeps working
+/// (T1.3.05). Debug builds keep Flutter's detailed red screen.
+class FriendlyErrorWidget extends StatelessWidget {
+  const FriendlyErrorWidget({super.key, this.details});
+
+  final FlutterErrorDetails? details;
+
+  /// Installs [FriendlyErrorWidget] as `ErrorWidget.builder` (release builds only unless
+  /// [force] is set, which tests use).
+  static void install({bool force = false}) {
+    if (!force && !kReleaseMode) return;
+    ErrorWidget.builder = (details) => FriendlyErrorWidget(details: details);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // No Scaffold/theme is guaranteed above a failed widget: read localizations defensively.
+    final l = Localizations.of<AppLocalizations>(context, AppLocalizations);
+    return Semantics(
+      label: l?.errorWidgetFallback ?? "This part couldn't be shown.",
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsetsDirectional.all(Space.md),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.error_outline, size: 20),
+              const SizedBox(width: Space.sm),
+              Flexible(
+                child: Text(
+                  l?.errorWidgetFallback ?? "This part couldn't be shown.",
+                  textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
 /// Renders an [AsyncValue] with shared loading/error widgets.
 class AsyncValueView<T> extends StatelessWidget {
-  const AsyncValueView({
-    required this.value,
-    required this.data,
-    super.key,
-    this.loading,
-    this.onRetry,
-  });
+  const AsyncValueView({required this.value, required this.data, super.key, this.loading, this.onRetry});
 
   final AsyncValue<T> value;
   final Widget Function(T data) data;

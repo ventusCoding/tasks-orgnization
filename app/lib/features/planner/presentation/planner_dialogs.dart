@@ -19,7 +19,7 @@ void showPlannerUndoSnack(BuildContext context, WidgetRef ref, String message) {
       SnackBar(
         content: Text(message),
         duration: const Duration(seconds: 5),
-        action: SnackBarAction(label: context.l10n.actionUndo, onPressed: () => stack.undo()),
+        action: SnackBarAction(label: context.l10n.actionUndo, onPressed: stack.undo),
       ),
     );
 }
@@ -203,10 +203,8 @@ String skipReasonLabel(BuildContext context, String? reason) {
 }
 
 /// Quick reasons + free text. Returns the reason key or text ('' = no reason), null on cancel.
-Future<String?> showSkipReasonDialog(BuildContext context) => showDialog<String>(
-  context: context,
-  builder: (_) => const _SkipDialog(),
-);
+Future<String?> showSkipReasonDialog(BuildContext context) =>
+    showDialog<String>(context: context, builder: (_) => const _SkipDialog());
 
 class _SkipDialog extends StatefulWidget {
   const _SkipDialog();
@@ -344,7 +342,12 @@ class _ActualTimeDialogState extends State<_ActualTimeDialog> {
               key: const ValueKey('actual-as-planned'),
               leading: const Icon(Icons.event_available_outlined),
               title: Text(l.tasksActualAsPlanned),
-              subtitle: Text(format.timeRange(widget.item.startLocal, widget.item.startLocal.plusMinutes(widget.item.durationMinutes))),
+              subtitle: Text(
+                format.timeRange(
+                  widget.item.startLocal,
+                  widget.item.startLocal.plusMinutes(widget.item.durationMinutes),
+                ),
+              ),
               onTap: () => Navigator.pop(context, const ActualTimeChoice(ActualTimeOption.asPlanned)),
             ),
             ListTile(
@@ -515,7 +518,11 @@ class _DuplicateToDialogState extends State<_DuplicateToDialog> {
               Row(
                 children: [
                   for (final d in Weekday.ordered(widget.weekStart))
-                    Expanded(child: Center(child: Text(narrow.format(DateTime.utc(2024, 1, d.iso)), style: context.text.labelSmall))),
+                    Expanded(
+                      child: Center(
+                        child: Text(narrow.format(DateTime.utc(2024, 1, d.iso)), style: context.text.labelSmall),
+                      ),
+                    ),
                 ],
               ),
               for (var w = 0; w < weeks; w++)
@@ -540,8 +547,13 @@ class _DuplicateToDialogState extends State<_DuplicateToDialog> {
                                 child: Container(
                                   height: 44,
                                   alignment: Alignment.center,
-                                  decoration: on ? BoxDecoration(color: context.colors.primary, shape: BoxShape.circle) : null,
-                                  child: Text('${day.day}', style: TextStyle(color: on ? context.colors.onPrimary : null)),
+                                  decoration: on
+                                      ? BoxDecoration(color: context.colors.primary, shape: BoxShape.circle)
+                                      : null,
+                                  child: Text(
+                                    '${day.day}',
+                                    style: TextStyle(color: on ? context.colors.onPrimary : null),
+                                  ),
                                 ),
                               ),
                             );
@@ -607,7 +619,8 @@ class _ZonePicker extends StatefulWidget {
 class _ZonePickerState extends State<_ZonePicker> {
   String _query = '';
   late final List<String> _zones = () {
-    final all = tz.timeZoneDatabase.locations.keys.where((z) => z.contains('/') && !z.startsWith('Etc/')).toList()..sort();
+    final all = tz.timeZoneDatabase.locations.keys.where((z) => z.contains('/') && !z.startsWith('Etc/')).toList()
+      ..sort();
     return [
       widget.deviceZone,
       if (widget.selected != null && widget.selected != widget.deviceZone) widget.selected!,
@@ -670,12 +683,11 @@ class ChecklistChoice {
 }
 
 /// Picks one of the user's checklists (with progress), or *None*.
-Future<ChecklistChoice?> pickLinkedChecklist(BuildContext context, {String? selected}) =>
-    showAppSheet<ChecklistChoice>(
-      context,
-      title: context.l10n.tasksChecklistPick,
-      builder: (_) => _ChecklistPicker(selected: selected),
-    );
+Future<ChecklistChoice?> pickLinkedChecklist(BuildContext context, {String? selected}) => showAppSheet<ChecklistChoice>(
+  context,
+  title: context.l10n.tasksChecklistPick,
+  builder: (_) => _ChecklistPicker(selected: selected),
+);
 
 class _ChecklistPicker extends ConsumerWidget {
   const _ChecklistPicker({this.selected});

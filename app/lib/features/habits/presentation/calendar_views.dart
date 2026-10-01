@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'dart:math' as math;
 
 import 'package:everslot/core/providers.dart';
@@ -64,7 +66,9 @@ class _MonthOverviewState extends ConsumerState<MonthOverview> {
               icon: const Icon(Icons.chevron_left),
               onPressed: () => setState(() => _month = _month.plusMonths(-1)),
             ),
-            Expanded(child: Text(fmt.monthYear(_month), textAlign: TextAlign.center, style: context.text.titleMedium)),
+            Expanded(
+              child: Text(fmt.monthYear(_month), textAlign: TextAlign.center, style: context.text.titleMedium),
+            ),
             IconButton(
               tooltip: l.habitsNextMonth,
               icon: const Icon(Icons.chevron_right),
@@ -80,7 +84,9 @@ class _MonthOverviewState extends ConsumerState<MonthOverview> {
         Row(
           children: [
             for (final w in Weekday.ordered(prefs.weekStart))
-              Expanded(child: Text(fmt.weekdayShort(w), textAlign: TextAlign.center, style: context.text.labelSmall)),
+              Expanded(
+                child: Text(fmt.weekdayShort(w), textAlign: TextAlign.center, style: context.text.labelSmall),
+              ),
           ],
         ),
         for (var week = 0; week < weeks; week++)
@@ -172,7 +178,10 @@ class _YearHeatmapState extends ConsumerState<YearHeatmap> {
       final r = e.dayOn(d);
       cells[d] = _color(context, habit, r, accent);
       // Paused periods are neutral (not scheduled); pending ones are not decided yet.
-      if (r != null && r.status != PeriodStatus.notDue && r.status != PeriodStatus.pending && r.status != PeriodStatus.paused) {
+      if (r != null &&
+          r.status != PeriodStatus.notDue &&
+          r.status != PeriodStatus.pending &&
+          r.status != PeriodStatus.paused) {
         if (d.year == end.year) scheduled++;
         if (r.status == PeriodStatus.done && d.year == end.year) done++;
       }
@@ -190,7 +199,9 @@ class _YearHeatmapState extends ConsumerState<YearHeatmap> {
               icon: const Icon(Icons.chevron_left),
               onPressed: () => setState(() => _yearsBack++),
             ),
-            Expanded(child: Text('${end.year}', textAlign: TextAlign.center, style: context.text.titleSmall)),
+            Expanded(
+              child: Text('${end.year}', textAlign: TextAlign.center, style: context.text.titleSmall),
+            ),
             IconButton(
               tooltip: l.habitsNextYear,
               icon: const Icon(Icons.chevron_right),
@@ -210,7 +221,7 @@ class _YearHeatmapState extends ConsumerState<YearHeatmap> {
                 final visualCol = context.isRtl ? weeks - 1 - col : col;
                 final d = start.plusDays(visualCol * 7 + row);
                 if (d.isAfter(end) || d.isBefore(habit.startDate)) return;
-                showDayEditor(context, ref, habit.id, d);
+                unawaited(showDayEditor(context, ref, habit.id, d));
               },
               child: CustomPaint(
                 size: Size(weeks * (size + 2), 7 * (size + 2)),
@@ -234,7 +245,13 @@ class _YearHeatmapState extends ConsumerState<YearHeatmap> {
           spacing: Space.md,
           runSpacing: Space.xs,
           children: [
-            for (final s in [PeriodStatus.done, PeriodStatus.partial, PeriodStatus.failed, PeriodStatus.missed, PeriodStatus.skipped])
+            for (final s in [
+              PeriodStatus.done,
+              PeriodStatus.partial,
+              PeriodStatus.failed,
+              PeriodStatus.missed,
+              PeriodStatus.skipped,
+            ])
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -312,13 +329,21 @@ class HabitsYearView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
-    final habits = [for (final h in ref.watch(habitsProvider).value ?? const <Habit>[]) if (h is BuildHabit) h];
-    if (habits.isEmpty) return EmptyState(icon: Icons.calendar_view_month, title: l.habitsEmptyTitle, message: l.habitsEmptyBody);
+    final habits = [
+      for (final h in ref.watch(habitsProvider).value ?? const <Habit>[])
+        if (h is BuildHabit) h,
+    ];
+    if (habits.isEmpty) {
+      return EmptyState(icon: Icons.calendar_view_month, title: l.habitsEmptyTitle, message: l.habitsEmptyBody);
+    }
     return ListView(
       padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, 96),
       children: [
         for (final h in habits) ...[
-          SectionHeader(h.name, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
+          SectionHeader(
+            h.name,
+            padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs),
+          ),
           YearHeatmap(habitId: h.id, cellSize: 10),
         ],
       ],

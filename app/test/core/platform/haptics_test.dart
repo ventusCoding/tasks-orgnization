@@ -38,7 +38,10 @@ void main() {
 
   List<String> feedback() => [
     for (final c in calls)
-      if (c.method == 'HapticFeedback.vibrate') '${c.arguments}' else if (c.method == 'SystemSound.play') 'sound:${c.arguments}',
+      if (c.method == 'HapticFeedback.vibrate')
+        '${c.arguments}'
+      else if (c.method == 'SystemSound.play')
+        'sound:${c.arguments}',
   ];
 
   test('each moment maps to its platform pattern; sounds are off by default', () async {

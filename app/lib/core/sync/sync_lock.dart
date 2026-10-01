@@ -8,7 +8,7 @@ import 'package:everslot/core/time/clock.dart';
 /// the same SQLite file; acquiring is one atomic UPSERT, so two isolates can never push or pull
 /// at the same time. A lease expires after its TTL so a killed isolate never blocks sync forever.
 class SyncLock {
-  SyncLock(this._db, {required this.owner, required Clock clock}) : _clock = clock;
+  SyncLock(this._db, {required this.owner, required this._clock});
 
   static const key = 'sync_lock';
 
@@ -41,7 +41,7 @@ class SyncLock {
   /// Current live holder, or null when free/expired.
   Future<String?> holder() async {
     final row = await _db
-        .customSelect('SELECT value FROM local_kv WHERE key = ?', variables: [Variable<String>(key)])
+        .customSelect('SELECT value FROM local_kv WHERE key = ?', variables: [const Variable<String>(key)])
         .getSingleOrNull();
     final raw = row?.data['value'] as String?;
     if (raw == null) return null;

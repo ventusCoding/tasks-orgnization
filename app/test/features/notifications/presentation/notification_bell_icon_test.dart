@@ -44,13 +44,7 @@ void main() {
         h,
         Scaffold(
           appBar: AppBar(
-            actions: [
-              IconButton(
-                tooltip: 'Inbox',
-                onPressed: () {},
-                icon: const NotificationBellIcon(),
-              ),
-            ],
+            actions: [IconButton(tooltip: 'Inbox', onPressed: () {}, icon: const NotificationBellIcon())],
           ),
         ),
       );
@@ -63,8 +57,7 @@ void main() {
       await tester.pump();
     }
 
-    Badge badge(WidgetTester tester) =>
-        tester.widget<Badge>(find.byType(Badge));
+    Badge badge(WidgetTester tester) => tester.widget<Badge>(find.byType(Badge));
 
     testWidgets('no badge while loading or at zero unread', (tester) async {
       await pumpBell(tester);
@@ -96,17 +89,12 @@ void main() {
       expect(find.text('99+'), findsOneWidget);
     });
 
-    testWidgets('a paused bell with a label while "Pause all" is active', (
-      tester,
-    ) async {
+    testWidgets('a paused bell with a label while "Pause all" is active', (tester) async {
       final semantics = tester.ensureSemantics();
       await pumpBell(tester, paused: true);
       expect(find.byIcon(Icons.notifications_paused_outlined), findsOneWidget);
       expect(find.byIcon(Icons.notifications_none), findsNothing);
-      expect(
-        find.bySemanticsLabel(RegExp('Notifications paused')),
-        findsOneWidget,
-      );
+      expect(find.bySemanticsLabel(RegExp('Notifications paused')), findsOneWidget);
       semantics.dispose();
     });
 
@@ -144,12 +132,8 @@ void main() {
     setUp(() => h = TestHarness.create(now: now));
     tearDown(() => h.dispose());
 
-    InboxDelivery delivery(int i) => InboxDelivery(
-      dedupeKey: 'k$i',
-      category: InboxCategory.reminder,
-      title: 'R$i',
-      fireAt: now,
-    );
+    InboxDelivery delivery(int i) =>
+        InboxDelivery(dedupeKey: 'k$i', category: InboxCategory.reminder, title: 'R$i', fireAt: now);
 
     /// Polls [condition] with short real delays (bounded: 3 s).
     Future<void> until(bool Function() condition) async {
@@ -186,10 +170,7 @@ void main() {
     test('a snoozed row counts as unread again once its snooze ends', () async {
       final repo = h.read(inboxRepositoryProvider);
       await repo.upsertDelivered(delivery(1));
-      await repo.setSnoozedUntil(
-        Ids.inbox('k1'),
-        now.add(const Duration(milliseconds: 300)),
-      );
+      await repo.setSnoozedUntil(Ids.inbox('k1'), now.add(const Duration(milliseconds: 300)));
       final values = <int>[];
       final sub = h.container.listen(inboxUnreadCountProvider, (_, next) {
         final value = next.value;
@@ -210,26 +191,17 @@ void main() {
     });
 
     test('paused while "Pause all" runs, back to false when it ends', () async {
-      await h.read(settingsRepositoryProvider).update(
-        SettingsNs.notifications,
-        {
-          'pausedUntil': now
-              .add(const Duration(milliseconds: 300))
-              .toIso8601String(),
-        },
-      );
+      await h.read(settingsRepositoryProvider).update(SettingsNs.notifications, {
+        'pausedUntil': now.add(const Duration(milliseconds: 300)).toIso8601String(),
+      });
       final values = <bool>[];
-      final sub = h.container.listen(
-        notificationsPausedProvider,
-        (_, next) => values.add(next),
-        fireImmediately: true,
-      );
+      final sub = h.container.listen(notificationsPausedProvider, (_, next) => values.add(next), fireImmediately: true);
       try {
         await until(() => values.contains(true));
         expect(values.last, isTrue);
 
         h.clock.advance(const Duration(seconds: 1));
-        await until(() => values.last == false);
+        await until(() => !values.last);
         expect(values.last, isFalse);
       } finally {
         sub.close();
@@ -238,20 +210,11 @@ void main() {
     });
 
     test('an expired pause is not active', () async {
-      await h.read(settingsRepositoryProvider).update(
-        SettingsNs.notifications,
-        {
-          'pausedUntil': now
-              .subtract(const Duration(minutes: 1))
-              .toIso8601String(),
-        },
-      );
+      await h.read(settingsRepositoryProvider).update(SettingsNs.notifications, {
+        'pausedUntil': now.subtract(const Duration(minutes: 1)).toIso8601String(),
+      });
       final values = <bool>[];
-      final sub = h.container.listen(
-        notificationsPausedProvider,
-        (_, next) => values.add(next),
-        fireImmediately: true,
-      );
+      final sub = h.container.listen(notificationsPausedProvider, (_, next) => values.add(next), fireImmediately: true);
       try {
         await Future<void>.delayed(const Duration(milliseconds: 200));
         expect(values, everyElement(isFalse));

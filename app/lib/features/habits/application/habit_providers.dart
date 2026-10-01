@@ -330,10 +330,7 @@ class HabitSnapshotCache {
     if (habit is! BuildHabit) return computeSnapshot(service, habit, revisions, logs, pauses, now);
     final inputs = <Object?>[service, habit, revisions, logs, pauses];
     final memo = _snapshots[habit.id];
-    if (memo != null &&
-        _same(memo.inputs, inputs) &&
-        !now.isBefore(memo.computedAt) &&
-        now.isBefore(memo.validUntil)) {
+    if (memo != null && _same(memo.inputs, inputs) && !now.isBefore(memo.computedAt) && now.isBefore(memo.validUntil)) {
       return memo.snapshot.withNow(now);
     }
     final boundaries = service.boundariesOf(habit);
@@ -341,7 +338,9 @@ class HabitSnapshotCache {
     final lastDay = habit.endDate != null && habit.endDate!.isBefore(today) ? habit.endDate! : today;
     final periodInputs = <Object?>[service, habit, revisions, lastDay];
     var periods = _periods[habit.id];
-    if (periods == null || !_same(periods.inputs.sublist(0, 3), periodInputs.sublist(0, 3)) || periods.inputs[3] != lastDay) {
+    if (periods == null ||
+        !_same(periods.inputs.sublist(0, 3), periodInputs.sublist(0, 3)) ||
+        periods.inputs[3] != lastDay) {
       periodExpansions++;
       periods = _PeriodsMemo(periodInputs, service.periods(habit, revisions, habit.startDate, lastDay));
       _periods[habit.id] = periods;
@@ -377,7 +376,11 @@ class HabitSnapshotCache {
 
 /// Loads [habit]'s snapshot at [now] straight from the repositories — for code that cannot wait
 /// for the reactive providers (notification sources and actions, celebrations, challenge results).
-Future<HabitSnapshot> loadHabitSnapshot(T Function<T>(ProviderListenable<T> provider) read, Habit habit, DateTime now) async {
+Future<HabitSnapshot> loadHabitSnapshot(
+  T Function<T>(ProviderListenable<T> provider) read,
+  Habit habit,
+  DateTime now,
+) async {
   final revisions = await read(habitsRepositoryProvider).revisionsFor(habit.id);
   final logs = await read(habitLogsRepositoryProvider).forHabit(habit.id);
   final pauses = await read(habitPausesRepositoryProvider).watchAll().first;

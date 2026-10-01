@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
-import 'package:everslot/features/planner/presentation/grid/time_grid.dart';
 import 'package:everslot/features/planner/presentation/grid/data/item_copy.dart';
 import 'package:everslot/features/planner/presentation/grid/data/planner_view_data.dart';
+import 'package:everslot/features/planner/presentation/grid/time_grid.dart';
 import 'package:everslot/features/planner/presentation/planner_screen.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter/gestures.dart';
@@ -21,7 +21,12 @@ import 'support/switching_nav.dart';
 void main() {
   setUpAll(initializeDateFormatting);
 
-  Future<PlannerHarness> pumpView(WidgetTester tester, String view, {String? date = '2026-09-23', List<PlannerItem> items = const []}) async {
+  Future<PlannerHarness> pumpView(
+    WidgetTester tester,
+    String view, {
+    String? date = '2026-09-23',
+    List<PlannerItem> items = const [],
+  }) async {
     final h = PlannerHarness.create(items: items);
     addTearDown(h.dispose);
     await pumpPlanner(tester, h, PlannerScreen(view: view, date: date));
@@ -100,13 +105,19 @@ void main() {
       // Animated page turns only advance while frames are pumped: never await them directly.
       unawaited(controller.next());
       await tester.pumpAndSettle();
-      expect(controller.visibleDays.first, LocalDate(2026, 9, 26), reason: 'Next advances by the visible range (swipes step one day)');
+      expect(
+        controller.visibleDays.first,
+        LocalDate(2026, 9, 26),
+        reason: 'Next advances by the visible range (swipes step one day)',
+      );
     });
 
     testWidgets('N-day aligned to the week start when not rolling', (tester) async {
       final h = PlannerHarness.create();
       addTearDown(h.dispose);
-      h.read(plannerViewConfigProvider('n_day').notifier).change((c) => c.copyWith(firstDay: 'week_start', daysVisible: 4).withOption('rolling', false));
+      h
+          .read(plannerViewConfigProvider('n_day').notifier)
+          .change((c) => c.copyWith(firstDay: 'week_start', daysVisible: 4).withOption('rolling', false));
       await pumpPlanner(tester, h, const PlannerScreen(view: 'n_day', date: '2026-09-23'));
       await tester.pumpAndSettle();
       final controller = tester.widget<TimeGrid>(find.byType(TimeGrid)).controller!;
@@ -151,7 +162,10 @@ void main() {
       final a = item('Laundry', at(2026, 9, 21), 1440, allDay: true, id: 'a');
       final b = item('Groceries', at(2026, 9, 21), 1440, allDay: true, id: 'b');
       final h = PlannerHarness.create(
-        items: [copyItem(a, manualSortKey: 'a0'), copyItem(b, manualSortKey: 'a1')],
+        items: [
+          copyItem(a, manualSortKey: 'a0'),
+          copyItem(b, manualSortKey: 'a1'),
+        ],
         overrides: [viewExtraActionsProvider.overrideWithValue(extra)],
       );
       addTearDown(h.dispose);

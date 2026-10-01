@@ -104,16 +104,7 @@ class EffectiveDelivery {
       other.channelVersion == channelVersion;
 
   @override
-  int get hashCode => Object.hash(
-    system,
-    inbox,
-    banner,
-    importance,
-    sound,
-    vibration,
-    profileCode,
-    channelVersion,
-  );
+  int get hashCode => Object.hash(system, inbox, banner, importance, sound, vibration, profileCode, channelVersion);
 
   static bool _listEq(List<Object?> a, List<Object?> b) {
     if (a.length != b.length) return false;
@@ -180,8 +171,7 @@ EffectiveDelivery resolveDelivery({
   }
 
   final importance =
-      NotificationImportance.tryParse(pick((d) => d.importance, 'default')) ??
-      NotificationImportance.normal;
+      NotificationImportance.tryParse(pick((d) => d.importance, 'default')) ?? NotificationImportance.normal;
   final requestedLevel =
       InterruptionLevel.tryParse(pick((d) => d.interruptionLevel, '')) ??
       interruptionLevelFor(importance, timeSensitiveAllowed: true);
@@ -192,21 +182,13 @@ EffectiveDelivery resolveDelivery({
     banner: pick((d) => d.banner, true),
     importance: importance,
     interruptionLevel: requestedLevel,
-    relevance: (pick<num>(
-      (d) => d.relevance,
-      _relevanceFor(importance),
-    )).toDouble().clamp(0, 1),
+    relevance: pick<num>((d) => d.relevance, _relevanceFor(importance)).toDouble().clamp(0, 1),
     sound: pick((d) => d.sound, 'default'),
     vibration: pick((d) => d.vibration, 'default'),
     sticky: pick((d) => d.sticky, false),
     alarmStyle: pick((d) => d.alarmStyle, false),
     actions: actions(),
-    snoozeOptionsMinutes: pick((d) => d.snoozeOptionsMinutes, const [
-      5,
-      10,
-      30,
-      60,
-    ]),
+    snoozeOptionsMinutes: pick((d) => d.snoozeOptionsMinutes, const [5, 10, 30, 60]),
     latenessMinutes: pick<int?>((d) => d.latenessMinutes, null),
     repeat: repeat(),
     respectQuietHours: respectQuietHours(),
@@ -218,26 +200,17 @@ EffectiveDelivery resolveDelivery({
 /// Importance → iOS interruption level (T7.1.05 mapping table, reused by [7.2]/[7.4]):
 /// min/low → passive, default → active, high/urgent → timeSensitive when the capability is
 /// granted, else active.
-InterruptionLevel interruptionLevelFor(
-  NotificationImportance importance, {
-  required bool timeSensitiveAllowed,
-}) => switch (importance) {
-  NotificationImportance.min ||
-  NotificationImportance.low => InterruptionLevel.passive,
-  NotificationImportance.normal => InterruptionLevel.active,
-  NotificationImportance.high || NotificationImportance.urgent =>
-    timeSensitiveAllowed
-        ? InterruptionLevel.timeSensitive
-        : InterruptionLevel.active,
-};
+InterruptionLevel interruptionLevelFor(NotificationImportance importance, {required bool timeSensitiveAllowed}) =>
+    switch (importance) {
+      NotificationImportance.min || NotificationImportance.low => InterruptionLevel.passive,
+      NotificationImportance.normal => InterruptionLevel.active,
+      NotificationImportance.high || NotificationImportance.urgent =>
+        timeSensitiveAllowed ? InterruptionLevel.timeSensitive : InterruptionLevel.active,
+    };
 
 /// Downgrades a requested level when the device lacks the capability.
-InterruptionLevel effectiveInterruptionLevel(
-  InterruptionLevel requested, {
-  required bool timeSensitiveAllowed,
-}) => requested == InterruptionLevel.timeSensitive && !timeSensitiveAllowed
-    ? InterruptionLevel.active
-    : requested;
+InterruptionLevel effectiveInterruptionLevel(InterruptionLevel requested, {required bool timeSensitiveAllowed}) =>
+    requested == InterruptionLevel.timeSensitive && !timeSensitiveAllowed ? InterruptionLevel.active : requested;
 
 double _relevanceFor(NotificationImportance importance) => switch (importance) {
   NotificationImportance.min => 0.1,

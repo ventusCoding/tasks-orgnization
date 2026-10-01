@@ -25,7 +25,8 @@ String show(List<NodeSpec> nodes, {int depth = 0}) {
 void main() {
   group('import parser fixtures', () {
     test('Workflowy OPML (_note, _complete)', () {
-      const opml = '''<?xml version="1.0"?>
+      const opml = '''
+<?xml version="1.0"?>
 <opml version="2.0"><head><title>Trip &amp; plans</title></head><body>
   <outline text="Book flights" _complete="true"/>
   <outline text="Hotel" _note="near the station">
@@ -40,7 +41,8 @@ void main() {
     });
 
     test('Dynalist OPML with single quotes and nested self-closing outlines', () {
-      const opml = "<opml version='1.0'><body><outline text='A'><outline text='A1' complete='true'/></outline></body></opml>";
+      const opml =
+          "<opml version='1.0'><body><outline text='A'><outline text='A1' complete='true'/></outline></body></opml>";
       expect(show(ChecklistImport.parse(opml).nodes), 'A\n  A1:completed');
     });
 
@@ -86,7 +88,9 @@ void main() {
   });
 
   group('export', () {
-    final items = outline('Pack:ongoing\n  Passport:completed\n  Charger:waiting\nCall mum:blocked\nOld idea:cancelled');
+    final items = outline(
+      'Pack:ongoing\n  Passport:completed\n  Charger:waiting\nCall mum:blocked\nOld idea:cancelled',
+    );
     final t = ChecklistTree.build([
       for (final i in items)
         switch (i.id) {
@@ -98,7 +102,13 @@ void main() {
 
     test('Markdown golden', () {
       expect(
-        ChecklistExport.markdown(t, title: 'Trip', attachmentNames: {'Passport': ['scan.pdf']}),
+        ChecklistExport.markdown(
+          t,
+          title: 'Trip',
+          attachmentNames: {
+            'Passport': ['scan.pdf'],
+          },
+        ),
         '# Trip\n\n'
         '- [ ] ▶ Pack\n'
         '  small bag\n'
@@ -156,7 +166,11 @@ void main() {
       final back = ResetSchedule.fromJson(daily.toJson())!;
       expect(back.anchorStart, daily.anchorStart);
       expect(back.preset, ResetPreset.daily);
-      final weekly = ResetSchedule.preset(ResetPreset.weekly, anchorStart: LocalDateTime.of(2026, 9, 6, 5), zone: 'Europe/Paris');
+      final weekly = ResetSchedule.preset(
+        ResetPreset.weekly,
+        anchorStart: LocalDateTime.of(2026, 9, 6, 5),
+        zone: 'Europe/Paris',
+      );
       expect(ResetSchedule.fromJson(weekly.toJson())!.zone, 'Europe/Paris');
       expect(ResetSchedule.fromJson(weekly.toJson())!.preset, ResetPreset.weekly);
     });
@@ -173,9 +187,25 @@ void main() {
     });
 
     test('DST: the 05:00 reset follows local wall time in Paris', () {
-      final paris = ResetSchedule.preset(ResetPreset.daily, anchorStart: LocalDateTime.of(2026, 10, 20, 5), zone: 'Europe/Paris');
-      final before = ResetPlanner.due(engine, paris, lastResetKey: null, now: DateTime.utc(2026, 10, 24, 12), evalZone: 'UTC')!;
-      final after = ResetPlanner.due(engine, paris, lastResetKey: null, now: DateTime.utc(2026, 10, 26, 12), evalZone: 'UTC')!;
+      final paris = ResetSchedule.preset(
+        ResetPreset.daily,
+        anchorStart: LocalDateTime.of(2026, 10, 20, 5),
+        zone: 'Europe/Paris',
+      );
+      final before = ResetPlanner.due(
+        engine,
+        paris,
+        lastResetKey: null,
+        now: DateTime.utc(2026, 10, 24, 12),
+        evalZone: 'UTC',
+      )!;
+      final after = ResetPlanner.due(
+        engine,
+        paris,
+        lastResetKey: null,
+        now: DateTime.utc(2026, 10, 26, 12),
+        evalZone: 'UTC',
+      )!;
       expect(before.at, DateTime.utc(2026, 10, 24, 3)); // CEST (UTC+2)
       expect(after.at, DateTime.utc(2026, 10, 26, 4)); // CET (UTC+1)
     });

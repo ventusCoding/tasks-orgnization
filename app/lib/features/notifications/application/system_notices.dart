@@ -54,10 +54,8 @@ class SystemNotices {
     final known = caps.determined;
     return {
       if (known && !caps.notifications) notificationsOff,
-      if (known && caps.notifications && caps.blockedChannels.isNotEmpty)
-        channelBlocked,
-      if (known && caps.notifications && caps.isAndroid && !caps.exactAlarm)
-        exactAlarmsOff,
+      if (known && caps.notifications && caps.blockedChannels.isNotEmpty) channelBlocked,
+      if (known && caps.notifications && caps.isAndroid && !caps.exactAlarm) exactAlarmsOff,
       if (saturated) budgetSaturated,
       if (sync.errorCode == SyncErrorCodes.deviceRevoked) deviceRevoked,
       if (sync.errorCode == SyncErrorCodes.unsupportedClient) updateRequired,
@@ -67,8 +65,7 @@ class SystemNotices {
 
   static bool _syncFailing(SyncStatus s, DateTime now) {
     if (s.phase != SyncPhase.error) return false;
-    if (s.errorCode == SyncErrorCodes.deviceRevoked ||
-        s.errorCode == SyncErrorCodes.unsupportedClient) {
+    if (s.errorCode == SyncErrorCodes.deviceRevoked || s.errorCode == SyncErrorCodes.unsupportedClient) {
       return false; // their own notices
     }
     final since = s.lastSuccessAt;
@@ -117,46 +114,15 @@ class SystemNotices {
   }
 
   /// Title, body and fix link of a notice.
-  static (String, String, String) content(String code, AppLocalizations l) =>
-      switch (code) {
-        notificationsOff => (
-          l.notifPermissionOff,
-          l.notifPermissionOffBody,
-          NotificationLinks.settings,
-        ),
-        channelBlocked => (
-          l.notifChannelBlocked,
-          l.notifNoticeChannelBody,
-          NotificationLinks.settings,
-        ),
-        exactAlarmsOff => (
-          l.notifExactOff,
-          l.notifExactOffBody,
-          NotificationLinks.settings,
-        ),
-        budgetSaturated => (
-          l.notifNoticeSaturatedTitle,
-          l.notifNoticeSaturatedBody,
-          NotificationLinks.diagnostics,
-        ),
-        syncFailing => (
-          l.notifNoticeSyncTitle,
-          l.notifNoticeSyncBody,
-          AppLinks.settings(),
-        ),
-        deviceRevoked => (
-          l.notifNoticeRevokedTitle,
-          l.notifNoticeRevokedBody,
-          AppLinks.settings(),
-        ),
-        _ => (
-          l.notifNoticeUpdateTitle,
-          l.notifNoticeUpdateBody,
-          AppLinks.settings(),
-        ),
-      };
+  static (String, String, String) content(String code, AppLocalizations l) => switch (code) {
+    notificationsOff => (l.notifPermissionOff, l.notifPermissionOffBody, NotificationLinks.settings),
+    channelBlocked => (l.notifChannelBlocked, l.notifNoticeChannelBody, NotificationLinks.settings),
+    exactAlarmsOff => (l.notifExactOff, l.notifExactOffBody, NotificationLinks.settings),
+    budgetSaturated => (l.notifNoticeSaturatedTitle, l.notifNoticeSaturatedBody, NotificationLinks.diagnostics),
+    syncFailing => (l.notifNoticeSyncTitle, l.notifNoticeSyncBody, AppLinks.settings()),
+    deviceRevoked => (l.notifNoticeRevokedTitle, l.notifNoticeRevokedBody, AppLinks.settings()),
+    _ => (l.notifNoticeUpdateTitle, l.notifNoticeUpdateBody, AppLinks.settings()),
+  };
 }
 
-final systemNoticesProvider = Provider<SystemNotices>(
-  (ref) => SystemNotices(ref.read),
-);
+final systemNoticesProvider = Provider<SystemNotices>((ref) => SystemNotices(ref.read));

@@ -162,105 +162,105 @@ class TimeSeriesChart extends StatelessWidget {
           return Padding(
             padding: const EdgeInsetsDirectional.only(end: Space.sm),
             child: LineChart(
-            LineChartData(
-              minX: 0,
-              maxX: (n - 1).toDouble() == 0 ? 1 : (n - 1).toDouble(),
-              minY: scale.min,
-              maxY: scale.max,
-              lineBarsData: bars,
-              clipData: const FlClipData.all(),
-              gridData: FlGridData(
-                drawVerticalLine: false,
-                horizontalInterval: scale.step,
-                getDrawingHorizontalLine: (_) => FlLine(color: theme.grid, strokeWidth: 1),
-              ),
-              borderData: FlBorderData(show: false),
-              titlesData: FlTitlesData(
-                topTitles: const AxisTitles(),
-                leftTitles: rtl ? const AxisTitles() : valueTitles,
-                rightTitles: rtl ? valueTitles : const AxisTitles(),
-                bottomTitles: bottom,
-              ),
-              rangeAnnotations: RangeAnnotations(
-                horizontalRangeAnnotations: [
-                  if (data.targetBand case final band?)
-                    HorizontalRangeAnnotation(
-                      y1: band.$1,
-                      y2: band.$2,
-                      color: theme.tone(ChartTone.positive).withValues(alpha: 0.12),
-                    ),
-                ],
-              ),
-              extraLinesData: ExtraLinesData(
-                horizontalLines: [
-                  if (data.goal case final goal?)
-                    HorizontalLine(y: goal, color: theme.tone(ChartTone.warning), strokeWidth: 1.5, dashArray: _dash),
-                ],
-                verticalLines: [
-                  for (final a in data.annotations)
-                    if (a.index >= 0 && a.index < n)
-                      VerticalLine(
-                        x: xOf(a.index),
-                        color: theme.muted,
-                        strokeWidth: 1,
-                        dashArray: const [2, 3],
-                        label: VerticalLineLabel(
-                          show: true,
-                          alignment: AlignmentDirectional.topEnd.resolve(Directionality.of(context)),
-                          style: context.text.labelSmall?.copyWith(color: theme.label),
-                          labelResolver: (_) => f.label(a.label),
-                        ),
+              LineChartData(
+                minX: 0,
+                maxX: (n - 1).toDouble() == 0 ? 1 : (n - 1).toDouble(),
+                minY: scale.min,
+                maxY: scale.max,
+                lineBarsData: bars,
+                clipData: const FlClipData.all(),
+                gridData: FlGridData(
+                  drawVerticalLine: false,
+                  horizontalInterval: scale.step,
+                  getDrawingHorizontalLine: (_) => FlLine(color: theme.grid, strokeWidth: 1),
+                ),
+                borderData: FlBorderData(show: false),
+                titlesData: FlTitlesData(
+                  topTitles: const AxisTitles(),
+                  leftTitles: rtl ? const AxisTitles() : valueTitles,
+                  rightTitles: rtl ? valueTitles : const AxisTitles(),
+                  bottomTitles: bottom,
+                ),
+                rangeAnnotations: RangeAnnotations(
+                  horizontalRangeAnnotations: [
+                    if (data.targetBand case final band?)
+                      HorizontalRangeAnnotation(
+                        y1: band.$1,
+                        y2: band.$2,
+                        color: theme.tone(ChartTone.positive).withValues(alpha: 0.12),
                       ),
-                ],
-              ),
-              lineTouchData: LineTouchData(
-                handleBuiltInTouches: true,
-                touchTooltipData: LineTouchTooltipData(
-                  fitInsideHorizontally: true,
-                  fitInsideVertically: true,
-                  maxContentWidth: 180,
-                  getTooltipColor: (_) => context.colors.inverseSurface,
-                  getTooltipItems: (spots) => [
-                    for (final s in spots)
-                      () {
-                        final seriesIndex = barSeries[s.barIndex];
-                        final name = seriesIndex < 0
-                            ? f.label(const TokenLabel(LabelToken.trend))
-                            : f.label(data.series[seriesIndex].label);
-                        final i = rtl ? n - 1 - s.x.round() : s.x.round();
-                        final head = s == spots.first && i >= 0 && i < n
-                            ? '${f.label(DateLabel(data.buckets[i], data.granularity))}\n'
-                            : '';
-                        return LineTooltipItem(
-                          '$head${context.l10n.chartsTooltip(name, f.value(s.y, data.unit))}',
-                          context.text.labelSmall!.copyWith(color: context.colors.onInverseSurface),
-                        );
-                      }(),
                   ],
                 ),
-                touchCallback: onTap == null
-                    ? null
-                    : (event, response) {
-                        if (event is! FlTapUpEvent) return;
-                        final spot = response?.lineBarSpots?.firstOrNull;
-                        if (spot == null) return;
-                        final i = rtl ? n - 1 - spot.x.round() : spot.x.round();
-                        if (i < 0 || i >= n) return;
-                        final seriesIndex = barSeries[spot.barIndex];
-                        onTap!(
-                          ChartTap(
-                            drillKey: data.drillKeys?[i] ?? data.buckets[i].toIso(),
-                            label: DateLabel(data.buckets[i], data.granularity),
-                            seriesIndex: seriesIndex < 0 ? null : seriesIndex,
-                            value: spot.y,
+                extraLinesData: ExtraLinesData(
+                  horizontalLines: [
+                    if (data.goal case final goal?)
+                      HorizontalLine(y: goal, color: theme.tone(ChartTone.warning), strokeWidth: 1.5, dashArray: _dash),
+                  ],
+                  verticalLines: [
+                    for (final a in data.annotations)
+                      if (a.index >= 0 && a.index < n)
+                        VerticalLine(
+                          x: xOf(a.index),
+                          color: theme.muted,
+                          strokeWidth: 1,
+                          dashArray: const [2, 3],
+                          label: VerticalLineLabel(
+                            show: true,
+                            alignment: AlignmentDirectional.topEnd.resolve(Directionality.of(context)),
+                            style: context.text.labelSmall?.copyWith(color: theme.label),
+                            labelResolver: (_) => f.label(a.label),
                           ),
-                        );
-                      },
+                        ),
+                  ],
+                ),
+                lineTouchData: LineTouchData(
+                  handleBuiltInTouches: true,
+                  touchTooltipData: LineTouchTooltipData(
+                    fitInsideHorizontally: true,
+                    fitInsideVertically: true,
+                    maxContentWidth: 180,
+                    getTooltipColor: (_) => context.colors.inverseSurface,
+                    getTooltipItems: (spots) => [
+                      for (final s in spots)
+                        () {
+                          final seriesIndex = barSeries[s.barIndex];
+                          final name = seriesIndex < 0
+                              ? f.label(const TokenLabel(LabelToken.trend))
+                              : f.label(data.series[seriesIndex].label);
+                          final i = rtl ? n - 1 - s.x.round() : s.x.round();
+                          final head = s == spots.first && i >= 0 && i < n
+                              ? '${f.label(DateLabel(data.buckets[i], data.granularity))}\n'
+                              : '';
+                          return LineTooltipItem(
+                            '$head${context.l10n.chartsTooltip(name, f.value(s.y, data.unit))}',
+                            context.text.labelSmall!.copyWith(color: context.colors.onInverseSurface),
+                          );
+                        }(),
+                    ],
+                  ),
+                  touchCallback: onTap == null
+                      ? null
+                      : (event, response) {
+                          if (event is! FlTapUpEvent) return;
+                          final spot = response?.lineBarSpots?.firstOrNull;
+                          if (spot == null) return;
+                          final i = rtl ? n - 1 - spot.x.round() : spot.x.round();
+                          if (i < 0 || i >= n) return;
+                          final seriesIndex = barSeries[spot.barIndex];
+                          onTap!(
+                            ChartTap(
+                              drillKey: data.drillKeys?[i] ?? data.buckets[i].toIso(),
+                              label: DateLabel(data.buckets[i], data.granularity),
+                              seriesIndex: seriesIndex < 0 ? null : seriesIndex,
+                              value: spot.y,
+                            ),
+                          );
+                        },
+                ),
               ),
+              duration: chartAnimation(context),
+              curve: Motion.curve,
             ),
-            duration: chartAnimation(context),
-            curve: Motion.curve,
-          ),
           );
         },
       ),

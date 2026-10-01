@@ -51,6 +51,7 @@ class FakeAuthRepository implements AuthRepository {
   }
 
   AuthUser _signIn(AuthUser user) {
+    aal2 = false;
     currentUser = user;
     _changes.add(user);
     return user;
@@ -152,7 +153,10 @@ class FakeAuthRepository implements AuthRepository {
     calls.add('unlink:${identity.provider}');
     _maybeFail();
     if (identityList.length <= 1) throw const AuthFailure(AuthFailureCode.lastIdentity);
-    identityList = [for (final i in identityList) if (i.identityId != identity.identityId) i];
+    identityList = [
+      for (final i in identityList)
+        if (i.identityId != identity.identityId) i,
+    ];
   }
 
   @override
@@ -161,10 +165,60 @@ class FakeAuthRepository implements AuthRepository {
     _maybeFail();
   }
 
+  // ---- Two-step verification (T1.5.17): one valid TOTP code, factors in memory.
+  String totpCode = '654321';
+  final List<MfaFactor> factors = [];
+  bool aal2 = false;
+  var _factorIds = 0;
+
+  @override
+  Future<List<MfaFactor>> mfaFactors() async {
+    _maybeFail();
+    return List.of(factors);
+  }
+
+  @override
+  Future<TotpEnrollment> enrollTotp() async {
+    calls.add('enrollTotp');
+    _maybeFail();
+    factors.removeWhere((f) => !f.verified);
+    final id = 'factor-${++_factorIds}';
+    factors.add(MfaFactor(id: id, verified: false));
+    return TotpEnrollment(
+      factorId: id,
+      secret: 'JBSWY3DPEHPK3PXP',
+      uri: 'otpauth://totp/Everslot?secret=JBSWY3DPEHPK3PXP',
+    );
+  }
+
+  @override
+  Future<void> verifyTotp(String factorId, String code) async {
+    calls.add('verifyTotp:$factorId:$code');
+    _maybeFail();
+    if (code != totpCode) throw const AuthFailure(AuthFailureCode.invalidCode);
+    final i = factors.indexWhere((f) => f.id == factorId);
+    if (i < 0) throw const AuthFailure(AuthFailureCode.unknown, 'no factor');
+    factors[i] = MfaFactor(id: factorId, verified: true);
+    aal2 = true;
+  }
+
+  @override
+  Future<void> unenrollMfa(String factorId) async {
+    calls.add('unenrollMfa:$factorId');
+    _maybeFail();
+    final f = factors.where((f) => f.id == factorId).firstOrNull;
+    if (f != null && f.verified && !aal2) throw const AuthFailure(AuthFailureCode.mfaRequired);
+    factors.removeWhere((f) => f.id == factorId);
+  }
+
+  @override
+  bool get mfaStepUpRequired => factors.any((f) => f.verified) && !aal2;
+
   @override
   Future<void> deleteAccount() async {
     calls.add('deleteAccount');
     _maybeFail();
+    if (mfaStepUpRequired) throw const AuthFailure(AuthFailureCode.mfaRequired);
     deleted = true;
   }
 
@@ -185,10 +239,7 @@ class FakeAuthRepository implements AuthRepository {
 /// Harness with cloud auth available (fake repository) and, by default, no session.
 TestHarness cloudHarness(FakeAuthRepository repo, {bool signedOut = true}) {
   final h = TestHarness.create(
-    overrides: [
-      authRepositoryProvider.overrideWithValue(repo),
-      accountStartupProvider.overrideWithValue((_) async {}),
-    ],
+    overrides: [authRepositoryProvider.overrideWithValue(repo), accountStartupProvider.overrideWithValue((_) async {})],
   );
   if (signedOut) h.container.read(sessionProvider.notifier).set(null);
   return h;

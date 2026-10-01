@@ -14,11 +14,7 @@ const double z95 = 1.96;
 /// - half-width = z/(1 + z²/n) · √(p̂(1 − p̂)/n + z²/4n²)
 ///
 /// Returns null when `trials ≤ 0`. The bounds are clamped to [0, 1].
-ConfidenceInterval? wilsonInterval(
-  num successes,
-  num trials, {
-  double z = z95,
-}) {
+ConfidenceInterval? wilsonInterval(num successes, num trials, {double z = z95}) {
   if (trials <= 0) return null;
   final n = trials.toDouble();
   final p = (successes / n).clamp(0.0, 1.0);
@@ -26,10 +22,7 @@ ConfidenceInterval? wilsonInterval(
   final denominator = 1 + z2 / n;
   final center = (p + z2 / (2 * n)) / denominator;
   final half = z / denominator * math.sqrt(p * (1 - p) / n + z2 / (4 * n * n));
-  return ConfidenceInterval(
-    math.max(0, center - half),
-    math.min(1, center + half),
-  );
+  return ConfidenceInterval(math.max(0, center - half), math.min(1, center + half));
 }
 
 /// `successes ÷ trials` in [0, 1] with a Wilson 95 % interval; 0/0 gives
@@ -38,11 +31,7 @@ Stat<double> rate(num successes, num trials) {
   if (trials <= 0) return const NotApplicable<double>(Reasons.zeroDenominator);
   final value = successes / trials;
   if (!value.isFinite) return const NotApplicable<double>(Reasons.nonFinite);
-  return Value<double>(
-    value,
-    sampleSize: trials,
-    interval: wilsonInterval(successes, trials),
-  );
+  return Value<double>(value, sampleSize: trials, interval: wilsonInterval(successes, trials));
 }
 
 /// Weighted rate Σ wᵢ·sᵢ / Σ wᵢ where each sᵢ ∈ [0, 1] (e.g. partial credit).
@@ -57,8 +46,7 @@ Stat<double> weightedRate(Iterable<({num score, num weight})> items) {
 }
 
 /// Absolute Δ = cur − prev.
-double absoluteDelta(num current, num previous) =>
-    (current - previous).toDouble();
+double absoluteDelta(num current, num previous) => (current - previous).toDouble();
 
 /// Relative %Δ = (cur − prev)/|prev| as a fraction; prev = 0 gives [NotApplicable]`('new')`.
 Stat<double> relativeDelta(num current, num previous) {
@@ -67,8 +55,7 @@ Stat<double> relativeDelta(num current, num previous) {
 }
 
 /// Rate delta in percentage points: (cur − prev)·100 for rates in [0, 1].
-double percentagePointDelta(double currentRate, double previousRate) =>
-    (currentRate - previousRate) * 100;
+double percentagePointDelta(double currentRate, double previousRate) => (currentRate - previousRate) * 100;
 
 /// A current value compared with the previous equivalent period.
 ///
@@ -84,11 +71,7 @@ final class const PeriodComparison(
 });
 
 /// Compares two stats of the same metric (T6.1.03, T6.1.05).
-PeriodComparison compareWithPrevious(
-  Stat<double> current,
-  Stat<double> previous, {
-  bool isRate = false,
-}) {
+PeriodComparison compareWithPrevious(Stat<double> current, Stat<double> previous, {bool isRate = false}) {
   final cur = current.valueOrNull;
   final prev = previous.valueOrNull;
   if (cur == null || prev == null) {
@@ -109,12 +92,8 @@ PeriodComparison compareWithPrevious(
   return PeriodComparison(
     current,
     previous,
-    delta: Value<double>(
-      isRate ? percentagePointDelta(cur, prev) : absoluteDelta(cur, prev),
-    ),
-    deltaPct: isRate
-        ? const NotApplicable<double>('rateUsesPp')
-        : relativeDelta(cur, prev),
+    delta: Value<double>(isRate ? percentagePointDelta(cur, prev) : absoluteDelta(cur, prev)),
+    deltaPct: isRate ? const NotApplicable<double>('rateUsesPp') : relativeDelta(cur, prev),
     isRate: isRate,
   );
 }

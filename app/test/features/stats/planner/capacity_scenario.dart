@@ -38,10 +38,22 @@ Map<String, Object?> capacityScenario() {
       task('mon', '2026-09-14T10:00', 60, mode: 'timer', category: 'work'),
     ],
     'task_occurrences': [
-      {'id': 'o-mon', 'task_id': 'mon', 'occurrence_key': '2026-09-14T10:00', 'status': 'done', 'completed_at': '2026-09-14T10:55:00.000Z'},
+      {
+        'id': 'o-mon',
+        'task_id': 'mon',
+        'occurrence_key': '2026-09-14T10:00',
+        'status': 'done',
+        'completed_at': '2026-09-14T10:55:00.000Z',
+      },
     ],
     'time_entries': [
-      {'id': 'te-mon', 'task_id': 'mon', 'occurrence_key': '2026-09-14T10:00', 'started_at': '2026-09-14T10:05:00.000Z', 'ended_at': '2026-09-14T10:55:00.000Z'},
+      {
+        'id': 'te-mon',
+        'task_id': 'mon',
+        'occurrence_key': '2026-09-14T10:00',
+        'started_at': '2026-09-14T10:05:00.000Z',
+        'ended_at': '2026-09-14T10:55:00.000Z',
+      },
     ],
   };
 }

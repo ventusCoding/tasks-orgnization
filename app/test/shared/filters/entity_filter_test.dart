@@ -20,34 +20,22 @@ void main() {
     test('empty filter matches everything', () {
       expect(EntityFilter.empty.isEmpty, isTrue);
       expect(EntityFilter.empty.matches(const FilterSubject()), isTrue);
-      expect(
-        EntityFilterSql.where(EntityFilter.empty, FilterColumns.tasks()).sql,
-        '1',
-      );
+      expect(EntityFilterSql.where(EntityFilter.empty, FilterColumns.tasks()).sql, '1');
     });
 
-    test(
-      'counts active criteria (date range counts once, blank text is inactive)',
-      () {
-        expect(full.activeCount, 8);
-        expect(const EntityFilter(text: '   ').activeCount, 0);
-        expect(EntityFilter(dateTo: LocalDate(2026, 1, 1)).activeCount, 1);
-      },
-    );
+    test('counts active criteria (date range counts once, blank text is inactive)', () {
+      expect(full.activeCount, 8);
+      expect(const EntityFilter(text: '   ').activeCount, 0);
+      expect(EntityFilter(dateTo: LocalDate(2026, 1, 1)).activeCount, 1);
+    });
 
-    test(
-      'JSON round-trip keeps every criterion (arch §8.3 filters object)',
-      () {
-        final json = full.toJson();
-        expect(json['categories'], ['c1', 'none']..sort());
-        expect(json['text'], 'report');
-        expect(EntityFilter.fromJson(json), full);
-        expect(
-          EntityFilter.fromJson(const {'categories': [], 'text': null}),
-          EntityFilter.empty,
-        );
-      },
-    );
+    test('JSON round-trip keeps every criterion (arch §8.3 filters object)', () {
+      final json = full.toJson();
+      expect(json['categories'], ['c1', 'none']..sort());
+      expect(json['text'], 'report');
+      expect(EntityFilter.fromJson(json), full);
+      expect(EntityFilter.fromJson(const {'categories': <String>[], 'text': null}), EntityFilter.empty);
+    });
 
     test('malformed JSON degrades to no filter', () {
       expect(EntityFilter.fromJson('x'), EntityFilter.empty);
@@ -61,12 +49,7 @@ void main() {
     });
 
     test('copyWith can clear optional criteria', () {
-      final cleared = full.copyWith(
-        clearText: true,
-        clearDates: true,
-        clearHasAttachments: true,
-        clearRecurring: true,
-      );
+      final cleared = full.copyWith(clearText: true, clearDates: true, clearHasAttachments: true, clearRecurring: true);
       expect(cleared.effectiveText, isNull);
       expect(cleared.hasDateRange, isFalse);
       expect(cleared.hasAttachments, isNull);
@@ -75,14 +58,8 @@ void main() {
     });
 
     test('equality ignores set order and text padding', () {
-      expect(
-        const EntityFilter(tagIds: {'a', 'b'}, text: 'x '),
-        const EntityFilter(tagIds: {'b', 'a'}, text: 'x'),
-      );
-      expect(
-        const EntityFilter(tagIds: {'a', 'b'}).hashCode,
-        const EntityFilter(tagIds: {'b', 'a'}).hashCode,
-      );
+      expect(const EntityFilter(tagIds: {'a', 'b'}, text: 'x '), const EntityFilter(tagIds: {'b', 'a'}, text: 'x'));
+      expect(const EntityFilter(tagIds: {'a', 'b'}).hashCode, const EntityFilter(tagIds: {'b', 'a'}).hashCode);
     });
   });
 
@@ -99,10 +76,7 @@ void main() {
       );
       expect(full.matches(subject), isTrue);
       expect(full.copyWith(priorities: {1}).matches(subject), isFalse);
-      expect(
-        full.copyWith(statuses: {'todo', 'waiting'}).matches(subject),
-        isTrue,
-      );
+      expect(full.copyWith(statuses: {'todo', 'waiting'}).matches(subject), isTrue);
     });
 
     test('noCategory matches uncategorized entities', () {
@@ -112,85 +86,42 @@ void main() {
     });
 
     test('missing fields never match a set criterion', () {
-      expect(
-        const EntityFilter(priorities: {0}).matches(const FilterSubject()),
-        isFalse,
-      );
-      expect(
-        const EntityFilter(statuses: {'todo'}).matches(const FilterSubject()),
-        isFalse,
-      );
-      expect(
-        EntityFilter(dateFrom: LocalDate(2026, 1, 1))
-            .matches(const FilterSubject()),
-        isFalse,
-      );
-      expect(
-        const EntityFilter(text: 'a').matches(const FilterSubject()),
-        isFalse,
-      );
+      expect(const EntityFilter(priorities: {0}).matches(const FilterSubject()), isFalse);
+      expect(const EntityFilter(statuses: {'todo'}).matches(const FilterSubject()), isFalse);
+      expect(EntityFilter(dateFrom: LocalDate(2026, 1, 1)).matches(const FilterSubject()), isFalse);
+      expect(const EntityFilter(text: 'a').matches(const FilterSubject()), isFalse);
     });
 
     test('date range bounds are inclusive', () {
-      final f = EntityFilter(
-        dateFrom: LocalDate(2026, 9, 1),
-        dateTo: LocalDate(2026, 9, 30),
-      );
+      final f = EntityFilter(dateFrom: LocalDate(2026, 9, 1), dateTo: LocalDate(2026, 9, 30));
       expect(f.matches(FilterSubject(date: LocalDate(2026, 9, 1))), isTrue);
       expect(f.matches(FilterSubject(date: LocalDate(2026, 9, 30))), isTrue);
       expect(f.matches(FilterSubject(date: LocalDate(2026, 10, 1))), isFalse);
     });
 
-    test(
-      'text folding: ASCII case-insensitive, Arabic letter variants normalized',
-      () {
-        expect(FilterText.fold('RePoRt'), 'report');
-        // Only ASCII letters are lower-cased, exactly like SQLite's built-in lower().
-        expect(FilterText.fold('ÉTÉ'), 'ÉtÉ');
-        expect(FilterText.fold('أحمد'), FilterText.fold('احمد'));
-        expect(FilterText.fold('مدرسة'), 'مدرسه');
-        expect(FilterText.fold('كتـاب'), 'كتاب');
-        expect(
-          const EntityFilter(text: 'احمد')
-              .matches(const FilterSubject(texts: ['إلى أحمد'])),
-          isTrue,
-        );
-      },
-    );
+    test('text folding: ASCII case-insensitive, Arabic letter variants normalized', () {
+      expect(FilterText.fold('RePoRt'), 'report');
+      // Only ASCII letters are lower-cased, exactly like SQLite's built-in lower().
+      expect(FilterText.fold('ÉTÉ'), 'ÉtÉ');
+      expect(FilterText.fold('أحمد'), FilterText.fold('احمد'));
+      expect(FilterText.fold('مدرسة'), 'مدرسه');
+      expect(FilterText.fold('كتـاب'), 'كتاب');
+      expect(const EntityFilter(text: 'احمد').matches(const FilterSubject(texts: ['إلى أحمد'])), isTrue);
+    });
   });
 
   group('SQL builder', () {
     test('binds every value as a parameter', () {
       final where = EntityFilterSql.where(full, FilterColumns.tasks('t'));
       expect(where.sql, isNot(contains('report')));
-      expect(
-        where.args,
-        containsAll(<Object>[
-          'c1',
-          't1',
-          3,
-          4,
-          'waiting',
-          'report',
-          '2026-09-01',
-        ]),
-      );
+      expect(where.args, containsAll(<Object>['c1', 't1', 3, 4, 'waiting', 'report', '2026-09-01']));
       expect('?'.allMatches(where.sql).length, where.args.length);
     });
 
     test('fields an entity lacks behave like NULL', () {
       final items = FilterColumns.checklistItems('i');
-      expect(
-        EntityFilterSql.where(
-          const EntityFilter(categoryIds: {'c1'}),
-          items,
-        ).sql,
-        contains('NULL IN'),
-      );
-      expect(
-        EntityFilterSql.where(const EntityFilter(recurring: false), items).sql,
-        contains('NULL IS NULL'),
-      );
+      expect(EntityFilterSql.where(const EntityFilter(categoryIds: {'c1'}), items).sql, contains('NULL IN'));
+      expect(EntityFilterSql.where(const EntityFilter(recurring: false), items).sql, contains('NULL IS NULL'));
     });
   });
 }

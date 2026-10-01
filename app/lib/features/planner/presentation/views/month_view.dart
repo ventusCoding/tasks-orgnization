@@ -88,7 +88,7 @@ class _MonthViewState extends ConsumerState<MonthView> {
   @override
   void initState() {
     super.initState();
-    final LocalDate start = widget.args.date ?? ref.read(plannerAnchorProvider) ?? ref.read(plannerTodayProvider);
+    final start = widget.args.date ?? ref.read(plannerAnchorProvider) ?? ref.read<LocalDate>(plannerTodayProvider);
     _origin = start.firstDayOfMonth;
     _month = _origin;
     _selected = start;
@@ -154,7 +154,10 @@ class _MonthViewState extends ConsumerState<MonthView> {
   }
 
   Future<void> _pick() async {
-    final weekStart = weekStartFor(ref.read(plannerViewConfigProvider(_key)), ref.read(userPreferencesProvider).weekStart);
+    final weekStart = weekStartFor(
+      ref.read(plannerViewConfigProvider(_key)),
+      ref.read(userPreferencesProvider).weekStart,
+    );
     final picked = await showMiniMonth(context, initial: _month, weekStart: weekStart, highlight: [?_selected]);
     if (picked != null) _goTo(picked);
   }
@@ -204,8 +207,16 @@ class _MonthViewState extends ConsumerState<MonthView> {
             kind: ViewSettingsKind.calendar,
             extra: [
               ('listBelow', l.pvListBelow, () => notifier.change((c) => c.withOption('listBelow', !listBelow))),
-              ('expand', l.pvExpandInline, () => notifier.change((c) => c.withOption('tapAction', expandInline ? 'open_day' : 'expand'))),
-              ('swipe', l.pvSwipeVertical, () => notifier.change((c) => c.withOption('swipe', vertical ? 'horizontal' : 'vertical'))),
+              (
+                'expand',
+                l.pvExpandInline,
+                () => notifier.change((c) => c.withOption('tapAction', expandInline ? 'open_day' : 'expand')),
+              ),
+              (
+                'swipe',
+                l.pvSwipeVertical,
+                () => notifier.change((c) => c.withOption('swipe', vertical ? 'horizontal' : 'vertical')),
+              ),
             ],
           ),
         ],
@@ -249,7 +260,11 @@ class _MonthViewState extends ConsumerState<MonthView> {
                 ),
               ),
             ),
-            if (listBelow && _selected != null) Expanded(flex: 4, child: _DayItemsList(viewKey: _key, day: _selected!, config: config)),
+            if (listBelow && _selected != null)
+              Expanded(
+                flex: 4,
+                child: _DayItemsList(viewKey: _key, day: _selected!, config: config),
+              ),
           ],
         ),
       ),
@@ -300,7 +315,9 @@ class _MonthPage extends ConsumerWidget {
                   child: Text(
                     narrow.format(d.toDateTimeUtc()),
                     textAlign: TextAlign.center,
-                    style: context.text.labelSmall?.copyWith(color: d.weekday.isWeekend ? c.outline : c.onSurfaceVariant),
+                    style: context.text.labelSmall?.copyWith(
+                      color: d.weekday.isWeekend ? c.outline : c.onSurfaceVariant,
+                    ),
                   ),
                 ),
               ),
@@ -328,7 +345,11 @@ class _MonthPage extends ConsumerWidget {
               ],
             ),
           ),
-          if (i == expandedWeek) Expanded(flex: 16, child: _DayItemsList(viewKey: viewKey, day: expanded!, config: config)),
+          if (i == expandedWeek)
+            Expanded(
+              flex: 16,
+              child: _DayItemsList(viewKey: viewKey, day: expanded!, config: config),
+            ),
         ],
       ],
     );
@@ -446,7 +467,11 @@ class _DayCell extends ConsumerWidget {
             alignment: WrapAlignment.center,
             children: [
               for (final i in shown)
-                Container(width: 5, height: 5, decoration: BoxDecoration(color: colors.of(i).accent, shape: BoxShape.circle)),
+                Container(
+                  width: 5,
+                  height: 5,
+                  decoration: BoxDecoration(color: colors.of(i).accent, shape: BoxShape.circle),
+                ),
               if (items.length > shown.length)
                 Text('+${items.length - shown.length}', style: const TextStyle(fontSize: 8)),
             ],
@@ -473,7 +498,14 @@ class _DayCell extends ConsumerWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            for (final i in shown) _MonthChip(viewKey: viewKey, item: i, colors: colors.of(i), times: density == MonthDensity.titlesTimes, format: f),
+            for (final i in shown)
+              _MonthChip(
+                viewKey: viewKey,
+                item: i,
+                colors: colors.of(i),
+                times: density == MonthDensity.titlesTimes,
+                format: f,
+              ),
             if (overflow)
               Padding(
                 padding: const EdgeInsetsDirectional.only(start: 2),
@@ -487,7 +519,13 @@ class _DayCell extends ConsumerWidget {
 
 /// A one-line chip in a month cell; long-press drags it to another day.
 class _MonthChip extends StatelessWidget {
-  const _MonthChip({required this.viewKey, required this.item, required this.colors, required this.times, required this.format});
+  const _MonthChip({
+    required this.viewKey,
+    required this.item,
+    required this.colors,
+    required this.times,
+    required this.format,
+  });
 
   final String viewKey;
   final PlannerItem item;
@@ -517,7 +555,11 @@ class _MonthChip extends StatelessWidget {
     );
     return LongPressDraggable<PlannerItem>(
       data: item,
-      feedback: Material(elevation: 4, borderRadius: BorderRadius.circular(3), child: SizedBox(width: 96, child: chip)),
+      feedback: Material(
+        elevation: 4,
+        borderRadius: BorderRadius.circular(3),
+        child: SizedBox(width: 96, child: chip),
+      ),
       childWhenDragging: Opacity(opacity: 0.3, child: chip),
       child: KeyedSubtree(key: ValueKey('month-chip-${item.key}'), child: chip),
     );
@@ -538,7 +580,7 @@ class _DayItemsList extends ConsumerWidget {
     final f = context.plannerFormat(use24h: ref.watch(userPreferencesProvider).use24h);
     final items = dayListOrder(filteredItems(ref, DayRange(day, 1), config).value ?? const <PlannerItem>[]);
     final colors = viewColors(context, ref, config);
-    return Container(
+    return ColoredBox(
       key: ValueKey('month-day-list-${day.toIso()}'),
       color: context.colors.surfaceContainerLow,
       child: ListView(

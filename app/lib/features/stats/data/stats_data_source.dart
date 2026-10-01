@@ -282,20 +282,26 @@ class StatsDataSource {
       // Items that were in this list before moving elsewhere keep their history here (burn-up,
       // arrivals): their earlier events carry this list as `parent_id`.
       final here = {for (final i in items) i.id};
-      final movedOut = await (_db.selectOnly(_db.activityEvents, distinct: true)
-            ..addColumns([_db.activityEvents.entityId])
-            ..where(
-              _db.activityEvents.entityType.equals('checklist_item') &
-                  _db.activityEvents.parentId.equals(listId) &
-                  _db.activityEvents.userId.equals(user) &
-                  _db.activityEvents.deletedAt.isNull(),
-            ))
-          .map((r) => r.read(_db.activityEvents.entityId)!)
-          .get();
-      final extra = [for (final id in movedOut) if (!here.contains(id)) id];
+      final movedOut =
+          await (_db.selectOnly(_db.activityEvents, distinct: true)
+                ..addColumns([_db.activityEvents.entityId])
+                ..where(
+                  _db.activityEvents.entityType.equals('checklist_item') &
+                      _db.activityEvents.parentId.equals(listId) &
+                      _db.activityEvents.userId.equals(user) &
+                      _db.activityEvents.deletedAt.isNull(),
+                ))
+              .map((r) => r.read(_db.activityEvents.entityId)!)
+              .get();
+      final extra = [
+        for (final id in movedOut)
+          if (!here.contains(id)) id,
+      ];
       for (var i = 0; i < extra.length; i += _chunk) {
         final part = extra.sublist(i, i + _chunk > extra.length ? extra.length : i + _chunk);
-        items.addAll(await (_db.select(_db.checklistItems)..where((it) => it.id.isIn(part) & it.userId.equals(user))).get());
+        items.addAll(
+          await (_db.select(_db.checklistItems)..where((it) => it.id.isIn(part) & it.userId.equals(user))).get(),
+        );
       }
     }
     final events = listId == null
@@ -590,13 +596,21 @@ class StatsDataSource {
         final t = await (_db.select(_db.tasks)..where((t) => t.id.equals(id))).getSingleOrNull();
         return t == null
             ? null
-            : ScopeEntity(t.id, t.title, color: t.color, icon: t.icon, parentId: t.seriesId, recurring: t.recurrence != null);
+            : ScopeEntity(
+                t.id,
+                t.title,
+                color: t.color,
+                icon: t.icon,
+                parentId: t.seriesId,
+                recurring: t.recurrence != null,
+              );
       case 'series':
-        final t = await (_db.select(_db.tasks)
-              ..where((t) => t.seriesId.equals(id) & t.deletedAt.isNull())
-              ..orderBy([(t) => OrderingTerm.desc(t.createdAt)])
-              ..limit(1))
-            .getSingleOrNull();
+        final t =
+            await (_db.select(_db.tasks)
+                  ..where((t) => t.seriesId.equals(id) & t.deletedAt.isNull())
+                  ..orderBy([(t) => OrderingTerm.desc(t.createdAt)])
+                  ..limit(1))
+                .getSingleOrNull();
         return t == null ? null : ScopeEntity(id, t.title, color: t.color, icon: t.icon);
       case 'checklist':
         final c = await (_db.select(_db.checklists)..where((c) => c.id.equals(id))).getSingleOrNull();
@@ -616,9 +630,9 @@ class StatsDataSource {
     final query = _db.select(_db.habits)
       ..where((h) => h.kind.equals('quit') & h.userId.equals(_userId()) & h.deletedAt.isNull() & h.archivedAt.isNull())
       ..orderBy([(h) => OrderingTerm.asc(h.sortKey)]);
-    return query.watch().map((rows) => [
-      for (final h in rows) ScopeEntity(h.id, h.name, color: h.color, icon: h.icon, isQuit: true),
-    ]);
+    return query.watch().map(
+      (rows) => [for (final h in rows) ScopeEntity(h.id, h.name, color: h.color, icon: h.icon, isQuit: true)],
+    );
   }
 
   /// Filter options: live categories and tags.
@@ -627,7 +641,9 @@ class StatsDataSource {
       if (!c.archived) FilterOption(c.id, c.name, color: c.color),
   ];
 
-  Future<List<FilterOption>> tagOptions() async => [for (final t in await loadTags()) FilterOption(t.id, t.name, color: t.color)];
+  Future<List<FilterOption>> tagOptions() async => [
+    for (final t in await loadTags()) FilterOption(t.id, t.name, color: t.color),
+  ];
 
   /// Earliest checklist item creation (all-time periods).
   Future<DateTime?> firstChecklistInstant({String? checklistId}) async {

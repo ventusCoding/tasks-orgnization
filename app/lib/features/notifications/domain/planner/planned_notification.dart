@@ -13,25 +13,13 @@ String dedupeKeyFor({
   required String occurrenceKey,
   int triggerIdx = 0,
   int repeatIdx = 0,
-}) => sha1
-    .convert(
-      utf8.encode('$ruleId|$targetId|$occurrenceKey|$triggerIdx|$repeatIdx'),
-    )
-    .toString();
+}) => sha1.convert(utf8.encode('$ruleId|$targetId|$occurrenceKey|$triggerIdx|$repeatIdx')).toString();
 
 /// Key of the n-th snooze instance of [originalKey] (T7.2.15).
-String snoozeKeyFor(String originalKey, int n) =>
-    sha1.convert(utf8.encode('$originalKey|snooze|$n')).toString();
+String snoozeKeyFor(String originalKey, int n) => sha1.convert(utf8.encode('$originalKey|snooze|$n')).toString();
 
 /// Adjustments a policy applied to a firing (shown as preview reasons, T7.1.11).
-enum PlanAdjustment {
-  deferredQuietHours,
-  silentQuietHours,
-  paused,
-  shiftedToWindow,
-  catchUp,
-  notLocal,
-}
+enum PlanAdjustment { deferredQuietHours, silentQuietHours, paused, shiftedToWindow, catchUp, notLocal }
 
 /// Why a candidate firing was not planned.
 enum SkipReason {
@@ -250,16 +238,13 @@ class PlannedNotification {
 
   @override
   bool operator ==(Object other) =>
-      other is PlannedNotification &&
-      other.dedupeKey == dedupeKey &&
-      other.contentHash == contentHash;
+      other is PlannedNotification && other.dedupeKey == dedupeKey && other.contentHash == contentHash;
 
   @override
   int get hashCode => Object.hash(dedupeKey, fireAt);
 
   @override
-  String toString() =>
-      'Planned(${dedupeKey.substring(0, 8)} $targetKey@$occurrenceKey $fireAt $title)';
+  String toString() => 'Planned(${dedupeKey.substring(0, 8)} $targetKey@$occurrenceKey $fireAt $title)';
 }
 
 /// A candidate that was dropped, with the reason (preview "skipped" rows).
@@ -294,12 +279,10 @@ class PlanResult {
   final List<SkippedFiring> skipped;
 
   /// Fires per local day (noise estimate helper).
-  double firesPerDay(Duration window) =>
-      window.inMinutes <= 0 ? 0 : planned.length / (window.inMinutes / 1440);
+  double firesPerDay(Duration window) => window.inMinutes <= 0 ? 0 : planned.length / (window.inMinutes / 1440);
 }
 
 /// Anchor used by a planned relative firing (for descriptions).
 extension TriggerAnchorX on TriggerAnchor {
-  bool get isEndLike =>
-      this == TriggerAnchor.end || this == TriggerAnchor.periodEnd;
+  bool get isEndLike => this == TriggerAnchor.end || this == TriggerAnchor.periodEnd;
 }

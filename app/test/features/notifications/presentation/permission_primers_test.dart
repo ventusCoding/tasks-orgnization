@@ -12,34 +12,24 @@ void main() {
   late InMemoryLocalNotificationsPort port;
   setUp(() {
     h = TestHarness.create();
-    port = h.read(
-      localNotificationsPortProvider,
-    ) as InMemoryLocalNotificationsPort;
+    port = h.read(localNotificationsPortProvider) as InMemoryLocalNotificationsPort;
   });
   tearDown(() => h.dispose());
 
   Future<void> settle(WidgetTester tester) async {
     for (var i = 0; i < 4; i++) {
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 5)),
-      );
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 5)));
       await tester.pump(const Duration(milliseconds: 50));
     }
     await tester.pumpAndSettle();
   }
 
-  Future<void> pumpBanner(
-    WidgetTester tester, {
-    bool showExact = true,
-    Locale locale = const Locale('en'),
-  }) async {
+  Future<void> pumpBanner(WidgetTester tester, {bool showExact = true, Locale locale = const Locale('en')}) async {
     await pumpInApp(
       tester,
       h,
       Scaffold(
-        body: ListView(
-          children: [NotificationPermissionBanner(showExact: showExact)],
-        ),
+        body: ListView(children: [NotificationPermissionBanner(showExact: showExact)]),
       ),
       locale: locale,
     );
@@ -51,44 +41,35 @@ void main() {
     expect(find.byType(Card), findsNothing);
   });
 
-  testWidgets(
-    'notifications off: primer, then the OS prompt; the banner disappears once granted',
-    (tester) async {
-      port.caps = const NotificationCapabilities(platform: 'android');
-      await pumpBanner(tester);
-      expect(find.text('Notifications are turned off'), findsOneWidget);
+  testWidgets('notifications off: primer, then the OS prompt; the banner disappears once granted', (tester) async {
+    port.caps = const NotificationCapabilities(platform: 'android');
+    await pumpBanner(tester);
+    expect(find.text('Notifications are turned off'), findsOneWidget);
 
-      await tester.tap(find.text('Turn on'));
-      await settle(tester);
-      expect(find.text('Never miss what matters'), findsOneWidget);
-      await tester.tap(find.text('Allow notifications'));
-      await settle(tester);
+    await tester.tap(find.text('Turn on'));
+    await settle(tester);
+    expect(find.text('Never miss what matters'), findsOneWidget);
+    await tester.tap(find.text('Allow notifications'));
+    await settle(tester);
 
-      expect(h.read(notificationCapabilitiesProvider).notifications, isTrue);
-      expect(find.text('Notifications are turned off'), findsNothing);
-    },
-  );
+    expect(h.read(notificationCapabilitiesProvider).notifications, isTrue);
+    expect(find.text('Notifications are turned off'), findsNothing);
+  });
 
-  testWidgets(
-    'the primer is never shown twice in a session; the second tap opens the settings',
-    (tester) async {
-      port.caps = const NotificationCapabilities(platform: 'android');
-      await pumpBanner(tester);
-      await tester.tap(find.text('Turn on'));
-      await settle(tester);
-      await tester.tap(find.text('Not now'));
-      await settle(tester);
-      expect(
-        h.read(notificationCapabilitiesProvider.notifier).primersShown,
-        contains('notifications'),
-      );
+  testWidgets('the primer is never shown twice in a session; the second tap opens the settings', (tester) async {
+    port.caps = const NotificationCapabilities(platform: 'android');
+    await pumpBanner(tester);
+    await tester.tap(find.text('Turn on'));
+    await settle(tester);
+    await tester.tap(find.text('Not now'));
+    await settle(tester);
+    expect(h.read(notificationCapabilitiesProvider.notifier).primersShown, contains('notifications'));
 
-      await tester.tap(find.text('Turn on'));
-      await settle(tester);
-      expect(find.text('Never miss what matters'), findsNothing);
-      expect(find.text('Notifications are turned off'), findsOneWidget);
-    },
-  );
+    await tester.tap(find.text('Turn on'));
+    await settle(tester);
+    expect(find.text('Never miss what matters'), findsNothing);
+    expect(find.text('Notifications are turned off'), findsOneWidget);
+  });
 
   testWidgets('blocked channel → open settings', (tester) async {
     port.caps = const NotificationCapabilities(
@@ -98,25 +79,14 @@ void main() {
       blockedChannels: {'dl.planner.standard.v1'},
     );
     await pumpBanner(tester);
-    expect(
-      find.text('Some notification categories are blocked'),
-      findsOneWidget,
-    );
+    expect(find.text('Some notification categories are blocked'), findsOneWidget);
     expect(find.text('Open settings'), findsOneWidget);
   });
 
-  testWidgets('exact alarms missing on Android → precise reminders primer', (
-    tester,
-  ) async {
-    port.caps = const NotificationCapabilities(
-      platform: 'android',
-      notifications: true,
-    );
+  testWidgets('exact alarms missing on Android → precise reminders primer', (tester) async {
+    port.caps = const NotificationCapabilities(platform: 'android', notifications: true);
     await pumpBanner(tester);
-    expect(
-      find.text('Reminders may arrive up to an hour late'),
-      findsOneWidget,
-    );
+    expect(find.text('Reminders may arrive up to an hour late'), findsOneWidget);
 
     await tester.tap(find.text('Allow precise reminders'));
     await settle(tester);
@@ -127,13 +97,8 @@ void main() {
     expect(find.text('Reminders may arrive up to an hour late'), findsNothing);
   });
 
-  testWidgets('exact-alarm hint is hidden where the host asks for it', (
-    tester,
-  ) async {
-    port.caps = const NotificationCapabilities(
-      platform: 'android',
-      notifications: true,
-    );
+  testWidgets('exact-alarm hint is hidden where the host asks for it', (tester) async {
+    port.caps = const NotificationCapabilities(platform: 'android', notifications: true);
     await pumpBanner(tester, showExact: false);
     expect(find.byType(Card), findsNothing);
   });

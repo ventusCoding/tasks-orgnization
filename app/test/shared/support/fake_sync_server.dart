@@ -21,8 +21,7 @@ class FakeSyncServer implements SyncApi {
   int _head = 0;
 
   /// Server rows of [table] (id → server JSON row).
-  Map<String, Map<String, Object?>> rows(String table) =>
-      _rows[table] ?? const {};
+  Map<String, Map<String, Object?>> rows(String table) => _rows[table] ?? const {};
 
   @override
   Future<PushResponse> push({
@@ -37,12 +36,8 @@ class FakeSyncServer implements SyncApi {
       final rowId = change['row_id']! as String;
       final fields = Map<String, Object?>.from(change['fields']! as Map);
       final clock = Map<String, Object?>.from(change['clock']! as Map);
-      final row = _rows
-          .putIfAbsent(table, () => {})
-          .putIfAbsent(rowId, () => {'id': rowId});
-      final rowClock = _clocks
-          .putIfAbsent(table, () => {})
-          .putIfAbsent(rowId, () => {});
+      final row = _rows.putIfAbsent(table, () => {}).putIfAbsent(rowId, () => {'id': rowId});
+      final rowClock = _clocks.putIfAbsent(table, () => {}).putIfAbsent(rowId, () => {});
       var applied = 0;
       for (final entry in fields.entries) {
         final incoming = clock[entry.key] as String? ?? '';
@@ -62,9 +57,7 @@ class FakeSyncServer implements SyncApi {
       results.add(
         PushResult(
           changeId: change['id']! as String,
-          status: applied == fields.length
-              ? 'applied'
-              : (applied == 0 ? 'stale' : 'partial'),
+          status: applied == fields.length ? 'applied' : (applied == 0 ? 'stale' : 'partial'),
         ),
       );
     }
@@ -91,42 +84,32 @@ class FakeSyncServer implements SyncApi {
   }
 
   @override
-  Future<FetchRowsResult> fetchRows(String table, List<String> ids) async =>
-      FetchRowsResult(
-        rows: [
-          for (final id in ids)
-            if (_rows[table]?[id] != null)
-              Map<String, dynamic>.of(_rows[table]![id]!),
-        ],
-        missing: [
-          for (final id in ids)
-            if (_rows[table]?[id] == null) id,
-        ],
-      );
+  Future<FetchRowsResult> fetchRows(String table, List<String> ids) async => FetchRowsResult(
+    rows: [
+      for (final id in ids)
+        if (_rows[table]?[id] != null) Map<String, dynamic>.of(_rows[table]![id]!),
+    ],
+    missing: [
+      for (final id in ids)
+        if (_rows[table]?[id] == null) id,
+    ],
+  );
 
   @override
   Future<bool> registerDevice(DeviceRegistration device) async => false;
 
   @override
-  Future<bool> reportDeviceState(
-    String deviceId,
-    Map<String, Object?> state,
-  ) async => false;
+  Future<bool> reportDeviceState(String deviceId, Map<String, Object?> state) async => false;
 }
 
 /// One simulated device: its own in-memory database, providers, HLC and sync engine.
 class SyncDevice {
-  SyncDevice._(this.db, this.container, this.service);
-
   factory SyncDevice(FakeSyncServer server, String deviceId, {DateTime? now}) {
     // Each device intentionally has its own in-memory database.
     driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
     final db = AppDatabase.forTesting(NativeDatabase.memory());
     final clock = FakeClock(now ?? DateTime.utc(2026, 9, 22, 9));
-    SessionController.initial = AppSession(
-      userId: server.userId,
-      mode: SessionMode.localOnly,
-    );
+    SessionController.initial = AppSession(userId: server.userId, mode: SessionMode.localOnly);
     final container = ProviderContainer(
       overrides: [
         envProvider.overrideWithValue(
@@ -155,6 +138,7 @@ class SyncDevice {
     );
     return SyncDevice._(db, container, service);
   }
+  SyncDevice._(this.db, this.container, this.service);
 
   final AppDatabase db;
   final ProviderContainer container;

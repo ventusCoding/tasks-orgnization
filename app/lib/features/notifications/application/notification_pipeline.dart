@@ -61,9 +61,7 @@ class NotificationPipeline {
   String _channelSignature = '';
 
   /// Extra window around the horizon so occurrences whose reminders fall inside it are loaded.
-  static ({Duration before, Duration after}) window(
-    List<NotificationRule> rules,
-  ) {
+  static ({Duration before, Duration after}) window(List<NotificationRule> rules) {
     var before = 1440;
     var after = 1440;
     for (final r in rules) {
@@ -77,10 +75,12 @@ class NotificationPipeline {
               after = minutes > after ? minutes : after;
             }
           } else if (offsetMinutes != null) {
-            if (offsetMinutes < 0 && -offsetMinutes > before)
+            if (offsetMinutes < 0 && -offsetMinutes > before) {
               before = -offsetMinutes;
-            if (offsetMinutes > 0 && offsetMinutes > after)
+            }
+            if (offsetMinutes > 0 && offsetMinutes > after) {
               after = offsetMinutes;
+            }
           }
         case OverdueTrigger(:final effectiveAfter):
           if (effectiveAfter > after) after = effectiveAfter;
@@ -109,19 +109,13 @@ class NotificationPipeline {
       await settingsRepo.read(SettingsNs.notifications),
       await settingsRepo.read(SettingsNs.privacy),
     );
-    final rules =
-        rulesOverride ?? await read(notificationRulesRepositoryProvider).all();
+    final rules = rulesOverride ?? await read(notificationRulesRepositoryProvider).all();
     final profiles = await read(notificationProfilesRepositoryProvider).all();
     final mutes = await read(notificationMutesRepositoryProvider).all();
     final db = read(appDatabaseProvider);
     final userId = read(currentUserIdProvider);
-    final profile = await (db.select(
-      db.profiles,
-    )..where((p) => p.id.equals(userId))).getSingleOrNull();
-    final texts = L10nNotificationTexts.forLocale(
-      profile?.locale,
-      use24h: (profile?.timeFormat ?? 'h24') == 'h24',
-    );
+    final profile = await (db.select(db.profiles)..where((p) => p.id.equals(userId))).getSingleOrNull();
+    final texts = L10nNotificationTexts.forLocale(profile?.locale, use24h: (profile?.timeFormat ?? 'h24') == 'h24');
     final zone = read(deviceZoneProvider);
     final zones = read(zoneResolverProvider);
     final horizon = Duration(days: settings.horizonDays);
@@ -129,9 +123,7 @@ class NotificationPipeline {
     var targets = targetsOverride;
     if (targets == null) {
       final w = window(rules);
-      final from = now
-          .subtract(w.after)
-          .subtract(Duration(minutes: settings.latenessMinutes));
+      final from = now.subtract(w.after).subtract(Duration(minutes: settings.latenessMinutes));
       final to = now.add(horizon).add(w.before);
       targets = <NotificationTarget>[];
       for (final source in read(notificationTargetSourcesProvider)) {
@@ -178,9 +170,7 @@ class NotificationPipeline {
   /// App-icon badge per `badgePolicy` (T7.3.06) after every replan, in both isolates.
   Future<void> applyBadge(PlanningContext ctx) async {
     final policy = ctx.settings.badgePolicy;
-    final unread = policy == BadgePolicy.unread
-        ? await read(inboxRepositoryProvider).watchUnreadCount().first
-        : 0;
+    final unread = policy == BadgePolicy.unread ? await read(inboxRepositoryProvider).watchUnreadCount().first : 0;
     final count = BadgeCount.compute(
       policy,
       unread: unread,
@@ -202,8 +192,7 @@ class NotificationPipeline {
       final result = NotificationPlanner.plan(ctx);
       final scheduler = read(localSchedulerProvider);
       final signature = [
-        for (final p in ctx.profiles)
-          '${p.id}:${p.spec.channelVersion}:${p.name}',
+        for (final p in ctx.profiles) '${p.id}:${p.spec.channelVersion}:${p.name}',
         ctx.texts.localeTag,
       ].join('|');
       if (signature != _channelSignature) {
@@ -261,10 +250,7 @@ class NotificationPipeline {
 /// Single-flight, debounced replan orchestrator (T7.2.12). Requests arriving while a run is in
 /// progress coalesce into one follow-up run.
 class NotificationReplanService {
-  NotificationReplanService({
-    required this.runner,
-    this.debounce = const Duration(milliseconds: 1500),
-  });
+  NotificationReplanService({required this.runner, this.debounce = const Duration(milliseconds: 1500)});
 
   final Future<ReplanReport> Function(String reason) runner;
   final Duration debounce;
@@ -304,9 +290,7 @@ class NotificationReplanService {
       if (_pendingReasons.isEmpty) return last;
       return flush();
     }
-    final reason = _pendingReasons.isEmpty
-        ? 'manual'
-        : (_pendingReasons.toList()..sort()).join('+');
+    final reason = _pendingReasons.isEmpty ? 'manual' : (_pendingReasons.toList()..sort()).join('+');
     _pendingReasons.clear();
     final completer = _running = Completer<ReplanReport>();
     try {

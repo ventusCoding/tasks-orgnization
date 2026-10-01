@@ -11,7 +11,7 @@ abstract final class LocalDataOwner {
 
   static Future<String?> read(AppDatabase db) async {
     final row = await db
-        .customSelect('SELECT value FROM local_kv WHERE key = ?', variables: [Variable<String>(key)])
+        .customSelect('SELECT value FROM local_kv WHERE key = ?', variables: [const Variable<String>(key)])
         .getSingleOrNull();
     final value = row?.data['value'] as String?;
     return value == null || value.isEmpty ? null : value;
@@ -23,10 +23,8 @@ abstract final class LocalDataOwner {
     [key, userId],
   );
 
-  static Future<void> clear(AppDatabase db) =>
-      db.customStatement('DELETE FROM local_kv WHERE key = ?', [key]);
+  static Future<void> clear(AppDatabase db) => db.customStatement('DELETE FROM local_kv WHERE key = ?', [key]);
 
   /// True when the local data is bound to [userId].
-  static Future<bool> matches(AppDatabase db, String userId) async =>
-      userId.isNotEmpty && await read(db) == userId;
+  static Future<bool> matches(AppDatabase db, String userId) async => userId.isNotEmpty && await read(db) == userId;
 }

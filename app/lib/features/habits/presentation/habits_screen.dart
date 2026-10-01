@@ -199,7 +199,11 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
                   for (final f in [('all', l.habitsFilterAll), ('due', l.habitsFilterDue)])
                     Padding(
                       padding: const EdgeInsetsDirectional.only(end: Space.sm),
-                      child: ChoiceChip(label: Text(f.$2), selected: _filter == f.$1, onSelected: (_) => _setFilter(f.$1)),
+                      child: ChoiceChip(
+                        label: Text(f.$2),
+                        selected: _filter == f.$1,
+                        onSelected: (_) => _setFilter(f.$1),
+                      ),
                     ),
                   for (final s in sections)
                     Padding(
@@ -270,11 +274,7 @@ class _HabitsScreenState extends ConsumerState<HabitsScreen> with WidgetsBinding
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        tooltip: l.habitsAdd,
-        onPressed: _add,
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: FloatingActionButton(tooltip: l.habitsAdd, onPressed: _add, child: const Icon(Icons.add)),
       body: CelebrationOverlay(
         child: Column(
           children: [
@@ -315,8 +315,7 @@ class _DateNavigator extends StatelessWidget {
             child: Text(label, style: context.text.titleSmall),
           ),
         ),
-        if (date != today)
-          TextButton(onPressed: () => onChanged(today), child: Text(l.habitsToday)),
+        if (date != today) TextButton(onPressed: () => onChanged(today), child: Text(l.habitsToday)),
         IconButton(
           tooltip: l.habitsNextDay,
           icon: const Icon(Icons.chevron_right),

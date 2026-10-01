@@ -17,11 +17,7 @@ class NotificationLabels {
 
   factory NotificationLabels.of(BuildContext context) => NotificationLabels(
     context.l10n,
-    AppFormat(
-      context.localeName,
-      use24h: MediaQuery.alwaysUse24HourFormatOf(context),
-      l10n: context.l10n,
-    ),
+    AppFormat(context.localeName, use24h: MediaQuery.alwaysUse24HourFormatOf(context), l10n: context.l10n),
   );
 
   final AppLocalizations l;
@@ -31,13 +27,7 @@ class NotificationLabels {
 
   /// "10 min before start", "1 day before at 20:00", "If not done by 21:00"…
   String trigger(NotificationTrigger trigger) => switch (trigger) {
-    RelativeTrigger(
-      :final anchor,
-      :final dayOffset,
-      :final atTime,
-      :final effectiveOffset,
-      :final usesDayForm,
-    ) =>
+    RelativeTrigger(:final anchor, :final dayOffset, :final atTime, :final effectiveOffset, :final usesDayForm) =>
       usesDayForm
           ? (dayOffset == 0
                 ? l.notifSumOnDayAt(time(atTime!))
@@ -48,12 +38,8 @@ class NotificationLabels {
     AbsoluteTrigger(:final at) => l.notifSumAbsolute(format.dateTime(at)),
     ScheduleTrigger(:final recurrence) => _schedule(recurrence),
     NotDoneByTrigger(:final anchor, :final atTime) =>
-      anchor == 'time' && atTime != null
-          ? l.notifSumNotDoneBy(time(atTime))
-          : l.notifSumNotDoneByEnd,
-    StatusAgeTrigger(:final afterMinutes) => l.notifSumStatusAge(
-      format.duration(afterMinutes),
-    ),
+      anchor == 'time' && atTime != null ? l.notifSumNotDoneBy(time(atTime)) : l.notifSumNotDoneByEnd,
+    StatusAgeTrigger(:final afterMinutes) => l.notifSumStatusAge(format.duration(afterMinutes)),
     OverdueTrigger() => l.notifSumOverdue,
     StreakRiskTrigger(:final atTime) => l.notifSumStreakRisk(time(atTime)),
     QuotaBehindTrigger(:final atTime) => l.notifSumQuotaBehind(time(atTime)),
@@ -71,17 +57,11 @@ class NotificationLabels {
     final d = format.duration(offset.abs());
     return switch (anchor) {
       TriggerAnchor.start =>
-        offset < 0
-            ? l.notifSumBeforeStart(d)
-            : (offset == 0 ? l.notifSumAtStart : l.notifSumAfterStart(d)),
+        offset < 0 ? l.notifSumBeforeStart(d) : (offset == 0 ? l.notifSumAtStart : l.notifSumAfterStart(d)),
       TriggerAnchor.end =>
-        offset < 0
-            ? l.notifSumBeforeEnd(d)
-            : (offset == 0 ? l.notifSumAtEnd : l.notifSumAfterEnd(d)),
+        offset < 0 ? l.notifSumBeforeEnd(d) : (offset == 0 ? l.notifSumAtEnd : l.notifSumAfterEnd(d)),
       TriggerAnchor.due =>
-        offset < 0
-            ? l.notifSumBeforeDue(d)
-            : (offset == 0 ? l.notifSumAtDue : l.notifSumAfterDue(d)),
+        offset < 0 ? l.notifSumBeforeDue(d) : (offset == 0 ? l.notifSumAtDue : l.notifSumAfterDue(d)),
       TriggerAnchor.followUp => l.notifSumAtFollowUp,
       TriggerAnchor.slot => l.notifSumAtSlot,
       TriggerAnchor.periodStart => l.notifSumAtPeriodStart,
@@ -95,12 +75,7 @@ class NotificationLabels {
     final parsed = EngineRecurrenceExpander.parse(recurrence);
     if (parsed == null) return l.notifSumSchedule;
     try {
-      return const RecurrenceDescriber().describe(
-        parsed.$1,
-        parsed.$2,
-        locale: l.localeName,
-        use24h: format.use24h,
-      );
+      return const RecurrenceDescriber().describe(parsed.$1, parsed.$2, locale: l.localeName, use24h: format.use24h);
     } on Object {
       return l.notifSumSchedule;
     }
@@ -110,16 +85,14 @@ class NotificationLabels {
   String rule(NotificationRule rule, {NotificationProfile? profile}) {
     final parts = [trigger(rule.spec.trigger)];
     if (profile != null) parts.add(profileName(profile));
-    final repeat =
-        rule.spec.repeat ??
-        (rule.spec.repeatDisabled ? null : profile?.spec.repeat);
-    if (repeat != null)
+    final repeat = rule.spec.repeat ?? (rule.spec.repeatDisabled ? null : profile?.spec.repeat);
+    if (repeat != null) {
       parts.add(l.notifSumRepeat(repeat.everyMinutes, repeat.maxTimes));
+    }
     return parts.join(' · ');
   }
 
-  String profileName(NotificationProfile p) =>
-      p.isBuiltin && p.code != null ? builtinProfileName(l, p.code!) : p.name;
+  String profileName(NotificationProfile p) => p.isBuiltin && p.code != null ? builtinProfileName(l, p.code!) : p.name;
 
   String section(NotificationSection s) => sectionLabelOf(l, s);
 
@@ -172,14 +145,11 @@ class NotificationLabels {
 
   String issue(NotificationRuleIssue i) => switch (i.code) {
     NotificationIssueCode.anchorUnavailable => l.notifIssueAnchorUnavailable,
-    NotificationIssueCode.offsetOutOfRange ||
-    NotificationIssueCode.dayOffsetOutOfRange => l.notifIssueOffsetOutOfRange,
+    NotificationIssueCode.offsetOutOfRange || NotificationIssueCode.dayOffsetOutOfRange => l.notifIssueOffsetOutOfRange,
     NotificationIssueCode.repeatMaxTooHigh => l.notifIssueRepeatMax,
     NotificationIssueCode.repeatIntervalInvalid => l.notifIssueRepeatInterval,
     NotificationIssueCode.tooManyActions => l.notifIssueTooManyActions,
-    NotificationIssueCode.unknownVariable => l.notifIssueUnknownVariable(
-      i.detail ?? '',
-    ),
+    NotificationIssueCode.unknownVariable => l.notifIssueUnknownVariable(i.detail ?? ''),
     NotificationIssueCode.emptyContent => l.notifIssueEmptyContent,
     NotificationIssueCode.scheduleInvalid => l.notifIssueSchedule,
     NotificationIssueCode.latenessTooSmall => l.notifIssueLateness,
@@ -267,13 +237,6 @@ class NotificationLabels {
     NotifyMode.off => l.notifModeOff,
   };
 
-  static const curatedSounds = [
-    'default',
-    'none',
-    'chime',
-    'bell',
-    'soft',
-    'pop',
-  ];
+  static const curatedSounds = ['default', 'none', 'chime', 'bell', 'soft', 'pop'];
   static const vibrations = ['default', 'none', 'short', 'long'];
 }

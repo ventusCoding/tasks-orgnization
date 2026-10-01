@@ -12,12 +12,7 @@ export 'src/rule/recurrence_anchor.dart';
 export 'src/rule/recurrence_rule.dart';
 export 'src/rule/rule_enums.dart' hide enumFromJson;
 export 'src/rule/rule_parts.dart';
-export 'src/rule/rule_validator.dart'
-    hide
-        eligibleWeekdays,
-        maxOccurrencesPerDayOf,
-        maxQuotaCompletions,
-        parseRuleDate;
+export 'src/rule/rule_validator.dart' hide eligibleWeekdays, maxOccurrencesPerDayOf, maxQuotaCompletions, parseRuleDate;
 export 'src/series/override_merger.dart';
 export 'src/series/series_splitter.dart';
 export 'src/time/local_date.dart';

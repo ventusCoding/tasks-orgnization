@@ -72,14 +72,16 @@ class PlannerScreen extends ConsumerWidget {
         if (didPop) return;
         final previous = ref.read(plannerViewHistoryProvider.notifier).pop();
         if (previous == null) return;
-        ref.read(plannerNavProvider).openView(context, previous, date: ref.read(plannerAnchorProvider) ?? ref.read(plannerTodayProvider));
+        ref
+            .read(plannerNavProvider)
+            .openView(context, previous, date: ref.read(plannerAnchorProvider) ?? ref.read(plannerTodayProvider));
       },
       child: AnimatedSwitcher(
         duration: reduceMotion ? Duration.zero : Motion.normal,
         switchInCurve: Motion.curve,
         transitionBuilder: (child, animation) => FadeTransition(
           opacity: animation,
-          child: ScaleTransition(scale: Tween(begin: 0.98, end: 1.0).animate(animation), child: child),
+          child: ScaleTransition(scale: Tween<double>(begin: 0.98, end: 1).animate(animation), child: child),
         ),
         child: KeyedSubtree(
           key: ValueKey('planner-view-$viewKey'),

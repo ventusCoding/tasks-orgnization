@@ -13,11 +13,7 @@ import 'support/support.dart';
 
 final ZoneClock paris = tzClock('Europe/Paris');
 
-QuitCalculator calculatorFrom(
-  Map<String, Object?> fx, {
-  bool autoSuccess = true,
-  String? now,
-}) {
+QuitCalculator calculatorFrom(Map<String, Object?> fx, {bool autoSuccess = true, String? now}) {
   final t = fx['tracker']! as Map<String, Object?>;
   final tracker = QuitTracker(
     at(paris, t['quitStartedAt']! as String),
@@ -25,9 +21,7 @@ QuitCalculator calculatorFrom(
     days: DayBoundaries(paris),
     autoSuccess: autoSuccess,
     baselinePerDay: (t['baselinePerDay']! as num).toDouble(),
-    unitCost: t['unitCost'] == null
-        ? null
-        : Decimal.parse(t['unitCost']! as String),
+    unitCost: t['unitCost'] == null ? null : Decimal.parse(t['unitCost']! as String),
     dailyLimit: (t['dailyLimit'] as num?)?.toDouble(),
     lifeMinutesPerUnit: (t['lifeMinutesPerUnit'] as num?)?.toDouble(),
     timePerUnitMinutes: (t['timePerUnitMinutes'] as num?)?.toDouble(),
@@ -38,9 +32,7 @@ QuitCalculator calculatorFrom(
         QuitRevision(
           d(r['from']! as String),
           baselinePerDay: (r['baselinePerDay'] as num?)?.toDouble(),
-          unitCost: r['unitCost'] == null
-              ? null
-              : Decimal.parse(r['unitCost']! as String),
+          unitCost: r['unitCost'] == null ? null : Decimal.parse(r['unitCost']! as String),
         ),
     ],
   );
@@ -61,11 +53,7 @@ QuitCalculator calculatorFrom(
         durationSeconds: l['durationSeconds'] as int?,
       ),
   ];
-  return QuitCalculator(
-    tracker,
-    logs,
-    now: at(paris, now ?? fx['now']! as String),
-  );
+  return QuitCalculator(tracker, logs, now: at(paris, now ?? fx['now']! as String));
 }
 
 double hours(Duration x) => x.inMinutes / 60;
@@ -82,21 +70,12 @@ void main() {
       expect(hours(s.currentAbstinence), e['currentAbstinenceHours']);
       expect(hours(s.longestAbstinence), e['longestAbstinenceHours']);
       expect(s.abstinentDays, e['abstinentDays']);
-      expect(
-        s.abstinentDayShare.valueOrNull,
-        near(e['abstinentShare']! as num),
-      );
+      expect(s.abstinentDayShare.valueOrNull, near(e['abstinentShare']! as num));
       expect(s.unitsAvoided, near(e['unitsAvoided']! as num));
       expect(s.moneySaved, Decimal.parse(e['moneySaved']! as String));
       expect(s.moneySpent, Decimal.parse(e['moneySpent']! as String));
-      expect(
-        s.projection!.nextYear,
-        Decimal.parse(e['projectionYear']! as String),
-      );
-      expect(
-        s.lifeRegainedMinutes.valueOrNull,
-        near(e['lifeRegainedMinutes']! as num),
-      );
+      expect(s.projection!.nextYear, Decimal.parse(e['projectionYear']! as String));
+      expect(s.lifeRegainedMinutes.valueOrNull, near(e['lifeRegainedMinutes']! as num));
       expect(s.timeNotSpentMinutes, near(e['timeNotSpentMinutes']! as num));
       expect(cleanOfTotal(c), (clean: 59, total: 60));
     });
@@ -109,10 +88,7 @@ void main() {
       expect(load.daily.length, 60);
       final context = cravingContext(c, weekStart: Weekday.sunday);
       final counts = (e['triggerCounts']! as Map).cast<String, int>();
-      expect(context.triggers.first, (
-        label: 'coffee',
-        count: counts['coffee'],
-      ));
+      expect(context.triggers.first, (label: 'coffee', count: counts['coffee']));
       expect(context.triggers.last, (label: 'Unspecified', count: counts['']));
       expect(context.matrix.first.$1, Weekday.sunday);
       expect(context.places.fold<int>(0, (a, p) => a + p.count), 40);
@@ -137,28 +113,17 @@ void main() {
     test('milestones, withdrawal, savings goal, money per period, pledges', () {
       final milestones = healthMilestones(c, const [
         QuitMilestone('20m', tMin: Duration(minutes: 20)),
-        QuitMilestone(
-          '2-12w',
-          tMin: Duration(days: 14),
-          tMax: Duration(days: 84),
-        ),
+        QuitMilestone('2-12w', tMin: Duration(days: 14), tMax: Duration(days: 84)),
         QuitMilestone('1y', tMin: Duration(days: 365)),
       ]).valueOrNull!;
       expect(milestones[0].state, MilestoneState.done);
       expect(milestones[1].state, MilestoneState.inWindow);
       expect(milestones[1].isNext, isTrue);
       expect(milestones[1].progress, near(966 / 24 / 84));
-      expect(
-        milestones[2].eta,
-        at(paris, '2026-06-20T18:00').add(const Duration(days: 365)),
-      );
+      expect(milestones[2].eta, at(paris, '2026-06-20T18:00').add(const Duration(days: 365)));
       expect(nextDayMilestone(c)!.milestone.id, 'day_60');
       expect(withdrawalPhase(c).valueOrNull!.name, e['withdrawal']);
-      final goal = savingsGoal(
-        c,
-        goal: Decimal.fromInt(1200),
-        dailySaving: Decimal.fromInt(13),
-      );
+      final goal = savingsGoal(c, goal: Decimal.fromInt(1200), dailySaving: Decimal.fromInt(13));
       expect(goal.etaDays.valueOrNull, e['savingsGoalEtaDays']);
       expect(goal.progress.valueOrNull, near(748.2 / 1200));
       final perMonth = moneySavedPerPeriod(c, granularity: Granularity.month);
@@ -181,10 +146,7 @@ void main() {
     final c = calculatorFrom(fx);
     test('reduction progress', () {
       final r = reductionProgress(c);
-      expect(
-        r.withinLimitShare.valueOrNull,
-        near(e['withinLimitShare']! as num),
-      );
+      expect(r.withinLimitShare.valueOrNull, near(e['withinLimitShare']! as num));
       expect(r.meanDailyUse.valueOrNull, near(e['meanUse']! as num));
       expect(r.reduction.valueOrNull, near(e['reduction']! as num));
       expect(r.unitsAvoided, near(e['unitsAvoided']! as num));
@@ -204,18 +166,14 @@ void main() {
     test('attempts, lapse vs relapse, survival across the DST change', () {
       final attempts = quitAttempts(c);
       expect(attempts.count, e['attempts']);
-      expect([
-        for (final a in c.attempts) hours(a.durationAt(c.now)),
-      ], e['attemptHours']);
+      expect([for (final a in c.attempts) hours(a.durationAt(c.now))], e['attemptHours']);
       expect(hours(attempts.longest), e['longestAttemptHours']);
       expect(attempts.currentRank, e['currentRank']);
       expect(hours(c.currentAbstinence), e['currentAbstinenceHours']);
       final classes = lapseRelapse(c);
       expect([for (final (_, r) in classes) r.isRelapse], e['relapse']);
       expect([for (final (_, r) in classes) r.rule?.name], e['relapseRule']);
-      expect([
-        for (final (_, r) in classes) r.detectedOn?.toIso(),
-      ], e['relapseDetectedOn']);
+      expect([for (final (_, r) in classes) r.detectedOn?.toIso()], e['relapseDetectedOn']);
       final km = timeToLapseSurvival(c).valueOrNull!;
       expect(km.medianSurvival, e['kmMedianHours']);
       final expectedSteps = (e['kmSurvival']! as List).cast<List<Object?>>();
@@ -230,113 +188,51 @@ void main() {
     });
   });
 
-  test(
-    'QT-15 acceptance: 10 cravings, 2 followed by a use within 2 h → 80 %',
-    () {
-      final bounds = DayBoundaries(paris);
-      final tracker = QuitTracker(
-        at(paris, '2026-09-01T00:00'),
-        mode: QuitMode.abstain,
-        days: bounds,
-        substance: 'alcohol',
-        baselinePerDay: 2,
-      );
-      final logs = [
-        for (var i = 0; i < 10; i++)
-          QuitLog(
-            'c$i',
-            HabitLogKind.craving,
-            loggedAt: at(
-              paris,
-              '2026-09-0${i ~/ 2 + 2}T${10 + (i % 2) * 6}:00',
-            ),
-            localDate: d('2026-09-0${i ~/ 2 + 2}'),
-            intensity: 5,
-          ),
+  test('QT-15 acceptance: 10 cravings, 2 followed by a use within 2 h → 80 %', () {
+    final bounds = DayBoundaries(paris);
+    final tracker = QuitTracker(
+      at(paris, '2026-09-01T00:00'),
+      mode: QuitMode.abstain,
+      days: bounds,
+      substance: 'alcohol',
+      baselinePerDay: 2,
+    );
+    final logs = [
+      for (var i = 0; i < 10; i++)
         QuitLog(
-          'u1',
-          HabitLogKind.relapse,
-          loggedAt: at(paris, '2026-09-02T11:30'),
-          localDate: d('2026-09-02'),
+          'c$i',
+          HabitLogKind.craving,
+          loggedAt: at(paris, '2026-09-0${i ~/ 2 + 2}T${10 + (i % 2) * 6}:00'),
+          localDate: d('2026-09-0${i ~/ 2 + 2}'),
+          intensity: 5,
         ),
-        QuitLog(
-          'u2',
-          HabitLogKind.relapse,
-          loggedAt: at(paris, '2026-09-03T17:59'),
-          localDate: d('2026-09-03'),
-        ),
-        QuitLog(
-          'p',
-          HabitLogKind.pledge,
-          loggedAt: at(paris, '2026-09-09T08:00'),
-          localDate: d('2026-09-09'),
-        ),
-        QuitLog(
-          'q',
-          HabitLogKind.clean,
-          loggedAt: at(paris, '2026-09-10T21:00'),
-          localDate: d('2026-09-10'),
-        ),
-      ];
-      final c = QuitCalculator(
-        tracker,
-        logs,
-        now: at(paris, '2026-09-10T22:00'),
-      );
-      expect(resistRate(c).valueOrNull, near(0.8));
-      expect(pledgeStreak(c), 2);
-      expect(
-        healthMilestones(c, const []),
-        isA<NotApplicable<List<MilestoneProgress>>>(),
-      );
-      expect(withdrawalPhase(c), isA<NotApplicable<WithdrawalPhase>>());
-      expect(quitSummary(c).lifeRegainedMinutes, isA<NotApplicable<double>>());
-      expect(
-        quitSummary(c, explicitLifeMinutesPerUnit: true).lifeRegainedMinutes,
-        isA<NotApplicable<double>>(),
-      );
-      final empty = QuitCalculator(
-        tracker,
-        const [],
-        now: at(paris, '2026-09-01T10:00'),
-      );
-      expect(cravingLoad(empty).perDay, isA<NotApplicable<double>>());
-      expect(
-        cravingsDecline(empty).changeVsWeek1,
-        isA<NotApplicable<double>>(),
-      );
-      expect(cravingFreeTime(empty).sinceLast, const Duration(hours: 10));
-      expect(
-        savingsGoal(empty, goal: Decimal.zero).progress,
-        isA<NotApplicable<double>>(),
-      );
-      final smoker = QuitCalculator(
-        QuitTracker(
-          at(paris, '2026-09-01T00:00'),
-          mode: QuitMode.abstain,
-          days: bounds,
-          substance: smokingSubstance,
-        ),
-        const [],
-        now: at(paris, '2026-09-02T00:00'),
-      );
-      expect(withdrawalPhase(smoker).valueOrNull, WithdrawalPhase.peak);
-      final week = QuitCalculator(
-        smoker.tracker,
-        const [],
-        now: at(paris, '2026-09-06T00:00'),
-      );
-      expect(withdrawalPhase(week).valueOrNull, WithdrawalPhase.firstWeek);
-      final easing = QuitCalculator(
-        smoker.tracker,
-        const [],
-        now: at(paris, '2026-09-20T00:00'),
-      );
-      expect(withdrawalPhase(easing).valueOrNull, WithdrawalPhase.easing);
-      expect(
-        quitSummary(smoker).lifeRegainedMinutes,
-        isA<NotApplicable<double>>(),
-      );
-    },
-  );
+      QuitLog('u1', HabitLogKind.relapse, loggedAt: at(paris, '2026-09-02T11:30'), localDate: d('2026-09-02')),
+      QuitLog('u2', HabitLogKind.relapse, loggedAt: at(paris, '2026-09-03T17:59'), localDate: d('2026-09-03')),
+      QuitLog('p', HabitLogKind.pledge, loggedAt: at(paris, '2026-09-09T08:00'), localDate: d('2026-09-09')),
+      QuitLog('q', HabitLogKind.clean, loggedAt: at(paris, '2026-09-10T21:00'), localDate: d('2026-09-10')),
+    ];
+    final c = QuitCalculator(tracker, logs, now: at(paris, '2026-09-10T22:00'));
+    expect(resistRate(c).valueOrNull, near(0.8));
+    expect(pledgeStreak(c), 2);
+    expect(healthMilestones(c, const []), isA<NotApplicable<List<MilestoneProgress>>>());
+    expect(withdrawalPhase(c), isA<NotApplicable<WithdrawalPhase>>());
+    expect(quitSummary(c).lifeRegainedMinutes, isA<NotApplicable<double>>());
+    expect(quitSummary(c, explicitLifeMinutesPerUnit: true).lifeRegainedMinutes, isA<NotApplicable<double>>());
+    final empty = QuitCalculator(tracker, const [], now: at(paris, '2026-09-01T10:00'));
+    expect(cravingLoad(empty).perDay, isA<NotApplicable<double>>());
+    expect(cravingsDecline(empty).changeVsWeek1, isA<NotApplicable<double>>());
+    expect(cravingFreeTime(empty).sinceLast, const Duration(hours: 10));
+    expect(savingsGoal(empty, goal: Decimal.zero).progress, isA<NotApplicable<double>>());
+    final smoker = QuitCalculator(
+      QuitTracker(at(paris, '2026-09-01T00:00'), mode: QuitMode.abstain, days: bounds, substance: smokingSubstance),
+      const [],
+      now: at(paris, '2026-09-02T00:00'),
+    );
+    expect(withdrawalPhase(smoker).valueOrNull, WithdrawalPhase.peak);
+    final week = QuitCalculator(smoker.tracker, const [], now: at(paris, '2026-09-06T00:00'));
+    expect(withdrawalPhase(week).valueOrNull, WithdrawalPhase.firstWeek);
+    final easing = QuitCalculator(smoker.tracker, const [], now: at(paris, '2026-09-20T00:00'));
+    expect(withdrawalPhase(easing).valueOrNull, WithdrawalPhase.easing);
+    expect(quitSummary(smoker).lifeRegainedMinutes, isA<NotApplicable<double>>());
+  });
 }

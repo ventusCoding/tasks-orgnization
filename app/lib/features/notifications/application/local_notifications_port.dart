@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:everslot/features/notifications/domain/notification_types.dart';
-import 'package:everslot/features/notifications/domain/scheduler/schedule_plan.dart'
-    show RepeatMatch;
+import 'package:everslot/features/notifications/domain/scheduler/schedule_plan.dart' show RepeatMatch;
 import 'package:meta/meta.dart';
 
 /// Device notification capabilities (T7.2.04), reported to `devices.capabilities`.
@@ -45,26 +44,21 @@ class NotificationCapabilities {
     'timeSensitive': timeSensitive,
     'fullScreenIntent': fullScreenIntent,
     'badge': badge,
-    if (blockedChannels.isNotEmpty)
-      'blockedChannels': blockedChannels.toList()..sort(),
+    if (blockedChannels.isNotEmpty) 'blockedChannels': blockedChannels.toList()..sort(),
   };
 
-  NotificationCapabilities copyWith({
-    bool? notifications,
-    bool? exactAlarm,
-    bool? provisional,
-    bool? determined,
-  }) => NotificationCapabilities(
-    platform: platform,
-    notifications: notifications ?? this.notifications,
-    provisional: provisional ?? this.provisional,
-    exactAlarm: exactAlarm ?? this.exactAlarm,
-    timeSensitive: timeSensitive,
-    fullScreenIntent: fullScreenIntent,
-    badge: badge,
-    blockedChannels: blockedChannels,
-    determined: determined ?? this.determined,
-  );
+  NotificationCapabilities copyWith({bool? notifications, bool? exactAlarm, bool? provisional, bool? determined}) =>
+      NotificationCapabilities(
+        platform: platform,
+        notifications: notifications ?? this.notifications,
+        provisional: provisional ?? this.provisional,
+        exactAlarm: exactAlarm ?? this.exactAlarm,
+        timeSensitive: timeSensitive,
+        fullScreenIntent: fullScreenIntent,
+        badge: badge,
+        blockedChannels: blockedChannels,
+        determined: determined ?? this.determined,
+      );
 
   @override
   bool operator ==(Object other) =>
@@ -81,15 +75,7 @@ class NotificationCapabilities {
       other.blockedChannels.containsAll(blockedChannels);
 
   @override
-  int get hashCode => Object.hash(
-    platform,
-    notifications,
-    provisional,
-    exactAlarm,
-    timeSensitive,
-    badge,
-    determined,
-  );
+  int get hashCode => Object.hash(platform, notifications, provisional, exactAlarm, timeSensitive, badge, determined);
 }
 
 /// A notification action button.
@@ -130,11 +116,7 @@ class OsAction {
 /// iOS notification category (registered up front, T7.2.03).
 @immutable
 class OsCategory {
-  const OsCategory({
-    required this.id,
-    required this.actions,
-    this.customDismiss = false,
-  });
+  const OsCategory({required this.id, required this.actions, this.customDismiss = false});
 
   final String id;
   final List<OsAction> actions;
@@ -258,13 +240,7 @@ class OsNotificationRequest {
 /// A user response (tap or action button).
 @immutable
 class OsResponse {
-  const OsResponse({
-    this.id,
-    this.actionId,
-    this.input,
-    this.payload,
-    this.background = false,
-  });
+  const OsResponse({this.id, this.actionId, this.input, this.payload, this.background = false});
 
   final int? id;
 
@@ -288,14 +264,7 @@ class PendingOsRequest {
 
 @immutable
 class ActiveOsNotification {
-  const ActiveOsNotification(
-    this.id, {
-    this.tag,
-    this.payload,
-    this.channelId,
-    this.title,
-    this.groupKey,
-  });
+  const ActiveOsNotification(this.id, {this.tag, this.payload, this.channelId, this.title, this.groupKey});
 
   final int? id;
   final String? tag;
@@ -319,11 +288,7 @@ abstract interface class LocalNotificationsPort {
   /// Re-registers iOS categories (replaces the whole set).
   Future<void> setCategories(List<OsCategory> categories);
 
-  Future<void> ensureChannels(
-    List<OsChannelGroup> groups,
-    List<OsChannel> channels, {
-    Set<String> delete = const {},
-  });
+  Future<void> ensureChannels(List<OsChannelGroup> groups, List<OsChannel> channels, {Set<String> delete = const {}});
 
   Future<void> schedule(OsNotificationRequest request);
 
@@ -353,18 +318,16 @@ abstract interface class LocalNotificationsPort {
 
 /// Fake port recording every call (tests, debug menu, platforms without a plugin).
 class InMemoryLocalNotificationsPort implements LocalNotificationsPort {
-  InMemoryLocalNotificationsPort({
-    this.platform = 'android',
-    NotificationCapabilities? capabilities,
-  }) : caps =
-           capabilities ??
-           NotificationCapabilities(
-             platform: platform,
-             notifications: true,
-             exactAlarm: true,
-             timeSensitive: true,
-             badge: true,
-           );
+  InMemoryLocalNotificationsPort({this.platform = 'android', NotificationCapabilities? capabilities})
+    : caps =
+          capabilities ??
+          NotificationCapabilities(
+            platform: platform,
+            notifications: true,
+            exactAlarm: true,
+            timeSensitive: true,
+            badge: true,
+          );
 
   @override
   final String platform;
@@ -386,17 +349,13 @@ class InMemoryLocalNotificationsPort implements LocalNotificationsPort {
   void respond(OsResponse response) => _onResponse?.call(response);
 
   @override
-  Future<void> initialize({
-    required List<OsCategory> categories,
-    required void Function(OsResponse) onResponse,
-  }) async {
+  Future<void> initialize({required List<OsCategory> categories, required void Function(OsResponse) onResponse}) async {
     this.categories = categories;
     _onResponse = onResponse;
   }
 
   @override
-  Future<void> setCategories(List<OsCategory> categories) async =>
-      this.categories = categories;
+  Future<void> setCategories(List<OsCategory> categories) async => this.categories = categories;
 
   @override
   Future<void> ensureChannels(
@@ -442,8 +401,7 @@ class InMemoryLocalNotificationsPort implements LocalNotificationsPort {
 
   @override
   Future<List<PendingOsRequest>> pending() async => [
-    for (final r in scheduled.values)
-      PendingOsRequest(r.id, title: r.title, payload: r.payload),
+    for (final r in scheduled.values) PendingOsRequest(r.id, title: r.title, payload: r.payload),
   ];
 
   @override
@@ -481,10 +439,7 @@ class InMemoryLocalNotificationsPort implements LocalNotificationsPort {
 
   @override
   Future<bool> requestPermission({bool provisional = false}) async {
-    caps = caps.copyWith(
-      notifications: permissionResult,
-      provisional: provisional && permissionResult,
-    );
+    caps = caps.copyWith(notifications: permissionResult, provisional: provisional && permissionResult);
     return permissionResult;
   }
 

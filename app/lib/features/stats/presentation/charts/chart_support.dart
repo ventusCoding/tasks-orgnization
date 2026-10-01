@@ -77,7 +77,7 @@ Duration chartAnimation(BuildContext context) =>
 
 /// "Nice" axis scale: 1-2-5 steps, at most [maxTicks] ticks, starting at 0 for counts and rates.
 ({double min, double max, double step}) niceScale(double lo, double hi, {int maxTicks = 5, bool zeroBased = true}) {
-  var min = zeroBased ? math.min(0.0, lo) : lo;
+  var min = zeroBased ? math.min<double>(0, lo) : lo;
   var max = hi;
   if (!min.isFinite || !max.isFinite) return (min: 0, max: 1, step: 1);
   if (max <= min) {
@@ -86,7 +86,7 @@ Duration chartAnimation(BuildContext context) =>
   final raw = (max - min) / math.max(1, maxTicks);
   final mag = math.pow(10, (math.log(raw) / math.ln10).floor()).toDouble();
   final norm = raw / mag;
-  final double nice = norm <= 1 ? 1 : (norm <= 2 ? 2 : (norm <= 5 ? 5 : 10));
+  final nice = norm <= 1 ? 1 : (norm <= 2 ? 2 : (norm <= 5 ? 5 : 10));
   final step = nice * mag;
   min = (min / step).floor() * step;
   max = (max / step).ceil() * step;

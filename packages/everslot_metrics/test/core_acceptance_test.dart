@@ -28,12 +28,7 @@ void main() {
   test('Loop strength acceptance (T6.1.10)', () {
     final start = d('2026-01-01');
     final days = [
-      for (var i = 0; i < 90; i++)
-        StrengthDay(
-          start.plusDays(i),
-          value: 1,
-          frequency: const StrengthFrequency.daily(),
-        ),
+      for (var i = 0; i < 90; i++) StrengthDay(start.plusDays(i), value: 1, frequency: const StrengthFrequency.daily()),
     ];
     final r = computeStrength(days);
     expect(r.series[12].score, near(0.5, 1e-3));
@@ -91,43 +86,25 @@ void main() {
     final ledger = buildLedger(
       units,
       now: now,
-      completions: [
-        for (final date in done)
-          LedgerCompletion(bounds.startOf(date).add(const Duration(hours: 9))),
-      ],
+      completions: [for (final date in done) LedgerCompletion(bounds.startOf(date).add(const Duration(hours: 9)))],
     );
     expect(ledger.expected, 9);
     expect(ledger.excused, 2);
     expect(ledger.done, 6);
     expect(ledger.missed, 1);
     expect(ledger.adherence.valueOrNull, near(6 / 7));
-    expect(
-      quotaExpectation(3, eligibleDays: 4, periodDays: 7),
-      near(1.714, 1e-3),
-    );
+    expect(quotaExpectation(3, eligibleDays: 4, periodDays: 7), near(1.714, 1e-3));
   });
 
   test('CFD 5-day fixture (T6.4.05)', () {
     final clock = tzClock('Europe/Paris');
     final day = [for (var i = 1; i <= 5; i++) d('2026-09-0$i')];
-    DateTime t(int dayIndex, int hour) => at(
-      clock,
-      '${day[dayIndex - 1].toIso()}T${hour.toString().padLeft(2, '0')}:00',
-    );
-    StatusEvent created(String id, int dd) => StatusEvent(
-      id,
-      StatusEventType.created,
-      occurredAt: t(dd, 9),
-      to: 'todo',
-    );
+    DateTime t(int dayIndex, int hour) =>
+        at(clock, '${day[dayIndex - 1].toIso()}T${hour.toString().padLeft(2, '0')}:00');
+    StatusEvent created(String id, int dd) =>
+        StatusEvent(id, StatusEventType.created, occurredAt: t(dd, 9), to: 'todo');
     StatusEvent change(String id, int dd, int h, String from, String to) =>
-        StatusEvent(
-          id,
-          StatusEventType.statusChanged,
-          occurredAt: t(dd, h),
-          from: from,
-          to: to,
-        );
+        StatusEvent(id, StatusEventType.statusChanged, occurredAt: t(dd, h), from: from, to: to);
     final events = [
       created('A', 1),
       created('B', 1),
@@ -148,12 +125,9 @@ void main() {
     ];
     final timelines = buildTimelines(events);
     final bounds = DayBoundaries(clock);
-    final counts = boundaryCounts(timelines.values, [
-      for (final x in day) bounds.endOf(x),
-    ]);
+    final counts = boundaryCounts(timelines.values, [for (final x in day) bounds.endOf(x)]);
     List<int> bands(BoundaryCounts c) => [
-      for (final s in ['todo', 'ongoing', 'waiting', 'blocked', 'completed'])
-        c.byStatus[s] ?? 0,
+      for (final s in ['todo', 'ongoing', 'waiting', 'blocked', 'completed']) c.byStatus[s] ?? 0,
     ];
     expect(counts.map(bands).toList(), [
       [2, 1, 0, 0, 0],
@@ -174,16 +148,8 @@ void main() {
       baselinePerDay: 20,
       unitCost: Decimal.parse('0.60'),
       revisions: [
-        QuitRevision(
-          d('2026-06-01'),
-          baselinePerDay: 20,
-          unitCost: Decimal.parse('0.60'),
-        ),
-        QuitRevision(
-          d('2026-07-01'),
-          baselinePerDay: 20,
-          unitCost: Decimal.parse('0.65'),
-        ),
+        QuitRevision(d('2026-06-01'), baselinePerDay: 20, unitCost: Decimal.parse('0.60')),
+        QuitRevision(d('2026-07-01'), baselinePerDay: 20, unitCost: Decimal.parse('0.65')),
       ],
       lifeMinutesPerUnit: 20,
     );
@@ -223,15 +189,7 @@ void main() {
     );
     final r = evaluateHabitPeriod(
       period,
-      [
-        HabitLog(
-          'l1',
-          HabitLogKind.progress,
-          loggedAt: at(clock, '2026-09-10T08:00'),
-          localDate: date,
-          value: 10,
-        ),
-      ],
+      [HabitLog('l1', HabitLogKind.progress, loggedAt: at(clock, '2026-09-10T08:00'), localDate: date, value: 10)],
       now: at(clock, '2026-09-11T08:00'),
       today: d('2026-09-11'),
     );

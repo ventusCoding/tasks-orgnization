@@ -118,9 +118,7 @@ class SyncService {
   static const conflictLogKey = 'sync_conflict_log';
   static const hlcStateKey = 'hlc_state';
 
-  final ValueNotifier<SyncStatus> status = ValueNotifier(
-    const SyncStatus(phase: SyncPhase.idle),
-  );
+  final ValueNotifier<SyncStatus> status = ValueNotifier(const SyncStatus(phase: SyncPhase.idle));
 
   /// Becomes true when the server reports this device as revoked (`device_revoked`): sync stops
   /// and the auth layer signs out and rotates the device id (T1.5.14).
@@ -253,24 +251,21 @@ class SyncService {
       _unsupportedClient = false;
       final now = clock.nowUtc();
       await _markSuccess(now);
-      _set(status.value.copyWith(
-        phase: SyncPhase.idle,
-        lastSuccessAt: now,
-        clearError: true,
-        clearProgress: true,
-      ));
+      _set(status.value.copyWith(phase: SyncPhase.idle, lastSuccessAt: now, clearError: true, clearProgress: true));
     } on SyncApiException catch (e, st) {
       retry = _handleApiError(e, st);
     } on Object catch (e, st) {
       _failures++;
       final offline = looksOffline(e);
       _log.warning('sync failed (${_failures}x)', e, st);
-      _set(status.value.copyWith(
-        phase: offline ? SyncPhase.offline : SyncPhase.error,
-        lastError: e.toString(),
-        errorCode: offline ? null : SyncErrorCodes.unknown,
-        clearProgress: true,
-      ));
+      _set(
+        status.value.copyWith(
+          phase: offline ? SyncPhase.offline : SyncPhase.error,
+          lastError: e.toString(),
+          errorCode: offline ? null : SyncErrorCodes.unknown,
+          clearProgress: true,
+        ),
+      );
     } finally {
       if (retry && !_disposed && status.value.phase != SyncPhase.idle) _scheduleRetry();
       await _refreshCounts();
@@ -290,12 +285,14 @@ class SyncService {
       case SyncApiException.unsupportedClient:
         _unsupportedClient = true;
         _log.warning('server refuses this build (unsupported_client) — sync paused until update');
-        _set(status.value.copyWith(
-          phase: SyncPhase.error,
-          errorCode: SyncErrorCodes.unsupportedClient,
-          lastError: e.message ?? e.code,
-          clearProgress: true,
-        ));
+        _set(
+          status.value.copyWith(
+            phase: SyncPhase.error,
+            errorCode: SyncErrorCodes.unsupportedClient,
+            lastError: e.message ?? e.code,
+            clearProgress: true,
+          ),
+        );
         return false;
       case SyncApiException.deviceRevoked:
         _log.warning('device revoked — stopping sync');
@@ -303,23 +300,27 @@ class SyncService {
         return false;
       case SyncApiException.notAuthenticated:
         _failures++;
-        _set(status.value.copyWith(
-          phase: SyncPhase.error,
-          errorCode: SyncErrorCodes.notAuthenticated,
-          lastError: e.message ?? e.code,
-          clearProgress: true,
-        ));
+        _set(
+          status.value.copyWith(
+            phase: SyncPhase.error,
+            errorCode: SyncErrorCodes.notAuthenticated,
+            lastError: e.message ?? e.code,
+            clearProgress: true,
+          ),
+        );
         return true;
       default:
         _failures++;
         final offline = e.code == 'simulated_offline';
         _log.warning('sync failed (${_failures}x)', e, st);
-        _set(status.value.copyWith(
-          phase: offline ? SyncPhase.offline : SyncPhase.error,
-          lastError: e.toString(),
-          errorCode: offline ? null : SyncErrorCodes.unknown,
-          clearProgress: true,
-        ));
+        _set(
+          status.value.copyWith(
+            phase: offline ? SyncPhase.offline : SyncPhase.error,
+            lastError: e.toString(),
+            errorCode: offline ? null : SyncErrorCodes.unknown,
+            clearProgress: true,
+          ),
+        );
         return true;
     }
   }
@@ -410,9 +411,9 @@ class SyncService {
           final entry = byId[result.changeId];
           if (entry == null) continue;
           matched++;
-          final current = await (db.select(db.syncOutbox)
-                ..where((o) => o.changeId.equals(result.changeId)))
-              .getSingleOrNull();
+          final current = await (db.select(
+            db.syncOutbox,
+          )..where((o) => o.changeId.equals(result.changeId))).getSingleOrNull();
           final modified = current != null && current.entryVersion != versions[result.changeId];
           switch (result.status) {
             case 'applied' || 'partial' || 'stale':
@@ -421,13 +422,15 @@ class SyncService {
                 // revision (pulled before this edit), so the pull would never bring it back:
                 // refetch the row to realign the local copy (convergence).
                 refetch.putIfAbsent(entry.tableName_, () => {}).add(entry.rowId);
-                conflicts.add(ConflictLogEntry(
-                  at: clock.nowUtc(),
-                  table: entry.tableName_,
-                  rowId: entry.rowId,
-                  fields: result.staleFields,
-                  status: result.status,
-                ));
+                conflicts.add(
+                  ConflictLogEntry(
+                    at: clock.nowUtc(),
+                    table: entry.tableName_,
+                    rowId: entry.rowId,
+                    fields: result.staleFields,
+                    status: result.status,
+                  ),
+                );
               }
               if (modified) {
                 await _setState(result.changeId, 'pending');
@@ -441,11 +444,12 @@ class SyncService {
               await _setState(result.changeId, 'pending');
               unsupported = true;
             default:
-              await (db.update(db.syncOutbox)..where((o) => o.changeId.equals(result.changeId)))
-                  .write(SyncOutboxCompanion(
-                    state: const Value('failed'),
-                    lastError: Value('${result.code}: ${result.message}'),
-                  ));
+              await (db.update(db.syncOutbox)..where((o) => o.changeId.equals(result.changeId))).write(
+                SyncOutboxCompanion(
+                  state: const Value('failed'),
+                  lastError: Value('${result.code}: ${result.message}'),
+                ),
+              );
           }
         }
         // Anything the server didn't mention goes back to pending.
@@ -468,11 +472,12 @@ class SyncService {
   }
 
   Future<List<OutboxRow>> _nextBatch() async {
-    final pending = await (db.select(db.syncOutbox)
-          ..where((o) => o.state.equals('pending'))
-          ..orderBy([(o) => OrderingTerm.asc(o.seq)])
-          ..limit(_batchSize * 2))
-        .get();
+    final pending =
+        await (db.select(db.syncOutbox)
+              ..where((o) => o.state.equals('pending'))
+              ..orderBy([(o) => OrderingTerm.asc(o.seq)])
+              ..limit(_batchSize * 2))
+            .get();
     if (pending.isEmpty) return const [];
     // Keep whole operation groups together.
     final order = <String>[];
@@ -482,10 +487,11 @@ class SyncService {
     final batch = <OutboxRow>[];
     for (final group in order) {
       // The group may have been cut by the limit above: load it completely.
-      final all = await (db.select(db.syncOutbox)
-            ..where((o) => o.opId.equals(group) & o.state.equals('pending'))
-            ..orderBy([(o) => OrderingTerm.asc(o.seq)]))
-          .get();
+      final all =
+          await (db.select(db.syncOutbox)
+                ..where((o) => o.opId.equals(group) & o.state.equals('pending'))
+                ..orderBy([(o) => OrderingTerm.asc(o.seq)]))
+              .get();
       if (batch.isNotEmpty && batch.length + all.length > _batchSize) break;
       batch.addAll(all);
       if (batch.length >= _batchSize) break;
@@ -493,10 +499,8 @@ class SyncService {
     return batch;
   }
 
-  Future<void> _resetInflight() => db.customUpdate(
-    "UPDATE sync_outbox SET state = 'pending' WHERE state = 'inflight'",
-    updates: {db.syncOutbox},
-  );
+  Future<void> _resetInflight() =>
+      db.customUpdate("UPDATE sync_outbox SET state = 'pending' WHERE state = 'inflight'", updates: {db.syncOutbox});
 
   Future<void> _markFailed(List<OutboxRow> batch, String error) => db.customUpdate(
     "UPDATE sync_outbox SET state = 'failed', last_error = ? "
@@ -505,9 +509,9 @@ class SyncService {
     updates: {db.syncOutbox},
   );
 
-  Future<void> _setState(String changeId, String state) =>
-      (db.update(db.syncOutbox)..where((o) => o.changeId.equals(changeId)))
-          .write(SyncOutboxCompanion(state: Value(state)));
+  Future<void> _setState(String changeId, String state) => (db.update(
+    db.syncOutbox,
+  )..where((o) => o.changeId.equals(changeId))).write(SyncOutboxCompanion(state: Value(state)));
 
   Future<void> _deleteEntry(String changeId) =>
       (db.delete(db.syncOutbox)..where((o) => o.changeId.equals(changeId))).go();
@@ -531,8 +535,7 @@ class SyncService {
     for (final r in rows) {
       byTable.putIfAbsent(r.tableName_, () => {}).add(r.rowId);
     }
-    await (db.delete(db.syncOutbox)..where((o) => o.changeId.isIn([for (final r in rows) r.changeId])))
-        .go();
+    await (db.delete(db.syncOutbox)..where((o) => o.changeId.isIn([for (final r in rows) r.changeId]))).go();
     await _refreshCounts();
     for (final e in byTable.entries) {
       try {
@@ -550,9 +553,7 @@ class SyncService {
     var cursor = state?.cursor ?? 0;
     _cursor ??= cursor;
     final lastSuccess = state?.lastSuccessAt;
-    final full =
-        cursor == 0 ||
-        (lastSuccess != null && clock.nowUtc().difference(lastSuccess) > tombstoneRetention);
+    final full = cursor == 0 || (lastSuccess != null && clock.nowUtc().difference(lastSuccess) > tombstoneRetention);
     if (full) cursor = 0;
     final seen = full ? <String, Set<String>>{} : null;
     var first = true;
@@ -572,13 +573,15 @@ class SyncService {
       final since = cursor;
       await _applyPage(page, seen);
       cursor = page.next;
-      _recentPulls.add(PullPageSummary(
-        at: clock.nowUtc(),
-        since: since,
-        next: page.next,
-        changes: page.changes.length,
-        more: page.more,
-      ));
+      _recentPulls.add(
+        PullPageSummary(
+          at: clock.nowUtc(),
+          since: since,
+          next: page.next,
+          changes: page.changes.length,
+          more: page.more,
+        ),
+      );
       while (_recentPulls.length > 20) {
         _recentPulls.removeAt(0);
       }
@@ -610,11 +613,7 @@ class SyncService {
         await _applyRow(t, change.row);
         touched.add(t.info);
       }
-      await _saveState(
-        cursor: page.next,
-        lastPullAt: clock.nowUtc(),
-        purgeWatermark: page.purgeWatermark,
-      );
+      await _saveState(cursor: page.next, lastPullAt: clock.nowUtc(), purgeWatermark: page.purgeWatermark);
     });
     _cursor = page.next;
     if (touched.isNotEmpty) {
@@ -650,10 +649,10 @@ class SyncService {
     } else {
       final cols = values.keys.where((c) => c != 'id' && !pending.contains(c)).toList();
       if (cols.isNotEmpty) {
-        await db.customStatement(
-          'UPDATE ${t.name} SET ${cols.map((c) => '$c = ?').join(', ')} WHERE id = ?',
-          [for (final c in cols) values[c], id],
-        );
+        await db.customStatement('UPDATE ${t.name} SET ${cols.map((c) => '$c = ?').join(', ')} WHERE id = ?', [
+          for (final c in cols) values[c],
+          id,
+        ]);
       }
     }
   }
@@ -676,9 +675,7 @@ class SyncService {
   Future<void> _dropUnseenAfterFullSync(Map<String, Set<String>> seen) async {
     for (final t in registry.tables) {
       final ids = seen[t.name] ?? const <String>{};
-      final local = await db
-          .customSelect('SELECT id FROM ${t.name} WHERE rev > 0')
-          .get();
+      final local = await db.customSelect('SELECT id FROM ${t.name} WHERE rev > 0').get();
       final stale = [
         for (final r in local)
           if (!ids.contains(r.data['id'])) r.data['id'] as String,
@@ -706,10 +703,7 @@ class SyncService {
         }
         for (final id in result.missing) {
           await db.customStatement('DELETE FROM ${t.name} WHERE id = ?', [id]);
-          await db.customStatement(
-            'DELETE FROM sync_outbox WHERE table_name = ? AND row_id = ?',
-            [t.name, id],
-          );
+          await db.customStatement('DELETE FROM sync_outbox WHERE table_name = ? AND row_id = ?', [t.name, id]);
         }
       });
     }
@@ -724,31 +718,28 @@ class SyncService {
   /// Current persisted sync state of the user (diagnostics).
   Future<SyncStateRow?> loadState() => _loadState();
 
-  Future<void> _saveState({
-    int? cursor,
-    DateTime? lastPushAt,
-    DateTime? lastPullAt,
-    int? purgeWatermark,
-  }) async {
-    await db.into(db.syncState).insert(
-      SyncStateCompanion.insert(
-        userId: userId(),
-        cursor: Value(cursor ?? 0),
-        hlc: Value(hlc.state),
-        lastPushAt: Value.absentIfNull(lastPushAt),
-        lastPullAt: Value.absentIfNull(lastPullAt),
-        purgeWatermarkSeen: Value.absentIfNull(purgeWatermark),
-      ),
-      onConflict: DoUpdate(
-        (old) => SyncStateCompanion(
-          cursor: cursor == null ? const Value.absent() : Value(cursor),
-          hlc: Value(hlc.state),
-          lastPushAt: Value.absentIfNull(lastPushAt),
-          lastPullAt: Value.absentIfNull(lastPullAt),
-          purgeWatermarkSeen: Value.absentIfNull(purgeWatermark),
-        ),
-      ),
-    );
+  Future<void> _saveState({int? cursor, DateTime? lastPushAt, DateTime? lastPullAt, int? purgeWatermark}) async {
+    await db
+        .into(db.syncState)
+        .insert(
+          SyncStateCompanion.insert(
+            userId: userId(),
+            cursor: Value(cursor ?? 0),
+            hlc: Value(hlc.state),
+            lastPushAt: Value.absentIfNull(lastPushAt),
+            lastPullAt: Value.absentIfNull(lastPullAt),
+            purgeWatermarkSeen: Value.absentIfNull(purgeWatermark),
+          ),
+          onConflict: DoUpdate(
+            (old) => SyncStateCompanion(
+              cursor: cursor == null ? const Value.absent() : Value(cursor),
+              hlc: Value(hlc.state),
+              lastPushAt: Value.absentIfNull(lastPushAt),
+              lastPullAt: Value.absentIfNull(lastPullAt),
+              purgeWatermarkSeen: Value.absentIfNull(purgeWatermark),
+            ),
+          ),
+        );
     await _persistHlc();
   }
 
@@ -762,8 +753,9 @@ class SyncService {
 
   Future<void> _markSuccess(DateTime now) async {
     await _saveState();
-    await (db.update(db.syncState)..where((s) => s.userId.equals(userId())))
-        .write(SyncStateCompanion(lastSuccessAt: Value(now), lastError: const Value(null)));
+    await (db.update(db.syncState)..where((s) => s.userId.equals(userId()))).write(
+      SyncStateCompanion(lastSuccessAt: Value(now), lastError: const Value(null)),
+    );
   }
 
   Future<void> _appendConflicts(List<ConflictLogEntry> entries) async {
@@ -773,14 +765,17 @@ class SyncService {
     await db.customStatement(
       'INSERT INTO local_kv(key, value) VALUES (?, ?) '
       'ON CONFLICT(key) DO UPDATE SET value = excluded.value',
-      [conflictLogKey, jsonEncode([for (final e in kept) e.toJson()])],
+      [
+        conflictLogKey,
+        jsonEncode([for (final e in kept) e.toJson()]),
+      ],
     );
   }
 
   /// Local conflict log (newest first).
   Future<List<ConflictLogEntry>> conflictLog() async {
     final row = await db
-        .customSelect('SELECT value FROM local_kv WHERE key = ?', variables: [Variable<String>(conflictLogKey)])
+        .customSelect('SELECT value FROM local_kv WHERE key = ?', variables: [const Variable<String>(conflictLogKey)])
         .getSingleOrNull();
     final raw = row?.data['value'] as String?;
     if (raw == null) return const [];
@@ -796,8 +791,7 @@ class SyncService {
     }
   }
 
-  Future<void> clearConflictLog() =>
-      db.customStatement('DELETE FROM local_kv WHERE key = ?', [conflictLogKey]);
+  Future<void> clearConflictLog() => db.customStatement('DELETE FROM local_kv WHERE key = ?', [conflictLogKey]);
 
   Future<void> _refreshCounts() async {
     if (_disposed) return;
@@ -807,10 +801,12 @@ class SyncService {
           "SUM(CASE WHEN state = 'failed' THEN 1 ELSE 0 END) AS f FROM sync_outbox",
         )
         .getSingle();
-    _set(status.value.copyWith(
-      pendingChanges: (count.data['p'] as int?) ?? 0,
-      failedChanges: (count.data['f'] as int?) ?? 0,
-    ));
+    _set(
+      status.value.copyWith(
+        pendingChanges: (count.data['p'] as int?) ?? 0,
+        failedChanges: (count.data['f'] as int?) ?? 0,
+      ),
+    );
   }
 
   void _set(SyncStatus value) {

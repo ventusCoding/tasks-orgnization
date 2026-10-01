@@ -51,8 +51,7 @@ class AuthUser {
       other.pendingEmail == pendingEmail;
 
   @override
-  int get hashCode =>
-      Object.hash(id, email, isAnonymous, Object.hashAll(providers), displayName, pendingEmail);
+  int get hashCode => Object.hash(id, email, isAnonymous, Object.hashAll(providers), displayName, pendingEmail);
 
   @override
   String toString() => 'AuthUser($id, anonymous: $isAnonymous, providers: $providers)';
@@ -76,13 +75,41 @@ class AuthIdentity {
 
   @override
   bool operator ==(Object other) =>
-      other is AuthIdentity &&
-      other.provider == provider &&
-      other.identityId == identityId &&
-      other.email == email;
+      other is AuthIdentity && other.provider == provider && other.identityId == identityId && other.email == email;
 
   @override
   int get hashCode => Object.hash(provider, identityId, email);
+}
+
+/// An authenticator-app (TOTP) factor of the account (T1.5.17).
+class MfaFactor {
+  const MfaFactor({required this.id, required this.verified, this.friendlyName});
+
+  final String id;
+
+  /// False while an enrollment was started but its first code not confirmed yet.
+  final bool verified;
+  final String? friendlyName;
+
+  @override
+  bool operator ==(Object other) =>
+      other is MfaFactor && other.id == id && other.verified == verified && other.friendlyName == friendlyName;
+
+  @override
+  int get hashCode => Object.hash(id, verified, friendlyName);
+}
+
+/// A started TOTP enrollment: the key (and `otpauth://` URI) to add to an authenticator app.
+/// Never logged.
+class TotpEnrollment {
+  const TotpEnrollment({required this.factorId, required this.secret, required this.uri});
+
+  final String factorId;
+  final String secret;
+  final String uri;
+
+  @override
+  String toString() => 'TotpEnrollment($factorId)';
 }
 
 /// Why an auth operation failed — mapped to localized messages by the UI.
@@ -100,6 +127,9 @@ enum AuthFailureCode {
   guestDisabled,
   sessionExpired,
   lastIdentity,
+
+  /// The account has two-step verification: an authenticator code is needed first (aal2).
+  mfaRequired,
   unknown,
 }
 
@@ -137,7 +167,7 @@ bool isValidEmail(String value) {
 
 /// Normalizes a pasted/typed one-time code: keeps digits only, max [length].
 String normalizeOtp(String value, {int length = 6}) {
-  final digits = value.replaceAll(RegExp(r'[^0-9٠-٩۰-۹]'), '');
+  final digits = value.replaceAll(RegExp('[^0-9٠-٩۰-۹]'), '');
   final ascii = StringBuffer();
   for (final rune in digits.runes) {
     // Arabic-Indic (U+0660–0669) and Extended Arabic-Indic (U+06F0–06F9) digits → ASCII.

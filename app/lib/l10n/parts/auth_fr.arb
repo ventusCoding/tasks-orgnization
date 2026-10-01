@@ -116,5 +116,12 @@
   "authMfaVerifyTitle": "Saisissez le code de votre application d'authentification",
   "authZoneSearch": "Rechercher un fuseau horaire",
   "authZoneDetected": "Détecté sur cet appareil",
-  "authZoneNoMatch": "Aucun fuseau horaire ne correspond à votre recherche"
+  "authZoneNoMatch": "Aucun fuseau horaire ne correspond à votre recherche",
+  "authMfaVerifyBody": "Ouvrez votre application d'authentification et saisissez le code à 6 chiffres d'Everslot.",
+  "authMfaDisableBody": "Saisissez un code de votre application d'authentification pour désactiver la validation en deux étapes.",
+  "authMfaDisabled": "La validation en deux étapes est désactivée.",
+  "authMfaCopySecret": "Copier la clé",
+  "authMfaSecretCopied": "Clé de configuration copiée.",
+  "authMfaOpenApp": "Ouvrir dans l'application d'authentification",
+  "authErrorMfaRequired": "Saisissez le code de votre application d'authentification pour continuer."
 }

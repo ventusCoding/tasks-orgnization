@@ -13,7 +13,7 @@ enum OccupancyMetric { planned, tracked }
 /// Minutes per (weekday 1–7, hour 0–23) cell, with the items behind each cell.
 @immutable
 class OccupancyGrid {
-  OccupancyGrid._(this._minutes, this._items, this.weeks);
+  const OccupancyGrid._(this._minutes, this._items, this.weeks);
 
   /// Aggregates [items] over the [days] days from [start]; timed items only (all-day items don't
   /// occupy hours). [metric] tracked uses the tracked seconds (capped by the item's span).
@@ -33,7 +33,7 @@ class OccupancyGrid {
       final span = item.durationMinutes;
       final weight = switch (metric) {
         OccupancyMetric.planned => 1.0,
-        OccupancyMetric.tracked => span == 0 ? 0.0 : math.min(1.0, (item.trackedSeconds ?? 0) / 60 / span),
+        OccupancyMetric.tracked => span == 0 ? 0.0 : math.min(1, (item.trackedSeconds ?? 0) / 60 / span),
       };
       if (weight == 0) continue;
       var cursor = LocalDateTime.max(item.startLocal, from);

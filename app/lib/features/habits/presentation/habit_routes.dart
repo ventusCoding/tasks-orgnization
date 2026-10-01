@@ -17,7 +17,10 @@ abstract final class HabitRoutes {
     if (template != null) {
       // Templates are an in-app flow (the route has no template parameter).
       return Navigator.of(context).push<void>(
-        MaterialPageRoute(fullscreenDialog: true, builder: (_) => HabitEditorScreen(kind: kind, template: template)),
+        MaterialPageRoute(
+          fullscreenDialog: true,
+          builder: (_) => HabitEditorScreen(kind: kind, template: template),
+        ),
       );
     }
     return HabitNav.push(context, AppLinks.habitNew(kind: kind), (_) => HabitEditorScreen(kind: kind));

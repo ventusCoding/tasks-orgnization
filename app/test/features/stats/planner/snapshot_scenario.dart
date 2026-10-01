@@ -8,19 +8,55 @@ library;
 
 Map<String, Object?> snapshotScenario() {
   final occurrences = <Map<String, Object?>>[
-    {'id': 'o-d1', 'task_id': 'd1', 'occurrence_key': '2026-09-15T09:00', 'status': 'done', 'completed_at': '2026-09-15T09:30:00.000Z'},
-    {'id': 'o-p1', 'task_id': 'p1', 'occurrence_key': '2026-09-16T11:00', 'status': 'done', 'completed_at': '2026-09-16T11:30:00.000Z'},
-    {'id': 'o-u1', 'task_id': 'u1', 'occurrence_key': '2026-09-17T14:00', 'status': 'done', 'completed_at': '2026-09-17T14:20:00.000Z'},
+    {
+      'id': 'o-d1',
+      'task_id': 'd1',
+      'occurrence_key': '2026-09-15T09:00',
+      'status': 'done',
+      'completed_at': '2026-09-15T09:30:00.000Z',
+    },
+    {
+      'id': 'o-p1',
+      'task_id': 'p1',
+      'occurrence_key': '2026-09-16T11:00',
+      'status': 'done',
+      'completed_at': '2026-09-16T11:30:00.000Z',
+    },
+    {
+      'id': 'o-u1',
+      'task_id': 'u1',
+      'occurrence_key': '2026-09-17T14:00',
+      'status': 'done',
+      'completed_at': '2026-09-17T14:20:00.000Z',
+    },
   ];
   for (var day = 14; day <= 20; day++) {
     final key = '2026-09-${day}T07:00';
     occurrences.add(
       day == 16
-          ? {'id': 'o-r$day', 'task_id': 'r', 'occurrence_key': key, 'status': 'cancelled', 'is_cancelled': true, 'status_changed_at': '2026-09-13T12:00:00.000Z'}
-          : {'id': 'o-r$day', 'task_id': 'r', 'occurrence_key': key, 'status': 'done', 'completed_at': '2026-09-${day}T07:10:00.000Z'},
+          ? {
+              'id': 'o-r$day',
+              'task_id': 'r',
+              'occurrence_key': key,
+              'status': 'cancelled',
+              'is_cancelled': true,
+              'status_changed_at': '2026-09-13T12:00:00.000Z',
+            }
+          : {
+              'id': 'o-r$day',
+              'task_id': 'r',
+              'occurrence_key': key,
+              'status': 'done',
+              'completed_at': '2026-09-${day}T07:10:00.000Z',
+            },
     );
   }
-  Map<String, Object?> task(String id, String start, {String created = '2026-09-10T08:00:00.000Z', String? recurrence}) => {
+  Map<String, Object?> task(
+    String id,
+    String start, {
+    String created = '2026-09-10T08:00:00.000Z',
+    String? recurrence,
+  }) => {
     'id': id,
     'series_id': id,
     'title': id,
@@ -36,7 +72,11 @@ Map<String, Object?> snapshotScenario() {
       task('d1', '2026-09-15T09:00'),
       task('p1', '2026-09-16T11:00'),
       task('u1', '2026-09-17T14:00', created: '2026-09-16T08:00:00.000Z'),
-      task('r', '2026-09-14T07:00', recurrence: '{"v":1,"type":"fixed","freq":"daily","interval":1,"until":"2026-09-20T23:59"}'),
+      task(
+        'r',
+        '2026-09-14T07:00',
+        recurrence: '{"v":1,"type":"fixed","freq":"daily","interval":1,"until":"2026-09-20T23:59"}',
+      ),
     ],
     'task_occurrences': occurrences,
     'activity_events': [
@@ -46,7 +86,13 @@ Map<String, Object?> snapshotScenario() {
         'entity_id': 'm1',
         'event_type': 'rescheduled',
         'occurred_at': '2026-09-15T09:00:00.000Z',
-        'payload': {'occurrenceKey': '2026-09-14T10:00', 'fromStart': '2026-09-14T10:00', 'toStart': '2026-09-21T10:00', 'fromDuration': 30, 'toDuration': 30},
+        'payload': {
+          'occurrenceKey': '2026-09-14T10:00',
+          'fromStart': '2026-09-14T10:00',
+          'toStart': '2026-09-21T10:00',
+          'fromDuration': 30,
+          'toDuration': 30,
+        },
       },
       {
         'id': 'ev-p1',
@@ -54,7 +100,13 @@ Map<String, Object?> snapshotScenario() {
         'entity_id': 'p1',
         'event_type': 'rescheduled',
         'occurred_at': '2026-09-12T09:00:00.000Z',
-        'payload': {'occurrenceKey': '2026-09-13T11:00', 'fromStart': '2026-09-13T11:00', 'toStart': '2026-09-16T11:00', 'fromDuration': 30, 'toDuration': 30},
+        'payload': {
+          'occurrenceKey': '2026-09-13T11:00',
+          'fromStart': '2026-09-13T11:00',
+          'toStart': '2026-09-16T11:00',
+          'fromDuration': 30,
+          'toDuration': 30,
+        },
       },
     ],
   };

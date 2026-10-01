@@ -42,15 +42,10 @@ final class const DaySectionFacts(
   final double? mood,
 });
 
-double _sumOf(
-  Iterable<DaySectionFacts> days,
-  num? Function(DaySectionFacts d) pick,
-) => days.fold(0, (a, d) => a + (pick(d) ?? 0));
+double _sumOf(Iterable<DaySectionFacts> days, num? Function(DaySectionFacts d) pick) =>
+    days.fold(0, (a, d) => a + (pick(d) ?? 0));
 
-bool _any(
-  Iterable<DaySectionFacts> days,
-  Object? Function(DaySectionFacts d) pick,
-) => days.any((d) => pick(d) != null);
+bool _any(Iterable<DaySectionFacts> days, Object? Function(DaySectionFacts d) pick) => days.any((d) => pick(d) != null);
 
 // ---------------------------------------------------------------------------------------------
 // GL-01 Today board, GL-02 week at a glance
@@ -72,22 +67,10 @@ final class const TodayBoard({
 
 /// GL-01 — agenda progress (PL-X-01 for today), habits done ÷ due (HB-X-01) and perfect-day status,
 /// cravings today (QT-13), items completed today, WIP/blocked (CL-X-03), overdue (PL-X-06), next up.
-TodayBoard todayBoard(
-  DaySectionFacts today, {
-  int? wip,
-  int? blocked,
-  int? overdue,
-  String? nextUpId,
-}) => TodayBoard(
-  agendaProgress: today.plannerPlanned == null
-      ? null
-      : rate(today.plannerDone ?? 0, today.plannerPlanned!),
-  habitsProgress: today.habitsDue == null
-      ? null
-      : rate(today.habitsDone ?? 0, today.habitsDue!),
-  perfectDay: today.habitsDue == null || today.habitsDue == 0
-      ? null
-      : (today.habitsDone ?? 0) >= today.habitsDue!,
+TodayBoard todayBoard(DaySectionFacts today, {int? wip, int? blocked, int? overdue, String? nextUpId}) => TodayBoard(
+  agendaProgress: today.plannerPlanned == null ? null : rate(today.plannerDone ?? 0, today.plannerPlanned!),
+  habitsProgress: today.habitsDue == null ? null : rate(today.habitsDone ?? 0, today.habitsDue!),
+  perfectDay: today.habitsDue == null || today.habitsDue == 0 ? null : (today.habitsDone ?? 0) >= today.habitsDue!,
   cravingsToday: today.cravings,
   itemsCompletedToday: today.itemsCompleted,
   wip: wip,
@@ -116,25 +99,13 @@ final class const WeekKpis({
 WeekKpis weekKpis(Iterable<DaySectionFacts> days) {
   final list = days.toList();
   return WeekKpis(
-    completionVsPlan: rate(
-      _sumOf(list, (d) => d.plannerDone),
-      _sumOf(list, (d) => d.plannerPlanned),
-    ),
-    onTimeRate: rate(
-      _sumOf(list, (d) => d.plannerDoneOnTime),
-      _sumOf(list, (d) => d.plannerDone),
-    ),
+    completionVsPlan: rate(_sumOf(list, (d) => d.plannerDone), _sumOf(list, (d) => d.plannerPlanned)),
+    onTimeRate: rate(_sumOf(list, (d) => d.plannerDoneOnTime), _sumOf(list, (d) => d.plannerDone)),
     plannedHours: _sumOf(list, (d) => d.plannedMinutes) / 60,
     actualHours: _sumOf(list, (d) => d.actualMinutes) / 60,
-    habitSuccess: rate(
-      _sumOf(list, (d) => d.habitsDone),
-      _sumOf(list, (d) => d.habitsDue),
-    ),
+    habitSuccess: rate(_sumOf(list, (d) => d.habitsDone), _sumOf(list, (d) => d.habitsDue)),
     itemsCompleted: _sumOf(list, (d) => d.itemsCompleted).round(),
-    moneySaved: list.fold(
-      Decimal.zero,
-      (a, d) => a + (d.moneySaved ?? Decimal.zero),
-    ),
+    moneySaved: list.fold(Decimal.zero, (a, d) => a + (d.moneySaved ?? Decimal.zero)),
     hasPlanner: _any(list, (d) => d.plannerPlanned),
     hasHabits: _any(list, (d) => d.habitsDue),
     hasLists: _any(list, (d) => d.itemsCompleted),
@@ -147,46 +118,20 @@ typedef KpiDelta = ({String metricId, PeriodComparison comparison});
 
 List<KpiDelta> _compareKpis(WeekKpis cur, WeekKpis prev) => [
   if (cur.hasPlanner)
-    (
-      metricId: 'PL-X-01',
-      comparison: compareWithPrevious(
-        cur.completionVsPlan,
-        prev.completionVsPlan,
-        isRate: true,
-      ),
-    ),
+    (metricId: 'PL-X-01', comparison: compareWithPrevious(cur.completionVsPlan, prev.completionVsPlan, isRate: true)),
   if (cur.hasPlanner)
-    (
-      metricId: 'PL-X-12',
-      comparison: compareWithPrevious(
-        Value(cur.actualHours),
-        Value(prev.actualHours),
-      ),
-    ),
+    (metricId: 'PL-X-12', comparison: compareWithPrevious(Value(cur.actualHours), Value(prev.actualHours))),
   if (cur.hasHabits)
-    (
-      metricId: 'HB-X-04',
-      comparison: compareWithPrevious(
-        cur.habitSuccess,
-        prev.habitSuccess,
-        isRate: true,
-      ),
-    ),
+    (metricId: 'HB-X-04', comparison: compareWithPrevious(cur.habitSuccess, prev.habitSuccess, isRate: true)),
   if (cur.hasLists)
     (
       metricId: 'CL-X-04',
-      comparison: compareWithPrevious(
-        Value(cur.itemsCompleted.toDouble()),
-        Value(prev.itemsCompleted.toDouble()),
-      ),
+      comparison: compareWithPrevious(Value(cur.itemsCompleted.toDouble()), Value(prev.itemsCompleted.toDouble())),
     ),
   if (cur.hasQuit)
     (
       metricId: 'QT-07',
-      comparison: compareWithPrevious(
-        Value(cur.moneySaved.toDouble()),
-        Value(prev.moneySaved.toDouble()),
-      ),
+      comparison: compareWithPrevious(Value(cur.moneySaved.toDouble()), Value(prev.moneySaved.toDouble())),
     ),
 ];
 
@@ -198,16 +143,10 @@ List<KpiDelta> _compareKpis(WeekKpis cur, WeekKpis prev) => [
 }) {
   final start = today.startOfWeek(weekStart);
   final elapsed = start.daysUntil(today) + 1;
-  final cur = weekKpis(
-    facts.where((f) => !f.date.isBefore(start) && !f.date.isAfter(today)),
-  );
+  final cur = weekKpis(facts.where((f) => !f.date.isBefore(start) && !f.date.isAfter(today)));
   final prevStart = start.minusDays(7);
   final prev = weekKpis(
-    facts.where(
-      (f) =>
-          !f.date.isBefore(prevStart) &&
-          f.date.isBefore(prevStart.plusDays(elapsed)),
-    ),
+    facts.where((f) => !f.date.isBefore(prevStart) && f.date.isBefore(prevStart.plusDays(elapsed))),
   );
   return (current: cur, previous: prev, deltas: _compareKpis(cur, prev));
 }
@@ -265,11 +204,8 @@ final class const WeeklyReviewInput({
   final List<String> overdueFollowUpItemIds = const [],
   final List<String> habitsAtRiskIds = const [],
   final List<({String? categoryId, double minutes})> timeByCategory = const [],
-  final List<({String? categoryId, double minutes})> previousTimeByCategory =
-      const [],
-  final List<({LocalDate date, double plannedMinutes, double capacityMinutes})>
-      nextWeekLoad =
-      const [],
+  final List<({String? categoryId, double minutes})> previousTimeByCategory = const [],
+  final List<({LocalDate date, double plannedMinutes, double capacityMinutes})> nextWeekLoad = const [],
 });
 
 /// GL-03 — the weekly review report.
@@ -281,19 +217,8 @@ final class const WeeklyReport(
   required final List<KpiDelta> headline,
   required final List<ReviewItem> wins,
   required final List<ReviewItem> attention,
-  required final List<
-    ({String? categoryId, double minutes, Stat<double> delta})
-  >
-  topCategories,
-  required final List<
-    ({
-      LocalDate date,
-      double plannedMinutes,
-      double capacityMinutes,
-      bool overbooked,
-    })
-  >
-  nextWeek,
+  required final List<({String? categoryId, double minutes, Stat<double> delta})> topCategories,
+  required final List<({LocalDate date, double plannedMinutes, double capacityMinutes, bool overbooked})> nextWeek,
 });
 
 /// GL-03 — composes the weekly review for the week starting [weekStartDate] (default: the last
@@ -312,51 +237,32 @@ WeeklyReport buildWeeklyReview(
   final prev = weekKpis(facts.where((f) => prevWeek.contains(f.date)));
   final perfect = [
     for (final f in facts)
-      if (week.contains(f.date) &&
-          (f.habitsDue ?? 0) > 0 &&
-          (f.habitsDone ?? 0) >= f.habitsDue!)
-        f.date,
+      if (week.contains(f.date) && (f.habitsDue ?? 0) > 0 && (f.habitsDone ?? 0) >= f.habitsDue!) f.date,
   ];
   final wins = <ReviewItem>[
     for (final s in input.streaks)
       for (final m in streakMilestonesCrossed(s.previous, s.current))
-        ReviewItem(
-          ReviewItemKind.streakMilestone,
-          entityId: s.entityId,
-          value: m,
-        ),
-    if (perfect.isNotEmpty)
-      ReviewItem(ReviewItemKind.perfectDays, value: perfect.length),
-    for (final h in input.healthMilestonesReached)
-      ReviewItem(ReviewItemKind.healthMilestone, entityId: h),
-    for (final r in input.newRecordKeys)
-      ReviewItem(ReviewItemKind.newRecord, entityId: r),
+        ReviewItem(ReviewItemKind.streakMilestone, entityId: s.entityId, value: m),
+    if (perfect.isNotEmpty) ReviewItem(ReviewItemKind.perfectDays, value: perfect.length),
+    for (final h in input.healthMilestonesReached) ReviewItem(ReviewItemKind.healthMilestone, entityId: h),
+    for (final r in input.newRecordKeys) ReviewItem(ReviewItemKind.newRecord, entityId: r),
   ];
   final attention = <ReviewItem>[
-    for (final id in input.overdueTaskIds)
-      ReviewItem(ReviewItemKind.overdueTasks, entityId: id),
-    for (final id in input.blockedOrWaitingItemIds)
-      ReviewItem(ReviewItemKind.blockedWaiting, entityId: id),
-    for (final id in input.staleListIds)
-      ReviewItem(ReviewItemKind.staleLists, entityId: id),
-    for (final id in input.overdueFollowUpItemIds)
-      ReviewItem(ReviewItemKind.overdueFollowUps, entityId: id),
-    for (final id in input.habitsAtRiskIds)
-      ReviewItem(ReviewItemKind.habitsAtRisk, entityId: id),
+    for (final id in input.overdueTaskIds) ReviewItem(ReviewItemKind.overdueTasks, entityId: id),
+    for (final id in input.blockedOrWaitingItemIds) ReviewItem(ReviewItemKind.blockedWaiting, entityId: id),
+    for (final id in input.staleListIds) ReviewItem(ReviewItemKind.staleLists, entityId: id),
+    for (final id in input.overdueFollowUpItemIds) ReviewItem(ReviewItemKind.overdueFollowUps, entityId: id),
+    for (final id in input.habitsAtRiskIds) ReviewItem(ReviewItemKind.habitsAtRisk, entityId: id),
   ];
-  final previousByCategory = {
-    for (final c in input.previousTimeByCategory) c.categoryId: c.minutes,
-  };
-  final sortedCategories = [...input.timeByCategory]
-    ..sort((a, b) => b.minutes.compareTo(a.minutes));
+  final previousByCategory = {for (final c in input.previousTimeByCategory) c.categoryId: c.minutes};
+  final sortedCategories = [...input.timeByCategory]..sort((a, b) => b.minutes.compareTo(a.minutes));
   final nextWeek = [
     for (final d in input.nextWeekLoad)
       (
         date: d.date,
         plannedMinutes: d.plannedMinutes,
         capacityMinutes: d.capacityMinutes,
-        overbooked:
-            d.capacityMinutes > 0 && d.plannedMinutes > d.capacityMinutes,
+        overbooked: d.capacityMinutes > 0 && d.plannedMinutes > d.capacityMinutes,
       ),
   ];
   return WeeklyReport(
@@ -369,11 +275,7 @@ WeeklyReport buildWeeklyReview(
       ...attention,
       for (final d in nextWeek)
         if (d.overbooked)
-          ReviewItem(
-            ReviewItemKind.overbookedDay,
-            date: d.date,
-            value: d.plannedMinutes - d.capacityMinutes,
-          ),
+          ReviewItem(ReviewItemKind.overbookedDay, date: d.date, value: d.plannedMinutes - d.capacityMinutes),
     ],
     topCategories: [
       for (final c in sortedCategories.take(3))
@@ -403,9 +305,7 @@ StreakSummary weeklyReviewStreak(
       end: w.plusDays(6),
       kind: reviewedWeekStarts.contains(w)
           ? StreakUnitKind.success
-          : (w == currentWeekStart
-                ? StreakUnitKind.open
-                : StreakUnitKind.breaks),
+          : (w == currentWeekStart ? StreakUnitKind.open : StreakUnitKind.breaks),
     ),
 ]);
 
@@ -416,10 +316,7 @@ PeriodComparison perDayComparison({
   required int currentDays,
   required num previousSum,
   required int previousDays,
-}) => compareWithPrevious(
-  safeDivide(currentSum, currentDays),
-  safeDivide(previousSum, previousDays),
-);
+}) => compareWithPrevious(safeDivide(currentSum, currentDays), safeDivide(previousSum, previousDays));
 
 // ---------------------------------------------------------------------------------------------
 // GL-06 personal records, GL-07 day score, GL-08 day-of-week effects
@@ -450,9 +347,7 @@ Stat<RecordEntry> personalRecord(
 }) {
   final eligible = [
     for (final p in series)
-      if (minBucketDenominator == null ||
-          (p.denominator ?? 0) >= minBucketDenominator)
-        p,
+      if (minBucketDenominator == null || (p.denominator ?? 0) >= minBucketDenominator) p,
   ];
   if (eligible.isEmpty) return const Insufficient<RecordEntry>(1, 0);
   var best = eligible.first;
@@ -470,18 +365,13 @@ Stat<RecordEntry> personalRecord(
       value: best.value,
       date: best.date,
       previous: previous,
-      isNew:
-          !best.date.isBefore(currentPeriodStart) &&
-          (previous == null || best.value > previous),
+      isNew: !best.date.isBefore(currentPeriodStart) && (previous == null || best.value > previous),
     ),
   );
 }
 
 /// New records not yet announced ([announced] = stored keys).
-List<RecordEntry> recordsToAnnounce(
-  Iterable<RecordEntry> records,
-  Set<String> announced,
-) => [
+List<RecordEntry> recordsToAnnounce(Iterable<RecordEntry> records, Set<String> announced) => [
   for (final r in records)
     if (r.isNew && !announced.contains(r.announceKey)) r,
 ];
@@ -514,15 +404,9 @@ Stat<double> dayScore(
   }
 
   final planned = day.plannerPlanned;
-  add(
-    planned == null || planned == 0 ? null : (day.plannerDone ?? 0) / planned,
-    weights.planner,
-  );
+  add(planned == null || planned == 0 ? null : (day.plannerDone ?? 0) / planned, weights.planner);
   final due = day.habitsDue;
-  add(
-    due == null || due == 0 ? null : (day.habitsDone ?? 0) / due,
-    weights.habits,
-  );
+  add(due == null || due == 0 ? null : (day.habitsDone ?? 0) / due, weights.habits);
   final items = day.itemsCompleted;
   add(
     items == null || listsMedianPrior28 == null || listsMedianPrior28 <= 0
@@ -540,32 +424,24 @@ Stat<double> dayScore(
 double? listsMedianBefore(List<DaySectionFacts> facts, LocalDate date) {
   final prior = [
     for (final f in [...facts]..sort((a, b) => b.date.compareTo(a.date)))
-      if (f.date.isBefore(date) && (f.itemsCompleted ?? 0) > 0)
-        f.itemsCompleted!,
+      if (f.date.isBefore(date) && (f.itemsCompleted ?? 0) > 0) f.itemsCompleted!,
   ].take(28).toList();
   return median(prior).valueOrNull;
 }
 
 /// GL-07 series: day scores with the Δ vs the median DS of the prior 28 days.
-List<({LocalDate date, Stat<double> score, Stat<double> deltaVsMedian})>
-dayScoreSeries(
+List<({LocalDate date, Stat<double> score, Stat<double> deltaVsMedian})> dayScoreSeries(
   List<DaySectionFacts> facts, {
   DayScoreWeights weights = const DayScoreWeights(),
 }) {
   final sorted = [...facts]..sort((a, b) => a.date.compareTo(b.date));
   final scores = <LocalDate, double>{};
-  final result =
-      <({LocalDate date, Stat<double> score, Stat<double> deltaVsMedian})>[];
+  final result = <({LocalDate date, Stat<double> score, Stat<double> deltaVsMedian})>[];
   for (final f in sorted) {
-    final s = dayScore(
-      f,
-      listsMedianPrior28: listsMedianBefore(sorted, f.date),
-      weights: weights,
-    );
+    final s = dayScore(f, listsMedianPrior28: listsMedianBefore(sorted, f.date), weights: weights);
     final prior = [
       for (final e in scores.entries)
-        if (e.key.isBefore(f.date) && !e.key.isBefore(f.date.minusDays(28)))
-          e.value,
+        if (e.key.isBefore(f.date) && !e.key.isBefore(f.date.minusDays(28))) e.value,
     ];
     final med = median(prior).valueOrNull;
     result.add((
@@ -593,10 +469,7 @@ final class const WeekdayEffect(
 
 /// GL-08 — mean by weekday over ≥ 4 weeks (insufficient otherwise), Kruskal–Wallis across weekdays
 /// (p < 0.05 → "significant", otherwise "no clear weekday pattern"), best/worst weekday, ε².
-Stat<WeekdayEffect> dayOfWeekEffect(
-  Map<LocalDate, double> daily, {
-  double alpha = 0.05,
-}) {
+Stat<WeekdayEffect> dayOfWeekEffect(Map<LocalDate, double> daily, {double alpha = 0.05}) {
   if (daily.isEmpty) return const Insufficient<WeekdayEffect>(4, 0);
   final dates = daily.keys.toList()..sort();
   final weeks = (dates.first.daysUntil(dates.last) + 1) / 7;
@@ -608,21 +481,12 @@ Stat<WeekdayEffect> dayOfWeekEffect(
   for (final e in daily.entries) {
     groups.putIfAbsent(e.key.weekday, () => []).add(e.value);
   }
-  final means = {
-    for (final e in groups.entries) e.key: sum(e.value) / e.value.length,
-  };
+  final means = {for (final e in groups.entries) e.key: sum(e.value) / e.value.length};
   final ordered = Weekday.values.where(groups.containsKey).toList();
   final best = ordered.reduce((a, b) => means[b]! > means[a]! ? b : a);
   final worst = ordered.reduce((a, b) => means[b]! < means[a]! ? b : a);
-  return kruskalWallis([for (final w in ordered) groups[w]!]).map(
-    (kw) => WeekdayEffect(
-      means,
-      best: best,
-      worst: worst,
-      test: kw,
-      significant: kw.pValue < alpha,
-    ),
-  );
+  return kruskalWallis([for (final w in ordered) groups[w]!])
+      .map((kw) => WeekdayEffect(means, best: best, worst: worst, test: kw, significant: kw.pValue < alpha));
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -678,11 +542,7 @@ final class const InsightState({
 
 /// Filters candidates: muted triggers are dropped; a dedupe key fires once; a trigger with a
 /// cooldown does not fire again for the same entity within the cooldown.
-List<Insight> filterInsights(
-  Iterable<Insight> candidates, {
-  required InsightState state,
-  required DateTime now,
-}) {
+List<Insight> filterInsights(Iterable<Insight> candidates, {required InsightState state, required DateTime now}) {
   final lastByEntity = <String, DateTime>{};
   for (final e in state.firedAt.entries) {
     final parts = e.key.split('|');
@@ -718,35 +578,17 @@ Insight? newRecordInsight(RecordEntry record) => record.isNew
     : null;
 
 /// Trigger 2 — streak milestones crossed.
-List<Insight> streakMilestoneInsights(
-  String entityId,
-  int previous,
-  int current,
-) => [
+List<Insight> streakMilestoneInsights(String entityId, int previous, int current) => [
   for (final m in streakMilestonesCrossed(previous, current))
-    Insight(
-      InsightTrigger.streakMilestone,
-      entityId: entityId,
-      valueKey: '$m',
-      args: {'streak': m},
-    ),
+    Insight(InsightTrigger.streakMilestone, entityId: entityId, valueKey: '$m', args: {'streak': m}),
 ];
 
 /// Trigger 3 — adherence trend over ≥ 8 weeks with p < 0.05 and |slope| ≥ 2 pp/week (slope of a
 /// rate series is converted to pp).
-Insight? significantTrendInsight(
-  String entityId,
-  TrendResult trend, {
-  required LocalDate today,
-}) {
+Insight? significantTrendInsight(String entityId, TrendResult trend, {required LocalDate today}) {
   final pp = trend.slopePerWeek * 100;
   if (!trend.significant || trend.n < 8 || pp.abs() < 2) return null;
-  return Insight(
-    InsightTrigger.significantTrend,
-    entityId: entityId,
-    valueKey: today.toIso(),
-    args: {'ppPerWeek': pp},
-  );
+  return Insight(InsightTrigger.significantTrend, entityId: entityId, valueKey: today.toIso(), args: {'ppPerWeek': pp});
 }
 
 /// Trigger 4 — estimation bias > +20 % with n ≥ 10 in the last 30 days.
@@ -765,11 +607,7 @@ Insight? estimationBiasInsight(Stat<double> bias, {required LocalDate today}) {
 }
 
 /// Trigger 5 — overdue up ≥ 30 % vs 4 weeks ago and ≥ 5.
-Insight? risingOverdueInsight(
-  int now_,
-  int fourWeeksAgo, {
-  required LocalDate today,
-}) {
+Insight? risingOverdueInsight(int now_, int fourWeeksAgo, {required LocalDate today}) {
   if (now_ < 5 || now_ < fourWeeksAgo * 1.3 || now_ <= fourWeeksAgo) {
     return null;
   }
@@ -782,10 +620,8 @@ Insight? risingOverdueInsight(
 }
 
 /// Trigger 6 — ≥ 2 overbooked days next week.
-Insight? overbookedNextWeekInsight(
-  List<LocalDate> overbookedDays, {
-  required LocalDate weekStart,
-}) => overbookedDays.length >= 2
+Insight? overbookedNextWeekInsight(List<LocalDate> overbookedDays, {required LocalDate weekStart}) =>
+    overbookedDays.length >= 2
     ? Insight(
         InsightTrigger.overbookedNextWeek,
         entityId: 'planner',
@@ -808,20 +644,12 @@ List<Insight> blockerClusterInsights(
   return [
     for (final e in counts.entries)
       if (e.value >= 3)
-        Insight(
-          InsightTrigger.blockerCluster,
-          entityId: e.key,
-          valueKey: '${e.value}',
-          args: {'count': e.value},
-        ),
+        Insight(InsightTrigger.blockerCluster, entityId: e.key, valueKey: '${e.value}', args: {'count': e.value}),
   ];
 }
 
 /// Trigger 8 — ≥ 3 waiting items past their follow-up.
-Insight? followUpsDueInsight(
-  int overdueFollowUps, {
-  required LocalDate today,
-}) => overdueFollowUps >= 3
+Insight? followUpsDueInsight(int overdueFollowUps, {required LocalDate today}) => overdueFollowUps >= 3
     ? Insight(
         InsightTrigger.followUpsDue,
         entityId: 'lists',
@@ -831,17 +659,8 @@ Insight? followUpsDueInsight(
     : null;
 
 /// Trigger 9 — a list with open items and no activity for ≥ N days.
-Insight? staleListInsight(
-  String listId,
-  int daysInactive, {
-  int threshold = 14,
-}) => daysInactive >= threshold
-    ? Insight(
-        InsightTrigger.staleList,
-        entityId: listId,
-        valueKey: '$daysInactive',
-        args: {'days': daysInactive},
-      )
+Insight? staleListInsight(String listId, int daysInactive, {int threshold = 14}) => daysInactive >= threshold
+    ? Insight(InsightTrigger.staleList, entityId: listId, valueKey: '$daysInactive', args: {'days': daysInactive})
     : null;
 
 /// Trigger 10 — 7-day mean cravings/day down ≥ 25 % vs the previous 7 days (≥ 5 cravings).
@@ -863,15 +682,8 @@ Insight? fallingCravingsInsight(
 }
 
 /// Trigger 11 — a health milestone reached (once per milestone per attempt).
-Insight healthMilestoneInsight(
-  String trackerId,
-  String milestoneId,
-  int attempt,
-) => Insight(
-  InsightTrigger.healthMilestone,
-  entityId: trackerId,
-  valueKey: '$milestoneId#$attempt',
-);
+Insight healthMilestoneInsight(String trackerId, String milestoneId, int attempt) =>
+    Insight(InsightTrigger.healthMilestone, entityId: trackerId, valueKey: '$milestoneId#$attempt');
 
 /// Money thresholds of trigger 12: 10, 50, 100, 250, 500, 1 000, 2 500, 5 000, 10 000, …
 List<int> moneyThresholdsCrossed(Decimal previous, Decimal current) {
@@ -886,33 +698,19 @@ List<int> moneyThresholdsCrossed(Decimal previous, Decimal current) {
   }
 
   return [
-    for (final t in thresholds().takeWhile(
-      (t) => Decimal.fromInt(t) <= current,
-    ))
+    for (final t in thresholds().takeWhile((t) => Decimal.fromInt(t) <= current))
       if (Decimal.fromInt(t) > previous) t,
   ];
 }
 
 /// Trigger 12 — money saved crossing thresholds.
-List<Insight> moneyMilestoneInsights(
-  String trackerId,
-  Decimal previous,
-  Decimal current,
-) => [
+List<Insight> moneyMilestoneInsights(String trackerId, Decimal previous, Decimal current) => [
   for (final t in moneyThresholdsCrossed(previous, current))
-    Insight(
-      InsightTrigger.moneyMilestone,
-      entityId: trackerId,
-      valueKey: '$t',
-      args: {'amount': t},
-    ),
+    Insight(InsightTrigger.moneyMilestone, entityId: trackerId, valueKey: '$t', args: {'amount': t}),
 ];
 
 /// Trigger 13 — perfect week: every due build habit done on every scheduled day.
-Insight? perfectWeekInsight(
-  List<DaySectionFacts> week, {
-  required LocalDate weekStart,
-}) {
+Insight? perfectWeekInsight(List<DaySectionFacts> week, {required LocalDate weekStart}) {
   final due = [
     for (final d in week)
       if ((d.habitsDue ?? 0) > 0) d,
@@ -920,19 +718,11 @@ Insight? perfectWeekInsight(
   if (due.isEmpty || due.any((d) => (d.habitsDone ?? 0) < d.habitsDue!)) {
     return null;
   }
-  return Insight(
-    InsightTrigger.perfectWeek,
-    entityId: 'habits',
-    valueKey: weekStart.toIso(),
-  );
+  return Insight(InsightTrigger.perfectWeek, entityId: 'habits', valueKey: weekStart.toIso());
 }
 
 /// Trigger 14 — a weekday ≥ 15 pp above the mean over ≥ 4 weeks, with a significant GL-08 test.
-Insight? bestWeekdayInsight(
-  String entityId,
-  WeekdayEffect effect, {
-  required LocalDate today,
-}) {
+Insight? bestWeekdayInsight(String entityId, WeekdayEffect effect, {required LocalDate today}) {
   if (!effect.significant) return null;
   final overall = sum(effect.means.values) / effect.means.length;
   final lead = effect.means[effect.best]! - overall;
@@ -952,19 +742,12 @@ Insight? habitAtRiskInsight(
   required double scoreDrop7Days,
   required LocalDate today,
 }) => quotaBehind || scoreDrop7Days > 0.10
-    ? Insight(
-        InsightTrigger.habitAtRisk,
-        entityId: habitId,
-        valueKey: today.toIso(),
-      )
+    ? Insight(InsightTrigger.habitAtRisk, entityId: habitId, valueKey: today.toIso())
     : null;
 
 /// Trigger 16 — strength crosses 50 % or 80 % upwards; re-arms after dropping below 70 %. Returns
 /// the thresholds crossed within [scores] (chronological).
-List<Insight> strengthThresholdInsights(
-  String habitId,
-  List<(LocalDate, double)> scores,
-) {
+List<Insight> strengthThresholdInsights(String habitId, List<(LocalDate, double)> scores) {
   final result = <Insight>[];
   final armed = {0.5: true, 0.8: true};
   double? previous;
@@ -994,22 +777,13 @@ List<Insight> strengthThresholdInsights(
 }
 
 /// Trigger 17 — a comeback: a success after ≥ 3 consecutive misses ([outcomes]: true = success).
-List<Insight> comebackInsights(
-  String habitId,
-  List<(LocalDate, bool)> outcomes,
-) {
+List<Insight> comebackInsights(String habitId, List<(LocalDate, bool)> outcomes) {
   final result = <Insight>[];
   var misses = 0;
   for (final (date, success) in outcomes) {
     if (success) {
       if (misses >= 3) {
-        result.add(
-          Insight(
-            InsightTrigger.comeback,
-            entityId: habitId,
-            valueKey: date.toIso(),
-          ),
-        );
+        result.add(Insight(InsightTrigger.comeback, entityId: habitId, valueKey: date.toIso()));
       }
       misses = 0;
     } else {
@@ -1020,10 +794,7 @@ List<Insight> comebackInsights(
 }
 
 /// Trigger 18 — a significant correlation pair after FDR.
-Insight? correlationInsight(
-  CorrelationFinding finding, {
-  required LocalDate today,
-}) => finding.significant
+Insight? correlationInsight(CorrelationFinding finding, {required LocalDate today}) => finding.significant
     ? Insight(
         InsightTrigger.correlation,
         entityId: '${finding.a}~${finding.b}',
@@ -1037,9 +808,7 @@ Insight? correlationInsight(
 // ---------------------------------------------------------------------------------------------
 
 /// GL-09 — goals dashboard: active goals with projections (T5.4.03) and achieved goals.
-({List<GoalProgress> active, List<GoalProgress> achieved}) goalsDashboard(
-  List<GoalProgress> goals,
-) => (
+({List<GoalProgress> active, List<GoalProgress> achieved}) goalsDashboard(List<GoalProgress> goals) => (
   active: [
     for (final g in goals)
       if (g.status != GoalStatus.achieved) g,
@@ -1076,8 +845,7 @@ DataQualitySummary dataQuality({
   plannerActualTimeCoverage: plannerActualTimeCoverage,
   pendingSyncChanges: pendingSyncChanges,
   guidanceKeys: [
-    if ((habitLoggedRatio.valueOrNull ?? 1) < 0.8 || unknownUnits > 0)
-      'logFromNotifications',
+    if ((habitLoggedRatio.valueOrNull ?? 1) < 0.8 || unknownUnits > 0) 'logFromNotifications',
     if ((backfillShare.valueOrNull ?? 0) > 0.2) 'logSameDay',
     if ((plannerActualTimeCoverage.valueOrNull ?? 1) < 0.6) 'trackTime',
     if (pendingSyncChanges > 0) 'syncPending',
@@ -1086,22 +854,13 @@ DataQualitySummary dataQuality({
 
 /// GL-11 — year activity per day: done task occurrences + done habit units + completed items, with
 /// the per-section breakdown; abstinent days are reported separately.
-List<
-  ({
-    LocalDate date,
-    int total,
-    int tasks,
-    int habits,
-    int items,
-    bool? abstinent,
-  })
->
-yearActivityHeatmap(List<DaySectionFacts> facts) => [
+List<({LocalDate date, int total, int tasks, int habits, int items, bool? abstinent})> yearActivityHeatmap(
+  List<DaySectionFacts> facts,
+) => [
   for (final f in [...facts]..sort((a, b) => a.date.compareTo(b.date)))
     (
       date: f.date,
-      total:
-          (f.plannerDone ?? 0) + (f.habitsDone ?? 0) + (f.itemsCompleted ?? 0),
+      total: (f.plannerDone ?? 0) + (f.habitsDone ?? 0) + (f.itemsCompleted ?? 0),
       tasks: f.plannerDone ?? 0,
       habits: f.habitsDone ?? 0,
       items: f.itemsCompleted ?? 0,
@@ -1209,10 +968,7 @@ List<CorrelationFinding> correlationExplorer(
         final Stat<CorrelationResult> result;
         if (a.binary && b.binary) {
           method = CorrelationMethod.phi;
-          result = phiCoefficient(
-            [for (final v in aligned.a) v > 0],
-            [for (final v in aligned.b) v > 0],
-          );
+          result = phiCoefficient([for (final v in aligned.a) v > 0], [for (final v in aligned.b) v > 0]);
         } else if (a.binary || b.binary) {
           final flags = a.binary ? aligned.a : aligned.b;
           final values = a.binary ? aligned.b : aligned.a;
@@ -1244,11 +1000,7 @@ List<CorrelationFinding> correlationExplorer(
             pValue: raw[k].$7,
             adjustedP: adjusted[k],
             significant:
-                adjusted[k] <= q &&
-                meetsEffectThreshold(
-                  raw[k].$5,
-                  binaryPair: raw[k].$4 == CorrelationMethod.phi,
-                ),
+                adjusted[k] <= q && meetsEffectThreshold(raw[k].$5, binaryPair: raw[k].$4 == CorrelationMethod.phi),
             stars: correlationStars(raw[k].$5, adjusted[k]),
           ),
       ]..sort((x, y) {
@@ -1276,10 +1028,8 @@ List<Archetype> archetypes({
   int itemsCompleted = 0,
   int finisherItems = 365,
 }) => [
-  if (medianFirstTaskStartMinute != null && medianFirstTaskStartMinute < 8 * 60)
-    Archetype.earlyBird,
-  if (medianLastCheckInMinute != null && medianLastCheckInMinute >= 22 * 60)
-    Archetype.nightOwl,
+  if (medianFirstTaskStartMinute != null && medianFirstTaskStartMinute < 8 * 60) Archetype.earlyBird,
+  if (medianLastCheckInMinute != null && medianLastCheckInMinute >= 22 * 60) Archetype.nightOwl,
   if (deepWorkHours >= 200) Archetype.marathoner,
   if (habitSuccess != null && habitSuccess >= 0.85) Archetype.consistent,
   if (itemsCompleted >= finisherItems) Archetype.finisher,
@@ -1304,19 +1054,14 @@ yearInNumbers(List<DaySectionFacts> facts) {
     byMonth[f.date.month] = (byMonth[f.date.month] ?? 0) + f.total;
     byWeekday[f.date.weekday] = (byWeekday[f.date.weekday] ?? 0) + f.total;
   }
-  K? argMax<K>(Map<K, int> m) => m.isEmpty
-      ? null
-      : m.entries.reduce((a, b) => b.value > a.value ? b : a).key;
+  K? argMax<K>(Map<K, int> m) => m.isEmpty ? null : m.entries.reduce((a, b) => b.value > a.value ? b : a).key;
   return (
     tasksDone: _sumOf(facts, (d) => d.plannerDone).round(),
     plannedHours: _sumOf(facts, (d) => d.plannedMinutes) / 60,
     actualHours: _sumOf(facts, (d) => d.actualMinutes) / 60,
     habitCheckIns: _sumOf(facts, (d) => d.habitsDone).round(),
     itemsCompleted: _sumOf(facts, (d) => d.itemsCompleted).round(),
-    moneySaved: facts.fold(
-      Decimal.zero,
-      (a, d) => a + (d.moneySaved ?? Decimal.zero),
-    ),
+    moneySaved: facts.fold(Decimal.zero, (a, d) => a + (d.moneySaved ?? Decimal.zero)),
     abstinentDays: facts.where((d) => d.quitAbstinent ?? false).length,
     busiestMonth: argMax(byMonth),
     busiestWeekday: argMax(byWeekday),
@@ -1357,8 +1102,7 @@ double xpFor(XpEvent e) => switch (e.source) {
 
 /// GL-15 — XP per local day with the daily cap (500) and undo removing XP; total and level
 /// (cumulative threshold 100·n^1.5 for level n).
-({Map<LocalDate, double> perDay, double total, int level, double toNextLevel})
-xpSummary(
+({Map<LocalDate, double> perDay, double total, int level, double toNextLevel}) xpSummary(
   List<XpEvent> events, {
   required DayBoundaries bounds,
   double dailyCap = 500,
@@ -1368,32 +1112,18 @@ xpSummary(
     final d = bounds.dateOf(e.at);
     raw[d] = (raw[d] ?? 0) + (e.undone ? -xpFor(e) : xpFor(e));
   }
-  final perDay = {
-    for (final e in raw.entries) e.key: e.value.clamp(0.0, dailyCap),
-  };
+  final perDay = {for (final e in raw.entries) e.key: e.value.clamp(0.0, dailyCap)};
   final total = perDay.values.fold<double>(0, (a, b) => a + b);
   var level = 0;
   while (100 * math.pow(level + 1, 1.5) <= total) {
     level++;
   }
-  return (
-    perDay: perDay,
-    total: total,
-    level: level,
-    toNextLevel: 100 * math.pow(level + 1, 1.5) - total,
-  );
+  return (perDay: perDay, total: total, level: level, toNextLevel: 100 * math.pow(level + 1, 1.5) - total);
 }
 
 /// GL-17 — time budget for one day: planned task minutes, duration-habit minutes, tracked focus
 /// (with habit/session overlaps de-duplicated) and the remaining free time vs waking minutes.
-({
-  double plannedTasks,
-  double habitMinutes,
-  double trackedFocus,
-  double overlap,
-  double free,
-})
-timeBudget({
+({double plannedTasks, double habitMinutes, double trackedFocus, double overlap, double free}) timeBudget({
   required double plannedTaskMinutes,
   required List<(DateTime, DateTime)> habitIntervals,
   required List<(DateTime, DateTime)> sessionIntervals,
@@ -1433,8 +1163,7 @@ timeBudget({
 
 /// GL-18 — Monte Carlo goal forecast: resamples daily progress over the last [historyDays] days
 /// (default 6 weeks; ≥ 30 days required) to give the completion date at P50/P85/P95.
-Stat<({LocalDate p50, LocalDate p85, LocalDate p95, ForecastWhen forecast})>
-goalForecast(
+Stat<({LocalDate p50, LocalDate p85, LocalDate p95, ForecastWhen forecast})> goalForecast(
   GoalProgress progress, {
   required Map<LocalDate, double> dailyValues,
   required math.Random random,
@@ -1443,26 +1172,10 @@ goalForecast(
 }) {
   final asOf = progress.asOf;
   final pool = [
-    for (
-      var d = asOf.minusDays(historyDays - 1);
-      !d.isAfter(asOf);
-      d = d.plusDays(1)
-    )
-      dailyValues[d] ?? 0.0,
+    for (var d = asOf.minusDays(historyDays - 1); !d.isAfter(asOf); d = d.plusDays(1)) dailyValues[d] ?? 0.0,
   ];
   final remaining = math.max(0, progress.goal.target - progress.actual);
-  return monteCarloWhen(
-    pool: pool,
-    remaining: remaining,
-    random: random,
-    trials: trials,
-    minCompletions: 0,
-  ).map(
-    (f) => (
-      p50: asOf.plusDays(f.p50Days),
-      p85: asOf.plusDays(f.p85Days),
-      p95: asOf.plusDays(f.p95Days),
-      forecast: f,
-    ),
+  return monteCarloWhen(pool: pool, remaining: remaining, random: random, trials: trials, minCompletions: 0).map(
+    (f) => (p50: asOf.plusDays(f.p50Days), p85: asOf.plusDays(f.p85Days), p95: asOf.plusDays(f.p95Days), forecast: f),
   );
 }

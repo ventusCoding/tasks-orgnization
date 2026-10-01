@@ -42,10 +42,7 @@ void main() {
           zone: paris,
           overrides: [localNotificationsPortProvider.overrideWithValue(port)],
         );
-        source = InMemoryNotificationTargetSource(
-          section: 'checklists',
-          targets: [water()],
-        );
+        source = InMemoryNotificationTargetSource(section: 'checklists', targets: [water()]);
         h.read(notificationRegistryProvider).registerSource(source);
         await seedNotificationDefaults(h.read);
         await h.read(notificationRulesRepositoryProvider).create([
@@ -74,48 +71,37 @@ void main() {
 
       Future<void> replan() => h.read(notificationPipelineProvider).run('test');
 
-      test(
-        'a daily reminder is one repeating OS request; the next day is free',
-        () async {
-          await replan();
-          final requests = port.scheduled.values.toList();
-          expect(requests, hasLength(1));
-          final r = requests.single;
-          expect(r.repeat, RepeatMatch.daily);
-          expect(r.repeatZone, paris);
-          expect(r.fireAt, DateTime.utc(2026, 10, 21, 5)); // 07:00 Paris (CEST)
-          expect(
-            NotificationPayload.tryDecode(r.payload)!.kind,
-            ScheduleKind.repeating,
-          );
+      test('a daily reminder is one repeating OS request; the next day is free', () async {
+        await replan();
+        final requests = port.scheduled.values.toList();
+        expect(requests, hasLength(1));
+        final r = requests.single;
+        expect(r.repeat, RepeatMatch.daily);
+        expect(r.repeatZone, paris);
+        expect(r.fireAt, DateTime.utc(2026, 10, 21, 5)); // 07:00 Paris (CEST)
+        expect(NotificationPayload.tryDecode(r.payload)!.kind, ScheduleKind.repeating);
 
-          final report = await h
-              .read(notificationPipelineProvider)
-              .run('again');
-          expect(report.scheduler.platformCalls, 0);
-          expect(report.scheduler.repeatingRules, hasLength(1));
+        final report = await h.read(notificationPipelineProvider).run('again');
+        expect(report.scheduler.platformCalls, 0);
+        expect(report.scheduler.repeatingRules, hasLength(1));
 
-          h.clock.advance(const Duration(days: 1));
-          final nextDay = await h.read(notificationPipelineProvider).run('day');
-          expect(nextDay.scheduler.platformCalls, 0);
-          expect(port.scheduled, hasLength(1));
-        },
-      );
+        h.clock.advance(const Duration(days: 1));
+        final nextDay = await h.read(notificationPipelineProvider).run('day');
+        expect(nextDay.scheduler.platformCalls, 0);
+        expect(port.scheduled, hasLength(1));
+      });
 
-      test(
-        'a response is mapped to the member instance that fired last',
-        () async {
-          await replan();
-          final r = port.scheduled.values.single;
-          h.clock.set(DateTime.utc(2026, 10, 23, 5, 1));
-          final member = await h
-              .read(notificationActionDispatcherProvider)
-              .firedMember(NotificationPayload.tryDecode(r.payload)!);
-          expect(member.occurrenceKey, 'sch:2026-10-23T07:00');
-          expect(member.dedupeKey, isNot(startsWith('rpt:')));
-          expect(member.ruleId, isNotNull);
-        },
-      );
+      test('a response is mapped to the member instance that fired last', () async {
+        await replan();
+        final r = port.scheduled.values.single;
+        h.clock.set(DateTime.utc(2026, 10, 23, 5, 1));
+        final member = await h
+            .read(notificationActionDispatcherProvider)
+            .firedMember(NotificationPayload.tryDecode(r.payload)!);
+        expect(member.occurrenceKey, 'sch:2026-10-23T07:00');
+        expect(member.dedupeKey, isNot(startsWith('rpt:')));
+        expect(member.ruleId, isNotNull);
+      });
 
       test('fired members reach the inbox once, delivered locally', () async {
         await replan();
@@ -126,10 +112,7 @@ void main() {
         final inbox = await h.read(inboxRepositoryProvider).inbox();
         expect(inbox, hasLength(2));
         expect(inbox.every((i) => i.deliveredVia.single == 'local'), isTrue);
-        expect(inbox.map((i) => i.occurrenceKey).toSet(), {
-          'sch:2026-10-21T07:00',
-          'sch:2026-10-22T07:00',
-        });
+        expect(inbox.map((i) => i.occurrenceKey).toSet(), {'sch:2026-10-21T07:00', 'sch:2026-10-22T07:00'});
       });
 
       test('completing the item cancels the trigger', () async {

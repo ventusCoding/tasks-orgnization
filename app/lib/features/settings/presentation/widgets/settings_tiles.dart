@@ -4,13 +4,7 @@ import 'package:material_ui/material_ui.dart';
 
 /// Navigation row of the settings screens.
 class SettingsNavTile extends StatelessWidget {
-  const SettingsNavTile({
-    required this.icon,
-    required this.title,
-    required this.location,
-    super.key,
-    this.subtitle,
-  });
+  const SettingsNavTile({required this.icon, required this.title, required this.location, super.key, this.subtitle});
 
   final IconData icon;
   final String title;
@@ -107,10 +101,7 @@ class SettingsSegmentTile<T> extends StatelessWidget {
       children: [
         Row(
           children: [
-            if (icon != null) ...[
-              Icon(icon, color: context.colors.onSurfaceVariant),
-              const SizedBox(width: Space.xl),
-            ],
+            if (icon != null) ...[Icon(icon, color: context.colors.onSurfaceVariant), const SizedBox(width: Space.xl)],
             Expanded(child: Text(title, style: context.text.bodyLarge)),
           ],
         ),
@@ -137,6 +128,9 @@ class SettingsPageScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: Text(title), actions: actions),
-    body: ListView(padding: const EdgeInsetsDirectional.only(bottom: Space.xxl), children: children),
+    body: ListView(
+      padding: const EdgeInsetsDirectional.only(bottom: Space.xxl),
+      children: children,
+    ),
   );
 }

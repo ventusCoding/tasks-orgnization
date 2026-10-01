@@ -163,7 +163,9 @@ void main() {
   });
 
   testWidgets('editing one occurrence asks the scope; "this occurrence" overrides the title only', (tester) async {
-    final id = (await tester.runAsync(() => h.createTask(title: 'Standup', start: '2026-09-21T09:30', duration: 15, rule: RecurrenceRule())))!;
+    final id = (await tester.runAsync(
+      () => h.createTask(title: 'Standup', start: '2026-09-21T09:30', duration: 15, rule: RecurrenceRule()),
+    ))!;
     await openEditor(tester, TaskEditorScreen(taskId: id, occurrenceKey: '2026-09-23T09:30'));
     expect(find.text('Edit occurrence'), findsOneWidget);
     await tester.enterText(key('task-title'), 'Long standup');
@@ -178,7 +180,9 @@ void main() {
   });
 
   testWidgets('series-level change from an occurrence disables "this occurrence"; following splits', (tester) async {
-    final id = (await tester.runAsync(() => h.createTask(title: 'Gym', start: '2026-09-21T07:00', rule: RecurrenceRule())))!;
+    final id = (await tester.runAsync(
+      () => h.createTask(title: 'Gym', start: '2026-09-21T07:00', rule: RecurrenceRule()),
+    ))!;
     await openEditor(tester, TaskEditorScreen(taskId: id, occurrenceKey: '2026-09-24T07:00'));
     await tapIn(tester, key('task-tracking-timer'), scrollKey: editorList);
     await tapIn(tester, key('task-save'), scrollKey: editorList);

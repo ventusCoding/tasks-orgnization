@@ -26,36 +26,12 @@ class ChartTheme extends ThemeExtension<ChartTheme> {
     this.animationDuration = const Duration(milliseconds: 250),
   });
 
-  /// Okabe–Ito (color-blind safe), tuned for contrast on light surfaces.
-  static const _okabeLight = <Color>[
-    Color(0xFF0072B2), // blue
-    Color(0xFFD55E00), // vermillion
-    Color(0xFF009E73), // bluish green
-    Color(0xFFCC79A7), // reddish purple
-    Color(0xFFB8860B), // dark yellow (orange-ish, ≥ 3:1 on white)
-    Color(0xFF56B4E9), // sky blue
-    Color(0xFF6B4E00), // brown
-    Color(0xFF444444), // neutral
-  ];
-
-  /// Okabe–Ito lightened for dark surfaces.
-  static const _okabeDark = <Color>[
-    Color(0xFF56B4E9),
-    Color(0xFFFF8A4C),
-    Color(0xFF3CCFA0),
-    Color(0xFFE4A3C8),
-    Color(0xFFF0E442),
-    Color(0xFF9FD7F5),
-    Color(0xFFE69F00),
-    Color(0xFFBBBBBB),
-  ];
-
   /// Theme derived from the ambient [ThemeData] (used when no extension is registered).
   factory ChartTheme.fallback(ThemeData theme) {
     final dark = theme.brightness == Brightness.dark;
     final scheme = theme.colorScheme;
     return ChartTheme(
-      series: dark ? _okabeDark : _okabeLight,
+      series: dark ? DataVizColors.seriesDark : DataVizColors.seriesLight,
       grid: scheme.outlineVariant.withValues(alpha: dark ? 0.35 : 0.5),
       axis: scheme.outline,
       label: scheme.onSurfaceVariant,
@@ -93,14 +69,14 @@ class ChartTheme extends ThemeExtension<ChartTheme> {
     final c = appColors;
     return switch (tone) {
       ChartTone.done || ChartTone.completed || ChartTone.positive => c.success,
-      ChartTone.late => isDark ? const Color(0xFF9BD67F) : const Color(0xFF4D7C0F),
-      ChartTone.partial => isDark ? const Color(0xFF7DD3FC) : const Color(0xFF0369A1),
+      ChartTone.late => DataVizColors.late(isDark),
+      ChartTone.partial => DataVizColors.partial(isDark),
       ChartTone.failed || ChartTone.negative => c.danger,
       ChartTone.missed => c.missed,
       ChartTone.skipped => c.skipped,
-      ChartTone.excused => isDark ? const Color(0xFFA5B4FC) : const Color(0xFF6366F1),
-      ChartTone.paused => isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
-      ChartTone.frozen => isDark ? const Color(0xFF67E8F9) : const Color(0xFF0891B2),
+      ChartTone.excused => DataVizColors.excused(isDark),
+      ChartTone.paused => DataVizColors.paused(isDark),
+      ChartTone.frozen => DataVizColors.frozen(isDark),
       ChartTone.pending => c.info,
       ChartTone.notDue => muted.withValues(alpha: 0.35),
       ChartTone.todo => c.todo,

@@ -43,8 +43,16 @@ abstract final class ZoneLabels {
   /// (`US/Eastern`, `Etc/GMT+5`, `EST5EDT`…).
   static List<String> selectable(Iterable<String> all) {
     const areas = {
-      'Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe',
-      'Indian', 'Pacific',
+      'Africa',
+      'America',
+      'Antarctica',
+      'Arctic',
+      'Asia',
+      'Atlantic',
+      'Australia',
+      'Europe',
+      'Indian',
+      'Pacific',
     };
     final list = [
       for (final z in all)

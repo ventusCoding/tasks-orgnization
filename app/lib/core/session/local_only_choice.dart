@@ -9,7 +9,7 @@ abstract final class LocalOnlyChoice {
 
   static Future<bool> isChosen(AppDatabase db) async {
     final row = await db
-        .customSelect('SELECT value FROM local_kv WHERE key = ?', variables: [Variable<String>(key)])
+        .customSelect('SELECT value FROM local_kv WHERE key = ?', variables: [const Variable<String>(key)])
         .getSingleOrNull();
     return row?.data['value'] == '1';
   }
@@ -19,6 +19,5 @@ abstract final class LocalOnlyChoice {
     [key, '1'],
   );
 
-  static Future<void> clear(AppDatabase db) =>
-      db.customStatement('DELETE FROM local_kv WHERE key = ?', [key]);
+  static Future<void> clear(AppDatabase db) => db.customStatement('DELETE FROM local_kv WHERE key = ?', [key]);
 }

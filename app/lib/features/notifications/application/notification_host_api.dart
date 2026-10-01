@@ -13,11 +13,8 @@ export 'package:everslot/features/notifications/domain/rule_draft.dart';
 /// editor creates one, passes it to `NotificationSettingsSection(draft: …)` and saves it with the
 /// item in ONE transaction through [NotificationHostApi.saveDraftInTx].
 class NotificationRulesDraft extends ChangeNotifier {
-  NotificationRulesDraft({
-    NotifyMode notifyMode = NotifyMode.inherit,
-    List<RuleDraft> rules = const [],
-  }) : _notifyMode = notifyMode,
-       _rules = [...rules];
+  NotificationRulesDraft({this._notifyMode = NotifyMode.inherit, List<RuleDraft> rules = const []})
+    : _rules = [...rules];
 
   final List<RuleDraft> _rules;
   NotifyMode _notifyMode;
@@ -48,9 +45,7 @@ class NotificationRulesDraft extends ChangeNotifier {
   }
 
   /// The pending rules bound to [targetId] (ids are assigned on save).
-  List<RuleDraft> boundTo(String targetId) => [
-    for (final d in _rules) d.copyWith(targetId: targetId),
-  ];
+  List<RuleDraft> boundTo(String targetId) => [for (final d in _rules) d.copyWith(targetId: targetId)];
 }
 
 /// What other features need to persist reminders together with their own items (T7.1.02
@@ -64,8 +59,7 @@ class NotificationHostApi {
   final NotifyModeStore _modes;
 
   static RuleTargetType _ruleType(NotificationTargetType type) =>
-      RuleTargetType.forTarget(type) ??
-      (throw ArgumentError.value(type, 'type', 'not an item target type'));
+      RuleTargetType.forTarget(type) ?? (throw ArgumentError.value(type, 'type', 'not an item target type'));
 
   /// Saves [draft] for the item [targetId] (call it AFTER inserting the item row in the same
   /// transaction): inserts the rules and writes the item's `notify_mode`. Returns the rule ids.
@@ -77,30 +71,24 @@ class NotificationHostApi {
   }) async {
     final ruleType = _ruleType(type);
     final ids = await _rules.insertInTx(tx, [
-      for (final d in draft.rules)
-        d.copyWith(targetType: ruleType, targetId: targetId, isDefault: false),
+      for (final d in draft.rules) d.copyWith(targetType: ruleType, targetId: targetId, isDefault: false),
     ]);
-    if (draft.notifyMode != NotifyMode.inherit)
+    if (draft.notifyMode != NotifyMode.inherit) {
       await _modes.setInTx(tx, ruleType, targetId, draft.notifyMode);
+    }
     return ids;
   }
 
   /// Cascade for item deletion: soft-deletes the item's own rules and mutes in the host's delete
   /// transaction (restoring the item restores nothing here — reminders are re-added by the user).
-  Future<void> deleteForTargetInTx(
-    WriteTx tx,
-    NotificationTargetType type,
-    String targetId,
-  ) async {
+  Future<void> deleteForTargetInTx(WriteTx tx, NotificationTargetType type, String targetId) async {
     await _rules.softDeleteForTargetInTx(tx, _ruleType(type), targetId);
     await _mutes.softDeleteForTargetInTx(tx, type.wire, targetId);
   }
 
   /// The own rules of item [id] (source of *Copy reminders from…*).
-  Future<List<NotificationRule>> rulesOf(
-    NotificationTargetType type,
-    String id,
-  ) => _rules.forTarget(_ruleType(type), id);
+  Future<List<NotificationRule>> rulesOf(NotificationTargetType type, String id) =>
+      _rules.forTarget(_ruleType(type), id);
 
   /// "Duplicate item": copies the own rules of [fromId] to [toId] (as own, non-default rules).
   Future<List<String>> copyRulesInTx(
@@ -112,13 +100,7 @@ class NotificationHostApi {
     final ruleType = _ruleType(type);
     final source = await _rules.forTarget(ruleType, fromId);
     return _rules.insertInTx(tx, [
-      for (final r in source)
-        RuleDraft.fromRule(
-          r,
-          targetType: ruleType,
-          targetId: toId,
-          isDefault: false,
-        ),
+      for (final r in source) RuleDraft.fromRule(r, targetType: ruleType, targetId: toId, isDefault: false),
     ]);
   }
 }

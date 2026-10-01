@@ -70,11 +70,7 @@ class _OtpFieldState extends State<OtpField> {
     maxLength: widget.length * 2,
     inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9٠-٩۰-۹ -]'))],
     style: context.text.headlineMedium?.copyWith(letterSpacing: 12, fontFeatures: const [FontFeature.tabularFigures()]),
-    decoration: InputDecoration(
-      labelText: widget.label,
-      counterText: '',
-      errorText: widget.errorText,
-    ),
+    decoration: InputDecoration(labelText: widget.label, counterText: '', errorText: widget.errorText),
     onChanged: _onChanged,
     onSubmitted: (v) {
       final digits = normalizeOtp(v, length: widget.length);

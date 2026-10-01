@@ -73,7 +73,9 @@ void main() {
     await tester.tap(ring);
     await settle(tester);
     expect(find.text('“Meditate” done'), findsOneWidget);
-    final logs = await tester.runAsync(() => h.read(habitLogsRepositoryProvider).watchInRange(d(2026, 9, 22), d(2026, 9, 22)).first);
+    final logs = await tester.runAsync(
+      () => h.read(habitLogsRepositoryProvider).watchInRange(d(2026, 9, 22), d(2026, 9, 22)).first,
+    );
     expect(logs!.single.kind, HabitLogKind.done);
 
     // The stepper adds one increment per tap.
@@ -100,9 +102,7 @@ void main() {
   });
 
   testWidgets('creating “15 push-ups every day” needs only the name and the target', (tester) async {
-    await tester.runAsync(
-      () => h.read(habitSectionsRepositoryProvider).seedDefaults(const {'anytime': 'Anytime'}),
-    );
+    await tester.runAsync(() => h.read(habitSectionsRepositoryProvider).seedDefaults(const {'anytime': 'Anytime'}));
     await pumpInApp(tester, h, const HabitEditorScreen());
     await settle(tester);
     await tester.enterText(find.widgetWithText(TextField, 'Name'), 'Push-ups');
@@ -135,22 +135,24 @@ void main() {
   testWidgets('quit dashboard shows the live counter, money saved and the population-estimate label', (tester) async {
     final id = Ids.v7();
     await tester.runAsync(
-      () => h.read(habitsRepositoryProvider).create(
-        QuitHabit(
-          id: id,
-          name: 'Stop smoking',
-          startDate: d(2026, 9, 21),
-          sortKey: '',
-          mode: QuitMode.abstain,
-          quitStartedAt: DateTime.utc(2026, 9, 21, 21),
-          substance: QuitSubstance.cigarettes,
-          baselinePerDay: 24,
-          unitCost: Decimal.parse('0.5'),
-          currency: 'EUR',
-          lifeMinutesPerUnit: 20,
-          unit: 'cigarettes',
-        ),
-      ),
+      () => h
+          .read(habitsRepositoryProvider)
+          .create(
+            QuitHabit(
+              id: id,
+              name: 'Stop smoking',
+              startDate: d(2026, 9, 21),
+              sortKey: '',
+              mode: QuitMode.abstain,
+              quitStartedAt: DateTime.utc(2026, 9, 21, 21),
+              substance: QuitSubstance.cigarettes,
+              baselinePerDay: 24,
+              unitCost: Decimal.parse('0.5'),
+              currency: 'EUR',
+              lifeMinutesPerUnit: 20,
+              unit: 'cigarettes',
+            ),
+          ),
     );
     await pumpInApp(tester, h, QuitDashboardScreen(habitId: id));
     await settle(tester);

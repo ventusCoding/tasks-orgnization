@@ -47,7 +47,11 @@ void main() {
           home: Scaffold(
             body: Builder(
               builder: (context) => Center(
-                child: TextButton(key: const ValueKey('open'), onPressed: () => open(context), child: const Text('open')),
+                child: TextButton(
+                  key: const ValueKey('open'),
+                  onPressed: () => open(context),
+                  child: const Text('open'),
+                ),
               ),
             ),
           ),
@@ -102,7 +106,8 @@ void main() {
           ))!;
           await pumpScreen(
             tester,
-            (context) => Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => TaskDetailScreen(taskId: id))),
+            (context) =>
+                Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => TaskDetailScreen(taskId: id))),
             dark: dark,
             rtl: rtl,
           );

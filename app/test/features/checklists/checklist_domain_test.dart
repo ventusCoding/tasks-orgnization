@@ -130,7 +130,7 @@ void main() {
     });
 
     test('settings override and round trip', () {
-      final s = SwipeActions.fromSettings({
+      final s = SwipeActions.fromSettings(const {
         'swipeActions': {
           'edit': {'right': 'complete', 'left': 'none'},
           'preview': {'right': 'menu', 'left': 'bogus'},

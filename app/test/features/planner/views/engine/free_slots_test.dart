@@ -12,7 +12,8 @@ void main() {
   setUpAll(tzdata.initializeTimeZones);
 
   final mon = LocalDate(2026, 9, 21);
-  WallInterval w(int h1, int m1, int h2, int m2) => WallInterval(mon.atTime(LocalTime(h1, m1)), mon.atTime(LocalTime(h2, m2)));
+  WallInterval w(int h1, int m1, int h2, int m2) =>
+      WallInterval(mon.atTime(LocalTime(h1, m1)), mon.atTime(LocalTime(h2, m2)));
   const work = FreeSlotOptions(window: DayWindow(9 * 60, 17 * 60), minGapMinutes: 15);
 
   test('merge joins overlapping and touching blocks and drops empty ones', () {
@@ -40,7 +41,10 @@ void main() {
       item('Late', at(2026, 9, 21, 16, 50), 60),
     ];
     final free = freeIntervals(items: items, days: [mon], options: work);
-    expect([for (final f in free) '${f.start.time.toIso()}–${f.end.time.toIso()} ${f.minutes}'], ['11:30–12:00 30', '14:00–16:50 170']);
+    expect(
+      [for (final f in free) '${f.start.time.toIso()}–${f.end.time.toIso()} ${f.minutes}'],
+      ['11:30–12:00 30', '14:00–16:50 170'],
+    );
   });
 
   test('skipped, cancelled and all-day items are not busy; low priority can be ignored', () {
@@ -72,9 +76,12 @@ void main() {
     expect(spring.single.minutes, 180, reason: '01:00–05:00 on a 23-hour day');
     final autumn = freeIntervals(items: const [], days: [LocalDate(2026, 10, 25)], options: night, elapsed: elapsed);
     expect(autumn.single.minutes, 300, reason: '01:00–05:00 on a 25-hour day');
-    final tight = FreeSlotOptions(window: const DayWindow(120, 180), workDays: const {7}, minGapMinutes: 30);
-    expect(freeIntervals(items: const [], days: [LocalDate(2026, 3, 29)], options: tight, elapsed: elapsed), isEmpty,
-        reason: 'the skipped hour is no opening');
+    const tight = FreeSlotOptions(window: DayWindow(120, 180), workDays: {7}, minGapMinutes: 30);
+    expect(
+      freeIntervals(items: const [], days: [LocalDate(2026, 3, 29)], options: tight, elapsed: elapsed),
+      isEmpty,
+      reason: 'the skipped hour is no opening',
+    );
   });
 
   test('sequential placement fills openings in order and skips items that do not fit', () {
@@ -82,7 +89,16 @@ void main() {
       FreeInterval(day: mon, start: at(2026, 9, 21, 10), end: at(2026, 9, 21, 11), minutes: 60),
       FreeInterval(day: mon, start: at(2026, 9, 21, 14), end: at(2026, 9, 21, 16), minutes: 120),
     ];
-    expect(placeSequentially(openings, [45, 30, 90, 180]), [at(2026, 9, 21, 10), at(2026, 9, 21, 14), at(2026, 9, 21, 14, 30), null]);
-    expect(placeSequentially(openings, [15, 45, 60]), [at(2026, 9, 21, 10), at(2026, 9, 21, 10, 15), at(2026, 9, 21, 14)]);
+    expect(placeSequentially(openings, [45, 30, 90, 180]), [
+      at(2026, 9, 21, 10),
+      at(2026, 9, 21, 14),
+      at(2026, 9, 21, 14, 30),
+      null,
+    ]);
+    expect(placeSequentially(openings, [15, 45, 60]), [
+      at(2026, 9, 21, 10),
+      at(2026, 9, 21, 10, 15),
+      at(2026, 9, 21, 14),
+    ]);
   });
 }

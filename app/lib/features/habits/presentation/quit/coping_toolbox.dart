@@ -84,11 +84,13 @@ class _CopingToolboxScreenState extends ConsumerState<CopingToolboxScreen> {
     );
     _asking = false;
     if (!mounted || resisted == null) return;
-    final result = await ref.read(quitServiceProvider).logCraving(
-      habit,
-      at: timer.startedAt,
-      input: CravingInput(durationSeconds: seconds, resisted: resisted is bool ? resisted : null),
-    );
+    final result = await ref
+        .read(quitServiceProvider)
+        .logCraving(
+          habit,
+          at: timer.startedAt,
+          input: CravingInput(durationSeconds: seconds, resisted: resisted is bool ? resisted : null),
+        );
     setState(() => _timer = null);
     if (mounted) showUndoSnackBar(context, ref, message: l.quitToolboxLogged, record: result.record);
   }
@@ -110,9 +112,15 @@ class _CopingToolboxScreenState extends ConsumerState<CopingToolboxScreen> {
         padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, Space.xxxl),
         children: [
           _timerCard(context, now),
-          SectionHeader(l.quitBreathingTitle, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
+          SectionHeader(
+            l.quitBreathingTitle,
+            padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs),
+          ),
           _breathingCard(context, now),
-          SectionHeader(l.quitDistractionsTitle, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
+          SectionHeader(
+            l.quitDistractionsTitle,
+            padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs),
+          ),
           if (distractions.isEmpty)
             Text(l.quitDistractionsEmpty, style: context.text.bodySmall)
           else
@@ -122,7 +130,10 @@ class _CopingToolboxScreenState extends ConsumerState<CopingToolboxScreen> {
               children: [for (final d in distractions) Chip(label: Text(d.name))],
             ),
           if (habit.motivation != null) ...[
-            SectionHeader(l.quitMotivationCard, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
+            SectionHeader(
+              l.quitMotivationCard,
+              padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs),
+            ),
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(Space.md),
@@ -218,10 +229,7 @@ class _CopingToolboxScreenState extends ConsumerState<CopingToolboxScreen> {
                     curve: Curves.easeInOut,
                     width: full ? 140 : 70,
                     height: full ? 140 : 70,
-                    decoration: BoxDecoration(
-                      color: context.colors.primaryContainer,
-                      shape: BoxShape.circle,
-                    ),
+                    decoration: BoxDecoration(color: context.colors.primaryContainer, shape: BoxShape.circle),
                   ),
                 ),
               const SizedBox(height: Space.sm),

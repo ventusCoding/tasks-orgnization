@@ -47,6 +47,21 @@ abstract interface class AuthRepository {
 
   Future<void> updateDisplayName(String? name);
 
+  /// Authenticator-app factors of the account, verified or pending (T1.5.17).
+  Future<List<MfaFactor>> mfaFactors();
+
+  /// Starts a TOTP enrollment; pending enrollments left over from an earlier attempt are removed.
+  Future<TotpEnrollment> enrollTotp();
+
+  /// Checks [code] for [factorId]: confirms a pending enrollment, and steps the session up to aal2.
+  Future<void> verifyTotp(String factorId, String code);
+
+  /// Removes a factor (Supabase requires an aal2 session for a verified one).
+  Future<void> unenrollMfa(String factorId);
+
+  /// The account has a verified factor but this session is not aal2 yet.
+  bool get mfaStepUpRequired;
+
   /// Records the deletion request and calls the `account-delete` Edge Function (T1.5.12).
   Future<void> deleteAccount();
 

@@ -26,8 +26,7 @@ extension PlannerHarness on TestHarness {
       read(plannerQueriesProvider).task(id, includeDeleted: includeDeleted);
 
   Future<List<Task>> liveTasks() async => [
-    for (final r in await (db.select(db.tasks)..where((t) => t.deletedAt.isNull())).get())
-      (await task(r.id))!,
+    for (final r in await (db.select(db.tasks)..where((t) => t.deletedAt.isNull())).get()) (await task(r.id))!,
   ];
 
   Future<List<TaskOccurrenceRecord>> records(String taskId) => read(plannerQueriesProvider).records([taskId]);
@@ -41,10 +40,11 @@ extension PlannerHarness on TestHarness {
 
   /// Activity events, oldest first.
   Future<List<ActivityEvent>> events({String? type}) async {
-    final rows = await (db.select(db.activityEvents)
-          ..where((e) => e.deletedAt.isNull())
-          ..orderBy([(e) => OrderingTerm.asc(e.occurredAt), (e) => OrderingTerm.asc(e.id)]))
-        .get();
+    final rows =
+        await (db.select(db.activityEvents)
+              ..where((e) => e.deletedAt.isNull())
+              ..orderBy([(e) => OrderingTerm.asc(e.occurredAt), (e) => OrderingTerm.asc(e.id)]))
+            .get();
     return [
       for (final r in rows)
         if (type == null || r.eventType == type)
@@ -61,8 +61,9 @@ extension PlannerHarness on TestHarness {
   }
 
   /// Resolved items of a day range in the device zone.
-  Future<List<PlannerItem>> items(LocalDate start, int days) async =>
-      (await read(occurrenceRangeServiceProvider).resolveRange(start.atStartOfDay, start.plusDays(days).atStartOfDay)).items;
+  Future<List<PlannerItem>> items(LocalDate start, int days) async => (await read(
+    occurrenceRangeServiceProvider,
+  ).resolveRange(start.atStartOfDay, start.plusDays(days).atStartOfDay)).items;
 
   /// Creates a task and returns its id.
   Future<String> createTask({

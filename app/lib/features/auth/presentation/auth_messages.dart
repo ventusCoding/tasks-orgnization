@@ -19,6 +19,7 @@ String authFailureMessage(BuildContext context, AuthFailureCode code) {
     AuthFailureCode.guestDisabled => l.authErrorGuestDisabled,
     AuthFailureCode.sessionExpired => l.authErrorSessionExpired,
     AuthFailureCode.lastIdentity => l.authErrorLastIdentity,
+    AuthFailureCode.mfaRequired => l.authErrorMfaRequired,
     AuthFailureCode.unknown => l.authErrorUnknown,
   };
 }

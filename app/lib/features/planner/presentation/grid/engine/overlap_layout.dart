@@ -90,9 +90,8 @@ DayLayout layoutDay(List<LayoutInput> items, {int laneCap = 1 << 20, int minDura
   if (items.isEmpty) return DayLayout.empty;
   final cap = math.max(1, laneCap);
   final minDur = math.max(1, minDuration);
-  final sorted = [
-    for (final i in items) (i.index, i.start, math.max(i.end, i.start + minDur)),
-  ]..sort((a, b) {
+  final sorted = [for (final i in items) (i.index, i.start, math.max(i.end, i.start + minDur))]
+    ..sort((a, b) {
       final c = a.$2.compareTo(b.$2);
       if (c != 0) return c;
       final d = b.$3.compareTo(a.$3);

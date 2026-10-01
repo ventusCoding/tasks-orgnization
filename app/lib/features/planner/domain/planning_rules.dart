@@ -65,7 +65,7 @@ enum AskActualTimeOnDone {
   ifOffSchedule('if_off_schedule'),
   always('always');
 
-  const AskActualTimeOnDone(this.json);
+  AskActualTimeOnDone(this.json);
 
   final String json;
 
@@ -131,10 +131,8 @@ enum TimerPolicy {
 }
 
 /// Total tracked seconds of [entries] (running entries count up to [now]).
-int trackedSecondsOf(Iterable<TimeEntry> entries, DateTime now) => entries.fold(
-  0,
-  (sum, e) => sum + math.max(0, e.durationAt(now).inSeconds),
-);
+int trackedSecondsOf(Iterable<TimeEntry> entries, DateTime now) =>
+    entries.fold(0, (sum, e) => sum + math.max(0, e.durationAt(now).inSeconds));
 
 /// Entries of [others] overlapping `[start, end)` (running entries end at [now]).
 List<TimeEntry> overlappingEntries(
@@ -189,7 +187,11 @@ enum PostponeOption { plus15Minutes, plus1Hour, thisEvening, tomorrowSameTime, n
 
 /// Target start for a postpone option. Relative options start from the planned start, or from
 /// now when the occurrence is already past.
-LocalDateTime postponeTarget(PostponeOption option, {required LocalDateTime currentStart, required LocalDateTime nowLocal}) {
+LocalDateTime postponeTarget(
+  PostponeOption option, {
+  required LocalDateTime currentStart,
+  required LocalDateTime nowLocal,
+}) {
   final base = currentStart.isBefore(nowLocal) ? nowLocal : currentStart;
   return switch (option) {
     PostponeOption.plus15Minutes => base.plusMinutes(15),
@@ -199,7 +201,10 @@ LocalDateTime postponeTarget(PostponeOption option, {required LocalDateTime curr
           ? nowLocal.date.atTime(LocalTime(20, 0))
           : nowLocal.date.plusDays(1).atTime(LocalTime(20, 0)),
     PostponeOption.tomorrowSameTime => nowLocal.date.plusDays(1).atTime(currentStart.time),
-    PostponeOption.nextWeekSameTime => LocalDate.max(currentStart.date, nowLocal.date).plusDays(7).atTime(currentStart.time),
+    PostponeOption.nextWeekSameTime => LocalDate.max(
+      currentStart.date,
+      nowLocal.date,
+    ).plusDays(7).atTime(currentStart.time),
   };
 }
 

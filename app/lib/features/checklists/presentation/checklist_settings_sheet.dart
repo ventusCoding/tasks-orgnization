@@ -102,12 +102,19 @@ class _ChecklistSettingsSheet extends ConsumerWidget {
             subtitle: Wrap(
               spacing: Space.sm,
               children: [
-                for (final st in const [ItemStatus.waiting, ItemStatus.blocked, ItemStatus.cancelled, ItemStatus.completed])
+                for (final st in const [
+                  ItemStatus.waiting,
+                  ItemStatus.blocked,
+                  ItemStatus.cancelled,
+                  ItemStatus.completed,
+                ])
                   FilterChip(
                     label: Text(StatusStyle.label(context, st)),
                     selected: s.requireReasonFor.contains(st),
                     onSelected: (v) => set(
-                      (x) => x.copyWith(requireReasonFor: v ? {...x.requireReasonFor, st} : ({...x.requireReasonFor}..remove(st))),
+                      (x) => x.copyWith(
+                        requireReasonFor: v ? {...x.requireReasonFor, st} : ({...x.requireReasonFor}..remove(st)),
+                      ),
                     ),
                   ),
               ],
@@ -255,7 +262,11 @@ class _RepeatSection extends ConsumerWidget {
               final t = await pickTime(context, initial: schedule.anchorStart.time, use24h: prefs.use24h);
               if (t == null) return;
               await save(
-                ResetSchedule(rule: schedule.rule, anchorStart: schedule.anchorStart.date.atTime(t), zone: schedule.zone),
+                ResetSchedule(
+                  rule: schedule.rule,
+                  anchorStart: schedule.anchorStart.date.atTime(t),
+                  zone: schedule.zone,
+                ),
               );
             },
           ),

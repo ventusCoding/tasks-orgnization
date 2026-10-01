@@ -38,20 +38,11 @@ class NotifyModeStore {
           readsFrom: {info},
         )
         .watchSingleOrNull()
-        .map(
-          (row) => row == null
-              ? null
-              : NotifyMode.parse(row.data['notify_mode'] as String?),
-        );
+        .map((row) => row == null ? null : NotifyMode.parse(row.data['notify_mode'] as String?));
   }
 
   /// Writes inside an existing transaction (Customize snapshot, host editors).
-  Future<void> setInTx(
-    WriteTx tx,
-    RuleTargetType type,
-    String id,
-    NotifyMode mode,
-  ) async {
+  Future<void> setInTx(WriteTx tx, RuleTargetType type, String id, NotifyMode mode) async {
     final table = tableFor(type);
     if (table == null || !await tx.exists(table, id)) return;
     await tx.update(table, id, {'notify_mode': mode.wire});

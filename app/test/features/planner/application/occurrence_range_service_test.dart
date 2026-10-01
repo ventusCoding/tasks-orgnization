@@ -106,7 +106,12 @@ void main() {
   });
 
   test('heavy ranges resolve in an isolate with the same result', () async {
-    await h.createTask(title: 'Water', start: '2026-09-01T08:00', duration: 1, rule: RecurrenceRule(freq: Frequency.minutely, interval: 5));
+    await h.createTask(
+      title: 'Water',
+      start: '2026-09-01T08:00',
+      duration: 1,
+      rule: RecurrenceRule(freq: Frequency.minutely, interval: 5),
+    );
     final inline = await service(isolateThreshold: 1 << 30).resolveRange(from, to);
     final heavy = service(isolateThreshold: 100);
     final offloaded = await heavy.resolveRange(from, to);
@@ -116,7 +121,12 @@ void main() {
   });
 
   test('the hard cap truncates and flags the range', () async {
-    await h.createTask(title: 'Tick', start: '2026-09-01T00:00', duration: 1, rule: RecurrenceRule(freq: Frequency.minutely));
+    await h.createTask(
+      title: 'Tick',
+      start: '2026-09-01T00:00',
+      duration: 1,
+      rule: RecurrenceRule(freq: Frequency.minutely),
+    );
     final range = await service(maxOccurrences: 1000).resolveRange(from, to);
     expect(range.truncated, isTrue);
     expect(range.items.length, lessThanOrEqualTo(1000));
@@ -142,7 +152,8 @@ void main() {
   });
 
   test('items default to the category icon and color; own values win (T3.1.12)', () async {
-    final category = (await h.read(categoriesRepositoryProvider).add(name: 'Sport', color: 0xFF10B981, icon: 'fitness')).id;
+    final category =
+        (await h.read(categoriesRepositoryProvider).add(name: 'Sport', color: 0xFF10B981, icon: 'fitness')).id;
     await h.createTask(title: 'Default', start: '2026-09-22T08:00', categoryId: category);
     final own = await h.createTask(title: 'Own', start: '2026-09-22T10:00', categoryId: category);
     final task = (await h.task(own))!;
@@ -157,6 +168,6 @@ void main() {
   test('item counts stay consistent with PlannerItem keys', () async {
     await h.createTask(title: 'A', start: '2026-09-22T08:00', rule: RecurrenceRule());
     final items = (await service().resolveRange(from, to)).items;
-    expect(items.map((PlannerItem i) => i.key).toSet(), hasLength(items.length));
+    expect(items.map((i) => i.key).toSet(), hasLength(items.length));
   });
 }

@@ -42,16 +42,13 @@ final class RecurrenceDescriber {
   }
 
   String _afterCompletion(_Messages c, RecurrenceRule rule) {
-    final after =
-        rule.afterCompletion ?? const AfterCompletion(1, RecurrenceUnit.day);
+    final after = rule.afterCompletion ?? const AfterCompletion(1, RecurrenceUnit.day);
     return c.plural('after.${after.unit.name}', after.amount);
   }
 
   String _quota(_Messages c, RecurrenceRule rule) {
     final quota = rule.quota ?? const Quota(1, PeriodUnit.week);
-    final out = StringBuffer(
-      c.plural('quota', quota.times, {'per': c.text('per.${quota.per.name}')}),
-    );
+    final out = StringBuffer(c.plural('quota', quota.times, {'per': c.text('per.${quota.per.name}')}));
     final days = rule.byWeekday;
     if (days != null) out.write(c.dayFilter({for (final d in days) d.day}));
     if (quota.minGapDays > 0) {
@@ -64,12 +61,7 @@ final class RecurrenceDescriber {
     final out = StringBuffer();
     final count = rule.count;
     if (count != null) {
-      out.write(
-        c.plural(
-          rule.countMode == CountMode.occurrences ? 'count' : 'completions',
-          count,
-        ),
-      );
+      out.write(c.plural(rule.countMode == CountMode.occurrences ? 'count' : 'completions', count));
     }
     final until = rule.until;
     if (until != null) out.write(c.text('until', {'date': c.date(until.date)}));
@@ -89,29 +81,16 @@ final class RecurrenceDescriber {
         if (hourly && n == 1 && rule.byHour.isNotEmpty && rule.window == null) {
           // Every hour limited to some hours = those times every day.
           out
-            ..write(
-              allDays == null
-                  ? c.plural('every.day', 1)
-                  : c.weeklyStart(allDays),
-            )
+            ..write(allDays == null ? c.plural('every.day', 1) : c.weeklyStart(allDays))
             ..write(_dateFilters(c, rule))
             ..write(_times(c, rule, anchor));
           return out.toString();
         }
         out.write(c.plural(hourly ? 'every.hour' : 'every.minute', n));
         if (rule.byMinute.isNotEmpty) {
-          String item(int m) => hourly
-              ? c.text('hourMinute.item', {
-                  'mm': '$m'.padLeft(2, '0'),
-                  'm': '$m',
-                })
-              : '$m';
-          final minutes = c.join([
-            for (final m in _sorted(rule.byMinute)) item(m),
-          ]);
-          out.write(
-            c.text(hourly ? 'hourMinutes' : 'minutes', {'list': minutes}),
-          );
+          String item(int m) => hourly ? c.text('hourMinute.item', {'mm': '$m'.padLeft(2, '0'), 'm': '$m'}) : '$m';
+          final minutes = c.join([for (final m in _sorted(rule.byMinute)) item(m)]);
+          out.write(c.text(hourly ? 'hourMinutes' : 'minutes', {'list': minutes}));
         }
         final window = rule.window;
         if (window != null) out.write(c.window(window.start, window.end));
@@ -130,15 +109,9 @@ final class RecurrenceDescriber {
           ..write(_times(c, rule, anchor));
       case Frequency.weekly:
         final days = allDays ?? {start.date.weekday};
-        out.write(
-          n == 1
-              ? c.weeklyStart(days)
-              : c.weeklyEvery(days, c.plural('every.week', n)),
-        );
+        out.write(n == 1 ? c.weeklyStart(days) : c.weeklyEvery(days, c.plural('every.week', n)));
         if (rule.byMonth.isNotEmpty) {
-          out.write(
-            c.text('filter.months', {'months': c.months(rule.byMonth)}),
-          );
+          out.write(c.text('filter.months', {'months': c.months(rule.byMonth)}));
         }
         out.write(_times(c, rule, anchor));
       case Frequency.monthly:
@@ -146,9 +119,7 @@ final class RecurrenceDescriber {
           ..write(c.plural('every.month', n))
           ..write(_monthSpec(c, rule, start.day, scope: c.text('scope.month')));
         if (rule.byMonth.isNotEmpty) {
-          out.write(
-            c.text('filter.months', {'months': c.months(rule.byMonth)}),
-          );
+          out.write(c.text('filter.months', {'months': c.months(rule.byMonth)}));
         }
         out.write(_times(c, rule, anchor));
       case Frequency.yearly:
@@ -173,12 +144,7 @@ final class RecurrenceDescriber {
     return out.toString();
   }
 
-  String _monthSpec(
-    _Messages c,
-    RecurrenceRule rule,
-    int anchorDay, {
-    required String scope,
-  }) {
+  String _monthSpec(_Messages c, RecurrenceRule rule, int anchorDay, {required String scope}) {
     final weekdays = rule.byWeekday ?? const <WeekdayRule>[];
     final plain = {
       for (final w in weekdays)
@@ -189,23 +155,17 @@ final class RecurrenceDescriber {
         if (w.n != null) w,
     ];
     final monthDays = rule.byMonthDay;
-    if (rule.bySetPos.isNotEmpty &&
-        ordinals.isEmpty &&
-        monthDays.isEmpty &&
-        plain.isNotEmpty) {
+    if (rule.bySetPos.isNotEmpty && ordinals.isEmpty && monthDays.isEmpty && plain.isNotEmpty) {
       return c.setPos(rule.bySetPos, plain) + scope;
     }
     if (monthDays.isNotEmpty && weekdays.isNotEmpty) {
       return c.text('dayCombo', {
-        'days': c.joinOr([
-          for (final d in c.sortDays(weekdays.map((w) => w.day))) c.dayName(d),
-        ]),
+        'days': c.joinOr([for (final d in c.sortDays(weekdays.map((w) => w.day))) c.dayName(d)]),
         'monthDays': c.monthDays(monthDays),
       });
     }
     if (monthDays.isNotEmpty) {
-      return c.text('monthDays', {'list': c.monthDays(monthDays)}) +
-          _clampNote(c, rule, monthDays);
+      return c.text('monthDays', {'list': c.monthDays(monthDays)}) + _clampNote(c, rule, monthDays);
     }
     if (ordinals.isNotEmpty || plain.isNotEmpty) {
       final parts = <String>[];
@@ -228,17 +188,9 @@ final class RecurrenceDescriber {
 
   /// Mentions clamping when a month day may not exist in every month.
   String _clampNote(_Messages c, RecurrenceRule rule, List<int> monthDays) =>
-      rule.monthDayOverflow == MonthOverflow.clamp &&
-          monthDays.any((d) => d.abs() > 28)
-      ? c.text('clampNote')
-      : '';
+      rule.monthDayOverflow == MonthOverflow.clamp && monthDays.any((d) => d.abs() > 28) ? c.text('clampNote') : '';
 
-  String _yearSpec(
-    _Messages c,
-    RecurrenceRule rule,
-    int anchorMonth,
-    int anchorDay,
-  ) {
+  String _yearSpec(_Messages c, RecurrenceRule rule, int anchorMonth, int anchorDay) {
     final weekdays = rule.byWeekday ?? const <WeekdayRule>[];
     final ordinals = [
       for (final w in weekdays)
@@ -251,21 +203,14 @@ final class RecurrenceDescriber {
     final months = rule.byMonth;
     final monthsText = months.isEmpty ? '' : c.months(months);
     if (rule.byYearDay.isNotEmpty) {
-      return c.yearDays(rule.byYearDay) +
-          (plain.isEmpty ? '' : c.dayFilter(plain));
+      return c.yearDays(rule.byYearDay) + (plain.isEmpty ? '' : c.dayFilter(plain));
     }
     if (rule.byWeekNo.isNotEmpty) {
-      return c.weekNos(rule.byWeekNo) +
-          (weekdays.isEmpty
-              ? ''
-              : c.dayFilter({for (final w in weekdays) w.day}));
+      return c.weekNos(rule.byWeekNo) + (weekdays.isEmpty ? '' : c.dayFilter({for (final w in weekdays) w.day}));
     }
     final monthScope = months.isEmpty
         ? c.text('scope.year')
-        : c.text('scope.months', {
-            'months': monthsText,
-            'deMonths': c.deMonths(months),
-          });
+        : c.text('scope.months', {'months': monthsText, 'deMonths': c.deMonths(months)});
     if (ordinals.isNotEmpty && rule.byMonthDay.isEmpty) {
       return c.text('nthWeekday.list', {
             'list': c.join([for (final w in ordinals) c.nthWeekday(w)]),
@@ -273,44 +218,31 @@ final class RecurrenceDescriber {
           monthScope +
           (plain.isEmpty ? '' : c.dayFilter(plain));
     }
-    if (rule.bySetPos.isNotEmpty &&
-        plain.isNotEmpty &&
-        rule.byMonthDay.isEmpty) {
+    if (rule.bySetPos.isNotEmpty && plain.isNotEmpty && rule.byMonthDay.isEmpty) {
       return c.setPos(rule.bySetPos, plain) + monthScope;
     }
     if (rule.byMonthDay.isNotEmpty) {
       if (weekdays.isNotEmpty) {
         return c.text('dayCombo', {
-              'days': c.joinOr([
-                for (final d in c.sortDays(weekdays.map((w) => w.day)))
-                  c.dayName(d),
-              ]),
+              'days': c.joinOr([for (final d in c.sortDays(weekdays.map((w) => w.day))) c.dayName(d)]),
               'monthDays': c.monthDays(rule.byMonthDay),
             }) +
             (months.isEmpty ? '' : c.text('inMonths', {'months': monthsText}));
       }
       if (months.isEmpty) {
-        return c.text('yearly.eachMonth', {
-          'monthDays': c.monthDays(rule.byMonthDay),
-        });
+        return c.text('yearly.eachMonth', {'monthDays': c.monthDays(rule.byMonthDay)});
       }
       return _yearlyDates(c, months, rule.byMonthDay);
     }
     if (plain.isNotEmpty) {
-      return c.dayFilter(plain) +
-          (months.isEmpty ? '' : c.text('inMonths', {'months': monthsText}));
+      return c.dayFilter(plain) + (months.isEmpty ? '' : c.text('inMonths', {'months': monthsText}));
     }
-    return _yearlyDates(c, months.isEmpty ? [anchorMonth] : months, [
-      anchorDay,
-    ]);
+    return _yearlyDates(c, months.isEmpty ? [anchorMonth] : months, [anchorDay]);
   }
 
   String _yearlyDates(_Messages c, List<int> months, List<int> days) {
     if (months.length == 1 && days.length == 1 && days.single > 0) {
-      return c.text('yearly.date', {
-        'month': c.monthName(months.single),
-        'day': c.dayNumber(days.single),
-      });
+      return c.text('yearly.date', {'month': c.monthName(months.single), 'day': c.dayNumber(days.single)});
     }
     return c.text('yearly.monthDays', {
       'monthDays': c.monthDays(days),
@@ -325,38 +257,28 @@ final class RecurrenceDescriber {
     if (rule.times.isNotEmpty) {
       minutes = _sorted([for (final t in rule.times) t.minuteOfDay]);
     } else {
-      final hours = rule.byHour.isEmpty
-          ? [anchor.start.hour]
-          : _sorted(rule.byHour);
-      final mins = rule.byMinute.isEmpty
-          ? [anchor.start.minute]
-          : _sorted(rule.byMinute);
+      final hours = rule.byHour.isEmpty ? [anchor.start.hour] : _sorted(rule.byHour);
+      final mins = rule.byMinute.isEmpty ? [anchor.start.minute] : _sorted(rule.byMinute);
       minutes = [
         for (final h in hours)
           for (final m in mins) h * 60 + m,
       ];
     }
     if (minutes.length > 6) {
-      return c.plural('timesPerDay', minutes.length, {
-        'first': c.time(minutes.first),
-        'last': c.time(minutes.last),
-      });
+      return c.plural('timesPerDay', minutes.length, {'first': c.time(minutes.first), 'last': c.time(minutes.last)});
     }
     return c.text('at', {
       'times': c.join([for (final m in minutes) c.time(m)]),
     });
   }
 
-  static List<int> _sorted(Iterable<int> values) =>
-      values.toSet().toList()..sort();
+  static List<int> _sorted(Iterable<int> values) => values.toSet().toList()..sort();
 }
 
 /// Catalog access and locale-aware formatting helpers.
 final class _Messages {
   new(String locale, {required this.use24h, required this.weekStart})
-    : language = recurrenceMessages.containsKey(_languageOf(locale))
-          ? _languageOf(locale)
-          : 'en';
+    : language = recurrenceMessages.containsKey(_languageOf(locale)) ? _languageOf(locale) : 'en';
 
   final String language;
   final bool use24h;
@@ -364,8 +286,7 @@ final class _Messages {
 
   Map<String, Object> get _catalog => recurrenceMessages[language]!;
 
-  static String _languageOf(String locale) =>
-      locale.split(RegExp('[-_]')).first.toLowerCase();
+  static String _languageOf(String locale) => locale.split(RegExp('[-_]')).first.toLowerCase();
 
   static String _fill(String template, Map<String, String> args) {
     var result = template;
@@ -375,18 +296,10 @@ final class _Messages {
     return result;
   }
 
-  String text(String key, [Map<String, String> args = const {}]) =>
-      _fill(_catalog[key]! as String, args);
+  String text(String key, [Map<String, String> args = const {}]) => _fill(_catalog[key]! as String, args);
 
   String plural(String key, int n, [Map<String, String> args = const {}]) =>
-      _fill(
-        selectPlural(
-          language,
-          n,
-          (_catalog[key]! as Map).cast<String, String>(),
-        ),
-        args,
-      );
+      _fill(selectPlural(language, n, (_catalog[key]! as Map).cast<String, String>()), args);
 
   List<String> _list(String key) => (_catalog[key]! as List).cast<String>();
 
@@ -400,10 +313,8 @@ final class _Messages {
     return '${items.sublist(0, items.length - 1).join(text('orSep'))}${text('or')}${items.last}';
   }
 
-  List<Weekday> sortDays(Iterable<Weekday> days) => days.toSet().toList()
-    ..sort(
-      (a, b) => a.offsetFrom(weekStart).compareTo(b.offsetFrom(weekStart)),
-    );
+  List<Weekday> sortDays(Iterable<Weekday> days) =>
+      days.toSet().toList()..sort((a, b) => a.offsetFrom(weekStart).compareTo(b.offsetFrom(weekStart)));
 
   String dayName(Weekday day) => _list('weekdays')[day.iso - 1];
 
@@ -413,8 +324,7 @@ final class _Messages {
 
   String monthName(int month) => _list('months')[month - 1];
 
-  String months(List<int> values) =>
-      join([for (final m in (values.toSet().toList()..sort())) monthName(m)]);
+  String months(List<int> values) => join([for (final m in (values.toSet().toList()..sort())) monthName(m)]);
 
   /// French "de janvier et juillet" / "d'avril" (other locales: the month list).
   String deMonths(List<int> values) {
@@ -423,8 +333,7 @@ final class _Messages {
     return _startsWithVowel(list) ? "d'$list" : 'de $list';
   }
 
-  static bool _startsWithVowel(String text) =>
-      text.isNotEmpty && 'aeiouyàâéèêëîïôûùAEIOUYÉ'.contains(text[0]);
+  static bool _startsWithVowel(String text) => text.isNotEmpty && 'aeiouyàâéèêëîïôûùAEIOUYÉ'.contains(text[0]);
 
   /// French article before an ordinal ("le premier", "l'avant-dernier").
   String _article(String word) {
@@ -432,11 +341,9 @@ final class _Messages {
     return _startsWithVowel(word) ? "l'" : 'le ';
   }
 
-  static bool _isWeekdays(Set<Weekday> days) =>
-      days.length == 5 && days.every((d) => !d.isWeekend);
+  static bool _isWeekdays(Set<Weekday> days) => days.length == 5 && days.every((d) => !d.isWeekend);
 
-  static bool _isWeekend(Set<Weekday> days) =>
-      days.length == 2 && days.every((d) => d.isWeekend);
+  static bool _isWeekend(Set<Weekday> days) => days.length == 2 && days.every((d) => d.isWeekend);
 
   Map<String, String> _dayArgs(Set<Weekday> days) {
     final sorted = sortDays(days);
@@ -446,9 +353,7 @@ final class _Messages {
       'daysPlural': join([for (final d in sorted) _dayPlural(d)]),
       'onDays': plural('onDays', sorted.length, {
         'days': names,
-        'leDays': join([
-          for (final d in sorted) '${text('dayArticle')}${dayName(d)}',
-        ]),
+        'leDays': join([for (final d in sorted) '${text('dayArticle')}${dayName(d)}']),
       }),
     };
   }
@@ -507,11 +412,7 @@ final class _Messages {
         else if (v < 0)
           text('monthDay.nthLast', {'n': '${-v}', 'nth': englishOrdinal(-v)})
         else
-          text('monthDay.nth', {
-            'n': '$v',
-            'nth': englishOrdinal(v),
-            'day': dayNumber(v),
-          }),
+          text('monthDay.nth', {'n': '$v', 'nth': englishOrdinal(v), 'day': dayNumber(v)}),
     ]);
   }
 
@@ -546,11 +447,7 @@ final class _Messages {
         return a.compareTo(b);
       });
     final ords = join([
-      for (final p in sortedPositions)
-        text('setPos.ordItem', {
-          'ord': _ordinal(p),
-          'le': _article(_ordinal(p)),
-        }),
+      for (final p in sortedPositions) text('setPos.ordItem', {'ord': _ordinal(p), 'le': _article(_ordinal(p))}),
     ]);
     final String set;
     if (days.length == 7) {
@@ -603,9 +500,6 @@ final class _Messages {
     });
   }
 
-  String date(LocalDate date) => text('date', {
-    'month': monthName(date.month),
-    'day': dayNumber(date.day),
-    'year': '${date.year}',
-  });
+  String date(LocalDate date) =>
+      text('date', {'month': monthName(date.month), 'day': dayNumber(date.day), 'year': '${date.year}'});
 }

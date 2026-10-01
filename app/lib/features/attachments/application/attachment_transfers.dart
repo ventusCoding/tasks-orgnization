@@ -55,22 +55,16 @@ class PlatformConnectivityProbe implements ConnectivityProbe {
 class AttachmentUploadQueue {
   AttachmentUploadQueue({
     required AttachmentsRepository repository,
-    required AttachmentCacheStore cache,
-    required AttachmentFileStore files,
-    required AttachmentRemoteStorage? storage,
-    required Clock clock,
-    required ConnectivityProbe connectivity,
-    required String Function() userId,
+    required this._cache,
+    required this._files,
+    required this._storage,
+    required this._clock,
+    required this._connectivity,
+    required this._userId,
     Future<bool> Function()? wifiOnly,
     this.concurrency = 2,
     math.Random? random,
   }) : _repo = repository,
-       _cache = cache,
-       _files = files,
-       _storage = storage,
-       _clock = clock,
-       _connectivity = connectivity,
-       _userId = userId,
        _wifiOnly = wifiOnly ?? (() async => false),
        _random = random ?? math.Random();
 
@@ -256,16 +250,12 @@ class AttachmentUploadQueue {
 /// Lazy downloads + LRU cache (T2.2.05): thumbnails when an owner is visible, originals on open.
 class AttachmentDownloader {
   AttachmentDownloader({
-    required AttachmentCacheStore cache,
-    required AttachmentFileStore files,
-    required AttachmentRemoteStorage? storage,
-    required Clock clock,
+    required this._cache,
+    required this._files,
+    required this._storage,
+    required this._clock,
     Future<int> Function()? capBytes,
-  }) : _cache = cache,
-       _files = files,
-       _storage = storage,
-       _clock = clock,
-       _capBytes = capBytes ?? (() async => LruPolicy.defaultCapBytes);
+  }) : _capBytes = capBytes ?? (() async => LruPolicy.defaultCapBytes);
 
   final AttachmentCacheStore _cache;
   final AttachmentFileStore _files;
@@ -321,7 +311,7 @@ class AttachmentDownloader {
     if (existing != null) return existing;
     // Block body: returning the removed future would make whenComplete await itself.
     final future = body().whenComplete(() {
-      _inflight.remove(key);
+      unawaited(_inflight.remove(key));
     });
     _inflight[key] = future;
     return future;

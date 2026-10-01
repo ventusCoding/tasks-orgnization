@@ -4,7 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('markdown-lite parser (T3.1.15)', () {
     test('blocks: heading, bullets, numbered, checkboxes, paragraphs', () {
-      final blocks = parseMarkdownLite('# Plan\n- one\n* two\n1. first\n2) second\n- [ ] todo\n- [x] done\n\nSome text\nmore');
+      final blocks = parseMarkdownLite(
+        '# Plan\n- one\n* two\n1. first\n2) second\n- [ ] todo\n- [x] done\n\nSome text\nmore',
+      );
       expect(blocks, [
         const MdHeading([MdInline('Plan')]),
         const MdBullet([MdInline('one')]),

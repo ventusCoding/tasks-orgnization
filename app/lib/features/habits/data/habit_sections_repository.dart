@@ -26,13 +26,15 @@ class HabitSectionsRepository {
     return q;
   }
 
-  Stream<List<HabitSection>> watchAll({bool includeArchived = false}) => _query(includeArchived: includeArchived)
-      .watch()
-      .map((rows) => [for (final r in rows) HabitMappers.section(r, _userId())])
-      .distinct(const ListEquality<HabitSection>().equals);
+  Stream<List<HabitSection>> watchAll({bool includeArchived = false}) =>
+      _query(includeArchived: includeArchived)
+          .watch()
+          .map((rows) => [for (final r in rows) HabitMappers.section(r, _userId())])
+          .distinct(const ListEquality<HabitSection>().equals);
 
-  Future<List<HabitSection>> all({bool includeArchived = true}) async =>
-      [for (final r in await _query(includeArchived: includeArchived).get()) HabitMappers.section(r, _userId())];
+  Future<List<HabitSection>> all({bool includeArchived = true}) async => [
+    for (final r in await _query(includeArchived: includeArchived).get()) HabitMappers.section(r, _userId()),
+  ];
 
   /// Id of the default section [key] for the current user.
   String defaultId(String key) => Ids.habitSection(_userId(), key);
@@ -75,7 +77,9 @@ class HabitSectionsRepository {
 
   static void _validateName(String name) {
     final n = name.trim();
-    if (n.isEmpty || n.length > 40) throw const ValidationException('Section name must be 1–40 characters', field: 'name');
+    if (n.isEmpty || n.length > 40) {
+      throw const ValidationException('Section name must be 1–40 characters', field: 'name');
+    }
   }
 
   Future<OpRecord> create({required String name, String? icon, LocalTime? start, LocalTime? end}) async {
@@ -93,13 +97,7 @@ class HabitSectionsRepository {
     );
   }
 
-  Future<OpRecord> update(
-    String id, {
-    String? name,
-    String? icon,
-    Object? start = _keep,
-    Object? end = _keep,
-  }) {
+  Future<OpRecord> update(String id, {String? name, String? icon, Object? start = _keep, Object? end = _keep}) {
     if (name != null) _validateName(name);
     return _writer.run(
       (tx) => tx.update('habit_sections', id, {
@@ -152,12 +150,13 @@ class HabitVocabRepository {
         .distinct(const ListEquality<VocabEntry>().equals);
   }
 
-  Future<List<VocabEntry>> all() async => (await (_db.select(_db.habitVocab)
-            ..where((v) => v.deletedAt.isNull() & v.userId.equals(_userId()))
-            ..orderBy([(v) => OrderingTerm.asc(v.sortKey)]))
-          .get())
-      .map(HabitMappers.vocab)
-      .toList();
+  Future<List<VocabEntry>> all() async =>
+      (await (_db.select(_db.habitVocab)
+                ..where((v) => v.deletedAt.isNull() & v.userId.equals(_userId()))
+                ..orderBy([(v) => OrderingTerm.asc(v.sortKey)]))
+              .get())
+          .map(HabitMappers.vocab)
+          .toList();
 
   /// Seeds the default libraries once (idempotent). [names] maps `kind.key` → localized name.
   Future<void> seedDefaults(Map<String, String> names) async {
@@ -189,7 +188,10 @@ class HabitVocabRepository {
   Future<OpRecord> create(VocabKind kind, String name, {String? icon, int? color}) async {
     final n = name.trim();
     if (n.isEmpty || n.length > 60) throw const ValidationException('Name must be 1–60 characters', field: 'name');
-    final same = [for (final v in await all()) if (v.kind == kind) v];
+    final same = [
+      for (final v in await all())
+        if (v.kind == kind) v,
+    ];
     final last = same.isEmpty ? null : same.map((v) => v.sortKey).reduce((a, b) => a.compareTo(b) > 0 ? a : b);
     return _writer.run(
       (tx) => tx.insert('habit_vocab', Ids.v7(), {
@@ -247,38 +249,41 @@ class HabitTimerStore {
       .distinct(const ListEquality<HabitTimer>().equals);
 
   Future<HabitTimer?> read(String habitId, String key) async {
-    final row = await (_db.select(_db.habitTimerState)
-          ..where((t) => t.habitId.equals(habitId) & t.occurrenceKey.equals(key)))
-        .getSingleOrNull();
+    final row = await (_db.select(
+      _db.habitTimerState,
+    )..where((t) => t.habitId.equals(habitId) & t.occurrenceKey.equals(key))).getSingleOrNull();
     return row == null ? null : _map(row);
   }
 
   /// Starts (or resumes) the timer at [now].
   Future<void> start(String habitId, String key, DateTime now) async {
     final current = await read(habitId, key);
-    await _db.into(_db.habitTimerState).insertOnConflictUpdate(
-      HabitTimerStateCompanion.insert(
-        habitId: habitId,
-        occurrenceKey: key,
-        startedAt: now.toUtc(),
-        accumulatedSeconds: Value(current?.accumulatedSeconds ?? 0),
-        running: const Value(true),
-      ),
-    );
+    await _db
+        .into(_db.habitTimerState)
+        .insertOnConflictUpdate(
+          HabitTimerStateCompanion.insert(
+            habitId: habitId,
+            occurrenceKey: key,
+            startedAt: now.toUtc(),
+            accumulatedSeconds: Value(current?.accumulatedSeconds ?? 0),
+            running: const Value(true),
+          ),
+        );
   }
 
   /// Pauses a running timer (accumulates the elapsed seconds).
   Future<void> pause(String habitId, String key, DateTime now) async {
     final current = await read(habitId, key);
     if (current == null || !current.running) return;
-    await (_db.update(_db.habitTimerState)..where((t) => t.habitId.equals(habitId) & t.occurrenceKey.equals(key)))
-        .write(
-          HabitTimerStateCompanion(
-            accumulatedSeconds: Value(current.elapsedSeconds(now)),
-            running: const Value(false),
-            startedAt: Value(now.toUtc()),
-          ),
-        );
+    await (_db.update(
+      _db.habitTimerState,
+    )..where((t) => t.habitId.equals(habitId) & t.occurrenceKey.equals(key))).write(
+      HabitTimerStateCompanion(
+        accumulatedSeconds: Value(current.elapsedSeconds(now)),
+        running: const Value(false),
+        startedAt: Value(now.toUtc()),
+      ),
+    );
   }
 
   /// Stops the timer and returns its total seconds (0 when none).

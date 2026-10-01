@@ -46,7 +46,9 @@ void main() {
       tester,
       h,
       (context) => Navigator.of(context).push<void>(
-        MaterialPageRoute(builder: (_) => SeriesHistoryScreen(seriesId: seriesId, title: 'Stretch')),
+        MaterialPageRoute(
+          builder: (_) => SeriesHistoryScreen(seriesId: seriesId, title: 'Stretch'),
+        ),
       ),
     );
     await openAndSettle(tester);
@@ -84,7 +86,12 @@ void main() {
       await pumpFor(tester);
     }
 
-    int rows() => find.byWidgetPredicate((w) => w.key is ValueKey<String> && '${(w.key! as ValueKey<String>).value}'.startsWith('series-') && w is ListTile).evaluate().length;
+    int rows() => find
+        .byWidgetPredicate(
+          (w) => w.key is ValueKey<String> && (w.key! as ValueKey<String>).value.startsWith('series-') && w is ListTile,
+        )
+        .evaluate()
+        .length;
 
     await filter('done');
     expect(rows(), 1);

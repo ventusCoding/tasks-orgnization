@@ -29,10 +29,9 @@ class DevInspector {
   }
 
   /// Live outbox, in push order.
-  Stream<List<OutboxEntryView>> watchOutbox() =>
-      (_db.select(_db.syncOutbox)..orderBy([(o) => OrderingTerm.asc(o.seq)])).watch().map(
-        (rows) => [for (final r in rows) _entry(r)],
-      );
+  Stream<List<OutboxEntryView>> watchOutbox() => (_db.select(
+    _db.syncOutbox,
+  )..orderBy([(o) => OrderingTerm.asc(o.seq)])).watch().map((rows) => [for (final r in rows) _entry(r)]);
 
   static OutboxEntryView _entry(OutboxRow r) {
     var fields = const <String>[];

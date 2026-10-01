@@ -52,7 +52,11 @@ final class StatsLayout {
 
   /// Applies user customization (T6.1.22): `order` (metric ids), `hidden` and `pinned` lists. Pinned
   /// cards move to a leading section; hidden cards are dropped; unknown ids are ignored.
-  StatsLayout customized({List<String> order = const [], Set<String> hidden = const {}, List<String> pinned = const []}) {
+  StatsLayout customized({
+    List<String> order = const [],
+    Set<String> hidden = const {},
+    List<String> pinned = const [],
+  }) {
     if (order.isEmpty && hidden.isEmpty && pinned.isEmpty) return this;
     final rank = {for (var i = 0; i < order.length; i++) order[i]: i};
     int compare(StatsLayoutItem a, StatsLayoutItem b) =>
@@ -75,7 +79,10 @@ final class StatsLayout {
     pinnedItems.sort((a, b) => pinned.indexOf(a.metricId).compareTo(pinned.indexOf(b.metricId)));
     return StatsLayout(
       scope,
-      kpis: [for (final k in kpis) if (!hidden.contains(k)) k],
+      kpis: [
+        for (final k in kpis)
+          if (!hidden.contains(k)) k,
+      ],
       sections: [if (pinnedItems.isNotEmpty) StatsLayoutSection('pinned', pinnedItems), ...sections],
     );
   }

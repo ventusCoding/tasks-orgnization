@@ -60,7 +60,13 @@ void main() {
     addTearDown(h.dispose);
     await h.seedTables(plannerScenario());
     await h.settle();
-    await pumpStats(tester, h, const Scaffold(body: TaskStatsPanel(taskId: 'g', occurrenceKey: '2026-09-21T07:00')));
+    await pumpStats(
+      tester,
+      h,
+      const Scaffold(
+        body: TaskStatsPanel(taskId: 'g', occurrenceKey: '2026-09-21T07:00'),
+      ),
+    );
     await settle(tester);
     expect(find.text(en.statsSeeSeries), findsOneWidget);
     await finish(tester);
@@ -74,7 +80,11 @@ void main() {
     tester.view.physicalSize = const Size(420, 3000);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    await pumpStats(tester, h, const ScopeStatsScreen(scope: 'series', scopeId: 'run', query: {'period': 'custom:2026-09-14..2026-09-23'}));
+    await pumpStats(
+      tester,
+      h,
+      const ScopeStatsScreen(scope: 'series', scopeId: 'run', query: {'period': 'custom:2026-09-14..2026-09-23'}),
+    );
     await settle(tester);
     await settle(tester);
     expect(find.text('Run'), findsWidgets);
@@ -96,7 +106,11 @@ void main() {
     tester.view.physicalSize = const Size(420, 2400);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    await pumpStats(tester, h, const ScopeStatsScreen(scope: 'planner', query: {'period': 'custom:2026-09-14..2026-09-20'}));
+    await pumpStats(
+      tester,
+      h,
+      const ScopeStatsScreen(scope: 'planner', query: {'period': 'custom:2026-09-14..2026-09-20'}),
+    );
     await settle(tester);
     await settle(tester);
     // PL-X-01 = 17/21 for week 2 (fixture expectation).

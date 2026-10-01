@@ -84,7 +84,12 @@ class PlannerService {
   // Creation
 
   /// Quick-create (planner contract): floating task at [start] (viewer wall clock).
-  Future<TaskWriteResult> createAt(LocalDateTime start, int durationMinutes, {String? title, bool allDay = false}) async {
+  Future<TaskWriteResult> createAt(
+    LocalDateTime start,
+    int durationMinutes, {
+    String? title,
+    bool allDay = false,
+  }) async {
     final days = (durationMinutes / 1440).ceil().clamp(1, 365);
     final result = await tasks.create(
       Task(
@@ -236,10 +241,9 @@ class PlannerService {
         if (TrackingPolicy.of(i.trackingMode).hasCheckbox && i.status != OccurrenceStatus.inProgress) i,
     ];
     if (items.isEmpty) return 0;
-    final record = await tasks.bulk(
-      [for (final i in items) BulkTarget(i.taskId, occurrenceKey: i.occurrenceKey)],
-      const BulkMove(days: 1),
-    );
+    final record = await tasks.bulk([
+      for (final i in items) BulkTarget(i.taskId, occurrenceKey: i.occurrenceKey),
+    ], const BulkMove(days: 1));
     _undo(l10n.tasksDayMoveTomorrowSnack(items.length), record);
     return items.length;
   }
@@ -258,8 +262,10 @@ class PlannerService {
     return result;
   }
 
-  Future<OpRecord> duplicateToDates(String taskId, List<LocalDate> dates, {String? occurrenceKey}) async =>
-      _undo(l10n.tasksDuplicatedTo(dates.length), await tasks.duplicateToDates(taskId, dates, occurrenceKey: occurrenceKey));
+  Future<OpRecord> duplicateToDates(String taskId, List<LocalDate> dates, {String? occurrenceKey}) async => _undo(
+    l10n.tasksDuplicatedTo(dates.length),
+    await tasks.duplicateToDates(taskId, dates, occurrenceKey: occurrenceKey),
+  );
 
   Future<TaskWriteResult> saveAsTemplate(Task task) async {
     final result = await tasks.saveAsTemplate(task);
@@ -366,14 +372,19 @@ class PlannerService {
   Future<OpRecord> setOutcomeNote(PlannerItem item, String? note) async =>
       _undo(l10n.tasksUpdated, await occurrences.setOutcomeNote(item.taskId, item.occurrenceKey, note));
 
-  Future<OpRecord> setActualTimes(PlannerItem item, {required DateTime start, required DateTime end}) async =>
-      _undo(l10n.tasksUpdated, await occurrences.setActualTimes(item.taskId, item.occurrenceKey, start: start, end: end));
+  Future<OpRecord> setActualTimes(PlannerItem item, {required DateTime start, required DateTime end}) async => _undo(
+    l10n.tasksUpdated,
+    await occurrences.setActualTimes(item.taskId, item.occurrenceKey, start: start, end: end),
+  );
 
   Future<OpRecord> resumeTimer(PlannerItem item) =>
       occurrences.resume(item.taskId, item.occurrenceKey, policy: settings.timerPolicy);
 
   Future<OpRecord> addTimeEntry(PlannerItem item, {required DateTime start, DateTime? end, String? note}) async =>
-      _undo(l10n.tasksEvtTimeEntry, await occurrences.addTimeEntry(item.taskId, item.occurrenceKey, start: start, end: end, note: note));
+      _undo(
+        l10n.tasksEvtTimeEntry,
+        await occurrences.addTimeEntry(item.taskId, item.occurrenceKey, start: start, end: end, note: note),
+      );
 
   Future<OpRecord> updateTimeEntry(String entryId, {required DateTime start, DateTime? end, String? note}) async =>
       _undo(l10n.tasksUpdated, await occurrences.updateTimeEntry(entryId, start: start, end: end, note: note));
@@ -469,12 +480,19 @@ class PlannerService {
   /// *Move to today* (overdue items): same time if still ahead, else the next quarter hour.
   Future<OpRecord> moveToToday(PlannerItem item) {
     final now = nowLocal;
-    final target = item.allDay ? now.date.atStartOfDay : (sameTimeTodayIfAhead(item.startLocal, now) ?? nextQuarterHour(now));
+    final target = item.allDay
+        ? now.date.atStartOfDay
+        : (sameTimeTodayIfAhead(item.startLocal, now) ?? nextQuarterHour(now));
     return reschedule(item, newStart: target, source: 'menu');
   }
 
   /// Schedules a backlog item at [start] (viewer wall clock).
-  Future<OpRecord> scheduleBacklog(String taskId, LocalDateTime start, int? durationMinutes, {bool allDay = false}) async {
+  Future<OpRecord> scheduleBacklog(
+    String taskId,
+    LocalDateTime start,
+    int? durationMinutes, {
+    bool allDay = false,
+  }) async {
     final task = await queries.task(taskId);
     if (task == null) return const OpRecord(opId: '', changes: [], cause: 'user');
     final record = await tasks.schedule(
@@ -563,7 +581,11 @@ class PlannerService {
       deleteTask(item.taskId, scope: scope, occurrenceKey: item.occurrenceKey);
 
   /// Deletes a task (or one/following occurrences of a series) with undo.
-  Future<OpRecord> deleteTask(String taskId, {EditScope scope = EditScope.allOccurrences, String? occurrenceKey}) async {
+  Future<OpRecord> deleteTask(
+    String taskId, {
+    EditScope scope = EditScope.allOccurrences,
+    String? occurrenceKey,
+  }) async {
     final record = await tasks.delete(taskId, scope: scope, occurrenceKey: occurrenceKey);
     return _undo(scope == EditScope.thisOccurrence ? l10n.tasksOccurrenceDeleted : l10n.tasksDeleted, record);
   }
@@ -580,7 +602,8 @@ class PlannerService {
     );
     final byId = <String, Task>{};
     for (final o in range.occurrences) {
-      final open = o.status == OccurrenceStatus.missed ||
+      final open =
+          o.status == OccurrenceStatus.missed ||
           o.status == OccurrenceStatus.scheduled ||
           o.status == OccurrenceStatus.inProgress;
       if (!open || o.task.isRecurring || !TrackingPolicy.of(o.trackingMode).canBeMissed) continue;

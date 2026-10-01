@@ -48,7 +48,9 @@ class SavedViewsRepository {
   Future<List<SavedView>> all() async => (await _query().get()).map(_map).toList();
 
   Future<SavedView?> byId(String id) async {
-    final row = await (_db.select(_db.savedViews)..where((v) => v.id.equals(id) & v.deletedAt.isNull())).getSingleOrNull();
+    final row = await (_db.select(
+      _db.savedViews,
+    )..where((v) => v.id.equals(id) & v.deletedAt.isNull())).getSingleOrNull();
     return row == null ? null : _map(row);
   }
 
@@ -58,7 +60,10 @@ class SavedViewsRepository {
   }
 
   /// First run: one built-in view per MVP type (week table = default). Idempotent.
-  Future<void> ensureDefaults(Map<String, (PlannerViewConfig, String)> entries, {String defaultEntry = 'week_table'}) async {
+  Future<void> ensureDefaults(
+    Map<String, (PlannerViewConfig, String)> entries, {
+    String defaultEntry = 'week_table',
+  }) async {
     final userId = _userId();
     await _writer.run((tx) async {
       var previous = await _lastSortKey();
@@ -105,14 +110,16 @@ class SavedViewsRepository {
   Future<String> create(String name, PlannerViewConfig config) async {
     final id = Ids.v7();
     final last = await _lastSortKey();
-    await _writer.run((tx) => tx.insert('saved_views', id, {
-      'section': section,
-      'name': name.trim(),
-      'view_type': config.type.id,
-      'config': config.toJson(),
-      'is_default': false,
-      'sort_key': FractionalIndex.between(last, null),
-    }));
+    await _writer.run(
+      (tx) => tx.insert('saved_views', id, {
+        'section': section,
+        'name': name.trim(),
+        'view_type': config.type.id,
+        'config': config.toJson(),
+        'is_default': false,
+        'sort_key': FractionalIndex.between(last, null),
+      }),
+    );
     return id;
   }
 
@@ -139,7 +146,6 @@ class SavedViewsRepository {
   }
 
   /// Moves [id] between two neighbours (fractional order).
-  Future<OpRecord> move(String id, {String? afterKey, String? beforeKey}) => _writer.run(
-    (tx) => tx.update('saved_views', id, {'sort_key': FractionalIndex.between(afterKey, beforeKey)}),
-  );
+  Future<OpRecord> move(String id, {String? afterKey, String? beforeKey}) =>
+      _writer.run((tx) => tx.update('saved_views', id, {'sort_key': FractionalIndex.between(afterKey, beforeKey)}));
 }

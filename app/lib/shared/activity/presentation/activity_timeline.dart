@@ -87,35 +87,23 @@ abstract final class ActivitySentences {
     };
   }
 
-  static ActivityLine describe(
-    BuildContext context,
-    ActivityEvent e,
-    AppFormat format,
-  ) {
+  static ActivityLine describe(BuildContext context, ActivityEvent e, AppFormat format) {
     final l = context.l10n;
-    String status(String? s) =>
-        s == null ? '' : EntityStatusStyle.label(context, s);
-    String? quoted(String? text) =>
-        text == null ? null : l.activityQuoted(text);
+    String status(String? s) => s == null ? '' : EntityStatusStyle.label(context, s);
+    String? quoted(String? text) => text == null ? null : l.activityQuoted(text);
 
     switch (e.eventType) {
       case ActivityEventTypes.created:
         final text = e.string('fromTemplateId') != null
             ? l.activityCreatedFromTemplate
-            : (e.string('duplicatedFrom') != null
-                  ? l.activityCreatedCopy
-                  : l.activityCreated);
+            : (e.string('duplicatedFrom') != null ? l.activityCreatedCopy : l.activityCreated);
         return ActivityLine(icon: Icons.add_circle_outline, text: text);
       case ActivityEventTypes.updated:
         final fields = e.strings('fields');
         if (fields.length == 1 && fields.single == 'tags') {
-          return ActivityLine(
-            icon: Icons.sell_outlined,
-            text: l.activityTagsChanged,
-          );
+          return ActivityLine(icon: Icons.sell_outlined, text: l.activityTagsChanged);
         }
-        final ordered = [...fields]
-          ..sort((a, b) => _rank(a).compareTo(_rank(b)));
+        final ordered = [...fields]..sort((a, b) => _rank(a).compareTo(_rank(b)));
         final labels = <String>[];
         for (final f in ordered) {
           final label = fieldLabel(context, f);
@@ -123,127 +111,79 @@ abstract final class ActivitySentences {
         }
         return ActivityLine(
           icon: Icons.edit_outlined,
-          text: labels.isEmpty
-              ? l.activityEdited
-              : l.activityChangedFields(labels.join(l.activityListSeparator)),
+          text: labels.isEmpty ? l.activityEdited : l.activityChangedFields(labels.join(l.activityListSeparator)),
         );
       case ActivityEventTypes.statusChanged:
         final to = e.string('to');
         final from = e.string('from');
         return ActivityLine(
           icon: EntityStatusStyle.icon(to ?? ''),
-          text: from == null
-              ? l.activityStatusSet(status(to))
-              : l.activityStatusChanged(status(from), status(to)),
+          text: from == null ? l.activityStatusSet(status(to)) : l.activityStatusChanged(status(from), status(to)),
           detail: quoted(e.string('note')),
         );
       case ActivityEventTypes.statusNoteChanged:
-        return ActivityLine(
-          icon: Icons.notes,
-          text: l.activityStatusNoteChanged,
-          detail: quoted(e.string('note')),
-        );
+        return ActivityLine(icon: Icons.notes, text: l.activityStatusNoteChanged, detail: quoted(e.string('note')));
       case ActivityEventTypes.rescheduled:
         return _rescheduled(context, e, format);
       case ActivityEventTypes.scheduled:
-        return ActivityLine(
-          icon: Icons.event_available,
-          text: l.activityScheduled,
-        );
+        return ActivityLine(icon: Icons.event_available, text: l.activityScheduled);
       case ActivityEventTypes.unscheduled:
-        return ActivityLine(
-          icon: Icons.inbox_outlined,
-          text: l.activityUnscheduled,
-        );
+        return ActivityLine(icon: Icons.inbox_outlined, text: l.activityUnscheduled);
       case ActivityEventTypes.seriesSplit:
-        return ActivityLine(
-          icon: Icons.call_split,
-          text: l.activitySeriesSplit,
-        );
+        return ActivityLine(icon: Icons.call_split, text: l.activitySeriesSplit);
       case ActivityEventTypes.started:
         return ActivityLine(icon: Icons.play_arrow, text: l.activityStarted);
       case ActivityEventTypes.stopped:
         return ActivityLine(icon: Icons.stop, text: l.activityStopped);
       case ActivityEventTypes.timeEntryAdded:
-        return ActivityLine(
-          icon: Icons.timer_outlined,
-          text: l.activityTimeLogged,
-        );
+        return ActivityLine(icon: Icons.timer_outlined, text: l.activityTimeLogged);
       case ActivityEventTypes.paused:
-        return ActivityLine(
-          icon: Icons.pause_circle_outline,
-          text: l.activityPaused,
-        );
+        return ActivityLine(icon: Icons.pause_circle_outline, text: l.activityPaused);
       case ActivityEventTypes.resumed:
-        return ActivityLine(
-          icon: Icons.play_circle_outline,
-          text: l.activityResumed,
-        );
+        return ActivityLine(icon: Icons.play_circle_outline, text: l.activityResumed);
       case ActivityEventTypes.rollover:
         return ActivityLine(icon: Icons.redo, text: l.activityRollover);
       case ActivityEventTypes.moved:
-        final otherList =
-            e.string('toChecklistId') != null &&
-            e.string('toChecklistId') != e.string('fromChecklistId');
+        final otherList = e.string('toChecklistId') != null && e.string('toChecklistId') != e.string('fromChecklistId');
         return ActivityLine(
           icon: Icons.drive_file_move_outline,
           text: otherList ? l.activityMovedToList : l.activityMoved,
         );
       case ActivityEventTypes.completed:
-        return ActivityLine(
-          icon: Icons.check_circle_outline,
-          text: l.activityCompleted,
-        );
+        return ActivityLine(icon: Icons.check_circle_outline, text: l.activityCompleted);
       case ActivityEventTypes.reopened:
         return ActivityLine(icon: Icons.replay, text: l.activityReopened);
       case ActivityEventTypes.skipped:
         final reason = e.string('reason');
         return ActivityLine(
           icon: Icons.redo,
-          text: reason == null
-              ? l.activitySkipped
-              : l.activitySkippedReason(reason),
+          text: reason == null ? l.activitySkipped : l.activitySkippedReason(reason),
         );
       case ActivityEventTypes.deleted:
         final count = e.integer('count');
         return ActivityLine(
           icon: Icons.delete_outline,
-          text: count == null || count == 0
-              ? l.activityDeleted
-              : l.activityDeletedWithItems(count),
+          text: count == null || count == 0 ? l.activityDeleted : l.activityDeletedWithItems(count),
         );
       case ActivityEventTypes.restored:
         return ActivityLine(icon: Icons.restore, text: l.activityRestored);
       case ActivityEventTypes.archived:
-        return ActivityLine(
-          icon: Icons.archive_outlined,
-          text: l.activityArchived,
-        );
+        return ActivityLine(icon: Icons.archive_outlined, text: l.activityArchived);
       case ActivityEventTypes.unarchived:
-        return ActivityLine(
-          icon: Icons.unarchive_outlined,
-          text: l.activityUnarchived,
-        );
+        return ActivityLine(icon: Icons.unarchive_outlined, text: l.activityUnarchived);
       case ActivityEventTypes.attachmentAdded:
         return ActivityLine(
           icon: Icons.attach_file,
-          text: l.activityAttachmentAdded(
-            BidiText.isolate(e.string('fileName') ?? l.activityFile),
-          ),
+          text: l.activityAttachmentAdded(BidiText.isolate(e.string('fileName') ?? l.activityFile)),
         );
       case ActivityEventTypes.attachmentRemoved:
         return ActivityLine(
           icon: Icons.link_off,
-          text: l.activityAttachmentRemoved(
-            BidiText.isolate(e.string('fileName') ?? l.activityFile),
-          ),
+          text: l.activityAttachmentRemoved(BidiText.isolate(e.string('fileName') ?? l.activityFile)),
         );
       case ActivityEventTypes.itemsAdded:
         final count = e.integer('count') ?? 1;
-        return ActivityLine(
-          icon: Icons.playlist_add,
-          text: l.activityItemsAdded(count),
-        );
+        return ActivityLine(icon: Icons.playlist_add, text: l.activityItemsAdded(count));
       case ActivityEventTypes.sorted:
         return ActivityLine(icon: Icons.sort, text: l.activitySorted);
       case ActivityEventTypes.reset:
@@ -256,33 +196,20 @@ abstract final class ActivitySentences {
     return ActivityLine(icon: Icons.history, text: l.activityOther);
   }
 
-  static ActivityLine _rescheduled(
-    BuildContext context,
-    ActivityEvent e,
-    AppFormat format,
-  ) {
+  static ActivityLine _rescheduled(BuildContext context, ActivityEvent e, AppFormat format) {
     final l = context.l10n;
     final from = LocalDateTime.tryParse(e.string('fromStart') ?? '');
     final to = LocalDateTime.tryParse(e.string('toStart') ?? '');
     final fromDuration = e.integer('fromDuration');
     final toDuration = e.integer('toDuration');
-    String when(LocalDateTime t, {required bool withDate}) => withDate
-        ? '${format.dayShort(t.date)} ${format.timeOf(t)}'
-        : format.timeOf(t);
+    String when(LocalDateTime t, {required bool withDate}) =>
+        withDate ? '${format.dayShort(t.date)} ${format.timeOf(t)}' : format.timeOf(t);
     String text;
     if (from != null && to != null && from != to) {
       final withDate = from.date != to.date;
-      text = l.activityRescheduled(
-        when(from, withDate: withDate),
-        when(to, withDate: withDate),
-      );
-    } else if (fromDuration != null &&
-        toDuration != null &&
-        fromDuration != toDuration) {
-      text = l.activityDurationChanged(
-        format.duration(fromDuration),
-        format.duration(toDuration),
-      );
+      text = l.activityRescheduled(when(from, withDate: withDate), when(to, withDate: withDate));
+    } else if (fromDuration != null && toDuration != null && fromDuration != toDuration) {
+      text = l.activityDurationChanged(format.duration(fromDuration), format.duration(toDuration));
     } else {
       text = l.activityMoved;
     }
@@ -320,11 +247,7 @@ class ActivityTimeline extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     final events = ref.watch(
-      entityActivityProvider((
-        entityType: entityType,
-        entityId: entityId,
-        includeChildren: includeChildren,
-      )),
+      entityActivityProvider((entityType: entityType, entityId: entityId, includeChildren: includeChildren)),
     );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -338,25 +261,17 @@ class ActivityTimeline extends ConsumerWidget {
           ),
           data: (list) => list.isEmpty
               ? Padding(
-                  padding: const EdgeInsetsDirectional.symmetric(
-                    horizontal: Space.lg,
-                    vertical: Space.md,
-                  ),
+                  padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg, vertical: Space.md),
                   child: Text(
                     l.activityEmpty,
-                    style: context.text.bodyMedium?.copyWith(
-                      color: context.colors.onSurfaceVariant,
-                    ),
+                    style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant),
                   ),
                 )
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     for (final (i, e) in list.take(limit).indexed)
-                      _ActivityRow(
-                        event: e,
-                        last: i == list.length - 1 || i == limit - 1,
-                      ),
+                      _ActivityRow(event: e, last: i == list.length - 1 || i == limit - 1),
                   ],
                 ),
         ),
@@ -378,8 +293,7 @@ class _ActivityRow extends ConsumerWidget {
       context.localeName,
       use24h: prefs.use24h,
       l10n: context.l10n,
-      arabicDigits:
-          prefs.useArabicDigits && context.localeName.startsWith('ar'),
+      arabicDigits: prefs.useArabicDigits && context.localeName.startsWith('ar'),
     );
     final line = ActivitySentences.describe(context, event, format);
     final when = _when(ref, format);
@@ -402,36 +316,20 @@ class _ActivityRow extends ConsumerWidget {
                     child: Icon(line.icon, size: 16, color: muted),
                   ),
                   if (!last)
-                    Expanded(
-                      child: VerticalDivider(
-                        width: 28,
-                        thickness: 1,
-                        color: context.colors.outlineVariant,
-                      ),
-                    ),
+                    Expanded(child: VerticalDivider(width: 28, thickness: 1, color: context.colors.outlineVariant)),
                 ],
               ),
               const SizedBox(width: Space.md),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.symmetric(
-                    vertical: Space.sm,
-                  ),
+                  padding: const EdgeInsetsDirectional.symmetric(vertical: Space.sm),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(line.text, style: context.text.bodyMedium),
                       if (line.detail != null)
-                        Text(
-                          line.detail!,
-                          style: context.text.bodySmall?.copyWith(
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                      Text(
-                        meta,
-                        style: context.text.labelSmall?.copyWith(color: muted),
-                      ),
+                        Text(line.detail!, style: context.text.bodySmall?.copyWith(fontStyle: FontStyle.italic)),
+                      Text(meta, style: context.text.labelSmall?.copyWith(color: muted)),
                     ],
                   ),
                 ),
@@ -450,9 +348,7 @@ class _ActivityRow extends ConsumerWidget {
     if (now.difference(at).abs() < const Duration(days: 7)) {
       return format.relative(at, now);
     }
-    final local = ref
-        .watch(zoneResolverProvider)
-        .toLocal(at, ref.watch(deviceZoneProvider));
+    final local = ref.watch(zoneResolverProvider).toLocal(at, ref.watch(deviceZoneProvider));
     return '${format.dateMedium(local.date)} · ${format.timeOf(local)}';
   }
 }

@@ -1,3 +1,4 @@
+import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
 import 'package:everslot/features/notifications/application/local_notifications_port.dart';
 import 'package:everslot/features/notifications/application/notification_providers.dart';
@@ -6,7 +7,6 @@ import 'package:everslot/features/notifications/application/notifications_engine
 import 'package:everslot/features/notifications/data/inbox_repository.dart';
 import 'package:everslot/features/notifications/domain/badge_count.dart';
 import 'package:everslot/features/notifications/domain/notification_target.dart';
-import 'package:everslot/core/providers.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
@@ -21,17 +21,16 @@ void main() {
   // Tuesday 22 Sep 2026, 12:00 UTC = 14:00 in Paris.
   final now = DateTime.utc(2026, 9, 22, 12);
 
-  NotificationTarget task(String id, DateTime start, {bool open = true}) =>
-      NotificationTarget(
-        type: NotificationTargetType.task,
-        id: id,
-        section: NotificationSection.planner,
-        title: id,
-        occurrenceKey: start.toIso8601String(),
-        start: start,
-        end: start.add(const Duration(hours: 1)),
-        isOpen: open,
-      );
+  NotificationTarget task(String id, DateTime start, {bool open = true}) => NotificationTarget(
+    type: NotificationTargetType.task,
+    id: id,
+    section: NotificationSection.planner,
+    title: id,
+    occurrenceKey: start.toIso8601String(),
+    start: start,
+    end: start.add(const Duration(hours: 1)),
+    isOpen: open,
+  );
 
   final targets = [
     task('overdue', DateTime.utc(2026, 9, 22, 7)), // ended 08:00 UTC
@@ -74,14 +73,8 @@ void main() {
     ),
   ];
 
-  int count(String policy, {int unread = 7}) => BadgeCount.compute(
-    policy,
-    unread: unread,
-    targets: targets,
-    now: now,
-    zone: 'Europe/Paris',
-    zones: zones,
-  );
+  int count(String policy, {int unread = 7}) =>
+      BadgeCount.compute(policy, unread: unread, targets: targets, now: now, zone: 'Europe/Paris', zones: zones);
 
   test('off shows nothing; unread mirrors the inbox', () {
     expect(count(BadgePolicy.off), 0);
@@ -100,13 +93,8 @@ void main() {
     late InMemoryNotificationTargetSource source;
     setUp(() async {
       h = TestHarness.create(now: now, zone: 'Europe/Paris');
-      port = h.read(
-        localNotificationsPortProvider,
-      ) as InMemoryLocalNotificationsPort;
-      source = InMemoryNotificationTargetSource(
-        section: 'planner',
-        targets: targets.take(4).toList(),
-      );
+      port = h.read(localNotificationsPortProvider) as InMemoryLocalNotificationsPort;
+      source = InMemoryNotificationTargetSource(section: 'planner', targets: targets.take(4).toList());
       h.read(notificationRegistryProvider).registerSource(source);
       await seedNotificationDefaults(h.read);
     });
@@ -115,41 +103,22 @@ void main() {
       await h.dispose();
     });
 
-    test(
-      'due policy counts open targets; unread follows the inbox; off clears it',
-      () async {
-        await h.read(settingsRepositoryProvider).update(
-          SettingsNs.notifications,
-          {'badgePolicy': 'due'},
-        );
-        await h.read(notificationPipelineProvider).run('due');
-        expect(port.badge, 2); // overdue + later-today
+    test('due policy counts open targets; unread follows the inbox; off clears it', () async {
+      await h.read(settingsRepositoryProvider).update(SettingsNs.notifications, {'badgePolicy': 'due'});
+      await h.read(notificationPipelineProvider).run('due');
+      expect(port.badge, 2); // overdue + later-today
 
-        await h.read(settingsRepositoryProvider).update(
-          SettingsNs.notifications,
-          {'badgePolicy': 'unread'},
-        );
-        await h
-            .read(inboxRepositoryProvider)
-            .upsertDelivered(
-              InboxDelivery(
-                dedupeKey: 'a',
-                category: InboxCategory.reminder,
-                title: 'A',
-                fireAt: now,
-              ),
-            );
-        await h.read(notificationPipelineProvider).run('unread');
-        expect(port.badge, 1);
+      await h.read(settingsRepositoryProvider).update(SettingsNs.notifications, {'badgePolicy': 'unread'});
+      await h
+          .read(inboxRepositoryProvider)
+          .upsertDelivered(InboxDelivery(dedupeKey: 'a', category: InboxCategory.reminder, title: 'A', fireAt: now));
+      await h.read(notificationPipelineProvider).run('unread');
+      expect(port.badge, 1);
 
-        await h.read(settingsRepositoryProvider).update(
-          SettingsNs.notifications,
-          {'badgePolicy': 'off'},
-        );
-        await h.read(notificationPipelineProvider).run('off');
-        expect(port.badge, 0);
-        expect(h.read(notificationPipelineProvider).lastBadge, 0);
-      },
-    );
+      await h.read(settingsRepositoryProvider).update(SettingsNs.notifications, {'badgePolicy': 'off'});
+      await h.read(notificationPipelineProvider).run('off');
+      expect(port.badge, 0);
+      expect(h.read(notificationPipelineProvider).lastBadge, 0);
+    });
   });
 }

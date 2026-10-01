@@ -109,6 +109,7 @@ class _MarkdownLiteViewState extends State<MarkdownLiteView> {
         MdDirection.neutral => row,
       };
     }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
@@ -117,13 +118,20 @@ class _MarkdownLiteViewState extends State<MarkdownLiteView> {
           switch (b) {
             MdHeading() => Padding(
               padding: const EdgeInsetsDirectional.only(top: Space.xs, bottom: Space.xxs),
-              child: Semantics(header: true, child: _text(b, (context.text.titleMedium ?? base).copyWith(fontWeight: FontWeight.w700))),
+              child: Semantics(
+                header: true,
+                child: _text(b, (context.text.titleMedium ?? base).copyWith(fontWeight: FontWeight.w700)),
+              ),
             ),
             MdBullet(:final indent) => item(indent, Text('•', style: base), b),
             MdNumbered(:final number, :final indent) => item(indent, Text('$number.', style: base), b),
             MdCheckbox(:final checked, :final indent) => item(
               indent,
-              Icon(checked ? Icons.check_box : Icons.check_box_outline_blank, size: 18, color: context.colors.onSurfaceVariant),
+              Icon(
+                checked ? Icons.check_box : Icons.check_box_outline_blank,
+                size: 18,
+                color: context.colors.onSurfaceVariant,
+              ),
               b,
             ),
             MdSpacer() => const SizedBox(height: Space.sm),
@@ -183,7 +191,10 @@ class _MarkdownLiteFieldState extends State<MarkdownLiteField> {
       next = text.replaceRange(lineStart, lineStart, prefix);
       cursor = offset + prefix.length;
     }
-    _c.value = TextEditingValue(text: next, selection: TextSelection.collapsed(offset: cursor));
+    _c.value = TextEditingValue(
+      text: next,
+      selection: TextSelection.collapsed(offset: cursor),
+    );
     _changed();
   }
 

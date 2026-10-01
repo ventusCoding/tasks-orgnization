@@ -86,24 +86,34 @@ class TaskTile extends StatelessWidget {
     );
     final leading = item.status == OccurrenceStatus.missed ? app.missed : colors.accent;
     Widget body = variant == TileVariant.minimal
-        ? DecoratedBox(decoration: BoxDecoration(color: colors.accent, borderRadius: radius))
+        ? DecoratedBox(
+            decoration: BoxDecoration(color: colors.accent, borderRadius: radius),
+          )
         : DecoratedBox(
             decoration: BoxDecoration(
-              color: item.status == OccurrenceStatus.skipped ? context.colors.surfaceContainerHighest : colors.background,
+              color: item.status == OccurrenceStatus.skipped
+                  ? context.colors.surfaceContainerHighest
+                  : colors.background,
               borderRadius: radius,
               border: BorderDirectional(
                 start: BorderSide(color: leading, width: item.status == OccurrenceStatus.missed ? 4 : 3),
               ),
-              boxShadow: lifted ? const [BoxShadow(blurRadius: 8, offset: Offset(0, 3), color: Color(0x33000000))] : null,
+              boxShadow: lifted ? AppShadows.lifted : null,
             ),
             child: item.status == OccurrenceStatus.skipped
-                ? CustomPaint(painter: _HatchPainter(context.appColors.skipped.withValues(alpha: 0.25)), child: _content(context))
+                ? CustomPaint(
+                    painter: _HatchPainter(context.appColors.skipped.withValues(alpha: 0.25)),
+                    child: _content(context),
+                  )
                 : _content(context),
           );
     if (selected) {
       body = DecoratedBox(
         position: DecorationPosition.foreground,
-        decoration: BoxDecoration(border: Border.all(color: context.colors.primary, width: 2), borderRadius: radius),
+        decoration: BoxDecoration(
+          border: Border.all(color: context.colors.primary, width: 2),
+          borderRadius: radius,
+        ),
         child: body,
       );
     }
@@ -111,7 +121,10 @@ class TaskTile extends StatelessWidget {
       body = context.reduceMotion
           ? DecoratedBox(
               position: DecorationPosition.foreground,
-              decoration: BoxDecoration(border: Border.all(color: app.ongoing, width: 2), borderRadius: radius),
+              decoration: BoxDecoration(
+                border: Border.all(color: app.ongoing, width: 2),
+                borderRadius: radius,
+              ),
               child: body,
             )
           : _PulsingBorder(color: app.ongoing, radius: radius, child: body);
@@ -123,7 +136,9 @@ class TaskTile extends StatelessWidget {
       checked: _hasCheck ? _done : null,
       onTap: onTap,
       customSemanticsActions: customActions.isEmpty ? null : customActions,
-      child: ExcludeSemantics(child: Opacity(opacity: opacity, child: body)),
+      child: ExcludeSemantics(
+        child: Opacity(opacity: opacity, child: body),
+      ),
     );
   }
 
@@ -149,7 +164,12 @@ class TaskTile extends StatelessWidget {
               padding: const EdgeInsetsDirectional.only(end: 3),
               child: Icon(_done ? Icons.check_circle : Icons.radio_button_unchecked, size: size + 3, color: fg),
             )
-          : (_done ? Padding(padding: const EdgeInsetsDirectional.only(end: 3), child: Icon(Icons.check, size: size + 2, color: fg)) : null);
+          : (_done
+                ? Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 3),
+                    child: Icon(Icons.check, size: size + 2, color: fg),
+                  )
+                : null);
       final pad = EdgeInsetsDirectional.fromSTEB(narrow ? 2 : (compactDensity ? 3 : 5), 2, narrow ? 1 : 3, 2);
       // Content never overflows: it is laid out with unbounded height and clipped to the tile.
       Widget clipped(Widget child) => ClipRect(
@@ -170,10 +190,12 @@ class TaskTile extends StatelessWidget {
                 ?check,
                 Flexible(
                   child: Text.rich(
-                    TextSpan(children: [
-                      TextSpan(text: '$timeText ', style: timeStyle),
-                      TextSpan(text: item.title, style: titleStyle),
-                    ]),
+                    TextSpan(
+                      children: [
+                        TextSpan(text: '$timeText ', style: timeStyle),
+                        TextSpan(text: item.title, style: titleStyle),
+                      ],
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,
@@ -188,7 +210,9 @@ class TaskTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ?check,
-                Expanded(child: Text(item.title, style: titleStyle, maxLines: 2, overflow: TextOverflow.ellipsis)),
+                Expanded(
+                  child: Text(item.title, style: titleStyle, maxLines: 2, overflow: TextOverflow.ellipsis),
+                ),
               ],
             ),
           );
@@ -209,7 +233,9 @@ class TaskTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ?check,
-                    Expanded(child: Text(item.title, style: titleStyle, maxLines: 2, overflow: TextOverflow.ellipsis)),
+                    Expanded(
+                      child: Text(item.title, style: titleStyle, maxLines: 2, overflow: TextOverflow.ellipsis),
+                    ),
                   ],
                 ),
                 Text(timeText, style: timeStyle, maxLines: 1, overflow: TextOverflow.clip, softWrap: false),
@@ -217,7 +243,11 @@ class TaskTile extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      for (final i in icons.take(fit)) Padding(padding: const EdgeInsetsDirectional.only(end: 2), child: Icon(i, size: 11, color: fg)),
+                      for (final i in icons.take(fit))
+                        Padding(
+                          padding: const EdgeInsetsDirectional.only(end: 2),
+                          child: Icon(i, size: 11, color: fg),
+                        ),
                     ],
                   ),
               ],

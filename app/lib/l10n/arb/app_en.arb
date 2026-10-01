@@ -3260,6 +3260,20 @@
       }
     }
   },
+  "@settingsExportDone": {
+    "placeholders": {
+      "file": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsExportProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "@settingsHabitsDayStartLink": {
     "placeholders": {
       "time": {
@@ -3338,6 +3352,13 @@
     }
   },
   "@settingsTrashWith": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@shellDueCount": {
     "placeholders": {
       "count": {
         "type": "int"
@@ -4339,6 +4360,7 @@
   "authErrorInvalidCode": "This code is invalid or has expired.",
   "authErrorInvalidEmail": "Please enter a valid email address.",
   "authErrorLastIdentity": "You can't remove your only sign-in method.",
+  "authErrorMfaRequired": "Enter the code from your authenticator app to continue.",
   "authErrorNotConfigured": "Cloud sync isn't configured on this build (see guide.md).",
   "authErrorOffline": "You're offline. Check your connection and try again.",
   "authErrorProviderNotConfigured": "This sign-in method isn't set up yet (see guide.md).",
@@ -4358,12 +4380,18 @@
   "authLocalOnlyAccount": "Data stays on this device",
   "authLocalOnlyAccountBody": "You're not signed in. Sign in to sync across devices — your data comes along.",
   "authMfaBody": "Ask for a code from an authenticator app when you sign in or delete your account.",
+  "authMfaCopySecret": "Copy key",
   "authMfaDisable": "Turn off",
+  "authMfaDisableBody": "Enter a code from your authenticator app to turn off two-step verification.",
+  "authMfaDisabled": "Two-step verification is off.",
   "authMfaEnabled": "Two-step verification is on.",
   "authMfaEnroll": "Set up",
   "authMfaEnrollBody": "Add this key to your authenticator app, then enter the 6-digit code it shows.",
+  "authMfaOpenApp": "Open in authenticator app",
   "authMfaSecret": "Setup key",
+  "authMfaSecretCopied": "Setup key copied.",
   "authMfaTitle": "Two-step verification",
+  "authMfaVerifyBody": "Open your authenticator app and enter the 6-digit code for Everslot.",
   "authMfaVerifyTitle": "Enter your authenticator code",
   "authNotConfiguredBody": "This build isn't connected to a Supabase project yet (see guide.md). Everslot works fully on this device in the meantime.",
   "authNotConfiguredTitle": "Cloud sync isn't configured",
@@ -4411,6 +4439,10 @@
   "authZoneMakeHome": "Make it home",
   "authZoneNoMatch": "No time zone matches your search",
   "authZoneSearch": "Search time zones",
+  "bootstrapErrorBody": "Something went wrong while opening the app. Your data is safe on this device. Try again, and restart your phone if it keeps happening.",
+  "bootstrapErrorCopy": "Copy details",
+  "bootstrapErrorDetails": "Details (for developers)",
+  "bootstrapErrorTitle": "Everslot couldn't start",
   "categoriesEmpty": "No categories yet",
   "categoriesTitle": "Categories",
   "categoryArchived": "Archived",
@@ -4875,6 +4907,8 @@
   "devSyncPulls": "Last pulled pages",
   "devSyncSimulateOffline": "Simulate offline",
   "devSyncSimulateOfflineHint": "Every sync run fails as if the network were down.",
+  "devTestCrash": "Send a test crash",
+  "devTestCrashBody": "Throws an uncaught error; release builds report it to Crashlytics.",
   "devTimeTravel": "Time travel",
   "devTimeTravelNow": "App time: {time}",
   "devTimeTravelOff": "Real time",
@@ -4906,13 +4940,16 @@
   "entityStatusTodo": "To do",
   "entityStatusWaiting": "Waiting",
   "errorAuth": "Please sign in again.",
+  "errorConflict": "This changed somewhere else. Reload and try again.",
   "errorNetwork": "Can't reach the server. Check your connection.",
   "errorNotConfigured": "This feature needs cloud configuration (see guide.md).",
   "errorNotFound": "This item no longer exists.",
   "errorPermission": "Permission is needed for this.",
+  "errorStorage": "Couldn't read or write data on this device. Free some space and try again.",
   "errorUnknown": "Unexpected error.",
   "errorUnsupportedVersion": "Please update Everslot to keep syncing.",
   "errorValidation": "Please check the highlighted fields.",
+  "errorWidgetFallback": "This part couldn't be shown.",
   "exportBranchOnly": "Only this branch",
   "exportCopied": "Copied to clipboard",
   "exportCopy": "Copy to clipboard",
@@ -4964,13 +5001,16 @@
   "galleryProgress": "Progress",
   "galleryPrompt": "Text prompt",
   "galleryReduceMotion": "Reduce motion",
+  "galleryRows": "Rows & avatars",
   "galleryRtl": "Right-to-left",
   "gallerySampleText": "Sample text",
   "gallerySharedAxis": "Shared axis",
   "gallerySheet": "Bottom sheet",
+  "gallerySheetActions": "Sheet with actions",
   "gallerySheetBody": "A bottom sheet with Everslot styling.",
   "galleryStates": "Empty, error & loading states",
   "galleryStatuses": "Statuses",
+  "gallerySwipeHint": "Swipe for actions",
   "galleryTitle": "Component gallery",
   "galleryUndoSnack": "Undo snackbar",
   "galleryWindowCompact": "compact",
@@ -6044,15 +6084,28 @@
   "onboardingTitle": "Set up Everslot",
   "onboardingWeekStart": "Week starts on",
   "pickerColor": "Color",
+  "pickerCustomColor": "Custom color",
   "pickerDate": "Date",
   "pickerDays": "Days",
   "pickerDuration": "Duration",
+  "pickerEnd": "End",
+  "pickerHex": "Hex code",
+  "pickerHexInvalid": "Use 6 hex digits, like 3B82F6",
   "pickerHours": "Hours",
   "pickerIcon": "Icon",
+  "pickerLowContrast": "Low contrast: this color is hard to see on the background.",
   "pickerMinutes": "Minutes",
+  "pickerNextMonth": "Next month",
+  "pickerNextWeek": "Next week",
   "pickerNoColor": "No color",
+  "pickerPreviousMonth": "Previous month",
   "pickerSearchIcons": "Search icons",
+  "pickerStart": "Start",
   "pickerTime": "Time",
+  "pickerTimeInvalid": "Enter a time like 07:03",
+  "pickerTimeRange": "Time range",
+  "pickerTomorrow": "Tomorrow",
+  "pickerTypeTime": "Type a time",
   "placeholderScreen": "This screen is being built.",
   "priorityHigh": "High",
   "priorityLow": "Low",
@@ -6799,6 +6852,21 @@
   "settingsDevices": "Devices",
   "settingsDevicesEmpty": "No devices registered yet.",
   "settingsDevicesOffline": "Connect to the internet to see your devices.",
+  "settingsDynamicColor": "Wallpaper colors",
+  "settingsDynamicColorSubtitle": "Use your device's Material You colors. Category colors stay the same.",
+  "settingsExportAttachments": "Include attachment files",
+  "settingsExportAttachmentsHint": "Only files already on this device.",
+  "settingsExportBody": "A copy of all your data on this device. Works offline.",
+  "settingsExportButton": "Export",
+  "settingsExportCsv": "Spreadsheets (CSV)",
+  "settingsExportCsvHint": "One file per table for Excel, Numbers or Sheets.",
+  "settingsExportDone": "Export ready: {file}",
+  "settingsExportFailed": "The export failed. Please try again.",
+  "settingsExportJson": "Everslot backup (JSON)",
+  "settingsExportJsonHint": "A complete copy you can import again.",
+  "settingsExportProgress": "Exporting… {percent}%",
+  "settingsExportShareSubject": "Everslot export",
+  "settingsExportTitle": "Export",
   "settingsFewer": "One fewer",
   "settingsGroupData": "Data & privacy",
   "settingsGroupGeneral": "General",
@@ -6944,6 +7012,9 @@
   "settingsTrashWith": "{count, plural, =1{+1 related item} other{+{count} related items}}",
   "settingsUnknownPage": "This settings page doesn't exist.",
   "settingsWeekStart": "Week starts on",
+  "shellCreate": "Create",
+  "shellDueCount": "{count, plural, =1{1 to do} other{{count} to do}}",
+  "shellQuickAdd": "Quick add",
   "smartBlocked": "Blocked",
   "smartChip": "{label} · {count}",
   "smartClearFollowUp": "Clear follow-up",

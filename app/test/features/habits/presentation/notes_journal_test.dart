@@ -49,7 +49,9 @@ void main() {
     return habit;
   }
 
-  testWidgets('notes journal: every note and mood, filters by habit and mood, jump to the day (T5.2.15)', (tester) async {
+  testWidgets('notes journal: every note and mood, filters by habit and mood, jump to the day (T5.2.15)', (
+    tester,
+  ) async {
     final run = await create(tester, 'Run');
     final read = await create(tester, 'Read');
     await tester.runAsync(() async {

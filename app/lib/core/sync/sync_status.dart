@@ -77,17 +77,9 @@ class SyncStatus {
       other.initialSyncProgress == initialSyncProgress;
 
   @override
-  int get hashCode => Object.hash(
-    phase,
-    pendingChanges,
-    failedChanges,
-    lastSuccessAt,
-    lastError,
-    errorCode,
-    initialSyncProgress,
-  );
+  int get hashCode =>
+      Object.hash(phase, pendingChanges, failedChanges, lastSuccessAt, lastError, errorCode, initialSyncProgress);
 
   @override
-  String toString() =>
-      'SyncStatus(${phase.name}, pending: $pendingChanges, failed: $failedChanges, error: $errorCode)';
+  String toString() => 'SyncStatus(${phase.name}, pending: $pendingChanges, failed: $failedChanges, error: $errorCode)';
 }

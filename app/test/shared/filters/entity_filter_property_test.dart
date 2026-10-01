@@ -68,8 +68,7 @@ void main() {
   setUp(() => h = TestHarness.create());
   tearDown(() => h.dispose());
 
-  LocalDate? randomDate(Random r) =>
-      r.nextInt(5) == 0 ? null : LocalDate(2026, 9, 1).plusDays(r.nextInt(60));
+  LocalDate? randomDate(Random r) => r.nextInt(5) == 0 ? null : LocalDate(2026, 9, 1).plusDays(r.nextInt(60));
 
   T pick<T>(Random r, List<T> values) => values[r.nextInt(values.length)];
 
@@ -83,9 +82,7 @@ void main() {
     final from = on() ? randomDate(r) : null;
     final to = on() ? randomDate(r) : null;
     return EntityFilter(
-      categoryIds: on()
-          ? subset(r, [...categories, EntityFilter.noCategory])
-          : const {},
+      categoryIds: on() ? subset(r, [...categories, EntityFilter.noCategory]) : const {},
       tagIds: on() ? subset(r, tags) : const {},
       priorities: on() ? subset(r, [0, 1, 2, 3, 4]) : const {},
       statuses: on() ? subset(r, statusValues) : const {},
@@ -98,20 +95,13 @@ void main() {
   }
 
   /// Generated rows for one table + the matching subjects.
-  Future<Map<String, FilterSubject>> seed(
-    Random r,
-    String table,
-    String entityType,
-    int count,
-  ) async {
+  Future<Map<String, FilterSubject>> seed(Random r, String table, String entityType, int count) async {
     final subjects = <String, FilterSubject>{};
     await h.db.transaction(() async {
       for (var i = 0; i < count; i++) {
         final id = '$table-$i';
         final hasCategory = table != 'checklist_items';
-        final categoryId = hasCategory && r.nextInt(4) > 0
-            ? pick(r, categories)
-            : null;
+        final categoryId = hasCategory && r.nextInt(4) > 0 ? pick(r, categories) : null;
         final priority = r.nextInt(5);
         final date = randomDate(r);
         final title = pick(r, vocabulary);
@@ -149,14 +139,7 @@ void main() {
               ],
             );
           case 'checklist_items':
-            status = pick(r, [
-              'todo',
-              'ongoing',
-              'waiting',
-              'blocked',
-              'completed',
-              'cancelled',
-            ]);
+            status = pick(r, ['todo', 'ongoing', 'waiting', 'blocked', 'completed', 'cancelled']);
             await h.db.customInsert(
               'INSERT INTO checklist_items (id, user_id, created_at, updated_at, checklist_id, '
               'sort_key, text, note, status, priority, due_local) '
@@ -227,10 +210,7 @@ void main() {
             );
         }
         var n = 0;
-        for (final (tag, deleted) in [
-          for (final t in linked) (t, false),
-          for (final t in deletedLinks) (t, true),
-        ]) {
+        for (final (tag, deleted) in [for (final t in linked) (t, false), for (final t in deletedLinks) (t, true)]) {
           await h.db.customInsert(
             'INSERT INTO entity_tags (id, user_id, created_at, updated_at, deleted_at, tag_id, '
             'entity_type, entity_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
@@ -276,9 +256,7 @@ void main() {
         subjects[id] = FilterSubject(
           categoryId: categoryId,
           tagIds: linked,
-          priority: table == 'tasks' || table == 'checklist_items'
-              ? priority
-              : null,
+          priority: table == 'tasks' || table == 'checklist_items' ? priority : null,
           status: status,
           texts: [title, notes],
           // habits.start_date is NOT NULL.
@@ -292,12 +270,7 @@ void main() {
   }
 
   final specs = <(String, String, FilterColumns, List<String>)>[
-    (
-      'tasks',
-      'task',
-      FilterColumns.tasks('t'),
-      ['active', 'paused', 'archived', 'done'],
-    ),
+    ('tasks', 'task', FilterColumns.tasks('t'), ['active', 'paused', 'archived', 'done']),
     (
       'checklist_items',
       'checklist_item',
@@ -305,12 +278,7 @@ void main() {
       ['todo', 'waiting', 'blocked', 'completed'],
     ),
     ('habits', 'habit', FilterColumns.habits('t'), ['active', 'archived']),
-    (
-      'checklists',
-      'checklist',
-      FilterColumns.checklists('t'),
-      ['active', 'archived'],
-    ),
+    ('checklists', 'checklist', FilterColumns.checklists('t'), ['active', 'archived']),
   ];
 
   for (final (table, entityType, columns, statuses) in specs) {
@@ -327,19 +295,13 @@ void main() {
           };
           final where = EntityFilterSql.where(filter, columns);
           final rows = await h.db
-              .customSelect(
-                'SELECT t.id AS id FROM $table t WHERE ${where.sql}',
-                variables: where.variables,
-              )
+              .customSelect('SELECT t.id AS id FROM $table t WHERE ${where.sql}', variables: where.variables)
               .get();
           final actual = {for (final row in rows) row.read<String>('id')};
-          expect(
-            actual,
-            expected,
-            reason: 'filter: $filter\nsql: ${where.sql}\nargs: ${where.args}',
-          );
-          if (expected.isNotEmpty && expected.length < subjects.length)
+          expect(actual, expected, reason: 'filter: $filter\nsql: ${where.sql}\nargs: ${where.args}');
+          if (expected.isNotEmpty && expected.length < subjects.length) {
             nonTrivial++;
+          }
         }
         // The generator must exercise selective filters, not only "all" / "none".
         expect(nonTrivial, greaterThan(50));

@@ -46,7 +46,10 @@ class _KanbanViewState extends ConsumerState<KanbanView> {
   List<String> _scopeIds(ChecklistTree t, String? root) {
     final scope = root == null ? t.order : t.descendants(root);
     return switch (_scope) {
-      KanbanScope.leaves => [for (final id in scope) if (t.isLeaf(id)) id],
+      KanbanScope.leaves => [
+        for (final id in scope)
+          if (t.isLeaf(id)) id,
+      ],
       KanbanScope.all => scope,
       KanbanScope.children => t.childIds(root),
     };
@@ -90,7 +93,10 @@ class _KanbanViewState extends ConsumerState<KanbanView> {
     final width = MediaQuery.sizeOf(context).width;
     final wide = width >= 900;
     Widget column(ItemStatus s) {
-      final cards = [for (final id in ids) if (tree[id]!.status == s) tree[id]!];
+      final cards = [
+        for (final id in ids)
+          if (tree[id]!.status == s) tree[id]!,
+      ];
       return DragTarget<String>(
         onWillAcceptWithDetails: (d) => tree[d.data]?.status != s,
         onAcceptWithDetails: (d) {
@@ -181,11 +187,7 @@ class _KanbanViewState extends ConsumerState<KanbanView> {
         Expanded(
           child: wide
               ? Row(children: [for (final s in columns) Expanded(child: column(s))])
-              : PageView(
-                  controller: _pages,
-                  padEnds: false,
-                  children: [for (final s in columns) column(s)],
-                ),
+              : PageView(controller: _pages, padEnds: false, children: [for (final s in columns) column(s)]),
         ),
       ],
     );
@@ -226,7 +228,11 @@ class _KanbanCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: context.text.labelSmall?.copyWith(color: context.colors.onSurfaceVariant),
               ),
-            Text(item.text.isEmpty ? context.l10n.checklistItemHint : item.text, maxLines: 3, overflow: TextOverflow.ellipsis),
+            Text(
+              item.text.isEmpty ? context.l10n.checklistItemHint : item.text,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
             if (item.hasNote || item.statusNote != null)
               Text(
                 item.statusNote ?? item.note!,
@@ -240,7 +246,8 @@ class _KanbanCard extends StatelessWidget {
                 if (item.statusSince != null)
                   Text(formatAge(context, item.statusSince!, now), style: context.text.labelSmall),
                 const Spacer(),
-                if (childTotal > 0) Text(context.l10n.listsCardProgress(childDone, childTotal), style: context.text.labelSmall),
+                if (childTotal > 0)
+                  Text(context.l10n.listsCardProgress(childDone, childTotal), style: context.text.labelSmall),
               ],
             ),
           ],
@@ -266,7 +273,8 @@ class AttachmentGrid extends ConsumerWidget {
       crossAxisSpacing: Space.sm,
     ),
     itemCount: attachments.length,
-    itemBuilder: (context, i) => _GridTile(attachment: attachments[i], caption: captionOf?.call(attachments[i]), onTap: () => onTap(i)),
+    itemBuilder: (context, i) =>
+        _GridTile(attachment: attachments[i], caption: captionOf?.call(attachments[i]), onTap: () => onTap(i)),
   );
 }
 
@@ -295,7 +303,12 @@ class _GridTile extends ConsumerWidget {
               ColoredBox(
                 color: context.colors.surfaceContainerHighest,
                 child: attachment.isImage && path != null
-                    ? Image.file(File(path), fit: BoxFit.cover, cacheWidth: 360, errorBuilder: (_, _, _) => const SizedBox())
+                    ? Image.file(
+                        File(path),
+                        fit: BoxFit.cover,
+                        cacheWidth: 360,
+                        errorBuilder: (_, _, _) => const SizedBox(),
+                      )
                     : Center(child: Icon(attachmentIcon(attachment.kind), size: 40, color: context.colors.primary)),
               ),
               if (caption != null)
@@ -346,7 +359,10 @@ class _GalleryViewState extends ConsumerState<GalleryView> {
     for (final a in atts) {
       if (a.ownerType == AttachmentOwnerType.checklistItem && a.isImage) firstImage.putIfAbsent(a.ownerId, () => a);
     }
-    final items = [for (final id in tree.order) if (!_onlyImages || firstImage.containsKey(id)) tree[id]!];
+    final items = [
+      for (final id in tree.order)
+        if (!_onlyImages || firstImage.containsKey(id)) tree[id]!,
+    ];
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
@@ -363,7 +379,10 @@ class _GalleryViewState extends ConsumerState<GalleryView> {
           ),
         ),
         if (items.isEmpty)
-          SliverFillRemaining(hasScrollBody: false, child: EmptyState(icon: Icons.photo_library_outlined, title: l.galleryEmpty))
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: EmptyState(icon: Icons.photo_library_outlined, title: l.galleryEmpty),
+          )
         else
           SliverPadding(
             padding: const EdgeInsets.all(Space.md),
@@ -397,7 +416,11 @@ class _GalleryViewState extends ConsumerState<GalleryView> {
                           padding: const EdgeInsets.all(Space.sm),
                           child: Row(
                             children: [
-                              Icon(StatusStyle.icon(item.status), size: 16, color: StatusStyle.color(context, item.status)),
+                              Icon(
+                                StatusStyle.icon(item.status),
+                                size: 16,
+                                color: StatusStyle.color(context, item.status),
+                              ),
                               const SizedBox(width: Space.xs),
                               Expanded(
                                 child: Text(
@@ -482,7 +505,10 @@ class _ChecklistAttachmentsScreenState extends ConsumerState<ChecklistAttachment
             ),
           ),
           if (all.isEmpty)
-            SliverFillRemaining(hasScrollBody: false, child: EmptyState(icon: Icons.attach_file, title: l.attachmentsEmpty)),
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: EmptyState(icon: Icons.attach_file, title: l.attachmentsEmpty),
+            ),
           for (final owner in order) ...[
             SliverToBoxAdapter(
               child: SectionHeader(

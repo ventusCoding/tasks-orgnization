@@ -15,8 +15,7 @@ enum RuleType {
   final String json;
 
   /// Parses the JSON spelling; throws [FormatException] when unknown.
-  static RuleType fromJson(Object? value) =>
-      enumFromJson(values, value, 'type', (e) => e.json);
+  static RuleType fromJson(Object? value) => enumFromJson(values, value, 'type', (e) => e.json);
 }
 
 /// Base frequency of a fixed rule (RFC 5545 `FREQ`, without `SECONDLY`).
@@ -38,8 +37,7 @@ enum Frequency {
   bool get isSubDaily => this == minutely || this == hourly;
 
   /// Parses the JSON spelling; throws [FormatException] when unknown.
-  static Frequency fromJson(Object? value) =>
-      enumFromJson(values, value, 'freq', (e) => e.name);
+  static Frequency fromJson(Object? value) => enumFromJson(values, value, 'freq', (e) => e.name);
 }
 
 /// How `count` is interpreted.
@@ -51,8 +49,7 @@ enum CountMode {
   completions;
 
   /// Parses the JSON spelling; throws [FormatException] when unknown.
-  static CountMode fromJson(Object? value) =>
-      enumFromJson(values, value, 'countMode', (e) => e.name);
+  static CountMode fromJson(Object? value) => enumFromJson(values, value, 'countMode', (e) => e.name);
 }
 
 /// How a minutely/hourly rule is aligned inside its daily window.
@@ -69,8 +66,7 @@ enum WindowAnchor {
   final String json;
 
   /// Parses the JSON spelling; throws [FormatException] when unknown.
-  static WindowAnchor fromJson(Object? value) =>
-      enumFromJson(values, value, 'window.anchor', (e) => e.json);
+  static WindowAnchor fromJson(Object? value) => enumFromJson(values, value, 'window.anchor', (e) => e.json);
 }
 
 /// Unit of an after-completion delay.
@@ -86,8 +82,7 @@ enum RecurrenceUnit {
   bool get isDayBased => index >= day.index;
 
   /// Parses the JSON spelling; throws [FormatException] when unknown.
-  static RecurrenceUnit fromJson(Object? value) =>
-      enumFromJson(values, value, 'afterCompletion.unit', (e) => e.name);
+  static RecurrenceUnit fromJson(Object? value) => enumFromJson(values, value, 'afterCompletion.unit', (e) => e.name);
 }
 
 /// Period of a quota rule.
@@ -98,17 +93,11 @@ enum PeriodUnit {
   year;
 
   /// Parses the JSON spelling; throws [FormatException] when unknown.
-  static PeriodUnit fromJson(Object? value) =>
-      enumFromJson(values, value, 'quota.per', (e) => e.name);
+  static PeriodUnit fromJson(Object? value) => enumFromJson(values, value, 'quota.per', (e) => e.name);
 }
 
 /// Looks up an enum value by its JSON spelling.
-T enumFromJson<T extends Enum>(
-  List<T> values,
-  Object? value,
-  String field,
-  String Function(T) spelling,
-) {
+T enumFromJson<T extends Enum>(List<T> values, Object? value, String field, String Function(T) spelling) {
   if (value is String) {
     for (final v in values) {
       if (spelling(v) == value) return v;

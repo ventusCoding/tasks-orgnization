@@ -166,10 +166,7 @@ class StatFormat {
     HourLabel(:final hour) => this.hour(hour),
     InstantLabel(:final instant) => dateTime(instant),
     NumberLabel(:final value, :final unit) => this.value(value, unit),
-    RangeLabel(:final lower, :final upper, :final unit) => l10n.chartsRange(
-      this.value(lower, unit),
-      this.value(upper, unit),
-    ),
+    RangeLabel(:final lower, :final upper, :final unit) => l10n.chartsRange(value(lower, unit), value(upper, unit)),
     OrdinalLabel(:final kind, :final n) => digits(switch (kind) {
       OrdinalKind.week => l10n.chartsOrdinalWeek('$n'),
       OrdinalKind.run => l10n.chartsOrdinalRun('$n'),
@@ -240,8 +237,9 @@ class StatFormat {
     }
     final v = d.value;
     final isNew = c.previous is Value<double> && (c.previous as Value<double>).value == 0 && v > 0 && !c.isRate;
-    if (isNew)
+    if (isNew) {
       return DeltaView(text: l10n.chartsDeltaNew, arrow: DeltaArrow.up, good: null, semantics: l10n.chartsDeltaNew);
+    }
     final flat = v.abs() < 1e-9;
     final arrow = flat ? DeltaArrow.flat : (v > 0 ? DeltaArrow.up : DeltaArrow.down);
     final unit = c.isRate ? StatUnit.pp : r.unit;
@@ -250,7 +248,7 @@ class StatFormat {
         : value(v.abs(), unit == StatUnit.score ? StatUnit.count : unit, currency: r.currency);
     final shown = unit == StatUnit.score ? number((v.abs() * 100).roundToDouble()) : magnitude;
     final text = flat ? l10n.chartsDeltaFlat : '${v > 0 ? '+' : '−'}$shown';
-    final bool? good = flat || direction == MetricDirection.neutral
+    final good = flat || direction == MetricDirection.neutral
         ? null
         : (direction == MetricDirection.higherIsBetter) == (v > 0);
     final spoken = c.isRate ? digits(l10n.chartsPpSpoken(number(v.abs(), decimals: v.abs() < 10 ? 1 : 0))) : shown;

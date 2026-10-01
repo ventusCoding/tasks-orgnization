@@ -116,5 +116,12 @@
   "authMfaVerifyTitle": "Enter your authenticator code",
   "authZoneSearch": "Search time zones",
   "authZoneDetected": "Detected on this device",
-  "authZoneNoMatch": "No time zone matches your search"
+  "authZoneNoMatch": "No time zone matches your search",
+  "authMfaVerifyBody": "Open your authenticator app and enter the 6-digit code for Everslot.",
+  "authMfaDisableBody": "Enter a code from your authenticator app to turn off two-step verification.",
+  "authMfaDisabled": "Two-step verification is off.",
+  "authMfaCopySecret": "Copy key",
+  "authMfaSecretCopied": "Setup key copied.",
+  "authMfaOpenApp": "Open in authenticator app",
+  "authErrorMfaRequired": "Enter the code from your authenticator app to continue."
 }

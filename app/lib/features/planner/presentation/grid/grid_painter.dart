@@ -108,7 +108,10 @@ class GridPainter extends CustomPainter {
       final top = band.top(ppm);
       if (band.kind != AxisBandKind.normal) {
         final rect = Rect.fromLTWH(0, top, size.width, band.fixedExtent);
-        canvas.drawRect(rect, fill..color = band.kind == AxisBandKind.gap ? style.unavailable : style.hiddenBand.withValues(alpha: 0.7));
+        canvas.drawRect(
+          rect,
+          fill..color = band.kind == AxisBandKind.gap ? style.unavailable : style.hiddenBand.withValues(alpha: 0.7),
+        );
         canvas
           ..drawLine(Offset(0, rect.top), Offset(size.width, rect.top), major)
           ..drawLine(Offset(0, rect.bottom), Offset(size.width, rect.bottom), major);
@@ -235,9 +238,13 @@ class NowLinePainter extends CustomPainter {
     final (index, y) = hit;
     final n = days.length;
     final colW = size.width / n;
-    canvas.drawLine(Offset(0, y), Offset(size.width, y), Paint()
-      ..color = color.withValues(alpha: 0.35)
-      ..strokeWidth = 1);
+    canvas.drawLine(
+      Offset(0, y),
+      Offset(size.width, y),
+      Paint()
+        ..color = color.withValues(alpha: 0.35)
+        ..strokeWidth = 1,
+    );
     final x = columnX(index, n, size.width, rtl: rtl);
     final strong = Paint()
       ..color = color
@@ -249,5 +256,9 @@ class NowLinePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(NowLinePainter old) =>
-      old.axis != axis || old.ppm != ppm || old.rtl != rtl || old.color != color || !const ListEquality<LocalDate>().equals(old.days, days);
+      old.axis != axis ||
+      old.ppm != ppm ||
+      old.rtl != rtl ||
+      old.color != color ||
+      !const ListEquality<LocalDate>().equals(old.days, days);
 }

@@ -160,11 +160,7 @@ class SupabaseAuthRepository implements AuthRepository {
     final list = await _auth.getUserIdentities();
     return [
       for (final i in list)
-        AuthIdentity(
-          provider: i.provider,
-          identityId: i.identityId,
-          email: i.identityData?['email'] as String?,
-        ),
+        AuthIdentity(provider: i.provider, identityId: i.identityId, email: i.identityData?['email'] as String?),
     ];
   });
 
@@ -181,6 +177,48 @@ class SupabaseAuthRepository implements AuthRepository {
   Future<void> updateDisplayName(String? name) => _guard(() async {
     await _auth.updateUser(sb.UserAttributes(data: {'display_name': name}));
   });
+
+  @override
+  Future<List<MfaFactor>> mfaFactors() => _guard(() async {
+    final res = await _auth.mfa.listFactors();
+    return [
+      for (final f in res.all)
+        if (f.factorType == sb.FactorType.totp)
+          MfaFactor(id: f.id, verified: f.status == sb.FactorStatus.verified, friendlyName: f.friendlyName),
+    ];
+  });
+
+  @override
+  Future<TotpEnrollment> enrollTotp() => _guard(() async {
+    // An abandoned enrollment would block a new one (one pending TOTP factor at a time).
+    final existing = await _auth.mfa.listFactors();
+    for (final f in existing.all) {
+      if (f.factorType == sb.FactorType.totp && f.status != sb.FactorStatus.verified) {
+        await _auth.mfa.unenroll(f.id);
+      }
+    }
+    final res = await _auth.mfa.enroll(issuer: 'Everslot');
+    final totp = res.totp;
+    if (totp == null) throw const AuthFailure(AuthFailureCode.unknown, 'enroll returned no totp');
+    return TotpEnrollment(factorId: res.id, secret: totp.secret, uri: totp.uri);
+  });
+
+  @override
+  Future<void> verifyTotp(String factorId, String code) => _guard(() async {
+    await _auth.mfa.challengeAndVerify(factorId: factorId, code: normalizeOtp(code));
+  });
+
+  @override
+  Future<void> unenrollMfa(String factorId) => _guard(() async {
+    await _auth.mfa.unenroll(factorId);
+  });
+
+  @override
+  bool get mfaStepUpRequired {
+    final aal = _auth.mfa.getAuthenticatorAssuranceLevel();
+    return aal.nextLevel == sb.AuthenticatorAssuranceLevels.aal2 &&
+        aal.currentLevel != sb.AuthenticatorAssuranceLevels.aal2;
+  }
 
   @override
   Future<void> deleteAccount() => _guard(() async {
@@ -252,8 +290,11 @@ class SupabaseAuthRepository implements AuthRepository {
     } on TimeoutException {
       throw const AuthFailure(AuthFailureCode.offline, 'timeout');
     } on sb.FunctionException catch (e) {
+      if (e.status == 403) throw AuthFailure(AuthFailureCode.mfaRequired, 'function ${e.status}');
       throw AuthFailure(AuthFailureCode.unknown, 'function ${e.status}');
     } on sb.PostgrestException catch (e) {
+      // app.request_account_deletion refuses aal1 sessions once MFA is on (T1.5.17).
+      if (e.message == 'aal2_required') throw AuthFailure(AuthFailureCode.mfaRequired, e.code);
       throw AuthFailure(AuthFailureCode.unknown, e.code);
     } on Exception catch (e) {
       final s = e.toString();
@@ -269,17 +310,28 @@ class SupabaseAuthRepository implements AuthRepository {
     final code = e.code ?? '';
     final status = e.statusCode ?? '';
     final failure = switch (code) {
-      'otp_expired' || 'invalid_credentials' || 'bad_code_verifier' || 'flow_state_expired' => AuthFailureCode.invalidCode,
-      'over_email_send_rate_limit' || 'over_request_rate_limit' || 'over_sms_send_rate_limit' => AuthFailureCode.rateLimited,
+      'otp_expired' ||
+      'invalid_credentials' ||
+      'bad_code_verifier' ||
+      'flow_state_expired' => AuthFailureCode.invalidCode,
+      'over_email_send_rate_limit' ||
+      'over_request_rate_limit' ||
+      'over_sms_send_rate_limit' => AuthFailureCode.rateLimited,
       'email_exists' || 'user_already_exists' || 'email_conflict_identity_not_deletable' => AuthFailureCode.emailInUse,
       'identity_already_exists' => AuthFailureCode.identityInUse,
       'captcha_failed' => AuthFailureCode.captchaRequired,
       'anonymous_provider_disabled' => AuthFailureCode.guestDisabled,
-      'provider_disabled' || 'oauth_provider_not_supported' || 'email_provider_disabled' => AuthFailureCode.providerNotConfigured,
+      'provider_disabled' ||
+      'oauth_provider_not_supported' ||
+      'email_provider_disabled' => AuthFailureCode.providerNotConfigured,
       'email_address_invalid' || 'validation_failed' => AuthFailureCode.invalidEmail,
-      'session_expired' || 'session_not_found' || 'refresh_token_not_found' || 'refresh_token_already_used' =>
-        AuthFailureCode.sessionExpired,
+      'session_expired' ||
+      'session_not_found' ||
+      'refresh_token_not_found' ||
+      'refresh_token_already_used' => AuthFailureCode.sessionExpired,
       'single_identity_not_deletable' => AuthFailureCode.lastIdentity,
+      'mfa_verification_failed' || 'mfa_challenge_expired' => AuthFailureCode.invalidCode,
+      'insufficient_aal' => AuthFailureCode.mfaRequired,
       _ when status == '429' => AuthFailureCode.rateLimited,
       _ => AuthFailureCode.unknown,
     };

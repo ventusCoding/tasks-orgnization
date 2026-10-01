@@ -253,7 +253,7 @@ final List<MetricDefinition> quitMetrics = [
     requires: _quitTables,
     compute: (c) => _withQuit(c, (q, s) {
       final p = s.projection;
-      if (p == null) return MetricResult.notApplicable('QT-09', 'noUnitCost');
+      if (p == null) return const MetricResult.notApplicable('QT-09', 'noUnitCost');
       return result(
         'QT-09',
         Value<double>(p.nextYear.toDouble()),
@@ -319,7 +319,7 @@ final List<MetricDefinition> quitMetrics = [
       final table = [for (final m in smokingHealthMilestones) m.milestone];
       final progress = healthMilestones(q, table);
       final rows = progress.valueOrNull;
-      if (rows == null) return MetricResult.notApplicable('QT-11', 'notSmoking');
+      if (rows == null) return const MetricResult.notApplicable('QT-11', 'notSmoking');
       final byId = {for (final m in smokingHealthMilestones) m.id: m};
       final restarted = q.currentAbstinenceStart != q.quitStartedAt;
       return chartResult(
@@ -359,7 +359,7 @@ final List<MetricDefinition> quitMetrics = [
     guard: MinDataGuard.exempt,
     requires: _quitTables,
     compute: (c) => _withQuit(c, (q, s) {
-      if (!c.isReduce) return MetricResult.notApplicable('QT-12', 'abstainMode');
+      if (!c.isReduce) return const MetricResult.notApplicable('QT-12', 'abstainMode');
       final r = reductionProgress(q);
       final days = q.closedDays;
       return result(

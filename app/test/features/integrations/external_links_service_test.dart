@@ -131,7 +131,12 @@ void main() {
   });
 
   group('cold start through the router', () {
-    Future<void> openFromColdStart(WidgetTester tester, String link, String expected, {bool deletedTask = false}) async {
+    Future<void> openFromColdStart(
+      WidgetTester tester,
+      String link,
+      String expected, {
+      bool deletedTask = false,
+    }) async {
       final source = FakeLinkSource(initial: Uri.parse(link));
       final h = TestHarness.create(
         overrides: [

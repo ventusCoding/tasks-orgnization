@@ -71,16 +71,19 @@ class DeviceInfo {
 
 /// Visible devices: not revoked, this device first, then most recently seen.
 List<DeviceInfo> visibleDevices(List<DeviceInfo> all, String thisDeviceId) {
-  final list = [for (final d in all) if (!d.isRevoked) d]
-    ..sort((a, b) {
-      if (a.id == thisDeviceId) return -1;
-      if (b.id == thisDeviceId) return 1;
-      final at = a.lastSeenAt;
-      final bt = b.lastSeenAt;
-      if (at == null && bt == null) return a.id.compareTo(b.id);
-      if (at == null) return 1;
-      if (bt == null) return -1;
-      return bt.compareTo(at);
-    });
+  final list =
+      [
+        for (final d in all)
+          if (!d.isRevoked) d,
+      ]..sort((a, b) {
+        if (a.id == thisDeviceId) return -1;
+        if (b.id == thisDeviceId) return 1;
+        final at = a.lastSeenAt;
+        final bt = b.lastSeenAt;
+        if (at == null && bt == null) return a.id.compareTo(b.id);
+        if (at == null) return 1;
+        if (bt == null) return -1;
+        return bt.compareTo(at);
+      });
   return list;
 }

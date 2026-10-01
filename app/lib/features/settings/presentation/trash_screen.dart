@@ -117,9 +117,14 @@ class _TrashTile extends ConsumerWidget {
     final format = AppFormat(Localizations.localeOf(context).toLanguageTag(), l10n: l);
     final title = entry.title.trim().isEmpty ? l.settingsTrashUntitled : entry.title;
     final lines = [
-      [kindLabel(context, entry.kind), if (entry.path.isNotEmpty) entry.path.where((p) => p.isNotEmpty).join(' › ')].join(' · '),
-      [l.settingsTrashDeletedWhen(format.relative(entry.deletedAt, now)), if (entry.withCount > 0) l.settingsTrashWith(entry.withCount)]
-          .join(' · '),
+      [
+        kindLabel(context, entry.kind),
+        if (entry.path.isNotEmpty) entry.path.where((p) => p.isNotEmpty).join(' › '),
+      ].join(' · '),
+      [
+        l.settingsTrashDeletedWhen(format.relative(entry.deletedAt, now)),
+        if (entry.withCount > 0) l.settingsTrashWith(entry.withCount),
+      ].join(' · '),
     ];
     return ListTile(
       key: ValueKey('trash-${entry.id}'),
@@ -143,7 +148,11 @@ class _TrashTile extends ConsumerWidget {
             destructive: true,
           );
           if (ok && context.mounted) {
-            await _guard(context, () => ref.read(trashServiceProvider).deleteForever(entry), done: l.settingsTrashDeleted);
+            await _guard(
+              context,
+              () => ref.read(trashServiceProvider).deleteForever(entry),
+              done: l.settingsTrashDeleted,
+            );
           }
         },
         itemBuilder: (_) => [

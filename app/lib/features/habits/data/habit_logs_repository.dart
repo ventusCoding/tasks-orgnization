@@ -23,19 +23,21 @@ class HabitLogsRepository {
       _db.select(_db.habitLogs)..where((l) => l.deletedAt.isNull() & l.userId.equals(_userId()));
 
   /// Every live log of one habit (history), ordered by `logged_at`.
-  Stream<List<HabitLogEntry>> watchForHabit(String habitId) => (_base()
-        ..where((l) => l.habitId.equals(habitId))
-        ..orderBy([(l) => OrderingTerm.asc(l.loggedAt), (l) => OrderingTerm.asc(l.id)]))
-      .watch()
-      .map((rows) => rows.map(HabitMappers.log).toList())
-      .distinct(_logEquality.equals);
-
-  Future<List<HabitLogEntry>> forHabit(String habitId) async => (await (_base()
+  Stream<List<HabitLogEntry>> watchForHabit(String habitId) =>
+      (_base()
             ..where((l) => l.habitId.equals(habitId))
-            ..orderBy([(l) => OrderingTerm.asc(l.loggedAt)]))
-          .get())
-      .map(HabitMappers.log)
-      .toList();
+            ..orderBy([(l) => OrderingTerm.asc(l.loggedAt), (l) => OrderingTerm.asc(l.id)]))
+          .watch()
+          .map((rows) => rows.map(HabitMappers.log).toList())
+          .distinct(_logEquality.equals);
+
+  Future<List<HabitLogEntry>> forHabit(String habitId) async =>
+      (await (_base()
+                ..where((l) => l.habitId.equals(habitId))
+                ..orderBy([(l) => OrderingTerm.asc(l.loggedAt)]))
+              .get())
+          .map(HabitMappers.log)
+          .toList();
 
   /// Logs of every habit whose `local_date` lies in [from]…[to] (Today, matrix, month overview).
   Stream<List<HabitLogEntry>> watchInRange(LocalDate from, LocalDate to, {Set<String>? habitIds}) {
@@ -47,13 +49,14 @@ class HabitLogsRepository {
   }
 
   /// Logs with a note or a mood (notes journal, T5.2.15), newest first.
-  Stream<List<HabitLogEntry>> watchJournal({int limit = 500}) => (_base()
-        ..where((l) => l.note.isNotNull() | l.mood.isNotNull())
-        ..orderBy([(l) => OrderingTerm.desc(l.loggedAt)])
-        ..limit(limit))
-      .watch()
-      .map((rows) => rows.map(HabitMappers.log).toList())
-      .distinct(_logEquality.equals);
+  Stream<List<HabitLogEntry>> watchJournal({int limit = 500}) =>
+      (_base()
+            ..where((l) => l.note.isNotNull() | l.mood.isNotNull())
+            ..orderBy([(l) => OrderingTerm.desc(l.loggedAt)])
+            ..limit(limit))
+          .watch()
+          .map((rows) => rows.map(HabitMappers.log).toList())
+          .distinct(_logEquality.equals);
 
   Future<HabitLogEntry?> byId(String id) async {
     final r = await (_db.select(_db.habitLogs)..where((l) => l.id.equals(id))).getSingleOrNull();
@@ -68,11 +71,12 @@ class HabitLogsRepository {
 
   /// Latest log of [habitId] among [kinds] (quit: last relapse / restart).
   Future<HabitLogEntry?> lastEventOfKind(String habitId, Set<HabitLogKind> kinds) async {
-    final r = await (_base()
-          ..where((l) => l.habitId.equals(habitId) & l.kind.isIn([for (final k in kinds) k.name]))
-          ..orderBy([(l) => OrderingTerm.desc(l.loggedAt)])
-          ..limit(1))
-        .getSingleOrNull();
+    final r =
+        await (_base()
+              ..where((l) => l.habitId.equals(habitId) & l.kind.isIn([for (final k in kinds) k.name]))
+              ..orderBy([(l) => OrderingTerm.desc(l.loggedAt)])
+              ..limit(1))
+            .getSingleOrNull();
     return r == null ? null : HabitMappers.log(r);
   }
 
@@ -174,12 +178,13 @@ class HabitPausesRepository {
   final String Function() _userId;
 
   /// Every live pause of the user (small table), ordered by start date.
-  Stream<List<PauseSpan>> watchAll() => (_db.select(_db.habitPauses)
-        ..where((p) => p.deletedAt.isNull() & p.userId.equals(_userId()))
-        ..orderBy([(p) => OrderingTerm.asc(p.startDate)]))
-      .watch()
-      .map((rows) => rows.map(HabitMappers.pause).toList())
-      .distinct(const ListEquality<PauseSpan>().equals);
+  Stream<List<PauseSpan>> watchAll() =>
+      (_db.select(_db.habitPauses)
+            ..where((p) => p.deletedAt.isNull() & p.userId.equals(_userId()))
+            ..orderBy([(p) => OrderingTerm.asc(p.startDate)]))
+          .watch()
+          .map((rows) => rows.map(HabitMappers.pause).toList())
+          .distinct(const ListEquality<PauseSpan>().equals);
 
   Future<OpRecord> create({required LocalDate start, LocalDate? end, String? habitId, String? reason}) =>
       _writer.run((tx) async {
@@ -204,7 +209,12 @@ class HabitPausesRepository {
       await tx.update('habit_pauses', pause.id, {'end_date': lastDay});
     }
     if (pause.habitId != null) {
-      await tx.logEvent(entityType: 'habit', entityId: pause.habitId!, eventType: 'resumed', payload: {'pauseId': pause.id});
+      await tx.logEvent(
+        entityType: 'habit',
+        entityId: pause.habitId!,
+        eventType: 'resumed',
+        payload: {'pauseId': pause.id},
+      );
     }
   });
 

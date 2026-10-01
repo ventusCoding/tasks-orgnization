@@ -86,7 +86,11 @@ abstract final class PlannerNotificationTargets {
       statusChangedAt: o.record?.statusChangedAt,
       isOpen: isOpen(o),
       guard: NotificationGuard.taskOccurrenceOpen(task.id, o.occurrenceKey),
-      variables: {'category': ?categoryName, 'notes_excerpt': ?excerpt, if (task.location != null) 'location': task.location},
+      variables: {
+        'category': ?categoryName,
+        'notes_excerpt': ?excerpt,
+        if (task.location != null) 'location': task.location,
+      },
       defaultActions: task.trackingMode == TrackingMode.timer ? timerActions : defaultActions,
     );
   }

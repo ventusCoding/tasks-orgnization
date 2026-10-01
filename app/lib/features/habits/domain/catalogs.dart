@@ -348,13 +348,7 @@ class QuitPreset {
       colorIndex: 9,
       mode: QuitMode.reduce,
     ),
-    QuitPreset(
-      substance: QuitSubstance.other,
-      unit: HabitUnits.times,
-      baselinePerDay: 1,
-      icon: 'flag',
-      colorIndex: 2,
-    ),
+    QuitPreset(substance: QuitSubstance.other, unit: HabitUnits.times, baselinePerDay: 1, icon: 'flag', colorIndex: 2),
   ];
 
   static QuitPreset of(QuitSubstance? substance) {

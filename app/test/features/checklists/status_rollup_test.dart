@@ -78,12 +78,25 @@ void main() {
         keepFollowUp: true,
       );
       expect(applyChange(items, kept).single.followUpAt, follow);
-      final cleared = StatusEngine.apply(ChecklistTree.build(items), noAuto, ids: ['X'], to: ItemStatus.ongoing, now: now);
+      final cleared = StatusEngine.apply(
+        ChecklistTree.build(items),
+        noAuto,
+        ids: ['X'],
+        to: ItemStatus.ongoing,
+        now: now,
+      );
       expect(applyChange(items, cleared).single.followUpAt, isNull);
     });
 
     test('same status without a note change writes nothing', () {
-      final ch = StatusEngine.apply(tree('X:waiting'), noAuto, ids: ['X'], to: ItemStatus.waiting, now: now, setNote: false);
+      final ch = StatusEngine.apply(
+        tree('X:waiting'),
+        noAuto,
+        ids: ['X'],
+        to: ItemStatus.waiting,
+        now: now,
+        setNote: false,
+      );
       expect(ch.isEmpty, isTrue);
     });
   });
@@ -103,14 +116,26 @@ L0
                   L9
                     leaf
                     gone:cancelled''');
-      final ch = StatusEngine.apply(ChecklistTree.build(items), ChecklistSettings.defaults, ids: ['leaf'], to: ItemStatus.completed, now: now);
+      final ch = StatusEngine.apply(
+        ChecklistTree.build(items),
+        ChecklistSettings.defaults,
+        ids: ['leaf'],
+        to: ItemStatus.completed,
+        now: now,
+      );
       final after = ChecklistTree.build(applyChange(items, ch));
       for (final id in ['L0', 'L5', 'L9', 'leaf']) {
         expect(after[id]!.status, ItemStatus.completed, reason: id);
       }
       expect(ch.events.where((e) => e.cause == 'auto_rollup'), hasLength(10));
       // Reopening the leaf reopens the whole chain (cascade).
-      final reopen = StatusEngine.apply(after, ChecklistSettings.defaults, ids: ['leaf'], to: ItemStatus.waiting, now: now);
+      final reopen = StatusEngine.apply(
+        after,
+        ChecklistSettings.defaults,
+        ids: ['leaf'],
+        to: ItemStatus.waiting,
+        now: now,
+      );
       final reopened = ChecklistTree.build(applyChange(applyChange(items, ch), reopen));
       expect(reopened['L0']!.status, ItemStatus.todo);
       expect(reopen.events.where((e) => e.cause == 'cascade'), hasLength(10));
@@ -118,7 +143,13 @@ L0
 
     test('a parent whose children are all cancelled never auto-completes', () {
       final items = outline('P\n  a:cancelled\n  b');
-      final ch = StatusEngine.apply(ChecklistTree.build(items), ChecklistSettings.defaults, ids: ['b'], to: ItemStatus.cancelled, now: now);
+      final ch = StatusEngine.apply(
+        ChecklistTree.build(items),
+        ChecklistSettings.defaults,
+        ids: ['b'],
+        to: ItemStatus.cancelled,
+        now: now,
+      );
       expect(ChecklistTree.build(applyChange(items, ch))['P']!.status, ItemStatus.todo);
     });
 
@@ -143,7 +174,14 @@ L0
         now: now,
       );
       expect(never.valuesFor('a'), isNull);
-      final asked = StatusEngine.apply(t, ChecklistSettings.defaults, ids: ['P'], to: ItemStatus.completed, now: now, completeOpenDescendants: true);
+      final asked = StatusEngine.apply(
+        t,
+        ChecklistSettings.defaults,
+        ids: ['P'],
+        to: ItemStatus.completed,
+        now: now,
+        completeOpenDescendants: true,
+      );
       expect(asked.valuesFor('c')!['status'], 'completed');
     });
 
@@ -240,7 +278,9 @@ B:completed
   B1:completed
 C''');
 
-    List<String> ids(List<VisibleRow> rows) => [for (final r in rows) '${'  ' * r.depth}${r.id}${r.isContext ? '*' : ''}'];
+    List<String> ids(List<VisibleRow> rows) => [
+      for (final r in rows) '${'  ' * r.depth}${r.id}${r.isContext ? '*' : ''}',
+    ];
 
     test('collapse hides descendants; focus re-roots with relative depth', () {
       expect(ids(VisibleListBuilder.build(t, collapsed: {'A2'})), ['A', '  A1', '  A2', 'B', '  B1', 'C']);
@@ -250,37 +290,53 @@ C''');
     });
 
     test('filters show matches plus dimmed ancestors, temporarily expanded', () {
-      final rows = VisibleListBuilder.build(t, collapsed: {'A', 'A2'}, filter: const ItemFilter(statuses: {ItemStatus.waiting}));
+      final rows = VisibleListBuilder.build(
+        t,
+        collapsed: {'A', 'A2'},
+        filter: const ItemFilter(statuses: {ItemStatus.waiting}),
+      );
       expect(ids(rows), ['A*', '  A2*', '    A2a']);
       final text = VisibleListBuilder.build(t, filter: const ItemFilter(text: 'b1'));
       expect(ids(text), ['B*', '  B1']);
-      final inFocus = VisibleListBuilder.build(t, focusRootId: 'A', filter: const ItemFilter(text: 'a2a'));
+      final inFocus = VisibleListBuilder.build(
+        t,
+        focusRootId: 'A',
+        filter: const ItemFilter(text: 'a2a'),
+      );
       expect(ids(inFocus), ['A2*', '  A2a']);
     });
 
     test('hide completed prunes finished subtrees but keeps parents of open work', () {
-      final rows = VisibleListBuilder.build(tree('P:completed\n  x\nD:completed\n  y:completed'), filter: const ItemFilter(hideCompleted: true));
+      final rows = VisibleListBuilder.build(
+        tree('P:completed\n  x\nD:completed\n  y:completed'),
+        filter: const ItemFilter(hideCompleted: true),
+      );
       expect(ids(rows), ['P*', '  x']);
     });
 
     test('attachments / due-soon filters and view-level sort', () {
       final items = outline('b\na\nc');
-      final withDue = [
-        for (final i in items)
-          i.id == 'c' ? i.copyWith(dueLocal: LocalDateTime.of(2026, 9, 24)) : i,
-      ];
+      final withDue = [for (final i in items) i.id == 'c' ? i.copyWith(dueLocal: LocalDateTime.of(2026, 9, 24)) : i];
       final t2 = ChecklistTree.build(withDue);
-      expect(ids(VisibleListBuilder.build(t2, filter: const ItemFilter(hasAttachments: true), withAttachments: {'a'})), ['a']);
+      expect(
+        ids(VisibleListBuilder.build(t2, filter: const ItemFilter(hasAttachments: true), withAttachments: {'a'})),
+        ['a'],
+      );
       expect(
         ids(VisibleListBuilder.build(t2, filter: const ItemFilter(dueSoon: true), today: LocalDate(2026, 9, 23))),
         ['c'],
       );
       expect(ids(VisibleListBuilder.build(t2, sort: const ItemSort(by: ItemSortBy.alphabetical))), ['a', 'b', 'c']);
       expect(ids(VisibleListBuilder.build(t)).length, 7);
-      expect(
-        ids(VisibleListBuilder.build(t, sortCompletedToBottom: true)),
-        ['A', '  A2', '    A2a', '  A1', 'C', 'B', '  B1'],
-      );
+      expect(ids(VisibleListBuilder.build(t, sortCompletedToBottom: true)), [
+        'A',
+        '  A2',
+        '    A2a',
+        '  A1',
+        'C',
+        'B',
+        '  B1',
+      ]);
     });
 
     test('expand to level N / collapse all', () {
@@ -337,7 +393,12 @@ C''');
     });
 
     test('stale and escalation thresholds', () {
-      final old = ChecklistItem(id: 'x', checklistId: 'c', sortKey: 'a0', updatedAt: now.subtract(const Duration(days: 15)));
+      final old = ChecklistItem(
+        id: 'x',
+        checklistId: 'c',
+        sortKey: 'a0',
+        updatedAt: now.subtract(const Duration(days: 15)),
+      );
       expect(ItemTimeRules.isStale(old, now, 14), isTrue);
       expect(ItemTimeRules.isStale(old.copyWith(status: ItemStatus.completed), now, 14), isFalse);
       final waiting = ChecklistItem(
@@ -355,9 +416,19 @@ C''');
     test('status intervals include the open current interval', () {
       final created = now.subtract(const Duration(days: 10));
       final events = [
-        StatusEvent(at: created.add(const Duration(days: 2)), from: ItemStatus.todo, to: ItemStatus.waiting, note: 'supplier'),
+        StatusEvent(
+          at: created.add(const Duration(days: 2)),
+          from: ItemStatus.todo,
+          to: ItemStatus.waiting,
+          note: 'supplier',
+        ),
         StatusEvent(at: created.add(const Duration(days: 5)), from: ItemStatus.waiting, to: ItemStatus.ongoing),
-        StatusEvent(at: created.add(const Duration(days: 6)), to: ItemStatus.ongoing, type: 'status_note_changed', note: 'x'),
+        StatusEvent(
+          at: created.add(const Duration(days: 6)),
+          to: ItemStatus.ongoing,
+          type: 'status_note_changed',
+          note: 'x',
+        ),
       ];
       final intervals = StatusHistory.intervals(events, createdAt: created, currentStatus: ItemStatus.ongoing);
       expect(intervals.map((i) => i.status), [ItemStatus.todo, ItemStatus.waiting, ItemStatus.ongoing]);

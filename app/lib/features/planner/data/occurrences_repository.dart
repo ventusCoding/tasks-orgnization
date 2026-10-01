@@ -100,7 +100,10 @@ class OccurrencesRepository {
       'completed_at': null,
       'skip_reason': null,
     });
-    await tx.logOccurrenceEvent(task, key, 'reopened', {'from': rec.isCancelled ? 'cancelled' : rec.status.json, 'source': source});
+    await tx.logOccurrenceEvent(task, key, 'reopened', {
+      'from': rec.isCancelled ? 'cancelled' : rec.status.json,
+      'source': source,
+    });
   });
 
   /// Alias of [reopen] for a done occurrence.
@@ -108,10 +111,17 @@ class OccurrencesRepository {
 
   /// Skips with a reason key (`too_busy`, `sick`, …) or free text (≤ 200 chars).
   Future<OpRecord> skip(String taskId, String key, {String? reason, String source = 'sheet', String cause = 'user'}) =>
-      _writer.run(cause: cause, (tx) => _skipTx(tx, taskId, key, reason: reason, source: source));
+      _writer.run(
+        cause: cause,
+        (tx) => _skipTx(tx, taskId, key, reason: reason, source: source),
+      );
 
   /// Skips several occurrences in ONE operation (day menu, T3.2.23). Returns how many changed.
-  Future<(OpRecord, int)> skipMany(List<(String, String)> occurrences, {String? reason, String source = 'day_menu'}) async {
+  Future<(OpRecord, int)> skipMany(
+    List<(String, String)> occurrences, {
+    String? reason,
+    String source = 'day_menu',
+  }) async {
     var changed = 0;
     final record = await _writer.run((tx) async {
       for (final (taskId, key) in occurrences) {
@@ -137,7 +147,11 @@ class OccurrencesRepository {
       'completed_at': null,
       'skip_reason': stored,
     });
-    await tx.logOccurrenceEvent(task, key, 'skipped', {'from': rec?.status.json ?? 'scheduled', 'reason': stored, 'source': source});
+    await tx.logOccurrenceEvent(task, key, 'skipped', {
+      'from': rec?.status.json ?? 'scheduled',
+      'reason': stored,
+      'source': source,
+    });
     return true;
   }
 
@@ -180,32 +194,37 @@ class OccurrencesRepository {
     String source = 'sheet',
     String cause = 'user',
   }) => _writer.run(cause: cause, (tx) async {
-        final task = await _task(tx, taskId);
-        final rec = await tx.readRecord(taskId, key);
-        final running = await _running(tx);
-        final alreadyRunning = running.any((e) => e.taskId == taskId && e.occurrenceKey == key);
-        if (rec?.status == OccurrenceStatus.inProgress && (alreadyRunning || task.trackingMode != TrackingMode.timer)) return;
-        if (task.trackingMode == TrackingMode.timer && !alreadyRunning) {
-          if (policy == TimerPolicy.single) {
-            for (final other in running) {
-              await _closeEntry(tx, other);
-              final otherTask = await tx.readTask(other.taskId);
-              if (otherTask != null && other.occurrenceKey != null) {
-                await _updateTracked(tx, other.taskId, other.occurrenceKey!);
-                await tx.logOccurrenceEvent(otherTask, other.occurrenceKey!, 'stopped', {'pause': true, 'reason': 'timer_policy'});
-              }
-            }
+    final task = await _task(tx, taskId);
+    final rec = await tx.readRecord(taskId, key);
+    final running = await _running(tx);
+    final alreadyRunning = running.any((e) => e.taskId == taskId && e.occurrenceKey == key);
+    if (rec?.status == OccurrenceStatus.inProgress && (alreadyRunning || task.trackingMode != TrackingMode.timer)) {
+      return;
+    }
+    if (task.trackingMode == TrackingMode.timer && !alreadyRunning) {
+      if (policy == TimerPolicy.single) {
+        for (final other in running) {
+          await _closeEntry(tx, other);
+          final otherTask = await tx.readTask(other.taskId);
+          if (otherTask != null && other.occurrenceKey != null) {
+            await _updateTracked(tx, other.taskId, other.occurrenceKey!);
+            await tx.logOccurrenceEvent(otherTask, other.occurrenceKey!, 'stopped', {
+              'pause': true,
+              'reason': 'timer_policy',
+            });
           }
-          await tx.insert('time_entries', Ids.v7(), {'task_id': taskId, 'occurrence_key': key, 'started_at': tx.now});
         }
-        await tx.upsertRecord(taskId, key, {
-          'status': OccurrenceStatus.inProgress.json,
-          'is_cancelled': false,
-          'status_changed_at': tx.now,
-          'actual_start_at': rec?.actualStartAt ?? tx.now,
-        });
-        await tx.logOccurrenceEvent(task, key, 'started', {'from': rec?.status.json ?? 'scheduled', 'source': source});
-      });
+      }
+      await tx.insert('time_entries', Ids.v7(), {'task_id': taskId, 'occurrence_key': key, 'started_at': tx.now});
+    }
+    await tx.upsertRecord(taskId, key, {
+      'status': OccurrenceStatus.inProgress.json,
+      'is_cancelled': false,
+      'status_changed_at': tx.now,
+      'actual_start_at': rec?.actualStartAt ?? tx.now,
+    });
+    await tx.logOccurrenceEvent(task, key, 'started', {'from': rec?.status.json ?? 'scheduled', 'source': source});
+  });
 
   /// Pauses the running timer (closes the entry; status stays in progress).
   Future<OpRecord> pause(String taskId, String key) => _writer.run((tx) async {
@@ -230,12 +249,8 @@ class OccurrencesRepository {
   // ---------------------------------------------------------------------------
   // Outcome fields (T3.2.04, T3.2.14, T3.2.22)
 
-  Future<OpRecord> setCompletionPercent(String taskId, String key, int? percent) => _setField(
-    taskId,
-    key,
-    'completion_percent',
-    percent?.clamp(0, 100),
-  );
+  Future<OpRecord> setCompletionPercent(String taskId, String key, int? percent) =>
+      _setField(taskId, key, 'completion_percent', percent?.clamp(0, 100));
 
   Future<OpRecord> rate(String taskId, String key, int? rating) =>
       _setField(taskId, key, 'rating', rating?.clamp(1, 5));
@@ -249,7 +264,11 @@ class OccurrencesRepository {
     final before = rec?.toJson()[column];
     if (before == value) return;
     await tx.upsertRecord(taskId, key, {column: value});
-    await tx.logOccurrenceEvent(task, key, 'updated', {'fields': [column], 'from': before, 'to': value});
+    await tx.logOccurrenceEvent(task, key, 'updated', {
+      'fields': [column],
+      'from': before,
+      'to': value,
+    });
   });
 
   /// Edits actual start/end (validated end ≥ start).
@@ -391,7 +410,9 @@ class OccurrencesRepository {
     final closed = <TimeEntry>[];
     for (final e in entries.where((e) => e.isRunning)) {
       await _closeEntry(tx, e);
-      closed.add(TimeEntry(id: e.id, taskId: e.taskId, occurrenceKey: e.occurrenceKey, startedAt: e.startedAt, endedAt: tx.now));
+      closed.add(
+        TimeEntry(id: e.id, taskId: e.taskId, occurrenceKey: e.occurrenceKey, startedAt: e.startedAt, endedAt: tx.now),
+      );
     }
     if (!returnAll) return closed;
     return [for (final e in entries) e.isRunning ? closed.firstWhere((c) => c.id == e.id) : e];
@@ -408,7 +429,8 @@ class OccurrencesRepository {
       'tracked_seconds': total,
       if (touchActual && closed.isNotEmpty) ...{
         'actual_start_at': closed.first.startedAt,
-        if (rec?.status == OccurrenceStatus.done) 'actual_end_at': closed.map((e) => e.endedAt!).reduce((a, b) => a.isAfter(b) ? a : b),
+        if (rec?.status == OccurrenceStatus.done)
+          'actual_end_at': closed.map((e) => e.endedAt!).reduce((a, b) => a.isAfter(b) ? a : b),
       },
     });
   }

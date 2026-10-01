@@ -29,7 +29,12 @@ DayLayout overlapStrategy(DaySlice slice, int laneCap, int minDuration) => layou
 class ColumnLayoutCache {
   final Expando<(int, int, TileLayoutStrategy, DayLayout)> _memo = Expando();
 
-  DayLayout of(DaySlice slice, {required int laneCap, required int minDuration, TileLayoutStrategy strategy = overlapStrategy}) {
+  DayLayout of(
+    DaySlice slice, {
+    required int laneCap,
+    required int minDuration,
+    TileLayoutStrategy strategy = overlapStrategy,
+  }) {
     final hit = _memo[slice];
     if (hit != null && hit.$1 == laneCap && hit.$2 == minDuration && identical(hit.$3, strategy)) return hit.$4;
     final layout = strategy(slice, laneCap, minDuration);
@@ -114,7 +119,11 @@ class PageGeometry {
       bool shown(DaySegment s) => axis.bands.any(
         (b) =>
             b.kind == AxisBandKind.normal &&
-            b.pieces.any((p) => s.wallStart < p.wallEnd && (s.wallEnd > p.wallStart || (s.tEnd == s.tStart && s.wallStart >= p.wallStart))),
+            b.pieces.any(
+              (p) =>
+                  s.wallStart < p.wallEnd &&
+                  (s.wallEnd > p.wallStart || (s.tEnd == s.tStart && s.wallStart >= p.wallStart)),
+            ),
       );
       for (final t in layout.tiles) {
         final seg = slice.timed[t.index];
@@ -123,28 +132,39 @@ class PageGeometry {
         var bottom = seg.tEnd == seg.tStart ? top : axis.yOf(seg.wallEnd, repeat: seg.repeatEnd, ppm: ppm, end: true);
         if (bottom < top + minTileHeight) bottom = top + minTileHeight;
         final leftFrac = rtl ? (t.columns - t.column - t.span) / t.columns : t.column / t.columns;
-        final rect = Rect.fromLTWH(colX + leftFrac * colW + 1, top + 0.5, math.max(2, t.span / t.columns * colW - 2), bottom - top - 1);
+        final rect = Rect.fromLTWH(
+          colX + leftFrac * colW + 1,
+          top + 0.5,
+          math.max(2, t.span / t.columns * colW - 2),
+          bottom - top - 1,
+        );
         tiles.add(TileGeom(segment: seg, dayIndex: i, rect: rect, variant: tileVariantFor(rect.width, rect.height)));
       }
       for (final g in layout.overflow) {
         if (!g.indices.any((idx) => shown(slice.timed[idx]))) continue;
         final top = yOfT(axis, slice.timeline, g.start, ppm);
-        final bottom = math.max(yOfT(axis, slice.timeline, g.end, ppm, end: true), top + 20);
-        final w = math.min(28.0, math.max(16.0, colW * 0.4));
+        final bottom = math.max<double>(yOfT(axis, slice.timeline, g.end, ppm, end: true), top + 20);
+        final w = math.min<double>(28, math.max(16, colW * 0.4));
         final x = rtl ? colX + 1 : colX + colW - w - 1;
-        overflow.add(OverflowGeom(
-          dayIndex: i,
-          rect: Rect.fromLTWH(x, top + 1, w, math.min(24, bottom - top - 2)),
-          items: [for (final idx in g.indices) slice.timed[idx].item],
-          wallStart: slice.timed[g.indices.first].wallStart,
-        ));
+        overflow.add(
+          OverflowGeom(
+            dayIndex: i,
+            rect: Rect.fromLTWH(x, top + 1, w, math.min<double>(24, bottom - top - 2)),
+            items: [for (final idx in g.indices) slice.timed[idx].item],
+            wallStart: slice.timed[g.indices.first].wallStart,
+          ),
+        );
       }
       for (var b = 0; b < axis.bands.length; b++) {
         final band = axis.bands[b];
         if (band.kind != AxisBandKind.hidden) continue;
         var count = 0;
         for (final s in slice.timed) {
-          final inside = band.pieces.any((p) => s.wallStart < p.wallEnd && (s.wallEnd > p.wallStart || (s.tEnd == s.tStart && s.wallStart >= p.wallStart)));
+          final inside = band.pieces.any(
+            (p) =>
+                s.wallStart < p.wallEnd &&
+                (s.wallEnd > p.wallStart || (s.tEnd == s.tStart && s.wallStart >= p.wallStart)),
+          );
           if (inside) count++;
         }
         if (count > 0) hidden[(b, i)] = count;
@@ -197,7 +217,7 @@ class _CulledTileLayerState extends State<CulledTileLayer> {
   int _window = 0;
 
   int _windowOf() {
-    final vh = math.max(1.0, widget.viewportHeight);
+    final vh = math.max(1, widget.viewportHeight);
     final offset = widget.vertical.hasClients ? widget.vertical.offset : 0.0;
     return (offset / vh).floor();
   }
@@ -232,7 +252,7 @@ class _CulledTileLayerState extends State<CulledTileLayer> {
 
   @override
   Widget build(BuildContext context) {
-    final vh = math.max(1.0, widget.viewportHeight);
+    final vh = math.max(1, widget.viewportHeight);
     final top = (_window - 1) * vh;
     final bottom = (_window + 2) * vh;
     return Stack(
@@ -246,7 +266,8 @@ class _CulledTileLayerState extends State<CulledTileLayer> {
               child: widget.tileBuilder(g),
             ),
         for (final o in widget.geometry.overflow)
-          if (o.rect.bottom >= top && o.rect.top <= bottom) Positioned.fromRect(rect: o.rect, child: widget.overflowBuilder(o)),
+          if (o.rect.bottom >= top && o.rect.top <= bottom)
+            Positioned.fromRect(rect: o.rect, child: widget.overflowBuilder(o)),
       ],
     );
   }
@@ -345,7 +366,12 @@ class TimelinePageBody extends StatelessWidget {
               ),
             ),
           ),
-          for (final p in overlayPainters) Positioned.fill(child: IgnorePointer(child: RepaintBoundary(child: CustomPaint(painter: p)))),
+          for (final p in overlayPainters)
+            Positioned.fill(
+              child: IgnorePointer(
+                child: RepaintBoundary(child: CustomPaint(painter: p)),
+              ),
+            ),
           Positioned.fill(
             child: RepaintBoundary(
               child: CulledTileLayer(
@@ -407,9 +433,14 @@ class LaneModel {
         }
       }
       if (s == -1) continue;
-      inputs.add(LaneInput(idx, s, e, continuesBefore: start.isBefore(days[s]), continuesAfter: end.isAfter(days[e - 1])));
+      inputs.add(
+        LaneInput(idx, s, e, continuesBefore: start.isBefore(days[s]), continuesAfter: end.isAfter(days[e - 1])),
+      );
     }
-    return LaneModel(items: items, packing: packLane(inputs, days.length, maxRows: maxRows));
+    return LaneModel(
+      items: items,
+      packing: packLane(inputs, days.length, maxRows: maxRows),
+    );
   }
 
   final List<PlannerItem> items;
@@ -459,7 +490,9 @@ class AllDayLane extends StatelessWidget {
       height: height,
       width: width,
       child: DecoratedBox(
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: context.colors.outlineVariant))),
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: context.colors.outlineVariant)),
+        ),
         child: Stack(
           children: [
             // Columns run from the reading start: PositionedDirectional mirrors them in RTL.
@@ -536,13 +569,21 @@ class _LaneBar extends StatelessWidget {
                 start: Radius.circular(continuesBefore ? 0 : Radii.sm),
                 end: Radius.circular(continuesAfter ? 0 : Radii.sm),
               ),
-              border: BorderDirectional(start: BorderSide(color: colors.accent, width: continuesBefore ? 0 : 3)),
+              border: BorderDirectional(
+                start: BorderSide(color: colors.accent, width: continuesBefore ? 0 : 3),
+              ),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Row(
                 children: [
-                  if (continuesBefore) Icon(Icons.chevron_left, size: 12, color: colors.foreground, textDirection: Directionality.of(context)),
+                  if (continuesBefore)
+                    Icon(
+                      Icons.chevron_left,
+                      size: 12,
+                      color: colors.foreground,
+                      textDirection: Directionality.of(context),
+                    ),
                   Expanded(
                     child: Text(
                       item.title,

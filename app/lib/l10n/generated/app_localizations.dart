@@ -63,8 +63,7 @@ import 'app_localizations_fr.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -72,8 +71,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -85,20 +83,15 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('ar'),
-    Locale('en'),
-    Locale('fr'),
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('ar'), Locale('en'), Locale('fr')];
 
   /// No description provided for @actionAdd.
   ///
@@ -1222,6 +1215,12 @@ abstract class AppLocalizations {
   /// **'You can\'t remove your only sign-in method.'**
   String get authErrorLastIdentity;
 
+  /// No description provided for @authErrorMfaRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the code from your authenticator app to continue.'**
+  String get authErrorMfaRequired;
+
   /// No description provided for @authErrorNotConfigured.
   ///
   /// In en, this message translates to:
@@ -1336,11 +1335,29 @@ abstract class AppLocalizations {
   /// **'Ask for a code from an authenticator app when you sign in or delete your account.'**
   String get authMfaBody;
 
+  /// No description provided for @authMfaCopySecret.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy key'**
+  String get authMfaCopySecret;
+
   /// No description provided for @authMfaDisable.
   ///
   /// In en, this message translates to:
   /// **'Turn off'**
   String get authMfaDisable;
+
+  /// No description provided for @authMfaDisableBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a code from your authenticator app to turn off two-step verification.'**
+  String get authMfaDisableBody;
+
+  /// No description provided for @authMfaDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-step verification is off.'**
+  String get authMfaDisabled;
 
   /// No description provided for @authMfaEnabled.
   ///
@@ -1360,17 +1377,35 @@ abstract class AppLocalizations {
   /// **'Add this key to your authenticator app, then enter the 6-digit code it shows.'**
   String get authMfaEnrollBody;
 
+  /// No description provided for @authMfaOpenApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in authenticator app'**
+  String get authMfaOpenApp;
+
   /// No description provided for @authMfaSecret.
   ///
   /// In en, this message translates to:
   /// **'Setup key'**
   String get authMfaSecret;
 
+  /// No description provided for @authMfaSecretCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Setup key copied.'**
+  String get authMfaSecretCopied;
+
   /// No description provided for @authMfaTitle.
   ///
   /// In en, this message translates to:
   /// **'Two-step verification'**
   String get authMfaTitle;
+
+  /// No description provided for @authMfaVerifyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Open your authenticator app and enter the 6-digit code for Everslot.'**
+  String get authMfaVerifyBody;
 
   /// No description provided for @authMfaVerifyTitle.
   ///
@@ -1653,6 +1688,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search time zones'**
   String get authZoneSearch;
+
+  /// No description provided for @bootstrapErrorBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while opening the app. Your data is safe on this device. Try again, and restart your phone if it keeps happening.'**
+  String get bootstrapErrorBody;
+
+  /// No description provided for @bootstrapErrorCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy details'**
+  String get bootstrapErrorCopy;
+
+  /// No description provided for @bootstrapErrorDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Details (for developers)'**
+  String get bootstrapErrorDetails;
+
+  /// No description provided for @bootstrapErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot couldn\'t start'**
+  String get bootstrapErrorTitle;
 
   /// No description provided for @categoriesEmpty.
   ///
@@ -3134,12 +3193,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{title}: {count} bars, highest {label} with {value}.'**
-  String chartsSummaryBars(
-    String title,
-    String count,
-    String label,
-    String value,
-  );
+  String chartsSummaryBars(String title, String count, String label, String value);
 
   /// No description provided for @chartsSummaryCalendar.
   ///
@@ -3151,13 +3205,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{title}, {range}: from {first} to {last}. {trend}'**
-  String chartsSummaryLine(
-    String title,
-    String range,
-    String first,
-    String last,
-    String trend,
-  );
+  String chartsSummaryLine(String title, String range, String first, String last, String trend);
 
   /// No description provided for @chartsSummaryList.
   ///
@@ -4449,6 +4497,18 @@ abstract class AppLocalizations {
   /// **'Every sync run fails as if the network were down.'**
   String get devSyncSimulateOfflineHint;
 
+  /// No description provided for @devTestCrash.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a test crash'**
+  String get devTestCrash;
+
+  /// No description provided for @devTestCrashBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Throws an uncaught error; release builds report it to Crashlytics.'**
+  String get devTestCrashBody;
+
   /// No description provided for @devTimeTravel.
   ///
   /// In en, this message translates to:
@@ -4635,6 +4695,12 @@ abstract class AppLocalizations {
   /// **'Please sign in again.'**
   String get errorAuth;
 
+  /// No description provided for @errorConflict.
+  ///
+  /// In en, this message translates to:
+  /// **'This changed somewhere else. Reload and try again.'**
+  String get errorConflict;
+
   /// No description provided for @errorNetwork.
   ///
   /// In en, this message translates to:
@@ -4659,6 +4725,12 @@ abstract class AppLocalizations {
   /// **'Permission is needed for this.'**
   String get errorPermission;
 
+  /// No description provided for @errorStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t read or write data on this device. Free some space and try again.'**
+  String get errorStorage;
+
   /// No description provided for @errorUnknown.
   ///
   /// In en, this message translates to:
@@ -4676,6 +4748,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please check the highlighted fields.'**
   String get errorValidation;
+
+  /// No description provided for @errorWidgetFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'This part couldn\'t be shown.'**
+  String get errorWidgetFallback;
 
   /// No description provided for @exportBranchOnly.
   ///
@@ -4983,6 +5061,12 @@ abstract class AppLocalizations {
   /// **'Reduce motion'**
   String get galleryReduceMotion;
 
+  /// No description provided for @galleryRows.
+  ///
+  /// In en, this message translates to:
+  /// **'Rows & avatars'**
+  String get galleryRows;
+
   /// No description provided for @galleryRtl.
   ///
   /// In en, this message translates to:
@@ -5007,6 +5091,12 @@ abstract class AppLocalizations {
   /// **'Bottom sheet'**
   String get gallerySheet;
 
+  /// No description provided for @gallerySheetActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Sheet with actions'**
+  String get gallerySheetActions;
+
   /// No description provided for @gallerySheetBody.
   ///
   /// In en, this message translates to:
@@ -5024,6 +5114,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Statuses'**
   String get galleryStatuses;
+
+  /// No description provided for @gallerySwipeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe for actions'**
+  String get gallerySwipeHint;
 
   /// No description provided for @galleryTitle.
   ///
@@ -11463,6 +11559,12 @@ abstract class AppLocalizations {
   /// **'Color'**
   String get pickerColor;
 
+  /// No description provided for @pickerCustomColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom color'**
+  String get pickerCustomColor;
+
   /// No description provided for @pickerDate.
   ///
   /// In en, this message translates to:
@@ -11481,6 +11583,24 @@ abstract class AppLocalizations {
   /// **'Duration'**
   String get pickerDuration;
 
+  /// No description provided for @pickerEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get pickerEnd;
+
+  /// No description provided for @pickerHex.
+  ///
+  /// In en, this message translates to:
+  /// **'Hex code'**
+  String get pickerHex;
+
+  /// No description provided for @pickerHexInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Use 6 hex digits, like 3B82F6'**
+  String get pickerHexInvalid;
+
   /// No description provided for @pickerHours.
   ///
   /// In en, this message translates to:
@@ -11493,11 +11613,29 @@ abstract class AppLocalizations {
   /// **'Icon'**
   String get pickerIcon;
 
+  /// No description provided for @pickerLowContrast.
+  ///
+  /// In en, this message translates to:
+  /// **'Low contrast: this color is hard to see on the background.'**
+  String get pickerLowContrast;
+
   /// No description provided for @pickerMinutes.
   ///
   /// In en, this message translates to:
   /// **'Minutes'**
   String get pickerMinutes;
+
+  /// No description provided for @pickerNextMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Next month'**
+  String get pickerNextMonth;
+
+  /// No description provided for @pickerNextWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Next week'**
+  String get pickerNextWeek;
 
   /// No description provided for @pickerNoColor.
   ///
@@ -11505,17 +11643,53 @@ abstract class AppLocalizations {
   /// **'No color'**
   String get pickerNoColor;
 
+  /// No description provided for @pickerPreviousMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous month'**
+  String get pickerPreviousMonth;
+
   /// No description provided for @pickerSearchIcons.
   ///
   /// In en, this message translates to:
   /// **'Search icons'**
   String get pickerSearchIcons;
 
+  /// No description provided for @pickerStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get pickerStart;
+
   /// No description provided for @pickerTime.
   ///
   /// In en, this message translates to:
   /// **'Time'**
   String get pickerTime;
+
+  /// No description provided for @pickerTimeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a time like 07:03'**
+  String get pickerTimeInvalid;
+
+  /// No description provided for @pickerTimeRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Time range'**
+  String get pickerTimeRange;
+
+  /// No description provided for @pickerTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get pickerTomorrow;
+
+  /// No description provided for @pickerTypeTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a time'**
+  String get pickerTypeTime;
 
   /// No description provided for @placeholderScreen.
   ///
@@ -13207,13 +13381,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{title}, {day}, {start} to {end}, {status}'**
-  String pvTileSemantics(
-    String title,
-    String day,
-    String start,
-    String end,
-    String status,
-  );
+  String pvTileSemantics(String title, String day, String start, String end, String status);
 
   /// No description provided for @pvTimeLeft.
   ///
@@ -15999,6 +16167,96 @@ abstract class AppLocalizations {
   /// **'Connect to the internet to see your devices.'**
   String get settingsDevicesOffline;
 
+  /// No description provided for @settingsDynamicColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallpaper colors'**
+  String get settingsDynamicColor;
+
+  /// No description provided for @settingsDynamicColorSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your device\'s Material You colors. Category colors stay the same.'**
+  String get settingsDynamicColorSubtitle;
+
+  /// No description provided for @settingsExportAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Include attachment files'**
+  String get settingsExportAttachments;
+
+  /// No description provided for @settingsExportAttachmentsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Only files already on this device.'**
+  String get settingsExportAttachmentsHint;
+
+  /// No description provided for @settingsExportBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A copy of all your data on this device. Works offline.'**
+  String get settingsExportBody;
+
+  /// No description provided for @settingsExportButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get settingsExportButton;
+
+  /// No description provided for @settingsExportCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Spreadsheets (CSV)'**
+  String get settingsExportCsv;
+
+  /// No description provided for @settingsExportCsvHint.
+  ///
+  /// In en, this message translates to:
+  /// **'One file per table for Excel, Numbers or Sheets.'**
+  String get settingsExportCsvHint;
+
+  /// No description provided for @settingsExportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Export ready: {file}'**
+  String settingsExportDone(String file);
+
+  /// No description provided for @settingsExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The export failed. Please try again.'**
+  String get settingsExportFailed;
+
+  /// No description provided for @settingsExportJson.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot backup (JSON)'**
+  String get settingsExportJson;
+
+  /// No description provided for @settingsExportJsonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A complete copy you can import again.'**
+  String get settingsExportJsonHint;
+
+  /// No description provided for @settingsExportProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting… {percent}%'**
+  String settingsExportProgress(int percent);
+
+  /// No description provided for @settingsExportShareSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot export'**
+  String get settingsExportShareSubject;
+
+  /// No description provided for @settingsExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get settingsExportTitle;
+
   /// No description provided for @settingsFewer.
   ///
   /// In en, this message translates to:
@@ -16868,6 +17126,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Week starts on'**
   String get settingsWeekStart;
+
+  /// No description provided for @shellCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get shellCreate;
+
+  /// No description provided for @shellDueCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 to do} other{{count} to do}}'**
+  String shellDueCount(int count);
+
+  /// No description provided for @shellQuickAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick add'**
+  String get shellQuickAdd;
 
   /// No description provided for @smartBlocked.
   ///
@@ -21964,8 +22240,7 @@ abstract class AppLocalizations {
   String get undoNothing;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -21974,8 +22249,7 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['ar', 'en', 'fr'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'en', 'fr'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;

@@ -15,13 +15,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../support/test_app.dart';
 
-Env _env(Flavor flavor) => Env(
-  flavor: flavor,
-  supabaseUrl: '',
-  supabasePublishableKey: '',
-  firebaseEnabled: false,
-  featureFlags: const {},
-);
+Env _env(Flavor flavor) =>
+    Env(flavor: flavor, supabaseUrl: '', supabasePublishableKey: '', firebaseEnabled: false, featureFlags: const {});
 
 List<String> _paths(List<RouteBase> routes, [String prefix = '']) => [
   for (final r in routes) ...[
@@ -65,7 +60,9 @@ void main() {
       channel,
       (call) async => 'Europe/Paris',
     );
-    addTearDown(() => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, null));
+    addTearDown(
+      () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, null),
+    );
     final h = TestHarness.create();
     final tools = h.read(devToolsProvider);
     tools.overrideZone('Asia/Tokyo');
@@ -121,7 +118,9 @@ void main() {
     );
     final oldId = await LocalAccount.ensureUserId(h.db);
     h.read(sessionProvider.notifier).set(AppSession(userId: oldId, mode: SessionMode.localOnly));
-    await h.read(syncWriterProvider).run((tx) => tx.insert('categories', 'c1', {'name': 'Work', 'color': 1, 'sort_key': 'a0'}));
+    await h
+        .read(syncWriterProvider)
+        .run((tx) => tx.insert('categories', 'c1', {'name': 'Work', 'color': 1, 'sort_key': 'a0'}));
     await h.read(devToolsProvider).resetLocalData();
     final newId = h.read(currentUserIdProvider);
     expect(newId, isNot(oldId));

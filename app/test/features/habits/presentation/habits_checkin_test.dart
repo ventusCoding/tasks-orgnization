@@ -147,7 +147,10 @@ void main() {
     testWidgets('numeric value sheet accepts a French decimal comma', (tester) async {
       final id = await create(
         tester,
-        buildHabit(name: 'Run', goal: const HabitTarget(type: HabitGoalType.numeric, target: 5, unit: HabitUnits.km)),
+        buildHabit(
+          name: 'Run',
+          goal: const HabitTarget(type: HabitGoalType.numeric, target: 5, unit: HabitUnits.km),
+        ),
       );
       await pumpToday(tester, locale: const Locale('fr'));
       await tester.tap(find.descendant(of: find.widgetWithText(HabitRow, 'Run'), matching: find.byIcon(Icons.add)));
@@ -164,7 +167,10 @@ void main() {
     testWidgets('duration timer: start, 10 minutes later stop → one entry with its seconds', (tester) async {
       final id = await create(
         tester,
-        buildHabit(name: 'Read', goal: const HabitTarget(type: HabitGoalType.duration, target: 20, unit: HabitUnits.minutes)),
+        buildHabit(
+          name: 'Read',
+          goal: const HabitTarget(type: HabitGoalType.duration, target: 20, unit: HabitUnits.minutes),
+        ),
       );
       await pumpToday(tester);
       await tester.tap(find.byTooltip(en.habitsActionStartTimer));
@@ -267,7 +273,9 @@ void main() {
       buildHabit(name: 'Journal', settings: HabitSettings.defaults.copyWith(askNoteAfterCheckIn: true)),
     );
     await pumpToday(tester);
-    await tester.tap(find.descendant(of: find.widgetWithText(HabitRow, 'Journal'), matching: find.byType(InkResponse)).last);
+    await tester.tap(
+      find.descendant(of: find.widgetWithText(HabitRow, 'Journal'), matching: find.byType(InkResponse)).last,
+    );
     await settle(tester);
     expect(find.text(en.habitsNoteMoodTitle), findsOneWidget);
     // Dismissing the prompt keeps the check-in.

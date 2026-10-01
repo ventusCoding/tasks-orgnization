@@ -25,7 +25,10 @@ void main() {
       case 2:
         return RecurrenceRule(
           freq: Frequency.weekly,
-          byWeekday: [for (final d in Weekday.values) if (r.nextBool()) WeekdayRule(d)].ifEmpty(const [WeekdayRule(Weekday.monday)]),
+          byWeekday: [
+            for (final d in Weekday.values)
+              if (r.nextBool()) WeekdayRule(d),
+          ].ifEmpty(const [WeekdayRule(Weekday.monday)]),
         );
       case 3:
         return RecurrenceRule(freq: Frequency.hourly, interval: 1 + r.nextInt(4));
@@ -104,7 +107,11 @@ void main() {
           expect(o.startLocalViewer.isBefore(to) && o.endLocalViewer.isAfter(from), isTrue, reason: '$o');
         } else {
           expect(o.startInstant.isBefore(toUtc), isTrue, reason: '$o');
-          expect(o.durationMinutes == 0 ? !o.startInstant.isBefore(fromUtc) : o.endInstant.isAfter(fromUtc), isTrue, reason: '$o');
+          expect(
+            o.durationMinutes == 0 ? !o.startInstant.isBefore(fromUtc) : o.endInstant.isAfter(fromUtc),
+            isTrue,
+            reason: '$o',
+          );
         }
       }
     }
@@ -144,8 +151,17 @@ void main() {
           durationMinutes: 30,
           timeZone: i.isEven ? null : 'Europe/Paris',
           recurrence: i < 10
-              ? RecurrenceRule(freq: Frequency.minutely, interval: 5, window: DailyWindow(LocalTime(9, 0), LocalTime(17, 0)))
-              : (i.isEven ? RecurrenceRule() : RecurrenceRule(freq: Frequency.weekly, byWeekday: const [WeekdayRule(Weekday.monday), WeekdayRule(Weekday.thursday)])),
+              ? RecurrenceRule(
+                  freq: Frequency.minutely,
+                  interval: 5,
+                  window: DailyWindow(LocalTime(9, 0), LocalTime(17, 0)),
+                )
+              : (i.isEven
+                    ? RecurrenceRule()
+                    : RecurrenceRule(
+                        freq: Frequency.weekly,
+                        byWeekday: const [WeekdayRule(Weekday.monday), WeekdayRule(Weekday.thursday)],
+                      )),
         ),
     ];
     final watch = Stopwatch()..start();
@@ -165,7 +181,10 @@ void main() {
     expect(result.occurrences, isNotEmpty);
     // Budget is 30 ms on a mid-range device; allow slack for CI/JIT.
     expect(watch.elapsedMilliseconds, lessThan(400), reason: '${watch.elapsedMilliseconds} ms');
-    expect(estimateOccurrenceCount(tasks, LocalDateTime.of(2026, 9, 21), LocalDateTime.of(2026, 9, 28)), greaterThan(4000));
+    expect(
+      estimateOccurrenceCount(tasks, LocalDateTime.of(2026, 9, 21), LocalDateTime.of(2026, 9, 28)),
+      greaterThan(4000),
+    );
   });
 }
 

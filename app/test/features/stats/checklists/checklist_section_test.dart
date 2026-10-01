@@ -12,7 +12,8 @@ const _week = 'custom:2026-09-01..2026-09-07';
 Future<StatsHarness> seeded({bool archiveL1 = false}) async {
   final fixture = StatsFixture.load('checklist_flow_small');
   if (archiveL1) {
-    final lists = ((fixture.json['tables']! as Map<String, Object?>)['checklists']! as List).cast<Map<String, Object?>>();
+    final lists = ((fixture.json['tables']! as Map<String, Object?>)['checklists']! as List)
+        .cast<Map<String, Object?>>();
     lists.firstWhere((l) => l['id'] == 'L1')['archived_at'] = '2026-09-07T20:00:00.000Z';
   }
   return fixture.seed();
@@ -32,7 +33,11 @@ void main() {
   test('ranking: most active, most blocked and stalest lists, each opening its list', () async {
     final h = await seeded();
     addTearDown(h.dispose);
-    final r = await h.compute(MetricScope.checklists, period: PeriodSelection.parsePeriod(_week)!, metricIds: {'CL-X-01'});
+    final r = await h.compute(
+      MetricScope.checklists,
+      period: PeriodSelection.parsePeriod(_week)!,
+      metricIds: {'CL-X-01'},
+    );
     final group = r['CL-X-01']!.chart! as ChartGroup;
     expect(group.charts.map((c) => c.$1), const [
       TokenLabel(LabelToken.summary),

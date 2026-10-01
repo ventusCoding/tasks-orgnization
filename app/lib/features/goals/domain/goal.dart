@@ -38,7 +38,7 @@ enum GoalMetric {
   /// Completed checklist items.
   itemsCompleted('items_completed');
 
-  const GoalMetric(this.wire);
+  GoalMetric(this.wire);
 
   final String wire;
 
@@ -62,7 +62,7 @@ enum GoalPeriod {
   week('week'),
   custom('custom');
 
-  const GoalPeriod(this.wire);
+  GoalPeriod(this.wire);
 
   final String wire;
 
@@ -73,7 +73,14 @@ enum GoalPeriod {
 enum GoalHabitKind { yesNo, measurable, quit }
 
 /// Why a goal is invalid (mapped to localized messages).
-enum GoalValidationCode { metricNotAllowed, targetNotPositive, customPeriodNeedsDates, endBeforeStart, scopeIdMissing, titleTooLong }
+enum GoalValidationCode {
+  metricNotAllowed,
+  targetNotPositive,
+  customPeriodNeedsDates,
+  endBeforeStart,
+  scopeIdMissing,
+  titleTooLong,
+}
 
 class GoalValidationException implements Exception {
   const GoalValidationException(this.code);

@@ -8,8 +8,7 @@ import 'package:everslot/core/time/clock.dart';
 /// `now()` never goes backwards and never goes below the highest timestamp observed from the
 /// server, so a device with a slow clock stops losing conflicts after one sync.
 class Hlc {
-  Hlc({required this.deviceId, required Clock clock, String? initialState})
-    : _clock = clock {
+  Hlc({required this.deviceId, required this._clock, String? initialState}) {
     if (initialState != null && initialState.isNotEmpty) {
       final parsed = tryParse(initialState);
       if (parsed != null) {
@@ -42,8 +41,7 @@ class Hlc {
 
   /// Timestamp for an automatic write triggered at [scheduledAt] (arch §6.6 automatic writes).
   /// Does not advance the clock: later user edits always win.
-  String at(DateTime scheduledAt) =>
-      format(scheduledAt.toUtc().millisecondsSinceEpoch, 0, deviceId);
+  String at(DateTime scheduledAt) => format(scheduledAt.toUtc().millisecondsSinceEpoch, 0, deviceId);
 
   /// Guard against corrupted remote clocks. The server already clamps every clock to its own
   /// time + 5 min, so a remote clock ahead of *this device's* clock usually means this device runs

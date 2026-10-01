@@ -127,12 +127,16 @@ class PlannerItem {
   String get key => '$taskId|$occurrenceKey';
 
   bool get isFixedZone => timeZone != null;
+
   /// Ends after the midnight following its start.
   bool get isMultiDay => endLocal.isAfter(startLocal.date.plusDays(1).atStartOfDay);
   bool get isDone => status == OccurrenceStatus.done;
 
   /// Still actionable (not done/skipped/cancelled).
-  bool get isOpen => status == OccurrenceStatus.scheduled || status == OccurrenceStatus.inProgress || status == OccurrenceStatus.missed;
+  bool get isOpen =>
+      status == OccurrenceStatus.scheduled ||
+      status == OccurrenceStatus.inProgress ||
+      status == OccurrenceStatus.missed;
 
   /// Backlog items carry a placeholder start (see `backlogItemsProvider`).
   bool get isBacklog => occurrenceKey.isEmpty;

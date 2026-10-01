@@ -13,8 +13,26 @@ import 'package:material_ui/material_ui.dart';
 
 /// Currencies offered for quit-tracker savings (ISO 4217), most used first.
 const commonCurrencies = [
-  'EUR', 'USD', 'GBP', 'TND', 'MAD', 'DZD', 'EGP', 'SAR', 'AED', 'QAR', 'KWD', 'CAD', 'CHF', 'AUD',
-  'JPY', 'CNY', 'INR', 'TRY', 'XOF', 'XAF',
+  'EUR',
+  'USD',
+  'GBP',
+  'TND',
+  'MAD',
+  'DZD',
+  'EGP',
+  'SAR',
+  'AED',
+  'QAR',
+  'KWD',
+  'CAD',
+  'CHF',
+  'AUD',
+  'JPY',
+  'CNY',
+  'INR',
+  'TRY',
+  'XOF',
+  'XAF',
 ];
 
 /// Settings › Regional (T8.3.03): home zone (manual or following the device), current zone,
@@ -50,7 +68,12 @@ class RegionalPage extends ConsumerWidget {
           onTap: regional.homeZoneAuto
               ? null
               : () async {
-                  final zone = await pickTimeZone(context, current: homeZone, detected: deviceZone, title: l.settingsHomeZone);
+                  final zone = await pickTimeZone(
+                    context,
+                    current: homeZone,
+                    detected: deviceZone,
+                    title: l.settingsHomeZone,
+                  );
                   if (zone != null) await repo.update(homeTimeZone: zone);
                 },
         ),

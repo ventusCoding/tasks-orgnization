@@ -45,14 +45,17 @@ class ChecklistService {
       TreeOpContext(checklistId: c.id, now: now, newId: Ids.v7, settings: c.settings, cause: cause);
 
   /// Runs [build] on a fresh tree and applies the result. Returns null when nothing changed.
-  Future<({OpRecord record, TreeChange change})?> run(String checklistId, ChangeBuilder build, {String cause = 'user'}) =>
-      _serialized(checklistId, () async {
-        final loaded = await load(checklistId);
-        if (loaded == null) return null;
-        final change = build(loaded.tree, context(loaded.checklist, cause: cause), loaded.checklist);
-        if (change.isEmpty) return null;
-        return (record: await _items.apply(change), change: change);
-      });
+  Future<({OpRecord record, TreeChange change})?> run(
+    String checklistId,
+    ChangeBuilder build, {
+    String cause = 'user',
+  }) => _serialized(checklistId, () async {
+    final loaded = await load(checklistId);
+    if (loaded == null) return null;
+    final change = build(loaded.tree, context(loaded.checklist, cause: cause), loaded.checklist);
+    if (change.isEmpty) return null;
+    return (record: await _items.apply(change), change: change);
+  });
 
   /// Status transition from any entry point (tap, sheet, swipe, kanban, smart views, bulk…).
   Future<OpRecord?> changeStatus(
@@ -113,7 +116,9 @@ class ChecklistService {
         if (item == null || item.text == value) return null;
         return _items.apply(
           TreeChange(
-            writes: [RowWrite.update('checklist_items', itemId, {'text': value})],
+            writes: [
+              RowWrite.update('checklist_items', itemId, {'text': value}),
+            ],
             events: [
               if (logEvent)
                 EventSpec(

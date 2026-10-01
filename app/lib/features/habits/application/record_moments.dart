@@ -46,8 +46,17 @@ List<RecordMoment> recordMoments(HabitSnapshot snapshot, {Weekday weekStart = We
   final evaluation = snapshot.evaluation;
   if (habit != null && evaluation != null) {
     if (habit.goal.isMeasurable && !habit.goal.isLimit) {
-      final days = [for (final d in evaluation.days.values) if (!d.startDate.isAfter(today)) d];
-      final records = habitRecords(days, from: habit.startDate, to: today, currentPeriodStart: today, weekStart: weekStart);
+      final days = [
+        for (final d in evaluation.days.values)
+          if (!d.startDate.isAfter(today)) d,
+      ];
+      final records = habitRecords(
+        days,
+        from: habit.startDate,
+        to: today,
+        currentPeriodStart: today,
+        weekStart: weekStart,
+      );
       if (records.day case Value(value: final r) when r.isNew && r.previousBest != null && r.value > 0) {
         out.add(RecordMoment(RecordKind.bestDay, r.value));
       }
@@ -58,7 +67,10 @@ List<RecordMoment> recordMoments(HabitSnapshot snapshot, {Weekday weekStart = We
     final streaks = snapshot.summary?.streaks;
     final current = streaks?.current;
     if (streaks != null && current != null && current.length >= 3) {
-      final others = [for (final s in streaks.streaks) if (s != current) s.length];
+      final others = [
+        for (final s in streaks.streaks)
+          if (s != current) s.length,
+      ];
       if (others.isNotEmpty && current.length > others.reduce((a, b) => a > b ? a : b)) {
         out.add(RecordMoment(RecordKind.longestStreak, current.length));
       }

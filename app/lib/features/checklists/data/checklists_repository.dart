@@ -23,7 +23,7 @@ typedef CreatedChecklist = ({String id, OpRecord record});
 /// Checklists / note cards (T4.1.02, T4.1.04): board queries, header writes, cascading deletes
 /// with `restore(opId)`, duplicates, templates.
 class ChecklistsRepository {
-  ChecklistsRepository(this._db, this._writer, this._userId, {ChecklistCascades? cascades}) : _cascades = cascades;
+  ChecklistsRepository(this._db, this._writer, this._userId, {this._cascades});
 
   final AppDatabase _db;
   final SyncWriter _writer;
@@ -124,7 +124,7 @@ class ChecklistsRepository {
       'SUM(CASE WHEN NOT EXISTS (SELECT 1 FROM checklist_items k WHERE k.parent_id = i.id AND k.deleted_at IS NULL) '
       'THEN 1 ELSE 0 END) AS n_leaf, '
       "SUM(CASE WHEN i.status IN ('todo','ongoing','waiting','blocked') AND i.updated_at < "
-      "strftime('%Y-%m-%dT%H:%M:%fZ', ?, '-' || COALESCE(json_extract(c.settings, '\$.staleAfterDays'), 14) || ' days') "
+      r"strftime('%Y-%m-%dT%H:%M:%fZ', ?, '-' || COALESCE(json_extract(c.settings, '$.staleAfterDays'), 14) || ' days') "
       'THEN 1 ELSE 0 END) AS n_stale, '
       "SUM(CASE WHEN i.due_local IS NOT NULL AND i.status IN ('todo','ongoing','waiting','blocked') "
       'THEN 1 ELSE 0 END) AS n_due '
@@ -209,12 +209,12 @@ class ChecklistsRepository {
         .customSelect(
           'SELECT cid, aid FROM ('
           ' SELECT u.cid, u.aid, ROW_NUMBER() OVER (PARTITION BY u.cid ORDER BY u.pri, u.k, u.aid) AS rn FROM ('
-          "  SELECT a.owner_id AS cid, a.id AS aid, CASE WHEN c.cover_attachment_id = a.id THEN 0 ELSE 1 END AS pri,"
+          '  SELECT a.owner_id AS cid, a.id AS aid, CASE WHEN c.cover_attachment_id = a.id THEN 0 ELSE 1 END AS pri,'
           '   a.sort_key AS k FROM attachments a JOIN checklists c ON c.id = a.owner_id'
           "   WHERE a.owner_type = 'checklist' AND a.deleted_at IS NULL AND a.mime_type LIKE 'image/%'"
           '   AND a.owner_id IN (${_in(ids.length)})'
           '  UNION ALL'
-          "  SELECT i.checklist_id, a.id, CASE WHEN c.cover_attachment_id = a.id THEN 0 ELSE 2 END,"
+          '  SELECT i.checklist_id, a.id, CASE WHEN c.cover_attachment_id = a.id THEN 0 ELSE 2 END,'
           '   i.sort_key || a.sort_key FROM attachments a JOIN checklist_items i ON i.id = a.owner_id'
           '   JOIN checklists c ON c.id = i.checklist_id'
           "   WHERE a.owner_type = 'checklist_item' AND a.deleted_at IS NULL AND i.deleted_at IS NULL"
@@ -595,7 +595,7 @@ class ChecklistsRepository {
     final event = await _db
         .customSelect(
           "SELECT entity_id, payload FROM activity_events WHERE entity_type = 'checklist' AND event_type = 'deleted' "
-          "AND json_extract(payload, '\$.opId') = ? LIMIT 1",
+          r"AND json_extract(payload, '$.opId') = ? LIMIT 1",
           variables: [Variable<String>(opId)],
         )
         .getSingleOrNull();

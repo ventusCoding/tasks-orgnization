@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:drift/drift.dart' hide isNull, isNotNull;
+import 'package:drift/drift.dart' hide isNotNull, isNull;
 import 'package:drift/native.dart';
 import 'package:everslot/core/database/app_database.dart';
 import 'package:everslot/core/sync/hlc.dart';
@@ -65,9 +65,7 @@ void main() {
     final main = AppDatabase(NativeDatabase(File(path), setup: (raw) => raw.execute('PRAGMA busy_timeout = 5000')));
     await main.customSelect('SELECT 1').get(); // create the schema first
     final other = Isolate.run(() async {
-      final db = AppDatabase(
-        NativeDatabase(File(path), setup: (raw) => raw.execute('PRAGMA busy_timeout = 5000')),
-      );
+      final db = AppDatabase(NativeDatabase(File(path), setup: (raw) => raw.execute('PRAGMA busy_timeout = 5000')));
       for (var i = 0; i < 50; i++) {
         await db.into(db.localKv).insert(LocalKvRow(key: 'bg-$i', value: '$i'));
       }

@@ -63,7 +63,14 @@ List<PlannerItem> goldenWeek() => [
   item('Call Sam', at(2026, 9, 22, 10), 30, color: 0xFFEF6C00),
   item('Review', at(2026, 9, 22, 10, 15), 30, color: 0xFF00838F),
   item('Email', at(2026, 9, 23, 8), 20, color: 0xFF1565C0),
-  item('Focus', at(2026, 9, 23, 9), 60, status: OccurrenceStatus.inProgress, color: 0xFF6A1B9A, trackingMode: TrackingMode.timer),
+  item(
+    'Focus',
+    at(2026, 9, 23, 9),
+    60,
+    status: OccurrenceStatus.inProgress,
+    color: 0xFF6A1B9A,
+    trackingMode: TrackingMode.timer,
+  ),
   item('Lunch', at(2026, 9, 23, 12), 60, status: OccurrenceStatus.skipped, color: 0xFF2E7D32),
   item('Workshop', at(2026, 9, 21, 14), 90, status: OccurrenceStatus.missed, color: 0xFFC62828),
   item('Dentist', at(2026, 9, 24, 16), 45, color: 0xFFC62828, location: 'Clinic'),
@@ -80,9 +87,5 @@ List<PlannerItem> goldenDstDay(LocalDate day, String zone) {
     return item(title, start, minutes, color: color, startUtc: zones.resolve(start, zone).utc);
   }
 
-  return [
-    at('Before', 0, 30, 60, 0xFF1565C0),
-    at('Across', 1, 30, 120, 0xFF6A1B9A),
-    at('After', 4, 0, 60, 0xFF2E7D32),
-  ];
+  return [at('Before', 0, 30, 60, 0xFF1565C0), at('Across', 1, 30, 120, 0xFF6A1B9A), at('After', 4, 0, 60, 0xFF2E7D32)];
 }

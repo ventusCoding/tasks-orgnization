@@ -65,7 +65,9 @@ void main() {
     });
 
     test('a running challenge counts its days and leaves today open', () {
-      final o = outcome(challenge(end: d(2026, 9, 30)), [for (var day = 1; day <= 21; day++) log(HabitLogKind.done, day)]);
+      final o = outcome(challenge(end: d(2026, 9, 30)), [
+        for (var day = 1; day <= 21; day++) log(HabitLogKind.done, day),
+      ]);
       expect((o.finished, o.dayNumber, o.daysLeft, o.doneDays, o.dueDays), (false, 22, 8, 21, 21));
     });
   });

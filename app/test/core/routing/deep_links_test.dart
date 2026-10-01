@@ -11,8 +11,7 @@ void main() {
       'everslot://today': '/today',
       'everslot://plan/week?date=2026-09-22': '/plan/week?date=2026-09-22',
       'everslot://plan/day?date=2026-09-22': '/plan/day?date=2026-09-22',
-      'everslot://task/0190b3c4?occ=2026-09-22T08%3A00':
-          '/task/0190b3c4?occ=2026-09-22T08%3A00',
+      'everslot://task/0190b3c4?occ=2026-09-22T08%3A00': '/task/0190b3c4?occ=2026-09-22T08%3A00',
       'everslot://lists/l1?item=i1': '/lists/l1?item=i1',
       'everslot://habits/h1': '/habits/h1',
       'everslot://insights/habit/h1': '/insights/habit/h1',
@@ -42,34 +41,19 @@ void main() {
     }
 
     test('oversized links and segments are rejected', () {
-      expect(
-        DeepLinkParser.parse(Uri.parse('everslot://search?q=${'a' * 2100}')),
-        isNull,
-      );
-      expect(
-        DeepLinkParser.parse(Uri.parse('everslot://task/${'x' * 201}')),
-        isNull,
-      );
+      expect(DeepLinkParser.parse(Uri.parse('everslot://search?q=${'a' * 2100}')), isNull);
+      expect(DeepLinkParser.parse(Uri.parse('everslot://task/${'x' * 201}')), isNull);
     });
 
     test('oversized or odd query parameters are dropped, not trusted', () {
       final long = 'v' * 257;
-      expect(
-        DeepLinkParser.parse(Uri.parse('everslot://inbox?filter=$long')),
-        '/inbox',
-      );
+      expect(DeepLinkParser.parse(Uri.parse('everslot://inbox?filter=$long')), '/inbox');
       final key = 'k' * 33;
-      expect(
-        DeepLinkParser.parse(Uri.parse('everslot://inbox?$key=1&a=2')),
-        '/inbox?a=2',
-      );
+      expect(DeepLinkParser.parse(Uri.parse('everslot://inbox?$key=1&a=2')), '/inbox?a=2');
     });
 
     test('empty segments collapse', () {
-      expect(
-        DeepLinkParser.parse(Uri.parse('everslot://plan//week')),
-        '/plan/week',
-      );
+      expect(DeepLinkParser.parse(Uri.parse('everslot://plan//week')), '/plan/week');
     });
   });
 
@@ -80,8 +64,7 @@ void main() {
         'éàçعربي\u0000\u200f';
 
     String randomString(Random r, int maxLength) => String.fromCharCodes([
-      for (var i = 0; i < r.nextInt(maxLength); i++)
-        alphabet.codeUnitAt(r.nextInt(alphabet.length)),
+      for (var i = 0; i < r.nextInt(maxLength); i++) alphabet.codeUnitAt(r.nextInt(alphabet.length)),
     ]);
 
     test('random strings never throw', () {
@@ -127,9 +110,7 @@ void main() {
     final r = Random(2312);
     const hex = '0123456789abcdef';
     String id() {
-      String block(int n) => String.fromCharCodes([
-        for (var i = 0; i < n; i++) hex.codeUnitAt(r.nextInt(16)),
-      ]);
+      String block(int n) => String.fromCharCodes([for (var i = 0; i < n; i++) hex.codeUnitAt(r.nextInt(16))]);
       return '${block(8)}-${block(4)}-7${block(3)}-8${block(3)}-${block(12)}';
     }
 
@@ -143,20 +124,8 @@ void main() {
         '${r.nextInt(60).toString().padLeft(2, '0')}';
 
     String query() {
-      const words = [
-        'report',
-        'café',
-        'تقرير',
-        'a b',
-        'x&y=z',
-        '#1',
-        'c++',
-        '50%',
-        '"exact"',
-      ];
-      return [
-        for (var i = 0; i <= r.nextInt(3); i++) words[r.nextInt(words.length)],
-      ].join(' ');
+      const words = ['report', 'café', 'تقرير', 'a b', 'x&y=z', '#1', 'c++', '50%', '"exact"'];
+      return [for (var i = 0; i <= r.nextInt(3); i++) words[r.nextInt(words.length)]].join(' ');
     }
 
     T? maybe<T>(T Function() value) => r.nextBool() ? value() : null;
@@ -165,10 +134,7 @@ void main() {
       AppLinks.today,
       () => AppLinks.planWeek(date: maybe(date)),
       () => AppLinks.planDay(date: maybe(date)),
-      () => AppLinks.planView(
-        ['week_table', 'month', 'agenda', 'kanban'][r.nextInt(4)],
-        date: maybe(date),
-      ),
+      () => AppLinks.planView(['week_table', 'month', 'agenda', 'kanban'][r.nextInt(4)], date: maybe(date)),
       () => AppLinks.task(id(), occurrenceKey: maybe(occurrenceKey)),
       () => AppLinks.taskEdit(id()),
       () => AppLinks.taskNew(
@@ -185,15 +151,10 @@ void main() {
       () => AppLinks.habitEdit(id()),
       () => AppLinks.quit(id()),
       AppLinks.insights,
-      () => AppLinks.insightsScope(
-        ['task', 'checklist', 'habit', 'planner'][r.nextInt(4)],
-        maybe(id),
-      ),
+      () => AppLinks.insightsScope(['task', 'checklist', 'habit', 'planner'][r.nextInt(4)], maybe(id)),
       AppLinks.inbox,
       () => AppLinks.search(query: maybe(query)),
-      () => AppLinks.settings(
-        maybe(() => ['sync', 'notifications', 'about'][r.nextInt(3)]),
-      ),
+      () => AppLinks.settings(maybe(() => ['sync', 'notifications', 'about'][r.nextInt(3)])),
       AppLinks.trash,
       AppLinks.categories,
       AppLinks.tags,
@@ -202,27 +163,17 @@ void main() {
       AppLinks.debug,
     ];
 
-    test(
-      'every builder output survives the external scheme and the parser',
-      () {
-        for (var i = 0; i < 3000; i++) {
-          final path = builders[i % builders.length]();
-          final external = AppLinks.external(path);
-          expect(external.scheme, AppLinks.scheme);
-          expect(
-            DeepLinkParser.parse(external),
-            path,
-            reason: 'external: $external',
-          );
-          // In-app paths and universal links parse to the same location.
-          expect(DeepLinkParser.parse(Uri.parse(path)), path);
-          expect(
-            DeepLinkParser.parse(Uri.parse('https://everslot.app$path')),
-            path,
-          );
-        }
-      },
-    );
+    test('every builder output survives the external scheme and the parser', () {
+      for (var i = 0; i < 3000; i++) {
+        final path = builders[i % builders.length]();
+        final external = AppLinks.external(path);
+        expect(external.scheme, AppLinks.scheme);
+        expect(DeepLinkParser.parse(external), path, reason: 'external: $external');
+        // In-app paths and universal links parse to the same location.
+        expect(DeepLinkParser.parse(Uri.parse(path)), path);
+        expect(DeepLinkParser.parse(Uri.parse('https://everslot.app$path')), path);
+      }
+    });
 
     test('query values keep their exact text', () {
       final path = AppLinks.search(query: 'x&y=z café تقرير "a b"');

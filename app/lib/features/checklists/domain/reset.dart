@@ -113,7 +113,12 @@ abstract final class ResetPlanner {
   }
 
   /// Key to store when a schedule is (re)configured so past occurrences don't reset immediately.
-  static String? initialKey(RecurrenceEngine engine, ResetSchedule schedule, {required DateTime now, required String evalZone}) {
+  static String? initialKey(
+    RecurrenceEngine engine,
+    ResetSchedule schedule, {
+    required DateTime now,
+    required String evalZone,
+  }) {
     try {
       return engine.previousBefore(schedule.rule, schedule.anchor, now, evalZone: evalZone, inclusive: true)?.key;
     } on Object {
@@ -122,7 +127,12 @@ abstract final class ResetPlanner {
   }
 
   /// Next reset instant after [now] (for "next in 3 h").
-  static DateTime? next(RecurrenceEngine engine, ResetSchedule schedule, {required DateTime now, required String evalZone}) {
+  static DateTime? next(
+    RecurrenceEngine engine,
+    ResetSchedule schedule, {
+    required DateTime now,
+    required String evalZone,
+  }) {
     try {
       return engine.nextAfter(schedule.rule, schedule.anchor, now, evalZone: evalZone)?.startUtc;
     } on Object {
@@ -155,7 +165,12 @@ abstract final class ResetPlanner {
       'completed_items': done,
       'snapshot': [
         for (final i in items)
-          RunSnapshotEntry(itemId: i.id, status: i.status, completedAt: i.completedAt, statusNote: i.statusNote).toJson(),
+          RunSnapshotEntry(
+            itemId: i.id,
+            status: i.status,
+            completedAt: i.completedAt,
+            statusNote: i.statusNote,
+          ).toJson(),
       ],
     }, table: 'checklist_runs');
     for (final i in items) {
@@ -178,7 +193,13 @@ abstract final class ResetPlanner {
             entityId: i.id,
             parentId: checklist.id,
             eventType: 'status_changed',
-            payload: {'from': i.status.name, 'to': ItemStatus.todo.name, 'note': null, 'followUpAt': null, 'runKey': key},
+            payload: {
+              'from': i.status.name,
+              'to': ItemStatus.todo.name,
+              'note': null,
+              'followUpAt': null,
+              'runKey': key,
+            },
           ),
         );
     }

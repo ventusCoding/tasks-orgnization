@@ -16,10 +16,9 @@ class SupabaseTrashRemote implements TrashRemote {
   @override
   Future<int> purge(String entityType, List<String> ids) async {
     try {
-      final res = await _client.schema('app').rpc<dynamic>(
-        'purge_now',
-        params: {'p_entity_type': entityType, 'p_ids': ids},
-      );
+      final res = await _client
+          .schema('app')
+          .rpc<dynamic>('purge_now', params: {'p_entity_type': entityType, 'p_ids': ids});
       return res is Map ? ((res['purged'] as num?)?.toInt() ?? 0) : 0;
     } on PostgrestException catch (e) {
       throw SupabaseSyncApi.mapPostgrestError(e);

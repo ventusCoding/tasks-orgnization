@@ -34,9 +34,7 @@ final inboxUnreadCountProvider = StreamProvider<int>((ref) {
 /// True while *Pause all* is active (app-bar indicator, T7.5.15); flips back by itself when the
 /// pause ends.
 final notificationsPausedProvider = Provider<bool>((ref) {
-  final until = ref.watch(
-    notificationSettingsProvider.select((s) => s.pausedUntil),
-  );
+  final until = ref.watch(notificationSettingsProvider.select((s) => s.pausedUntil));
   if (until == null) return false;
   final now = ref.watch(clockProvider).nowUtc();
   if (!now.isBefore(until)) return false;

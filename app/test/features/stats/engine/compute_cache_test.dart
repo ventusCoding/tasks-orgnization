@@ -42,7 +42,14 @@ class _GatedExecutor implements StatsExecutor {
 
 Map<String, Object?> habitRows() => {
   'habits': [
-    {'id': 'h1', 'kind': 'build', 'name': 'Read', 'sort_key': 'a', 'start_date': '2026-09-01', 'schedule': '{"v":1,"freq":"DAILY","interval":1}'},
+    {
+      'id': 'h1',
+      'kind': 'build',
+      'name': 'Read',
+      'sort_key': 'a',
+      'start_date': '2026-09-01',
+      'schedule': '{"v":1,"freq":"DAILY","interval":1}',
+    },
   ],
 };
 
@@ -76,7 +83,11 @@ void main() {
           'v1',
         ),
         statsCacheKey(
-          const StatsRequest(MetricScope.habit, scopeId: 'h1', selection: PeriodSelection(StatsPeriod.thisWeek(), compare: false)),
+          const StatsRequest(
+            MetricScope.habit,
+            scopeId: 'h1',
+            selection: PeriodSelection(StatsPeriod.thisWeek(), compare: false),
+          ),
           'HB-H-01',
           'v1',
         ),
@@ -119,11 +130,19 @@ void main() {
       addTearDown(h.dispose);
       final service = h.read(statsComputeServiceProvider);
       expect(
-        service.metricIdsOf(const StatsRequest(MetricScope.quit, selection: PeriodSelection(StatsPeriod.thisWeek()), metricIds: {'QT-01', 'XX-99'})),
+        service.metricIdsOf(
+          const StatsRequest(
+            MetricScope.quit,
+            selection: PeriodSelection(StatsPeriod.thisWeek()),
+            metricIds: {'QT-01', 'XX-99'},
+          ),
+        ),
         ['QT-01'],
       );
       expect(
-        service.metricIdsOf(const StatsRequest(MetricScope.quit, selection: PeriodSelection(StatsPeriod.thisWeek()))).length,
+        service
+            .metricIdsOf(const StatsRequest(MetricScope.quit, selection: PeriodSelection(StatsPeriod.thisWeek())))
+            .length,
         greaterThan(10),
       );
     });
@@ -177,11 +196,17 @@ void main() {
       final habitsBumped = {...base, StatsDomain.habits: 1};
       expect(dataVersionKey(habitsBumped, MetricScope.planner, now), dataVersionKey(base, MetricScope.planner, now));
       expect(dataVersionKey(habitsBumped, MetricScope.habit, now), isNot(dataVersionKey(base, MetricScope.habit, now)));
-      expect(dataVersionKey(habitsBumped, MetricScope.global, now), isNot(dataVersionKey(base, MetricScope.global, now)));
+      expect(
+        dataVersionKey(habitsBumped, MetricScope.global, now),
+        isNot(dataVersionKey(base, MetricScope.global, now)),
+      );
       final settings = {...base, StatsDomain.settings: 1};
       expect(dataVersionKey(settings, MetricScope.planner, now), isNot(dataVersionKey(base, MetricScope.planner, now)));
       // A 5-minute time bucket expires time-dependent results.
-      expect(dataVersionKey(base, MetricScope.quit, now.add(const Duration(minutes: 5))), isNot(dataVersionKey(base, MetricScope.quit, now)));
+      expect(
+        dataVersionKey(base, MetricScope.quit, now.add(const Duration(minutes: 5))),
+        isNot(dataVersionKey(base, MetricScope.quit, now)),
+      );
     });
 
     test('the batch provider recomputes after a habits write and drops the stale result', () async {

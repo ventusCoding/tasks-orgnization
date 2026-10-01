@@ -17,8 +17,7 @@ import 'package:everslot_recurrence/everslot_recurrence.dart';
 /// coming from the tree engine and the status service: one [TreeChange] = one Drift transaction =
 /// one operation group (rows + outbox + activity events + attachment/tag cascades).
 class ChecklistItemsRepository {
-  ChecklistItemsRepository(this._db, this._writer, this._userId, {ChecklistCascades? cascades})
-    : _cascades = cascades;
+  ChecklistItemsRepository(this._db, this._writer, this._userId, {this._cascades});
 
   final AppDatabase _db;
   final SyncWriter _writer;
@@ -78,8 +77,9 @@ class ChecklistItemsRepository {
 
   /// A live (not tombstoned) item.
   Future<ChecklistItem?> liveById(String id) async {
-    final r = await (_db.select(_db.checklistItems)..where((i) => i.id.equals(id) & i.deletedAt.isNull()))
-        .getSingleOrNull();
+    final r = await (_db.select(
+      _db.checklistItems,
+    )..where((i) => i.id.equals(id) & i.deletedAt.isNull())).getSingleOrNull();
     return r == null ? null : map(r);
   }
 
@@ -186,37 +186,39 @@ class ChecklistItemsRepository {
   }
 
   /// Status history of one item (T4.3.05), oldest first.
-  Stream<List<StatusEvent>> watchStatusEvents(String itemId) => (_db.select(_db.activityEvents)
-        ..where(
-          (e) =>
-              e.deletedAt.isNull() &
-              e.entityType.equals('checklist_item') &
-              e.entityId.equals(itemId) &
-              e.eventType.isIn(const ['status_changed', 'status_note_changed']),
-        )
-        ..orderBy([(e) => OrderingTerm.asc(e.occurredAt), (e) => OrderingTerm.asc(e.id)]))
-      .watch()
-      .map((rows) => rows.map(_statusEvent).whereType<StatusEvent>().toList());
+  Stream<List<StatusEvent>> watchStatusEvents(String itemId) =>
+      (_db.select(_db.activityEvents)
+            ..where(
+              (e) =>
+                  e.deletedAt.isNull() &
+                  e.entityType.equals('checklist_item') &
+                  e.entityId.equals(itemId) &
+                  e.eventType.isIn(const ['status_changed', 'status_note_changed']),
+            )
+            ..orderBy([(e) => OrderingTerm.asc(e.occurredAt), (e) => OrderingTerm.asc(e.id)]))
+          .watch()
+          .map((rows) => rows.map(_statusEvent).whereType<StatusEvent>().toList());
 
   /// Other activity of one item (edits, moves…) for the history timeline.
-  Stream<List<ActivityEventRow>> watchItemEvents(String itemId) => (_db.select(_db.activityEvents)
-        ..where((e) => e.deletedAt.isNull() & e.entityType.equals('checklist_item') & e.entityId.equals(itemId))
-        ..orderBy([(e) => OrderingTerm.desc(e.occurredAt)])
-        ..limit(100))
-      .watch();
+  Stream<List<ActivityEventRow>> watchItemEvents(String itemId) =>
+      (_db.select(_db.activityEvents)
+            ..where((e) => e.deletedAt.isNull() & e.entityType.equals('checklist_item') & e.entityId.equals(itemId))
+            ..orderBy([(e) => OrderingTerm.desc(e.occurredAt)])
+            ..limit(100))
+          .watch();
 
   /// Item status changes since [since] (event triggers of reminder rules): item id → event.
   Future<List<(String, StatusEvent)>> recentStatusChanges(DateTime since) async {
-    final rows = await (_db.select(_db.activityEvents)
-          ..where(
-            (e) =>
-                e.deletedAt.isNull() &
-                e.userId.equals(_userId()) &
-                e.entityType.equals('checklist_item') &
-                e.eventType.equals('status_changed') &
-                e.occurredAt.isBiggerOrEqualValue(since),
-          ))
-        .get();
+    final rows =
+        await (_db.select(_db.activityEvents)..where(
+              (e) =>
+                  e.deletedAt.isNull() &
+                  e.userId.equals(_userId()) &
+                  e.entityType.equals('checklist_item') &
+                  e.eventType.equals('status_changed') &
+                  e.occurredAt.isBiggerOrEqualValue(since),
+            ))
+            .get();
     return [
       for (final r in rows)
         if (_statusEvent(r) case final e?) (r.entityId, e),
@@ -225,17 +227,18 @@ class ChecklistItemsRepository {
 
   /// Last 20 status events for [status] across items (quick reason chips, T4.3.02).
   Future<List<StatusEvent>> recentStatusEvents(ItemStatus status) async {
-    final rows = await (_db.select(_db.activityEvents)
-          ..where(
-            (e) =>
-                e.deletedAt.isNull() &
-                e.userId.equals(_userId()) &
-                e.entityType.equals('checklist_item') &
-                e.eventType.isIn(const ['status_changed', 'status_note_changed']),
-          )
-          ..orderBy([(e) => OrderingTerm.desc(e.occurredAt)])
-          ..limit(200))
-        .get();
+    final rows =
+        await (_db.select(_db.activityEvents)
+              ..where(
+                (e) =>
+                    e.deletedAt.isNull() &
+                    e.userId.equals(_userId()) &
+                    e.entityType.equals('checklist_item') &
+                    e.eventType.isIn(const ['status_changed', 'status_note_changed']),
+              )
+              ..orderBy([(e) => OrderingTerm.desc(e.occurredAt)])
+              ..limit(200))
+            .get();
     return rows.map(_statusEvent).whereType<StatusEvent>().where((e) => e.to == status).take(20).toList();
   }
 
@@ -274,7 +277,11 @@ class ChecklistItemsRepository {
       );
     }
     if (change.copiedItemIds.isNotEmpty) {
-      await AttachmentTx.copyForOwners(tx, fromType: AttachmentOwnerType.checklistItem, ownerIdMap: change.copiedItemIds);
+      await AttachmentTx.copyForOwners(
+        tx,
+        fromType: AttachmentOwnerType.checklistItem,
+        ownerIdMap: change.copiedItemIds,
+      );
       await copyEntityTags(tx, 'checklist_item', change.copiedItemIds);
       await cascades?.itemsCopied(tx, change.copiedItemIds);
     }

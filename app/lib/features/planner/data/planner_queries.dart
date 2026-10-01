@@ -69,8 +69,9 @@ class PlannerQueries {
   SimpleSelectStatement<$TasksTable, TaskRow> _tasks() =>
       _db.select(_db.tasks)..where((t) => t.deletedAt.isNull() & t.userId.equals(_userId()));
 
-  Stream<Task?> watchTask(String id) =>
-      (_tasks()..where((t) => t.id.equals(id))).watchSingleOrNull().map((r) => r == null ? null : PlannerMappers.task(r));
+  Stream<Task?> watchTask(String id) => (_tasks()..where((t) => t.id.equals(id))).watchSingleOrNull().map(
+    (r) => r == null ? null : PlannerMappers.task(r),
+  );
 
   Future<Task?> task(String id, {bool includeDeleted = false}) async {
     final q = _db.select(_db.tasks)..where((t) => t.id.equals(id) & t.userId.equals(_userId()));
@@ -80,38 +81,42 @@ class PlannerQueries {
   }
 
   /// Every task of a series (splits share `series_id`), oldest first.
-  Stream<List<Task>> watchSeries(String seriesId) => (_tasks()
-        ..where((t) => t.seriesId.equals(seriesId))
-        ..orderBy([(t) => OrderingTerm.asc(t.startLocal), (t) => OrderingTerm.asc(t.id)]))
-      .watch()
-      .map((rows) => rows.map(PlannerMappers.task).toList());
-
-  Future<List<Task>> seriesTasks(String seriesId) async => (await (_tasks()
+  Stream<List<Task>> watchSeries(String seriesId) =>
+      (_tasks()
             ..where((t) => t.seriesId.equals(seriesId))
-            ..orderBy([(t) => OrderingTerm.asc(t.startLocal)]))
-          .get())
-      .map(PlannerMappers.task)
-      .toList();
+            ..orderBy([(t) => OrderingTerm.asc(t.startLocal), (t) => OrderingTerm.asc(t.id)]))
+          .watch()
+          .map((rows) => rows.map(PlannerMappers.task).toList());
+
+  Future<List<Task>> seriesTasks(String seriesId) async =>
+      (await (_tasks()
+                ..where((t) => t.seriesId.equals(seriesId))
+                ..orderBy([(t) => OrderingTerm.asc(t.startLocal)]))
+              .get())
+          .map(PlannerMappers.task)
+          .toList();
 
   /// Backlog: unscheduled, non-template, non-archived tasks in manual order (T3.1.11).
-  Stream<List<Task>> watchUnscheduled() => (_tasks()
-        ..where((t) => t.startLocal.isNull() & t.isTemplate.equals(false) & t.status.isNotValue('archived'))
-        ..orderBy([
-          (t) => OrderingTerm(expression: t.manualSortKey, nulls: NullsOrder.last),
-          (t) => OrderingTerm.asc(t.createdAt),
-          (t) => OrderingTerm.asc(t.id),
-        ]))
-      .watch()
-      .map((rows) => rows.map(PlannerMappers.task).toList());
+  Stream<List<Task>> watchUnscheduled() =>
+      (_tasks()
+            ..where((t) => t.startLocal.isNull() & t.isTemplate.equals(false) & t.status.isNotValue('archived'))
+            ..orderBy([
+              (t) => OrderingTerm(expression: t.manualSortKey, nulls: NullsOrder.last),
+              (t) => OrderingTerm.asc(t.createdAt),
+              (t) => OrderingTerm.asc(t.id),
+            ]))
+          .watch()
+          .map((rows) => rows.map(PlannerMappers.task).toList());
 
   Future<List<Task>> unscheduled() => watchUnscheduled().first;
 
   /// Task templates (T3.1.20).
-  Stream<List<Task>> watchTemplates() => (_tasks()
-        ..where((t) => t.isTemplate.equals(true))
-        ..orderBy([(t) => OrderingTerm.asc(t.title), (t) => OrderingTerm.asc(t.id)]))
-      .watch()
-      .map((rows) => rows.map(PlannerMappers.task).toList());
+  Stream<List<Task>> watchTemplates() =>
+      (_tasks()
+            ..where((t) => t.isTemplate.equals(true))
+            ..orderBy([(t) => OrderingTerm.asc(t.title), (t) => OrderingTerm.asc(t.id)]))
+          .watch()
+          .map((rows) => rows.map(PlannerMappers.task).toList());
 
   /// Range pre-filter (T3.2.02): scheduled, active, non-template tasks that may produce an
   /// occurrence overlapping `[from, to)` (viewer wall clock ± 14 h), plus tasks with a record
@@ -120,29 +125,33 @@ class PlannerQueries {
     final fromMinus = from.plusMinutes(-zoneMarginMinutes).toIso();
     final toPlus = to.plusMinutes(zoneMarginMinutes).toIso();
     final movedFrom = from.plusMinutes(-zoneMarginMinutes).plusDays(-31).toIso();
-    const end = "strftime('%Y-%m-%dT%H:%M', start_local, '+' || COALESCE(duration_minutes, "
+    const end =
+        "strftime('%Y-%m-%dT%H:%M', start_local, '+' || COALESCE(duration_minutes, "
         "CASE WHEN is_all_day THEN 1440 ELSE 0 END) || ' minutes')";
-    const untilEnd = "strftime('%Y-%m-%dT%H:%M', recurrence_until_local, '+' || COALESCE(duration_minutes, 1440) || ' minutes')";
-    final rows = await _db.customSelect(
-      'SELECT * FROM tasks WHERE user_id = ? AND deleted_at IS NULL AND is_template = 0 '
-      "AND status <> 'archived' AND start_local IS NOT NULL AND ("
-      ' (start_local <= ? AND ('
-      '   (recurrence IS NULL AND $end >= ?)'
-      '   OR (recurrence IS NOT NULL AND (recurrence_until_local IS NULL OR $untilEnd >= ?))'
-      ' ))'
-      ' OR id IN (SELECT task_id FROM task_occurrences WHERE deleted_at IS NULL AND override_start_local IS NOT NULL'
-      '   AND override_start_local >= ? AND override_start_local < ?)'
-      ') ORDER BY start_local, id',
-      variables: [
-        Variable<String>(_userId()),
-        Variable<String>(toPlus),
-        Variable<String>(fromMinus),
-        Variable<String>(fromMinus),
-        Variable<String>(movedFrom),
-        Variable<String>(toPlus),
-      ],
-      readsFrom: {_db.tasks, _db.taskOccurrences},
-    ).get();
+    const untilEnd =
+        "strftime('%Y-%m-%dT%H:%M', recurrence_until_local, '+' || COALESCE(duration_minutes, 1440) || ' minutes')";
+    final rows = await _db
+        .customSelect(
+          'SELECT * FROM tasks WHERE user_id = ? AND deleted_at IS NULL AND is_template = 0 '
+          "AND status <> 'archived' AND start_local IS NOT NULL AND ("
+          ' (start_local <= ? AND ('
+          '   (recurrence IS NULL AND $end >= ?)'
+          '   OR (recurrence IS NOT NULL AND (recurrence_until_local IS NULL OR $untilEnd >= ?))'
+          ' ))'
+          ' OR id IN (SELECT task_id FROM task_occurrences WHERE deleted_at IS NULL AND override_start_local IS NOT NULL'
+          '   AND override_start_local >= ? AND override_start_local < ?)'
+          ') ORDER BY start_local, id',
+          variables: [
+            Variable<String>(_userId()),
+            Variable<String>(toPlus),
+            Variable<String>(fromMinus),
+            Variable<String>(fromMinus),
+            Variable<String>(movedFrom),
+            Variable<String>(toPlus),
+          ],
+          readsFrom: {_db.tasks, _db.taskOccurrences},
+        )
+        .get();
     return [for (final r in rows) PlannerMappers.taskFromRaw(r.data)];
   }
 
@@ -166,24 +175,26 @@ class PlannerQueries {
     final toPlus = to.plusMinutes(zoneMarginMinutes).toIso();
     final ids = tasks.map((t) => t.id).toList();
     String marks(int n) => List.filled(n, '?').join(', ');
-    final rows = await _db.customSelect(
-      'SELECT * FROM task_occurrences WHERE deleted_at IS NULL AND user_id = ? AND task_id IN (${marks(ids.length)}) AND ('
-      ' (occurrence_key >= ? AND occurrence_key < ?)'
-      ' OR (override_start_local IS NOT NULL AND override_start_local >= ? AND override_start_local < ?)'
-      " OR instr(occurrence_key, '#') > 0"
-      '${allRecordsFor.isEmpty ? '' : ' OR task_id IN (${marks(allRecordsFor.length)})'}'
-      ')',
-      variables: [
-        Variable<String>(_userId()),
-        for (final id in ids) Variable<String>(id),
-        Variable<String>(keyFrom),
-        Variable<String>(keyTo),
-        Variable<String>(movedFrom),
-        Variable<String>(toPlus),
-        for (final id in allRecordsFor) Variable<String>(id),
-      ],
-      readsFrom: {_db.taskOccurrences},
-    ).get();
+    final rows = await _db
+        .customSelect(
+          'SELECT * FROM task_occurrences WHERE deleted_at IS NULL AND user_id = ? AND task_id IN (${marks(ids.length)}) AND ('
+          ' (occurrence_key >= ? AND occurrence_key < ?)'
+          ' OR (override_start_local IS NOT NULL AND override_start_local >= ? AND override_start_local < ?)'
+          " OR instr(occurrence_key, '#') > 0"
+          '${allRecordsFor.isEmpty ? '' : ' OR task_id IN (${marks(allRecordsFor.length)})'}'
+          ')',
+          variables: [
+            Variable<String>(_userId()),
+            for (final id in ids) Variable<String>(id),
+            Variable<String>(keyFrom),
+            Variable<String>(keyTo),
+            Variable<String>(movedFrom),
+            Variable<String>(toPlus),
+            for (final id in allRecordsFor) Variable<String>(id),
+          ],
+          readsFrom: {_db.taskOccurrences},
+        )
+        .get();
     return [for (final r in rows) PlannerMappers.recordFromRaw(r.data)];
   }
 
@@ -191,13 +202,15 @@ class PlannerQueries {
   Future<Map<String, DateTime>> pausedAt(Iterable<String> taskIds) async {
     final ids = taskIds.toList();
     if (ids.isEmpty) return const {};
-    final rows = await _db.customSelect(
-      'SELECT entity_id, MAX(occurred_at) AS at FROM activity_events WHERE deleted_at IS NULL '
-      "AND entity_type = 'task' AND event_type = 'paused' AND entity_id IN (${List.filled(ids.length, '?').join(', ')}) "
-      'GROUP BY entity_id',
-      variables: [for (final id in ids) Variable<String>(id)],
-      readsFrom: {_db.activityEvents},
-    ).get();
+    final rows = await _db
+        .customSelect(
+          'SELECT entity_id, MAX(occurred_at) AS at FROM activity_events WHERE deleted_at IS NULL '
+          "AND entity_type = 'task' AND event_type = 'paused' AND entity_id IN (${List.filled(ids.length, '?').join(', ')}) "
+          'GROUP BY entity_id',
+          variables: [for (final id in ids) Variable<String>(id)],
+          readsFrom: {_db.activityEvents},
+        )
+        .get();
     return {
       for (final r in rows)
         if (DateTime.tryParse('${r.data['at']}') case final at?) r.data['entity_id']! as String: at.toUtc(),
@@ -205,25 +218,28 @@ class PlannerQueries {
   }
 
   Future<Map<String, int>> categoryColors() async {
-    final rows = await (_db.select(_db.categories)
-          ..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId())))
-        .get();
+    final rows = await (_db.select(
+      _db.categories,
+    )..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId()))).get();
     return {for (final c in rows) c.id: c.color};
   }
 
   /// Category icon keys by id (categories without an icon are left out).
   Future<Map<String, String>> categoryIcons() async {
-    final rows = await (_db.select(_db.categories)
-          ..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId())))
-        .get();
-    return {for (final c in rows) if (c.icon case final icon? when icon.isNotEmpty) c.id: icon};
+    final rows = await (_db.select(
+      _db.categories,
+    )..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId()))).get();
+    return {
+      for (final c in rows)
+        if (c.icon case final icon? when icon.isNotEmpty) c.id: icon,
+    };
   }
 
   /// Category names by id (notification template variable `category`).
   Future<Map<String, String>> categoryNames() async {
-    final rows = await (_db.select(_db.categories)
-          ..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId())))
-        .get();
+    final rows = await (_db.select(
+      _db.categories,
+    )..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId()))).get();
     return {for (final c in rows) c.id: c.name};
   }
 
@@ -262,12 +278,16 @@ class PlannerQueries {
 
   Future<List<TaskOccurrenceRecord>> records(Iterable<String> taskIds) => watchRecords(taskIds).first;
 
-  Stream<TaskOccurrenceRecord?> watchRecord(String taskId, String key) => (_db.select(_db.taskOccurrences)
-        ..where(
-          (o) => o.deletedAt.isNull() & o.userId.equals(_userId()) & o.taskId.equals(taskId) & o.occurrenceKey.equals(key),
-        ))
-      .watchSingleOrNull()
-      .map((r) => r == null ? null : PlannerMappers.record(r));
+  Stream<TaskOccurrenceRecord?> watchRecord(String taskId, String key) =>
+      (_db.select(_db.taskOccurrences)..where(
+            (o) =>
+                o.deletedAt.isNull() &
+                o.userId.equals(_userId()) &
+                o.taskId.equals(taskId) &
+                o.occurrenceKey.equals(key),
+          ))
+          .watchSingleOrNull()
+          .map((r) => r == null ? null : PlannerMappers.record(r));
 
   // ---------------------------------------------------------------------------
   // Time entries
@@ -281,11 +301,12 @@ class PlannerQueries {
   }
 
   /// Running timers (T3.2.19).
-  Stream<List<TimeEntry>> watchRunningEntries() => (_db.select(_db.timeEntries)
-        ..where((e) => e.deletedAt.isNull() & e.userId.equals(_userId()) & e.endedAt.isNull())
-        ..orderBy([(e) => OrderingTerm.asc(e.startedAt)]))
-      .watch()
-      .map((rows) => rows.map(PlannerMappers.timeEntry).toList());
+  Stream<List<TimeEntry>> watchRunningEntries() =>
+      (_db.select(_db.timeEntries)
+            ..where((e) => e.deletedAt.isNull() & e.userId.equals(_userId()) & e.endedAt.isNull())
+            ..orderBy([(e) => OrderingTerm.asc(e.startedAt)]))
+          .watch()
+          .map((rows) => rows.map(PlannerMappers.timeEntry).toList());
 
   // ---------------------------------------------------------------------------
   // History
@@ -303,7 +324,8 @@ class PlannerQueries {
         .map((rows) => rows.map(PlannerMappers.event).toList());
   }
 
-  Future<List<ActivityEvent>> history(Iterable<String> taskIds, {int limit = 500}) => watchHistory(taskIds, limit: limit).first;
+  Future<List<ActivityEvent>> history(Iterable<String> taskIds, {int limit = 500}) =>
+      watchHistory(taskIds, limit: limit).first;
 
   // ---------------------------------------------------------------------------
   // Linked checklists (queried directly; the checklists feature owns the tables)

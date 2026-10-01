@@ -66,13 +66,7 @@ class HabitService {
 
   /// Moves [id] to [index] of [ordered] without it (drag & drop); with [changeSection] it also
   /// moves into [sectionId].
-  Future<OpRecord> reorder(
-    String id,
-    List<Habit> ordered,
-    int index, {
-    bool changeSection = false,
-    String? sectionId,
-  }) {
+  Future<OpRecord> reorder(String id, List<Habit> ordered, int index, {bool changeSection = false, String? sectionId}) {
     final keys = [
       for (final h in ordered)
         if (h.id != id) h.sortKey,

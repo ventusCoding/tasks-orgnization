@@ -44,7 +44,7 @@ enum PlannerViewType {
   countdown('countdown'),
   map('map');
 
-  const PlannerViewType(this.id);
+  PlannerViewType(this.id);
 
   final String id;
 
@@ -232,22 +232,46 @@ class PlannerViewConfig {
       firstDay: 'today',
       options: {'rolling': true},
     ),
-    PlannerViewType.weekList => const PlannerViewConfig(type: PlannerViewType.weekList, slotMinutes: 1440, snapMinutes: 15),
+    PlannerViewType.weekList => const PlannerViewConfig(
+      type: PlannerViewType.weekList,
+      slotMinutes: 1440,
+      snapMinutes: 15,
+    ),
     PlannerViewType.month => const PlannerViewConfig(
       type: PlannerViewType.month,
       slotMinutes: 1440,
       options: {'monthMode': 'titles', 'listBelow': false, 'swipe': 'vertical', 'tapAction': 'open_day'},
     ),
-    PlannerViewType.multiWeek => const PlannerViewConfig(type: PlannerViewType.multiWeek, slotMinutes: 1440, options: {'weeks': 4}),
-    PlannerViewType.quarter => const PlannerViewConfig(type: PlannerViewType.quarter, slotMinutes: 1440, options: {'monthMode': 'dots'}),
-    PlannerViewType.year => const PlannerViewConfig(type: PlannerViewType.year, slotMinutes: 1440, options: {'heatMetric': 'planned'}),
+    PlannerViewType.multiWeek => const PlannerViewConfig(
+      type: PlannerViewType.multiWeek,
+      slotMinutes: 1440,
+      options: {'weeks': 4},
+    ),
+    PlannerViewType.quarter => const PlannerViewConfig(
+      type: PlannerViewType.quarter,
+      slotMinutes: 1440,
+      options: {'monthMode': 'dots'},
+    ),
+    PlannerViewType.year => const PlannerViewConfig(
+      type: PlannerViewType.year,
+      slotMinutes: 1440,
+      options: {'heatMetric': 'planned'},
+    ),
     PlannerViewType.agenda => const PlannerViewConfig(
       type: PlannerViewType.agenda,
       slotMinutes: 1440,
       options: {'showEmptyDays': false, 'showNotes': false, 'ticker': true},
     ),
-    PlannerViewType.ribbon => const PlannerViewConfig(type: PlannerViewType.ribbon, daysVisible: 1, paging: PagingMode.day, options: {'scope': 'day'}),
-    PlannerViewType.timeline => const PlannerViewConfig(type: PlannerViewType.timeline, options: {'groupBy': 'task', 'scale': 'days'}),
+    PlannerViewType.ribbon => const PlannerViewConfig(
+      type: PlannerViewType.ribbon,
+      daysVisible: 1,
+      paging: PagingMode.day,
+      options: {'scope': 'day'},
+    ),
+    PlannerViewType.timeline => const PlannerViewConfig(
+      type: PlannerViewType.timeline,
+      options: {'groupBy': 'task', 'scale': 'days'},
+    ),
     PlannerViewType.swimlanes => const PlannerViewConfig(
       type: PlannerViewType.swimlanes,
       daysVisible: 1,
@@ -255,10 +279,22 @@ class PlannerViewConfig {
       laneCap: 2,
       options: {'lanes': <String>[]},
     ),
-    PlannerViewType.loadHeatmap => const PlannerViewConfig(type: PlannerViewType.loadHeatmap, options: {'weeks': 4, 'metric': 'planned'}),
-    PlannerViewType.kanban => const PlannerViewConfig(type: PlannerViewType.kanban, options: {'groupBy': 'status', 'rangeDays': 7}),
-    PlannerViewType.matrix => const PlannerViewConfig(type: PlannerViewType.matrix, options: {'importanceThreshold': 3, 'urgencyDays': 2}),
-    PlannerViewType.radial => const PlannerViewConfig(type: PlannerViewType.radial, options: {'hours': 24, 'zoomHours': 0}),
+    PlannerViewType.loadHeatmap => const PlannerViewConfig(
+      type: PlannerViewType.loadHeatmap,
+      options: {'weeks': 4, 'metric': 'planned'},
+    ),
+    PlannerViewType.kanban => const PlannerViewConfig(
+      type: PlannerViewType.kanban,
+      options: {'groupBy': 'status', 'rangeDays': 7},
+    ),
+    PlannerViewType.matrix => const PlannerViewConfig(
+      type: PlannerViewType.matrix,
+      options: {'importanceThreshold': 3, 'urgencyDays': 2},
+    ),
+    PlannerViewType.radial => const PlannerViewConfig(
+      type: PlannerViewType.radial,
+      options: {'hours': 24, 'zoomHours': 0},
+    ),
     PlannerViewType.focus => const PlannerViewConfig(type: PlannerViewType.focus, options: {'keepScreenOn': false}),
     PlannerViewType.routine => const PlannerViewConfig(type: PlannerViewType.routine, options: {'autoAdvance': true}),
     PlannerViewType.backlog => const PlannerViewConfig(type: PlannerViewType.backlog, options: {'groupBy': 'none'}),
@@ -274,10 +310,25 @@ class PlannerViewConfig {
         'sortBy': 'start',
         'sortAsc': true,
         'rangeDays': 14,
-        'columns': ['title', 'date', 'start', 'end', 'duration', 'status', 'category', 'priority', 'tracking', 'recurrence'],
+        'columns': [
+          'title',
+          'date',
+          'start',
+          'end',
+          'duration',
+          'status',
+          'category',
+          'priority',
+          'tracking',
+          'recurrence',
+        ],
       },
     ),
-    PlannerViewType.planVsActual => const PlannerViewConfig(type: PlannerViewType.planVsActual, daysVisible: 1, paging: PagingMode.day),
+    PlannerViewType.planVsActual => const PlannerViewConfig(
+      type: PlannerViewType.planVsActual,
+      daysVisible: 1,
+      paging: PagingMode.day,
+    ),
     PlannerViewType.horizons => const PlannerViewConfig(type: PlannerViewType.horizons),
     PlannerViewType.countdown => const PlannerViewConfig(type: PlannerViewType.countdown, options: {'aheadDays': 365}),
     PlannerViewType.map => const PlannerViewConfig(type: PlannerViewType.map),
@@ -322,7 +373,7 @@ class PlannerViewConfig {
     final overlays = json['overlays'];
     final extraZones = json['extraTimeZones'];
     final options = json['options'];
-    final knownKeys = _knownKeys;
+    const knownKeys = _knownKeys;
     return PlannerViewConfig(
       type: type,
       slotMinutes: slot,
@@ -330,7 +381,12 @@ class PlannerViewConfig {
       zoomMode: enumOf('zoomMode', ZoomMode.values, d.zoomMode),
       renderMode: enumOf('renderMode', RenderMode.values, d.renderMode),
       autoTableThresholdMinutes: intOf('autoTableThresholdMinutes', d.autoTableThresholdMinutes, 1, 1440),
-      snapMinutes: intOf('snapMinutes', json.containsKey('snapMinutes') ? d.snapMinutes : defaultSnapMinutes(slot), 1, 60),
+      snapMinutes: intOf(
+        'snapMinutes',
+        json.containsKey('snapMinutes') ? d.snapMinutes : defaultSnapMinutes(slot),
+        1,
+        60,
+      ),
       daysVisible: intOf('daysVisible', d.daysVisible, 1, 14),
       firstDay: firstDay is String && _validFirstDay(firstDay) ? firstDay : d.firstDay,
       paging: enumOf('paging', PagingMode.values, d.paging),
@@ -340,7 +396,10 @@ class PlannerViewConfig {
       showCancelled: boolOf('showCancelled', d.showCancelled),
       hideEmptySlots: boolOf('hideEmptySlots', d.hideEmptySlots),
       overlays: overlays is Map
-          ? {for (final e in overlays.entries) if (e.key is String && e.value is bool) e.key as String: e.value as bool}
+          ? {
+              for (final e in overlays.entries)
+                if (e.key is String && e.value is bool) e.key as String: e.value as bool,
+            }
           : d.overlays,
       filters: ViewFilters.fromJson(json['filters']),
       colorBy: enumOf('colorBy', ColorBy.values, d.colorBy),
@@ -354,7 +413,10 @@ class PlannerViewConfig {
       autoScrollToNow: boolOf('autoScrollToNow', d.autoScrollToNow),
       maxChipsPerCell: intOf('maxChipsPerCell', d.maxChipsPerCell, 1, 20),
       options: options is Map ? {...d.options, ...Map<String, Object?>.from(options)} : d.options,
-      extra: {for (final e in json.entries) if (!knownKeys.contains(e.key)) e.key: e.value},
+      extra: {
+        for (final e in json.entries)
+          if (!knownKeys.contains(e.key)) e.key: e.value,
+      },
     );
   }
 
@@ -384,11 +446,35 @@ class PlannerViewConfig {
   }
 
   static const _knownKeys = {
-    'v', 'type', 'slotMinutes', 'slotExtentPx', 'zoomMode', 'renderMode', 'autoTableThresholdMinutes',
-    'snapMinutes', 'daysVisible', 'firstDay', 'paging', 'dayWindow', 'showWeekends', 'showCompleted',
-    'showCancelled', 'hideEmptySlots', 'overlays', 'filters', 'colorBy', 'density', 'daysVisibleLandscape',
-    'laneCap', 'overlapStyle', 'dimPast', 'showWeekNumbers', 'extraTimeZones', 'autoScrollToNow',
-    'maxChipsPerCell', 'options',
+    'v',
+    'type',
+    'slotMinutes',
+    'slotExtentPx',
+    'zoomMode',
+    'renderMode',
+    'autoTableThresholdMinutes',
+    'snapMinutes',
+    'daysVisible',
+    'firstDay',
+    'paging',
+    'dayWindow',
+    'showWeekends',
+    'showCompleted',
+    'showCancelled',
+    'hideEmptySlots',
+    'overlays',
+    'filters',
+    'colorBy',
+    'density',
+    'daysVisibleLandscape',
+    'laneCap',
+    'overlapStyle',
+    'dimPast',
+    'showWeekNumbers',
+    'extraTimeZones',
+    'autoScrollToNow',
+    'maxChipsPerCell',
+    'options',
   };
 
   static bool _validFirstDay(String s) =>
@@ -585,8 +671,7 @@ class PlannerViewConfig {
   static const _deep = DeepCollectionEquality();
 
   @override
-  bool operator ==(Object other) =>
-      other is PlannerViewConfig && _deep.equals(other.toJson(), toJson());
+  bool operator ==(Object other) => other is PlannerViewConfig && _deep.equals(other.toJson(), toJson());
 
   @override
   int get hashCode => _deep.hash(toJson());

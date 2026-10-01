@@ -40,12 +40,10 @@ final class LocalTime implements Comparable<LocalTime> {
   bool get isEndOfDay => minuteOfDay == 1440;
 
   /// Adds minutes, wrapping around midnight (never produces 24:00).
-  LocalTime plusMinutesWrapped(int minutes) =>
-      LocalTime._(((minuteOfDay + minutes) % 1440 + 1440) % 1440);
+  LocalTime plusMinutesWrapped(int minutes) => LocalTime._(((minuteOfDay + minutes) % 1440 + 1440) % 1440);
 
   /// `HH:mm` (24-hour).
-  String toIso() =>
-      '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+  String toIso() => '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
 
   static final RegExp _iso = RegExp(r'^(\d{1,2}):(\d{2})(?::(\d{2}))?$');
 
@@ -77,8 +75,7 @@ final class LocalTime implements Comparable<LocalTime> {
   int compareTo(LocalTime other) => minuteOfDay.compareTo(other.minuteOfDay);
 
   @override
-  bool operator ==(Object other) =>
-      other is LocalTime && other.minuteOfDay == minuteOfDay;
+  bool operator ==(Object other) => other is LocalTime && other.minuteOfDay == minuteOfDay;
 
   @override
   int get hashCode => minuteOfDay.hashCode;

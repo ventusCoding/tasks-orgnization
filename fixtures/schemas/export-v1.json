@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://everslot.app/schemas/export-v1.json",
+  "title": "Everslot data export v1 (T8.3.07)",
+  "description": "Full-fidelity export of one account: one array per synced table, live rows only, values in the server JSON representation. Sync internals are never exported.",
+  "type": "object",
+  "required": ["format", "schema_version", "exported_at", "app_version", "counts", "tables"],
+  "additionalProperties": false,
+  "properties": {
+    "format": { "const": "everslot-export-v1" },
+    "schema_version": { "type": "integer", "minimum": 1 },
+    "exported_at": { "$ref": "#/$defs/instant" },
+    "app_version": { "type": "string", "minLength": 1 },
+    "counts": {
+      "type": "object",
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    },
+    "tables": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/row" }
+      }
+    }
+  },
+  "$defs": {
+    "instant": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,6})?Z$"
+    },
+    "row": {
+      "type": "object",
+      "required": ["id", "created_at", "updated_at"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "created_at": { "$ref": "#/$defs/instant" },
+        "updated_at": { "$ref": "#/$defs/instant" },
+        "deleted_at": { "type": "null" }
+      },
+      "propertyNames": {
+        "not": { "enum": ["user_id", "rev", "field_clock", "server_updated_at"] }
+      }
+    }
+  }
+}

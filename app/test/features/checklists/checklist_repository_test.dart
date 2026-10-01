@@ -45,8 +45,7 @@ void main() {
 
   Future<ChecklistTree> treeOf(String id) async => ChecklistTree.build(await items.items(id));
 
-  String render(ChecklistTree t) =>
-      t.order.map((id) => '${'  ' * t.depthOf(id)}${t[id]!.text}').join('\n');
+  String render(ChecklistTree t) => t.order.map((id) => '${'  ' * t.depthOf(id)}${t[id]!.text}').join('\n');
 
   group('items repository', () {
     test('apply writes rows, outbox patches and events under ONE op id', () async {
@@ -78,7 +77,9 @@ void main() {
       expect(t2[t2.order.first]!.status, ItemStatus.completed);
       expect(t2[t2.order.first]!.completedAt, h.clock.nowUtc());
       final causes = [
-        for (final e in await (h.db.select(h.db.activityEvents)..where((e) => e.eventType.equals('status_changed'))).get())
+        for (final e in await (h.db.select(
+          h.db.activityEvents,
+        )..where((e) => e.eventType.equals('status_changed'))).get())
           (jsonDecode(e.payload) as Map)['cause'],
       ];
       expect(causes, unorderedEquals(['user', 'auto_rollup']));
@@ -150,13 +151,14 @@ void main() {
                   targetId: a1,
                 ),
           );
-      Future<int> rulesOf(String itemId) async => (await h.db
-              .customSelect(
-                'SELECT COUNT(*) AS n FROM notification_rules WHERE target_id = ? AND deleted_at IS NULL',
-                variables: [Variable<String>(itemId)],
-              )
-              .getSingle())
-          .read<int>('n');
+      Future<int> rulesOf(String itemId) async =>
+          (await h.db
+                  .customSelect(
+                    'SELECT COUNT(*) AS n FROM notification_rules WHERE target_id = ? AND deleted_at IS NULL',
+                    variables: [Variable<String>(itemId)],
+                  )
+                  .getSingle())
+              .read<int>('n');
       expect(await rulesOf(a1), 1);
 
       final dup = await service.run(id, (tree, ctx, _) => TreeOps.duplicateSubtrees(tree, ctx, [a]));
@@ -199,12 +201,13 @@ void main() {
         n('C', [n('C1')]),
       ]);
       Future<Map<String, String>> snapshot() async => {
-        for (final r in await h.db
-            .customSelect(
-              "SELECT id, parent_id, sort_key, text, status, deleted_at FROM checklist_items WHERE checklist_id = ?",
-              variables: [Variable<String>(id)],
-            )
-            .get())
+        for (final r
+            in await h.db
+                .customSelect(
+                  'SELECT id, parent_id, sort_key, text, status, deleted_at FROM checklist_items WHERE checklist_id = ?',
+                  variables: [Variable<String>(id)],
+                )
+                .get())
           r.read<String>('id'): jsonEncode(r.data..remove('id')),
       };
       final before = await snapshot();
@@ -224,7 +227,9 @@ void main() {
             case 3:
               return TreeOps.moveUp(tree, ctx, [pick]);
             case 4:
-              return tree.length > 4 ? TreeOps.deleteSubtrees(tree, ctx, [pick]) : TreeOps.duplicateSubtrees(tree, ctx, [pick]);
+              return tree.length > 4
+                  ? TreeOps.deleteSubtrees(tree, ctx, [pick])
+                  : TreeOps.duplicateSubtrees(tree, ctx, [pick]);
             case 5:
               return TreeOps.setFields(tree, ctx, pick, {'text': 'edited $step'});
             default:
@@ -242,7 +247,13 @@ void main() {
       for (final e in before.entries) {
         expect(after[e.key], e.value, reason: e.key);
       }
-      expect(after.keys.toSet().difference(before.keys.toSet()).every((k) => jsonDecode(after[k]!)['deleted_at'] != null), isTrue);
+      expect(
+        after.keys
+            .toSet()
+            .difference(before.keys.toSet())
+            .every((k) => (jsonDecode(after[k]!) as Map<String, Object?>)['deleted_at'] != null),
+        isTrue,
+      );
     });
   });
 
@@ -273,7 +284,7 @@ void main() {
       expect((await lists.byId(id))!.deletedAt, isNotNull);
       final ops = await h.db
           .customSelect(
-            "SELECT COUNT(DISTINCT op_id) AS n FROM sync_outbox WHERE op_id = ?",
+            'SELECT COUNT(DISTINCT op_id) AS n FROM sync_outbox WHERE op_id = ?',
             variables: [Variable<String>(record.opId)],
           )
           .getSingle();

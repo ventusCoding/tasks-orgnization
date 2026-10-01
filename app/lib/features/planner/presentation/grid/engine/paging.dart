@@ -105,9 +105,8 @@ class PagingModel {
   }
 
   /// Days visible on screen when the first visible page is [index].
-  List<LocalDate> daysOnScreen(int index) => isWeekPaging
-      ? daysOfPage(index)
-      : [for (var i = 0; i < daysVisible; i++) daysOfPage(index + i).first];
+  List<LocalDate> daysOnScreen(int index) =>
+      isWeekPaging ? daysOfPage(index) : [for (var i = 0; i < daysVisible; i++) daysOfPage(index + i).first];
 
   /// Range from the first to the last day of [pages] (inclusive).
   ({LocalDate start, int days}) spanOf(List<LocalDate> days) {
@@ -115,14 +114,19 @@ class PagingModel {
     return (start: first, days: first.daysUntil(days.last) + 1);
   }
 
-  PagingModel copyWith({PagingMode? mode, LocalDate? anchor, Weekday? weekStart, int? daysVisible, Set<Weekday>? visibleWeekdays}) =>
-      PagingModel(
-        mode: mode ?? this.mode,
-        anchor: anchor ?? this.anchor,
-        weekStart: weekStart ?? this.weekStart,
-        daysVisible: daysVisible ?? this.daysVisible,
-        visibleWeekdays: visibleWeekdays ?? this.visibleWeekdays,
-      );
+  PagingModel copyWith({
+    PagingMode? mode,
+    LocalDate? anchor,
+    Weekday? weekStart,
+    int? daysVisible,
+    Set<Weekday>? visibleWeekdays,
+  }) => PagingModel(
+    mode: mode ?? this.mode,
+    anchor: anchor ?? this.anchor,
+    weekStart: weekStart ?? this.weekStart,
+    daysVisible: daysVisible ?? this.daysVisible,
+    visibleWeekdays: visibleWeekdays ?? this.visibleWeekdays,
+  );
 
   @override
   bool operator ==(Object other) =>

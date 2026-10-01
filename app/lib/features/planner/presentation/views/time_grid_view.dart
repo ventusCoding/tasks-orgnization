@@ -14,8 +14,8 @@ import 'package:everslot/features/planner/presentation/views/accessible_list.dar
 import 'package:everslot/features/planner/presentation/views/first_use_hints.dart';
 import 'package:everslot/features/planner/presentation/views/mini_month.dart';
 import 'package:everslot/features/planner/presentation/views/plan_summary_views.dart';
-import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
 import 'package:everslot/features/planner/presentation/views/planner_chrome.dart';
+import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,7 +33,13 @@ PlannerViewConfig workWeekTransform(PlannerViewConfig c, WorkSettings work) {
 /// (range title → mini-month, previous / next, Today, slot size, filters, menu), active filters,
 /// the engine (or the accessible list) and the contextual FAB.
 class TimeGridView extends ConsumerStatefulWidget {
-  const TimeGridView({required this.args, this.configTransform, this.tileLayout = overlapStrategy, this.overlays = const [], super.key});
+  const TimeGridView({
+    required this.args,
+    this.configTransform,
+    this.tileLayout = overlapStrategy,
+    this.overlays = const [],
+    super.key,
+  });
 
   final PlannerViewArgs args;
   final PlannerViewConfig Function(PlannerViewConfig c, WorkSettings work)? configTransform;
@@ -62,19 +68,24 @@ class _TimeGridViewState extends ConsumerState<TimeGridView> {
 
   /// *Plan your first task* (empty week): the editor at the next sensible start, like the FAB.
   void _newTask() {
-    final LocalDate today = ref.read(plannerTodayProvider);
-    final start = suggestedStart(_grid.visibleDays.contains(today) ? today : (_grid.firstVisibleDay ?? today), ref.read(plannerNowProvider));
-    ref.read(plannerNavProvider).newTask(context, start: start, duration: ref.read(plannerWorkSettingsProvider).defaultDuration);
+    final today = ref.read(plannerTodayProvider);
+    final start = suggestedStart(
+      _grid.visibleDays.contains(today) ? today : (_grid.firstVisibleDay ?? today),
+      ref.read(plannerNowProvider),
+    );
+    ref
+        .read(plannerNavProvider)
+        .newTask(context, start: start, duration: ref.read(plannerWorkSettingsProvider).defaultDuration);
   }
 
   Future<void> _farJump() async {
-    final LocalDate today = ref.read(plannerTodayProvider);
+    final today = ref.read(plannerTodayProvider);
     final picked = await pickDate(context, initial: _grid.firstVisibleDay ?? today);
     if (picked != null) await _grid.jumpTo(picked, animate: false);
   }
 
   Future<void> _miniMonth(Weekday weekStart) async {
-    final LocalDate today = ref.read(plannerTodayProvider);
+    final today = ref.read(plannerTodayProvider);
     final first = _grid.firstVisibleDay ?? today;
     final picked = await showMiniMonth(context, initial: first, weekStart: weekStart, highlight: _grid.visibleDays);
     if (picked != null) await _grid.jumpTo(picked);

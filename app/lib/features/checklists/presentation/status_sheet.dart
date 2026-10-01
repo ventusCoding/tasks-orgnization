@@ -13,7 +13,13 @@ import 'package:material_ui/material_ui.dart';
 /// A status chosen in the sheets (applied by the caller through the status service).
 @immutable
 class StatusChoice {
-  const StatusChoice({required this.status, this.note, this.followUpAt, this.keepFollowUp = false, this.setNote = true});
+  const StatusChoice({
+    required this.status,
+    this.note,
+    this.followUpAt,
+    this.keepFollowUp = false,
+    this.setNote = true,
+  });
 
   final ItemStatus status;
   final String? note;

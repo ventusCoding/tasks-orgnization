@@ -21,3 +21,13 @@ analyzer:
 linter:
   rules:
     avoid_print: true
+
+plugins:
+  riverpod_lint:
+    version: ^3.1.9
+    diagnostics:
+      # Read-only derived getters (undo depth, load state) on notifiers are part of the documented API.
+      avoid_public_notifier_properties: false
+
+formatter:
+  page_width: 120

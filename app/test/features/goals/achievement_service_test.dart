@@ -46,13 +46,16 @@ void main() {
     await doneDays(b, 37);
     final service = h.read(achievementServiceProvider);
     final first = await service.evaluate();
-    expect(first.map((e) => e.code), containsAll([
-      AchievementCode.firstCheckIn,
-      AchievementCode.firstPerfectDay,
-      AchievementCode.perfectWeek,
-      AchievementCode.streak7,
-      AchievementCode.streak30,
-    ]));
+    expect(
+      first.map((e) => e.code),
+      containsAll([
+        AchievementCode.firstCheckIn,
+        AchievementCode.firstPerfectDay,
+        AchievementCode.perfectWeek,
+        AchievementCode.streak7,
+        AchievementCode.streak30,
+      ]),
+    );
     expect(first.map((e) => e.code), isNot(contains(AchievementCode.streak100)));
     expect(await service.evaluate(), isEmpty, reason: 'idempotent');
     final rows = await h.read(achievementsRepositoryProvider).all();

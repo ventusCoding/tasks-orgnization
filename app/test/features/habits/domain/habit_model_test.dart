@@ -13,8 +13,7 @@ import '../support/habit_fixtures.dart';
 
 void main() {
   group('validation (T5.1.03)', () {
-    Matcher code(HabitValidationCode c) =>
-        throwsA(isA<HabitValidationException>().having((e) => e.code, 'code', c));
+    Matcher code(HabitValidationCode c) => throwsA(isA<HabitValidationException>().having((e) => e.code, 'code', c));
 
     test('name, goal, unit, dates and schedule rules', () {
       expect(() => buildHabit(name: '  ').validate(), code(HabitValidationCode.nameEmpty));
@@ -25,7 +24,9 @@ void main() {
         code(HabitValidationCode.targetRequired),
       );
       expect(
-        () => buildHabit(goal: const HabitTarget(type: HabitGoalType.count, target: 0, op: TargetOp.lte)).validate(),
+        () => buildHabit(
+          goal: const HabitTarget(type: HabitGoalType.count, target: 0, op: TargetOp.lte),
+        ).validate(),
         code(HabitValidationCode.targetRequired),
         reason: 'a limit of 0 is a quit tracker, not a habit (server CHECK)',
       );
@@ -34,11 +35,15 @@ void main() {
         code(HabitValidationCode.durationOutOfRange),
       );
       expect(
-        () => buildHabit(goal: const HabitTarget(type: HabitGoalType.check, op: TargetOp.lte)).validate(),
+        () => buildHabit(
+          goal: const HabitTarget(type: HabitGoalType.check, op: TargetOp.lte),
+        ).validate(),
         code(HabitValidationCode.limitNeedsMeasurable),
       );
       expect(
-        () => buildHabit(goal: HabitTarget(type: HabitGoalType.count, target: 3, unit: 'u' * 21)).validate(),
+        () => buildHabit(
+          goal: HabitTarget(type: HabitGoalType.count, target: 3, unit: 'u' * 21),
+        ).validate(),
         code(HabitValidationCode.unitInvalid),
       );
       expect(
@@ -49,7 +54,9 @@ void main() {
         () => buildHabit(schedule: RecurrenceRule(interval: 0)).validate(),
         code(HabitValidationCode.scheduleInvalid),
       );
-      buildHabit(goal: const HabitTarget(type: HabitGoalType.count, target: 15, unit: 'reps')).validate();
+      buildHabit(
+        goal: const HabitTarget(type: HabitGoalType.count, target: 15, unit: 'reps'),
+      ).validate();
     });
 
     test('quit trackers: limit, costs and currency', () {
@@ -83,7 +90,9 @@ void main() {
       expect(HabitRevision.effectiveFor(revs, d(2026, 9, 1))?.id, 'r1');
       expect(HabitRevision.effectiveFor(revs, d(2026, 9, 15))?.id, 'r2');
       expect(HabitRevision.effectiveFor(revs, d(2026, 9, 20))?.id, 'r3');
-      final habit = buildHabit(goal: const HabitTarget(type: HabitGoalType.count, target: 10, unit: 'reps'));
+      final habit = buildHabit(
+        goal: const HabitTarget(type: HabitGoalType.count, target: 10, unit: 'reps'),
+      );
       expect(HabitRules.on(habit, revs, d(2026, 9, 12)).goal.target, 15);
       expect(HabitRules.on(habit, const [], d(2026, 9, 12)).goal.target, 10);
     });
@@ -112,7 +121,7 @@ void main() {
       expect(s.extra['futureKey'], {'x': 1});
       expect(HabitSettings.fromJson(jsonDecode(jsonEncode(s.toJson()))), s);
       expect(HabitSettings.fromJson('garbage'), HabitSettings.defaults);
-      expect(HabitSettings.fromJson({'earlyToleranceMinutes': 999}).earlyToleranceMinutes, 120);
+      expect(HabitSettings.fromJson(const {'earlyToleranceMinutes': 999}).earlyToleranceMinutes, 120);
     });
   });
 
@@ -210,7 +219,13 @@ void main() {
       );
       expect(morning.containsTime(LocalTime(7, 30)), isTrue);
       expect(morning.containsTime(LocalTime(12, 0)), isFalse);
-      final night = HabitSection(id: 'n', name: 'Night', sortKey: 'a1', startTime: LocalTime(22, 0), endTime: LocalTime(2, 0));
+      final night = HabitSection(
+        id: 'n',
+        name: 'Night',
+        sortKey: 'a1',
+        startTime: LocalTime(22, 0),
+        endTime: LocalTime(2, 0),
+      );
       expect(night.containsTime(LocalTime(23, 0)), isTrue);
       expect(night.containsTime(LocalTime(1, 0)), isTrue);
       expect(night.containsTime(LocalTime(3, 0)), isFalse);

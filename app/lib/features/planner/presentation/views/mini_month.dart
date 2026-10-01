@@ -20,7 +20,12 @@ Future<LocalDate?> showMiniMonth(
   context,
   builder: (ctx) => Padding(
     padding: const EdgeInsetsDirectional.fromSTEB(Space.md, 0, Space.md, Space.lg),
-    child: MiniMonth(initial: initial, weekStart: weekStart, highlight: highlight, onPick: (d) => Navigator.pop(ctx, d)),
+    child: MiniMonth(
+      initial: initial,
+      weekStart: weekStart,
+      highlight: highlight,
+      onPick: (d) => Navigator.pop(ctx, d),
+    ),
   ),
 );
 
@@ -40,7 +45,13 @@ Map<LocalDate, int> countsByDay(List<PlannerItem> items, DayRange range) {
 }
 
 class MiniMonth extends StatefulWidget {
-  const MiniMonth({required this.initial, required this.weekStart, required this.onPick, this.highlight = const [], super.key});
+  const MiniMonth({
+    required this.initial,
+    required this.weekStart,
+    required this.onPick,
+    this.highlight = const [],
+    super.key,
+  });
 
   final LocalDate initial;
   final Weekday weekStart;
@@ -182,7 +193,9 @@ class _MonthGrid extends ConsumerWidget {
                                       width: 26,
                                       height: 26,
                                       alignment: Alignment.center,
-                                      decoration: isToday ? BoxDecoration(color: context.colors.primary, shape: BoxShape.circle) : null,
+                                      decoration: isToday
+                                          ? BoxDecoration(color: context.colors.primary, shape: BoxShape.circle)
+                                          : null,
                                       child: FittedBox(
                                         child: Text(
                                           f.number(day.day),

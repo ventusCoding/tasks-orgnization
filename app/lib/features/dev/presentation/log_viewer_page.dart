@@ -74,7 +74,10 @@ class _LogViewerPageState extends ConsumerState<LogViewerPage> {
                           : context.colors.onSurfaceVariant;
                       return ListTile(
                         dense: true,
-                        leading: Text(r.level.name.substring(0, 1), style: context.text.titleSmall?.copyWith(color: color)),
+                        leading: Text(
+                          r.level.name.substring(0, 1),
+                          style: context.text.titleSmall?.copyWith(color: color),
+                        ),
                         title: Text('${r.loggerName}: ${r.message}'),
                         subtitle: Text(
                           [r.time.toUtc().toIso8601String(), if (r.error != null) '${r.error}'].join('\n'),

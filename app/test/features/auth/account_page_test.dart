@@ -169,7 +169,10 @@ void main() {
   });
 
   group('guest banner (T1.5.11)', () {
-    Widget host(List<String> opened) => SessionBannerHost(onOpen: opened.add, child: const Scaffold(body: Text('app')));
+    Widget host(List<String> opened) => SessionBannerHost(
+      onOpen: opened.add,
+      child: const Scaffold(body: Text('app')),
+    );
 
     testWidgets('shown to guests, dismissible, back after a week', (tester) async {
       final d = await _device(tester, guest: true);

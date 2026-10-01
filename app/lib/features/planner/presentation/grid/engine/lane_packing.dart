@@ -57,7 +57,8 @@ class LanePacking {
 /// Greedy row packing of all-day / multi-day bars (T3.3.18). With [maxRows], rows beyond it are
 /// hidden and counted per column.
 LanePacking packLane(List<LaneInput> inputs, int columns, {int? maxRows}) {
-  final sorted = [...inputs]..sort((a, b) {
+  final sorted = [...inputs]
+    ..sort((a, b) {
       final c = a.startCol.compareTo(b.startCol);
       if (c != 0) return c;
       final d = (b.endCol - b.startCol).compareTo(a.endCol - a.startCol);
@@ -75,14 +76,16 @@ LanePacking packLane(List<LaneInput> inputs, int columns, {int? maxRows}) {
     } else {
       rowEnds[row] = e;
     }
-    all.add(LaneBar(
-      index: input.index,
-      startCol: s,
-      endCol: e,
-      row: row,
-      continuesBefore: input.continuesBefore,
-      continuesAfter: input.continuesAfter,
-    ));
+    all.add(
+      LaneBar(
+        index: input.index,
+        startCol: s,
+        endCol: e,
+        row: row,
+        continuesBefore: input.continuesBefore,
+        continuesAfter: input.continuesAfter,
+      ),
+    );
   }
   final limit = maxRows ?? rowEnds.length;
   final hidden = List<int>.filled(columns, 0);

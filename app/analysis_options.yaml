@@ -1,34 +1,37 @@
-# This file configures the analyzer, which statically analyzes Dart code to
-# check for errors, warnings, and lints.
-#
-# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
-# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
-# invoked from the command line by running `flutter analyze`.
-
-# The following line activates a set of recommended lints for Flutter apps,
-# packages, and plugins designed to encourage good coding practices.
-include: package:flutter_lints/flutter.yaml
+# App code uses the root strict set (very_good_analysis + strict casts/inference/raw types).
+# The rules switched off below are style-only for app code; the pure packages keep them.
+include: ../analysis_options.yaml
 
 analyzer:
   exclude:
     - build/**
     - android/**
     - ios/**
-
-linter:
-  # The lint rules applied to this project can be customized in the
-  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
-  # included above or to enable additional rules. A list of all available lints
-  # and their documentation is published at https://dart.dev/lints.
-  #
-  # Instead of disabling a lint rule for the entire project in the
-  # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
-  rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
-
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+    - "**/*.g.dart"
+    - "lib/l10n/**"
+  errors:
+    # Dart 3.13 `new(...)` constructor syntax: `dart fix` rewrites it incorrectly on this SDK.
+    unnecessary_type_name_in_constructor: ignore
+    # Widget/state fields read clearly without repeating the inferred type.
+    specify_nonobvious_property_types: ignore
+    # Pass-through `async` wrappers are intentional (uniform error zones).
+    async_return_with_no_await: ignore
+    # Hand-written models are immutable by convention (dev_patterns.md), not by annotation.
+    avoid_equals_and_hash_code_on_mutable_classes: ignore
+    # `unawaited(...)` is kept on purpose to mark fire-and-forget calls.
+    unnecessary_unawaited: ignore
+    cascade_invocations: ignore
+    prefer_if_elements_to_conditional_expressions: ignore
+    comment_references: ignore
+    use_null_aware_elements: ignore
+    prefer_constructors_over_static_methods: ignore
+    avoid_positional_boolean_parameters: ignore
+    always_put_required_named_parameters_first: ignore
+    avoid_setters_without_getters: ignore
+    avoid_bool_literals_in_conditional_expressions: ignore
+    no_default_cases: ignore
+    prefer_foreach: ignore
+    # pubspec groups dependencies by purpose with comments.
+    sort_pub_dependencies: ignore
+    # Multi-line SQL and JSON literals split at parentheses/brackets on purpose.
+    missing_whitespace_between_adjacent_strings: ignore

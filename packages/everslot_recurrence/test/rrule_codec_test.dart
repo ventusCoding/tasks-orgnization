@@ -18,10 +18,8 @@ void main() {
   tzdata.initializeTimeZones();
   final resolver = TzZoneResolver();
   final engine = RecurrenceEngine(resolver);
-  final pairs = (jsonDecode(
-    File('${fixturesDirectory().path}/rrule/rrule_pairs.json')
-        .readAsStringSync(),
-  ) as List).cast<Map<String, Object?>>();
+  final pairs = (jsonDecode(File('${fixturesDirectory().path}/rrule/rrule_pairs.json').readAsStringSync()) as List)
+      .cast<Map<String, Object?>>();
 
   group('RRULE fixture pairs', () {
     for (final pair in pairs) {
@@ -50,20 +48,14 @@ void main() {
       if (fixture.completions != null || fixture.rule.type != RuleType.fixed) {
         continue;
       }
-      final text = RRuleCodec.encode(
-        fixture.rule,
-        fixture.anchor,
-        resolver: resolver,
-      );
+      final text = RRuleCodec.encode(fixture.rule, fixture.anchor, resolver: resolver);
       if (text == null) continue;
       encoded++;
       final parsed = RRuleCodec.parse(text, resolver: resolver);
       final keys = [
         for (final o in engine.between(
           parsed.rule,
-          parsed.anchor!.copyWith(
-            durationMinutes: fixture.anchor.durationMinutes,
-          ),
+          parsed.anchor!.copyWith(durationMinutes: fixture.anchor.durationMinutes),
           fixture.from,
           fixture.to,
           evalZone: fixture.evalZone,
@@ -74,11 +66,7 @@ void main() {
       ];
       expect(keys, fixture.expectedKeys, reason: '$fixture\n$text');
       // Exports are stable: re-encoding the parsed rule gives the same text.
-      expect(
-        RRuleCodec.encode(parsed.rule, parsed.anchor!, resolver: resolver),
-        isNotNull,
-        reason: text,
-      );
+      expect(RRuleCodec.encode(parsed.rule, parsed.anchor!, resolver: resolver), isNotNull, reason: text);
     }
     expect(encoded, greaterThan(120));
   });
@@ -87,10 +75,7 @@ void main() {
     test('bare RRULE values, folding, ignored properties and case', () {
       final bare = RRuleCodec.parse('FREQ=WEEKLY;BYDAY=MO,TU');
       expect(bare.anchor, isNull);
-      expect(bare.rule.byWeekday, const [
-        WeekdayRule(Weekday.monday),
-        WeekdayRule(Weekday.tuesday),
-      ]);
+      expect(bare.rule.byWeekday, const [WeekdayRule(Weekday.monday), WeekdayRule(Weekday.tuesday)]);
       final folded = RRuleCodec.parse(
         'BEGIN:VEVENT\r\nSUMMARY:Standup\r\nDTSTART;TZID="Europe/Paris":20260921T0900\r\n 00\r\nrrule:freq=daily;\r\n\tcount=3;;\r\nEND:VEVENT',
         resolver: resolver,
@@ -109,9 +94,7 @@ void main() {
       expect(parsed.rule.exdates, ['2026-09-22T08:00']);
       expect(parsed.rule.rdates, ['2026-09-30T08:00']);
       expect(
-        RRuleCodec.parse(
-          'DTSTART:20260921T080000Z\nRRULE:FREQ=DAILY;UNTIL=20261001',
-        ).rule.until,
+        RRuleCodec.parse('DTSTART:20260921T080000Z\nRRULE:FREQ=DAILY;UNTIL=20261001').rule.until,
         LocalDateTime.of(2026, 10, 1, 23, 59),
       );
     });
@@ -129,8 +112,7 @@ void main() {
         'RRULE:RSCALE=GREGORIAN;SKIP=FORWARD;FREQ=YEARLY': 'SKIP=FORWARD',
         'RRULE:FREQ=DAILY\nRRULE:FREQ=WEEKLY': 'Several RRULE',
         'RRULE:FREQ=DAILY\nEXRULE:FREQ=WEEKLY': 'EXRULE',
-        'RRULE:FREQ=DAILY\nRDATE;VALUE=PERIOD:19960403T020000Z/19960403T040000Z':
-            'PERIOD',
+        'RRULE:FREQ=DAILY\nRDATE;VALUE=PERIOD:19960403T020000Z/19960403T040000Z': 'PERIOD',
         'DTSTART:20260921T080030\nRRULE:FREQ=DAILY': 'seconds',
         'DTSTART:20260231T080000\nRRULE:FREQ=DAILY': 'Invalid DTSTART date',
         'DTSTART:20260221T250000\nRRULE:FREQ=DAILY': 'Invalid DTSTART time',
@@ -142,23 +124,14 @@ void main() {
       for (final entry in bad.entries) {
         expect(
           () => RRuleCodec.parse(entry.key, resolver: resolver),
-          throwsA(
-            isA<FormatException>().having(
-              (e) => e.message,
-              'message',
-              contains(entry.value),
-            ),
-          ),
+          throwsA(isA<FormatException>().having((e) => e.message, 'message', contains(entry.value))),
           reason: entry.key,
         );
       }
     });
 
     test('RRuleImport.toString', () {
-      expect(
-        RRuleCodec.parse('FREQ=DAILY').toString(),
-        contains('RRuleImport'),
-      );
+      expect(RRuleCodec.parse('FREQ=DAILY').toString(), contains('RRuleImport'));
     });
   });
 
@@ -167,11 +140,7 @@ void main() {
       final anchor = RecurrenceAnchor(LocalDateTime.of(2026, 1, 31, 9), 'UTC');
       expect(
         RRuleCodec.encode(
-          RecurrenceRule(
-            freq: Frequency.monthly,
-            byMonthDay: const [-30],
-            monthDayOverflow: MonthOverflow.clamp,
-          ),
+          RecurrenceRule(freq: Frequency.monthly, byMonthDay: const [-30], monthDayOverflow: MonthOverflow.clamp),
           anchor,
         ),
         isNull,
@@ -182,11 +151,7 @@ void main() {
           RecurrenceRule(
             freq: Frequency.hourly,
             byMinute: const [0, 30],
-            window: DailyWindow(
-              LocalTime(8, 0),
-              LocalTime(9, 0),
-              anchor: WindowAnchor.seriesStart,
-            ),
+            window: DailyWindow(LocalTime(8, 0), LocalTime(9, 0), anchor: WindowAnchor.seriesStart),
           ),
           anchor,
         ),
@@ -209,31 +174,21 @@ void main() {
       final floating = RecurrenceAnchor(LocalDateTime.of(2026, 9, 21, 8), null);
       expect(
         RRuleCodec.encode(
-          RecurrenceRule(
-            until: LocalDateTime.of(2026, 9, 30, 8),
-            rdates: const ['2026-10-02'],
-          ),
+          RecurrenceRule(until: LocalDateTime.of(2026, 9, 30, 8), rdates: const ['2026-10-02']),
           floating,
         ),
         'DTSTART:20260921T080000\nRRULE:FREQ=DAILY;UNTIL=20260930T080000\nRDATE:20261002T080000',
       );
       final utc = RecurrenceAnchor(LocalDateTime.of(2026, 9, 21, 8), 'UTC');
       expect(
-        RRuleCodec.encode(
-          RecurrenceRule(count: 3, exdates: const ['2026-09-22T08:00']),
-          utc,
-        ),
+        RRuleCodec.encode(RecurrenceRule(count: 3, exdates: const ['2026-09-22T08:00']), utc),
         'DTSTART:20260921T080000Z\nRRULE:FREQ=DAILY;COUNT=3\nEXDATE:20260922T080000Z',
       );
       final minutely = RecurrenceRule(
         freq: Frequency.minutely,
         interval: 15,
         byMinute: const [0, 30],
-        window: DailyWindow(
-          LocalTime(8, 0),
-          LocalTime(9, 59),
-          anchor: WindowAnchor.seriesStart,
-        ),
+        window: DailyWindow(LocalTime(8, 0), LocalTime(9, 59), anchor: WindowAnchor.seriesStart),
       );
       expect(
         RRuleCodec.encode(minutely, utc),

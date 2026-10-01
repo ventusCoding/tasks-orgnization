@@ -3,40 +3,12 @@
 /// Values are strings (templates with `{placeholders}`), plural maps keyed by
 /// CLDR category (`zero`, `one`, `two`, `few`, `many`, `other`; `{n}` is the
 /// count) or lists (weekday / month names). Every locale defines every key.
-const Map<String, Map<String, Object>> recurrenceMessages = {
-  'en': _en,
-  'fr': _fr,
-  'ar': _ar,
-};
+const Map<String, Map<String, Object>> recurrenceMessages = {'en': _en, 'fr': _fr, 'ar': _ar};
 
 const Map<String, Object> _en = {
-  'weekdays': [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ],
-  'weekdaysPlural': [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ],
-  'weekdaysBare': [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ],
+  'weekdays': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+  'weekdaysPlural': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+  'weekdaysBare': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
   'months': [
     'January',
     'February',
@@ -106,10 +78,7 @@ const Map<String, Object> _en = {
   'yearly.monthDays': ' on the {monthDays} of {months}',
   'yearly.eachMonth': ' on the {monthDays} of every month',
   'inMonths': ' in {months}',
-  'yearDays': {
-    'one': ' on day {list} of the year',
-    'other': ' on days {list} of the year',
-  },
+  'yearDays': {'one': ' on day {list} of the year', 'other': ' on days {list} of the year'},
   'yearDay.last': ' on the last day of the year',
   'fromEnd': '{n} from the end',
   'weekNo': {'one': ' in week {list}', 'other': ' in weeks {list}'},
@@ -123,10 +92,7 @@ const Map<String, Object> _en = {
   'hourMinutes': ' at {list}',
   'hourMinute.item': ':{mm}',
   'count': {'one': ', once', 'other': ', {n} times'},
-  'completions': {
-    'one': ', until completed once',
-    'other': ', until completed {n} times',
-  },
+  'completions': {'one': ', until completed once', 'other': ', until completed {n} times'},
   'until': ', until {date}',
   'date': '{month} {day}, {year}',
   'quota': {'one': 'Once a {per}', 'other': '{n} times a {per}'},
@@ -134,66 +100,21 @@ const Map<String, Object> _en = {
   'per.week': 'week',
   'per.month': 'month',
   'per.year': 'year',
-  'quota.gap': {
-    'one': ', never two days in a row',
-    'other': ', with at least {n} days in between',
-  },
-  'after.minute': {
-    'one': '1 minute after completion',
-    'other': '{n} minutes after completion',
-  },
-  'after.hour': {
-    'one': '1 hour after completion',
-    'other': '{n} hours after completion',
-  },
-  'after.day': {
-    'one': '1 day after completion',
-    'other': '{n} days after completion',
-  },
-  'after.week': {
-    'one': '1 week after completion',
-    'other': '{n} weeks after completion',
-  },
-  'after.month': {
-    'one': '1 month after completion',
-    'other': '{n} months after completion',
-  },
-  'after.year': {
-    'one': '1 year after completion',
-    'other': '{n} years after completion',
-  },
+  'quota.gap': {'one': ', never two days in a row', 'other': ', with at least {n} days in between'},
+  'after.minute': {'one': '1 minute after completion', 'other': '{n} minutes after completion'},
+  'after.hour': {'one': '1 hour after completion', 'other': '{n} hours after completion'},
+  'after.day': {'one': '1 day after completion', 'other': '{n} days after completion'},
+  'after.week': {'one': '1 week after completion', 'other': '{n} weeks after completion'},
+  'after.month': {'one': '1 month after completion', 'other': '{n} months after completion'},
+  'after.year': {'one': '1 year after completion', 'other': '{n} years after completion'},
   'am': 'AM',
   'pm': 'PM',
 };
 
 const Map<String, Object> _fr = {
-  'weekdays': [
-    'lundi',
-    'mardi',
-    'mercredi',
-    'jeudi',
-    'vendredi',
-    'samedi',
-    'dimanche',
-  ],
-  'weekdaysPlural': [
-    'lundis',
-    'mardis',
-    'mercredis',
-    'jeudis',
-    'vendredis',
-    'samedis',
-    'dimanches',
-  ],
-  'weekdaysBare': [
-    'lundi',
-    'mardi',
-    'mercredi',
-    'jeudi',
-    'vendredi',
-    'samedi',
-    'dimanche',
-  ],
+  'weekdays': ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'],
+  'weekdaysPlural': ['lundis', 'mardis', 'mercredis', 'jeudis', 'vendredis', 'samedis', 'dimanches'],
+  'weekdaysBare': ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'],
   'months': [
     'janvier',
     'février',
@@ -213,16 +134,10 @@ const Map<String, Object> _fr = {
   'or': ' ou ',
   'orSep': ', ',
   'dayArticle': 'le ',
-  'every.minute': {
-    'one': 'Toutes les minutes',
-    'other': 'Toutes les {n} minutes',
-  },
+  'every.minute': {'one': 'Toutes les minutes', 'other': 'Toutes les {n} minutes'},
   'every.hour': {'one': 'Toutes les heures', 'other': 'Toutes les {n} heures'},
   'every.day': {'one': 'Tous les jours', 'other': 'Tous les {n} jours'},
-  'every.week': {
-    'one': 'Toutes les semaines',
-    'other': 'Toutes les {n} semaines',
-  },
+  'every.week': {'one': 'Toutes les semaines', 'other': 'Toutes les {n} semaines'},
   'every.month': {'one': 'Tous les mois', 'other': 'Tous les {n} mois'},
   'every.year': {'one': 'Tous les ans', 'other': 'Tous les {n} ans'},
   'weekly.days1': 'Tous les {daysPlural}',
@@ -269,10 +184,7 @@ const Map<String, Object> _fr = {
   'yearly.monthDays': ' {monthDays} {deMonths}',
   'yearly.eachMonth': ' {monthDays} de chaque mois',
   'inMonths': ' en {months}',
-  'yearDays': {
-    'one': " le jour {list} de l'année",
-    'other': " les jours {list} de l'année",
-  },
+  'yearDays': {'one': " le jour {list} de l'année", 'other': " les jours {list} de l'année"},
   'yearDay.last': " le dernier jour de l'année",
   'fromEnd': '{n} en partant de la fin',
   'weekNo': {'one': ' la semaine {list}', 'other': ' les semaines {list}'},
@@ -286,10 +198,7 @@ const Map<String, Object> _fr = {
   'hourMinutes': ' à {list}',
   'hourMinute.item': ':{mm}',
   'count': {'one': ', une fois', 'other': ', {n} fois'},
-  'completions': {
-    'one': ", jusqu'à une réalisation",
-    'other': ", jusqu'à {n} réalisations",
-  },
+  'completions': {'one': ", jusqu'à une réalisation", 'other': ", jusqu'à {n} réalisations"},
   'until': ", jusqu'au {date}",
   'date': '{day} {month} {year}',
   'quota': {'one': 'Une fois par {per}', 'other': '{n} fois par {per}'},
@@ -297,57 +206,20 @@ const Map<String, Object> _fr = {
   'per.week': 'semaine',
   'per.month': 'mois',
   'per.year': 'an',
-  'quota.gap': {
-    'one': ', jamais deux jours de suite',
-    'other': ", avec au moins {n} jours d'intervalle",
-  },
-  'after.minute': {
-    'one': "1 minute après l'achèvement",
-    'other': "{n} minutes après l'achèvement",
-  },
-  'after.hour': {
-    'one': "1 heure après l'achèvement",
-    'other': "{n} heures après l'achèvement",
-  },
-  'after.day': {
-    'one': "1 jour après l'achèvement",
-    'other': "{n} jours après l'achèvement",
-  },
-  'after.week': {
-    'one': "1 semaine après l'achèvement",
-    'other': "{n} semaines après l'achèvement",
-  },
-  'after.month': {
-    'one': "1 mois après l'achèvement",
-    'other': "{n} mois après l'achèvement",
-  },
-  'after.year': {
-    'one': "1 an après l'achèvement",
-    'other': "{n} ans après l'achèvement",
-  },
+  'quota.gap': {'one': ', jamais deux jours de suite', 'other': ", avec au moins {n} jours d'intervalle"},
+  'after.minute': {'one': "1 minute après l'achèvement", 'other': "{n} minutes après l'achèvement"},
+  'after.hour': {'one': "1 heure après l'achèvement", 'other': "{n} heures après l'achèvement"},
+  'after.day': {'one': "1 jour après l'achèvement", 'other': "{n} jours après l'achèvement"},
+  'after.week': {'one': "1 semaine après l'achèvement", 'other': "{n} semaines après l'achèvement"},
+  'after.month': {'one': "1 mois après l'achèvement", 'other': "{n} mois après l'achèvement"},
+  'after.year': {'one': "1 an après l'achèvement", 'other': "{n} ans après l'achèvement"},
   'am': 'AM',
   'pm': 'PM',
 };
 
 const Map<String, Object> _ar = {
-  'weekdays': [
-    'الاثنين',
-    'الثلاثاء',
-    'الأربعاء',
-    'الخميس',
-    'الجمعة',
-    'السبت',
-    'الأحد',
-  ],
-  'weekdaysPlural': [
-    'الاثنين',
-    'الثلاثاء',
-    'الأربعاء',
-    'الخميس',
-    'الجمعة',
-    'السبت',
-    'الأحد',
-  ],
+  'weekdays': ['الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت', 'الأحد'],
+  'weekdaysPlural': ['الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت', 'الأحد'],
   'weekdaysBare': ['اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت', 'أحد'],
   'months': [
     'يناير',
@@ -460,11 +332,7 @@ const Map<String, Object> _ar = {
   },
   'yearDay.last': ' في آخر يوم من السنة',
   'fromEnd': '{n} من النهاية',
-  'weekNo': {
-    'one': ' في الأسبوع {list}',
-    'two': ' في الأسبوعين {list}',
-    'other': ' في الأسابيع {list}',
-  },
+  'weekNo': {'one': ' في الأسبوع {list}', 'two': ' في الأسبوعين {list}', 'other': ' في الأسابيع {list}'},
   'weekNo.last': ' في الأسبوع الأخير',
   'at': ' في الساعة {times}',
   'timesPerDay': {
@@ -478,13 +346,7 @@ const Map<String, Object> _ar = {
   'minutes': ' عند الدقيقة {list}',
   'hourMinutes': ' عند الدقيقة {list}',
   'hourMinute.item': '{m}',
-  'count': {
-    'one': '، مرة واحدة',
-    'two': '، مرتين',
-    'few': '، {n} مرات',
-    'many': '، {n} مرة',
-    'other': '، {n} مرة',
-  },
+  'count': {'one': '، مرة واحدة', 'two': '، مرتين', 'few': '، {n} مرات', 'many': '، {n} مرة', 'other': '، {n} مرة'},
   'completions': {
     'one': '، حتى إنجازه مرة واحدة',
     'two': '، حتى إنجازه مرتين',

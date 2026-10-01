@@ -3,16 +3,15 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/core/sync/sync_service.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+// `syncOnlineChangesProvider` (online/offline transitions from the shared connectivity service,
+// T1.4.10 / T1.3.04) lives with the other core providers; re-exported for the sync code and its tests.
+export 'package:everslot/core/providers.dart' show syncOnlineChangesProvider;
 
 /// Joins the private Broadcast channel of the user; [onSync] receives the payload of every `sync`
 /// event. Returns a function leaving the channel.
-typedef BroadcastSubscriber =
-    Future<void> Function() Function(void Function(Map<String, dynamic> payload) onSync);
-
-/// Online/offline transitions of the device (true = some network). Overridden in tests.
-final syncOnlineChangesProvider = Provider<Stream<bool>>((ref) => connectivityOnlineChanges());
+typedef BroadcastSubscriber = Future<void> Function() Function(void Function(Map<String, dynamic> payload) onSync);
 
 /// External triggers of the sync engine (T1.4.10 connectivity regain, T1.4.12 Broadcast,
 /// T1.4.13 resume): Broadcast is joined only while the app is in the foreground (arch §6.6 —
@@ -20,14 +19,12 @@ final syncOnlineChangesProvider = Provider<Stream<bool>>((ref) => connectivityOn
 class SyncTriggers {
   SyncTriggers({
     required this.service,
-    required Stream<void> onResume,
-    required Stream<void> onPause,
-    Stream<bool>? onlineChanges,
+    required this._onResume,
+    required this._onPause,
+    this._onlineChanges,
     this.subscribeBroadcast,
     this.onResumed,
-  }) : _onResume = onResume,
-       _onPause = onPause,
-       _onlineChanges = onlineChanges;
+  });
 
   final SyncService service;
   final BroadcastSubscriber? subscribeBroadcast;
@@ -50,24 +47,23 @@ class SyncTriggers {
 
   void start({bool foreground = true}) {
     _subs
-      ..add(_onResume.listen((_) {
-        service.schedulePull(Duration.zero);
-        _join();
-        onResumed?.call();
-      }))
+      ..add(
+        _onResume.listen((_) {
+          service.schedulePull(Duration.zero);
+          _join();
+          onResumed?.call();
+        }),
+      )
       ..add(_onPause.listen((_) => _leaveChannel()));
     final online = _onlineChanges;
     if (online != null) {
       _subs.add(
-        online.listen(
-          (isOnline) {
-            final wasOffline = _online == false;
-            _online = isOnline;
-            // Connectivity regained: push what queued up while offline, then pull.
-            if (isOnline && wasOffline) service.schedulePush(Duration.zero);
-          },
-          onError: (Object e) => _log.fine('connectivity stream error: $e'),
-        ),
+        online.listen((isOnline) {
+          final wasOffline = _online == false;
+          _online = isOnline;
+          // Connectivity regained: push what queued up while offline, then pull.
+          if (isOnline && wasOffline) service.schedulePush(Duration.zero);
+        }, onError: (Object e) => _log.fine('connectivity stream error: $e')),
       );
     }
     if (foreground) _join();
@@ -119,9 +115,7 @@ BroadcastSubscriber supabaseBroadcastSubscriber(SupabaseClient client, String us
 Stream<bool> connectivityOnlineChanges([Connectivity? connectivity]) {
   try {
     final c = connectivity ?? Connectivity();
-    return c.onConnectivityChanged
-        .map((r) => r.any((e) => e != ConnectivityResult.none))
-        .handleError((Object _) {});
+    return c.onConnectivityChanged.map((r) => r.any((e) => e != ConnectivityResult.none)).handleError((Object _) {});
   } on Object {
     return const Stream<bool>.empty();
   }

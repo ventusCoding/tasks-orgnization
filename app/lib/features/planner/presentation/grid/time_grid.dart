@@ -64,7 +64,12 @@ Weekday weekStartFor(PlannerViewConfig c, Weekday profileWeekStart) {
 /// Weekdays shown by a view: all, all but the weekend, or the work days (work-week preset).
 Set<Weekday> visibleWeekdaysFor(PlannerViewConfig c, WorkSettings work) {
   if (c.option<bool>('workWeek', false)) return {for (final iso in work.days) Weekday.fromIso(iso)};
-  if (!c.showWeekends) return {for (final w in Weekday.values) if (!w.isWeekend) w};
+  if (!c.showWeekends) {
+    return {
+      for (final w in Weekday.values)
+        if (!w.isWeekend) w,
+    };
+  }
   return Weekday.values.toSet();
 }
 
@@ -126,7 +131,14 @@ enum _Region { header, lane, body }
 
 @immutable
 class _Hit {
-  const _Hit({required this.page, required this.days, required this.column, required this.region, required this.point, required this.local});
+  const _Hit({
+    required this.page,
+    required this.days,
+    required this.column,
+    required this.region,
+    required this.point,
+    required this.local,
+  });
 
   final int page;
   final List<LocalDate> days;
@@ -280,7 +292,15 @@ class _PageData {
 }
 
 class _Pinch {
-  _Pinch({required this.a, required this.b, required this.startPpm, required this.startDays, required this.focalY, required this.focalMinute, required this.focalRepeat});
+  _Pinch({
+    required this.a,
+    required this.b,
+    required this.startPpm,
+    required this.startDays,
+    required this.focalY,
+    required this.focalMinute,
+    required this.focalRepeat,
+  });
 
   final Offset a;
   final Offset b;
@@ -358,22 +378,24 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     _now = ValueNotifier(ref.read(clockProvider).nowUtc());
     widget.controller?.attach(this);
     if (!_viewState.isLoaded) {
-      unawaited(_viewState.ready.then((_) {
-        if (mounted) setState(() {});
-      }));
+      unawaited(
+        _viewState.ready.then((_) {
+          if (mounted) setState(() {});
+        }),
+      );
     }
     _scheduleMinuteTick();
   }
 
   @override
-  void didUpdateWidget(TimeGrid old) {
-    super.didUpdateWidget(old);
-    if (!identical(old.controller, widget.controller)) {
-      old.controller?.detach(this);
+  void didUpdateWidget(TimeGrid oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!identical(oldWidget.controller, widget.controller)) {
+      oldWidget.controller?.detach(this);
       widget.controller?.attach(this);
     }
     final date = widget.initialDate;
-    if (date != null && date != old.initialDate && _ready) {
+    if (date != null && date != oldWidget.initialDate && _ready) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) unawaited(jumpToDate(date));
       });
@@ -442,14 +464,24 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
         setEquals(current.visibleWeekdays, weekdays)) {
       return;
     }
-    final LocalDate today = ref.read(plannerTodayProvider);
+    final today = ref.read(plannerTodayProvider);
     var anchor = current == null ? (_initialAnchor ?? today) : current.daysOnScreen(_page).first;
     final weekPaging = mode == PagingMode.week && days >= (weekdays.isEmpty ? 7 : weekdays.length);
-    if (current == null && !weekPaging && config.firstDay != 'today' && widget.fixedAnchor == null && widget.initialDate == null) {
+    if (current == null &&
+        !weekPaging &&
+        config.firstDay != 'today' &&
+        widget.fixedAnchor == null &&
+        widget.initialDate == null) {
       anchor = anchor.startOfWeek(weekStart);
     }
     final old = _pages;
-    _paging = PagingModel(mode: mode, anchor: anchor, weekStart: weekStart, daysVisible: days, visibleWeekdays: weekdays);
+    _paging = PagingModel(
+      mode: mode,
+      anchor: anchor,
+      weekStart: weekStart,
+      daysVisible: days,
+      visibleWeekdays: weekdays,
+    );
     _page = PagingModel.baseIndex;
     _pageData.clear();
     _pages = PageController(initialPage: PagingModel.baseIndex, viewportFraction: _paging!.viewportFraction);
@@ -555,7 +587,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
   double _offsetForMinute(double minute, {double anchorFraction = 0}) {
     final f = _frame!;
     final m = f.metrics;
-    final max = math.max(0.0, _contentHeight(f) - m.bodyHeight);
+    final max = math.max<double>(0, _contentHeight(f) - m.bodyHeight);
     final double y;
     switch (f.renderer) {
       case GridRenderer.timeline:
@@ -639,8 +671,11 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     _landscape = media.orientation == Orientation.landscape;
     final tablet = media.size.shortestSide >= 600;
     final weekStart = weekStartFor(config, prefs.weekStart);
-    final daysWanted = (_landscape ? (_daysLandscape ?? config.daysVisibleLandscape) : (_daysPortrait ?? config.daysVisible))
-        .clamp(1, tablet ? 14 : 7);
+    final daysWanted =
+        (_landscape ? (_daysLandscape ?? config.daysVisibleLandscape) : (_daysPortrait ?? config.daysVisible)).clamp(
+          1,
+          tablet ? 14 : 7,
+        );
     _ensurePaging(
       mode: config.paging,
       weekStart: weekStart,
@@ -660,8 +695,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       ...visible,
       ...paging.daysOnScreen(_page - (paging.isWeekPaging ? 1 : paging.daysVisible)),
       ...paging.daysOnScreen(_page + (paging.isWeekPaging ? 1 : paging.daysVisible)),
-    }.toList()
-      ..sort();
+    }.toList()..sort();
     final filter = viewItemFilter(ref, config);
     final slices = _watchSlices(ref, around, filter, weekStart).$1;
     final nowLocal = ref.read(plannerNowProvider);
@@ -687,7 +721,10 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
           final height = constraints.maxHeight.isFinite ? constraints.maxHeight : media.size.height;
           // Whole-pixel page area (the ruler absorbs the fraction): at the ±10 000 virtual page index
           // a fractional viewport makes PageView's page ↔ pixel round trips drift past its tolerance.
-          final pagesWidth = math.max(1.0, (width - (renderer == GridRenderer.weekList ? 0.0 : _rulerWidth(ts, prefs.use24h))).floorToDouble());
+          final pagesWidth = math.max<double>(
+            1,
+            (width - (renderer == GridRenderer.weekList ? 0.0 : _rulerWidth(ts, prefs.use24h))).floorToDouble(),
+          );
           final rulerWidth = renderer == GridRenderer.weekList ? 0.0 : width - pagesWidth;
           final pageWidth = pagesWidth * paging.viewportFraction;
           final headerHeight = _headerHeight(ts, config);
@@ -705,7 +742,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
             }
             laneHeight = rows == 0 ? 0 : rows * laneRow + (hidden ? 14 : 0) + 4;
           }
-          final bodyHeight = math.max(0.0, height - headerHeight - laneHeight);
+          final bodyHeight = math.max<double>(0, height - headerHeight - laneHeight);
           final dayMinutes = math.max(60, axis.normalMinutes);
           final ppm = TimeScale.clampPxPerMinute(
             _ppm ?? config.pxPerMinute,
@@ -766,7 +803,10 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
               _pendingScroll == null &&
               _initialScrollDone &&
               _vertical.hasClients &&
-              (old.renderer != frame.renderer || old.ppm != frame.ppm || old.axis != frame.axis || old.rows?.height != frame.rows?.height)) {
+              (old.renderer != frame.renderer ||
+                  old.ppm != frame.ppm ||
+                  old.axis != frame.axis ||
+                  old.rows?.height != frame.rows?.height)) {
             // Keep the time at the top of the viewport (T3.4.06 / T3.3.02).
             _pendingScroll = (_minuteAtContent(_vertical.offset), 0);
           }
@@ -778,34 +818,34 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
             autofocus: true,
             onKeyEvent: _onKey,
             child: Listener(
-            onPointerDown: _onPointerDown,
-            onPointerMove: _onPointerMove,
-            onPointerUp: _onPointerUp,
-            onPointerCancel: _onPointerUp,
-            child: NotificationListener<ScrollNotification>(
-              onNotification: _onVerticalNotification,
-              child: VerticalScrollProxy(
-                controller: _vertical,
-                viewportExtent: bodyHeight,
-                contentExtent: _contentHeight(frame),
-                physics: locked ? const NeverScrollableScrollPhysics() : null,
-                child: Row(
-                  children: [
-                    if (rulerWidth > 0)
-                      SizedBox(
-                        width: rulerWidth,
-                        child: Column(
-                          children: [
-                            SizedBox(height: metrics.bodyTop, child: _corner(context, frame, visible)),
-                            Expanded(child: _ruler(context, frame, visible, timelines)),
-                          ],
+              onPointerDown: _onPointerDown,
+              onPointerMove: _onPointerMove,
+              onPointerUp: _onPointerUp,
+              onPointerCancel: _onPointerUp,
+              child: NotificationListener<ScrollNotification>(
+                onNotification: _onVerticalNotification,
+                child: VerticalScrollProxy(
+                  controller: _vertical,
+                  viewportExtent: bodyHeight,
+                  contentExtent: _contentHeight(frame),
+                  physics: locked ? const NeverScrollableScrollPhysics() : null,
+                  child: Row(
+                    children: [
+                      if (rulerWidth > 0)
+                        SizedBox(
+                          width: rulerWidth,
+                          child: Column(
+                            children: [
+                              SizedBox(height: metrics.bodyTop, child: _corner(context, frame, visible)),
+                              Expanded(child: _ruler(context, frame, visible, timelines)),
+                            ],
+                          ),
                         ),
-                      ),
-                    Expanded(child: _pagesArea(context, frame, locked)),
-                  ],
+                      Expanded(child: _pagesArea(context, frame, locked)),
+                    ],
+                  ),
                 ),
               ),
-            ),
             ),
           );
         },
@@ -875,7 +915,12 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     return h.ceilToDouble();
   }
 
-  (Map<LocalDate, DaySlice>, bool) _watchSlices(WidgetRef ref, List<LocalDate> days, ItemFilter filter, Weekday weekStart) {
+  (Map<LocalDate, DaySlice>, bool) _watchSlices(
+    WidgetRef ref,
+    List<LocalDate> days,
+    ItemFilter filter,
+    Weekday weekStart,
+  ) {
     final result = <LocalDate, DaySlice>{};
     var loading = false;
     final chunks = <LocalDate>{for (final d in days) d.startOfWeek(weekStart)};
@@ -944,7 +989,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final m = f.metrics;
     final week = f.config.showWeekNumbers && visible.isNotEmpty ? visible.first.weekOfYear(f.weekStart).week : null;
     return DecoratedBox(
-      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: context.colors.outlineVariant))),
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: context.colors.outlineVariant)),
+      ),
       child: Column(
         children: [
           SizedBox(
@@ -952,7 +999,12 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
             child: Center(
               child: week == null
                   ? null
-                  : FittedBox(child: Text(l.pvWeekNumber(week), style: context.text.labelSmall?.copyWith(color: context.colors.outline))),
+                  : FittedBox(
+                      child: Text(
+                        l.pvWeekNumber(week),
+                        style: context.text.labelSmall?.copyWith(color: context.colors.outline),
+                      ),
+                    ),
             ),
           ),
           if (m.laneHeight > 0)
@@ -967,7 +1019,10 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
                     child: FittedBox(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 2),
-                        child: Text(l.pvAllDay, style: context.text.labelSmall?.copyWith(fontSize: 9, color: context.colors.onSurfaceVariant)),
+                        child: Text(
+                          l.pvAllDay,
+                          style: context.text.labelSmall?.copyWith(fontSize: 9, color: context.colors.onSurfaceVariant),
+                        ),
                       ),
                     ),
                   ),
@@ -991,27 +1046,27 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
           child: MouseRegion(
             onHover: (e) => _cursor = _slotAt(e.localPosition),
             child: GestureDetector(
-            onTapUp: _onTapUp,
-            onLongPressStart: _onLongPressStart,
-            onLongPressMoveUpdate: _onLongPressMoveUpdate,
-            onLongPressEnd: _onLongPressEnd,
-            onLongPressCancel: _cancelSession,
-            child: NotificationListener<ScrollNotification>(
-              onNotification: _onPagesNotification,
-              child: PageView.builder(
-                key: ValueKey(identityHashCode(_pages)),
-                controller: _pages,
-                padEnds: false,
-                allowImplicitScrolling: true,
-                pageSnapping: !free,
-                physics: locked
-                    ? const NeverScrollableScrollPhysics()
-                    : (free ? SnapToPagePhysics(pageFraction: paging.viewportFraction) : null),
-                onPageChanged: _onPageChanged,
-                itemBuilder: (context, index) => _GridPage(grid: this, index: index),
+              onTapUp: _onTapUp,
+              onLongPressStart: _onLongPressStart,
+              onLongPressMoveUpdate: _onLongPressMoveUpdate,
+              onLongPressEnd: _onLongPressEnd,
+              onLongPressCancel: _cancelSession,
+              child: NotificationListener<ScrollNotification>(
+                onNotification: _onPagesNotification,
+                child: PageView.builder(
+                  key: ValueKey(identityHashCode(_pages)),
+                  controller: _pages,
+                  padEnds: false,
+                  allowImplicitScrolling: true,
+                  pageSnapping: !free,
+                  physics: locked
+                      ? const NeverScrollableScrollPhysics()
+                      : (free ? SnapToPagePhysics(pageFraction: paging.viewportFraction) : null),
+                  onPageChanged: _onPageChanged,
+                  itemBuilder: (context, index) => _GridPage(grid: this, index: index),
+                ),
               ),
             ),
-          ),
           ),
         ),
         Positioned.fill(
@@ -1028,10 +1083,16 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
             child: IgnorePointer(
               child: Center(
                 child: DecoratedBox(
-                  decoration: BoxDecoration(color: context.colors.inverseSurface, borderRadius: BorderRadius.circular(Radii.pill)),
+                  decoration: BoxDecoration(
+                    color: context.colors.inverseSurface,
+                    borderRadius: BorderRadius.circular(Radii.pill),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: Space.lg, vertical: Space.sm),
-                    child: Text(_toast!, style: context.text.titleMedium?.copyWith(color: context.colors.onInverseSurface)),
+                    child: Text(
+                      _toast!,
+                      style: context.text.titleMedium?.copyWith(color: context.colors.onInverseSurface),
+                    ),
                   ),
                 ),
               ),
@@ -1054,7 +1115,14 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final m = f.metrics;
     final timelines = [for (final d in days) f.cache.of(d, f.zone)];
     final body = switch (f.renderer) {
-      GridRenderer.timeline => _timelineBody(context, index, page, timelines, f, overlays: _watchOverlays(ref, days, f)),
+      GridRenderer.timeline => _timelineBody(
+        context,
+        index,
+        page,
+        timelines,
+        f,
+        overlays: _watchOverlays(ref, days, f),
+      ),
       GridRenderer.table => _tableBody(context, page, timelines, f),
       GridRenderer.weekList => _weekListBody(context, page, f),
     };
@@ -1071,7 +1139,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final l = f.l10n;
     final fmt = f.format;
     return DecoratedBox(
-      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: context.colors.outlineVariant))),
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: context.colors.outlineVariant)),
+      ),
       child: Row(
         children: [
           for (final (i, d) in page.days.indexed)
@@ -1080,20 +1150,30 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
                 builder: (context) {
                   final slice = page.slices[d];
                   final stats = widget.showHeaderStats && slice != null ? DayStats.of(slice, f.work) : null;
-                  final count = slice == null ? 0 : {for (final s in slice.timed) s.item.key, for (final i in slice.lane) i.key}.length;
+                  final count = slice == null
+                      ? 0
+                      : {for (final s in slice.timed) s.item.key, for (final i in slice.lane) i.key}.length;
                   return DayHeaderCell(
                     date: d,
                     isToday: d == f.today,
                     format: fmt,
                     compact: f.metrics.pageWidth / page.days.length < 40,
-                    showMonth: d.day == 1 || (i == 0 && page.days.length > 1 && d.plusDays(page.days.length - 1).month != d.month),
-                    weekNumber: f.config.showWeekNumbers && (i == 0 || d.weekday == f.weekStart) ? l.pvWeekNumber(d.weekOfYear(f.weekStart).week) : null,
+                    showMonth:
+                        d.day == 1 ||
+                        (i == 0 && page.days.length > 1 && d.plusDays(page.days.length - 1).month != d.month),
+                    weekNumber: f.config.showWeekNumbers && (i == 0 || d.weekday == f.weekStart)
+                        ? l.pvWeekNumber(d.weekOfYear(f.weekStart).week)
+                        : null,
                     stats: stats,
                     loadWarn: f.config.option<double>('loadWarn', 0.8),
-                    loadOver: f.config.option<double>('loadOver', 1.0),
+                    loadOver: f.config.option<double>('loadOver', 1),
                     statsText: stats == null || (stats.total == 0 && stats.plannedMinutes == 0)
                         ? (widget.showHeaderStats ? '' : null)
-                        : l.pvDayStats(fmt.number(stats.done), fmt.number(stats.total), fmt.duration(stats.plannedMinutes)),
+                        : l.pvDayStats(
+                            fmt.number(stats.done),
+                            fmt.number(stats.total),
+                            fmt.duration(stats.plannedMinutes),
+                          ),
                     semanticsLabel: l.pvDayHeaderSemantics(fmt.dayLong(d), l.pvItemsCount(count)),
                     onTap: () => _openDay(d),
                     onLongPress: () => unawaited(_dayMenu(d)),
@@ -1165,7 +1245,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     if (days.isEmpty) return const [];
     final col = f.metrics.pageWidth / days.length;
     final slot = f.config.slotMinutes;
-    final int group = slot * math.max(1, (24 / (f.ppm * slot)).ceil());
+    final group = slot * math.max<int>(1, (24 / (f.ppm * slot)).ceil());
     final window = f.config.dayWindow;
     final out = <Widget>[];
     for (final (i, day) in days.indexed) {
@@ -1199,7 +1279,11 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
   ({List<OverlayMarker> markers, OccupancyGrid? heat}) _watchOverlays(WidgetRef ref, List<LocalDate> days, _Frame f) {
     if (days.isEmpty) return (markers: const [], heat: null);
     final c = f.config;
-    final query = OverlayQuery(DayRange(days.first, days.first.daysUntil(days.last) + 1), habits: c.overlay('habits'), checklistDue: c.overlay('checklistDue'));
+    final query = OverlayQuery(
+      DayRange(days.first, days.first.daysUntil(days.last) + 1),
+      habits: c.overlay('habits'),
+      checklistDue: c.overlay('checklistDue'),
+    );
     final markers = query.isEmpty ? const <OverlayMarker>[] : ref.watch(plannerOverlayMarkersProvider(query));
     OccupancyGrid? heat;
     if (c.overlay('heat')) {
@@ -1223,7 +1307,14 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final now = f.nowLocal;
     final sessionKey = _session?.item?.key;
     final selected = _selectedKey == null ? null : geom.tiles.firstWhereOrNull((t) => t.item.key == _selectedKey);
-    final overlayContext = PageOverlayContext(days: page.days, slices: page.slices, axis: f.axis, ppm: f.ppm, rtl: f.metrics.rtl, style: f.style);
+    final overlayContext = PageOverlayContext(
+      days: page.days,
+      slices: page.slices,
+      axis: f.axis,
+      ppm: f.ppm,
+      rtl: f.metrics.rtl,
+      style: f.style,
+    );
     return TimelinePageBody(
       geometry: geom,
       axis: f.axis,
@@ -1239,7 +1330,8 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       workWindow: f.work.hours,
       workDays: f.work.days,
       overlayPainters: [
-        if (overlays.heat case final heat?) HeatTintPainter(page: overlayContext, grid: heat, color: context.appColors.warning),
+        if (overlays.heat case final heat?)
+          HeatTintPainter(page: overlayContext, grid: heat, color: context.appColors.warning),
         if (config.overlay('freeSlots'))
           FreeSlotsPainter(
             page: overlayContext,
@@ -1263,7 +1355,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
         final tile = TaskTile(
           item: item,
           colors: f.colors.of(item),
-          timeText: g.variant == TileVariant.chip ? f.format.timeOf(item.startLocal) : f.format.timeRange(item.startLocal, item.endLocal),
+          timeText: g.variant == TileVariant.chip
+              ? f.format.timeOf(item.startLocal)
+              : f.format.timeRange(item.startLocal, item.endLocal),
           semanticsLabel: _semantics(item, f),
           variant: g.variant,
           past: item.endLocal.isBefore(now),
@@ -1332,7 +1426,14 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
 
   TablePageGeometry _tableGeometry(_PageData page, _Frame f) {
     final rows = f.rows!;
-    final deps = <Object?>[rows, f.metrics.pageWidth, f.metrics.rtl, f.style.chipExtent, ...page.days, for (final d in page.days) page.slices[d]];
+    final deps = <Object?>[
+      rows,
+      f.metrics.pageWidth,
+      f.metrics.rtl,
+      f.style.chipExtent,
+      ...page.days,
+      for (final d in page.days) page.slices[d],
+    ];
     final cached = page.table;
     if (cached != null && const ListEquality<Object?>().equals(page.tableDeps, deps)) return cached;
     final geom = TablePageGeometry(
@@ -1343,7 +1444,10 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       slices: [for (final d in page.days) page.slices[d]],
       buckets: [
         for (final d in page.days)
-          if (page.slices[d] case final s?) tableBuckets(s, rows.rows) else [for (var i = 0; i < rows.length; i++) const <Never>[]],
+          if (page.slices[d] case final s?)
+            tableBuckets(s, rows.rows)
+          else
+            [for (var i = 0; i < rows.length; i++) const <Never>[]],
       ],
       chipExtent: f.style.chipExtent,
     );
@@ -1394,7 +1498,13 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
   }
 
   WeekListGeometry _weekListGeometry(_PageData page, _Frame f) {
-    final deps = <Object?>[f.metrics.pageWidth, f.metrics.rtl, f.style.chipExtent, ...page.days, for (final d in page.days) page.slices[d]];
+    final deps = <Object?>[
+      f.metrics.pageWidth,
+      f.metrics.rtl,
+      f.style.chipExtent,
+      ...page.days,
+      for (final d in page.days) page.slices[d],
+    ];
     final cached = page.weekList;
     if (cached != null && const ListEquality<Object?>().equals(page.weekListDeps, deps)) return cached;
     final geom = WeekListGeometry(
@@ -1456,7 +1566,13 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final fmt = f.format;
     final base = item.allDay
         ? '${item.title}, ${fmt.dayLong(item.startLocal.date)}, ${l.pvAllDay}, ${context.statusLabel(item.status)}'
-        : l.pvTileSemantics(item.title, fmt.dayLong(item.startLocal.date), fmt.timeOf(item.startLocal), fmt.timeOf(item.endLocal), context.statusLabel(item.status));
+        : l.pvTileSemantics(
+            item.title,
+            fmt.dayLong(item.startLocal.date),
+            fmt.timeOf(item.startLocal),
+            fmt.timeOf(item.endLocal),
+            context.statusLabel(item.status),
+          );
     return item.isRecurring ? '$base, ${l.pvRepeats}' : base;
   }
 
@@ -1465,12 +1581,14 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final step = math.max(1, math.min(15, f.config.snapMinutes));
     return {
       if (item.trackingMode == TrackingMode.check)
-        CustomSemanticsAction(label: item.isDone ? l.pvMarkNotDone : l.pvMarkDone): () => unawaited(_commands.toggleDone(item)),
+        CustomSemanticsAction(label: item.isDone ? l.pvMarkNotDone : l.pvMarkDone): () =>
+            unawaited(_commands.toggleDone(item)),
       CustomSemanticsAction(label: l.pvMoveEarlier(step)): () => unawaited(_nudge(item, -step)),
       CustomSemanticsAction(label: l.pvMoveLater(step)): () => unawaited(_nudge(item, step)),
       CustomSemanticsAction(label: l.pvMovePreviousDay): () => unawaited(_moveDays(item, -1)),
       CustomSemanticsAction(label: l.pvMoveNextDay): () => unawaited(_moveDays(item, 1)),
-      CustomSemanticsAction(label: l.pvSelect): () => ref.read(plannerSelectionProvider(widget.viewKey).notifier).toggle(item),
+      CustomSemanticsAction(label: l.pvSelect): () =>
+          ref.read(plannerSelectionProvider(widget.viewKey).notifier).toggle(item),
     };
   }
 
@@ -1487,7 +1605,11 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
   /// overlay, so the layout never shifts under the finger).
   bool get _virtualLane {
     final s = _session;
-    return s != null && s.item != null && !s.listMode && s.kind == _SessionKind.move && (_frame?.metrics.laneHeight ?? 0) == 0;
+    return s != null &&
+        s.item != null &&
+        !s.listMode &&
+        s.kind == _SessionKind.move &&
+        (_frame?.metrics.laneHeight ?? 0) == 0;
   }
 
   _Hit? _hitTest(Offset local, {bool session = false}) {
@@ -1510,7 +1632,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final column = m.rtl ? n - 1 - physical : physical;
     final _Region region;
     final double y;
-    final laneBottom = m.laneHeight > 0 ? m.bodyTop : (session && _virtualLane ? m.headerHeight + m.laneRowExtent : m.bodyTop);
+    final laneBottom = m.laneHeight > 0
+        ? m.bodyTop
+        : (session && _virtualLane ? m.headerHeight + m.laneRowExtent : m.bodyTop);
     if (local.dy < m.headerHeight) {
       region = _Region.header;
       y = local.dy;
@@ -1553,7 +1677,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
         final m = minute.clamp(0.0, 1440.0);
         final r = rows.rowOfWall(m.floor().clamp(0, 1439));
         final row = rows.rows[r];
-        y = rows.tops[r] + (row.minutes <= 0 ? 0 : ((m - row.wallStart) / row.minutes).clamp(0.0, 1.0) * rows.heights[r]);
+        y =
+            rows.tops[r] +
+            (row.minutes <= 0 ? 0 : ((m - row.wallStart) / row.minutes).clamp(0.0, 1.0) * rows.heights[r]);
       case GridRenderer.weekList:
         y = 0;
     }
@@ -1604,7 +1730,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
         final item = lane?.itemAt(hit.column, row);
         if (item != null) {
           _activate(item);
-        } else if (lane != null && lane.packing.hiddenPerColumn.length > hit.column && lane.packing.hiddenPerColumn[hit.column] > 0) {
+        } else if (lane != null &&
+            lane.packing.hiddenPerColumn.length > hit.column &&
+            lane.packing.hiddenPerColumn[hit.column] > 0) {
           setState(() => _laneExpanded = !_laneExpanded);
         } else {
           unawaited(_commands.quickCreate(start: hit.day.atStartOfDay, duration: 1440, allDay: true));
@@ -1634,13 +1762,21 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     if (tile != null) {
       final r = tile.rect;
       final fromStart = f.metrics.rtl ? r.right - p.dx : p.dx - r.left;
-      _activate(tile.item, check: tile.item.trackingMode == TrackingMode.check && tile.variant != TileVariant.minimal && fromStart <= kTileCheckExtent + 6);
+      _activate(
+        tile.item,
+        check:
+            tile.item.trackingMode == TrackingMode.check &&
+            tile.variant != TileVariant.minimal &&
+            fromStart <= kTileCheckExtent + 6,
+      );
       return;
     }
     final loc = f.axis.locate(p.dy, f.ppm);
     final band = f.axis.bands[loc.bandIndex];
     if (band.kind == AxisBandKind.hidden) {
-      setState(() => _expandedHidden.add(band.wallStart < f.config.dayWindow.startMinute ? 0 : f.config.dayWindow.endMinute));
+      setState(
+        () => _expandedHidden.add(band.wallStart < f.config.dayWindow.startMinute ? 0 : f.config.dayWindow.endMinute),
+      );
       return;
     }
     if (_selectedKey != null) {
@@ -1670,17 +1806,21 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     }
     final row = geom!.rows.rows[t.row];
     if (row.kind == AxisBandKind.hidden) {
-      setState(() => _expandedHidden.add(row.wallStart < f.config.dayWindow.startMinute ? 0 : f.config.dayWindow.endMinute));
+      setState(
+        () => _expandedHidden.add(row.wallStart < f.config.dayWindow.startMinute ? 0 : f.config.dayWindow.endMinute),
+      );
       return;
     }
     if (_selectedKey != null) {
       setState(() => _selectedKey = null);
       return;
     }
-    unawaited(_commands.quickCreate(
-      start: hit.days[t.dayIndex].atStartOfDay.plusMinutes(row.wallStart.clamp(0, 1439)),
-      duration: quickCreateDuration(row.minutes, f.work),
-    ));
+    unawaited(
+      _commands.quickCreate(
+        start: hit.days[t.dayIndex].atStartOfDay.plusMinutes(row.wallStart.clamp(0, 1439)),
+        duration: quickCreateDuration(row.minutes, f.work),
+      ),
+    );
   }
 
   void _tapWeekList(_Hit hit, _Frame f) {
@@ -1725,7 +1865,8 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     ];
   }
 
-  PlannerItem? get _selectedItem => _selectedKey == null ? null : _keyboardItems().firstWhereOrNull((i) => i.key == _selectedKey);
+  PlannerItem? get _selectedItem =>
+      _selectedKey == null ? null : _keyboardItems().firstWhereOrNull((i) => i.key == _selectedKey);
 
   void _select(PlannerItem item) {
     setState(() => _selectedKey = item.key);
@@ -1749,10 +1890,16 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     var i = visible.indexOf(from.startLocal.date) + dir;
     while (i >= 0 && i < visible.length) {
       final day = visible[i];
-      final candidates = [for (final it in items) if (it.startLocal.date == day) it];
+      final candidates = [
+        for (final it in items)
+          if (it.startLocal.date == day) it,
+      ];
       if (candidates.isNotEmpty) {
         final minute = from.startLocal.time.minuteOfDay;
-        candidates.sort((a, b) => (a.startLocal.time.minuteOfDay - minute).abs().compareTo((b.startLocal.time.minuteOfDay - minute).abs()));
+        candidates.sort(
+          (a, b) =>
+              (a.startLocal.time.minuteOfDay - minute).abs().compareTo((b.startLocal.time.minuteOfDay - minute).abs()),
+        );
         _select(candidates.first);
         return;
       }
@@ -1764,7 +1911,11 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
   Future<void> _moveDays(PlannerItem item, int days) {
     final start = item.startLocal.plusDays(days);
     final f = _frame!;
-    return _commands.reschedule(item, start: start, message: context.l10n.pvMovedSnack('${f.format.dayShort(start.date)} ${f.format.timeOf(start)}'));
+    return _commands.reschedule(
+      item,
+      start: start,
+      message: context.l10n.pvMovedSnack('${f.format.dayShort(start.date)} ${f.format.timeOf(start)}'),
+    );
   }
 
   /// Where Ctrl/Cmd + V pastes: the hovered / last tapped slot, else right after the selected item,
@@ -1787,11 +1938,15 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     if (f == null || hit == null || hit.region != _Region.body) return null;
     final slot = f.config.slotMinutes;
     return switch (f.renderer) {
-      GridRenderer.timeline => hit.day.atStartOfDay.plusMinutes(((f.axis.locate(hit.point.dy, f.ppm).wall ~/ slot) * slot).clamp(0, 1439)),
+      GridRenderer.timeline => hit.day.atStartOfDay.plusMinutes(
+        ((f.axis.locate(hit.point.dy, f.ppm).wall ~/ slot) * slot).clamp(0, 1439),
+      ),
       GridRenderer.table => () {
         final row = _pageData[hit.page]?.table?.hit(hit.point)?.row;
         final rows = _pageData[hit.page]?.table?.rows.rows;
-        return row == null || rows == null ? null : hit.day.atStartOfDay.plusMinutes(rows[row].wallStart.clamp(0, 1439));
+        return row == null || rows == null
+            ? null
+            : hit.day.atStartOfDay.plusMinutes(rows[row].wallStart.clamp(0, 1439));
       }(),
       GridRenderer.weekList => hit.day.atStartOfDay,
     };
@@ -1819,7 +1974,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     }
     final snap = math.max(1, f.config.snapMinutes);
     // ← / → follow the reading direction (mirrored in RTL).
-    final forward = key == LogicalKeyboardKey.arrowRight ? !f.metrics.rtl : (key == LogicalKeyboardKey.arrowLeft ? f.metrics.rtl : null);
+    final forward = key == LogicalKeyboardKey.arrowRight
+        ? !f.metrics.rtl
+        : (key == LogicalKeyboardKey.arrowLeft ? f.metrics.rtl : null);
     if (key == LogicalKeyboardKey.arrowDown || key == LogicalKeyboardKey.arrowUp) {
       final dir = key == LogicalKeyboardKey.arrowDown ? 1 : -1;
       if (shift && selected != null) {
@@ -1836,7 +1993,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       } else if (selected != null) {
         _selectInNeighbourDay(selected, dir);
       } else {
-        unawaited(this.step(dir));
+        unawaited(step(dir));
       }
       return KeyEventResult.handled;
     }
@@ -1865,7 +2022,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       return KeyEventResult.handled;
     }
     if (key == LogicalKeyboardKey.pageDown || key == LogicalKeyboardKey.pageUp) {
-      unawaited(this.step(key == LogicalKeyboardKey.pageDown ? 1 : -1));
+      unawaited(step(key == LogicalKeyboardKey.pageDown ? 1 : -1));
       return KeyEventResult.handled;
     }
     return KeyEventResult.ignored;
@@ -1878,7 +2035,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     if (f == null) return;
     final paging = _paging!;
     final slice = _pageData[paging.pageOf(day)]?.slices[day];
-    final items = slice == null ? const <PlannerItem>[] : {for (final s in slice.timed) s.item.key: s.item, for (final i in slice.lane) i.key: i}.values.toList();
+    final items = slice == null
+        ? const <PlannerItem>[]
+        : {for (final s in slice.timed) s.item.key: s.item, for (final i in slice.lane) i.key: i}.values.toList();
     await _commands.showDayMenu(day, items, now: f.nowLocal);
   }
 
@@ -1899,7 +2058,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     if (day == f.today) targets.add(f.nowLocal.time.minuteOfDay + shift);
     return SnapEngine(
       snapMinutes: f.config.snapMinutes,
-      pxPerMinute: f.renderer == GridRenderer.table ? (f.rows!.length == 0 ? f.ppm : f.rows!.heights.first / math.max(1, f.config.slotMinutes)) : f.ppm,
+      pxPerMinute: f.renderer == GridRenderer.table
+          ? (f.rows!.length == 0 ? f.ppm : f.rows!.heights.first / math.max(1, f.config.slotMinutes))
+          : f.ppm,
       magnetTargets: f.renderer == GridRenderer.timeline ? targets : const [],
       free: _freeSnap || f.config.option<bool>('freeDrag', false),
     );
@@ -1953,14 +2114,21 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       final start = day.atStartOfDay.minutesUntil(item.startLocal);
       final range = DragRange(start, start + item.durationMinutes);
       final r = tile.rect;
-      final edge = math.min(12.0, r.height / 4);
+      final edge = math.min(12, r.height / 4);
       if (p.dy - r.top <= edge && !tile.segment.continuesBefore && r.height >= 24) {
         return _Session(kind: _SessionKind.resizeStart, item: item, refDay: day, range: range, pointer: local);
       }
       if (r.bottom - p.dy <= edge && !tile.segment.continuesAfter && r.height >= 24) {
         return _Session(kind: _SessionKind.resizeEnd, item: item, refDay: day, range: range, pointer: local);
       }
-      return _Session(kind: _SessionKind.move, item: item, refDay: day, range: range, pointer: local, grabOffset: (finger - start).round());
+      return _Session(
+        kind: _SessionKind.move,
+        item: item,
+        refDay: day,
+        range: range,
+        pointer: local,
+        grabOffset: (finger - start).round(),
+      );
     }
     final band = f.axis.bands[f.axis.locate(p.dy, f.ppm).bandIndex];
     if (band.kind != AxisBandKind.normal) return null;
@@ -2031,13 +2199,15 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final day = hit.days[g.dayIndex];
     final start = day.atStartOfDay.minutesUntil(g.item.startLocal);
     ref.read(plannerHapticsProvider).lift();
-    _beginSession(_Session(
-      kind: top ? _SessionKind.resizeStart : _SessionKind.resizeEnd,
-      item: g.item,
-      refDay: day,
-      range: DragRange(start, start + g.item.durationMinutes),
-      pointer: local,
-    ));
+    _beginSession(
+      _Session(
+        kind: top ? _SessionKind.resizeStart : _SessionKind.resizeEnd,
+        item: g.item,
+        refDay: day,
+        range: DragRange(start, start + g.item.durationMinutes),
+        pointer: local,
+      ),
+    );
   }
 
   void _beginSession(_Session s) {
@@ -2108,7 +2278,12 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
           ..refDay = hit.day;
         final finger = _minuteAtContent(hit.point.dy);
         final duration = s.fromLane ? 30 : (item?.durationMinutes ?? 30);
-        s.range = DragMath.move(finger, s.fromLane ? 0 : s.grabOffset, duration, _snapFor(hit.day, hit.day, exclude: item?.key));
+        s.range = DragMath.move(
+          finger,
+          s.fromLane ? 0 : s.grabOffset,
+          duration,
+          _snapFor(hit.day, hit.day, exclude: item?.key),
+        );
     }
     final edgeMinute = switch (s.kind) {
       _SessionKind.resizeStart => s.range.start,
@@ -2157,7 +2332,8 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
         }
       }
     }
-    final resizing = s.kind == _SessionKind.resizeStart || s.kind == _SessionKind.resizeEnd || s.kind == _SessionKind.create;
+    final resizing =
+        s.kind == _SessionKind.resizeStart || s.kind == _SessionKind.resizeEnd || s.kind == _SessionKind.create;
     final dir = resizing ? 0 : DragMath.pageEdgeDirection(s.pointer.dx, m.pagesWidth, rtl: m.rtl);
     if (dir == 0) {
       _edgeDir = 0;
@@ -2171,10 +2347,12 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     if (!_autoPaging && elapsed - _edgeSince >= const Duration(milliseconds: 400)) {
       _autoPaging = true;
       _edgeSince = elapsed + const Duration(milliseconds: 500);
-      unawaited(step(dir).whenComplete(() {
-        _autoPaging = false;
-        if (mounted && _session != null) _updateSession(_session!.pointer);
-      }));
+      unawaited(
+        step(dir).whenComplete(() {
+          _autoPaging = false;
+          if (mounted && _session != null) _updateSession(_session!.pointer);
+        }),
+      );
     }
   }
 
@@ -2201,14 +2379,21 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     switch (s.kind) {
       case _SessionKind.create:
         final step = DragMath.minLength(_snapFor(s.refDay, s.refDay));
-        if (s.moved && s.range.start == s.grabOffset && s.range.end == s.grabOffset + step) return; // back to the origin
+        if (s.moved && s.range.start == s.grabOffset && s.range.end == s.grabOffset + step) {
+          return; // back to the origin
+        }
         final start = s.refDay.atStartOfDay.plusMinutes(s.range.start);
         await _commands.quickCreate(start: start, duration: math.max(1, s.range.duration));
       case _SessionKind.resizeStart:
       case _SessionKind.resizeEnd:
         if (item == null || !s.changed) return;
         final start = s.refDay.atStartOfDay.plusMinutes(s.range.start);
-        await _commands.reschedule(item, start: start, duration: s.range.duration, message: l.pvResizedSnack(f.format.duration(s.range.duration)));
+        await _commands.reschedule(
+          item,
+          start: start,
+          duration: s.range.duration,
+          message: l.pvResizedSnack(f.format.duration(s.range.duration)),
+        );
       case _SessionKind.move:
         if (item == null) return;
         if (!s.moved || !s.changed) {
@@ -2218,13 +2403,20 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
           }
           if (!s.moved) {
             setState(() => _selectedKey = item.key);
-            await _commands.showTileMenu(item, onSelect: () => ref.read(plannerSelectionProvider(widget.viewKey).notifier).select(item));
+            await _commands.showTileMenu(
+              item,
+              onSelect: () => ref.read(plannerSelectionProvider(widget.viewKey).notifier).select(item),
+            );
           }
           return;
         }
         if (s.listMode) {
           final start = s.refDay.atTime(item.startLocal.time);
-          await _commands.reschedule(item, start: item.allDay ? s.refDay.atStartOfDay : start, message: l.pvMovedSnack(f.format.dayShort(s.refDay)));
+          await _commands.reschedule(
+            item,
+            start: item.allDay ? s.refDay.atStartOfDay : start,
+            message: l.pvMovedSnack(f.format.dayShort(s.refDay)),
+          );
           return;
         }
         if (s.toLane) {
@@ -2262,7 +2454,10 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final others = [...entries]..removeAt(from);
     final after = to == 0 ? null : others[to - 1].item.manualSortKey;
     final before = to >= others.length ? null : others[to].item.manualSortKey;
-    await _commands.runExtra(f.l10n.pvMovedSnack(f.format.dayShort(s.refDay)), (a) => a.reorder(item, afterKey: after, beforeKey: before));
+    await _commands.runExtra(
+      f.l10n.pvMovedSnack(f.format.dayShort(s.refDay)),
+      (a) => a.reorder(item, afterKey: after, beforeKey: before),
+    );
   }
 
   // ------------------------------------------------------------------------------ overlay --
@@ -2277,17 +2472,19 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final item = s.item;
     final colors = item == null ? null : f.colors.of(item);
     if (_virtualLane) {
-      children.add(Positioned.fromRect(
-        rect: Rect.fromLTWH(0, m.headerHeight, m.pagesWidth, m.laneRowExtent),
-        child: DecoratedBox(
-          key: const Key('lane-drop'),
-          decoration: BoxDecoration(
-            color: context.colors.surfaceContainerHighest.withValues(alpha: 0.92),
-            border: Border(bottom: BorderSide(color: context.colors.primary)),
+      children.add(
+        Positioned.fromRect(
+          rect: Rect.fromLTWH(0, m.headerHeight, m.pagesWidth, m.laneRowExtent),
+          child: DecoratedBox(
+            key: const Key('lane-drop'),
+            decoration: BoxDecoration(
+              color: context.colors.surfaceContainerHighest.withValues(alpha: 0.92),
+              border: Border(bottom: BorderSide(color: context.colors.primary)),
+            ),
+            child: Center(child: Text(f.l10n.pvAllDay, style: context.text.labelSmall)),
           ),
-          child: Center(child: Text(f.l10n.pvAllDay, style: context.text.labelSmall)),
         ),
-      ));
+      );
     }
     if (col != null && !s.listMode) {
       final Rect ghost;
@@ -2296,54 +2493,70 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       } else {
         final top = _bodyYOfMinute(s.range.start.toDouble());
         final bottom = _bodyYOfMinute(math.min(1440, s.range.end).toDouble());
-        ghost = Rect.fromLTRB(col.left + 1, math.max(m.bodyTop, top), col.right - 1, math.max(math.max(m.bodyTop, top) + 18, bottom));
+        ghost = Rect.fromLTRB(
+          col.left + 1,
+          math.max(m.bodyTop, top),
+          col.right - 1,
+          math.max(math.max(m.bodyTop, top) + 18, bottom),
+        );
       }
-      children.add(Positioned.fromRect(
-        rect: ghost,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: (colors?.background ?? context.colors.primaryContainer).withValues(alpha: 0.92),
-            borderRadius: BorderRadius.circular(Radii.sm),
-            border: Border.all(color: colors?.accent ?? context.colors.primary, width: 2),
-            boxShadow: const [BoxShadow(blurRadius: 10, offset: Offset(0, 4), color: Color(0x40000000))],
-          ),
-          child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(4, 2, 2, 2),
-            child: Text(
-              item?.title ?? '',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: colors?.foreground ?? context.colors.onPrimaryContainer),
+      children.add(
+        Positioned.fromRect(
+          rect: ghost,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: (colors?.background ?? context.colors.primaryContainer).withValues(alpha: 0.92),
+              borderRadius: BorderRadius.circular(Radii.sm),
+              border: Border.all(color: colors?.accent ?? context.colors.primary, width: 2),
+              boxShadow: AppShadows.floating,
+            ),
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(4, 2, 2, 2),
+              child: Text(
+                item?.title ?? '',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: colors?.foreground ?? context.colors.onPrimaryContainer,
+                ),
+              ),
             ),
           ),
         ),
-      ));
+      );
     }
-    final bubbleWidth = math.min(m.pagesWidth - 8, 240.0);
+    final bubbleWidth = math.min<double>(m.pagesWidth - 8, 240);
     final left = (s.pointer.dx - bubbleWidth / 2).clamp(4.0, math.max(4.0, m.pagesWidth - bubbleWidth - 4)).toDouble();
     final top = (s.pointer.dy - 72).clamp(4.0, math.max(4.0, m.height - 40)).toDouble();
-    children.add(Positioned.fromRect(
-      rect: Rect.fromLTWH(left, top, bubbleWidth, 32),
-      child: Center(
-        child: DecoratedBox(
-          key: const Key('time-bubble'),
-          decoration: BoxDecoration(
-            color: context.colors.inverseSurface,
-            borderRadius: BorderRadius.circular(Radii.pill),
-            boxShadow: const [BoxShadow(blurRadius: 6, color: Color(0x33000000))],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Space.md, vertical: Space.xs),
-            child: Text(
-              view.label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: context.text.labelLarge?.copyWith(color: context.colors.onInverseSurface, fontFeatures: const [FontFeature.tabularFigures()]),
+    children.add(
+      Positioned.fromRect(
+        rect: Rect.fromLTWH(left, top, bubbleWidth, 32),
+        child: Center(
+          child: DecoratedBox(
+            key: const Key('time-bubble'),
+            decoration: BoxDecoration(
+              color: context.colors.inverseSurface,
+              borderRadius: BorderRadius.circular(Radii.pill),
+              boxShadow: AppShadows.soft,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Space.md, vertical: Space.xs),
+              child: Text(
+                view.label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: context.text.labelLarge?.copyWith(
+                  color: context.colors.onInverseSurface,
+                  fontFeatures: const [FontFeature.tabularFigures()],
+                ),
+              ),
             ),
           ),
         ),
       ),
-    ));
+    );
     return Stack(children: children);
   }
 
@@ -2392,7 +2605,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final b = _toBody(pts[1]);
     final focalY = ((a.dy + b.dy) / 2).clamp(0.0, f.metrics.bodyHeight);
     final contentY = focalY + (_vertical.hasClients ? _vertical.offset : 0);
-    final loc = f.renderer == GridRenderer.timeline ? f.axis.locate(contentY, f.ppm) : (wall: _minuteAtContent(contentY), repeat: 0, bandIndex: 0);
+    final loc = f.renderer == GridRenderer.timeline
+        ? f.axis.locate(contentY, f.ppm)
+        : (wall: _minuteAtContent(contentY), repeat: 0, bandIndex: 0);
     _pinchedSinceDown = true;
     setState(() {
       _pinch = _Pinch(
@@ -2414,13 +2629,13 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     final pts = _pointers.values.take(2).toList();
     final a = _toBody(pts[0]);
     final b = _toBody(pts[1]);
-    final dy0 = math.max(24.0, (p.a.dy - p.b.dy).abs());
-    final dx0 = math.max(24.0, (p.a.dx - p.b.dx).abs());
-    final vScale = math.max(24.0, (a.dy - b.dy).abs()) / dy0;
-    final hScale = math.max(24.0, (a.dx - b.dx).abs()) / dx0;
+    final dy0 = math.max(24, (p.a.dy - p.b.dy).abs());
+    final dx0 = math.max(24, (p.a.dx - p.b.dx).abs());
+    final vScale = math.max(24, (a.dy - b.dy).abs()) / dy0;
+    final hScale = math.max(24, (a.dx - b.dx).abs()) / dx0;
     if (p.lock == null) {
-      final rv = (math.log(vScale)).abs();
-      final rh = (math.log(hScale)).abs();
+      final rv = math.log(vScale).abs();
+      final rh = math.log(hScale).abs();
       if (math.max(rv, rh) < 0.06) return;
       p.lock = rv >= rh ? Axis.vertical : Axis.horizontal;
     }
@@ -2452,11 +2667,18 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       final next = ZoomMath.semanticSlot(slot, ppm);
       if (next != slot) {
         slot = next;
-        ref.read(plannerViewConfigProvider(widget.viewKey).notifier).update(config.withSlot(next, keepPxPerMinute: true));
+        ref
+            .read(plannerViewConfigProvider(widget.viewKey).notifier)
+            .update(config.withSlot(next, keepPxPerMinute: true));
         _showToast(slotLabel(f.format, next));
       }
     }
-    ppm = TimeScale.clampPxPerMinute(ppm, slotMinutes: slot, viewportExtent: bodyHeight, dayMinutes: math.max(60, f.axis.normalMinutes));
+    ppm = TimeScale.clampPxPerMinute(
+      ppm,
+      slotMinutes: slot,
+      viewportExtent: bodyHeight,
+      dayMinutes: math.max(60, f.axis.normalMinutes),
+    );
     if ((ppm - f.ppm).abs() < 1e-4) return;
     setState(() => _ppm = ppm);
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -2468,7 +2690,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       } else {
         contentY = _offsetForMinute(focalMinute) + 0;
       }
-      final max = math.max(0.0, _contentHeight(g) - g.metrics.bodyHeight);
+      final max = math.max<double>(0, _contentHeight(g) - g.metrics.bodyHeight);
       _vertical.jumpTo(ZoomMath.keepFocal(focalContentY: contentY, focalViewportY: focalY, maxOffset: max));
     });
   }
@@ -2480,7 +2702,9 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     if (p.lock == Axis.vertical && _ppm != null) {
       _viewState.update((s) => s.copyWith(pxPerMinute: _ppm));
     } else if (p.lock == Axis.horizontal) {
-      _viewState.update((s) => _landscape ? s.copyWith(daysLandscape: _daysLandscape) : s.copyWith(daysPortrait: _daysPortrait));
+      _viewState.update(
+        (s) => _landscape ? s.copyWith(daysLandscape: _daysLandscape) : s.copyWith(daysPortrait: _daysPortrait),
+      );
     }
     final pages = _pages;
     if (pages != null && pages.hasClients) {

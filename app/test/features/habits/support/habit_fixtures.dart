@@ -16,11 +16,7 @@ void ensureTz() {
 
 LocalDate d(int y, int m, int day) => LocalDate(y, m, day);
 
-HabitPeriodService periodService({
-  String zone = 'UTC',
-  int dayStartMinutes = 0,
-  Weekday weekStart = Weekday.monday,
-}) {
+HabitPeriodService periodService({String zone = 'UTC', int dayStartMinutes = 0, Weekday weekStart = Weekday.monday}) {
   ensureTz();
   return HabitPeriodService(
     engine: RecurrenceEngine(TzZoneResolver()),

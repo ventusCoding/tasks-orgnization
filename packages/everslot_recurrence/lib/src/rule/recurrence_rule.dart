@@ -79,15 +79,8 @@ final class RecurrenceRule {
   );
 
   /// Convenience constructor for an after-completion rule ("[amount] [unit] after completion").
-  factory forAfterCompletion(
-    int amount,
-    RecurrenceUnit unit, {
-    LocalDateTime? until,
-  }) => RecurrenceRule(
-    type: RuleType.afterCompletion,
-    afterCompletion: AfterCompletion(amount, unit),
-    until: until,
-  );
+  factory forAfterCompletion(int amount, RecurrenceUnit unit, {LocalDateTime? until}) =>
+      RecurrenceRule(type: RuleType.afterCompletion, afterCompletion: AfterCompletion(amount, unit), until: until);
 
   /// Decodes the JSON value (upgrading older schema versions).
   ///
@@ -101,15 +94,9 @@ final class RecurrenceRule {
       if (!_knownKeys.contains(entry.key)) extra[entry.key] = entry.value;
     }
     final rule = RecurrenceRule(
-      type: upgraded['type'] == null
-          ? RuleType.fixed
-          : RuleType.fromJson(upgraded['type']),
-      freq: upgraded['freq'] == null
-          ? Frequency.daily
-          : Frequency.fromJson(upgraded['freq']),
-      interval: upgraded['interval'] == null
-          ? 1
-          : readInt(upgraded['interval'], 'interval'),
+      type: upgraded['type'] == null ? RuleType.fixed : RuleType.fromJson(upgraded['type']),
+      freq: upgraded['freq'] == null ? Frequency.daily : Frequency.fromJson(upgraded['freq']),
+      interval: upgraded['interval'] == null ? 1 : readInt(upgraded['interval'], 'interval'),
       byWeekday: _readWeekdays(upgraded['byWeekday']),
       byMonthDay: readIntList(upgraded['byMonthDay'], 'byMonthDay'),
       byMonth: readIntList(upgraded['byMonth'], 'byMonth'),
@@ -118,39 +105,21 @@ final class RecurrenceRule {
       bySetPos: readIntList(upgraded['bySetPos'], 'bySetPos'),
       byHour: readIntList(upgraded['byHour'], 'byHour'),
       byMinute: readIntList(upgraded['byMinute'], 'byMinute'),
-      times: [
-        for (final t in readStringList(upgraded['times'], 'times'))
-          readTime(t, 'times[]'),
-      ],
-      window: upgraded['window'] == null
-          ? null
-          : DailyWindow.fromJson(upgraded['window']),
-      wkst: upgraded['wkst'] == null
-          ? Weekday.monday
-          : _readWeekday(upgraded['wkst'], 'wkst'),
+      times: [for (final t in readStringList(upgraded['times'], 'times')) readTime(t, 'times[]')],
+      window: upgraded['window'] == null ? null : DailyWindow.fromJson(upgraded['window']),
+      wkst: upgraded['wkst'] == null ? Weekday.monday : _readWeekday(upgraded['wkst'], 'wkst'),
       until: _readUntil(upgraded['until']),
-      count: upgraded['count'] == null
-          ? null
-          : readInt(upgraded['count'], 'count'),
-      countMode: upgraded['countMode'] == null
-          ? CountMode.occurrences
-          : CountMode.fromJson(upgraded['countMode']),
+      count: upgraded['count'] == null ? null : readInt(upgraded['count'], 'count'),
+      countMode: upgraded['countMode'] == null ? CountMode.occurrences : CountMode.fromJson(upgraded['countMode']),
       monthDayOverflow: upgraded['monthDayOverflow'] == null
           ? MonthOverflow.skip
-          : enumFromJson(
-              MonthOverflow.values,
-              upgraded['monthDayOverflow'],
-              'monthDayOverflow',
-              (e) => e.name,
-            ),
+          : enumFromJson(MonthOverflow.values, upgraded['monthDayOverflow'], 'monthDayOverflow', (e) => e.name),
       exdates: readStringList(upgraded['exdates'], 'exdates'),
       rdates: readStringList(upgraded['rdates'], 'rdates'),
       afterCompletion: upgraded['afterCompletion'] == null
           ? null
           : AfterCompletion.fromJson(upgraded['afterCompletion']),
-      quota: upgraded['quota'] == null
-          ? null
-          : Quota.fromJson(upgraded['quota']),
+      quota: upgraded['quota'] == null ? null : Quota.fromJson(upgraded['quota']),
       extra: extra,
     );
     _presentKeys[rule] = upgraded.keys.where(_knownKeys.contains).toSet();
@@ -163,10 +132,7 @@ final class RecurrenceRule {
     try {
       json = jsonDecode(source);
     } on FormatException catch (e) {
-      throw FormatException(
-        'Recurrence rule is not valid JSON: ${e.message}',
-        source,
-      );
+      throw FormatException('Recurrence rule is not valid JSON: ${e.message}', source);
     }
     return RecurrenceRule.fromJson(readMap(json, 'rule'));
   }
@@ -175,8 +141,7 @@ final class RecurrenceRule {
   static const int currentVersion = 1;
 
   /// Upgrades from version `n` to `n + 1` (none yet — v1 is the first version).
-  static final Map<int, Map<String, Object?> Function(Map<String, Object?>)>
-  migrations = {};
+  static final Map<int, Map<String, Object?> Function(Map<String, Object?>)> migrations = {};
 
   final RuleType type;
 
@@ -287,8 +252,7 @@ final class RecurrenceRule {
   Map<String, Object?> toJson() {
     final present = _presentKeys[this] ?? const <String>{};
     final out = <String, Object?>{'v': currentVersion, 'type': type.json};
-    bool keep(String key, {required bool isDefault}) =>
-        !isDefault || present.contains(key);
+    bool keep(String key, {required bool isDefault}) => !isDefault || present.contains(key);
     final fixed = type == RuleType.fixed;
     if (keep('freq', isDefault: !fixed && freq == Frequency.daily)) {
       out['freq'] = freq.json;
@@ -322,10 +286,7 @@ final class RecurrenceRule {
     if (keep('countMode', isDefault: countMode == CountMode.occurrences)) {
       out['countMode'] = countMode.name;
     }
-    if (keep(
-      'monthDayOverflow',
-      isDefault: monthDayOverflow == MonthOverflow.skip,
-    )) {
+    if (keep('monthDayOverflow', isDefault: monthDayOverflow == MonthOverflow.skip)) {
       out['monthDayOverflow'] = monthDayOverflow.name;
     }
     list('exdates', exdates);
@@ -344,12 +305,8 @@ final class RecurrenceRule {
   String encode() => jsonEncode(toJson());
 
   /// Validates the rule; pass the [anchor] to enable anchor-dependent checks.
-  ValidationResult validate({
-    RecurrenceAnchor? anchor,
-    int maxOccurrencesPerDay = 1440,
-  }) =>
-      RuleValidator(maxOccurrencesPerDay: maxOccurrencesPerDay)
-          .validate(this, anchor: anchor);
+  ValidationResult validate({RecurrenceAnchor? anchor, int maxOccurrencesPerDay = 1440}) =>
+      RuleValidator(maxOccurrencesPerDay: maxOccurrencesPerDay).validate(this, anchor: anchor);
 
   /// Returns a copy with the given fields replaced. Nullable fields
   /// ([byWeekday], [window], [until], [count], [afterCompletion], [quota]) can
@@ -383,9 +340,7 @@ final class RecurrenceRule {
       type: type ?? this.type,
       freq: freq ?? this.freq,
       interval: interval ?? this.interval,
-      byWeekday: identical(byWeekday, _unset)
-          ? this.byWeekday
-          : byWeekday as List<WeekdayRule>?,
+      byWeekday: identical(byWeekday, _unset) ? this.byWeekday : byWeekday as List<WeekdayRule>?,
       byMonthDay: byMonthDay ?? this.byMonthDay,
       byMonth: byMonth ?? this.byMonth,
       byYearDay: byYearDay ?? this.byYearDay,
@@ -402,9 +357,7 @@ final class RecurrenceRule {
       monthDayOverflow: monthDayOverflow ?? this.monthDayOverflow,
       exdates: exdates ?? this.exdates,
       rdates: rdates ?? this.rdates,
-      afterCompletion: identical(afterCompletion, _unset)
-          ? this.afterCompletion
-          : afterCompletion as AfterCompletion?,
+      afterCompletion: identical(afterCompletion, _unset) ? this.afterCompletion : afterCompletion as AfterCompletion?,
       quota: identical(quota, _unset) ? this.quota : quota as Quota?,
       extra: extra ?? this.extra,
     );
@@ -472,26 +425,18 @@ final class RecurrenceRule {
 
   static Map<String, Object?> _upgrade(Map<String, Object?> json) {
     final rawVersion = json['v'];
-    var version = rawVersion == null
-        ? currentVersion
-        : readInt(rawVersion, 'v');
+    var version = rawVersion == null ? currentVersion : readInt(rawVersion, 'v');
     if (version < 1) {
       throw FormatException('Unsupported rule version', rawVersion);
     }
     if (version > currentVersion) {
-      throw FormatException(
-        'Rule version $version is newer than supported ($currentVersion)',
-        rawVersion,
-      );
+      throw FormatException('Rule version $version is newer than supported ($currentVersion)', rawVersion);
     }
     var current = json;
     while (version < currentVersion) {
       final migrate = migrations[version];
       if (migrate == null) {
-        throw FormatException(
-          'No migration from rule version $version',
-          rawVersion,
-        );
+        throw FormatException('No migration from rule version $version', rawVersion);
       }
       current = migrate(current);
       version++;
@@ -526,9 +471,6 @@ final class RecurrenceRule {
       final date = LocalDate.tryParse(value);
       if (date != null) return date.atTime(LocalTime(23, 59));
     }
-    throw FormatException(
-      '"until" must be a local date-time "YYYY-MM-DDTHH:mm"',
-      value,
-    );
+    throw FormatException('"until" must be a local date-time "YYYY-MM-DDTHH:mm"', value);
   }
 }

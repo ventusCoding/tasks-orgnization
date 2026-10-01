@@ -1,4 +1,4 @@
-import { bearerToken, hasValidCronSecret, requireUser, timingSafeEqual } from "./auth.ts";
+import { bearerToken, hasValidCronSecret, jwtClaim, requireUser, timingSafeEqual } from "./auth.ts";
 import { mapWithConcurrency, runInBackground } from "./background.ts";
 import { handleCors } from "./cors.ts";
 import { errorResponse, HttpError } from "./errors.ts";
@@ -41,12 +41,40 @@ Deno.test("bearerToken + requireUser", async () => {
     new Request("http://x", { headers: { authorization: "Bearer good" } }),
     auth,
   );
-  assertEquals(user, { id: "u1", isAnonymous: true });
+  assertEquals(user, { id: "u1", isAnonymous: true, aal: null, hasVerifiedFactor: false });
   await assertRejects(
     () => requireUser(new Request("http://x", { headers: { authorization: "Bearer bad" } }), auth),
     HttpError,
   );
   await assertRejects(() => requireUser(new Request("http://x"), auth), HttpError);
+});
+
+Deno.test("requireUser reports aal and verified MFA factors (T1.5.17)", async () => {
+  const b64url = (o: unknown) =>
+    btoa(JSON.stringify(o)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const token = `${b64url({ alg: "none" })}.${b64url({ sub: "u2", aal: "aal2" })}.sig`;
+  const auth = {
+    auth: {
+      getUser: () =>
+        Promise.resolve({
+          data: {
+            user: {
+              id: "u2",
+              is_anonymous: false,
+              factors: [{ status: "unverified" }, { status: "verified" }],
+            },
+          },
+          error: null,
+        }),
+    },
+  } as unknown as AdminClient;
+  const user = await requireUser(
+    new Request("http://x", { headers: { authorization: `Bearer ${token}` } }),
+    auth,
+  );
+  assertEquals(user, { id: "u2", isAnonymous: false, aal: "aal2", hasVerifiedFactor: true });
+  assertEquals(jwtClaim("not-a-jwt", "aal"), null);
+  assertEquals(jwtClaim("a.%%%.c", "aal"), null);
 });
 
 Deno.test("errorResponse: typed errors keep their code, unknown errors do not leak", async () => {

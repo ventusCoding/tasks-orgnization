@@ -41,11 +41,7 @@ const syncedTableSpecs = <SyncedTableSpec>[
   ),
   SyncedTableSpec('task_occurrences', wallClockColumns: {'override_start_local'}),
   SyncedTableSpec('time_entries'),
-  SyncedTableSpec(
-    'checklists',
-    jsonColumns: {'reset_rule', 'settings'},
-    wallClockColumns: {'due_local'},
-  ),
+  SyncedTableSpec('checklists', jsonColumns: {'reset_rule', 'settings'}, wallClockColumns: {'due_local'}),
   SyncedTableSpec('checklist_items', wallClockColumns: {'due_local'}),
   SyncedTableSpec('checklist_runs', jsonColumns: {'snapshot'}),
   SyncedTableSpec('habit_sections', timeColumns: {'start_time', 'end_time'}),
@@ -129,8 +125,10 @@ class RegisteredTable {
       ColumnKind.json => value is String ? value : jsonEncode(value),
       ColumnKind.real => value is num ? value.toDouble() : value,
       ColumnKind.integer => value is num ? value.toInt() : value,
-      ColumnKind.wallClock || ColumnKind.date || ColumnKind.time || ColumnKind.text =>
-        value is String ? value : value.toString(),
+      ColumnKind.wallClock ||
+      ColumnKind.date ||
+      ColumnKind.time ||
+      ColumnKind.text => value is String ? value : value.toString(),
     };
   }
 

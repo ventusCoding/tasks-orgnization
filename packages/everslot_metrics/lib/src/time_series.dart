@@ -32,8 +32,7 @@ enum Granularity {
 @immutable
 final class const SeriesPoint<T>(final LocalDate bucket, final T value) {
   @override
-  bool operator ==(Object other) =>
-      other is SeriesPoint<T> && other.bucket == bucket && other.value == value;
+  bool operator ==(Object other) => other is SeriesPoint<T> && other.bucket == bucket && other.value == value;
 
   @override
   int get hashCode => Object.hash(bucket, value);
@@ -43,31 +42,23 @@ final class const SeriesPoint<T>(final LocalDate bucket, final T value) {
 }
 
 /// First date of the bucket containing [date].
-LocalDate bucketStart(
-  LocalDate date,
-  Granularity granularity, {
-  Weekday weekStart = Weekday.monday,
-}) => switch (granularity) {
-  Granularity.day => date,
-  Granularity.week => date.startOfWeek(weekStart),
-  Granularity.month => date.firstDayOfMonth,
-  Granularity.quarter => LocalDate(
-    date.year,
-    ((date.month - 1) ~/ 3) * 3 + 1,
-    1,
-  ),
-  Granularity.year => LocalDate(date.year, 1, 1),
-};
+LocalDate bucketStart(LocalDate date, Granularity granularity, {Weekday weekStart = Weekday.monday}) =>
+    switch (granularity) {
+      Granularity.day => date,
+      Granularity.week => date.startOfWeek(weekStart),
+      Granularity.month => date.firstDayOfMonth,
+      Granularity.quarter => LocalDate(date.year, ((date.month - 1) ~/ 3) * 3 + 1, 1),
+      Granularity.year => LocalDate(date.year, 1, 1),
+    };
 
 /// First date of the bucket after the one starting at [start].
-LocalDate nextBucketStart(LocalDate start, Granularity granularity) =>
-    switch (granularity) {
-      Granularity.day => start.plusDays(1),
-      Granularity.week => start.plusDays(7),
-      Granularity.month => start.plusMonths(1),
-      Granularity.quarter => start.plusMonths(3),
-      Granularity.year => start.plusYears(1),
-    };
+LocalDate nextBucketStart(LocalDate start, Granularity granularity) => switch (granularity) {
+  Granularity.day => start.plusDays(1),
+  Granularity.week => start.plusDays(7),
+  Granularity.month => start.plusMonths(1),
+  Granularity.quarter => start.plusMonths(3),
+  Granularity.year => start.plusYears(1),
+};
 
 /// Starts of every bucket overlapping `[from, to]` (inclusive).
 List<LocalDate> bucketStarts(
@@ -102,10 +93,7 @@ List<SeriesPoint<double>> bucketSum(
     final key = bucketStart(date, granularity, weekStart: weekStart);
     totals[key] = (totals[key] ?? 0) + v;
   }
-  return [
-    for (final b in bucketStarts(from, to, granularity, weekStart: weekStart))
-      SeriesPoint(b, totals[b] ?? 0),
-  ];
+  return [for (final b in bucketStarts(from, to, granularity, weekStart: weekStart)) SeriesPoint(b, totals[b] ?? 0)];
 }
 
 /// Rate per bucket Σnumerator/Σdenominator; buckets without a denominator are `null`.
@@ -147,11 +135,7 @@ List<SeriesPoint<double?>> bucketMean(
 
 /// Trailing rolling mean over [window] points ending at each point. Emits `null` when fewer than
 /// [minCoverage] (default 50 %) of the window's slots hold a value.
-List<double?> rollingMean(
-  List<double?> xs,
-  int window, {
-  double minCoverage = 0.5,
-}) => rollingRate(
+List<double?> rollingMean(List<double?> xs, int window, {double minCoverage = 0.5}) => rollingRate(
   [for (final x in xs) x],
   xs.map((x) => x == null ? null : 1).toList(),
   window,
@@ -159,11 +143,7 @@ List<double?> rollingMean(
 );
 
 /// Trailing rolling sum over [window] points (nulls count as 0); `null` when coverage is too low.
-List<double?> rollingSum(
-  List<double?> xs,
-  int window, {
-  double minCoverage = 0.5,
-}) {
+List<double?> rollingSum(List<double?> xs, int window, {double minCoverage = 0.5}) {
   final result = <double?>[];
   for (var i = 0; i < xs.length; i++) {
     var total = 0.0;
@@ -182,12 +162,7 @@ List<double?> rollingSum(
 
 /// Trailing rolling rate Σnumerator/Σdenominator over [window] points (7/28/30/90/180/365).
 /// Emits `null` when fewer than [minCoverage] of the window's slots have a denominator > 0.
-List<double?> rollingRate(
-  List<num?> numerators,
-  List<num?> denominators,
-  int window, {
-  double minCoverage = 0.5,
-}) {
+List<double?> rollingRate(List<num?> numerators, List<num?> denominators, int window, {double minCoverage = 0.5}) {
   if (numerators.length != denominators.length) {
     throw ArgumentError('numerators and denominators differ in length');
   }
@@ -222,12 +197,7 @@ double alphaFromHalfLife(double halfLife) {
 ///
 /// Give either [alpha] or [halfLife]. The series starts at [initial] (default: the first non-null
 /// value); `null` inputs carry the previous smoothed value forward (leading nulls stay `null`).
-List<double?> ewma(
-  List<double?> xs, {
-  double? alpha,
-  double? halfLife,
-  double? initial,
-}) {
+List<double?> ewma(List<double?> xs, {double? alpha, double? halfLife, double? initial}) {
   final a = alpha ?? (halfLife != null ? alphaFromHalfLife(halfLife) : null);
   if (a == null || a <= 0 || a > 1) {
     throw ArgumentError('give alpha in (0, 1] or a positive halfLife');

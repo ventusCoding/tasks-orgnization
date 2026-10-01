@@ -26,9 +26,9 @@ void main() {
     await pumpOpener(
       tester,
       h,
-      (context) => Navigator.of(context).push<void>(
-        MaterialPageRoute(builder: (_) => const TaskEditorScreen(initialStart: '2026-09-22T09:00')),
-      ),
+      (context) =>
+          Navigator.of(context)
+              .push<void>(MaterialPageRoute(builder: (_) => const TaskEditorScreen(initialStart: '2026-09-22T09:00'))),
     );
     await openAndSettle(tester);
     await tester.enterText(key('task-title'), 'Report');
@@ -59,7 +59,7 @@ void main() {
     // The task and its tag link are one operation: one undo removes both.
     await tester.runAsync(() => h.read(undoStackProvider).undo());
     final after = (await tester.runAsync(() async {
-      final rows = await h.db.customSelect("SELECT id FROM entity_tags WHERE deleted_at IS NULL").get();
+      final rows = await h.db.customSelect('SELECT id FROM entity_tags WHERE deleted_at IS NULL').get();
       return (await h.liveTasks(), rows.length);
     }))!;
     expect(after.$1, isEmpty);

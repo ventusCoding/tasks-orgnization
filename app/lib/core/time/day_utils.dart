@@ -7,12 +7,7 @@ abstract final class DayUtils {
       resolver.toLocal(nowUtc, zoneId);
 
   /// The *logical* day: before [dayStartMinutes] (e.g. 240 = 04:00) it is still "yesterday".
-  static LocalDate logicalToday(
-    DateTime nowUtc,
-    String zoneId,
-    ZoneResolver resolver, {
-    int dayStartMinutes = 0,
-  }) {
+  static LocalDate logicalToday(DateTime nowUtc, String zoneId, ZoneResolver resolver, {int dayStartMinutes = 0}) {
     final local = resolver.toLocal(nowUtc, zoneId);
     return local.time.minuteOfDay < dayStartMinutes ? local.date.minusDays(1) : local.date;
   }
@@ -22,14 +17,8 @@ abstract final class DayUtils {
       local.time.minuteOfDay < dayStartMinutes ? local.date.minusDays(1) : local.date;
 
   /// UTC instant of the start of [date] (at [dayStartMinutes]) in [zoneId].
-  static DateTime startOfDayUtc(
-    LocalDate date,
-    String zoneId,
-    ZoneResolver resolver, {
-    int dayStartMinutes = 0,
-  }) => resolver
-      .resolve(date.atTime(LocalTime.fromMinuteOfDay(dayStartMinutes)), zoneId)
-      .utc;
+  static DateTime startOfDayUtc(LocalDate date, String zoneId, ZoneResolver resolver, {int dayStartMinutes = 0}) =>
+      resolver.resolve(date.atTime(LocalTime.fromMinuteOfDay(dayStartMinutes)), zoneId).utc;
 
   /// Days of the week containing [date] for [weekStart].
   static List<LocalDate> weekOf(LocalDate date, Weekday weekStart) {

@@ -23,16 +23,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// writes use the occurrence instant as their clock so later user edits win under LWW.
 class ChecklistResetService {
   ChecklistResetService({
-    required ChecklistsRepository lists,
-    required ChecklistItemsRepository items,
-    required RecurrenceEngine engine,
-    required Clock clock,
-    required String Function() zone,
-  }) : _lists = lists,
-       _items = items,
-       _engine = engine,
-       _clock = clock,
-       _zone = zone;
+    required this._lists,
+    required this._items,
+    required this._engine,
+    required this._clock,
+    required this._zone,
+  });
 
   final ChecklistsRepository _lists;
   final ChecklistItemsRepository _items;
@@ -129,7 +125,11 @@ class ChecklistResetService {
   }
 
   /// Sets (or clears) the schedule; past occurrences are marked as done.
-  Future<OpRecord> configure(String checklistId, ResetSchedule? schedule, {ResetMode mode = ResetMode.completedToTodo}) {
+  Future<OpRecord> configure(
+    String checklistId,
+    ResetSchedule? schedule, {
+    ResetMode mode = ResetMode.completedToTodo,
+  }) {
     final lastKey = schedule == null
         ? null
         : ResetPlanner.initialKey(_engine, schedule, now: _clock.nowUtc(), evalZone: _zone());

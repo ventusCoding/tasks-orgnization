@@ -23,11 +23,7 @@ enum GoalStatus { achieved, onTrack, behind, atRisk }
 
 /// A numeric goal over an inclusive date range (`goals` row resolved to dates).
 @immutable
-final class const GoalSpec(
-  final double target, {
-  required final LocalDate start,
-  required final LocalDate end,
-}) {
+final class const GoalSpec(final double target, {required final LocalDate start, required final LocalDate end}) {
   int get totalDays => start.daysUntil(end) + 1;
 }
 
@@ -61,8 +57,7 @@ final class const GoalProgress(
   bool get onTrack => actual >= pace - 1e-9;
 
   /// Required rate per week.
-  double? get requiredWeeklyRate =>
-      requiredDailyRate == null ? null : requiredDailyRate! * 7;
+  double? get requiredWeeklyRate => requiredDailyRate == null ? null : requiredDailyRate! * 7;
 }
 
 /// Days after [asOf] needed to add [remaining] at [dailyRate] (null when the rate is ≤ 0).
@@ -85,9 +80,7 @@ GoalProgress goalProgress(
   double? recentDailyRate,
   int rateWindowDays = 28,
 }) {
-  final clampedAsOf = asOf.isAfter(goal.end)
-      ? goal.end
-      : (asOf.isBefore(goal.start) ? goal.start.minusDays(1) : asOf);
+  final clampedAsOf = asOf.isAfter(goal.end) ? goal.end : (asOf.isBefore(goal.start) ? goal.start.minusDays(1) : asOf);
   final elapsed = math.max(0, goal.start.daysUntil(clampedAsOf) + 1);
   final remaining = math.max(0, goal.totalDays - elapsed);
   var sum = 0.0;
@@ -100,33 +93,21 @@ GoalProgress goalProgress(
   }
   final value = actual ?? sum;
   if (actual != null) {
-    achievedOn = value >= goal.target - 1e-9
-        ? (achievedOn ?? clampedAsOf)
-        : null;
+    achievedOn = value >= goal.target - 1e-9 ? (achievedOn ?? clampedAsOf) : null;
   }
   final windowStart = asOf.minusDays(rateWindowDays - 1);
-  final window = [
-    for (var d = windowStart; !d.isAfter(asOf); d = d.plusDays(1))
-      dailyValues[d] ?? 0.0,
-  ];
-  final mean = window.isEmpty
-      ? 0.0
-      : window.reduce((a, b) => a + b) / window.length;
+  final window = [for (var d = windowStart; !d.isAfter(asOf); d = d.plusDays(1)) dailyValues[d] ?? 0.0];
+  final mean = window.isEmpty ? 0.0 : window.reduce((a, b) => a + b) / window.length;
   final rate = recentDailyRate ?? mean;
   var sd = 0.0;
   if (window.length > 1) {
     final m = mean;
-    sd = math.sqrt(
-      window.map((v) => (v - m) * (v - m)).reduce((a, b) => a + b) /
-          (window.length - 1),
-    );
+    sd = math.sqrt(window.map((v) => (v - m) * (v - m)).reduce((a, b) => a + b) / (window.length - 1));
   }
   final halfBand = window.isEmpty ? 0.0 : 1.96 * sd / math.sqrt(window.length);
   final pace = goal.target * elapsed / goal.totalDays;
   final left = goal.target - value;
-  final requiredRate = remaining > 0
-      ? math.max<double>(0, left) / remaining
-      : null;
+  final requiredRate = remaining > 0 ? math.max<double>(0, left) / remaining : null;
   final GoalStatus status;
   if (value >= goal.target - 1e-9) {
     status = GoalStatus.achieved;

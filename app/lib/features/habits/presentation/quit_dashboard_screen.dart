@@ -5,6 +5,7 @@ import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/attachments/presentation/attachment_strip.dart';
 import 'package:everslot/features/goals/application/goal_providers.dart';
+import 'package:everslot/features/goals/domain/goal.dart';
 import 'package:everslot/features/goals/presentation/goal_card.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/application/habit_service.dart';
@@ -21,9 +22,9 @@ import 'package:everslot/features/habits/presentation/quit/live_counter.dart';
 import 'package:everslot/features/habits/presentation/quit/milestone_timeline.dart';
 import 'package:everslot/features/habits/presentation/quit/quit_sheets.dart';
 import 'package:everslot/features/habits/presentation/quit/rewards_section.dart';
-import 'package:everslot/features/habits/presentation/record_banner.dart';
 import 'package:everslot/features/habits/presentation/quit/ritual_card.dart';
 import 'package:everslot/features/habits/presentation/quit/vocab_manage_screen.dart';
+import 'package:everslot/features/habits/presentation/record_banner.dart';
 import 'package:everslot_metrics/everslot_metrics.dart'
     show MilestoneProgress, QuitCalculator, QuitMode, defaultDayMilestones, milestoneProgress;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -121,7 +122,12 @@ class _DashboardState extends ConsumerState<_Dashboard> {
     final service = ref.read(habitServiceProvider);
     switch (value) {
       case 'reset':
-        final ok = await confirmDialog(context, title: l.quitResetCounter, body: l.quitResetBody, confirmLabel: l.quitResetCounter);
+        final ok = await confirmDialog(
+          context,
+          title: l.quitResetCounter,
+          body: l.quitResetBody,
+          confirmLabel: l.quitResetCounter,
+        );
         if (!ok) return;
         final record = await ref.read(quitServiceProvider).resetCounter(habit, note: l.quitManualReset);
         if (mounted) showUndoSnackBar(context, ref, message: l.quitRelapseSaved, record: record);
@@ -136,7 +142,12 @@ class _DashboardState extends ConsumerState<_Dashboard> {
       case 'archive':
         final record = await service.setArchived(habit.id, archived: !habit.isArchived);
         if (mounted) {
-          showUndoSnackBar(context, ref, message: habit.isArchived ? l.habitsUnarchivedSnack : l.habitsArchivedSnack, record: record);
+          showUndoSnackBar(
+            context,
+            ref,
+            message: habit.isArchived ? l.habitsUnarchivedSnack : l.habitsArchivedSnack,
+            record: record,
+          );
         }
       case 'delete':
         final ok = await confirmDialog(
@@ -189,7 +200,7 @@ class _DashboardState extends ConsumerState<_Dashboard> {
     final resolver = ref.watch(zoneResolverProvider);
     final pause = snapshot.pauseOn(today);
     final claimedRewards = [
-      for (final g in ref.watch(habitGoalsProvider(habit.id)).value ?? const [])
+      for (final g in ref.watch(habitGoalsProvider(habit.id)).value ?? const <Goal>[])
         if (g.isReward && g.achievedAt != null) g,
     ]..sort((a, b) => b.achievedAt!.compareTo(a.achievedAt!));
 
@@ -198,7 +209,10 @@ class _DashboardState extends ConsumerState<_Dashboard> {
       excludeSemantics: true,
       child: Container(
         padding: const EdgeInsets.all(Space.md),
-        decoration: BoxDecoration(color: context.colors.surfaceContainerHigh, borderRadius: BorderRadius.circular(Radii.md)),
+        decoration: BoxDecoration(
+          color: context.colors.surfaceContainerHigh,
+          borderRadius: BorderRadius.circular(Radii.md),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -211,7 +225,8 @@ class _DashboardState extends ConsumerState<_Dashboard> {
             ),
             const SizedBox(height: Space.xs),
             Text(value, style: context.text.titleLarge),
-            if (note != null) Text(note, style: context.text.labelSmall?.copyWith(color: context.colors.onSurfaceVariant)),
+            if (note != null)
+              Text(note, style: context.text.labelSmall?.copyWith(color: context.colors.onSurfaceVariant)),
           ],
         ),
       ),
@@ -244,7 +259,11 @@ class _DashboardState extends ConsumerState<_Dashboard> {
             icon: const Icon(Icons.self_improvement),
             onPressed: () => openCopingToolbox(context, habit),
           ),
-          IconButton(tooltip: l.actionEdit, icon: const Icon(Icons.edit_outlined), onPressed: () => HabitRoutes.edit(context, habit.id)),
+          IconButton(
+            tooltip: l.actionEdit,
+            icon: const Icon(Icons.edit_outlined),
+            onPressed: () => HabitRoutes.edit(context, habit.id),
+          ),
           PopupMenuButton<String>(
             tooltip: l.actionMore,
             onSelected: (v) => unawaited(_menu(v)),
@@ -299,10 +318,7 @@ class _DashboardState extends ConsumerState<_Dashboard> {
             ),
           ],
           RecordBanner(habitId: habit.id),
-          if (QuitRitualCard.shownFor(habit)) ...[
-            const SizedBox(height: Space.lg),
-            QuitRitualCard(snapshot: snapshot),
-          ],
+          if (QuitRitualCard.shownFor(habit)) ...[const SizedBox(height: Space.lg), QuitRitualCard(snapshot: snapshot)],
           const SizedBox(height: Space.lg),
           LayoutBuilder(
             builder: (context, c) {
@@ -326,7 +342,10 @@ class _DashboardState extends ConsumerState<_Dashboard> {
           HabitGoalsSection(habitId: habit.id),
           QuitRewardsSection(habitId: habit.id),
           if (habit.motivation != null) ...[
-            SectionHeader(l.quitMotivationCard, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
+            SectionHeader(
+              l.quitMotivationCard,
+              padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs),
+            ),
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(Space.md),
@@ -341,7 +360,10 @@ class _DashboardState extends ConsumerState<_Dashboard> {
               ),
             ),
           ],
-          SectionHeader(l.quitRecentEvents, padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs)),
+          SectionHeader(
+            l.quitRecentEvents,
+            padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs),
+          ),
           for (final g in claimedRewards)
             ListTile(
               contentPadding: EdgeInsets.zero,
@@ -420,7 +442,8 @@ class _DashboardState extends ConsumerState<_Dashboard> {
   static String _eventTitle(BuildContext context, HabitLogEntry e, QuitHabit habit) {
     final l = context.l10n;
     return switch (e.kind) {
-      HabitLogKind.relapse => e.value == null ? l.quitEventRelapse : '${l.quitEventRelapse} · ${formatAmount(context, e.value!, habit.unit)}',
+      HabitLogKind.relapse =>
+        e.value == null ? l.quitEventRelapse : '${l.quitEventRelapse} · ${formatAmount(context, e.value!, habit.unit)}',
       HabitLogKind.restart => l.quitEventRestart,
       HabitLogKind.craving => l.quitEventCraving(e.intensity ?? 5),
       HabitLogKind.use => formatAmount(context, e.value ?? 1, habit.unit),
@@ -451,34 +474,31 @@ class _NextMilestone extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Padding(
-        padding: const EdgeInsets.all(Space.md),
-        child: Row(
-          children: [
-            ProgressRing(
-              progress: progress.progress,
-              size: 64,
-              stroke: 6,
-              semanticsLabel: l.quitNextMilestone,
-              child: Text(fmt.number(days), style: context.text.titleMedium),
-            ),
-            const SizedBox(width: Space.lg),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(l.quitNextMilestone, style: context.text.labelLarge),
-                  Text(l.habitsDays(days), style: context.text.titleMedium),
-                  Text(
-                    l.quitMilestoneEta(fmt.dateTime(eta)),
-                    style: context.text.bodySmall,
-                  ),
-                ],
+          padding: const EdgeInsets.all(Space.md),
+          child: Row(
+            children: [
+              ProgressRing(
+                progress: progress.progress,
+                size: 64,
+                stroke: 6,
+                semanticsLabel: l.quitNextMilestone,
+                child: Text(fmt.number(days), style: context.text.titleMedium),
               ),
-            ),
-            Icon(Icons.chevron_right, color: context.colors.onSurfaceVariant),
-          ],
+              const SizedBox(width: Space.lg),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(l.quitNextMilestone, style: context.text.labelLarge),
+                    Text(l.habitsDays(days), style: context.text.titleMedium),
+                    Text(l.quitMilestoneEta(fmt.dateTime(eta)), style: context.text.bodySmall),
+                  ],
+                ),
+              ),
+              Icon(Icons.chevron_right, color: context.colors.onSurfaceVariant),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

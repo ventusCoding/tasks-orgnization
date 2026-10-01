@@ -30,10 +30,9 @@ class SettingsRepository {
 
   Stream<Map<String, dynamic>> watch(String namespace) {
     final id = Ids.userSetting(_userId(), namespace);
-    return (_db.select(_db.userSettings)
-          ..where((s) => s.id.equals(id) & s.deletedAt.isNull()))
-        .watchSingleOrNull()
-        .map((row) => row == null ? <String, dynamic>{} : _decode(row.value));
+    return (_db.select(_db.userSettings)..where((s) => s.id.equals(id) & s.deletedAt.isNull())).watchSingleOrNull().map(
+      (row) => row == null ? <String, dynamic>{} : _decode(row.value),
+    );
   }
 
   Future<Map<String, dynamic>> read(String namespace) async {
@@ -54,10 +53,7 @@ class SettingsRepository {
       }
     }
     final id = Ids.userSetting(_userId(), namespace);
-    await _writer.run((tx) => tx.upsert('user_settings', id, {
-      'namespace': namespace,
-      'value': merged,
-    }));
+    await _writer.run((tx) => tx.upsert('user_settings', id, {'namespace': namespace, 'value': merged}));
   }
 
   static Map<String, dynamic> _decode(String value) {
@@ -80,4 +76,3 @@ extension SettingsMapX on Map<String, dynamic> {
     return fallback;
   }
 }
-

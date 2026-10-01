@@ -30,7 +30,10 @@ class GoalService {
   /// Records `achieved_at` once for goals whose progress reached the target (rewards are claimed
   /// by hand instead). The instant is the start of the day it was reached in the habit's zone, so
   /// two devices detecting it offline write the same value. Returns the newly achieved goals.
-  Future<List<Goal>> syncAchievements(List<GoalEvaluation> evaluations, DateTime Function(GoalEvaluation) reachedAt) async {
+  Future<List<Goal>> syncAchievements(
+    List<GoalEvaluation> evaluations,
+    DateTime Function(GoalEvaluation) reachedAt,
+  ) async {
     final achieved = <Goal>[];
     for (final e in evaluations) {
       if (e.goal.isAchieved || e.goal.isReward || e.progress.status != GoalStatus.achieved) continue;

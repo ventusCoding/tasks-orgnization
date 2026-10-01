@@ -33,19 +33,18 @@ class EngineRecurrenceExpander implements RecurrenceExpander {
 
   final Expando<RecurrenceEngine> _engines = Expando('engines');
 
-  RecurrenceEngine _engineFor(ZoneResolver zones) => _engines[zones] ??=
-      RecurrenceEngine(zones, maxOccurrencesPerCall: _maxPerCall);
+  RecurrenceEngine _engineFor(ZoneResolver zones) =>
+      _engines[zones] ??= RecurrenceEngine(zones, maxOccurrencesPerCall: _maxPerCall);
 
   /// Rule + anchor of a reminder schedule JSON (§8.1 + additive `start`), or null when invalid
   /// JSON. Used by editors to describe and edit schedules.
-  static (RecurrenceRule, RecurrenceAnchor)? parse(Map<String, Object?> json) =>
-      _parse(json);
+  static (RecurrenceRule, RecurrenceAnchor)? parse(Map<String, Object?> json) => _parse(json);
 
   /// Schedule JSON for [rule] anchored at [start] (inverse of [parse]).
-  static Map<String, Object?> encode(
-    RecurrenceRule rule,
-    LocalDateTime start,
-  ) => {...rule.toJson(), 'start': start.toIso()};
+  static Map<String, Object?> encode(RecurrenceRule rule, LocalDateTime start) => {
+    ...rule.toJson(),
+    'start': start.toIso(),
+  };
 
   static (RecurrenceRule, RecurrenceAnchor)? _parse(Map<String, Object?> json) {
     try {
@@ -65,8 +64,7 @@ class EngineRecurrenceExpander implements RecurrenceExpander {
       final start =
           (startRaw == null ? null : LocalDateTime.tryParse(startRaw)) ??
           LocalDateTime(
-            (startRaw == null ? null : LocalDate.tryParse(startRaw)) ??
-                LocalDate(2024, 1, 1),
+            (startRaw == null ? null : LocalDate.tryParse(startRaw)) ?? LocalDate(2024, 1, 1),
             firstTime ?? LocalTime(9, 0),
           );
       return (rule, RecurrenceAnchor(start, null));
@@ -92,9 +90,9 @@ class EngineRecurrenceExpander implements RecurrenceExpander {
     required ZoneResolver zones,
   }) {
     final parsed = _parse(rule);
-    if (parsed == null ||
-        !_validator.validate(parsed.$1, anchor: parsed.$2).isValid)
+    if (parsed == null || !_validator.validate(parsed.$1, anchor: parsed.$2).isValid) {
       return const [];
+    }
     try {
       final occurrences = _engineFor(zones).betweenInstants(
         parsed.$1,
@@ -107,8 +105,7 @@ class EngineRecurrenceExpander implements RecurrenceExpander {
       );
       return [
         for (final o in occurrences)
-          if (!o.startUtc.isBefore(fromUtc) && !o.startUtc.isAfter(toUtc))
-            o.startUtc,
+          if (!o.startUtc.isBefore(fromUtc) && !o.startUtc.isAfter(toUtc)) o.startUtc,
       ]..sort();
     } on Object {
       return const [];

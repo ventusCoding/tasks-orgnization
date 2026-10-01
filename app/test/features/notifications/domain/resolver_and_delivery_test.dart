@@ -13,10 +13,7 @@ NotificationRule rule(
   NotificationSection section = NotificationSection.planner,
   bool isDefault = true,
   bool enabled = true,
-  NotificationTrigger trigger = const RelativeTrigger(
-    anchor: TriggerAnchor.start,
-    offsetMinutes: -10,
-  ),
+  NotificationTrigger trigger = const RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: -10),
   ConditionsSpec conditions = ConditionsSpec.empty,
   AppliesTo? appliesTo,
   String? profileId,
@@ -29,12 +26,7 @@ NotificationRule rule(
   isDefault: isDefault,
   enabled: enabled,
   profileId: profileId,
-  spec: NotificationRuleSpec(
-    trigger: trigger,
-    conditions: conditions,
-    appliesTo: appliesTo,
-    delivery: delivery,
-  ),
+  spec: NotificationRuleSpec(trigger: trigger, conditions: conditions, appliesTo: appliesTo, delivery: delivery),
 );
 
 NotificationTarget task({
@@ -57,86 +49,44 @@ void main() {
   group('EffectiveRulesResolver', () {
     final defaults = [
       rule('sec-before', conditions: const ConditionsSpec(itemKind: 'timed')),
-      rule(
-        'sec-start',
-        trigger: const RelativeTrigger(
-          anchor: TriggerAnchor.start,
-          offsetMinutes: 0,
-        ),
-      ),
+      rule('sec-start', trigger: const RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: 0)),
       rule(
         'sec-allday',
         trigger: const RelativeTrigger(anchor: TriggerAnchor.end),
         conditions: const ConditionsSpec(itemKind: 'all_day'),
       ),
-      rule(
-        'own',
-        type: RuleTargetType.task,
-        targetId: 't1',
-        isDefault: false,
-        trigger: const OverdueTrigger(),
-      ),
+      rule('own', type: RuleTargetType.task, targetId: 't1', isDefault: false, trigger: const OverdueTrigger()),
       rule(
         'cat-work',
         type: RuleTargetType.category,
         targetId: 'work',
-        trigger: const RelativeTrigger(
-          anchor: TriggerAnchor.start,
-          offsetMinutes: -15,
-        ),
+        trigger: const RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: -15),
       ),
     ];
     List<String> ids(
       NotificationTarget t, {
       List<NotificationRule>? rules,
       NotificationSettings settings = NotificationSettings.defaults,
-    }) => [
-      for (final e in EffectiveRulesResolver(
-        RuleIndex(rules ?? defaults),
-        settings,
-      ).forTarget(t))
-        e.rule.id,
-    ];
+    }) => [for (final e in EffectiveRulesResolver(RuleIndex(rules ?? defaults), settings).forTarget(t)) e.rule.id];
 
-    test(
-      'inherit = defaults matching the item kind',
-      () => expect(ids(task()), ['sec-before', 'sec-start']),
-    );
-    test(
-      'custom = own only',
-      () => expect(ids(task(mode: NotifyMode.custom)), ['own']),
-    );
+    test('inherit = defaults matching the item kind', () => expect(ids(task()), ['sec-before', 'sec-start']));
+    test('custom = own only', () => expect(ids(task(mode: NotifyMode.custom)), ['own']));
     test(
       'inherit_plus = defaults + own',
-      () => expect(ids(task(mode: NotifyMode.inheritPlus)), [
-        'sec-before',
-        'sec-start',
-        'own',
-      ]),
+      () => expect(ids(task(mode: NotifyMode.inheritPlus)), ['sec-before', 'sec-start', 'own']),
     );
-    test(
-      'off = nothing',
-      () => expect(ids(task(mode: NotifyMode.off)), isEmpty),
-    );
+    test('off = nothing', () => expect(ids(task(mode: NotifyMode.off)), isEmpty));
     test(
       'all-day items get all-day defaults',
-      () =>
-          expect(ids(task(kind: ItemKind.allDay)), ['sec-start', 'sec-allday']),
+      () => expect(ids(task(kind: ItemKind.allDay)), ['sec-start', 'sec-allday']),
     );
-    test(
-      'category default replaces section defaults of the same trigger kind',
-      () {
-        expect(ids(task(categoryId: 'work')), ['cat-work']);
-        expect(ids(task(categoryId: 'home')), ['sec-before', 'sec-start']);
-      },
-    );
+    test('category default replaces section defaults of the same trigger kind', () {
+      expect(ids(task(categoryId: 'work')), ['cat-work']);
+      expect(ids(task(categoryId: 'home')), ['sec-before', 'sec-start']);
+    });
     test('disabled section yields nothing', () {
       const settings = NotificationSettings(
-        perSection: {
-          NotificationSection.planner: SectionNotificationSettings(
-            enabled: false,
-          ),
-        },
+        perSection: {NotificationSection.planner: SectionNotificationSettings(enabled: false)},
       );
       expect(ids(task(), settings: settings), isEmpty);
     });
@@ -152,46 +102,39 @@ void main() {
         ['b'],
       );
     });
-    test(
-      'occurrence keys limit rules to one occurrence; exclusions drop it',
-      () {
-        final rules = [
-          rule(
-            'occ',
-            type: RuleTargetType.task,
-            targetId: 't1',
-            isDefault: false,
-            conditions: const ConditionsSpec(
-              occurrenceKeys: ['2026-09-22T08:00'],
-            ),
-          ),
-          rule(
-            'excl',
-            type: RuleTargetType.task,
-            targetId: 't1',
-            isDefault: false,
-            trigger: const OverdueTrigger(),
-            conditions: const ConditionsSpec(
-              excludeOccurrenceKeys: ['2026-09-22T08:00'],
-            ),
-          ),
-        ];
-        expect(
-          ids(
-            task(mode: NotifyMode.custom, occ: '2026-09-22T08:00'),
-            rules: rules,
-          ),
-          ['occ'],
-        );
-        expect(
-          ids(
-            task(mode: NotifyMode.custom, occ: '2026-09-23T08:00'),
-            rules: rules,
-          ),
-          ['excl'],
-        );
-      },
-    );
+    test('occurrence keys limit rules to one occurrence; exclusions drop it', () {
+      final rules = [
+        rule(
+          'occ',
+          type: RuleTargetType.task,
+          targetId: 't1',
+          isDefault: false,
+          conditions: const ConditionsSpec(occurrenceKeys: ['2026-09-22T08:00']),
+        ),
+        rule(
+          'excl',
+          type: RuleTargetType.task,
+          targetId: 't1',
+          isDefault: false,
+          trigger: const OverdueTrigger(),
+          conditions: const ConditionsSpec(excludeOccurrenceKeys: ['2026-09-22T08:00']),
+        ),
+      ];
+      expect(
+        ids(
+          task(mode: NotifyMode.custom, occ: '2026-09-22T08:00'),
+          rules: rules,
+        ),
+        ['occ'],
+      );
+      expect(
+        ids(
+          task(mode: NotifyMode.custom, occ: '2026-09-23T08:00'),
+          rules: rules,
+        ),
+        ['excl'],
+      );
+    });
     test('checklist items inherit checklist rules scoped to items and nearest ancestor rules', () {
       final rules = [
         rule(
@@ -209,10 +152,7 @@ void main() {
           targetId: 'P',
           isDefault: false,
           section: NotificationSection.checklists,
-          trigger: const RelativeTrigger(
-            anchor: TriggerAnchor.due,
-            offsetMinutes: -60,
-          ),
+          trigger: const RelativeTrigger(anchor: TriggerAnchor.due, offsetMinutes: -60),
           appliesTo: AppliesTo.descendants,
         ),
         rule(
@@ -241,10 +181,7 @@ void main() {
         checklistId: 'L',
         ancestorItemIds: ['P', 'G'],
       );
-      final resolved = EffectiveRulesResolver(
-        RuleIndex(rules),
-        NotificationSettings.defaults,
-      ).forTarget(item);
+      final resolved = EffectiveRulesResolver(RuleIndex(rules), NotificationSettings.defaults).forTarget(item);
       expect([for (final e in resolved) e.rule.id], ['parent', 'grand']);
       expect(resolved.first.provenance, RuleProvenance.ancestor);
     });
@@ -261,18 +198,11 @@ void main() {
   });
 
   group('resolveDelivery (absent / set / disable × profile chain)', () {
-    NotificationProfile profile(String code) => NotificationProfile(
-      id: code,
-      code: code,
-      name: code,
-      isBuiltin: true,
-      spec: BuiltinProfiles.specs[code]!,
-    );
+    NotificationProfile profile(String code) =>
+        NotificationProfile(id: code, code: code, name: code, isBuiltin: true, spec: BuiltinProfiles.specs[code]!);
 
     test('standard fallback when nothing is set', () {
-      final d = resolveDelivery(
-        spec: const NotificationRuleSpec(trigger: OverdueTrigger()),
-      );
+      final d = resolveDelivery(spec: const NotificationRuleSpec(trigger: OverdueTrigger()));
       expect(d.sound, 'default');
       expect(d.importance, NotificationImportance.normal);
       expect(d.actions, ['done', 'snooze', 'skip']);
@@ -318,10 +248,7 @@ void main() {
       );
       expect(
         resolveDelivery(
-          spec: const NotificationRuleSpec(
-            trigger: OverdueTrigger(),
-            repeatDisabled: true,
-          ),
+          spec: const NotificationRuleSpec(trigger: OverdueTrigger(), repeatDisabled: true),
           ruleProfile: nag,
         ).repeat,
         isNull,
@@ -361,39 +288,15 @@ void main() {
       );
     });
     test('importance → interruption level mapping', () {
+      expect(interruptionLevelFor(NotificationImportance.min, timeSensitiveAllowed: true), InterruptionLevel.passive);
+      expect(interruptionLevelFor(NotificationImportance.normal, timeSensitiveAllowed: true), InterruptionLevel.active);
       expect(
-        interruptionLevelFor(
-          NotificationImportance.min,
-          timeSensitiveAllowed: true,
-        ),
-        InterruptionLevel.passive,
-      );
-      expect(
-        interruptionLevelFor(
-          NotificationImportance.normal,
-          timeSensitiveAllowed: true,
-        ),
-        InterruptionLevel.active,
-      );
-      expect(
-        interruptionLevelFor(
-          NotificationImportance.urgent,
-          timeSensitiveAllowed: true,
-        ),
+        interruptionLevelFor(NotificationImportance.urgent, timeSensitiveAllowed: true),
         InterruptionLevel.timeSensitive,
       );
+      expect(interruptionLevelFor(NotificationImportance.high, timeSensitiveAllowed: false), InterruptionLevel.active);
       expect(
-        interruptionLevelFor(
-          NotificationImportance.high,
-          timeSensitiveAllowed: false,
-        ),
-        InterruptionLevel.active,
-      );
-      expect(
-        effectiveInterruptionLevel(
-          InterruptionLevel.timeSensitive,
-          timeSensitiveAllowed: false,
-        ),
+        effectiveInterruptionLevel(InterruptionLevel.timeSensitive, timeSensitiveAllowed: false),
         InterruptionLevel.active,
       );
     });

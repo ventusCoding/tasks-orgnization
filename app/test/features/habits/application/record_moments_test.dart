@@ -25,12 +25,22 @@ void main() {
       recordMoments(computeSnapshot(service, habit, const [], logs, const [], now));
 
   group('record moments (T5.4.10)', () {
-    final pushUps = buildHabit(start: d(2026, 9, 1), goal: const HabitTarget(type: HabitGoalType.count, target: 20, unit: 'reps'));
+    final pushUps = buildHabit(
+      start: d(2026, 9, 1),
+      goal: const HabitTarget(type: HabitGoalType.count, target: 20, unit: 'reps'),
+    );
 
     test('a best day today is a new record; a best day in the past is not', () {
       final history = [for (var day = 1; day <= 21; day++) log(HabitLogKind.progress, day, value: 20)];
-      expect(moments(pushUps, [...history, log(HabitLogKind.progress, 22, value: 35)]), contains(const RecordMoment(RecordKind.bestDay, 35)));
-      final oldBest = [...history.take(20), log(HabitLogKind.progress, 21, value: 50), log(HabitLogKind.progress, 22, value: 20)];
+      expect(
+        moments(pushUps, [...history, log(HabitLogKind.progress, 22, value: 35)]),
+        contains(const RecordMoment(RecordKind.bestDay, 35)),
+      );
+      final oldBest = [
+        ...history.take(20),
+        log(HabitLogKind.progress, 21, value: 50),
+        log(HabitLogKind.progress, 22, value: 20),
+      ];
       expect(moments(pushUps, oldBest).where((m) => m.kind == RecordKind.bestDay), isEmpty);
     });
 
@@ -41,7 +51,11 @@ void main() {
         for (var day = 10; day <= 22; day++) log(HabitLogKind.done, day),
       ];
       expect(moments(yesNo, logs), contains(const RecordMoment(RecordKind.longestStreak, 13)));
-      expect(moments(yesNo, [for (var day = 1; day <= 22; day++) log(HabitLogKind.done, day)]), isEmpty, reason: 'no earlier streak to beat');
+      expect(
+        moments(yesNo, [for (var day = 1; day <= 22; day++) log(HabitLogKind.done, day)]),
+        isEmpty,
+        reason: 'no earlier streak to beat',
+      );
     });
 
     test('quit: longest abstinence and most cravings resisted in a day', () {

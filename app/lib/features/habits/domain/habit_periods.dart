@@ -348,9 +348,10 @@ class HabitPeriodService {
     final perDay = switch (rule.freq) {
       Frequency.minutely => (span / step).ceil(),
       Frequency.hourly => (span / (60 * step)).ceil(),
-      _ => (rule.times.isEmpty ? 1 : rule.times.length) *
-          (rule.byHour.isEmpty ? 1 : rule.byHour.length) *
-          (rule.byMinute.isEmpty ? 1 : rule.byMinute.length),
+      _ =>
+        (rule.times.isEmpty ? 1 : rule.times.length) *
+            (rule.byHour.isEmpty ? 1 : rule.byHour.length) *
+            (rule.byMinute.isEmpty ? 1 : rule.byMinute.length),
     };
     return (5000 ~/ (perDay < 1 ? 1 : perDay)).clamp(1, 31);
   }

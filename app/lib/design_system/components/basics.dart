@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:everslot/design_system/tokens.dart';
 import 'package:flutter/semantics.dart';
 import 'package:material_ui/material_ui.dart';
@@ -20,10 +22,7 @@ class SectionHeader extends StatelessWidget {
             header: true,
             child: Text(
               title,
-              style: context.text.titleSmall?.copyWith(
-                color: context.colors.primary,
-                fontWeight: FontWeight.w600,
-              ),
+              style: context.text.titleSmall?.copyWith(color: context.colors.primary, fontWeight: FontWeight.w600),
             ),
           ),
         ),
@@ -58,14 +57,8 @@ class StatusPill extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (icon != null) ...[
-            Icon(icon, size: dense ? 12 : 14, color: foreground),
-            const SizedBox(width: Space.xs),
-          ],
-          Text(
-            label,
-            style: (dense ? context.text.labelSmall : context.text.labelMedium)?.copyWith(color: foreground),
-          ),
+          if (icon != null) ...[Icon(icon, size: dense ? 12 : 14, color: foreground), const SizedBox(width: Space.xs)],
+          Text(label, style: (dense ? context.text.labelSmall : context.text.labelMedium)?.copyWith(color: foreground)),
         ],
       ),
     );
@@ -144,6 +137,8 @@ class SegmentedBar extends StatelessWidget {
           child: total <= 0
               ? ColoredBox(color: context.colors.surfaceContainerHighest)
               : Row(
+                  // Child-less ColoredBoxes take the smallest size they're allowed: stretch them.
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     for (final s in segments)
                       if (s.value > 0)
@@ -176,5 +171,5 @@ class ColorDot extends StatelessWidget {
 
 /// Announces a message to screen readers (T1.3.15).
 void announce(BuildContext context, String message) {
-  SemanticsService.sendAnnouncement(View.of(context), message, Directionality.of(context));
+  unawaited(SemanticsService.sendAnnouncement(View.of(context), message, Directionality.of(context)));
 }

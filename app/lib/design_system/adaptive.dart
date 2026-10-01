@@ -11,13 +11,11 @@ enum WindowSizeClass {
   static const mediumMinWidth = 600.0;
   static const expandedMinWidth = 840.0;
 
-  static WindowSizeClass fromWidth(double width) => width < mediumMinWidth
-      ? compact
-      : (width < expandedMinWidth ? medium : expanded);
+  static WindowSizeClass fromWidth(double width) =>
+      width < mediumMinWidth ? compact : (width < expandedMinWidth ? medium : expanded);
 
   /// Class of the whole window.
-  static WindowSizeClass of(BuildContext context) =>
-      fromWidth(MediaQuery.sizeOf(context).width);
+  static WindowSizeClass of(BuildContext context) => fromWidth(MediaQuery.sizeOf(context).width);
 
   bool get isCompact => this == compact;
 
@@ -49,9 +47,7 @@ class AdaptiveBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, constraints) {
-      final width = constraints.hasBoundedWidth
-          ? constraints.maxWidth
-          : MediaQuery.sizeOf(context).width;
+      final width = constraints.hasBoundedWidth ? constraints.maxWidth : MediaQuery.sizeOf(context).width;
       return builder(context, WindowSizeClass.fromWidth(width));
     },
   );
@@ -83,10 +79,7 @@ class TwoPaneScaffold extends StatelessWidget {
   final VoidCallback? onCloseDetail;
 
   /// Whether [TwoPaneScaffold] shows two panes at [width].
-  static bool isTwoPaneAt(
-    double width, {
-    double breakpoint = WindowSizeClass.expandedMinWidth,
-  }) => width >= breakpoint;
+  static bool isTwoPaneAt(double width, {double breakpoint = WindowSizeClass.expandedMinWidth}) => width >= breakpoint;
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -160,12 +153,7 @@ abstract final class AppShortcuts {
 /// has focus the app shortcuts step aside, so the field keeps its own editing keys (Ctrl/⌘+Z
 /// undoes typing, Ctrl+K on macOS deletes to the line end…).
 class AppShortcutScope extends StatelessWidget {
-  const AppShortcutScope({
-    required this.actions,
-    required this.child,
-    super.key,
-    this.shortcuts,
-  });
+  const AppShortcutScope({required this.actions, required this.child, super.key, this.shortcuts});
 
   final Map<Type, Action<Intent>> actions;
   final Map<ShortcutActivator, Intent>? shortcuts;
@@ -175,18 +163,14 @@ class AppShortcutScope extends StatelessWidget {
   static bool get isEditingText {
     final context = FocusManager.instance.primaryFocus?.context;
     if (context == null) return false;
-    return context.widget is EditableText ||
-        context.findAncestorWidgetOfExactType<EditableText>() != null;
+    return context.widget is EditableText || context.findAncestorWidgetOfExactType<EditableText>() != null;
   }
 
   @override
   Widget build(BuildContext context) => Shortcuts(
     shortcuts: shortcuts ?? AppShortcuts.defaults,
     child: Actions(
-      actions: {
-        for (final e in actions.entries)
-          e.key: _UnlessEditingAction<Intent>(e.value),
-      },
+      actions: {for (final e in actions.entries) e.key: _UnlessEditingAction<Intent>(e.value)},
       child: Focus(autofocus: true, child: child),
     ),
   );
@@ -200,8 +184,7 @@ class _UnlessEditingAction<T extends Intent> extends Action<T> {
   final Action<T> inner;
 
   @override
-  bool isEnabled(T intent) =>
-      !AppShortcutScope.isEditingText && inner.isEnabled(intent);
+  bool isEnabled(T intent) => !AppShortcutScope.isEditingText && inner.isEnabled(intent);
 
   @override
   Object? invoke(T intent) => inner.invoke(intent);

@@ -6,7 +6,6 @@ import 'package:material_ui/material_ui.dart';
 class TodayScreen extends StatelessWidget {
   const TodayScreen({super.key});
 
-
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: Text(context.l10n.tabToday), actions: const [AppBarActions()]),

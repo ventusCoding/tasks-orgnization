@@ -17,15 +17,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// records `profiles.current_time_zone` (throttled) and offers to make the new zone "home".
 class ZoneTracker {
   ZoneTracker({
-    required ProfileRepository profiles,
-    required AppDatabase db,
-    required Clock clock,
+    required this._profiles,
+    required this._db,
+    required this._clock,
     this.throttle = const Duration(minutes: 10),
     bool Function()? autoHome,
-  }) : _profiles = profiles,
-       _db = db,
-       _clock = clock,
-       _autoHome = autoHome ?? _never;
+  }) : _autoHome = autoHome ?? _never;
 
   final ProfileRepository _profiles;
   final AppDatabase _db;

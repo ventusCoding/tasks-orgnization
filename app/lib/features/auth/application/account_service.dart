@@ -11,15 +11,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Sign-in methods of the signed-in account (empty in local-only mode). Errors (offline) surface
 /// at once; refresh with `ref.invalidate(identitiesProvider)`.
-final identitiesProvider = FutureProvider.autoDispose<List<AuthIdentity>>(
-  (ref) async {
-    final repo = ref.watch(authRepositoryProvider);
-    final session = ref.watch(sessionProvider);
-    if (repo == null || session == null || !session.isCloud) return const [];
-    return repo.identities();
-  },
-  retry: (_, _) => null,
-);
+final identitiesProvider = FutureProvider.autoDispose<List<AuthIdentity>>((ref) async {
+  final repo = ref.watch(authRepositoryProvider);
+  final session = ref.watch(sessionProvider);
+  if (repo == null || session == null || !session.isCloud) return const [];
+  return repo.identities();
+}, retry: (_, _) => null);
+
+/// Authenticator-app factors (T1.5.17); empty for local-only and guest sessions.
+final mfaFactorsProvider = FutureProvider.autoDispose<List<MfaFactor>>((ref) async {
+  final repo = ref.watch(authRepositoryProvider);
+  final session = ref.watch(sessionProvider);
+  if (repo == null || session == null || !session.isCloud || session.isAnonymous) return const [];
+  return repo.mfaFactors();
+}, retry: (_, _) => null);
 
 final authPrefsProvider = Provider<AuthPrefs>((ref) => AuthPrefs(ref.watch(appDatabaseProvider)));
 
@@ -53,11 +58,16 @@ class GuestBannerController extends Notifier<bool> {
 
 final accountServiceProvider = Provider<AccountService>(AccountService.new);
 
-/// Account management (T1.5.11 upgrade & linking, T1.5.12 deletion, T1.5.13 profile).
+/// Account management (T1.5.11 upgrade & linking, T1.5.12 deletion, T1.5.13 profile, T1.5.17
+/// two-step verification).
 class AccountService {
   AccountService(this._ref);
 
+  /// How long an e-mail re-authentication stays valid for the deletion's authenticator step.
+  static const reauthWindow = Duration(minutes: 10);
+
   final Ref _ref;
+  DateTime? _reauthenticatedAt;
 
   AuthRepository get _repo =>
       _ref.read(authRepositoryProvider) ?? (throw const AuthFailure(AuthFailureCode.notConfigured));
@@ -103,18 +113,63 @@ class AccountService {
   /// Account deletion, step 2 (T1.5.12): a fresh sign-in with [code] proves it's the owner, then
   /// the request is recorded and the `account-delete` Edge Function deletes the account
   /// (storage objects, devices, jobs, auth user → cascades), and this device is wiped.
-  Future<void> deleteAccount({String? code}) async {
+  ///
+  /// With two-step verification on, the server needs an aal2 session: without [mfaCode] this
+  /// throws [AuthFailureCode.mfaRequired] after the e-mail step, and the caller asks for the
+  /// authenticator code and calls again with only [mfaCode] (within [reauthWindow]).
+  Future<void> deleteAccount({String? code, String? mfaCode}) async {
     final session = _ref.read(sessionProvider);
     if (session == null || !session.isCloud) throw const AuthFailure(AuthFailureCode.notConfigured);
     final email = session.email;
+    final now = _ref.read(clockProvider).nowUtc();
     if (email != null && email.isNotEmpty) {
-      final user = await _repo.verifyEmailCode(email, normalizeOtp(code ?? ''));
-      if (user.id != session.userId) throw const AuthFailure(AuthFailureCode.unknown, 'reauth returned another user');
-      // The fresh sign-in emits an auth event; drain the binding queue now so its (idempotent)
-      // bind can never land after the wipe below and resurrect the session.
-      await _ref.read(authBindingProvider).bind(user);
+      final recent = _reauthenticatedAt;
+      if (code != null || recent == null || now.difference(recent) > reauthWindow) {
+        final user = await _repo.verifyEmailCode(email, normalizeOtp(code ?? ''));
+        if (user.id != session.userId) throw const AuthFailure(AuthFailureCode.unknown, 'reauth returned another user');
+        // The fresh sign-in emits an auth event; drain the binding queue now so its (idempotent)
+        // bind can never land after the wipe below and resurrect the session.
+        await _ref.read(authBindingProvider).bind(user);
+        _reauthenticatedAt = now;
+      }
+    }
+    if (_repo.mfaStepUpRequired) {
+      if (mfaCode == null) throw const AuthFailure(AuthFailureCode.mfaRequired);
+      await verifyMfa(mfaCode);
     }
     await _repo.deleteAccount();
+    _reauthenticatedAt = null;
     await _ref.read(signOutServiceProvider).endSession();
+  }
+
+  /// The account has two-step verification and this session still needs the authenticator code.
+  bool get mfaStepUpRequired => _ref.read(authRepositoryProvider)?.mfaStepUpRequired ?? false;
+
+  /// Steps the session up to aal2 with an authenticator [code] (after sign-in, before deletion).
+  Future<void> verifyMfa(String code) async {
+    final verified = (await _repo.mfaFactors()).where((f) => f.verified).firstOrNull;
+    if (verified == null) return;
+    await _repo.verifyTotp(verified.id, normalizeOtp(code));
+  }
+
+  /// Two-step verification, step 1: a new key for the authenticator app.
+  Future<TotpEnrollment> startMfaEnrollment() => _repo.enrollTotp();
+
+  /// Step 2: the first code from the app confirms the factor (the session becomes aal2).
+  Future<void> confirmMfaEnrollment(TotpEnrollment enrollment, String code) async {
+    await _repo.verifyTotp(enrollment.factorId, normalizeOtp(code));
+    _ref.invalidate(mfaFactorsProvider);
+  }
+
+  /// Turns two-step verification off: a current [code] proves possession (and gives the aal2
+  /// session Supabase requires), then every factor is removed.
+  Future<void> disableMfa(String code) async {
+    final factors = await _repo.mfaFactors();
+    final verified = factors.where((f) => f.verified).firstOrNull;
+    if (verified != null) await _repo.verifyTotp(verified.id, normalizeOtp(code));
+    for (final f in factors) {
+      await _repo.unenrollMfa(f.id);
+    }
+    _ref.invalidate(mfaFactorsProvider);
   }
 }

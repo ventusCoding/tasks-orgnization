@@ -58,8 +58,7 @@ class FilterColumns {
     entityType: "'checklist'",
     id: '$a.id',
     categoryId: '$a.category_id',
-    status:
-        "CASE WHEN $a.archived_at IS NULL THEN 'active' ELSE 'archived' END",
+    status: "CASE WHEN $a.archived_at IS NULL THEN 'active' ELSE 'archived' END",
     texts: ['$a.title', '$a.body'],
     date: '$a.due_local',
     recurrence: '$a.reset_rule',
@@ -67,24 +66,22 @@ class FilterColumns {
   );
 
   /// `checklist_items` (item status; date = due).
-  static FilterColumns checklistItems([String a = 'checklist_items']) =>
-      FilterColumns(
-        entityType: "'checklist_item'",
-        id: '$a.id',
-        priority: '$a.priority',
-        status: '$a.status',
-        texts: ['$a.text', '$a.note'],
-        date: '$a.due_local',
-        attachmentOwnerType: 'checklist_item',
-      );
+  static FilterColumns checklistItems([String a = 'checklist_items']) => FilterColumns(
+    entityType: "'checklist_item'",
+    id: '$a.id',
+    priority: '$a.priority',
+    status: '$a.status',
+    texts: ['$a.text', '$a.note'],
+    date: '$a.due_local',
+    attachmentOwnerType: 'checklist_item',
+  );
 
   /// `habits` (status = active/archived; date = start date; recurring = has a schedule).
   static FilterColumns habits([String a = 'habits']) => FilterColumns(
     entityType: "'habit'",
     id: '$a.id',
     categoryId: '$a.category_id',
-    status:
-        "CASE WHEN $a.archived_at IS NULL THEN 'active' ELSE 'archived' END",
+    status: "CASE WHEN $a.archived_at IS NULL THEN 'active' ELSE 'archived' END",
     texts: ['$a.name', '$a.description'],
     date: '$a.start_date',
     recurrence: '$a.schedule',
@@ -102,9 +99,7 @@ class SqlFragment {
   final String sql;
   final List<Object> args;
 
-  List<Variable<Object>> get variables => [
-    for (final a in args) Variable<Object>(a),
-  ];
+  List<Variable<Object>> get variables => [for (final a in args) Variable<Object>(a)];
 }
 
 /// Translates an [EntityFilter] into SQL with the same semantics as [EntityFilter.matches].
@@ -117,17 +112,10 @@ abstract final class EntityFilterSql {
     String inList(int n) => List.filled(n, '?').join(', ');
 
     if (filter.categoryIds.isNotEmpty) {
-      final ids =
-          filter.categoryIds
-              .where((id) => id != EntityFilter.noCategory)
-              .toList()
-            ..sort();
+      final ids = filter.categoryIds.where((id) => id != EntityFilter.noCategory).toList()..sort();
       final includeNone = filter.categoryIds.contains(EntityFilter.noCategory);
       final col = c.categoryId ?? 'NULL';
-      final options = <String>[
-        if (ids.isNotEmpty) '$col IN (${inList(ids.length)})',
-        if (includeNone) '$col IS NULL',
-      ];
+      final options = <String>[if (ids.isNotEmpty) '$col IN (${inList(ids.length)})', if (includeNone) '$col IS NULL'];
       parts.add('(${options.join(' OR ')})');
       args.addAll(ids);
     }
@@ -160,9 +148,7 @@ abstract final class EntityFilterSql {
         parts.add('0');
       } else {
         final needle = FilterText.fold(text);
-        parts.add(
-          '(${c.texts.map((t) => 'instr(${foldSql(t)}, ?) > 0').join(' OR ')})',
-        );
+        parts.add('(${c.texts.map((t) => 'instr(${foldSql(t)}, ?) > 0').join(' OR ')})');
         for (var i = 0; i < c.texts.length; i++) {
           args.add(needle);
         }
@@ -203,7 +189,7 @@ abstract final class EntityFilterSql {
 
   /// SQL mirror of [FilterText.fold] applied to [expr].
   static String foldSql(String expr) {
-    var s = 'coalesce($expr, \'\')';
+    var s = "coalesce($expr, '')";
     for (final (from, to) in FilterText.arabicReplacements) {
       s = "replace($s, '$from', '$to')";
     }

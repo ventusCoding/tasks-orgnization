@@ -142,7 +142,7 @@ void main() {
       expect(rows, hasLength(2));
       expect(rows.every((a) => !a.isUploaded), isTrue);
       // Accessible label: kind, position and file name.
-      expect(find.bySemanticsLabel(RegExp(r'Photo 1 of 2')), findsOneWidget);
+      expect(find.bySemanticsLabel(RegExp('Photo 1 of 2')), findsOneWidget);
     },
   );
 

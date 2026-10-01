@@ -29,7 +29,10 @@ class BadgeGalleryScreen extends ConsumerWidget {
     final values = ref.watch(badgeValuesProvider).value ?? const <AchievementCode, num>{};
     final habits = {for (final h in ref.watch(allHabitsProvider).value ?? const <Habit>[]) h.id: h};
     final earnedCodes = {for (final b in unlocked) b.code};
-    final locked = [for (final c in AchievementCode.values) if (!earnedCodes.contains(c)) c];
+    final locked = [
+      for (final c in AchievementCode.values)
+        if (!earnedCodes.contains(c)) c,
+    ];
     final fmt = AppFormat(context.localeName, l10n: l);
     String? currencyOf(String? habitId) {
       final h = habits[habitId];
@@ -54,13 +57,23 @@ class BadgeGalleryScreen extends ConsumerWidget {
               subtitle: Text(
                 [
                   if (habits[b.habitId] case final h?) h.name,
-                  l.goalsBadgeEarnedOn(fmt.dateMedium(ref.watch(zoneResolverProvider).toLocal(b.unlockedAt, ref.watch(deviceZoneProvider)).date)),
+                  l.goalsBadgeEarnedOn(
+                    fmt.dateMedium(
+                      ref.watch(zoneResolverProvider).toLocal(b.unlockedAt, ref.watch(deviceZoneProvider)).date,
+                    ),
+                  ),
                 ].join(' · '),
               ),
               trailing: IconButton(
                 tooltip: l.goalsBadgeShare,
                 icon: const Icon(Icons.ios_share),
-                onPressed: () => showBadgeShareSheet(context, ref, b, habitName: habits[b.habitId]?.name, currency: currencyOf(b.habitId)),
+                onPressed: () => showBadgeShareSheet(
+                  context,
+                  ref,
+                  b,
+                  habitName: habits[b.habitId]?.name,
+                  currency: currencyOf(b.habitId),
+                ),
               ),
             ),
           SectionHeader(l.goalsBadgesLocked),
@@ -120,9 +133,10 @@ class _ShareSheetState extends ConsumerState<_ShareSheet> {
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
-    final date = AppFormat(context.localeName, l10n: l).dateMedium(
-      ref.watch(zoneResolverProvider).toLocal(widget.badge.unlockedAt, ref.watch(deviceZoneProvider)).date,
-    );
+    final date = AppFormat(
+      context.localeName,
+      l10n: l,
+    ).dateMedium(ref.watch(zoneResolverProvider).toLocal(widget.badge.unlockedAt, ref.watch(deviceZoneProvider)).date);
     final name = badgeName(context, widget.badge.code, currency: widget.currency);
     return SingleChildScrollView(
       padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.xl),

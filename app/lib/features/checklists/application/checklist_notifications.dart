@@ -3,8 +3,7 @@ import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
 import 'package:everslot/features/checklists/domain/checklist_notification_targets.dart';
 import 'package:everslot/features/checklists/domain/item_status.dart';
-import 'package:everslot/features/notifications/application/notification_providers.dart'
-    show notificationTextsProvider;
+import 'package:everslot/features/notifications/application/notification_providers.dart' show notificationTextsProvider;
 import 'package:everslot/features/notifications/notification_contributions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -99,14 +99,11 @@ class _CelebrationCardState extends State<_CelebrationCard> with SingleTickerPro
   void initState() {
     super.initState();
     // `preserve`: reduce motion would otherwise shorten this countdown 20-fold.
-    _countdown = AnimationController(
-      vsync: this,
-      duration: widget.visibleFor,
-      animationBehavior: AnimationBehavior.preserve,
-    )
-      ..addStatusListener((s) {
-        if (s == AnimationStatus.completed) widget.onDismiss();
-      });
+    _countdown =
+        AnimationController(vsync: this, duration: widget.visibleFor, animationBehavior: AnimationBehavior.preserve)
+          ..addStatusListener((s) {
+            if (s == AnimationStatus.completed) widget.onDismiss();
+          });
     unawaited(_countdown.forward());
   }
 

@@ -54,13 +54,8 @@ void main() {
       deviceName: 'Pixel',
     );
 
-    DeviceRegistrar registrar() => DeviceRegistrar(
-      api: d.api,
-      db: d.db,
-      clock: d.clock,
-      userId: () => 'u1',
-      loadInfo: () async => info,
-    );
+    DeviceRegistrar registrar() =>
+        DeviceRegistrar(api: d.api, db: d.db, clock: d.clock, userId: () => 'u1', loadInfo: () async => info);
 
     test('registers once per hour per user', () async {
       final r = registrar();
@@ -128,7 +123,12 @@ void main() {
       });
       expect(r.rows.single['name'], 'A');
       expect(r.missing, ['b', 'c']);
-      expect(SupabaseSyncApi.parseFetchRows([{'id': 'x'}]).rows, hasLength(1));
+      expect(
+        SupabaseSyncApi.parseFetchRows([
+          {'id': 'x'},
+        ]).rows,
+        hasLength(1),
+      );
     });
 
     test('PostgREST errors with stable codes map to SyncApiException', () {
@@ -138,9 +138,9 @@ void main() {
       expect(e, isA<SyncApiException>());
       expect((e as SyncApiException).status, 426);
       expect(
-        (SupabaseSyncApi.mapPostgrestError(const PostgrestException(message: 'x', code: 'device_revoked'))
-                as SyncApiException)
-            .code,
+        (SupabaseSyncApi.mapPostgrestError(
+          const PostgrestException(message: 'x', code: 'device_revoked'),
+        ) as SyncApiException).code,
         SyncApiException.deviceRevoked,
       );
       final other = SupabaseSyncApi.mapPostgrestError(const PostgrestException(message: 'deadlock', code: '40P01'));

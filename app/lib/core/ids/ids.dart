@@ -22,14 +22,16 @@ abstract final class Ids {
   static String habitPledge(String habitId, String day) => v5('$habitId|$day|pledge');
   static String inbox(String dedupeKey) => v5(dedupeKey);
   static String userSetting(String userId, String namespace) => v5('$userId|$namespace');
-  static String entityTag(String tagId, String entityType, String entityId) =>
-      v5('$tagId|$entityType|$entityId');
+  static String entityTag(String tagId, String entityType, String entityId) => v5('$tagId|$entityType|$entityId');
   static String checklistRun(String checklistId, String key) => v5('$checklistId|$key');
   static String defaultCategory(String userId, String key) => v5('$userId|default-category|$key');
   static String habitSection(String userId, String key) => v5('$userId|habit_section|$key');
   static String achievement(String code, String? scopeType, String? scopeId) =>
       v5('$code|${scopeType ?? ''}|${scopeId ?? ''}');
   static String rollover(String taskId, String date) => v5('$taskId|rollover|$date');
-  static String builtinProfile(String userId, String code) => v5('$userId|notification_profile|$code');
+
+  /// Built-in notification profiles: `uuid_v5(user_id || '|profile|' || code)` — the same formula the
+  /// server seed and the notifications migration use, so both sides converge on one row.
+  static String builtinProfile(String userId, String code) => v5('$userId|profile|$code');
   static String review(String userId, String periodKey) => v5('$userId|review|$periodKey');
 }

@@ -87,8 +87,7 @@ class SignInWithAppleCredentialSource implements AppleCredentialSource {
 
   @override
   bool get supportsNative =>
-      !kIsWeb &&
-      (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.macOS);
+      !kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.macOS);
 
   @override
   Future<AppleCredential> credential({required String hashedNonce}) async {

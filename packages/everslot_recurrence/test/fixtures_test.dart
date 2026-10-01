@@ -13,11 +13,7 @@ void main() {
     expect(fixtures.length, greaterThanOrEqualTo(150));
     final names = <String>{};
     for (final f in fixtures) {
-      expect(
-        names.add('${f.file}/${f.name}'),
-        isTrue,
-        reason: 'duplicate fixture name ${f.name}',
-      );
+      expect(names.add('${f.file}/${f.name}'), isTrue, reason: 'duplicate fixture name ${f.name}');
     }
   });
 
@@ -38,11 +34,7 @@ void main() {
         'anchor': {'start': '2026-09-21T08:00', 'zone': 'UTC'},
         'evalZone': null,
         'range': {'from': '2026-09-21T00:00', 'to': '2026-09-24T00:00'},
-        'expectedKeys': [
-          '2026-09-21T08:00',
-          '2026-09-23T08:00',
-          '2026-09-25T08:00',
-        ],
+        'expectedKeys': ['2026-09-21T08:00', '2026-09-23T08:00', '2026-09-25T08:00'],
       });
       final failure = checkFixture(engine, broken);
       expect(failure, isNotNull);
@@ -52,23 +44,14 @@ void main() {
     });
 
     test('order and UTC differences are reported', () {
-      expect(
-        diffKeys(['a', 'b'], ['b', 'a']),
-        contains('first difference at #0'),
-      );
+      expect(diffKeys(['a', 'b'], ['b', 'a']), contains('first difference at #0'));
       expect(diffKeys(['a'], ['a', 'a']), contains('duplicates differ'));
       expect(diffKeys(['a', 'b'], ['a', 'b']), isNull);
       final long = [for (var i = 0; i < 20; i++) 'k$i'];
       expect(diffKeys(long, const []), contains('(+8)'));
       final utcBroken = RecurrenceFixture('utc.json', {
         'name': 'utc',
-        'rule': {
-          'v': 1,
-          'type': 'fixed',
-          'freq': 'daily',
-          'interval': 1,
-          'count': 1,
-        },
+        'rule': {'v': 1, 'type': 'fixed', 'freq': 'daily', 'interval': 1, 'count': 1},
         'anchor': {'start': '2026-09-21T08:00', 'zone': 'Europe/Paris'},
         'evalZone': null,
         'range': {'from': '2026-09-21T00:00', 'to': '2026-09-24T00:00'},

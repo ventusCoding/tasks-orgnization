@@ -72,5 +72,10 @@
   "devSampleDataRemove": "Remove sample data",
   "devSampleDataDone": "{count, plural, =1{1 item added} other{{count} items added}}",
   "@devSampleDataDone": {"placeholders": {"count": {"type": "int"}}},
-  "devSampleDataRemoved": "Sample data removed"
+  "devSampleDataRemoved": "Sample data removed",
+  "galleryRows": "Rows & avatars",
+  "gallerySwipeHint": "Swipe for actions",
+  "gallerySheetActions": "Sheet with actions",
+  "devTestCrash": "Send a test crash",
+  "devTestCrashBody": "Throws an uncaught error; release builds report it to Crashlytics."
 }

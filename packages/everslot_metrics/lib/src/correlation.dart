@@ -18,11 +18,7 @@ import 'package:meta/meta.dart';
 
 /// A correlation coefficient with its p-value.
 @immutable
-final class const CorrelationResult(
-  final double r, {
-  required final int n,
-  required final double pValue,
-});
+final class const CorrelationResult(final double r, {required final int n, required final double pValue});
 
 /// Minimum effect sizes worth reporting.
 const double phiEffectThreshold = 0.2;
@@ -83,12 +79,10 @@ Stat<CorrelationResult> pearson(List<num> xs, List<num> ys) {
 
 /// phi = (n11·n00 − n10·n01)/√(n1•·n0•·n•1·n•0) for two binary series (equal to Pearson r on
 /// 0/1 data; the p-value is the Pearson t-test, i.e. R `cor.test` on the 0/1 vectors).
-Stat<CorrelationResult> phiCoefficient(List<bool> a, List<bool> b) =>
-    pearson(_bits(a), _bits(b));
+Stat<CorrelationResult> phiCoefficient(List<bool> a, List<bool> b) => pearson(_bits(a), _bits(b));
 
 /// Point-biserial correlation between a binary [group] and numeric [values] (Pearson on 0/1).
-Stat<CorrelationResult> pointBiserial(List<bool> group, List<num> values) =>
-    pearson(_bits(group), values);
+Stat<CorrelationResult> pointBiserial(List<bool> group, List<num> values) => pearson(_bits(group), values);
 
 /// Spearman ρ (Pearson on average ranks) with the t-approximation p-value.
 Stat<CorrelationResult> spearman(List<num> xs, List<num> ys) {
@@ -104,8 +98,7 @@ Stat<CorrelationResult> spearman(List<num> xs, List<num> ys) {
   Map<LocalDate, num> b, {
   int lag = 0,
 }) {
-  final dates = a.keys.where((d) => b.containsKey(d.plusDays(lag))).toList()
-    ..sort();
+  final dates = a.keys.where((d) => b.containsKey(d.plusDays(lag))).toList()..sort();
   return (
     a: [for (final d in dates) a[d]!.toDouble()],
     b: [for (final d in dates) b[d.plusDays(lag)]!.toDouble()],
@@ -117,8 +110,7 @@ Stat<CorrelationResult> spearman(List<num> xs, List<num> ys) {
 List<double> benjaminiHochberg(List<double> pValues) {
   final m = pValues.length;
   if (m == 0) return const [];
-  final order = List<int>.generate(m, (i) => i)
-    ..sort((a, b) => pValues[b].compareTo(pValues[a]));
+  final order = List<int>.generate(m, (i) => i)..sort((a, b) => pValues[b].compareTo(pValues[a]));
   final adjusted = List<double>.filled(m, 0);
   var running = 1.0;
   for (var k = 0; k < m; k++) {
@@ -131,10 +123,7 @@ List<double> benjaminiHochberg(List<double> pValues) {
 }
 
 /// Indices of the discoveries at FDR level [q] (adjusted p ≤ q).
-List<int> benjaminiHochbergDiscoveries(
-  List<double> pValues, {
-  double q = defaultFdrQ,
-}) {
+List<int> benjaminiHochbergDiscoveries(List<double> pValues, {double q = defaultFdrQ}) {
   final adjusted = benjaminiHochberg(pValues);
   return [
     for (var i = 0; i < adjusted.length; i++)

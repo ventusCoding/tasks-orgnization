@@ -82,8 +82,7 @@ class DeviceRegistrar {
   }
 
   /// Forgets the throttle (after sign-out / device id rotation).
-  Future<void> reset(String userId) =>
-      db.customStatement('DELETE FROM local_kv WHERE key = ?', [throttleKey(userId)]);
+  Future<void> reset(String userId) => db.customStatement('DELETE FROM local_kv WHERE key = ?', [throttleKey(userId)]);
 }
 
 /// Real [DeviceInfoLoader] (package_info_plus + device_info_plus). Never includes user content.

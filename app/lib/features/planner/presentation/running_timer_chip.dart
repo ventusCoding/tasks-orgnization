@@ -18,9 +18,8 @@ class RunningTimerChip extends ConsumerWidget {
   /// Opens [timer]'s occurrence (default: the task details for that occurrence).
   final void Function(BuildContext context, RunningTimer timer)? onOpen;
 
-  static void _defaultOpen(BuildContext context, RunningTimer timer) => unawaited(
-    GoRouter.of(context).push(AppLinks.task(timer.entry.taskId, occurrenceKey: timer.entry.occurrenceKey)),
-  );
+  static void _defaultOpen(BuildContext context, RunningTimer timer) =>
+      unawaited(GoRouter.of(context).push(AppLinks.task(timer.entry.taskId, occurrenceKey: timer.entry.occurrenceKey)));
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

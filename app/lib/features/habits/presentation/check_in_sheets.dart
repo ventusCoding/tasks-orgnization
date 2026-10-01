@@ -27,7 +27,11 @@ class CheckInActions {
 
   CheckInService get _service => ref.read(checkInServiceProvider);
 
-  Future<bool> _run(Future<CheckInResult> Function() action, String Function(CheckInResult r) message, {BuildHabit? promptFor}) async {
+  Future<bool> _run(
+    Future<CheckInResult> Function() action,
+    String Function(CheckInResult r) message, {
+    BuildHabit? promptFor,
+  }) async {
     final l = context.l10n;
     try {
       final result = await action();
@@ -167,7 +171,12 @@ Future<void> showHabitActionsSheet(BuildContext context, WidgetRef ref, HabitDay
             title: Text(l.habitsActionBackfill),
             onTap: () async {
               close();
-              final date = await pickDate(context, initial: view.date.minusDays(1), first: habit.startDate, last: view.snapshot.today);
+              final date = await pickDate(
+                context,
+                initial: view.date.minusDays(1),
+                first: habit.startDate,
+                last: view.snapshot.today,
+              );
               if (date != null && context.mounted) await showDayEditor(context, ref, habit.id, date);
             },
           ),
@@ -247,7 +256,7 @@ class _ValueSheetState extends State<_ValueSheet> {
     final goal = widget.habit.goal;
     final quick = widget.habit.settings.quickValues.isNotEmpty
         ? widget.habit.settings.quickValues
-        : [widget.habit.settings.incrementStep, 5.0, 10.0].toSet().toList();
+        : {widget.habit.settings.incrementStep, 5.0, 10.0}.toList();
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.lg),
       child: Column(
@@ -270,10 +279,7 @@ class _ValueSheetState extends State<_ValueSheet> {
             spacing: Space.sm,
             children: [
               for (final q in quick)
-                ActionChip(
-                  label: Text('+${formatValue(context, q)}'),
-                  onPressed: () => Navigator.pop(context, q),
-                ),
+                ActionChip(label: Text('+${formatValue(context, q)}'), onPressed: () => Navigator.pop(context, q)),
             ],
           ),
           const SizedBox(height: Space.md),
@@ -292,10 +298,8 @@ Future<void> showNoteMoodSheet(BuildContext context, WidgetRef ref, BuildHabit h
   final result = await showAppSheet<({String? note, int? mood})>(
     context,
     title: context.l10n.habitsNoteMoodTitle,
-    builder: (ctx) => _NoteMoodSheet(
-      initialNote: existing?.note ?? noteRow?.note,
-      initialMood: existing?.mood ?? noteRow?.mood,
-    ),
+    builder: (ctx) =>
+        _NoteMoodSheet(initialNote: existing?.note ?? noteRow?.note, initialMood: existing?.mood ?? noteRow?.mood),
   );
   if (result == null || !context.mounted) return;
   try {
@@ -356,12 +360,11 @@ class _NoteMoodSheetState extends State<_NoteMoodSheet> {
 
 /// Day editor (T5.2.08): state, value entries, note & mood of any day — and planned skips/excuses
 /// for future days.
-Future<void> showDayEditor(BuildContext context, WidgetRef ref, String habitId, LocalDate date) =>
-    showAppSheet<void>(
-      context,
-      title: AppFormat(context.localeName).dayLong(date),
-      builder: (ctx) => _DayEditor(habitId: habitId, date: date, host: context),
-    );
+Future<void> showDayEditor(BuildContext context, WidgetRef ref, String habitId, LocalDate date) => showAppSheet<void>(
+  context,
+  title: AppFormat(context.localeName).dayLong(date),
+  builder: (ctx) => _DayEditor(habitId: habitId, date: date, host: context),
+);
 
 class _DayEditor extends ConsumerWidget {
   const _DayEditor({required this.habitId, required this.date, required this.host});
@@ -384,10 +387,11 @@ class _DayEditor extends ConsumerWidget {
     }
     final actions = CheckInActions(host, ref);
     final keys = view.isSlot ? [for (final s in view.slots) s.key] : [date.toIso()];
-    final entries = [
-      for (final k in keys) ...snapshot.entriesOf(k),
-    ]..sort((a, b) => a.loggedAt.compareTo(b.loggedAt));
-    final progress = [for (final e in entries) if (e.kind == HabitLogKind.progress) e];
+    final entries = [for (final k in keys) ...snapshot.entriesOf(k)]..sort((a, b) => a.loggedAt.compareTo(b.loggedAt));
+    final progress = [
+      for (final e in entries)
+        if (e.kind == HabitLogKind.progress) e,
+    ];
     final fmt = AppFormat(context.localeName, use24h: ref.watch(userPreferencesProvider).use24h);
     final zone = ref.watch(habitPeriodServiceProvider).zoneOf(habit);
     final resolver = ref.watch(zoneResolverProvider);
@@ -437,10 +441,7 @@ class _DayEditor extends ConsumerWidget {
             for (final s in view.slots)
               Padding(
                 padding: const EdgeInsetsDirectional.only(bottom: Space.sm),
-                child: stateChips(
-                  s.key,
-                  label: fmt.time(LocalDateTime.tryParse(s.key)?.time ?? LocalTime.midnight),
-                ),
+                child: stateChips(s.key, label: fmt.time(LocalDateTime.tryParse(s.key)?.time ?? LocalTime.midnight)),
               )
           else
             stateChips(date.toIso()),
@@ -466,7 +467,10 @@ class _DayEditor extends ConsumerWidget {
               style: context.text.bodyMedium,
             ),
             if (progress.isEmpty)
-              Padding(padding: const EdgeInsets.symmetric(vertical: Space.sm), child: Text(l.habitsNoEntries))
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: Space.sm),
+                child: Text(l.habitsNoEntries),
+              )
             else
               for (final e in progress)
                 ListTile(

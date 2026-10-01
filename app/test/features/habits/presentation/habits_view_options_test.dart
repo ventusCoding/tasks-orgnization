@@ -61,12 +61,17 @@ void main() {
     return habit;
   }
 
-  Future<void> setView(WidgetTester tester, {HabitGroupBy? groupBy, bool? hideNotDue, bool? showStreaks, bool? compact}) =>
-      tester.runAsync(
-        () => h
-            .read(habitViewSettingsServiceProvider)
-            .update(groupBy: groupBy, hideNotDue: hideNotDue, showStreakChips: showStreaks, compact: compact),
-      );
+  Future<void> setView(
+    WidgetTester tester, {
+    HabitGroupBy? groupBy,
+    bool? hideNotDue,
+    bool? showStreaks,
+    bool? compact,
+  }) => tester.runAsync(
+    () => h
+        .read(habitViewSettingsServiceProvider)
+        .update(groupBy: groupBy, hideNotDue: hideNotDue, showStreakChips: showStreaks, compact: compact),
+  );
 
   Future<void> pumpToday(WidgetTester tester) async {
     await pumpInApp(tester, h, Scaffold(body: TodayList(date: d(2026, 9, 22))));
@@ -74,7 +79,9 @@ void main() {
   }
 
   testWidgets('group by category or not at all (T5.2.12)', (tester) async {
-    await tester.runAsync(() => h.read(categoriesRepositoryProvider).seedDefaults({'work': 'Work', 'health': 'Health'}));
+    await tester.runAsync(
+      () => h.read(categoriesRepositoryProvider).seedDefaults({'work': 'Work', 'health': 'Health'}),
+    );
     await create(tester, 'Stretch', categoryId: Ids.defaultCategory('user-1', 'health'));
     await create(tester, 'Inbox zero', categoryId: Ids.defaultCategory('user-1', 'work'));
     await create(tester, 'Journal');

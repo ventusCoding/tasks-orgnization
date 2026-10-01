@@ -46,11 +46,13 @@ Future<void> _simulate(int seed) async {
       final exists = (await d.rows('categories', ['name'])).containsKey(id);
       switch (rnd.nextInt(7)) {
         case 0 when !exists:
-          await d.writer.run((tx) => tx.insert('categories', id, {
-            'name': 'n$step',
-            'color': rnd.nextInt(16),
-            'sort_key': 'a${rnd.nextInt(9)}',
-          }));
+          await d.writer.run(
+            (tx) => tx.insert('categories', id, {
+              'name': 'n$step',
+              'color': rnd.nextInt(16),
+              'sort_key': 'a${rnd.nextInt(9)}',
+            }),
+          );
         case 1 when exists:
           await d.writer.run((tx) => tx.update('categories', id, {'name': '${d.deviceId}$step'}));
         case 2 when exists:
@@ -89,7 +91,9 @@ Future<void> _simulate(int seed) async {
     }
     final serverRows = server.snapshot('u1', 'categories', columns: columns.toSet());
     expect(
-      {for (final e in serverRows.entries) e.key: {for (final c in columns) c: e.value[c]}},
+      {
+        for (final e in serverRows.entries) e.key: {for (final c in columns) c: e.value[c]},
+      },
       expected,
       reason: 'seed $seed: server differs',
     );

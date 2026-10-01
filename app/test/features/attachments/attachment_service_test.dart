@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:drift/drift.dart' show Variable;
 import 'package:everslot/core/ids/ids.dart';
 import 'package:everslot/core/providers.dart';
+import 'package:everslot/features/attachments/application/attachment_picker.dart';
 import 'package:everslot/features/attachments/application/attachment_processor.dart';
 import 'package:everslot/features/attachments/application/attachment_service.dart';
 import 'package:everslot/features/attachments/application/attachment_transfers.dart';
@@ -11,7 +12,6 @@ import 'package:everslot/features/attachments/data/attachment_cache_store.dart';
 import 'package:everslot/features/attachments/data/attachments_repository.dart';
 import 'package:everslot/features/attachments/domain/attachment.dart';
 import 'package:everslot/features/attachments/domain/attachment_limits.dart';
-import 'package:everslot/features/attachments/application/attachment_picker.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../support/test_app.dart';
@@ -84,7 +84,7 @@ void main() {
       ]);
       final list = await repo.listFor(AttachmentOwnerType.checklistItem, 'item-1');
       expect(list.map((a) => a.fileName), ['a.jpg', 'b.jpg', 'c.jpg']);
-      final events = await (h.db.select(h.db.activityEvents)).get();
+      final events = await h.db.select(h.db.activityEvents).get();
       expect(events.where((e) => e.eventType == 'attachment_added'), hasLength(3));
       for (final e in events) {
         expect((jsonDecode(e.payload) as Map)['opId'], record.opId);
@@ -235,7 +235,7 @@ void main() {
       final auto = await h.db
           .customSelect(
             "SELECT COUNT(*) AS n FROM sync_outbox WHERE table_name = 'attachments' AND fields LIKE ?",
-            variables: [Variable<String>('%uploaded_at%')],
+            variables: [const Variable<String>('%uploaded_at%')],
           )
           .getSingle();
       expect(auto.read<int>('n'), greaterThan(0));

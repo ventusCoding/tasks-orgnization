@@ -22,18 +22,8 @@ void main() {
     });
 
     test('sorts most urgent first, none last', () {
-      final sorted = [
-        Priority.low,
-        Priority.none,
-        Priority.urgent,
-        Priority.medium,
-      ]..sort(Priority.compareUrgentFirst);
-      expect(sorted, [
-        Priority.urgent,
-        Priority.medium,
-        Priority.low,
-        Priority.none,
-      ]);
+      final sorted = [Priority.low, Priority.none, Priority.urgent, Priority.medium]..sort(Priority.compareUrgentFirst);
+      expect(sorted, [Priority.urgent, Priority.medium, Priority.low, Priority.none]);
       final values = [0, 3, null, 4]..sort(Priority.compareValuesUrgentFirst);
       expect(values, [4, 3, 0, null]);
     });
@@ -45,41 +35,25 @@ void main() {
     tearDown(() => h.dispose());
 
     for (final locale in ['en', 'fr', 'ar']) {
-      testWidgets(
-        'badges pair icon + label with an accessible name ($locale)',
-        (tester) async {
-          final handle = tester.ensureSemantics();
-          final l = lookupAppLocalizations(Locale(locale));
-          await pumpInApp(
-            tester,
-            h,
-            Scaffold(
-              body: Column(
-                children: [
-                  for (var p = 0; p <= 4; p++)
-                    PriorityBadge(p, showLabel: true),
-                ],
-              ),
-            ),
-            locale: Locale(locale),
-          );
-          final labels = [
-            l.priorityNone,
-            l.priorityLow,
-            l.priorityMedium,
-            l.priorityHigh,
-            l.priorityUrgent,
-          ];
-          for (var p = 0; p <= 4; p++) {
-            expect(find.bySemanticsLabel(labels[p]), findsWidgets);
-            expect(find.byIcon(PriorityStyle.icon(p)), findsWidgets);
-          }
-          // Color is never the only signal: urgent has its own icon.
-          expect(PriorityStyle.icon(4), isNot(PriorityStyle.icon(3)));
-          expect(PriorityStyle.icon(0), isNot(PriorityStyle.icon(1)));
-          handle.dispose();
-        },
-      );
+      testWidgets('badges pair icon + label with an accessible name ($locale)', (tester) async {
+        final handle = tester.ensureSemantics();
+        final l = lookupAppLocalizations(Locale(locale));
+        await pumpInApp(
+          tester,
+          h,
+          Scaffold(body: Column(children: [for (var p = 0; p <= 4; p++) PriorityBadge(p, showLabel: true)])),
+          locale: Locale(locale),
+        );
+        final labels = [l.priorityNone, l.priorityLow, l.priorityMedium, l.priorityHigh, l.priorityUrgent];
+        for (var p = 0; p <= 4; p++) {
+          expect(find.bySemanticsLabel(labels[p]), findsWidgets);
+          expect(find.byIcon(PriorityStyle.icon(p)), findsWidgets);
+        }
+        // Color is never the only signal: urgent has its own icon.
+        expect(PriorityStyle.icon(4), isNot(PriorityStyle.icon(3)));
+        expect(PriorityStyle.icon(0), isNot(PriorityStyle.icon(1)));
+        handle.dispose();
+      });
     }
 
     testWidgets('a "none" badge is hidden unless labelled', (tester) async {
@@ -94,29 +68,20 @@ void main() {
         h,
         Scaffold(
           body: StatefulBuilder(
-            builder: (context, setState) => PrioritySelector(
-              value: value,
-              onChanged: (v) => setState(() => value = v),
-            ),
+            builder: (context, setState) => PrioritySelector(value: value, onChanged: (v) => setState(() => value = v)),
           ),
         ),
       );
       await tester.tap(find.widgetWithText(ChoiceChip, 'High'));
       await tester.pump();
       expect(value, 3);
-      final chip = tester.widget<ChoiceChip>(
-        find.widgetWithText(ChoiceChip, 'High'),
-      );
+      final chip = tester.widget<ChoiceChip>(find.widgetWithText(ChoiceChip, 'High'));
       expect(chip.selected, isTrue);
-      final semantics = tester.getSemantics(
-        find.widgetWithText(ChoiceChip, 'High'),
-      );
+      final semantics = tester.getSemantics(find.widgetWithText(ChoiceChip, 'High'));
       expect(semantics.flagsCollection.isSelected, ui.Tristate.isTrue);
     });
 
-    testWidgets('dark theme uses lighter, readable priority colors', (
-      tester,
-    ) async {
+    testWidgets('dark theme uses lighter, readable priority colors', (tester) async {
       Color labelColor(Brightness b) {
         final context = tester.element(find.byType(PriorityBadge));
         expect(Theme.of(context).brightness, b);
@@ -141,45 +106,27 @@ void main() {
 
   group('category patterns', () {
     test('the 16 palette colors get 16 distinct textures', () {
-      final textures = {
-        for (final c in CategoryPalette.colors) CategoryPatterns.forColor(c),
-      };
+      final textures = {for (final c in CategoryPalette.colors) CategoryPatterns.forColor(c)};
       expect(textures, hasLength(16));
       // Custom colors are stable.
-      expect(
-        CategoryPatterns.forColor(0xFF123456),
-        CategoryPatterns.forColor(0xFF123456),
-      );
+      expect(CategoryPatterns.forColor(0xFF123456), CategoryPatterns.forColor(0xFF123456));
     });
 
     test('every pattern paints within its bounds', () {
       for (final pattern in CategoryPattern.values) {
         for (final dense in [false, true]) {
           final recorder = ui.PictureRecorder();
-          final painter = CategoryPatternPainter(
-            pattern: pattern,
-            color: const Color(0x55000000),
-            dense: dense,
-          );
+          final painter = CategoryPatternPainter(pattern: pattern, color: const Color(0x55000000), dense: dense);
           final canvas = Canvas(recorder);
           painter
             ..paint(canvas, const Size(120, 48))
             ..paint(canvas, Size.zero);
           final picture = recorder.endRecording();
-          expect(
-            picture.approximateBytesUsed,
-            greaterThan(0),
-            reason: '$pattern',
-          );
+          expect(picture.approximateBytesUsed, greaterThan(0), reason: '$pattern');
           picture.dispose();
           expect(painter.shouldRepaint(painter), isFalse);
           expect(
-            painter.shouldRepaint(
-              CategoryPatternPainter(
-                pattern: pattern,
-                color: const Color(0x55FFFFFF),
-              ),
-            ),
+            painter.shouldRepaint(CategoryPatternPainter(pattern: pattern, color: const Color(0x55FFFFFF))),
             isTrue,
           );
         }
@@ -187,14 +134,8 @@ void main() {
     });
 
     test('the pattern color follows the readable foreground of the tile', () {
-      final tile = CategoryColors.background(
-        CategoryPalette.at(0),
-        Brightness.light,
-      );
-      final painter = CategoryPatternPainter.forCategory(
-        CategoryPalette.at(0),
-        tile,
-      );
+      final tile = CategoryColors.background(CategoryPalette.at(0), Brightness.light);
+      final painter = CategoryPatternPainter.forCategory(CategoryPalette.at(0), tile);
       expect(painter.color.a, closeTo(0.22, 0.01));
       expect(painter.pattern, CategoryPattern.diagonal);
     });

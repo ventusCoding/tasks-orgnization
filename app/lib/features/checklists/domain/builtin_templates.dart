@@ -33,7 +33,8 @@ abstract final class BuiltinTemplates {
     code: 'packing',
     icon: 'travel',
     content: {
-      'en': '''# Packing list
+      'en': '''
+# Packing list
 - Documents
   - Passport / ID
   - Tickets & bookings
@@ -49,7 +50,8 @@ abstract final class BuiltinTemplates {
   - Phone charger
   - Power bank
   - Adapter''',
-      'fr': '''# Liste de bagages
+      'fr': '''
+# Liste de bagages
 - Documents
   - Passeport / carte d'identité
   - Billets et réservations
@@ -65,7 +67,8 @@ abstract final class BuiltinTemplates {
   - Chargeur de téléphone
   - Batterie externe
   - Adaptateur''',
-      'ar': '''# قائمة الأمتعة
+      'ar': '''
+# قائمة الأمتعة
 - الوثائق
   - جواز السفر / بطاقة الهوية
   - التذاكر والحجوزات
@@ -88,7 +91,8 @@ abstract final class BuiltinTemplates {
     code: 'morning_routine',
     icon: 'sun',
     content: {
-      'en': '''# Morning routine
+      'en': '''
+# Morning routine
 - Drink a glass of water
 - Stretch 5 minutes
 - Shower
@@ -96,7 +100,8 @@ abstract final class BuiltinTemplates {
 - Review today's plan
   - Top 3 priorities
   - Check calendar''',
-      'fr': '''# Routine du matin
+      'fr': '''
+# Routine du matin
 - Boire un verre d'eau
 - S'étirer 5 minutes
 - Douche
@@ -104,7 +109,8 @@ abstract final class BuiltinTemplates {
 - Revoir le plan du jour
   - 3 priorités
   - Consulter l'agenda''',
-      'ar': '''# روتين الصباح
+      'ar': '''
+# روتين الصباح
 - شرب كوب من الماء
 - تمارين تمدد لمدة 5 دقائق
 - الاستحمام
@@ -119,7 +125,8 @@ abstract final class BuiltinTemplates {
     code: 'weekly_review',
     icon: 'calendar',
     content: {
-      'en': '''# Weekly review
+      'en': '''
+# Weekly review
 - Get clear
   - Empty inbox
   - Process notes
@@ -130,7 +137,8 @@ abstract final class BuiltinTemplates {
 - Get creative
   - Someday / maybe ideas
   - Set next week's goals''',
-      'fr': '''# Revue hebdomadaire
+      'fr': '''
+# Revue hebdomadaire
 - Faire le vide
   - Vider la boîte de réception
   - Traiter les notes
@@ -141,7 +149,8 @@ abstract final class BuiltinTemplates {
 - Être créatif
   - Idées « un jour peut-être »
   - Fixer les objectifs de la semaine''',
-      'ar': '''# المراجعة الأسبوعية
+      'ar': '''
+# المراجعة الأسبوعية
 - التصفية
   - إفراغ صندوق الوارد
   - معالجة الملاحظات
@@ -159,7 +168,8 @@ abstract final class BuiltinTemplates {
     code: 'groceries',
     icon: 'cart',
     content: {
-      'en': '''# Groceries
+      'en': '''
+# Groceries
 - Produce
   - Fruit
   - Vegetables
@@ -174,7 +184,8 @@ abstract final class BuiltinTemplates {
   - Olive oil
 - Household
   - Dish soap''',
-      'fr': '''# Courses
+      'fr': '''
+# Courses
 - Fruits et légumes
   - Fruits
   - Légumes
@@ -189,7 +200,8 @@ abstract final class BuiltinTemplates {
   - Huile d'olive
 - Entretien
   - Liquide vaisselle''',
-      'ar': '''# البقالة
+      'ar': '''
+# البقالة
 - الخضار والفواكه
   - فواكه
   - خضار
@@ -211,7 +223,8 @@ abstract final class BuiltinTemplates {
     code: 'moving_house',
     icon: 'home',
     content: {
-      'en': '''# Moving house
+      'en': '''
+# Moving house
 - 4 weeks before
   - Book movers
   - Declutter
@@ -226,7 +239,8 @@ abstract final class BuiltinTemplates {
   - Meter readings
   - Final walkthrough
   - Hand over keys''',
-      'fr': '''# Déménagement
+      'fr': '''
+# Déménagement
 - 4 semaines avant
   - Réserver les déménageurs
   - Trier et désencombrer
@@ -241,7 +255,8 @@ abstract final class BuiltinTemplates {
   - Relever les compteurs
   - Dernière visite
   - Remettre les clés''',
-      'ar': '''# الانتقال إلى منزل جديد
+      'ar': '''
+# الانتقال إلى منزل جديد
 - قبل 4 أسابيع
   - حجز شركة النقل
   - التخلص من الأغراض غير اللازمة
@@ -263,7 +278,8 @@ abstract final class BuiltinTemplates {
     code: 'project_kickoff',
     icon: 'work',
     content: {
-      'en': '''# Project kickoff
+      'en': '''
+# Project kickoff
 - Define goals
   - Problem statement
   - Success criteria
@@ -277,7 +293,8 @@ abstract final class BuiltinTemplates {
 - Kickoff meeting
   - Agenda
   - Share notes''',
-      'fr': '''# Lancement de projet
+      'fr': '''
+# Lancement de projet
 - Définir les objectifs
   - Énoncé du problème
   - Critères de réussite
@@ -291,7 +308,8 @@ abstract final class BuiltinTemplates {
 - Réunion de lancement
   - Ordre du jour
   - Partager le compte rendu''',
-      'ar': '''# إطلاق مشروع
+      'ar': '''
+# إطلاق مشروع
 - تحديد الأهداف
   - وصف المشكلة
   - معايير النجاح

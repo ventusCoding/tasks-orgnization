@@ -8,8 +8,7 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/notifications/application/local_notifications_port.dart';
 import 'package:everslot/features/notifications/application/notification_providers.dart';
-import 'package:everslot/features/notifications/application/notifications_engine.dart'
-    show seedNotificationDefaults;
+import 'package:everslot/features/notifications/application/notifications_engine.dart' show seedNotificationDefaults;
 import 'package:everslot/features/notifications/data/inbox_repository.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:everslot/features/notifications/presentation/inbox_screen.dart';
@@ -31,9 +30,7 @@ void main() {
 
   Future<void> settle(WidgetTester tester) async {
     for (var i = 0; i < 6; i++) {
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 5)),
-      );
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 5)));
       await tester.pump(const Duration(milliseconds: 50));
     }
     await tester.pumpAndSettle();
@@ -50,10 +47,7 @@ void main() {
     tester.view.physicalSize = const Size(360, 780);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    const delegates = [
-      AppLocalizations.delegate,
-      ...GlobalMaterialLocalizations.delegates,
-    ];
+    const delegates = [AppLocalizations.delegate, ...GlobalMaterialLocalizations.delegates];
     const locales = [Locale('en'), Locale('fr'), Locale('ar')];
     await tester.pumpWidget(
       UncontrolledProviderScope(
@@ -88,13 +82,7 @@ void main() {
     await seedNotificationDefaults(h.read);
     await h
         .read(syncWriterProvider)
-        .run(
-          (tx) => tx.insert('tasks', 't1', {
-            'series_id': 't1',
-            'title': 'Gym',
-            'notify_mode': 'inherit',
-          }),
-        );
+        .run((tx) => tx.insert('tasks', 't1', {'series_id': 't1', 'title': 'Gym', 'notify_mode': 'inherit'}));
   });
 
   Future<void> seedInbox(WidgetTester tester) => tester.runAsync(() async {
@@ -125,12 +113,7 @@ void main() {
         late: late,
       ),
     );
-    await put(
-      'gym',
-      'Gym',
-      'Starts in 10 min · 09:10–10:10',
-      const Duration(minutes: 5),
-    );
+    await put('gym', 'Gym', 'Starts in 10 min · 09:10–10:10', const Duration(minutes: 5));
     await put(
       'plants',
       'Water the plants',
@@ -147,9 +130,7 @@ void main() {
       section: NotificationSection.habits,
       category: InboxCategory.streak,
     );
-    await inbox.markRead([
-      ...(await inbox.inbox()).where((i) => i.title == 'Gym').map((i) => i.id),
-    ]);
+    await inbox.markRead([...(await inbox.inbox()).where((i) => i.title == 'Gym').map((i) => i.id)]);
   });
 
   for (final dark in [false, true]) {
@@ -175,10 +156,7 @@ void main() {
             ),
           ),
         );
-        await expectLater(
-          find.byType(MaterialApp),
-          matchesGoldenFile('goldens/notification_section_$name.png'),
-        );
+        await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/notification_section_$name.png'));
         await tester.pumpWidget(const SizedBox.shrink());
       });
 
@@ -189,15 +167,10 @@ void main() {
           dark: dark,
           locale: locale,
           router: GoRouter(
-            routes: [
-              GoRoute(path: '/', builder: (_, _) => const InboxScreen()),
-            ],
+            routes: [GoRoute(path: '/', builder: (_, _) => const InboxScreen())],
           ),
         );
-        await expectLater(
-          find.byType(MaterialApp),
-          matchesGoldenFile('goldens/inbox_$name.png'),
-        );
+        await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/inbox_$name.png'));
         await tester.pumpWidget(const SizedBox.shrink());
       });
     }
@@ -206,17 +179,14 @@ void main() {
   group('text scale 2.0 does not overflow', () {
     Widget scaled(Widget child) => Builder(
       builder: (context) => MediaQuery(
-        data: MediaQuery.of(context)
-            .copyWith(textScaler: const TextScaler.linear(2)),
+        data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(2)),
         child: child,
       ),
     );
 
     for (final rtl in [false, true]) {
       final locale = rtl ? const Locale('ar') : const Locale('en');
-      testWidgets('notification section (${locale.languageCode})', (
-        tester,
-      ) async {
+      testWidgets('notification section (${locale.languageCode})', (tester) async {
         await seedTask(tester);
         await pumpApp(
           tester,
@@ -247,12 +217,7 @@ void main() {
           dark: false,
           locale: locale,
           router: GoRouter(
-            routes: [
-              GoRoute(
-                path: '/',
-                builder: (_, _) => scaled(const InboxScreen()),
-              ),
-            ],
+            routes: [GoRoute(path: '/', builder: (_, _) => scaled(const InboxScreen()))],
           ),
         );
         expect(tester.takeException(), isNull);
@@ -262,9 +227,7 @@ void main() {
   });
 
   testWidgets('permission banner and primer golden (Arabic)', (tester) async {
-    (h.read(
-      localNotificationsPortProvider,
-    ) as InMemoryLocalNotificationsPort).caps = const NotificationCapabilities(
+    (h.read(localNotificationsPortProvider) as InMemoryLocalNotificationsPort).caps = const NotificationCapabilities(
       platform: 'android',
     );
     await pumpApp(
@@ -286,16 +249,10 @@ void main() {
         ),
       ),
     );
-    await expectLater(
-      find.byType(MaterialApp),
-      matchesGoldenFile('goldens/permission_banner_ar.png'),
-    );
+    await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/permission_banner_ar.png'));
     await tester.tap(find.byKey(const ValueKey('primer')));
     await settle(tester);
-    await expectLater(
-      find.byType(MaterialApp),
-      matchesGoldenFile('goldens/permission_primer_ar.png'),
-    );
+    await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/permission_primer_ar.png'));
     await tester.pumpWidget(const SizedBox.shrink());
   });
 }

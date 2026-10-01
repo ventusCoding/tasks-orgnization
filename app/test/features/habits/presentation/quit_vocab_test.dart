@@ -71,9 +71,15 @@ void main() {
       expect((await entries()).map((e) => e.id), isNot(contains(coffee.id)));
       expect((await entries(archived: true)).map((e) => e.id), contains(coffee.id));
 
-      final triggers = [for (final e in await entries()) if (e.kind == VocabKind.trigger) e];
+      final triggers = [
+        for (final e in await entries())
+          if (e.kind == VocabKind.trigger) e,
+      ];
       await service.reorder(triggers.last.id, triggers, 0);
-      final reordered = [for (final e in await entries()) if (e.kind == VocabKind.trigger) e];
+      final reordered = [
+        for (final e in await entries())
+          if (e.kind == VocabKind.trigger) e,
+      ];
       expect(reordered.first.id, triggers.last.id);
 
       await service.setIcon(stress.id, 'bolt');
@@ -95,7 +101,9 @@ void main() {
     await pumpInApp(
       tester,
       h,
-      Scaffold(body: VocabPicker(kind: VocabKind.trigger, value: null, onChanged: (_) {}, label: en.quitTrigger)),
+      Scaffold(
+        body: VocabPicker(kind: VocabKind.trigger, value: null, onChanged: (_) {}, label: en.quitTrigger),
+      ),
     );
     await settle(tester);
     final chips = tester.widgetList<ChoiceChip>(find.byType(ChoiceChip)).toList();

@@ -53,8 +53,7 @@ class TzZoneResolver implements ZoneResolver {
   tz.Location _location(String zoneId) =>
       _cache.putIfAbsent(zoneId, () => zoneId == 'UTC' ? tz.UTC : tz.getLocation(zoneId));
 
-  int _offsetMs(tz.Location location, int utcMs) =>
-      location.timeZone(utcMs).offset.inMilliseconds;
+  int _offsetMs(tz.Location location, int utcMs) => location.timeZone(utcMs).offset.inMilliseconds;
 
   @override
   ResolvedInstant resolve(LocalDateTime local, String zoneId) {
@@ -66,10 +65,10 @@ class TzZoneResolver implements ZoneResolver {
     final offsetBefore = _offsetMs(location, wallMs - day);
     final offsetAfter = _offsetMs(location, wallMs + day);
 
-    final candidates = <int>{wallMs - offsetBefore, wallMs - offsetAfter}
-        .where((utc) => _offsetMs(location, utc) == wallMs - utc)
-        .toList()
-      ..sort();
+    final candidates = <int>{
+      wallMs - offsetBefore,
+      wallMs - offsetAfter,
+    }.where((utc) => _offsetMs(location, utc) == wallMs - utc).toList()..sort();
 
     if (candidates.isEmpty) {
       // Gap: interpret with the offset in force before the gap → lands after the gap.
@@ -107,11 +106,7 @@ class TzZoneResolver implements ZoneResolver {
     var segment = _segments[zoneId];
     if (segment == null || !_covers(segment, wallMs - segment.offset)) {
       final found = location.lookupTimeZone(wallMs - (segment?.offset ?? 0));
-      segment = _segments[zoneId] = (
-        start: found.start,
-        end: found.end,
-        offset: found.timeZone.offset.inMilliseconds,
-      );
+      segment = _segments[zoneId] = (start: found.start, end: found.end, offset: found.timeZone.offset.inMilliseconds);
       if (!_covers(segment, wallMs - segment.offset)) return null;
     }
     return ResolvedInstant(

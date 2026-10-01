@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'dart:io';
 
 import 'package:everslot/core/providers.dart';
@@ -31,9 +33,7 @@ class _FakeDevices implements DevicesRepository {
     revoked.add(id);
     devices = [
       for (final d in devices)
-        d.id == id
-            ? DeviceInfo(id: d.id, platform: d.platform, name: d.name, revokedAt: DateTime.utc(2026, 9, 22))
-            : d,
+        d.id == id ? DeviceInfo(id: d.id, platform: d.platform, name: d.name, revokedAt: DateTime.utc(2026, 9, 22)) : d,
     ];
   }
 }
@@ -52,18 +52,25 @@ class _Fixed extends SyncStatusController {
 Future<void> _write(WidgetTester tester, Future<void> Function() write) async {
   var done = false;
   Object? error;
-  write().then<void>((_) => done = true, onError: (Object e) => error = e);
+  unawaited(write().then<void>((_) => done = true, onError: (Object e) => error = e));
   for (var i = 0; i < 20 && !done && error == null; i++) {
     await tester.pump(const Duration(milliseconds: 10));
   }
-  if (error != null) throw error!;
+  if (error case final e?) fail('write failed: $e');
   expect(done, isTrue, reason: 'write did not complete');
 }
 
 final _now = DateTime.utc(2026, 9, 22, 9);
 
 List<DeviceInfo> _devices() => [
-  DeviceInfo(id: 'd2', platform: 'android', name: 'Pixel 9', lastSeenAt: _now.subtract(const Duration(hours: 2)), pushEnabled: true, hasPushToken: true),
+  DeviceInfo(
+    id: 'd2',
+    platform: 'android',
+    name: 'Pixel 9',
+    lastSeenAt: _now.subtract(const Duration(hours: 2)),
+    pushEnabled: true,
+    hasPushToken: true,
+  ),
   DeviceInfo(id: 'device-test', platform: 'ios', name: 'iPhone', lastSeenAt: _now),
   DeviceInfo(id: 'd3', platform: 'android', name: 'Old tablet', revokedAt: DateTime.utc(2026, 9)),
 ];
@@ -77,6 +84,10 @@ void main() {
     expect(find.byKey(const ValueKey('sync-now')), findsNothing);
     expect(find.text('Export & import'), findsOneWidget);
     expect(find.byKey(const ValueKey('sync-sign-in')), findsNothing, reason: 'cloud not configured on this build');
+    // Attachment preferences live next to sync (T2.2.09): Wi-Fi only, storage used, cache size.
+    expect(find.text('Upload attachments on Wi-Fi only'), findsOneWidget);
+    expect(find.text('Storage used: 0 B'), findsOneWidget);
+    expect(find.textContaining('Local cache'), findsOneWidget);
     await finish(tester, h);
   });
 
@@ -98,8 +109,7 @@ void main() {
     await settle(tester, rounds: 10);
     expect(find.text('No pending changes'), findsOneWidget);
     expect(d.server.row('categories', 'c2'), isNotNull);
-    await tester.pumpWidget(const SizedBox.shrink());
-    await tester.runAsync(d.dispose);
+    await finishCloud(tester, d);
   });
 
   testWidgets('error details and Force full resync behind a confirmation', (tester) async {
@@ -129,8 +139,7 @@ void main() {
     await settle(tester, rounds: 10);
     expect(pulls, 1, reason: 'a pull from revision 0 ran');
     expect(d.h.read(syncServiceProvider)!.knownCursor, d.server.head('u1'));
-    await tester.pumpWidget(const SizedBox.shrink());
-    await tester.runAsync(d.dispose);
+    await finishCloud(tester, d);
   });
 
   testWidgets('devices: revoked ones hidden, this device first, remove another one', (tester) async {
@@ -158,8 +167,7 @@ void main() {
     expect(find.text('Pixel 9'), findsNothing);
     expect(find.text('Device removed'), findsOneWidget);
     await tester.binding.setSurfaceSize(null);
-    await tester.pumpWidget(const SizedBox.shrink());
-    await tester.runAsync(d.dispose);
+    await finishCloud(tester, d);
   });
 
   testWidgets('devices offline: explained, with a retry', (tester) async {
@@ -176,8 +184,7 @@ void main() {
     await settle(tester);
     expect(find.text('Pixel 9'), findsOneWidget);
     await tester.binding.setSurfaceSize(null);
-    await tester.pumpWidget(const SizedBox.shrink());
-    await tester.runAsync(d.dispose);
+    await finishCloud(tester, d);
   });
 }
 

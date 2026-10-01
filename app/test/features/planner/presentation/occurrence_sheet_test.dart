@@ -110,7 +110,7 @@ void main() {
     final record = await recordOf(tester, id);
     expect(record!.status, OccurrenceStatus.done);
     expect(record.trackedSeconds, 25 * 60);
-    expect((await tester.runAsync(() => h.read(plannerQueriesProvider).watchRunningEntries().first))!, isEmpty);
+    expect(await tester.runAsync(() => h.read(plannerQueriesProvider).watchRunningEntries().first), isEmpty);
   });
 
   testWidgets('event task: no checkbox actions, only skip', (tester) async {
@@ -139,7 +139,7 @@ void main() {
     expect(record!.occurrenceKey, '2026-09-21T09:30');
     expect(record.isCancelled, isTrue);
     expect(find.byType(OccurrenceSheet), findsNothing);
-    expect((await tester.runAsync(() => h.items(ld('2026-09-22'), 1)))!, hasLength(1));
+    expect(await tester.runAsync(() => h.items(ld('2026-09-22'), 1)), hasLength(1));
   });
 
   testWidgets('reschedule moves this occurrence only', (tester) async {

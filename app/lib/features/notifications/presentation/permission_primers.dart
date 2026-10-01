@@ -7,11 +7,7 @@ import 'package:material_ui/material_ui.dart';
 
 /// Primer shown before the OS notification prompt (T7.2.05). Never shown twice per session;
 /// returns true when notifications end up allowed.
-Future<bool> showNotificationPrimer(
-  BuildContext context,
-  WidgetRef ref, {
-  bool provisional = false,
-}) async {
+Future<bool> showNotificationPrimer(BuildContext context, WidgetRef ref, {bool provisional = false}) async {
   final controller = ref.read(notificationCapabilitiesProvider.notifier);
   final caps = ref.read(notificationCapabilitiesProvider);
   if (caps.notifications) return true;
@@ -52,31 +48,20 @@ Future<bool> showExactAlarmPrimer(BuildContext context, WidgetRef ref) async {
 }
 
 /// iOS time-sensitive explanation (shown when a rule uses high/urgent importance).
-Future<void> showTimeSensitivePrimer(
-  BuildContext context,
-  WidgetRef ref,
-) async {
+Future<void> showTimeSensitivePrimer(BuildContext context, WidgetRef ref) async {
   final controller = ref.read(notificationCapabilitiesProvider.notifier);
   if (!controller.primersShown.add('timeSensitive')) return;
   final l = context.l10n;
   await showAppSheet<bool>(
     context,
     title: l.notifPrimerTimeSensitiveTitle,
-    builder: (ctx) => _PrimerBody(
-      icon: Icons.priority_high,
-      body: l.notifPrimerTimeSensitiveBody,
-      allowLabel: l.actionContinue,
-    ),
+    builder: (ctx) =>
+        _PrimerBody(icon: Icons.priority_high, body: l.notifPrimerTimeSensitiveBody, allowLabel: l.actionContinue),
   );
 }
 
 class _PrimerBody extends StatelessWidget {
-  const _PrimerBody({
-    required this.icon,
-    required this.body,
-    required this.allowLabel,
-    this.laterLabel,
-  });
+  const _PrimerBody({required this.icon, required this.body, required this.allowLabel, this.laterLabel});
 
   final IconData icon;
   final String body;
@@ -85,12 +70,7 @@ class _PrimerBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
-    padding: const EdgeInsetsDirectional.fromSTEB(
-      Space.xl,
-      0,
-      Space.xl,
-      Space.xl,
-    ),
+    padding: const EdgeInsetsDirectional.fromSTEB(Space.xl, 0, Space.xl, Space.xl),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -98,15 +78,8 @@ class _PrimerBody extends StatelessWidget {
         const SizedBox(height: Space.lg),
         Text(body, style: context.text.bodyLarge),
         const SizedBox(height: Space.xl),
-        FilledButton(
-          onPressed: () => Navigator.pop(context, true),
-          child: Text(allowLabel),
-        ),
-        if (laterLabel != null)
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(laterLabel!),
-          ),
+        FilledButton(onPressed: () => Navigator.pop(context, true), child: Text(allowLabel)),
+        if (laterLabel != null) TextButton(onPressed: () => Navigator.pop(context, false), child: Text(laterLabel!)),
       ],
     ),
   );
@@ -179,12 +152,7 @@ class _Banner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Card(
-    margin: const EdgeInsetsDirectional.fromSTEB(
-      Space.lg,
-      Space.sm,
-      Space.lg,
-      Space.sm,
-    ),
+    margin: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, Space.sm),
     color: context.colors.tertiaryContainer,
     child: Padding(
       padding: const EdgeInsets.all(Space.md),
@@ -196,26 +164,13 @@ class _Banner extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: context.text.titleSmall?.copyWith(
-                    color: context.colors.onTertiaryContainer,
-                  ),
-                ),
+                Text(title, style: context.text.titleSmall?.copyWith(color: context.colors.onTertiaryContainer)),
                 if (body != null)
-                  Text(
-                    body!,
-                    style: context.text.bodySmall?.copyWith(
-                      color: context.colors.onTertiaryContainer,
-                    ),
-                  ),
+                  Text(body!, style: context.text.bodySmall?.copyWith(color: context.colors.onTertiaryContainer)),
               ],
             ),
           ),
-          TextButton(
-            onPressed: () => unawaited(onAction()),
-            child: Text(actionLabel),
-          ),
+          TextButton(onPressed: () => unawaited(onAction()), child: Text(actionLabel)),
         ],
       ),
     ),

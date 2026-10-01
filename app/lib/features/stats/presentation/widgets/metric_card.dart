@@ -3,6 +3,8 @@
 /// the engine; the card renders the resulting states (greyed "Needs N more", "—", "≈").
 library;
 
+import 'dart:async';
+
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/stats/application/stats_providers.dart';
@@ -87,16 +89,23 @@ class MetricCard extends ConsumerWidget {
       _ => ChartFrameStatus.data,
     };
     final delta = r == null ? null : f.delta(r, def.direction);
-    final headline = r != null && r.headline && status == ChartFrameStatus.data && (v is Value<double> || v is Insufficient<double>)
+    final headline =
+        r != null && r.headline && status == ChartFrameStatus.data && (v is Value<double> || v is Insufficient<double>)
         ? Wrap(
             spacing: Space.sm,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(
                 f.headline(r),
-                style: context.text.titleLarge?.copyWith(fontWeight: FontWeight.w700, color: v is Value<double> ? null : context.colors.onSurfaceVariant),
+                style: context.text.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: v is Value<double> ? null : context.colors.onSurfaceVariant,
+                ),
               ),
-              if (def.minSample != null && v is Value<double> && v.sampleSize != null && def.minSample!.showsInterval(v.sampleSize!))
+              if (def.minSample != null &&
+                  v is Value<double> &&
+                  v.sampleSize != null &&
+                  def.minSample!.showsInterval(v.sampleSize!))
                 if (f.intervalHalfWidth(r) case final ci?) Text(ci, style: context.text.labelSmall),
               if (delta != null) DeltaChip(delta: delta),
             ],
@@ -137,11 +146,15 @@ class MetricCard extends ConsumerWidget {
         onTap: (tap) {
           final refs = tap.drillKey == null ? null : r?.drill[tap.drillKey];
           if (refs == null || refs.isEmpty) return;
-          showDrillSheet(context, title: tap.label == null ? title : f.label(tap.label!), refs: refs);
+          unawaited(showDrillSheet(context, title: tap.label == null ? title : f.label(tap.label!), refs: refs));
         },
         onRef: (ref) => openDrillRef(context, ref),
         milestoneLabel: (label) => label is TextLabel
-            ? (milestoneText(l, label.text.isEmpty ? label.text : label.text[0].toLowerCase() + label.text.substring(1)) ?? label.text)
+            ? (milestoneText(
+                    l,
+                    label.text.isEmpty ? label.text : label.text[0].toLowerCase() + label.text.substring(1),
+                  ) ??
+                  label.text)
             : f.label(label),
         sourceName: (id) => sourceName(l, id) ?? id,
         now: now,

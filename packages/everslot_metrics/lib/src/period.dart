@@ -20,8 +20,7 @@ abstract interface class ZoneClock {
 }
 
 /// A zone with a fixed UTC offset (tests, UTC).
-final class const FixedOffsetClock([final int offsetMinutes = 0])
-    implements ZoneClock {
+final class const FixedOffsetClock([final int offsetMinutes = 0]) implements ZoneClock {
   @override
   LocalDateTime toLocal(DateTime instant) {
     final ms = instant.toUtc().millisecondsSinceEpoch + offsetMinutes * 60000;
@@ -30,10 +29,7 @@ final class const FixedOffsetClock([final int offsetMinutes = 0])
 
   @override
   DateTime toInstant(LocalDateTime local) =>
-      DateTime.fromMillisecondsSinceEpoch(
-        (local.epochMinute - offsetMinutes) * 60000,
-        isUtc: true,
-      );
+      DateTime.fromMillisecondsSinceEpoch((local.epochMinute - offsetMinutes) * 60000, isUtc: true);
 }
 
 /// A [ZoneClock] built from two functions (adapter for a real zone database).
@@ -54,13 +50,9 @@ int _floorDiv(int a, int b) => a >= 0 ? a ~/ b : -((-a + b - 1) ~/ b);
 ///
 /// With `dayStartsAt = 04:00`, the local day D runs from D 04:00 to D+1 04:00, so an event at
 /// 01:30 belongs to the previous date. Planner stats use civil midnight (the default).
-final class const DayBoundaries(
-  final ZoneClock clock, {
-  final LocalTime dayStartsAt = LocalTime.midnight,
-}) {
+final class const DayBoundaries(final ZoneClock clock, {final LocalTime dayStartsAt = LocalTime.midnight}) {
   /// The local (habit) date an [instant] belongs to.
-  LocalDate dateOf(DateTime instant) =>
-      clock.toLocal(instant).plusMinutes(-dayStartsAt.minuteOfDay).date;
+  LocalDate dateOf(DateTime instant) => clock.toLocal(instant).plusMinutes(-dayStartsAt.minuteOfDay).date;
 
   /// Instant at which [date] starts.
   DateTime startOf(LocalDate date) => clock.toInstant(date.atTime(dayStartsAt));
@@ -72,15 +64,10 @@ final class const DayBoundaries(
   Duration lengthOf(LocalDate date) => endOf(date).difference(startOf(date));
 
   /// Minute of the (habit) day of [instant], counted from the day start (0 … 1439 on normal days).
-  int minuteOfDay(DateTime instant) => clock
-      .toLocal(instant)
-      .plusMinutes(-dayStartsAt.minuteOfDay)
-      .time
-      .minuteOfDay;
+  int minuteOfDay(DateTime instant) => clock.toLocal(instant).plusMinutes(-dayStartsAt.minuteOfDay).time.minuteOfDay;
 
   /// Instant range covering [range] (end exclusive).
-  InstantRange instantsOf(DateRange range) =>
-      InstantRange(startOf(range.start), endOf(range.end));
+  InstantRange instantsOf(DateRange range) => InstantRange(startOf(range.start), endOf(range.end));
 }
 
 /// An inclusive range of local dates.
@@ -104,12 +91,10 @@ final class const DateRange(final LocalDate start, final LocalDate end) {
     return s.isAfter(e) ? null : DateRange(s, e);
   }
 
-  DateRange shiftDays(int days) =>
-      DateRange(start.plusDays(days), end.plusDays(days));
+  DateRange shiftDays(int days) => DateRange(start.plusDays(days), end.plusDays(days));
 
   @override
-  bool operator ==(Object other) =>
-      other is DateRange && other.start == start && other.end == end;
+  bool operator ==(Object other) => other is DateRange && other.start == start && other.end == end;
 
   @override
   int get hashCode => Object.hash(start, end);
@@ -123,8 +108,7 @@ final class const DateRange(final LocalDate start, final LocalDate end) {
 final class const InstantRange(final DateTime start, final DateTime end) {
   Duration get duration => end.difference(start);
 
-  bool contains(DateTime instant) =>
-      !instant.isBefore(start) && instant.isBefore(end);
+  bool contains(DateTime instant) => !instant.isBefore(start) && instant.isBefore(end);
 
   /// Overlap length with `[a, b)`.
   Duration overlap(DateTime a, DateTime b) {
@@ -134,8 +118,7 @@ final class const InstantRange(final DateTime start, final DateTime end) {
   }
 
   @override
-  bool operator ==(Object other) =>
-      other is InstantRange && other.start == start && other.end == end;
+  bool operator ==(Object other) => other is InstantRange && other.start == start && other.end == end;
 
   @override
   int get hashCode => Object.hash(start, end);
@@ -175,11 +158,7 @@ sealed class StatsPeriod {
   String get key;
 
   /// Resolves the period against [today] (the user's current local date).
-  ResolvedPeriod resolve({
-    required LocalDate today,
-    Weekday weekStart = Weekday.monday,
-    LocalDate? firstDataDate,
-  }) {
+  ResolvedPeriod resolve({required LocalDate today, Weekday weekStart = Weekday.monday, LocalDate? firstDataDate}) {
     final range = _range(today, weekStart, firstDataDate);
     return ResolvedPeriod(this, range, today: today, unit: _unit);
   }
@@ -192,8 +171,7 @@ sealed class StatsPeriod {
 /// Calendar unit of a period (drives the previous-period rule).
 enum PeriodUnit { day, week, month, quarter, year, span }
 
-LocalDate _quarterStart(LocalDate d) =>
-    LocalDate(d.year, ((d.month - 1) ~/ 3) * 3 + 1, 1);
+LocalDate _quarterStart(LocalDate d) => LocalDate(d.year, ((d.month - 1) ~/ 3) * 3 + 1, 1);
 
 final class TodayPeriod extends StatsPeriod {
   const new();
@@ -202,8 +180,7 @@ final class TodayPeriod extends StatsPeriod {
   @override
   PeriodUnit get _unit => PeriodUnit.day;
   @override
-  DateRange _range(LocalDate today, Weekday weekStart, LocalDate? firstData) =>
-      DateRange(today, today);
+  DateRange _range(LocalDate today, Weekday weekStart, LocalDate? firstData) => DateRange(today, today);
 }
 
 final class YesterdayPeriod extends StatsPeriod {
@@ -314,16 +291,12 @@ final class LastYearPeriod extends StatsPeriod {
   PeriodUnit get _unit => PeriodUnit.year;
   @override
   DateRange _range(LocalDate today, Weekday weekStart, LocalDate? firstData) =>
-      DateRange(
-        LocalDate(today.year - 1, 1, 1),
-        LocalDate(today.year - 1, 12, 31),
-      );
+      DateRange(LocalDate(today.year - 1, 1, 1), LocalDate(today.year - 1, 12, 31));
 }
 
 /// The last [days] local dates, ending today (7, 28, 30, 90, 365 in the UI; any N ≥ 1 accepted).
 final class RollingPeriod extends StatsPeriod {
-  const new(this.days)
-    : assert(days >= 1, 'a rolling period needs at least one day');
+  const new(this.days) : assert(days >= 1, 'a rolling period needs at least one day');
 
   final int days;
 
@@ -345,9 +318,7 @@ final class AllTimePeriod extends StatsPeriod {
   PeriodUnit get _unit => PeriodUnit.span;
   @override
   DateRange _range(LocalDate today, Weekday weekStart, LocalDate? firstData) {
-    final start = firstData == null || firstData.isAfter(today)
-        ? today
-        : firstData;
+    final start = firstData == null || firstData.isAfter(today) ? today : firstData;
     return DateRange(start, today);
   }
 }

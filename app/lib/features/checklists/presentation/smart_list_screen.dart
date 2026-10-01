@@ -198,13 +198,16 @@ class _SmartRow extends ConsumerWidget {
     final date = await pickDate(context, initial: current?.date);
     if (date == null || !context.mounted) return;
     final time = await pickTime(context, initial: current?.time ?? LocalTime(9, 0), use24h: prefs.use24h);
+    if (!context.mounted) return;
     final at = resolver.resolve(date.atTime(time ?? LocalTime(9, 0)), zone).utc;
     await _writeFollowUp(context, ref, at);
   }
 
   Future<void> _writeFollowUp(BuildContext context, WidgetRef ref, DateTime? at) async {
     final record = await ref.read(checklistServiceProvider).setFields(item.checklistId, item.id, {'follow_up_at': at});
-    if (record != null && context.mounted) showUndoSnackBar(context, ref, message: context.l10n.savedSnack, record: record);
+    if (record != null && context.mounted) {
+      showUndoSnackBar(context, ref, message: context.l10n.savedSnack, record: record);
+    }
   }
 
   @override
@@ -213,10 +216,7 @@ class _SmartRow extends ConsumerWidget {
     final overdue = ItemTimeRules.followUpOverdue(item.followUpAt, now);
     final zone = ref.watch(deviceZoneProvider);
     final fmt = AppFormat(context.localeName, use24h: ref.watch(userPreferencesProvider).use24h, l10n: l);
-    final crumbs = [
-      if (showList) entry.checklistTitle.isEmpty ? l.listsUntitled : entry.checklistTitle,
-      ...entry.path,
-    ];
+    final crumbs = [if (showList) entry.checklistTitle.isEmpty ? l.listsUntitled : entry.checklistTitle, ...entry.path];
     final muted = context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant);
     return InkWell(
       onTap: () => openChecklist(context, item.checklistId, itemId: item.id),

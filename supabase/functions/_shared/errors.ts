@@ -19,6 +19,7 @@ export const badRequest = (message: string, details?: Record<string, unknown>) =
   new HttpError(400, "bad_request", message, details);
 export const unauthorized = (message = "Missing or invalid credentials") =>
   new HttpError(401, "unauthorized", message);
+export const forbidden = (code: string, message: string) => new HttpError(403, code, message);
 export const methodNotAllowed = (allowed: string[]) =>
   new HttpError(405, "method_not_allowed", `Use ${allowed.join(", ")}`);
 export const notConfigured = (what: string) =>

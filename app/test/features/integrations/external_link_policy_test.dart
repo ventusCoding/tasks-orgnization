@@ -137,8 +137,11 @@ void main() {
       final decision = ExternalLinkPolicy.decide(uri, webHosts: hosts);
       if (decision is OpenPath) {
         final path = Uri.parse(decision.path).path;
-        expect(path.startsWith('/dev') || path.startsWith('/auth') || path.startsWith('/onboarding'), isFalse,
-            reason: raw);
+        expect(
+          path.startsWith('/dev') || path.startsWith('/auth') || path.startsWith('/onboarding'),
+          isFalse,
+          reason: raw,
+        );
         expect(ExternalLinkPolicy.validatePath(decision.path), isNull, reason: raw);
       }
     }

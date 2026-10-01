@@ -23,12 +23,7 @@ String localizeDigits(String text, {required bool arabicIndic}) {
 /// The parts of a duration shown by live counters.
 ({int days, int hours, int minutes, int seconds}) counterParts(Duration d) {
   final total = d.isNegative ? Duration.zero : d;
-  return (
-    days: total.inDays,
-    hours: total.inHours % 24,
-    minutes: total.inMinutes % 60,
-    seconds: total.inSeconds % 60,
-  );
+  return (days: total.inDays, hours: total.inHours % 24, minutes: total.inMinutes % 60, seconds: total.inSeconds % 60);
 }
 
 /// Size variants of [LiveCounter].
@@ -86,7 +81,10 @@ class _LiveCounterState extends ConsumerState<LiveCounter> {
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
       children: [
-        Text(value, style: valueStyle?.copyWith(color: color, fontFeatures: const [FontFeature.tabularFigures()])),
+        Text(
+          value,
+          style: valueStyle?.copyWith(color: color, fontFeatures: const [FontFeature.tabularFigures()]),
+        ),
         const SizedBox(width: 2),
         Text(unit, style: unitStyle?.copyWith(color: color.withValues(alpha: 0.75))),
       ],
@@ -134,9 +132,8 @@ class QuitStrip extends ConsumerWidget {
             ),
           Center(
             child: TextButton.icon(
-              onPressed: () => Navigator.of(context).push<void>(
-                MaterialPageRoute(builder: (_) => const AllClocksScreen()),
-              ),
+              onPressed: () =>
+                  Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => const AllClocksScreen())),
               icon: const Icon(Icons.timer_outlined),
               label: Text(l.quitAllClocks),
             ),
@@ -175,7 +172,12 @@ class _QuitCard extends ConsumerWidget {
                     HabitAvatar(habit: habit, size: 24),
                     const SizedBox(width: Space.sm),
                     Expanded(
-                      child: Text(habit.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: context.text.labelLarge),
+                      child: Text(
+                        habit.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: context.text.labelLarge,
+                      ),
                     ),
                   ],
                 ),

@@ -13,7 +13,13 @@ const _daily = '{"v":1,"type":"fixed","freq":"daily","interval":1}';
 
 /// A daily yes/no habit from 1 August 2026 done on the first [doneDays] days, seen in the evening of
 /// the last one (today is done), so the score has been updated exactly [doneDays] times.
-Future<StatsHarness> everyDay(int doneDays, {String goal = 'check', double? target, String op = 'gte', bool logs = true}) async {
+Future<StatsHarness> everyDay(
+  int doneDays, {
+  String goal = 'check',
+  double? target,
+  String op = 'gte',
+  bool logs = true,
+}) async {
   final start = LocalDate(2026, 8, 1);
   final last = start.plusDays(doneDays - 1);
   final h = StatsHarness.create(now: DateTime.utc(last.year, last.month, last.day, 20));
@@ -55,7 +61,12 @@ void main() {
     test('a daily habit done every day reaches 0.500 after 13 updates and 0.798 after 30', () async {
       for (final (days, expected) in [(13, 0.5), (30, 0.798)]) {
         final h = await everyDay(days);
-        final r = await h.compute(MetricScope.habit, scopeId: 'h', period: const StatsPeriod.allTime(), metricIds: {'HB-H-01'});
+        final r = await h.compute(
+          MetricScope.habit,
+          scopeId: 'h',
+          period: const StatsPeriod.allTime(),
+          metricIds: {'HB-H-01'},
+        );
         expect(r['HB-H-01']!.value.valueOrNull, closeTo(expected, 0.001), reason: '$days days');
         await h.dispose();
       }
@@ -64,7 +75,12 @@ void main() {
     test('an at-most habit starts at 1.0 and stays there within the limit', () async {
       final h = await everyDay(10, goal: 'count', target: 2, op: 'lte', logs: false);
       addTearDown(h.dispose);
-      final r = await h.compute(MetricScope.habit, scopeId: 'h', period: const StatsPeriod.allTime(), metricIds: {'HB-H-01'});
+      final r = await h.compute(
+        MetricScope.habit,
+        scopeId: 'h',
+        period: const StatsPeriod.allTime(),
+        metricIds: {'HB-H-01'},
+      );
       expect(r['HB-H-01']!.value.valueOrNull, closeTo(1.0, 1e-9));
     });
   });
@@ -81,7 +97,10 @@ void main() {
       final bars = (journal['HB-H-04']!.chart! as StreakData).streaks;
       expect(bars.first.length, 6);
       expect(bars.first.start, LocalDate(2026, 9, 14));
-      expect(bars.map((b) => b.length), orderedEquals([...bars.map((b) => b.length)]..sort((a, b) => b.compareTo(a))));
+      expect(
+        bars.map((b) => b.length),
+        orderedEquals(<int>[...bars.map((b) => b.length)]..sort((a, b) => b.compareTo(a))),
+      );
       final gym = await h.compute(MetricScope.habit, scopeId: 'gym', period: period, metricIds: {'HB-H-03'});
       expect(gym['HB-H-03']!.args['unitKind'], 'period');
     });

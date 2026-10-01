@@ -245,7 +245,7 @@ class TimeListEditor extends StatelessWidget {
             onPressed: () async {
               final picked = await pickTime(context, initial: t, use24h: use24h);
               if (picked == null) return;
-              onChanged(({...times.where((x) => x != t), picked}.toList()..sort()));
+              onChanged({...times.where((x) => x != t), picked}.toList()..sort());
             },
             onDeleted: () => onChanged([...times.where((x) => x != t)]),
             deleteButtonTooltipMessage: l.recurRemoveTime(format.time(t)),
@@ -258,7 +258,7 @@ class TimeListEditor extends StatelessWidget {
             final seed = times.isEmpty ? initialNewTime : times.last.plusMinutesWrapped(60);
             final picked = await pickTime(context, initial: seed, use24h: use24h);
             if (picked == null) return;
-            onChanged(({...times, picked}.toList()..sort()));
+            onChanged({...times, picked}.toList()..sort());
           },
         ),
       ],

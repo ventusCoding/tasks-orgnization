@@ -25,14 +25,7 @@ enum TrackingMode {
 }
 
 /// `task_occurrences.status`.
-enum PlannerOccurrenceStatus {
-  scheduled,
-  inProgress,
-  done,
-  skipped,
-  missed,
-  cancelled,
-}
+enum PlannerOccurrenceStatus { scheduled, inProgress, done, skipped, missed, cancelled }
 
 /// Outcome class of an occurrence (PL-T-06).
 enum PlannerOutcome {
@@ -62,8 +55,7 @@ final class const TimeSessionFact(
   final String? occurrenceKey,
   final String? categoryId,
 }) {
-  Duration get length =>
-      end.isAfter(start) ? end.difference(start) : Duration.zero;
+  Duration get length => end.isAfter(start) ? end.difference(start) : Duration.zero;
 
   double get minutes => length.inSeconds / 60;
 }
@@ -120,8 +112,7 @@ final class const PlannerOccurrenceFact(
   LocalDate? get plannedDate => plannedStartLocal?.date;
 
   /// Planned local end (start + duration).
-  LocalDateTime? get plannedEndLocal =>
-      plannedStartLocal?.plusMinutes(plannedDurationMinutes ?? 0);
+  LocalDateTime? get plannedEndLocal => plannedStartLocal?.plusMinutes(plannedDurationMinutes ?? 0);
 
   /// Whether the occurrence has a timed slot (not all-day, scheduled).
   bool get isTimed => !isAllDay && plannedStart != null && plannedEnd != null;
@@ -132,14 +123,7 @@ final class const PlannerOccurrenceFact(
       return [...sessions]..sort((a, b) => a.start.compareTo(b.start));
     }
     if (actualStart != null && actualEnd != null) {
-      return [
-        TimeSessionFact(
-          actualStart!,
-          actualEnd!,
-          taskId: taskId,
-          categoryId: categoryId,
-        ),
-      ];
+      return [TimeSessionFact(actualStart!, actualEnd!, taskId: taskId, categoryId: categoryId)];
     }
     return const [];
   }
@@ -163,11 +147,9 @@ final class const PlannerOccurrenceFact(
   }
 
   /// First planned start (before any move) in wall-clock time.
-  LocalDateTime? get firstPlannedStartLocal =>
-      moves.isEmpty ? plannedStartLocal : _sortedMoves.first.fromStart;
+  LocalDateTime? get firstPlannedStartLocal => moves.isEmpty ? plannedStartLocal : _sortedMoves.first.fromStart;
 
-  List<RescheduleFact> get _sortedMoves =>
-      [...moves]..sort((a, b) => a.occurredAt.compareTo(b.occurredAt));
+  List<RescheduleFact> get _sortedMoves => [...moves]..sort((a, b) => a.occurredAt.compareTo(b.occurredAt));
 
   /// Moves in chronological order.
   List<RescheduleFact> get sortedMoves => _sortedMoves;
@@ -176,8 +158,7 @@ final class const PlannerOccurrenceFact(
 /// A wall-clock window within a day (e.g. work hours 09:00–17:00).
 @immutable
 final class const LocalTimeWindow(final int startMinute, final int endMinute) {
-  factory of(LocalTime start, LocalTime end) =>
-      LocalTimeWindow(start.minuteOfDay, end.minuteOfDay);
+  factory of(LocalTime start, LocalTime end) => LocalTimeWindow(start.minuteOfDay, end.minuteOfDay);
 
   int get minutes => endMinute > startMinute ? endMinute - startMinute : 0;
 }

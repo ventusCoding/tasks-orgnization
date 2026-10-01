@@ -35,10 +35,8 @@ ZoneClock tzClock(String zoneId) {
       const day = 86400000;
       final before = offsetMs(wallMs - day);
       final after = offsetMs(wallMs + day);
-      final candidates = <int>{
-        wallMs - before,
-        wallMs - after,
-      }.where((utc) => offsetMs(utc) == wallMs - utc).toList()..sort();
+      final candidates = <int>{wallMs - before, wallMs - after}.where((utc) => offsetMs(utc) == wallMs - utc).toList()
+        ..sort();
       final utc = candidates.isEmpty ? wallMs - before : candidates.first;
       return DateTime.fromMillisecondsSinceEpoch(utc, isUtc: true);
     },
@@ -52,12 +50,10 @@ LocalDate d(String iso) => LocalDate.parse(iso);
 LocalDateTime ldt(String iso) => LocalDateTime.parse(iso);
 
 /// UTC instant from an ISO string (a trailing `Z` is optional).
-DateTime utc(String iso) =>
-    DateTime.parse(iso.endsWith('Z') ? iso : '${iso}Z').toUtc();
+DateTime utc(String iso) => DateTime.parse(iso.endsWith('Z') ? iso : '${iso}Z').toUtc();
 
 /// Instant of a wall-clock time in [clock].
 DateTime at(ZoneClock clock, String localIso) => clock.toInstant(ldt(localIso));
 
 /// Matcher for doubles within [tolerance].
-Matcher near(num expected, [double tolerance = 1e-9]) =>
-    closeTo(expected, tolerance);
+Matcher near(num expected, [double tolerance = 1e-9]) => closeTo(expected, tolerance);

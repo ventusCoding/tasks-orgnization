@@ -19,7 +19,15 @@ DaySlice _slice(List<PlannerItem> items, {LocalDate? day, DayTimeline? timeline}
 
 void main() {
   group('slot counts', () {
-    for (final (slot, rows, last) in [(1, 1440, 1), (15, 96, 15), (30, 48, 30), (60, 24, 60), (120, 12, 120), (1440, 1, 1440), (7, 206, 5)]) {
+    for (final (slot, rows, last) in [
+      (1, 1440, 1),
+      (15, 96, 15),
+      (30, 48, 30),
+      (60, 24, 60),
+      (120, 12, 120),
+      (1440, 1, 1440),
+      (7, 206, 5),
+    ]) {
       test('$slot-minute slots → $rows rows, last $last min', () {
         final r = buildDayRows(slice: _slice(const []), slotMinutes: slot);
         expect(r, hasLength(rows));
@@ -33,9 +41,15 @@ void main() {
   test('an item spanning several slots appears once, with bars over the following rows', () {
     final gym = item('Gym', at(2026, 9, 23, 9, 15), 135);
     final rows = buildDayRows(slice: _slice([gym]), slotMinutes: 30);
-    final withItem = [for (final r in rows) if (r.entries.isNotEmpty) r];
+    final withItem = [
+      for (final r in rows)
+        if (r.entries.isNotEmpty) r,
+    ];
     expect(withItem.single.wallStart, 9 * 60);
-    final barRows = [for (final r in rows) if (r.bars.isNotEmpty) r.wallStart ~/ 30];
+    final barRows = [
+      for (final r in rows)
+        if (r.bars.isNotEmpty) r.wallStart ~/ 30,
+    ];
     expect(barRows, [18, 19, 20, 21, 22]); // 09:00 … 11:00 (ends 11:30)
     expect(rows[18].bars.single.starts, isTrue);
     expect(rows[22].bars.single.ends, isTrue);
@@ -96,8 +110,14 @@ void main() {
     test('23-hour day omits the missing hour', () {
       final d = LocalDate(2026, 3, 29);
       final tl = DayTimeline.build(d, 'Europe/Paris', resolver);
-      final rows = buildDayRows(slice: _slice(const [], day: d, timeline: tl), slotMinutes: 60);
-      final normal = [for (final r in rows) if (r.kind == AxisBandKind.normal) r];
+      final rows = buildDayRows(
+        slice: _slice(const [], day: d, timeline: tl),
+        slotMinutes: 60,
+      );
+      final normal = [
+        for (final r in rows)
+          if (r.kind == AxisBandKind.normal) r,
+      ];
       expect(normal, hasLength(23));
       expect(normal.map((r) => r.wallStart), isNot(contains(120)));
       expect(rows.any((r) => r.kind == AxisBandKind.gap), isTrue);
@@ -111,9 +131,15 @@ void main() {
         item('First', at(2026, 10, 25, 2, 30), 15, startUtc: firstPass),
         item('Second', at(2026, 10, 25, 2, 30), 15, startUtc: firstPass.add(const Duration(hours: 1))),
       ];
-      final rows = buildDayRows(slice: _slice(items, day: d, timeline: tl), slotMinutes: 60);
+      final rows = buildDayRows(
+        slice: _slice(items, day: d, timeline: tl),
+        slotMinutes: 60,
+      );
       expect(rows, hasLength(25));
-      final twoAm = [for (final r in rows) if (r.wallStart == 120) r];
+      final twoAm = [
+        for (final r in rows)
+          if (r.wallStart == 120) r,
+      ];
       expect(twoAm.map((r) => r.repeat), [0, 1]);
       expect(twoAm.map((r) => r.entries.single.item.title), ['First', 'Second']);
     });
@@ -121,7 +147,10 @@ void main() {
     test('custom 7-minute slots on a DST day end on a short slot', () {
       final d = LocalDate(2026, 3, 29);
       final tl = DayTimeline.build(d, 'Europe/Paris', resolver);
-      final rows = buildDayRows(slice: _slice(const [], day: d, timeline: tl), slotMinutes: 7);
+      final rows = buildDayRows(
+        slice: _slice(const [], day: d, timeline: tl),
+        slotMinutes: 7,
+      );
       expect(rows.last.wallEnd, 1440);
       expect(rows.last.minutes, 5);
     });

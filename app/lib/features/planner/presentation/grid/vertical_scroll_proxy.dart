@@ -34,12 +34,8 @@ class VerticalScrollProxy extends StatelessWidget {
   Widget build(BuildContext context) => Scrollable(
     controller: controller,
     physics: physics,
-    viewportBuilder: (context, position) => _ProxyViewport(
-      offset: position,
-      viewportExtent: viewportExtent,
-      contentExtent: contentExtent,
-      child: child,
-    ),
+    viewportBuilder: (context, position) =>
+        _ProxyViewport(offset: position, viewportExtent: viewportExtent, contentExtent: contentExtent, child: child),
   );
 }
 
@@ -69,10 +65,7 @@ class _ProxyViewport extends SingleChildRenderObjectWidget {
 }
 
 class _RenderProxyViewport extends RenderProxyBox {
-  _RenderProxyViewport({required ViewportOffset offset, required double viewportExtent, required double contentExtent})
-    : _offset = offset,
-      _viewportExtent = viewportExtent,
-      _contentExtent = contentExtent;
+  _RenderProxyViewport({required this._offset, required this._viewportExtent, required this._contentExtent});
 
   ViewportOffset _offset;
   set offset(ViewportOffset value) {
@@ -98,9 +91,9 @@ class _RenderProxyViewport extends RenderProxyBox {
   @override
   void performLayout() {
     super.performLayout();
-    final viewport = math.max(0.0, _viewportExtent);
+    final viewport = math.max<double>(0, _viewportExtent);
     _offset
       ..applyViewportDimension(viewport)
-      ..applyContentDimensions(0, math.max(0.0, _contentExtent - viewport));
+      ..applyContentDimensions(0, math.max(0, _contentExtent - viewport));
   }
 }

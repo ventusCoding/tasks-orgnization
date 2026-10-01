@@ -32,10 +32,8 @@ void main() {
     await tester.pump(const Duration(milliseconds: 10));
   }
 
-  void harness(DateTime now) => h = TestHarness.create(
-    now: now,
-    overrides: [inboxUnreadCountProvider.overrideWith((ref) => Stream.value(0))],
-  );
+  void harness(DateTime now) =>
+      h = TestHarness.create(now: now, overrides: [inboxUnreadCountProvider.overrideWith((ref) => Stream.value(0))]);
   tearDown(() => h.dispose());
 
   Future<QuitHabit> createTracker(WidgetTester tester, {bool pledge = true, bool autoSuccess = true}) async {

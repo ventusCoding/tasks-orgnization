@@ -19,11 +19,8 @@ class EssentialsDraft {
   final int weekStart;
   final bool use24h;
 
-  EssentialsDraft copyWith({String? zone, int? weekStart, bool? use24h}) => EssentialsDraft(
-    zone: zone ?? this.zone,
-    weekStart: weekStart ?? this.weekStart,
-    use24h: use24h ?? this.use24h,
-  );
+  EssentialsDraft copyWith({String? zone, int? weekStart, bool? use24h}) =>
+      EssentialsDraft(zone: zone ?? this.zone, weekStart: weekStart ?? this.weekStart, use24h: use24h ?? this.use24h);
 
   @override
   bool operator ==(Object other) =>
@@ -34,13 +31,7 @@ class EssentialsDraft {
 }
 
 class OnboardingState {
-  const OnboardingState({
-    required this.steps,
-    this.index = 0,
-    this.draft,
-    this.busy = false,
-    this.done = false,
-  });
+  const OnboardingState({required this.steps, this.index = 0, this.draft, this.busy = false, this.done = false});
 
   final List<OnboardingStep> steps;
   final int index;

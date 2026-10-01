@@ -86,7 +86,7 @@ Future<void> runSignOutFlow(BuildContext context, WidgetRef ref, {bool revoked =
   if (!context.mounted || choice == null) return;
   switch (choice) {
     case _PendingChoice.export:
-      GoRouter.maybeOf(context)?.push('/settings/data');
+      unawaited(GoRouter.maybeOf(context)?.push('/settings/data'));
     case _PendingChoice.signOut:
       await withBlockingProgress(context, l.authSignOutSyncing, () => service.endSession(rotateDevice: revoked));
       if (context.mounted) showInfoSnackBar(context, l.authSignedOut);

@@ -25,12 +25,7 @@ void main() {
     ),
     bool saturated = false,
     SyncStatus sync = SyncStatus.localOnly,
-  }) => SystemNotices.activeCodes(
-    capabilities: caps,
-    saturated: saturated,
-    sync: sync,
-    now: now,
-  );
+  }) => SystemNotices.activeCodes(capabilities: caps, saturated: saturated, sync: sync, now: now);
 
   group('conditions', () {
     test('nothing while capabilities are unknown or everything is fine', () {
@@ -38,82 +33,38 @@ void main() {
       expect(active(), isEmpty);
     });
 
-    test(
-      'permission, blocked channels, exact alarms (Android only), saturation',
-      () {
-        expect(
-          active(caps: const NotificationCapabilities(platform: 'android')),
-          {SystemNotices.notificationsOff},
-        );
-        expect(
-          active(
-            caps: const NotificationCapabilities(
-              platform: 'android',
-              notifications: true,
-              exactAlarm: true,
-              blockedChannels: {'dl.planner.standard.v1'},
-            ),
+    test('permission, blocked channels, exact alarms (Android only), saturation', () {
+      expect(active(caps: const NotificationCapabilities(platform: 'android')), {SystemNotices.notificationsOff});
+      expect(
+        active(
+          caps: const NotificationCapabilities(
+            platform: 'android',
+            notifications: true,
+            exactAlarm: true,
+            blockedChannels: {'dl.planner.standard.v1'},
           ),
-          {SystemNotices.channelBlocked},
-        );
-        expect(
-          active(
-            caps: const NotificationCapabilities(
-              platform: 'android',
-              notifications: true,
-            ),
-          ),
-          {SystemNotices.exactAlarmsOff},
-        );
-        expect(
-          active(
-            caps: const NotificationCapabilities(
-              platform: 'ios',
-              notifications: true,
-            ),
-            saturated: true,
-          ),
-          {SystemNotices.budgetSaturated},
-        );
-      },
-    );
+        ),
+        {SystemNotices.channelBlocked},
+      );
+      expect(active(caps: const NotificationCapabilities(platform: 'android', notifications: true)), {
+        SystemNotices.exactAlarmsOff,
+      });
+      expect(active(caps: const NotificationCapabilities(platform: 'ios', notifications: true), saturated: true), {
+        SystemNotices.budgetSaturated,
+      });
+    });
 
-    test(
-      'sync: revoked device, update required, failing for more than a day',
-      () {
-        SyncStatus error(String? code, DateTime? lastSuccess) => SyncStatus(
-          phase: SyncPhase.error,
-          lastError: 'boom',
-          errorCode: code,
-          lastSuccessAt: lastSuccess,
-        );
-        expect(active(sync: error(SyncErrorCodes.deviceRevoked, null)), {
-          SystemNotices.deviceRevoked,
-        });
-        expect(active(sync: error(SyncErrorCodes.unsupportedClient, null)), {
-          SystemNotices.updateRequired,
-        });
-        expect(
-          active(
-            sync: error(
-              SyncErrorCodes.unknown,
-              now.subtract(const Duration(hours: 25)),
-            ),
-          ),
-          {SystemNotices.syncFailing},
-        );
-        expect(
-          active(
-            sync: error(
-              SyncErrorCodes.unknown,
-              now.subtract(const Duration(hours: 2)),
-            ),
-          ),
-          isEmpty,
-        );
-        expect(active(sync: error(SyncErrorCodes.unknown, null)), isEmpty);
-      },
-    );
+    test('sync: revoked device, update required, failing for more than a day', () {
+      SyncStatus error(String? code, DateTime? lastSuccess) =>
+          SyncStatus(phase: SyncPhase.error, lastError: 'boom', errorCode: code, lastSuccessAt: lastSuccess);
+      expect(active(sync: error(SyncErrorCodes.deviceRevoked, null)), {SystemNotices.deviceRevoked});
+      expect(active(sync: error(SyncErrorCodes.unsupportedClient, null)), {SystemNotices.updateRequired});
+      expect(active(sync: error(SyncErrorCodes.unknown, now.subtract(const Duration(hours: 25)))), {
+        SystemNotices.syncFailing,
+      });
+      expect(active(sync: error(SyncErrorCodes.unknown, now.subtract(const Duration(hours: 2)))), isEmpty);
+      expect(active(sync: error(SyncErrorCodes.unknown, null)), isEmpty);
+    });
   });
 
   group('lifecycle', () {
@@ -124,13 +75,11 @@ void main() {
     test('created once, resolved when fixed, re-opened with the same id when it returns', () async {
       final notices = h.read(systemNoticesProvider);
       final inbox = h.read(inboxRepositoryProvider);
-      final id = Ids.inbox(
-        SystemNotices.dedupeKey(SystemNotices.exactAlarmsOff),
-      );
+      final id = Ids.inbox(SystemNotices.dedupeKey(SystemNotices.exactAlarmsOff));
 
       await notices.apply({SystemNotices.exactAlarmsOff});
       await notices.apply({SystemNotices.exactAlarmsOff});
-      var rows = await inbox.inbox();
+      final rows = await inbox.inbox();
       expect(rows, hasLength(1));
       expect(rows.single.id, id);
       expect(rows.single.category, InboxCategory.system);
@@ -166,14 +115,8 @@ void main() {
   });
 
   test('notification links open the module pages; others go to the router', () {
-    expect(
-      notificationPageFor(NotificationLinks.settings),
-      isA<NotificationsSettingsPage>(),
-    );
-    expect(
-      notificationPageFor(NotificationLinks.diagnostics),
-      isA<NotificationDiagnosticsScreen>(),
-    );
+    expect(notificationPageFor(NotificationLinks.settings), isA<NotificationsSettingsPage>());
+    expect(notificationPageFor(NotificationLinks.diagnostics), isA<NotificationDiagnosticsScreen>());
     expect(notificationPageFor('/task/gym'), isNull);
   });
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:everslot/core/database/app_database.dart';
 import 'package:everslot/core/env/env.dart';
 import 'package:everslot/core/lifecycle/app_lifecycle.dart';
+import 'package:everslot/core/platform/connectivity_service.dart';
 import 'package:everslot/core/preferences/user_preferences.dart';
 import 'package:everslot/core/session/device_identity.dart';
 import 'package:everslot/core/session/local_data_owner.dart';
@@ -73,6 +74,32 @@ final lifecycleProvider = Provider<AppLifecycleService>((ref) {
   return service;
 });
 
+/// The OS network link (`connectivity_plus`). Override in tests.
+final linkSourceProvider = Provider<LinkSource>((ref) => PlatformLinkSource());
+
+/// Online/offline state of the app: the OS link plus a reachability check of the Supabase host
+/// (T1.3.04). Started on first read; used by sync, notification re-planning and Today.
+final connectivityServiceProvider = Provider<ConnectivityService>((ref) {
+  final env = ref.watch(envProvider);
+  final service = ConnectivityService(
+    source: ref.watch(linkSourceProvider),
+    backend: env.isSupabaseConfigured ? Uri.tryParse(env.supabaseUrl) : null,
+  );
+  ref.onDispose(service.dispose);
+  unawaited(service.start());
+  return service;
+});
+
+/// `true` while the app can reach its backend (always true in local-only mode with a network link).
+final isOnlineProvider = StreamProvider<bool>((ref) async* {
+  final service = ref.watch(connectivityServiceProvider);
+  yield service.isOnline;
+  yield* service.onlineChanges;
+});
+
+/// Online/offline transitions of the device (true = online again). Overridden in tests.
+final syncOnlineChangesProvider = Provider<Stream<bool>>((ref) => ref.watch(connectivityServiceProvider).onlineChanges);
+
 /// Current IANA zone of the device (refreshed on resume, T1.5.06).
 final deviceZoneProvider = NotifierProvider<DeviceZoneController, String>(DeviceZoneController.new);
 
@@ -133,9 +160,7 @@ class SessionController extends Notifier<AppSession?> {
 /// Current user id ('' when signed out).
 final currentUserIdProvider = Provider<String>((ref) => ref.watch(sessionProvider)?.userId ?? '');
 
-final tableRegistryProvider = Provider<TableRegistry>(
-  (ref) => TableRegistry(ref.watch(appDatabaseProvider)),
-);
+final tableRegistryProvider = Provider<TableRegistry>((ref) => TableRegistry(ref.watch(appDatabaseProvider)));
 
 /// Hybrid logical clock. Its persisted state is loaded in bootstrap (`Hlc.initialState`).
 final hlcProvider = Provider<Hlc>(
@@ -166,9 +191,7 @@ final syncWriterProvider = Provider<SyncWriter>((ref) {
 
 /// Device id used for the device registry and pushes. Starts as [deviceIdProvider]; rotated
 /// after the server revoked this device (T1.5.14) so the next sign-in registers a new device.
-final activeDeviceIdProvider = NotifierProvider<ActiveDeviceIdController, String>(
-  ActiveDeviceIdController.new,
-);
+final activeDeviceIdProvider = NotifierProvider<ActiveDeviceIdController, String>(ActiveDeviceIdController.new);
 
 class ActiveDeviceIdController extends Notifier<String> {
   @override
@@ -199,9 +222,7 @@ final deviceRegistrarProvider = Provider<DeviceRegistrar?>((ref) {
     loadInfo: platformDeviceInfoLoader(
       deviceId: ref.watch(activeDeviceIdProvider),
       timeZone: () => ref.read(deviceZoneProvider),
-      locale: () =>
-          ref.read(profileRowProvider).value?.locale ??
-          PlatformDispatcher.instance.locale.toLanguageTag(),
+      locale: () => ref.read(profileRowProvider).value?.locale ?? PlatformDispatcher.instance.locale.toLanguageTag(),
       build: ref.watch(appBuildProvider),
     ),
   );
@@ -250,9 +271,7 @@ final syncServiceProvider = Provider<SyncService?>((ref) {
 });
 
 /// Sync status for the UI (local-only when no service).
-final syncStatusProvider = NotifierProvider<SyncStatusController, SyncStatus>(
-  SyncStatusController.new,
-);
+final syncStatusProvider = NotifierProvider<SyncStatusController, SyncStatus>(SyncStatusController.new);
 
 class SyncStatusController extends Notifier<SyncStatus> {
   @override
@@ -284,12 +303,10 @@ final settingsRepositoryProvider = Provider<SettingsRepository>(
 );
 
 /// Settings map of one namespace (live).
-final settingsProvider = StreamProvider.family<Map<String, dynamic>, String>(
-  (ref, namespace) {
-    ref.watch(currentUserIdProvider);
-    return ref.watch(settingsRepositoryProvider).watch(namespace);
-  },
-);
+final settingsProvider = StreamProvider.family<Map<String, dynamic>, String>((ref, namespace) {
+  ref.watch(currentUserIdProvider);
+  return ref.watch(settingsRepositoryProvider).watch(namespace);
+});
 
 /// Live profile row of the current user.
 final profileRowProvider = StreamProvider<ProfileRow?>((ref) {
@@ -318,9 +335,7 @@ final userPreferencesProvider = Provider<UserPreferences>((ref) {
 });
 
 /// Debug-only feature flag overrides (T1.3.16).
-final featureFlagsProvider = NotifierProvider<FeatureFlagsController, Set<String>>(
-  FeatureFlagsController.new,
-);
+final featureFlagsProvider = NotifierProvider<FeatureFlagsController, Set<String>>(FeatureFlagsController.new);
 
 class FeatureFlagsController extends Notifier<Set<String>> {
   @override

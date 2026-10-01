@@ -189,8 +189,12 @@ class RecurrenceService {
   Occurrence? nextAfter(RecurrenceRule rule, RecurrenceAnchor anchor, {DateTime? instant, bool inclusive = false}) =>
       engine.nextAfter(rule, anchor, instant ?? nowUtc, evalZone: currentZone, inclusive: inclusive);
 
-  Occurrence? previousBefore(RecurrenceRule rule, RecurrenceAnchor anchor, {DateTime? instant, bool inclusive = false}) =>
-      engine.previousBefore(rule, anchor, instant ?? nowUtc, evalZone: currentZone, inclusive: inclusive);
+  Occurrence? previousBefore(
+    RecurrenceRule rule,
+    RecurrenceAnchor anchor, {
+    DateTime? instant,
+    bool inclusive = false,
+  }) => engine.previousBefore(rule, anchor, instant ?? nowUtc, evalZone: currentZone, inclusive: inclusive);
 
   /// After-completion: when the series is next due after [lastCompletion].
   Occurrence? nextDue(RecurrenceRule rule, RecurrenceAnchor anchor, DateTime? lastCompletion, {int? durationMinutes}) =>
@@ -241,12 +245,21 @@ class RecurrenceService {
 
   /// Maximum occurrences on one day over the next [days] days (density warnings).
   int maxPerDay(RecurrenceRule rule, RecurrenceAnchor anchor, {int days = 7}) {
-    if (rule.type != RuleType.fixed) return rule.type == RuleType.quota && rule.quota?.per == PeriodUnit.day ? rule.quota!.times : 1;
+    if (rule.type != RuleType.fixed) {
+      return rule.type == RuleType.quota && rule.quota?.per == PeriodUnit.day ? rule.quota!.times : 1;
+    }
     var max = 0;
     final start = LocalDateTime.max(anchor.start, nowLocal).date;
     for (var i = 0; i < days; i++) {
       final day = start.plusDays(i);
-      final n = engine.countBetween(rule, anchor, day.atStartOfDay, day.plusDays(1).atStartOfDay, evalZone: currentZone, durationMinutes: 0);
+      final n = engine.countBetween(
+        rule,
+        anchor,
+        day.atStartOfDay,
+        day.plusDays(1).atStartOfDay,
+        evalZone: currentZone,
+        durationMinutes: 0,
+      );
       if (n > max) max = n;
     }
     return max;
@@ -258,7 +271,15 @@ class RecurrenceService {
     final from = LocalDateTime.max(anchor.start, nowLocal);
     try {
       return engine
-          .between(rule, anchor, from, from.date.plusYears(years).atStartOfDay, evalZone: currentZone, durationMinutes: 0, limit: 1)
+          .between(
+            rule,
+            anchor,
+            from,
+            from.date.plusYears(years).atStartOfDay,
+            evalZone: currentZone,
+            durationMinutes: 0,
+            limit: 1,
+          )
           .isEmpty;
     } on Object {
       return true;

@@ -50,10 +50,7 @@ Future<bool> confirmDialog(
         TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(ctx.l10n.actionCancel)),
         FilledButton(
           style: destructive
-              ? FilledButton.styleFrom(
-                  backgroundColor: ctx.colors.error,
-                  foregroundColor: ctx.colors.onError,
-                )
+              ? FilledButton.styleFrom(backgroundColor: ctx.colors.error, foregroundColor: ctx.colors.onError)
               : null,
           onPressed: () => Navigator.pop(ctx, true),
           child: Text(confirmLabel ?? ctx.l10n.actionConfirm),
@@ -117,27 +114,19 @@ class _PromptTextDialogState extends State<_PromptTextDialog> {
     ),
     actions: [
       TextButton(onPressed: () => Navigator.pop(context), child: Text(context.l10n.actionCancel)),
-      FilledButton(
-        onPressed: () => Navigator.pop(context, _controller.text),
-        child: Text(context.l10n.actionSave),
-      ),
+      FilledButton(onPressed: () => Navigator.pop(context, _controller.text), child: Text(context.l10n.actionSave)),
     ],
   );
 }
 
 /// Shows a snackbar with an Undo action and registers [record] on the undo stack (T2.3.06).
-void showUndoSnackBar(
-  BuildContext context,
-  WidgetRef ref, {
-  required String message,
-  required OpRecord record,
-}) {
+void showUndoSnackBar(BuildContext context, WidgetRef ref, {required String message, required OpRecord record}) {
   final stack = ref.read(undoStackProvider)..push(message, record);
   final messenger = ScaffoldMessenger.of(context)..hideCurrentSnackBar();
   messenger.showSnackBar(
     SnackBar(
       content: Text(message),
-      action: SnackBarAction(label: context.l10n.actionUndo, onPressed: () => stack.undo()),
+      action: SnackBarAction(label: context.l10n.actionUndo, onPressed: stack.undo),
     ),
   );
 }

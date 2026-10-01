@@ -32,5 +32,4 @@ String selectPlural(String locale, int n, Map<String, String> forms) {
   return template.replaceAll('{n}', '$n');
 }
 
-String _language(String locale) =>
-    locale.split(RegExp('[-_]')).first.toLowerCase();
+String _language(String locale) => locale.split(RegExp('[-_]')).first.toLowerCase();

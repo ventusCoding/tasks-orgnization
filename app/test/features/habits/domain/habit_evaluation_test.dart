@@ -53,12 +53,10 @@ void main() {
         log(HabitLogKind.progress, key: '2026-09-21', at: at(21), value: 10),
         log(HabitLogKind.progress, key: '2026-09-22', at: at(22, 9), value: 10),
       ], now: at(22, 20));
-      expect([for (var day = 19; day <= 22; day++) status(e, day)], [
-        PeriodStatus.missed,
-        PeriodStatus.done,
-        PeriodStatus.partial,
-        PeriodStatus.pending,
-      ]);
+      expect(
+        [for (var day = 19; day <= 22; day++) status(e, day)],
+        [PeriodStatus.missed, PeriodStatus.done, PeriodStatus.partial, PeriodStatus.pending],
+      );
       expect(e.dayOn(d(2026, 9, 20))!.entries, hasLength(2), reason: 'two entries keep their own times');
       expect(e.dayOn(d(2026, 9, 22))!.achieved, 10);
       expect(remainingToTarget(e.dayOn(d(2026, 9, 22))!), 5);
@@ -75,14 +73,17 @@ void main() {
         log(HabitLogKind.skip, key: '2026-09-19', at: at(19)),
         log(HabitLogKind.excuse, key: '2026-09-20', at: at(20)),
       ], now: at(22));
-      expect([for (var day = 17; day <= 22; day++) status(e, day)], [
-        PeriodStatus.done,
-        PeriodStatus.failed,
-        PeriodStatus.skipped,
-        PeriodStatus.excused,
-        PeriodStatus.missed,
-        PeriodStatus.pending,
-      ]);
+      expect(
+        [for (var day = 17; day <= 22; day++) status(e, day)],
+        [
+          PeriodStatus.done,
+          PeriodStatus.failed,
+          PeriodStatus.skipped,
+          PeriodStatus.excused,
+          PeriodStatus.missed,
+          PeriodStatus.pending,
+        ],
+      );
     });
 
     test('results do not depend on log insertion order; the latest statement wins', () {
@@ -103,8 +104,14 @@ void main() {
         log(HabitLogKind.progress, key: '2026-09-22', at: at(22, 9), value: 1),
       ];
       var e = evaluate(habit, logs, now: at(22, 10));
-      expect([status(e, 20), status(e, 21), status(e, 22)], [PeriodStatus.failed, PeriodStatus.done, PeriodStatus.pending]);
-      e = evaluate(habit, [...logs, log(HabitLogKind.progress, key: '2026-09-22', at: at(22, 11), value: 2)], now: at(22, 12));
+      expect(
+        [status(e, 20), status(e, 21), status(e, 22)],
+        [PeriodStatus.failed, PeriodStatus.done, PeriodStatus.pending],
+      );
+      e = evaluate(habit, [
+        ...logs,
+        log(HabitLogKind.progress, key: '2026-09-22', at: at(22, 11), value: 2),
+      ], now: at(22, 12));
       expect(status(e, 22), PeriodStatus.failed, reason: 'exceeding the limit flips today to failed immediately');
       final strict = buildHabit(
         start: d(2026, 9, 20),
@@ -125,7 +132,11 @@ void main() {
       final neutral = evaluate(buildHabit(start: d(2026, 9, 18)), logs, now: at(22, 20));
       expect(status(neutral, 21), PeriodStatus.frozen);
       expect(summary(neutral).currentStreak, 3);
-      final breaking = evaluate(buildHabit(start: d(2026, 9, 18), skipPolicy: SkipPolicy.breaks), logs, now: at(22, 20));
+      final breaking = evaluate(
+        buildHabit(start: d(2026, 9, 18), skipPolicy: SkipPolicy.breaks),
+        logs,
+        now: at(22, 20),
+      );
       expect(summary(breaking).currentStreak, 2);
     });
   });
@@ -134,7 +145,8 @@ void main() {
     test('a 20-day streak survives a 5-day vacation; done inside a pause still counts', () {
       final habit = buildHabit(start: d(2026, 9, 1));
       final logs = [
-        for (var day = 1; day <= 20; day++) log(HabitLogKind.done, key: '2026-09-${day.toString().padLeft(2, '0')}', at: at(day)),
+        for (var day = 1; day <= 20; day++)
+          log(HabitLogKind.done, key: '2026-09-${day.toString().padLeft(2, '0')}', at: at(day)),
         log(HabitLogKind.done, key: '2026-09-23', at: at(23)),
         log(HabitLogKind.done, key: '2026-09-26', at: at(26)),
         log(HabitLogKind.done, key: '2026-09-27', at: at(27)),
@@ -184,7 +196,8 @@ void main() {
     test('period progress, per-day view and at-risk flag', () {
       final habit = buildHabit(start: d(2026, 9, 14), schedule: RecurrenceRule.forQuota(3, PeriodUnit.week));
       final logs = [
-        for (final day in [14, 16, 18]) log(HabitLogKind.done, key: '2026-09-${day.toString().padLeft(2, '0')}', at: at(day)),
+        for (final day in [14, 16, 18])
+          log(HabitLogKind.done, key: '2026-09-${day.toString().padLeft(2, '0')}', at: at(day)),
         log(HabitLogKind.done, key: '2026-09-21', at: at(21)),
       ];
       final e = evaluate(habit, logs, now: at(26, 12));
@@ -241,12 +254,18 @@ void main() {
       final b = periodService().boundariesOf(buildHabit());
       final now = DateTime.utc(2026, 9, 22, 10);
       final tomorrow = CheckInTarget.day(d(2026, 9, 23), b);
-      expect(checkInRefusal(target: tomorrow, now: now, archived: false, state: CheckInState.done), CheckInRefusal.future);
+      expect(
+        checkInRefusal(target: tomorrow, now: now, archived: false, state: CheckInState.done),
+        CheckInRefusal.future,
+      );
       expect(checkInRefusal(target: tomorrow, now: now, archived: false, progress: true), CheckInRefusal.future);
       expect(checkInRefusal(target: tomorrow, now: now, archived: false, state: CheckInState.skip), isNull);
       expect(checkInRefusal(target: tomorrow, now: now, archived: false, state: CheckInState.excuse), isNull);
       final today = CheckInTarget.day(d(2026, 9, 22), b);
-      expect(checkInRefusal(target: today, now: now, archived: true, state: CheckInState.done), CheckInRefusal.archived);
+      expect(
+        checkInRefusal(target: today, now: now, archived: true, state: CheckInState.done),
+        CheckInRefusal.archived,
+      );
       expect(checkInRefusal(target: today, now: now, archived: false, state: CheckInState.done), isNull);
     });
 

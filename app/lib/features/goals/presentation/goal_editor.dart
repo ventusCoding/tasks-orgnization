@@ -22,7 +22,8 @@ Future<void> showGoalEditor(BuildContext context, {required String habitId, Goal
       title: existing == null
           ? (reward ? context.l10n.quitRewardAdd : context.l10n.goalsNew)
           : (reward ? context.l10n.quitRewardName : context.l10n.goalsEdit),
-      builder: (_) => _GoalEditor(habitId: habitId, existing: existing, reward: reward || (existing?.isReward ?? false)),
+      builder: (_) =>
+          _GoalEditor(habitId: habitId, existing: existing, reward: reward || (existing?.isReward ?? false)),
     );
 
 class _GoalEditor extends ConsumerStatefulWidget {
@@ -77,9 +78,7 @@ class _GoalEditorState extends ConsumerState<_GoalEditor> {
       _saving = true;
     });
     try {
-      await ref
-          .read(goalServiceProvider)
-          .save(goal, habitKind: goalHabitKindOf(habit), isNew: widget.existing == null);
+      await ref.read(goalServiceProvider).save(goal, habitKind: goalHabitKindOf(habit), isNew: widget.existing == null);
       if (!mounted) return;
       Navigator.pop(context);
       showInfoSnackBar(context, widget.reward ? l.quitRewardSaved : l.goalsSaved);
@@ -102,7 +101,9 @@ class _GoalEditorState extends ConsumerState<_GoalEditor> {
     ];
     final metric = widget.reward
         ? GoalMetric.moneySaved
-        : (_metric ?? widget.existing?.metric ?? (metrics.contains(GoalMetric.totalValue) ? GoalMetric.totalValue : metrics.first));
+        : (_metric ??
+              widget.existing?.metric ??
+              (metrics.contains(GoalMetric.totalValue) ? GoalMetric.totalValue : metrics.first));
     final fmt = AppFormat(context.localeName, l10n: l);
 
     // Pace suggestion: what the recent rate reaches by the end of the chosen period.

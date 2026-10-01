@@ -96,7 +96,14 @@ void main() {
 
   testWidgets('the banner offers to make the new zone home', (tester) async {
     final h = await tester.runAsync(_harness);
-    await pumpInApp(tester, h!, SessionBannerHost(onOpen: (_) {}, child: const Scaffold(body: Text('page'))));
+    await pumpInApp(
+      tester,
+      h!,
+      SessionBannerHost(
+        onOpen: (_) {},
+        child: const Scaffold(body: Text('page')),
+      ),
+    );
     await settle(tester);
     expect(find.byKey(const ValueKey('banner-zone')), findsNothing);
     h.container.read(deviceZoneProvider.notifier).debugSet('America/New_York');

@@ -54,10 +54,11 @@ void main() {
       addTearDown(d.dispose);
       await _idle(d);
       await d.addCategory('c1', 'Work');
-      await d.h.db.customStatement(
-        'INSERT INTO ui_view_state(view_id, json, updated_at) VALUES (?, ?, ?)',
-        ['v1', '{}', '2026-09-22T09:00:00.000Z'],
-      );
+      await d.h.db.customStatement('INSERT INTO ui_view_state(view_id, json, updated_at) VALUES (?, ?, ?)', [
+        'v1',
+        '{}',
+        '2026-09-22T09:00:00.000Z',
+      ]);
       await d.h.db.customStatement("INSERT INTO local_kv(key, value) VALUES ('notif_user_id', 'u1')");
       final attachments = Directory('${d.fileRoot.path}/attachments')..createSync(recursive: true);
       File('${attachments.path}/photo.jpg').writeAsStringSync('x');
@@ -127,12 +128,13 @@ void main() {
       await binding.bind(const AuthUser(id: 'bob', email: 'bob@x.io'));
 
       // (Bob's own default rows may already be seeded after his first pull.)
-      Future<int> alice(String table) async => (await d.h.db
-              .customSelect("SELECT COUNT(*) AS n FROM $table WHERE user_id = 'alice'")
-              .getSingle())
-          .data['n'] as int;
+      Future<int> alice(String table) async =>
+          (await d.h.db.customSelect("SELECT COUNT(*) AS n FROM $table WHERE user_id = 'alice'").getSingle()).data['n']
+              as int;
       expect(await alice('categories'), 0);
-      final aliceOutbox = await d.h.db.customSelect("SELECT COUNT(*) AS n FROM sync_outbox WHERE row_id = 'a1'").getSingle();
+      final aliceOutbox = await d.h.db
+          .customSelect("SELECT COUNT(*) AS n FROM sync_outbox WHERE row_id = 'a1'")
+          .getSingle();
       expect(aliceOutbox.data['n'], 0);
       expect(await LocalDataOwner.read(d.h.db), 'bob');
       expect(d.h.read(sessionProvider)?.userId, 'bob');

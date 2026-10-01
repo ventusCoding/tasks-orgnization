@@ -37,23 +37,14 @@ void main() {
     expect(WindowSizeClass.compact.margin, 16);
   });
 
-  testWidgets('window class and adaptive builder at expanded width', (
-    tester,
-  ) async {
+  testWidgets('window class and adaptive builder at expanded width', (tester) async {
     await pumpAt(
       tester,
       1280,
       Column(
         children: [
-          Builder(
-            builder: (context) => Text('window ${context.windowSize.name}'),
-          ),
-          SizedBox(
-            width: 500,
-            child: AdaptiveBuilder(
-              builder: (context, size) => Text('pane ${size.name}'),
-            ),
-          ),
+          Builder(builder: (context) => Text('window ${context.windowSize.name}')),
+          SizedBox(width: 500, child: AdaptiveBuilder(builder: (context, size) => Text('pane ${size.name}'))),
         ],
       ),
     );
@@ -63,11 +54,7 @@ void main() {
   });
 
   group('TwoPaneScaffold', () {
-    Widget scaffold({
-      Widget? detail,
-      bool single = false,
-      VoidCallback? onClose,
-    }) => TwoPaneScaffold(
+    Widget scaffold({Widget? detail, bool single = false, VoidCallback? onClose}) => TwoPaneScaffold(
       list: const Center(child: Text('list')),
       detail: detail,
       emptyDetail: const Center(child: Text('nothing selected')),
@@ -75,20 +62,11 @@ void main() {
       onCloseDetail: onClose,
     );
 
-    testWidgets('expanded: list and detail side by side, list at the start', (
-      tester,
-    ) async {
-      await pumpAt(
-        tester,
-        1280,
-        scaffold(detail: const Center(child: Text('detail'))),
-      );
+    testWidgets('expanded: list and detail side by side, list at the start', (tester) async {
+      await pumpAt(tester, 1280, scaffold(detail: const Center(child: Text('detail'))));
       expect(find.text('list'), findsOneWidget);
       expect(find.text('detail'), findsOneWidget);
-      expect(
-        tester.getCenter(find.text('list')).dx,
-        lessThan(tester.getCenter(find.text('detail')).dx),
-      );
+      expect(tester.getCenter(find.text('list')).dx, lessThan(tester.getCenter(find.text('detail')).dx));
       expect(tester.getSize(find.byType(TwoPaneScaffold)).width, 1280);
     });
 
@@ -99,36 +77,21 @@ void main() {
         scaffold(detail: const Center(child: Text('detail'))),
         direction: TextDirection.rtl,
       );
-      expect(
-        tester.getCenter(find.text('list')).dx,
-        greaterThan(tester.getCenter(find.text('detail')).dx),
-      );
+      expect(tester.getCenter(find.text('list')).dx, greaterThan(tester.getCenter(find.text('detail')).dx));
     });
 
-    testWidgets('expanded without selection shows the empty detail', (
-      tester,
-    ) async {
+    testWidgets('expanded without selection shows the empty detail', (tester) async {
       await pumpAt(tester, 1000, scaffold());
       expect(find.text('nothing selected'), findsOneWidget);
     });
 
-    testWidgets('compact: one pane — list, or the detail when asked', (
-      tester,
-    ) async {
+    testWidgets('compact: one pane — list, or the detail when asked', (tester) async {
       await pumpAt(tester, 400, scaffold(detail: const Text('detail')));
       expect(find.text('list'), findsOneWidget);
       expect(find.text('detail'), findsNothing);
 
       var closed = 0;
-      await pumpAt(
-        tester,
-        400,
-        scaffold(
-          detail: const Text('detail'),
-          single: true,
-          onClose: () => closed++,
-        ),
-      );
+      await pumpAt(tester, 400, scaffold(detail: const Text('detail'), single: true, onClose: () => closed++));
       expect(find.text('detail'), findsOneWidget);
       expect(find.text('list'), findsNothing);
       // System back closes the detail instead of popping the route.
@@ -140,31 +103,18 @@ void main() {
   });
 
   group('keyboard shortcuts', () {
-    Future<List<String>> pressAll(
-      WidgetTester tester,
-      List<List<LogicalKeyboardKey>> combos,
-    ) async {
+    Future<List<String>> pressAll(WidgetTester tester, List<List<LogicalKeyboardKey>> combos) async {
       final log = <String>[];
       await pumpAt(
         tester,
         1280,
         AppShortcutScope(
           actions: {
-            UndoIntent: CallbackAction<UndoIntent>(
-              onInvoke: (_) => log.add('undo'),
-            ),
-            RedoIntent: CallbackAction<RedoIntent>(
-              onInvoke: (_) => log.add('redo'),
-            ),
-            OpenSearchIntent: CallbackAction<OpenSearchIntent>(
-              onInvoke: (_) => log.add('search'),
-            ),
-            OpenCommandPaletteIntent: CallbackAction<OpenCommandPaletteIntent>(
-              onInvoke: (_) => log.add('palette'),
-            ),
-            NewItemIntent: CallbackAction<NewItemIntent>(
-              onInvoke: (_) => log.add('new'),
-            ),
+            UndoIntent: CallbackAction<UndoIntent>(onInvoke: (_) => log.add('undo')),
+            RedoIntent: CallbackAction<RedoIntent>(onInvoke: (_) => log.add('redo')),
+            OpenSearchIntent: CallbackAction<OpenSearchIntent>(onInvoke: (_) => log.add('search')),
+            OpenCommandPaletteIntent: CallbackAction<OpenCommandPaletteIntent>(onInvoke: (_) => log.add('palette')),
+            NewItemIntent: CallbackAction<NewItemIntent>(onInvoke: (_) => log.add('new')),
           },
           child: const Text('content'),
         ),
@@ -185,11 +135,7 @@ void main() {
     testWidgets('Ctrl and ⌘ variants trigger the app intents', (tester) async {
       final log = await pressAll(tester, [
         [LogicalKeyboardKey.controlLeft, LogicalKeyboardKey.keyZ],
-        [
-          LogicalKeyboardKey.metaLeft,
-          LogicalKeyboardKey.shiftLeft,
-          LogicalKeyboardKey.keyZ,
-        ],
+        [LogicalKeyboardKey.metaLeft, LogicalKeyboardKey.shiftLeft, LogicalKeyboardKey.keyZ],
         [LogicalKeyboardKey.controlLeft, LogicalKeyboardKey.keyY],
         [LogicalKeyboardKey.metaLeft, LogicalKeyboardKey.keyF],
         [LogicalKeyboardKey.controlLeft, LogicalKeyboardKey.keyK],
@@ -207,11 +153,7 @@ void main() {
         tester,
         1280,
         AppShortcutScope(
-          actions: {
-            UndoIntent: CallbackAction<UndoIntent>(
-              onInvoke: (_) => log.add('undo'),
-            ),
-          },
+          actions: {UndoIntent: CallbackAction<UndoIntent>(onInvoke: (_) => log.add('undo'))},
           child: TextField(controller: controller),
         ),
       );

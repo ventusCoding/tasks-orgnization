@@ -60,7 +60,7 @@ class StreakChart extends StatelessWidget {
                     Expanded(
                       child: LayoutBuilder(
                         builder: (context, c) {
-                          final w = math.max(24.0, c.maxWidth * s.length / longest);
+                          final w = math.max<double>(24, c.maxWidth * s.length / longest);
                           final barColor = s.current
                               ? theme.tone(ChartTone.done)
                               : theme.seriesColor(0).withValues(alpha: 0.75);
@@ -208,7 +208,7 @@ class PunchCardChart extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, c) {
         const labelWidth = 36.0;
-        final cell = math.max(10.0, (c.maxWidth - labelWidth) / 24);
+        final cell = math.max<double>(10, (c.maxWidth - labelWidth) / 24);
         final width = labelWidth + cell * 24;
         final painter = _PunchPainter(
           data: data,

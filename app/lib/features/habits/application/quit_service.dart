@@ -132,18 +132,23 @@ class QuitService {
     final record = await logs.write((tx) async {
       await HabitLogsRepository.insertInTx(
         tx,
-        _entry(habit, HabitLogKind.relapse, when, value: amount, trigger: trigger, place: place, mood: mood, note: note, source: source),
+        _entry(
+          habit,
+          HabitLogKind.relapse,
+          when,
+          value: amount,
+          trigger: trigger,
+          place: place,
+          mood: mood,
+          note: note,
+          source: source,
+        ),
       );
       if (newAttempt) {
         final restart = _at(restartAt ?? when);
         await HabitLogsRepository.insertInTx(
           tx,
-          _entry(
-            habit,
-            HabitLogKind.restart,
-            restart.isBefore(when) ? when : restart,
-            source: source,
-          ),
+          _entry(habit, HabitLogKind.restart, restart.isBefore(when) ? when : restart, source: source),
         );
       }
       await tx.logEvent(
@@ -176,7 +181,17 @@ class QuitService {
     final record = await logs.write(
       (tx) => HabitLogsRepository.insertInTx(
         tx,
-        _entry(habit, HabitLogKind.use, when, value: amount, trigger: trigger, place: place, mood: mood, note: note, source: source),
+        _entry(
+          habit,
+          HabitLogKind.use,
+          when,
+          value: amount,
+          trigger: trigger,
+          place: place,
+          mood: mood,
+          note: note,
+          source: source,
+        ),
       ),
     );
     _emit(habit.id, HabitLogKind.use, when);
@@ -211,24 +226,29 @@ class QuitService {
   }
 
   /// Edits a craving / relapse / use (the calculator recomputes everything from the logs).
-  Future<OpRecord> updateLog(HabitLogEntry entry, {CravingInput? craving, double? amount, DateTime? at, String? note}) =>
-      logs.write(
-        (tx) => HabitLogsRepository.updateInTx(tx, entry.id, {
-          if (craving != null) ...{
-            'intensity': craving.intensity.clamp(1, 10),
-            'trigger': _clean(craving.trigger),
-            'place': _clean(craving.place),
-            'coping': _clean(craving.coping),
-            'resisted': craving.resisted,
-            'duration_seconds': craving.durationSeconds,
-            'mood': craving.mood,
-            'note': _clean(craving.note),
-          },
-          'value': ?amount,
-          if (at != null) 'logged_at': _at(at),
-          if (note != null) 'note': _clean(note),
-        }),
-      );
+  Future<OpRecord> updateLog(
+    HabitLogEntry entry, {
+    CravingInput? craving,
+    double? amount,
+    DateTime? at,
+    String? note,
+  }) => logs.write(
+    (tx) => HabitLogsRepository.updateInTx(tx, entry.id, {
+      if (craving != null) ...{
+        'intensity': craving.intensity.clamp(1, 10),
+        'trigger': _clean(craving.trigger),
+        'place': _clean(craving.place),
+        'coping': _clean(craving.coping),
+        'resisted': craving.resisted,
+        'duration_seconds': craving.durationSeconds,
+        'mood': craving.mood,
+        'note': _clean(craving.note),
+      },
+      'value': ?amount,
+      if (at != null) 'logged_at': _at(at),
+      if (note != null) 'note': _clean(note),
+    }),
+  );
 
   Future<OpRecord> deleteLog(HabitLogEntry entry) => logs.write((tx) => HabitLogsRepository.deleteInTx(tx, entry.id));
 

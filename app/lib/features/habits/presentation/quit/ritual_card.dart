@@ -32,7 +32,8 @@ class QuitRitualCard extends ConsumerWidget {
     final today = snapshot.today;
     final logs = snapshot.logs;
     final pledge = habit.settings.pledge;
-    bool loggedOn(LocalDate day, Set<HabitLogKind> kinds) => logs.any((e) => e.localDate == day && kinds.contains(e.kind));
+    bool loggedOn(LocalDate day, Set<HabitLogKind> kinds) =>
+        logs.any((e) => e.localDate == day && kinds.contains(e.kind));
     final pledged = loggedOn(today, const {HabitLogKind.pledge});
     final streak = pledgeStreak(logs, habit.id, today);
     final lapsedToday = loggedOn(today, const {HabitLogKind.relapse});
@@ -44,7 +45,8 @@ class QuitRitualCard extends ConsumerWidget {
     final evening = pledge.evening ?? defaultEvening;
     final reviewTime = !habit.autoSuccess || localNow.time.compareTo(evening) >= 0;
     final yesterday = today.minusDays(1);
-    final askYesterday = !habit.autoSuccess &&
+    final askYesterday =
+        !habit.autoSuccess &&
         !yesterday.isBefore(habit.startDate) &&
         !cleanOn(yesterday) &&
         !loggedOn(yesterday, const {HabitLogKind.relapse, HabitLogKind.use});

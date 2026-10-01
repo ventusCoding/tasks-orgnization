@@ -145,18 +145,9 @@ HabitEvaluation evaluateHabit({
       case HabitPeriodKind.slot:
         slotPeriods.putIfAbsent(p.startDate, () => []).add(p);
       case HabitPeriodKind.quota:
-        final periodLogs = [
-          for (var d = p.startDate; !d.isAfter(p.endDate); d = d.plusDays(1)) ...?byDate[d],
-        ];
+        final periodLogs = [for (var d = p.startDate; !d.isAfter(p.endDate); d = d.plusDays(1)) ...?byDate[d]];
         if (!p.windowStart.isAfter(now)) {
-          final r = evaluateHabitPeriod(
-            p,
-            periodLogs,
-            now: now,
-            today: today,
-            pauses: habitPauses,
-            settings: settings,
-          );
+          final r = evaluateHabitPeriod(p, periodLogs, now: now, today: today, pauses: habitPauses, settings: settings);
           quotas.add(r);
           units.add(r);
         }
@@ -422,11 +413,7 @@ HabitSummary summarizeHabit(HabitEvaluation e, {required HabitRules Function(Loc
     for (final r in e.units)
       if (!r.startDate.isAfter(today)) r,
   ];
-  final streaks = habitStreaks(
-    closedUnits,
-    skipPolicy: habit.skipPolicy,
-    freezesPerMonth: habit.freezesPerMonth,
-  );
+  final streaks = habitStreaks(closedUnits, skipPolicy: habit.skipPolicy, freezesPerMonth: habit.freezesPerMonth);
   final maxSlots = e.slots.values.fold<int>(0, (a, s) => math.max(a, s.length));
   final strength = habitStrength(
     habitDayFacts(e.factResults, skipPolicy: habit.skipPolicy),
@@ -438,12 +425,7 @@ HabitSummary summarizeHabit(HabitEvaluation e, {required HabitRules Function(Loc
       return goal.isMeasurable ? goal.target : null;
     },
   );
-  final rate = successRate(
-    closedUnits,
-    from: today.minusDays(29),
-    to: today,
-    skipPolicy: habit.skipPolicy,
-  );
+  final rate = successRate(closedUnits, from: today.minusDays(29), to: today, skipPolicy: habit.skipPolicy);
   return HabitSummary(
     streaks: streaks,
     strength: strength,

@@ -34,15 +34,20 @@ void main() {
     await pumpFor(tester, const Duration(milliseconds: 200));
     await tester.tap(key('entry-add'));
     await pumpFor(tester);
-    await tester.tap(find.text('OK'));
+    await tester.tap(find.byKey(const ValueKey('time-apply')));
     await pumpFor(tester);
-    await tester.tap(find.text('OK'));
+    await tester.tap(find.byKey(const ValueKey('time-apply')));
     await settle(tester);
   }
 
   testWidgets('add a forgotten session, warn on overlap, delete it', (tester) async {
     final (id, item) = (await tester.runAsync(() async {
-      final id = await h.createTask(title: 'Deep work', start: '2026-09-22T09:00', duration: 30, mode: TrackingMode.timer);
+      final id = await h.createTask(
+        title: 'Deep work',
+        start: '2026-09-22T09:00',
+        duration: 30,
+        mode: TrackingMode.timer,
+      );
       final items = await h.items(ld('2026-09-22'), 1);
       return (id, items.single);
     }))!;

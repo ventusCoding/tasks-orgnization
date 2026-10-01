@@ -62,10 +62,7 @@ class SystemHapticsOutput implements HapticsOutput {
 /// and `appearance.sounds` (default off) settings, read at the moment of the event. Platform
 /// failures (no vibrator, missing plugin) are ignored — feedback is never essential.
 class Haptics {
-  Haptics({required HapticsOutput output, required bool Function() hapticsEnabled, required bool Function() soundsEnabled})
-    : _output = output,
-      _hapticsEnabled = hapticsEnabled,
-      _soundsEnabled = soundsEnabled;
+  Haptics({required this._output, required this._hapticsEnabled, required this._soundsEnabled});
 
   final HapticsOutput _output;
   final bool Function() _hapticsEnabled;

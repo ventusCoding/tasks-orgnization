@@ -12,7 +12,10 @@ class AuthPrefs {
   /// When the guest-account banner was last dismissed on this device (UTC), or null.
   Future<DateTime?> guestBannerDismissedAt() async {
     final row = await _db
-        .customSelect('SELECT value FROM local_kv WHERE key = ?', variables: [Variable<String>(guestBannerDismissedKey)])
+        .customSelect(
+          'SELECT value FROM local_kv WHERE key = ?',
+          variables: [const Variable<String>(guestBannerDismissedKey)],
+        )
         .getSingleOrNull();
     final raw = row?.data['value'] as String?;
     return raw == null ? null : DateTime.tryParse(raw)?.toUtc();

@@ -4,12 +4,7 @@ import 'package:meta/meta.dart';
 /// habits through `entity_tags` rows with deterministic ids (`Ids.entityTag`).
 @immutable
 class Tag {
-  const Tag({
-    required this.id,
-    required this.name,
-    required this.sortKey,
-    this.color,
-  });
+  const Tag({required this.id, required this.name, required this.sortKey, this.color});
 
   final String id;
   final String name;
@@ -18,12 +13,7 @@ class Tag {
   final int? color;
   final String sortKey;
 
-  Tag copyWith({
-    String? name,
-    int? color,
-    bool clearColor = false,
-    String? sortKey,
-  }) => Tag(
+  Tag copyWith({String? name, int? color, bool clearColor = false, String? sortKey}) => Tag(
     id: id,
     name: name ?? this.name,
     color: clearColor ? null : (color ?? this.color),
@@ -32,11 +22,7 @@ class Tag {
 
   @override
   bool operator ==(Object other) =>
-      other is Tag &&
-      other.id == id &&
-      other.name == name &&
-      other.color == color &&
-      other.sortKey == sortKey;
+      other is Tag && other.id == id && other.name == name && other.color == color && other.sortKey == sortKey;
 
   @override
   int get hashCode => Object.hash(id, name, color, sortKey);
@@ -69,14 +55,10 @@ abstract final class TagNames {
   static const errorInvalid = 'tag_name_invalid';
   static const errorDuplicate = 'tag_name_duplicate';
 
-  static String normalize(String input) => input
-      .trim()
-      .replaceFirst(RegExp(r'^#+'), '')
-      .trim()
-      .replaceAll(RegExp(r'\s+'), ' ');
+  static String normalize(String input) =>
+      input.trim().replaceFirst(RegExp('^#+'), '').trim().replaceAll(RegExp(r'\s+'), ' ');
 
-  static bool isValid(String normalized) =>
-      normalized.isNotEmpty && normalized.length <= maxLength;
+  static bool isValid(String normalized) => normalized.isNotEmpty && normalized.length <= maxLength;
 
   /// Case-insensitive comparison key.
   static String key(String name) => normalize(name).toLowerCase();

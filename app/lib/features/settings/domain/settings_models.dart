@@ -20,6 +20,7 @@ class AppearanceSettings {
     this.highContrastCategories = false,
     this.largeWeekTableText = false,
     this.statusPillLabels = false,
+    this.dynamicColor = false,
   });
 
   static const defaults = AppearanceSettings();
@@ -29,6 +30,7 @@ class AppearanceSettings {
 
   /// Arabic-Indic digits when the UI is in Arabic.
   final bool arabicDigits;
+
   /// Reduce motion regardless of the OS setting (false = follow the OS). Read as a bool by
   /// `design_system/motion.dart` (`reduceMotionSettingProvider`), T1.3.15 / T8.3.12.
   final bool reduceMotion;
@@ -44,6 +46,9 @@ class AppearanceSettings {
   /// Always show text labels on status pills.
   final bool statusPillLabels;
 
+  /// Material You colors from the wallpaper (Android 12+, T1.3.08). Category colors never change.
+  final bool dynamicColor;
+
   static final codec = SettingsCodec<AppearanceSettings>(
     namespace: 'appearance',
     version: 1,
@@ -52,7 +57,8 @@ class AppearanceSettings {
       0: (j) => {
         ...j,
         if (j['darkMode'] is bool && !j.containsKey('theme')) 'theme': j['darkMode'] == true ? 'dark' : 'light',
-        if (j['compact'] is bool && !j.containsKey('density')) 'density': j['compact'] == true ? 'compact' : 'comfortable',
+        if (j['compact'] is bool && !j.containsKey('density'))
+          'density': j['compact'] == true ? 'compact' : 'comfortable',
       }..removeWhere((k, _) => k == 'darkMode' || k == 'compact'),
     },
     decoder: (r) => AppearanceSettings(
@@ -65,6 +71,7 @@ class AppearanceSettings {
       highContrastCategories: r.boolean('highContrastCategories', false),
       largeWeekTableText: r.boolean('largeWeekTableText', false),
       statusPillLabels: r.boolean('statusPillLabels', false),
+      dynamicColor: r.boolean('dynamicColor', false),
     ),
     encoder: (s) => {
       'theme': s.theme.name,
@@ -76,6 +83,7 @@ class AppearanceSettings {
       'highContrastCategories': s.highContrastCategories,
       'largeWeekTableText': s.largeWeekTableText,
       'statusPillLabels': s.statusPillLabels,
+      'dynamicColor': s.dynamicColor,
     },
   );
 
@@ -89,6 +97,7 @@ class AppearanceSettings {
     bool? highContrastCategories,
     bool? largeWeekTableText,
     bool? statusPillLabels,
+    bool? dynamicColor,
   }) => AppearanceSettings(
     theme: theme ?? this.theme,
     density: density ?? this.density,
@@ -99,6 +108,7 @@ class AppearanceSettings {
     highContrastCategories: highContrastCategories ?? this.highContrastCategories,
     largeWeekTableText: largeWeekTableText ?? this.largeWeekTableText,
     statusPillLabels: statusPillLabels ?? this.statusPillLabels,
+    dynamicColor: dynamicColor ?? this.dynamicColor,
   );
 
   @override
@@ -112,7 +122,8 @@ class AppearanceSettings {
       other.sounds == sounds &&
       other.highContrastCategories == highContrastCategories &&
       other.largeWeekTableText == largeWeekTableText &&
-      other.statusPillLabels == statusPillLabels;
+      other.statusPillLabels == statusPillLabels &&
+      other.dynamicColor == dynamicColor;
 
   @override
   int get hashCode => Object.hash(
@@ -125,6 +136,7 @@ class AppearanceSettings {
     highContrastCategories,
     largeWeekTableText,
     statusPillLabels,
+    dynamicColor,
   );
 }
 
@@ -221,7 +233,12 @@ class PlannerDefaults {
         end = 1020;
       }
       final days = r.json['workDays'];
-      final parsedDays = days is List ? {for (final d in days) if (d is num && d >= 1 && d <= 7) d.toInt()} : <int>{};
+      final parsedDays = days is List
+          ? {
+              for (final d in days)
+                if (d is num && d >= 1 && d <= 7) d.toInt(),
+            }
+          : <int>{};
       return PlannerDefaults(
         defaultTaskDurationMinutes: r.integer('defaultTaskDurationMinutes', 30, min: 1, max: 1440),
         defaultTrackingMode: r.string('defaultTrackingMode', 'check', allowed: trackingModes.toSet()),
@@ -240,7 +257,10 @@ class PlannerDefaults {
       'rollOverIncomplete': s.rollOverIncomplete,
       'askActualTimeOnDone': s.askActualTimeOnDone,
       'workHours': {'start': hhmm(s.workStartMinute), 'end': hhmm(s.workEndMinute)},
-      'workDays': [for (var d = 1; d <= 7; d++) if (s.workDays.contains(d)) d],
+      'workDays': [
+        for (var d = 1; d <= 7; d++)
+          if (s.workDays.contains(d)) d,
+      ],
     },
   );
 
@@ -295,7 +315,11 @@ enum SkipPolicy { neutral, breaks }
 
 /// `habits` defaults (T8.3.03 day start, T8.3.05).
 class HabitsDefaults {
-  const HabitsDefaults({this.dayStartMinutes = 0, this.defaultSkipPolicy = SkipPolicy.neutral, this.defaultFreezesPerMonth = 0});
+  const HabitsDefaults({
+    this.dayStartMinutes = 0,
+    this.defaultSkipPolicy = SkipPolicy.neutral,
+    this.defaultFreezesPerMonth = 0,
+  });
 
   static const defaults = HabitsDefaults();
 
@@ -384,7 +408,10 @@ class ChecklistsDefaults {
       sortCompletedToBottom: r.boolean('sortCompletedToBottom', false),
     ),
     encoder: (s) => {
-      'requireReasonFor': [for (final st in const ['ongoing', 'waiting', 'blocked', 'completed']) if (s.requireReasonFor.contains(st)) st],
+      'requireReasonFor': [
+        for (final st in const ['ongoing', 'waiting', 'blocked', 'completed'])
+          if (s.requireReasonFor.contains(st)) st,
+      ],
       'autoCompleteParents': s.autoCompleteParents,
       'progressMode': s.progressMode.name,
       'showCompleted': s.showCompleted,
@@ -434,7 +461,16 @@ class StatsDefaults {
 
   /// Periods offered in Settings › Insights (`StatsPeriod.parsePeriod` keys of the stats feature;
   /// any other stored key — `rolling:90`, `custom:…` — is kept as is).
-  static const periodChoices = ['thisWeek', 'lastWeek', 'thisMonth', 'lastMonth', 'thisQuarter', 'thisYear', 'rolling:7', 'rolling:30'];
+  static const periodChoices = [
+    'thisWeek',
+    'lastWeek',
+    'thisMonth',
+    'lastMonth',
+    'thisQuarter',
+    'thisYear',
+    'rolling:7',
+    'rolling:30',
+  ];
 
   /// Stats period key (`thisWeek`, `thisMonth`, `rolling:30`…).
   final String defaultPeriod;
@@ -516,14 +552,14 @@ class PrivacySettings {
       0: (j) {
         final lock = j['appLock'];
         return {
-          ...j,
-          if (j['hideContentInNotifications'] is bool && !j.containsKey('hideNotificationContent'))
-            'hideNotificationContent': j['hideContentInNotifications'],
-          if (lock is Map) ...{
-            'appLockEnabled': lock['enabled'] == true,
-            if (lock['timeoutSeconds'] is num) 'appLockTimeoutSeconds': lock['timeoutSeconds'],
-          },
-        }
+            ...j,
+            if (j['hideContentInNotifications'] is bool && !j.containsKey('hideNotificationContent'))
+              'hideNotificationContent': j['hideContentInNotifications'],
+            if (lock is Map) ...{
+              'appLockEnabled': lock['enabled'] == true,
+              if (lock['timeoutSeconds'] is num) 'appLockTimeoutSeconds': lock['timeoutSeconds'],
+            },
+          }
           ..remove('hideContentInNotifications')
           ..remove('appLock');
       },

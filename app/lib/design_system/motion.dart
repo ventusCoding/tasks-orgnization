@@ -7,8 +7,7 @@ import 'package:material_ui/material_ui.dart';
 
 /// The in-app "Reduce motion" setting (`user_settings.appearance.reduceMotion`, arch §8.5).
 final reduceMotionSettingProvider = Provider<bool>((ref) {
-  final appearance =
-      ref.watch(settingsProvider(SettingsNs.appearance)).value ?? const {};
+  final appearance = ref.watch(settingsProvider(SettingsNs.appearance)).value ?? const {};
   return appearance['reduceMotion'] == true;
 });
 
@@ -25,10 +24,7 @@ class ReduceMotionScope extends ConsumerWidget {
     final setting = ref.watch(reduceMotionSettingProvider);
     final media = MediaQuery.maybeOf(context);
     if (!setting || media == null || media.disableAnimations) return child;
-    return MediaQuery(
-      data: media.copyWith(disableAnimations: true),
-      child: child,
-    );
+    return MediaQuery(data: media.copyWith(disableAnimations: true), child: child);
   }
 }
 
@@ -43,18 +39,14 @@ abstract final class AppMotion {
   static const reducedDuration = Duration(milliseconds: 120);
 
   /// Whether motion is reduced (OS setting or the in-app one via [ReduceMotionScope]).
-  static bool reduced(BuildContext context) =>
-      MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+  static bool reduced(BuildContext context) => MediaQuery.maybeDisableAnimationsOf(context) ?? false;
 
   /// [normal], or zero when motion is reduced (for implicit animations).
-  static Duration duration(
-    BuildContext context, [
-    Duration normal = Motion.normal,
-  ]) => reduced(context) ? Duration.zero : normal;
+  static Duration duration(BuildContext context, [Duration normal = Motion.normal]) =>
+      reduced(context) ? Duration.zero : normal;
 
   /// The standard curve, or linear when motion is reduced.
-  static Curve curve(BuildContext context) =>
-      reduced(context) ? Curves.linear : Motion.curve;
+  static Curve curve(BuildContext context) => reduced(context) ? Curves.linear : Motion.curve;
 
   /// Page route for forward navigation inside a tab (shared axis).
   static Route<T> sharedAxisRoute<T>(
@@ -66,44 +58,31 @@ abstract final class AppMotion {
     builder,
     settings: settings,
     fullscreenDialog: fullscreenDialog,
-    transition: (animation, secondary, child) => SharedAxisTransition(
-      animation: animation,
-      secondaryAnimation: secondary,
-      axis: axis,
-      child: child,
-    ),
+    transition: (animation, secondary, child) =>
+        SharedAxisTransition(animation: animation, secondaryAnimation: secondary, axis: axis, child: child),
   );
 
   /// Page route for switching between unrelated destinations (fade-through).
-  static Route<T> fadeThroughRoute<T>(
-    WidgetBuilder builder, {
-    RouteSettings? settings,
-  }) => _route<T>(
+  static Route<T> fadeThroughRoute<T>(WidgetBuilder builder, {RouteSettings? settings}) => _route<T>(
     builder,
     settings: settings,
-    transition: (animation, secondary, child) => FadeThroughTransition(
-      animation: animation,
-      secondaryAnimation: secondary,
-      child: child,
-    ),
+    transition: (animation, secondary, child) =>
+        FadeThroughTransition(animation: animation, secondaryAnimation: secondary, child: child),
   );
 
   /// Page route for opening an item (container-style zoom from the list into the detail).
-  static Route<T> containerRoute<T>(
-    WidgetBuilder builder, {
-    RouteSettings? settings,
-    bool fullscreenDialog = false,
-  }) => _route<T>(
-    builder,
-    settings: settings,
-    fullscreenDialog: fullscreenDialog,
-    transition: (animation, secondary, child) => SharedAxisTransition(
-      animation: animation,
-      secondaryAnimation: secondary,
-      axis: SharedAxis.scaled,
-      child: child,
-    ),
-  );
+  static Route<T> containerRoute<T>(WidgetBuilder builder, {RouteSettings? settings, bool fullscreenDialog = false}) =>
+      _route<T>(
+        builder,
+        settings: settings,
+        fullscreenDialog: fullscreenDialog,
+        transition: (animation, secondary, child) => SharedAxisTransition(
+          animation: animation,
+          secondaryAnimation: secondary,
+          axis: SharedAxis.scaled,
+          child: child,
+        ),
+      );
 
   /// go_router page with a shared-axis transition (`pageBuilder:` of a route).
   static Page<T> sharedAxisPage<T>({
@@ -118,39 +97,22 @@ abstract final class AppMotion {
     transitionDuration: Motion.slow,
     reverseTransitionDuration: Motion.normal,
     transitionsBuilder: (context, animation, secondary, child) =>
-        SharedAxisTransition(
-          animation: animation,
-          secondaryAnimation: secondary,
-          axis: axis,
-          child: child,
-        ),
+        SharedAxisTransition(animation: animation, secondaryAnimation: secondary, axis: axis, child: child),
   );
 
   /// go_router page with a fade-through transition.
-  static Page<T> fadeThroughPage<T>({
-    required LocalKey key,
-    required Widget child,
-  }) => CustomTransitionPage<T>(
+  static Page<T> fadeThroughPage<T>({required LocalKey key, required Widget child}) => CustomTransitionPage<T>(
     key: key,
     child: child,
     transitionDuration: Motion.slow,
     reverseTransitionDuration: Motion.normal,
     transitionsBuilder: (context, animation, secondary, child) =>
-        FadeThroughTransition(
-          animation: animation,
-          secondaryAnimation: secondary,
-          child: child,
-        ),
+        FadeThroughTransition(animation: animation, secondaryAnimation: secondary, child: child),
   );
 
   static Route<T> _route<T>(
     WidgetBuilder builder, {
-    required Widget Function(
-      Animation<double> animation,
-      Animation<double> secondary,
-      Widget child,
-    )
-    transition,
+    required Widget Function(Animation<double> animation, Animation<double> secondary, Widget child) transition,
     RouteSettings? settings,
     bool fullscreenDialog = false,
   }) => PageRouteBuilder<T>(
@@ -159,8 +121,7 @@ abstract final class AppMotion {
     transitionDuration: Motion.slow,
     reverseTransitionDuration: Motion.normal,
     pageBuilder: (context, _, _) => builder(context),
-    transitionsBuilder: (context, animation, secondary, child) =>
-        transition(animation, secondary, child),
+    transitionsBuilder: (context, animation, secondary, child) => transition(animation, secondary, child),
   );
 }
 
@@ -197,12 +158,8 @@ class SharedAxisTransition extends StatelessWidget {
         final s = Curves.easeInOutCubic.transform(secondaryAnimation.value);
         // Incoming: fade in over the last 70 %; outgoing: fade out over the first 30 %.
         final fadeIn = const Interval(0.3, 1).transform(animation.value);
-        final fadeOut =
-            1 - const Interval(0, 0.3).transform(secondaryAnimation.value);
-        Widget result = Opacity(
-          opacity: (fadeIn * fadeOut).clamp(0.0, 1.0),
-          child: child,
-        );
+        final fadeOut = 1 - const Interval(0, 0.3).transform(secondaryAnimation.value);
+        Widget result = Opacity(opacity: (fadeIn * fadeOut).clamp(0.0, 1.0), child: child);
         switch (axis) {
           case SharedAxis.horizontal:
             final dx = (1 - t) * _distance * sign - s * _distance * sign;
@@ -244,10 +201,8 @@ class FadeThroughTransition extends StatelessWidget {
       child: child,
       builder: (context, child) {
         final fadeIn = const Interval(0.35, 1).transform(animation.value);
-        final fadeOut =
-            1 - const Interval(0, 0.35).transform(secondaryAnimation.value);
-        final scale =
-            0.92 + 0.08 * Curves.easeOutCubic.transform(fadeIn.clamp(0.0, 1.0));
+        final fadeOut = 1 - const Interval(0, 0.35).transform(secondaryAnimation.value);
+        final scale = 0.92 + 0.08 * Curves.easeOutCubic.transform(fadeIn.clamp(0.0, 1.0));
         return Opacity(
           opacity: (fadeIn * fadeOut).clamp(0.0, 1.0),
           child: Transform.scale(scale: scale, child: child),
@@ -273,10 +228,7 @@ class FadeThroughSwitcher extends StatelessWidget {
           switchOutCurve: const Interval(0, 0.35),
           transitionBuilder: (child, animation) => FadeTransition(
             opacity: animation,
-            child: ScaleTransition(
-              scale: Tween<double>(begin: 0.92, end: 1).animate(animation),
-              child: child,
-            ),
+            child: ScaleTransition(scale: Tween<double>(begin: 0.92, end: 1).animate(animation), child: child),
           ),
           child: child,
         );
@@ -296,10 +248,5 @@ class SharedAxisPageTransitionsBuilder extends PageTransitionsBuilder {
     Animation<double> animation,
     Animation<double> secondaryAnimation,
     Widget child,
-  ) => SharedAxisTransition(
-    animation: animation,
-    secondaryAnimation: secondaryAnimation,
-    axis: axis,
-    child: child,
-  );
+  ) => SharedAxisTransition(animation: animation, secondaryAnimation: secondaryAnimation, axis: axis, child: child);
 }

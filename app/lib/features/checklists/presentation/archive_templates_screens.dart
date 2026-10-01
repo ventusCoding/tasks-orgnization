@@ -75,8 +75,16 @@ class TemplatesScreen extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ListTile(leading: const Icon(Icons.add), title: Text(l.templatesUse), onTap: () => Navigator.pop(ctx, 'use')),
-            ListTile(leading: const Icon(Icons.edit_outlined), title: Text(l.templatesEdit), onTap: () => Navigator.pop(ctx, 'edit')),
+            ListTile(
+              leading: const Icon(Icons.add),
+              title: Text(l.templatesUse),
+              onTap: () => Navigator.pop(ctx, 'use'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.edit_outlined),
+              title: Text(l.templatesEdit),
+              onTap: () => Navigator.pop(ctx, 'edit'),
+            ),
             ListTile(
               leading: const Icon(Icons.drive_file_rename_outline),
               title: Text(l.templatesRename),
@@ -123,7 +131,10 @@ class TemplatesScreen extends ConsumerWidget {
           if (mine.isEmpty)
             Padding(
               padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
-              child: Text(l.templatesEmpty, style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant)),
+              child: Text(
+                l.templatesEmpty,
+                style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant),
+              ),
             ),
           for (final t in mine)
             ListTile(

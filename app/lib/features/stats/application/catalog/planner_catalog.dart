@@ -814,7 +814,7 @@ final List<MetricDefinition> plannerMetrics = [
     direction: MetricDirection.neutral,
     requires: {..._plannerTables, StatsTable.userSettings},
     compute: (c) {
-      if (c.range.end.isBefore(c.today)) return MetricResult.notApplicable('PL-X-11', 'pastPeriod');
+      if (c.range.end.isBefore(c.today)) return const MetricResult.notApplicable('PL-X-11', 'pastPeriod');
       return result(
         'PL-X-11',
         Value<double>(remainingFreeMinutes(c.periodFacts, range: c.range, now: c.now, clock: c.clock, settings: c.ps)),
@@ -877,7 +877,7 @@ final List<MetricDefinition> plannerMetrics = [
     compute: (c) {
       final t = timeByCategory(c.periodFacts);
       final total = t.slices.fold<double>(0, (a, s) => a + s.minutes);
-      final byCategory = groupBy(c.periodFacts, (PlannerOccurrenceFact f) => f.categoryId ?? '');
+      final byCategory = groupBy(c.periodFacts, (f) => f.categoryId ?? '');
       return result(
         'PL-X-13',
         total == 0 ? const NotApplicable<double>(Reasons.noData) : Value<double>(total),

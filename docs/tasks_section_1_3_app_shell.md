@@ -20,17 +20,17 @@ handling/logging, and a dev-only debug menu.
 ## Progress
 
 - [x] T1.3.01 — Layer skeleton & import boundaries
-- [ ] T1.3.02 — Bootstrap sequence
-- [ ] T1.3.03 — Core utilities: clock, ids (v7/v5), fractional index
-- [ ] T1.3.04 — App lifecycle & connectivity services
-- [ ] T1.3.05 — Error model, global handlers & logging
-- [ ] T1.3.06 — Routing: typed routes, 5-tab shell, modal editors
+- [x] T1.3.02 — Bootstrap sequence
+- [x] T1.3.03 — Core utilities: clock, ids (v7/v5), fractional index
+- [x] T1.3.04 — App lifecycle & connectivity services
+- [x] T1.3.05 — Error model, global handlers & logging
+- [x] T1.3.06 — Routing: typed routes, 5-tab shell, modal editors
 - [x] T1.3.07 — Deep-link parser (single source for all entry points)
-- [ ] T1.3.08 — Design tokens & themes (light/dark, category palette)
-- [ ] T1.3.09 — Typography & bundled fonts (Latin + Arabic)
-- [ ] T1.3.10 — Core components v1
-- [ ] T1.3.11 — Pickers: date, time (1-min), duration, color, icon
-- [ ] T1.3.12 — App scaffold: bottom bar, app bar actions, contextual FAB, adaptive layout
+- [x] T1.3.08 — Design tokens & themes (light/dark, category palette)
+- [x] T1.3.09 — Typography & bundled fonts (Latin + Arabic)
+- [x] T1.3.10 — Core components v1
+- [x] T1.3.11 — Pickers: date, time (1-min), duration, color, icon
+- [x] T1.3.12 — App scaffold: bottom bar, app bar actions, contextual FAB, adaptive layout
 - [x] T1.3.13 — Localization (EN/FR/AR) & formatting helpers
 - [x] T1.3.14 — RTL baseline
 - [x] T1.3.15 — Accessibility baseline
@@ -64,6 +64,7 @@ frame of the shell is ready.
 **Acceptance criteria:** cold start to first frame < 1.5 s on a mid-range Android (profile); a failure in
 any step shows a recoverable error screen (dev: details; prod: friendly message + retry).
 **Tests:** unit tests of the ordered init list with fakes; failure-path widget test.
+**Notes:** `bootstrap(Flavor)` is now an ordered list of named steps (`startup/bootstrap_steps.dart`: logging → environment → time zones → Firebase (optional) → Supabase (optional, secure session storage) → database → session → providers → startup tasks) run by `BootstrapRunner` inside a guarded zone (`bootstrap.dart`); plugins, the database file and `runApp` sit behind `BootstrapPlatform` so tests use fakes. A required step that throws returns a `BootstrapFailure` and the app shows `BootstrapErrorApp` (self-contained, EN/FR/AR: dev flavor shows step + error + stack with a copy button, prod a friendly message; Retry resumes at the failed step and never repeats finished ones); optional steps are logged and skipped (local-only mode). Per-step timings are logged ("bootstrap finished in N ms") for the cold-start budget; the native launch screen stays until `runApp`, which only runs after all steps succeeded, so no half-initialised frame is drawn. Not measurable here: the < 1.5 s profile-mode cold start on a mid-range Android. Tests: `test/startup/bootstrap_test.dart`.
 
 ### T1.3.03 — Core utilities: clock, ids (v7/v5), fractional index
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.01
@@ -74,6 +75,7 @@ any step shows a recoverable error screen (dev: details; prod: friendly message 
 **Acceptance criteria:** v5 ids match the SQL `app.uuid_v5` fixtures; fractional keys stay sorted under
 10 000 random inserts and remain ≤ 64 chars in realistic sequences.
 **Tests:** fixture tests (`fixtures/ids/uuid_v5.json`), property tests for ordering.
+**Notes:** `Clock` (`SystemClock`, `TravelClock` for the debug time offset, `FakeClock`, `clockProvider`), `Ids` (UUIDv7 + UUIDv5 in `EVERSLOT_NS` with a helper per deterministic id of arch §9.2) and `FractionalIndex` (`between`, `nBetween`, `isValid`, plus `compare`/`compareRows` byte-order helpers and the 64-char `isOversized` budget). Tests: `test/core/{ids,fractional_index,clock}_test.dart` — the 20 shared UUIDv5 vectors of `fixtures/ids/uuid_v5.json` (also asserted in SQL by `supabase/tests/database/010_helpers.test.sql`), the rocicorp reference vectors, 10 000 random inserts (sorted, valid, ≤ 64 chars). Bugs found and fixed: `Ids.builtinProfile` used `user|notification_profile|code` while the server seed/migration derive `user|profile|code` (built-in notification profiles would have diverged between client and server); `FractionalIndex.between` threw a `RangeError` when the lower key was shorter than the common prefix (JS `slice` clamps, Dart `substring` throws) — found by the random-insert property test.
 
 ### T1.3.04 — App lifecycle & connectivity services
 **Priority:** P0 · **Size:** S · **Depends on:** T1.3.03
@@ -81,6 +83,8 @@ any step shows a recoverable error screen (dev: details; prod: friendly message 
 `ConnectivityService` (online/offline with actual reachability check to the Supabase host) exposed as
 providers; used by sync, notification replanning and Today.
 **Tests:** unit tests with fake platform streams.
+**Notes:** `AppLifecycleService` (debounced `onResume`, `onPause`, `onDetached`, raw `states`, `onReturn` with time away) and `ConnectivityService` (platform signal + reachability probe of the Supabase host) behind providers. The five lifecycle streams are synchronous broadcast controllers so one transition reaches listeners in order across streams (the checkpoint's async controllers interleaved them). Tests: `test/core/lifecycle_test.dart`, `test/core/platform/connectivity_service_test.dart`.
+
 
 ### T1.3.05 — Error model, global handlers & logging
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.01
@@ -92,6 +96,7 @@ levels and a ring buffer viewable in the debug menu; strict "no PII in logs" hel
 **Acceptance criteria:** an uncaught async error is logged once, reported (release) and does not crash
 the UI; every `AppException` renders a localized message.
 **Tests:** unit tests for mappers; widget test for error rendering.
+**Notes:** `AppException` (sealed) carries an `AppErrorKind` (network, auth, validation, conflict, storage, permission, notFound, unsupportedVersion, notConfigured, unknown) and `isRetryable`; `toAppException` (`core/errors/error_mapper.dart`) maps Supabase Auth / PostgREST / Functions / Storage, the sync API, Drift + SQLite (unique/PK → conflict, disk/IO/corruption → storage) and `dart:io` / `http` / platform errors — messages hold codes only, never row values; the original is `cause`. `ErrorState.messageFor` renders every kind localized (EN/FR/AR, new `errorConflict`/`errorStorage`) and unknown foreign errors get the generic "Please try again." (never raw exception text); `FriendlyErrorWidget` replaces the release-mode grey box. `GlobalErrorHandlers` (`FlutterError.onError`, `PlatformDispatcher.onError`, the bootstrap zone) logs each error once (identity dedupe), reports to an `ErrorReporter` in release only (`CrashlyticsErrorReporter`, opt-out via `privacy.crashReporting`, texts scrubbed) and always swallows it. `LogSafe` (ids-only helper + scrubbing of e-mails, JWTs, bearer tokens, keys, secret URL parameters) is applied to every `AppLog` record (ring buffer of 500, console in debug, external sink); `AppLog.init` is idempotent. Tests: `test/core/errors/*`, `test/design_system/error_state_test.dart`.
 
 ### T1.3.06 — Routing: typed routes, 5-tab shell, modal editors
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.02
@@ -102,6 +107,8 @@ Search, Settings, editors as full-screen modal routes on phones (sheets on table
 **Acceptance criteria:** each tab keeps its own navigation stack; Android back behaves (tab history, then
 exit); iOS swipe-back works on pushed routes.
 **Tests:** router unit tests (redirects, typed route building); widget test switching tabs.
+**Notes:** Deviation (ADR-016, no codegen except Drift): no `go_router_builder` — typed routes are the hand-written `AppLinks` builders, round-tripped with `DeepLinkParser` (T1.3.07). `app/router.dart`: `StatefulShellRoute.indexedStack` with Today · Plan · Lists · Habits · Insights, top-level Inbox/Search/Settings, editors as full-screen dialogs on the root navigator, auth redirect (T1.5.02). The last tab is saved in `local_kv` (`LastTab`, read at bootstrap) and used as the initial location. Android back: pushed routes first, then the tab history kept by the shell, then exit; iOS swipe-back uses the platform page transitions. Tests: `test/app/shell_test.dart` (stacks per tab, re-tap to root, back history, last tab, router initial location), `deep_links_test.dart`, `auth_redirect_test.dart`.
+
 
 ### T1.3.07 — Deep-link parser (single source for all entry points)
 **Priority:** P0 · **Size:** S · **Depends on:** T1.3.06
@@ -124,6 +131,8 @@ optional dynamic color (Android 12+) that never overrides category colors.
 **Acceptance criteria:** switching light/dark/system updates instantly; tokens are the only source of colors
 in feature code (lint/grep check for raw `Color(0x…)` outside design_system).
 **Tests:** contrast unit test for every text/background pair; goldens for the palette sheet.
+**Notes:** `design_system/tokens.dart`: spacing, radii, motion, `Elevation`, `Opacities`, `AppShadows`, `BrandColors`, `DataVizColors` (Okabe–Ito chart series + tones, moved out of `chart_theme.dart`), 16-color `CategoryPalette` + `CategoryColors`, `AppColors` ThemeExtension (semantic + 8 status colors, always shown with icons). Light/dark/system switch instantly (Settings › Appearance). Optional Android 12+ dynamic color (`dynamic_color` 2.1, Appearance › Wallpaper colors, off by default) replaces only the Material scheme — category/status/chart colors are tokens. `tool/check_imports.dart` rule `raw-color` rejects `Color(0x…)`/`Color.fromARGB` outside `design_system/` (`// color-ok` opt-out); the 30 existing hits moved to tokens. Tests: `color_contrast_test.dart` (every theme text/background pair ≥ 4.5:1; status colors ≥ 3:1 as icons and ≥ 4.5:1 as text via `readableOn` — the light cancelled/skipped grey was 2.4:1 and is now `0xFF858C99`), palette sheet goldens (`palette_golden_test.dart`, light/dark).
+
 
 ### T1.3.09 — Typography & bundled fonts (Latin + Arabic)
 **Priority:** P0 · **Size:** S · **Depends on:** T1.3.08
@@ -133,6 +142,8 @@ Arabic text uses Noto Sans Arabic automatically; no runtime font downloads.
 **Acceptance criteria:** mixed Arabic/Latin strings render with correct fonts and baselines; times align
 in columns (tabular numbers).
 **Tests:** goldens EN/AR at text scale 1.0 and 2.0.
+**Notes:** Inter (400/500/600/700, latin + latin-ext) and Noto Sans Arabic (400–700) bundled under `assets/fonts` with their OFL texts (registered in the licenses page at bootstrap); `ThemeData.fontFamily` Inter with `fontFamilyFallback` Noto Sans Arabic, so Arabic glyphs switch automatically; `AppTypography.tabular` / `AppTheme.tabular` for times and counters. flutter_test does not load app fonts, so `test/support/fonts.dart` loads them for typography goldens. Tests: `typography_test.dart` (Inter is proportional, tabular digits equal width, Arabic via fallback = Noto metrics, theme families) + goldens EN/AR × 1.0/2.0.
+
 
 ### T1.3.10 — Core components v1
 **Priority:** P0 · **Size:** L · **Depends on:** T1.3.08, T1.3.09
@@ -143,6 +154,8 @@ scaffold (drag handle, sticky actions, keyboard-safe), dialogs (confirm/destruct
 badge. All themed via tokens, RTL-safe, with semantics.
 **Acceptance criteria:** a component gallery screen (dev flavor) shows every component in light/dark, LTR/RTL.
 **Tests:** widget tests for interactive behaviour; goldens for each component.
+**Notes:** Components in `design_system/components/`: `basics.dart` (section header, status pill, progress ring, status-split `SegmentedBar`, color dot, `announce`), `controls.dart` (`AppButton` primary/secondary/text/destructive with busy state and ≥ 48 dp, `AppIconButton` with required tooltip + badge, `AppSearchField`, `SheetScaffold` with sticky keyboard-safe actions, `AppSegmented`, `SwipeRow` with reading-direction swipes and custom semantics actions, `AppAvatar`, `CountBadge`), `dialogs.dart` (sheet, confirm/destructive, prompt, undo snackbar), `states.dart` (empty/error/loading), `priority.dart`; Material chips/list tiles are themed through tokens. Dev gallery (Settings › debug › Component gallery) shows every component with light/dark, RTL, large-text and reduce-motion toggles. Tests: `controls_test.dart` (incl. RTL swipes, semantics actions, keyboard-safe sheet), `component_gallery_test.dart`, `accessibility_test.dart`, goldens `component_goldens_test.dart` (light/dark × LTR/RTL + text scale 2.0, real fonts and icons via `test/support/fonts.dart`). Bug found by the goldens: `SegmentedBar` segments had zero height (child-less ColoredBox in a Row) — fixed.
+
 
 ### T1.3.11 — Pickers: date, time (1-min), duration, color, icon
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.10, T1.3.13
@@ -153,6 +166,8 @@ palette + custom with contrast warning), icon picker (curated Material Symbols w
 **Acceptance criteria:** entering 07:03 by keyboard works in both 12/24 h; durations format per locale;
 pickers usable with screen readers.
 **Tests:** widget tests per picker; unit tests for parsing/formatting.
+**Notes:** `design_system/pickers/pickers.dart` (same call signatures as before, so the 36 call sites are unchanged): `pickDate` — sheet with Today/Tomorrow/Next week chips and a month grid starting on the user's week start (`DatePickerPanel`, 48 dp cells labelled with the long date, range limits); `pickTime` — text entry (`parseTimeInput`: "07:03", "703", "7.03", "7h03", "7:03 pm", "7 م", Arabic-Indic digits) plus hour/minute(/AM-PM) wheels in 1-minute steps (`TimeWheels`, hidden from screen readers — the field is the accessible path); `pickDuration` — locale-formatted presets (5/15/30/45/60/90 min …) + steppers; `pickTimeRange` — start/end or start + preset, ends after midnight wrap; `pickColor` — palette, "no color", custom hex with a low-contrast warning (< 3:1 on the surface); `pickIcon` — EN/FR/AR keyword search. Tests: `test/design_system/pickers_test.dart` (parsing table, 07:03 typed in 12 h and 24 h, wheels, week starts, ranges, semantics, colors). Tests that drove Material's pickers were updated to the new keys; `task_detail_test` "Arabic RTL and text scale 2.0" hung 10 min in tearDown on `main` already (DB close waiting on a query started by the scroll under fake async) — it now unmounts and settles first.
+
 
 ### T1.3.12 — App scaffold: bottom bar, app bar actions, contextual FAB, adaptive layout
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.06, T1.3.10
@@ -163,6 +178,8 @@ medium 600–840, expanded > 840) switching to a navigation rail on tablets.
 **Acceptance criteria:** works in portrait/landscape, phones and tablets; bottom bar hides on scroll where
 appropriate; RTL mirrors layout.
 **Tests:** widget tests at 3 breakpoints; goldens.
+**Notes:** `app/shell_scaffold.dart`: bottom `NavigationBar` below 600 dp, `NavigationRail` 600–840 dp and extended rail above (RTL mirrors), tab badges (`tabBadgesProvider`: Habits = still due today, with a spoken count), the shared `AppBarActions` (timer, sync, Search, Inbox with unread badge, Settings) on every tab root, a contextual + (new task on Today/Plan; Lists/Habits keep their own; none on Insights) whose long-press — also a semantics action — opens quick add (task, checklist, habit, quit tracker) until [8.1] brings the universal sheet, and a bottom bar that hides while scrolling down (not on Plan, whose grid scrolls constantly; instant with reduce motion). Found while testing: a FAB tooltip's long-press swallows the surrounding long-press handler, so the Lists board's FAB menu never opened — both FABs now use a manual-trigger Tooltip. Tests: `test/app/shell_test.dart` (3 breakpoints, RTL rail side, badges, FAB/quick add, hide on scroll) and `shell_goldens_test.dart`.
+
 
 ### T1.3.13 — Localization (EN/FR/AR) & formatting helpers
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.02

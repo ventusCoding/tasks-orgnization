@@ -86,7 +86,11 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> with SingleTick
       ),
       body: switch (segment) {
         InsightsSegment.overview => const _OverviewSegment(key: ValueKey('overview')),
-        InsightsSegment.plan => const StatsScopeView(key: ValueKey('plan'), scope: MetricScope.planner, showFilters: true),
+        InsightsSegment.plan => const StatsScopeView(
+          key: ValueKey('plan'),
+          scope: MetricScope.planner,
+          showFilters: true,
+        ),
         InsightsSegment.lists => const StatsScopeView(
           key: ValueKey('lists'),
           scope: MetricScope.checklists,

@@ -172,10 +172,12 @@ B''');
 
     test('merging a first child into its parent keeps the children in place', () {
       final items = outline('P\n  K\n    K1\n  L');
-      final t = ChecklistTree.build(applyChange(
-        items,
-        TreeOps.backspaceAtStart(ChecklistTree.build(items), ctx(), 'K', text: 'K', previousVisibleId: 'P'),
-      ));
+      final t = ChecklistTree.build(
+        applyChange(
+          items,
+          TreeOps.backspaceAtStart(ChecklistTree.build(items), ctx(), 'K', text: 'K', previousVisibleId: 'P'),
+        ),
+      );
       expect(render(t), 'PK\n  K1\n  L');
     });
 
@@ -222,7 +224,9 @@ B''');
 
     test('several selected rows under one parent outdent in order', () {
       final items = outline('P\n  A\n  B\n  C\nQ');
-      final t2 = ChecklistTree.build(applyChange(items, TreeOps.outdent(ChecklistTree.build(items), ctx(), ['A', 'C'])));
+      final t2 = ChecklistTree.build(
+        applyChange(items, TreeOps.outdent(ChecklistTree.build(items), ctx(), ['A', 'C'])),
+      );
       expect(render(t2), 'P\n  B\nA\nC\nQ');
     });
 
@@ -272,7 +276,12 @@ B''');
       final items = <ChecklistItem>[
         const ChecklistItem(id: 'root', checklistId: 'c1', sortKey: 'a0'),
         for (var i = 0; i < 999; i++)
-          ChecklistItem(id: 'k$i', checklistId: 'c1', sortKey: FractionalIndex.nBetween(null, null, 999)[0], parentId: 'root'),
+          ChecklistItem(
+            id: 'k$i',
+            checklistId: 'c1',
+            sortKey: FractionalIndex.nBetween(null, null, 999)[0],
+            parentId: 'root',
+          ),
       ];
       final t = ChecklistTree.build(items);
       final sw = Stopwatch()..start();
@@ -285,7 +294,14 @@ B''');
     test('insertNodes builds nested rows (import/paste) and copies attachments of sources', () {
       final items = outline('A');
       final ch = TreeOps.insertNodes(ChecklistTree.build(items), ctx(), const [
-        NodeSpec(text: 'X', sourceItemId: 'orig', children: [NodeSpec(text: 'X1'), NodeSpec(text: 'X2', status: ItemStatus.completed)]),
+        NodeSpec(
+          text: 'X',
+          sourceItemId: 'orig',
+          children: [
+            NodeSpec(text: 'X1'),
+            NodeSpec(text: 'X2', status: ItemStatus.completed),
+          ],
+        ),
         NodeSpec(text: 'Y'),
       ]);
       final t = ChecklistTree.build(applyChange(items, ch));

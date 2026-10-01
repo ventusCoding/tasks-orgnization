@@ -246,12 +246,8 @@ class HabitRevision {
     return HabitTarget(type: goalType!, target: targetValue, op: targetOp ?? fallback.op, unit: unit);
   }
 
-  m.QuitRevision toQuitRevision() => m.QuitRevision(
-    effectiveFrom,
-    baselinePerDay: baselinePerDay,
-    unitCost: unitCost,
-    dailyLimit: dailyLimit,
-  );
+  m.QuitRevision toQuitRevision() =>
+      m.QuitRevision(effectiveFrom, baselinePerDay: baselinePerDay, unitCost: unitCost, dailyLimit: dailyLimit);
 
   @override
   bool operator ==(Object other) =>

@@ -8,9 +8,9 @@ import 'package:everslot/core/session/session.dart';
 import 'package:everslot/core/time/clock.dart';
 import 'package:everslot/features/notifications/application/inbox_providers.dart';
 import 'package:everslot/features/planner/application/planner_contract.dart';
+import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/data/item_copy.dart';
-import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -42,8 +42,10 @@ class FakePlannerBackend implements PlannerActions {
     }
   }
 
-  List<PlannerItem> _inRange(DayRange range) => [for (final i in _items) if (overlapsRange(i, range)) i]
-    ..sort((a, b) => a.startLocal.compareTo(b.startLocal));
+  List<PlannerItem> _inRange(DayRange range) => [
+    for (final i in _items)
+      if (overlapsRange(i, range)) i,
+  ]..sort((a, b) => a.startLocal.compareTo(b.startLocal));
 
   void replaceAll(List<PlannerItem> items) {
     _items
@@ -62,18 +64,20 @@ class FakePlannerBackend implements PlannerActions {
   Future<String?> createAt(LocalDateTime start, int durationMinutes, {String? title, bool allDay = false}) async {
     calls.add('create ${start.toIso()} $durationMinutes ${title ?? ''}${allDay ? ' allDay' : ''}');
     final id = 'new-${calls.length}';
-    _items.add(PlannerItem(
-      taskId: id,
-      seriesId: id,
-      occurrenceKey: start.toIso(),
-      title: title ?? 'New',
-      startLocal: start,
-      durationMinutes: durationMinutes,
-      startUtc: start.toDateTimeUtc(),
-      endUtc: start.toDateTimeUtc().add(Duration(minutes: durationMinutes)),
-      status: OccurrenceStatus.scheduled,
-      allDay: allDay,
-    ));
+    _items.add(
+      PlannerItem(
+        taskId: id,
+        seriesId: id,
+        occurrenceKey: start.toIso(),
+        title: title ?? 'New',
+        startLocal: start,
+        durationMinutes: durationMinutes,
+        startUtc: start.toDateTimeUtc(),
+        endUtc: start.toDateTimeUtc().add(Duration(minutes: durationMinutes)),
+        status: OccurrenceStatus.scheduled,
+        allDay: allDay,
+      ),
+    );
     _changes.add(null);
     return id;
   }
@@ -86,8 +90,10 @@ class FakePlannerBackend implements PlannerActions {
     bool? allDay,
     EditScope scope = EditScope.thisOccurrence,
   }) async {
-    calls.add('reschedule ${item.title} ${newStart.toIso()} ${newDurationMinutes ?? item.durationMinutes}'
-        '${allDay == null ? '' : ' allDay=$allDay'} ${scope.name}');
+    calls.add(
+      'reschedule ${item.title} ${newStart.toIso()} ${newDurationMinutes ?? item.durationMinutes}'
+      '${allDay == null ? '' : ' allDay=$allDay'} ${scope.name}',
+    );
     _replace(item, copyItem(item, startLocal: newStart, durationMinutes: newDurationMinutes, allDay: allDay));
   }
 
@@ -133,10 +139,12 @@ class RecordingNav implements PlannerNav {
   void openView(BuildContext context, String viewKey, {LocalDate? date}) => log.add('view $viewKey ${date?.toIso()}');
 
   @override
-  void openInsights(BuildContext context, {LocalDate? from, int days = 7}) => log.add('insights ${from?.toIso()} $days');
+  void openInsights(BuildContext context, {LocalDate? from, int days = 7}) =>
+      log.add('insights ${from?.toIso()} $days');
 
   @override
-  void openChecklist(BuildContext context, String checklistId, {String? itemId}) => log.add('checklist $checklistId $itemId');
+  void openChecklist(BuildContext context, String checklistId, {String? itemId}) =>
+      log.add('checklist $checklistId $itemId');
 
   @override
   void openHabit(BuildContext context, String habitId) => log.add('habit $habitId');
@@ -171,7 +179,13 @@ class PlannerHarness {
     final container = ProviderContainer(
       overrides: [
         envProvider.overrideWithValue(
-          const Env(flavor: Flavor.dev, supabaseUrl: '', supabasePublishableKey: '', firebaseEnabled: false, featureFlags: {}),
+          const Env(
+            flavor: Flavor.dev,
+            supabaseUrl: '',
+            supabasePublishableKey: '',
+            firebaseEnabled: false,
+            featureFlags: {},
+          ),
         ),
         appDatabaseProvider.overrideWithValue(db),
         clockProvider.overrideWithValue(clock),

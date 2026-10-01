@@ -15,16 +15,11 @@ class EffectiveRule {
   /// Category / ancestor / checklist id the rule was inherited from.
   final String? sourceId;
 
-  bool get inherited =>
-      provenance != RuleProvenance.own &&
-      provenance != RuleProvenance.occurrence;
+  bool get inherited => provenance != RuleProvenance.own && provenance != RuleProvenance.occurrence;
 
   @override
   bool operator ==(Object other) =>
-      other is EffectiveRule &&
-      other.rule == rule &&
-      other.provenance == provenance &&
-      other.sourceId == sourceId;
+      other is EffectiveRule && other.rule == rule && other.provenance == provenance && other.sourceId == sourceId;
 
   @override
   int get hashCode => Object.hash(rule, provenance, sourceId);
@@ -48,12 +43,10 @@ class RuleIndex {
           (bySection[r.section] ??= []).add(r);
         case RuleTargetType.category:
           if (r.targetId != null) (byCategory[r.targetId!] ??= []).add(r);
-        case RuleTargetType.task ||
-            RuleTargetType.checklist ||
-            RuleTargetType.checklistItem ||
-            RuleTargetType.habit:
-          if (r.targetId != null)
+        case RuleTargetType.task || RuleTargetType.checklist || RuleTargetType.checklistItem || RuleTargetType.habit:
+          if (r.targetId != null) {
             (byOwner['${r.targetType.wire}:${r.targetId}'] ??= []).add(r);
+          }
       }
     }
   }
@@ -66,8 +59,7 @@ class RuleIndex {
   /// Digest rules (planned once against synthetic targets, never inherited).
   final List<NotificationRule> standalone = [];
 
-  List<NotificationRule> owned(RuleTargetType type, String id) =>
-      byOwner['${type.wire}:$id'] ?? const [];
+  List<NotificationRule> owned(RuleTargetType type, String id) => byOwner['${type.wire}:$id'] ?? const [];
 }
 
 /// `EffectiveRulesResolver.forTarget(target)` (T7.1.06).
@@ -92,10 +84,7 @@ class EffectiveRulesResolver {
     if (target.notifyMode.usesOwn) result.addAll(_own(target));
     return [
       for (final e in result)
-        if (e.rule.enabled &&
-            _matchesKind(e.rule, target) &&
-            _matchesOccurrence(e.rule, target))
-          e,
+        if (e.rule.enabled && _matchesKind(e.rule, target) && _matchesOccurrence(e.rule, target)) e,
     ];
   }
 
@@ -111,13 +100,12 @@ class EffectiveRulesResolver {
     if (type == null) return;
     for (final r in index.owned(type, target.id)) {
       final applies = r.spec.appliesTo;
-      if (applies == AppliesTo.items || applies == AppliesTo.descendants)
+      if (applies == AppliesTo.items || applies == AppliesTo.descendants) {
         continue;
+      }
       yield EffectiveRule(
         r,
-        r.spec.conditions.occurrenceKeys?.isNotEmpty == true
-            ? RuleProvenance.occurrence
-            : RuleProvenance.own,
+        r.spec.conditions.occurrenceKeys?.isNotEmpty == true ? RuleProvenance.occurrence : RuleProvenance.own,
       );
     }
   }
@@ -128,53 +116,35 @@ class EffectiveRulesResolver {
     for (final ancestor in target.ancestors) {
       levels.add([
         for (final r in index.owned(RuleTargetType.checklistItem, ancestor))
-          if (r.spec.appliesTo == AppliesTo.descendants ||
-              r.spec.appliesTo == AppliesTo.selfAndDescendants)
+          if (r.spec.appliesTo == AppliesTo.descendants || r.spec.appliesTo == AppliesTo.selfAndDescendants)
             EffectiveRule(r, RuleProvenance.ancestor, sourceId: ancestor),
       ]);
     }
     // Checklist-level rules covering its items.
-    if (target.checklistId != null &&
-        target.type == NotificationTargetType.checklistItem) {
+    if (target.checklistId != null && target.type == NotificationTargetType.checklistItem) {
       levels.add([
-        for (final r in index.owned(
-          RuleTargetType.checklist,
-          target.checklistId!,
-        ))
+        for (final r in index.owned(RuleTargetType.checklist, target.checklistId!))
           if (r.spec.appliesTo == AppliesTo.items ||
               r.spec.appliesTo == AppliesTo.descendants ||
               r.spec.appliesTo == AppliesTo.selfAndDescendants)
-            EffectiveRule(
-              r,
-              RuleProvenance.checklist,
-              sourceId: target.checklistId,
-            ),
+            EffectiveRule(r, RuleProvenance.checklist, sourceId: target.checklistId),
       ]);
     }
     if (target.categoryId != null) {
       levels.add([
-        for (final r
-            in index.byCategory[target.categoryId!] ??
-                const <NotificationRule>[])
+        for (final r in index.byCategory[target.categoryId!] ?? const <NotificationRule>[])
           if (r.isDefault && r.section == target.section)
-            EffectiveRule(
-              r,
-              RuleProvenance.category,
-              sourceId: target.categoryId,
-            ),
+            EffectiveRule(r, RuleProvenance.category, sourceId: target.categoryId),
       ]);
     }
     levels
       ..add([
-        for (final r
-            in index.bySection[target.section] ?? const <NotificationRule>[])
-          if (r.isDefault && _matchesKind(r, target))
-            EffectiveRule(r, RuleProvenance.section),
+        for (final r in index.bySection[target.section] ?? const <NotificationRule>[])
+          if (r.isDefault && _matchesKind(r, target)) EffectiveRule(r, RuleProvenance.section),
       ])
       ..add([
         for (final r in index.global)
-          if (r.isDefault && _matchesKind(r, target))
-            EffectiveRule(r, RuleProvenance.global),
+          if (r.isDefault && _matchesKind(r, target)) EffectiveRule(r, RuleProvenance.global),
       ]);
 
     final claimed = <String>{};
@@ -182,9 +152,7 @@ class EffectiveRulesResolver {
     for (final level in levels) {
       final levelKinds = <String>{};
       for (final e in level) {
-        if (!e.rule.enabled &&
-            e.provenance != RuleProvenance.section &&
-            e.provenance != RuleProvenance.global) {
+        if (!e.rule.enabled && e.provenance != RuleProvenance.section && e.provenance != RuleProvenance.global) {
           // A disabled specific default still claims its kind (explicit "not here").
           levelKinds.add(triggerKindKey(e.rule.spec.trigger));
           continue;
@@ -205,25 +173,22 @@ class EffectiveRulesResolver {
     return kind == target.itemKind;
   }
 
-  static bool _matchesOccurrence(
-    NotificationRule rule,
-    NotificationTarget target,
-  ) {
+  static bool _matchesOccurrence(NotificationRule rule, NotificationTarget target) {
     final only = rule.spec.conditions.occurrenceKeys;
     final exclude = rule.spec.conditions.excludeOccurrenceKeys;
     final occ = target.occurrenceKey;
-    if (only != null && only.isNotEmpty && (occ == null || !only.contains(occ)))
+    if (only != null && only.isNotEmpty && (occ == null || !only.contains(occ))) {
       return false;
+    }
     if (exclude != null && occ != null && exclude.contains(occ)) return false;
     return true;
   }
 
   /// "Identical trigger kind" key (relative triggers are distinguished by anchor).
-  static String triggerKindKey(NotificationTrigger trigger) =>
-      switch (trigger) {
-        RelativeTrigger(:final anchor) => 'relative:${anchor.wire}',
-        MilestoneTrigger(:final metric) => 'milestone:$metric',
-        DigestTrigger(:final kind) => 'digest:$kind',
-        _ => trigger.typeWire,
-      };
+  static String triggerKindKey(NotificationTrigger trigger) => switch (trigger) {
+    RelativeTrigger(:final anchor) => 'relative:${anchor.wire}',
+    MilestoneTrigger(:final metric) => 'milestone:$metric',
+    DigestTrigger(:final kind) => 'digest:$kind',
+    _ => trigger.typeWire,
+  };
 }

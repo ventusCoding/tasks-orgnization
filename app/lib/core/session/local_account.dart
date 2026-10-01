@@ -15,10 +15,7 @@ abstract final class LocalAccount {
   /// creates duplicates). Features with their own user-scoped defaults register here.
   static final List<UserScopedIdRule> userScopedIdRules = [
     // Keep in sync with CategoriesRepository.seedDefaults (organization feature).
-    (
-      derive: Ids.defaultCategory,
-      keys: const ['work', 'personal', 'health', 'study', 'home', 'social'],
-    ),
+    (derive: Ids.defaultCategory, keys: const ['work', 'personal', 'health', 'study', 'home', 'social']),
   ];
 
   static Future<String> ensureUserId(AppDatabase db) async {
@@ -34,8 +31,7 @@ abstract final class LocalAccount {
       (await (db.select(db.localKv)..where((k) => k.key.equals(_key))).getSingleOrNull())?.value;
 
   /// Forgets the local account (after a full local wipe).
-  static Future<void> forget(AppDatabase db) =>
-      (db.delete(db.localKv)..where((k) => k.key.equals(_key))).go();
+  static Future<void> forget(AppDatabase db) => (db.delete(db.localKv)..where((k) => k.key.equals(_key))).go();
 
   /// Re-assigns every locally created row to [cloudUserId] after the first cloud sign-in so
   /// offline-created data is pushed to the new account (outbox entries are kept).
@@ -50,11 +46,16 @@ abstract final class LocalAccount {
     await db.transaction(() async {
       final rekeys = <String, String>{local: cloudUserId};
       final settings = await db
-          .customSelect('SELECT id, namespace FROM user_settings WHERE user_id = ?', variables: [Variable<String>(local)])
+          .customSelect(
+            'SELECT id, namespace FROM user_settings WHERE user_id = ?',
+            variables: [Variable<String>(local)],
+          )
           .get();
       for (final s in settings) {
         final ns = s.data['namespace'] as String;
-        if (s.data['id'] == Ids.userSetting(local, ns)) rekeys[s.data['id'] as String] = Ids.userSetting(cloudUserId, ns);
+        if (s.data['id'] == Ids.userSetting(local, ns)) {
+          rekeys[s.data['id'] as String] = Ids.userSetting(cloudUserId, ns);
+        }
       }
       final profiles = await db
           .customSelect(
@@ -92,19 +93,21 @@ abstract final class LocalAccount {
             await db.customStatement('UPDATE $name SET $column = ? WHERE $column = ?', [e.value, e.key]);
           }
           for (final column in jsonColumns[name] ?? const <String>{}) {
-            await db.customStatement(
-              'UPDATE $name SET $column = replace($column, ?, ?) WHERE instr($column, ?) > 0',
-              ['"${e.key}"', '"${e.value}"', e.key],
-            );
+            await db.customStatement('UPDATE $name SET $column = replace($column, ?, ?) WHERE instr($column, ?) > 0', [
+              '"${e.key}"',
+              '"${e.value}"',
+              e.key,
+            ]);
           }
         }
       }
       for (final e in rekeys.entries) {
         await db.customStatement('UPDATE sync_outbox SET row_id = ? WHERE row_id = ?', [e.value, e.key]);
-        await db.customStatement(
-          'UPDATE sync_outbox SET fields = replace(fields, ?, ?) WHERE instr(fields, ?) > 0',
-          ['"${e.key}"', '"${e.value}"', e.key],
-        );
+        await db.customStatement('UPDATE sync_outbox SET fields = replace(fields, ?, ?) WHERE instr(fields, ?) > 0', [
+          '"${e.key}"',
+          '"${e.value}"',
+          e.key,
+        ]);
       }
       await db.into(db.localKv).insertOnConflictUpdate(LocalKvRow(key: _key, value: cloudUserId));
     });

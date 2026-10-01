@@ -25,24 +25,29 @@ Future<void> ensureProfileAndDefaults(ProviderContainer container) async {
   final systemLocale = PlatformDispatcher.instance.locale;
   if (existing == null) {
     final zone = container.read(deviceZoneProvider);
-    await writer.run((tx) => tx.insert('profiles', userId, {
-      'home_time_zone': zone,
-      'current_time_zone': zone,
-      'week_start': FirstRunDefaults.weekStartFor(systemLocale.languageCode, systemLocale.countryCode),
-      'time_format': FirstRunDefaults.prefers24h(
-            systemLocale.languageCode,
-            systemLocale.countryCode,
-            PlatformDispatcher.instance.alwaysUse24HourFormat,
-          )
-          ? 'h24'
-          : 'h12',
-    }), cause: 'auto');
+    await writer.run(
+      (tx) => tx.insert('profiles', userId, {
+        'home_time_zone': zone,
+        'current_time_zone': zone,
+        'week_start': FirstRunDefaults.weekStartFor(systemLocale.languageCode, systemLocale.countryCode),
+        'time_format':
+            FirstRunDefaults.prefers24h(
+              systemLocale.languageCode,
+              systemLocale.countryCode,
+              PlatformDispatcher.instance.alwaysUse24HourFormat,
+            )
+            ? 'h24'
+            : 'h12',
+      }),
+      cause: 'auto',
+    );
   }
   final l10n = lookupAppLocalizations(
-    const [Locale('en'), Locale('fr'), Locale('ar')].firstWhere(
-      (l) => l.languageCode == systemLocale.languageCode,
-      orElse: () => const Locale('en'),
-    ),
+    const [
+      Locale('en'),
+      Locale('fr'),
+      Locale('ar'),
+    ].firstWhere((l) => l.languageCode == systemLocale.languageCode, orElse: () => const Locale('en')),
   );
   await container.read(categoriesRepositoryProvider).seedDefaults({
     'work': l10n.categoryDefaultWork,
@@ -53,4 +58,3 @@ Future<void> ensureProfileAndDefaults(ProviderContainer container) async {
     'social': l10n.categoryDefaultSocial,
   });
 }
-

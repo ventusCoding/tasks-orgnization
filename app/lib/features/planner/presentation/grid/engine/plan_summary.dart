@@ -99,7 +99,8 @@ class PlanSummary {
       const ListEquality<(String?, int)>().equals(other.topCategories, topCategories);
 
   @override
-  int get hashCode => Object.hash(plannedMinutes, trackedMinutes, done, total, freeMinutes, Object.hashAll(topCategories));
+  int get hashCode =>
+      Object.hash(plannedMinutes, trackedMinutes, done, total, freeMinutes, Object.hashAll(topCategories));
 
   @override
   String toString() => 'PlanSummary(planned $plannedMinutes, tracked $trackedMinutes, $done/$total, free $freeMinutes)';

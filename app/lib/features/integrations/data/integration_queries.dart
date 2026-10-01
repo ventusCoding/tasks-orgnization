@@ -69,7 +69,7 @@ class IntegrationQueries {
   Future<Map<String, String>> localWithPrefix(String prefix) async {
     final rows = await _db
         .customSelect(
-          "SELECT key, value FROM local_kv WHERE key LIKE ? ESCAPE '\\'",
+          r"SELECT key, value FROM local_kv WHERE key LIKE ? ESCAPE '\'",
           variables: [Variable<String>('${prefix.replaceAll('_', r'\_').replaceAll('%', r'\%')}%')],
         )
         .get();

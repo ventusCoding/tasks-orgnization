@@ -41,7 +41,7 @@ enum ResetMode {
   allToTodo('all_to_todo'),
   completedToTodo('completed_to_todo');
 
-  const ResetMode(this.dbValue);
+  ResetMode(this.dbValue);
 
   final String dbValue;
 
@@ -114,7 +114,10 @@ class ChecklistSettings {
       autoCompleteParent: b('autoCompleteParent', true),
       completeChildrenWithParent: CascadeChoice.parse(json['completeChildrenWithParent']),
       requireReasonFor: reasons is List
-          ? {for (final r in reasons) if (r is String && ItemStatus.values.any((s) => s.name == r)) ItemStatus.parse(r)}
+          ? {
+              for (final r in reasons)
+                if (r is String && ItemStatus.values.any((s) => s.name == r)) ItemStatus.parse(r),
+            }
           : const {},
       showCompleted: b('showCompleted', true),
       sortCompletedToBottom: b('sortCompletedToBottom', false),
@@ -511,8 +514,7 @@ class ChecklistRun {
   final int? completedItems;
   final List<RunSnapshotEntry> snapshot;
 
-  double get completionRatio =>
-      (totalItems ?? 0) == 0 ? 0 : (completedItems ?? 0) / totalItems!;
+  double get completionRatio => (totalItems ?? 0) == 0 ? 0 : (completedItems ?? 0) / totalItems!;
 }
 
 /// Validated checklist title (T4.1.03): trailing whitespace trimmed, ≤ 500 characters.

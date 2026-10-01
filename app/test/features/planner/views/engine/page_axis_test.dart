@@ -36,7 +36,7 @@ void main() {
     final rows = axis.slotRows(60);
     expect(rows.first.kind, AxisBandKind.hidden);
     expect(rows, hasLength(16 + 2));
-    final expanded = PageAxis.regular(window: const DayWindow(360, 1320), expandedHidden: {0});
+    final expanded = PageAxis.regular(window: const DayWindow(360, 1320), expandedHidden: const {0});
     expect(expanded.bands.first.kind, AxisBandKind.normal);
   });
 

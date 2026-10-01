@@ -26,19 +26,14 @@ enum StrengthGoalKind { boolean, atLeast, atMost }
 
 /// Frequency num/den of the rule in force (f = num/den).
 @immutable
-final class const StrengthFrequency(
-  final int numerator,
-  final int denominator,
-) {
+final class const StrengthFrequency(final int numerator, final int denominator) {
   const new daily() : this(1, 1);
 
   double get f => numerator / denominator;
 
   @override
   bool operator ==(Object other) =>
-      other is StrengthFrequency &&
-      other.numerator == numerator &&
-      other.denominator == denominator;
+      other is StrengthFrequency && other.numerator == numerator && other.denominator == denominator;
 
   @override
   int get hashCode => Object.hash(numerator, denominator);
@@ -69,8 +64,7 @@ final class const StrengthPoint(
 });
 
 /// Multiplier m = 0.5^(√f/13).
-double strengthMultiplier(double f) =>
-    math.pow(0.5, math.sqrt(f) / 13).toDouble();
+double strengthMultiplier(double f) => math.pow(0.5, math.sqrt(f) / 13).toDouble();
 
 /// One update: score·m + c·(1 − m).
 double strengthStep(double previous, double credit, double f) {
@@ -80,10 +74,7 @@ double strengthStep(double previous, double credit, double f) {
 
 /// Full daily strength series.
 @immutable
-final class const StrengthResult(
-  final List<StrengthPoint> series, {
-  required final double initialScore,
-}) {
+final class const StrengthResult(final List<StrengthPoint> series, {required final double initialScore}) {
   /// Score of the last day (the initial score when empty).
   double get current => series.isEmpty ? initialScore : series.last.score;
 
@@ -142,9 +133,7 @@ StrengthResult computeStrength(
     final double credit;
     if (kind == StrengthGoalKind.boolean) {
       if (f > 1) {
-        credit = day.expectedInDay <= 0
-            ? 0
-            : math.min(1, day.value / day.expectedInDay).toDouble();
+        credit = day.expectedInDay <= 0 ? 0 : math.min(1, day.value / day.expectedInDay).toDouble();
       } else {
         var num = day.frequency.numerator;
         var den = day.frequency.denominator;
@@ -152,24 +141,15 @@ StrengthResult computeStrength(
           num *= 2;
           den *= 2;
         }
-        credit = math
-            .min(1, _windowSum(filled, i, den, boolean: true) / num)
-            .toDouble();
+        credit = math.min(1, _windowSum(filled, i, den, boolean: true) / num).toDouble();
       }
     } else {
-      final sum = _windowSum(
-        filled,
-        i,
-        day.frequency.denominator,
-        boolean: false,
-      );
+      final sum = _windowSum(filled, i, day.frequency.denominator, boolean: false);
       final target = day.target ?? 0;
       if (kind == StrengthGoalKind.atLeast) {
         credit = target > 0 ? math.min(1, sum / target).toDouble() : 1;
       } else {
-        credit = target > 0
-            ? (1 - (sum - target) / target).clamp(0.0, 1.0)
-            : (sum > 0 ? 0 : 1);
+        credit = target > 0 ? (1 - (sum - target) / target).clamp(0.0, 1.0) : (sum > 0 ? 0 : 1);
       }
     }
     score = strengthStep(score, credit, f);
@@ -178,12 +158,7 @@ StrengthResult computeStrength(
   return StrengthResult(series, initialScore: start);
 }
 
-double _windowSum(
-  List<StrengthDay> days,
-  int index,
-  int window, {
-  required bool boolean,
-}) {
+double _windowSum(List<StrengthDay> days, int index, int window, {required bool boolean}) {
   var total = 0.0;
   for (var j = math.max(0, index - window + 1); j <= index; j++) {
     // Skipped days are not YES entries (Loop SKIP) and add nothing to the window.
@@ -196,14 +171,7 @@ double _windowSum(
 
 /// Projection of the score if the current completion rate is maintained for [days] days
 /// (optional "maintenance" projection): c = [completionRate] each day.
-List<double> projectStrength(
-  double currentScore,
-  double f,
-  double completionRate, {
-  int days = 30,
-}) {
+List<double> projectStrength(double currentScore, double f, double completionRate, {int days = 30}) {
   var s = currentScore;
-  return [
-    for (var i = 0; i < days; i++) s = strengthStep(s, completionRate, f),
-  ];
+  return [for (var i = 0; i < days; i++) s = strengthStep(s, completionRate, f)];
 }

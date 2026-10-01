@@ -51,7 +51,9 @@ void main() {
 
   Future<ChecklistTree> treeOf(WidgetTester tester, String id) async {
     late ChecklistTree t;
-    await tester.runAsync(() async => t = ChecklistTree.build(await h.read(checklistItemsRepositoryProvider).items(id)));
+    await tester.runAsync(
+      () async => t = ChecklistTree.build(await h.read(checklistItemsRepositoryProvider).items(id)),
+    );
     return t;
   }
 
@@ -167,8 +169,9 @@ void main() {
   });
 
   group('collapse, focus and view state', () {
-    testWidgets('chevron collapses a parent; Expand all restores; state survives reopening (T4.2.06, T4.2.12)',
-        (tester) async {
+    testWidgets('chevron collapses a parent; Expand all restores; state survives reopening (T4.2.06, T4.2.12)', (
+      tester,
+    ) async {
       final id = await seed(tester);
       await pumpInApp(tester, h, ChecklistScreen(checklistId: id, preview: true));
       await settle(tester);
@@ -250,7 +253,10 @@ void main() {
       await tester.tap(find.widgetWithText(FilledButton, 'Save'));
       await tester.pump();
       expect(find.text('A reason is required'), findsOneWidget);
-      await tester.enterText(find.descendant(of: find.byType(BottomSheet), matching: find.byType(TextField)), 'no size');
+      await tester.enterText(
+        find.descendant(of: find.byType(BottomSheet), matching: find.byType(TextField)),
+        'no size',
+      );
       await tester.tap(find.text('Tomorrow 09:00'));
       await tester.pump();
       await tester.tap(find.widgetWithText(FilledButton, 'Save'));

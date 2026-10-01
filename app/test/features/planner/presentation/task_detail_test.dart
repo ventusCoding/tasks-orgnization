@@ -74,7 +74,14 @@ void main() {
       final id = await h.createTask(title: 'Busy', start: '2026-09-22T10:00');
       await h.writer.run((tx) async {
         for (var i = 0; i < 59; i++) {
-          await tx.logEvent(entityType: 'task', entityId: id, eventType: 'updated', payload: const {'fields': ['title']});
+          await tx.logEvent(
+            entityType: 'task',
+            entityId: id,
+            eventType: 'updated',
+            payload: const {
+              'fields': ['title'],
+            },
+          );
         }
       });
       return id;
@@ -121,12 +128,26 @@ void main() {
     tester.platformDispatcher.textScaleFactorTestValue = 2;
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
     final id = (await tester.runAsync(
-      () => h.createTask(title: 'Standup', start: '2026-09-21T09:30', duration: 15, rule: RecurrenceRule(), zone: 'Asia/Tokyo'),
+      () => h.createTask(
+        title: 'Standup',
+        start: '2026-09-21T09:30',
+        duration: 15,
+        rule: RecurrenceRule(),
+        zone: 'Asia/Tokyo',
+      ),
     ))!;
-    await openDetail(tester, TaskDetailScreen(taskId: id, occurrenceKey: '2026-09-22T09:30'), locale: const Locale('ar'));
+    await openDetail(
+      tester,
+      TaskDetailScreen(taskId: id, occurrenceKey: '2026-09-22T09:30'),
+      locale: const Locale('ar'),
+    );
     await scrollTo(tester, find.byType(OccurrencePanel));
     await tester.drag(find.byKey(detailList), const Offset(0, -1500));
     await pumpFor(tester);
     expect(tester.takeException(), isNull);
+    // Let the queries the scroll started finish before tearDown closes the database
+    // (closing waits for them, and they can't progress in the fake-async zone).
+    await tester.pumpWidget(const SizedBox.shrink());
+    await settle(tester);
   });
 }

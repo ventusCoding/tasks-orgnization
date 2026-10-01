@@ -29,10 +29,7 @@ class _HostState extends State<_Host> {
         FilterField.recurring,
         FilterField.text,
       ],
-      statusOptions: const [
-        FilterOption('todo', 'To do'),
-        FilterOption('waiting', 'Waiting'),
-      ],
+      statusOptions: const [FilterOption('todo', 'To do'), FilterOption('waiting', 'Waiting')],
       onChanged: (v) {
         setState(() => _value = v);
         widget.onValue(v);
@@ -48,9 +45,7 @@ void main() {
 
   Future<void> settle(WidgetTester tester) async {
     for (var i = 0; i < 3; i++) {
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 5)),
-      );
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 5)));
       await tester.pump(const Duration(milliseconds: 50));
     }
     await tester.pumpAndSettle();
@@ -65,14 +60,8 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('select criteria, count them, remove one and clear all', (
-    tester,
-  ) async {
-    await tester.runAsync(
-      () => h
-          .read(categoriesRepositoryProvider)
-          .create(name: 'Work', color: 0xFF3B82F6),
-    );
+  testWidgets('select criteria, count them, remove one and clear all', (tester) async {
+    await tester.runAsync(() => h.read(categoriesRepositoryProvider).create(name: 'Work', color: 0xFF3B82F6));
     var value = EntityFilter.empty;
     await pumpInApp(tester, h, _Host(onValue: (v) => value = v));
     await settle(tester);
@@ -137,12 +126,7 @@ void main() {
   });
 
   testWidgets('works in Arabic (RTL) with localized chips', (tester) async {
-    await pumpInApp(
-      tester,
-      h,
-      _Host(onValue: (_) {}),
-      locale: const Locale('ar'),
-    );
+    await pumpInApp(tester, h, _Host(onValue: (_) {}), locale: const Locale('ar'));
     await settle(tester);
     expect(find.widgetWithText(FilterChip, 'الفئة'), findsOneWidget);
     expect(find.widgetWithText(FilterChip, 'الأولوية'), findsOneWidget);
@@ -152,16 +136,13 @@ void main() {
     expect(first.left, greaterThan(second.left));
   });
 
-  testWidgets('text scale 2.0 grows the bar instead of clipping it', (
-    tester,
-  ) async {
+  testWidgets('text scale 2.0 grows the bar instead of clipping it', (tester) async {
     await pumpInApp(
       tester,
       h,
       Builder(
         builder: (context) => MediaQuery(
-          data: MediaQuery.of(context)
-              .copyWith(textScaler: const TextScaler.linear(2)),
+          data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(2)),
           child: _Host(onValue: (_) {}),
         ),
       ),

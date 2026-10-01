@@ -81,9 +81,7 @@ class InAppBannerController {
           count: items.length,
           titles: [for (final i in items) i.title],
           link: AppLinks.inbox(),
-          importance: items
-              .map((i) => i.importance)
-              .reduce((a, b) => a.rank >= b.rank ? a : b),
+          importance: items.map((i) => i.importance).reduce((a, b) => a.rank >= b.rank ? a : b),
         ),
       );
     }
@@ -163,10 +161,7 @@ class ForegroundTicker {
     final now = clock.nowUtc();
     final next = [
       for (final e in await store.all())
-        if (e.fireAt.isAfter(now) &&
-            e.reconciledAt == null &&
-            e.kind != ScheduleKind.test)
-          e.fireAt,
+        if (e.fireAt.isAfter(now) && e.reconciledAt == null && e.kind != ScheduleKind.test) e.fireAt,
     ];
     if (next.isEmpty || !_active) return;
     next.sort();
@@ -211,9 +206,7 @@ class ForegroundTicker {
             if (a != NotificationActionIds.open) a,
         ].take(2).toList(),
         payload: payload,
-        importance:
-            NotificationImportance.tryParse(asString(c['imp'])) ??
-            NotificationImportance.normal,
+        importance: NotificationImportance.tryParse(asString(c['imp'])) ?? NotificationImportance.normal,
       );
       banners.show(item);
       shown.add(item);

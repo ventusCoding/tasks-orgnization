@@ -15,11 +15,7 @@ Widget? notificationPageFor(String link) => switch (Uri.tryParse(link)?.path) {
 
 /// Opens a notification deep link: the module's own pages directly (the app shell doesn't route
 /// them yet), everything else through the router.
-void openNotificationLink(
-  NavigatorState navigator,
-  String link, {
-  GoRouter? router,
-}) {
+void openNotificationLink(NavigatorState navigator, String link, {GoRouter? router}) {
   final page = notificationPageFor(link);
   if (page != null) {
     unawaited(navigator.push<void>(MaterialPageRoute(builder: (_) => page)));

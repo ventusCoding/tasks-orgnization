@@ -7,27 +7,15 @@ import 'package:material_ui/material_ui.dart';
 
 /// Snooze presets sheet (T7.2.15): presets from the notification / settings, "this evening",
 /// "tomorrow morning" and a custom duration. Returns minutes from now.
-Future<int?> pickSnooze(
-  BuildContext context,
-  WidgetRef ref, {
-  List<int> options = const [],
-}) {
+Future<int?> pickSnooze(BuildContext context, WidgetRef ref, {List<int> options = const []}) {
   final l = context.l10n;
   final settings = ref.read(notificationSettingsProvider);
-  final presets = {
-    ...(options.isEmpty ? settings.snoozePresets : options),
-    5,
-    10,
-    15,
-    30,
-    60,
-  }.toList()..sort();
+  final presets = {...(options.isEmpty ? settings.snoozePresets : options), 5, 10, 15, 30, 60}.toList()..sort();
   final now = ref.read(clockProvider).nowUtc();
   final zone = ref.read(deviceZoneProvider);
   final zones = ref.read(zoneResolverProvider);
   final local = zones.toLocal(now, zone);
-  int minutesUntil(LocalDateTime target) =>
-      zones.resolve(target, zone).utc.difference(now).inMinutes;
+  int minutesUntil(LocalDateTime target) => zones.resolve(target, zone).utc.difference(now).inMinutes;
   var evening = LocalDateTime(local.date, LocalTime(19, 0));
   if (!evening.isAfter(local)) evening = evening.plusDays(1);
   final morning = LocalDateTime(local.date.plusDays(1), LocalTime(8, 0));
@@ -42,11 +30,7 @@ Future<int?> pickSnooze(
         children: [
           for (final m in presets)
             ActionChip(
-              label: Text(
-                m >= 60 && m % 60 == 0
-                    ? l.notifSnoozeHours(m ~/ 60)
-                    : l.notifSnoozeMinutes(m),
-              ),
+              label: Text(m >= 60 && m % 60 == 0 ? l.notifSnoozeHours(m ~/ 60) : l.notifSnoozeMinutes(m)),
               onPressed: () => Navigator.pop(ctx, m),
             ),
           ActionChip(
@@ -63,11 +47,7 @@ Future<int?> pickSnooze(
             avatar: const Icon(Icons.more_time, size: 18),
             label: Text(l.notifSnoozeCustom),
             onPressed: () async {
-              final minutes = await pickDuration(
-                ctx,
-                initialMinutes: 20,
-                maxMinutes: 7 * 1440,
-              );
+              final minutes = await pickDuration(ctx, initialMinutes: 20, maxMinutes: 7 * 1440);
               if (minutes != null && ctx.mounted) Navigator.pop(ctx, minutes);
             },
           ),

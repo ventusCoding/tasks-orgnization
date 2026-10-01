@@ -493,7 +493,12 @@ final List<MetricDefinition> globalMetrics = [
           from: week.start,
           to: week.end,
           headline: [
-            for (final k in _withHabitAdherence(c, report.headline, DateRange(week.start, LocalDate.min(week.end, c.today)), prevWeek))
+            for (final k in _withHabitAdherence(
+              c,
+              report.headline,
+              DateRange(week.start, LocalDate.min(week.end, c.today)),
+              prevWeek,
+            ))
               _kpiTile(k, currency: currency),
           ],
           wins: [for (final w in report.wins) entry(w)],
@@ -537,7 +542,12 @@ final List<MetricDefinition> globalMetrics = [
         TilesData([
           if (habits != null) ...completenessTiles(habits).tiles,
           if (coverage != null)
-            ValueTile(const TokenLabel(LabelToken.trackedTime), coverage.valueOrNull, StatUnit.percent, metricId: 'PL-X-41'),
+            ValueTile(
+              const TokenLabel(LabelToken.trackedTime),
+              coverage.valueOrNull,
+              StatUnit.percent,
+              metricId: 'PL-X-41',
+            ),
           ValueTile(
             const TokenLabel(LabelToken.pendingSync),
             c.job.pendingOutbox.toDouble(),

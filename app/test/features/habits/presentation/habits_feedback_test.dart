@@ -59,13 +59,8 @@ void main() {
     }
   }
 
-  HabitCheckInEvent event(BuildHabit habit, String key) => HabitCheckInEvent(
-    habitId: habit.id,
-    key: key,
-    kind: HabitLogKind.done,
-    source: 'manual',
-    at: h.clock.nowUtc(),
-  );
+  HabitCheckInEvent event(BuildHabit habit, String key) =>
+      HabitCheckInEvent(habitId: habit.id, key: key, kind: HabitLogKind.done, source: 'manual', at: h.clock.nowUtc());
 
   group('celebration detection (T5.2.13)', () {
     test('a streak landing on a milestone celebrates once per session', () async {
@@ -74,7 +69,11 @@ void main() {
       final service = h.read(celebrationServiceProvider);
       final first = await service.onCheckIn(event(habit, '2026-09-22'));
       expect(first.map((c) => (c.kind, c.count)), [(CelebrationKind.streak, 7), (CelebrationKind.perfectDay, 0)]);
-      expect(await service.onCheckIn(event(habit, '2026-09-22')), isEmpty, reason: 'undo + redo does not celebrate twice');
+      expect(
+        await service.onCheckIn(event(habit, '2026-09-22')),
+        isEmpty,
+        reason: 'undo + redo does not celebrate twice',
+      );
     });
 
     test('no streak celebration between milestones; clearing is never celebrated', () async {
@@ -83,7 +82,13 @@ void main() {
       final service = h.read(celebrationServiceProvider);
       final earned = await service.onCheckIn(event(habit, '2026-09-22'));
       expect(earned.where((c) => c.kind == CelebrationKind.streak), isEmpty, reason: '8 days is not a milestone');
-      final cleared = HabitCheckInEvent(habitId: habit.id, key: '2026-09-22', kind: null, source: 'manual', at: h.clock.nowUtc());
+      final cleared = HabitCheckInEvent(
+        habitId: habit.id,
+        key: '2026-09-22',
+        kind: null,
+        source: 'manual',
+        at: h.clock.nowUtc(),
+      );
       expect(await service.onCheckIn(cleared), isEmpty);
     });
 
@@ -93,7 +98,10 @@ void main() {
       final checkIn = h.read(checkInServiceProvider);
       await checkIn.markDone(a, '2026-09-22');
       final service = h.read(celebrationServiceProvider);
-      expect((await service.onCheckIn(event(a, '2026-09-22'))).where((c) => c.kind == CelebrationKind.perfectDay), isEmpty);
+      expect(
+        (await service.onCheckIn(event(a, '2026-09-22'))).where((c) => c.kind == CelebrationKind.perfectDay),
+        isEmpty,
+      );
       await checkIn.excuse(b, '2026-09-22');
       final earned = await service.onCheckIn(event(a, '2026-09-22'));
       expect(earned.map((c) => c.kind), [CelebrationKind.perfectDay]);
@@ -108,20 +116,32 @@ void main() {
     }
 
     Future<void> pumpToday(WidgetTester tester) async {
-      await pumpInApp(tester, h, Scaffold(body: CelebrationOverlay(child: TodayList(date: d(2026, 9, 22)))));
+      await pumpInApp(
+        tester,
+        h,
+        Scaffold(
+          body: CelebrationOverlay(child: TodayList(date: d(2026, 9, 22))),
+        ),
+      );
       await settle(tester);
     }
 
     Finder ring() => find.descendant(of: find.byType(HabitRow), matching: find.byType(InkResponse)).last;
 
-    testWidgets('the 7th check-in shows the streak and perfect-day cards, then they dismiss themselves', (tester) async {
+    testWidgets('the 7th check-in shows the streak and perfect-day cards, then they dismiss themselves', (
+      tester,
+    ) async {
       await seedSixDays(tester);
       await pumpToday(tester);
       await tester.tap(ring());
       await settle(tester, rounds: 10);
       expect(find.text(en.habitsCelebrateStreak('Meditate', 7)), findsOneWidget);
       expect(find.text(en.habitsCelebratePerfectDay), findsOneWidget);
-      expect(find.text(en.goalsBadgeUnlocked(en.goalsBadgeStreak(7))), findsOneWidget, reason: 'badge unlocked (T5.4.08)');
+      expect(
+        find.text(en.goalsBadgeUnlocked(en.goalsBadgeStreak(7))),
+        findsOneWidget,
+        reason: 'badge unlocked (T5.4.08)',
+      );
       final scale = tester.widget<TweenAnimationBuilder<double>>(find.byType(TweenAnimationBuilder<double>).first);
       expect(scale.duration, isNot(Duration.zero), reason: 'cards scale in when motion is allowed');
       await tester.pump(const Duration(seconds: 5));
@@ -131,7 +151,9 @@ void main() {
     });
 
     testWidgets('with reduce motion the card appears without animation', (tester) async {
-      tester.platformDispatcher.accessibilityFeaturesTestValue = const FakeAccessibilityFeatures(disableAnimations: true);
+      tester.platformDispatcher.accessibilityFeaturesTestValue = const FakeAccessibilityFeatures(
+        disableAnimations: true,
+      );
       addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
       await seedSixDays(tester);
       await pumpToday(tester);
@@ -165,7 +187,9 @@ void main() {
     });
 
     testWidgets('hold to complete with reduce motion: a long press completes at once', (tester) async {
-      tester.platformDispatcher.accessibilityFeaturesTestValue = const FakeAccessibilityFeatures(disableAnimations: true);
+      tester.platformDispatcher.accessibilityFeaturesTestValue = const FakeAccessibilityFeatures(
+        disableAnimations: true,
+      );
       addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
       final habit = (await tester.runAsync(() => create('Meditate')))!;
       await tester.runAsync(() => h.read(habitViewSettingsServiceProvider).update(holdToComplete: true));

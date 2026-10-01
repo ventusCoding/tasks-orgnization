@@ -75,13 +75,7 @@ Stat<CircularSummary> circularTimeSummary(
     sd = math.sqrt(-2 * math.log(r)) * _minutesPerDay / (2 * math.pi);
   }
   return Value<CircularSummary>(
-    CircularSummary(
-      n,
-      meanMinuteOfDay: mean,
-      resultantLength: r,
-      sdMinutes: sd,
-      consistent: r >= consistencyThreshold,
-    ),
+    CircularSummary(n, meanMinuteOfDay: mean, resultantLength: r, sdMinutes: sd, consistent: r >= consistencyThreshold),
     sampleSize: n,
   );
 }

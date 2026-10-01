@@ -67,7 +67,10 @@ class ItemFilter {
 
   List<PlannerItem> apply(List<PlannerItem> items) {
     if (showCompleted && showCancelled && !isActive) return items;
-    return [for (final i in items) if (accepts(i)) i];
+    return [
+      for (final i in items)
+        if (accepts(i)) i,
+    ];
   }
 
   @override

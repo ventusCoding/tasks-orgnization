@@ -246,7 +246,7 @@ void main() {
       expect(visaItem.status, ItemStatus.ongoing);
       final causes = await h.db
           .customSelect(
-            "SELECT json_extract(payload, '\$.cause') AS cause FROM activity_events "
+            r"SELECT json_extract(payload, '$.cause') AS cause FROM activity_events "
             "WHERE entity_id = '$visa' AND event_type = 'status_changed' ORDER BY occurred_at DESC LIMIT 1",
           )
           .getSingle();
@@ -296,7 +296,7 @@ void main() {
       expect(visaItem.completedAt, isNotNull);
       final cause = await h.db
           .customSelect(
-            "SELECT json_extract(payload, '\$.cause') AS cause FROM activity_events "
+            r"SELECT json_extract(payload, '$.cause') AS cause FROM activity_events "
             "WHERE entity_id = '$visa' AND event_type = 'status_changed' ORDER BY occurred_at DESC LIMIT 1",
           )
           .getSingle();

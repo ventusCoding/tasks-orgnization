@@ -11,12 +11,18 @@ import 'package:http/testing.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 /// A recorded HTTP call to the fake Supabase backend.
-typedef Call = ({String method, String path, Map<String, String> query, Map<String, dynamic> body, Map<String, String> headers});
+typedef Call = ({
+  String method,
+  String path,
+  Map<String, String> query,
+  Map<String, dynamic> body,
+  Map<String, String> headers,
+});
 
 String _b64(Map<String, Object?> json) => base64Url.encode(utf8.encode(jsonEncode(json))).replaceAll('=', '');
 
-String _jwt(String sub) =>
-    '${_b64({'alg': 'HS256', 'typ': 'JWT'})}.${_b64({'sub': sub, 'exp': 4102444800, 'role': 'authenticated'})}.sig';
+String _jwt(String sub, {String aal = 'aal1'}) =>
+    '${_b64({'alg': 'HS256', 'typ': 'JWT'})}.${_b64({'sub': sub, 'exp': 4102444800, 'role': 'authenticated', 'aal': aal})}.sig';
 
 Map<String, Object?> _user({
   String id = 'user-1',
@@ -25,6 +31,7 @@ Map<String, Object?> _user({
   List<String> providers = const ['email'],
   Map<String, Object?> meta = const {},
   String? newEmail,
+  List<Map<String, Object?>> factors = const [],
 }) => {
   'id': id,
   'aud': 'authenticated',
@@ -33,8 +40,12 @@ Map<String, Object?> _user({
   'new_email': ?newEmail,
   'created_at': '2026-09-01T00:00:00Z',
   'is_anonymous': anonymous,
-  'app_metadata': {'provider': anonymous ? 'anonymous' : providers.first, 'providers': anonymous ? <String>[] : providers},
+  'app_metadata': {
+    'provider': anonymous ? 'anonymous' : providers.first,
+    'providers': anonymous ? <String>[] : providers,
+  },
   'user_metadata': meta,
+  'factors': factors,
   'identities': [
     for (final p in providers)
       {
@@ -50,8 +61,17 @@ Map<String, Object?> _user({
   ],
 };
 
-Map<String, Object?> _session(Map<String, Object?> user) => {
-  'access_token': _jwt(user['id']! as String),
+Map<String, Object?> _factor(String id, {bool verified = true}) => {
+  'id': id,
+  'friendly_name': null,
+  'factor_type': 'totp',
+  'status': verified ? 'verified' : 'unverified',
+  'created_at': '2026-09-01T00:00:00Z',
+  'updated_at': '2026-09-01T00:00:00Z',
+};
+
+Map<String, Object?> _session(Map<String, Object?> user, {String aal = 'aal1'}) => {
+  'access_token': _jwt(user['id']! as String, aal: aal),
   'token_type': 'bearer',
   'expires_in': 3600,
   'refresh_token': 'refresh-1',
@@ -65,7 +85,7 @@ class _Backend {
   final responses = <String, http.Response Function(Call call)>{};
 
   late final client = MockClient((request) async {
-    Map<String, dynamic> body = const {};
+    var body = const <String, dynamic>{};
     if (request.body.isNotEmpty) {
       final decoded = jsonDecode(request.body);
       if (decoded is Map) body = Map<String, dynamic>.from(decoded);
@@ -162,8 +182,9 @@ void main() {
   late _FakeGoogle google;
   late _FakeApple apple;
 
-  SupabaseAuthRepository repo({AuthConfig config = const AuthConfig(googleWebClientId: 'web-id', appleSignInEnabled: true)}) =>
-      SupabaseAuthRepository(client, config: config, google: google, apple: apple);
+  SupabaseAuthRepository repo({
+    AuthConfig config = const AuthConfig(googleWebClientId: 'web-id', appleSignInEnabled: true),
+  }) => SupabaseAuthRepository(client, config: config, google: google, apple: apple);
 
   setUp(() {
     backend = _Backend();
@@ -356,11 +377,84 @@ void main() {
         'something_new': AuthFailureCode.unknown,
       };
       for (final e in table.entries) {
-        expect(SupabaseAuthRepository.mapAuthException(sb.AuthException('x', code: e.key)).code, e.value, reason: e.key);
+        expect(
+          SupabaseAuthRepository.mapAuthException(sb.AuthException('x', code: e.key)).code,
+          e.value,
+          reason: e.key,
+        );
       }
       expect(
         SupabaseAuthRepository.mapAuthException(const sb.AuthException('x', statusCode: '429')).code,
         AuthFailureCode.rateLimited,
+      );
+    });
+  });
+
+  group('two-step verification (T1.5.17)', () {
+    test('enrolling removes a stale pending factor, then returns the key; verify steps up to aal2', () async {
+      var factors = [_factor('f-old', verified: false)];
+      backend.responses['POST /auth/v1/verify'] = (_) => _Backend._json(_session(_user(factors: factors)));
+      backend.responses['POST /auth/v1/token'] = (_) => _Backend._json(_session(_user(factors: factors)));
+      backend.responses['DELETE /auth/v1/factors/f-old'] = (_) {
+        factors = [];
+        return _Backend._json({'id': 'f-old'});
+      };
+      backend.responses['POST /auth/v1/factors'] = (_) => _Backend._json({
+        'id': 'f-new',
+        'type': 'totp',
+        'totp': {
+          'qr_code': '<svg/>',
+          'secret': 'JBSWY3DPEHPK3PXP',
+          'uri': 'otpauth://totp/Everslot:ana?secret=JBSWY3DPEHPK3PXP',
+        },
+      });
+      backend.responses['POST /auth/v1/factors/f-new/challenge'] = (_) =>
+          _Backend._json({'id': 'ch-1', 'type': 'totp', 'expires_at': 4102444800});
+      backend.responses['POST /auth/v1/factors/f-new/verify'] = (_) =>
+          _Backend._json(_session(_user(factors: [_factor('f-new')]), aal: 'aal2'));
+
+      final r = repo();
+      await r.verifyEmailCode('ana@example.com', '123456');
+      final enrollment = await r.enrollTotp();
+      expect(backend.find('DELETE', '/auth/v1/factors/f-old'), isNotNull);
+      expect(backend.find('POST', '/auth/v1/factors')!.body, containsPair('issuer', 'Everslot'));
+      expect(enrollment.factorId, 'f-new');
+      expect(enrollment.secret, 'JBSWY3DPEHPK3PXP');
+      expect(enrollment.toString(), isNot(contains('JBSW')), reason: 'never logged');
+
+      await r.verifyTotp('f-new', '654 321');
+      expect(backend.find('POST', '/auth/v1/factors/f-new/verify')!.body, {'challenge_id': 'ch-1', 'code': '654321'});
+      expect(r.mfaStepUpRequired, isFalse, reason: 'the session is aal2 now');
+    });
+
+    test('a verified factor on an aal1 session needs the step-up; factors map to MfaFactor', () async {
+      final user = _user(factors: [_factor('f1'), _factor('f2', verified: false)]);
+      backend.responses['POST /auth/v1/verify'] = (_) => _Backend._json(_session(user));
+      backend.responses['POST /auth/v1/token'] = (_) => _Backend._json(_session(user));
+      final r = repo();
+      await r.verifyEmailCode('ana@example.com', '123456');
+      expect(r.mfaStepUpRequired, isTrue);
+      expect(await r.mfaFactors(), const [MfaFactor(id: 'f1', verified: true), MfaFactor(id: 'f2', verified: false)]);
+    });
+
+    test('server refusals map to mfaRequired / invalidCode', () async {
+      backend.responses['POST /rest/v1/rpc/request_account_deletion'] = (_) => _Backend._json({
+        'code': '42501',
+        'message': 'aal2_required',
+        'details': null,
+        'hint': 'Verify your authenticator code before deleting the account.',
+      }, 403);
+      await expectLater(
+        repo().deleteAccount(),
+        throwsA(isA<AuthFailure>().having((f) => f.code, 'code', AuthFailureCode.mfaRequired)),
+      );
+      expect(
+        SupabaseAuthRepository.mapAuthException(const sb.AuthException('x', code: 'mfa_verification_failed')).code,
+        AuthFailureCode.invalidCode,
+      );
+      expect(
+        SupabaseAuthRepository.mapAuthException(const sb.AuthException('x', code: 'insufficient_aal')).code,
+        AuthFailureCode.mfaRequired,
       );
     });
   });

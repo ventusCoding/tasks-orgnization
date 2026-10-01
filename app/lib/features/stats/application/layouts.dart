@@ -70,11 +70,7 @@ const itemLayout = StatsLayout(
   MetricScope.checklistItem,
   kpis: ['CL-I-02', 'CL-I-03', 'CL-I-04', 'CL-I-05'],
   sections: [
-    StatsLayoutSection('item', [
-      StatsLayoutItem('CL-I-07'),
-      StatsLayoutItem('CL-I-01'),
-      StatsLayoutItem('CL-I-06'),
-    ]),
+    StatsLayoutSection('item', [StatsLayoutItem('CL-I-07'), StatsLayoutItem('CL-I-01'), StatsLayoutItem('CL-I-06')]),
   ],
 );
 
@@ -130,11 +126,7 @@ const habitsLayout = StatsLayout(
   kpis: ['HB-X-01', 'HB-X-02', 'HB-X-04'],
   sections: [
     StatsLayoutSection('habitTable', [StatsLayoutItem('HB-X-01', variant: 'habitTable')]),
-    StatsLayoutSection('trend', [
-      StatsLayoutItem('HB-X-04'),
-      StatsLayoutItem('HB-X-03'),
-      StatsLayoutItem('HB-X-02'),
-    ]),
+    StatsLayoutSection('trend', [StatsLayoutItem('HB-X-04'), StatsLayoutItem('HB-X-03'), StatsLayoutItem('HB-X-02')]),
     StatsLayoutSection('quitTrackers', [StatsLayoutItem('HB-X-05')]),
     StatsLayoutSection('dataQuality', [StatsLayoutItem('HB-X-12')]),
   ],
@@ -175,7 +167,12 @@ const overviewLayout = StatsLayout(
 );
 
 /// Weekly review (T6.7.02).
-const reviewLayout = StatsLayout(MetricScope.global, sections: [StatsLayoutSection('review', [StatsLayoutItem('GL-03')])]);
+const reviewLayout = StatsLayout(
+  MetricScope.global,
+  sections: [
+    StatsLayoutSection('review', [StatsLayoutItem('GL-03')]),
+  ],
+);
 
 /// Default layout of a metric scope.
 StatsLayout defaultLayoutOf(MetricScope scope) => switch (scope) {

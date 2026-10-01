@@ -85,29 +85,24 @@ class NotificationPayload {
     this.members = const [],
   });
 
-  factory NotificationPayload.fromJson(Map<String, Object?> json) =>
-      NotificationPayload(
-        dedupeKey: asString(json['dk']) ?? '',
-        baseKey: asString(json['bk']),
-        targetKey: asString(json['tk']),
-        targetType: json['tt'] == null
-            ? null
-            : NotificationTargetType.parse(asString(json['tt'])),
-        targetId: asString(json['tid']),
-        occurrenceKey: asString(json['occ']),
-        ruleId: asString(json['rid']),
-        section: NotificationSection.tryParse(asString(json['sec'])),
-        category: json['cat'] == null
-            ? null
-            : InboxCategory.parse(asString(json['cat'])),
-        deepLink: asString(json['link']),
-        actions: asStringList(json['acts']) ?? const [],
-        snoozeOptions: asIntList(json['snz']) ?? const [],
-        userId: asString(json['uid']),
-        repeatIdx: asInt(json['rep']) ?? 0,
-        kind: asString(json['kind']),
-        members: asStringList(json['mem']) ?? const [],
-      );
+  factory NotificationPayload.fromJson(Map<String, Object?> json) => NotificationPayload(
+    dedupeKey: asString(json['dk']) ?? '',
+    baseKey: asString(json['bk']),
+    targetKey: asString(json['tk']),
+    targetType: json['tt'] == null ? null : NotificationTargetType.parse(asString(json['tt'])),
+    targetId: asString(json['tid']),
+    occurrenceKey: asString(json['occ']),
+    ruleId: asString(json['rid']),
+    section: NotificationSection.tryParse(asString(json['sec'])),
+    category: json['cat'] == null ? null : InboxCategory.parse(asString(json['cat'])),
+    deepLink: asString(json['link']),
+    actions: asStringList(json['acts']) ?? const [],
+    snoozeOptions: asIntList(json['snz']) ?? const [],
+    userId: asString(json['uid']),
+    repeatIdx: asInt(json['rep']) ?? 0,
+    kind: asString(json['kind']),
+    members: asStringList(json['mem']) ?? const [],
+  );
 
   static NotificationPayload? tryDecode(String? source) {
     if (source == null || source.isEmpty) return null;

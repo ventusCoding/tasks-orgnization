@@ -4,8 +4,7 @@ import 'package:everslot/features/notifications/domain/notification_target.dart'
 import 'package:everslot/features/notifications/domain/rule_spec.dart';
 
 /// JSON → domain helpers shared by the planner fixture runner and other tests.
-DateTime? parseInstant(Object? v) =>
-    v is String ? DateTime.parse(v).toUtc() : null;
+DateTime? parseInstant(Object? v) => v is String ? DateTime.parse(v).toUtc() : null;
 
 NotificationRule ruleFromJson(Map<String, Object?> j) => NotificationRule(
   id: asString(j['id'])!,
@@ -14,9 +13,7 @@ NotificationRule ruleFromJson(Map<String, Object?> j) => NotificationRule(
   section: NotificationSection.parse(asString(j['section']) ?? 'planner'),
   isDefault:
       asBool(j['isDefault']) ??
-      (j['targetType'] == 'section' ||
-          j['targetType'] == 'global' ||
-          j['targetType'] == 'category'),
+      (j['targetType'] == 'section' || j['targetType'] == 'global' || j['targetType'] == 'category'),
   enabled: asBool(j['enabled']) ?? true,
   profileId: asString(j['profileId']),
   spec: NotificationRuleSpec.fromJson(asJsonMap(j['spec'])!),
@@ -88,11 +85,5 @@ NotificationMute muteFromJson(Map<String, Object?> j) => NotificationMute(
 /// Built-in profiles with id == code (fixtures reference them by code).
 List<NotificationProfile> builtinProfilesById() => [
   for (final e in BuiltinProfiles.specs.entries)
-    NotificationProfile(
-      id: e.key,
-      code: e.key,
-      name: e.key,
-      isBuiltin: true,
-      spec: e.value,
-    ),
+    NotificationProfile(id: e.key, code: e.key, name: e.key, isBuiltin: true, spec: e.value),
 ];

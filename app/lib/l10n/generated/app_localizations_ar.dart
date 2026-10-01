@@ -380,8 +380,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get attachmentsDownloadWhenOnline =>
-      'سيُنزَّل هذا الملف عند اتصالك بالإنترنت.';
+  String get attachmentsDownloadWhenOnline => 'سيُنزَّل هذا الملف عند اتصالك بالإنترنت.';
 
   @override
   String get attachmentsEditCaption => 'تعديل التعليق';
@@ -583,8 +582,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authAvatarRemove => 'إزالة الصورة';
 
   @override
-  String get authBrowserFlowStarted =>
-      'أكمل تسجيل الدخول في المتصفح ثم عُد إلى Everslot.';
+  String get authBrowserFlowStarted => 'أكمل تسجيل الدخول في المتصفح ثم عُد إلى Everslot.';
 
   @override
   String get authChangeEmail => 'استخدام بريد إلكتروني آخر';
@@ -679,8 +677,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authErrorGuestDisabled => 'وضع الضيف معطّل على هذا الخادم.';
 
   @override
-  String get authErrorIdentityInUse =>
-      'طريقة تسجيل الدخول هذه مرتبطة بحساب آخر.';
+  String get authErrorIdentityInUse => 'طريقة تسجيل الدخول هذه مرتبطة بحساب آخر.';
 
   @override
   String get authErrorInvalidCode => 'هذا الرمز غير صالح أو منتهي الصلاحية.';
@@ -689,28 +686,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authErrorInvalidEmail => 'يُرجى إدخال بريد إلكتروني صحيح.';
 
   @override
-  String get authErrorLastIdentity =>
-      'لا يمكنك إزالة طريقة تسجيل الدخول الوحيدة لديك.';
+  String get authErrorLastIdentity => 'لا يمكنك إزالة طريقة تسجيل الدخول الوحيدة لديك.';
 
   @override
-  String get authErrorNotConfigured =>
-      'المزامنة السحابية غير مُعدّة في هذا الإصدار (راجع guide.md).';
+  String get authErrorMfaRequired => 'أدخل الرمز من تطبيق المصادقة للمتابعة.';
 
   @override
-  String get authErrorOffline =>
-      'أنت غير متصل بالإنترنت. تحقّق من اتصالك ثم أعد المحاولة.';
+  String get authErrorNotConfigured => 'المزامنة السحابية غير مُعدّة في هذا الإصدار (راجع guide.md).';
 
   @override
-  String get authErrorProviderNotConfigured =>
-      'طريقة تسجيل الدخول هذه غير مُعدّة بعد (راجع guide.md).';
+  String get authErrorOffline => 'أنت غير متصل بالإنترنت. تحقّق من اتصالك ثم أعد المحاولة.';
 
   @override
-  String get authErrorRateLimited =>
-      'محاولات كثيرة جدًا. انتظر قليلًا ثم أعد المحاولة.';
+  String get authErrorProviderNotConfigured => 'طريقة تسجيل الدخول هذه غير مُعدّة بعد (راجع guide.md).';
 
   @override
-  String get authErrorSessionExpired =>
-      'انتهت صلاحية جلستك. يُرجى تسجيل الدخول مجددًا.';
+  String get authErrorRateLimited => 'محاولات كثيرة جدًا. انتظر قليلًا ثم أعد المحاولة.';
+
+  @override
+  String get authErrorSessionExpired => 'انتهت صلاحية جلستك. يُرجى تسجيل الدخول مجددًا.';
 
   @override
   String get authErrorUnknown => 'حدث خطأ ما. يُرجى إعادة المحاولة.';
@@ -722,22 +716,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authGuestAccount => 'حساب ضيف';
 
   @override
-  String get authGuestBanner =>
-      'أنت تستخدم حساب ضيف. أضف بريدًا إلكترونيًا حتى لا تضيع بياناتك إذا حذفت التطبيق.';
+  String get authGuestBanner => 'أنت تستخدم حساب ضيف. أضف بريدًا إلكترونيًا حتى لا تضيع بياناتك إذا حذفت التطبيق.';
 
   @override
   String get authGuestBannerAction => 'تأمين بياناتي';
 
   @override
-  String get authGuestHint =>
-      'جرّب Everslot فورًا وأضف بريدًا إلكترونيًا لاحقًا للاحتفاظ ببياناتك.';
+  String get authGuestHint => 'جرّب Everslot فورًا وأضف بريدًا إلكترونيًا لاحقًا للاحتفاظ ببياناتك.';
 
   @override
   String get authHomeZone => 'المنطقة الزمنية الأساسية';
 
   @override
-  String get authLegalNote =>
-      'بالمتابعة، فإنك توافق على شروط الخدمة وسياسة الخصوصية.';
+  String get authLegalNote => 'بالمتابعة، فإنك توافق على شروط الخدمة وسياسة الخصوصية.';
 
   @override
   String get authLink => 'ربط';
@@ -754,15 +745,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authLocalOnlyAccount => 'البيانات محفوظة على هذا الجهاز';
 
   @override
-  String get authLocalOnlyAccountBody =>
-      'لم تسجّل الدخول. سجّل الدخول للمزامنة بين أجهزتك وستنتقل بياناتك معك.';
+  String get authLocalOnlyAccountBody => 'لم تسجّل الدخول. سجّل الدخول للمزامنة بين أجهزتك وستنتقل بياناتك معك.';
 
   @override
-  String get authMfaBody =>
-      'طلب رمز من تطبيق المصادقة عند تسجيل الدخول وقبل حذف الحساب.';
+  String get authMfaBody => 'طلب رمز من تطبيق المصادقة عند تسجيل الدخول وقبل حذف الحساب.';
+
+  @override
+  String get authMfaCopySecret => 'نسخ المفتاح';
 
   @override
   String get authMfaDisable => 'إيقاف';
+
+  @override
+  String get authMfaDisableBody => 'أدخل رمزًا من تطبيق المصادقة لإيقاف التحقق بخطوتين.';
+
+  @override
+  String get authMfaDisabled => 'التحقق بخطوتين متوقف.';
 
   @override
   String get authMfaEnabled => 'التحقق بخطوتين مفعّل.';
@@ -771,14 +769,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authMfaEnroll => 'إعداد';
 
   @override
-  String get authMfaEnrollBody =>
-      'أضف هذا المفتاح إلى تطبيق المصادقة، ثم أدخل الرمز المكوّن من 6 أرقام الذي يظهر فيه.';
+  String get authMfaEnrollBody => 'أضف هذا المفتاح إلى تطبيق المصادقة، ثم أدخل الرمز المكوّن من 6 أرقام الذي يظهر فيه.';
+
+  @override
+  String get authMfaOpenApp => 'فتح في تطبيق المصادقة';
 
   @override
   String get authMfaSecret => 'مفتاح الإعداد';
 
   @override
+  String get authMfaSecretCopied => 'تم نسخ مفتاح الإعداد.';
+
+  @override
   String get authMfaTitle => 'التحقق بخطوتين';
+
+  @override
+  String get authMfaVerifyBody => 'افتح تطبيق المصادقة وأدخل الرمز المكوّن من 6 أرقام الخاص بـ Everslot.';
 
   @override
   String get authMfaVerifyTitle => 'أدخل الرمز من تطبيق المصادقة';
@@ -852,8 +858,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authSignOutAnyway => 'تسجيل الخروج على أي حال';
 
   @override
-  String get authSignOutBody =>
-      'ستُزال بياناتك من هذا الجهاز، وتبقى آمنة في حسابك.';
+  String get authSignOutBody => 'ستُزال بياناتك من هذا الجهاز، وتبقى آمنة في حسابك.';
 
   @override
   String get authSignOutGuestBody =>
@@ -896,12 +901,10 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get authUpdateRequired =>
-      'حدّث Everslot لمواصلة المزامنة. تغييراتك محفوظة على هذا الجهاز.';
+  String get authUpdateRequired => 'حدّث Everslot لمواصلة المزامنة. تغييراتك محفوظة على هذا الجهاز.';
 
   @override
-  String get authUpgradeBody =>
-      'أضف طريقة تسجيل دخول إلى حساب الضيف. ستبقى بياناتك كما هي تمامًا.';
+  String get authUpgradeBody => 'أضف طريقة تسجيل دخول إلى حساب الضيف. ستبقى بياناتك كما هي تمامًا.';
 
   @override
   String get authUpgradeDone => 'تم تأمين حسابك.';
@@ -924,15 +927,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authUseLocalOnly => 'الاستخدام على هذا الجهاز فقط';
 
   @override
-  String get authUseLocalOnlyHint =>
-      'بدون حساب وبدون مزامنة. سجّل الدخول لاحقًا وستنتقل بياناتك معك.';
+  String get authUseLocalOnlyHint => 'بدون حساب وبدون مزامنة. سجّل الدخول لاحقًا وستنتقل بياناتك معك.';
 
   @override
   String get authVerify => 'تحقّق';
 
   @override
-  String get authWelcomeBody =>
-      'سجّل الدخول لمزامنة خططك وقوائمك وعاداتك على جميع أجهزتك.';
+  String get authWelcomeBody => 'سجّل الدخول لمزامنة خططك وقوائمك وعاداتك على جميع أجهزتك.';
 
   @override
   String get authWelcomeTitle => 'مرحبًا بك في Everslot';
@@ -961,6 +962,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get authZoneSearch => 'البحث عن منطقة زمنية';
+
+  @override
+  String get bootstrapErrorBody =>
+      'حدث خطأ أثناء فتح التطبيق. بياناتك بأمان على هذا الجهاز. حاول مرة أخرى، وأعد تشغيل هاتفك إذا استمرت المشكلة.';
+
+  @override
+  String get bootstrapErrorCopy => 'نسخ التفاصيل';
+
+  @override
+  String get bootstrapErrorDetails => 'التفاصيل (للمطوّرين)';
+
+  @override
+  String get bootstrapErrorTitle => 'تعذّر تشغيل Everslot';
 
   @override
   String get categoriesEmpty => 'لا توجد فئات بعد';
@@ -1051,8 +1065,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get categoryUnavailable => 'يُحتسب وقتًا غير متاح';
 
   @override
-  String get categoryUnavailableHint =>
-      'يُستثنى من إحصاءات السعة (مثل النوم والإجازات).';
+  String get categoryUnavailableHint => 'يُستثنى من إحصاءات السعة (مثل النوم والإجازات).';
 
   @override
   String categoryUsage(int count) {
@@ -1688,8 +1701,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsMilestoneReached => 'تم بلوغه';
 
   @override
-  String get chartsMilestoneRestarted =>
-      'أُعيد تشغيل العدّاد بعد زلّة — كل يوم أنجزته ما زال محسوبًا.';
+  String get chartsMilestoneRestarted => 'أُعيد تشغيل العدّاد بعد زلّة — كل يوم أنجزته ما زال محسوبًا.';
 
   @override
   String chartsMilestoneSources(String sources) {
@@ -1844,12 +1856,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsStreakCurrent => 'الحالية';
 
   @override
-  String chartsSummaryBars(
-    String title,
-    String count,
-    String label,
-    String value,
-  ) {
+  String chartsSummaryBars(String title, String count, String label, String value) {
     return '$title: $count أعمدة، الأعلى $label بقيمة $value.';
   }
 
@@ -1859,13 +1866,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String chartsSummaryLine(
-    String title,
-    String range,
-    String first,
-    String last,
-    String trend,
-  ) {
+  String chartsSummaryLine(String title, String range, String first, String last, String trend) {
     return '$title، $range: من $first إلى $last. $trend';
   }
 
@@ -2031,8 +2032,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistCoverAuto => 'تلقائي (أول صورة)';
 
   @override
-  String get checklistCoverNoImages =>
-      'أضف صورة إلى القائمة أو إلى عناصرها أولًا';
+  String get checklistCoverNoImages => 'أضف صورة إلى القائمة أو إلى عناصرها أولًا';
 
   @override
   String get checklistCoverUpdated => 'تم تحديث الغلاف';
@@ -2277,8 +2277,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistModePreview => 'معاينة';
 
   @override
-  String get checklistMoveConflict =>
-      'تعارض نقلٌ مع تغيير على جهاز آخر فتم التراجع عنه.';
+  String get checklistMoveConflict => 'تعارض نقلٌ مع تغيير على جهاز آخر فتم التراجع عنه.';
 
   @override
   String get checklistMoveDown => 'نقل لأسفل';
@@ -2352,8 +2351,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistRepeat => 'التكرار…';
 
   @override
-  String get checklistResetConfirm =>
-      'ستعود كل العناصر إلى «للإنجاز» وتُمسح ملاحظات الأسباب.';
+  String get checklistResetConfirm => 'ستعود كل العناصر إلى «للإنجاز» وتُمسح ملاحظات الأسباب.';
 
   @override
   String get checklistResetDone => 'تمت إعادة تعيين القائمة';
@@ -2513,8 +2511,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get comingSoon => 'قريبًا';
 
   @override
-  String get confirmDeleteBody =>
-      'يمكنك استعادته من سلة المحذوفات خلال 30 يومًا.';
+  String get confirmDeleteBody => 'يمكنك استعادته من سلة المحذوفات خلال 30 يومًا.';
 
   @override
   String confirmDeleteTitle(String item) {
@@ -2743,8 +2740,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get devSyncSimulateOffline => 'محاكاة انقطاع الشبكة';
 
   @override
-  String get devSyncSimulateOfflineHint =>
-      'تفشل كل مزامنة كما لو كانت الشبكة مقطوعة.';
+  String get devSyncSimulateOfflineHint => 'تفشل كل مزامنة كما لو كانت الشبكة مقطوعة.';
+
+  @override
+  String get devTestCrash => 'إرسال تعطّل تجريبي';
+
+  @override
+  String get devTestCrashBody => 'يرمي خطأ غير مُعالَج؛ نسخ الإصدار تُبلغ عنه إلى Crashlytics.';
 
   @override
   String get devTimeTravel => 'السفر عبر الزمن';
@@ -2863,17 +2865,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get errorAuth => 'يرجى تسجيل الدخول مرة أخرى.';
 
   @override
+  String get errorConflict => 'تم تغيير هذا العنصر في مكان آخر. أعد التحميل ثم حاول مرة أخرى.';
+
+  @override
   String get errorNetwork => 'تعذّر الوصول إلى الخادم. تحقّق من اتصالك.';
 
   @override
-  String get errorNotConfigured =>
-      'هذه الميزة تتطلّب إعداد السحابة (راجع guide.md).';
+  String get errorNotConfigured => 'هذه الميزة تتطلّب إعداد السحابة (راجع guide.md).';
 
   @override
   String get errorNotFound => 'هذا العنصر لم يعد موجودًا.';
 
   @override
   String get errorPermission => 'هذا يتطلّب إذنًا.';
+
+  @override
+  String get errorStorage => 'تعذّرت قراءة البيانات أو كتابتها على هذا الجهاز. أخلِ بعض المساحة ثم حاول مرة أخرى.';
 
   @override
   String get errorUnknown => 'خطأ غير متوقّع.';
@@ -2883,6 +2890,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get errorValidation => 'يرجى مراجعة الحقول المحدّدة.';
+
+  @override
+  String get errorWidgetFallback => 'تعذّر عرض هذا الجزء.';
 
   @override
   String get exportBranchOnly => 'هذا الفرع فقط';
@@ -3058,6 +3068,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get galleryReduceMotion => 'تقليل الحركة';
 
   @override
+  String get galleryRows => 'الصفوف والصور الرمزية';
+
+  @override
   String get galleryRtl => 'من اليمين إلى اليسار';
 
   @override
@@ -3070,6 +3083,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get gallerySheet => 'ورقة سفلية';
 
   @override
+  String get gallerySheetActions => 'ورقة مع إجراءات';
+
+  @override
   String get gallerySheetBody => 'ورقة سفلية بنمط Everslot.';
 
   @override
@@ -3077,6 +3093,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get galleryStatuses => 'الحالات';
+
+  @override
+  String get gallerySwipeHint => 'اسحب لعرض الإجراءات';
 
   @override
   String get galleryTitle => 'معرض المكونات';
@@ -3204,8 +3223,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get goalsEmpty => 'لا أهداف بعد';
 
   @override
-  String get goalsEmptyBody =>
-      'حدّد هدفًا لعادة — مثلًا 10 000 تمرين ضغط هذه السنة.';
+  String get goalsEmptyBody => 'حدّد هدفًا لعادة — مثلًا 10 000 تمرين ضغط هذه السنة.';
 
   @override
   String get goalsEnded => 'منتهية';
@@ -3520,8 +3538,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsChallengeKeepGoing => 'واصل';
 
   @override
-  String get habitsChallengeKeepGoingHint =>
-      'اجعلها عادة مستمرة — يبقى سجلّك محفوظًا.';
+  String get habitsChallengeKeepGoingHint => 'اجعلها عادة مستمرة — يبقى سجلّك محفوظًا.';
 
   @override
   String habitsChallengeMinRatio(String percent) {
@@ -3529,8 +3546,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get habitsChallengeMissedBody =>
-      'لم تسر كل الأيام كما خُطط لها — لكنك حضرت. أعد المحاولة أو واصل.';
+  String get habitsChallengeMissedBody => 'لم تسر كل الأيام كما خُطط لها — لكنك حضرت. أعد المحاولة أو واصل.';
 
   @override
   String get habitsChallengeMissedTitle => 'انتهى التحدّي';
@@ -3595,8 +3611,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get habitsDeleteBody =>
-      'ينتقل سجلها معها إلى سلة المهملات. يمكنك استعادتها خلال 30 يومًا.';
+  String get habitsDeleteBody => 'ينتقل سجلها معها إلى سلة المهملات. يمكنك استعادتها خلال 30 يومًا.';
 
   @override
   String get habitsDeleteEntry => 'حذف الإدخال';
@@ -3630,8 +3645,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsEmptyAction => 'إنشاء عادة';
 
   @override
-  String get habitsEmptyBody =>
-      'أنشئ عادة — مثل 15 تمرين ضغط يوميًا — وسجّل كل يوم إن كنت قد أنجزتها.';
+  String get habitsEmptyBody => 'أنشئ عادة — مثل 15 تمرين ضغط يوميًا — وسجّل كل يوم إن كنت قد أنجزتها.';
 
   @override
   String get habitsEmptyTitle => 'لا توجد عادات بعد';
@@ -3655,8 +3669,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsErrFreezes => 'بين 0 و31 تجميدًا شهريًا';
 
   @override
-  String get habitsErrLimitNeedsMeasurable =>
-      '«على الأكثر» يتطلب عددًا أو مدة أو قيمة';
+  String get habitsErrLimitNeedsMeasurable => '«على الأكثر» يتطلب عددًا أو مدة أو قيمة';
 
   @override
   String get habitsErrNameEmpty => 'أدخل اسمًا';
@@ -3680,8 +3693,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsErrorArchived => 'هذه العادة مؤرشفة.';
 
   @override
-  String get habitsErrorFuture =>
-      'لا يمكن التسجيل قبل البدء — يمكنك تخطيها أو تسجيل عذر.';
+  String get habitsErrorFuture => 'لا يمكن التسجيل قبل البدء — يمكنك تخطيها أو تسجيل عذر.';
 
   @override
   String habitsEveryNDays(int n) {
@@ -3745,8 +3757,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsFromTemplate => 'من قالب';
 
   @override
-  String get habitsFutureOnlyPlanned =>
-      'يمكن التخطيط للتخطي والأعذار فقط في الأيام القادمة.';
+  String get habitsFutureOnlyPlanned => 'يمكن التخطيط للتخطي والأعذار فقط في الأيام القادمة.';
 
   @override
   String get habitsGoalExampleCheck => 'أنجزتها أم لا';
@@ -3807,8 +3818,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsHoldToComplete => 'الضغط المطوّل للإنجاز';
 
   @override
-  String get habitsHoldToCompleteHint =>
-      'اضغط مطوّلًا على الحلقة لتسجيل العادة وتجنّب النقرات غير المقصودة.';
+  String get habitsHoldToCompleteHint => 'اضغط مطوّلًا على الحلقة لتسجيل العادة وتجنّب النقرات غير المقصودة.';
 
   @override
   String habitsIncrease(String step) {
@@ -3825,8 +3835,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsJournalEmpty => 'لا توجد ملاحظات بعد';
 
   @override
-  String get habitsJournalEmptyBody =>
-      'تظهر هنا الملاحظات والحالات المزاجية التي تضيفها عند التسجيل.';
+  String get habitsJournalEmptyBody => 'تظهر هنا الملاحظات والحالات المزاجية التي تضيفها عند التسجيل.';
 
   @override
   String get habitsLast90 => 'آخر 90 يومًا';
@@ -3926,8 +3935,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsNothingThisDay => 'لا شيء مجدول في هذا اليوم';
 
   @override
-  String get habitsNothingThisDayBody =>
-      'تظهر العادات هنا في الأيام المستحقة فيها.';
+  String get habitsNothingThisDayBody => 'تظهر العادات هنا في الأيام المستحقة فيها.';
 
   @override
   String get habitsNotifGone => 'لم تعد هذه العادة موجودة.';
@@ -3989,8 +3997,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get habitsPauseHint =>
-      'أيام الإيقاف محايدة: لا تُحتسب فائتة ولا تقطع السلسلة أبدًا.';
+  String get habitsPauseHint => 'أيام الإيقاف محايدة: لا تُحتسب فائتة ولا تقطع السلسلة أبدًا.';
 
   @override
   String get habitsPauseIndefinitely => 'إلى أجل غير مسمى';
@@ -4102,8 +4109,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsProgressionEvery => 'كل';
 
   @override
-  String get habitsProgressionHint =>
-      'يبدأ من الهدف ويضيف خطوة بانتظام طوال التحدّي.';
+  String get habitsProgressionHint => 'يبدأ من الهدف ويضيف خطوة بانتظام طوال التحدّي.';
 
   @override
   String get habitsProgressionMax => 'حتى (0 = بلا حد)';
@@ -4443,8 +4449,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsToggleShortPress => 'التبديل بنقرة قصيرة';
 
   @override
-  String get habitsToggleShortPressHint =>
-      'عند الإيقاف: الضغط المطوّل يبدّل الحالة والنقرة القصيرة تفتح اليوم.';
+  String get habitsToggleShortPressHint => 'عند الإيقاف: الضغط المطوّل يبدّل الحالة والنقرة القصيرة تفتح اليوم.';
 
   @override
   String get habitsTolerance => 'نافذة التسجيل المبكر';
@@ -5193,8 +5198,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get listsEmptyAction => 'أنشئ قائمتك الأولى';
 
   @override
-  String get listsEmptyMessage =>
-      'قوائم وملاحظات وروتين — بتفرّع بالعمق الذي تحتاجه.';
+  String get listsEmptyMessage => 'قوائم وملاحظات وروتين — بتفرّع بالعمق الذي تحتاجه.';
 
   @override
   String get listsEmptyTitle => 'لا توجد قوائم بعد';
@@ -5319,8 +5323,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get listsUntitled => 'بلا عنوان';
 
   @override
-  String get localOnlyBanner =>
-      'مزامنة السحابة غير مُعدّة — بياناتك تبقى على هذا الجهاز.';
+  String get localOnlyBanner => 'مزامنة السحابة غير مُعدّة — بياناتك تبقى على هذا الجهاز.';
 
   @override
   String get mindMapExport => 'تصدير كصورة';
@@ -5501,8 +5504,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifBodyChildOverdue => 'عنصر فرعي متأخر';
 
   @override
-  String get notifBodyChildrenComplete =>
-      'اكتملت كل العناصر الفرعية — هل تكمله؟';
+  String get notifBodyChildrenComplete => 'اكتملت كل العناصر الفرعية — هل تكمله؟';
 
   @override
   String notifBodyCleanDays(int days) {
@@ -5904,8 +5906,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifDiagBattery => 'تحسين البطارية';
 
   @override
-  String get notifDiagBatteryBody =>
-      'بعض الهواتف توقف التطبيقات في الخلفية. اتبع دليل هاتفك لتصل التذكيرات في وقتها.';
+  String get notifDiagBatteryBody => 'بعض الهواتف توقف التطبيقات في الخلفية. اتبع دليل هاتفك لتصل التذكيرات في وقتها.';
 
   @override
   String notifDiagBatteryOpen(String maker) {
@@ -5959,8 +5960,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifDiagPush => 'الإشعارات الفورية';
 
   @override
-  String get notifDiagPushOff =>
-      'الإشعارات الفورية غير مهيأة — تذكيرات محلية فقط';
+  String get notifDiagPushOff => 'الإشعارات الفورية غير مهيأة — تذكيرات محلية فقط';
 
   @override
   String get notifDiagPushOn => 'الإشعارات الفورية نشطة';
@@ -6067,8 +6067,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifExactOff => 'قد تصل التذكيرات متأخرة حتى ساعة';
 
   @override
-  String get notifExactOffBody =>
-      'اسمح بالتذكيرات الدقيقة لتصل في الدقيقة المحددة.';
+  String get notifExactOffBody => 'اسمح بالتذكيرات الدقيقة لتصل في الدقيقة المحددة.';
 
   @override
   String get notifFieldAfterDays => 'بعد (أيام)';
@@ -6319,8 +6318,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'على أندرويد، قد تصل التكرارات التي يفصل بينها أقل من 10 دقائق متأخرةً أثناء سكون الهاتف';
 
   @override
-  String get notifIssueRepeatInterval =>
-      'يجب أن يكون التكرار كل دقيقة على الأقل';
+  String get notifIssueRepeatInterval => 'يجب أن يكون التكرار كل دقيقة على الأقل';
 
   @override
   String get notifIssueRepeatMax => '10 تكرارات كحد أقصى';
@@ -6338,8 +6336,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifIssueTooManyActions => 'يعرض Android أول 3 إجراءات فقط';
 
   @override
-  String get notifIssueUnknownTrigger =>
-      'هذا النوع من القواعد غير مدعوم في هذا الإصدار';
+  String get notifIssueUnknownTrigger => 'هذا النوع من القواعد غير مدعوم في هذا الإصدار';
 
   @override
   String notifIssueUnknownVariable(String names) {
@@ -6490,8 +6487,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifNoiseBlocked => 'إشعارات كثيرة جدًا (أكثر من 1440 يوميًا)';
 
   @override
-  String get notifNoiseCluster =>
-      'عدة تذكيرات في الدقيقة نفسها — سيُسمع صوت واحد فقط';
+  String get notifNoiseCluster => 'عدة تذكيرات في الدقيقة نفسها — سيُسمع صوت واحد فقط';
 
   @override
   String notifNoiseConfirm(int perDay) {
@@ -6504,8 +6500,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get notifNoticeChannelBody =>
-      'افتح إعدادات النظام للسماح بها من جديد.';
+  String get notifNoticeChannelBody => 'افتح إعدادات النظام للسماح بها من جديد.';
 
   @override
   String get notifNoticeRevokedBody => 'سجّل الدخول من جديد لمتابعة المزامنة.';
@@ -6521,15 +6516,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifNoticeSaturatedTitle => 'لا يتّسع هذا الجهاز لكل التذكيرات';
 
   @override
-  String get notifNoticeSyncBody =>
-      'تغييراتك محفوظة على هذا الجهاز. تحقّق من اتصالك أو سجّل الدخول من جديد.';
+  String get notifNoticeSyncBody => 'تغييراتك محفوظة على هذا الجهاز. تحقّق من اتصالك أو سجّل الدخول من جديد.';
 
   @override
   String get notifNoticeSyncTitle => 'تفشل المزامنة منذ أكثر من يوم';
 
   @override
-  String get notifNoticeUpdateBody =>
-      'لم يعد بإمكان هذا الإصدار المزامنة. ثبّت أحدث إصدار لتبقى بياناتك متزامنة.';
+  String get notifNoticeUpdateBody => 'لم يعد بإمكان هذا الإصدار المزامنة. ثبّت أحدث إصدار لتبقى بياناتك متزامنة.';
 
   @override
   String get notifNoticeUpdateTitle => 'حدّث Everslot';
@@ -7257,6 +7250,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pickerColor => 'اللون';
 
   @override
+  String get pickerCustomColor => 'لون مخصّص';
+
+  @override
   String get pickerDate => 'التاريخ';
 
   @override
@@ -7266,22 +7262,58 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pickerDuration => 'المدة';
 
   @override
+  String get pickerEnd => 'النهاية';
+
+  @override
+  String get pickerHex => 'الرمز الست عشري';
+
+  @override
+  String get pickerHexInvalid => 'استخدم 6 خانات ست عشرية، مثل 3B82F6';
+
+  @override
   String get pickerHours => 'ساعات';
 
   @override
   String get pickerIcon => 'الأيقونة';
 
   @override
+  String get pickerLowContrast => 'تباين منخفض: يصعب رؤية هذا اللون على الخلفية.';
+
+  @override
   String get pickerMinutes => 'دقائق';
+
+  @override
+  String get pickerNextMonth => 'الشهر التالي';
+
+  @override
+  String get pickerNextWeek => 'الأسبوع القادم';
 
   @override
   String get pickerNoColor => 'بلا لون';
 
   @override
+  String get pickerPreviousMonth => 'الشهر السابق';
+
+  @override
   String get pickerSearchIcons => 'البحث عن أيقونة';
 
   @override
+  String get pickerStart => 'البداية';
+
+  @override
   String get pickerTime => 'الوقت';
+
+  @override
+  String get pickerTimeInvalid => 'أدخل وقتًا مثل 07:03';
+
+  @override
+  String get pickerTimeRange => 'النطاق الزمني';
+
+  @override
+  String get pickerTomorrow => 'غدًا';
+
+  @override
+  String get pickerTypeTime => 'اكتب الوقت';
 
   @override
   String get placeholderScreen => 'هذه الشاشة قيد الإنشاء.';
@@ -7332,8 +7364,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvCancelOccurrence => 'إلغاء هذا الموعد';
 
   @override
-  String get pvCannotUnschedule =>
-      'لا يمكن إعادة المواعيد المتكررة إلى المهام غير المجدولة';
+  String get pvCannotUnschedule => 'لا يمكن إعادة المواعيد المتكررة إلى المهام غير المجدولة';
 
   @override
   String get pvCapacity => 'السعة';
@@ -7643,8 +7674,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvHintLongPress => 'اضغط مطولًا على مساحة فارغة لإنشاء مهمة';
 
   @override
-  String get pvHintPinch =>
-      'باعد أو قارب إصبعيك للتكبير، وأفقيًا لتغيير عدد الأيام';
+  String get pvHintPinch => 'باعد أو قارب إصبعيك للتكبير، وأفقيًا لتغيير عدد الأيام';
 
   @override
   String pvHintSlotSize(String size) {
@@ -7667,8 +7697,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvHorizonYear => 'هذا العام';
 
   @override
-  String get pvHorizonsHint =>
-      'نوايا غير مجدولة لكل أفق (تُحفظ على هذا الجهاز إلى أن تتوفر مزامنة الآفاق).';
+  String get pvHorizonsHint => 'نوايا غير مجدولة لكل أفق (تُحفظ على هذا الجهاز إلى أن تتوفر مزامنة الآفاق).';
 
   @override
   String get pvIgnoreLowPriority => 'تجاهل المهام منخفضة الأولوية';
@@ -8296,13 +8325,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvTextFilterHint => 'ابحث في العناوين والملاحظات';
 
   @override
-  String pvTileSemantics(
-    String title,
-    String day,
-    String start,
-    String end,
-    String status,
-  ) {
+  String pvTileSemantics(String title, String day, String start, String end, String status) {
     return '$title، $day، من $start إلى $end، $status';
   }
 
@@ -8336,8 +8359,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvUnpin => 'إلغاء التثبيت';
 
   @override
-  String get pvUnscheduleUnsupported =>
-      'إعادة المهام إلى قائمة غير المجدولة غير متاحة بعد';
+  String get pvUnscheduleUnsupported => 'إعادة المهام إلى قائمة غير المجدولة غير متاحة بعد';
 
   @override
   String get pvUnscheduled => 'غير مجدولة';
@@ -8538,8 +8560,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitAutoSuccess => 'الأيام بلا انتكاس تُحتسب نظيفة';
 
   @override
-  String get quitAutoSuccessHint =>
-      'عند الإيقاف: أكّد كل يوم نظيف في مراجعة المساء.';
+  String get quitAutoSuccessHint => 'عند الإيقاف: أكّد كل يوم نظيف في مراجعة المساء.';
 
   @override
   String get quitBaseline => 'قبل الإقلاع، يوميًا';
@@ -8699,12 +8720,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitErrNegative => 'لا يمكن أن تكون القيم سالبة';
 
   @override
-  String get quitErrStartInFuture =>
-      'لا يمكن أن يكون تاريخ الإقلاع في المستقبل';
+  String get quitErrStartInFuture => 'لا يمكن أن يكون تاريخ الإقلاع في المستقبل';
 
   @override
-  String get quitEstimatesNote =>
-      'كل القيم الافتراضية تقديرية — عدّلها لتناسبك.';
+  String get quitEstimatesNote => 'كل القيم الافتراضية تقديرية — عدّلها لتناسبك.';
 
   @override
   String quitEventCraving(int intensity) {
@@ -8787,8 +8806,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitMilestoneSources => 'المصادر';
 
   @override
-  String get quitMilestonesClockNote =>
-      'تُحسب المراحل منذ آخر زلّة، لذا تبدأ الساعة من جديد بعدها.';
+  String get quitMilestonesClockNote => 'تُحسب المراحل منذ آخر زلّة، لذا تبدأ الساعة من جديد بعدها.';
 
   @override
   String get quitMilestonesOpen => 'كل المراحل';
@@ -8863,8 +8881,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitNoTrackers => 'لا توجد متابعة إقلاع بعد';
 
   @override
-  String get quitNoTrackersBody =>
-      'تابع منذ متى توقفت عن التدخين أو الشرب أو أي شيء آخر.';
+  String get quitNoTrackersBody => 'تابع منذ متى توقفت عن التدخين أو الشرب أو أي شيء آخر.';
 
   @override
   String get quitNotSure => 'لست متأكدًا';
@@ -9041,12 +9058,10 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get quitRelapseSaved =>
-      'تم التسجيل. كن لطيفًا مع نفسك — كل محاولة تعلّمك شيئًا.';
+  String get quitRelapseSaved => 'تم التسجيل. كن لطيفًا مع نفسك — كل محاولة تعلّمك شيئًا.';
 
   @override
-  String get quitRelapseSlip =>
-      'زلة عابرة — أحتفظ بتاريخ إقلاعي؛ وتبدأ السلسلة من الآن';
+  String get quitRelapseSlip => 'زلة عابرة — أحتفظ بتاريخ إقلاعي؛ وتبدأ السلسلة من الآن';
 
   @override
   String quitRelapseSupport(String duration) {
@@ -9100,8 +9115,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitRewardName => 'المكافأة';
 
   @override
-  String get quitRewardNeedsCost =>
-      'حدّد سعر الوحدة في المتتبّع لترى ما تشتريه مدخراتك.';
+  String get quitRewardNeedsCost => 'حدّد سعر الوحدة في المتتبّع لترى ما تشتريه مدخراتك.';
 
   @override
   String get quitRewardPrice => 'السعر';
@@ -9122,8 +9136,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitRitualEnable => 'تعهّد الصباح ومراجعة المساء';
 
   @override
-  String get quitRitualEnableHint =>
-      'تعهّد في الصباح ومراجعة في المساء. أضف تذكيرات في هذه الأوقات من قسم التذكيرات.';
+  String get quitRitualEnableHint => 'تعهّد في الصباح ومراجعة في المساء. أضف تذكيرات في هذه الأوقات من قسم التذكيرات.';
 
   @override
   String get quitRitualTitle => 'الطقس اليومي';
@@ -9172,8 +9185,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitToolboxThrough => 'لقد تجاوزتها';
 
   @override
-  String get quitToolboxTimerHint =>
-      'تزول معظم الرغبات خلال 3 إلى 5 دقائق. اصمد.';
+  String get quitToolboxTimerHint => 'تزول معظم الرغبات خلال 3 إلى 5 دقائق. اصمد.';
 
   @override
   String get quitToolboxTimerTitle => 'تجاوَز الرغبة';
@@ -9311,8 +9323,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recurAdvancedTitle => 'تكرار مخصص';
 
   @override
-  String get recurAfterHint =>
-      'يحين الموعد التالي بعد هذه المدة من إنجاز السابق.';
+  String get recurAfterHint => 'يحين الموعد التالي بعد هذه المدة من إنجاز السابق.';
 
   @override
   String get recurAfterPreview => 'تعتمد المواعيد التالية على وقت إنجازك له';
@@ -9458,8 +9469,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recurIssueMissing => 'القاعدة غير مكتملة';
 
   @override
-  String get recurIssueOrdinal =>
-      '«الأول» و«الأخير»… تعمل فقط مع التكرار الشهري أو السنوي';
+  String get recurIssueOrdinal => '«الأول» و«الأخير»… تعمل فقط مع التكرار الشهري أو السنوي';
 
   @override
   String recurIssueQuota(int max) {
@@ -9676,8 +9686,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recurUnitYear => 'سنوات';
 
   @override
-  String get recurWarnAllDaySubDaily =>
-      'لا يمكن لعناصر اليوم الكامل أن تتكرر داخل اليوم';
+  String get recurWarnAllDaySubDaily => 'لا يمكن لعناصر اليوم الكامل أن تتكرر داخل اليوم';
 
   @override
   String get recurWarnDst => 'بعض الأوقات تقع عند تغيير التوقيت الصيفي فتُزاح';
@@ -9879,8 +9888,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsAccessibility => 'تسهيلات الاستخدام';
 
   @override
-  String get settingsAccessibilitySubtitle =>
-      'الحركة والاهتزاز والتباين والتسميات';
+  String get settingsAccessibilitySubtitle => 'الحركة والاهتزاز والتباين والتسميات';
 
   @override
   String get settingsAccount => 'الحساب';
@@ -9898,8 +9906,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsArabicDigits => 'الأرقام العربية المشرقية';
 
   @override
-  String get settingsArabicDigitsSubtitle =>
-      'عرض ٠١٢٣ بدلًا من 0123 عندما يكون التطبيق بالعربية';
+  String get settingsArabicDigitsSubtitle => 'عرض ٠١٢٣ بدلًا من 0123 عندما يكون التطبيق بالعربية';
 
   @override
   String get settingsAutoComplete => 'إكمال العناصر الأصلية تلقائيًا';
@@ -9935,8 +9942,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsCurrentZone => 'المنطقة الزمنية الحالية (هذا الجهاز)';
 
   @override
-  String get settingsDataSubtitle =>
-      'انسخ بياناتك احتياطيًا أو استعدها أو انقلها';
+  String get settingsDataSubtitle => 'انسخ بياناتك احتياطيًا أو استعدها أو انقلها';
 
   @override
   String get settingsDataTitle => 'التصدير والاستيراد';
@@ -9952,8 +9958,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsDefaultOpen => 'الفتح في وضع';
 
   @override
-  String get settingsDefaultsHint =>
-      'القيم الافتراضية للعناصر الجديدة. تحتفظ العناصر الحالية بإعداداتها.';
+  String get settingsDefaultsHint => 'القيم الافتراضية للعناصر الجديدة. تحتفظ العناصر الحالية بإعداداتها.';
 
   @override
   String get settingsDensity => 'الكثافة';
@@ -9979,8 +9984,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsDeviceRevoke => 'إزالة الجهاز';
 
   @override
-  String get settingsDeviceRevokeBody =>
-      'سيتوقف عن تلقي الإشعارات وسيُسجَّل خروجه عند اتصاله التالي.';
+  String get settingsDeviceRevokeBody => 'سيتوقف عن تلقي الإشعارات وسيُسجَّل خروجه عند اتصاله التالي.';
 
   @override
   String settingsDeviceRevokeTitle(String name) {
@@ -10004,6 +10008,55 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsDevicesOffline => 'اتصل بالإنترنت لعرض أجهزتك.';
+
+  @override
+  String get settingsDynamicColor => 'ألوان الخلفية';
+
+  @override
+  String get settingsDynamicColorSubtitle => 'استخدام ألوان Material You من جهازك. ألوان الفئات لا تتغير.';
+
+  @override
+  String get settingsExportAttachments => 'تضمين ملفات المرفقات';
+
+  @override
+  String get settingsExportAttachmentsHint => 'الملفات الموجودة على هذا الجهاز فقط.';
+
+  @override
+  String get settingsExportBody => 'نسخة من كل بياناتك على هذا الجهاز. يعمل دون اتصال.';
+
+  @override
+  String get settingsExportButton => 'تصدير';
+
+  @override
+  String get settingsExportCsv => 'جداول بيانات (CSV)';
+
+  @override
+  String get settingsExportCsvHint => 'ملف لكل جدول لبرامج Excel أو Numbers أو Sheets.';
+
+  @override
+  String settingsExportDone(String file) {
+    return 'التصدير جاهز: $file';
+  }
+
+  @override
+  String get settingsExportFailed => 'فشل التصدير. حاول مرة أخرى.';
+
+  @override
+  String get settingsExportJson => 'نسخة Everslot الاحتياطية (JSON)';
+
+  @override
+  String get settingsExportJsonHint => 'نسخة كاملة يمكنك استيرادها لاحقًا.';
+
+  @override
+  String settingsExportProgress(int percent) {
+    return 'جارٍ التصدير… $percent٪';
+  }
+
+  @override
+  String get settingsExportShareSubject => 'تصدير Everslot';
+
+  @override
+  String get settingsExportTitle => 'تصدير';
 
   @override
   String get settingsFewer => 'واحد أقل';
@@ -10032,8 +10085,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsHabitsFreezes => 'أيام تجميد السلسلة شهريًا';
 
   @override
-  String get settingsHabitsFreezesHint =>
-      'أيام فائتة تُغتفر كل شهر للعادات الجديدة.';
+  String get settingsHabitsFreezesHint => 'أيام فائتة تُغتفر كل شهر للعادات الجديدة.';
 
   @override
   String get settingsHabitsSkipBreaks => 'تقطع السلسلة';
@@ -10057,12 +10109,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsHomeZoneAuto => 'اتباع هذا الجهاز';
 
   @override
-  String get settingsHomeZoneAutoSubtitle =>
-      'تحديث المنطقة الأساسية تلقائيًا عند السفر';
+  String get settingsHomeZoneAutoSubtitle => 'تحديث المنطقة الأساسية تلقائيًا عند السفر';
 
   @override
-  String get settingsHomeZoneSubtitle =>
-      'تستخدم المهام والعادات ذات التوقيت الثابت هذه المنطقة';
+  String get settingsHomeZoneSubtitle => 'تستخدم المهام والعادات ذات التوقيت الثابت هذه المنطقة';
 
   @override
   String get settingsInsights => 'الإحصاءات';
@@ -10106,8 +10156,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsListsAutoComplete => 'إكمال العناصر الأم تلقائيًا';
 
   @override
-  String get settingsListsAutoCompleteHint =>
-      'يكتمل العنصر الأم عند اكتمال كل عناصره الفرعية.';
+  String get settingsListsAutoCompleteHint => 'يكتمل العنصر الأم عند اكتمال كل عناصره الفرعية.';
 
   @override
   String get settingsListsCompletedBottom => 'نقل العناصر المكتملة إلى الأسفل';
@@ -10134,12 +10183,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsMore => 'واحد أكثر';
 
   @override
-  String get settingsNotificationsSubtitle =>
-      'التذكيرات وساعات الهدوء وصندوق الوارد';
+  String get settingsNotificationsSubtitle => 'التذكيرات وساعات الهدوء وصندوق الوارد';
 
   @override
-  String get settingsOrganizationSubtitle =>
-      'الفئات والوسوم المستخدمة في التطبيق';
+  String get settingsOrganizationSubtitle => 'الفئات والوسوم المستخدمة في التطبيق';
 
   @override
   String get settingsPeriodLastMonth => 'الشهر الماضي';
@@ -10276,8 +10323,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsRegional => 'المنطقة';
 
   @override
-  String get settingsRegionalSubtitle =>
-      'المنطقة الزمنية وبداية الأسبوع والساعة والعملة';
+  String get settingsRegionalSubtitle => 'المنطقة الزمنية وبداية الأسبوع والساعة والعملة';
 
   @override
   String get settingsRequireReason => 'طلب سبب لـ';
@@ -10330,15 +10376,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsSyncData => 'المزامنة والبيانات';
 
   @override
-  String get settingsSyncDataSubtitle =>
-      'الأجهزة والتصدير والاستيراد والمهملات';
+  String get settingsSyncDataSubtitle => 'الأجهزة والتصدير والاستيراد والمهملات';
 
   @override
   String get settingsSyncDiagnostics => 'تشخيص المزامنة';
 
   @override
-  String get settingsSyncDiscardBody =>
-      'ستُستعاد نسخة الخادم من هذه العناصر على هذا الجهاز.';
+  String get settingsSyncDiscardBody => 'ستُستعاد نسخة الخادم من هذه العناصر على هذا الجهاز.';
 
   @override
   String get settingsSyncDiscardFailed => 'تجاهل التعديلات المرفوضة';
@@ -10392,8 +10436,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsSyncResync => 'فرض مزامنة كاملة';
 
   @override
-  String get settingsSyncResyncBody =>
-      'سيعيد Everslot تنزيل جميع بياناتك. تُحفظ التغييرات التي لم تتم مزامنتها بعد.';
+  String get settingsSyncResyncBody => 'سيعيد Everslot تنزيل جميع بياناتك. تُحفظ التغييرات التي لم تتم مزامنتها بعد.';
 
   @override
   String get settingsSyncResyncTitle => 'إعادة مزامنة كل شيء؟';
@@ -10432,8 +10475,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsTrashDeleteForever => 'حذف نهائي';
 
   @override
-  String get settingsTrashDeleteForeverBody =>
-      'سيُحذف من كل أجهزتك مع كل ما حُذف معه. لا يمكن التراجع عن ذلك.';
+  String get settingsTrashDeleteForeverBody => 'سيُحذف من كل أجهزتك مع كل ما حُذف معه. لا يمكن التراجع عن ذلك.';
 
   @override
   String settingsTrashDeleteForeverTitle(String title) {
@@ -10469,8 +10511,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsTrashEmptyState => 'سلة المهملات فارغة';
 
   @override
-  String get settingsTrashHint =>
-      'تبقى العناصر المحذوفة هنا 30 يومًا. استعادة عنصر تُعيد كل ما حُذف معه.';
+  String get settingsTrashHint => 'تبقى العناصر المحذوفة هنا 30 يومًا. استعادة عنصر تُعيد كل ما حُذف معه.';
 
   @override
   String get settingsTrashKindAttachment => 'مرفق';
@@ -10488,8 +10529,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsTrashKindTask => 'مهمة';
 
   @override
-  String get settingsTrashNotSynced =>
-      'لم تتم مزامنة هذا الحذف بعد. أعد المحاولة عند الاتصال.';
+  String get settingsTrashNotSynced => 'لم تتم مزامنة هذا الحذف بعد. أعد المحاولة عند الاتصال.';
 
   @override
   String get settingsTrashOffline => 'اتصل بالإنترنت للحذف النهائي.';
@@ -10522,6 +10562,27 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsWeekStart => 'يبدأ الأسبوع يوم';
+
+  @override
+  String get shellCreate => 'إنشاء';
+
+  @override
+  String shellDueCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مهمة',
+      many: '$count مهمة',
+      few: '$count مهام',
+      two: 'مهمتان',
+      one: 'مهمة واحدة',
+      zero: 'لا شيء للقيام به',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get shellQuickAdd => 'إضافة سريعة';
 
   @override
   String get smartBlocked => 'محظور';
@@ -10850,8 +10911,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsExplainNothingExcluded => 'لا شيء مستبعد';
 
   @override
-  String get statsExplainPopulation =>
-      'تقدير سكاني: الضرر ليس خطيًا ويختلف من شخص لآخر، وليس تنبؤًا شخصيًا.';
+  String get statsExplainPopulation => 'تقدير سكاني: الضرر ليس خطيًا ويختلف من شخص لآخر، وليس تنبؤًا شخصيًا.';
 
   @override
   String statsExplainPrevious(String value) {
@@ -10962,32 +11022,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsGlossaryTitle => 'مسرد المؤشرات';
 
   @override
-  String get statsGuidanceLogFromNotifications =>
-      'سجِّل من إشعارات التذكير لتحسين الدقة.';
+  String get statsGuidanceLogFromNotifications => 'سجِّل من إشعارات التذكير لتحسين الدقة.';
 
   @override
-  String get statsGuidanceLogSameDay =>
-      'حاول التسجيل في اليوم نفسه — فالتسجيل المتأخر عرضة للنسيان.';
+  String get statsGuidanceLogSameDay => 'حاول التسجيل في اليوم نفسه — فالتسجيل المتأخر عرضة للنسيان.';
 
   @override
-  String get statsGuidanceSyncPending =>
-      'قد تنقص بعض التغييرات من أجهزة أخرى حتى تكتمل المزامنة.';
+  String get statsGuidanceSyncPending => 'قد تنقص بعض التغييرات من أجهزة أخرى حتى تكتمل المزامنة.';
 
   @override
-  String get statsGuidanceTrackTime =>
-      'شغِّل المؤقت في مهامك لترى ساعاتك الفعلية.';
+  String get statsGuidanceTrackTime => 'شغِّل المؤقت في مهامك لترى ساعاتك الفعلية.';
 
   @override
-  String get statsHealthClockNote =>
-      'تتبع المحطات مدة امتناعك الحالية عن التدخين: يُعاد تشغيل العدّاد بعد الزلّة.';
+  String get statsHealthClockNote => 'تتبع المحطات مدة امتناعك الحالية عن التدخين: يُعاد تشغيل العدّاد بعد الزلّة.';
 
   @override
   String get statsHealthDisclaimer =>
       'تقديرات تثقيفية مبنية على متوسطات سكانية من منظمة الصحة العالمية وهيئة NHS ومراكز CDC والجمعية الأمريكية للسرطان؛ وتختلف النتائج من شخص لآخر. ليست نصيحة طبية. استشر مختصًا في الرعاية الصحية.';
 
   @override
-  String get statsHealthElapsedNote =>
-      'النسب تعبّر عن الوقت المنقضي فقط وليست قياسات فسيولوجية.';
+  String get statsHealthElapsedNote => 'النسب تعبّر عن الوقت المنقضي فقط وليست قياسات فسيولوجية.';
 
   @override
   String statsHealthRange(String from, String to) {
@@ -11001,8 +11055,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricClI01Desc => 'المدة التي قضاها هذا العنصر في كل حالة.';
 
   @override
-  String get statsMetricClI01Formula =>
-      'مجموع الفترات في كل حالة حتى الآن (أو الحذف).';
+  String get statsMetricClI01Formula => 'مجموع الفترات في كل حالة حتى الآن (أو الحذف).';
 
   @override
   String get statsMetricClI01Title => 'الوقت في كل حالة';
@@ -11011,8 +11064,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricClI02Desc => 'الوقت من بدء العمل حتى الإكمال.';
 
   @override
-  String get statsMetricClI02Formula =>
-      'الإكمال − البدء (أول خروج من \"للقيام به\").';
+  String get statsMetricClI02Formula => 'الإكمال − البدء (أول خروج من \"للقيام به\").';
 
   @override
   String get statsMetricClI02Title => 'زمن الدورة';
@@ -11027,12 +11079,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricClI03Title => 'المهلة الكلية';
 
   @override
-  String get statsMetricClI04Desc =>
-      'منذ متى والعنصر المفتوح قيد العمل أو بانتظار البدء.';
+  String get statsMetricClI04Desc => 'منذ متى والعنصر المفتوح قيد العمل أو بانتظار البدء.';
 
   @override
-  String get statsMetricClI04Formula =>
-      'بدأ: الآن − البدء؛ لم يبدأ: الآن − الإنشاء.';
+  String get statsMetricClI04Formula => 'بدأ: الآن − البدء؛ لم يبدأ: الآن − الإنشاء.';
 
   @override
   String get statsMetricClI04Title => 'العمر';
@@ -11041,19 +11091,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricClI05Desc => 'الوقت منذ آخر نشاط على هذا العنصر.';
 
   @override
-  String get statsMetricClI05Formula =>
-      'الآن − آخر نشاط (تغيير حالة أو تعديل أو مرفق أو عنصر فرعي).';
+  String get statsMetricClI05Formula => 'الآن − آخر نشاط (تغيير حالة أو تعديل أو مرفق أو عنصر فرعي).';
 
   @override
   String get statsMetricClI05Title => 'الركود';
 
   @override
-  String get statsMetricClI06Desc =>
-      'مدى إكمال العناصر المتفرعة من هذا العنصر.';
+  String get statsMetricClI06Desc => 'مدى إكمال العناصر المتفرعة من هذا العنصر.';
 
   @override
-  String get statsMetricClI06Formula =>
-      'الأوراق المكتملة ÷ الأوراق المحسوبة (باستثناء الملغاة).';
+  String get statsMetricClI06Formula => 'الأوراق المكتملة ÷ الأوراق المحسوبة (باستثناء الملغاة).';
 
   @override
   String get statsMetricClI06Title => 'تقدّم الشجرة الفرعية';
@@ -11071,8 +11118,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricClL01Desc => 'كيفية توزع عناصر القائمة على الحالات.';
 
   @override
-  String get statsMetricClL01Formula =>
-      'العناصر لكل حالة؛ نسبة الإكمال على الأوراق وعلى كل العُقد.';
+  String get statsMetricClL01Formula => 'العناصر لكل حالة؛ نسبة الإكمال على الأوراق وعلى كل العُقد.';
 
   @override
   String get statsMetricClL01Title => 'توزيع الحالات';
@@ -11081,30 +11127,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricClL02Desc => 'نسبة إكمال القائمة يوميًا.';
 
   @override
-  String get statsMetricClL02Formula =>
-      'المكتمل ÷ (العناصر − الملغاة) في نهاية كل يوم.';
+  String get statsMetricClL02Formula => 'المكتمل ÷ (العناصر − الملغاة) في نهاية كل يوم.';
 
   @override
   String get statsMetricClL02Title => 'التقدّم عبر الزمن';
 
   @override
-  String get statsMetricClL03Desc =>
-      'العناصر المكتملة أسبوعيًا مع متوسط متحرك لأربعة أسابيع.';
+  String get statsMetricClL03Desc => 'العناصر المكتملة أسبوعيًا مع متوسط متحرك لأربعة أسابيع.';
 
   @override
-  String get statsMetricClL03Formula =>
-      'الإكمالات لكل فترة (العنصر المعاد فتحه يُحسب مرة واحدة).';
+  String get statsMetricClL03Formula => 'الإكمالات لكل فترة (العنصر المعاد فتحه يُحسب مرة واحدة).';
 
   @override
   String get statsMetricClL03Title => 'الإنتاجية';
 
   @override
-  String get statsMetricClL04Desc =>
-      'العناصر الجارية أو المنتظرة أو المحظورة في نهاية كل يوم.';
+  String get statsMetricClL04Desc => 'العناصر الجارية أو المنتظرة أو المحظورة في نهاية كل يوم.';
 
   @override
-  String get statsMetricClL04Formula =>
-      'عدد العناصر الجارية + المنتظرة + المحظورة.';
+  String get statsMetricClL04Formula => 'عدد العناصر الجارية + المنتظرة + المحظورة.';
 
   @override
   String get statsMetricClL04Title => 'العمل الجاري';
@@ -11113,52 +11154,43 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricClL05Desc => 'العناصر المضافة مقابل المكتملة أسبوعيًا.';
 
   @override
-  String get statsMetricClL05Formula =>
-      'المُنشأ (أو المنقول إليها) مقابل المكتمل أسبوعيًا؛ صافي التدفق = الفرق.';
+  String get statsMetricClL05Formula => 'المُنشأ (أو المنقول إليها) مقابل المكتمل أسبوعيًا؛ صافي التدفق = الفرق.';
 
   @override
   String get statsMetricClL05Title => 'الوافد مقابل المغادِر';
 
   @override
-  String get statsMetricClL06Desc =>
-      'عناصر مفتوحة بلا نشاط منذ مدة، والأقدم منها.';
+  String get statsMetricClL06Desc => 'عناصر مفتوحة بلا نشاط منذ مدة، والأقدم منها.';
 
   @override
-  String get statsMetricClL06Formula =>
-      'العناصر المفتوحة التي تجاوز ركودها الحد؛ أقدم 10 عناصر.';
+  String get statsMetricClL06Formula => 'العناصر المفتوحة التي تجاوز ركودها الحد؛ أقدم 10 عناصر.';
 
   @override
   String get statsMetricClL06Title => 'العناصر الراكدة';
 
   @override
-  String get statsMetricClX01Desc =>
-      'قوائمك: النشطة والمؤرشفة والقوالب والراكدة.';
+  String get statsMetricClX01Desc => 'قوائمك: النشطة والمؤرشفة والقوالب والراكدة.';
 
   @override
-  String get statsMetricClX01Formula =>
-      'عدد القوائم؛ الراكدة = بلا نشاط منذ N يومًا مع عناصر مفتوحة.';
+  String get statsMetricClX01Formula => 'عدد القوائم؛ الراكدة = بلا نشاط منذ N يومًا مع عناصر مفتوحة.';
 
   @override
   String get statsMetricClX01Title => 'نظرة على القوائم';
 
   @override
-  String get statsMetricClX02Desc =>
-      'العناصر المضافة مقابل المكتملة أسبوعيًا في كل القوائم.';
+  String get statsMetricClX02Desc => 'العناصر المضافة مقابل المكتملة أسبوعيًا في كل القوائم.';
 
   @override
-  String get statsMetricClX02Formula =>
-      'المُنشأ مقابل المكتمل أسبوعيًا؛ صافي التدفق = الفرق.';
+  String get statsMetricClX02Formula => 'المُنشأ مقابل المكتمل أسبوعيًا؛ صافي التدفق = الفرق.';
 
   @override
   String get statsMetricClX02Title => 'الوافد مقابل المغادِر (كل القوائم)';
 
   @override
-  String get statsMetricClX03Desc =>
-      'العناصر الجارية أو المنتظرة أو المحظورة الآن، وأقدم العناصر المفتوحة.';
+  String get statsMetricClX03Desc => 'العناصر الجارية أو المنتظرة أو المحظورة الآن، وأقدم العناصر المفتوحة.';
 
   @override
-  String get statsMetricClX03Formula =>
-      'الأعداد في القوائم النشطة (باستثناء المؤرشفة).';
+  String get statsMetricClX03Formula => 'الأعداد في القوائم النشطة (باستثناء المؤرشفة).';
 
   @override
   String get statsMetricClX03Title => 'العمل الجاري في كل القوائم';
@@ -11167,8 +11199,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricClX04Desc => 'العناصر المكتملة خلال الفترة.';
 
   @override
-  String get statsMetricClX04Formula =>
-      'الإكمالات النهائية في الفترة مقارنة بالفترة السابقة.';
+  String get statsMetricClX04Formula => 'الإكمالات النهائية في الفترة مقارنة بالفترة السابقة.';
 
   @override
   String get statsMetricClX04Title => 'العناصر المكتملة';
@@ -11183,34 +11214,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricClX05Title => 'التوزيع حسب الحالة';
 
   @override
-  String get statsMetricGl01Desc =>
-      'يومك عبر الأقسام: جدول الأعمال والعادات والقوائم والإقلاع.';
+  String get statsMetricGl01Desc => 'يومك عبر الأقسام: جدول الأعمال والعادات والقوائم والإقلاع.';
 
   @override
-  String get statsMetricGl01Formula =>
-      'الأرقام نفسها التي تعرضها مؤشرات كل قسم لهذا اليوم.';
+  String get statsMetricGl01Formula => 'الأرقام نفسها التي تعرضها مؤشرات كل قسم لهذا اليوم.';
 
   @override
   String get statsMetricGl01Title => 'اليوم';
 
   @override
-  String get statsMetricGl02Desc =>
-      'هذا الأسبوع حتى الآن مقابل الأيام نفسها من الأسبوع الماضي.';
+  String get statsMetricGl02Desc => 'هذا الأسبوع حتى الآن مقابل الأيام نفسها من الأسبوع الماضي.';
 
   @override
-  String get statsMetricGl02Formula =>
-      'مؤشرات الأقسام حتى تاريخه وتغيّرها عن الأسبوع السابق.';
+  String get statsMetricGl02Formula => 'مؤشرات الأقسام حتى تاريخه وتغيّرها عن الأسبوع السابق.';
 
   @override
   String get statsMetricGl02Title => 'الأسبوع في لمحة';
 
   @override
-  String get statsMetricGl03Desc =>
-      'أسبوعك: أبرز الأرقام والإنجازات وما يحتاج إلى متابعة وحمل الأسبوع القادم.';
+  String get statsMetricGl03Desc => 'أسبوعك: أبرز الأرقام والإنجازات وما يحتاج إلى متابعة وحمل الأسبوع القادم.';
 
   @override
-  String get statsMetricGl03Formula =>
-      'مؤشرات الأقسام وتغيّرها عن الأسبوع السابق.';
+  String get statsMetricGl03Formula => 'مؤشرات الأقسام وتغيّرها عن الأسبوع السابق.';
 
   @override
   String get statsMetricGl03Title => 'المراجعة الأسبوعية';
@@ -11227,23 +11252,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricGl10Title => 'جودة البيانات';
 
   @override
-  String get statsMetricHbH01Desc =>
-      'مدى رسوخ العادة — الأيام الأحدث وزنها أكبر.';
+  String get statsMetricHbH01Desc => 'مدى رسوخ العادة — الأيام الأحدث وزنها أكبر.';
 
   @override
-  String get statsMetricHbH01Formula =>
-      'نتيجة Loop: النتيجة = السابقة × m + الرصيد × (1 − m)، m = 0.5^(√f ÷ 13).';
+  String get statsMetricHbH01Formula => 'نتيجة Loop: النتيجة = السابقة × m + الرصيد × (1 − m)، m = 0.5^(√f ÷ 13).';
 
   @override
   String get statsMetricHbH01Title => 'قوة العادة';
 
   @override
-  String get statsMetricHbH02Desc =>
-      'وحدات ناجحة متتالية حتى الآن؛ يبقى اليوم مفتوحًا حتى نهايته.';
+  String get statsMetricHbH02Desc => 'وحدات ناجحة متتالية حتى الآن؛ يبقى اليوم مفتوحًا حتى نهايته.';
 
   @override
-  String get statsMetricHbH02Formula =>
-      'محرك السلاسل: التخطي والعذر والإيقاف والتجميد محايدة.';
+  String get statsMetricHbH02Formula => 'محرك السلاسل: التخطي والعذر والإيقاف والتجميد محايدة.';
 
   @override
   String get statsMetricHbH02Title => 'السلسلة الحالية';
@@ -11270,8 +11291,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricHbH05Desc => 'نسبة الوحدات المجدولة التي أنجزتها.';
 
   @override
-  String get statsMetricHbH05Formula =>
-      'المنجز ÷ (الوحدات المجدولة المغلقة − المعذورة)؛ مجال ويلسون تحت 20 وحدة.';
+  String get statsMetricHbH05Formula => 'المنجز ÷ (الوحدات المجدولة المغلقة − المعذورة)؛ مجال ويلسون تحت 20 وحدة.';
 
   @override
   String get statsMetricHbH05Title => 'معدل النجاح';
@@ -11280,15 +11300,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricHbH06Desc => 'كيف انتهت كل وحدة مجدولة.';
 
   @override
-  String get statsMetricHbH06Formula =>
-      'عدد الوحدات الناجحة والجزئية وغير المنجزة والفائتة والمتخطّاة والمعذورة.';
+  String get statsMetricHbH06Formula => 'عدد الوحدات الناجحة والجزئية وغير المنجزة والفائتة والمتخطّاة والمعذورة.';
 
   @override
   String get statsMetricHbH06Title => 'عدد النتائج';
 
   @override
-  String get statsMetricHbH07Desc =>
-      'النجاحات (والحجم) لكل أسبوع أو شهر أو سنة.';
+  String get statsMetricHbH07Desc => 'النجاحات (والحجم) لكل أسبوع أو شهر أو سنة.';
 
   @override
   String get statsMetricHbH07Formula => 'مجاميع لكل فترة.';
@@ -11300,8 +11318,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricHbH08Desc => 'حالة كل يوم.';
 
   @override
-  String get statsMetricHbH08Formula =>
-      'خانة لكل يوم: منجز، جزئي، غير منجز، فائت، متخطّى، معذور، متوقف، مجمّد.';
+  String get statsMetricHbH08Formula => 'خانة لكل يوم: منجز، جزئي، غير منجز، فائت، متخطّى، معذور، متوقف، مجمّد.';
 
   @override
   String get statsMetricHbH08Title => 'التقويم';
@@ -11310,8 +11327,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricHbH09Desc => 'كل تسجيل صوت للشخص الذي تريد أن تكونه.';
 
   @override
-  String get statsMetricHbH09Formula =>
-      'العدد الكلي لتسجيلات الإنجاز والتقدم اليدوية.';
+  String get statsMetricHbH09Formula => 'العدد الكلي لتسجيلات الإنجاز والتقدم اليدوية.';
 
   @override
   String get statsMetricHbH09Title => 'إجمالي التكرارات';
@@ -11320,8 +11336,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricHbH10Desc => 'مقدار ما بلغته من هدف الفترة.';
 
   @override
-  String get statsMetricHbH10Formula =>
-      'المُنجَز ÷ (الهدف اليومي × الأيام المجدولة − الأيام المتخطّاة).';
+  String get statsMetricHbH10Formula => 'المُنجَز ÷ (الهدف اليومي × الأيام المجدولة − الأيام المتخطّاة).';
 
   @override
   String get statsMetricHbH10Title => 'التقدّم نحو الهدف';
@@ -11330,8 +11345,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricHbH11Desc => 'كل ما سجلته بوحدة العادة.';
 
   @override
-  String get statsMetricHbH11Formula =>
-      'مجموع القيم المسجلة في الفترة وعلى الإطلاق.';
+  String get statsMetricHbH11Formula => 'مجموع القيم المسجلة في الفترة وعلى الإطلاق.';
 
   @override
   String get statsMetricHbH11Title => 'الحجم الإجمالي';
@@ -11351,8 +11365,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricHbX01Desc => 'العادات المستحقة المنجزة اليوم.';
 
   @override
-  String get statsMetricHbX01Formula =>
-      'المنجز ÷ المستحق اليوم (عادات البناء).';
+  String get statsMetricHbX01Formula => 'المنجز ÷ المستحق اليوم (عادات البناء).';
 
   @override
   String get statsMetricHbX01Title => 'تقدّم اليوم';
@@ -11361,8 +11374,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricHbX02Desc => 'أيام أُنجزت فيها كل العادات المستحقة.';
 
   @override
-  String get statsMetricHbX02Formula =>
-      'أيام أُنجزت فيها كل الوحدات المستحقة؛ سلسلة الأيام المثالية.';
+  String get statsMetricHbX02Formula => 'أيام أُنجزت فيها كل الوحدات المستحقة؛ سلسلة الأيام المثالية.';
 
   @override
   String get statsMetricHbX02Title => 'أيام مثالية';
@@ -11371,8 +11383,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricHbX03Desc => 'مقدار ما أنجزته من عادات كل يوم.';
 
   @override
-  String get statsMetricHbX03Formula =>
-      'لكل يوم: المنجز ÷ المستحق لكل العادات.';
+  String get statsMetricHbX03Formula => 'لكل يوم: المنجز ÷ المستحق لكل العادات.';
 
   @override
   String get statsMetricHbX03Title => 'الإنجاز اليومي';
@@ -11388,12 +11399,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricHbX04Title => 'اتجاه الالتزام';
 
   @override
-  String get statsMetricHbX05Desc =>
-      'المال الموفَّر والوحدات المتجنَّبة والعمر المستعاد لكل متتبعات الإقلاع.';
+  String get statsMetricHbX05Desc => 'المال الموفَّر والوحدات المتجنَّبة والعمر المستعاد لكل متتبعات الإقلاع.';
 
   @override
-  String get statsMetricHbX05Formula =>
-      'مجاميع متتبعات الإقلاع النشطة (العمر المستعاد تقدير سكاني).';
+  String get statsMetricHbX05Formula => 'مجاميع متتبعات الإقلاع النشطة (العمر المستعاد تقدير سكاني).';
 
   @override
   String get statsMetricHbX05Title => 'ملخص الإقلاع';
@@ -11413,8 +11422,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlS01Desc => 'عدد مرات استحقاق السلسلة خلال الفترة.';
 
   @override
-  String get statsMetricPlS01Formula =>
-      'مرات قاعدة التكرار ضمن الفترة؛ المغلقة والمفتوحة تُحسب كلٌّ على حدة.';
+  String get statsMetricPlS01Formula => 'مرات قاعدة التكرار ضمن الفترة؛ المغلقة والمفتوحة تُحسب كلٌّ على حدة.';
 
   @override
   String get statsMetricPlS01Title => 'المرات المتوقعة';
@@ -11423,8 +11431,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlS02Desc => 'توزيع مرات السلسلة حسب النتيجة.';
 
   @override
-  String get statsMetricPlS02Formula =>
-      'عدد المرات المنجزة (D) والفائتة (M) والمتخطّاة (K) والمعذورة (X).';
+  String get statsMetricPlS02Formula => 'عدد المرات المنجزة (D) والفائتة (M) والمتخطّاة (K) والمعذورة (X).';
 
   @override
   String get statsMetricPlS02Title => 'منجز وفائت ومتخطّى';
@@ -11433,26 +11440,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlS03Desc => 'نسبة المرات المستحقة التي أنجزتها.';
 
   @override
-  String get statsMetricPlS03Formula =>
-      'المنجز ÷ (المتوقع − المعذور)، مع خط متحرك لأربعة أسابيع واتجاه أسبوعي.';
+  String get statsMetricPlS03Formula => 'المنجز ÷ (المتوقع − المعذور)، مع خط متحرك لأربعة أسابيع واتجاه أسبوعي.';
 
   @override
   String get statsMetricPlS03Title => 'الالتزام';
 
   @override
-  String get statsMetricPlS04Desc =>
-      'نسبة المرات المستحقة الفائتة أو غير المنجزة.';
+  String get statsMetricPlS04Desc => 'نسبة المرات المستحقة الفائتة أو غير المنجزة.';
 
   @override
-  String get statsMetricPlS04Formula =>
-      '(الفائت + غير المنجز) ÷ (المتوقع − المعذور).';
+  String get statsMetricPlS04Formula => '(الفائت + غير المنجز) ÷ (المتوقع − المعذور).';
 
   @override
   String get statsMetricPlS04Title => 'معدل الفوات';
 
   @override
-  String get statsMetricPlS05Desc =>
-      'مرات منجزة متتالية؛ التخطي محايد افتراضيًا.';
+  String get statsMetricPlS05Desc => 'مرات منجزة متتالية؛ التخطي محايد افتراضيًا.';
 
   @override
   String get statsMetricPlS05Formula => 'محرك السلاسل بوحدة لكل مرة.';
@@ -11461,12 +11464,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlS05Title => 'السلسلة الحالية والأفضل';
 
   @override
-  String get statsMetricPlS06Desc =>
-      'الوقت المتتبَّع والمخطَّط التراكمي منذ بدء السلسلة.';
+  String get statsMetricPlS06Desc => 'الوقت المتتبَّع والمخطَّط التراكمي منذ بدء السلسلة.';
 
   @override
-  String get statsMetricPlS06Formula =>
-      'مجاميع تراكمية للدقائق الفعلية والمخطَّطة.';
+  String get statsMetricPlS06Formula => 'مجاميع تراكمية للدقائق الفعلية والمخطَّطة.';
 
   @override
   String get statsMetricPlS06Title => 'الوقت المستثمَر';
@@ -11493,8 +11494,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlS09Desc => 'نتيجة كل يوم للسلسلة.';
 
   @override
-  String get statsMetricPlS09Formula =>
-      'أسوأ نتيجة في اليوم: فائت > جزئي > متأخر > متخطّى > منجز > معذور.';
+  String get statsMetricPlS09Formula => 'أسوأ نتيجة في اليوم: فائت > جزئي > متأخر > متخطّى > منجز > معذور.';
 
   @override
   String get statsMetricPlS09Title => 'تقويم النتائج';
@@ -11509,23 +11509,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlT01Title => 'المدة المخطَّطة';
 
   @override
-  String get statsMetricPlT02Desc =>
-      'الوقت المتتبَّع فعليًا لهذه المرة دون فترات التوقف.';
+  String get statsMetricPlT02Desc => 'الوقت المتتبَّع فعليًا لهذه المرة دون فترات التوقف.';
 
   @override
-  String get statsMetricPlT02Formula =>
-      'مجموع مدد الجلسات المتتبَّعة؛ غير معروفة إن لم يُتتبَّع شيء.';
+  String get statsMetricPlT02Formula => 'مجموع مدد الجلسات المتتبَّعة؛ غير معروفة إن لم يُتتبَّع شيء.';
 
   @override
   String get statsMetricPlT02Title => 'المدة الفعلية';
 
   @override
-  String get statsMetricPlT03Desc =>
-      'الفرق بين الوقت الفعلي والمخطَّط ونسبتهما.';
+  String get statsMetricPlT03Desc => 'الفرق بين الوقت الفعلي والمخطَّط ونسبتهما.';
 
   @override
-  String get statsMetricPlT03Formula =>
-      'الفعلي − المخطَّط؛ النسبة R = الفعلي ÷ المخطَّط (عندما يكون المخطَّط ≥ 5 د).';
+  String get statsMetricPlT03Formula => 'الفعلي − المخطَّط؛ النسبة R = الفعلي ÷ المخطَّط (عندما يكون المخطَّط ≥ 5 د).';
 
   @override
   String get statsMetricPlT03Title => 'فرق المدة';
@@ -11534,8 +11530,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlT04Desc => 'مدى تقدّم أو تأخر البدء مقارنة بالخطة.';
 
   @override
-  String get statsMetricPlT04Formula =>
-      'بداية أول جلسة − البداية المخطَّطة؛ في الوقت ضمن هامش السماح.';
+  String get statsMetricPlT04Formula => 'بداية أول جلسة − البداية المخطَّطة؛ في الوقت ضمن هامش السماح.';
 
   @override
   String get statsMetricPlT04Title => 'تأخر البدء';
@@ -11544,8 +11539,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlT05Desc => 'مدى تقدّم أو تأخر إنهاء هذه المرة.';
 
   @override
-  String get statsMetricPlT05Formula =>
-      'وقت الإنجاز (أو نهاية آخر جلسة للمؤقت) − النهاية المخطَّطة.';
+  String get statsMetricPlT05Formula => 'وقت الإنجاز (أو نهاية آخر جلسة للمؤقت) − النهاية المخطَّطة.';
 
   @override
   String get statsMetricPlT05Title => 'تأخر الإنهاء';
@@ -11554,8 +11548,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlT06Desc => 'ما حدث لهذه المرة.';
 
   @override
-  String get statsMetricPlT06Formula =>
-      'منجز في الوقت أو متأخرًا، جزئي، متخطّى، فائت، ملغى، قيد الانتظار أو قادم.';
+  String get statsMetricPlT06Formula => 'منجز في الوقت أو متأخرًا، جزئي، متخطّى، فائت، ملغى، قيد الانتظار أو قادم.';
 
   @override
   String get statsMetricPlT06Title => 'النتيجة';
@@ -11564,19 +11557,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlT07Desc => 'منذ متى تأخرت مرة لم تُنجز بعد.';
 
   @override
-  String get statsMetricPlT07Formula =>
-      'الآن − النهاية المخطَّطة، مجمّعة 1 / 7 / 14 / 30+ يومًا.';
+  String get statsMetricPlT07Formula => 'الآن − النهاية المخطَّطة، مجمّعة 1 / 7 / 14 / 30+ يومًا.';
 
   @override
   String get statsMetricPlT07Title => 'عمر التأخر';
 
   @override
-  String get statsMetricPlX01Desc =>
-      'نسبة ما أنجزته مما كان مخطَّطًا في بداية الفترة.';
+  String get statsMetricPlX01Desc => 'نسبة ما أنجزته مما كان مخطَّطًا في بداية الفترة.';
 
   @override
-  String get statsMetricPlX01Formula =>
-      'المخطَّط والمنجز في الفترة ÷ المخطَّط عند بدايتها؛ الإضافات اللاحقة مستبعدة.';
+  String get statsMetricPlX01Formula => 'المخطَّط والمنجز في الفترة ÷ المخطَّط عند بدايتها؛ الإضافات اللاحقة مستبعدة.';
 
   @override
   String get statsMetricPlX01Title => 'الإنجاز مقابل الخطة';
@@ -11585,52 +11575,43 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlX02Desc => 'المهام المخطَّطة والمنجزة لكل يوم.';
 
   @override
-  String get statsMetricPlX02Formula =>
-      'لكل يوم: عدد المخطَّط (لقطة الخطة) والمنجز.';
+  String get statsMetricPlX02Formula => 'لكل يوم: عدد المخطَّط (لقطة الخطة) والمنجز.';
 
   @override
   String get statsMetricPlX02Title => 'المنجز مقابل المخطَّط يوميًا';
 
   @override
-  String get statsMetricPlX03Desc =>
-      'مهام أُضيفت بعد بدء الفترة ومهام نُقلت خارجها أو إليها.';
+  String get statsMetricPlX03Desc => 'مهام أُضيفت بعد بدء الفترة ومهام نُقلت خارجها أو إليها.';
 
   @override
-  String get statsMetricPlX03Formula =>
-      'عدد الإضافات غير المخطَّطة والمرات المنقولة خارجًا وداخلًا.';
+  String get statsMetricPlX03Formula => 'عدد الإضافات غير المخطَّطة والمرات المنقولة خارجًا وداخلًا.';
 
   @override
   String get statsMetricPlX03Title => 'غير المخطَّط والمنقول';
 
   @override
-  String get statsMetricPlX04Desc =>
-      'المهام المُنشأة مقابل المنجزة أسبوعيًا، والمتراكم المفتوح.';
+  String get statsMetricPlX04Desc => 'المهام المُنشأة مقابل المنجزة أسبوعيًا، والمتراكم المفتوح.';
 
   @override
-  String get statsMetricPlX04Formula =>
-      'المُنشأ والمنجز أسبوعيًا؛ المتراكم = مهام غير مجدولة + مرات متأخرة.';
+  String get statsMetricPlX04Formula => 'المُنشأ والمنجز أسبوعيًا؛ المتراكم = مهام غير مجدولة + مرات متأخرة.';
 
   @override
   String get statsMetricPlX04Title => 'تدفق المتراكم';
 
   @override
-  String get statsMetricPlX05Desc =>
-      'نسبة المهام المنجزة قبل نهايتها المخطَّطة.';
+  String get statsMetricPlX05Desc => 'نسبة المهام المنجزة قبل نهايتها المخطَّطة.';
 
   @override
-  String get statsMetricPlX05Formula =>
-      'المنجز في الوقت ÷ المنجز (بما في ذلك هامش السماح).';
+  String get statsMetricPlX05Formula => 'المنجز في الوقت ÷ المنجز (بما في ذلك هامش السماح).';
 
   @override
   String get statsMetricPlX05Title => 'الإنجاز في الوقت';
 
   @override
-  String get statsMetricPlX06Desc =>
-      'مهام غير منجزة تجاوزت نهايتها المخطَّطة، حسب العمر.';
+  String get statsMetricPlX06Desc => 'مهام غير منجزة تجاوزت نهايتها المخطَّطة، حسب العمر.';
 
   @override
-  String get statsMetricPlX06Formula =>
-      'المرات المفتوحة المتأخرة مجمّعة 1 / 7 / 14 / 30+ يومًا.';
+  String get statsMetricPlX06Formula => 'المرات المفتوحة المتأخرة مجمّعة 1 / 7 / 14 / 30+ يومًا.';
 
   @override
   String get statsMetricPlX06Title => 'المتأخر الآن';
@@ -11639,8 +11620,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlX07Desc => 'الوقت المتاح للعمل المخطَّط خلال الفترة.';
 
   @override
-  String get statsMetricPlX07Formula =>
-      'ساعات العمل اليومية ناقص الفترات غير المتاحة، مجمّعة على الفترة.';
+  String get statsMetricPlX07Formula => 'ساعات العمل اليومية ناقص الفترات غير المتاحة، مجمّعة على الفترة.';
 
   @override
   String get statsMetricPlX07Title => 'السعة';
@@ -11649,8 +11629,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlX08Desc => 'مقدار السعة المشغول بالمهام المخطَّطة.';
 
   @override
-  String get statsMetricPlX08Formula =>
-      'الدقائق المخطَّطة داخل ساعات العمل ÷ السعة (قد تتجاوز 100 % مع التداخل).';
+  String get statsMetricPlX08Formula => 'الدقائق المخطَّطة داخل ساعات العمل ÷ السعة (قد تتجاوز 100 % مع التداخل).';
 
   @override
   String get statsMetricPlX08Title => 'الاستغلال المخطَّط';
@@ -11659,8 +11638,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlX09Desc => 'مقدار السعة المستهلَك في عمل متتبَّع.';
 
   @override
-  String get statsMetricPlX09Formula =>
-      'الدقائق المتتبَّعة داخل ساعات العمل ÷ السعة؛ يتطلب تغطية تتبع 60 %.';
+  String get statsMetricPlX09Formula => 'الدقائق المتتبَّعة داخل ساعات العمل ÷ السعة؛ يتطلب تغطية تتبع 60 %.';
 
   @override
   String get statsMetricPlX09Title => 'الاستغلال الفعلي';
@@ -11669,8 +11647,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlX10Desc => 'أيام خُطِّط فيها أكثر من الوقت المتاح.';
 
   @override
-  String get statsMetricPlX10Formula =>
-      'أيام الحمل المخطَّط فيها > السعة؛ دقائق الزيادة = الحمل − السعة.';
+  String get statsMetricPlX10Formula => 'أيام الحمل المخطَّط فيها > السعة؛ دقائق الزيادة = الحمل − السعة.';
 
   @override
   String get statsMetricPlX10Title => 'أيام مُثقلة';
@@ -11679,19 +11656,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlX11Desc => 'السعة المتبقية من الآن حتى نهاية الفترة.';
 
   @override
-  String get statsMetricPlX11Formula =>
-      'السعة المتبقية − الوقت المخطَّط المتبقي (من الآن).';
+  String get statsMetricPlX11Formula => 'السعة المتبقية − الوقت المخطَّط المتبقي (من الآن).';
 
   @override
   String get statsMetricPlX11Title => 'الوقت الحر المتبقي';
 
   @override
-  String get statsMetricPlX12Desc =>
-      'الوقت المخطَّط والمتتبَّع لكل يوم وتصنيف.';
+  String get statsMetricPlX12Desc => 'الوقت المخطَّط والمتتبَّع لكل يوم وتصنيف.';
 
   @override
-  String get statsMetricPlX12Formula =>
-      'مجموع الدقائق المخطَّطة مقابل مجموع الدقائق المتتبَّعة.';
+  String get statsMetricPlX12Formula => 'مجموع الدقائق المخطَّطة مقابل مجموع الدقائق المتتبَّعة.';
 
   @override
   String get statsMetricPlX12Title => 'الساعات المخطَّطة مقابل الفعلية';
@@ -11716,12 +11690,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlX14Title => 'اتجاه التصنيفات';
 
   @override
-  String get statsMetricPlX15Desc =>
-      'نسبة الوقت المخطَّط الذي تشغله الأحداث بدل المهام.';
+  String get statsMetricPlX15Desc => 'نسبة الوقت المخطَّط الذي تشغله الأحداث بدل المهام.';
 
   @override
-  String get statsMetricPlX15Formula =>
-      'دقائق الأحداث ÷ (دقائق الأحداث + المهام).';
+  String get statsMetricPlX15Formula => 'دقائق الأحداث ÷ (دقائق الأحداث + المهام).';
 
   @override
   String get statsMetricPlX15Title => 'الأحداث مقابل المهام';
@@ -11739,8 +11711,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricQt02Desc => 'الوقت منذ آخر استخدام (أو تاريخ الإقلاع).';
 
   @override
-  String get statsMetricQt02Formula =>
-      'الآن − الأحدث من (تاريخ الإقلاع، آخر استخدام) (مباشر).';
+  String get statsMetricQt02Formula => 'الآن − الأحدث من (تاريخ الإقلاع، آخر استخدام) (مباشر).';
 
   @override
   String get statsMetricQt02Title => 'الامتناع الحالي';
@@ -11749,8 +11720,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricQt03Desc => 'أطول فترة لديك دون استخدام.';
 
   @override
-  String get statsMetricQt03Formula =>
-      'أطول فجوة بين الإقلاع ومرات الاستخدام والآن.';
+  String get statsMetricQt03Formula => 'أطول فجوة بين الإقلاع ومرات الاستخدام والآن.';
 
   @override
   String get statsMetricQt03Title => 'أطول امتناع';
@@ -11768,19 +11738,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricQt05Desc => 'نسبة الأيام دون استخدام منذ الإقلاع.';
 
   @override
-  String get statsMetricQt05Formula =>
-      'أيام الامتناع ÷ الأيام المغلقة منذ الإقلاع.';
+  String get statsMetricQt05Formula => 'أيام الامتناع ÷ الأيام المغلقة منذ الإقلاع.';
 
   @override
   String get statsMetricQt05Title => 'نسبة أيام الامتناع';
 
   @override
-  String get statsMetricQt06Desc =>
-      'عدد الوحدات التي لم تستهلكها بفضل الإقلاع.';
+  String get statsMetricQt06Desc => 'عدد الوحدات التي لم تستهلكها بفضل الإقلاع.';
 
   @override
-  String get statsMetricQt06Formula =>
-      'خط الأساس اليومي × الأيام − الوحدات المستهلكة (بحد أدنى 0).';
+  String get statsMetricQt06Formula => 'خط الأساس اليومي × الأيام − الوحدات المستهلكة (بحد أدنى 0).';
 
   @override
   String get statsMetricQt06Title => 'الوحدات المتجنَّبة';
@@ -11789,15 +11756,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricQt07Desc => 'المال الذي لم تنفقه بفضل الإقلاع.';
 
   @override
-  String get statsMetricQt07Formula =>
-      'الوحدات المتجنَّبة يوميًا × سعر الوحدة الساري في ذلك اليوم.';
+  String get statsMetricQt07Formula => 'الوحدات المتجنَّبة يوميًا × سعر الوحدة الساري في ذلك اليوم.';
 
   @override
   String get statsMetricQt07Title => 'المال الموفَّر';
 
   @override
-  String get statsMetricQt08Desc =>
-      'المال المُنفَق على مرات الاستخدام منذ الإقلاع.';
+  String get statsMetricQt08Desc => 'المال المُنفَق على مرات الاستخدام منذ الإقلاع.';
 
   @override
   String get statsMetricQt08Formula => 'الوحدات المستهلكة × سعر الوحدة حينها.';
@@ -11809,15 +11774,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricQt09Desc => 'ما ستوفره إذا واصلت.';
 
   @override
-  String get statsMetricQt09Formula =>
-      'خط الأساس الحالي × سعر الوحدة على الشهر والسنة والسنوات الخمس القادمة.';
+  String get statsMetricQt09Formula => 'خط الأساس الحالي × سعر الوحدة على الشهر والسنة والسنوات الخمس القادمة.';
 
   @override
   String get statsMetricQt09Title => 'إسقاط المدخرات';
 
   @override
-  String get statsMetricQt10Desc =>
-      'تقدير سكاني لمتوسط العمر المستعاد — ليس تنبؤًا شخصيًا.';
+  String get statsMetricQt10Desc => 'تقدير سكاني لمتوسط العمر المستعاد — ليس تنبؤًا شخصيًا.';
 
   @override
   String get statsMetricQt10Formula =>
@@ -11830,19 +11793,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricQt11Desc => 'محطات التعافي المعتادة بعد آخر سيجارة.';
 
   @override
-  String get statsMetricQt11Formula =>
-      'التقدّم = الامتناع الحالي ÷ زمن المحطة؛ يُعاد تشغيل العدّاد بعد الزلّة.';
+  String get statsMetricQt11Formula => 'التقدّم = الامتناع الحالي ÷ زمن المحطة؛ يُعاد تشغيل العدّاد بعد الزلّة.';
 
   @override
   String get statsMetricQt11Title => 'محطات صحية';
 
   @override
-  String get statsMetricQt12Desc =>
-      'كم مرة بقيت ضمن حدك اليومي ومقدار ما خفّضته.';
+  String get statsMetricQt12Desc => 'كم مرة بقيت ضمن حدك اليومي ومقدار ما خفّضته.';
 
   @override
-  String get statsMetricQt12Formula =>
-      'الأيام ضمن الحد ÷ الأيام؛ الخفض = 1 − متوسط الاستهلاك ÷ خط الأساس.';
+  String get statsMetricQt12Formula => 'الأيام ضمن الحد ÷ الأيام؛ الخفض = 1 − متوسط الاستهلاك ÷ خط الأساس.';
 
   @override
   String get statsMetricQt12Title => 'تقدّم الخفض';
@@ -11851,8 +11811,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricQt13Desc => 'مدى تكرار الرغبات الملحّة وشدتها.';
 
   @override
-  String get statsMetricQt13Formula =>
-      'الرغبات يوميًا خلال الفترة؛ متوسط وأقصى شدة؛ متوسط متحرك لسبعة أيام.';
+  String get statsMetricQt13Formula => 'الرغبات يوميًا خلال الفترة؛ متوسط وأقصى شدة؛ متوسط متحرك لسبعة أيام.';
 
   @override
   String get statsMetricQt13Title => 'عبء الرغبات';
@@ -11861,8 +11820,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricQt14Desc => 'ما يثير الرغبات وأين ومتى.';
 
   @override
-  String get statsMetricQt14Formula =>
-      'باريتو حسب المحفّز والمكان والمزاج؛ مصفوفة اليوم × الساعة.';
+  String get statsMetricQt14Formula => 'باريتو حسب المحفّز والمكان والمزاج؛ مصفوفة اليوم × الساعة.';
 
   @override
   String get statsMetricQt14Title => 'سياق الرغبات';
@@ -11880,12 +11838,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsNoteError => 'تعذّر الحساب';
 
   @override
-  String get statsNoteLimitHabit =>
-      'تعرض عادات الحد الأيام ضمن الحد بدلًا من ذلك.';
+  String get statsNoteLimitHabit => 'تعرض عادات الحد الأيام ضمن الحد بدلًا من ذلك.';
 
   @override
-  String get statsNoteLowCoverage =>
-      'تتبّع الوقت لـ 60 % على الأقل من المهام المنجزة لرؤية هذا.';
+  String get statsNoteLowCoverage => 'تتبّع الوقت لـ 60 % على الأقل من المهام المنجزة لرؤية هذا.';
 
   @override
   String get statsNoteNew => 'جديد';
@@ -11903,8 +11859,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsNoteNoItem => 'تعذّر العثور على هذا العنصر.';
 
   @override
-  String get statsNoteNoLifeEstimate =>
-      'حدّد دقائق العمر لكل وحدة لرؤية هذا التقدير.';
+  String get statsNoteNoLifeEstimate => 'حدّد دقائق العمر لكل وحدة لرؤية هذا التقدير.';
 
   @override
   String get statsNoteNoOccurrence => 'تعذّر العثور على هذه المرة.';
@@ -11931,8 +11886,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsNoteNotScheduled => 'غير مجدول';
 
   @override
-  String get statsNoteNotSmoking =>
-      'تُعرض المحطات الصحية لمتتبعات التدخين فقط.';
+  String get statsNoteNotSmoking => 'تُعرض المحطات الصحية لمتتبعات التدخين فقط.';
 
   @override
   String get statsNoteNotStarted => 'لم يبدأ';
@@ -11951,8 +11905,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'الأيام غير المسجَّلة مجهولة وليست فشلًا — تُحتسب فائتة فقط لعدم تسجيل أي شيء فيها.';
 
   @override
-  String get statsNoteUsedPlanned =>
-      'يُعرض الوقت المخطَّط: الوقت الفعلي متتبَّع لأقل من 60 % من المهام المنجزة.';
+  String get statsNoteUsedPlanned => 'يُعرض الوقت المخطَّط: الوقت الفعلي متتبَّع لأقل من 60 % من المهام المنجزة.';
 
   @override
   String get statsNoteYesNoHabit => 'غير متاح لعادات نعم/لا.';
@@ -12031,67 +11984,54 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsQuitMilestoneBreathing72h => 'يصبح التنفس أسهل وترتفع الطاقة';
 
   @override
-  String get statsQuitMilestoneCancers20y =>
-      'خطر سرطانات الفم والحلق والحنجرة والبنكرياس قريب من خطر من لم يدخن قط';
+  String get statsQuitMilestoneCancers20y => 'خطر سرطانات الفم والحلق والحنجرة والبنكرياس قريب من خطر من لم يدخن قط';
 
   @override
-  String get statsQuitMilestoneChd15y =>
-      'خطر أمراض القلب التاجية قريب من خطر غير المدخن';
+  String get statsQuitMilestoneChd15y => 'خطر أمراض القلب التاجية قريب من خطر غير المدخن';
 
   @override
-  String get statsQuitMilestoneChdAdded =>
-      'ينخفض الخطر الإضافي لأمراض القلب التاجية إلى النصف';
+  String get statsQuitMilestoneChdAdded => 'ينخفض الخطر الإضافي لأمراض القلب التاجية إلى النصف';
 
   @override
-  String get statsQuitMilestoneCirculation =>
-      'تتحسن الدورة الدموية ووظائف الرئة';
+  String get statsQuitMilestoneCirculation => 'تتحسن الدورة الدموية ووظائف الرئة';
 
   @override
-  String get statsQuitMilestoneCo12h =>
-      'يعود أول أكسيد الكربون في الدم إلى المستوى الطبيعي';
+  String get statsQuitMilestoneCo12h => 'يعود أول أكسيد الكربون في الدم إلى المستوى الطبيعي';
 
   @override
-  String get statsQuitMilestoneCo8h =>
-      'ينخفض أول أكسيد الكربون في الدم إلى النصف ويتعافى مستوى الأكسجين';
+  String get statsQuitMilestoneCo8h => 'ينخفض أول أكسيد الكربون في الدم إلى النصف ويتعافى مستوى الأكسجين';
 
   @override
-  String get statsQuitMilestoneCravings =>
-      'تخف الرغبات عادةً (تستمر الرغبة الواحدة نحو 3–5 دقائق)';
+  String get statsQuitMilestoneCravings => 'تخف الرغبات عادةً (تستمر الرغبة الواحدة نحو 3–5 دقائق)';
 
   @override
-  String get statsQuitMilestoneHeart20m =>
-      'ينخفض معدل ضربات القلب وضغط الدم ويعود النبض إلى طبيعته';
+  String get statsQuitMilestoneHeart20m => 'ينخفض معدل ضربات القلب وضغط الدم ويعود النبض إلى طبيعته';
 
   @override
   String get statsQuitMilestoneHeartAttack => 'ينخفض خطر النوبة القلبية بشدة';
 
   @override
-  String get statsQuitMilestoneHeartHalf1y =>
-      'خطر أمراض القلب التاجية نحو نصف خطر المدخن';
+  String get statsQuitMilestoneHeartHalf1y => 'خطر أمراض القلب التاجية نحو نصف خطر المدخن';
 
   @override
   String get statsQuitMilestoneLifeExpectancy =>
       'الإقلاع في سن 30 / 40 / 50 / 60 يضيف نحو 10 / 9 / 6 / 3 سنوات إلى متوسط العمر';
 
   @override
-  String get statsQuitMilestoneLungCancer10y =>
-      'خطر سرطان الرئة نحو نصف خطر المدخن';
+  String get statsQuitMilestoneLungCancer10y => 'خطر سرطان الرئة نحو نصف خطر المدخن';
 
   @override
-  String get statsQuitMilestoneLungs =>
-      'يقل السعال وضيق التنفس وتتحسن وظائف الرئة بنحو 10 %';
+  String get statsQuitMilestoneLungs => 'يقل السعال وضيق التنفس وتتحسن وظائف الرئة بنحو 10 %';
 
   @override
   String get statsQuitMilestoneMouthCancer =>
       'ينخفض خطر سرطانات الفم والحلق والحنجرة إلى النصف ويتراجع خطر السكتة الدماغية';
 
   @override
-  String get statsQuitMilestoneNicotine24h =>
-      'تنخفض النيكوتين في الدم إلى الصفر';
+  String get statsQuitMilestoneNicotine24h => 'تنخفض النيكوتين في الدم إلى الصفر';
 
   @override
-  String get statsQuitMilestoneTaste48h =>
-      'تتخلص الرئتان من المخاط ويتحسن التذوق والشم';
+  String get statsQuitMilestoneTaste48h => 'تتخلص الرئتان من المخاط ويتحسن التذوق والشم';
 
   @override
   String statsReviewAtRisk(String title) {
@@ -12657,8 +12597,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tagsEmpty => 'لا توجد وسوم بعد';
 
   @override
-  String get tagsEmptyHint =>
-      'الوسوم تعمل عبر كل الأقسام — استخدمها لسياقات مثل المشتريات أو بانتظار الآخرين.';
+  String get tagsEmptyHint => 'الوسوم تعمل عبر كل الأقسام — استخدمها لسياقات مثل المشتريات أو بانتظار الآخرين.';
 
   @override
   String get tagsTitle => 'الوسوم';
@@ -13314,8 +13253,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksOpenLinkTitle => 'فتح الرابط؟';
 
   @override
-  String get tasksOrphansBody =>
-      'المواعيد التي لها سجل تُحفظ دائمًا كمهام منفردة.';
+  String get tasksOrphansBody => 'المواعيد التي لها سجل تُحفظ دائمًا كمهام منفردة.';
 
   @override
   String tasksOrphansCompleted(int count) {
@@ -13573,8 +13511,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksScopeThis => 'هذا الموعد';
 
   @override
-  String get tasksScopeThisDisabled =>
-      'لموعد واحد يمكن تغيير الوقت والمدة والعنوان والملاحظات فقط.';
+  String get tasksScopeThisDisabled => 'لموعد واحد يمكن تغيير الوقت والمدة والعنوان والملاحظات فقط.';
 
   @override
   String get tasksScopeTitle => 'تطبيق التغييرات على';
@@ -13639,8 +13576,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksTemplateSaved => 'تم حفظ القالب';
 
   @override
-  String get tasksTemplatesEmpty =>
-      'لا توجد قوالب. احفظ مهمة كقالب من قائمتها.';
+  String get tasksTemplatesEmpty => 'لا توجد قوالب. احفظ مهمة كقالب من قائمتها.';
 
   @override
   String get tasksTemplatesTitle => 'القوالب';
@@ -13669,15 +13605,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksTrackingEvent => 'حدث';
 
   @override
-  String get tasksTrackingEventHint =>
-      'فترة زمنية (اجتماع، وجبة): بلا خانة تأشير ولا تفوت أبدًا.';
+  String get tasksTrackingEventHint => 'فترة زمنية (اجتماع، وجبة): بلا خانة تأشير ولا تفوت أبدًا.';
 
   @override
   String get tasksTrackingTimer => 'مؤقت';
 
   @override
-  String get tasksTrackingTimerHint =>
-      'تتبّع الوقت الذي تقضيه؛ تكتمل عند إيقاف المؤقت.';
+  String get tasksTrackingTimerHint => 'تتبّع الوقت الذي تقضيه؛ تكتمل عند إيقاف المؤقت.';
 
   @override
   String get tasksUnsavedBody => 'ستضيع تغييراتك.';

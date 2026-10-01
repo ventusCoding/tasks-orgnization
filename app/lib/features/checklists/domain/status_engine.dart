@@ -55,8 +55,7 @@ class StatusEngine {
       setNote: setNote,
       followUpAt: followUpAt,
       keepFollowUp: keepFollowUp,
-      completeOpenDescendants:
-          completeOpenDescendants ?? settings.completeChildrenWithParent == CascadeChoice.always,
+      completeOpenDescendants: completeOpenDescendants ?? settings.completeChildrenWithParent == CascadeChoice.always,
       cause: cause,
     );
     return engine.builder.build();
@@ -93,7 +92,8 @@ class StatusEngine {
     required bool completeOpenDescendants,
     required String cause,
   }) {
-    final targets = ids.where(tree.contains).toSet().toList()..sort((a, b) => tree.indexOf(a).compareTo(tree.indexOf(b)));
+    final targets = ids.where(tree.contains).toSet().toList()
+      ..sort((a, b) => tree.indexOf(a).compareTo(tree.indexOf(b)));
     final normalized = normalizeNote(note);
     for (final id in targets) {
       final item = tree[id]!;
@@ -103,10 +103,7 @@ class StatusEngine {
         final followChanged = followUpAt != null && followUpAt != item.followUpAt && to.keepsFollowUp;
         if (!noteChanged && !followChanged) continue;
         builder
-          ..update(id, {
-            if (noteChanged) 'status_note': normalized,
-            if (followChanged) 'follow_up_at': followUpAt,
-          })
+          ..update(id, {if (noteChanged) 'status_note': normalized, if (followChanged) 'follow_up_at': followUpAt})
           ..event(
             EventSpec(
               entityType: 'checklist_item',
@@ -194,12 +191,7 @@ class StatusEngine {
           entityId: id,
           parentId: item.checklistId,
           eventType: 'status_changed',
-          payload: {
-            'from': from.name,
-            'to': to.name,
-            'note': note,
-            'followUpAt': followUp?.toUtc().toIso8601String(),
-          },
+          payload: {'from': from.name, 'to': to.name, 'note': note, 'followUpAt': followUp?.toUtc().toIso8601String()},
           cause: eventCause,
         ),
       );

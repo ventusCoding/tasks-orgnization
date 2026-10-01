@@ -24,10 +24,8 @@ import 'package:material_ui/material_ui.dart';
 
 /// Opens the occurrence sheet for [item] (T3.2.05) — views call this when an occurrence is
 /// tapped. The sheet stays live: every action shows in all open views within one frame.
-Future<void> showOccurrenceSheet(BuildContext context, PlannerItem item) => showAppSheet<void>(
-  context,
-  builder: (_) => OccurrenceSheet(initial: item),
-);
+Future<void> showOccurrenceSheet(BuildContext context, PlannerItem item) =>
+    showAppSheet<void>(context, builder: (_) => OccurrenceSheet(initial: item));
 
 /// Label, color and icon of an occurrence status (color is never the only signal).
 ({String label, Color color, IconData icon}) occurrenceStatusVisual(
@@ -116,7 +114,12 @@ Future<void> editOccurrence(BuildContext context, PlannerItem item) => Navigator
   ),
 );
 
-Future<void> runPrimaryAction(BuildContext context, WidgetRef ref, PlannerItem item, OccurrencePrimaryAction action) async {
+Future<void> runPrimaryAction(
+  BuildContext context,
+  WidgetRef ref,
+  PlannerItem item,
+  OccurrencePrimaryAction action,
+) async {
   final service = _service(ref);
   final l = context.l10n;
   switch (action) {
@@ -160,9 +163,7 @@ class OccurrenceSheet extends ConsumerWidget {
     return ListView(
       shrinkWrap: true,
       padding: const EdgeInsetsDirectional.only(bottom: Space.lg),
-      children: [
-        OccurrencePanel(item: item, inSheet: true),
-      ],
+      children: [OccurrencePanel(item: item, inSheet: true)],
     );
   }
 }
@@ -213,7 +214,10 @@ class OccurrencePanel extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (item.icon != null) ...[
-                    Icon(IconCatalog.iconFor(item.icon, fallback: Icons.task_alt), color: item.color == null ? null : Color(item.color!)),
+                    Icon(
+                      IconCatalog.iconFor(item.icon, fallback: Icons.task_alt),
+                      color: item.color == null ? null : Color(item.color!),
+                    ),
                     const SizedBox(width: Space.sm),
                   ] else if (item.color != null) ...[
                     Padding(padding: const EdgeInsetsDirectional.only(top: 6), child: ColorDot(Color(item.color!))),
@@ -243,7 +247,8 @@ class OccurrencePanel extends ConsumerWidget {
                     icon: status.icon,
                   ),
                   if (item.priority > 0) PriorityBadge(item.priority),
-                  if (task?.isPaused ?? false) StatusPill(label: l.tasksPausedBadge, color: context.appColors.waiting, icon: Icons.pause),
+                  if (task?.isPaused ?? false)
+                    StatusPill(label: l.tasksPausedBadge, color: context.appColors.waiting, icon: Icons.pause),
                 ],
               ),
               const SizedBox(height: Space.sm),
@@ -320,11 +325,13 @@ class OccurrencePanel extends ConsumerWidget {
               TextButton.icon(
                 key: const ValueKey('occurrence-duplicate'),
                 onPressed: () async {
-                  await ref.read(plannerServiceProvider).duplicate(
-                    item.taskId,
-                    asOneOff: item.isRecurring,
-                    occurrenceKey: item.isRecurring ? item.occurrenceKey : null,
-                  );
+                  await ref
+                      .read(plannerServiceProvider)
+                      .duplicate(
+                        item.taskId,
+                        asOneOff: item.isRecurring,
+                        occurrenceKey: item.isRecurring ? item.occurrenceKey : null,
+                      );
                   if (context.mounted) showPlannerUndoSnack(context, ref, l.tasksDuplicated);
                 },
                 icon: const Icon(Icons.copy_outlined),
@@ -492,11 +499,17 @@ class _OutcomeSection extends ConsumerWidget {
           subtitle: Text(start == null || end == null ? l.tasksActualNotSet : '${local(start)} – ${local(end)}'),
           onTap: () async {
             final base = item.startLocal;
-            final s = await pickTime(context, initial: start == null ? base.time : service.zones.toLocal(start, service.viewerZone).time, use24h: use24h);
+            final s = await pickTime(
+              context,
+              initial: start == null ? base.time : service.zones.toLocal(start, service.viewerZone).time,
+              use24h: use24h,
+            );
             if (s == null || !context.mounted) return;
             final e = await pickTime(
               context,
-              initial: end == null ? base.plusMinutes(item.durationMinutes).time : service.zones.toLocal(end, service.viewerZone).time,
+              initial: end == null
+                  ? base.plusMinutes(item.durationMinutes).time
+                  : service.zones.toLocal(end, service.viewerZone).time,
               use24h: use24h,
             );
             if (e == null || !context.mounted) return;
@@ -557,7 +570,13 @@ class _OutcomeSection extends ConsumerWidget {
               ? Text(l.tasksOutcomeNoteHint)
               : MarkdownLiteView(note, style: context.text.bodyMedium, maxBlocks: 6),
           onTap: () async {
-            final text = await promptText(context, title: l.tasksOutcomeNote, initial: note, maxLines: 6, allowEmpty: true);
+            final text = await promptText(
+              context,
+              title: l.tasksOutcomeNote,
+              initial: note,
+              maxLines: 6,
+              allowEmpty: true,
+            );
             if (text == null) return;
             await service.setOutcomeNote(item, text);
           },
@@ -608,11 +627,7 @@ class _SessionsSection extends ConsumerWidget {
   final List<TimeEntry> entries;
   final AppFormat format;
 
-  Future<({DateTime start, DateTime? end})?> _pickRange(
-    BuildContext context,
-    WidgetRef ref, {
-    TimeEntry? entry,
-  }) async {
+  Future<({DateTime start, DateTime? end})?> _pickRange(BuildContext context, WidgetRef ref, {TimeEntry? entry}) async {
     final service = ref.read(plannerServiceProvider);
     final use24h = ref.read(userPreferencesProvider).use24h;
     final zone = service.viewerZone;
@@ -642,7 +657,13 @@ class _SessionsSection extends ConsumerWidget {
     final range = await _pickRange(context, ref, entry: entry);
     if (range == null || !context.mounted) return;
     final service = ref.read(plannerServiceProvider);
-    final overlaps = overlappingEntries(range.start, range.end ?? service.nowUtc, entries, now: service.nowUtc, excludeId: entry?.id);
+    final overlaps = overlappingEntries(
+      range.start,
+      range.end ?? service.nowUtc,
+      entries,
+      now: service.nowUtc,
+      excludeId: entry?.id,
+    );
     try {
       if (entry == null) {
         await service.addTimeEntry(item, start: range.start, end: range.end);
@@ -680,9 +701,16 @@ class _SessionsSection extends ConsumerWidget {
           ListTile(
             key: ValueKey('entry-${e.id}'),
             dense: true,
-            leading: Icon(e.isRunning ? Icons.fiber_manual_record : Icons.timer_outlined, color: e.isRunning ? context.appColors.danger : null),
-            title: Text(e.isRunning ? '${at(e.startedAt)} – ${l.tasksEntryRunning}' : '${at(e.startedAt)} – ${at(e.endedAt!)}'),
-            subtitle: e.isRunning ? LiveElapsed(since: e.startedAt) : Text(format.duration(e.endedAt!.difference(e.startedAt).inMinutes)),
+            leading: Icon(
+              e.isRunning ? Icons.fiber_manual_record : Icons.timer_outlined,
+              color: e.isRunning ? context.appColors.danger : null,
+            ),
+            title: Text(
+              e.isRunning ? '${at(e.startedAt)} – ${l.tasksEntryRunning}' : '${at(e.startedAt)} – ${at(e.endedAt!)}',
+            ),
+            subtitle: e.isRunning
+                ? LiveElapsed(since: e.startedAt)
+                : Text(format.duration(e.endedAt!.difference(e.startedAt).inMinutes)),
             onTap: () => _save(context, ref, entry: e),
             trailing: IconButton(
               tooltip: l.tasksEntryDelete,
@@ -770,7 +798,10 @@ class _LinkedChecklistTile extends ConsumerWidget {
         children: [
           Text(l.tasksChecklistProgress(info.completed, info.total)),
           const SizedBox(height: Space.xs),
-          LinearProgressIndicator(value: info.progress, semanticsLabel: l.tasksChecklistProgress(info.completed, info.total)),
+          LinearProgressIndicator(
+            value: info.progress,
+            semanticsLabel: l.tasksChecklistProgress(info.completed, info.total),
+          ),
         ],
       ),
       trailing: const Icon(Icons.chevron_right),

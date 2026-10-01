@@ -71,6 +71,14 @@ class DebugMenuScreen extends ConsumerWidget {
           ),
           SectionHeader(l.devDangerZone),
           ListTile(
+            key: const ValueKey('dev-test-crash'),
+            leading: Icon(Icons.bug_report_outlined, color: context.colors.error),
+            title: Text(l.devTestCrash),
+            subtitle: Text(l.devTestCrashBody),
+            // An uncaught async error: logged, and reported to Crashlytics in release builds (T1.2.15).
+            onTap: () => Future<void>(() => throw StateError('Everslot test crash (debug menu)')),
+          ),
+          ListTile(
             key: const ValueKey('dev-reset'),
             leading: Icon(Icons.delete_forever_outlined, color: context.colors.error),
             title: Text(l.devResetData, style: TextStyle(color: context.colors.error)),
@@ -90,7 +98,7 @@ class DebugMenuScreen extends ConsumerWidget {
       confirmLabel: l.devResetData,
       destructive: true,
     );
-    if (!ok) return;
+    if (!ok || !context.mounted) return;
     final messenger = ScaffoldMessenger.maybeOf(context);
     final done = l.devResetDone;
     await ref.read(devToolsProvider).resetLocalData();
@@ -109,7 +117,11 @@ class _EnvironmentCard extends ConsumerWidget {
     final warnings = env.warnings;
     Widget status(String label, bool ok) => Row(
       children: [
-        Icon(ok ? Icons.check_circle_outline : Icons.warning_amber_outlined, size: 18, color: ok ? context.appColors.success : context.appColors.warning),
+        Icon(
+          ok ? Icons.check_circle_outline : Icons.warning_amber_outlined,
+          size: 18,
+          color: ok ? context.appColors.success : context.appColors.warning,
+        ),
         const SizedBox(width: Space.sm),
         Expanded(child: Text('$label · ${ok ? l.devConfigured : l.devNotConfigured}')),
       ],
@@ -167,7 +179,9 @@ class _TimeTravel extends ConsumerWidget {
           key: const ValueKey('dev-time-now'),
           leading: const Icon(Icons.schedule),
           title: Text(l.devTimeTravelNow(format.dateTime(resolver.toLocal(appNow, zone)))),
-          subtitle: Text(offset == Duration.zero ? l.devTimeTravelOff : l.devTimeTravelOffset(format.relative(appNow, realNow))),
+          subtitle: Text(
+            offset == Duration.zero ? l.devTimeTravelOff : l.devTimeTravelOffset(format.relative(appNow, realNow)),
+          ),
         ),
         Padding(
           padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),

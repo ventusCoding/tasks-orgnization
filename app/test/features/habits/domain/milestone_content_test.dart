@@ -69,7 +69,8 @@ void main() {
         return jsonEncode(json);
       }
 
-      Map<String, dynamic> row(Map<String, dynamic> json, int i) => (json['milestones'] as List)[i] as Map<String, dynamic>;
+      Map<String, dynamic> row(Map<String, dynamic> json, int i) =>
+          (json['milestones'] as List)[i] as Map<String, dynamic>;
       expect(
         () => parseMilestoneContent(broken((j) => row(j, 1)['sources'] = <Object>[])),
         throwsA(isA<FormatException>().having((e) => e.message, 'message', contains('Co8h: no source'))),

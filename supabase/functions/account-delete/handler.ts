@@ -4,7 +4,14 @@
 
 import { hasValidCronSecret, requireUser } from "../_shared/auth.ts";
 import { handleCors } from "../_shared/cors.ts";
-import { assertMethod, badRequest, errorResponse, json, notConfigured } from "../_shared/errors.ts";
+import {
+  assertMethod,
+  badRequest,
+  errorResponse,
+  forbidden,
+  json,
+  notConfigured,
+} from "../_shared/errors.ts";
 import { log } from "../_shared/log.ts";
 import { type AdminClient, callRpc, createAdminClient } from "../_shared/supabase.ts";
 import { type AccountDeletionPorts, deleteAccount } from "./deletion.ts";
@@ -55,7 +62,10 @@ export interface AccountDeleteDeps {
   createClient: () => AdminClient | null;
   createPorts: (client: AdminClient) => AccountDeletionPorts;
   isCron: (req: Request) => boolean;
-  authenticate: (req: Request, client: AdminClient) => Promise<{ id: string }>;
+  authenticate: (
+    req: Request,
+    client: AdminClient,
+  ) => Promise<{ id: string; aal?: string | null; hasVerifiedFactor?: boolean }>;
 }
 
 export const defaultDeps: AccountDeleteDeps = {
@@ -82,8 +92,13 @@ export function createHandler(deps: AccountDeleteDeps = defaultDeps) {
         }
         userId = body.user_id;
       } else {
-        userId = (await deps.authenticate(req, client)).id;
+        const user = await deps.authenticate(req, client);
         await req.body?.cancel();
+        // T1.5.17: with a verified authenticator, deletion needs a session stepped up to aal2.
+        if (user.hasVerifiedFactor && user.aal !== "aal2") {
+          throw forbidden("aal2_required", "Verify your authenticator code first");
+        }
+        userId = user.id;
       }
 
       const result = await deleteAccount(deps.createPorts(client), userId);

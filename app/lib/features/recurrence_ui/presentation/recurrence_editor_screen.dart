@@ -612,7 +612,7 @@ class _RecurrenceEditorScreenState extends ConsumerState<RecurrenceEditorScreen>
             label: Text(l.recurCustomValue),
             onPressed: () async {
               final v = await _promptInt(promptTitle, min: min, max: max);
-              if (v != null && !selected.contains(v)) onChanged(([...selected, v]..sort()));
+              if (v != null && !selected.contains(v)) onChanged([...selected, v]..sort());
             },
           ),
         ],
@@ -911,7 +911,7 @@ class _RecurrenceEditorScreenState extends ConsumerState<RecurrenceEditorScreen>
           onPressed: () async {
             final key = await add();
             if (!mounted || key == null || values.contains(key)) return;
-            onChanged(([...values, key]..sort()));
+            onChanged([...values, key]..sort());
           },
         ),
       ],
@@ -941,7 +941,7 @@ class _RecurrenceEditorScreenState extends ConsumerState<RecurrenceEditorScreen>
           children: [
             list('rdate', _rule.rdates, (v) => _set(_rule.copyWith(rdates: v)), () async {
               final date = await pickDate(context, initial: _anchor.start.date);
-              if (date == null || !mounted) return null;
+              if (date == null || !context.mounted) return null;
               if (_anchor.allDay) return date.toIso();
               final time = await pickTime(context, initial: _anchor.start.time, use24h: prefs.use24h);
               return time == null ? null : date.atTime(time).toIso();

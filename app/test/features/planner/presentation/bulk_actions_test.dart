@@ -20,13 +20,15 @@ void main() {
   Finder key(String k) => find.byKey(ValueKey(k));
 
   /// One-off A at 09:00, one-off B at 11:00, and the 22nd occurrence of a daily series.
-  Future<(String, String, String, List<PlannerItem>)> seed(WidgetTester tester) async => (await tester.runAsync(() async {
-    final a = await h.createTask(title: 'A', start: '2026-09-22T09:00');
-    final b = await h.createTask(title: 'B', start: '2026-09-22T11:00');
-    final daily = await h.createTask(title: 'Daily', start: '2026-09-20T07:00', duration: 15, rule: RecurrenceRule());
-    final items = await h.items(ld('2026-09-22'), 1);
-    return (a, b, daily, items);
-  }))!;
+  Future<(String, String, String, List<PlannerItem>)> seed(WidgetTester tester) async => (await tester.runAsync(
+    () async {
+      final a = await h.createTask(title: 'A', start: '2026-09-22T09:00');
+      final b = await h.createTask(title: 'B', start: '2026-09-22T11:00');
+      final daily = await h.createTask(title: 'Daily', start: '2026-09-20T07:00', duration: 15, rule: RecurrenceRule());
+      final items = await h.items(ld('2026-09-22'), 1);
+      return (a, b, daily, items);
+    },
+  ))!;
 
   Future<void> openSheet(WidgetTester tester, List<PlannerItem> items) async {
     await pumpOpener(tester, h, (context) => showBulkActionsSheet(context, items));
@@ -77,9 +79,12 @@ void main() {
     await pumpFor(tester);
     await tester.tap(find.text('Done').last);
     await settle(tester);
-    final tagged = (await tester.runAsync(() async => [
-      for (final id in [a, b]) (await h.read(tagsRepositoryProvider).tagsForEntity('task', id)).map((t) => t.id).toList(),
-    ]))!;
+    final tagged = (await tester.runAsync(
+      () async => [
+        for (final id in [a, b])
+          (await h.read(tagsRepositoryProvider).tagsForEntity('task', id)).map((t) => t.id).toList(),
+      ],
+    ))!;
     expect(tagged, [
       [tag],
       [tag],

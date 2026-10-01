@@ -20,18 +20,13 @@ void main() {
     notifyMode: NotifyMode.custom,
   );
 
-  NotificationRule schedule(
-    Map<String, Object?> recurrence, {
-    RepeatSpec? repeat,
-  }) => NotificationRule(
+  NotificationRule schedule(Map<String, Object?> recurrence, {RepeatSpec? repeat}) => NotificationRule(
     id: 'r',
     targetType: RuleTargetType.checklistItem,
     targetId: 'water',
     section: NotificationSection.checklists,
     spec: NotificationRuleSpec(
-      trigger: ScheduleTrigger(
-        recurrence: {'v': 1, 'type': 'fixed', 'interval': 1, ...recurrence},
-      ),
+      trigger: ScheduleTrigger(recurrence: {'v': 1, 'type': 'fixed', 'interval': 1, ...recurrence}),
       repeat: repeat,
     ),
   );
@@ -45,18 +40,13 @@ void main() {
       now: now,
       deviceZone: 'UTC',
       zones: TzZoneResolver(),
-      settings: const NotificationSettings(),
+      settings: NotificationSettings.defaults,
       rules: [rule],
       targets: const [target],
       horizon: window,
       applyCaps: false,
     );
-    return NoiseEstimate.fromPlan(
-      NotificationPlanner.planRule(ctx, rule, target),
-      window,
-      others: others,
-      from: now,
-    );
+    return NoiseEstimate.fromPlan(NotificationPlanner.planRule(ctx, rule, target), window, others: others, from: now);
   }
 
   test('a daily reminder is quiet', () {
@@ -89,21 +79,14 @@ void main() {
     expect(noise.level, NoiseLevel.confirm);
   });
 
-  test(
-    'every minute is at the hard cap and still allowed after confirmation',
-    () {
-      final noise = estimate(schedule({'freq': 'minutely'}));
-      expect(noise.firesPerDay, NoiseEstimate.hardCap);
-      expect(noise.level, NoiseLevel.confirm);
-    },
-  );
+  test('every minute is at the hard cap and still allowed after confirmation', () {
+    final noise = estimate(schedule({'freq': 'minutely'}));
+    expect(noise.firesPerDay, NoiseEstimate.hardCap);
+    expect(noise.level, NoiseLevel.confirm);
+  });
 
   test('every minute with a nag chain exceeds the hard cap and is blocked', () {
-    final noise = estimate(
-      schedule({
-        'freq': 'minutely',
-      }, repeat: const RepeatSpec(everyMinutes: 1, maxTimes: 2)),
-    );
+    final noise = estimate(schedule({'freq': 'minutely'}, repeat: const RepeatSpec(everyMinutes: 1, maxTimes: 2)));
     expect(noise.firesPerDay, greaterThan(NoiseEstimate.hardCap));
     expect(noise.level, NoiseLevel.blocked);
   });
@@ -116,10 +99,7 @@ void main() {
     final noise = estimate(
       rule,
       window: const Duration(days: 2),
-      others: [
-        DateTime.utc(2026, 9, 22, 9, 0, 20),
-        DateTime.utc(2026, 9, 23, 12),
-      ],
+      others: [DateTime.utc(2026, 9, 22, 9, 0, 20), DateTime.utc(2026, 9, 23, 12)],
     );
     expect(noise.sameMinuteClusters, 1);
   });

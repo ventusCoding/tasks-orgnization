@@ -59,32 +59,36 @@ class HabitsRepository {
   }
 
   /// Revisions of one habit (chronological).
-  Stream<List<HabitRevision>> watchRevisions(String habitId) => (_db.select(_db.habitRevisions)
-        ..where((r) => r.habitId.equals(habitId) & r.deletedAt.isNull())
-        ..orderBy([(r) => OrderingTerm.asc(r.effectiveFrom)]))
-      .watch()
-      .map((rows) => rows.map(HabitMappers.revision).toList());
-
-  /// Every live revision of the user (multi-habit evaluation).
-  Stream<List<HabitRevision>> watchAllRevisions() => (_db.select(_db.habitRevisions)
-        ..where((r) => r.deletedAt.isNull() & r.userId.equals(_userId()))
-        ..orderBy([(r) => OrderingTerm.asc(r.habitId), (r) => OrderingTerm.asc(r.effectiveFrom)]))
-      .watch()
-      .map((rows) => rows.map(HabitMappers.revision).toList());
-
-  Future<List<HabitRevision>> revisionsFor(String habitId) async => (await (_db.select(_db.habitRevisions)
+  Stream<List<HabitRevision>> watchRevisions(String habitId) =>
+      (_db.select(_db.habitRevisions)
             ..where((r) => r.habitId.equals(habitId) & r.deletedAt.isNull())
             ..orderBy([(r) => OrderingTerm.asc(r.effectiveFrom)]))
-          .get())
-      .map(HabitMappers.revision)
-      .toList();
+          .watch()
+          .map((rows) => rows.map(HabitMappers.revision).toList());
+
+  /// Every live revision of the user (multi-habit evaluation).
+  Stream<List<HabitRevision>> watchAllRevisions() =>
+      (_db.select(_db.habitRevisions)
+            ..where((r) => r.deletedAt.isNull() & r.userId.equals(_userId()))
+            ..orderBy([(r) => OrderingTerm.asc(r.habitId), (r) => OrderingTerm.asc(r.effectiveFrom)]))
+          .watch()
+          .map((rows) => rows.map(HabitMappers.revision).toList());
+
+  Future<List<HabitRevision>> revisionsFor(String habitId) async =>
+      (await (_db.select(_db.habitRevisions)
+                ..where((r) => r.habitId.equals(habitId) & r.deletedAt.isNull())
+                ..orderBy([(r) => OrderingTerm.asc(r.effectiveFrom)]))
+              .get())
+          .map(HabitMappers.revision)
+          .toList();
 
   Future<String?> lastSortKey() async {
-    final row = await (_db.select(_db.habits)
-          ..where((h) => h.deletedAt.isNull() & h.userId.equals(_userId()))
-          ..orderBy([(h) => OrderingTerm.desc(h.sortKey)])
-          ..limit(1))
-        .getSingleOrNull();
+    final row =
+        await (_db.select(_db.habits)
+              ..where((h) => h.deletedAt.isNull() & h.userId.equals(_userId()))
+              ..orderBy([(h) => OrderingTerm.desc(h.sortKey)])
+              ..limit(1))
+            .getSingleOrNull();
     return row?.sortKey;
   }
 
@@ -96,7 +100,12 @@ class HabitsRepository {
     return _writer.run((tx) async {
       await tx.insert('habits', habit.id, {...HabitMappers.habitColumns(habit), 'sort_key': sortKey});
       await _upsertRevision(tx, habit, habit.startDate);
-      await tx.logEvent(entityType: 'habit', entityId: habit.id, eventType: 'created', payload: {'kind': habit.kind.name});
+      await tx.logEvent(
+        entityType: 'habit',
+        entityId: habit.id,
+        eventType: 'created',
+        payload: {'kind': habit.kind.name},
+      );
       if (inTx != null) await inTx(tx);
     });
   }
@@ -105,7 +114,10 @@ class HabitsRepository {
   static bool rulesChanged(Habit before, Habit after) => switch ((before, after)) {
     (final BuildHabit a, final BuildHabit b) => a.schedule != b.schedule || a.goal != b.goal,
     (final QuitHabit a, final QuitHabit b) =>
-      a.baselinePerDay != b.baselinePerDay || a.unitCost != b.unitCost || a.dailyLimit != b.dailyLimit || a.unit != b.unit,
+      a.baselinePerDay != b.baselinePerDay ||
+          a.unitCost != b.unitCost ||
+          a.dailyLimit != b.dailyLimit ||
+          a.unit != b.unit,
     _ => true,
   };
 
@@ -194,11 +206,7 @@ class HabitsRepository {
 
   Future<void> _upsertRevision(WriteTx tx, Habit habit, LocalDate from) async {
     final id = HabitIds.revision(habit.id, from);
-    final values = {
-      'habit_id': habit.id,
-      'effective_from': from,
-      ...HabitMappers.revisionColumns(habit),
-    };
+    final values = {'habit_id': habit.id, 'effective_from': from, ...HabitMappers.revisionColumns(habit)};
     if (await tx.exists('habit_revisions', id)) {
       await tx.update('habit_revisions', id, {...values, 'deleted_at': null});
     } else {

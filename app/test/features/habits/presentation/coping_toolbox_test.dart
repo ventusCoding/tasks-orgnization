@@ -52,7 +52,9 @@ void main() {
     return tracker;
   }
 
-  testWidgets('finishing the 3-minute timer logs the craving with its duration and resisted flag in one step', (tester) async {
+  testWidgets('finishing the 3-minute timer logs the craving with its duration and resisted flag in one step', (
+    tester,
+  ) async {
     final tracker = await createTracker(tester);
     await pumpInApp(tester, h, CopingToolboxScreen(habitId: tracker.id));
     await settle(tester);

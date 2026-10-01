@@ -2,7 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
 import 'package:everslot/features/habits/domain/quit.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../support/habit_fixtures.dart';
 
@@ -59,7 +59,13 @@ void main() {
       final auto = tracker(autoSuccess: true);
       final explicit = tracker(autoSuccess: false);
       final a = quitCalculatorOf(auto, revisions: const [], logs: logs, days: service.boundariesOf(auto), now: now);
-      final e = quitCalculatorOf(explicit, revisions: const [], logs: logs, days: service.boundariesOf(explicit), now: now);
+      final e = quitCalculatorOf(
+        explicit,
+        revisions: const [],
+        logs: logs,
+        days: service.boundariesOf(explicit),
+        now: now,
+      );
       expect(a.cleanDays, e.cleanDays + e.unknownDays);
       // Money and streaks do not depend on the confirmation mode.
       expect(a.moneySaved, e.moneySaved);

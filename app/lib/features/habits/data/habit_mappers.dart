@@ -264,7 +264,8 @@ abstract final class HabitMappers {
 /// Deterministic ids of the habit feature (arch §9.2) that are not in `core/ids`.
 abstract final class HabitIds {
   /// Revisions converge per (habit, effective date) — the server enforces the uniqueness.
-  static String revision(String habitId, LocalDate effectiveFrom) => Ids.v5('$habitId|${effectiveFrom.toIso()}|revision');
+  static String revision(String habitId, LocalDate effectiveFrom) =>
+      Ids.v5('$habitId|${effectiveFrom.toIso()}|revision');
 
   /// Note log of a period (yes/no habit without a state row, T5.2.09).
   static String periodNote(String habitId, String key) => Ids.v5('$habitId|$key|note');

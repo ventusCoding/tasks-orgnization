@@ -10,6 +10,7 @@ import 'package:everslot/features/notifications/application/notification_pipelin
 import 'package:everslot/features/notifications/application/notification_providers.dart';
 import 'package:everslot/features/notifications/application/notifications_engine.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
+import 'package:everslot/features/notifications/domain/planner/planned_notification.dart';
 import 'package:everslot/features/notifications/domain/scheduler/schedule_plan.dart';
 import 'package:everslot/features/notifications/presentation/notification_labels.dart';
 import 'package:flutter/foundation.dart';
@@ -45,10 +46,7 @@ class NotificationDiagnostics {
 
   /// JSON for "Copy diagnostics" — ids/counts only, never content (T7.2.21 test).
   Map<String, Object?> toJson() => {
-    'capabilities': {
-      ...capabilities.toJson(),
-      'platform': capabilities.platform,
-    },
+    'capabilities': {...capabilities.toJson(), 'platform': capabilities.platform},
     'osPending': osPending,
     'scheduledOs': scheduledOs,
     'tracked': tracked,
@@ -68,50 +66,40 @@ class NotificationDiagnostics {
             'error': report!.error == null ? null : 'error',
           },
     'next': [
-      for (final p in report?.next ?? const [])
-        {
-          'at': p.fireAt.toIso8601String(),
-          'section': p.section.wire,
-          'channel': p.channelId,
-        },
+      for (final p in report?.next ?? const <PlannedNotification>[])
+        {'at': p.fireAt.toIso8601String(), 'section': p.section.wire, 'channel': p.channelId},
     ],
     'push': pushAvailable,
   };
 }
 
-final notificationDiagnosticsProvider =
-    FutureProvider.autoDispose<NotificationDiagnostics>((ref) async {
-      final port = ref.watch(localNotificationsPortProvider);
-      final store = ref.watch(localScheduleStoreProvider);
-      final now = ref.watch(clockProvider).nowUtc();
-      final report = ref.watch(lastReplanReportProvider).value;
-      final entries = await store.all();
-      final pending = await port.pending();
-      final osFuture = [
-        for (final e in entries)
-          if (e.os && e.fireAt.isAfter(now)) e,
-      ];
-      final pendingIds = {for (final p in pending) p.id};
-      final osIds = {for (final e in osFuture) e.platformId};
-      return NotificationDiagnostics(
-        capabilities: ref.watch(notificationCapabilitiesProvider),
-        osPending: pending.length,
-        scheduledOs: osFuture.length,
-        tracked: entries.where((e) => !e.os && e.fireAt.isAfter(now)).length,
-        snoozes: entries
-            .where(
-              (e) => e.kind == ScheduleKind.snooze && e.fireAt.isAfter(now),
-            )
-            .length,
-        mismatches: port is InMemoryLocalNotificationsPort
-            ? 0
-            : osIds.difference(pendingIds).length +
-                  pendingIds.difference(osIds).length,
-        budget: ref.watch(localSchedulerProvider).budget,
-        report: report,
-        pushAvailable: ref.watch(pushAvailableProvider),
-      );
-    });
+final notificationDiagnosticsProvider = FutureProvider.autoDispose<NotificationDiagnostics>((ref) async {
+  final port = ref.watch(localNotificationsPortProvider);
+  final store = ref.watch(localScheduleStoreProvider);
+  final now = ref.watch(clockProvider).nowUtc();
+  final report = ref.watch(lastReplanReportProvider).value;
+  final entries = await store.all();
+  final pending = await port.pending();
+  final osFuture = [
+    for (final e in entries)
+      if (e.os && e.fireAt.isAfter(now)) e,
+  ];
+  final pendingIds = {for (final p in pending) p.id};
+  final osIds = {for (final e in osFuture) e.platformId};
+  return NotificationDiagnostics(
+    capabilities: ref.watch(notificationCapabilitiesProvider),
+    osPending: pending.length,
+    scheduledOs: osFuture.length,
+    tracked: entries.where((e) => !e.os && e.fireAt.isAfter(now)).length,
+    snoozes: entries.where((e) => e.kind == ScheduleKind.snooze && e.fireAt.isAfter(now)).length,
+    mismatches: port is InMemoryLocalNotificationsPort
+        ? 0
+        : osIds.difference(pendingIds).length + pendingIds.difference(osIds).length,
+    budget: ref.watch(localSchedulerProvider).budget,
+    report: report,
+    pushAvailable: ref.watch(pushAvailableProvider),
+  );
+});
 
 class NotificationDiagnosticsScreen extends ConsumerWidget {
   const NotificationDiagnosticsScreen({super.key});
@@ -120,16 +108,12 @@ class NotificationDiagnosticsScreen extends ConsumerWidget {
     var maker = 'android';
     try {
       if (defaultTargetPlatform == TargetPlatform.android) {
-        maker = (await DeviceInfoPlugin().androidInfo).manufacturer
-            .toLowerCase();
+        maker = (await DeviceInfoPlugin().androidInfo).manufacturer.toLowerCase();
       }
     } on Object {
       // keep generic page
     }
-    await launchUrl(
-      Uri.parse('https://dontkillmyapp.com/$maker'),
-      mode: LaunchMode.externalApplication,
-    );
+    await launchUrl(Uri.parse('https://dontkillmyapp.com/$maker'), mode: LaunchMode.externalApplication);
   }
 
   @override
@@ -140,9 +124,7 @@ class NotificationDiagnosticsScreen extends ConsumerWidget {
     final zones = ref.watch(zoneResolverProvider);
     final diagnostics = ref.watch(notificationDiagnosticsProvider);
     String yes(bool v) => v ? l.notifYes : l.notifNo;
-    String when(DateTime? t) => t == null
-        ? l.notifNever
-        : labels.format.dateTime(zones.toLocal(t, zone));
+    String when(DateTime? t) => t == null ? l.notifNever : labels.format.dateTime(zones.toLocal(t, zone));
     return Scaffold(
       appBar: AppBar(
         title: Text(l.notifDiagTitle),
@@ -163,89 +145,44 @@ class NotificationDiagnosticsScreen extends ConsumerWidget {
           padding: const EdgeInsets.only(bottom: Space.xxxl),
           children: [
             SectionHeader(l.notifDiagCapabilities),
-            ListTile(
-              title: Text(l.notifDiagPermission),
-              trailing: Text(yes(d.capabilities.notifications)),
-            ),
+            ListTile(title: Text(l.notifDiagPermission), trailing: Text(yes(d.capabilities.notifications))),
             if (d.capabilities.isIos)
-              ListTile(
-                title: Text(l.notifDiagProvisional),
-                trailing: Text(yes(d.capabilities.provisional)),
-              ),
+              ListTile(title: Text(l.notifDiagProvisional), trailing: Text(yes(d.capabilities.provisional))),
             if (d.capabilities.isAndroid)
-              ListTile(
-                title: Text(l.notifDiagExact),
-                trailing: Text(yes(d.capabilities.exactAlarm)),
-              ),
-            ListTile(
-              title: Text(l.notifDiagTimeSensitive),
-              trailing: Text(yes(d.capabilities.timeSensitive)),
-            ),
-            ListTile(
-              title: Text(l.notifDiagBadge),
-              trailing: Text(yes(d.capabilities.badge)),
-            ),
+              ListTile(title: Text(l.notifDiagExact), trailing: Text(yes(d.capabilities.exactAlarm))),
+            ListTile(title: Text(l.notifDiagTimeSensitive), trailing: Text(yes(d.capabilities.timeSensitive))),
+            ListTile(title: Text(l.notifDiagBadge), trailing: Text(yes(d.capabilities.badge))),
             if (d.capabilities.blockedChannels.isNotEmpty)
-              ListTile(
-                title: Text(l.notifDiagBlocked),
-                subtitle: Text(d.capabilities.blockedChannels.join(', ')),
-              ),
+              ListTile(title: Text(l.notifDiagBlocked), subtitle: Text(d.capabilities.blockedChannels.join(', '))),
             ListTile(
               title: Text(l.notifDiagPush),
-              subtitle: Text(
-                d.pushAvailable ? l.notifDiagPushOn : l.notifDiagPushOff,
-              ),
+              subtitle: Text(d.pushAvailable ? l.notifDiagPushOn : l.notifDiagPushOff),
             ),
             SectionHeader(l.notifDiagSchedule),
-            ListTile(
-              title: Text(l.notifDiagPendingOs),
-              trailing: Text('${d.osPending}'),
-            ),
-            ListTile(
-              title: Text(l.notifDiagBudget(d.scheduledOs, d.budget.total)),
-            ),
-            ListTile(
-              title: Text(l.notifDiagTracked),
-              trailing: Text('${d.tracked}'),
-            ),
+            ListTile(title: Text(l.notifDiagPendingOs), trailing: Text('${d.osPending}')),
+            ListTile(title: Text(l.notifDiagBudget(d.scheduledOs, d.budget.total))),
+            ListTile(title: Text(l.notifDiagTracked), trailing: Text('${d.tracked}')),
             if (d.mismatches > 0)
               ListTile(
-                leading: Icon(
-                  Icons.warning_amber,
-                  color: context.appColors.warning,
-                ),
+                leading: Icon(Icons.warning_amber, color: context.appColors.warning),
                 title: Text(l.notifDiagMismatch(d.mismatches)),
               ),
-            ListTile(
-              title: Text(l.notifDiagCoverage),
-              trailing: Text(when(d.report?.scheduler.coverageUntil)),
-            ),
+            ListTile(title: Text(l.notifDiagCoverage), trailing: Text(when(d.report?.scheduler.coverageUntil))),
             ListTile(
               title: Text(l.notifDiagLastReplan),
               subtitle: Text(
                 d.report == null
                     ? l.notifNever
-                    : l.notifDiagReplanInfo(
-                        when(d.report!.at),
-                        d.report!.duration.inMilliseconds,
-                        d.report!.reason,
-                      ),
+                    : l.notifDiagReplanInfo(when(d.report!.at), d.report!.duration.inMilliseconds, d.report!.reason),
               ),
             ),
             SectionHeader(l.notifDiagNext),
-            for (final p in d.report?.next ?? const [])
+            for (final p in d.report?.next ?? const <PlannedNotification>[])
               ListTile(
                 dense: true,
-                leading: Icon(
-                  p.deliverSystem
-                      ? Icons.notifications_active_outlined
-                      : Icons.inbox_outlined,
-                  size: 20,
-                ),
+                leading: Icon(p.deliverSystem ? Icons.notifications_active_outlined : Icons.inbox_outlined, size: 20),
                 title: Text(p.inboxTitle),
-                subtitle: Text(
-                  '${when(p.fireAt)} · ${labels.section(p.section)}',
-                ),
+                subtitle: Text('${when(p.fireAt)} · ${labels.section(p.section)}'),
               ),
             const Divider(),
             ListTile(
@@ -277,14 +214,10 @@ class NotificationDiagnosticsScreen extends ConsumerWidget {
               leading: const Icon(Icons.copy_all_outlined),
               title: Text(l.notifDiagCopy),
               onTap: () async {
-                await Clipboard.setData(
-                  ClipboardData(
-                    text: const JsonEncoder.withIndent('  ')
-                        .convert(d.toJson()),
-                  ),
-                );
-                if (context.mounted)
+                await Clipboard.setData(ClipboardData(text: const JsonEncoder.withIndent('  ').convert(d.toJson())));
+                if (context.mounted) {
                   showInfoSnackBar(context, l.notifDiagCopied);
+                }
               },
             ),
           ],

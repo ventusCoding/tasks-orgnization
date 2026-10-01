@@ -122,11 +122,12 @@ final quitTrackersProvider = StreamProvider.autoDispose<List<ScopeEntity>>((ref)
 });
 
 /// Filter options of the section screens (categories and tags).
-final statsFilterOptionsProvider = FutureProvider.autoDispose<({List<FilterOption> categories, List<FilterOption> tags})>((ref) async {
-  ref.watch(currentUserIdProvider);
-  final source = ref.watch(statsDataSourceProvider);
-  return (categories: await source.categoryOptions(), tags: await source.tagOptions());
-});
+final statsFilterOptionsProvider =
+    FutureProvider.autoDispose<({List<FilterOption> categories, List<FilterOption> tags})>((ref) async {
+      ref.watch(currentUserIdProvider);
+      final source = ref.watch(statsDataSourceProvider);
+      return (categories: await source.categoryOptions(), tags: await source.tagOptions());
+    });
 
 // ---------------------------------------------------------------------------------------------
 // Local UI state (T6.1.17)

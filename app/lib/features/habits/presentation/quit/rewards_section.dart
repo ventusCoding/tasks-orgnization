@@ -73,7 +73,9 @@ class QuitRewardsSection extends ConsumerWidget {
               trailing: !e.goal.isAchieved && e.progress.status == GoalStatus.achieved
                   ? FilledButton.tonal(
                       onPressed: () async {
-                        final record = await ref.read(goalServiceProvider).claim(e.goal, ref.read(clockProvider).nowUtc());
+                        final record = await ref
+                            .read(goalServiceProvider)
+                            .claim(e.goal, ref.read(clockProvider).nowUtc());
                         if (record != null && context.mounted) {
                           showUndoSnackBar(context, ref, message: l.quitRewardClaimedSnack, record: record);
                         }

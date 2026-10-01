@@ -174,7 +174,8 @@ class ResolvedOccurrence {
   int get hashCode => Object.hash(task.id, occurrenceKey, startInstant, endInstant, status, isCurrent, isOverdue);
 
   @override
-  String toString() => 'ResolvedOccurrence($title, $occurrenceKey, $startLocalViewer → $endLocalViewer, ${status.name})';
+  String toString() =>
+      'ResolvedOccurrence($title, $occurrenceKey, $startLocalViewer → $endLocalViewer, ${status.name})';
 }
 
 /// Output of [OccurrenceResolver.resolve].
@@ -249,6 +250,7 @@ class OccurrenceResolver {
         out.addAll(items);
       } on InvalidRuleException {
         continue; // invalid rules produce nothing (the editor prevents saving them)
+        // ignore: avoid_catching_errors, the engine throws it for unsupported rules.
       } on ArgumentError {
         continue;
       } on FormatException {
@@ -322,9 +324,7 @@ class OccurrenceResolver {
     var record = recs[key];
     if (record == null && recs.isNotEmpty) {
       // A record written under a previous start (e.g. rescheduled on another device).
-      record = recs.values.reduce(
-        (a, b) => (a.updatedAt ?? DateTime(0)).isAfter(b.updatedAt ?? DateTime(0)) ? a : b,
-      );
+      record = recs.values.reduce((a, b) => (a.updatedAt ?? DateTime(0)).isAfter(b.updatedAt ?? DateTime(0)) ? a : b);
     }
     if (record != null && record.isCancelled && !ctx.settings.showCancelled) return const [];
     final start = record?.overrideStartLocal ?? anchor.start;
@@ -356,23 +356,16 @@ class OccurrenceResolver {
     final out = <ResolvedOccurrence>[];
     var truncated = false;
     try {
-      final merged = _merger.merge<TaskOccurrenceRecord>(
-        rule,
-        anchor,
-        ctx.from,
-        ctx.to,
-        [
-          for (final r in recs.values)
-            OccurrenceOverride<TaskOccurrenceRecord>(
-              r.occurrenceKey,
-              cancelled: r.isCancelled && !showCancelled,
-              newStartLocal: r.overrideStartLocal,
-              newDurationMinutes: r.overrideDurationMinutes,
-              payload: r,
-            ),
-        ],
-        evalZone: ctx.viewerZone,
-      );
+      final merged = _merger.merge<TaskOccurrenceRecord>(rule, anchor, ctx.from, ctx.to, [
+        for (final r in recs.values)
+          OccurrenceOverride<TaskOccurrenceRecord>(
+            r.occurrenceKey,
+            cancelled: r.isCancelled && !showCancelled,
+            newStartLocal: r.overrideStartLocal,
+            newDurationMinutes: r.overrideDurationMinutes,
+            payload: r,
+          ),
+      ], evalZone: ctx.viewerZone);
       for (final m in merged) {
         final effective = Occurrence(
           key: m.key,
@@ -537,9 +530,7 @@ class OccurrenceResolver {
       final activeEnd = until == null ? period.endDate : LocalDate.min(period.endDate, until);
       // Unplaced slot: shown as an all-day marker on today (current period), the period's last
       // day (past periods) or its first day (future periods), clamped into the range.
-      var day = ctx.today.isAfter(activeEnd)
-          ? activeEnd
-          : (ctx.today.isBefore(activeStart) ? activeStart : ctx.today);
+      var day = ctx.today.isAfter(activeEnd) ? activeEnd : (ctx.today.isBefore(activeStart) ? activeStart : ctx.today);
       if (day.isBefore(ctx.from.date)) day = ctx.from.date;
       if (day.isAfter(activeEnd) || !day.atStartOfDay.isBefore(ctx.to)) continue;
       final startUtc = zones.resolve(day.atStartOfDay, zone).utc;

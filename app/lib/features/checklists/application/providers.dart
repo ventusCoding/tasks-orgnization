@@ -1,8 +1,8 @@
 import 'dart:isolate';
 
 import 'package:everslot/core/providers.dart';
-import 'package:everslot/features/attachments/application/providers.dart' show Attachment;
 import 'package:everslot/core/sync/sync_writer.dart';
+import 'package:everslot/features/attachments/application/providers.dart' show Attachment;
 import 'package:everslot/features/checklists/application/checklist_service.dart';
 import 'package:everslot/features/checklists/data/checklist_cascades.dart';
 import 'package:everslot/features/checklists/data/checklist_items_repository.dart';

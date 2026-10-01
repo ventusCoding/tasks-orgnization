@@ -1,11 +1,11 @@
 import 'package:everslot/core/ids/ids.dart';
+import 'package:everslot/features/goals/application/achievement_service.dart';
 import 'package:everslot/features/goals/presentation/badge_gallery.dart';
 import 'package:everslot/features/goals/presentation/badge_share_card.dart';
 import 'package:everslot/features/habits/application/check_in_service.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/notifications/application/inbox_providers.dart';
-import 'package:everslot/features/goals/application/achievement_service.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
@@ -69,7 +69,11 @@ void main() {
     await tester.tap(share);
     await settle(tester);
     expect(find.byType(BadgeShareCard), findsOneWidget);
-    expect(find.descendant(of: find.byType(BadgeShareCard), matching: find.text('Meditate')), findsNothing, reason: 'habit name off by default');
+    expect(
+      find.descendant(of: find.byType(BadgeShareCard), matching: find.text('Meditate')),
+      findsNothing,
+      reason: 'habit name off by default',
+    );
     await tester.tap(find.text(en.goalsBadgeShareHabit));
     await tester.pump();
     expect(find.descendant(of: find.byType(BadgeShareCard), matching: find.text('Meditate')), findsOneWidget);

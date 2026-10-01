@@ -52,7 +52,9 @@ class _PauseSheetState extends ConsumerState<_PauseSheet> {
         .pause(habitId: widget.habitId, start: today, end: _end(today), reason: _reason.text);
     if (!mounted) return;
     Navigator.pop(context);
-    if (widget.host.mounted) showUndoSnackBar(widget.host, ref, message: context.l10n.habitsPausedSnack, record: record);
+    if (widget.host.mounted) {
+      showUndoSnackBar(widget.host, ref, message: context.l10n.habitsPausedSnack, record: record);
+    }
   }
 
   @override
@@ -80,9 +82,7 @@ class _PauseSheetState extends ConsumerState<_PauseSheet> {
             Card(
               child: ListTile(
                 leading: const Icon(Icons.pause_circle_outline),
-                title: Text(
-                  p.end == null ? l.habitsPausedIndefinitely : l.habitsPausedUntil(fmt.dateMedium(p.end!)),
-                ),
+                title: Text(p.end == null ? l.habitsPausedIndefinitely : l.habitsPausedUntil(fmt.dateMedium(p.end!))),
                 subtitle: p.reason == null ? null : Text(p.reason!),
                 trailing: TextButton(
                   onPressed: () async {

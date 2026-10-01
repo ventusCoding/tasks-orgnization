@@ -9,19 +9,10 @@ import 'package:intl/date_symbol_data_local.dart';
 void main() {
   setUpAll(initializeDateFormatting);
 
-  AppLocalizations l10n(String locale) =>
-      lookupAppLocalizations(Locale(locale));
+  AppLocalizations l10n(String locale) => lookupAppLocalizations(Locale(locale));
 
-  AppFormat format(
-    String locale, {
-    bool use24h = true,
-    bool arabicDigits = false,
-  }) => AppFormat(
-    locale,
-    use24h: use24h,
-    l10n: l10n(locale),
-    arabicDigits: arabicDigits,
-  );
+  AppFormat format(String locale, {bool use24h = true, bool arabicDigits = false}) =>
+      AppFormat(locale, use24h: use24h, l10n: l10n(locale), arabicDigits: arabicDigits);
 
   /// CLDR uses narrow/no-break spaces (e.g. "7:03\u202fPM"); compare with plain spaces.
   String plain(String s) => s.replaceAll(RegExp('[\u00a0\u202f]'), ' ');
@@ -31,47 +22,22 @@ void main() {
       for (final locale in ['en', 'fr', 'ar']) {
         expect(format(locale).time(LocalTime(7, 3)), '07:03', reason: locale);
         expect(format(locale).time(LocalTime(19, 3)), '19:03', reason: locale);
-        expect(
-          format(locale).time(LocalTime.midnight),
-          '00:00',
-          reason: locale,
-        );
+        expect(format(locale).time(LocalTime.midnight), '00:00', reason: locale);
       }
     });
 
     test('12 h preference is honoured in every locale', () {
-      expect(
-        plain(format('en', use24h: false).time(LocalTime(19, 3))),
-        '7:03 PM',
-      );
-      expect(
-        plain(format('en', use24h: false).time(LocalTime(7, 3))),
-        '7:03 AM',
-      );
-      expect(
-        plain(format('fr', use24h: false).time(LocalTime(19, 3))),
-        '7:03 PM',
-      );
-      expect(
-        plain(format('ar', use24h: false).time(LocalTime(19, 3))),
-        '7:03 م',
-      );
-      expect(
-        plain(format('ar', use24h: false).time(LocalTime(7, 3))),
-        '7:03 ص',
-      );
+      expect(plain(format('en', use24h: false).time(LocalTime(19, 3))), '7:03 PM');
+      expect(plain(format('en', use24h: false).time(LocalTime(7, 3))), '7:03 AM');
+      expect(plain(format('fr', use24h: false).time(LocalTime(19, 3))), '7:03 PM');
+      expect(plain(format('ar', use24h: false).time(LocalTime(19, 3))), '7:03 م');
+      expect(plain(format('ar', use24h: false).time(LocalTime(7, 3))), '7:03 ص');
     });
 
     test('end of day is 24:00, or localized midnight in 12 h mode', () {
       expect(format('en').time(LocalTime.endOfDay), '24:00');
-      expect(
-        plain(format('en', use24h: false).time(LocalTime.endOfDay)),
-        '12:00 AM',
-      );
-      expect(
-        plain(format('ar', use24h: false).time(LocalTime.endOfDay)),
-        '12:00 ص',
-      );
+      expect(plain(format('en', use24h: false).time(LocalTime.endOfDay)), '12:00 AM');
+      expect(plain(format('ar', use24h: false).time(LocalTime.endOfDay)), '12:00 ص');
     });
 
     test('ranges and date-times combine the pieces', () {
@@ -131,13 +97,7 @@ void main() {
       expect(f.number(1234.5, decimals: 1), '١٬٢٣٤٫٥');
       expect(f.dateMedium(LocalDate(2026, 9, 22)), '٢٢ سبتمبر ٢٠٢٦');
       expect(f.duration(80), '١ س ٢٠ د');
-      expect(
-        f.relative(
-          DateTime.utc(2026, 9, 22, 9, 5),
-          DateTime.utc(2026, 9, 22, 9),
-        ),
-        'بعد ٥ دقائق',
-      );
+      expect(f.relative(DateTime.utc(2026, 9, 22, 9, 5), DateTime.utc(2026, 9, 22, 9)), 'بعد ٥ دقائق');
       // Off by default: intl formats Arabic with Latin digits.
       expect(format('ar').time(LocalTime(7, 3)), '07:03');
     });
@@ -181,64 +141,29 @@ void main() {
     test('English', () {
       final f = format('en');
       expect(f.relative(now.add(const Duration(seconds: 20)), now), 'now');
-      expect(
-        f.relative(now.add(const Duration(minutes: 1)), now),
-        'in 1 minute',
-      );
-      expect(
-        f.relative(now.add(const Duration(minutes: 5)), now),
-        'in 5 minutes',
-      );
-      expect(
-        f.relative(now.subtract(const Duration(minutes: 5)), now),
-        '5 minutes ago',
-      );
+      expect(f.relative(now.add(const Duration(minutes: 1)), now), 'in 1 minute');
+      expect(f.relative(now.add(const Duration(minutes: 5)), now), 'in 5 minutes');
+      expect(f.relative(now.subtract(const Duration(minutes: 5)), now), '5 minutes ago');
       expect(f.relative(now.add(const Duration(hours: 2)), now), 'in 2 hours');
       expect(f.relative(now.add(const Duration(days: 1)), now), 'tomorrow');
-      expect(
-        f.relative(now.subtract(const Duration(days: 1)), now),
-        'yesterday',
-      );
-      expect(
-        f.relative(now.subtract(const Duration(days: 3)), now),
-        '3 days ago',
-      );
+      expect(f.relative(now.subtract(const Duration(days: 1)), now), 'yesterday');
+      expect(f.relative(now.subtract(const Duration(days: 3)), now), '3 days ago');
     });
 
     test('French and Arabic (dual forms)', () {
-      expect(
-        format('fr').relative(now.subtract(const Duration(days: 3)), now),
-        'il y a 3 jours',
-      );
-      expect(
-        format('fr').relative(now.add(const Duration(minutes: 5)), now),
-        'dans 5 minutes',
-      );
+      expect(format('fr').relative(now.subtract(const Duration(days: 3)), now), 'il y a 3 jours');
+      expect(format('fr').relative(now.add(const Duration(minutes: 5)), now), 'dans 5 minutes');
       final ar = format('ar');
       expect(ar.relative(now, now), 'الآن');
       expect(ar.relative(now.add(const Duration(hours: 2)), now), 'بعد ساعتين');
-      expect(
-        ar.relative(now.add(const Duration(minutes: 2)), now),
-        'بعد دقيقتين',
-      );
-      expect(
-        ar.relative(now.subtract(const Duration(hours: 5)), now),
-        'منذ 5 ساعات',
-      );
+      expect(ar.relative(now.add(const Duration(minutes: 2)), now), 'بعد دقيقتين');
+      expect(ar.relative(now.subtract(const Duration(hours: 5)), now), 'منذ 5 ساعات');
     });
   });
 
   test('live counter', () {
-    expect(
-      AppFormat.counter(const Duration(hours: 4, minutes: 12, seconds: 9)),
-      '04:12:09',
-    );
-    expect(
-      AppFormat.counter(
-        const Duration(days: 3, hours: 4, minutes: 12, seconds: 9),
-      ),
-      '3d 04:12:09',
-    );
+    expect(AppFormat.counter(const Duration(hours: 4, minutes: 12, seconds: 9)), '04:12:09');
+    expect(AppFormat.counter(const Duration(days: 3, hours: 4, minutes: 12, seconds: 9)), '3d 04:12:09');
   });
 
   group('ICU plurals', () {

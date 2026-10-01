@@ -7,22 +7,8 @@ import 'package:material_ui/material_ui.dart';
 /// tasks/habits/checklists (`active`, `paused`, `archived`). Color is never the only signal:
 /// every status has an icon and a label.
 abstract final class EntityStatusStyle {
-  static const itemStatuses = [
-    'todo',
-    'ongoing',
-    'waiting',
-    'blocked',
-    'completed',
-    'cancelled',
-  ];
-  static const occurrenceStatuses = [
-    'scheduled',
-    'in_progress',
-    'done',
-    'skipped',
-    'missed',
-    'cancelled',
-  ];
+  static const itemStatuses = ['todo', 'ongoing', 'waiting', 'blocked', 'completed', 'cancelled'];
+  static const occurrenceStatuses = ['scheduled', 'in_progress', 'done', 'skipped', 'missed', 'cancelled'];
   static const lifecycleStatuses = ['active', 'paused', 'archived'];
 
   /// Localized label; unknown values are shown as-is.
@@ -82,17 +68,8 @@ abstract final class EntityStatusStyle {
   }
 
   /// Options for a [FilterBar] status chip.
-  static List<FilterOption<String>> filterOptions(
-    BuildContext context,
-    Iterable<String> statuses,
-  ) => [
-    for (final s in statuses)
-      FilterOption(
-        s,
-        label(context, s),
-        icon: icon(s),
-        color: color(context, s),
-      ),
+  static List<FilterOption<String>> filterOptions(BuildContext context, Iterable<String> statuses) => [
+    for (final s in statuses) FilterOption(s, label(context, s), icon: icon(s), color: color(context, s)),
   ];
 }
 

@@ -17,21 +17,13 @@ void main() {
 
   final en = lookupAppLocalizations(const Locale('en'));
 
-  Future<void> pumpGallery(
-    WidgetTester tester, {
-    Locale locale = const Locale('en'),
-  }) async {
+  Future<void> pumpGallery(WidgetTester tester, {Locale locale = const Locale('en')}) async {
     // Tall enough for every section to be laid out (the gallery is a lazy list).
     tester.view
       ..physicalSize = const Size(1000, 16000)
       ..devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    await pumpInApp(
-      tester,
-      h,
-      const ComponentGalleryScreen(animateIndicators: false),
-      locale: locale,
-    );
+    await pumpInApp(tester, h, const ComponentGalleryScreen(animateIndicators: false), locale: locale);
     await tester.pumpAndSettle();
   }
 
@@ -60,10 +52,7 @@ void main() {
     await pumpGallery(tester);
     await toggle(tester, en.galleryDarkTheme);
     await toggle(tester, en.galleryRtl);
-    expect(
-      Directionality.of(tester.element(find.text(en.galleryButtons))),
-      TextDirection.rtl,
-    );
+    expect(Directionality.of(tester.element(find.text(en.galleryButtons))), TextDirection.rtl);
     await expectGuidelines(tester);
     handle.dispose();
   });
@@ -75,9 +64,7 @@ void main() {
     handle.dispose();
   });
 
-  testWidgets('text scale 2.0 lays out without clipping errors', (
-    tester,
-  ) async {
+  testWidgets('text scale 2.0 lays out without clipping errors', (tester) async {
     final handle = tester.ensureSemantics();
     await pumpGallery(tester);
     await toggle(tester, en.galleryLargeText);
@@ -104,31 +91,26 @@ void main() {
 
   testWidgets('announce() sends a live announcement', (tester) async {
     final messages = <String>[];
-    tester.binding.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(
-      SystemChannels.accessibility,
-      (message) async {
-        final event = message! as Map;
-        if (event['type'] == 'announce') {
-          messages.add((event['data'] as Map)['message'] as String);
-        }
-        return null;
-      },
-    );
+    tester.binding.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(SystemChannels.accessibility, (
+      message,
+    ) async {
+      final event = message! as Map;
+      if (event['type'] == 'announce') {
+        messages.add((event['data'] as Map)['message'] as String);
+      }
+      return null;
+    });
     addTearDown(
-      () => tester.binding.defaultBinaryMessenger
-          .setMockDecodedMessageHandler<Object?>(
-            SystemChannels.accessibility,
-            null,
-          ),
+      () => tester.binding.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(
+        SystemChannels.accessibility,
+        null,
+      ),
     );
     await pumpInApp(
       tester,
       h,
       Builder(
-        builder: (context) => TextButton(
-          onPressed: () => announce(context, 'Task completed'),
-          child: const Text('go'),
-        ),
+        builder: (context) => TextButton(onPressed: () => announce(context, 'Task completed'), child: const Text('go')),
       ),
     );
     await tester.tap(find.text('go'));

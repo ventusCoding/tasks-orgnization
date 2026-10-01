@@ -154,6 +154,7 @@ abstract final class ExternalLinkPolicy {
       return _decide(uri, webHosts);
     } on FormatException {
       return const RejectLink('malformed');
+      // ignore: avoid_catching_errors, Uri parsing throws it for bad input.
     } on ArgumentError {
       return const RejectLink('malformed');
     }

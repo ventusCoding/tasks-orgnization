@@ -23,9 +23,28 @@ class FakeImageCodec implements ImageCodec {
     // SOI + SOF0 with the target size + EOI (no EXIF).
     return Uint8List.fromList([
       0xFF, 0xD8, 0xFF, 0xC0, 0x00, 0x11, 0x08, //
-      targetHeight >> 8, targetHeight & 255, targetWidth >> 8, targetWidth & 255, 0x03,
+      targetHeight >> 8,
+      targetHeight & 255,
+      targetWidth >> 8,
+      targetWidth & 255,
+      0x03,
       1, 0x22, 0, 2, 0x11, 1, 3, 0x11, 1,
-      0xFF, 0xDA, 0x00, 0x08, 0x01, 0x01, 0x00, 0x00, 0x3F, 0x00, 1, 2, 3, ...sourcePath.codeUnits, 0xFF, 0xD9,
+      0xFF,
+      0xDA,
+      0x00,
+      0x08,
+      0x01,
+      0x01,
+      0x00,
+      0x00,
+      0x3F,
+      0x00,
+      1,
+      2,
+      3,
+      ...sourcePath.codeUnits,
+      0xFF,
+      0xD9,
       ...List.filled(quality, 7),
     ]);
   }

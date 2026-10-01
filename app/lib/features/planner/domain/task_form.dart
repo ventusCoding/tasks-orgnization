@@ -66,7 +66,8 @@ class TaskForm {
     var title = task.title;
     var notes = task.notes ?? '';
     if (occurrenceKey != null) {
-      start = record?.overrideStartLocal ??
+      start =
+          record?.overrideStartLocal ??
           LocalDateTime.tryParse(occurrenceKey) ??
           LocalDate.tryParse(occurrenceKey)?.atStartOfDay ??
           start;
@@ -269,7 +270,9 @@ class TaskForm {
       title: title.trim(),
       notes: blank(notes),
       startLocal: startLocal,
-      durationMinutes: isBacklog ? (estimateMinutes ?? base.durationMinutes ?? durationMinutes) : effectiveDurationMinutes,
+      durationMinutes: isBacklog
+          ? (estimateMinutes ?? base.durationMinutes ?? durationMinutes)
+          : effectiveDurationMinutes,
       isAllDay: !isBacklog && allDay,
       timeZone: zoneId,
       recurrence: isBacklog ? null : recurrence,
@@ -287,8 +290,10 @@ class TaskForm {
   }
 
   /// Domain validation of the form ([isValidZone] checks IANA ids).
-  List<TaskValidationError> validate({bool Function(String zoneId)? isValidZone}) =>
-      validateTask(applyTo(const Task(id: 'form', seriesId: 'form', title: '')), isValidZone: isValidZone);
+  List<TaskValidationError> validate({bool Function(String zoneId)? isValidZone}) => validateTask(
+    applyTo(const Task(id: 'form', seriesId: 'form', title: '')),
+    isValidZone: isValidZone,
+  );
 
   /// Fields a single occurrence may override (T3.2.06): start, duration, title and notes.
   static const occurrenceFields = {'start', 'duration', 'title', 'notes'};

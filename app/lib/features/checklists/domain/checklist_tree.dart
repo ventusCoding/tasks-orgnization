@@ -10,17 +10,14 @@ import 'package:everslot/features/checklists/domain/checklist.dart';
 class ChecklistTree {
   ChecklistTree._({
     required this.byId,
-    required Map<String?, List<String>> children,
-    required Map<String, String?> parent,
-    required Map<String, int> depth,
+    required this._children,
+    required this._parent,
+    required this._depth,
     required this.order,
-    required Map<String, int> index,
+    required this._index,
     required this.orphans,
     required this.cycleBreaks,
-  }) : _children = children,
-       _parent = parent,
-       _depth = depth,
-       _index = index;
+  });
 
   static final empty = ChecklistTree.build(const []);
 
@@ -142,7 +139,7 @@ class ChecklistTree {
 
   List<ChecklistItem> children(String? parentId) => [for (final id in childIds(parentId)) byId[id]!];
 
-  bool hasChildren(String id) => (_children[id]?.isNotEmpty) ?? false;
+  bool hasChildren(String id) => _children[id]?.isNotEmpty ?? false;
   bool isLeaf(String id) => !hasChildren(id);
 
   /// Effective parent (after orphan/cycle handling).

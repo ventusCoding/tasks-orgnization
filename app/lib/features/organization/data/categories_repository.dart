@@ -28,23 +28,15 @@ class CategoriesRepository {
   Stream<List<Category>> watchAll({bool includeArchived = false}) {
     final q = _db.select(_db.categories)
       ..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId()))
-      ..orderBy([
-        (c) => OrderingTerm.asc(c.sortKey),
-        (c) => OrderingTerm.asc(c.id),
-      ]);
+      ..orderBy([(c) => OrderingTerm.asc(c.sortKey), (c) => OrderingTerm.asc(c.id)]);
     if (!includeArchived) q.where((c) => c.archivedAt.isNull());
     return q.watch().map((rows) => rows.map(_map).toList());
   }
 
   Future<List<Category>> all() async =>
       (await (_db.select(_db.categories)
-                ..where(
-                  (c) => c.deletedAt.isNull() & c.userId.equals(_userId()),
-                )
-                ..orderBy([
-                  (c) => OrderingTerm.asc(c.sortKey),
-                  (c) => OrderingTerm.asc(c.id),
-                ]))
+                ..where((c) => c.deletedAt.isNull() & c.userId.equals(_userId()))
+                ..orderBy([(c) => OrderingTerm.asc(c.sortKey), (c) => OrderingTerm.asc(c.id)]))
               .get())
           .map(_map)
           .toList();
@@ -66,30 +58,18 @@ SELECT category_id AS id, COUNT(*) AS c FROM (
         readsFrom: {_db.tasks, _db.habits, _db.checklists},
       )
       .watch()
-      .map(
-        (rows) => {
-          for (final r in rows) r.read<String>('id'): r.read<int>('c'),
-        },
-      );
+      .map((rows) => {for (final r in rows) r.read<String>('id'): r.read<int>('c')});
 
   /// Number of live entities using [id].
-  Future<int> usageCount(String id) async =>
-      (await watchUsageCounts().first)[id] ?? 0;
+  Future<int> usageCount(String id) async => (await watchUsageCounts().first)[id] ?? 0;
 
   /// Creates a category at the end of the list. Throws [ValidationException] with
   /// [CategoryNames.errorInvalid] / [CategoryNames.errorDuplicate].
-  Future<OpRecord> create({
-    required String name,
-    required int color,
-    String? icon,
-  }) async => (await add(name: name, color: color, icon: icon)).record;
+  Future<OpRecord> create({required String name, required int color, String? icon}) async =>
+      (await add(name: name, color: color, icon: icon)).record;
 
   /// [create] that also returns the new id (inline create in pickers).
-  Future<({String id, OpRecord record})> add({
-    required String name,
-    required int color,
-    String? icon,
-  }) async {
+  Future<({String id, OpRecord record})> add({required String name, required int color, String? icon}) async {
     final normalized = _validName(name);
     final existing = await all();
     _ensureUnique(existing, normalized);
@@ -107,13 +87,7 @@ SELECT category_id AS id, COUNT(*) AS c FROM (
   }
 
   /// Renames, recolors, changes the icon or the capacity flag in one operation.
-  Future<OpRecord> update(
-    String id, {
-    String? name,
-    int? color,
-    String? icon,
-    bool? countsAsUnavailable,
-  }) async {
+  Future<OpRecord> update(String id, {String? name, int? color, String? icon, bool? countsAsUnavailable}) async {
     String? normalized;
     if (name != null) {
       normalized = _validName(name);
@@ -130,29 +104,18 @@ SELECT category_id AS id, COUNT(*) AS c FROM (
   }
 
   Future<OpRecord> setArchived(String id, {required bool archived}) =>
-      _writer.run(
-        (tx) => tx.update('categories', id, {
-          'archived_at': archived ? tx.now : null,
-        }),
-      );
+      _writer.run((tx) => tx.update('categories', id, {'archived_at': archived ? tx.now : null}));
 
   /// Moves [id] between two neighbours (fractional order).
   Future<OpRecord> move(String id, {String? afterKey, String? beforeKey}) =>
-      _writer.run(
-        (tx) => tx.update('categories', id, {
-          'sort_key': FractionalIndex.between(afterKey, beforeKey),
-        }),
-      );
+      _writer.run((tx) => tx.update('categories', id, {'sort_key': FractionalIndex.between(afterKey, beforeKey)}));
 
   /// Deletes a category, reassigning ([reassignTo]) or clearing it on the referencing tasks,
   /// habits and checklists — one operation (one undo), with an `updated` activity event per
   /// affected entity, so no `category_id` is ever left dangling.
   Future<OpRecord> delete(String id, {String? reassignTo}) {
     if (reassignTo == id) {
-      throw const ValidationException(
-        'Cannot reassign to the deleted category',
-        field: 'reassignTo',
-      );
+      throw const ValidationException('Cannot reassign to the deleted category', field: 'reassignTo');
     }
     return _writer.run((tx) async {
       var affected = 0;
@@ -225,27 +188,15 @@ SELECT category_id AS id, COUNT(*) AS c FROM (
   static String _validName(String name) {
     final normalized = CategoryNames.normalize(name);
     if (!CategoryNames.isValid(normalized)) {
-      throw const ValidationException(
-        CategoryNames.errorInvalid,
-        field: 'name',
-      );
+      throw const ValidationException(CategoryNames.errorInvalid, field: 'name');
     }
     return normalized;
   }
 
-  static void _ensureUnique(
-    List<Category> existing,
-    String normalized, {
-    String? exceptId,
-  }) {
+  static void _ensureUnique(List<Category> existing, String normalized, {String? exceptId}) {
     final key = normalized.toLowerCase();
-    if (existing.any(
-      (c) => c.id != exceptId && CategoryNames.key(c.name) == key,
-    )) {
-      throw const ValidationException(
-        CategoryNames.errorDuplicate,
-        field: 'name',
-      );
+    if (existing.any((c) => c.id != exceptId && CategoryNames.key(c.name) == key)) {
+      throw const ValidationException(CategoryNames.errorDuplicate, field: 'name');
     }
   }
 }

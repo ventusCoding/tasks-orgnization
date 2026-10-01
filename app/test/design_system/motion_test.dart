@@ -20,22 +20,16 @@ void main() {
     ),
   );
 
-  testWidgets('the in-app setting joins the OS reduce-motion flag', (
-    tester,
-  ) async {
+  testWidgets('the in-app setting joins the OS reduce-motion flag', (tester) async {
     await pumpInApp(tester, h, ReduceMotionScope(child: probe()));
     await tester.pump();
     expect(find.text('reduced=false ctx=false duration=220'), findsOneWidget);
 
     await tester.runAsync(
-      () => h.read(settingsRepositoryProvider).update(SettingsNs.appearance, {
-        'reduceMotion': true,
-      }),
+      () => h.read(settingsRepositoryProvider).update(SettingsNs.appearance, {'reduceMotion': true}),
     );
     for (var i = 0; i < 3; i++) {
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 5)),
-      );
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 5)));
       await tester.pump();
     }
     expect(find.text('reduced=true ctx=true duration=0'), findsOneWidget);
@@ -72,8 +66,7 @@ void main() {
         home: Builder(
           builder: (context) => Scaffold(
             body: TextButton(
-              onPressed: () => Navigator.of(context)
-                  .push(route((_) => const Scaffold(body: Text('next page')))),
+              onPressed: () => Navigator.of(context).push(route((_) => const Scaffold(body: Text('next page')))),
               child: const Text('open'),
             ),
           ),
@@ -108,13 +101,7 @@ void main() {
     testWidgets('reduced motion: cross-fade only, no movement', (tester) async {
       await pushWith(tester, AppMotion.sharedAxisRoute<void>, reduced: true);
       expect(movementOf('next page'), findsNothing);
-      expect(
-        find.ancestor(
-          of: find.text('next page'),
-          matching: find.byType(FadeTransition),
-        ),
-        findsWidgets,
-      );
+      expect(find.ancestor(of: find.text('next page'), matching: find.byType(FadeTransition)), findsWidgets);
       await tester.pumpAndSettle();
       expect(find.text('next page'), findsOneWidget);
     });
@@ -125,9 +112,7 @@ void main() {
           find
               .ancestor(
                 of: find.text('next page'),
-                matching: find.byWidgetPredicate(
-                  (w) => w is Transform && w.transform.getTranslation().x != 0,
-                ),
+                matching: find.byWidgetPredicate((w) => w is Transform && w.transform.getTranslation().x != 0),
               )
               .first,
         );
@@ -137,27 +122,20 @@ void main() {
 
       await pushWith(tester, AppMotion.sharedAxisRoute<void>, reduced: false);
       final ltr = midOffset(TextDirection.ltr);
-      expect(
-        ltr.dx,
-        greaterThan(0),
-        reason: 'enters from the end (right) in LTR',
-      );
+      expect(ltr.dx, greaterThan(0), reason: 'enters from the end (right) in LTR');
       await tester.pumpWidget(const SizedBox());
 
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.rtl,
           child: MaterialApp(
-            builder: (context, child) =>
-                Directionality(textDirection: TextDirection.rtl, child: child!),
+            builder: (context, child) => Directionality(textDirection: TextDirection.rtl, child: child!),
             home: Builder(
               builder: (context) => Scaffold(
                 body: TextButton(
-                  onPressed: () => Navigator.of(context).push(
-                    AppMotion.sharedAxisRoute<void>(
-                      (_) => const Scaffold(body: Text('next page')),
-                    ),
-                  ),
+                  onPressed: () =>
+                      Navigator.of(context)
+                          .push(AppMotion.sharedAxisRoute<void>((_) => const Scaffold(body: Text('next page')))),
                   child: const Text('open'),
                 ),
               ),
@@ -168,18 +146,12 @@ void main() {
       await tester.tap(find.text('open'));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 180));
-      expect(
-        midOffset(TextDirection.rtl).dx,
-        lessThan(0),
-        reason: 'enters from the left in RTL',
-      );
+      expect(midOffset(TextDirection.rtl).dx, lessThan(0), reason: 'enters from the left in RTL');
     });
   });
 
   group('fade through and container', () {
-    testWidgets('fade-through scales in; reduced motion does not', (
-      tester,
-    ) async {
+    testWidgets('fade-through scales in; reduced motion does not', (tester) async {
       await pushWith(tester, AppMotion.fadeThroughRoute<void>, reduced: false);
       expect(movementOf('next page'), findsWidgets);
       await tester.pumpAndSettle();
@@ -189,9 +161,7 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('container route grows the item; reduced motion does not', (
-      tester,
-    ) async {
+    testWidgets('container route grows the item; reduced motion does not', (tester) async {
       await pushWith(tester, AppMotion.containerRoute<void>, reduced: false);
       expect(movementOf('next page'), findsWidgets);
       await tester.pumpAndSettle();
@@ -202,16 +172,12 @@ void main() {
     });
   });
 
-  testWidgets('FadeThroughSwitcher is instant when motion is reduced', (
-    tester,
-  ) async {
+  testWidgets('FadeThroughSwitcher is instant when motion is reduced', (tester) async {
     Future<void> pumpSwitcher(bool reduced, int value) => tester.pumpWidget(
       MaterialApp(
         home: MediaQuery(
           data: MediaQueryData(disableAnimations: reduced),
-          child: FadeThroughSwitcher(
-            child: Text('v$value', key: ValueKey(value)),
-          ),
+          child: FadeThroughSwitcher(child: Text('v$value', key: ValueKey(value))),
         ),
       ),
     );
@@ -219,41 +185,24 @@ void main() {
     await pumpSwitcher(false, 1);
     await pumpSwitcher(false, 2);
     await tester.pump(const Duration(milliseconds: 50));
-    expect(
-      find.text('v1'),
-      findsOneWidget,
-      reason: 'old child still fading out',
-    );
+    expect(find.text('v1'), findsOneWidget, reason: 'old child still fading out');
     await tester.pumpAndSettle();
     expect(find.text('v1'), findsNothing);
 
     await pumpSwitcher(true, 3);
-    expect(
-      find.text('v2'),
-      findsNothing,
-      reason: 'no transition with reduced motion',
-    );
+    expect(find.text('v2'), findsNothing, reason: 'no transition with reduced motion');
     expect(find.text('v3'), findsOneWidget);
     await pumpSwitcher(true, 4);
     expect(find.text('v3'), findsNothing);
     expect(find.text('v4'), findsOneWidget);
   });
 
-  test(
-    'page transition builder and go_router pages use the same transitions',
-    () {
-      const builder = SharedAxisPageTransitionsBuilder();
-      expect(builder.axis, SharedAxis.horizontal);
-      final page = AppMotion.sharedAxisPage<void>(
-        key: const ValueKey('p'),
-        child: const SizedBox(),
-      );
-      expect(page.key, const ValueKey('p'));
-      final fade = AppMotion.fadeThroughPage<void>(
-        key: const ValueKey('f'),
-        child: const SizedBox(),
-      );
-      expect(fade.key, const ValueKey('f'));
-    },
-  );
+  test('page transition builder and go_router pages use the same transitions', () {
+    const builder = SharedAxisPageTransitionsBuilder();
+    expect(builder.axis, SharedAxis.horizontal);
+    final page = AppMotion.sharedAxisPage<void>(key: const ValueKey('p'), child: const SizedBox());
+    expect(page.key, const ValueKey('p'));
+    final fade = AppMotion.fadeThroughPage<void>(key: const ValueKey('f'), child: const SizedBox());
+    expect(fade.key, const ValueKey('f'));
+  });
 }

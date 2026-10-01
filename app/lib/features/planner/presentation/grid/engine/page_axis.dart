@@ -264,11 +264,7 @@ class PageAxis {
         var remaining = minutesInto;
         for (final p in band.pieces) {
           if (remaining < p.minutes || identical(p, band.pieces.last)) {
-            return (
-              wall: math.min(p.wallStart + remaining, p.wallEnd.toDouble()),
-              repeat: p.repeat,
-              bandIndex: i,
-            );
+            return (wall: math.min(p.wallStart + remaining, p.wallEnd.toDouble()), repeat: p.repeat, bandIndex: i);
           }
           remaining -= p.minutes;
         }

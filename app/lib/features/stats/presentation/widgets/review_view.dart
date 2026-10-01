@@ -25,8 +25,9 @@ class ReviewView extends StatelessWidget {
     return switch (e.kind) {
       ReviewEntryKind.streakMilestone => l.statsReviewStreak(title, '${e.value?.round() ?? 0}'),
       ReviewEntryKind.perfectDays => l.statsReviewPerfectDays((e.value ?? 0).round()),
-      ReviewEntryKind.healthMilestone =>
-        l.statsReviewHealth(milestoneText(l, title.isEmpty ? title : title[0].toLowerCase() + title.substring(1)) ?? title),
+      ReviewEntryKind.healthMilestone => l.statsReviewHealth(
+        milestoneText(l, title.isEmpty ? title : title[0].toLowerCase() + title.substring(1)) ?? title,
+      ),
       ReviewEntryKind.newRecord => l.statsReviewRecord(title),
       ReviewEntryKind.overdueTasks => l.statsReviewOverdue(title),
       ReviewEntryKind.blockedWaiting => l.statsReviewBlocked(title),
@@ -46,7 +47,10 @@ class ReviewView extends StatelessWidget {
     final f = statFormatOf(context);
     Widget header(String text) => Padding(
       padding: const EdgeInsetsDirectional.only(top: Space.lg, bottom: Space.xs),
-      child: Semantics(header: true, child: Text(text, style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600))),
+      child: Semantics(
+        header: true,
+        child: Text(text, style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+      ),
     );
     Widget entries(List<ReviewEntry> list) => list.isEmpty
         ? Text(l.statsReviewNothing, style: context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant))
@@ -139,7 +143,10 @@ class ReviewView extends StatelessWidget {
                           Expanded(child: Text(f.dayShort(date), style: context.text.labelMedium)),
                           Flexible(
                             child: Text(
-                              l.statsReviewLoad(f.value(planned, StatUnit.minutes), f.value(capacity, StatUnit.minutes)),
+                              l.statsReviewLoad(
+                                f.value(planned, StatUnit.minutes),
+                                f.value(capacity, StatUnit.minutes),
+                              ),
                               style: context.text.labelSmall,
                               textAlign: TextAlign.end,
                             ),

@@ -282,7 +282,7 @@ abstract final class AttachmentTx {
       result[r['id']! as String] = newId;
       await tx.insert('attachments', newId, {
         'owner_type': toType ?? fromType,
-        'owner_id': ownerIdMap[r['owner_id']]!,
+        'owner_id': ownerIdMap[r['owner_id']],
         'bucket': r['bucket'],
         'storage_path': r['storage_path'],
         'thumb_path': r['thumb_path'],

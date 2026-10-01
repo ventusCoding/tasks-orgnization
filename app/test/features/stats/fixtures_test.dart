@@ -47,9 +47,21 @@ void main() {
     Map<String, Object?> overdue(Map<String, Object?> extra) => {'scope': 'planner', 'metricId': 'PL-X-06', ...extra};
 
     test('values within the tolerance pass; outside it they fail with a readable diff', () async {
-      expect(await run([overdue({'value': 0.0000005})]), isEmpty);
-      expect(await run([overdue({'value': 0.4, 'tolerance': 0.5})]), isEmpty);
-      final failures = await run([overdue({'value': 0.01})]);
+      expect(
+        await run([
+          overdue({'value': 0.0000005}),
+        ]),
+        isEmpty,
+      );
+      expect(
+        await run([
+          overdue({'value': 0.4, 'tolerance': 0.5}),
+        ]),
+        isEmpty,
+      );
+      final failures = await run([
+        overdue({'value': 0.01}),
+      ]);
       expect(failures, hasLength(1));
       expect(failures.single, contains('inline · PL-X-06'));
       expect(failures.single, contains('value expected 0.01'));
@@ -59,7 +71,11 @@ void main() {
       final failures = await run([
         overdue({'insufficient': true}),
         {'scope': 'planner', 'metricId': 'PL-X-05', 'note': 'nope'},
-        {'scope': 'planner', 'metricId': 'PL-X-03', 'args': {'unplanned': 99}},
+        {
+          'scope': 'planner',
+          'metricId': 'PL-X-03',
+          'args': {'unplanned': 99},
+        },
         {'scope': 'planner', 'metricId': 'PL-X-99', 'value': 1},
       ]);
       expect(failures, hasLength(4), reason: failures.join('\n'));

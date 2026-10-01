@@ -102,7 +102,9 @@ class SchedulePreset {
       case SchedulePresetKind.specificDays:
         return RecurrenceRule(
           freq: Frequency.weekly,
-          byWeekday: [for (final d in _sorted(days.isEmpty ? const [Weekday.monday] : days)) WeekdayRule(d)],
+          byWeekday: [
+            for (final d in _sorted(days.isEmpty ? const [Weekday.monday] : days)) WeekdayRule(d),
+          ],
         );
       case SchedulePresetKind.everyNDays:
         return RecurrenceRule(interval: n < 1 ? 1 : n);
@@ -137,11 +139,7 @@ class SchedulePreset {
   static SchedulePreset fromRule(RecurrenceRule rule, {HabitTarget? goal}) {
     SchedulePreset custom() => SchedulePreset(SchedulePresetKind.custom, customRule: rule);
     final noBounds =
-        rule.until == null &&
-        rule.count == null &&
-        rule.exdates.isEmpty &&
-        rule.rdates.isEmpty &&
-        rule.extra.isEmpty;
+        rule.until == null && rule.count == null && rule.exdates.isEmpty && rule.rdates.isEmpty && rule.extra.isEmpty;
     if (!noBounds) return custom();
     switch (rule.type) {
       case RuleType.quota:
@@ -174,11 +172,7 @@ class SchedulePreset {
         if (!noParts || rule.window != null || !plainDays) return custom();
         if (rule.times.isNotEmpty) {
           if (rule.interval != 1) return custom();
-          return SchedulePreset(
-            SchedulePresetKind.specificTimes,
-            times: rule.times,
-            days: _sorted(daySet),
-          );
+          return SchedulePreset(SchedulePresetKind.specificTimes, times: rule.times, days: _sorted(daySet));
         }
         if (rule.byWeekday != null) {
           if (rule.interval != 1 || daySet.isEmpty) return custom();

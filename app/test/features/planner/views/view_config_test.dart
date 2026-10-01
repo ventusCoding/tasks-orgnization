@@ -80,7 +80,13 @@ void main() {
     });
 
     test('an older (v0) fixture upgrades', () {
-      final c = PlannerViewConfig.fromJson(const {'type': 'week_table', 'slot': 15, 'rowHeight': 40, 'days': 5, 'hours': [6, 22]});
+      final c = PlannerViewConfig.fromJson(const {
+        'type': 'week_table',
+        'slot': 15,
+        'rowHeight': 40,
+        'days': 5,
+        'hours': [6, 22],
+      });
       expect(c.slotMinutes, 15);
       expect(c.slotExtentPx, 40);
       expect(c.daysVisible, 5);
@@ -89,7 +95,11 @@ void main() {
     });
 
     test('unknown keys are preserved', () {
-      final c = PlannerViewConfig.fromJson(const {'v': 1, 'type': 'month', 'futureKey': {'a': 1}});
+      final c = PlannerViewConfig.fromJson(const {
+        'v': 1,
+        'type': 'month',
+        'futureKey': {'a': 1},
+      });
       expect(c.extra['futureKey'], {'a': 1});
       expect(c.toJson()['futureKey'], {'a': 1});
       expect(c.copyWith(slotMinutes: 60).toJson()['futureKey'], {'a': 1});
@@ -142,13 +152,18 @@ void main() {
       await notifier.flush();
       final stored = await h.read(savedViewsRepositoryProvider).all();
       expect(stored.single.config.slotMinutes, 7);
-      final outbox = await h.db.customSelect("SELECT COUNT(*) AS c FROM sync_outbox WHERE table_name = 'saved_views'").getSingle();
+      final outbox = await h.db
+          .customSelect("SELECT COUNT(*) AS c FROM sync_outbox WHERE table_name = 'saved_views'")
+          .getSingle();
       expect(outbox.data['c'], greaterThan(0));
     });
 
     test('saved views: create, rename, duplicate, set default, reorder, delete', () async {
       final repo = h.read(savedViewsRepositoryProvider);
-      final a = await repo.create('Deep work · 5 min', PlannerViewConfig.defaultsFor(PlannerViewType.weekTable).withSlot(5));
+      final a = await repo.create(
+        'Deep work · 5 min',
+        PlannerViewConfig.defaultsFor(PlannerViewType.weekTable).withSlot(5),
+      );
       final b = await repo.create('Night shift', PlannerViewConfig.defaultsFor(PlannerViewType.weekTable));
       await repo.rename(b, 'Night shift 18:00–06:00');
       final c = await repo.duplicate(a, 'Copy');
@@ -185,12 +200,16 @@ void main() {
 
     test('view state controller loads, updates and persists (restart restores week and time)', () async {
       ViewStateController.saveDelay = Duration.zero;
-      await h.read(viewStateRepositoryProvider).write('week_table', ViewState(anchor: LocalDate(2026, 9, 14), scrollMinute: 420));
+      await h
+          .read(viewStateRepositoryProvider)
+          .write('week_table', ViewState(anchor: LocalDate(2026, 9, 14), scrollMinute: 420));
       final sub = h.container.listen(plannerViewStateProvider('week_table'), (_, _) {});
       final loaded = await h.read(plannerViewStateProvider('week_table').notifier).ready;
       expect(loaded!.anchor, LocalDate(2026, 9, 14));
       expect(h.read(plannerViewStateProvider('week_table'))!.scrollMinute, 420);
-      h.read(plannerViewStateProvider('week_table').notifier).update((s) => s.copyWith(scrollMinute: 600, pxPerMinute: 1.5));
+      h
+          .read(plannerViewStateProvider('week_table').notifier)
+          .update((s) => s.copyWith(scrollMinute: 600, pxPerMinute: 1.5));
       await h.read(plannerViewStateProvider('week_table').notifier).flush();
       sub.close();
       final back = await h.read(viewStateRepositoryProvider).read('week_table');

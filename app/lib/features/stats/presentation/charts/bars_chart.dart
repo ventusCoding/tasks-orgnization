@@ -114,8 +114,7 @@ class _BarsChartState extends State<BarsChart> {
       f.label(data.categories[i]),
       for (final s in _visibleSeries)
         if (_v(s, i) != 0 || !stacked)
-          '${f.label(data.series[s].label)}: ${f.value(_v(s, i), data.unit)}'
-              '${stacked && total > 0 ? ' (${f.percent(_v(s, i).abs() / total)})' : ''}',
+          '${f.label(data.series[s].label)}: ${f.value(_v(s, i), data.unit)}${stacked && total > 0 ? ' (${f.percent(_v(s, i).abs() / total)})' : ''}',
       for (final o in data.overlays)
         if (_overlayAt(o, i) case final v?) '${f.label(o.label)}: ${f.value(v, data.unit)}',
     ];
@@ -231,7 +230,7 @@ class _BarsPainter extends CustomPainter {
 
   Rect _plot(Size size) {
     if (_horizontal) {
-      final labelWidth = math.min(size.width * 0.38, 140.0);
+      final labelWidth = math.min<double>(size.width * 0.38, 140);
       return rtl
           ? Rect.fromLTRB(4, 4, size.width - labelWidth, size.height - 18)
           : Rect.fromLTRB(labelWidth, 4, size.width - 4, size.height - 18);
@@ -387,7 +386,7 @@ class _BarsPainter extends CustomPainter {
           Offset(rtl ? plot.right + 6 : plot.left - 6, bandStart + band / 2),
           labelStyle,
           align: rtl ? TextAnchor.leftEdge : TextAnchor.rightEdge,
-          maxWidth: math.min(size.width * 0.38, 140.0) - 8,
+          maxWidth: math.min(size.width * 0.38, 140) - 8,
         );
       } else if (i % labelEvery == 0) {
         _text(

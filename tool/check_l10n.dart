@@ -36,17 +36,14 @@ int run(List<String> args, StringSink out) {
   }
   final files = {
     for (final f in dir.listSync().whereType<File>())
-      if (f.path.endsWith('.arb'))
-        f.uri.pathSegments.last: f.readAsStringSync(),
+      if (f.path.endsWith('.arb')) f.uri.pathSegments.last: f.readAsStringSync(),
   };
   final problems = checkParts(files)..forEach(out.writeln);
   if (problems.isEmpty) {
     out.writeln('Localizations OK: ${files.length} ARB parts checked.');
     return 0;
   }
-  out.writeln(
-    '${problems.length} localization problem(s) — every key needs EN, FR and AR (ICU plurals).',
-  );
+  out.writeln('${problems.length} localization problem(s) — every key needs EN, FR and AR (ICU plurals).');
   return 1;
 }
 
@@ -65,9 +62,7 @@ List<String> checkParts(Map<String, String> files) {
     final area = name.substring(0, idx);
     final locale = name.substring(idx + 1);
     if (!locales.contains(locale)) {
-      problems.add(
-        '${e.key}: unsupported locale "$locale" (expected ${locales.join('/')})',
-      );
+      problems.add('${e.key}: unsupported locale "$locale" (expected ${locales.join('/')})');
       continue;
     }
     Object? decoded;
@@ -81,9 +76,7 @@ List<String> checkParts(Map<String, String> files) {
       problems.add('${e.key}: top level must be a JSON object');
       continue;
     }
-    areas.putIfAbsent(area, () => {})[locale] = Map<String, Object?>.from(
-      decoded,
-    );
+    areas.putIfAbsent(area, () => {})[locale] = Map<String, Object?>.from(decoded);
   }
 
   final owners = <String, String>{};
@@ -124,9 +117,7 @@ List<String> checkParts(Map<String, String> files) {
           : <String>{};
       final undeclared = args.keys.toSet().difference(declared);
       if (undeclared.isNotEmpty) {
-        problems.add(
-          '$file: "$key" uses undeclared placeholder(s) ${undeclared.join(', ')}',
-        );
+        problems.add('$file: "$key" uses undeclared placeholder(s) ${undeclared.join(', ')}');
       }
     }
     for (final locale in locales.where((l) => l != template)) {
@@ -161,22 +152,14 @@ List<String> checkParts(Map<String, String> files) {
         for (final a in args.entries) {
           final kind = expected[a.key];
           if (kind == null) {
-            problems.add(
-              '$file: "$key" uses placeholder "${a.key}" unknown to the EN template',
-            );
-          } else if (kind != 'simple' &&
-              a.value != 'simple' &&
-              kind != a.value) {
-            problems.add(
-              '$file: "$key" uses "${a.key}" as ${a.value}, the template as $kind',
-            );
+            problems.add('$file: "$key" uses placeholder "${a.key}" unknown to the EN template');
+          } else if (kind != 'simple' && a.value != 'simple' && kind != a.value) {
+            problems.add('$file: "$key" uses "${a.key}" as ${a.value}, the template as $kind');
           }
         }
         for (final e in expected.entries.where((e) => e.value != 'simple')) {
           if (args[e.key] != e.value) {
-            problems.add(
-              '$file: "$key" must keep the ${e.value} argument "${e.key}"',
-            );
+            problems.add('$file: "$key" must keep the ${e.value} argument "${e.key}"');
           }
         }
       }
@@ -204,12 +187,7 @@ abstract final class IcuMessage {
   }
 
   /// Reads text and arguments until an unmatched `}` (nested) or the end. Returns the index.
-  static int _message(
-    String s,
-    int from,
-    Map<String, String> out, {
-    required bool nested,
-  }) {
+  static int _message(String s, int from, Map<String, String> out, {required bool nested}) {
     var i = from;
     while (i < s.length) {
       final c = s[i];
@@ -273,9 +251,7 @@ abstract final class IcuMessage {
         throw FormatException('invalid selector in $type "$name"');
       }
       if (!selector.startsWith('offset:') && !selectors.add(selector)) {
-        throw FormatException(
-          'duplicate selector "$selector" in $type "$name"',
-        );
+        throw FormatException('duplicate selector "$selector" in $type "$name"');
       }
       final branchEnd = _message(s, open + 1, out, nested: true);
       i = branchEnd + 1;

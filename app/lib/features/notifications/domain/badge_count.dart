@@ -44,10 +44,7 @@ abstract final class BadgeCount {
       if (t.type == NotificationTargetType.habit) {
         final start = t.periodStart;
         final end = t.periodEnd;
-        if (start != null &&
-            end != null &&
-            !start.isAfter(now) &&
-            end.isAfter(now)) {
+        if (start != null && end != null && !start.isAfter(now) && end.isAfter(now)) {
           seen.add('${t.targetKey}|${t.occurrenceKey ?? ''}');
         }
         continue;

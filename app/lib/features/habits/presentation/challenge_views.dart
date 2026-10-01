@@ -52,9 +52,15 @@ class ChallengeCard extends StatelessWidget {
             const SizedBox(height: Space.xs),
             Text(l.habitsChallengeDay(o.dayNumber, o.totalDays), style: context.text.titleMedium),
             const SizedBox(height: Space.xs),
-            LinearProgressIndicator(value: o.dayNumber / o.totalDays, semanticsLabel: l.habitsChallengeDay(o.dayNumber, o.totalDays)),
+            LinearProgressIndicator(
+              value: o.dayNumber / o.totalDays,
+              semanticsLabel: l.habitsChallengeDay(o.dayNumber, o.totalDays),
+            ),
             const SizedBox(height: Space.xs),
-            Text('${l.habitsChallengeProgress(o.doneDays, o.dueDays)} · ${l.habitsChallengeRuleTitle}: $rule', style: context.text.bodySmall),
+            Text(
+              '${l.habitsChallengeProgress(o.doneDays, o.dueDays)} · ${l.habitsChallengeRuleTitle}: $rule',
+              style: context.text.bodySmall,
+            ),
           ],
         ),
       ),

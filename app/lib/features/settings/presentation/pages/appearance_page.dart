@@ -6,6 +6,7 @@ import 'package:everslot/features/settings/domain/settings_models.dart';
 import 'package:everslot/features/settings/presentation/widgets/choice_sheet.dart';
 import 'package:everslot/features/settings/presentation/widgets/settings_tiles.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -64,6 +65,15 @@ class AppearancePage extends ConsumerWidget {
             if (code != null) await ref.read(profileRepositoryProvider).update(locale: code.isEmpty ? null : code);
           },
         ),
+        if (defaultTargetPlatform == TargetPlatform.android)
+          SettingsSwitchTile(
+            key: const ValueKey('appearance-dynamic-color'),
+            icon: Icons.wallpaper,
+            title: l.settingsDynamicColor,
+            subtitle: l.settingsDynamicColorSubtitle,
+            value: s.dynamicColor,
+            onChanged: (v) => set((s) => s.copyWith(dynamicColor: v)),
+          ),
         SettingsSwitchTile(
           key: const ValueKey('appearance-arabic-digits'),
           icon: Icons.pin_outlined,
