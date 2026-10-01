@@ -219,5 +219,7 @@
   "voiceNoteRecording": "Recording, {duration}",
   "@voiceNoteRecording": {"placeholders": {"duration": {"type": "String"}}},
   "voiceNoteMicPrimerTitle": "Microphone access",
-  "voiceNoteMicPrimerBody": "Everslot uses the microphone only while you record a voice note. Recordings stay on your device until they're uploaded to your account."
+  "voiceNoteMicPrimerBody": "Everslot uses the microphone only while you record a voice note. Recordings stay on your device until they're uploaded to your account.",
+  "attachmentsSourcePaste": "Paste image",
+  "attachmentsClipboardNoImage": "No image in the clipboard"
 }

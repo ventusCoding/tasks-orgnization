@@ -350,6 +350,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get attachmentsClearCache => 'Clear cache';
 
   @override
+  String get attachmentsClipboardNoImage => 'No image in the clipboard';
+
+  @override
   String attachmentsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count attachments', one: '1 attachment');
     return '$_temp0';
@@ -523,6 +526,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get attachmentsSourceFiles => 'Choose files';
+
+  @override
+  String get attachmentsSourcePaste => 'Paste image';
 
   @override
   String get attachmentsSourcePhotos => 'Choose photos';

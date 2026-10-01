@@ -1075,6 +1075,21 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     if (record != null) _editor.pushUndo('attach', record);
   }
 
+  @override
+  Future<void> insertImage(String itemId, Uint8List bytes) async {
+    await _ensureCreated();
+    if (!mounted) return;
+    final result = await addImageBytes(
+      context,
+      ref,
+      ownerType: AttachmentOwnerType.checklistItem,
+      ownerId: itemId,
+      bytes: bytes,
+    );
+    final record = result?.record;
+    if (record != null) _editor.pushUndo('attach', record);
+  }
+
   Future<void> _pickDue(ChecklistItem item) async {
     final prefs = ref.read(userPreferencesProvider);
     final date = await pickDate(context, initial: item.dueLocal?.date);

@@ -365,6 +365,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get attachmentsClearCache => 'مسح ذاكرة التخزين المؤقت';
 
   @override
+  String get attachmentsClipboardNoImage => 'لا توجد صورة في الحافظة';
+
+  @override
   String attachmentsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -551,6 +554,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get attachmentsSourceFiles => 'اختيار ملفات';
+
+  @override
+  String get attachmentsSourcePaste => 'لصق صورة';
 
   @override
   String get attachmentsSourcePhotos => 'اختيار صور';

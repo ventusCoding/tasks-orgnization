@@ -29,7 +29,7 @@ board cards ([4.1] T4.1.17); the gallery *view* of items ([4.5]).
 - [x] T4.4.06 — Captions, reorder & remove with undo
 - [x] T4.4.07 — Checklist attachments gallery
 - [x] T4.4.08 — Attachments in export & import bundles
-- [ ] T4.4.09 — Paste image & scan document into an item
+- [x] T4.4.09 — Paste image & scan document into an item
 
 ## Tasks
 
@@ -156,4 +156,4 @@ a whiteboard for a note card.
 - *Scan document*: camera → cropped PDF from [2.2].
 - Sharing files into a specific item is handled by [8.2].
 **Tests:** widget test with a fake clipboard.
-**Notes:** Not started: pasting images needs clipboard image access (a plugin such as `super_clipboard`; Flutter's clipboard is text-only) and scanning depends on T2.2.14.
+**Notes:** *Paste image* is a new source of the add-attachment menu (`AttachmentSource.clipboard`, `pasteboard` package; "No image in the clipboard" otherwise); images inserted from the keyboard / rich paste into a row's text field (`contentInsertionConfiguration`, Android) are attached to that item through `addImageBytes`. *Scan document* is the T2.2.14 source of the same item menu. Tests: `clipboard_image_test.dart` (fake clipboard) and the paste-image group of `attachment_widgets_test.dart`.

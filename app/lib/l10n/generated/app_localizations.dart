@@ -693,6 +693,12 @@ abstract class AppLocalizations {
   /// **'Clear cache'**
   String get attachmentsClearCache;
 
+  /// No description provided for @attachmentsClipboardNoImage.
+  ///
+  /// In en, this message translates to:
+  /// **'No image in the clipboard'**
+  String get attachmentsClipboardNoImage;
+
   /// No description provided for @attachmentsCount.
   ///
   /// In en, this message translates to:
@@ -962,6 +968,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose files'**
   String get attachmentsSourceFiles;
+
+  /// No description provided for @attachmentsSourcePaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste image'**
+  String get attachmentsSourcePaste;
 
   /// No description provided for @attachmentsSourcePhotos.
   ///

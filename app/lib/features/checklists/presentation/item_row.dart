@@ -34,6 +34,8 @@ abstract final class RowMetrics {
 /// Item texts with links keep their text semantics (tappable links).
 final _linkPattern = RegExp(r'https?://|\]\(');
 
+const _imageMimeTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
+
 /// Everything a row needs besides its [VisibleRow] (comparable, so unchanged rows are reused).
 @immutable
 class RowContext {
@@ -147,6 +149,10 @@ abstract class RowActions {
   void enter(String id, String text, int cursor);
   void backspaceAtStart(String id, String text);
   Future<bool> multilinePaste(String id, String pasted);
+
+  /// An image pasted / inserted from the keyboard into the row's text field (T4.4.09): attached
+  /// to the item.
+  Future<void> insertImage(String id, Uint8List bytes);
   void focusNeighbor(String id, int direction);
   void indent(String id);
   void outdent(String id);
@@ -609,6 +615,14 @@ class _ItemRowState extends ConsumerState<ItemRow> {
               },
             ),
           ],
+          // Images from the keyboard / clipboard (Android rich content, T4.4.09).
+          contentInsertionConfiguration: ContentInsertionConfiguration(
+            allowedMimeTypes: _imageMimeTypes,
+            onContentInserted: (content) async {
+              final data = content.data;
+              if (data != null && data.isNotEmpty) await a.insertImage(item.id, data);
+            },
+          ),
           onChanged: (_) =>
               ref.read(checklistEditorProvider(a.checklistId).notifier).onTextChanged(item.id, controller.plain),
           onSubmitted: (_) => a.enter(item.id, controller.plain, controller.plainCursor),

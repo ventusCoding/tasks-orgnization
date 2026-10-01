@@ -355,6 +355,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get attachmentsClearCache => 'Vider le cache';
 
   @override
+  String get attachmentsClipboardNoImage => 'Aucune image dans le presse-papiers';
+
+  @override
   String attachmentsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -533,6 +536,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get attachmentsSourceFiles => 'Choisir des fichiers';
+
+  @override
+  String get attachmentsSourcePaste => 'Coller une image';
 
   @override
   String get attachmentsSourcePhotos => 'Choisir des photos';
