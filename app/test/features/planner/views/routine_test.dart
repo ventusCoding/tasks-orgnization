@@ -106,7 +106,7 @@ void main() {
     addTearDown(h.dispose);
     await pumpPlanner(tester, h, const PlannerScreen(view: 'routine'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Start routine'));
+    await tester.tap(find.byTooltip('Start routine'));
     await tester.pump();
     expect(find.text('Step 1 of 2'), findsOneWidget);
     expect(find.byKey(const Key('routine-step')), findsOneWidget);
@@ -139,7 +139,7 @@ void main() {
     await pumpPlanner(tester, h, const PlannerScreen(view: 'routine'));
     await tester.pumpAndSettle();
     expect(find.text('Wake → Run'), findsOneWidget);
-    await tester.tap(find.text('Start routine'));
+    await tester.tap(find.byTooltip('Start routine'));
     await tester.pump();
     await tester.tap(find.byKey(const Key('routine-done')));
     await tester.pump();

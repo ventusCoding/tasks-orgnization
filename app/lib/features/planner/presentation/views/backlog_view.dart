@@ -169,51 +169,54 @@ class _BacklogViewState extends ConsumerState<BacklogView> {
     _selected.removeWhere((k) => !list.any((i) => i.key == k));
     return PlannerViewScaffold(
       viewKey: _key,
-      toolbar: SizedBox(
-        height: 48,
-        child: Row(
-          children: [
-            const SizedBox(width: Space.md),
-            Expanded(
-              child: Text(
-                _selected.isEmpty ? '${l.pvViewBacklog} · ${list.length}' : l.pvSelected(_selected.length),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+      toolbar: MediaQuery.withClampedTextScaling(
+        maxScaleFactor: 1.4,
+        child: SizedBox(
+          height: 48,
+          child: Row(
+            children: [
+              const SizedBox(width: Space.md),
+              Expanded(
+                child: Text(
+                  _selected.isEmpty ? '${l.pvViewBacklog} · ${list.length}' : l.pvSelected(_selected.length),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                ),
               ),
-            ),
-            if (_selected.isNotEmpty) ...[
-              TextButton.icon(
-                key: const Key('backlog-schedule-on'),
-                icon: const Icon(Icons.event_available),
-                label: Text(l.pvScheduleOn),
-                onPressed: () => unawaited(_scheduleOn(list)),
-              ),
-              IconButton(
-                tooltip: l.actionCancel,
-                icon: const Icon(Icons.close),
-                onPressed: () => setState(_selected.clear),
-              ),
-            ] else ...[
-              PopupMenuButton<BacklogGroup>(
-                key: const Key('backlog-group'),
-                tooltip: l.pvGroupBy,
-                icon: const Icon(Icons.segment),
-                onSelected: (g) => notifier.change((c) => c.withOption('groupBy', g.name)),
-                itemBuilder: (_) => [
-                  for (final (g, label) in [
-                    (BacklogGroup.none, l.pvGroupNone),
-                    (BacklogGroup.category, l.pvGroupCategory),
-                    (BacklogGroup.priority, l.pvGroupPriority),
-                    (BacklogGroup.deadline, l.pvGroupDeadline),
-                  ])
-                    CheckedPopupMenuItem(value: g, checked: g == group, child: Text(label)),
-                ],
-              ),
-              PlannerFilterButton(viewKey: _key),
-              PlannerMoreMenu(viewKey: _key, kind: ViewSettingsKind.list),
+              if (_selected.isNotEmpty) ...[
+                TextButton.icon(
+                  key: const Key('backlog-schedule-on'),
+                  icon: const Icon(Icons.event_available),
+                  label: Text(l.pvScheduleOn),
+                  onPressed: () => unawaited(_scheduleOn(list)),
+                ),
+                IconButton(
+                  tooltip: l.actionCancel,
+                  icon: const Icon(Icons.close),
+                  onPressed: () => setState(_selected.clear),
+                ),
+              ] else ...[
+                PopupMenuButton<BacklogGroup>(
+                  key: const Key('backlog-group'),
+                  tooltip: l.pvGroupBy,
+                  icon: const Icon(Icons.segment),
+                  onSelected: (g) => notifier.change((c) => c.withOption('groupBy', g.name)),
+                  itemBuilder: (_) => [
+                    for (final (g, label) in [
+                      (BacklogGroup.none, l.pvGroupNone),
+                      (BacklogGroup.category, l.pvGroupCategory),
+                      (BacklogGroup.priority, l.pvGroupPriority),
+                      (BacklogGroup.deadline, l.pvGroupDeadline),
+                    ])
+                      CheckedPopupMenuItem(value: g, checked: g == group, child: Text(label)),
+                  ],
+                ),
+                PlannerFilterButton(viewKey: _key),
+                PlannerMoreMenu(viewKey: _key, kind: ViewSettingsKind.list),
+              ],
             ],
-          ],
+          ),
         ),
       ),
       body: Column(

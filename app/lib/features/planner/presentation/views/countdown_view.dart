@@ -111,20 +111,23 @@ class CountdownView extends ConsumerWidget {
     final entries = ref.watch(countdownEntriesProvider);
     return PlannerViewScaffold(
       viewKey: _key,
-      toolbar: SizedBox(
-        height: 48,
-        child: Row(
-          children: [
-            const SizedBox(width: Space.md),
-            Expanded(child: Text(l.pvViewCountdown, style: context.text.titleSmall)),
-            IconButton(
-              key: const Key('countdown-add'),
-              tooltip: l.pvAddCountdown,
-              icon: const Icon(Icons.add_alarm),
-              onPressed: () => unawaited(_add(context, ref)),
-            ),
-            PlannerMoreMenu(viewKey: _key, kind: ViewSettingsKind.list),
-          ],
+      toolbar: MediaQuery.withClampedTextScaling(
+        maxScaleFactor: 1.4,
+        child: SizedBox(
+          height: 48,
+          child: Row(
+            children: [
+              const SizedBox(width: Space.md),
+              Expanded(child: Text(l.pvViewCountdown, style: context.text.titleSmall)),
+              IconButton(
+                key: const Key('countdown-add'),
+                tooltip: l.pvAddCountdown,
+                icon: const Icon(Icons.add_alarm),
+                onPressed: () => unawaited(_add(context, ref)),
+              ),
+              PlannerMoreMenu(viewKey: _key, kind: ViewSettingsKind.list),
+            ],
+          ),
         ),
       ),
       body: AsyncValueView<List<CountdownEntry>>(
@@ -237,19 +240,19 @@ class _CountdownRowState extends ConsumerState<_CountdownRow> {
         onTap: widget.onOpen,
         leading: Icon(until ? Icons.hourglass_bottom : Icons.history, color: context.colors.primary),
         title: Text(e.task.title, maxLines: 2, overflow: TextOverflow.ellipsis),
-        subtitle: Text('${f.dateMedium(e.targetLocal.date)} · ${l.pvCounterParts(p.days, p.hours, p.minutes)}'),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(dayText, key: ValueKey('countdown-days-${e.task.id}'), style: context.text.titleSmall),
-            PopupMenuButton<String>(
-              key: ValueKey('countdown-menu-${e.task.id}'),
-              onSelected: (v) => v == 'pin' ? widget.onPin() : widget.onRemove(),
-              itemBuilder: (_) => [
-                PopupMenuItem(value: 'pin', child: Text(widget.pinned ? l.pvUnpin : l.pvPin)),
-                PopupMenuItem(value: 'remove', child: Text(l.pvRemoveCountdown)),
-              ],
-            ),
+            Text('${f.dateMedium(e.targetLocal.date)} · ${l.pvCounterParts(p.days, p.hours, p.minutes)}'),
+          ],
+        ),
+        trailing: PopupMenuButton<String>(
+          key: ValueKey('countdown-menu-${e.task.id}'),
+          onSelected: (v) => v == 'pin' ? widget.onPin() : widget.onRemove(),
+          itemBuilder: (_) => [
+            PopupMenuItem(value: 'pin', child: Text(widget.pinned ? l.pvUnpin : l.pvPin)),
+            PopupMenuItem(value: 'remove', child: Text(l.pvRemoveCountdown)),
           ],
         ),
       ),

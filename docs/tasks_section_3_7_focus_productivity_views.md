@@ -36,7 +36,7 @@ countdown / count-up; map; tests.
 - [x] T3.7.11 — Horizons view
 - [x] T3.7.12 — Countdown / count-up list
 - [x] T3.7.13 — Map view
-- [ ] T3.7.14 — Productivity views test suite
+- [x] T3.7.14 — Productivity views test suite
 
 ## Tasks
 
@@ -212,3 +212,4 @@ The existing `location` stays as the display name.
 **Description:** Goldens and interaction tests for each implemented view: focus, backlog drawer drag,
 openings, table, plan-vs-actual, and the P2 views as they land. Covers light/dark, RTL and text scale 2.0.
 **Tests:** as described.
+**Notes:** `productivity_views_goldens_test.dart`: focus, backlog, openings, table, plan vs actual, routine (picker), Kanban, matrix, radial clock, map (fake tile layer), horizons and countdowns × light LTR / dark RTL / text scale 2.0, plus the backlog drawer open over the day list (light LTR, dark RTL) — 38 images. The suite caught text-scale overflows, fixed in the views: custom toolbars clamp text to 1.4× like the date toolbars, opening rows and countdown rows wrap, routine sources use a play icon button. Interaction tests live next to each view (`focus_view_test`, `backlog_drawer_test`, `backlog_view_test`, `free_slots_view_test`, `table_view_test` incl. the 2 000-row scenario, `plan_actual_test`, `routine_test`, `kanban_test`, `matrix_test`, `radial_test`, `horizons_test`, `countdown_test`, `map_view_test`).

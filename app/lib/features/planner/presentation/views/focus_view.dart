@@ -108,30 +108,33 @@ class _FocusViewState extends ConsumerState<FocusView> {
     final notifier = ref.read(plannerViewConfigProvider(_key).notifier);
     return PlannerViewScaffold(
       viewKey: _key,
-      toolbar: SizedBox(
-        height: 48,
-        child: Row(
-          children: [
-            const SizedBox(width: Space.md),
-            Expanded(
-              child: Text(l.pvNow, style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
-            ),
-            Semantics(
-              toggled: keepOn,
-              label: l.pvKeepScreenOn,
-              child: ExcludeSemantics(
-                child: FilterChip(
-                  key: const Key('focus-keep-awake'),
-                  avatar: Icon(keepOn ? Icons.lightbulb : Icons.lightbulb_outline, size: 18),
-                  label: Text(l.pvKeepScreenOn),
-                  selected: keepOn,
-                  showCheckmark: false,
-                  onSelected: (v) => notifier.change((c) => c.withOption('keepScreenOn', v)),
+      toolbar: MediaQuery.withClampedTextScaling(
+        maxScaleFactor: 1.4,
+        child: SizedBox(
+          height: 48,
+          child: Row(
+            children: [
+              const SizedBox(width: Space.md),
+              Expanded(
+                child: Text(l.pvNow, style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+              ),
+              Semantics(
+                toggled: keepOn,
+                label: l.pvKeepScreenOn,
+                child: ExcludeSemantics(
+                  child: FilterChip(
+                    key: const Key('focus-keep-awake'),
+                    avatar: Icon(keepOn ? Icons.lightbulb : Icons.lightbulb_outline, size: 18),
+                    label: Text(l.pvKeepScreenOn),
+                    selected: keepOn,
+                    showCheckmark: false,
+                    onSelected: (v) => notifier.change((c) => c.withOption('keepScreenOn', v)),
+                  ),
                 ),
               ),
-            ),
-            PlannerMoreMenu(viewKey: _key, kind: ViewSettingsKind.list),
-          ],
+              PlannerMoreMenu(viewKey: _key, kind: ViewSettingsKind.list),
+            ],
+          ),
         ),
       ),
       body: Center(

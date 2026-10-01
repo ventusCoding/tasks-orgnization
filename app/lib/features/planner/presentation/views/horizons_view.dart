@@ -87,21 +87,24 @@ class HorizonsView extends ConsumerWidget {
     final f = context.plannerFormat(use24h: prefs.use24h);
     return PlannerViewScaffold(
       viewKey: _key,
-      toolbar: SizedBox(
-        height: 48,
-        child: Row(
-          children: [
-            const SizedBox(width: Space.md),
-            Expanded(
-              child: Text(
-                l.pvHorizonsHint,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: context.text.labelMedium,
+      toolbar: MediaQuery.withClampedTextScaling(
+        maxScaleFactor: 1.4,
+        child: SizedBox(
+          height: 48,
+          child: Row(
+            children: [
+              const SizedBox(width: Space.md),
+              Expanded(
+                child: Text(
+                  l.pvHorizonsHint,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.text.labelMedium,
+                ),
               ),
-            ),
-            PlannerMoreMenu(viewKey: _key, kind: ViewSettingsKind.list),
-          ],
+              PlannerMoreMenu(viewKey: _key, kind: ViewSettingsKind.list),
+            ],
+          ),
         ),
       ),
       body: AsyncValueView<List<Task>>(

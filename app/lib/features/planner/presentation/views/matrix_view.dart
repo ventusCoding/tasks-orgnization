@@ -102,29 +102,32 @@ class MatrixView extends ConsumerWidget {
     );
     return PlannerViewScaffold(
       viewKey: _key,
-      toolbar: SizedBox(
-        height: 48,
-        child: Row(
-          children: [
-            const SizedBox(width: Space.md),
-            Expanded(
-              child: Text(
-                '${l.pvImportanceRule(PriorityStyle.label(context, rules.importanceThreshold))} · '
-                '${l.pvUrgencyRule(rules.urgencyDays)}',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: context.text.labelMedium,
+      toolbar: MediaQuery.withClampedTextScaling(
+        maxScaleFactor: 1.4,
+        child: SizedBox(
+          height: 48,
+          child: Row(
+            children: [
+              const SizedBox(width: Space.md),
+              Expanded(
+                child: Text(
+                  '${l.pvImportanceRule(PriorityStyle.label(context, rules.importanceThreshold))} · '
+                  '${l.pvUrgencyRule(rules.urgencyDays)}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.text.labelMedium,
+                ),
               ),
-            ),
-            IconButton(
-              key: const Key('matrix-rules'),
-              tooltip: l.pvRules,
-              icon: const Icon(Icons.tune),
-              onPressed: () => unawaited(_editRules(context, ref, rules)),
-            ),
-            PlannerFilterButton(viewKey: _key),
-            PlannerMoreMenu(viewKey: _key, kind: ViewSettingsKind.list),
-          ],
+              IconButton(
+                key: const Key('matrix-rules'),
+                tooltip: l.pvRules,
+                icon: const Icon(Icons.tune),
+                onPressed: () => unawaited(_editRules(context, ref, rules)),
+              ),
+              PlannerFilterButton(viewKey: _key),
+              PlannerMoreMenu(viewKey: _key, kind: ViewSettingsKind.list),
+            ],
+          ),
         ),
       ),
       body: Column(

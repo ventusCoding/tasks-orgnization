@@ -83,59 +83,66 @@ class FreeSlotsView extends ConsumerWidget {
 
     return PlannerViewScaffold(
       viewKey: _key,
-      toolbar: SizedBox(
-        height: 48,
-        child: Row(
-          children: [
-            const SizedBox(width: Space.sm),
-            Expanded(
-              child: Text(
-                '${l.pvOpenings} · ${l.pvNextDays(days)}',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-              ),
-            ),
-            PopupMenuButton<int>(
-              key: const Key('free-days'),
-              tooltip: l.pvNextDays(days),
-              icon: const Icon(Icons.date_range),
-              onSelected: (d) => notifier.change((c) => c.withOption('days', d)),
-              itemBuilder: (_) => [
-                for (final d in freeSlotDayChoices)
-                  CheckedPopupMenuItem(value: d, checked: d == days, child: Text(l.pvNextDays(d))),
-              ],
-            ),
-            PopupMenuButton<int>(
-              key: const Key('free-min-gap'),
-              tooltip: l.pvMinGap,
-              icon: const Icon(Icons.timelapse),
-              onSelected: (g) => notifier.change((c) => c.withOption('minGap', g)),
-              itemBuilder: (_) => [
-                for (final g in freeSlotGapChoices)
-                  CheckedPopupMenuItem(value: g, checked: g == minGap, child: Text('${l.pvMinGap}: ${f.duration(g)}')),
-              ],
-            ),
-            IconButton(
-              key: const Key('free-share'),
-              tooltip: l.pvShareAvailability,
-              icon: const Icon(Icons.ios_share),
-              onPressed: openings.value == null
-                  ? null
-                  : () => unawaited(ref.read(availabilitySharerProvider)(text(openings.value!))),
-            ),
-            PlannerMoreMenu(
-              viewKey: _key,
-              kind: ViewSettingsKind.list,
-              extra: [
-                (
-                  'ignoreLow',
-                  '${ignoreLow ? '✓ ' : ''}${l.pvIgnoreLowPriority}',
-                  () => notifier.change((c) => c.withOption('ignoreLowPriority', !ignoreLow)),
+      toolbar: MediaQuery.withClampedTextScaling(
+        maxScaleFactor: 1.4,
+        child: SizedBox(
+          height: 48,
+          child: Row(
+            children: [
+              const SizedBox(width: Space.sm),
+              Expanded(
+                child: Text(
+                  '${l.pvOpenings} · ${l.pvNextDays(days)}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
                 ),
-              ],
-            ),
-          ],
+              ),
+              PopupMenuButton<int>(
+                key: const Key('free-days'),
+                tooltip: l.pvNextDays(days),
+                icon: const Icon(Icons.date_range),
+                onSelected: (d) => notifier.change((c) => c.withOption('days', d)),
+                itemBuilder: (_) => [
+                  for (final d in freeSlotDayChoices)
+                    CheckedPopupMenuItem(value: d, checked: d == days, child: Text(l.pvNextDays(d))),
+                ],
+              ),
+              PopupMenuButton<int>(
+                key: const Key('free-min-gap'),
+                tooltip: l.pvMinGap,
+                icon: const Icon(Icons.timelapse),
+                onSelected: (g) => notifier.change((c) => c.withOption('minGap', g)),
+                itemBuilder: (_) => [
+                  for (final g in freeSlotGapChoices)
+                    CheckedPopupMenuItem(
+                      value: g,
+                      checked: g == minGap,
+                      child: Text('${l.pvMinGap}: ${f.duration(g)}'),
+                    ),
+                ],
+              ),
+              IconButton(
+                key: const Key('free-share'),
+                tooltip: l.pvShareAvailability,
+                icon: const Icon(Icons.ios_share),
+                onPressed: openings.value == null
+                    ? null
+                    : () => unawaited(ref.read(availabilitySharerProvider)(text(openings.value!))),
+              ),
+              PlannerMoreMenu(
+                viewKey: _key,
+                kind: ViewSettingsKind.list,
+                extra: [
+                  (
+                    'ignoreLow',
+                    '${ignoreLow ? '✓ ' : ''}${l.pvIgnoreLowPriority}',
+                    () => notifier.change((c) => c.withOption('ignoreLowPriority', !ignoreLow)),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
       body: AsyncValueView<List<FreeInterval>>(
@@ -221,29 +228,35 @@ class _OpeningTile extends ConsumerWidget {
       margin: const EdgeInsets.only(bottom: Space.xs),
       child: Padding(
         padding: const EdgeInsetsDirectional.fromSTEB(Space.md, Space.xs, Space.xs, Space.xs),
-        child: Row(
+        // Wraps under large text: the actions move below the time range.
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          alignment: WrapAlignment.spaceBetween,
           children: [
-            Expanded(
-              child: Semantics(
-                label: l.pvFreeGap(label),
-                child: ExcludeSemantics(child: Text(label, style: context.text.bodyLarge)),
-              ),
+            Semantics(
+              label: l.pvFreeGap(label),
+              child: ExcludeSemantics(child: Text(label, style: context.text.bodyLarge)),
             ),
-            TextButton(
-              key: ValueKey('fill-gap-${opening.start.toIso()}'),
-              onPressed: () => unawaited(_fill(context, ref)),
-              child: Text(l.pvFillGap),
-            ),
-            IconButton(
-              key: ValueKey('create-here-${opening.start.toIso()}'),
-              tooltip: l.pvCreateHere,
-              icon: const Icon(Icons.add),
-              onPressed: () => unawaited(
-                PlannerCommands(
-                  context,
-                  ref,
-                ).quickCreate(start: opening.start, duration: math.min(opening.minutes, work.defaultDuration)),
-              ),
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                TextButton(
+                  key: ValueKey('fill-gap-${opening.start.toIso()}'),
+                  onPressed: () => unawaited(_fill(context, ref)),
+                  child: Text(l.pvFillGap),
+                ),
+                IconButton(
+                  key: ValueKey('create-here-${opening.start.toIso()}'),
+                  tooltip: l.pvCreateHere,
+                  icon: const Icon(Icons.add),
+                  onPressed: () => unawaited(
+                    PlannerCommands(
+                      context,
+                      ref,
+                    ).quickCreate(start: opening.start, duration: math.min(opening.minutes, work.defaultDuration)),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

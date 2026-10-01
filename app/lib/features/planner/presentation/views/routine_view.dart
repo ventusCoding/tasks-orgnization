@@ -150,31 +150,34 @@ class _RoutineViewState extends ConsumerState<RoutineView> {
     final s = _state;
     return PlannerViewScaffold(
       viewKey: _key,
-      toolbar: SizedBox(
-        height: 48,
-        child: Row(
-          children: [
-            const SizedBox(width: Space.md),
-            Expanded(
-              child: Text(
-                s == null
-                    ? l.pvViewRoutine
-                    : (s.finished ? l.pvRoutineComplete : l.pvStep(s.index + 1, s.steps.length)),
-                key: const Key('routine-title'),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+      toolbar: MediaQuery.withClampedTextScaling(
+        maxScaleFactor: 1.4,
+        child: SizedBox(
+          height: 48,
+          child: Row(
+            children: [
+              const SizedBox(width: Space.md),
+              Expanded(
+                child: Text(
+                  s == null
+                      ? l.pvViewRoutine
+                      : (s.finished ? l.pvRoutineComplete : l.pvStep(s.index + 1, s.steps.length)),
+                  key: const Key('routine-title'),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                ),
               ),
-            ),
-            FilterChip(
-              key: const Key('routine-auto'),
-              label: Text(l.pvAutoAdvance),
-              selected: auto,
-              onSelected: (v) =>
-                  ref.read(plannerViewConfigProvider(_key).notifier).change((c) => c.withOption('autoAdvance', v)),
-            ),
-            PlannerMoreMenu(viewKey: _key, kind: ViewSettingsKind.list),
-          ],
+              FilterChip(
+                key: const Key('routine-auto'),
+                label: Text(l.pvAutoAdvance),
+                selected: auto,
+                onSelected: (v) =>
+                    ref.read(plannerViewConfigProvider(_key).notifier).change((c) => c.withOption('autoAdvance', v)),
+              ),
+              PlannerMoreMenu(viewKey: _key, kind: ViewSettingsKind.list),
+            ],
+          ),
         ),
       ),
       body: s == null
@@ -242,11 +245,12 @@ class _Picker extends ConsumerWidget {
                 leading: const Icon(Icons.view_stream_outlined),
                 title: Text(items.map((i) => i.title).join(' → ')),
                 subtitle: Text(f.timeRange(first.startLocal, items.last.endLocal)),
-                trailing: FilledButton(
+                trailing: IconButton.filled(
+                  tooltip: l.pvRoutineStart,
+                  icon: const Icon(Icons.play_arrow),
                   onPressed: () => onPlay(src, [
                     for (final i in items) RoutineStep(id: i.key, title: i.title, minutes: i.durationMinutes),
                   ]),
-                  child: Text(l.pvRoutineStart),
                 ),
               ),
             },
@@ -277,14 +281,15 @@ class _ChecklistSourceTile extends ConsumerWidget {
       leading: const Icon(Icons.checklist),
       title: Text(item.title),
       subtitle: Text('${format.timeRange(item.startLocal, item.endLocal)} · ${l.pvItemsCount(open.length)}'),
-      trailing: FilledButton(
+      trailing: IconButton.filled(
+        tooltip: l.pvRoutineStart,
+        icon: const Icon(Icons.play_arrow),
         onPressed: open.isEmpty
             ? null
             : () => onPlay(ChecklistRoutine(item), [
                 for (final (i, s) in open.indexed)
                   RoutineStep(id: s.id, title: s.text.trim().split('\n').first, minutes: minutes[i]),
               ]),
-        child: Text(l.pvRoutineStart),
       ),
     );
   }
