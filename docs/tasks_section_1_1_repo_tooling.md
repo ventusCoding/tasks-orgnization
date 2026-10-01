@@ -24,7 +24,7 @@ skeleton, local scripts, hooks, dependency automation, versioning.
 - [x] T1.1.03 — Pub workspace root + melos scripts
 - [x] T1.1.04 — Scaffold the Flutter app (`app/`)
 - [ ] T1.1.05 — iOS project setup: SwiftPM, UIScene, deployment target
-- [ ] T1.1.06 — Android project setup: SDK levels, Gradle/AGP/Kotlin, namespaces
+- [x] T1.1.06 — Android project setup: SDK levels, Gradle/AGP/Kotlin, namespaces
 - [x] T1.1.07 — Pure-Dart packages skeletons
 - [x] T1.1.08 — Strict analysis: very_good_analysis + riverpod_lint plugin
 - [x] T1.1.09 — Code generation setup
@@ -110,7 +110,7 @@ keep rules placeholder, core library desugaring enabled (required by notificatio
 **Acceptance criteria:** `fvm flutter build apk --flavor dev` succeeds; release build minifies without
 missing-class errors.
 **Tests:** CI Android build job.
-**Notes:** SDK levels, AGP 9.1, Gradle 9.3.1, Kotlin 2.4, Kotlin DSL, desugaring and flavors done; a dev debug APK builds. Still open: R8/minify for release with keep rules (needs a verified release build).
+**Notes:** SDK levels, AGP 9.1, Gradle 9.3.1, Kotlin 2.4, Kotlin DSL, desugaring and flavors. Release: R8 minify + resource shrinking with `proguard-rules.pro` (flutter_local_notifications/Gson generics, Play Core `-dontwarn`, Crashlytics line numbers). Verified 2026-10-01: `fvm flutter build apk --release --flavor prod` builds (mapping.txt produced, no missing-class errors); CI builds the same release APK.
 
 ### T1.1.07 — Pure-Dart packages skeletons
 **Priority:** P0 · **Size:** S · **Depends on:** T1.1.03
