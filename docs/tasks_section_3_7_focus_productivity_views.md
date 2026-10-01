@@ -35,7 +35,7 @@ countdown / count-up; map; tests.
 - [x] T3.7.10 — 24-hour radial clock
 - [x] T3.7.11 — Horizons view
 - [x] T3.7.12 — Countdown / count-up list
-- [ ] T3.7.13 — Map view
+- [x] T3.7.13 — Map view
 - [ ] T3.7.14 — Productivity views test suite
 
 ## Tasks
@@ -205,6 +205,7 @@ appears in the list when set.
 **Data model:** `tasks.location_lat double precision`, `tasks.location_lng double precision`.
 The existing `location` stays as the display name.
 **Tests:** widget tests with a fake map layer.
+**Notes:** `tasks.location_lat` / `location_lng` (schema v2, both-or-none check). `MapView`: occurrences of `options.rangeDays` whose task has coordinates (`placeTasksProvider` → `watchPlaceTasks`), pins colored like the tiles, tap → item card, list below (long-press opens the task); without places an empty state explains the place picker. The editor's location field gets *Find a place* (`pickPlace`: geocoder search or tap the map to drop a pin named by reverse geocoding; the text stays the display name) and *Remove the map pin*; `TaskForm.coordinates` carries it (diff `place`). `flutter_map` + OSM tiles and the platform geocoder sit behind `mapLayerBuilderProvider` / `PlaceGeocoder` (fakes in tests).
 
 ### T3.7.14 — Productivity views test suite
 **Priority:** P1 · **Size:** S · **Depends on:** T3.7.05

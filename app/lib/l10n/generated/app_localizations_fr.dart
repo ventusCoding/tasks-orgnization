@@ -7088,6 +7088,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvClearFilters => 'Effacer';
 
   @override
+  String get pvClearPlace => 'Retirer l’épingle';
+
+  @override
   String get pvClearSelection => 'Effacer la sélection';
 
   @override
@@ -7272,6 +7275,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvDropNotSupported => 'Ce regroupement ne peut pas encore être modifié par glisser-déposer';
+
+  @override
+  String get pvDroppedPin => 'Épingle';
 
   @override
   String get pvDuplicateView => 'Dupliquer la vue';
@@ -7490,8 +7496,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvMakeGoal => 'En faire un objectif';
 
   @override
-  String get pvMapPlaceholder =>
-      'La carte a besoin des coordonnées des tâches, qui arriveront avec le sélecteur de lieu. Les tâches qui ont un lieu sont listées ci-dessous.';
+  String get pvMapAttribution => '© les contributeurs d’OpenStreetMap';
+
+  @override
+  String get pvMapPlaceholder => 'Donnez un lieu à une tâche (éditeur → trouver un lieu) pour la voir sur la carte.';
 
   @override
   String get pvMarkDone => 'Marquer comme faite';
@@ -7720,6 +7728,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvPickDate => 'Choisir une date';
 
   @override
+  String get pvPickPlace => 'Trouver un lieu';
+
+  @override
   String get pvPin => 'Épingler';
 
   @override
@@ -7729,6 +7740,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String pvPixels(String value) {
     return '$value px';
   }
+
+  @override
+  String get pvPlaceNoResults => 'Aucun lieu trouvé';
+
+  @override
+  String get pvPlaceSearchHint => 'Adresse ou nom du lieu';
+
+  @override
+  String get pvPlaceTapHint => 'Ou touchez la carte pour placer une épingle.';
 
   @override
   String get pvPlanColumn => 'Prévu';
@@ -8120,6 +8140,9 @@ class AppLocalizationsFr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get pvUsePlace => 'Utiliser ce lieu';
 
   @override
   String get pvVarianceLate => 'Commencée en retard';

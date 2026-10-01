@@ -110,6 +110,12 @@ class PlannerQueries {
 
   Future<List<Task>> unscheduled() => watchUnscheduled().first;
 
+  /// Tasks with map coordinates (T3.7.13).
+  Stream<List<Task>> watchPlaceTasks() =>
+      (_tasks()..where((t) => t.locationLat.isNotNull() & t.locationLng.isNotNull() & t.isTemplate.equals(false)))
+          .watch()
+          .map((rows) => rows.map(PlannerMappers.task).toList());
+
   /// Tasks shown in the countdown list (T3.7.12): `countdown_mode` set, not templates / archived.
   Stream<List<Task>> watchCountdownTasks() =>
       (_tasks()

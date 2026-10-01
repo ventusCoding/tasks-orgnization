@@ -13,6 +13,7 @@ import 'package:everslot/features/organization/presentation/categories_screen.da
 import 'package:everslot/features/organization/presentation/tag_widgets.dart' show EntityTagChips, TagChip, pickTags;
 import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot/features/planner/application/planner_service.dart';
+import 'package:everslot/features/planner/application/view_config/places.dart' show PlaceCandidate;
 import 'package:everslot/features/planner/domain/occurrence_record.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/domain/planning_rules.dart';
@@ -23,6 +24,7 @@ import 'package:everslot/features/planner/presentation/markdown_lite_view.dart';
 import 'package:everslot/features/planner/presentation/planner_dialogs.dart';
 import 'package:everslot/features/planner/presentation/templates_sheet.dart';
 import 'package:everslot/features/planner/presentation/value_tile.dart';
+import 'package:everslot/features/planner/presentation/views/map_view.dart' show pickPlace;
 import 'package:everslot/features/recurrence_ui/recurrence_ui.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -534,11 +536,46 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
         ),
         Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.md, Space.lg, 0),
-          child: TextField(
-            key: const ValueKey('task-location'),
-            controller: _location,
-            decoration: InputDecoration(labelText: l.tasksFieldLocation, prefixIcon: const Icon(Icons.place_outlined)),
-            onChanged: (v) => _update((f) => f.copyWith(location: v)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                key: const ValueKey('task-location'),
+                controller: _location,
+                decoration: InputDecoration(
+                  labelText: l.tasksFieldLocation,
+                  prefixIcon: Icon(_form?.coordinates == null ? Icons.place_outlined : Icons.location_on),
+                  // T3.7.13: search a place / drop a pin; the text stays the display name.
+                  suffixIcon: IconButton(
+                    key: const ValueKey('task-pick-place'),
+                    tooltip: l.pvPickPlace,
+                    icon: const Icon(Icons.map_outlined),
+                    onPressed: () async {
+                      final c = _form?.coordinates;
+                      final place = await pickPlace(
+                        context,
+                        initialQuery: _location.text,
+                        current: c == null ? null : PlaceCandidate(name: _location.text, lat: c.lat, lng: c.lng),
+                      );
+                      if (place == null || !mounted) return;
+                      _location.text = place.name;
+                      _update((f) => f.copyWith(location: place.name, coordinates: (lat: place.lat, lng: place.lng)));
+                    },
+                  ),
+                ),
+                onChanged: (v) => _update((f) => f.copyWith(location: v)),
+              ),
+              if (_form?.coordinates != null)
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: TextButton.icon(
+                    key: const ValueKey('task-clear-place'),
+                    icon: const Icon(Icons.location_off_outlined, size: 18),
+                    label: Text(l.pvClearPlace),
+                    onPressed: () => _update((f) => f.copyWith(coordinates: null)),
+                  ),
+                ),
+            ],
           ),
         ),
         Padding(

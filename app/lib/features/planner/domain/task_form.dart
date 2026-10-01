@@ -37,6 +37,7 @@ class TaskForm {
     this.linkedChecklistId,
     this.deadline,
     this.estimateMinutes,
+    this.coordinates,
   });
 
   /// A new task at [start] (null = backlog) for [durationMinutes].
@@ -95,6 +96,9 @@ class TaskForm {
       linkedChecklistId: task.linkedChecklistId,
       deadline: task.deadlineLocal,
       estimateMinutes: task.estimateMinutes,
+      coordinates: task.locationLat == null || task.locationLng == null
+          ? null
+          : (lat: task.locationLat!, lng: task.locationLng!),
     );
   }
 
@@ -130,6 +134,9 @@ class TaskForm {
   final String? linkedChecklistId;
   final LocalDateTime? deadline;
   final int? estimateMinutes;
+
+  /// Map pin of the place (T3.7.13); the [location] text stays the display name.
+  final ({double lat, double lng})? coordinates;
 
   bool get isBacklog => date == null;
   bool get isRecurring => recurrence != null;
@@ -193,6 +200,7 @@ class TaskForm {
     Object? linkedChecklistId = _unset,
     Object? deadline = _unset,
     Object? estimateMinutes = _unset,
+    Object? coordinates = _unset,
   }) => TaskForm(
     title: title ?? this.title,
     notes: notes ?? this.notes,
@@ -214,6 +222,7 @@ class TaskForm {
     linkedChecklistId: identical(linkedChecklistId, _unset) ? this.linkedChecklistId : linkedChecklistId as String?,
     deadline: identical(deadline, _unset) ? this.deadline : deadline as LocalDateTime?,
     estimateMinutes: identical(estimateMinutes, _unset) ? this.estimateMinutes : estimateMinutes as int?,
+    coordinates: identical(coordinates, _unset) ? this.coordinates : coordinates as ({double lat, double lng})?,
   );
 
   // ---------------------------------------------------------------------------
@@ -286,6 +295,8 @@ class TaskForm {
       linkedChecklistId: linkedChecklistId,
       deadlineLocal: deadline,
       estimateMinutes: estimateMinutes,
+      locationLat: coordinates?.lat,
+      locationLng: coordinates?.lng,
     );
   }
 
@@ -317,6 +328,7 @@ class TaskForm {
     if (linkedChecklistId != other.linkedChecklistId) 'checklist',
     if (deadline != other.deadline) 'deadline',
     if (estimateMinutes != other.estimateMinutes) 'estimate',
+    if (coordinates != other.coordinates) 'place',
   };
 
   /// Whether the changes of [diff] touch *when* the task happens.

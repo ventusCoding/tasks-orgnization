@@ -8,6 +8,7 @@ import 'package:everslot/features/planner/presentation/views/free_slots_view.dar
 import 'package:everslot/features/planner/presentation/views/horizons_view.dart';
 import 'package:everslot/features/planner/presentation/views/kanban_view.dart';
 import 'package:everslot/features/planner/presentation/views/load_heatmap_view.dart';
+import 'package:everslot/features/planner/presentation/views/map_view.dart';
 import 'package:everslot/features/planner/presentation/views/matrix_view.dart';
 import 'package:everslot/features/planner/presentation/views/month_view.dart';
 import 'package:everslot/features/planner/presentation/views/multi_week_view.dart';
@@ -249,6 +250,15 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     icon: Icons.hourglass_bottom,
     label: (l) => l.pvViewCountdown,
     builder: (a) => CountdownView(args: a),
+    group: PlannerViewGroup.productivity,
+    tier: ViewTier.m3,
+  ),
+  PlannerViewEntry(
+    id: 'map',
+    type: PlannerViewType.map,
+    icon: Icons.map_outlined,
+    label: (l) => l.pvViewMap,
+    builder: (a) => MapView(args: a),
     group: PlannerViewGroup.productivity,
     tier: ViewTier.m3,
   ),

@@ -325,7 +325,7 @@
   "pvPinned": "Épinglés",
   "pvUpcoming": "À venir",
   "pvSinceGroup": "Depuis",
-  "pvMapPlaceholder": "La carte a besoin des coordonnées des tâches, qui arriveront avec le sélecteur de lieu. Les tâches qui ont un lieu sont listées ci-dessous.",
+  "pvMapPlaceholder": "Donnez un lieu à une tâche (éditeur → trouver un lieu) pour la voir sur la carte.",
   "pvWithPlace": "Tâches avec un lieu",
   "pvMoveUp": "Monter",
   "pvMoveDown": "Descendre",
@@ -362,5 +362,13 @@
   "pvCountdownUntil": "Décompter jusqu’à",
   "pvCountdownSince": "Compter depuis",
   "pvNoCountdowns": "Aucun compte à rebours",
-  "pvCounterParts": "{days} j {hours} h {minutes} min"
+  "pvCounterParts": "{days} j {hours} h {minutes} min",
+  "pvMapAttribution": "© les contributeurs d’OpenStreetMap",
+  "pvPickPlace": "Trouver un lieu",
+  "pvPlaceSearchHint": "Adresse ou nom du lieu",
+  "pvPlaceTapHint": "Ou touchez la carte pour placer une épingle.",
+  "pvPlaceNoResults": "Aucun lieu trouvé",
+  "pvUsePlace": "Utiliser ce lieu",
+  "pvClearPlace": "Retirer l’épingle",
+  "pvDroppedPin": "Épingle"
 }

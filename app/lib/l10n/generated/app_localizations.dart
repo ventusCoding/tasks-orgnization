@@ -11973,6 +11973,12 @@ abstract class AppLocalizations {
   /// **'Clear'**
   String get pvClearFilters;
 
+  /// No description provided for @pvClearPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the map pin'**
+  String get pvClearPlace;
+
   /// No description provided for @pvClearSelection.
   ///
   /// In en, this message translates to:
@@ -12284,6 +12290,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This grouping can\'t be changed by dragging yet'**
   String get pvDropNotSupported;
+
+  /// No description provided for @pvDroppedPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Dropped pin'**
+  String get pvDroppedPin;
 
   /// No description provided for @pvDuplicateView.
   ///
@@ -12657,10 +12669,16 @@ abstract class AppLocalizations {
   /// **'Make it a goal'**
   String get pvMakeGoal;
 
+  /// No description provided for @pvMapAttribution.
+  ///
+  /// In en, this message translates to:
+  /// **'© OpenStreetMap contributors'**
+  String get pvMapAttribution;
+
   /// No description provided for @pvMapPlaceholder.
   ///
   /// In en, this message translates to:
-  /// **'The map needs task coordinates, which arrive with the place picker. Tasks with a place are listed below.'**
+  /// **'Give a task a place (task editor → find a place) to see it on the map.'**
   String get pvMapPlaceholder;
 
   /// No description provided for @pvMarkDone.
@@ -13047,6 +13065,12 @@ abstract class AppLocalizations {
   /// **'Pick a date'**
   String get pvPickDate;
 
+  /// No description provided for @pvPickPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a place'**
+  String get pvPickPlace;
+
   /// No description provided for @pvPin.
   ///
   /// In en, this message translates to:
@@ -13064,6 +13088,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{value} px'**
   String pvPixels(String value);
+
+  /// No description provided for @pvPlaceNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No place found'**
+  String get pvPlaceNoResults;
+
+  /// No description provided for @pvPlaceSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Address or place name'**
+  String get pvPlaceSearchHint;
+
+  /// No description provided for @pvPlaceTapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Or tap the map to drop a pin.'**
+  String get pvPlaceTapHint;
 
   /// No description provided for @pvPlanColumn.
   ///
@@ -13748,6 +13790,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{days, plural, =1{Urgent within 1 day} other{Urgent within {days} days}}'**
   String pvUrgencyRule(int days);
+
+  /// No description provided for @pvUsePlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this place'**
+  String get pvUsePlace;
 
   /// No description provided for @pvVarianceLate.
   ///

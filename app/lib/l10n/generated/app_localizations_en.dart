@@ -6889,6 +6889,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvClearFilters => 'Clear';
 
   @override
+  String get pvClearPlace => 'Remove the map pin';
+
+  @override
   String get pvClearSelection => 'Clear selection';
 
   @override
@@ -7073,6 +7076,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvDropNotSupported => 'This grouping can\'t be changed by dragging yet';
+
+  @override
+  String get pvDroppedPin => 'Dropped pin';
 
   @override
   String get pvDuplicateView => 'Duplicate view';
@@ -7290,8 +7296,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvMakeGoal => 'Make it a goal';
 
   @override
-  String get pvMapPlaceholder =>
-      'The map needs task coordinates, which arrive with the place picker. Tasks with a place are listed below.';
+  String get pvMapAttribution => '© OpenStreetMap contributors';
+
+  @override
+  String get pvMapPlaceholder => 'Give a task a place (task editor → find a place) to see it on the map.';
 
   @override
   String get pvMarkDone => 'Mark done';
@@ -7510,6 +7518,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvPickDate => 'Pick a date';
 
   @override
+  String get pvPickPlace => 'Find a place';
+
+  @override
   String get pvPin => 'Pin';
 
   @override
@@ -7519,6 +7530,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String pvPixels(String value) {
     return '$value px';
   }
+
+  @override
+  String get pvPlaceNoResults => 'No place found';
+
+  @override
+  String get pvPlaceSearchHint => 'Address or place name';
+
+  @override
+  String get pvPlaceTapHint => 'Or tap the map to drop a pin.';
 
   @override
   String get pvPlanColumn => 'Plan';
@@ -7910,6 +7930,9 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get pvUsePlace => 'Use this place';
 
   @override
   String get pvVarianceLate => 'Started late';

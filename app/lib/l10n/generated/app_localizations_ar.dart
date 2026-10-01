@@ -7467,6 +7467,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvClearFilters => 'مسح';
 
   @override
+  String get pvClearPlace => 'إزالة الدبوس';
+
+  @override
   String get pvClearSelection => 'إلغاء التحديد';
 
   @override
@@ -7657,6 +7660,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvDropNotSupported => 'لا يمكن تغيير هذا التجميع بالسحب بعد';
+
+  @override
+  String get pvDroppedPin => 'دبوس';
 
   @override
   String get pvDuplicateView => 'تكرار العرض';
@@ -7877,8 +7883,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvMakeGoal => 'اجعلها هدفًا';
 
   @override
-  String get pvMapPlaceholder =>
-      'تحتاج الخريطة إلى إحداثيات المهام، وستتوفر مع أداة اختيار المكان. المهام التي لها مكان مدرجة أدناه.';
+  String get pvMapAttribution => '© مساهمو OpenStreetMap';
+
+  @override
+  String get pvMapPlaceholder => 'أضف مكانًا إلى مهمة (محرر المهمة ← ابحث عن مكان) لتظهر على الخريطة.';
 
   @override
   String get pvMarkDone => 'تحديد كمنجزة';
@@ -8134,6 +8142,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvPickDate => 'اختر تاريخًا';
 
   @override
+  String get pvPickPlace => 'ابحث عن مكان';
+
+  @override
   String get pvPin => 'تثبيت';
 
   @override
@@ -8143,6 +8154,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String pvPixels(String value) {
     return '$value بكسل';
   }
+
+  @override
+  String get pvPlaceNoResults => 'لم يُعثر على مكان';
+
+  @override
+  String get pvPlaceSearchHint => 'العنوان أو اسم المكان';
+
+  @override
+  String get pvPlaceTapHint => 'أو انقر على الخريطة لوضع دبوس.';
 
   @override
   String get pvPlanColumn => 'المخطط';
@@ -8552,6 +8572,9 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get pvUsePlace => 'استخدم هذا المكان';
 
   @override
   String get pvVarianceLate => 'بدأت متأخرة';
