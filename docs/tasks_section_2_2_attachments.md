@@ -28,7 +28,7 @@ storage purge job wiring ([1.4] T1.4.16 purge + cron in arch §7.7).
 - [x] T2.2.07 — Attachment strip component (reusable)
 - [x] T2.2.08 — Limits & validation (size, type, count)
 - [x] T2.2.09 — Upload/download status & offline UX
-- [ ] T2.2.10 — Integration tests against local Supabase Storage
+- [x] T2.2.10 — Integration tests against local Supabase Storage
 - [x] T2.2.11 — Deletion, reference-counted purge & storage quota display
 - [ ] T2.2.12 — Video attachments (short clips) with poster frames
 - [ ] T2.2.13 — Audio notes (record & play)
@@ -140,7 +140,7 @@ errors; mirrored by Storage bucket limits (`file_size_limit`, `allowed_mime_type
 **Description:** Tests against the local stack: upload (standard + TUS), cross-user access denied (policy),
 download by another device session of the same user, interrupted upload resume, path-prefix enforcement.
 **Tests:** this task is the suite (`@Tags(['storage'])`).
-**Notes:** Needs a local Supabase stack, not available in this environment; the fake-storage suite in `attachment_service_test` covers the queue logic.
+**Notes:** `app/test_storage/attachment_storage_test.dart` (`@Tags(['storage'])`, own directory so plain `flutter test` never needs the stack): standard upload + second-device download + retry overwrite, cross-user read/write denied, path prefix (Storage policy and the DL007 row trigger via PostgREST), bucket MIME allow-list, TUS for > 6 MB with an interrupted upload resumed from its offset, and the queue + downloader end to end (offline → pending, online → row marked uploaded, other device downloads). Throwaway users via the admin API, removed afterwards. CI: `backend.yml` › storage job; local run in `docs/guide.md` §3.
 
 ### T2.2.11 — Deletion, reference-counted purge & storage quota display
 **Priority:** P1 · **Size:** S · **Depends on:** T2.2.01, [1.4] (purge job)
