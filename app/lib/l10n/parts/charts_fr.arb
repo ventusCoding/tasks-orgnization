@@ -276,5 +276,22 @@
   "chartsLabelIntegrityParentOpen": "Sous-éléments faits, encore ouvert",
   "chartsLabelIntegrityMissingReason": "Motif manquant",
   "chartsLabelLittleRatio": "Ratio de Little",
-  "chartsLabelArrivalsPerDeparture": "Arrivées ÷ départs"
+  "chartsLabelArrivalsPerDeparture": "Arrivées ÷ départs",
+  "chartsLabelPerScheduledDay": "Par jour prévu",
+  "chartsLabelPerActiveDay": "Par jour actif",
+  "chartsLabelBestDay": "Meilleur jour",
+  "chartsLabelBestWeek": "Meilleure semaine",
+  "chartsLabelBestMonth": "Meilleur mois",
+  "chartsLabelFulfilment": "Atteinte",
+  "chartsLabelConsistency": "Régularité",
+  "chartsLabelLongestGap": "Plus long écart",
+  "chartsLabelMeanGap": "Écart moyen",
+  "chartsLabelComebacks": "Retours",
+  "chartsLabelRising": "En hausse",
+  "chartsLabelStable": "Stable",
+  "chartsLabelFalling": "En baisse",
+  "chartsLabelRiskQuota": "En retard sur le quota",
+  "chartsLabelRiskDueToday": "À faire aujourd’hui, série en jeu",
+  "chartsLabelRiskScoreDrop": "Force en baisse",
+  "chartsLabelToday": "Aujourd’hui"
 }

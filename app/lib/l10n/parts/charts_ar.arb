@@ -276,5 +276,22 @@
   "chartsLabelIntegrityParentOpen": "كل العناصر الفرعية مكتملة وما زال مفتوحًا",
   "chartsLabelIntegrityMissingReason": "السبب مفقود",
   "chartsLabelLittleRatio": "نسبة ليتل",
-  "chartsLabelArrivalsPerDeparture": "الواصل ÷ المغادر"
+  "chartsLabelArrivalsPerDeparture": "الواصل ÷ المغادر",
+  "chartsLabelPerScheduledDay": "لكل يوم مجدول",
+  "chartsLabelPerActiveDay": "لكل يوم نشِط",
+  "chartsLabelBestDay": "أفضل يوم",
+  "chartsLabelBestWeek": "أفضل أسبوع",
+  "chartsLabelBestMonth": "أفضل شهر",
+  "chartsLabelFulfilment": "نسبة الإنجاز",
+  "chartsLabelConsistency": "الانتظام",
+  "chartsLabelLongestGap": "أطول فجوة",
+  "chartsLabelMeanGap": "متوسط الفجوة",
+  "chartsLabelComebacks": "العودات",
+  "chartsLabelRising": "في صعود",
+  "chartsLabelStable": "ثابت",
+  "chartsLabelFalling": "في هبوط",
+  "chartsLabelRiskQuota": "متأخرة عن حصتها",
+  "chartsLabelRiskDueToday": "مستحقة اليوم والسلسلة على المحك",
+  "chartsLabelRiskScoreDrop": "القوة تتراجع",
+  "chartsLabelToday": "اليوم"
 }

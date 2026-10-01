@@ -1300,6 +1300,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelBest => 'الأفضل';
 
   @override
+  String get chartsLabelBestDay => 'أفضل يوم';
+
+  @override
+  String get chartsLabelBestMonth => 'أفضل شهر';
+
+  @override
+  String get chartsLabelBestWeek => 'أفضل أسبوع';
+
+  @override
   String get chartsLabelBias => 'الانحياز';
 
   @override
@@ -1318,7 +1327,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelCheckIns => 'تسجيلات';
 
   @override
+  String get chartsLabelComebacks => 'العودات';
+
+  @override
   String get chartsLabelCompleted => 'مكتمل';
+
+  @override
+  String get chartsLabelConsistency => 'الانتظام';
 
   @override
   String get chartsLabelContextSwitches => 'التبديلات';
@@ -1366,6 +1381,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelFailed => 'لم يُنجز';
 
   @override
+  String get chartsLabelFalling => 'في هبوط';
+
+  @override
   String get chartsLabelFiles => 'الملفات';
 
   @override
@@ -1382,6 +1400,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelFrozen => 'مجمّد';
+
+  @override
+  String get chartsLabelFulfilment => 'نسبة الإنجاز';
 
   @override
   String get chartsLabelFuture => 'قادم';
@@ -1453,6 +1474,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelLongestBlock => 'أطول فترة';
 
   @override
+  String get chartsLabelLongestGap => 'أطول فجوة';
+
+  @override
   String get chartsLabelLoops => 'حلقات قيد التنفيذ ↔ انتظار';
 
   @override
@@ -1469,6 +1493,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelMean => 'المتوسط';
+
+  @override
+  String get chartsLabelMeanGap => 'متوسط الفجوة';
 
   @override
   String get chartsLabelMeanIntensity => 'متوسط الشدة';
@@ -1597,7 +1624,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelPendingSync => 'بانتظار المزامنة';
 
   @override
+  String get chartsLabelPerActiveDay => 'لكل يوم نشِط';
+
+  @override
   String get chartsLabelPerDay => 'في اليوم';
+
+  @override
+  String get chartsLabelPerScheduledDay => 'لكل يوم مجدول';
 
   @override
   String get chartsLabelPerfectDay => 'يوم مثالي';
@@ -1654,6 +1687,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelReopened => 'أُعيد فتحه';
 
   @override
+  String get chartsLabelRising => 'في صعود';
+
+  @override
+  String get chartsLabelRiskDueToday => 'مستحقة اليوم والسلسلة على المحك';
+
+  @override
+  String get chartsLabelRiskQuota => 'متأخرة عن حصتها';
+
+  @override
+  String get chartsLabelRiskScoreDrop => 'القوة تتراجع';
+
+  @override
   String get chartsLabelRollingMean => 'المتوسط المتحرك';
 
   @override
@@ -1682,6 +1727,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelSpent => 'المُنفَق';
+
+  @override
+  String get chartsLabelStable => 'ثابت';
 
   @override
   String get chartsLabelStale => 'راكدة';
@@ -1715,6 +1763,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelTimeNotSpent => 'الوقت الموفَّر';
+
+  @override
+  String get chartsLabelToday => 'اليوم';
 
   @override
   String get chartsLabelTodo => 'للقيام به';
@@ -12154,6 +12205,126 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricHbH11Title => 'الحجم الإجمالي';
 
   @override
+  String get statsMetricHbH12Desc => 'الكمية المعتادة لكل يوم مجدول ولكل يوم نشِط.';
+
+  @override
+  String get statsMetricHbH12Formula => 'متوسط القيمة لكل يوم مجدول (E − X) ولكل يوم بقيمة أكبر من 0.';
+
+  @override
+  String get statsMetricHbH12Title => 'المتوسطات';
+
+  @override
+  String get statsMetricHbH13Desc => 'أفضل يوم وأسبوع وشهر لك.';
+
+  @override
+  String get statsMetricHbH13Formula => 'أعلى مجموع لكل يوم وأسبوع وشهر مع التواريخ؛ يُميَّز الرقم القياسي الجديد.';
+
+  @override
+  String get statsMetricHbH13Title => 'الأرقام القياسية';
+
+  @override
+  String get statsMetricHbH14Desc => 'الكمية التي تسجلها عادة في يوم مجدول.';
+
+  @override
+  String get statsMetricHbH14Formula => 'مدرج تكراري للقيم اليومية؛ الوسيط وP85.';
+
+  @override
+  String get statsMetricHbH14Title => 'توزيع القيم';
+
+  @override
+  String get statsMetricHbH15Desc => 'مدى اقترابك من الهدف في المتوسط، وكم يومًا كان جزئيًا.';
+
+  @override
+  String get statsMetricHbH15Formula => 'متوسط(min(1، القيمة ÷ الهدف)) على الوحدات غير المعذورة؛ الجزئية ÷ (E − X).';
+
+  @override
+  String get statsMetricHbH15Title => 'نسبة الإنجاز';
+
+  @override
+  String get statsMetricHbH16Desc => 'الأيام التي بقيت فيها ضمن حدّك، ومقدار التجاوز في غيرها.';
+
+  @override
+  String get statsMetricHbH16Formula => 'الأيام ذات القيمة ≤ الحد ÷ (E − X)؛ التجاوز = Σ max(0، القيمة − الحد).';
+
+  @override
+  String get statsMetricHbH16Title => 'ضمن الحد';
+
+  @override
+  String get statsMetricHbH17Desc => 'مدى ثباتك في العادة، دون احتساب الأيام غير المجدولة.';
+
+  @override
+  String get statsMetricHbH17Formula =>
+      'متوسط المتوسط المتحرك لـ30 يومًا لدرجات الوحدات (1 منجز، القيمة ÷ الهدف جزئي، 0 فائت).';
+
+  @override
+  String get statsMetricHbH17Title => 'مؤشر الانتظام';
+
+  @override
+  String get statsMetricHbH18Desc => 'معدل نجاحك في كل يوم من الأسبوع.';
+
+  @override
+  String get statsMetricHbH18Formula => 'المنجزة ÷ الوحدات المجدولة المغلقة لكل يوم.';
+
+  @override
+  String get statsMetricHbH18Title => 'حسب أيام الأسبوع';
+
+  @override
+  String get statsMetricHbH19Desc => 'متى تسجّل عادة خلال اليوم ومدى انتظام ذلك.';
+
+  @override
+  String get statsMetricHbH19Formula =>
+      'المتوسط والانحراف المعياري الدائريان لأوقات التسجيل (من بداية يومك)؛ شبكة يوم × ساعة.';
+
+  @override
+  String get statsMetricHbH19Title => 'وقت التسجيل';
+
+  @override
+  String get statsMetricHbH20Desc => 'نسبة التسجيلات القريبة من وقت الفترة.';
+
+  @override
+  String get statsMetricHbH20Formula => 'التسجيلات ضمن ± هامش الفترة (30 دقيقة) ÷ تسجيلات الفترات.';
+
+  @override
+  String get statsMetricHbH20Title => 'الالتزام بالفترات';
+
+  @override
+  String get statsMetricHbH21Desc => 'عدد اليوم مقابل الهدف والفاصل المعتاد بين التسجيلات.';
+
+  @override
+  String get statsMetricHbH21Formula => 'التسجيلات مقابل الهدف لكل يوم؛ متوسط ووسيط الفاصل بين التسجيلات المتتالية.';
+
+  @override
+  String get statsMetricHbH21Title => 'عدة مرات يوميًا';
+
+  @override
+  String get statsMetricHbH22Desc => '«لا تفوّت مرتين»: كم مرة يعقب الفوتَ نجاحٌ.';
+
+  @override
+  String get statsMetricHbH22Formula =>
+      'الفوائت التي يتبعها نجاح ÷ الفوائت ذات وحدة لاحقة مغلقة؛ أطول ومتوسط فجوة؛ العودات بعد 3 فوائت أو أكثر.';
+
+  @override
+  String get statsMetricHbH22Title => 'التعافي';
+
+  @override
+  String get statsMetricHbH23Desc => 'التجميدات المستخدمة مقابل الممنوحة هذا الشهر وإجمالًا.';
+
+  @override
+  String get statsMetricHbH23Formula => 'التجميدات المستخدمة ÷ الممنوحة لكل شهر وإجمالًا؛ مع قائمة الأيام المحمية.';
+
+  @override
+  String get statsMetricHbH23Title => 'تجميد السلسلة';
+
+  @override
+  String get statsMetricHbH24Desc => 'هل قوة العادة في صعود أم ثبات أم هبوط.';
+
+  @override
+  String get statsMetricHbH24Formula => 'ميل مؤشر القوة خلال 30 يومًا؛ |الميل| < 0.1 نقطة/يوم = ثابت.';
+
+  @override
+  String get statsMetricHbH24Title => 'الزخم';
+
+  @override
   String get statsMetricHbH25Desc =>
       'نسبة ما سُجِّل فعلًا من تاريخ هذه العادة. اليوم غير المسجَّل مجهول وليس فشلًا: يُحتسب فائتًا فقط لأنه لم يُسجَّل فيه شيء.';
 
@@ -12163,6 +12334,53 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsMetricHbH25Title => 'اكتمال البيانات';
+
+  @override
+  String get statsMetricHbH26Desc => 'هل أنت على المسار لهدف هذه العادة، ومتى ستبلغه.';
+
+  @override
+  String get statsMetricHbH26Formula =>
+      'الوتيرة = الهدف × الجزء المنقضي؛ التوقع = الفعلي + معدل 28 يومًا × الأيام المتبقية؛ موعد البلوغ عندما يصل التوقع إلى الهدف.';
+
+  @override
+  String get statsMetricHbH26Title => 'وتيرة الهدف';
+
+  @override
+  String get statsMetricHbH27Desc => 'الوقت الذي احتاجته العادة لتستقر (نجاح 80 % لمدة 14 يومًا).';
+
+  @override
+  String get statsMetricHbH27Formula =>
+      'الأيام حتى يبقى معدل النجاح المتحرك لـ30 يومًا ≥ 80 % لمدة 14 يومًا؛ النطاق البحثي 18–254 يومًا (Lally وآخرون 2010).';
+
+  @override
+  String get statsMetricHbH27Title => 'ترسّخ العادة';
+
+  @override
+  String get statsMetricHbH28Desc => 'كم مرة تسجّل بعد التذكير بوقت قصير.';
+
+  @override
+  String get statsMetricHbH28Formula => 'التسجيلات خلال 60 دقيقة بعد تذكير ÷ التسجيلات؛ التأخر الوسيط.';
+
+  @override
+  String get statsMetricHbH28Title => 'فاعلية التذكيرات';
+
+  @override
+  String get statsMetricHbH29Desc => 'مزاجك في أيام إنجاز العادة مقابل الأيام الأخرى (ارتباط لا سببية).';
+
+  @override
+  String get statsMetricHbH29Formula => 'متوسط المزاج في الأيام المنجزة مقابل غير المنجزة؛ اختبار مان-ويتني.';
+
+  @override
+  String get statsMetricHbH29Title => 'المزاج حسب النتيجة';
+
+  @override
+  String get statsMetricHbH30Desc => 'لماذا تخطيت أيامًا أو اعتذرت عنها.';
+
+  @override
+  String get statsMetricHbH30Formula => 'مخطط باريتو لملاحظات التخطي والأعذار.';
+
+  @override
+  String get statsMetricHbH30Title => 'أسباب التخطي والأعذار';
 
   @override
   String get statsMetricHbX01Desc => 'العادات المستحقة المنجزة اليوم.';
@@ -12211,6 +12429,61 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricHbX05Title => 'ملخص الإقلاع';
 
   @override
+  String get statsMetricHbX06Desc => 'مدى قوة كل عادة، وأيها في صعود أو هبوط.';
+
+  @override
+  String get statsMetricHbX06Formula => 'متوسط ووسيط القوة؛ أعمدة مرتبة؛ التغير خلال 30 يومًا.';
+
+  @override
+  String get statsMetricHbX06Title => 'قوة العادات';
+
+  @override
+  String get statsMetricHbX07Desc => 'عادات تحتاج انتباهك الآن.';
+
+  @override
+  String get statsMetricHbX07Formula =>
+      'حصة متأخرة، أو مستحقة اليوم مع سلسلة قائمة، أو قوة انخفضت أكثر من 10 نقاط خلال 7 أيام.';
+
+  @override
+  String get statsMetricHbX07Title => 'معرّضة للخطر';
+
+  @override
+  String get statsMetricHbX08Desc => 'معدل النجاح والحجم حسب الفئة.';
+
+  @override
+  String get statsMetricHbX08Formula => 'المنجزة ÷ الوحدات المغلقة وΣ الحجم لكل فئة.';
+
+  @override
+  String get statsMetricHbX08Title => 'مجالات الحياة';
+
+  @override
+  String get statsMetricHbX09Desc => 'العادات مرتبة حسب معدل النجاح في الفترة.';
+
+  @override
+  String get statsMetricHbX09Formula => 'معدل النجاح لكل عادة (5 وحدات مغلقة على الأقل).';
+
+  @override
+  String get statsMetricHbX09Title => 'الأفضل والأسوأ';
+
+  @override
+  String get statsMetricHbX10Desc => 'عدد التسجيلات التي تقوم بها.';
+
+  @override
+  String get statsMetricHbX10Formula => 'التسجيلات لكل يوم (لكل أسبوع في الفترات الطويلة).';
+
+  @override
+  String get statsMetricHbX10Title => 'حجم التسجيلات';
+
+  @override
+  String get statsMetricHbX11Desc => 'معدل نجاحك في كل يوم عبر العادات.';
+
+  @override
+  String get statsMetricHbX11Formula => 'المنجزة ÷ الوحدات المجدولة المغلقة لكل يوم لكل العادات.';
+
+  @override
+  String get statsMetricHbX11Title => 'حسب أيام الأسبوع (كل العادات)';
+
+  @override
   String get statsMetricHbX12Desc =>
       'مقاييس الاكتمال نفسها لكل العادات: نسبة التسجيل والوحدات غير المسجَّلة (المجهولة) والتسجيل المتأخر.';
 
@@ -12220,6 +12493,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsMetricHbX12Title => 'اكتمال البيانات (كل العادات)';
+
+  @override
+  String get statsMetricHbX13Desc => 'عادات تُنجزها غالبًا في الأيام نفسها (ارتباط لا سببية).';
+
+  @override
+  String get statsMetricHbX13Formula =>
+      'معامل فاي بين أيام الإنجاز (≥ 21 يومًا مشتركًا)، يُعرض فقط إذا بقي دالًا بعد ضبط الاكتشافات الزائفة.';
+
+  @override
+  String get statsMetricHbX13Title => 'تُنجز معًا';
+
+  @override
+  String get statsMetricHbX14Desc => 'العادات التي تبدؤها وتؤرشفها، وكم منها مستمر بعد 30 و90 يومًا.';
+
+  @override
+  String get statsMetricHbX14Formula => 'المُنشأة والمؤرشفة لكل شهر؛ نسبة النشِطة بعد 30 و90 يومًا من الإنشاء.';
+
+  @override
+  String get statsMetricHbX14Title => 'محفظة العادات';
 
   @override
   String get statsMetricPlS01Desc => 'عدد مرات استحقاق السلسلة خلال الفترة.';
@@ -13155,6 +13447,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsNoteNoFreeTime => 'لا وقت حر ضمن ساعات العمل';
 
   @override
+  String get statsNoteNoFreezes => 'لا تجميد سلسلة لهذه العادة';
+
+  @override
   String get statsNoteNoGoal => 'لا يوجد هدف';
 
   @override
@@ -13167,6 +13462,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsNoteNoLifeEstimate => 'حدّد دقائق العمر لكل وحدة لرؤية هذا التقدير.';
 
   @override
+  String get statsNoteNoMood => 'سجّل مزاجك عند التسجيل لرؤية هذا';
+
+  @override
   String get statsNoteNoOccurrence => 'تعذّر العثور على هذه المرة.';
 
   @override
@@ -13176,7 +13474,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsNoteNoRating => 'لا يوجد تقييم بعد';
 
   @override
+  String get statsNoteNoReminders => 'لا تذكيرات لهذه العادة بعد';
+
+  @override
   String get statsNoteNoRuns => 'لا توجد جولات لهذه القائمة بعد (غير قابلة لإعادة الضبط أو لم تُعَد قط)';
+
+  @override
+  String get statsNoteNoSignificantPairs => 'لا يبرز أي زوج من العادات بعد';
 
   @override
   String get statsNoteNoTracker => 'تعذّر العثور على متتبع الإقلاع هذا.';
@@ -13185,10 +13489,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsNoteNoUnitCost => 'حدّد سعر الوحدة لرؤية المدخرات.';
 
   @override
+  String get statsNoteNonCausal => 'ارتباط وليس سببًا';
+
+  @override
   String get statsNoteNotApplicable => 'لا ينطبق';
 
   @override
   String get statsNoteNotDone => 'لم يُنجز بعد';
+
+  @override
+  String get statsNoteNotIntraday => 'فقط للعادات ذات الفترات';
+
+  @override
+  String get statsNoteNotLimitHabit => 'فقط للعادات ذات الحد';
 
   @override
   String get statsNoteNotOverdue => 'غير متأخرة';
@@ -13207,6 +13520,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsNoteNotTracked => 'الوقت الفعلي غير متتبَّع';
+
+  @override
+  String get statsNoteOftenTogether => 'تُنجز غالبًا معًا — ليس سببًا';
+
+  @override
+  String get statsNoteOncePerDay => 'فقط للعادات التي تُنجز عدة مرات يوميًا';
 
   @override
   String get statsNotePastPeriod => 'للفترات الحالية والمستقبلية فقط.';

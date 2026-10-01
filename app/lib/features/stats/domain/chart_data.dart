@@ -195,6 +195,23 @@ enum LabelToken {
   integrityMissingReason,
   littleRatio,
   arrivalsPerDeparture,
+  perScheduledDay,
+  perActiveDay,
+  bestDay,
+  bestWeek,
+  bestMonth,
+  fulfilment,
+  consistency,
+  longestGap,
+  meanGap,
+  comebacks,
+  rising,
+  stable,
+  falling,
+  riskQuota,
+  riskDueToday,
+  riskScoreDrop,
+  today,
 }
 
 /// A chart label: resolved to text by the presentation layer.

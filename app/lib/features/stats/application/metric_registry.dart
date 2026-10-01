@@ -6,6 +6,7 @@ import 'package:everslot/features/stats/application/catalog/checklist_catalog.da
 import 'package:everslot/features/stats/application/catalog/checklist_insights_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/global_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/habit_catalog.dart';
+import 'package:everslot/features/stats/application/catalog/habit_insights_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/planner_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/planner_insights_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/quit_catalog.dart';
@@ -43,6 +44,7 @@ final class MetricRegistry {
     ...checklistMetrics,
     ...checklistInsightMetrics,
     ...habitMetrics,
+    ...habitInsightMetrics,
     ...quitMetrics,
     ...globalMetrics,
   ]);

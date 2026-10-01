@@ -787,5 +787,22 @@
   "chartsLabelIntegrityParentOpen": "All sub-items done, still open",
   "chartsLabelIntegrityMissingReason": "Reason missing",
   "chartsLabelLittleRatio": "Little’s ratio",
-  "chartsLabelArrivalsPerDeparture": "Arrivals ÷ departures"
+  "chartsLabelArrivalsPerDeparture": "Arrivals ÷ departures",
+  "chartsLabelPerScheduledDay": "Per scheduled day",
+  "chartsLabelPerActiveDay": "Per active day",
+  "chartsLabelBestDay": "Best day",
+  "chartsLabelBestWeek": "Best week",
+  "chartsLabelBestMonth": "Best month",
+  "chartsLabelFulfilment": "Fulfilment",
+  "chartsLabelConsistency": "Consistency",
+  "chartsLabelLongestGap": "Longest gap",
+  "chartsLabelMeanGap": "Mean gap",
+  "chartsLabelComebacks": "Comebacks",
+  "chartsLabelRising": "Rising",
+  "chartsLabelStable": "Stable",
+  "chartsLabelFalling": "Falling",
+  "chartsLabelRiskQuota": "Behind on its quota",
+  "chartsLabelRiskDueToday": "Due today, streak on the line",
+  "chartsLabelRiskScoreDrop": "Strength dropping",
+  "chartsLabelToday": "Today"
 }

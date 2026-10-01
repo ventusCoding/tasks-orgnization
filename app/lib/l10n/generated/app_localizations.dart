@@ -2193,6 +2193,24 @@ abstract class AppLocalizations {
   /// **'Best'**
   String get chartsLabelBest;
 
+  /// No description provided for @chartsLabelBestDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Best day'**
+  String get chartsLabelBestDay;
+
+  /// No description provided for @chartsLabelBestMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Best month'**
+  String get chartsLabelBestMonth;
+
+  /// No description provided for @chartsLabelBestWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Best week'**
+  String get chartsLabelBestWeek;
+
   /// No description provided for @chartsLabelBias.
   ///
   /// In en, this message translates to:
@@ -2229,11 +2247,23 @@ abstract class AppLocalizations {
   /// **'Check-ins'**
   String get chartsLabelCheckIns;
 
+  /// No description provided for @chartsLabelComebacks.
+  ///
+  /// In en, this message translates to:
+  /// **'Comebacks'**
+  String get chartsLabelComebacks;
+
   /// No description provided for @chartsLabelCompleted.
   ///
   /// In en, this message translates to:
   /// **'Completed'**
   String get chartsLabelCompleted;
+
+  /// No description provided for @chartsLabelConsistency.
+  ///
+  /// In en, this message translates to:
+  /// **'Consistency'**
+  String get chartsLabelConsistency;
 
   /// No description provided for @chartsLabelContextSwitches.
   ///
@@ -2325,6 +2355,12 @@ abstract class AppLocalizations {
   /// **'Not done'**
   String get chartsLabelFailed;
 
+  /// No description provided for @chartsLabelFalling.
+  ///
+  /// In en, this message translates to:
+  /// **'Falling'**
+  String get chartsLabelFalling;
+
   /// No description provided for @chartsLabelFiles.
   ///
   /// In en, this message translates to:
@@ -2360,6 +2396,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Frozen'**
   String get chartsLabelFrozen;
+
+  /// No description provided for @chartsLabelFulfilment.
+  ///
+  /// In en, this message translates to:
+  /// **'Fulfilment'**
+  String get chartsLabelFulfilment;
 
   /// No description provided for @chartsLabelFuture.
   ///
@@ -2499,6 +2541,12 @@ abstract class AppLocalizations {
   /// **'Longest block'**
   String get chartsLabelLongestBlock;
 
+  /// No description provided for @chartsLabelLongestGap.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest gap'**
+  String get chartsLabelLongestGap;
+
   /// No description provided for @chartsLabelLoops.
   ///
   /// In en, this message translates to:
@@ -2534,6 +2582,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Mean'**
   String get chartsLabelMean;
+
+  /// No description provided for @chartsLabelMeanGap.
+  ///
+  /// In en, this message translates to:
+  /// **'Mean gap'**
+  String get chartsLabelMeanGap;
 
   /// No description provided for @chartsLabelMeanIntensity.
   ///
@@ -2787,11 +2841,23 @@ abstract class AppLocalizations {
   /// **'Waiting to sync'**
   String get chartsLabelPendingSync;
 
+  /// No description provided for @chartsLabelPerActiveDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Per active day'**
+  String get chartsLabelPerActiveDay;
+
   /// No description provided for @chartsLabelPerDay.
   ///
   /// In en, this message translates to:
   /// **'Per day'**
   String get chartsLabelPerDay;
+
+  /// No description provided for @chartsLabelPerScheduledDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Per scheduled day'**
+  String get chartsLabelPerScheduledDay;
 
   /// No description provided for @chartsLabelPerfectDay.
   ///
@@ -2901,6 +2967,30 @@ abstract class AppLocalizations {
   /// **'Reopened'**
   String get chartsLabelReopened;
 
+  /// No description provided for @chartsLabelRising.
+  ///
+  /// In en, this message translates to:
+  /// **'Rising'**
+  String get chartsLabelRising;
+
+  /// No description provided for @chartsLabelRiskDueToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Due today, streak on the line'**
+  String get chartsLabelRiskDueToday;
+
+  /// No description provided for @chartsLabelRiskQuota.
+  ///
+  /// In en, this message translates to:
+  /// **'Behind on its quota'**
+  String get chartsLabelRiskQuota;
+
+  /// No description provided for @chartsLabelRiskScoreDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength dropping'**
+  String get chartsLabelRiskScoreDrop;
+
   /// No description provided for @chartsLabelRollingMean.
   ///
   /// In en, this message translates to:
@@ -2960,6 +3050,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Spent'**
   String get chartsLabelSpent;
+
+  /// No description provided for @chartsLabelStable.
+  ///
+  /// In en, this message translates to:
+  /// **'Stable'**
+  String get chartsLabelStable;
 
   /// No description provided for @chartsLabelStale.
   ///
@@ -3026,6 +3122,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Time not spent'**
   String get chartsLabelTimeNotSpent;
+
+  /// No description provided for @chartsLabelToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get chartsLabelToday;
 
   /// No description provided for @chartsLabelTodo.
   ///
@@ -19761,6 +19863,240 @@ abstract class AppLocalizations {
   /// **'Total volume'**
   String get statsMetricHbH11Title;
 
+  /// No description provided for @statsMetricHbH12Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Typical amount per scheduled day and per day you were active.'**
+  String get statsMetricHbH12Desc;
+
+  /// No description provided for @statsMetricHbH12Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Mean value per scheduled day (E − X) and per day with a value above 0.'**
+  String get statsMetricHbH12Formula;
+
+  /// No description provided for @statsMetricHbH12Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Averages'**
+  String get statsMetricHbH12Title;
+
+  /// No description provided for @statsMetricHbH13Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your best day, week and month.'**
+  String get statsMetricHbH13Desc;
+
+  /// No description provided for @statsMetricHbH13Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Highest total per day, week and month, with dates; a new record is flagged.'**
+  String get statsMetricHbH13Formula;
+
+  /// No description provided for @statsMetricHbH13Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Records'**
+  String get statsMetricHbH13Title;
+
+  /// No description provided for @statsMetricHbH14Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How much you usually log on a scheduled day.'**
+  String get statsMetricHbH14Desc;
+
+  /// No description provided for @statsMetricHbH14Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Histogram of daily values; median and P85.'**
+  String get statsMetricHbH14Formula;
+
+  /// No description provided for @statsMetricHbH14Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Value distribution'**
+  String get statsMetricHbH14Title;
+
+  /// No description provided for @statsMetricHbH15Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How close you get to the target on average, and how often a day is only partly done.'**
+  String get statsMetricHbH15Desc;
+
+  /// No description provided for @statsMetricHbH15Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'mean(min(1, value ÷ target)) over non-excused units; partial ÷ (E − X).'**
+  String get statsMetricHbH15Formula;
+
+  /// No description provided for @statsMetricHbH15Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Fulfilment'**
+  String get statsMetricHbH15Title;
+
+  /// No description provided for @statsMetricHbH16Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Days you stayed at or under your limit, and how far over you went otherwise.'**
+  String get statsMetricHbH16Desc;
+
+  /// No description provided for @statsMetricHbH16Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Days with value ≤ limit ÷ (E − X); excess = Σ max(0, value − limit).'**
+  String get statsMetricHbH16Formula;
+
+  /// No description provided for @statsMetricHbH16Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Within limit'**
+  String get statsMetricHbH16Title;
+
+  /// No description provided for @statsMetricHbH17Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How steadily you keep the habit, ignoring days it isn\'t scheduled.'**
+  String get statsMetricHbH17Desc;
+
+  /// No description provided for @statsMetricHbH17Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Mean of the rolling 30-day mean of per-unit scores (1 done, value ÷ target partial, 0 missed).'**
+  String get statsMetricHbH17Formula;
+
+  /// No description provided for @statsMetricHbH17Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Consistency index'**
+  String get statsMetricHbH17Title;
+
+  /// No description provided for @statsMetricHbH18Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your success rate on each weekday.'**
+  String get statsMetricHbH18Desc;
+
+  /// No description provided for @statsMetricHbH18Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Done ÷ closed scheduled units per weekday.'**
+  String get statsMetricHbH18Formula;
+
+  /// No description provided for @statsMetricHbH18Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekday profile'**
+  String get statsMetricHbH18Title;
+
+  /// No description provided for @statsMetricHbH19Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'When in the day you usually check in, and how regular that is.'**
+  String get statsMetricHbH19Desc;
+
+  /// No description provided for @statsMetricHbH19Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Circular mean and SD of check-in times (counted from your day start); weekday × hour grid.'**
+  String get statsMetricHbH19Formula;
+
+  /// No description provided for @statsMetricHbH19Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-in time'**
+  String get statsMetricHbH19Title;
+
+  /// No description provided for @statsMetricHbH20Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of check-ins close to their slot time.'**
+  String get statsMetricHbH20Desc;
+
+  /// No description provided for @statsMetricHbH20Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-ins within ± the slot tolerance (30 min) of the slot ÷ slot check-ins.'**
+  String get statsMetricHbH20Formula;
+
+  /// No description provided for @statsMetricHbH20Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Slot punctuality'**
+  String get statsMetricHbH20Title;
+
+  /// No description provided for @statsMetricHbH21Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s count against the target and the usual gap between check-ins.'**
+  String get statsMetricHbH21Desc;
+
+  /// No description provided for @statsMetricHbH21Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-ins vs target per day; mean and median spacing between consecutive check-ins.'**
+  String get statsMetricHbH21Formula;
+
+  /// No description provided for @statsMetricHbH21Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Several times a day'**
+  String get statsMetricHbH21Title;
+
+  /// No description provided for @statsMetricHbH22Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'“Never miss twice”: how often a miss is followed by a success.'**
+  String get statsMetricHbH22Desc;
+
+  /// No description provided for @statsMetricHbH22Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Misses followed by a success ÷ misses with a closed next unit; longest and mean gaps; comebacks after 3+ misses.'**
+  String get statsMetricHbH22Formula;
+
+  /// No description provided for @statsMetricHbH22Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery'**
+  String get statsMetricHbH22Title;
+
+  /// No description provided for @statsMetricHbH23Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Freezes used against those granted, this month and overall.'**
+  String get statsMetricHbH23Desc;
+
+  /// No description provided for @statsMetricHbH23Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Freezes used ÷ granted per month and all time; protected days listed.'**
+  String get statsMetricHbH23Formula;
+
+  /// No description provided for @statsMetricHbH23Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak freezes'**
+  String get statsMetricHbH23Title;
+
+  /// No description provided for @statsMetricHbH24Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Whether the habit strength is rising, stable or falling.'**
+  String get statsMetricHbH24Desc;
+
+  /// No description provided for @statsMetricHbH24Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Slope of the strength score over 30 days; |slope| < 0.1 point/day = stable.'**
+  String get statsMetricHbH24Formula;
+
+  /// No description provided for @statsMetricHbH24Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Momentum'**
+  String get statsMetricHbH24Title;
+
   /// No description provided for @statsMetricHbH25Desc.
   ///
   /// In en, this message translates to:
@@ -19778,6 +20114,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Data completeness'**
   String get statsMetricHbH25Title;
+
+  /// No description provided for @statsMetricHbH26Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Whether you are on track for this habit\'s goal, and when you should reach it.'**
+  String get statsMetricHbH26Desc;
+
+  /// No description provided for @statsMetricHbH26Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Pace = goal × elapsed share; projection = actual + 28-day rate × days left; ETA when the projection reaches the goal.'**
+  String get statsMetricHbH26Formula;
+
+  /// No description provided for @statsMetricHbH26Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal pace'**
+  String get statsMetricHbH26Title;
+
+  /// No description provided for @statsMetricHbH27Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How long it took for the habit to settle (80 % success held for 14 days).'**
+  String get statsMetricHbH27Desc;
+
+  /// No description provided for @statsMetricHbH27Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Days until the rolling 30-day success rate first stays ≥ 80 % for 14 days; research range 18–254 days (Lally et al. 2010).'**
+  String get statsMetricHbH27Formula;
+
+  /// No description provided for @statsMetricHbH27Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit formation'**
+  String get statsMetricHbH27Title;
+
+  /// No description provided for @statsMetricHbH28Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How often you check in soon after a reminder.'**
+  String get statsMetricHbH28Desc;
+
+  /// No description provided for @statsMetricHbH28Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-ins within 60 min after a reminder ÷ check-ins; median delay.'**
+  String get statsMetricHbH28Formula;
+
+  /// No description provided for @statsMetricHbH28Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder effectiveness'**
+  String get statsMetricHbH28Title;
+
+  /// No description provided for @statsMetricHbH29Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your mood on days you did the habit versus days you didn\'t (association, not cause).'**
+  String get statsMetricHbH29Desc;
+
+  /// No description provided for @statsMetricHbH29Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Mean mood on done vs not-done days; Mann–Whitney test.'**
+  String get statsMetricHbH29Formula;
+
+  /// No description provided for @statsMetricHbH29Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood by outcome'**
+  String get statsMetricHbH29Title;
+
+  /// No description provided for @statsMetricHbH30Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Why you skipped or excused days.'**
+  String get statsMetricHbH30Desc;
+
+  /// No description provided for @statsMetricHbH30Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Pareto of skip and excuse notes.'**
+  String get statsMetricHbH30Formula;
+
+  /// No description provided for @statsMetricHbH30Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip & excuse reasons'**
+  String get statsMetricHbH30Title;
 
   /// No description provided for @statsMetricHbX01Desc.
   ///
@@ -19869,6 +20295,114 @@ abstract class AppLocalizations {
   /// **'Quit trackers roll-up'**
   String get statsMetricHbX05Title;
 
+  /// No description provided for @statsMetricHbX06Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How strong each habit is, and which are rising or falling.'**
+  String get statsMetricHbX06Desc;
+
+  /// No description provided for @statsMetricHbX06Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Mean and median strength; ranked bars; change over 30 days.'**
+  String get statsMetricHbX06Formula;
+
+  /// No description provided for @statsMetricHbX06Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength across habits'**
+  String get statsMetricHbX06Title;
+
+  /// No description provided for @statsMetricHbX07Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits that need attention now.'**
+  String get statsMetricHbX07Desc;
+
+  /// No description provided for @statsMetricHbX07Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Quota behind, due today with a live streak, or strength down more than 10 points in 7 days.'**
+  String get statsMetricHbX07Formula;
+
+  /// No description provided for @statsMetricHbX07Title.
+  ///
+  /// In en, this message translates to:
+  /// **'At risk'**
+  String get statsMetricHbX07Title;
+
+  /// No description provided for @statsMetricHbX08Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Success rate and volume by category.'**
+  String get statsMetricHbX08Desc;
+
+  /// No description provided for @statsMetricHbX08Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Done ÷ closed units and Σ volume per category.'**
+  String get statsMetricHbX08Formula;
+
+  /// No description provided for @statsMetricHbX08Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Life areas'**
+  String get statsMetricHbX08Title;
+
+  /// No description provided for @statsMetricHbX09Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits ranked by success rate in the period.'**
+  String get statsMetricHbX09Desc;
+
+  /// No description provided for @statsMetricHbX09Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Success rate per habit (at least 5 closed units).'**
+  String get statsMetricHbX09Formula;
+
+  /// No description provided for @statsMetricHbX09Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Best & worst habits'**
+  String get statsMetricHbX09Title;
+
+  /// No description provided for @statsMetricHbX10Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How many check-ins you log.'**
+  String get statsMetricHbX10Desc;
+
+  /// No description provided for @statsMetricHbX10Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-ins per day (per week for long periods).'**
+  String get statsMetricHbX10Formula;
+
+  /// No description provided for @statsMetricHbX10Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-in volume'**
+  String get statsMetricHbX10Title;
+
+  /// No description provided for @statsMetricHbX11Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your success rate on each weekday across habits.'**
+  String get statsMetricHbX11Desc;
+
+  /// No description provided for @statsMetricHbX11Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Done ÷ closed scheduled units per weekday, all habits.'**
+  String get statsMetricHbX11Formula;
+
+  /// No description provided for @statsMetricHbX11Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekday profile (all habits)'**
+  String get statsMetricHbX11Title;
+
   /// No description provided for @statsMetricHbX12Desc.
   ///
   /// In en, this message translates to:
@@ -19886,6 +20420,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Data completeness (all habits)'**
   String get statsMetricHbX12Title;
+
+  /// No description provided for @statsMetricHbX13Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits you often complete on the same days (association, not cause).'**
+  String get statsMetricHbX13Desc;
+
+  /// No description provided for @statsMetricHbX13Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Phi between daily done flags (≥ 21 shared days), kept only when significant after false-discovery control.'**
+  String get statsMetricHbX13Formula;
+
+  /// No description provided for @statsMetricHbX13Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Done together'**
+  String get statsMetricHbX13Title;
+
+  /// No description provided for @statsMetricHbX14Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits you start and archive, and how many are still going after 30 and 90 days.'**
+  String get statsMetricHbX14Desc;
+
+  /// No description provided for @statsMetricHbX14Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Created and archived per month; share still active 30 and 90 days after creation.'**
+  String get statsMetricHbX14Formula;
+
+  /// No description provided for @statsMetricHbX14Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit portfolio'**
+  String get statsMetricHbX14Title;
 
   /// No description provided for @statsMetricPlS01Desc.
   ///
@@ -21741,6 +22311,12 @@ abstract class AppLocalizations {
   /// **'No free time within work hours'**
   String get statsNoteNoFreeTime;
 
+  /// No description provided for @statsNoteNoFreezes.
+  ///
+  /// In en, this message translates to:
+  /// **'This habit has no streak freezes'**
+  String get statsNoteNoFreezes;
+
   /// No description provided for @statsNoteNoGoal.
   ///
   /// In en, this message translates to:
@@ -21765,6 +22341,12 @@ abstract class AppLocalizations {
   /// **'Set minutes of life per unit to see this estimate.'**
   String get statsNoteNoLifeEstimate;
 
+  /// No description provided for @statsNoteNoMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Log your mood on check-ins to see this'**
+  String get statsNoteNoMood;
+
   /// No description provided for @statsNoteNoOccurrence.
   ///
   /// In en, this message translates to:
@@ -21783,11 +22365,23 @@ abstract class AppLocalizations {
   /// **'No rating yet'**
   String get statsNoteNoRating;
 
+  /// No description provided for @statsNoteNoReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'No reminders for this habit yet'**
+  String get statsNoteNoReminders;
+
   /// No description provided for @statsNoteNoRuns.
   ///
   /// In en, this message translates to:
   /// **'This list has no runs yet (it is not resettable or was never reset)'**
   String get statsNoteNoRuns;
+
+  /// No description provided for @statsNoteNoSignificantPairs.
+  ///
+  /// In en, this message translates to:
+  /// **'No pair of habits stands out yet'**
+  String get statsNoteNoSignificantPairs;
 
   /// No description provided for @statsNoteNoTracker.
   ///
@@ -21801,6 +22395,12 @@ abstract class AppLocalizations {
   /// **'Set a unit cost to see savings.'**
   String get statsNoteNoUnitCost;
 
+  /// No description provided for @statsNoteNonCausal.
+  ///
+  /// In en, this message translates to:
+  /// **'An association, not a cause'**
+  String get statsNoteNonCausal;
+
   /// No description provided for @statsNoteNotApplicable.
   ///
   /// In en, this message translates to:
@@ -21812,6 +22412,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not done yet'**
   String get statsNoteNotDone;
+
+  /// No description provided for @statsNoteNotIntraday.
+  ///
+  /// In en, this message translates to:
+  /// **'Only for habits with time slots'**
+  String get statsNoteNotIntraday;
+
+  /// No description provided for @statsNoteNotLimitHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Only for habits with a limit'**
+  String get statsNoteNotLimitHabit;
 
   /// No description provided for @statsNoteNotOverdue.
   ///
@@ -21848,6 +22460,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Actual time not tracked'**
   String get statsNoteNotTracked;
+
+  /// No description provided for @statsNoteOftenTogether.
+  ///
+  /// In en, this message translates to:
+  /// **'Often done together — not a cause'**
+  String get statsNoteOftenTogether;
+
+  /// No description provided for @statsNoteOncePerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Only for habits done several times a day'**
+  String get statsNoteOncePerDay;
 
   /// No description provided for @statsNotePastPeriod.
   ///

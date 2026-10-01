@@ -45,6 +45,12 @@ void main() {
     expect(find.text(en.statsMetricHbH10Title), findsOneWidget);
     expect(find.text(en.statsMetricHbH11Title), findsOneWidget);
     // Data completeness explains that an unlogged day is unknown, not failed (T6.5.11).
+    await tester.scrollUntilVisible(
+      find.text(en.statsMetricHbH25Title),
+      400,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await settle(tester);
     expect(find.text(en.statsMetricHbH25Title), findsOneWidget);
     expect(find.text(en.statsNoteUnloggedNotFailed), findsOneWidget);
     await finish(tester);

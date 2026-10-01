@@ -48,16 +48,16 @@ streaks and strength ([6.1]); charts ([6.2]); quit metrics ([6.6]).
 - [x] T6.5.03 — Streak metrics
 - [x] T6.5.04 — Success & outcome metrics
 - [x] T6.5.05 — Target & volume metrics
-- [ ] T6.5.06 — Volume analytics & personal records
-- [ ] T6.5.07 — Limit-habit metrics
-- [ ] T6.5.08 — Consistency index
-- [ ] T6.5.09 — Timing patterns (weekday, time of day, slots, spacing)
-- [ ] T6.5.10 — Recovery, freezes & momentum
+- [x] T6.5.06 — Volume analytics & personal records
+- [x] T6.5.07 — Limit-habit metrics
+- [x] T6.5.08 — Consistency index
+- [x] T6.5.09 — Timing patterns (weekday, time of day, slots, spacing)
+- [x] T6.5.10 — Recovery, freezes & momentum
 - [x] T6.5.11 — Data completeness
-- [ ] T6.5.12 — Goal pace & projection
+- [x] T6.5.12 — Goal pace & projection
 - [x] T6.5.13 — Habits section core metrics
-- [ ] T6.5.14 — Habits section extended metrics
-- [ ] T6.5.15 — Advanced habit analytics
+- [x] T6.5.14 — Habits section extended metrics
+- [x] T6.5.15 — Advanced habit analytics
 - [x] T6.5.16 — Habit Insights screen
 - [x] T6.5.17 — Habits section Insights screen
 - [x] T6.5.18 — Habit stats fixtures & Loop parity
@@ -151,6 +151,7 @@ and failed units are shown separately.
 **Acceptance criteria:** for the canonical month, partial share = 3/29 = 10.3 % and mean fulfilment =
 (24 + 3·10/15) / 29 = 89.7 %.
 **Tests:** fixture tests.
+**Notes:** HB-H-12…15 in `application/catalog/habit_insights_catalog.dart` (habit screen `targetVolume` section): averages tiles, records list (best day/week/month with dates, new-record tone; completions for yes/no habits), value histogram with P50/P85, fulfilment + partial-share tiles. Test: canonical push-up month (3/29 and 89.7 %) in `habits/habit_insights_test.dart`.
 
 ### T6.5.07 — Limit-habit metrics
 **Priority:** P1 · **Size:** S · **Depends on:** T6.5.04
@@ -165,6 +166,7 @@ with value 0, or `missed` ([6.1] T6.1.09).
 **Acceptance criteria:** with a limit of 2 and values {1, 2, 3, 5, 0}: within-limit days = 3/5, excess =
 4, credits = {1, 1, 0.5, 0, 1}.
 **Tests:** fixture tests.
+**Notes:** HB-H-16 for `lte` habits only (`notLimitHabit` otherwise): within-limit share, excess and Loop credits in args, daily bars with the limit overlay; unlogged closed days follow `auto_success` through the [5.1] evaluation. Test: {1, 2, 3, 5, 0} vs 2.
 
 ### T6.5.08 — Consistency index
 **Priority:** P1 · **Size:** S · **Depends on:** T6.5.04, [6.1] (T6.1.04 rolling windows)
@@ -176,6 +178,7 @@ with value 0, or `missed` ([6.1] T6.1.09).
 **Acceptance criteria:** the result is independent of how many non-scheduled days fall in the window;
 it matches the fixture ±0.001.
 **Tests:** fixture tests.
+**Notes:** HB-H-17: index = mean of the rolling L2 line over the period (window 30 by default; `window:60|90|180` in the request extra), shown as a line with sparkline. Test: a Mon/Wed/Fri habit done every scheduled day scores 1.
 
 ### T6.5.09 — Timing patterns (weekday, time of day, slots, spacing)
 **Priority:** P1 · **Size:** M · **Depends on:** T6.5.04, [6.1] (T6.1.18 circular stats), [6.2] (punch card T6.2.09, rose T6.2.19, radar T6.2.18)
@@ -190,6 +193,7 @@ it matches the fixture ±0.001.
 **Acceptance criteria:** check-ins at 23:30 and 00:30, with a day start of 04:00, belong to the same
 habit day, and their mean time is 00:00.
 **Tests:** fixture tests.
+**Notes:** HB-H-18 weekday bars, HB-H-19 rose (rotated to the habit day start) + weekday × hour punch card, HB-H-20 slot punctuality (intraday habits, tolerance `stats.slotToleranceMinutes`), HB-H-21 multi-times tiles (today's count vs target, mean/median spacing). Test: 23:30 + 00:30 with a 04:00 day start → 00:00.
 
 ### T6.5.10 — Recovery, freezes & momentum
 **Priority:** P1 · **Size:** S · **Depends on:** T6.5.03, T6.5.02, [5.4] (streak freezes)
@@ -203,6 +207,7 @@ habit day, and their mean time is 00:00.
 **Acceptance criteria:** the sequence D M D M M D M gives recovery rate 2/3 (the final miss has no
 closed next unit), longest gap 2 and 0 comebacks.
 **Tests:** fixture tests.
+**Notes:** HB-H-22 recovery (rate + longest/mean gap + comebacks tiles), HB-H-23 freezes (month and all-time used vs granted, protected days as drill refs), HB-H-24 momentum chip (rising/stable/falling). Test: D M D M M D M → 2/3, gap 2, 0 comebacks.
 
 ### T6.5.11 — Data completeness
 **Priority:** P1 · **Size:** S · **Depends on:** T6.5.04, [6.1] (T6.1.20)
@@ -229,6 +234,7 @@ closed next unit), longest gap 2 and 0 comebacks.
 - projected end = 4 500 + 30 × 184 = 10 020.
 - ETA = 2026-12-31 (5 500 remaining ÷ 30/day = 183.3 → day 184 after June 30).
 **Tests:** fixture tests.
+**Notes:** HB-H-26 uses the habit's `goals` row (scope `habit`, metric `volume` or `completions`; explicit dates, else the current week/month/year) with the [5.4] goal engine: cumulative actual vs pace line and goal line, args pace/status/projection/ETA. Test: the 10 000 push-ups case (4 959, behind, 10 020, Dec 31).
 
 ### T6.5.13 — Habits section core metrics
 **Priority:** P0 · **Size:** M · **Depends on:** T6.5.04, [6.6] (quit totals: T6.6.02, T6.6.03, T6.6.04)
@@ -260,6 +266,7 @@ date, but remain in history.
 
 **Acceptance criteria:** the at-risk list updates live after a check-in.
 **Tests:** fixture tests.
+**Notes:** HB-X-06 strength ranking (rising/falling in args), HB-X-07 at-risk list (reason chips, opens the habit; refreshes with the habit data version after a check-in), HB-X-08 areas (radar from 3 categories, bars below), HB-X-09 best & worst (≥ 5 closed units), HB-X-10 check-in volume (weekly beyond 45 days), HB-X-11 weekday profile across habits.
 
 ### T6.5.15 — Advanced habit analytics
 **Priority:** P2 · **Size:** M · **Depends on:** T6.5.08, T6.5.14, [6.1] (T6.1.24 correlation toolkit), [6.2] (matrix heatmap T6.2.21), [7.3] (notification history)
@@ -279,6 +286,7 @@ dedicated `habit_surveys` table.
 **Acceptance criteria:** no correlation is shown without passing the minimum-data rules and FDR; the
 wording says "often together", never "causes".
 **Tests:** fixture tests.
+**Notes:** HB-H-27 formation days with the rolling-30 success line and an 80–100 % band (Lally 18–254 / ~66 days in args, `hasSources`), HB-H-28 reminder effectiveness from the notification history, HB-H-29 mood by outcome (difference, Mann–Whitney p, `nonCausal` note), HB-H-30 skip/excuse Pareto, HB-X-13 co-occurrence matrix showing only FDR-significant pairs (`oftenTogether` note; nothing below 21 shared days), HB-X-14 portfolio (created/archived per month, active at 30/90 days). SRBAI surveys are not collected yet (no survey UI), so HB-H-27 shows the behavioural curve only.
 
 ### T6.5.16 — Habit Insights screen
 **Priority:** P0 · **Size:** M · **Depends on:** T6.5.02, T6.5.03, T6.5.04, T6.5.05, [6.1] (T6.1.16)

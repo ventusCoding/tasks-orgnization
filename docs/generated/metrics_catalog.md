@@ -3,7 +3,7 @@
 Generated from the metric registry (`app/lib/features/stats/application/catalog/`) by
 `app/test/features/stats/engine/metric_catalog_test.dart` — do not edit by hand.
 
-177 metrics.
+203 metrics.
 
 ## task
 
@@ -192,6 +192,24 @@ Generated from the metric registry (`app/lib/features/stats/application/catalog/
 | HB-H-10 | Target progress | Achieved ÷ (daily target × scheduled days − skipped days). | P0 | bullet | percent |
 | HB-H-11 | Total volume | Sum of logged values in the period and all time. | P0 | line | count |
 | HB-H-25 | Data completeness | Logged ratio = units with any log ÷ closed scheduled units · unknown units = missed units without any log · backfill share = logs created more than 24 h after their unit ended ÷ all logs. | P1 | tiles | percent |
+| HB-H-12 | Averages | Mean value per scheduled day (E − X) and per day with a value above 0. | P1 | tiles | count |
+| HB-H-13 | Records | Highest total per day, week and month, with dates; a new record is flagged. | P1 | list | count |
+| HB-H-14 | Value distribution | Histogram of daily values; median and P85. | P1 | histogram | count |
+| HB-H-15 | Fulfilment | mean(min(1, value ÷ target)) over non-excused units; partial ÷ (E − X). | P1 | tiles | percent |
+| HB-H-16 | Within limit | Days with value ≤ limit ÷ (E − X); excess = Σ max(0, value − limit). | P1 | bars | percent |
+| HB-H-17 | Consistency index | Mean of the rolling 30-day mean of per-unit scores (1 done, value ÷ target partial, 0 missed). | P1 | line | percent |
+| HB-H-18 | Weekday profile | Done ÷ closed scheduled units per weekday. | P1 | bars | percent |
+| HB-H-19 | Check-in time | Circular mean and SD of check-in times (counted from your day start); weekday × hour grid. | P1 | rose | clock |
+| HB-H-20 | Slot punctuality | Check-ins within ± the slot tolerance (30 min) of the slot ÷ slot check-ins. | P1 | kpi | percent |
+| HB-H-21 | Several times a day | Check-ins vs target per day; mean and median spacing between consecutive check-ins. | P1 | tiles | minutes |
+| HB-H-22 | Recovery | Misses followed by a success ÷ misses with a closed next unit; longest and mean gaps; comebacks after 3+ misses. | P1 | tiles | percent |
+| HB-H-23 | Streak freezes | Freezes used ÷ granted per month and all time; protected days listed. | P1 | tiles | count |
+| HB-H-24 | Momentum | Slope of the strength score over 30 days; \|slope\| < 0.1 point/day = stable. | P1 | list | count |
+| HB-H-26 | Goal pace | Pace = goal × elapsed share; projection = actual + 28-day rate × days left; ETA when the projection reaches the goal. | P1 | line | count |
+| HB-H-27 | Habit formation | Days until the rolling 30-day success rate first stays ≥ 80 % for 14 days; research range 18–254 days (Lally et al. 2010). | P2 | line | days |
+| HB-H-28 | Reminder effectiveness | Check-ins within 60 min after a reminder ÷ check-ins; median delay. | P2 | kpi | percent |
+| HB-H-29 | Mood by outcome | Mean mood on done vs not-done days; Mann–Whitney test. | P2 | bars | count |
+| HB-H-30 | Skip & excuse reasons | Pareto of skip and excuse notes. | P2 | pareto | count |
 
 ## habits
 
@@ -203,6 +221,14 @@ Generated from the metric registry (`app/lib/features/stats/application/catalog/
 | HB-X-04 | Adherence trend | Weekly done ÷ due, with a 4-week rolling line; Δ vs previous week in points. | P0 | line | percent |
 | HB-X-05 | Quit trackers roll-up | Sums over active quit trackers (life regained is a population estimate). | P0 | tiles | currency |
 | HB-X-12 | Data completeness (all habits) | Σ units with any log ÷ Σ closed scheduled units across habits; Σ unknown units; Σ late logs ÷ Σ logs. | P1 | tiles | percent |
+| HB-X-06 | Strength across habits | Mean and median strength; ranked bars; change over 30 days. | P1 | horizontalBars | score |
+| HB-X-07 | At risk | Quota behind, due today with a live streak, or strength down more than 10 points in 7 days. | P1 | list | count |
+| HB-X-08 | Life areas | Done ÷ closed units and Σ volume per category. | P1 | radar | percent |
+| HB-X-09 | Best & worst habits | Success rate per habit (at least 5 closed units). | P1 | horizontalBars | percent |
+| HB-X-10 | Check-in volume | Check-ins per day (per week for long periods). | P1 | bars | count |
+| HB-X-11 | Weekday profile (all habits) | Done ÷ closed scheduled units per weekday, all habits. | P1 | bars | percent |
+| HB-X-13 | Done together | Phi between daily done flags (≥ 21 shared days), kept only when significant after false-discovery control. | P2 | matrix | ratio |
+| HB-X-14 | Habit portfolio | Created and archived per month; share still active 30 and 90 days after creation. | P2 | groupedBars | percent |
 
 ## quit
 

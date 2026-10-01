@@ -1244,6 +1244,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelBest => 'Best';
 
   @override
+  String get chartsLabelBestDay => 'Best day';
+
+  @override
+  String get chartsLabelBestMonth => 'Best month';
+
+  @override
+  String get chartsLabelBestWeek => 'Best week';
+
+  @override
   String get chartsLabelBias => 'Bias';
 
   @override
@@ -1262,7 +1271,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelCheckIns => 'Check-ins';
 
   @override
+  String get chartsLabelComebacks => 'Comebacks';
+
+  @override
   String get chartsLabelCompleted => 'Completed';
+
+  @override
+  String get chartsLabelConsistency => 'Consistency';
 
   @override
   String get chartsLabelContextSwitches => 'Switches';
@@ -1310,6 +1325,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelFailed => 'Not done';
 
   @override
+  String get chartsLabelFalling => 'Falling';
+
+  @override
   String get chartsLabelFiles => 'Files';
 
   @override
@@ -1326,6 +1344,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chartsLabelFrozen => 'Frozen';
+
+  @override
+  String get chartsLabelFulfilment => 'Fulfilment';
 
   @override
   String get chartsLabelFuture => 'Upcoming';
@@ -1397,6 +1418,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelLongestBlock => 'Longest block';
 
   @override
+  String get chartsLabelLongestGap => 'Longest gap';
+
+  @override
   String get chartsLabelLoops => 'Ongoing ↔ waiting loops';
 
   @override
@@ -1413,6 +1437,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chartsLabelMean => 'Mean';
+
+  @override
+  String get chartsLabelMeanGap => 'Mean gap';
 
   @override
   String get chartsLabelMeanIntensity => 'Average intensity';
@@ -1541,7 +1568,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelPendingSync => 'Waiting to sync';
 
   @override
+  String get chartsLabelPerActiveDay => 'Per active day';
+
+  @override
   String get chartsLabelPerDay => 'Per day';
+
+  @override
+  String get chartsLabelPerScheduledDay => 'Per scheduled day';
 
   @override
   String get chartsLabelPerfectDay => 'Perfect day';
@@ -1598,6 +1631,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelReopened => 'Reopened';
 
   @override
+  String get chartsLabelRising => 'Rising';
+
+  @override
+  String get chartsLabelRiskDueToday => 'Due today, streak on the line';
+
+  @override
+  String get chartsLabelRiskQuota => 'Behind on its quota';
+
+  @override
+  String get chartsLabelRiskScoreDrop => 'Strength dropping';
+
+  @override
   String get chartsLabelRollingMean => 'Rolling mean';
 
   @override
@@ -1626,6 +1671,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chartsLabelSpent => 'Spent';
+
+  @override
+  String get chartsLabelStable => 'Stable';
 
   @override
   String get chartsLabelStale => 'Stale';
@@ -1659,6 +1707,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chartsLabelTimeNotSpent => 'Time not spent';
+
+  @override
+  String get chartsLabelToday => 'Today';
 
   @override
   String get chartsLabelTodo => 'To do';
@@ -11321,6 +11372,128 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsMetricHbH11Title => 'Total volume';
 
   @override
+  String get statsMetricHbH12Desc => 'Typical amount per scheduled day and per day you were active.';
+
+  @override
+  String get statsMetricHbH12Formula => 'Mean value per scheduled day (E − X) and per day with a value above 0.';
+
+  @override
+  String get statsMetricHbH12Title => 'Averages';
+
+  @override
+  String get statsMetricHbH13Desc => 'Your best day, week and month.';
+
+  @override
+  String get statsMetricHbH13Formula => 'Highest total per day, week and month, with dates; a new record is flagged.';
+
+  @override
+  String get statsMetricHbH13Title => 'Records';
+
+  @override
+  String get statsMetricHbH14Desc => 'How much you usually log on a scheduled day.';
+
+  @override
+  String get statsMetricHbH14Formula => 'Histogram of daily values; median and P85.';
+
+  @override
+  String get statsMetricHbH14Title => 'Value distribution';
+
+  @override
+  String get statsMetricHbH15Desc =>
+      'How close you get to the target on average, and how often a day is only partly done.';
+
+  @override
+  String get statsMetricHbH15Formula => 'mean(min(1, value ÷ target)) over non-excused units; partial ÷ (E − X).';
+
+  @override
+  String get statsMetricHbH15Title => 'Fulfilment';
+
+  @override
+  String get statsMetricHbH16Desc => 'Days you stayed at or under your limit, and how far over you went otherwise.';
+
+  @override
+  String get statsMetricHbH16Formula => 'Days with value ≤ limit ÷ (E − X); excess = Σ max(0, value − limit).';
+
+  @override
+  String get statsMetricHbH16Title => 'Within limit';
+
+  @override
+  String get statsMetricHbH17Desc => 'How steadily you keep the habit, ignoring days it isn\'t scheduled.';
+
+  @override
+  String get statsMetricHbH17Formula =>
+      'Mean of the rolling 30-day mean of per-unit scores (1 done, value ÷ target partial, 0 missed).';
+
+  @override
+  String get statsMetricHbH17Title => 'Consistency index';
+
+  @override
+  String get statsMetricHbH18Desc => 'Your success rate on each weekday.';
+
+  @override
+  String get statsMetricHbH18Formula => 'Done ÷ closed scheduled units per weekday.';
+
+  @override
+  String get statsMetricHbH18Title => 'Weekday profile';
+
+  @override
+  String get statsMetricHbH19Desc => 'When in the day you usually check in, and how regular that is.';
+
+  @override
+  String get statsMetricHbH19Formula =>
+      'Circular mean and SD of check-in times (counted from your day start); weekday × hour grid.';
+
+  @override
+  String get statsMetricHbH19Title => 'Check-in time';
+
+  @override
+  String get statsMetricHbH20Desc => 'Share of check-ins close to their slot time.';
+
+  @override
+  String get statsMetricHbH20Formula => 'Check-ins within ± the slot tolerance (30 min) of the slot ÷ slot check-ins.';
+
+  @override
+  String get statsMetricHbH20Title => 'Slot punctuality';
+
+  @override
+  String get statsMetricHbH21Desc => 'Today\'s count against the target and the usual gap between check-ins.';
+
+  @override
+  String get statsMetricHbH21Formula =>
+      'Check-ins vs target per day; mean and median spacing between consecutive check-ins.';
+
+  @override
+  String get statsMetricHbH21Title => 'Several times a day';
+
+  @override
+  String get statsMetricHbH22Desc => '“Never miss twice”: how often a miss is followed by a success.';
+
+  @override
+  String get statsMetricHbH22Formula =>
+      'Misses followed by a success ÷ misses with a closed next unit; longest and mean gaps; comebacks after 3+ misses.';
+
+  @override
+  String get statsMetricHbH22Title => 'Recovery';
+
+  @override
+  String get statsMetricHbH23Desc => 'Freezes used against those granted, this month and overall.';
+
+  @override
+  String get statsMetricHbH23Formula => 'Freezes used ÷ granted per month and all time; protected days listed.';
+
+  @override
+  String get statsMetricHbH23Title => 'Streak freezes';
+
+  @override
+  String get statsMetricHbH24Desc => 'Whether the habit strength is rising, stable or falling.';
+
+  @override
+  String get statsMetricHbH24Formula => 'Slope of the strength score over 30 days; |slope| < 0.1 point/day = stable.';
+
+  @override
+  String get statsMetricHbH24Title => 'Momentum';
+
+  @override
   String get statsMetricHbH25Desc =>
       'How much of this habit\'s history is actually logged. An unlogged day is unknown, not failed: it counts as missed only because nothing was recorded.';
 
@@ -11330,6 +11503,54 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statsMetricHbH25Title => 'Data completeness';
+
+  @override
+  String get statsMetricHbH26Desc => 'Whether you are on track for this habit\'s goal, and when you should reach it.';
+
+  @override
+  String get statsMetricHbH26Formula =>
+      'Pace = goal × elapsed share; projection = actual + 28-day rate × days left; ETA when the projection reaches the goal.';
+
+  @override
+  String get statsMetricHbH26Title => 'Goal pace';
+
+  @override
+  String get statsMetricHbH27Desc => 'How long it took for the habit to settle (80 % success held for 14 days).';
+
+  @override
+  String get statsMetricHbH27Formula =>
+      'Days until the rolling 30-day success rate first stays ≥ 80 % for 14 days; research range 18–254 days (Lally et al. 2010).';
+
+  @override
+  String get statsMetricHbH27Title => 'Habit formation';
+
+  @override
+  String get statsMetricHbH28Desc => 'How often you check in soon after a reminder.';
+
+  @override
+  String get statsMetricHbH28Formula => 'Check-ins within 60 min after a reminder ÷ check-ins; median delay.';
+
+  @override
+  String get statsMetricHbH28Title => 'Reminder effectiveness';
+
+  @override
+  String get statsMetricHbH29Desc =>
+      'Your mood on days you did the habit versus days you didn\'t (association, not cause).';
+
+  @override
+  String get statsMetricHbH29Formula => 'Mean mood on done vs not-done days; Mann–Whitney test.';
+
+  @override
+  String get statsMetricHbH29Title => 'Mood by outcome';
+
+  @override
+  String get statsMetricHbH30Desc => 'Why you skipped or excused days.';
+
+  @override
+  String get statsMetricHbH30Formula => 'Pareto of skip and excuse notes.';
+
+  @override
+  String get statsMetricHbH30Title => 'Skip & excuse reasons';
 
   @override
   String get statsMetricHbX01Desc => 'Due habits done today.';
@@ -11378,6 +11599,61 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsMetricHbX05Title => 'Quit trackers roll-up';
 
   @override
+  String get statsMetricHbX06Desc => 'How strong each habit is, and which are rising or falling.';
+
+  @override
+  String get statsMetricHbX06Formula => 'Mean and median strength; ranked bars; change over 30 days.';
+
+  @override
+  String get statsMetricHbX06Title => 'Strength across habits';
+
+  @override
+  String get statsMetricHbX07Desc => 'Habits that need attention now.';
+
+  @override
+  String get statsMetricHbX07Formula =>
+      'Quota behind, due today with a live streak, or strength down more than 10 points in 7 days.';
+
+  @override
+  String get statsMetricHbX07Title => 'At risk';
+
+  @override
+  String get statsMetricHbX08Desc => 'Success rate and volume by category.';
+
+  @override
+  String get statsMetricHbX08Formula => 'Done ÷ closed units and Σ volume per category.';
+
+  @override
+  String get statsMetricHbX08Title => 'Life areas';
+
+  @override
+  String get statsMetricHbX09Desc => 'Habits ranked by success rate in the period.';
+
+  @override
+  String get statsMetricHbX09Formula => 'Success rate per habit (at least 5 closed units).';
+
+  @override
+  String get statsMetricHbX09Title => 'Best & worst habits';
+
+  @override
+  String get statsMetricHbX10Desc => 'How many check-ins you log.';
+
+  @override
+  String get statsMetricHbX10Formula => 'Check-ins per day (per week for long periods).';
+
+  @override
+  String get statsMetricHbX10Title => 'Check-in volume';
+
+  @override
+  String get statsMetricHbX11Desc => 'Your success rate on each weekday across habits.';
+
+  @override
+  String get statsMetricHbX11Formula => 'Done ÷ closed scheduled units per weekday, all habits.';
+
+  @override
+  String get statsMetricHbX11Title => 'Weekday profile (all habits)';
+
+  @override
   String get statsMetricHbX12Desc =>
       'The same completeness measures across every build habit: logged ratio, unlogged (unknown) units and late logging.';
 
@@ -11387,6 +11663,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statsMetricHbX12Title => 'Data completeness (all habits)';
+
+  @override
+  String get statsMetricHbX13Desc => 'Habits you often complete on the same days (association, not cause).';
+
+  @override
+  String get statsMetricHbX13Formula =>
+      'Phi between daily done flags (≥ 21 shared days), kept only when significant after false-discovery control.';
+
+  @override
+  String get statsMetricHbX13Title => 'Done together';
+
+  @override
+  String get statsMetricHbX14Desc => 'Habits you start and archive, and how many are still going after 30 and 90 days.';
+
+  @override
+  String get statsMetricHbX14Formula =>
+      'Created and archived per month; share still active 30 and 90 days after creation.';
+
+  @override
+  String get statsMetricHbX14Title => 'Habit portfolio';
 
   @override
   String get statsMetricPlS01Desc => 'How many times the series was due in the period.';
@@ -12328,6 +12624,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsNoteNoFreeTime => 'No free time within work hours';
 
   @override
+  String get statsNoteNoFreezes => 'This habit has no streak freezes';
+
+  @override
   String get statsNoteNoGoal => 'No goal set';
 
   @override
@@ -12340,6 +12639,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsNoteNoLifeEstimate => 'Set minutes of life per unit to see this estimate.';
 
   @override
+  String get statsNoteNoMood => 'Log your mood on check-ins to see this';
+
+  @override
   String get statsNoteNoOccurrence => 'This occurrence couldn’t be found.';
 
   @override
@@ -12349,7 +12651,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsNoteNoRating => 'No rating yet';
 
   @override
+  String get statsNoteNoReminders => 'No reminders for this habit yet';
+
+  @override
   String get statsNoteNoRuns => 'This list has no runs yet (it is not resettable or was never reset)';
+
+  @override
+  String get statsNoteNoSignificantPairs => 'No pair of habits stands out yet';
 
   @override
   String get statsNoteNoTracker => 'This quit tracker couldn’t be found.';
@@ -12358,10 +12666,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsNoteNoUnitCost => 'Set a unit cost to see savings.';
 
   @override
+  String get statsNoteNonCausal => 'An association, not a cause';
+
+  @override
   String get statsNoteNotApplicable => 'Not applicable';
 
   @override
   String get statsNoteNotDone => 'Not done yet';
+
+  @override
+  String get statsNoteNotIntraday => 'Only for habits with time slots';
+
+  @override
+  String get statsNoteNotLimitHabit => 'Only for habits with a limit';
 
   @override
   String get statsNoteNotOverdue => 'Not overdue';
@@ -12380,6 +12697,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statsNoteNotTracked => 'Actual time not tracked';
+
+  @override
+  String get statsNoteOftenTogether => 'Often done together — not a cause';
+
+  @override
+  String get statsNoteOncePerDay => 'Only for habits done several times a day';
 
   @override
   String get statsNotePastPeriod => 'Only for current and future periods.';
