@@ -10,6 +10,7 @@ import 'package:everslot/features/planner/presentation/views/multi_week_view.dar
 import 'package:everslot/features/planner/presentation/views/plan_actual_view.dart';
 import 'package:everslot/features/planner/presentation/views/quarter_view.dart';
 import 'package:everslot/features/planner/presentation/views/ribbon_view.dart';
+import 'package:everslot/features/planner/presentation/views/routine_view.dart';
 import 'package:everslot/features/planner/presentation/views/swimlanes_view.dart';
 import 'package:everslot/features/planner/presentation/views/table_view.dart';
 import 'package:everslot/features/planner/presentation/views/time_grid_view.dart';
@@ -188,5 +189,14 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     builder: (a) => PlanVsActualView(args: a),
     group: PlannerViewGroup.productivity,
     timeBased: true,
+  ),
+  PlannerViewEntry(
+    id: 'routine',
+    type: PlannerViewType.routine,
+    icon: Icons.playlist_play,
+    label: (l) => l.pvViewRoutine,
+    builder: (a) => RoutineView(args: a),
+    group: PlannerViewGroup.productivity,
+    tier: ViewTier.m3,
   ),
 ];

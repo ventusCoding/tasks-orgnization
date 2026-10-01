@@ -720,5 +720,7 @@
       }
     }
   },
-  "linkedCompleteAction": "Complete"
+  "linkedCompleteAction": "Complete",
+  "itemStepDuration": "Step duration (routines)",
+  "itemNoStepDuration": "Shares the task’s time"
 }

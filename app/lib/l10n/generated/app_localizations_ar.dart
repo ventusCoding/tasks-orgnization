@@ -5014,6 +5014,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get itemNoDue => 'بدون تاريخ استحقاق';
 
   @override
+  String get itemNoStepDuration => 'تتقاسم وقت المهمة';
+
+  @override
   String get itemNote => 'ملاحظة';
 
   @override
@@ -5029,6 +5032,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get itemScheduledBadge => 'مُجدول كمهمة';
+
+  @override
+  String get itemStepDuration => 'مدة الخطوة (الروتين)';
 
   @override
   String get itemText => 'النص';

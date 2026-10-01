@@ -183,7 +183,26 @@ class _ItemDetailsState extends ConsumerState<_ItemDetails> {
               ),
             ],
           ),
-          // Scheduled as a task (T3.1.21): the link back, or *Schedule as task*.
+          // Step duration for the routine player (T3.7.07).
+          ListTile(
+            key: const Key('item-step-duration'),
+            contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.timelapse),
+            title: Text(l.itemStepDuration),
+            subtitle: Text(item.estimateMinutes == null ? l.itemNoStepDuration : fmt.duration(item.estimateMinutes!)),
+            onTap: () async {
+              final m = await pickDuration(context, initialMinutes: item.estimateMinutes ?? 5, maxMinutes: 1440);
+              if (m != null) await _editor.setFields(item.id, {'estimate_minutes': m}, label: 'estimate');
+            },
+            trailing: item.estimateMinutes == null
+                ? null
+                : IconButton(
+                    tooltip: l.actionClear,
+                    icon: const Icon(Icons.close),
+                    onPressed: () => _editor.setFields(item.id, {'estimate_minutes': null}, label: 'estimate'),
+                  ),
+          ),
+                    // Scheduled as a task (T3.1.21): the link back, or *Schedule as task*.
           Builder(
             builder: (context) {
               final task = ref.watch(itemTasksProvider).value?[item.id];

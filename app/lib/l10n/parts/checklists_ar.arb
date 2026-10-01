@@ -382,5 +382,7 @@
   "linkedCompleteItemBody": "«{item}» مُجدول بهذه المهمة.",
   "linkedCompleteTaskTitle": "وضع علامة منجزة على المهمة أيضًا؟",
   "linkedCompleteTaskBody": "«{task}» تُجدول هذا العنصر.",
-  "linkedCompleteAction": "إكمال"
+  "linkedCompleteAction": "إكمال",
+  "itemStepDuration": "مدة الخطوة (الروتين)",
+  "itemNoStepDuration": "تتقاسم وقت المهمة"
 }

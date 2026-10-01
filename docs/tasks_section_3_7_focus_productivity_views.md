@@ -29,7 +29,7 @@ countdown / count-up; map; tests.
 - [x] T3.7.04 — Free-slot finder & openings
 - [x] T3.7.05 — Table (spreadsheet) view
 - [x] T3.7.06 — Plan-vs-actual view
-- [ ] T3.7.07 — Routine player
+- [x] T3.7.07 — Routine player
 - [ ] T3.7.08 — Kanban board
 - [ ] T3.7.09 — Eisenhower matrix
 - [ ] T3.7.10 — 24-hour radial clock
@@ -139,6 +139,7 @@ Lock-screen / Live Activity support is in [8.2].
 **Data model:** `checklist_items.estimate_minutes integer` for step durations. Without it, the task
 duration is split equally across steps.
 **Tests:** state-machine unit tests; widget tests.
+**Notes:** `RoutineView` with the pure `engine/routine.dart` (`stepDurations`, `consecutiveBlock` — back-to-back items within 5 min, overlaps skipped — and `RoutineMachine`: start / tick / pause / resume / complete / skip, auto-advance carries leftover time, finished = summary). Sources: today's open tasks with a linked checklist (steps = open top-level items via `checklistStepsProvider`, durations from `checklist_items.estimate_minutes` — schema v2, editable as *Step duration* in the item sheet — else an equal share of the task) or blocks of ≥ 2 consecutive tasks. The clock drives a 1 s ticker (fake clock in tests); step changes play a haptic (honours the setting) and the system alert sound; the screen stays on while playing (`ScreenAwake`). *Finish*: checklist routines complete the done items in one operation and mark the occurrence done; blocks mark each step's occurrence done or skipped. Lock-screen / Live Activity stays in [8.2].
 
 ### T3.7.08 — Kanban board
 **Priority:** P2 · **Size:** M · **Depends on:** [3.2]

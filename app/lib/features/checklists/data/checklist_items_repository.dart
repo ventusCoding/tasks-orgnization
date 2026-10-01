@@ -41,6 +41,7 @@ class ChecklistItemsRepository {
     waitingOn: r.waitingOn,
     priority: r.priority,
     notifyMode: r.notifyMode,
+    estimateMinutes: r.estimateMinutes,
     createdAt: r.createdAt,
     updatedAt: r.updatedAt,
   );

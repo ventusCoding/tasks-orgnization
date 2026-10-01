@@ -4724,6 +4724,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get itemNoDue => 'Pas d\'échéance';
 
   @override
+  String get itemNoStepDuration => 'Partage le temps de la tâche';
+
+  @override
   String get itemNote => 'Note';
 
   @override
@@ -4739,6 +4742,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get itemScheduledBadge => 'Planifié comme tâche';
+
+  @override
+  String get itemStepDuration => 'Durée de l’étape (routines)';
 
   @override
   String get itemText => 'Texte';

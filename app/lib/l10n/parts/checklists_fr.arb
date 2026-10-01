@@ -382,5 +382,7 @@
   "linkedCompleteItemBody": "« {item} » est planifié par cette tâche.",
   "linkedCompleteTaskTitle": "Marquer aussi la tâche comme faite ?",
   "linkedCompleteTaskBody": "« {task} » planifie cet élément.",
-  "linkedCompleteAction": "Terminer"
+  "linkedCompleteAction": "Terminer",
+  "itemStepDuration": "Durée de l’étape (routines)",
+  "itemNoStepDuration": "Partage le temps de la tâche"
 }

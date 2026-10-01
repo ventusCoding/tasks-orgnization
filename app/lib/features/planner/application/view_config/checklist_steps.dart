@@ -17,8 +17,8 @@ class ChecklistStep {
   /// Nesting level (0 = top-level).
   final int depth;
 
-  /// Step duration. TODO(integration): `checklist_items.estimate_minutes` (T3.7.07) — until that
-  /// column exists it is null and the routine splits the task duration equally.
+  /// Step duration (`checklist_items.estimate_minutes`, T3.7.07); null = an equal share of the
+  /// task duration.
   final int? estimateMinutes;
 
   @override
@@ -45,7 +45,13 @@ final checklistStepsProvider = Provider.autoDispose.family<List<ChecklistStep>?,
   return [
     for (final item in q.rootOnly ? tree.children(null) : tree.items)
       if (item.status != ItemStatus.cancelled && item.text.trim().isNotEmpty)
-        ChecklistStep(id: item.id, text: item.text, done: item.status.isDone, depth: tree.depthOf(item.id)),
+        ChecklistStep(
+          id: item.id,
+          text: item.text,
+          done: item.status.isDone,
+          depth: tree.depthOf(item.id),
+          estimateMinutes: item.estimateMinutes,
+        ),
   ];
 });
 

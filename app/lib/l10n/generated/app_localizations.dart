@@ -8049,6 +8049,12 @@ abstract class AppLocalizations {
   /// **'No due date'**
   String get itemNoDue;
 
+  /// No description provided for @itemNoStepDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Shares the task’s time'**
+  String get itemNoStepDuration;
+
   /// No description provided for @itemNote.
   ///
   /// In en, this message translates to:
@@ -8078,6 +8084,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Scheduled as a task'**
   String get itemScheduledBadge;
+
+  /// No description provided for @itemStepDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Step duration (routines)'**
+  String get itemStepDuration;
 
   /// No description provided for @itemText.
   ///

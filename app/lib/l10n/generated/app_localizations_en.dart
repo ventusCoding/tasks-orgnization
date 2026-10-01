@@ -4673,6 +4673,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get itemNoDue => 'No due date';
 
   @override
+  String get itemNoStepDuration => 'Shares the task’s time';
+
+  @override
   String get itemNote => 'Note';
 
   @override
@@ -4688,6 +4691,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get itemScheduledBadge => 'Scheduled as a task';
+
+  @override
+  String get itemStepDuration => 'Step duration (routines)';
 
   @override
   String get itemText => 'Text';
