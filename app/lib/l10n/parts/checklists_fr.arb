@@ -375,5 +375,14 @@
   "checklistViewMindMap": "Carte mentale",
   "mindMapExport": "Exporter en image",
   "mindMapHidden": "+{count}",
-  "exportZipBundle": "Partager en zip (avec les fichiers)"
+  "exportZipBundle": "Partager en zip (avec les fichiers)",
+  "itemScheduledAs": "Planifié : {title}",
+  "itemScheduledBadge": "Planifié comme tâche",
+  "linkedCompleteItemTitle": "Terminer aussi l’élément de liste ?",
+  "linkedCompleteItemBody": "« {item} » est planifié par cette tâche.",
+  "linkedCompleteTaskTitle": "Marquer aussi la tâche comme faite ?",
+  "linkedCompleteTaskBody": "« {task} » planifie cet élément.",
+  "linkedCompleteAction": "Terminer",
+  "itemStepDuration": "Durée de l’étape (routines)",
+  "itemNoStepDuration": "Partage le temps de la tâche"
 }

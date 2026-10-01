@@ -331,6 +331,31 @@ class PlannerService {
   }
 
   /// Links (or unlinks with null) a checklist (T3.1.16).
+  /// A task by id (application access for other features).
+  Future<Task?> task(String id) => queries.task(id);
+
+  /// Tasks scheduling checklist item [itemId] (T3.1.21).
+  Future<List<Task>> tasksForItem(String itemId) => queries.tasksForItem(itemId);
+
+  /// *Schedule as task* for a checklist item (T3.1.21): an unscheduled task titled like the item
+  /// and linked to it; [start] schedules it right away (drawer drop, [3.7]).
+  Future<TaskWriteResult> scheduleChecklistItem(
+    String itemId, {
+    required String title,
+    LocalDateTime? start,
+    int? durationMinutes,
+  }) => createTask(
+    Task(
+      id: '',
+      seriesId: '',
+      title: title,
+      linkedItemId: itemId,
+      startLocal: start,
+      durationMinutes: start == null ? null : (durationMinutes ?? settings.defaultTaskDurationMinutes),
+    ),
+    source: 'checklist',
+  );
+
   Future<OpRecord?> linkChecklist(String taskId, String? checklistId) async {
     final task = await queries.task(taskId);
     if (task == null || task.linkedChecklistId == checklistId) return null;

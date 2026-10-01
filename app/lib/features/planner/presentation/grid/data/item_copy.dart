@@ -16,6 +16,9 @@ PlannerItem copyItem(
   bool? isOverridden,
   String? manualSortKey,
   LocalDateTime? deadlineLocal,
+  int? trackedSeconds,
+  int? estimateMinutes,
+  bool? isCurrent,
 }) {
   final newStartUtc =
       startUtc ??
@@ -47,16 +50,16 @@ PlannerItem copyItem(
     notes: i.notes,
     recordId: i.recordId,
     isMoved: i.isMoved || moved,
-    isCurrent: i.isCurrent,
+    isCurrent: isCurrent ?? i.isCurrent,
     isQuotaSlot: i.isQuotaSlot,
     quotaPeriodKey: i.quotaPeriodKey,
     originalStartLocal: i.originalStartLocal,
     ownZoneStartLocal: i.ownZoneStartLocal,
     deadlineLocal: deadlineLocal ?? i.deadlineLocal,
-    estimateMinutes: i.estimateMinutes,
+    estimateMinutes: estimateMinutes ?? i.estimateMinutes,
     manualSortKey: manualSortKey ?? i.manualSortKey,
     completionPercent: i.completionPercent,
-    trackedSeconds: i.trackedSeconds,
+    trackedSeconds: trackedSeconds ?? i.trackedSeconds,
     rating: i.rating,
     isPaused: i.isPaused,
   );

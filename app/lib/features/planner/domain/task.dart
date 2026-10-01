@@ -122,6 +122,20 @@ final class FixedZone extends TimeZoneMode {
   String toString() => 'Fixed($id)';
 }
 
+/// Countdown list membership of a task (`tasks.countdown_mode`, T3.7.12).
+enum CountdownMode {
+  until,
+  since;
+
+  String get json => name;
+
+  static CountdownMode? fromJson(Object? v) => switch (v) {
+    'until' => until,
+    'since' => since,
+    _ => null,
+  };
+}
+
 /// The Planner's core entity (arch §7.3 `tasks`, T3.1.04).
 ///
 /// Wall-clock values are [LocalDateTime]s in the task's own zone ([timeZone], or the viewer's
@@ -150,6 +164,11 @@ class Task {
     this.deadlineLocal,
     this.linkedChecklistId,
     this.manualSortKey,
+    this.linkedItemId,
+    this.horizonKey,
+    this.countdownMode,
+    this.locationLat,
+    this.locationLng,
     this.isTemplate = false,
     this.notifyMode = NotifyMode.inherit,
     this.status = TaskStatus.active,
@@ -187,6 +206,11 @@ class Task {
       deadlineLocal: _ldt(json['deadline_local']),
       linkedChecklistId: json['linked_checklist_id'] as String?,
       manualSortKey: json['manual_sort_key'] as String?,
+      linkedItemId: json['linked_item_id'] as String?,
+      horizonKey: json['horizon_key'] as String?,
+      countdownMode: CountdownMode.fromJson(json['countdown_mode']),
+      locationLat: (json['location_lat'] as num?)?.toDouble(),
+      locationLng: (json['location_lng'] as num?)?.toDouble(),
       isTemplate: json['is_template'] == true || json['is_template'] == 1,
       notifyMode: NotifyMode.fromJson(json['notify_mode']),
       status: TaskStatus.fromJson(json['status']),
@@ -227,6 +251,19 @@ class Task {
   final LocalDateTime? deadlineLocal;
   final String? linkedChecklistId;
   final String? manualSortKey;
+
+  /// Checklist item this task schedules (T3.1.21).
+  final String? linkedItemId;
+
+  /// Horizon of an unscheduled intention (`week:2026-09-21`, T3.7.11).
+  final String? horizonKey;
+
+  /// Shown in the countdown list (T3.7.12).
+  final CountdownMode? countdownMode;
+
+  /// Map pin (T3.7.13); both or none.
+  final double? locationLat;
+  final double? locationLng;
   final bool isTemplate;
   final NotifyMode notifyMode;
   final TaskStatus status;
@@ -293,6 +330,11 @@ class Task {
     Object? deadlineLocal = _unset,
     Object? linkedChecklistId = _unset,
     Object? manualSortKey = _unset,
+    Object? linkedItemId = _unset,
+    Object? horizonKey = _unset,
+    Object? countdownMode = _unset,
+    Object? locationLat = _unset,
+    Object? locationLng = _unset,
     bool? isTemplate,
     NotifyMode? notifyMode,
     TaskStatus? status,
@@ -321,6 +363,11 @@ class Task {
     deadlineLocal: identical(deadlineLocal, _unset) ? this.deadlineLocal : deadlineLocal as LocalDateTime?,
     linkedChecklistId: identical(linkedChecklistId, _unset) ? this.linkedChecklistId : linkedChecklistId as String?,
     manualSortKey: identical(manualSortKey, _unset) ? this.manualSortKey : manualSortKey as String?,
+    linkedItemId: identical(linkedItemId, _unset) ? this.linkedItemId : linkedItemId as String?,
+    horizonKey: identical(horizonKey, _unset) ? this.horizonKey : horizonKey as String?,
+    countdownMode: identical(countdownMode, _unset) ? this.countdownMode : countdownMode as CountdownMode?,
+    locationLat: identical(locationLat, _unset) ? this.locationLat : locationLat as double?,
+    locationLng: identical(locationLng, _unset) ? this.locationLng : locationLng as double?,
     isTemplate: isTemplate ?? this.isTemplate,
     notifyMode: notifyMode ?? this.notifyMode,
     status: status ?? this.status,
@@ -353,6 +400,11 @@ class Task {
     'deadline_local': deadlineLocal?.toIso(),
     'linked_checklist_id': linkedChecklistId,
     'manual_sort_key': manualSortKey,
+    'linked_item_id': linkedItemId,
+    'horizon_key': horizonKey,
+    'countdown_mode': countdownMode?.json,
+    'location_lat': locationLat,
+    'location_lng': locationLng,
     'is_template': isTemplate,
     'notify_mode': notifyMode.json,
     'status': status.json,
@@ -390,6 +442,11 @@ class Task {
       other.deadlineLocal == deadlineLocal &&
       other.linkedChecklistId == linkedChecklistId &&
       other.manualSortKey == manualSortKey &&
+      other.linkedItemId == linkedItemId &&
+      other.horizonKey == horizonKey &&
+      other.countdownMode == countdownMode &&
+      other.locationLat == locationLat &&
+      other.locationLng == locationLng &&
       other.isTemplate == isTemplate &&
       other.notifyMode == notifyMode &&
       other.status == status &&
@@ -419,6 +476,11 @@ class Task {
     deadlineLocal,
     linkedChecklistId,
     manualSortKey,
+    linkedItemId,
+    horizonKey,
+    countdownMode,
+    locationLat,
+    locationLng,
     isTemplate,
     notifyMode,
     status,

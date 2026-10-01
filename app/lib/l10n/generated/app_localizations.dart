@@ -8049,6 +8049,12 @@ abstract class AppLocalizations {
   /// **'No due date'**
   String get itemNoDue;
 
+  /// No description provided for @itemNoStepDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Shares the task’s time'**
+  String get itemNoStepDuration;
+
   /// No description provided for @itemNote.
   ///
   /// In en, this message translates to:
@@ -8066,6 +8072,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Priority'**
   String get itemPriority;
+
+  /// No description provided for @itemScheduledAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled: {title}'**
+  String itemScheduledAs(String title);
+
+  /// No description provided for @itemScheduledBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled as a task'**
+  String get itemScheduledBadge;
+
+  /// No description provided for @itemStepDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Step duration (routines)'**
+  String get itemStepDuration;
 
   /// No description provided for @itemText.
   ///
@@ -8258,6 +8282,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Task'**
   String get linkKindTask;
+
+  /// No description provided for @linkedCompleteAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete'**
+  String get linkedCompleteAction;
+
+  /// No description provided for @linkedCompleteItemBody.
+  ///
+  /// In en, this message translates to:
+  /// **'“{item}” is scheduled by this task.'**
+  String linkedCompleteItemBody(String item);
+
+  /// No description provided for @linkedCompleteItemTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete the list item too?'**
+  String get linkedCompleteItemTitle;
+
+  /// No description provided for @linkedCompleteTaskBody.
+  ///
+  /// In en, this message translates to:
+  /// **'“{task}” schedules this item.'**
+  String linkedCompleteTaskBody(String task);
+
+  /// No description provided for @linkedCompleteTaskTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark the task done too?'**
+  String get linkedCompleteTaskTitle;
 
   /// No description provided for @linkedEntityMissing.
   ///
@@ -11823,11 +11877,23 @@ abstract class AppLocalizations {
   /// **'Actual'**
   String get pvActualColumn;
 
+  /// No description provided for @pvAddCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a countdown'**
+  String get pvAddCountdown;
+
   /// No description provided for @pvAddTask.
   ///
   /// In en, this message translates to:
   /// **'Add task'**
   String get pvAddTask;
+
+  /// No description provided for @pvAddToBacklog.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to backlog'**
+  String get pvAddToBacklog;
 
   /// No description provided for @pvAddZone.
   ///
@@ -11895,11 +11961,23 @@ abstract class AppLocalizations {
   /// **'Categories'**
   String get pvCategories;
 
+  /// No description provided for @pvChecklistDue.
+  ///
+  /// In en, this message translates to:
+  /// **'List items with a due date'**
+  String get pvChecklistDue;
+
   /// No description provided for @pvClearFilters.
   ///
   /// In en, this message translates to:
   /// **'Clear'**
   String get pvClearFilters;
+
+  /// No description provided for @pvClearPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the map pin'**
+  String get pvClearPlace;
 
   /// No description provided for @pvClearSelection.
   ///
@@ -12051,6 +12129,24 @@ abstract class AppLocalizations {
   /// **'{name} (copy)'**
   String pvCopySuffix(String name);
 
+  /// No description provided for @pvCountdownSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Count up since it'**
+  String get pvCountdownSince;
+
+  /// No description provided for @pvCountdownUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Count down to it'**
+  String get pvCountdownUntil;
+
+  /// No description provided for @pvCounterParts.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} d {hours} h {minutes} min'**
+  String pvCounterParts(int days, int hours, int minutes);
+
   /// No description provided for @pvCreate.
   ///
   /// In en, this message translates to:
@@ -12195,6 +12291,12 @@ abstract class AppLocalizations {
   /// **'This grouping can\'t be changed by dragging yet'**
   String get pvDropNotSupported;
 
+  /// No description provided for @pvDroppedPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Dropped pin'**
+  String get pvDroppedPin;
+
   /// No description provided for @pvDuplicateView.
   ///
   /// In en, this message translates to:
@@ -12254,6 +12356,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'+{minutes} min'**
   String pvExtendBy(int minutes);
+
+  /// No description provided for @pvExtendedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Extended by {minutes} min'**
+  String pvExtendedSnack(int minutes);
 
   /// No description provided for @pvExtraZones.
   ///
@@ -12321,6 +12429,12 @@ abstract class AppLocalizations {
   /// **'From'**
   String get pvFrom;
 
+  /// No description provided for @pvGoalLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'Linked to a goal'**
+  String get pvGoalLinked;
+
   /// No description provided for @pvGotIt.
   ///
   /// In en, this message translates to:
@@ -12350,6 +12464,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Day'**
   String get pvGroupDay;
+
+  /// No description provided for @pvGroupDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Deadline'**
+  String get pvGroupDeadline;
 
   /// No description provided for @pvGroupNone.
   ///
@@ -12450,7 +12570,7 @@ abstract class AppLocalizations {
   /// No description provided for @pvHorizonsHint.
   ///
   /// In en, this message translates to:
-  /// **'Unscheduled intentions per horizon (stored on this device until horizons sync).'**
+  /// **'Unscheduled intentions per horizon — drag them to another horizon or onto a day.'**
   String get pvHorizonsHint;
 
   /// No description provided for @pvIgnoreLowPriority.
@@ -12489,11 +12609,23 @@ abstract class AppLocalizations {
   /// **'Side-by-side lanes'**
   String get pvLaneCap;
 
+  /// No description provided for @pvLaneOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get pvLaneOther;
+
   /// No description provided for @pvLanes.
   ///
   /// In en, this message translates to:
   /// **'Lanes'**
   String get pvLanes;
+
+  /// No description provided for @pvLanesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the categories shown side by side and their order.'**
+  String get pvLanesHint;
 
   /// No description provided for @pvLastRowShort.
   ///
@@ -12531,10 +12663,22 @@ abstract class AppLocalizations {
   /// **'Load tint (busy · over)'**
   String get pvLoadThresholds;
 
+  /// No description provided for @pvMakeGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Make it a goal'**
+  String get pvMakeGoal;
+
+  /// No description provided for @pvMapAttribution.
+  ///
+  /// In en, this message translates to:
+  /// **'© OpenStreetMap contributors'**
+  String get pvMapAttribution;
+
   /// No description provided for @pvMapPlaceholder.
   ///
   /// In en, this message translates to:
-  /// **'The map needs task coordinates, which arrive with the place picker. Tasks with a place are listed below.'**
+  /// **'Give a task a place (task editor → find a place) to see it on the map.'**
   String get pvMapPlaceholder;
 
   /// No description provided for @pvMarkDone.
@@ -12729,6 +12873,24 @@ abstract class AppLocalizations {
   /// **'No category'**
   String get pvNoCategory;
 
+  /// No description provided for @pvNoCountdowns.
+  ///
+  /// In en, this message translates to:
+  /// **'No countdowns yet'**
+  String get pvNoCountdowns;
+
+  /// No description provided for @pvNoDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'No deadline'**
+  String get pvNoDeadline;
+
+  /// No description provided for @pvNoEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'No estimate'**
+  String get pvNoEstimate;
+
   /// No description provided for @pvNoOpenings.
   ///
   /// In en, this message translates to:
@@ -12758,6 +12920,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No tasks'**
   String get pvNoTasks;
+
+  /// No description provided for @pvNothingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing else planned today'**
+  String get pvNothingNext;
 
   /// No description provided for @pvNothingNow.
   ///
@@ -12897,6 +13065,12 @@ abstract class AppLocalizations {
   /// **'Pick a date'**
   String get pvPickDate;
 
+  /// No description provided for @pvPickPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a place'**
+  String get pvPickPlace;
+
   /// No description provided for @pvPin.
   ///
   /// In en, this message translates to:
@@ -12914,6 +13088,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{value} px'**
   String pvPixels(String value);
+
+  /// No description provided for @pvPlaceNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No place found'**
+  String get pvPlaceNoResults;
+
+  /// No description provided for @pvPlaceSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Address or place name'**
+  String get pvPlaceSearchHint;
+
+  /// No description provided for @pvPlaceTapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Or tap the map to drop a pin.'**
+  String get pvPlaceTapHint;
 
   /// No description provided for @pvPlanColumn.
   ///
@@ -13017,6 +13209,18 @@ abstract class AppLocalizations {
   /// **'New task'**
   String get pvQuickCreateTitle;
 
+  /// No description provided for @pvQuotaProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} · {done}/{total} this period'**
+  String pvQuotaProgress(String title, int done, int total);
+
+  /// No description provided for @pvQuotaSlots.
+  ///
+  /// In en, this message translates to:
+  /// **'Targets to place'**
+  String get pvQuotaSlots;
+
   /// No description provided for @pvRadial12.
   ///
   /// In en, this message translates to:
@@ -13040,6 +13244,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recurring'**
   String get pvRecurring;
+
+  /// No description provided for @pvRemoveCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from countdowns'**
+  String get pvRemoveCountdown;
 
   /// No description provided for @pvRenameView.
   ///
@@ -13203,6 +13413,12 @@ abstract class AppLocalizations {
   /// **'Schedule on…'**
   String get pvScheduleOn;
 
+  /// No description provided for @pvScheduledCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item scheduled} other{{count} items scheduled}}'**
+  String pvScheduledCount(int count);
+
   /// No description provided for @pvScheduledSnack.
   ///
   /// In en, this message translates to:
@@ -13268,6 +13484,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share availability'**
   String get pvShareAvailability;
+
+  /// No description provided for @pvShowAsTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Show as timeline rows'**
+  String get pvShowAsTimeline;
 
   /// No description provided for @pvShowCancelled.
   ///
@@ -13485,6 +13707,12 @@ abstract class AppLocalizations {
   /// **'To'**
   String get pvTo;
 
+  /// No description provided for @pvToggleBacklog.
+  ///
+  /// In en, this message translates to:
+  /// **'Backlog drawer'**
+  String get pvToggleBacklog;
+
   /// No description provided for @pvTopCategories.
   ///
   /// In en, this message translates to:
@@ -13539,6 +13767,12 @@ abstract class AppLocalizations {
   /// **'Unscheduled'**
   String get pvUnscheduled;
 
+  /// No description provided for @pvUnscheduledSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved to the backlog'**
+  String get pvUnscheduledSnack;
+
   /// No description provided for @pvUntimed.
   ///
   /// In en, this message translates to:
@@ -13556,6 +13790,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{days, plural, =1{Urgent within 1 day} other{Urgent within {days} days}}'**
   String pvUrgencyRule(int days);
+
+  /// No description provided for @pvUsePlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this place'**
+  String get pvUsePlace;
 
   /// No description provided for @pvVarianceLate.
   ///

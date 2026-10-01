@@ -349,6 +349,7 @@ class ChecklistItem {
     this.waitingOn,
     this.priority = 0,
     this.notifyMode = 'inherit',
+    this.estimateMinutes,
     this.createdAt,
     this.updatedAt,
   });
@@ -375,6 +376,9 @@ class ChecklistItem {
 
   /// Reminder mode of the item (`notify_mode`: inherit | custom | inherit_plus | off).
   final String notifyMode;
+
+  /// Routine step duration in minutes (`estimate_minutes`, T3.7.07); null = share of the task.
+  final int? estimateMinutes;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -401,6 +405,8 @@ class ChecklistItem {
     LocalDateTime? dueLocal,
     bool clearDue = false,
     int? priority,
+    int? estimateMinutes,
+    bool clearEstimate = false,
     DateTime? updatedAt,
   }) => ChecklistItem(
     id: id,
@@ -419,6 +425,7 @@ class ChecklistItem {
     waitingOn: waitingOn,
     priority: priority ?? this.priority,
     notifyMode: notifyMode,
+    estimateMinutes: clearEstimate ? null : (estimateMinutes ?? this.estimateMinutes),
     createdAt: createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
   );
@@ -442,6 +449,7 @@ class ChecklistItem {
       other.waitingOn == waitingOn &&
       other.priority == priority &&
       other.notifyMode == notifyMode &&
+      other.estimateMinutes == estimateMinutes &&
       other.updatedAt == updatedAt;
 
   @override
@@ -459,6 +467,7 @@ class ChecklistItem {
     followUpAt,
     dueLocal,
     priority,
+    estimateMinutes,
     updatedAt,
   );
 

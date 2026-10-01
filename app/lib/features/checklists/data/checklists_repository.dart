@@ -679,6 +679,7 @@ class ChecklistsRepository {
           'due_local': d['due_local'],
           'time_zone': d['time_zone'],
           'priority': d['priority'],
+          'estimate_minutes': d['estimate_minutes'],
         });
       }
       await AttachmentTx.copyForOwners(tx, fromType: AttachmentOwnerType.checklistItem, ownerIdMap: idMap);

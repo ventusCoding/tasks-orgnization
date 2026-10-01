@@ -8390,6 +8390,51 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, TaskRow> {
     requiredDuringInsert: false,
     defaultValue: const Constant('active'),
   );
+  static const VerificationMeta _linkedItemIdMeta = const VerificationMeta('linkedItemId');
+  @override
+  late final GeneratedColumn<String> linkedItemId = GeneratedColumn<String>(
+    'linked_item_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _horizonKeyMeta = const VerificationMeta('horizonKey');
+  @override
+  late final GeneratedColumn<String> horizonKey = GeneratedColumn<String>(
+    'horizon_key',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _countdownModeMeta = const VerificationMeta('countdownMode');
+  @override
+  late final GeneratedColumn<String> countdownMode = GeneratedColumn<String>(
+    'countdown_mode',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _locationLatMeta = const VerificationMeta('locationLat');
+  @override
+  late final GeneratedColumn<double> locationLat = GeneratedColumn<double>(
+    'location_lat',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _locationLngMeta = const VerificationMeta('locationLng');
+  @override
+  late final GeneratedColumn<double> locationLng = GeneratedColumn<double>(
+    'location_lng',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -8424,6 +8469,11 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, TaskRow> {
     isTemplate,
     notifyMode,
     status,
+    linkedItemId,
+    horizonKey,
+    countdownMode,
+    locationLat,
+    locationLng,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -8566,6 +8616,24 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, TaskRow> {
     if (data.containsKey('status')) {
       context.handle(_statusMeta, status.isAcceptableOrUnknown(data['status']!, _statusMeta));
     }
+    if (data.containsKey('linked_item_id')) {
+      context.handle(_linkedItemIdMeta, linkedItemId.isAcceptableOrUnknown(data['linked_item_id']!, _linkedItemIdMeta));
+    }
+    if (data.containsKey('horizon_key')) {
+      context.handle(_horizonKeyMeta, horizonKey.isAcceptableOrUnknown(data['horizon_key']!, _horizonKeyMeta));
+    }
+    if (data.containsKey('countdown_mode')) {
+      context.handle(
+        _countdownModeMeta,
+        countdownMode.isAcceptableOrUnknown(data['countdown_mode']!, _countdownModeMeta),
+      );
+    }
+    if (data.containsKey('location_lat')) {
+      context.handle(_locationLatMeta, locationLat.isAcceptableOrUnknown(data['location_lat']!, _locationLatMeta));
+    }
+    if (data.containsKey('location_lng')) {
+      context.handle(_locationLngMeta, locationLng.isAcceptableOrUnknown(data['location_lng']!, _locationLngMeta));
+    }
     return context;
   }
 
@@ -8619,6 +8687,11 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, TaskRow> {
       isTemplate: attachedDatabase.typeMapping.read(DriftSqlType.bool, data['${effectivePrefix}is_template'])!,
       notifyMode: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}notify_mode'])!,
       status: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}status'])!,
+      linkedItemId: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}linked_item_id']),
+      horizonKey: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}horizon_key']),
+      countdownMode: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}countdown_mode']),
+      locationLat: attachedDatabase.typeMapping.read(DriftSqlType.double, data['${effectivePrefix}location_lat']),
+      locationLng: attachedDatabase.typeMapping.read(DriftSqlType.double, data['${effectivePrefix}location_lng']),
     );
   }
 
@@ -8669,6 +8742,13 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
 
   /// active | paused | archived
   final String status;
+  final String? linkedItemId;
+  final String? horizonKey;
+
+  /// until | since
+  final String? countdownMode;
+  final double? locationLat;
+  final double? locationLng;
   const TaskRow({
     required this.id,
     required this.userId,
@@ -8702,6 +8782,11 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
     required this.isTemplate,
     required this.notifyMode,
     required this.status,
+    this.linkedItemId,
+    this.horizonKey,
+    this.countdownMode,
+    this.locationLat,
+    this.locationLng,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -8774,6 +8859,21 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
     map['is_template'] = Variable<bool>(isTemplate);
     map['notify_mode'] = Variable<String>(notifyMode);
     map['status'] = Variable<String>(status);
+    if (!nullToAbsent || linkedItemId != null) {
+      map['linked_item_id'] = Variable<String>(linkedItemId);
+    }
+    if (!nullToAbsent || horizonKey != null) {
+      map['horizon_key'] = Variable<String>(horizonKey);
+    }
+    if (!nullToAbsent || countdownMode != null) {
+      map['countdown_mode'] = Variable<String>(countdownMode);
+    }
+    if (!nullToAbsent || locationLat != null) {
+      map['location_lat'] = Variable<double>(locationLat);
+    }
+    if (!nullToAbsent || locationLng != null) {
+      map['location_lng'] = Variable<double>(locationLng);
+    }
     return map;
   }
 
@@ -8813,6 +8913,11 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
       isTemplate: Value(isTemplate),
       notifyMode: Value(notifyMode),
       status: Value(status),
+      linkedItemId: linkedItemId == null && nullToAbsent ? const Value.absent() : Value(linkedItemId),
+      horizonKey: horizonKey == null && nullToAbsent ? const Value.absent() : Value(horizonKey),
+      countdownMode: countdownMode == null && nullToAbsent ? const Value.absent() : Value(countdownMode),
+      locationLat: locationLat == null && nullToAbsent ? const Value.absent() : Value(locationLat),
+      locationLng: locationLng == null && nullToAbsent ? const Value.absent() : Value(locationLng),
     );
   }
 
@@ -8851,6 +8956,11 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
       isTemplate: serializer.fromJson<bool>(json['is_template']),
       notifyMode: serializer.fromJson<String>(json['notify_mode']),
       status: serializer.fromJson<String>(json['status']),
+      linkedItemId: serializer.fromJson<String?>(json['linked_item_id']),
+      horizonKey: serializer.fromJson<String?>(json['horizon_key']),
+      countdownMode: serializer.fromJson<String?>(json['countdown_mode']),
+      locationLat: serializer.fromJson<double?>(json['location_lat']),
+      locationLng: serializer.fromJson<double?>(json['location_lng']),
     );
   }
   @override
@@ -8889,6 +8999,11 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
       'is_template': serializer.toJson<bool>(isTemplate),
       'notify_mode': serializer.toJson<String>(notifyMode),
       'status': serializer.toJson<String>(status),
+      'linked_item_id': serializer.toJson<String?>(linkedItemId),
+      'horizon_key': serializer.toJson<String?>(horizonKey),
+      'countdown_mode': serializer.toJson<String?>(countdownMode),
+      'location_lat': serializer.toJson<double?>(locationLat),
+      'location_lng': serializer.toJson<double?>(locationLng),
     };
   }
 
@@ -8925,6 +9040,11 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
     bool? isTemplate,
     String? notifyMode,
     String? status,
+    Value<String?> linkedItemId = const Value.absent(),
+    Value<String?> horizonKey = const Value.absent(),
+    Value<String?> countdownMode = const Value.absent(),
+    Value<double?> locationLat = const Value.absent(),
+    Value<double?> locationLng = const Value.absent(),
   }) => TaskRow(
     id: id ?? this.id,
     userId: userId ?? this.userId,
@@ -8958,6 +9078,11 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
     isTemplate: isTemplate ?? this.isTemplate,
     notifyMode: notifyMode ?? this.notifyMode,
     status: status ?? this.status,
+    linkedItemId: linkedItemId.present ? linkedItemId.value : this.linkedItemId,
+    horizonKey: horizonKey.present ? horizonKey.value : this.horizonKey,
+    countdownMode: countdownMode.present ? countdownMode.value : this.countdownMode,
+    locationLat: locationLat.present ? locationLat.value : this.locationLat,
+    locationLng: locationLng.present ? locationLng.value : this.locationLng,
   );
   TaskRow copyWithCompanion(TasksCompanion data) {
     return TaskRow(
@@ -8995,6 +9120,11 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
       isTemplate: data.isTemplate.present ? data.isTemplate.value : this.isTemplate,
       notifyMode: data.notifyMode.present ? data.notifyMode.value : this.notifyMode,
       status: data.status.present ? data.status.value : this.status,
+      linkedItemId: data.linkedItemId.present ? data.linkedItemId.value : this.linkedItemId,
+      horizonKey: data.horizonKey.present ? data.horizonKey.value : this.horizonKey,
+      countdownMode: data.countdownMode.present ? data.countdownMode.value : this.countdownMode,
+      locationLat: data.locationLat.present ? data.locationLat.value : this.locationLat,
+      locationLng: data.locationLng.present ? data.locationLng.value : this.locationLng,
     );
   }
 
@@ -9032,7 +9162,12 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
           ..write('manualSortKey: $manualSortKey, ')
           ..write('isTemplate: $isTemplate, ')
           ..write('notifyMode: $notifyMode, ')
-          ..write('status: $status')
+          ..write('status: $status, ')
+          ..write('linkedItemId: $linkedItemId, ')
+          ..write('horizonKey: $horizonKey, ')
+          ..write('countdownMode: $countdownMode, ')
+          ..write('locationLat: $locationLat, ')
+          ..write('locationLng: $locationLng')
           ..write(')'))
         .toString();
   }
@@ -9071,6 +9206,11 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
     isTemplate,
     notifyMode,
     status,
+    linkedItemId,
+    horizonKey,
+    countdownMode,
+    locationLat,
+    locationLng,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -9107,7 +9247,12 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
           other.manualSortKey == this.manualSortKey &&
           other.isTemplate == this.isTemplate &&
           other.notifyMode == this.notifyMode &&
-          other.status == this.status);
+          other.status == this.status &&
+          other.linkedItemId == this.linkedItemId &&
+          other.horizonKey == this.horizonKey &&
+          other.countdownMode == this.countdownMode &&
+          other.locationLat == this.locationLat &&
+          other.locationLng == this.locationLng);
 }
 
 class TasksCompanion extends UpdateCompanion<TaskRow> {
@@ -9143,6 +9288,11 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
   final Value<bool> isTemplate;
   final Value<String> notifyMode;
   final Value<String> status;
+  final Value<String?> linkedItemId;
+  final Value<String?> horizonKey;
+  final Value<String?> countdownMode;
+  final Value<double?> locationLat;
+  final Value<double?> locationLng;
   final Value<int> rowid;
   const TasksCompanion({
     this.id = const Value.absent(),
@@ -9177,6 +9327,11 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
     this.isTemplate = const Value.absent(),
     this.notifyMode = const Value.absent(),
     this.status = const Value.absent(),
+    this.linkedItemId = const Value.absent(),
+    this.horizonKey = const Value.absent(),
+    this.countdownMode = const Value.absent(),
+    this.locationLat = const Value.absent(),
+    this.locationLng = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   TasksCompanion.insert({
@@ -9212,6 +9367,11 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
     this.isTemplate = const Value.absent(),
     this.notifyMode = const Value.absent(),
     this.status = const Value.absent(),
+    this.linkedItemId = const Value.absent(),
+    this.horizonKey = const Value.absent(),
+    this.countdownMode = const Value.absent(),
+    this.locationLat = const Value.absent(),
+    this.locationLng = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        userId = Value(userId),
@@ -9252,6 +9412,11 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
     Expression<bool>? isTemplate,
     Expression<String>? notifyMode,
     Expression<String>? status,
+    Expression<String>? linkedItemId,
+    Expression<String>? horizonKey,
+    Expression<String>? countdownMode,
+    Expression<double>? locationLat,
+    Expression<double>? locationLng,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -9287,6 +9452,11 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
       if (isTemplate != null) 'is_template': isTemplate,
       if (notifyMode != null) 'notify_mode': notifyMode,
       if (status != null) 'status': status,
+      if (linkedItemId != null) 'linked_item_id': linkedItemId,
+      if (horizonKey != null) 'horizon_key': horizonKey,
+      if (countdownMode != null) 'countdown_mode': countdownMode,
+      if (locationLat != null) 'location_lat': locationLat,
+      if (locationLng != null) 'location_lng': locationLng,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -9324,6 +9494,11 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
     Value<bool>? isTemplate,
     Value<String>? notifyMode,
     Value<String>? status,
+    Value<String?>? linkedItemId,
+    Value<String?>? horizonKey,
+    Value<String?>? countdownMode,
+    Value<double?>? locationLat,
+    Value<double?>? locationLng,
     Value<int>? rowid,
   }) {
     return TasksCompanion(
@@ -9359,6 +9534,11 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
       isTemplate: isTemplate ?? this.isTemplate,
       notifyMode: notifyMode ?? this.notifyMode,
       status: status ?? this.status,
+      linkedItemId: linkedItemId ?? this.linkedItemId,
+      horizonKey: horizonKey ?? this.horizonKey,
+      countdownMode: countdownMode ?? this.countdownMode,
+      locationLat: locationLat ?? this.locationLat,
+      locationLng: locationLng ?? this.locationLng,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -9462,6 +9642,21 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
     if (status.present) {
       map['status'] = Variable<String>(status.value);
     }
+    if (linkedItemId.present) {
+      map['linked_item_id'] = Variable<String>(linkedItemId.value);
+    }
+    if (horizonKey.present) {
+      map['horizon_key'] = Variable<String>(horizonKey.value);
+    }
+    if (countdownMode.present) {
+      map['countdown_mode'] = Variable<String>(countdownMode.value);
+    }
+    if (locationLat.present) {
+      map['location_lat'] = Variable<double>(locationLat.value);
+    }
+    if (locationLng.present) {
+      map['location_lng'] = Variable<double>(locationLng.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -9503,6 +9698,11 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
           ..write('isTemplate: $isTemplate, ')
           ..write('notifyMode: $notifyMode, ')
           ..write('status: $status, ')
+          ..write('linkedItemId: $linkedItemId, ')
+          ..write('horizonKey: $horizonKey, ')
+          ..write('countdownMode: $countdownMode, ')
+          ..write('locationLat: $locationLat, ')
+          ..write('locationLng: $locationLng, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -12796,6 +12996,15 @@ class $ChecklistItemsTable extends ChecklistItems with TableInfo<$ChecklistItems
     requiredDuringInsert: false,
     defaultValue: const Constant('inherit'),
   );
+  static const VerificationMeta _estimateMinutesMeta = const VerificationMeta('estimateMinutes');
+  @override
+  late final GeneratedColumn<int> estimateMinutes = GeneratedColumn<int>(
+    'estimate_minutes',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -12822,6 +13031,7 @@ class $ChecklistItemsTable extends ChecklistItems with TableInfo<$ChecklistItems
     waitingOn,
     priority,
     notifyMode,
+    estimateMinutes,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -12925,6 +13135,12 @@ class $ChecklistItemsTable extends ChecklistItems with TableInfo<$ChecklistItems
     if (data.containsKey('notify_mode')) {
       context.handle(_notifyModeMeta, notifyMode.isAcceptableOrUnknown(data['notify_mode']!, _notifyModeMeta));
     }
+    if (data.containsKey('estimate_minutes')) {
+      context.handle(
+        _estimateMinutesMeta,
+        estimateMinutes.isAcceptableOrUnknown(data['estimate_minutes']!, _estimateMinutesMeta),
+      );
+    }
     return context;
   }
 
@@ -12967,6 +13183,7 @@ class $ChecklistItemsTable extends ChecklistItems with TableInfo<$ChecklistItems
       waitingOn: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}waiting_on']),
       priority: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}priority'])!,
       notifyMode: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}notify_mode'])!,
+      estimateMinutes: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}estimate_minutes']),
     );
   }
 
@@ -13003,6 +13220,9 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
   final String? waitingOn;
   final int priority;
   final String notifyMode;
+
+  /// Routine step duration (T3.7.07, schema v2).
+  final int? estimateMinutes;
   const ChecklistItemRow({
     required this.id,
     required this.userId,
@@ -13028,6 +13248,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
     this.waitingOn,
     required this.priority,
     required this.notifyMode,
+    this.estimateMinutes,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -13080,6 +13301,9 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
     }
     map['priority'] = Variable<int>(priority);
     map['notify_mode'] = Variable<String>(notifyMode);
+    if (!nullToAbsent || estimateMinutes != null) {
+      map['estimate_minutes'] = Variable<int>(estimateMinutes);
+    }
     return map;
   }
 
@@ -13109,6 +13333,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
       waitingOn: waitingOn == null && nullToAbsent ? const Value.absent() : Value(waitingOn),
       priority: Value(priority),
       notifyMode: Value(notifyMode),
+      estimateMinutes: estimateMinutes == null && nullToAbsent ? const Value.absent() : Value(estimateMinutes),
     );
   }
 
@@ -13139,6 +13364,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
       waitingOn: serializer.fromJson<String?>(json['waiting_on']),
       priority: serializer.fromJson<int>(json['priority']),
       notifyMode: serializer.fromJson<String>(json['notify_mode']),
+      estimateMinutes: serializer.fromJson<int?>(json['estimate_minutes']),
     );
   }
   @override
@@ -13169,6 +13395,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
       'waiting_on': serializer.toJson<String?>(waitingOn),
       'priority': serializer.toJson<int>(priority),
       'notify_mode': serializer.toJson<String>(notifyMode),
+      'estimate_minutes': serializer.toJson<int?>(estimateMinutes),
     };
   }
 
@@ -13197,6 +13424,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
     Value<String?> waitingOn = const Value.absent(),
     int? priority,
     String? notifyMode,
+    Value<int?> estimateMinutes = const Value.absent(),
   }) => ChecklistItemRow(
     id: id ?? this.id,
     userId: userId ?? this.userId,
@@ -13222,6 +13450,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
     waitingOn: waitingOn.present ? waitingOn.value : this.waitingOn,
     priority: priority ?? this.priority,
     notifyMode: notifyMode ?? this.notifyMode,
+    estimateMinutes: estimateMinutes.present ? estimateMinutes.value : this.estimateMinutes,
   );
   ChecklistItemRow copyWithCompanion(ChecklistItemsCompanion data) {
     return ChecklistItemRow(
@@ -13249,6 +13478,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
       waitingOn: data.waitingOn.present ? data.waitingOn.value : this.waitingOn,
       priority: data.priority.present ? data.priority.value : this.priority,
       notifyMode: data.notifyMode.present ? data.notifyMode.value : this.notifyMode,
+      estimateMinutes: data.estimateMinutes.present ? data.estimateMinutes.value : this.estimateMinutes,
     );
   }
 
@@ -13278,7 +13508,8 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
           ..write('timeZone: $timeZone, ')
           ..write('waitingOn: $waitingOn, ')
           ..write('priority: $priority, ')
-          ..write('notifyMode: $notifyMode')
+          ..write('notifyMode: $notifyMode, ')
+          ..write('estimateMinutes: $estimateMinutes')
           ..write(')'))
         .toString();
   }
@@ -13309,6 +13540,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
     waitingOn,
     priority,
     notifyMode,
+    estimateMinutes,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -13337,7 +13569,8 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
           other.timeZone == this.timeZone &&
           other.waitingOn == this.waitingOn &&
           other.priority == this.priority &&
-          other.notifyMode == this.notifyMode);
+          other.notifyMode == this.notifyMode &&
+          other.estimateMinutes == this.estimateMinutes);
 }
 
 class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
@@ -13365,6 +13598,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
   final Value<String?> waitingOn;
   final Value<int> priority;
   final Value<String> notifyMode;
+  final Value<int?> estimateMinutes;
   final Value<int> rowid;
   const ChecklistItemsCompanion({
     this.id = const Value.absent(),
@@ -13391,6 +13625,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
     this.waitingOn = const Value.absent(),
     this.priority = const Value.absent(),
     this.notifyMode = const Value.absent(),
+    this.estimateMinutes = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ChecklistItemsCompanion.insert({
@@ -13418,6 +13653,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
     this.waitingOn = const Value.absent(),
     this.priority = const Value.absent(),
     this.notifyMode = const Value.absent(),
+    this.estimateMinutes = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        userId = Value(userId),
@@ -13450,6 +13686,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
     Expression<String>? waitingOn,
     Expression<int>? priority,
     Expression<String>? notifyMode,
+    Expression<int>? estimateMinutes,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -13477,6 +13714,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
       if (waitingOn != null) 'waiting_on': waitingOn,
       if (priority != null) 'priority': priority,
       if (notifyMode != null) 'notify_mode': notifyMode,
+      if (estimateMinutes != null) 'estimate_minutes': estimateMinutes,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -13506,6 +13744,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
     Value<String?>? waitingOn,
     Value<int>? priority,
     Value<String>? notifyMode,
+    Value<int?>? estimateMinutes,
     Value<int>? rowid,
   }) {
     return ChecklistItemsCompanion(
@@ -13533,6 +13772,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
       waitingOn: waitingOn ?? this.waitingOn,
       priority: priority ?? this.priority,
       notifyMode: notifyMode ?? this.notifyMode,
+      estimateMinutes: estimateMinutes ?? this.estimateMinutes,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -13612,6 +13852,9 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
     if (notifyMode.present) {
       map['notify_mode'] = Variable<String>(notifyMode.value);
     }
+    if (estimateMinutes.present) {
+      map['estimate_minutes'] = Variable<int>(estimateMinutes.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -13645,6 +13888,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
           ..write('waitingOn: $waitingOn, ')
           ..write('priority: $priority, ')
           ..write('notifyMode: $notifyMode, ')
+          ..write('estimateMinutes: $estimateMinutes, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -31205,6 +31449,11 @@ typedef $$TasksTableCreateCompanionBuilder = TasksCompanion Function({
   Value<bool> isTemplate,
   Value<String> notifyMode,
   Value<String> status,
+  Value<String?> linkedItemId,
+  Value<String?> horizonKey,
+  Value<String?> countdownMode,
+  Value<double?> locationLat,
+  Value<double?> locationLng,
   Value<int> rowid,
 });
 typedef $$TasksTableUpdateCompanionBuilder = TasksCompanion Function({
@@ -31240,6 +31489,11 @@ typedef $$TasksTableUpdateCompanionBuilder = TasksCompanion Function({
   Value<bool> isTemplate,
   Value<String> notifyMode,
   Value<String> status,
+  Value<String?> linkedItemId,
+  Value<String?> horizonKey,
+  Value<String?> countdownMode,
+  Value<double?> locationLat,
+  Value<double?> locationLng,
   Value<int> rowid,
 });
 
@@ -31341,6 +31595,21 @@ class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
 
   ColumnFilters<String> get status =>
       $composableBuilder(column: $table.status, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get linkedItemId =>
+      $composableBuilder(column: $table.linkedItemId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get horizonKey =>
+      $composableBuilder(column: $table.horizonKey, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get countdownMode =>
+      $composableBuilder(column: $table.countdownMode, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get locationLat =>
+      $composableBuilder(column: $table.locationLat, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get locationLng =>
+      $composableBuilder(column: $table.locationLng, builder: (column) => ColumnFilters(column));
 }
 
 class $$TasksTableOrderingComposer extends Composer<_$AppDatabase, $TasksTable> {
@@ -31444,6 +31713,21 @@ class $$TasksTableOrderingComposer extends Composer<_$AppDatabase, $TasksTable> 
 
   ColumnOrderings<String> get status =>
       $composableBuilder(column: $table.status, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get linkedItemId =>
+      $composableBuilder(column: $table.linkedItemId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get horizonKey =>
+      $composableBuilder(column: $table.horizonKey, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get countdownMode =>
+      $composableBuilder(column: $table.countdownMode, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get locationLat =>
+      $composableBuilder(column: $table.locationLat, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get locationLng =>
+      $composableBuilder(column: $table.locationLng, builder: (column) => ColumnOrderings(column));
 }
 
 class $$TasksTableAnnotationComposer extends Composer<_$AppDatabase, $TasksTable> {
@@ -31526,6 +31810,20 @@ class $$TasksTableAnnotationComposer extends Composer<_$AppDatabase, $TasksTable
   GeneratedColumn<String> get notifyMode => $composableBuilder(column: $table.notifyMode, builder: (column) => column);
 
   GeneratedColumn<String> get status => $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get linkedItemId =>
+      $composableBuilder(column: $table.linkedItemId, builder: (column) => column);
+
+  GeneratedColumn<String> get horizonKey => $composableBuilder(column: $table.horizonKey, builder: (column) => column);
+
+  GeneratedColumn<String> get countdownMode =>
+      $composableBuilder(column: $table.countdownMode, builder: (column) => column);
+
+  GeneratedColumn<double> get locationLat =>
+      $composableBuilder(column: $table.locationLat, builder: (column) => column);
+
+  GeneratedColumn<double> get locationLng =>
+      $composableBuilder(column: $table.locationLng, builder: (column) => column);
 }
 
 class $$TasksTableTableManager
@@ -31585,6 +31883,11 @@ class $$TasksTableTableManager
                 Value<bool> isTemplate = const Value.absent(),
                 Value<String> notifyMode = const Value.absent(),
                 Value<String> status = const Value.absent(),
+                Value<String?> linkedItemId = const Value.absent(),
+                Value<String?> horizonKey = const Value.absent(),
+                Value<String?> countdownMode = const Value.absent(),
+                Value<double?> locationLat = const Value.absent(),
+                Value<double?> locationLng = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => TasksCompanion(
                 id: id,
@@ -31619,6 +31922,11 @@ class $$TasksTableTableManager
                 isTemplate: isTemplate,
                 notifyMode: notifyMode,
                 status: status,
+                linkedItemId: linkedItemId,
+                horizonKey: horizonKey,
+                countdownMode: countdownMode,
+                locationLat: locationLat,
+                locationLng: locationLng,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -31655,6 +31963,11 @@ class $$TasksTableTableManager
                 Value<bool> isTemplate = const Value.absent(),
                 Value<String> notifyMode = const Value.absent(),
                 Value<String> status = const Value.absent(),
+                Value<String?> linkedItemId = const Value.absent(),
+                Value<String?> horizonKey = const Value.absent(),
+                Value<String?> countdownMode = const Value.absent(),
+                Value<double?> locationLat = const Value.absent(),
+                Value<double?> locationLng = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => TasksCompanion.insert(
                 id: id,
@@ -31689,6 +32002,11 @@ class $$TasksTableTableManager
                 isTemplate: isTemplate,
                 notifyMode: notifyMode,
                 status: status,
+                linkedItemId: linkedItemId,
+                horizonKey: horizonKey,
+                countdownMode: countdownMode,
+                locationLat: locationLat,
+                locationLng: locationLng,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -32962,6 +33280,7 @@ typedef $$ChecklistItemsTableCreateCompanionBuilder = ChecklistItemsCompanion Fu
   Value<String?> waitingOn,
   Value<int> priority,
   Value<String> notifyMode,
+  Value<int?> estimateMinutes,
   Value<int> rowid,
 });
 typedef $$ChecklistItemsTableUpdateCompanionBuilder = ChecklistItemsCompanion Function({
@@ -32989,6 +33308,7 @@ typedef $$ChecklistItemsTableUpdateCompanionBuilder = ChecklistItemsCompanion Fu
   Value<String?> waitingOn,
   Value<int> priority,
   Value<String> notifyMode,
+  Value<int?> estimateMinutes,
   Value<int> rowid,
 });
 
@@ -33068,6 +33388,9 @@ class $$ChecklistItemsTableFilterComposer extends Composer<_$AppDatabase, $Check
 
   ColumnFilters<String> get notifyMode =>
       $composableBuilder(column: $table.notifyMode, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get estimateMinutes =>
+      $composableBuilder(column: $table.estimateMinutes, builder: (column) => ColumnFilters(column));
 }
 
 class $$ChecklistItemsTableOrderingComposer extends Composer<_$AppDatabase, $ChecklistItemsTable> {
@@ -33147,6 +33470,9 @@ class $$ChecklistItemsTableOrderingComposer extends Composer<_$AppDatabase, $Che
 
   ColumnOrderings<String> get notifyMode =>
       $composableBuilder(column: $table.notifyMode, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get estimateMinutes =>
+      $composableBuilder(column: $table.estimateMinutes, builder: (column) => ColumnOrderings(column));
 }
 
 class $$ChecklistItemsTableAnnotationComposer extends Composer<_$AppDatabase, $ChecklistItemsTable> {
@@ -33210,6 +33536,9 @@ class $$ChecklistItemsTableAnnotationComposer extends Composer<_$AppDatabase, $C
   GeneratedColumn<int> get priority => $composableBuilder(column: $table.priority, builder: (column) => column);
 
   GeneratedColumn<String> get notifyMode => $composableBuilder(column: $table.notifyMode, builder: (column) => column);
+
+  GeneratedColumn<int> get estimateMinutes =>
+      $composableBuilder(column: $table.estimateMinutes, builder: (column) => column);
 }
 
 class $$ChecklistItemsTableTableManager
@@ -33261,6 +33590,7 @@ class $$ChecklistItemsTableTableManager
                 Value<String?> waitingOn = const Value.absent(),
                 Value<int> priority = const Value.absent(),
                 Value<String> notifyMode = const Value.absent(),
+                Value<int?> estimateMinutes = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ChecklistItemsCompanion(
                 id: id,
@@ -33287,6 +33617,7 @@ class $$ChecklistItemsTableTableManager
                 waitingOn: waitingOn,
                 priority: priority,
                 notifyMode: notifyMode,
+                estimateMinutes: estimateMinutes,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -33315,6 +33646,7 @@ class $$ChecklistItemsTableTableManager
                 Value<String?> waitingOn = const Value.absent(),
                 Value<int> priority = const Value.absent(),
                 Value<String> notifyMode = const Value.absent(),
+                Value<int?> estimateMinutes = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ChecklistItemsCompanion.insert(
                 id: id,
@@ -33341,6 +33673,7 @@ class $$ChecklistItemsTableTableManager
                 waitingOn: waitingOn,
                 priority: priority,
                 notifyMode: notifyMode,
+                estimateMinutes: estimateMinutes,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

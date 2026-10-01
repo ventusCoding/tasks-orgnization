@@ -39,6 +39,7 @@ import 'package:everslot/features/checklists/presentation/status_sheet.dart';
 import 'package:everslot/features/checklists/presentation/status_visuals.dart';
 import 'package:everslot/features/organization/application/providers.dart';
 import 'package:everslot/features/organization/presentation/tag_widgets.dart';
+import 'package:everslot/features/planner/application/planner_providers.dart' show itemTasksProvider;
 import 'package:everslot/shared/links/presentation/linked_entity_chip.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter/services.dart';
@@ -319,6 +320,7 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
       rollups: rollups,
       counts: counts,
       reminders: ref.watch(ownReminderTargetsProvider),
+      scheduled: ref.watch(itemTasksProvider.select((m) => m.value?.keys.toSet() ?? const <String>{})),
       settings: settings,
       state: state,
       now: now,
@@ -453,6 +455,7 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
       dueState: due == null ? null : ItemTimeRules.classifyDue(due, env.nowLocal),
       dimmed: _drag?.id == row.id,
       hasReminder: env.reminders.contains(row.id),
+      scheduled: env.scheduled.contains(row.id),
     );
     final cached = _rowCache[row.id];
     if (cached != null && cached.row == row && cached.ctx == ctx) return cached.widget;
@@ -808,6 +811,22 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
     final to = item.status == ItemStatus.completed ? ItemStatus.todo : ItemStatus.completed;
     final record = await _editor.toggleComplete(id, ask: (n) => askCompleteDescendants(context, n));
     if (record != null) _statusFeedback(to, record, snack: snack);
+    if (record != null && to == ItemStatus.completed) await _offerLinkedTasks(id);
+  }
+
+  /// T3.1.21: completing an item scheduled as a task offers to mark the task done.
+  Future<void> _offerLinkedTasks(String itemId) async {
+    final links = ref.read(checklistTaskLinksProvider);
+    final open = await links.tasksToCompleteAfterItem(itemId);
+    if (open.isEmpty || !mounted) return;
+    final l = context.l10n;
+    final accept = await confirmDialog(
+      context,
+      title: l.linkedCompleteTaskTitle,
+      body: l.linkedCompleteTaskBody(open.first.title),
+      confirmLabel: l.linkedCompleteAction,
+    );
+    if (accept) await links.completeTasks(open);
   }
 
   @override
@@ -1660,6 +1679,7 @@ class _RowEnv {
     required this.rollups,
     required this.counts,
     required this.reminders,
+    required this.scheduled,
     required this.settings,
     required this.state,
     required this.now,
@@ -1670,6 +1690,9 @@ class _RowEnv {
   final Map<String, Rollup> rollups;
   final Map<String, int> counts;
   final Set<String> reminders;
+
+  /// Items scheduled as planner tasks (T3.1.21).
+  final Set<String> scheduled;
   final ChecklistSettings settings;
   final EditorState state;
   final DateTime now;

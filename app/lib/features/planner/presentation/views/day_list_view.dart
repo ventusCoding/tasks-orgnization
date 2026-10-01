@@ -18,6 +18,7 @@ import 'package:everslot/features/planner/presentation/grid/grid_controller.dart
 import 'package:everslot/features/planner/presentation/grid/grid_style.dart';
 import 'package:everslot/features/planner/presentation/view_config/slot_size_sheet.dart';
 import 'package:everslot/features/planner/presentation/view_config/view_settings_sheet.dart';
+import 'package:everslot/features/planner/presentation/views/backlog_drawer.dart';
 import 'package:everslot/features/planner/presentation/views/day_ribbon.dart';
 import 'package:everslot/features/planner/presentation/views/mini_month.dart';
 import 'package:everslot/features/planner/presentation/views/plan_summary_views.dart';
@@ -77,6 +78,8 @@ class DayListView extends ConsumerStatefulWidget {
 }
 
 class _DayListViewState extends ConsumerState<DayListView> implements GridNavigator {
+  final _drawer = BacklogDrawerController();
+  final Map<LocalDate, GlobalKey> _pageKeys = {};
   static const _base = 100000;
   final _controller = PlannerGridController();
   late LocalDate _origin;
@@ -120,6 +123,7 @@ class _DayListViewState extends ConsumerState<DayListView> implements GridNaviga
       ..dispose();
     _pages.dispose();
     _scrollRequest.dispose();
+    _drawer.dispose();
     super.dispose();
   }
 
@@ -211,11 +215,13 @@ class _DayListViewState extends ConsumerState<DayListView> implements GridNaviga
             label: slotLabel(f, config.slotMinutes),
             onPressed: () => unawaited(showSlotSizeSheet(context, ref, viewKey: _key, timeGrid: false)),
           ),
+          if (MediaQuery.sizeOf(context).width >= 560) BacklogDrawerButton(controller: _drawer),
           PlannerFilterButton(viewKey: _key),
           PlannerMoreMenu(
             viewKey: _key,
             kind: ViewSettingsKind.dayList,
             extra: [
+              if (MediaQuery.sizeOf(context).width < 560) ('backlog', l.pvToggleBacklog, _drawer.toggle),
               (
                 'style',
                 config.option<String>('style', 'slots') == 'ribbon' ? l.pvSlotsStyle : l.pvRibbonStyle,
@@ -244,20 +250,28 @@ class _DayListViewState extends ConsumerState<DayListView> implements GridNaviga
             DateStrip(selected: _day, weekStart: prefs.weekStart, onSelect: (d) => unawaited(jumpToDate(d))),
             ActiveFilterBar(viewKey: _key),
             Expanded(
-              child: PageView.builder(
-                key: const Key('day-pages'),
-                controller: _pages,
-                onPageChanged: _onPage,
-                itemBuilder: (context, index) => DayListPage(
-                  key: ValueKey(_dayAt(index)),
-                  viewKey: _key,
-                  day: _dayAt(index),
-                  initialTopMinute: _topMinute,
-                  onTopMinute: (m) {
-                    _topMinute = m;
-                    ref.read(plannerScrollMinuteProvider.notifier).set(m);
-                  },
-                  scrollRequest: _scrollRequest,
+              child: BacklogDrawerHost(
+                viewKey: _key,
+                controller: _drawer,
+                visibleDays: [_day],
+                dropSource: () => _pageKeys[_day]?.currentState as DropSlotSource?,
+                child: PageView.builder(
+                  key: const Key('day-pages'),
+                  controller: _pages,
+                  onPageChanged: _onPage,
+                  itemBuilder: (context, index) => DayListPage(
+                    key: _pageKeys.putIfAbsent(_dayAt(index), GlobalKey.new),
+                    onDropOutside: (item, global) async =>
+                        _drawer.contains(global) && await unscheduleToDrawer(context, ref, item),
+                    viewKey: _key,
+                    day: _dayAt(index),
+                    initialTopMinute: _topMinute,
+                    onTopMinute: (m) {
+                      _topMinute = m;
+                      ref.read(plannerScrollMinuteProvider.notifier).set(m);
+                    },
+                    scrollRequest: _scrollRequest,
+                  ),
                 ),
               ),
             ),
@@ -433,8 +447,12 @@ class DayListPage extends ConsumerStatefulWidget {
     required this.onTopMinute,
     required this.scrollRequest,
     this.initialTopMinute,
+    this.onDropOutside,
     super.key,
   });
+
+  /// A move released outside the list (the backlog drawer, T3.7.02); true = handled there.
+  final Future<bool> Function(PlannerItem item, Offset global)? onDropOutside;
 
   final String viewKey;
   final LocalDate day;
@@ -446,7 +464,9 @@ class DayListPage extends ConsumerStatefulWidget {
   ConsumerState<DayListPage> createState() => _DayListPageState();
 }
 
-class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProviderStateMixin {
+class _DayListPageState extends ConsumerState<DayListPage>
+    with SingleTickerProviderStateMixin
+    implements DropSlotSource {
   final _scroll = ScrollController();
   final _listKey = GlobalKey();
   final Set<int> _expandedRuns = {};
@@ -692,13 +712,35 @@ class _DayListPageState extends ConsumerState<DayListPage> with SingleTickerProv
     }
   }
 
+  /// External drops (backlog drawer, T3.7.02): the row under [global], or the all-day section.
+  @override
+  ({LocalDateTime start, bool allDay})? dropSlotAt(Offset global) {
+    final box = _listBox;
+    if (box == null || !box.attached) return null;
+    final local = box.globalToLocal(global);
+    if (local.dx < 0 || local.dx > box.size.width) return null;
+    if (local.dy < 0) return (start: widget.day.atStartOfDay, allDay: true);
+    final row = _rowAtGlobal(global);
+    if (row == null || row < 0 || row >= _display.length) return null;
+    final (ta, _) = _rangeOf(_display[row]);
+    return (start: widget.day.atStartOfDay.plusMinutes(_wallOfT(ta)), allDay: false);
+  }
+
   Future<void> _endDrag() async {
     final d = _drag;
+    final outside = widget.onDropOutside;
+    if (d != null && d.item != null && d.moved && outside != null && await outside(d.item!, d.global)) {
+      _drag = null;
+      _ticker.stop();
+      _highlight.value = null;
+      if (mounted) setState(() {});
+      return;
+    }
     _drag = null;
     _ticker.stop();
     _highlight.value = null;
     if (mounted) setState(() {});
-    if (d == null) return;
+    if (d == null || !mounted) return;
     final commands = PlannerCommands(context, ref);
     final l = context.l10n;
     final f = context.plannerFormat(use24h: ref.read(userPreferencesProvider).use24h);

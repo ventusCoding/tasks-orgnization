@@ -101,4 +101,29 @@ void main() {
       );
     });
   }
+
+  // T3.3.26 / T3.4.19: cascade overlap style, extra time-zone rulers and week numbers.
+  testWidgets('week table cascade, two extra zones and week numbers', (tester) async {
+    await golden(
+      tester,
+      '30min_cascade_zones_weeks',
+      variant: lightLtr,
+      minute: 7 * 60,
+      config: (c) => c.copyWith(
+        overlapStyle: OverlapStyle.cascade,
+        extraTimeZones: ['America/New_York', 'Asia/Tokyo'],
+        showWeekNumbers: true,
+      ),
+    );
+  });
+
+  testWidgets('week table extra zones dark RTL', (tester) async {
+    await golden(
+      tester,
+      '30min_zones_dark_rtl',
+      variant: darkRtl,
+      minute: 7 * 60,
+      config: (c) => c.copyWith(extraTimeZones: ['Asia/Tokyo'], showWeekNumbers: true),
+    );
+  });
 }

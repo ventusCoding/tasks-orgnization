@@ -617,7 +617,7 @@
   "pvHorizonQuarter": "This quarter",
   "pvHorizonYear": "This year",
   "pvMoveTo": "Move to…",
-  "pvHorizonsHint": "Unscheduled intentions per horizon (stored on this device until horizons sync).",
+  "pvHorizonsHint": "Unscheduled intentions per horizon — drag them to another horizon or onto a day.",
   "pvDaysUntil": "{count, plural, =0{today} =1{in 1 day} other{in {count} days}}",
   "@pvDaysUntil": {
     "placeholders": {
@@ -639,7 +639,7 @@
   "pvPinned": "Pinned",
   "pvUpcoming": "Upcoming",
   "pvSinceGroup": "Since",
-  "pvMapPlaceholder": "The map needs task coordinates, which arrive with the place picker. Tasks with a place are listed below.",
+  "pvMapPlaceholder": "Give a task a place (task editor → find a place) to see it on the map.",
   "pvWithPlace": "Tasks with a place",
   "pvMoveUp": "Move up",
   "pvMoveDown": "Move down",
@@ -667,5 +667,76 @@
         "type": "String"
       }
     }
-  }
+  },
+  "pvLaneOther": "Other",
+  "pvShowAsTimeline": "Show as timeline rows",
+  "pvLanesHint": "Pick the categories shown side by side and their order.",
+  "pvExtendedSnack": "Extended by {minutes} min",
+  "@pvExtendedSnack": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "pvNothingNext": "Nothing else planned today",
+  "pvAddToBacklog": "Add to backlog",
+  "pvNoDeadline": "No deadline",
+  "pvGroupDeadline": "Deadline",
+  "pvNoEstimate": "No estimate",
+  "pvScheduledCount": "{count, plural, =1{1 item scheduled} other{{count} items scheduled}}",
+  "@pvScheduledCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pvQuotaSlots": "Targets to place",
+  "pvChecklistDue": "List items with a due date",
+  "pvToggleBacklog": "Backlog drawer",
+  "pvUnscheduledSnack": "Moved to the backlog",
+  "pvQuotaProgress": "{title} · {done}/{total} this period",
+  "@pvQuotaProgress": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "pvMakeGoal": "Make it a goal",
+  "pvGoalLinked": "Linked to a goal",
+  "pvAddCountdown": "Add a countdown",
+  "pvRemoveCountdown": "Remove from countdowns",
+  "pvCountdownUntil": "Count down to it",
+  "pvCountdownSince": "Count up since it",
+  "pvNoCountdowns": "No countdowns yet",
+  "pvCounterParts": "{days} d {hours} h {minutes} min",
+  "@pvCounterParts": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "pvMapAttribution": "© OpenStreetMap contributors",
+  "pvPickPlace": "Find a place",
+  "pvPlaceSearchHint": "Address or place name",
+  "pvPlaceTapHint": "Or tap the map to drop a pin.",
+  "pvPlaceNoResults": "No place found",
+  "pvUsePlace": "Use this place",
+  "pvClearPlace": "Remove the map pin",
+  "pvDroppedPin": "Dropped pin"
 }

@@ -126,6 +126,7 @@ List<FreeInterval> freeIntervals({
   required Iterable<LocalDate> days,
   required FreeSlotOptions options,
   ElapsedMinutes elapsed = wallMinutes,
+  LocalDateTime? notBefore,
 }) {
   final busy = [
     for (final i in items)
@@ -135,10 +136,10 @@ List<FreeInterval> freeIntervals({
   final out = <FreeInterval>[];
   for (final day in days) {
     if (!options.workDays.contains(day.weekday.iso)) continue;
-    final window = WallInterval(
-      day.atStartOfDay.plusMinutes(options.window.startMinute),
-      day.atStartOfDay.plusMinutes(options.window.endMinute),
-    );
+    var windowStart = day.atStartOfDay.plusMinutes(options.window.startMinute);
+    // Openings never start in the past (today's window begins at [notBefore]).
+    if (notBefore != null && notBefore.isAfter(windowStart)) windowStart = notBefore;
+    final window = WallInterval(windowStart, day.atStartOfDay.plusMinutes(options.window.endMinute));
     if (window.isEmpty) continue;
     for (final gap in subtractIntervals(window, busy)) {
       final minutes = elapsed(gap.start, gap.end);
@@ -165,4 +166,46 @@ List<LocalDateTime?> placeSequentially(List<FreeInterval> openings, List<int> du
         return null;
       }(),
   ];
+}
+
+/// *Schedule on…* (T3.7.03): places backlog items (their [durations], in order) one after another
+/// into the free slots of [day] — work hours only, around the busy [items], never before
+/// [notBefore]. Returns each item's start (null = didn't fit).
+List<LocalDateTime?> scheduleOnDay({
+  required LocalDate day,
+  required Iterable<PlannerItem> items,
+  required List<int> durations,
+  required FreeSlotOptions options,
+  LocalDateTime? notBefore,
+}) {
+  final openings = freeIntervals(
+    items: items,
+    days: [day],
+    options: FreeSlotOptions(
+      window: options.window,
+      workDays: {day.weekday.iso},
+      ignoreBelowPriority: options.ignoreBelowPriority,
+      minGapMinutes: 1,
+    ),
+    notBefore: notBefore,
+  );
+  return placeSequentially(openings, durations);
+}
+
+/// Availability as text (T3.7.04 *Copy availability*), one line per day in order:
+/// "Mon 22 Sep: 10:00–11:30, 14:00–16:00". Formatting is injected (locale, 12/24 h).
+String availabilityText(
+  List<FreeInterval> openings, {
+  required String Function(LocalDate day) formatDay,
+  required String Function(LocalDateTime time) formatTime,
+}) {
+  final byDay = <LocalDate, List<FreeInterval>>{};
+  for (final o in openings) {
+    byDay.putIfAbsent(o.day, () => []).add(o);
+  }
+  final days = byDay.keys.toList()..sort();
+  return [
+    for (final d in days)
+      '${formatDay(d)}: ${[for (final o in byDay[d]!) '${formatTime(o.start)}–${formatTime(o.end)}'].join(', ')}',
+  ].join('\n');
 }

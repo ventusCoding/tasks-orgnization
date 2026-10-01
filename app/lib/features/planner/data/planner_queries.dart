@@ -110,6 +110,36 @@ class PlannerQueries {
 
   Future<List<Task>> unscheduled() => watchUnscheduled().first;
 
+  /// Tasks with map coordinates (T3.7.13).
+  Stream<List<Task>> watchPlaceTasks() =>
+      (_tasks()..where((t) => t.locationLat.isNotNull() & t.locationLng.isNotNull() & t.isTemplate.equals(false)))
+          .watch()
+          .map((rows) => rows.map(PlannerMappers.task).toList());
+
+  /// Tasks shown in the countdown list (T3.7.12): `countdown_mode` set, not templates / archived.
+  Stream<List<Task>> watchCountdownTasks() =>
+      (_tasks()
+            ..where((t) => t.countdownMode.isNotNull() & t.isTemplate.equals(false) & t.status.isNotValue('archived'))
+            ..orderBy([(t) => OrderingTerm.asc(t.title), (t) => OrderingTerm.asc(t.id)]))
+          .watch()
+          .map((rows) => rows.map(PlannerMappers.task).toList());
+
+  /// Tasks scheduling a checklist item (T3.1.21), oldest first.
+  Stream<List<Task>> watchItemTasks() =>
+      (_tasks()
+            ..where((t) => t.linkedItemId.isNotNull() & t.isTemplate.equals(false))
+            ..orderBy([(t) => OrderingTerm.asc(t.createdAt), (t) => OrderingTerm.asc(t.id)]))
+          .watch()
+          .map((rows) => rows.map(PlannerMappers.task).toList());
+
+  Future<List<Task>> tasksForItem(String itemId) async =>
+      (await (_tasks()
+                ..where((t) => t.linkedItemId.equals(itemId) & t.isTemplate.equals(false))
+                ..orderBy([(t) => OrderingTerm.asc(t.createdAt)]))
+              .get())
+          .map(PlannerMappers.task)
+          .toList();
+
   /// Task templates (T3.1.20).
   Stream<List<Task>> watchTemplates() =>
       (_tasks()
@@ -299,6 +329,20 @@ class PlannerQueries {
     if (occurrenceKey != null) q.where((e) => e.occurrenceKey.equals(occurrenceKey));
     return q.watch().map((rows) => rows.map(PlannerMappers.timeEntry).toList());
   }
+
+  /// Time entries overlapping [fromUtc, toUtc) (plan vs actual, T3.7.06); running ones included.
+  Stream<List<TimeEntry>> watchEntriesBetween(DateTime fromUtc, DateTime toUtc) =>
+      (_db.select(_db.timeEntries)
+            ..where(
+              (e) =>
+                  e.deletedAt.isNull() &
+                  e.userId.equals(_userId()) &
+                  e.startedAt.isSmallerThanValue(toUtc) &
+                  (e.endedAt.isNull() | e.endedAt.isBiggerThanValue(fromUtc)),
+            )
+            ..orderBy([(e) => OrderingTerm.asc(e.startedAt)]))
+          .watch()
+          .map((rows) => rows.map(PlannerMappers.timeEntry).toList());
 
   /// Running timers (T3.2.19).
   Stream<List<TimeEntry>> watchRunningEntries() =>

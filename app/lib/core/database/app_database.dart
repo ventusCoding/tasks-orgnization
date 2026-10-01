@@ -68,7 +68,7 @@ class AppDatabase extends _$AppDatabase {
       driftDatabase(name: 'everslot', native: const DriftNativeOptions(shareAcrossIsolates: true));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -79,6 +79,17 @@ class AppDatabase extends _$AppDatabase {
       }
       for (final statement in searchIndexStatements) {
         await customStatement(statement);
+      }
+    },
+    onUpgrade: (m, from, to) async {
+      // v2: planner P2 columns (T3.1.21, T3.7.07, T3.7.11–T3.7.13).
+      if (from < 2) {
+        await m.addColumn(tasks, tasks.linkedItemId);
+        await m.addColumn(tasks, tasks.horizonKey);
+        await m.addColumn(tasks, tasks.countdownMode);
+        await m.addColumn(tasks, tasks.locationLat);
+        await m.addColumn(tasks, tasks.locationLng);
+        await m.addColumn(checklistItems, checklistItems.estimateMinutes);
       }
     },
     beforeOpen: (details) async {

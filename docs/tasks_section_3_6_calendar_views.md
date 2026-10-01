@@ -27,15 +27,15 @@ multi-week; quarter; ribbon (day & week); timeline/Gantt; category swimlanes; lo
 - [x] T3.6.06 — Week list view (stacked days)
 - [x] T3.6.07 — Month view
 - [x] T3.6.08 — Month semantic zoom & list-below mode
-- [ ] T3.6.09 — Agenda / schedule view
-- [ ] T3.6.10 — Year heatmap view
-- [ ] T3.6.11 — Multi-week view
-- [ ] T3.6.12 — Quarter view
-- [ ] T3.6.13 — Ribbon view (day & week)
-- [ ] T3.6.14 — Timeline / Gantt view
-- [ ] T3.6.15 — Category swimlanes
-- [ ] T3.6.16 — Load heatmap view
-- [ ] T3.6.17 — Calendar views test suite
+- [x] T3.6.09 — Agenda / schedule view
+- [x] T3.6.10 — Year heatmap view
+- [x] T3.6.11 — Multi-week view
+- [x] T3.6.12 — Quarter view
+- [x] T3.6.13 — Ribbon view (day & week)
+- [x] T3.6.14 — Timeline / Gantt view
+- [x] T3.6.15 — Category swimlanes
+- [x] T3.6.16 — Load heatmap view
+- [x] T3.6.17 — Calendar views test suite
 
 ## Tasks
 
@@ -124,6 +124,7 @@ Data loads in 2-week resolver ranges.
 **Acceptance criteria:** scrolling from today to 6 months ahead stays smooth with 5 000 occurrences;
 edits update rows in place.
 **Tests:** widget tests; perf scenario.
+**Notes:** `AgendaView`: the anchor day starts a forward region (sticky day headers, `PinnedHeaderSliver`) and earlier 2-week ranges grow upward from it (`CustomScrollView.center`; past headers scroll with their rows — no sticky there); both ends append ranges without moving the offset, empty stretches stop at a cap unless you scroll/overscroll into them. The title, DayTicker week and shared anchor follow the day at the top (header positions read on scroll). Options `showEmptyDays` / `showNotes` / `ticker`. Perf scenario: 5 000 occurrences over six months.
 
 ### T3.6.10 — Year heatmap view
 **Priority:** P1 · **Size:** M · **Depends on:** T3.6.01, [3.2], [6.2] (calendar heatmap)
@@ -131,6 +132,7 @@ edits update rows in place.
 items. Tap a day → Day list; long-press → create; navigate between years.
 **Data model:** view config `options.heatMetric`.
 **Tests:** unit tests for metric bins; goldens.
+**Notes:** `YearView`: 12 mini-months (3 / 4 / 6 per row by width) of heat cells (`heat_calendar.dart`, shared with quarter and the load heatmap); metric `options.heatMetric` = planned | completion | count, binned by `heatLevel` (pure `dayMetric` / `heatLevel` in `calendar_metrics.dart`, unit-tested); items count on their start date. Tap → Day list, long-press → quick create (all-day), month name → Month view (the ≥ 48 dp path: single cells are small by nature), swipe / arrows change year. Cell numbers are fixed-size (dense grid); every cell has a semantics label with its value. Goldens: calendar-views suite (T3.6.17).
 
 ### T3.6.11 — Multi-week view
 **Priority:** P2 · **Size:** M · **Depends on:** T3.6.07
@@ -138,18 +140,21 @@ items. Tap a day → Day list; long-press → create; navigate between years.
 number of weeks (BusyCal).
 **Data model:** view config `options.weeks`.
 **Tests:** widget tests.
+**Notes:** `MultiWeekView` reuses the month cell (`MonthDayCell`, now public; the 1st of a month and the first cell show "Oct 1"). Arrows / vertical swipes roll by one week; the week menu or a vertical two-finger pinch (one week per 30 % span change; spread = fewer) sets `options.weeks` (clamped 2–6). Density follows `options.monthMode`.
 
 ### T3.6.12 — Quarter view
 **Priority:** P2 · **Size:** S · **Depends on:** T3.6.07
 **Description:** Three months side by side (landscape/tablet) or stacked (phone), showing dots or bars per
 day (Fantastical).
 **Tests:** golden.
+**Notes:** `QuarterView`: calendar quarters (Jan/Apr/Jul/Oct), months side by side from 600 dp, stacked below; `options.monthMode` dots (default) or bars from the toolbar; tap → Day list, long-press → all-day quick create, month name → Month view. Title uses the locale's `yQQQ` ("Q3 2026"). Golden in the calendar-views suite (T3.6.17).
 
 ### T3.6.13 — Ribbon view (day & week)
 **Priority:** P2 · **Size:** M · **Depends on:** [3.5] (ribbon style)
 **Description:** A full *ribbon* view type: the day ribbon from [3.5], plus a week ribbon that compresses each
 day to its icons in order (Structured week view).
 **Tests:** goldens.
+**Notes:** `RibbonView` with `options.scope` = day | week (toolbar toggle). Day scope renders the day list's `DayRibbon` paged by day; week scope shows seven columns of icon bubbles (all-day as rounded squares first, then timed by start, connected by short lines; current item ringed). Tap an icon → task, long-press → tile menu, day header → that day's ribbon. Goldens in the calendar-views suite (T3.6.17).
 
 ### T3.6.14 — Timeline / Gantt view
 **Priority:** P2 · **Size:** L · **Depends on:** T3.6.01, [3.2]
@@ -161,6 +166,7 @@ day to its icons in order (Structured week view).
 Best for long multi-day tasks and series overviews (TickTick, Notion, ClickUp).
 **Data model:** view config `options.groupBy`, `options.scale`.
 **Tests:** widget tests; goldens.
+**Notes:** `TimelineView` on a pure layout (`gantt_layout.dart`: `GanttScale` hours 1 px/min · 2-day page, days 96 px/day · 3 weeks, weeks 140 px/week · 16 weeks, months 120 px/30 days · 12 months; greedy sub-lanes per row; snapping 15 min / 1 h / 1 day / 1 day). Rows by task (series id, by first start), category (category order, none last) or priority (urgent first); labels in a fixed start column synced with the rows. Drag a bar → move (scope dialog for recurring), drag its end edge → resize, tap → task, long-press → tile menu; a horizontal two-finger pinch steps the scale. All-day items are hidden at the hour scale. Goldens in the calendar-views suite (T3.6.17).
 
 ### T3.6.15 — Category swimlanes
 **Priority:** P2 · **Size:** M · **Depends on:** [3.3]
@@ -168,15 +174,18 @@ Best for long multi-day tasks and series overviews (TickTick, Notion, ClickUp).
 calendars in day view; in timeline mode, rows per category instead. The user picks the lanes and their order.
 **Data model:** view config `options.lanes` (category ids).
 **Tests:** goldens.
+**Notes:** `SwimlanesView` = `TimeGridView` with a swimlane `TileLayoutStrategy` (`engine/swimlanes.dart`: lanes × 12 units so 1–4 overlap columns stay whole; overlaps share their lane, the lane cap spills to "+N"), dashed lane dividers (overlay painter) and a legend aligned after the ruler (`timeRulerWidth`). Lanes = `options.lanes`, else every category in order (max 6), plus an "Other" lane. The menu picks / orders lanes and *Show as timeline rows* opens the timeline grouped by category (the timeline mode). `TimeGridView` gained `menuExtra` and `header` hooks. Goldens in the calendar-views suite (T3.6.17).
 
 ### T3.6.16 — Load heatmap view
 **Priority:** P2 · **Size:** M · **Depends on:** T3.6.01, [6.2] (punch card)
 **Description:** A 7×24 heatmap (weekday × hour) of planned or tracked minutes over the selected weeks, plus
 per-day tints like Timepage. Colors show load against capacity. Tapping a cell lists the items behind it.
 **Tests:** unit tests for the aggregation; goldens.
+**Notes:** `LoadHeatmapView` on `engine/load_matrix.dart` (pure: timed, non-cancelled / skipped items split at hour boundaries, clipped to the range; tracked metric spreads `trackedSeconds` over the planned interval). A cell's capacity is 60 min × weeks; levels by quarters of capacity, level 5 = over (danger color). Day tints below compare each day with the work-hours capacity (`planner.workHours`). `options.weeks` 1/2/4/8/12, `options.metric` planned | tracked. A custom 7 × 24 grid instead of `PunchCardChart` because the cells color against capacity, not the maximum. Goldens in the calendar-views suite (T3.6.17).
 
 ### T3.6.17 — Calendar views test suite
 **Priority:** P1 · **Size:** S · **Depends on:** T3.6.09
 **Description:** Goldens for each implemented view type (light/dark, RTL, text scale 2.0), plus an
 integration test proving that switching views keeps the anchor date and time.
 **Tests:** as described.
+**Notes:** `calendar_views_goldens_test.dart`: N-day, work week, week list, month, agenda, year, multi-week, quarter, ribbon (week), timeline, swimlanes and load heatmap × light LTR / dark RTL / text scale 2.0, plus the month densities and list-below, the day ribbon, timeline by category, year completion and quarter bars (47 images). The switching scenario (week table → N-day → month → agenda → timeline → week table) lives in `calendar_views_test.dart` and checks the anchor date and the shared scroll minute.

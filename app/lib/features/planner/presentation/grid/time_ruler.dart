@@ -286,3 +286,93 @@ class TimeRuler extends StatelessWidget {
 /// Formats a minute of day for another [zone] using [reference] (the day whose instants are used).
 String Function(int, int) zoneFormatter(DayTimeline reference, String Function(DateTime utc) formatUtc) =>
     (minute, repeat) => formatUtc(reference.instantAt(reference.tOfWall(minute, repeat: repeat)));
+
+/// Width of one extra time-zone ruler (T3.3.26).
+double zoneRulerWidth(TextScaler ts) => (ts.scale(10) * 3.4).clamp(34.0, 64.0);
+
+/// A labels-only ruler for another time zone (T3.3.26): the same instants as the main ruler,
+/// shown in [label]'s wall clock, with the zone's short name pinned at the top.
+class ZoneRuler extends StatelessWidget {
+  const ZoneRuler({
+    required this.vertical,
+    required this.axis,
+    required this.scale,
+    required this.width,
+    required this.formatMinute,
+    required this.style,
+    required this.cache,
+    required this.label,
+    required this.semanticsLabel,
+    super.key,
+  });
+
+  final ScrollController vertical;
+  final PageAxis axis;
+  final TimeScale scale;
+  final double width;
+  final String Function(int minute, int repeat) formatMinute;
+  final GridStyle style;
+  final LabelCache cache;
+  final String label;
+  final String semanticsLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = (Theme.of(context).textTheme.labelSmall ?? const TextStyle()).copyWith(
+      color: style.label.withValues(alpha: 0.75),
+      fontSize: 10,
+      fontFeatures: const [FontFeature.tabularFigures()],
+    );
+    final height = axis.height(scale.pxPerMinute);
+    return Semantics(
+      label: semanticsLabel,
+      child: ExcludeSemantics(
+        child: SizedBox(
+          width: width,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: ScrolledContent(
+                  vertical: vertical,
+                  contentHeight: height,
+                  child: RepaintBoundary(
+                    child: CustomPaint(
+                      size: Size(width, height),
+                      painter: TimeRulerPainter(
+                        axis: axis,
+                        scale: scale,
+                        formatMinute: formatMinute,
+                        textStyle: textStyle,
+                        style: style,
+                        textDirection: Directionality.of(context),
+                        cache: cache,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              PositionedDirectional(
+                top: 0,
+                start: 0,
+                end: 0,
+                child: ColoredBox(
+                  color: Theme.of(context).colorScheme.surface,
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.clip,
+                    textAlign: TextAlign.center,
+                    style: textStyle.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Short name of an IANA zone for ruler headers: the city part ("Asia/Tokyo" → "Tokyo").
+String zoneShortName(String zone) => zone.split('/').last.replaceAll('_', ' ');

@@ -25,6 +25,16 @@ DayLayout overlapStrategy(DaySlice slice, int laneCap, int minDuration) => layou
   minDuration: minDuration,
 );
 
+/// Cascade overlap style (T3.3.26): overlapping tiles are ×1.7 wider than their column share
+/// (capped at the full column) and step across the column so they partly overlap; later columns
+/// paint on top. Returns (left, width) as fractions of the day column.
+(double, double) cascadeFractions(int column, int span, int columns, {required bool rtl}) {
+  final width = math.min<double>(1, span / columns * 1.7);
+  final step = columns <= 1 ? 0.0 : (1 - width) / (columns - 1);
+  final left = column * step;
+  return (rtl ? 1 - left - width : left, width);
+}
+
 /// Per-day layout memo keyed by slice identity (unchanged days are never re-laid out).
 class ColumnLayoutCache {
   final Expando<(int, int, TileLayoutStrategy, DayLayout)> _memo = Expando();
@@ -103,6 +113,7 @@ class PageGeometry {
     required int laneCap,
     required ColumnLayoutCache layouts,
     TileLayoutStrategy strategy = overlapStrategy,
+    bool cascade = false,
   }) {
     final n = days.length;
     final colW = n == 0 ? width : width / n;
@@ -131,11 +142,13 @@ class PageGeometry {
         final top = axis.yOf(seg.wallStart, repeat: seg.repeatStart, ppm: ppm);
         var bottom = seg.tEnd == seg.tStart ? top : axis.yOf(seg.wallEnd, repeat: seg.repeatEnd, ppm: ppm, end: true);
         if (bottom < top + minTileHeight) bottom = top + minTileHeight;
-        final leftFrac = rtl ? (t.columns - t.column - t.span) / t.columns : t.column / t.columns;
+        final (leftFrac, widthFrac) = cascade && t.columns > 1
+            ? cascadeFractions(t.column, t.span, t.columns, rtl: rtl)
+            : (rtl ? (t.columns - t.column - t.span) / t.columns : t.column / t.columns, t.span / t.columns);
         final rect = Rect.fromLTWH(
           colX + leftFrac * colW + 1,
           top + 0.5,
-          math.max(2, t.span / t.columns * colW - 2),
+          math.max(2, widthFrac * colW - 2),
           bottom - top - 1,
         );
         tiles.add(TileGeom(segment: seg, dayIndex: i, rect: rect, variant: tileVariantFor(rect.width, rect.height)));

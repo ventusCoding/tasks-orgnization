@@ -375,5 +375,14 @@
   "checklistViewMindMap": "خريطة ذهنية",
   "mindMapExport": "تصدير كصورة",
   "mindMapHidden": "+{count}",
-  "exportZipBundle": "مشاركة كملف zip (مع الملفات)"
+  "exportZipBundle": "مشاركة كملف zip (مع الملفات)",
+  "itemScheduledAs": "مُجدول: {title}",
+  "itemScheduledBadge": "مُجدول كمهمة",
+  "linkedCompleteItemTitle": "إكمال عنصر القائمة أيضًا؟",
+  "linkedCompleteItemBody": "«{item}» مُجدول بهذه المهمة.",
+  "linkedCompleteTaskTitle": "وضع علامة منجزة على المهمة أيضًا؟",
+  "linkedCompleteTaskBody": "«{task}» تُجدول هذا العنصر.",
+  "linkedCompleteAction": "إكمال",
+  "itemStepDuration": "مدة الخطوة (الروتين)",
+  "itemNoStepDuration": "تتقاسم وقت المهمة"
 }

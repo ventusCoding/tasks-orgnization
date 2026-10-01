@@ -80,6 +80,12 @@ int laneCapFor(double columnWidth, int configured) {
   return configured;
 }
 
+/// Width of the hour ruler at the start of time-based grids (views align headers with it).
+double timeRulerWidth(TextScaler ts, {required bool use24h}) {
+  final font = ts.scale(11);
+  return (use24h ? font * 3.3 : font * 4.6).clamp(40.0, 88.0) + 6;
+}
+
 /// The time-grid engine widget (T3.3.11–T3.3.21) behind the week table, N-day, work week, swimlanes
 /// and plan-vs-actual views: infinite horizontal paging (week / day / free, any week start, RTL
 /// mirrored) over one shared vertical scroll, a pinned ruler, day headers and the all-day lane,
@@ -97,8 +103,13 @@ class TimeGrid extends ConsumerStatefulWidget {
     this.onRulerDoubleTap,
     this.showHeaderStats = true,
     this.fixedAnchor,
+    this.onDropOutside,
     super.key,
   });
+
+  /// A tile move released over another widget (the backlog drawer, T3.7.02): return true when
+  /// the drop was handled there (the grid then doesn't reschedule).
+  final Future<bool> Function(PlannerItem item, Offset global)? onDropOutside;
 
   /// Registry entry id or `saved:<id>`: keys the view config and the local view state.
   final String viewKey;
@@ -314,7 +325,9 @@ class _Pinch {
   Axis? lock;
 }
 
-class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixin implements GridNavigator {
+class TimeGridState extends ConsumerState<TimeGrid>
+    with TickerProviderStateMixin
+    implements GridNavigator, DropSlotSource {
   static const _dragOverlayKey = ValueKey('time-grid-drag-overlay');
 
   bool _ready = false;
@@ -723,7 +736,14 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
           // a fractional viewport makes PageView's page ↔ pixel round trips drift past its tolerance.
           final pagesWidth = math.max<double>(
             1,
-            (width - (renderer == GridRenderer.weekList ? 0.0 : _rulerWidth(ts, prefs.use24h))).floorToDouble(),
+            (width -
+                    (renderer == GridRenderer.weekList
+                        ? 0.0
+                        : _rulerWidth(ts, prefs.use24h) +
+                              (renderer == GridRenderer.timeline
+                                  ? config.extraTimeZones.length * zoneRulerWidth(ts)
+                                  : 0)))
+                .floorToDouble(),
           );
           final rulerWidth = renderer == GridRenderer.weekList ? 0.0 : width - pagesWidth;
           final pageWidth = pagesWidth * paging.viewportFraction;
@@ -903,10 +923,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     return first == null ? null : math.max(0, first - 60).toDouble();
   }
 
-  double _rulerWidth(TextScaler ts, bool use24h) {
-    final font = ts.scale(11);
-    return (use24h ? font * 3.3 : font * 4.6).clamp(40.0, 88.0) + 6;
-  }
+  double _rulerWidth(TextScaler ts, bool use24h) => timeRulerWidth(ts, use24h: use24h);
 
   double _headerHeight(TextScaler ts, PlannerViewConfig c) {
     var h = 6 + ts.scale(11) * 1.35 + 2 + 28;
@@ -966,11 +983,13 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
         semanticsLabel: l.pvSlotSize,
       );
     }
-    return TimeRuler(
+    final zones = f.config.extraTimeZones;
+    final zoneWidth = zoneRulerWidth(MediaQuery.textScalerOf(context));
+    final main = TimeRuler(
       vertical: _vertical,
       axis: f.axis,
       scale: f.scale,
-      width: f.metrics.rulerWidth,
+      width: f.metrics.rulerWidth - zones.length * zoneWidth,
       formatMinute: _formatMinute(f),
       style: f.style,
       now: _now,
@@ -981,6 +1000,28 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       gapLabel: l.pvClocksForward,
       onDoubleTap: widget.onRulerDoubleTap,
       semanticsLabel: l.pvSlotSize,
+    );
+    if (zones.isEmpty || timelines.isEmpty) return main;
+    // Extra zones (T3.3.26) convert the instants of the reference day (today when visible).
+    final reference = todayIndex >= 0 ? timelines[todayIndex] : timelines.first;
+    final resolver = ref.read(zoneResolverProvider);
+    return Row(
+      children: [
+        for (final z in zones)
+          ZoneRuler(
+            key: ValueKey('zone-ruler-$z'),
+            vertical: _vertical,
+            axis: f.axis,
+            scale: f.scale,
+            width: zoneWidth,
+            formatMinute: zoneFormatter(reference, (utc) => f.format.timeOf(resolver.toLocal(utc, z))),
+            style: f.style,
+            cache: _labels,
+            label: zoneShortName(z),
+            semanticsLabel: '${l.pvExtraZones}: ${zoneShortName(z)}',
+          ),
+        main,
+      ],
     );
   }
 
@@ -1216,6 +1257,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       f.metrics.rtl,
       laneCap,
       widget.tileLayout,
+      f.config.overlapStyle,
       ...page.days,
       for (final d in page.days) page.slices[d],
     ];
@@ -1231,6 +1273,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       laneCap: laneCap,
       layouts: _layouts,
       strategy: widget.tileLayout,
+      cascade: f.config.overlapStyle == OverlapStyle.cascade,
     );
     page
       ..timeline = geom
@@ -2356,7 +2399,42 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     }
   }
 
-  void _onLongPressEnd(LongPressEndDetails d) => unawaited(_endSession());
+  void _onLongPressEnd(LongPressEndDetails d) => unawaited(_endOrHandOff(d.globalPosition));
+
+  Future<void> _endOrHandOff(Offset global) async {
+    final s = _session;
+    final outside = widget.onDropOutside;
+    if (s != null && outside != null && s.kind == _SessionKind.move && s.item != null && s.moved) {
+      if (await outside(s.item!, global)) {
+        _clearSession();
+        return;
+      }
+    }
+    await _endSession();
+  }
+
+  /// Start of the slot under a global point and whether it is in the all-day lane (external drops
+  /// such as the backlog drawer, T3.7.02); null outside the days.
+  @override
+  ({LocalDateTime start, bool allDay})? dropSlotAt(Offset global) {
+    final box = _pagesBox;
+    final f = _frame;
+    if (box == null || f == null) return null;
+    final local = box.globalToLocal(global);
+    if (!(Offset.zero & box.size).contains(local)) return null;
+    final hit = _hitTest(local);
+    if (hit == null) return null;
+    if (hit.region == _Region.lane || hit.region == _Region.header) {
+      return (start: hit.day.atStartOfDay, allDay: true);
+    }
+    final slot = _slotAt(local);
+    if (slot == null) return null;
+    final snap = f.config.snapMinutes;
+    final wall = f.renderer == GridRenderer.timeline
+        ? ((f.axis.locate(hit.point.dy, f.ppm).wall / snap).round() * snap).clamp(0, 1439)
+        : slot.time.minuteOfDay;
+    return (start: hit.day.atStartOfDay.plusMinutes(wall), allDay: false);
+  }
 
   void _clearSession() {
     _edgeTicker?.stop();

@@ -11,6 +11,7 @@ import 'package:everslot/features/planner/presentation/grid/time_grid.dart';
 import 'package:everslot/features/planner/presentation/grid/timeline_page.dart';
 import 'package:everslot/features/planner/presentation/view_config/slot_size_sheet.dart';
 import 'package:everslot/features/planner/presentation/views/accessible_list.dart';
+import 'package:everslot/features/planner/presentation/views/backlog_drawer.dart';
 import 'package:everslot/features/planner/presentation/views/first_use_hints.dart';
 import 'package:everslot/features/planner/presentation/views/mini_month.dart';
 import 'package:everslot/features/planner/presentation/views/plan_summary_views.dart';
@@ -38,6 +39,8 @@ class TimeGridView extends ConsumerStatefulWidget {
     this.configTransform,
     this.tileLayout = overlapStrategy,
     this.overlays = const [],
+    this.menuExtra = const [],
+    this.header,
     super.key,
   });
 
@@ -46,18 +49,27 @@ class TimeGridView extends ConsumerStatefulWidget {
   final TileLayoutStrategy tileLayout;
   final List<OverlayPainterBuilder> overlays;
 
+  /// View-specific entries of the overflow menu (value, label, action).
+  final List<(String, String, VoidCallback)> menuExtra;
+
+  /// Built above the grid with the visible days (e.g. the swimlane legend).
+  final Widget Function(List<LocalDate> visibleDays)? header;
+
   @override
   ConsumerState<TimeGridView> createState() => _TimeGridViewState();
 }
 
 class _TimeGridViewState extends ConsumerState<TimeGridView> {
   final _grid = PlannerGridController();
+  final _gridKey = GlobalKey<TimeGridState>();
+  final _drawer = BacklogDrawerController();
 
   String get _key => widget.args.viewKey;
 
   @override
   void dispose() {
     _grid.dispose();
+    _drawer.dispose();
     super.dispose();
   }
 
@@ -113,7 +125,13 @@ class _TimeGridViewState extends ConsumerState<TimeGridView> {
         builder: (context, _) {
           final days = _grid.visibleDays;
           return DatePagedToolbar(
-            title: days.isEmpty ? '' : rangeTitle(locale, days.first, days.last),
+            title: days.isEmpty
+                ? ''
+                : [
+                    rangeTitle(locale, days.first, days.last),
+                    // T3.4.19: the week number of the first visible day.
+                    if (effective.showWeekNumbers) l.pvWeekNumber(days.first.weekOfYear(weekStart).week),
+                  ].join(' · '),
             onPrevious: () => unawaited(_grid.previous()),
             onNext: () => unawaited(_grid.next()),
             onToday: () => unawaited(_today()),
@@ -126,8 +144,16 @@ class _TimeGridViewState extends ConsumerState<TimeGridView> {
                 label: slotLabel(f, config.slotMinutes),
                 onPressed: () => unawaited(showSlotSizeSheet(context, ref, viewKey: _key)),
               ),
+              // The drawer toggle sits in the toolbar from 560 dp, in the menu on phones.
+              if (MediaQuery.sizeOf(context).width >= 560) BacklogDrawerButton(controller: _drawer),
               PlannerFilterButton(viewKey: _key),
-              PlannerMoreMenu(viewKey: _key),
+              PlannerMoreMenu(
+                viewKey: _key,
+                extra: [
+                  ...widget.menuExtra,
+                  if (MediaQuery.sizeOf(context).width < 560) ('backlog', l.pvToggleBacklog, _drawer.toggle),
+                ],
+              ),
             ],
           );
         },
@@ -136,32 +162,47 @@ class _TimeGridViewState extends ConsumerState<TimeGridView> {
         children: [
           ActiveFilterBar(viewKey: _key),
           if (!listMode) FirstUseHintCard(viewKey: _key, slotLabel: slotLabel(f, config.slotMinutes)),
+          if (!listMode && widget.header != null)
+            ListenableBuilder(listenable: _grid, builder: (context, _) => widget.header!(_grid.visibleDays)),
           Expanded(
             child: listMode
                 ? AccessibleRangeList(
                     controller: _grid,
                     start: (ref.read(plannerAnchorProvider) ?? widget.args.date ?? today).startOfWeek(weekStart),
                   )
-                : Stack(
-                    children: [
-                      Positioned.fill(
-                        child: TimeGrid(
-                          viewKey: _key,
-                          controller: _grid,
-                          initialDate: widget.args.date,
-                          configTransform: transform == null ? null : apply,
-                          tileLayout: widget.tileLayout,
-                          overlayPainters: widget.overlays,
-                          onRulerDoubleTap: () => unawaited(showSlotSizeSheet(context, ref, viewKey: _key)),
+                : ListenableBuilder(
+                    listenable: _grid,
+                    builder: (context, child) => BacklogDrawerHost(
+                      viewKey: _key,
+                      controller: _drawer,
+                      visibleDays: _grid.visibleDays,
+                      dropSource: () => _gridKey.currentState,
+                      child: child!,
+                    ),
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: TimeGrid(
+                            key: _gridKey,
+                            onDropOutside: (item, global) async =>
+                                _drawer.contains(global) && await unscheduleToDrawer(context, ref, item),
+                            viewKey: _key,
+                            controller: _grid,
+                            initialDate: widget.args.date,
+                            configTransform: transform == null ? null : apply,
+                            tileLayout: widget.tileLayout,
+                            overlayPainters: widget.overlays,
+                            onRulerDoubleTap: () => unawaited(showSlotSizeSheet(context, ref, viewKey: _key)),
+                          ),
                         ),
-                      ),
-                      Positioned.fill(
-                        child: ListenableBuilder(
-                          listenable: _grid,
-                          builder: (context, _) => EmptyRangeCard(days: _grid.visibleDays, onPlan: _newTask),
+                        Positioned.fill(
+                          child: ListenableBuilder(
+                            listenable: _grid,
+                            builder: (context, _) => EmptyRangeCard(days: _grid.visibleDays, onPlan: _newTask),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
           ),
         ],

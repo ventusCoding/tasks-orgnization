@@ -19,6 +19,11 @@ PlannerItem item(
   DateTime? startUtc,
   String? notes,
   String? location,
+  String? linkedChecklistId,
+  int? estimateMinutes,
+  LocalDateTime? deadline,
+  int? trackedSeconds,
+  String? sortKey,
 }) {
   final taskId = id ?? 'task-${_seq++}';
   final su = startUtc ?? start.toDateTimeUtc();
@@ -40,6 +45,11 @@ PlannerItem item(
     isRecurring: recurring,
     notes: notes,
     location: location,
+    linkedChecklistId: linkedChecklistId,
+    estimateMinutes: estimateMinutes,
+    deadlineLocal: deadline,
+    trackedSeconds: trackedSeconds,
+    manualSortKey: sortKey,
   );
 }
 

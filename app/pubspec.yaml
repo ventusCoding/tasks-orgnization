@@ -89,6 +89,10 @@ dependencies:
   fc_native_video_thumbnail: ^3.0.1
   record: ^7.1.1
   cunning_document_scanner: ^3.0.3
+  wakelock_plus: ^1.8.0
+  flutter_map: ^8.3.2
+  latlong2: ^0.10.1
+  geocoding: ^5.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

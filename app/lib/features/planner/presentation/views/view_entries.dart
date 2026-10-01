@@ -1,9 +1,29 @@
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
+import 'package:everslot/features/planner/presentation/views/agenda_view.dart';
+import 'package:everslot/features/planner/presentation/views/backlog_view.dart';
+import 'package:everslot/features/planner/presentation/views/countdown_view.dart';
 import 'package:everslot/features/planner/presentation/views/day_list_view.dart';
+import 'package:everslot/features/planner/presentation/views/focus_view.dart';
+import 'package:everslot/features/planner/presentation/views/free_slots_view.dart';
+import 'package:everslot/features/planner/presentation/views/horizons_view.dart';
+import 'package:everslot/features/planner/presentation/views/kanban_view.dart';
+import 'package:everslot/features/planner/presentation/views/load_heatmap_view.dart';
+import 'package:everslot/features/planner/presentation/views/map_view.dart';
+import 'package:everslot/features/planner/presentation/views/matrix_view.dart';
 import 'package:everslot/features/planner/presentation/views/month_view.dart';
+import 'package:everslot/features/planner/presentation/views/multi_week_view.dart';
+import 'package:everslot/features/planner/presentation/views/plan_actual_view.dart';
+import 'package:everslot/features/planner/presentation/views/quarter_view.dart';
+import 'package:everslot/features/planner/presentation/views/radial_view.dart';
+import 'package:everslot/features/planner/presentation/views/ribbon_view.dart';
+import 'package:everslot/features/planner/presentation/views/routine_view.dart';
+import 'package:everslot/features/planner/presentation/views/swimlanes_view.dart';
+import 'package:everslot/features/planner/presentation/views/table_view.dart';
 import 'package:everslot/features/planner/presentation/views/time_grid_view.dart';
+import 'package:everslot/features/planner/presentation/views/timeline_view.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
 import 'package:everslot/features/planner/presentation/views/week_list_view.dart';
+import 'package:everslot/features/planner/presentation/views/year_view.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Every planner view (T3.6.01). Adding a view = one entry here; P2 views ship dark (tier m3).
@@ -65,5 +85,181 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     label: (l) => l.pvViewMonth,
     builder: (a) => MonthView(args: a),
     supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'agenda',
+    type: PlannerViewType.agenda,
+    icon: Icons.view_list_outlined,
+    label: (l) => l.pvViewAgenda,
+    builder: (a) => AgendaView(args: a),
+  ),
+  PlannerViewEntry(
+    id: 'year',
+    type: PlannerViewType.year,
+    icon: Icons.grid_view_outlined,
+    label: (l) => l.pvViewYear,
+    builder: (a) => YearView(args: a),
+  ),
+  PlannerViewEntry(
+    id: 'multi_week',
+    type: PlannerViewType.multiWeek,
+    icon: Icons.calendar_view_month,
+    label: (l) => l.pvViewMultiWeek,
+    builder: (a) => MultiWeekView(args: a),
+    tier: ViewTier.m3,
+    supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'quarter',
+    type: PlannerViewType.quarter,
+    icon: Icons.view_module_outlined,
+    label: (l) => l.pvViewQuarter,
+    builder: (a) => QuarterView(args: a),
+    tier: ViewTier.m3,
+  ),
+  PlannerViewEntry(
+    id: 'ribbon',
+    type: PlannerViewType.ribbon,
+    icon: Icons.linear_scale,
+    label: (l) => l.pvViewRibbon,
+    builder: (a) => RibbonView(args: a),
+    tier: ViewTier.m3,
+    timeBased: true,
+  ),
+  PlannerViewEntry(
+    id: 'timeline',
+    type: PlannerViewType.timeline,
+    icon: Icons.view_timeline_outlined,
+    label: (l) => l.pvViewTimeline,
+    builder: (a) => TimelineView(args: a),
+    tier: ViewTier.m3,
+    timeBased: true,
+    supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'swimlanes',
+    type: PlannerViewType.swimlanes,
+    icon: Icons.view_week,
+    label: (l) => l.pvViewSwimlanes,
+    builder: (a) => SwimlanesView(args: a),
+    tier: ViewTier.m3,
+    timeBased: true,
+    supportsSlotSize: true,
+    supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'load_heatmap',
+    type: PlannerViewType.loadHeatmap,
+    icon: Icons.grid_on,
+    label: (l) => l.pvViewLoadHeatmap,
+    builder: (a) => LoadHeatmapView(args: a),
+    tier: ViewTier.m3,
+  ),
+  PlannerViewEntry(
+    id: 'focus',
+    type: PlannerViewType.focus,
+    icon: Icons.center_focus_strong_outlined,
+    label: (l) => l.pvViewFocus,
+    builder: (a) => FocusView(args: a),
+    group: PlannerViewGroup.productivity,
+  ),
+  PlannerViewEntry(
+    id: 'free_slots',
+    type: PlannerViewType.freeSlots,
+    icon: Icons.event_available_outlined,
+    label: (l) => l.pvViewFreeSlots,
+    builder: (a) => FreeSlotsView(args: a),
+    group: PlannerViewGroup.productivity,
+  ),
+  PlannerViewEntry(
+    id: 'backlog',
+    type: PlannerViewType.backlog,
+    icon: Icons.inbox_outlined,
+    label: (l) => l.pvViewBacklog,
+    builder: (a) => BacklogView(args: a),
+    group: PlannerViewGroup.productivity,
+  ),
+  PlannerViewEntry(
+    id: 'table',
+    type: PlannerViewType.table,
+    icon: Icons.table_rows_outlined,
+    label: (l) => l.pvViewTable,
+    builder: (a) => PlannerTableView(args: a),
+    group: PlannerViewGroup.productivity,
+  ),
+  PlannerViewEntry(
+    id: 'plan_vs_actual',
+    type: PlannerViewType.planVsActual,
+    icon: Icons.compare_arrows,
+    label: (l) => l.pvViewPlanVsActual,
+    builder: (a) => PlanVsActualView(args: a),
+    group: PlannerViewGroup.productivity,
+    timeBased: true,
+  ),
+  PlannerViewEntry(
+    id: 'routine',
+    type: PlannerViewType.routine,
+    icon: Icons.playlist_play,
+    label: (l) => l.pvViewRoutine,
+    builder: (a) => RoutineView(args: a),
+    group: PlannerViewGroup.productivity,
+    tier: ViewTier.m3,
+  ),
+  PlannerViewEntry(
+    id: 'kanban',
+    type: PlannerViewType.kanban,
+    icon: Icons.view_kanban_outlined,
+    label: (l) => l.pvViewKanban,
+    builder: (a) => KanbanView(args: a),
+    group: PlannerViewGroup.productivity,
+    tier: ViewTier.m3,
+    supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'matrix',
+    type: PlannerViewType.matrix,
+    icon: Icons.grid_view,
+    label: (l) => l.pvViewMatrix,
+    builder: (a) => MatrixView(args: a),
+    group: PlannerViewGroup.productivity,
+    tier: ViewTier.m3,
+    supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'radial',
+    type: PlannerViewType.radial,
+    icon: Icons.donut_large,
+    label: (l) => l.pvViewRadial,
+    builder: (a) => RadialView(args: a),
+    group: PlannerViewGroup.productivity,
+    tier: ViewTier.m3,
+    timeBased: true,
+  ),
+  PlannerViewEntry(
+    id: 'horizons',
+    type: PlannerViewType.horizons,
+    icon: Icons.landscape_outlined,
+    label: (l) => l.pvViewHorizons,
+    builder: (a) => HorizonsView(args: a),
+    group: PlannerViewGroup.productivity,
+    tier: ViewTier.m3,
+  ),
+  PlannerViewEntry(
+    id: 'countdown',
+    type: PlannerViewType.countdown,
+    icon: Icons.hourglass_bottom,
+    label: (l) => l.pvViewCountdown,
+    builder: (a) => CountdownView(args: a),
+    group: PlannerViewGroup.productivity,
+    tier: ViewTier.m3,
+  ),
+  PlannerViewEntry(
+    id: 'map',
+    type: PlannerViewType.map,
+    icon: Icons.map_outlined,
+    label: (l) => l.pvViewMap,
+    builder: (a) => MapView(args: a),
+    group: PlannerViewGroup.productivity,
+    tier: ViewTier.m3,
   ),
 ];

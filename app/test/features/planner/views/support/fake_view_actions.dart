@@ -7,6 +7,22 @@ class FakeViewActions implements PlannerViewActions {
   final calls = <String>[];
 
   @override
+  Future<String?> createBacklog(String title) async {
+    calls.add('createBacklog $title');
+    return 'new';
+  }
+
+  @override
+  Future<void> editFields(PlannerItem item, BacklogEdit edit, {EditScope scope = EditScope.allOccurrences}) async =>
+      calls.add('fields ${item.title} title=${edit.title} prio=${edit.priority} cat=${edit.categoryId} ${scope.name}');
+
+  @override
+  Future<void> editBacklog(PlannerItem item, BacklogEdit edit) async => calls.add(
+    'edit ${item.title} est=${edit.estimateMinutes} prio=${edit.priority} '
+    'deadline=${edit.deadline?.toIso()} cat=${edit.categoryId}',
+  );
+
+  @override
   Future<String?> paste(PlannerItem item, LocalDateTime start) async {
     calls.add('paste ${item.title} ${start.toIso()}');
     return 'pasted';
@@ -23,14 +39,15 @@ class FakeViewActions implements PlannerViewActions {
       calls.add('reorder ${item.title} after=$afterKey before=$beforeKey');
 
   @override
-  Future<void> unschedule(PlannerItem item) async {}
+  Future<void> unschedule(PlannerItem item, {String source = 'menu'}) async =>
+      calls.add('unschedule ${item.title} $source');
 
   @override
-  Future<void> startTimer(PlannerItem item) async {}
+  Future<void> startTimer(PlannerItem item) async => calls.add('start ${item.title}');
 
   @override
-  Future<void> pauseTimer(PlannerItem item) async {}
+  Future<void> pauseTimer(PlannerItem item) async => calls.add('pause ${item.title}');
 
   @override
-  Future<void> stopTimer(PlannerItem item) async {}
+  Future<void> stopTimer(PlannerItem item) async => calls.add('stop ${item.title}');
 }

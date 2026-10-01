@@ -111,6 +111,26 @@ final backlogTasksProvider = StreamProvider.autoDispose<List<Task>>(
   (ref) => ref.watch(plannerQueriesProvider).watchUnscheduled(),
 );
 
+/// Checklist item id → the first task scheduling it (T3.1.21: "scheduled" badges).
+final itemTasksProvider = StreamProvider.autoDispose<Map<String, Task>>(
+  (ref) => ref.watch(plannerQueriesProvider).watchItemTasks().map((tasks) {
+    final byItem = <String, Task>{};
+    for (final t in tasks) {
+      byItem.putIfAbsent(t.linkedItemId!, () => t);
+    }
+    return byItem;
+  }),
+);
+
+/// Time entries overlapping a range of local days in the device zone (plan vs actual, T3.7.06).
+final rangeTimeEntriesProvider = StreamProvider.autoDispose.family<List<TimeEntry>, DayRange>((ref, range) {
+  final zones = ref.watch(zoneResolverProvider);
+  final zone = ref.watch(deviceZoneProvider);
+  final from = zones.resolve(range.start.atStartOfDay, zone).utc;
+  final to = zones.resolve(range.endExclusive.atStartOfDay, zone).utc;
+  return ref.watch(plannerQueriesProvider).watchEntriesBetween(from, to);
+});
+
 final linkedChecklistsProvider = StreamProvider.autoDispose<List<LinkedChecklistInfo>>(
   (ref) => ref.watch(plannerQueriesProvider).watchChecklists(),
 );

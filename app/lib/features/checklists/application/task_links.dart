@@ -1,5 +1,7 @@
 import 'package:everslot/core/providers.dart';
+import 'package:everslot/features/checklists/application/providers.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
+import 'package:everslot/features/checklists/domain/item_status.dart';
 import 'package:everslot/features/planner/application/planner_contract.dart';
 import 'package:everslot/features/planner/application/planner_service.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
@@ -49,6 +51,56 @@ class ChecklistTaskLinks {
       _ref.read(plannerServiceProvider).linkChecklist(taskId, checklistId);
 
   Future<void> unlink(String taskId) => _ref.read(plannerServiceProvider).linkChecklist(taskId, null);
+
+  /// *Schedule as task* for one item (T3.1.21): an unscheduled task titled like the item and linked
+  /// to it (`tasks.linked_item_id`). Returns the new task id.
+  Future<String> scheduleItem(ChecklistItem item, {required String fallbackTitle}) async {
+    final text = item.text.trim().split('\n').first.trim();
+    final result = await _ref
+        .read(plannerServiceProvider)
+        .scheduleChecklistItem(item.id, title: text.isEmpty ? fallbackTitle : text);
+    return result.taskId;
+  }
+
+  // Bidirectional completion prompts (T3.1.21) ------------------------------------------------
+
+  /// After an occurrence of [taskId] was marked done: its linked item when it is still open
+  /// (the caller offers to complete it), else null.
+  Future<ChecklistItem?> itemToCompleteAfterTask(String taskId) async {
+    final task = await _ref.read(plannerServiceProvider).task(taskId);
+    final itemId = task?.linkedItemId;
+    if (itemId == null) return null;
+    final item = await _ref.read(checklistItemsRepositoryProvider).liveById(itemId);
+    return item != null && item.status.isOpen ? item : null;
+  }
+
+  /// After item [itemId] was completed: open occurrences of the one-off tasks scheduling it (the
+  /// caller offers to mark them done). Recurring and unscheduled tasks are never offered.
+  Future<List<PlannerItem>> tasksToCompleteAfterItem(String itemId) async {
+    final planner = _ref.read(plannerServiceProvider);
+    final result = <PlannerItem>[];
+    for (final t in await planner.tasksForItem(itemId)) {
+      final start = t.startLocal;
+      if (t.isRecurring || start == null) continue;
+      for (final o in await planner.openItemsOfDay(start.date)) {
+        if (o.taskId == t.id && o.isOpen) result.add(o);
+      }
+    }
+    return result;
+  }
+
+  /// Completes [item] (accepted prompt): one status change, cause `linked`.
+  Future<void> completeItem(ChecklistItem item) async => _ref
+      .read(checklistServiceProvider)
+      .changeStatus(item.checklistId, [item.id], ItemStatus.completed, setNote: false, cause: 'linked');
+
+  /// Marks the offered occurrences done (accepted prompt).
+  Future<void> completeTasks(List<PlannerItem> items) async {
+    final planner = _ref.read(plannerServiceProvider);
+    for (final i in items) {
+      await planner.setStatus(i, OccurrenceStatus.done);
+    }
+  }
 }
 
 final checklistTaskLinksProvider = Provider<ChecklistTaskLinks>(ChecklistTaskLinks.new);

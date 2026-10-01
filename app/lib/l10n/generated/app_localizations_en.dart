@@ -4673,6 +4673,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get itemNoDue => 'No due date';
 
   @override
+  String get itemNoStepDuration => 'Shares the task’s time';
+
+  @override
   String get itemNote => 'Note';
 
   @override
@@ -4680,6 +4683,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get itemPriority => 'Priority';
+
+  @override
+  String itemScheduledAs(String title) {
+    return 'Scheduled: $title';
+  }
+
+  @override
+  String get itemScheduledBadge => 'Scheduled as a task';
+
+  @override
+  String get itemStepDuration => 'Step duration (routines)';
 
   @override
   String get itemText => 'Text';
@@ -4791,6 +4805,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get linkKindTask => 'Task';
+
+  @override
+  String get linkedCompleteAction => 'Complete';
+
+  @override
+  String linkedCompleteItemBody(String item) {
+    return '“$item” is scheduled by this task.';
+  }
+
+  @override
+  String get linkedCompleteItemTitle => 'Complete the list item too?';
+
+  @override
+  String linkedCompleteTaskBody(String task) {
+    return '“$task” schedules this item.';
+  }
+
+  @override
+  String get linkedCompleteTaskTitle => 'Mark the task done too?';
 
   @override
   String get linkedEntityMissing => 'Deleted';
@@ -6808,7 +6841,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvActualColumn => 'Actual';
 
   @override
+  String get pvAddCountdown => 'Add a countdown';
+
+  @override
   String get pvAddTask => 'Add task';
+
+  @override
+  String get pvAddToBacklog => 'Add to backlog';
 
   @override
   String get pvAddZone => 'Add time zone';
@@ -6844,7 +6883,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvCategories => 'Categories';
 
   @override
+  String get pvChecklistDue => 'List items with a due date';
+
+  @override
   String get pvClearFilters => 'Clear';
+
+  @override
+  String get pvClearPlace => 'Remove the map pin';
 
   @override
   String get pvClearSelection => 'Clear selection';
@@ -6923,6 +6968,17 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String pvCopySuffix(String name) {
     return '$name (copy)';
+  }
+
+  @override
+  String get pvCountdownSince => 'Count up since it';
+
+  @override
+  String get pvCountdownUntil => 'Count down to it';
+
+  @override
+  String pvCounterParts(int days, int hours, int minutes) {
+    return '$days d $hours h $minutes min';
   }
 
   @override
@@ -7022,6 +7078,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvDropNotSupported => 'This grouping can\'t be changed by dragging yet';
 
   @override
+  String get pvDroppedPin => 'Dropped pin';
+
+  @override
   String get pvDuplicateView => 'Duplicate view';
 
   @override
@@ -7055,6 +7114,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String pvExtendBy(int minutes) {
     return '+$minutes min';
+  }
+
+  @override
+  String pvExtendedSnack(int minutes) {
+    return 'Extended by $minutes min';
   }
 
   @override
@@ -7095,6 +7159,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvFrom => 'From';
 
   @override
+  String get pvGoalLinked => 'Linked to a goal';
+
+  @override
   String get pvGotIt => 'Got it';
 
   @override
@@ -7108,6 +7175,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvGroupDay => 'Day';
+
+  @override
+  String get pvGroupDeadline => 'Deadline';
 
   @override
   String get pvGroupNone => 'None';
@@ -7162,7 +7232,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvHorizonYear => 'This year';
 
   @override
-  String get pvHorizonsHint => 'Unscheduled intentions per horizon (stored on this device until horizons sync).';
+  String get pvHorizonsHint => 'Unscheduled intentions per horizon — drag them to another horizon or onto a day.';
 
   @override
   String get pvIgnoreLowPriority => 'Ignore low-priority tasks';
@@ -7194,7 +7264,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvLaneCap => 'Side-by-side lanes';
 
   @override
+  String get pvLaneOther => 'Other';
+
+  @override
   String get pvLanes => 'Lanes';
+
+  @override
+  String get pvLanesHint => 'Pick the categories shown side by side and their order.';
 
   @override
   String pvLastRowShort(String duration) {
@@ -7217,8 +7293,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvLoadThresholds => 'Load tint (busy · over)';
 
   @override
-  String get pvMapPlaceholder =>
-      'The map needs task coordinates, which arrive with the place picker. Tasks with a place are listed below.';
+  String get pvMakeGoal => 'Make it a goal';
+
+  @override
+  String get pvMapAttribution => '© OpenStreetMap contributors';
+
+  @override
+  String get pvMapPlaceholder => 'Give a task a place (task editor → find a place) to see it on the map.';
 
   @override
   String get pvMarkDone => 'Mark done';
@@ -7331,6 +7412,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvNoCategory => 'No category';
 
   @override
+  String get pvNoCountdowns => 'No countdowns yet';
+
+  @override
+  String get pvNoDeadline => 'No deadline';
+
+  @override
+  String get pvNoEstimate => 'No estimate';
+
+  @override
   String get pvNoOpenings => 'No free time found';
 
   @override
@@ -7352,6 +7442,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvNoTasks => 'No tasks';
+
+  @override
+  String get pvNothingNext => 'Nothing else planned today';
 
   @override
   String get pvNothingNow => 'Nothing scheduled right now';
@@ -7425,6 +7518,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvPickDate => 'Pick a date';
 
   @override
+  String get pvPickPlace => 'Find a place';
+
+  @override
   String get pvPin => 'Pin';
 
   @override
@@ -7434,6 +7530,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String pvPixels(String value) {
     return '$value px';
   }
+
+  @override
+  String get pvPlaceNoResults => 'No place found';
+
+  @override
+  String get pvPlaceSearchHint => 'Address or place name';
+
+  @override
+  String get pvPlaceTapHint => 'Or tap the map to drop a pin.';
 
   @override
   String get pvPlanColumn => 'Plan';
@@ -7490,6 +7595,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvQuickCreateTitle => 'New task';
 
   @override
+  String pvQuotaProgress(String title, int done, int total) {
+    return '$title · $done/$total this period';
+  }
+
+  @override
+  String get pvQuotaSlots => 'Targets to place';
+
+  @override
   String get pvRadial12 => '12 h';
 
   @override
@@ -7500,6 +7613,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvRecurring => 'Recurring';
+
+  @override
+  String get pvRemoveCountdown => 'Remove from countdowns';
 
   @override
   String get pvRenameView => 'Rename view';
@@ -7597,6 +7713,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvScheduleOn => 'Schedule on…';
 
   @override
+  String pvScheduledCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items scheduled',
+      one: '1 item scheduled',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get pvScheduledSnack => 'Scheduled';
 
   @override
@@ -7630,6 +7757,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvShareAvailability => 'Share availability';
+
+  @override
+  String get pvShowAsTimeline => 'Show as timeline rows';
 
   @override
   String get pvShowCancelled => 'Show cancelled';
@@ -7752,6 +7882,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvTo => 'To';
 
   @override
+  String get pvToggleBacklog => 'Backlog drawer';
+
+  @override
   String get pvTopCategories => 'Top categories';
 
   @override
@@ -7779,6 +7912,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvUnscheduled => 'Unscheduled';
 
   @override
+  String get pvUnscheduledSnack => 'Moved to the backlog';
+
+  @override
   String get pvUntimed => 'Untimed';
 
   @override
@@ -7794,6 +7930,9 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get pvUsePlace => 'Use this place';
 
   @override
   String get pvVarianceLate => 'Started late';

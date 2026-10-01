@@ -4724,6 +4724,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get itemNoDue => 'Pas d\'échéance';
 
   @override
+  String get itemNoStepDuration => 'Partage le temps de la tâche';
+
+  @override
   String get itemNote => 'Note';
 
   @override
@@ -4731,6 +4734,17 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get itemPriority => 'Priorité';
+
+  @override
+  String itemScheduledAs(String title) {
+    return 'Planifié : $title';
+  }
+
+  @override
+  String get itemScheduledBadge => 'Planifié comme tâche';
+
+  @override
+  String get itemStepDuration => 'Durée de l’étape (routines)';
 
   @override
   String get itemText => 'Texte';
@@ -4847,6 +4861,25 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get linkKindTask => 'Tâche';
+
+  @override
+  String get linkedCompleteAction => 'Terminer';
+
+  @override
+  String linkedCompleteItemBody(String item) {
+    return '« $item » est planifié par cette tâche.';
+  }
+
+  @override
+  String get linkedCompleteItemTitle => 'Terminer aussi l’élément de liste ?';
+
+  @override
+  String linkedCompleteTaskBody(String task) {
+    return '« $task » planifie cet élément.';
+  }
+
+  @override
+  String get linkedCompleteTaskTitle => 'Marquer aussi la tâche comme faite ?';
 
   @override
   String get linkedEntityMissing => 'Supprimé';
@@ -7007,7 +7040,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvActualColumn => 'Réel';
 
   @override
+  String get pvAddCountdown => 'Ajouter un compte à rebours';
+
+  @override
   String get pvAddTask => 'Ajouter une tâche';
+
+  @override
+  String get pvAddToBacklog => 'Ajouter au backlog';
 
   @override
   String get pvAddZone => 'Ajouter un fuseau horaire';
@@ -7043,7 +7082,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvCategories => 'Catégories';
 
   @override
+  String get pvChecklistDue => 'Éléments de liste avec échéance';
+
+  @override
   String get pvClearFilters => 'Effacer';
+
+  @override
+  String get pvClearPlace => 'Retirer l’épingle';
 
   @override
   String get pvClearSelection => 'Effacer la sélection';
@@ -7122,6 +7167,17 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String pvCopySuffix(String name) {
     return '$name (copie)';
+  }
+
+  @override
+  String get pvCountdownSince => 'Compter depuis';
+
+  @override
+  String get pvCountdownUntil => 'Décompter jusqu’à';
+
+  @override
+  String pvCounterParts(int days, int hours, int minutes) {
+    return '$days j $hours h $minutes min';
   }
 
   @override
@@ -7221,6 +7277,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvDropNotSupported => 'Ce regroupement ne peut pas encore être modifié par glisser-déposer';
 
   @override
+  String get pvDroppedPin => 'Épingle';
+
+  @override
   String get pvDuplicateView => 'Dupliquer la vue';
 
   @override
@@ -7254,6 +7313,11 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String pvExtendBy(int minutes) {
     return '+$minutes min';
+  }
+
+  @override
+  String pvExtendedSnack(int minutes) {
+    return 'Prolongé de $minutes min';
   }
 
   @override
@@ -7294,6 +7358,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvFrom => 'De';
 
   @override
+  String get pvGoalLinked => 'Lié à un objectif';
+
+  @override
   String get pvGotIt => 'Compris';
 
   @override
@@ -7307,6 +7374,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvGroupDay => 'Jour';
+
+  @override
+  String get pvGroupDeadline => 'Échéance';
 
   @override
   String get pvGroupNone => 'Aucun';
@@ -7362,7 +7432,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvHorizonsHint =>
-      'Intentions non planifiées par horizon (enregistrées sur cet appareil en attendant la synchronisation des horizons).';
+      'Intentions non planifiées par horizon — glissez-les vers un autre horizon ou sur un jour.';
 
   @override
   String get pvIgnoreLowPriority => 'Ignorer les tâches peu prioritaires';
@@ -7394,7 +7464,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvLaneCap => 'Colonnes côte à côte';
 
   @override
+  String get pvLaneOther => 'Autres';
+
+  @override
   String get pvLanes => 'Couloirs';
+
+  @override
+  String get pvLanesHint => 'Choisissez les catégories affichées côte à côte et leur ordre.';
 
   @override
   String pvLastRowShort(String duration) {
@@ -7417,8 +7493,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvLoadThresholds => 'Teinte de charge (chargé · dépassé)';
 
   @override
-  String get pvMapPlaceholder =>
-      'La carte a besoin des coordonnées des tâches, qui arriveront avec le sélecteur de lieu. Les tâches qui ont un lieu sont listées ci-dessous.';
+  String get pvMakeGoal => 'En faire un objectif';
+
+  @override
+  String get pvMapAttribution => '© les contributeurs d’OpenStreetMap';
+
+  @override
+  String get pvMapPlaceholder => 'Donnez un lieu à une tâche (éditeur → trouver un lieu) pour la voir sur la carte.';
 
   @override
   String get pvMarkDone => 'Marquer comme faite';
@@ -7541,6 +7622,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvNoCategory => 'Sans catégorie';
 
   @override
+  String get pvNoCountdowns => 'Aucun compte à rebours';
+
+  @override
+  String get pvNoDeadline => 'Sans échéance';
+
+  @override
+  String get pvNoEstimate => 'Sans estimation';
+
+  @override
   String get pvNoOpenings => 'Aucun temps libre trouvé';
 
   @override
@@ -7562,6 +7652,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvNoTasks => 'Aucune tâche';
+
+  @override
+  String get pvNothingNext => 'Rien d’autre de prévu aujourd’hui';
 
   @override
   String get pvNothingNow => 'Rien de prévu en ce moment';
@@ -7635,6 +7728,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvPickDate => 'Choisir une date';
 
   @override
+  String get pvPickPlace => 'Trouver un lieu';
+
+  @override
   String get pvPin => 'Épingler';
 
   @override
@@ -7644,6 +7740,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String pvPixels(String value) {
     return '$value px';
   }
+
+  @override
+  String get pvPlaceNoResults => 'Aucun lieu trouvé';
+
+  @override
+  String get pvPlaceSearchHint => 'Adresse ou nom du lieu';
+
+  @override
+  String get pvPlaceTapHint => 'Ou touchez la carte pour placer une épingle.';
 
   @override
   String get pvPlanColumn => 'Prévu';
@@ -7700,6 +7805,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvQuickCreateTitle => 'Nouvelle tâche';
 
   @override
+  String pvQuotaProgress(String title, int done, int total) {
+    return '$title · $done/$total cette période';
+  }
+
+  @override
+  String get pvQuotaSlots => 'Objectifs à placer';
+
+  @override
   String get pvRadial12 => '12 h';
 
   @override
@@ -7710,6 +7823,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvRecurring => 'Récurrente';
+
+  @override
+  String get pvRemoveCountdown => 'Retirer des comptes à rebours';
 
   @override
   String get pvRenameView => 'Renommer la vue';
@@ -7807,6 +7923,17 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvScheduleOn => 'Planifier le…';
 
   @override
+  String pvScheduledCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments planifiés',
+      one: '1 élément planifié',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get pvScheduledSnack => 'Planifiée';
 
   @override
@@ -7840,6 +7967,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvShareAvailability => 'Partager mes disponibilités';
+
+  @override
+  String get pvShowAsTimeline => 'Afficher en lignes de chronologie';
 
   @override
   String get pvShowCancelled => 'Afficher les tâches annulées';
@@ -7962,6 +8092,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvTo => 'À';
 
   @override
+  String get pvToggleBacklog => 'Tiroir du backlog';
+
+  @override
   String get pvTopCategories => 'Catégories principales';
 
   @override
@@ -7989,6 +8122,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvUnscheduled => 'Non planifiées';
 
   @override
+  String get pvUnscheduledSnack => 'Déplacé dans le backlog';
+
+  @override
   String get pvUntimed => 'Sans heure';
 
   @override
@@ -8004,6 +8140,9 @@ class AppLocalizationsFr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get pvUsePlace => 'Utiliser ce lieu';
 
   @override
   String get pvVarianceLate => 'Commencée en retard';

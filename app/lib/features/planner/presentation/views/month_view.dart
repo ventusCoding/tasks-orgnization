@@ -330,7 +330,7 @@ class _MonthPage extends ConsumerWidget {
               children: [
                 for (final d in week)
                   Expanded(
-                    child: _DayCell(
+                    child: MonthDayCell(
                       viewKey: viewKey,
                       day: d,
                       inMonth: d.month == month.month,
@@ -356,8 +356,10 @@ class _MonthPage extends ConsumerWidget {
   }
 }
 
-class _DayCell extends ConsumerWidget {
-  const _DayCell({
+/// One day of the month grid (also used by the multi-week view, T3.6.11): day number, chips / bars /
+/// dots by [density], drop target (keeps the time), long-press to create.
+class MonthDayCell extends ConsumerWidget {
+  const MonthDayCell({
     required this.viewKey,
     required this.day,
     required this.inMonth,
@@ -367,7 +369,12 @@ class _DayCell extends ConsumerWidget {
     required this.items,
     required this.config,
     required this.onTap,
+    this.numberText,
+    super.key,
   });
+
+  /// Replaces the day number (e.g. "Oct 1" on the first day of a month in multi-week rows).
+  final String? numberText;
 
   final String viewKey;
   final LocalDate day;
@@ -426,15 +433,19 @@ class _DayCell extends ConsumerWidget {
                         padding: const EdgeInsets.only(top: 2),
                         child: Center(
                           child: Container(
-                            width: 22,
+                            constraints: const BoxConstraints(minWidth: 22),
                             height: 22,
+                            padding: numberText == null ? null : const EdgeInsets.symmetric(horizontal: Space.xxs),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              shape: BoxShape.circle,
+                              shape: numberText == null ? BoxShape.circle : BoxShape.rectangle,
+                              borderRadius: numberText == null ? null : BorderRadius.circular(Radii.pill),
                               color: isToday ? c.primary : (selected ? c.secondaryContainer : null),
                             ),
                             child: Text(
-                              f.number(day.day),
+                              numberText ?? f.number(day.day),
+                              maxLines: 1,
+                              overflow: TextOverflow.clip,
                               style: context.text.labelSmall?.copyWith(
                                 fontWeight: FontWeight.w700,
                                 color: isToday ? c.onPrimary : c.onSurface,

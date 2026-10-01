@@ -484,6 +484,7 @@ abstract final class TreeOps {
           'completed_at': keep ? src.completedAt : null,
           'follow_up_at': keep ? src.followUpAt : null,
           'priority': src.priority,
+          'estimate_minutes': src.estimateMinutes,
           'due_local': src.dueLocal,
           'time_zone': src.timeZone,
           'waiting_on': keep ? src.waitingOn : null,
