@@ -6841,6 +6841,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvActualColumn => 'Actual';
 
   @override
+  String get pvAddCountdown => 'Add a countdown';
+
+  @override
   String get pvAddTask => 'Add task';
 
   @override
@@ -6962,6 +6965,17 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String pvCopySuffix(String name) {
     return '$name (copy)';
+  }
+
+  @override
+  String get pvCountdownSince => 'Count up since it';
+
+  @override
+  String get pvCountdownUntil => 'Count down to it';
+
+  @override
+  String pvCounterParts(int days, int hours, int minutes) {
+    return '$days d $hours h $minutes min';
   }
 
   @override
@@ -7390,6 +7404,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvNoCategory => 'No category';
 
   @override
+  String get pvNoCountdowns => 'No countdowns yet';
+
+  @override
   String get pvNoDeadline => 'No deadline';
 
   @override
@@ -7576,6 +7593,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvRecurring => 'Recurring';
+
+  @override
+  String get pvRemoveCountdown => 'Remove from countdowns';
 
   @override
   String get pvRenameView => 'Rename view';

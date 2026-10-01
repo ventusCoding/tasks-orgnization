@@ -1,6 +1,7 @@
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/presentation/views/agenda_view.dart';
 import 'package:everslot/features/planner/presentation/views/backlog_view.dart';
+import 'package:everslot/features/planner/presentation/views/countdown_view.dart';
 import 'package:everslot/features/planner/presentation/views/day_list_view.dart';
 import 'package:everslot/features/planner/presentation/views/focus_view.dart';
 import 'package:everslot/features/planner/presentation/views/free_slots_view.dart';
@@ -239,6 +240,15 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     icon: Icons.landscape_outlined,
     label: (l) => l.pvViewHorizons,
     builder: (a) => HorizonsView(args: a),
+    group: PlannerViewGroup.productivity,
+    tier: ViewTier.m3,
+  ),
+  PlannerViewEntry(
+    id: 'countdown',
+    type: PlannerViewType.countdown,
+    icon: Icons.hourglass_bottom,
+    label: (l) => l.pvViewCountdown,
+    builder: (a) => CountdownView(args: a),
     group: PlannerViewGroup.productivity,
     tier: ViewTier.m3,
   ),

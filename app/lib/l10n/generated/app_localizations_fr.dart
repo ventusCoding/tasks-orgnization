@@ -7040,6 +7040,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvActualColumn => 'Réel';
 
   @override
+  String get pvAddCountdown => 'Ajouter un compte à rebours';
+
+  @override
   String get pvAddTask => 'Ajouter une tâche';
 
   @override
@@ -7161,6 +7164,17 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String pvCopySuffix(String name) {
     return '$name (copie)';
+  }
+
+  @override
+  String get pvCountdownSince => 'Compter depuis';
+
+  @override
+  String get pvCountdownUntil => 'Décompter jusqu’à';
+
+  @override
+  String pvCounterParts(int days, int hours, int minutes) {
+    return '$days j $hours h $minutes min';
   }
 
   @override
@@ -7600,6 +7614,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvNoCategory => 'Sans catégorie';
 
   @override
+  String get pvNoCountdowns => 'Aucun compte à rebours';
+
+  @override
   String get pvNoDeadline => 'Sans échéance';
 
   @override
@@ -7786,6 +7803,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvRecurring => 'Récurrente';
+
+  @override
+  String get pvRemoveCountdown => 'Retirer des comptes à rebours';
 
   @override
   String get pvRenameView => 'Renommer la vue';

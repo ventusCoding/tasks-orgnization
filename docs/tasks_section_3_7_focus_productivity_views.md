@@ -34,7 +34,7 @@ countdown / count-up; map; tests.
 - [x] T3.7.09 — Eisenhower matrix
 - [x] T3.7.10 — 24-hour radial clock
 - [x] T3.7.11 — Horizons view
-- [ ] T3.7.12 — Countdown / count-up list
+- [x] T3.7.12 — Countdown / count-up list
 - [ ] T3.7.13 — Map view
 - [ ] T3.7.14 — Productivity views test suite
 
@@ -196,6 +196,7 @@ Reuses the quit tracker's counter engine (TickTick countdown style). A widget co
 **Data model:** `tasks.countdown_mode text check (countdown_mode in ('until','since'))` — the task
 appears in the list when set.
 **Tests:** unit tests for the counters, incl. DST transitions.
+**Notes:** `CountdownView` over `countdownEntriesProvider` (`application/view_config/countdowns.dart`: `watchCountdownTasks` + `countdownTarget` — until = deadline, else the next occurrence / one-off start; since = the last occurrence before now / one-off start; unscheduled without a deadline is skipped). Rows show calendar days ("in 10 days" / "10 days ago", `LocalDate` arithmetic so DST days stay whole) and a live d · h · m counter from the quit tracker's `counterParts` on the shared one-second ticker (instant arithmetic: a DST weekend counts its real 47 h). Groups: Pinned (`options.pinned`), Upcoming, Since. *Add a countdown* picks a task (upcoming or backlog) and the mode; the row menu pins or removes it (`countdown_mode` cleared, one undoable update).
 
 ### T3.7.13 — Map view
 **Priority:** P2 · **Size:** M · **Depends on:** [3.1]

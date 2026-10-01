@@ -711,5 +711,24 @@
     }
   },
   "pvMakeGoal": "Make it a goal",
-  "pvGoalLinked": "Linked to a goal"
+  "pvGoalLinked": "Linked to a goal",
+  "pvAddCountdown": "Add a countdown",
+  "pvRemoveCountdown": "Remove from countdowns",
+  "pvCountdownUntil": "Count down to it",
+  "pvCountdownSince": "Count up since it",
+  "pvNoCountdowns": "No countdowns yet",
+  "pvCounterParts": "{days} d {hours} h {minutes} min",
+  "@pvCounterParts": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -110,6 +110,14 @@ class PlannerQueries {
 
   Future<List<Task>> unscheduled() => watchUnscheduled().first;
 
+  /// Tasks shown in the countdown list (T3.7.12): `countdown_mode` set, not templates / archived.
+  Stream<List<Task>> watchCountdownTasks() =>
+      (_tasks()
+            ..where((t) => t.countdownMode.isNotNull() & t.isTemplate.equals(false) & t.status.isNotValue('archived'))
+            ..orderBy([(t) => OrderingTerm.asc(t.title), (t) => OrderingTerm.asc(t.id)]))
+          .watch()
+          .map((rows) => rows.map(PlannerMappers.task).toList());
+
   /// Tasks scheduling a checklist item (T3.1.21), oldest first.
   Stream<List<Task>> watchItemTasks() =>
       (_tasks()

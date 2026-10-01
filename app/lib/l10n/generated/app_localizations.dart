@@ -11877,6 +11877,12 @@ abstract class AppLocalizations {
   /// **'Actual'**
   String get pvActualColumn;
 
+  /// No description provided for @pvAddCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a countdown'**
+  String get pvAddCountdown;
+
   /// No description provided for @pvAddTask.
   ///
   /// In en, this message translates to:
@@ -12116,6 +12122,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{name} (copy)'**
   String pvCopySuffix(String name);
+
+  /// No description provided for @pvCountdownSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Count up since it'**
+  String get pvCountdownSince;
+
+  /// No description provided for @pvCountdownUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Count down to it'**
+  String get pvCountdownUntil;
+
+  /// No description provided for @pvCounterParts.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} d {hours} h {minutes} min'**
+  String pvCounterParts(int days, int hours, int minutes);
 
   /// No description provided for @pvCreate.
   ///
@@ -12831,6 +12855,12 @@ abstract class AppLocalizations {
   /// **'No category'**
   String get pvNoCategory;
 
+  /// No description provided for @pvNoCountdowns.
+  ///
+  /// In en, this message translates to:
+  /// **'No countdowns yet'**
+  String get pvNoCountdowns;
+
   /// No description provided for @pvNoDeadline.
   ///
   /// In en, this message translates to:
@@ -13172,6 +13202,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recurring'**
   String get pvRecurring;
+
+  /// No description provided for @pvRemoveCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from countdowns'**
+  String get pvRemoveCountdown;
 
   /// No description provided for @pvRenameView.
   ///

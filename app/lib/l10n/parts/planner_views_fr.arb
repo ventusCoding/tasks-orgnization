@@ -356,5 +356,11 @@
   "pvUnscheduledSnack": "Déplacé dans le backlog",
   "pvQuotaProgress": "{title} · {done}/{total} cette période",
   "pvMakeGoal": "En faire un objectif",
-  "pvGoalLinked": "Lié à un objectif"
+  "pvGoalLinked": "Lié à un objectif",
+  "pvAddCountdown": "Ajouter un compte à rebours",
+  "pvRemoveCountdown": "Retirer des comptes à rebours",
+  "pvCountdownUntil": "Décompter jusqu’à",
+  "pvCountdownSince": "Compter depuis",
+  "pvNoCountdowns": "Aucun compte à rebours",
+  "pvCounterParts": "{days} j {hours} h {minutes} min"
 }

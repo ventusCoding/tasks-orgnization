@@ -2598,6 +2598,19 @@
       }
     }
   },
+  "@pvCounterParts": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "@pvCurrentSize": {
     "placeholders": {
       "size": {
@@ -6215,6 +6228,7 @@
   "priorityNone": "No priority",
   "priorityUrgent": "Urgent",
   "pvActualColumn": "Actual",
+  "pvAddCountdown": "Add a countdown",
   "pvAddTask": "Add task",
   "pvAddToBacklog": "Add to backlog",
   "pvAddZone": "Add time zone",
@@ -6255,6 +6269,9 @@
   "pvCopied": "Copied “{title}”",
   "pvCopy": "Copy",
   "pvCopySuffix": "{name} (copy)",
+  "pvCountdownSince": "Count up since it",
+  "pvCountdownUntil": "Count down to it",
+  "pvCounterParts": "{days} d {hours} h {minutes} min",
   "pvCreate": "Create",
   "pvCreateHere": "Create here",
   "pvCreatedSnack": "Task created",
@@ -6374,6 +6391,7 @@
   "pvNextUp": "Next up",
   "pvNextWeek": "Next week",
   "pvNoCategory": "No category",
+  "pvNoCountdowns": "No countdowns yet",
   "pvNoDeadline": "No deadline",
   "pvNoEstimate": "No estimate",
   "pvNoOpenings": "No free time found",
@@ -6431,6 +6449,7 @@
   "pvRadial24": "24 h",
   "pvRadialHours": "Dial",
   "pvRecurring": "Recurring",
+  "pvRemoveCountdown": "Remove from countdowns",
   "pvRenameView": "Rename view",
   "pvRenderAuto": "Auto",
   "pvRenderMode": "Render",

@@ -356,5 +356,11 @@
   "pvUnscheduledSnack": "نُقل إلى قائمة الانتظار",
   "pvQuotaProgress": "{title} · {done}/{total} هذه الفترة",
   "pvMakeGoal": "اجعلها هدفًا",
-  "pvGoalLinked": "مرتبطة بهدف"
+  "pvGoalLinked": "مرتبطة بهدف",
+  "pvAddCountdown": "إضافة عد تنازلي",
+  "pvRemoveCountdown": "إزالة من العد التنازلي",
+  "pvCountdownUntil": "عد تنازلي حتى",
+  "pvCountdownSince": "العد منذ",
+  "pvNoCountdowns": "لا يوجد عد تنازلي بعد",
+  "pvCounterParts": "{days} ي {hours} س {minutes} د"
 }

@@ -7419,6 +7419,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvActualColumn => 'الفعلي';
 
   @override
+  String get pvAddCountdown => 'إضافة عد تنازلي';
+
+  @override
   String get pvAddTask => 'إضافة مهمة';
 
   @override
@@ -7540,6 +7543,17 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String pvCopySuffix(String name) {
     return '$name (نسخة)';
+  }
+
+  @override
+  String get pvCountdownSince => 'العد منذ';
+
+  @override
+  String get pvCountdownUntil => 'عد تنازلي حتى';
+
+  @override
+  String pvCounterParts(int days, int hours, int minutes) {
+    return '$days ي $hours س $minutes د';
   }
 
   @override
@@ -8011,6 +8025,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvNoCategory => 'بلا فئة';
 
   @override
+  String get pvNoCountdowns => 'لا يوجد عد تنازلي بعد';
+
+  @override
   String get pvNoDeadline => 'بلا موعد نهائي';
 
   @override
@@ -8208,6 +8225,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvRecurring => 'متكررة';
+
+  @override
+  String get pvRemoveCountdown => 'إزالة من العد التنازلي';
 
   @override
   String get pvRenameView => 'إعادة تسمية العرض';
