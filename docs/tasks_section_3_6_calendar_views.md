@@ -35,7 +35,7 @@ multi-week; quarter; ribbon (day & week); timeline/Gantt; category swimlanes; lo
 - [x] T3.6.14 — Timeline / Gantt view
 - [x] T3.6.15 — Category swimlanes
 - [x] T3.6.16 — Load heatmap view
-- [ ] T3.6.17 — Calendar views test suite
+- [x] T3.6.17 — Calendar views test suite
 
 ## Tasks
 
@@ -188,3 +188,4 @@ per-day tints like Timepage. Colors show load against capacity. Tapping a cell l
 **Description:** Goldens for each implemented view type (light/dark, RTL, text scale 2.0), plus an
 integration test proving that switching views keeps the anchor date and time.
 **Tests:** as described.
+**Notes:** `calendar_views_goldens_test.dart`: N-day, work week, week list, month, agenda, year, multi-week, quarter, ribbon (week), timeline, swimlanes and load heatmap × light LTR / dark RTL / text scale 2.0, plus the month densities and list-below, the day ribbon, timeline by category, year completion and quarter bars (47 images). The switching scenario (week table → N-day → month → agenda → timeline → week table) lives in `calendar_views_test.dart` and checks the anchor date and the shared scroll minute.

@@ -95,6 +95,48 @@ void main() {
     });
   });
 
+  group('calendar views suite: switching keeps the anchor date and time (T3.6.17)', () {
+    Future<void> switchTo(WidgetTester tester, String view) async {
+      await tester.tap(find.byKey(const Key('planner-view-switcher')));
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(find.byKey(Key('view-$view')), 120, scrollable: find.byType(Scrollable).last);
+      await tester.tap(find.byKey(Key('view-$view')));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('week table → N-day → month → agenda → timeline → week table', (tester) async {
+      final nav = SwitchingNav('week_table', date: LocalDate(2026, 10, 7));
+      final h = PlannerHarness.create(nav: nav, items: [item('Board', at(2026, 10, 7, 14), 60, id: 'board')]);
+      addTearDown(h.dispose);
+      await pumpPlanner(tester, h, SwitchingHost(nav: nav));
+      await tester.pumpAndSettle();
+      tester.state<TimeGridState>(find.byType(TimeGrid)).scrollToMinute(14 * 60, animate: false);
+      await tester.pumpAndSettle();
+      final minute = h.read(plannerScrollMinuteProvider);
+      expect(minute, closeTo(14 * 60, 1));
+
+      await switchTo(tester, 'n_day');
+      expect(nav.current.value, ('n_day', LocalDate(2026, 10, 5)));
+      final grid = tester.widget<TimeGrid>(find.byType(TimeGrid)).controller!;
+      expect(grid.visibleDays.first, LocalDate(2026, 10, 5), reason: 'the anchor date is kept');
+      expect(h.read(plannerScrollMinuteProvider), closeTo(minute!, 1), reason: 'and the time of day');
+
+      await switchTo(tester, 'month');
+      expect(find.text('October 2026'), findsOneWidget);
+
+      await switchTo(tester, 'agenda');
+      expect(nav.current.value.$2?.month, 10);
+      expect(find.text('Board'), findsOneWidget);
+
+      await switchTo(tester, 'timeline');
+      expect(find.textContaining('Oct'), findsWidgets);
+
+      await switchTo(tester, 'week_table');
+      expect(find.textContaining('Oct'), findsWidgets);
+      expect(h.read(plannerScrollMinuteProvider), closeTo(minute, 1));
+    });
+  });
+
   group('N-day & work week (T3.6.04 / T3.6.05)', () {
     testWidgets('N-day rolls from today with 3 days in portrait', (tester) async {
       await pumpView(tester, 'n_day', date: null);

@@ -121,7 +121,13 @@ class _TimeGridViewState extends ConsumerState<TimeGridView> {
         builder: (context, _) {
           final days = _grid.visibleDays;
           return DatePagedToolbar(
-            title: days.isEmpty ? '' : rangeTitle(locale, days.first, days.last),
+            title: days.isEmpty
+                ? ''
+                : [
+                    rangeTitle(locale, days.first, days.last),
+                    // T3.4.19: the week number of the first visible day.
+                    if (effective.showWeekNumbers) l.pvWeekNumber(days.first.weekOfYear(weekStart).week),
+                  ].join(' · '),
             onPrevious: () => unawaited(_grid.previous()),
             onNext: () => unawaited(_grid.next()),
             onToday: () => unawaited(_today()),

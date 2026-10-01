@@ -53,7 +53,7 @@ void main() {
     expect(rent.dy, lessThan(gym.dy), reason: 'all-day first');
     expect(gym.dy, lessThan(focus.dy), reason: 'then by start');
     expect(find.byKey(const ValueKey('ribbon-icon-dentist|2026-09-25T16:00')), findsOneWidget);
-    expect(find.bySemanticsLabel(RegExp(r'^Focus, 10:00 – 11:30')), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp('^Focus, 10:00 – 11:30')), findsOneWidget);
 
     await tester.tap(find.byKey(const ValueKey('ribbon-icon-focus|2026-09-23T10:00')));
     await tester.pumpAndSettle();

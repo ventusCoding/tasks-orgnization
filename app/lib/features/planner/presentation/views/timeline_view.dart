@@ -143,7 +143,11 @@ class _TimelineViewState extends ConsumerState<TimelineView> {
     if (_scrolledToNow) return;
     _scrolledToNow = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_horizontal.hasClients) return;
+      if (!mounted) return;
+      if (!_horizontal.hasClients) {
+        _scrolledToNow = false; // nothing laid out yet (no rows): retry on the next build
+        return;
+      }
       final target = _anchor == now.date ? now : _anchor.atStartOfDay;
       final x = start.atStartOfDay.minutesUntil(target) * scale.pxPerMinute - 48;
       _horizontal.jumpTo(x.clamp(0, _horizontal.position.maxScrollExtent));

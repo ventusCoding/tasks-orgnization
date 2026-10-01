@@ -729,7 +729,14 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
           // a fractional viewport makes PageView's page ↔ pixel round trips drift past its tolerance.
           final pagesWidth = math.max<double>(
             1,
-            (width - (renderer == GridRenderer.weekList ? 0.0 : _rulerWidth(ts, prefs.use24h))).floorToDouble(),
+            (width -
+                    (renderer == GridRenderer.weekList
+                        ? 0.0
+                        : _rulerWidth(ts, prefs.use24h) +
+                              (renderer == GridRenderer.timeline
+                                  ? config.extraTimeZones.length * zoneRulerWidth(ts)
+                                  : 0)))
+                .floorToDouble(),
           );
           final rulerWidth = renderer == GridRenderer.weekList ? 0.0 : width - pagesWidth;
           final pageWidth = pagesWidth * paging.viewportFraction;
@@ -969,11 +976,13 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
         semanticsLabel: l.pvSlotSize,
       );
     }
-    return TimeRuler(
+    final zones = f.config.extraTimeZones;
+    final zoneWidth = zoneRulerWidth(MediaQuery.textScalerOf(context));
+    final main = TimeRuler(
       vertical: _vertical,
       axis: f.axis,
       scale: f.scale,
-      width: f.metrics.rulerWidth,
+      width: f.metrics.rulerWidth - zones.length * zoneWidth,
       formatMinute: _formatMinute(f),
       style: f.style,
       now: _now,
@@ -984,6 +993,28 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       gapLabel: l.pvClocksForward,
       onDoubleTap: widget.onRulerDoubleTap,
       semanticsLabel: l.pvSlotSize,
+    );
+    if (zones.isEmpty || timelines.isEmpty) return main;
+    // Extra zones (T3.3.26) convert the instants of the reference day (today when visible).
+    final reference = todayIndex >= 0 ? timelines[todayIndex] : timelines.first;
+    final resolver = ref.read(zoneResolverProvider);
+    return Row(
+      children: [
+        for (final z in zones)
+          ZoneRuler(
+            key: ValueKey('zone-ruler-$z'),
+            vertical: _vertical,
+            axis: f.axis,
+            scale: f.scale,
+            width: zoneWidth,
+            formatMinute: zoneFormatter(reference, (utc) => f.format.timeOf(resolver.toLocal(utc, z))),
+            style: f.style,
+            cache: _labels,
+            label: zoneShortName(z),
+            semanticsLabel: '${l.pvExtraZones}: ${zoneShortName(z)}',
+          ),
+        main,
+      ],
     );
   }
 
@@ -1219,6 +1250,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       f.metrics.rtl,
       laneCap,
       widget.tileLayout,
+      f.config.overlapStyle,
       ...page.days,
       for (final d in page.days) page.slices[d],
     ];
@@ -1234,6 +1266,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
       laneCap: laneCap,
       layouts: _layouts,
       strategy: widget.tileLayout,
+      cascade: f.config.overlapStyle == OverlapStyle.cascade,
     );
     page
       ..timeline = geom

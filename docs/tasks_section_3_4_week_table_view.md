@@ -44,7 +44,7 @@ sideways changes the week. On top of that, the view needs everything that makes 
 - [x] T3.4.16 — Landscape & tablet layout
 - [x] T3.4.17 — Week summary footer
 - [x] T3.4.18 — First-use hints & empty week
-- [ ] T3.4.19 — Week numbers & secondary time zones
+- [x] T3.4.19 — Week numbers & secondary time zones
 - [x] T3.4.20 — Week table test suite
 
 ## Tasks
@@ -228,6 +228,7 @@ the row size". An empty week shows an illustration with *Plan your first task*.
 **Priority:** P2 · **Size:** S · **Depends on:** T3.4.01, [3.3] (secondary rulers)
 **Description:** Optional ISO week number in the title and header; up to 3 secondary time-zone rulers.
 **Tests:** goldens.
+**Notes:** `showWeekNumbers` now also appends "W39" to the toolbar title (`weekOfYear` with the view's week start — ISO with Monday); the header / corner numbers and the zone rulers come from T3.3.26. Goldens with the T3.3.26 ones.
 
 ### T3.4.20 — Week table test suite
 **Priority:** P0 · **Size:** M · **Depends on:** T3.4.13

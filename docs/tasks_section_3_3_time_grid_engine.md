@@ -55,7 +55,7 @@ backlog drawer UI and drags to/from it ([3.7]).
 - [x] T3.3.23 — Overlays framework
 - [x] T3.3.24 — Accessibility: semantics, list fallback, keyboard
 - [x] T3.3.25 — Performance harness & optimization
-- [ ] T3.3.26 — Cascade overlap style & secondary time-zone rulers
+- [x] T3.3.26 — Cascade overlap style & secondary time-zone rulers
 
 ## Tasks
 
@@ -407,3 +407,4 @@ Optimizations:
 Up to 3 extra time-zone rulers (labels only) for travellers and remote work.
 **Data model:** view config `overlapStyle`, `extraTimeZones` (see T3.3.01).
 **Tests:** goldens.
+**Notes:** Cascade = `cascadeFractions` in `PageGeometry.compute` (overlapping tiles get min(1, 1.7 × share) of the column and step across it; mirrored in RTL); columns style unchanged. Extra zones: one `ZoneRuler` (labels only, city name pinned on top) per `extraTimeZones` entry before the main ruler on the timeline renderer, converting the instants of the reference day (today when visible, else the first visible day) with the zone resolver; the ruler width grows by `zoneRulerWidth` per zone. Settings toggles already existed (view settings sheet). Goldens: `week_table_30min_cascade_zones_weeks`, `week_table_30min_zones_dark_rtl`.
