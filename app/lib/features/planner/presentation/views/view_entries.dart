@@ -6,6 +6,7 @@ import 'package:everslot/features/planner/presentation/views/multi_week_view.dar
 import 'package:everslot/features/planner/presentation/views/quarter_view.dart';
 import 'package:everslot/features/planner/presentation/views/ribbon_view.dart';
 import 'package:everslot/features/planner/presentation/views/time_grid_view.dart';
+import 'package:everslot/features/planner/presentation/views/timeline_view.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
 import 'package:everslot/features/planner/presentation/views/week_list_view.dart';
 import 'package:everslot/features/planner/presentation/views/year_view.dart';
@@ -110,5 +111,15 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     builder: (a) => RibbonView(args: a),
     tier: ViewTier.m3,
     timeBased: true,
+  ),
+  PlannerViewEntry(
+    id: 'timeline',
+    type: PlannerViewType.timeline,
+    icon: Icons.view_timeline_outlined,
+    label: (l) => l.pvViewTimeline,
+    builder: (a) => TimelineView(args: a),
+    tier: ViewTier.m3,
+    timeBased: true,
+    supportsDrag: true,
   ),
 ];

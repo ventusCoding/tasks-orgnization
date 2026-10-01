@@ -32,7 +32,7 @@ multi-week; quarter; ribbon (day & week); timeline/Gantt; category swimlanes; lo
 - [x] T3.6.11 — Multi-week view
 - [x] T3.6.12 — Quarter view
 - [x] T3.6.13 — Ribbon view (day & week)
-- [ ] T3.6.14 — Timeline / Gantt view
+- [x] T3.6.14 — Timeline / Gantt view
 - [ ] T3.6.15 — Category swimlanes
 - [ ] T3.6.16 — Load heatmap view
 - [ ] T3.6.17 — Calendar views test suite
@@ -166,6 +166,7 @@ day to its icons in order (Structured week view).
 Best for long multi-day tasks and series overviews (TickTick, Notion, ClickUp).
 **Data model:** view config `options.groupBy`, `options.scale`.
 **Tests:** widget tests; goldens.
+**Notes:** `TimelineView` on a pure layout (`gantt_layout.dart`: `GanttScale` hours 1 px/min · 2-day page, days 96 px/day · 3 weeks, weeks 140 px/week · 16 weeks, months 120 px/30 days · 12 months; greedy sub-lanes per row; snapping 15 min / 1 h / 1 day / 1 day). Rows by task (series id, by first start), category (category order, none last) or priority (urgent first); labels in a fixed start column synced with the rows. Drag a bar → move (scope dialog for recurring), drag its end edge → resize, tap → task, long-press → tile menu; a horizontal two-finger pinch steps the scale. All-day items are hidden at the hour scale. Goldens in the calendar-views suite (T3.6.17).
 
 ### T3.6.15 — Category swimlanes
 **Priority:** P2 · **Size:** M · **Depends on:** [3.3]
