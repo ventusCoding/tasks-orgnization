@@ -28,7 +28,7 @@ index, and entity deep-link builders.
 - [x] T2.3.08 — Saved views (table + repository)
 - [x] T2.3.09 — Shared filter model & filter bar
 - [x] T2.3.10 — Tags (table, entity tags, picker, management)
-- [ ] T2.3.11 — Global search index (SQLite FTS5)
+- [x] T2.3.11 — Global search index (SQLite FTS5)
 - [ ] T2.3.12 — Entity deep-link builders & cross-entity links
 
 ## Tasks
@@ -149,6 +149,7 @@ applied to indexed text and queries; rebuild command for migrations.
 **Acceptance criteria:** 20 000 rows searchable in < 100 ms; results rank by bm25 + recency; tombstoned rows
 removed from the index.
 **Tests:** DAO tests with multilingual fixtures (EN/FR accents/AR variants).
+**Notes:** The FTS5 table and triggers came with the database (T1.4); now defined once in `core/database/search_index.dart` (`SearchIndexSchema`: sources, triggers, `rebuildStatements`, `normalize`/`matchExpression` incl. harakat) with `SearchIndex.search` (prefix match on every word, bm25 with titles 4× bodies, recency boost halving every 30 days, entity-type filter, original titles) and `rebuild()` behind `searchIndexProvider`. The Lists board search uses the same match expression. Tests: `test/core/search_index_test.dart` (20 000 rows well under 100 ms).
 
 ### T2.3.12 — Entity deep-link builders & cross-entity links
 **Priority:** P1 · **Size:** S · **Depends on:** [1.3] (deep-link parser)

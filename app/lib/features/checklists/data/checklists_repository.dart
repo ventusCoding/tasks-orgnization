@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:everslot/core/database/app_database.dart';
+import 'package:everslot/core/database/search_index.dart' show SearchIndexSchema;
 import 'package:everslot/core/ids/ids.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/features/attachments/application/providers.dart'
@@ -388,24 +389,16 @@ class ChecklistsRepository {
     };
   }
 
-  /// Board search over titles, bodies and item texts through the FTS index (T4.1.13).
-  /// Matching ignores case, French diacritics and Arabic letter variants.
-  /// Arabic harakat, tanween, dagger alef and Quranic marks: the FTS tokenizer keeps them, so the
-  /// query drops them (T4.1.13 — content is almost always typed without them).
-  static final _harakat = RegExp('[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]');
-
+  /// Board search over titles, bodies and item texts through the FTS index (T4.1.13, T2.3.11).
+  /// Matching ignores case, French diacritics, Arabic letter variants and harakat.
   Future<BoardSearchResult> search(String query) async {
-    final tokens = AppDatabase.normalizeForSearch(query.replaceAll(_harakat, ''))
-        .split(RegExp(r'\s+'))
-        .where((t) => t.trim().isNotEmpty)
-        .map((t) => '"${t.replaceAll('"', '""')}"*')
-        .toList();
-    if (tokens.isEmpty) return const BoardSearchResult();
+    final match = SearchIndexSchema.matchExpression(query);
+    if (match == null) return const BoardSearchResult();
     final rows = await _db
         .customSelect(
           'SELECT s.entity_type AS et, s.entity_id AS eid, s.parent_id AS pid FROM search_index s '
           "WHERE search_index MATCH ? AND s.entity_type IN ('checklist', 'checklist_item') LIMIT 1000",
-          variables: [Variable<String>(tokens.join(' '))],
+          variables: [Variable<String>(match)],
         )
         .get();
     final live = {

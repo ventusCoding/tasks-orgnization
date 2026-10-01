@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:everslot/core/database/search_index.dart';
 import 'package:everslot/core/database/tables/tables.dart';
 
 part 'app_database.g.dart';
@@ -104,65 +105,6 @@ class AppDatabase extends _$AppDatabase {
   ];
 
   /// Global full-text search index (T2.3.11), maintained by triggers so rows arriving from sync
-  /// are indexed too. Arabic letter variants are normalized in both the index and queries.
-  static List<String> get searchIndexStatements {
-    String norm(String expr) =>
-        "replace(replace(replace(replace(replace(replace(coalesce($expr,''),"
-        "'أ','ا'),'إ','ا'),'آ','ا'),'ى','ي'),'ة','ه'),'ـ','')";
-    String indexTriggers({
-      required String table,
-      required String entityType,
-      required String titleExpr,
-      required String bodyExpr,
-      String parentExpr = 'NULL',
-    }) {
-      final ins =
-          'INSERT INTO search_index(entity_type, entity_id, parent_id, title, body) '
-          "SELECT '$entityType', NEW.id, $parentExpr, ${norm(titleExpr)}, ${norm(bodyExpr)} "
-          'WHERE NEW.deleted_at IS NULL;';
-      final del = "DELETE FROM search_index WHERE entity_type = '$entityType' AND entity_id = OLD.id;";
-      return '''
-CREATE TRIGGER IF NOT EXISTS trg_${table}_fts_ai AFTER INSERT ON $table BEGIN $ins END;
-CREATE TRIGGER IF NOT EXISTS trg_${table}_fts_au AFTER UPDATE ON $table BEGIN $del ${ins.replaceAll('OLD.', 'NEW.')} END;
-CREATE TRIGGER IF NOT EXISTS trg_${table}_fts_ad AFTER DELETE ON $table BEGIN $del END;''';
-    }
-
-    return [
-      '''
-CREATE VIRTUAL TABLE IF NOT EXISTS search_index USING fts5(
-        entity_type UNINDEXED, entity_id UNINDEXED, parent_id UNINDEXED, title, body,
-        tokenize = 'unicode61 remove_diacritics 2')''',
-      ...indexTriggers(table: 'tasks', entityType: 'task', titleExpr: 'NEW.title', bodyExpr: 'NEW.notes').split('\n'),
-      ...indexTriggers(
-        table: 'checklists',
-        entityType: 'checklist',
-        titleExpr: 'NEW.title',
-        bodyExpr: 'NEW.body',
-      ).split('\n'),
-      ...indexTriggers(
-        table: 'checklist_items',
-        entityType: 'checklist_item',
-        titleExpr: 'NEW.text',
-        bodyExpr: 'NEW.note',
-        parentExpr: 'NEW.checklist_id',
-      ).split('\n'),
-      ...indexTriggers(
-        table: 'habits',
-        entityType: 'habit',
-        titleExpr: 'NEW.name',
-        bodyExpr: 'NEW.description',
-      ).split('\n'),
-      ...indexTriggers(
-        table: 'habit_logs',
-        entityType: 'habit_log',
-        titleExpr: 'NEW.note',
-        bodyExpr: 'NULL',
-        parentExpr: 'NEW.habit_id',
-      ).split('\n'),
-    ].where((s) => s.trim().isNotEmpty).toList();
-  }
-
-  /// Arabic/diacritic normalization applied to search queries (mirrors the trigger SQL).
-  static String normalizeForSearch(String input) =>
-      input.replaceAll(RegExp('[أإآ]'), 'ا').replaceAll('ى', 'ي').replaceAll('ة', 'ه').replaceAll('ـ', '');
+  /// are indexed too (see [SearchIndexSchema]).
+  static List<String> get searchIndexStatements => SearchIndexSchema.statements;
 }

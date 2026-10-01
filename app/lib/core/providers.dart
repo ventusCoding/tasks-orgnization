@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:everslot/core/database/app_database.dart';
+import 'package:everslot/core/database/search_index.dart';
 import 'package:everslot/core/env/env.dart';
 import 'package:everslot/core/lifecycle/app_lifecycle.dart';
 import 'package:everslot/core/platform/connectivity_service.dart';
@@ -334,6 +335,11 @@ final userPreferencesProvider = Provider<UserPreferences>((ref) {
     useArabicDigits: appearance['arabicDigits'] as bool? ?? false,
   );
 });
+
+/// Global full-text search over local data (T2.3.11).
+final searchIndexProvider = Provider<SearchIndex>(
+  (ref) => SearchIndex(ref.watch(appDatabaseProvider), ref.watch(clockProvider)),
+);
 
 /// The one source for "now", "today" and "this week" (T2.3.07): clock + current zone + day start +
 /// week start. Read `.today()` / `.nowLocal()` when needed; time-based views add their own tick.
