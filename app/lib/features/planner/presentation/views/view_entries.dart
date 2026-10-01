@@ -6,6 +6,7 @@ import 'package:everslot/features/planner/presentation/views/focus_view.dart';
 import 'package:everslot/features/planner/presentation/views/free_slots_view.dart';
 import 'package:everslot/features/planner/presentation/views/kanban_view.dart';
 import 'package:everslot/features/planner/presentation/views/load_heatmap_view.dart';
+import 'package:everslot/features/planner/presentation/views/matrix_view.dart';
 import 'package:everslot/features/planner/presentation/views/month_view.dart';
 import 'package:everslot/features/planner/presentation/views/multi_week_view.dart';
 import 'package:everslot/features/planner/presentation/views/plan_actual_view.dart';
@@ -206,6 +207,16 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     icon: Icons.view_kanban_outlined,
     label: (l) => l.pvViewKanban,
     builder: (a) => KanbanView(args: a),
+    group: PlannerViewGroup.productivity,
+    tier: ViewTier.m3,
+    supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'matrix',
+    type: PlannerViewType.matrix,
+    icon: Icons.grid_view,
+    label: (l) => l.pvViewMatrix,
+    builder: (a) => MatrixView(args: a),
     group: PlannerViewGroup.productivity,
     tier: ViewTier.m3,
     supportsDrag: true,

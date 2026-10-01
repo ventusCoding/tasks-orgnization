@@ -31,7 +31,7 @@ countdown / count-up; map; tests.
 - [x] T3.7.06 — Plan-vs-actual view
 - [x] T3.7.07 — Routine player
 - [x] T3.7.08 — Kanban board
-- [ ] T3.7.09 — Eisenhower matrix
+- [x] T3.7.09 — Eisenhower matrix
 - [ ] T3.7.10 — 24-hour radial clock
 - [ ] T3.7.11 — Horizons view
 - [ ] T3.7.12 — Countdown / count-up list
@@ -164,6 +164,7 @@ The rules are editable (TickTick-style) and backlog tasks are included. Dragging
 priority and/or deadline.
 **Data model:** view config `options.importanceThreshold`, `options.urgencyDays`; `tasks.deadline_local`.
 **Tests:** classification unit tests.
+**Notes:** `MatrixView` + pure `engine/eisenhower.dart` (`quadrantOf`: important = priority ≥ threshold; urgent = deadline within N days or overdue, or a scheduled start within N days; `matrixMove`). Items: open occurrences of the next 14 days (next one per series) plus the filtered backlog. Rules sheet (sliders) edits `importanceThreshold` / `urgencyDays`. Dragging a card into another quadrant raises / lowers the priority around the threshold and sets the deadline to the end of the urgency window (urgent) or clears it (not urgent) — `editBacklog` for backlog tasks, `editFields` with the scope dialog for scheduled ones.
 
 ### T3.7.10 — 24-hour radial clock
 **Priority:** P2 · **Size:** M · **Depends on:** [3.2]
