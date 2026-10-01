@@ -776,12 +776,29 @@ final class const HabitSeries(
   final StrengthResult? strength,
 }) {
   /// Day-level units still counted on [date] (archived habits drop out after their archive date).
-  Iterable<PeriodResult> dayUnitsOn(LocalDate date) => results.where(
-    (r) => r.kind != HabitPeriodKind.quota && r.startDate == date && (archivedOn == null || !date.isAfter(archivedOn!)),
-  );
+  ///
+  /// Section metrics ask for every day of a range; the units are indexed by start date once per series
+  /// (an [Expando] keyed by the instance) instead of scanning every result per day.
+  Iterable<PeriodResult> dayUnitsOn(LocalDate date) {
+    if (archivedOn != null && date.isAfter(archivedOn!)) return const [];
+    final index = _dayUnitIndex[this] ??= _buildDayUnitIndex(results);
+    return index[date] ?? const [];
+  }
 
   bool isDue(PeriodResult r) =>
       r.status != PeriodStatus.notDue && r.status != PeriodStatus.frozen && !isExcludedUnit(r, skipPolicy: skipPolicy);
+}
+
+/// Day-level (non-quota) units of a series by start date, built on first use.
+final Expando<Map<LocalDate, List<PeriodResult>>> _dayUnitIndex = Expando('dayUnitIndex');
+
+Map<LocalDate, List<PeriodResult>> _buildDayUnitIndex(List<PeriodResult> results) {
+  final index = <LocalDate, List<PeriodResult>>{};
+  for (final r in results) {
+    if (r.kind == HabitPeriodKind.quota) continue;
+    (index[r.startDate] ??= []).add(r);
+  }
+  return index;
 }
 
 /// HB-X-01 — today progress: done ÷ due day units today across build habits.

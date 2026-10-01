@@ -118,6 +118,29 @@ final class EntityTimeline {
 
   bool isAliveAt(DateTime t) => alive.any((a) => a.containsInstant(t));
 
+  /// The latest instant at which anything about the entity changes (creation, status, membership or
+  /// existence boundaries): after it, every state query is constant.
+  DateTime get _lastBoundary {
+    var latest = createdAt;
+    void take(DateTime? t) {
+      if (t != null && t.isAfter(latest)) latest = t;
+    }
+
+    for (final i in intervals) {
+      take(i.start);
+      take(i.end);
+    }
+    for (final m in memberships) {
+      take(m.start);
+      take(m.end);
+    }
+    for (final a in alive) {
+      take(a.start);
+      take(a.end);
+    }
+    return latest;
+  }
+
   /// Current status (of the last interval).
   String get currentStatus => intervals.last.status;
 
@@ -334,50 +357,179 @@ List<BoundaryCounts> boundaryCounts(
   String cancelledStatus = 'cancelled',
 }) {
   final list = timelines.toList();
-  return [
-    for (final t in sampleAt)
-      () {
-        var arrived = 0;
-        var started = 0;
-        var finished = 0;
-        var cancelled = 0;
-        var removed = 0;
-        final byStatus = <String, int>{};
-        final probe = t.subtract(const Duration(microseconds: 1));
-        for (final e in list) {
-          if (!e.createdAt.isBefore(t)) continue;
-          if (!e.isAliveAt(probe)) {
-            final deleted = e.deletedBefore(probe);
-            if (deleted != null) {
-              final before = deleted.subtract(const Duration(microseconds: 1));
-              if (containerId == null || e.containerAt(before) == containerId) {
-                removed++;
-              }
-            }
-            continue;
+  final n = sampleAt.length;
+  _Sample sample(EntityTimeline e, DateTime t) => _sampleTimeline(
+    e,
+    t,
+    containerId: containerId,
+    todoStatus: todoStatus,
+    doneStatus: doneStatus,
+    cancelledStatus: cancelledStatus,
+  );
+
+  var ascending = true;
+  for (var i = 1; i < n && ascending; i++) {
+    ascending = !sampleAt[i].isBefore(sampleAt[i - 1]);
+  }
+  if (!ascending || n < 4 || list.length < 8) {
+    // Small inputs (or unordered samples): evaluate every timeline at every sample.
+    return [
+      for (final t in sampleAt)
+        () {
+          var arrived = 0;
+          var started = 0;
+          var finished = 0;
+          var cancelled = 0;
+          var removed = 0;
+          final byStatus = <String, int>{};
+          for (final e in list) {
+            final s = sample(e, t);
+            arrived += s.arrived;
+            started += s.started;
+            finished += s.finished;
+            cancelled += s.cancelled;
+            removed += s.removed;
+            if (s.state != null) byStatus[s.state!] = (byStatus[s.state!] ?? 0) + 1;
           }
-          if (containerId != null && e.containerAt(probe) != containerId) {
-            continue;
-          }
-          arrived++;
-          final state = e.stateAt(probe) ?? e.initialStatus;
-          byStatus[state] = (byStatus[state] ?? 0) + 1;
-          final left = e.firstExit(todoStatus);
-          if (e.initialStatus != todoStatus || (left != null && left.isBefore(t))) {
-            started++;
-          }
-          if (state == doneStatus) finished++;
-          if (state == cancelledStatus) cancelled++;
-        }
-        return BoundaryCounts(
-          t,
-          arrived: arrived,
-          started: started,
-          finished: finished,
-          cancelled: cancelled,
-          removed: removed,
-          byStatus: byStatus,
-        );
-      }(),
-  ];
+          return BoundaryCounts(
+            t,
+            arrived: arrived,
+            started: started,
+            finished: finished,
+            cancelled: cancelled,
+            removed: removed,
+            byStatus: byStatus,
+          );
+        }(),
+    ];
+  }
+
+  // Ascending samples: an entity's contribution only changes at its own boundaries (creation,
+  // status/membership/alive changes), so it is evaluated explicitly while it is still changing and
+  // once for the constant tail, which is added to every later sample through difference arrays —
+  // O(E × lifetime + S) instead of O(E × S), with exactly the same numbers.
+  final dArrived = List<int>.filled(n + 1, 0);
+  final dStarted = List<int>.filled(n + 1, 0);
+  final dFinished = List<int>.filled(n + 1, 0);
+  final dCancelled = List<int>.filled(n + 1, 0);
+  final dRemoved = List<int>.filled(n + 1, 0);
+  final dStatus = <String, List<int>>{};
+  void add(int from, int to, _Sample s) {
+    if (from >= to) return;
+    dArrived[from] += s.arrived;
+    dArrived[to] -= s.arrived;
+    dStarted[from] += s.started;
+    dStarted[to] -= s.started;
+    dFinished[from] += s.finished;
+    dFinished[to] -= s.finished;
+    dCancelled[from] += s.cancelled;
+    dCancelled[to] -= s.cancelled;
+    dRemoved[from] += s.removed;
+    dRemoved[to] -= s.removed;
+    if (s.state != null) {
+      final d = dStatus.putIfAbsent(s.state!, () => List<int>.filled(n + 1, 0));
+      d[from] += 1;
+      d[to] -= 1;
+    }
+  }
+
+  /// First index whose sample satisfies [after] (samples are ascending).
+  int firstIndex(bool Function(DateTime t) after) {
+    var lo = 0;
+    var hi = n;
+    while (lo < hi) {
+      final mid = (lo + hi) >> 1;
+      if (after(sampleAt[mid])) {
+        hi = mid;
+      } else {
+        lo = mid + 1;
+      }
+    }
+    return lo;
+  }
+
+  for (final e in list) {
+    final first = firstIndex(e.createdAt.isBefore);
+    if (first >= n) continue;
+    final last = e._lastBoundary;
+    final constant = firstIndex(last.isBefore);
+    for (var i = first; i < constant && i < n; i++) {
+      add(i, i + 1, sample(e, sampleAt[i]));
+    }
+    if (constant < n) add(constant, n, sample(e, sampleAt[constant]));
+  }
+
+  final result = <BoundaryCounts>[];
+  var arrived = 0;
+  var started = 0;
+  var finished = 0;
+  var cancelled = 0;
+  var removed = 0;
+  final running = {for (final k in dStatus.keys) k: 0};
+  for (var i = 0; i < n; i++) {
+    arrived += dArrived[i];
+    started += dStarted[i];
+    finished += dFinished[i];
+    cancelled += dCancelled[i];
+    removed += dRemoved[i];
+    final byStatus = <String, int>{};
+    for (final k in dStatus.keys) {
+      final v = running[k]! + dStatus[k]![i];
+      running[k] = v;
+      if (v > 0) byStatus[k] = v;
+    }
+    result.add(
+      BoundaryCounts(
+        sampleAt[i],
+        arrived: arrived,
+        started: started,
+        finished: finished,
+        cancelled: cancelled,
+        removed: removed,
+        byStatus: byStatus,
+      ),
+    );
+  }
+  return result;
+}
+
+/// One timeline's contribution to the boundary counts at one sampling instant.
+typedef _Sample = ({int arrived, int started, int finished, int cancelled, int removed, String? state});
+
+const _Sample _noSample = (arrived: 0, started: 0, finished: 0, cancelled: 0, removed: 0, state: null);
+
+/// What [e] adds to the counts sampled at [t] (state is the status counted in `byStatus`).
+_Sample _sampleTimeline(
+  EntityTimeline e,
+  DateTime t, {
+  required String? containerId,
+  required String todoStatus,
+  required String doneStatus,
+  required String cancelledStatus,
+}) {
+  if (!e.createdAt.isBefore(t)) return _noSample;
+  final probe = t.subtract(const Duration(microseconds: 1));
+  if (!e.isAliveAt(probe)) {
+    final deleted = e.deletedBefore(probe);
+    if (deleted != null) {
+      final before = deleted.subtract(const Duration(microseconds: 1));
+      if (containerId == null || e.containerAt(before) == containerId) {
+        return (arrived: 0, started: 0, finished: 0, cancelled: 0, removed: 1, state: null);
+      }
+    }
+    return _noSample;
+  }
+  if (containerId != null && e.containerAt(probe) != containerId) {
+    return _noSample;
+  }
+  final state = e.stateAt(probe) ?? e.initialStatus;
+  final left = e.firstExit(todoStatus);
+  return (
+    arrived: 1,
+    started: e.initialStatus != todoStatus || (left != null && left.isBefore(t)) ? 1 : 0,
+    finished: state == doneStatus ? 1 : 0,
+    cancelled: state == cancelledStatus ? 1 : 0,
+    removed: 0,
+    state: state,
+  );
 }

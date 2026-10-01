@@ -1160,6 +1160,19 @@ CapacityReport capacityReport(
       if (f.hasActualTime) doneWithSessions++;
     }
   }
+  // Bucket the facts once (O(F + D) instead of a scan of every fact per day): timed occurrences by
+  // their planned local date and sessions by their local start date, both in the facts' order so
+  // the sums are added in the same order as before.
+  final plannedByDate = <LocalDate, List<PlannerOccurrenceFact>>{};
+  final sessionsByDate = <LocalDate, List<(double, double)>>{};
+  for (final f in list) {
+    final start = f.plannedStartLocal;
+    if (!f.isAllDay && start != null) (plannedByDate[start.date] ??= []).add(f);
+    for (final s in f.effectiveSessions) {
+      final local = clock.toLocal(s.start);
+      (sessionsByDate[local.date] ??= []).add((local.time.minuteOfDay.toDouble(), s.minutes));
+    }
+  }
   for (final date in range.dates) {
     final windows = _windowsFor(date, settings);
     final windowMinutes = windows.fold<double>(0, (a, w) => a + w.minutes);
@@ -1168,9 +1181,8 @@ CapacityReport capacityReport(
     var clipped = 0.0;
     var actual = 0.0;
     var actualClipped = 0.0;
-    for (final f in list) {
-      final start = f.plannedStartLocal;
-      if (f.isAllDay || start == null || start.date != date) continue;
+    for (final f in plannedByDate[date] ?? const <PlannerOccurrenceFact>[]) {
+      final start = f.plannedStartLocal!;
       final a = start.time.minuteOfDay.toDouble();
       final b = a + (f.plannedMinutes ?? 0);
       if (_isUnavailable(f, settings)) {
@@ -1184,15 +1196,9 @@ CapacityReport capacityReport(
       planned += b - a;
       clipped += _overlapWithWindows(a, b, windows);
     }
-    for (final f in list) {
-      for (final s in f.effectiveSessions) {
-        final local = clock.toLocal(s.start);
-        if (local.date != date) continue;
-        final a = local.time.minuteOfDay.toDouble();
-        final b = a + s.minutes;
-        actual += s.minutes;
-        actualClipped += _overlapWithWindows(a, b, windows);
-      }
+    for (final (a, minutes) in sessionsByDate[date] ?? const <(double, double)>[]) {
+      actual += minutes;
+      actualClipped += _overlapWithWindows(a, a + minutes, windows);
     }
     days.add(
       CapacityDay(
@@ -1220,19 +1226,25 @@ double remainingFreeMinutes(
   final nowLocal = clock.toLocal(now);
   var capacity = 0.0;
   var planned = 0.0;
+  // Still-open timed occurrences by planned local date (one pass instead of a scan per day).
+  final openByDate = <LocalDate, List<PlannerOccurrenceFact>>{};
+  for (final f in facts) {
+    final start = f.plannedStartLocal;
+    if (f.isAllDay || start == null) continue;
+    if (f.status == PlannerOccurrenceStatus.cancelled ||
+        f.status == PlannerOccurrenceStatus.done ||
+        f.status == PlannerOccurrenceStatus.skipped) {
+      continue;
+    }
+    (openByDate[start.date] ??= []).add(f);
+  }
   for (final date in range.dates) {
     if (date.isBefore(nowLocal.date)) continue;
     final from = date == nowLocal.date ? nowLocal.time.minuteOfDay.toDouble() : 0.0;
     final windows = _windowsFor(date, settings);
     capacity += _overlapWithWindows(from, 1440, windows);
-    for (final f in facts) {
-      final start = f.plannedStartLocal;
-      if (f.isAllDay || start == null || start.date != date) continue;
-      if (f.status == PlannerOccurrenceStatus.cancelled ||
-          f.status == PlannerOccurrenceStatus.done ||
-          f.status == PlannerOccurrenceStatus.skipped) {
-        continue;
-      }
+    for (final f in openByDate[date] ?? const <PlannerOccurrenceFact>[]) {
+      final start = f.plannedStartLocal!;
       final a = math.max<double>(from, start.time.minuteOfDay.toDouble());
       final b = (start.time.minuteOfDay + (f.plannedMinutes ?? 0)).toDouble();
       if (b > a) planned += _overlapWithWindows(a, b, windows);

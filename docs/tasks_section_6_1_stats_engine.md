@@ -51,7 +51,7 @@ for stats defaults ([8.3]).
 - [x] T6.1.20 — Data-quality metrics plumbing
 - [x] T6.1.21 — Metric glossary, catalog generation & registry lint
 - [x] T6.1.22 — Per-scope card layout customization
-- [ ] T6.1.23 — Stats performance suite
+- [x] T6.1.23 — Stats performance suite
 - [x] T6.1.24 — Correlation toolkit & false-discovery control
 - [x] T6.1.25 — Kaplan–Meier survival
 - [x] T6.1.26 — Monte Carlo forecasting
@@ -575,6 +575,7 @@ the fixtures (±1e-4).
   - transient isolate memory: < 50 MB
 **Acceptance criteria:** results are recorded in CI artifacts; a regression of more than 10 % fails.
 **Tests:** this task is the suite.
+**Notes:** `test/features/stats/perf/` (`perf_datasets.dart` bulk-seeds 30 habits × 5 y ≈ 43 k logs, 2 000 tasks / 105 k occurrence rows / 28 k sessions, 50 lists / 27 k items / 92 k events). A normal `flutter test` runs a 4 % smoke scale; `STATS_PERF=full` runs the reference sizes, writes `build/perf/stats_perf.json` (cold / load / compute / cached ms, RSS delta, `overBudget`), and `STATS_PERF_BASELINE` fails a > 10 % regression — the CI `stats-perf` job (push to main) downloads the previous artifact as its baseline. Budgets are device numbers, so misses are recorded and fail only with `STATS_PERF_STRICT=1`. Optimizations from the suite: big tables load through column-limited raw selects with a fast UTC ISO parser (drift row classes parsed every synced timestamp: planner load 1.76 s → 0.36 s), the Planner section loads only its resolution window (one-off and after-completion series keep full history; equivalence test `planner/planner_window_load_test.dart`), a constant-offset fast path in `LocationZoneResolver`, indexed habit-period log matching, O(F + D) capacity bucketing and a sweep for checklist boundary counts (brute-force equivalence tests in the package). Desktop JIT numbers (M-series, debug asserts): checklist year 205 ms ✓, cached < 1 ms ✓, Planner month 157 ms ✓; habits section 588 ms and Planner year 1.17 s are over budget — to be confirmed in profile mode on the reference phone ([9.1] device suite) before T6.1.27.
 
 ### T6.1.24 — Correlation toolkit & false-discovery control
 **Priority:** P2 · **Size:** M · **Depends on:** T6.1.19
@@ -629,3 +630,4 @@ per (domain, entity, metric family, local_date) in the local-only `stats_cache` 
 **Acceptance criteria:** metric outputs are identical with and without rollups on every fixture, and the
 failing budgets are met.
 **Tests:** an equivalence test that runs all fixtures in both modes.
+**Notes:** Not built yet (2026-10-01). The desktop JIT run of T6.1.23 misses the habits-section (588 ms) and Planner-year (1.17 s) budgets, but the time goes to loading ~43 k / ~70 k rows and evaluating them; a per-day rollup row per habit or task would be about as many rows as the logs themselves, so it would not remove that cost. Decide after the profile-mode device numbers ([9.1]); a rollup that pays off would be coarser (per-week or per-month aggregates feeding the section KPIs).

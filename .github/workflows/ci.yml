@@ -49,6 +49,38 @@ jobs:
             app/coverage/lcov.info
             packages/*/coverage
 
+  stats-perf:
+    name: Stats performance suite (arch §9.6)
+    runs-on: ubuntu-latest
+    needs: app
+    if: github.event_name == 'push'
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - id: fvm
+        run: echo "version=$(python3 -c "import json;print(json.load(open('.fvmrc'))['flutter'])")" >> "$GITHUB_OUTPUT"
+      - uses: subosito/flutter-action@v2
+        with: { flutter-version: '${{ steps.fvm.outputs.version }}', channel: stable, cache: true }
+      - run: dart pub get && dart run tool/merge_arb.dart && (cd app && flutter gen-l10n)
+      - name: Previous run (baseline for the 10 % regression check)
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          workflow: ci.yml
+          branch: main
+          name: stats-perf
+          path: perf-baseline
+          if_no_artifact_found: ignore
+      - name: Full-scale perf run
+        run: |
+          baseline="$PWD/perf-baseline/stats_perf.json"
+          cd app && STATS_PERF=full STATS_PERF_SLACK=1.5 STATS_PERF_BASELINE="$baseline" \
+            flutter test test/features/stats/perf
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stats-perf
+          path: app/build/perf/stats_perf.json
+
   android:
     name: Android debug build
     runs-on: ubuntu-latest

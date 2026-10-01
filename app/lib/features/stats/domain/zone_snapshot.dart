@@ -33,6 +33,17 @@ final class LocationZoneResolver implements ZoneResolver {
     const day = 86400000;
     final offsetBefore = _offsetMs(location, wallMs - day);
     final offsetAfter = _offsetMs(location, wallMs + day);
+    if (offsetBefore == offsetAfter) {
+      // No transition near this wall time (the common case): one candidate, checked once.
+      final utc = wallMs - offsetBefore;
+      if (_offsetMs(location, utc) == offsetBefore) {
+        return ResolvedInstant(
+          DateTime.fromMillisecondsSinceEpoch(utc, isUtc: true),
+          ResolutionKind.exact,
+          offsetBefore ~/ 60000,
+        );
+      }
+    }
     final candidates = <int>{
       wallMs - offsetBefore,
       wallMs - offsetAfter,

@@ -19,6 +19,11 @@
 /// - notifications: `SEARCH notifications USING INDEX idx_notifications_fire (fire_at>?)`.
 /// - Small per-user tables (categories, tags, checklists, habits, pauses, revisions, goals,
 ///   checklist_runs) are scanned.
+///
+/// The large tables (task_occurrences, time_entries, habit_logs, checklist_items, activity_events)
+/// are read with column-limited raw selects: drift's row classes parse every synced timestamp
+/// (created/updated/server_updated) of every row, which dominated the loading time of the
+/// performance suite (T6.1.23). [_instant] reads drift's ISO text with a fast UTC path.
 library;
 
 import 'dart:convert';
@@ -28,7 +33,7 @@ import 'package:everslot/core/database/app_database.dart';
 import 'package:everslot/features/stats/domain/scope_entity.dart';
 import 'package:everslot/features/stats/domain/stats_inputs.dart';
 import 'package:everslot_metrics/everslot_metrics.dart' show HabitPause, PlannerOccurrenceStatus, TrackingMode;
-import 'package:everslot_recurrence/everslot_recurrence.dart' show LocalDate, LocalDateTime;
+import 'package:everslot_recurrence/everslot_recurrence.dart' show LocalDate, LocalDateTime, RecurrenceRule, RuleType;
 
 /// Loads stats rows for the current user.
 class StatsDataSource {
@@ -38,6 +43,67 @@ class StatsDataSource {
   final String Function() _userId;
 
   static const _chunk = 500;
+
+  /// Rows of a raw select ([args] bind the `?` placeholders in order).
+  Future<List<Map<String, Object?>>> _rows(String sql, List<String> args) async => [
+    for (final r in await _db.customSelect(sql, variables: [for (final a in args) Variable.withString(a)]).get())
+      r.data,
+  ];
+
+  static String _marks(int n) => List.filled(n, '?').join(', ');
+
+  /// A `DateTimeColumn` value (text mode): `…Z` strings take a fast UTC path, anything else goes
+  /// through drift's own mapping (same result as a typed read).
+  DateTime? _instant(Object? v) {
+    if (v == null) return null;
+    if (v is String) {
+      final fast = parseUtcIso(v);
+      if (fast != null) return fast;
+    }
+    return _db.typeMapping.read(DriftSqlType.dateTime, v);
+  }
+
+  /// `YYYY-MM-DDTHH:MM:SS[.f…]Z` as a UTC instant, or null for any other shape.
+  static DateTime? parseUtcIso(String v) {
+    final n = v.length;
+    if (n < 20 || v.codeUnitAt(n - 1) != 0x5A || v.codeUnitAt(10) != 0x54) return null;
+    int digits(int from, int count) {
+      var x = 0;
+      for (var i = from; i < from + count; i++) {
+        final c = v.codeUnitAt(i) - 0x30;
+        if (c < 0 || c > 9) return -1;
+        x = x * 10 + c;
+      }
+      return x;
+    }
+
+    final y = digits(0, 4);
+    final mo = digits(5, 2);
+    final d = digits(8, 2);
+    final h = digits(11, 2);
+    final mi = digits(14, 2);
+    final sec = digits(17, 2);
+    if (y < 0 || mo < 0 || d < 0 || h < 0 || mi < 0 || sec < 0) return null;
+    var micros = 0;
+    if (n > 20) {
+      if (v.codeUnitAt(19) != 0x2E || n - 21 > 6 || n - 21 < 1) return null;
+      final f = digits(20, n - 21);
+      if (f < 0) return null;
+      micros = f;
+      for (var i = n - 21; i < 6; i++) {
+        micros *= 10;
+      }
+    } else if (n != 20) {
+      return null;
+    }
+    return DateTime.utc(y, mo, d, h, mi, sec, 0, micros);
+  }
+
+  static int? _int(Object? v) => v is int ? v : (v is num ? v.toInt() : null);
+
+  static double? _double(Object? v) => v is num ? v.toDouble() : null;
+
+  static bool? _bool(Object? v) => v == null ? null : (v == 1 || v == true);
 
   // ------------------------------------------------------------------------------------------
   // Shared
@@ -100,28 +166,28 @@ class StatsDataSource {
     final result = <ActivityRecord>[];
     for (var i = 0; i < ids.length; i += _chunk) {
       final part = ids.sublist(i, i + _chunk > ids.length ? ids.length : i + _chunk);
-      final query = _db.select(_db.activityEvents)
-        ..where(
-          (e) =>
-              e.entityType.equals(entityType) &
-              e.entityId.isIn(part) &
-              e.userId.equals(_userId()) &
-              e.deletedAt.isNull() &
-              (types == null ? const Constant(true) : e.eventType.isIn(types)),
-        );
-      result.addAll((await query.get()).map(_event));
+      final typeList = types?.toList() ?? const <String>[];
+      final rows = await _rows(
+        'SELECT $_eventColumns FROM activity_events WHERE entity_type = ? AND entity_id IN (${_marks(part.length)}) '
+        'AND user_id = ? AND deleted_at IS NULL'
+        '${types == null ? '' : ' AND event_type IN (${_marks(typeList.length)})'}',
+        [entityType, ...part, _userId(), ...typeList],
+      );
+      result.addAll(rows.map(_event));
     }
     return result;
   }
 
-  static ActivityRecord _event(ActivityEventRow r) => ActivityRecord(
-    entityType: r.entityType,
-    entityId: r.entityId,
-    parentId: r.parentId,
-    eventType: r.eventType,
-    payload: _decodeMap(r.payload),
-    occurredAt: r.occurredAt,
-    rev: r.rev,
+  static const _eventColumns = 'entity_type, entity_id, parent_id, event_type, payload, occurred_at, rev';
+
+  ActivityRecord _event(Map<String, Object?> r) => ActivityRecord(
+    entityType: r['entity_type']! as String,
+    entityId: r['entity_id']! as String,
+    parentId: r['parent_id'] as String?,
+    eventType: r['event_type']! as String,
+    payload: _decodeMap(r['payload']! as String),
+    occurredAt: _instant(r['occurred_at'])!,
+    rev: _int(r['rev']) ?? 0,
   );
 
   static Map<String, Object?> _decodeMap(String text) {
@@ -138,7 +204,11 @@ class StatsDataSource {
 
   /// Planner rows. [taskId] loads one task (task sheet), [seriesId] one series; otherwise every
   /// task that can have an occurrence on or before [to] plus the backlog.
-  Future<PlannerInput> loadPlanner({String? taskId, String? seriesId, LocalDate? to}) async {
+  ///
+  /// With [from] and [to] (the section's resolution window), recurring series only load the
+  /// occurrence records and sessions keyed — or moved — inside the window; one-off tasks and
+  /// after-completion series keep their whole history (their resolution reads every record).
+  Future<PlannerInput> loadPlanner({String? taskId, String? seriesId, LocalDate? from, LocalDate? to}) async {
     final user = _userId();
     List<TaskRow> tasks;
     if (taskId != null) {
@@ -171,25 +241,61 @@ class StatsDataSource {
       ];
     }
     final ids = [for (final t in tasks) t.id];
-    final occurrences = <TaskOccurrenceRow>[];
-    final entries = <TimeEntryRow>[];
-    for (var i = 0; i < ids.length; i += _chunk) {
-      final part = ids.sublist(i, i + _chunk > ids.length ? ids.length : i + _chunk);
+    final occurrences = <OccurrenceRecord>[];
+    final entries = <TimeEntryRecord>[];
+    final bounded = from != null && to != null
+        ? {
+            for (final t in tasks)
+              if (t.recurrence != null && !_isAfterCompletion(t.recurrence!)) t.id,
+          }
+        : const <String>{};
+    if (bounded.isNotEmpty) {
+      await _loadWindow(
+        [
+          for (final id in ids)
+            if (bounded.contains(id)) id,
+        ],
+        from: from!,
+        to: to!,
+        occurrences: occurrences,
+        entries: entries,
+      );
+    }
+    final unbounded = bounded.isEmpty
+        ? ids
+        : [
+            for (final id in ids)
+              if (!bounded.contains(id)) id,
+          ];
+    for (var i = 0; i < unbounded.length; i += _chunk) {
+      final part = unbounded.sublist(i, i + _chunk > unbounded.length ? unbounded.length : i + _chunk);
       occurrences.addAll(
-        await (_db.select(_db.taskOccurrences)..where((o) => o.taskId.isIn(part) & o.deletedAt.isNull())).get(),
+        (await _rows(
+          'SELECT $_occurrenceColumns FROM task_occurrences '
+          'WHERE task_id IN (${_marks(part.length)}) AND deleted_at IS NULL',
+          part,
+        )).map(_occurrence),
       );
       entries.addAll(
-        await (_db.select(_db.timeEntries)..where((e) => e.taskId.isIn(part) & e.deletedAt.isNull())).get(),
+        (await _rows(
+          'SELECT task_id, occurrence_key, started_at, ended_at FROM time_entries '
+          'WHERE task_id IN (${_marks(part.length)}) AND deleted_at IS NULL',
+          part,
+        )).map(
+          (e) => TimeEntryRecord(
+            taskId: e['task_id']! as String,
+            occurrenceKey: e['occurrence_key'] as String?,
+            startedAt: _instant(e['started_at'])!,
+            endedAt: _instant(e['ended_at']),
+          ),
+        ),
       );
     }
     final events = await _events('task', ids, types: const {'rescheduled', 'created', 'updated'});
     return PlannerInput(
       tasks: [for (final t in tasks) taskRecordOf(t)],
-      occurrences: [for (final o in occurrences) occurrenceRecordOf(o)],
-      timeEntries: [
-        for (final e in entries)
-          TimeEntryRecord(taskId: e.taskId, occurrenceKey: e.occurrenceKey, startedAt: e.startedAt, endedAt: e.endedAt),
-      ],
+      occurrences: occurrences,
+      timeEntries: entries,
       events: events,
       categories: await loadCategories(),
       tags: await loadTags(),
@@ -218,15 +324,78 @@ class StatsDataSource {
     icon: t.icon,
   );
 
-  /// Maps a `task_occurrences` row.
-  static OccurrenceRecord occurrenceRecordOf(TaskOccurrenceRow o) => OccurrenceRecord(
-    taskId: o.taskId,
-    key: o.occurrenceKey,
-    overrideStartLocal: o.overrideStartLocal == null ? null : _ldt(o.overrideStartLocal!),
-    overrideDurationMinutes: o.overrideDurationMinutes,
-    overrideTitle: o.overrideTitle,
-    isCancelled: o.isCancelled,
-    status: switch (o.status) {
+  static bool _isAfterCompletion(String recurrence) {
+    try {
+      return RecurrenceRule.decode(recurrence).type == RuleType.afterCompletion;
+    } on Object {
+      return false;
+    }
+  }
+
+  /// Records and sessions of the recurring tasks [ids] for the window [from]…[to]: occurrence keys
+  /// in the window plus occurrences moved into it (their sessions keep the original key).
+  Future<void> _loadWindow(
+    List<String> ids, {
+    required LocalDate from,
+    required LocalDate to,
+    required List<OccurrenceRecord> occurrences,
+    required List<TimeEntryRecord> entries,
+  }) async {
+    final lo = from.toIso();
+    final hi = to.plusDays(1).toIso();
+    TimeEntryRecord entry(Map<String, Object?> e) => TimeEntryRecord(
+      taskId: e['task_id']! as String,
+      occurrenceKey: e['occurrence_key'] as String?,
+      startedAt: _instant(e['started_at'])!,
+      endedAt: _instant(e['ended_at']),
+    );
+    for (var i = 0; i < ids.length; i += _chunk) {
+      final part = ids.sublist(i, i + _chunk > ids.length ? ids.length : i + _chunk);
+      final rows = (await _rows(
+        'SELECT $_occurrenceColumns FROM task_occurrences '
+        'WHERE task_id IN (${_marks(part.length)}) AND deleted_at IS NULL '
+        'AND ((occurrence_key >= ? AND occurrence_key < ?) OR (override_start_local >= ? AND override_start_local < ?))',
+        [...part, lo, hi, lo, hi],
+      )).map(_occurrence).toList();
+      occurrences.addAll(rows);
+      entries.addAll(
+        (await _rows(
+          'SELECT task_id, occurrence_key, started_at, ended_at FROM time_entries '
+          'WHERE task_id IN (${_marks(part.length)}) AND deleted_at IS NULL '
+          'AND occurrence_key >= ? AND occurrence_key < ?',
+          [...part, lo, hi],
+        )).map(entry),
+      );
+      final movedIn = [
+        for (final r in rows)
+          if (r.key.compareTo(lo) < 0 || r.key.compareTo(hi) >= 0) (r.taskId, r.key),
+      ];
+      for (final (taskId, key) in movedIn) {
+        entries.addAll(
+          (await _rows(
+            'SELECT task_id, occurrence_key, started_at, ended_at FROM time_entries '
+            'WHERE task_id = ? AND occurrence_key = ? AND deleted_at IS NULL',
+            [taskId, key],
+          )).map(entry),
+        );
+      }
+    }
+  }
+
+  static const _occurrenceColumns =
+      'task_id, occurrence_key, override_start_local, override_duration_minutes, override_title, is_cancelled, '
+      'status, status_changed_at, completed_at, actual_start_at, actual_end_at, tracked_seconds, '
+      'completion_percent, skip_reason, rating, outcome_note';
+
+  /// Maps a `task_occurrences` row ([_occurrenceColumns]).
+  OccurrenceRecord _occurrence(Map<String, Object?> o) => OccurrenceRecord(
+    taskId: o['task_id']! as String,
+    key: o['occurrence_key']! as String,
+    overrideStartLocal: o['override_start_local'] == null ? null : _ldt(o['override_start_local']! as String),
+    overrideDurationMinutes: _int(o['override_duration_minutes']),
+    overrideTitle: o['override_title'] as String?,
+    isCancelled: _bool(o['is_cancelled']) ?? false,
+    status: switch (o['status']) {
       'in_progress' => PlannerOccurrenceStatus.inProgress,
       'done' => PlannerOccurrenceStatus.done,
       'skipped' => PlannerOccurrenceStatus.skipped,
@@ -234,15 +403,15 @@ class StatsDataSource {
       'cancelled' => PlannerOccurrenceStatus.cancelled,
       _ => PlannerOccurrenceStatus.scheduled,
     },
-    statusChangedAt: o.statusChangedAt,
-    completedAt: o.completedAt,
-    actualStartAt: o.actualStartAt,
-    actualEndAt: o.actualEndAt,
-    trackedSeconds: o.trackedSeconds,
-    completionPercent: o.completionPercent,
-    skipReason: o.skipReason,
-    rating: o.rating,
-    outcomeNote: o.outcomeNote,
+    statusChangedAt: _instant(o['status_changed_at']),
+    completedAt: _instant(o['completed_at']),
+    actualStartAt: _instant(o['actual_start_at']),
+    actualEndAt: _instant(o['actual_end_at']),
+    trackedSeconds: _int(o['tracked_seconds']),
+    completionPercent: _int(o['completion_percent']),
+    skipReason: o['skip_reason'] as String?,
+    rating: _int(o['rating']),
+    outcomeNote: o['outcome_note'] as String?,
   );
 
   static LocalDateTime? _ldt(String v) => LocalDateTime.tryParse(v) ?? LocalDate.tryParse(v)?.atStartOfDay;
@@ -271,15 +440,16 @@ class StatsDataSource {
     }
     final lists = await (_db.select(_db.checklists)..where((c) => c.userId.equals(user) & c.deletedAt.isNull())).get();
     final listIds = listId == null ? [for (final l in lists) l.id] : [listId];
-    final items = <ChecklistItemRow>[];
+    final items = <ItemRecord>[];
     for (var i = 0; i < listIds.length; i += _chunk) {
       final part = listIds.sublist(i, i + _chunk > listIds.length ? listIds.length : i + _chunk);
+      // Stats count originals only (mirrors, T4.5.16).
       items.addAll(
-        await (_db.select(_db.checklistItems)..where(
-              // Stats count originals only (mirrors, T4.5.16).
-              (it) => it.checklistId.isIn(part) & it.userId.equals(user) & it.mirrorOfId.isNull(),
-            ))
-            .get(),
+        (await _rows(
+          'SELECT $_itemColumns FROM checklist_items '
+          'WHERE checklist_id IN (${_marks(part.length)}) AND user_id = ? AND mirror_of_id IS NULL',
+          [...part, user],
+        )).map(_item),
       );
     }
     if (listId != null) {
@@ -304,19 +474,21 @@ class StatsDataSource {
       for (var i = 0; i < extra.length; i += _chunk) {
         final part = extra.sublist(i, i + _chunk > extra.length ? extra.length : i + _chunk);
         items.addAll(
-          await (_db.select(
-            _db.checklistItems,
-          )..where((it) => it.id.isIn(part) & it.userId.equals(user) & it.mirrorOfId.isNull())).get(),
+          (await _rows(
+            'SELECT $_itemColumns FROM checklist_items '
+            'WHERE id IN (${_marks(part.length)}) AND user_id = ? AND mirror_of_id IS NULL',
+            [...part, user],
+          )).map(_item),
         );
       }
     }
     final events = listId == null
         ? [
-            for (final r
-                in await (_db.select(_db.activityEvents)..where(
-                      (e) => e.entityType.equals('checklist_item') & e.userId.equals(user) & e.deletedAt.isNull(),
-                    ))
-                    .get())
+            for (final r in await _rows(
+              'SELECT $_eventColumns FROM activity_events '
+              "WHERE entity_type = 'checklist_item' AND user_id = ? AND deleted_at IS NULL",
+              [user],
+            ))
               _event(r),
           ]
         : await _events('checklist_item', [for (final i in items) i.id]);
@@ -356,7 +528,7 @@ class StatsDataSource {
                 : null,
           ),
       ],
-      items: [for (final i in items) itemRecordOf(i)],
+      items: items,
       events: events,
       runs: [
         for (final r in runs)
@@ -389,22 +561,26 @@ class StatsDataSource {
         : const {};
   }
 
-  /// Maps a `checklist_items` row.
-  static ItemRecord itemRecordOf(ChecklistItemRow i) => ItemRecord(
-    id: i.id,
-    checklistId: i.checklistId,
-    parentId: i.parentId,
-    text: i.itemText,
-    status: i.status,
-    statusNote: i.statusNote,
-    createdAt: i.createdAt,
-    completedAt: i.completedAt,
-    deletedAt: i.deletedAt,
-    dueLocal: i.dueLocal == null ? null : _ldt(i.dueLocal!),
-    timeZone: i.timeZone,
-    followUpAt: i.followUpAt,
-    waitingOn: i.waitingOn,
-    updatedAt: i.updatedAt,
+  static const _itemColumns =
+      'id, checklist_id, parent_id, text, status, status_note, created_at, completed_at, deleted_at, due_local, '
+      'time_zone, follow_up_at, waiting_on, updated_at';
+
+  /// Maps a `checklist_items` row ([_itemColumns]).
+  ItemRecord _item(Map<String, Object?> i) => ItemRecord(
+    id: i['id']! as String,
+    checklistId: i['checklist_id']! as String,
+    parentId: i['parent_id'] as String?,
+    text: i['text']! as String,
+    status: i['status']! as String,
+    statusNote: i['status_note'] as String?,
+    createdAt: _instant(i['created_at'])!,
+    completedAt: _instant(i['completed_at']),
+    deletedAt: _instant(i['deleted_at']),
+    dueLocal: i['due_local'] == null ? null : _ldt(i['due_local']! as String),
+    timeZone: i['time_zone'] as String?,
+    followUpAt: _instant(i['follow_up_at']),
+    waitingOn: i['waiting_on'] as String?,
+    updatedAt: _instant(i['updated_at']),
   );
 
   static List<({String itemId, String status, DateTime? completedAt})> _snapshot(String? text) {
@@ -441,10 +617,15 @@ class StatsDataSource {
             ))
             .get();
     final ids = [for (final h in habits) h.id];
-    final logs = <HabitLogRow>[];
+    final logs = <HabitLogRecord>[];
     for (var i = 0; i < ids.length; i += _chunk) {
       final part = ids.sublist(i, i + _chunk > ids.length ? ids.length : i + _chunk);
-      logs.addAll(await (_db.select(_db.habitLogs)..where((l) => l.habitId.isIn(part) & l.deletedAt.isNull())).get());
+      logs.addAll(
+        (await _rows(
+          'SELECT $_logColumns FROM habit_logs WHERE habit_id IN (${_marks(part.length)}) AND deleted_at IS NULL',
+          part,
+        )).map(_log),
+      );
     }
     final pauses = await (_db.select(
       _db.habitPauses,
@@ -468,7 +649,7 @@ class StatsDataSource {
         : const <NotificationRow>[];
     return HabitInput(
       habits: [for (final h in habits) habitRecordOf(h)],
-      logs: [for (final l in logs) habitLogRecordOf(l)],
+      logs: logs,
       pauses: [
         for (final p in pauses)
           if (LocalDate.tryParse(p.startDate) case final start?)
@@ -553,26 +734,33 @@ class StatsDataSource {
     );
   }
 
-  /// Maps a `habit_logs` row.
-  static HabitLogRecord habitLogRecordOf(HabitLogRow l) => HabitLogRecord(
-    id: l.id,
-    habitId: l.habitId,
-    kind: l.kind,
-    loggedAt: l.loggedAt,
-    localDate: LocalDate.tryParse(l.localDate) ?? LocalDate.fromDateTime(l.loggedAt),
-    occurrenceKey: l.occurrenceKey,
-    value: l.value,
-    mood: l.mood,
-    intensity: l.intensity,
-    resisted: l.resisted,
-    trigger: l.trigger,
-    place: l.place,
-    coping: l.coping,
-    durationSeconds: l.durationSeconds,
-    note: l.note,
-    source: l.source,
-    createdAt: l.createdAt,
-  );
+  static const _logColumns =
+      'id, habit_id, kind, logged_at, local_date, occurrence_key, value, mood, intensity, resisted, trigger, place, '
+      'coping, duration_seconds, note, source, created_at';
+
+  /// Maps a `habit_logs` row ([_logColumns]).
+  HabitLogRecord _log(Map<String, Object?> l) {
+    final loggedAt = _instant(l['logged_at'])!;
+    return HabitLogRecord(
+      id: l['id']! as String,
+      habitId: l['habit_id']! as String,
+      kind: l['kind']! as String,
+      loggedAt: loggedAt,
+      localDate: LocalDate.tryParse(l['local_date']! as String) ?? LocalDate.fromDateTime(loggedAt),
+      occurrenceKey: l['occurrence_key'] as String?,
+      value: _double(l['value']),
+      mood: _int(l['mood']),
+      intensity: _int(l['intensity']),
+      resisted: _bool(l['resisted']),
+      trigger: l['trigger'] as String?,
+      place: l['place'] as String?,
+      coping: l['coping'] as String?,
+      durationSeconds: _int(l['duration_seconds']),
+      note: l['note'] as String?,
+      source: l['source']! as String,
+      createdAt: _instant(l['created_at']),
+    );
+  }
 
   /// Earliest habit start date (all-time periods).
   Future<LocalDate?> firstHabitDate({String? habitId}) async {

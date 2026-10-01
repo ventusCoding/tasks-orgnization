@@ -264,18 +264,98 @@ String _dayKey(LocalDate d) => d.toIso();
 
 LocalDate? _dateOfKey(String? key) {
   if (key == null || key.length < 10) return null;
+  // Fast path for the canonical `YYYY-MM-DD…` prefix (no regex, no substring).
+  final y = _digits(key, 0, 4);
+  final m = _digits(key, 5, 2);
+  final d = _digits(key, 8, 2);
+  if (y >= 0 && m >= 0 && d >= 0 && key.codeUnitAt(4) == 45 && key.codeUnitAt(7) == 45) {
+    return LocalDate.tryCreate(y, m, d);
+  }
   return LocalDate.tryParse(key.substring(0, 10));
+}
+
+/// The decimal number spelled by [count] ASCII digits of [s] at [start], or -1.
+int _digits(String s, int start, int count) {
+  var n = 0;
+  for (var i = start; i < start + count; i++) {
+    final c = s.codeUnitAt(i) - 48;
+    if (c < 0 || c > 9) return -1;
+    n = n * 10 + c;
+  }
+  return n;
+}
+
+/// Logs bucketed once so that evaluating thousands of periods does not rescan every log per period
+/// (O(P × L) → O(P + L)). The buckets reproduce the matching rules of [_logsForPeriod] exactly:
+/// day = keyless log of that local date, or a key equal to the day key / starting with `<day>T`;
+/// slot = a log carrying exactly the slot key, or a keyless log logged inside the slot window;
+/// quota = a log whose [_logDate] lies in the period.
+final class _LogIndex {
+  new(List<HabitLog> logs) {
+    for (final l in logs) {
+      final key = l.occurrenceKey;
+      if (key == null) {
+        (_byDay[_dayKey(l.localDate)] ??= []).add(l);
+        _unkeyed.add(l);
+      } else {
+        final t = key.indexOf('T');
+        (_byDay[t < 0 ? key : key.substring(0, t)] ??= []).add(l);
+        (_byKey[key] ??= []).add(l);
+      }
+      (_byLogDate[_logDate(l)] ??= []).add(l);
+    }
+    _unkeyed.sort((a, b) => a.loggedAt.compareTo(b.loggedAt));
+  }
+
+  final Map<String, List<HabitLog>> _byDay = {};
+  final Map<String, List<HabitLog>> _byKey = {};
+  final Map<LocalDate, List<HabitLog>> _byLogDate = {};
+  final List<HabitLog> _unkeyed = [];
+
+  /// A fresh list (callers sort it and keep it in the result).
+  List<HabitLog> forPeriod(HabitPeriod p) {
+    switch (p.kind) {
+      case HabitPeriodKind.day:
+        return List.of(_byDay[_dayKey(p.startDate)] ?? const <HabitLog>[]);
+      case HabitPeriodKind.slot:
+        final from = p.matchStart ?? p.windowStart;
+        final result = List.of(_byKey[p.key] ?? const <HabitLog>[]);
+        // First keyless log at or after `from`, then while inside the window.
+        var lo = 0;
+        var hi = _unkeyed.length;
+        while (lo < hi) {
+          final mid = (lo + hi) >> 1;
+          if (_unkeyed[mid].loggedAt.isBefore(from)) {
+            lo = mid + 1;
+          } else {
+            hi = mid;
+          }
+        }
+        for (var i = lo; i < _unkeyed.length && _unkeyed[i].loggedAt.isBefore(p.windowEnd); i++) {
+          result.add(_unkeyed[i]);
+        }
+        return result;
+      case HabitPeriodKind.quota:
+        final result = <HabitLog>[];
+        for (var d = p.startDate; !d.isAfter(p.endDate); d = d.plusDays(1)) {
+          final bucket = _byLogDate[d];
+          if (bucket != null) result.addAll(bucket);
+        }
+        return result;
+    }
+  }
 }
 
 List<HabitLog> _logsForPeriod(HabitPeriod p, List<HabitLog> logs) {
   switch (p.kind) {
     case HabitPeriodKind.day:
       final dayKey = _dayKey(p.startDate);
+      final dayKeyT = '${dayKey}T';
       return [
         for (final l in logs)
           if (l.occurrenceKey == null
               ? l.localDate == p.startDate
-              : (l.occurrenceKey == dayKey || l.occurrenceKey!.startsWith('${dayKey}T')))
+              : (l.occurrenceKey == dayKey || l.occurrenceKey!.startsWith(dayKeyT)))
             l,
       ];
     case HabitPeriodKind.slot:
@@ -326,8 +406,20 @@ PeriodResult evaluateHabitPeriod(
   required LocalDate today,
   List<HabitPause> pauses = const [],
   HabitEvaluationSettings settings = const HabitEvaluationSettings(),
+}) =>
+    _evaluateEntries(period, _logsForPeriod(period, logs), now: now, today: today, pauses: pauses, settings: settings);
+
+/// [evaluateHabitPeriod] on the period's own [entries] (a fresh, mutable list: it is sorted in place
+/// and kept in the result).
+PeriodResult _evaluateEntries(
+  HabitPeriod period,
+  List<HabitLog> entries, {
+  required DateTime now,
+  required LocalDate today,
+  required List<HabitPause> pauses,
+  required HabitEvaluationSettings settings,
 }) {
-  final entries = _logsForPeriod(period, logs)..sort((a, b) => a.compareTo(b));
+  entries.sort((a, b) => a.compareTo(b));
   if (period.kind == HabitPeriodKind.quota) {
     return _evaluateQuota(period, entries, now, today, pauses, settings);
   }
@@ -438,8 +530,13 @@ PeriodResult _evaluateQuota(
   var total = 0.0;
   var pausedDays = 0;
   var excusedDays = 0;
+  // Group the period's logs by day once (not once per eligible day).
+  final byDate = <LocalDate, List<HabitLog>>{};
+  for (final l in entries) {
+    (byDate[_logDate(l)] ??= []).add(l);
+  }
   for (final date in dates) {
-    final dayLogs = entries.where((l) => _logDate(l) == date).toList();
+    final dayLogs = byDate[date] ?? const <HabitLog>[];
     final state = _latestState(dayLogs);
     final value = _progressSum(dayLogs);
     total += value;
@@ -547,11 +644,22 @@ List<PeriodResult> evaluateHabitPeriods(
   List<HabitPause> pauses = const [],
   HabitEvaluationSettings settings = const HabitEvaluationSettings(),
   bool includeFuture = false,
-}) => [
-  for (final p in periods)
-    if (includeFuture || !p.windowStart.isAfter(now))
-      evaluateHabitPeriod(p, logs, now: now, today: today, pauses: pauses, settings: settings),
-];
+}) {
+  // Long histories (thousands of periods) match logs through an index built once.
+  final index = periods.length > 8 && logs.length > 16 ? _LogIndex(logs) : null;
+  return [
+    for (final p in periods)
+      if (includeFuture || !p.windowStart.isAfter(now))
+        _evaluateEntries(
+          p,
+          index == null ? _logsForPeriod(p, logs) : index.forPeriod(p),
+          now: now,
+          today: today,
+          pauses: pauses,
+          settings: settings,
+        ),
+  ];
+}
 
 /// Rolls slot results up to one day result (T5.1.09): `all slots` (default) or `min N` slots.
 /// Neutral slots (excused, paused, frozen, not due, and skipped when skips are neutral) are removed

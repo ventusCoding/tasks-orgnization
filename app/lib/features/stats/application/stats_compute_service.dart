@@ -13,6 +13,7 @@ import 'package:everslot/features/stats/domain/metric_definition.dart';
 import 'package:everslot/features/stats/domain/stats_inputs.dart';
 import 'package:everslot/features/stats/domain/stats_request.dart';
 import 'package:everslot/features/stats/domain/stats_types.dart';
+import 'package:everslot/features/stats/domain/zone_snapshot.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart' show LocalDate;
 import 'package:meta/meta.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -116,14 +117,18 @@ final class StatsComputeService {
     final needsLists = scope.domains.contains(StatsDomain.checklists);
     final needsHabits = scope.domains.contains(StatsDomain.habits);
     if (needsPlanner) {
-      planner = switch (scope) {
-        MetricScope.task => await source.loadPlanner(taskId: request.scopeId),
-        MetricScope.series => await source.loadPlanner(seriesId: request.scopeId),
-        _ => await source.loadPlanner(),
-      };
       if (scope == MetricScope.planner || scope == MetricScope.series || scope == MetricScope.global) {
         first = await source.firstPlannerDate(seriesId: scope == MetricScope.series ? request.scopeId : null);
       }
+      planner = switch (scope) {
+        MetricScope.task => await source.loadPlanner(taskId: request.scopeId),
+        MetricScope.series => await source.loadPlanner(seriesId: request.scopeId),
+        MetricScope.planner => await () {
+          final (from, to) = plannerWindow(request, env, firstDataDate: first);
+          return source.loadPlanner(from: from, to: to);
+        }(),
+        _ => await source.loadPlanner(),
+      };
     }
     if (needsLists) {
       checklists = switch (scope) {
@@ -179,6 +184,22 @@ final class StatsComputeService {
       pendingOutbox: scope == MetricScope.global || scope == MetricScope.habits ? await source.pendingOutbox() : 0,
       firstDataDate: first,
     );
+  }
+
+  /// The dates the Planner section resolves for [request] (`PlannerContext.windowStart`…`windowEnd`:
+  /// the period, its comparison period, a week before and four weeks after), so the loader can skip
+  /// older and later occurrence records.
+  static (LocalDate, LocalDate) plannerWindow(StatsRequest request, StatsEnvironment env, {LocalDate? firstDataDate}) {
+    final resolver = LocationZoneResolver(locationsOf({env.zoneId}), fallbackZone: env.zoneId);
+    final today = resolver.toLocal(env.now, env.zoneId).date;
+    final period = request.selection.period.resolve(
+      today: today,
+      weekStart: env.settings.weekStartOverride ?? env.weekStart,
+      firstDataDate: firstDataDate,
+    );
+    final previous = period.previous(mode: request.selection.mode);
+    final range = period.range;
+    return (LocalDate.min(previous.start, range.start).minusDays(7), range.end.plusDays(28));
   }
 
   /// Snapshot of IANA locations (the tz database is initialized in bootstrap / tests).
