@@ -98,5 +98,13 @@
   "undoDoneSnack": "Annulé : {action}",
   "redoDoneSnack": "Rétabli : {action}",
   "undoNothing": "Rien à annuler",
-  "redoNothing": "Rien à rétablir"
+  "redoNothing": "Rien à rétablir",
+  "linkKindTask": "Tâche",
+  "linkKindChecklist": "Liste",
+  "linkKindChecklistItem": "Élément de liste",
+  "linkKindHabit": "Habitude",
+  "linkKindHabitLog": "Note d’habitude",
+  "linkedEntityMissing": "Supprimé",
+  "linkedEntityUntitled": "Sans titre",
+  "linkedEntitySemantics": "{kind} : {title}, {status}. L’ouvre"
 }

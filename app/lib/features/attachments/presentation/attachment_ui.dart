@@ -3,9 +3,11 @@ import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/attachments/application/providers.dart';
 import 'package:everslot/features/attachments/domain/attachment_limits.dart';
 import 'package:everslot/features/attachments/domain/transfer.dart';
+import 'package:everslot/features/attachments/presentation/voice_note_sheet.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:mime/mime.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Human-readable byte size ("1.2 MB"), localized.
@@ -61,44 +63,87 @@ String? transferLabel(BuildContext context, AttachmentTransfer t) {
 String rejectionMessage(BuildContext context, String name, AttachmentRejection reason, AttachmentLimits limits) {
   final l = context.l10n;
   return switch (reason) {
-    AttachmentRejection.tooLarge => l.attachmentsRejectedTooLarge(name, formatBytes(context, limits.maxBytes)),
+    AttachmentRejection.tooLarge => l.attachmentsRejectedTooLarge(
+      name,
+      formatBytes(context, limits.maxBytesFor(lookupMimeType(name) ?? '')),
+    ),
     AttachmentRejection.typeNotAllowed => l.attachmentsRejectedType(name),
     AttachmentRejection.tooMany => l.attachmentsRejectedTooMany(limits.maxPerOwner),
     AttachmentRejection.empty => l.attachmentsRejectedEmpty(name),
     AttachmentRejection.duplicate => l.attachmentsRejectedDuplicate(name),
     AttachmentRejection.unreadable => l.attachmentsRejectedUnreadable(name),
+    AttachmentRejection.tooLong => l.attachmentsRejectedTooLong(name, limits.maxVideoDuration.inSeconds),
   };
 }
 
-/// Source menu (camera / photos / files). Returns null on cancel.
-Future<AttachmentSource?> pickAttachmentSource(BuildContext context) => showAppSheet<AttachmentSource>(
+/// Entries of the "add attachment" menu: a platform source, or the voice-note recorder.
+enum AddAttachmentChoice {
+  camera(AttachmentSource.camera, Icons.photo_camera_outlined),
+  photos(AttachmentSource.photos, Icons.photo_library_outlined),
+  recordVideo(AttachmentSource.recordVideo, Icons.videocam_outlined),
+  videos(AttachmentSource.videos, Icons.video_library_outlined),
+  voiceNote(null, Icons.mic_none),
+  scan(AttachmentSource.scan, Icons.document_scanner_outlined),
+  files(AttachmentSource.files, Icons.attach_file);
+
+  AddAttachmentChoice(this.source, this.icon);
+
+  final AttachmentSource? source;
+  final IconData icon;
+
+  String label(BuildContext context) {
+    final l = context.l10n;
+    return switch (this) {
+      camera => l.attachmentsSourceCamera,
+      photos => l.attachmentsSourcePhotos,
+      recordVideo => l.attachmentsSourceRecordVideo,
+      videos => l.attachmentsSourceVideos,
+      voiceNote => l.attachmentsSourceVoiceNote,
+      scan => l.attachmentsSourceScan,
+      files => l.attachmentsSourceFiles,
+    };
+  }
+
+  static AddAttachmentChoice of(AttachmentSource source) => values.firstWhere((c) => c.source == source);
+}
+
+/// Source menu (camera, photos, videos, voice note, scan, files). Returns null on cancel.
+Future<AddAttachmentChoice?> pickAttachmentSource(BuildContext context) => showAppSheet<AddAttachmentChoice>(
   context,
   title: context.l10n.attachmentsAdd,
   builder: (ctx) => Column(
     mainAxisSize: MainAxisSize.min,
     children: [
-      ListTile(
-        leading: const Icon(Icons.photo_camera_outlined),
-        title: Text(ctx.l10n.attachmentsSourceCamera),
-        onTap: () => Navigator.pop(ctx, AttachmentSource.camera),
-      ),
-      ListTile(
-        leading: const Icon(Icons.photo_library_outlined),
-        title: Text(ctx.l10n.attachmentsSourcePhotos),
-        onTap: () => Navigator.pop(ctx, AttachmentSource.photos),
-      ),
-      ListTile(
-        leading: const Icon(Icons.attach_file),
-        title: Text(ctx.l10n.attachmentsSourceFiles),
-        onTap: () => Navigator.pop(ctx, AttachmentSource.files),
-      ),
+      for (final choice in AddAttachmentChoice.values)
+        ListTile(
+          key: ValueKey('attachment-source-${choice.name}'),
+          leading: Icon(choice.icon),
+          title: Text(choice.label(ctx)),
+          onTap: () => Navigator.pop(ctx, choice),
+        ),
       const SizedBox(height: Space.md),
     ],
   ),
 );
 
-/// Full "add attachments" flow for any owner (T2.2.02 + T2.2.08 feedback): source menu, camera
-/// primer, pick, process, insert, then a snackbar summarizing added/rejected files.
+/// One-time explanation before an OS permission prompt. Returns false when the user backs out.
+Future<bool> _primer(
+  BuildContext context, {
+  required Future<bool> Function() shown,
+  required Future<void> Function() markShown,
+  required String title,
+  required String body,
+}) async {
+  if (await shown()) return true;
+  if (!context.mounted) return false;
+  final ok = await confirmDialog(context, title: title, body: body, confirmLabel: context.l10n.actionContinue);
+  if (ok) await markShown();
+  return ok;
+}
+
+/// Full "add attachments" flow for any owner (T2.2.02 + T2.2.08 feedback): source menu, camera or
+/// microphone primer, pick / record / scan, process, insert, then a snackbar summarizing
+/// added/rejected files.
 ///
 /// Returns the op record so callers can push it on their own undo stack.
 Future<AddAttachmentsResult?> pickAndAddAttachments(
@@ -108,36 +153,48 @@ Future<AddAttachmentsResult?> pickAndAddAttachments(
   required String ownerId,
   AttachmentSource? source,
 }) async {
-  final chosen = source ?? await pickAttachmentSource(context);
+  final chosen = source == null ? await pickAttachmentSource(context) : AddAttachmentChoice.of(source);
   if (chosen == null || !context.mounted) return null;
-  if (chosen == AttachmentSource.camera) {
-    final prefs = ref.read(attachmentPrefsProvider);
-    if (!await prefs.cameraPrimerShown()) {
-      if (!context.mounted) return null;
-      final ok = await confirmDialog(
-        context,
-        title: context.l10n.attachmentsCameraPrimerTitle,
-        body: context.l10n.attachmentsCameraPrimerBody,
-        confirmLabel: context.l10n.actionContinue,
-      );
-      if (!ok) return null;
-      await prefs.markCameraPrimerShown();
-    }
+  final l = context.l10n;
+  final prefs = ref.read(attachmentPrefsProvider);
+  if (chosen == AddAttachmentChoice.camera ||
+      chosen == AddAttachmentChoice.recordVideo ||
+      chosen == AddAttachmentChoice.scan) {
+    final ok = await _primer(
+      context,
+      shown: prefs.cameraPrimerShown,
+      markShown: prefs.markCameraPrimerShown,
+      title: l.attachmentsCameraPrimerTitle,
+      body: l.attachmentsCameraPrimerBody,
+    );
+    if (!ok || !context.mounted) return null;
   }
   final List<PickedFileRef> picked;
-  try {
-    picked = await ref.read(attachmentPickerProvider).pick(chosen);
-  } on PermissionException {
-    if (context.mounted) await showPermissionHelp(context);
-    return null;
+  if (chosen == AddAttachmentChoice.voiceNote) {
+    final ok = await _primer(
+      context,
+      shown: prefs.micPrimerShown,
+      markShown: prefs.markMicPrimerShown,
+      title: l.voiceNoteMicPrimerTitle,
+      body: l.voiceNoteMicPrimerBody,
+    );
+    if (!ok || !context.mounted) return null;
+    final note = await recordVoiceNote(context);
+    picked = [?note];
+  } else {
+    try {
+      picked = await ref.read(attachmentPickerProvider).pick(chosen.source!);
+    } on PermissionException {
+      if (context.mounted) await showPermissionHelp(context);
+      return null;
+    }
   }
   if (picked.isEmpty || !context.mounted) return null;
   final service = ref.read(attachmentServiceProvider);
   final result = await service.addFiles(ownerType, ownerId, picked);
   if (!context.mounted) return result;
-  final l = context.l10n;
   final messages = <String>[
-    if (result.added.isNotEmpty) l.attachmentsAdded(result.added.length),
+    if (result.added.isNotEmpty) context.l10n.attachmentsAdded(result.added.length),
     for (final e in result.rejected.entries) rejectionMessage(context, e.key, e.value, service.limits),
   ];
   if (messages.isNotEmpty) showInfoSnackBar(context, messages.join('\n'));

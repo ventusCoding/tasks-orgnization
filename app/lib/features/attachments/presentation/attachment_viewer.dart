@@ -4,6 +4,7 @@ import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/attachments/application/providers.dart';
 import 'package:everslot/features/attachments/presentation/attachment_strip.dart';
 import 'package:everslot/features/attachments/presentation/attachment_ui.dart';
+import 'package:everslot/features/attachments/presentation/media_playback.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:pdfrx/pdfrx.dart';
@@ -211,6 +212,9 @@ class _AttachmentPageState extends ConsumerState<_AttachmentPage> {
               ),
             ),
           );
+        }
+        if (a.kind == AttachmentKind.video || a.kind == AttachmentKind.audio) {
+          return MediaPlayerView(attachment: a, path: path, thumbPath: local.thumbPath);
         }
         if (a.kind == AttachmentKind.pdf) return PdfViewer.file(path);
         return _Unavailable(attachment: a, available: true);

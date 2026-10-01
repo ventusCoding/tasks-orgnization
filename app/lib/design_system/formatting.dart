@@ -39,6 +39,16 @@ class AppFormat {
   /// "September 2026"
   String monthYear(LocalDate d) => _digits(DateFormat.yMMMM(locale).format(d.toDateTimeUtc()));
 
+  /// Inclusive date range; the year is written once when shared: "Sep 22 – Sep 28, 2026",
+  /// "Dec 29, 2026 – Jan 4, 2027" (each part keeps the locale's own day/month order).
+  String dateRange(LocalDate start, LocalDate end) {
+    if (start == end) return dateMedium(start);
+    final first = start.year == end.year
+        ? DateFormat.MMMd(locale).format(start.toDateTimeUtc())
+        : DateFormat.yMMMd(locale).format(start.toDateTimeUtc());
+    return _digits('$first – ${DateFormat.yMMMd(locale).format(end.toDateTimeUtc())}');
+  }
+
   /// "Mon"
   String weekdayShort(Weekday w) => DateFormat.E(locale).format(DateTime.utc(2024, 1, w.iso)); // 2024-01-01 is a Monday
 

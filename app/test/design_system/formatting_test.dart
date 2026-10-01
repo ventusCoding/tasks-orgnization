@@ -80,6 +80,21 @@ void main() {
     });
   });
 
+  group('date ranges', () {
+    test('the shared year is written once; each part keeps the locale order', () {
+      final en = format('en');
+      expect(en.dateRange(LocalDate(2026, 9, 22), LocalDate(2026, 9, 22)), 'Sep 22, 2026');
+      expect(en.dateRange(LocalDate(2026, 9, 22), LocalDate(2026, 9, 28)), 'Sep 22 – Sep 28, 2026');
+      expect(en.dateRange(LocalDate(2026, 12, 29), LocalDate(2027, 1, 4)), 'Dec 29, 2026 – Jan 4, 2027');
+      expect(format('fr').dateRange(LocalDate(2026, 9, 29), LocalDate(2026, 10, 5)), '29 sept. – 5 oct. 2026');
+      expect(format('ar').dateRange(LocalDate(2026, 9, 22), LocalDate(2026, 9, 28)), '22 سبتمبر – 28 سبتمبر 2026');
+      expect(
+        format('ar', arabicDigits: true).dateRange(LocalDate(2026, 9, 22), LocalDate(2026, 9, 28)),
+        '٢٢ سبتمبر – ٢٨ سبتمبر ٢٠٢٦',
+      );
+    });
+  });
+
   group('numbers', () {
     test('grouping, decimals, percent and currency per locale', () {
       expect(format('en').number(1234.5, decimals: 1), '1,234.5');

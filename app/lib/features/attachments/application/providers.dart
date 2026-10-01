@@ -7,6 +7,7 @@ import 'package:everslot/features/attachments/application/attachment_picker.dart
 import 'package:everslot/features/attachments/application/attachment_processor.dart';
 import 'package:everslot/features/attachments/application/attachment_service.dart';
 import 'package:everslot/features/attachments/application/attachment_transfers.dart';
+import 'package:everslot/features/attachments/application/media.dart';
 import 'package:everslot/features/attachments/data/attachment_cache_store.dart';
 import 'package:everslot/features/attachments/data/attachment_remote_storage.dart';
 import 'package:everslot/features/attachments/data/attachments_repository.dart';
@@ -22,6 +23,7 @@ export 'package:everslot/features/attachments/application/attachment_picker.dart
 export 'package:everslot/features/attachments/application/attachment_service.dart'
     show AddAttachmentsResult, AttachmentService;
 export 'package:everslot/features/attachments/application/attachment_transfers.dart' show AttachmentLocal;
+export 'package:everslot/features/attachments/application/media.dart' show VoiceRecorder, waveformOf;
 export 'package:everslot/features/attachments/data/attachments_repository.dart' show AttachmentTx;
 export 'package:everslot/features/attachments/domain/attachment.dart';
 
@@ -57,7 +59,18 @@ final attachmentRemoteStorageProvider = Provider<AttachmentRemoteStorage?>((ref)
   return SupabaseAttachmentStorage(client, supabaseUrl: ref.watch(envProvider).supabaseUrl);
 });
 
-final attachmentPickerProvider = Provider<AttachmentPicker>((ref) => PlatformAttachmentPicker());
+final attachmentPickerProvider = Provider<AttachmentPicker>(
+  (ref) => PlatformAttachmentPicker(clock: ref.watch(clockProvider)),
+);
+
+/// Video/audio inspection and poster frames (T2.2.12).
+final mediaProbeProvider = Provider<MediaProbe>((ref) => const NativeMediaProbe());
+
+/// Voice-note waveform thumbnails (T2.2.13).
+final waveformRendererProvider = Provider<WaveformRenderer>((ref) => const CanvasWaveformRenderer());
+
+/// A new microphone recorder per recording sheet (T2.2.13).
+final voiceRecorderFactoryProvider = Provider<VoiceRecorder Function()>((ref) => NativeVoiceRecorder.new);
 
 final imageCodecProvider = Provider<ImageCodec>((ref) => const NativeImageCodec());
 
@@ -66,7 +79,12 @@ final attachmentLimitsProvider = Provider<AttachmentLimits>((ref) => AttachmentL
 final connectivityProbeProvider = Provider<ConnectivityProbe>((ref) => PlatformConnectivityProbe());
 
 final attachmentProcessorProvider = Provider<AttachmentProcessor>(
-  (ref) => AttachmentProcessor(files: ref.watch(attachmentFileStoreProvider), codec: ref.watch(imageCodecProvider)),
+  (ref) => AttachmentProcessor(
+    files: ref.watch(attachmentFileStoreProvider),
+    codec: ref.watch(imageCodecProvider),
+    media: ref.watch(mediaProbeProvider),
+    waveforms: ref.watch(waveformRendererProvider),
+  ),
 );
 
 final attachmentUploadQueueProvider = Provider<AttachmentUploadQueue>((ref) {

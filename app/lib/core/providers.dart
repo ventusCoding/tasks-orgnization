@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:everslot/core/database/app_database.dart';
+import 'package:everslot/core/database/search_index.dart';
 import 'package:everslot/core/env/env.dart';
 import 'package:everslot/core/lifecycle/app_lifecycle.dart';
 import 'package:everslot/core/platform/connectivity_service.dart';
@@ -17,6 +18,7 @@ import 'package:everslot/core/sync/sync_status.dart';
 import 'package:everslot/core/sync/sync_triggers.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/core/sync/table_registry.dart';
+import 'package:everslot/core/time/app_time.dart';
 import 'package:everslot/core/time/clock.dart';
 import 'package:everslot/core/undo/undo_stack.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -331,6 +333,24 @@ final userPreferencesProvider = Provider<UserPreferences>((ref) {
     localeCode: profile?.locale,
     currency: regional['currency'] as String? ?? 'EUR',
     useArabicDigits: appearance['arabicDigits'] as bool? ?? false,
+  );
+});
+
+/// Global full-text search over local data (T2.3.11).
+final searchIndexProvider = Provider<SearchIndex>(
+  (ref) => SearchIndex(ref.watch(appDatabaseProvider), ref.watch(clockProvider)),
+);
+
+/// The one source for "now", "today" and "this week" (T2.3.07): clock + current zone + day start +
+/// week start. Read `.today()` / `.nowLocal()` when needed; time-based views add their own tick.
+final appTimeProvider = Provider<AppTime>((ref) {
+  final prefs = ref.watch(userPreferencesProvider);
+  return AppTime(
+    clock: ref.watch(clockProvider),
+    resolver: ref.watch(zoneResolverProvider),
+    zone: prefs.currentTimeZone,
+    dayStartMinutes: prefs.dayStartMinutes,
+    weekStart: prefs.weekStart,
   );
 });
 

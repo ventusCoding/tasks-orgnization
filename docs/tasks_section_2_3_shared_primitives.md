@@ -24,12 +24,12 @@ index, and entity deep-link builders.
 - [x] T2.3.04 — Color & icon system for user entities
 - [x] T2.3.05 — Activity events (append-only log) & `ActivityLogger`
 - [x] T2.3.06 — Undo/redo command stack
-- [ ] T2.3.07 — App time & calendar utilities
-- [ ] T2.3.08 — Saved views (table + repository)
+- [x] T2.3.07 — App time & calendar utilities
+- [x] T2.3.08 — Saved views (table + repository)
 - [x] T2.3.09 — Shared filter model & filter bar
-- [ ] T2.3.10 — Tags (table, entity tags, picker, management)
-- [ ] T2.3.11 — Global search index (SQLite FTS5)
-- [ ] T2.3.12 — Entity deep-link builders & cross-entity links
+- [x] T2.3.10 — Tags (table, entity tags, picker, management)
+- [x] T2.3.11 — Global search index (SQLite FTS5)
+- [x] T2.3.12 — Entity deep-link builders & cross-entity links
 
 ## Tasks
 
@@ -110,6 +110,7 @@ date ranges) localized EN/FR/AR (with optional Arabic-Indic digits).
 **Acceptance criteria:** one source for "today", "this week", "now" across the app; all helpers covered with
 DST and zone-change tests.
 **Tests:** unit tests incl. DST days, week starts MO/SA/SU, `dayStartsAt = 04:00` edge (03:59 vs 04:00).
+**Notes:** Clock/FakeClock/TravelClock, device zone with resume detection (`deviceZoneProvider`), `DayUtils` and `AppFormat` (12/24 h, relative, durations, Arabic-Indic digits) already existed. Added `core/time/app_time.dart`: `AppTime` (now, calendar vs logical today, `weekOf`/`thisWeek`/`monthOf` as `LocalDateRange`, DST-aware day bounds, instant ↔ local for fixed/floating values) behind `appTimeProvider` (clock + current zone + day start + week start from `userPreferencesProvider`); the planner's now/today now read it. `AppFormat.dateRange`. Habits keep their period service (per-habit zone rules) for their logical day. Tests: `test/core/app_time_test.dart`, `test/design_system/formatting_test.dart`.
 
 ### T2.3.08 — Saved views (table + repository)
 **Priority:** P0 · **Size:** S · **Depends on:** [1.4]
@@ -118,6 +119,7 @@ with repository, versioned config codec per view type, and "reset to defaults".
 **Acceptance criteria:** Planner/Lists/Habits/Insights persist view presets through it; configs sync; a
 config from a newer app version with unknown keys is preserved.
 **Tests:** codec round-trip; repository tests.
+**Notes:** `shared/views/`: `ViewConfigCodec<C>` (versioned, per section), `JsonViewCodec`/`JsonViewConfig` (upgrade steps, unknown keys and a newer `"v"` kept on write-back), `SavedViewsStore<C>` (watch, create, rename, save, duplicate, reorder, default, delete, idempotent built-ins with deterministic ids, `resetToDefaults` as one undoable operation) and `sectionViewsStoreProvider(section)` for Lists/Habits/Insights. The planner repository now runs on the store (`PlannerViewCodec`, same ids). Lists/Habits/Insights still keep their current view options in `user_settings`; moving their presets to the store is their sections' UI work. Tests: `test/shared/views/saved_views_test.dart`.
 
 ### T2.3.09 — Shared filter model & filter bar
 **Priority:** P0 · **Size:** M · **Depends on:** T2.3.01, T2.3.03
@@ -136,6 +138,7 @@ merge two tags, delete).
 **Acceptance criteria:** tagging the same entity on two offline devices converges to one link; merge
 rewrites links in one operation (undoable).
 **Tests:** convergence test; repository tests; widget tests.
+**Notes:** Tables, deterministic links, `TagsRepository` (create/rename/recolor/reorder/merge/delete, undoable), `pickTags` with inline create, `TagsScreen`, chips on tasks and checklists and the tests (`tags_repository_test`, `tags_widgets_test`, convergence in `organization_convergence_test`) already existed. Added the editable chips to checklist item details and the habit detail screen (read-only for archived habits); test `test/features/organization/entity_tag_surfaces_test.dart`.
 
 ### T2.3.11 — Global search index (SQLite FTS5)
 **Priority:** P1 · **Size:** M · **Depends on:** [1.4]
@@ -146,6 +149,7 @@ applied to indexed text and queries; rebuild command for migrations.
 **Acceptance criteria:** 20 000 rows searchable in < 100 ms; results rank by bm25 + recency; tombstoned rows
 removed from the index.
 **Tests:** DAO tests with multilingual fixtures (EN/FR accents/AR variants).
+**Notes:** The FTS5 table and triggers came with the database (T1.4); now defined once in `core/database/search_index.dart` (`SearchIndexSchema`: sources, triggers, `rebuildStatements`, `normalize`/`matchExpression` incl. harakat) with `SearchIndex.search` (prefix match on every word, bm25 with titles 4× bodies, recency boost halving every 30 days, entity-type filter, original titles) and `rebuild()` behind `searchIndexProvider`. The Lists board search uses the same match expression. Tests: `test/core/search_index_test.dart` (20 000 rows well under 100 ms).
 
 ### T2.3.12 — Entity deep-link builders & cross-entity links
 **Priority:** P1 · **Size:** S · **Depends on:** [1.3] (deep-link parser)
@@ -154,3 +158,4 @@ removed from the index.
 `LinkedEntityChip` widget rendering a link to another entity (e.g. task ↔ checklist) with live title/status.
 **Acceptance criteria:** builder output always round-trips through the parser (property test).
 **Tests:** property test builder ↔ parser; widget test for the chip.
+**Notes:** `AppLinks` builders and the builder ↔ parser property test came with T1.3.07; added `AppLinks.checklistItem` and `AppLinks.forEntity(type, id, parentId:, occurrenceKey:)` (activity events, search hits, links) to the property test. `shared/links/`: `LinkedEntityStore` (live title/status/parent of tasks, lists, items, habits, habit notes from Drift, "missing" once deleted), `linkedEntityProvider`, `LinkedEntityChip` (type icon, strikethrough when finished, status icon, one spoken label, disabled "Deleted" chip). The list header's linked tasks use it. Tests: `test/core/routing/deep_links_test.dart`, `test/shared/links/linked_entity_chip_test.dart`.

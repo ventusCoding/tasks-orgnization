@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Everslot uses the camera to attach photos to your tasks, checklist items and habit notes.</string>
+	<string>Everslot uses the camera to attach photos and short videos and to scan documents for your tasks, checklist items and habit notes.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Everslot lets you attach photos from your library to tasks, checklist items and habit notes.</string>
 	<key>NSFaceIDUsageDescription</key>

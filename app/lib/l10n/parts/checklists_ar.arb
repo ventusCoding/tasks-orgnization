@@ -346,7 +346,6 @@
   "checklistLinkTaskTitle": "ربط مهمة",
   "checklistNoTasksToLink": "لا توجد مهام للربط بعد",
   "checklistTaskLinked": "مرتبطة بـ{task}",
-  "checklistLinkedTaskSemantics": "مهمة مرتبطة {task}",
   "checklistTaskScheduled": "أُنشئت المهمة — حدّد موعدها",
   "checklistCover": "صورة الغلاف…",
   "checklistCoverAuto": "تلقائي (أول صورة)",

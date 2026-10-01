@@ -1,4 +1,5 @@
-# Backend CI (T1.2.07, T1.2.09, T1.2.16): database migrations + pgTAP, and Edge Functions fmt/lint/test.
+# Backend CI (T1.2.07, T1.2.09, T1.2.16): database migrations + pgTAP, Edge Functions fmt/lint/test, and
+# the attachment pipeline against local Storage (T2.2.10).
 # No secrets are needed: the local stack uses the CLI's built-in demo keys and every function degrades
 # gracefully without FCM / cron secrets.
 name: backend
@@ -9,12 +10,16 @@ on:
       - "supabase/**"
       - "fixtures/ids/**"
       - ".github/workflows/backend.yml"
+      - "app/lib/features/attachments/**"
+      - "app/test_storage/**"
   push:
     branches: [main]
     paths:
       - "supabase/**"
       - "fixtures/ids/**"
       - ".github/workflows/backend.yml"
+      - "app/lib/features/attachments/**"
+      - "app/test_storage/**"
   workflow_dispatch:
 
 concurrency:
@@ -56,6 +61,42 @@ jobs:
 
       - name: plpgsql lint (fails on errors)
         run: supabase db lint --local --schema app,private --level warning --fail-on error
+
+      - name: Stop the stack
+        if: always()
+        run: supabase stop --no-backup
+
+  storage:
+    name: Attachments against local Storage (T2.2.10)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.117.0
+
+      - name: Start the local stack (auth, REST, storage)
+        run: supabase start -x studio,logflare,vector,imgproxy,supavisor,edge-runtime,mailpit,realtime
+
+      - name: Read Flutter version from .fvmrc
+        id: fvm
+        run: echo "version=$(python3 -c "import json;print(json.load(open('.fvmrc'))['flutter'])")" >> "$GITHUB_OUTPUT"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fvm.outputs.version }}
+          channel: stable
+          cache: true
+
+      - run: dart pub get
+
+      - name: Storage suite (@Tags storage)
+        run: |
+          eval "$(supabase status -o env | grep -E '^(API_URL|PUBLISHABLE_KEY|SECRET_KEY)=')"
+          export API_URL PUBLISHABLE_KEY SECRET_KEY
+          cd app && flutter test test_storage
 
       - name: Stop the stack
         if: always()

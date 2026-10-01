@@ -107,6 +107,13 @@
       }
     }
   },
+  "@attachmentsDuration": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
   "@attachmentsMore": {
     "placeholders": {
       "count": {
@@ -142,6 +149,16 @@
       },
       "limit": {
         "type": "String"
+      }
+    }
+  },
+  "@attachmentsRejectedTooLong": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "int"
       }
     }
   },
@@ -889,13 +906,6 @@
     "placeholders": {
       "count": {
         "type": "int"
-      }
-    }
-  },
-  "@checklistLinkedTaskSemantics": {
-    "placeholders": {
-      "task": {
-        "type": "String"
       }
     }
   },
@@ -1895,6 +1905,19 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "@linkedEntitySemantics": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      },
+      "title": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
       }
     }
   },
@@ -4173,6 +4196,13 @@
       }
     }
   },
+  "@voiceNoteRecording": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
   "actionAdd": "Add",
   "actionApply": "Apply",
   "actionArchive": "Archive",
@@ -4275,6 +4305,7 @@
   "attachmentsClearCache": "Clear cache",
   "attachmentsCount": "{count, plural, =1{1 attachment} other{{count} attachments}}",
   "attachmentsDownloadWhenOnline": "This file will download when you're online.",
+  "attachmentsDuration": "Length {duration}",
   "attachmentsEditCaption": "Edit caption",
   "attachmentsEmpty": "No attachments yet",
   "attachmentsFilterAll": "All",
@@ -4294,12 +4325,15 @@
   "attachmentsNoPreview": "No preview for this file type",
   "attachmentsOpenSettings": "Open settings",
   "attachmentsOpenWith": "Open with…",
+  "attachmentsPause": "Pause",
   "attachmentsPendingUploads": "{count, plural, =1{1 upload pending} other{{count} uploads pending}}",
   "attachmentsPermissionBody": "Everslot can't access your camera or photos. You can allow access in the system settings.",
   "attachmentsPermissionTitle": "Access needed",
+  "attachmentsPlay": "Play",
   "attachmentsRejectedDuplicate": "{name} is already attached",
   "attachmentsRejectedEmpty": "{name} is empty",
   "attachmentsRejectedTooLarge": "{name} is larger than {limit}",
+  "attachmentsRejectedTooLong": "{name} is longer than {seconds} seconds",
   "attachmentsRejectedTooMany": "Limit of {count} attachments reached",
   "attachmentsRejectedType": "{name}: this file type isn't supported",
   "attachmentsRejectedUnreadable": "{name} couldn't be read",
@@ -4315,6 +4349,10 @@
   "attachmentsSourceCamera": "Take photo",
   "attachmentsSourceFiles": "Choose files",
   "attachmentsSourcePhotos": "Choose photos",
+  "attachmentsSourceRecordVideo": "Record a video",
+  "attachmentsSourceScan": "Scan a document",
+  "attachmentsSourceVideos": "Choose a video",
+  "attachmentsSourceVoiceNote": "Voice note",
   "attachmentsStatusDownloading": "Downloading",
   "attachmentsStatusFailed": "Upload failed — tap to retry",
   "attachmentsStatusNotDownloaded": "Not downloaded — tap to fetch",
@@ -4779,7 +4817,6 @@
   "checklistLinkTask": "Link to existing task…",
   "checklistLinkTaskTitle": "Link a task",
   "checklistLinkedTask": "Linked task",
-  "checklistLinkedTaskSemantics": "Linked task {task}",
   "checklistMdBold": "Bold",
   "checklistMdBullet": "Bulleted list",
   "checklistMdCode": "Code",
@@ -5522,6 +5559,14 @@
   "kanbanLeaves": "Leaves only",
   "kanbanScope": "Show",
   "kanbanShowCancelled": "Show cancelled",
+  "linkKindChecklist": "List",
+  "linkKindChecklistItem": "List item",
+  "linkKindHabit": "Habit",
+  "linkKindHabitLog": "Habit note",
+  "linkKindTask": "Task",
+  "linkedEntityMissing": "Deleted",
+  "linkedEntitySemantics": "{kind}: {title}, {status}. Opens it",
+  "linkedEntityUntitled": "Untitled",
   "listsAllLists": "All lists",
   "listsArchive": "Archive",
   "listsArchiveAction": "Archive",
@@ -7863,5 +7908,14 @@
   "templatesRename": "Rename",
   "templatesUse": "Use template",
   "undoDoneSnack": "Undone: {action}",
-  "undoNothing": "Nothing to undo"
+  "undoNothing": "Nothing to undo",
+  "voiceNoteDiscard": "Discard",
+  "voiceNoteHint": "Tap the microphone and speak.",
+  "voiceNoteMicPrimerBody": "Everslot uses the microphone only while you record a voice note. Recordings stay on your device until they're uploaded to your account.",
+  "voiceNoteMicPrimerTitle": "Microphone access",
+  "voiceNoteRecord": "Start recording",
+  "voiceNoteRecording": "Recording, {duration}",
+  "voiceNoteSave": "Attach",
+  "voiceNoteStop": "Stop recording",
+  "voiceNoteTitle": "Voice note"
 }

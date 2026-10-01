@@ -7,6 +7,7 @@ import 'package:everslot/features/attachments/application/providers.dart';
 import 'package:everslot/features/attachments/domain/transfer.dart';
 import 'package:everslot/features/attachments/presentation/attachment_ui.dart';
 import 'package:everslot/features/attachments/presentation/attachment_viewer.dart';
+import 'package:everslot/features/attachments/presentation/media_playback.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:share_plus/share_plus.dart';
@@ -239,20 +240,28 @@ class _AttachmentTileState extends ConsumerState<AttachmentTile> {
     final a = widget.attachment;
     final local = ref.watch(attachmentLocalProvider(a.id)).value ?? const AttachmentLocal();
     final transfer = ref.watch(attachmentTransferProvider(a));
-    if (a.isImage) _ensureThumb(local);
+    final isVideo = a.kind == AttachmentKind.video;
+    final isAudio = a.kind == AttachmentKind.audio;
+    // Images, video posters and voice-note waveforms are pictures; other files are chips.
+    final pictured = a.isImage || ((isVideo || isAudio) && (a.thumbPath != null || local.thumbPath != null));
+    if (pictured) _ensureThumb(local);
+    final playing = isAudio && ref.watch(voicePlaybackProvider) == a.id;
     final status = transferLabel(context, transfer);
+    final clip = a.durationMs == null ? null : formatClipLength(Duration(milliseconds: a.durationMs!));
     final label = [
       context.l10n.attachmentsSemantics(attachmentKindLabel(context, a.kind), widget.index + 1, widget.total),
       a.caption ?? a.fileName,
+      if (clip != null) context.l10n.attachmentsDuration(clip),
       ?status,
     ].join(', ');
     final radius = BorderRadius.circular(Radii.sm);
     final image = local.displayPath;
     Widget content;
-    if (a.isImage && image != null) {
+    final thumb = a.isImage ? image : local.thumbPath;
+    if (pictured && thumb != null) {
       final cache = (widget.size * MediaQuery.devicePixelRatioOf(context)).round();
       content = Image.file(
-        File(image),
+        File(thumb),
         fit: BoxFit.cover,
         width: widget.size,
         height: widget.size,
@@ -265,7 +274,11 @@ class _AttachmentTileState extends ConsumerState<AttachmentTile> {
     }
     final onTap = transfer.status == TransferStatus.failed
         ? () => unawaited(ref.read(attachmentServiceProvider).retryUpload(a.id))
+        // Voice notes play inline (T2.2.13); the viewer stays one long-press menu away.
+        : isAudio
+        ? () => unawaited(ref.read(voicePlaybackProvider.notifier).toggle(a))
         : widget.onTap;
+    final square = a.isImage || isVideo;
     // One accessible node: the label already says kind, position, name and status (file chips'
     // inner texts would repeat the name).
     return Semantics(
@@ -284,7 +297,7 @@ class _AttachmentTileState extends ConsumerState<AttachmentTile> {
           child: ClipRRect(
             borderRadius: radius,
             child: SizedBox(
-              width: a.isImage ? widget.size : widget.size * fileChipWidthFactor(context),
+              width: square ? widget.size : widget.size * fileChipWidthFactor(context),
               height: widget.size,
               child: Stack(
                 fit: StackFit.expand,
@@ -296,6 +309,17 @@ class _AttachmentTileState extends ConsumerState<AttachmentTile> {
                       child: ColoredBox(color: context.colors.surfaceContainerHighest, child: content),
                     ),
                   ),
+                  if (isVideo || isAudio)
+                    _MediaOverlay(
+                      icon: isVideo
+                          ? Icons.play_circle_fill
+                          : playing
+                          ? Icons.pause_circle_filled
+                          : Icons.play_circle_fill,
+                      center: isVideo,
+                      clip: clip,
+                      compact: widget.size < 50,
+                    ),
                   PositionedDirectional(
                     end: 2,
                     bottom: 2,
@@ -307,6 +331,51 @@ class _AttachmentTileState extends ConsumerState<AttachmentTile> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Play icon (centered on video posters, at the start of voice notes) and the clip length.
+class _MediaOverlay extends StatelessWidget {
+  const _MediaOverlay({required this.icon, required this.center, required this.compact, this.clip});
+
+  final IconData icon;
+  final bool center;
+  final bool compact;
+  final String? clip;
+
+  @override
+  Widget build(BuildContext context) {
+    final scrim = context.colors.scrim.withValues(alpha: Opacities.muted);
+    final onScrim = context.colors.surface;
+    final play = DecoratedBox(
+      decoration: BoxDecoration(color: scrim, shape: BoxShape.circle),
+      child: Icon(icon, size: compact ? 18 : 26, color: onScrim),
+    );
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        if (center)
+          Center(child: play)
+        else
+          PositionedDirectional(start: 4, top: 0, bottom: 0, child: Center(child: play)),
+        if (clip != null && !compact)
+          PositionedDirectional(
+            start: 3,
+            bottom: 3,
+            child: DecoratedBox(
+              decoration: BoxDecoration(color: scrim, borderRadius: BorderRadius.circular(Radii.sm)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 3),
+                child: Text(
+                  clip!,
+                  style: AppTypography.tabular(context.text.labelSmall)?.copyWith(color: onScrim),
+                  textScaler: TextScaler.noScaling,
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

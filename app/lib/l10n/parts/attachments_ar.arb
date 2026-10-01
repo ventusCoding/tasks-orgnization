@@ -54,5 +54,22 @@
   "attachmentsSizeGb": "{size} ج.ب",
   "attachmentsLocalOnly": "مخزّن على هذا الجهاز",
   "attachmentsEmpty": "لا توجد مرفقات بعد",
-  "attachmentsGoToItem": "الانتقال إلى العنصر"
+  "attachmentsGoToItem": "الانتقال إلى العنصر",
+  "attachmentsSourceRecordVideo": "تصوير فيديو",
+  "attachmentsSourceVideos": "اختيار فيديو",
+  "attachmentsSourceVoiceNote": "ملاحظة صوتية",
+  "attachmentsSourceScan": "مسح مستند ضوئيًا",
+  "attachmentsRejectedTooLong": "مدة {name} أطول من {seconds} ثانية",
+  "attachmentsPlay": "تشغيل",
+  "attachmentsPause": "إيقاف مؤقت",
+  "attachmentsDuration": "المدة {duration}",
+  "voiceNoteTitle": "ملاحظة صوتية",
+  "voiceNoteHint": "اضغط على الميكروفون وتحدّث.",
+  "voiceNoteRecord": "بدء التسجيل",
+  "voiceNoteStop": "إيقاف التسجيل",
+  "voiceNoteSave": "إرفاق",
+  "voiceNoteDiscard": "تجاهل",
+  "voiceNoteRecording": "جارٍ التسجيل، {duration}",
+  "voiceNoteMicPrimerTitle": "الوصول إلى الميكروفون",
+  "voiceNoteMicPrimerBody": "يستخدم Everslot الميكروفون فقط أثناء تسجيل ملاحظة صوتية. تبقى التسجيلات على جهازك حتى تُرفع إلى حسابك."
 }

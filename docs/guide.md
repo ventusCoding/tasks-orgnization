@@ -44,6 +44,14 @@ deno test -A supabase/functions
 supabase gen types typescript --local --schema app,private > supabase/functions/_shared/database.types.ts
 ```
 
+Attachment pipeline against local Storage (T2.2.10, creates and deletes throwaway users):
+
+```bash
+eval "$(supabase status -o env | grep -E '^(API_URL|PUBLISHABLE_KEY|SECRET_KEY)=')"
+export API_URL PUBLISHABLE_KEY SECRET_KEY
+cd app && fvm flutter test test_storage
+```
+
 Point the app at it with `app/env/dev.json`: `SUPABASE_URL` = the API URL printed by `supabase start`
 (`http://10.0.2.2:54321` from the Android emulator) and `SUPABASE_PUBLISHABLE_KEY` = its publishable key.
 

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:everslot/features/attachments/application/attachment_processor.dart';
 import 'package:everslot/features/attachments/application/attachment_transfers.dart';
+import 'package:everslot/features/attachments/application/media.dart';
 import 'package:everslot/features/attachments/data/attachment_cache_store.dart';
 import 'package:everslot/features/attachments/data/attachment_remote_storage.dart';
 
@@ -107,3 +108,82 @@ AttachmentFileStore tempFileStore(Directory dir) => AttachmentFileStore(() async
 
 /// Writes a source file for picking.
 File writeSource(Directory dir, String name, List<int> bytes) => File('${dir.path}/$name')..writeAsBytesSync(bytes);
+
+/// Media probe with a scripted duration/size; writes a small JPEG poster for videos.
+class FakeMediaProbe implements MediaProbe {
+  FakeMediaProbe({this.durationMs = 12000, this.width = 1920, this.height = 1080, this.poster = true});
+
+  int? durationMs;
+  int? width;
+  int? height;
+  bool poster;
+  final inspected = <String>[];
+
+  @override
+  Future<MediaInfo?> inspect(String path) async {
+    inspected.add(path);
+    return MediaInfo(durationMs: durationMs, width: width, height: height);
+  }
+
+  @override
+  Future<bool> videoPoster(String path, String destPath, {required int edge}) async {
+    if (!poster) return false;
+    File(destPath)
+      ..parent.createSync(recursive: true)
+      ..writeAsBytesSync([0xFF, 0xD8, 0xFF, 0xD9]);
+    return true;
+  }
+}
+
+/// Waveform renderer returning a fixed PNG-ish payload and recording the levels it drew.
+class FakeWaveformRenderer implements WaveformRenderer {
+  final rendered = <List<double>>[];
+
+  @override
+  Future<Uint8List?> render(List<double> levels) async {
+    rendered.add(levels);
+    return Uint8List.fromList([0x89, 0x50, 0x4E, 0x47, ...List.filled(16, 1)]);
+  }
+}
+
+/// Microphone recorder that writes a small file and emits scripted levels.
+class FakeVoiceRecorder implements VoiceRecorder {
+  FakeVoiceRecorder({this.permission = true});
+
+  bool permission;
+  final _levels = StreamController<double>.broadcast();
+  String? path;
+  bool cancelled = false;
+  bool disposed = false;
+
+  void emit(double db) => _levels.add(db);
+
+  @override
+  Future<bool> hasPermission() async => permission;
+
+  @override
+  Future<void> start(String path) async {
+    this.path = path;
+    File(path)
+      ..parent.createSync(recursive: true)
+      ..writeAsBytesSync(List.filled(64, 3));
+  }
+
+  @override
+  Stream<double> get levels => _levels.stream;
+
+  @override
+  Future<String?> stop() async => path;
+
+  @override
+  Future<void> cancel() async {
+    cancelled = true;
+    if (path != null && File(path!).existsSync()) File(path!).deleteSync();
+  }
+
+  @override
+  Future<void> dispose() async {
+    disposed = true;
+    await _levels.close();
+  }
+}

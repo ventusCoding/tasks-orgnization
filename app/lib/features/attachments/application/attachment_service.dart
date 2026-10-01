@@ -84,6 +84,12 @@ class AttachmentService {
         rejected[f.name] = AttachmentRejection.unreadable;
         continue;
       }
+      final tooLong = _limits.validateDuration(mimeType: result.mimeType, durationMs: result.durationMs);
+      if (tooLong != null) {
+        await _files.deleteAll(id);
+        rejected[f.name] = tooLong;
+        continue;
+      }
       if (!digests.add(result.sha256)) {
         await _files.deleteAll(id);
         rejected[f.name] = AttachmentRejection.duplicate;
@@ -107,6 +113,7 @@ class AttachmentService {
           byteSize: p.byteSize,
           width: p.width,
           height: p.height,
+          durationMs: p.durationMs,
           sha256: p.sha256,
         ),
     ]);
@@ -142,6 +149,7 @@ class AttachmentPrefs {
   static const wifiOnlyKey = 'attachments.wifiOnly';
   static const cacheCapKey = 'attachments.cacheCapBytes';
   static const cameraPrimerKey = 'attachments.cameraPrimerShown';
+  static const micPrimerKey = 'attachments.micPrimerShown';
 
   Future<String?> _get(String key) async =>
       (await (_db.select(_db.localKv)..where((k) => k.key.equals(key))).getSingleOrNull())?.value;
@@ -157,6 +165,9 @@ class AttachmentPrefs {
 
   Future<bool> cameraPrimerShown() async => await _get(cameraPrimerKey) == 'true';
   Future<void> markCameraPrimerShown() => _set(cameraPrimerKey, 'true');
+
+  Future<bool> micPrimerShown() async => await _get(micPrimerKey) == 'true';
+  Future<void> markMicPrimerShown() => _set(micPrimerKey, 'true');
 
   Stream<bool> watchWifiOnly() => (_db.select(
     _db.localKv,
