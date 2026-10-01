@@ -12297,6 +12297,12 @@ abstract class AppLocalizations {
   /// **'+{minutes} min'**
   String pvExtendBy(int minutes);
 
+  /// No description provided for @pvExtendedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Extended by {minutes} min'**
+  String pvExtendedSnack(int minutes);
+
   /// No description provided for @pvExtraZones.
   ///
   /// In en, this message translates to:
@@ -12812,6 +12818,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No tasks'**
   String get pvNoTasks;
+
+  /// No description provided for @pvNothingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing else planned today'**
+  String get pvNothingNext;
 
   /// No description provided for @pvNothingNow.
   ///

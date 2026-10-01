@@ -7284,6 +7284,11 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String pvExtendedSnack(int minutes) {
+    return 'Prolongé de $minutes min';
+  }
+
+  @override
   String get pvExtraZones => 'Fuseaux horaires supplémentaires';
 
   @override
@@ -7595,6 +7600,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvNoTasks => 'Aucune tâche';
+
+  @override
+  String get pvNothingNext => 'Rien d’autre de prévu aujourd’hui';
 
   @override
   String get pvNothingNow => 'Rien de prévu en ce moment';

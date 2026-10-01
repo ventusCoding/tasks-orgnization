@@ -89,6 +89,7 @@ dependencies:
   fc_native_video_thumbnail: ^3.0.1
   record: ^7.1.1
   cunning_document_scanner: ^3.0.3
+  wakelock_plus: ^1.8.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

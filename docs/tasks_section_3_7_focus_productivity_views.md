@@ -23,7 +23,7 @@ countdown / count-up; map; tests.
 
 ## Progress
 
-- [ ] T3.7.01 — Now / Next focus view
+- [x] T3.7.01 — Now / Next focus view
 - [ ] T3.7.02 — Backlog drawer & timeboxing
 - [ ] T3.7.03 — Backlog list screen
 - [ ] T3.7.04 — Free-slot finder & openings
@@ -55,6 +55,7 @@ Optional keep-screen-on; honours reduce-motion.
 **Acceptance criteria:** reopening focus mode after an app restart shows the correct remaining and elapsed
 times; *Extend* writes one override and one `rescheduled` event.
 **Tests:** widget tests with a fake clock.
+**Notes:** `FocusView` + pure `selectFocus` (pinned → in progress → covering now; `missed` never current) in `engine/focus_selection.dart`. Everything derives from the clock and stored data (time entries, tracked seconds), so a restart shows the right times. Ring counts down to the planned end and counts overtime up; reduced motion hides seconds and ticks every 15 s. *Extend* = `reschedule(thisOccurrence)` with the longer duration (one override + `rescheduled` event in planner-core). Linked checklist rows come from `checklistStepsProvider` (shared with the routine player). Keep-screen-on uses `wakelock_plus` behind `ScreenAwake`. Recovered from an unfinished agent branch and finished here.
 
 ### T3.7.02 — Backlog drawer & timeboxing
 **Priority:** P1 · **Size:** L · **Depends on:** [3.1] (unscheduled tasks), [3.3] (gestures), [3.4]

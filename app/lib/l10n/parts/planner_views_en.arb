@@ -670,5 +670,14 @@
   },
   "pvLaneOther": "Other",
   "pvShowAsTimeline": "Show as timeline rows",
-  "pvLanesHint": "Pick the categories shown side by side and their order."
+  "pvLanesHint": "Pick the categories shown side by side and their order.",
+  "pvExtendedSnack": "Extended by {minutes} min",
+  "@pvExtendedSnack": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "pvNothingNext": "Nothing else planned today"
 }

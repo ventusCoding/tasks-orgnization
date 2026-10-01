@@ -21,11 +21,7 @@ void main() {
   group('layout', () {
     test('each item sits in its category lane; uncategorized go to Other', () {
       final layout = layoutSwimlanes(
-        const [
-          SwimlaneInput(0, 0, 60, 'work'),
-          SwimlaneInput(1, 0, 60, 'home'),
-          SwimlaneInput(2, 30, 90, null),
-        ],
+        const [SwimlaneInput(0, 0, 60, 'work'), SwimlaneInput(1, 0, 60, 'home'), SwimlaneInput(2, 30, 90, null)],
         ['work', 'home'],
       );
       final byIndex = {for (final t in layout.tiles) t.index: t};
@@ -38,11 +34,7 @@ void main() {
 
     test('overlaps share their lane; the cap spills to +N', () {
       final layout = layoutSwimlanes(
-        const [
-          SwimlaneInput(0, 0, 60, 'work'),
-          SwimlaneInput(1, 0, 60, 'work'),
-          SwimlaneInput(2, 0, 60, 'work'),
-        ],
+        const [SwimlaneInput(0, 0, 60, 'work'), SwimlaneInput(1, 0, 60, 'work'), SwimlaneInput(2, 0, 60, 'work')],
         ['work'],
         laneCap: 2,
       );
@@ -64,7 +56,9 @@ void main() {
         item('Report', at(2026, 9, 23, 10), 60, categoryId: 'work', id: 'r'),
         item('Laundry', at(2026, 9, 23, 10), 60, categoryId: 'home', id: 'l'),
       ],
-      overrides: [allCategoriesProvider.overrideWith((ref) => Stream.value(const [work, home]))],
+      overrides: [
+        allCategoriesProvider.overrideWith((ref) => Stream.value(const [work, home])),
+      ],
     );
     addTearDown(h.dispose);
     await pumpPlanner(tester, h, const PlannerScreen(view: 'swimlanes', date: '2026-09-23'));
@@ -92,7 +86,9 @@ void main() {
 
   testWidgets('"Show as timeline rows" opens the timeline grouped by category', (tester) async {
     final h = PlannerHarness.create(
-      overrides: [allCategoriesProvider.overrideWith((ref) => Stream.value(const [work, home]))],
+      overrides: [
+        allCategoriesProvider.overrideWith((ref) => Stream.value(const [work, home])),
+      ],
     );
     addTearDown(h.dispose);
     await pumpPlanner(tester, h, const PlannerScreen(view: 'swimlanes', date: '2026-09-23'));

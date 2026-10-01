@@ -342,5 +342,7 @@
   "pvCurrentSize": "الحالي: {size}",
   "pvLaneOther": "أخرى",
   "pvShowAsTimeline": "العرض كصفوف في الخط الزمني",
-  "pvLanesHint": "اختر الفئات المعروضة جنبًا إلى جنب وترتيبها."
+  "pvLanesHint": "اختر الفئات المعروضة جنبًا إلى جنب وترتيبها.",
+  "pvExtendedSnack": "مُدّد بمقدار {minutes} د",
+  "pvNothingNext": "لا شيء آخر مخطط اليوم"
 }

@@ -27,7 +27,12 @@ void main() {
     final h = PlannerHarness.create(items: items);
     addTearDown(h.dispose);
     if (config != null) h.read(plannerViewConfigProvider(view).notifier).change(config);
-    await pumpPlanner(tester, h, PlannerScreen(view: view, date: date), size: size);
+    await pumpPlanner(
+      tester,
+      h,
+      PlannerScreen(view: view, date: date),
+      size: size,
+    );
     await tester.pumpAndSettle();
     return h;
   }
@@ -107,10 +112,7 @@ void main() {
       expect(quarterStart(LocalDate(2027, 3, 31)), LocalDate(2027, 1, 1));
     });
 
-    final items = [
-      item('Gym', at(2026, 7, 6, 7), 60, id: 'gym'),
-      item('Trip', at(2026, 9, 23, 9), 60, id: 'trip'),
-    ];
+    final items = [item('Gym', at(2026, 7, 6, 7), 60, id: 'gym'), item('Trip', at(2026, 9, 23, 9), 60, id: 'trip')];
 
     testWidgets('three months stacked on a phone; tap opens the day, a month name opens the month', (tester) async {
       final h = await pump(tester, 'quarter', items: items);
@@ -120,10 +122,7 @@ void main() {
       final july = tester.getTopLeft(find.text('July 2026'));
       final august = tester.getTopLeft(find.text('August 2026'));
       expect(august.dy, greaterThan(july.dy), reason: 'stacked');
-      expect(
-        tester.getSemantics(find.byKey(const ValueKey('quarter-day-2026-07-06'))).label,
-        contains('1 item'),
-      );
+      expect(tester.getSemantics(find.byKey(const ValueKey('quarter-day-2026-07-06'))).label, contains('1 item'));
       await tester.tap(find.byKey(const ValueKey('quarter-month-2026-08-01')));
       await tester.pumpAndSettle();
       expect(h.nav.log.last, 'view month 2026-08-01');

@@ -1,6 +1,7 @@
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/presentation/views/agenda_view.dart';
 import 'package:everslot/features/planner/presentation/views/day_list_view.dart';
+import 'package:everslot/features/planner/presentation/views/focus_view.dart';
 import 'package:everslot/features/planner/presentation/views/load_heatmap_view.dart';
 import 'package:everslot/features/planner/presentation/views/month_view.dart';
 import 'package:everslot/features/planner/presentation/views/multi_week_view.dart';
@@ -142,5 +143,13 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     label: (l) => l.pvViewLoadHeatmap,
     builder: (a) => LoadHeatmapView(args: a),
     tier: ViewTier.m3,
+  ),
+  PlannerViewEntry(
+    id: 'focus',
+    type: PlannerViewType.focus,
+    icon: Icons.center_focus_strong_outlined,
+    label: (l) => l.pvViewFocus,
+    builder: (a) => FocusView(args: a),
+    group: PlannerViewGroup.productivity,
   ),
 ];

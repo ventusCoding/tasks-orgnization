@@ -7669,6 +7669,11 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String pvExtendedSnack(int minutes) {
+    return 'مُدّد بمقدار $minutes د';
+  }
+
+  @override
   String get pvExtraZones => 'مناطق زمنية إضافية';
 
   @override
@@ -8009,6 +8014,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvNoTasks => 'لا مهام';
+
+  @override
+  String get pvNothingNext => 'لا شيء آخر مخطط اليوم';
 
   @override
   String get pvNothingNow => 'لا شيء مجدول الآن';

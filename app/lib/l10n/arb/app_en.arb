@@ -2666,6 +2666,13 @@
       }
     }
   },
+  "@pvExtendedSnack": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "@pvFreeGap": {
     "placeholders": {
       "duration": {
@@ -6258,6 +6265,7 @@
   "pvExpandInline": "Expand day inline",
   "pvExtend": "Extend",
   "pvExtendBy": "+{minutes} min",
+  "pvExtendedSnack": "Extended by {minutes} min",
   "pvExtraZones": "Extra time zones",
   "pvFillFromBacklog": "Fill from backlog",
   "pvFillGap": "Fill this gap",
@@ -6344,6 +6352,7 @@
   "pvNoRoutine": "No routine block today",
   "pvNoSavedViews": "No saved views yet",
   "pvNoTasks": "No tasks",
+  "pvNothingNext": "Nothing else planned today",
   "pvNothingNow": "Nothing scheduled right now",
   "pvNothingToPaste": "Copy a task first",
   "pvNow": "Now",

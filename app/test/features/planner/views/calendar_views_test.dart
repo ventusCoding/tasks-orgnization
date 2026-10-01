@@ -106,7 +106,10 @@ void main() {
 
     testWidgets('week table → N-day → month → agenda → timeline → week table', (tester) async {
       final nav = SwitchingNav('week_table', date: LocalDate(2026, 10, 7));
-      final h = PlannerHarness.create(nav: nav, items: [item('Board', at(2026, 10, 7, 14), 60, id: 'board')]);
+      final h = PlannerHarness.create(
+        nav: nav,
+        items: [item('Board', at(2026, 10, 7, 14), 60, id: 'board')],
+      );
       addTearDown(h.dispose);
       await pumpPlanner(tester, h, SwitchingHost(nav: nav));
       await tester.pumpAndSettle();

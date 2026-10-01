@@ -120,10 +120,7 @@ void main() {
       return h;
     }
 
-    final items = [
-      series('Launch', 'launch', at(2026, 9, 22, 9), 1440),
-      series('Run', 'run', at(2026, 9, 23, 7), 60),
-    ];
+    final items = [series('Launch', 'launch', at(2026, 9, 22, 9), 1440), series('Run', 'run', at(2026, 9, 23, 7), 60)];
 
     testWidgets('rows per series with the axis and today line; tap opens the task', (tester) async {
       final h = await pump(tester, items);
