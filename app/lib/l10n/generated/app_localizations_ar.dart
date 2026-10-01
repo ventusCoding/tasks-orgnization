@@ -2939,7 +2939,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exportOpml => 'OPML';
 
   @override
+  String get exportPdf => 'PDF';
+
+  @override
+  String get exportPdfFailed => 'تعذّر إنشاء ملف PDF';
+
+  @override
+  String get exportPdfImages => 'تضمين الصور المصغّرة';
+
+  @override
+  String get exportPdfNotes => 'تضمين الملاحظات';
+
+  @override
+  String exportPdfPageOf(int page, int total) {
+    return 'الصفحة $page من $total';
+  }
+
+  @override
   String get exportPlain => 'نص عادي';
+
+  @override
+  String get exportPrint => 'طباعة…';
 
   @override
   String get exportShare => 'مشاركة…';

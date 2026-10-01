@@ -1,13 +1,16 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/checklists/application/checklist_bundles.dart';
 import 'package:everslot/features/checklists/application/checklist_editor.dart';
+import 'package:everslot/features/checklists/application/checklist_pdf.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
 import 'package:everslot/features/checklists/domain/checklist_tree.dart';
 import 'package:everslot/features/checklists/domain/import_export.dart';
+import 'package:everslot/features/checklists/domain/item_status.dart';
 import 'package:everslot/features/checklists/domain/tree_change.dart';
 import 'package:everslot/features/checklists/domain/tree_ops.dart';
 import 'package:everslot/features/checklists/presentation/checklist_navigation.dart';
@@ -325,9 +328,10 @@ Future<void> convertBodyToItems(BuildContext context, WidgetRef ref, Checklist c
       );
 }
 
-enum ExportFormat { markdown, plain, opml }
+enum ExportFormat { markdown, plain, opml, pdf }
 
 /// Share / export sheet (T4.5.09): whole list or the focused branch; clipboard or share sheet.
+/// The PDF format (T4.5.10) prints or shares a PDF instead.
 Future<void> showExportSheet(
   BuildContext context,
   WidgetRef ref, {
@@ -360,6 +364,44 @@ class _ExportSheet extends ConsumerStatefulWidget {
 class _ExportSheetState extends ConsumerState<_ExportSheet> {
   ExportFormat _format = ExportFormat.markdown;
   bool _branch = false;
+  bool _pdfNotes = true;
+  bool _pdfImages = false;
+
+  Future<void> _sendPdf({required bool print}) async {
+    final l = context.l10n;
+    final root = _branch ? widget.branchRootId : null;
+    final c = widget.checklist;
+    final output = ref.read(pdfOutputProvider);
+    final service = ref.read(checklistPdfServiceProvider);
+    final labels = ChecklistPdfLabels(
+      statusNames: {for (final s in ItemStatus.values) s: StatusStyle.label(context, s)},
+      pageOf: l.exportPdfPageOf,
+    );
+    final options = ChecklistPdfOptions(
+      includeNotes: _pdfNotes,
+      includeImages: _pdfImages,
+      rtl: Directionality.of(context) == TextDirection.rtl,
+    );
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    Navigator.pop(context);
+    try {
+      final bytes = await service.build(
+        checklist: c,
+        tree: widget.tree,
+        labels: labels,
+        rootId: root,
+        options: options,
+      );
+      final name = checklistPdfName(c, branchTitle: root == null ? null : widget.tree[root]?.text);
+      if (print) {
+        await output.print(bytes, name: name);
+      } else {
+        await output.share(bytes, name: name);
+      }
+    } on Object {
+      messenger?.showSnackBar(SnackBar(content: Text(l.exportPdfFailed)));
+    }
+  }
 
   String _text() {
     final root = _branch ? widget.branchRootId : null;
@@ -378,6 +420,8 @@ class _ExportSheetState extends ConsumerState<_ExportSheet> {
         rootId: root,
         attachmentNames: widget.attachmentNames,
       ),
+      // Printed / shared as a file by [_sendPdf].
+      ExportFormat.pdf => '',
     };
   }
 
@@ -395,6 +439,7 @@ class _ExportSheetState extends ConsumerState<_ExportSheet> {
               ButtonSegment(value: ExportFormat.markdown, label: Text(l.exportMarkdown)),
               ButtonSegment(value: ExportFormat.plain, label: Text(l.exportPlain)),
               ButtonSegment(value: ExportFormat.opml, label: Text(l.exportOpml)),
+              ButtonSegment(value: ExportFormat.pdf, label: Text(l.exportPdf)),
             ],
             selected: {_format},
             onSelectionChanged: (s) => setState(() => _format = s.first),
@@ -406,36 +451,76 @@ class _ExportSheetState extends ConsumerState<_ExportSheet> {
               title: Text(l.exportBranchOnly),
               onChanged: (v) => setState(() => _branch = v),
             ),
+          if (_format == ExportFormat.pdf) ...[
+            SwitchListTile(
+              key: const Key('export-pdf-notes'),
+              contentPadding: EdgeInsets.zero,
+              value: _pdfNotes,
+              title: Text(l.exportPdfNotes),
+              onChanged: (v) => setState(() => _pdfNotes = v),
+            ),
+            if (widget.attachmentNames.isNotEmpty)
+              SwitchListTile(
+                key: const Key('export-pdf-images'),
+                contentPadding: EdgeInsets.zero,
+                value: _pdfImages,
+                title: Text(l.exportPdfImages),
+                onChanged: (v) => setState(() => _pdfImages = v),
+              ),
+          ],
           const SizedBox(height: Space.md),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  icon: const Icon(Icons.copy),
-                  label: Text(l.exportCopy),
-                  onPressed: () async {
-                    await Clipboard.setData(ClipboardData(text: _text()));
-                    if (context.mounted) {
+          if (_format == ExportFormat.pdf)
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    key: const Key('export-print'),
+                    icon: const Icon(Icons.print_outlined),
+                    label: Text(l.exportPrint),
+                    onPressed: () => unawaited(_sendPdf(print: true)),
+                  ),
+                ),
+                const SizedBox(width: Space.md),
+                Expanded(
+                  child: FilledButton.icon(
+                    key: const Key('export-share-pdf'),
+                    icon: const Icon(Icons.share_outlined),
+                    label: Text(l.exportShare),
+                    onPressed: () => unawaited(_sendPdf(print: false)),
+                  ),
+                ),
+              ],
+            )
+          else
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    icon: const Icon(Icons.copy),
+                    label: Text(l.exportCopy),
+                    onPressed: () async {
+                      await Clipboard.setData(ClipboardData(text: _text()));
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                        showInfoSnackBar(context, l.exportCopied);
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(width: Space.md),
+                Expanded(
+                  child: FilledButton.icon(
+                    icon: const Icon(Icons.share_outlined),
+                    label: Text(l.exportShare),
+                    onPressed: () async {
+                      final text = _text();
                       Navigator.pop(context);
-                      showInfoSnackBar(context, l.exportCopied);
-                    }
-                  },
+                      await SharePlus.instance.share(ShareParams(text: text, title: widget.checklist.title));
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(width: Space.md),
-              Expanded(
-                child: FilledButton.icon(
-                  icon: const Icon(Icons.share_outlined),
-                  label: Text(l.exportShare),
-                  onPressed: () async {
-                    final text = _text();
-                    Navigator.pop(context);
-                    await SharePlus.instance.share(ShareParams(text: text, title: widget.checklist.title));
-                  },
-                ),
-              ),
-            ],
-          ),
+              ],
+            ),
           // The whole list with its item files (T4.4.08).
           if (widget.attachmentNames.isNotEmpty)
             Padding(

@@ -32,7 +32,7 @@ reminders for follow-ups and resets ([7.5]); share-into-app ([8.2]).
 - [x] T4.5.07 — Import parser (indented text, Markdown, OPML)
 - [x] T4.5.08 — Import UX (paste, file, note → items)
 - [x] T4.5.09 — Export & share (Markdown, OPML, plain text)
-- [ ] T4.5.10 — PDF export / print
+- [x] T4.5.10 — PDF export / print
 - [x] T4.5.11 — In-list sort & filter
 - [x] T4.5.12 — Link checklist ↔ planner task
 - [x] T4.5.13 — Checklist Insights entry points
@@ -208,7 +208,7 @@ Arabic text, malformed input.
 - Page breaks try to keep small subtrees together.
 - Uses the `pdf` + `printing` packages → add them to arch §3 when implemented.
 **Tests:** text extraction from the generated PDF; RTL fixture.
-**Notes:** Not started: needs the `pdf` + `printing` packages (not yet in the lockfile) and a bundled Arabic-capable font asset for the RTL fixture.
+**Notes:** *PDF* format of the share/export sheet (whole list or branch; notes and image thumbnails optional) → *Print…* or *Share…* (`PdfOutput`, `printing`). `buildChecklistPdf` draws vector status glyphs in the status colors, status reasons, notes, thumbnails from the attachment cache (unreadable ones skipped), page numbers, RTL direction from the locale. Page breaks: `pdfBlocks` keeps subtrees of ≤ 12 items in one `Inseparable` block; larger ones break between children. Tests extract text from uncompressed output (`checklist_pdf_test.dart`, incl. the Arabic RTL fixture) plus the sheet flow (`pdf_export_sheet_test.dart`).
 
 ### T4.5.11 — In-list sort & filter
 **Priority:** P1 · **Size:** S · **Depends on:** [4.2] (visible list builder)

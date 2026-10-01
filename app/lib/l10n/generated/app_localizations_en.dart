@@ -2779,7 +2779,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportOpml => 'OPML';
 
   @override
+  String get exportPdf => 'PDF';
+
+  @override
+  String get exportPdfFailed => 'Couldn’t create the PDF';
+
+  @override
+  String get exportPdfImages => 'Include image thumbnails';
+
+  @override
+  String get exportPdfNotes => 'Include notes';
+
+  @override
+  String exportPdfPageOf(int page, int total) {
+    return 'Page $page of $total';
+  }
+
+  @override
   String get exportPlain => 'Plain text';
+
+  @override
+  String get exportPrint => 'Print…';
 
   @override
   String get exportShare => 'Share…';

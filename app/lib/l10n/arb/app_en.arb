@@ -1136,6 +1136,16 @@
       }
     }
   },
+  "@exportPdfPageOf": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "@filterActiveCount": {
     "placeholders": {
       "count": {
@@ -5055,7 +5065,13 @@
   "exportCopy": "Copy to clipboard",
   "exportMarkdown": "Markdown",
   "exportOpml": "OPML",
+  "exportPdf": "PDF",
+  "exportPdfFailed": "Couldn’t create the PDF",
+  "exportPdfImages": "Include image thumbnails",
+  "exportPdfNotes": "Include notes",
+  "exportPdfPageOf": "Page {page} of {total}",
   "exportPlain": "Plain text",
+  "exportPrint": "Print…",
   "exportShare": "Share…",
   "exportTitle": "Share / export",
   "exportZipBundle": "Share as zip (with files)",

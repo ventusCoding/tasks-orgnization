@@ -724,5 +724,21 @@
   "itemStepDuration": "Step duration (routines)",
   "itemNoStepDuration": "Shares the task’s time",
   "listsMoveConflicted": "A move conflicted with a change on another device and was undone.",
-  "listsMoveConflictedUndo": "Move undone after a sync conflict"
+  "listsMoveConflictedUndo": "Move undone after a sync conflict",
+  "exportPdf": "PDF",
+  "exportPdfNotes": "Include notes",
+  "exportPdfImages": "Include image thumbnails",
+  "exportPrint": "Print…",
+  "exportPdfFailed": "Couldn’t create the PDF",
+  "exportPdfPageOf": "Page {page} of {total}",
+  "@exportPdfPageOf": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  }
 }

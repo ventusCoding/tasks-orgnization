@@ -386,5 +386,11 @@
   "itemStepDuration": "Durée de l’étape (routines)",
   "itemNoStepDuration": "Partage le temps de la tâche",
   "listsMoveConflicted": "Un déplacement est entré en conflit avec une modification faite sur un autre appareil et a été annulé.",
-  "listsMoveConflictedUndo": "Déplacement annulé après un conflit de synchronisation"
+  "listsMoveConflictedUndo": "Déplacement annulé après un conflit de synchronisation",
+  "exportPdf": "PDF",
+  "exportPdfNotes": "Inclure les notes",
+  "exportPdfImages": "Inclure les miniatures d’images",
+  "exportPrint": "Imprimer…",
+  "exportPdfFailed": "Impossible de créer le PDF",
+  "exportPdfPageOf": "Page {page} sur {total}"
 }

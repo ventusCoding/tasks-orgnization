@@ -4839,11 +4839,47 @@ abstract class AppLocalizations {
   /// **'OPML'**
   String get exportOpml;
 
+  /// No description provided for @exportPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF'**
+  String get exportPdf;
+
+  /// No description provided for @exportPdfFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t create the PDF'**
+  String get exportPdfFailed;
+
+  /// No description provided for @exportPdfImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Include image thumbnails'**
+  String get exportPdfImages;
+
+  /// No description provided for @exportPdfNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Include notes'**
+  String get exportPdfNotes;
+
+  /// No description provided for @exportPdfPageOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {page} of {total}'**
+  String exportPdfPageOf(int page, int total);
+
   /// No description provided for @exportPlain.
   ///
   /// In en, this message translates to:
   /// **'Plain text'**
   String get exportPlain;
+
+  /// No description provided for @exportPrint.
+  ///
+  /// In en, this message translates to:
+  /// **'Print…'**
+  String get exportPrint;
 
   /// No description provided for @exportShare.
   ///
