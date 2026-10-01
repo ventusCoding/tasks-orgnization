@@ -199,4 +199,25 @@ void main() {
     final keyboardTop = (tester.view.physicalSize.height - 300) / tester.view.devicePixelRatio;
     expect(bottom, lessThanOrEqualTo(keyboardTop));
   });
+
+  testWidgets('SegmentedBar segments fill its height, in proportion', (tester) async {
+    await pump(
+      tester,
+      const Center(
+        child: SizedBox(
+          width: 300,
+          child: SegmentedBar(
+            segments: [BarSegment(2, Colors.green, 'done'), BarSegment(1, Colors.red, 'blocked')],
+            height: 8,
+          ),
+        ),
+      ),
+    );
+    final boxes = tester.widgetList<ColoredBox>(
+      find.descendant(of: find.byType(SegmentedBar), matching: find.byType(ColoredBox)),
+    );
+    final sizes = [for (final b in boxes) tester.getSize(find.byWidget(b))];
+    expect(sizes.map((s) => s.height), everyElement(8));
+    expect(sizes.first.width, closeTo(200, 1));
+  });
 }

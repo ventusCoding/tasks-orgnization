@@ -5049,6 +5049,12 @@ abstract class AppLocalizations {
   /// **'Reduce motion'**
   String get galleryReduceMotion;
 
+  /// No description provided for @galleryRows.
+  ///
+  /// In en, this message translates to:
+  /// **'Rows & avatars'**
+  String get galleryRows;
+
   /// No description provided for @galleryRtl.
   ///
   /// In en, this message translates to:
@@ -5073,6 +5079,12 @@ abstract class AppLocalizations {
   /// **'Bottom sheet'**
   String get gallerySheet;
 
+  /// No description provided for @gallerySheetActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Sheet with actions'**
+  String get gallerySheetActions;
+
   /// No description provided for @gallerySheetBody.
   ///
   /// In en, this message translates to:
@@ -5090,6 +5102,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Statuses'**
   String get galleryStatuses;
+
+  /// No description provided for @gallerySwipeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe for actions'**
+  String get gallerySwipeHint;
 
   /// No description provided for @galleryTitle.
   ///

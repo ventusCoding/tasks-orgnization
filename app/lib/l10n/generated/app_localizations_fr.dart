@@ -2949,6 +2949,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get galleryReduceMotion => 'Réduire les animations';
 
   @override
+  String get galleryRows => 'Lignes et avatars';
+
+  @override
   String get galleryRtl => 'De droite à gauche';
 
   @override
@@ -2961,6 +2964,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get gallerySheet => 'Feuille modale';
 
   @override
+  String get gallerySheetActions => 'Feuille avec actions';
+
+  @override
   String get gallerySheetBody => 'Une feuille modale au style Everslot.';
 
   @override
@@ -2968,6 +2974,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get galleryStatuses => 'Statuts';
+
+  @override
+  String get gallerySwipeHint => 'Balayez pour les actions';
 
   @override
   String get galleryTitle => 'Galerie de composants';

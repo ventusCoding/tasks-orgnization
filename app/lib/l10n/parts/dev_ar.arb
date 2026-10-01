@@ -58,5 +58,8 @@
   "devSampleDataBody": "يضيف ما يقارب ستة أشهر من المهام والقوائم والعادات ومتتبّع إقلاع واقعية للعروض ولقطات الشاشة.",
   "devSampleDataRemove": "حذف البيانات التجريبية",
   "devSampleDataDone": "{count, plural, =1{أُضيف عنصر واحد} =2{أُضيف عنصران} few{أُضيفت {count} عناصر} many{أُضيف {count} عنصرًا} other{أُضيف {count} عنصر}}",
-  "devSampleDataRemoved": "تم حذف البيانات التجريبية"
+  "devSampleDataRemoved": "تم حذف البيانات التجريبية",
+  "galleryRows": "الصفوف والصور الرمزية",
+  "gallerySwipeHint": "اسحب لعرض الإجراءات",
+  "gallerySheetActions": "ورقة مع إجراءات"
 }

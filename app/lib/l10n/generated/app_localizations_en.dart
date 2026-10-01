@@ -2899,6 +2899,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get galleryReduceMotion => 'Reduce motion';
 
   @override
+  String get galleryRows => 'Rows & avatars';
+
+  @override
   String get galleryRtl => 'Right-to-left';
 
   @override
@@ -2911,6 +2914,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gallerySheet => 'Bottom sheet';
 
   @override
+  String get gallerySheetActions => 'Sheet with actions';
+
+  @override
   String get gallerySheetBody => 'A bottom sheet with Everslot styling.';
 
   @override
@@ -2918,6 +2924,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get galleryStatuses => 'Statuses';
+
+  @override
+  String get gallerySwipeHint => 'Swipe for actions';
 
   @override
   String get galleryTitle => 'Component gallery';

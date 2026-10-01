@@ -89,6 +89,7 @@ class _ComponentGalleryScreenState extends State<ComponentGalleryScreen> {
             title: l.galleryStates,
             child: _StatesDemo(animate: widget.animateIndicators),
           ),
+          _Section(title: l.galleryRows, child: const _RowsDemo()),
           _Section(title: l.galleryDialogs, child: const _DialogsDemo()),
           _Section(title: l.galleryFilters, child: const _FiltersDemo()),
           _Section(title: l.galleryMotion, child: const _MotionDemo()),
@@ -148,6 +149,13 @@ class _ButtonsDemo extends StatelessWidget {
           label: Text(l.actionAdd),
         ),
         FilledButton(onPressed: null, child: Text(l.galleryDisabled)),
+        // Design-system wrappers (T1.3.10): ≥ 48 dp, busy state, required tooltips.
+        AppButton(label: l.actionSave, icon: Icons.check, onPressed: () {}),
+        AppButton(label: l.actionEdit, variant: AppButtonVariant.secondary, onPressed: () {}),
+        AppButton(label: l.actionCancel, variant: AppButtonVariant.text, onPressed: () {}),
+        AppButton(label: l.actionDelete, variant: AppButtonVariant.destructive, onPressed: () {}),
+        AppButton(label: l.actionSave, busy: true, onPressed: () {}),
+        AppIconButton(icon: Icons.inbox_outlined, tooltip: l.actionInbox, badge: 3, onPressed: () {}),
       ],
     );
   }
@@ -203,6 +211,7 @@ class _InputsDemo extends StatefulWidget {
 
 class _InputsDemoState extends State<_InputsDemo> {
   bool _checked = true;
+  int _segment = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -214,8 +223,12 @@ class _InputsDemoState extends State<_InputsDemo> {
           decoration: InputDecoration(labelText: l.categoryName, hintText: l.gallerySampleText),
         ),
         const SizedBox(height: Space.md),
-        TextField(
-          decoration: InputDecoration(prefixIcon: const Icon(Icons.search), hintText: l.actionSearch),
+        AppSearchField(onChanged: (_) {}),
+        const SizedBox(height: Space.md),
+        AppSegmented<int>(
+          segments: [(0, l.actionToday, Icons.today), (1, l.tabPlan, null), (2, l.tabLists, null)],
+          selected: _segment,
+          onChanged: (v) => setState(() => _segment = v),
         ),
         const SizedBox(height: Space.md),
         TextField(minLines: 2, maxLines: 4, decoration: InputDecoration(labelText: l.gallerySampleText)),
@@ -451,7 +464,39 @@ class _DialogsDemoState extends State<_DialogsDemo> {
               },
               child: Text(l.pickerColor),
             ),
+            OutlinedButton(
+              onPressed: () async {
+                final range = await pickTimeRange(context, start: LocalTime(9, 0), minutes: 60);
+                _show(range == null ? null : '${format.time(range.start)} · ${format.duration(range.minutes)}');
+              },
+              child: Text(l.pickerTimeRange),
+            ),
             OutlinedButton(onPressed: () async => _show(await pickIcon(context)), child: Text(l.pickerIcon)),
+            OutlinedButton(
+              onPressed: () => showAppSheet<void>(
+                context,
+                title: l.gallerySheetActions,
+                builder: (ctx) => SheetScaffold(
+                  actions: [
+                    AppButton(
+                      label: ctx.l10n.actionCancel,
+                      variant: AppButtonVariant.text,
+                      onPressed: () => Navigator.pop(ctx),
+                    ),
+                    AppButton(label: ctx.l10n.actionApply, onPressed: () => Navigator.pop(ctx)),
+                  ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(ctx.l10n.gallerySheetBody),
+                      const SizedBox(height: Space.md),
+                      TextField(decoration: InputDecoration(labelText: ctx.l10n.gallerySampleText)),
+                    ],
+                  ),
+                ),
+              ),
+              child: Text(l.gallerySheetActions),
+            ),
             OutlinedButton(
               onPressed: () => showAppSheet<void>(
                 context,
@@ -478,6 +523,59 @@ class _DialogsDemoState extends State<_DialogsDemo> {
           Padding(
             padding: const EdgeInsetsDirectional.only(top: Space.sm),
             child: Text(l.galleryPicked(_picked!)),
+          ),
+      ],
+    );
+  }
+}
+
+class _RowsDemo extends StatefulWidget {
+  const _RowsDemo();
+
+  @override
+  State<_RowsDemo> createState() => _RowsDemoState();
+}
+
+class _RowsDemoState extends State<_RowsDemo> {
+  final _rows = ['a', 'b'];
+  final _done = <String>{};
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final c = context.appColors;
+    return Column(
+      children: [
+        for (final id in _rows)
+          SwipeRow(
+            id: id,
+            start: RowSwipeAction(
+              label: l.actionDone,
+              icon: Icons.check,
+              color: c.success,
+              onTriggered: () {
+                setState(() => _done.add(id));
+                return false;
+              },
+            ),
+            end: RowSwipeAction(
+              label: l.actionDelete,
+              icon: Icons.delete_outline,
+              color: c.danger,
+              onTriggered: () {
+                setState(() => _rows.remove(id));
+                return true;
+              },
+            ),
+            child: ListTile(
+              leading: AppAvatar(
+                name: id == 'a' ? 'Sam Lee' : 'سارة علي',
+                colorArgb: CategoryPalette.at(id == 'a' ? 0 : 4),
+              ),
+              title: Text('${l.gallerySampleText} ${id.toUpperCase()}'),
+              subtitle: Text(_done.contains(id) ? l.actionDone : l.gallerySwipeHint),
+              trailing: const CountBadge(2),
+            ),
           ),
       ],
     );

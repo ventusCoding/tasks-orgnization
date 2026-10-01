@@ -28,7 +28,7 @@ handling/logging, and a dev-only debug menu.
 - [x] T1.3.07 — Deep-link parser (single source for all entry points)
 - [x] T1.3.08 — Design tokens & themes (light/dark, category palette)
 - [x] T1.3.09 — Typography & bundled fonts (Latin + Arabic)
-- [ ] T1.3.10 — Core components v1
+- [x] T1.3.10 — Core components v1
 - [x] T1.3.11 — Pickers: date, time (1-min), duration, color, icon
 - [ ] T1.3.12 — App scaffold: bottom bar, app bar actions, contextual FAB, adaptive layout
 - [x] T1.3.13 — Localization (EN/FR/AR) & formatting helpers
@@ -152,6 +152,8 @@ scaffold (drag handle, sticky actions, keyboard-safe), dialogs (confirm/destruct
 badge. All themed via tokens, RTL-safe, with semantics.
 **Acceptance criteria:** a component gallery screen (dev flavor) shows every component in light/dark, LTR/RTL.
 **Tests:** widget tests for interactive behaviour; goldens for each component.
+**Notes:** Components in `design_system/components/`: `basics.dart` (section header, status pill, progress ring, status-split `SegmentedBar`, color dot, `announce`), `controls.dart` (`AppButton` primary/secondary/text/destructive with busy state and ≥ 48 dp, `AppIconButton` with required tooltip + badge, `AppSearchField`, `SheetScaffold` with sticky keyboard-safe actions, `AppSegmented`, `SwipeRow` with reading-direction swipes and custom semantics actions, `AppAvatar`, `CountBadge`), `dialogs.dart` (sheet, confirm/destructive, prompt, undo snackbar), `states.dart` (empty/error/loading), `priority.dart`; Material chips/list tiles are themed through tokens. Dev gallery (Settings › debug › Component gallery) shows every component with light/dark, RTL, large-text and reduce-motion toggles. Tests: `controls_test.dart` (incl. RTL swipes, semantics actions, keyboard-safe sheet), `component_gallery_test.dart`, `accessibility_test.dart`, goldens `component_goldens_test.dart` (light/dark × LTR/RTL + text scale 2.0, real fonts and icons via `test/support/fonts.dart`). Bug found by the goldens: `SegmentedBar` segments had zero height (child-less ColoredBox in a Row) — fixed.
+
 
 ### T1.3.11 — Pickers: date, time (1-min), duration, color, icon
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.10, T1.3.13

@@ -137,6 +137,8 @@ class SegmentedBar extends StatelessWidget {
           child: total <= 0
               ? ColoredBox(color: context.colors.surfaceContainerHighest)
               : Row(
+                  // Child-less ColoredBoxes take the smallest size they're allowed: stretch them.
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     for (final s in segments)
                       if (s.value > 0)

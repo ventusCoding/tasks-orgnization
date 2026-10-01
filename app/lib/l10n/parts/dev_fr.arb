@@ -58,5 +58,8 @@
   "devSampleDataBody": "Ajoute environ six mois de tâches, listes, habitudes et un suivi d’arrêt réalistes pour les démos et les captures d’écran.",
   "devSampleDataRemove": "Supprimer les données d’exemple",
   "devSampleDataDone": "{count, plural, =1{1 élément ajouté} other{{count} éléments ajoutés}}",
-  "devSampleDataRemoved": "Données d’exemple supprimées"
+  "devSampleDataRemoved": "Données d’exemple supprimées",
+  "galleryRows": "Lignes et avatars",
+  "gallerySwipeHint": "Balayez pour les actions",
+  "gallerySheetActions": "Feuille avec actions"
 }

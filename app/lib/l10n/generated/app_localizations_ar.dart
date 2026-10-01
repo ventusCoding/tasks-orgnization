@@ -3062,6 +3062,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get galleryReduceMotion => 'تقليل الحركة';
 
   @override
+  String get galleryRows => 'الصفوف والصور الرمزية';
+
+  @override
   String get galleryRtl => 'من اليمين إلى اليسار';
 
   @override
@@ -3074,6 +3077,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get gallerySheet => 'ورقة سفلية';
 
   @override
+  String get gallerySheetActions => 'ورقة مع إجراءات';
+
+  @override
   String get gallerySheetBody => 'ورقة سفلية بنمط Everslot.';
 
   @override
@@ -3081,6 +3087,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get galleryStatuses => 'الحالات';
+
+  @override
+  String get gallerySwipeHint => 'اسحب لعرض الإجراءات';
 
   @override
   String get galleryTitle => 'معرض المكونات';
