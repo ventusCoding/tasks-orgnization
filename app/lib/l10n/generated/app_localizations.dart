@@ -3831,6 +3831,42 @@ abstract class AppLocalizations {
   /// **'Strikethrough'**
   String get checklistMdStrike;
 
+  /// No description provided for @checklistMirror.
+  ///
+  /// In en, this message translates to:
+  /// **'Mirror'**
+  String get checklistMirror;
+
+  /// No description provided for @checklistMirrorDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Mirrored to {list}'**
+  String checklistMirrorDone(String list);
+
+  /// No description provided for @checklistMirrorMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More in the original…'**
+  String get checklistMirrorMore;
+
+  /// No description provided for @checklistMirrorNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'A mirror can’t go inside its original'**
+  String get checklistMirrorNotAllowed;
+
+  /// No description provided for @checklistMirrorOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Mirror · {list}'**
+  String checklistMirrorOf(String list);
+
+  /// No description provided for @checklistMirrorTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Mirror to…'**
+  String get checklistMirrorTo;
+
   /// No description provided for @checklistModeEdit.
   ///
   /// In en, this message translates to:
@@ -3914,6 +3950,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This item no longer exists'**
   String get checklistNotifItemGone;
+
+  /// No description provided for @checklistOpenOriginal.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the original'**
+  String get checklistOpenOriginal;
 
   /// No description provided for @checklistOpenSideBySide.
   ///
@@ -4202,6 +4244,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{Uncheck 1 item?} other{Uncheck {count} items?}}'**
   String checklistUncheckConfirm(int count);
+
+  /// No description provided for @checklistUnlinkMirror.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlink mirror (keep a copy)'**
+  String get checklistUnlinkMirror;
 
   /// No description provided for @checklistViewGallery.
   ///

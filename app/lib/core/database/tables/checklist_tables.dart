@@ -54,6 +54,9 @@ class ChecklistItems extends Table with SyncedColumns {
   /// Routine step duration (T3.7.07, schema v2).
   IntColumn get estimateMinutes => integer().nullable()();
 
+  /// Original item this row mirrors (T4.5.16, schema v3).
+  TextColumn get mirrorOfId => text().nullable()();
+
   @override
   Set<Column<Object>> get primaryKey => {id};
 }

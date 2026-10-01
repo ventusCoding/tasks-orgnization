@@ -430,7 +430,10 @@ class ChecklistEditor extends Notifier<EditorState> {
   Future<OpRecord?> insertAfter(String id, {String text = ''}) =>
       run('add', (t, ctx, _) => TreeOps.insertAfter(t, ctx, id, text: text));
 
-  Future<OpRecord?> addChild(String id) => run('add', (t, ctx, _) => TreeOps.appendChild(t, ctx, id));
+  Future<OpRecord?> addChild(String id) async {
+    if (_isMirror(id)) return null;
+    return run('add', (t, ctx, _) => TreeOps.appendChild(t, ctx, id));
+  }
 
   Future<OpRecord?> enter(String id, {required String text, required int cursor}) {
     _cancelDraft(id);
@@ -458,7 +461,12 @@ class ChecklistEditor extends Notifier<EditorState> {
     );
   }
 
-  Future<OpRecord?> indent(Iterable<String> ids) => run('indent', (t, ctx, _) => TreeOps.indent(t, ctx, ids));
+  Future<OpRecord?> indent(Iterable<String> ids) async {
+    final t = tree;
+    final first = t == null || ids.isEmpty ? null : t.topMost(ids).firstOrNull;
+    if (first != null && !_nestingAllowed(ids, t!.previousSibling(first))) return null;
+    return run('indent', (t, ctx, _) => TreeOps.indent(t, ctx, ids));
+  }
 
   Future<OpRecord?> outdent(Iterable<String> ids) =>
       run('outdent', (t, ctx, _) => TreeOps.outdent(t, ctx, ids, focusRootId: state.focusRootId));
@@ -467,11 +475,14 @@ class ChecklistEditor extends Notifier<EditorState> {
 
   Future<OpRecord?> moveDown(Iterable<String> ids) => run('move', (t, ctx, _) => TreeOps.moveDown(t, ctx, ids));
 
-  Future<OpRecord?> moveTo(Iterable<String> ids, {required String? parentId, String? afterId}) => run(
-    'move',
-    (t, ctx, _) => TreeOps.moveTo(t, ctx, ids, newParentId: parentId, afterId: afterId),
-    focusResult: false,
-  );
+  Future<OpRecord?> moveTo(Iterable<String> ids, {required String? parentId, String? afterId}) async {
+    if (!_nestingAllowed(ids, parentId)) return null;
+    return run(
+      'move',
+      (t, ctx, _) => TreeOps.moveTo(t, ctx, ids, newParentId: parentId, afterId: afterId),
+      focusResult: false,
+    );
+  }
 
   Future<OpRecord?> delete(Iterable<String> ids) {
     for (final id in ids) {
@@ -504,8 +515,53 @@ class ChecklistEditor extends Notifier<EditorState> {
         focusResult: false,
       );
 
-  Future<OpRecord?> setFields(String id, Map<String, Object?> fields, {String label = 'edit'}) =>
-      run(label, (t, ctx, _) => TreeOps.setFields(t, ctx, id, fields), focusResult: false);
+  Future<OpRecord?> setFields(String id, Map<String, Object?> fields, {String label = 'edit'}) {
+    if (_isMirror(id)) return _throughService(label, () => _service.setFields(checklistId, id, fields));
+    return run(label, (t, ctx, _) => TreeOps.setFields(t, ctx, id, fields), focusResult: false);
+  }
+
+  // ------------------------------------------------------------------ mirrors (T4.5.16)
+
+  bool _isMirror(String id) => tree?[id]?.isMirror ?? false;
+
+  /// Mirror [itemId] into another place (T4.5.16); one undo step here.
+  Future<OpRecord?> createMirror(String itemId, {required String targetChecklistId, String? parentId}) async {
+    final created = await _throughService(
+      'mirror',
+      () async =>
+          (await _service.createMirror(itemId, targetChecklistId: targetChecklistId, parentId: parentId))?.record,
+    );
+    return created;
+  }
+
+  Future<OpRecord?> unlinkMirror(String itemId) =>
+      _throughService('unlink', () => _service.unlinkMirror(checklistId, itemId));
+
+  /// Mirrors never get children and never sit inside their original's subtree (the server
+  /// rejects it too: `checklist_mirror_cycle`).
+  bool _nestingAllowed(Iterable<String> ids, String? parentId) {
+    final t = tree;
+    if (t == null || parentId == null) return true;
+    if (t[parentId]?.isMirror ?? false) return false;
+    final above = {parentId, ...t.ancestors(parentId)};
+    for (final id in ids) {
+      for (final x in [id, ...t.descendants(id)]) {
+        final of = t[x]?.mirrorOfId;
+        if (of != null && above.contains(of)) return false;
+      }
+    }
+    return true;
+  }
+
+  /// A command on mirror rows: the service applies it to the originals (possibly in other lists);
+  /// one undo step here.
+  Future<OpRecord?> _throughService(String label, Future<OpRecord?> Function() command) async {
+    await flushAll();
+    _endSession();
+    final record = await command();
+    if (record != null) _push(label, record);
+    return record;
+  }
 
   /// Promote to its own checklist (T4.2.04): new list titled with the item text (color and
   /// category inherited) + children moved + attachments made checklist-level, in ONE op group.
@@ -613,24 +669,42 @@ class ChecklistEditor extends Notifier<EditorState> {
     bool keepFollowUp = false,
     bool? completeOpenDescendants,
     String cause = 'user',
-  }) => run(
-    'status',
-    (t, ctx, c) => StatusEngine.apply(
-      t,
-      c.settings,
-      ids: ids,
-      to: to,
-      now: ctx.now,
-      note: note,
-      setNote: setNote,
-      followUpAt: followUpAt,
-      keepFollowUp: keepFollowUp,
-      completeOpenDescendants: completeOpenDescendants,
+  }) {
+    if (ids.any(_isMirror)) {
+      return _throughService(
+        'status',
+        () => _service.changeStatus(
+          checklistId,
+          ids,
+          to,
+          note: note,
+          setNote: setNote,
+          followUpAt: followUpAt,
+          keepFollowUp: keepFollowUp,
+          completeOpenDescendants: completeOpenDescendants,
+          cause: cause,
+        ),
+      );
+    }
+    return run(
+      'status',
+      (t, ctx, c) => StatusEngine.apply(
+        t,
+        c.settings,
+        ids: ids,
+        to: to,
+        now: ctx.now,
+        note: note,
+        setNote: setNote,
+        followUpAt: followUpAt,
+        keepFollowUp: keepFollowUp,
+        completeOpenDescendants: completeOpenDescendants,
+        cause: cause,
+      ),
       cause: cause,
-    ),
-    cause: cause,
-    focusResult: false,
-  );
+      focusResult: false,
+    );
+  }
 
   /// Checkbox tap: open → completed (asking about open sub-items when configured), completed → todo.
   Future<OpRecord?> toggleComplete(String id, {CascadeQuestion? ask}) async {
@@ -641,7 +715,9 @@ class ChecklistEditor extends Notifier<EditorState> {
     final checklist = ref.read(checklistProvider(checklistId)).value;
     final choice = checklist?.settings.completeChildrenWithParent ?? CascadeChoice.ask;
     bool? cascade;
-    final open = StatusEngine.openDescendantCount(t, id);
+    final open = item.isMirror
+        ? await _service.openDescendantCount(checklistId, id)
+        : StatusEngine.openDescendantCount(t, id);
     if (open > 0 && choice == CascadeChoice.ask && ask != null) {
       cascade = await ask(open);
       if (cascade == null) return null;

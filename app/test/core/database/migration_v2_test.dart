@@ -24,6 +24,7 @@ void main() {
       await db.customStatement('ALTER TABLE tasks DROP COLUMN $c');
     }
     await db.customStatement('ALTER TABLE checklist_items DROP COLUMN estimate_minutes');
+    await db.customStatement('ALTER TABLE checklist_items DROP COLUMN mirror_of_id');
     await db.customStatement(
       'INSERT INTO tasks (id, user_id, series_id, title, created_at, updated_at) '
       "VALUES ('t1', 'u1', 't1', 'Keep me', '2026-09-22T00:00:00.000Z', '2026-09-22T00:00:00.000Z')",
@@ -39,7 +40,7 @@ void main() {
     final row = await (db.select(db.tasks)..where((t) => t.id.equals('t1'))).getSingle();
     expect(row.title, 'Keep me');
     expect(row.horizonKey, isNull);
-    expect(db.schemaVersion, 2);
+    expect(db.schemaVersion, greaterThanOrEqualTo(2));
     await db.close();
   });
 }

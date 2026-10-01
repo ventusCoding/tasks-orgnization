@@ -130,7 +130,9 @@ class ChecklistsRepository {
       "SUM(CASE WHEN i.due_local IS NOT NULL AND i.status IN ('todo','ongoing','waiting','blocked') "
       'THEN 1 ELSE 0 END) AS n_due '
       'FROM checklist_items i JOIN checklists c ON c.id = i.checklist_id '
-      'WHERE i.deleted_at IS NULL AND i.checklist_id IN (${_in(ids.length)}) GROUP BY i.checklist_id, i.status',
+      // Mirrors (T4.5.16) are not counted: stats count originals only.
+      'WHERE i.deleted_at IS NULL AND i.mirror_of_id IS NULL AND i.checklist_id IN (${_in(ids.length)}) '
+      'GROUP BY i.checklist_id, i.status',
       variables: [Variable<String>(now.toUtc().toIso8601String()), ...vars],
       readsFrom: {_db.checklistItems, _db.checklists},
     );
@@ -253,8 +255,11 @@ class ChecklistsRepository {
         });
   }
 
+  /// Live items of active lists; mirrors (T4.5.16) are left out so nothing is listed or counted
+  /// twice.
   static const _activeListFilter =
-      'i.deleted_at IS NULL AND c.deleted_at IS NULL AND c.archived_at IS NULL AND c.is_template = 0';
+      'i.deleted_at IS NULL AND i.mirror_of_id IS NULL AND c.deleted_at IS NULL AND c.archived_at IS NULL '
+      'AND c.is_template = 0';
 
   /// Chip counts across all non-archived lists (T4.5.01).
   Stream<SmartCounts> watchSmartCounts({required DateTime now}) => _db
@@ -568,6 +573,8 @@ class ChecklistsRepository {
     for (final itemId in itemIds) {
       await tx.softDelete('checklist_items', itemId);
     }
+    // Mirrors of these items in other lists become plain copies (T4.5.16).
+    await ChecklistItemsRepository.detachMirrors(tx, itemIds);
     await AttachmentTx.softDeleteForOwners(tx, AttachmentOwnerType.checklistItem, itemIds);
     await AttachmentTx.softDeleteForOwners(tx, AttachmentOwnerType.checklist, [id]);
     await ChecklistItemsRepository.deleteEntityTags(tx, 'checklist_item', itemIds);

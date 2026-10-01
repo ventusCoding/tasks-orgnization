@@ -57,7 +57,36 @@ class ChecklistService {
     return (record: await _items.apply(change), change: change);
   });
 
+  /// The live original of a mirror row (T4.5.16), else null: commands on a mirror edit it.
+  Future<ChecklistItem?> originalOf(String itemId) async {
+    final of = (await _items.byId(itemId))?.mirrorOfId;
+    return of == null ? null : _items.liveById(of);
+  }
+
+  /// Mirrors [itemId] (T4.5.16) into [targetChecklistId] under [parentId] (null = top). A mirror
+  /// of a mirror mirrors the same original. Returns the new row id, or null when not allowed.
+  Future<({OpRecord record, String id})?> createMirror(
+    String itemId, {
+    required String targetChecklistId,
+    String? parentId,
+  }) async {
+    final source = await _items.liveById(itemId);
+    if (source == null) return null;
+    final original = source.isMirror ? await _items.liveById(source.mirrorOfId!) : source;
+    if (original == null) return null;
+    final result = await run(targetChecklistId, (tree, ctx, _) => TreeOps.appendMirror(tree, ctx, parentId, original));
+    if (result == null) return null;
+    return (record: result.record, id: result.change.writes.first.id);
+  }
+
+  /// Turns a mirror row into a plain item with its original's current content.
+  Future<OpRecord?> unlinkMirror(String checklistId, String itemId) async {
+    final original = await originalOf(itemId);
+    return (await run(checklistId, (tree, ctx, _) => TreeOps.unlinkMirror(tree, ctx, itemId, original)))?.record;
+  }
+
   /// Status transition from any entry point (tap, sheet, swipe, kanban, smart views, bulk…).
+  /// Mirror rows change their original, in its own list (one undo step for the whole command).
   Future<OpRecord?> changeStatus(
     String checklistId,
     Iterable<String> ids,
@@ -68,25 +97,45 @@ class ChecklistService {
     bool keepFollowUp = false,
     bool? completeOpenDescendants,
     String cause = 'user',
-  }) async => (await run(
-    checklistId,
-    (tree, ctx, c) => StatusEngine.apply(
-      tree,
-      c.settings,
-      ids: ids,
-      to: to,
-      now: ctx.now,
-      note: note,
-      setNote: setNote,
-      followUpAt: followUpAt,
-      keepFollowUp: keepFollowUp,
-      completeOpenDescendants: completeOpenDescendants,
-      cause: cause,
-    ),
-    cause: cause,
-  ))?.record;
+  }) async {
+    final targets = <String, List<String>>{checklistId: []};
+    for (final id in ids) {
+      final original = await originalOf(id);
+      if (original == null) {
+        targets[checklistId]!.add(id);
+      } else {
+        (targets[original.checklistId] ??= []).add(original.id);
+      }
+    }
+    final records = <OpRecord>[];
+    for (final e in targets.entries) {
+      if (e.value.isEmpty) continue;
+      final result = await run(
+        e.key,
+        (tree, ctx, c) => StatusEngine.apply(
+          tree,
+          c.settings,
+          ids: e.value,
+          to: to,
+          now: ctx.now,
+          note: note,
+          setNote: setNote,
+          followUpAt: followUpAt,
+          keepFollowUp: keepFollowUp,
+          completeOpenDescendants: completeOpenDescendants,
+          cause: cause,
+        ),
+        cause: cause,
+      );
+      if (result != null) records.add(result.record);
+    }
+    if (records.isEmpty) return null;
+    return records.length == 1 ? records.single : mergeRecords(records);
+  }
 
   Future<int> openDescendantCount(String checklistId, String itemId) async {
+    final original = await originalOf(itemId);
+    if (original != null) return openDescendantCount(original.checklistId, original.id);
     final loaded = await load(checklistId);
     if (loaded == null || !loaded.tree.contains(itemId)) return 0;
     return StatusEngine.openDescendantCount(loaded.tree, itemId);
@@ -105,11 +154,22 @@ class ChecklistService {
   });
 
   /// Plain field edits (note, due, priority, follow-up…).
-  Future<OpRecord?> setFields(String checklistId, String itemId, Map<String, Object?> fields) async =>
-      (await run(checklistId, (tree, ctx, _) => TreeOps.setFields(tree, ctx, itemId, fields)))?.record;
+  /// Mirror rows edit their original.
+  Future<OpRecord?> setFields(String checklistId, String itemId, Map<String, Object?> fields) async {
+    final original = await originalOf(itemId);
+    if (original != null) return setFields(original.checklistId, original.id, fields);
+    return (await run(checklistId, (tree, ctx, _) => TreeOps.setFields(tree, ctx, itemId, fields)))?.record;
+  }
 
   /// Text of one row (editing sessions log one `updated` event: pass [logEvent] on the first write).
-  Future<OpRecord?> setText(String checklistId, String itemId, String text, {required bool logEvent}) =>
+  /// Mirror rows edit their original's text.
+  Future<OpRecord?> setText(String checklistId, String itemId, String text, {required bool logEvent}) async {
+    final original = await originalOf(itemId);
+    if (original != null) return setText(original.checklistId, original.id, text, logEvent: logEvent);
+    return _setText(checklistId, itemId, text, logEvent: logEvent);
+  }
+
+  Future<OpRecord?> _setText(String checklistId, String itemId, String text, {required bool logEvent}) =>
       _serialized(checklistId, () async {
         final item = await _items.byId(itemId);
         final value = ItemText(text).value;

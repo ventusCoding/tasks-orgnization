@@ -392,5 +392,13 @@
   "exportPdfImages": "Inclure les miniatures d’images",
   "exportPrint": "Imprimer…",
   "exportPdfFailed": "Impossible de créer le PDF",
-  "exportPdfPageOf": "Page {page} sur {total}"
+  "exportPdfPageOf": "Page {page} sur {total}",
+  "checklistMirrorTo": "Créer un miroir dans…",
+  "checklistMirror": "Miroir",
+  "checklistMirrorOf": "Miroir · {list}",
+  "checklistMirrorMore": "Suite dans l’original…",
+  "checklistOpenOriginal": "Ouvrir l’original",
+  "checklistUnlinkMirror": "Délier le miroir (garder une copie)",
+  "checklistMirrorDone": "Miroir créé dans {list}",
+  "checklistMirrorNotAllowed": "Un miroir ne peut pas aller dans son original"
 }

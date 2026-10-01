@@ -740,5 +740,27 @@
         "type": "int"
       }
     }
-  }
+  },
+  "checklistMirrorTo": "Mirror to…",
+  "checklistMirror": "Mirror",
+  "checklistMirrorOf": "Mirror · {list}",
+  "@checklistMirrorOf": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "checklistMirrorMore": "More in the original…",
+  "checklistOpenOriginal": "Open the original",
+  "checklistUnlinkMirror": "Unlink mirror (keep a copy)",
+  "checklistMirrorDone": "Mirrored to {list}",
+  "@checklistMirrorDone": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "checklistMirrorNotAllowed": "A mirror can’t go inside its original"
 }

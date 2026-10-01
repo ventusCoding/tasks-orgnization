@@ -36,7 +36,7 @@ void main() {
       expect(tables, contains(t.actualTableName));
     }
     expect(tables, contains('search_index'));
-    expect(db.schemaVersion, 2);
+    expect(db.schemaVersion, 3);
     await db.close();
   });
 

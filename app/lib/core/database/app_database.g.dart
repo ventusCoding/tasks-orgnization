@@ -13005,6 +13005,15 @@ class $ChecklistItemsTable extends ChecklistItems with TableInfo<$ChecklistItems
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _mirrorOfIdMeta = const VerificationMeta('mirrorOfId');
+  @override
+  late final GeneratedColumn<String> mirrorOfId = GeneratedColumn<String>(
+    'mirror_of_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -13032,6 +13041,7 @@ class $ChecklistItemsTable extends ChecklistItems with TableInfo<$ChecklistItems
     priority,
     notifyMode,
     estimateMinutes,
+    mirrorOfId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -13141,6 +13151,9 @@ class $ChecklistItemsTable extends ChecklistItems with TableInfo<$ChecklistItems
         estimateMinutes.isAcceptableOrUnknown(data['estimate_minutes']!, _estimateMinutesMeta),
       );
     }
+    if (data.containsKey('mirror_of_id')) {
+      context.handle(_mirrorOfIdMeta, mirrorOfId.isAcceptableOrUnknown(data['mirror_of_id']!, _mirrorOfIdMeta));
+    }
     return context;
   }
 
@@ -13184,6 +13197,7 @@ class $ChecklistItemsTable extends ChecklistItems with TableInfo<$ChecklistItems
       priority: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}priority'])!,
       notifyMode: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}notify_mode'])!,
       estimateMinutes: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}estimate_minutes']),
+      mirrorOfId: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}mirror_of_id']),
     );
   }
 
@@ -13223,6 +13237,9 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
 
   /// Routine step duration (T3.7.07, schema v2).
   final int? estimateMinutes;
+
+  /// Original item this row mirrors (T4.5.16, schema v3).
+  final String? mirrorOfId;
   const ChecklistItemRow({
     required this.id,
     required this.userId,
@@ -13249,6 +13266,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
     required this.priority,
     required this.notifyMode,
     this.estimateMinutes,
+    this.mirrorOfId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -13304,6 +13322,9 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
     if (!nullToAbsent || estimateMinutes != null) {
       map['estimate_minutes'] = Variable<int>(estimateMinutes);
     }
+    if (!nullToAbsent || mirrorOfId != null) {
+      map['mirror_of_id'] = Variable<String>(mirrorOfId);
+    }
     return map;
   }
 
@@ -13334,6 +13355,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
       priority: Value(priority),
       notifyMode: Value(notifyMode),
       estimateMinutes: estimateMinutes == null && nullToAbsent ? const Value.absent() : Value(estimateMinutes),
+      mirrorOfId: mirrorOfId == null && nullToAbsent ? const Value.absent() : Value(mirrorOfId),
     );
   }
 
@@ -13365,6 +13387,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
       priority: serializer.fromJson<int>(json['priority']),
       notifyMode: serializer.fromJson<String>(json['notify_mode']),
       estimateMinutes: serializer.fromJson<int?>(json['estimate_minutes']),
+      mirrorOfId: serializer.fromJson<String?>(json['mirror_of_id']),
     );
   }
   @override
@@ -13396,6 +13419,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
       'priority': serializer.toJson<int>(priority),
       'notify_mode': serializer.toJson<String>(notifyMode),
       'estimate_minutes': serializer.toJson<int?>(estimateMinutes),
+      'mirror_of_id': serializer.toJson<String?>(mirrorOfId),
     };
   }
 
@@ -13425,6 +13449,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
     int? priority,
     String? notifyMode,
     Value<int?> estimateMinutes = const Value.absent(),
+    Value<String?> mirrorOfId = const Value.absent(),
   }) => ChecklistItemRow(
     id: id ?? this.id,
     userId: userId ?? this.userId,
@@ -13451,6 +13476,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
     priority: priority ?? this.priority,
     notifyMode: notifyMode ?? this.notifyMode,
     estimateMinutes: estimateMinutes.present ? estimateMinutes.value : this.estimateMinutes,
+    mirrorOfId: mirrorOfId.present ? mirrorOfId.value : this.mirrorOfId,
   );
   ChecklistItemRow copyWithCompanion(ChecklistItemsCompanion data) {
     return ChecklistItemRow(
@@ -13479,6 +13505,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
       priority: data.priority.present ? data.priority.value : this.priority,
       notifyMode: data.notifyMode.present ? data.notifyMode.value : this.notifyMode,
       estimateMinutes: data.estimateMinutes.present ? data.estimateMinutes.value : this.estimateMinutes,
+      mirrorOfId: data.mirrorOfId.present ? data.mirrorOfId.value : this.mirrorOfId,
     );
   }
 
@@ -13509,7 +13536,8 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
           ..write('waitingOn: $waitingOn, ')
           ..write('priority: $priority, ')
           ..write('notifyMode: $notifyMode, ')
-          ..write('estimateMinutes: $estimateMinutes')
+          ..write('estimateMinutes: $estimateMinutes, ')
+          ..write('mirrorOfId: $mirrorOfId')
           ..write(')'))
         .toString();
   }
@@ -13541,6 +13569,7 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
     priority,
     notifyMode,
     estimateMinutes,
+    mirrorOfId,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -13570,7 +13599,8 @@ class ChecklistItemRow extends DataClass implements Insertable<ChecklistItemRow>
           other.waitingOn == this.waitingOn &&
           other.priority == this.priority &&
           other.notifyMode == this.notifyMode &&
-          other.estimateMinutes == this.estimateMinutes);
+          other.estimateMinutes == this.estimateMinutes &&
+          other.mirrorOfId == this.mirrorOfId);
 }
 
 class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
@@ -13599,6 +13629,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
   final Value<int> priority;
   final Value<String> notifyMode;
   final Value<int?> estimateMinutes;
+  final Value<String?> mirrorOfId;
   final Value<int> rowid;
   const ChecklistItemsCompanion({
     this.id = const Value.absent(),
@@ -13626,6 +13657,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
     this.priority = const Value.absent(),
     this.notifyMode = const Value.absent(),
     this.estimateMinutes = const Value.absent(),
+    this.mirrorOfId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ChecklistItemsCompanion.insert({
@@ -13654,6 +13686,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
     this.priority = const Value.absent(),
     this.notifyMode = const Value.absent(),
     this.estimateMinutes = const Value.absent(),
+    this.mirrorOfId = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        userId = Value(userId),
@@ -13687,6 +13720,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
     Expression<int>? priority,
     Expression<String>? notifyMode,
     Expression<int>? estimateMinutes,
+    Expression<String>? mirrorOfId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -13715,6 +13749,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
       if (priority != null) 'priority': priority,
       if (notifyMode != null) 'notify_mode': notifyMode,
       if (estimateMinutes != null) 'estimate_minutes': estimateMinutes,
+      if (mirrorOfId != null) 'mirror_of_id': mirrorOfId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -13745,6 +13780,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
     Value<int>? priority,
     Value<String>? notifyMode,
     Value<int?>? estimateMinutes,
+    Value<String?>? mirrorOfId,
     Value<int>? rowid,
   }) {
     return ChecklistItemsCompanion(
@@ -13773,6 +13809,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
       priority: priority ?? this.priority,
       notifyMode: notifyMode ?? this.notifyMode,
       estimateMinutes: estimateMinutes ?? this.estimateMinutes,
+      mirrorOfId: mirrorOfId ?? this.mirrorOfId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -13855,6 +13892,9 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
     if (estimateMinutes.present) {
       map['estimate_minutes'] = Variable<int>(estimateMinutes.value);
     }
+    if (mirrorOfId.present) {
+      map['mirror_of_id'] = Variable<String>(mirrorOfId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -13889,6 +13929,7 @@ class ChecklistItemsCompanion extends UpdateCompanion<ChecklistItemRow> {
           ..write('priority: $priority, ')
           ..write('notifyMode: $notifyMode, ')
           ..write('estimateMinutes: $estimateMinutes, ')
+          ..write('mirrorOfId: $mirrorOfId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -33281,6 +33322,7 @@ typedef $$ChecklistItemsTableCreateCompanionBuilder = ChecklistItemsCompanion Fu
   Value<int> priority,
   Value<String> notifyMode,
   Value<int?> estimateMinutes,
+  Value<String?> mirrorOfId,
   Value<int> rowid,
 });
 typedef $$ChecklistItemsTableUpdateCompanionBuilder = ChecklistItemsCompanion Function({
@@ -33309,6 +33351,7 @@ typedef $$ChecklistItemsTableUpdateCompanionBuilder = ChecklistItemsCompanion Fu
   Value<int> priority,
   Value<String> notifyMode,
   Value<int?> estimateMinutes,
+  Value<String?> mirrorOfId,
   Value<int> rowid,
 });
 
@@ -33391,6 +33434,9 @@ class $$ChecklistItemsTableFilterComposer extends Composer<_$AppDatabase, $Check
 
   ColumnFilters<int> get estimateMinutes =>
       $composableBuilder(column: $table.estimateMinutes, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get mirrorOfId =>
+      $composableBuilder(column: $table.mirrorOfId, builder: (column) => ColumnFilters(column));
 }
 
 class $$ChecklistItemsTableOrderingComposer extends Composer<_$AppDatabase, $ChecklistItemsTable> {
@@ -33473,6 +33519,9 @@ class $$ChecklistItemsTableOrderingComposer extends Composer<_$AppDatabase, $Che
 
   ColumnOrderings<int> get estimateMinutes =>
       $composableBuilder(column: $table.estimateMinutes, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get mirrorOfId =>
+      $composableBuilder(column: $table.mirrorOfId, builder: (column) => ColumnOrderings(column));
 }
 
 class $$ChecklistItemsTableAnnotationComposer extends Composer<_$AppDatabase, $ChecklistItemsTable> {
@@ -33539,6 +33588,8 @@ class $$ChecklistItemsTableAnnotationComposer extends Composer<_$AppDatabase, $C
 
   GeneratedColumn<int> get estimateMinutes =>
       $composableBuilder(column: $table.estimateMinutes, builder: (column) => column);
+
+  GeneratedColumn<String> get mirrorOfId => $composableBuilder(column: $table.mirrorOfId, builder: (column) => column);
 }
 
 class $$ChecklistItemsTableTableManager
@@ -33591,6 +33642,7 @@ class $$ChecklistItemsTableTableManager
                 Value<int> priority = const Value.absent(),
                 Value<String> notifyMode = const Value.absent(),
                 Value<int?> estimateMinutes = const Value.absent(),
+                Value<String?> mirrorOfId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ChecklistItemsCompanion(
                 id: id,
@@ -33618,6 +33670,7 @@ class $$ChecklistItemsTableTableManager
                 priority: priority,
                 notifyMode: notifyMode,
                 estimateMinutes: estimateMinutes,
+                mirrorOfId: mirrorOfId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -33647,6 +33700,7 @@ class $$ChecklistItemsTableTableManager
                 Value<int> priority = const Value.absent(),
                 Value<String> notifyMode = const Value.absent(),
                 Value<int?> estimateMinutes = const Value.absent(),
+                Value<String?> mirrorOfId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ChecklistItemsCompanion.insert(
                 id: id,
@@ -33674,6 +33728,7 @@ class $$ChecklistItemsTableTableManager
                 priority: priority,
                 notifyMode: notifyMode,
                 estimateMinutes: estimateMinutes,
+                mirrorOfId: mirrorOfId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

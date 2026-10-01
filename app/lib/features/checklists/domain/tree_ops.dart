@@ -201,6 +201,55 @@ abstract final class TreeOps {
 
   // ---------------------------------------------------------------- inserts
 
+  /// A live mirror of [original] (T4.5.16) appended under [parentId]: its own text/status are a
+  /// snapshot of the original (shown only once the original is gone). Empty when [parentId] is a
+  /// mirror or lies inside the original's subtree.
+  static TreeChange appendMirror(ChecklistTree tree, TreeOpContext ctx, String? parentId, ChecklistItem original) {
+    if (parentId != null) {
+      final parent = tree[parentId];
+      if (parent == null || parent.isMirror) return TreeChange.none;
+      if (parentId == original.id || tree.ancestors(parentId).contains(original.id)) return TreeChange.none;
+    }
+    final b = ctx.builder();
+    final id = ctx.newId();
+    b
+      ..insert(id, {
+        ...newItemValues(
+          ctx,
+          parentId: parentId,
+          sortKey: _keysAtEnd(tree, parentId, 1).single,
+          text: original.text,
+          status: original.status,
+          statusNote: original.statusNote,
+        ),
+        'mirror_of_id': original.id,
+      })
+      ..event(_event(ctx, id, 'created', {'mirrorOf': original.id}));
+    return b.build();
+  }
+
+  /// Turns mirror [id] into an ordinary item holding [original]'s current content (T4.5.16).
+  static TreeChange unlinkMirror(ChecklistTree tree, TreeOpContext ctx, String id, ChecklistItem? original) {
+    final item = tree[id];
+    if (item == null || !item.isMirror) return TreeChange.none;
+    final b = ctx.builder()
+      ..update(id, {
+        'mirror_of_id': null,
+        if (original != null) ...{
+          'text': original.text,
+          'note': original.note,
+          'status': original.status.name,
+          'status_note': original.statusNote,
+          'status_changed_at': original.statusChangedAt,
+          'completed_at': original.completedAt,
+          'priority': original.priority,
+          'due_local': original.dueLocal,
+          'time_zone': original.timeZone,
+        },
+      });
+    return b.build();
+  }
+
   static TreeChange insertAfter(ChecklistTree tree, TreeOpContext ctx, String anchorId, {String text = ''}) {
     final parent = tree.parentOf(anchorId);
     return _insertNew(tree, ctx, parentId: parent, sortKey: _keysAfter(tree, parent, anchorId, 1).single, text: text);
@@ -485,6 +534,7 @@ abstract final class TreeOps {
           'follow_up_at': keep ? src.followUpAt : null,
           'priority': src.priority,
           'estimate_minutes': src.estimateMinutes,
+          'mirror_of_id': src.mirrorOfId,
           'due_local': src.dueLocal,
           'time_zone': src.timeZone,
           'waiting_on': keep ? src.waitingOn : null,

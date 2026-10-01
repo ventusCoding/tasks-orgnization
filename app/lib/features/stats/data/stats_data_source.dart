@@ -275,7 +275,11 @@ class StatsDataSource {
     for (var i = 0; i < listIds.length; i += _chunk) {
       final part = listIds.sublist(i, i + _chunk > listIds.length ? listIds.length : i + _chunk);
       items.addAll(
-        await (_db.select(_db.checklistItems)..where((it) => it.checklistId.isIn(part) & it.userId.equals(user))).get(),
+        await (_db.select(_db.checklistItems)..where(
+              // Stats count originals only (mirrors, T4.5.16).
+              (it) => it.checklistId.isIn(part) & it.userId.equals(user) & it.mirrorOfId.isNull(),
+            ))
+            .get(),
       );
     }
     if (listId != null) {
@@ -300,7 +304,9 @@ class StatsDataSource {
       for (var i = 0; i < extra.length; i += _chunk) {
         final part = extra.sublist(i, i + _chunk > extra.length ? extra.length : i + _chunk);
         items.addAll(
-          await (_db.select(_db.checklistItems)..where((it) => it.id.isIn(part) & it.userId.equals(user))).get(),
+          await (_db.select(
+            _db.checklistItems,
+          )..where((it) => it.id.isIn(part) & it.userId.equals(user) & it.mirrorOfId.isNull())).get(),
         );
       }
     }

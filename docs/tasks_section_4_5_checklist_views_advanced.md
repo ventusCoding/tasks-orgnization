@@ -38,7 +38,7 @@ reminders for follow-ups and resets ([7.5]); share-into-app ([8.2]).
 - [x] T4.5.13 — Checklist Insights entry points
 - [x] T4.5.14 — Mind map view (synced with the outline)
 - [x] T4.5.15 — Flat all-items table
-- [ ] T4.5.16 — Mirrors (live item copies)
+- [x] T4.5.16 — Mirrors (live item copies)
 - [x] T4.5.17 — Split panes
 
 ## Tasks
@@ -275,7 +275,7 @@ checklist or item stats in [6.4].
 - **Data model:** `checklist_items.mirror_of_id uuid null references app.checklist_items(id)`,
   plus a server trigger forbidding a mirror inside its original's subtree, and local cycle guards.
 **Tests:** rendering/edit-through unit tests; pgTAP for the trigger; cycle tests.
-**Notes:** Blocked: needs `checklist_items.mirror_of_id` (not in the Drift schema / migrations; schema changes are outside this agent's scope).
+**Notes:** Schema v3 adds `checklist_items.mirror_of_id` (migration `20261001120000_add_checklist_mirrors.sql`: FK + same-owner trigger + DL003 `checklist_mirror_cycle` guard, pgTAP `146`; Drift step + `migration_v3_test`). *Mirror to…* (item menu) adds a row showing the original's text/status (`watchItems` joins the original) with a live preview of its children (`MirrorPreview`, tap toggles); status, text and field edits on a mirror go to the original (`ChecklistService` redirects, one undo step). Mirrors never get children nor sit inside their original's subtree (editor guards + server). Rollups, card summaries, smart counts/lists and stats skip mirrors. Deleting the original (item or whole list) turns mirrors into plain copies with copies of its children; *Unlink mirror* does the same on demand. Deviation: children render as a compact preview (≤ 5 lines + "More in the original…") rather than fully editable nested rows.
 
 ### T4.5.17 — Split panes
 **Priority:** P2 · **Size:** M · **Depends on:** [4.2]

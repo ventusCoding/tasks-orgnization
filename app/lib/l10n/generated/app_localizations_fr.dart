@@ -2219,6 +2219,28 @@ class AppLocalizationsFr extends AppLocalizations {
   String get checklistMdStrike => 'Barré';
 
   @override
+  String get checklistMirror => 'Miroir';
+
+  @override
+  String checklistMirrorDone(String list) {
+    return 'Miroir créé dans $list';
+  }
+
+  @override
+  String get checklistMirrorMore => 'Suite dans l’original…';
+
+  @override
+  String get checklistMirrorNotAllowed => 'Un miroir ne peut pas aller dans son original';
+
+  @override
+  String checklistMirrorOf(String list) {
+    return 'Miroir · $list';
+  }
+
+  @override
+  String get checklistMirrorTo => 'Créer un miroir dans…';
+
+  @override
   String get checklistModeEdit => 'Modifier';
 
   @override
@@ -2260,6 +2282,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get checklistNotifItemGone => 'Cet élément n’existe plus';
+
+  @override
+  String get checklistOpenOriginal => 'Ouvrir l’original';
 
   @override
   String get checklistOpenSideBySide => 'Ouvrir côte à côte…';
@@ -2432,6 +2457,9 @@ class AppLocalizationsFr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get checklistUnlinkMirror => 'Délier le miroir (garder une copie)';
 
   @override
   String get checklistViewGallery => 'Galerie';

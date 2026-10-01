@@ -909,6 +909,20 @@
       }
     }
   },
+  "@checklistMirrorDone": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "@checklistMirrorOf": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
   "@checklistProgress": {
     "placeholders": {
       "done": {
@@ -4897,6 +4911,12 @@
   "checklistMdItalic": "Italic",
   "checklistMdLink": "Link",
   "checklistMdStrike": "Strikethrough",
+  "checklistMirror": "Mirror",
+  "checklistMirrorDone": "Mirrored to {list}",
+  "checklistMirrorMore": "More in the original…",
+  "checklistMirrorNotAllowed": "A mirror can’t go inside its original",
+  "checklistMirrorOf": "Mirror · {list}",
+  "checklistMirrorTo": "Mirror to…",
   "checklistModeEdit": "Edit",
   "checklistModePreview": "Preview",
   "checklistMoveConflict": "A move conflicted with a change on another device and was undone.",
@@ -4911,6 +4931,7 @@
   "checklistNoTasksToLink": "No tasks to link yet",
   "checklistNotFound": "This list doesn't exist",
   "checklistNotifItemGone": "This item no longer exists",
+  "checklistOpenOriginal": "Open the original",
   "checklistOpenSideBySide": "Open side by side…",
   "checklistOpenTrash": "Open trash",
   "checklistOutdent": "Outdent",
@@ -4959,6 +4980,7 @@
   "checklistTitleHint": "Title",
   "checklistUncheckAll": "Uncheck all",
   "checklistUncheckConfirm": "{count, plural, =1{Uncheck 1 item?} other{Uncheck {count} items?}}",
+  "checklistUnlinkMirror": "Unlink mirror (keep a copy)",
   "checklistViewGallery": "Gallery",
   "checklistViewKanban": "Kanban",
   "checklistViewMindMap": "Mind map",

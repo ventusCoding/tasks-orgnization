@@ -392,5 +392,13 @@
   "exportPdfImages": "تضمين الصور المصغّرة",
   "exportPrint": "طباعة…",
   "exportPdfFailed": "تعذّر إنشاء ملف PDF",
-  "exportPdfPageOf": "الصفحة {page} من {total}"
+  "exportPdfPageOf": "الصفحة {page} من {total}",
+  "checklistMirrorTo": "إنشاء نسخة مرآة في…",
+  "checklistMirror": "مرآة",
+  "checklistMirrorOf": "مرآة · {list}",
+  "checklistMirrorMore": "المزيد في الأصل…",
+  "checklistOpenOriginal": "فتح الأصل",
+  "checklistUnlinkMirror": "فك ارتباط المرآة (الاحتفاظ بنسخة)",
+  "checklistMirrorDone": "أُنشئت مرآة في {list}",
+  "checklistMirrorNotAllowed": "لا يمكن وضع المرآة داخل أصلها"
 }

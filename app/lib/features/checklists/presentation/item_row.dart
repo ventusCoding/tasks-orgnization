@@ -11,6 +11,7 @@ import 'package:everslot/features/checklists/domain/rollup.dart';
 import 'package:everslot/features/checklists/domain/visible_list.dart';
 import 'package:everslot/features/checklists/presentation/checklist_card.dart' show statusSegments;
 import 'package:everslot/features/checklists/presentation/markdown_lite.dart';
+import 'package:everslot/features/checklists/presentation/mirror_preview.dart';
 import 'package:everslot/features/checklists/presentation/status_visuals.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter/semantics.dart';
@@ -153,6 +154,10 @@ abstract class RowActions {
   /// An image pasted / inserted from the keyboard into the row's text field (T4.4.09): attached
   /// to the item.
   Future<void> insertImage(String id, Uint8List bytes);
+
+  /// Mirrors (T4.5.16): toggle an item of the original's subtree; jump to the original.
+  void toggleOriginal(ChecklistItem item);
+  void openOriginal(ChecklistItem mirror);
   void focusNeighbor(String id, int direction);
   void indent(String id);
   void outdent(String id);
@@ -650,6 +655,13 @@ class _ItemRowState extends ConsumerState<ItemRow> {
       children: [
         text,
         if (meta.hasContent) meta,
+        if (item.isMirror)
+          MirrorPreview(
+            checklistId: a.checklistId,
+            item: item,
+            onToggle: a.toggleOriginal,
+            onOpenOriginal: () => a.openOriginal(item),
+          ),
         if (ctx.preview && ctx.showNotes && item.hasNote)
           Padding(
             padding: const EdgeInsets.only(bottom: Space.xs),

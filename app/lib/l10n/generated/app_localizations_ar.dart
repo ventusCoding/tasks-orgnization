@@ -2300,6 +2300,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistMdStrike => 'يتوسطه خط';
 
   @override
+  String get checklistMirror => 'مرآة';
+
+  @override
+  String checklistMirrorDone(String list) {
+    return 'أُنشئت مرآة في $list';
+  }
+
+  @override
+  String get checklistMirrorMore => 'المزيد في الأصل…';
+
+  @override
+  String get checklistMirrorNotAllowed => 'لا يمكن وضع المرآة داخل أصلها';
+
+  @override
+  String checklistMirrorOf(String list) {
+    return 'مرآة · $list';
+  }
+
+  @override
+  String get checklistMirrorTo => 'إنشاء نسخة مرآة في…';
+
+  @override
   String get checklistModeEdit => 'تحرير';
 
   @override
@@ -2340,6 +2362,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checklistNotifItemGone => 'هذا العنصر لم يعد موجودًا';
+
+  @override
+  String get checklistOpenOriginal => 'فتح الأصل';
 
   @override
   String get checklistOpenSideBySide => 'فتح جنبًا إلى جنب…';
@@ -2520,6 +2545,9 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get checklistUnlinkMirror => 'فك ارتباط المرآة (الاحتفاظ بنسخة)';
 
   @override
   String get checklistViewGallery => 'معرض';
