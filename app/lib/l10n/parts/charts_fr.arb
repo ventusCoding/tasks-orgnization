@@ -242,5 +242,12 @@
   "chartsLabelUnknownUnits": "Non saisies",
   "chartsLabelBackfillShare": "Saisies tardives",
   "chartsLabelTrackedTime": "Temps suivi",
-  "chartsLabelPendingSync": "En attente de synchro"
+  "chartsLabelPendingSync": "En attente de synchro",
+  "chartsLabelCycleTime": "Temps de cycle",
+  "chartsScopeAdded": "{date} : +{count} — {items}",
+  "chartsZoomReset": "Réinitialiser le zoom",
+  "chartsRangeBrush": "Plage visible {from}–{to}. Faites glisser pour la déplacer, tirez un bord pour la redimensionner.",
+  "chartsShareAction": "Partager",
+  "chartsShareFailed": "L’image du graphique n’a pas pu être créée",
+  "chartsGalleryEmptyState": "État vide"
 }

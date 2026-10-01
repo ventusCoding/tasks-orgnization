@@ -44,6 +44,7 @@ String labelTokenText(AppLocalizations l, LabelToken t) => switch (t) {
   LabelToken.departures => l.chartsLabelDepartures,
   LabelToken.net => l.chartsLabelNet,
   LabelToken.wip => l.chartsLabelWip,
+  LabelToken.cycleTime => l.chartsLabelCycleTime,
   LabelToken.previous => l.chartsLabelPrevious,
   LabelToken.current => l.chartsLabelCurrent,
   LabelToken.projection => l.chartsLabelProjection,

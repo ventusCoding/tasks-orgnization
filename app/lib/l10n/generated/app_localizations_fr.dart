@@ -1182,6 +1182,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsGalleryDark => 'Thème sombre';
 
   @override
+  String get chartsGalleryEmptyState => 'État vide';
+
+  @override
   String get chartsGalleryRtl => 'De droite à gauche';
 
   @override
@@ -1283,6 +1286,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelCurrent => 'Actuel';
+
+  @override
+  String get chartsLabelCycleTime => 'Temps de cycle';
 
   @override
   String get chartsLabelDeepWork => 'Travail profond';
@@ -1818,8 +1824,18 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String chartsRangeBrush(String from, String to) {
+    return 'Plage visible $from–$to. Faites glisser pour la déplacer, tirez un bord pour la redimensionner.';
+  }
+
+  @override
   String chartsRatio(String value) {
     return '$value×';
+  }
+
+  @override
+  String chartsScopeAdded(String date, String count, String items) {
+    return '$date : +$count — $items';
   }
 
   @override
@@ -1837,6 +1853,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsShare => 'Partager le graphique';
+
+  @override
+  String get chartsShareAction => 'Partager';
+
+  @override
+  String get chartsShareFailed => 'L’image du graphique n’a pas pu être créée';
 
   @override
   String get chartsShareHideNames => 'Masquer les noms';
@@ -1951,6 +1973,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsVsPrevious => 'vs période précédente';
+
+  @override
+  String get chartsZoomReset => 'Réinitialiser le zoom';
 
   @override
   String get checklistAddItem => 'Ajouter un élément';

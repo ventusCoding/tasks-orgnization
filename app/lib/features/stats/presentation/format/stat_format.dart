@@ -34,13 +34,25 @@ class DeltaView {
 }
 
 class StatFormat {
-  StatFormat(this.l10n, this.locale, {this.use24h = true, this.arabicDigits = false})
-    : _app = AppFormat(locale, use24h: use24h, l10n: l10n);
+  StatFormat(
+    this.l10n,
+    this.locale, {
+    this.use24h = true,
+    this.arabicDigits = false,
+    this.hideNames = false,
+    this.anonymousNames = const {},
+  }) : _app = AppFormat(locale, use24h: use24h, l10n: l10n);
 
   final AppLocalizations l10n;
   final String locale;
   final bool use24h;
   final bool arabicDigits;
+
+  /// Share-as-image anonymization (T6.2.23): user-entered names become "Item 1…".
+  final bool hideNames;
+
+  /// 1-based index of each hidden name (consistent across one chart).
+  final Map<String, int> anonymousNames;
   final AppFormat _app;
 
   static const _eastern = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
@@ -159,7 +171,10 @@ class StatFormat {
   });
 
   String label(ChartLabel label) => switch (label) {
-    TextLabel(:final text) => text,
+    TextLabel(:final text, :final anonymousIndex) =>
+      hideNames && text.isNotEmpty
+          ? digits(l10n.chartsAnonymousItem('${anonymousNames[text] ?? anonymousIndex ?? 1}'))
+          : text,
     TokenLabel(:final token) => labelTokenText(l10n, token),
     DateLabel(:final date, :final granularity) => bucket(date, granularity),
     WeekdayLabel(:final weekday) => this.weekday(weekday),

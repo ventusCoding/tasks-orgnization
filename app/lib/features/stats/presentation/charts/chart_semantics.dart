@@ -98,6 +98,42 @@ String chartSummary(ChartData data, String title, StatFormat f) {
       return [for (final r in data.rings) '${f.label(r.$1)}: ${f.percent(r.$2)}'].join('. ');
     case BulletData():
       return l.chartsSummaryValue(title, f.value(data.actual, data.unit));
+    case HistogramData():
+      var best = 0;
+      for (var i = 1; i < data.bins.length; i++) {
+        if (data.bins[i].$3 > data.bins[best].$3) best = i;
+      }
+      final b = data.bins[best];
+      return l.chartsSummaryBars(
+        title,
+        '${data.bins.length}',
+        f.label(RangeLabel(b.$1, b.$2, data.unit)),
+        f.number(b.$3.toDouble()),
+      );
+    case KmData(:final median):
+      return l.chartsSummaryValue(
+        title,
+        median == null ? l.chartsMedianNotReached : l.chartsMedianAt(f.value(median, StatUnit.hours)),
+      );
+    case ForecastData():
+      return l.chartsSummaryValue(
+        title,
+        [
+          for (final (token, days) in [
+            (LabelToken.p50, data.p50),
+            (LabelToken.p85, data.p85),
+            (LabelToken.p95, data.p95),
+          ])
+            l.chartsCrosshair(f.label(TokenLabel(token)), f.date(data.from.plusDays(days))),
+        ].join(', '),
+      );
+    case RoseData(:final meanMinute):
+      return l.chartsSummaryValue(
+        title,
+        !data.consistent || meanMinute == null
+            ? l.chartsNoConsistentTime
+            : l.chartsCrosshair(f.label(const TokenLabel(LabelToken.mean)), f.clock(meanMinute)),
+      );
     case ChartGroup():
       return chartSummary(data.charts.firstWhere((c) => !c.$2.isEmpty, orElse: () => data.charts.first).$2, title, f);
     default:

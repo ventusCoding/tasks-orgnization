@@ -34,20 +34,20 @@ time-grid painter ([3.3], specified in [6.3]).
 - [x] T6.2.10 — Basic interactions: tooltips & drill-down payloads
 - [x] T6.2.11 — Chart accessibility: semantic summaries & "view as table"
 - [x] T6.2.12 — Chart goldens & rendering performance
-- [ ] T6.2.13 — Gantt: planned vs actual & move timeline
-- [ ] T6.2.14 — Histogram & box plot
-- [ ] T6.2.15 — Scatter plots (y = x, percentile lines, aging WIP)
-- [ ] T6.2.16 — Stacked area & cumulative flow diagram
-- [ ] T6.2.17 — Burn-down / burn-up
-- [ ] T6.2.18 — Radar chart
-- [ ] T6.2.19 — Rose / 24-hour clock chart
-- [ ] T6.2.20 — Treemap
-- [ ] T6.2.21 — Matrix heatmap
-- [ ] T6.2.22 — Advanced interactions: scrubbing, pan & zoom, range brush
-- [ ] T6.2.23 — Share chart as image
-- [ ] T6.2.24 — Chart gallery (dev flavor)
-- [ ] T6.2.25 — Kaplan–Meier curve
-- [ ] T6.2.26 — Forecast visuals: probability histogram & forecast cone
+- [x] T6.2.13 — Gantt: planned vs actual & move timeline
+- [x] T6.2.14 — Histogram & box plot
+- [x] T6.2.15 — Scatter plots (y = x, percentile lines, aging WIP)
+- [x] T6.2.16 — Stacked area & cumulative flow diagram
+- [x] T6.2.17 — Burn-down / burn-up
+- [x] T6.2.18 — Radar chart
+- [x] T6.2.19 — Rose / 24-hour clock chart
+- [x] T6.2.20 — Treemap
+- [x] T6.2.21 — Matrix heatmap
+- [x] T6.2.22 — Advanced interactions: scrubbing, pan & zoom, range brush
+- [x] T6.2.23 — Share chart as image
+- [x] T6.2.24 — Chart gallery (dev flavor)
+- [x] T6.2.25 — Kaplan–Meier curve
+- [x] T6.2.26 — Forecast visuals: probability histogram & forecast cone
 
 ## Tasks
 
@@ -260,6 +260,7 @@ reschedules.
 - **Move timeline:** one dot per reschedule, with an arrow from the old date to the new one.
 **Acceptance criteria:** overlapping sessions stack without hiding each other; RTL mirrors time.
 **Tests:** goldens.
+**Notes:** `GanttChart` / `MoveTimelineChart` (`charts/timeline_charts.dart`): planned outline + session fills toned by `sessionTone` (early/on time/late/overrun, 5-min grace, patterns), `assignLanes` stacks overlapping sessions in sub-lanes; row tap reads out planned/actual minutes and opens the row's entity; RTL mirrors time. Move timeline uses wall-clock minutes.
 
 ### T6.2.14 — Histogram & box plot
 **Priority:** P1 · **Size:** M · **Depends on:** T6.2.04, [6.1] (T6.1.02 bins & box summary)
@@ -269,6 +270,7 @@ reschedules.
 - **Box plots:** grouped (by month or weekday), with outliers as dots and n under each box.
 **Acceptance criteria:** the markers match the [6.1] percentile values exactly.
 **Tests:** goldens.
+**Notes:** `HistogramChart` (count/share toggle, dashed P50/P85 markers placed at the given [6.1] values, bin taps `bin:<i>`) and `BoxPlotChart` (whiskers, outliers, `n = …` under each box, `group:<i>` taps) in `charts/distribution_charts.dart`; test builds the markers with `percentile()` and bins with `histogramFixedWidth()`.
 
 ### T6.2.15 — Scatter plots (y = x, percentile lines, aging WIP)
 **Priority:** P1 · **Size:** M · **Depends on:** T6.2.01, T6.2.10
@@ -281,6 +283,7 @@ reschedules.
 they fade to translucent.
 **Acceptance criteria:** 2 000 points stay responsive; percentile lines are labeled.
 **Tests:** goldens; a widget test for tapping a point.
+**Notes:** `ScatterChart` (`charts/scatter_chart.dart`): plan vs actual on one scale with y = x and ±20 % band, by-date with labeled percentile lines, aging WIP columns with deterministic jitter and CT-percentile background bands; nearest-point hit test (18 px) opens the point's `DrillRef`; > 150 points fade to translucent. 2 000-point pump + tap stays well under 2 s in debug.
 
 ### T6.2.16 — Stacked area & cumulative flow diagram
 **Priority:** P1 · **Size:** M · **Depends on:** T6.2.03
@@ -293,6 +296,7 @@ they fade to translucent.
   horizontal distance).
 **Acceptance criteria:** bands never cross; reopens that lower the completed band render correctly.
 **Tests:** goldens using the [6.4] CFD fixture.
+**Notes:** `StackedAreaChart` + pure `StackedBands` (`charts/flow_charts.dart`): cumulative tops (never cross, reopens lower the completed band), tap/horizontal-drag scrub read-out of every band, and for a CFD (bottom band = completed) the WIP accent and the dashed ≈ cycle-time distance. Markers (e.g. reopens) as triangles.
 
 ### T6.2.17 — Burn-down / burn-up
 **Priority:** P1 · **Size:** S · **Depends on:** T6.2.03
@@ -301,6 +305,7 @@ total-scope line and a done line; scope-creep markers.
 **Acceptance criteria:** scope increases show up as steps in the scope line, with a marker listing the
 added items.
 **Tests:** goldens.
+**Notes:** Burn charts are `TimeSeriesData(step: true)`: `ChartAnnotation.details` (new) on `AnnotationKind.scopeChange` markers draws a "+N" marker and lists the added items under the chart (`chartsScopeAdded`); ideal line = a `pace` series (dashed).
 
 ### T6.2.18 — Radar chart
 **Priority:** P1 · **Size:** S · **Depends on:** T6.2.01
@@ -308,6 +313,7 @@ added items.
 labels.
 **Acceptance criteria:** axes with no data are drawn dashed; the table alternative lists every axis.
 **Tests:** goldens.
+**Notes:** `RadarChart` (`charts/radial_charts.dart`): 3–12 axes clockwise from the top (counter-clockwise in RTL), rings at 25/50/75/100 %, filled current series with value labels, dashed previous outline, axes without data drawn dashed; table lists every axis.
 
 ### T6.2.19 — Rose / 24-hour clock chart
 **Priority:** P1 · **Size:** S · **Depends on:** T6.2.01, [6.1] (circular statistics T6.1.18)
@@ -316,6 +322,7 @@ arrow and a ±1 circular SD arc.
 **Implementation notes:** 24 or 48 sectors; the ring rotates by the day-start hour; labels follow 12/24 h.
 **Acceptance criteria:** a cluster around midnight renders as one lobe, not two.
 **Tests:** goldens.
+**Notes:** `RoseChart` / `RosePainter`: 24 or 48 area-true wedges (radius ∝ √count) rotated to `dayStartMinute`, mean arrow and ±1 SD arc, "No consistent time" when R̄ is low; wrap-around keeps a midnight cluster as one lobe (sector test). Clock faces stay clockwise in RTL.
 
 ### T6.2.20 — Treemap
 **Priority:** P1 · **Size:** S · **Depends on:** T6.2.01
@@ -323,6 +330,7 @@ arrow and a ±1 circular SD arc.
 allows and drill-down on tap.
 **Acceptance criteria:** areas are proportional to minutes (±1 %).
 **Tests:** a unit test for the layout algorithm; goldens.
+**Notes:** `squarify()` (Bruls et al.) + `TreemapChart` (`charts/grid_charts.dart`): parents then children inside a header-inset parent rect, labels only where ≥ 40 × 16 px, innermost-node tap drill; unit test checks areas ±1 %, bounds and no overlap.
 
 ### T6.2.21 — Matrix heatmap
 **Priority:** P1 · **Size:** S · **Depends on:** T6.2.01
@@ -332,6 +340,7 @@ co-occurrence (phi) matrix.
 labels that truncate with a tooltip.
 **Acceptance criteria:** diverging scales are symmetric around 0; the table alternative is present.
 **Tests:** goldens.
+**Notes:** `MatrixHeatmap` / `MatrixPainter`: sequential or diverging (bound = max |v|, symmetric around 0, positive/negative tones), cell labels from 30 px, significance dots, truncated axis labels with a tap read-out of the full `row × column`; horizontal scroll when wider than the screen.
 
 ### T6.2.22 — Advanced interactions: scrubbing, pan & zoom, range brush
 **Priority:** P1 · **Size:** M · **Depends on:** T6.2.10
@@ -344,6 +353,7 @@ labels that truncate with a tooltip.
 **Acceptance criteria:** gestures don't conflict with page scrolling (a vertical drag scrolls the page;
 a horizontal drag scrubs); 60 fps while scrubbing.
 **Tests:** widget gesture tests.
+**Notes:** `TimeSeriesChart` is now stateful: fl_chart's pan/long-press scrub (vertical drags still scroll — the scrollable's vertical recognizer wins first), `ChartCrosshairScope` shares the scrubbed date across a screen's charts, two-finger pinch/pan via a raw `Listener` (zoom window clamped to the data, min 7 buckets, "Reset zoom"), and a range brush (`_RangeBrush`, > 90 buckets: drag to pan, drag an edge to resize; `DragStartBehavior.down`). Gesture tests in `charts/chart_interactions_test.dart`; 60 fps is for the [9.1] device suite.
 
 ### T6.2.23 — Share chart as image
 **Priority:** P1 · **Size:** S · **Depends on:** T6.2.01
@@ -353,6 +363,7 @@ never uploads anything.
 **Acceptance criteria:** the exported image matches the on-screen chart (pixel-compare in a test);
 names are replaced by "Habit 1…" when hiding is on.
 **Tests:** widget test of the export pipeline.
+**Notes:** `charts/chart_share.dart`: `MetricCard` frames get a share button → `ChartShareSheet` preview (title, period, chart, "Made with Everslot" mark, "Hide names" switch) → `captureChartPng` (3×) → `ChartImageSharer` (temp file + share sheet; nothing uploaded). Hidden names use `StatFormat.hideNames` + `anonymousNamesOf(data)` ("Item 1…" numbered by order of appearance). Test decodes the exported PNG and compares it pixel for pixel with the on-screen boundary at 3×. Screen goldens regenerated for the share button.
 
 ### T6.2.24 — Chart gallery (dev flavor)
 **Priority:** P1 · **Size:** S · **Depends on:** T6.2.12
@@ -360,6 +371,7 @@ names are replaced by "Habit 1…" when hiding is on.
 scale and color-vision-deficiency simulation (protanopia, deuteranopia and tritanopia color matrices).
 **Acceptance criteria:** the gallery lists every chart in the kit; it is excluded from the prod flavor.
 **Tests:** a smoke widget test.
+**Notes:** `ChartGalleryScreen` (debug menu › Chart gallery, dev builds only — the `/dev` route is compiled out of prod): every sample of `charts/chart_samples.dart` plus empty/insufficient states, with dark, RTL, text scale 2.0 and protanopia/deuteranopia/tritanopia (Machado 2009) color-matrix toggles. Smoke test scrolls through every sample.
 
 ### T6.2.25 — Kaplan–Meier curve
 **Priority:** P2 · **Size:** S · **Depends on:** T6.2.03, [6.1] (T6.1.25)
@@ -367,6 +379,7 @@ scale and color-vision-deficiency simulation (protanopia, deuteranopia and trita
 optional confidence band.
 **Acceptance criteria:** "median not reached" is shown explicitly when S never drops to 0.5.
 **Tests:** goldens.
+**Notes:** `KmChart`: step curve from S(0) = 1, Greenwood band as a step area, censor ticks, dashed median guides and an explicit "Median not reached" / "Median …" caption.
 
 ### T6.2.26 — Forecast visuals: probability histogram & forecast cone
 **Priority:** P2 · **Size:** S · **Depends on:** T6.2.14, T6.2.17, [6.1] (T6.1.26)
@@ -374,3 +387,4 @@ optional confidence band.
 shaded cone (P50–P85–P95) overlaid on burn-down and goal charts.
 **Acceptance criteria:** the cone starts at the last actual data point; the percentiles are labeled with dates.
 **Tests:** goldens.
+**Notes:** `ForecastChart` (finish-day histogram toned by P50/P85/P95, dashed markers, dated captions) and the cone on `TimeSeriesChart` (`TimeSeriesData.cone`: P50/P85/P95 lines from the last actual point with between-band fills, x axis extended over the forecast dates, finish dates labeled under the chart). Goldens for every P1/P2 chart: `charts/goldens/advanced_charts_{light,dark}_{ltr,rtl}_{1x,2x}.png`.

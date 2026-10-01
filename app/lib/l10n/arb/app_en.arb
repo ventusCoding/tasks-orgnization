@@ -653,9 +653,33 @@
       }
     }
   },
+  "@chartsRangeBrush": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
   "@chartsRatio": {
     "placeholders": {
       "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@chartsScopeAdded": {
+    "description": "Scope increase marker of a burn chart: date, number of added items and their names.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      },
+      "items": {
         "type": "String"
       }
     }
@@ -4649,6 +4673,7 @@
   "chartsExplain": "About this metric",
   "chartsFrozen": "{count, plural, =1{1 frozen} other{{count} frozen}}",
   "chartsGalleryDark": "Dark theme",
+  "chartsGalleryEmptyState": "Empty state",
   "chartsGalleryRtl": "Right to left",
   "chartsGalleryTextScale": "Large text",
   "chartsGalleryTitle": "Chart gallery",
@@ -4680,6 +4705,7 @@
   "chartsLabelCravings": "Cravings",
   "chartsLabelCreated": "Created",
   "chartsLabelCurrent": "Current",
+  "chartsLabelCycleTime": "Cycle time",
   "chartsLabelDeepWork": "Deep work",
   "chartsLabelDepartures": "Departures",
   "chartsLabelDone": "Done",
@@ -4840,11 +4866,15 @@
   "chartsPrevious": "Previous {value}",
   "chartsProbability": "{value} chance",
   "chartsRange": "{from}–{to}",
+  "chartsRangeBrush": "Visible range {from}–{to}. Drag to move, drag an edge to resize.",
   "chartsRatio": "{value}×",
+  "chartsScopeAdded": "{date}: +{count} — {items}",
   "chartsSecondsOnly": "{seconds} s",
   "chartsSelected": "Selected",
   "chartsSeriesToggle": "Show or hide {series}",
   "chartsShare": "Share chart",
+  "chartsShareAction": "Share",
+  "chartsShareFailed": "The chart image couldn’t be created",
   "chartsShareHideNames": "Hide names",
   "chartsShareMark": "Made with Everslot",
   "chartsStreakBest": "Best",
@@ -4873,6 +4903,7 @@
   "chartsVisionProtanopia": "Protanopia",
   "chartsVisionTritanopia": "Tritanopia",
   "chartsVsPrevious": "vs previous period",
+  "chartsZoomReset": "Reset zoom",
   "checklistAddItem": "Add item",
   "checklistAddSubItem": "Add sub-item",
   "checklistAllAttachments": "All attachments",

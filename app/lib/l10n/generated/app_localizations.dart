@@ -2049,6 +2049,12 @@ abstract class AppLocalizations {
   /// **'Dark theme'**
   String get chartsGalleryDark;
 
+  /// No description provided for @chartsGalleryEmptyState.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty state'**
+  String get chartsGalleryEmptyState;
+
   /// No description provided for @chartsGalleryRtl.
   ///
   /// In en, this message translates to:
@@ -2234,6 +2240,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Current'**
   String get chartsLabelCurrent;
+
+  /// No description provided for @chartsLabelCycleTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle time'**
+  String get chartsLabelCycleTime;
 
   /// No description provided for @chartsLabelDeepWork.
   ///
@@ -3195,11 +3207,23 @@ abstract class AppLocalizations {
   /// **'{from}–{to}'**
   String chartsRange(String from, String to);
 
+  /// No description provided for @chartsRangeBrush.
+  ///
+  /// In en, this message translates to:
+  /// **'Visible range {from}–{to}. Drag to move, drag an edge to resize.'**
+  String chartsRangeBrush(String from, String to);
+
   /// No description provided for @chartsRatio.
   ///
   /// In en, this message translates to:
   /// **'{value}×'**
   String chartsRatio(String value);
+
+  /// Scope increase marker of a burn chart: date, number of added items and their names.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}: +{count} — {items}'**
+  String chartsScopeAdded(String date, String count, String items);
 
   /// No description provided for @chartsSecondsOnly.
   ///
@@ -3224,6 +3248,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share chart'**
   String get chartsShare;
+
+  /// No description provided for @chartsShareAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get chartsShareAction;
+
+  /// No description provided for @chartsShareFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The chart image couldn’t be created'**
+  String get chartsShareFailed;
 
   /// No description provided for @chartsShareHideNames.
   ///
@@ -3392,6 +3428,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'vs previous period'**
   String get chartsVsPrevious;
+
+  /// No description provided for @chartsZoomReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset zoom'**
+  String get chartsZoomReset;
 
   /// No description provided for @checklistAddItem.
   ///

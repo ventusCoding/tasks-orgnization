@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/stats/domain/chart_data.dart';
 import 'package:everslot/features/stats/presentation/format/stat_format.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart' show Weekday;
 import 'package:flutter/services.dart' show HapticFeedback;
@@ -20,6 +21,7 @@ class ChartPrefs extends InheritedWidget {
     this.use24h = true,
     this.arabicDigits = false,
     this.hideNames = false,
+    this.anonymousNames = const {},
     this.weekStart = Weekday.monday,
     this.dayStartMinutes = 0,
     this.haptics = true,
@@ -40,6 +42,9 @@ class ChartPrefs extends InheritedWidget {
   /// Share-as-image anonymization: user content labels become "Item 1…".
   final bool hideNames;
 
+  /// Index of each hidden name ([anonymousNamesOf]).
+  final Map<String, int> anonymousNames;
+
   static ChartPrefs? maybeOf(BuildContext context) => context.dependOnInheritedWidgetOfExactType<ChartPrefs>();
 
   @override
@@ -47,6 +52,7 @@ class ChartPrefs extends InheritedWidget {
       use24h != oldWidget.use24h ||
       arabicDigits != oldWidget.arabicDigits ||
       hideNames != oldWidget.hideNames ||
+      anonymousNames != oldWidget.anonymousNames ||
       weekStart != oldWidget.weekStart ||
       dayStartMinutes != oldWidget.dayStartMinutes ||
       haptics != oldWidget.haptics;
@@ -60,7 +66,26 @@ StatFormat statFormatOf(BuildContext context) {
     Localizations.localeOf(context).toLanguageTag(),
     use24h: prefs?.use24h ?? true,
     arabicDigits: prefs?.arabicDigits ?? false,
+    hideNames: prefs?.hideNames ?? false,
+    anonymousNames: prefs?.anonymousNames ?? const {},
   );
+}
+
+/// "Item N" numbering of the user-entered names of [data], in order of appearance (T6.2.23).
+Map<String, int> anonymousNamesOf(ChartData data) {
+  final names = <String, int>{};
+  void take(ChartLabel? label) {
+    if (label is TextLabel && label.text.isNotEmpty) names.putIfAbsent(label.text, () => names.length + 1);
+  }
+
+  final table = data.toTable();
+  table.columns.forEach(take);
+  for (final row in table.rows) {
+    for (final cell in row) {
+      take(cell.label);
+    }
+  }
+  return names;
 }
 
 /// Week start for charts below [context].

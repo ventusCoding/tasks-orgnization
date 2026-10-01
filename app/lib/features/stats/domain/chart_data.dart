@@ -55,6 +55,7 @@ enum LabelToken {
   departures,
   net,
   wip,
+  cycleTime,
   previous,
   current,
   projection,
@@ -475,15 +476,18 @@ final class ChartSeries {
   final SeriesRole role;
 }
 
-/// A vertical annotation marker ("rule changed", "vacation", "quit date reset").
+/// A vertical annotation marker ("rule changed", "vacation", "quit date reset", scope added).
 @immutable
 final class ChartAnnotation {
-  const ChartAnnotation(this.index, this.label, {this.kind = AnnotationKind.info});
+  const ChartAnnotation(this.index, this.label, {this.kind = AnnotationKind.info, this.details = const []});
 
   /// Bucket index the marker sits on.
   final int index;
   final ChartLabel label;
   final AnnotationKind kind;
+
+  /// What the marker stands for, listed under the chart (e.g. the items added at a scope increase).
+  final List<ChartLabel> details;
 }
 
 enum AnnotationKind { info, ruleChange, vacation, reset, record, scopeChange }

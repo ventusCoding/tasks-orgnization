@@ -1162,6 +1162,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsGalleryDark => 'Dark theme';
 
   @override
+  String get chartsGalleryEmptyState => 'Empty state';
+
+  @override
   String get chartsGalleryRtl => 'Right to left';
 
   @override
@@ -1263,6 +1266,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chartsLabelCurrent => 'Current';
+
+  @override
+  String get chartsLabelCycleTime => 'Cycle time';
 
   @override
   String get chartsLabelDeepWork => 'Deep work';
@@ -1797,8 +1803,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String chartsRangeBrush(String from, String to) {
+    return 'Visible range $from–$to. Drag to move, drag an edge to resize.';
+  }
+
+  @override
   String chartsRatio(String value) {
     return '$value×';
+  }
+
+  @override
+  String chartsScopeAdded(String date, String count, String items) {
+    return '$date: +$count — $items';
   }
 
   @override
@@ -1816,6 +1832,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chartsShare => 'Share chart';
+
+  @override
+  String get chartsShareAction => 'Share';
+
+  @override
+  String get chartsShareFailed => 'The chart image couldn’t be created';
 
   @override
   String get chartsShareHideNames => 'Hide names';
@@ -1930,6 +1952,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chartsVsPrevious => 'vs previous period';
+
+  @override
+  String get chartsZoomReset => 'Reset zoom';
 
   @override
   String get checklistAddItem => 'Add item';

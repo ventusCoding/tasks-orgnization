@@ -242,5 +242,12 @@
   "chartsLabelUnknownUnits": "غير المسجَّل",
   "chartsLabelBackfillShare": "مسجَّل متأخرًا",
   "chartsLabelTrackedTime": "الوقت المتتبَّع",
-  "chartsLabelPendingSync": "بانتظار المزامنة"
+  "chartsLabelPendingSync": "بانتظار المزامنة",
+  "chartsLabelCycleTime": "زمن الدورة",
+  "chartsScopeAdded": "{date}: +{count} — {items}",
+  "chartsZoomReset": "إعادة ضبط التكبير",
+  "chartsRangeBrush": "النطاق المعروض {from}–{to}. اسحب لتحريكه، واسحب أحد طرفيه لتغيير حجمه.",
+  "chartsShareAction": "مشاركة",
+  "chartsShareFailed": "تعذر إنشاء صورة الرسم البياني",
+  "chartsGalleryEmptyState": "حالة فارغة"
 }

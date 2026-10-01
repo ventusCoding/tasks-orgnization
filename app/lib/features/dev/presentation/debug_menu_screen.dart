@@ -9,12 +9,14 @@ import 'package:everslot/features/dev/presentation/db_inspector_page.dart';
 import 'package:everslot/features/dev/presentation/log_viewer_page.dart';
 import 'package:everslot/features/dev/presentation/sync_diagnostics_page.dart';
 import 'package:everslot/features/profile/presentation/zone_picker.dart';
+import 'package:everslot/features/stats/presentation/chart_gallery_screen.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Dev-flavor debug menu (T1.3.16): environment warnings, feature flags, time travel, zone
-/// override, logs, local database, sync diagnostics (T1.4.18), component gallery, reset.
+/// override, logs, local database, sync diagnostics (T1.4.18), component gallery, chart gallery
+/// (T6.2.24), reset.
 /// Reachable only in dev builds (`/dev`, hidden gesture in Settings › About); [page] = `sync`
 /// opens the sync diagnostics directly.
 class DebugMenuScreen extends ConsumerWidget {
@@ -68,6 +70,13 @@ class DebugMenuScreen extends ConsumerWidget {
             title: Text(l.devComponentGallery),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => open(const ComponentGalleryScreen()),
+          ),
+          ListTile(
+            key: const ValueKey('dev-chart-gallery'),
+            leading: const Icon(Icons.insert_chart_outlined),
+            title: Text(l.chartsGalleryTitle),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => open(const ChartGalleryScreen()),
           ),
           SectionHeader(l.devDangerZone),
           ListTile(

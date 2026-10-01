@@ -1218,6 +1218,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsGalleryDark => 'السمة الداكنة';
 
   @override
+  String get chartsGalleryEmptyState => 'حالة فارغة';
+
+  @override
   String get chartsGalleryRtl => 'من اليمين إلى اليسار';
 
   @override
@@ -1319,6 +1322,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelCurrent => 'الحالي';
+
+  @override
+  String get chartsLabelCycleTime => 'زمن الدورة';
 
   @override
   String get chartsLabelDeepWork => 'العمل العميق';
@@ -1857,8 +1863,18 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String chartsRangeBrush(String from, String to) {
+    return 'النطاق المعروض $from–$to. اسحب لتحريكه، واسحب أحد طرفيه لتغيير حجمه.';
+  }
+
+  @override
   String chartsRatio(String value) {
     return '$value×';
+  }
+
+  @override
+  String chartsScopeAdded(String date, String count, String items) {
+    return '$date: +$count — $items';
   }
 
   @override
@@ -1876,6 +1892,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsShare => 'مشاركة الرسم البياني';
+
+  @override
+  String get chartsShareAction => 'مشاركة';
+
+  @override
+  String get chartsShareFailed => 'تعذر إنشاء صورة الرسم البياني';
 
   @override
   String get chartsShareHideNames => 'إخفاء الأسماء';
@@ -1990,6 +2012,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsVsPrevious => 'مقارنة بالفترة السابقة';
+
+  @override
+  String get chartsZoomReset => 'إعادة ضبط التكبير';
 
   @override
   String get checklistAddItem => 'إضافة عنصر';

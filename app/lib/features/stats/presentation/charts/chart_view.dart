@@ -8,10 +8,16 @@ import 'package:everslot/features/stats/presentation/charts/calendar_heatmap.dar
 import 'package:everslot/features/stats/presentation/charts/chart_support.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_table.dart';
 import 'package:everslot/features/stats/presentation/charts/composition_charts.dart';
+import 'package:everslot/features/stats/presentation/charts/distribution_charts.dart';
+import 'package:everslot/features/stats/presentation/charts/flow_charts.dart';
+import 'package:everslot/features/stats/presentation/charts/grid_charts.dart';
 import 'package:everslot/features/stats/presentation/charts/pattern_charts.dart';
 import 'package:everslot/features/stats/presentation/charts/progress_visuals.dart';
+import 'package:everslot/features/stats/presentation/charts/radial_charts.dart';
+import 'package:everslot/features/stats/presentation/charts/scatter_chart.dart';
 import 'package:everslot/features/stats/presentation/charts/simple_views.dart';
 import 'package:everslot/features/stats/presentation/charts/time_series_chart.dart';
+import 'package:everslot/features/stats/presentation/charts/timeline_charts.dart';
 import 'package:material_ui/material_ui.dart';
 
 class ChartView extends StatelessWidget {
@@ -58,8 +64,20 @@ class ChartView extends StatelessWidget {
       final ListData d => RankedList(d, onRef: onRef),
       final StatusTimelineData d => StatusTimelineBar(d),
       final ChartGroup d => ChartGroupView(d, height: height, onTap: onTap, onRef: onRef),
-      // Charts of later milestones fall back to their exact table until their painter lands.
-      _ => ChartDataTable(data.toTable()),
+      final GanttData d => GanttChart(d, onRef: onRef),
+      final MoveTimelineData d => MoveTimelineChart(d),
+      final HistogramData d => HistogramChart(d, height: height, onTap: onTap),
+      final BoxPlotData d => BoxPlotChart(d, height: height, onTap: onTap),
+      final ScatterData d => ScatterChart(d, height: height + 20, onTap: onTap, onRef: onRef),
+      final StackedAreaData d => StackedAreaChart(d, height: height, onTap: onTap, hidden: hidden),
+      final RadarData d => RadarChart(d, height: height + 40),
+      final RoseData d => RoseChart(d, height: height + 40, onTap: onTap),
+      final TreemapData d => TreemapChart(d, height: height + 20, onTap: onTap),
+      final MatrixData d => MatrixHeatmap(d, onTap: onTap),
+      final KmData d => KmChart(d, height: height),
+      final ForecastData d => ForecastChart(d, height: height, onTap: onTap),
+      // Reports (weekly/monthly review) have their own layout; anything else shows its exact table.
+      ReviewData() => ChartDataTable(data.toTable()),
     },
   );
 }

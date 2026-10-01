@@ -729,5 +729,36 @@
   "chartsLabelUnknownUnits": "Unlogged",
   "chartsLabelBackfillShare": "Logged late",
   "chartsLabelTrackedTime": "Tracked time",
-  "chartsLabelPendingSync": "Waiting to sync"
+  "chartsLabelPendingSync": "Waiting to sync",
+  "chartsLabelCycleTime": "Cycle time",
+  "chartsScopeAdded": "{date}: +{count} — {items}",
+  "@chartsScopeAdded": {
+    "description": "Scope increase marker of a burn chart: date, number of added items and their names.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      },
+      "items": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsZoomReset": "Reset zoom",
+  "chartsRangeBrush": "Visible range {from}–{to}. Drag to move, drag an edge to resize.",
+  "@chartsRangeBrush": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsShareAction": "Share",
+  "chartsShareFailed": "The chart image couldn’t be created",
+  "chartsGalleryEmptyState": "Empty state"
 }

@@ -13,6 +13,7 @@ import 'package:everslot/features/stats/domain/metric_definition.dart';
 import 'package:everslot/features/stats/domain/stats_layout.dart';
 import 'package:everslot/features/stats/domain/stats_types.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_frame.dart';
+import 'package:everslot/features/stats/presentation/charts/chart_share.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_support.dart';
 import 'package:everslot/features/stats/presentation/charts/kpi_tile.dart';
 import 'package:everslot/features/stats/presentation/l10n/stats_l10n.dart';
@@ -143,6 +144,9 @@ class MetricCard extends ConsumerWidget {
                 ],
               ),
         onExplain: explain,
+        onShare: chart == null || status != ChartFrameStatus.data
+            ? null
+            : () => unawaited(showChartShareSheet(context, title: title, subtitle: periodText, data: chart)),
         onTap: (tap) {
           final refs = tap.drillKey == null ? null : r?.drill[tap.drillKey];
           if (refs == null || refs.isEmpty) return;
