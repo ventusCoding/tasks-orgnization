@@ -46,8 +46,8 @@ final plannerZoneProvider = Provider<String>((ref) => ref.watch(deviceZoneProvid
 /// Wall-clock now in the display zone.
 final plannerNowProvider = Provider<LocalDateTime>((ref) {
   ref.watch(plannerMinuteTickProvider);
-  final now = ref.watch(clockProvider).nowUtc();
-  return ref.watch(zoneResolverProvider).toLocal(now, ref.watch(plannerZoneProvider));
+  final time = ref.watch(appTimeProvider);
+  return time.toLocal(time.nowUtc(), ref.watch(plannerZoneProvider));
 });
 
 final plannerTodayProvider = Provider<LocalDate>((ref) => ref.watch(plannerNowProvider).date);

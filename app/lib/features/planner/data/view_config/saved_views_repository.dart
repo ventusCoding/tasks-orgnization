@@ -1,151 +1,87 @@
-import 'dart:convert';
-
-import 'package:drift/drift.dart';
 import 'package:everslot/core/database/app_database.dart';
-import 'package:everslot/core/ids/ids.dart';
-import 'package:everslot/core/ordering/fractional_index.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/features/planner/domain/view_config/planner_view_config.dart';
 import 'package:everslot/features/planner/domain/view_config/saved_view.dart';
+import 'package:everslot/shared/views/application/saved_views_providers.dart';
 
-/// Saved views of the planner (T3.3.01 / T3.6.02): read from Drift, written through [SyncWriter] so
-/// presets sync across devices.
+/// Codec of planner view configs (arch §8.3): versioned, unknown keys kept in `extra`.
+class PlannerViewCodec extends ViewConfigCodec<PlannerViewConfig> {
+  const PlannerViewCodec();
+
+  @override
+  String get section => ViewSections.planner;
+
+  @override
+  int get currentVersion => PlannerViewConfig.currentVersion;
+
+  @override
+  String viewTypeOf(PlannerViewConfig config) => config.type.id;
+
+  @override
+  PlannerViewConfig decode(Map<String, Object?> json, {String? viewType}) =>
+      PlannerViewConfig.fromJson(json, fallbackType: viewType == null ? null : PlannerViewType.tryParse(viewType));
+
+  @override
+  Map<String, Object?> encode(PlannerViewConfig config) => config.toJson();
+}
+
+/// Saved views of the planner (T3.3.01 / T3.6.02) on the shared [SavedViewsStore] (T2.3.08).
 class SavedViewsRepository {
-  SavedViewsRepository(this._db, this._writer, this._userId);
+  SavedViewsRepository(AppDatabase db, SyncWriter writer, String Function() userId)
+    : store = SavedViewsStore(db, writer, userId, const PlannerViewCodec());
 
-  static const section = 'planner';
+  static const section = ViewSections.planner;
 
-  final AppDatabase _db;
-  final SyncWriter _writer;
-  final String Function() _userId;
+  final SavedViewsStore<PlannerViewConfig> store;
 
   /// Deterministic id of the built-in view of a registry entry (converges across devices).
-  static String entryViewId(String userId, String entryId) => Ids.v5('$userId|saved_view|planner|$entryId');
+  static String entryViewId(String userId, String entryId) => SavedViewsStore.builtInId(userId, section, entryId);
 
-  static SavedView _map(SavedViewRow r) {
-    Map<String, Object?> json;
-    try {
-      final decoded = jsonDecode(r.config);
-      json = decoded is Map ? Map<String, Object?>.from(decoded) : <String, Object?>{};
-    } on FormatException {
-      json = <String, Object?>{};
-    }
-    return SavedView(
-      id: r.id,
-      name: r.name,
-      config: PlannerViewConfig.fromJson(json, fallbackType: PlannerViewType.tryParse(r.viewType)),
-      isDefault: r.isDefault,
-      sortKey: r.sortKey,
-    );
-  }
+  static SavedView _map(StoredView<PlannerViewConfig> v) =>
+      SavedView(id: v.id, name: v.name, config: v.config, isDefault: v.isDefault, sortKey: v.sortKey);
 
-  SimpleSelectStatement<$SavedViewsTable, SavedViewRow> _query() => _db.select(_db.savedViews)
-    ..where((v) => v.deletedAt.isNull() & v.userId.equals(_userId()) & v.section.equals(section))
-    ..orderBy([(v) => OrderingTerm.asc(v.sortKey), (v) => OrderingTerm.asc(v.id)]);
+  Stream<List<SavedView>> watchAll() => store.watchAll().map((views) => views.map(_map).toList());
 
-  Stream<List<SavedView>> watchAll() => _query().watch().map((rows) => rows.map(_map).toList());
-
-  Future<List<SavedView>> all() async => (await _query().get()).map(_map).toList();
+  Future<List<SavedView>> all() async => (await store.all()).map(_map).toList();
 
   Future<SavedView?> byId(String id) async {
-    final row = await (_db.select(
-      _db.savedViews,
-    )..where((v) => v.id.equals(id) & v.deletedAt.isNull())).getSingleOrNull();
-    return row == null ? null : _map(row);
+    final view = await store.byId(id);
+    return view == null ? null : _map(view);
   }
 
-  Future<String?> _lastSortKey() async {
-    final rows = await all();
-    return rows.isEmpty ? null : rows.last.sortKey;
-  }
+  static Map<String, BuiltInView<PlannerViewConfig>> _entries(Map<String, (PlannerViewConfig, String)> entries) => {
+    for (final e in entries.entries) e.key: (config: e.value.$1, name: e.value.$2),
+  };
 
   /// First run: one built-in view per MVP type (week table = default). Idempotent.
-  Future<void> ensureDefaults(
+  Future<void> ensureDefaults(Map<String, (PlannerViewConfig, String)> entries, {String defaultEntry = 'week_table'}) =>
+      store.ensureDefaults(_entries(entries), defaultEntry: defaultEntry);
+
+  /// Deletes the user's own views and restores every built-in (one undoable operation).
+  Future<OpRecord> resetToDefaults(
     Map<String, (PlannerViewConfig, String)> entries, {
     String defaultEntry = 'week_table',
-  }) async {
-    final userId = _userId();
-    await _writer.run((tx) async {
-      var previous = await _lastSortKey();
-      for (final e in entries.entries) {
-        final id = entryViewId(userId, e.key);
-        if (await tx.exists('saved_views', id)) continue;
-        previous = FractionalIndex.between(previous, null);
-        await tx.insert('saved_views', id, {
-          'section': section,
-          'name': e.value.$2,
-          'view_type': e.value.$1.type.id,
-          'config': e.value.$1.toJson(),
-          'is_default': e.key == defaultEntry,
-          'sort_key': previous,
-        });
-      }
-    }, cause: 'auto');
-  }
+  }) => store.resetToDefaults(_entries(entries), defaultEntry: defaultEntry);
 
   /// Creates or updates the built-in view of a registry entry.
-  Future<OpRecord> saveEntry(String entryId, String name, PlannerViewConfig config) async {
-    final id = entryViewId(_userId(), entryId);
-    final last = await _lastSortKey();
-    return _writer.run((tx) async {
-      if (await tx.exists('saved_views', id)) {
-        await tx.update('saved_views', id, {'config': config.toJson(), 'view_type': config.type.id});
-      } else {
-        await tx.insert('saved_views', id, {
-          'section': section,
-          'name': name,
-          'view_type': config.type.id,
-          'config': config.toJson(),
-          'is_default': false,
-          'sort_key': FractionalIndex.between(last, null),
-        });
-      }
-    });
-  }
+  Future<OpRecord> saveEntry(String entryId, String name, PlannerViewConfig config) =>
+      store.saveBuiltIn(entryId, name, config);
 
-  Future<OpRecord> saveConfig(String id, PlannerViewConfig config) =>
-      _writer.run((tx) => tx.update('saved_views', id, {'config': config.toJson(), 'view_type': config.type.id}));
+  Future<OpRecord> saveConfig(String id, PlannerViewConfig config) => store.saveConfig(id, config);
 
   /// "Save view as…" — returns the new id.
-  Future<String> create(String name, PlannerViewConfig config) async {
-    final id = Ids.v7();
-    final last = await _lastSortKey();
-    await _writer.run(
-      (tx) => tx.insert('saved_views', id, {
-        'section': section,
-        'name': name.trim(),
-        'view_type': config.type.id,
-        'config': config.toJson(),
-        'is_default': false,
-        'sort_key': FractionalIndex.between(last, null),
-      }),
-    );
-    return id;
-  }
+  Future<String> create(String name, PlannerViewConfig config) => store.create(name, config);
 
-  Future<OpRecord> rename(String id, String name) =>
-      _writer.run((tx) => tx.update('saved_views', id, {'name': name.trim()}));
+  Future<OpRecord> rename(String id, String name) => store.rename(id, name);
 
-  Future<String?> duplicate(String id, String name) async {
-    final source = await byId(id);
-    if (source == null) return null;
-    return create(name, source.config);
-  }
+  Future<String?> duplicate(String id, String name) => store.duplicate(id, name);
 
-  Future<OpRecord> delete(String id) => _writer.run((tx) => tx.softDelete('saved_views', id));
+  Future<OpRecord> delete(String id) => store.delete(id);
 
   /// Marks [id] as the planner default (clears the flag elsewhere in the same operation).
-  Future<OpRecord> setDefault(String id) async {
-    final views = await all();
-    return _writer.run((tx) async {
-      for (final v in views) {
-        if (v.isDefault && v.id != id) await tx.update('saved_views', v.id, {'is_default': false});
-      }
-      await tx.update('saved_views', id, {'is_default': true});
-    });
-  }
+  Future<OpRecord> setDefault(String id) => store.setDefault(id);
 
   /// Moves [id] between two neighbours (fractional order).
   Future<OpRecord> move(String id, {String? afterKey, String? beforeKey}) =>
-      _writer.run((tx) => tx.update('saved_views', id, {'sort_key': FractionalIndex.between(afterKey, beforeKey)}));
+      store.move(id, afterKey: afterKey, beforeKey: beforeKey);
 }

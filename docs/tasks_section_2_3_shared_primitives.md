@@ -24,8 +24,8 @@ index, and entity deep-link builders.
 - [x] T2.3.04 — Color & icon system for user entities
 - [x] T2.3.05 — Activity events (append-only log) & `ActivityLogger`
 - [x] T2.3.06 — Undo/redo command stack
-- [ ] T2.3.07 — App time & calendar utilities
-- [ ] T2.3.08 — Saved views (table + repository)
+- [x] T2.3.07 — App time & calendar utilities
+- [x] T2.3.08 — Saved views (table + repository)
 - [x] T2.3.09 — Shared filter model & filter bar
 - [ ] T2.3.10 — Tags (table, entity tags, picker, management)
 - [ ] T2.3.11 — Global search index (SQLite FTS5)
@@ -110,6 +110,7 @@ date ranges) localized EN/FR/AR (with optional Arabic-Indic digits).
 **Acceptance criteria:** one source for "today", "this week", "now" across the app; all helpers covered with
 DST and zone-change tests.
 **Tests:** unit tests incl. DST days, week starts MO/SA/SU, `dayStartsAt = 04:00` edge (03:59 vs 04:00).
+**Notes:** Clock/FakeClock/TravelClock, device zone with resume detection (`deviceZoneProvider`), `DayUtils` and `AppFormat` (12/24 h, relative, durations, Arabic-Indic digits) already existed. Added `core/time/app_time.dart`: `AppTime` (now, calendar vs logical today, `weekOf`/`thisWeek`/`monthOf` as `LocalDateRange`, DST-aware day bounds, instant ↔ local for fixed/floating values) behind `appTimeProvider` (clock + current zone + day start + week start from `userPreferencesProvider`); the planner's now/today now read it. `AppFormat.dateRange`. Habits keep their period service (per-habit zone rules) for their logical day. Tests: `test/core/app_time_test.dart`, `test/design_system/formatting_test.dart`.
 
 ### T2.3.08 — Saved views (table + repository)
 **Priority:** P0 · **Size:** S · **Depends on:** [1.4]
@@ -118,6 +119,7 @@ with repository, versioned config codec per view type, and "reset to defaults".
 **Acceptance criteria:** Planner/Lists/Habits/Insights persist view presets through it; configs sync; a
 config from a newer app version with unknown keys is preserved.
 **Tests:** codec round-trip; repository tests.
+**Notes:** `shared/views/`: `ViewConfigCodec<C>` (versioned, per section), `JsonViewCodec`/`JsonViewConfig` (upgrade steps, unknown keys and a newer `"v"` kept on write-back), `SavedViewsStore<C>` (watch, create, rename, save, duplicate, reorder, default, delete, idempotent built-ins with deterministic ids, `resetToDefaults` as one undoable operation) and `sectionViewsStoreProvider(section)` for Lists/Habits/Insights. The planner repository now runs on the store (`PlannerViewCodec`, same ids). Lists/Habits/Insights still keep their current view options in `user_settings`; moving their presets to the store is their sections' UI work. Tests: `test/shared/views/saved_views_test.dart`.
 
 ### T2.3.09 — Shared filter model & filter bar
 **Priority:** P0 · **Size:** M · **Depends on:** T2.3.01, T2.3.03
