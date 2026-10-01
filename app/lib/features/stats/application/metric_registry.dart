@@ -6,6 +6,7 @@ import 'package:everslot/features/stats/application/catalog/checklist_catalog.da
 import 'package:everslot/features/stats/application/catalog/global_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/habit_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/planner_catalog.dart';
+import 'package:everslot/features/stats/application/catalog/planner_insights_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/quit_catalog.dart';
 import 'package:everslot/features/stats/domain/metric_definition.dart';
 import 'package:everslot/features/stats/domain/stats_types.dart';
@@ -37,6 +38,7 @@ final class MetricRegistry {
   /// The app registry: every section catalog ([6.3]–[6.7]).
   static final MetricRegistry instance = MetricRegistry([
     ...plannerMetrics,
+    ...plannerInsightMetrics,
     ...checklistMetrics,
     ...habitMetrics,
     ...quitMetrics,

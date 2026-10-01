@@ -11,7 +11,9 @@ import 'package:everslot/features/planner/presentation/grid/time_grid.dart';
 import 'package:everslot/features/planner/presentation/views/first_use_hints.dart';
 import 'package:everslot/features/planner/presentation/views/time_grid_view.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
+import 'package:everslot/features/stats/application/planner_overlays.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -30,8 +32,9 @@ void main() {
     List<PlannerItem>? items,
     double? minute,
     Size size = const Size(420, 860),
+    List<Override> overrides = const [],
   }) async {
-    final h = PlannerHarness.create(items: items ?? goldenWeek(), zone: zone);
+    final h = PlannerHarness.create(items: items ?? goldenWeek(), zone: zone, overrides: overrides);
     addTearDown(h.dispose);
     h.read(plannerViewStateProvider('week_table').notifier).update((s) => s.withExtra('hintsSeen', plannerHintIds));
     final notifier = h.read(plannerViewConfigProvider('week_table').notifier);
@@ -62,6 +65,32 @@ void main() {
         await golden(tester, '${slot}min_${variantName(v)}', variant: v, slot: slot);
       });
     }
+  }
+
+  // In-view insights (T6.3.20): slot occupancy layer + day utilization bars.
+  for (final v in [lightLtr, darkRtl]) {
+    testWidgets('week table insights overlays ${variantName(v)}', (tester) async {
+      await golden(
+        tester,
+        'insights_${variantName(v)}',
+        variant: v,
+        slot: 60,
+        minute: 7 * 60,
+        config: (c) => c.copyWith(overlays: {'occupancy': true, 'utilization': true}),
+        overrides: [
+          slotOccupancyOverlayProvider.overrideWith(
+            (ref, size) async => SlotOccupancyOverlay(
+              size,
+              {
+                for (final d in [1, 2, 3, 4, 5])
+                  for (var h = 8; h < 12; h++) (d, h * 60): (d + h) % 4 / 3,
+              },
+              const {(2, 15 * 60), (4, 16 * 60)},
+            ),
+          ),
+        ],
+      );
+    });
   }
 
   for (final v in [darkLtr, lightRtl, lightLtrLarge]) {

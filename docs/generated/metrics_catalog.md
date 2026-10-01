@@ -3,7 +3,7 @@
 Generated from the metric registry (`app/lib/features/stats/application/catalog/`) by
 `app/test/features/stats/engine/metric_catalog_test.dart` — do not edit by hand.
 
-85 metrics.
+139 metrics.
 
 ## task
 
@@ -16,6 +16,17 @@ Generated from the metric registry (`app/lib/features/stats/application/catalog/
 | PL-T-05 | Finish delay | Completion (or last session end for timers) − planned end. | P0 | kpi | minutes |
 | PL-T-06 | Outcome | Done on time, done late, partial, skipped, missed, cancelled, pending or upcoming. | P0 | list | count |
 | PL-T-07 | Overdue age | Now − planned end, bucketed 1 / 7 / 14 / 30+ days. | P0 | kpi | minutes |
+| PL-T-08 | Reschedules | Number of “rescheduled” events of this occurrence. | P1 | moveTimeline | count |
+| PL-T-09 | Reschedule distance | Σ \|new start − old start\| over every move. | P1 | kpi | minutes |
+| PL-T-10 | Net drift | Final planned start − first planned start. | P1 | kpi | minutes |
+| PL-T-11 | Snowballing | Shown when the occurrence was moved 3 times or more. | P1 | list | count |
+| PL-T-12 | Lead time | Done time − task creation time. | P1 | kpi | minutes |
+| PL-T-13 | Start latency | First session start − task creation time. | P1 | kpi | minutes |
+| PL-T-14 | Planning horizon | First planned start − task creation time. | P1 | kpi | minutes |
+| PL-T-15 | Slot fit | Overlap(sessions, planned slot) ÷ actual minutes. | P1 | gantt | percent |
+| PL-T-16 | Focus sessions | Pauses = gaps ≥ 2 min; sessions less than 2 min apart form one block. | P1 | tiles | count |
+| PL-T-17 | Partial completion | Completion percent recorded with the occurrence. | P1 | ring | percent |
+| PL-T-18 | Self-rating | Rating and note saved when finishing. | P1 | list | count |
 
 ## series
 
@@ -30,6 +41,18 @@ Generated from the metric registry (`app/lib/features/stats/application/catalog/
 | PL-S-07 | Total done | Count of done occurrences. | P0 | kpi | count |
 | PL-S-08 | Last done | Today − date of the last completion. | P0 | kpi | days |
 | PL-S-09 | Outcome calendar | Worst outcome of the day: missed > partial > late > skipped > done > excused. | P0 | calendar | count |
+| PL-S-10 | Skip rate & reasons | Skipped ÷ scheduled; reasons ranked by count. | P1 | pareto | percent |
+| PL-S-11 | Start timeliness | On-time starts ÷ started occurrences; box plot of start delay. | P1 | boxPlot | percent |
+| PL-S-12 | On-time completion | Done on time ÷ done. | P1 | kpi | percent |
+| PL-S-13 | Top streaks | Streaks ordered by length, then by recency. | P1 | streakBars | count |
+| PL-S-14 | Series strength | score = score·m + done·(1 − m), m = 0.5^(√f/13), f = occurrences per day. | P1 | line | score |
+| PL-S-15 | Duration stability | Median, mean, SD and CV of actual minutes; median of actual ÷ planned. | P1 | boxPlot | minutes |
+| PL-S-16 | Weekday profile | Done ÷ closed, non-excused occurrences per weekday. | P1 | bars | percent |
+| PL-S-17 | Completion hours | Done occurrences per hour of the done time. | P1 | bars | count |
+| PL-S-18 | Series reschedules | Moved ≥ 1× ÷ occurrences; mean moves; mean postponement. | P1 | tiles | percent |
+| PL-S-19 | Rule changes | Adherence in the 28 days before vs after each split. | P1 | line | count |
+| PL-S-20 | Time-of-day consistency | Circular mean and circular SD of start (or done) times. | P2 | rose | clock |
+| PL-S-21 | Start drift | Circular mean of (actual start − planned start), within ±12 h. | P2 | kpi | minutes |
 
 ## planner
 
@@ -50,6 +73,37 @@ Generated from the metric registry (`app/lib/features/stats/application/catalog/
 | PL-X-13 | Time by category | Tracked minutes per category (planned when tracking covers < 60 %); share of total. | P0 | donut | minutes |
 | PL-X-14 | Category trend | Minutes per category per week. | P0 | stackedBars | minutes |
 | PL-X-15 | Events vs tasks | Event minutes ÷ (event + task minutes). | P0 | percentBars | percent |
+| PL-X-16 | Time by priority | Σ minutes per priority 0–4 (actual when tracked, else planned). | P1 | percentBars | minutes |
+| PL-X-17 | Time by tag | Σ minutes per tag. | P1 | horizontalBars | minutes |
+| PL-X-18 | Priority alignment | Share of time on priorities 3–4; completion rate high vs low. | P1 | percentBars | percent |
+| PL-X-19 | Allocation map | Area ∝ minutes (category → task). | P1 | treemap | minutes |
+| PL-X-20 | Recurring vs one-off | Recurring minutes ÷ all minutes; completions of each. | P1 | donut | percent |
+| PL-X-21 | Estimation bias | exp(median ln(actual ÷ planned)) − 1; needs 10 tracked occurrences. | P1 | kpi | percent |
+| PL-X-22 | Estimation error | mean(\|actual − planned\| ÷ planned) (MAPE). | P1 | kpi | percent |
+| PL-X-23 | Suggested buffer | P80(actual ÷ planned) − 1. | P1 | kpi | percent |
+| PL-X-24 | Planned vs actual | Points (planned, actual) with the y = x line and a ±20 % band. | P1 | scatter | count |
+| PL-X-25 | Planned durations | Histogram of planned minutes; median and mean. | P1 | histogram | minutes |
+| PL-X-26 | Accuracy by category | Bias and MAPE computed within each category. | P1 | groupedBars | percent |
+| PL-X-27 | Punctuality | On-time starts ÷ started occurrences. | P1 | kpi | percent |
+| PL-X-28 | Start delay | Median, mean and P85 of (actual start − planned start). | P1 | punchCard | minutes |
+| PL-X-29 | Reschedule share | Occurrences moved ≥ 1× ÷ occurrences in the period. | P1 | kpi | percent |
+| PL-X-30 | Hours postponed | Σ forward postponement (hours); mean moves per moved occurrence. | P1 | tiles | hours |
+| PL-X-31 | Procrastination index | Occurrences with final start > first planned start ÷ occurrences. | P1 | kpi | percent |
+| PL-X-32 | Skips & reasons | Skipped ÷ scheduled; reasons ranked by count. | P1 | pareto | percent |
+| PL-X-33 | Busiest hours | Minutes (or completions) per weekday × hour. | P1 | punchCard | minutes |
+| PL-X-34 | Best working days | Done ÷ closed occurrences and tracked hours per weekday. | P1 | groupedBars | percent |
+| PL-X-35 | Slot occupancy | Weeks with a planned task in the slot ÷ weeks in the period. | P1 | matrix | percent |
+| PL-X-36 | Unused slots | Slots inside work hours with 0 % occupancy. | P1 | list | count |
+| PL-X-37 | Most productive hours | Done ÷ closed occurrences per hour of planned start. | P1 | bars | percent |
+| PL-X-38 | Deep work | Blocks ≥ 60 min (setting); same-task sessions < 2 min apart are merged. | P1 | bars | hours |
+| PL-X-39 | After-hours work | Σ tracked minutes outside work hours; weekend minutes. | P1 | bars | minutes |
+| PL-X-40 | Timer usage | Sessions, mean session length, share of done occurrences with sessions. | P1 | tiles | count |
+| PL-X-41 | Actual-time coverage | Done occurrences with sessions ÷ done occurrences. | P1 | kpi | percent |
+| PL-X-42 | Goal streak | Days with ≥ N completions in a row; days without capacity are neutral. | P1 | streakBars | count |
+| PL-X-43 | Fragmentation | 1 − largest free block ÷ total free time (0 = one free block). | P2 | bars | percent |
+| PL-X-44 | Context switches | Category changes between consecutive sessions ÷ tracked hours. | P2 | line | count |
+| PL-X-45 | Productivity score | 100 · Σ(weight × minutes) ÷ (4 · Σ minutes) over weighted categories. | P2 | line | score |
+| PL-X-46 | Planning ahead | Histogram of (first planned start − creation time), in hours. | P2 | histogram | hours |
 
 ## checklistItem
 

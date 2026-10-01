@@ -150,8 +150,8 @@ void main() {
       const StatsRequest(MetricScope.planner, selection: PeriodSelection(StatsPeriod.thisWeek(), compare: true)),
       env,
     );
-    // This week (Mon 21 → Sun 27) and the previous one, a week before and four weeks after.
-    expect(from, LocalDate(2026, 9, 7));
+    // The last 90 days (goal streak) and this week, a week before and four weeks after.
+    expect(from, LocalDate(2026, 6, 18));
     expect(to, LocalDate(2026, 10, 25));
     // Every Planner section metric gives the same results as with the full history.
     final bounded = await h.compute(MetricScope.planner, period: const StatsPeriod.thisWeek());

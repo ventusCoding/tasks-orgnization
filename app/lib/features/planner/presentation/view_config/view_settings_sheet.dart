@@ -233,6 +233,8 @@ class ViewSettingsSheet extends ConsumerWidget {
             ('checklistDue', l.pvOverlayChecklistDue),
             ('freeSlots', l.pvOverlayFreeSlots),
             ('heat', l.pvOverlayHeat),
+            ('occupancy', l.pvOverlayOccupancy),
+            ('utilization', l.pvOverlayUtilization),
             ('deviceCalendars', l.pvOverlayDeviceCalendars),
           ])
             SwitchListTile(

@@ -58,24 +58,24 @@ and execution capture ([3.2]); focus/Pomodoro stats (→ [9.3]).
 
 - [x] T6.3.01 — Planner stats adapter & canonical occurrence facts
 - [x] T6.3.02 — Per-occurrence timing & outcome metrics
-- [ ] T6.3.03 — Per-occurrence planning & focus metrics
+- [x] T6.3.03 — Per-occurrence planning & focus metrics
 - [x] T6.3.04 — Series execution metrics
-- [ ] T6.3.05 — Series quality & pattern metrics
-- [ ] T6.3.06 — Series time-of-day consistency
+- [x] T6.3.05 — Series quality & pattern metrics
+- [x] T6.3.06 — Series time-of-day consistency
 - [x] T6.3.07 — Section execution & flow metrics (plan snapshot)
 - [x] T6.3.08 — Capacity & utilization metrics
 - [x] T6.3.09 — Time allocation by category
-- [ ] T6.3.10 — Allocation by priority & tag, priority alignment
-- [ ] T6.3.11 — Estimation accuracy metrics
-- [ ] T6.3.12 — Punctuality & reschedule behaviour
-- [ ] T6.3.13 — Patterns: busiest hours, best weekdays, slot occupancy
-- [ ] T6.3.14 — Focus & balance metrics
-- [ ] T6.3.15 — Completion goal streak
-- [ ] T6.3.16 — Advanced planner metrics
+- [x] T6.3.10 — Allocation by priority & tag, priority alignment
+- [x] T6.3.11 — Estimation accuracy metrics
+- [x] T6.3.12 — Punctuality & reschedule behaviour
+- [x] T6.3.13 — Patterns: busiest hours, best weekdays, slot occupancy
+- [x] T6.3.14 — Focus & balance metrics
+- [x] T6.3.15 — Completion goal streak
+- [x] T6.3.16 — Advanced planner metrics
 - [x] T6.3.17 — Task stats sheet (occurrence & one-off task)
 - [x] T6.3.18 — Series stats screen
 - [x] T6.3.19 — Planner Insights screen
-- [ ] T6.3.20 — In-view insights overlays
+- [x] T6.3.20 — In-view insights overlays
 - [x] T6.3.21 — Planner stats fixtures
 
 ## Tasks
@@ -150,6 +150,7 @@ g + 1 minute (late).
 **Acceptance criteria:** a fixture with 3 moves (+1 d, +2 h, −30 min) gives PL-T-08 = 3,
 PL-T-09 = 26.5 h and PL-T-10 = +1 d 1.5 h, and shows the snowball badge.
 **Tests:** fixture tests; move-timeline golden.
+**Notes:** PL-T-08…18 in `application/catalog/planner_insights_catalog.dart` (task sheet sections `planning` / `focus`): move timeline (`MoveTimelineData`), distance, net drift, snowball badge (≥ 3 moves, otherwise `notSnowballing`), lead time, start latency, planning horizon, slot fit with a one-row Gantt and spilled minutes, focus-session tiles, partial completion ring, rating + note. Linked-checklist progress at done time is not loaded into planner facts yet (PL-T-17 uses `completion_percent`). Tests: `planner/planner_insights_test.dart` (3-move acceptance: 3 / 26.5 h / +1 d 1.5 h).
 
 ### T6.3.04 — Series execution metrics
 **Priority:** P0 · **Size:** M · **Depends on:** T6.3.01, [6.1] (T6.1.08 ledger, T6.1.09 streaks), [6.2] (calendar heatmap T6.2.06, line T6.2.03, streak bars T6.2.08)
@@ -193,6 +194,7 @@ PL-T-09 = 26.5 h and PL-T-10 = +1 d 1.5 h, and shows the snowball badge.
 **Acceptance criteria:** strength for a daily series matches [6.1] parity vectors; weekday adherence
 excludes weekdays the rule never schedules.
 **Tests:** fixture tests; goldens for the series quality section.
+**Notes:** PL-S-10…19 on the series screen (`quality` / `patterns` sections): skip Pareto, start timeliness with monthly box plots, on-time completion, top-10 streaks, Loop strength with `ruleFrequency` of the series rule (shared with habits), duration stability box plot + median R, weekday adherence (only scheduled weekdays), completion hours, reschedule tiles, rule-change annotations with before/after adherence. Strength parity is covered by the package vectors.
 
 ### T6.3.06 — Series time-of-day consistency
 **Priority:** P2 · **Size:** S · **Depends on:** T6.3.05, [6.1] (circular stats T6.1.18), [6.2] (rose chart T6.2.19)
@@ -205,6 +207,7 @@ excludes weekdays the rule never schedules.
 
 **Acceptance criteria:** starts at 23:50 and 00:10 give a mean of 00:00 and an SD below 15 min.
 **Tests:** fixture tests.
+**Notes:** PL-S-20 rose (24 sectors of start/done hours, circular mean + SD arc, `noConsistentTime` when R̄ is low) and PL-S-21 start drift. Test: 23:50 + 00:10 → 00:00, SD < 15 min, drift +10 min.
 
 ### T6.3.07 — Section execution & flow metrics (plan snapshot)
 **Priority:** P0 · **Size:** M · **Depends on:** T6.3.01, [6.1] (T6.1.11 event primitives)
@@ -296,6 +299,7 @@ P1 chart exists; until then the trend uses stacked bars.
 
 **Acceptance criteria:** tag totals show an "overlapping" note whenever any task has more than one tag.
 **Tests:** fixture tests.
+**Notes:** PL-X-16…20 in the `allocation` section: 100 % priority bars, tag bars with the `tagsOverlap` note, high-vs-low alignment, category → task treemap with drill keys, recurring vs one-off donut.
 
 ### T6.3.11 — Estimation accuracy metrics
 **Priority:** P1 · **Size:** M · **Depends on:** T6.3.02, [6.1] (T6.1.02 log-ratio helpers), [6.2] (scatter T6.2.15, histogram T6.2.14)
@@ -315,6 +319,7 @@ for example, students estimated 33.9 days for a thesis that took 55.5.
 With R values {1.2, 1.5, 1.0, 1.3, 1.4, 1.1, 1.25, 1.6, 0.9, 1.35}: bias = exp(median ln R) − 1 = √(1.25·1.3)
 − 1 ≈ +27.5 %, MAPE = 28 %, and suggested buffer = P80(R) − 1 = +42 %.
 **Tests:** fixture tests.
+**Notes:** PL-X-21…26 (`planningQuality` section): bias with tendency arg, MAPE, buffer (all `MinDataRules.estimation`, 10 ratios), plan-vs-actual scatter (category colors, drill refs), planned-duration histogram with the median marker, bias/MAPE bars per category. Test reproduces +27.5 % / 28 % / +42 % and the < 10 insufficient case.
 
 ### T6.3.12 — Punctuality & reschedule behaviour
 **Priority:** P1 · **Size:** M · **Depends on:** T6.3.03, T6.3.07, [6.2] (punch card T6.2.09, Pareto T6.2.05)
@@ -331,6 +336,7 @@ With R values {1.2, 1.5, 1.0, 1.3, 1.4, 1.1, 1.25, 1.6, 0.9, 1.35}: bias = exp(m
 **Acceptance criteria:** moves to an *earlier* time don't count as postponement in PL-X-30 but do count
 in PL-X-29.
 **Tests:** fixture tests.
+**Notes:** PL-X-27…32 (`timing` section): punctuality, start-delay punch card (median/mean/P85 args), reschedule share, hours postponed tiles (forward moves only), procrastination index, skip Pareto. Test: an earlier move counts in PL-X-29 but not PL-X-30.
 
 ### T6.3.13 — Patterns: busiest hours, best weekdays, slot occupancy
 **Priority:** P1 · **Size:** M · **Depends on:** T6.3.07, [6.2] (punch card T6.2.09, matrix heatmap T6.2.21)
@@ -346,6 +352,7 @@ in PL-X-29.
 **Acceptance criteria:** slot occupancy recomputes when the user changes slot size (e.g. 30 → 60 min)
 without reloading data.
 **Tests:** fixture tests; overlay golden (T6.3.20).
+**Notes:** PL-X-33…37 (`patterns` section): busiest-hours chart group (planned / actual / completions punch cards), best weekdays (rate + hours tabs), slot occupancy matrix and dead-slot list at `slot:<minutes>` from the request extra (default 60 — the week-table overlay passes the view's slot size, so changing 30 → 60 recomputes from the same facts), completion rate by hour.
 
 ### T6.3.14 — Focus & balance metrics
 **Priority:** P1 · **Size:** M · **Depends on:** T6.3.03, T6.3.08
@@ -360,6 +367,7 @@ without reloading data.
 **Acceptance criteria:** a 50-minute session followed 1 minute later by a 20-minute session of the same
 task counts as one 70-minute deep-work block.
 **Tests:** fixture tests.
+**Notes:** PL-X-38…41 (`focus` section): deep-work hours per day (blocks merged across < 2 min gaps, threshold from `deepWorkMinutes`), after-hours + weekend bars, timer tiles, actual-time coverage. Test: 50 + 1 + 20 min → one 70-min block.
 
 ### T6.3.15 — Completion goal streak
 **Priority:** P1 · **Size:** S · **Depends on:** T6.3.07, [5.4] (goals), [6.1] (streaks T6.1.09)
@@ -370,6 +378,7 @@ task counts as one 70-minute deep-work block.
 
 **Acceptance criteria:** a weekend without capacity does not break a daily goal streak.
 **Tests:** fixture tests.
+**Notes:** PL-X-42 uses the first `goals` row with scope `global`, metric `completions`, period day/week; day streaks via `completionGoalStreak` with no-capacity days neutral, week streaks built here. To keep history available with window-bounded loading, the Planner section now always loads ≥ 90 days (`PlannerContext.windowStart` = `StatsComputeService.plannerWindow`).
 
 ### T6.3.16 — Advanced planner metrics
 **Priority:** P2 · **Size:** M · **Depends on:** T6.3.08, T6.3.14
@@ -386,6 +395,7 @@ change is needed.
 **Acceptance criteria:** a day with a single uninterrupted free block has fragmentation 0; the
 productivity score is hidden until at least one category is weighted.
 **Tests:** fixture tests.
+**Notes:** PL-X-43…46 (`advanced` section): mean daily fragmentation with per-day bars (0 for one free block), context switches per tracked hour with a daily line, productivity score (0–100 shown as a score; `noCategoryWeights` until `stats.categoryWeights` has a weight), planning-horizon histogram (hours).
 
 ### T6.3.17 — Task stats sheet (occurrence & one-off task)
 **Priority:** P0 · **Size:** M · **Depends on:** T6.3.02, [6.1] (T6.1.16 framework), [3.2] (occurrence sheet)
@@ -448,6 +458,7 @@ into the list of occurrences behind it.
 **Acceptance criteria:** the overlay toggle is saved in the view config; drawing it keeps the week table
 within the [3.4] frame budget.
 **Tests:** goldens of the week table with overlay; performance check.
+**Notes:** `stats/application/planner_overlays.dart` (`slotOccupancyOverlayProvider(slotMinutes)`, `seriesMiniStatsProvider(seriesId)`; direct compute-service calls, no keep-alive). Week table: new view-config overlays `occupancy` (`SlotOccupancyPainter`: planned share tint + dashed dead slots at the view's slot size) and `utilization` (header bar green/amber/red + overbooked badge, semantics "Overbooked by …"; the header long-press menu explains planned vs capacity and opens Planner Insights). Tiles: holding a recurring tile still for 350 ms shows adherence + current streak above the finger; moving hides it (long press stays the drag gesture). Tests: `planner/views/insight_overlays_test.dart` (toggle, slot size, debug paint budget, header + menu, preview) and goldens `week_table_insights_{light_ltr,dark_rtl}.png`.
 
 ### T6.3.21 — Planner stats fixtures
 **Priority:** P0 · **Size:** M · **Depends on:** [6.1] (T6.1.15)

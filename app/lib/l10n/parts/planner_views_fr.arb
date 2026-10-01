@@ -370,5 +370,11 @@
   "pvPlaceNoResults": "Aucun lieu trouvé",
   "pvUsePlace": "Utiliser ce lieu",
   "pvClearPlace": "Retirer l’épingle",
-  "pvDroppedPin": "Épingle"
+  "pvDroppedPin": "Épingle",
+  "pvOverlayOccupancy": "Occupation des créneaux (4 dernières semaines)",
+  "pvOverlayUtilization": "Charge du jour",
+  "pvDayOverbooked": "Surchargé de {duration}",
+  "pvDayUtilizationExplain": "{planned} prévus pour {capacity} d’heures de travail",
+  "pvOpenPlannerInsights": "Ouvrir les statistiques du planning",
+  "pvSeriesPreview": "{adherence} réalisées · série {streak}"
 }

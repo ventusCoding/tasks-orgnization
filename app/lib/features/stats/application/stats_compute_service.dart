@@ -187,8 +187,8 @@ final class StatsComputeService {
   }
 
   /// The dates the Planner section resolves for [request] (`PlannerContext.windowStart`…`windowEnd`:
-  /// the period, its comparison period, a week before and four weeks after), so the loader can skip
-  /// older and later occurrence records.
+  /// the period, its comparison period and at least the last 90 days, a week before and four weeks
+  /// after), so the loader can skip older and later occurrence records.
   static (LocalDate, LocalDate) plannerWindow(StatsRequest request, StatsEnvironment env, {LocalDate? firstDataDate}) {
     final resolver = LocationZoneResolver(locationsOf({env.zoneId}), fallbackZone: env.zoneId);
     final today = resolver.toLocal(env.now, env.zoneId).date;
@@ -199,7 +199,8 @@ final class StatsComputeService {
     );
     final previous = period.previous(mode: request.selection.mode);
     final range = period.range;
-    return (LocalDate.min(previous.start, range.start).minusDays(7), range.end.plusDays(28));
+    final start = LocalDate.min(LocalDate.min(previous.start, range.start), today.minusDays(90));
+    return (start.minusDays(7), range.end.plusDays(28));
   }
 
   /// Snapshot of IANA locations (the tz database is initialized in bootstrap / tests).

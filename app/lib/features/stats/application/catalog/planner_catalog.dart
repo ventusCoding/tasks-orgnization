@@ -55,8 +55,13 @@ final class PlannerContext extends StatsContext {
     return true;
   }
 
-  /// Loaded window: previous period − 1 week … end of the period + 4 weeks (moved-out detection).
-  late final LocalDate windowStart = LocalDate.min(previous.start, range.start).minusDays(7);
+  /// Loaded window: previous period (and at least the last 90 days, goal streak PL-X-42) − 1 week …
+  /// end of the period + 4 weeks (moved-out detection). Keep in sync with
+  /// `StatsComputeService.plannerWindow`.
+  late final LocalDate windowStart = LocalDate.min(
+    LocalDate.min(previous.start, range.start),
+    today.minusDays(90),
+  ).minusDays(7);
   late final LocalDate windowEnd = range.end.plusDays(28);
 
   late final PlannerFacts section = planner.resolve(from: windowStart, to: windowEnd);

@@ -738,5 +738,39 @@
   "pvPlaceNoResults": "No place found",
   "pvUsePlace": "Use this place",
   "pvClearPlace": "Remove the map pin",
-  "pvDroppedPin": "Dropped pin"
+  "pvDroppedPin": "Dropped pin",
+  "pvOverlayOccupancy": "Slot occupancy (last 4 weeks)",
+  "pvOverlayUtilization": "Day utilization",
+  "pvDayOverbooked": "Overbooked by {duration}",
+  "@pvDayOverbooked": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "pvDayUtilizationExplain": "{planned} planned for {capacity} of work hours",
+  "@pvDayUtilizationExplain": {
+    "placeholders": {
+      "planned": {
+        "type": "String"
+      },
+      "capacity": {
+        "type": "String"
+      }
+    }
+  },
+  "pvOpenPlannerInsights": "Open Planner Insights",
+  "pvSeriesPreview": "{adherence} done · streak {streak}",
+  "@pvSeriesPreview": {
+    "description": "Long-press preview of a recurring task: adherence over 4 weeks and current streak.",
+    "placeholders": {
+      "adherence": {
+        "type": "String"
+      },
+      "streak": {
+        "type": "String"
+      }
+    }
+  }
 }

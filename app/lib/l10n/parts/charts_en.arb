@@ -760,5 +760,17 @@
   },
   "chartsShareAction": "Share",
   "chartsShareFailed": "The chart image couldn’t be created",
-  "chartsGalleryEmptyState": "Empty state"
+  "chartsGalleryEmptyState": "Empty state",
+  "chartsLabelSnowballing": "Snowballing — moved 3+ times",
+  "chartsLabelSessions": "Sessions",
+  "chartsLabelPauses": "Pauses",
+  "chartsLabelLongestBlock": "Longest block",
+  "chartsLabelRating": "Rating",
+  "chartsLabelRuleChanged": "Rule changed",
+  "chartsLabelMovedShare": "Moved",
+  "chartsLabelPostponed": "Postponed",
+  "chartsLabelBias": "Bias",
+  "chartsLabelMape": "Error",
+  "chartsLabelFragmentation": "Fragmentation",
+  "chartsLabelContextSwitches": "Switches"
 }

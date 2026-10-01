@@ -33,6 +33,7 @@ import 'package:everslot/features/planner/presentation/grid/timeline_page.dart';
 import 'package:everslot/features/planner/presentation/grid/vertical_scroll_proxy.dart';
 import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
 import 'package:everslot/features/planner/presentation/views/planner_selection.dart';
+import 'package:everslot/features/stats/application/planner_overlays.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter/foundation.dart';
@@ -359,6 +360,9 @@ class TimeGridState extends ConsumerState<TimeGrid>
   final FocusNode _focus = FocusNode(debugLabel: 'planner-grid');
   _Session? _session;
   final ValueNotifier<_SessionView?> _sessionView = ValueNotifier(null);
+
+  /// Series mini-stats preview while a recurring tile is held (T6.3.20); hidden once it moves.
+  final ValueNotifier<({String seriesId, Offset at})?> _preview = ValueNotifier(null);
   bool _freeSnap = false;
   late final ValueNotifier<DateTime> _now;
   Timer? _minuteTimer;
@@ -422,6 +426,7 @@ class TimeGridState extends ConsumerState<TimeGrid>
     _toastTimer?.cancel();
     _edgeTicker?.dispose();
     _sessionView.dispose();
+    _preview.dispose();
     _now.dispose();
     _vertical.dispose();
     _pages?.dispose();
@@ -1119,6 +1124,25 @@ class TimeGridState extends ConsumerState<TimeGrid>
             ),
           ),
         ),
+        Positioned.fill(
+          child: IgnorePointer(
+            child: ValueListenableBuilder<({String seriesId, Offset at})?>(
+              valueListenable: _preview,
+              builder: (context, p, _) => p == null
+                  ? const SizedBox.shrink()
+                  : Stack(
+                      children: [
+                        Positioned(
+                          // rtl-ok anchored to the physical pointer position.
+                          left: math.max(Space.sm, p.at.dx - 90),
+                          top: math.max(Space.sm, p.at.dy - 64),
+                          child: SeriesPreviewBubble(seriesId: p.seriesId),
+                        ),
+                      ],
+                    ),
+            ),
+          ),
+        ),
         if (_toast != null)
           Positioned.fill(
             child: IgnorePointer(
@@ -1190,7 +1214,13 @@ class TimeGridState extends ConsumerState<TimeGrid>
               child: Builder(
                 builder: (context) {
                   final slice = page.slices[d];
-                  final stats = widget.showHeaderStats && slice != null ? DayStats.of(slice, f.work) : null;
+                  final utilization = f.config.overlay('utilization');
+                  final stats = (widget.showHeaderStats || utilization) && slice != null
+                      ? DayStats.of(slice, f.work)
+                      : null;
+                  final overbookedMinutes = stats == null || !utilization || !stats.load.isFinite || stats.load <= 1
+                      ? 0
+                      : stats.plannedMinutes - (stats.plannedMinutes / stats.load).round();
                   final count = slice == null
                       ? 0
                       : {for (final s in slice.timed) s.item.key, for (final i in slice.lane) i.key}.length;
@@ -1208,14 +1238,20 @@ class TimeGridState extends ConsumerState<TimeGrid>
                     stats: stats,
                     loadWarn: f.config.option<double>('loadWarn', 0.8),
                     loadOver: f.config.option<double>('loadOver', 1),
-                    statsText: stats == null || (stats.total == 0 && stats.plannedMinutes == 0)
-                        ? (widget.showHeaderStats ? '' : null)
+                    showUtilization: utilization,
+                    statsText: !widget.showHeaderStats
+                        ? null
+                        : stats == null || (stats.total == 0 && stats.plannedMinutes == 0)
+                        ? ''
                         : l.pvDayStats(
                             fmt.number(stats.done),
                             fmt.number(stats.total),
                             fmt.duration(stats.plannedMinutes),
                           ),
-                    semanticsLabel: l.pvDayHeaderSemantics(fmt.dayLong(d), l.pvItemsCount(count)),
+                    semanticsLabel: [
+                      l.pvDayHeaderSemantics(fmt.dayLong(d), l.pvItemsCount(count)),
+                      if (overbookedMinutes > 0) l.pvDayOverbooked(fmt.duration(overbookedMinutes)),
+                    ].join('. '),
                     onTap: () => _openDay(d),
                     onLongPress: () => unawaited(_dayMenu(d)),
                   );
@@ -1375,6 +1411,14 @@ class TimeGridState extends ConsumerState<TimeGrid>
       overlayPainters: [
         if (overlays.heat case final heat?)
           HeatTintPainter(page: overlayContext, grid: heat, color: context.appColors.warning),
+        if (config.overlay('occupancy'))
+          if (ref.watch(slotOccupancyOverlayProvider(config.slotMinutes)).value case final occ?)
+            SlotOccupancyPainter(
+              page: overlayContext,
+              overlay: occ,
+              color: context.colors.primary,
+              deadColor: context.appColors.warning,
+            ),
         if (config.overlay('freeSlots'))
           FreeSlotsPainter(
             page: overlayContext,
@@ -2081,7 +2125,13 @@ class TimeGridState extends ConsumerState<TimeGrid>
     final items = slice == null
         ? const <PlannerItem>[]
         : {for (final s in slice.timed) s.item.key: s.item, for (final i in slice.lane) i.key: i}.values.toList();
-    await _commands.showDayMenu(day, items, now: f.nowLocal);
+    await _commands.showDayMenu(
+      day,
+      items,
+      now: f.nowLocal,
+      load: slice == null || !f.config.overlay('utilization') ? null : DayStats.of(slice, f.work),
+      capacityMinutes: f.work.days.contains(day.weekday.iso) ? f.work.minutesPerDay : 0,
+    );
   }
 
   // ---------------------------------------------------------------------------- sessions --
@@ -2143,6 +2193,10 @@ class TimeGridState extends ConsumerState<TimeGrid>
     if (s == null) return;
     ref.read(plannerHapticsProvider).lift();
     _beginSession(s);
+    final item = s.item;
+    if (s.kind == _SessionKind.move && item != null && item.isRecurring && item.seriesId.isNotEmpty) {
+      _preview.value = (seriesId: item.seriesId, at: d.localPosition);
+    }
   }
 
   _Session? _startTimelineSession(_Hit hit, _Frame f, Offset local) {
@@ -2263,7 +2317,10 @@ class TimeGridState extends ConsumerState<TimeGrid>
     if (!_edgeTicker!.isActive) unawaited(_edgeTicker!.start());
   }
 
-  void _onLongPressMoveUpdate(LongPressMoveUpdateDetails d) => _updateSession(d.localPosition);
+  void _onLongPressMoveUpdate(LongPressMoveUpdateDetails d) {
+    if (_preview.value != null && d.offsetFromOrigin.distance > 8) _preview.value = null;
+    _updateSession(d.localPosition);
+  }
 
   void _updateSessionGlobal(Offset global) {
     final box = _pagesBox;
@@ -2439,6 +2496,7 @@ class TimeGridState extends ConsumerState<TimeGrid>
   void _clearSession() {
     _edgeTicker?.stop();
     _sessionView.value = null;
+    _preview.value = null;
     if (mounted) setState(() => _session = null);
   }
 

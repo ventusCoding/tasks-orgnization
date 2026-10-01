@@ -249,5 +249,17 @@
   "chartsRangeBrush": "Plage visible {from}–{to}. Faites glisser pour la déplacer, tirez un bord pour la redimensionner.",
   "chartsShareAction": "Partager",
   "chartsShareFailed": "L’image du graphique n’a pas pu être créée",
-  "chartsGalleryEmptyState": "État vide"
+  "chartsGalleryEmptyState": "État vide",
+  "chartsLabelSnowballing": "Boule de neige — déplacée 3 fois ou plus",
+  "chartsLabelSessions": "Sessions",
+  "chartsLabelPauses": "Pauses",
+  "chartsLabelLongestBlock": "Plus long bloc",
+  "chartsLabelRating": "Note",
+  "chartsLabelRuleChanged": "Règle modifiée",
+  "chartsLabelMovedShare": "Déplacées",
+  "chartsLabelPostponed": "Reporté",
+  "chartsLabelBias": "Biais",
+  "chartsLabelMape": "Erreur",
+  "chartsLabelFragmentation": "Fragmentation",
+  "chartsLabelContextSwitches": "Changements"
 }

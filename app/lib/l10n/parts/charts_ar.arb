@@ -249,5 +249,17 @@
   "chartsRangeBrush": "النطاق المعروض {from}–{to}. اسحب لتحريكه، واسحب أحد طرفيه لتغيير حجمه.",
   "chartsShareAction": "مشاركة",
   "chartsShareFailed": "تعذر إنشاء صورة الرسم البياني",
-  "chartsGalleryEmptyState": "حالة فارغة"
+  "chartsGalleryEmptyState": "حالة فارغة",
+  "chartsLabelSnowballing": "تأجيل متراكم — نُقل 3 مرات أو أكثر",
+  "chartsLabelSessions": "الجلسات",
+  "chartsLabelPauses": "التوقفات",
+  "chartsLabelLongestBlock": "أطول فترة",
+  "chartsLabelRating": "التقييم",
+  "chartsLabelRuleChanged": "تغيّرت القاعدة",
+  "chartsLabelMovedShare": "المنقولة",
+  "chartsLabelPostponed": "المؤجَّل",
+  "chartsLabelBias": "الانحياز",
+  "chartsLabelMape": "الخطأ",
+  "chartsLabelFragmentation": "التجزئة",
+  "chartsLabelContextSwitches": "التبديلات"
 }

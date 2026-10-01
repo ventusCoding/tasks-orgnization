@@ -1261,6 +1261,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelBest => 'Record';
 
   @override
+  String get chartsLabelBias => 'Biais';
+
+  @override
   String get chartsLabelBlocked => 'Bloqué';
 
   @override
@@ -1274,6 +1277,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelCompleted => 'Terminé';
+
+  @override
+  String get chartsLabelContextSwitches => 'Changements';
 
   @override
   String get chartsLabelCount => 'Nombre';
@@ -1322,6 +1328,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelFocus => 'Concentration';
+
+  @override
+  String get chartsLabelFragmentation => 'Fragmentation';
 
   @override
   String get chartsLabelFree => 'Libre';
@@ -1375,7 +1384,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelLoggedRatio => 'Saisies';
 
   @override
+  String get chartsLabelLongestBlock => 'Plus long bloc';
+
+  @override
   String get chartsLabelLowPriority => 'Priorité basse';
+
+  @override
+  String get chartsLabelMape => 'Erreur';
 
   @override
   String get chartsLabelMaxIntensity => 'Intensité maximale';
@@ -1418,6 +1433,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelMovedOut => 'Sortis';
+
+  @override
+  String get chartsLabelMovedShare => 'Déplacées';
 
   @override
   String get chartsLabelNet => 'Flux net';
@@ -1495,6 +1513,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelPaused => 'En pause';
 
   @override
+  String get chartsLabelPauses => 'Pauses';
+
+  @override
   String get chartsLabelPdfs => 'PDF';
 
   @override
@@ -1514,6 +1535,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelPlanned => 'Prévu';
+
+  @override
+  String get chartsLabelPostponed => 'Reporté';
 
   @override
   String get chartsLabelPrevious => 'Précédent';
@@ -1537,6 +1561,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelRate => 'Taux';
 
   @override
+  String get chartsLabelRating => 'Note';
+
+  @override
   String get chartsLabelRecurring => 'Récurrent';
 
   @override
@@ -1558,6 +1585,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelRollingMean => 'Moyenne glissante';
 
   @override
+  String get chartsLabelRuleChanged => 'Règle modifiée';
+
+  @override
   String get chartsLabelSaved => 'Économisé';
 
   @override
@@ -1567,7 +1597,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelScore => 'Score';
 
   @override
+  String get chartsLabelSessions => 'Sessions';
+
+  @override
   String get chartsLabelSkipped => 'Passé';
+
+  @override
+  String get chartsLabelSnowballing => 'Boule de neige — déplacée 3 fois ou plus';
 
   @override
   String get chartsLabelSpent => 'Dépensé';
@@ -7286,6 +7322,11 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String pvDayOverbooked(String duration) {
+    return 'Surchargé de $duration';
+  }
+
+  @override
   String get pvDayRibbon => 'Jour';
 
   @override
@@ -7298,6 +7339,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvDayTicker => 'Bandeau des journées';
+
+  @override
+  String pvDayUtilizationExplain(String planned, String capacity) {
+    return '$planned prévus pour $capacity d’heures de travail';
+  }
 
   @override
   String pvDaysSince(int count) {
@@ -7758,6 +7804,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvOpenDay => 'Ouvrir la journée';
 
   @override
+  String get pvOpenPlannerInsights => 'Ouvrir les statistiques du planning';
+
+  @override
   String get pvOpenings => 'Disponibilités';
 
   @override
@@ -7786,6 +7835,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvOverlayHeat => 'Intensité des heures chargées';
+
+  @override
+  String get pvOverlayOccupancy => 'Occupation des créneaux (4 dernières semaines)';
+
+  @override
+  String get pvOverlayUtilization => 'Charge du jour';
 
   @override
   String get pvOverlays => 'Superpositions';
@@ -8044,6 +8099,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvSelectionActions => 'Actions';
+
+  @override
+  String pvSeriesPreview(String adherence, String streak) {
+    return '$adherence réalisées · série $streak';
+  }
 
   @override
   String get pvSetAsPlanDefault => 'Ouvrir l’onglet Plan sur cette vue';
@@ -11223,6 +11283,115 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsMetricPlS09Title => 'Calendrier des résultats';
 
   @override
+  String get statsMetricPlS10Desc => 'Part des occurrences prévues que vous avez sautées, et pourquoi.';
+
+  @override
+  String get statsMetricPlS10Formula => 'Sautées ÷ prévues ; motifs classés par nombre.';
+
+  @override
+  String get statsMetricPlS10Title => 'Taux et motifs d’annulation';
+
+  @override
+  String get statsMetricPlS11Desc => 'Part des démarrages dans le délai de grâce, avec les retards par mois.';
+
+  @override
+  String get statsMetricPlS11Formula => 'Démarrages à l’heure ÷ occurrences démarrées ; boîte à moustaches du retard.';
+
+  @override
+  String get statsMetricPlS11Title => 'Ponctualité au démarrage';
+
+  @override
+  String get statsMetricPlS12Desc => 'Part des occurrences réalisées terminées à l’heure.';
+
+  @override
+  String get statsMetricPlS12Formula => 'Réalisées à temps ÷ réalisées.';
+
+  @override
+  String get statsMetricPlS12Title => 'Réalisation à temps';
+
+  @override
+  String get statsMetricPlS13Desc => 'Vos dix plus longues séries pour cette tâche récurrente.';
+
+  @override
+  String get statsMetricPlS13Formula => 'Séries classées par longueur, puis par date.';
+
+  @override
+  String get statsMetricPlS13Title => 'Meilleures séries';
+
+  @override
+  String get statsMetricPlS14Desc => 'Solidité de l’habitude (score de type Loop).';
+
+  @override
+  String get statsMetricPlS14Formula => 'score = score·m + fait·(1 − m), m = 0,5^(√f/13), f = occurrences par jour.';
+
+  @override
+  String get statsMetricPlS14Title => 'Force de la routine';
+
+  @override
+  String get statsMetricPlS15Desc => 'Régularité de la durée réelle et comparaison avec le plan.';
+
+  @override
+  String get statsMetricPlS15Formula =>
+      'Médiane, moyenne, écart type et CV des minutes réelles ; médiane de réel ÷ prévu.';
+
+  @override
+  String get statsMetricPlS15Title => 'Stabilité de la durée';
+
+  @override
+  String get statsMetricPlS16Desc => 'Assiduité pour chaque jour de semaine prévu par la règle.';
+
+  @override
+  String get statsMetricPlS16Formula => 'Réalisées ÷ occurrences closes non excusées, par jour.';
+
+  @override
+  String get statsMetricPlS16Title => 'Profil par jour';
+
+  @override
+  String get statsMetricPlS17Desc => 'À quelle heure vous terminez habituellement cette tâche.';
+
+  @override
+  String get statsMetricPlS17Formula => 'Occurrences réalisées par heure de fin.';
+
+  @override
+  String get statsMetricPlS17Title => 'Heures de réalisation';
+
+  @override
+  String get statsMetricPlS18Desc => 'Fréquence et ampleur des déplacements des occurrences de cette série.';
+
+  @override
+  String get statsMetricPlS18Formula => 'Déplacées ≥ 1× ÷ occurrences ; déplacements moyens ; report moyen.';
+
+  @override
+  String get statsMetricPlS18Title => 'Reprogrammations de la série';
+
+  @override
+  String get statsMetricPlS19Desc => 'Assiduité avant et après chaque modification de la règle.';
+
+  @override
+  String get statsMetricPlS19Formula => 'Assiduité sur les 28 jours avant et après chaque modification.';
+
+  @override
+  String get statsMetricPlS19Title => 'Changements de règle';
+
+  @override
+  String get statsMetricPlS20Desc => 'À quelle heure vous commencez réellement, et avec quelle régularité.';
+
+  @override
+  String get statsMetricPlS20Formula => 'Moyenne et écart type circulaires des heures de début (ou de fin).';
+
+  @override
+  String get statsMetricPlS20Title => 'Régularité de l’horaire';
+
+  @override
+  String get statsMetricPlS21Desc => 'De combien vous commencez en général avant ou après l’heure prévue.';
+
+  @override
+  String get statsMetricPlS21Formula => 'Moyenne circulaire de (début réel − début prévu), dans ±12 h.';
+
+  @override
+  String get statsMetricPlS21Title => 'Décalage du début';
+
+  @override
   String get statsMetricPlT01Desc => 'Durée prévue pour cette occurrence.';
 
   @override
@@ -11285,6 +11454,109 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsMetricPlT07Title => 'Ancienneté du retard';
+
+  @override
+  String get statsMetricPlT08Desc =>
+      'Nombre de fois où cette occurrence a été déplacée. Les déplacements de toute la série comptent une fois par occurrence concernée.';
+
+  @override
+  String get statsMetricPlT08Formula => 'Nombre d’événements « reprogrammé » de cette occurrence.';
+
+  @override
+  String get statsMetricPlT08Title => 'Reprogrammations';
+
+  @override
+  String get statsMetricPlT09Desc => 'Temps total de déplacement de cette occurrence, dans les deux sens.';
+
+  @override
+  String get statsMetricPlT09Formula => 'Σ |nouveau début − ancien début| sur tous les déplacements.';
+
+  @override
+  String get statsMetricPlT09Title => 'Distance de reprogrammation';
+
+  @override
+  String get statsMetricPlT10Desc => 'Écart entre le début final et le premier début prévu.';
+
+  @override
+  String get statsMetricPlT10Formula => 'Début prévu final − premier début prévu.';
+
+  @override
+  String get statsMetricPlT10Title => 'Dérive nette';
+
+  @override
+  String get statsMetricPlT11Desc => 'Signale une occurrence sans cesse repoussée.';
+
+  @override
+  String get statsMetricPlT11Formula => 'Affiché quand l’occurrence a été déplacée 3 fois ou plus.';
+
+  @override
+  String get statsMetricPlT11Title => 'Effet boule de neige';
+
+  @override
+  String get statsMetricPlT12Desc => 'Temps entre la création de la tâche et sa réalisation.';
+
+  @override
+  String get statsMetricPlT12Formula => 'Heure de fin − heure de création de la tâche.';
+
+  @override
+  String get statsMetricPlT12Title => 'Délai total';
+
+  @override
+  String get statsMetricPlT13Desc => 'Temps entre la création de la tâche et le début du travail.';
+
+  @override
+  String get statsMetricPlT13Formula => 'Début de la première session − heure de création.';
+
+  @override
+  String get statsMetricPlT13Title => 'Latence de démarrage';
+
+  @override
+  String get statsMetricPlT14Desc => 'Avec combien d’avance l’occurrence a été planifiée.';
+
+  @override
+  String get statsMetricPlT14Formula => 'Premier début prévu − heure de création.';
+
+  @override
+  String get statsMetricPlT14Title => 'Horizon de planification';
+
+  @override
+  String get statsMetricPlT15Desc =>
+      'Part du temps suivi passé dans le créneau prévu, avec les minutes débordant avant et après.';
+
+  @override
+  String get statsMetricPlT15Formula => 'Recouvrement(sessions, créneau prévu) ÷ minutes réelles.';
+
+  @override
+  String get statsMetricPlT15Title => 'Respect du créneau';
+
+  @override
+  String get statsMetricPlT16Desc =>
+      'Sessions suivies de cette occurrence : nombre, total, durée moyenne, pauses et plus long bloc sans interruption.';
+
+  @override
+  String get statsMetricPlT16Formula =>
+      'Pauses = écarts ≥ 2 min ; des sessions séparées de moins de 2 min forment un bloc.';
+
+  @override
+  String get statsMetricPlT16Title => 'Sessions de concentration';
+
+  @override
+  String get statsMetricPlT17Desc => 'Part de l’occurrence qui a été réalisée.';
+
+  @override
+  String get statsMetricPlT17Formula => 'Pourcentage d’avancement enregistré avec l’occurrence.';
+
+  @override
+  String get statsMetricPlT17Title => 'Réalisation partielle';
+
+  @override
+  String get statsMetricPlT18Desc => 'Votre note (1–5) et votre commentaire sur cette occurrence.';
+
+  @override
+  String get statsMetricPlT18Formula => 'Note et commentaire enregistrés à la fin.';
+
+  @override
+  String get statsMetricPlT18Title => 'Auto-évaluation';
 
   @override
   String get statsMetricPlX01Desc => 'Part de ce qui était prévu en début de période que vous avez réalisé.';
@@ -11425,6 +11697,292 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsMetricPlX15Title => 'Événements vs tâches';
+
+  @override
+  String get statsMetricPlX16Desc => 'Répartition de votre temps selon la priorité des tâches.';
+
+  @override
+  String get statsMetricPlX16Formula => 'Σ minutes par priorité 0–4 (réel si suivi, sinon prévu).';
+
+  @override
+  String get statsMetricPlX16Title => 'Temps par priorité';
+
+  @override
+  String get statsMetricPlX17Desc =>
+      'Minutes par étiquette. Une tâche à plusieurs étiquettes compte entièrement pour chacune.';
+
+  @override
+  String get statsMetricPlX17Formula => 'Σ minutes par étiquette.';
+
+  @override
+  String get statsMetricPlX17Title => 'Temps par étiquette';
+
+  @override
+  String get statsMetricPlX18Desc => 'Votre temps et vos réalisations vont-ils aux tâches prioritaires ?';
+
+  @override
+  String get statsMetricPlX18Formula => 'Part du temps sur les priorités 3–4 ; taux de réalisation haute vs basse.';
+
+  @override
+  String get statsMetricPlX18Title => 'Alignement des priorités';
+
+  @override
+  String get statsMetricPlX19Desc => 'Votre temps par catégorie, puis par tâche.';
+
+  @override
+  String get statsMetricPlX19Formula => 'Surface ∝ minutes (catégorie → tâche).';
+
+  @override
+  String get statsMetricPlX19Title => 'Carte de l’allocation';
+
+  @override
+  String get statsMetricPlX20Desc =>
+      'Part de votre temps consacrée aux séries récurrentes plutôt qu’aux tâches ponctuelles.';
+
+  @override
+  String get statsMetricPlX20Formula => 'Minutes récurrentes ÷ toutes les minutes ; réalisations de chaque type.';
+
+  @override
+  String get statsMetricPlX20Title => 'Récurrent vs ponctuel';
+
+  @override
+  String get statsMetricPlX21Desc => 'Vos tâches durent-elles en général plus ou moins que prévu ?';
+
+  @override
+  String get statsMetricPlX21Formula => 'exp(médiane ln(réel ÷ prévu)) − 1 ; nécessite 10 occurrences suivies.';
+
+  @override
+  String get statsMetricPlX21Title => 'Biais d’estimation';
+
+  @override
+  String get statsMetricPlX22Desc => 'Taille moyenne de l’écart entre durée prévue et réelle.';
+
+  @override
+  String get statsMetricPlX22Formula => 'moyenne(|réel − prévu| ÷ prévu) (MAPE).';
+
+  @override
+  String get statsMetricPlX22Title => 'Erreur d’estimation';
+
+  @override
+  String get statsMetricPlX23Desc => 'Temps à ajouter aux estimations pour que 8 tâches sur 10 tiennent.';
+
+  @override
+  String get statsMetricPlX23Formula => 'P80(réel ÷ prévu) − 1.';
+
+  @override
+  String get statsMetricPlX23Title => 'Marge conseillée';
+
+  @override
+  String get statsMetricPlX24Desc => 'Chaque occurrence suivie selon sa durée prévue et réelle.';
+
+  @override
+  String get statsMetricPlX24Formula => 'Points (prévu, réel) avec la droite y = x et une bande de ±20 %.';
+
+  @override
+  String get statsMetricPlX24Title => 'Prévu vs réel';
+
+  @override
+  String get statsMetricPlX25Desc => 'Durée habituelle des tâches que vous planifiez.';
+
+  @override
+  String get statsMetricPlX25Formula => 'Histogramme des minutes prévues ; médiane et moyenne.';
+
+  @override
+  String get statsMetricPlX25Title => 'Durées prévues';
+
+  @override
+  String get statsMetricPlX26Desc => 'Biais et erreur d’estimation par catégorie.';
+
+  @override
+  String get statsMetricPlX26Formula => 'Biais et MAPE calculés dans chaque catégorie.';
+
+  @override
+  String get statsMetricPlX26Title => 'Précision par catégorie';
+
+  @override
+  String get statsMetricPlX27Desc => 'Part des occurrences démarrées à l’heure.';
+
+  @override
+  String get statsMetricPlX27Formula => 'Démarrages à l’heure ÷ occurrences démarrées.';
+
+  @override
+  String get statsMetricPlX27Title => 'Ponctualité';
+
+  @override
+  String get statsMetricPlX28Desc => 'Retard habituel entre le début prévu et réel, par jour et heure.';
+
+  @override
+  String get statsMetricPlX28Formula => 'Médiane, moyenne et P85 de (début réel − début prévu).';
+
+  @override
+  String get statsMetricPlX28Title => 'Retard au démarrage';
+
+  @override
+  String get statsMetricPlX29Desc => 'Part des occurrences déplacées au moins une fois, dans un sens ou l’autre.';
+
+  @override
+  String get statsMetricPlX29Formula => 'Occurrences déplacées ≥ 1× ÷ occurrences de la période.';
+
+  @override
+  String get statsMetricPlX29Title => 'Part reprogrammée';
+
+  @override
+  String get statsMetricPlX30Desc => 'Quantité de travail repoussée et fréquence des déplacements.';
+
+  @override
+  String get statsMetricPlX30Formula =>
+      'Σ des reports vers l’avant (heures) ; déplacements moyens par occurrence déplacée.';
+
+  @override
+  String get statsMetricPlX30Title => 'Heures reportées';
+
+  @override
+  String get statsMetricPlX31Desc => 'Part des occurrences finalement plus tardives que prévu au départ.';
+
+  @override
+  String get statsMetricPlX31Formula => 'Occurrences dont le début final > premier début prévu ÷ occurrences.';
+
+  @override
+  String get statsMetricPlX31Title => 'Indice de procrastination';
+
+  @override
+  String get statsMetricPlX32Desc => 'Part des occurrences prévues sautées, et les motifs les plus fréquents.';
+
+  @override
+  String get statsMetricPlX32Formula => 'Sautées ÷ prévues ; motifs classés par nombre.';
+
+  @override
+  String get statsMetricPlX32Title => 'Annulations et motifs';
+
+  @override
+  String get statsMetricPlX33Desc =>
+      'À quels moments de la semaine se situent votre temps prévu, suivi ou vos réalisations.';
+
+  @override
+  String get statsMetricPlX33Formula => 'Minutes (ou réalisations) par jour × heure.';
+
+  @override
+  String get statsMetricPlX33Title => 'Heures chargées';
+
+  @override
+  String get statsMetricPlX34Desc => 'Taux de réalisation et heures travaillées par jour de semaine.';
+
+  @override
+  String get statsMetricPlX34Formula => 'Réalisées ÷ occurrences closes et heures suivies par jour.';
+
+  @override
+  String get statsMetricPlX34Title => 'Meilleurs jours';
+
+  @override
+  String get statsMetricPlX35Desc => 'Fréquence à laquelle chaque créneau de la semaine contient du travail prévu.';
+
+  @override
+  String get statsMetricPlX35Formula => 'Semaines avec une tâche prévue dans le créneau ÷ semaines de la période.';
+
+  @override
+  String get statsMetricPlX35Title => 'Occupation des créneaux';
+
+  @override
+  String get statsMetricPlX36Desc => 'Créneaux des heures de travail jamais occupés sur au moins 4 semaines.';
+
+  @override
+  String get statsMetricPlX36Formula => 'Créneaux des heures de travail occupés à 0 %.';
+
+  @override
+  String get statsMetricPlX36Title => 'Créneaux inutilisés';
+
+  @override
+  String get statsMetricPlX37Desc => 'Taux de réalisation selon l’heure de début prévue.';
+
+  @override
+  String get statsMetricPlX37Formula => 'Réalisées ÷ occurrences closes par heure de début prévue.';
+
+  @override
+  String get statsMetricPlX37Title => 'Heures les plus productives';
+
+  @override
+  String get statsMetricPlX38Desc => 'Heures passées en blocs ininterrompus d’au moins la durée de travail profond.';
+
+  @override
+  String get statsMetricPlX38Formula =>
+      'Blocs ≥ 60 min (réglage) ; les sessions d’une même tâche séparées de < 2 min sont fusionnées.';
+
+  @override
+  String get statsMetricPlX38Title => 'Travail profond';
+
+  @override
+  String get statsMetricPlX39Desc => 'Temps suivi en dehors de vos heures de travail et le week-end.';
+
+  @override
+  String get statsMetricPlX39Formula => 'Σ minutes suivies hors heures de travail ; minutes du week-end.';
+
+  @override
+  String get statsMetricPlX39Title => 'Travail hors horaires';
+
+  @override
+  String get statsMetricPlX40Desc => 'Votre usage du minuteur.';
+
+  @override
+  String get statsMetricPlX40Formula => 'Sessions, durée moyenne, part des occurrences réalisées avec sessions.';
+
+  @override
+  String get statsMetricPlX40Title => 'Utilisation du minuteur';
+
+  @override
+  String get statsMetricPlX41Desc =>
+      'Part des occurrences réalisées avec du temps suivi — la base des métriques de durée.';
+
+  @override
+  String get statsMetricPlX41Formula => 'Occurrences réalisées avec sessions ÷ occurrences réalisées.';
+
+  @override
+  String get statsMetricPlX41Title => 'Couverture du temps réel';
+
+  @override
+  String get statsMetricPlX42Desc =>
+      'Jours (ou semaines) consécutifs atteignant votre objectif de réalisations. Les jours off ne la cassent pas.';
+
+  @override
+  String get statsMetricPlX42Formula => 'Jours d’affilée avec ≥ N réalisations ; les jours sans capacité sont neutres.';
+
+  @override
+  String get statsMetricPlX42Title => 'Série d’objectif';
+
+  @override
+  String get statsMetricPlX43Desc => 'À quel point votre temps libre pendant les heures de travail est morcelé.';
+
+  @override
+  String get statsMetricPlX43Formula => '1 − plus grand bloc libre ÷ temps libre total (0 = un seul bloc).';
+
+  @override
+  String get statsMetricPlX43Title => 'Fragmentation';
+
+  @override
+  String get statsMetricPlX44Desc => 'Fréquence des changements de catégorie entre sessions consécutives.';
+
+  @override
+  String get statsMetricPlX44Formula => 'Changements de catégorie entre sessions consécutives ÷ heures suivies.';
+
+  @override
+  String get statsMetricPlX44Title => 'Changements de contexte';
+
+  @override
+  String get statsMetricPlX45Desc => 'Score pondéré de votre temps selon vos poids de catégories (0–4).';
+
+  @override
+  String get statsMetricPlX45Formula => '100 · Σ(poids × minutes) ÷ (4 · Σ minutes) sur les catégories pondérées.';
+
+  @override
+  String get statsMetricPlX45Title => 'Score de productivité';
+
+  @override
+  String get statsMetricPlX46Desc => 'Avec combien d’avance vous planifiez habituellement vos tâches.';
+
+  @override
+  String get statsMetricPlX46Formula => 'Histogramme de (premier début prévu − création), en heures.';
+
+  @override
+  String get statsMetricPlX46Title => 'Anticipation';
 
   @override
   String get statsMetricQt01Desc => 'Temps écoulé depuis votre date d’arrêt.';
@@ -11576,10 +12134,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsNoteLowCoverage => 'Suivez le temps d’au moins 60 % des tâches faites pour voir ceci.';
 
   @override
+  String get statsNoteNeedsMoreData => 'Données insuffisantes';
+
+  @override
   String get statsNoteNew => 'Nouveau';
 
   @override
+  String get statsNoteNoCategoryWeights =>
+      'Attribuez un poids (0–4) aux catégories dans les réglages pour voir ce score';
+
+  @override
+  String get statsNoteNoConsistentTime => 'Pas d’horaire régulier';
+
+  @override
   String get statsNoteNoData => 'Pas encore de données';
+
+  @override
+  String get statsNoteNoFreeTime => 'Aucun temps libre pendant les heures de travail';
 
   @override
   String get statsNoteNoGoal => 'Aucun objectif défini';
@@ -11598,6 +12169,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsNoteNoQuitTrackers => 'Aucun suivi d’arrêt pour l’instant.';
+
+  @override
+  String get statsNoteNoRating => 'Pas encore de note';
 
   @override
   String get statsNoteNoTracker => 'Suivi d’arrêt introuvable.';
@@ -11621,6 +12195,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsNoteNotSmoking => 'Les étapes santé ne concernent que l’arrêt du tabac.';
 
   @override
+  String get statsNoteNotSnowballing => 'Déplacée moins de 3 fois';
+
+  @override
   String get statsNoteNotStarted => 'Pas démarré';
 
   @override
@@ -11631,6 +12208,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsNotePopulationEstimate => 'Estimation populationnelle';
+
+  @override
+  String get statsNoteTagsOverlap => 'Certaines tâches ont plusieurs étiquettes : les totaux se recoupent';
 
   @override
   String get statsNoteUnloggedNotFailed =>

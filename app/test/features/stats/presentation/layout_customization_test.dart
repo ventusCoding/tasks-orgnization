@@ -234,8 +234,8 @@ void main() {
       await openEditor(tester, 'Customize cards');
       await tester.tap(find.byTooltip('Hide Overdue now'));
       await tester.pump();
-      // Tap the barrier outside the sheet.
-      await tester.tapAt(const Offset(200, 20));
+      // Dismiss without Done (system back; the long planner layout covers the barrier).
+      await tester.binding.handlePopRoute();
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 400));
       expect(find.byType(LayoutEditorSheet), findsNothing);

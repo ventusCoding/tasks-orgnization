@@ -78,8 +78,12 @@ class DayHeaderCell extends StatelessWidget {
     this.compact = false,
     this.loadWarn = 0.8,
     this.loadOver = 1.0,
+    this.showUtilization = false,
     super.key,
   });
+
+  /// Utilization bar and overbooked badge (T6.3.20, `utilization` overlay; needs [stats]).
+  final bool showUtilization;
 
   /// Load thresholds of the tint (view config options `loadWarn` / `loadOver`).
   final double loadWarn;
@@ -114,13 +118,53 @@ class DayHeaderCell extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: Space.xxs),
           // Laid out at the column width, then scaled down if taller than the header (text scale).
           child: LayoutBuilder(
-            builder: (context, constraints) => FittedBox(
-              fit: BoxFit.scaleDown,
-              child: SizedBox(
-                width: constraints.maxWidth.isFinite ? constraints.maxWidth : 56,
-                child: _content(context, c, dayNumber),
-              ),
-            ),
+            builder: (context, constraints) {
+              final content = FittedBox(
+                fit: BoxFit.scaleDown,
+                child: SizedBox(
+                  width: constraints.maxWidth.isFinite ? constraints.maxWidth : 56,
+                  child: _content(context, c, dayNumber),
+                ),
+              );
+              final load = stats?.load;
+              if (!showUtilization || load == null || (load == 0 && stats!.plannedMinutes == 0)) return content;
+              final over = load >= loadOver;
+              final barColor = over
+                  ? context.appColors.danger
+                  : (load >= loadWarn ? context.appColors.warning : context.appColors.success);
+              return Stack(
+                children: [
+                  content,
+                  PositionedDirectional(
+                    start: 3,
+                    end: 3,
+                    bottom: 0,
+                    height: 3,
+                    child: Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: FractionallySizedBox(
+                        key: const ValueKey('day-utilization-bar'),
+                        widthFactor: load.isFinite ? load.clamp(0.04, 1).toDouble() : 1,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(color: barColor, borderRadius: BorderRadius.circular(2)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  if (over)
+                    PositionedDirectional(
+                      top: 0,
+                      end: 0,
+                      child: Icon(
+                        Icons.warning_amber_rounded,
+                        key: const ValueKey('day-overbooked-badge'),
+                        size: 12,
+                        color: context.appColors.danger,
+                      ),
+                    ),
+                ],
+              );
+            },
           ),
         ),
       ),

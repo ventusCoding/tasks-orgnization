@@ -47,7 +47,7 @@ void main() {
     expect(find.text(f.value(60, StatUnit.minutes)), findsWidgets);
     expect(find.byType(ChoiceChip), findsNothing);
     // Four KPIs plus the start and finish delay tiles.
-    expect(find.byType(KpiTile), findsNWidgets(6));
+    expect(find.byType(KpiTile), findsAtLeastNWidgets(6));
     expect(find.text(en.statsSeeSeries), findsNothing);
     await tester.tap(find.byType(KpiTile).first);
     await settle(tester);

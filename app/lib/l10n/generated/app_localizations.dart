@@ -2187,6 +2187,12 @@ abstract class AppLocalizations {
   /// **'Best'**
   String get chartsLabelBest;
 
+  /// No description provided for @chartsLabelBias.
+  ///
+  /// In en, this message translates to:
+  /// **'Bias'**
+  String get chartsLabelBias;
+
   /// No description provided for @chartsLabelBlocked.
   ///
   /// In en, this message translates to:
@@ -2216,6 +2222,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Completed'**
   String get chartsLabelCompleted;
+
+  /// No description provided for @chartsLabelContextSwitches.
+  ///
+  /// In en, this message translates to:
+  /// **'Switches'**
+  String get chartsLabelContextSwitches;
 
   /// No description provided for @chartsLabelCount.
   ///
@@ -2312,6 +2324,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Focus'**
   String get chartsLabelFocus;
+
+  /// No description provided for @chartsLabelFragmentation.
+  ///
+  /// In en, this message translates to:
+  /// **'Fragmentation'**
+  String get chartsLabelFragmentation;
 
   /// No description provided for @chartsLabelFree.
   ///
@@ -2415,11 +2433,23 @@ abstract class AppLocalizations {
   /// **'Logged'**
   String get chartsLabelLoggedRatio;
 
+  /// No description provided for @chartsLabelLongestBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest block'**
+  String get chartsLabelLongestBlock;
+
   /// No description provided for @chartsLabelLowPriority.
   ///
   /// In en, this message translates to:
   /// **'Low priority'**
   String get chartsLabelLowPriority;
+
+  /// No description provided for @chartsLabelMape.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get chartsLabelMape;
 
   /// No description provided for @chartsLabelMaxIntensity.
   ///
@@ -2504,6 +2534,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Moved out'**
   String get chartsLabelMovedOut;
+
+  /// No description provided for @chartsLabelMovedShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved'**
+  String get chartsLabelMovedShare;
 
   /// No description provided for @chartsLabelNet.
   ///
@@ -2655,6 +2691,12 @@ abstract class AppLocalizations {
   /// **'Paused'**
   String get chartsLabelPaused;
 
+  /// No description provided for @chartsLabelPauses.
+  ///
+  /// In en, this message translates to:
+  /// **'Pauses'**
+  String get chartsLabelPauses;
+
   /// No description provided for @chartsLabelPdfs.
   ///
   /// In en, this message translates to:
@@ -2696,6 +2738,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Planned'**
   String get chartsLabelPlanned;
+
+  /// No description provided for @chartsLabelPostponed.
+  ///
+  /// In en, this message translates to:
+  /// **'Postponed'**
+  String get chartsLabelPostponed;
 
   /// No description provided for @chartsLabelPrevious.
   ///
@@ -2739,6 +2787,12 @@ abstract class AppLocalizations {
   /// **'Rate'**
   String get chartsLabelRate;
 
+  /// No description provided for @chartsLabelRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get chartsLabelRating;
+
   /// No description provided for @chartsLabelRecurring.
   ///
   /// In en, this message translates to:
@@ -2781,6 +2835,12 @@ abstract class AppLocalizations {
   /// **'Rolling mean'**
   String get chartsLabelRollingMean;
 
+  /// No description provided for @chartsLabelRuleChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Rule changed'**
+  String get chartsLabelRuleChanged;
+
   /// No description provided for @chartsLabelSaved.
   ///
   /// In en, this message translates to:
@@ -2799,11 +2859,23 @@ abstract class AppLocalizations {
   /// **'Score'**
   String get chartsLabelScore;
 
+  /// No description provided for @chartsLabelSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Sessions'**
+  String get chartsLabelSessions;
+
   /// No description provided for @chartsLabelSkipped.
   ///
   /// In en, this message translates to:
   /// **'Skipped'**
   String get chartsLabelSkipped;
+
+  /// No description provided for @chartsLabelSnowballing.
+  ///
+  /// In en, this message translates to:
+  /// **'Snowballing — moved 3+ times'**
+  String get chartsLabelSnowballing;
 
   /// No description provided for @chartsLabelSpent.
   ///
@@ -12327,6 +12399,12 @@ abstract class AppLocalizations {
   /// **'{day}, {items}'**
   String pvDayHeaderSemantics(String day, String items);
 
+  /// No description provided for @pvDayOverbooked.
+  ///
+  /// In en, this message translates to:
+  /// **'Overbooked by {duration}'**
+  String pvDayOverbooked(String duration);
+
   /// No description provided for @pvDayRibbon.
   ///
   /// In en, this message translates to:
@@ -12350,6 +12428,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Day ticker'**
   String get pvDayTicker;
+
+  /// No description provided for @pvDayUtilizationExplain.
+  ///
+  /// In en, this message translates to:
+  /// **'{planned} planned for {capacity} of work hours'**
+  String pvDayUtilizationExplain(String planned, String capacity);
 
   /// No description provided for @pvDaysSince.
   ///
@@ -13107,6 +13191,12 @@ abstract class AppLocalizations {
   /// **'Open day'**
   String get pvOpenDay;
 
+  /// No description provided for @pvOpenPlannerInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Planner Insights'**
+  String get pvOpenPlannerInsights;
+
   /// No description provided for @pvOpenings.
   ///
   /// In en, this message translates to:
@@ -13166,6 +13256,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Busy-hour heat'**
   String get pvOverlayHeat;
+
+  /// No description provided for @pvOverlayOccupancy.
+  ///
+  /// In en, this message translates to:
+  /// **'Slot occupancy (last 4 weeks)'**
+  String get pvOverlayOccupancy;
+
+  /// No description provided for @pvOverlayUtilization.
+  ///
+  /// In en, this message translates to:
+  /// **'Day utilization'**
+  String get pvOverlayUtilization;
 
   /// No description provided for @pvOverlays.
   ///
@@ -13616,6 +13718,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Actions'**
   String get pvSelectionActions;
+
+  /// Long-press preview of a recurring task: adherence over 4 weeks and current streak.
+  ///
+  /// In en, this message translates to:
+  /// **'{adherence} done · streak {streak}'**
+  String pvSeriesPreview(String adherence, String streak);
 
   /// No description provided for @pvSetAsPlanDefault.
   ///
@@ -19119,6 +19227,222 @@ abstract class AppLocalizations {
   /// **'Outcome calendar'**
   String get statsMetricPlS09Title;
 
+  /// No description provided for @statsMetricPlS10Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of scheduled occurrences you skipped, and why.'**
+  String get statsMetricPlS10Desc;
+
+  /// No description provided for @statsMetricPlS10Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped ÷ scheduled; reasons ranked by count.'**
+  String get statsMetricPlS10Formula;
+
+  /// No description provided for @statsMetricPlS10Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip rate & reasons'**
+  String get statsMetricPlS10Title;
+
+  /// No description provided for @statsMetricPlS11Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of starts within the grace period, with start delays per month.'**
+  String get statsMetricPlS11Desc;
+
+  /// No description provided for @statsMetricPlS11Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'On-time starts ÷ started occurrences; box plot of start delay.'**
+  String get statsMetricPlS11Formula;
+
+  /// No description provided for @statsMetricPlS11Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Start timeliness'**
+  String get statsMetricPlS11Title;
+
+  /// No description provided for @statsMetricPlS12Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of done occurrences that were finished on time.'**
+  String get statsMetricPlS12Desc;
+
+  /// No description provided for @statsMetricPlS12Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Done on time ÷ done.'**
+  String get statsMetricPlS12Formula;
+
+  /// No description provided for @statsMetricPlS12Title.
+  ///
+  /// In en, this message translates to:
+  /// **'On-time completion'**
+  String get statsMetricPlS12Title;
+
+  /// No description provided for @statsMetricPlS13Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your ten longest streaks for this series.'**
+  String get statsMetricPlS13Desc;
+
+  /// No description provided for @statsMetricPlS13Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Streaks ordered by length, then by recency.'**
+  String get statsMetricPlS13Formula;
+
+  /// No description provided for @statsMetricPlS13Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Top streaks'**
+  String get statsMetricPlS13Title;
+
+  /// No description provided for @statsMetricPlS14Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How firmly the routine is established (Loop-style score).'**
+  String get statsMetricPlS14Desc;
+
+  /// No description provided for @statsMetricPlS14Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'score = score·m + done·(1 − m), m = 0.5^(√f/13), f = occurrences per day.'**
+  String get statsMetricPlS14Formula;
+
+  /// No description provided for @statsMetricPlS14Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Series strength'**
+  String get statsMetricPlS14Title;
+
+  /// No description provided for @statsMetricPlS15Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How steady the actual duration is, and how it compares with the plan.'**
+  String get statsMetricPlS15Desc;
+
+  /// No description provided for @statsMetricPlS15Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Median, mean, SD and CV of actual minutes; median of actual ÷ planned.'**
+  String get statsMetricPlS15Formula;
+
+  /// No description provided for @statsMetricPlS15Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration stability'**
+  String get statsMetricPlS15Title;
+
+  /// No description provided for @statsMetricPlS16Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Adherence on each weekday the rule schedules.'**
+  String get statsMetricPlS16Desc;
+
+  /// No description provided for @statsMetricPlS16Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Done ÷ closed, non-excused occurrences per weekday.'**
+  String get statsMetricPlS16Formula;
+
+  /// No description provided for @statsMetricPlS16Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekday profile'**
+  String get statsMetricPlS16Title;
+
+  /// No description provided for @statsMetricPlS17Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'When in the day you usually finish this series.'**
+  String get statsMetricPlS17Desc;
+
+  /// No description provided for @statsMetricPlS17Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Done occurrences per hour of the done time.'**
+  String get statsMetricPlS17Formula;
+
+  /// No description provided for @statsMetricPlS17Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Completion hours'**
+  String get statsMetricPlS17Title;
+
+  /// No description provided for @statsMetricPlS18Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How often occurrences of this series get moved and how far they are pushed.'**
+  String get statsMetricPlS18Desc;
+
+  /// No description provided for @statsMetricPlS18Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved ≥ 1× ÷ occurrences; mean moves; mean postponement.'**
+  String get statsMetricPlS18Formula;
+
+  /// No description provided for @statsMetricPlS18Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Series reschedules'**
+  String get statsMetricPlS18Title;
+
+  /// No description provided for @statsMetricPlS19Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Adherence before and after each change of the series’ rule.'**
+  String get statsMetricPlS19Desc;
+
+  /// No description provided for @statsMetricPlS19Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Adherence in the 28 days before vs after each split.'**
+  String get statsMetricPlS19Formula;
+
+  /// No description provided for @statsMetricPlS19Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Rule changes'**
+  String get statsMetricPlS19Title;
+
+  /// No description provided for @statsMetricPlS20Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'When you actually start this series, and how consistent that time is.'**
+  String get statsMetricPlS20Desc;
+
+  /// No description provided for @statsMetricPlS20Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Circular mean and circular SD of start (or done) times.'**
+  String get statsMetricPlS20Formula;
+
+  /// No description provided for @statsMetricPlS20Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Time-of-day consistency'**
+  String get statsMetricPlS20Title;
+
+  /// No description provided for @statsMetricPlS21Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How much earlier or later than planned you usually start.'**
+  String get statsMetricPlS21Desc;
+
+  /// No description provided for @statsMetricPlS21Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Circular mean of (actual start − planned start), within ±12 h.'**
+  String get statsMetricPlS21Formula;
+
+  /// No description provided for @statsMetricPlS21Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Start drift'**
+  String get statsMetricPlS21Title;
+
   /// No description provided for @statsMetricPlT01Desc.
   ///
   /// In en, this message translates to:
@@ -19244,6 +19568,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Overdue age'**
   String get statsMetricPlT07Title;
+
+  /// No description provided for @statsMetricPlT08Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How many times this occurrence was moved. Moves of the whole series count once for each affected occurrence.'**
+  String get statsMetricPlT08Desc;
+
+  /// No description provided for @statsMetricPlT08Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of “rescheduled” events of this occurrence.'**
+  String get statsMetricPlT08Formula;
+
+  /// No description provided for @statsMetricPlT08Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reschedules'**
+  String get statsMetricPlT08Title;
+
+  /// No description provided for @statsMetricPlT09Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Total time this occurrence was pushed around, in both directions.'**
+  String get statsMetricPlT09Desc;
+
+  /// No description provided for @statsMetricPlT09Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Σ |new start − old start| over every move.'**
+  String get statsMetricPlT09Formula;
+
+  /// No description provided for @statsMetricPlT09Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reschedule distance'**
+  String get statsMetricPlT09Title;
+
+  /// No description provided for @statsMetricPlT10Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How far the final start ended up from the first planned start.'**
+  String get statsMetricPlT10Desc;
+
+  /// No description provided for @statsMetricPlT10Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Final planned start − first planned start.'**
+  String get statsMetricPlT10Formula;
+
+  /// No description provided for @statsMetricPlT10Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Net drift'**
+  String get statsMetricPlT10Title;
+
+  /// No description provided for @statsMetricPlT11Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Flags an occurrence that keeps being postponed.'**
+  String get statsMetricPlT11Desc;
+
+  /// No description provided for @statsMetricPlT11Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown when the occurrence was moved 3 times or more.'**
+  String get statsMetricPlT11Formula;
+
+  /// No description provided for @statsMetricPlT11Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Snowballing'**
+  String get statsMetricPlT11Title;
+
+  /// No description provided for @statsMetricPlT12Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Time from creating the task to finishing it.'**
+  String get statsMetricPlT12Desc;
+
+  /// No description provided for @statsMetricPlT12Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Done time − task creation time.'**
+  String get statsMetricPlT12Formula;
+
+  /// No description provided for @statsMetricPlT12Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead time'**
+  String get statsMetricPlT12Title;
+
+  /// No description provided for @statsMetricPlT13Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Time from creating the task to starting work on it.'**
+  String get statsMetricPlT13Desc;
+
+  /// No description provided for @statsMetricPlT13Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'First session start − task creation time.'**
+  String get statsMetricPlT13Formula;
+
+  /// No description provided for @statsMetricPlT13Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Start latency'**
+  String get statsMetricPlT13Title;
+
+  /// No description provided for @statsMetricPlT14Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How far ahead the occurrence was planned.'**
+  String get statsMetricPlT14Desc;
+
+  /// No description provided for @statsMetricPlT14Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'First planned start − task creation time.'**
+  String get statsMetricPlT14Formula;
+
+  /// No description provided for @statsMetricPlT14Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Planning horizon'**
+  String get statsMetricPlT14Title;
+
+  /// No description provided for @statsMetricPlT15Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of the tracked time that happened inside the planned slot, with minutes spilled before and after.'**
+  String get statsMetricPlT15Desc;
+
+  /// No description provided for @statsMetricPlT15Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Overlap(sessions, planned slot) ÷ actual minutes.'**
+  String get statsMetricPlT15Formula;
+
+  /// No description provided for @statsMetricPlT15Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Slot fit'**
+  String get statsMetricPlT15Title;
+
+  /// No description provided for @statsMetricPlT16Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracked sessions of this occurrence: count, total, mean length, pauses and the longest uninterrupted block.'**
+  String get statsMetricPlT16Desc;
+
+  /// No description provided for @statsMetricPlT16Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Pauses = gaps ≥ 2 min; sessions less than 2 min apart form one block.'**
+  String get statsMetricPlT16Formula;
+
+  /// No description provided for @statsMetricPlT16Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus sessions'**
+  String get statsMetricPlT16Title;
+
+  /// No description provided for @statsMetricPlT17Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How much of the occurrence was completed.'**
+  String get statsMetricPlT17Desc;
+
+  /// No description provided for @statsMetricPlT17Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Completion percent recorded with the occurrence.'**
+  String get statsMetricPlT17Formula;
+
+  /// No description provided for @statsMetricPlT17Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Partial completion'**
+  String get statsMetricPlT17Title;
+
+  /// No description provided for @statsMetricPlT18Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rating (1–5) and outcome note for this occurrence.'**
+  String get statsMetricPlT18Desc;
+
+  /// No description provided for @statsMetricPlT18Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating and note saved when finishing.'**
+  String get statsMetricPlT18Formula;
+
+  /// No description provided for @statsMetricPlT18Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Self-rating'**
+  String get statsMetricPlT18Title;
 
   /// No description provided for @statsMetricPlX01Desc.
   ///
@@ -19514,6 +20036,564 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Events vs tasks'**
   String get statsMetricPlX15Title;
+
+  /// No description provided for @statsMetricPlX16Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Where your time goes by task priority.'**
+  String get statsMetricPlX16Desc;
+
+  /// No description provided for @statsMetricPlX16Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Σ minutes per priority 0–4 (actual when tracked, else planned).'**
+  String get statsMetricPlX16Formula;
+
+  /// No description provided for @statsMetricPlX16Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Time by priority'**
+  String get statsMetricPlX16Title;
+
+  /// No description provided for @statsMetricPlX17Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes per tag. A task with several tags counts fully for each one.'**
+  String get statsMetricPlX17Desc;
+
+  /// No description provided for @statsMetricPlX17Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Σ minutes per tag.'**
+  String get statsMetricPlX17Formula;
+
+  /// No description provided for @statsMetricPlX17Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Time by tag'**
+  String get statsMetricPlX17Title;
+
+  /// No description provided for @statsMetricPlX18Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Whether your time and completions go to high-priority work.'**
+  String get statsMetricPlX18Desc;
+
+  /// No description provided for @statsMetricPlX18Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of time on priorities 3–4; completion rate high vs low.'**
+  String get statsMetricPlX18Formula;
+
+  /// No description provided for @statsMetricPlX18Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority alignment'**
+  String get statsMetricPlX18Title;
+
+  /// No description provided for @statsMetricPlX19Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your time by category, then by task.'**
+  String get statsMetricPlX19Desc;
+
+  /// No description provided for @statsMetricPlX19Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Area ∝ minutes (category → task).'**
+  String get statsMetricPlX19Formula;
+
+  /// No description provided for @statsMetricPlX19Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocation map'**
+  String get statsMetricPlX19Title;
+
+  /// No description provided for @statsMetricPlX20Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of your time spent on recurring series rather than one-off tasks.'**
+  String get statsMetricPlX20Desc;
+
+  /// No description provided for @statsMetricPlX20Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring minutes ÷ all minutes; completions of each.'**
+  String get statsMetricPlX20Formula;
+
+  /// No description provided for @statsMetricPlX20Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring vs one-off'**
+  String get statsMetricPlX20Title;
+
+  /// No description provided for @statsMetricPlX21Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Whether tasks usually take longer or shorter than planned.'**
+  String get statsMetricPlX21Desc;
+
+  /// No description provided for @statsMetricPlX21Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'exp(median ln(actual ÷ planned)) − 1; needs 10 tracked occurrences.'**
+  String get statsMetricPlX21Formula;
+
+  /// No description provided for @statsMetricPlX21Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimation bias'**
+  String get statsMetricPlX21Title;
+
+  /// No description provided for @statsMetricPlX22Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Average size of the gap between planned and actual duration.'**
+  String get statsMetricPlX22Desc;
+
+  /// No description provided for @statsMetricPlX22Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'mean(|actual − planned| ÷ planned) (MAPE).'**
+  String get statsMetricPlX22Formula;
+
+  /// No description provided for @statsMetricPlX22Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimation error'**
+  String get statsMetricPlX22Title;
+
+  /// No description provided for @statsMetricPlX23Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Extra time to add to estimates so 8 in 10 tasks fit.'**
+  String get statsMetricPlX23Desc;
+
+  /// No description provided for @statsMetricPlX23Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'P80(actual ÷ planned) − 1.'**
+  String get statsMetricPlX23Formula;
+
+  /// No description provided for @statsMetricPlX23Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested buffer'**
+  String get statsMetricPlX23Title;
+
+  /// No description provided for @statsMetricPlX24Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Each tracked occurrence by planned and actual duration.'**
+  String get statsMetricPlX24Desc;
+
+  /// No description provided for @statsMetricPlX24Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Points (planned, actual) with the y = x line and a ±20 % band.'**
+  String get statsMetricPlX24Formula;
+
+  /// No description provided for @statsMetricPlX24Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned vs actual'**
+  String get statsMetricPlX24Title;
+
+  /// No description provided for @statsMetricPlX25Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How long the tasks you plan usually are.'**
+  String get statsMetricPlX25Desc;
+
+  /// No description provided for @statsMetricPlX25Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Histogram of planned minutes; median and mean.'**
+  String get statsMetricPlX25Formula;
+
+  /// No description provided for @statsMetricPlX25Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned durations'**
+  String get statsMetricPlX25Title;
+
+  /// No description provided for @statsMetricPlX26Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimation bias and error per category.'**
+  String get statsMetricPlX26Desc;
+
+  /// No description provided for @statsMetricPlX26Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Bias and MAPE computed within each category.'**
+  String get statsMetricPlX26Formula;
+
+  /// No description provided for @statsMetricPlX26Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy by category'**
+  String get statsMetricPlX26Title;
+
+  /// No description provided for @statsMetricPlX27Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of started occurrences that began on time.'**
+  String get statsMetricPlX27Desc;
+
+  /// No description provided for @statsMetricPlX27Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'On-time starts ÷ started occurrences.'**
+  String get statsMetricPlX27Formula;
+
+  /// No description provided for @statsMetricPlX27Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Punctuality'**
+  String get statsMetricPlX27Title;
+
+  /// No description provided for @statsMetricPlX28Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Typical delay between the planned and actual start, by weekday and hour.'**
+  String get statsMetricPlX28Desc;
+
+  /// No description provided for @statsMetricPlX28Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Median, mean and P85 of (actual start − planned start).'**
+  String get statsMetricPlX28Formula;
+
+  /// No description provided for @statsMetricPlX28Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Start delay'**
+  String get statsMetricPlX28Title;
+
+  /// No description provided for @statsMetricPlX29Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of occurrences moved at least once, in either direction.'**
+  String get statsMetricPlX29Desc;
+
+  /// No description provided for @statsMetricPlX29Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Occurrences moved ≥ 1× ÷ occurrences in the period.'**
+  String get statsMetricPlX29Formula;
+
+  /// No description provided for @statsMetricPlX29Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reschedule share'**
+  String get statsMetricPlX29Title;
+
+  /// No description provided for @statsMetricPlX30Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How much work was pushed later, and how often moved occurrences move.'**
+  String get statsMetricPlX30Desc;
+
+  /// No description provided for @statsMetricPlX30Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Σ forward postponement (hours); mean moves per moved occurrence.'**
+  String get statsMetricPlX30Formula;
+
+  /// No description provided for @statsMetricPlX30Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours postponed'**
+  String get statsMetricPlX30Title;
+
+  /// No description provided for @statsMetricPlX31Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of occurrences that ended up later than first planned.'**
+  String get statsMetricPlX31Desc;
+
+  /// No description provided for @statsMetricPlX31Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Occurrences with final start > first planned start ÷ occurrences.'**
+  String get statsMetricPlX31Formula;
+
+  /// No description provided for @statsMetricPlX31Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Procrastination index'**
+  String get statsMetricPlX31Title;
+
+  /// No description provided for @statsMetricPlX32Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of scheduled occurrences skipped, and the most common reasons.'**
+  String get statsMetricPlX32Desc;
+
+  /// No description provided for @statsMetricPlX32Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped ÷ scheduled; reasons ranked by count.'**
+  String get statsMetricPlX32Formula;
+
+  /// No description provided for @statsMetricPlX32Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Skips & reasons'**
+  String get statsMetricPlX32Title;
+
+  /// No description provided for @statsMetricPlX33Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'When in the week your planned time, tracked time or completions happen.'**
+  String get statsMetricPlX33Desc;
+
+  /// No description provided for @statsMetricPlX33Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes (or completions) per weekday × hour.'**
+  String get statsMetricPlX33Formula;
+
+  /// No description provided for @statsMetricPlX33Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Busiest hours'**
+  String get statsMetricPlX33Title;
+
+  /// No description provided for @statsMetricPlX34Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Completion rate and hours worked on each weekday.'**
+  String get statsMetricPlX34Desc;
+
+  /// No description provided for @statsMetricPlX34Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Done ÷ closed occurrences and tracked hours per weekday.'**
+  String get statsMetricPlX34Formula;
+
+  /// No description provided for @statsMetricPlX34Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Best working days'**
+  String get statsMetricPlX34Title;
+
+  /// No description provided for @statsMetricPlX35Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How often each slot of the week holds planned work.'**
+  String get statsMetricPlX35Desc;
+
+  /// No description provided for @statsMetricPlX35Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Weeks with a planned task in the slot ÷ weeks in the period.'**
+  String get statsMetricPlX35Formula;
+
+  /// No description provided for @statsMetricPlX35Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Slot occupancy'**
+  String get statsMetricPlX35Title;
+
+  /// No description provided for @statsMetricPlX36Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Work-hour slots that never held planned work over at least 4 weeks.'**
+  String get statsMetricPlX36Desc;
+
+  /// No description provided for @statsMetricPlX36Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Slots inside work hours with 0 % occupancy.'**
+  String get statsMetricPlX36Formula;
+
+  /// No description provided for @statsMetricPlX36Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Unused slots'**
+  String get statsMetricPlX36Title;
+
+  /// No description provided for @statsMetricPlX37Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Completion rate by the planned start hour.'**
+  String get statsMetricPlX37Desc;
+
+  /// No description provided for @statsMetricPlX37Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Done ÷ closed occurrences per hour of planned start.'**
+  String get statsMetricPlX37Formula;
+
+  /// No description provided for @statsMetricPlX37Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Most productive hours'**
+  String get statsMetricPlX37Title;
+
+  /// No description provided for @statsMetricPlX38Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours spent in uninterrupted blocks of at least the deep-work length.'**
+  String get statsMetricPlX38Desc;
+
+  /// No description provided for @statsMetricPlX38Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocks ≥ 60 min (setting); same-task sessions < 2 min apart are merged.'**
+  String get statsMetricPlX38Formula;
+
+  /// No description provided for @statsMetricPlX38Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Deep work'**
+  String get statsMetricPlX38Title;
+
+  /// No description provided for @statsMetricPlX39Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracked time outside your work hours, and on weekends.'**
+  String get statsMetricPlX39Desc;
+
+  /// No description provided for @statsMetricPlX39Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Σ tracked minutes outside work hours; weekend minutes.'**
+  String get statsMetricPlX39Formula;
+
+  /// No description provided for @statsMetricPlX39Title.
+  ///
+  /// In en, this message translates to:
+  /// **'After-hours work'**
+  String get statsMetricPlX39Title;
+
+  /// No description provided for @statsMetricPlX40Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How much you use the timer.'**
+  String get statsMetricPlX40Desc;
+
+  /// No description provided for @statsMetricPlX40Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Sessions, mean session length, share of done occurrences with sessions.'**
+  String get statsMetricPlX40Formula;
+
+  /// No description provided for @statsMetricPlX40Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer usage'**
+  String get statsMetricPlX40Title;
+
+  /// No description provided for @statsMetricPlX41Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How many done occurrences have tracked time — the data behind duration metrics.'**
+  String get statsMetricPlX41Desc;
+
+  /// No description provided for @statsMetricPlX41Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Done occurrences with sessions ÷ done occurrences.'**
+  String get statsMetricPlX41Formula;
+
+  /// No description provided for @statsMetricPlX41Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Actual-time coverage'**
+  String get statsMetricPlX41Title;
+
+  /// No description provided for @statsMetricPlX42Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Consecutive days (or weeks) reaching your completion goal. Days off don’t break it.'**
+  String get statsMetricPlX42Desc;
+
+  /// No description provided for @statsMetricPlX42Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Days with ≥ N completions in a row; days without capacity are neutral.'**
+  String get statsMetricPlX42Formula;
+
+  /// No description provided for @statsMetricPlX42Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal streak'**
+  String get statsMetricPlX42Title;
+
+  /// No description provided for @statsMetricPlX43Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How chopped up your free time within work hours is.'**
+  String get statsMetricPlX43Desc;
+
+  /// No description provided for @statsMetricPlX43Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'1 − largest free block ÷ total free time (0 = one free block).'**
+  String get statsMetricPlX43Formula;
+
+  /// No description provided for @statsMetricPlX43Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Fragmentation'**
+  String get statsMetricPlX43Title;
+
+  /// No description provided for @statsMetricPlX44Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How often you switch category between consecutive sessions.'**
+  String get statsMetricPlX44Desc;
+
+  /// No description provided for @statsMetricPlX44Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Category changes between consecutive sessions ÷ tracked hours.'**
+  String get statsMetricPlX44Formula;
+
+  /// No description provided for @statsMetricPlX44Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Context switches'**
+  String get statsMetricPlX44Title;
+
+  /// No description provided for @statsMetricPlX45Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Weighted score of your time using your category weights (0–4).'**
+  String get statsMetricPlX45Desc;
+
+  /// No description provided for @statsMetricPlX45Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'100 · Σ(weight × minutes) ÷ (4 · Σ minutes) over weighted categories.'**
+  String get statsMetricPlX45Formula;
+
+  /// No description provided for @statsMetricPlX45Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Productivity score'**
+  String get statsMetricPlX45Title;
+
+  /// No description provided for @statsMetricPlX46Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How far ahead you usually plan tasks.'**
+  String get statsMetricPlX46Desc;
+
+  /// No description provided for @statsMetricPlX46Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Histogram of (first planned start − creation time), in hours.'**
+  String get statsMetricPlX46Formula;
+
+  /// No description provided for @statsMetricPlX46Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Planning ahead'**
+  String get statsMetricPlX46Title;
 
   /// No description provided for @statsMetricQt01Desc.
   ///
@@ -19803,17 +20883,41 @@ abstract class AppLocalizations {
   /// **'Track time on at least 60 % of done tasks to see this.'**
   String get statsNoteLowCoverage;
 
+  /// No description provided for @statsNoteNeedsMoreData.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs more data'**
+  String get statsNoteNeedsMoreData;
+
   /// No description provided for @statsNoteNew.
   ///
   /// In en, this message translates to:
   /// **'New'**
   String get statsNoteNew;
 
+  /// No description provided for @statsNoteNoCategoryWeights.
+  ///
+  /// In en, this message translates to:
+  /// **'Give categories a weight (0–4) in Settings to see this score'**
+  String get statsNoteNoCategoryWeights;
+
+  /// No description provided for @statsNoteNoConsistentTime.
+  ///
+  /// In en, this message translates to:
+  /// **'No consistent time of day'**
+  String get statsNoteNoConsistentTime;
+
   /// No description provided for @statsNoteNoData.
   ///
   /// In en, this message translates to:
   /// **'No data yet'**
   String get statsNoteNoData;
+
+  /// No description provided for @statsNoteNoFreeTime.
+  ///
+  /// In en, this message translates to:
+  /// **'No free time within work hours'**
+  String get statsNoteNoFreeTime;
 
   /// No description provided for @statsNoteNoGoal.
   ///
@@ -19850,6 +20954,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No quit trackers yet.'**
   String get statsNoteNoQuitTrackers;
+
+  /// No description provided for @statsNoteNoRating.
+  ///
+  /// In en, this message translates to:
+  /// **'No rating yet'**
+  String get statsNoteNoRating;
 
   /// No description provided for @statsNoteNoTracker.
   ///
@@ -19893,6 +21003,12 @@ abstract class AppLocalizations {
   /// **'Health milestones are shown for smoking trackers only.'**
   String get statsNoteNotSmoking;
 
+  /// No description provided for @statsNoteNotSnowballing.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved fewer than 3 times'**
+  String get statsNoteNotSnowballing;
+
   /// No description provided for @statsNoteNotStarted.
   ///
   /// In en, this message translates to:
@@ -19916,6 +21032,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Population estimate'**
   String get statsNotePopulationEstimate;
+
+  /// No description provided for @statsNoteTagsOverlap.
+  ///
+  /// In en, this message translates to:
+  /// **'Some tasks have several tags: totals overlap'**
+  String get statsNoteTagsOverlap;
 
   /// No description provided for @statsNoteUnloggedNotFailed.
   ///

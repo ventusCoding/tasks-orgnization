@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
@@ -13,15 +14,19 @@ import 'package:everslot/features/planner/presentation/grid/engine/free_slots.da
 import 'package:everslot/features/planner/presentation/grid/engine/occupancy.dart';
 import 'package:everslot/features/planner/presentation/grid/timeline_page.dart';
 import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
+import 'package:everslot/features/stats/application/planner_overlays.dart';
 import 'package:everslot_metrics/everslot_metrics.dart' show PeriodStatus;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 
 // Overlays framework (T3.3.23): layers toggled by the view config `overlays` map —
 // `habits` (timed habit slots, tap to check in), `checklistDue` (checklist items due in the range),
 // `freeSlots` (openings inside work hours, T3.7.04), `heat` (weekday × hour occupancy of the last
-// four weeks) and `deviceCalendars` (reserved for [8.2]: no data source yet, the toggle is inert).
+// four weeks), `occupancy` (slot occupancy at the view's slot size, T6.3.20), `utilization` (day
+// header utilization bars, T6.3.20) and `deviceCalendars` (reserved for [8.2]: no data source yet,
+// the toggle is inert).
 
 /// Point overlays drawn over the grid at a wall-clock time.
 enum OverlayMarkerKind { habit, checklistDue }
@@ -333,8 +338,121 @@ class HeatTintPainter extends CustomPainter {
   bool shouldRepaint(HeatTintPainter old) => old.grid != grid || old.color != color || old.page.ppm != page.ppm;
 }
 
+/// Slot-occupancy layer (T6.3.20, PL-X-35/36): each slot of the view's size tinted by how often it
+/// held planned work over the last four weeks; dead slots inside work hours get a dashed outline.
+class SlotOccupancyPainter extends CustomPainter {
+  SlotOccupancyPainter({required this.page, required this.overlay, required this.color, required this.deadColor});
+
+  final PageOverlayContext page;
+  final SlotOccupancyOverlay overlay;
+  final Color color;
+  final Color deadColor;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (page.days.isEmpty) return;
+    final col = size.width / page.days.length;
+    final fill = Paint();
+    final dead = Paint()
+      ..color = deadColor.withValues(alpha: 0.7)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
+    final step = overlay.slotMinutes;
+    for (final (i, day) in page.days.indexed) {
+      final x = page.rtl ? size.width - (i + 1) * col : i * col;
+      for (var m = 0; m < 1440; m += step) {
+        final top = page.axis.yOf(m, ppm: page.ppm);
+        final bottom = page.axis.yOf(math.min(1440, m + step), ppm: page.ppm, end: true);
+        if (bottom <= top) continue;
+        final rect = Rect.fromLTRB(x + 1, top + 0.5, x + col - 1, bottom - 0.5);
+        final share = overlay.plannedAt(day.weekday.iso, m);
+        if (share > 0) {
+          fill.color = color.withValues(alpha: 0.04 + 0.22 * share.clamp(0, 1));
+          canvas.drawRect(rect, fill);
+        }
+        if (overlay.dead.contains((day.weekday.iso, m))) {
+          for (var dx = rect.left; dx < rect.right; dx += 6) {
+            canvas
+              ..drawLine(Offset(dx, rect.top), Offset(math.min(dx + 3, rect.right), rect.top), dead)
+              ..drawLine(Offset(dx, rect.bottom), Offset(math.min(dx + 3, rect.right), rect.bottom), dead);
+          }
+        }
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(SlotOccupancyPainter old) =>
+      old.overlay != overlay || old.color != color || old.page.ppm != page.ppm || old.page.days != page.days;
+}
+
 /// Items of the page days that block time (timed segments of the slices), for the finder.
 List<PlannerItem> pageItems(PageOverlayContext page) => [
   for (final d in page.days)
     if (page.slices[d] case final s?) ...[for (final seg in s.timed) seg.item],
 ];
+
+/// The long-press preview of a recurring tile (T6.3.20): adherence over the last four weeks and the
+/// current streak of its series. It appears only after the tile has been held still for a moment,
+/// so a quick press-and-drag never starts the stats work.
+class SeriesPreviewBubble extends ConsumerStatefulWidget {
+  const SeriesPreviewBubble({required this.seriesId, super.key});
+
+  final String seriesId;
+
+  /// Stillness before the preview loads.
+  static const delay = Duration(milliseconds: 350);
+
+  @override
+  ConsumerState<SeriesPreviewBubble> createState() => _SeriesPreviewBubbleState();
+}
+
+class _SeriesPreviewBubbleState extends ConsumerState<SeriesPreviewBubble> {
+  Timer? _timer;
+  bool _ready = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer(SeriesPreviewBubble.delay, () {
+      if (mounted) setState(() => _ready = true);
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_ready) return const SizedBox.shrink();
+    final stats = ref.watch(seriesMiniStatsProvider(widget.seriesId)).value;
+    if (stats == null || stats.isEmpty) return const SizedBox.shrink();
+    final f = NumberFormat.percentPattern(Localizations.localeOf(context).toLanguageTag());
+    final text = context.l10n.pvSeriesPreview(
+      stats.adherence == null ? '—' : f.format(stats.adherence),
+      '${stats.streak ?? 0}',
+    );
+    return Semantics(
+      liveRegion: true,
+      label: text,
+      child: DecoratedBox(
+        key: const ValueKey('series-preview'),
+        decoration: BoxDecoration(color: context.colors.inverseSurface, borderRadius: BorderRadius.circular(Radii.md)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Space.md, vertical: Space.sm),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.insights_outlined, size: 16, color: context.colors.onInverseSurface),
+              const SizedBox(width: Space.xs),
+              Text(text, style: context.text.labelMedium?.copyWith(color: context.colors.onInverseSurface)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

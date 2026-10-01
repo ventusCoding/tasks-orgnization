@@ -12,6 +12,7 @@ import 'package:everslot/features/planner/application/view_config/view_actions.d
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/day_actions_menu.dart';
 import 'package:everslot/features/planner/presentation/grid/data/planner_view_data.dart';
+import 'package:everslot/features/planner/presentation/grid/day_header.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/snapping.dart';
 import 'package:everslot/features/planner/presentation/grid/grid_style.dart';
 import 'package:everslot/features/planner/presentation/views/planner_nav.dart';
@@ -463,7 +464,15 @@ class PlannerCommands {
 
   /// Day header long-press menu (T3.3.09): add task, open the day, and planner-core's day actions
   /// (T3.2.23: mark remaining done, skip the rest, move unfinished to tomorrow).
-  Future<void> showDayMenu(LocalDate date, List<PlannerItem> dayItems, {required LocalDateTime now}) async {
+  /// Day actions (long press on a header). With [load] (the `utilization` overlay) the sheet first
+  /// explains the day's utilization (T6.3.20): planned vs work-hour capacity and the overbooking.
+  Future<void> showDayMenu(
+    LocalDate date,
+    List<PlannerItem> dayItems, {
+    required LocalDateTime now,
+    DayStats? load,
+    int capacityMinutes = 0,
+  }) async {
     final l = context.l10n;
     final f = context.plannerFormat(use24h: ref.read(userPreferencesProvider).use24h);
     final action = await showAppSheet<String>(
@@ -472,6 +481,24 @@ class PlannerCommands {
       builder: (ctx) => ListView(
         shrinkWrap: true,
         children: [
+          if (load != null && load.plannedMinutes > 0)
+            ListTile(
+              key: const ValueKey('day-utilization-explain'),
+              leading: Icon(
+                load.load > 1 ? Icons.warning_amber_rounded : Icons.speed,
+                color: load.load > 1 ? context.appColors.danger : null,
+              ),
+              title: Text(
+                load.load > 1 && load.load.isFinite
+                    ? l.pvDayOverbooked(f.duration(load.plannedMinutes - capacityMinutes))
+                    : l.pvDayUtilizationExplain(f.duration(load.plannedMinutes), f.duration(capacityMinutes)),
+              ),
+              subtitle: load.load > 1 && load.load.isFinite
+                  ? Text(l.pvDayUtilizationExplain(f.duration(load.plannedMinutes), f.duration(capacityMinutes)))
+                  : null,
+              trailing: const Icon(Icons.insights_outlined),
+              onTap: () => Navigator.pop(ctx, 'insights'),
+            ),
           ListTile(leading: const Icon(Icons.add), title: Text(l.pvAddTask), onTap: () => Navigator.pop(ctx, 'add')),
           ListTile(
             leading: const Icon(Icons.view_day_outlined),
@@ -508,6 +535,8 @@ class PlannerCommands {
         await dayAction(date, DayAction.skipRest, dayItems, now: now);
       case 'move':
         await dayAction(date, DayAction.moveToTomorrow, dayItems, now: now);
+      case 'insights':
+        ref.read(plannerNavProvider).openInsights(context, from: date, days: 1);
     }
   }
 

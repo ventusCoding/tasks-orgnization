@@ -370,5 +370,11 @@
   "pvPlaceNoResults": "لم يُعثر على مكان",
   "pvUsePlace": "استخدم هذا المكان",
   "pvClearPlace": "إزالة الدبوس",
-  "pvDroppedPin": "دبوس"
+  "pvDroppedPin": "دبوس",
+  "pvOverlayOccupancy": "إشغال الفترات (آخر 4 أسابيع)",
+  "pvOverlayUtilization": "استخدام اليوم",
+  "pvDayOverbooked": "محجوز أكثر من اللازم بـ{duration}",
+  "pvDayUtilizationExplain": "{planned} مخطَّطة مقابل {capacity} من ساعات العمل",
+  "pvOpenPlannerInsights": "فتح إحصاءات المخطِّط",
+  "pvSeriesPreview": "{adherence} منجزة · سلسلة {streak}"
 }

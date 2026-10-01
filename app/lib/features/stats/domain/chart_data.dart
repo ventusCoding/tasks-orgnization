@@ -168,6 +168,18 @@ enum LabelToken {
   backfillShare,
   trackedTime,
   pendingSync,
+  snowballing,
+  sessions,
+  pauses,
+  longestBlock,
+  rating,
+  ruleChanged,
+  movedShare,
+  postponed,
+  bias,
+  mape,
+  fragmentation,
+  contextSwitches,
 }
 
 /// A chart label: resolved to text by the presentation layer.

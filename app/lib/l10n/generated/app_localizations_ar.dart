@@ -1297,6 +1297,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelBest => 'الأفضل';
 
   @override
+  String get chartsLabelBias => 'الانحياز';
+
+  @override
   String get chartsLabelBlocked => 'محظور';
 
   @override
@@ -1310,6 +1313,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelCompleted => 'مكتمل';
+
+  @override
+  String get chartsLabelContextSwitches => 'التبديلات';
 
   @override
   String get chartsLabelCount => 'العدد';
@@ -1358,6 +1364,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelFocus => 'التركيز';
+
+  @override
+  String get chartsLabelFragmentation => 'التجزئة';
 
   @override
   String get chartsLabelFree => 'متاح';
@@ -1411,7 +1420,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelLoggedRatio => 'المسجَّل';
 
   @override
+  String get chartsLabelLongestBlock => 'أطول فترة';
+
+  @override
   String get chartsLabelLowPriority => 'أولوية منخفضة';
+
+  @override
+  String get chartsLabelMape => 'الخطأ';
 
   @override
   String get chartsLabelMaxIntensity => 'أعلى شدة';
@@ -1454,6 +1469,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelMovedOut => 'نُقل خارج الفترة';
+
+  @override
+  String get chartsLabelMovedShare => 'المنقولة';
 
   @override
   String get chartsLabelNet => 'صافي التدفق';
@@ -1531,6 +1549,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelPaused => 'متوقف مؤقتًا';
 
   @override
+  String get chartsLabelPauses => 'التوقفات';
+
+  @override
   String get chartsLabelPdfs => 'ملفات PDF';
 
   @override
@@ -1550,6 +1571,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelPlanned => 'مخطَّط';
+
+  @override
+  String get chartsLabelPostponed => 'المؤجَّل';
 
   @override
   String get chartsLabelPrevious => 'السابق';
@@ -1573,6 +1597,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelRate => 'المعدل';
 
   @override
+  String get chartsLabelRating => 'التقييم';
+
+  @override
   String get chartsLabelRecurring => 'متكرر';
 
   @override
@@ -1594,6 +1621,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelRollingMean => 'المتوسط المتحرك';
 
   @override
+  String get chartsLabelRuleChanged => 'تغيّرت القاعدة';
+
+  @override
   String get chartsLabelSaved => 'المُدَّخر';
 
   @override
@@ -1603,7 +1633,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelScore => 'النتيجة';
 
   @override
+  String get chartsLabelSessions => 'الجلسات';
+
+  @override
   String get chartsLabelSkipped => 'متخطّى';
+
+  @override
+  String get chartsLabelSnowballing => 'تأجيل متراكم — نُقل 3 مرات أو أكثر';
 
   @override
   String get chartsLabelSpent => 'المُنفَق';
@@ -7664,6 +7700,11 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String pvDayOverbooked(String duration) {
+    return 'محجوز أكثر من اللازم بـ$duration';
+  }
+
+  @override
   String get pvDayRibbon => 'اليوم';
 
   @override
@@ -7676,6 +7717,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvDayTicker => 'شريط الأيام';
+
+  @override
+  String pvDayUtilizationExplain(String planned, String capacity) {
+    return '$planned مخطَّطة مقابل $capacity من ساعات العمل';
+  }
 
   @override
   String pvDaysSince(int count) {
@@ -8171,6 +8217,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvOpenDay => 'فتح اليوم';
 
   @override
+  String get pvOpenPlannerInsights => 'فتح إحصاءات المخطِّط';
+
+  @override
   String get pvOpenings => 'الأوقات المتاحة';
 
   @override
@@ -8199,6 +8248,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvOverlayHeat => 'كثافة الساعات المزدحمة';
+
+  @override
+  String get pvOverlayOccupancy => 'إشغال الفترات (آخر 4 أسابيع)';
+
+  @override
+  String get pvOverlayUtilization => 'استخدام اليوم';
 
   @override
   String get pvOverlays => 'الطبقات الإضافية';
@@ -8472,6 +8527,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvSelectionActions => 'إجراءات';
+
+  @override
+  String pvSeriesPreview(String adherence, String streak) {
+    return '$adherence منجزة · سلسلة $streak';
+  }
 
   @override
   String get pvSetAsPlanDefault => 'فتح تبويب الخطة على هذا العرض';
@@ -11817,6 +11877,115 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricPlS09Title => 'تقويم النتائج';
 
   @override
+  String get statsMetricPlS10Desc => 'نسبة المواعيد المجدولة التي تخطيتها، ولماذا.';
+
+  @override
+  String get statsMetricPlS10Formula => 'المتخطاة ÷ المجدولة؛ الأسباب مرتبة حسب العدد.';
+
+  @override
+  String get statsMetricPlS10Title => 'نسبة التخطي وأسبابه';
+
+  @override
+  String get statsMetricPlS11Desc => 'نسبة البدايات ضمن مهلة السماح، مع تأخر البدء لكل شهر.';
+
+  @override
+  String get statsMetricPlS11Formula => 'البدايات في الموعد ÷ المواعيد التي بدأت؛ مخطط صندوقي لتأخر البدء.';
+
+  @override
+  String get statsMetricPlS11Title => 'الالتزام بموعد البدء';
+
+  @override
+  String get statsMetricPlS12Desc => 'نسبة المواعيد المنجزة التي انتهت في وقتها.';
+
+  @override
+  String get statsMetricPlS12Formula => 'المنجزة في الوقت ÷ المنجزة.';
+
+  @override
+  String get statsMetricPlS12Title => 'الإنجاز في الوقت';
+
+  @override
+  String get statsMetricPlS13Desc => 'أطول عشر سلاسل متتالية لهذه المهمة المتكررة.';
+
+  @override
+  String get statsMetricPlS13Formula => 'السلاسل مرتبة حسب الطول ثم الأحدث.';
+
+  @override
+  String get statsMetricPlS13Title => 'أفضل السلاسل';
+
+  @override
+  String get statsMetricPlS14Desc => 'مدى رسوخ هذا الروتين (مؤشر على طريقة Loop).';
+
+  @override
+  String get statsMetricPlS14Formula => 'المؤشر = المؤشر·m + الإنجاز·(1 − m)، m = 0.5^(√f/13)، f = المواعيد في اليوم.';
+
+  @override
+  String get statsMetricPlS14Title => 'قوة الروتين';
+
+  @override
+  String get statsMetricPlS15Desc => 'مدى انتظام المدة الفعلية ومقارنتها بالخطة.';
+
+  @override
+  String get statsMetricPlS15Formula =>
+      'الوسيط والمتوسط والانحراف المعياري ومعامل التباين للدقائق الفعلية؛ وسيط الفعلي ÷ المخطط.';
+
+  @override
+  String get statsMetricPlS15Title => 'ثبات المدة';
+
+  @override
+  String get statsMetricPlS16Desc => 'نسبة الالتزام لكل يوم تجدوله القاعدة.';
+
+  @override
+  String get statsMetricPlS16Formula => 'المنجزة ÷ المواعيد المغلقة غير المعذورة، لكل يوم.';
+
+  @override
+  String get statsMetricPlS16Title => 'حسب أيام الأسبوع';
+
+  @override
+  String get statsMetricPlS17Desc => 'في أي ساعة تُنهي عادةً هذه المهمة المتكررة.';
+
+  @override
+  String get statsMetricPlS17Formula => 'المواعيد المنجزة حسب ساعة الإنجاز.';
+
+  @override
+  String get statsMetricPlS17Title => 'ساعات الإنجاز';
+
+  @override
+  String get statsMetricPlS18Desc => 'كم مرة تُنقل مواعيد هذه السلسلة وإلى أي حد تؤجَّل.';
+
+  @override
+  String get statsMetricPlS18Formula => 'المنقولة ≥ مرة ÷ المواعيد؛ متوسط النقل؛ متوسط التأجيل.';
+
+  @override
+  String get statsMetricPlS18Title => 'إعادة جدولة السلسلة';
+
+  @override
+  String get statsMetricPlS19Desc => 'نسبة الالتزام قبل كل تغيير لقاعدة السلسلة وبعده.';
+
+  @override
+  String get statsMetricPlS19Formula => 'الالتزام في 28 يومًا قبل كل تغيير وبعده.';
+
+  @override
+  String get statsMetricPlS19Title => 'تغييرات القاعدة';
+
+  @override
+  String get statsMetricPlS20Desc => 'متى تبدأ فعلًا هذه المهمة ومدى انتظام هذا الوقت.';
+
+  @override
+  String get statsMetricPlS20Formula => 'المتوسط والانحراف المعياري الدائريان لأوقات البدء (أو الإنجاز).';
+
+  @override
+  String get statsMetricPlS20Title => 'انتظام التوقيت';
+
+  @override
+  String get statsMetricPlS21Desc => 'كم تبدأ عادة قبل الموعد المخطط أو بعده.';
+
+  @override
+  String get statsMetricPlS21Formula => 'المتوسط الدائري لـ(البدء الفعلي − البدء المخطط) ضمن ±12 ساعة.';
+
+  @override
+  String get statsMetricPlS21Title => 'انحراف البدء';
+
+  @override
   String get statsMetricPlT01Desc => 'المدة التي خُطِّط أن تستغرقها هذه المرة.';
 
   @override
@@ -11878,6 +12047,107 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsMetricPlT07Title => 'عمر التأخر';
+
+  @override
+  String get statsMetricPlT08Desc => 'عدد مرات نقل هذا الموعد. تُحتسب تحريكات السلسلة كاملةً مرة لكل موعد متأثر.';
+
+  @override
+  String get statsMetricPlT08Formula => 'عدد أحداث «أُعيدت جدولته» لهذا الموعد.';
+
+  @override
+  String get statsMetricPlT08Title => 'مرات إعادة الجدولة';
+
+  @override
+  String get statsMetricPlT09Desc => 'مجموع الوقت الذي نُقل فيه هذا الموعد في الاتجاهين.';
+
+  @override
+  String get statsMetricPlT09Formula => 'Σ |البداية الجديدة − البداية القديمة| لكل نقل.';
+
+  @override
+  String get statsMetricPlT09Title => 'مسافة إعادة الجدولة';
+
+  @override
+  String get statsMetricPlT10Desc => 'المسافة بين البداية النهائية وأول بداية مخططة.';
+
+  @override
+  String get statsMetricPlT10Formula => 'البداية المخططة النهائية − أول بداية مخططة.';
+
+  @override
+  String get statsMetricPlT10Title => 'الانجراف الصافي';
+
+  @override
+  String get statsMetricPlT11Desc => 'ينبّه إلى موعد يُؤجَّل باستمرار.';
+
+  @override
+  String get statsMetricPlT11Formula => 'يظهر عندما يُنقل الموعد 3 مرات أو أكثر.';
+
+  @override
+  String get statsMetricPlT11Title => 'تأجيل متراكم';
+
+  @override
+  String get statsMetricPlT12Desc => 'الوقت من إنشاء المهمة حتى إنجازها.';
+
+  @override
+  String get statsMetricPlT12Formula => 'وقت الإنجاز − وقت إنشاء المهمة.';
+
+  @override
+  String get statsMetricPlT12Title => 'مدة الإنجاز الكلية';
+
+  @override
+  String get statsMetricPlT13Desc => 'الوقت من إنشاء المهمة حتى بدء العمل عليها.';
+
+  @override
+  String get statsMetricPlT13Formula => 'بداية أول جلسة − وقت إنشاء المهمة.';
+
+  @override
+  String get statsMetricPlT13Title => 'تأخر البدء';
+
+  @override
+  String get statsMetricPlT14Desc => 'كم من الوقت مسبقًا خُطط لهذا الموعد.';
+
+  @override
+  String get statsMetricPlT14Formula => 'أول بداية مخططة − وقت إنشاء المهمة.';
+
+  @override
+  String get statsMetricPlT14Title => 'أفق التخطيط';
+
+  @override
+  String get statsMetricPlT15Desc => 'نسبة الوقت المتتبَّع داخل الفترة المخططة، مع الدقائق التي تجاوزتها قبلها وبعدها.';
+
+  @override
+  String get statsMetricPlT15Formula => 'تداخل(الجلسات، الفترة المخططة) ÷ الدقائق الفعلية.';
+
+  @override
+  String get statsMetricPlT15Title => 'الالتزام بالفترة';
+
+  @override
+  String get statsMetricPlT16Desc =>
+      'الجلسات المتتبَّعة لهذا الموعد: العدد والمجموع ومتوسط المدة والتوقفات وأطول فترة متواصلة.';
+
+  @override
+  String get statsMetricPlT16Formula =>
+      'التوقفات = فجوات ≥ دقيقتين؛ الجلسات التي يفصلها أقل من دقيقتين تُعدّ فترة واحدة.';
+
+  @override
+  String get statsMetricPlT16Title => 'جلسات التركيز';
+
+  @override
+  String get statsMetricPlT17Desc => 'نسبة ما أُنجز من الموعد.';
+
+  @override
+  String get statsMetricPlT17Formula => 'نسبة الإنجاز المسجلة مع الموعد.';
+
+  @override
+  String get statsMetricPlT17Title => 'الإنجاز الجزئي';
+
+  @override
+  String get statsMetricPlT18Desc => 'تقييمك (1–5) وملاحظتك عن نتيجة هذا الموعد.';
+
+  @override
+  String get statsMetricPlT18Formula => 'التقييم والملاحظة المحفوظان عند الإنهاء.';
+
+  @override
+  String get statsMetricPlT18Title => 'التقييم الذاتي';
 
   @override
   String get statsMetricPlX01Desc => 'نسبة ما أنجزته مما كان مخطَّطًا في بداية الفترة.';
@@ -12014,6 +12284,286 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsMetricPlX15Title => 'الأحداث مقابل المهام';
+
+  @override
+  String get statsMetricPlX16Desc => 'توزيع وقتك حسب أولوية المهام.';
+
+  @override
+  String get statsMetricPlX16Formula => 'Σ الدقائق لكل أولوية 0–4 (الفعلي إن تُتبِّع وإلا المخطط).';
+
+  @override
+  String get statsMetricPlX16Title => 'الوقت حسب الأولوية';
+
+  @override
+  String get statsMetricPlX17Desc => 'الدقائق لكل وسم. المهمة ذات الأوسمة المتعددة تُحتسب كاملة لكل وسم.';
+
+  @override
+  String get statsMetricPlX17Formula => 'Σ الدقائق لكل وسم.';
+
+  @override
+  String get statsMetricPlX17Title => 'الوقت حسب الوسم';
+
+  @override
+  String get statsMetricPlX18Desc => 'هل يذهب وقتك وإنجازك إلى المهام ذات الأولوية العالية؟';
+
+  @override
+  String get statsMetricPlX18Formula => 'نسبة الوقت على الأولويتين 3–4؛ معدل الإنجاز للعالية مقابل المنخفضة.';
+
+  @override
+  String get statsMetricPlX18Title => 'التوافق مع الأولويات';
+
+  @override
+  String get statsMetricPlX19Desc => 'وقتك حسب الفئة ثم حسب المهمة.';
+
+  @override
+  String get statsMetricPlX19Formula => 'المساحة ∝ الدقائق (فئة ← مهمة).';
+
+  @override
+  String get statsMetricPlX19Title => 'خريطة توزيع الوقت';
+
+  @override
+  String get statsMetricPlX20Desc => 'نسبة وقتك على المهام المتكررة بدل المهام لمرة واحدة.';
+
+  @override
+  String get statsMetricPlX20Formula => 'دقائق المتكرر ÷ كل الدقائق؛ إنجازات كل نوع.';
+
+  @override
+  String get statsMetricPlX20Title => 'المتكرر مقابل لمرة واحدة';
+
+  @override
+  String get statsMetricPlX21Desc => 'هل تستغرق المهام عادةً أطول أو أقصر من المخطط؟';
+
+  @override
+  String get statsMetricPlX21Formula => 'exp(وسيط ln(الفعلي ÷ المخطط)) − 1؛ يتطلب 10 مواعيد متتبَّعة.';
+
+  @override
+  String get statsMetricPlX21Title => 'انحياز التقدير';
+
+  @override
+  String get statsMetricPlX22Desc => 'متوسط حجم الفرق بين المدة المخططة والفعلية.';
+
+  @override
+  String get statsMetricPlX22Formula => 'متوسط(|الفعلي − المخطط| ÷ المخطط) (MAPE).';
+
+  @override
+  String get statsMetricPlX22Title => 'خطأ التقدير';
+
+  @override
+  String get statsMetricPlX23Desc => 'الوقت الإضافي على التقديرات ليتسع لـ8 مهام من 10.';
+
+  @override
+  String get statsMetricPlX23Formula => 'P80(الفعلي ÷ المخطط) − 1.';
+
+  @override
+  String get statsMetricPlX23Title => 'الهامش المقترح';
+
+  @override
+  String get statsMetricPlX24Desc => 'كل موعد متتبَّع حسب مدته المخططة والفعلية.';
+
+  @override
+  String get statsMetricPlX24Formula => 'نقاط (المخطط، الفعلي) مع الخط y = x ونطاق ±20 %.';
+
+  @override
+  String get statsMetricPlX24Title => 'المخطط مقابل الفعلي';
+
+  @override
+  String get statsMetricPlX25Desc => 'المدة المعتادة للمهام التي تخطط لها.';
+
+  @override
+  String get statsMetricPlX25Formula => 'مدرج تكراري للدقائق المخططة؛ الوسيط والمتوسط.';
+
+  @override
+  String get statsMetricPlX25Title => 'المدد المخططة';
+
+  @override
+  String get statsMetricPlX26Desc => 'انحياز التقدير وخطؤه لكل فئة.';
+
+  @override
+  String get statsMetricPlX26Formula => 'الانحياز وMAPE محسوبان داخل كل فئة.';
+
+  @override
+  String get statsMetricPlX26Title => 'الدقة حسب الفئة';
+
+  @override
+  String get statsMetricPlX27Desc => 'نسبة المواعيد التي بدأت في وقتها.';
+
+  @override
+  String get statsMetricPlX27Formula => 'البدايات في الموعد ÷ المواعيد التي بدأت.';
+
+  @override
+  String get statsMetricPlX27Title => 'الالتزام بالمواعيد';
+
+  @override
+  String get statsMetricPlX28Desc => 'التأخر المعتاد بين البدء المخطط والفعلي، حسب اليوم والساعة.';
+
+  @override
+  String get statsMetricPlX28Formula => 'الوسيط والمتوسط وP85 لـ(البدء الفعلي − البدء المخطط).';
+
+  @override
+  String get statsMetricPlX28Title => 'تأخر البدء';
+
+  @override
+  String get statsMetricPlX29Desc => 'نسبة المواعيد المنقولة مرة واحدة على الأقل، في أي اتجاه.';
+
+  @override
+  String get statsMetricPlX29Formula => 'المواعيد المنقولة ≥ مرة ÷ مواعيد الفترة.';
+
+  @override
+  String get statsMetricPlX29Title => 'نسبة المعاد جدولته';
+
+  @override
+  String get statsMetricPlX30Desc => 'كم من العمل أُجِّل، وكم مرة تُنقل المواعيد المنقولة.';
+
+  @override
+  String get statsMetricPlX30Formula => 'Σ التأجيل إلى الأمام (ساعات)؛ متوسط النقل لكل موعد منقول.';
+
+  @override
+  String get statsMetricPlX30Title => 'ساعات التأجيل';
+
+  @override
+  String get statsMetricPlX31Desc => 'نسبة المواعيد التي انتهت أبعد من أول تخطيط لها.';
+
+  @override
+  String get statsMetricPlX31Formula => 'المواعيد ذات البداية النهائية > أول بداية مخططة ÷ المواعيد.';
+
+  @override
+  String get statsMetricPlX31Title => 'مؤشر التسويف';
+
+  @override
+  String get statsMetricPlX32Desc => 'نسبة المواعيد المجدولة المتخطاة وأكثر الأسباب شيوعًا.';
+
+  @override
+  String get statsMetricPlX32Formula => 'المتخطاة ÷ المجدولة؛ الأسباب مرتبة حسب العدد.';
+
+  @override
+  String get statsMetricPlX32Title => 'التخطي وأسبابه';
+
+  @override
+  String get statsMetricPlX33Desc => 'متى يقع وقتك المخطط أو المتتبَّع أو إنجازاتك خلال الأسبوع.';
+
+  @override
+  String get statsMetricPlX33Formula => 'الدقائق (أو الإنجازات) لكل يوم × ساعة.';
+
+  @override
+  String get statsMetricPlX33Title => 'أكثر الساعات انشغالًا';
+
+  @override
+  String get statsMetricPlX34Desc => 'معدل الإنجاز وساعات العمل لكل يوم من الأسبوع.';
+
+  @override
+  String get statsMetricPlX34Formula => 'المنجزة ÷ المغلقة والساعات المتتبَّعة لكل يوم.';
+
+  @override
+  String get statsMetricPlX34Title => 'أفضل أيام العمل';
+
+  @override
+  String get statsMetricPlX35Desc => 'كم مرة تحتوي كل فترة من الأسبوع على عمل مخطط.';
+
+  @override
+  String get statsMetricPlX35Formula => 'الأسابيع التي فيها مهمة مخططة في الفترة ÷ أسابيع المدة.';
+
+  @override
+  String get statsMetricPlX35Title => 'إشغال الفترات';
+
+  @override
+  String get statsMetricPlX36Desc => 'فترات ضمن ساعات العمل لم تحتوِ أي عمل مخطط طوال 4 أسابيع على الأقل.';
+
+  @override
+  String get statsMetricPlX36Formula => 'فترات ضمن ساعات العمل بإشغال 0 %.';
+
+  @override
+  String get statsMetricPlX36Title => 'فترات غير مستخدمة';
+
+  @override
+  String get statsMetricPlX37Desc => 'معدل الإنجاز حسب ساعة البدء المخططة.';
+
+  @override
+  String get statsMetricPlX37Formula => 'المنجزة ÷ المغلقة لكل ساعة بدء مخططة.';
+
+  @override
+  String get statsMetricPlX37Title => 'أكثر الساعات إنتاجية';
+
+  @override
+  String get statsMetricPlX38Desc => 'الساعات المقضية في فترات متواصلة لا تقل عن مدة العمل العميق.';
+
+  @override
+  String get statsMetricPlX38Formula =>
+      'فترات ≥ 60 دقيقة (إعداد)؛ تُدمج جلسات المهمة نفسها التي يفصلها أقل من دقيقتين.';
+
+  @override
+  String get statsMetricPlX38Title => 'العمل العميق';
+
+  @override
+  String get statsMetricPlX39Desc => 'الوقت المتتبَّع خارج ساعات عملك وفي عطلة نهاية الأسبوع.';
+
+  @override
+  String get statsMetricPlX39Formula => 'Σ الدقائق المتتبَّعة خارج ساعات العمل؛ دقائق نهاية الأسبوع.';
+
+  @override
+  String get statsMetricPlX39Title => 'العمل خارج الدوام';
+
+  @override
+  String get statsMetricPlX40Desc => 'مدى استخدامك للمؤقت.';
+
+  @override
+  String get statsMetricPlX40Formula => 'الجلسات، متوسط مدة الجلسة، نسبة المواعيد المنجزة ذات الجلسات.';
+
+  @override
+  String get statsMetricPlX40Title => 'استخدام المؤقت';
+
+  @override
+  String get statsMetricPlX41Desc => 'نسبة المواعيد المنجزة التي لها وقت متتبَّع — أساس مقاييس المدة.';
+
+  @override
+  String get statsMetricPlX41Formula => 'المواعيد المنجزة ذات الجلسات ÷ المواعيد المنجزة.';
+
+  @override
+  String get statsMetricPlX41Title => 'تغطية الوقت الفعلي';
+
+  @override
+  String get statsMetricPlX42Desc => 'أيام (أو أسابيع) متتالية بلغت فيها هدف الإنجاز. أيام الراحة لا تقطعها.';
+
+  @override
+  String get statsMetricPlX42Formula => 'أيام متتالية بإنجازات ≥ N؛ الأيام بلا سعة محايدة.';
+
+  @override
+  String get statsMetricPlX42Title => 'سلسلة الهدف';
+
+  @override
+  String get statsMetricPlX43Desc => 'مدى تقطع وقتك الحر ضمن ساعات العمل.';
+
+  @override
+  String get statsMetricPlX43Formula => '1 − أكبر فترة حرة ÷ إجمالي الوقت الحر (0 = فترة واحدة).';
+
+  @override
+  String get statsMetricPlX43Title => 'التجزئة';
+
+  @override
+  String get statsMetricPlX44Desc => 'كم مرة تبدّل الفئة بين جلسات متتالية.';
+
+  @override
+  String get statsMetricPlX44Formula => 'تغييرات الفئة بين الجلسات المتتالية ÷ الساعات المتتبَّعة.';
+
+  @override
+  String get statsMetricPlX44Title => 'تبديل السياق';
+
+  @override
+  String get statsMetricPlX45Desc => 'مؤشر موزون لوقتك حسب أوزان الفئات (0–4).';
+
+  @override
+  String get statsMetricPlX45Formula => '100 · Σ(الوزن × الدقائق) ÷ (4 · Σ الدقائق) للفئات الموزونة.';
+
+  @override
+  String get statsMetricPlX45Title => 'مؤشر الإنتاجية';
+
+  @override
+  String get statsMetricPlX46Desc => 'كم مسبقًا تخطط عادة لمهامك.';
+
+  @override
+  String get statsMetricPlX46Formula => 'مدرج تكراري لـ(أول بداية مخططة − وقت الإنشاء) بالساعات.';
+
+  @override
+  String get statsMetricPlX46Title => 'التخطيط المسبق';
 
   @override
   String get statsMetricQt01Desc => 'الوقت المنقضي منذ تاريخ إقلاعك.';
@@ -12161,10 +12711,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsNoteLowCoverage => 'تتبّع الوقت لـ 60 % على الأقل من المهام المنجزة لرؤية هذا.';
 
   @override
+  String get statsNoteNeedsMoreData => 'يحتاج إلى بيانات أكثر';
+
+  @override
   String get statsNoteNew => 'جديد';
 
   @override
+  String get statsNoteNoCategoryWeights => 'حدد وزنًا (0–4) للفئات في الإعدادات لرؤية هذا المؤشر';
+
+  @override
+  String get statsNoteNoConsistentTime => 'لا يوجد وقت منتظم في اليوم';
+
+  @override
   String get statsNoteNoData => 'لا توجد بيانات بعد';
+
+  @override
+  String get statsNoteNoFreeTime => 'لا وقت حر ضمن ساعات العمل';
 
   @override
   String get statsNoteNoGoal => 'لا يوجد هدف';
@@ -12183,6 +12745,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsNoteNoQuitTrackers => 'لا توجد متتبعات إقلاع بعد.';
+
+  @override
+  String get statsNoteNoRating => 'لا يوجد تقييم بعد';
 
   @override
   String get statsNoteNoTracker => 'تعذّر العثور على متتبع الإقلاع هذا.';
@@ -12206,6 +12771,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsNoteNotSmoking => 'تُعرض المحطات الصحية لمتتبعات التدخين فقط.';
 
   @override
+  String get statsNoteNotSnowballing => 'نُقل أقل من 3 مرات';
+
+  @override
   String get statsNoteNotStarted => 'لم يبدأ';
 
   @override
@@ -12216,6 +12784,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsNotePopulationEstimate => 'تقدير سكاني';
+
+  @override
+  String get statsNoteTagsOverlap => 'بعض المهام لها عدة أوسمة: المجاميع متداخلة';
 
   @override
   String get statsNoteUnloggedNotFailed =>
