@@ -6874,6 +6874,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvCategories => 'Categories';
 
   @override
+  String get pvChecklistDue => 'List items with a due date';
+
+  @override
   String get pvClearFilters => 'Clear';
 
   @override
@@ -7543,6 +7546,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvQuickCreateTitle => 'New task';
 
   @override
+  String pvQuotaProgress(String title, int done, int total) {
+    return '$title · $done/$total this period';
+  }
+
+  @override
+  String get pvQuotaSlots => 'Targets to place';
+
+  @override
   String get pvRadial12 => '12 h';
 
   @override
@@ -7819,6 +7830,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvTo => 'To';
 
   @override
+  String get pvToggleBacklog => 'Backlog drawer';
+
+  @override
   String get pvTopCategories => 'Top categories';
 
   @override
@@ -7844,6 +7858,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvUnscheduled => 'Unscheduled';
+
+  @override
+  String get pvUnscheduledSnack => 'Moved to the backlog';
 
   @override
   String get pvUntimed => 'Untimed';

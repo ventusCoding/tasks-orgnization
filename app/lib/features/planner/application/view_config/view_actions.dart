@@ -59,8 +59,9 @@ abstract interface class PlannerViewActions {
   /// Manual order between two neighbours' `manual_sort_key`s (backlog, untimed items of a day).
   Future<void> reorder(PlannerItem item, {String? afterKey, String? beforeKey});
 
-  /// Moves a one-off task back to the backlog (throws for recurring tasks).
-  Future<void> unschedule(PlannerItem item);
+  /// Moves a one-off task back to the backlog (throws for recurring tasks); [source] is logged on
+  /// the `unscheduled` event (`backlog` from the drawer).
+  Future<void> unschedule(PlannerItem item, {String source = 'menu'});
 
   Future<void> startTimer(PlannerItem item);
 
@@ -114,8 +115,8 @@ class _ServicePlannerViewActions implements PlannerViewActions {
   }
 
   @override
-  Future<void> unschedule(PlannerItem item) async {
-    final record = await _ref.read(tasksRepositoryProvider).unschedule(item.taskId);
+  Future<void> unschedule(PlannerItem item, {String source = 'menu'}) async {
+    final record = await _ref.read(tasksRepositoryProvider).unschedule(item.taskId, source: source);
     _push(_ref.read(plannerL10nProvider).tasksMoved, record);
   }
 

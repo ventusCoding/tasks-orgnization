@@ -311,7 +311,7 @@ class DemoPlannerActions implements PlannerActions, PlannerViewActions {
   }
 
   @override
-  Future<void> unschedule(PlannerItem item) async {
+  Future<void> unschedule(PlannerItem item, {String source = 'menu'}) async {
     if (item.isRecurring) throw StateError('recurring');
     _apply((s) {
       final removed = _isCreated(s, item)

@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/painting.dart' show Offset;
 
 /// Implemented by the grid state (and other date-paged views) to receive navigation commands.
 abstract interface class GridNavigator {
@@ -11,6 +12,12 @@ abstract interface class GridNavigator {
   void scrollToMinute(double minute, {bool animate = true, double anchorFraction = 0});
 
   void zoomBy(double factor);
+}
+
+/// Where a view takes an external drop (backlog drawer, T3.7.02): the slot start under a global
+/// point and whether it is the all-day lane.
+abstract interface class DropSlotSource {
+  ({LocalDateTime start, bool allDay})? dropSlotAt(Offset global);
 }
 
 /// Host-side handle of a date-paged view (T3.4.01 / T3.4.04): visible days for the title, and

@@ -988,11 +988,11 @@ class TasksRepository {
   });
 
   /// Moves a one-off task to the backlog (recurring tasks can't be unscheduled).
-  Future<OpRecord> unschedule(String taskId) => _writer.run((tx) async {
+  Future<OpRecord> unschedule(String taskId, {String source = 'menu'}) => _writer.run((tx) async {
     final task = await tx.readTask(taskId) ?? (throw NotFoundException('task $taskId'));
     if (task.isRecurring) throw const ValidationException('Recurring tasks cannot be unscheduled', field: 'recurrence');
     if (task.isUnscheduled) return;
-    await _directEdit(tx, task, task.copyWith(startLocal: null, isAllDay: false), source: 'menu', logUpdated: false);
+    await _directEdit(tx, task, task.copyWith(startLocal: null, isAllDay: false), source: source, logUpdated: false);
   });
 
   /// Manual order in the backlog / within a day (fractional index between neighbours).

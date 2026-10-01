@@ -691,5 +691,23 @@
         "type": "int"
       }
     }
+  },
+  "pvQuotaSlots": "Targets to place",
+  "pvChecklistDue": "List items with a due date",
+  "pvToggleBacklog": "Backlog drawer",
+  "pvUnscheduledSnack": "Moved to the backlog",
+  "pvQuotaProgress": "{title} · {done}/{total} this period",
+  "@pvQuotaProgress": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
   }
 }

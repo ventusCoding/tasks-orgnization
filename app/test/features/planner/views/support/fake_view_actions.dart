@@ -35,7 +35,8 @@ class FakeViewActions implements PlannerViewActions {
       calls.add('reorder ${item.title} after=$afterKey before=$beforeKey');
 
   @override
-  Future<void> unschedule(PlannerItem item) async => calls.add('unschedule ${item.title}');
+  Future<void> unschedule(PlannerItem item, {String source = 'menu'}) async =>
+      calls.add('unschedule ${item.title} $source');
 
   @override
   Future<void> startTimer(PlannerItem item) async => calls.add('start ${item.title}');

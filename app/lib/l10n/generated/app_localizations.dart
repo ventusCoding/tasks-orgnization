@@ -11943,6 +11943,12 @@ abstract class AppLocalizations {
   /// **'Categories'**
   String get pvCategories;
 
+  /// No description provided for @pvChecklistDue.
+  ///
+  /// In en, this message translates to:
+  /// **'List items with a due date'**
+  String get pvChecklistDue;
+
   /// No description provided for @pvClearFilters.
   ///
   /// In en, this message translates to:
@@ -13107,6 +13113,18 @@ abstract class AppLocalizations {
   /// **'New task'**
   String get pvQuickCreateTitle;
 
+  /// No description provided for @pvQuotaProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} · {done}/{total} this period'**
+  String pvQuotaProgress(String title, int done, int total);
+
+  /// No description provided for @pvQuotaSlots.
+  ///
+  /// In en, this message translates to:
+  /// **'Targets to place'**
+  String get pvQuotaSlots;
+
   /// No description provided for @pvRadial12.
   ///
   /// In en, this message translates to:
@@ -13587,6 +13605,12 @@ abstract class AppLocalizations {
   /// **'To'**
   String get pvTo;
 
+  /// No description provided for @pvToggleBacklog.
+  ///
+  /// In en, this message translates to:
+  /// **'Backlog drawer'**
+  String get pvToggleBacklog;
+
   /// No description provided for @pvTopCategories.
   ///
   /// In en, this message translates to:
@@ -13640,6 +13664,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unscheduled'**
   String get pvUnscheduled;
+
+  /// No description provided for @pvUnscheduledSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved to the backlog'**
+  String get pvUnscheduledSnack;
 
   /// No description provided for @pvUntimed.
   ///

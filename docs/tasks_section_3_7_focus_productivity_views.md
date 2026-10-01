@@ -24,7 +24,7 @@ countdown / count-up; map; tests.
 ## Progress
 
 - [x] T3.7.01 — Now / Next focus view
-- [ ] T3.7.02 — Backlog drawer & timeboxing
+- [x] T3.7.02 — Backlog drawer & timeboxing
 - [x] T3.7.03 — Backlog list screen
 - [x] T3.7.04 — Free-slot finder & openings
 - [ ] T3.7.05 — Table (spreadsheet) view
@@ -73,6 +73,7 @@ It has filters and search. Drag behaviour:
 **Acceptance criteria:** time-blocking a backlog task takes one drag; undo restores it; a `scheduled` /
 `unscheduled` / `rescheduled` event is written (source `backlog`).
 **Tests:** widget gesture tests; repository tests.
+**Notes:** `BacklogDrawerHost` + `BacklogDrawerPanel` (`backlog_drawer.dart`), toggled by an inbox button in the week table / N-day / work week (`TimeGridView`) and day list toolbars (≥ 560 dp; the overflow menu on phones, where the toolbar is full). The drawer is a non-modal panel on the trailing edge (≤ 320 dp, 85 % on phones) so rows drag straight onto the grid. Sections: unscheduled, untimed / all-day of the visible days, overdue (last 7 days), unplaced quota slots ("Run · 1/3 this period"), checklist items with a due date that aren't scheduled yet; search and section chips filter. Drawer → grid: the host is a `DragTarget` that asks the view's `DropSlotSource` (`TimeGridState.dropSlotAt`, the day list page) for the slot — backlog tasks are scheduled (`scheduled`, source `backlog`) with estimate or 30 min, occurrences move (scope dialog for series), checklist items become a linked task. Grid → drawer: a tile released over the drawer (`TimeGrid.onDropOutside`, day list `onDropOutside`) unschedules a one-off task (`unscheduled`, source `backlog`); recurring occurrences and quota slots refuse with a toast. Every drop is one undoable command.
 
 ### T3.7.03 — Backlog list screen
 **Priority:** P1 · **Size:** M · **Depends on:** [3.1] (unscheduled tasks)

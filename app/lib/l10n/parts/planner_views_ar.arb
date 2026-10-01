@@ -349,5 +349,10 @@
   "pvNoDeadline": "بلا موعد نهائي",
   "pvGroupDeadline": "الموعد النهائي",
   "pvNoEstimate": "بلا تقدير",
-  "pvScheduledCount": "{count, plural, zero{لم تُجدول أي عناصر} one{عنصر واحد مُجدول} two{عنصران مُجدولان} few{{count} عناصر مُجدولة} many{{count} عنصرًا مُجدولًا} other{{count} عنصر مُجدول}}"
+  "pvScheduledCount": "{count, plural, zero{لم تُجدول أي عناصر} one{عنصر واحد مُجدول} two{عنصران مُجدولان} few{{count} عناصر مُجدولة} many{{count} عنصرًا مُجدولًا} other{{count} عنصر مُجدول}}",
+  "pvQuotaSlots": "أهداف للجدولة",
+  "pvChecklistDue": "عناصر قوائم لها موعد",
+  "pvToggleBacklog": "درج قائمة الانتظار",
+  "pvUnscheduledSnack": "نُقل إلى قائمة الانتظار",
+  "pvQuotaProgress": "{title} · {done}/{total} هذه الفترة"
 }

@@ -2801,6 +2801,19 @@
       }
     }
   },
+  "@pvQuotaProgress": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "@pvRepeatedHour": {
     "placeholders": {
       "time": {
@@ -6213,6 +6226,7 @@
   "pvCannotUnschedule": "Recurring occurrences can't be moved to the backlog",
   "pvCapacity": "Capacity",
   "pvCategories": "Categories",
+  "pvChecklistDue": "List items with a due date",
   "pvClearFilters": "Clear",
   "pvClearSelection": "Clear selection",
   "pvClocksForward": "Clocks forward",
@@ -6407,6 +6421,8 @@
   "pvQuadSchedule": "Schedule",
   "pvQuickCreateHint": "What's the plan?",
   "pvQuickCreateTitle": "New task",
+  "pvQuotaProgress": "{title} · {done}/{total} this period",
+  "pvQuotaSlots": "Targets to place",
   "pvRadial12": "12 h",
   "pvRadial24": "24 h",
   "pvRadialHours": "Dial",
@@ -6487,6 +6503,7 @@
   "pvTileSemantics": "{title}, {day}, {start} to {end}, {status}",
   "pvTimeLeft": "{duration} left",
   "pvTo": "To",
+  "pvToggleBacklog": "Backlog drawer",
   "pvTopCategories": "Top categories",
   "pvTracked": "Tracked",
   "pvTrackingCheck": "Check",
@@ -6496,6 +6513,7 @@
   "pvUnpin": "Unpin",
   "pvUnscheduleUnsupported": "Moving tasks back to the backlog isn't available yet",
   "pvUnscheduled": "Unscheduled",
+  "pvUnscheduledSnack": "Moved to the backlog",
   "pvUntimed": "Untimed",
   "pvUpcoming": "Upcoming",
   "pvUrgencyRule": "{days, plural, =1{Urgent within 1 day} other{Urgent within {days} days}}",

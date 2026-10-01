@@ -249,6 +249,13 @@ void main() {
       expect(back.isUnscheduled, isTrue);
       expect(back.priority, 3);
       expect(await h.events(type: 'unscheduled'), hasLength(1));
+      expect((await h.events(type: 'unscheduled')).single.payload['source'], 'menu');
+    });
+
+    test('unscheduling from the backlog drawer logs source backlog (T3.7.02)', () async {
+      final id = await h.createTask(title: 'Call', start: '2026-09-23T10:00', duration: 30);
+      await h.tasks.unschedule(id, source: 'backlog');
+      expect((await h.events(type: 'unscheduled')).single.payload['source'], 'backlog');
     });
 
     test('recurring tasks cannot be unscheduled', () async {

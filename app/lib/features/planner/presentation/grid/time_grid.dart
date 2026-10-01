@@ -103,8 +103,13 @@ class TimeGrid extends ConsumerStatefulWidget {
     this.onRulerDoubleTap,
     this.showHeaderStats = true,
     this.fixedAnchor,
+    this.onDropOutside,
     super.key,
   });
+
+  /// A tile move released over another widget (the backlog drawer, T3.7.02): return true when
+  /// the drop was handled there (the grid then doesn't reschedule).
+  final Future<bool> Function(PlannerItem item, Offset global)? onDropOutside;
 
   /// Registry entry id or `saved:<id>`: keys the view config and the local view state.
   final String viewKey;
@@ -320,7 +325,9 @@ class _Pinch {
   Axis? lock;
 }
 
-class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixin implements GridNavigator {
+class TimeGridState extends ConsumerState<TimeGrid>
+    with TickerProviderStateMixin
+    implements GridNavigator, DropSlotSource {
   static const _dragOverlayKey = ValueKey('time-grid-drag-overlay');
 
   bool _ready = false;
@@ -2392,7 +2399,42 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
     }
   }
 
-  void _onLongPressEnd(LongPressEndDetails d) => unawaited(_endSession());
+  void _onLongPressEnd(LongPressEndDetails d) => unawaited(_endOrHandOff(d.globalPosition));
+
+  Future<void> _endOrHandOff(Offset global) async {
+    final s = _session;
+    final outside = widget.onDropOutside;
+    if (s != null && outside != null && s.kind == _SessionKind.move && s.item != null && s.moved) {
+      if (await outside(s.item!, global)) {
+        _clearSession();
+        return;
+      }
+    }
+    await _endSession();
+  }
+
+  /// Start of the slot under a global point and whether it is in the all-day lane (external drops
+  /// such as the backlog drawer, T3.7.02); null outside the days.
+  @override
+  ({LocalDateTime start, bool allDay})? dropSlotAt(Offset global) {
+    final box = _pagesBox;
+    final f = _frame;
+    if (box == null || f == null) return null;
+    final local = box.globalToLocal(global);
+    if (!(Offset.zero & box.size).contains(local)) return null;
+    final hit = _hitTest(local);
+    if (hit == null) return null;
+    if (hit.region == _Region.lane || hit.region == _Region.header) {
+      return (start: hit.day.atStartOfDay, allDay: true);
+    }
+    final slot = _slotAt(local);
+    if (slot == null) return null;
+    final snap = f.config.snapMinutes;
+    final wall = f.renderer == GridRenderer.timeline
+        ? ((f.axis.locate(hit.point.dy, f.ppm).wall / snap).round() * snap).clamp(0, 1439)
+        : slot.time.minuteOfDay;
+    return (start: hit.day.atStartOfDay.plusMinutes(wall), allDay: false);
+  }
 
   void _clearSession() {
     _edgeTicker?.stop();

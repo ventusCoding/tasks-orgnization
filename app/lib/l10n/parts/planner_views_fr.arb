@@ -349,5 +349,10 @@
   "pvNoDeadline": "Sans échéance",
   "pvGroupDeadline": "Échéance",
   "pvNoEstimate": "Sans estimation",
-  "pvScheduledCount": "{count, plural, =1{1 élément planifié} other{{count} éléments planifiés}}"
+  "pvScheduledCount": "{count, plural, =1{1 élément planifié} other{{count} éléments planifiés}}",
+  "pvQuotaSlots": "Objectifs à placer",
+  "pvChecklistDue": "Éléments de liste avec échéance",
+  "pvToggleBacklog": "Tiroir du backlog",
+  "pvUnscheduledSnack": "Déplacé dans le backlog",
+  "pvQuotaProgress": "{title} · {done}/{total} cette période"
 }

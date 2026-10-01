@@ -7452,6 +7452,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvCategories => 'الفئات';
 
   @override
+  String get pvChecklistDue => 'عناصر قوائم لها موعد';
+
+  @override
   String get pvClearFilters => 'مسح';
 
   @override
@@ -8175,6 +8178,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvQuickCreateTitle => 'مهمة جديدة';
 
   @override
+  String pvQuotaProgress(String title, int done, int total) {
+    return '$title · $done/$total هذه الفترة';
+  }
+
+  @override
+  String get pvQuotaSlots => 'أهداف للجدولة';
+
+  @override
   String get pvRadial12 => '12 ساعة';
 
   @override
@@ -8458,6 +8469,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvTo => 'إلى';
 
   @override
+  String get pvToggleBacklog => 'درج قائمة الانتظار';
+
+  @override
   String get pvTopCategories => 'أبرز الفئات';
 
   @override
@@ -8483,6 +8497,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvUnscheduled => 'غير مجدولة';
+
+  @override
+  String get pvUnscheduledSnack => 'نُقل إلى قائمة الانتظار';
 
   @override
   String get pvUntimed => 'بلا وقت';

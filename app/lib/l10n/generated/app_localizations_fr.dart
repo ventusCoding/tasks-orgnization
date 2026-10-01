@@ -7073,6 +7073,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvCategories => 'Catégories';
 
   @override
+  String get pvChecklistDue => 'Éléments de liste avec échéance';
+
+  @override
   String get pvClearFilters => 'Effacer';
 
   @override
@@ -7753,6 +7756,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvQuickCreateTitle => 'Nouvelle tâche';
 
   @override
+  String pvQuotaProgress(String title, int done, int total) {
+    return '$title · $done/$total cette période';
+  }
+
+  @override
+  String get pvQuotaSlots => 'Objectifs à placer';
+
+  @override
   String get pvRadial12 => '12 h';
 
   @override
@@ -8029,6 +8040,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvTo => 'À';
 
   @override
+  String get pvToggleBacklog => 'Tiroir du backlog';
+
+  @override
   String get pvTopCategories => 'Catégories principales';
 
   @override
@@ -8054,6 +8068,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvUnscheduled => 'Non planifiées';
+
+  @override
+  String get pvUnscheduledSnack => 'Déplacé dans le backlog';
 
   @override
   String get pvUntimed => 'Sans heure';
