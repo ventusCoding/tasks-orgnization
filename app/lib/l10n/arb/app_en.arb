@@ -1880,6 +1880,13 @@
       }
     }
   },
+  "@itemScheduledAs": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "@itemsTableSelectRow": {
     "placeholders": {
       "item": {
@@ -1905,6 +1912,20 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "@linkedCompleteItemBody": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "@linkedCompleteTaskBody": {
+    "placeholders": {
+      "task": {
+        "type": "String"
       }
     }
   },
@@ -5532,6 +5553,8 @@
   "itemNote": "Note",
   "itemOtherDevice": "another device",
   "itemPriority": "Priority",
+  "itemScheduledAs": "Scheduled: {title}",
+  "itemScheduledBadge": "Scheduled as a task",
   "itemText": "Text",
   "itemThisDevice": "this device",
   "itemTimeInStatus": "Time in status",
@@ -5564,6 +5587,11 @@
   "linkKindHabit": "Habit",
   "linkKindHabitLog": "Habit note",
   "linkKindTask": "Task",
+  "linkedCompleteAction": "Complete",
+  "linkedCompleteItemBody": "“{item}” is scheduled by this task.",
+  "linkedCompleteItemTitle": "Complete the list item too?",
+  "linkedCompleteTaskBody": "“{task}” schedules this item.",
+  "linkedCompleteTaskTitle": "Mark the task done too?",
   "linkedEntityMissing": "Deleted",
   "linkedEntitySemantics": "{kind}: {title}, {status}. Opens it",
   "linkedEntityUntitled": "Untitled",

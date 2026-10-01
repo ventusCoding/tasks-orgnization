@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:drift/drift.dart' hide isNull;
 import 'package:drift/native.dart';
 import 'package:everslot/core/database/app_database.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -26,7 +25,7 @@ void main() {
     }
     await db.customStatement('ALTER TABLE checklist_items DROP COLUMN estimate_minutes');
     await db.customStatement(
-      "INSERT INTO tasks (id, user_id, series_id, title, created_at, updated_at) "
+      'INSERT INTO tasks (id, user_id, series_id, title, created_at, updated_at) '
       "VALUES ('t1', 'u1', 't1', 'Keep me', '2026-09-22T00:00:00.000Z', '2026-09-22T00:00:00.000Z')",
     );
     await db.customStatement('PRAGMA user_version = 1');

@@ -5,6 +5,8 @@ import 'package:everslot/core/settings/settings_repository.dart';
 import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/core/undo/undo_stack.dart';
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/checklists/application/task_links.dart';
+import 'package:everslot/features/checklists/domain/checklist.dart' show ChecklistItem;
 import 'package:everslot/features/planner/application/planner_contract.dart';
 import 'package:everslot/features/planner/application/view_config/view_actions.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
@@ -203,8 +205,31 @@ class PlannerCommands {
     return true;
   }
 
-  Future<void> setStatus(PlannerItem item, OccurrenceStatus status) =>
-      run(context.l10n.pvStatusSnack(context.statusLabel(status).toLowerCase()), (a) => a.setStatus(item, status));
+  Future<void> setStatus(PlannerItem item, OccurrenceStatus status) async {
+    await run(context.l10n.pvStatusSnack(context.statusLabel(status).toLowerCase()), (a) => a.setStatus(item, status));
+    if (status == OccurrenceStatus.done) await offerLinkedItem(item.taskId);
+  }
+
+  /// T3.1.21: marking a task that schedules a checklist item done offers to complete the item.
+  Future<void> offerLinkedItem(String taskId) async {
+    if (ref.read(plannerDemoModeProvider) || !context.mounted) return;
+    final links = ref.read(checklistTaskLinksProvider);
+    final ChecklistItem? item;
+    try {
+      item = await links.itemToCompleteAfterTask(taskId);
+    } on Object {
+      return;
+    }
+    if (item == null || !context.mounted) return;
+    final l = context.l10n;
+    final accept = await confirmDialog(
+      context,
+      title: l.linkedCompleteItemTitle,
+      body: l.linkedCompleteItemBody(item.text.trim().split('\n').first),
+      confirmLabel: l.linkedCompleteAction,
+    );
+    if (accept) await links.completeItem(item);
+  }
 
   Future<void> toggleDone(PlannerItem item) async {
     ref.read(plannerHapticsProvider).success();

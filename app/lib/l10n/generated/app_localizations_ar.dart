@@ -5023,6 +5023,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get itemPriority => 'الأولوية';
 
   @override
+  String itemScheduledAs(String title) {
+    return 'مُجدول: $title';
+  }
+
+  @override
+  String get itemScheduledBadge => 'مُجدول كمهمة';
+
+  @override
   String get itemText => 'النص';
 
   @override
@@ -5145,6 +5153,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get linkKindTask => 'مهمة';
+
+  @override
+  String get linkedCompleteAction => 'إكمال';
+
+  @override
+  String linkedCompleteItemBody(String item) {
+    return '«$item» مُجدول بهذه المهمة.';
+  }
+
+  @override
+  String get linkedCompleteItemTitle => 'إكمال عنصر القائمة أيضًا؟';
+
+  @override
+  String linkedCompleteTaskBody(String task) {
+    return '«$task» تُجدول هذا العنصر.';
+  }
+
+  @override
+  String get linkedCompleteTaskTitle => 'وضع علامة منجزة على المهمة أيضًا؟';
 
   @override
   String get linkedEntityMissing => 'محذوف';

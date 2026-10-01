@@ -110,6 +110,22 @@ class PlannerQueries {
 
   Future<List<Task>> unscheduled() => watchUnscheduled().first;
 
+  /// Tasks scheduling a checklist item (T3.1.21), oldest first.
+  Stream<List<Task>> watchItemTasks() =>
+      (_tasks()
+            ..where((t) => t.linkedItemId.isNotNull() & t.isTemplate.equals(false))
+            ..orderBy([(t) => OrderingTerm.asc(t.createdAt), (t) => OrderingTerm.asc(t.id)]))
+          .watch()
+          .map((rows) => rows.map(PlannerMappers.task).toList());
+
+  Future<List<Task>> tasksForItem(String itemId) async =>
+      (await (_tasks()
+                ..where((t) => t.linkedItemId.equals(itemId) & t.isTemplate.equals(false))
+                ..orderBy([(t) => OrderingTerm.asc(t.createdAt)]))
+              .get())
+          .map(PlannerMappers.task)
+          .toList();
+
   /// Task templates (T3.1.20).
   Stream<List<Task>> watchTemplates() =>
       (_tasks()

@@ -55,6 +55,7 @@ class RowContext {
     this.dueState,
     this.dimmed = false,
     this.hasReminder = false,
+    this.scheduled = false,
   });
 
   final bool preview;
@@ -81,6 +82,9 @@ class RowContext {
   /// The item has its own reminder rules (bell icon).
   final bool hasReminder;
 
+  /// A planner task schedules this item (T3.1.21).
+  final bool scheduled;
+
   @override
   bool operator ==(Object other) =>
       other is RowContext &&
@@ -100,7 +104,8 @@ class RowContext {
       other.staleAfterDays == staleAfterDays &&
       other.dueState == dueState &&
       other.dimmed == dimmed &&
-      other.hasReminder == hasReminder;
+      other.hasReminder == hasReminder &&
+      other.scheduled == scheduled;
 
   @override
   int get hashCode => Object.hash(
@@ -121,6 +126,7 @@ class RowContext {
     dueState,
     dimmed,
     hasReminder,
+    scheduled,
   );
 }
 
@@ -832,6 +838,7 @@ class _MetaLine extends StatelessWidget {
       item.dueLocal != null ||
       row.isOrphan ||
       ctx.hasReminder ||
+      ctx.scheduled ||
       ItemTimeRules.isStale(item, ctx.now, ctx.staleAfterDays) ||
       (ctx.collapsedRollup != null && ctx.collapsedRollup!.descendants > 0) ||
       (ctx.attachmentCount > 0 && (row.collapsed || (ctx.preview && !ctx.showAttachments)));
@@ -899,6 +906,14 @@ class _MetaLine extends StatelessWidget {
               size: 14,
               color: context.colors.onSurfaceVariant,
               semanticLabel: l.checklistHasReminders,
+            ),
+          if (ctx.scheduled)
+            Icon(
+              Icons.event_available,
+              key: const Key('item-scheduled-badge'),
+              size: 14,
+              color: context.colors.primary,
+              semanticLabel: l.itemScheduledBadge,
             ),
           if (r != null && r.leafCountable > 0) ...[
             Text(l.listsCardProgress(r.leafCompleted, r.leafCountable), style: muted),

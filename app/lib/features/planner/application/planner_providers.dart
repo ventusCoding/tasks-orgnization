@@ -111,6 +111,17 @@ final backlogTasksProvider = StreamProvider.autoDispose<List<Task>>(
   (ref) => ref.watch(plannerQueriesProvider).watchUnscheduled(),
 );
 
+/// Checklist item id → the first task scheduling it (T3.1.21: "scheduled" badges).
+final itemTasksProvider = StreamProvider.autoDispose<Map<String, Task>>(
+  (ref) => ref.watch(plannerQueriesProvider).watchItemTasks().map((tasks) {
+    final byItem = <String, Task>{};
+    for (final t in tasks) {
+      byItem.putIfAbsent(t.linkedItemId!, () => t);
+    }
+    return byItem;
+  }),
+);
+
 final linkedChecklistsProvider = StreamProvider.autoDispose<List<LinkedChecklistInfo>>(
   (ref) => ref.watch(plannerQueriesProvider).watchChecklists(),
 );

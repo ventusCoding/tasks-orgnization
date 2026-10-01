@@ -8067,6 +8067,18 @@ abstract class AppLocalizations {
   /// **'Priority'**
   String get itemPriority;
 
+  /// No description provided for @itemScheduledAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled: {title}'**
+  String itemScheduledAs(String title);
+
+  /// No description provided for @itemScheduledBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled as a task'**
+  String get itemScheduledBadge;
+
   /// No description provided for @itemText.
   ///
   /// In en, this message translates to:
@@ -8258,6 +8270,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Task'**
   String get linkKindTask;
+
+  /// No description provided for @linkedCompleteAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete'**
+  String get linkedCompleteAction;
+
+  /// No description provided for @linkedCompleteItemBody.
+  ///
+  /// In en, this message translates to:
+  /// **'“{item}” is scheduled by this task.'**
+  String linkedCompleteItemBody(String item);
+
+  /// No description provided for @linkedCompleteItemTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete the list item too?'**
+  String get linkedCompleteItemTitle;
+
+  /// No description provided for @linkedCompleteTaskBody.
+  ///
+  /// In en, this message translates to:
+  /// **'“{task}” schedules this item.'**
+  String linkedCompleteTaskBody(String task);
+
+  /// No description provided for @linkedCompleteTaskTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark the task done too?'**
+  String get linkedCompleteTaskTitle;
 
   /// No description provided for @linkedEntityMissing.
   ///

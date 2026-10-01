@@ -4733,6 +4733,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get itemPriority => 'Priorité';
 
   @override
+  String itemScheduledAs(String title) {
+    return 'Planifié : $title';
+  }
+
+  @override
+  String get itemScheduledBadge => 'Planifié comme tâche';
+
+  @override
   String get itemText => 'Texte';
 
   @override
@@ -4847,6 +4855,25 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get linkKindTask => 'Tâche';
+
+  @override
+  String get linkedCompleteAction => 'Terminer';
+
+  @override
+  String linkedCompleteItemBody(String item) {
+    return '« $item » est planifié par cette tâche.';
+  }
+
+  @override
+  String get linkedCompleteItemTitle => 'Terminer aussi l’élément de liste ?';
+
+  @override
+  String linkedCompleteTaskBody(String task) {
+    return '« $task » planifie cet élément.';
+  }
+
+  @override
+  String get linkedCompleteTaskTitle => 'Marquer aussi la tâche comme faite ?';
 
   @override
   String get linkedEntityMissing => 'Supprimé';

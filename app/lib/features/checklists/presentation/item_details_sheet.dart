@@ -1,17 +1,21 @@
 import 'package:everslot/core/providers.dart';
+import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/attachments/application/providers.dart' show AttachmentOwnerType;
 import 'package:everslot/features/attachments/presentation/attachment_strip.dart';
 import 'package:everslot/features/checklists/application/checklist_editor.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
+import 'package:everslot/features/checklists/application/task_links.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
 import 'package:everslot/features/checklists/domain/item_status.dart';
 import 'package:everslot/features/checklists/domain/item_time.dart';
+import 'package:everslot/features/checklists/presentation/checklist_navigation.dart';
 import 'package:everslot/features/checklists/presentation/markdown_lite.dart';
 import 'package:everslot/features/checklists/presentation/status_sheet.dart';
 import 'package:everslot/features/checklists/presentation/status_visuals.dart';
 import 'package:everslot/features/notifications/presentation/notification_settings_section.dart';
 import 'package:everslot/features/organization/presentation/tag_widgets.dart';
+import 'package:everslot/features/planner/application/planner_providers.dart' show itemTasksProvider;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -178,6 +182,37 @@ class _ItemDetailsState extends ConsumerState<_ItemDetails> {
                 ),
               ),
             ],
+          ),
+          // Scheduled as a task (T3.1.21): the link back, or *Schedule as task*.
+          Builder(
+            builder: (context) {
+              final task = ref.watch(itemTasksProvider).value?[item.id];
+              if (task != null) {
+                return ListTile(
+                  key: const Key('item-scheduled-task'),
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(Icons.event_available),
+                  title: Text(l.itemScheduledAs(task.title)),
+                  subtitle: task.startLocal == null ? null : Text(fmt.dateTime(task.startLocal!)),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => openRoute(context, AppLinks.task(task.id)),
+                );
+              }
+              return Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: TextButton.icon(
+                  key: const Key('item-schedule-task'),
+                  icon: const Icon(Icons.event_available),
+                  label: Text(l.checklistScheduleTask),
+                  onPressed: () async {
+                    final taskId = await ref
+                        .read(checklistTaskLinksProvider)
+                        .scheduleItem(item, fallbackTitle: l.listsUntitled);
+                    if (context.mounted) openRoute(context, AppLinks.taskEdit(taskId));
+                  },
+                ),
+              );
+            },
           ),
           SectionHeader(
             l.tagsTitle,

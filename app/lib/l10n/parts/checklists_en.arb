@@ -692,5 +692,33 @@
   "mindMapExport": "Export as image",
   "mindMapHidden": "+{count}",
   "@mindMapHidden": {"placeholders": {"count": {"type": "int"}}},
-  "exportZipBundle": "Share as zip (with files)"
+  "exportZipBundle": "Share as zip (with files)",
+  "itemScheduledAs": "Scheduled: {title}",
+  "@itemScheduledAs": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "itemScheduledBadge": "Scheduled as a task",
+  "linkedCompleteItemTitle": "Complete the list item too?",
+  "linkedCompleteItemBody": "“{item}” is scheduled by this task.",
+  "@linkedCompleteItemBody": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "linkedCompleteTaskTitle": "Mark the task done too?",
+  "linkedCompleteTaskBody": "“{task}” schedules this item.",
+  "@linkedCompleteTaskBody": {
+    "placeholders": {
+      "task": {
+        "type": "String"
+      }
+    }
+  },
+  "linkedCompleteAction": "Complete"
 }

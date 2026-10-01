@@ -4682,6 +4682,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get itemPriority => 'Priority';
 
   @override
+  String itemScheduledAs(String title) {
+    return 'Scheduled: $title';
+  }
+
+  @override
+  String get itemScheduledBadge => 'Scheduled as a task';
+
+  @override
   String get itemText => 'Text';
 
   @override
@@ -4791,6 +4799,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get linkKindTask => 'Task';
+
+  @override
+  String get linkedCompleteAction => 'Complete';
+
+  @override
+  String linkedCompleteItemBody(String item) {
+    return '“$item” is scheduled by this task.';
+  }
+
+  @override
+  String get linkedCompleteItemTitle => 'Complete the list item too?';
+
+  @override
+  String linkedCompleteTaskBody(String task) {
+    return '“$task” schedules this item.';
+  }
+
+  @override
+  String get linkedCompleteTaskTitle => 'Mark the task done too?';
 
   @override
   String get linkedEntityMissing => 'Deleted';
