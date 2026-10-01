@@ -1,6 +1,7 @@
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/presentation/views/agenda_view.dart';
 import 'package:everslot/features/planner/presentation/views/day_list_view.dart';
+import 'package:everslot/features/planner/presentation/views/load_heatmap_view.dart';
 import 'package:everslot/features/planner/presentation/views/month_view.dart';
 import 'package:everslot/features/planner/presentation/views/multi_week_view.dart';
 import 'package:everslot/features/planner/presentation/views/quarter_view.dart';
@@ -133,5 +134,13 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     timeBased: true,
     supportsSlotSize: true,
     supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'load_heatmap',
+    type: PlannerViewType.loadHeatmap,
+    icon: Icons.grid_on,
+    label: (l) => l.pvViewLoadHeatmap,
+    builder: (a) => LoadHeatmapView(args: a),
+    tier: ViewTier.m3,
   ),
 ];

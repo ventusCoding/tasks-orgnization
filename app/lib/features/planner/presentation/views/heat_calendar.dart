@@ -124,8 +124,12 @@ class HeatCell extends StatelessWidget {
     this.onTap,
     this.onLongPress,
     this.numberText,
+    this.fill,
     super.key,
   });
+
+  /// Replaces the level fill (e.g. the over-capacity color of the load heatmap).
+  final Color? fill;
 
   final LocalDate day;
   final int level;
@@ -154,7 +158,7 @@ class HeatCell extends StatelessWidget {
             padding: const EdgeInsets.all(1),
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: heatFill(context, level),
+                color: fill ?? heatFill(context, level),
                 borderRadius: BorderRadius.circular(3),
                 border: isToday ? Border.all(color: c.primary, width: 1.5) : null,
               ),

@@ -34,7 +34,7 @@ multi-week; quarter; ribbon (day & week); timeline/Gantt; category swimlanes; lo
 - [x] T3.6.13 — Ribbon view (day & week)
 - [x] T3.6.14 — Timeline / Gantt view
 - [x] T3.6.15 — Category swimlanes
-- [ ] T3.6.16 — Load heatmap view
+- [x] T3.6.16 — Load heatmap view
 - [ ] T3.6.17 — Calendar views test suite
 
 ## Tasks
@@ -181,6 +181,7 @@ calendars in day view; in timeline mode, rows per category instead. The user pic
 **Description:** A 7×24 heatmap (weekday × hour) of planned or tracked minutes over the selected weeks, plus
 per-day tints like Timepage. Colors show load against capacity. Tapping a cell lists the items behind it.
 **Tests:** unit tests for the aggregation; goldens.
+**Notes:** `LoadHeatmapView` on `engine/load_matrix.dart` (pure: timed, non-cancelled / skipped items split at hour boundaries, clipped to the range; tracked metric spreads `trackedSeconds` over the planned interval). A cell's capacity is 60 min × weeks; levels by quarters of capacity, level 5 = over (danger color). Day tints below compare each day with the work-hours capacity (`planner.workHours`). `options.weeks` 1/2/4/8/12, `options.metric` planned | tracked. A custom 7 × 24 grid instead of `PunchCardChart` because the cells color against capacity, not the maximum. Goldens in the calendar-views suite (T3.6.17).
 
 ### T3.6.17 — Calendar views test suite
 **Priority:** P1 · **Size:** S · **Depends on:** T3.6.09
