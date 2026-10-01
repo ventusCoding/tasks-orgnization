@@ -772,5 +772,20 @@
   "chartsLabelBias": "Bias",
   "chartsLabelMape": "Error",
   "chartsLabelFragmentation": "Fragmentation",
-  "chartsLabelContextSwitches": "Switches"
+  "chartsLabelContextSwitches": "Switches",
+  "chartsLabelFollowUpOverdue": "Follow-up overdue",
+  "chartsLabelStatusChanges": "Status changes",
+  "chartsLabelLoops": "Ongoing ↔ waiting loops",
+  "chartsLabelShortcut": "Done without start",
+  "chartsLabelMaxDepth": "Max depth",
+  "chartsLabelLeafDepth": "Mean leaf depth",
+  "chartsLabelBranching": "Children per parent",
+  "chartsLabelLeaves": "Leaves",
+  "chartsLabelWidestLevel": "Widest level",
+  "chartsLabelLargestBranch": "Largest branch",
+  "chartsLabelIntegrityOpenChildren": "Done, but has open sub-items",
+  "chartsLabelIntegrityParentOpen": "All sub-items done, still open",
+  "chartsLabelIntegrityMissingReason": "Reason missing",
+  "chartsLabelLittleRatio": "Little’s ratio",
+  "chartsLabelArrivalsPerDeparture": "Arrivals ÷ departures"
 }

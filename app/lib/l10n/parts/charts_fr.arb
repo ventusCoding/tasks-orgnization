@@ -261,5 +261,20 @@
   "chartsLabelBias": "Biais",
   "chartsLabelMape": "Erreur",
   "chartsLabelFragmentation": "Fragmentation",
-  "chartsLabelContextSwitches": "Changements"
+  "chartsLabelContextSwitches": "Changements",
+  "chartsLabelFollowUpOverdue": "Relance en retard",
+  "chartsLabelStatusChanges": "Changements d’état",
+  "chartsLabelLoops": "Boucles en cours ↔ attente",
+  "chartsLabelShortcut": "Fait sans démarrage",
+  "chartsLabelMaxDepth": "Profondeur max",
+  "chartsLabelLeafDepth": "Profondeur moyenne des feuilles",
+  "chartsLabelBranching": "Enfants par parent",
+  "chartsLabelLeaves": "Feuilles",
+  "chartsLabelWidestLevel": "Niveau le plus large",
+  "chartsLabelLargestBranch": "Plus grande branche",
+  "chartsLabelIntegrityOpenChildren": "Terminé, mais sous-éléments ouverts",
+  "chartsLabelIntegrityParentOpen": "Sous-éléments faits, encore ouvert",
+  "chartsLabelIntegrityMissingReason": "Motif manquant",
+  "chartsLabelLittleRatio": "Ratio de Little",
+  "chartsLabelArrivalsPerDeparture": "Arrivées ÷ départs"
 }

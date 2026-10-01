@@ -3,7 +3,7 @@
 Generated from the metric registry (`app/lib/features/stats/application/catalog/`) by
 `app/test/features/stats/engine/metric_catalog_test.dart` — do not edit by hand.
 
-139 metrics.
+177 metrics.
 
 ## task
 
@@ -116,6 +116,13 @@ Generated from the metric registry (`app/lib/features/stats/application/catalog/
 | CL-I-05 | Staleness | Now − last activity (status change, edit, attachment or child change). | P0 | kpi | minutes |
 | CL-I-06 | Subtree progress | Completed leaves ÷ countable leaves (cancelled excluded). | P0 | ring | percent |
 | CL-I-07 | Status timeline | Each status interval from creation to now. | P0 | statusTimeline | count |
+| CL-I-08 | Blocked episodes | Number of blocked intervals, total blocked time and its share of the cycle time. | P1 | list | hours |
+| CL-I-09 | Waiting episodes | Number of waiting intervals, total wait, current wait; follow-up overdue when the date passed while waiting. | P1 | list | hours |
+| CL-I-10 | Flow efficiency | Time in ongoing ÷ cycle time. | P1 | kpi | percent |
+| CL-I-11 | Churn | Status changes; reopens (completed → other); ongoing ↔ waiting loops. | P1 | tiles | count |
+| CL-I-12 | Time to first action | Start − created (queue time). | P1 | kpi | hours |
+| CL-I-13 | Item attachments | Count, total size and type mix (images, PDFs, other). | P2 | tiles | count |
+| CL-I-14 | Edit activity | Number of text edits; last edit time. | P2 | kpi | count |
 
 ## checklist
 
@@ -127,6 +134,30 @@ Generated from the metric registry (`app/lib/features/stats/application/catalog/
 | CL-L-04 | Work in progress | Count of ongoing + waiting + blocked items. | P0 | line | count |
 | CL-L-05 | Arrivals vs departures | Weekly created (or moved in) vs completed; net flow = difference. | P0 | groupedBars | count |
 | CL-L-06 | Stale items | Open items with staleness ≥ the stale threshold; 10 oldest by age. | P0 | list | count |
+| CL-L-07 | Cumulative flow | Day-end counts per status from the event log; WIP, approximate cycle time and throughput at a date. | P1 | cfd | count |
+| CL-L-08 | Cycle-time distribution | Histogram of cycle times; scatter by completion date with P50/P70/P85/P95 lines. | P1 | histogram | hours |
+| CL-L-09 | Service level | P85 of the cycle time over the last 90 days. | P1 | kpi | hours |
+| CL-L-10 | Aging work in progress | Age = now − start; at risk when older than P85 of the cycle time. | P1 | scatter | count |
+| CL-L-11 | Burn-down | Remaining = arrived − completed − cancelled; forecast cone when enough history. | P1 | burn | count |
+| CL-L-12 | Scope creep | Items added after the baseline ÷ items at the baseline (first status change). | P1 | burn | percent |
+| CL-L-13 | Cancelled & shortcuts | Cancelled ÷ created; completed without start ÷ completed. | P1 | tiles | percent |
+| CL-L-14 | Blocked & waiting now | Current blocked and waiting counts with ages; blocked time in the period; top reasons. | P1 | list | count |
+| CL-L-15 | Follow-up discipline | Episodes acted on within 24 h of the follow-up ÷ episodes with a follow-up date; overdue follow-ups listed. | P1 | list | percent |
+| CL-L-16 | Tree shape | Max depth, mean leaf depth, children per parent, leaves, widest level and largest branch. | P1 | tiles | count |
+| CL-L-17 | Integrity checks | Completed parents with open children; open parents whose children are all done; missing reasons. | P1 | list | count |
+| CL-L-18 | Branch contribution | Leaf-based progress per branch; completions and blocked time in the period. | P1 | horizontalBars | percent |
+| CL-L-19 | Due-date performance | Done by the due time ÷ completed with a due date; open overdue items and mean days late. | P1 | bars | percent |
+| CL-L-20 | Run completion | Completed ÷ total items per run; mean and trend. | P1 | line | percent |
+| CL-L-21 | Perfect-run streak | Streak of fully completed runs. | P1 | streakBars | count |
+| CL-L-22 | Time to finish a run | Last completion − run start for 100 % runs; median and P85. | P1 | boxPlot | minutes |
+| CL-L-23 | Most-skipped items | Times not completed at reset, and share of runs. | P1 | horizontalBars | count |
+| CL-L-24 | Runs by weekday | Mean completion % per weekday. | P1 | bars | percent |
+| CL-L-25 | Completion calendar | Completions per day; streak of days with at least one. | P1 | calendar | days |
+| CL-L-26 | Blocker clusters | Normalized reasons; rank = episodes × blocked hours; clusters can be merged in settings. | P2 | pareto | count |
+| CL-L-27 | Little’s Law check | mean cycle time ÷ (mean WIP ÷ mean throughput); unstable outside 0.7–1.3 or when arrivals ÷ departures leaves 0.8–1.2. | P2 | tiles | ratio |
+| CL-L-28 | Finish forecast | 10 000 simulations resampling recent daily completions; dates at 50 %, 85 % and 95 % chance. | P2 | forecast | days |
+| CL-L-29 | Progress by depth | Completed ÷ countable items per depth level. | P2 | bars | percent |
+| CL-L-30 | List attachments | Count, total size and type mix. | P2 | tiles | count |
 
 ## checklists
 
@@ -137,6 +168,13 @@ Generated from the metric registry (`app/lib/features/stats/application/catalog/
 | CL-X-03 | Work in progress across lists | Counts across active lists (archived excluded). | P0 | tiles | count |
 | CL-X-04 | Items completed | Final completions in the period, compared with the previous period. | P0 | kpi | count |
 | CL-X-05 | Status distribution | Count of live items per status. | P0 | percentBars | count |
+| CL-X-06 | Reasons across lists | Pareto of normalized reasons: episodes and total time. | P1 | pareto | count |
+| CL-X-07 | Waiting-for register | Waiting episodes grouped by person or thing: open count, mean wait, longest wait, overdue follow-ups. | P1 | list | count |
+| CL-X-08 | Most blocked lists | Lists ranked by total blocked time in the period. | P1 | horizontalBars | hours |
+| CL-X-09 | Flow benchmarks | Section-wide cycle-time P50/P85; weekly throughput slope. | P1 | tiles | hours |
+| CL-X-10 | Completion calendar | Completions per day; streak of days with at least one. | P1 | calendar | days |
+| CL-X-11 | Attachment storage | Σ attachment sizes; count and type mix. | P2 | tiles | bytes |
+| CL-X-12 | Lists created & archived | Checklists created and archived per month. | P2 | groupedBars | count |
 
 ## habit
 

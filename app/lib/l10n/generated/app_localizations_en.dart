@@ -1226,6 +1226,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelArrivals => 'Arrivals';
 
   @override
+  String get chartsLabelArrivalsPerDeparture => 'Arrivals ÷ departures';
+
+  @override
   String get chartsLabelAttempt => 'Attempt';
 
   @override
@@ -1245,6 +1248,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chartsLabelBlocked => 'Blocked';
+
+  @override
+  String get chartsLabelBranching => 'Children per parent';
 
   @override
   String get chartsLabelCancelled => 'Cancelled';
@@ -1310,6 +1316,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelFocus => 'Focus';
 
   @override
+  String get chartsLabelFollowUpOverdue => 'Follow-up overdue';
+
+  @override
   String get chartsLabelFragmentation => 'Fragmentation';
 
   @override
@@ -1340,6 +1349,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelInProgress => 'Active';
 
   @override
+  String get chartsLabelIntegrityMissingReason => 'Reason missing';
+
+  @override
+  String get chartsLabelIntegrityOpenChildren => 'Done, but has open sub-items';
+
+  @override
+  String get chartsLabelIntegrityParentOpen => 'All sub-items done, still open';
+
+  @override
   String get chartsLabelIntensity => 'Intensity';
 
   @override
@@ -1349,7 +1367,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelLapse => 'Slip';
 
   @override
+  String get chartsLabelLargestBranch => 'Largest branch';
+
+  @override
   String get chartsLabelLate => 'Late';
+
+  @override
+  String get chartsLabelLeafDepth => 'Mean leaf depth';
+
+  @override
+  String get chartsLabelLeaves => 'Leaves';
 
   @override
   String get chartsLabelLifeRegained => 'Life regained';
@@ -1361,16 +1388,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelLists => 'Lists';
 
   @override
+  String get chartsLabelLittleRatio => 'Little’s ratio';
+
+  @override
   String get chartsLabelLoggedRatio => 'Logged';
 
   @override
   String get chartsLabelLongestBlock => 'Longest block';
 
   @override
+  String get chartsLabelLoops => 'Ongoing ↔ waiting loops';
+
+  @override
   String get chartsLabelLowPriority => 'Low priority';
 
   @override
   String get chartsLabelMape => 'Error';
+
+  @override
+  String get chartsLabelMaxDepth => 'Max depth';
 
   @override
   String get chartsLabelMaxIntensity => 'Peak intensity';
@@ -1580,6 +1616,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartsLabelSessions => 'Sessions';
 
   @override
+  String get chartsLabelShortcut => 'Done without start';
+
+  @override
   String get chartsLabelSkipped => 'Skipped';
 
   @override
@@ -1593,6 +1632,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chartsLabelStalest => 'Stalest';
+
+  @override
+  String get chartsLabelStatusChanges => 'Status changes';
 
   @override
   String get chartsLabelStreak => 'Streak';
@@ -1668,6 +1710,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chartsLabelWhenLabel => 'When';
+
+  @override
+  String get chartsLabelWidestLevel => 'Widest level';
 
   @override
   String get chartsLabelWins => 'Wins';
@@ -10201,6 +10246,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsCardError => 'This card couldn’t be computed.';
 
   @override
+  String statsClustersEpisodes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count times', one: '1 time');
+    return '$_temp0';
+  }
+
+  @override
+  String get statsClustersHint =>
+      'Pick reasons that mean the same thing and give the group a name. Groups apply to every list.';
+
+  @override
+  String statsClustersIn(String name) {
+    return 'in “$name”';
+  }
+
+  @override
+  String get statsClustersMerge => 'Merge';
+
+  @override
+  String get statsClustersName => 'Group name';
+
+  @override
+  String get statsClustersOpen => 'Merge reasons';
+
+  @override
+  String get statsClustersTitle => 'Blocker clusters';
+
+  @override
+  String get statsClustersUnmerge => 'Remove from groups';
+
+  @override
   String get statsCompareToggle => 'Compare with previous period';
 
   @override
@@ -10650,6 +10725,71 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsMetricClI07Title => 'Status timeline';
 
   @override
+  String get statsMetricClI08Desc => 'How often and how long this item was blocked, and why.';
+
+  @override
+  String get statsMetricClI08Formula =>
+      'Number of blocked intervals, total blocked time and its share of the cycle time.';
+
+  @override
+  String get statsMetricClI08Title => 'Blocked episodes';
+
+  @override
+  String get statsMetricClI09Desc => 'How long this item waited on someone or something, with the follow-up status.';
+
+  @override
+  String get statsMetricClI09Formula =>
+      'Number of waiting intervals, total wait, current wait; follow-up overdue when the date passed while waiting.';
+
+  @override
+  String get statsMetricClI09Title => 'Waiting episodes';
+
+  @override
+  String get statsMetricClI10Desc => 'Share of the cycle time spent actively working.';
+
+  @override
+  String get statsMetricClI10Formula => 'Time in ongoing ÷ cycle time.';
+
+  @override
+  String get statsMetricClI10Title => 'Flow efficiency';
+
+  @override
+  String get statsMetricClI11Desc => 'How much this item bounced between statuses.';
+
+  @override
+  String get statsMetricClI11Formula => 'Status changes; reopens (completed → other); ongoing ↔ waiting loops.';
+
+  @override
+  String get statsMetricClI11Title => 'Churn';
+
+  @override
+  String get statsMetricClI12Desc => 'How long the item waited before work started.';
+
+  @override
+  String get statsMetricClI12Formula => 'Start − created (queue time).';
+
+  @override
+  String get statsMetricClI12Title => 'Time to first action';
+
+  @override
+  String get statsMetricClI13Desc => 'Files attached to this item.';
+
+  @override
+  String get statsMetricClI13Formula => 'Count, total size and type mix (images, PDFs, other).';
+
+  @override
+  String get statsMetricClI13Title => 'Item attachments';
+
+  @override
+  String get statsMetricClI14Desc => 'How often the item text was edited.';
+
+  @override
+  String get statsMetricClI14Formula => 'Number of text edits; last edit time.';
+
+  @override
+  String get statsMetricClI14Title => 'Edit activity';
+
+  @override
   String get statsMetricClL01Desc => 'How the list’s items are split across statuses.';
 
   @override
@@ -10705,6 +10845,235 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsMetricClL06Title => 'Stale items';
 
   @override
+  String get statsMetricClL07Desc => 'How many items sat in each status at the end of every day.';
+
+  @override
+  String get statsMetricClL07Formula =>
+      'Day-end counts per status from the event log; WIP, approximate cycle time and throughput at a date.';
+
+  @override
+  String get statsMetricClL07Title => 'Cumulative flow';
+
+  @override
+  String get statsMetricClL08Desc => 'How long items take from start to done.';
+
+  @override
+  String get statsMetricClL08Formula =>
+      'Histogram of cycle times; scatter by completion date with P50/P70/P85/P95 lines.';
+
+  @override
+  String get statsMetricClL08Title => 'Cycle-time distribution';
+
+  @override
+  String get statsMetricClL09Desc => '“85 % of items finish within X”.';
+
+  @override
+  String get statsMetricClL09Formula => 'P85 of the cycle time over the last 90 days.';
+
+  @override
+  String get statsMetricClL09Title => 'Service level';
+
+  @override
+  String get statsMetricClL10Desc =>
+      'Open started items by status and age; older than the usual cycle time means at risk.';
+
+  @override
+  String get statsMetricClL10Formula => 'Age = now − start; at risk when older than P85 of the cycle time.';
+
+  @override
+  String get statsMetricClL10Title => 'Aging work in progress';
+
+  @override
+  String get statsMetricClL11Desc => 'Items left to do each day, with an ideal line to the due date.';
+
+  @override
+  String get statsMetricClL11Formula =>
+      'Remaining = arrived − completed − cancelled; forecast cone when enough history.';
+
+  @override
+  String get statsMetricClL11Title => 'Burn-down';
+
+  @override
+  String get statsMetricClL12Desc => 'How much the list grew after work began.';
+
+  @override
+  String get statsMetricClL12Formula => 'Items added after the baseline ÷ items at the baseline (first status change).';
+
+  @override
+  String get statsMetricClL12Title => 'Scope creep';
+
+  @override
+  String get statsMetricClL13Desc => 'Share of items cancelled, and of items completed without ever being started.';
+
+  @override
+  String get statsMetricClL13Formula => 'Cancelled ÷ created; completed without start ÷ completed.';
+
+  @override
+  String get statsMetricClL13Title => 'Cancelled & shortcuts';
+
+  @override
+  String get statsMetricClL14Desc => 'Items stuck right now, with how long they have been stuck.';
+
+  @override
+  String get statsMetricClL14Formula =>
+      'Current blocked and waiting counts with ages; blocked time in the period; top reasons.';
+
+  @override
+  String get statsMetricClL14Title => 'Blocked & waiting now';
+
+  @override
+  String get statsMetricClL15Desc => 'Whether you act on items by their follow-up date.';
+
+  @override
+  String get statsMetricClL15Formula =>
+      'Episodes acted on within 24 h of the follow-up ÷ episodes with a follow-up date; overdue follow-ups listed.';
+
+  @override
+  String get statsMetricClL15Title => 'Follow-up discipline';
+
+  @override
+  String get statsMetricClL16Desc => 'How deep and wide the list is.';
+
+  @override
+  String get statsMetricClL16Formula =>
+      'Max depth, mean leaf depth, children per parent, leaves, widest level and largest branch.';
+
+  @override
+  String get statsMetricClL16Title => 'Tree shape';
+
+  @override
+  String get statsMetricClL17Desc => 'Items whose status disagrees with their children or misses a required reason.';
+
+  @override
+  String get statsMetricClL17Formula =>
+      'Completed parents with open children; open parents whose children are all done; missing reasons.';
+
+  @override
+  String get statsMetricClL17Title => 'Integrity checks';
+
+  @override
+  String get statsMetricClL18Desc => 'Progress, throughput and blocked time of each top-level branch.';
+
+  @override
+  String get statsMetricClL18Formula => 'Leaf-based progress per branch; completions and blocked time in the period.';
+
+  @override
+  String get statsMetricClL18Title => 'Branch contribution';
+
+  @override
+  String get statsMetricClL19Desc => 'How often items with a due date are done on time, and what is overdue now.';
+
+  @override
+  String get statsMetricClL19Formula =>
+      'Done by the due time ÷ completed with a due date; open overdue items and mean days late.';
+
+  @override
+  String get statsMetricClL19Title => 'Due-date performance';
+
+  @override
+  String get statsMetricClL20Desc => 'How complete each run of this routine list was at reset.';
+
+  @override
+  String get statsMetricClL20Formula => 'Completed ÷ total items per run; mean and trend.';
+
+  @override
+  String get statsMetricClL20Title => 'Run completion';
+
+  @override
+  String get statsMetricClL21Desc => 'Consecutive runs finished at 100 %.';
+
+  @override
+  String get statsMetricClL21Formula => 'Streak of fully completed runs.';
+
+  @override
+  String get statsMetricClL21Title => 'Perfect-run streak';
+
+  @override
+  String get statsMetricClL22Desc => 'How long a complete run takes.';
+
+  @override
+  String get statsMetricClL22Formula => 'Last completion − run start for 100 % runs; median and P85.';
+
+  @override
+  String get statsMetricClL22Title => 'Time to finish a run';
+
+  @override
+  String get statsMetricClL23Desc => 'Items most often left undone at reset.';
+
+  @override
+  String get statsMetricClL23Formula => 'Times not completed at reset, and share of runs.';
+
+  @override
+  String get statsMetricClL23Title => 'Most-skipped items';
+
+  @override
+  String get statsMetricClL24Desc => 'Average run completion on each weekday.';
+
+  @override
+  String get statsMetricClL24Formula => 'Mean completion % per weekday.';
+
+  @override
+  String get statsMetricClL24Title => 'Runs by weekday';
+
+  @override
+  String get statsMetricClL25Desc => 'Items completed each day in this list, with the current streak.';
+
+  @override
+  String get statsMetricClL25Formula => 'Completions per day; streak of days with at least one.';
+
+  @override
+  String get statsMetricClL25Title => 'Completion calendar';
+
+  @override
+  String get statsMetricClL26Desc => 'Similar blocked reasons grouped together, ranked by impact.';
+
+  @override
+  String get statsMetricClL26Formula =>
+      'Normalized reasons; rank = episodes × blocked hours; clusters can be merged in settings.';
+
+  @override
+  String get statsMetricClL26Title => 'Blocker clusters';
+
+  @override
+  String get statsMetricClL27Desc =>
+      'Whether the list’s flow is stable enough to trust its averages. Never a forecast.';
+
+  @override
+  String get statsMetricClL27Formula =>
+      'mean cycle time ÷ (mean WIP ÷ mean throughput); unstable outside 0.7–1.3 or when arrivals ÷ departures leaves 0.8–1.2.';
+
+  @override
+  String get statsMetricClL27Title => 'Little’s Law check';
+
+  @override
+  String get statsMetricClL28Desc => 'When the remaining items will probably be done.';
+
+  @override
+  String get statsMetricClL28Formula =>
+      '10 000 simulations resampling recent daily completions; dates at 50 %, 85 % and 95 % chance.';
+
+  @override
+  String get statsMetricClL28Title => 'Finish forecast';
+
+  @override
+  String get statsMetricClL29Desc => 'How complete each level of the tree is.';
+
+  @override
+  String get statsMetricClL29Formula => 'Completed ÷ countable items per depth level.';
+
+  @override
+  String get statsMetricClL29Title => 'Progress by depth';
+
+  @override
+  String get statsMetricClL30Desc => 'Files attached in this list.';
+
+  @override
+  String get statsMetricClL30Formula => 'Count, total size and type mix.';
+
+  @override
+  String get statsMetricClL30Title => 'List attachments';
+
+  @override
   String get statsMetricClX01Desc => 'Your lists: active, archived, templates and stale ones.';
 
   @override
@@ -10748,6 +11117,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statsMetricClX05Title => 'Status distribution';
+
+  @override
+  String get statsMetricClX06Desc => 'Most common blocked and waiting reasons in all your lists.';
+
+  @override
+  String get statsMetricClX06Formula => 'Pareto of normalized reasons: episodes and total time.';
+
+  @override
+  String get statsMetricClX06Title => 'Reasons across lists';
+
+  @override
+  String get statsMetricClX07Desc => 'Who or what your items are waiting on.';
+
+  @override
+  String get statsMetricClX07Formula =>
+      'Waiting episodes grouped by person or thing: open count, mean wait, longest wait, overdue follow-ups.';
+
+  @override
+  String get statsMetricClX07Title => 'Waiting-for register';
+
+  @override
+  String get statsMetricClX08Desc => 'Lists that lost the most time to blocked items.';
+
+  @override
+  String get statsMetricClX08Formula => 'Lists ranked by total blocked time in the period.';
+
+  @override
+  String get statsMetricClX08Title => 'Most blocked lists';
+
+  @override
+  String get statsMetricClX09Desc => 'Typical cycle time across all lists and the throughput trend.';
+
+  @override
+  String get statsMetricClX09Formula => 'Section-wide cycle-time P50/P85; weekly throughput slope.';
+
+  @override
+  String get statsMetricClX09Title => 'Flow benchmarks';
+
+  @override
+  String get statsMetricClX10Desc => 'Items completed each day across your lists, with the current streak.';
+
+  @override
+  String get statsMetricClX10Formula => 'Completions per day; streak of days with at least one.';
+
+  @override
+  String get statsMetricClX10Title => 'Completion calendar';
+
+  @override
+  String get statsMetricClX11Desc => 'Space used by attachments in your lists.';
+
+  @override
+  String get statsMetricClX11Formula => 'Σ attachment sizes; count and type mix.';
+
+  @override
+  String get statsMetricClX11Title => 'Attachment storage';
+
+  @override
+  String get statsMetricClX12Desc => 'How many lists you create and archive each month.';
+
+  @override
+  String get statsMetricClX12Formula => 'Checklists created and archived per month.';
+
+  @override
+  String get statsMetricClX12Title => 'Lists created & archived';
 
   @override
   String get statsMetricGl01Desc => 'Your day across sections: agenda, habits, lists and quit.';
@@ -11916,6 +12349,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsNoteNoRating => 'No rating yet';
 
   @override
+  String get statsNoteNoRuns => 'This list has no runs yet (it is not resettable or was never reset)';
+
+  @override
   String get statsNoteNoTracker => 'This quit tracker couldn’t be found.';
 
   @override
@@ -11957,6 +12393,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get statsNoteUnloggedNotFailed =>
       'Unlogged days are unknown, not failed — they only count as missed because nothing was recorded.';
+
+  @override
+  String get statsNoteUnstableFlow => 'Flow is unstable: averages may mislead';
 
   @override
   String get statsNoteUsedPlanned => 'Planned time shown: actual time is tracked on fewer than 60 % of done tasks.';
@@ -12216,6 +12655,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsSectionAllocation => 'Time allocation';
 
   @override
+  String get statsSectionAttachments => 'Attachments & edits';
+
+  @override
+  String get statsSectionBlockers => 'Blocked & waiting';
+
+  @override
+  String get statsSectionBurn => 'Burn-down & scope';
+
+  @override
   String get statsSectionCalendar => 'Calendar';
 
   @override
@@ -12228,6 +12676,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statsSectionCravings => 'Cravings';
+
+  @override
+  String get statsSectionCycleTime => 'Cycle time';
 
   @override
   String get statsSectionDataQuality => 'Data quality';
@@ -12295,6 +12746,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsSectionReview => 'Weekly review';
 
   @override
+  String get statsSectionRuns => 'Routine runs';
+
+  @override
   String get statsSectionSeries => 'Execution';
 
   @override
@@ -12320,6 +12774,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statsSectionToday => 'Today';
+
+  @override
+  String get statsSectionTree => 'Tree';
 
   @override
   String get statsSectionTrend => 'Trend';

@@ -2157,6 +2157,12 @@ abstract class AppLocalizations {
   /// **'Arrivals'**
   String get chartsLabelArrivals;
 
+  /// No description provided for @chartsLabelArrivalsPerDeparture.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrivals ÷ departures'**
+  String get chartsLabelArrivalsPerDeparture;
+
   /// No description provided for @chartsLabelAttempt.
   ///
   /// In en, this message translates to:
@@ -2198,6 +2204,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Blocked'**
   String get chartsLabelBlocked;
+
+  /// No description provided for @chartsLabelBranching.
+  ///
+  /// In en, this message translates to:
+  /// **'Children per parent'**
+  String get chartsLabelBranching;
 
   /// No description provided for @chartsLabelCancelled.
   ///
@@ -2325,6 +2337,12 @@ abstract class AppLocalizations {
   /// **'Focus'**
   String get chartsLabelFocus;
 
+  /// No description provided for @chartsLabelFollowUpOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up overdue'**
+  String get chartsLabelFollowUpOverdue;
+
   /// No description provided for @chartsLabelFragmentation.
   ///
   /// In en, this message translates to:
@@ -2385,6 +2403,24 @@ abstract class AppLocalizations {
   /// **'Active'**
   String get chartsLabelInProgress;
 
+  /// No description provided for @chartsLabelIntegrityMissingReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason missing'**
+  String get chartsLabelIntegrityMissingReason;
+
+  /// No description provided for @chartsLabelIntegrityOpenChildren.
+  ///
+  /// In en, this message translates to:
+  /// **'Done, but has open sub-items'**
+  String get chartsLabelIntegrityOpenChildren;
+
+  /// No description provided for @chartsLabelIntegrityParentOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'All sub-items done, still open'**
+  String get chartsLabelIntegrityParentOpen;
+
   /// No description provided for @chartsLabelIntensity.
   ///
   /// In en, this message translates to:
@@ -2403,11 +2439,29 @@ abstract class AppLocalizations {
   /// **'Slip'**
   String get chartsLabelLapse;
 
+  /// No description provided for @chartsLabelLargestBranch.
+  ///
+  /// In en, this message translates to:
+  /// **'Largest branch'**
+  String get chartsLabelLargestBranch;
+
   /// No description provided for @chartsLabelLate.
   ///
   /// In en, this message translates to:
   /// **'Late'**
   String get chartsLabelLate;
+
+  /// No description provided for @chartsLabelLeafDepth.
+  ///
+  /// In en, this message translates to:
+  /// **'Mean leaf depth'**
+  String get chartsLabelLeafDepth;
+
+  /// No description provided for @chartsLabelLeaves.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaves'**
+  String get chartsLabelLeaves;
 
   /// No description provided for @chartsLabelLifeRegained.
   ///
@@ -2427,6 +2481,12 @@ abstract class AppLocalizations {
   /// **'Lists'**
   String get chartsLabelLists;
 
+  /// No description provided for @chartsLabelLittleRatio.
+  ///
+  /// In en, this message translates to:
+  /// **'Little’s ratio'**
+  String get chartsLabelLittleRatio;
+
   /// No description provided for @chartsLabelLoggedRatio.
   ///
   /// In en, this message translates to:
@@ -2439,6 +2499,12 @@ abstract class AppLocalizations {
   /// **'Longest block'**
   String get chartsLabelLongestBlock;
 
+  /// No description provided for @chartsLabelLoops.
+  ///
+  /// In en, this message translates to:
+  /// **'Ongoing ↔ waiting loops'**
+  String get chartsLabelLoops;
+
   /// No description provided for @chartsLabelLowPriority.
   ///
   /// In en, this message translates to:
@@ -2450,6 +2516,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error'**
   String get chartsLabelMape;
+
+  /// No description provided for @chartsLabelMaxDepth.
+  ///
+  /// In en, this message translates to:
+  /// **'Max depth'**
+  String get chartsLabelMaxDepth;
 
   /// No description provided for @chartsLabelMaxIntensity.
   ///
@@ -2865,6 +2937,12 @@ abstract class AppLocalizations {
   /// **'Sessions'**
   String get chartsLabelSessions;
 
+  /// No description provided for @chartsLabelShortcut.
+  ///
+  /// In en, this message translates to:
+  /// **'Done without start'**
+  String get chartsLabelShortcut;
+
   /// No description provided for @chartsLabelSkipped.
   ///
   /// In en, this message translates to:
@@ -2894,6 +2972,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Stalest'**
   String get chartsLabelStalest;
+
+  /// No description provided for @chartsLabelStatusChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Status changes'**
+  String get chartsLabelStatusChanges;
 
   /// No description provided for @chartsLabelStreak.
   ///
@@ -3044,6 +3128,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When'**
   String get chartsLabelWhenLabel;
+
+  /// No description provided for @chartsLabelWidestLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Widest level'**
+  String get chartsLabelWidestLevel;
 
   /// No description provided for @chartsLabelWins.
   ///
@@ -17847,6 +17937,54 @@ abstract class AppLocalizations {
   /// **'This card couldn’t be computed.'**
   String get statsCardError;
 
+  /// No description provided for @statsClustersEpisodes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 time} other{{count} times}}'**
+  String statsClustersEpisodes(int count);
+
+  /// No description provided for @statsClustersHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick reasons that mean the same thing and give the group a name. Groups apply to every list.'**
+  String get statsClustersHint;
+
+  /// No description provided for @statsClustersIn.
+  ///
+  /// In en, this message translates to:
+  /// **'in “{name}”'**
+  String statsClustersIn(String name);
+
+  /// No description provided for @statsClustersMerge.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge'**
+  String get statsClustersMerge;
+
+  /// No description provided for @statsClustersName.
+  ///
+  /// In en, this message translates to:
+  /// **'Group name'**
+  String get statsClustersName;
+
+  /// No description provided for @statsClustersOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge reasons'**
+  String get statsClustersOpen;
+
+  /// No description provided for @statsClustersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocker clusters'**
+  String get statsClustersTitle;
+
+  /// No description provided for @statsClustersUnmerge.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from groups'**
+  String get statsClustersUnmerge;
+
   /// No description provided for @statsCompareToggle.
   ///
   /// In en, this message translates to:
@@ -18471,6 +18609,132 @@ abstract class AppLocalizations {
   /// **'Status timeline'**
   String get statsMetricClI07Title;
 
+  /// No description provided for @statsMetricClI08Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How often and how long this item was blocked, and why.'**
+  String get statsMetricClI08Desc;
+
+  /// No description provided for @statsMetricClI08Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of blocked intervals, total blocked time and its share of the cycle time.'**
+  String get statsMetricClI08Formula;
+
+  /// No description provided for @statsMetricClI08Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked episodes'**
+  String get statsMetricClI08Title;
+
+  /// No description provided for @statsMetricClI09Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How long this item waited on someone or something, with the follow-up status.'**
+  String get statsMetricClI09Desc;
+
+  /// No description provided for @statsMetricClI09Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of waiting intervals, total wait, current wait; follow-up overdue when the date passed while waiting.'**
+  String get statsMetricClI09Formula;
+
+  /// No description provided for @statsMetricClI09Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting episodes'**
+  String get statsMetricClI09Title;
+
+  /// No description provided for @statsMetricClI10Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of the cycle time spent actively working.'**
+  String get statsMetricClI10Desc;
+
+  /// No description provided for @statsMetricClI10Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Time in ongoing ÷ cycle time.'**
+  String get statsMetricClI10Formula;
+
+  /// No description provided for @statsMetricClI10Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Flow efficiency'**
+  String get statsMetricClI10Title;
+
+  /// No description provided for @statsMetricClI11Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How much this item bounced between statuses.'**
+  String get statsMetricClI11Desc;
+
+  /// No description provided for @statsMetricClI11Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Status changes; reopens (completed → other); ongoing ↔ waiting loops.'**
+  String get statsMetricClI11Formula;
+
+  /// No description provided for @statsMetricClI11Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Churn'**
+  String get statsMetricClI11Title;
+
+  /// No description provided for @statsMetricClI12Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How long the item waited before work started.'**
+  String get statsMetricClI12Desc;
+
+  /// No description provided for @statsMetricClI12Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Start − created (queue time).'**
+  String get statsMetricClI12Formula;
+
+  /// No description provided for @statsMetricClI12Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Time to first action'**
+  String get statsMetricClI12Title;
+
+  /// No description provided for @statsMetricClI13Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Files attached to this item.'**
+  String get statsMetricClI13Desc;
+
+  /// No description provided for @statsMetricClI13Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Count, total size and type mix (images, PDFs, other).'**
+  String get statsMetricClI13Formula;
+
+  /// No description provided for @statsMetricClI13Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Item attachments'**
+  String get statsMetricClI13Title;
+
+  /// No description provided for @statsMetricClI14Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How often the item text was edited.'**
+  String get statsMetricClI14Desc;
+
+  /// No description provided for @statsMetricClI14Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of text edits; last edit time.'**
+  String get statsMetricClI14Formula;
+
+  /// No description provided for @statsMetricClI14Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit activity'**
+  String get statsMetricClI14Title;
+
   /// No description provided for @statsMetricClL01Desc.
   ///
   /// In en, this message translates to:
@@ -18579,6 +18843,438 @@ abstract class AppLocalizations {
   /// **'Stale items'**
   String get statsMetricClL06Title;
 
+  /// No description provided for @statsMetricClL07Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How many items sat in each status at the end of every day.'**
+  String get statsMetricClL07Desc;
+
+  /// No description provided for @statsMetricClL07Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Day-end counts per status from the event log; WIP, approximate cycle time and throughput at a date.'**
+  String get statsMetricClL07Formula;
+
+  /// No description provided for @statsMetricClL07Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Cumulative flow'**
+  String get statsMetricClL07Title;
+
+  /// No description provided for @statsMetricClL08Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How long items take from start to done.'**
+  String get statsMetricClL08Desc;
+
+  /// No description provided for @statsMetricClL08Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Histogram of cycle times; scatter by completion date with P50/P70/P85/P95 lines.'**
+  String get statsMetricClL08Formula;
+
+  /// No description provided for @statsMetricClL08Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle-time distribution'**
+  String get statsMetricClL08Title;
+
+  /// No description provided for @statsMetricClL09Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'“85 % of items finish within X”.'**
+  String get statsMetricClL09Desc;
+
+  /// No description provided for @statsMetricClL09Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'P85 of the cycle time over the last 90 days.'**
+  String get statsMetricClL09Formula;
+
+  /// No description provided for @statsMetricClL09Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Service level'**
+  String get statsMetricClL09Title;
+
+  /// No description provided for @statsMetricClL10Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Open started items by status and age; older than the usual cycle time means at risk.'**
+  String get statsMetricClL10Desc;
+
+  /// No description provided for @statsMetricClL10Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Age = now − start; at risk when older than P85 of the cycle time.'**
+  String get statsMetricClL10Formula;
+
+  /// No description provided for @statsMetricClL10Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Aging work in progress'**
+  String get statsMetricClL10Title;
+
+  /// No description provided for @statsMetricClL11Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Items left to do each day, with an ideal line to the due date.'**
+  String get statsMetricClL11Desc;
+
+  /// No description provided for @statsMetricClL11Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining = arrived − completed − cancelled; forecast cone when enough history.'**
+  String get statsMetricClL11Formula;
+
+  /// No description provided for @statsMetricClL11Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Burn-down'**
+  String get statsMetricClL11Title;
+
+  /// No description provided for @statsMetricClL12Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How much the list grew after work began.'**
+  String get statsMetricClL12Desc;
+
+  /// No description provided for @statsMetricClL12Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Items added after the baseline ÷ items at the baseline (first status change).'**
+  String get statsMetricClL12Formula;
+
+  /// No description provided for @statsMetricClL12Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Scope creep'**
+  String get statsMetricClL12Title;
+
+  /// No description provided for @statsMetricClL13Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Share of items cancelled, and of items completed without ever being started.'**
+  String get statsMetricClL13Desc;
+
+  /// No description provided for @statsMetricClL13Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled ÷ created; completed without start ÷ completed.'**
+  String get statsMetricClL13Formula;
+
+  /// No description provided for @statsMetricClL13Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled & shortcuts'**
+  String get statsMetricClL13Title;
+
+  /// No description provided for @statsMetricClL14Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Items stuck right now, with how long they have been stuck.'**
+  String get statsMetricClL14Desc;
+
+  /// No description provided for @statsMetricClL14Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Current blocked and waiting counts with ages; blocked time in the period; top reasons.'**
+  String get statsMetricClL14Formula;
+
+  /// No description provided for @statsMetricClL14Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked & waiting now'**
+  String get statsMetricClL14Title;
+
+  /// No description provided for @statsMetricClL15Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Whether you act on items by their follow-up date.'**
+  String get statsMetricClL15Desc;
+
+  /// No description provided for @statsMetricClL15Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Episodes acted on within 24 h of the follow-up ÷ episodes with a follow-up date; overdue follow-ups listed.'**
+  String get statsMetricClL15Formula;
+
+  /// No description provided for @statsMetricClL15Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up discipline'**
+  String get statsMetricClL15Title;
+
+  /// No description provided for @statsMetricClL16Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How deep and wide the list is.'**
+  String get statsMetricClL16Desc;
+
+  /// No description provided for @statsMetricClL16Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Max depth, mean leaf depth, children per parent, leaves, widest level and largest branch.'**
+  String get statsMetricClL16Formula;
+
+  /// No description provided for @statsMetricClL16Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Tree shape'**
+  String get statsMetricClL16Title;
+
+  /// No description provided for @statsMetricClL17Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Items whose status disagrees with their children or misses a required reason.'**
+  String get statsMetricClL17Desc;
+
+  /// No description provided for @statsMetricClL17Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed parents with open children; open parents whose children are all done; missing reasons.'**
+  String get statsMetricClL17Formula;
+
+  /// No description provided for @statsMetricClL17Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Integrity checks'**
+  String get statsMetricClL17Title;
+
+  /// No description provided for @statsMetricClL18Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress, throughput and blocked time of each top-level branch.'**
+  String get statsMetricClL18Desc;
+
+  /// No description provided for @statsMetricClL18Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaf-based progress per branch; completions and blocked time in the period.'**
+  String get statsMetricClL18Formula;
+
+  /// No description provided for @statsMetricClL18Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch contribution'**
+  String get statsMetricClL18Title;
+
+  /// No description provided for @statsMetricClL19Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How often items with a due date are done on time, and what is overdue now.'**
+  String get statsMetricClL19Desc;
+
+  /// No description provided for @statsMetricClL19Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Done by the due time ÷ completed with a due date; open overdue items and mean days late.'**
+  String get statsMetricClL19Formula;
+
+  /// No description provided for @statsMetricClL19Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Due-date performance'**
+  String get statsMetricClL19Title;
+
+  /// No description provided for @statsMetricClL20Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How complete each run of this routine list was at reset.'**
+  String get statsMetricClL20Desc;
+
+  /// No description provided for @statsMetricClL20Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed ÷ total items per run; mean and trend.'**
+  String get statsMetricClL20Formula;
+
+  /// No description provided for @statsMetricClL20Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Run completion'**
+  String get statsMetricClL20Title;
+
+  /// No description provided for @statsMetricClL21Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Consecutive runs finished at 100 %.'**
+  String get statsMetricClL21Desc;
+
+  /// No description provided for @statsMetricClL21Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak of fully completed runs.'**
+  String get statsMetricClL21Formula;
+
+  /// No description provided for @statsMetricClL21Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect-run streak'**
+  String get statsMetricClL21Title;
+
+  /// No description provided for @statsMetricClL22Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How long a complete run takes.'**
+  String get statsMetricClL22Desc;
+
+  /// No description provided for @statsMetricClL22Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Last completion − run start for 100 % runs; median and P85.'**
+  String get statsMetricClL22Formula;
+
+  /// No description provided for @statsMetricClL22Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Time to finish a run'**
+  String get statsMetricClL22Title;
+
+  /// No description provided for @statsMetricClL23Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Items most often left undone at reset.'**
+  String get statsMetricClL23Desc;
+
+  /// No description provided for @statsMetricClL23Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Times not completed at reset, and share of runs.'**
+  String get statsMetricClL23Formula;
+
+  /// No description provided for @statsMetricClL23Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Most-skipped items'**
+  String get statsMetricClL23Title;
+
+  /// No description provided for @statsMetricClL24Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Average run completion on each weekday.'**
+  String get statsMetricClL24Desc;
+
+  /// No description provided for @statsMetricClL24Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Mean completion % per weekday.'**
+  String get statsMetricClL24Formula;
+
+  /// No description provided for @statsMetricClL24Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Runs by weekday'**
+  String get statsMetricClL24Title;
+
+  /// No description provided for @statsMetricClL25Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Items completed each day in this list, with the current streak.'**
+  String get statsMetricClL25Desc;
+
+  /// No description provided for @statsMetricClL25Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Completions per day; streak of days with at least one.'**
+  String get statsMetricClL25Formula;
+
+  /// No description provided for @statsMetricClL25Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Completion calendar'**
+  String get statsMetricClL25Title;
+
+  /// No description provided for @statsMetricClL26Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Similar blocked reasons grouped together, ranked by impact.'**
+  String get statsMetricClL26Desc;
+
+  /// No description provided for @statsMetricClL26Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Normalized reasons; rank = episodes × blocked hours; clusters can be merged in settings.'**
+  String get statsMetricClL26Formula;
+
+  /// No description provided for @statsMetricClL26Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocker clusters'**
+  String get statsMetricClL26Title;
+
+  /// No description provided for @statsMetricClL27Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Whether the list’s flow is stable enough to trust its averages. Never a forecast.'**
+  String get statsMetricClL27Desc;
+
+  /// No description provided for @statsMetricClL27Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'mean cycle time ÷ (mean WIP ÷ mean throughput); unstable outside 0.7–1.3 or when arrivals ÷ departures leaves 0.8–1.2.'**
+  String get statsMetricClL27Formula;
+
+  /// No description provided for @statsMetricClL27Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Little’s Law check'**
+  String get statsMetricClL27Title;
+
+  /// No description provided for @statsMetricClL28Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'When the remaining items will probably be done.'**
+  String get statsMetricClL28Desc;
+
+  /// No description provided for @statsMetricClL28Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'10 000 simulations resampling recent daily completions; dates at 50 %, 85 % and 95 % chance.'**
+  String get statsMetricClL28Formula;
+
+  /// No description provided for @statsMetricClL28Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish forecast'**
+  String get statsMetricClL28Title;
+
+  /// No description provided for @statsMetricClL29Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How complete each level of the tree is.'**
+  String get statsMetricClL29Desc;
+
+  /// No description provided for @statsMetricClL29Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed ÷ countable items per depth level.'**
+  String get statsMetricClL29Formula;
+
+  /// No description provided for @statsMetricClL29Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress by depth'**
+  String get statsMetricClL29Title;
+
+  /// No description provided for @statsMetricClL30Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Files attached in this list.'**
+  String get statsMetricClL30Desc;
+
+  /// No description provided for @statsMetricClL30Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Count, total size and type mix.'**
+  String get statsMetricClL30Formula;
+
+  /// No description provided for @statsMetricClL30Title.
+  ///
+  /// In en, this message translates to:
+  /// **'List attachments'**
+  String get statsMetricClL30Title;
+
   /// No description provided for @statsMetricClX01Desc.
   ///
   /// In en, this message translates to:
@@ -18668,6 +19364,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Status distribution'**
   String get statsMetricClX05Title;
+
+  /// No description provided for @statsMetricClX06Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Most common blocked and waiting reasons in all your lists.'**
+  String get statsMetricClX06Desc;
+
+  /// No description provided for @statsMetricClX06Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Pareto of normalized reasons: episodes and total time.'**
+  String get statsMetricClX06Formula;
+
+  /// No description provided for @statsMetricClX06Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reasons across lists'**
+  String get statsMetricClX06Title;
+
+  /// No description provided for @statsMetricClX07Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Who or what your items are waiting on.'**
+  String get statsMetricClX07Desc;
+
+  /// No description provided for @statsMetricClX07Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting episodes grouped by person or thing: open count, mean wait, longest wait, overdue follow-ups.'**
+  String get statsMetricClX07Formula;
+
+  /// No description provided for @statsMetricClX07Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting-for register'**
+  String get statsMetricClX07Title;
+
+  /// No description provided for @statsMetricClX08Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists that lost the most time to blocked items.'**
+  String get statsMetricClX08Desc;
+
+  /// No description provided for @statsMetricClX08Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists ranked by total blocked time in the period.'**
+  String get statsMetricClX08Formula;
+
+  /// No description provided for @statsMetricClX08Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Most blocked lists'**
+  String get statsMetricClX08Title;
+
+  /// No description provided for @statsMetricClX09Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Typical cycle time across all lists and the throughput trend.'**
+  String get statsMetricClX09Desc;
+
+  /// No description provided for @statsMetricClX09Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Section-wide cycle-time P50/P85; weekly throughput slope.'**
+  String get statsMetricClX09Formula;
+
+  /// No description provided for @statsMetricClX09Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Flow benchmarks'**
+  String get statsMetricClX09Title;
+
+  /// No description provided for @statsMetricClX10Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Items completed each day across your lists, with the current streak.'**
+  String get statsMetricClX10Desc;
+
+  /// No description provided for @statsMetricClX10Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Completions per day; streak of days with at least one.'**
+  String get statsMetricClX10Formula;
+
+  /// No description provided for @statsMetricClX10Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Completion calendar'**
+  String get statsMetricClX10Title;
+
+  /// No description provided for @statsMetricClX11Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Space used by attachments in your lists.'**
+  String get statsMetricClX11Desc;
+
+  /// No description provided for @statsMetricClX11Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Σ attachment sizes; count and type mix.'**
+  String get statsMetricClX11Formula;
+
+  /// No description provided for @statsMetricClX11Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachment storage'**
+  String get statsMetricClX11Title;
+
+  /// No description provided for @statsMetricClX12Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How many lists you create and archive each month.'**
+  String get statsMetricClX12Desc;
+
+  /// No description provided for @statsMetricClX12Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklists created and archived per month.'**
+  String get statsMetricClX12Formula;
+
+  /// No description provided for @statsMetricClX12Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists created & archived'**
+  String get statsMetricClX12Title;
 
   /// No description provided for @statsMetricGl01Desc.
   ///
@@ -20961,6 +21783,12 @@ abstract class AppLocalizations {
   /// **'No rating yet'**
   String get statsNoteNoRating;
 
+  /// No description provided for @statsNoteNoRuns.
+  ///
+  /// In en, this message translates to:
+  /// **'This list has no runs yet (it is not resettable or was never reset)'**
+  String get statsNoteNoRuns;
+
   /// No description provided for @statsNoteNoTracker.
   ///
   /// In en, this message translates to:
@@ -21044,6 +21872,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unlogged days are unknown, not failed — they only count as missed because nothing was recorded.'**
   String get statsNoteUnloggedNotFailed;
+
+  /// No description provided for @statsNoteUnstableFlow.
+  ///
+  /// In en, this message translates to:
+  /// **'Flow is unstable: averages may mislead'**
+  String get statsNoteUnstableFlow;
 
   /// No description provided for @statsNoteUsedPlanned.
   ///
@@ -21477,6 +22311,24 @@ abstract class AppLocalizations {
   /// **'Time allocation'**
   String get statsSectionAllocation;
 
+  /// No description provided for @statsSectionAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments & edits'**
+  String get statsSectionAttachments;
+
+  /// No description provided for @statsSectionBlockers.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked & waiting'**
+  String get statsSectionBlockers;
+
+  /// No description provided for @statsSectionBurn.
+  ///
+  /// In en, this message translates to:
+  /// **'Burn-down & scope'**
+  String get statsSectionBurn;
+
   /// No description provided for @statsSectionCalendar.
   ///
   /// In en, this message translates to:
@@ -21500,6 +22352,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cravings'**
   String get statsSectionCravings;
+
+  /// No description provided for @statsSectionCycleTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle time'**
+  String get statsSectionCycleTime;
 
   /// No description provided for @statsSectionDataQuality.
   ///
@@ -21627,6 +22485,12 @@ abstract class AppLocalizations {
   /// **'Weekly review'**
   String get statsSectionReview;
 
+  /// No description provided for @statsSectionRuns.
+  ///
+  /// In en, this message translates to:
+  /// **'Routine runs'**
+  String get statsSectionRuns;
+
   /// No description provided for @statsSectionSeries.
   ///
   /// In en, this message translates to:
@@ -21680,6 +22544,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today'**
   String get statsSectionToday;
+
+  /// No description provided for @statsSectionTree.
+  ///
+  /// In en, this message translates to:
+  /// **'Tree'**
+  String get statsSectionTree;
 
   /// No description provided for @statsSectionTrend.
   ///

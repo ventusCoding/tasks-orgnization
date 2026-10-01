@@ -180,6 +180,21 @@ enum LabelToken {
   mape,
   fragmentation,
   contextSwitches,
+  followUpOverdue,
+  statusChanges,
+  loops,
+  shortcut,
+  maxDepth,
+  leafDepth,
+  branching,
+  leaves,
+  widestLevel,
+  largestBranch,
+  integrityOpenChildren,
+  integrityParentOpen,
+  integrityMissingReason,
+  littleRatio,
+  arrivalsPerDeparture,
 }
 
 /// A chart label: resolved to text by the presentation layer.

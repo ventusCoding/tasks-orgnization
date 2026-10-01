@@ -18,6 +18,7 @@ import 'package:everslot/features/stats/presentation/charts/chart_support.dart';
 import 'package:everslot/features/stats/presentation/charts/kpi_tile.dart';
 import 'package:everslot/features/stats/presentation/l10n/stats_l10n.dart';
 import 'package:everslot/features/stats/presentation/stats_navigation.dart';
+import 'package:everslot/features/stats/presentation/widgets/blocker_clusters_sheet.dart';
 import 'package:everslot/features/stats/presentation/widgets/drill_sheet.dart';
 import 'package:everslot/features/stats/presentation/widgets/explain_sheet.dart';
 import 'package:everslot/features/stats/presentation/widgets/habit_table.dart';
@@ -133,7 +134,17 @@ class MetricCard extends ConsumerWidget {
         status: status,
         missing: v is Insufficient<double> ? v.missing : 0,
         headline: def.id == 'QT-11' ? _Disclaimer(text: l.statsHealthDisclaimer) : headline,
-        footer: notes.where((n) => n != l.statsHealthDisclaimer).isEmpty
+        footer: def.id == 'CL-L-26' && r != null && blockerReasonsOf(r.args).isNotEmpty
+            ? Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: TextButton.icon(
+                  key: const ValueKey('merge-reasons'),
+                  icon: const Icon(Icons.merge_type),
+                  label: Text(l.statsClustersOpen),
+                  onPressed: () => unawaited(showBlockerClustersSheet(context, blockerReasonsOf(r.args))),
+                ),
+              )
+            : notes.where((n) => n != l.statsHealthDisclaimer).isEmpty
             ? null
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

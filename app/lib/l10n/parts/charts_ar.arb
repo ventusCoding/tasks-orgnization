@@ -261,5 +261,20 @@
   "chartsLabelBias": "الانحياز",
   "chartsLabelMape": "الخطأ",
   "chartsLabelFragmentation": "التجزئة",
-  "chartsLabelContextSwitches": "التبديلات"
+  "chartsLabelContextSwitches": "التبديلات",
+  "chartsLabelFollowUpOverdue": "متابعة متأخرة",
+  "chartsLabelStatusChanges": "تغييرات الحالة",
+  "chartsLabelLoops": "حلقات قيد التنفيذ ↔ انتظار",
+  "chartsLabelShortcut": "مكتمل دون بدء",
+  "chartsLabelMaxDepth": "أقصى عمق",
+  "chartsLabelLeafDepth": "متوسط عمق الأوراق",
+  "chartsLabelBranching": "الأبناء لكل أب",
+  "chartsLabelLeaves": "الأوراق",
+  "chartsLabelWidestLevel": "أعرض مستوى",
+  "chartsLabelLargestBranch": "أكبر فرع",
+  "chartsLabelIntegrityOpenChildren": "مكتمل لكن له عناصر فرعية مفتوحة",
+  "chartsLabelIntegrityParentOpen": "كل العناصر الفرعية مكتملة وما زال مفتوحًا",
+  "chartsLabelIntegrityMissingReason": "السبب مفقود",
+  "chartsLabelLittleRatio": "نسبة ليتل",
+  "chartsLabelArrivalsPerDeparture": "الواصل ÷ المغادر"
 }

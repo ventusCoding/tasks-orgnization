@@ -41,6 +41,7 @@ final class ChecklistFacts {
     rows = rowsList;
     final ev = <StatusEvent>[];
     final activity = <String, DateTime>{};
+    final edits = <String, List<DateTime>>{};
     for (final e in input.events) {
       final type = switch (e.eventType) {
         'created' => StatusEventType.created,
@@ -51,6 +52,10 @@ final class ChecklistFacts {
         _ => null,
       };
       if (type == null) {
+        final fields = e.payload['fields'];
+        if (e.eventType == 'updated' && fields is List && fields.contains('text')) {
+          edits.putIfAbsent(e.entityId, () => []).add(e.occurredAt);
+        }
         final cur = activity[e.entityId];
         if (cur == null || e.occurredAt.isAfter(cur)) activity[e.entityId] = e.occurredAt;
         continue;
@@ -79,6 +84,7 @@ final class ChecklistFacts {
       if (cur == null || u.isAfter(cur)) activity[i.id] = u;
     }
     events = ev;
+    textEdits = edits;
     facts = buildChecklistItemFacts(rows, events, extraActivity: activity);
     lists = [
       for (final c in input.checklists)
@@ -134,6 +140,9 @@ final class ChecklistFacts {
 
   late final List<ChecklistItemRow> rows;
   late final List<StatusEvent> events;
+
+  /// Instants of text edits per item (`updated` events touching `text`, CL-I-14).
+  late final Map<String, List<DateTime>> textEdits;
   late final List<ChecklistItemFact> facts;
   late final List<ChecklistRow> lists;
   late final List<AttachmentFact> attachments;

@@ -47,18 +47,18 @@ primitives and forecasting ([6.1]); chart widgets ([6.2]).
 
 - [x] T6.4.01 — Checklist stats adapter & event normalization
 - [x] T6.4.02 — Per-item flow metrics
-- [ ] T6.4.03 — Per-item blocked, waiting & churn metrics
+- [x] T6.4.03 — Per-item blocked, waiting & churn metrics
 - [x] T6.4.04 — Checklist status & throughput metrics
-- [ ] T6.4.05 — Cumulative flow diagram (CFD)
-- [ ] T6.4.06 — Cycle-time distribution, SLE & aging WIP
-- [ ] T6.4.07 — Burn-down, burn-up & scope creep
-- [ ] T6.4.08 — Blocked & waiting analytics
-- [ ] T6.4.09 — Tree shape, integrity & branch contribution
-- [ ] T6.4.10 — Due-date performance
-- [ ] T6.4.11 — Recurring checklist run stats
+- [x] T6.4.05 — Cumulative flow diagram (CFD)
+- [x] T6.4.06 — Cycle-time distribution, SLE & aging WIP
+- [x] T6.4.07 — Burn-down, burn-up & scope creep
+- [x] T6.4.08 — Blocked & waiting analytics
+- [x] T6.4.09 — Tree shape, integrity & branch contribution
+- [x] T6.4.10 — Due-date performance
+- [x] T6.4.11 — Recurring checklist run stats
 - [x] T6.4.12 — Lists section overview metrics
-- [ ] T6.4.13 — Section benchmarks & completion calendars
-- [ ] T6.4.14 — Advanced flow analytics
+- [x] T6.4.13 — Section benchmarks & completion calendars
+- [x] T6.4.14 — Advanced flow analytics
 - [x] T6.4.15 — Item insights panel
 - [x] T6.4.16 — Checklist Insights screen
 - [x] T6.4.17 — Lists Insights screen
@@ -130,6 +130,7 @@ and blocked 1 d.
 **Acceptance criteria:** the T6.4.02 item gives flow efficiency 50 %, blocked share 16.7 % of CT,
 6 status changes, 0 reopens and 1 ongoing↔waiting loop.
 **Tests:** fixture tests.
+**Notes:** CL-I-08…12 in `application/catalog/checklist_insights_catalog.dart` (item panel section `blockers`): blocked/waiting episodes with reasons, share of CT and current age, follow-up overdue flag, flow efficiency, churn tiles (changes, reopens, ongoing↔waiting loops), time to first action. Verified on item X of `checklist_flow_small` (50 %, 16.7 %, 6, 0, 1) in `checklists/checklist_insights_test.dart`.
 
 ### T6.4.04 — Checklist status & throughput metrics
 **Priority:** P0 · **Size:** M · **Depends on:** T6.4.01, [6.2] (donut T6.2.05, bars T6.2.04, line T6.2.03)
@@ -189,6 +190,7 @@ The CFD must produce these day-end band counts, and report 1 reopen:
 | d5 | 1 | 0 | 1 | 0 | 2 |
 
 **Tests:** fixture test using exactly this dataset; CFD golden.
+**Notes:** CL-L-07 renders the exact CFD (`cfdChart`: completed, blocked, waiting, ongoing, todo bottom → top; reopen markers where the completed band drops) with WIP, approximate CT and 14-day throughput in args; the [6.2] stacked-area chart scrubs WIP/CT. Cancelled items stay hidden (the package supports a cancelled band; no toggle in the card yet). Test: the d1…d5 table and 1 reopen.
 
 ### T6.4.06 — Cycle-time distribution, SLE & aging WIP
 **Priority:** P1 · **Size:** M · **Depends on:** T6.4.04, [6.2] (scatter T6.2.15, histogram T6.2.14)
@@ -202,6 +204,7 @@ The CFD must produce these day-end band counts, and report 1 reopen:
 **Acceptance criteria:** items completed without a start are excluded from CT percentiles and reported
 as a count; P85 is hidden when fewer than 10 items have a CT.
 **Tests:** fixture tests.
+**Notes:** CL-L-08 (chart group: histogram with P50/P85 markers + by-date scatter with P50/P70/P85/P95 lines; completed-without-start count in args), CL-L-09 SLE (P85 over 90 days, insufficient below 10), CL-L-10 aging WIP scatter (status columns, at-risk highlight above P85, drill to the at-risk items).
 
 ### T6.4.07 — Burn-down, burn-up & scope creep
 **Priority:** P1 · **Size:** S · **Depends on:** T6.4.05, [6.2] (burn charts T6.2.17)
@@ -215,6 +218,7 @@ as a count; P85 is hidden when fewer than 10 items have a CT.
 **Acceptance criteria:** adding 3 items to a 10-item list after the baseline shows 30 % scope creep
 and a step in the scope line.
 **Tests:** fixture tests.
+**Notes:** CL-L-11 burn-down (step line, ideal line to the list's due date, forecast cone when CL-L-28 has enough history), CL-L-12 scope creep with a burn-up whose scope steps carry `scopeChange` annotations listing the added items, CL-L-13 cancelled/shortcut tiles. Test: 10 + 3 items → 30 % and one step with 3 items.
 
 ### T6.4.08 — Blocked & waiting analytics
 **Priority:** P1 · **Size:** M · **Depends on:** T6.4.03, [6.2] (Pareto T6.2.05)
@@ -235,6 +239,7 @@ waiting for). This is set in the waiting-reason sheet in [4.3].
 
 **Acceptance criteria:** notes "waiting for Sam" and "@sam invoice" group under "Sam" (case-insensitive).
 **Tests:** parser unit tests (EN/FR/AR); fixture tests.
+**Notes:** CL-L-14 (stuck items with ages, blocked hours in the period, top reasons), CL-L-15 follow-up discipline with the overdue list, CL-X-06 reasons Pareto (user clusters applied), CL-X-07 waiting-for register (explicit `waiting_on`, else the EN/FR/AR note parser of the package), CL-X-08 most blocked lists. Test: “waiting for Sam” + “@sam invoice” → one Sam entry.
 
 ### T6.4.09 — Tree shape, integrity & branch contribution
 **Priority:** P1 · **Size:** S · **Depends on:** T6.4.02
@@ -247,6 +252,7 @@ waiting for). This is set in the waiting-reason sheet in [4.3].
 
 **Acceptance criteria:** tapping an integrity flag opens the checklist focused on that item.
 **Tests:** fixture tests with a 12-level tree.
+**Notes:** CL-L-16 shape tiles, CL-L-17 integrity list (each row's `DrillRef(item, checklistId, extra: itemId)` opens the checklist focused on the item), CL-L-18 branch progress bars with throughput/blocked hours in args. Test with a 12-level chain.
 
 ### T6.4.10 — Due-date performance
 **Priority:** P1 · **Size:** S · **Depends on:** T6.4.02
@@ -257,6 +263,7 @@ waiting for). This is set in the waiting-reason sheet in [4.3].
 
 **Acceptance criteria:** due instants are resolved with the item's zone or as floating ([2.3] time utilities).
 **Tests:** fixture tests across time zones.
+**Notes:** CL-L-19: on-time rate, overdue aging bars and mean days late; due instants come from `ChecklistFacts` (item zone, else floating in the viewer's zone). Test with a New York and a floating due time.
 
 ### T6.4.11 — Recurring checklist run stats
 **Priority:** P1 · **Size:** M · **Depends on:** T6.4.01, [4.5] (resettable checklists)
@@ -275,6 +282,7 @@ completedAt}` at reset time (arch §7.3).
 **Acceptance criteria:** a 7-run fixture with completion 100, 100, 80, 100, 100, 100, 60 % gives a mean
 of 91.4 %, a best streak of 3 and a current streak of 0.
 **Tests:** fixture tests.
+**Notes:** CL-L-20…24 from `checklist_runs` started in the period: completion line with trend, perfect-run streak bars, time to finish (box plot, median/P85), most-skipped items, weekday bars. Test: the 7-run acceptance (91.4 %, best 3, current 0).
 
 ### T6.4.12 — Lists section overview metrics
 **Priority:** P0 · **Size:** M · **Depends on:** T6.4.04
@@ -301,6 +309,7 @@ of 91.4 %, a best streak of 3 and a current streak of 0.
 | CL-L-25 | Completion calendar (one list) | same as CL-X-10, for one checklist | events | calendar heatmap | P1 |
 
 **Tests:** fixture tests.
+**Notes:** CL-X-09 benchmark tiles (CT P50/P85 + weekly throughput slope), CL-X-10 / CL-L-25 completion calendars (intensity mode, ≤ 365 days) with the current streak of days with a completion.
 
 ### T6.4.14 — Advanced flow analytics
 **Priority:** P2 · **Size:** M · **Depends on:** T6.4.05, T6.4.06, T6.4.08, [6.1] (T6.1.26 Monte Carlo), [6.2] (forecast visuals T6.2.26)
@@ -327,6 +336,7 @@ of 91.4 %, a best streak of 3 and a current streak of 0.
 **Acceptance criteria:** the forecast is hidden until ≥ 30 days of history and ≥ 10 completions exist;
 the forecast wording is probabilistic ("85 % chance by …").
 **Tests:** seeded fixture tests.
+**Notes:** CL-L-26 blocker clusters (Pareto by episodes × blocked hours) with a “Merge reasons” sheet (`widgets/blocker_clusters_sheet.dart`, `application/blocker_clusters_store.dart` → `user_settings.stats.blockerClusters`, merge or remove); CL-L-27 Little's Law tiles with the `unstableFlow` note; CL-L-28 Monte Carlo finish forecast (ForecastData, dated P50/P85/P95, insufficient until 30 days and 10 completions); CL-L-29 depth progress; CL-L-30 / CL-I-13 / CL-X-11 attachment tiles; CL-I-14 text-edit count (`updated` events touching `text`, now collected by `ChecklistFacts.textEdits`); CL-X-12 lists created/archived per month.
 
 ### T6.4.15 — Item insights panel
 **Priority:** P0 · **Size:** S · **Depends on:** T6.4.02, [4.2] (item details sheet)

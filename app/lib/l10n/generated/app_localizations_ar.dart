@@ -1282,6 +1282,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelArrivals => 'الوافدة';
 
   @override
+  String get chartsLabelArrivalsPerDeparture => 'الواصل ÷ المغادر';
+
+  @override
   String get chartsLabelAttempt => 'محاولة';
 
   @override
@@ -1301,6 +1304,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelBlocked => 'محظور';
+
+  @override
+  String get chartsLabelBranching => 'الأبناء لكل أب';
 
   @override
   String get chartsLabelCancelled => 'ملغى';
@@ -1366,6 +1372,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelFocus => 'التركيز';
 
   @override
+  String get chartsLabelFollowUpOverdue => 'متابعة متأخرة';
+
+  @override
   String get chartsLabelFragmentation => 'التجزئة';
 
   @override
@@ -1396,6 +1405,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelInProgress => 'النشطة';
 
   @override
+  String get chartsLabelIntegrityMissingReason => 'السبب مفقود';
+
+  @override
+  String get chartsLabelIntegrityOpenChildren => 'مكتمل لكن له عناصر فرعية مفتوحة';
+
+  @override
+  String get chartsLabelIntegrityParentOpen => 'كل العناصر الفرعية مكتملة وما زال مفتوحًا';
+
+  @override
   String get chartsLabelIntensity => 'الشدة';
 
   @override
@@ -1405,7 +1423,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelLapse => 'زلّة';
 
   @override
+  String get chartsLabelLargestBranch => 'أكبر فرع';
+
+  @override
   String get chartsLabelLate => 'متأخر';
+
+  @override
+  String get chartsLabelLeafDepth => 'متوسط عمق الأوراق';
+
+  @override
+  String get chartsLabelLeaves => 'الأوراق';
 
   @override
   String get chartsLabelLifeRegained => 'العمر المُستعاد';
@@ -1417,16 +1444,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelLists => 'القوائم';
 
   @override
+  String get chartsLabelLittleRatio => 'نسبة ليتل';
+
+  @override
   String get chartsLabelLoggedRatio => 'المسجَّل';
 
   @override
   String get chartsLabelLongestBlock => 'أطول فترة';
 
   @override
+  String get chartsLabelLoops => 'حلقات قيد التنفيذ ↔ انتظار';
+
+  @override
   String get chartsLabelLowPriority => 'أولوية منخفضة';
 
   @override
   String get chartsLabelMape => 'الخطأ';
+
+  @override
+  String get chartsLabelMaxDepth => 'أقصى عمق';
 
   @override
   String get chartsLabelMaxIntensity => 'أعلى شدة';
@@ -1636,6 +1672,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chartsLabelSessions => 'الجلسات';
 
   @override
+  String get chartsLabelShortcut => 'مكتمل دون بدء';
+
+  @override
   String get chartsLabelSkipped => 'متخطّى';
 
   @override
@@ -1649,6 +1688,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelStalest => 'الأطول ركودًا';
+
+  @override
+  String get chartsLabelStatusChanges => 'تغييرات الحالة';
 
   @override
   String get chartsLabelStreak => 'السلسلة';
@@ -1724,6 +1766,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chartsLabelWhenLabel => 'متى';
+
+  @override
+  String get chartsLabelWidestLevel => 'أعرض مستوى';
 
   @override
   String get chartsLabelWins => 'الإنجازات';
@@ -10981,6 +11026,35 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsCardError => 'تعذّر حساب هذه البطاقة.';
 
   @override
+  String statsClustersEpisodes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count مرات', one: 'مرة واحدة');
+    return '$_temp0';
+  }
+
+  @override
+  String get statsClustersHint => 'اختر الأسباب التي تعني الشيء نفسه وسمِّ المجموعة. تنطبق المجموعات على كل القوائم.';
+
+  @override
+  String statsClustersIn(String name) {
+    return 'ضمن «$name»';
+  }
+
+  @override
+  String get statsClustersMerge => 'دمج';
+
+  @override
+  String get statsClustersName => 'اسم المجموعة';
+
+  @override
+  String get statsClustersOpen => 'دمج الأسباب';
+
+  @override
+  String get statsClustersTitle => 'مجموعات العوائق';
+
+  @override
+  String get statsClustersUnmerge => 'إزالة من المجموعات';
+
+  @override
   String get statsCompareToggle => 'المقارنة بالفترة السابقة';
 
   @override
@@ -11492,6 +11566,70 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricClI07Title => 'خط زمني للحالات';
 
   @override
+  String get statsMetricClI08Desc => 'كم مرة وكم من الوقت كان هذا العنصر محظورًا، ولماذا.';
+
+  @override
+  String get statsMetricClI08Formula => 'عدد فترات الحظر، إجمالي وقت الحظر ونسبته من زمن الدورة.';
+
+  @override
+  String get statsMetricClI08Title => 'فترات الحظر';
+
+  @override
+  String get statsMetricClI09Desc => 'كم انتظر هذا العنصر شخصًا أو شيئًا، مع حالة المتابعة.';
+
+  @override
+  String get statsMetricClI09Formula =>
+      'عدد فترات الانتظار، إجمالي الانتظار، الانتظار الحالي؛ المتابعة متأخرة إن فات موعدها أثناء الانتظار.';
+
+  @override
+  String get statsMetricClI09Title => 'فترات الانتظار';
+
+  @override
+  String get statsMetricClI10Desc => 'نسبة زمن الدورة المقضية في العمل الفعلي.';
+
+  @override
+  String get statsMetricClI10Formula => 'الوقت قيد التنفيذ ÷ زمن الدورة.';
+
+  @override
+  String get statsMetricClI10Title => 'كفاءة التدفق';
+
+  @override
+  String get statsMetricClI11Desc => 'مدى تنقّل هذا العنصر بين الحالات.';
+
+  @override
+  String get statsMetricClI11Formula => 'تغييرات الحالة؛ إعادة الفتح (مكتمل ← غيره)؛ حلقات قيد التنفيذ ↔ بالانتظار.';
+
+  @override
+  String get statsMetricClI11Title => 'التذبذب';
+
+  @override
+  String get statsMetricClI12Desc => 'كم انتظر العنصر قبل بدء العمل عليه.';
+
+  @override
+  String get statsMetricClI12Formula => 'البدء − الإنشاء (زمن الانتظار في الطابور).';
+
+  @override
+  String get statsMetricClI12Title => 'الوقت حتى أول إجراء';
+
+  @override
+  String get statsMetricClI13Desc => 'الملفات المرفقة بهذا العنصر.';
+
+  @override
+  String get statsMetricClI13Formula => 'العدد والحجم الإجمالي وتوزيع الأنواع (صور، PDF، غيرها).';
+
+  @override
+  String get statsMetricClI13Title => 'مرفقات العنصر';
+
+  @override
+  String get statsMetricClI14Desc => 'كم مرة عُدّل نص العنصر.';
+
+  @override
+  String get statsMetricClI14Formula => 'عدد تعديلات النص؛ وقت آخر تعديل.';
+
+  @override
+  String get statsMetricClI14Title => 'نشاط التعديل';
+
+  @override
   String get statsMetricClL01Desc => 'كيفية توزع عناصر القائمة على الحالات.';
 
   @override
@@ -11546,6 +11684,230 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsMetricClL06Title => 'العناصر الراكدة';
 
   @override
+  String get statsMetricClL07Desc => 'عدد العناصر في كل حالة في نهاية كل يوم.';
+
+  @override
+  String get statsMetricClL07Formula =>
+      'أعداد نهاية اليوم لكل حالة من سجل الأحداث؛ العمل الجاري وزمن الدورة التقريبي والإنتاجية في تاريخ.';
+
+  @override
+  String get statsMetricClL07Title => 'التدفق التراكمي';
+
+  @override
+  String get statsMetricClL08Desc => 'كم تستغرق العناصر من البدء حتى الإنجاز.';
+
+  @override
+  String get statsMetricClL08Formula => 'مدرج تكراري لأزمنة الدورة؛ نقاط حسب تاريخ الإنجاز مع خطوط P50/P70/P85/P95.';
+
+  @override
+  String get statsMetricClL08Title => 'توزيع زمن الدورة';
+
+  @override
+  String get statsMetricClL09Desc => '«85 % من العناصر تُنجَز خلال X».';
+
+  @override
+  String get statsMetricClL09Formula => 'P85 لزمن الدورة خلال آخر 90 يومًا.';
+
+  @override
+  String get statsMetricClL09Title => 'مستوى الخدمة';
+
+  @override
+  String get statsMetricClL10Desc =>
+      'العناصر المفتوحة التي بدأت حسب الحالة والعمر؛ الأقدم من زمن الدورة المعتاد معرّض للخطر.';
+
+  @override
+  String get statsMetricClL10Formula => 'العمر = الآن − البدء؛ معرّض للخطر إذا تجاوز P85 لزمن الدورة.';
+
+  @override
+  String get statsMetricClL10Title => 'عمر العمل الجاري';
+
+  @override
+  String get statsMetricClL11Desc => 'العناصر المتبقية كل يوم، مع خط مثالي حتى تاريخ الاستحقاق.';
+
+  @override
+  String get statsMetricClL11Formula => 'المتبقي = الواصل − المكتمل − الملغى؛ مخروط توقع عند توفر سجل كافٍ.';
+
+  @override
+  String get statsMetricClL11Title => 'مخطط المتبقي';
+
+  @override
+  String get statsMetricClL12Desc => 'كم نمت القائمة بعد بدء العمل.';
+
+  @override
+  String get statsMetricClL12Formula => 'العناصر المضافة بعد خط الأساس ÷ العناصر عند خط الأساس (أول تغيير حالة).';
+
+  @override
+  String get statsMetricClL12Title => 'توسّع النطاق';
+
+  @override
+  String get statsMetricClL13Desc => 'نسبة العناصر الملغاة، ونسبة المكتملة دون أن تبدأ.';
+
+  @override
+  String get statsMetricClL13Formula => 'الملغاة ÷ المُنشأة؛ المكتملة دون بدء ÷ المكتملة.';
+
+  @override
+  String get statsMetricClL13Title => 'الملغاة والاختصارات';
+
+  @override
+  String get statsMetricClL14Desc => 'العناصر العالقة الآن ومنذ متى.';
+
+  @override
+  String get statsMetricClL14Formula =>
+      'الأعداد الحالية للمحظور والمنتظر مع أعمارها؛ وقت الحظر في الفترة؛ أهم الأسباب.';
+
+  @override
+  String get statsMetricClL14Title => 'المحظور والمنتظر الآن';
+
+  @override
+  String get statsMetricClL15Desc => 'هل تتصرّف في العناصر بحلول موعد متابعتها؟';
+
+  @override
+  String get statsMetricClL15Formula =>
+      'الفترات التي عولجت خلال 24 ساعة من المتابعة ÷ الفترات ذات موعد متابعة؛ مع قائمة المتابعات المتأخرة.';
+
+  @override
+  String get statsMetricClL15Title => 'الالتزام بالمتابعة';
+
+  @override
+  String get statsMetricClL16Desc => 'مدى عمق القائمة واتساعها.';
+
+  @override
+  String get statsMetricClL16Formula => 'أقصى عمق، متوسط عمق الأوراق، الأبناء لكل أب، الأوراق، أعرض مستوى وأكبر فرع.';
+
+  @override
+  String get statsMetricClL16Title => 'شكل الشجرة';
+
+  @override
+  String get statsMetricClL17Desc => 'عناصر تتعارض حالتها مع أبنائها أو ينقصها سبب مطلوب.';
+
+  @override
+  String get statsMetricClL17Formula => 'آباء مكتملون مع أبناء مفتوحين؛ آباء مفتوحون اكتمل كل أبنائهم؛ أسباب ناقصة.';
+
+  @override
+  String get statsMetricClL17Title => 'فحوص الاتساق';
+
+  @override
+  String get statsMetricClL18Desc => 'التقدم والإنتاجية ووقت الحظر لكل فرع رئيسي.';
+
+  @override
+  String get statsMetricClL18Formula => 'التقدم على مستوى الأوراق لكل فرع؛ الإنجازات ووقت الحظر في الفترة.';
+
+  @override
+  String get statsMetricClL18Title => 'مساهمة الفروع';
+
+  @override
+  String get statsMetricClL19Desc => 'كم مرة تُنجز العناصر ذات الموعد في وقتها، وما المتأخر الآن.';
+
+  @override
+  String get statsMetricClL19Formula =>
+      'المنجزة قبل الموعد ÷ المكتملة ذات الموعد؛ العناصر المفتوحة المتأخرة ومتوسط أيام التأخير.';
+
+  @override
+  String get statsMetricClL19Title => 'الالتزام بالمواعيد النهائية';
+
+  @override
+  String get statsMetricClL20Desc => 'مدى اكتمال كل جولة من هذه القائمة الروتينية عند إعادة الضبط.';
+
+  @override
+  String get statsMetricClL20Formula => 'المكتملة ÷ إجمالي العناصر لكل جولة؛ المتوسط والاتجاه.';
+
+  @override
+  String get statsMetricClL20Title => 'إنجاز الجولات';
+
+  @override
+  String get statsMetricClL21Desc => 'جولات متتالية اكتملت 100 %.';
+
+  @override
+  String get statsMetricClL21Formula => 'سلسلة الجولات المكتملة بالكامل.';
+
+  @override
+  String get statsMetricClL21Title => 'سلسلة الجولات الكاملة';
+
+  @override
+  String get statsMetricClL22Desc => 'كم تستغرق الجولة الكاملة.';
+
+  @override
+  String get statsMetricClL22Formula => 'آخر إنجاز − بداية الجولة للجولات الكاملة؛ الوسيط وP85.';
+
+  @override
+  String get statsMetricClL22Title => 'مدة إنهاء الجولة';
+
+  @override
+  String get statsMetricClL23Desc => 'العناصر الأكثر تركًا دون إنجاز عند إعادة الضبط.';
+
+  @override
+  String get statsMetricClL23Formula => 'عدد مرات عدم الإنجاز ونسبة الجولات.';
+
+  @override
+  String get statsMetricClL23Title => 'أكثر العناصر تخطيًا';
+
+  @override
+  String get statsMetricClL24Desc => 'متوسط إنجاز الجولات لكل يوم من الأسبوع.';
+
+  @override
+  String get statsMetricClL24Formula => 'متوسط نسبة الإنجاز لكل يوم.';
+
+  @override
+  String get statsMetricClL24Title => 'الجولات حسب اليوم';
+
+  @override
+  String get statsMetricClL25Desc => 'العناصر المكتملة يوميًا في هذه القائمة مع السلسلة الحالية.';
+
+  @override
+  String get statsMetricClL25Formula => 'الإنجازات لكل يوم؛ سلسلة الأيام التي فيها إنجاز واحد على الأقل.';
+
+  @override
+  String get statsMetricClL25Title => 'تقويم الإنجاز';
+
+  @override
+  String get statsMetricClL26Desc => 'أسباب الحظر المتشابهة مجمّعة ومرتبة حسب الأثر.';
+
+  @override
+  String get statsMetricClL26Formula =>
+      'أسباب مُوحَّدة؛ الترتيب = الفترات × ساعات الحظر؛ يمكن دمج المجموعات في الإعدادات.';
+
+  @override
+  String get statsMetricClL26Title => 'مجموعات العوائق';
+
+  @override
+  String get statsMetricClL27Desc => 'هل تدفق القائمة مستقر بما يكفي للوثوق بمتوسطاته؟ ليس توقعًا أبدًا.';
+
+  @override
+  String get statsMetricClL27Formula =>
+      'متوسط زمن الدورة ÷ (متوسط العمل الجاري ÷ متوسط الإنتاجية)؛ غير مستقر خارج 0.7–1.3 أو إذا خرج الواصل ÷ المغادر عن 0.8–1.2.';
+
+  @override
+  String get statsMetricClL27Title => 'فحص قانون ليتل';
+
+  @override
+  String get statsMetricClL28Desc => 'متى سيُنجز على الأرجح ما تبقى من عناصر.';
+
+  @override
+  String get statsMetricClL28Formula =>
+      '10 000 محاكاة بإعادة سحب الإنجازات اليومية الأخيرة؛ تواريخ باحتمال 50 % و85 % و95 %.';
+
+  @override
+  String get statsMetricClL28Title => 'توقع الإنهاء';
+
+  @override
+  String get statsMetricClL29Desc => 'مدى اكتمال كل مستوى في الشجرة.';
+
+  @override
+  String get statsMetricClL29Formula => 'المكتملة ÷ العناصر المحتسبة لكل مستوى.';
+
+  @override
+  String get statsMetricClL29Title => 'التقدم حسب المستوى';
+
+  @override
+  String get statsMetricClL30Desc => 'الملفات المرفقة في هذه القائمة.';
+
+  @override
+  String get statsMetricClL30Formula => 'العدد والحجم الإجمالي وتوزيع الأنواع.';
+
+  @override
+  String get statsMetricClL30Title => 'مرفقات القائمة';
+
+  @override
   String get statsMetricClX01Desc => 'قوائمك: النشطة والمؤرشفة والقوالب والراكدة.';
 
   @override
@@ -11589,6 +11951,70 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsMetricClX05Title => 'التوزيع حسب الحالة';
+
+  @override
+  String get statsMetricClX06Desc => 'أكثر أسباب الحظر والانتظار شيوعًا في كل قوائمك.';
+
+  @override
+  String get statsMetricClX06Formula => 'مخطط باريتو للأسباب الموحدة: الفترات والوقت الإجمالي.';
+
+  @override
+  String get statsMetricClX06Title => 'الأسباب في كل القوائم';
+
+  @override
+  String get statsMetricClX07Desc => 'مَن أو ماذا تنتظر عناصرك.';
+
+  @override
+  String get statsMetricClX07Formula =>
+      'فترات الانتظار مجمّعة حسب الشخص أو الشيء: المفتوحة، متوسط الانتظار، أطول انتظار، المتابعات المتأخرة.';
+
+  @override
+  String get statsMetricClX07Title => 'سجل الانتظار';
+
+  @override
+  String get statsMetricClX08Desc => 'القوائم التي خسرت أكثر وقت بسبب العناصر المحظورة.';
+
+  @override
+  String get statsMetricClX08Formula => 'القوائم مرتبة حسب إجمالي وقت الحظر في الفترة.';
+
+  @override
+  String get statsMetricClX08Title => 'أكثر القوائم حظرًا';
+
+  @override
+  String get statsMetricClX09Desc => 'زمن الدورة المعتاد عبر كل القوائم واتجاه الإنتاجية.';
+
+  @override
+  String get statsMetricClX09Formula => 'P50/P85 لزمن الدورة على مستوى القسم؛ ميل الإنتاجية الأسبوعي.';
+
+  @override
+  String get statsMetricClX09Title => 'مرجعيات التدفق';
+
+  @override
+  String get statsMetricClX10Desc => 'العناصر المكتملة يوميًا عبر قوائمك مع السلسلة الحالية.';
+
+  @override
+  String get statsMetricClX10Formula => 'الإنجازات لكل يوم؛ سلسلة الأيام التي فيها إنجاز واحد على الأقل.';
+
+  @override
+  String get statsMetricClX10Title => 'تقويم الإنجاز';
+
+  @override
+  String get statsMetricClX11Desc => 'المساحة التي تستخدمها مرفقات قوائمك.';
+
+  @override
+  String get statsMetricClX11Formula => 'Σ أحجام المرفقات؛ العدد وتوزيع الأنواع.';
+
+  @override
+  String get statsMetricClX11Title => 'تخزين المرفقات';
+
+  @override
+  String get statsMetricClX12Desc => 'كم قائمة تُنشئ وتؤرشف كل شهر.';
+
+  @override
+  String get statsMetricClX12Formula => 'القوائم المُنشأة والمؤرشفة لكل شهر.';
+
+  @override
+  String get statsMetricClX12Title => 'القوائم المُنشأة والمؤرشفة';
 
   @override
   String get statsMetricGl01Desc => 'يومك عبر الأقسام: جدول الأعمال والعادات والقوائم والإقلاع.';
@@ -12750,6 +13176,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsNoteNoRating => 'لا يوجد تقييم بعد';
 
   @override
+  String get statsNoteNoRuns => 'لا توجد جولات لهذه القائمة بعد (غير قابلة لإعادة الضبط أو لم تُعَد قط)';
+
+  @override
   String get statsNoteNoTracker => 'تعذّر العثور على متتبع الإقلاع هذا.';
 
   @override
@@ -12791,6 +13220,9 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get statsNoteUnloggedNotFailed =>
       'الأيام غير المسجَّلة مجهولة وليست فشلًا — تُحتسب فائتة فقط لعدم تسجيل أي شيء فيها.';
+
+  @override
+  String get statsNoteUnstableFlow => 'التدفق غير مستقر: قد تكون المتوسطات مضللة';
 
   @override
   String get statsNoteUsedPlanned => 'يُعرض الوقت المخطَّط: الوقت الفعلي متتبَّع لأقل من 60 % من المهام المنجزة.';
@@ -13055,6 +13487,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsSectionAllocation => 'توزيع الوقت';
 
   @override
+  String get statsSectionAttachments => 'المرفقات والتعديلات';
+
+  @override
+  String get statsSectionBlockers => 'المحظور والمنتظر';
+
+  @override
+  String get statsSectionBurn => 'المتبقي والنطاق';
+
+  @override
   String get statsSectionCalendar => 'التقويم';
 
   @override
@@ -13067,6 +13508,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsSectionCravings => 'الرغبات الملحّة';
+
+  @override
+  String get statsSectionCycleTime => 'زمن الدورة';
 
   @override
   String get statsSectionDataQuality => 'جودة البيانات';
@@ -13134,6 +13578,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statsSectionReview => 'المراجعة الأسبوعية';
 
   @override
+  String get statsSectionRuns => 'جولات الروتين';
+
+  @override
   String get statsSectionSeries => 'التنفيذ';
 
   @override
@@ -13159,6 +13606,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statsSectionToday => 'اليوم';
+
+  @override
+  String get statsSectionTree => 'الشجرة';
 
   @override
   String get statsSectionTrend => 'الاتجاه';

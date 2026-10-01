@@ -1246,6 +1246,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelArrivals => 'Arrivées';
 
   @override
+  String get chartsLabelArrivalsPerDeparture => 'Arrivées ÷ départs';
+
+  @override
   String get chartsLabelAttempt => 'Tentative';
 
   @override
@@ -1265,6 +1268,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelBlocked => 'Bloqué';
+
+  @override
+  String get chartsLabelBranching => 'Enfants par parent';
 
   @override
   String get chartsLabelCancelled => 'Annulé';
@@ -1330,6 +1336,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelFocus => 'Concentration';
 
   @override
+  String get chartsLabelFollowUpOverdue => 'Relance en retard';
+
+  @override
   String get chartsLabelFragmentation => 'Fragmentation';
 
   @override
@@ -1360,6 +1369,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelInProgress => 'Actives';
 
   @override
+  String get chartsLabelIntegrityMissingReason => 'Motif manquant';
+
+  @override
+  String get chartsLabelIntegrityOpenChildren => 'Terminé, mais sous-éléments ouverts';
+
+  @override
+  String get chartsLabelIntegrityParentOpen => 'Sous-éléments faits, encore ouvert';
+
+  @override
   String get chartsLabelIntensity => 'Intensité';
 
   @override
@@ -1369,7 +1387,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelLapse => 'Écart';
 
   @override
+  String get chartsLabelLargestBranch => 'Plus grande branche';
+
+  @override
   String get chartsLabelLate => 'En retard';
+
+  @override
+  String get chartsLabelLeafDepth => 'Profondeur moyenne des feuilles';
+
+  @override
+  String get chartsLabelLeaves => 'Feuilles';
 
   @override
   String get chartsLabelLifeRegained => 'Vie regagnée';
@@ -1381,16 +1408,25 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelLists => 'Listes';
 
   @override
+  String get chartsLabelLittleRatio => 'Ratio de Little';
+
+  @override
   String get chartsLabelLoggedRatio => 'Saisies';
 
   @override
   String get chartsLabelLongestBlock => 'Plus long bloc';
 
   @override
+  String get chartsLabelLoops => 'Boucles en cours ↔ attente';
+
+  @override
   String get chartsLabelLowPriority => 'Priorité basse';
 
   @override
   String get chartsLabelMape => 'Erreur';
+
+  @override
+  String get chartsLabelMaxDepth => 'Profondeur max';
 
   @override
   String get chartsLabelMaxIntensity => 'Intensité maximale';
@@ -1600,6 +1636,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelSessions => 'Sessions';
 
   @override
+  String get chartsLabelShortcut => 'Fait sans démarrage';
+
+  @override
   String get chartsLabelSkipped => 'Passé';
 
   @override
@@ -1613,6 +1652,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelStalest => 'Les plus inactives';
+
+  @override
+  String get chartsLabelStatusChanges => 'Changements d’état';
 
   @override
   String get chartsLabelStreak => 'Série';
@@ -1688,6 +1730,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelWhenLabel => 'Quand';
+
+  @override
+  String get chartsLabelWidestLevel => 'Niveau le plus large';
 
   @override
   String get chartsLabelWins => 'Victoires';
@@ -10437,6 +10482,36 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsCardError => 'Cette carte n’a pas pu être calculée.';
 
   @override
+  String statsClustersEpisodes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count fois', one: '1 fois');
+    return '$_temp0';
+  }
+
+  @override
+  String get statsClustersHint =>
+      'Choisissez les motifs qui veulent dire la même chose et nommez le groupe. Les groupes s’appliquent à toutes les listes.';
+
+  @override
+  String statsClustersIn(String name) {
+    return 'dans « $name »';
+  }
+
+  @override
+  String get statsClustersMerge => 'Fusionner';
+
+  @override
+  String get statsClustersName => 'Nom du groupe';
+
+  @override
+  String get statsClustersOpen => 'Fusionner les motifs';
+
+  @override
+  String get statsClustersTitle => 'Groupes de blocages';
+
+  @override
+  String get statsClustersUnmerge => 'Retirer des groupes';
+
+  @override
   String get statsCompareToggle => 'Comparer à la période précédente';
 
   @override
@@ -10892,6 +10967,73 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsMetricClI07Title => 'Chronologie des statuts';
 
   @override
+  String get statsMetricClI08Desc => 'Combien de fois et combien de temps cet élément a été bloqué, et pourquoi.';
+
+  @override
+  String get statsMetricClI08Formula =>
+      'Nombre d’intervalles bloqués, temps bloqué total et sa part du temps de cycle.';
+
+  @override
+  String get statsMetricClI08Title => 'Épisodes bloqués';
+
+  @override
+  String get statsMetricClI09Desc =>
+      'Combien de temps cet élément a attendu quelqu’un ou quelque chose, avec l’état du suivi.';
+
+  @override
+  String get statsMetricClI09Formula =>
+      'Nombre d’attentes, attente totale, attente en cours ; relance en retard si la date est passée pendant l’attente.';
+
+  @override
+  String get statsMetricClI09Title => 'Épisodes d’attente';
+
+  @override
+  String get statsMetricClI10Desc => 'Part du temps de cycle passée à travailler activement.';
+
+  @override
+  String get statsMetricClI10Formula => 'Temps en cours ÷ temps de cycle.';
+
+  @override
+  String get statsMetricClI10Title => 'Efficacité du flux';
+
+  @override
+  String get statsMetricClI11Desc => 'À quel point cet élément a changé d’état.';
+
+  @override
+  String get statsMetricClI11Formula =>
+      'Changements d’état ; réouvertures (terminé → autre) ; boucles en cours ↔ en attente.';
+
+  @override
+  String get statsMetricClI11Title => 'Agitation';
+
+  @override
+  String get statsMetricClI12Desc => 'Temps d’attente de l’élément avant le début du travail.';
+
+  @override
+  String get statsMetricClI12Formula => 'Début − création (temps de file).';
+
+  @override
+  String get statsMetricClI12Title => 'Délai avant action';
+
+  @override
+  String get statsMetricClI13Desc => 'Fichiers joints à cet élément.';
+
+  @override
+  String get statsMetricClI13Formula => 'Nombre, taille totale et répartition par type (images, PDF, autres).';
+
+  @override
+  String get statsMetricClI13Title => 'Pièces jointes de l’élément';
+
+  @override
+  String get statsMetricClI14Desc => 'Fréquence de modification du texte de l’élément.';
+
+  @override
+  String get statsMetricClI14Formula => 'Nombre de modifications du texte ; dernière modification.';
+
+  @override
+  String get statsMetricClI14Title => 'Modifications';
+
+  @override
   String get statsMetricClL01Desc => 'Répartition des éléments de la liste par statut.';
 
   @override
@@ -10946,6 +11088,239 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsMetricClL06Title => 'Éléments inactifs';
 
   @override
+  String get statsMetricClL07Desc => 'Nombre d’éléments dans chaque état à la fin de chaque jour.';
+
+  @override
+  String get statsMetricClL07Formula =>
+      'Comptes de fin de journée par état depuis l’historique ; en cours, temps de cycle approximatif et débit à une date.';
+
+  @override
+  String get statsMetricClL07Title => 'Flux cumulé';
+
+  @override
+  String get statsMetricClL08Desc => 'Durée des éléments entre le début et la fin.';
+
+  @override
+  String get statsMetricClL08Formula =>
+      'Histogramme des temps de cycle ; nuage par date de fin avec les lignes P50/P70/P85/P95.';
+
+  @override
+  String get statsMetricClL08Title => 'Distribution du temps de cycle';
+
+  @override
+  String get statsMetricClL09Desc => '« 85 % des éléments sont terminés en moins de X ».';
+
+  @override
+  String get statsMetricClL09Formula => 'P85 du temps de cycle sur les 90 derniers jours.';
+
+  @override
+  String get statsMetricClL09Title => 'Niveau de service';
+
+  @override
+  String get statsMetricClL10Desc =>
+      'Éléments démarrés ouverts par état et par âge ; plus vieux que le temps de cycle habituel = à risque.';
+
+  @override
+  String get statsMetricClL10Formula => 'Âge = maintenant − début ; à risque au-delà du P85 du temps de cycle.';
+
+  @override
+  String get statsMetricClL10Title => 'Âge du travail en cours';
+
+  @override
+  String get statsMetricClL11Desc => 'Éléments restants chaque jour, avec une ligne idéale jusqu’à l’échéance.';
+
+  @override
+  String get statsMetricClL11Formula =>
+      'Restants = arrivés − terminés − annulés ; cône de prévision si l’historique suffit.';
+
+  @override
+  String get statsMetricClL11Title => 'Burn-down';
+
+  @override
+  String get statsMetricClL12Desc => 'De combien la liste a grossi après le début du travail.';
+
+  @override
+  String get statsMetricClL12Formula =>
+      'Éléments ajoutés après la référence ÷ éléments à la référence (premier changement d’état).';
+
+  @override
+  String get statsMetricClL12Title => 'Dérive du périmètre';
+
+  @override
+  String get statsMetricClL13Desc => 'Part des éléments annulés, et de ceux terminés sans avoir été démarrés.';
+
+  @override
+  String get statsMetricClL13Formula => 'Annulés ÷ créés ; terminés sans début ÷ terminés.';
+
+  @override
+  String get statsMetricClL13Title => 'Annulés et raccourcis';
+
+  @override
+  String get statsMetricClL14Desc => 'Éléments coincés en ce moment, et depuis combien de temps.';
+
+  @override
+  String get statsMetricClL14Formula =>
+      'Nombres actuels de bloqués et en attente avec leur âge ; temps bloqué sur la période ; motifs principaux.';
+
+  @override
+  String get statsMetricClL14Title => 'Bloqués et en attente';
+
+  @override
+  String get statsMetricClL15Desc => 'Agissez-vous sur les éléments à leur date de relance ?';
+
+  @override
+  String get statsMetricClL15Formula =>
+      'Épisodes traités dans les 24 h de la relance ÷ épisodes avec relance ; relances en retard listées.';
+
+  @override
+  String get statsMetricClL15Title => 'Discipline de relance';
+
+  @override
+  String get statsMetricClL16Desc => 'Profondeur et largeur de la liste.';
+
+  @override
+  String get statsMetricClL16Formula =>
+      'Profondeur max, profondeur moyenne des feuilles, enfants par parent, feuilles, niveau le plus large et plus grande branche.';
+
+  @override
+  String get statsMetricClL16Title => 'Forme de l’arbre';
+
+  @override
+  String get statsMetricClL17Desc => 'Éléments dont l’état contredit leurs enfants ou auxquels manque un motif requis.';
+
+  @override
+  String get statsMetricClL17Formula =>
+      'Parents terminés avec enfants ouverts ; parents ouverts dont tous les enfants sont faits ; motifs manquants.';
+
+  @override
+  String get statsMetricClL17Title => 'Contrôles de cohérence';
+
+  @override
+  String get statsMetricClL18Desc => 'Avancement, débit et temps bloqué de chaque branche principale.';
+
+  @override
+  String get statsMetricClL18Formula =>
+      'Avancement par feuilles par branche ; réalisations et temps bloqué sur la période.';
+
+  @override
+  String get statsMetricClL18Title => 'Contribution des branches';
+
+  @override
+  String get statsMetricClL19Desc =>
+      'Fréquence à laquelle les éléments datés sont faits à temps, et ce qui est en retard.';
+
+  @override
+  String get statsMetricClL19Formula =>
+      'Faits avant l’échéance ÷ terminés avec échéance ; éléments ouverts en retard et retard moyen.';
+
+  @override
+  String get statsMetricClL19Title => 'Respect des échéances';
+
+  @override
+  String get statsMetricClL20Desc =>
+      'Niveau de réalisation de chaque tour de cette liste au moment de la réinitialisation.';
+
+  @override
+  String get statsMetricClL20Formula => 'Terminés ÷ éléments par tour ; moyenne et tendance.';
+
+  @override
+  String get statsMetricClL20Title => 'Réalisation des tours';
+
+  @override
+  String get statsMetricClL21Desc => 'Tours consécutifs terminés à 100 %.';
+
+  @override
+  String get statsMetricClL21Formula => 'Série de tours entièrement terminés.';
+
+  @override
+  String get statsMetricClL21Title => 'Série de tours parfaits';
+
+  @override
+  String get statsMetricClL22Desc => 'Temps nécessaire pour terminer un tour complet.';
+
+  @override
+  String get statsMetricClL22Formula => 'Dernière réalisation − début du tour pour les tours à 100 % ; médiane et P85.';
+
+  @override
+  String get statsMetricClL22Title => 'Durée d’un tour';
+
+  @override
+  String get statsMetricClL23Desc => 'Éléments le plus souvent laissés non faits à la réinitialisation.';
+
+  @override
+  String get statsMetricClL23Formula => 'Nombre de fois non terminés et part des tours.';
+
+  @override
+  String get statsMetricClL23Title => 'Éléments les plus sautés';
+
+  @override
+  String get statsMetricClL24Desc => 'Réalisation moyenne des tours par jour de semaine.';
+
+  @override
+  String get statsMetricClL24Formula => '% moyen de réalisation par jour de semaine.';
+
+  @override
+  String get statsMetricClL24Title => 'Tours par jour';
+
+  @override
+  String get statsMetricClL25Desc => 'Éléments terminés chaque jour dans cette liste, avec la série actuelle.';
+
+  @override
+  String get statsMetricClL25Formula => 'Réalisations par jour ; série de jours avec au moins une.';
+
+  @override
+  String get statsMetricClL25Title => 'Calendrier des réalisations';
+
+  @override
+  String get statsMetricClL26Desc => 'Motifs de blocage similaires regroupés, classés par impact.';
+
+  @override
+  String get statsMetricClL26Formula =>
+      'Motifs normalisés ; rang = épisodes × heures bloquées ; les groupes se fusionnent dans les réglages.';
+
+  @override
+  String get statsMetricClL26Title => 'Groupes de blocages';
+
+  @override
+  String get statsMetricClL27Desc =>
+      'La fluidité de la liste est-elle assez stable pour s’y fier ? Jamais une prévision.';
+
+  @override
+  String get statsMetricClL27Formula =>
+      'temps de cycle moyen ÷ (en cours moyen ÷ débit moyen) ; instable hors 0,7–1,3 ou si arrivées ÷ départs sort de 0,8–1,2.';
+
+  @override
+  String get statsMetricClL27Title => 'Vérification de la loi de Little';
+
+  @override
+  String get statsMetricClL28Desc => 'Quand les éléments restants seront probablement terminés.';
+
+  @override
+  String get statsMetricClL28Formula =>
+      '10 000 simulations à partir des réalisations quotidiennes récentes ; dates à 50 %, 85 % et 95 % de chances.';
+
+  @override
+  String get statsMetricClL28Title => 'Prévision de fin';
+
+  @override
+  String get statsMetricClL29Desc => 'Avancement de chaque niveau de l’arbre.';
+
+  @override
+  String get statsMetricClL29Formula => 'Terminés ÷ éléments comptables par niveau.';
+
+  @override
+  String get statsMetricClL29Title => 'Avancement par niveau';
+
+  @override
+  String get statsMetricClL30Desc => 'Fichiers joints dans cette liste.';
+
+  @override
+  String get statsMetricClL30Formula => 'Nombre, taille totale et répartition par type.';
+
+  @override
+  String get statsMetricClL30Title => 'Pièces jointes de la liste';
+
+  @override
   String get statsMetricClX01Desc => 'Vos listes : actives, archivées, modèles et inactives.';
 
   @override
@@ -10990,6 +11365,70 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsMetricClX05Title => 'Répartition par statut';
+
+  @override
+  String get statsMetricClX06Desc => 'Motifs de blocage et d’attente les plus fréquents dans toutes vos listes.';
+
+  @override
+  String get statsMetricClX06Formula => 'Pareto des motifs normalisés : épisodes et temps total.';
+
+  @override
+  String get statsMetricClX06Title => 'Motifs toutes listes';
+
+  @override
+  String get statsMetricClX07Desc => 'Qui ou quoi vos éléments attendent.';
+
+  @override
+  String get statsMetricClX07Formula =>
+      'Attentes regroupées par personne ou chose : ouvertes, attente moyenne, plus longue attente, relances en retard.';
+
+  @override
+  String get statsMetricClX07Title => 'Registre des attentes';
+
+  @override
+  String get statsMetricClX08Desc => 'Listes ayant perdu le plus de temps en blocages.';
+
+  @override
+  String get statsMetricClX08Formula => 'Listes classées par temps bloqué total sur la période.';
+
+  @override
+  String get statsMetricClX08Title => 'Listes les plus bloquées';
+
+  @override
+  String get statsMetricClX09Desc => 'Temps de cycle habituel sur toutes les listes et tendance du débit.';
+
+  @override
+  String get statsMetricClX09Formula => 'P50/P85 du temps de cycle global ; pente hebdomadaire du débit.';
+
+  @override
+  String get statsMetricClX09Title => 'Repères de flux';
+
+  @override
+  String get statsMetricClX10Desc => 'Éléments terminés chaque jour dans vos listes, avec la série actuelle.';
+
+  @override
+  String get statsMetricClX10Formula => 'Réalisations par jour ; série de jours avec au moins une.';
+
+  @override
+  String get statsMetricClX10Title => 'Calendrier des réalisations';
+
+  @override
+  String get statsMetricClX11Desc => 'Espace utilisé par les pièces jointes de vos listes.';
+
+  @override
+  String get statsMetricClX11Formula => 'Σ des tailles ; nombre et répartition par type.';
+
+  @override
+  String get statsMetricClX11Title => 'Stockage des pièces jointes';
+
+  @override
+  String get statsMetricClX12Desc => 'Combien de listes vous créez et archivez chaque mois.';
+
+  @override
+  String get statsMetricClX12Formula => 'Listes créées et archivées par mois.';
+
+  @override
+  String get statsMetricClX12Title => 'Listes créées et archivées';
 
   @override
   String get statsMetricGl01Desc => 'Votre journée, toutes sections : agenda, habitudes, listes et arrêts.';
@@ -12174,6 +12613,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsNoteNoRating => 'Pas encore de note';
 
   @override
+  String get statsNoteNoRuns =>
+      'Cette liste n’a pas encore de tours (elle n’est pas réinitialisable ou n’a jamais été réinitialisée)';
+
+  @override
   String get statsNoteNoTracker => 'Suivi d’arrêt introuvable.';
 
   @override
@@ -12215,6 +12658,9 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get statsNoteUnloggedNotFailed =>
       'Les jours non saisis sont inconnus, pas des échecs — ils comptent comme manqués uniquement faute de saisie.';
+
+  @override
+  String get statsNoteUnstableFlow => 'Flux instable : les moyennes peuvent tromper';
 
   @override
   String get statsNoteUsedPlanned =>
@@ -12477,6 +12923,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsSectionAllocation => 'Répartition du temps';
 
   @override
+  String get statsSectionAttachments => 'Pièces jointes et modifications';
+
+  @override
+  String get statsSectionBlockers => 'Bloqués et en attente';
+
+  @override
+  String get statsSectionBurn => 'Burn-down et périmètre';
+
+  @override
   String get statsSectionCalendar => 'Calendrier';
 
   @override
@@ -12489,6 +12944,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsSectionCravings => 'Envies';
+
+  @override
+  String get statsSectionCycleTime => 'Temps de cycle';
 
   @override
   String get statsSectionDataQuality => 'Qualité des données';
@@ -12556,6 +13014,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsSectionReview => 'Bilan hebdomadaire';
 
   @override
+  String get statsSectionRuns => 'Tours de routine';
+
+  @override
   String get statsSectionSeries => 'Exécution';
 
   @override
@@ -12581,6 +13042,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsSectionToday => 'Aujourd’hui';
+
+  @override
+  String get statsSectionTree => 'Arborescence';
 
   @override
   String get statsSectionTrend => 'Tendance';

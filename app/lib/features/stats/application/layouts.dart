@@ -140,6 +140,14 @@ const itemLayout = StatsLayout(
   kpis: ['CL-I-02', 'CL-I-03', 'CL-I-04', 'CL-I-05'],
   sections: [
     StatsLayoutSection('item', [StatsLayoutItem('CL-I-07'), StatsLayoutItem('CL-I-01'), StatsLayoutItem('CL-I-06')]),
+    StatsLayoutSection('blockers', [
+      StatsLayoutItem('CL-I-08'),
+      StatsLayoutItem('CL-I-09'),
+      StatsLayoutItem('CL-I-10', span: _half),
+      StatsLayoutItem('CL-I-12', span: _half),
+      StatsLayoutItem('CL-I-11'),
+    ]),
+    StatsLayoutSection('attachments', [StatsLayoutItem('CL-I-13'), StatsLayoutItem('CL-I-14', span: _half)]),
   ],
 );
 
@@ -150,12 +158,40 @@ const checklistLayout = StatsLayout(
   sections: [
     StatsLayoutSection('status', [StatsLayoutItem('CL-L-01')]),
     StatsLayoutSection('flow', [
+      StatsLayoutItem('CL-L-07'),
       StatsLayoutItem('CL-L-02'),
       StatsLayoutItem('CL-L-03'),
       StatsLayoutItem('CL-L-04'),
       StatsLayoutItem('CL-L-05'),
+      StatsLayoutItem('CL-L-25'),
     ]),
-    StatsLayoutSection('stale', [StatsLayoutItem('CL-L-06')]),
+    StatsLayoutSection('cycleTime', [
+      StatsLayoutItem('CL-L-09', span: _half),
+      StatsLayoutItem('CL-L-13', span: _half),
+      StatsLayoutItem('CL-L-08'),
+      StatsLayoutItem('CL-L-10'),
+    ]),
+    StatsLayoutSection('burn', [StatsLayoutItem('CL-L-11'), StatsLayoutItem('CL-L-12'), StatsLayoutItem('CL-L-28')]),
+    StatsLayoutSection('blockers', [
+      StatsLayoutItem('CL-L-14'),
+      StatsLayoutItem('CL-L-15'),
+      StatsLayoutItem('CL-L-26'),
+    ]),
+    StatsLayoutSection('stale', [StatsLayoutItem('CL-L-06'), StatsLayoutItem('CL-L-19')]),
+    StatsLayoutSection('tree', [
+      StatsLayoutItem('CL-L-16'),
+      StatsLayoutItem('CL-L-17'),
+      StatsLayoutItem('CL-L-18'),
+      StatsLayoutItem('CL-L-29'),
+    ]),
+    StatsLayoutSection('runs', [
+      StatsLayoutItem('CL-L-20'),
+      StatsLayoutItem('CL-L-21'),
+      StatsLayoutItem('CL-L-22'),
+      StatsLayoutItem('CL-L-23'),
+      StatsLayoutItem('CL-L-24'),
+    ]),
+    StatsLayoutSection('advanced', [StatsLayoutItem('CL-L-27'), StatsLayoutItem('CL-L-30')]),
   ],
 );
 
@@ -171,6 +207,13 @@ const checklistsLayout = StatsLayout(
       StatsLayoutItem('CL-X-03'),
       StatsLayoutItem('CL-X-05'),
     ]),
+    StatsLayoutSection('flow', [StatsLayoutItem('CL-X-09'), StatsLayoutItem('CL-X-10')]),
+    StatsLayoutSection('blockers', [
+      StatsLayoutItem('CL-X-06'),
+      StatsLayoutItem('CL-X-07'),
+      StatsLayoutItem('CL-X-08'),
+    ]),
+    StatsLayoutSection('advanced', [StatsLayoutItem('CL-X-11'), StatsLayoutItem('CL-X-12')]),
   ],
 );
 
