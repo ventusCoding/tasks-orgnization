@@ -2,6 +2,8 @@ import 'package:everslot/features/planner/application/view_config/view_config_pr
 import 'package:everslot/features/planner/presentation/views/agenda_view.dart';
 import 'package:everslot/features/planner/presentation/views/day_list_view.dart';
 import 'package:everslot/features/planner/presentation/views/month_view.dart';
+import 'package:everslot/features/planner/presentation/views/multi_week_view.dart';
+import 'package:everslot/features/planner/presentation/views/quarter_view.dart';
 import 'package:everslot/features/planner/presentation/views/time_grid_view.dart';
 import 'package:everslot/features/planner/presentation/views/view_registry.dart';
 import 'package:everslot/features/planner/presentation/views/week_list_view.dart';
@@ -81,5 +83,22 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     icon: Icons.grid_view_outlined,
     label: (l) => l.pvViewYear,
     builder: (a) => YearView(args: a),
+  ),
+  PlannerViewEntry(
+    id: 'multi_week',
+    type: PlannerViewType.multiWeek,
+    icon: Icons.calendar_view_month,
+    label: (l) => l.pvViewMultiWeek,
+    builder: (a) => MultiWeekView(args: a),
+    tier: ViewTier.m3,
+    supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'quarter',
+    type: PlannerViewType.quarter,
+    icon: Icons.view_module_outlined,
+    label: (l) => l.pvViewQuarter,
+    builder: (a) => QuarterView(args: a),
+    tier: ViewTier.m3,
   ),
 ];

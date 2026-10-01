@@ -29,8 +29,8 @@ multi-week; quarter; ribbon (day & week); timeline/Gantt; category swimlanes; lo
 - [x] T3.6.08 — Month semantic zoom & list-below mode
 - [x] T3.6.09 — Agenda / schedule view
 - [x] T3.6.10 — Year heatmap view
-- [ ] T3.6.11 — Multi-week view
-- [ ] T3.6.12 — Quarter view
+- [x] T3.6.11 — Multi-week view
+- [x] T3.6.12 — Quarter view
 - [ ] T3.6.13 — Ribbon view (day & week)
 - [ ] T3.6.14 — Timeline / Gantt view
 - [ ] T3.6.15 — Category swimlanes
@@ -140,12 +140,14 @@ items. Tap a day → Day list; long-press → create; navigate between years.
 number of weeks (BusyCal).
 **Data model:** view config `options.weeks`.
 **Tests:** widget tests.
+**Notes:** `MultiWeekView` reuses the month cell (`MonthDayCell`, now public; the 1st of a month and the first cell show "Oct 1"). Arrows / vertical swipes roll by one week; the week menu or a vertical two-finger pinch (one week per 30 % span change; spread = fewer) sets `options.weeks` (clamped 2–6). Density follows `options.monthMode`.
 
 ### T3.6.12 — Quarter view
 **Priority:** P2 · **Size:** S · **Depends on:** T3.6.07
 **Description:** Three months side by side (landscape/tablet) or stacked (phone), showing dots or bars per
 day (Fantastical).
 **Tests:** golden.
+**Notes:** `QuarterView`: calendar quarters (Jan/Apr/Jul/Oct), months side by side from 600 dp, stacked below; `options.monthMode` dots (default) or bars from the toolbar; tap → Day list, long-press → all-day quick create, month name → Month view. Title uses the locale's `yQQQ` ("Q3 2026"). Golden in the calendar-views suite (T3.6.17).
 
 ### T3.6.13 — Ribbon view (day & week)
 **Priority:** P2 · **Size:** M · **Depends on:** [3.5] (ribbon style)
