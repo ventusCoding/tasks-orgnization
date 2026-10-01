@@ -56,7 +56,9 @@ void main() {
         UncontrolledProviderScope(
           container: ProviderContainer(
             parent: h.container,
-            overrides: [tabBadgesProvider.overrideWithValue(const [0, 0, 0, 4, 0])],
+            overrides: [
+              tabBadgesProvider.overrideWithValue(const [0, 0, 0, 4, 0]),
+            ],
           ),
           child: MaterialApp.router(
             debugShowCheckedModeBanner: false,

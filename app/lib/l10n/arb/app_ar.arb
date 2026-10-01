@@ -856,6 +856,8 @@
   "devSyncPulls": "آخر الصفحات المستلمة",
   "devSyncSimulateOffline": "محاكاة انقطاع الشبكة",
   "devSyncSimulateOfflineHint": "تفشل كل مزامنة كما لو كانت الشبكة مقطوعة.",
+  "devTestCrash": "إرسال تعطّل تجريبي",
+  "devTestCrashBody": "يرمي خطأ غير مُعالَج؛ نسخ الإصدار تُبلغ عنه إلى Crashlytics.",
   "devTimeTravel": "السفر عبر الزمن",
   "devTimeTravelNow": "وقت التطبيق: {time}",
   "devTimeTravelOff": "الوقت الحقيقي",

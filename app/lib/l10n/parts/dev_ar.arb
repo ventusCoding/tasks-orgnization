@@ -61,5 +61,7 @@
   "devSampleDataRemoved": "تم حذف البيانات التجريبية",
   "galleryRows": "الصفوف والصور الرمزية",
   "gallerySwipeHint": "اسحب لعرض الإجراءات",
-  "gallerySheetActions": "ورقة مع إجراءات"
+  "gallerySheetActions": "ورقة مع إجراءات",
+  "devTestCrash": "إرسال تعطّل تجريبي",
+  "devTestCrashBody": "يرمي خطأ غير مُعالَج؛ نسخ الإصدار تُبلغ عنه إلى Crashlytics."
 }

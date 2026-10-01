@@ -290,7 +290,7 @@ section defaults, starts every replan trigger, reconciles fired notifications in
 handles cold starts from a notification, starts push when configured and installs the banner
 overlay. It restarts on account switches.
 
-Push (FCM) activates only when `FIREBASE_ENABLED` is true, `DefaultFirebaseOptions.isConfigured`,
+Push (FCM) activates only when `FIREBASE_ENABLED` is true, `AppFirebaseOptions.isConfigured` (generated `lib/firebase/firebase_options_<flavor>.dart`),
 Supabase is configured and a cloud session exists (`pushAvailableProvider`); otherwise local
 notifications and the inbox work fully offline. Data messages the device understands:
 `{"type":"sync","head":…}` (pull + replan), `{"type":"cancel","dk":<dedupe key>}` (drop that

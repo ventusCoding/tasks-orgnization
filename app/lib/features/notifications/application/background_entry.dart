@@ -127,9 +127,9 @@ void notificationsWorkmanagerDispatcher() {
 /// start/resume (a full pull needs the Supabase client, which lives in the main isolate).
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  if (!DefaultFirebaseOptions.isConfigured) return;
+  if (!AppFirebaseOptions.isConfigured) return;
   try {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp(options: AppFirebaseOptions.currentPlatform);
   } on Object {
     // already initialized
   }

@@ -75,5 +75,7 @@
   "devSampleDataRemoved": "Sample data removed",
   "galleryRows": "Rows & avatars",
   "gallerySwipeHint": "Swipe for actions",
-  "gallerySheetActions": "Sheet with actions"
+  "gallerySheetActions": "Sheet with actions",
+  "devTestCrash": "Send a test crash",
+  "devTestCrashBody": "Throws an uncaught error; release builds report it to Crashlytics."
 }

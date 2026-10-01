@@ -2743,6 +2743,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get devSyncSimulateOfflineHint => 'تفشل كل مزامنة كما لو كانت الشبكة مقطوعة.';
 
   @override
+  String get devTestCrash => 'إرسال تعطّل تجريبي';
+
+  @override
+  String get devTestCrashBody => 'يرمي خطأ غير مُعالَج؛ نسخ الإصدار تُبلغ عنه إلى Crashlytics.';
+
+  @override
   String get devTimeTravel => 'السفر عبر الزمن';
 
   @override

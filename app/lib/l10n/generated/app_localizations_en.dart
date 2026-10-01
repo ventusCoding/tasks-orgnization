@@ -2591,6 +2591,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devSyncSimulateOfflineHint => 'Every sync run fails as if the network were down.';
 
   @override
+  String get devTestCrash => 'Send a test crash';
+
+  @override
+  String get devTestCrashBody => 'Throws an uncaught error; release builds report it to Crashlytics.';
+
+  @override
   String get devTimeTravel => 'Time travel';
 
   @override

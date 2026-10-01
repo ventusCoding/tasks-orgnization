@@ -197,7 +197,12 @@ List<Violation> checkSource(String libPath, String source, {bool rtl = true}) {
       final line = _lineOf(masked, m.start);
       if (originalLines[line].contains('color-ok')) continue;
       violations.add(
-        Violation(libPath, line + 1, 'raw-color', 'use a design-system token instead of `${m.group(0)}…)` (arch §6.14)'),
+        Violation(
+          libPath,
+          line + 1,
+          'raw-color',
+          'use a design-system token instead of `${m.group(0)}…)` (arch §6.14)',
+        ),
       );
     }
   }

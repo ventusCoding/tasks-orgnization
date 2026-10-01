@@ -71,6 +71,14 @@ class DebugMenuScreen extends ConsumerWidget {
           ),
           SectionHeader(l.devDangerZone),
           ListTile(
+            key: const ValueKey('dev-test-crash'),
+            leading: Icon(Icons.bug_report_outlined, color: context.colors.error),
+            title: Text(l.devTestCrash),
+            subtitle: Text(l.devTestCrashBody),
+            // An uncaught async error: logged, and reported to Crashlytics in release builds (T1.2.15).
+            onTap: () => Future<void>(() => throw StateError('Everslot test crash (debug menu)')),
+          ),
+          ListTile(
             key: const ValueKey('dev-reset'),
             leading: Icon(Icons.delete_forever_outlined, color: context.colors.error),
             title: Text(l.devResetData, style: TextStyle(color: context.colors.error)),

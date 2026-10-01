@@ -4497,6 +4497,18 @@ abstract class AppLocalizations {
   /// **'Every sync run fails as if the network were down.'**
   String get devSyncSimulateOfflineHint;
 
+  /// No description provided for @devTestCrash.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a test crash'**
+  String get devTestCrash;
+
+  /// No description provided for @devTestCrashBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Throws an uncaught error; release builds report it to Crashlytics.'**
+  String get devTestCrashBody;
+
   /// No description provided for @devTimeTravel.
   ///
   /// In en, this message translates to:

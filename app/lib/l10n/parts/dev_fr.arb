@@ -61,5 +61,7 @@
   "devSampleDataRemoved": "Données d’exemple supprimées",
   "galleryRows": "Lignes et avatars",
   "gallerySwipeHint": "Balayez pour les actions",
-  "gallerySheetActions": "Feuille avec actions"
+  "gallerySheetActions": "Feuille avec actions",
+  "devTestCrash": "Envoyer un crash de test",
+  "devTestCrashBody": "Lève une erreur non interceptée ; les builds release la signalent à Crashlytics."
 }

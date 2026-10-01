@@ -77,7 +77,10 @@ class _ComponentGalleryScreenState extends State<ComponentGalleryScreen> {
             onChanged: (v) => setState(() => _reduceMotion = v),
             title: Text(l.galleryReduceMotion),
           ),
-          _Section(title: l.galleryButtons, child: const _ButtonsDemo()),
+          _Section(
+            title: l.galleryButtons,
+            child: _ButtonsDemo(animate: widget.animateIndicators),
+          ),
           _Section(title: l.galleryChips, child: const _ChipsDemo()),
           _Section(title: l.galleryInputs, child: const _InputsDemo()),
           _Section(title: l.galleryStatuses, child: const _StatusDemo()),
@@ -120,7 +123,10 @@ class _Section extends StatelessWidget {
 }
 
 class _ButtonsDemo extends StatelessWidget {
-  const _ButtonsDemo();
+  const _ButtonsDemo({required this.animate});
+
+  /// False in tests: the busy button's spinner never settles.
+  final bool animate;
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +160,7 @@ class _ButtonsDemo extends StatelessWidget {
         AppButton(label: l.actionEdit, variant: AppButtonVariant.secondary, onPressed: () {}),
         AppButton(label: l.actionCancel, variant: AppButtonVariant.text, onPressed: () {}),
         AppButton(label: l.actionDelete, variant: AppButtonVariant.destructive, onPressed: () {}),
-        AppButton(label: l.actionSave, busy: true, onPressed: () {}),
+        if (animate) AppButton(label: l.actionSave, busy: true, onPressed: () {}),
         AppIconButton(icon: Icons.inbox_outlined, tooltip: l.actionInbox, badge: 3, onPressed: () {}),
       ],
     );

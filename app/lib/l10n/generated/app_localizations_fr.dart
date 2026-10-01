@@ -2640,6 +2640,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get devSyncSimulateOfflineHint => 'Chaque synchronisation échoue comme si le réseau était coupé.';
 
   @override
+  String get devTestCrash => 'Envoyer un crash de test';
+
+  @override
+  String get devTestCrashBody => 'Lève une erreur non interceptée ; les builds release la signalent à Crashlytics.';
+
+  @override
   String get devTimeTravel => 'Voyage dans le temps';
 
   @override

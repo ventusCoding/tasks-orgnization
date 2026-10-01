@@ -29,13 +29,21 @@ void main() {
                 GoRoute(
                   path: path,
                   builder: (_, _) => _Tab(path),
-                  routes: [GoRoute(path: 'detail', builder: (_, _) => Scaffold(body: Text('$path detail')))],
+                  routes: [
+                    GoRoute(
+                      path: 'detail',
+                      builder: (_, _) => Scaffold(body: Text('$path detail')),
+                    ),
+                  ],
                 ),
               ],
             ),
         ],
       ),
-      GoRoute(path: '/task-new', builder: (_, _) => const Scaffold(body: Text('task editor'))),
+      GoRoute(
+        path: '/task-new',
+        builder: (_, _) => const Scaffold(body: Text('task editor')),
+      ),
     ],
   );
 

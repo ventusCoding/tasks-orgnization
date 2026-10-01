@@ -75,10 +75,10 @@ class RealBootstrapPlatform extends BootstrapPlatform {
 
   @override
   Future<bool> initFirebase(Env env, GlobalErrorHandlers handlers) async {
-    if (!env.firebaseEnabled || !DefaultFirebaseOptions.isConfigured) {
+    if (!env.firebaseEnabled || !AppFirebaseOptions.isConfigured) {
       return false;
     }
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp(options: AppFirebaseOptions.currentPlatform);
     // Release builds report uncaught errors (opt-out in Settings › Privacy, arch §6.15).
     if (!kDebugMode) handlers.reporter = CrashlyticsErrorReporter.instance;
     return true;

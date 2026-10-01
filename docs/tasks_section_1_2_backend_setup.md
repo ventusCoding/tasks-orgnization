@@ -173,7 +173,7 @@ per flavor; `flutterfire configure` per flavor → `firebase_options_dev.dart` /
 Analytics collection disabled (`FIREBASE_ANALYTICS_COLLECTION_ENABLED=false`).
 **Acceptance criteria:** `Firebase.initializeApp` succeeds in both flavors; no analytics events sent.
 **Tests:** bootstrap smoke test in both flavors.
-**Notes:** Placeholder: `app/lib/firebase_options.dart` reports `isConfigured == false` and Firebase stays off until `flutterfire configure` is run per flavor (`docs/guide.md`).
+**Notes:** Per-flavor wiring is in place: `lib/firebase/firebase_options_{dev,prod}.dart` (placeholders in the exact shape `flutterfire configure --out=…` writes) and `AppFirebaseOptions` picking the file of the compile-time `FLAVOR` (also in the FCM background isolate); Firebase stays off while the project id is a `YOUR_` placeholder. Still open (needs the owner's Firebase account): create the two projects and run the two `flutterfire configure` commands of `docs/guide.md` › Firebase, then `FIREBASE_ENABLED=true`.
 
 ### T1.2.14 — APNs key & iOS push capabilities
 **Priority:** P1 · **Size:** S · **Depends on:** T1.2.13
@@ -182,14 +182,14 @@ enable Push Notifications, Time Sensitive Notifications and Background Modes (re
 background fetch, background processing) capabilities; configure the UIScene-compatible notification
 delegate (`configureNotificationCenterDelegate()` in AppDelegate).
 **Acceptance criteria:** a test push from the Firebase console reaches a device (dev flavor).
-**Notes:** `UIBackgroundModes` (remote-notification, fetch, processing) are set. Still open: `Runner.entitlements` (`aps-environment`) and the APNs key upload (manual, `docs/guide.md`).
+**Notes:** `UIBackgroundModes` (remote-notification, fetch, processing), `Runner.entitlements` (`aps-environment`, time-sensitive notifications, associated domains, wired for all configurations) and the notification-center delegate in `AppDelegate` are in place. Still open (needs the owner's Apple developer account): create the APNs .p8 key, upload it to both Firebase projects, enable the capabilities on the App ID, and send a test push to a device (`docs/guide.md`).
 
 ### T1.2.15 — Crashlytics integration
 **Priority:** P1 · **Size:** S · **Depends on:** T1.2.13, [1.3] (error handling)
 **Description:** `firebase_crashlytics` wired to the global error handlers (release builds only), user
 opt-out setting ([8.3]), no PII (user id hashed or omitted), dSYM/mapping upload in release builds ([9.2]).
 **Acceptance criteria:** a forced test crash appears in the Crashlytics dashboard for the dev project.
-**Notes:** Dart side done (`bootstrap.dart` wires Crashlytics when Firebase is configured). The native Gradle/Xcode Crashlytics plugins are added by `flutterfire configure` (manual step).
+**Notes:** Dart side done: `GlobalErrorHandlers` report to `CrashlyticsErrorReporter` in release builds only, scrubbed, with the Settings › Privacy opt-out; debug menu › Send a test crash for the acceptance check. Still open (needs T1.2.13): the native Gradle/Xcode Crashlytics plugins added by `flutterfire configure` and a test crash seen in the dashboard (`docs/guide.md` › Firebase, step 7).
 
 ### T1.2.16 — Database advisors & security baseline in CI
 **Priority:** P1 · **Size:** S · **Depends on:** T1.2.07

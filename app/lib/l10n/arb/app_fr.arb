@@ -856,6 +856,8 @@
   "devSyncPulls": "Dernières pages reçues",
   "devSyncSimulateOffline": "Simuler l’absence de réseau",
   "devSyncSimulateOfflineHint": "Chaque synchronisation échoue comme si le réseau était coupé.",
+  "devTestCrash": "Envoyer un crash de test",
+  "devTestCrashBody": "Lève une erreur non interceptée ; les builds release la signalent à Crashlytics.",
   "devTimeTravel": "Voyage dans le temps",
   "devTimeTravelNow": "Heure de l’app : {time}",
   "devTimeTravelOff": "Heure réelle",

@@ -4907,6 +4907,8 @@
   "devSyncPulls": "Last pulled pages",
   "devSyncSimulateOffline": "Simulate offline",
   "devSyncSimulateOfflineHint": "Every sync run fails as if the network were down.",
+  "devTestCrash": "Send a test crash",
+  "devTestCrashBody": "Throws an uncaught error; release builds report it to Crashlytics.",
   "devTimeTravel": "Time travel",
   "devTimeTravelNow": "App time: {time}",
   "devTimeTravelOff": "Real time",

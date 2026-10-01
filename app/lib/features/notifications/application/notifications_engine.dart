@@ -122,7 +122,7 @@ final notificationActionDispatcherProvider = Provider<NotificationActionDispatch
 /// Firebase app, a configured Supabase client and a cloud session (T7.4 configuration checks).
 final pushAvailableProvider = Provider<bool>((ref) {
   final env = ref.watch(envProvider);
-  if (!env.firebaseEnabled || !DefaultFirebaseOptions.isConfigured) {
+  if (!env.firebaseEnabled || !AppFirebaseOptions.isConfigured) {
     return false;
   }
   if (ref.watch(supabaseClientProvider) == null) return false;
