@@ -10558,6 +10558,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsWeekStart => 'يبدأ الأسبوع يوم';
 
   @override
+  String get shellCreate => 'إنشاء';
+
+  @override
+  String shellDueCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مهمة',
+      many: '$count مهمة',
+      few: '$count مهام',
+      two: 'مهمتان',
+      one: 'مهمة واحدة',
+      zero: 'لا شيء للقيام به',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get shellQuickAdd => 'إضافة سريعة';
+
+  @override
   String get smartBlocked => 'محظور';
 
   @override

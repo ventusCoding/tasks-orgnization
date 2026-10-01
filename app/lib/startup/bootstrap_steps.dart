@@ -1,4 +1,5 @@
 import 'package:everslot/core/logging/log.dart';
+import 'package:everslot/core/preferences/last_tab.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/session/local_account.dart';
 import 'package:everslot/core/session/local_only_choice.dart';
@@ -62,6 +63,7 @@ List<BootstrapStep> defaultBootstrapSteps() => [
     c.deviceId = await c.platform.loadDeviceId(db);
     final hlcState = await (db.select(db.localKv)..where((k) => k.key.equals('hlc_state'))).getSingleOrNull();
     HlcBootstrap.initialState = hlcState?.value;
+    LastTab.initial = await LastTab.load(db);
     try {
       c.build = await c.platform.buildNumber();
     } on Object {

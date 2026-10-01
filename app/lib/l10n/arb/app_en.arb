@@ -3358,6 +3358,13 @@
       }
     }
   },
+  "@shellDueCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@smartChip": {
     "placeholders": {
       "label": {
@@ -7003,6 +7010,9 @@
   "settingsTrashWith": "{count, plural, =1{+1 related item} other{+{count} related items}}",
   "settingsUnknownPage": "This settings page doesn't exist.",
   "settingsWeekStart": "Week starts on",
+  "shellCreate": "Create",
+  "shellDueCount": "{count, plural, =1{1 to do} other{{count} to do}}",
+  "shellQuickAdd": "Quick add",
   "smartBlocked": "Blocked",
   "smartChip": "{label} · {count}",
   "smartClearFollowUp": "Clear follow-up",

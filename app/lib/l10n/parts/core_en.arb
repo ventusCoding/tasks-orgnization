@@ -119,5 +119,9 @@
   "pickerCustomColor": "Custom color",
   "pickerHex": "Hex code",
   "pickerHexInvalid": "Use 6 hex digits, like 3B82F6",
-  "pickerLowContrast": "Low contrast: this color is hard to see on the background."
+  "pickerLowContrast": "Low contrast: this color is hard to see on the background.",
+  "shellQuickAdd": "Quick add",
+  "shellCreate": "Create",
+  "shellDueCount": "{count, plural, =1{1 to do} other{{count} to do}}",
+  "@shellDueCount": {"placeholders": {"count": {"type": "int"}}}
 }

@@ -106,5 +106,8 @@
   "pickerCustomColor": "لون مخصّص",
   "pickerHex": "الرمز الست عشري",
   "pickerHexInvalid": "استخدم 6 خانات ست عشرية، مثل 3B82F6",
-  "pickerLowContrast": "تباين منخفض: يصعب رؤية هذا اللون على الخلفية."
+  "pickerLowContrast": "تباين منخفض: يصعب رؤية هذا اللون على الخلفية.",
+  "shellQuickAdd": "إضافة سريعة",
+  "shellCreate": "إنشاء",
+  "shellDueCount": "{count, plural, =0{لا شيء للقيام به} =1{مهمة واحدة} =2{مهمتان} few{{count} مهام} many{{count} مهمة} other{{count} مهمة}}"
 }

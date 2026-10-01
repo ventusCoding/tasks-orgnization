@@ -106,5 +106,8 @@
   "pickerCustomColor": "Couleur personnalisée",
   "pickerHex": "Code hexadécimal",
   "pickerHexInvalid": "Utilisez 6 chiffres hexadécimaux, par ex. 3B82F6",
-  "pickerLowContrast": "Contraste faible : cette couleur se voit mal sur le fond."
+  "pickerLowContrast": "Contraste faible : cette couleur se voit mal sur le fond.",
+  "shellQuickAdd": "Ajout rapide",
+  "shellCreate": "Créer",
+  "shellDueCount": "{count, plural, =1{1 à faire} other{{count} à faire}}"
 }

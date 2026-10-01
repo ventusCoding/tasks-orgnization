@@ -9791,6 +9791,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsWeekStart => 'Week starts on';
 
   @override
+  String get shellCreate => 'Create';
+
+  @override
+  String shellDueCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count to do', one: '1 to do');
+    return '$_temp0';
+  }
+
+  @override
+  String get shellQuickAdd => 'Quick add';
+
+  @override
   String get smartBlocked => 'Blocked';
 
   @override

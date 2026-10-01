@@ -24,13 +24,13 @@ handling/logging, and a dev-only debug menu.
 - [x] T1.3.03 — Core utilities: clock, ids (v7/v5), fractional index
 - [x] T1.3.04 — App lifecycle & connectivity services
 - [x] T1.3.05 — Error model, global handlers & logging
-- [ ] T1.3.06 — Routing: typed routes, 5-tab shell, modal editors
+- [x] T1.3.06 — Routing: typed routes, 5-tab shell, modal editors
 - [x] T1.3.07 — Deep-link parser (single source for all entry points)
 - [x] T1.3.08 — Design tokens & themes (light/dark, category palette)
 - [x] T1.3.09 — Typography & bundled fonts (Latin + Arabic)
 - [x] T1.3.10 — Core components v1
 - [x] T1.3.11 — Pickers: date, time (1-min), duration, color, icon
-- [ ] T1.3.12 — App scaffold: bottom bar, app bar actions, contextual FAB, adaptive layout
+- [x] T1.3.12 — App scaffold: bottom bar, app bar actions, contextual FAB, adaptive layout
 - [x] T1.3.13 — Localization (EN/FR/AR) & formatting helpers
 - [x] T1.3.14 — RTL baseline
 - [x] T1.3.15 — Accessibility baseline
@@ -107,6 +107,8 @@ Search, Settings, editors as full-screen modal routes on phones (sheets on table
 **Acceptance criteria:** each tab keeps its own navigation stack; Android back behaves (tab history, then
 exit); iOS swipe-back works on pushed routes.
 **Tests:** router unit tests (redirects, typed route building); widget test switching tabs.
+**Notes:** Deviation (ADR-016, no codegen except Drift): no `go_router_builder` — typed routes are the hand-written `AppLinks` builders, round-tripped with `DeepLinkParser` (T1.3.07). `app/router.dart`: `StatefulShellRoute.indexedStack` with Today · Plan · Lists · Habits · Insights, top-level Inbox/Search/Settings, editors as full-screen dialogs on the root navigator, auth redirect (T1.5.02). The last tab is saved in `local_kv` (`LastTab`, read at bootstrap) and used as the initial location. Android back: pushed routes first, then the tab history kept by the shell, then exit; iOS swipe-back uses the platform page transitions. Tests: `test/app/shell_test.dart` (stacks per tab, re-tap to root, back history, last tab, router initial location), `deep_links_test.dart`, `auth_redirect_test.dart`.
+
 
 ### T1.3.07 — Deep-link parser (single source for all entry points)
 **Priority:** P0 · **Size:** S · **Depends on:** T1.3.06
@@ -176,6 +178,8 @@ medium 600–840, expanded > 840) switching to a navigation rail on tablets.
 **Acceptance criteria:** works in portrait/landscape, phones and tablets; bottom bar hides on scroll where
 appropriate; RTL mirrors layout.
 **Tests:** widget tests at 3 breakpoints; goldens.
+**Notes:** `app/shell_scaffold.dart`: bottom `NavigationBar` below 600 dp, `NavigationRail` 600–840 dp and extended rail above (RTL mirrors), tab badges (`tabBadgesProvider`: Habits = still due today, with a spoken count), the shared `AppBarActions` (timer, sync, Search, Inbox with unread badge, Settings) on every tab root, a contextual + (new task on Today/Plan; Lists/Habits keep their own; none on Insights) whose long-press — also a semantics action — opens quick add (task, checklist, habit, quit tracker) until [8.1] brings the universal sheet, and a bottom bar that hides while scrolling down (not on Plan, whose grid scrolls constantly; instant with reduce motion). Found while testing: a FAB tooltip's long-press swallows the surrounding long-press handler, so the Lists board's FAB menu never opened — both FABs now use a manual-trigger Tooltip. Tests: `test/app/shell_test.dart` (3 breakpoints, RTL rail side, badges, FAB/quick add, hide on scroll) and `shell_goldens_test.dart`.
+
 
 ### T1.3.13 — Localization (EN/FR/AR) & formatting helpers
 **Priority:** P0 · **Size:** M · **Depends on:** T1.3.02

@@ -238,7 +238,12 @@ class _ListsBoardScreenState extends ConsumerState<ListsBoardScreen> {
       ),
       floatingActionButton: GestureDetector(
         onLongPress: _fabMenu,
-        child: FloatingActionButton(tooltip: l.listsNewChecklist, onPressed: _create, child: const Icon(Icons.add)),
+        // A FAB tooltip's own long-press would swallow the menu: manual tooltip, same label.
+        child: Tooltip(
+          message: l.listsNewChecklist,
+          triggerMode: TooltipTriggerMode.manual,
+          child: FloatingActionButton(onPressed: _create, child: const Icon(Icons.add)),
+        ),
       ),
       body: AsyncValueView<List<Checklist>>(
         value: lists,

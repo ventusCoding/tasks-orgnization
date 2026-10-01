@@ -1,7 +1,7 @@
 import 'package:everslot/app/shell_scaffold.dart';
 import 'package:everslot/core/env/env.dart';
+import 'package:everslot/core/preferences/last_tab.dart';
 import 'package:everslot/core/providers.dart';
-import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/auth/application/auth_providers.dart';
 import 'package:everslot/features/auth/domain/auth_redirect.dart';
@@ -45,7 +45,8 @@ final routerProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: AppLinks.today(),
+    // The last selected tab (T1.3.06); deep links replace it.
+    initialLocation: LastTab.initialLocation,
     refreshListenable: refresh,
     // Auth guard, deep links preserved across sign-in, onboarding (T1.5.02).
     redirect: (context, state) =>

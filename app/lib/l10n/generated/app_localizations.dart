@@ -17115,6 +17115,24 @@ abstract class AppLocalizations {
   /// **'Week starts on'**
   String get settingsWeekStart;
 
+  /// No description provided for @shellCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get shellCreate;
+
+  /// No description provided for @shellDueCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 to do} other{{count} to do}}'**
+  String shellDueCount(int count);
+
+  /// No description provided for @shellQuickAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick add'**
+  String get shellQuickAdd;
+
   /// No description provided for @smartBlocked.
   ///
   /// In en, this message translates to:
