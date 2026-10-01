@@ -679,5 +679,17 @@
       }
     }
   },
-  "pvNothingNext": "Nothing else planned today"
+  "pvNothingNext": "Nothing else planned today",
+  "pvAddToBacklog": "Add to backlog",
+  "pvNoDeadline": "No deadline",
+  "pvGroupDeadline": "Deadline",
+  "pvNoEstimate": "No estimate",
+  "pvScheduledCount": "{count, plural, =1{1 item scheduled} other{{count} items scheduled}}",
+  "@pvScheduledCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

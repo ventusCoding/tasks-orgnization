@@ -2835,6 +2835,13 @@
       }
     }
   },
+  "@pvScheduledCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@pvSelected": {
     "placeholders": {
       "count": {
@@ -6194,6 +6201,7 @@
   "priorityUrgent": "Urgent",
   "pvActualColumn": "Actual",
   "pvAddTask": "Add task",
+  "pvAddToBacklog": "Add to backlog",
   "pvAddZone": "Add time zone",
   "pvAllDay": "All day",
   "pvAllDaySection": "All day & untimed",
@@ -6282,6 +6290,7 @@
   "pvGroupCalendar": "Calendar views",
   "pvGroupCategory": "Category",
   "pvGroupDay": "Day",
+  "pvGroupDeadline": "Deadline",
   "pvGroupNone": "None",
   "pvGroupPriority": "Priority",
   "pvGroupProductivity": "Focus & productivity",
@@ -6347,6 +6356,8 @@
   "pvNextUp": "Next up",
   "pvNextWeek": "Next week",
   "pvNoCategory": "No category",
+  "pvNoDeadline": "No deadline",
+  "pvNoEstimate": "No estimate",
   "pvNoOpenings": "No free time found",
   "pvNoRoom": "{count, plural, =1{1 item didn't fit} other{{count} items didn't fit}}",
   "pvNoRoutine": "No routine block today",
@@ -6427,6 +6438,7 @@
   "pvScaleMonths": "Months",
   "pvScaleWeeks": "Weeks",
   "pvScheduleOn": "Schedule on…",
+  "pvScheduledCount": "{count, plural, =1{1 item scheduled} other{{count} items scheduled}}",
   "pvScheduledSnack": "Scheduled",
   "pvScopeAll": "All occurrences",
   "pvScopeFollowing": "This and following",

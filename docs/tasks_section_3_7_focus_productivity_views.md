@@ -25,7 +25,7 @@ countdown / count-up; map; tests.
 
 - [x] T3.7.01 — Now / Next focus view
 - [ ] T3.7.02 — Backlog drawer & timeboxing
-- [ ] T3.7.03 — Backlog list screen
+- [x] T3.7.03 — Backlog list screen
 - [x] T3.7.04 — Free-slot finder & openings
 - [ ] T3.7.05 — Table (spreadsheet) view
 - [ ] T3.7.06 — Plan-vs-actual view
@@ -84,6 +84,7 @@ It has filters and search. Drag behaviour:
 A bulk *Schedule on…* picks a day and places the selected items one after another into that day's free
 slots, using the T3.7.04 algorithm.
 **Tests:** widget tests; unit test for sequential placement (respects work hours, skips busy blocks).
+**Notes:** `BacklogView`: quick add (`PlannerViewActions.createBacklog`), drag-handle reorder through the neighbours' `manual_sort_key`s (`reorder`), inline chips for estimate (`pickDuration`), priority, deadline (`pickDate`, 23:59) and category (`pickCategory`) via `editBacklog` (`BacklogEdit` applied to the task, source `backlog`); `options.groupBy` none / category / priority / deadline (`groupBacklog`, pure). Selecting items shows *Schedule on…*: the picked day's openings (work hours, from now when today, any picked day counts as a work day) receive the items in order (`scheduleOnDay` = `freeIntervals` + `placeSequentially`), as one undoable command; items that don't fit are reported.
 
 ### T3.7.04 — Free-slot finder & openings
 **Priority:** P1 · **Size:** M · **Depends on:** [3.2], T3.7.02

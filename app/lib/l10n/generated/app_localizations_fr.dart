@@ -7037,6 +7037,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvAddTask => 'Ajouter une tâche';
 
   @override
+  String get pvAddToBacklog => 'Ajouter au backlog';
+
+  @override
   String get pvAddZone => 'Ajouter un fuseau horaire';
 
   @override
@@ -7341,6 +7344,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvGroupDay => 'Jour';
 
   @override
+  String get pvGroupDeadline => 'Échéance';
+
+  @override
   String get pvGroupNone => 'Aucun';
 
   @override
@@ -7577,6 +7583,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvNoCategory => 'Sans catégorie';
+
+  @override
+  String get pvNoDeadline => 'Sans échéance';
+
+  @override
+  String get pvNoEstimate => 'Sans estimation';
 
   @override
   String get pvNoOpenings => 'Aucun temps libre trouvé';
@@ -7846,6 +7858,17 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvScheduleOn => 'Planifier le…';
+
+  @override
+  String pvScheduledCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments planifiés',
+      one: '1 élément planifié',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get pvScheduledSnack => 'Planifiée';

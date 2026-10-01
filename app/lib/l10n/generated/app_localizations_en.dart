@@ -6838,6 +6838,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvAddTask => 'Add task';
 
   @override
+  String get pvAddToBacklog => 'Add to backlog';
+
+  @override
   String get pvAddZone => 'Add time zone';
 
   @override
@@ -7142,6 +7145,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvGroupDay => 'Day';
 
   @override
+  String get pvGroupDeadline => 'Deadline';
+
+  @override
   String get pvGroupNone => 'None';
 
   @override
@@ -7367,6 +7373,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvNoCategory => 'No category';
+
+  @override
+  String get pvNoDeadline => 'No deadline';
+
+  @override
+  String get pvNoEstimate => 'No estimate';
 
   @override
   String get pvNoOpenings => 'No free time found';
@@ -7636,6 +7648,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvScheduleOn => 'Schedule on…';
+
+  @override
+  String pvScheduledCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items scheduled',
+      one: '1 item scheduled',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get pvScheduledSnack => 'Scheduled';

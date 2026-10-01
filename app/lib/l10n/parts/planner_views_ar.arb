@@ -344,5 +344,10 @@
   "pvShowAsTimeline": "العرض كصفوف في الخط الزمني",
   "pvLanesHint": "اختر الفئات المعروضة جنبًا إلى جنب وترتيبها.",
   "pvExtendedSnack": "مُدّد بمقدار {minutes} د",
-  "pvNothingNext": "لا شيء آخر مخطط اليوم"
+  "pvNothingNext": "لا شيء آخر مخطط اليوم",
+  "pvAddToBacklog": "إضافة إلى قائمة الانتظار",
+  "pvNoDeadline": "بلا موعد نهائي",
+  "pvGroupDeadline": "الموعد النهائي",
+  "pvNoEstimate": "بلا تقدير",
+  "pvScheduledCount": "{count, plural, zero{لم تُجدول أي عناصر} one{عنصر واحد مُجدول} two{عنصران مُجدولان} few{{count} عناصر مُجدولة} many{{count} عنصرًا مُجدولًا} other{{count} عنصر مُجدول}}"
 }

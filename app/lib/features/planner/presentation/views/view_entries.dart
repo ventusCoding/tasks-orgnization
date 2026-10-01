@@ -1,5 +1,6 @@
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/presentation/views/agenda_view.dart';
+import 'package:everslot/features/planner/presentation/views/backlog_view.dart';
 import 'package:everslot/features/planner/presentation/views/day_list_view.dart';
 import 'package:everslot/features/planner/presentation/views/focus_view.dart';
 import 'package:everslot/features/planner/presentation/views/free_slots_view.dart';
@@ -159,6 +160,14 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     icon: Icons.event_available_outlined,
     label: (l) => l.pvViewFreeSlots,
     builder: (a) => FreeSlotsView(args: a),
+    group: PlannerViewGroup.productivity,
+  ),
+  PlannerViewEntry(
+    id: 'backlog',
+    type: PlannerViewType.backlog,
+    icon: Icons.inbox_outlined,
+    label: (l) => l.pvViewBacklog,
+    builder: (a) => BacklogView(args: a),
     group: PlannerViewGroup.productivity,
   ),
 ];

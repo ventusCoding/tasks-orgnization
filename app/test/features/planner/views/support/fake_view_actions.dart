@@ -7,6 +7,18 @@ class FakeViewActions implements PlannerViewActions {
   final calls = <String>[];
 
   @override
+  Future<String?> createBacklog(String title) async {
+    calls.add('createBacklog $title');
+    return 'new';
+  }
+
+  @override
+  Future<void> editBacklog(PlannerItem item, BacklogEdit edit) async => calls.add(
+    'edit ${item.title} est=${edit.estimateMinutes} prio=${edit.priority} '
+    'deadline=${edit.deadline?.toIso()} cat=${edit.categoryId}',
+  );
+
+  @override
   Future<String?> paste(PlannerItem item, LocalDateTime start) async {
     calls.add('paste ${item.title} ${start.toIso()}');
     return 'pasted';

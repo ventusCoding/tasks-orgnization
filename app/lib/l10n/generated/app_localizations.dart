@@ -11871,6 +11871,12 @@ abstract class AppLocalizations {
   /// **'Add task'**
   String get pvAddTask;
 
+  /// No description provided for @pvAddToBacklog.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to backlog'**
+  String get pvAddToBacklog;
+
   /// No description provided for @pvAddZone.
   ///
   /// In en, this message translates to:
@@ -12399,6 +12405,12 @@ abstract class AppLocalizations {
   /// **'Day'**
   String get pvGroupDay;
 
+  /// No description provided for @pvGroupDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Deadline'**
+  String get pvGroupDeadline;
+
   /// No description provided for @pvGroupNone.
   ///
   /// In en, this message translates to:
@@ -12788,6 +12800,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No category'**
   String get pvNoCategory;
+
+  /// No description provided for @pvNoDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'No deadline'**
+  String get pvNoDeadline;
+
+  /// No description provided for @pvNoEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'No estimate'**
+  String get pvNoEstimate;
 
   /// No description provided for @pvNoOpenings.
   ///
@@ -13268,6 +13292,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Schedule on…'**
   String get pvScheduleOn;
+
+  /// No description provided for @pvScheduledCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item scheduled} other{{count} items scheduled}}'**
+  String pvScheduledCount(int count);
 
   /// No description provided for @pvScheduledSnack.
   ///

@@ -3,8 +3,42 @@ import 'package:everslot/core/sync/sync_writer.dart';
 import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot/features/planner/application/planner_service.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
+import 'package:everslot/features/planner/domain/task.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meta/meta.dart';
+
+/// Field edits of a backlog task (T3.7.03); null = unchanged, `clear*` = set to null.
+@immutable
+class BacklogEdit {
+  const BacklogEdit({
+    this.title,
+    this.estimateMinutes,
+    this.priority,
+    this.deadline,
+    this.categoryId,
+    this.clearEstimate = false,
+    this.clearDeadline = false,
+    this.clearCategory = false,
+  });
+
+  final String? title;
+  final int? estimateMinutes;
+  final int? priority;
+  final LocalDateTime? deadline;
+  final String? categoryId;
+  final bool clearEstimate;
+  final bool clearDeadline;
+  final bool clearCategory;
+
+  Task applyTo(Task t) => t.copyWith(
+    title: title,
+    estimateMinutes: clearEstimate ? null : (estimateMinutes ?? t.estimateMinutes),
+    priority: priority,
+    deadlineLocal: clearDeadline ? null : (deadline ?? t.deadlineLocal),
+    categoryId: clearCategory ? null : (categoryId ?? t.categoryId),
+  );
+}
 
 /// Planner mutations the views need beyond the CONTRACT's [PlannerActions] (tile menu *Delete* /
 /// *Duplicate*, manual order of untimed items and the backlog, unscheduling, timers). Thin wrappers
@@ -33,6 +67,12 @@ abstract interface class PlannerViewActions {
   Future<void> pauseTimer(PlannerItem item);
 
   Future<void> stopTimer(PlannerItem item);
+
+  /// Creates an unscheduled (backlog) task (T3.7.03). Returns the new task id.
+  Future<String?> createBacklog(String title);
+
+  /// Edits a backlog task's estimate, priority, deadline, category or title (T3.7.03).
+  Future<void> editBacklog(PlannerItem item, BacklogEdit edit);
 }
 
 class _ServicePlannerViewActions implements PlannerViewActions {
@@ -87,6 +127,19 @@ class _ServicePlannerViewActions implements PlannerViewActions {
 
   @override
   Future<void> stopTimer(PlannerItem item) => _service.stopTimer(item);
+
+  @override
+  Future<String?> createBacklog(String title) async => (await _service.createTask(
+    Task(id: '', seriesId: '', title: title),
+    source: 'backlog',
+  )).taskId;
+
+  @override
+  Future<void> editBacklog(PlannerItem item, BacklogEdit edit) async {
+    final task = await _service.task(item.taskId);
+    if (task == null) return;
+    await _service.updateTask(edit.applyTo(task), source: 'backlog');
+  }
 }
 
 /// Extra planner mutations for views (see [PlannerViewActions]).

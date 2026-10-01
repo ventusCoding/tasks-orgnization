@@ -338,6 +338,33 @@ class DemoPlannerActions implements PlannerActions, PlannerViewActions {
   Future<void> stopTimer(PlannerItem item) => setStatus(item, OccurrenceStatus.done);
 
   @override
+  Future<String?> createBacklog(String title) async {
+    final id = 'demo-backlog-new-${read().backlog.length}';
+    final b = data.make(id: id, title: title, start: LocalDate(2026, 1, 1).atTime(LocalTime(9, 0)), minutes: 30);
+    _apply((s) => DemoPlannerState(edits: s.edits, created: s.created, backlog: [...s.backlog, b]));
+    return id;
+  }
+
+  @override
+  Future<void> editBacklog(PlannerItem item, BacklogEdit edit) async {
+    final next = copyItem(
+      item,
+      title: edit.title,
+      priority: edit.priority,
+      categoryId: edit.categoryId,
+      deadlineLocal: edit.deadline,
+      estimateMinutes: edit.estimateMinutes,
+    );
+    _apply(
+      (s) => DemoPlannerState(
+        edits: s.edits,
+        created: s.created,
+        backlog: [for (final b in s.backlog) b.key == item.key ? next : b],
+      ),
+    );
+  }
+
+  @override
   Future<void> scheduleBacklogItem(PlannerItem item, LocalDateTime start, int durationMinutes) async {
     final scheduled = data.make(
       id: item.taskId,

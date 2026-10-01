@@ -7416,6 +7416,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvAddTask => 'إضافة مهمة';
 
   @override
+  String get pvAddToBacklog => 'إضافة إلى قائمة الانتظار';
+
+  @override
   String get pvAddZone => 'إضافة منطقة زمنية';
 
   @override
@@ -7726,6 +7729,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvGroupDay => 'اليوم';
 
   @override
+  String get pvGroupDeadline => 'الموعد النهائي';
+
+  @override
   String get pvGroupNone => 'بلا تجميع';
 
   @override
@@ -7988,6 +7994,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvNoCategory => 'بلا فئة';
+
+  @override
+  String get pvNoDeadline => 'بلا موعد نهائي';
+
+  @override
+  String get pvNoEstimate => 'بلا تقدير';
 
   @override
   String get pvNoOpenings => 'لم يُعثر على وقت متاح';
@@ -8271,6 +8283,21 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvScheduleOn => 'جدولة في…';
+
+  @override
+  String pvScheduledCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر مُجدول',
+      many: '$count عنصرًا مُجدولًا',
+      few: '$count عناصر مُجدولة',
+      two: 'عنصران مُجدولان',
+      one: 'عنصر واحد مُجدول',
+      zero: 'لم تُجدول أي عناصر',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get pvScheduledSnack => 'جُدولت';
