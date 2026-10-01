@@ -54,5 +54,22 @@
   "attachmentsSizeGb": "{size} Go",
   "attachmentsLocalOnly": "Stocké sur cet appareil",
   "attachmentsEmpty": "Aucune pièce jointe",
-  "attachmentsGoToItem": "Aller à l'élément"
+  "attachmentsGoToItem": "Aller à l'élément",
+  "attachmentsSourceRecordVideo": "Filmer une vidéo",
+  "attachmentsSourceVideos": "Choisir une vidéo",
+  "attachmentsSourceVoiceNote": "Note vocale",
+  "attachmentsSourceScan": "Numériser un document",
+  "attachmentsRejectedTooLong": "{name} dure plus de {seconds} secondes",
+  "attachmentsPlay": "Lire",
+  "attachmentsPause": "Pause",
+  "attachmentsDuration": "Durée {duration}",
+  "voiceNoteTitle": "Note vocale",
+  "voiceNoteHint": "Touchez le micro et parlez.",
+  "voiceNoteRecord": "Démarrer l’enregistrement",
+  "voiceNoteStop": "Arrêter l’enregistrement",
+  "voiceNoteSave": "Joindre",
+  "voiceNoteDiscard": "Supprimer",
+  "voiceNoteRecording": "Enregistrement, {duration}",
+  "voiceNoteMicPrimerTitle": "Accès au micro",
+  "voiceNoteMicPrimerBody": "Everslot utilise le micro uniquement pendant l’enregistrement d’une note vocale. Les enregistrements restent sur votre appareil jusqu’à leur envoi sur votre compte."
 }

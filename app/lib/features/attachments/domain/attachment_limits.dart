@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 /// Why a file was refused (T2.2.08). Mapped to localized messages in the presentation layer.
-enum AttachmentRejection { tooLarge, typeNotAllowed, tooMany, empty, duplicate, unreadable }
+enum AttachmentRejection { tooLarge, typeNotAllowed, tooMany, empty, duplicate, unreadable, tooLong }
 
 /// Configurable limits (arch §6.7 item 6), mirrored by the Storage bucket
 /// (`file_size_limit`, `allowed_mime_types`).
@@ -9,15 +9,35 @@ enum AttachmentRejection { tooLarge, typeNotAllowed, tooMany, empty, duplicate, 
 class AttachmentLimits {
   const AttachmentLimits({
     this.maxBytes = 25 * 1024 * 1024,
+    this.maxVideoBytes = 50 * 1024 * 1024,
+    this.maxVideoDuration = const Duration(seconds: 60),
     this.maxPerOwner = 50,
-    this.allowVideo = false,
-    this.allowAudio = false,
+    this.allowVideo = true,
+    this.allowAudio = true,
   });
 
+  /// Any file except videos.
   final int maxBytes;
+
+  /// Short clips (T2.2.12): ≤ 50 MB and ≤ 60 s (the Storage bucket allows 50 MB).
+  final int maxVideoBytes;
+  final Duration maxVideoDuration;
   final int maxPerOwner;
   final bool allowVideo;
   final bool allowAudio;
+
+  /// Size limit for a MIME type.
+  int maxBytesFor(String mime) => mime.toLowerCase().startsWith('video/') ? maxVideoBytes : maxBytes;
+
+  /// Rejects clips longer than [maxVideoDuration] (known once processed).
+  AttachmentRejection? validateDuration({required String mimeType, required int? durationMs}) =>
+      mimeType.toLowerCase().startsWith('video/') &&
+          durationMs != null &&
+          durationMs >
+              maxVideoDuration.inMilliseconds +
+                  999 // container rounding
+      ? AttachmentRejection.tooLong
+      : null;
 
   /// Resumable (TUS) uploads are used above this size (arch §6.7 item 3).
   static const resumableThreshold = 6 * 1024 * 1024;
@@ -74,7 +94,7 @@ class AttachmentLimits {
   AttachmentRejection? validate({required int byteSize, required String mimeType, required int existingCount}) {
     if (existingCount >= maxPerOwner) return AttachmentRejection.tooMany;
     if (byteSize <= 0) return AttachmentRejection.empty;
-    if (byteSize > maxBytes) return AttachmentRejection.tooLarge;
+    if (byteSize > maxBytesFor(mimeType)) return AttachmentRejection.tooLarge;
     if (!isAllowedMime(mimeType)) return AttachmentRejection.typeNotAllowed;
     return null;
   }

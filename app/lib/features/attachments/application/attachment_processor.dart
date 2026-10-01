@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:everslot/features/attachments/application/attachment_picker.dart';
+import 'package:everslot/features/attachments/application/media.dart';
 import 'package:everslot/features/attachments/data/attachment_cache_store.dart';
 import 'package:everslot/features/attachments/domain/attachment_limits.dart';
 import 'package:everslot/features/attachments/domain/image_header.dart';
@@ -65,6 +66,7 @@ class ProcessedAttachment {
     this.relThumb,
     this.width,
     this.height,
+    this.durationMs,
   });
 
   final String attachmentId;
@@ -81,15 +83,24 @@ class ProcessedAttachment {
   final String sha256;
   final int? width;
   final int? height;
+
+  /// Length of a video or audio file.
+  final int? durationMs;
 }
 
 /// On-device processing pipeline (T2.2.03): copy, orientation, metadata strip, compression,
 /// thumbnail, hash, dimensions, MIME sniffing.
+///
+/// Videos and audio (T2.2.12, T2.2.13) are copied as-is (transcoding is left to the OS picker);
+/// their duration (and frame size) comes from [MediaProbe]; the thumbnail is a poster frame for
+/// videos and the waveform for voice notes.
 class AttachmentProcessor {
-  AttachmentProcessor({required this._files, required this._codec});
+  AttachmentProcessor({required this._files, required this._codec, this._media, this._waveforms});
 
   final AttachmentFileStore _files;
   final ImageCodec _codec;
+  final MediaProbe? _media;
+  final WaveformRenderer? _waveforms;
 
   static const maxEdge = 2560;
   static const thumbEdge = 512;
@@ -154,6 +165,9 @@ class AttachmentProcessor {
       }
       return _finish(attachmentId, name, outMime, encoded, thumbFrom: src.path);
     }
+    if (mime.startsWith('video/') || mime.startsWith('audio/')) {
+      return _processMedia(source, attachmentId, name, mime, src);
+    }
     // Non-image (or GIF): copied as-is; the thumbnail is the type icon.
     final rel = AttachmentFileStore.relOriginal(attachmentId, SafeFileName.storageKey(name));
     final copied = await _files.copyFrom(rel, src);
@@ -179,6 +193,63 @@ class AttachmentProcessor {
       width: header?.width,
       height: header?.height,
     );
+  }
+
+  Future<ProcessedAttachment> _processMedia(PickedFileRef source, String id, String name, String mime, File src) async {
+    final storageName = SafeFileName.storageKey(name);
+    final rel = AttachmentFileStore.relOriginal(id, storageName);
+    final copied = await _files.copyFrom(rel, src);
+    final isVideo = mime.startsWith('video/');
+    MediaInfo? info;
+    try {
+      info = await _media?.inspect(copied.path);
+    } on Object {
+      info = null;
+    }
+    String? relThumb;
+    final thumbRel = AttachmentFileStore.relThumb(id);
+    if (isVideo) {
+      final made = await _media?.videoPoster(copied.path, await _files.absolute(thumbRel), edge: thumbEdge) ?? false;
+      if (made && await _files.exists(thumbRel)) relThumb = thumbRel;
+    } else if (source.waveform case final levels? when _waveforms != null) {
+      relThumb = await _waveformThumb(levels, thumbRel);
+    }
+    return ProcessedAttachment(
+      attachmentId: id,
+      fileName: name,
+      storageName: storageName,
+      mimeType: mime,
+      byteSize: await copied.length(),
+      relOriginal: rel,
+      relThumb: relThumb,
+      sha256: await sha256Of(copied),
+      width: isVideo ? info?.width : null,
+      height: isVideo ? info?.height : null,
+      durationMs: info?.durationMs ?? source.durationMs,
+    );
+  }
+
+  /// Renders the waveform to PNG, then re-encodes it as the JPEG thumbnail every device downloads.
+  Future<String?> _waveformThumb(List<double> levels, String thumbRel) async {
+    try {
+      final png = await _waveforms!.render(levels);
+      if (png == null || png.isEmpty) return null;
+      final pngRel = '$thumbRel.png';
+      final pngFile = await _files.writeBytes(pngRel, png);
+      final jpeg = await _codec.encode(
+        pngFile.path,
+        targetWidth: thumbEdge,
+        targetHeight: thumbEdge,
+        quality: 80,
+        format: ImageOutputFormat.jpeg,
+      );
+      await _files.deleteFile(pngRel);
+      if (jpeg == null || jpeg.isEmpty) return null;
+      await _files.writeBytes(thumbRel, jpeg);
+      return thumbRel;
+    } on Object {
+      return null;
+    }
   }
 
   Future<ProcessedAttachment> _finish(

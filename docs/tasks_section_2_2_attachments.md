@@ -30,9 +30,9 @@ storage purge job wiring ([1.4] T1.4.16 purge + cron in arch §7.7).
 - [x] T2.2.09 — Upload/download status & offline UX
 - [x] T2.2.10 — Integration tests against local Supabase Storage
 - [x] T2.2.11 — Deletion, reference-counted purge & storage quota display
-- [ ] T2.2.12 — Video attachments (short clips) with poster frames
-- [ ] T2.2.13 — Audio notes (record & play)
-- [ ] T2.2.14 — Document scanner (camera → cropped PDF)
+- [x] T2.2.12 — Video attachments (short clips) with poster frames
+- [x] T2.2.13 — Audio notes (record & play)
+- [x] T2.2.14 — Document scanner (camera → cropped PDF)
 
 ## Tasks
 
@@ -155,16 +155,16 @@ with "Clear cache".
 **Priority:** P2 · **Size:** M · **Depends on:** T2.2.03
 **Description:** Short videos (≤ 60 s / 50 MB) with poster frame thumbnail, inline player in the viewer,
 transcoding left to the OS picker settings.
-**Notes:** Not started: needs native plugins for playback and poster frames (e.g. `video_player` + a thumbnail plugin) — new dependencies and platform setup, outside this pass.
+**Notes:** "Record a video" (camera, 60 s cap) and "Choose a video" (system picker) in the add menu. Clips are copied as-is; `MediaProbe` (`video_player`) reads duration and size, `fc_native_video_thumbnail` writes the poster (the synced thumbnail). Limits: 50 MB and 60 s for videos (`AttachmentLimits.maxBytesFor`, `validateDuration` → `tooLong`), 25 MB for other files; bucket raised to 50 MB with more containers (migration `20261001100000_attachments_media_limits.sql`, pgTAP updated). Tiles show the poster with a play badge and the length (also spoken); the viewer plays inline (`MediaPlayerView`: play/pause, seek). Tests: `media_attachments_test`, `media_widgets_test`, storage suite (30 MB clip accepted, 51 MB refused). Verified on Android (debug + release R8 builds); iOS build not verified here (Xcode 16.4, see T1.1.05).
 
 ### T2.2.13 — Audio notes (record & play)
 **Priority:** P2 · **Size:** M · **Depends on:** T2.2.07
 **Description:** Record voice notes (AAC), waveform preview, playback in the strip; microphone permission
 primer; optional on-device transcription later ([9.3]).
-**Notes:** Not started: needs recording/playback plugins (e.g. `record` + an audio player) with microphone permissions — new native dependencies, outside this pass.
+**Notes:** "Voice note" in the add menu: microphone primer (once), `VoiceNoteRecorderSheet` (`record`, AAC-LC mono 64 kb/s `.m4a`, live level bars, timer, 10-min cap, attach/discard; closing while recording cancels). The waveform (48 peak levels, `Waveform.fromAmplitudes`) is drawn into the note's JPEG thumbnail so every device shows it; duration from the recorder/probe. In strips a tap plays the note inline (`voicePlaybackProvider`, one at a time, `video_player` — no extra audio package); the viewer has the full player. `RECORD_AUDIO` comes from the plugin manifest; `NSMicrophoneUsageDescription` was already set. Transcription stays in [9.3].
 
 ### T2.2.14 — Document scanner (camera → cropped PDF)
 **Priority:** P2 · **Size:** M · **Depends on:** T2.2.03
 **Description:** Scan paper documents with edge detection and perspective correction (platform document
 scanners where available) into a multi-page PDF attachment.
-**Notes:** Not started: needs a native document-scanner plugin (VisionKit / ML Kit) — new native dependency, outside this pass.
+**Notes:** "Scan a document" uses `cunning_document_scanner` (VisionKit / ML Kit, edge detection + perspective correction, up to 30 pages) which exports the PDF itself; attached as `Scan YYYY-MM-DD HH.mm.pdf` through the normal pipeline (PDF viewer, upload). Camera primer shared with photos; `CAMERA` permission added on Android for the scanner's fallback without Play Services (image_picker then asks at runtime); denied permission shows the settings help.

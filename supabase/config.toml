@@ -122,8 +122,8 @@ port = 54324
 [storage]
 enabled = true
 # The maximum file size allowed (e.g. "5MB", "500KB"). Free plan maximum is 50 MB; the `attachments`
-# bucket itself is limited to 25 MB and a MIME allow-list by migration
-# `20260922000120_create_storage_attachments.sql` (so the cloud project gets the same limits).
+# bucket itself is limited to 50 MB (videos; the app keeps 25 MB for other files) and a MIME allow-list by migrations
+# `20260922000120_create_storage_attachments.sql` + `20261001100000_attachments_media_limits.sql` (cloud gets the same).
 file_size_limit = "50MiB"
 
 # Uncomment to configure local storage buckets

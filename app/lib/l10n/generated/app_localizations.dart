@@ -705,6 +705,12 @@ abstract class AppLocalizations {
   /// **'This file will download when you\'re online.'**
   String get attachmentsDownloadWhenOnline;
 
+  /// No description provided for @attachmentsDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Length {duration}'**
+  String attachmentsDuration(String duration);
+
   /// No description provided for @attachmentsEditCaption.
   ///
   /// In en, this message translates to:
@@ -819,6 +825,12 @@ abstract class AppLocalizations {
   /// **'Open with…'**
   String get attachmentsOpenWith;
 
+  /// No description provided for @attachmentsPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get attachmentsPause;
+
   /// No description provided for @attachmentsPendingUploads.
   ///
   /// In en, this message translates to:
@@ -837,6 +849,12 @@ abstract class AppLocalizations {
   /// **'Access needed'**
   String get attachmentsPermissionTitle;
 
+  /// No description provided for @attachmentsPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get attachmentsPlay;
+
   /// No description provided for @attachmentsRejectedDuplicate.
   ///
   /// In en, this message translates to:
@@ -854,6 +872,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{name} is larger than {limit}'**
   String attachmentsRejectedTooLarge(String name, String limit);
+
+  /// No description provided for @attachmentsRejectedTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is longer than {seconds} seconds'**
+  String attachmentsRejectedTooLong(String name, int seconds);
 
   /// No description provided for @attachmentsRejectedTooMany.
   ///
@@ -944,6 +968,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose photos'**
   String get attachmentsSourcePhotos;
+
+  /// No description provided for @attachmentsSourceRecordVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Record a video'**
+  String get attachmentsSourceRecordVideo;
+
+  /// No description provided for @attachmentsSourceScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a document'**
+  String get attachmentsSourceScan;
+
+  /// No description provided for @attachmentsSourceVideos.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a video'**
+  String get attachmentsSourceVideos;
+
+  /// No description provided for @attachmentsSourceVoiceNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice note'**
+  String get attachmentsSourceVoiceNote;
 
   /// No description provided for @attachmentsStatusDownloading.
   ///
@@ -22280,6 +22328,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing to undo'**
   String get undoNothing;
+
+  /// No description provided for @voiceNoteDiscard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get voiceNoteDiscard;
+
+  /// No description provided for @voiceNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the microphone and speak.'**
+  String get voiceNoteHint;
+
+  /// No description provided for @voiceNoteMicPrimerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot uses the microphone only while you record a voice note. Recordings stay on your device until they\'re uploaded to your account.'**
+  String get voiceNoteMicPrimerBody;
+
+  /// No description provided for @voiceNoteMicPrimerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone access'**
+  String get voiceNoteMicPrimerTitle;
+
+  /// No description provided for @voiceNoteRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Start recording'**
+  String get voiceNoteRecord;
+
+  /// No description provided for @voiceNoteRecording.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording, {duration}'**
+  String voiceNoteRecording(String duration);
+
+  /// No description provided for @voiceNoteSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach'**
+  String get voiceNoteSave;
+
+  /// No description provided for @voiceNoteStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop recording'**
+  String get voiceNoteStop;
+
+  /// No description provided for @voiceNoteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice note'**
+  String get voiceNoteTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

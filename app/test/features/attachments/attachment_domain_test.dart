@@ -88,17 +88,32 @@ void main() {
         AttachmentRejection.typeNotAllowed,
       );
       expect(
-        limits.validate(byteSize: 10, mimeType: 'video/mp4', existingCount: 0),
+        const AttachmentLimits(allowVideo: false).validate(byteSize: 10, mimeType: 'video/mp4', existingCount: 0),
         AttachmentRejection.typeNotAllowed,
       );
       expect(limits.validate(byteSize: 0, mimeType: 'image/png', existingCount: 0), AttachmentRejection.empty);
       expect(limits.validate(byteSize: 10, mimeType: 'image/png', existingCount: 50), AttachmentRejection.tooMany);
     });
 
-    test('video and audio can be enabled', () {
-      const withMedia = AttachmentLimits(allowVideo: true, allowAudio: true);
-      expect(withMedia.validate(byteSize: 10, mimeType: 'video/mp4', existingCount: 0), isNull);
-      expect(withMedia.validate(byteSize: 10, mimeType: 'audio/aac', existingCount: 0), isNull);
+    test('video and audio are allowed; clips get 50 MB and 60 s (T2.2.12)', () {
+      expect(limits.validate(byteSize: 10, mimeType: 'video/mp4', existingCount: 0), isNull);
+      expect(limits.validate(byteSize: 10, mimeType: 'audio/aac', existingCount: 0), isNull);
+      expect(limits.validate(byteSize: 40 * 1024 * 1024, mimeType: 'video/quicktime', existingCount: 0), isNull);
+      expect(
+        limits.validate(byteSize: 51 * 1024 * 1024, mimeType: 'video/mp4', existingCount: 0),
+        AttachmentRejection.tooLarge,
+      );
+      expect(
+        limits.validate(byteSize: 40 * 1024 * 1024, mimeType: 'audio/mp4', existingCount: 0),
+        AttachmentRejection.tooLarge,
+        reason: 'only videos get the larger limit',
+      );
+      expect(limits.validateDuration(mimeType: 'video/mp4', durationMs: 60400), isNull, reason: 'rounding');
+      expect(limits.validateDuration(mimeType: 'video/mp4', durationMs: 61500), AttachmentRejection.tooLong);
+      expect(limits.validateDuration(mimeType: 'audio/mp4', durationMs: 600000), isNull);
+      expect(limits.validateDuration(mimeType: 'video/mp4', durationMs: null), isNull);
+      const off = AttachmentLimits(allowVideo: false, allowAudio: false);
+      expect(off.validate(byteSize: 10, mimeType: 'audio/aac', existingCount: 0), AttachmentRejection.typeNotAllowed);
     });
   });
 

@@ -1,9 +1,9 @@
 # Sections organization — progress snapshot
 
-Updated 2026-10-01 after section 1 work (branch `section-1-completion`), counted from the **Progress**
+Updated 2026-10-01 after section 2 work (branch `section-2-completion`), counted from the **Progress**
 checkboxes in `docs/tasks_section_*.md`.
 
-**Total: 505 done / 237 missing / 742 tasks (≈68 %)**
+**Total: 514 done / 228 missing / 742 tasks (≈69 %)**
 
 | Section | Done | Missing |
 |---|---|---|
@@ -13,10 +13,10 @@ checkboxes in `docs/tasks_section_*.md`.
 | 1.3 App shell | 19 | 0 ✅ |
 | 1.4 Local DB / sync | 19 | 0 ✅ |
 | 1.5 Auth / profile | 17 | 0 ✅ |
-| **2 Core engines** | **37** | **9** |
+| **2 Core engines** | **46** | **0 ✅** |
 | 2.1 Recurrence engine | 20 | 0 ✅ |
-| 2.2 Attachments | 10 | 4 |
-| 2.3 Shared primitives | 7 | 5 |
+| 2.2 Attachments | 14 | 0 ✅ |
+| 2.3 Shared primitives | 12 | 0 ✅ |
 | **3 Plan** | **110** | **26** |
 | 3.1 Task model / editor | 20 | 1 |
 | 3.2 Recurring series | 23 | 0 ✅ |
@@ -57,7 +57,7 @@ checkboxes in `docs/tasks_section_*.md`.
 
 ## Summary
 
-- Done: Habits (5) complete; Lists (4) nearly; Plan (3) nearly except Focus + Calendar views; sync and
+- Done: Core engines (2) and Habits (5) complete; Lists (4) nearly; Plan (3) nearly except Focus + Calendar views; sync and
   recurrence done.
 - Biggest gaps: Insights charts / stats / dashboard (6.2–6.7), push + notification catalog (7.4–7.5),
   all of 8 and 9.

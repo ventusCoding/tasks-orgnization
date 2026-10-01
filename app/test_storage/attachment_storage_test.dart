@@ -195,6 +195,25 @@ void main() {
     );
   });
 
+  test('short videos may exceed 25 MB (bucket limit 50 MB, T2.2.12)', () async {
+    final user = await newUser();
+    final storage = SupabaseAttachmentStorage(await device(user), supabaseUrl: url);
+    final path = AttachmentPaths.original(user.id, Ids.v7(), 'clip.mp4');
+    final clip = bytesOf(30 * 1024 * 1024, seed: 5);
+    await storage.upload(bucket: bucket, path: path, file: tempFile('clip.mp4', clip), mimeType: 'video/mp4');
+    expect(await storage.download(bucket: bucket, path: path), hasLength(clip.length));
+    await expectLater(
+      storage.upload(
+        bucket: bucket,
+        path: AttachmentPaths.original(user.id, Ids.v7(), 'huge.mp4'),
+        file: tempFile('huge.mp4', bytesOf(51 * 1024 * 1024, seed: 6)),
+        mimeType: 'video/mp4',
+      ),
+      throwsA(isA<NetworkException>()),
+      reason: 'above the bucket limit',
+    );
+  });
+
   test('large files use resumable (TUS) uploads; an interrupted upload resumes from its offset', () async {
     final user = await newUser();
     final client = await device(user);

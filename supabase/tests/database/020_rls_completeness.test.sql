@@ -115,9 +115,10 @@ select ok(not has_table_privilege('authenticated', 'app.devices', 'insert')
           'devices: clients only update their preferences (writes via RPCs)');
 
 select ok(exists (select 1 from storage.buckets b
-                  where b.id = 'attachments' and not b.public and b.file_size_limit = 26214400
-                    and cardinality(b.allowed_mime_types) > 0),
-          'attachments bucket is private, 25 MB, MIME allow-list');
+                  where b.id = 'attachments' and not b.public and b.file_size_limit = 52428800
+                    and 'video/mp4' = any(b.allowed_mime_types) and 'audio/mp4' = any(b.allowed_mime_types)
+                    and not 'application/x-msdownload' = any(b.allowed_mime_types)),
+          'attachments bucket is private, 50 MB (videos; 25 MB for other files in the app), MIME allow-list');
 
 select is((select count(*)::int from pg_policies p
            where p.schemaname = 'storage' and p.tablename = 'objects' and p.policyname like 'attachments_%_own'

@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Document scanner fallback without Play Services (T2.2.14); image_picker then asks at runtime. -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- Notifications (T7.2.02) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />

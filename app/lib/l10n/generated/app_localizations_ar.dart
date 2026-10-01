@@ -383,6 +383,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get attachmentsDownloadWhenOnline => 'سيُنزَّل هذا الملف عند اتصالك بالإنترنت.';
 
   @override
+  String attachmentsDuration(String duration) {
+    return 'المدة $duration';
+  }
+
+  @override
   String get attachmentsEditCaption => 'تعديل التعليق';
 
   @override
@@ -442,6 +447,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get attachmentsOpenWith => 'فتح باستخدام…';
 
   @override
+  String get attachmentsPause => 'إيقاف مؤقت';
+
+  @override
   String attachmentsPendingUploads(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -464,6 +472,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get attachmentsPermissionTitle => 'يلزم منح الإذن';
 
   @override
+  String get attachmentsPlay => 'تشغيل';
+
+  @override
   String attachmentsRejectedDuplicate(String name) {
     return '$name مرفق بالفعل';
   }
@@ -476,6 +487,11 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String attachmentsRejectedTooLarge(String name, String limit) {
     return '$name أكبر من $limit';
+  }
+
+  @override
+  String attachmentsRejectedTooLong(String name, int seconds) {
+    return 'مدة $name أطول من $seconds ثانية';
   }
 
   @override
@@ -538,6 +554,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get attachmentsSourcePhotos => 'اختيار صور';
+
+  @override
+  String get attachmentsSourceRecordVideo => 'تصوير فيديو';
+
+  @override
+  String get attachmentsSourceScan => 'مسح مستند ضوئيًا';
+
+  @override
+  String get attachmentsSourceVideos => 'اختيار فيديو';
+
+  @override
+  String get attachmentsSourceVoiceNote => 'ملاحظة صوتية';
 
   @override
   String get attachmentsStatusDownloading => 'جارٍ التنزيل';
@@ -13700,4 +13728,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get undoNothing => 'لا شيء للتراجع عنه';
+
+  @override
+  String get voiceNoteDiscard => 'تجاهل';
+
+  @override
+  String get voiceNoteHint => 'اضغط على الميكروفون وتحدّث.';
+
+  @override
+  String get voiceNoteMicPrimerBody =>
+      'يستخدم Everslot الميكروفون فقط أثناء تسجيل ملاحظة صوتية. تبقى التسجيلات على جهازك حتى تُرفع إلى حسابك.';
+
+  @override
+  String get voiceNoteMicPrimerTitle => 'الوصول إلى الميكروفون';
+
+  @override
+  String get voiceNoteRecord => 'بدء التسجيل';
+
+  @override
+  String voiceNoteRecording(String duration) {
+    return 'جارٍ التسجيل، $duration';
+  }
+
+  @override
+  String get voiceNoteSave => 'إرفاق';
+
+  @override
+  String get voiceNoteStop => 'إيقاف التسجيل';
+
+  @override
+  String get voiceNoteTitle => 'ملاحظة صوتية';
 }

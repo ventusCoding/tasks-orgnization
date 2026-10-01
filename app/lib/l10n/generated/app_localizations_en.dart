@@ -359,6 +359,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get attachmentsDownloadWhenOnline => 'This file will download when you\'re online.';
 
   @override
+  String attachmentsDuration(String duration) {
+    return 'Length $duration';
+  }
+
+  @override
   String get attachmentsEditCaption => 'Edit caption';
 
   @override
@@ -418,6 +423,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get attachmentsOpenWith => 'Open with…';
 
   @override
+  String get attachmentsPause => 'Pause';
+
+  @override
   String attachmentsPendingUploads(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -436,6 +444,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get attachmentsPermissionTitle => 'Access needed';
 
   @override
+  String get attachmentsPlay => 'Play';
+
+  @override
   String attachmentsRejectedDuplicate(String name) {
     return '$name is already attached';
   }
@@ -448,6 +459,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String attachmentsRejectedTooLarge(String name, String limit) {
     return '$name is larger than $limit';
+  }
+
+  @override
+  String attachmentsRejectedTooLong(String name, int seconds) {
+    return '$name is longer than $seconds seconds';
   }
 
   @override
@@ -510,6 +526,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get attachmentsSourcePhotos => 'Choose photos';
+
+  @override
+  String get attachmentsSourceRecordVideo => 'Record a video';
+
+  @override
+  String get attachmentsSourceScan => 'Scan a document';
+
+  @override
+  String get attachmentsSourceVideos => 'Choose a video';
+
+  @override
+  String get attachmentsSourceVoiceNote => 'Voice note';
 
   @override
   String get attachmentsStatusDownloading => 'Downloading';
@@ -12796,4 +12824,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get undoNothing => 'Nothing to undo';
+
+  @override
+  String get voiceNoteDiscard => 'Discard';
+
+  @override
+  String get voiceNoteHint => 'Tap the microphone and speak.';
+
+  @override
+  String get voiceNoteMicPrimerBody =>
+      'Everslot uses the microphone only while you record a voice note. Recordings stay on your device until they\'re uploaded to your account.';
+
+  @override
+  String get voiceNoteMicPrimerTitle => 'Microphone access';
+
+  @override
+  String get voiceNoteRecord => 'Start recording';
+
+  @override
+  String voiceNoteRecording(String duration) {
+    return 'Recording, $duration';
+  }
+
+  @override
+  String get voiceNoteSave => 'Attach';
+
+  @override
+  String get voiceNoteStop => 'Stop recording';
+
+  @override
+  String get voiceNoteTitle => 'Voice note';
 }
