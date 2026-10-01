@@ -11,6 +11,7 @@ import 'package:everslot/features/planner/presentation/views/month_view.dart';
 import 'package:everslot/features/planner/presentation/views/multi_week_view.dart';
 import 'package:everslot/features/planner/presentation/views/plan_actual_view.dart';
 import 'package:everslot/features/planner/presentation/views/quarter_view.dart';
+import 'package:everslot/features/planner/presentation/views/radial_view.dart';
 import 'package:everslot/features/planner/presentation/views/ribbon_view.dart';
 import 'package:everslot/features/planner/presentation/views/routine_view.dart';
 import 'package:everslot/features/planner/presentation/views/swimlanes_view.dart';
@@ -220,5 +221,15 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     group: PlannerViewGroup.productivity,
     tier: ViewTier.m3,
     supportsDrag: true,
+  ),
+  PlannerViewEntry(
+    id: 'radial',
+    type: PlannerViewType.radial,
+    icon: Icons.donut_large,
+    label: (l) => l.pvViewRadial,
+    builder: (a) => RadialView(args: a),
+    group: PlannerViewGroup.productivity,
+    tier: ViewTier.m3,
+    timeBased: true,
   ),
 ];

@@ -32,7 +32,7 @@ countdown / count-up; map; tests.
 - [x] T3.7.07 — Routine player
 - [x] T3.7.08 — Kanban board
 - [x] T3.7.09 — Eisenhower matrix
-- [ ] T3.7.10 — 24-hour radial clock
+- [x] T3.7.10 — 24-hour radial clock
 - [ ] T3.7.11 — Horizons view
 - [ ] T3.7.12 — Countdown / count-up list
 - [ ] T3.7.13 — Map view
@@ -175,6 +175,7 @@ priority and/or deadline.
 
 A home-screen widget comes later ([8.2]).
 **Tests:** geometry unit tests (arc angles incl. DST days); goldens.
+**Notes:** `RadialView` on pure `engine/radial_geometry.dart`: angles live on the day's elapsed-minute axis (`DayTimeline`, so a 23 h / 25 h DST day spans the whole dial), 12 o'clock at the top, clockwise; `dialWindow` = whole day (`options.hours` 24), the half day containing now (12) or `options.zoomHours` 1–12 centered on now; `arcOf` clips; `tAtAngle` hit-tests taps. Overlapping items move to up to two inner rings; free time is the bare track; done / skipped arcs are faded; a now hand and the current / next item in the center. Tap an arc → occurrence sheet. Golden in the productivity suite (T3.7.14).
 
 ### T3.7.11 — Horizons view
 **Priority:** P2 · **Size:** M · **Depends on:** [3.1] (unscheduled tasks)
