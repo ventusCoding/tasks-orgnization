@@ -5342,6 +5342,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get listsListView => 'عرض قائمة';
 
   @override
+  String get listsMoveConflicted => 'تعارض نقلٌ مع تغيير على جهاز آخر فتم التراجع عنه.';
+
+  @override
+  String get listsMoveConflictedUndo => 'تم التراجع عن النقل بعد تعارض في المزامنة';
+
+  @override
   String get listsMoveItems => 'نقل العناصر…';
 
   @override

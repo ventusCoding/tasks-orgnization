@@ -1536,6 +1536,8 @@
   "listsLabelFilterActive": "Listes avec le libellé {label}",
   "listsLabelSemantics": "{label}, {count, plural, =0{aucune liste} =1{1 liste} other{{count} listes}}",
   "listsListView": "Vue liste",
+  "listsMoveConflicted": "Un déplacement est entré en conflit avec une modification faite sur un autre appareil et a été annulé.",
+  "listsMoveConflictedUndo": "Déplacement annulé après un conflit de synchronisation",
   "listsMoveItems": "Déplacer des éléments…",
   "listsNewChecklist": "Nouvelle liste",
   "listsNewNote": "Nouvelle note",

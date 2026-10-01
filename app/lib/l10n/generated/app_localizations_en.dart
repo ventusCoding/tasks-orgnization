@@ -4985,6 +4985,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get listsListView => 'List view';
 
   @override
+  String get listsMoveConflicted => 'A move conflicted with a change on another device and was undone.';
+
+  @override
+  String get listsMoveConflictedUndo => 'Move undone after a sync conflict';
+
+  @override
   String get listsMoveItems => 'Move items…';
 
   @override

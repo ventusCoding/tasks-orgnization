@@ -5041,6 +5041,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get listsListView => 'Vue liste';
 
   @override
+  String get listsMoveConflicted =>
+      'Un déplacement est entré en conflit avec une modification faite sur un autre appareil et a été annulé.';
+
+  @override
+  String get listsMoveConflictedUndo => 'Déplacement annulé après un conflit de synchronisation';
+
+  @override
   String get listsMoveItems => 'Déplacer des éléments…';
 
   @override

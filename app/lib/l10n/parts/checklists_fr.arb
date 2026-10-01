@@ -384,5 +384,7 @@
   "linkedCompleteTaskBody": "« {task} » planifie cet élément.",
   "linkedCompleteAction": "Terminer",
   "itemStepDuration": "Durée de l’étape (routines)",
-  "itemNoStepDuration": "Partage le temps de la tâche"
+  "itemNoStepDuration": "Partage le temps de la tâche",
+  "listsMoveConflicted": "Un déplacement est entré en conflit avec une modification faite sur un autre appareil et a été annulé.",
+  "listsMoveConflictedUndo": "Déplacement annulé après un conflit de synchronisation"
 }

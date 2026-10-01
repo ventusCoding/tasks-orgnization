@@ -8577,6 +8577,18 @@ abstract class AppLocalizations {
   /// **'List view'**
   String get listsListView;
 
+  /// No description provided for @listsMoveConflicted.
+  ///
+  /// In en, this message translates to:
+  /// **'A move conflicted with a change on another device and was undone.'**
+  String get listsMoveConflicted;
+
+  /// No description provided for @listsMoveConflictedUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Move undone after a sync conflict'**
+  String get listsMoveConflictedUndo;
+
   /// No description provided for @listsMoveItems.
   ///
   /// In en, this message translates to:

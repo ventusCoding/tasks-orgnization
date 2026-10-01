@@ -9,6 +9,7 @@ import 'package:everslot/design_system/motion.dart';
 import 'package:everslot/design_system/theme.dart';
 import 'package:everslot/design_system/tokens.dart';
 import 'package:everslot/features/auth/presentation/session_banner_host.dart';
+import 'package:everslot/features/checklists/presentation/move_conflict_notices.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:everslot/shared/shortcuts/presentation/global_shortcuts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -63,7 +64,8 @@ class EverslotApp extends ConsumerWidget {
                 // Keyboard shortcuts: undo/redo, search… (T1.3.19, T2.3.06).
                 child: GlobalShortcuts(
                   onSearch: () => unawaited(router.push<void>(AppLinks.search())),
-                  child: child ?? const SizedBox.shrink(),
+                  // Checklist move conflicts from sync (T4.1.05).
+                  child: MoveConflictNotices(child: child ?? const SizedBox.shrink()),
                 ),
               ),
             ),

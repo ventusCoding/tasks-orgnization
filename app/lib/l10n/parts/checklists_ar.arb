@@ -384,5 +384,7 @@
   "linkedCompleteTaskBody": "«{task}» تُجدول هذا العنصر.",
   "linkedCompleteAction": "إكمال",
   "itemStepDuration": "مدة الخطوة (الروتين)",
-  "itemNoStepDuration": "تتقاسم وقت المهمة"
+  "itemNoStepDuration": "تتقاسم وقت المهمة",
+  "listsMoveConflicted": "تعارض نقلٌ مع تغيير على جهاز آخر فتم التراجع عنه.",
+  "listsMoveConflictedUndo": "تم التراجع عن النقل بعد تعارض في المزامنة"
 }

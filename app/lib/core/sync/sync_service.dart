@@ -164,7 +164,14 @@ class SyncService {
     cancel();
     status.dispose();
     revoked.dispose();
+    unawaited(_rejections.close());
   }
+
+  final _rejections = StreamController<SyncRejection>.broadcast();
+
+  /// Operation groups rejected as integrity violations, emitted once their rows were refetched
+  /// (T4.1.05).
+  Stream<SyncRejection> get rejections => _rejections.stream;
 
   /// Stops the engine for good without disposing its notifiers (the session ended): timers stop
   /// and a run in progress applies no further pulled page nor push result, so nothing lands
@@ -400,6 +407,7 @@ class SyncService {
       }
       final byId = {for (final r in batch) r.changeId: r};
       final refetch = <String, Set<String>>{};
+      final rejected = <String, SyncRejection>{};
       var matched = 0;
       var unsupported = false;
       final conflicts = <ConflictLogEntry>[];
@@ -439,6 +447,13 @@ class SyncService {
               }
             case 'rejected' when result.code == 'integrity_refetch':
               refetch.putIfAbsent(entry.tableName_, () => {}).add(entry.rowId);
+              final group = rejected.putIfAbsent(
+                entry.opId,
+                () => SyncRejection(opId: entry.opId, rows: {}, messages: []),
+              );
+              group.rows.putIfAbsent(entry.tableName_, () => {}).add(entry.rowId);
+              final message = result.message;
+              if (message != null && message.isNotEmpty) group.messages.add(message);
               await _deleteEntry(result.changeId);
             case 'rejected' when result.code == SyncApiException.unsupportedClient:
               await _setState(result.changeId, 'pending');
@@ -467,6 +482,7 @@ class SyncService {
       for (final e in refetch.entries) {
         await refetchRows(e.key, e.value.toList());
       }
+      if (!_rejections.isClosed) rejected.values.forEach(_rejections.add);
       await _saveState(lastPushAt: clock.nowUtc());
     }
   }

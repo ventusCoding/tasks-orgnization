@@ -722,5 +722,7 @@
   },
   "linkedCompleteAction": "Complete",
   "itemStepDuration": "Step duration (routines)",
-  "itemNoStepDuration": "Shares the task’s time"
+  "itemNoStepDuration": "Shares the task’s time",
+  "listsMoveConflicted": "A move conflicted with a change on another device and was undone.",
+  "listsMoveConflictedUndo": "Move undone after a sync conflict"
 }

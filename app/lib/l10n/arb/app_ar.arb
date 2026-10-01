@@ -1536,6 +1536,8 @@
   "listsLabelFilterActive": "القوائم ذات التصنيف {label}",
   "listsLabelSemantics": "{label}، {count, plural, =0{لا قوائم} =1{قائمة واحدة} =2{قائمتان} few{{count} قوائم} many{{count} قائمة} other{{count} قائمة}}",
   "listsListView": "عرض قائمة",
+  "listsMoveConflicted": "تعارض نقلٌ مع تغيير على جهاز آخر فتم التراجع عنه.",
+  "listsMoveConflictedUndo": "تم التراجع عن النقل بعد تعارض في المزامنة",
   "listsMoveItems": "نقل العناصر…",
   "listsNewChecklist": "قائمة جديدة",
   "listsNewNote": "ملاحظة جديدة",
