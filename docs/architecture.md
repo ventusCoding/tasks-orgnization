@@ -766,8 +766,10 @@ app.tasks
   linked_checklist_id uuid,                -- FK to app.checklists added by the [4.1] migration
   manual_sort_key text collate "C",        -- manual order: backlog list and untimed items within a day
   is_template boolean not null default false,
-  -- P2: linked_item_id uuid (→ checklist_items), horizon_key text, countdown_mode text,
-  --     location_lat double precision, location_lng double precision
+  linked_item_id uuid references app.checklist_items(id),   -- P2: scheduled checklist item (T3.1.21)
+  horizon_key text,                        -- P2: day:/week:/month:/quarter:/year: key (T3.7.11)
+  countdown_mode text check (countdown_mode in ('until','since')),   -- P2 (T3.7.12)
+  location_lat double precision, location_lng double precision,      -- P2: map pin, both or none (T3.7.13)
   notify_mode text not null default 'inherit' check (notify_mode in ('inherit','custom','inherit_plus','off')),
   status text not null default 'active' check (status in ('active','paused','archived'))
 
@@ -817,8 +819,8 @@ app.checklist_items
   waiting_on text,                                  -- optional: who/what a waiting item waits for (register stats)
   priority smallint not null default 0,
   notify_mode text not null default 'inherit',
-  -- P2: estimate_minutes int (routine player), mirror_of_id uuid (live mirrors; trigger forbids a mirror
-  --     inside its original's subtree)
+  estimate_minutes integer,                         -- P2: routine step duration (T3.7.07)
+  -- P2: mirror_of_id uuid (live mirrors; trigger forbids a mirror inside its original's subtree)
   -- CHECKs: completed_at is not null ⇔ status = 'completed'; char_length(text) ≤ 10 000; note ≤ 50 000;
   --         sort_key matches the fractional-index charset, length ≤ 128
   -- deferrable constraint triggers: parent in same checklist; no cycles (checked per operation group)

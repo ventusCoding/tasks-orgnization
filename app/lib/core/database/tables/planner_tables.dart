@@ -36,6 +36,16 @@ class Tasks extends Table with SyncedColumns {
   /// active | paused | archived
   TextColumn get status => text().withDefault(const Constant('active'))();
 
+  // P2 columns (schema v2): scheduled checklist item (T3.1.21), horizon (T3.7.11), countdown
+  // (T3.7.12) and map coordinates (T3.7.13).
+  TextColumn get linkedItemId => text().nullable()();
+  TextColumn get horizonKey => text().nullable()();
+
+  /// until | since
+  TextColumn get countdownMode => text().nullable()();
+  RealColumn get locationLat => real().nullable()();
+  RealColumn get locationLng => real().nullable()();
+
   @override
   Set<Column<Object>> get primaryKey => {id};
 }

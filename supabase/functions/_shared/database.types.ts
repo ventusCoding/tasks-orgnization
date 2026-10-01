@@ -271,6 +271,7 @@ export type Database = {
           created_at: string
           deleted_at: string | null
           due_local: string | null
+          estimate_minutes: number | null
           field_clock: Json
           follow_up_at: string | null
           id: string
@@ -297,6 +298,7 @@ export type Database = {
           created_at: string
           deleted_at?: string | null
           due_local?: string | null
+          estimate_minutes?: number | null
           field_clock?: Json
           follow_up_at?: string | null
           id: string
@@ -323,6 +325,7 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           due_local?: string | null
+          estimate_minutes?: number | null
           field_clock?: Json
           follow_up_at?: string | null
           id?: string
@@ -1784,18 +1787,23 @@ export type Database = {
         Row: {
           category_id: string | null
           color: number | null
+          countdown_mode: string | null
           created_at: string
           deadline_local: string | null
           deleted_at: string | null
           duration_minutes: number | null
           estimate_minutes: number | null
           field_clock: Json
+          horizon_key: string | null
           icon: string | null
           id: string
           is_all_day: boolean
           is_template: boolean
           linked_checklist_id: string | null
+          linked_item_id: string | null
           location: string | null
+          location_lat: number | null
+          location_lng: number | null
           manual_sort_key: string | null
           notes: string | null
           notify_mode: string
@@ -1818,18 +1826,23 @@ export type Database = {
         Insert: {
           category_id?: string | null
           color?: number | null
+          countdown_mode?: string | null
           created_at: string
           deadline_local?: string | null
           deleted_at?: string | null
           duration_minutes?: number | null
           estimate_minutes?: number | null
           field_clock?: Json
+          horizon_key?: string | null
           icon?: string | null
           id: string
           is_all_day?: boolean
           is_template?: boolean
           linked_checklist_id?: string | null
+          linked_item_id?: string | null
           location?: string | null
+          location_lat?: number | null
+          location_lng?: number | null
           manual_sort_key?: string | null
           notes?: string | null
           notify_mode?: string
@@ -1852,18 +1865,23 @@ export type Database = {
         Update: {
           category_id?: string | null
           color?: number | null
+          countdown_mode?: string | null
           created_at?: string
           deadline_local?: string | null
           deleted_at?: string | null
           duration_minutes?: number | null
           estimate_minutes?: number | null
           field_clock?: Json
+          horizon_key?: string | null
           icon?: string | null
           id?: string
           is_all_day?: boolean
           is_template?: boolean
           linked_checklist_id?: string | null
+          linked_item_id?: string | null
           location?: string | null
+          location_lat?: number | null
+          location_lng?: number | null
           manual_sort_key?: string | null
           notes?: string | null
           notify_mode?: string
@@ -1896,6 +1914,13 @@ export type Database = {
             columns: ["linked_checklist_id"]
             isOneToOne: false
             referencedRelation: "checklists"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_linked_item_id_fkey"
+            columns: ["linked_item_id"]
+            isOneToOne: false
+            referencedRelation: "checklist_items"
             referencedColumns: ["id"]
           },
         ]

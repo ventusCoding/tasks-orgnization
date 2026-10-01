@@ -51,6 +51,9 @@ class ChecklistItems extends Table with SyncedColumns {
   IntColumn get priority => integer().withDefault(const Constant(0))();
   TextColumn get notifyMode => text().withDefault(const Constant('inherit'))();
 
+  /// Routine step duration (T3.7.07, schema v2).
+  IntColumn get estimateMinutes => integer().nullable()();
+
   @override
   Set<Column<Object>> get primaryKey => {id};
 }
