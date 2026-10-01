@@ -2783,6 +2783,8 @@
   "settingsDevices": "Appareils",
   "settingsDevicesEmpty": "Aucun appareil enregistré pour l'instant.",
   "settingsDevicesOffline": "Connectez-vous à Internet pour voir vos appareils.",
+  "settingsDynamicColor": "Couleurs du fond d'écran",
+  "settingsDynamicColorSubtitle": "Utiliser les couleurs Material You de l'appareil. Les couleurs des catégories ne changent pas.",
   "settingsExportAttachments": "Inclure les pièces jointes",
   "settingsExportAttachmentsHint": "Uniquement les fichiers déjà présents sur cet appareil.",
   "settingsExportBody": "Une copie de toutes vos données sur cet appareil. Fonctionne hors ligne.",

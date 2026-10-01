@@ -9956,6 +9956,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsDevicesOffline => 'اتصل بالإنترنت لعرض أجهزتك.';
 
   @override
+  String get settingsDynamicColor => 'ألوان الخلفية';
+
+  @override
+  String get settingsDynamicColorSubtitle => 'استخدام ألوان Material You من جهازك. ألوان الفئات لا تتغير.';
+
+  @override
   String get settingsExportAttachments => 'تضمين ملفات المرفقات';
 
   @override

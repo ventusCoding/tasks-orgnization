@@ -27,6 +27,72 @@ abstract final class Motion {
   static const curve = Curves.easeOutCubic;
 }
 
+/// Elevation levels (dp) for surfaces that are not Material components (drag ghosts, bubbles).
+abstract final class Elevation {
+  static const none = 0.0;
+  static const low = 1.0;
+  static const mid = 3.0;
+  static const high = 6.0;
+  static const overlay = 12.0;
+}
+
+/// Opacity steps (disabled content, scrims, hover/drag tints).
+abstract final class Opacities {
+  static const disabled = 0.38;
+  static const muted = 0.6;
+  static const scrim = 0.32;
+  static const hover = 0.08;
+  static const pressed = 0.12;
+  static const dragged = 0.16;
+}
+
+/// Shadows of floating, non-Material surfaces (dragged tiles, tooltips drawn on the grid).
+abstract final class AppShadows {
+  static const lifted = [BoxShadow(blurRadius: 8, offset: Offset(0, 3), color: Color(0x33000000))];
+  static const floating = [BoxShadow(blurRadius: 10, offset: Offset(0, 4), color: Color(0x40000000))];
+  static const soft = [BoxShadow(blurRadius: 6, color: Color(0x33000000))];
+}
+
+/// Brand / tooling colors that are not part of the color scheme.
+abstract final class BrandColors {
+  /// The "DEV" corner banner of the dev flavor (T1.1.10).
+  static const devBanner = Color(0xFFFF6B00);
+}
+
+/// Data-visualization palettes (T6.2): Okabe–Ito categorical series (color-blind safe) and the
+/// semantic tones that have no status color.
+abstract final class DataVizColors {
+  /// Tuned for contrast on light surfaces.
+  static const seriesLight = <Color>[
+    Color(0xFF0072B2), // blue
+    Color(0xFFD55E00), // vermillion
+    Color(0xFF009E73), // bluish green
+    Color(0xFFCC79A7), // reddish purple
+    Color(0xFFB8860B), // dark yellow (orange-ish, ≥ 3:1 on white)
+    Color(0xFF56B4E9), // sky blue
+    Color(0xFF6B4E00), // brown
+    Color(0xFF444444), // neutral
+  ];
+
+  /// Lightened for dark surfaces.
+  static const seriesDark = <Color>[
+    Color(0xFF56B4E9),
+    Color(0xFFFF8A4C),
+    Color(0xFF3CCFA0),
+    Color(0xFFE4A3C8),
+    Color(0xFFF0E442),
+    Color(0xFF9FD7F5),
+    Color(0xFFE69F00),
+    Color(0xFFBBBBBB),
+  ];
+
+  static Color late(bool dark) => dark ? const Color(0xFF9BD67F) : const Color(0xFF4D7C0F);
+  static Color partial(bool dark) => dark ? const Color(0xFF7DD3FC) : const Color(0xFF0369A1);
+  static Color excused(bool dark) => dark ? const Color(0xFFA5B4FC) : const Color(0xFF6366F1);
+  static Color paused(bool dark) => dark ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
+  static Color frozen(bool dark) => dark ? const Color(0xFF67E8F9) : const Color(0xFF0891B2);
+}
+
 /// 16-color category palette (T1.3.08 / T2.3.04), ordered for color-blind distinguishability.
 /// Stored as ARGB ints; light/dark variants are derived in [CategoryColors].
 abstract final class CategoryPalette {
@@ -135,9 +201,10 @@ class AppColors extends ThemeExtension<AppColors> {
     waiting: Color(0xFFB45309),
     blocked: Color(0xFFB91C1C),
     completed: Color(0xFF15803D),
-    cancelled: Color(0xFF9CA3AF),
+    // Muted greys still reach 3:1 on surfaces (WCAG 1.4.11; status icons carry the meaning).
+    cancelled: Color(0xFF858C99),
     missed: Color(0xFFDC2626),
-    skipped: Color(0xFF9CA3AF),
+    skipped: Color(0xFF858C99),
     nowLine: Color(0xFFE11D48),
     gridMajor: Color(0x1F000000),
     gridMinor: Color(0x0D000000),

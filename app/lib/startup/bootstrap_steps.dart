@@ -3,6 +3,7 @@ import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/session/local_account.dart';
 import 'package:everslot/core/session/local_only_choice.dart';
 import 'package:everslot/core/session/session.dart';
+import 'package:everslot/design_system/typography.dart';
 import 'package:everslot/features/auth/application/auth_binding.dart';
 import 'package:everslot/features/settings/application/settings_providers.dart';
 import 'package:everslot/startup/bootstrap_runner.dart';
@@ -28,7 +29,10 @@ abstract final class BootstrapSteps {
 /// providers → feature startup tasks. The caller then launches the app (or the recoverable error
 /// screen when a required step failed).
 List<BootstrapStep> defaultBootstrapSteps() => [
-  BootstrapStep(BootstrapSteps.logging, (c) => AppLog.init()),
+  BootstrapStep(BootstrapSteps.logging, (c) {
+    AppLog.init();
+    AppTypography.registerLicenses();
+  }),
   BootstrapStep(BootstrapSteps.environment, (c) {
     c.env = c.platform.env(c.flavor);
     for (final warning in c.env.warnings) {

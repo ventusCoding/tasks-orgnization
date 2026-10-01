@@ -207,5 +207,7 @@
   "settingsExportProgress": "Export en cours… {percent} %",
   "settingsExportDone": "Export prêt : {file}",
   "settingsExportFailed": "L’export a échoué. Veuillez réessayer.",
-  "settingsExportShareSubject": "Export Everslot"
+  "settingsExportShareSubject": "Export Everslot",
+  "settingsDynamicColor": "Couleurs du fond d'écran",
+  "settingsDynamicColorSubtitle": "Utiliser les couleurs Material You de l'appareil. Les couleurs des catégories ne changent pas."
 }

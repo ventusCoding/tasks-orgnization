@@ -6827,6 +6827,8 @@
   "settingsDevices": "Devices",
   "settingsDevicesEmpty": "No devices registered yet.",
   "settingsDevicesOffline": "Connect to the internet to see your devices.",
+  "settingsDynamicColor": "Wallpaper colors",
+  "settingsDynamicColorSubtitle": "Use your device's Material You colors. Category colors stay the same.",
   "settingsExportAttachments": "Include attachment files",
   "settingsExportAttachmentsHint": "Only files already on this device.",
   "settingsExportBody": "A copy of all your data on this device. Works offline.",

@@ -20,6 +20,7 @@ class AppearanceSettings {
     this.highContrastCategories = false,
     this.largeWeekTableText = false,
     this.statusPillLabels = false,
+    this.dynamicColor = false,
   });
 
   static const defaults = AppearanceSettings();
@@ -45,6 +46,9 @@ class AppearanceSettings {
   /// Always show text labels on status pills.
   final bool statusPillLabels;
 
+  /// Material You colors from the wallpaper (Android 12+, T1.3.08). Category colors never change.
+  final bool dynamicColor;
+
   static final codec = SettingsCodec<AppearanceSettings>(
     namespace: 'appearance',
     version: 1,
@@ -67,6 +71,7 @@ class AppearanceSettings {
       highContrastCategories: r.boolean('highContrastCategories', false),
       largeWeekTableText: r.boolean('largeWeekTableText', false),
       statusPillLabels: r.boolean('statusPillLabels', false),
+      dynamicColor: r.boolean('dynamicColor', false),
     ),
     encoder: (s) => {
       'theme': s.theme.name,
@@ -78,6 +83,7 @@ class AppearanceSettings {
       'highContrastCategories': s.highContrastCategories,
       'largeWeekTableText': s.largeWeekTableText,
       'statusPillLabels': s.statusPillLabels,
+      'dynamicColor': s.dynamicColor,
     },
   );
 
@@ -91,6 +97,7 @@ class AppearanceSettings {
     bool? highContrastCategories,
     bool? largeWeekTableText,
     bool? statusPillLabels,
+    bool? dynamicColor,
   }) => AppearanceSettings(
     theme: theme ?? this.theme,
     density: density ?? this.density,
@@ -101,6 +108,7 @@ class AppearanceSettings {
     highContrastCategories: highContrastCategories ?? this.highContrastCategories,
     largeWeekTableText: largeWeekTableText ?? this.largeWeekTableText,
     statusPillLabels: statusPillLabels ?? this.statusPillLabels,
+    dynamicColor: dynamicColor ?? this.dynamicColor,
   );
 
   @override
@@ -114,7 +122,8 @@ class AppearanceSettings {
       other.sounds == sounds &&
       other.highContrastCategories == highContrastCategories &&
       other.largeWeekTableText == largeWeekTableText &&
-      other.statusPillLabels == statusPillLabels;
+      other.statusPillLabels == statusPillLabels &&
+      other.dynamicColor == dynamicColor;
 
   @override
   int get hashCode => Object.hash(
@@ -127,6 +136,7 @@ class AppearanceSettings {
     highContrastCategories,
     largeWeekTableText,
     statusPillLabels,
+    dynamicColor,
   );
 }
 

@@ -277,5 +277,7 @@
     }
   },
   "settingsExportFailed": "The export failed. Please try again.",
-  "settingsExportShareSubject": "Everslot export"
+  "settingsExportShareSubject": "Everslot export",
+  "settingsDynamicColor": "Wallpaper colors",
+  "settingsDynamicColorSubtitle": "Use your device's Material You colors. Category colors stay the same."
 }

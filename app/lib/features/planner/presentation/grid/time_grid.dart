@@ -2508,7 +2508,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
               color: (colors?.background ?? context.colors.primaryContainer).withValues(alpha: 0.92),
               borderRadius: BorderRadius.circular(Radii.sm),
               border: Border.all(color: colors?.accent ?? context.colors.primary, width: 2),
-              boxShadow: const [BoxShadow(blurRadius: 10, offset: Offset(0, 4), color: Color(0x40000000))],
+              boxShadow: AppShadows.floating,
             ),
             child: Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(4, 2, 2, 2),
@@ -2539,7 +2539,7 @@ class TimeGridState extends ConsumerState<TimeGrid> with TickerProviderStateMixi
             decoration: BoxDecoration(
               color: context.colors.inverseSurface,
               borderRadius: BorderRadius.circular(Radii.pill),
-              boxShadow: const [BoxShadow(blurRadius: 6, color: Color(0x33000000))],
+              boxShadow: AppShadows.soft,
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: Space.md, vertical: Space.xs),

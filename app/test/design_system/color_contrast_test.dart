@@ -19,6 +19,52 @@ void main() {
     final brightness = entry.key;
     final scheme = entry.value.colorScheme;
 
+    test('every text/background pair of the theme is ≥ 4.5:1 ($brightness, T1.3.08)', () {
+      final pairs = <String, (Color, Color)>{
+        'onSurface/surface': (scheme.onSurface, scheme.surface),
+        'onSurfaceVariant/surface': (scheme.onSurfaceVariant, scheme.surface),
+        'onSurface/surfaceContainerLow': (scheme.onSurface, scheme.surfaceContainerLow),
+        'onSurface/surfaceContainerHighest': (scheme.onSurface, scheme.surfaceContainerHighest),
+        'onPrimary/primary': (scheme.onPrimary, scheme.primary),
+        'onPrimaryContainer/primaryContainer': (scheme.onPrimaryContainer, scheme.primaryContainer),
+        'onSecondaryContainer/secondaryContainer': (scheme.onSecondaryContainer, scheme.secondaryContainer),
+        'onError/error': (scheme.onError, scheme.error),
+        'onErrorContainer/errorContainer': (scheme.onErrorContainer, scheme.errorContainer),
+        'primary/surface (links, section headers)': (scheme.primary, scheme.surface),
+        'error/surface (destructive labels)': (scheme.error, scheme.surface),
+      };
+      for (final p in pairs.entries) {
+        expect(contrast(p.value.$1, p.value.$2), greaterThanOrEqualTo(4.5), reason: p.key);
+      }
+    });
+
+    test('status and semantic colors are ≥ 3:1 on surfaces, and readable as text ($brightness)', () {
+      final c = brightness == Brightness.dark ? AppColors.dark : AppColors.light;
+      final statuses = {
+        'success': c.success,
+        'warning': c.warning,
+        'danger': c.danger,
+        'info': c.info,
+        'todo': c.todo,
+        'ongoing': c.ongoing,
+        'waiting': c.waiting,
+        'blocked': c.blocked,
+        'completed': c.completed,
+        'cancelled': c.cancelled,
+        'missed': c.missed,
+        'skipped': c.skipped,
+        'nowLine': c.nowLine,
+      };
+      for (final surface in [scheme.surface, scheme.surfaceContainerLow]) {
+        for (final st in statuses.entries) {
+          // Icons and indicators (WCAG 1.4.11): 3:1.
+          expect(contrast(st.value, surface), greaterThanOrEqualTo(3), reason: st.key);
+          // Text in a status color goes through readableOn (WCAG 1.4.3): 4.5:1.
+          expect(contrast(CategoryColors.readableOn(st.value, surface), surface), greaterThanOrEqualTo(4.5));
+        }
+      }
+    });
+
     test('tile text is ≥ 4.5:1 on every palette tile ($brightness)', () {
       for (final argb in CategoryPalette.colors) {
         final tile = CategoryColors.background(argb, brightness);

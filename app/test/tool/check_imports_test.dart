@@ -184,6 +184,22 @@ final j = TextAlign.start;
     });
   });
 
+  group('color rule (T1.3.08)', () {
+    test('raw colors are only allowed in design_system/', () {
+      const source = """
+final a = Color(0xFF112233);
+final b = Color.fromARGB(255, 1, 2, 3);
+final c = Color.fromRGBO(1, 2, 3, 1);
+final d = context.colors.primary; // tokens are fine
+final e = Color(0x11000000); // color-ok painter-only scrim
+// final f = Color(0xFF000000);
+final g = 'Color(0xFF000000)';
+""";
+      expect(_rules('features/a/presentation/w.dart', source), ['raw-color', 'raw-color', 'raw-color']);
+      expect(_rules('design_system/tokens.dart', source), isEmpty);
+    });
+  });
+
   group('runner', () {
     late Directory tmp;
     setUp(() => tmp = Directory.systemTemp.createTempSync('boundaries'));

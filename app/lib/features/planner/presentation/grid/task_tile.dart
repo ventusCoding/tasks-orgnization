@@ -98,9 +98,7 @@ class TaskTile extends StatelessWidget {
               border: BorderDirectional(
                 start: BorderSide(color: leading, width: item.status == OccurrenceStatus.missed ? 4 : 3),
               ),
-              boxShadow: lifted
-                  ? const [BoxShadow(blurRadius: 8, offset: Offset(0, 3), color: Color(0x33000000))]
-                  : null,
+              boxShadow: lifted ? AppShadows.lifted : null,
             ),
             child: item.status == OccurrenceStatus.skipped
                 ? CustomPaint(

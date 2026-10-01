@@ -26,8 +26,8 @@ handling/logging, and a dev-only debug menu.
 - [x] T1.3.05 — Error model, global handlers & logging
 - [ ] T1.3.06 — Routing: typed routes, 5-tab shell, modal editors
 - [x] T1.3.07 — Deep-link parser (single source for all entry points)
-- [ ] T1.3.08 — Design tokens & themes (light/dark, category palette)
-- [ ] T1.3.09 — Typography & bundled fonts (Latin + Arabic)
+- [x] T1.3.08 — Design tokens & themes (light/dark, category palette)
+- [x] T1.3.09 — Typography & bundled fonts (Latin + Arabic)
 - [ ] T1.3.10 — Core components v1
 - [ ] T1.3.11 — Pickers: date, time (1-min), duration, color, icon
 - [ ] T1.3.12 — App scaffold: bottom bar, app bar actions, contextual FAB, adaptive layout
@@ -129,6 +129,8 @@ optional dynamic color (Android 12+) that never overrides category colors.
 **Acceptance criteria:** switching light/dark/system updates instantly; tokens are the only source of colors
 in feature code (lint/grep check for raw `Color(0x…)` outside design_system).
 **Tests:** contrast unit test for every text/background pair; goldens for the palette sheet.
+**Notes:** `design_system/tokens.dart`: spacing, radii, motion, `Elevation`, `Opacities`, `AppShadows`, `BrandColors`, `DataVizColors` (Okabe–Ito chart series + tones, moved out of `chart_theme.dart`), 16-color `CategoryPalette` + `CategoryColors`, `AppColors` ThemeExtension (semantic + 8 status colors, always shown with icons). Light/dark/system switch instantly (Settings › Appearance). Optional Android 12+ dynamic color (`dynamic_color` 2.1, Appearance › Wallpaper colors, off by default) replaces only the Material scheme — category/status/chart colors are tokens. `tool/check_imports.dart` rule `raw-color` rejects `Color(0x…)`/`Color.fromARGB` outside `design_system/` (`// color-ok` opt-out); the 30 existing hits moved to tokens. Tests: `color_contrast_test.dart` (every theme text/background pair ≥ 4.5:1; status colors ≥ 3:1 as icons and ≥ 4.5:1 as text via `readableOn` — the light cancelled/skipped grey was 2.4:1 and is now `0xFF858C99`), palette sheet goldens (`palette_golden_test.dart`, light/dark).
+
 
 ### T1.3.09 — Typography & bundled fonts (Latin + Arabic)
 **Priority:** P0 · **Size:** S · **Depends on:** T1.3.08
@@ -138,6 +140,8 @@ Arabic text uses Noto Sans Arabic automatically; no runtime font downloads.
 **Acceptance criteria:** mixed Arabic/Latin strings render with correct fonts and baselines; times align
 in columns (tabular numbers).
 **Tests:** goldens EN/AR at text scale 1.0 and 2.0.
+**Notes:** Inter (400/500/600/700, latin + latin-ext) and Noto Sans Arabic (400–700) bundled under `assets/fonts` with their OFL texts (registered in the licenses page at bootstrap); `ThemeData.fontFamily` Inter with `fontFamilyFallback` Noto Sans Arabic, so Arabic glyphs switch automatically; `AppTypography.tabular` / `AppTheme.tabular` for times and counters. flutter_test does not load app fonts, so `test/support/fonts.dart` loads them for typography goldens. Tests: `typography_test.dart` (Inter is proportional, tabular digits equal width, Arabic via fallback = Noto metrics, theme families) + goldens EN/AR × 1.0/2.0.
+
 
 ### T1.3.10 — Core components v1
 **Priority:** P0 · **Size:** L · **Depends on:** T1.3.08, T1.3.09

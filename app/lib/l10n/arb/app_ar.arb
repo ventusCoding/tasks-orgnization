@@ -2783,6 +2783,8 @@
   "settingsDevices": "الأجهزة",
   "settingsDevicesEmpty": "لا توجد أجهزة مسجّلة بعد.",
   "settingsDevicesOffline": "اتصل بالإنترنت لعرض أجهزتك.",
+  "settingsDynamicColor": "ألوان الخلفية",
+  "settingsDynamicColorSubtitle": "استخدام ألوان Material You من جهازك. ألوان الفئات لا تتغير.",
   "settingsExportAttachments": "تضمين ملفات المرفقات",
   "settingsExportAttachmentsHint": "الملفات الموجودة على هذا الجهاز فقط.",
   "settingsExportBody": "نسخة من كل بياناتك على هذا الجهاز. يعمل دون اتصال.",

@@ -16,6 +16,8 @@
 //   core-independent  core/ and design_system/ never import features/, shared/, app/ or startup/.
 // RTL rules (arch §6.14): use EdgeInsetsDirectional, AlignmentDirectional, PositionedDirectional
 // and TextAlign.start/end instead of left/right variants (symmetric insets are allowed).
+// Color rule (T1.3.08): no raw `Color(0x…)` / `Color.fromARGB(…)` outside design_system/ — use
+// tokens (`// color-ok <reason>` opts a line out).
 import 'dart:io';
 
 void main(List<String> args) {
@@ -189,9 +191,21 @@ List<Violation> checkSource(String libPath, String source, {bool rtl = true}) {
       }
     }
   }
+  // Colors (T1.3.08): design-system tokens are the only source of raw colors.
+  if (!libPath.startsWith('design_system/')) {
+    for (final m in _rawColor.allMatches(masked)) {
+      final line = _lineOf(masked, m.start);
+      if (originalLines[line].contains('color-ok')) continue;
+      violations.add(
+        Violation(libPath, line + 1, 'raw-color', 'use a design-system token instead of `${m.group(0)}…)` (arch §6.14)'),
+      );
+    }
+  }
   violations.sort((a, b) => a.line.compareTo(b.line));
   return violations;
 }
+
+final _rawColor = RegExp(r'\bColor(\.fromARGB|\.fromRGBO)?\((0x|\d)');
 
 final _directive = RegExp(r'^(import|export)(\s|$)');
 

@@ -51,6 +51,7 @@ dependencies:
   workmanager: ^0.10.10
 
   # UI
+  dynamic_color: ^2.1.0 # Android 12+ wallpaper colors (T1.3.08, optional)
   fl_chart: ^1.2.0
   two_dimensional_scrollables: ^0.5.4
   flutter_staggered_grid_view: ^0.7.0
@@ -99,3 +100,25 @@ flutter:
   generate: true
   assets:
     - assets/content/
+    - assets/fonts/inter/OFL.txt
+    - assets/fonts/noto_sans_arabic/OFL.txt
+  # Bundled fonts (T1.3.09, OFL 1.1): no runtime font downloads. Arabic falls back to Noto Sans Arabic.
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter/Inter-Regular.ttf
+        - asset: assets/fonts/inter/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/inter/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/inter/Inter-Bold.ttf
+          weight: 700
+    - family: NotoSansArabic
+      fonts:
+        - asset: assets/fonts/noto_sans_arabic/NotoSansArabic-Regular.ttf
+        - asset: assets/fonts/noto_sans_arabic/NotoSansArabic-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/noto_sans_arabic/NotoSansArabic-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/noto_sans_arabic/NotoSansArabic-Bold.ttf
+          weight: 700

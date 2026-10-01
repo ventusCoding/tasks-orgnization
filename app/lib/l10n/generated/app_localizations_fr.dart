@@ -9440,6 +9440,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsDevicesOffline => 'Connectez-vous à Internet pour voir vos appareils.';
 
   @override
+  String get settingsDynamicColor => 'Couleurs du fond d\'écran';
+
+  @override
+  String get settingsDynamicColorSubtitle =>
+      'Utiliser les couleurs Material You de l\'appareil. Les couleurs des catégories ne changent pas.';
+
+  @override
   String get settingsExportAttachments => 'Inclure les pièces jointes';
 
   @override

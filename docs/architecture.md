@@ -120,6 +120,7 @@ erDiagram
 | i18n | `flutter_localizations` + `intl` + gen-l10n (ARB, generated into `lib/`) | EN, FR, AR (RTL). `flutter_gen` synthetic package is deprecated. |
 | Crash reporting | `firebase_crashlytics` 5.4.0 | Free; covers iOS/Android. Revisit Sentry if web/desktop ship ([9.3]). |
 | Fonts/icons | Bundled Inter + Noto Sans Arabic; `material_symbols_icons` | No runtime font fetching (offline). |
+| Dynamic color | `dynamic_color` 2.1.0 (depends on `material_ui`) | Optional Android 12+ wallpaper scheme (Settings › Appearance, off by default, T1.3.08); category/status/chart colors are tokens and never follow it. |
 | Testing | `flutter_test`, `mocktail` 1.0.5, `patrol` 4.10.0 (+ `patrol_cli` 4.8.0; tests in `patrol_test/`), `alchemist` 0.14.0, `leak_tracker` | §10. |
 | Lints | `very_good_analysis` 11.0.0 + `riverpod_lint` (analyzer `plugins:`) | `custom_lint` is stale → any custom rules are analyzer plugins. |
 

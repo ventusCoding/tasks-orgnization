@@ -9206,6 +9206,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsDevicesOffline => 'Connect to the internet to see your devices.';
 
   @override
+  String get settingsDynamicColor => 'Wallpaper colors';
+
+  @override
+  String get settingsDynamicColorSubtitle => 'Use your device\'s Material You colors. Category colors stay the same.';
+
+  @override
   String get settingsExportAttachments => 'Include attachment files';
 
   @override

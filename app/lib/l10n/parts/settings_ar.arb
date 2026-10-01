@@ -207,5 +207,7 @@
   "settingsExportProgress": "جارٍ التصدير… {percent}٪",
   "settingsExportDone": "التصدير جاهز: {file}",
   "settingsExportFailed": "فشل التصدير. حاول مرة أخرى.",
-  "settingsExportShareSubject": "تصدير Everslot"
+  "settingsExportShareSubject": "تصدير Everslot",
+  "settingsDynamicColor": "ألوان الخلفية",
+  "settingsDynamicColorSubtitle": "استخدام ألوان Material You من جهازك. ألوان الفئات لا تتغير."
 }

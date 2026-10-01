@@ -16059,6 +16059,18 @@ abstract class AppLocalizations {
   /// **'Connect to the internet to see your devices.'**
   String get settingsDevicesOffline;
 
+  /// No description provided for @settingsDynamicColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallpaper colors'**
+  String get settingsDynamicColor;
+
+  /// No description provided for @settingsDynamicColorSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your device\'s Material You colors. Category colors stay the same.'**
+  String get settingsDynamicColorSubtitle;
+
   /// No description provided for @settingsExportAttachments.
   ///
   /// In en, this message translates to:
