@@ -7139,6 +7139,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvFrom => 'From';
 
   @override
+  String get pvGoalLinked => 'Linked to a goal';
+
+  @override
   String get pvGotIt => 'Got it';
 
   @override
@@ -7209,7 +7212,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvHorizonYear => 'This year';
 
   @override
-  String get pvHorizonsHint => 'Unscheduled intentions per horizon (stored on this device until horizons sync).';
+  String get pvHorizonsHint => 'Unscheduled intentions per horizon — drag them to another horizon or onto a day.';
 
   @override
   String get pvIgnoreLowPriority => 'Ignore low-priority tasks';
@@ -7268,6 +7271,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pvLoadThresholds => 'Load tint (busy · over)';
+
+  @override
+  String get pvMakeGoal => 'Make it a goal';
 
   @override
   String get pvMapPlaceholder =>

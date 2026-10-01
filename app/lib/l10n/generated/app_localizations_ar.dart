@@ -7723,6 +7723,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvFrom => 'من';
 
   @override
+  String get pvGoalLinked => 'مرتبطة بهدف';
+
+  @override
   String get pvGotIt => 'فهمت';
 
   @override
@@ -7793,7 +7796,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvHorizonYear => 'هذا العام';
 
   @override
-  String get pvHorizonsHint => 'نوايا غير مجدولة لكل أفق (تُحفظ على هذا الجهاز إلى أن تتوفر مزامنة الآفاق).';
+  String get pvHorizonsHint => 'نوايا غير مجدولة لكل أفق — اسحبها إلى أفق آخر أو إلى يوم.';
 
   @override
   String get pvIgnoreLowPriority => 'تجاهل المهام منخفضة الأولوية';
@@ -7855,6 +7858,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pvLoadThresholds => 'تلوين الحِمل (مزدحم · متجاوز)';
+
+  @override
+  String get pvMakeGoal => 'اجعلها هدفًا';
 
   @override
   String get pvMapPlaceholder =>

@@ -33,7 +33,7 @@ countdown / count-up; map; tests.
 - [x] T3.7.08 — Kanban board
 - [x] T3.7.09 — Eisenhower matrix
 - [x] T3.7.10 — 24-hour radial clock
-- [ ] T3.7.11 — Horizons view
+- [x] T3.7.11 — Horizons view
 - [ ] T3.7.12 — Countdown / count-up list
 - [ ] T3.7.13 — Map view
 - [ ] T3.7.14 — Productivity views test suite
@@ -184,6 +184,7 @@ A home-screen widget comes later ([8.2]).
 horizons or onto the calendar, and linked to goals ([5.4]).
 **Data model:** `tasks.horizon_key text` (e.g. `week:2026-09-21`, `month:2026-09`, `year:2026`).
 **Tests:** widget tests.
+**Notes:** `HorizonsView` on `tasks.horizon_key` (schema v2; keys from the pure `Horizon.keyFor` in `domain/horizons.dart` — `day:`, `week:` (first day of the week), `month:`, `quarter:YYYY-Qn`, `year:`; server check constraint validates the format). Columns list unscheduled tasks with a key of that horizon (past periods flagged as carried over); each column adds an intention in its current period. Drag a card to another column → that horizon's current period; drop it on a day of this week → scheduled into the day's first free slot (work hours) and removed from the horizons, in one operation (`HorizonActions`, planner application). *Make it a goal* creates a series goal (complete once in the horizon's period, [5.4]); linked cards show a flag.
 
 ### T3.7.12 — Countdown / count-up list
 **Priority:** P2 · **Size:** S · **Depends on:** [3.1], [5.3] (live counter engine)

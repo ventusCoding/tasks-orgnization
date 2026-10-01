@@ -7338,6 +7338,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvFrom => 'De';
 
   @override
+  String get pvGoalLinked => 'Lié à un objectif';
+
+  @override
   String get pvGotIt => 'Compris';
 
   @override
@@ -7409,7 +7412,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvHorizonsHint =>
-      'Intentions non planifiées par horizon (enregistrées sur cet appareil en attendant la synchronisation des horizons).';
+      'Intentions non planifiées par horizon — glissez-les vers un autre horizon ou sur un jour.';
 
   @override
   String get pvIgnoreLowPriority => 'Ignorer les tâches peu prioritaires';
@@ -7468,6 +7471,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get pvLoadThresholds => 'Teinte de charge (chargé · dépassé)';
+
+  @override
+  String get pvMakeGoal => 'En faire un objectif';
 
   @override
   String get pvMapPlaceholder =>

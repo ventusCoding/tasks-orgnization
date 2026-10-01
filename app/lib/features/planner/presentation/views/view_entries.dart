@@ -4,6 +4,7 @@ import 'package:everslot/features/planner/presentation/views/backlog_view.dart';
 import 'package:everslot/features/planner/presentation/views/day_list_view.dart';
 import 'package:everslot/features/planner/presentation/views/focus_view.dart';
 import 'package:everslot/features/planner/presentation/views/free_slots_view.dart';
+import 'package:everslot/features/planner/presentation/views/horizons_view.dart';
 import 'package:everslot/features/planner/presentation/views/kanban_view.dart';
 import 'package:everslot/features/planner/presentation/views/load_heatmap_view.dart';
 import 'package:everslot/features/planner/presentation/views/matrix_view.dart';
@@ -231,5 +232,14 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     group: PlannerViewGroup.productivity,
     tier: ViewTier.m3,
     timeBased: true,
+  ),
+  PlannerViewEntry(
+    id: 'horizons',
+    type: PlannerViewType.horizons,
+    icon: Icons.landscape_outlined,
+    label: (l) => l.pvViewHorizons,
+    builder: (a) => HorizonsView(args: a),
+    group: PlannerViewGroup.productivity,
+    tier: ViewTier.m3,
   ),
 ];

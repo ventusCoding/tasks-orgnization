@@ -12393,6 +12393,12 @@ abstract class AppLocalizations {
   /// **'From'**
   String get pvFrom;
 
+  /// No description provided for @pvGoalLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'Linked to a goal'**
+  String get pvGoalLinked;
+
   /// No description provided for @pvGotIt.
   ///
   /// In en, this message translates to:
@@ -12528,7 +12534,7 @@ abstract class AppLocalizations {
   /// No description provided for @pvHorizonsHint.
   ///
   /// In en, this message translates to:
-  /// **'Unscheduled intentions per horizon (stored on this device until horizons sync).'**
+  /// **'Unscheduled intentions per horizon — drag them to another horizon or onto a day.'**
   String get pvHorizonsHint;
 
   /// No description provided for @pvIgnoreLowPriority.
@@ -12620,6 +12626,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Load tint (busy · over)'**
   String get pvLoadThresholds;
+
+  /// No description provided for @pvMakeGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Make it a goal'**
+  String get pvMakeGoal;
 
   /// No description provided for @pvMapPlaceholder.
   ///

@@ -317,7 +317,7 @@
   "pvHorizonQuarter": "Ce trimestre",
   "pvHorizonYear": "Cette année",
   "pvMoveTo": "Déplacer vers…",
-  "pvHorizonsHint": "Intentions non planifiées par horizon (enregistrées sur cet appareil en attendant la synchronisation des horizons).",
+  "pvHorizonsHint": "Intentions non planifiées par horizon — glissez-les vers un autre horizon ou sur un jour.",
   "pvDaysUntil": "{count, plural, =0{aujourd’hui} =1{dans 1 jour} other{dans {count} jours}}",
   "pvDaysSince": "{count, plural, =0{aujourd’hui} =1{il y a 1 jour} other{il y a {count} jours}}",
   "pvPin": "Épingler",
@@ -354,5 +354,7 @@
   "pvChecklistDue": "Éléments de liste avec échéance",
   "pvToggleBacklog": "Tiroir du backlog",
   "pvUnscheduledSnack": "Déplacé dans le backlog",
-  "pvQuotaProgress": "{title} · {done}/{total} cette période"
+  "pvQuotaProgress": "{title} · {done}/{total} cette période",
+  "pvMakeGoal": "En faire un objectif",
+  "pvGoalLinked": "Lié à un objectif"
 }

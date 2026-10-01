@@ -317,7 +317,7 @@
   "pvHorizonQuarter": "هذا الربع",
   "pvHorizonYear": "هذا العام",
   "pvMoveTo": "نقل إلى…",
-  "pvHorizonsHint": "نوايا غير مجدولة لكل أفق (تُحفظ على هذا الجهاز إلى أن تتوفر مزامنة الآفاق).",
+  "pvHorizonsHint": "نوايا غير مجدولة لكل أفق — اسحبها إلى أفق آخر أو إلى يوم.",
   "pvDaysUntil": "{count, plural, =0{اليوم} =1{بعد يوم واحد} =2{بعد يومين} few{بعد {count} أيام} many{بعد {count} يومًا} other{بعد {count} يوم}}",
   "pvDaysSince": "{count, plural, =0{اليوم} =1{منذ يوم واحد} =2{منذ يومين} few{منذ {count} أيام} many{منذ {count} يومًا} other{منذ {count} يوم}}",
   "pvPin": "تثبيت",
@@ -354,5 +354,7 @@
   "pvChecklistDue": "عناصر قوائم لها موعد",
   "pvToggleBacklog": "درج قائمة الانتظار",
   "pvUnscheduledSnack": "نُقل إلى قائمة الانتظار",
-  "pvQuotaProgress": "{title} · {done}/{total} هذه الفترة"
+  "pvQuotaProgress": "{title} · {done}/{total} هذه الفترة",
+  "pvMakeGoal": "اجعلها هدفًا",
+  "pvGoalLinked": "مرتبطة بهدف"
 }
