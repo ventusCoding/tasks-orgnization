@@ -4,6 +4,7 @@ import 'package:everslot/features/planner/presentation/views/backlog_view.dart';
 import 'package:everslot/features/planner/presentation/views/day_list_view.dart';
 import 'package:everslot/features/planner/presentation/views/focus_view.dart';
 import 'package:everslot/features/planner/presentation/views/free_slots_view.dart';
+import 'package:everslot/features/planner/presentation/views/kanban_view.dart';
 import 'package:everslot/features/planner/presentation/views/load_heatmap_view.dart';
 import 'package:everslot/features/planner/presentation/views/month_view.dart';
 import 'package:everslot/features/planner/presentation/views/multi_week_view.dart';
@@ -198,5 +199,15 @@ List<PlannerViewEntry> buildPlannerViewEntries() => [
     builder: (a) => RoutineView(args: a),
     group: PlannerViewGroup.productivity,
     tier: ViewTier.m3,
+  ),
+  PlannerViewEntry(
+    id: 'kanban',
+    type: PlannerViewType.kanban,
+    icon: Icons.view_kanban_outlined,
+    label: (l) => l.pvViewKanban,
+    builder: (a) => KanbanView(args: a),
+    group: PlannerViewGroup.productivity,
+    tier: ViewTier.m3,
+    supportsDrag: true,
   ),
 ];

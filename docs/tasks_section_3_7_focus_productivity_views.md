@@ -30,7 +30,7 @@ countdown / count-up; map; tests.
 - [x] T3.7.05 — Table (spreadsheet) view
 - [x] T3.7.06 — Plan-vs-actual view
 - [x] T3.7.07 — Routine player
-- [ ] T3.7.08 — Kanban board
+- [x] T3.7.08 — Kanban board
 - [ ] T3.7.09 — Eisenhower matrix
 - [ ] T3.7.10 — 24-hour radial clock
 - [ ] T3.7.11 — Horizons view
@@ -152,6 +152,7 @@ category, priority or day. Dragging a card between columns updates the matching 
 Each column shows its item count.
 **Data model:** view config `options.groupBy`.
 **Tests:** widget tests.
+**Notes:** `KanbanView`: occurrences of `options.rangeDays` (default 7) in columns by `options.groupBy` — status (Planned incl. missed / In progress / Done / Skipped), category (category order, then none), priority (urgent first) or day — with counts in the headers. Long-press-drag a card onto another column: status → `setStatus`; category / priority → `PlannerViewActions.editFields` after the scope dialog; day → `reschedule` keeping the time. Unplaced quota markers are left out.
 
 ### T3.7.09 — Eisenhower matrix
 **Priority:** P2 · **Size:** S · **Depends on:** [3.1] (deadline)
