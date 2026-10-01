@@ -112,6 +112,8 @@ erDiagram
 | Media | `image_picker` 1.2.3, `file_picker` 13.1.0, `flutter_image_compress` 2.5.1, `pdfrx` 2.6.5, `InteractiveViewer` (zoom), `share_plus` 13.3.0, `path_provider`, `mime`, `crypto` | `photo_view`/`open_filex` are ageing — avoid new dependencies on them. |
 | Video & voice notes | `video_player` 2.14.0 (AVPlayer/ExoPlayer: clip and voice-note playback, duration/size probe), `fc_native_video_thumbnail` 3.0.1 (poster frames), `record` 7.1.1 (AAC voice notes + live levels) | T2.2.12 / T2.2.13. One player package for video **and** audio (no separate audio player). Waveforms are drawn on the note's thumbnail so every device shows them. |
 | Document scanner | `cunning_document_scanner` 3.0.3 | T2.2.14: VisionKit (iOS) / ML Kit document scanner (Android, built-in fallback without Play Services) with edge detection and perspective correction; exports the multi-page PDF itself (no `pdf` dependency). Needs the `CAMERA` permission on Android for the fallback. |
+| Clipboard images | `pasteboard` 0.5.0 | T4.4.09: reads an image from the system clipboard (iOS `UIPasteboard`, Android `ClipboardManager` content URI) for *Paste image*; Flutter's `Clipboard` is text-only. Keyboard image insertion uses Flutter's `contentInsertionConfiguration` (no package). |
+| PDF export / print | `pdf` 3.13.1, `printing` 5.15.1 | T4.5.10: checklist PDF built in pure Dart (`pdf` widgets, embedded Inter + Noto Sans Arabic — Arabic text uses the Arabic font first so it is shaped), printed through AirPrint / the Android print service or shared (`printing`). |
 | Screen wake lock | `wakelock_plus`  | T3.7.01 / T3.7.07: keeps the screen on while the focus view or routine player is open (`options.keepScreenOn`); behind the `ScreenAwake` interface so tests run without the plugin. |
 | Map & geocoding | `flutter_map` , `latlong2` , `geocoding`  | T3.7.13: the map view and the editor's place picker on OpenStreetMap tiles (no API key; User-Agent `app.everslot` and the "© OpenStreetMap contributors" attribution per the tile policy); `geocoding` uses the platform geocoders (CLGeocoder / Android Geocoder) for search and reverse lookups. Both sit behind `mapLayerBuilderProvider` / `PlaceGeocoder` so tests run without tiles or platform channels. A heavy-traffic release should switch to a commercial tile provider. |
 | Resumable uploads | `tusc` 4.0.0 | Supabase Storage TUS (6 MB chunks) — the Supabase Dart SDK has no TUS client. |
@@ -822,7 +824,10 @@ app.checklist_items
   priority smallint not null default 0,
   notify_mode text not null default 'inherit',
   estimate_minutes integer,                         -- P2: routine step duration (T3.7.07)
-  -- P2: mirror_of_id uuid (live mirrors; trigger forbids a mirror inside its original's subtree)
+  mirror_of_id uuid references app.checklist_items(id),  -- P2: live mirror (T4.5.16, schema v3); same owner;
+                                                    -- DL003 trigger forbids a mirror inside its original's subtree.
+                                                    -- Mirrors show/edit the original, never get children, are not
+                                                    -- counted in stats; deleting the original detaches them as copies.
   -- CHECKs: completed_at is not null ⇔ status = 'completed'; char_length(text) ≤ 10 000; note ≤ 50 000;
   --         sort_key matches the fractional-index charset, length ≤ 128
   -- deferrable constraint triggers: parent in same checklist; no cycles (checked per operation group)

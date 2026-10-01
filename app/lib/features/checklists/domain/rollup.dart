@@ -113,6 +113,8 @@ class Rollup {
 /// incremental path-to-root update for single changes.
 abstract final class RollupCalculator {
   static Rollup _leaf(ChecklistItem i) {
+    // Mirrors (T4.5.16) show their original's status but count nowhere: originals only.
+    if (i.isMirror) return Rollup.zero;
     final s = i.status;
     return Rollup(
       leafCountable: s.isCountable ? 1 : 0,
@@ -152,6 +154,7 @@ abstract final class RollupCalculator {
     for (var i = 0; i < kids.length; i++) {
       final r = kids[i];
       final item = kidItems[i];
+      if (item.isMirror) continue;
       lc += r.leafCountable;
       ld += r.leafCompleted;
       if (item.status.isCountable) cc++;

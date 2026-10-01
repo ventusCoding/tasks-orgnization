@@ -693,6 +693,12 @@ abstract class AppLocalizations {
   /// **'Clear cache'**
   String get attachmentsClearCache;
 
+  /// No description provided for @attachmentsClipboardNoImage.
+  ///
+  /// In en, this message translates to:
+  /// **'No image in the clipboard'**
+  String get attachmentsClipboardNoImage;
+
   /// No description provided for @attachmentsCount.
   ///
   /// In en, this message translates to:
@@ -962,6 +968,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose files'**
   String get attachmentsSourceFiles;
+
+  /// No description provided for @attachmentsSourcePaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste image'**
+  String get attachmentsSourcePaste;
 
   /// No description provided for @attachmentsSourcePhotos.
   ///
@@ -3819,6 +3831,42 @@ abstract class AppLocalizations {
   /// **'Strikethrough'**
   String get checklistMdStrike;
 
+  /// No description provided for @checklistMirror.
+  ///
+  /// In en, this message translates to:
+  /// **'Mirror'**
+  String get checklistMirror;
+
+  /// No description provided for @checklistMirrorDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Mirrored to {list}'**
+  String checklistMirrorDone(String list);
+
+  /// No description provided for @checklistMirrorMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More in the original…'**
+  String get checklistMirrorMore;
+
+  /// No description provided for @checklistMirrorNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'A mirror can’t go inside its original'**
+  String get checklistMirrorNotAllowed;
+
+  /// No description provided for @checklistMirrorOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Mirror · {list}'**
+  String checklistMirrorOf(String list);
+
+  /// No description provided for @checklistMirrorTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Mirror to…'**
+  String get checklistMirrorTo;
+
   /// No description provided for @checklistModeEdit.
   ///
   /// In en, this message translates to:
@@ -3902,6 +3950,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This item no longer exists'**
   String get checklistNotifItemGone;
+
+  /// No description provided for @checklistOpenOriginal.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the original'**
+  String get checklistOpenOriginal;
 
   /// No description provided for @checklistOpenSideBySide.
   ///
@@ -4190,6 +4244,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{Uncheck 1 item?} other{Uncheck {count} items?}}'**
   String checklistUncheckConfirm(int count);
+
+  /// No description provided for @checklistUnlinkMirror.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlink mirror (keep a copy)'**
+  String get checklistUnlinkMirror;
 
   /// No description provided for @checklistViewGallery.
   ///
@@ -4827,11 +4887,47 @@ abstract class AppLocalizations {
   /// **'OPML'**
   String get exportOpml;
 
+  /// No description provided for @exportPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF'**
+  String get exportPdf;
+
+  /// No description provided for @exportPdfFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t create the PDF'**
+  String get exportPdfFailed;
+
+  /// No description provided for @exportPdfImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Include image thumbnails'**
+  String get exportPdfImages;
+
+  /// No description provided for @exportPdfNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Include notes'**
+  String get exportPdfNotes;
+
+  /// No description provided for @exportPdfPageOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {page} of {total}'**
+  String exportPdfPageOf(int page, int total);
+
   /// No description provided for @exportPlain.
   ///
   /// In en, this message translates to:
   /// **'Plain text'**
   String get exportPlain;
+
+  /// No description provided for @exportPrint.
+  ///
+  /// In en, this message translates to:
+  /// **'Print…'**
+  String get exportPrint;
 
   /// No description provided for @exportShare.
   ///
@@ -8576,6 +8672,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'List view'**
   String get listsListView;
+
+  /// No description provided for @listsMoveConflicted.
+  ///
+  /// In en, this message translates to:
+  /// **'A move conflicted with a change on another device and was undone.'**
+  String get listsMoveConflicted;
+
+  /// No description provided for @listsMoveConflictedUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Move undone after a sync conflict'**
+  String get listsMoveConflictedUndo;
 
   /// No description provided for @listsMoveItems.
   ///

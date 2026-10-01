@@ -1,9 +1,9 @@
 # Sections organization — progress snapshot
 
-Updated 2026-10-01 after section 3 work (branch `section-3-completion`), counted from the **Progress**
+Updated 2026-10-01 after section 4 work (branch `section-4-completion`), counted from the **Progress**
 checkboxes in `docs/tasks_section_*.md`.
 
-**Total: 540 done / 202 missing / 742 tasks (≈73 %)**
+**Total: 544 done / 198 missing / 742 tasks (≈73 %)**
 
 | Section | Done | Missing |
 |---|---|---|
@@ -25,12 +25,12 @@ checkboxes in `docs/tasks_section_*.md`.
 | 3.5 Day list | 15 | 0 ✅ |
 | 3.6 Calendar views | 17 | 0 ✅ |
 | 3.7 Focus / productivity views | 14 | 0 ✅ |
-| **4 Lists** | **70** | **4** |
-| 4.1 Checklist model / board | 16 | 1 |
+| **4 Lists** | **74** | **0 ✅** |
+| 4.1 Checklist model / board | 17 | 0 ✅ |
 | 4.2 Nested tree editor | 19 | 0 ✅ |
 | 4.3 Item status workflow | 12 | 0 ✅ |
-| 4.4 Item attachments | 8 | 1 |
-| 4.5 Advanced views | 15 | 2 |
+| 4.4 Item attachments | 9 | 0 ✅ |
+| 4.5 Advanced views | 17 | 0 ✅ |
 | **5 Habits** | **58** | **0 ✅** |
 | **6 Insights** | **77** | **66** |
 | 6.1 Stats engine | 24 | 3 |
@@ -57,7 +57,7 @@ checkboxes in `docs/tasks_section_*.md`.
 
 ## Summary
 
-- Done: Core engines (2), Plan (3) and Habits (5) complete; Lists (4) nearly; sync and recurrence done.
+- Done: Core engines (2), Plan (3), Lists (4) and Habits (5) complete; sync and recurrence done.
 - Biggest gaps: Insights charts / stats / dashboard (6.2–6.7), push + notification catalog (7.4–7.5),
   all of 8 and 9.
 - Not started: 9.1, 9.2, 9.3.

@@ -722,5 +722,45 @@
   },
   "linkedCompleteAction": "Complete",
   "itemStepDuration": "Step duration (routines)",
-  "itemNoStepDuration": "Shares the task’s time"
+  "itemNoStepDuration": "Shares the task’s time",
+  "listsMoveConflicted": "A move conflicted with a change on another device and was undone.",
+  "listsMoveConflictedUndo": "Move undone after a sync conflict",
+  "exportPdf": "PDF",
+  "exportPdfNotes": "Include notes",
+  "exportPdfImages": "Include image thumbnails",
+  "exportPrint": "Print…",
+  "exportPdfFailed": "Couldn’t create the PDF",
+  "exportPdfPageOf": "Page {page} of {total}",
+  "@exportPdfPageOf": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "checklistMirrorTo": "Mirror to…",
+  "checklistMirror": "Mirror",
+  "checklistMirrorOf": "Mirror · {list}",
+  "@checklistMirrorOf": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "checklistMirrorMore": "More in the original…",
+  "checklistOpenOriginal": "Open the original",
+  "checklistUnlinkMirror": "Unlink mirror (keep a copy)",
+  "checklistMirrorDone": "Mirrored to {list}",
+  "@checklistMirrorDone": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "checklistMirrorNotAllowed": "A mirror can’t go inside its original"
 }

@@ -350,6 +350,7 @@ class ChecklistItem {
     this.priority = 0,
     this.notifyMode = 'inherit',
     this.estimateMinutes,
+    this.mirrorOfId,
     this.createdAt,
     this.updatedAt,
   });
@@ -379,8 +380,39 @@ class ChecklistItem {
 
   /// Routine step duration in minutes (`estimate_minutes`, T3.7.07); null = share of the task.
   final int? estimateMinutes;
+
+  /// Original item this row mirrors (`mirror_of_id`, T4.5.16): the row shows and edits the
+  /// original; its own [text] is the snapshot used once the original is gone.
+  final String? mirrorOfId;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+
+  bool get isMirror => mirrorOfId != null;
+
+  /// This mirror row as displayed (T4.5.16): its own identity and place, the [original]'s
+  /// content and status.
+  ChecklistItem showing(ChecklistItem original) => ChecklistItem(
+    id: id,
+    checklistId: checklistId,
+    parentId: parentId,
+    sortKey: sortKey,
+    text: original.text,
+    note: original.note,
+    status: original.status,
+    statusNote: original.statusNote,
+    statusChangedAt: original.statusChangedAt,
+    completedAt: original.completedAt,
+    followUpAt: original.followUpAt,
+    dueLocal: original.dueLocal,
+    timeZone: original.timeZone,
+    waitingOn: original.waitingOn,
+    priority: original.priority,
+    notifyMode: notifyMode,
+    estimateMinutes: original.estimateMinutes,
+    mirrorOfId: mirrorOfId,
+    createdAt: createdAt,
+    updatedAt: original.updatedAt,
+  );
 
   bool get hasNote => note != null && note!.trim().isNotEmpty;
 
@@ -407,6 +439,8 @@ class ChecklistItem {
     int? priority,
     int? estimateMinutes,
     bool clearEstimate = false,
+    String? mirrorOfId,
+    bool clearMirror = false,
     DateTime? updatedAt,
   }) => ChecklistItem(
     id: id,
@@ -426,6 +460,7 @@ class ChecklistItem {
     priority: priority ?? this.priority,
     notifyMode: notifyMode,
     estimateMinutes: clearEstimate ? null : (estimateMinutes ?? this.estimateMinutes),
+    mirrorOfId: clearMirror ? null : (mirrorOfId ?? this.mirrorOfId),
     createdAt: createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
   );
@@ -450,6 +485,7 @@ class ChecklistItem {
       other.priority == priority &&
       other.notifyMode == notifyMode &&
       other.estimateMinutes == estimateMinutes &&
+      other.mirrorOfId == mirrorOfId &&
       other.updatedAt == updatedAt;
 
   @override
@@ -468,6 +504,7 @@ class ChecklistItem {
     dueLocal,
     priority,
     estimateMinutes,
+    mirrorOfId,
     updatedAt,
   );
 

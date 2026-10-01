@@ -909,6 +909,20 @@
       }
     }
   },
+  "@checklistMirrorDone": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "@checklistMirrorOf": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
   "@checklistProgress": {
     "placeholders": {
       "done": {
@@ -1132,6 +1146,16 @@
   "@durationMinutesShort": {
     "placeholders": {
       "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@exportPdfPageOf": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "total": {
         "type": "int"
       }
     }
@@ -4364,6 +4388,7 @@
   "attachmentsCaption": "Caption",
   "attachmentsChecklistLevel": "On the list",
   "attachmentsClearCache": "Clear cache",
+  "attachmentsClipboardNoImage": "No image in the clipboard",
   "attachmentsCount": "{count, plural, =1{1 attachment} other{{count} attachments}}",
   "attachmentsDownloadWhenOnline": "This file will download when you're online.",
   "attachmentsDuration": "Length {duration}",
@@ -4409,6 +4434,7 @@
   "attachmentsSizeMb": "{size} MB",
   "attachmentsSourceCamera": "Take photo",
   "attachmentsSourceFiles": "Choose files",
+  "attachmentsSourcePaste": "Paste image",
   "attachmentsSourcePhotos": "Choose photos",
   "attachmentsSourceRecordVideo": "Record a video",
   "attachmentsSourceScan": "Scan a document",
@@ -4885,6 +4911,12 @@
   "checklistMdItalic": "Italic",
   "checklistMdLink": "Link",
   "checklistMdStrike": "Strikethrough",
+  "checklistMirror": "Mirror",
+  "checklistMirrorDone": "Mirrored to {list}",
+  "checklistMirrorMore": "More in the original…",
+  "checklistMirrorNotAllowed": "A mirror can’t go inside its original",
+  "checklistMirrorOf": "Mirror · {list}",
+  "checklistMirrorTo": "Mirror to…",
   "checklistModeEdit": "Edit",
   "checklistModePreview": "Preview",
   "checklistMoveConflict": "A move conflicted with a change on another device and was undone.",
@@ -4899,6 +4931,7 @@
   "checklistNoTasksToLink": "No tasks to link yet",
   "checklistNotFound": "This list doesn't exist",
   "checklistNotifItemGone": "This item no longer exists",
+  "checklistOpenOriginal": "Open the original",
   "checklistOpenSideBySide": "Open side by side…",
   "checklistOpenTrash": "Open trash",
   "checklistOutdent": "Outdent",
@@ -4947,6 +4980,7 @@
   "checklistTitleHint": "Title",
   "checklistUncheckAll": "Uncheck all",
   "checklistUncheckConfirm": "{count, plural, =1{Uncheck 1 item?} other{Uncheck {count} items?}}",
+  "checklistUnlinkMirror": "Unlink mirror (keep a copy)",
   "checklistViewGallery": "Gallery",
   "checklistViewKanban": "Kanban",
   "checklistViewMindMap": "Mind map",
@@ -5053,7 +5087,13 @@
   "exportCopy": "Copy to clipboard",
   "exportMarkdown": "Markdown",
   "exportOpml": "OPML",
+  "exportPdf": "PDF",
+  "exportPdfFailed": "Couldn’t create the PDF",
+  "exportPdfImages": "Include image thumbnails",
+  "exportPdfNotes": "Include notes",
+  "exportPdfPageOf": "Page {page} of {total}",
   "exportPlain": "Plain text",
+  "exportPrint": "Print…",
   "exportShare": "Share…",
   "exportTitle": "Share / export",
   "exportZipBundle": "Share as zip (with files)",
@@ -5678,6 +5718,8 @@
   "listsLabelFilterActive": "Showing lists labelled {label}",
   "listsLabelSemantics": "{label}, {count, plural, =0{no lists} =1{1 list} other{{count} lists}}",
   "listsListView": "List view",
+  "listsMoveConflicted": "A move conflicted with a change on another device and was undone.",
+  "listsMoveConflictedUndo": "Move undone after a sync conflict",
   "listsMoveItems": "Move items…",
   "listsNewChecklist": "New checklist",
   "listsNewNote": "New note",

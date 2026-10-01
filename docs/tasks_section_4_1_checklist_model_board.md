@@ -29,7 +29,7 @@ reminders ([7.1], [7.5]), the Trash screen ([8.3]).
 - [x] T4.1.02 — Local schema: Drift tables, DAOs & UI-state tables
 - [x] T4.1.03 — Domain entities & checklist settings value object
 - [x] T4.1.04 — Repositories, write rules & operation groups
-- [ ] T4.1.05 — Tree-aware sync conflict handling
+- [x] T4.1.05 — Tree-aware sync conflict handling
 - [x] T4.1.06 — Lists routes & deep links
 - [x] T4.1.07 — Lists board screen
 - [x] T4.1.08 — Checklist card widget
@@ -162,7 +162,7 @@ server state without losing data.
 first; no item is lost or duplicated.
 **Tests:** unit test of the reject→revert path with a fake API; scenario added to the two-client
 convergence suite ([9.1]).
-**Notes:** Partial: the server rejects cyclic/mismatched groups as `integrity_refetch` and the sync engine drops and refetches them (foundation); the tree builder tolerates transient cycles/orphans (tests). Missing: the undo-stack marker and the 'move conflicted' notice need a rejection event from `core/sync` — TODO(integration).
+**Notes:** The server rejects cyclic/mismatched groups as `integrity_refetch`; `SyncService` drops the group's outbox entries, refetches the rows (local = server state) and emits a `SyncRejection` on `rejections` (op id, rows, server messages). `checklistMoveConflictsProvider` filters `checklist_cycle`/`checklist_parent_mismatch`; `MoveConflictNotices` (app builder) turns the move's undo entry into a no-op marker (`UndoStack.neutralize`) and shows the snack bar. X/Y cross-move scenario in `test/features/checklists/data/checklist_move_conflict_test.dart` (`sync` tag).
 
 ### T4.1.06 — Lists routes & deep links
 **Priority:** P0 · **Size:** S · **Depends on:** [1.3] (router, deep-link parser)

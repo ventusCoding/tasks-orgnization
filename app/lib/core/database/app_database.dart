@@ -68,7 +68,7 @@ class AppDatabase extends _$AppDatabase {
       driftDatabase(name: 'everslot', native: const DriftNativeOptions(shareAcrossIsolates: true));
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -90,6 +90,10 @@ class AppDatabase extends _$AppDatabase {
         await m.addColumn(tasks, tasks.locationLat);
         await m.addColumn(tasks, tasks.locationLng);
         await m.addColumn(checklistItems, checklistItems.estimateMinutes);
+      }
+      // v3: live item mirrors (T4.5.16).
+      if (from < 3) {
+        await m.addColumn(checklistItems, checklistItems.mirrorOfId);
       }
     },
     beforeOpen: (details) async {

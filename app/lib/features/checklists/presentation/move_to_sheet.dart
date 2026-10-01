@@ -15,12 +15,13 @@ Future<MoveTarget?> showMoveToSheet(
   WidgetRef ref, {
   required String sourceChecklistId,
   required List<String> movingIds,
+  String? sheetTitle,
 }) async {
   final l = context.l10n;
   final lists = ref.read(boardChecklistsProvider).value ?? const <Checklist>[];
   final target = await showAppSheet<Checklist>(
     context,
-    title: l.moveToList,
+    title: sheetTitle ?? l.moveToList,
     builder: (ctx) => ListView(
       shrinkWrap: true,
       children: [
@@ -51,7 +52,8 @@ Future<MoveTarget?> showMoveToSheet(
     builder: (ctx) {
       final candidates = [
         for (final id in tree.order)
-          if (!excluded.contains(id) && TreeOps.canMoveUnder(tree, const [], id)) id,
+          // Mirrors never get children (T4.5.16).
+          if (!excluded.contains(id) && !tree[id]!.isMirror && TreeOps.canMoveUnder(tree, const [], id)) id,
       ];
       return ListView.builder(
         shrinkWrap: true,

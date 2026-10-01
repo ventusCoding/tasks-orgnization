@@ -71,5 +71,7 @@
   "voiceNoteDiscard": "تجاهل",
   "voiceNoteRecording": "جارٍ التسجيل، {duration}",
   "voiceNoteMicPrimerTitle": "الوصول إلى الميكروفون",
-  "voiceNoteMicPrimerBody": "يستخدم Everslot الميكروفون فقط أثناء تسجيل ملاحظة صوتية. تبقى التسجيلات على جهازك حتى تُرفع إلى حسابك."
+  "voiceNoteMicPrimerBody": "يستخدم Everslot الميكروفون فقط أثناء تسجيل ملاحظة صوتية. تبقى التسجيلات على جهازك حتى تُرفع إلى حسابك.",
+  "attachmentsSourcePaste": "لصق صورة",
+  "attachmentsClipboardNoImage": "لا توجد صورة في الحافظة"
 }

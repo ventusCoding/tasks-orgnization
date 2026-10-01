@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:everslot/core/errors/app_exception.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/attachments/application/providers.dart';
@@ -84,6 +86,7 @@ enum AddAttachmentChoice {
   videos(AttachmentSource.videos, Icons.video_library_outlined),
   voiceNote(null, Icons.mic_none),
   scan(AttachmentSource.scan, Icons.document_scanner_outlined),
+  paste(AttachmentSource.clipboard, Icons.content_paste),
   files(AttachmentSource.files, Icons.attach_file);
 
   AddAttachmentChoice(this.source, this.icon);
@@ -100,6 +103,7 @@ enum AddAttachmentChoice {
       videos => l.attachmentsSourceVideos,
       voiceNote => l.attachmentsSourceVoiceNote,
       scan => l.attachmentsSourceScan,
+      paste => l.attachmentsSourcePaste,
       files => l.attachmentsSourceFiles,
     };
   }
@@ -107,7 +111,8 @@ enum AddAttachmentChoice {
   static AddAttachmentChoice of(AttachmentSource source) => values.firstWhere((c) => c.source == source);
 }
 
-/// Source menu (camera, photos, videos, voice note, scan, files). Returns null on cancel.
+/// Source menu (camera, photos, videos, voice note, scan, paste image, files). Returns null on
+/// cancel.
 Future<AddAttachmentChoice?> pickAttachmentSource(BuildContext context) => showAppSheet<AddAttachmentChoice>(
   context,
   title: context.l10n.attachmentsAdd,
@@ -189,7 +194,39 @@ Future<AddAttachmentsResult?> pickAndAddAttachments(
       return null;
     }
   }
-  if (picked.isEmpty || !context.mounted) return null;
+  if (!context.mounted) return null;
+  if (picked.isEmpty) {
+    if (chosen == AddAttachmentChoice.paste) showInfoSnackBar(context, l.attachmentsClipboardNoImage);
+    return null;
+  }
+  return _addPicked(context, ref, ownerType: ownerType, ownerId: ownerId, picked: picked);
+}
+
+/// Adds an image received as bytes (keyboard image insertion / rich paste into an item's text
+/// field, T4.4.09) with the same feedback as [pickAndAddAttachments].
+Future<AddAttachmentsResult?> addImageBytes(
+  BuildContext context,
+  WidgetRef ref, {
+  required String ownerType,
+  required String ownerId,
+  required Uint8List bytes,
+}) async {
+  final file = await ref.read(attachmentPickerProvider).fromImageBytes(bytes);
+  if (!context.mounted) return null;
+  if (file == null) {
+    showInfoSnackBar(context, context.l10n.attachmentsClipboardNoImage);
+    return null;
+  }
+  return _addPicked(context, ref, ownerType: ownerType, ownerId: ownerId, picked: [file]);
+}
+
+Future<AddAttachmentsResult> _addPicked(
+  BuildContext context,
+  WidgetRef ref, {
+  required String ownerType,
+  required String ownerId,
+  required List<PickedFileRef> picked,
+}) async {
   final service = ref.read(attachmentServiceProvider);
   final result = await service.addFiles(ownerType, ownerId, picked);
   if (!context.mounted) return result;

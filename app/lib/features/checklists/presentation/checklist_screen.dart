@@ -908,7 +908,8 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
               tile(ctx, Icons.flag_outlined, l.statusChange, 'status'),
               tile(ctx, Icons.info_outline, l.checklistDetails, 'details'),
               tile(ctx, Icons.center_focus_strong, l.checklistFocus, 'focus'),
-              if (!state.preview) tile(ctx, Icons.subdirectory_arrow_right, l.checklistAddSubItem, 'child'),
+              if (!state.preview && !item.isMirror)
+                tile(ctx, Icons.subdirectory_arrow_right, l.checklistAddSubItem, 'child'),
               tile(ctx, Icons.attach_file, l.checklistAttach, 'attach'),
               if (state.canRestructure) ...[
                 tile(ctx, Icons.format_indent_increase, l.checklistIndent, 'indent'),
@@ -917,6 +918,11 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
                 tile(ctx, Icons.arrow_downward, l.checklistMoveDown, 'down'),
               ],
               tile(ctx, Icons.drive_file_move_outline, l.checklistMoveTo, 'moveTo'),
+              tile(ctx, Icons.flip_to_front, l.checklistMirrorTo, 'mirror'),
+              if (item.isMirror) ...[
+                tile(ctx, Icons.open_in_new, l.checklistOpenOriginal, 'openOriginal'),
+                tile(ctx, Icons.link_off, l.checklistUnlinkMirror, 'unlinkMirror'),
+              ],
               tile(ctx, Icons.copy_all_outlined, l.checklistDuplicateItem, 'duplicate'),
               tile(ctx, Icons.content_copy, l.checklistCopy, 'copy'),
               tile(ctx, Icons.content_cut, l.checklistCut, 'cut'),
@@ -952,6 +958,12 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
         await _structure(() => _editor.moveDown([item.id]));
       case 'moveTo':
         await _moveTo([item.id]);
+      case 'mirror':
+        await _mirrorTo(item);
+      case 'openOriginal':
+        openOriginal(item);
+      case 'unlinkMirror':
+        await _editor.unlinkMirror(item.id);
       case 'duplicate':
         await _duplicate([item.id]);
       case 'copy' || 'cut':
@@ -1070,6 +1082,60 @@ class _ChecklistPageState extends ConsumerState<_ChecklistPage> implements RowAc
       ref,
       ownerType: AttachmentOwnerType.checklistItem,
       ownerId: itemId,
+    );
+    final record = result?.record;
+    if (record != null) _editor.pushUndo('attach', record);
+  }
+
+  @override
+  void toggleOriginal(ChecklistItem item) => unawaited(() async {
+    final to = item.status == ItemStatus.completed ? ItemStatus.todo : ItemStatus.completed;
+    final record = await _service.changeStatus(item.checklistId, [item.id], to, setNote: false);
+    if (record != null) _editor.pushUndo('status', record);
+  }());
+
+  @override
+  void openOriginal(ChecklistItem mirror) => unawaited(() async {
+    final original = await _service.originalOf(mirror.id);
+    if (original == null || !mounted) return;
+    await openChecklist(context, original.checklistId, itemId: original.id);
+  }());
+
+  Future<void> _mirrorTo(ChecklistItem item) async {
+    final original = item.isMirror ? await _service.originalOf(item.id) : item;
+    if (original == null || !mounted) return;
+    final target = await showMoveToSheet(
+      context,
+      ref,
+      sourceChecklistId: original.checklistId,
+      movingIds: [original.id],
+      sheetTitle: context.l10n.checklistMirrorTo,
+    );
+    if (target == null || !mounted) return;
+    final record = await _editor.createMirror(
+      original.id,
+      targetChecklistId: target.checklistId,
+      parentId: target.parentId,
+    );
+    if (!mounted) return;
+    final l = context.l10n;
+    if (record == null) {
+      showInfoSnackBar(context, l.checklistMirrorNotAllowed);
+    } else {
+      _undoSnack(l.checklistMirrorDone(target.title), record);
+    }
+  }
+
+  @override
+  Future<void> insertImage(String itemId, Uint8List bytes) async {
+    await _ensureCreated();
+    if (!mounted) return;
+    final result = await addImageBytes(
+      context,
+      ref,
+      ownerType: AttachmentOwnerType.checklistItem,
+      ownerId: itemId,
+      bytes: bytes,
     );
     final record = result?.record;
     if (record != null) _editor.pushUndo('attach', record);

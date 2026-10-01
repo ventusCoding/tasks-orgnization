@@ -275,6 +275,7 @@ export type Database = {
           field_clock: Json
           follow_up_at: string | null
           id: string
+          mirror_of_id: string | null
           note: string | null
           notify_mode: string
           origin_device_id: string | null
@@ -302,6 +303,7 @@ export type Database = {
           field_clock?: Json
           follow_up_at?: string | null
           id: string
+          mirror_of_id?: string | null
           note?: string | null
           notify_mode?: string
           origin_device_id?: string | null
@@ -329,6 +331,7 @@ export type Database = {
           field_clock?: Json
           follow_up_at?: string | null
           id?: string
+          mirror_of_id?: string | null
           note?: string | null
           notify_mode?: string
           origin_device_id?: string | null
@@ -352,6 +355,13 @@ export type Database = {
             columns: ["checklist_id"]
             isOneToOne: false
             referencedRelation: "checklists"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checklist_items_mirror_of_id_fkey"
+            columns: ["mirror_of_id"]
+            isOneToOne: false
+            referencedRelation: "checklist_items"
             referencedColumns: ["id"]
           },
           {

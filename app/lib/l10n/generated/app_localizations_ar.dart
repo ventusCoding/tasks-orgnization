@@ -365,6 +365,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get attachmentsClearCache => 'مسح ذاكرة التخزين المؤقت';
 
   @override
+  String get attachmentsClipboardNoImage => 'لا توجد صورة في الحافظة';
+
+  @override
   String attachmentsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -551,6 +554,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get attachmentsSourceFiles => 'اختيار ملفات';
+
+  @override
+  String get attachmentsSourcePaste => 'لصق صورة';
 
   @override
   String get attachmentsSourcePhotos => 'اختيار صور';
@@ -2294,6 +2300,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checklistMdStrike => 'يتوسطه خط';
 
   @override
+  String get checklistMirror => 'مرآة';
+
+  @override
+  String checklistMirrorDone(String list) {
+    return 'أُنشئت مرآة في $list';
+  }
+
+  @override
+  String get checklistMirrorMore => 'المزيد في الأصل…';
+
+  @override
+  String get checklistMirrorNotAllowed => 'لا يمكن وضع المرآة داخل أصلها';
+
+  @override
+  String checklistMirrorOf(String list) {
+    return 'مرآة · $list';
+  }
+
+  @override
+  String get checklistMirrorTo => 'إنشاء نسخة مرآة في…';
+
+  @override
   String get checklistModeEdit => 'تحرير';
 
   @override
@@ -2334,6 +2362,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checklistNotifItemGone => 'هذا العنصر لم يعد موجودًا';
+
+  @override
+  String get checklistOpenOriginal => 'فتح الأصل';
 
   @override
   String get checklistOpenSideBySide => 'فتح جنبًا إلى جنب…';
@@ -2514,6 +2545,9 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get checklistUnlinkMirror => 'فك ارتباط المرآة (الاحتفاظ بنسخة)';
 
   @override
   String get checklistViewGallery => 'معرض';
@@ -2933,7 +2967,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exportOpml => 'OPML';
 
   @override
+  String get exportPdf => 'PDF';
+
+  @override
+  String get exportPdfFailed => 'تعذّر إنشاء ملف PDF';
+
+  @override
+  String get exportPdfImages => 'تضمين الصور المصغّرة';
+
+  @override
+  String get exportPdfNotes => 'تضمين الملاحظات';
+
+  @override
+  String exportPdfPageOf(int page, int total) {
+    return 'الصفحة $page من $total';
+  }
+
+  @override
   String get exportPlain => 'نص عادي';
+
+  @override
+  String get exportPrint => 'طباعة…';
 
   @override
   String get exportShare => 'مشاركة…';
@@ -5340,6 +5394,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get listsListView => 'عرض قائمة';
+
+  @override
+  String get listsMoveConflicted => 'تعارض نقلٌ مع تغيير على جهاز آخر فتم التراجع عنه.';
+
+  @override
+  String get listsMoveConflictedUndo => 'تم التراجع عن النقل بعد تعارض في المزامنة';
 
   @override
   String get listsMoveItems => 'نقل العناصر…';

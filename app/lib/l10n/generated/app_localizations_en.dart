@@ -350,6 +350,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get attachmentsClearCache => 'Clear cache';
 
   @override
+  String get attachmentsClipboardNoImage => 'No image in the clipboard';
+
+  @override
   String attachmentsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count attachments', one: '1 attachment');
     return '$_temp0';
@@ -523,6 +526,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get attachmentsSourceFiles => 'Choose files';
+
+  @override
+  String get attachmentsSourcePaste => 'Paste image';
 
   @override
   String get attachmentsSourcePhotos => 'Choose photos';
@@ -2192,6 +2198,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checklistMdStrike => 'Strikethrough';
 
   @override
+  String get checklistMirror => 'Mirror';
+
+  @override
+  String checklistMirrorDone(String list) {
+    return 'Mirrored to $list';
+  }
+
+  @override
+  String get checklistMirrorMore => 'More in the original…';
+
+  @override
+  String get checklistMirrorNotAllowed => 'A mirror can’t go inside its original';
+
+  @override
+  String checklistMirrorOf(String list) {
+    return 'Mirror · $list';
+  }
+
+  @override
+  String get checklistMirrorTo => 'Mirror to…';
+
+  @override
   String get checklistModeEdit => 'Edit';
 
   @override
@@ -2232,6 +2260,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checklistNotifItemGone => 'This item no longer exists';
+
+  @override
+  String get checklistOpenOriginal => 'Open the original';
 
   @override
   String get checklistOpenSideBySide => 'Open side by side…';
@@ -2399,6 +2430,9 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get checklistUnlinkMirror => 'Unlink mirror (keep a copy)';
 
   @override
   String get checklistViewGallery => 'Gallery';
@@ -2773,7 +2807,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportOpml => 'OPML';
 
   @override
+  String get exportPdf => 'PDF';
+
+  @override
+  String get exportPdfFailed => 'Couldn’t create the PDF';
+
+  @override
+  String get exportPdfImages => 'Include image thumbnails';
+
+  @override
+  String get exportPdfNotes => 'Include notes';
+
+  @override
+  String exportPdfPageOf(int page, int total) {
+    return 'Page $page of $total';
+  }
+
+  @override
   String get exportPlain => 'Plain text';
+
+  @override
+  String get exportPrint => 'Print…';
 
   @override
   String get exportShare => 'Share…';
@@ -4983,6 +5037,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get listsListView => 'List view';
+
+  @override
+  String get listsMoveConflicted => 'A move conflicted with a change on another device and was undone.';
+
+  @override
+  String get listsMoveConflictedUndo => 'Move undone after a sync conflict';
 
   @override
   String get listsMoveItems => 'Move items…';

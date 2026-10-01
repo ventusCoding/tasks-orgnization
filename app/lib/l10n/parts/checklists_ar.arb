@@ -384,5 +384,21 @@
   "linkedCompleteTaskBody": "«{task}» تُجدول هذا العنصر.",
   "linkedCompleteAction": "إكمال",
   "itemStepDuration": "مدة الخطوة (الروتين)",
-  "itemNoStepDuration": "تتقاسم وقت المهمة"
+  "itemNoStepDuration": "تتقاسم وقت المهمة",
+  "listsMoveConflicted": "تعارض نقلٌ مع تغيير على جهاز آخر فتم التراجع عنه.",
+  "listsMoveConflictedUndo": "تم التراجع عن النقل بعد تعارض في المزامنة",
+  "exportPdf": "PDF",
+  "exportPdfNotes": "تضمين الملاحظات",
+  "exportPdfImages": "تضمين الصور المصغّرة",
+  "exportPrint": "طباعة…",
+  "exportPdfFailed": "تعذّر إنشاء ملف PDF",
+  "exportPdfPageOf": "الصفحة {page} من {total}",
+  "checklistMirrorTo": "إنشاء نسخة مرآة في…",
+  "checklistMirror": "مرآة",
+  "checklistMirrorOf": "مرآة · {list}",
+  "checklistMirrorMore": "المزيد في الأصل…",
+  "checklistOpenOriginal": "فتح الأصل",
+  "checklistUnlinkMirror": "فك ارتباط المرآة (الاحتفاظ بنسخة)",
+  "checklistMirrorDone": "أُنشئت مرآة في {list}",
+  "checklistMirrorNotAllowed": "لا يمكن وضع المرآة داخل أصلها"
 }

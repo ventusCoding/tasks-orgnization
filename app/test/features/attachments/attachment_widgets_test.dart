@@ -1,7 +1,10 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:everslot/core/env/env.dart';
 import 'package:everslot/core/providers.dart';
+import 'package:everslot/core/time/clock.dart';
+import 'package:everslot/features/attachments/application/attachment_picker.dart';
 import 'package:everslot/features/attachments/application/attachment_transfers.dart';
 import 'package:everslot/features/attachments/application/providers.dart';
 import 'package:everslot/features/attachments/presentation/attachment_strip.dart';
@@ -33,6 +36,9 @@ class FakePicker implements AttachmentPicker {
     sources.add(source);
     return files;
   }
+
+  @override
+  Future<PickedFileRef?> fromImageBytes(Uint8List bytes) async => null;
 }
 
 void main() {
@@ -43,7 +49,7 @@ void main() {
   late ProviderContainer c;
 
   // Synchronous: real async IO never completes inside the widget test's fake-async zone.
-  void setUpEnv({bool remote = false, NetworkKind network = NetworkKind.wifi}) {
+  void setUpEnv({bool remote = false, NetworkKind network = NetworkKind.wifi, AttachmentPicker? withPicker}) {
     h = TestHarness.create();
     root = Directory.systemTemp.createTempSync('att_w_root');
     src = Directory.systemTemp.createTempSync('att_w_src');
@@ -67,7 +73,7 @@ void main() {
         deviceIdProvider.overrideWithValue('device-test'),
         attachmentFileStoreProvider.overrideWithValue(tempFileStore(root)),
         imageCodecProvider.overrideWithValue(FakeImageCodec()),
-        attachmentPickerProvider.overrideWithValue(picker),
+        attachmentPickerProvider.overrideWithValue(withPicker ?? picker),
         connectivityProbeProvider.overrideWithValue(FakeConnectivity(network)),
         if (remote) attachmentRemoteStorageProvider.overrideWithValue(FakeRemoteStorage()),
       ],
@@ -265,5 +271,92 @@ void main() {
     await tester.tap(find.byTooltip('Undo'));
     await settle(tester, until: () => tiles(0));
     expect(find.byType(AttachmentTile), findsNothing);
+  });
+
+  group('paste image (T4.4.09)', () {
+    Uint8List? clipboard;
+    AttachmentPicker clipboardPicker() => PlatformAttachmentPicker(
+      clock: FakeClock(DateTime.utc(2026, 9, 22, 9)),
+      readClipboardImage: () async => clipboard,
+      tempDir: () async => src,
+    );
+
+    Future<String> createList(WidgetTester tester) async {
+      late String listId;
+      await tester.runAsync(() async {
+        listId =
+            (await c
+                    .read(checklistsRepositoryProvider)
+                    .create(
+                      title: 'Trip',
+                      items: const [NodeSpec(text: 'Passport')],
+                    ))
+                .id;
+      });
+      return listId;
+    }
+
+    Future<void> openRowMenuAttach(WidgetTester tester) async {
+      await tester.drag(
+        find.descendant(
+          of: find.ancestor(of: find.text('Passport'), matching: find.byType(ItemRow)),
+          matching: find.byType(StatusControl),
+        ),
+        const Offset(-90, 0),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.descendant(of: find.byType(BottomSheet), matching: find.text('Attach')));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('"Paste image" attaches the clipboard image to the item; an empty clipboard says so', (tester) async {
+      clipboard = jpegBytes(400, 300);
+      setUpEnv(withPicker: clipboardPicker());
+      final listId = await createList(tester);
+      await pump(tester, ChecklistScreen(checklistId: listId, preview: true), scaffold: false);
+      await settle(tester);
+
+      await openRowMenuAttach(tester);
+      await tester.tap(find.text('Paste image'));
+      await settle(tester, until: () => tiles(1));
+      expect(find.byType(AttachmentTile), findsOneWidget);
+      final stored = await tester.runAsync(
+        () => h.db.customSelect('SELECT file_name, owner_type FROM attachments').get(),
+      );
+      expect(stored!.single.data['owner_type'], AttachmentOwnerType.checklistItem);
+      expect(stored.single.data['file_name'], startsWith('Pasted image 2026-09-22'));
+      expect(stored.single.data['file_name'], endsWith('.jpg'));
+
+      clipboard = null;
+      await openRowMenuAttach(tester);
+      await tester.tap(find.text('Paste image'));
+      await settle(tester);
+      expect(find.text('No image in the clipboard'), findsOneWidget);
+      expect(find.byType(AttachmentTile), findsOneWidget);
+      await tester.pump(const Duration(seconds: 6));
+    });
+
+    testWidgets('an image inserted from the keyboard into the row text attaches it', (tester) async {
+      clipboard = null;
+      setUpEnv(withPicker: clipboardPicker());
+      final listId = await createList(tester);
+      await pump(tester, ChecklistScreen(checklistId: listId), scaffold: false);
+      await settle(tester);
+      // Existing lists open in preview: switch to Edit (rows become text fields).
+      await tester.tap(find.byTooltip('Edit'));
+      await settle(tester);
+      final field = tester.widget<TextField>(
+        find.descendant(of: find.byType(ItemRow), matching: find.byType(TextField)).first,
+      );
+      final insertion = field.contentInsertionConfiguration!;
+      expect(insertion.allowedMimeTypes, contains('image/png'));
+      // The callback starts the attach flow (real IO and frames, driven by [settle]).
+      insertion.onContentInserted(
+        KeyboardInsertedContent(mimeType: 'image/jpeg', uri: 'content://keyboard/1', data: jpegBytes(320, 200)),
+      );
+      await settle(tester, until: () => tiles(1));
+      expect(find.byType(AttachmentTile), findsOneWidget);
+      await tester.pump(const Duration(seconds: 6));
+    });
   });
 }

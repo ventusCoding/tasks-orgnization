@@ -8,6 +8,7 @@ import 'package:everslot/features/attachments/application/providers.dart'
     show Attachment, AttachmentOwnerType, AttachmentTx;
 import 'package:everslot/features/checklists/data/checklist_cascades.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
+import 'package:everslot/features/checklists/domain/checklist_tree.dart';
 import 'package:everslot/features/checklists/domain/item_status.dart';
 import 'package:everslot/features/checklists/domain/item_time.dart';
 import 'package:everslot/features/checklists/domain/tree_change.dart';
@@ -42,6 +43,7 @@ class ChecklistItemsRepository {
     priority: r.priority,
     notifyMode: r.notifyMode,
     estimateMinutes: r.estimateMinutes,
+    mirrorOfId: r.mirrorOfId,
     createdAt: r.createdAt,
     updatedAt: r.updatedAt,
   );
@@ -55,9 +57,106 @@ class ChecklistItemsRepository {
           (i) => OrderingTerm.asc(i.id),
         ]);
 
-  /// All live rows of a checklist ordered by `parent_id, sort_key, id`.
-  Stream<List<ChecklistItem>> watchItems(String checklistId) =>
-      _live(checklistId).watch().map((rows) => rows.map(map).toList(growable: false));
+  /// All live rows of a checklist ordered by `parent_id, sort_key, id`. Mirror rows (T4.5.16) come
+  /// back showing their live original ([ChecklistItem.showing]); the stream also fires when an
+  /// original in another list changes.
+  Stream<List<ChecklistItem>> watchItems(String checklistId) {
+    final original = _db.alias(_db.checklistItems, 'o');
+    final query = _live(checklistId).join([
+      leftOuterJoin(original, original.id.equalsExp(_db.checklistItems.mirrorOfId) & original.deletedAt.isNull()),
+    ]);
+    return query.watch().map(
+      (rows) => [for (final r in rows) _shown(map(r.readTable(_db.checklistItems)), r.readTableOrNull(original))],
+    );
+  }
+
+  static ChecklistItem _shown(ChecklistItem item, ChecklistItemRow? original) =>
+      original == null || !item.isMirror ? item : item.showing(map(original));
+
+  /// Originals mirrored in [checklistId] with their live descendants (children previews of mirror
+  /// rows, T4.5.16), as one tree.
+  Stream<ChecklistTree> watchMirrorSources(String checklistId) => _db
+      .customSelect(
+        'WITH RECURSIVE src(id, depth) AS ('
+        ' SELECT m.mirror_of_id, 0 FROM checklist_items m'
+        ' WHERE m.checklist_id = ?1 AND m.user_id = ?2 AND m.deleted_at IS NULL AND m.mirror_of_id IS NOT NULL'
+        ' UNION'
+        ' SELECT c.id, src.depth + 1 FROM checklist_items c JOIN src ON c.parent_id = src.id'
+        ' WHERE c.deleted_at IS NULL AND src.depth < 50'
+        ') SELECT DISTINCT i.* FROM checklist_items i JOIN src ON src.id = i.id WHERE i.deleted_at IS NULL',
+        variables: [Variable<String>(checklistId), Variable<String>(_userId())],
+        readsFrom: {_db.checklistItems},
+      )
+      .watch()
+      .map((rows) => ChecklistTree.build([for (final r in rows) map(_db.checklistItems.map(r.data))]));
+
+  /// Deleting an original turns its live mirrors into plain copies (T4.5.16): each takes the
+  /// original's current content and status, gets copies of the original's children (those deleted
+  /// by this same operation included) and loses the link — all inside [tx].
+  static Future<void> detachMirrors(WriteTx tx, Iterable<String> deletedIds) async {
+    final ids = deletedIds.toSet();
+    if (ids.isEmpty) return;
+    final db = tx.db;
+    final mirrors = <ChecklistItemRow>[];
+    final list = ids.toList();
+    for (var i = 0; i < list.length; i += 500) {
+      final part = list.sublist(i, i + 500 > list.length ? list.length : i + 500);
+      mirrors.addAll(
+        await (db.select(
+          db.checklistItems,
+        )..where((m) => m.mirrorOfId.isIn(part) & m.deletedAt.isNull() & m.userId.equals(tx.userId))).get(),
+      );
+    }
+    for (final m in mirrors) {
+      final o = await (db.select(db.checklistItems)..where((i) => i.id.equals(m.mirrorOfId!))).getSingleOrNull();
+      if (o == null) {
+        await tx.update('checklist_items', m.id, {'mirror_of_id': null});
+        continue;
+      }
+      await tx.update('checklist_items', m.id, {
+        'mirror_of_id': null,
+        'text': o.itemText,
+        'note': o.note,
+        'status': o.status,
+        'status_note': o.statusNote,
+        'status_changed_at': o.statusChangedAt,
+        'completed_at': o.completedAt,
+        'follow_up_at': o.followUpAt,
+        'due_local': o.dueLocal,
+        'time_zone': o.timeZone,
+        'waiting_on': o.waitingOn,
+        'priority': o.priority,
+        'estimate_minutes': o.estimateMinutes,
+      });
+      // The original's children as they were before this operation: live, or deleted by it.
+      final rows = await (db.select(
+        db.checklistItems,
+      )..where((i) => i.checklistId.equals(o.checklistId) & (i.deletedAt.isNull() | i.deletedAt.equals(tx.now)))).get();
+      final tree = ChecklistTree.build(rows.map(map));
+      final copies = <String, String>{o.id: m.id};
+      for (final id in tree.descendants(o.id)) {
+        final src = tree[id]!;
+        final copyId = Ids.v7();
+        copies[id] = copyId;
+        await tx.insert('checklist_items', copyId, {
+          'checklist_id': m.checklistId,
+          'parent_id': copies[src.parentId],
+          'sort_key': src.sortKey,
+          'text': src.text,
+          'note': src.note,
+          'status': src.status.name,
+          'status_note': src.statusNote,
+          'status_changed_at': src.statusChangedAt,
+          'completed_at': src.completedAt,
+          'priority': src.priority,
+          'due_local': src.dueLocal,
+          'time_zone': src.timeZone,
+          'waiting_on': src.waitingOn,
+          'mirror_of_id': src.mirrorOfId,
+        });
+      }
+    }
+  }
 
   Future<List<ChecklistItem>> items(String checklistId) async =>
       (await _live(checklistId).get()).map(map).toList(growable: false);
@@ -287,6 +386,7 @@ class ChecklistItemsRepository {
       await cascades?.itemsCopied(tx, change.copiedItemIds);
     }
     if (change.deletedItemIds.isNotEmpty) {
+      await detachMirrors(tx, change.deletedItemIds);
       await AttachmentTx.softDeleteForOwners(tx, AttachmentOwnerType.checklistItem, change.deletedItemIds);
       await deleteEntityTags(tx, 'checklist_item', change.deletedItemIds);
       await cascades?.itemsDeleted(tx, change.deletedItemIds);

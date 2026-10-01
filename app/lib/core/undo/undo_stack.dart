@@ -31,10 +31,32 @@ class UndoStack extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// The server rejected operation [opId] and the local rows were overwritten with the server
+  /// state (T4.1.05): undoing it would write stale "before" values, so its entry becomes a no-op
+  /// marker labelled [label] (undo/redo of a marker changes nothing). Returns whether an entry
+  /// matched.
+  bool neutralize(String opId, String label) {
+    var found = false;
+    for (final list in [_undo, _redo]) {
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].record.opId != opId) continue;
+        list[i] = UndoEntry(
+          label: label,
+          record: OpRecord(opId: opId, changes: const [], cause: 'conflict'),
+        );
+        found = true;
+      }
+    }
+    if (found) notifyListeners();
+    return found;
+  }
+
+  Future<OpRecord> _revert(OpRecord record) async => record.isEmpty ? record : _writer.revert(record);
+
   Future<bool> undo() async {
     if (_undo.isEmpty) return false;
     final entry = _undo.removeLast();
-    final inverse = await _writer.revert(entry.record);
+    final inverse = await _revert(entry.record);
     _redo.add(UndoEntry(label: entry.label, record: inverse));
     notifyListeners();
     return true;
@@ -43,7 +65,7 @@ class UndoStack extends ChangeNotifier {
   Future<bool> redo() async {
     if (_redo.isEmpty) return false;
     final entry = _redo.removeLast();
-    final inverse = await _writer.revert(entry.record);
+    final inverse = await _revert(entry.record);
     _undo.add(UndoEntry(label: entry.label, record: inverse));
     notifyListeners();
     return true;

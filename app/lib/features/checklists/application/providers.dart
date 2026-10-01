@@ -170,6 +170,12 @@ final checklistTreeProvider = Provider.autoDispose.family<ChecklistTree?, String
   return ref.watch(_backgroundTreeProvider(id)).value;
 });
 
+/// Originals mirrored in a checklist with their live subtrees (mirror rows, T4.5.16).
+final mirrorSourcesProvider = StreamProvider.autoDispose.family<ChecklistTree, String>((ref, id) {
+  ref.watch(currentUserIdProvider);
+  return ref.watch(checklistItemsRepositoryProvider).watchMirrorSources(id);
+});
+
 final checklistRollupsProvider = Provider.autoDispose.family<Map<String, Rollup>, String>((ref, id) {
   final tree = ref.watch(checklistTreeProvider(id));
   return tree == null ? const {} : RollupCalculator.compute(tree);
