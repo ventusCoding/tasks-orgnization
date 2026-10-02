@@ -559,5 +559,10 @@
   "notifRuleSetImported": "استُوردت «{name}»",
   "notifRuleSetInvalid": "هذا الملف ليس مجموعة تذكير صالحة من Everslot.",
   "notifRuleSetExport": "تصدير",
-  "notifRuleSetDeleteTitle": "حذف «{name}»؟"
+  "notifRuleSetDeleteTitle": "حذف «{name}»؟",
+  "notifIssueEscalation": "يجب أن تبدأ خطوات التصعيد من التكرار 1 أو بعده، وأن تتصاعد، وأن تختار كل خطوة ملفًا.",
+  "notifEscalation": "التصعيد",
+  "notifEscalationFrom": "من التكرار",
+  "notifEscalationAllDevices": "على كل الأجهزة",
+  "notifEscalationAdd": "إضافة خطوة تصعيد"
 }

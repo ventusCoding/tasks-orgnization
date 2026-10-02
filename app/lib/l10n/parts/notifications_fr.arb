@@ -559,5 +559,10 @@
   "notifRuleSetImported": "« {name} » importé",
   "notifRuleSetInvalid": "Ce fichier n’est pas un jeu de rappels Everslot valide.",
   "notifRuleSetExport": "Exporter",
-  "notifRuleSetDeleteTitle": "Supprimer « {name} » ?"
+  "notifRuleSetDeleteTitle": "Supprimer « {name} » ?",
+  "notifIssueEscalation": "Les paliers d’escalade doivent commencer à la répétition 1 ou après, croître et choisir chacun un profil.",
+  "notifEscalation": "Escalade",
+  "notifEscalationFrom": "Dès la répétition",
+  "notifEscalationAllDevices": "Sur tous les appareils",
+  "notifEscalationAdd": "Ajouter un palier"
 }

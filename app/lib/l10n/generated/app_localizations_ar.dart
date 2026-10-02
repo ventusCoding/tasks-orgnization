@@ -6637,6 +6637,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifEnable => 'تفعيل';
 
   @override
+  String get notifEscalation => 'التصعيد';
+
+  @override
+  String get notifEscalationAdd => 'إضافة خطوة تصعيد';
+
+  @override
+  String get notifEscalationAllDevices => 'على كل الأجهزة';
+
+  @override
+  String get notifEscalationFrom => 'من التكرار';
+
+  @override
   String get notifExactOff => 'قد تصل التذكيرات متأخرة حتى ساعة';
 
   @override
@@ -6885,6 +6897,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifIssueEmptyContent => 'لا يمكن أن يكون العنوان فارغًا';
+
+  @override
+  String get notifIssueEscalation =>
+      'يجب أن تبدأ خطوات التصعيد من التكرار 1 أو بعده، وأن تتصاعد، وأن تختار كل خطوة ملفًا.';
 
   @override
   String get notifIssueLateness => 'يجب أن يكون التأخير دقيقة على الأقل';

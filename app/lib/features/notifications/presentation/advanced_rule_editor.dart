@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/notifications/application/notification_providers.dart';
+import 'package:everslot/features/notifications/application/notification_texts_l10n.dart' show builtinProfileName;
 import 'package:everslot/features/notifications/application/rule_preview.dart';
 import 'package:everslot/features/notifications/domain/default_rules.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
@@ -825,7 +826,103 @@ class _RepeatEditor extends StatelessWidget {
               DropdownMenuItem(value: RepeatUntil.max, child: Text(l.notifUntilMax)),
             ],
           ),
+          // Escalation (T7.2.23): later repeats use a louder built-in profile / every device.
+          Padding(
+            padding: const EdgeInsetsDirectional.only(top: Space.md),
+            child: Text(l.notifEscalation, style: context.text.labelLarge),
+          ),
+          for (var i = 0; i < (repeat.escalation ?? const <EscalationStep>[]).length; i++)
+            _EscalationRow(
+              key: ValueKey('escalation-$i'),
+              step: repeat.escalation![i],
+              onChanged: (s) =>
+                  onChanged(spec.copyWith(repeat: repeat.copyWith(escalation: [...repeat.escalation!]..[i] = s))),
+              onDelete: () =>
+                  onChanged(spec.copyWith(repeat: repeat.copyWith(escalation: [...repeat.escalation!]..removeAt(i)))),
+            ),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: TextButton.icon(
+              key: const ValueKey('escalation-add'),
+              icon: const Icon(Icons.trending_up),
+              label: Text(l.notifEscalationAdd),
+              onPressed: () {
+                final steps = repeat.escalation ?? const <EscalationStep>[];
+                final from = steps.isEmpty ? 2 : steps.last.fromRepeat + 1;
+                onChanged(
+                  spec.copyWith(
+                    repeat: repeat.copyWith(
+                      escalation: [
+                        ...steps,
+                        EscalationStep(
+                          fromRepeat: from.clamp(1, RepeatSpec.hardMaxTimes),
+                          profile: steps.isEmpty ? BuiltinProfiles.nag : BuiltinProfiles.alarm,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
         ],
+      ],
+    );
+  }
+}
+
+class _EscalationRow extends StatelessWidget {
+  const _EscalationRow({required this.step, required this.onChanged, required this.onDelete, super.key});
+
+  final EscalationStep step;
+  final ValueChanged<EscalationStep> onChanged;
+  final VoidCallback onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    return Row(
+      children: [
+        SizedBox(
+          width: 88,
+          child: TextFormField(
+            initialValue: '${step.fromRepeat}',
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            decoration: InputDecoration(labelText: l.notifEscalationFrom),
+            onChanged: (v) => onChanged(
+              EscalationStep(
+                fromRepeat: int.tryParse(v) ?? step.fromRepeat,
+                profile: step.profile,
+                allDevices: step.allDevices,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: Space.sm),
+        Expanded(
+          child: DropdownButtonFormField<String>(
+            initialValue: BuiltinProfiles.codes.contains(step.profile) ? step.profile : null,
+            decoration: InputDecoration(labelText: l.notifProfile),
+            items: [
+              for (final code in BuiltinProfiles.codes)
+                DropdownMenuItem(value: code, child: Text(builtinProfileName(l, code))),
+            ],
+            onChanged: (code) => onChanged(
+              EscalationStep(fromRepeat: step.fromRepeat, profile: code ?? step.profile, allDevices: step.allDevices),
+            ),
+          ),
+        ),
+        Tooltip(
+          message: l.notifEscalationAllDevices,
+          child: Checkbox(
+            value: step.allDevices,
+            semanticLabel: l.notifEscalationAllDevices,
+            onChanged: (v) =>
+                onChanged(EscalationStep(fromRepeat: step.fromRepeat, profile: step.profile, allDevices: v ?? false)),
+          ),
+        ),
+        IconButton(tooltip: l.actionDelete, icon: const Icon(Icons.close), onPressed: onDelete),
       ],
     );
   }

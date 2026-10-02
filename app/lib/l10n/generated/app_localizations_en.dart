@@ -6140,6 +6140,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifEnable => 'Turn on';
 
   @override
+  String get notifEscalation => 'Escalation';
+
+  @override
+  String get notifEscalationAdd => 'Add escalation step';
+
+  @override
+  String get notifEscalationAllDevices => 'On every device';
+
+  @override
+  String get notifEscalationFrom => 'From repeat';
+
+  @override
   String get notifExactOff => 'Reminders may arrive up to an hour late';
 
   @override
@@ -6370,6 +6382,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifIssueEmptyContent => 'The title can’t be empty';
+
+  @override
+  String get notifIssueEscalation =>
+      'Escalation steps must start at repeat 1 or later, go up, and each pick a profile.';
 
   @override
   String get notifIssueLateness => 'Lateness must be at least 1 minute';

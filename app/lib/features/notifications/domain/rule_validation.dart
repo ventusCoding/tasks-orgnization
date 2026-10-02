@@ -24,6 +24,9 @@ enum NotificationIssueCode {
   thresholdsInvalid,
   statusesEmpty,
 
+  /// `repeat.escalation`: steps must start at repeat ≥ 1, ascend, and name a profile.
+  escalationInvalid,
+
   /// Warning: Android Doze allows one exact alarm per ~9 minutes (T7.2.10).
   repeatMayBeDelayed,
 }
@@ -154,6 +157,14 @@ abstract final class NotificationRuleValidator {
         error(NotificationIssueCode.repeatIntervalInvalid, field: 'repeat.everyMinutes');
       } else if (repeat.everyMinutes < 10) {
         warn(NotificationIssueCode.repeatMayBeDelayed, field: 'repeat.everyMinutes');
+      }
+      var previous = 0;
+      for (final step in repeat.escalation ?? const <EscalationStep>[]) {
+        if (step.fromRepeat <= previous || step.fromRepeat > RepeatSpec.hardMaxTimes || step.profile.isEmpty) {
+          error(NotificationIssueCode.escalationInvalid, field: 'repeat.escalation');
+          break;
+        }
+        previous = step.fromRepeat;
       }
     }
 

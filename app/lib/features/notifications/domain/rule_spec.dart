@@ -25,15 +25,57 @@ enum RepeatUntil {
   }
 }
 
+/// One `repeat.escalation[]` step (T7.2.23): from repeat [fromRepeat] on, nags are delivered
+/// with profile [profile] (built-in code or profile id — its channel, importance, interruption
+/// level, sound, alarm style) and, with [allDevices], on every device despite `conditions.devices`.
+@immutable
+class EscalationStep {
+  const EscalationStep({required this.fromRepeat, required this.profile, this.allDevices = false});
+
+  factory EscalationStep.fromJson(Map<String, Object?> json) => EscalationStep(
+    fromRepeat: asInt(json['fromRepeat']) ?? 1,
+    profile: asString(json['profile']) ?? '',
+    allDevices: asBool(json['allDevices']) ?? false,
+  );
+
+  final int fromRepeat;
+  final String profile;
+  final bool allDevices;
+
+  Map<String, Object?> toJson() => {'fromRepeat': fromRepeat, 'profile': profile, if (allDevices) 'allDevices': true};
+
+  @override
+  bool operator ==(Object other) =>
+      other is EscalationStep &&
+      other.fromRepeat == fromRepeat &&
+      other.profile == profile &&
+      other.allDevices == allDevices;
+
+  @override
+  int get hashCode => Object.hash(fromRepeat, profile, allDevices);
+}
+
 /// `repeat` block — nagging (T7.2.18). Hard cap: 10 repeats.
 @immutable
 class RepeatSpec {
-  const RepeatSpec({required this.everyMinutes, required this.maxTimes, this.until = RepeatUntil.completed, this.raw});
+  const RepeatSpec({
+    required this.everyMinutes,
+    required this.maxTimes,
+    this.until = RepeatUntil.completed,
+    this.escalation,
+    this.raw,
+  });
 
   factory RepeatSpec.fromJson(Map<String, Object?> json) => RepeatSpec(
     everyMinutes: asInt(json['everyMinutes']) ?? 5,
     maxTimes: asInt(json['maxTimes']) ?? 5,
     until: RepeatUntil.parse(asString(json['until'])),
+    escalation: json['escalation'] is List
+        ? [
+            for (final s in json['escalation']! as List)
+              if (asJsonMap(s) != null) EscalationStep.fromJson(asJsonMap(s)!),
+          ]
+        : null,
     raw: json,
   );
 
@@ -42,20 +84,39 @@ class RepeatSpec {
   final int everyMinutes;
   final int maxTimes;
   final RepeatUntil until;
+
+  /// Delivery changes by repeat index, ascending `fromRepeat` (T7.2.23).
+  final List<EscalationStep>? escalation;
   final Map<String, Object?>? raw;
+
+  /// The escalation step in force for nag [repeatIdx] (≥ 1), if any.
+  EscalationStep? stepFor(int repeatIdx) {
+    EscalationStep? step;
+    for (final s in escalation ?? const <EscalationStep>[]) {
+      if (s.fromRepeat <= repeatIdx) step = s;
+    }
+    return step;
+  }
 
   Map<String, Object?> toJson() => mergeOrdered(
     raw,
-    {'everyMinutes': everyMinutes, 'maxTimes': maxTimes, 'until': until.wire},
-    const {'everyMinutes', 'maxTimes', 'until'},
+    {
+      'everyMinutes': everyMinutes,
+      'maxTimes': maxTimes,
+      'until': until.wire,
+      if (escalation != null) 'escalation': [for (final s in escalation!) s.toJson()],
+    },
+    const {'everyMinutes', 'maxTimes', 'until', 'escalation'},
   );
 
-  RepeatSpec copyWith({int? everyMinutes, int? maxTimes, RepeatUntil? until}) => RepeatSpec(
-    everyMinutes: everyMinutes ?? this.everyMinutes,
-    maxTimes: maxTimes ?? this.maxTimes,
-    until: until ?? this.until,
-    raw: raw,
-  );
+  RepeatSpec copyWith({int? everyMinutes, int? maxTimes, RepeatUntil? until, List<EscalationStep>? escalation}) =>
+      RepeatSpec(
+        everyMinutes: everyMinutes ?? this.everyMinutes,
+        maxTimes: maxTimes ?? this.maxTimes,
+        until: until ?? this.until,
+        escalation: escalation ?? this.escalation,
+        raw: raw,
+      );
 
   @override
   bool operator ==(Object other) => other is RepeatSpec && jsonEquals(toJson(), other.toJson());

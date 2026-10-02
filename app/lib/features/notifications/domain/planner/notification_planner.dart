@@ -178,6 +178,7 @@ abstract final class NotificationPlanner {
       targetDefaultActions: _triggerActions(rule.spec.trigger, target) ?? target.defaultActions,
     );
     final profileContent = profiles[rule.profileId ?? '']?.spec.content;
+    final escalated = <EscalationStep, EffectiveDelivery>{};
     final candidates = _candidates(ctx, rule, target, zone, horizonEnd);
     for (final c in candidates) {
       final occurrenceKey = c.occurrenceKey;
@@ -222,24 +223,50 @@ abstract final class NotificationPlanner {
       for (var i = 1; i <= times; i++) {
         final at = base.fireAt.add(Duration(minutes: repeat.everyMinutes * i));
         if (at.isAfter(horizonEnd)) break;
-        final nag = _applyPolicies(ctx, rule, target, delivery, at, zone, skip, nag: true);
+        // Escalation (T7.2.23): later nags may use a louder profile and every device.
+        final step = repeat.stepFor(i);
+        final d = step == null
+            ? delivery
+            : escalated.putIfAbsent(step, () => _escalate(rule, target, profiles, sectionDefault, step) ?? delivery);
+        final allDevices = step?.allDevices ?? false;
+        final nag = _applyPolicies(ctx, rule, target, d, at, zone, skip, nag: true, allDevices: allDevices);
         if (nag == null) continue;
         final key = dedupeKeyFor(ruleId: rule.id, targetId: target.id, occurrenceKey: occurrenceKey, repeatIdx: i);
         final n = _build(
           ctx,
           rule,
           target,
-          delivery,
+          d,
           profileContent,
           c,
           nag,
           dedupeKey: key,
           baseKey: baseKey,
           repeatIdx: i,
+          allDevices: allDevices,
         );
         planned.putIfAbsent(n.dedupeKey, () => n);
       }
     }
+  }
+
+  /// Delivery of the nags covered by escalation [step]: the step's profile (by id or built-in
+  /// code) replaces the rule's own delivery fields except its actions; null when unknown.
+  static EffectiveDelivery? _escalate(
+    NotificationRule rule,
+    NotificationTarget target,
+    Map<String, NotificationProfile> profiles,
+    NotificationProfile? sectionDefault,
+    EscalationStep step,
+  ) {
+    final profile = profiles[step.profile] ?? profiles.values.where((p) => p.code == step.profile).firstOrNull;
+    if (profile == null) return null;
+    return resolveDelivery(
+      spec: rule.spec.copyWith(delivery: DeliverySpec(actions: rule.spec.delivery.actions)),
+      ruleProfile: profile,
+      sectionDefault: sectionDefault,
+      targetDefaultActions: _triggerActions(rule.spec.trigger, target) ?? target.defaultActions,
+    );
   }
 
   // ---------------------------------------------------------------------------- candidates --
@@ -655,6 +682,7 @@ abstract final class NotificationPlanner {
     String zone,
     void Function(SkipReason reason, DateTime at) skip, {
     required bool nag,
+    bool allDevices = false,
   }) {
     final zones = ctx.zones;
     final conditions = rule.spec.conditions;
@@ -755,7 +783,7 @@ abstract final class NotificationPlanner {
     final devices = conditions.devices;
     final local =
         ctx.settings.localSchedulingAllowed(ctx.deviceId, lastForegroundAt: ctx.lastForegroundAt, now: ctx.now) &&
-        (devices == null || devices.isEmpty || devices.contains(ctx.deviceId));
+        (allDevices || devices == null || devices.isEmpty || devices.contains(ctx.deviceId));
     if (!local) adjustments.add(PlanAdjustment.notLocal);
 
     return _Policed(
@@ -801,6 +829,7 @@ abstract final class NotificationPlanner {
     required String dedupeKey,
     required String baseKey,
     required int repeatIdx,
+    bool allDevices = false,
   }) {
     final zone = target.timeZone ?? ctx.deviceZone;
     final vars = _variables(ctx, target, zone, c, p.fireAt);
@@ -893,7 +922,7 @@ abstract final class NotificationPlanner {
       adjustments: p.adjustments,
       anchorFireAt: p.anchorFireAt,
       silent: p.silent,
-      targetDevices: rule.spec.conditions.devices,
+      targetDevices: allDevices ? null : rule.spec.conditions.devices,
       repeatable:
           c.repeatable &&
           repeatIdx == 0 &&

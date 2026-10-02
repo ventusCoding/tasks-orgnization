@@ -1322,5 +1322,10 @@
         "type": "String"
       }
     }
-  }
+  },
+  "notifIssueEscalation": "Escalation steps must start at repeat 1 or later, go up, and each pick a profile.",
+  "notifEscalation": "Escalation",
+  "notifEscalationFrom": "From repeat",
+  "notifEscalationAllDevices": "On every device",
+  "notifEscalationAdd": "Add escalation step"
 }

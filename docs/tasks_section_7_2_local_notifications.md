@@ -60,7 +60,7 @@ per-section trigger semantics ([7.5]); Live Activities / ongoing timer notificat
 - [x] T7.2.20 — Delivered-notification cleanup & expiry
 - [x] T7.2.21 — Notification diagnostics screen
 - [x] T7.2.22 — End-to-end notification tests (patrol)
-- [ ] T7.2.23 — Escalation steps
+- [x] T7.2.23 — Escalation steps
 - [ ] T7.2.24 — Alarm profile (AlarmKit / alarm clock / full-screen)
 - [ ] T7.2.25 — Alarm dismissal missions
 - [ ] T7.2.26 — Rich notifications (images, big text, subtitle)
@@ -393,6 +393,7 @@ killed; time-zone change → replan.
 **Description:** `repeat.escalation[]` changes delivery per repeat index (passive → active → time-sensitive
 → alarm; louder sound; add devices), each step mapped to an existing channel/profile.
 **Tests:** planner fixtures with escalation.
+**Notes:** `repeat.escalation: [{fromRepeat, profile (built-in code or id), allDevices?}]`; each nag resolves its delivery through the step's profile (channel, importance, interruption level, sound, alarm style — the rule keeps its actions) and `allDevices` lifts `conditions.devices` for local scheduling and push targets. Editor: *Escalation* rows under the repeat settings; validation requires ascending steps within 1…10.
 
 ### T7.2.24 — Alarm profile (AlarmKit / alarm clock / full-screen)
 **Priority:** P2 · **Size:** L · **Depends on:** T7.2.10, [7.1] (Alarm profile)

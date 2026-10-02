@@ -10593,6 +10593,30 @@ abstract class AppLocalizations {
   /// **'Turn on'**
   String get notifEnable;
 
+  /// No description provided for @notifEscalation.
+  ///
+  /// In en, this message translates to:
+  /// **'Escalation'**
+  String get notifEscalation;
+
+  /// No description provided for @notifEscalationAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add escalation step'**
+  String get notifEscalationAdd;
+
+  /// No description provided for @notifEscalationAllDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'On every device'**
+  String get notifEscalationAllDevices;
+
+  /// No description provided for @notifEscalationFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From repeat'**
+  String get notifEscalationFrom;
+
   /// No description provided for @notifExactOff.
   ///
   /// In en, this message translates to:
@@ -11024,6 +11048,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The title can’t be empty'**
   String get notifIssueEmptyContent;
+
+  /// No description provided for @notifIssueEscalation.
+  ///
+  /// In en, this message translates to:
+  /// **'Escalation steps must start at repeat 1 or later, go up, and each pick a profile.'**
+  String get notifIssueEscalation;
 
   /// No description provided for @notifIssueLateness.
   ///

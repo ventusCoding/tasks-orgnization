@@ -261,6 +261,24 @@
       ]
     },
     {
+      "name": "T7.2.23 escalation: standard, then the nag profile from repeat 2, alarm on every device from repeat 3",
+      "now": "2026-09-21T12:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [{"id": "e", "targetType": "section", "section": "planner", "profileId": "standard",
+                 "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0},
+                          "conditions": {"devices": ["device-b"]},
+                          "repeat": {"everyMinutes": 10, "maxTimes": 3, "until": "completed",
+                                     "escalation": [{"fromRepeat": 2, "profile": "nag"},
+                                                    {"fromRepeat": 3, "profile": "alarm", "allDevices": true}]}}}],
+      "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Pills", "occurrenceKey": "2026-09-22T08:00", "start": "2026-09-22T06:00:00Z"}],
+      "expected": [
+        {"rule": "e", "target": "t", "fireAtUtc": "2026-09-22T06:00:00Z", "channel": "dl.planner.standard.v1", "local": false},
+        {"rule": "e", "target": "t", "fireAtUtc": "2026-09-22T06:10:00Z", "repeat": 1, "channel": "dl.planner.standard.v1", "local": false},
+        {"rule": "e", "target": "t", "fireAtUtc": "2026-09-22T06:20:00Z", "repeat": 2, "channel": "dl.planner.nag.v1", "local": false},
+        {"rule": "e", "target": "t", "fireAtUtc": "2026-09-22T06:30:00Z", "repeat": 3, "channel": "dl.planner.alarm.v1", "local": true}
+      ]
+    },
+    {
       "name": "T7.5.08 status age: waiting and blocked wording",
       "now": "2026-09-21T09:00:00Z",
       "zone": "Europe/Paris",

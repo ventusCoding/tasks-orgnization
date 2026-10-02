@@ -6289,6 +6289,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifEnable => 'Activer';
 
   @override
+  String get notifEscalation => 'Escalade';
+
+  @override
+  String get notifEscalationAdd => 'Ajouter un palier';
+
+  @override
+  String get notifEscalationAllDevices => 'Sur tous les appareils';
+
+  @override
+  String get notifEscalationFrom => 'Dès la répétition';
+
+  @override
   String get notifExactOff => 'Les rappels peuvent arriver jusqu’à une heure en retard';
 
   @override
@@ -6531,6 +6543,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get notifIssueEmptyContent => 'Le titre ne peut pas être vide';
+
+  @override
+  String get notifIssueEscalation =>
+      'Les paliers d’escalade doivent commencer à la répétition 1 ou après, croître et choisir chacun un profil.';
 
   @override
   String get notifIssueLateness => 'Le retard doit être d’au moins 1 minute';

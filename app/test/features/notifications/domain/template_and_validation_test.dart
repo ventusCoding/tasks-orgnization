@@ -91,6 +91,32 @@ void main() {
         isEmpty,
       );
     });
+    test('escalation steps ascend from repeat 1 and name a profile (T7.2.23)', () {
+      NotificationRuleSpec spec(List<EscalationStep> steps) => NotificationRuleSpec(
+        trigger: const OverdueTrigger(),
+        repeat: RepeatSpec(everyMinutes: 10, maxTimes: 5, escalation: steps),
+      );
+      expect(
+        codes(
+          spec(const [
+            EscalationStep(fromRepeat: 2, profile: 'nag'),
+            EscalationStep(fromRepeat: 4, profile: 'alarm', allDevices: true),
+          ]),
+        ),
+        isEmpty,
+      );
+      for (final bad in [
+        const [EscalationStep(fromRepeat: 0, profile: 'nag')],
+        const [EscalationStep(fromRepeat: 3, profile: 'nag'), EscalationStep(fromRepeat: 3, profile: 'alarm')],
+        const [EscalationStep(fromRepeat: 11, profile: 'alarm')],
+        const [EscalationStep(fromRepeat: 2, profile: '')],
+      ]) {
+        expect(codes(spec(bad)), [NotificationIssueCode.escalationInvalid]);
+      }
+      final json = spec(const [EscalationStep(fromRepeat: 2, profile: 'alarm', allDevices: true)]).toJson();
+      expect(NotificationRuleSpec.fromJson(json).repeat!.stepFor(3)!.allDevices, isTrue);
+      expect(NotificationRuleSpec.fromJson(json).repeat!.stepFor(1), isNull);
+    });
     test('more than 3 actions is an error unless accepted (then a warning)', () {
       const spec = NotificationRuleSpec(
         trigger: OverdueTrigger(),

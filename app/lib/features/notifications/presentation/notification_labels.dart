@@ -163,6 +163,7 @@ class NotificationLabels {
     NotificationIssueCode.offsetOutOfRange || NotificationIssueCode.dayOffsetOutOfRange => l.notifIssueOffsetOutOfRange,
     NotificationIssueCode.repeatMaxTooHigh => l.notifIssueRepeatMax,
     NotificationIssueCode.repeatIntervalInvalid => l.notifIssueRepeatInterval,
+    NotificationIssueCode.escalationInvalid => l.notifIssueEscalation,
     NotificationIssueCode.tooManyActions => l.notifIssueTooManyActions,
     NotificationIssueCode.unknownVariable => l.notifIssueUnknownVariable(i.detail ?? ''),
     NotificationIssueCode.emptyContent => l.notifIssueEmptyContent,
