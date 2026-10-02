@@ -105,6 +105,12 @@ class SettingsScreen extends ConsumerWidget {
             location: AppLinks.categories(),
           ),
           SettingsNavTile(icon: Icons.sell_outlined, title: l.tagsTitle, location: AppLinks.tags()),
+          SettingsNavTile(
+            icon: Icons.widgets_outlined,
+            title: l.settingsIntegrations,
+            subtitle: l.settingsIntegrationsSubtitle,
+            location: AppLinks.settings('integrations'),
+          ),
           SectionHeader(l.settingsGroupData),
           SettingsNavTile(
             icon: Icons.sync,

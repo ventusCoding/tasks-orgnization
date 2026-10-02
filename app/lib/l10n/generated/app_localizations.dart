@@ -18975,6 +18975,18 @@ abstract class AppLocalizations {
   /// **'Same as the app ({day})'**
   String settingsInsightsWeekStartProfile(String day);
 
+  /// No description provided for @settingsIntegrations.
+  ///
+  /// In en, this message translates to:
+  /// **'Widgets & integrations'**
+  String get settingsIntegrations;
+
+  /// No description provided for @settingsIntegrationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Home-screen widgets, shortcuts, sharing, calendars'**
+  String get settingsIntegrationsSubtitle;
+
   /// No description provided for @settingsLanguage.
   ///
   /// In en, this message translates to:
@@ -29060,6 +29072,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Voice note'**
   String get voiceNoteTitle;
+
+  /// No description provided for @widgetAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get widgetAdd;
+
+  /// No description provided for @widgetAllDone.
+  ///
+  /// In en, this message translates to:
+  /// **'All done for today'**
+  String get widgetAllDone;
+
+  /// No description provided for @widgetCleanTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean time'**
+  String get widgetCleanTime;
+
+  /// No description provided for @widgetHowToAndroid.
+  ///
+  /// In en, this message translates to:
+  /// **'Touch and hold the home screen, choose Widgets, then Everslot.'**
+  String get widgetHowToAndroid;
+
+  /// No description provided for @widgetHowToIos.
+  ///
+  /// In en, this message translates to:
+  /// **'Touch and hold the home screen, tap +, then search for Everslot.'**
+  String get widgetHowToIos;
+
+  /// No description provided for @widgetKindChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist'**
+  String get widgetKindChecklist;
+
+  /// No description provided for @widgetKindChecklistHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Open items of your first pinned list'**
+  String get widgetKindChecklistHint;
+
+  /// No description provided for @widgetKindHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits'**
+  String get widgetKindHabits;
+
+  /// No description provided for @widgetKindHabitsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in today’s habits without opening the app'**
+  String get widgetKindHabitsHint;
+
+  /// No description provided for @widgetKindQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean time'**
+  String get widgetKindQuit;
+
+  /// No description provided for @widgetKindQuitHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Live counter, money saved and next milestone'**
+  String get widgetKindQuitHint;
+
+  /// No description provided for @widgetKindToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get widgetKindToday;
+
+  /// No description provided for @widgetKindTodayHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Next tasks with what is happening now'**
+  String get widgetKindTodayHint;
+
+  /// No description provided for @widgetListDone.
+  ///
+  /// In en, this message translates to:
+  /// **'All items done'**
+  String get widgetListDone;
+
+  /// No description provided for @widgetNoHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'No habits due today'**
+  String get widgetNoHabits;
+
+  /// No description provided for @widgetNoList.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin a list in Everslot to see it here'**
+  String get widgetNoList;
+
+  /// No description provided for @widgetNoQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a quit tracker in Everslot'**
+  String get widgetNoQuit;
+
+  /// No description provided for @widgetNothingLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing left today'**
+  String get widgetNothingLeft;
+
+  /// No description provided for @widgetNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get widgetNow;
+
+  /// No description provided for @widgetRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh widgets now'**
+  String get widgetRefresh;
+
+  /// No description provided for @widgetRefreshed.
+  ///
+  /// In en, this message translates to:
+  /// **'Widgets refreshed'**
+  String get widgetRefreshed;
+
+  /// No description provided for @widgetStale.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Everslot to refresh'**
+  String get widgetStale;
+
+  /// No description provided for @widgetsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Home-screen widgets'**
+  String get widgetsSection;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

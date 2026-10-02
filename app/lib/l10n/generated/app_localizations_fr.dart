@@ -11131,6 +11131,12 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get settingsIntegrations => 'Widgets et intégrations';
+
+  @override
+  String get settingsIntegrationsSubtitle => 'Widgets, raccourcis, partage, calendriers';
+
+  @override
   String get settingsLanguage => 'Langue';
 
   @override
@@ -16905,4 +16911,73 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get voiceNoteTitle => 'Note vocale';
+
+  @override
+  String get widgetAdd => 'Ajouter';
+
+  @override
+  String get widgetAllDone => 'Tout est fait pour aujourd’hui';
+
+  @override
+  String get widgetCleanTime => 'Temps d’abstinence';
+
+  @override
+  String get widgetHowToAndroid => 'Maintenez l’écran d’accueil, choisissez Widgets, puis Everslot.';
+
+  @override
+  String get widgetHowToIos => 'Maintenez l’écran d’accueil, touchez +, puis cherchez Everslot.';
+
+  @override
+  String get widgetKindChecklist => 'Liste';
+
+  @override
+  String get widgetKindChecklistHint => 'Éléments ouverts de votre première liste épinglée';
+
+  @override
+  String get widgetKindHabits => 'Habitudes';
+
+  @override
+  String get widgetKindHabitsHint => 'Validez vos habitudes sans ouvrir l’app';
+
+  @override
+  String get widgetKindQuit => 'Temps d’abstinence';
+
+  @override
+  String get widgetKindQuitHint => 'Compteur en direct, argent économisé, prochain palier';
+
+  @override
+  String get widgetKindToday => 'Aujourd’hui';
+
+  @override
+  String get widgetKindTodayHint => 'Prochaines tâches et ce qui se passe maintenant';
+
+  @override
+  String get widgetListDone => 'Tous les éléments sont faits';
+
+  @override
+  String get widgetNoHabits => 'Aucune habitude aujourd’hui';
+
+  @override
+  String get widgetNoList => 'Épinglez une liste dans Everslot pour la voir ici';
+
+  @override
+  String get widgetNoQuit => 'Ajoutez un suivi d’arrêt dans Everslot';
+
+  @override
+  String get widgetNothingLeft => 'Plus rien aujourd’hui';
+
+  @override
+  String get widgetNow => 'Maintenant';
+
+  @override
+  String get widgetRefresh => 'Actualiser les widgets';
+
+  @override
+  String get widgetRefreshed => 'Widgets actualisés';
+
+  @override
+  String get widgetStale => 'Ouvrez Everslot pour actualiser';
+
+  @override
+  String get widgetsSection => 'Widgets d’écran d’accueil';
 }

@@ -11656,6 +11656,12 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get settingsIntegrations => 'الأدوات والتكاملات';
+
+  @override
+  String get settingsIntegrationsSubtitle => 'أدوات الشاشة الرئيسية والاختصارات والمشاركة والتقويمات';
+
+  @override
   String get settingsLanguage => 'اللغة';
 
   @override
@@ -17504,4 +17510,73 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get voiceNoteTitle => 'ملاحظة صوتية';
+
+  @override
+  String get widgetAdd => 'إضافة';
+
+  @override
+  String get widgetAllDone => 'تم كل شيء لليوم';
+
+  @override
+  String get widgetCleanTime => 'مدة الامتناع';
+
+  @override
+  String get widgetHowToAndroid => 'المس الشاشة الرئيسية مطولًا، واختر الأدوات ثم Everslot.';
+
+  @override
+  String get widgetHowToIos => 'المس الشاشة الرئيسية مطولًا، ثم اضغط + وابحث عن Everslot.';
+
+  @override
+  String get widgetKindChecklist => 'قائمة';
+
+  @override
+  String get widgetKindChecklistHint => 'العناصر المفتوحة في أول قائمة مثبتة';
+
+  @override
+  String get widgetKindHabits => 'العادات';
+
+  @override
+  String get widgetKindHabitsHint => 'سجّل عادات اليوم دون فتح التطبيق';
+
+  @override
+  String get widgetKindQuit => 'مدة الامتناع';
+
+  @override
+  String get widgetKindQuitHint => 'عداد مباشر والمال الموفّر والمرحلة التالية';
+
+  @override
+  String get widgetKindToday => 'اليوم';
+
+  @override
+  String get widgetKindTodayHint => 'المهام التالية وما يجري الآن';
+
+  @override
+  String get widgetListDone => 'تم إنجاز كل العناصر';
+
+  @override
+  String get widgetNoHabits => 'لا عادات مستحقة اليوم';
+
+  @override
+  String get widgetNoList => 'ثبّت قائمة في Everslot لتظهر هنا';
+
+  @override
+  String get widgetNoQuit => 'أضف متتبع إقلاع في Everslot';
+
+  @override
+  String get widgetNothingLeft => 'لا شيء متبقٍ اليوم';
+
+  @override
+  String get widgetNow => 'الآن';
+
+  @override
+  String get widgetRefresh => 'تحديث الأدوات الآن';
+
+  @override
+  String get widgetRefreshed => 'تم تحديث الأدوات';
+
+  @override
+  String get widgetStale => 'افتح Everslot للتحديث';
+
+  @override
+  String get widgetsSection => 'أدوات الشاشة الرئيسية';
 }

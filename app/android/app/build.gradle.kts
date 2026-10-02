@@ -3,6 +3,7 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
+    id("org.jetbrains.kotlin.plugin.compose")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
@@ -53,6 +54,7 @@ android {
     }
 
     buildFeatures {
+        compose = true
         resValues = true
     }
 
@@ -104,5 +106,8 @@ flutter {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+    // Home-screen widgets (T8.2.03–08); the version matches home_widget's own dependency.
+    implementation("androidx.glance:glance-appwidget:1.2.0")
+    implementation("androidx.glance:glance-material3:1.2.0")
     androidTestUtil("androidx.test:orchestrator:1.5.1")
 }

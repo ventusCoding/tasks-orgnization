@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Home-screen widgets (T8.2.03–08): gallery names, descriptions and fallbacks. -->
+<resources>
+    <string name="widget_open_app">Open Everslot to load your day</string>
+    <string name="widget_today_name">Today</string>
+    <string name="widget_today_description">Your next tasks, with what is happening now</string>
+    <string name="widget_habits_name">Habits</string>
+    <string name="widget_habits_description">Check in today’s habits with one tap</string>
+    <string name="widget_quit_name">Clean time</string>
+    <string name="widget_quit_description">Live clean-time counter, money saved and next milestone</string>
+    <string name="widget_checklist_name">Checklist</string>
+    <string name="widget_checklist_description">Open items of your pinned list</string>
+    <plurals name="widget_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+</resources>

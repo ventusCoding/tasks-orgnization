@@ -120,7 +120,7 @@ erDiagram
 | Resumable uploads | `tusc` 4.0.0 | Supabase Storage TUS (6 MB chunks) — the Supabase Dart SDK has no TUS client. |
 | IDs / ordering | `uuid` 4.6.0 (v7 + v5); fractional indexing **vendored** from `fractional_indexing_dart` 1.0.7 (byte-compatible with rocicorp's JS lib) | Vendored + tested (few users upstream). |
 | Utilities | `collection`, `intl` 0.20.3, `logging`, `connectivity_plus`, `package_info_plus`, `device_info_plus`, `url_launcher`, `app_links`, `flutter_secure_storage` 11.2.0 | |
-| Platform extras | `home_widget` 0.10.0, `quick_actions`, `receive_sharing_intent` 1.9.0, `local_auth` 3.0.2, `in_app_review`, `device_calendar_plus` 0.8.1 (P2), `live_activities` 2.6.0 (P2), `flutter_alarmkit` 0.4.0 (P2) | `device_calendar` is abandoned → `device_calendar_plus`. |
+| Platform extras | `home_widget` 0.10.0 (+ `androidx.glance:glance-appwidget`/`glance-material3` 1.2.0 and the Kotlin Compose compiler plugin for the Android widgets), `quick_actions`, `receive_sharing_intent` 1.9.0, `local_auth` 3.0.2, `in_app_review`, `device_calendar_plus` 0.8.1 (P2), `live_activities` 2.6.0 (P2), `flutter_alarmkit` 0.4.0 (P2) | `device_calendar` is abandoned → `device_calendar_plus`. |
 | Rich text (optional) | `flutter_quill` 11.6.0 | Only if markdown-lite proves insufficient (P1 decision in [3.1]). |
 | Layout & export | `flutter_staggered_grid_view` (Keep-like masonry board); `pdf` + `printing` (P2 PDF export); `archive` 4.3 (zip bundles of a list + its files, T4.4.08 — pure Dart, already a transitive dependency) | |
 | Money math | `decimal` | Exact arithmetic for money saved/spent (never `double`). |

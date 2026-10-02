@@ -4,8 +4,45 @@
   "integrationsLinkInTrash": "This item is in the Trash.",
   "integrationsActionFailed": "That action couldn't be completed.",
   "integrationsHabitLogged": "Logged: {habit}",
-  "@integrationsHabitLogged": {"placeholders": {"habit": {"type": "String"}}},
+  "@integrationsHabitLogged": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
   "integrationsHabitNotFound": "No habit matches \"{name}\".",
-  "@integrationsHabitNotFound": {"placeholders": {"name": {"type": "String"}}},
-  "integrationsNothingNext": "Nothing else is planned today."
+  "@integrationsHabitNotFound": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "integrationsNothingNext": "Nothing else is planned today.",
+  "widgetCleanTime": "Clean time",
+  "widgetNothingLeft": "Nothing left today",
+  "widgetNoHabits": "No habits due today",
+  "widgetNoQuit": "Add a quit tracker in Everslot",
+  "widgetListDone": "All items done",
+  "widgetAllDone": "All done for today",
+  "widgetStale": "Open Everslot to refresh",
+  "widgetNow": "Now",
+  "settingsIntegrations": "Widgets & integrations",
+  "settingsIntegrationsSubtitle": "Home-screen widgets, shortcuts, sharing, calendars",
+  "widgetsSection": "Home-screen widgets",
+  "widgetKindToday": "Today",
+  "widgetKindTodayHint": "Next tasks with what is happening now",
+  "widgetKindHabits": "Habits",
+  "widgetKindHabitsHint": "Check in today’s habits without opening the app",
+  "widgetKindQuit": "Clean time",
+  "widgetKindQuitHint": "Live counter, money saved and next milestone",
+  "widgetKindChecklist": "Checklist",
+  "widgetKindChecklistHint": "Open items of your first pinned list",
+  "widgetAdd": "Add",
+  "widgetHowToIos": "Touch and hold the home screen, tap +, then search for Everslot.",
+  "widgetHowToAndroid": "Touch and hold the home screen, choose Widgets, then Everslot.",
+  "widgetRefresh": "Refresh widgets now",
+  "widgetRefreshed": "Widgets refreshed",
+  "widgetNoList": "Pin a list in Everslot to see it here"
 }

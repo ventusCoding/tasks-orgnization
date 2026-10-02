@@ -106,9 +106,10 @@ class CheckInService {
   }
 
   /// The period "check now" targets (the current day, the slot per early tolerance, or today inside
-  /// a quota period); null when nothing is due yet.
-  Future<CheckInTarget?> currentTarget(BuildHabit habit) async {
-    final now = clock.nowUtc();
+  /// a quota period); null when nothing is due yet. [at] evaluates another instant (a widget tap
+  /// applied later, T8.2.04).
+  Future<CheckInTarget?> currentTarget(BuildHabit habit, {DateTime? at}) async {
+    final now = at ?? clock.nowUtc();
     final revisions = await habits.revisionsFor(habit.id);
     final period = periods.periodForInstant(habit, revisions, now);
     if (period == null) return null;
@@ -303,8 +304,8 @@ class CheckInService {
   }
 
   /// "Check now": marks the current period (slot per early tolerance) done.
-  Future<CheckInResult> checkNow(BuildHabit habit, {String source = LogSource.manual}) async {
-    final target = await currentTarget(habit);
+  Future<CheckInResult> checkNow(BuildHabit habit, {String source = LogSource.manual, DateTime? at}) async {
+    final target = await currentTarget(habit, at: at);
     if (target == null) throw const CheckInException(CheckInRefusal.future);
     return markDone(habit, target.key, source: source);
   }

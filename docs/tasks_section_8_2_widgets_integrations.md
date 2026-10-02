@@ -19,14 +19,14 @@ overlay, Health integrations, Live Activities / ongoing timer notification, Siri
 ## Progress
 
 - [x] T8.2.01 — External deep links & app links
-- [ ] T8.2.02 — Widget data bridge (`home_widget`)
-- [ ] T8.2.03 — Widget: Today agenda
-- [ ] T8.2.04 — Widget: Habits check-in (interactive)
-- [ ] T8.2.05 — Widget: Quit counter
+- [x] T8.2.02 — Widget data bridge (`home_widget`)
+- [x] T8.2.03 — Widget: Today agenda
+- [x] T8.2.04 — Widget: Habits check-in (interactive)
+- [x] T8.2.05 — Widget: Quit counter
 - [ ] T8.2.06 — App shortcuts (quick actions)
 - [ ] T8.2.07 — Share into Everslot
-- [ ] T8.2.08 — Widget: Checklist (interactive)
-- [ ] T8.2.09 — Lock-screen / StandBy accessory widgets
+- [x] T8.2.08 — Widget: Checklist (interactive)
+- [x] T8.2.09 — Lock-screen / StandBy accessory widgets
 - [ ] T8.2.10 — Running timer on lock screen (Live Activity / ongoing notification)
 - [ ] T8.2.11 — ICS export (share tasks as calendar events)
 - [ ] T8.2.12 — ICS import
@@ -64,6 +64,7 @@ start and background; malicious/oversized parameters are rejected.
 **Acceptance criteria:** snapshot updates within 3 s of a change while the app runs; widgets show
 "Open Everslot to refresh" when the snapshot is older than 24 h.
 **Tests:** unit tests for snapshot builder (size cap, localization); manual checklist per platform.
+**Notes:** `features/widgets_home`: `WidgetSnapshotBuilder` (from the Today overview, strings pre-rendered, `bounded()` ≤ 50 KB), debounced `WidgetSnapshotWriter` (2 s, skips unchanged content, rewrites after 6 h), `HomeWidgetBridge` (App Group per flavor). Background actions reuse `NotificationBackground.run` (Drift + SyncWriter); date symbols are initialised by hand there. Verified on the Android emulator: changes reach widgets within ~3 s. iOS: taps are queued in the App Group and drained on start / resume with the tap time (`currentTarget(at:)`) — no Flutter engine in the extension.
 
 ### T8.2.03 — Widget: Today agenda
 **Priority:** P1 · **Size:** L · **Depends on:** T8.2.02
@@ -74,6 +75,7 @@ task boundary) so the widget advances without the app; Android Jetpack Glance wi
 **Acceptance criteria:** correct in light/dark, RTL and large text; updates at task boundaries without
 opening the app (iOS timeline, Android periodic update ≤ 30 min).
 **Tests:** snapshot fixtures rendered in Xcode/Android previews; manual QA script entry.
+**Notes:** Glance `TodayWidget` (now marker, colour bar, row → occurrence link, 30-min update) and WidgetKit `TodayWidget` (timeline entries at every task boundary). Verified on Android; the iOS extension compiles (Xcode 16.4) but the full iOS app needs Xcode 26 to build, so on-device iOS QA is pending.
 
 ### T8.2.04 — Widget: Habits check-in (interactive)
 **Priority:** P1 · **Size:** L · **Depends on:** T8.2.02, [5.2]
@@ -82,6 +84,7 @@ actions); count habits increment by one; shows progress rings.
 **Acceptance criteria:** tapping updates the widget immediately (optimistic) and writes a correct
 `habit_logs` row (source = `widget`) that syncs; works when the app has been killed.
 **Tests:** integration test of the background callback writing the log; manual QA.
+**Notes:** Android: Glance `ActionCallback` patches the snapshot optimistically, then `HomeWidgetBackgroundIntent` runs `widgetInteractivityCallback` → `habit_logs` row with `source = widget`; verified with the app force-stopped. iOS 17 `HabitTapIntent` (optimistic + queue). Counters add `incrementStep`.
 
 ### T8.2.05 — Widget: Quit counter
 **Priority:** P1 · **Size:** M · **Depends on:** T8.2.02, [5.3]
@@ -91,6 +94,7 @@ Android `Chronometer` in RemoteViews / Glance equivalent.
 **Acceptance criteria:** counter is live without app refreshes; relapse logged in app resets the widget
 within 3 s.
 **Tests:** manual QA; unit test on snapshot fields.
+**Notes:** Android: whole days as text + system `Chronometer` (via `AndroidRemoteViews`) for the running part — ticks without the app, verified on the emulator. iOS: `Text(date, style: .timer)` with a timeline entry per day boundary.
 
 ### T8.2.06 — App shortcuts (quick actions)
 **Priority:** P1 · **Size:** S · **Depends on:** T8.2.01
@@ -111,12 +115,14 @@ multi-line text can become multiple items (each line an item; indentation → ne
 **Priority:** P2 · **Size:** M · **Depends on:** T8.2.02, [4.3]
 **Description:** Shows the open items (top level or a chosen branch) of a pinned checklist with tap-to-complete.
 **Tests:** background callback integration test; manual QA.
+**Notes:** First pinned checklist, open items two levels deep, tap-to-complete (Android background callback / iOS 17 intent). Settings shows how to pin it.
 
 ### T8.2.09 — Lock-screen / StandBy accessory widgets
 **Priority:** P2 · **Size:** M · **Depends on:** T8.2.03, T8.2.05
 **Description:** iOS accessory widgets (circular: habit ring, rectangular: next task, inline: clean time)
 and StandBy layouts.
 **Tests:** manual QA.
+**Notes:** WidgetKit accessory families: circular habit ring (`Gauge`), rectangular next task, inline clean time; `containerBackground` makes the system widgets StandBy-ready. Compiles; on-device QA pending (Xcode 26).
 
 ### T8.2.10 — Running timer on lock screen (Live Activity / ongoing notification)
 **Priority:** P2 · **Size:** L · **Depends on:** [3.2] (time tracking)

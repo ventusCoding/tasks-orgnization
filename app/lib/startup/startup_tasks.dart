@@ -10,6 +10,7 @@ import 'package:everslot/features/habits/habits_startup.dart';
 import 'package:everslot/features/integrations/integrations_startup.dart';
 import 'package:everslot/features/notifications/notifications_startup.dart';
 import 'package:everslot/features/profile/application/zone_tracker.dart';
+import 'package:everslot/features/widgets_home/widgets_startup.dart';
 import 'package:everslot/startup/profile_bootstrap.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,6 +27,7 @@ final List<StartupTask> startupTasks = [
   startAttachmentUploads, // resumes queued attachment uploads (T2.2.04)
   runChecklistResets, // due checklist resets at start, on resume and after pulls (T4.5.06)
   startIntegrations, // external links, widgets, shortcuts, share intake, timers, health (8.2)
+  startHomeWidgets, // home / lock-screen widget snapshot + interactive actions (T8.2.02)
   startHabits, // default habit sections & trigger/place/coping libraries (T5.1.11, T5.3.14)
   scheduleBackgroundSync, // periodic background push/pull for cloud sessions (T1.4.17)
 ];

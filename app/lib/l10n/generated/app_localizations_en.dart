@@ -10888,6 +10888,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get settingsIntegrations => 'Widgets & integrations';
+
+  @override
+  String get settingsIntegrationsSubtitle => 'Home-screen widgets, shortcuts, sharing, calendars';
+
+  @override
   String get settingsLanguage => 'Language';
 
   @override
@@ -16601,4 +16607,73 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get voiceNoteTitle => 'Voice note';
+
+  @override
+  String get widgetAdd => 'Add';
+
+  @override
+  String get widgetAllDone => 'All done for today';
+
+  @override
+  String get widgetCleanTime => 'Clean time';
+
+  @override
+  String get widgetHowToAndroid => 'Touch and hold the home screen, choose Widgets, then Everslot.';
+
+  @override
+  String get widgetHowToIos => 'Touch and hold the home screen, tap +, then search for Everslot.';
+
+  @override
+  String get widgetKindChecklist => 'Checklist';
+
+  @override
+  String get widgetKindChecklistHint => 'Open items of your first pinned list';
+
+  @override
+  String get widgetKindHabits => 'Habits';
+
+  @override
+  String get widgetKindHabitsHint => 'Check in today’s habits without opening the app';
+
+  @override
+  String get widgetKindQuit => 'Clean time';
+
+  @override
+  String get widgetKindQuitHint => 'Live counter, money saved and next milestone';
+
+  @override
+  String get widgetKindToday => 'Today';
+
+  @override
+  String get widgetKindTodayHint => 'Next tasks with what is happening now';
+
+  @override
+  String get widgetListDone => 'All items done';
+
+  @override
+  String get widgetNoHabits => 'No habits due today';
+
+  @override
+  String get widgetNoList => 'Pin a list in Everslot to see it here';
+
+  @override
+  String get widgetNoQuit => 'Add a quit tracker in Everslot';
+
+  @override
+  String get widgetNothingLeft => 'Nothing left today';
+
+  @override
+  String get widgetNow => 'Now';
+
+  @override
+  String get widgetRefresh => 'Refresh widgets now';
+
+  @override
+  String get widgetRefreshed => 'Widgets refreshed';
+
+  @override
+  String get widgetStale => 'Open Everslot to refresh';
+
+  @override
+  String get widgetsSection => 'Home-screen widgets';
 }

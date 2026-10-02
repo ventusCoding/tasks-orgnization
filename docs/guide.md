@@ -144,6 +144,18 @@ It must build without the "fails to launch" UIScene error; then run it on a simu
 plugins work after the scene connects (e.g. notifications permission prompt, sign-in screen).
 CI runs the same build on `macos-26` (`.github/workflows/ci.yml`).
 
+### Home-screen widgets (8.2)
+
+- **iOS:** the `EverslotWidgets` extension (bundle id `<app bundle>.widgets`) shares data with the app
+  through an App Group: `group.app.everslot` (prod) / `group.app.everslot.dev` (dev). Register both
+  groups in the Apple Developer portal and enable *App Groups* for the app and extension identifiers
+  (`EVERSLOT_APP_GROUP` build setting feeds both entitlements). The extension alone builds with
+  `xcodebuild -project ios/Runner.xcodeproj -target EverslotWidgets -configuration Debug-dev -sdk iphonesimulator CODE_SIGNING_ALLOWED=NO build`.
+  Widget taps (iOS 17+) update the widget at once and are applied by the app at the tap's time on its
+  next start / resume.
+- **Android:** Jetpack Glance widgets need no setup; Settings › Widgets & integrations can pin them
+  on launchers that support it. Taps run Dart in the background even when the app is closed.
+
 ## 8. End-to-end tests (patrol) (T9.1.07, T7.2.22)
 
 The suites in `app/patrol_test/` boot the real app in **local-only mode** (the placeholder
