@@ -496,5 +496,7 @@
   "notifBodyListReset": "أُعيد ضبط {list} لليوم",
   "notifTriggerListReset": "إعادة ضبط القائمة",
   "notifSumListReset": "عند إعادة ضبط القائمة",
-  "notifSumListResetAt": "عند إعادة ضبط القائمة (ليس قبل {time})"
+  "notifSumListResetAt": "عند إعادة ضبط القائمة (ليس قبل {time})",
+  "notifBodyQuotaPace": "{done} من {target} — {days, plural, =1{يوم واحد متبقٍ} =2{يومان متبقيان} few{{days} أيام متبقية} other{{days} يومًا متبقيًا}}",
+  "notifBodyQuotaLastChance": "الفرصة الأخيرة اليوم: تبقّى {remaining}"
 }

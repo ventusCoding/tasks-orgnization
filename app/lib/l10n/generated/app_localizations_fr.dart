@@ -3615,6 +3615,16 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String habitNotifStreakMilestone(int days) {
+    return 'Série de $days jours !';
+  }
+
+  @override
+  String habitNotifTotalMilestone(String amount, String unit) {
+    return '$amount $unit au total';
+  }
+
+  @override
   String get habitsActionAddValue => 'Ajouter une valeur';
 
   @override
@@ -5747,6 +5757,22 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String notifBodyQuotaBehind(String done, String target, int remaining) {
     return '$done/$target fait — encore $remaining';
+  }
+
+  @override
+  String notifBodyQuotaLastChance(int remaining) {
+    return 'Dernière chance aujourd’hui : encore $remaining';
+  }
+
+  @override
+  String notifBodyQuotaPace(String done, String target, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days jours restants',
+      one: '1 jour restant',
+    );
+    return '$done sur $target — $_temp0';
   }
 
   @override

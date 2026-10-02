@@ -93,7 +93,13 @@ class NotificationGuard {
 /// `clean_days` itself from [NotificationTarget.milestoneBaseline].
 @immutable
 class NotificationMilestone {
-  const NotificationMilestone({required this.metric, required this.threshold, required this.at, this.label});
+  const NotificationMilestone({
+    required this.metric,
+    required this.threshold,
+    required this.at,
+    this.label,
+    this.runKey,
+  });
 
   /// clean_days | streak | total_value | money_saved | units_avoided | custom
   final String metric;
@@ -105,16 +111,21 @@ class NotificationMilestone {
   /// Optional localized label ("24 hours smoke-free").
   final String? label;
 
+  /// Distinguishes repeated crossings of the same threshold (a new streak reaching 7 days again):
+  /// part of the occurrence key; null for one-time thresholds.
+  final String? runKey;
+
   @override
   bool operator ==(Object other) =>
       other is NotificationMilestone &&
       other.metric == metric &&
       other.threshold == threshold &&
       other.at == at &&
-      other.label == label;
+      other.label == label &&
+      other.runKey == runKey;
 
   @override
-  int get hashCode => Object.hash(metric, threshold, at, label);
+  int get hashCode => Object.hash(metric, threshold, at, label, runKey);
 }
 
 /// An observed event for event-driven triggers (status_change, children_complete, child_overdue).

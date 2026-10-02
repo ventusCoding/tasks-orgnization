@@ -872,5 +872,24 @@
         "type": "int"
       }
     }
+  },
+  "habitNotifStreakMilestone": "{days}-day streak!",
+  "@habitNotifStreakMilestone": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "habitNotifTotalMilestone": "{amount} {unit} in total",
+  "@habitNotifTotalMilestone": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -1113,5 +1113,27 @@
         "type": "String"
       }
     }
+  },
+  "notifBodyQuotaPace": "{done} of {target} done — {days, plural, =1{1 day left} other{{days} days left}}",
+  "@notifBodyQuotaPace": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "notifBodyQuotaLastChance": "Last chance today: {remaining} to go",
+  "@notifBodyQuotaLastChance": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      }
+    }
   }
 }

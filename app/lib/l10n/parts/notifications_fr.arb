@@ -496,5 +496,7 @@
   "notifBodyListReset": "{list} a été réinitialisée pour aujourd’hui",
   "notifTriggerListReset": "Réinitialisation de la liste",
   "notifSumListReset": "Quand la liste est réinitialisée",
-  "notifSumListResetAt": "Quand la liste est réinitialisée (pas avant {time})"
+  "notifSumListResetAt": "Quand la liste est réinitialisée (pas avant {time})",
+  "notifBodyQuotaPace": "{done} sur {target} — {days, plural, =1{1 jour restant} other{{days} jours restants}}",
+  "notifBodyQuotaLastChance": "Dernière chance aujourd’hui : encore {remaining}"
 }

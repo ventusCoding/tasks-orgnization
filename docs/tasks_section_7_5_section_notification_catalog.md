@@ -57,7 +57,7 @@ live timer surfaces and widget refreshes ([8.2]); hide-content privacy option ([
 - [x] T7.5.09 — Checklists: structural event triggers
 - [x] T7.5.10 — Habits: scheduled reminders (slots, times, several per day)
 - [x] T7.5.11 — Habits: not-done-by & streak-at-risk
-- [ ] T7.5.12 — Habits: quota pace, milestones & inactivity
+- [x] T7.5.12 — Habits: quota pace, milestones & inactivity
 - [ ] T7.5.13 — Quit: milestone notifications
 - [ ] T7.5.14 — Quit: pledge, evening review, craving support & encouragement
 - [x] T7.5.15 — Notifications settings page & global controls
@@ -192,6 +192,7 @@ needed ≥ days left, "last chance" on the final eligible day); **milestones** (
 such as 1 000 push-ups — immediate on the triggering log, in-app banner if foreground); **inactivity** (no
 log for N days on an active habit).
 **Tests:** planner fixtures; unit tests for pace computation.
+**Notes:** Each build habit also yields a habit-level summary target (no occurrence key) carrying `lastActivityAt` (last log, else creation) for inactivity plus the milestones just reached: streak 7/30/100/365 (keyed by the streak's start date, so a new streak announces again) and running totals crossing 100/500/1 000… Both are dated at the triggering log, so the planner's catch-up delivers them once; the foreground banner is the generic in-app presentation. Quota copy switches to "Last chance today" when one eligible day is left.
 
 ### T7.5.13 — Quit: milestone notifications
 **Priority:** P1 · **Size:** M · **Depends on:** [5.3] (quit logic, health milestone content)

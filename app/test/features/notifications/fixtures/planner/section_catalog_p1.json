@@ -146,6 +146,40 @@
       ]
     },
     {
+      "name": "T7.5.12 quota last eligible day: last chance wording",
+      "now": "2026-09-27T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "pace", "targetType": "section", "section": "habits", "spec": {"v": 1, "trigger": {"type": "quota_behind", "atTime": "20:00"}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "swim", "section": "habits", "title": "Swim", "occurrenceKey": "2026-W39",
+         "periodStart": "2026-09-26T22:00:00Z", "periodEnd": "2026-09-27T22:00:00Z",
+         "quota": {"done": 2, "target": 3, "eligibleDaysLeft": 1}}
+      ],
+      "expected": [
+        {"rule": "pace", "target": "swim", "fireAtUtc": "2026-09-27T18:00:00Z", "body": "Last chance today: 1 to go"}
+      ]
+    },
+    {
+      "name": "T7.5.12 streak and total milestones fire once, at the triggering log",
+      "now": "2026-09-21T18:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "streak", "targetType": "section", "section": "habits", "spec": {"v": 1, "trigger": {"type": "milestone", "metric": "streak"}}},
+        {"id": "total", "targetType": "section", "section": "habits", "spec": {"v": 1, "trigger": {"type": "milestone", "metric": "total_value"}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "run", "section": "habits", "title": "Run",
+         "milestones": [{"metric": "streak", "threshold": 7, "at": "2026-09-21T18:00:10Z", "runKey": "2026-09-15", "label": "7-day streak!"},
+                        {"metric": "total_value", "threshold": 100, "at": "2026-09-21T18:00:10Z", "label": "100 km in total"}]}
+      ],
+      "expected": [
+        {"rule": "streak", "target": "run", "fireAtUtc": "2026-09-21T18:00:10Z", "body": "7-day streak!", "occ": "m:streak:7:2026-09-15"},
+        {"rule": "total", "target": "run", "fireAtUtc": "2026-09-21T18:00:10Z", "body": "100 km in total", "occ": "m:total_value:100"}
+      ]
+    },
+    {
       "name": "T7.5.08 status age: waiting and blocked wording",
       "now": "2026-09-21T09:00:00Z",
       "zone": "Europe/Paris",

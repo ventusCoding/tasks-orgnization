@@ -261,7 +261,12 @@ class PlainNotificationTexts implements NotificationTexts {
       ),
       DefaultContentKind.overdue => (title: t, body: '$t is overdue'),
       DefaultContentKind.streakRisk => (title: t, body: 'Keep your ${count ?? 0}-day streak alive'),
-      DefaultContentKind.quotaBehind => (title: t, body: 'Behind pace: ${vars['done'] ?? ''}/${vars['target'] ?? ''}'),
+      DefaultContentKind.quotaBehind => (
+        title: t,
+        body: vars['days_left'] == '1'
+            ? 'Last chance today: ${count ?? 0} to go'
+            : '${vars['done'] ?? ''} of ${vars['target'] ?? ''} done — ${vars['days_left'] ?? ''} days left',
+      ),
       DefaultContentKind.milestone => (title: t, body: vars['next_milestone'] ?? 'Milestone reached'),
       DefaultContentKind.inactivity => (title: t, body: 'No activity for ${count ?? 0} days'),
       DefaultContentKind.digest => (title: digestTitle(vars['kind'] ?? ''), body: vars['summary']),

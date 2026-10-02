@@ -107,7 +107,10 @@ void main() {
         name: 'Push-ups',
         goal: const HabitTarget(type: HabitGoalType.count, target: 15, unit: HabitUnits.reps),
       );
-      final targets = await habitsSource().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 24, 6));
+      final targets = (await habitsSource().targetsBetween(
+        DateTime.utc(2026, 9, 22, 6),
+        DateTime.utc(2026, 9, 24, 6),
+      )).where((t) => t.occurrenceKey != null).toList();
       expect(targets.map((t) => t.occurrenceKey), ['2026-09-22', '2026-09-23', '2026-09-24']);
       final today = targets.first;
       expect(today.type, NotificationTargetType.habit);
@@ -134,7 +137,10 @@ void main() {
       await checkIn.markDone(habit, '2026-09-22');
       await checkIn.skip(habit, '2026-09-23');
       await h.read(habitServiceProvider).pause(habitId: habit.id, start: d(2026, 9, 24), end: d(2026, 9, 24));
-      final targets = await habitsSource().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 25, 6));
+      final targets = (await habitsSource().targetsBetween(
+        DateTime.utc(2026, 9, 22, 6),
+        DateTime.utc(2026, 9, 25, 6),
+      )).where((t) => t.occurrenceKey != null).toList();
       final byKey = {for (final t in targets) t.occurrenceKey: t};
       expect((byKey['2026-09-22']!.isOpen, byKey['2026-09-22']!.status), (false, 'done'));
       expect((byKey['2026-09-23']!.isOpen, byKey['2026-09-23']!.status), (false, 'skipped'));
@@ -149,7 +155,10 @@ void main() {
         name: 'Medication',
         preset: SchedulePreset(SchedulePresetKind.specificTimes, times: [LocalTime(8, 0), LocalTime(20, 0)]),
       );
-      final targets = await habitsSource().targetsBetween(DateTime.utc(2026, 9, 22, 5), DateTime.utc(2026, 9, 22, 21));
+      final targets = (await habitsSource().targetsBetween(
+        DateTime.utc(2026, 9, 22, 5),
+        DateTime.utc(2026, 9, 22, 21),
+      )).where((t) => t.occurrenceKey != null).toList();
       expect(targets.map((t) => t.occurrenceKey), ['2026-09-22T08:00', '2026-09-22T20:00']);
       expect(targets.map((t) => t.slot), [DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 22, 18)]);
       expect(targets.first.itemKind, ItemKind.timed);
@@ -157,12 +166,51 @@ void main() {
 
     test('quota habits notify on eligible days with their progress', () async {
       await createBuild(name: 'Gym', preset: const SchedulePreset(SchedulePresetKind.timesPerWeek, n: 3));
-      final targets = await habitsSource().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 27, 6));
+      final targets = (await habitsSource().targetsBetween(
+        DateTime.utc(2026, 9, 22, 6),
+        DateTime.utc(2026, 9, 27, 6),
+      )).where((t) => t.occurrenceKey != null).toList();
       expect(targets.map((t) => t.occurrenceKey), [for (var day = 22; day <= 27; day++) '2026-09-$day']);
       final quota = targets.first.quota!;
       expect((quota.done, quota.target, quota.eligibleDaysLeft), (0, 3, 6));
       expect(targets.last.quota!.behind, isTrue, reason: '3 still needed with 1 eligible day left');
       expect(targets.first.guard!.params.containsKey('target'), isFalse, reason: 'quota totals are not per day');
+    });
+
+    Future<NotificationTarget> summaryOf(String habitId) async => (await habitsSource().targetsBetween(
+      DateTime.utc(2026, 9, 22, 6),
+      DateTime.utc(2026, 9, 23, 6),
+    )).singleWhere((t) => t.id == habitId && t.occurrenceKey == null);
+
+    test('summary target: last activity, 7-day streak milestone keyed by the streak start (T7.5.12)', () async {
+      final habit = await createBuild();
+      final fresh = await summaryOf(habit.id);
+      expect(fresh.lastActivityAt, h.clock.nowUtc(), reason: 'inactivity counts from creation until a first log');
+      expect(fresh.milestones, isEmpty);
+      expect(fresh.defaultActions, ['open']);
+      final checkIn = h.read(checkInServiceProvider);
+      for (var day = 16; day <= 22; day++) {
+        await checkIn.markDone(habit, '2026-09-$day');
+      }
+      final summary = await summaryOf(habit.id);
+      expect(summary.lastActivityAt, h.clock.nowUtc());
+      final streak = summary.milestones.single;
+      expect((streak.metric, streak.threshold, streak.runKey), ('streak', 7, '2026-09-16'));
+      expect(streak.label, '7-day streak!');
+    });
+
+    test('summary target: running total crossing 100 is a total_value milestone', () async {
+      final habit = await createBuild(
+        name: 'Run',
+        goal: const HabitTarget(type: HabitGoalType.count, target: 15, unit: HabitUnits.reps),
+      );
+      final checkIn = h.read(checkInServiceProvider);
+      await checkIn.addProgress(habit, '2026-09-22', 60);
+      expect((await summaryOf(habit.id)).milestones, isEmpty);
+      await checkIn.addProgress(habit, '2026-09-22', 50);
+      final total = (await summaryOf(habit.id)).milestones.single;
+      expect((total.metric, total.threshold, total.runKey), ('total_value', 100, null));
+      expect(total.label, '100 reps in total');
     });
   });
 

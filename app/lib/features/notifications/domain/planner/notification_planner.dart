@@ -379,7 +379,11 @@ abstract final class NotificationPlanner {
             '$occ|qb:${dateOf(day).toIso()}',
             DefaultContentKind.quotaBehind,
             count: quota.remaining,
-            extraVars: {'done': ctx.texts.number(quota.done), 'target': ctx.texts.number(quota.target)},
+            extraVars: {
+              'done': ctx.texts.number(quota.done),
+              'target': ctx.texts.number(quota.target),
+              'days_left': '${quota.eligibleDaysLeft}',
+            },
           ),
         ];
 
@@ -405,7 +409,7 @@ abstract final class NotificationPlanner {
           out.add(
             _Candidate(
               m.at,
-              'm:$metric:${m.threshold}',
+              m.runKey == null ? 'm:$metric:${m.threshold}' : 'm:$metric:${m.threshold}:${m.runKey}',
               DefaultContentKind.milestone,
               count: m.threshold.round(),
               extraVars: {'next_milestone': m.label ?? ctx.texts.number(m.threshold)},

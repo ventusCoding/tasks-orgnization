@@ -1339,6 +1339,23 @@
       }
     }
   },
+  "@habitNotifStreakMilestone": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@habitNotifTotalMilestone": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "@habitsCelebrateStreak": {
     "placeholders": {
       "name": {
@@ -2175,6 +2192,26 @@
         "type": "String"
       },
       "remaining": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifBodyQuotaLastChance": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifBodyQuotaPace": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "days": {
         "type": "int"
       }
     }
@@ -5772,6 +5809,8 @@
   "goalsTitleField": "Title (optional)",
   "goalsTo": "To",
   "goalsUseSuggestion": "Aim for {target}",
+  "habitNotifStreakMilestone": "{days}-day streak!",
+  "habitNotifTotalMilestone": "{amount} {unit} in total",
   "habitsActionAddValue": "Add a value",
   "habitsActionBackfill": "Log another day",
   "habitsActionCheckNow": "Check now",
@@ -6358,6 +6397,8 @@
   "notifBodyNotDone": "You haven’t logged {title} today",
   "notifBodyOverdue": "{title} is overdue",
   "notifBodyQuotaBehind": "{done}/{target} done — {remaining} to go",
+  "notifBodyQuotaLastChance": "Last chance today: {remaining} to go",
+  "notifBodyQuotaPace": "{done} of {target} done — {days, plural, =1{1 day left} other{{days} days left}}",
   "notifBodySnoozed": "Snoozed reminder",
   "notifBodyStartedAgo": "Started {minutes, plural, =1{1 min} other{{minutes} min}} ago",
   "notifBodyStartingNow": "Starting now",

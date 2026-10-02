@@ -6297,6 +6297,18 @@ abstract class AppLocalizations {
   /// **'Aim for {target}'**
   String goalsUseSuggestion(String target);
 
+  /// No description provided for @habitNotifStreakMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'{days}-day streak!'**
+  String habitNotifStreakMilestone(int days);
+
+  /// No description provided for @habitNotifTotalMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} {unit} in total'**
+  String habitNotifTotalMilestone(String amount, String unit);
+
   /// No description provided for @habitsActionAddValue.
   ///
   /// In en, this message translates to:
@@ -9812,6 +9824,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{done}/{target} done — {remaining} to go'**
   String notifBodyQuotaBehind(String done, String target, int remaining);
+
+  /// No description provided for @notifBodyQuotaLastChance.
+  ///
+  /// In en, this message translates to:
+  /// **'Last chance today: {remaining} to go'**
+  String notifBodyQuotaLastChance(int remaining);
+
+  /// No description provided for @notifBodyQuotaPace.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {target} done — {days, plural, =1{1 day left} other{{days} days left}}'**
+  String notifBodyQuotaPace(String done, String target, int days);
 
   /// No description provided for @notifBodySnoozed.
   ///

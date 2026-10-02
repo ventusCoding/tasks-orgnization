@@ -197,6 +197,86 @@ List<NotificationTarget> buildHabitTargets(
   return out;
 }
 
+/// Streak lengths announced by `milestone {metric: streak}` (T7.5.12).
+const habitStreakMilestones = [7, 30, 100, 365];
+
+/// Running totals announced by `milestone {metric: total_value}` for measurable habits.
+const habitTotalMilestones = [100, 500, 1000, 5000, 10000, 50000, 100000];
+
+/// The habit-level target of a build habit (T7.5.12): no period, always open while the habit is
+/// live; carries the last log (`inactivity`) and the milestones just reached — the current streak
+/// hitting 7/30/100/365 (keyed by the streak's start, so a later streak announces again) and
+/// running totals crossing 100, 500, 1 000… Milestones are dated at the triggering log, so the
+/// planner delivers them right away (catch-up) and never twice.
+NotificationTarget? buildHabitSummaryTarget(
+  HabitSnapshot snapshot, {
+  required DateTime now,
+  L10nNotificationTexts? texts,
+}) {
+  final habit = snapshot.build;
+  if (habit == null || habit.isArchived) return null;
+  final logs = [...snapshot.logs]..sort((a, b) => a.loggedAt.compareTo(b.loggedAt));
+  final lastActivity = logs.isEmpty ? null : logs.last.loggedAt;
+  final milestones = <NotificationMilestone>[];
+  final recent = now.subtract(const Duration(days: 2));
+  final current = snapshot.summary?.streaks.current;
+  if (current != null && habitStreakMilestones.contains(current.length)) {
+    DateTime? at;
+    for (final l in logs) {
+      if (snapshot.boundaries.dateOf(l.loggedAt) == current.endDate) at = l.loggedAt;
+    }
+    at ??= lastActivity;
+    if (at != null && !at.isBefore(recent)) {
+      milestones.add(
+        NotificationMilestone(
+          metric: 'streak',
+          threshold: current.length,
+          at: at,
+          runKey: current.startDate.toIso(),
+          label: texts?.l10n.habitNotifStreakMilestone(current.length) ?? '${current.length}-day streak!',
+        ),
+      );
+    }
+  }
+  if (habit.goal.isMeasurable) {
+    var total = 0.0;
+    for (final l in logs) {
+      if (l.kind != HabitLogKind.progress || l.value == null) continue;
+      final before = total;
+      total += l.value!;
+      for (final t in habitTotalMilestones) {
+        if (before < t && total >= t && !l.loggedAt.isBefore(recent)) {
+          final amount = texts?.number(t) ?? '$t';
+          final unit = texts?.l10n.unitLabel(habit.goal.unit, t.toDouble()) ?? (habit.goal.unit ?? '');
+          milestones.add(
+            NotificationMilestone(
+              metric: 'total_value',
+              threshold: t,
+              at: l.loggedAt,
+              label: texts?.l10n.habitNotifTotalMilestone(amount, unit) ?? '$amount $unit in total',
+            ),
+          );
+        }
+      }
+    }
+  }
+  return NotificationTarget(
+    type: NotificationTargetType.habit,
+    id: habit.id,
+    section: NotificationSection.habits,
+    title: habit.name,
+    categoryId: habit.categoryId,
+    notifyMode: NotifyMode.parse(habit.notifyMode),
+    itemKind: ItemKind.any,
+    timeZone: habit.timeZone,
+    lastActivityAt: lastActivity ?? habit.createdAt,
+    milestones: milestones,
+    streak: snapshot.summary?.currentStreak,
+    deepLink: AppLinks.habit(habit.id),
+    defaultActions: const [NotificationActionIds.open],
+  );
+}
+
 /// Savings thresholds projected as `money_saved` milestones (in the tracker's currency).
 const quitMoneyThresholds = <int>[10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000];
 
@@ -289,6 +369,8 @@ class HabitsNotificationSource implements NotificationTargetSource {
       final snapshot = await loadHabitSnapshot(_ref.read, habit, now);
       final b = snapshot.boundaries;
       out.addAll(buildHabitTargets(snapshot, service, from: b.dateOf(fromUtc), to: b.dateOf(toUtc), texts: texts));
+      final summary = buildHabitSummaryTarget(snapshot, now: now, texts: texts);
+      if (summary != null) out.add(summary);
     }
     return out;
   }

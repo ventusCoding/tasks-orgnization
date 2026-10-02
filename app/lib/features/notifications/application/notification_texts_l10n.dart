@@ -105,7 +105,12 @@ class L10nNotificationTexts implements NotificationTexts {
       DefaultContentKind.streakRisk => (title: t, body: l10n.notifBodyStreakRisk(n)),
       DefaultContentKind.quotaBehind => (
         title: t,
-        body: l10n.notifBodyQuotaBehind(vars['done'] ?? '', vars['target'] ?? '', n),
+        // "2 of 3 done — 1 day left" / last eligible day: "Last chance today: 1 to go" (T7.5.12).
+        body: vars['days_left'] == '1'
+            ? l10n.notifBodyQuotaLastChance(n)
+            : vars['days_left'] != null
+            ? l10n.notifBodyQuotaPace(vars['done'] ?? '', vars['target'] ?? '', int.tryParse(vars['days_left']!) ?? 0)
+            : l10n.notifBodyQuotaBehind(vars['done'] ?? '', vars['target'] ?? '', n),
       ),
       DefaultContentKind.milestone => (
         title: t,
