@@ -76,7 +76,7 @@ for (
 ) {
   const doc = JSON.parse(await Deno.readTextFile(new URL(file, root)));
   const cases = (doc.cases ?? doc) as FixtureCase[];
-  Deno.test(`fallback planner parity: ${file}`, async () => {
+  Deno.test(`fallback planner parity: ${file}`, () => {
     let checked = 0;
     for (const c of cases.filter(supported)) {
       const now = new Date(c.now);
