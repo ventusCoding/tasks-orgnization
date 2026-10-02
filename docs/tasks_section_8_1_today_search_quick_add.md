@@ -19,18 +19,18 @@ palette (P2).
 ## Progress
 
 - [x] T8.1.01 — Today overview data provider
-- [ ] T8.1.02 — Today screen layout & block framework
-- [ ] T8.1.03 — Now / Next card
-- [ ] T8.1.04 — Today agenda block (tasks)
-- [ ] T8.1.05 — Overdue block & roll-over
-- [ ] T8.1.06 — Habits-due block with inline check-in
-- [ ] T8.1.07 — Quit counters block
-- [ ] T8.1.08 — Checklists block (pinned, due, follow-ups)
+- [x] T8.1.02 — Today screen layout & block framework
+- [x] T8.1.03 — Now / Next card
+- [x] T8.1.04 — Today agenda block (tasks)
+- [x] T8.1.05 — Overdue block & roll-over
+- [x] T8.1.06 — Habits-due block with inline check-in
+- [x] T8.1.07 — Quit counters block
+- [x] T8.1.08 — Checklists block (pinned, due, follow-ups)
 - [x] T8.1.09 — Pull-to-refresh & sync indicator
-- [ ] T8.1.10 — Universal quick-add sheet
-- [ ] T8.1.11 — Day progress header
-- [ ] T8.1.12 — Today customization (reorder/hide blocks)
-- [ ] T8.1.13 — Empty states & contextual hints
+- [x] T8.1.10 — Universal quick-add sheet
+- [x] T8.1.11 — Day progress header
+- [x] T8.1.12 — Today customization (reorder/hide blocks)
+- [x] T8.1.13 — Empty states & contextual hints
 - [ ] T8.1.14 — Global search screen
 - [ ] T8.1.15 — Search filters, recents & result actions
 - [ ] T8.1.16 — Search query syntax
@@ -69,6 +69,7 @@ Habits, Quit, Checklists, Inbox highlights). Each block handles its own loading/
 - Screen renders with any subset of data; no layout errors at text scale 2.0 and in RTL.
 - First meaningful paint < 300 ms after tab switch with realistic data.
 **Tests:** widget tests for empty/full states; goldens light/dark, LTR/RTL.
+**Notes:** `TodayScreen` + `TodayBlock` (id, title, isLoading/isEmpty, build, empty) in `today/presentation/`; blocks follow `TodayLayout` order, each with loading / error / empty state, two columns on non-compact windows, wrapped in `SyncRefresh`. Goldens light/dark × LTR/RTL + empty; Arabic at text scale 2 has no layout errors. First-paint timing not measured on a device.
 
 ### T8.1.03 — Now / Next card
 **Priority:** P0 · **Size:** S · **Depends on:** T8.1.02
@@ -79,6 +80,7 @@ next upcoming task (with countdown). Quick actions: Start/Stop timer, Done, Skip
 **Acceptance criteria:** correct item at boundaries (task ending exactly now; overlapping tasks → show the
 one that started last, with "+1 overlapping"); actions write occurrence records and update instantly.
 **Tests:** unit tests for now/next selection incl. overlaps and all-day tasks; widget test for actions.
+**Notes:** `NowNextCard` over `selectNowNext` (agenda + tomorrow's items): remaining-time bar, "+n overlapping", countdown; actions from `primaryActionsFor` through the planner's `runPrimaryAction` (start/pause/resume/stop timer, done, skip) + Open. Ticks every 30 s while mounted (no ticker under a fake clock).
 
 ### T8.1.04 — Today agenda block (tasks)
 **Priority:** P0 · **Size:** M · **Depends on:** T8.1.02, [3.2]
@@ -89,6 +91,7 @@ items collapsed into a "Done (n)" group toggle; all-day items first.
 **Acceptance criteria:** swipe right = done, swipe left = skip (configurable, undo snackbar); status
 changes reflected in Planner views immediately.
 **Tests:** widget tests (swipe actions, undo); golden.
+**Notes:** `AgendaList`: all-day first, checkbox (events show an icon), configurable swipe start/end (done / skip / none) with the planner's undo snack, collapsed "Done (n)" group, tap = occurrence sheet, long press = reschedule sheet.
 
 ### T8.1.05 — Overdue block & roll-over
 **Priority:** P0 · **Size:** S · **Depends on:** T8.1.04, [3.2]
@@ -97,6 +100,7 @@ default 7 days) with bulk actions: *Roll over to today*, *Mark done*, *Skip*, *R
 **Acceptance criteria:** roll-over creates occurrence overrides (recurring) or moves the task (one-off)
 and logs `rescheduled` activity events (feeds punctuality/postpone stats).
 **Tests:** unit tests for the look-back query; widget test for bulk roll-over + undo.
+**Notes:** `OverdueList` with per-row reschedule and bulk *Move to today* (same wall time today, via `PlannerService.reschedule`, which logs `rescheduled`), *Mark all done*, *Skip all*; the bulk command is one undo step (`UndoStack.squash`).
 
 ### T8.1.06 — Habits-due block with inline check-in
 **Priority:** P0 · **Size:** M · **Depends on:** T8.1.02, [5.2]
@@ -105,6 +109,7 @@ durations, long-press for *not done / skip / excuse / note*. Shows progress ring
 **Acceptance criteria:** state identical to Habits tab after any action; "All habits done 🎉" state;
 intraday-slot habits show the current slot.
 **Tests:** widget tests for each goal type; unit test for due-today selection with quota schedules.
+**Notes:** `HabitRow`: progress ring, streak, one-tap check-in, +step for counts (value sheet for durations/measurements — no separate timer here), next-slot hint, long press for not done / skip / excuse (with reason) / note & mood via `CheckInActions`; "All habits done 🎉".
 
 ### T8.1.07 — Quit counters block
 **Priority:** P0 · **Size:** S · **Depends on:** T8.1.02, [5.3]
@@ -114,6 +119,7 @@ buttons *Log craving* and *Log relapse*.
 `quit_started_at` / last relapse (no DB writes per tick).
 **Acceptance criteria:** counter keeps correct time across app background/foreground and DST changes.
 **Tests:** unit test for elapsed formatting incl. DST; widget test with fake ticker.
+**Notes:** `QuitRow` reuses `LiveCounter` (shared 1 Hz ticker, instants only), money saved, next day milestone, *Log craving* (quick) and *Log relapse* / *Log use* (reduce mode).
 
 ### T8.1.08 — Checklists block (pinned, due, follow-ups)
 **Priority:** P0 · **Size:** S · **Depends on:** T8.1.02, [4.3]
@@ -122,6 +128,7 @@ buttons *Log craving* and *Log relapse*.
 **Acceptance criteria:** tapping an item opens its checklist focused on that item (deep link with `item=`);
 completing from Today updates roll-ups.
 **Tests:** widget tests; unit tests for due/follow-up queries.
+**Notes:** `ChecklistsSummary`: pinned lists with progress, due items with a complete checkbox (`ChecklistService.changeStatus`, undo), waiting/blocked follow-ups; taps open the list focused on the item.
 
 ### T8.1.09 — Pull-to-refresh & sync indicator
 **Priority:** P0 · **Size:** S · **Depends on:** [1.4]
@@ -139,6 +146,7 @@ from context (selected date/slot in Planner, current checklist, etc.), "More opt
 **Acceptance criteria:** creating a task from a selected week-table slot pre-fills date/time/duration;
 keyboard stays up for rapid entry ("Add & new"); works offline.
 **Tests:** widget tests per type; integration test "create task from slot".
+**Notes:** `showQuickAdd` / `QuickAddSheet` (`app/quick_add_sheet.dart`), opened by long press on the shell **+** (tap still opens the task editor): Task (date/time/duration chips, all-day, next half-hour default, `QuickAddContext` pre-fill), List, List item (pick list; new `ChecklistService.appendItems`), Habit (daily yes/no), Quit tracker (opens its editor), Check-in / craving; *Add & new* keeps the keyboard up; *More options* opens the full editor. The week table keeps its own slot quick-create.
 
 ### T8.1.11 — Day progress header
 **Priority:** P1 · **Size:** S · **Depends on:** T8.1.02, [6.1]
@@ -146,6 +154,7 @@ keyboard stays up for rapid entry ("Add & new"); works offline.
 checklist items completed today, focus time; tapping opens Insights › Today.
 **Acceptance criteria:** numbers match the corresponding stats metrics exactly (shared metric code).
 **Tests:** unit test that header values equal metric registry outputs for a fixture day.
+**Notes:** `TodayHeader` + `TodayProgress` (domain): greeting, date, tasks done/planned (checkbox occurrences, events excluded — the stats counting rule), habits resolved/due, checklist items completed today (new `TodayChecklistQueries.watchCompletedBetween`), focus = tracked minutes; tap opens Insights. Shares the rules, not the metric registry code.
 
 ### T8.1.12 — Today customization (reorder/hide blocks)
 **Priority:** P1 · **Size:** M · **Depends on:** T8.1.02, T8.3.01
@@ -153,12 +162,14 @@ checklist items completed today, focus time; tapping opens Insights › Today.
 look-back days). Stored in `user_settings` (`today` key inside `appearance` or its own namespace).
 **Acceptance criteria:** layout syncs across devices; reset-to-default available.
 **Tests:** widget test for reorder; unit test for settings (de)serialization.
+**Notes:** Customize sheet: reorder (drag handles), show/hide, show-when-empty, header, show completed, swipe actions, overdue look-back and recurring toggle, reset (keeps dismissed hints); saved to the synced `today` namespace via `todayLayoutWriterProvider`.
 
 ### T8.1.13 — Empty states & contextual hints
 **Priority:** P1 · **Size:** S · **Depends on:** T8.1.02
 **Description:** Friendly empty states per block with a primary action (e.g. "Plan your first task"),
 dismissible hints for new features. Illustrations are vector, theme-aware, RTL-safe.
 **Tests:** goldens for empty states.
+**Notes:** Every block has an empty state with a primary action (plan a task, add a habit, open lists, start a quit tracker); dismissible swipe hint stored in `TodayLayout.dismissedHints`. Material icons rather than custom illustrations.
 
 ### T8.1.14 — Global search screen
 **Priority:** P1 · **Size:** M · **Depends on:** [2.3] (FTS index)

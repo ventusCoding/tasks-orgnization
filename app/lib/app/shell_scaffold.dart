@@ -1,14 +1,12 @@
 import 'dart:async';
 
-import 'package:everslot/core/ids/ids.dart';
+import 'package:everslot/app/quick_add_sheet.dart';
 import 'package:everslot/core/preferences/last_tab.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/design_system/design_system.dart';
-import 'package:everslot/features/checklists/presentation/checklist_navigation.dart';
 import 'package:everslot/features/habits/application/habit_day_view.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
-import 'package:everslot/features/habits/presentation/habit_routes.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,46 +73,10 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold> {
     return false;
   }
 
+  /// Long press on **+**: the universal quick add (T8.1.10).
   Future<void> _quickAdd() async {
     unawaited(HapticFeedback.mediumImpact());
-    final l = context.l10n;
-    final choice = await showAppSheet<String>(
-      context,
-      title: l.shellCreate,
-      builder: (ctx) => SafeArea(
-        top: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            for (final (key, icon, label) in [
-              ('task', Icons.event_available_outlined, l.tasksEditorNewTitle),
-              ('list', Icons.checklist, l.listsNewChecklist),
-              ('habit', Icons.add_task, l.habitsNewHabit),
-              ('quit', Icons.smoke_free, l.habitsNewQuit),
-            ])
-              ListTile(
-                key: ValueKey('quick-add-$key'),
-                leading: Icon(icon),
-                title: Text(label),
-                onTap: () => Navigator.pop(ctx, key),
-              ),
-          ],
-        ),
-      ),
-    );
-    if (!mounted || choice == null) return;
-    switch (choice) {
-      case 'task':
-        unawaited(context.push(AppLinks.taskNew()));
-      case 'list':
-        final id = Ids.v7();
-        ref.read(pendingCardProvider.notifier).set(PendingCard(id: id));
-        await openChecklist(context, id);
-      case 'habit':
-        await HabitRoutes.create(context);
-      case 'quit':
-        await HabitRoutes.create(context, kind: 'quit');
-    }
+    await showQuickAdd(context);
   }
 
   Widget? _fab({bool small = false}) {

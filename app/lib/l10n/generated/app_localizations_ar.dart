@@ -9769,6 +9769,41 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvZoomSemantic => 'دلالي';
 
   @override
+  String quickAddAdded(String title) {
+    return 'تمت إضافة «$title»';
+  }
+
+  @override
+  String get quickAddHabit => 'عادة';
+
+  @override
+  String get quickAddItem => 'عنصر قائمة';
+
+  @override
+  String get quickAddList => 'قائمة';
+
+  @override
+  String get quickAddLog => 'تسجيل / رغبة';
+
+  @override
+  String get quickAddMore => 'خيارات أكثر';
+
+  @override
+  String get quickAddPickHabit => 'عادة أو متتبع';
+
+  @override
+  String get quickAddPickList => 'إضافة إلى القائمة';
+
+  @override
+  String get quickAddQuit => 'متتبع إقلاع';
+
+  @override
+  String get quickAddTask => 'مهمة';
+
+  @override
+  String get quickAddTitleHint => 'ماذا؟';
+
+  @override
   String get quitAddUse => '+1';
 
   @override
@@ -16957,6 +16992,247 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get templatesUse => 'استخدام القالب';
+
+  @override
+  String get todayAllDay => 'طوال اليوم';
+
+  @override
+  String get todayAllHabitsDone => 'أنجزت كل العادات 🎉';
+
+  @override
+  String get todayBlockAgenda => 'خطة اليوم';
+
+  @override
+  String get todayBlockChecklists => 'القوائم';
+
+  @override
+  String get todayBlockHabits => 'العادات';
+
+  @override
+  String get todayBlockHidden => 'مخفي';
+
+  @override
+  String get todayBlockInbox => 'الإشعارات';
+
+  @override
+  String get todayBlockNowNext => 'الآن والتالي';
+
+  @override
+  String get todayBlockOverdue => 'متأخرة';
+
+  @override
+  String get todayBlockQuit => 'الإقلاع';
+
+  @override
+  String get todayCustomize => 'تخصيص اليوم';
+
+  @override
+  String todayDoneGroup(int count) {
+    return 'المنجزة ($count)';
+  }
+
+  @override
+  String get todayDueItems => 'مستحقة اليوم';
+
+  @override
+  String get todayEmptyAgenda => 'لا شيء مخطط اليوم';
+
+  @override
+  String get todayEmptyAgendaAction => 'خطط لمهمة';
+
+  @override
+  String get todayEmptyChecklists => 'ثبّت قائمة لتبقى هنا';
+
+  @override
+  String get todayEmptyChecklistsAction => 'فتح القوائم';
+
+  @override
+  String get todayEmptyHabits => 'لا عادات مستحقة اليوم';
+
+  @override
+  String get todayEmptyHabitsAction => 'أضف عادة';
+
+  @override
+  String get todayEmptyOverdue => 'لا شيء متأخر';
+
+  @override
+  String get todayEmptyQuit => 'تتبّع ما تريد الإقلاع عنه';
+
+  @override
+  String get todayEmptyQuitAction => 'ابدأ متتبع إقلاع';
+
+  @override
+  String get todayFollowUps => 'للمتابعة';
+
+  @override
+  String get todayGreetingAfternoon => 'مساء الخير';
+
+  @override
+  String get todayGreetingEvening => 'مساء الخير';
+
+  @override
+  String get todayGreetingMorning => 'صباح الخير';
+
+  @override
+  String todayHabitNextSlot(String time) {
+    return 'التالي في $time';
+  }
+
+  @override
+  String todayHabitStreak(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: 'سلسلة $count أيام', one: 'سلسلة يوم واحد');
+    return '$_temp0';
+  }
+
+  @override
+  String get todayHintGotIt => 'حسنًا';
+
+  @override
+  String get todayHintSwipe => 'اسحب مهمة لتعليمها كمنجزة أو تخطيها — يمكنك تغيير ذلك في التخصيص.';
+
+  @override
+  String todayInboxUnread(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count إشعارات غير مقروءة',
+      one: 'إشعار واحد غير مقروء',
+      zero: 'لا إشعارات غير مقروءة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayIncludeRecurring => 'تضمين المهام المتكررة';
+
+  @override
+  String get todayKeepWhenEmpty => 'إظهار عند الفراغ';
+
+  @override
+  String todayListProgress(int done, int total) {
+    return '$done من $total';
+  }
+
+  @override
+  String get todayLoadError => 'تعذّر تحميل هذا الجزء';
+
+  @override
+  String get todayLookback => 'فترة التأخر (أيام)';
+
+  @override
+  String get todayMarkAllDone => 'تعليم الكل كمنجز';
+
+  @override
+  String get todayNext => 'التالي';
+
+  @override
+  String get todayNothingNext => 'لا شيء آخر مخطط';
+
+  @override
+  String get todayNothingNow => 'لا شيء مجدول الآن';
+
+  @override
+  String get todayNow => 'الآن';
+
+  @override
+  String get todayOpenInbox => 'فتح الصندوق';
+
+  @override
+  String todayOverdueSince(String date) {
+    return '$date';
+  }
+
+  @override
+  String todayOverlapping(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '+$count متداخلة', one: '+1 متداخلة');
+    return '$_temp0';
+  }
+
+  @override
+  String get todayPinned => 'المثبتة';
+
+  @override
+  String todayProgressFocus(String time) {
+    return '$time تركيز';
+  }
+
+  @override
+  String todayProgressHabits(int done, int total) {
+    return '$done/$total عادات';
+  }
+
+  @override
+  String todayProgressItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عناصر منجزة',
+      one: 'عنصر واحد منجز',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String todayProgressTasks(int done, int total) {
+    return '$done/$total مهام';
+  }
+
+  @override
+  String todayQuitNextMilestone(String label) {
+    return 'التالي: $label';
+  }
+
+  @override
+  String todayQuitSaved(String amount) {
+    return 'تم توفير $amount';
+  }
+
+  @override
+  String todayQuitUsedToday(String amount) {
+    return '$amount اليوم';
+  }
+
+  @override
+  String get todayResetLayout => 'إعادة الضبط';
+
+  @override
+  String todayRolledOver(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نُقلت $count مهام إلى اليوم',
+      one: 'نُقلت مهمة واحدة إلى اليوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayShowCompleted => 'إظهار المهام المنجزة';
+
+  @override
+  String get todayShowHeader => 'ترويسة التقدم';
+
+  @override
+  String get todaySkipAll => 'تخطي الكل';
+
+  @override
+  String todayStartsIn(String time) {
+    return 'بعد $time';
+  }
+
+  @override
+  String get todaySwipeEnd => 'السحب نحو البداية';
+
+  @override
+  String get todaySwipeNone => 'لا شيء';
+
+  @override
+  String get todaySwipeStart => 'السحب نحو النهاية';
+
+  @override
+  String todayTimeLeft(String time) {
+    return 'متبقٍ $time';
+  }
 
   @override
   String undoDoneSnack(String action) {

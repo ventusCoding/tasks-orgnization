@@ -161,6 +161,17 @@ class ChecklistService {
     return (await run(checklistId, (tree, ctx, _) => TreeOps.setFields(tree, ctx, itemId, fields)))?.record;
   }
 
+  /// Appends top-level items to [checklistId] (quick add, share into Everslot — T8.1.10 / T8.2.07),
+  /// one operation. Blank lines are ignored.
+  Future<OpRecord?> appendItems(String checklistId, Iterable<String> texts, {String cause = 'user'}) async {
+    final nodes = [
+      for (final t in texts)
+        if (t.trim().isNotEmpty) NodeSpec(text: t.trim()),
+    ];
+    if (nodes.isEmpty) return null;
+    return (await run(checklistId, (tree, ctx, _) => TreeOps.insertNodes(tree, ctx, nodes), cause: cause))?.record;
+  }
+
   /// Text of one row (editing sessions log one `updated` event: pass [logEvent] on the first write).
   /// Mirror rows edit their original's text.
   Future<OpRecord?> setText(String checklistId, String itemId, String text, {required bool logEvent}) async {

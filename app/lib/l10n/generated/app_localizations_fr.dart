@@ -9335,6 +9335,41 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvZoomSemantic => 'Sémantique';
 
   @override
+  String quickAddAdded(String title) {
+    return '« $title » ajouté';
+  }
+
+  @override
+  String get quickAddHabit => 'Habitude';
+
+  @override
+  String get quickAddItem => 'Élément de liste';
+
+  @override
+  String get quickAddList => 'Liste';
+
+  @override
+  String get quickAddLog => 'Pointage / envie';
+
+  @override
+  String get quickAddMore => 'Plus d’options';
+
+  @override
+  String get quickAddPickHabit => 'Habitude ou suivi';
+
+  @override
+  String get quickAddPickList => 'Ajouter à la liste';
+
+  @override
+  String get quickAddQuit => 'Suivi d’arrêt';
+
+  @override
+  String get quickAddTask => 'Tâche';
+
+  @override
+  String get quickAddTitleHint => 'Quoi ?';
+
+  @override
   String get quitAddUse => '+1';
 
   @override
@@ -16353,6 +16388,257 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get templatesUse => 'Utiliser le modèle';
+
+  @override
+  String get todayAllDay => 'Toute la journée';
+
+  @override
+  String get todayAllHabitsDone => 'Toutes les habitudes faites 🎉';
+
+  @override
+  String get todayBlockAgenda => 'Au programme';
+
+  @override
+  String get todayBlockChecklists => 'Listes';
+
+  @override
+  String get todayBlockHabits => 'Habitudes';
+
+  @override
+  String get todayBlockHidden => 'Masqué';
+
+  @override
+  String get todayBlockInbox => 'Notifications';
+
+  @override
+  String get todayBlockNowNext => 'Maintenant & ensuite';
+
+  @override
+  String get todayBlockOverdue => 'En retard';
+
+  @override
+  String get todayBlockQuit => 'Arrêts';
+
+  @override
+  String get todayCustomize => 'Personnaliser Aujourd’hui';
+
+  @override
+  String todayDoneGroup(int count) {
+    return 'Faits ($count)';
+  }
+
+  @override
+  String get todayDueItems => 'À faire aujourd’hui';
+
+  @override
+  String get todayEmptyAgenda => 'Rien de prévu aujourd’hui';
+
+  @override
+  String get todayEmptyAgendaAction => 'Planifier une tâche';
+
+  @override
+  String get todayEmptyChecklists => 'Épinglez une liste pour la garder ici';
+
+  @override
+  String get todayEmptyChecklistsAction => 'Ouvrir les listes';
+
+  @override
+  String get todayEmptyHabits => 'Aucune habitude prévue aujourd’hui';
+
+  @override
+  String get todayEmptyHabitsAction => 'Ajouter une habitude';
+
+  @override
+  String get todayEmptyOverdue => 'Rien en retard';
+
+  @override
+  String get todayEmptyQuit => 'Suivez ce que vous voulez arrêter';
+
+  @override
+  String get todayEmptyQuitAction => 'Commencer un suivi d’arrêt';
+
+  @override
+  String get todayFollowUps => 'À relancer';
+
+  @override
+  String get todayGreetingAfternoon => 'Bon après-midi';
+
+  @override
+  String get todayGreetingEvening => 'Bonsoir';
+
+  @override
+  String get todayGreetingMorning => 'Bonjour';
+
+  @override
+  String todayHabitNextSlot(String time) {
+    return 'Prochain à $time';
+  }
+
+  @override
+  String todayHabitStreak(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Série de $count jours',
+      one: 'Série de 1 jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayHintGotIt => 'Compris';
+
+  @override
+  String get todayHintSwipe => 'Balayez une tâche pour la marquer faite ou la passer — modifiable dans Personnaliser.';
+
+  @override
+  String todayInboxUnread(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count notifications non lues',
+      one: '1 notification non lue',
+      zero: 'Aucune notification non lue',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayIncludeRecurring => 'Inclure les tâches récurrentes';
+
+  @override
+  String get todayKeepWhenEmpty => 'Afficher si vide';
+
+  @override
+  String todayListProgress(int done, int total) {
+    return '$done sur $total';
+  }
+
+  @override
+  String get todayLoadError => 'Impossible de charger cette partie';
+
+  @override
+  String get todayLookback => 'Retard sur (jours)';
+
+  @override
+  String get todayMarkAllDone => 'Tout marquer fait';
+
+  @override
+  String get todayNext => 'Ensuite';
+
+  @override
+  String get todayNothingNext => 'Rien d’autre de prévu';
+
+  @override
+  String get todayNothingNow => 'Rien de prévu pour l’instant';
+
+  @override
+  String get todayNow => 'Maintenant';
+
+  @override
+  String get todayOpenInbox => 'Ouvrir la boîte';
+
+  @override
+  String todayOverdueSince(String date) {
+    return '$date';
+  }
+
+  @override
+  String todayOverlapping(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+$count en parallèle',
+      one: '+1 en parallèle',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayPinned => 'Épinglées';
+
+  @override
+  String todayProgressFocus(String time) {
+    return '$time de concentration';
+  }
+
+  @override
+  String todayProgressHabits(int done, int total) {
+    return '$done/$total habitudes';
+  }
+
+  @override
+  String todayProgressItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments faits',
+      one: '1 élément fait',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String todayProgressTasks(int done, int total) {
+    return '$done/$total tâches';
+  }
+
+  @override
+  String todayQuitNextMilestone(String label) {
+    return 'Prochaine étape : $label';
+  }
+
+  @override
+  String todayQuitSaved(String amount) {
+    return '$amount économisés';
+  }
+
+  @override
+  String todayQuitUsedToday(String amount) {
+    return '$amount aujourd’hui';
+  }
+
+  @override
+  String get todayResetLayout => 'Réinitialiser';
+
+  @override
+  String todayRolledOver(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tâches déplacées à aujourd’hui',
+      one: '1 tâche déplacée à aujourd’hui',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayShowCompleted => 'Afficher les tâches faites';
+
+  @override
+  String get todayShowHeader => 'En-tête de progression';
+
+  @override
+  String get todaySkipAll => 'Tout passer';
+
+  @override
+  String todayStartsIn(String time) {
+    return 'dans $time';
+  }
+
+  @override
+  String get todaySwipeEnd => 'Balayer vers le début';
+
+  @override
+  String get todaySwipeNone => 'Rien';
+
+  @override
+  String get todaySwipeStart => 'Balayer vers la fin';
+
+  @override
+  String todayTimeLeft(String time) {
+    return 'encore $time';
+  }
 
   @override
   String undoDoneSnack(String action) {

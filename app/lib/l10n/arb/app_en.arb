@@ -3421,6 +3421,13 @@
       }
     }
   },
+  "@quickAddAdded": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "@quitBreathCycle": {
     "placeholders": {
       "cycle": {
@@ -5061,6 +5068,134 @@
   "@tasksZoneBadge": {
     "placeholders": {
       "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "@todayDoneGroup": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@todayHabitNextSlot": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@todayHabitStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@todayInboxUnread": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@todayListProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@todayOverdueSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@todayOverlapping": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@todayProgressFocus": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@todayProgressHabits": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@todayProgressItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@todayProgressTasks": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@todayQuitNextMilestone": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "@todayQuitSaved": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@todayQuitUsedToday": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@todayRolledOver": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@todayStartsIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@todayTimeLeft": {
+    "placeholders": {
+      "time": {
         "type": "String"
       }
     }
@@ -7700,6 +7835,17 @@
   "pvZoomFixed": "Fixed slot",
   "pvZoomMode": "Zoom",
   "pvZoomSemantic": "Semantic",
+  "quickAddAdded": "Added “{title}”",
+  "quickAddHabit": "Habit",
+  "quickAddItem": "List item",
+  "quickAddList": "List",
+  "quickAddLog": "Check-in / craving",
+  "quickAddMore": "More options",
+  "quickAddPickHabit": "Habit or tracker",
+  "quickAddPickList": "Add to list",
+  "quickAddQuit": "Quit tracker",
+  "quickAddTask": "Task",
+  "quickAddTitleHint": "What?",
   "quitAddUse": "+1",
   "quitAllClocks": "All clocks",
   "quitAmount": "Amount",
@@ -9753,6 +9899,68 @@
   "templatesMine": "My templates",
   "templatesRename": "Rename",
   "templatesUse": "Use template",
+  "todayAllDay": "All day",
+  "todayAllHabitsDone": "All habits done 🎉",
+  "todayBlockAgenda": "Today's plan",
+  "todayBlockChecklists": "Lists",
+  "todayBlockHabits": "Habits",
+  "todayBlockHidden": "Hidden",
+  "todayBlockInbox": "Notifications",
+  "todayBlockNowNext": "Now & next",
+  "todayBlockOverdue": "Overdue",
+  "todayBlockQuit": "Quit",
+  "todayCustomize": "Customize Today",
+  "todayDoneGroup": "Done ({count})",
+  "todayDueItems": "Due today",
+  "todayEmptyAgenda": "Nothing planned today",
+  "todayEmptyAgendaAction": "Plan a task",
+  "todayEmptyChecklists": "Pin a list to keep it here",
+  "todayEmptyChecklistsAction": "Open lists",
+  "todayEmptyHabits": "No habits due today",
+  "todayEmptyHabitsAction": "Add a habit",
+  "todayEmptyOverdue": "Nothing overdue",
+  "todayEmptyQuit": "Track something you want to quit",
+  "todayEmptyQuitAction": "Start a quit tracker",
+  "todayFollowUps": "Check back on",
+  "todayGreetingAfternoon": "Good afternoon",
+  "todayGreetingEvening": "Good evening",
+  "todayGreetingMorning": "Good morning",
+  "todayHabitNextSlot": "Next at {time}",
+  "todayHabitStreak": "{count, plural, =1{1-day streak} other{{count}-day streak}}",
+  "todayHintGotIt": "Got it",
+  "todayHintSwipe": "Swipe a task to mark it done or skip it — you can change this in Customize.",
+  "todayInboxUnread": "{count, plural, =0{No unread notifications} =1{1 unread notification} other{{count} unread notifications}}",
+  "todayIncludeRecurring": "Include recurring tasks",
+  "todayKeepWhenEmpty": "Show when empty",
+  "todayListProgress": "{done} of {total}",
+  "todayLoadError": "Couldn't load this part",
+  "todayLookback": "Overdue look-back (days)",
+  "todayMarkAllDone": "Mark all done",
+  "todayNext": "Next",
+  "todayNothingNext": "Nothing else planned",
+  "todayNothingNow": "Nothing scheduled right now",
+  "todayNow": "Now",
+  "todayOpenInbox": "Open inbox",
+  "todayOverdueSince": "{date}",
+  "todayOverlapping": "{count, plural, =1{+1 overlapping} other{+{count} overlapping}}",
+  "todayPinned": "Pinned",
+  "todayProgressFocus": "{time} focused",
+  "todayProgressHabits": "{done}/{total} habits",
+  "todayProgressItems": "{count, plural, =1{1 item done} other{{count} items done}}",
+  "todayProgressTasks": "{done}/{total} tasks",
+  "todayQuitNextMilestone": "Next: {label}",
+  "todayQuitSaved": "{amount} saved",
+  "todayQuitUsedToday": "{amount} today",
+  "todayResetLayout": "Reset to default",
+  "todayRolledOver": "{count, plural, =1{1 task moved to today} other{{count} tasks moved to today}}",
+  "todayShowCompleted": "Show completed tasks",
+  "todayShowHeader": "Progress header",
+  "todaySkipAll": "Skip all",
+  "todayStartsIn": "in {time}",
+  "todaySwipeEnd": "Swipe towards the start",
+  "todaySwipeNone": "Nothing",
+  "todaySwipeStart": "Swipe towards the end",
+  "todayTimeLeft": "{time} left",
   "undoDoneSnack": "Undone: {action}",
   "undoNothing": "Nothing to undo",
   "voiceNoteDiscard": "Discard",

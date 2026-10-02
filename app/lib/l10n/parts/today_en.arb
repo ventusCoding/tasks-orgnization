@@ -1,0 +1,210 @@
+{
+  "todayGreetingMorning": "Good morning",
+  "todayGreetingAfternoon": "Good afternoon",
+  "todayGreetingEvening": "Good evening",
+  "todayBlockNowNext": "Now & next",
+  "todayBlockAgenda": "Today's plan",
+  "todayBlockOverdue": "Overdue",
+  "todayBlockHabits": "Habits",
+  "todayBlockQuit": "Quit",
+  "todayBlockChecklists": "Lists",
+  "todayBlockInbox": "Notifications",
+  "todayNow": "Now",
+  "todayNext": "Next",
+  "todayTimeLeft": "{time} left",
+  "@todayTimeLeft": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "todayStartsIn": "in {time}",
+  "@todayStartsIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "todayOverlapping": "{count, plural, =1{+1 overlapping} other{+{count} overlapping}}",
+  "@todayOverlapping": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayNothingNow": "Nothing scheduled right now",
+  "todayNothingNext": "Nothing else planned",
+  "todayDoneGroup": "Done ({count})",
+  "@todayDoneGroup": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayAllDay": "All day",
+  "todayRolledOver": "{count, plural, =1{1 task moved to today} other{{count} tasks moved to today}}",
+  "@todayRolledOver": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayMarkAllDone": "Mark all done",
+  "todaySkipAll": "Skip all",
+  "todayOverdueSince": "{date}",
+  "@todayOverdueSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "todayAllHabitsDone": "All habits done 🎉",
+  "todayHabitNextSlot": "Next at {time}",
+  "@todayHabitNextSlot": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "todayHabitStreak": "{count, plural, =1{1-day streak} other{{count}-day streak}}",
+  "@todayHabitStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayQuitSaved": "{amount} saved",
+  "@todayQuitSaved": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "todayQuitNextMilestone": "Next: {label}",
+  "@todayQuitNextMilestone": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "todayQuitUsedToday": "{amount} today",
+  "@todayQuitUsedToday": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "todayPinned": "Pinned",
+  "todayDueItems": "Due today",
+  "todayFollowUps": "Check back on",
+  "todayListProgress": "{done} of {total}",
+  "@todayListProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "todayInboxUnread": "{count, plural, =0{No unread notifications} =1{1 unread notification} other{{count} unread notifications}}",
+  "@todayInboxUnread": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayOpenInbox": "Open inbox",
+  "todayEmptyAgenda": "Nothing planned today",
+  "todayEmptyAgendaAction": "Plan a task",
+  "todayEmptyHabits": "No habits due today",
+  "todayEmptyHabitsAction": "Add a habit",
+  "todayEmptyChecklists": "Pin a list to keep it here",
+  "todayEmptyChecklistsAction": "Open lists",
+  "todayEmptyQuit": "Track something you want to quit",
+  "todayEmptyQuitAction": "Start a quit tracker",
+  "todayEmptyOverdue": "Nothing overdue",
+  "todayLoadError": "Couldn't load this part",
+  "todayProgressTasks": "{done}/{total} tasks",
+  "@todayProgressTasks": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "todayProgressHabits": "{done}/{total} habits",
+  "@todayProgressHabits": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "todayProgressItems": "{count, plural, =1{1 item done} other{{count} items done}}",
+  "@todayProgressItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayProgressFocus": "{time} focused",
+  "@todayProgressFocus": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "todayCustomize": "Customize Today",
+  "todayShowHeader": "Progress header",
+  "todayShowCompleted": "Show completed tasks",
+  "todaySwipeStart": "Swipe towards the end",
+  "todaySwipeEnd": "Swipe towards the start",
+  "todaySwipeNone": "Nothing",
+  "todayLookback": "Overdue look-back (days)",
+  "todayIncludeRecurring": "Include recurring tasks",
+  "todayKeepWhenEmpty": "Show when empty",
+  "todayResetLayout": "Reset to default",
+  "todayHintSwipe": "Swipe a task to mark it done or skip it — you can change this in Customize.",
+  "todayHintGotIt": "Got it",
+  "todayBlockHidden": "Hidden",
+  "quickAddTask": "Task",
+  "quickAddList": "List",
+  "quickAddItem": "List item",
+  "quickAddHabit": "Habit",
+  "quickAddQuit": "Quit tracker",
+  "quickAddLog": "Check-in / craving",
+  "quickAddTitleHint": "What?",
+  "quickAddMore": "More options",
+  "quickAddPickList": "Add to list",
+  "quickAddPickHabit": "Habit or tracker",
+  "quickAddAdded": "Added “{title}”",
+  "@quickAddAdded": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  }
+}

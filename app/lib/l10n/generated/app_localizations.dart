@@ -15819,6 +15819,72 @@ abstract class AppLocalizations {
   /// **'Semantic'**
   String get pvZoomSemantic;
 
+  /// No description provided for @quickAddAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Added “{title}”'**
+  String quickAddAdded(String title);
+
+  /// No description provided for @quickAddHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit'**
+  String get quickAddHabit;
+
+  /// No description provided for @quickAddItem.
+  ///
+  /// In en, this message translates to:
+  /// **'List item'**
+  String get quickAddItem;
+
+  /// No description provided for @quickAddList.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get quickAddList;
+
+  /// No description provided for @quickAddLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-in / craving'**
+  String get quickAddLog;
+
+  /// No description provided for @quickAddMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get quickAddMore;
+
+  /// No description provided for @quickAddPickHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit or tracker'**
+  String get quickAddPickHabit;
+
+  /// No description provided for @quickAddPickList.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to list'**
+  String get quickAddPickList;
+
+  /// No description provided for @quickAddQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit tracker'**
+  String get quickAddQuit;
+
+  /// No description provided for @quickAddTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get quickAddTask;
+
+  /// No description provided for @quickAddTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What?'**
+  String get quickAddTitleHint;
+
   /// No description provided for @quitAddUse.
   ///
   /// In en, this message translates to:
@@ -28136,6 +28202,378 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use template'**
   String get templatesUse;
+
+  /// No description provided for @todayAllDay.
+  ///
+  /// In en, this message translates to:
+  /// **'All day'**
+  String get todayAllDay;
+
+  /// No description provided for @todayAllHabitsDone.
+  ///
+  /// In en, this message translates to:
+  /// **'All habits done 🎉'**
+  String get todayAllHabitsDone;
+
+  /// No description provided for @todayBlockAgenda.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s plan'**
+  String get todayBlockAgenda;
+
+  /// No description provided for @todayBlockChecklists.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists'**
+  String get todayBlockChecklists;
+
+  /// No description provided for @todayBlockHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits'**
+  String get todayBlockHabits;
+
+  /// No description provided for @todayBlockHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden'**
+  String get todayBlockHidden;
+
+  /// No description provided for @todayBlockInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get todayBlockInbox;
+
+  /// No description provided for @todayBlockNowNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Now & next'**
+  String get todayBlockNowNext;
+
+  /// No description provided for @todayBlockOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get todayBlockOverdue;
+
+  /// No description provided for @todayBlockQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit'**
+  String get todayBlockQuit;
+
+  /// No description provided for @todayCustomize.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize Today'**
+  String get todayCustomize;
+
+  /// No description provided for @todayDoneGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Done ({count})'**
+  String todayDoneGroup(int count);
+
+  /// No description provided for @todayDueItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Due today'**
+  String get todayDueItems;
+
+  /// No description provided for @todayEmptyAgenda.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing planned today'**
+  String get todayEmptyAgenda;
+
+  /// No description provided for @todayEmptyAgendaAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan a task'**
+  String get todayEmptyAgendaAction;
+
+  /// No description provided for @todayEmptyChecklists.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin a list to keep it here'**
+  String get todayEmptyChecklists;
+
+  /// No description provided for @todayEmptyChecklistsAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Open lists'**
+  String get todayEmptyChecklistsAction;
+
+  /// No description provided for @todayEmptyHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'No habits due today'**
+  String get todayEmptyHabits;
+
+  /// No description provided for @todayEmptyHabitsAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a habit'**
+  String get todayEmptyHabitsAction;
+
+  /// No description provided for @todayEmptyOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing overdue'**
+  String get todayEmptyOverdue;
+
+  /// No description provided for @todayEmptyQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Track something you want to quit'**
+  String get todayEmptyQuit;
+
+  /// No description provided for @todayEmptyQuitAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a quit tracker'**
+  String get todayEmptyQuitAction;
+
+  /// No description provided for @todayFollowUps.
+  ///
+  /// In en, this message translates to:
+  /// **'Check back on'**
+  String get todayFollowUps;
+
+  /// No description provided for @todayGreetingAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get todayGreetingAfternoon;
+
+  /// No description provided for @todayGreetingEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get todayGreetingEvening;
+
+  /// No description provided for @todayGreetingMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get todayGreetingMorning;
+
+  /// No description provided for @todayHabitNextSlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Next at {time}'**
+  String todayHabitNextSlot(String time);
+
+  /// No description provided for @todayHabitStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1-day streak} other{{count}-day streak}}'**
+  String todayHabitStreak(int count);
+
+  /// No description provided for @todayHintGotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get todayHintGotIt;
+
+  /// No description provided for @todayHintSwipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe a task to mark it done or skip it — you can change this in Customize.'**
+  String get todayHintSwipe;
+
+  /// No description provided for @todayInboxUnread.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No unread notifications} =1{1 unread notification} other{{count} unread notifications}}'**
+  String todayInboxUnread(int count);
+
+  /// No description provided for @todayIncludeRecurring.
+  ///
+  /// In en, this message translates to:
+  /// **'Include recurring tasks'**
+  String get todayIncludeRecurring;
+
+  /// No description provided for @todayKeepWhenEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Show when empty'**
+  String get todayKeepWhenEmpty;
+
+  /// No description provided for @todayListProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total}'**
+  String todayListProgress(int done, int total);
+
+  /// No description provided for @todayLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load this part'**
+  String get todayLoadError;
+
+  /// No description provided for @todayLookback.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue look-back (days)'**
+  String get todayLookback;
+
+  /// No description provided for @todayMarkAllDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all done'**
+  String get todayMarkAllDone;
+
+  /// No description provided for @todayNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get todayNext;
+
+  /// No description provided for @todayNothingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing else planned'**
+  String get todayNothingNext;
+
+  /// No description provided for @todayNothingNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing scheduled right now'**
+  String get todayNothingNow;
+
+  /// No description provided for @todayNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get todayNow;
+
+  /// No description provided for @todayOpenInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Open inbox'**
+  String get todayOpenInbox;
+
+  /// No description provided for @todayOverdueSince.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}'**
+  String todayOverdueSince(String date);
+
+  /// No description provided for @todayOverlapping.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{+1 overlapping} other{+{count} overlapping}}'**
+  String todayOverlapping(int count);
+
+  /// No description provided for @todayPinned.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned'**
+  String get todayPinned;
+
+  /// No description provided for @todayProgressFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} focused'**
+  String todayProgressFocus(String time);
+
+  /// No description provided for @todayProgressHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'{done}/{total} habits'**
+  String todayProgressHabits(int done, int total);
+
+  /// No description provided for @todayProgressItems.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item done} other{{count} items done}}'**
+  String todayProgressItems(int count);
+
+  /// No description provided for @todayProgressTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'{done}/{total} tasks'**
+  String todayProgressTasks(int done, int total);
+
+  /// No description provided for @todayQuitNextMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {label}'**
+  String todayQuitNextMilestone(String label);
+
+  /// No description provided for @todayQuitSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} saved'**
+  String todayQuitSaved(String amount);
+
+  /// No description provided for @todayQuitUsedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} today'**
+  String todayQuitUsedToday(String amount);
+
+  /// No description provided for @todayResetLayout.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to default'**
+  String get todayResetLayout;
+
+  /// No description provided for @todayRolledOver.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 task moved to today} other{{count} tasks moved to today}}'**
+  String todayRolledOver(int count);
+
+  /// No description provided for @todayShowCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Show completed tasks'**
+  String get todayShowCompleted;
+
+  /// No description provided for @todayShowHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress header'**
+  String get todayShowHeader;
+
+  /// No description provided for @todaySkipAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip all'**
+  String get todaySkipAll;
+
+  /// No description provided for @todayStartsIn.
+  ///
+  /// In en, this message translates to:
+  /// **'in {time}'**
+  String todayStartsIn(String time);
+
+  /// No description provided for @todaySwipeEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe towards the start'**
+  String get todaySwipeEnd;
+
+  /// No description provided for @todaySwipeNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing'**
+  String get todaySwipeNone;
+
+  /// No description provided for @todaySwipeStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe towards the end'**
+  String get todaySwipeStart;
+
+  /// No description provided for @todayTimeLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} left'**
+  String todayTimeLeft(String time);
 
   /// No description provided for @undoDoneSnack.
   ///

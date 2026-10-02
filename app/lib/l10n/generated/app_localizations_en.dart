@@ -9117,6 +9117,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pvZoomSemantic => 'Semantic';
 
   @override
+  String quickAddAdded(String title) {
+    return 'Added “$title”';
+  }
+
+  @override
+  String get quickAddHabit => 'Habit';
+
+  @override
+  String get quickAddItem => 'List item';
+
+  @override
+  String get quickAddList => 'List';
+
+  @override
+  String get quickAddLog => 'Check-in / craving';
+
+  @override
+  String get quickAddMore => 'More options';
+
+  @override
+  String get quickAddPickHabit => 'Habit or tracker';
+
+  @override
+  String get quickAddPickList => 'Add to list';
+
+  @override
+  String get quickAddQuit => 'Quit tracker';
+
+  @override
+  String get quickAddTask => 'Task';
+
+  @override
+  String get quickAddTitleHint => 'What?';
+
+  @override
   String get quitAddUse => '+1';
 
   @override
@@ -16059,6 +16094,247 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get templatesUse => 'Use template';
+
+  @override
+  String get todayAllDay => 'All day';
+
+  @override
+  String get todayAllHabitsDone => 'All habits done 🎉';
+
+  @override
+  String get todayBlockAgenda => 'Today\'s plan';
+
+  @override
+  String get todayBlockChecklists => 'Lists';
+
+  @override
+  String get todayBlockHabits => 'Habits';
+
+  @override
+  String get todayBlockHidden => 'Hidden';
+
+  @override
+  String get todayBlockInbox => 'Notifications';
+
+  @override
+  String get todayBlockNowNext => 'Now & next';
+
+  @override
+  String get todayBlockOverdue => 'Overdue';
+
+  @override
+  String get todayBlockQuit => 'Quit';
+
+  @override
+  String get todayCustomize => 'Customize Today';
+
+  @override
+  String todayDoneGroup(int count) {
+    return 'Done ($count)';
+  }
+
+  @override
+  String get todayDueItems => 'Due today';
+
+  @override
+  String get todayEmptyAgenda => 'Nothing planned today';
+
+  @override
+  String get todayEmptyAgendaAction => 'Plan a task';
+
+  @override
+  String get todayEmptyChecklists => 'Pin a list to keep it here';
+
+  @override
+  String get todayEmptyChecklistsAction => 'Open lists';
+
+  @override
+  String get todayEmptyHabits => 'No habits due today';
+
+  @override
+  String get todayEmptyHabitsAction => 'Add a habit';
+
+  @override
+  String get todayEmptyOverdue => 'Nothing overdue';
+
+  @override
+  String get todayEmptyQuit => 'Track something you want to quit';
+
+  @override
+  String get todayEmptyQuitAction => 'Start a quit tracker';
+
+  @override
+  String get todayFollowUps => 'Check back on';
+
+  @override
+  String get todayGreetingAfternoon => 'Good afternoon';
+
+  @override
+  String get todayGreetingEvening => 'Good evening';
+
+  @override
+  String get todayGreetingMorning => 'Good morning';
+
+  @override
+  String todayHabitNextSlot(String time) {
+    return 'Next at $time';
+  }
+
+  @override
+  String todayHabitStreak(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count-day streak', one: '1-day streak');
+    return '$_temp0';
+  }
+
+  @override
+  String get todayHintGotIt => 'Got it';
+
+  @override
+  String get todayHintSwipe => 'Swipe a task to mark it done or skip it — you can change this in Customize.';
+
+  @override
+  String todayInboxUnread(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unread notifications',
+      one: '1 unread notification',
+      zero: 'No unread notifications',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayIncludeRecurring => 'Include recurring tasks';
+
+  @override
+  String get todayKeepWhenEmpty => 'Show when empty';
+
+  @override
+  String todayListProgress(int done, int total) {
+    return '$done of $total';
+  }
+
+  @override
+  String get todayLoadError => 'Couldn\'t load this part';
+
+  @override
+  String get todayLookback => 'Overdue look-back (days)';
+
+  @override
+  String get todayMarkAllDone => 'Mark all done';
+
+  @override
+  String get todayNext => 'Next';
+
+  @override
+  String get todayNothingNext => 'Nothing else planned';
+
+  @override
+  String get todayNothingNow => 'Nothing scheduled right now';
+
+  @override
+  String get todayNow => 'Now';
+
+  @override
+  String get todayOpenInbox => 'Open inbox';
+
+  @override
+  String todayOverdueSince(String date) {
+    return '$date';
+  }
+
+  @override
+  String todayOverlapping(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+$count overlapping',
+      one: '+1 overlapping',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayPinned => 'Pinned';
+
+  @override
+  String todayProgressFocus(String time) {
+    return '$time focused';
+  }
+
+  @override
+  String todayProgressHabits(int done, int total) {
+    return '$done/$total habits';
+  }
+
+  @override
+  String todayProgressItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count items done', one: '1 item done');
+    return '$_temp0';
+  }
+
+  @override
+  String todayProgressTasks(int done, int total) {
+    return '$done/$total tasks';
+  }
+
+  @override
+  String todayQuitNextMilestone(String label) {
+    return 'Next: $label';
+  }
+
+  @override
+  String todayQuitSaved(String amount) {
+    return '$amount saved';
+  }
+
+  @override
+  String todayQuitUsedToday(String amount) {
+    return '$amount today';
+  }
+
+  @override
+  String get todayResetLayout => 'Reset to default';
+
+  @override
+  String todayRolledOver(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tasks moved to today',
+      one: '1 task moved to today',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayShowCompleted => 'Show completed tasks';
+
+  @override
+  String get todayShowHeader => 'Progress header';
+
+  @override
+  String get todaySkipAll => 'Skip all';
+
+  @override
+  String todayStartsIn(String time) {
+    return 'in $time';
+  }
+
+  @override
+  String get todaySwipeEnd => 'Swipe towards the start';
+
+  @override
+  String get todaySwipeNone => 'Nothing';
+
+  @override
+  String get todaySwipeStart => 'Swipe towards the end';
+
+  @override
+  String todayTimeLeft(String time) {
+    return '$time left';
+  }
 
   @override
   String undoDoneSnack(String action) {
