@@ -88,52 +88,50 @@ class _CommandPaletteState extends ConsumerState<CommandPalette> {
     final ordered = <PaletteCommand>[
       for (final g in {for (final c in matches) c.group}) ...matches.where((c) => c.group == g),
     ];
-    return Padding(
-      padding: EdgeInsetsDirectional.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+    // showAppSheet already lifts the sheet above the keyboard.
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
+          child: TextField(
+            key: const ValueKey('palette-field'),
+            controller: _query,
+            autofocus: true,
+            textInputAction: TextInputAction.go,
+            decoration: InputDecoration(prefixIcon: const Icon(Icons.keyboard_command_key), hintText: l.paletteHint),
+            onChanged: (_) => setState(() {}),
+            onSubmitted: (_) {
+              if (ordered.isNotEmpty) unawaited(_run(ordered.first));
+            },
+          ),
+        ),
+        const SizedBox(height: Space.sm),
+        if (ordered.isEmpty)
           Padding(
-            padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.lg),
-            child: TextField(
-              key: const ValueKey('palette-field'),
-              controller: _query,
-              autofocus: true,
-              textInputAction: TextInputAction.go,
-              decoration: InputDecoration(prefixIcon: const Icon(Icons.keyboard_command_key), hintText: l.paletteHint),
-              onChanged: (_) => setState(() {}),
-              onSubmitted: (_) {
-                if (ordered.isNotEmpty) unawaited(_run(ordered.first));
-              },
+            padding: const EdgeInsetsDirectional.all(Space.lg),
+            child: Text(l.paletteNoMatch, textAlign: TextAlign.center),
+          )
+        else
+          Flexible(
+            child: ListView(
+              key: const ValueKey('palette-list'),
+              shrinkWrap: true,
+              children: [
+                for (final (i, c) in ordered.indexed) ...[
+                  if (i == 0 || ordered[i - 1].group != c.group) SectionHeader(group(c.group)),
+                  ListTile(
+                    key: ValueKey('palette-cmd-${c.id}'),
+                    leading: Icon(c.icon),
+                    title: Text(c.title),
+                    onTap: () => unawaited(_run(c)),
+                  ),
+                ],
+              ],
             ),
           ),
-          const SizedBox(height: Space.sm),
-          if (ordered.isEmpty)
-            Padding(
-              padding: const EdgeInsetsDirectional.all(Space.lg),
-              child: Text(l.paletteNoMatch, textAlign: TextAlign.center),
-            )
-          else
-            Flexible(
-              child: ListView(
-                key: const ValueKey('palette-list'),
-                shrinkWrap: true,
-                children: [
-                  for (final (i, c) in ordered.indexed) ...[
-                    if (i == 0 || ordered[i - 1].group != c.group) SectionHeader(group(c.group)),
-                    ListTile(
-                      key: ValueKey('palette-cmd-${c.id}'),
-                      leading: Icon(c.icon),
-                      title: Text(c.title),
-                      onTap: () => unawaited(_run(c)),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-        ],
-      ),
+      ],
     );
   }
 }

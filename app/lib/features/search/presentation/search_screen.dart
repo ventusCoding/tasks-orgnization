@@ -187,7 +187,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               key: const ValueKey('search-palette'),
               tooltip: l.paletteTitle,
               icon: const Icon(Icons.keyboard_command_key),
-              onPressed: () => unawaited(palette(context, '')),
+              onPressed: () => unawaited(palette(context, _controller.text.trim())),
             ),
           IconButton(
             key: const ValueKey('search-syntax-help'),

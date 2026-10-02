@@ -201,12 +201,8 @@ class _QuickAddSheetState extends ConsumerState<QuickAddSheet> {
       QuickAddType.log => l.quickAddLog,
     };
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(
-        Space.lg,
-        0,
-        Space.lg,
-        Space.lg + MediaQuery.viewInsetsOf(context).bottom,
-      ),
+      // showAppSheet already lifts the sheet above the keyboard.
+      padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.lg),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
