@@ -101,6 +101,7 @@ iOS simulator run documented for local use.
 **Acceptance criteria:** smoke flows per section pass: create task in week table → reminder fires → tap
 opens occurrence; nested checklist create/indent/status; habit check-in; quit relapse.
 **Tests:** the smoke suite.
+**Notes:** Partial (still open): patrol 4.10.0 + Android runner/orchestrator, `patrol:` config, `patrol_test/support/e2e.dart` (boot in local-only mode with the provider container exposed, skip setup, grant notifications, poll the shade), the `android-e2e` CI job and the guide (§8, incl. iOS steps). The notification flow (T7.2.22) passes; checklist / habit / quit smoke flows and sign-in with a seeded cloud user are still to write.
 
 ### T9.1.08 — Performance test suite & budgets in CI
 **Priority:** P1 · **Size:** L · **Depends on:** T9.1.07, [3.4], [3.5], [4.2], [6.1]

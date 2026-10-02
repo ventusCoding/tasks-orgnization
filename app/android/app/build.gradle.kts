@@ -42,6 +42,14 @@ android {
         // App Links host (T8.2.01, AndroidManifest.xml). Replace with the privacy-site domain that
         // serves .well-known/assetlinks.json (docs/guide.md › App links).
         manifestPlaceholders["appLinksHost"] = "YOUR_SITE_DOMAIN"
+        // Patrol E2E (T9.1.07): `patrol test` runs patrol_test/ through this runner, each test in a
+        // fresh app process with cleared data.
+        testInstrumentationRunner = "pl.leancode.patrol.PatrolJUnitRunner"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
+    }
+
+    testOptions {
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
     }
 
     buildFeatures {
@@ -96,4 +104,5 @@ flutter {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+    androidTestUtil("androidx.test:orchestrator:1.5.1")
 }

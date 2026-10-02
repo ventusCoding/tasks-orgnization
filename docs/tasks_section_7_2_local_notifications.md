@@ -59,7 +59,7 @@ per-section trigger semantics ([7.5]); Live Activities / ongoing timer notificat
 - [x] T7.2.19 — Grouping & threading
 - [x] T7.2.20 — Delivered-notification cleanup & expiry
 - [x] T7.2.21 — Notification diagnostics screen
-- [ ] T7.2.22 — End-to-end notification tests (patrol)
+- [x] T7.2.22 — End-to-end notification tests (patrol)
 - [ ] T7.2.23 — Escalation steps
 - [ ] T7.2.24 — Alarm profile (AlarmKit / alarm clock / full-screen)
 - [ ] T7.2.25 — Alarm dismissal missions
@@ -386,7 +386,7 @@ create a task with "1 min before" + "at start", lock the device, verify both not
 from the notification, assert the occurrence is done; cold start from tap; background action with the app
 killed; time-zone change → replan.
 **Acceptance criteria:** suite green in CI (Android) and documented for iOS.
-**Notes:** Not started: needs the [9.1] patrol harness (`patrol` isn't a dependency yet) and an emulator/simulator run.
+**Notes:** `app/patrol_test/notifications_test.dart` on the T9.1.07 harness, green on an API 34 emulator (2/2, ~6 min): grants the OS permission, seeds a task with *1 min before* + *at start* (Custom mode, through the application APIs), backgrounds the app, sees both deliveries in the shade (sightings accumulate — reminders expire at their anchor by design), presses *Done* from the shade and asserts the occurrence is done; a second test taps a reminder and lands on the occurrence. Cold start from a killed app and the time-zone-change replan aren't driven on the device (the background action isolate and zone replans are covered by unit tests); CI runs the suite in the `android-e2e` job; iOS steps are in docs/guide.md §8.
 
 ### T7.2.23 — Escalation steps
 **Priority:** P2 · **Size:** M · **Depends on:** T7.2.18
