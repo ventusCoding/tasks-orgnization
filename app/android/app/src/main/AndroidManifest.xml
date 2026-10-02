@@ -69,6 +69,23 @@
                 <data android:pathPrefix="/search" />
                 <data android:pathPrefix="/settings" />
             </intent-filter>
+            <!-- Share into Everslot (T8.2.07): text, links, images, videos and files. -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/*" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="video/*" />
+                <data android:mimeType="application/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="video/*" />
+                <data android:mimeType="application/*" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
             <!-- app_links + DeepLinkParser handle every link (Flutter's own deep linking would
                  push everslot://task/<id> as the wrong route). -->
             <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />

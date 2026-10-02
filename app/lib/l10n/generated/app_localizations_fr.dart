@@ -4997,6 +4997,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get integrationsActionFailed => 'Cette action n\'a pas pu être effectuée.';
 
   @override
+  String integrationsCravingLogged(String habit) {
+    return 'Envie notée : $habit';
+  }
+
+  @override
   String integrationsHabitLogged(String habit) {
     return 'Enregistré : $habit';
   }
@@ -11549,6 +11554,52 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsWeekStart => 'La semaine commence le';
 
   @override
+  String get shareAsTask => 'Tâche';
+
+  @override
+  String get shareAttach => 'Joindre';
+
+  @override
+  String shareFilesTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count fichiers', one: '1 fichier');
+    return '$_temp0';
+  }
+
+  @override
+  String get shareFindItem => 'Chercher une tâche ou un élément';
+
+  @override
+  String shareItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments seront ajoutés',
+      one: '1 élément sera ajouté',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shareNewList(String title) {
+    return 'Nouvelle liste « $title »';
+  }
+
+  @override
+  String get shareSaved => 'Enregistré dans Everslot';
+
+  @override
+  String get shareTitle => 'Enregistrer dans Everslot';
+
+  @override
+  String get shareToList => 'Liste';
+
+  @override
+  String get shareTopLevel => 'Premier niveau';
+
+  @override
+  String get shareUnder => 'Sous';
+
+  @override
   String get shellCreate => 'Créer';
 
   @override
@@ -11559,6 +11610,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get shellQuickAdd => 'Ajout rapide';
+
+  @override
+  String get shortcutLogCraving => 'Noter une envie';
+
+  @override
+  String get shortcutLogHabit => 'Valider une habitude';
+
+  @override
+  String get shortcutNewTask => 'Nouvelle tâche';
+
+  @override
+  String get shortcutToday => 'Aujourd’hui';
 
   @override
   String get smartBlocked => 'Bloqué';

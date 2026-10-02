@@ -8,6 +8,7 @@ import 'package:everslot/features/settings/presentation/widgets/sync_indicator.d
 import 'package:everslot/features/today/application/today_overview_provider.dart';
 import 'package:everslot/features/today/domain/today_layout.dart';
 import 'package:everslot/features/today/domain/today_overview.dart';
+import 'package:everslot/features/today/domain/today_progress.dart';
 import 'package:everslot/features/today/presentation/today_blocks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -54,7 +55,7 @@ class TodayScreen extends ConsumerWidget {
           key: const ValueKey('today-list'),
           padding: const EdgeInsetsDirectional.only(bottom: Space.xxxl),
           children: [
-            if (layout.showHeader) const TodayHeader(),
+            if (layout.showHeader) TodayHeader(overview: overview),
             if (!layout.hintDismissed('swipe') && (overview.agenda?.isNotEmpty ?? false)) const _SwipeHint(),
             if (!wide)
               ...blocks
@@ -102,14 +103,17 @@ class TodayScreen extends ConsumerWidget {
 
 /// Day progress header (T8.1.11): greeting, date and today's numbers; opens Insights.
 class TodayHeader extends ConsumerWidget {
-  const TodayHeader({super.key});
+  const TodayHeader({required this.overview, super.key});
+
+  /// The screen's overview: re-watching `todayOverviewProvider` here could refresh it in the
+  /// middle of the screen's build and mark the screen dirty during build.
+  final TodayOverview overview;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     final fmt = todayFormat(context, ref);
-    final overview = ref.watch(todayOverviewProvider);
-    final p = ref.watch(todayProgressProvider);
+    final p = TodayProgress.of(overview, itemsCompleted: ref.watch(todayCompletedItemsProvider).value ?? 0);
     final hour = ref
         .watch(zoneResolverProvider)
         .toLocal(ref.watch(clockProvider).nowUtc(), ref.watch(deviceZoneProvider))

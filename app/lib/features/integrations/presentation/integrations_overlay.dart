@@ -16,6 +16,7 @@ String integrationNoticeText(AppLocalizations l, IntegrationNotice notice, Strin
   IntegrationNotice.habitLogged => l.integrationsHabitLogged(detail ?? ''),
   IntegrationNotice.habitNotFound => l.integrationsHabitNotFound(detail ?? ''),
   IntegrationNotice.nothingNext => l.integrationsNothingNext,
+  IntegrationNotice.cravingLogged => l.integrationsCravingLogged(detail ?? ''),
 };
 
 /// Performs the UI side of integrations (navigation, notices, share/ICS sheets) for the whole app.

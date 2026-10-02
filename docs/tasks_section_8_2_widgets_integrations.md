@@ -23,8 +23,8 @@ overlay, Health integrations, Live Activities / ongoing timer notification, Siri
 - [x] T8.2.03 — Widget: Today agenda
 - [x] T8.2.04 — Widget: Habits check-in (interactive)
 - [x] T8.2.05 — Widget: Quit counter
-- [ ] T8.2.06 — App shortcuts (quick actions)
-- [ ] T8.2.07 — Share into Everslot
+- [x] T8.2.06 — App shortcuts (quick actions)
+- [x] T8.2.07 — Share into Everslot
 - [x] T8.2.08 — Widget: Checklist (interactive)
 - [x] T8.2.09 — Lock-screen / StandBy accessory widgets
 - [ ] T8.2.10 — Running timer on lock screen (Live Activity / ongoing notification)
@@ -101,6 +101,7 @@ within 3 s.
 **Description:** Long-press app icon shortcuts: *New task*, *Log habit*, *Log craving*, *Today*.
 **Implementation notes:** `quick_actions`; localized titles; route through deep links.
 **Tests:** unit test mapping shortcut type → deep link.
+**Notes:** `AppShortcut` (new_task, log_habit, log_craving, today) → external links through `ExternalLinksService.handle`, localized titles that follow the app language. `everslot://do/new-task` opens the universal quick add (`QuickAddUiEvent`, registered by the app layer); `do/craving` logs a craving when exactly one quit tracker exists, else opens Habits / the quit editor. Verified registered on the Android emulator.
 
 ### T8.2.07 — Share into Everslot
 **Priority:** P1 · **Size:** M · **Depends on:** T8.2.01, [2.2], [4.1]
@@ -110,6 +111,7 @@ within 3 s.
 multi-line text can become multiple items (each line an item; indentation → nesting, reuse [4.5] parser).
 **Acceptance criteria:** sharing 5 photos creates one item with 5 attachments queued for upload offline.
 **Tests:** unit tests for text-to-items conversion; manual QA on both platforms.
+**Notes:** `receive_sharing_intent` 1.9 (needs compileSdk 37: bumped, targetSdk stays 36). Android: SEND / SEND_MULTIPLE filters. iOS: own `EverslotShare` extension writing the plugin's App Group contract (no plugin linkage in the extension); builds with Xcode 16.4, device QA pending (Xcode 26 for the app). Sheet: Task (first line = title, rest = notes), List (existing list + parent item, or a *new list* from the text — default for multi-line text), Attach (search tasks/items). Text → items via the [4.5] import parser. Unreadable files are rejected, not fatal. Verified on the Android emulator (text → new list, image → task).
 
 ### T8.2.08 — Widget: Checklist (interactive)
 **Priority:** P2 · **Size:** M · **Depends on:** T8.2.02, [4.3]

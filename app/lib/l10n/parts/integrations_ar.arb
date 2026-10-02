@@ -30,5 +30,21 @@
   "widgetHowToAndroid": "المس الشاشة الرئيسية مطولًا، واختر الأدوات ثم Everslot.",
   "widgetRefresh": "تحديث الأدوات الآن",
   "widgetRefreshed": "تم تحديث الأدوات",
-  "widgetNoList": "ثبّت قائمة في Everslot لتظهر هنا"
+  "widgetNoList": "ثبّت قائمة في Everslot لتظهر هنا",
+  "shortcutNewTask": "مهمة جديدة",
+  "shortcutLogHabit": "تسجيل عادة",
+  "shortcutLogCraving": "تسجيل رغبة",
+  "shortcutToday": "اليوم",
+  "integrationsCravingLogged": "تم تسجيل الرغبة: {habit}",
+  "shareTitle": "حفظ في Everslot",
+  "shareAsTask": "مهمة",
+  "shareToList": "قائمة",
+  "shareAttach": "إرفاق",
+  "shareUnder": "تحت",
+  "shareTopLevel": "المستوى الأعلى",
+  "shareFindItem": "ابحث عن مهمة أو عنصر",
+  "shareSaved": "تم الحفظ في Everslot",
+  "shareFilesTitle": "{count, plural, =0{لا ملفات} =1{ملف واحد} =2{ملفان} few{{count} ملفات} many{{count} ملفًا} other{{count} ملف}}",
+  "shareItemCount": "{count, plural, =0{لن يُضاف شيء} =1{سيُضاف عنصر واحد} =2{سيُضاف عنصران} few{سيُضاف {count} عناصر} many{سيُضاف {count} عنصرًا} other{سيُضاف {count} عنصر}}",
+  "shareNewList": "قائمة جديدة «{title}»"
 }

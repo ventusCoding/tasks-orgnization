@@ -29,12 +29,21 @@ enum QuickAddType { task, list, item, habit, quit, log }
 
 /// Context a host passes so the sheet starts with smart defaults (a planner slot, the open list…).
 class QuickAddContext {
-  const QuickAddContext({this.type = QuickAddType.task, this.start, this.durationMinutes, this.checklistId});
+  const QuickAddContext({
+    this.type = QuickAddType.task,
+    this.start,
+    this.durationMinutes,
+    this.checklistId,
+    this.title,
+  });
 
   final QuickAddType type;
   final LocalDateTime? start;
   final int? durationMinutes;
   final String? checklistId;
+
+  /// Pre-filled title (shared text, voice command).
+  final String? title;
 }
 
 /// The universal quick add (T8.1.10): minimal fields per type, *Add & new* keeps the keyboard up
@@ -57,7 +66,7 @@ class QuickAddSheet extends ConsumerStatefulWidget {
 
 class _QuickAddSheetState extends ConsumerState<QuickAddSheet> {
   late QuickAddType _type = widget.initial.type;
-  final _title = QuickParseController();
+  late final _title = QuickParseController()..text = widget.initial.title ?? '';
   final _focus = FocusNode();
   late LocalDateTime _start = widget.initial.start ?? _defaultStart();
   late int _duration = widget.initial.durationMinutes ?? ref.read(plannerSettingsProvider).defaultTaskDurationMinutes;

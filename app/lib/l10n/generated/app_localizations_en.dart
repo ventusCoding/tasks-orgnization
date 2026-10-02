@@ -4946,6 +4946,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get integrationsActionFailed => 'That action couldn\'t be completed.';
 
   @override
+  String integrationsCravingLogged(String habit) {
+    return 'Craving logged: $habit';
+  }
+
+  @override
   String integrationsHabitLogged(String habit) {
     return 'Logged: $habit';
   }
@@ -11306,6 +11311,52 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsWeekStart => 'Week starts on';
 
   @override
+  String get shareAsTask => 'Task';
+
+  @override
+  String get shareAttach => 'Attach';
+
+  @override
+  String shareFilesTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count files', one: '1 file');
+    return '$_temp0';
+  }
+
+  @override
+  String get shareFindItem => 'Find a task or item';
+
+  @override
+  String shareItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items will be added',
+      one: '1 item will be added',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shareNewList(String title) {
+    return 'New list “$title”';
+  }
+
+  @override
+  String get shareSaved => 'Saved to Everslot';
+
+  @override
+  String get shareTitle => 'Save to Everslot';
+
+  @override
+  String get shareToList => 'List';
+
+  @override
+  String get shareTopLevel => 'Top level';
+
+  @override
+  String get shareUnder => 'Under';
+
+  @override
   String get shellCreate => 'Create';
 
   @override
@@ -11316,6 +11367,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shellQuickAdd => 'Quick add';
+
+  @override
+  String get shortcutLogCraving => 'Log craving';
+
+  @override
+  String get shortcutLogHabit => 'Log habit';
+
+  @override
+  String get shortcutNewTask => 'New task';
+
+  @override
+  String get shortcutToday => 'Today';
 
   @override
   String get smartBlocked => 'Blocked';

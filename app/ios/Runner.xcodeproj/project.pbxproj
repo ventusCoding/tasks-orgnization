@@ -17,8 +17,10 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		B0E5B9669F4E10B124DB1678 /* EverslotShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7766EBB6A26FC23F28432640 /* EverslotShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B30C310CF4693850E6C93CE5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 103DBBD72FA1B44FA468039C /* SwiftUI.framework */; };
 		BB8578B41305C18A0DE160F5 /* EverslotWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9A25D4AA2A4BE183E2DBA123 /* EverslotWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BB85E2D836596AC50C5E078A /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B66050A9C711A92E256407 /* ShareViewController.swift */; };
 		D9E5094AFB014E54DF28F559 /* Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA3EAACB320BCA396B5F9D /* Widgets.swift */; };
 		EBB95BD2ACD0248A31C7490F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF4F3B836C671BA406D36DC4 /* WidgetKit.framework */; };
 		FA85E31F699B9F765204C34D /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2958B7959E1865C7080A9E37 /* Snapshot.swift */; };
@@ -39,6 +41,13 @@
 			remoteGlobalIDString = 3451D03C9E165A2EA8F12DFD;
 			remoteInfo = EverslotWidgets;
 		};
+		7CC0189D1D2206904F830FDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4224E22FB87721F62B1A907C;
+			remoteInfo = EverslotShare;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,6 +58,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				BB8578B41305C18A0DE160F5 /* EverslotWidgets.appex in Embed Foundation Extensions */,
+				B0E5B9669F4E10B124DB1678 /* EverslotShare.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,9 +85,11 @@
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		528D46124418E7F05469A48F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5CB6A6A2332864E5C4F66ACA /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F63CF7102B64F1F2FD9E2D9 /* Intents.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Intents.swift; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7766EBB6A26FC23F28432640 /* EverslotShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EverslotShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		7884E8672EC3CC0400C636F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		78E0A7A72DC9AD7400C4905E /* FlutterGeneratedPluginSwiftPackage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FlutterGeneratedPluginSwiftPackage; path = Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
@@ -91,6 +103,8 @@
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A25D4AA2A4BE183E2DBA123 /* EverslotWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EverslotWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2A3EB0DE30E70760C122C8A /* EverslotWidgets.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = EverslotWidgets.entitlements; sourceTree = "<group>"; };
+		C0A7EC948030F883314FC3D0 /* EverslotShare.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = EverslotShare.entitlements; sourceTree = "<group>"; };
+		F0B66050A9C711A92E256407 /* ShareViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		F9AC95F4855E7D208435FF49 /* Runner.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		FF4F3B836C671BA406D36DC4 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -110,6 +124,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				78A318202AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BB8AF474B1AF7B503BB376B9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,6 +187,7 @@
 				331C8082294A63A400263BE5 /* RunnerTests */,
 				F857F21DABA7FB41D57D6556 /* Frameworks */,
 				0ABB0B4DA12F5B5F13F22B55 /* EverslotWidgets */,
+				F22387502DBE2B7B929E205F /* EverslotShare */,
 			);
 			sourceTree = "<group>";
 		};
@@ -175,6 +197,7 @@
 				97C146EE1CF9000F007C117D /* Runner.app */,
 				331C8081294A63A400263BE5 /* RunnerTests.xctest */,
 				9A25D4AA2A4BE183E2DBA123 /* EverslotWidgets.appex */,
+				7766EBB6A26FC23F28432640 /* EverslotShare.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -194,6 +217,17 @@
 				F9AC95F4855E7D208435FF49 /* Runner.entitlements */,
 			);
 			path = Runner;
+			sourceTree = "<group>";
+		};
+		F22387502DBE2B7B929E205F /* EverslotShare */ = {
+			isa = PBXGroup;
+			children = (
+				F0B66050A9C711A92E256407 /* ShareViewController.swift */,
+				5CB6A6A2332864E5C4F66ACA /* Info.plist */,
+				C0A7EC948030F883314FC3D0 /* EverslotShare.entitlements */,
+			);
+			name = EverslotShare;
+			path = EverslotShare;
 			sourceTree = "<group>";
 		};
 		F857F21DABA7FB41D57D6556 /* Frameworks */ = {
@@ -243,6 +277,23 @@
 			productReference = 9A25D4AA2A4BE183E2DBA123 /* EverslotWidgets.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		4224E22FB87721F62B1A907C /* EverslotShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8BEEE8D157EEF3B3879CD229 /* Build configuration list for PBXNativeTarget "EverslotShare" */;
+			buildPhases = (
+				02EC486EC6F050668B9ED46A /* Sources */,
+				BB8AF474B1AF7B503BB376B9 /* Frameworks */,
+				C83294F9EFEDC90BB9934B5C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EverslotShare;
+			productName = EverslotShare;
+			productReference = 7766EBB6A26FC23F28432640 /* EverslotShare.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		97C146ED1CF9000F007C117D /* Runner */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
@@ -259,6 +310,7 @@
 			);
 			dependencies = (
 				9A382DC1A7DE74CA26BF1C9A /* PBXTargetDependency */,
+				4F0CA126D33148FC631341B9 /* PBXTargetDependency */,
 			);
 			name = Runner;
 			packageProductDependencies = (
@@ -307,6 +359,7 @@
 				97C146ED1CF9000F007C117D /* Runner */,
 				331C8080294A63A400263BE5 /* RunnerTests */,
 				3451D03C9E165A2EA8F12DFD /* EverslotWidgets */,
+				4224E22FB87721F62B1A907C /* EverslotShare */,
 			);
 		};
 /* End PBXProject section */
@@ -334,6 +387,13 @@
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C83294F9EFEDC90BB9934B5C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +434,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		02EC486EC6F050668B9ED46A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB85E2D836596AC50C5E078A /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		331C807D294A63A400263BE5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -409,6 +477,12 @@
 			isa = PBXTargetDependency;
 			target = 97C146ED1CF9000F007C117D /* Runner */;
 			targetProxy = 331C8085294A63A400263BE5 /* PBXContainerItemProxy */;
+		};
+		4F0CA126D33148FC631341B9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = EverslotShare;
+			target = 4224E22FB87721F62B1A907C /* EverslotShare */;
+			targetProxy = 7CC0189D1D2206904F830FDA /* PBXContainerItemProxy */;
 		};
 		9A382DC1A7DE74CA26BF1C9A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -740,6 +814,31 @@
 			};
 			name = "Debug-prod";
 		};
+		51116977C8155858C3E4CD28 /* Profile-prod */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = EverslotShare/EverslotShare.entitlements;
+				EVERSLOT_APP_GROUP = group.app.everslot;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = EverslotShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.everslot.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-prod";
+		};
 		551ACB0BB7CD1AC03BC5AE3D /* Profile-dev */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
@@ -779,6 +878,56 @@
 			};
 			name = "Release-dev";
 		};
+		6AEAA8BD665A6CC48387777E /* Release-dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = EverslotShare/EverslotShare.entitlements;
+				EVERSLOT_APP_GROUP = group.app.everslot.dev;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = EverslotShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.everslot.dev.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-dev";
+		};
+		6C4A0470A71801AEF3C41C17 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = EverslotShare/EverslotShare.entitlements;
+				EVERSLOT_APP_GROUP = group.app.everslot;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = EverslotShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.everslot.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Profile;
+		};
 		6E757874725F39B0EFAE1684 /* Debug-dev */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
@@ -803,6 +952,31 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Debug-dev";
+		};
+		6F5FAF7D010E4983B1574053 /* Release-prod */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = EverslotShare/EverslotShare.entitlements;
+				EVERSLOT_APP_GROUP = group.app.everslot;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = EverslotShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.everslot.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-prod";
 		};
 		70AAFA0BD2F408E72E14164E /* Release-dev */ = {
 			isa = XCBuildConfiguration;
@@ -944,6 +1118,30 @@
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Release-prod";
+		};
+		83D49E02587B2F8189B02426 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = EverslotShare/EverslotShare.entitlements;
+				EVERSLOT_APP_GROUP = group.app.everslot;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = EverslotShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.everslot.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
 		};
 		83D5AEFA25C9B57C6DA2323D /* Profile */ = {
 			isa = XCBuildConfiguration;
@@ -1180,6 +1378,31 @@
 			};
 			name = "Release-dev";
 		};
+		B24743F12EC3E69D774D1E89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = EverslotShare/EverslotShare.entitlements;
+				EVERSLOT_APP_GROUP = group.app.everslot;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = EverslotShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.everslot.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		B40CA1D4BE1220A17C3CEA85 /* Debug-prod */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
@@ -1204,6 +1427,54 @@
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Debug-prod";
+		};
+		B6677EF6691A0CBF91E6B357 /* Debug-prod */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = EverslotShare/EverslotShare.entitlements;
+				EVERSLOT_APP_GROUP = group.app.everslot;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = EverslotShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.everslot.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-prod";
+		};
+		BFF7F5E08D50F4B540C9B100 /* Debug-dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = EverslotShare/EverslotShare.entitlements;
+				EVERSLOT_APP_GROUP = group.app.everslot.dev;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = EverslotShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.everslot.dev.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-dev";
 		};
 		C1645FB27ACD27AC392AF639 /* Release-dev */ = {
 			isa = XCBuildConfiguration;
@@ -1554,6 +1825,31 @@
 			};
 			name = "Release-prod";
 		};
+		FDE5FF1408F70F53977F3B8C /* Profile-dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = EverslotShare/EverslotShare.entitlements;
+				EVERSLOT_APP_GROUP = group.app.everslot.dev;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = EverslotShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.everslot.dev.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Profile-dev";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1569,6 +1865,22 @@
 				A6D43F7843CBE6D334185A44 /* Release-prod */,
 				72F25E87F9F3E872C8387C0D /* Profile-dev */,
 				F58C4B8FB20C4C7F4E628AB3 /* Profile-prod */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8BEEE8D157EEF3B3879CD229 /* Build configuration list for PBXNativeTarget "EverslotShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B24743F12EC3E69D774D1E89 /* Release */,
+				83D49E02587B2F8189B02426 /* Debug */,
+				6C4A0470A71801AEF3C41C17 /* Profile */,
+				BFF7F5E08D50F4B540C9B100 /* Debug-dev */,
+				B6677EF6691A0CBF91E6B357 /* Debug-prod */,
+				6AEAA8BD665A6CC48387777E /* Release-dev */,
+				6F5FAF7D010E4983B1574053 /* Release-prod */,
+				FDE5FF1408F70F53977F3B8C /* Profile-dev */,
+				51116977C8155858C3E4CD28 /* Profile-prod */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

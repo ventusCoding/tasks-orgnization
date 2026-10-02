@@ -8595,6 +8595,12 @@ abstract class AppLocalizations {
   /// **'That action couldn\'t be completed.'**
   String get integrationsActionFailed;
 
+  /// No description provided for @integrationsCravingLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving logged: {habit}'**
+  String integrationsCravingLogged(String habit);
+
   /// No description provided for @integrationsHabitLogged.
   ///
   /// In en, this message translates to:
@@ -19713,6 +19719,72 @@ abstract class AppLocalizations {
   /// **'Week starts on'**
   String get settingsWeekStart;
 
+  /// No description provided for @shareAsTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get shareAsTask;
+
+  /// No description provided for @shareAttach.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach'**
+  String get shareAttach;
+
+  /// No description provided for @shareFilesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 file} other{{count} files}}'**
+  String shareFilesTitle(int count);
+
+  /// No description provided for @shareFindItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a task or item'**
+  String get shareFindItem;
+
+  /// No description provided for @shareItemCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item will be added} other{{count} items will be added}}'**
+  String shareItemCount(int count);
+
+  /// No description provided for @shareNewList.
+  ///
+  /// In en, this message translates to:
+  /// **'New list “{title}”'**
+  String shareNewList(String title);
+
+  /// No description provided for @shareSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to Everslot'**
+  String get shareSaved;
+
+  /// No description provided for @shareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Everslot'**
+  String get shareTitle;
+
+  /// No description provided for @shareToList.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get shareToList;
+
+  /// No description provided for @shareTopLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Top level'**
+  String get shareTopLevel;
+
+  /// No description provided for @shareUnder.
+  ///
+  /// In en, this message translates to:
+  /// **'Under'**
+  String get shareUnder;
+
   /// No description provided for @shellCreate.
   ///
   /// In en, this message translates to:
@@ -19730,6 +19802,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Quick add'**
   String get shellQuickAdd;
+
+  /// No description provided for @shortcutLogCraving.
+  ///
+  /// In en, this message translates to:
+  /// **'Log craving'**
+  String get shortcutLogCraving;
+
+  /// No description provided for @shortcutLogHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Log habit'**
+  String get shortcutLogHabit;
+
+  /// No description provided for @shortcutNewTask.
+  ///
+  /// In en, this message translates to:
+  /// **'New task'**
+  String get shortcutNewTask;
+
+  /// No description provided for @shortcutToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get shortcutToday;
 
   /// No description provided for @smartBlocked.
   ///

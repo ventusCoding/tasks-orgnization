@@ -19,7 +19,8 @@ val hasReleaseKeystore = keystoreProperties.getProperty("storeFile") != null
 
 android {
     namespace = "app.everslot"
-    compileSdk = 36
+    // 37: receive_sharing_intent 1.9 compiles against it (T8.2.07); targetSdk stays 36.
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

@@ -1893,6 +1893,13 @@
       }
     }
   },
+  "@integrationsCravingLogged": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
   "@integrationsHabitLogged": {
     "placeholders": {
       "habit": {
@@ -4003,6 +4010,27 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "@shareFilesTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@shareItemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@shareNewList": {
+    "placeholders": {
+      "title": {
+        "type": "String"
       }
     }
   },
@@ -6693,6 +6721,7 @@
   "importWarningMalformed": "This file couldn't be read",
   "importWarningTooMany": "Only the first 10 000 lines were imported",
   "integrationsActionFailed": "That action couldn't be completed.",
+  "integrationsCravingLogged": "Craving logged: {habit}",
   "integrationsHabitLogged": "Logged: {habit}",
   "integrationsHabitNotFound": "No habit matches \"{name}\".",
   "integrationsLinkInTrash": "This item is in the Trash.",
@@ -8546,9 +8575,24 @@
   "settingsTrashWith": "{count, plural, =1{+1 related item} other{+{count} related items}}",
   "settingsUnknownPage": "This settings page doesn't exist.",
   "settingsWeekStart": "Week starts on",
+  "shareAsTask": "Task",
+  "shareAttach": "Attach",
+  "shareFilesTitle": "{count, plural, =1{1 file} other{{count} files}}",
+  "shareFindItem": "Find a task or item",
+  "shareItemCount": "{count, plural, =1{1 item will be added} other{{count} items will be added}}",
+  "shareNewList": "New list “{title}”",
+  "shareSaved": "Saved to Everslot",
+  "shareTitle": "Save to Everslot",
+  "shareToList": "List",
+  "shareTopLevel": "Top level",
+  "shareUnder": "Under",
   "shellCreate": "Create",
   "shellDueCount": "{count, plural, =1{1 to do} other{{count} to do}}",
   "shellQuickAdd": "Quick add",
+  "shortcutLogCraving": "Log craving",
+  "shortcutLogHabit": "Log habit",
+  "shortcutNewTask": "New task",
+  "shortcutToday": "Today",
   "smartBlocked": "Blocked",
   "smartChip": "{label} · {count}",
   "smartClearFollowUp": "Clear follow-up",

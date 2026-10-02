@@ -30,5 +30,21 @@
   "widgetHowToAndroid": "Maintenez l’écran d’accueil, choisissez Widgets, puis Everslot.",
   "widgetRefresh": "Actualiser les widgets",
   "widgetRefreshed": "Widgets actualisés",
-  "widgetNoList": "Épinglez une liste dans Everslot pour la voir ici"
+  "widgetNoList": "Épinglez une liste dans Everslot pour la voir ici",
+  "shortcutNewTask": "Nouvelle tâche",
+  "shortcutLogHabit": "Valider une habitude",
+  "shortcutLogCraving": "Noter une envie",
+  "shortcutToday": "Aujourd’hui",
+  "integrationsCravingLogged": "Envie notée : {habit}",
+  "shareTitle": "Enregistrer dans Everslot",
+  "shareAsTask": "Tâche",
+  "shareToList": "Liste",
+  "shareAttach": "Joindre",
+  "shareUnder": "Sous",
+  "shareTopLevel": "Premier niveau",
+  "shareFindItem": "Chercher une tâche ou un élément",
+  "shareSaved": "Enregistré dans Everslot",
+  "shareFilesTitle": "{count, plural, =1{1 fichier} other{{count} fichiers}}",
+  "shareItemCount": "{count, plural, =1{1 élément sera ajouté} other{{count} éléments seront ajoutés}}",
+  "shareNewList": "Nouvelle liste « {title} »"
 }

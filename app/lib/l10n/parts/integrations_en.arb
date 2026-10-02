@@ -44,5 +44,49 @@
   "widgetHowToAndroid": "Touch and hold the home screen, choose Widgets, then Everslot.",
   "widgetRefresh": "Refresh widgets now",
   "widgetRefreshed": "Widgets refreshed",
-  "widgetNoList": "Pin a list in Everslot to see it here"
+  "widgetNoList": "Pin a list in Everslot to see it here",
+  "shortcutNewTask": "New task",
+  "shortcutLogHabit": "Log habit",
+  "shortcutLogCraving": "Log craving",
+  "shortcutToday": "Today",
+  "integrationsCravingLogged": "Craving logged: {habit}",
+  "@integrationsCravingLogged": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
+  "shareTitle": "Save to Everslot",
+  "shareAsTask": "Task",
+  "shareToList": "List",
+  "shareAttach": "Attach",
+  "shareUnder": "Under",
+  "shareTopLevel": "Top level",
+  "shareFindItem": "Find a task or item",
+  "shareSaved": "Saved to Everslot",
+  "shareFilesTitle": "{count, plural, =1{1 file} other{{count} files}}",
+  "shareItemCount": "{count, plural, =1{1 item will be added} other{{count} items will be added}}",
+  "@shareFilesTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@shareItemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shareNewList": "New list “{title}”",
+  "@shareNewList": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  }
 }

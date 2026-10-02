@@ -115,7 +115,7 @@ class NowNextBlock extends TodayBlock {
   bool isEmpty(TodayOverview o) => selectNowNext([...?o.agenda, ...?o.upcoming], o.now).isEmpty;
 
   @override
-  Widget build(BuildContext context, TodayOverview o) => const NowNextCard();
+  Widget build(BuildContext context, TodayOverview o) => NowNextCard(overview: o);
 
   @override
   Widget empty(BuildContext context) =>
@@ -125,7 +125,10 @@ class NowNextBlock extends TodayBlock {
 /// Now / Next (T8.1.03): the running occurrence with its remaining time, the next one with a
 /// countdown; refreshed every 30 s while shown.
 class NowNextCard extends ConsumerStatefulWidget {
-  const NowNextCard({super.key});
+  const NowNextCard({required this.overview, super.key});
+
+  /// From the screen (re-watching the overview provider inside its build can dirty the screen).
+  final TodayOverview overview;
 
   @override
   ConsumerState<NowNextCard> createState() => _NowNextCardState();
@@ -151,7 +154,7 @@ class _NowNextCardState extends ConsumerState<NowNextCard> {
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
-    final o = ref.watch(todayOverviewProvider);
+    final o = widget.overview;
     final now = ref.watch(clockProvider).nowUtc();
     final nn = selectNowNext([...?o.agenda, ...?o.upcoming], now);
     final fmt = todayFormat(context, ref);

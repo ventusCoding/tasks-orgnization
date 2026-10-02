@@ -94,7 +94,7 @@ erDiagram
 
 | Concern | Choice (version) | Notes |
 |---|---|---|
-| SDK | **Flutter 3.47.5 / Dart 3.13.4** pinned via **FVM** (`.fvmrc`) | Min iOS 15, Android API 24, compile/target SDK 36; Java 17, AGP 9.1, Gradle 9.3.1, Kotlin 2.4; iOS uses **Swift Package Manager** (CocoaPods only for plugins that still need it) and the **UIScene lifecycle** (mandatory with Xcode 27). Impeller everywhere. |
+| SDK | **Flutter 3.47.5 / Dart 3.13.4** pinned via **FVM** (`.fvmrc`) | Min iOS 15, Android API 24, compile SDK 37 / target SDK 36 (37 since `receive_sharing_intent` 1.9, T8.2.07); Java 17, AGP 9.1, Gradle 9.3.1, Kotlin 2.4; iOS uses **Swift Package Manager** (CocoaPods only for plugins that still need it) and the **UIScene lifecycle** (mandatory with Xcode 27). Impeller everywhere. |
 | Widgets libraries | `material_ui` 1.4.0 / `cupertino_ui` 1.1.x | Built-in Material/Cupertino copies are frozen (3.44) and deprecated from Nov 2026 → import `package:material_ui/...` in new code (`dart fix --apply --code=migrate_design_widgets`). |
 | State / DI | `flutter_riverpod` 3.4.3 + `riverpod_annotation` + `riverpod_generator` 4.0.9; `riverpod_lint` 3.1.9 (analyzer plugin) | Codegen providers only. Riverpod's experimental offline persistence/mutations are **not** used — Drift is the store. User knows Provider → natural successor. |
 | Routing | `go_router` 18.0.1 | Feature-complete (bug-fix only) — stable choice. `StatefulShellRoute.indexedStack` for the 5 tabs; typed locations are the hand-written `AppLinks` builders + `DeepLinkParser` (no `go_router_builder`, ADR-016). Last tab restored from `local_kv`; Android back walks the tab history (T1.3.06). |

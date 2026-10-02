@@ -5287,6 +5287,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get integrationsActionFailed => 'تعذّر إتمام هذا الإجراء.';
 
   @override
+  String integrationsCravingLogged(String habit) {
+    return 'تم تسجيل الرغبة: $habit';
+  }
+
+  @override
   String integrationsHabitLogged(String habit) {
     return 'تم التسجيل: $habit';
   }
@@ -12091,6 +12096,65 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsWeekStart => 'يبدأ الأسبوع يوم';
 
   @override
+  String get shareAsTask => 'مهمة';
+
+  @override
+  String get shareAttach => 'إرفاق';
+
+  @override
+  String shareFilesTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ملف',
+      many: '$count ملفًا',
+      few: '$count ملفات',
+      two: 'ملفان',
+      one: 'ملف واحد',
+      zero: 'لا ملفات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get shareFindItem => 'ابحث عن مهمة أو عنصر';
+
+  @override
+  String shareItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'سيُضاف $count عنصر',
+      many: 'سيُضاف $count عنصرًا',
+      few: 'سيُضاف $count عناصر',
+      two: 'سيُضاف عنصران',
+      one: 'سيُضاف عنصر واحد',
+      zero: 'لن يُضاف شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shareNewList(String title) {
+    return 'قائمة جديدة «$title»';
+  }
+
+  @override
+  String get shareSaved => 'تم الحفظ في Everslot';
+
+  @override
+  String get shareTitle => 'حفظ في Everslot';
+
+  @override
+  String get shareToList => 'قائمة';
+
+  @override
+  String get shareTopLevel => 'المستوى الأعلى';
+
+  @override
+  String get shareUnder => 'تحت';
+
+  @override
   String get shellCreate => 'إنشاء';
 
   @override
@@ -12110,6 +12174,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get shellQuickAdd => 'إضافة سريعة';
+
+  @override
+  String get shortcutLogCraving => 'تسجيل رغبة';
+
+  @override
+  String get shortcutLogHabit => 'تسجيل عادة';
+
+  @override
+  String get shortcutNewTask => 'مهمة جديدة';
+
+  @override
+  String get shortcutToday => 'اليوم';
 
   @override
   String get smartBlocked => 'محظور';

@@ -41,7 +41,7 @@ design changes). Never renumber task IDs.
 - Widgets come from the **`material_ui` / `cupertino_ui` packages** (built-in copies are frozen/deprecated):
   `import 'package:material_ui/material_ui.dart';` in new code.
 - iOS: min 15, **UIScene lifecycle** (mandatory with Xcode 27), Swift Package Manager. Android: minSdk 24,
-  target/compile 36, Java 17.
+  target 36 / compile 37, Java 17.
 - Supabase: Postgres 17, **publishable key** (`sb_publishable_…`) in the app, **secret key** only in Edge
   Functions; Edge runtime is **Deno 2.1-compatible** (local Deno is newer) — pinned `npm:`/`jsr:` imports,
   no committed Deno lockfile v5, verify with `supabase functions serve`.

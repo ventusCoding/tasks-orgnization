@@ -1,9 +1,14 @@
 import 'dart:async';
 
 import 'package:everslot/core/providers.dart';
+import 'package:everslot/features/integrations/application/app_shortcuts_service.dart';
 import 'package:everslot/features/integrations/application/external_links_service.dart';
+import 'package:everslot/features/integrations/application/integration_commands.dart';
 import 'package:everslot/features/integrations/application/integration_events.dart';
+import 'package:everslot/features/integrations/application/share_intake_service.dart';
 import 'package:everslot/features/integrations/data/integration_queries.dart';
+import 'package:everslot/features/integrations/data/quick_actions_source.dart';
+import 'package:everslot/features/integrations/data/share_source.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Integrations application providers (manual Riverpod providers, dev_patterns §3).
@@ -23,7 +28,19 @@ final integrationUiEventsProvider = Provider<BufferedEventBus<IntegrationUiEvent
 /// Source of external links (override with a fake in tests).
 final linkSourceProvider = Provider<LinkSource>((ref) => AppLinksSource());
 
-final linkCommandRegistryProvider = Provider<LinkCommandRegistry>((ref) => LinkCommandRegistry());
+final linkCommandRegistryProvider = Provider<LinkCommandRegistry>((ref) {
+  final registry = LinkCommandRegistry();
+  IntegrationCommands.registerAll(ref, registry, ref.watch(integrationUiEventsProvider));
+  return registry;
+});
+
+/// Platform app shortcuts (override with a fake in tests).
+final shortcutPlatformProvider = Provider<ShortcutPlatform>((ref) => QuickActionsShortcutPlatform());
+
+/// App icon shortcuts (T8.2.06).
+final appShortcutsServiceProvider = Provider<AppShortcutsService>(
+  (ref) => AppShortcutsService(ref.watch(shortcutPlatformProvider), ref.watch(externalLinksServiceProvider)),
+);
 
 /// External links (T8.2.01).
 final externalLinksServiceProvider = Provider<ExternalLinksService>((ref) {
@@ -34,6 +51,16 @@ final externalLinksServiceProvider = Provider<ExternalLinksService>((ref) {
     clock: ref.watch(clockProvider),
     commands: ref.watch(linkCommandRegistryProvider),
   );
+  ref.onDispose(() => unawaited(service.dispose()));
+  return service;
+});
+
+/// Source of shared content (override with a fake in tests).
+final shareSourceProvider = Provider<ShareSource>((ref) => ReceiveSharingIntentSource());
+
+/// Share into Everslot (T8.2.07).
+final shareIntakeServiceProvider = Provider<ShareIntakeService>((ref) {
+  final service = ShareIntakeService(ref, ref.watch(shareSourceProvider), ref.watch(integrationUiEventsProvider));
   ref.onDispose(() => unawaited(service.dispose()));
   return service;
 });
