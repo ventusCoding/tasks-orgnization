@@ -2054,6 +2054,17 @@ export type Database = {
       dispatch_upsert_inbox: { Args: { p_items: Json }; Returns: Json }
       enable_sync: { Args: { p_table: unknown }; Returns: undefined }
       everslot_ns: { Args: never; Returns: string }
+      fallback_candidates: {
+        Args: { p_inactive?: string; p_limit?: number }
+        Returns: {
+          user_id: string
+        }[]
+      }
+      fallback_load: { Args: { p_user: string }; Returns: Json }
+      fallback_replace_jobs: {
+        Args: { p_jobs: Json; p_source_rev: number; p_user: string }
+        Returns: Json
+      }
       fcm_token_cache_get: {
         Args: { p_key: string; p_min_validity?: string }
         Returns: {

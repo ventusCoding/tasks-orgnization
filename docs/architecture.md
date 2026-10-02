@@ -139,7 +139,7 @@ erDiagram
 | API | PostgREST + **RPC functions** (`app.sync_push`, `app.sync_pull`, …) | All client writes go through sync RPCs. |
 | Files | Supabase Storage, private bucket `attachments` | Path-scoped RLS; resumable (TUS) uploads via `<project-ref>.storage.supabase.co`; client-side thumbnails (server image transforms need Pro). Free plan max file size 50 MB. |
 | Realtime | **Broadcast from database** on private channel `user:<uid>` | Trigger calls `realtime.send` with the new head revision only; RLS on `realtime.messages`. Data always comes via pull. |
-| Server logic | Edge Functions (TypeScript, **Deno 2.1-compatible** hosted runtime) | `npm:`/`jsr:` pinned imports; `jose` 6.x for the FCM service-account JWT; test-only `postgres` 3.4 (`_shared/test_deps.ts`, the opt-in E2E push suite reads the `private` tables of the local stack); don't commit a Deno lockfile v5 (local Deno 2.9 is newer than the hosted runtime) — test with `supabase functions serve`. Limits: 2 s CPU, 256 MB, 150 s (free) / 400 s (paid) wall clock, `EdgeRuntime.waitUntil` for background work. |
+| Server logic | Edge Functions (TypeScript, **Deno 2.1-compatible** hosted runtime) | `npm:`/`jsr:` pinned imports; `jose` 6.x for the FCM service-account JWT; `rrule-temporal` 2.2 + `temporal-polyfill` 1.0 for the server planning fallback (T7.4.17, RFC 5545 expansion — the hosted runtime has no Temporal global); test-only `postgres` 3.4 (`_shared/test_deps.ts`, the opt-in E2E push suite reads the `private` tables of the local stack); don't commit a Deno lockfile v5 (local Deno 2.9 is newer than the hosted runtime) — test with `supabase functions serve`. Limits: 2 s CPU, 256 MB, 150 s (free) / 400 s (paid) wall clock, `EdgeRuntime.waitUntil` for background work. |
 | Scheduling | `pg_cron` (second-level schedules) + `pg_net` (+ Vault for secrets) | ≤ 8 concurrent jobs, ≤ 10 min each; pg_net is fire-and-forget (2 s timeout, no retries). |
 | Push | Firebase Cloud Messaging HTTP v1 (service-account OAuth2, token cached ~1 h) | APNs `.p8` key uploaded to Firebase. |
 | Plans | Free for development; **Pro** before launch | Free projects pause after 1 week idle; Free: 500 MB DB, 1 GB storage, 5 GB egress, 500k function calls, 200 realtime connections. |
@@ -1050,6 +1050,7 @@ app.app_config (key text primary key, value jsonb not null)   -- public read: mi
 | `push-dispatch` | pg_cron every 30 s via pg_net (secret header) | Respond immediately; in `EdgeRuntime.waitUntil`: claim due jobs → guard → inbox row → per-device FCM or skip → delivery log → retry/backoff. |
 | `sync-nudge` | DB webhook on `sync_heads` (throttled per user) | Data-only FCM `{"type":"sync"}` to other devices not seen in last N minutes. |
 | `account-delete` | Authenticated user | Delete storage objects via Storage API, revoke Sign in with Apple tokens, then `auth.admin.deleteUser` (cascades rows). |
+| `plan-fallback` | pg_cron daily 02:30 UTC (secret header) | T7.4.17: for users whose devices have not uploaded a plan for > 5 days, expand their server-expressible fixed rules (`_shared/recurrence.ts`: rule JSON → RRULE → `rrule-temporal` on the `temporal-polyfill`, floating wall clock + our gap/overlap rule) and plan relative / not-done-by reminders with Dart-identical dedupe keys; jobs are marked `plannedBy: server` and never replace a device plan (`app.fallback_*` RPCs). Parity: shared recurrence + planner fixtures in `deno test`. |
 
 Runtime: hosted Edge runtime is **Deno 2.1-compatible** — use `npm:`/`jsr:` imports with pinned versions,
 no Deno lockfile v5, verify with `supabase functions serve`. Shared: `_shared/fcm.ts` (service-account JWT
@@ -1063,6 +1064,7 @@ never logged.
 | Schedule | Job |
 |---|---|
 | every 30 s | `net.http_post` → `push-dispatch` (responds immediately, works in `waitUntil`) |
+| daily 02:30 UTC | `net.http_post` → `plan-fallback` (server planning for inactive devices, T7.4.17) |
 | every minute | lease reaper: jobs whose `lease_until` passed return to `pending` (attempts+1); heartbeat → `private.ops_heartbeats` |
 | daily 03:00 UTC | purge tombstones older than 90 days (+ update `purge_watermark`); delete storage objects of purged attachments (only when no row references the path); delete sent/skipped jobs > 14 days and deliveries > 30 days; revoke push for devices unseen 120 days; clean `cron.job_run_details` > 7 days; soft-delete inbox `notifications` older than 90 days; delete anonymous users inactive > 90 days with no data (P2) |
 

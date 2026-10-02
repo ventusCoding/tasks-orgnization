@@ -5,7 +5,7 @@
     "fmt:check": "deno fmt --check",
     "lint": "deno lint",
     "test": "deno test -A",
-    "check": "deno check health/index.ts push-dispatch/index.ts sync-nudge/index.ts account-delete/index.ts storage-purge/index.ts",
+    "check": "deno check health/index.ts push-dispatch/index.ts sync-nudge/index.ts account-delete/index.ts storage-purge/index.ts plan-fallback/index.ts",
     "ci": "deno fmt --check && deno lint && deno test -A",
     "types": "cd .. && supabase gen types typescript --local --schema app,private > functions/_shared/database.types.ts"
   },

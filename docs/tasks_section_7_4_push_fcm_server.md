@@ -40,7 +40,7 @@ compliance and alerting infrastructure ([9.2]).
 - [ ] T7.4.14 — iOS local-vs-push collapse spike
 - [x] T7.4.15 — End-to-end push tests
 - [x] T7.4.16 — Monitoring hooks & ops metrics
-- [ ] T7.4.17 — Server-side planning fallback
+- [x] T7.4.17 — Server-side planning fallback
 - [ ] T7.4.18 — Email channel for digests
 - [x] T7.4.19 — Last-active device policy
 
@@ -290,6 +290,7 @@ subset of `fixtures/notifications/planner` in `deno test`; nightly differential 
 pin and record tz-database versions on both sides.
 **Acceptance criteria:** an inactive user keeps receiving daily habit reminders by push; parity suite green.
 **Tests:** Deno fixture runner; fuzz job in CI (nightly).
+**Notes:** `plan-fallback` Edge Function (daily 02:30 UTC cron) + `app.fallback_candidates/load/replace_jobs` (migration 20261002110000, pgTAP `157_plan_fallback`): users with a push device and enabled rules but no device upload for 5 days get server-planned reminders for 14 days. `_shared/recurrence.ts` maps fixed rule JSON to RRULE and expands it with `rrule-temporal` 2.2.7 on `temporal-polyfill` 1.0.5 in floating wall clock, then applies our own gap/overlap rule; parity in `deno test` against `fixtures/recurrence` (149 cases incl. DST, RFC 5545 examples, bounds) and `rrule_pairs.json` (15). `plan-fallback/planner.ts` ports the server subset of the Dart planner (category/section/global defaults per trigger kind + own rules by notify_mode; `relative` start/end/period/slot incl. day-before-at-time, `not_done_by`; Dart-identical sha1 dedupe keys) with parity on 22 planner fixture cases. Deviations: base reminders only (no nags, quiet hours, caps, mutes), habit days at midnight (no day-start shift), quota / after-completion / window rules stay with devices, simple EN/FR/AR texts. Nightly differential fuzzing vs Dart is not set up (fixture parity runs in CI). Verified loading in `supabase functions serve` (edge-runtime 1.74.3, Deno 2.1.4).
 
 ### T7.4.18 — Email channel for digests
 **Priority:** P2 · **Size:** M · **Depends on:** T7.4.07, [7.5] (digests)
