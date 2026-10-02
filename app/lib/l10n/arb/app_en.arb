@@ -2543,6 +2543,62 @@
       }
     }
   },
+  "@notifPackHabit1": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifPackHabit2": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifPackHabit3": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifPackHabit4": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifPackHabit5": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifPackQuit1": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifPackQuit2": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifPackQuit4": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "@notifPausedUntil": {
     "placeholders": {
       "time": {
@@ -6502,6 +6558,7 @@
   "notifConditions": "Conditions",
   "notifContent": "Content",
   "notifContentBody": "Body template",
+  "notifContentPack": "Rotating messages",
   "notifContentTitle": "Title template",
   "notifCopied": "{count, plural, =1{1 reminder copied} other{{count} reminders copied}}",
   "notifCopingTipBreathe": "Try a minute of box breathing.",
@@ -6720,6 +6777,19 @@
   "notifOutsideDrop": "Drop outside",
   "notifOutsideShiftEnd": "Move to window end",
   "notifOutsideShiftStart": "Move to window start",
+  "notifPackHabit1": "Small steps add up — time for {habit}.",
+  "notifPackHabit2": "Keep the chain going: {habit} today.",
+  "notifPackHabit3": "Future you will thank you for {habit}.",
+  "notifPackHabit4": "Just start — two minutes of {habit} counts.",
+  "notifPackHabit5": "You've got this: {habit}.",
+  "notifPackHabitName": "Motivation (habits)",
+  "notifPackNone": "Off",
+  "notifPackQuit1": "{days} days free — keep going.",
+  "notifPackQuit2": "Remember why you started: {reason}",
+  "notifPackQuit3": "Cravings pass. You're stronger than this one.",
+  "notifPackQuit4": "{amount} saved so far — well done.",
+  "notifPackQuit5": "One day at a time — today counts.",
+  "notifPackQuitName": "Motivation (quit)",
   "notifPause1h": "1 hour",
   "notifPauseAll": "Pause all",
   "notifPauseCustom": "Custom…",

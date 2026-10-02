@@ -5881,6 +5881,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifContentBody => 'Body template';
 
   @override
+  String get notifContentPack => 'Rotating messages';
+
+  @override
   String get notifContentTitle => 'Title template';
 
   @override
@@ -6612,6 +6615,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifOutsideShiftStart => 'Move to window start';
+
+  @override
+  String notifPackHabit1(String habit) {
+    return 'Small steps add up — time for $habit.';
+  }
+
+  @override
+  String notifPackHabit2(String habit) {
+    return 'Keep the chain going: $habit today.';
+  }
+
+  @override
+  String notifPackHabit3(String habit) {
+    return 'Future you will thank you for $habit.';
+  }
+
+  @override
+  String notifPackHabit4(String habit) {
+    return 'Just start — two minutes of $habit counts.';
+  }
+
+  @override
+  String notifPackHabit5(String habit) {
+    return 'You\'ve got this: $habit.';
+  }
+
+  @override
+  String get notifPackHabitName => 'Motivation (habits)';
+
+  @override
+  String get notifPackNone => 'Off';
+
+  @override
+  String notifPackQuit1(String days) {
+    return '$days days free — keep going.';
+  }
+
+  @override
+  String notifPackQuit2(String reason) {
+    return 'Remember why you started: $reason';
+  }
+
+  @override
+  String get notifPackQuit3 => 'Cravings pass. You\'re stronger than this one.';
+
+  @override
+  String notifPackQuit4(String amount) {
+    return '$amount saved so far — well done.';
+  }
+
+  @override
+  String get notifPackQuit5 => 'One day at a time — today counts.';
+
+  @override
+  String get notifPackQuitName => 'Motivation (quit)';
 
   @override
   String get notifPause1h => '1 hour';

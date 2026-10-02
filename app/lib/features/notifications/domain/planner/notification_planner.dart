@@ -808,7 +808,18 @@ abstract final class NotificationPlanner {
     final content = rule.spec.content.isEmpty ? (profileContent ?? ContentSpec.empty) : rule.spec.content;
     var titleTpl = content.title;
     var bodyTpl = content.body;
-    final variants = content.variants;
+    var variants = content.variants;
+    if ((variants == null || variants.isEmpty) && content.pack != null) {
+      // Curated pack: only variants whose variables this target has (T7.1.17).
+      variants = [
+        for (final v in texts.packVariants(content.pack!))
+          if ({
+            ...TemplateEngine.variablesIn(v.title ?? ''),
+            ...TemplateEngine.variablesIn(v.body ?? ''),
+          }.every((name) => vars[name]?.isNotEmpty ?? false))
+            v,
+      ];
+    }
     if (variants != null && variants.isNotEmpty) {
       final v = variants[int.parse(dedupeKey.substring(0, 8), radix: 16) % variants.length];
       titleTpl = v.title ?? titleTpl;

@@ -380,10 +380,18 @@ class ContentVariant {
   Map<String, Object?> toJson() => {'title': ?title, 'body': ?body};
 }
 
+/// Curated motivational packs (`content.pack`, T7.1.17): localized body variants rotated per
+/// occurrence; variants whose `{variables}` the target lacks are skipped.
+abstract final class ContentPacks {
+  static const habitMotivation = 'habit_motivation';
+  static const quitMotivation = 'quit_motivation';
+  static const all = [habitMotivation, quitMotivation];
+}
+
 /// `content` block: title/body templates (`{variables}`), optional variants (P2).
 @immutable
 class ContentSpec {
-  const ContentSpec({this.title, this.body, this.variants, this.raw});
+  const ContentSpec({this.title, this.body, this.variants, this.pack, this.raw});
 
   factory ContentSpec.fromJson(Map<String, Object?> json) => ContentSpec(
     title: asString(json['title']),
@@ -394,6 +402,7 @@ class ContentSpec {
               if (asJsonMap(v) != null) ContentVariant.fromJson(asJsonMap(v)!),
           ]
         : null,
+    pack: asString(json['pack']),
     raw: json,
   );
 
@@ -402,9 +411,12 @@ class ContentSpec {
   final String? title;
   final String? body;
   final List<ContentVariant>? variants;
+
+  /// Curated localized variants ([ContentPacks]) used when [variants] is empty (T7.1.17).
+  final String? pack;
   final Map<String, Object?>? raw;
 
-  bool get isEmpty => title == null && body == null && (variants == null || variants!.isEmpty);
+  bool get isEmpty => title == null && body == null && (variants == null || variants!.isEmpty) && pack == null;
 
   Map<String, Object?> toJson() => mergeOrdered(
     raw,
@@ -412,8 +424,9 @@ class ContentSpec {
       'title': ?title,
       'body': ?body,
       if (variants != null) 'variants': [for (final v in variants!) v.toJson()],
+      'pack': ?pack,
     },
-    const {'title', 'body', 'variants'},
+    const {'title', 'body', 'variants', 'pack'},
   );
 
   @override

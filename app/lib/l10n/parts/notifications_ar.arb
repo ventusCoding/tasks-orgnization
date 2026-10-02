@@ -529,5 +529,19 @@
   "notifOccurrenceAdd": "إضافة لهذا الموعد فقط",
   "notifOccurrenceOnly": "هذا الموعد فقط",
   "notifOccurrenceOff": "متوقف لهذا الموعد",
-  "notifOccurrenceNone": "لا توجد تذكيرات لهذا الموعد."
+  "notifOccurrenceNone": "لا توجد تذكيرات لهذا الموعد.",
+  "notifPackHabit1": "الخطوات الصغيرة تتراكم — حان وقت {habit}.",
+  "notifPackHabit2": "حافظ على السلسلة: {habit} اليوم.",
+  "notifPackHabit3": "ستشكر نفسك لاحقًا على {habit}.",
+  "notifPackHabit4": "ابدأ فقط — دقيقتان من {habit} تُحتسبان.",
+  "notifPackHabit5": "أنت قادر على ذلك: {habit}.",
+  "notifPackQuit1": "{days} أيام دون — واصل.",
+  "notifPackQuit2": "تذكّر لماذا بدأت: {reason}",
+  "notifPackQuit3": "الرغبة تمرّ. أنت أقوى منها.",
+  "notifPackQuit4": "وفّرت {amount} حتى الآن — أحسنت.",
+  "notifPackQuit5": "يومًا بيوم — اليوم مهم.",
+  "notifContentPack": "رسائل متنوعة",
+  "notifPackNone": "إيقاف",
+  "notifPackHabitName": "تحفيز (العادات)",
+  "notifPackQuitName": "تحفيز (الإقلاع)"
 }

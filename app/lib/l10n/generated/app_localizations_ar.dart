@@ -6339,6 +6339,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifContentBody => 'قالب النص';
 
   @override
+  String get notifContentPack => 'رسائل متنوعة';
+
+  @override
   String get notifContentTitle => 'قالب العنوان';
 
   @override
@@ -7144,6 +7147,61 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifOutsideShiftStart => 'انقل إلى البداية';
+
+  @override
+  String notifPackHabit1(String habit) {
+    return 'الخطوات الصغيرة تتراكم — حان وقت $habit.';
+  }
+
+  @override
+  String notifPackHabit2(String habit) {
+    return 'حافظ على السلسلة: $habit اليوم.';
+  }
+
+  @override
+  String notifPackHabit3(String habit) {
+    return 'ستشكر نفسك لاحقًا على $habit.';
+  }
+
+  @override
+  String notifPackHabit4(String habit) {
+    return 'ابدأ فقط — دقيقتان من $habit تُحتسبان.';
+  }
+
+  @override
+  String notifPackHabit5(String habit) {
+    return 'أنت قادر على ذلك: $habit.';
+  }
+
+  @override
+  String get notifPackHabitName => 'تحفيز (العادات)';
+
+  @override
+  String get notifPackNone => 'إيقاف';
+
+  @override
+  String notifPackQuit1(String days) {
+    return '$days أيام دون — واصل.';
+  }
+
+  @override
+  String notifPackQuit2(String reason) {
+    return 'تذكّر لماذا بدأت: $reason';
+  }
+
+  @override
+  String get notifPackQuit3 => 'الرغبة تمرّ. أنت أقوى منها.';
+
+  @override
+  String notifPackQuit4(String amount) {
+    return 'وفّرت $amount حتى الآن — أحسنت.';
+  }
+
+  @override
+  String get notifPackQuit5 => 'يومًا بيوم — اليوم مهم.';
+
+  @override
+  String get notifPackQuitName => 'تحفيز (الإقلاع)';
 
   @override
   String get notifPause1h => 'ساعة';

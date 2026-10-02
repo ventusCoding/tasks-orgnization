@@ -1,4 +1,5 @@
 import 'package:everslot/features/notifications/domain/notification_types.dart';
+import 'package:everslot/features/notifications/domain/rule_spec.dart' show ContentPacks, ContentVariant;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:meta/meta.dart';
 
@@ -202,6 +203,9 @@ abstract interface class NotificationTexts {
     String? first,
     int? backlog,
   });
+
+  /// Body variants of a curated content pack ([ContentPacks]); empty for an unknown pack.
+  List<ContentVariant> packVariants(String pack);
 }
 
 /// English fallback (pure; used by domain tests and when localizations are unavailable).
@@ -369,5 +373,24 @@ class PlainNotificationTexts implements NotificationTexts {
     _ =>
       '$tasks tasks · $habits habits · $items items${first == null ? '' : ' · first: $first'}'
           '${backlog == null || backlog == 0 ? '' : ' · $backlog unscheduled'}',
+  };
+
+  @override
+  List<ContentVariant> packVariants(String pack) => switch (pack) {
+    ContentPacks.habitMotivation => const [
+      ContentVariant(body: 'Small steps add up — time for {title}.'),
+      ContentVariant(body: 'Keep the chain going: {title} today.'),
+      ContentVariant(body: 'Future you will thank you for {title}.'),
+      ContentVariant(body: 'Just start — two minutes of {title} counts.'),
+      ContentVariant(body: "You've got this: {title}."),
+    ],
+    ContentPacks.quitMotivation => const [
+      ContentVariant(body: '{days_free} days free — keep going.'),
+      ContentVariant(body: 'Remember why you started: {reason}'),
+      ContentVariant(body: "Cravings pass. You're stronger than this one."),
+      ContentVariant(body: '{money_saved} saved so far — well done.'),
+      ContentVariant(body: 'One day at a time — today counts.'),
+    ],
+    _ => const [],
   };
 }

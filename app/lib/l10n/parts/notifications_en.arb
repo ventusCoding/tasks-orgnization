@@ -1194,5 +1194,75 @@
   "notifOccurrenceAdd": "Add for this occurrence only",
   "notifOccurrenceOnly": "This occurrence only",
   "notifOccurrenceOff": "Off for this occurrence",
-  "notifOccurrenceNone": "No reminders for this occurrence."
+  "notifOccurrenceNone": "No reminders for this occurrence.",
+  "notifPackHabit1": "Small steps add up — time for {habit}.",
+  "@notifPackHabit1": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
+  "notifPackHabit2": "Keep the chain going: {habit} today.",
+  "@notifPackHabit2": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
+  "notifPackHabit3": "Future you will thank you for {habit}.",
+  "@notifPackHabit3": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
+  "notifPackHabit4": "Just start — two minutes of {habit} counts.",
+  "@notifPackHabit4": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
+  "notifPackHabit5": "You've got this: {habit}.",
+  "@notifPackHabit5": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
+  "notifPackQuit1": "{days} days free — keep going.",
+  "@notifPackQuit1": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "notifPackQuit2": "Remember why you started: {reason}",
+  "@notifPackQuit2": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "notifPackQuit3": "Cravings pass. You're stronger than this one.",
+  "notifPackQuit4": "{amount} saved so far — well done.",
+  "@notifPackQuit4": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "notifPackQuit5": "One day at a time — today counts.",
+  "notifContentPack": "Rotating messages",
+  "notifPackNone": "Off",
+  "notifPackHabitName": "Motivation (habits)",
+  "notifPackQuitName": "Motivation (quit)"
 }

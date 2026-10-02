@@ -529,5 +529,19 @@
   "notifOccurrenceAdd": "Ajouter pour cette occurrence seulement",
   "notifOccurrenceOnly": "Cette occurrence seulement",
   "notifOccurrenceOff": "Désactivé pour cette occurrence",
-  "notifOccurrenceNone": "Aucun rappel pour cette occurrence."
+  "notifOccurrenceNone": "Aucun rappel pour cette occurrence.",
+  "notifPackHabit1": "Les petits pas s’additionnent — c’est l’heure de {habit}.",
+  "notifPackHabit2": "Gardez la série : {habit} aujourd’hui.",
+  "notifPackHabit3": "Le vous de demain vous remerciera pour {habit}.",
+  "notifPackHabit4": "Commencez simplement — deux minutes de {habit}, ça compte.",
+  "notifPackHabit5": "Vous pouvez le faire : {habit}.",
+  "notifPackQuit1": "{days} jours sans — continuez.",
+  "notifPackQuit2": "Souvenez-vous pourquoi vous avez commencé : {reason}",
+  "notifPackQuit3": "Les envies passent. Vous êtes plus fort·e que celle-ci.",
+  "notifPackQuit4": "{amount} économisés jusqu’ici — bravo.",
+  "notifPackQuit5": "Un jour à la fois — aujourd’hui compte.",
+  "notifContentPack": "Messages variés",
+  "notifPackNone": "Aucun",
+  "notifPackHabitName": "Motivation (habitudes)",
+  "notifPackQuitName": "Motivation (arrêt)"
 }

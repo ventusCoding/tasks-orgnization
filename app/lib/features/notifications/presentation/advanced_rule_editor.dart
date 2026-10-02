@@ -163,6 +163,7 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
           title: title.isEmpty ? null : title,
           body: body.isEmpty ? null : body,
           variants: _spec.content.variants,
+          pack: _spec.content.pack,
           raw: _spec.content.raw,
         ),
       ),
@@ -292,6 +293,27 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
                   minLines: 1,
                   decoration: InputDecoration(labelText: l.notifContentBody),
                   onChanged: (_) => _onContentChanged(),
+                ),
+              ),
+              DropdownButtonFormField<String?>(
+                key: const ValueKey('content-pack'),
+                initialValue: _spec.content.pack,
+                decoration: InputDecoration(labelText: l.notifContentPack),
+                items: [
+                  DropdownMenuItem(child: Text(l.notifPackNone)),
+                  DropdownMenuItem(value: ContentPacks.habitMotivation, child: Text(l.notifPackHabitName)),
+                  DropdownMenuItem(value: ContentPacks.quitMotivation, child: Text(l.notifPackQuitName)),
+                ],
+                onChanged: (pack) => _update(
+                  _spec.copyWith(
+                    content: ContentSpec(
+                      title: _spec.content.title,
+                      body: _spec.content.body,
+                      variants: _spec.content.variants,
+                      pack: pack,
+                      raw: _spec.content.raw,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: Space.sm),

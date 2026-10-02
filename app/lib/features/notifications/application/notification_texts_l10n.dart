@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:everslot/design_system/formatting.dart';
 import 'package:everslot/features/notifications/domain/notification_actions.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
+import 'package:everslot/features/notifications/domain/rule_spec.dart' show ContentPacks, ContentVariant;
 import 'package:everslot/features/notifications/domain/template_engine.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
@@ -197,6 +198,26 @@ class L10nNotificationTexts implements NotificationTexts {
     ];
     return parts.join(' · ');
   }
+
+  @override
+  List<ContentVariant> packVariants(String pack) => switch (pack) {
+    // ICU placeholders receive the literal `{variable}` the template engine fills in later.
+    ContentPacks.habitMotivation => [
+      ContentVariant(body: l10n.notifPackHabit1('{title}')),
+      ContentVariant(body: l10n.notifPackHabit2('{title}')),
+      ContentVariant(body: l10n.notifPackHabit3('{title}')),
+      ContentVariant(body: l10n.notifPackHabit4('{title}')),
+      ContentVariant(body: l10n.notifPackHabit5('{title}')),
+    ],
+    ContentPacks.quitMotivation => [
+      ContentVariant(body: l10n.notifPackQuit1('{days_free}')),
+      ContentVariant(body: l10n.notifPackQuit2('{reason}')),
+      ContentVariant(body: l10n.notifPackQuit3),
+      ContentVariant(body: l10n.notifPackQuit4('{money_saved}')),
+      ContentVariant(body: l10n.notifPackQuit5),
+    ],
+    _ => const [],
+  };
 
   String sectionName(NotificationSection section) => sectionLabelOf(l10n, section);
 }

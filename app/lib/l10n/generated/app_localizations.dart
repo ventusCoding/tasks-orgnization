@@ -10167,6 +10167,12 @@ abstract class AppLocalizations {
   /// **'Body template'**
   String get notifContentBody;
 
+  /// No description provided for @notifContentPack.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotating messages'**
+  String get notifContentPack;
+
   /// No description provided for @notifContentTitle.
   ///
   /// In en, this message translates to:
@@ -11474,6 +11480,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Move to window start'**
   String get notifOutsideShiftStart;
+
+  /// No description provided for @notifPackHabit1.
+  ///
+  /// In en, this message translates to:
+  /// **'Small steps add up — time for {habit}.'**
+  String notifPackHabit1(String habit);
+
+  /// No description provided for @notifPackHabit2.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the chain going: {habit} today.'**
+  String notifPackHabit2(String habit);
+
+  /// No description provided for @notifPackHabit3.
+  ///
+  /// In en, this message translates to:
+  /// **'Future you will thank you for {habit}.'**
+  String notifPackHabit3(String habit);
+
+  /// No description provided for @notifPackHabit4.
+  ///
+  /// In en, this message translates to:
+  /// **'Just start — two minutes of {habit} counts.'**
+  String notifPackHabit4(String habit);
+
+  /// No description provided for @notifPackHabit5.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve got this: {habit}.'**
+  String notifPackHabit5(String habit);
+
+  /// No description provided for @notifPackHabitName.
+  ///
+  /// In en, this message translates to:
+  /// **'Motivation (habits)'**
+  String get notifPackHabitName;
+
+  /// No description provided for @notifPackNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get notifPackNone;
+
+  /// No description provided for @notifPackQuit1.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days free — keep going.'**
+  String notifPackQuit1(String days);
+
+  /// No description provided for @notifPackQuit2.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember why you started: {reason}'**
+  String notifPackQuit2(String reason);
+
+  /// No description provided for @notifPackQuit3.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings pass. You\'re stronger than this one.'**
+  String get notifPackQuit3;
+
+  /// No description provided for @notifPackQuit4.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} saved so far — well done.'**
+  String notifPackQuit4(String amount);
+
+  /// No description provided for @notifPackQuit5.
+  ///
+  /// In en, this message translates to:
+  /// **'One day at a time — today counts.'**
+  String get notifPackQuit5;
+
+  /// No description provided for @notifPackQuitName.
+  ///
+  /// In en, this message translates to:
+  /// **'Motivation (quit)'**
+  String get notifPackQuitName;
 
   /// No description provided for @notifPause1h.
   ///

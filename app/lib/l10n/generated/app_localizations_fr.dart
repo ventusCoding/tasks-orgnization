@@ -6005,6 +6005,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifContentBody => 'Modèle du texte';
 
   @override
+  String get notifContentPack => 'Messages variés';
+
+  @override
   String get notifContentTitle => 'Modèle du titre';
 
   @override
@@ -6786,6 +6789,61 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get notifOutsideShiftStart => 'Déplacer au début';
+
+  @override
+  String notifPackHabit1(String habit) {
+    return 'Les petits pas s’additionnent — c’est l’heure de $habit.';
+  }
+
+  @override
+  String notifPackHabit2(String habit) {
+    return 'Gardez la série : $habit aujourd’hui.';
+  }
+
+  @override
+  String notifPackHabit3(String habit) {
+    return 'Le vous de demain vous remerciera pour $habit.';
+  }
+
+  @override
+  String notifPackHabit4(String habit) {
+    return 'Commencez simplement — deux minutes de $habit, ça compte.';
+  }
+
+  @override
+  String notifPackHabit5(String habit) {
+    return 'Vous pouvez le faire : $habit.';
+  }
+
+  @override
+  String get notifPackHabitName => 'Motivation (habitudes)';
+
+  @override
+  String get notifPackNone => 'Aucun';
+
+  @override
+  String notifPackQuit1(String days) {
+    return '$days jours sans — continuez.';
+  }
+
+  @override
+  String notifPackQuit2(String reason) {
+    return 'Souvenez-vous pourquoi vous avez commencé : $reason';
+  }
+
+  @override
+  String get notifPackQuit3 => 'Les envies passent. Vous êtes plus fort·e que celle-ci.';
+
+  @override
+  String notifPackQuit4(String amount) {
+    return '$amount économisés jusqu’ici — bravo.';
+  }
+
+  @override
+  String get notifPackQuit5 => 'Un jour à la fois — aujourd’hui compte.';
+
+  @override
+  String get notifPackQuitName => 'Motivation (arrêt)';
 
   @override
   String get notifPause1h => '1 heure';

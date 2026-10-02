@@ -57,7 +57,7 @@ trigger semantics per section and global controls such as quiet hours ([7.5]).
 - [x] T7.1.14 — Section & category default-rule editors
 - [x] T7.1.15 — "Customize" snapshot, bulk apply & copy rules
 - [x] T7.1.16 — Occurrence-level overrides
-- [ ] T7.1.17 — Motivational content variants
+- [x] T7.1.17 — Motivational content variants
 - [ ] T7.1.18 — Rule sets (reusable bundles) & export/import
 
 ## Tasks
@@ -306,6 +306,7 @@ defaults").
 dedupe key) to avoid monotony; curated localized packs for habits and quit (e.g. uses `{reason}` from the
 quit tracker's motivation).
 **Tests:** determinism test (same occurrence → same variant on every device).
+**Notes:** Explicit `content.variants[]` or a curated `content.pack` (`habit_motivation`, `quit_motivation`, EN/FR/AR body variants); the planner keeps only the variants whose `{variables}` the target has (no `{reason}` without a motivation) and picks one from the first 32 bits of the dedupe key. Picker: *Rotating messages* in the advanced editor's content section.
 
 ### T7.1.18 — Rule sets (reusable bundles) & export/import
 **Priority:** P2 · **Size:** S · **Depends on:** T7.1.15
