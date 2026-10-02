@@ -41,7 +41,7 @@ jobs:
         run: cd packages/everslot_metrics && dart test --coverage=coverage
       - name: Test app
         run: cd app && flutter test --coverage --concurrency 4
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: coverage
@@ -75,7 +75,7 @@ jobs:
           baseline="$PWD/perf-baseline/stats_perf.json"
           cd app && STATS_PERF=full STATS_PERF_SLACK=1.5 STATS_PERF_BASELINE="$baseline" \
             flutter test test/features/stats/perf
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: stats-perf

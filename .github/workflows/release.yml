@@ -73,7 +73,7 @@ jobs:
         run: cd app/android && bundle exec fastlane beta
         env:
           PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: android-aab
           path: app/build/app/outputs/bundle/prodRelease/app-prod-release.aab
