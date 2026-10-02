@@ -46,5 +46,20 @@
   "shareSaved": "Enregistré dans Everslot",
   "shareFilesTitle": "{count, plural, =1{1 fichier} other{{count} fichiers}}",
   "shareItemCount": "{count, plural, =1{1 élément sera ajouté} other{{count} éléments seront ajoutés}}",
-  "shareNewList": "Nouvelle liste « {title} »"
+  "shareNewList": "Nouvelle liste « {title} »",
+  "icsSection": "Fichiers d’agenda",
+  "icsImportFile": "Importer un fichier d’agenda (.ics)",
+  "icsImportHint": "Depuis Google Agenda, Calendrier Apple, Outlook…",
+  "icsExport": "Exporter vers un fichier d’agenda",
+  "icsExportHint": "Partagez vos tâches comme événements d’agenda",
+  "icsExportTask": "Ajouter à l’agenda (.ics)",
+  "icsImportTitle": "Importer l’agenda",
+  "icsNothing": "Aucun événement dans ce fichier",
+  "icsRepeats": "Répétition",
+  "icsAlreadyImported": "Déjà importé",
+  "icsRepeatUnsupported": "Répétition non prise en charge — importé une fois",
+  "icsChanges": "{count, plural, =1{1 modification} other{{count} modifications}}",
+  "icsImportCount": "{count, plural, =0{Importer} =1{Importer 1 événement} other{Importer {count} événements}}",
+  "icsImported": "{count, plural, =1{1 événement importé} other{{count} événements importés}}",
+  "icsNextDays": "{count, plural, =1{Aujourd’hui} other{{count} prochains jours}}"
 }

@@ -1865,6 +1865,34 @@
       }
     }
   },
+  "@icsChanges": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@icsImportCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@icsImported": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@icsNextDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@importDone": {
     "placeholders": {
       "count": {
@@ -6722,6 +6750,21 @@
   "habitsZoneFixed": "Always use {zone}",
   "habitsZoneFixedHint": "Days follow {zone} wherever you are",
   "habitsZoneFloating": "Days follow your current time zone",
+  "icsAlreadyImported": "Already imported",
+  "icsChanges": "{count, plural, =1{1 change} other{{count} changes}}",
+  "icsExport": "Export to a calendar file",
+  "icsExportHint": "Share your planned tasks as calendar events",
+  "icsExportTask": "Add to calendar (.ics)",
+  "icsImportCount": "{count, plural, =0{Import} =1{Import 1 event} other{Import {count} events}}",
+  "icsImportFile": "Import a calendar file (.ics)",
+  "icsImportHint": "From Google Calendar, Apple Calendar, Outlook…",
+  "icsImportTitle": "Import calendar",
+  "icsImported": "{count, plural, =1{1 event imported} other{{count} events imported}}",
+  "icsNextDays": "{count, plural, =1{Today} other{Next {count} days}}",
+  "icsNothing": "No events in this file",
+  "icsRepeatUnsupported": "Repeat not supported — imported once",
+  "icsRepeats": "Repeats",
+  "icsSection": "Calendar files",
   "importAction": "Import",
   "importChooseFile": "Choose file",
   "importConvertBody": "Convert note to items",

@@ -123,6 +123,24 @@ void main() {
       await sub.cancel();
     });
 
+    test('a shared calendar file opens the ICS import instead', () async {
+      final ics = writeSource(sources, 'cal.ics', 'BEGIN:VCALENDAR\r\nEND:VCALENDAR\r\n'.codeUnits);
+      final events = <IntegrationUiEvent>[];
+      final sub = h.read(integrationUiEventsProvider).stream.listen(events.add);
+      h
+          .read(shareIntakeServiceProvider)
+          .receive(
+            SharedContent(
+              files: [SharedFile(path: ics.path, kind: SharedFileKind.file)],
+            ),
+          );
+      await pumpEventQueue();
+      expect(events.single, isA<IcsReceivedUiEvent>());
+      expect((events.single as IcsReceivedUiEvent).fileName, 'cal.ics');
+      expect(source.resets, 1);
+      await sub.cancel();
+    });
+
     test('5 photos into a list: one item with 5 attachments queued for upload (offline)', () async {
       final list = await h.checklist('Inspiration');
       final service = h.read(shareIntakeServiceProvider);

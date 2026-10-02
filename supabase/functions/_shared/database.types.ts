@@ -1814,6 +1814,7 @@ export type Database = {
           location: string | null
           location_lat: number | null
           location_lng: number | null
+          external_uid: string | null
           manual_sort_key: string | null
           notes: string | null
           notify_mode: string
@@ -1853,6 +1854,7 @@ export type Database = {
           location?: string | null
           location_lat?: number | null
           location_lng?: number | null
+          external_uid?: string | null
           manual_sort_key?: string | null
           notes?: string | null
           notify_mode?: string
@@ -1892,6 +1894,7 @@ export type Database = {
           location?: string | null
           location_lat?: number | null
           location_lng?: number | null
+          external_uid?: string | null
           manual_sort_key?: string | null
           notes?: string | null
           notify_mode?: string

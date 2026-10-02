@@ -776,6 +776,7 @@ app.tasks
   horizon_key text,                        -- P2: day:/week:/month:/quarter:/year: key (T3.7.11)
   countdown_mode text check (countdown_mode in ('until','since')),   -- P2 (T3.7.12)
   location_lat double precision, location_lng double precision,      -- P2: map pin, both or none (T3.7.13)
+  external_uid text check (length 1..255),  -- P2: UID of the imported calendar event (ICS, T8.2.12)
   notify_mode text not null default 'inherit' check (notify_mode in ('inherit','custom','inherit_plus','off')),
   status text not null default 'active' check (status in ('active','paused','archived'))
 

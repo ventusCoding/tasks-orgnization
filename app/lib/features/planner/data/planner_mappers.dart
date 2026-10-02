@@ -34,6 +34,7 @@ abstract final class PlannerMappers {
     countdownMode: CountdownMode.fromJson(r.countdownMode),
     locationLat: r.locationLat,
     locationLng: r.locationLng,
+    externalUid: r.externalUid,
     isTemplate: r.isTemplate,
     notifyMode: NotifyMode.fromJson(r.notifyMode),
     status: TaskStatus.fromJson(r.status),

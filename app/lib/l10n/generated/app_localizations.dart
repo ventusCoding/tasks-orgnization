@@ -8499,6 +8499,96 @@ abstract class AppLocalizations {
   /// **'Days follow your current time zone'**
   String get habitsZoneFloating;
 
+  /// No description provided for @icsAlreadyImported.
+  ///
+  /// In en, this message translates to:
+  /// **'Already imported'**
+  String get icsAlreadyImported;
+
+  /// No description provided for @icsChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 change} other{{count} changes}}'**
+  String icsChanges(int count);
+
+  /// No description provided for @icsExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export to a calendar file'**
+  String get icsExport;
+
+  /// No description provided for @icsExportHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your planned tasks as calendar events'**
+  String get icsExportHint;
+
+  /// No description provided for @icsExportTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to calendar (.ics)'**
+  String get icsExportTask;
+
+  /// No description provided for @icsImportCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Import} =1{Import 1 event} other{Import {count} events}}'**
+  String icsImportCount(int count);
+
+  /// No description provided for @icsImportFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Import a calendar file (.ics)'**
+  String get icsImportFile;
+
+  /// No description provided for @icsImportHint.
+  ///
+  /// In en, this message translates to:
+  /// **'From Google Calendar, Apple Calendar, Outlook…'**
+  String get icsImportHint;
+
+  /// No description provided for @icsImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import calendar'**
+  String get icsImportTitle;
+
+  /// No description provided for @icsImported.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 event imported} other{{count} events imported}}'**
+  String icsImported(int count);
+
+  /// No description provided for @icsNextDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Today} other{Next {count} days}}'**
+  String icsNextDays(int count);
+
+  /// No description provided for @icsNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No events in this file'**
+  String get icsNothing;
+
+  /// No description provided for @icsRepeatUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat not supported — imported once'**
+  String get icsRepeatUnsupported;
+
+  /// No description provided for @icsRepeats.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats'**
+  String get icsRepeats;
+
+  /// No description provided for @icsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar files'**
+  String get icsSection;
+
   /// No description provided for @importAction.
   ///
   /// In en, this message translates to:

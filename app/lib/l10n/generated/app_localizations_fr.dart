@@ -4922,6 +4922,84 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsZoneFloating => 'Les jours suivent votre fuseau horaire actuel';
 
   @override
+  String get icsAlreadyImported => 'Déjà importé';
+
+  @override
+  String icsChanges(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count modifications',
+      one: '1 modification',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get icsExport => 'Exporter vers un fichier d’agenda';
+
+  @override
+  String get icsExportHint => 'Partagez vos tâches comme événements d’agenda';
+
+  @override
+  String get icsExportTask => 'Ajouter à l’agenda (.ics)';
+
+  @override
+  String icsImportCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Importer $count événements',
+      one: 'Importer 1 événement',
+      zero: 'Importer',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get icsImportFile => 'Importer un fichier d’agenda (.ics)';
+
+  @override
+  String get icsImportHint => 'Depuis Google Agenda, Calendrier Apple, Outlook…';
+
+  @override
+  String get icsImportTitle => 'Importer l’agenda';
+
+  @override
+  String icsImported(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count événements importés',
+      one: '1 événement importé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String icsNextDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count prochains jours',
+      one: 'Aujourd’hui',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get icsNothing => 'Aucun événement dans ce fichier';
+
+  @override
+  String get icsRepeatUnsupported => 'Répétition non prise en charge — importé une fois';
+
+  @override
+  String get icsRepeats => 'Répétition';
+
+  @override
+  String get icsSection => 'Fichiers d’agenda';
+
+  @override
   String get importAction => 'Importer';
 
   @override

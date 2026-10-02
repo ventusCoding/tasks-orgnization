@@ -1,4 +1,5 @@
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/integrations/presentation/ics_ui.dart';
 import 'package:everslot/features/widgets_home/presentation/widgets_settings_section.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -9,6 +10,6 @@ class IntegrationsSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: Text(context.l10n.settingsIntegrations)),
-    body: ListView(children: const [WidgetsSettingsSection()]),
+    body: ListView(children: const [WidgetsSettingsSection(), IcsSettingsSection()]),
   );
 }

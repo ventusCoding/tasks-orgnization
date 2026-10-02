@@ -28,8 +28,8 @@ overlay, Health integrations, Live Activities / ongoing timer notification, Siri
 - [x] T8.2.08 — Widget: Checklist (interactive)
 - [x] T8.2.09 — Lock-screen / StandBy accessory widgets
 - [x] T8.2.10 — Running timer on lock screen (Live Activity / ongoing notification)
-- [ ] T8.2.11 — ICS export (share tasks as calendar events)
-- [ ] T8.2.12 — ICS import
+- [x] T8.2.11 — ICS export (share tasks as calendar events)
+- [x] T8.2.12 — ICS import
 - [ ] T8.2.13 — Device-calendar overlay (read-only)
 - [ ] T8.2.14 — Health data auto-logging for habits
 - [ ] T8.2.15 — Siri Shortcuts / App Intents & Android App Actions
@@ -139,12 +139,14 @@ Android ongoing notification with chronometer and Stop/Done actions (foreground 
 **Description:** Export a task, a date range or a category as `.ics` (VEVENT with RRULE/EXDATE when
 representable; otherwise expanded instances) and share it.
 **Tests:** golden `.ics` fixtures; round-trip with T8.2.12.
+**Notes:** Pure `IcsWriter` (CRLF, 75-octet UTF-8-safe folding, escaping, `TZID` by IANA name — no VTIMEZONE blocks, which Google / Apple / Outlook accept) + `IcsMapping.eventsForTask`: one VEVENT with `RRuleCodec` DTSTART/RRULE/EXDATE (cancelled occurrences → EXDATE, moved/retitled ones → RECURRENCE-ID events) when representable, else expanded instances over the range (180 days by default). Entry points: task menu *Add to calendar (.ics)*, Settings › Widgets & integrations › Calendar files (next 7/30/90/365 days, optional category). Golden `export_golden.ics`; round trip with T8.2.12 tested.
 
 ### T8.2.12 — ICS import
 **Priority:** P2 · **Size:** M · **Depends on:** [2.1] (RRULE import), [3.1]
 **Description:** Import `.ics` files (VEVENT → tasks, RRULE/EXDATE/RECURRENCE-ID → rules and overrides,
 VALARM → notification rules) with a preview and duplicate detection (UID stored in task metadata).
 **Tests:** fixtures from Google Calendar, Apple Calendar and Outlook exports.
+**Notes:** `IcsParser` reads Google / Apple / Outlook exports (fixtures): folded lines, quoted / Windows `TZID`s (mapped to IANA), `VALUE=DATE`, UTC, DURATION, EXDATE/RDATE, RECURRENCE-ID overrides (moved / cancelled), VALARM → *N min before start* reminders. New `tasks.external_uid` (server migration + pgTAP 159, Drift v6) stores the UID: duplicates start unchecked in the preview sheet; re-exports keep the original UID. Opened from Settings (file picker) or by sharing an `.ics` file into the app.
 
 ### T8.2.13 — Device-calendar overlay (read-only)
 **Priority:** P2 · **Size:** L · **Depends on:** [3.3], [3.4]

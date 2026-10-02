@@ -4871,6 +4871,74 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitsZoneFloating => 'Days follow your current time zone';
 
   @override
+  String get icsAlreadyImported => 'Already imported';
+
+  @override
+  String icsChanges(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count changes', one: '1 change');
+    return '$_temp0';
+  }
+
+  @override
+  String get icsExport => 'Export to a calendar file';
+
+  @override
+  String get icsExportHint => 'Share your planned tasks as calendar events';
+
+  @override
+  String get icsExportTask => 'Add to calendar (.ics)';
+
+  @override
+  String icsImportCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Import $count events',
+      one: 'Import 1 event',
+      zero: 'Import',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get icsImportFile => 'Import a calendar file (.ics)';
+
+  @override
+  String get icsImportHint => 'From Google Calendar, Apple Calendar, Outlook…';
+
+  @override
+  String get icsImportTitle => 'Import calendar';
+
+  @override
+  String icsImported(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count events imported',
+      one: '1 event imported',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String icsNextDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: 'Next $count days', one: 'Today');
+    return '$_temp0';
+  }
+
+  @override
+  String get icsNothing => 'No events in this file';
+
+  @override
+  String get icsRepeatUnsupported => 'Repeat not supported — imported once';
+
+  @override
+  String get icsRepeats => 'Repeats';
+
+  @override
+  String get icsSection => 'Calendar files';
+
+  @override
   String get importAction => 'Import';
 
   @override

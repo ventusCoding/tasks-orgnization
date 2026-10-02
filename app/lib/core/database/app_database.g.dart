@@ -8435,6 +8435,15 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, TaskRow> {
     type: DriftSqlType.double,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _externalUidMeta = const VerificationMeta('externalUid');
+  @override
+  late final GeneratedColumn<String> externalUid = GeneratedColumn<String>(
+    'external_uid',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -8474,6 +8483,7 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, TaskRow> {
     countdownMode,
     locationLat,
     locationLng,
+    externalUid,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -8634,6 +8644,9 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, TaskRow> {
     if (data.containsKey('location_lng')) {
       context.handle(_locationLngMeta, locationLng.isAcceptableOrUnknown(data['location_lng']!, _locationLngMeta));
     }
+    if (data.containsKey('external_uid')) {
+      context.handle(_externalUidMeta, externalUid.isAcceptableOrUnknown(data['external_uid']!, _externalUidMeta));
+    }
     return context;
   }
 
@@ -8692,6 +8705,7 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, TaskRow> {
       countdownMode: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}countdown_mode']),
       locationLat: attachedDatabase.typeMapping.read(DriftSqlType.double, data['${effectivePrefix}location_lat']),
       locationLng: attachedDatabase.typeMapping.read(DriftSqlType.double, data['${effectivePrefix}location_lng']),
+      externalUid: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}external_uid']),
     );
   }
 
@@ -8749,6 +8763,9 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
   final String? countdownMode;
   final double? locationLat;
   final double? locationLng;
+
+  /// v6: UID of the imported calendar event (T8.2.12).
+  final String? externalUid;
   const TaskRow({
     required this.id,
     required this.userId,
@@ -8787,6 +8804,7 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
     this.countdownMode,
     this.locationLat,
     this.locationLng,
+    this.externalUid,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -8874,6 +8892,9 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
     if (!nullToAbsent || locationLng != null) {
       map['location_lng'] = Variable<double>(locationLng);
     }
+    if (!nullToAbsent || externalUid != null) {
+      map['external_uid'] = Variable<String>(externalUid);
+    }
     return map;
   }
 
@@ -8918,6 +8939,7 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
       countdownMode: countdownMode == null && nullToAbsent ? const Value.absent() : Value(countdownMode),
       locationLat: locationLat == null && nullToAbsent ? const Value.absent() : Value(locationLat),
       locationLng: locationLng == null && nullToAbsent ? const Value.absent() : Value(locationLng),
+      externalUid: externalUid == null && nullToAbsent ? const Value.absent() : Value(externalUid),
     );
   }
 
@@ -8961,6 +8983,7 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
       countdownMode: serializer.fromJson<String?>(json['countdown_mode']),
       locationLat: serializer.fromJson<double?>(json['location_lat']),
       locationLng: serializer.fromJson<double?>(json['location_lng']),
+      externalUid: serializer.fromJson<String?>(json['external_uid']),
     );
   }
   @override
@@ -9004,6 +9027,7 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
       'countdown_mode': serializer.toJson<String?>(countdownMode),
       'location_lat': serializer.toJson<double?>(locationLat),
       'location_lng': serializer.toJson<double?>(locationLng),
+      'external_uid': serializer.toJson<String?>(externalUid),
     };
   }
 
@@ -9045,6 +9069,7 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
     Value<String?> countdownMode = const Value.absent(),
     Value<double?> locationLat = const Value.absent(),
     Value<double?> locationLng = const Value.absent(),
+    Value<String?> externalUid = const Value.absent(),
   }) => TaskRow(
     id: id ?? this.id,
     userId: userId ?? this.userId,
@@ -9083,6 +9108,7 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
     countdownMode: countdownMode.present ? countdownMode.value : this.countdownMode,
     locationLat: locationLat.present ? locationLat.value : this.locationLat,
     locationLng: locationLng.present ? locationLng.value : this.locationLng,
+    externalUid: externalUid.present ? externalUid.value : this.externalUid,
   );
   TaskRow copyWithCompanion(TasksCompanion data) {
     return TaskRow(
@@ -9125,6 +9151,7 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
       countdownMode: data.countdownMode.present ? data.countdownMode.value : this.countdownMode,
       locationLat: data.locationLat.present ? data.locationLat.value : this.locationLat,
       locationLng: data.locationLng.present ? data.locationLng.value : this.locationLng,
+      externalUid: data.externalUid.present ? data.externalUid.value : this.externalUid,
     );
   }
 
@@ -9167,7 +9194,8 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
           ..write('horizonKey: $horizonKey, ')
           ..write('countdownMode: $countdownMode, ')
           ..write('locationLat: $locationLat, ')
-          ..write('locationLng: $locationLng')
+          ..write('locationLng: $locationLng, ')
+          ..write('externalUid: $externalUid')
           ..write(')'))
         .toString();
   }
@@ -9211,6 +9239,7 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
     countdownMode,
     locationLat,
     locationLng,
+    externalUid,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -9252,7 +9281,8 @@ class TaskRow extends DataClass implements Insertable<TaskRow> {
           other.horizonKey == this.horizonKey &&
           other.countdownMode == this.countdownMode &&
           other.locationLat == this.locationLat &&
-          other.locationLng == this.locationLng);
+          other.locationLng == this.locationLng &&
+          other.externalUid == this.externalUid);
 }
 
 class TasksCompanion extends UpdateCompanion<TaskRow> {
@@ -9293,6 +9323,7 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
   final Value<String?> countdownMode;
   final Value<double?> locationLat;
   final Value<double?> locationLng;
+  final Value<String?> externalUid;
   final Value<int> rowid;
   const TasksCompanion({
     this.id = const Value.absent(),
@@ -9332,6 +9363,7 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
     this.countdownMode = const Value.absent(),
     this.locationLat = const Value.absent(),
     this.locationLng = const Value.absent(),
+    this.externalUid = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   TasksCompanion.insert({
@@ -9372,6 +9404,7 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
     this.countdownMode = const Value.absent(),
     this.locationLat = const Value.absent(),
     this.locationLng = const Value.absent(),
+    this.externalUid = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        userId = Value(userId),
@@ -9417,6 +9450,7 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
     Expression<String>? countdownMode,
     Expression<double>? locationLat,
     Expression<double>? locationLng,
+    Expression<String>? externalUid,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -9457,6 +9491,7 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
       if (countdownMode != null) 'countdown_mode': countdownMode,
       if (locationLat != null) 'location_lat': locationLat,
       if (locationLng != null) 'location_lng': locationLng,
+      if (externalUid != null) 'external_uid': externalUid,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -9499,6 +9534,7 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
     Value<String?>? countdownMode,
     Value<double?>? locationLat,
     Value<double?>? locationLng,
+    Value<String?>? externalUid,
     Value<int>? rowid,
   }) {
     return TasksCompanion(
@@ -9539,6 +9575,7 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
       countdownMode: countdownMode ?? this.countdownMode,
       locationLat: locationLat ?? this.locationLat,
       locationLng: locationLng ?? this.locationLng,
+      externalUid: externalUid ?? this.externalUid,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -9657,6 +9694,9 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
     if (locationLng.present) {
       map['location_lng'] = Variable<double>(locationLng.value);
     }
+    if (externalUid.present) {
+      map['external_uid'] = Variable<String>(externalUid.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -9703,6 +9743,7 @@ class TasksCompanion extends UpdateCompanion<TaskRow> {
           ..write('countdownMode: $countdownMode, ')
           ..write('locationLat: $locationLat, ')
           ..write('locationLng: $locationLng, ')
+          ..write('externalUid: $externalUid, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -31534,6 +31575,7 @@ typedef $$TasksTableCreateCompanionBuilder = TasksCompanion Function({
   Value<String?> countdownMode,
   Value<double?> locationLat,
   Value<double?> locationLng,
+  Value<String?> externalUid,
   Value<int> rowid,
 });
 typedef $$TasksTableUpdateCompanionBuilder = TasksCompanion Function({
@@ -31574,6 +31616,7 @@ typedef $$TasksTableUpdateCompanionBuilder = TasksCompanion Function({
   Value<String?> countdownMode,
   Value<double?> locationLat,
   Value<double?> locationLng,
+  Value<String?> externalUid,
   Value<int> rowid,
 });
 
@@ -31690,6 +31733,9 @@ class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
 
   ColumnFilters<double> get locationLng =>
       $composableBuilder(column: $table.locationLng, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get externalUid =>
+      $composableBuilder(column: $table.externalUid, builder: (column) => ColumnFilters(column));
 }
 
 class $$TasksTableOrderingComposer extends Composer<_$AppDatabase, $TasksTable> {
@@ -31808,6 +31854,9 @@ class $$TasksTableOrderingComposer extends Composer<_$AppDatabase, $TasksTable> 
 
   ColumnOrderings<double> get locationLng =>
       $composableBuilder(column: $table.locationLng, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get externalUid =>
+      $composableBuilder(column: $table.externalUid, builder: (column) => ColumnOrderings(column));
 }
 
 class $$TasksTableAnnotationComposer extends Composer<_$AppDatabase, $TasksTable> {
@@ -31904,6 +31953,9 @@ class $$TasksTableAnnotationComposer extends Composer<_$AppDatabase, $TasksTable
 
   GeneratedColumn<double> get locationLng =>
       $composableBuilder(column: $table.locationLng, builder: (column) => column);
+
+  GeneratedColumn<String> get externalUid =>
+      $composableBuilder(column: $table.externalUid, builder: (column) => column);
 }
 
 class $$TasksTableTableManager
@@ -31968,6 +32020,7 @@ class $$TasksTableTableManager
                 Value<String?> countdownMode = const Value.absent(),
                 Value<double?> locationLat = const Value.absent(),
                 Value<double?> locationLng = const Value.absent(),
+                Value<String?> externalUid = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => TasksCompanion(
                 id: id,
@@ -32007,6 +32060,7 @@ class $$TasksTableTableManager
                 countdownMode: countdownMode,
                 locationLat: locationLat,
                 locationLng: locationLng,
+                externalUid: externalUid,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -32048,6 +32102,7 @@ class $$TasksTableTableManager
                 Value<String?> countdownMode = const Value.absent(),
                 Value<double?> locationLat = const Value.absent(),
                 Value<double?> locationLng = const Value.absent(),
+                Value<String?> externalUid = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => TasksCompanion.insert(
                 id: id,
@@ -32087,6 +32142,7 @@ class $$TasksTableTableManager
                 countdownMode: countdownMode,
                 locationLat: locationLat,
                 locationLng: locationLng,
+                externalUid: externalUid,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

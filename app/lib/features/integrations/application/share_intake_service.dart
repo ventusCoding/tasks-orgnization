@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/features/attachments/application/providers.dart';
@@ -39,8 +40,25 @@ class ShareIntakeService {
 
   void receive(SharedContent content) {
     if (content.isEmpty) return;
+    // A calendar file opens the ICS import preview instead (T8.2.12).
+    final ics = content.files.where((f) => RegExp(r'\.(ics|ical)$', caseSensitive: false).hasMatch(f.path)).firstOrNull;
+    if (ics != null) {
+      unawaited(_receiveIcs(ics));
+      return;
+    }
     pending = content;
     _events.add(const ShareReceivedUiEvent());
+  }
+
+  Future<void> _receiveIcs(SharedFile file) async {
+    try {
+      final content = await File(file.path).readAsString();
+      _events.add(IcsReceivedUiEvent(content, fileName: file.name));
+    } on Object catch (e) {
+      _log.info('shared calendar file unreadable: $e');
+      _events.add(const NoticeUiEvent(IntegrationNotice.actionFailed));
+    }
+    await finish();
   }
 
   /// Clears the pending content (after saving or cancelling).

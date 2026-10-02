@@ -88,5 +88,48 @@
         "type": "String"
       }
     }
+  },
+  "icsSection": "Calendar files",
+  "icsImportFile": "Import a calendar file (.ics)",
+  "icsImportHint": "From Google Calendar, Apple Calendar, Outlook…",
+  "icsExport": "Export to a calendar file",
+  "icsExportHint": "Share your planned tasks as calendar events",
+  "icsExportTask": "Add to calendar (.ics)",
+  "icsImportTitle": "Import calendar",
+  "icsNothing": "No events in this file",
+  "icsRepeats": "Repeats",
+  "icsAlreadyImported": "Already imported",
+  "icsRepeatUnsupported": "Repeat not supported — imported once",
+  "icsChanges": "{count, plural, =1{1 change} other{{count} changes}}",
+  "icsImportCount": "{count, plural, =0{Import} =1{Import 1 event} other{Import {count} events}}",
+  "icsImported": "{count, plural, =1{1 event imported} other{{count} events imported}}",
+  "icsNextDays": "{count, plural, =1{Today} other{Next {count} days}}",
+  "@icsChanges": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@icsImportCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@icsImported": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@icsNextDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

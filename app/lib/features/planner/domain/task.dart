@@ -169,6 +169,7 @@ class Task {
     this.countdownMode,
     this.locationLat,
     this.locationLng,
+    this.externalUid,
     this.isTemplate = false,
     this.notifyMode = NotifyMode.inherit,
     this.status = TaskStatus.active,
@@ -211,6 +212,7 @@ class Task {
       countdownMode: CountdownMode.fromJson(json['countdown_mode']),
       locationLat: (json['location_lat'] as num?)?.toDouble(),
       locationLng: (json['location_lng'] as num?)?.toDouble(),
+      externalUid: json['external_uid'] as String?,
       isTemplate: json['is_template'] == true || json['is_template'] == 1,
       notifyMode: NotifyMode.fromJson(json['notify_mode']),
       status: TaskStatus.fromJson(json['status']),
@@ -264,6 +266,9 @@ class Task {
   /// Map pin (T3.7.13); both or none.
   final double? locationLat;
   final double? locationLng;
+
+  /// UID of the calendar event this task was imported from (ICS, T8.2.12): duplicate detection.
+  final String? externalUid;
   final bool isTemplate;
   final NotifyMode notifyMode;
   final TaskStatus status;
@@ -335,6 +340,7 @@ class Task {
     Object? countdownMode = _unset,
     Object? locationLat = _unset,
     Object? locationLng = _unset,
+    Object? externalUid = _unset,
     bool? isTemplate,
     NotifyMode? notifyMode,
     TaskStatus? status,
@@ -368,6 +374,7 @@ class Task {
     countdownMode: identical(countdownMode, _unset) ? this.countdownMode : countdownMode as CountdownMode?,
     locationLat: identical(locationLat, _unset) ? this.locationLat : locationLat as double?,
     locationLng: identical(locationLng, _unset) ? this.locationLng : locationLng as double?,
+    externalUid: identical(externalUid, _unset) ? this.externalUid : externalUid as String?,
     isTemplate: isTemplate ?? this.isTemplate,
     notifyMode: notifyMode ?? this.notifyMode,
     status: status ?? this.status,
@@ -405,6 +412,7 @@ class Task {
     'countdown_mode': countdownMode?.json,
     'location_lat': locationLat,
     'location_lng': locationLng,
+    'external_uid': externalUid,
     'is_template': isTemplate,
     'notify_mode': notifyMode.json,
     'status': status.json,
@@ -447,6 +455,7 @@ class Task {
       other.countdownMode == countdownMode &&
       other.locationLat == locationLat &&
       other.locationLng == locationLng &&
+      other.externalUid == externalUid &&
       other.isTemplate == isTemplate &&
       other.notifyMode == notifyMode &&
       other.status == status &&
@@ -481,6 +490,7 @@ class Task {
     countdownMode,
     locationLat,
     locationLng,
+    externalUid,
     isTemplate,
     notifyMode,
     status,

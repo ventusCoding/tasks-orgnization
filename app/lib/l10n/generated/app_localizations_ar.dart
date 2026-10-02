@@ -5193,6 +5193,98 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsZoneFloating => 'تتبع الأيام منطقتك الزمنية الحالية';
 
   @override
+  String get icsAlreadyImported => 'مستورد مسبقًا';
+
+  @override
+  String icsChanges(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تغيير',
+      many: '$count تغييرًا',
+      few: '$count تغييرات',
+      two: 'تغييران',
+      one: 'تغيير واحد',
+      zero: 'لا تغييرات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get icsExport => 'تصدير إلى ملف تقويم';
+
+  @override
+  String get icsExportHint => 'شارك مهامك المخططة كأحداث تقويم';
+
+  @override
+  String get icsExportTask => 'إضافة إلى التقويم (.ics)';
+
+  @override
+  String icsImportCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'استيراد $count حدث',
+      many: 'استيراد $count حدثًا',
+      few: 'استيراد $count أحداث',
+      two: 'استيراد حدثين',
+      one: 'استيراد حدث واحد',
+      zero: 'استيراد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get icsImportFile => 'استيراد ملف تقويم (.ics)';
+
+  @override
+  String get icsImportHint => 'من تقويم Google أو Apple أو Outlook…';
+
+  @override
+  String get icsImportTitle => 'استيراد التقويم';
+
+  @override
+  String icsImported(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم استيراد $count حدث',
+      many: 'تم استيراد $count حدثًا',
+      few: 'تم استيراد $count أحداث',
+      two: 'تم استيراد حدثين',
+      one: 'تم استيراد حدث واحد',
+      zero: 'لم يُستورد شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String icsNextDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'الـ$count يوم القادمة',
+      many: 'الـ$count يومًا القادمة',
+      few: 'الأيام الـ$count القادمة',
+      two: 'اليومان القادمان',
+      one: 'اليوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get icsNothing => 'لا أحداث في هذا الملف';
+
+  @override
+  String get icsRepeatUnsupported => 'التكرار غير مدعوم — استيراد مرة واحدة';
+
+  @override
+  String get icsRepeats => 'متكرر';
+
+  @override
+  String get icsSection => 'ملفات التقويم';
+
+  @override
   String get importAction => 'استيراد';
 
   @override

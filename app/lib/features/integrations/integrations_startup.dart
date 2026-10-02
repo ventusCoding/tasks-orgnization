@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:everslot/features/integrations/application/integration_events.dart';
 import 'package:everslot/features/integrations/application/integration_providers.dart';
+import 'package:everslot/features/integrations/presentation/ics_ui.dart';
 import 'package:everslot/features/integrations/presentation/integrations_overlay.dart';
 import 'package:everslot/features/integrations/presentation/share_intake_sheet.dart';
 import 'package:everslot/features/planner/application/planner_service.dart' show plannerL10nProvider;
@@ -18,6 +19,8 @@ Future<void> startIntegrations(ProviderContainer container) async {
     _wired[container] = true;
     IntegrationsOverlay.install(container);
     IntegrationsOverlay.handlers[ShareReceivedUiEvent] = (context, container, _) => showShareIntake(context);
+    IntegrationsOverlay.handlers[IcsReceivedUiEvent] = (context, container, event) =>
+        showIcsImport(context, (event as IcsReceivedUiEvent).content);
   }
   unawaited(container.read(externalLinksServiceProvider).start());
   if (Platform.isIOS || Platform.isAndroid) {
