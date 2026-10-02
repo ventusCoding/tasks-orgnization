@@ -3846,6 +3846,23 @@
       }
     }
   },
+  "@searchSyntaxBadValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "@searchSyntaxUnknownKey": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
   "@settingsDeviceLastSeen": {
     "placeholders": {
       "when": {
@@ -8254,6 +8271,12 @@
   "searchStatus": "Status",
   "searchStatusClosed": "Done or archived",
   "searchStatusOpen": "Open",
+  "searchSyntaxBadValue": "“{value}” isn't valid for {key}:",
+  "searchSyntaxHelp": "Search syntax",
+  "searchSyntaxHelpBody": "Combine words with filters:\n• \"exact phrase\"\n• status:waiting (todo, ongoing, waiting, blocked, done, cancelled, open, closed)\n• tag:work · cat:health\n• due:today · due:tomorrow · due:overdue · due:<7d · due:>2w · due:2026-10-15\n• is:recurring · is:open · is:done · is:archived\n• type:task (list, item, habit, note, inbox)",
+  "searchSyntaxNeedsWords": "Add a word to search with these filters",
+  "searchSyntaxUnclosedQuote": "Missing closing quote",
+  "searchSyntaxUnknownKey": "Unknown filter “{key}:” — use status:, tag:, cat:, due:, is: or type:",
   "searchTag": "Tag",
   "settingsAbout": "About",
   "settingsAboutSubtitle": "Version, licenses, help",

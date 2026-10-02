@@ -26,5 +26,11 @@
   "searchComplete": "Terminer l’élément",
   "searchCheckIn": "Valider",
   "searchItemCompleted": "« {title} » terminé",
-  "searchSeeAll": "{count, plural, =1{Voir 1 résultat} other{Voir les {count}}}"
+  "searchSeeAll": "{count, plural, =1{Voir 1 résultat} other{Voir les {count}}}",
+  "searchSyntaxUnknownKey": "Filtre inconnu « {key}: » — utilisez statut:, étiquette:, cat:, échéance:, est: ou type:",
+  "searchSyntaxBadValue": "« {value} » n’est pas valide pour {key}:",
+  "searchSyntaxUnclosedQuote": "Guillemet fermant manquant",
+  "searchSyntaxNeedsWords": "Ajoutez un mot pour chercher avec ces filtres",
+  "searchSyntaxHelp": "Syntaxe de recherche",
+  "searchSyntaxHelpBody": "Combinez des mots et des filtres :\n• \"phrase exacte\"\n• statut:attente (afaire, encours, attente, bloqué, fait, annulé, ouvert, fermé)\n• étiquette:travail · cat:santé\n• échéance:aujourdhui · échéance:demain · échéance:retard · échéance:<7j · échéance:>2s · échéance:2026-10-15\n• est:récurrent · est:ouvert · est:fait · est:archivé\n• type:tâche (liste, élément, habitude, note, inbox)"
 }

@@ -18207,6 +18207,42 @@ abstract class AppLocalizations {
   /// **'Open'**
   String get searchStatusOpen;
 
+  /// No description provided for @searchSyntaxBadValue.
+  ///
+  /// In en, this message translates to:
+  /// **'“{value}” isn\'t valid for {key}:'**
+  String searchSyntaxBadValue(String value, String key);
+
+  /// No description provided for @searchSyntaxHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Search syntax'**
+  String get searchSyntaxHelp;
+
+  /// No description provided for @searchSyntaxHelpBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Combine words with filters:\n• \"exact phrase\"\n• status:waiting (todo, ongoing, waiting, blocked, done, cancelled, open, closed)\n• tag:work · cat:health\n• due:today · due:tomorrow · due:overdue · due:<7d · due:>2w · due:2026-10-15\n• is:recurring · is:open · is:done · is:archived\n• type:task (list, item, habit, note, inbox)'**
+  String get searchSyntaxHelpBody;
+
+  /// No description provided for @searchSyntaxNeedsWords.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a word to search with these filters'**
+  String get searchSyntaxNeedsWords;
+
+  /// No description provided for @searchSyntaxUnclosedQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing closing quote'**
+  String get searchSyntaxUnclosedQuote;
+
+  /// No description provided for @searchSyntaxUnknownKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown filter “{key}:” — use status:, tag:, cat:, due:, is: or type:'**
+  String searchSyntaxUnknownKey(String key);
+
   /// No description provided for @searchTag.
   ///
   /// In en, this message translates to:

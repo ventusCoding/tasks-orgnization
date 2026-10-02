@@ -173,6 +173,30 @@ void main() {
     await tester.pump(const Duration(seconds: 5));
   });
 
+  testWidgets('query syntax: tokens become chips that filter; deleting one restores; errors show', (tester) async {
+    final list = await tester.runAsync(() => h.checklist('Garage', items: ['Paint shelf', 'Paint door']));
+    final door = (await tester.runAsync(() => h.itemId(list!, 'Paint door')))!;
+    await tester.runAsync(() => h.setItemStatus(list!, door, ItemStatus.waiting));
+    await open(tester);
+    await type(tester, 'paint status:waiting');
+    expect(find.byKey(const ValueKey('search-token-0')), findsOneWidget);
+    expect(find.text('status:waiting'), findsOneWidget);
+    expect(find.text('Paint door'), findsOneWidget);
+    expect(find.text('Paint shelf'), findsNothing);
+    await tester.tap(
+      find.descendant(of: find.byKey(const ValueKey('search-token-0')), matching: find.byTooltip('Delete')),
+    );
+    await settle(tester);
+    expect(find.text('Paint shelf'), findsOneWidget);
+    expect(tester.widget<TextField>(find.byKey(const ValueKey('search-field'))).controller!.text, 'paint');
+
+    await type(tester, 'paint foo:bar');
+    expect(find.byKey(const ValueKey('search-syntax-error-0')), findsOneWidget);
+    expect(find.textContaining('Unknown filter “foo:”'), findsOneWidget);
+    await type(tester, 'status:waiting');
+    expect(find.text('Add a word to search with these filters'), findsOneWidget);
+  });
+
   testWidgets('no results; Arabic layout has no errors', (tester) async {
     await open(tester, locale: const Locale('ar'));
     await type(tester, 'zzz');

@@ -10476,6 +10476,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchStatusOpen => 'Open';
 
   @override
+  String searchSyntaxBadValue(String value, String key) {
+    return '“$value” isn\'t valid for $key:';
+  }
+
+  @override
+  String get searchSyntaxHelp => 'Search syntax';
+
+  @override
+  String get searchSyntaxHelpBody =>
+      'Combine words with filters:\n• \"exact phrase\"\n• status:waiting (todo, ongoing, waiting, blocked, done, cancelled, open, closed)\n• tag:work · cat:health\n• due:today · due:tomorrow · due:overdue · due:<7d · due:>2w · due:2026-10-15\n• is:recurring · is:open · is:done · is:archived\n• type:task (list, item, habit, note, inbox)';
+
+  @override
+  String get searchSyntaxNeedsWords => 'Add a word to search with these filters';
+
+  @override
+  String get searchSyntaxUnclosedQuote => 'Missing closing quote';
+
+  @override
+  String searchSyntaxUnknownKey(String key) {
+    return 'Unknown filter “$key:” — use status:, tag:, cat:, due:, is: or type:';
+  }
+
+  @override
   String get searchTag => 'Tag';
 
   @override

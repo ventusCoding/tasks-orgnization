@@ -42,9 +42,11 @@ class GlobalSearchQueries {
 
     await load(
       'task',
-      'SELECT id, category_id, status, start_local FROM tasks WHERE id IN',
+      'SELECT id, category_id, status, start_local, recurrence FROM tasks WHERE id IN',
       (r) => _Meta(
         categoryId: r.readNullable<String>('category_id'),
+        rawStatus: r.read<String>('status'),
+        recurring: r.readNullable<String>('recurrence') != null,
         closed: r.read<String>('status') == 'archived',
         day: LocalDateTime.tryParse(r.readNullable<String>('start_local') ?? '')?.date,
       ),
@@ -64,6 +66,7 @@ class GlobalSearchQueries {
       (r) => _Meta(
         categoryId: r.readNullable<String>('category_id'),
         closed: const {'completed', 'cancelled'}.contains(r.read<String>('status')),
+        rawStatus: r.read<String>('status'),
         day: _date(r.readNullable<String>('due_local')),
         breadcrumb: [r.readNullable<String>('list') ?? ''],
       ),
@@ -75,6 +78,7 @@ class GlobalSearchQueries {
         categoryId: r.readNullable<String>('category_id'),
         closed: r.readNullable<String>('archived_at') != null,
         quit: r.read<String>('kind') == 'quit',
+        recurring: r.read<String>('kind') == 'build',
         link: r.read<String>('kind') == 'quit' ? AppLinks.quit(r.read<String>('id')) : null,
       ),
     );
@@ -129,6 +133,8 @@ class GlobalSearchQueries {
               closed: x.closed,
               day: x.day ?? (m.updatedAt == null ? null : _dayOf(m.updatedAt!)),
               quit: x.quit,
+              rawStatus: x.rawStatus,
+              recurring: x.recurring,
             );
           }(),
     ];
@@ -197,6 +203,8 @@ class _Meta {
     this.breadcrumb = const [],
     this.link,
     this.quit = false,
+    this.rawStatus,
+    this.recurring = false,
   });
 
   final String? categoryId;
@@ -205,4 +213,6 @@ class _Meta {
   final List<String> breadcrumb;
   final String? link;
   final bool quit;
+  final String? rawStatus;
+  final bool recurring;
 }

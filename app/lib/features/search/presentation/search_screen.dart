@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
+import 'package:everslot/features/checklists/domain/collation.dart';
 import 'package:everslot/features/checklists/domain/item_status.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
@@ -10,6 +11,7 @@ import 'package:everslot/features/habits/presentation/check_in_sheets.dart';
 import 'package:everslot/features/organization/application/providers.dart';
 import 'package:everslot/features/search/application/search_providers.dart';
 import 'package:everslot/features/search/domain/search_models.dart';
+import 'package:everslot/features/search/domain/search_syntax.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,6 +41,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   SearchFilters _filters = const SearchFilters();
   List<SearchResult>? _results;
   String _shownQuery = '';
+  ParsedQuery _parsed = const ParsedQuery();
   var _generation = 0;
 
   @override
@@ -61,20 +64,55 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   Future<void> _run() async {
     final query = _controller.text.trim();
+    final parsed = SearchSyntax.parse(query);
     final generation = ++_generation;
     if (query.isEmpty) {
       setState(() {
         _results = null;
         _shownQuery = '';
+        _parsed = parsed;
       });
       return;
     }
-    final results = await ref.read(globalSearchQueriesProvider).search(query, kinds: _filters.kinds);
+    final results = parsed.text.isEmpty
+        ? const <SearchResult>[]
+        : await ref.read(globalSearchQueriesProvider).search(parsed.text, kinds: _effective(parsed).kinds);
     if (!mounted || generation != _generation) return;
     setState(() {
       _results = results;
       _shownQuery = query;
+      _parsed = parsed;
     });
+  }
+
+  /// Chip filters with the query's `key:value` tokens applied (T8.1.16).
+  SearchFilters _effective(ParsedQuery parsed) {
+    if (!parsed.hasFilters) return _filters;
+    String? byName<T>(List<T> all, String Function(T) name, String Function(T) id, String wanted) {
+      final key = Collation.key(wanted);
+      return [
+        for (final x in all)
+          if (Collation.key(name(x)) == key) id(x),
+      ].firstOrNull;
+    }
+
+    final tags = ref.read(tagsProvider).value ?? const [];
+    final categories = ref.read(categoriesProvider).value ?? const [];
+    return parsed.applyTo(
+      _filters,
+      today: ref
+          .read(zoneResolverProvider)
+          .toLocal(ref.read(clockProvider).nowUtc(), ref.read(deviceZoneProvider))
+          .date,
+      tagIdOf: (n) => byName(tags, (t) => t.name, (t) => t.id, n),
+      categoryIdOf: (n) => byName(categories, (c) => c.name, (c) => c.id, n),
+    );
+  }
+
+  void _removeToken(QueryToken t) {
+    final text = _controller.text;
+    final end = t.end < text.length && text[t.end] == ' ' ? t.end + 1 : t.end;
+    _useQuery(text.replaceRange(t.start, end, '').trim());
   }
 
   void _setFilters(SearchFilters next) {
@@ -116,7 +154,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final query = _controller.text.trim();
-    final visible = _results?.where(_filters.matches).toList();
+    final filters = _effective(_parsed);
+    final visible = _results?.where(filters.matches).toList();
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
@@ -134,6 +173,21 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           },
         ),
         actions: [
+          IconButton(
+            key: const ValueKey('search-syntax-help'),
+            tooltip: l.searchSyntaxHelp,
+            icon: const Icon(Icons.help_outline),
+            onPressed: () => unawaited(
+              showAppSheet<void>(
+                context,
+                title: l.searchSyntaxHelp,
+                builder: (_) => Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.lg),
+                  child: Text(l.searchSyntaxHelpBody),
+                ),
+              ),
+            ),
+          ),
           if (query.isNotEmpty)
             IconButton(
               key: const ValueKey('search-clear'),
@@ -147,15 +201,18 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SearchFilterBar(filters: _filters, onChanged: _setFilters),
+          if (_parsed.tokens.isNotEmpty || _parsed.errors.isNotEmpty)
+            QuerySyntaxBar(parsed: _parsed, onRemove: _removeToken),
           Expanded(
             child: switch (visible) {
               null when query.isEmpty => _RecentSearches(onPick: _useQuery),
               null => const Center(child: CircularProgressIndicator()),
+              [] when _parsed.text.isEmpty => EmptyState(icon: Icons.manage_search, title: l.searchSyntaxNeedsWords),
               [] => EmptyState(icon: Icons.search_off, title: l.searchNoResults(_shownQuery)),
               final rows => _GroupedResults(
                 results: rows,
-                query: _shownQuery,
-                expanded: _filters.kinds.length == 1,
+                query: _parsed.text,
+                expanded: filters.kinds.length == 1,
                 onSeeAll: (kind) => _setFilters(_filters.copyWith(kinds: {kind})),
                 onOpen: (r) => unawaited(_open(r)),
                 onComplete: (r) => unawaited(_complete(r)),
@@ -521,4 +578,54 @@ class _MenuChip extends StatelessWidget {
       onSelected: (_) => onPressed(),
     ),
   );
+}
+
+/// Parsed `key:value` tokens as removable chips, and syntax errors (T8.1.16).
+class QuerySyntaxBar extends StatelessWidget {
+  const QuerySyntaxBar({required this.parsed, required this.onRemove, super.key});
+
+  final ParsedQuery parsed;
+  final ValueChanged<QueryToken> onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    String error(QueryError e) => switch (e.code) {
+      QueryErrorCode.unknownKey => l.searchSyntaxUnknownKey(e.key ?? ''),
+      QueryErrorCode.badValue => l.searchSyntaxBadValue(e.value ?? '', e.key ?? ''),
+      QueryErrorCode.unclosedQuote => l.searchSyntaxUnclosedQuote,
+    };
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(Space.md, 0, Space.md, Space.sm),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (parsed.tokens.isNotEmpty)
+            Wrap(
+              spacing: Space.sm,
+              runSpacing: Space.xs,
+              children: [
+                for (final (i, t) in parsed.tokens.indexed)
+                  InputChip(
+                    key: ValueKey('search-token-$i'),
+                    avatar: const Icon(Icons.filter_alt_outlined, size: 18),
+                    label: Text(t.raw),
+                    deleteButtonTooltipMessage: l.actionDelete,
+                    onDeleted: () => onRemove(t),
+                  ),
+              ],
+            ),
+          for (final (i, e) in parsed.errors.indexed)
+            Padding(
+              padding: const EdgeInsetsDirectional.only(top: Space.xs),
+              child: Text(
+                error(e),
+                key: ValueKey('search-syntax-error-$i'),
+                style: context.text.bodySmall?.copyWith(color: context.colors.error),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 }

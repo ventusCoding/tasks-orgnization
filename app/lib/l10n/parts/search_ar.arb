@@ -26,5 +26,11 @@
   "searchComplete": "إنجاز العنصر",
   "searchCheckIn": "تسجيل",
   "searchItemCompleted": "تم إنجاز «{title}»",
-  "searchSeeAll": "{count, plural, =1{عرض نتيجة واحدة} other{عرض الكل ({count})}}"
+  "searchSeeAll": "{count, plural, =1{عرض نتيجة واحدة} other{عرض الكل ({count})}}",
+  "searchSyntaxUnknownKey": "عامل تصفية غير معروف «{key}:» — استخدم status: أو tag: أو cat: أو due: أو is: أو type:",
+  "searchSyntaxBadValue": "«{value}» غير صالح لـ {key}:",
+  "searchSyntaxUnclosedQuote": "علامة الاقتباس الختامية مفقودة",
+  "searchSyntaxNeedsWords": "أضف كلمة للبحث بهذه المرشحات",
+  "searchSyntaxHelp": "صيغة البحث",
+  "searchSyntaxHelpBody": "اجمع الكلمات مع المرشحات:\n• \"عبارة مطابقة\"\n• status:waiting (todo، ongoing، waiting، blocked، done، cancelled، open، closed)\n• tag:عمل · cat:صحة\n• due:today · due:tomorrow · due:overdue · due:<7d · due:>2w · due:2026-10-15\n• is:recurring · is:open · is:done · is:archived\n• type:task (list، item، habit، note، inbox)"
 }

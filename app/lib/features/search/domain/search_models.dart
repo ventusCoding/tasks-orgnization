@@ -24,7 +24,19 @@ enum SearchStatus { open, closed }
 /// Search filter chips (T8.1.15): kinds, status, category, tag and a date range (inclusive).
 @immutable
 class SearchFilters {
-  const SearchFilters({this.kinds = const {}, this.status, this.categoryId, this.tagId, this.from, this.to});
+  const SearchFilters({
+    this.kinds = const {},
+    this.status,
+    this.categoryId,
+    this.tagId,
+    this.from,
+    this.to,
+    this.itemStatus,
+    this.recurring,
+  });
+
+  /// Id that matches no category / tag (an unknown name in the query syntax).
+  static const noMatch = '\u0000';
 
   /// Empty = every kind.
   final Set<SearchKind> kinds;
@@ -34,14 +46,29 @@ class SearchFilters {
   final LocalDate? from;
   final LocalDate? to;
 
+  /// Exact row status (`waiting`, `blocked`… — query syntax `status:`).
+  final String? itemStatus;
+
+  /// Only repeating tasks / habits (`is:recurring`).
+  final bool? recurring;
+
   bool get isEmpty =>
-      kinds.isEmpty && status == null && categoryId == null && tagId == null && from == null && to == null;
+      kinds.isEmpty &&
+      status == null &&
+      categoryId == null &&
+      tagId == null &&
+      from == null &&
+      to == null &&
+      itemStatus == null &&
+      recurring == null;
 
   bool matches(SearchResult r) {
     if (kinds.isNotEmpty && !kinds.contains(r.kind)) return false;
     if (status != null && (r.closed ? SearchStatus.closed : SearchStatus.open) != status) return false;
     if (categoryId != null && r.categoryId != categoryId) return false;
     if (tagId != null && !r.tagIds.contains(tagId)) return false;
+    if (itemStatus != null && r.rawStatus != itemStatus) return false;
+    if (recurring != null && r.recurring != recurring) return false;
     if (from != null || to != null) {
       final day = r.day;
       if (day == null) return false;
@@ -58,6 +85,8 @@ class SearchFilters {
     String? tagId,
     LocalDate? from,
     LocalDate? to,
+    String? itemStatus,
+    bool? recurring,
     bool clearStatus = false,
     bool clearCategory = false,
     bool clearTag = false,
@@ -69,6 +98,8 @@ class SearchFilters {
     tagId: clearTag ? null : (tagId ?? this.tagId),
     from: clearDates ? null : (from ?? this.from),
     to: clearDates ? null : (to ?? this.to),
+    itemStatus: itemStatus ?? this.itemStatus,
+    recurring: recurring ?? this.recurring,
   );
 
   @override
@@ -79,10 +110,13 @@ class SearchFilters {
       other.categoryId == categoryId &&
       other.tagId == tagId &&
       other.from == from &&
-      other.to == to;
+      other.to == to &&
+      other.itemStatus == itemStatus &&
+      other.recurring == recurring;
 
   @override
-  int get hashCode => Object.hash(Object.hashAllUnordered(kinds), status, categoryId, tagId, from, to);
+  int get hashCode =>
+      Object.hash(Object.hashAllUnordered(kinds), status, categoryId, tagId, from, to, itemStatus, recurring);
 
   static bool _sameSet<T>(Set<T> a, Set<T> b) => a.length == b.length && a.containsAll(b);
 }
@@ -104,6 +138,8 @@ class SearchResult {
     this.closed = false,
     this.day,
     this.quit = false,
+    this.rawStatus,
+    this.recurring = false,
   });
 
   final SearchKind kind;
@@ -132,6 +168,12 @@ class SearchResult {
   /// A quit tracker (or one of its log entries) rather than a build habit.
   final bool quit;
 
+  /// The row's own status value (item status, task status).
+  final String? rawStatus;
+
+  /// A repeating task, or a habit.
+  final bool recurring;
+
   @override
   bool operator ==(Object other) =>
       other is SearchResult &&
@@ -147,7 +189,9 @@ class SearchResult {
       other.closed == closed &&
       other.day == day &&
       other.score == score &&
-      other.quit == quit;
+      other.quit == quit &&
+      other.rawStatus == rawStatus &&
+      other.recurring == recurring;
 
   @override
   int get hashCode => Object.hash(
@@ -164,6 +208,8 @@ class SearchResult {
     day,
     score,
     quit,
+    rawStatus,
+    recurring,
   );
 
   @override
@@ -194,15 +240,17 @@ List<(SearchKind, List<SearchResult>)> groupResults(Iterable<SearchResult> resul
 /// Arabic letter variants ignored), merged and sorted — for highlighting titles.
 List<(int, int)> highlightRanges(String text, String query) {
   final tokens = [
-    for (final t in query.split(RegExp(r'\s+')))
-      if (Collation.key(t) case final k when k.isNotEmpty) k,
+    for (final w in _word.allMatches(query))
+      if (Collation.key(w[0]!) case final k when k.isNotEmpty) k,
   ];
   if (tokens.isEmpty) return const [];
   return [
-    for (final m in RegExp(r'[\p{L}\p{N}\p{M}]+', unicode: true).allMatches(text))
+    for (final m in _word.allMatches(text))
       if (tokens.any(Collation.key(m[0]!).startsWith)) (m.start, m.end),
   ];
 }
+
+final _word = RegExp(r'[\p{L}\p{N}\p{M}]+', unicode: true);
 
 /// Splits an FTS snippet into `(text, isMatch)` spans.
 List<(String, bool)> snippetSpans(String snippet, {String start = '\u0002', String end = '\u0003'}) {

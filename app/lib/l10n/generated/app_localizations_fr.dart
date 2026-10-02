@@ -10717,6 +10717,29 @@ class AppLocalizationsFr extends AppLocalizations {
   String get searchStatusOpen => 'En cours';
 
   @override
+  String searchSyntaxBadValue(String value, String key) {
+    return '« $value » n’est pas valide pour $key:';
+  }
+
+  @override
+  String get searchSyntaxHelp => 'Syntaxe de recherche';
+
+  @override
+  String get searchSyntaxHelpBody =>
+      'Combinez des mots et des filtres :\n• \"phrase exacte\"\n• statut:attente (afaire, encours, attente, bloqué, fait, annulé, ouvert, fermé)\n• étiquette:travail · cat:santé\n• échéance:aujourdhui · échéance:demain · échéance:retard · échéance:<7j · échéance:>2s · échéance:2026-10-15\n• est:récurrent · est:ouvert · est:fait · est:archivé\n• type:tâche (liste, élément, habitude, note, inbox)';
+
+  @override
+  String get searchSyntaxNeedsWords => 'Ajoutez un mot pour chercher avec ces filtres';
+
+  @override
+  String get searchSyntaxUnclosedQuote => 'Guillemet fermant manquant';
+
+  @override
+  String searchSyntaxUnknownKey(String key) {
+    return 'Filtre inconnu « $key: » — utilisez statut:, étiquette:, cat:, échéance:, est: ou type:';
+  }
+
+  @override
   String get searchTag => 'Étiquette';
 
   @override

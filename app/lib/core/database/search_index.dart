@@ -98,15 +98,22 @@ CREATE VIRTUAL TABLE IF NOT EXISTS search_index USING fts5(
       .replaceAll('ة', 'ه')
       .replaceAll('ـ', '');
 
-  /// FTS5 MATCH expression: every word must match as a prefix ("pass" finds "Passport").
+  /// FTS5 MATCH expression: every word must match as a prefix ("pass" finds "Passport"); a
+  /// `"quoted phrase"` must match as consecutive words (T8.1.16; an unclosed quote runs to the end).
   /// Null when the query has no words.
   static String? matchExpression(String query) {
-    final tokens = normalize(query)
-        .split(RegExp(r'\s+'))
-        .where((t) => t.trim().isNotEmpty)
-        .map((t) => '"${t.replaceAll('"', '""')}"*')
-        .toList();
-    return tokens.isEmpty ? null : tokens.join(' ');
+    final parts = <String>[];
+    final segments = normalize(query).split('"');
+    for (var i = 0; i < segments.length; i++) {
+      final words = segments[i].split(RegExp(r'\s+')).where((t) => t.trim().isNotEmpty).toList();
+      if (words.isEmpty) continue;
+      if (i.isOdd) {
+        parts.add('"${words.join(' ')}"');
+      } else {
+        parts.addAll(words.map((t) => '"$t"*'));
+      }
+    }
+    return parts.isEmpty ? null : parts.join(' ');
   }
 }
 

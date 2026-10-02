@@ -33,7 +33,7 @@ palette (P2).
 - [x] T8.1.13 — Empty states & contextual hints
 - [x] T8.1.14 — Global search screen
 - [x] T8.1.15 — Search filters, recents & result actions
-- [ ] T8.1.16 — Search query syntax
+- [x] T8.1.16 — Search query syntax
 - [ ] T8.1.17 — Natural-language quick add
 - [ ] T8.1.18 — Command palette
 
@@ -200,6 +200,11 @@ actions: complete a checklist item (undo snackbar), check in a build habit.
 **Description:** Power syntax: `status:waiting tag:work due:<7d cat:health is:recurring "exact phrase"`.
 Parser in pure Dart with helpful errors; chips mirror parsed tokens.
 **Tests:** parser unit tests (valid/invalid inputs, localization of keywords EN/FR).
+**Notes:** `SearchSyntax.parse` → `ParsedQuery` (terms, phrases, tokens with ranges, errors); keys
+status/tag/cat/due/is/type with FR synonyms (statut, étiquette, catégorie, échéance, est, dans), accents
+optional. Due: today/tomorrow/overdue, `<7d`/`>2w` (`j`/`s` in FR), ISO dates with `<`/`>`. Tokens
+render as removable chips over the filter bar; unknown tag/category names match nothing. FTS
+`matchExpression` now treats `"…"` as a phrase. Filter-only queries ask for a word (no FTS match).
 
 ### T8.1.17 — Natural-language quick add
 **Priority:** P2 · **Size:** L · **Depends on:** T8.1.10, [2.1]

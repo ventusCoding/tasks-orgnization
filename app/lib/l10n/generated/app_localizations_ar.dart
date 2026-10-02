@@ -11238,6 +11238,29 @@ class AppLocalizationsAr extends AppLocalizations {
   String get searchStatusOpen => 'مفتوح';
 
   @override
+  String searchSyntaxBadValue(String value, String key) {
+    return '«$value» غير صالح لـ $key:';
+  }
+
+  @override
+  String get searchSyntaxHelp => 'صيغة البحث';
+
+  @override
+  String get searchSyntaxHelpBody =>
+      'اجمع الكلمات مع المرشحات:\n• \"عبارة مطابقة\"\n• status:waiting (todo، ongoing، waiting، blocked، done، cancelled، open، closed)\n• tag:عمل · cat:صحة\n• due:today · due:tomorrow · due:overdue · due:<7d · due:>2w · due:2026-10-15\n• is:recurring · is:open · is:done · is:archived\n• type:task (list، item، habit، note، inbox)';
+
+  @override
+  String get searchSyntaxNeedsWords => 'أضف كلمة للبحث بهذه المرشحات';
+
+  @override
+  String get searchSyntaxUnclosedQuote => 'علامة الاقتباس الختامية مفقودة';
+
+  @override
+  String searchSyntaxUnknownKey(String key) {
+    return 'عامل تصفية غير معروف «$key:» — استخدم status: أو tag: أو cat: أو due: أو is: أو type:';
+  }
+
+  @override
   String get searchTag => 'الوسم';
 
   @override
