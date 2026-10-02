@@ -7,7 +7,7 @@ void main() {
   final now = DateTime.utc(2026, 10, 2, 12);
 
   test('all devices schedule locally', () {
-    const s = NotificationSettings();
+    const s = NotificationSettings.defaults;
     expect(
       s.localSchedulingAllowed('phone', lastForegroundAt: now.subtract(const Duration(days: 9)), now: now),
       isTrue,
