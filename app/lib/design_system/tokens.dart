@@ -120,18 +120,22 @@ abstract final class CategoryPalette {
 
 /// Readable variants of a stored category color for the current theme.
 abstract final class CategoryColors {
-  /// Tile background for a category color.
-  static Color background(int argb, Brightness brightness) {
+  /// Tile background for a category color. [highContrast] (T8.3.12): a stronger tile (more hue in
+  /// light themes, deeper in dark ones) so neighbouring categories are easier to tell apart; text
+  /// on it uses [onBackground] (≥ 4.5:1 for every palette color).
+  static Color background(int argb, Brightness brightness, {bool highContrast = false}) {
     final base = Color(argb);
     return brightness == Brightness.dark
-        ? Color.lerp(base, Colors.black, 0.45)!
-        : Color.lerp(base, Colors.white, 0.78)!;
+        ? Color.lerp(base, Colors.black, highContrast ? 0.6 : 0.45)!
+        : Color.lerp(base, Colors.white, highContrast ? 0.35 : 0.78)!;
   }
 
-  /// Strong accent (bars, dots, borders).
-  static Color accent(int argb, Brightness brightness) {
+  /// Strong accent (bars, dots, borders). [highContrast] makes it reach 4.5:1 on the surface.
+  static Color accent(int argb, Brightness brightness, {bool highContrast = false}) {
     final base = Color(argb);
-    return brightness == Brightness.dark ? Color.lerp(base, Colors.white, 0.15)! : base;
+    final dark = brightness == Brightness.dark;
+    final accent = dark ? Color.lerp(base, Colors.white, 0.15)! : base;
+    return highContrast ? readableOn(accent, dark ? const Color(0xFF121212) : Colors.white) : accent;
   }
 
   /// Foreground text color with ≥ 4.5:1 contrast on [background].

@@ -5,6 +5,7 @@ import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/core/time/recurrence_service.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/attachments/presentation/attachment_strip.dart';
+import 'package:everslot/features/integrations/presentation/ics_ui.dart';
 import 'package:everslot/features/notifications/domain/notification_target.dart';
 import 'package:everslot/features/notifications/presentation/mute_menu.dart' show MuteMenuButton;
 import 'package:everslot/features/notifications/presentation/occurrence_reminders_sheet.dart';
@@ -240,7 +241,11 @@ class _Summary extends ConsumerWidget {
               if (category != null)
                 StatusPill(
                   label: category.name,
-                  color: CategoryColors.accent(category.color, brightness),
+                  color: CategoryColors.accent(
+                    category.color,
+                    brightness,
+                    highContrast: context.a11y.highContrastCategories,
+                  ),
                   icon: IconCatalog.iconFor(category.icon),
                 ),
               if (task.priority > 0) PriorityBadge(task.priority, showLabel: true),
@@ -408,6 +413,8 @@ class _DetailMenu extends ConsumerWidget {
         if (context.mounted) showPlannerUndoSnack(context, ref, l.tasksMoved);
       case 'share':
         await SharePlus.instance.share(ShareParams(text: _shareText(context, ref)));
+      case 'ics':
+        await exportTaskToCalendar(ref, task.id, task.title);
       case 'delete':
         var scope = EditScope.allOccurrences;
         if (task.isRecurring && occurrence != null) {
@@ -498,6 +505,7 @@ class _DetailMenu extends ConsumerWidget {
         PopupMenuItem(value: 'template', child: Text(l.tasksSaveAsTemplate)),
         if (!recurring && !task.isUnscheduled) PopupMenuItem(value: 'backlog', child: Text(l.tasksActionUnschedule)),
         PopupMenuItem(value: 'share', child: Text(l.tasksActionShare)),
+        if (!task.isUnscheduled) PopupMenuItem(value: 'ics', child: Text(l.icsExportTask)),
         PopupMenuItem(value: 'delete', child: Text(l.actionDelete)),
       ],
     );

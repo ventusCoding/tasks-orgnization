@@ -1,9 +1,9 @@
 # Sections organization — progress snapshot
 
-Updated 2026-10-02 after merging section 7 (notifications) into main, counted from the **Progress**
+Updated 2026-10-02 after merging section 8 (cross-cutting) into main, counted from the **Progress**
 checkboxes in `docs/tasks_section_*.md`.
 
-**Total: 642 done / 100 missing / 742 tasks (≈87 %)**
+**Total: 682 done / 60 missing / 742 tasks (≈92 %)**
 
 | Section | Done | Missing |
 |---|---|---|
@@ -46,10 +46,10 @@ checkboxes in `docs/tasks_section_*.md`.
 | 7.3 In-app inbox | 11 | 0 ✅ |
 | 7.4 Push / FCM server | 18 | 1 (T7.4.14 iOS local-vs-push spike: physical device) |
 | 7.5 Section catalog | 20 | 0 ✅ |
-| **8 Cross-cutting** | **10** | **40** |
-| 8.1 Today / search / quick add | 2 | 16 |
-| 8.2 Widgets / integrations | 1 | 14 |
-| 8.3 Settings / data / privacy | 7 | 10 |
+| **8 Cross-cutting** | **50** | **0 ✅** |
+| 8.1 Today / search / quick add | 18 | 0 ✅ |
+| 8.2 Widgets / integrations | 15 | 0 ✅ |
+| 8.3 Settings / data / privacy | 17 | 0 ✅ |
 | **9 Quality & release** | **0** | **52 ❌** |
 | 9.1 Testing / quality | 0 | 16 |
 | 9.2 Release / operations | 0 | 18 |
@@ -58,10 +58,19 @@ checkboxes in `docs/tasks_section_*.md`.
 ## Summary
 
 - Done: Core engines (2), Plan (3), Lists (4), Habits (5), Insights (6, except the T6.1.27 rollups
-  decision) and Notifications (7, except the two iOS-device items) complete; sync and recurrence done.
-- Biggest gaps: all of 8 and 9.
+  decision), Notifications (7, except the two iOS-device items) and Cross-cutting (8) complete; sync
+  and recurrence done.
+- Biggest gap: section 9 (quality & release).
 - 9.1 started: the patrol harness (T9.1.07, partial) runs the notification E2E suite on an Android
   emulator; 9.2 and 9.3 not started.
+
+## Section 8 — device QA still to do (needs Xcode 26 / an iPhone)
+
+- Code is done and tested (unit / widget / Patrol on the Android emulator: onboarding with the system
+  permission dialog, database encryption with the Keystore). Still to check on iOS: home-screen widgets
+  and their App Intents, the share extension, the timer Live Activity, Siri shortcuts, the app-switcher
+  cover of the app lock, HealthKit, and encryption with the Keychain.
+- Legal links in About appear once `SITE_URL` / `SUPPORT_EMAIL` are set (the site itself is T9.2.09).
 
 ## Section 7 — what is left (needs an iOS 26 toolchain / a physical device)
 

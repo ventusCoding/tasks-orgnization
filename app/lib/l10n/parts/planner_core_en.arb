@@ -19,7 +19,13 @@
   "tasksEndMode": "End time",
   "tasksNextDay": "+1 day",
   "tasksPlusDays": "{count, plural, =1{+1 day} other{+{count} days}}",
-  "@tasksPlusDays": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksPlusDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksCustomDuration": "Custom…",
   "tasksFieldTimeZone": "Time zone",
   "tasksZoneFloating": "Floating",
@@ -29,11 +35,23 @@
   "tasksZonePickTitle": "Choose a time zone",
   "tasksZoneSearch": "Search time zones",
   "tasksZoneBadge": "{zone} time",
-  "@tasksZoneBadge": {"placeholders": {"zone": {"type": "String"}}},
+  "@tasksZoneBadge": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
   "tasksFieldRepeat": "Repeat",
   "tasksRepeatNone": "Does not repeat",
   "tasksAnchorMoved": "Start moved to {date} to match the repeat rule",
-  "@tasksAnchorMoved": {"placeholders": {"date": {"type": "String"}}},
+  "@tasksAnchorMoved": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "tasksFieldDeadline": "Deadline",
   "tasksDeadlineNone": "No deadline",
   "tasksDeadlineWarning": "Planned after the deadline",
@@ -66,7 +84,13 @@
   "tasksUrlInvalid": "Enter a valid web address",
   "tasksOpenLinkTitle": "Open link?",
   "tasksOpenLinkBody": "{url} will open outside Everslot.",
-  "@tasksOpenLinkBody": {"placeholders": {"url": {"type": "String"}}},
+  "@tasksOpenLinkBody": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
   "tasksFieldChecklist": "Linked checklist",
   "tasksChecklistNone": "None",
   "tasksChecklistPick": "Link a checklist",
@@ -74,15 +98,39 @@
   "tasksChecklistEmpty": "No checklists yet",
   "tasksChecklistOpen": "Open checklist",
   "tasksChecklistProgress": "{done}/{total} done",
-  "@tasksChecklistProgress": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+  "@tasksChecklistProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "tasksAttachments": "Attachments",
   "tasksAttachmentsPlaceholder": "Photos and files will be available here soon",
   "tasksReminders": "Reminders",
   "tasksRemindersDefault": "Default",
   "tasksOverlapHint": "Overlaps with {title} {range}",
-  "@tasksOverlapHint": {"placeholders": {"title": {"type": "String"}, "range": {"type": "String"}}},
+  "@tasksOverlapHint": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "range": {
+        "type": "String"
+      }
+    }
+  },
   "tasksOverlapMore": "{count, plural, =1{and 1 more} other{and {count} more}}",
-  "@tasksOverlapMore": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksOverlapMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksUnsavedTitle": "Discard changes?",
   "tasksUnsavedBody": "Your changes will be lost.",
   "tasksDiscard": "Discard",
@@ -122,13 +170,37 @@
   "tasksScopeRewritePast": "Also rewrite past occurrences",
   "tasksOrphansTitle": "Some occurrences no longer match",
   "tasksOrphansMoved": "{count, plural, =1{1 moved occurrence} other{{count} moved occurrences}}",
-  "@tasksOrphansMoved": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksOrphansMoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksOrphansCompleted": "{count, plural, =1{1 completed occurrence} other{{count} completed occurrences}}",
-  "@tasksOrphansCompleted": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksOrphansCompleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksOrphansSkipped": "{count, plural, =1{1 skipped occurrence} other{{count} skipped occurrences}}",
-  "@tasksOrphansSkipped": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksOrphansSkipped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksOrphansOther": "{count, plural, =1{1 occurrence with notes or tracked time} other{{count} occurrences with notes or tracked time}}",
-  "@tasksOrphansOther": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksOrphansOther": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksOrphansBody": "Occurrences with history are always kept as one-off tasks.",
   "tasksOrphansKeep": "Keep as one-off tasks",
   "tasksOrphansDiscard": "Discard moved ones",
@@ -141,14 +213,35 @@
   "tasksHistoryLoadMore": "Load more",
   "tasksEvtCreated": "Created",
   "tasksEvtUpdated": "Edited: {fields}",
-  "@tasksEvtUpdated": {"placeholders": {"fields": {"type": "String"}}},
+  "@tasksEvtUpdated": {
+    "placeholders": {
+      "fields": {
+        "type": "String"
+      }
+    }
+  },
   "tasksEvtRescheduled": "Rescheduled from {from} to {to}",
-  "@tasksEvtRescheduled": {"placeholders": {"from": {"type": "String"}, "to": {"type": "String"}}},
+  "@tasksEvtRescheduled": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
   "tasksEvtCompleted": "Completed",
   "tasksEvtReopened": "Reopened",
   "tasksEvtSkipped": "Skipped",
   "tasksEvtSkippedReason": "Skipped: {reason}",
-  "@tasksEvtSkippedReason": {"placeholders": {"reason": {"type": "String"}}},
+  "@tasksEvtSkippedReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
   "tasksEvtStarted": "Started",
   "tasksEvtStopped": "Stopped",
   "tasksEvtDeleted": "Deleted",
@@ -162,7 +255,13 @@
   "tasksEvtStatusChanged": "Status changed",
   "tasksEvtTimeEntry": "Session added",
   "tasksEvtOccurrence": "Occurrence of {date}",
-  "@tasksEvtOccurrence": {"placeholders": {"date": {"type": "String"}}},
+  "@tasksEvtOccurrence": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "tasksActionShare": "Share as text",
   "tasksActionDuplicateTo": "Duplicate to…",
   "tasksActionDuplicateSeries": "Duplicate as new series",
@@ -177,7 +276,13 @@
   "tasksActionReschedule": "Reschedule…",
   "tasksActionRestoreSeries": "Restore to series",
   "tasksNextLabel": "Next: {when}",
-  "@tasksNextLabel": {"placeholders": {"when": {"type": "String"}}},
+  "@tasksNextLabel": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
   "tasksBacklogLabel": "Unscheduled",
   "tasksStatusScheduled": "Scheduled",
   "tasksStatusInProgress": "In progress",
@@ -200,12 +305,24 @@
   "tasksActualEndBeforeStart": "The end must be after the start",
   "tasksRating": "Rating",
   "tasksRatingValue": "{value} of 5",
-  "@tasksRatingValue": {"placeholders": {"value": {"type": "int"}}},
+  "@tasksRatingValue": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
   "tasksOutcomeNote": "Outcome note",
   "tasksOutcomeNoteHint": "How did it go?",
   "tasksCompletion": "Progress",
   "tasksCompletionValue": "{percent}%",
-  "@tasksCompletionValue": {"placeholders": {"percent": {"type": "int"}}},
+  "@tasksCompletionValue": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "tasksSkipTitle": "Why skip it?",
   "tasksSkipTooBusy": "Too busy",
   "tasksSkipSick": "Sick",
@@ -222,7 +339,13 @@
   "tasksPostponePick": "Pick a date and time…",
   "tasksTimeTracking": "Time tracking",
   "tasksTracked": "Tracked: {duration}",
-  "@tasksTracked": {"placeholders": {"duration": {"type": "String"}}},
+  "@tasksTracked": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
   "tasksTimeEntries": "Sessions",
   "tasksAddEntry": "Add session",
   "tasksEntryEdit": "Edit session",
@@ -232,12 +355,36 @@
   "tasksEntryFuture": "A session can't start in the future",
   "tasksEntryDelete": "Delete session",
   "tasksRunningTimer": "Timer running: {title}, {elapsed}",
-  "@tasksRunningTimer": {"placeholders": {"title": {"type": "String"}, "elapsed": {"type": "String"}}},
+  "@tasksRunningTimer": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "elapsed": {
+        "type": "String"
+      }
+    }
+  },
   "tasksQuotaProgress": "{done}/{total} this period",
-  "@tasksQuotaProgress": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+  "@tasksQuotaProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "tasksQuotaDone": "Done for this period",
   "tasksMovedFrom": "Moved from {time}",
-  "@tasksMovedFrom": {"placeholders": {"time": {"type": "String"}}},
+  "@tasksMovedFrom": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "tasksSeriesHistoryTitle": "Series history",
   "tasksFilterAll": "All",
   "tasksFilterDone": "Done",
@@ -245,11 +392,26 @@
   "tasksFilterMissed": "Missed",
   "tasksFilterMoved": "Moved",
   "tasksPlannedVsActual": "Planned {planned} · actual {actual}",
-  "@tasksPlannedVsActual": {"placeholders": {"planned": {"type": "String"}, "actual": {"type": "String"}}},
+  "@tasksPlannedVsActual": {
+    "placeholders": {
+      "planned": {
+        "type": "String"
+      },
+      "actual": {
+        "type": "String"
+      }
+    }
+  },
   "tasksSeriesStats": "Series statistics",
   "tasksSeriesEmpty": "No occurrences in this period",
   "tasksBulkTitle": "{count, plural, =1{1 item selected} other{{count} items selected}}",
-  "@tasksBulkTitle": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksBulkTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksBulkMove": "Move",
   "tasksBulkEarlierDay": "1 day earlier",
   "tasksBulkLaterDay": "1 day later",
@@ -266,12 +428,30 @@
   "tasksBulkTargetOccurrence": "Only these occurrences",
   "tasksBulkTargetSeries": "Whole series",
   "tasksBulkDone": "{count, plural, =1{1 item updated} other{{count} items updated}}",
-  "@tasksBulkDone": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksBulkDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksDuplicateToTitle": "Duplicate to…",
   "tasksDuplicateToConfirm": "{count, plural, =0{Pick dates} =1{Duplicate to 1 date} other{Duplicate to {count} dates}}",
-  "@tasksDuplicateToConfirm": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksDuplicateToConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksDuplicatedTo": "{count, plural, =1{Copied to 1 date} other{Copied to {count} dates}}",
-  "@tasksDuplicatedTo": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksDuplicatedTo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksPrevMonth": "Previous month",
   "tasksNextMonth": "Next month",
   "tasksQuickTitleHint": "New task",
@@ -283,10 +463,22 @@
   "tasksPauseSnack": "Series paused",
   "tasksResumeSnack": "Series resumed",
   "tasksShareRepeats": "Repeats: {rule}",
-  "@tasksShareRepeats": {"placeholders": {"rule": {"type": "String"}}},
+  "@tasksShareRepeats": {
+    "placeholders": {
+      "rule": {
+        "type": "String"
+      }
+    }
+  },
   "tasksTooManyOccurrences": "Too many occurrences to display — zoom in",
   "tasksRolledOver": "{count, plural, =1{1 unfinished task moved to today} other{{count} unfinished tasks moved to today}}",
-  "@tasksRolledOver": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksRolledOver": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksFieldTags": "Tags",
   "tasksAddTag": "Add a tag",
   "tasksNotifGone": "This task no longer exists",
@@ -295,20 +487,68 @@
   "tasksChecklistNewName": "Checklist name",
   "tasksBulkAddTags": "Add tags",
   "tasksBulkDeleteConfirm": "{count, plural, =1{Delete 1 item?} other{Delete {count} items?}}",
-  "@tasksBulkDeleteConfirm": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksBulkDeleteConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksQuotaIndicator": "{title} · {done}/{total} {unit, select, day{today} week{this week} month{this month} year{this year} other{this period}}",
-  "@tasksQuotaIndicator": {"placeholders": {"title": {"type": "String"}, "done": {"type": "int"}, "total": {"type": "int"}, "unit": {"type": "String"}}},
+  "@tasksQuotaIndicator": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "tasksQuotaIndicatorDone": "{title} · {unit, select, day{done for today} week{done for this week} month{done for this month} year{done for this year} other{done for this period}}",
-  "@tasksQuotaIndicatorDone": {"placeholders": {"title": {"type": "String"}, "unit": {"type": "String"}}},
+  "@tasksQuotaIndicatorDone": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
   "tasksDayDoneAll": "Mark all remaining as done",
   "tasksDaySkipRest": "Skip the rest of the day",
   "tasksDayMoveTomorrow": "Move unfinished to tomorrow",
   "tasksDayDoneAllSnack": "{count, plural, =0{Nothing left to mark} =1{1 task marked as done} other{{count} tasks marked as done}}",
-  "@tasksDayDoneAllSnack": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksDayDoneAllSnack": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksDaySkipRestSnack": "{count, plural, =0{Nothing left to skip} =1{1 task skipped} other{{count} tasks skipped}}",
-  "@tasksDaySkipRestSnack": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksDaySkipRestSnack": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksDayMoveTomorrowSnack": "{count, plural, =0{Nothing to move} =1{1 task moved to tomorrow} other{{count} tasks moved to tomorrow}}",
-  "@tasksDayMoveTomorrowSnack": {"placeholders": {"count": {"type": "int"}}},
+  "@tasksDayMoveTomorrowSnack": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "tasksQuickRescheduleTitle": "Reschedule",
   "tasksQuickRescheduleHour": "In 1 hour ({time})",
   "@tasksQuickRescheduleHour": {
@@ -334,5 +574,25 @@
       }
     }
   },
-  "tasksQuickRescheduled": "Rescheduled"
+  "tasksQuickRescheduled": "Rescheduled",
+  "timerSurfaceOver": "Over the planned time",
+  "timerSurfacePlannedUntil": "Planned until {time}",
+  "timerSurfaceMore": "{title} (+{count})",
+  "@timerSurfacePlannedUntil": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@timerSurfaceMore": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

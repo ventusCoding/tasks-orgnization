@@ -10,6 +10,84 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get a11yHaptics => 'Retour haptique';
+
+  @override
+  String get a11yHapticsHint => 'Vibrations lors des accroches, déplacements et validations';
+
+  @override
+  String get a11yHighContrast => 'Couleurs de catégories contrastées';
+
+  @override
+  String get a11yHighContrastHint => 'Tuiles et accents plus marqués, plus faciles à distinguer';
+
+  @override
+  String get a11yLargeTable => 'Texte plus grand dans le tableau de la semaine';
+
+  @override
+  String get a11yLargeTableHint => 'Titres et heures plus grands sur les tuiles du planning';
+
+  @override
+  String get a11yReduceMotion => 'Réduire les animations';
+
+  @override
+  String get a11yReduceMotionHint => 'Moins d’animations, même si l’appareil les autorise';
+
+  @override
+  String get a11yStatusLabels => 'Toujours afficher les libellés d’état';
+
+  @override
+  String get a11yStatusLabelsHint => 'L’état en toutes lettres, pas seulement par couleurs et icônes';
+
+  @override
+  String get a11ySystemHint => 'Taille du texte, texte en gras et lecteurs d’écran suivent les réglages de l’appareil.';
+
+  @override
+  String get aboutContact => 'Contacter le support';
+
+  @override
+  String get aboutHealthBody =>
+      'Les étapes, économies et estimations de santé du suivi d’arrêt sont des informations générales de santé publique fondées sur des moyennes de population (OMS, NHS, CDC, American Cancer Society). Ce ne sont pas des conseils médicaux et elles ne remplacent pas un professionnel de santé. Si vous essayez d’arrêter une substance, parlez-en à votre médecin ou à une ligne d’aide locale.';
+
+  @override
+  String get aboutHealthTitle => 'Informations de santé';
+
+  @override
+  String get aboutHelp => 'Aide';
+
+  @override
+  String get aboutHelpCenter => 'Aide et FAQ';
+
+  @override
+  String get aboutLegal => 'Mentions légales';
+
+  @override
+  String get aboutLegalese => 'Conçu avec Flutter et des logiciels open source.';
+
+  @override
+  String get aboutLicenses => 'Licences open source';
+
+  @override
+  String get aboutPrivacyPolicy => 'Politique de confidentialité';
+
+  @override
+  String get aboutRate => 'Noter Everslot';
+
+  @override
+  String get aboutRateHint => 'Une note aide d’autres personnes à trouver l’app';
+
+  @override
+  String get aboutTagline => 'Maîtrisez chaque créneau de votre journée';
+
+  @override
+  String get aboutTerms => 'Conditions d’utilisation';
+
+  @override
+  String aboutVersion(String version) {
+    return 'Version $version';
+  }
+
+  @override
   String get actionAdd => 'Ajouter';
 
   @override
@@ -309,6 +387,42 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get activityUnscheduled => 'Replacé dans les tâches à planifier';
+
+  @override
+  String appLockAfterMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(minutes, locale: localeName, other: '$minutes minutes', one: '1 minute');
+    return '$_temp0';
+  }
+
+  @override
+  String get appLockBody => 'Utilisez votre empreinte, votre visage ou le code de l’appareil pour continuer.';
+
+  @override
+  String get appLockEnable => 'Verrouiller l’app';
+
+  @override
+  String get appLockEnableHint => 'Demander la biométrie ou le code de l’appareil à l’ouverture d’Everslot';
+
+  @override
+  String get appLockImmediately => 'Immédiatement';
+
+  @override
+  String get appLockReason => 'Déverrouiller Everslot';
+
+  @override
+  String get appLockSection => 'Verrouillage';
+
+  @override
+  String get appLockTimeout => 'Verrouiller après';
+
+  @override
+  String get appLockTitle => 'Everslot est verrouillé';
+
+  @override
+  String get appLockUnlock => 'Déverrouiller';
+
+  @override
+  String get appLockUnsupported => 'Configurez d’abord un verrouillage d’écran sur cet appareil.';
 
   @override
   String get appName => 'Everslot';
@@ -2780,9 +2894,205 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get dataImportBody => 'Restaurez une sauvegarde Everslot (JSON, ou zip avec pièces jointes).';
+
+  @override
+  String dataImportConflictsHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments modifiés ici après la sauvegarde ont été conservés.',
+      one: '1 élément modifié ici après la sauvegarde a été conservé.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dataImportCopy => 'Copier';
+
+  @override
+  String get dataImportCopyHint => 'Ajoute tout comme nouveaux éléments, sans toucher à l’existant.';
+
+  @override
+  String dataImportCountKept(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count conservés', one: '$count conservé');
+    return '$_temp0';
+  }
+
+  @override
+  String dataImportCountNew(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count nouveaux', one: '$count nouveau');
+    return '$_temp0';
+  }
+
+  @override
+  String dataImportCountSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count ignorés', one: '$count ignoré');
+    return '$_temp0';
+  }
+
+  @override
+  String dataImportCountUnchanged(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count inchangés', one: '$count inchangé');
+    return '$_temp0';
+  }
+
+  @override
+  String dataImportCountUpdated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mis à jour',
+      one: '$count mis à jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String dataImportDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments importés',
+      one: '1 élément importé',
+      zero: 'Rien à importer',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dataImportErrorCsv =>
+      'Les exports tableur (CSV) ne peuvent pas être importés. Utilisez une sauvegarde Everslot (JSON).';
+
+  @override
+  String get dataImportErrorNotExport => 'Ce fichier n’est pas une sauvegarde Everslot.';
+
+  @override
+  String get dataImportErrorVersion => 'Cette sauvegarde vient d’une version d’Everslot plus récente ou inconnue.';
+
+  @override
+  String get dataImportFailed => 'L’import a échoué. Rien n’a été écrit à moitié ; réessayez.';
+
+  @override
+  String get dataImportKindAttachments => 'Pièces jointes';
+
+  @override
+  String get dataImportKindCategories => 'Catégories et étiquettes';
+
+  @override
+  String get dataImportKindHabitLogs => 'Pointages';
+
+  @override
+  String get dataImportKindHabits => 'Habitudes et arrêts';
+
+  @override
+  String get dataImportKindInbox => 'Boîte de réception';
+
+  @override
+  String get dataImportKindItems => 'Éléments de liste';
+
+  @override
+  String get dataImportKindLists => 'Listes';
+
+  @override
+  String get dataImportKindOccurrences => 'Historique des tâches';
+
+  @override
+  String get dataImportKindOther => 'Autres données';
+
+  @override
+  String get dataImportKindSettings => 'Réglages';
+
+  @override
+  String get dataImportKindTasks => 'Tâches';
+
+  @override
+  String get dataImportPick => 'Choisir un fichier de sauvegarde';
+
+  @override
+  String get dataImportReplaceNewer => 'Remplacer les modifications plus récentes';
+
+  @override
+  String get dataImportReplaceNewerHint => 'Utiliser la sauvegarde même si cet appareil a une modification ultérieure.';
+
+  @override
+  String get dataImportRestore => 'Restaurer';
+
+  @override
+  String get dataImportRestoreHint =>
+      'Même compte : rétablit les éléments ; la version la plus récente de chacun l’emporte.';
+
+  @override
+  String get dataImportRestoreOtherAccount => 'Uniquement pour les sauvegardes de ce compte.';
+
+  @override
+  String get dataImportRunCopy => 'Importer une copie';
+
+  @override
+  String get dataImportRunRestore => 'Restaurer';
+
+  @override
+  String get dataImportTitle => 'Importer';
+
+  @override
   String deletedSnack(String item) {
     return '$item supprimé';
   }
+
+  @override
+  String get demoDone => 'Données d’exemple générées';
+
+  @override
+  String get demoGenerate => 'Générer des données d’exemple';
+
+  @override
+  String get demoGenerateHint => 'Six mois de planning, listes, habitudes et un suivi d’arrêt — mode local uniquement';
+
+  @override
+  String get demoOnlyLocal =>
+      'Les données d’exemple ne sont disponibles qu’en mode local, pour que rien n’arrive sur un compte cloud.';
+
+  @override
+  String get demoRemove => 'Supprimer les données d’exemple';
+
+  @override
+  String get demoRemoveHint => 'Met tout ce qui a été généré à la corbeille';
+
+  @override
+  String get demoRemoved => 'Données d’exemple supprimées';
+
+  @override
+  String get demoTaskCallParents => 'Appeler les parents';
+
+  @override
+  String get demoTaskDeepWork => 'Travail de fond';
+
+  @override
+  String get demoTaskDentist => 'Dentiste';
+
+  @override
+  String get demoTaskEmails => 'Boîte de réception à zéro';
+
+  @override
+  String get demoTaskGroceries => 'Courses';
+
+  @override
+  String get demoTaskGym => 'Salle de sport';
+
+  @override
+  String get demoTaskLaundry => 'Lessive';
+
+  @override
+  String get demoTaskPlanWeek => 'Planifier la semaine';
+
+  @override
+  String get demoTaskReview => 'Bilan trimestriel';
+
+  @override
+  String get demoTaskStandup => 'Point d’équipe';
+
+  @override
+  String get demoTitle => 'Données d’exemple';
 
   @override
   String get devComponentGallery => 'Galerie de composants';
@@ -3037,6 +3347,26 @@ class AppLocalizationsFr extends AppLocalizations {
   String get devZoneReset => 'Utiliser le vrai fuseau de l’appareil';
 
   @override
+  String get deviceCalAllow => 'Afficher les événements de vos agendas';
+
+  @override
+  String get deviceCalDenied => 'Accès à l’agenda désactivé — autorisez-le dans les réglages du système';
+
+  @override
+  String get deviceCalHint =>
+      'Activez « Agendas de l’appareil » dans les réglages d’une vue du planning pour les voir. Les événements occupés comptent comme pris dans la recherche de créneaux libres.';
+
+  @override
+  String get deviceCalNone => 'Aucun agenda sur cet appareil';
+
+  @override
+  String get deviceCalPrimer =>
+      'Les agendas Google, iCloud ou pro de cet appareil s’affichent en lecture seule à côté de votre plan. Rien n’est copié ni envoyé.';
+
+  @override
+  String get deviceCalSection => 'Agendas de l’appareil';
+
+  @override
   String durationDaysShort(int days) {
     String _temp0 = intl.Intl.pluralLogic(days, locale: localeName, other: '$days jours', one: '1 jour');
     return '$_temp0';
@@ -3179,6 +3509,162 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get exportZipBundle => 'Partager en zip (avec les fichiers)';
+
+  @override
+  String extCountCheckIns(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count pointages', one: '1 pointage');
+    return '$_temp0';
+  }
+
+  @override
+  String extCountHabits(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count habitudes', one: '1 habitude');
+    return '$_temp0';
+  }
+
+  @override
+  String extCountItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count éléments', one: '1 élément');
+    return '$_temp0';
+  }
+
+  @override
+  String extCountLists(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count listes', one: '1 liste');
+    return '$_temp0';
+  }
+
+  @override
+  String extCountTasks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count tâches', one: '1 tâche');
+    return '$_temp0';
+  }
+
+  @override
+  String extImportDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments importés',
+      one: '1 élément importé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get extImportNothing => 'Rien à importer dans ce fichier.';
+
+  @override
+  String get extImportRun => 'Importer';
+
+  @override
+  String get extImportSubtitle => 'Loop Habit Tracker, Google Keep, Todoist, TickTick, texte';
+
+  @override
+  String get extImportTitle => 'Importer depuis une autre app';
+
+  @override
+  String extImportWrongFile(String source) {
+    return 'Ce fichier ne ressemble pas à un export $source.';
+  }
+
+  @override
+  String extNoteAttachment(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pièces jointes absentes de l’archive',
+      one: '1 pièce jointe absente de l’archive',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteCompleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tâches terminées ignorées',
+      one: '1 tâche terminée ignorée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteFrequency(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fréquences d’habitude approchées',
+      one: '1 fréquence d’habitude approchée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteRepeat(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count répétitions non comprises (importées une fois)',
+      one: '1 répétition non comprise (importée une fois)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteTrashed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count notes de la corbeille ignorées',
+      one: '1 note de la corbeille ignorée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get extSourceKeepHint => 'Google Takeout › Keep (zip)';
+
+  @override
+  String get extSourceLoopHint => 'Réglages › Exporter en CSV (zip) ou une sauvegarde (.db)';
+
+  @override
+  String get extSourceText => 'Plan texte ou Markdown';
+
+  @override
+  String get extSourceTextHint => 'Les lignes indentées deviennent des sous-éléments (.txt, .md)';
+
+  @override
+  String get extSourceTickTickHint => 'Réglages › Sauvegarde (CSV)';
+
+  @override
+  String get extSourceTodoistHint => 'Projet › Exporter comme modèle (CSV)';
+
+  @override
+  String get feedbackDiagnosticsHint =>
+      'Versions de l’app et du système, modèle d’appareil, état de synchro et codes d’erreur récents — jamais votre contenu';
+
+  @override
+  String get feedbackHint => 'Idées, problèmes, questions';
+
+  @override
+  String get feedbackIncludeDiagnostics => 'Joindre le diagnostic';
+
+  @override
+  String get feedbackMessage => 'Votre message';
+
+  @override
+  String get feedbackPreview => 'Voir exactement ce qui est joint';
+
+  @override
+  String get feedbackSend => 'Envoyer';
+
+  @override
+  String get feedbackSubject => 'Avis sur Everslot';
+
+  @override
+  String get feedbackTitle => 'Envoyer un avis';
 
   @override
   String filterActiveCount(int count) {
@@ -4922,6 +5408,116 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsZoneFloating => 'Les jours suivent votre fuseau horaire actuel';
 
   @override
+  String get healthDenied => 'L’accès aux données de santé n’a pas été accordé';
+
+  @override
+  String get healthLink => 'Enregistrer depuis Santé';
+
+  @override
+  String get healthMindful => 'Minutes de pleine conscience';
+
+  @override
+  String healthPrimerBody(String metric) {
+    return 'Everslot lira vos données « $metric » dans Santé d’Apple ou Health Connect pour enregistrer cette habitude à votre place. Lecture seule : rien n’est écrit, et seuls les totaux du jour sont gardés sur l’habitude. Vous pouvez arrêter à tout moment.';
+  }
+
+  @override
+  String get healthPrimerContinue => 'Continuer';
+
+  @override
+  String get healthPrimerTitle => 'Utiliser vos données de santé ?';
+
+  @override
+  String get healthSleep => 'Heures de sommeil';
+
+  @override
+  String get healthSteps => 'Pas';
+
+  @override
+  String get healthWater => 'Eau';
+
+  @override
+  String get healthWorkout => 'Minutes d’entraînement';
+
+  @override
+  String get icsAlreadyImported => 'Déjà importé';
+
+  @override
+  String icsChanges(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count modifications',
+      one: '1 modification',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get icsExport => 'Exporter vers un fichier d’agenda';
+
+  @override
+  String get icsExportHint => 'Partagez vos tâches comme événements d’agenda';
+
+  @override
+  String get icsExportTask => 'Ajouter à l’agenda (.ics)';
+
+  @override
+  String icsImportCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Importer $count événements',
+      one: 'Importer 1 événement',
+      zero: 'Importer',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get icsImportFile => 'Importer un fichier d’agenda (.ics)';
+
+  @override
+  String get icsImportHint => 'Depuis Google Agenda, Calendrier Apple, Outlook…';
+
+  @override
+  String get icsImportTitle => 'Importer l’agenda';
+
+  @override
+  String icsImported(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count événements importés',
+      one: '1 événement importé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String icsNextDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count prochains jours',
+      one: 'Aujourd’hui',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get icsNothing => 'Aucun événement dans ce fichier';
+
+  @override
+  String get icsRepeatUnsupported => 'Répétition non prise en charge — importé une fois';
+
+  @override
+  String get icsRepeats => 'Répétition';
+
+  @override
+  String get icsSection => 'Fichiers d’agenda';
+
+  @override
   String get importAction => 'Importer';
 
   @override
@@ -4995,6 +5591,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get integrationsActionFailed => 'Cette action n\'a pas pu être effectuée.';
+
+  @override
+  String integrationsCravingLogged(String habit) {
+    return 'Envie notée : $habit';
+  }
 
   @override
   String integrationsHabitLogged(String habit) {
@@ -7947,6 +8548,32 @@ class AppLocalizationsFr extends AppLocalizations {
   String get onboardingLanguage => 'Langue';
 
   @override
+  String get onboardingNotificationsLater =>
+      'Vous pouvez activer ou couper les rappels de chaque élément, et tout modifier dans Réglages › Notifications.';
+
+  @override
+  String get onboardingNotificationsOn => 'Les notifications sont activées';
+
+  @override
+  String get onboardingRerun => 'Relancer la configuration';
+
+  @override
+  String get onboardingRerunSubtitle => 'Langue, semaine, notifications et démarrage';
+
+  @override
+  String get onboardingStarterRoutine => 'Routine du matin';
+
+  @override
+  String get onboardingStartersBody =>
+      'Choisissez quelques éléments prêts à l’emploi. Vous pourrez les modifier ou les supprimer.';
+
+  @override
+  String get onboardingStartersNone => 'Rien à proposer pour vos choix — tout est prêt.';
+
+  @override
+  String get onboardingStartersTitle => 'Commencer avec quelque chose ?';
+
+  @override
   String onboardingStepOf(int current, int total) {
     return 'Étape $current sur $total';
   }
@@ -7958,7 +8585,150 @@ class AppLocalizationsFr extends AppLocalizations {
   String get onboardingTitle => 'Configurer Everslot';
 
   @override
+  String get onboardingTrackBody => 'Nous vous proposerons de quoi démarrer. Toutes les sections restent disponibles.';
+
+  @override
+  String get onboardingTrackHabits => 'Habitudes quotidiennes et objectifs';
+
+  @override
+  String get onboardingTrackLists => 'Check-lists, courses, projets';
+
+  @override
+  String get onboardingTrackPlan => 'Tâches, créneaux et routines';
+
+  @override
+  String get onboardingTrackQuit => 'Tabac, alcool, caféine…';
+
+  @override
+  String get onboardingTrackQuitTitle => 'Arrêter ou réduire';
+
+  @override
+  String get onboardingTrackTitle => 'Que voulez-vous suivre ?';
+
+  @override
   String get onboardingWeekStart => 'La semaine commence le';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Quelques questions pour adapter Everslot à votre vie. Tout est facultatif et reste modifiable dans les Réglages.';
+
+  @override
+  String get onboardingWelcomeHabits => 'Prenez de bonnes habitudes, arrêtez les mauvaises';
+
+  @override
+  String get onboardingWelcomeInsights => 'Des statistiques détaillées sur tout ce que vous faites';
+
+  @override
+  String get onboardingWelcomeLists => 'Des listes avec sous-éléments et statuts';
+
+  @override
+  String get onboardingWelcomePlan => 'Planifiez votre semaine en créneaux de toute durée';
+
+  @override
+  String get onboardingWelcomeTitle => 'Maîtrisez chaque créneau de votre journée';
+
+  @override
+  String get paletteGoCategories => 'Gérer les catégories';
+
+  @override
+  String get paletteGoDay => 'Ouvrir la vue du jour';
+
+  @override
+  String get paletteGoHabits => 'Ouvrir les habitudes';
+
+  @override
+  String get paletteGoInbox => 'Ouvrir la boîte de réception';
+
+  @override
+  String get paletteGoInsights => 'Ouvrir les statistiques';
+
+  @override
+  String paletteGoInsightsScope(String section) {
+    return 'Ouvrir les statistiques › $section';
+  }
+
+  @override
+  String get paletteGoLists => 'Ouvrir les listes';
+
+  @override
+  String get paletteGoNextWeek => 'Aller à la semaine prochaine';
+
+  @override
+  String get paletteGoNotificationSettings => 'Ouvrir Réglages › Notifications';
+
+  @override
+  String get paletteGoPreviousWeek => 'Aller à la semaine précédente';
+
+  @override
+  String get paletteGoSearch => 'Tout rechercher';
+
+  @override
+  String get paletteGoSettings => 'Ouvrir les réglages';
+
+  @override
+  String get paletteGoTags => 'Gérer les étiquettes';
+
+  @override
+  String get paletteGoThisWeek => 'Aller à cette semaine';
+
+  @override
+  String get paletteGoToday => 'Aller à Aujourd’hui';
+
+  @override
+  String get paletteGoTrash => 'Ouvrir la corbeille';
+
+  @override
+  String get paletteGroupActions => 'Actions';
+
+  @override
+  String get paletteGroupCreate => 'Créer';
+
+  @override
+  String get paletteGroupGo => 'Aller à';
+
+  @override
+  String get paletteHint => 'Tapez une commande ou « Appeler Bob demain 9h »';
+
+  @override
+  String get paletteNewHabit => 'Nouvelle habitude';
+
+  @override
+  String get paletteNewList => 'Nouvelle liste';
+
+  @override
+  String get paletteNewQuit => 'Nouveau suivi d’arrêt';
+
+  @override
+  String get paletteNewTask => 'Nouvelle tâche';
+
+  @override
+  String paletteNewTaskAt(String title, String when) {
+    return 'Nouvelle tâche « $title » · $when';
+  }
+
+  @override
+  String get paletteNoMatch => 'Aucune commande correspondante';
+
+  @override
+  String get palettePause1h => 'Suspendre les notifications 1 h';
+
+  @override
+  String get palettePauseTomorrow => 'Suspendre les notifications jusqu’à demain';
+
+  @override
+  String get palettePaused => 'Notifications suspendues';
+
+  @override
+  String get paletteResume => 'Reprendre les notifications';
+
+  @override
+  String get paletteResumed => 'Notifications reprises';
+
+  @override
+  String get paletteSyncNow => 'Synchroniser maintenant';
+
+  @override
+  String get paletteTitle => 'Commandes';
 
   @override
   String get pickerColor => 'Couleur';
@@ -8046,6 +8816,46 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get priorityUrgent => 'Urgente';
+
+  @override
+  String get privacyAppSwitcher => 'Masquer dans le sélecteur d’apps';
+
+  @override
+  String get privacyAppSwitcherHint => 'Couvrir l’écran dans les apps récentes et bloquer les captures';
+
+  @override
+  String get privacyCrashReports => 'Envoyer les rapports de plantage';
+
+  @override
+  String get privacyCrashReportsHint => 'Des détails anonymes aident à corriger les bugs';
+
+  @override
+  String get privacyDiagnostics => 'Diagnostic';
+
+  @override
+  String get privacyEncryptDb => 'Chiffrer les données sur cet appareil';
+
+  @override
+  String get privacyEncryptDbConfirmBody =>
+      'Le changement se fait à la prochaine ouverture d’Everslot et prend quelques secondes. Vos données dans le cloud ne changent pas.';
+
+  @override
+  String get privacyEncryptDbConfirmOff => 'Ne plus chiffrer les données sur cet appareil ?';
+
+  @override
+  String get privacyEncryptDbConfirmOn => 'Chiffrer les données sur cet appareil ?';
+
+  @override
+  String get privacyEncryptDbHint => 'La base locale est illisible sans la clé sécurisée de cet appareil';
+
+  @override
+  String get privacyEncryptDbPendingOff => 'Le chiffrement prendra fin à la prochaine ouverture d’Everslot';
+
+  @override
+  String get privacyEncryptDbPendingOn => 'Le chiffrement commencera à la prochaine ouverture d’Everslot';
+
+  @override
+  String get privacyHideContentHint => 'Les notifications n’affichent que « Rappel Everslot »';
 
   @override
   String get pvActualColumn => 'Réel';
@@ -9335,6 +10145,52 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pvZoomSemantic => 'Sémantique';
 
   @override
+  String quickAddAdded(String title) {
+    return '« $title » ajouté';
+  }
+
+  @override
+  String get quickAddHabit => 'Habitude';
+
+  @override
+  String get quickAddItem => 'Élément de liste';
+
+  @override
+  String get quickAddList => 'Liste';
+
+  @override
+  String get quickAddLog => 'Pointage / envie';
+
+  @override
+  String get quickAddMore => 'Plus d’options';
+
+  @override
+  String get quickAddPickHabit => 'Habitude ou suivi';
+
+  @override
+  String get quickAddPickList => 'Ajouter à la liste';
+
+  @override
+  String get quickAddQuit => 'Suivi d’arrêt';
+
+  @override
+  String get quickAddSmart => 'Comprendre les dates';
+
+  @override
+  String get quickAddSmartHint => 'ex. Sport demain 19h pendant 1h tous les lundis #santé';
+
+  @override
+  String get quickAddTask => 'Tâche';
+
+  @override
+  String get quickAddTitleHint => 'Quoi ?';
+
+  @override
+  String quickAddUnknownCategory(String name) {
+    return 'Aucune catégorie « $name »';
+  }
+
+  @override
   String get quitAddUse => '+1';
 
   @override
@@ -10594,6 +11450,120 @@ class AppLocalizationsFr extends AppLocalizations {
   String get savedSnack => 'Enregistré';
 
   @override
+  String get searchAny => 'Tous';
+
+  @override
+  String get searchCategory => 'Catégorie';
+
+  @override
+  String get searchCheckIn => 'Valider';
+
+  @override
+  String get searchClearFilters => 'Effacer les filtres';
+
+  @override
+  String get searchComplete => 'Terminer l’élément';
+
+  @override
+  String get searchDates => 'Dates';
+
+  @override
+  String get searchDatesFrom => 'Du';
+
+  @override
+  String get searchDatesMonth => '30 derniers jours';
+
+  @override
+  String get searchDatesTo => 'Au';
+
+  @override
+  String get searchDatesToday => 'Aujourd’hui';
+
+  @override
+  String get searchDatesWeek => '7 derniers jours';
+
+  @override
+  String get searchHint => 'Tout rechercher';
+
+  @override
+  String get searchIntro => 'Tâches, listes, éléments, habitudes, notes et boîte de réception';
+
+  @override
+  String searchItemCompleted(String title) {
+    return '« $title » terminé';
+  }
+
+  @override
+  String get searchKindChecklist => 'Listes';
+
+  @override
+  String get searchKindHabit => 'Habitudes';
+
+  @override
+  String get searchKindInbox => 'Boîte de réception';
+
+  @override
+  String get searchKindItem => 'Éléments';
+
+  @override
+  String get searchKindLog => 'Notes';
+
+  @override
+  String get searchKindTask => 'Tâches';
+
+  @override
+  String searchNoResults(String query) {
+    return 'Aucun résultat pour « $query »';
+  }
+
+  @override
+  String get searchRecent => 'Recherches récentes';
+
+  @override
+  String get searchRemoveRecent => 'Retirer des recherches récentes';
+
+  @override
+  String searchSeeAll(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: 'Voir les $count', one: 'Voir 1 résultat');
+    return '$_temp0';
+  }
+
+  @override
+  String get searchStatus => 'Statut';
+
+  @override
+  String get searchStatusClosed => 'Terminé ou archivé';
+
+  @override
+  String get searchStatusOpen => 'En cours';
+
+  @override
+  String searchSyntaxBadValue(String value, String key) {
+    return '« $value » n’est pas valide pour $key:';
+  }
+
+  @override
+  String get searchSyntaxHelp => 'Syntaxe de recherche';
+
+  @override
+  String get searchSyntaxHelpBody =>
+      'Combinez des mots et des filtres :\n• \"phrase exacte\"\n• statut:attente (afaire, encours, attente, bloqué, fait, annulé, ouvert, fermé)\n• étiquette:travail · cat:santé\n• échéance:aujourdhui · échéance:demain · échéance:retard · échéance:<7j · échéance:>2s · échéance:2026-10-15\n• est:récurrent · est:ouvert · est:fait · est:archivé\n• type:tâche (liste, élément, habitude, note, inbox)';
+
+  @override
+  String get searchSyntaxNeedsWords => 'Ajoutez un mot pour chercher avec ces filtres';
+
+  @override
+  String get searchSyntaxUnclosedQuote => 'Guillemet fermant manquant';
+
+  @override
+  String searchSyntaxUnknownKey(String key) {
+    return 'Filtre inconnu « $key: » — utilisez statut:, étiquette:, cat:, échéance:, est: ou type:';
+  }
+
+  @override
+  String get searchTag => 'Étiquette';
+
+  @override
   String get settingsAbout => 'À propos';
 
   @override
@@ -10866,6 +11836,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String settingsInsightsWeekStartProfile(String day) {
     return 'Comme l’app ($day)';
   }
+
+  @override
+  String get settingsIntegrations => 'Widgets et intégrations';
+
+  @override
+  String get settingsIntegrationsSubtitle => 'Widgets, raccourcis, partage, calendriers';
 
   @override
   String get settingsLanguage => 'Langue';
@@ -11280,6 +12256,52 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsWeekStart => 'La semaine commence le';
 
   @override
+  String get shareAsTask => 'Tâche';
+
+  @override
+  String get shareAttach => 'Joindre';
+
+  @override
+  String shareFilesTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count fichiers', one: '1 fichier');
+    return '$_temp0';
+  }
+
+  @override
+  String get shareFindItem => 'Chercher une tâche ou un élément';
+
+  @override
+  String shareItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments seront ajoutés',
+      one: '1 élément sera ajouté',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shareNewList(String title) {
+    return 'Nouvelle liste « $title »';
+  }
+
+  @override
+  String get shareSaved => 'Enregistré dans Everslot';
+
+  @override
+  String get shareTitle => 'Enregistrer dans Everslot';
+
+  @override
+  String get shareToList => 'Liste';
+
+  @override
+  String get shareTopLevel => 'Premier niveau';
+
+  @override
+  String get shareUnder => 'Sous';
+
+  @override
   String get shellCreate => 'Créer';
 
   @override
@@ -11290,6 +12312,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get shellQuickAdd => 'Ajout rapide';
+
+  @override
+  String get shortcutLogCraving => 'Noter une envie';
+
+  @override
+  String get shortcutLogHabit => 'Valider une habitude';
+
+  @override
+  String get shortcutNewTask => 'Nouvelle tâche';
+
+  @override
+  String get shortcutToday => 'Aujourd’hui';
 
   @override
   String get smartBlocked => 'Bloqué';
@@ -16355,6 +17389,270 @@ class AppLocalizationsFr extends AppLocalizations {
   String get templatesUse => 'Utiliser le modèle';
 
   @override
+  String timerSurfaceMore(String title, int count) {
+    return '$title (+$count)';
+  }
+
+  @override
+  String get timerSurfaceOver => 'Temps prévu dépassé';
+
+  @override
+  String timerSurfacePlannedUntil(String time) {
+    return 'Prévu jusqu’à $time';
+  }
+
+  @override
+  String get todayAllDay => 'Toute la journée';
+
+  @override
+  String get todayAllHabitsDone => 'Toutes les habitudes faites 🎉';
+
+  @override
+  String get todayBlockAgenda => 'Au programme';
+
+  @override
+  String get todayBlockChecklists => 'Listes';
+
+  @override
+  String get todayBlockHabits => 'Habitudes';
+
+  @override
+  String get todayBlockHidden => 'Masqué';
+
+  @override
+  String get todayBlockInbox => 'Notifications';
+
+  @override
+  String get todayBlockNowNext => 'Maintenant & ensuite';
+
+  @override
+  String get todayBlockOverdue => 'En retard';
+
+  @override
+  String get todayBlockQuit => 'Arrêts';
+
+  @override
+  String get todayCustomize => 'Personnaliser Aujourd’hui';
+
+  @override
+  String todayDoneGroup(int count) {
+    return 'Faits ($count)';
+  }
+
+  @override
+  String get todayDueItems => 'À faire aujourd’hui';
+
+  @override
+  String get todayEmptyAgenda => 'Rien de prévu aujourd’hui';
+
+  @override
+  String get todayEmptyAgendaAction => 'Planifier une tâche';
+
+  @override
+  String get todayEmptyChecklists => 'Épinglez une liste pour la garder ici';
+
+  @override
+  String get todayEmptyChecklistsAction => 'Ouvrir les listes';
+
+  @override
+  String get todayEmptyHabits => 'Aucune habitude prévue aujourd’hui';
+
+  @override
+  String get todayEmptyHabitsAction => 'Ajouter une habitude';
+
+  @override
+  String get todayEmptyOverdue => 'Rien en retard';
+
+  @override
+  String get todayEmptyQuit => 'Suivez ce que vous voulez arrêter';
+
+  @override
+  String get todayEmptyQuitAction => 'Commencer un suivi d’arrêt';
+
+  @override
+  String get todayFollowUps => 'À relancer';
+
+  @override
+  String get todayGreetingAfternoon => 'Bon après-midi';
+
+  @override
+  String get todayGreetingEvening => 'Bonsoir';
+
+  @override
+  String get todayGreetingMorning => 'Bonjour';
+
+  @override
+  String todayHabitNextSlot(String time) {
+    return 'Prochain à $time';
+  }
+
+  @override
+  String todayHabitStreak(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Série de $count jours',
+      one: 'Série de 1 jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayHintGotIt => 'Compris';
+
+  @override
+  String get todayHintSwipe => 'Balayez une tâche pour la marquer faite ou la passer — modifiable dans Personnaliser.';
+
+  @override
+  String todayInboxUnread(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count notifications non lues',
+      one: '1 notification non lue',
+      zero: 'Aucune notification non lue',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayIncludeRecurring => 'Inclure les tâches récurrentes';
+
+  @override
+  String get todayKeepWhenEmpty => 'Afficher si vide';
+
+  @override
+  String todayListProgress(int done, int total) {
+    return '$done sur $total';
+  }
+
+  @override
+  String get todayLoadError => 'Impossible de charger cette partie';
+
+  @override
+  String get todayLookback => 'Retard sur (jours)';
+
+  @override
+  String get todayMarkAllDone => 'Tout marquer fait';
+
+  @override
+  String get todayNext => 'Ensuite';
+
+  @override
+  String get todayNothingNext => 'Rien d’autre de prévu';
+
+  @override
+  String get todayNothingNow => 'Rien de prévu pour l’instant';
+
+  @override
+  String get todayNow => 'Maintenant';
+
+  @override
+  String get todayOpenInbox => 'Ouvrir la boîte';
+
+  @override
+  String todayOverdueSince(String date) {
+    return '$date';
+  }
+
+  @override
+  String todayOverlapping(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+$count en parallèle',
+      one: '+1 en parallèle',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayPinned => 'Épinglées';
+
+  @override
+  String todayProgressFocus(String time) {
+    return '$time de concentration';
+  }
+
+  @override
+  String todayProgressHabits(int done, int total) {
+    return '$done/$total habitudes';
+  }
+
+  @override
+  String todayProgressItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments faits',
+      one: '1 élément fait',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String todayProgressTasks(int done, int total) {
+    return '$done/$total tâches';
+  }
+
+  @override
+  String todayQuitNextMilestone(String label) {
+    return 'Prochaine étape : $label';
+  }
+
+  @override
+  String todayQuitSaved(String amount) {
+    return '$amount économisés';
+  }
+
+  @override
+  String todayQuitUsedToday(String amount) {
+    return '$amount aujourd’hui';
+  }
+
+  @override
+  String get todayResetLayout => 'Réinitialiser';
+
+  @override
+  String todayRolledOver(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tâches déplacées à aujourd’hui',
+      one: '1 tâche déplacée à aujourd’hui',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayShowCompleted => 'Afficher les tâches faites';
+
+  @override
+  String get todayShowHeader => 'En-tête de progression';
+
+  @override
+  String get todaySkipAll => 'Tout passer';
+
+  @override
+  String todayStartsIn(String time) {
+    return 'dans $time';
+  }
+
+  @override
+  String get todaySwipeEnd => 'Balayer vers le début';
+
+  @override
+  String get todaySwipeNone => 'Rien';
+
+  @override
+  String get todaySwipeStart => 'Balayer vers la fin';
+
+  @override
+  String todayTimeLeft(String time) {
+    return 'encore $time';
+  }
+
+  @override
   String undoDoneSnack(String action) {
     return 'Annulé : $action';
   }
@@ -16391,4 +17689,73 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get voiceNoteTitle => 'Note vocale';
+
+  @override
+  String get widgetAdd => 'Ajouter';
+
+  @override
+  String get widgetAllDone => 'Tout est fait pour aujourd’hui';
+
+  @override
+  String get widgetCleanTime => 'Temps d’abstinence';
+
+  @override
+  String get widgetHowToAndroid => 'Maintenez l’écran d’accueil, choisissez Widgets, puis Everslot.';
+
+  @override
+  String get widgetHowToIos => 'Maintenez l’écran d’accueil, touchez +, puis cherchez Everslot.';
+
+  @override
+  String get widgetKindChecklist => 'Liste';
+
+  @override
+  String get widgetKindChecklistHint => 'Éléments ouverts de votre première liste épinglée';
+
+  @override
+  String get widgetKindHabits => 'Habitudes';
+
+  @override
+  String get widgetKindHabitsHint => 'Validez vos habitudes sans ouvrir l’app';
+
+  @override
+  String get widgetKindQuit => 'Temps d’abstinence';
+
+  @override
+  String get widgetKindQuitHint => 'Compteur en direct, argent économisé, prochain palier';
+
+  @override
+  String get widgetKindToday => 'Aujourd’hui';
+
+  @override
+  String get widgetKindTodayHint => 'Prochaines tâches et ce qui se passe maintenant';
+
+  @override
+  String get widgetListDone => 'Tous les éléments sont faits';
+
+  @override
+  String get widgetNoHabits => 'Aucune habitude aujourd’hui';
+
+  @override
+  String get widgetNoList => 'Épinglez une liste dans Everslot pour la voir ici';
+
+  @override
+  String get widgetNoQuit => 'Ajoutez un suivi d’arrêt dans Everslot';
+
+  @override
+  String get widgetNothingLeft => 'Plus rien aujourd’hui';
+
+  @override
+  String get widgetNow => 'Maintenant';
+
+  @override
+  String get widgetRefresh => 'Actualiser les widgets';
+
+  @override
+  String get widgetRefreshed => 'Widgets actualisés';
+
+  @override
+  String get widgetStale => 'Ouvrez Everslot pour actualiser';
+
+  @override
+  String get widgetsSection => 'Widgets d’écran d’accueil';
 }

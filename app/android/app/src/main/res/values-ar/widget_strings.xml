@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Home-screen widgets (T8.2.03–08): gallery names, descriptions and fallbacks. -->
+<resources>
+    <string name="widget_open_app">افتح Everslot لتحميل يومك</string>
+    <string name="widget_today_name">اليوم</string>
+    <string name="widget_today_description">مهامك التالية وما يجري الآن</string>
+    <string name="widget_habits_name">العادات</string>
+    <string name="widget_habits_description">سجّل عادات اليوم بلمسة واحدة</string>
+    <string name="widget_quit_name">مدة الامتناع</string>
+    <string name="widget_quit_description">عداد مباشر والمال الموفّر والمرحلة التالية</string>
+    <string name="widget_checklist_name">قائمة</string>
+    <string name="widget_checklist_description">العناصر المفتوحة في قائمتك المثبتة</string>
+    <plurals name="widget_days">
+        <item quantity="zero">%d يوم</item>
+        <item quantity="one">يوم %d</item>
+        <item quantity="two">يومان</item>
+        <item quantity="few">%d أيام</item>
+        <item quantity="many">%d يومًا</item>
+        <item quantity="other">%d يوم</item>
+    </plurals>
+</resources>

@@ -25,16 +25,16 @@ encryption, onboarding, sample data, accessibility options, about/legal, feedbac
 - [x] T8.3.05 — Section defaults pages (Plan, Lists, Habits, Insights)
 - [x] T8.3.06 — Trash (restore / delete forever)
 - [x] T8.3.07 — Export all data (JSON + CSV)
-- [ ] T8.3.08 — Import / restore from a Everslot export
-- [ ] T8.3.09 — App lock & app-switcher privacy
-- [ ] T8.3.10 — Hide notification content
-- [ ] T8.3.11 — Onboarding flow
-- [ ] T8.3.12 — Accessibility options
-- [ ] T8.3.13 — About, legal & health disclaimer
-- [ ] T8.3.14 — Import from other apps
-- [ ] T8.3.15 — Local database encryption
-- [ ] T8.3.16 — Sample data / demo mode
-- [ ] T8.3.17 — In-app feedback & diagnostics
+- [x] T8.3.08 — Import / restore from a Everslot export
+- [x] T8.3.09 — App lock & app-switcher privacy
+- [x] T8.3.10 — Hide notification content
+- [x] T8.3.11 — Onboarding flow
+- [x] T8.3.12 — Accessibility options
+- [x] T8.3.13 — About, legal & health disclaimer
+- [x] T8.3.14 — Import from other apps
+- [x] T8.3.15 — Local database encryption
+- [x] T8.3.16 — Sample data / demo mode
+- [x] T8.3.17 — In-app feedback & diagnostics
 
 ## Tasks
 
@@ -116,6 +116,7 @@ Dry-run preview (counts per type, conflicts), then apply in batches through the 
 **Acceptance criteria:** export → wipe → import yields identical data (golden comparison); copy mode
 never collides with existing ids.
 **Tests:** round-trip test; remapping unit tests (deterministic v5 ids re-derived).
+**Notes:** `ImportService` (`features/settings/application/import_service.dart`) opens a JSON or zip export in an isolate (CSV zips are refused — they are not lossless), dry-runs, then writes batches of 400 rows through `SyncWriter` (cause `import`). Restore is offered only when the export's profile id is the signed-in user; per row the newer `updated_at` wins (conflicts are counted as "kept"), "Replace newer changes" overrides, identical rows are skipped and locally deleted rows come back when the export wins. Copy (`IdRemapper`, domain) gives v7 ids to ordinary rows, re-derives v5 ids from `standardIdRecipes` (occurrences, day states, settings, tag links, runs, revisions, inbox via the remapped `dedupe_key`, default categories / sections / vocab / rules / profiles, achievements) — converging rows merge with the target account's — and rewrites every exported id found in columns, JSON values and composite strings (`storage_path`, `dedupe_key`); the target keeps its own profile, built-in saved views whose entry key isn't stored are skipped, copied attachments upload again from the zip's files. Round-trip compares exports ignoring `updated_at` / `origin_device_id` (written by the importing device).
 
 ### T8.3.09 — App lock & app-switcher privacy
 **Priority:** P1 · **Size:** M · **Depends on:** T8.3.01
@@ -124,12 +125,14 @@ never collides with existing ids.
 unaffected unless T8.3.10 is on.
 **Acceptance criteria:** lock survives app kill; failure/cancel keeps content hidden; accessibility-friendly unlock.
 **Tests:** widget tests with fake authenticator; manual QA.
+**Notes:** `features/privacy/`: `appLockProvider` (cold start locks once the privacy namespace has loaded; content stays covered until then) relocks on `AppLifecycleService.onReturn` when the background stay reached the timeout (0/1/5/15 min; an `inactive`-only return such as the biometric sheet never locks; the one return caused by Android's device-credential screen during a successful unlock is ignored). `AppLockGate` sits in the `MaterialApp.router` builder above every route: lock screen (auto prompt once, then an *Unlock* button; content excluded from semantics) or a plain cover while `inactive`/`paused` when app-switcher privacy or the lock is on. Android also sets `FLAG_SECURE` (channel `app.everslot/privacy`). Enabling the lock first checks a device screen lock exists and authenticates once. Settings › Privacy & security replaces the placeholder (lock, timeout, app switcher, hide notification content, crash reports). Device QA of the iOS snapshot cover still pending (Xcode 26).
 
 ### T8.3.10 — Hide notification content
 **Priority:** P1 · **Size:** S · **Depends on:** [7.2]
 **Description:** Privacy option: system notifications show generic text ("Reminder from Everslot");
 full content visible in the inbox after unlock. Applied by the planner to local and push payloads.
 **Tests:** unit test that planned payloads are redacted when enabled.
+**Notes:** The planner already redacted local payloads (title/body/subtitle/images, `authenticationRequired`); push content is rendered by the device planner, so it ships redacted too. Added: the running-timer surface (Android ongoing notification and iOS Live Activity) shows only "Reminder from Everslot" + the chronometer and re-renders when the setting changes. The toggle also lives on the Privacy page (both keys written, as on the Notifications page).
 
 ### T8.3.11 — Onboarding flow
 **Priority:** P1 · **Size:** M · **Depends on:** T8.3.02, T8.3.03, [1.5], [7.2]
@@ -140,12 +143,14 @@ routine checklist, water habit, 15 push-ups habit, quit smoking) → Today.
 **Acceptance criteria:** skippable at every step; re-runnable from Settings; no OS permission prompt
 without a primer; completion stored in `profiles.onboarding_completed_at`.
 **Tests:** integration test (patrol) through the flow incl. permission dialog.
+**Notes:** `OnboardingStep` = welcome → essentials (language, zone, week start, clock — T1.5.05) → what to track → notifications → starters; Skip on every step finishes with the detected values. The notifications step is the primer itself: the OS prompt only follows its *Allow* button, and on Android a granted permission without exact alarms shows the precise-reminders explanation + button. Track choices (Plan / Lists / Habits / Quit) only filter the starters offered — every tab stays available (no section hiding). Starters (`OnboardingStarters`): built-in *Morning routine* list, *Drink water* and *15 push-ups* habit templates, *Stop smoking* quit tracker, created with the regular services in the user's language. Re-runnable from Settings › Help › *Run the setup again*. `patrol_test/onboarding_test.dart` passed on the Android emulator (API 34) including the system dialog.
 
 ### T8.3.12 — Accessibility options
 **Priority:** P1 · **Size:** S · **Depends on:** T8.3.01
 **Description:** Reduce motion (overrides system), haptics on/off, high-contrast category palette, larger
 week-table text, "always show text labels on status pills".
 **Tests:** widget tests verifying options propagate via theme extensions.
+**Notes:** Settings › Accessibility (keys already in `appearance`): reduce motion and haptics keep their channels (`ReduceMotionScope`, `Haptics`); the other three travel as the `AccessibilityPrefs` theme extension (`context.a11y`, set in `app.dart`). High contrast: `CategoryColors.background/accent(highContrast:)` everywhere categories are drawn (tiles, chips, filters, editors; charts keep their data-viz palette) — accents ≥ 4.5:1 on the surface, tile text ≥ 4.5:1 for every palette color (tested). Larger week-table text: +2 pt on planner tiles. Status labels: planner tiles add the status word (done, missed, skipped, cancelled, in progress) and completed list items get a *Completed* pill. Preview of category tiles on the page.
 
 ### T8.3.13 — About, legal & health disclaimer
 **Priority:** P1 · **Size:** S · **Depends on:** T8.3.01
@@ -154,6 +159,7 @@ policy & terms links ([9.2]), health information disclaimer (quit milestones are
 information, not medical advice), support contact, *Rate Everslot* (`in_app_review`, never auto-prompted
 more than once per 90 days).
 **Tests:** widget test; unit test of review-prompt throttling.
+**Notes:** Settings › About: version (`package_info_plus`), privacy policy / terms / help pages under `SITE_URL` and `SUPPORT_EMAIL` (new optional env keys, hidden while placeholders — the site is T9.2.09), open-source licenses page (`LicenseRegistry` incl. the bundled Inter / Noto Sans Arabic OFL texts), health disclaimer, *Rate Everslot*. `ReviewService`: the user's tap shows the in-app sheet when allowed, else the store page; the only automatic prompt follows a 30+ day streak celebration and is throttled to once per 90 days per device (`local_kv`).
 
 ### T8.3.14 — Import from other apps
 **Priority:** P2 · **Size:** L · **Depends on:** T8.3.08
@@ -161,12 +167,14 @@ more than once per 90 days).
 JSON) → checklists/items (+ images); Todoist/TickTick CSV → tasks (recurrence text best-effort); plain
 indented text/Markdown → nested items ([4.5]).
 **Tests:** fixture files per source; mapping unit tests.
+**Notes:** Pure parsers in `features/settings/domain/external_import.dart` (RFC 4180 `CsvReader`, `LoopImport` for the CSV zip — combined or per-habit `Checkmarks.csv` — and the `.db` backup read read-only with `sqlite3`, `KeepImport`, `TodoistImport` through the quick-add parser, `TickTickImport` with RRULEs and zoned instants) → `ExternalImportPlan`; `ExternalImportService` writes through the feature services (habit history via the new `CheckInService.importHistory`, batched, source `import`; lists with labels → tags and Keep images → attachments; tasks with labels/sections → tags). Loop: only manual check-ins (value 2) and skips are taken, numerical amounts ÷ 1000, "N in D days" → daily / every N days / N× per week or month (others approximated and reported). Todoist P1…P4 → urgent…none; TickTick completed tasks are left out. Text / Markdown reuses the [4.5] outline parser. Preview lists counts and what was approximated or left out. Source names are product names (not translated). Fixtures in `test/features/settings/fixtures/external/`.
 
 ### T8.3.15 — Local database encryption
 **Priority:** P2 · **Size:** L · **Depends on:** T8.3.09
 **Description:** Optional SQLCipher-encrypted Drift database with key in secure storage; migration from
 plain DB (export → encrypted DB → verify → delete plain file); performance check vs budgets.
 **Tests:** migration integration test; perf comparison recorded.
+**Notes:** SQLite3MultipleCiphers instead of SQLCipher (ADR-020): the sqlite3 build hook now builds it for everyone (`hooks.user_defines` in the workspace pubspec) — plain files open unchanged, `PRAGMA key` opens encrypted ones, no OpenSSL. `DatabaseEncryption` (`core/database`): random passphrase in the Keychain / Keystore (`first_unlock_this_device`, readable by background isolates after the first unlock); Settings › Privacy › *Encrypt data on this device* records the wish, applied at the next start before the database opens (copy → `rekey` → quick_check + per-table row counts → swap → delete the plain file; any failure leaves the original). `AppDatabase` opens with the key whenever the file header says it is encrypted. Recorded (macOS host, 20 000 rows, 20 full scans with `LIKE`): plain 32 ms, encrypted 156–207 ms (worst case: every page decrypted); conversion of the 20 000-row file ≈ 100 ms; indexed screen queries stay within budget. `patrol_test/encryption_test.dart` passed on the Android emulator (real Keystore, ARM build).
 
 ### T8.3.16 — Sample data / demo mode
 **Priority:** P2 · **Size:** S · **Depends on:** [3.1], [4.1], [5.1]
@@ -174,9 +182,11 @@ plain DB (export → encrypted DB → verify → delete plain file); performance
 quit tracker with cravings) for screenshots, demos and manual stats testing; isolated demo account or
 local-only flag; one-tap removal.
 **Tests:** generator determinism with seed; stats screens render with generated data.
+**Notes:** `features/demo/`: pure `DemoGenerator` (seeded `Random`, 182 days: six recurring series with weekday-aware done/skip history improving over time, four one-offs around today, three lists from the localized built-in templates with spread statuses, five habits with streaky check-ins (yesterday's success raises today's odds) and amounts, a smoking quit tracker 150 days old with two slips and Poisson cravings fading over time). `DemoService` writes it through the regular services — occurrence history via the new `OccurrencesRepository.importHistory` (each at its own instant through `runAutomatic`, so completion times and activity events are in the past), habit history via `CheckInService.importHistory`, relapses / cravings via `QuitService` — and keeps the created ids in `local_kv` for one-tap removal (to the trash). Debug menu › Sample data; refused for cloud accounts (local-only mode only) so it never syncs.
 
 ### T8.3.17 — In-app feedback & diagnostics
 **Priority:** P2 · **Size:** S · **Depends on:** T8.3.13
 **Description:** "Send feedback" composes an email with optional diagnostics (app/OS version, device
 model, sync state, last error codes — no content, no ids beyond device id) the user can review before sending.
 **Tests:** unit test that diagnostics contain no user content.
+**Notes:** Settings › About › *Send feedback*: message + optional diagnostics (on by default) shown verbatim before sending; sent by e-mail to `SUPPORT_EMAIL`, else through the share sheet. `FeedbackDiagnostics` (domain) holds app version/build/flavor, platform + OS version, device model, locale, device id, sync phase / pending / failed / last success / error code, and up to 10 recent error codes `logger/ExceptionType` taken from the log buffer — only a type name matching `…Exception|Error|Failure` (Dart error phrases mapped to their type), never message text; device name, time zone and user ids are left out. Labels are English (read by support).

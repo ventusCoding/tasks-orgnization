@@ -282,7 +282,13 @@ class _ScopeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
-    final color = entity.color == null ? null : CategoryColors.accent(entity.color!, Theme.of(context).brightness);
+    final color = entity.color == null
+        ? null
+        : CategoryColors.accent(
+            entity.color!,
+            Theme.of(context).brightness,
+            highContrast: context.a11y.highContrastCategories,
+          );
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.md, Space.lg, 0),
       child: Row(

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- App Actions query patterns (T8.2.15). -->
+<resources>
+    <string-array name="app_actions_log_habit">
+        <item>log $name $value</item>
+        <item>log $value $name</item>
+        <item>add $value to $name</item>
+        <item>check in $name</item>
+        <item>mark $name done</item>
+    </string-array>
+    <string-array name="app_actions_next">
+        <item>what\'s next</item>
+        <item>what is next</item>
+        <item>what do I have next</item>
+        <item>next task</item>
+    </string-array>
+    <string-array name="app_actions_focus">
+        <item>start focus</item>
+        <item>start my next task</item>
+        <item>focus now</item>
+        <item>start the timer</item>
+    </string-array>
+</resources>

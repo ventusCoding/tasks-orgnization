@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:everslot/design_system/accessibility.dart';
 import 'package:everslot/design_system/l10n_x.dart';
 import 'package:everslot/design_system/tokens.dart';
 import 'package:flutter/semantics.dart';
@@ -296,7 +297,7 @@ class AppAvatar extends StatelessWidget {
     final argb = colorArgb;
     final bg = argb == null
         ? context.colors.primaryContainer
-        : CategoryColors.background(argb, context.theme.brightness);
+        : CategoryColors.background(argb, context.theme.brightness, highContrast: context.a11y.highContrastCategories);
     final fg = argb == null ? context.colors.onPrimaryContainer : CategoryColors.onBackground(bg);
     final iconData = icon;
     return Semantics(

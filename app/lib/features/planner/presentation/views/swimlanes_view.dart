@@ -136,7 +136,13 @@ class _LaneLegend extends StatelessWidget {
                         Container(
                           width: 3,
                           height: 14,
-                          color: color == null ? c.outline : CategoryColors.accent(color, brightness),
+                          color: color == null
+                              ? c.outline
+                              : CategoryColors.accent(
+                                  color,
+                                  brightness,
+                                  highContrast: context.a11y.highContrastCategories,
+                                ),
                         ),
                         const SizedBox(width: 2),
                         Expanded(

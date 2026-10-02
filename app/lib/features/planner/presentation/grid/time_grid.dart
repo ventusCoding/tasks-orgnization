@@ -4,6 +4,8 @@ import 'dart:math' as math;
 import 'package:collection/collection.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/integrations/application/device_calendar_providers.dart';
+import 'package:everslot/features/integrations/domain/device_calendar.dart';
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/data/planner_view_data.dart';
@@ -721,6 +723,7 @@ class TimeGridState extends ConsumerState<TimeGrid>
     final format = context.plannerFormat(use24h: prefs.use24h);
     final style = GridStyle.of(context, density: config.density);
     final colors = ItemColorResolver(
+      highContrast: context.a11y.highContrastCategories,
       colorBy: config.colorBy,
       brightness: Theme.of(context).brightness,
       categoryColor: lookup,
@@ -1394,6 +1397,9 @@ class TimeGridState extends ConsumerState<TimeGrid>
       rtl: f.metrics.rtl,
       style: f.style,
     );
+    final deviceSpans = config.overlay('deviceCalendars') && page.days.isNotEmpty
+        ? ref.watch(deviceEventSpansProvider((page.days.first, page.days.length))).value ?? const <DeviceEventSpan>[]
+        : const <DeviceEventSpan>[];
     return TimelinePageBody(
       geometry: geom,
       axis: f.axis,
@@ -1419,6 +1425,13 @@ class TimeGridState extends ConsumerState<TimeGrid>
               color: context.colors.primary,
               deadColor: context.appColors.warning,
             ),
+        if (deviceSpans.isNotEmpty)
+          DeviceEventsPainter(
+            page: overlayContext,
+            spans: deviceSpans,
+            color: context.colors.tertiary,
+            textStyle: context.text.labelSmall!.copyWith(color: context.colors.onSurfaceVariant),
+          ),
         if (config.overlay('freeSlots'))
           FreeSlotsPainter(
             page: overlayContext,
@@ -1432,6 +1445,10 @@ class TimeGridState extends ConsumerState<TimeGrid>
                 minGapMinutes: config.option<int>('minGap', 30),
               ),
               elapsed: (a, b) => elapsedMinutes(ref.read(zoneResolverProvider), f.zone, a, b),
+              extraBusy: [
+                for (final s in deviceSpans)
+                  if (s.busy) (s.start, s.end),
+              ],
             ),
           ),
         for (final b in widget.overlayPainters)

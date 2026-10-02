@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Home-screen widgets (T8.2.03–08): gallery names, descriptions and fallbacks. -->
+<resources>
+    <string name="widget_open_app">Ouvrez Everslot pour charger votre journée</string>
+    <string name="widget_today_name">Aujourd’hui</string>
+    <string name="widget_today_description">Vos prochaines tâches et ce qui se passe maintenant</string>
+    <string name="widget_habits_name">Habitudes</string>
+    <string name="widget_habits_description">Validez vos habitudes du jour d’un geste</string>
+    <string name="widget_quit_name">Temps d’abstinence</string>
+    <string name="widget_quit_description">Compteur en direct, argent économisé et prochain palier</string>
+    <string name="widget_checklist_name">Liste</string>
+    <string name="widget_checklist_description">Éléments ouverts de votre liste épinglée</string>
+    <plurals name="widget_days">
+        <item quantity="one">%d jour</item>
+        <item quantity="other">%d jours</item>
+    </plurals>
+</resources>

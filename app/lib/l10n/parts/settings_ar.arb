@@ -213,5 +213,45 @@
   "settingsInsightsWakingHours": "ساعات اليقظة",
   "settingsInsightsHours": "{count, plural, =1{ساعة واحدة} =2{ساعتان} few{{count} ساعات} other{{count} ساعة}}",
   "settingsInsightsGamification": "نقاط الخبرة والمستويات",
-  "settingsInsightsGamificationHint": "اكسب نقاط خبرة مقابل ما تنجزه (معطّل افتراضيًا)."
+  "settingsInsightsGamificationHint": "اكسب نقاط خبرة مقابل ما تنجزه (معطّل افتراضيًا).",
+  "a11yReduceMotion": "تقليل الحركة",
+  "a11yReduceMotionHint": "رسوم متحركة أقل حتى إن سمح بها جهازك",
+  "a11yHaptics": "الاستجابة اللمسية",
+  "a11yHapticsHint": "اهتزازات عند المحاذاة والرفع والإكمال",
+  "a11yHighContrast": "ألوان فئات عالية التباين",
+  "a11yHighContrastHint": "مربعات وألوان أقوى يسهل التمييز بينها",
+  "a11yLargeTable": "نص أكبر في جدول الأسبوع",
+  "a11yLargeTableHint": "عناوين وأوقات أكبر في مربعات المخطط",
+  "a11yStatusLabels": "إظهار تسميات الحالة دائمًا",
+  "a11yStatusLabelsHint": "الحالة بالكلمات، لا بالألوان والأيقونات فقط",
+  "a11ySystemHint": "حجم النص والخط العريض وقارئات الشاشة تتبع إعدادات جهازك.",
+  "aboutTagline": "امتلك كل خانة من يومك",
+  "aboutVersion": "الإصدار {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutLegal": "الشؤون القانونية",
+  "aboutPrivacyPolicy": "سياسة الخصوصية",
+  "aboutTerms": "شروط الاستخدام",
+  "aboutLicenses": "تراخيص البرمجيات مفتوحة المصدر",
+  "aboutLegalese": "مبني باستخدام Flutter وبرمجيات مفتوحة المصدر.",
+  "aboutHealthTitle": "معلومات صحية",
+  "aboutHealthBody": "مراحل متتبع الإقلاع والتوفير والتقديرات الصحية هي معلومات عامة للصحة العامة مبنية على متوسطات سكانية (منظمة الصحة العالمية، NHS، CDC، الجمعية الأمريكية للسرطان). ليست نصيحة طبية ولا تغني عن أخصائي رعاية صحية. إن كنت تحاول الإقلاع عن مادة ما، فتحدث إلى طبيبك أو خط مساعدة محلي.",
+  "aboutHelp": "المساعدة",
+  "aboutHelpCenter": "المساعدة والأسئلة الشائعة",
+  "aboutContact": "التواصل مع الدعم",
+  "aboutRate": "قيّم Everslot",
+  "aboutRateHint": "يساعد التقييم الآخرين على إيجاد التطبيق",
+  "feedbackTitle": "إرسال ملاحظات",
+  "feedbackHint": "أفكار ومشكلات وأسئلة",
+  "feedbackSubject": "ملاحظات حول Everslot",
+  "feedbackMessage": "رسالتك",
+  "feedbackIncludeDiagnostics": "إرفاق بيانات التشخيص",
+  "feedbackDiagnosticsHint": "إصدارات التطبيق والنظام وطراز الجهاز وحالة المزامنة ورموز الأخطاء الأخيرة — دون محتواك أبدًا",
+  "feedbackPreview": "عرض ما سيُرفق بالضبط",
+  "feedbackSend": "إرسال"
 }

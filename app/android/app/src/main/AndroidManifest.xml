@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- Document scanner fallback without Play Services (T2.2.14); image_picker then asks at runtime. -->
@@ -18,6 +19,17 @@
     <!-- Alarm profile (T7.2.24): full-screen alarm notifications. Android 14+ grants it only to
          alarm/calling apps by default; the app asks the user and degrades to a heads-up alert. -->
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <!-- Device-calendar overlay (T8.2.13): read-only, asked from Settings. -->
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <!-- Health Connect, read-only (T8.2.14): habits linked to steps, workouts, mindfulness, sleep, water. -->
+    <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.READ_EXERCISE" />
+    <uses-permission android:name="android.permission.health.READ_MINDFULNESS" />
+    <uses-permission android:name="android.permission.health.READ_SLEEP" />
+    <uses-permission android:name="android.permission.health.READ_HYDRATION" />
+    <!-- The health plugin declares minSdk 26; it is only used on Android 9+ (Health Connect) after a
+         runtime check, so the app keeps minSdk 24. -->
+    <uses-sdk tools:overrideLibrary="cachet.plugins.health, androidx.health.connect.client" />
 
     <application
         android:label="@string/app_name"
@@ -34,6 +46,8 @@
             android:hardwareAccelerated="true"
             android:showWhenLocked="false"
             android:windowSoftInputMode="adjustResize">
+            <!-- App Actions capabilities (T8.2.15). -->
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
@@ -69,10 +83,43 @@
                 <data android:pathPrefix="/search" />
                 <data android:pathPrefix="/settings" />
             </intent-filter>
+            <!-- Share into Everslot (T8.2.07): text, links, images, videos and files. -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/*" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="video/*" />
+                <data android:mimeType="application/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="video/*" />
+                <data android:mimeType="application/*" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <!-- Health Connect permission rationale (T8.2.14): opens the app (privacy policy in About). -->
+            <intent-filter>
+                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+            </intent-filter>
             <!-- app_links + DeepLinkParser handle every link (Flutter's own deep linking would
                  push everslot://task/<id> as the wrong route). -->
             <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
         </activity>
+
+        <!-- Android 14+ Health Connect "permission usage" entry (T8.2.14). -->
+        <activity-alias
+            android:name="ViewPermissionUsageActivity"
+            android:exported="true"
+            android:targetActivity=".MainActivity"
+            android:permission="android.permission.START_VIEW_PERMISSION_USAGE">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
+                <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
+            </intent-filter>
+        </activity-alias>
 
         <!-- flutter_local_notifications receivers (T7.2.01) -->
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver" />
@@ -86,6 +133,65 @@
             </intent-filter>
         </receiver>
 
+        <!-- Home-screen widgets (T8.2.03–08, Jetpack Glance via home_widget). -->
+        <receiver
+            android:name=".widgets.TodayWidgetReceiver"
+            android:label="@string/widget_today_name"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_today_info" />
+        </receiver>
+        <receiver
+            android:name=".widgets.HabitsWidgetReceiver"
+            android:label="@string/widget_habits_name"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_habits_info" />
+        </receiver>
+        <receiver
+            android:name=".widgets.QuitWidgetReceiver"
+            android:label="@string/widget_quit_name"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_quit_info" />
+        </receiver>
+        <receiver
+            android:name=".widgets.ChecklistWidgetReceiver"
+            android:label="@string/widget_checklist_name"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_checklist_info" />
+        </receiver>
+        <!-- live_activities (iOS Live Activities only, T8.2.10) ships an FCM service that would take
+             MESSAGING_EVENT from firebase_messaging: Android uses an ongoing notification instead. -->
+        <service
+            android:name="com.istornz.live_activities.LiveActivityFirebaseMessagingService"
+            tools:node="remove" />
+        <!-- Interactive widget buttons run Dart in the background (home_widget, T8.2.04). -->
+        <receiver
+            android:name="es.antonborri.home_widget.HomeWidgetBackgroundReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="es.antonborri.home_widget.action.BACKGROUND" />
+            </intent-filter>
+        </receiver>
+
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
@@ -94,6 +200,11 @@
             android:value="everslot_default" />
     </application>
     <queries>
+        <!-- Health Connect installed? (T8.2.14) -->
+        <package android:name="com.google.android.apps.healthdata" />
+        <intent>
+            <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+        </intent>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>

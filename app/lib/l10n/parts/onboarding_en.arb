@@ -10,5 +10,35 @@
   "onboardingLanguage": "Language",
   "onboardingGetStarted": "Get started",
   "onboardingStepOf": "Step {current} of {total}",
-  "@onboardingStepOf": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}}
+  "@onboardingStepOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "onboardingWelcomeTitle": "Own every slot of your day",
+  "onboardingWelcomeBody": "A few quick questions so Everslot fits the way you live. Skip anything — it all stays in Settings.",
+  "onboardingWelcomePlan": "Plan your week in slots of any length",
+  "onboardingWelcomeLists": "Keep lists with nested items and statuses",
+  "onboardingWelcomeHabits": "Build habits and quit what holds you back",
+  "onboardingWelcomeInsights": "See detailed insights on everything you do",
+  "onboardingTrackTitle": "What do you want to track?",
+  "onboardingTrackBody": "We'll suggest a few things to start with. Every section stays available.",
+  "onboardingTrackPlan": "Tasks, time blocks and routines",
+  "onboardingTrackLists": "Checklists, shopping, projects",
+  "onboardingTrackHabits": "Daily habits and goals",
+  "onboardingTrackQuitTitle": "Quit or cut down",
+  "onboardingTrackQuit": "Smoking, alcohol, caffeine…",
+  "onboardingNotificationsOn": "Notifications are on",
+  "onboardingNotificationsLater": "You can turn reminders on or off for each item, and change everything in Settings › Notifications.",
+  "onboardingStartersTitle": "Start with something?",
+  "onboardingStartersBody": "Pick a few ready-made items. You can edit or delete them later.",
+  "onboardingStartersNone": "Nothing to suggest for your choices — you're all set.",
+  "onboardingStarterRoutine": "Morning routine",
+  "onboardingRerun": "Run the setup again",
+  "onboardingRerunSubtitle": "Language, week, notifications and starters"
 }

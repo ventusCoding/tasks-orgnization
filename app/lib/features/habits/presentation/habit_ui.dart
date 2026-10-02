@@ -76,7 +76,7 @@ class HabitAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final argb = habit.color ?? CategoryPalette.at(habit.name.hashCode.abs() % 16);
     final brightness = Theme.of(context).brightness;
-    final bg = CategoryColors.background(argb, brightness);
+    final bg = CategoryColors.background(argb, brightness, highContrast: context.a11y.highContrastCategories);
     return ExcludeSemantics(
       child: Container(
         width: size,
@@ -85,7 +85,7 @@ class HabitAvatar extends StatelessWidget {
         child: Icon(
           IconCatalog.iconFor(habit.icon, fallback: habit.isQuit ? Icons.smoke_free : Icons.check),
           size: size * 0.55,
-          color: CategoryColors.accent(argb, brightness),
+          color: CategoryColors.accent(argb, brightness, highContrast: context.a11y.highContrastCategories),
         ),
       ),
     );
@@ -96,6 +96,7 @@ class HabitAvatar extends StatelessWidget {
 Color habitAccent(BuildContext context, Habit habit) => CategoryColors.accent(
   habit.color ?? CategoryPalette.at(habit.name.hashCode.abs() % 16),
   Theme.of(context).brightness,
+  highContrast: context.a11y.highContrastCategories,
 );
 
 /// "🔥 12" streak chip with a spoken label.

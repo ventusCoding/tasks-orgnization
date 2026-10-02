@@ -106,9 +106,10 @@ class CheckInService {
   }
 
   /// The period "check now" targets (the current day, the slot per early tolerance, or today inside
-  /// a quota period); null when nothing is due yet.
-  Future<CheckInTarget?> currentTarget(BuildHabit habit) async {
-    final now = clock.nowUtc();
+  /// a quota period); null when nothing is due yet. [at] evaluates another instant (a widget tap
+  /// applied later, T8.2.04).
+  Future<CheckInTarget?> currentTarget(BuildHabit habit, {DateTime? at}) async {
+    final now = at ?? clock.nowUtc();
     final revisions = await habits.revisionsFor(habit.id);
     final period = periods.periodForInstant(habit, revisions, now);
     if (period == null) return null;
@@ -250,6 +251,57 @@ class CheckInService {
     return CheckInResult(record, target);
   }
 
+  /// Brings past days in from another app (T8.3.14): per day a state ([CheckInState]) or, for a
+  /// measurable habit, an amount — written in batches with source `import`, without the "not in
+  /// the future / not too old" guards of live check-ins and without check-in events.
+  Future<int> importHistory(
+    BuildHabit habit,
+    List<({LocalDate date, CheckInState? state, double? value})> days, {
+    int batchSize = 500,
+  }) async {
+    final b = periods.boundariesOf(habit);
+    final now = clock.nowUtc();
+    var written = 0;
+    for (var i = 0; i < days.length; i += batchSize) {
+      final batch = days.sublist(i, (i + batchSize).clamp(0, days.length));
+      await logs.write((tx) async {
+        for (final d in batch) {
+          final target = CheckInTarget.day(d.date, b);
+          final at = checkInInstant(target, now: now, boundaries: b);
+          if (d.value != null && habit.goal.isMeasurable) {
+            await HabitLogsRepository.insertInTx(
+              tx,
+              HabitLogEntry(
+                id: Ids.v7(),
+                habitId: habit.id,
+                kind: HabitLogKind.progress,
+                loggedAt: at,
+                localDate: target.localDate,
+                occurrenceKey: target.key,
+                value: d.value,
+                source: LogSource.import,
+              ),
+            );
+          } else if (d.state != null) {
+            await HabitLogsRepository.upsertStateInTx(
+              tx,
+              habitId: habit.id,
+              key: target.key,
+              kind: d.state!.kind,
+              loggedAt: at,
+              localDate: target.localDate,
+              source: LogSource.import,
+            );
+          } else {
+            continue;
+          }
+          written++;
+        }
+      }, cause: 'import');
+    }
+    return written;
+  }
+
   /// Edits an entry (value, time, note, mood).
   Future<OpRecord> updateEntry(
     HabitLogEntry entry, {
@@ -302,9 +354,40 @@ class CheckInService {
     return CheckInResult(record, target);
   }
 
+  /// Health auto-logging (T8.2.14): ONE deterministic `progress` log per habit and day holding the
+  /// day's total from Apple Health / Health Connect (`source = auto`), updated in place. A log the
+  /// user deleted stays deleted — their override wins. Returns whether something was written.
+  Future<bool> setHealthProgress(BuildHabit habit, LocalDate day, double value) async {
+    if (value.isNaN || value <= 0) return false;
+    final id = HabitIds.healthProgress(habit.id, day.toIso());
+    final target = await targetFor(habit, day.toIso());
+    var changed = false;
+    await logs.write((tx) async {
+      final raw = await tx.readRaw('habit_logs', id);
+      if (raw != null && raw['deleted_at'] != null) return;
+      if (raw != null && (raw['value'] as num?)?.toDouble() == value) return;
+      await HabitLogsRepository.upsertInTx(
+        tx,
+        HabitLogEntry(
+          id: id,
+          habitId: habit.id,
+          kind: HabitLogKind.progress,
+          loggedAt: _instant(habit, target, null),
+          localDate: target.localDate,
+          occurrenceKey: target.key,
+          value: value,
+          source: LogSource.auto,
+        ),
+      );
+      changed = true;
+    }, cause: 'health');
+    if (changed) _emit(habit, target, HabitLogKind.progress, LogSource.auto, clock.nowUtc(), value: value);
+    return changed;
+  }
+
   /// "Check now": marks the current period (slot per early tolerance) done.
-  Future<CheckInResult> checkNow(BuildHabit habit, {String source = LogSource.manual}) async {
-    final target = await currentTarget(habit);
+  Future<CheckInResult> checkNow(BuildHabit habit, {String source = LogSource.manual, DateTime? at}) async {
+    final target = await currentTarget(habit, at: at);
     if (target == null) throw const CheckInException(CheckInRefusal.future);
     return markDone(habit, target.key, source: source);
   }

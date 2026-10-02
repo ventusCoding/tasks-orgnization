@@ -278,5 +278,8 @@
   "tasksQuickRescheduleHour": "Dans 1 heure ({time})",
   "tasksQuickRescheduleTonight": "Ce soir à {time}",
   "tasksQuickRescheduleTomorrow": "Demain à {time}",
-  "tasksQuickRescheduled": "Reprogrammé"
+  "tasksQuickRescheduled": "Reprogrammé",
+  "timerSurfaceOver": "Temps prévu dépassé",
+  "timerSurfacePlannedUntil": "Prévu jusqu’à {time}",
+  "timerSurfaceMore": "{title} (+{count})"
 }

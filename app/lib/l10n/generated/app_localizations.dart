@@ -93,6 +93,156 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('ar'), Locale('en'), Locale('fr')];
 
+  /// No description provided for @a11yHaptics.
+  ///
+  /// In en, this message translates to:
+  /// **'Haptic feedback'**
+  String get a11yHaptics;
+
+  /// No description provided for @a11yHapticsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Vibrations when snapping, lifting and completing'**
+  String get a11yHapticsHint;
+
+  /// No description provided for @a11yHighContrast.
+  ///
+  /// In en, this message translates to:
+  /// **'High-contrast category colors'**
+  String get a11yHighContrast;
+
+  /// No description provided for @a11yHighContrastHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Stronger tiles and accents that are easier to tell apart'**
+  String get a11yHighContrastHint;
+
+  /// No description provided for @a11yLargeTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Larger text in the week table'**
+  String get a11yLargeTable;
+
+  /// No description provided for @a11yLargeTableHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Bigger titles and times on planner tiles'**
+  String get a11yLargeTableHint;
+
+  /// No description provided for @a11yReduceMotion.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduce motion'**
+  String get a11yReduceMotion;
+
+  /// No description provided for @a11yReduceMotionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer animations, even if your device allows them'**
+  String get a11yReduceMotionHint;
+
+  /// No description provided for @a11yStatusLabels.
+  ///
+  /// In en, this message translates to:
+  /// **'Always show status labels'**
+  String get a11yStatusLabels;
+
+  /// No description provided for @a11yStatusLabelsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Status in words, not only with colors and icons'**
+  String get a11yStatusLabelsHint;
+
+  /// No description provided for @a11ySystemHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Text size, bold text and screen readers follow your device settings.'**
+  String get a11ySystemHint;
+
+  /// No description provided for @aboutContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact support'**
+  String get aboutContact;
+
+  /// No description provided for @aboutHealthBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit-tracker milestones, savings and health estimates are general public-health information based on population averages (WHO, NHS, CDC, American Cancer Society). They are not medical advice and don\'t replace a healthcare professional. If you\'re trying to quit a substance, talk to your doctor or a local quit line.'**
+  String get aboutHealthBody;
+
+  /// No description provided for @aboutHealthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Health information'**
+  String get aboutHealthTitle;
+
+  /// No description provided for @aboutHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get aboutHelp;
+
+  /// No description provided for @aboutHelpCenter.
+  ///
+  /// In en, this message translates to:
+  /// **'Help & FAQ'**
+  String get aboutHelpCenter;
+
+  /// No description provided for @aboutLegal.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal'**
+  String get aboutLegal;
+
+  /// No description provided for @aboutLegalese.
+  ///
+  /// In en, this message translates to:
+  /// **'Built with Flutter and open-source software.'**
+  String get aboutLegalese;
+
+  /// No description provided for @aboutLicenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Open-source licenses'**
+  String get aboutLicenses;
+
+  /// No description provided for @aboutPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get aboutPrivacyPolicy;
+
+  /// No description provided for @aboutRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Everslot'**
+  String get aboutRate;
+
+  /// No description provided for @aboutRateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A rating helps others find the app'**
+  String get aboutRateHint;
+
+  /// No description provided for @aboutTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Own every slot of your day'**
+  String get aboutTagline;
+
+  /// No description provided for @aboutTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of use'**
+  String get aboutTerms;
+
+  /// No description provided for @aboutVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String aboutVersion(String version);
+
   /// No description provided for @actionAdd.
   ///
   /// In en, this message translates to:
@@ -626,6 +776,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Moved to the backlog'**
   String get activityUnscheduled;
+
+  /// No description provided for @appLockAfterMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes, plural, one{1 minute} other{{minutes} minutes}}'**
+  String appLockAfterMinutes(int minutes);
+
+  /// No description provided for @appLockBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your fingerprint, face or device code to continue.'**
+  String get appLockBody;
+
+  /// No description provided for @appLockEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock the app'**
+  String get appLockEnable;
+
+  /// No description provided for @appLockEnableHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for biometrics or the device code when opening Everslot'**
+  String get appLockEnableHint;
+
+  /// No description provided for @appLockImmediately.
+  ///
+  /// In en, this message translates to:
+  /// **'Immediately'**
+  String get appLockImmediately;
+
+  /// No description provided for @appLockReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Everslot'**
+  String get appLockReason;
+
+  /// No description provided for @appLockSection.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock'**
+  String get appLockSection;
+
+  /// No description provided for @appLockTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock after'**
+  String get appLockTimeout;
+
+  /// No description provided for @appLockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot is locked'**
+  String get appLockTitle;
+
+  /// No description provided for @appLockUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get appLockUnlock;
+
+  /// No description provided for @appLockUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up a screen lock on this device first.'**
+  String get appLockUnsupported;
 
   /// No description provided for @appName.
   ///
@@ -4875,11 +5091,323 @@ abstract class AppLocalizations {
   /// **'Delete {item}?'**
   String confirmDeleteTitle(String item);
 
+  /// No description provided for @dataImportBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Bring back an Everslot backup (JSON, or a zip with attachments).'**
+  String get dataImportBody;
+
+  /// No description provided for @dataImportConflictsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 item changed here after the backup was made and was kept.} other{{count} items changed here after the backup was made and were kept.}}'**
+  String dataImportConflictsHint(int count);
+
+  /// No description provided for @dataImportCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get dataImportCopy;
+
+  /// No description provided for @dataImportCopyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Adds everything as new items, without touching what you have.'**
+  String get dataImportCopyHint;
+
+  /// No description provided for @dataImportCountKept.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} kept'**
+  String dataImportCountKept(int count);
+
+  /// No description provided for @dataImportCountNew.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} new'**
+  String dataImportCountNew(int count);
+
+  /// No description provided for @dataImportCountSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} skipped'**
+  String dataImportCountSkipped(int count);
+
+  /// No description provided for @dataImportCountUnchanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} unchanged'**
+  String dataImportCountUnchanged(int count);
+
+  /// No description provided for @dataImportCountUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} updated'**
+  String dataImportCountUpdated(int count);
+
+  /// No description provided for @dataImportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing to import} one{1 item imported} other{{count} items imported}}'**
+  String dataImportDone(int count);
+
+  /// No description provided for @dataImportErrorCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Spreadsheet (CSV) exports can\'t be imported. Use an Everslot backup (JSON).'**
+  String get dataImportErrorCsv;
+
+  /// No description provided for @dataImportErrorNotExport.
+  ///
+  /// In en, this message translates to:
+  /// **'This file isn\'t an Everslot backup.'**
+  String get dataImportErrorNotExport;
+
+  /// No description provided for @dataImportErrorVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'This backup comes from a newer or unknown version of Everslot.'**
+  String get dataImportErrorVersion;
+
+  /// No description provided for @dataImportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The import failed. Nothing was half-written; please try again.'**
+  String get dataImportFailed;
+
+  /// No description provided for @dataImportKindAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments'**
+  String get dataImportKindAttachments;
+
+  /// No description provided for @dataImportKindCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories & tags'**
+  String get dataImportKindCategories;
+
+  /// No description provided for @dataImportKindHabitLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-ins'**
+  String get dataImportKindHabitLogs;
+
+  /// No description provided for @dataImportKindHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits & quit trackers'**
+  String get dataImportKindHabits;
+
+  /// No description provided for @dataImportKindInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox'**
+  String get dataImportKindInbox;
+
+  /// No description provided for @dataImportKindItems.
+  ///
+  /// In en, this message translates to:
+  /// **'List items'**
+  String get dataImportKindItems;
+
+  /// No description provided for @dataImportKindLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists'**
+  String get dataImportKindLists;
+
+  /// No description provided for @dataImportKindOccurrences.
+  ///
+  /// In en, this message translates to:
+  /// **'Task history'**
+  String get dataImportKindOccurrences;
+
+  /// No description provided for @dataImportKindOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other data'**
+  String get dataImportKindOther;
+
+  /// No description provided for @dataImportKindSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get dataImportKindSettings;
+
+  /// No description provided for @dataImportKindTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get dataImportKindTasks;
+
+  /// No description provided for @dataImportPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a backup file'**
+  String get dataImportPick;
+
+  /// No description provided for @dataImportReplaceNewer.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace newer changes on this device'**
+  String get dataImportReplaceNewer;
+
+  /// No description provided for @dataImportReplaceNewerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the backup even where this device has a later edit.'**
+  String get dataImportReplaceNewerHint;
+
+  /// No description provided for @dataImportRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get dataImportRestore;
+
+  /// No description provided for @dataImportRestoreHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Same account: brings rows back; the newer side of each item wins.'**
+  String get dataImportRestoreHint;
+
+  /// No description provided for @dataImportRestoreOtherAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Only for backups of this account.'**
+  String get dataImportRestoreOtherAccount;
+
+  /// No description provided for @dataImportRunCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Import a copy'**
+  String get dataImportRunCopy;
+
+  /// No description provided for @dataImportRunRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get dataImportRunRestore;
+
+  /// No description provided for @dataImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get dataImportTitle;
+
   /// No description provided for @deletedSnack.
   ///
   /// In en, this message translates to:
   /// **'{item} deleted'**
   String deletedSnack(String item);
+
+  /// No description provided for @demoDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample data generated'**
+  String get demoDone;
+
+  /// No description provided for @demoGenerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate sample data'**
+  String get demoGenerate;
+
+  /// No description provided for @demoGenerateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Six months of plans, lists, habits and a quit tracker — local-only mode'**
+  String get demoGenerateHint;
+
+  /// No description provided for @demoOnlyLocal.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample data is only available in local-only mode, so nothing reaches a cloud account.'**
+  String get demoOnlyLocal;
+
+  /// No description provided for @demoRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove sample data'**
+  String get demoRemove;
+
+  /// No description provided for @demoRemoveHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Moves everything generated to the trash'**
+  String get demoRemoveHint;
+
+  /// No description provided for @demoRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample data removed'**
+  String get demoRemoved;
+
+  /// No description provided for @demoTaskCallParents.
+  ///
+  /// In en, this message translates to:
+  /// **'Call parents'**
+  String get demoTaskCallParents;
+
+  /// No description provided for @demoTaskDeepWork.
+  ///
+  /// In en, this message translates to:
+  /// **'Deep work'**
+  String get demoTaskDeepWork;
+
+  /// No description provided for @demoTaskDentist.
+  ///
+  /// In en, this message translates to:
+  /// **'Dentist'**
+  String get demoTaskDentist;
+
+  /// No description provided for @demoTaskEmails.
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox zero'**
+  String get demoTaskEmails;
+
+  /// No description provided for @demoTaskGroceries.
+  ///
+  /// In en, this message translates to:
+  /// **'Grocery run'**
+  String get demoTaskGroceries;
+
+  /// No description provided for @demoTaskGym.
+  ///
+  /// In en, this message translates to:
+  /// **'Gym'**
+  String get demoTaskGym;
+
+  /// No description provided for @demoTaskLaundry.
+  ///
+  /// In en, this message translates to:
+  /// **'Laundry'**
+  String get demoTaskLaundry;
+
+  /// No description provided for @demoTaskPlanWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan the week'**
+  String get demoTaskPlanWeek;
+
+  /// No description provided for @demoTaskReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Quarterly review'**
+  String get demoTaskReview;
+
+  /// No description provided for @demoTaskStandup.
+  ///
+  /// In en, this message translates to:
+  /// **'Team standup'**
+  String get demoTaskStandup;
+
+  /// No description provided for @demoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample data'**
+  String get demoTitle;
 
   /// No description provided for @devComponentGallery.
   ///
@@ -5259,6 +5787,42 @@ abstract class AppLocalizations {
   /// **'Use the real device zone'**
   String get devZoneReset;
 
+  /// No description provided for @deviceCalAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show events from your calendars'**
+  String get deviceCalAllow;
+
+  /// No description provided for @deviceCalDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar access is off — allow it in the system settings'**
+  String get deviceCalDenied;
+
+  /// No description provided for @deviceCalHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on “Device calendars” in a planner view’s settings to see them. Busy events count as taken time when looking for free slots.'**
+  String get deviceCalHint;
+
+  /// No description provided for @deviceCalNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No calendars on this device'**
+  String get deviceCalNone;
+
+  /// No description provided for @deviceCalPrimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Google, iCloud or work calendars on this device appear read-only next to your plan. Nothing is copied or uploaded.'**
+  String get deviceCalPrimer;
+
+  /// No description provided for @deviceCalSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Device calendars'**
+  String get deviceCalSection;
+
   /// No description provided for @durationDaysShort.
   ///
   /// In en, this message translates to:
@@ -5522,6 +6086,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share as zip (with files)'**
   String get exportZipBundle;
+
+  /// No description provided for @extCountCheckIns.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 check-in} other{{count} check-ins}}'**
+  String extCountCheckIns(int count);
+
+  /// No description provided for @extCountHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 habit} other{{count} habits}}'**
+  String extCountHabits(int count);
+
+  /// No description provided for @extCountItems.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 item} other{{count} items}}'**
+  String extCountItems(int count);
+
+  /// No description provided for @extCountLists.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 list} other{{count} lists}}'**
+  String extCountLists(int count);
+
+  /// No description provided for @extCountTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 task} other{{count} tasks}}'**
+  String extCountTasks(int count);
+
+  /// No description provided for @extImportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 thing imported} other{{count} things imported}}'**
+  String extImportDone(int count);
+
+  /// No description provided for @extImportNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to import in this file.'**
+  String get extImportNothing;
+
+  /// No description provided for @extImportRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get extImportRun;
+
+  /// No description provided for @extImportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Loop Habit Tracker, Google Keep, Todoist, TickTick, text'**
+  String get extImportSubtitle;
+
+  /// No description provided for @extImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import from another app'**
+  String get extImportTitle;
+
+  /// No description provided for @extImportWrongFile.
+  ///
+  /// In en, this message translates to:
+  /// **'This file doesn\'t look like a {source} export.'**
+  String extImportWrongFile(String source);
+
+  /// No description provided for @extNoteAttachment.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 attachment missing from the archive} other{{count} attachments missing from the archive}}'**
+  String extNoteAttachment(int count);
+
+  /// No description provided for @extNoteCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 completed task left out} other{{count} completed tasks left out}}'**
+  String extNoteCompleted(int count);
+
+  /// No description provided for @extNoteFrequency.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 habit frequency approximated} other{{count} habit frequencies approximated}}'**
+  String extNoteFrequency(int count);
+
+  /// No description provided for @extNoteRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 repeat not understood (imported once)} other{{count} repeats not understood (imported once)}}'**
+  String extNoteRepeat(int count);
+
+  /// No description provided for @extNoteTrashed.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 note in the trash left out} other{{count} notes in the trash left out}}'**
+  String extNoteTrashed(int count);
+
+  /// No description provided for @extSourceKeepHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Takeout › Keep (zip)'**
+  String get extSourceKeepHint;
+
+  /// No description provided for @extSourceLoopHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings › Export as CSV (zip) or a backup (.db)'**
+  String get extSourceLoopHint;
+
+  /// No description provided for @extSourceText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text or Markdown outline'**
+  String get extSourceText;
+
+  /// No description provided for @extSourceTextHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Indented lines become nested items (.txt, .md)'**
+  String get extSourceTextHint;
+
+  /// No description provided for @extSourceTickTickHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings › Backup (CSV)'**
+  String get extSourceTickTickHint;
+
+  /// No description provided for @extSourceTodoistHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Project › Export as a template (CSV)'**
+  String get extSourceTodoistHint;
+
+  /// No description provided for @feedbackDiagnosticsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'App and system versions, device model, sync state and recent error codes — never your content'**
+  String get feedbackDiagnosticsHint;
+
+  /// No description provided for @feedbackHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ideas, problems, questions'**
+  String get feedbackHint;
+
+  /// No description provided for @feedbackIncludeDiagnostics.
+  ///
+  /// In en, this message translates to:
+  /// **'Include diagnostics'**
+  String get feedbackIncludeDiagnostics;
+
+  /// No description provided for @feedbackMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your message'**
+  String get feedbackMessage;
+
+  /// No description provided for @feedbackPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'See exactly what is included'**
+  String get feedbackPreview;
+
+  /// No description provided for @feedbackSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get feedbackSend;
+
+  /// No description provided for @feedbackSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot feedback'**
+  String get feedbackSubject;
+
+  /// No description provided for @feedbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get feedbackTitle;
 
   /// No description provided for @filterActiveCount.
   ///
@@ -8499,6 +9243,156 @@ abstract class AppLocalizations {
   /// **'Days follow your current time zone'**
   String get habitsZoneFloating;
 
+  /// No description provided for @healthDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Health access was not granted'**
+  String get healthDenied;
+
+  /// No description provided for @healthLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Log automatically from Health'**
+  String get healthLink;
+
+  /// No description provided for @healthMindful.
+  ///
+  /// In en, this message translates to:
+  /// **'Mindful minutes'**
+  String get healthMindful;
+
+  /// No description provided for @healthPrimerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot will read your {metric} from Apple Health or Health Connect to log this habit for you. It only reads, never writes, and nothing leaves your device except the daily totals saved on the habit. You can turn it off anytime.'**
+  String healthPrimerBody(String metric);
+
+  /// No description provided for @healthPrimerContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get healthPrimerContinue;
+
+  /// No description provided for @healthPrimerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your health data?'**
+  String get healthPrimerTitle;
+
+  /// No description provided for @healthSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours of sleep'**
+  String get healthSleep;
+
+  /// No description provided for @healthSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get healthSteps;
+
+  /// No description provided for @healthWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water'**
+  String get healthWater;
+
+  /// No description provided for @healthWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout minutes'**
+  String get healthWorkout;
+
+  /// No description provided for @icsAlreadyImported.
+  ///
+  /// In en, this message translates to:
+  /// **'Already imported'**
+  String get icsAlreadyImported;
+
+  /// No description provided for @icsChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 change} other{{count} changes}}'**
+  String icsChanges(int count);
+
+  /// No description provided for @icsExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export to a calendar file'**
+  String get icsExport;
+
+  /// No description provided for @icsExportHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your planned tasks as calendar events'**
+  String get icsExportHint;
+
+  /// No description provided for @icsExportTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to calendar (.ics)'**
+  String get icsExportTask;
+
+  /// No description provided for @icsImportCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Import} =1{Import 1 event} other{Import {count} events}}'**
+  String icsImportCount(int count);
+
+  /// No description provided for @icsImportFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Import a calendar file (.ics)'**
+  String get icsImportFile;
+
+  /// No description provided for @icsImportHint.
+  ///
+  /// In en, this message translates to:
+  /// **'From Google Calendar, Apple Calendar, Outlook…'**
+  String get icsImportHint;
+
+  /// No description provided for @icsImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import calendar'**
+  String get icsImportTitle;
+
+  /// No description provided for @icsImported.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 event imported} other{{count} events imported}}'**
+  String icsImported(int count);
+
+  /// No description provided for @icsNextDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Today} other{Next {count} days}}'**
+  String icsNextDays(int count);
+
+  /// No description provided for @icsNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No events in this file'**
+  String get icsNothing;
+
+  /// No description provided for @icsRepeatUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat not supported — imported once'**
+  String get icsRepeatUnsupported;
+
+  /// No description provided for @icsRepeats.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats'**
+  String get icsRepeats;
+
+  /// No description provided for @icsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar files'**
+  String get icsSection;
+
   /// No description provided for @importAction.
   ///
   /// In en, this message translates to:
@@ -8594,6 +9488,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'That action couldn\'t be completed.'**
   String get integrationsActionFailed;
+
+  /// No description provided for @integrationsCravingLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving logged: {habit}'**
+  String integrationsCravingLogged(String habit);
 
   /// No description provided for @integrationsHabitLogged.
   ///
@@ -13359,6 +14259,54 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get onboardingLanguage;
 
+  /// No description provided for @onboardingNotificationsLater.
+  ///
+  /// In en, this message translates to:
+  /// **'You can turn reminders on or off for each item, and change everything in Settings › Notifications.'**
+  String get onboardingNotificationsLater;
+
+  /// No description provided for @onboardingNotificationsOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are on'**
+  String get onboardingNotificationsOn;
+
+  /// No description provided for @onboardingRerun.
+  ///
+  /// In en, this message translates to:
+  /// **'Run the setup again'**
+  String get onboardingRerun;
+
+  /// No description provided for @onboardingRerunSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Language, week, notifications and starters'**
+  String get onboardingRerunSubtitle;
+
+  /// No description provided for @onboardingStarterRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning routine'**
+  String get onboardingStarterRoutine;
+
+  /// No description provided for @onboardingStartersBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a few ready-made items. You can edit or delete them later.'**
+  String get onboardingStartersBody;
+
+  /// No description provided for @onboardingStartersNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to suggest for your choices — you\'re all set.'**
+  String get onboardingStartersNone;
+
+  /// No description provided for @onboardingStartersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with something?'**
+  String get onboardingStartersTitle;
+
   /// No description provided for @onboardingStepOf.
   ///
   /// In en, this message translates to:
@@ -13377,11 +14325,287 @@ abstract class AppLocalizations {
   /// **'Set up Everslot'**
   String get onboardingTitle;
 
+  /// No description provided for @onboardingTrackBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll suggest a few things to start with. Every section stays available.'**
+  String get onboardingTrackBody;
+
+  /// No description provided for @onboardingTrackHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily habits and goals'**
+  String get onboardingTrackHabits;
+
+  /// No description provided for @onboardingTrackLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklists, shopping, projects'**
+  String get onboardingTrackLists;
+
+  /// No description provided for @onboardingTrackPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks, time blocks and routines'**
+  String get onboardingTrackPlan;
+
+  /// No description provided for @onboardingTrackQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Smoking, alcohol, caffeine…'**
+  String get onboardingTrackQuit;
+
+  /// No description provided for @onboardingTrackQuitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit or cut down'**
+  String get onboardingTrackQuitTitle;
+
+  /// No description provided for @onboardingTrackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you want to track?'**
+  String get onboardingTrackTitle;
+
   /// No description provided for @onboardingWeekStart.
   ///
   /// In en, this message translates to:
   /// **'Week starts on'**
   String get onboardingWeekStart;
+
+  /// No description provided for @onboardingWelcomeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A few quick questions so Everslot fits the way you live. Skip anything — it all stays in Settings.'**
+  String get onboardingWelcomeBody;
+
+  /// No description provided for @onboardingWelcomeHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Build habits and quit what holds you back'**
+  String get onboardingWelcomeHabits;
+
+  /// No description provided for @onboardingWelcomeInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'See detailed insights on everything you do'**
+  String get onboardingWelcomeInsights;
+
+  /// No description provided for @onboardingWelcomeLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep lists with nested items and statuses'**
+  String get onboardingWelcomeLists;
+
+  /// No description provided for @onboardingWelcomePlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan your week in slots of any length'**
+  String get onboardingWelcomePlan;
+
+  /// No description provided for @onboardingWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Own every slot of your day'**
+  String get onboardingWelcomeTitle;
+
+  /// No description provided for @paletteGoCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage categories'**
+  String get paletteGoCategories;
+
+  /// No description provided for @paletteGoDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Open today’s day view'**
+  String get paletteGoDay;
+
+  /// No description provided for @paletteGoHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Habits'**
+  String get paletteGoHabits;
+
+  /// No description provided for @paletteGoInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Inbox'**
+  String get paletteGoInbox;
+
+  /// No description provided for @paletteGoInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Insights'**
+  String get paletteGoInsights;
+
+  /// No description provided for @paletteGoInsightsScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Insights › {section}'**
+  String paletteGoInsightsScope(String section);
+
+  /// No description provided for @paletteGoLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Lists'**
+  String get paletteGoLists;
+
+  /// No description provided for @paletteGoNextWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to next week'**
+  String get paletteGoNextWeek;
+
+  /// No description provided for @paletteGoNotificationSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings › Notifications'**
+  String get paletteGoNotificationSettings;
+
+  /// No description provided for @paletteGoPreviousWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to previous week'**
+  String get paletteGoPreviousWeek;
+
+  /// No description provided for @paletteGoSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search everything'**
+  String get paletteGoSearch;
+
+  /// No description provided for @paletteGoSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get paletteGoSettings;
+
+  /// No description provided for @paletteGoTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage tags'**
+  String get paletteGoTags;
+
+  /// No description provided for @paletteGoThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to this week'**
+  String get paletteGoThisWeek;
+
+  /// No description provided for @paletteGoToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Today'**
+  String get paletteGoToday;
+
+  /// No description provided for @paletteGoTrash.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Trash'**
+  String get paletteGoTrash;
+
+  /// No description provided for @paletteGroupActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get paletteGroupActions;
+
+  /// No description provided for @paletteGroupCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get paletteGroupCreate;
+
+  /// No description provided for @paletteGroupGo.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to'**
+  String get paletteGroupGo;
+
+  /// No description provided for @paletteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a command or “Call Bob tomorrow 9am”'**
+  String get paletteHint;
+
+  /// No description provided for @paletteNewHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'New habit'**
+  String get paletteNewHabit;
+
+  /// No description provided for @paletteNewList.
+  ///
+  /// In en, this message translates to:
+  /// **'New list'**
+  String get paletteNewList;
+
+  /// No description provided for @paletteNewQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'New quit tracker'**
+  String get paletteNewQuit;
+
+  /// No description provided for @paletteNewTask.
+  ///
+  /// In en, this message translates to:
+  /// **'New task'**
+  String get paletteNewTask;
+
+  /// No description provided for @paletteNewTaskAt.
+  ///
+  /// In en, this message translates to:
+  /// **'New task “{title}” · {when}'**
+  String paletteNewTaskAt(String title, String when);
+
+  /// No description provided for @paletteNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching command'**
+  String get paletteNoMatch;
+
+  /// No description provided for @palettePause1h.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause notifications 1 h'**
+  String get palettePause1h;
+
+  /// No description provided for @palettePauseTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause notifications until tomorrow'**
+  String get palettePauseTomorrow;
+
+  /// No description provided for @palettePaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications paused'**
+  String get palettePaused;
+
+  /// No description provided for @paletteResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume notifications'**
+  String get paletteResume;
+
+  /// No description provided for @paletteResumed.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications resumed'**
+  String get paletteResumed;
+
+  /// No description provided for @paletteSyncNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync now'**
+  String get paletteSyncNow;
+
+  /// No description provided for @paletteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Commands'**
+  String get paletteTitle;
 
   /// No description provided for @pickerColor.
   ///
@@ -13556,6 +14780,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Urgent'**
   String get priorityUrgent;
+
+  /// No description provided for @privacyAppSwitcher.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide in app switcher'**
+  String get privacyAppSwitcher;
+
+  /// No description provided for @privacyAppSwitcherHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover the screen in recent apps and block screenshots'**
+  String get privacyAppSwitcherHint;
+
+  /// No description provided for @privacyCrashReports.
+  ///
+  /// In en, this message translates to:
+  /// **'Send crash reports'**
+  String get privacyCrashReports;
+
+  /// No description provided for @privacyCrashReportsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous crash details help fix bugs'**
+  String get privacyCrashReportsHint;
+
+  /// No description provided for @privacyDiagnostics.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnostics'**
+  String get privacyDiagnostics;
+
+  /// No description provided for @privacyEncryptDb.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypt data on this device'**
+  String get privacyEncryptDb;
+
+  /// No description provided for @privacyEncryptDbConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The change is made the next time you open Everslot and takes a few seconds. Your data in the cloud is not affected.'**
+  String get privacyEncryptDbConfirmBody;
+
+  /// No description provided for @privacyEncryptDbConfirmOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop encrypting data on this device?'**
+  String get privacyEncryptDbConfirmOff;
+
+  /// No description provided for @privacyEncryptDbConfirmOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypt data on this device?'**
+  String get privacyEncryptDbConfirmOn;
+
+  /// No description provided for @privacyEncryptDbHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your local database is unreadable without this device\'s secure key'**
+  String get privacyEncryptDbHint;
+
+  /// No description provided for @privacyEncryptDbPendingOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Encryption ends the next time Everslot opens'**
+  String get privacyEncryptDbPendingOff;
+
+  /// No description provided for @privacyEncryptDbPendingOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Encryption starts the next time Everslot opens'**
+  String get privacyEncryptDbPendingOn;
+
+  /// No description provided for @privacyHideContentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications show only “Everslot reminder”'**
+  String get privacyHideContentHint;
 
   /// No description provided for @pvActualColumn.
   ///
@@ -15819,6 +17121,90 @@ abstract class AppLocalizations {
   /// **'Semantic'**
   String get pvZoomSemantic;
 
+  /// No description provided for @quickAddAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Added “{title}”'**
+  String quickAddAdded(String title);
+
+  /// No description provided for @quickAddHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit'**
+  String get quickAddHabit;
+
+  /// No description provided for @quickAddItem.
+  ///
+  /// In en, this message translates to:
+  /// **'List item'**
+  String get quickAddItem;
+
+  /// No description provided for @quickAddList.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get quickAddList;
+
+  /// No description provided for @quickAddLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-in / craving'**
+  String get quickAddLog;
+
+  /// No description provided for @quickAddMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get quickAddMore;
+
+  /// No description provided for @quickAddPickHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit or tracker'**
+  String get quickAddPickHabit;
+
+  /// No description provided for @quickAddPickList.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to list'**
+  String get quickAddPickList;
+
+  /// No description provided for @quickAddQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit tracker'**
+  String get quickAddQuit;
+
+  /// No description provided for @quickAddSmart.
+  ///
+  /// In en, this message translates to:
+  /// **'Understand dates'**
+  String get quickAddSmart;
+
+  /// No description provided for @quickAddSmartHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Gym tomorrow 7pm for 1h every Mon #health'**
+  String get quickAddSmartHint;
+
+  /// No description provided for @quickAddTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get quickAddTask;
+
+  /// No description provided for @quickAddTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What?'**
+  String get quickAddTitleHint;
+
+  /// No description provided for @quickAddUnknownCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'No category “{name}”'**
+  String quickAddUnknownCategory(String name);
+
   /// No description provided for @quitAddUse.
   ///
   /// In en, this message translates to:
@@ -17979,6 +19365,210 @@ abstract class AppLocalizations {
   /// **'Saved'**
   String get savedSnack;
 
+  /// No description provided for @searchAny.
+  ///
+  /// In en, this message translates to:
+  /// **'Any'**
+  String get searchAny;
+
+  /// No description provided for @searchCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get searchCategory;
+
+  /// No description provided for @searchCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in'**
+  String get searchCheckIn;
+
+  /// No description provided for @searchClearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get searchClearFilters;
+
+  /// No description provided for @searchComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete item'**
+  String get searchComplete;
+
+  /// No description provided for @searchDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates'**
+  String get searchDates;
+
+  /// No description provided for @searchDatesFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get searchDatesFrom;
+
+  /// No description provided for @searchDatesMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days'**
+  String get searchDatesMonth;
+
+  /// No description provided for @searchDatesTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get searchDatesTo;
+
+  /// No description provided for @searchDatesToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get searchDatesToday;
+
+  /// No description provided for @searchDatesWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get searchDatesWeek;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search everything'**
+  String get searchHint;
+
+  /// No description provided for @searchIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks, lists, items, habits, notes and inbox'**
+  String get searchIntro;
+
+  /// No description provided for @searchItemCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'“{title}” completed'**
+  String searchItemCompleted(String title);
+
+  /// No description provided for @searchKindChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists'**
+  String get searchKindChecklist;
+
+  /// No description provided for @searchKindHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits'**
+  String get searchKindHabit;
+
+  /// No description provided for @searchKindInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox'**
+  String get searchKindInbox;
+
+  /// No description provided for @searchKindItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Items'**
+  String get searchKindItem;
+
+  /// No description provided for @searchKindLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get searchKindLog;
+
+  /// No description provided for @searchKindTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get searchKindTask;
+
+  /// No description provided for @searchNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results for “{query}”'**
+  String searchNoResults(String query);
+
+  /// No description provided for @searchRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent searches'**
+  String get searchRecent;
+
+  /// No description provided for @searchRemoveRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from recent searches'**
+  String get searchRemoveRecent;
+
+  /// No description provided for @searchSeeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{See 1 result} other{See all {count}}}'**
+  String searchSeeAll(int count);
+
+  /// No description provided for @searchStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get searchStatus;
+
+  /// No description provided for @searchStatusClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Done or archived'**
+  String get searchStatusClosed;
+
+  /// No description provided for @searchStatusOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get searchStatusOpen;
+
+  /// No description provided for @searchSyntaxBadValue.
+  ///
+  /// In en, this message translates to:
+  /// **'“{value}” isn\'t valid for {key}:'**
+  String searchSyntaxBadValue(String value, String key);
+
+  /// No description provided for @searchSyntaxHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Search syntax'**
+  String get searchSyntaxHelp;
+
+  /// No description provided for @searchSyntaxHelpBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Combine words with filters:\n• \"exact phrase\"\n• status:waiting (todo, ongoing, waiting, blocked, done, cancelled, open, closed)\n• tag:work · cat:health\n• due:today · due:tomorrow · due:overdue · due:<7d · due:>2w · due:2026-10-15\n• is:recurring · is:open · is:done · is:archived\n• type:task (list, item, habit, note, inbox)'**
+  String get searchSyntaxHelpBody;
+
+  /// No description provided for @searchSyntaxNeedsWords.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a word to search with these filters'**
+  String get searchSyntaxNeedsWords;
+
+  /// No description provided for @searchSyntaxUnclosedQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing closing quote'**
+  String get searchSyntaxUnclosedQuote;
+
+  /// No description provided for @searchSyntaxUnknownKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown filter “{key}:” — use status:, tag:, cat:, due:, is: or type:'**
+  String searchSyntaxUnknownKey(String key);
+
+  /// No description provided for @searchTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag'**
+  String get searchTag;
+
   /// No description provided for @settingsAbout.
   ///
   /// In en, this message translates to:
@@ -18488,6 +20078,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Same as the app ({day})'**
   String settingsInsightsWeekStartProfile(String day);
+
+  /// No description provided for @settingsIntegrations.
+  ///
+  /// In en, this message translates to:
+  /// **'Widgets & integrations'**
+  String get settingsIntegrations;
+
+  /// No description provided for @settingsIntegrationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Home-screen widgets, shortcuts, sharing, calendars'**
+  String get settingsIntegrationsSubtitle;
 
   /// No description provided for @settingsLanguage.
   ///
@@ -19215,6 +20817,72 @@ abstract class AppLocalizations {
   /// **'Week starts on'**
   String get settingsWeekStart;
 
+  /// No description provided for @shareAsTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get shareAsTask;
+
+  /// No description provided for @shareAttach.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach'**
+  String get shareAttach;
+
+  /// No description provided for @shareFilesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 file} other{{count} files}}'**
+  String shareFilesTitle(int count);
+
+  /// No description provided for @shareFindItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a task or item'**
+  String get shareFindItem;
+
+  /// No description provided for @shareItemCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item will be added} other{{count} items will be added}}'**
+  String shareItemCount(int count);
+
+  /// No description provided for @shareNewList.
+  ///
+  /// In en, this message translates to:
+  /// **'New list “{title}”'**
+  String shareNewList(String title);
+
+  /// No description provided for @shareSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to Everslot'**
+  String get shareSaved;
+
+  /// No description provided for @shareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Everslot'**
+  String get shareTitle;
+
+  /// No description provided for @shareToList.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get shareToList;
+
+  /// No description provided for @shareTopLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Top level'**
+  String get shareTopLevel;
+
+  /// No description provided for @shareUnder.
+  ///
+  /// In en, this message translates to:
+  /// **'Under'**
+  String get shareUnder;
+
   /// No description provided for @shellCreate.
   ///
   /// In en, this message translates to:
@@ -19232,6 +20900,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Quick add'**
   String get shellQuickAdd;
+
+  /// No description provided for @shortcutLogCraving.
+  ///
+  /// In en, this message translates to:
+  /// **'Log craving'**
+  String get shortcutLogCraving;
+
+  /// No description provided for @shortcutLogHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Log habit'**
+  String get shortcutLogHabit;
+
+  /// No description provided for @shortcutNewTask.
+  ///
+  /// In en, this message translates to:
+  /// **'New task'**
+  String get shortcutNewTask;
+
+  /// No description provided for @shortcutToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get shortcutToday;
 
   /// No description provided for @smartBlocked.
   ///
@@ -28137,6 +29829,396 @@ abstract class AppLocalizations {
   /// **'Use template'**
   String get templatesUse;
 
+  /// No description provided for @timerSurfaceMore.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} (+{count})'**
+  String timerSurfaceMore(String title, int count);
+
+  /// No description provided for @timerSurfaceOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Over the planned time'**
+  String get timerSurfaceOver;
+
+  /// No description provided for @timerSurfacePlannedUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned until {time}'**
+  String timerSurfacePlannedUntil(String time);
+
+  /// No description provided for @todayAllDay.
+  ///
+  /// In en, this message translates to:
+  /// **'All day'**
+  String get todayAllDay;
+
+  /// No description provided for @todayAllHabitsDone.
+  ///
+  /// In en, this message translates to:
+  /// **'All habits done 🎉'**
+  String get todayAllHabitsDone;
+
+  /// No description provided for @todayBlockAgenda.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s plan'**
+  String get todayBlockAgenda;
+
+  /// No description provided for @todayBlockChecklists.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists'**
+  String get todayBlockChecklists;
+
+  /// No description provided for @todayBlockHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits'**
+  String get todayBlockHabits;
+
+  /// No description provided for @todayBlockHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden'**
+  String get todayBlockHidden;
+
+  /// No description provided for @todayBlockInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get todayBlockInbox;
+
+  /// No description provided for @todayBlockNowNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Now & next'**
+  String get todayBlockNowNext;
+
+  /// No description provided for @todayBlockOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get todayBlockOverdue;
+
+  /// No description provided for @todayBlockQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit'**
+  String get todayBlockQuit;
+
+  /// No description provided for @todayCustomize.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize Today'**
+  String get todayCustomize;
+
+  /// No description provided for @todayDoneGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Done ({count})'**
+  String todayDoneGroup(int count);
+
+  /// No description provided for @todayDueItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Due today'**
+  String get todayDueItems;
+
+  /// No description provided for @todayEmptyAgenda.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing planned today'**
+  String get todayEmptyAgenda;
+
+  /// No description provided for @todayEmptyAgendaAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan a task'**
+  String get todayEmptyAgendaAction;
+
+  /// No description provided for @todayEmptyChecklists.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin a list to keep it here'**
+  String get todayEmptyChecklists;
+
+  /// No description provided for @todayEmptyChecklistsAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Open lists'**
+  String get todayEmptyChecklistsAction;
+
+  /// No description provided for @todayEmptyHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'No habits due today'**
+  String get todayEmptyHabits;
+
+  /// No description provided for @todayEmptyHabitsAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a habit'**
+  String get todayEmptyHabitsAction;
+
+  /// No description provided for @todayEmptyOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing overdue'**
+  String get todayEmptyOverdue;
+
+  /// No description provided for @todayEmptyQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Track something you want to quit'**
+  String get todayEmptyQuit;
+
+  /// No description provided for @todayEmptyQuitAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a quit tracker'**
+  String get todayEmptyQuitAction;
+
+  /// No description provided for @todayFollowUps.
+  ///
+  /// In en, this message translates to:
+  /// **'Check back on'**
+  String get todayFollowUps;
+
+  /// No description provided for @todayGreetingAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get todayGreetingAfternoon;
+
+  /// No description provided for @todayGreetingEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get todayGreetingEvening;
+
+  /// No description provided for @todayGreetingMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get todayGreetingMorning;
+
+  /// No description provided for @todayHabitNextSlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Next at {time}'**
+  String todayHabitNextSlot(String time);
+
+  /// No description provided for @todayHabitStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1-day streak} other{{count}-day streak}}'**
+  String todayHabitStreak(int count);
+
+  /// No description provided for @todayHintGotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get todayHintGotIt;
+
+  /// No description provided for @todayHintSwipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe a task to mark it done or skip it — you can change this in Customize.'**
+  String get todayHintSwipe;
+
+  /// No description provided for @todayInboxUnread.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No unread notifications} =1{1 unread notification} other{{count} unread notifications}}'**
+  String todayInboxUnread(int count);
+
+  /// No description provided for @todayIncludeRecurring.
+  ///
+  /// In en, this message translates to:
+  /// **'Include recurring tasks'**
+  String get todayIncludeRecurring;
+
+  /// No description provided for @todayKeepWhenEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Show when empty'**
+  String get todayKeepWhenEmpty;
+
+  /// No description provided for @todayListProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total}'**
+  String todayListProgress(int done, int total);
+
+  /// No description provided for @todayLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load this part'**
+  String get todayLoadError;
+
+  /// No description provided for @todayLookback.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue look-back (days)'**
+  String get todayLookback;
+
+  /// No description provided for @todayMarkAllDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all done'**
+  String get todayMarkAllDone;
+
+  /// No description provided for @todayNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get todayNext;
+
+  /// No description provided for @todayNothingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing else planned'**
+  String get todayNothingNext;
+
+  /// No description provided for @todayNothingNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing scheduled right now'**
+  String get todayNothingNow;
+
+  /// No description provided for @todayNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get todayNow;
+
+  /// No description provided for @todayOpenInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Open inbox'**
+  String get todayOpenInbox;
+
+  /// No description provided for @todayOverdueSince.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}'**
+  String todayOverdueSince(String date);
+
+  /// No description provided for @todayOverlapping.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{+1 overlapping} other{+{count} overlapping}}'**
+  String todayOverlapping(int count);
+
+  /// No description provided for @todayPinned.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned'**
+  String get todayPinned;
+
+  /// No description provided for @todayProgressFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} focused'**
+  String todayProgressFocus(String time);
+
+  /// No description provided for @todayProgressHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'{done}/{total} habits'**
+  String todayProgressHabits(int done, int total);
+
+  /// No description provided for @todayProgressItems.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item done} other{{count} items done}}'**
+  String todayProgressItems(int count);
+
+  /// No description provided for @todayProgressTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'{done}/{total} tasks'**
+  String todayProgressTasks(int done, int total);
+
+  /// No description provided for @todayQuitNextMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {label}'**
+  String todayQuitNextMilestone(String label);
+
+  /// No description provided for @todayQuitSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} saved'**
+  String todayQuitSaved(String amount);
+
+  /// No description provided for @todayQuitUsedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} today'**
+  String todayQuitUsedToday(String amount);
+
+  /// No description provided for @todayResetLayout.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to default'**
+  String get todayResetLayout;
+
+  /// No description provided for @todayRolledOver.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 task moved to today} other{{count} tasks moved to today}}'**
+  String todayRolledOver(int count);
+
+  /// No description provided for @todayShowCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Show completed tasks'**
+  String get todayShowCompleted;
+
+  /// No description provided for @todayShowHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress header'**
+  String get todayShowHeader;
+
+  /// No description provided for @todaySkipAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip all'**
+  String get todaySkipAll;
+
+  /// No description provided for @todayStartsIn.
+  ///
+  /// In en, this message translates to:
+  /// **'in {time}'**
+  String todayStartsIn(String time);
+
+  /// No description provided for @todaySwipeEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe towards the start'**
+  String get todaySwipeEnd;
+
+  /// No description provided for @todaySwipeNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing'**
+  String get todaySwipeNone;
+
+  /// No description provided for @todaySwipeStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe towards the end'**
+  String get todaySwipeStart;
+
+  /// No description provided for @todayTimeLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} left'**
+  String todayTimeLeft(String time);
+
   /// No description provided for @undoDoneSnack.
   ///
   /// In en, this message translates to:
@@ -28202,6 +30284,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Voice note'**
   String get voiceNoteTitle;
+
+  /// No description provided for @widgetAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get widgetAdd;
+
+  /// No description provided for @widgetAllDone.
+  ///
+  /// In en, this message translates to:
+  /// **'All done for today'**
+  String get widgetAllDone;
+
+  /// No description provided for @widgetCleanTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean time'**
+  String get widgetCleanTime;
+
+  /// No description provided for @widgetHowToAndroid.
+  ///
+  /// In en, this message translates to:
+  /// **'Touch and hold the home screen, choose Widgets, then Everslot.'**
+  String get widgetHowToAndroid;
+
+  /// No description provided for @widgetHowToIos.
+  ///
+  /// In en, this message translates to:
+  /// **'Touch and hold the home screen, tap +, then search for Everslot.'**
+  String get widgetHowToIos;
+
+  /// No description provided for @widgetKindChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist'**
+  String get widgetKindChecklist;
+
+  /// No description provided for @widgetKindChecklistHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Open items of your first pinned list'**
+  String get widgetKindChecklistHint;
+
+  /// No description provided for @widgetKindHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits'**
+  String get widgetKindHabits;
+
+  /// No description provided for @widgetKindHabitsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in today’s habits without opening the app'**
+  String get widgetKindHabitsHint;
+
+  /// No description provided for @widgetKindQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean time'**
+  String get widgetKindQuit;
+
+  /// No description provided for @widgetKindQuitHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Live counter, money saved and next milestone'**
+  String get widgetKindQuitHint;
+
+  /// No description provided for @widgetKindToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get widgetKindToday;
+
+  /// No description provided for @widgetKindTodayHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Next tasks with what is happening now'**
+  String get widgetKindTodayHint;
+
+  /// No description provided for @widgetListDone.
+  ///
+  /// In en, this message translates to:
+  /// **'All items done'**
+  String get widgetListDone;
+
+  /// No description provided for @widgetNoHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'No habits due today'**
+  String get widgetNoHabits;
+
+  /// No description provided for @widgetNoList.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin a list in Everslot to see it here'**
+  String get widgetNoList;
+
+  /// No description provided for @widgetNoQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a quit tracker in Everslot'**
+  String get widgetNoQuit;
+
+  /// No description provided for @widgetNothingLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing left today'**
+  String get widgetNothingLeft;
+
+  /// No description provided for @widgetNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get widgetNow;
+
+  /// No description provided for @widgetRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh widgets now'**
+  String get widgetRefresh;
+
+  /// No description provided for @widgetRefreshed.
+  ///
+  /// In en, this message translates to:
+  /// **'Widgets refreshed'**
+  String get widgetRefreshed;
+
+  /// No description provided for @widgetStale.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Everslot to refresh'**
+  String get widgetStale;
+
+  /// No description provided for @widgetsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Home-screen widgets'**
+  String get widgetsSection;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

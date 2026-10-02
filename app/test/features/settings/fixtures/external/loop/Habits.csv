@@ -1,0 +1,5 @@
+Position,Name,Type,Question,Description,FrequencyNumerator,FrequencyDenominator,Color,Unit,Target Type,Target Value,Archived?
+001,Meditate,YES_NO,Did you meditate today?,10 minutes is enough,1,1,#4CAF50,,,,false
+002,Run,YES_NO,Did you run?,,3,7,#2196F3,,,,false
+003,Water,NUMERICAL,How many glasses?,,1,1,#03A9F4,glasses,AT_LEAST,8,false
+004,Floss,YES_NO,,,2,5,8,,,,true

@@ -7,6 +7,7 @@ import 'package:everslot/features/goals/presentation/badge_ui.dart';
 import 'package:everslot/features/habits/application/check_in_service.dart';
 import 'package:everslot/features/habits/application/habit_celebrations.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
+import 'package:everslot/features/settings/application/review_service.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -45,7 +46,12 @@ class _CelebrationOverlayState extends ConsumerState<CelebrationOverlay> {
   }
 
   void _dismiss(Celebration c) {
-    if (mounted) setState(() => _items.remove(c));
+    if (!mounted) return;
+    setState(() => _items.remove(c));
+    // A long streak is a happy moment to ask for a rating — at most once per 90 days (T8.3.13).
+    if (c.kind == CelebrationKind.streak && c.count >= 30) {
+      unawaited(ref.read(reviewServiceProvider).maybeAutoPrompt());
+    }
   }
 
   @override

@@ -46,6 +46,9 @@ class Tasks extends Table with SyncedColumns {
   RealColumn get locationLat => real().nullable()();
   RealColumn get locationLng => real().nullable()();
 
+  /// v6: UID of the imported calendar event (T8.2.12).
+  TextColumn get externalUid => text().nullable()();
+
   @override
   Set<Column<Object>> get primaryKey => {id};
 }

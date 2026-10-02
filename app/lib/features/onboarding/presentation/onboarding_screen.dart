@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/auth/domain/auth_redirect.dart';
+import 'package:everslot/features/notifications/application/capabilities_service.dart';
 import 'package:everslot/features/onboarding/application/onboarding_controller.dart';
 import 'package:everslot/features/profile/application/profile_providers.dart';
 import 'package:everslot/features/profile/presentation/zone_picker.dart';
@@ -60,7 +61,11 @@ class OnboardingScreen extends ConsumerWidget {
         child: state.draft == null
             ? const LoadingState()
             : switch (state.step) {
+                OnboardingStep.welcome => const _WelcomeStep(),
                 OnboardingStep.essentials => _EssentialsStep(draft: state.draft!),
+                OnboardingStep.track => _TrackStep(tracks: state.tracks),
+                OnboardingStep.notifications => const _NotificationsStep(),
+                OnboardingStep.starters => _StartersStep(state: state),
               },
       ),
       bottomNavigationBar: SafeArea(
@@ -203,6 +208,173 @@ class _EssentialsStep extends ConsumerWidget {
             onSelectionChanged: (s) => controller.setUse24h(s.first),
           ),
         ),
+      ],
+    );
+  }
+}
+
+/// Header shared by the steps.
+class _StepHeader extends StatelessWidget {
+  const _StepHeader({required this.icon, required this.title, required this.body});
+
+  final IconData icon;
+  final String title;
+  final String body;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsetsDirectional.fromSTEB(Space.xl, Space.lg, Space.xl, Space.lg),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 40, color: context.colors.primary),
+        const SizedBox(height: Space.md),
+        Semantics(header: true, child: Text(title, style: context.text.headlineSmall)),
+        const SizedBox(height: Space.sm),
+        Text(body, style: context.text.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant)),
+      ],
+    ),
+  );
+}
+
+class _WelcomeStep extends StatelessWidget {
+  const _WelcomeStep();
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    return ListView(
+      key: const ValueKey('onboarding-welcome'),
+      children: [
+        _StepHeader(icon: Icons.wb_sunny_outlined, title: l.onboardingWelcomeTitle, body: l.onboardingWelcomeBody),
+        for (final (icon, text) in [
+          (Icons.calendar_view_week_outlined, l.onboardingWelcomePlan),
+          (Icons.checklist_outlined, l.onboardingWelcomeLists),
+          (Icons.local_fire_department_outlined, l.onboardingWelcomeHabits),
+          (Icons.insights_outlined, l.onboardingWelcomeInsights),
+        ])
+          ListTile(leading: Icon(icon), title: Text(text)),
+      ],
+    );
+  }
+}
+
+class _TrackStep extends ConsumerWidget {
+  const _TrackStep({required this.tracks});
+
+  final Set<TrackArea> tracks;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final controller = ref.read(onboardingControllerProvider.notifier);
+    return ListView(
+      children: [
+        _StepHeader(icon: Icons.track_changes, title: l.onboardingTrackTitle, body: l.onboardingTrackBody),
+        for (final (area, icon, title, subtitle) in [
+          (TrackArea.plan, Icons.calendar_view_week_outlined, l.tabPlan, l.onboardingTrackPlan),
+          (TrackArea.lists, Icons.checklist_outlined, l.tabLists, l.onboardingTrackLists),
+          (TrackArea.habits, Icons.local_fire_department_outlined, l.tabHabits, l.onboardingTrackHabits),
+          (TrackArea.quit, Icons.smoke_free, l.onboardingTrackQuitTitle, l.onboardingTrackQuit),
+        ])
+          CheckboxListTile(
+            key: ValueKey('onboarding-track-${area.name}'),
+            secondary: Icon(icon),
+            title: Text(title),
+            subtitle: Text(subtitle),
+            value: tracks.contains(area),
+            onChanged: (_) => controller.toggleTrack(area),
+          ),
+      ],
+    );
+  }
+}
+
+/// The step itself is the primer: the OS prompt only follows a tap on "Allow" (T7.2.05).
+class _NotificationsStep extends ConsumerWidget {
+  const _NotificationsStep();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final caps = ref.watch(notificationCapabilitiesProvider);
+    final controller = ref.read(notificationCapabilitiesProvider.notifier);
+    final android = caps.platform == 'android';
+    return ListView(
+      children: [
+        _StepHeader(icon: Icons.notifications_active_outlined, title: l.notifPrimerTitle, body: l.notifPrimerBody),
+        Padding(
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.xl),
+          child: caps.notifications
+              ? ListTile(
+                  key: const ValueKey('onboarding-notif-on'),
+                  contentPadding: EdgeInsetsDirectional.zero,
+                  leading: Icon(Icons.check_circle, color: context.colors.primary),
+                  title: Text(l.onboardingNotificationsOn),
+                )
+              : FilledButton.tonalIcon(
+                  key: const ValueKey('onboarding-notif-allow'),
+                  onPressed: () => unawaited(controller.requestNotifications()),
+                  icon: const Icon(Icons.notifications_outlined),
+                  label: Text(l.notifPrimerAllow),
+                ),
+        ),
+        if (caps.notifications && android && !caps.exactAlarm) ...[
+          _StepHeader(icon: Icons.alarm_on_outlined, title: l.notifPrimerExactTitle, body: l.notifPrimerExactBody),
+          Padding(
+            padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.xl),
+            child: OutlinedButton.icon(
+              key: const ValueKey('onboarding-exact-allow'),
+              onPressed: () => unawaited(controller.requestExactAlarms()),
+              icon: const Icon(Icons.alarm_on_outlined),
+              label: Text(l.notifAllowPrecise),
+            ),
+          ),
+        ],
+        Padding(
+          padding: const EdgeInsetsDirectional.fromSTEB(Space.xl, Space.lg, Space.xl, 0),
+          child: Text(l.onboardingNotificationsLater, style: context.text.bodySmall),
+        ),
+      ],
+    );
+  }
+}
+
+class _StartersStep extends ConsumerWidget {
+  const _StartersStep({required this.state});
+
+  final OnboardingState state;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final controller = ref.read(onboardingControllerProvider.notifier);
+    final offered = state.offeredStarters;
+    return ListView(
+      children: [
+        _StepHeader(
+          icon: Icons.auto_awesome_outlined,
+          title: l.onboardingStartersTitle,
+          body: l.onboardingStartersBody,
+        ),
+        if (offered.isEmpty)
+          Padding(
+            padding: const EdgeInsetsDirectional.symmetric(horizontal: Space.xl),
+            child: Text(l.onboardingStartersNone),
+          ),
+        for (final s in offered)
+          CheckboxListTile(
+            key: ValueKey('onboarding-starter-${s.name}'),
+            secondary: Icon(switch (s) {
+              StarterTemplate.morningRoutine => Icons.wb_sunny_outlined,
+              StarterTemplate.water => Icons.water_drop_outlined,
+              StarterTemplate.pushUps => Icons.fitness_center,
+              StarterTemplate.quitSmoking => Icons.smoke_free,
+            }),
+            title: Text(s.label(l)),
+            value: state.starters.contains(s),
+            onChanged: (_) => controller.toggleStarter(s),
+          ),
       ],
     );
   }

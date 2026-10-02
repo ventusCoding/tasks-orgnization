@@ -1,0 +1,124 @@
+{
+  "searchHint": "Search everything",
+  "searchIntro": "Tasks, lists, items, habits, notes and inbox",
+  "searchKindTask": "Tasks",
+  "searchKindChecklist": "Lists",
+  "searchKindItem": "Items",
+  "searchKindHabit": "Habits",
+  "searchKindLog": "Notes",
+  "searchKindInbox": "Inbox",
+  "searchNoResults": "No results for “{query}”",
+  "@searchNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchRecent": "Recent searches",
+  "searchRemoveRecent": "Remove from recent searches",
+  "searchStatus": "Status",
+  "searchStatusOpen": "Open",
+  "searchStatusClosed": "Done or archived",
+  "searchCategory": "Category",
+  "searchTag": "Tag",
+  "searchDates": "Dates",
+  "searchDatesToday": "Today",
+  "searchDatesWeek": "Last 7 days",
+  "searchDatesMonth": "Last 30 days",
+  "searchDatesFrom": "From",
+  "searchDatesTo": "To",
+  "searchAny": "Any",
+  "searchClearFilters": "Clear filters",
+  "searchComplete": "Complete item",
+  "searchCheckIn": "Check in",
+  "searchItemCompleted": "“{title}” completed",
+  "@searchItemCompleted": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "searchSeeAll": "{count, plural, =1{See 1 result} other{See all {count}}}",
+  "@searchSeeAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchSyntaxUnknownKey": "Unknown filter “{key}:” — use status:, tag:, cat:, due:, is: or type:",
+  "@searchSyntaxUnknownKey": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "searchSyntaxBadValue": "“{value}” isn't valid for {key}:",
+  "@searchSyntaxBadValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "searchSyntaxUnclosedQuote": "Missing closing quote",
+  "searchSyntaxNeedsWords": "Add a word to search with these filters",
+  "searchSyntaxHelp": "Search syntax",
+  "searchSyntaxHelpBody": "Combine words with filters:\n• \"exact phrase\"\n• status:waiting (todo, ongoing, waiting, blocked, done, cancelled, open, closed)\n• tag:work · cat:health\n• due:today · due:tomorrow · due:overdue · due:<7d · due:>2w · due:2026-10-15\n• is:recurring · is:open · is:done · is:archived\n• type:task (list, item, habit, note, inbox)",
+  "paletteTitle": "Commands",
+  "paletteHint": "Type a command or “Call Bob tomorrow 9am”",
+  "paletteNoMatch": "No matching command",
+  "paletteGroupCreate": "Create",
+  "paletteGroupGo": "Go to",
+  "paletteGroupActions": "Actions",
+  "paletteNewTaskAt": "New task “{title}” · {when}",
+  "@paletteNewTaskAt": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "paletteNewTask": "New task",
+  "paletteNewList": "New list",
+  "paletteNewHabit": "New habit",
+  "paletteNewQuit": "New quit tracker",
+  "paletteGoToday": "Go to Today",
+  "paletteGoThisWeek": "Go to this week",
+  "paletteGoNextWeek": "Go to next week",
+  "paletteGoPreviousWeek": "Go to previous week",
+  "paletteGoDay": "Open today’s day view",
+  "paletteGoLists": "Open Lists",
+  "paletteGoHabits": "Open Habits",
+  "paletteGoInsights": "Open Insights",
+  "paletteGoInsightsScope": "Open Insights › {section}",
+  "@paletteGoInsightsScope": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "paletteGoInbox": "Open Inbox",
+  "paletteGoSearch": "Search everything",
+  "paletteGoSettings": "Open Settings",
+  "paletteGoNotificationSettings": "Open Settings › Notifications",
+  "paletteGoTrash": "Open Trash",
+  "paletteGoCategories": "Manage categories",
+  "paletteGoTags": "Manage tags",
+  "palettePause1h": "Pause notifications 1 h",
+  "palettePauseTomorrow": "Pause notifications until tomorrow",
+  "paletteResume": "Resume notifications",
+  "palettePaused": "Notifications paused",
+  "paletteResumed": "Notifications resumed",
+  "paletteSyncNow": "Sync now"
+}

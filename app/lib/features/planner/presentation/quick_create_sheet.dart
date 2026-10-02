@@ -254,7 +254,13 @@ class _QuickCreateSheetState extends ConsumerState<QuickCreateSheet> {
                 avatar: Icon(
                   IconCatalog.iconFor(category?.icon, fallback: Icons.label_outline),
                   size: 18,
-                  color: category == null ? null : CategoryColors.accent(category.color, Theme.of(context).brightness),
+                  color: category == null
+                      ? null
+                      : CategoryColors.accent(
+                          category.color,
+                          Theme.of(context).brightness,
+                          highContrast: context.a11y.highContrastCategories,
+                        ),
                 ),
                 label: Text(category?.name ?? l.tasksFieldCategory),
                 onPressed: () async {

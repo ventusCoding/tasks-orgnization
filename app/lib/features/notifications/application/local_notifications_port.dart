@@ -200,6 +200,7 @@ class OsNotificationRequest {
     this.groupSummary = false,
     this.lines = const [],
     this.imagePath,
+    this.chronometerFrom,
   });
 
   final int id;
@@ -252,6 +253,9 @@ class OsNotificationRequest {
   /// alerting by itself.
   final bool groupSummary;
   final List<String> lines;
+
+  /// Android: a running chronometer counting up from this instant (running timer, T8.2.10).
+  final DateTime? chronometerFrom;
 }
 
 /// A user response (tap or action button).

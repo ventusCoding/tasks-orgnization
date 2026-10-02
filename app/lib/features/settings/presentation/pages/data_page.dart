@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/settings/application/export_service.dart';
+import 'package:everslot/features/settings/presentation/pages/import_section.dart';
 import 'package:everslot/features/settings/presentation/widgets/settings_tiles.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -13,7 +14,7 @@ class DataPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
-    return SettingsPageScaffold(title: l.settingsDataTitle, children: const [_ExportSection()]);
+    return SettingsPageScaffold(title: l.settingsDataTitle, children: const [_ExportSection(), ImportSection()]);
   }
 }
 

@@ -21,6 +21,7 @@ import 'package:everslot/features/today/domain/checklist_due.dart';
 import 'package:everslot/features/today/domain/habits_due.dart';
 import 'package:everslot/features/today/domain/today_layout.dart';
 import 'package:everslot/features/today/domain/today_overview.dart';
+import 'package:everslot/features/today/domain/today_progress.dart';
 import 'package:everslot_metrics/everslot_metrics.dart' show defaultDayMilestones, milestoneProgress;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -251,3 +252,23 @@ final todayOverviewProvider = Provider.autoDispose<TodayOverview>((ref) {
     errors: errors,
   );
 });
+
+/// Checklist items completed during the logical day (T8.1.11).
+final todayCompletedItemsProvider = StreamProvider.autoDispose<int>((ref) {
+  final window = ref.watch(todayWindowProvider);
+  return ref.watch(todayChecklistQueriesProvider).watchCompletedBetween(window.startUtc, window.endUtc);
+});
+
+/// The progress header's numbers (T8.1.11).
+final todayProgressProvider = Provider.autoDispose<TodayProgress>(
+  (ref) => TodayProgress.of(
+    ref.watch(todayOverviewProvider),
+    itemsCompleted: ref.watch(todayCompletedItemsProvider).value ?? 0,
+  ),
+);
+
+/// Saves the Today layout (synced `user_settings.today`, T8.1.12).
+final todayLayoutWriterProvider = Provider<Future<void> Function(TodayLayout layout)>(
+  (ref) =>
+      (layout) => ref.read(settingsRepositoryProvider).update(SettingsNs.today, layout.toJson()),
+);

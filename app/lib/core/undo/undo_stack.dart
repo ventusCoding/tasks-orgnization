@@ -31,6 +31,29 @@ class UndoStack extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Merges the last [count] entries into one labelled [label] (a bulk command made of several
+  /// operations undoes in one step). Their changes are reverted together, newest first.
+  void squash(int count, String label) {
+    final n = count.clamp(0, _undo.length);
+    if (n < 2) {
+      if (n == 1) _undo.last = UndoEntry(label: label, record: _undo.last.record);
+      return;
+    }
+    final entries = _undo.sublist(_undo.length - n);
+    _undo.removeRange(_undo.length - n, _undo.length);
+    _undo.add(
+      UndoEntry(
+        label: label,
+        record: OpRecord(
+          opId: entries.last.record.opId,
+          changes: [for (final e in entries) ...e.record.changes],
+          cause: entries.last.record.cause,
+        ),
+      ),
+    );
+    notifyListeners();
+  }
+
   /// The server rejected operation [opId] and the local rows were overwritten with the server
   /// state (T4.1.05): undoing it would write stale "before" values, so its entry becomes a no-op
   /// marker labelled [label] (undo/redo of a marker changes nothing). Returns whether an entry

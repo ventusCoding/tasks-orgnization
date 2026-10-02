@@ -105,6 +105,12 @@ class SettingsScreen extends ConsumerWidget {
             location: AppLinks.categories(),
           ),
           SettingsNavTile(icon: Icons.sell_outlined, title: l.tagsTitle, location: AppLinks.tags()),
+          SettingsNavTile(
+            icon: Icons.widgets_outlined,
+            title: l.settingsIntegrations,
+            subtitle: l.settingsIntegrationsSubtitle,
+            location: AppLinks.settings('integrations'),
+          ),
           SectionHeader(l.settingsGroupData),
           SettingsNavTile(
             icon: Icons.sync,
@@ -120,6 +126,14 @@ class SettingsScreen extends ConsumerWidget {
           ),
           SettingsNavTile(icon: Icons.delete_outline, title: l.settingsTrash, location: AppLinks.trash()),
           SectionHeader(l.settingsGroupHelp),
+          // The onboarding tour can be run again (T8.3.11).
+          SettingsNavTile(
+            key: const ValueKey('settings-onboarding'),
+            icon: Icons.school_outlined,
+            title: l.onboardingRerun,
+            subtitle: l.onboardingRerunSubtitle,
+            location: '/onboarding?from=%2Fsettings',
+          ),
           SettingsNavTile(
             icon: Icons.info_outline,
             title: l.settingsAbout,

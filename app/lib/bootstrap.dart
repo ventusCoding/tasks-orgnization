@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:everslot/app/app.dart';
+import 'package:everslot/app/app_integrations.dart';
 import 'package:everslot/core/env/env.dart';
 import 'package:everslot/core/errors/global_error_handlers.dart';
 import 'package:everslot/startup/bootstrap_error_app.dart';
@@ -58,6 +59,7 @@ class BootstrapLauncher {
   Future<void> start({int from = 0}) async {
     final failure = await runner.run(from: from);
     if (failure == null) {
+      registerAppIntegrations();
       context.platform.launch(UncontrolledProviderScope(container: context.container!, child: const EverslotApp()));
       return;
     }

@@ -8,8 +8,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Display color of a tag (neutral outline when it has no color).
-Color tagColor(BuildContext context, Tag tag) =>
-    tag.color == null ? context.colors.outline : CategoryColors.accent(tag.color!, Theme.of(context).brightness);
+Color tagColor(BuildContext context, Tag tag) => tag.color == null
+    ? context.colors.outline
+    : CategoryColors.accent(
+        tag.color!,
+        Theme.of(context).brightness,
+        highContrast: context.a11y.highContrastCategories,
+      );
 
 /// Compact tag chip: color dot + name (color is never the only signal).
 class TagChip extends StatelessWidget {

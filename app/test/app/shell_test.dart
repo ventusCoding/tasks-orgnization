@@ -171,8 +171,8 @@ void main() {
 
     await tester.longPress(find.byKey(const ValueKey('shell-fab')));
     await tester.pumpAndSettle();
-    for (final k in ['task', 'list', 'habit', 'quit']) {
-      expect(find.byKey(ValueKey('quick-add-$k')), findsOneWidget);
+    for (final k in ['task', 'list', 'item', 'habit', 'quit', 'log']) {
+      expect(find.byKey(ValueKey('quick-type-$k')), findsOneWidget);
     }
     await tester.tapAt(const Offset(10, 10));
     await tester.pumpAndSettle();

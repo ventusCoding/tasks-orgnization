@@ -278,5 +278,8 @@
   "tasksQuickRescheduleHour": "بعد ساعة ({time})",
   "tasksQuickRescheduleTonight": "الليلة الساعة {time}",
   "tasksQuickRescheduleTomorrow": "غدًا الساعة {time}",
-  "tasksQuickRescheduled": "تمت إعادة الجدولة"
+  "tasksQuickRescheduled": "تمت إعادة الجدولة",
+  "timerSurfaceOver": "تجاوز الوقت المخطط",
+  "timerSurfacePlannedUntil": "مخطط حتى {time}",
+  "timerSurfaceMore": "{title} (+{count})"
 }

@@ -15,6 +15,9 @@ abstract final class LogSource {
   static const widget = 'widget';
   static const auto = 'auto';
   static const import = 'import';
+
+  /// Siri / App Actions (T8.2.15).
+  static const voice = 'voice';
 }
 
 /// One `habit_logs` row: check-ins, progress entries, relapses, cravings, pledges…

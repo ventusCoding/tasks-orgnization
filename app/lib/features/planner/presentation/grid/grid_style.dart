@@ -111,10 +111,14 @@ class ItemColorResolver {
     required this.brightness,
     required this.categoryColor,
     required this.statusColor,
+    this.highContrast = false,
   });
 
   final ColorBy colorBy;
   final Brightness brightness;
+
+  /// High-contrast category palette (T8.3.12).
+  final bool highContrast;
   final int? Function(String? categoryId) categoryColor;
   final Color Function(OccurrenceStatus status) statusColor;
   final Map<String, TileColors> _cache = {};
@@ -132,8 +136,12 @@ class ItemColorResolver {
     final base = _base(item);
     final key = '$base';
     return _cache.putIfAbsent(key, () {
-      final bg = CategoryColors.background(base, brightness);
-      return TileColors(bg, CategoryColors.accent(base, brightness), CategoryColors.onBackground(bg));
+      final bg = CategoryColors.background(base, brightness, highContrast: highContrast);
+      return TileColors(
+        bg,
+        CategoryColors.accent(base, brightness, highContrast: highContrast),
+        CategoryColors.onBackground(bg),
+      );
     });
   }
 }

@@ -75,4 +75,30 @@ class IntegrationQueries {
         .get();
     return {for (final r in rows) r.data['key']! as String: r.data['value']! as String};
   }
+
+  /// Calendar UIDs of the live tasks (ICS duplicate detection, T8.2.12).
+  Future<Set<String>> taskExternalUids() async => {
+    for (final r
+        in await _db
+            .customSelect(
+              'SELECT external_uid FROM tasks WHERE external_uid IS NOT NULL AND deleted_at IS NULL AND user_id = ?',
+              variables: [Variable<String>(_userId())],
+            )
+            .get())
+      r.read<String>('external_uid'),
+  };
+
+  /// Live task id per calendar UID.
+  Future<Map<String, String>> taskIdsByExternalUid(Iterable<String> uids) async {
+    final list = uids.toList();
+    if (list.isEmpty) return const {};
+    final rows = await _db
+        .customSelect(
+          'SELECT id, external_uid FROM tasks WHERE deleted_at IS NULL AND user_id = ? '
+          'AND external_uid IN (${List.filled(list.length, '?').join(', ')})',
+          variables: [Variable<String>(_userId()), for (final u in list) Variable<String>(u)],
+        )
+        .get();
+    return {for (final r in rows) r.read<String>('external_uid'): r.read<String>('id')};
+  }
 }

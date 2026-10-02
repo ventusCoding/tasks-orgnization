@@ -94,13 +94,13 @@ erDiagram
 
 | Concern | Choice (version) | Notes |
 |---|---|---|
-| SDK | **Flutter 3.47.5 / Dart 3.13.4** pinned via **FVM** (`.fvmrc`) | Min iOS 15, Android API 24, compile/target SDK 36; Java 17, AGP 9.1, Gradle 9.3.1, Kotlin 2.4; iOS uses **Swift Package Manager** (CocoaPods only for plugins that still need it) and the **UIScene lifecycle** (mandatory with Xcode 27). Impeller everywhere. |
+| SDK | **Flutter 3.47.5 / Dart 3.13.4** pinned via **FVM** (`.fvmrc`) | Min iOS 15, Android API 24, compile SDK 37 / target SDK 36 (37 since `receive_sharing_intent` 1.9, T8.2.07); Java 17, AGP 9.1, Gradle 9.3.1, Kotlin 2.4; iOS uses **Swift Package Manager** (CocoaPods only for plugins that still need it) and the **UIScene lifecycle** (mandatory with Xcode 27). Impeller everywhere. |
 | Widgets libraries | `material_ui` 1.4.0 / `cupertino_ui` 1.1.x | Built-in Material/Cupertino copies are frozen (3.44) and deprecated from Nov 2026 → import `package:material_ui/...` in new code (`dart fix --apply --code=migrate_design_widgets`). |
 | State / DI | `flutter_riverpod` 3.4.3 + `riverpod_annotation` + `riverpod_generator` 4.0.9; `riverpod_lint` 3.1.9 (analyzer plugin) | Codegen providers only. Riverpod's experimental offline persistence/mutations are **not** used — Drift is the store. User knows Provider → natural successor. |
 | Routing | `go_router` 18.0.1 | Feature-complete (bug-fix only) — stable choice. `StatefulShellRoute.indexedStack` for the 5 tabs; typed locations are the hand-written `AppLinks` builders + `DeepLinkParser` (no `go_router_builder`, ADR-016). Last tab restored from `local_kv`; Android back walks the tab history (T1.3.06). |
 | Models | `freezed` 4.0.2 (+ `freezed_annotation` 3.1) + `json_serializable` 6.14.1 | Unions/value objects/UI state; Drift generates row classes. json_serializable 6.14 distinguishes missing vs explicit `null` (useful for sync patches). |
 | Codegen | `build_runner` 2.16.1 | AOT builders + `--workspace` builds. |
-| Local DB | `drift` 2.35.0 + `drift_dev` + `drift_flutter` 0.3.1 + `sqlite3` 3.6.0 | SQLite via build hooks — **do not add `sqlite3_flutter_libs`** (end-of-life). FTS5, window functions, `shareAcrossIsolates`. |
+| Local DB | `drift` 2.35.0 + `drift_dev` + `drift_flutter` 0.3.1 + `sqlite3` 3.6.0 | SQLite via build hooks — **do not add `sqlite3_flutter_libs`** (end-of-life). FTS5, window functions, `shareAcrossIsolates`. The hook builds **SQLite3MultipleCiphers** (`hooks.user_defines.sqlite3.source: sqlite3mc` in the workspace pubspec, MIT) so the optional on-device encryption (T8.3.15) is a `PRAGMA key`; plain files open unchanged (ADR-020). |
 | Backend SDK | `supabase_flutter` 2.17.2 | Stay on 2.x (3.0 is pre-release). |
 | Auth | `google_sign_in` 7.2.0; `sign_in_with_apple` 8.2.0 + `crypto` | Native ID-token flows (`signInWithIdToken`); Apple nonce (SHA-256 to Apple, raw to Supabase). |
 | Push | `firebase_core` 4.15.0, `firebase_messaging` 16.7.0 | Call `configureNotificationCenterDelegate()` from the AppDelegate (UIScene). |
@@ -120,7 +120,7 @@ erDiagram
 | Resumable uploads | `tusc` 4.0.0 | Supabase Storage TUS (6 MB chunks) — the Supabase Dart SDK has no TUS client. |
 | IDs / ordering | `uuid` 4.6.0 (v7 + v5); fractional indexing **vendored** from `fractional_indexing_dart` 1.0.7 (byte-compatible with rocicorp's JS lib) | Vendored + tested (few users upstream). |
 | Utilities | `collection`, `intl` 0.20.3, `logging`, `connectivity_plus`, `package_info_plus`, `device_info_plus`, `url_launcher`, `app_links`, `flutter_secure_storage` 11.2.0 | |
-| Platform extras | `home_widget` 0.10.0, `quick_actions`, `receive_sharing_intent` 1.9.0, `local_auth` 3.0.2, `in_app_review`, `device_calendar_plus` 0.8.1 (P2), `live_activities` 2.6.0 (P2), `flutter_alarmkit` 0.4.0 (P2) | `device_calendar` is abandoned → `device_calendar_plus`. |
+| Platform extras | `home_widget` 0.10.0 (+ `androidx.glance:glance-appwidget`/`glance-material3` 1.2.0 and the Kotlin Compose compiler plugin for the Android widgets), `quick_actions`, `receive_sharing_intent` 1.9.0, `local_auth` 3.0.2, `in_app_review`, `device_calendar_plus` 0.8.1 (P2, read-only overlay T8.2.13), `health` 13.3 (P2, read-only Apple Health / Health Connect for habit auto-logging T8.2.14; its minSdk 26 is overridden in the manifest and the plugin is only used on Android 9+ after a runtime check), `live_activities` 2.6.0 (P2, iOS only — its Android FCM service is removed in the manifest), `flutter_alarmkit` 0.4.0 (P2) | `device_calendar` is abandoned → `device_calendar_plus`. |
 | Rich text (optional) | `flutter_quill` 11.6.0 | Only if markdown-lite proves insufficient (P1 decision in [3.1]). |
 | Layout & export | `flutter_staggered_grid_view` (Keep-like masonry board); `pdf` + `printing` (P2 PDF export); `archive` 4.3 (zip bundles of a list + its files, T4.4.08 — pure Dart, already a transitive dependency) | |
 | Money math | `decimal` | Exact arithmetic for money saved/spent (never `double`). |
@@ -294,7 +294,8 @@ features/<feature>/
   `ui_checklist_state` (checklist_id, mode edit|preview, focus_item_id, view_type, sort_json, filter_json,
   scroll_offset, last_opened_at), `ui_view_state` (view id, anchor date, scroll minute, zoom),
   `habit_timer_state` (running duration timers survive app kill), `attachment_cache` (§6.7),
-  `search_index` (FTS5), `stats_cache` (optional rollups), `insight_state` (key, fired_at, dismissed_at, payload —
+  `search_index` (FTS5 over tasks, checklists, items, habits, habit-log notes and — since schema v5 —
+  inbox entries; trigger-maintained), `stats_cache` (optional rollups), `insight_state` (key, fired_at, dismissed_at, payload —
   insight feed de-duplication and the fired insight's JSON, schema v4).
 - DateTime stored as ISO-8601 **text in UTC** (`storeDateTimeValuesAsText: true`); wall-clock values
   as ISO text without offset; dates as `YYYY-MM-DD` text.
@@ -775,6 +776,7 @@ app.tasks
   horizon_key text,                        -- P2: day:/week:/month:/quarter:/year: key (T3.7.11)
   countdown_mode text check (countdown_mode in ('until','since')),   -- P2 (T3.7.12)
   location_lat double precision, location_lng double precision,      -- P2: map pin, both or none (T3.7.13)
+  external_uid text check (length 1..255),  -- P2: UID of the imported calendar event (ICS, T8.2.12)
   notify_mode text not null default 'inherit' check (notify_mode in ('inherit','custom','inherit_plus','off')),
   status text not null default 'active' check (status in ('active','paused','archived'))
 
@@ -1352,8 +1354,10 @@ and is mirrored by DB `CHECK` constraints. The server is the last line of defenc
 ## 11. CI/CD, configuration & secrets
 
 - **Config:** `--dart-define-from-file=env/<flavor>.json` (gitignored; `env/example.json` committed):
-  `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (`sb_publishable_…` — safe to ship), `FLAVOR`.
-  Firebase options generated per flavor by FlutterFire CLI.
+  `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (`sb_publishable_…` — safe to ship), `FLAVOR`,
+  `FIREBASE_ENABLED`, `FEATURE_FLAGS`, and the public `SITE_URL` (privacy policy / terms / support pages,
+  [9.2]) and `SUPPORT_EMAIL` shown in Settings › About — links stay hidden while they are `YOUR_`
+  placeholders. Firebase options generated per flavor by FlutterFire CLI.
 - **Secrets never in the app:** secret keys (`sb_secret_…`), FCM service account, cron secret, Apple
   sign-in key → Supabase Edge Function secrets / Vault and GitHub Actions secrets only. The Apple client
   secret used by the Android web OAuth flow expires every 6 months → calendar reminder + runbook ([9.2]).
@@ -1394,6 +1398,7 @@ See `docs/README.md` §2.
 | ADR-017 | Local-only mode when Supabase isn't configured | The app is fully usable offline on one device before any cloud setup; data is claimed by the cloud account on first sign-in (`LocalAccount.claimForCloudUser`). | Mandatory sign-in. |
 | ADR-018 | App code imports `material_ui`; `MaterialUiCompatibilityBridge` wraps the app for legacy packages (fl_chart…) | go_router 18 / pdfrx already use material_ui; built-in material is frozen. | `package:flutter/material.dart` everywhere. |
 | ADR-019 | Android build flavors (dev/prod); iOS runs a single scheme until custom schemes/xcconfigs are added (guide.md) | Keeps iOS setup simple for a solo developer. | Full iOS flavor schemes. |
+| ADR-020 | Optional local DB encryption with SQLite3MultipleCiphers (default ChaCha20-Poly1305), random passphrase in Keychain/Keystore (`first_unlock_this_device`), switched at startup by copy → rekey → verify → swap (T8.3.15) | One SQLite build for everyone (plain DBs keep working), no OpenSSL on Android, in-place `rekey`; background isolates can read the key after the first unlock. | SQLCipher build (OpenSSL linked, separate build for opt-in users); app-level field encryption (breaks FTS/indexes). |
 
 ---
 

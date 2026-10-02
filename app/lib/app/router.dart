@@ -1,3 +1,4 @@
+import 'package:everslot/app/command_palette.dart';
 import 'package:everslot/app/shell_scaffold.dart';
 import 'package:everslot/core/env/env.dart';
 import 'package:everslot/core/preferences/last_tab.dart';
@@ -190,7 +191,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/search',
         parentNavigatorKey: rootNavigatorKey,
-        builder: (_, s) => SearchScreen(initialQuery: s.uri.queryParameters['q']),
+        builder: (_, s) => SearchScreen(
+          initialQuery: s.uri.queryParameters['q'],
+          onCommandPalette: (context, query) => showCommandPalette(context, initialQuery: query),
+        ),
       ),
       GoRoute(
         path: '/settings',

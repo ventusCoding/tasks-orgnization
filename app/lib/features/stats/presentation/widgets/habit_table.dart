@@ -36,7 +36,11 @@ class HabitMiniTable extends StatelessWidget {
                   children: [
                     ColorDot(
                       r['color'] is int
-                          ? CategoryColors.accent(r['color']! as int, Theme.of(context).brightness)
+                          ? CategoryColors.accent(
+                              r['color']! as int,
+                              Theme.of(context).brightness,
+                              highContrast: context.a11y.highContrastCategories,
+                            )
                           : context.colors.primary,
                     ),
                     const SizedBox(width: Space.sm),

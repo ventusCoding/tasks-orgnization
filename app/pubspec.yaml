@@ -71,6 +71,10 @@ dependencies:
   local_auth: ^3.0.2
   home_widget: ^0.10.0
   quick_actions: ^1.1.1
+  receive_sharing_intent: ^1.9.0 # share into Everslot (T8.2.07)
+  live_activities: ^2.6.0 # running timer Live Activity on iOS (T8.2.10)
+  device_calendar_plus: ^0.8.1 # read-only device calendar overlay (T8.2.13)
+  health: ^13.3.2 # Apple Health / Health Connect auto-logging for habits (T8.2.14)
   app_links: ^7.2.1
   in_app_review: ^2.0.12
   url_launcher: ^6.3.2

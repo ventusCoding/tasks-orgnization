@@ -1,5 +1,19 @@
 {
   "@@locale": "fr",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "@appLockAfterMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "@authCodeBody": {
     "placeholders": {
       "email": {
@@ -77,6 +91,139 @@
       }
     }
   },
+  "@dataImportConflictsHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountKept": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountNew": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountSkipped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountUnchanged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountUpdated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extCountCheckIns": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extCountHabits": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extCountItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extCountLists": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extCountTasks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extImportDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extImportWrongFile": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "@extNoteAttachment": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extNoteCompleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extNoteFrequency": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extNoteRepeat": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extNoteTrashed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@onboardingStepOf": {
     "placeholders": {
       "current": {
@@ -122,6 +269,31 @@
       }
     }
   },
+  "a11yHaptics": "Retour haptique",
+  "a11yHapticsHint": "Vibrations lors des accroches, déplacements et validations",
+  "a11yHighContrast": "Couleurs de catégories contrastées",
+  "a11yHighContrastHint": "Tuiles et accents plus marqués, plus faciles à distinguer",
+  "a11yLargeTable": "Texte plus grand dans le tableau de la semaine",
+  "a11yLargeTableHint": "Titres et heures plus grands sur les tuiles du planning",
+  "a11yReduceMotion": "Réduire les animations",
+  "a11yReduceMotionHint": "Moins d’animations, même si l’appareil les autorise",
+  "a11yStatusLabels": "Toujours afficher les libellés d’état",
+  "a11yStatusLabelsHint": "L’état en toutes lettres, pas seulement par couleurs et icônes",
+  "a11ySystemHint": "Taille du texte, texte en gras et lecteurs d’écran suivent les réglages de l’appareil.",
+  "aboutContact": "Contacter le support",
+  "aboutHealthBody": "Les étapes, économies et estimations de santé du suivi d’arrêt sont des informations générales de santé publique fondées sur des moyennes de population (OMS, NHS, CDC, American Cancer Society). Ce ne sont pas des conseils médicaux et elles ne remplacent pas un professionnel de santé. Si vous essayez d’arrêter une substance, parlez-en à votre médecin ou à une ligne d’aide locale.",
+  "aboutHealthTitle": "Informations de santé",
+  "aboutHelp": "Aide",
+  "aboutHelpCenter": "Aide et FAQ",
+  "aboutLegal": "Mentions légales",
+  "aboutLegalese": "Conçu avec Flutter et des logiciels open source.",
+  "aboutLicenses": "Licences open source",
+  "aboutPrivacyPolicy": "Politique de confidentialité",
+  "aboutRate": "Noter Everslot",
+  "aboutRateHint": "Une note aide d’autres personnes à trouver l’app",
+  "aboutTagline": "Maîtrisez chaque créneau de votre journée",
+  "aboutTerms": "Conditions d’utilisation",
+  "aboutVersion": "Version {version}",
   "actionAdd": "Ajouter",
   "actionApply": "Appliquer",
   "actionArchive": "Archiver",
@@ -211,6 +383,17 @@
   "activityTitle": "Historique",
   "activityUnarchived": "Désarchivé",
   "activityUnscheduled": "Replacé dans les tâches à planifier",
+  "appLockAfterMinutes": "{minutes, plural, one{1 minute} other{{minutes} minutes}}",
+  "appLockBody": "Utilisez votre empreinte, votre visage ou le code de l’appareil pour continuer.",
+  "appLockEnable": "Verrouiller l’app",
+  "appLockEnableHint": "Demander la biométrie ou le code de l’appareil à l’ouverture d’Everslot",
+  "appLockImmediately": "Immédiatement",
+  "appLockReason": "Déverrouiller Everslot",
+  "appLockSection": "Verrouillage",
+  "appLockTimeout": "Verrouiller après",
+  "appLockTitle": "Everslot est verrouillé",
+  "appLockUnlock": "Déverrouiller",
+  "appLockUnsupported": "Configurez d’abord un verrouillage d’écran sur cet appareil.",
   "appName": "Everslot",
   "appTagline": "Maîtrisez chaque créneau de votre journée.",
   "attachmentsAdd": "Ajouter une pièce jointe",
@@ -919,7 +1102,59 @@
   "comingSoon": "Bientôt disponible",
   "confirmDeleteBody": "Vous pourrez le restaurer depuis la corbeille pendant 30 jours.",
   "confirmDeleteTitle": "Supprimer {item} ?",
+  "dataImportBody": "Restaurez une sauvegarde Everslot (JSON, ou zip avec pièces jointes).",
+  "dataImportConflictsHint": "{count, plural, one{1 élément modifié ici après la sauvegarde a été conservé.} other{{count} éléments modifiés ici après la sauvegarde ont été conservés.}}",
+  "dataImportCopy": "Copier",
+  "dataImportCopyHint": "Ajoute tout comme nouveaux éléments, sans toucher à l’existant.",
+  "dataImportCountKept": "{count, plural, one{{count} conservé} other{{count} conservés}}",
+  "dataImportCountNew": "{count, plural, one{{count} nouveau} other{{count} nouveaux}}",
+  "dataImportCountSkipped": "{count, plural, one{{count} ignoré} other{{count} ignorés}}",
+  "dataImportCountUnchanged": "{count, plural, one{{count} inchangé} other{{count} inchangés}}",
+  "dataImportCountUpdated": "{count, plural, one{{count} mis à jour} other{{count} mis à jour}}",
+  "dataImportDone": "{count, plural, =0{Rien à importer} one{1 élément importé} other{{count} éléments importés}}",
+  "dataImportErrorCsv": "Les exports tableur (CSV) ne peuvent pas être importés. Utilisez une sauvegarde Everslot (JSON).",
+  "dataImportErrorNotExport": "Ce fichier n’est pas une sauvegarde Everslot.",
+  "dataImportErrorVersion": "Cette sauvegarde vient d’une version d’Everslot plus récente ou inconnue.",
+  "dataImportFailed": "L’import a échoué. Rien n’a été écrit à moitié ; réessayez.",
+  "dataImportKindAttachments": "Pièces jointes",
+  "dataImportKindCategories": "Catégories et étiquettes",
+  "dataImportKindHabitLogs": "Pointages",
+  "dataImportKindHabits": "Habitudes et arrêts",
+  "dataImportKindInbox": "Boîte de réception",
+  "dataImportKindItems": "Éléments de liste",
+  "dataImportKindLists": "Listes",
+  "dataImportKindOccurrences": "Historique des tâches",
+  "dataImportKindOther": "Autres données",
+  "dataImportKindSettings": "Réglages",
+  "dataImportKindTasks": "Tâches",
+  "dataImportPick": "Choisir un fichier de sauvegarde",
+  "dataImportReplaceNewer": "Remplacer les modifications plus récentes",
+  "dataImportReplaceNewerHint": "Utiliser la sauvegarde même si cet appareil a une modification ultérieure.",
+  "dataImportRestore": "Restaurer",
+  "dataImportRestoreHint": "Même compte : rétablit les éléments ; la version la plus récente de chacun l’emporte.",
+  "dataImportRestoreOtherAccount": "Uniquement pour les sauvegardes de ce compte.",
+  "dataImportRunCopy": "Importer une copie",
+  "dataImportRunRestore": "Restaurer",
+  "dataImportTitle": "Importer",
   "deletedSnack": "{item} supprimé",
+  "demoDone": "Données d’exemple générées",
+  "demoGenerate": "Générer des données d’exemple",
+  "demoGenerateHint": "Six mois de planning, listes, habitudes et un suivi d’arrêt — mode local uniquement",
+  "demoOnlyLocal": "Les données d’exemple ne sont disponibles qu’en mode local, pour que rien n’arrive sur un compte cloud.",
+  "demoRemove": "Supprimer les données d’exemple",
+  "demoRemoveHint": "Met tout ce qui a été généré à la corbeille",
+  "demoRemoved": "Données d’exemple supprimées",
+  "demoTaskCallParents": "Appeler les parents",
+  "demoTaskDeepWork": "Travail de fond",
+  "demoTaskDentist": "Dentiste",
+  "demoTaskEmails": "Boîte de réception à zéro",
+  "demoTaskGroceries": "Courses",
+  "demoTaskGym": "Salle de sport",
+  "demoTaskLaundry": "Lessive",
+  "demoTaskPlanWeek": "Planifier la semaine",
+  "demoTaskReview": "Bilan trimestriel",
+  "demoTaskStandup": "Point d’équipe",
+  "demoTitle": "Données d’exemple",
   "devComponentGallery": "Galerie de composants",
   "devConfigured": "Configuré",
   "devCopied": "Copié",
@@ -983,6 +1218,12 @@
   "devZoneOverridden": "Remplacé jusqu’à réinitialisation",
   "devZoneOverride": "Remplacer le fuseau de l’appareil",
   "devZoneReset": "Utiliser le vrai fuseau de l’appareil",
+  "deviceCalAllow": "Afficher les événements de vos agendas",
+  "deviceCalDenied": "Accès à l’agenda désactivé — autorisez-le dans les réglages du système",
+  "deviceCalHint": "Activez « Agendas de l’appareil » dans les réglages d’une vue du planning pour les voir. Les événements occupés comptent comme pris dans la recherche de créneaux libres.",
+  "deviceCalNone": "Aucun agenda sur cet appareil",
+  "deviceCalPrimer": "Les agendas Google, iCloud ou pro de cet appareil s’affichent en lecture seule à côté de votre plan. Rien n’est copié ni envoyé.",
+  "deviceCalSection": "Agendas de l’appareil",
   "durationDaysShort": "{days, plural, =1{1 jour} other{{days} jours}}",
   "durationHoursMinutesShort": "{hours} h {minutes} min",
   "durationHoursShort": "{hours} h",
@@ -1027,6 +1268,36 @@
   "exportShare": "Partager…",
   "exportTitle": "Partager / exporter",
   "exportZipBundle": "Partager en zip (avec les fichiers)",
+  "extCountCheckIns": "{count, plural, one{1 pointage} other{{count} pointages}}",
+  "extCountHabits": "{count, plural, one{1 habitude} other{{count} habitudes}}",
+  "extCountItems": "{count, plural, one{1 élément} other{{count} éléments}}",
+  "extCountLists": "{count, plural, one{1 liste} other{{count} listes}}",
+  "extCountTasks": "{count, plural, one{1 tâche} other{{count} tâches}}",
+  "extImportDone": "{count, plural, one{1 élément importé} other{{count} éléments importés}}",
+  "extImportNothing": "Rien à importer dans ce fichier.",
+  "extImportRun": "Importer",
+  "extImportSubtitle": "Loop Habit Tracker, Google Keep, Todoist, TickTick, texte",
+  "extImportTitle": "Importer depuis une autre app",
+  "extImportWrongFile": "Ce fichier ne ressemble pas à un export {source}.",
+  "extNoteAttachment": "{count, plural, one{1 pièce jointe absente de l’archive} other{{count} pièces jointes absentes de l’archive}}",
+  "extNoteCompleted": "{count, plural, one{1 tâche terminée ignorée} other{{count} tâches terminées ignorées}}",
+  "extNoteFrequency": "{count, plural, one{1 fréquence d’habitude approchée} other{{count} fréquences d’habitude approchées}}",
+  "extNoteRepeat": "{count, plural, one{1 répétition non comprise (importée une fois)} other{{count} répétitions non comprises (importées une fois)}}",
+  "extNoteTrashed": "{count, plural, one{1 note de la corbeille ignorée} other{{count} notes de la corbeille ignorées}}",
+  "extSourceKeepHint": "Google Takeout › Keep (zip)",
+  "extSourceLoopHint": "Réglages › Exporter en CSV (zip) ou une sauvegarde (.db)",
+  "extSourceText": "Plan texte ou Markdown",
+  "extSourceTextHint": "Les lignes indentées deviennent des sous-éléments (.txt, .md)",
+  "extSourceTickTickHint": "Réglages › Sauvegarde (CSV)",
+  "extSourceTodoistHint": "Projet › Exporter comme modèle (CSV)",
+  "feedbackDiagnosticsHint": "Versions de l’app et du système, modèle d’appareil, état de synchro et codes d’erreur récents — jamais votre contenu",
+  "feedbackHint": "Idées, problèmes, questions",
+  "feedbackIncludeDiagnostics": "Joindre le diagnostic",
+  "feedbackMessage": "Votre message",
+  "feedbackPreview": "Voir exactement ce qui est joint",
+  "feedbackSend": "Envoyer",
+  "feedbackSubject": "Avis sur Everslot",
+  "feedbackTitle": "Envoyer un avis",
   "filterActiveCount": "{count, plural, =0{Aucun filtre} =1{1 filtre actif} other{{count} filtres actifs}}",
   "filterAny": "Tous",
   "filterAttachments": "Pièces jointes",
@@ -1523,6 +1794,31 @@
   "habitsZoneFixed": "Toujours utiliser {zone}",
   "habitsZoneFixedHint": "Les jours suivent {zone} où que vous soyez",
   "habitsZoneFloating": "Les jours suivent votre fuseau horaire actuel",
+  "healthDenied": "L’accès aux données de santé n’a pas été accordé",
+  "healthLink": "Enregistrer depuis Santé",
+  "healthMindful": "Minutes de pleine conscience",
+  "healthPrimerBody": "Everslot lira vos données « {metric} » dans Santé d’Apple ou Health Connect pour enregistrer cette habitude à votre place. Lecture seule : rien n’est écrit, et seuls les totaux du jour sont gardés sur l’habitude. Vous pouvez arrêter à tout moment.",
+  "healthPrimerContinue": "Continuer",
+  "healthPrimerTitle": "Utiliser vos données de santé ?",
+  "healthSleep": "Heures de sommeil",
+  "healthSteps": "Pas",
+  "healthWater": "Eau",
+  "healthWorkout": "Minutes d’entraînement",
+  "icsAlreadyImported": "Déjà importé",
+  "icsChanges": "{count, plural, =1{1 modification} other{{count} modifications}}",
+  "icsExport": "Exporter vers un fichier d’agenda",
+  "icsExportHint": "Partagez vos tâches comme événements d’agenda",
+  "icsExportTask": "Ajouter à l’agenda (.ics)",
+  "icsImportCount": "{count, plural, =0{Importer} =1{Importer 1 événement} other{Importer {count} événements}}",
+  "icsImportFile": "Importer un fichier d’agenda (.ics)",
+  "icsImportHint": "Depuis Google Agenda, Calendrier Apple, Outlook…",
+  "icsImportTitle": "Importer l’agenda",
+  "icsImported": "{count, plural, =1{1 événement importé} other{{count} événements importés}}",
+  "icsNextDays": "{count, plural, =1{Aujourd’hui} other{{count} prochains jours}}",
+  "icsNothing": "Aucun événement dans ce fichier",
+  "icsRepeatUnsupported": "Répétition non prise en charge — importé une fois",
+  "icsRepeats": "Répétition",
+  "icsSection": "Fichiers d’agenda",
   "importAction": "Importer",
   "importChooseFile": "Choisir un fichier",
   "importConvertBody": "Convertir la note en éléments",
@@ -1539,6 +1835,7 @@
   "importWarningMalformed": "Impossible de lire ce fichier",
   "importWarningTooMany": "Seules les 10 000 premières lignes ont été importées",
   "integrationsActionFailed": "Cette action n'a pas pu être effectuée.",
+  "integrationsCravingLogged": "Envie notée : {habit}",
   "integrationsHabitLogged": "Enregistré : {habit}",
   "integrationsHabitNotFound": "Aucune habitude ne correspond à « {name} ».",
   "integrationsLinkInTrash": "Cet élément est dans la corbeille.",
@@ -2333,10 +2630,64 @@
   "onboardingEssentialsTitle": "Votre semaine, votre horloge",
   "onboardingGetStarted": "Commencer",
   "onboardingLanguage": "Langue",
+  "onboardingNotificationsLater": "Vous pouvez activer ou couper les rappels de chaque élément, et tout modifier dans Réglages › Notifications.",
+  "onboardingNotificationsOn": "Les notifications sont activées",
+  "onboardingRerun": "Relancer la configuration",
+  "onboardingRerunSubtitle": "Langue, semaine, notifications et démarrage",
+  "onboardingStarterRoutine": "Routine du matin",
+  "onboardingStartersBody": "Choisissez quelques éléments prêts à l’emploi. Vous pourrez les modifier ou les supprimer.",
+  "onboardingStartersNone": "Rien à proposer pour vos choix — tout est prêt.",
+  "onboardingStartersTitle": "Commencer avec quelque chose ?",
   "onboardingStepOf": "Étape {current} sur {total}",
   "onboardingTimeZone": "Fuseau horaire de référence",
   "onboardingTitle": "Configurer Everslot",
+  "onboardingTrackBody": "Nous vous proposerons de quoi démarrer. Toutes les sections restent disponibles.",
+  "onboardingTrackHabits": "Habitudes quotidiennes et objectifs",
+  "onboardingTrackLists": "Check-lists, courses, projets",
+  "onboardingTrackPlan": "Tâches, créneaux et routines",
+  "onboardingTrackQuit": "Tabac, alcool, caféine…",
+  "onboardingTrackQuitTitle": "Arrêter ou réduire",
+  "onboardingTrackTitle": "Que voulez-vous suivre ?",
   "onboardingWeekStart": "La semaine commence le",
+  "onboardingWelcomeBody": "Quelques questions pour adapter Everslot à votre vie. Tout est facultatif et reste modifiable dans les Réglages.",
+  "onboardingWelcomeHabits": "Prenez de bonnes habitudes, arrêtez les mauvaises",
+  "onboardingWelcomeInsights": "Des statistiques détaillées sur tout ce que vous faites",
+  "onboardingWelcomeLists": "Des listes avec sous-éléments et statuts",
+  "onboardingWelcomePlan": "Planifiez votre semaine en créneaux de toute durée",
+  "onboardingWelcomeTitle": "Maîtrisez chaque créneau de votre journée",
+  "paletteGoCategories": "Gérer les catégories",
+  "paletteGoDay": "Ouvrir la vue du jour",
+  "paletteGoHabits": "Ouvrir les habitudes",
+  "paletteGoInbox": "Ouvrir la boîte de réception",
+  "paletteGoInsights": "Ouvrir les statistiques",
+  "paletteGoInsightsScope": "Ouvrir les statistiques › {section}",
+  "paletteGoLists": "Ouvrir les listes",
+  "paletteGoNextWeek": "Aller à la semaine prochaine",
+  "paletteGoNotificationSettings": "Ouvrir Réglages › Notifications",
+  "paletteGoPreviousWeek": "Aller à la semaine précédente",
+  "paletteGoSearch": "Tout rechercher",
+  "paletteGoSettings": "Ouvrir les réglages",
+  "paletteGoTags": "Gérer les étiquettes",
+  "paletteGoThisWeek": "Aller à cette semaine",
+  "paletteGoToday": "Aller à Aujourd’hui",
+  "paletteGoTrash": "Ouvrir la corbeille",
+  "paletteGroupActions": "Actions",
+  "paletteGroupCreate": "Créer",
+  "paletteGroupGo": "Aller à",
+  "paletteHint": "Tapez une commande ou « Appeler Bob demain 9h »",
+  "paletteNewHabit": "Nouvelle habitude",
+  "paletteNewList": "Nouvelle liste",
+  "paletteNewQuit": "Nouveau suivi d’arrêt",
+  "paletteNewTask": "Nouvelle tâche",
+  "paletteNewTaskAt": "Nouvelle tâche « {title} » · {when}",
+  "paletteNoMatch": "Aucune commande correspondante",
+  "palettePause1h": "Suspendre les notifications 1 h",
+  "palettePauseTomorrow": "Suspendre les notifications jusqu’à demain",
+  "palettePaused": "Notifications suspendues",
+  "paletteResume": "Reprendre les notifications",
+  "paletteResumed": "Notifications reprises",
+  "paletteSyncNow": "Synchroniser maintenant",
+  "paletteTitle": "Commandes",
   "pickerColor": "Couleur",
   "pickerCustomColor": "Couleur personnalisée",
   "pickerDate": "Date",
@@ -2366,6 +2717,19 @@
   "priorityMedium": "Moyenne",
   "priorityNone": "Sans priorité",
   "priorityUrgent": "Urgente",
+  "privacyAppSwitcher": "Masquer dans le sélecteur d’apps",
+  "privacyAppSwitcherHint": "Couvrir l’écran dans les apps récentes et bloquer les captures",
+  "privacyCrashReports": "Envoyer les rapports de plantage",
+  "privacyCrashReportsHint": "Des détails anonymes aident à corriger les bugs",
+  "privacyDiagnostics": "Diagnostic",
+  "privacyEncryptDb": "Chiffrer les données sur cet appareil",
+  "privacyEncryptDbConfirmBody": "Le changement se fait à la prochaine ouverture d’Everslot et prend quelques secondes. Vos données dans le cloud ne changent pas.",
+  "privacyEncryptDbConfirmOff": "Ne plus chiffrer les données sur cet appareil ?",
+  "privacyEncryptDbConfirmOn": "Chiffrer les données sur cet appareil ?",
+  "privacyEncryptDbHint": "La base locale est illisible sans la clé sécurisée de cet appareil",
+  "privacyEncryptDbPendingOff": "Le chiffrement prendra fin à la prochaine ouverture d’Everslot",
+  "privacyEncryptDbPendingOn": "Le chiffrement commencera à la prochaine ouverture d’Everslot",
+  "privacyHideContentHint": "Les notifications n’affichent que « Rappel Everslot »",
   "pvActualColumn": "Réel",
   "pvAddCountdown": "Ajouter un compte à rebours",
   "pvAddTask": "Ajouter une tâche",
@@ -2743,6 +3107,20 @@
   "pvZoomFixed": "Créneau fixe",
   "pvZoomMode": "Zoom",
   "pvZoomSemantic": "Sémantique",
+  "quickAddAdded": "« {title} » ajouté",
+  "quickAddHabit": "Habitude",
+  "quickAddItem": "Élément de liste",
+  "quickAddList": "Liste",
+  "quickAddLog": "Pointage / envie",
+  "quickAddMore": "Plus d’options",
+  "quickAddPickHabit": "Habitude ou suivi",
+  "quickAddPickList": "Ajouter à la liste",
+  "quickAddQuit": "Suivi d’arrêt",
+  "quickAddSmart": "Comprendre les dates",
+  "quickAddSmartHint": "ex. Sport demain 19h pendant 1h tous les lundis #santé",
+  "quickAddTask": "Tâche",
+  "quickAddTitleHint": "Quoi ?",
+  "quickAddUnknownCategory": "Aucune catégorie « {name} »",
   "quitAddUse": "+1",
   "quitAllClocks": "Tous les compteurs",
   "quitAmount": "Quantité",
@@ -3103,6 +3481,40 @@
   "repeatRuns": "Historique des cycles",
   "repeatTitle": "Répétition",
   "savedSnack": "Enregistré",
+  "searchAny": "Tous",
+  "searchCategory": "Catégorie",
+  "searchCheckIn": "Valider",
+  "searchClearFilters": "Effacer les filtres",
+  "searchComplete": "Terminer l’élément",
+  "searchDates": "Dates",
+  "searchDatesFrom": "Du",
+  "searchDatesMonth": "30 derniers jours",
+  "searchDatesTo": "Au",
+  "searchDatesToday": "Aujourd’hui",
+  "searchDatesWeek": "7 derniers jours",
+  "searchHint": "Tout rechercher",
+  "searchIntro": "Tâches, listes, éléments, habitudes, notes et boîte de réception",
+  "searchItemCompleted": "« {title} » terminé",
+  "searchKindChecklist": "Listes",
+  "searchKindHabit": "Habitudes",
+  "searchKindInbox": "Boîte de réception",
+  "searchKindItem": "Éléments",
+  "searchKindLog": "Notes",
+  "searchKindTask": "Tâches",
+  "searchNoResults": "Aucun résultat pour « {query} »",
+  "searchRecent": "Recherches récentes",
+  "searchRemoveRecent": "Retirer des recherches récentes",
+  "searchSeeAll": "{count, plural, =1{Voir 1 résultat} other{Voir les {count}}}",
+  "searchStatus": "Statut",
+  "searchStatusClosed": "Terminé ou archivé",
+  "searchStatusOpen": "En cours",
+  "searchSyntaxBadValue": "« {value} » n’est pas valide pour {key}:",
+  "searchSyntaxHelp": "Syntaxe de recherche",
+  "searchSyntaxHelpBody": "Combinez des mots et des filtres :\n• \"phrase exacte\"\n• statut:attente (afaire, encours, attente, bloqué, fait, annulé, ouvert, fermé)\n• étiquette:travail · cat:santé\n• échéance:aujourdhui · échéance:demain · échéance:retard · échéance:<7j · échéance:>2s · échéance:2026-10-15\n• est:récurrent · est:ouvert · est:fait · est:archivé\n• type:tâche (liste, élément, habitude, note, inbox)",
+  "searchSyntaxNeedsWords": "Ajoutez un mot pour chercher avec ces filtres",
+  "searchSyntaxUnclosedQuote": "Guillemet fermant manquant",
+  "searchSyntaxUnknownKey": "Filtre inconnu « {key}: » — utilisez statut:, étiquette:, cat:, échéance:, est: ou type:",
+  "searchTag": "Étiquette",
   "settingsAbout": "À propos",
   "settingsAboutSubtitle": "Version, licences, aide",
   "settingsAccessibility": "Accessibilité",
@@ -3188,6 +3600,8 @@
   "settingsInsightsWakingHours": "Heures d’éveil",
   "settingsInsightsWeekStart": "Début de semaine (statistiques)",
   "settingsInsightsWeekStartProfile": "Comme l’app ({day})",
+  "settingsIntegrations": "Widgets et intégrations",
+  "settingsIntegrationsSubtitle": "Widgets, raccourcis, partage, calendriers",
   "settingsLanguage": "Langue",
   "settingsLanguageArabic": "العربية",
   "settingsLanguageEnglish": "English",
@@ -3309,9 +3723,24 @@
   "settingsTrashWith": "{count, plural, =1{+1 élément lié} other{+{count} éléments liés}}",
   "settingsUnknownPage": "Cette page de paramètres n'existe pas.",
   "settingsWeekStart": "La semaine commence le",
+  "shareAsTask": "Tâche",
+  "shareAttach": "Joindre",
+  "shareFilesTitle": "{count, plural, =1{1 fichier} other{{count} fichiers}}",
+  "shareFindItem": "Chercher une tâche ou un élément",
+  "shareItemCount": "{count, plural, =1{1 élément sera ajouté} other{{count} éléments seront ajoutés}}",
+  "shareNewList": "Nouvelle liste « {title} »",
+  "shareSaved": "Enregistré dans Everslot",
+  "shareTitle": "Enregistrer dans Everslot",
+  "shareToList": "Liste",
+  "shareTopLevel": "Premier niveau",
+  "shareUnder": "Sous",
   "shellCreate": "Créer",
   "shellDueCount": "{count, plural, =1{1 à faire} other{{count} à faire}}",
   "shellQuickAdd": "Ajout rapide",
+  "shortcutLogCraving": "Noter une envie",
+  "shortcutLogHabit": "Valider une habitude",
+  "shortcutNewTask": "Nouvelle tâche",
+  "shortcutToday": "Aujourd’hui",
   "smartBlocked": "Bloqué",
   "smartChip": "{label} · {count}",
   "smartClearFollowUp": "Supprimer la relance",
@@ -4796,6 +5225,71 @@
   "templatesMine": "Mes modèles",
   "templatesRename": "Renommer",
   "templatesUse": "Utiliser le modèle",
+  "timerSurfaceMore": "{title} (+{count})",
+  "timerSurfaceOver": "Temps prévu dépassé",
+  "timerSurfacePlannedUntil": "Prévu jusqu’à {time}",
+  "todayAllDay": "Toute la journée",
+  "todayAllHabitsDone": "Toutes les habitudes faites 🎉",
+  "todayBlockAgenda": "Au programme",
+  "todayBlockChecklists": "Listes",
+  "todayBlockHabits": "Habitudes",
+  "todayBlockHidden": "Masqué",
+  "todayBlockInbox": "Notifications",
+  "todayBlockNowNext": "Maintenant & ensuite",
+  "todayBlockOverdue": "En retard",
+  "todayBlockQuit": "Arrêts",
+  "todayCustomize": "Personnaliser Aujourd’hui",
+  "todayDoneGroup": "Faits ({count})",
+  "todayDueItems": "À faire aujourd’hui",
+  "todayEmptyAgenda": "Rien de prévu aujourd’hui",
+  "todayEmptyAgendaAction": "Planifier une tâche",
+  "todayEmptyChecklists": "Épinglez une liste pour la garder ici",
+  "todayEmptyChecklistsAction": "Ouvrir les listes",
+  "todayEmptyHabits": "Aucune habitude prévue aujourd’hui",
+  "todayEmptyHabitsAction": "Ajouter une habitude",
+  "todayEmptyOverdue": "Rien en retard",
+  "todayEmptyQuit": "Suivez ce que vous voulez arrêter",
+  "todayEmptyQuitAction": "Commencer un suivi d’arrêt",
+  "todayFollowUps": "À relancer",
+  "todayGreetingAfternoon": "Bon après-midi",
+  "todayGreetingEvening": "Bonsoir",
+  "todayGreetingMorning": "Bonjour",
+  "todayHabitNextSlot": "Prochain à {time}",
+  "todayHabitStreak": "{count, plural, =1{Série de 1 jour} other{Série de {count} jours}}",
+  "todayHintGotIt": "Compris",
+  "todayHintSwipe": "Balayez une tâche pour la marquer faite ou la passer — modifiable dans Personnaliser.",
+  "todayInboxUnread": "{count, plural, =0{Aucune notification non lue} =1{1 notification non lue} other{{count} notifications non lues}}",
+  "todayIncludeRecurring": "Inclure les tâches récurrentes",
+  "todayKeepWhenEmpty": "Afficher si vide",
+  "todayListProgress": "{done} sur {total}",
+  "todayLoadError": "Impossible de charger cette partie",
+  "todayLookback": "Retard sur (jours)",
+  "todayMarkAllDone": "Tout marquer fait",
+  "todayNext": "Ensuite",
+  "todayNothingNext": "Rien d’autre de prévu",
+  "todayNothingNow": "Rien de prévu pour l’instant",
+  "todayNow": "Maintenant",
+  "todayOpenInbox": "Ouvrir la boîte",
+  "todayOverdueSince": "{date}",
+  "todayOverlapping": "{count, plural, =1{+1 en parallèle} other{+{count} en parallèle}}",
+  "todayPinned": "Épinglées",
+  "todayProgressFocus": "{time} de concentration",
+  "todayProgressHabits": "{done}/{total} habitudes",
+  "todayProgressItems": "{count, plural, =1{1 élément fait} other{{count} éléments faits}}",
+  "todayProgressTasks": "{done}/{total} tâches",
+  "todayQuitNextMilestone": "Prochaine étape : {label}",
+  "todayQuitSaved": "{amount} économisés",
+  "todayQuitUsedToday": "{amount} aujourd’hui",
+  "todayResetLayout": "Réinitialiser",
+  "todayRolledOver": "{count, plural, =1{1 tâche déplacée à aujourd’hui} other{{count} tâches déplacées à aujourd’hui}}",
+  "todayShowCompleted": "Afficher les tâches faites",
+  "todayShowHeader": "En-tête de progression",
+  "todaySkipAll": "Tout passer",
+  "todayStartsIn": "dans {time}",
+  "todaySwipeEnd": "Balayer vers le début",
+  "todaySwipeNone": "Rien",
+  "todaySwipeStart": "Balayer vers la fin",
+  "todayTimeLeft": "encore {time}",
   "undoDoneSnack": "Annulé : {action}",
   "undoNothing": "Rien à annuler",
   "voiceNoteDiscard": "Supprimer",
@@ -4806,5 +5300,28 @@
   "voiceNoteRecording": "Enregistrement, {duration}",
   "voiceNoteSave": "Joindre",
   "voiceNoteStop": "Arrêter l’enregistrement",
-  "voiceNoteTitle": "Note vocale"
+  "voiceNoteTitle": "Note vocale",
+  "widgetAdd": "Ajouter",
+  "widgetAllDone": "Tout est fait pour aujourd’hui",
+  "widgetCleanTime": "Temps d’abstinence",
+  "widgetHowToAndroid": "Maintenez l’écran d’accueil, choisissez Widgets, puis Everslot.",
+  "widgetHowToIos": "Maintenez l’écran d’accueil, touchez +, puis cherchez Everslot.",
+  "widgetKindChecklist": "Liste",
+  "widgetKindChecklistHint": "Éléments ouverts de votre première liste épinglée",
+  "widgetKindHabits": "Habitudes",
+  "widgetKindHabitsHint": "Validez vos habitudes sans ouvrir l’app",
+  "widgetKindQuit": "Temps d’abstinence",
+  "widgetKindQuitHint": "Compteur en direct, argent économisé, prochain palier",
+  "widgetKindToday": "Aujourd’hui",
+  "widgetKindTodayHint": "Prochaines tâches et ce qui se passe maintenant",
+  "widgetListDone": "Tous les éléments sont faits",
+  "widgetNoHabits": "Aucune habitude aujourd’hui",
+  "widgetNoList": "Épinglez une liste dans Everslot pour la voir ici",
+  "widgetNoQuit": "Ajoutez un suivi d’arrêt dans Everslot",
+  "widgetNothingLeft": "Plus rien aujourd’hui",
+  "widgetNow": "Maintenant",
+  "widgetRefresh": "Actualiser les widgets",
+  "widgetRefreshed": "Widgets actualisés",
+  "widgetStale": "Ouvrez Everslot pour actualiser",
+  "widgetsSection": "Widgets d’écran d’accueil"
 }

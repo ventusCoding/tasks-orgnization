@@ -1,0 +1,33 @@
+{
+  "appLockReason": "Unlock Everslot",
+  "appLockTitle": "Everslot is locked",
+  "appLockBody": "Use your fingerprint, face or device code to continue.",
+  "appLockUnlock": "Unlock",
+  "appLockSection": "App lock",
+  "appLockEnable": "Lock the app",
+  "appLockEnableHint": "Ask for biometrics or the device code when opening Everslot",
+  "appLockUnsupported": "Set up a screen lock on this device first.",
+  "appLockTimeout": "Lock after",
+  "appLockImmediately": "Immediately",
+  "appLockAfterMinutes": "{minutes, plural, one{1 minute} other{{minutes} minutes}}",
+  "@appLockAfterMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "privacyAppSwitcher": "Hide in app switcher",
+  "privacyAppSwitcherHint": "Cover the screen in recent apps and block screenshots",
+  "privacyHideContentHint": "Notifications show only “Everslot reminder”",
+  "privacyDiagnostics": "Diagnostics",
+  "privacyCrashReports": "Send crash reports",
+  "privacyCrashReportsHint": "Anonymous crash details help fix bugs",
+  "privacyEncryptDb": "Encrypt data on this device",
+  "privacyEncryptDbHint": "Your local database is unreadable without this device's secure key",
+  "privacyEncryptDbPendingOn": "Encryption starts the next time Everslot opens",
+  "privacyEncryptDbPendingOff": "Encryption ends the next time Everslot opens",
+  "privacyEncryptDbConfirmOn": "Encrypt data on this device?",
+  "privacyEncryptDbConfirmOff": "Stop encrypting data on this device?",
+  "privacyEncryptDbConfirmBody": "The change is made the next time you open Everslot and takes a few seconds. Your data in the cloud is not affected."
+}

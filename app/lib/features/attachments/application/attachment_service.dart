@@ -64,12 +64,16 @@ class AttachmentService {
         rejected[f.name] = AttachmentRejection.unreadable;
         continue;
       }
-      final size = f.size ?? await file.length();
-      final mime = AttachmentProcessor.sniffMime(
-        f.name,
-        await AttachmentProcessor.readHead(file, 64),
-        hint: f.mimeType,
-      );
+      final int size;
+      final String mime;
+      try {
+        size = f.size ?? await file.length();
+        mime = AttachmentProcessor.sniffMime(f.name, await AttachmentProcessor.readHead(file, 64), hint: f.mimeType);
+      } on FileSystemException {
+        // Exists but cannot be read (permissions of a shared file, T8.2.07).
+        rejected[f.name] = AttachmentRejection.unreadable;
+        continue;
+      }
       final reason = _limits.validate(byteSize: size, mimeType: mime, existingCount: count);
       if (reason != null) {
         rejected[f.name] = reason;

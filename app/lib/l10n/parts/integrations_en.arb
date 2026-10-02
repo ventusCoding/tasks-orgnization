@@ -4,8 +4,155 @@
   "integrationsLinkInTrash": "This item is in the Trash.",
   "integrationsActionFailed": "That action couldn't be completed.",
   "integrationsHabitLogged": "Logged: {habit}",
-  "@integrationsHabitLogged": {"placeholders": {"habit": {"type": "String"}}},
+  "@integrationsHabitLogged": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
   "integrationsHabitNotFound": "No habit matches \"{name}\".",
-  "@integrationsHabitNotFound": {"placeholders": {"name": {"type": "String"}}},
-  "integrationsNothingNext": "Nothing else is planned today."
+  "@integrationsHabitNotFound": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "integrationsNothingNext": "Nothing else is planned today.",
+  "widgetCleanTime": "Clean time",
+  "widgetNothingLeft": "Nothing left today",
+  "widgetNoHabits": "No habits due today",
+  "widgetNoQuit": "Add a quit tracker in Everslot",
+  "widgetListDone": "All items done",
+  "widgetAllDone": "All done for today",
+  "widgetStale": "Open Everslot to refresh",
+  "widgetNow": "Now",
+  "settingsIntegrations": "Widgets & integrations",
+  "settingsIntegrationsSubtitle": "Home-screen widgets, shortcuts, sharing, calendars",
+  "widgetsSection": "Home-screen widgets",
+  "widgetKindToday": "Today",
+  "widgetKindTodayHint": "Next tasks with what is happening now",
+  "widgetKindHabits": "Habits",
+  "widgetKindHabitsHint": "Check in today’s habits without opening the app",
+  "widgetKindQuit": "Clean time",
+  "widgetKindQuitHint": "Live counter, money saved and next milestone",
+  "widgetKindChecklist": "Checklist",
+  "widgetKindChecklistHint": "Open items of your first pinned list",
+  "widgetAdd": "Add",
+  "widgetHowToIos": "Touch and hold the home screen, tap +, then search for Everslot.",
+  "widgetHowToAndroid": "Touch and hold the home screen, choose Widgets, then Everslot.",
+  "widgetRefresh": "Refresh widgets now",
+  "widgetRefreshed": "Widgets refreshed",
+  "widgetNoList": "Pin a list in Everslot to see it here",
+  "shortcutNewTask": "New task",
+  "shortcutLogHabit": "Log habit",
+  "shortcutLogCraving": "Log craving",
+  "shortcutToday": "Today",
+  "integrationsCravingLogged": "Craving logged: {habit}",
+  "@integrationsCravingLogged": {
+    "placeholders": {
+      "habit": {
+        "type": "String"
+      }
+    }
+  },
+  "shareTitle": "Save to Everslot",
+  "shareAsTask": "Task",
+  "shareToList": "List",
+  "shareAttach": "Attach",
+  "shareUnder": "Under",
+  "shareTopLevel": "Top level",
+  "shareFindItem": "Find a task or item",
+  "shareSaved": "Saved to Everslot",
+  "shareFilesTitle": "{count, plural, =1{1 file} other{{count} files}}",
+  "shareItemCount": "{count, plural, =1{1 item will be added} other{{count} items will be added}}",
+  "@shareFilesTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@shareItemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shareNewList": "New list “{title}”",
+  "@shareNewList": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "icsSection": "Calendar files",
+  "icsImportFile": "Import a calendar file (.ics)",
+  "icsImportHint": "From Google Calendar, Apple Calendar, Outlook…",
+  "icsExport": "Export to a calendar file",
+  "icsExportHint": "Share your planned tasks as calendar events",
+  "icsExportTask": "Add to calendar (.ics)",
+  "icsImportTitle": "Import calendar",
+  "icsNothing": "No events in this file",
+  "icsRepeats": "Repeats",
+  "icsAlreadyImported": "Already imported",
+  "icsRepeatUnsupported": "Repeat not supported — imported once",
+  "icsChanges": "{count, plural, =1{1 change} other{{count} changes}}",
+  "icsImportCount": "{count, plural, =0{Import} =1{Import 1 event} other{Import {count} events}}",
+  "icsImported": "{count, plural, =1{1 event imported} other{{count} events imported}}",
+  "icsNextDays": "{count, plural, =1{Today} other{Next {count} days}}",
+  "@icsChanges": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@icsImportCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@icsImported": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@icsNextDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deviceCalSection": "Device calendars",
+  "deviceCalAllow": "Show events from your calendars",
+  "deviceCalPrimer": "Google, iCloud or work calendars on this device appear read-only next to your plan. Nothing is copied or uploaded.",
+  "deviceCalDenied": "Calendar access is off — allow it in the system settings",
+  "deviceCalNone": "No calendars on this device",
+  "deviceCalHint": "Turn on “Device calendars” in a planner view’s settings to see them. Busy events count as taken time when looking for free slots.",
+  "healthLink": "Log automatically from Health",
+  "healthSteps": "Steps",
+  "healthWorkout": "Workout minutes",
+  "healthMindful": "Mindful minutes",
+  "healthSleep": "Hours of sleep",
+  "healthWater": "Water",
+  "healthPrimerTitle": "Use your health data?",
+  "healthPrimerBody": "Everslot will read your {metric} from Apple Health or Health Connect to log this habit for you. It only reads, never writes, and nothing leaves your device except the daily totals saved on the habit. You can turn it off anytime.",
+  "healthPrimerContinue": "Continue",
+  "healthDenied": "Health access was not granted",
+  "@healthPrimerBody": {
+    "placeholders": {
+      "metric": {
+        "type": "String"
+      }
+    }
+  }
 }

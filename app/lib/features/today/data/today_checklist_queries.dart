@@ -42,6 +42,22 @@ class TodayChecklistQueries {
       .watch()
       .map((rows) => [for (final r in rows) _map(r)]);
 
+  /// Items completed in `[from, to)` (Today progress header, T8.1.11).
+  Stream<int> watchCompletedBetween(DateTime from, DateTime to) => _db
+      .customSelect(
+        'SELECT COUNT(*) AS n FROM checklist_items i JOIN checklists c ON c.id = i.checklist_id '
+        "WHERE i.user_id = ? AND i.deleted_at IS NULL AND c.deleted_at IS NULL AND i.status = 'completed' "
+        'AND i.completed_at >= ? AND i.completed_at < ?',
+        variables: [
+          Variable<String>(_userId()),
+          Variable<String>(from.toUtc().toIso8601String()),
+          Variable<String>(to.toUtc().toIso8601String()),
+        ],
+        readsFrom: {_db.checklistItems, _db.checklists},
+      )
+      .watchSingle()
+      .map((r) => r.read<int>('n'));
+
   static TodayChecklistItem _map(QueryRow r) {
     final due = r.readNullable<String>('due');
     return TodayChecklistItem(

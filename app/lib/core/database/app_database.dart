@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:everslot/core/database/database_encryption.dart';
 import 'package:everslot/core/database/search_index.dart';
 import 'package:everslot/core/database/tables/tables.dart';
 
@@ -64,11 +65,23 @@ class AppDatabase extends _$AppDatabase {
   /// In-memory database for tests.
   factory AppDatabase.forTesting(QueryExecutor executor) => AppDatabase(executor);
 
-  static QueryExecutor _openConnection() =>
-      driftDatabase(name: 'everslot', native: const DriftNativeOptions(shareAcrossIsolates: true));
+  /// Opens `everslot.sqlite`, with its key when the file is encrypted (T8.3.15).
+  static QueryExecutor _openConnection() => DatabaseConnection.delayed(
+    Future(() async {
+      final key = await DatabaseEncryption().keyForOpen();
+      return driftDatabase(
+        name: 'everslot',
+        native: DriftNativeOptions(
+          shareAcrossIsolates: true,
+          // Sent to the database isolate: captures only the passphrase string.
+          setup: key == null ? null : (db) => db.execute(DatabaseCipher.keyPragma(key)),
+        ),
+      );
+    }),
+  );
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -99,12 +112,25 @@ class AppDatabase extends _$AppDatabase {
       if (from < 4) {
         await m.addColumn(insightState, insightState.payload);
       }
+      // v5: inbox entries join the search index (T8.1.14).
+      if (from < 5) {
+        for (final statement in [...searchIndexStatements, ...SearchIndexSchema.rebuildStatements]) {
+          await customStatement(statement);
+        }
+      }
+      // v6: imported calendar events keep their UID (T8.2.12).
+      if (from < 6 && !await _hasColumn('tasks', 'external_uid')) {
+        await m.addColumn(tasks, tasks.externalUid);
+      }
     },
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = OFF');
       await customStatement('PRAGMA journal_mode = WAL');
     },
   );
+
+  Future<bool> _hasColumn(String table, String column) async =>
+      (await customSelect('PRAGMA table_info($table)').get()).any((r) => r.read<String>('name') == column);
 
   /// Secondary indexes for the hot queries of each feature.
   static const localIndexes = <String>[

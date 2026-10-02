@@ -10,6 +10,84 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String get a11yHaptics => 'الاستجابة اللمسية';
+
+  @override
+  String get a11yHapticsHint => 'اهتزازات عند المحاذاة والرفع والإكمال';
+
+  @override
+  String get a11yHighContrast => 'ألوان فئات عالية التباين';
+
+  @override
+  String get a11yHighContrastHint => 'مربعات وألوان أقوى يسهل التمييز بينها';
+
+  @override
+  String get a11yLargeTable => 'نص أكبر في جدول الأسبوع';
+
+  @override
+  String get a11yLargeTableHint => 'عناوين وأوقات أكبر في مربعات المخطط';
+
+  @override
+  String get a11yReduceMotion => 'تقليل الحركة';
+
+  @override
+  String get a11yReduceMotionHint => 'رسوم متحركة أقل حتى إن سمح بها جهازك';
+
+  @override
+  String get a11yStatusLabels => 'إظهار تسميات الحالة دائمًا';
+
+  @override
+  String get a11yStatusLabelsHint => 'الحالة بالكلمات، لا بالألوان والأيقونات فقط';
+
+  @override
+  String get a11ySystemHint => 'حجم النص والخط العريض وقارئات الشاشة تتبع إعدادات جهازك.';
+
+  @override
+  String get aboutContact => 'التواصل مع الدعم';
+
+  @override
+  String get aboutHealthBody =>
+      'مراحل متتبع الإقلاع والتوفير والتقديرات الصحية هي معلومات عامة للصحة العامة مبنية على متوسطات سكانية (منظمة الصحة العالمية، NHS، CDC، الجمعية الأمريكية للسرطان). ليست نصيحة طبية ولا تغني عن أخصائي رعاية صحية. إن كنت تحاول الإقلاع عن مادة ما، فتحدث إلى طبيبك أو خط مساعدة محلي.';
+
+  @override
+  String get aboutHealthTitle => 'معلومات صحية';
+
+  @override
+  String get aboutHelp => 'المساعدة';
+
+  @override
+  String get aboutHelpCenter => 'المساعدة والأسئلة الشائعة';
+
+  @override
+  String get aboutLegal => 'الشؤون القانونية';
+
+  @override
+  String get aboutLegalese => 'مبني باستخدام Flutter وبرمجيات مفتوحة المصدر.';
+
+  @override
+  String get aboutLicenses => 'تراخيص البرمجيات مفتوحة المصدر';
+
+  @override
+  String get aboutPrivacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get aboutRate => 'قيّم Everslot';
+
+  @override
+  String get aboutRateHint => 'يساعد التقييم الآخرين على إيجاد التطبيق';
+
+  @override
+  String get aboutTagline => 'امتلك كل خانة من يومك';
+
+  @override
+  String get aboutTerms => 'شروط الاستخدام';
+
+  @override
+  String aboutVersion(String version) {
+    return 'الإصدار $version';
+  }
+
+  @override
   String get actionAdd => 'إضافة';
 
   @override
@@ -315,6 +393,51 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get activityUnscheduled => 'نُقل إلى المهام غير المجدولة';
+
+  @override
+  String appLockAfterMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes دقيقة',
+      many: '$minutes دقيقة',
+      few: '$minutes دقائق',
+      two: 'دقيقتان',
+      one: 'دقيقة واحدة',
+      zero: '$minutes دقيقة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get appLockBody => 'استخدم بصمتك أو وجهك أو رمز الجهاز للمتابعة.';
+
+  @override
+  String get appLockEnable => 'قفل التطبيق';
+
+  @override
+  String get appLockEnableHint => 'طلب المصادقة البيومترية أو رمز الجهاز عند فتح Everslot';
+
+  @override
+  String get appLockImmediately => 'فورًا';
+
+  @override
+  String get appLockReason => 'فتح قفل Everslot';
+
+  @override
+  String get appLockSection => 'قفل التطبيق';
+
+  @override
+  String get appLockTimeout => 'القفل بعد';
+
+  @override
+  String get appLockTitle => 'Everslot مقفل';
+
+  @override
+  String get appLockUnlock => 'فتح القفل';
+
+  @override
+  String get appLockUnsupported => 'اضبط قفل الشاشة على هذا الجهاز أولًا.';
 
   @override
   String get appName => 'Everslot';
@@ -2868,9 +2991,199 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get dataImportBody => 'استعد نسخة احتياطية من Everslot (JSON، أو ملف zip مع المرفقات).';
+
+  @override
+  String dataImportConflictsHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'احتُفظ بـ$count عنصر عُدّل هنا بعد النسخة.',
+      many: 'احتُفظ بـ$count عنصرًا عُدّل هنا بعد النسخة.',
+      few: 'احتُفظ بـ$count عناصر عُدّلت هنا بعد النسخة.',
+      two: 'احتُفظ بعنصرين عُدّلا هنا بعد النسخة.',
+      one: 'احتُفظ بعنصر واحد عُدّل هنا بعد النسخة.',
+      zero: 'لم يُحتفظ بأي عنصر.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dataImportCopy => 'نسخ';
+
+  @override
+  String get dataImportCopyHint => 'يضيف كل شيء كعناصر جديدة دون المساس بما لديك.';
+
+  @override
+  String dataImportCountKept(int count) {
+    return '$count محفوظ';
+  }
+
+  @override
+  String dataImportCountNew(int count) {
+    return '$count جديد';
+  }
+
+  @override
+  String dataImportCountSkipped(int count) {
+    return '$count متجاوَز';
+  }
+
+  @override
+  String dataImportCountUnchanged(int count) {
+    return '$count دون تغيير';
+  }
+
+  @override
+  String dataImportCountUpdated(int count) {
+    return '$count محدَّث';
+  }
+
+  @override
+  String dataImportDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم استيراد $count عنصر',
+      many: 'تم استيراد $count عنصرًا',
+      few: 'تم استيراد $count عناصر',
+      two: 'تم استيراد عنصرين',
+      one: 'تم استيراد عنصر واحد',
+      zero: 'لا شيء للاستيراد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dataImportErrorCsv => 'لا يمكن استيراد ملفات الجداول (CSV). استخدم نسخة Everslot الاحتياطية (JSON).';
+
+  @override
+  String get dataImportErrorNotExport => 'هذا الملف ليس نسخة احتياطية من Everslot.';
+
+  @override
+  String get dataImportErrorVersion => 'هذه النسخة من إصدار أحدث أو غير معروف من Everslot.';
+
+  @override
+  String get dataImportFailed => 'فشل الاستيراد. لم يُكتب شيء جزئيًا؛ حاول مجددًا.';
+
+  @override
+  String get dataImportKindAttachments => 'المرفقات';
+
+  @override
+  String get dataImportKindCategories => 'الفئات والوسوم';
+
+  @override
+  String get dataImportKindHabitLogs => 'التسجيلات';
+
+  @override
+  String get dataImportKindHabits => 'العادات ومتتبعات الإقلاع';
+
+  @override
+  String get dataImportKindInbox => 'الوارد';
+
+  @override
+  String get dataImportKindItems => 'عناصر القوائم';
+
+  @override
+  String get dataImportKindLists => 'القوائم';
+
+  @override
+  String get dataImportKindOccurrences => 'سجل المهام';
+
+  @override
+  String get dataImportKindOther => 'بيانات أخرى';
+
+  @override
+  String get dataImportKindSettings => 'الإعدادات';
+
+  @override
+  String get dataImportKindTasks => 'المهام';
+
+  @override
+  String get dataImportPick => 'اختر ملف النسخة الاحتياطية';
+
+  @override
+  String get dataImportReplaceNewer => 'استبدال التعديلات الأحدث على هذا الجهاز';
+
+  @override
+  String get dataImportReplaceNewerHint => 'استخدم النسخة الاحتياطية حتى إن كان لهذا الجهاز تعديل لاحق.';
+
+  @override
+  String get dataImportRestore => 'استعادة';
+
+  @override
+  String get dataImportRestoreHint => 'الحساب نفسه: يعيد العناصر؛ والأحدث من كل عنصر هو الذي يبقى.';
+
+  @override
+  String get dataImportRestoreOtherAccount => 'فقط للنسخ الاحتياطية من هذا الحساب.';
+
+  @override
+  String get dataImportRunCopy => 'استيراد نسخة';
+
+  @override
+  String get dataImportRunRestore => 'استعادة';
+
+  @override
+  String get dataImportTitle => 'الاستيراد';
+
+  @override
   String deletedSnack(String item) {
     return 'تم حذف $item';
   }
+
+  @override
+  String get demoDone => 'أُنشئت البيانات التجريبية';
+
+  @override
+  String get demoGenerate => 'إنشاء بيانات تجريبية';
+
+  @override
+  String get demoGenerateHint => 'ستة أشهر من الخطط والقوائم والعادات ومتتبع إقلاع — الوضع المحلي فقط';
+
+  @override
+  String get demoOnlyLocal => 'البيانات التجريبية متاحة في الوضع المحلي فقط، حتى لا يصل شيء إلى حساب سحابي.';
+
+  @override
+  String get demoRemove => 'حذف البيانات التجريبية';
+
+  @override
+  String get demoRemoveHint => 'ينقل كل ما أُنشئ إلى المهملات';
+
+  @override
+  String get demoRemoved => 'حُذفت البيانات التجريبية';
+
+  @override
+  String get demoTaskCallParents => 'الاتصال بالوالدين';
+
+  @override
+  String get demoTaskDeepWork => 'عمل مركّز';
+
+  @override
+  String get demoTaskDentist => 'طبيب الأسنان';
+
+  @override
+  String get demoTaskEmails => 'تفريغ البريد الوارد';
+
+  @override
+  String get demoTaskGroceries => 'التسوق';
+
+  @override
+  String get demoTaskGym => 'النادي الرياضي';
+
+  @override
+  String get demoTaskLaundry => 'الغسيل';
+
+  @override
+  String get demoTaskPlanWeek => 'تخطيط الأسبوع';
+
+  @override
+  String get demoTaskReview => 'المراجعة الفصلية';
+
+  @override
+  String get demoTaskStandup => 'اجتماع الفريق اليومي';
+
+  @override
+  String get demoTitle => 'بيانات تجريبية';
 
   @override
   String get devComponentGallery => 'معرض المكوّنات';
@@ -3140,6 +3453,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String get devZoneReset => 'استخدام منطقة الجهاز الحقيقية';
 
   @override
+  String get deviceCalAllow => 'عرض أحداث تقويماتك';
+
+  @override
+  String get deviceCalDenied => 'الوصول إلى التقويم متوقف — اسمح به من إعدادات النظام';
+
+  @override
+  String get deviceCalHint =>
+      'فعّل «تقويمات الجهاز» في إعدادات عرض المخطط لرؤيتها. تُحسب الأحداث المشغولة كوقت محجوز عند البحث عن فترات فارغة.';
+
+  @override
+  String get deviceCalNone => 'لا توجد تقويمات على هذا الجهاز';
+
+  @override
+  String get deviceCalPrimer =>
+      'تظهر تقويمات Google أو iCloud أو العمل على هذا الجهاز للقراءة فقط بجانب خطتك. لا يُنسخ أو يُرفع أي شيء.';
+
+  @override
+  String get deviceCalSection => 'تقويمات الجهاز';
+
+  @override
   String durationDaysShort(int days) {
     String _temp0 = intl.Intl.pluralLogic(
       days,
@@ -3289,6 +3622,231 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get exportZipBundle => 'مشاركة كملف zip (مع الملفات)';
+
+  @override
+  String extCountCheckIns(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تسجيل',
+      many: '$count تسجيلًا',
+      few: '$count تسجيلات',
+      two: 'تسجيلان',
+      one: 'تسجيل واحد',
+      zero: 'لا تسجيلات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extCountHabits(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عادة',
+      many: '$count عادة',
+      few: '$count عادات',
+      two: 'عادتان',
+      one: 'عادة واحدة',
+      zero: 'لا عادات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extCountItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر',
+      many: '$count عنصرًا',
+      few: '$count عناصر',
+      two: 'عنصران',
+      one: 'عنصر واحد',
+      zero: 'لا عناصر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extCountLists(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count قائمة',
+      many: '$count قائمة',
+      few: '$count قوائم',
+      two: 'قائمتان',
+      one: 'قائمة واحدة',
+      zero: 'لا قوائم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extCountTasks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مهمة',
+      many: '$count مهمة',
+      few: '$count مهام',
+      two: 'مهمتان',
+      one: 'مهمة واحدة',
+      zero: 'لا مهام',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extImportDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم استيراد $count عنصر',
+      many: 'تم استيراد $count عنصرًا',
+      few: 'تم استيراد $count عناصر',
+      two: 'تم استيراد عنصرين',
+      one: 'تم استيراد عنصر واحد',
+      zero: 'لم يُستورد شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get extImportNothing => 'لا شيء للاستيراد في هذا الملف.';
+
+  @override
+  String get extImportRun => 'استيراد';
+
+  @override
+  String get extImportSubtitle => 'Loop Habit Tracker، Google Keep، Todoist، TickTick، نص';
+
+  @override
+  String get extImportTitle => 'الاستيراد من تطبيق آخر';
+
+  @override
+  String extImportWrongFile(String source) {
+    return 'لا يبدو هذا الملف تصديرًا من $source.';
+  }
+
+  @override
+  String extNoteAttachment(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مرفق غير موجود',
+      many: '$count مرفقًا غير موجود',
+      few: '$count مرفقات غير موجودة',
+      two: 'مرفقان غير موجودين',
+      one: 'مرفق واحد غير موجود في الأرشيف',
+      zero: 'لا شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteCompleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تُركت $count مهمة مكتملة',
+      many: 'تُركت $count مهمة مكتملة',
+      few: 'تُركت $count مهام مكتملة',
+      two: 'تُركت مهمتان مكتملتان',
+      one: 'تُركت مهمة مكتملة واحدة',
+      zero: 'لا شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteFrequency(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تكرار مُقرَّب',
+      many: '$count تكرارًا مُقرَّبًا',
+      few: '$count تكرارات مُقرَّبة',
+      two: 'تكرارا عادتين مُقرَّبان',
+      one: 'تكرار عادة واحد مُقرَّب',
+      zero: 'لا تقريب',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteRepeat(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تكرار غير مفهوم',
+      many: '$count تكرارًا غير مفهوم',
+      few: '$count تكرارات غير مفهومة',
+      two: 'تكراران غير مفهومين',
+      one: 'تكرار واحد غير مفهوم (استُورد مرة واحدة)',
+      zero: 'لا شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteTrashed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تُركت $count ملاحظة من المهملات',
+      many: 'تُركت $count ملاحظة من المهملات',
+      few: 'تُركت $count ملاحظات من المهملات',
+      two: 'تُركت ملاحظتان من المهملات',
+      one: 'تُركت ملاحظة واحدة من المهملات',
+      zero: 'لا شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get extSourceKeepHint => 'Google Takeout › Keep (zip)';
+
+  @override
+  String get extSourceLoopHint => 'الإعدادات › التصدير بصيغة CSV (zip) أو نسخة احتياطية (.db)';
+
+  @override
+  String get extSourceText => 'مخطط نصي أو Markdown';
+
+  @override
+  String get extSourceTextHint => 'تصبح الأسطر المزاحة عناصر فرعية (.txt، .md)';
+
+  @override
+  String get extSourceTickTickHint => 'الإعدادات › النسخ الاحتياطي (CSV)';
+
+  @override
+  String get extSourceTodoistHint => 'المشروع › التصدير كقالب (CSV)';
+
+  @override
+  String get feedbackDiagnosticsHint =>
+      'إصدارات التطبيق والنظام وطراز الجهاز وحالة المزامنة ورموز الأخطاء الأخيرة — دون محتواك أبدًا';
+
+  @override
+  String get feedbackHint => 'أفكار ومشكلات وأسئلة';
+
+  @override
+  String get feedbackIncludeDiagnostics => 'إرفاق بيانات التشخيص';
+
+  @override
+  String get feedbackMessage => 'رسالتك';
+
+  @override
+  String get feedbackPreview => 'عرض ما سيُرفق بالضبط';
+
+  @override
+  String get feedbackSend => 'إرسال';
+
+  @override
+  String get feedbackSubject => 'ملاحظات حول Everslot';
+
+  @override
+  String get feedbackTitle => 'إرسال ملاحظات';
 
   @override
   String filterActiveCount(int count) {
@@ -5193,6 +5751,130 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsZoneFloating => 'تتبع الأيام منطقتك الزمنية الحالية';
 
   @override
+  String get healthDenied => 'لم يُمنح الوصول إلى البيانات الصحية';
+
+  @override
+  String get healthLink => 'التسجيل تلقائيًا من الصحة';
+
+  @override
+  String get healthMindful => 'دقائق اليقظة';
+
+  @override
+  String healthPrimerBody(String metric) {
+    return 'سيقرأ Everslot بيانات «$metric» من Apple Health أو Health Connect لتسجيل هذه العادة نيابة عنك. للقراءة فقط، ولا يُحفظ إلا مجموع اليوم على العادة. يمكنك الإيقاف في أي وقت.';
+  }
+
+  @override
+  String get healthPrimerContinue => 'متابعة';
+
+  @override
+  String get healthPrimerTitle => 'استخدام بياناتك الصحية؟';
+
+  @override
+  String get healthSleep => 'ساعات النوم';
+
+  @override
+  String get healthSteps => 'الخطوات';
+
+  @override
+  String get healthWater => 'الماء';
+
+  @override
+  String get healthWorkout => 'دقائق التمرين';
+
+  @override
+  String get icsAlreadyImported => 'مستورد مسبقًا';
+
+  @override
+  String icsChanges(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تغيير',
+      many: '$count تغييرًا',
+      few: '$count تغييرات',
+      two: 'تغييران',
+      one: 'تغيير واحد',
+      zero: 'لا تغييرات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get icsExport => 'تصدير إلى ملف تقويم';
+
+  @override
+  String get icsExportHint => 'شارك مهامك المخططة كأحداث تقويم';
+
+  @override
+  String get icsExportTask => 'إضافة إلى التقويم (.ics)';
+
+  @override
+  String icsImportCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'استيراد $count حدث',
+      many: 'استيراد $count حدثًا',
+      few: 'استيراد $count أحداث',
+      two: 'استيراد حدثين',
+      one: 'استيراد حدث واحد',
+      zero: 'استيراد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get icsImportFile => 'استيراد ملف تقويم (.ics)';
+
+  @override
+  String get icsImportHint => 'من تقويم Google أو Apple أو Outlook…';
+
+  @override
+  String get icsImportTitle => 'استيراد التقويم';
+
+  @override
+  String icsImported(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم استيراد $count حدث',
+      many: 'تم استيراد $count حدثًا',
+      few: 'تم استيراد $count أحداث',
+      two: 'تم استيراد حدثين',
+      one: 'تم استيراد حدث واحد',
+      zero: 'لم يُستورد شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String icsNextDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'الـ$count يوم القادمة',
+      many: 'الـ$count يومًا القادمة',
+      few: 'الأيام الـ$count القادمة',
+      two: 'اليومان القادمان',
+      one: 'اليوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get icsNothing => 'لا أحداث في هذا الملف';
+
+  @override
+  String get icsRepeatUnsupported => 'التكرار غير مدعوم — استيراد مرة واحدة';
+
+  @override
+  String get icsRepeats => 'متكرر';
+
+  @override
+  String get icsSection => 'ملفات التقويم';
+
+  @override
   String get importAction => 'استيراد';
 
   @override
@@ -5285,6 +5967,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get integrationsActionFailed => 'تعذّر إتمام هذا الإجراء.';
+
+  @override
+  String integrationsCravingLogged(String habit) {
+    return 'تم تسجيل الرغبة: $habit';
+  }
 
   @override
   String integrationsHabitLogged(String habit) {
@@ -8320,6 +9007,31 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingLanguage => 'اللغة';
 
   @override
+  String get onboardingNotificationsLater =>
+      'يمكنك تشغيل التذكيرات أو إيقافها لكل عنصر، وتغيير كل شيء من الإعدادات › الإشعارات.';
+
+  @override
+  String get onboardingNotificationsOn => 'الإشعارات مفعّلة';
+
+  @override
+  String get onboardingRerun => 'إعادة الإعداد';
+
+  @override
+  String get onboardingRerunSubtitle => 'اللغة والأسبوع والإشعارات والعناصر الجاهزة';
+
+  @override
+  String get onboardingStarterRoutine => 'روتين الصباح';
+
+  @override
+  String get onboardingStartersBody => 'اختر بعض العناصر الجاهزة. يمكنك تعديلها أو حذفها لاحقًا.';
+
+  @override
+  String get onboardingStartersNone => 'لا اقتراحات لاختياراتك — كل شيء جاهز.';
+
+  @override
+  String get onboardingStartersTitle => 'هل تبدأ بشيء جاهز؟';
+
+  @override
   String onboardingStepOf(int current, int total) {
     return 'الخطوة $current من $total';
   }
@@ -8331,7 +9043,150 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingTitle => 'إعداد Everslot';
 
   @override
+  String get onboardingTrackBody => 'سنقترح عليك بعض العناصر للبدء. تبقى كل الأقسام متاحة.';
+
+  @override
+  String get onboardingTrackHabits => 'العادات اليومية والأهداف';
+
+  @override
+  String get onboardingTrackLists => 'قوائم المهام والتسوق والمشاريع';
+
+  @override
+  String get onboardingTrackPlan => 'المهام والفترات الزمنية والروتين';
+
+  @override
+  String get onboardingTrackQuit => 'التدخين، الكحول، الكافيين…';
+
+  @override
+  String get onboardingTrackQuitTitle => 'الإقلاع أو التقليل';
+
+  @override
+  String get onboardingTrackTitle => 'ماذا تريد أن تتابع؟';
+
+  @override
   String get onboardingWeekStart => 'يبدأ الأسبوع يوم';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'بضعة أسئلة سريعة ليتلاءم Everslot مع طريقة حياتك. يمكنك تخطي أي شيء، وكل شيء يبقى في الإعدادات.';
+
+  @override
+  String get onboardingWelcomeHabits => 'ابنِ عادات وأقلع عمّا يعيقك';
+
+  @override
+  String get onboardingWelcomeInsights => 'إحصاءات مفصّلة عن كل ما تفعله';
+
+  @override
+  String get onboardingWelcomeLists => 'قوائم بعناصر متداخلة وحالات';
+
+  @override
+  String get onboardingWelcomePlan => 'خطط لأسبوعك بخانات بأي مدة';
+
+  @override
+  String get onboardingWelcomeTitle => 'امتلك كل خانة من يومك';
+
+  @override
+  String get paletteGoCategories => 'إدارة الفئات';
+
+  @override
+  String get paletteGoDay => 'فتح عرض اليوم';
+
+  @override
+  String get paletteGoHabits => 'فتح العادات';
+
+  @override
+  String get paletteGoInbox => 'فتح الوارد';
+
+  @override
+  String get paletteGoInsights => 'فتح الإحصاءات';
+
+  @override
+  String paletteGoInsightsScope(String section) {
+    return 'فتح الإحصاءات › $section';
+  }
+
+  @override
+  String get paletteGoLists => 'فتح القوائم';
+
+  @override
+  String get paletteGoNextWeek => 'الانتقال إلى الأسبوع القادم';
+
+  @override
+  String get paletteGoNotificationSettings => 'فتح الإعدادات › الإشعارات';
+
+  @override
+  String get paletteGoPreviousWeek => 'الانتقال إلى الأسبوع السابق';
+
+  @override
+  String get paletteGoSearch => 'البحث في كل شيء';
+
+  @override
+  String get paletteGoSettings => 'فتح الإعدادات';
+
+  @override
+  String get paletteGoTags => 'إدارة الوسوم';
+
+  @override
+  String get paletteGoThisWeek => 'الانتقال إلى هذا الأسبوع';
+
+  @override
+  String get paletteGoToday => 'الانتقال إلى اليوم';
+
+  @override
+  String get paletteGoTrash => 'فتح المهملات';
+
+  @override
+  String get paletteGroupActions => 'إجراءات';
+
+  @override
+  String get paletteGroupCreate => 'إنشاء';
+
+  @override
+  String get paletteGroupGo => 'انتقال إلى';
+
+  @override
+  String get paletteHint => 'اكتب أمرًا أو مهمة بتاريخ';
+
+  @override
+  String get paletteNewHabit => 'عادة جديدة';
+
+  @override
+  String get paletteNewList => 'قائمة جديدة';
+
+  @override
+  String get paletteNewQuit => 'متتبع إقلاع جديد';
+
+  @override
+  String get paletteNewTask => 'مهمة جديدة';
+
+  @override
+  String paletteNewTaskAt(String title, String when) {
+    return 'مهمة جديدة «$title» · $when';
+  }
+
+  @override
+  String get paletteNoMatch => 'لا يوجد أمر مطابق';
+
+  @override
+  String get palettePause1h => 'إيقاف الإشعارات ساعة';
+
+  @override
+  String get palettePauseTomorrow => 'إيقاف الإشعارات حتى الغد';
+
+  @override
+  String get palettePaused => 'تم إيقاف الإشعارات مؤقتًا';
+
+  @override
+  String get paletteResume => 'استئناف الإشعارات';
+
+  @override
+  String get paletteResumed => 'تم استئناف الإشعارات';
+
+  @override
+  String get paletteSyncNow => 'المزامنة الآن';
+
+  @override
+  String get paletteTitle => 'الأوامر';
 
   @override
   String get pickerColor => 'اللون';
@@ -8419,6 +9274,46 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get priorityUrgent => 'عاجلة';
+
+  @override
+  String get privacyAppSwitcher => 'إخفاء في مبدّل التطبيقات';
+
+  @override
+  String get privacyAppSwitcherHint => 'تغطية الشاشة في التطبيقات الأخيرة ومنع لقطات الشاشة';
+
+  @override
+  String get privacyCrashReports => 'إرسال تقارير الأعطال';
+
+  @override
+  String get privacyCrashReportsHint => 'تفاصيل مجهولة تساعد على إصلاح الأخطاء';
+
+  @override
+  String get privacyDiagnostics => 'التشخيص';
+
+  @override
+  String get privacyEncryptDb => 'تشفير البيانات على هذا الجهاز';
+
+  @override
+  String get privacyEncryptDbConfirmBody =>
+      'يُطبَّق التغيير عند فتح Everslot في المرة القادمة ويستغرق بضع ثوانٍ. لا تتأثر بياناتك في السحابة.';
+
+  @override
+  String get privacyEncryptDbConfirmOff => 'إيقاف تشفير البيانات على هذا الجهاز؟';
+
+  @override
+  String get privacyEncryptDbConfirmOn => 'تشفير البيانات على هذا الجهاز؟';
+
+  @override
+  String get privacyEncryptDbHint => 'لا يمكن قراءة قاعدة البيانات المحلية دون المفتاح الآمن لهذا الجهاز';
+
+  @override
+  String get privacyEncryptDbPendingOff => 'ينتهي التشفير عند فتح Everslot في المرة القادمة';
+
+  @override
+  String get privacyEncryptDbPendingOn => 'يبدأ التشفير عند فتح Everslot في المرة القادمة';
+
+  @override
+  String get privacyHideContentHint => 'تعرض الإشعارات «تذكير Everslot» فقط';
 
   @override
   String get pvActualColumn => 'الفعلي';
@@ -9769,6 +10664,52 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pvZoomSemantic => 'دلالي';
 
   @override
+  String quickAddAdded(String title) {
+    return 'تمت إضافة «$title»';
+  }
+
+  @override
+  String get quickAddHabit => 'عادة';
+
+  @override
+  String get quickAddItem => 'عنصر قائمة';
+
+  @override
+  String get quickAddList => 'قائمة';
+
+  @override
+  String get quickAddLog => 'تسجيل / رغبة';
+
+  @override
+  String get quickAddMore => 'خيارات أكثر';
+
+  @override
+  String get quickAddPickHabit => 'عادة أو متتبع';
+
+  @override
+  String get quickAddPickList => 'إضافة إلى القائمة';
+
+  @override
+  String get quickAddQuit => 'متتبع إقلاع';
+
+  @override
+  String get quickAddSmart => 'فهم التواريخ';
+
+  @override
+  String get quickAddSmartHint => 'مثال: Gym tomorrow 7pm for 1h every Mon #health';
+
+  @override
+  String get quickAddTask => 'مهمة';
+
+  @override
+  String get quickAddTitleHint => 'ماذا؟';
+
+  @override
+  String quickAddUnknownCategory(String name) {
+    return 'لا توجد فئة «$name»';
+  }
+
+  @override
   String get quitAddUse => '+1';
 
   @override
@@ -11110,6 +12051,125 @@ class AppLocalizationsAr extends AppLocalizations {
   String get savedSnack => 'تم الحفظ';
 
   @override
+  String get searchAny => 'الكل';
+
+  @override
+  String get searchCategory => 'الفئة';
+
+  @override
+  String get searchCheckIn => 'تسجيل';
+
+  @override
+  String get searchClearFilters => 'مسح عوامل التصفية';
+
+  @override
+  String get searchComplete => 'إنجاز العنصر';
+
+  @override
+  String get searchDates => 'التواريخ';
+
+  @override
+  String get searchDatesFrom => 'من';
+
+  @override
+  String get searchDatesMonth => 'آخر 30 يومًا';
+
+  @override
+  String get searchDatesTo => 'إلى';
+
+  @override
+  String get searchDatesToday => 'اليوم';
+
+  @override
+  String get searchDatesWeek => 'آخر 7 أيام';
+
+  @override
+  String get searchHint => 'ابحث في كل شيء';
+
+  @override
+  String get searchIntro => 'المهام والقوائم والعناصر والعادات والملاحظات والوارد';
+
+  @override
+  String searchItemCompleted(String title) {
+    return 'تم إنجاز «$title»';
+  }
+
+  @override
+  String get searchKindChecklist => 'القوائم';
+
+  @override
+  String get searchKindHabit => 'العادات';
+
+  @override
+  String get searchKindInbox => 'الوارد';
+
+  @override
+  String get searchKindItem => 'العناصر';
+
+  @override
+  String get searchKindLog => 'الملاحظات';
+
+  @override
+  String get searchKindTask => 'المهام';
+
+  @override
+  String searchNoResults(String query) {
+    return 'لا نتائج لـ «$query»';
+  }
+
+  @override
+  String get searchRecent => 'عمليات البحث الأخيرة';
+
+  @override
+  String get searchRemoveRecent => 'إزالة من عمليات البحث الأخيرة';
+
+  @override
+  String searchSeeAll(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'عرض الكل ($count)',
+      one: 'عرض نتيجة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get searchStatus => 'الحالة';
+
+  @override
+  String get searchStatusClosed => 'منجز أو مؤرشف';
+
+  @override
+  String get searchStatusOpen => 'مفتوح';
+
+  @override
+  String searchSyntaxBadValue(String value, String key) {
+    return '«$value» غير صالح لـ $key:';
+  }
+
+  @override
+  String get searchSyntaxHelp => 'صيغة البحث';
+
+  @override
+  String get searchSyntaxHelpBody =>
+      'اجمع الكلمات مع المرشحات:\n• \"عبارة مطابقة\"\n• status:waiting (todo، ongoing، waiting، blocked، done، cancelled، open، closed)\n• tag:عمل · cat:صحة\n• due:today · due:tomorrow · due:overdue · due:<7d · due:>2w · due:2026-10-15\n• is:recurring · is:open · is:done · is:archived\n• type:task (list، item، habit، note، inbox)';
+
+  @override
+  String get searchSyntaxNeedsWords => 'أضف كلمة للبحث بهذه المرشحات';
+
+  @override
+  String get searchSyntaxUnclosedQuote => 'علامة الاقتباس الختامية مفقودة';
+
+  @override
+  String searchSyntaxUnknownKey(String key) {
+    return 'عامل تصفية غير معروف «$key:» — استخدم status: أو tag: أو cat: أو due: أو is: أو type:';
+  }
+
+  @override
+  String get searchTag => 'الوسم';
+
+  @override
   String get settingsAbout => 'حول التطبيق';
 
   @override
@@ -11386,6 +12446,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String settingsInsightsWeekStartProfile(String day) {
     return 'مثل التطبيق ($day)';
   }
+
+  @override
+  String get settingsIntegrations => 'الأدوات والتكاملات';
+
+  @override
+  String get settingsIntegrationsSubtitle => 'أدوات الشاشة الرئيسية والاختصارات والمشاركة والتقويمات';
 
   @override
   String get settingsLanguage => 'اللغة';
@@ -11817,6 +12883,65 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsWeekStart => 'يبدأ الأسبوع يوم';
 
   @override
+  String get shareAsTask => 'مهمة';
+
+  @override
+  String get shareAttach => 'إرفاق';
+
+  @override
+  String shareFilesTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ملف',
+      many: '$count ملفًا',
+      few: '$count ملفات',
+      two: 'ملفان',
+      one: 'ملف واحد',
+      zero: 'لا ملفات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get shareFindItem => 'ابحث عن مهمة أو عنصر';
+
+  @override
+  String shareItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'سيُضاف $count عنصر',
+      many: 'سيُضاف $count عنصرًا',
+      few: 'سيُضاف $count عناصر',
+      two: 'سيُضاف عنصران',
+      one: 'سيُضاف عنصر واحد',
+      zero: 'لن يُضاف شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shareNewList(String title) {
+    return 'قائمة جديدة «$title»';
+  }
+
+  @override
+  String get shareSaved => 'تم الحفظ في Everslot';
+
+  @override
+  String get shareTitle => 'حفظ في Everslot';
+
+  @override
+  String get shareToList => 'قائمة';
+
+  @override
+  String get shareTopLevel => 'المستوى الأعلى';
+
+  @override
+  String get shareUnder => 'تحت';
+
+  @override
   String get shellCreate => 'إنشاء';
 
   @override
@@ -11836,6 +12961,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get shellQuickAdd => 'إضافة سريعة';
+
+  @override
+  String get shortcutLogCraving => 'تسجيل رغبة';
+
+  @override
+  String get shortcutLogHabit => 'تسجيل عادة';
+
+  @override
+  String get shortcutNewTask => 'مهمة جديدة';
+
+  @override
+  String get shortcutToday => 'اليوم';
 
   @override
   String get smartBlocked => 'محظور';
@@ -16959,6 +18096,260 @@ class AppLocalizationsAr extends AppLocalizations {
   String get templatesUse => 'استخدام القالب';
 
   @override
+  String timerSurfaceMore(String title, int count) {
+    return '$title (+$count)';
+  }
+
+  @override
+  String get timerSurfaceOver => 'تجاوز الوقت المخطط';
+
+  @override
+  String timerSurfacePlannedUntil(String time) {
+    return 'مخطط حتى $time';
+  }
+
+  @override
+  String get todayAllDay => 'طوال اليوم';
+
+  @override
+  String get todayAllHabitsDone => 'أنجزت كل العادات 🎉';
+
+  @override
+  String get todayBlockAgenda => 'خطة اليوم';
+
+  @override
+  String get todayBlockChecklists => 'القوائم';
+
+  @override
+  String get todayBlockHabits => 'العادات';
+
+  @override
+  String get todayBlockHidden => 'مخفي';
+
+  @override
+  String get todayBlockInbox => 'الإشعارات';
+
+  @override
+  String get todayBlockNowNext => 'الآن والتالي';
+
+  @override
+  String get todayBlockOverdue => 'متأخرة';
+
+  @override
+  String get todayBlockQuit => 'الإقلاع';
+
+  @override
+  String get todayCustomize => 'تخصيص اليوم';
+
+  @override
+  String todayDoneGroup(int count) {
+    return 'المنجزة ($count)';
+  }
+
+  @override
+  String get todayDueItems => 'مستحقة اليوم';
+
+  @override
+  String get todayEmptyAgenda => 'لا شيء مخطط اليوم';
+
+  @override
+  String get todayEmptyAgendaAction => 'خطط لمهمة';
+
+  @override
+  String get todayEmptyChecklists => 'ثبّت قائمة لتبقى هنا';
+
+  @override
+  String get todayEmptyChecklistsAction => 'فتح القوائم';
+
+  @override
+  String get todayEmptyHabits => 'لا عادات مستحقة اليوم';
+
+  @override
+  String get todayEmptyHabitsAction => 'أضف عادة';
+
+  @override
+  String get todayEmptyOverdue => 'لا شيء متأخر';
+
+  @override
+  String get todayEmptyQuit => 'تتبّع ما تريد الإقلاع عنه';
+
+  @override
+  String get todayEmptyQuitAction => 'ابدأ متتبع إقلاع';
+
+  @override
+  String get todayFollowUps => 'للمتابعة';
+
+  @override
+  String get todayGreetingAfternoon => 'مساء الخير';
+
+  @override
+  String get todayGreetingEvening => 'مساء الخير';
+
+  @override
+  String get todayGreetingMorning => 'صباح الخير';
+
+  @override
+  String todayHabitNextSlot(String time) {
+    return 'التالي في $time';
+  }
+
+  @override
+  String todayHabitStreak(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: 'سلسلة $count أيام', one: 'سلسلة يوم واحد');
+    return '$_temp0';
+  }
+
+  @override
+  String get todayHintGotIt => 'حسنًا';
+
+  @override
+  String get todayHintSwipe => 'اسحب مهمة لتعليمها كمنجزة أو تخطيها — يمكنك تغيير ذلك في التخصيص.';
+
+  @override
+  String todayInboxUnread(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count إشعارات غير مقروءة',
+      one: 'إشعار واحد غير مقروء',
+      zero: 'لا إشعارات غير مقروءة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayIncludeRecurring => 'تضمين المهام المتكررة';
+
+  @override
+  String get todayKeepWhenEmpty => 'إظهار عند الفراغ';
+
+  @override
+  String todayListProgress(int done, int total) {
+    return '$done من $total';
+  }
+
+  @override
+  String get todayLoadError => 'تعذّر تحميل هذا الجزء';
+
+  @override
+  String get todayLookback => 'فترة التأخر (أيام)';
+
+  @override
+  String get todayMarkAllDone => 'تعليم الكل كمنجز';
+
+  @override
+  String get todayNext => 'التالي';
+
+  @override
+  String get todayNothingNext => 'لا شيء آخر مخطط';
+
+  @override
+  String get todayNothingNow => 'لا شيء مجدول الآن';
+
+  @override
+  String get todayNow => 'الآن';
+
+  @override
+  String get todayOpenInbox => 'فتح الصندوق';
+
+  @override
+  String todayOverdueSince(String date) {
+    return '$date';
+  }
+
+  @override
+  String todayOverlapping(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '+$count متداخلة', one: '+1 متداخلة');
+    return '$_temp0';
+  }
+
+  @override
+  String get todayPinned => 'المثبتة';
+
+  @override
+  String todayProgressFocus(String time) {
+    return '$time تركيز';
+  }
+
+  @override
+  String todayProgressHabits(int done, int total) {
+    return '$done/$total عادات';
+  }
+
+  @override
+  String todayProgressItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عناصر منجزة',
+      one: 'عنصر واحد منجز',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String todayProgressTasks(int done, int total) {
+    return '$done/$total مهام';
+  }
+
+  @override
+  String todayQuitNextMilestone(String label) {
+    return 'التالي: $label';
+  }
+
+  @override
+  String todayQuitSaved(String amount) {
+    return 'تم توفير $amount';
+  }
+
+  @override
+  String todayQuitUsedToday(String amount) {
+    return '$amount اليوم';
+  }
+
+  @override
+  String get todayResetLayout => 'إعادة الضبط';
+
+  @override
+  String todayRolledOver(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نُقلت $count مهام إلى اليوم',
+      one: 'نُقلت مهمة واحدة إلى اليوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayShowCompleted => 'إظهار المهام المنجزة';
+
+  @override
+  String get todayShowHeader => 'ترويسة التقدم';
+
+  @override
+  String get todaySkipAll => 'تخطي الكل';
+
+  @override
+  String todayStartsIn(String time) {
+    return 'بعد $time';
+  }
+
+  @override
+  String get todaySwipeEnd => 'السحب نحو البداية';
+
+  @override
+  String get todaySwipeNone => 'لا شيء';
+
+  @override
+  String get todaySwipeStart => 'السحب نحو النهاية';
+
+  @override
+  String todayTimeLeft(String time) {
+    return 'متبقٍ $time';
+  }
+
+  @override
   String undoDoneSnack(String action) {
     return 'تم التراجع: $action';
   }
@@ -16995,4 +18386,73 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get voiceNoteTitle => 'ملاحظة صوتية';
+
+  @override
+  String get widgetAdd => 'إضافة';
+
+  @override
+  String get widgetAllDone => 'تم كل شيء لليوم';
+
+  @override
+  String get widgetCleanTime => 'مدة الامتناع';
+
+  @override
+  String get widgetHowToAndroid => 'المس الشاشة الرئيسية مطولًا، واختر الأدوات ثم Everslot.';
+
+  @override
+  String get widgetHowToIos => 'المس الشاشة الرئيسية مطولًا، ثم اضغط + وابحث عن Everslot.';
+
+  @override
+  String get widgetKindChecklist => 'قائمة';
+
+  @override
+  String get widgetKindChecklistHint => 'العناصر المفتوحة في أول قائمة مثبتة';
+
+  @override
+  String get widgetKindHabits => 'العادات';
+
+  @override
+  String get widgetKindHabitsHint => 'سجّل عادات اليوم دون فتح التطبيق';
+
+  @override
+  String get widgetKindQuit => 'مدة الامتناع';
+
+  @override
+  String get widgetKindQuitHint => 'عداد مباشر والمال الموفّر والمرحلة التالية';
+
+  @override
+  String get widgetKindToday => 'اليوم';
+
+  @override
+  String get widgetKindTodayHint => 'المهام التالية وما يجري الآن';
+
+  @override
+  String get widgetListDone => 'تم إنجاز كل العناصر';
+
+  @override
+  String get widgetNoHabits => 'لا عادات مستحقة اليوم';
+
+  @override
+  String get widgetNoList => 'ثبّت قائمة في Everslot لتظهر هنا';
+
+  @override
+  String get widgetNoQuit => 'أضف متتبع إقلاع في Everslot';
+
+  @override
+  String get widgetNothingLeft => 'لا شيء متبقٍ اليوم';
+
+  @override
+  String get widgetNow => 'الآن';
+
+  @override
+  String get widgetRefresh => 'تحديث الأدوات الآن';
+
+  @override
+  String get widgetRefreshed => 'تم تحديث الأدوات';
+
+  @override
+  String get widgetStale => 'افتح Everslot للتحديث';
+
+  @override
+  String get widgetsSection => 'أدوات الشاشة الرئيسية';
 }

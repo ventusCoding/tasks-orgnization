@@ -1,6 +1,10 @@
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/integrations/presentation/integrations_settings_page.dart';
 import 'package:everslot/features/notifications/presentation/notifications_settings_page.dart';
+import 'package:everslot/features/privacy/presentation/privacy_page.dart';
 import 'package:everslot/features/profile/presentation/account_page.dart';
+import 'package:everslot/features/settings/presentation/pages/about_page.dart';
+import 'package:everslot/features/settings/presentation/pages/accessibility_page.dart';
 import 'package:everslot/features/settings/presentation/pages/appearance_page.dart';
 import 'package:everslot/features/settings/presentation/pages/data_page.dart';
 import 'package:everslot/features/settings/presentation/pages/regional_page.dart';
@@ -43,14 +47,15 @@ class SettingsPageScreen extends StatelessWidget {
         appBar: AppBar(title: Text(l.notifSettingsTitle)),
         body: const NotificationsSettingsPage(embedded: true),
       ),
-      'accessibility' => PlaceholderScreen(title: l.settingsAccessibility),
+      'accessibility' => const AccessibilityPage(),
       'plan' => const PlanDefaultsPage(),
       'lists' => const ListsDefaultsPage(),
       'habits' => const HabitsDefaultsPage(),
       'insights' => const InsightsDefaultsPage(),
       'data' => const DataPage(),
-      'privacy' => PlaceholderScreen(title: l.settingsPrivacy),
-      'about' => PlaceholderScreen(title: l.settingsAbout),
+      'integrations' => const IntegrationsSettingsPage(),
+      'privacy' => const PrivacyPage(),
+      'about' => const AboutPage(),
       _ => Scaffold(
         appBar: AppBar(),
         body: EmptyState(icon: Icons.settings_suggest_outlined, title: l.settingsUnknownPage),

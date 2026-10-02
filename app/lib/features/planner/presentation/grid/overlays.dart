@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:collection/collection.dart';
 import 'package:everslot/design_system/design_system.dart';
@@ -9,6 +10,7 @@ import 'package:everslot/features/habits/application/check_in_service.dart';
 import 'package:everslot/features/habits/application/habit_day_view.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
+import 'package:everslot/features/integrations/domain/device_calendar.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/free_slots.dart';
 import 'package:everslot/features/planner/presentation/grid/engine/occupancy.dart';
@@ -25,8 +27,8 @@ import 'package:material_ui/material_ui.dart';
 // `habits` (timed habit slots, tap to check in), `checklistDue` (checklist items due in the range),
 // `freeSlots` (openings inside work hours, T3.7.04), `heat` (weekday × hour occupancy of the last
 // four weeks), `occupancy` (slot occupancy at the view's slot size, T6.3.20), `utilization` (day
-// header utilization bars, T6.3.20) and `deviceCalendars` (reserved for [8.2]: no data source yet,
-// the toggle is inert).
+// header utilization bars, T6.3.20) and `deviceCalendars` (read-only events of the device calendars
+// selected in Settings › Widgets & integrations, T8.2.13).
 
 /// Point overlays drawn over the grid at a wall-clock time.
 enum OverlayMarkerKind { habit, checklistDue }
@@ -455,4 +457,51 @@ class _SeriesPreviewBubbleState extends ConsumerState<SeriesPreviewBubble> {
       ),
     );
   }
+}
+
+/// Device-calendar events (T8.2.13): read-only ghost tiles behind the tasks, in the calendar's
+/// colour with its title; all-day events show as a thin band at the top of the day.
+class DeviceEventsPainter extends CustomPainter {
+  DeviceEventsPainter({required this.page, required this.spans, required this.color, required this.textStyle});
+
+  final PageOverlayContext page;
+  final List<DeviceEventSpan> spans;
+  final Color color;
+  final TextStyle textStyle;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (page.days.isEmpty) return;
+    final col = size.width / page.days.length;
+    for (final s in spans) {
+      final i = page.days.indexOf(s.day);
+      if (i < 0) continue;
+      final c = s.color == null ? color : Color(s.color!); // color-ok device calendar colour
+      final x = page.rtl ? size.width - (i + 1) * col : i * col;
+      final top = s.allDay ? 0.0 : page.axis.yOf(s.start.time.minuteOfDay, ppm: page.ppm);
+      final bottom = s.allDay
+          ? 4.0
+          : page.axis.yOf(s.end.date == s.day ? s.end.time.minuteOfDay : 1440, ppm: page.ppm, end: true);
+      final rect = Rect.fromLTRB(x + 2, top + 1, x + col - 2, math.max(top + 3, bottom - 1));
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(rect, const Radius.circular(4)),
+        Paint()..color = c.withValues(alpha: s.allDay ? 0.6 : 0.14),
+      );
+      if (s.allDay) continue;
+      final stripeX = page.rtl ? rect.right - 2 : rect.left;
+      canvas.drawRect(Rect.fromLTWH(stripeX, rect.top, 2, rect.height), Paint()..color = c.withValues(alpha: 0.7));
+      if (rect.height < 14 || rect.width < 24) continue;
+      final tp = TextPainter(
+        text: TextSpan(text: s.title, style: textStyle),
+        textDirection: page.rtl ? ui.TextDirection.rtl : ui.TextDirection.ltr,
+        maxLines: rect.height > 30 ? 2 : 1,
+        ellipsis: '…',
+      )..layout(maxWidth: rect.width - 8);
+      tp.paint(canvas, Offset(page.rtl ? rect.right - 4 - tp.width : rect.left + 5, rect.top + 2));
+    }
+  }
+
+  @override
+  bool shouldRepaint(DeviceEventsPainter old) =>
+      old.color != color || !const ListEquality<DeviceEventSpan>().equals(old.spans, spans) || old.page.ppm != page.ppm;
 }

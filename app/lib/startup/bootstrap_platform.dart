@@ -1,4 +1,5 @@
 import 'package:everslot/core/database/app_database.dart';
+import 'package:everslot/core/database/database_encryption.dart';
 import 'package:everslot/core/env/env.dart';
 import 'package:everslot/core/errors/global_error_handlers.dart';
 import 'package:everslot/core/session/device_identity.dart';
@@ -107,7 +108,11 @@ class RealBootstrapPlatform extends BootstrapPlatform {
   }
 
   @override
-  Future<AppDatabase> openDatabase() async => AppDatabase();
+  Future<AppDatabase> openDatabase() async {
+    // Encrypt / decrypt the file first when the user changed the setting (T8.3.15).
+    await DatabaseEncryption().migrateIfNeeded();
+    return AppDatabase();
+  }
 
   @override
   Future<String> loadDeviceId(AppDatabase db) => DeviceIdentity.load(db);

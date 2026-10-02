@@ -1,0 +1,20 @@
+{
+  "demoTaskStandup": "Point d’équipe",
+  "demoTaskDeepWork": "Travail de fond",
+  "demoTaskGym": "Salle de sport",
+  "demoTaskEmails": "Boîte de réception à zéro",
+  "demoTaskPlanWeek": "Planifier la semaine",
+  "demoTaskCallParents": "Appeler les parents",
+  "demoTaskDentist": "Dentiste",
+  "demoTaskGroceries": "Courses",
+  "demoTaskLaundry": "Lessive",
+  "demoTaskReview": "Bilan trimestriel",
+  "demoTitle": "Données d’exemple",
+  "demoGenerate": "Générer des données d’exemple",
+  "demoGenerateHint": "Six mois de planning, listes, habitudes et un suivi d’arrêt — mode local uniquement",
+  "demoRemove": "Supprimer les données d’exemple",
+  "demoRemoveHint": "Met tout ce qui a été généré à la corbeille",
+  "demoOnlyLocal": "Les données d’exemple ne sont disponibles qu’en mode local, pour que rien n’arrive sur un compte cloud.",
+  "demoDone": "Données d’exemple générées",
+  "demoRemoved": "Données d’exemple supprimées"
+}

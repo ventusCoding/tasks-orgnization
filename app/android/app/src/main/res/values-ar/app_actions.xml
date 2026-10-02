@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- App Actions query patterns (T8.2.15). -->
+<resources>
+    <string-array name="app_actions_log_habit">
+        <item>سجل $value $name</item>
+        <item>سجل $name</item>
+    </string-array>
+    <string-array name="app_actions_next">
+        <item>ما التالي</item>
+        <item>المهمة التالية</item>
+    </string-array>
+    <string-array name="app_actions_focus">
+        <item>ابدأ التركيز</item>
+        <item>ابدأ المهمة التالية</item>
+    </string-array>
+</resources>

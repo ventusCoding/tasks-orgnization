@@ -3,6 +3,8 @@ import 'dart:math' as math;
 
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/integrations/application/device_calendar_providers.dart';
+import 'package:everslot/features/integrations/domain/device_calendar.dart';
 import 'package:everslot/features/planner/application/view_config/view_config_providers.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/presentation/grid/data/planner_view_data.dart';
@@ -63,6 +65,11 @@ class FreeSlotsView extends ConsumerWidget {
     final zones = ref.watch(zoneResolverProvider);
     final items = filteredItems(ref, DayRange(today, days), config);
     final notifier = ref.read(plannerViewConfigProvider(_key).notifier);
+    // Busy device-calendar events count as taken time (T8.2.13).
+    final deviceBusy = [
+      for (final s in ref.watch(deviceEventSpansProvider((today, days))).value ?? const <DeviceEventSpan>[])
+        if (s.busy) (s.start, s.end),
+    ];
     final openings = items.whenData(
       (list) => freeIntervals(
         items: list,
@@ -75,6 +82,7 @@ class FreeSlotsView extends ConsumerWidget {
         ),
         elapsed: (a, b) => elapsedMinutes(zones, zone, a, b),
         notBefore: now,
+        extraBusy: deviceBusy,
       ),
     );
     final dayFormat = DateFormat('EEE d MMM', locale);

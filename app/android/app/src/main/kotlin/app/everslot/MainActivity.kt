@@ -41,5 +41,20 @@ class MainActivity : FlutterFragmentActivity() {
                 else -> result.notImplemented()
             }
         }
+        // App lock / app-switcher privacy (T8.3.09): FLAG_SECURE blanks the recents snapshot and
+        // blocks screenshots while the setting is on.
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "app.everslot/privacy").setMethodCallHandler { call, result ->
+            when (call.method) {
+                "setSecure" -> {
+                    if (call.arguments == true) {
+                        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                    } else {
+                        window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                    }
+                    result.success(null)
+                }
+                else -> result.notImplemented()
+            }
+        }
     }
 }

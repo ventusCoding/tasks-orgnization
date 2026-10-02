@@ -1,0 +1,6 @@
+TYPE,CONTENT,DESCRIPTION,PRIORITY,INDENT,AUTHOR,RESPONSIBLE,DATE,DATE_LANG,TIMEZONE,DURATION,DURATION_UNIT
+section,Errands,,,,,,,,,,
+task,Buy milk @shopping,Semi-skimmed,1,1,Me (1),,tomorrow,en,Europe/Paris,,
+note,"Ask for the organic one, please",,,,,,,,,,
+task,Weekly review,,2,1,Me (1),,every friday at 5pm,en,Europe/Paris,30,minute
+task,Someday thing,,4,1,Me (1),,,en,,,

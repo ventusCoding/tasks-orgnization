@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- App Actions query patterns (T8.2.15). -->
+<resources>
+    <string-array name="app_actions_log_habit">
+        <item>note $value $name</item>
+        <item>ajoute $value à $name</item>
+        <item>valide $name</item>
+        <item>coche $name</item>
+    </string-array>
+    <string-array name="app_actions_next">
+        <item>c\'est quoi la suite</item>
+        <item>quelle est la prochaine tâche</item>
+        <item>tâche suivante</item>
+    </string-array>
+    <string-array name="app_actions_focus">
+        <item>lance le focus</item>
+        <item>démarre ma prochaine tâche</item>
+        <item>démarre le minuteur</item>
+    </string-array>
+</resources>

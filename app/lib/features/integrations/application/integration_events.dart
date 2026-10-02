@@ -21,6 +21,9 @@ enum IntegrationNotice {
 
   /// Nothing is planned next.
   nothingNext,
+
+  /// A shortcut logged a craving ([NoticeUiEvent.detail] = tracker name).
+  cravingLogged,
 }
 
 /// Something the UI layer must do on behalf of an integration (navigation, snackbar, sheet).
@@ -61,6 +64,19 @@ final class NoticeUiEvent extends IntegrationUiEvent {
 
   @override
   String toString() => 'NoticeUiEvent(${notice.name}, $detail)';
+}
+
+/// Open the universal quick add (shortcut / voice *New task*, T8.2.06); [title] pre-fills it.
+final class QuickAddUiEvent extends IntegrationUiEvent {
+  const QuickAddUiEvent({this.title});
+
+  final String? title;
+
+  @override
+  bool operator ==(Object other) => other is QuickAddUiEvent && other.title == title;
+
+  @override
+  int get hashCode => title.hashCode;
 }
 
 /// Content shared into Everslot is waiting for a destination (T8.2.07).

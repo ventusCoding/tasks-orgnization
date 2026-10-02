@@ -1,0 +1,191 @@
+{
+  "dataImportTitle": "Importer",
+  "dataImportBody": "Restaurez une sauvegarde Everslot (JSON, ou zip avec pièces jointes).",
+  "dataImportPick": "Choisir un fichier de sauvegarde",
+  "dataImportFailed": "L’import a échoué. Rien n’a été écrit à moitié ; réessayez.",
+  "dataImportErrorCsv": "Les exports tableur (CSV) ne peuvent pas être importés. Utilisez une sauvegarde Everslot (JSON).",
+  "dataImportErrorVersion": "Cette sauvegarde vient d’une version d’Everslot plus récente ou inconnue.",
+  "dataImportErrorNotExport": "Ce fichier n’est pas une sauvegarde Everslot.",
+  "dataImportRestore": "Restaurer",
+  "dataImportRestoreHint": "Même compte : rétablit les éléments ; la version la plus récente de chacun l’emporte.",
+  "dataImportRestoreOtherAccount": "Uniquement pour les sauvegardes de ce compte.",
+  "dataImportCopy": "Copier",
+  "dataImportCopyHint": "Ajoute tout comme nouveaux éléments, sans toucher à l’existant.",
+  "dataImportReplaceNewer": "Remplacer les modifications plus récentes",
+  "dataImportReplaceNewerHint": "Utiliser la sauvegarde même si cet appareil a une modification ultérieure.",
+  "dataImportRunRestore": "Restaurer",
+  "dataImportRunCopy": "Importer une copie",
+  "dataImportKindTasks": "Tâches",
+  "dataImportKindOccurrences": "Historique des tâches",
+  "dataImportKindLists": "Listes",
+  "dataImportKindItems": "Éléments de liste",
+  "dataImportKindHabits": "Habitudes et arrêts",
+  "dataImportKindHabitLogs": "Pointages",
+  "dataImportKindCategories": "Catégories et étiquettes",
+  "dataImportKindAttachments": "Pièces jointes",
+  "dataImportKindInbox": "Boîte de réception",
+  "dataImportKindSettings": "Réglages",
+  "dataImportKindOther": "Autres données",
+  "dataImportDone": "{count, plural, =0{Rien à importer} one{1 élément importé} other{{count} éléments importés}}",
+  "@dataImportDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportConflictsHint": "{count, plural, one{1 élément modifié ici après la sauvegarde a été conservé.} other{{count} éléments modifiés ici après la sauvegarde ont été conservés.}}",
+  "@dataImportConflictsHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountNew": "{count, plural, one{{count} nouveau} other{{count} nouveaux}}",
+  "@dataImportCountNew": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountUpdated": "{count, plural, one{{count} mis à jour} other{{count} mis à jour}}",
+  "@dataImportCountUpdated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountUnchanged": "{count, plural, one{{count} inchangé} other{{count} inchangés}}",
+  "@dataImportCountUnchanged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountKept": "{count, plural, one{{count} conservé} other{{count} conservés}}",
+  "@dataImportCountKept": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountSkipped": "{count, plural, one{{count} ignoré} other{{count} ignorés}}",
+  "@dataImportCountSkipped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extImportTitle": "Importer depuis une autre app",
+  "extImportSubtitle": "Loop Habit Tracker, Google Keep, Todoist, TickTick, texte",
+  "extImportNothing": "Rien à importer dans ce fichier.",
+  "extImportWrongFile": "Ce fichier ne ressemble pas à un export {source}.",
+  "@extImportWrongFile": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "extImportRun": "Importer",
+  "extSourceText": "Plan texte ou Markdown",
+  "extSourceLoopHint": "Réglages › Exporter en CSV (zip) ou une sauvegarde (.db)",
+  "extSourceKeepHint": "Google Takeout › Keep (zip)",
+  "extSourceTodoistHint": "Projet › Exporter comme modèle (CSV)",
+  "extSourceTickTickHint": "Réglages › Sauvegarde (CSV)",
+  "extSourceTextHint": "Les lignes indentées deviennent des sous-éléments (.txt, .md)",
+  "extImportDone": "{count, plural, one{1 élément importé} other{{count} éléments importés}}",
+  "@extImportDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountHabits": "{count, plural, one{1 habitude} other{{count} habitudes}}",
+  "@extCountHabits": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountCheckIns": "{count, plural, one{1 pointage} other{{count} pointages}}",
+  "@extCountCheckIns": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountLists": "{count, plural, one{1 liste} other{{count} listes}}",
+  "@extCountLists": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountItems": "{count, plural, one{1 élément} other{{count} éléments}}",
+  "@extCountItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountTasks": "{count, plural, one{1 tâche} other{{count} tâches}}",
+  "@extCountTasks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteFrequency": "{count, plural, one{1 fréquence d’habitude approchée} other{{count} fréquences d’habitude approchées}}",
+  "@extNoteFrequency": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteRepeat": "{count, plural, one{1 répétition non comprise (importée une fois)} other{{count} répétitions non comprises (importées une fois)}}",
+  "@extNoteRepeat": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteCompleted": "{count, plural, one{1 tâche terminée ignorée} other{{count} tâches terminées ignorées}}",
+  "@extNoteCompleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteTrashed": "{count, plural, one{1 note de la corbeille ignorée} other{{count} notes de la corbeille ignorées}}",
+  "@extNoteTrashed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteAttachment": "{count, plural, one{1 pièce jointe absente de l’archive} other{{count} pièces jointes absentes de l’archive}}",
+  "@extNoteAttachment": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+}

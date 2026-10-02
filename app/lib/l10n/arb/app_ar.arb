@@ -1,5 +1,19 @@
 {
   "@@locale": "ar",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "@appLockAfterMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "@authCodeBody": {
     "placeholders": {
       "email": {
@@ -77,6 +91,139 @@
       }
     }
   },
+  "@dataImportConflictsHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountKept": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountNew": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountSkipped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountUnchanged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountUpdated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extCountCheckIns": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extCountHabits": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extCountItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extCountLists": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extCountTasks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extImportDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extImportWrongFile": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "@extNoteAttachment": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extNoteCompleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extNoteFrequency": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extNoteRepeat": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extNoteTrashed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@onboardingStepOf": {
     "placeholders": {
       "current": {
@@ -122,6 +269,31 @@
       }
     }
   },
+  "a11yHaptics": "الاستجابة اللمسية",
+  "a11yHapticsHint": "اهتزازات عند المحاذاة والرفع والإكمال",
+  "a11yHighContrast": "ألوان فئات عالية التباين",
+  "a11yHighContrastHint": "مربعات وألوان أقوى يسهل التمييز بينها",
+  "a11yLargeTable": "نص أكبر في جدول الأسبوع",
+  "a11yLargeTableHint": "عناوين وأوقات أكبر في مربعات المخطط",
+  "a11yReduceMotion": "تقليل الحركة",
+  "a11yReduceMotionHint": "رسوم متحركة أقل حتى إن سمح بها جهازك",
+  "a11yStatusLabels": "إظهار تسميات الحالة دائمًا",
+  "a11yStatusLabelsHint": "الحالة بالكلمات، لا بالألوان والأيقونات فقط",
+  "a11ySystemHint": "حجم النص والخط العريض وقارئات الشاشة تتبع إعدادات جهازك.",
+  "aboutContact": "التواصل مع الدعم",
+  "aboutHealthBody": "مراحل متتبع الإقلاع والتوفير والتقديرات الصحية هي معلومات عامة للصحة العامة مبنية على متوسطات سكانية (منظمة الصحة العالمية، NHS، CDC، الجمعية الأمريكية للسرطان). ليست نصيحة طبية ولا تغني عن أخصائي رعاية صحية. إن كنت تحاول الإقلاع عن مادة ما، فتحدث إلى طبيبك أو خط مساعدة محلي.",
+  "aboutHealthTitle": "معلومات صحية",
+  "aboutHelp": "المساعدة",
+  "aboutHelpCenter": "المساعدة والأسئلة الشائعة",
+  "aboutLegal": "الشؤون القانونية",
+  "aboutLegalese": "مبني باستخدام Flutter وبرمجيات مفتوحة المصدر.",
+  "aboutLicenses": "تراخيص البرمجيات مفتوحة المصدر",
+  "aboutPrivacyPolicy": "سياسة الخصوصية",
+  "aboutRate": "قيّم Everslot",
+  "aboutRateHint": "يساعد التقييم الآخرين على إيجاد التطبيق",
+  "aboutTagline": "امتلك كل خانة من يومك",
+  "aboutTerms": "شروط الاستخدام",
+  "aboutVersion": "الإصدار {version}",
   "actionAdd": "إضافة",
   "actionApply": "تطبيق",
   "actionArchive": "أرشفة",
@@ -211,6 +383,17 @@
   "activityTitle": "السجل",
   "activityUnarchived": "أُلغيت أرشفته",
   "activityUnscheduled": "نُقل إلى المهام غير المجدولة",
+  "appLockAfterMinutes": "{minutes, plural, zero{{minutes} دقيقة} one{دقيقة واحدة} two{دقيقتان} few{{minutes} دقائق} many{{minutes} دقيقة} other{{minutes} دقيقة}}",
+  "appLockBody": "استخدم بصمتك أو وجهك أو رمز الجهاز للمتابعة.",
+  "appLockEnable": "قفل التطبيق",
+  "appLockEnableHint": "طلب المصادقة البيومترية أو رمز الجهاز عند فتح Everslot",
+  "appLockImmediately": "فورًا",
+  "appLockReason": "فتح قفل Everslot",
+  "appLockSection": "قفل التطبيق",
+  "appLockTimeout": "القفل بعد",
+  "appLockTitle": "Everslot مقفل",
+  "appLockUnlock": "فتح القفل",
+  "appLockUnsupported": "اضبط قفل الشاشة على هذا الجهاز أولًا.",
   "appName": "Everslot",
   "appTagline": "تحكّم في كل خانة من يومك.",
   "attachmentsAdd": "إضافة مرفق",
@@ -919,7 +1102,59 @@
   "comingSoon": "قريبًا",
   "confirmDeleteBody": "يمكنك استعادته من سلة المحذوفات خلال 30 يومًا.",
   "confirmDeleteTitle": "حذف {item}؟",
+  "dataImportBody": "استعد نسخة احتياطية من Everslot (JSON، أو ملف zip مع المرفقات).",
+  "dataImportConflictsHint": "{count, plural, zero{لم يُحتفظ بأي عنصر.} one{احتُفظ بعنصر واحد عُدّل هنا بعد النسخة.} two{احتُفظ بعنصرين عُدّلا هنا بعد النسخة.} few{احتُفظ بـ{count} عناصر عُدّلت هنا بعد النسخة.} many{احتُفظ بـ{count} عنصرًا عُدّل هنا بعد النسخة.} other{احتُفظ بـ{count} عنصر عُدّل هنا بعد النسخة.}}",
+  "dataImportCopy": "نسخ",
+  "dataImportCopyHint": "يضيف كل شيء كعناصر جديدة دون المساس بما لديك.",
+  "dataImportCountKept": "{count} محفوظ",
+  "dataImportCountNew": "{count} جديد",
+  "dataImportCountSkipped": "{count} متجاوَز",
+  "dataImportCountUnchanged": "{count} دون تغيير",
+  "dataImportCountUpdated": "{count} محدَّث",
+  "dataImportDone": "{count, plural, zero{لا شيء للاستيراد} one{تم استيراد عنصر واحد} two{تم استيراد عنصرين} few{تم استيراد {count} عناصر} many{تم استيراد {count} عنصرًا} other{تم استيراد {count} عنصر}}",
+  "dataImportErrorCsv": "لا يمكن استيراد ملفات الجداول (CSV). استخدم نسخة Everslot الاحتياطية (JSON).",
+  "dataImportErrorNotExport": "هذا الملف ليس نسخة احتياطية من Everslot.",
+  "dataImportErrorVersion": "هذه النسخة من إصدار أحدث أو غير معروف من Everslot.",
+  "dataImportFailed": "فشل الاستيراد. لم يُكتب شيء جزئيًا؛ حاول مجددًا.",
+  "dataImportKindAttachments": "المرفقات",
+  "dataImportKindCategories": "الفئات والوسوم",
+  "dataImportKindHabitLogs": "التسجيلات",
+  "dataImportKindHabits": "العادات ومتتبعات الإقلاع",
+  "dataImportKindInbox": "الوارد",
+  "dataImportKindItems": "عناصر القوائم",
+  "dataImportKindLists": "القوائم",
+  "dataImportKindOccurrences": "سجل المهام",
+  "dataImportKindOther": "بيانات أخرى",
+  "dataImportKindSettings": "الإعدادات",
+  "dataImportKindTasks": "المهام",
+  "dataImportPick": "اختر ملف النسخة الاحتياطية",
+  "dataImportReplaceNewer": "استبدال التعديلات الأحدث على هذا الجهاز",
+  "dataImportReplaceNewerHint": "استخدم النسخة الاحتياطية حتى إن كان لهذا الجهاز تعديل لاحق.",
+  "dataImportRestore": "استعادة",
+  "dataImportRestoreHint": "الحساب نفسه: يعيد العناصر؛ والأحدث من كل عنصر هو الذي يبقى.",
+  "dataImportRestoreOtherAccount": "فقط للنسخ الاحتياطية من هذا الحساب.",
+  "dataImportRunCopy": "استيراد نسخة",
+  "dataImportRunRestore": "استعادة",
+  "dataImportTitle": "الاستيراد",
   "deletedSnack": "تم حذف {item}",
+  "demoDone": "أُنشئت البيانات التجريبية",
+  "demoGenerate": "إنشاء بيانات تجريبية",
+  "demoGenerateHint": "ستة أشهر من الخطط والقوائم والعادات ومتتبع إقلاع — الوضع المحلي فقط",
+  "demoOnlyLocal": "البيانات التجريبية متاحة في الوضع المحلي فقط، حتى لا يصل شيء إلى حساب سحابي.",
+  "demoRemove": "حذف البيانات التجريبية",
+  "demoRemoveHint": "ينقل كل ما أُنشئ إلى المهملات",
+  "demoRemoved": "حُذفت البيانات التجريبية",
+  "demoTaskCallParents": "الاتصال بالوالدين",
+  "demoTaskDeepWork": "عمل مركّز",
+  "demoTaskDentist": "طبيب الأسنان",
+  "demoTaskEmails": "تفريغ البريد الوارد",
+  "demoTaskGroceries": "التسوق",
+  "demoTaskGym": "النادي الرياضي",
+  "demoTaskLaundry": "الغسيل",
+  "demoTaskPlanWeek": "تخطيط الأسبوع",
+  "demoTaskReview": "المراجعة الفصلية",
+  "demoTaskStandup": "اجتماع الفريق اليومي",
+  "demoTitle": "بيانات تجريبية",
   "devComponentGallery": "معرض المكوّنات",
   "devConfigured": "مُهيّأ",
   "devCopied": "تم النسخ",
@@ -983,6 +1218,12 @@
   "devZoneOverridden": "مُستبدلة حتى إعادة الضبط",
   "devZoneOverride": "استبدال منطقة الجهاز",
   "devZoneReset": "استخدام منطقة الجهاز الحقيقية",
+  "deviceCalAllow": "عرض أحداث تقويماتك",
+  "deviceCalDenied": "الوصول إلى التقويم متوقف — اسمح به من إعدادات النظام",
+  "deviceCalHint": "فعّل «تقويمات الجهاز» في إعدادات عرض المخطط لرؤيتها. تُحسب الأحداث المشغولة كوقت محجوز عند البحث عن فترات فارغة.",
+  "deviceCalNone": "لا توجد تقويمات على هذا الجهاز",
+  "deviceCalPrimer": "تظهر تقويمات Google أو iCloud أو العمل على هذا الجهاز للقراءة فقط بجانب خطتك. لا يُنسخ أو يُرفع أي شيء.",
+  "deviceCalSection": "تقويمات الجهاز",
   "durationDaysShort": "{days, plural, =1{يوم واحد} =2{يومان} few{{days} أيام} many{{days} يومًا} other{{days} يوم}}",
   "durationHoursMinutesShort": "{hours} س {minutes} د",
   "durationHoursShort": "{hours} س",
@@ -1027,6 +1268,36 @@
   "exportShare": "مشاركة…",
   "exportTitle": "مشاركة / تصدير",
   "exportZipBundle": "مشاركة كملف zip (مع الملفات)",
+  "extCountCheckIns": "{count, plural, zero{لا تسجيلات} one{تسجيل واحد} two{تسجيلان} few{{count} تسجيلات} many{{count} تسجيلًا} other{{count} تسجيل}}",
+  "extCountHabits": "{count, plural, zero{لا عادات} one{عادة واحدة} two{عادتان} few{{count} عادات} many{{count} عادة} other{{count} عادة}}",
+  "extCountItems": "{count, plural, zero{لا عناصر} one{عنصر واحد} two{عنصران} few{{count} عناصر} many{{count} عنصرًا} other{{count} عنصر}}",
+  "extCountLists": "{count, plural, zero{لا قوائم} one{قائمة واحدة} two{قائمتان} few{{count} قوائم} many{{count} قائمة} other{{count} قائمة}}",
+  "extCountTasks": "{count, plural, zero{لا مهام} one{مهمة واحدة} two{مهمتان} few{{count} مهام} many{{count} مهمة} other{{count} مهمة}}",
+  "extImportDone": "{count, plural, zero{لم يُستورد شيء} one{تم استيراد عنصر واحد} two{تم استيراد عنصرين} few{تم استيراد {count} عناصر} many{تم استيراد {count} عنصرًا} other{تم استيراد {count} عنصر}}",
+  "extImportNothing": "لا شيء للاستيراد في هذا الملف.",
+  "extImportRun": "استيراد",
+  "extImportSubtitle": "Loop Habit Tracker، Google Keep، Todoist، TickTick، نص",
+  "extImportTitle": "الاستيراد من تطبيق آخر",
+  "extImportWrongFile": "لا يبدو هذا الملف تصديرًا من {source}.",
+  "extNoteAttachment": "{count, plural, zero{لا شيء} one{مرفق واحد غير موجود في الأرشيف} two{مرفقان غير موجودين} few{{count} مرفقات غير موجودة} many{{count} مرفقًا غير موجود} other{{count} مرفق غير موجود}}",
+  "extNoteCompleted": "{count, plural, zero{لا شيء} one{تُركت مهمة مكتملة واحدة} two{تُركت مهمتان مكتملتان} few{تُركت {count} مهام مكتملة} many{تُركت {count} مهمة مكتملة} other{تُركت {count} مهمة مكتملة}}",
+  "extNoteFrequency": "{count, plural, zero{لا تقريب} one{تكرار عادة واحد مُقرَّب} two{تكرارا عادتين مُقرَّبان} few{{count} تكرارات مُقرَّبة} many{{count} تكرارًا مُقرَّبًا} other{{count} تكرار مُقرَّب}}",
+  "extNoteRepeat": "{count, plural, zero{لا شيء} one{تكرار واحد غير مفهوم (استُورد مرة واحدة)} two{تكراران غير مفهومين} few{{count} تكرارات غير مفهومة} many{{count} تكرارًا غير مفهوم} other{{count} تكرار غير مفهوم}}",
+  "extNoteTrashed": "{count, plural, zero{لا شيء} one{تُركت ملاحظة واحدة من المهملات} two{تُركت ملاحظتان من المهملات} few{تُركت {count} ملاحظات من المهملات} many{تُركت {count} ملاحظة من المهملات} other{تُركت {count} ملاحظة من المهملات}}",
+  "extSourceKeepHint": "Google Takeout › Keep (zip)",
+  "extSourceLoopHint": "الإعدادات › التصدير بصيغة CSV (zip) أو نسخة احتياطية (.db)",
+  "extSourceText": "مخطط نصي أو Markdown",
+  "extSourceTextHint": "تصبح الأسطر المزاحة عناصر فرعية (.txt، .md)",
+  "extSourceTickTickHint": "الإعدادات › النسخ الاحتياطي (CSV)",
+  "extSourceTodoistHint": "المشروع › التصدير كقالب (CSV)",
+  "feedbackDiagnosticsHint": "إصدارات التطبيق والنظام وطراز الجهاز وحالة المزامنة ورموز الأخطاء الأخيرة — دون محتواك أبدًا",
+  "feedbackHint": "أفكار ومشكلات وأسئلة",
+  "feedbackIncludeDiagnostics": "إرفاق بيانات التشخيص",
+  "feedbackMessage": "رسالتك",
+  "feedbackPreview": "عرض ما سيُرفق بالضبط",
+  "feedbackSend": "إرسال",
+  "feedbackSubject": "ملاحظات حول Everslot",
+  "feedbackTitle": "إرسال ملاحظات",
   "filterActiveCount": "{count, plural, =0{لا توجد عوامل تصفية} =1{عامل تصفية واحد نشط} =2{عاملا تصفية نشطان} few{{count} عوامل تصفية نشطة} many{{count} عامل تصفية نشطًا} other{{count} عامل تصفية نشط}}",
   "filterAny": "الكل",
   "filterAttachments": "المرفقات",
@@ -1523,6 +1794,31 @@
   "habitsZoneFixed": "استخدم دائمًا {zone}",
   "habitsZoneFixedHint": "تتبع الأيام {zone} أينما كنت",
   "habitsZoneFloating": "تتبع الأيام منطقتك الزمنية الحالية",
+  "healthDenied": "لم يُمنح الوصول إلى البيانات الصحية",
+  "healthLink": "التسجيل تلقائيًا من الصحة",
+  "healthMindful": "دقائق اليقظة",
+  "healthPrimerBody": "سيقرأ Everslot بيانات «{metric}» من Apple Health أو Health Connect لتسجيل هذه العادة نيابة عنك. للقراءة فقط، ولا يُحفظ إلا مجموع اليوم على العادة. يمكنك الإيقاف في أي وقت.",
+  "healthPrimerContinue": "متابعة",
+  "healthPrimerTitle": "استخدام بياناتك الصحية؟",
+  "healthSleep": "ساعات النوم",
+  "healthSteps": "الخطوات",
+  "healthWater": "الماء",
+  "healthWorkout": "دقائق التمرين",
+  "icsAlreadyImported": "مستورد مسبقًا",
+  "icsChanges": "{count, plural, =0{لا تغييرات} =1{تغيير واحد} =2{تغييران} few{{count} تغييرات} many{{count} تغييرًا} other{{count} تغيير}}",
+  "icsExport": "تصدير إلى ملف تقويم",
+  "icsExportHint": "شارك مهامك المخططة كأحداث تقويم",
+  "icsExportTask": "إضافة إلى التقويم (.ics)",
+  "icsImportCount": "{count, plural, =0{استيراد} =1{استيراد حدث واحد} =2{استيراد حدثين} few{استيراد {count} أحداث} many{استيراد {count} حدثًا} other{استيراد {count} حدث}}",
+  "icsImportFile": "استيراد ملف تقويم (.ics)",
+  "icsImportHint": "من تقويم Google أو Apple أو Outlook…",
+  "icsImportTitle": "استيراد التقويم",
+  "icsImported": "{count, plural, =0{لم يُستورد شيء} =1{تم استيراد حدث واحد} =2{تم استيراد حدثين} few{تم استيراد {count} أحداث} many{تم استيراد {count} حدثًا} other{تم استيراد {count} حدث}}",
+  "icsNextDays": "{count, plural, =1{اليوم} =2{اليومان القادمان} few{الأيام الـ{count} القادمة} many{الـ{count} يومًا القادمة} other{الـ{count} يوم القادمة}}",
+  "icsNothing": "لا أحداث في هذا الملف",
+  "icsRepeatUnsupported": "التكرار غير مدعوم — استيراد مرة واحدة",
+  "icsRepeats": "متكرر",
+  "icsSection": "ملفات التقويم",
   "importAction": "استيراد",
   "importChooseFile": "اختيار ملف",
   "importConvertBody": "تحويل الملاحظة إلى عناصر",
@@ -1539,6 +1835,7 @@
   "importWarningMalformed": "تعذرت قراءة هذا الملف",
   "importWarningTooMany": "تم استيراد أول 10000 سطر فقط",
   "integrationsActionFailed": "تعذّر إتمام هذا الإجراء.",
+  "integrationsCravingLogged": "تم تسجيل الرغبة: {habit}",
   "integrationsHabitLogged": "تم التسجيل: {habit}",
   "integrationsHabitNotFound": "لا توجد عادة تطابق «{name}».",
   "integrationsLinkInTrash": "هذا العنصر موجود في سلة المهملات.",
@@ -2333,10 +2630,64 @@
   "onboardingEssentialsTitle": "أسبوعك وساعتك",
   "onboardingGetStarted": "لنبدأ",
   "onboardingLanguage": "اللغة",
+  "onboardingNotificationsLater": "يمكنك تشغيل التذكيرات أو إيقافها لكل عنصر، وتغيير كل شيء من الإعدادات › الإشعارات.",
+  "onboardingNotificationsOn": "الإشعارات مفعّلة",
+  "onboardingRerun": "إعادة الإعداد",
+  "onboardingRerunSubtitle": "اللغة والأسبوع والإشعارات والعناصر الجاهزة",
+  "onboardingStarterRoutine": "روتين الصباح",
+  "onboardingStartersBody": "اختر بعض العناصر الجاهزة. يمكنك تعديلها أو حذفها لاحقًا.",
+  "onboardingStartersNone": "لا اقتراحات لاختياراتك — كل شيء جاهز.",
+  "onboardingStartersTitle": "هل تبدأ بشيء جاهز؟",
   "onboardingStepOf": "الخطوة {current} من {total}",
   "onboardingTimeZone": "المنطقة الزمنية الأساسية",
   "onboardingTitle": "إعداد Everslot",
+  "onboardingTrackBody": "سنقترح عليك بعض العناصر للبدء. تبقى كل الأقسام متاحة.",
+  "onboardingTrackHabits": "العادات اليومية والأهداف",
+  "onboardingTrackLists": "قوائم المهام والتسوق والمشاريع",
+  "onboardingTrackPlan": "المهام والفترات الزمنية والروتين",
+  "onboardingTrackQuit": "التدخين، الكحول، الكافيين…",
+  "onboardingTrackQuitTitle": "الإقلاع أو التقليل",
+  "onboardingTrackTitle": "ماذا تريد أن تتابع؟",
   "onboardingWeekStart": "يبدأ الأسبوع يوم",
+  "onboardingWelcomeBody": "بضعة أسئلة سريعة ليتلاءم Everslot مع طريقة حياتك. يمكنك تخطي أي شيء، وكل شيء يبقى في الإعدادات.",
+  "onboardingWelcomeHabits": "ابنِ عادات وأقلع عمّا يعيقك",
+  "onboardingWelcomeInsights": "إحصاءات مفصّلة عن كل ما تفعله",
+  "onboardingWelcomeLists": "قوائم بعناصر متداخلة وحالات",
+  "onboardingWelcomePlan": "خطط لأسبوعك بخانات بأي مدة",
+  "onboardingWelcomeTitle": "امتلك كل خانة من يومك",
+  "paletteGoCategories": "إدارة الفئات",
+  "paletteGoDay": "فتح عرض اليوم",
+  "paletteGoHabits": "فتح العادات",
+  "paletteGoInbox": "فتح الوارد",
+  "paletteGoInsights": "فتح الإحصاءات",
+  "paletteGoInsightsScope": "فتح الإحصاءات › {section}",
+  "paletteGoLists": "فتح القوائم",
+  "paletteGoNextWeek": "الانتقال إلى الأسبوع القادم",
+  "paletteGoNotificationSettings": "فتح الإعدادات › الإشعارات",
+  "paletteGoPreviousWeek": "الانتقال إلى الأسبوع السابق",
+  "paletteGoSearch": "البحث في كل شيء",
+  "paletteGoSettings": "فتح الإعدادات",
+  "paletteGoTags": "إدارة الوسوم",
+  "paletteGoThisWeek": "الانتقال إلى هذا الأسبوع",
+  "paletteGoToday": "الانتقال إلى اليوم",
+  "paletteGoTrash": "فتح المهملات",
+  "paletteGroupActions": "إجراءات",
+  "paletteGroupCreate": "إنشاء",
+  "paletteGroupGo": "انتقال إلى",
+  "paletteHint": "اكتب أمرًا أو مهمة بتاريخ",
+  "paletteNewHabit": "عادة جديدة",
+  "paletteNewList": "قائمة جديدة",
+  "paletteNewQuit": "متتبع إقلاع جديد",
+  "paletteNewTask": "مهمة جديدة",
+  "paletteNewTaskAt": "مهمة جديدة «{title}» · {when}",
+  "paletteNoMatch": "لا يوجد أمر مطابق",
+  "palettePause1h": "إيقاف الإشعارات ساعة",
+  "palettePauseTomorrow": "إيقاف الإشعارات حتى الغد",
+  "palettePaused": "تم إيقاف الإشعارات مؤقتًا",
+  "paletteResume": "استئناف الإشعارات",
+  "paletteResumed": "تم استئناف الإشعارات",
+  "paletteSyncNow": "المزامنة الآن",
+  "paletteTitle": "الأوامر",
   "pickerColor": "اللون",
   "pickerCustomColor": "لون مخصّص",
   "pickerDate": "التاريخ",
@@ -2366,6 +2717,19 @@
   "priorityMedium": "متوسطة",
   "priorityNone": "بلا أولوية",
   "priorityUrgent": "عاجلة",
+  "privacyAppSwitcher": "إخفاء في مبدّل التطبيقات",
+  "privacyAppSwitcherHint": "تغطية الشاشة في التطبيقات الأخيرة ومنع لقطات الشاشة",
+  "privacyCrashReports": "إرسال تقارير الأعطال",
+  "privacyCrashReportsHint": "تفاصيل مجهولة تساعد على إصلاح الأخطاء",
+  "privacyDiagnostics": "التشخيص",
+  "privacyEncryptDb": "تشفير البيانات على هذا الجهاز",
+  "privacyEncryptDbConfirmBody": "يُطبَّق التغيير عند فتح Everslot في المرة القادمة ويستغرق بضع ثوانٍ. لا تتأثر بياناتك في السحابة.",
+  "privacyEncryptDbConfirmOff": "إيقاف تشفير البيانات على هذا الجهاز؟",
+  "privacyEncryptDbConfirmOn": "تشفير البيانات على هذا الجهاز؟",
+  "privacyEncryptDbHint": "لا يمكن قراءة قاعدة البيانات المحلية دون المفتاح الآمن لهذا الجهاز",
+  "privacyEncryptDbPendingOff": "ينتهي التشفير عند فتح Everslot في المرة القادمة",
+  "privacyEncryptDbPendingOn": "يبدأ التشفير عند فتح Everslot في المرة القادمة",
+  "privacyHideContentHint": "تعرض الإشعارات «تذكير Everslot» فقط",
   "pvActualColumn": "الفعلي",
   "pvAddCountdown": "إضافة عد تنازلي",
   "pvAddTask": "إضافة مهمة",
@@ -2743,6 +3107,20 @@
   "pvZoomFixed": "فترة ثابتة",
   "pvZoomMode": "التكبير",
   "pvZoomSemantic": "دلالي",
+  "quickAddAdded": "تمت إضافة «{title}»",
+  "quickAddHabit": "عادة",
+  "quickAddItem": "عنصر قائمة",
+  "quickAddList": "قائمة",
+  "quickAddLog": "تسجيل / رغبة",
+  "quickAddMore": "خيارات أكثر",
+  "quickAddPickHabit": "عادة أو متتبع",
+  "quickAddPickList": "إضافة إلى القائمة",
+  "quickAddQuit": "متتبع إقلاع",
+  "quickAddSmart": "فهم التواريخ",
+  "quickAddSmartHint": "مثال: Gym tomorrow 7pm for 1h every Mon #health",
+  "quickAddTask": "مهمة",
+  "quickAddTitleHint": "ماذا؟",
+  "quickAddUnknownCategory": "لا توجد فئة «{name}»",
   "quitAddUse": "+1",
   "quitAllClocks": "كل العدادات",
   "quitAmount": "الكمية",
@@ -3103,6 +3481,40 @@
   "repeatRuns": "سجل الدورات",
   "repeatTitle": "التكرار",
   "savedSnack": "تم الحفظ",
+  "searchAny": "الكل",
+  "searchCategory": "الفئة",
+  "searchCheckIn": "تسجيل",
+  "searchClearFilters": "مسح عوامل التصفية",
+  "searchComplete": "إنجاز العنصر",
+  "searchDates": "التواريخ",
+  "searchDatesFrom": "من",
+  "searchDatesMonth": "آخر 30 يومًا",
+  "searchDatesTo": "إلى",
+  "searchDatesToday": "اليوم",
+  "searchDatesWeek": "آخر 7 أيام",
+  "searchHint": "ابحث في كل شيء",
+  "searchIntro": "المهام والقوائم والعناصر والعادات والملاحظات والوارد",
+  "searchItemCompleted": "تم إنجاز «{title}»",
+  "searchKindChecklist": "القوائم",
+  "searchKindHabit": "العادات",
+  "searchKindInbox": "الوارد",
+  "searchKindItem": "العناصر",
+  "searchKindLog": "الملاحظات",
+  "searchKindTask": "المهام",
+  "searchNoResults": "لا نتائج لـ «{query}»",
+  "searchRecent": "عمليات البحث الأخيرة",
+  "searchRemoveRecent": "إزالة من عمليات البحث الأخيرة",
+  "searchSeeAll": "{count, plural, =1{عرض نتيجة واحدة} other{عرض الكل ({count})}}",
+  "searchStatus": "الحالة",
+  "searchStatusClosed": "منجز أو مؤرشف",
+  "searchStatusOpen": "مفتوح",
+  "searchSyntaxBadValue": "«{value}» غير صالح لـ {key}:",
+  "searchSyntaxHelp": "صيغة البحث",
+  "searchSyntaxHelpBody": "اجمع الكلمات مع المرشحات:\n• \"عبارة مطابقة\"\n• status:waiting (todo، ongoing، waiting، blocked، done، cancelled، open، closed)\n• tag:عمل · cat:صحة\n• due:today · due:tomorrow · due:overdue · due:<7d · due:>2w · due:2026-10-15\n• is:recurring · is:open · is:done · is:archived\n• type:task (list، item، habit، note، inbox)",
+  "searchSyntaxNeedsWords": "أضف كلمة للبحث بهذه المرشحات",
+  "searchSyntaxUnclosedQuote": "علامة الاقتباس الختامية مفقودة",
+  "searchSyntaxUnknownKey": "عامل تصفية غير معروف «{key}:» — استخدم status: أو tag: أو cat: أو due: أو is: أو type:",
+  "searchTag": "الوسم",
   "settingsAbout": "حول التطبيق",
   "settingsAboutSubtitle": "الإصدار والتراخيص والمساعدة",
   "settingsAccessibility": "تسهيلات الاستخدام",
@@ -3188,6 +3600,8 @@
   "settingsInsightsWakingHours": "ساعات اليقظة",
   "settingsInsightsWeekStart": "بداية الأسبوع (الإحصاءات)",
   "settingsInsightsWeekStartProfile": "مثل التطبيق ({day})",
+  "settingsIntegrations": "الأدوات والتكاملات",
+  "settingsIntegrationsSubtitle": "أدوات الشاشة الرئيسية والاختصارات والمشاركة والتقويمات",
   "settingsLanguage": "اللغة",
   "settingsLanguageArabic": "العربية",
   "settingsLanguageEnglish": "English",
@@ -3309,9 +3723,24 @@
   "settingsTrashWith": "{count, plural, =1{+ عنصر مرتبط} =2{+ عنصران مرتبطان} few{+ {count} عناصر مرتبطة} many{+ {count} عنصرًا مرتبطًا} other{+ {count} عنصر مرتبط}}",
   "settingsUnknownPage": "صفحة الإعدادات هذه غير موجودة.",
   "settingsWeekStart": "يبدأ الأسبوع يوم",
+  "shareAsTask": "مهمة",
+  "shareAttach": "إرفاق",
+  "shareFilesTitle": "{count, plural, =0{لا ملفات} =1{ملف واحد} =2{ملفان} few{{count} ملفات} many{{count} ملفًا} other{{count} ملف}}",
+  "shareFindItem": "ابحث عن مهمة أو عنصر",
+  "shareItemCount": "{count, plural, =0{لن يُضاف شيء} =1{سيُضاف عنصر واحد} =2{سيُضاف عنصران} few{سيُضاف {count} عناصر} many{سيُضاف {count} عنصرًا} other{سيُضاف {count} عنصر}}",
+  "shareNewList": "قائمة جديدة «{title}»",
+  "shareSaved": "تم الحفظ في Everslot",
+  "shareTitle": "حفظ في Everslot",
+  "shareToList": "قائمة",
+  "shareTopLevel": "المستوى الأعلى",
+  "shareUnder": "تحت",
   "shellCreate": "إنشاء",
   "shellDueCount": "{count, plural, =0{لا شيء للقيام به} =1{مهمة واحدة} =2{مهمتان} few{{count} مهام} many{{count} مهمة} other{{count} مهمة}}",
   "shellQuickAdd": "إضافة سريعة",
+  "shortcutLogCraving": "تسجيل رغبة",
+  "shortcutLogHabit": "تسجيل عادة",
+  "shortcutNewTask": "مهمة جديدة",
+  "shortcutToday": "اليوم",
   "smartBlocked": "محظور",
   "smartChip": "{label} · {count}",
   "smartClearFollowUp": "إزالة المتابعة",
@@ -4796,6 +5225,71 @@
   "templatesMine": "قوالبي",
   "templatesRename": "إعادة تسمية",
   "templatesUse": "استخدام القالب",
+  "timerSurfaceMore": "{title} (+{count})",
+  "timerSurfaceOver": "تجاوز الوقت المخطط",
+  "timerSurfacePlannedUntil": "مخطط حتى {time}",
+  "todayAllDay": "طوال اليوم",
+  "todayAllHabitsDone": "أنجزت كل العادات 🎉",
+  "todayBlockAgenda": "خطة اليوم",
+  "todayBlockChecklists": "القوائم",
+  "todayBlockHabits": "العادات",
+  "todayBlockHidden": "مخفي",
+  "todayBlockInbox": "الإشعارات",
+  "todayBlockNowNext": "الآن والتالي",
+  "todayBlockOverdue": "متأخرة",
+  "todayBlockQuit": "الإقلاع",
+  "todayCustomize": "تخصيص اليوم",
+  "todayDoneGroup": "المنجزة ({count})",
+  "todayDueItems": "مستحقة اليوم",
+  "todayEmptyAgenda": "لا شيء مخطط اليوم",
+  "todayEmptyAgendaAction": "خطط لمهمة",
+  "todayEmptyChecklists": "ثبّت قائمة لتبقى هنا",
+  "todayEmptyChecklistsAction": "فتح القوائم",
+  "todayEmptyHabits": "لا عادات مستحقة اليوم",
+  "todayEmptyHabitsAction": "أضف عادة",
+  "todayEmptyOverdue": "لا شيء متأخر",
+  "todayEmptyQuit": "تتبّع ما تريد الإقلاع عنه",
+  "todayEmptyQuitAction": "ابدأ متتبع إقلاع",
+  "todayFollowUps": "للمتابعة",
+  "todayGreetingAfternoon": "مساء الخير",
+  "todayGreetingEvening": "مساء الخير",
+  "todayGreetingMorning": "صباح الخير",
+  "todayHabitNextSlot": "التالي في {time}",
+  "todayHabitStreak": "{count, plural, =1{سلسلة يوم واحد} other{سلسلة {count} أيام}}",
+  "todayHintGotIt": "حسنًا",
+  "todayHintSwipe": "اسحب مهمة لتعليمها كمنجزة أو تخطيها — يمكنك تغيير ذلك في التخصيص.",
+  "todayInboxUnread": "{count, plural, =0{لا إشعارات غير مقروءة} =1{إشعار واحد غير مقروء} other{{count} إشعارات غير مقروءة}}",
+  "todayIncludeRecurring": "تضمين المهام المتكررة",
+  "todayKeepWhenEmpty": "إظهار عند الفراغ",
+  "todayListProgress": "{done} من {total}",
+  "todayLoadError": "تعذّر تحميل هذا الجزء",
+  "todayLookback": "فترة التأخر (أيام)",
+  "todayMarkAllDone": "تعليم الكل كمنجز",
+  "todayNext": "التالي",
+  "todayNothingNext": "لا شيء آخر مخطط",
+  "todayNothingNow": "لا شيء مجدول الآن",
+  "todayNow": "الآن",
+  "todayOpenInbox": "فتح الصندوق",
+  "todayOverdueSince": "{date}",
+  "todayOverlapping": "{count, plural, =1{+1 متداخلة} other{+{count} متداخلة}}",
+  "todayPinned": "المثبتة",
+  "todayProgressFocus": "{time} تركيز",
+  "todayProgressHabits": "{done}/{total} عادات",
+  "todayProgressItems": "{count, plural, =1{عنصر واحد منجز} other{{count} عناصر منجزة}}",
+  "todayProgressTasks": "{done}/{total} مهام",
+  "todayQuitNextMilestone": "التالي: {label}",
+  "todayQuitSaved": "تم توفير {amount}",
+  "todayQuitUsedToday": "{amount} اليوم",
+  "todayResetLayout": "إعادة الضبط",
+  "todayRolledOver": "{count, plural, =1{نُقلت مهمة واحدة إلى اليوم} other{نُقلت {count} مهام إلى اليوم}}",
+  "todayShowCompleted": "إظهار المهام المنجزة",
+  "todayShowHeader": "ترويسة التقدم",
+  "todaySkipAll": "تخطي الكل",
+  "todayStartsIn": "بعد {time}",
+  "todaySwipeEnd": "السحب نحو البداية",
+  "todaySwipeNone": "لا شيء",
+  "todaySwipeStart": "السحب نحو النهاية",
+  "todayTimeLeft": "متبقٍ {time}",
   "undoDoneSnack": "تم التراجع: {action}",
   "undoNothing": "لا شيء للتراجع عنه",
   "voiceNoteDiscard": "تجاهل",
@@ -4806,5 +5300,28 @@
   "voiceNoteRecording": "جارٍ التسجيل، {duration}",
   "voiceNoteSave": "إرفاق",
   "voiceNoteStop": "إيقاف التسجيل",
-  "voiceNoteTitle": "ملاحظة صوتية"
+  "voiceNoteTitle": "ملاحظة صوتية",
+  "widgetAdd": "إضافة",
+  "widgetAllDone": "تم كل شيء لليوم",
+  "widgetCleanTime": "مدة الامتناع",
+  "widgetHowToAndroid": "المس الشاشة الرئيسية مطولًا، واختر الأدوات ثم Everslot.",
+  "widgetHowToIos": "المس الشاشة الرئيسية مطولًا، ثم اضغط + وابحث عن Everslot.",
+  "widgetKindChecklist": "قائمة",
+  "widgetKindChecklistHint": "العناصر المفتوحة في أول قائمة مثبتة",
+  "widgetKindHabits": "العادات",
+  "widgetKindHabitsHint": "سجّل عادات اليوم دون فتح التطبيق",
+  "widgetKindQuit": "مدة الامتناع",
+  "widgetKindQuitHint": "عداد مباشر والمال الموفّر والمرحلة التالية",
+  "widgetKindToday": "اليوم",
+  "widgetKindTodayHint": "المهام التالية وما يجري الآن",
+  "widgetListDone": "تم إنجاز كل العناصر",
+  "widgetNoHabits": "لا عادات مستحقة اليوم",
+  "widgetNoList": "ثبّت قائمة في Everslot لتظهر هنا",
+  "widgetNoQuit": "أضف متتبع إقلاع في Everslot",
+  "widgetNothingLeft": "لا شيء متبقٍ اليوم",
+  "widgetNow": "الآن",
+  "widgetRefresh": "تحديث الأدوات الآن",
+  "widgetRefreshed": "تم تحديث الأدوات",
+  "widgetStale": "افتح Everslot للتحديث",
+  "widgetsSection": "أدوات الشاشة الرئيسية"
 }

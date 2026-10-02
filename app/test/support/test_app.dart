@@ -22,6 +22,7 @@ class TestHarness {
     String userId = 'user-1',
     String zone = 'UTC',
     List<Override> overrides = const [],
+    Env? env,
   }) {
     if (!_tzReady) {
       tzdata.initializeTimeZones();
@@ -34,13 +35,14 @@ class TestHarness {
     final container = ProviderContainer(
       overrides: [
         envProvider.overrideWithValue(
-          const Env(
-            flavor: Flavor.dev,
-            supabaseUrl: '',
-            supabasePublishableKey: '',
-            firebaseEnabled: false,
-            featureFlags: {},
-          ),
+          env ??
+              const Env(
+                flavor: Flavor.dev,
+                supabaseUrl: '',
+                supabasePublishableKey: '',
+                firebaseEnabled: false,
+                featureFlags: {},
+              ),
         ),
         appDatabaseProvider.overrideWithValue(db),
         clockProvider.overrideWithValue(clock),

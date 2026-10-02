@@ -1,0 +1,3118 @@
+{
+ "now": "2026-09-22T10:00",
+ "weekStart": "MO",
+ "cases": [
+  {
+   "in": "Gym tomorrow 7pm for 1h every Mon and Wed #health !high",
+   "title": "Gym",
+   "date": "2026-09-23",
+   "time": "19:00",
+   "duration": 60,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "MO",
+     "WE"
+    ]
+   },
+   "category": "health",
+   "priority": "high"
+  },
+  {
+   "in": "Call mom tomorrow",
+   "title": "Call mom",
+   "date": "2026-09-23",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Call mom today at 5pm",
+   "title": "Call mom",
+   "date": "2026-09-22",
+   "time": "17:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Dentist on Friday at 3pm",
+   "title": "Dentist",
+   "date": "2026-09-25",
+   "time": "15:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Dentist friday 3pm",
+   "title": "Dentist",
+   "date": "2026-09-25",
+   "time": "15:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Team meeting next monday 9am",
+   "title": "Team meeting",
+   "date": "2026-09-28",
+   "time": "09:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Pay rent next friday",
+   "title": "Pay rent",
+   "date": "2026-10-02",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Report due this friday",
+   "title": "Report due",
+   "date": "2026-09-25",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Lunch with Sam at noon",
+   "title": "Lunch with Sam",
+   "date": "2026-09-22",
+   "time": "12:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Breakfast at 8am",
+   "title": "Breakfast",
+   "date": "2026-09-23",
+   "time": "08:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Standup every weekday at 9:30",
+   "title": "Standup",
+   "date": "2026-09-22",
+   "time": "09:30",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "MO",
+     "TU",
+     "WE",
+     "TH",
+     "FR"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Yoga every day at 7am",
+   "title": "Yoga",
+   "date": "2026-09-22",
+   "time": "07:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Water plants every 3 days",
+   "title": "Water plants",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 3
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Clean the house every weekend",
+   "title": "Clean the house",
+   "date": "2026-09-26",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "SA",
+     "SU"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Review budget every month on the 15th",
+   "title": "Review budget",
+   "date": "2026-10-15",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byMonthDay": [
+     15
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Pay credit card monthly on the 1st",
+   "title": "Pay credit card",
+   "date": "2026-10-01",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byMonthDay": [
+     1
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Birthday party Oct 15",
+   "title": "Birthday party",
+   "date": "2026-10-15",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Flight on 15 October at 6:45am",
+   "title": "Flight",
+   "date": "2026-10-15",
+   "time": "06:45",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Conference December 3rd",
+   "title": "Conference",
+   "date": "2026-12-03",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Submit taxes 2026-10-31",
+   "title": "Submit taxes",
+   "date": "2026-10-31",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Doctor 25/09 at 10:30",
+   "title": "Doctor",
+   "date": "2026-09-25",
+   "time": "10:30",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Haircut in 3 days",
+   "title": "Haircut",
+   "date": "2026-09-25",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Renew passport in 2 weeks",
+   "title": "Renew passport",
+   "date": "2026-10-06",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Car service in 1 month",
+   "title": "Car service",
+   "date": "2026-10-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Call the bank in 2 hours",
+   "title": "Call the bank",
+   "date": "2026-09-22",
+   "time": "12:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Check oven in 30 minutes",
+   "title": "Check oven",
+   "date": "2026-09-22",
+   "time": "10:30",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Meeting 2-3pm",
+   "title": "Meeting",
+   "date": "2026-09-22",
+   "time": "14:00",
+   "duration": 60,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Workshop from 9am to 12pm tomorrow",
+   "title": "Workshop",
+   "date": "2026-09-23",
+   "time": "09:00",
+   "duration": 180,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Call with Ana 4:30pm for 45 min",
+   "title": "Call with Ana",
+   "date": "2026-09-22",
+   "time": "16:30",
+   "duration": 45,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Read for 30 min every night",
+   "title": "Read",
+   "date": "2026-09-22",
+   "time": "21:00",
+   "duration": 30,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Run every morning",
+   "title": "Run",
+   "date": "2026-09-22",
+   "time": "09:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Weekly review every friday at 4pm",
+   "title": "Weekly review",
+   "date": "2026-09-25",
+   "time": "16:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "FR"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Take vitamins daily at 8am",
+   "title": "Take vitamins",
+   "date": "2026-09-22",
+   "time": "08:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Newsletter every 2 weeks on monday",
+   "title": "Newsletter",
+   "date": "2026-09-28",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 2
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Pay insurance every year",
+   "title": "Pay insurance",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "yearly",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Anniversary dinner every year on june 12",
+   "title": "Anniversary dinner",
+   "date": "2027-06-12",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "yearly",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Book club every first monday of the month at 7pm",
+   "title": "Book club",
+   "date": "2026-10-05",
+   "time": "19:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byWeekday": [
+     "1MO"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Pay bills every last friday of the month",
+   "title": "Pay bills",
+   "date": "2026-09-25",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byWeekday": [
+     "-1FR"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Team lunch every other week",
+   "title": "Team lunch",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 2
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Swim every other day",
+   "title": "Swim",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 2
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Piano lessons every tuesday and thursday at 5pm for 1h",
+   "title": "Piano lessons",
+   "date": "2026-09-22",
+   "time": "17:00",
+   "duration": 60,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "TU",
+     "TH"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Gym every mon, wed and fri at 6pm",
+   "title": "Gym",
+   "date": "2026-09-23",
+   "time": "18:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "MO",
+     "WE",
+     "FR"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Gym on mondays and thursdays",
+   "title": "Gym",
+   "date": "2026-09-24",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "MO",
+     "TH"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Trash out sundays",
+   "title": "Trash out",
+   "date": "2026-09-27",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "SU"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Language class every week for 10 times",
+   "title": "Language class",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "count": 10
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Physio every monday until Oct 26",
+   "title": "Physio",
+   "date": "2026-09-28",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "MO"
+    ],
+    "until": "2026-10-26"
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Daily standup at 9:15 until December 18",
+   "title": "standup",
+   "date": "2026-09-22",
+   "time": "09:15",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1,
+    "until": "2026-12-18"
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Submit report by friday",
+   "title": "Submit report",
+   "date": "2026-09-25",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Pick up kids at 3:30",
+   "title": "Pick up kids",
+   "date": "2026-09-22",
+   "time": "15:30",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Movie night saturday 8pm",
+   "title": "Movie night",
+   "date": "2026-09-26",
+   "time": "20:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Call grandma sunday afternoon",
+   "title": "Call grandma",
+   "date": "2026-09-27",
+   "time": "14:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Prepare slides tomorrow morning",
+   "title": "Prepare slides",
+   "date": "2026-09-23",
+   "time": "09:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Dinner tonight",
+   "title": "Dinner",
+   "date": "2026-09-22",
+   "time": "20:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Pay electricity bill on the 28th",
+   "title": "Pay electricity bill",
+   "date": "2026-09-28",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Vacation all day tomorrow",
+   "title": "Vacation",
+   "date": "2026-09-23",
+   "time": null,
+   "duration": null,
+   "allDay": true,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Holiday Dec 25 all day",
+   "title": "Holiday",
+   "date": "2026-12-25",
+   "time": null,
+   "duration": null,
+   "allDay": true,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Mom's birthday Nov 3 all-day every year",
+   "title": "Mom's birthday",
+   "date": "2026-11-03",
+   "time": null,
+   "duration": null,
+   "allDay": true,
+   "rule": {
+    "freq": "yearly",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Fix bike #home",
+   "title": "Fix bike",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": "home",
+   "priority": null
+  },
+  {
+   "in": "Email Paul !!",
+   "title": "Email Paul",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": "high"
+  },
+  {
+   "in": "Server down !!! #work",
+   "title": "Server down",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": "work",
+   "priority": "urgent"
+  },
+  {
+   "in": "Groceries !low",
+   "title": "Groceries",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": "low"
+  },
+  {
+   "in": "Plan trip !2 #travel",
+   "title": "Plan trip",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": "travel",
+   "priority": "medium"
+  },
+  {
+   "in": "Read \"Tomorrow and Tomorrow\" tonight",
+   "title": "Read Tomorrow and Tomorrow",
+   "date": "2026-09-22",
+   "time": "20:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Buy 3 apples",
+   "title": "Buy 3 apples",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Call 911 drill",
+   "title": "Call 911 drill",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Room 101 cleaning at 10:30am",
+   "title": "Room 101 cleaning",
+   "date": "2026-09-22",
+   "time": "10:30",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Version 2.0 release on Oct 1",
+   "title": "Version 2.0 release",
+   "date": "2026-10-01",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Lunch 12:30-13:30 friday",
+   "title": "Lunch",
+   "date": "2026-09-25",
+   "time": "12:30",
+   "duration": 60,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Sprint planning every 2 weeks on tuesday at 10am for 2 hours",
+   "title": "Sprint planning",
+   "date": "2026-09-22",
+   "time": "10:00",
+   "duration": 120,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 2
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Quarterly review every 3 months",
+   "title": "Quarterly review",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 3
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Backup every sunday at midnight",
+   "title": "Backup",
+   "date": "2026-09-27",
+   "time": "00:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "SU"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Take out recycling every other monday",
+   "title": "Take out recycling",
+   "date": "2026-09-28",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 2,
+    "byWeekday": [
+     "MO"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Laundry every saturday morning",
+   "title": "Laundry",
+   "date": "2026-09-26",
+   "time": "09:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "SA"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Dentist appointment Thursday 2:15pm",
+   "title": "Dentist appointment",
+   "date": "2026-09-24",
+   "time": "14:15",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Visit museum Sat",
+   "title": "Visit museum Sat",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Visit museum on Sat",
+   "title": "Visit museum",
+   "date": "2026-09-26",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Concert 21/11/2026 8pm",
+   "title": "Concert",
+   "date": "2026-11-21",
+   "time": "20:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Pay rent 1/10",
+   "title": "Pay rent",
+   "date": "2026-10-01",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Interview 10/13",
+   "title": "Interview",
+   "date": "2026-10-13",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Exam the 30th at 9am",
+   "title": "Exam",
+   "date": "2026-09-30",
+   "time": "09:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Webinar in 45 min",
+   "title": "Webinar",
+   "date": "2026-09-22",
+   "time": "10:45",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Nap for an hour",
+   "title": "Nap",
+   "date": null,
+   "time": null,
+   "duration": 60,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Meditate for 15 minutes every morning",
+   "title": "Meditate",
+   "date": "2026-09-22",
+   "time": "09:00",
+   "duration": 15,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Write blog post for 1.5h tomorrow",
+   "title": "Write blog post",
+   "date": "2026-09-23",
+   "time": null,
+   "duration": 90,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Deep work 2 hours tomorrow 9am",
+   "title": "Deep work",
+   "date": "2026-09-23",
+   "time": "09:00",
+   "duration": 120,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Call Alex at 11",
+   "title": "Call Alex",
+   "date": "2026-09-22",
+   "time": "11:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Coffee at 4",
+   "title": "Coffee",
+   "date": "2026-09-22",
+   "time": "16:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Wake up at 6:00am",
+   "title": "Wake up",
+   "date": "2026-09-23",
+   "time": "06:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Gym at 19:00",
+   "title": "Gym",
+   "date": "2026-09-22",
+   "time": "19:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Bake cake 9:00am-11:00am saturday",
+   "title": "Bake cake",
+   "date": "2026-09-26",
+   "time": "09:00",
+   "duration": 120,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Pharmacy between 2 and 3pm",
+   "title": "Pharmacy",
+   "date": "2026-09-22",
+   "time": "14:00",
+   "duration": 60,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Weekly sync every week on thursday",
+   "title": "Weekly sync",
+   "date": "2026-09-24",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Pay taxes yearly on april 15",
+   "title": "Pay taxes",
+   "date": "2027-04-15",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "yearly",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Clean gutters every year on october 20",
+   "title": "Clean gutters",
+   "date": "2026-10-20",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "yearly",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Mow lawn every 2 weeks on saturday",
+   "title": "Mow lawn",
+   "date": "2026-09-26",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 2
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Update journal every evening",
+   "title": "Update journal",
+   "date": "2026-09-22",
+   "time": "19:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Team retro every other friday at 3pm",
+   "title": "Team retro",
+   "date": "2026-09-25",
+   "time": "15:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 2,
+    "byWeekday": [
+     "FR"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Payday every 15th",
+   "title": "Payday",
+   "date": "2026-10-15",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byMonthDay": [
+     15
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Bills on the 1st of every month",
+   "title": "Bills",
+   "date": "2026-10-01",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byMonthDay": [
+     1
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Board meeting every 2nd tuesday of the month at 6pm",
+   "title": "Board meeting",
+   "date": "2026-10-13",
+   "time": "18:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byWeekday": [
+     "2TU"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Volunteer every third saturday",
+   "title": "Volunteer",
+   "date": "2026-10-17",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byWeekday": [
+     "3SA"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Pay phone bill every month",
+   "title": "Pay phone bill",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Gym 6am every weekday #fitness",
+   "title": "Gym",
+   "date": "2026-09-22",
+   "time": "06:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "MO",
+     "TU",
+     "WE",
+     "TH",
+     "FR"
+    ]
+   },
+   "category": "fitness",
+   "priority": null
+  },
+  {
+   "in": "Review PRs every weekday for 30 min at 2pm !medium",
+   "title": "Review PRs",
+   "date": "2026-09-22",
+   "time": "14:00",
+   "duration": 30,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "MO",
+     "TU",
+     "WE",
+     "TH",
+     "FR"
+    ]
+   },
+   "category": null,
+   "priority": "medium"
+  },
+  {
+   "in": "Project deadline next week",
+   "title": "Project deadline",
+   "date": "2026-09-28",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Plan Q4 next month",
+   "title": "Plan Q4",
+   "date": "2026-10-01",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Vacation planning next year",
+   "title": "Vacation planning",
+   "date": "2027-01-01",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Christmas shopping December 20 all day #family",
+   "title": "Christmas shopping",
+   "date": "2026-12-20",
+   "time": null,
+   "duration": null,
+   "allDay": true,
+   "rule": null,
+   "category": "family",
+   "priority": null
+  },
+  {
+   "in": "Run 5k tomorrow at 7am",
+   "title": "Run 5k",
+   "date": "2026-09-23",
+   "time": "07:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Call John at 9pm tomorrow !high #work",
+   "title": "Call John",
+   "date": "2026-09-23",
+   "time": "21:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": "work",
+   "priority": "high"
+  },
+  {
+   "in": "Order pizza tonight at 7:30pm",
+   "title": "Order pizza",
+   "date": "2026-09-22",
+   "time": "19:30",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Garden every sat and sun at 10am",
+   "title": "Garden",
+   "date": "2026-09-26",
+   "time": "10:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "SA",
+     "SU"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Pick up dry cleaning thursday",
+   "title": "Pick up dry cleaning",
+   "date": "2026-09-24",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Call plumber tue",
+   "title": "Call plumber tue",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Call plumber this tue",
+   "title": "Call plumber",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Taxes due April 30th 2027",
+   "title": "Taxes due",
+   "date": "2027-04-30",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Flight to Paris on 2026-12-19 at 11:40",
+   "title": "Flight to Paris",
+   "date": "2026-12-19",
+   "time": "11:40",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Pay rent on the 1st every month",
+   "title": "Pay rent",
+   "date": "2026-10-01",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Call Sarah at 2",
+   "title": "Call Sarah",
+   "date": "2026-09-22",
+   "time": "14:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Meeting at 10",
+   "title": "Meeting",
+   "date": "2026-09-23",
+   "time": "10:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Lunch tomorrow 1pm-2pm #social",
+   "title": "Lunch",
+   "date": "2026-09-23",
+   "time": "13:00",
+   "duration": 60,
+   "allDay": false,
+   "rule": null,
+   "category": "social",
+   "priority": null
+  },
+  {
+   "in": "Doctor appointment Oct 15th at 9:45am !high",
+   "title": "Doctor appointment",
+   "date": "2026-10-15",
+   "time": "09:45",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": "high"
+  },
+  {
+   "in": "Call dad the day after tomorrow",
+   "title": "Call dad",
+   "date": "2026-09-24",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Read 20 pages every day #learning",
+   "title": "Read 20 pages",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": "learning",
+   "priority": null
+  },
+  {
+   "in": "Stretch for half an hour every evening",
+   "title": "Stretch",
+   "date": "2026-09-22",
+   "time": "19:00",
+   "duration": 30,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Seminar on the 15th of October",
+   "title": "Seminar",
+   "date": "2026-10-15",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Hike saturday from 8am to 2pm",
+   "title": "Hike",
+   "date": "2026-09-26",
+   "time": "08:00",
+   "duration": 360,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Water the garden every 2 days at 7pm",
+   "title": "Water the garden",
+   "date": "2026-09-22",
+   "time": "19:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 2
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Send invoice on monday !urgent",
+   "title": "Send invoice",
+   "date": "2026-09-28",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": "urgent"
+  },
+  {
+   "in": "Brunch sunday 11am for 2 hours #friends",
+   "title": "Brunch",
+   "date": "2026-09-27",
+   "time": "11:00",
+   "duration": 120,
+   "allDay": false,
+   "rule": null,
+   "category": "friends",
+   "priority": null
+  },
+  {
+   "in": "Check emails every weekday",
+   "title": "Check emails",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "MO",
+     "TU",
+     "WE",
+     "TH",
+     "FR"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Football practice every wednesday 6pm-8pm",
+   "title": "Football practice",
+   "date": "2026-09-23",
+   "time": "18:00",
+   "duration": 120,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "WE"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Write report for an hour and a half",
+   "title": "Write report",
+   "date": null,
+   "time": null,
+   "duration": 90,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Moving day Oct 3 all day !high",
+   "title": "Moving day",
+   "date": "2026-10-03",
+   "time": null,
+   "duration": null,
+   "allDay": true,
+   "rule": null,
+   "category": null,
+   "priority": "high"
+  },
+  {
+   "in": "Salle de sport demain 19h pendant 1h tous les lundis et mercredis #santé !haute",
+   "title": "Salle de sport",
+   "date": "2026-09-23",
+   "time": "19:00",
+   "duration": 60,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "MO",
+     "WE"
+    ]
+   },
+   "category": "santé",
+   "priority": "high"
+  },
+  {
+   "in": "Appeler maman demain",
+   "title": "Appeler maman",
+   "date": "2026-09-23",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Dentiste vendredi à 15h",
+   "title": "Dentiste",
+   "date": "2026-09-25",
+   "time": "15:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Réunion lundi prochain à 9h",
+   "title": "Réunion",
+   "date": "2026-09-28",
+   "time": "09:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Payer le loyer le 1er octobre",
+   "title": "Payer le loyer",
+   "date": "2026-10-01",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Déjeuner avec Paul à midi",
+   "title": "Déjeuner avec Paul",
+   "date": "2026-09-22",
+   "time": "12:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Petit-déjeuner à 8h",
+   "title": "Petit-déjeuner",
+   "date": "2026-09-23",
+   "time": "08:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Yoga tous les jours à 7h",
+   "title": "Yoga",
+   "date": "2026-09-22",
+   "time": "07:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Arroser les plantes tous les 3 jours",
+   "title": "Arroser les plantes",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 3
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Ménage le week-end",
+   "title": "Ménage",
+   "date": "2026-09-26",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "SA",
+     "SU"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Budget le 15 de chaque mois",
+   "title": "Budget",
+   "date": "2026-10-15",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byMonthDay": [
+     15
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Anniversaire de Léa le 15 octobre",
+   "title": "Anniversaire de Léa",
+   "date": "2026-10-15",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Vol le 3 décembre à 6h45",
+   "title": "Vol",
+   "date": "2026-12-03",
+   "time": "06:45",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Impôts 31/10",
+   "title": "Impôts",
+   "date": "2026-10-31",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Coiffeur dans 3 jours",
+   "title": "Coiffeur",
+   "date": "2026-09-25",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Renouveler passeport dans 2 semaines",
+   "title": "Renouveler passeport",
+   "date": "2026-10-06",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Révision voiture dans 1 mois",
+   "title": "Révision voiture",
+   "date": "2026-10-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Rappeler la banque dans 2 heures",
+   "title": "Rappeler la banque",
+   "date": "2026-09-22",
+   "time": "12:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Sortir le gâteau dans 30 minutes",
+   "title": "Sortir le gâteau",
+   "date": "2026-09-22",
+   "time": "10:30",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Réunion de 14h à 15h",
+   "title": "Réunion",
+   "date": "2026-09-22",
+   "time": "14:00",
+   "duration": 60,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Atelier de 9h à 12h demain",
+   "title": "Atelier",
+   "date": "2026-09-23",
+   "time": "09:00",
+   "duration": 180,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Lire pendant 30 min tous les soirs",
+   "title": "Lire",
+   "date": "2026-09-22",
+   "time": "19:00",
+   "duration": 30,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Courir tous les matins",
+   "title": "Courir",
+   "date": "2026-09-22",
+   "time": "09:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Bilan hebdomadaire tous les vendredis à 16h",
+   "title": "Bilan hebdomadaire",
+   "date": "2026-09-25",
+   "time": "16:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "FR"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Vitamines chaque jour à 8h",
+   "title": "Vitamines",
+   "date": "2026-09-22",
+   "time": "08:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Assurance tous les ans",
+   "title": "Assurance",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "yearly",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Club de lecture chaque premier lundi du mois à 19h",
+   "title": "Club de lecture",
+   "date": "2026-10-05",
+   "time": "19:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byWeekday": [
+     "1MO"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Factures le dernier vendredi du mois",
+   "title": "Factures",
+   "date": "2026-09-25",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byWeekday": [
+     "-1FR"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Déjeuner d'équipe une semaine sur deux",
+   "title": "Déjeuner d'équipe",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 2
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Natation un jour sur deux",
+   "title": "Natation",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 2
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Piano tous les mardis et jeudis à 17h pendant 1h",
+   "title": "Piano",
+   "date": "2026-09-22",
+   "time": "17:00",
+   "duration": 60,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "TU",
+     "TH"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Sport chaque lundi, mercredi et vendredi à 18h",
+   "title": "Sport",
+   "date": "2026-09-23",
+   "time": "18:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "MO",
+     "WE",
+     "FR"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Poubelles les dimanches",
+   "title": "Poubelles",
+   "date": "2026-09-27",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "SU"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Cours d'anglais chaque semaine 10 fois",
+   "title": "Cours d'anglais",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "count": 10
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Kiné tous les lundis jusqu'au 26 octobre",
+   "title": "Kiné",
+   "date": "2026-09-28",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "MO"
+    ],
+    "until": "2026-10-26"
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Rendre le rapport vendredi",
+   "title": "Rendre le rapport",
+   "date": "2026-09-25",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Chercher les enfants à 16h30",
+   "title": "Chercher les enfants",
+   "date": "2026-09-22",
+   "time": "16:30",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Soirée film samedi à 20h",
+   "title": "Soirée film",
+   "date": "2026-09-26",
+   "time": "20:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Appeler mamie dimanche après-midi",
+   "title": "Appeler mamie",
+   "date": "2026-09-27",
+   "time": "14:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Préparer les slides demain matin",
+   "title": "Préparer les slides",
+   "date": "2026-09-23",
+   "time": "09:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Dîner ce soir",
+   "title": "Dîner",
+   "date": "2026-09-22",
+   "time": "20:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Payer l'électricité le 28",
+   "title": "Payer l'électricité",
+   "date": "2026-09-28",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Vacances demain toute la journée",
+   "title": "Vacances",
+   "date": "2026-09-23",
+   "time": null,
+   "duration": null,
+   "allDay": true,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Noël le 25 décembre toute la journée",
+   "title": "Noël",
+   "date": "2026-12-25",
+   "time": null,
+   "duration": null,
+   "allDay": true,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Réparer le vélo #maison",
+   "title": "Réparer le vélo",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": "maison",
+   "priority": null
+  },
+  {
+   "in": "Écrire à Paul !!",
+   "title": "Écrire à Paul",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": "high"
+  },
+  {
+   "in": "Serveur en panne !!! #travail",
+   "title": "Serveur en panne",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": "travail",
+   "priority": "urgent"
+  },
+  {
+   "in": "Courses !basse",
+   "title": "Courses",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": "low"
+  },
+  {
+   "in": "Organiser voyage !2 #voyage",
+   "title": "Organiser voyage",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": "voyage",
+   "priority": "medium"
+  },
+  {
+   "in": "Acheter 3 pommes",
+   "title": "Acheter 3 pommes",
+   "date": null,
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Salle 101 à 10h30",
+   "title": "Salle 101",
+   "date": "2026-09-22",
+   "time": "10:30",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Déjeuner 12h30-13h30 vendredi",
+   "title": "Déjeuner",
+   "date": "2026-09-25",
+   "time": "12:30",
+   "duration": 60,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Revue trimestrielle tous les 3 mois",
+   "title": "Revue trimestrielle",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 3
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Sauvegarde tous les dimanches à minuit",
+   "title": "Sauvegarde",
+   "date": "2026-09-27",
+   "time": "00:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "SU"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Recyclage toutes les deux semaines le lundi",
+   "title": "Recyclage",
+   "date": "2026-09-28",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 2
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Lessive tous les samedis matin",
+   "title": "Lessive",
+   "date": "2026-09-26",
+   "time": "09:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "SA"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Dentiste jeudi à 14h15",
+   "title": "Dentiste",
+   "date": "2026-09-24",
+   "time": "14:15",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Musée samedi",
+   "title": "Musée",
+   "date": "2026-09-26",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Concert le 21/11/2026 à 20h",
+   "title": "Concert",
+   "date": "2026-11-21",
+   "time": "20:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Examen le 30 à 9h",
+   "title": "Examen",
+   "date": "2026-09-30",
+   "time": "09:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Webinaire dans 45 min",
+   "title": "Webinaire",
+   "date": "2026-09-22",
+   "time": "10:45",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Sieste pendant une heure",
+   "title": "Sieste",
+   "date": null,
+   "time": null,
+   "duration": 60,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Méditer pendant 15 minutes tous les matins",
+   "title": "Méditer",
+   "date": "2026-09-22",
+   "time": "09:00",
+   "duration": 15,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Écrire un article pendant 1h30 demain",
+   "title": "Écrire un article",
+   "date": "2026-09-23",
+   "time": null,
+   "duration": 90,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Travail profond 2 heures demain 9h",
+   "title": "Travail profond",
+   "date": "2026-09-23",
+   "time": "09:00",
+   "duration": 120,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Appeler Alex à 11h",
+   "title": "Appeler Alex",
+   "date": "2026-09-22",
+   "time": "11:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Café à 16h",
+   "title": "Café",
+   "date": "2026-09-22",
+   "time": "16:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Se lever à 6h",
+   "title": "Se lever",
+   "date": "2026-09-23",
+   "time": "06:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Gâteau samedi de 9h à 11h",
+   "title": "Gâteau",
+   "date": "2026-09-26",
+   "time": "09:00",
+   "duration": 120,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Pharmacie entre 14h et 15h",
+   "title": "Pharmacie",
+   "date": "2026-09-22",
+   "time": "14:00",
+   "duration": 60,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Synchro chaque semaine le jeudi",
+   "title": "Synchro",
+   "date": "2026-09-24",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Impôts chaque année le 15 avril",
+   "title": "Impôts",
+   "date": "2027-04-15",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "yearly",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Rétro équipe toutes les 2 semaines vendredi à 15h",
+   "title": "Rétro équipe",
+   "date": "2026-09-25",
+   "time": "15:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 2
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Paie le 15 de chaque mois",
+   "title": "Paie",
+   "date": "2026-10-15",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byMonthDay": [
+     15
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Conseil chaque deuxième mardi du mois à 18h",
+   "title": "Conseil",
+   "date": "2026-10-13",
+   "time": "18:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byWeekday": [
+     "2TU"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Bénévolat chaque troisième samedi",
+   "title": "Bénévolat",
+   "date": "2026-10-17",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byWeekday": [
+     "3SA"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Projet la semaine prochaine",
+   "title": "Projet",
+   "date": "2026-09-28",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Planifier T4 le mois prochain",
+   "title": "Planifier T4",
+   "date": "2026-10-01",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Courses de Noël le 20 décembre toute la journée #famille",
+   "title": "Courses de Noël",
+   "date": "2026-12-20",
+   "time": null,
+   "duration": null,
+   "allDay": true,
+   "rule": null,
+   "category": "famille",
+   "priority": null
+  },
+  {
+   "in": "Appeler Jean à 21h demain !haute #travail",
+   "title": "Appeler Jean",
+   "date": "2026-09-23",
+   "time": "21:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": "travail",
+   "priority": "high"
+  },
+  {
+   "in": "Commander pizza ce soir à 19h30",
+   "title": "Commander pizza",
+   "date": "2026-09-22",
+   "time": "19:30",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Jardin tous les samedis et dimanches à 10h",
+   "title": "Jardin",
+   "date": "2026-09-26",
+   "time": "10:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "SA",
+     "SU"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Pressing jeudi",
+   "title": "Pressing",
+   "date": "2026-09-24",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Plombier ce mardi",
+   "title": "Plombier",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Impôts le 30 avril 2027",
+   "title": "Impôts",
+   "date": "2027-04-30",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Vol pour Paris le 2026-12-19 à 11h40",
+   "title": "Vol pour Paris",
+   "date": "2026-12-19",
+   "time": "11:40",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Rappel après-demain",
+   "title": "Rappel",
+   "date": "2026-09-24",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Médecin aujourd'hui à 17h",
+   "title": "Médecin",
+   "date": "2026-09-22",
+   "time": "17:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Banque en semaine à 9h",
+   "title": "Banque",
+   "date": "2026-09-22",
+   "time": "09:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "MO",
+     "TU",
+     "WE",
+     "TH",
+     "FR"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Stand-up du lundi au vendredi à 9h30",
+   "title": "Stand-up",
+   "date": "2026-09-22",
+   "time": "09:30",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "MO",
+     "TU",
+     "WE",
+     "TH",
+     "FR"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Lire \"Demain dès l'aube\" ce soir",
+   "title": "Lire Demain dès l'aube",
+   "date": "2026-09-22",
+   "time": "20:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Cours de yoga mardi prochain 18h",
+   "title": "Cours de yoga",
+   "date": "2026-09-29",
+   "time": "18:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Ranger le garage samedi toute la journée",
+   "title": "Ranger le garage",
+   "date": "2026-09-26",
+   "time": null,
+   "duration": null,
+   "allDay": true,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Appeler papa après-demain à 18h",
+   "title": "Appeler papa",
+   "date": "2026-09-24",
+   "time": "18:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Lire 20 pages chaque jour #apprentissage",
+   "title": "Lire 20 pages",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": "apprentissage",
+   "priority": null
+  },
+  {
+   "in": "Étirements pendant une demi-heure tous les soirs",
+   "title": "Étirements",
+   "date": "2026-09-22",
+   "time": "19:00",
+   "duration": 30,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Randonnée samedi de 8h à 14h",
+   "title": "Randonnée",
+   "date": "2026-09-26",
+   "time": "08:00",
+   "duration": 360,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Arroser le jardin tous les 2 jours à 19h",
+   "title": "Arroser le jardin",
+   "date": "2026-09-22",
+   "time": "19:00",
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 2
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Envoyer la facture lundi !urgent",
+   "title": "Envoyer la facture",
+   "date": "2026-09-28",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": "urgent"
+  },
+  {
+   "in": "Brunch dimanche 11h pendant 2 heures #amis",
+   "title": "Brunch",
+   "date": "2026-09-27",
+   "time": "11:00",
+   "duration": 120,
+   "allDay": false,
+   "rule": null,
+   "category": "amis",
+   "priority": null
+  },
+  {
+   "in": "Foot tous les mercredis de 18h à 20h",
+   "title": "Foot",
+   "date": "2026-09-23",
+   "time": "18:00",
+   "duration": 120,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "WE"
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Déménagement le 3 octobre toute la journée !haute",
+   "title": "Déménagement",
+   "date": "2026-10-03",
+   "time": null,
+   "duration": null,
+   "allDay": true,
+   "rule": null,
+   "category": null,
+   "priority": "high"
+  },
+  {
+   "in": "Rendez-vous à la mairie le 12 novembre à 10h",
+   "title": "Rendez-vous à la mairie",
+   "date": "2026-11-12",
+   "time": "10:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Séance photo dimanche matin",
+   "title": "Séance photo",
+   "date": "2026-09-27",
+   "time": "09:00",
+   "duration": null,
+   "allDay": false,
+   "rule": null,
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Point mensuel tous les mois le 5",
+   "title": "Point mensuel",
+   "date": "2026-10-05",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "monthly",
+    "interval": 1,
+    "byMonthDay": [
+     5
+    ]
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Arroser les tomates chaque jour 15 fois",
+   "title": "Arroser les tomates",
+   "date": "2026-09-22",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "daily",
+    "interval": 1,
+    "count": 15
+   },
+   "category": null,
+   "priority": null
+  },
+  {
+   "in": "Cours de piano chaque mercredi jusqu'au 16 décembre",
+   "title": "Cours de piano",
+   "date": "2026-09-23",
+   "time": null,
+   "duration": null,
+   "allDay": false,
+   "rule": {
+    "freq": "weekly",
+    "interval": 1,
+    "byWeekday": [
+     "WE"
+    ],
+    "until": "2026-12-16"
+   },
+   "category": null,
+   "priority": null
+  }
+ ]
+}
