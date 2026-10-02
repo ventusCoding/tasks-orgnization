@@ -543,5 +543,21 @@
   "notifContentPack": "رسائل متنوعة",
   "notifPackNone": "إيقاف",
   "notifPackHabitName": "تحفيز (العادات)",
-  "notifPackQuitName": "تحفيز (الإقلاع)"
+  "notifPackQuitName": "تحفيز (الإقلاع)",
+  "notifRuleSets": "مجموعات التذكير",
+  "notifRuleSetSave": "حفظ هذه التذكيرات كمجموعة…",
+  "notifRuleSetName": "اسم المجموعة",
+  "notifRuleSetSaved": "حُفظت باسم «{name}»",
+  "notifRuleSetNothing": "لا توجد تذكيرات خاصة بهذا العنصر لحفظها.",
+  "notifRuleSetEmpty": "لا توجد مجموعات بعد. احفظ تذكيرات عنصر لإعادة استخدامها في أي مكان.",
+  "notifRuleSetCount": "{count, plural, =1{تذكير واحد} other{{count} تذكيرات}}",
+  "notifRuleSetApplyTitle": "تطبيق «{name}»؟",
+  "notifRuleSetApplyBody": "تحلّ تذكيراتها محل تذكيرات هذا العنصر الخاصة.",
+  "notifRuleSetApply": "تطبيق",
+  "notifRuleSetApplied": "طُبّقت «{name}»",
+  "notifRuleSetImport": "استيراد مجموعة تذكير",
+  "notifRuleSetImported": "استُوردت «{name}»",
+  "notifRuleSetInvalid": "هذا الملف ليس مجموعة تذكير صالحة من Everslot.",
+  "notifRuleSetExport": "تصدير",
+  "notifRuleSetDeleteTitle": "حذف «{name}»؟"
 }

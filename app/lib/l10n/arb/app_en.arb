@@ -2623,6 +2623,48 @@
       }
     }
   },
+  "@notifRuleSetApplied": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifRuleSetApplyTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifRuleSetCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifRuleSetDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifRuleSetImported": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifRuleSetSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "@notifSectionOffHint": {
     "placeholders": {
       "section": {
@@ -6850,6 +6892,22 @@
   "notifRuleDeleted": "Reminder deleted",
   "notifRuleEnabled": "Reminder enabled",
   "notifRuleSaved": "Reminder saved",
+  "notifRuleSetApplied": "Applied “{name}”",
+  "notifRuleSetApply": "Apply",
+  "notifRuleSetApplyBody": "Its reminders replace this item's own reminders.",
+  "notifRuleSetApplyTitle": "Apply “{name}”?",
+  "notifRuleSetCount": "{count, plural, =1{1 reminder} other{{count} reminders}}",
+  "notifRuleSetDeleteTitle": "Delete “{name}”?",
+  "notifRuleSetEmpty": "No rule sets yet. Save an item's reminders as a set to reuse them anywhere.",
+  "notifRuleSetExport": "Export",
+  "notifRuleSetImport": "Import a rule set",
+  "notifRuleSetImported": "Imported “{name}”",
+  "notifRuleSetInvalid": "This file isn't a valid Everslot rule set.",
+  "notifRuleSetName": "Rule set name",
+  "notifRuleSetNothing": "This item has no reminders of its own to save.",
+  "notifRuleSetSave": "Save these reminders as a rule set…",
+  "notifRuleSetSaved": "Saved as “{name}”",
+  "notifRuleSets": "Rule sets",
   "notifSaturationBody": "Open Everslot to keep your reminders up to date",
   "notifSaturationTitle": "Open Everslot",
   "notifSectionChecklists": "Lists",

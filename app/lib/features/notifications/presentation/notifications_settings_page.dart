@@ -16,6 +16,7 @@ import 'package:everslot/features/notifications/presentation/mute_menu.dart';
 import 'package:everslot/features/notifications/presentation/notification_labels.dart';
 import 'package:everslot/features/notifications/presentation/permission_primers.dart';
 import 'package:everslot/features/notifications/presentation/profiles_screen.dart';
+import 'package:everslot/features/notifications/presentation/rule_sets_ui.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -349,6 +350,12 @@ class _SettingsList extends ConsumerWidget {
           leading: const Icon(Icons.rule),
           title: Text(l.notifDefaultsEntry),
           onTap: () => push(const NotificationDefaultsScreen()),
+        ),
+        ListTile(
+          key: const ValueKey('rule-sets-screen'),
+          leading: const Icon(Icons.bookmarks_outlined),
+          title: Text(l.notifRuleSets),
+          onTap: () => push(const RuleSetsScreen()),
         ),
         ListTile(
           leading: const Icon(Icons.style_outlined),

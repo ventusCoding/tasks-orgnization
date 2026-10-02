@@ -11919,6 +11919,102 @@ abstract class AppLocalizations {
   /// **'Reminder saved'**
   String get notifRuleSaved;
 
+  /// No description provided for @notifRuleSetApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied “{name}”'**
+  String notifRuleSetApplied(String name);
+
+  /// No description provided for @notifRuleSetApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get notifRuleSetApply;
+
+  /// No description provided for @notifRuleSetApplyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Its reminders replace this item\'s own reminders.'**
+  String get notifRuleSetApplyBody;
+
+  /// No description provided for @notifRuleSetApplyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply “{name}”?'**
+  String notifRuleSetApplyTitle(String name);
+
+  /// No description provided for @notifRuleSetCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 reminder} other{{count} reminders}}'**
+  String notifRuleSetCount(int count);
+
+  /// No description provided for @notifRuleSetDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete “{name}”?'**
+  String notifRuleSetDeleteTitle(String name);
+
+  /// No description provided for @notifRuleSetEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No rule sets yet. Save an item\'s reminders as a set to reuse them anywhere.'**
+  String get notifRuleSetEmpty;
+
+  /// No description provided for @notifRuleSetExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get notifRuleSetExport;
+
+  /// No description provided for @notifRuleSetImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import a rule set'**
+  String get notifRuleSetImport;
+
+  /// No description provided for @notifRuleSetImported.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported “{name}”'**
+  String notifRuleSetImported(String name);
+
+  /// No description provided for @notifRuleSetInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'This file isn\'t a valid Everslot rule set.'**
+  String get notifRuleSetInvalid;
+
+  /// No description provided for @notifRuleSetName.
+  ///
+  /// In en, this message translates to:
+  /// **'Rule set name'**
+  String get notifRuleSetName;
+
+  /// No description provided for @notifRuleSetNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'This item has no reminders of its own to save.'**
+  String get notifRuleSetNothing;
+
+  /// No description provided for @notifRuleSetSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save these reminders as a rule set…'**
+  String get notifRuleSetSave;
+
+  /// No description provided for @notifRuleSetSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved as “{name}”'**
+  String notifRuleSetSaved(String name);
+
+  /// No description provided for @notifRuleSets.
+  ///
+  /// In en, this message translates to:
+  /// **'Rule sets'**
+  String get notifRuleSets;
+
   /// No description provided for @notifSaturationBody.
   ///
   /// In en, this message translates to:

@@ -1264,5 +1264,63 @@
   "notifContentPack": "Rotating messages",
   "notifPackNone": "Off",
   "notifPackHabitName": "Motivation (habits)",
-  "notifPackQuitName": "Motivation (quit)"
+  "notifPackQuitName": "Motivation (quit)",
+  "notifRuleSets": "Rule sets",
+  "notifRuleSetSave": "Save these reminders as a rule set…",
+  "notifRuleSetName": "Rule set name",
+  "notifRuleSetSaved": "Saved as “{name}”",
+  "@notifRuleSetSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifRuleSetNothing": "This item has no reminders of its own to save.",
+  "notifRuleSetEmpty": "No rule sets yet. Save an item's reminders as a set to reuse them anywhere.",
+  "notifRuleSetCount": "{count, plural, =1{1 reminder} other{{count} reminders}}",
+  "@notifRuleSetCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifRuleSetApplyTitle": "Apply “{name}”?",
+  "@notifRuleSetApplyTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifRuleSetApplyBody": "Its reminders replace this item's own reminders.",
+  "notifRuleSetApply": "Apply",
+  "notifRuleSetApplied": "Applied “{name}”",
+  "@notifRuleSetApplied": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifRuleSetImport": "Import a rule set",
+  "notifRuleSetImported": "Imported “{name}”",
+  "@notifRuleSetImported": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifRuleSetInvalid": "This file isn't a valid Everslot rule set.",
+  "notifRuleSetExport": "Export",
+  "notifRuleSetDeleteTitle": "Delete “{name}”?",
+  "@notifRuleSetDeleteTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }

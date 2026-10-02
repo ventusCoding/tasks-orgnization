@@ -7043,6 +7043,68 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifRuleSaved => 'Rappel enregistré';
 
   @override
+  String notifRuleSetApplied(String name) {
+    return '« $name » appliqué';
+  }
+
+  @override
+  String get notifRuleSetApply => 'Appliquer';
+
+  @override
+  String get notifRuleSetApplyBody => 'Ses rappels remplacent les rappels propres de cet élément.';
+
+  @override
+  String notifRuleSetApplyTitle(String name) {
+    return 'Appliquer « $name » ?';
+  }
+
+  @override
+  String notifRuleSetCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count rappels', one: '1 rappel');
+    return '$_temp0';
+  }
+
+  @override
+  String notifRuleSetDeleteTitle(String name) {
+    return 'Supprimer « $name » ?';
+  }
+
+  @override
+  String get notifRuleSetEmpty =>
+      'Aucun jeu de rappels. Enregistrez les rappels d’un élément pour les réutiliser partout.';
+
+  @override
+  String get notifRuleSetExport => 'Exporter';
+
+  @override
+  String get notifRuleSetImport => 'Importer un jeu de rappels';
+
+  @override
+  String notifRuleSetImported(String name) {
+    return '« $name » importé';
+  }
+
+  @override
+  String get notifRuleSetInvalid => 'Ce fichier n’est pas un jeu de rappels Everslot valide.';
+
+  @override
+  String get notifRuleSetName => 'Nom du jeu';
+
+  @override
+  String get notifRuleSetNothing => 'Cet élément n’a pas de rappels propres à enregistrer.';
+
+  @override
+  String get notifRuleSetSave => 'Enregistrer ces rappels comme jeu…';
+
+  @override
+  String notifRuleSetSaved(String name) {
+    return 'Enregistré sous « $name »';
+  }
+
+  @override
+  String get notifRuleSets => 'Jeux de rappels';
+
+  @override
   String get notifSaturationBody => 'Ouvrez Everslot pour garder vos rappels à jour';
 
   @override

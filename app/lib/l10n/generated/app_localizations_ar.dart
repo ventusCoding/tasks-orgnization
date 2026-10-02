@@ -7404,6 +7404,67 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifRuleSaved => 'تم حفظ التذكير';
 
   @override
+  String notifRuleSetApplied(String name) {
+    return 'طُبّقت «$name»';
+  }
+
+  @override
+  String get notifRuleSetApply => 'تطبيق';
+
+  @override
+  String get notifRuleSetApplyBody => 'تحلّ تذكيراتها محل تذكيرات هذا العنصر الخاصة.';
+
+  @override
+  String notifRuleSetApplyTitle(String name) {
+    return 'تطبيق «$name»؟';
+  }
+
+  @override
+  String notifRuleSetCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count تذكيرات', one: 'تذكير واحد');
+    return '$_temp0';
+  }
+
+  @override
+  String notifRuleSetDeleteTitle(String name) {
+    return 'حذف «$name»؟';
+  }
+
+  @override
+  String get notifRuleSetEmpty => 'لا توجد مجموعات بعد. احفظ تذكيرات عنصر لإعادة استخدامها في أي مكان.';
+
+  @override
+  String get notifRuleSetExport => 'تصدير';
+
+  @override
+  String get notifRuleSetImport => 'استيراد مجموعة تذكير';
+
+  @override
+  String notifRuleSetImported(String name) {
+    return 'استُوردت «$name»';
+  }
+
+  @override
+  String get notifRuleSetInvalid => 'هذا الملف ليس مجموعة تذكير صالحة من Everslot.';
+
+  @override
+  String get notifRuleSetName => 'اسم المجموعة';
+
+  @override
+  String get notifRuleSetNothing => 'لا توجد تذكيرات خاصة بهذا العنصر لحفظها.';
+
+  @override
+  String get notifRuleSetSave => 'حفظ هذه التذكيرات كمجموعة…';
+
+  @override
+  String notifRuleSetSaved(String name) {
+    return 'حُفظت باسم «$name»';
+  }
+
+  @override
+  String get notifRuleSets => 'مجموعات التذكير';
+
+  @override
   String get notifSaturationBody => 'افتح Everslot لتحديث تذكيراتك';
 
   @override

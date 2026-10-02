@@ -543,5 +543,21 @@
   "notifContentPack": "Messages variés",
   "notifPackNone": "Aucun",
   "notifPackHabitName": "Motivation (habitudes)",
-  "notifPackQuitName": "Motivation (arrêt)"
+  "notifPackQuitName": "Motivation (arrêt)",
+  "notifRuleSets": "Jeux de rappels",
+  "notifRuleSetSave": "Enregistrer ces rappels comme jeu…",
+  "notifRuleSetName": "Nom du jeu",
+  "notifRuleSetSaved": "Enregistré sous « {name} »",
+  "notifRuleSetNothing": "Cet élément n’a pas de rappels propres à enregistrer.",
+  "notifRuleSetEmpty": "Aucun jeu de rappels. Enregistrez les rappels d’un élément pour les réutiliser partout.",
+  "notifRuleSetCount": "{count, plural, =1{1 rappel} other{{count} rappels}}",
+  "notifRuleSetApplyTitle": "Appliquer « {name} » ?",
+  "notifRuleSetApplyBody": "Ses rappels remplacent les rappels propres de cet élément.",
+  "notifRuleSetApply": "Appliquer",
+  "notifRuleSetApplied": "« {name} » appliqué",
+  "notifRuleSetImport": "Importer un jeu de rappels",
+  "notifRuleSetImported": "« {name} » importé",
+  "notifRuleSetInvalid": "Ce fichier n’est pas un jeu de rappels Everslot valide.",
+  "notifRuleSetExport": "Exporter",
+  "notifRuleSetDeleteTitle": "Supprimer « {name} » ?"
 }

@@ -58,7 +58,7 @@ trigger semantics per section and global controls such as quiet hours ([7.5]).
 - [x] T7.1.15 — "Customize" snapshot, bulk apply & copy rules
 - [x] T7.1.16 — Occurrence-level overrides
 - [x] T7.1.17 — Motivational content variants
-- [ ] T7.1.18 — Rule sets (reusable bundles) & export/import
+- [x] T7.1.18 — Rule sets (reusable bundles) & export/import
 
 ## Tasks
 
@@ -313,3 +313,4 @@ quit tracker's motivation).
 **Description:** Save the rules of an item as a named *rule set* (e.g. "Meeting style: 1 day before at 20:00,
 15 min before, at start") and apply it anywhere; export/import rule sets as JSON files.
 **Tests:** round-trip export/import; apply test.
+**Notes:** Stored in the synced `user_settings.notification_rule_sets` namespace (whole-value LWW — fine for rarely edited sets); profiles travel by code (custom profiles fall back to the rule default). *Rule sets* button in every item's reminders section (save / apply — applying replaces the item's own reminders and switches it to Custom, drafts included) and Settings › Notifications › Rule sets (rename, export via the share sheet, delete, import a `.json`).

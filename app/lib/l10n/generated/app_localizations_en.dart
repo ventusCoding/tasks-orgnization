@@ -6868,6 +6868,67 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifRuleSaved => 'Reminder saved';
 
   @override
+  String notifRuleSetApplied(String name) {
+    return 'Applied “$name”';
+  }
+
+  @override
+  String get notifRuleSetApply => 'Apply';
+
+  @override
+  String get notifRuleSetApplyBody => 'Its reminders replace this item\'s own reminders.';
+
+  @override
+  String notifRuleSetApplyTitle(String name) {
+    return 'Apply “$name”?';
+  }
+
+  @override
+  String notifRuleSetCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count reminders', one: '1 reminder');
+    return '$_temp0';
+  }
+
+  @override
+  String notifRuleSetDeleteTitle(String name) {
+    return 'Delete “$name”?';
+  }
+
+  @override
+  String get notifRuleSetEmpty => 'No rule sets yet. Save an item\'s reminders as a set to reuse them anywhere.';
+
+  @override
+  String get notifRuleSetExport => 'Export';
+
+  @override
+  String get notifRuleSetImport => 'Import a rule set';
+
+  @override
+  String notifRuleSetImported(String name) {
+    return 'Imported “$name”';
+  }
+
+  @override
+  String get notifRuleSetInvalid => 'This file isn\'t a valid Everslot rule set.';
+
+  @override
+  String get notifRuleSetName => 'Rule set name';
+
+  @override
+  String get notifRuleSetNothing => 'This item has no reminders of its own to save.';
+
+  @override
+  String get notifRuleSetSave => 'Save these reminders as a rule set…';
+
+  @override
+  String notifRuleSetSaved(String name) {
+    return 'Saved as “$name”';
+  }
+
+  @override
+  String get notifRuleSets => 'Rule sets';
+
+  @override
   String get notifSaturationBody => 'Open Everslot to keep your reminders up to date';
 
   @override

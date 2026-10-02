@@ -716,7 +716,7 @@ app.profiles            -- id = auth user id (also user_id)
   onboarding_completed_at timestamptz
 
 app.user_settings       -- id = uuidv5(user_id, namespace)
-  namespace text not null,          -- appearance | planner | checklists | habits | stats | notifications | privacy
+  namespace text not null,          -- appearance | planner | checklists | habits | stats | notifications | privacy | …
   value jsonb not null,             -- versioned JSON (§8.5)
   unique (user_id, namespace)
 
@@ -1233,6 +1233,8 @@ duration, 30, gte, "min".
   multiDevicePolicy (all | primary | last_active), primaryDeviceId, latenessMinutes (drop/mark late after),
   bannerInApp, snoozePresets, maxNagRepeats (default 5, max 10), dateOnlyDefaultTime (default 09:00),
   emailDigests {enabled (opt-in, default false), kinds?} (T7.4.18).
+- `notification_rule_sets`: sets {"<id>": {name, targetType, rules: [{spec, profile (code)?, name?, enabled?}]}}
+  — reusable reminder bundles, exported as `{"everslot": "rule_set", "v": 1, …}` JSON files (T7.1.18).
 - `privacy`: crashReporting, appLock {enabled, timeoutSeconds}, hideContentInNotifications.
 
 ### 8.6 Checklist settings (`checklists.settings`)
