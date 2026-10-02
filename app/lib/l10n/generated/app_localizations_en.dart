@@ -3001,6 +3001,60 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get demoDone => 'Sample data generated';
+
+  @override
+  String get demoGenerate => 'Generate sample data';
+
+  @override
+  String get demoGenerateHint => 'Six months of plans, lists, habits and a quit tracker — local-only mode';
+
+  @override
+  String get demoOnlyLocal => 'Sample data is only available in local-only mode, so nothing reaches a cloud account.';
+
+  @override
+  String get demoRemove => 'Remove sample data';
+
+  @override
+  String get demoRemoveHint => 'Moves everything generated to the trash';
+
+  @override
+  String get demoRemoved => 'Sample data removed';
+
+  @override
+  String get demoTaskCallParents => 'Call parents';
+
+  @override
+  String get demoTaskDeepWork => 'Deep work';
+
+  @override
+  String get demoTaskDentist => 'Dentist';
+
+  @override
+  String get demoTaskEmails => 'Inbox zero';
+
+  @override
+  String get demoTaskGroceries => 'Grocery run';
+
+  @override
+  String get demoTaskGym => 'Gym';
+
+  @override
+  String get demoTaskLaundry => 'Laundry';
+
+  @override
+  String get demoTaskPlanWeek => 'Plan the week';
+
+  @override
+  String get demoTaskReview => 'Quarterly review';
+
+  @override
+  String get demoTaskStandup => 'Team standup';
+
+  @override
+  String get demoTitle => 'Sample data';
+
+  @override
   String get devComponentGallery => 'Component gallery';
 
   @override
@@ -8521,6 +8575,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyDiagnostics => 'Diagnostics';
+
+  @override
+  String get privacyEncryptDb => 'Encrypt data on this device';
+
+  @override
+  String get privacyEncryptDbConfirmBody =>
+      'The change is made the next time you open Everslot and takes a few seconds. Your data in the cloud is not affected.';
+
+  @override
+  String get privacyEncryptDbConfirmOff => 'Stop encrypting data on this device?';
+
+  @override
+  String get privacyEncryptDbConfirmOn => 'Encrypt data on this device?';
+
+  @override
+  String get privacyEncryptDbHint => 'Your local database is unreadable without this device\'s secure key';
+
+  @override
+  String get privacyEncryptDbPendingOff => 'Encryption ends the next time Everslot opens';
+
+  @override
+  String get privacyEncryptDbPendingOn => 'Encryption starts the next time Everslot opens';
 
   @override
   String get privacyHideContentHint => 'Notifications show only “Everslot reminder”';

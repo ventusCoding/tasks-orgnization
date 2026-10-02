@@ -22,5 +22,12 @@
   "privacyHideContentHint": "تعرض الإشعارات «تذكير Everslot» فقط",
   "privacyDiagnostics": "التشخيص",
   "privacyCrashReports": "إرسال تقارير الأعطال",
-  "privacyCrashReportsHint": "تفاصيل مجهولة تساعد على إصلاح الأخطاء"
+  "privacyCrashReportsHint": "تفاصيل مجهولة تساعد على إصلاح الأخطاء",
+  "privacyEncryptDb": "تشفير البيانات على هذا الجهاز",
+  "privacyEncryptDbHint": "لا يمكن قراءة قاعدة البيانات المحلية دون المفتاح الآمن لهذا الجهاز",
+  "privacyEncryptDbPendingOn": "يبدأ التشفير عند فتح Everslot في المرة القادمة",
+  "privacyEncryptDbPendingOff": "ينتهي التشفير عند فتح Everslot في المرة القادمة",
+  "privacyEncryptDbConfirmOn": "تشفير البيانات على هذا الجهاز؟",
+  "privacyEncryptDbConfirmOff": "إيقاف تشفير البيانات على هذا الجهاز؟",
+  "privacyEncryptDbConfirmBody": "يُطبَّق التغيير عند فتح Everslot في المرة القادمة ويستغرق بضع ثوانٍ. لا تتأثر بياناتك في السحابة."
 }

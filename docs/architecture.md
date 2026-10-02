@@ -100,7 +100,7 @@ erDiagram
 | Routing | `go_router` 18.0.1 | Feature-complete (bug-fix only) — stable choice. `StatefulShellRoute.indexedStack` for the 5 tabs; typed locations are the hand-written `AppLinks` builders + `DeepLinkParser` (no `go_router_builder`, ADR-016). Last tab restored from `local_kv`; Android back walks the tab history (T1.3.06). |
 | Models | `freezed` 4.0.2 (+ `freezed_annotation` 3.1) + `json_serializable` 6.14.1 | Unions/value objects/UI state; Drift generates row classes. json_serializable 6.14 distinguishes missing vs explicit `null` (useful for sync patches). |
 | Codegen | `build_runner` 2.16.1 | AOT builders + `--workspace` builds. |
-| Local DB | `drift` 2.35.0 + `drift_dev` + `drift_flutter` 0.3.1 + `sqlite3` 3.6.0 | SQLite via build hooks — **do not add `sqlite3_flutter_libs`** (end-of-life). FTS5, window functions, `shareAcrossIsolates`. |
+| Local DB | `drift` 2.35.0 + `drift_dev` + `drift_flutter` 0.3.1 + `sqlite3` 3.6.0 | SQLite via build hooks — **do not add `sqlite3_flutter_libs`** (end-of-life). FTS5, window functions, `shareAcrossIsolates`. The hook builds **SQLite3MultipleCiphers** (`hooks.user_defines.sqlite3.source: sqlite3mc` in the workspace pubspec, MIT) so the optional on-device encryption (T8.3.15) is a `PRAGMA key`; plain files open unchanged (ADR-020). |
 | Backend SDK | `supabase_flutter` 2.17.2 | Stay on 2.x (3.0 is pre-release). |
 | Auth | `google_sign_in` 7.2.0; `sign_in_with_apple` 8.2.0 + `crypto` | Native ID-token flows (`signInWithIdToken`); Apple nonce (SHA-256 to Apple, raw to Supabase). |
 | Push | `firebase_core` 4.15.0, `firebase_messaging` 16.7.0 | Call `configureNotificationCenterDelegate()` from the AppDelegate (UIScene). |
@@ -1398,6 +1398,7 @@ See `docs/README.md` §2.
 | ADR-017 | Local-only mode when Supabase isn't configured | The app is fully usable offline on one device before any cloud setup; data is claimed by the cloud account on first sign-in (`LocalAccount.claimForCloudUser`). | Mandatory sign-in. |
 | ADR-018 | App code imports `material_ui`; `MaterialUiCompatibilityBridge` wraps the app for legacy packages (fl_chart…) | go_router 18 / pdfrx already use material_ui; built-in material is frozen. | `package:flutter/material.dart` everywhere. |
 | ADR-019 | Android build flavors (dev/prod); iOS runs a single scheme until custom schemes/xcconfigs are added (guide.md) | Keeps iOS setup simple for a solo developer. | Full iOS flavor schemes. |
+| ADR-020 | Optional local DB encryption with SQLite3MultipleCiphers (default ChaCha20-Poly1305), random passphrase in Keychain/Keystore (`first_unlock_this_device`), switched at startup by copy → rekey → verify → swap (T8.3.15) | One SQLite build for everyone (plain DBs keep working), no OpenSSL on Android, in-place `rekey`; background isolates can read the key after the first unlock. | SQLCipher build (OpenSSL linked, separate build for opt-in users); app-level field encryption (breaks FTS/indexes). |
 
 ---
 

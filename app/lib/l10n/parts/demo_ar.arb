@@ -1,0 +1,20 @@
+{
+  "demoTaskStandup": "اجتماع الفريق اليومي",
+  "demoTaskDeepWork": "عمل مركّز",
+  "demoTaskGym": "النادي الرياضي",
+  "demoTaskEmails": "تفريغ البريد الوارد",
+  "demoTaskPlanWeek": "تخطيط الأسبوع",
+  "demoTaskCallParents": "الاتصال بالوالدين",
+  "demoTaskDentist": "طبيب الأسنان",
+  "demoTaskGroceries": "التسوق",
+  "demoTaskLaundry": "الغسيل",
+  "demoTaskReview": "المراجعة الفصلية",
+  "demoTitle": "بيانات تجريبية",
+  "demoGenerate": "إنشاء بيانات تجريبية",
+  "demoGenerateHint": "ستة أشهر من الخطط والقوائم والعادات ومتتبع إقلاع — الوضع المحلي فقط",
+  "demoRemove": "حذف البيانات التجريبية",
+  "demoRemoveHint": "ينقل كل ما أُنشئ إلى المهملات",
+  "demoOnlyLocal": "البيانات التجريبية متاحة في الوضع المحلي فقط، حتى لا يصل شيء إلى حساب سحابي.",
+  "demoDone": "أُنشئت البيانات التجريبية",
+  "demoRemoved": "حُذفت البيانات التجريبية"
+}

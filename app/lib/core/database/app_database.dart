@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:everslot/core/database/database_encryption.dart';
 import 'package:everslot/core/database/search_index.dart';
 import 'package:everslot/core/database/tables/tables.dart';
 
@@ -64,8 +65,20 @@ class AppDatabase extends _$AppDatabase {
   /// In-memory database for tests.
   factory AppDatabase.forTesting(QueryExecutor executor) => AppDatabase(executor);
 
-  static QueryExecutor _openConnection() =>
-      driftDatabase(name: 'everslot', native: const DriftNativeOptions(shareAcrossIsolates: true));
+  /// Opens `everslot.sqlite`, with its key when the file is encrypted (T8.3.15).
+  static QueryExecutor _openConnection() => DatabaseConnection.delayed(
+    Future(() async {
+      final key = await DatabaseEncryption().keyForOpen();
+      return driftDatabase(
+        name: 'everslot',
+        native: DriftNativeOptions(
+          shareAcrossIsolates: true,
+          // Sent to the database isolate: captures only the passphrase string.
+          setup: key == null ? null : (db) => db.execute(DatabaseCipher.keyPragma(key)),
+        ),
+      );
+    }),
+  );
 
   @override
   int get schemaVersion => 6;

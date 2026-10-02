@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:everslot/core/database/database_encryption.dart';
 import 'package:everslot/core/lifecycle/app_lifecycle.dart';
 import 'package:everslot/core/providers.dart';
+import 'package:everslot/core/session/secure_session_storage.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
 import 'package:everslot/features/privacy/application/app_lock_controller.dart';
 import 'package:everslot/features/privacy/data/authenticator.dart';
@@ -199,6 +203,12 @@ void main() {
         overrides: [
           authenticatorProvider.overrideWithValue(auth),
           privacyWindowProvider.overrideWithValue(FakePrivacyWindow()),
+          databaseEncryptionProvider.overrideWithValue(
+            DatabaseEncryption(
+              store: MemorySecureStore(),
+              file: () async => File('${Directory.systemTemp.path}/everslot-absent.sqlite'),
+            ),
+          ),
         ],
       );
       addTearDown(h.dispose);
@@ -264,6 +274,33 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('privacy-hide-notifications')));
       await settle(tester);
       expect(h.read(privacySettingsProvider).hideNotificationContent, isTrue);
+    });
+
+    testWidgets('privacy page: database encryption is applied at the next start', (tester) async {
+      final store = MemorySecureStore();
+      final tmp = Directory.systemTemp.createTempSync('everslot_enc_ui_');
+      addTearDown(() => tmp.deleteSync(recursive: true));
+      auth = FakeAuthenticator();
+      h = TestHarness.create(
+        overrides: [
+          authenticatorProvider.overrideWithValue(auth),
+          privacyWindowProvider.overrideWithValue(FakePrivacyWindow()),
+          databaseEncryptionProvider.overrideWithValue(
+            DatabaseEncryption(store: store, file: () async => File('${tmp.path}/everslot.sqlite')),
+          ),
+        ],
+      );
+      addTearDown(h.dispose);
+      await pumpInApp(tester, h, const PrivacyPage());
+      await settle(tester);
+      await tester.ensureVisible(find.byKey(const ValueKey('privacy-encrypt-db')));
+      await tester.pump();
+      await tester.tap(find.byKey(const ValueKey('privacy-encrypt-db')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Continue'));
+      await settle(tester);
+      expect(store.values[DatabaseEncryption.wantedName], 'true');
+      expect(find.text('Encryption starts the next time Everslot opens'), findsOneWidget);
     });
   });
 }

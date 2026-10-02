@@ -3040,6 +3040,61 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get demoDone => 'Données d’exemple générées';
+
+  @override
+  String get demoGenerate => 'Générer des données d’exemple';
+
+  @override
+  String get demoGenerateHint => 'Six mois de planning, listes, habitudes et un suivi d’arrêt — mode local uniquement';
+
+  @override
+  String get demoOnlyLocal =>
+      'Les données d’exemple ne sont disponibles qu’en mode local, pour que rien n’arrive sur un compte cloud.';
+
+  @override
+  String get demoRemove => 'Supprimer les données d’exemple';
+
+  @override
+  String get demoRemoveHint => 'Met tout ce qui a été généré à la corbeille';
+
+  @override
+  String get demoRemoved => 'Données d’exemple supprimées';
+
+  @override
+  String get demoTaskCallParents => 'Appeler les parents';
+
+  @override
+  String get demoTaskDeepWork => 'Travail de fond';
+
+  @override
+  String get demoTaskDentist => 'Dentiste';
+
+  @override
+  String get demoTaskEmails => 'Boîte de réception à zéro';
+
+  @override
+  String get demoTaskGroceries => 'Courses';
+
+  @override
+  String get demoTaskGym => 'Salle de sport';
+
+  @override
+  String get demoTaskLaundry => 'Lessive';
+
+  @override
+  String get demoTaskPlanWeek => 'Planifier la semaine';
+
+  @override
+  String get demoTaskReview => 'Bilan trimestriel';
+
+  @override
+  String get demoTaskStandup => 'Point d’équipe';
+
+  @override
+  String get demoTitle => 'Données d’exemple';
+
+  @override
   String get devComponentGallery => 'Galerie de composants';
 
   @override
@@ -8751,6 +8806,28 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get privacyDiagnostics => 'Diagnostic';
+
+  @override
+  String get privacyEncryptDb => 'Chiffrer les données sur cet appareil';
+
+  @override
+  String get privacyEncryptDbConfirmBody =>
+      'Le changement se fait à la prochaine ouverture d’Everslot et prend quelques secondes. Vos données dans le cloud ne changent pas.';
+
+  @override
+  String get privacyEncryptDbConfirmOff => 'Ne plus chiffrer les données sur cet appareil ?';
+
+  @override
+  String get privacyEncryptDbConfirmOn => 'Chiffrer les données sur cet appareil ?';
+
+  @override
+  String get privacyEncryptDbHint => 'La base locale est illisible sans la clé sécurisée de cet appareil';
+
+  @override
+  String get privacyEncryptDbPendingOff => 'Le chiffrement prendra fin à la prochaine ouverture d’Everslot';
+
+  @override
+  String get privacyEncryptDbPendingOn => 'Le chiffrement commencera à la prochaine ouverture d’Everslot';
 
   @override
   String get privacyHideContentHint => 'Les notifications n’affichent que « Rappel Everslot »';

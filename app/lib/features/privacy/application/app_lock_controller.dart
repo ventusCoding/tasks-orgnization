@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:everslot/core/database/database_encryption.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/settings/settings_repository.dart' show SettingsNs;
 import 'package:everslot/features/privacy/data/authenticator.dart';
@@ -14,6 +15,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final authenticatorProvider = Provider<Authenticator>((ref) => LocalAuthAuthenticator());
 
 final privacyWindowProvider = Provider<PrivacyWindow>((ref) => PrivacyWindow());
+
+/// Local database encryption (T8.3.15).
+final databaseEncryptionProvider = Provider<DatabaseEncryption>((ref) => DatabaseEncryption());
+
+/// (wanted, encrypted now): the switch shows the wish, the subtitle whether a restart is pending.
+final databaseEncryptionStateProvider = FutureProvider.autoDispose<({bool wanted, bool encrypted})>((ref) async {
+  final e = ref.watch(databaseEncryptionProvider);
+  return (wanted: await e.wanted(), encrypted: await e.isEncrypted());
+});
 
 /// Whether the privacy settings namespace has loaded (until then the lock state is unknown).
 final _privacyLoadedProvider = Provider<bool>((ref) => ref.watch(settingsProvider(SettingsNs.privacy)).hasValue);

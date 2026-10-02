@@ -32,8 +32,8 @@ encryption, onboarding, sample data, accessibility options, about/legal, feedbac
 - [x] T8.3.12 — Accessibility options
 - [x] T8.3.13 — About, legal & health disclaimer
 - [x] T8.3.14 — Import from other apps
-- [ ] T8.3.15 — Local database encryption
-- [ ] T8.3.16 — Sample data / demo mode
+- [x] T8.3.15 — Local database encryption
+- [x] T8.3.16 — Sample data / demo mode
 - [ ] T8.3.17 — In-app feedback & diagnostics
 
 ## Tasks
@@ -174,6 +174,7 @@ indented text/Markdown → nested items ([4.5]).
 **Description:** Optional SQLCipher-encrypted Drift database with key in secure storage; migration from
 plain DB (export → encrypted DB → verify → delete plain file); performance check vs budgets.
 **Tests:** migration integration test; perf comparison recorded.
+**Notes:** SQLite3MultipleCiphers instead of SQLCipher (ADR-020): the sqlite3 build hook now builds it for everyone (`hooks.user_defines` in the workspace pubspec) — plain files open unchanged, `PRAGMA key` opens encrypted ones, no OpenSSL. `DatabaseEncryption` (`core/database`): random passphrase in the Keychain / Keystore (`first_unlock_this_device`, readable by background isolates after the first unlock); Settings › Privacy › *Encrypt data on this device* records the wish, applied at the next start before the database opens (copy → `rekey` → quick_check + per-table row counts → swap → delete the plain file; any failure leaves the original). `AppDatabase` opens with the key whenever the file header says it is encrypted. Recorded (macOS host, 20 000 rows, 20 full scans with `LIKE`): plain 32 ms, encrypted 156–207 ms (worst case: every page decrypted); conversion of the 20 000-row file ≈ 100 ms; indexed screen queries stay within budget. `patrol_test/encryption_test.dart` passed on the Android emulator (real Keystore, ARM build).
 
 ### T8.3.16 — Sample data / demo mode
 **Priority:** P2 · **Size:** S · **Depends on:** [3.1], [4.1], [5.1]
@@ -181,6 +182,7 @@ plain DB (export → encrypted DB → verify → delete plain file); performance
 quit tracker with cravings) for screenshots, demos and manual stats testing; isolated demo account or
 local-only flag; one-tap removal.
 **Tests:** generator determinism with seed; stats screens render with generated data.
+**Notes:** `features/demo/`: pure `DemoGenerator` (seeded `Random`, 182 days: six recurring series with weekday-aware done/skip history improving over time, four one-offs around today, three lists from the localized built-in templates with spread statuses, five habits with streaky check-ins (yesterday's success raises today's odds) and amounts, a smoking quit tracker 150 days old with two slips and Poisson cravings fading over time). `DemoService` writes it through the regular services — occurrence history via the new `OccurrencesRepository.importHistory` (each at its own instant through `runAutomatic`, so completion times and activity events are in the past), habit history via `CheckInService.importHistory`, relapses / cravings via `QuitService` — and keeps the created ids in `local_kv` for one-tap removal (to the trash). Debug menu › Sample data; refused for cloud accounts (local-only mode only) so it never syncs.
 
 ### T8.3.17 — In-app feedback & diagnostics
 **Priority:** P2 · **Size:** S · **Depends on:** T8.3.13

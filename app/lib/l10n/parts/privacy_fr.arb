@@ -22,5 +22,12 @@
   "privacyHideContentHint": "Les notifications n’affichent que « Rappel Everslot »",
   "privacyDiagnostics": "Diagnostic",
   "privacyCrashReports": "Envoyer les rapports de plantage",
-  "privacyCrashReportsHint": "Des détails anonymes aident à corriger les bugs"
+  "privacyCrashReportsHint": "Des détails anonymes aident à corriger les bugs",
+  "privacyEncryptDb": "Chiffrer les données sur cet appareil",
+  "privacyEncryptDbHint": "La base locale est illisible sans la clé sécurisée de cet appareil",
+  "privacyEncryptDbPendingOn": "Le chiffrement commencera à la prochaine ouverture d’Everslot",
+  "privacyEncryptDbPendingOff": "Le chiffrement prendra fin à la prochaine ouverture d’Everslot",
+  "privacyEncryptDbConfirmOn": "Chiffrer les données sur cet appareil ?",
+  "privacyEncryptDbConfirmOff": "Ne plus chiffrer les données sur cet appareil ?",
+  "privacyEncryptDbConfirmBody": "Le changement se fait à la prochaine ouverture d’Everslot et prend quelques secondes. Vos données dans le cloud ne changent pas."
 }

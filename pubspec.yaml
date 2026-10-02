@@ -46,3 +46,10 @@ melos:
     clean:
       description: Remove build outputs and tool caches.
       run: (cd app && flutter clean) && rm -rf packages/*/coverage packages/*/.dart_tool
+
+# SQLite build (T8.3.15): SQLite3MultipleCiphers — plain databases open as before; `PRAGMA key`
+# enables the optional on-device encryption. See docs/architecture.md §3 / ADR-020.
+hooks:
+  user_defines:
+    sqlite3:
+      source: sqlite3mc

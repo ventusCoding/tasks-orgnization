@@ -1,0 +1,20 @@
+{
+  "demoTaskStandup": "Team standup",
+  "demoTaskDeepWork": "Deep work",
+  "demoTaskGym": "Gym",
+  "demoTaskEmails": "Inbox zero",
+  "demoTaskPlanWeek": "Plan the week",
+  "demoTaskCallParents": "Call parents",
+  "demoTaskDentist": "Dentist",
+  "demoTaskGroceries": "Grocery run",
+  "demoTaskLaundry": "Laundry",
+  "demoTaskReview": "Quarterly review",
+  "demoTitle": "Sample data",
+  "demoGenerate": "Generate sample data",
+  "demoGenerateHint": "Six months of plans, lists, habits and a quit tracker — local-only mode",
+  "demoRemove": "Remove sample data",
+  "demoRemoveHint": "Moves everything generated to the trash",
+  "demoOnlyLocal": "Sample data is only available in local-only mode, so nothing reaches a cloud account.",
+  "demoDone": "Sample data generated",
+  "demoRemoved": "Sample data removed"
+}

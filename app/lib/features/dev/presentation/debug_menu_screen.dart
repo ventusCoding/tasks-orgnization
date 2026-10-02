@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/demo/presentation/demo_data_section.dart';
 import 'package:everslot/features/dev/application/dev_providers.dart';
 import 'package:everslot/features/dev/domain/dev_models.dart';
 import 'package:everslot/features/dev/presentation/component_gallery_screen.dart';
@@ -78,6 +79,7 @@ class DebugMenuScreen extends ConsumerWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: () => open(const ChartGalleryScreen()),
           ),
+          const DemoDataSection(),
           SectionHeader(l.devDangerZone),
           ListTile(
             key: const ValueKey('dev-test-crash'),

@@ -156,6 +156,29 @@ class OccurrencesRepository {
     return true;
   }
 
+  /// Past statuses brought in at once (sample data T8.3.16, imports): each entry is written at its
+  /// own instant [at] (status / completion times and activity events), one operation per instant.
+  Future<int> importHistory(
+    String taskId,
+    List<({String key, OccurrenceStatus status, DateTime at, DateTime? actualStart})> entries, {
+    String source = 'import',
+  }) async {
+    var written = 0;
+    for (final e in entries) {
+      if (e.status != OccurrenceStatus.done && e.status != OccurrenceStatus.skipped) continue;
+      await _writer.runAutomatic(e.at, cause: 'import', (tx) async {
+        if (e.status == OccurrenceStatus.done) {
+          if (await _markDoneTx(tx, taskId, e.key, actualStart: e.actualStart, actualEnd: e.at, source: source)) {
+            written++;
+          }
+        } else if (await _skipTx(tx, taskId, e.key, source: source)) {
+          written++;
+        }
+      });
+    }
+    return written;
+  }
+
   /// Explicit status write used by the planner contract (`missed`, `in_progress` without timer).
   Future<OpRecord> setStatus(String taskId, String key, OccurrenceStatus status, {String source = 'menu'}) =>
       _writer.run((tx) async {

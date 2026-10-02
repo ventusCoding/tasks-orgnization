@@ -3132,6 +3132,60 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get demoDone => 'أُنشئت البيانات التجريبية';
+
+  @override
+  String get demoGenerate => 'إنشاء بيانات تجريبية';
+
+  @override
+  String get demoGenerateHint => 'ستة أشهر من الخطط والقوائم والعادات ومتتبع إقلاع — الوضع المحلي فقط';
+
+  @override
+  String get demoOnlyLocal => 'البيانات التجريبية متاحة في الوضع المحلي فقط، حتى لا يصل شيء إلى حساب سحابي.';
+
+  @override
+  String get demoRemove => 'حذف البيانات التجريبية';
+
+  @override
+  String get demoRemoveHint => 'ينقل كل ما أُنشئ إلى المهملات';
+
+  @override
+  String get demoRemoved => 'حُذفت البيانات التجريبية';
+
+  @override
+  String get demoTaskCallParents => 'الاتصال بالوالدين';
+
+  @override
+  String get demoTaskDeepWork => 'عمل مركّز';
+
+  @override
+  String get demoTaskDentist => 'طبيب الأسنان';
+
+  @override
+  String get demoTaskEmails => 'تفريغ البريد الوارد';
+
+  @override
+  String get demoTaskGroceries => 'التسوق';
+
+  @override
+  String get demoTaskGym => 'النادي الرياضي';
+
+  @override
+  String get demoTaskLaundry => 'الغسيل';
+
+  @override
+  String get demoTaskPlanWeek => 'تخطيط الأسبوع';
+
+  @override
+  String get demoTaskReview => 'المراجعة الفصلية';
+
+  @override
+  String get demoTaskStandup => 'اجتماع الفريق اليومي';
+
+  @override
+  String get demoTitle => 'بيانات تجريبية';
+
+  @override
   String get devComponentGallery => 'معرض المكوّنات';
 
   @override
@@ -9210,6 +9264,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get privacyDiagnostics => 'التشخيص';
+
+  @override
+  String get privacyEncryptDb => 'تشفير البيانات على هذا الجهاز';
+
+  @override
+  String get privacyEncryptDbConfirmBody =>
+      'يُطبَّق التغيير عند فتح Everslot في المرة القادمة ويستغرق بضع ثوانٍ. لا تتأثر بياناتك في السحابة.';
+
+  @override
+  String get privacyEncryptDbConfirmOff => 'إيقاف تشفير البيانات على هذا الجهاز؟';
+
+  @override
+  String get privacyEncryptDbConfirmOn => 'تشفير البيانات على هذا الجهاز؟';
+
+  @override
+  String get privacyEncryptDbHint => 'لا يمكن قراءة قاعدة البيانات المحلية دون المفتاح الآمن لهذا الجهاز';
+
+  @override
+  String get privacyEncryptDbPendingOff => 'ينتهي التشفير عند فتح Everslot في المرة القادمة';
+
+  @override
+  String get privacyEncryptDbPendingOn => 'يبدأ التشفير عند فتح Everslot في المرة القادمة';
 
   @override
   String get privacyHideContentHint => 'تعرض الإشعارات «تذكير Everslot» فقط';

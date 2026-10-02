@@ -45,7 +45,8 @@ design changes). Never renumber task IDs.
 - Supabase: Postgres 17, **publishable key** (`sb_publishable_…`) in the app, **secret key** only in Edge
   Functions; Edge runtime is **Deno 2.1-compatible** (local Deno is newer) — pinned `npm:`/`jsr:` imports,
   no committed Deno lockfile v5, verify with `supabase functions serve`.
-- SQLite comes from `sqlite3` build hooks — never add `sqlite3_flutter_libs`. `riverpod_lint` is an
+- SQLite comes from `sqlite3` build hooks (SQLite3MultipleCiphers build, `hooks.user_defines` in the root
+  pubspec — ADR-020) — never add `sqlite3_flutter_libs`. `riverpod_lint` is an
   analyzer plugin (`plugins:`), not `custom_lint`. Patrol tests live in `app/patrol_test/`.
 
 ## Commands (once scaffolded — see tasks 1.1/1.2)

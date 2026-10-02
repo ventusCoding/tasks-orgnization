@@ -5301,6 +5301,114 @@ abstract class AppLocalizations {
   /// **'{item} deleted'**
   String deletedSnack(String item);
 
+  /// No description provided for @demoDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample data generated'**
+  String get demoDone;
+
+  /// No description provided for @demoGenerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate sample data'**
+  String get demoGenerate;
+
+  /// No description provided for @demoGenerateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Six months of plans, lists, habits and a quit tracker — local-only mode'**
+  String get demoGenerateHint;
+
+  /// No description provided for @demoOnlyLocal.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample data is only available in local-only mode, so nothing reaches a cloud account.'**
+  String get demoOnlyLocal;
+
+  /// No description provided for @demoRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove sample data'**
+  String get demoRemove;
+
+  /// No description provided for @demoRemoveHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Moves everything generated to the trash'**
+  String get demoRemoveHint;
+
+  /// No description provided for @demoRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample data removed'**
+  String get demoRemoved;
+
+  /// No description provided for @demoTaskCallParents.
+  ///
+  /// In en, this message translates to:
+  /// **'Call parents'**
+  String get demoTaskCallParents;
+
+  /// No description provided for @demoTaskDeepWork.
+  ///
+  /// In en, this message translates to:
+  /// **'Deep work'**
+  String get demoTaskDeepWork;
+
+  /// No description provided for @demoTaskDentist.
+  ///
+  /// In en, this message translates to:
+  /// **'Dentist'**
+  String get demoTaskDentist;
+
+  /// No description provided for @demoTaskEmails.
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox zero'**
+  String get demoTaskEmails;
+
+  /// No description provided for @demoTaskGroceries.
+  ///
+  /// In en, this message translates to:
+  /// **'Grocery run'**
+  String get demoTaskGroceries;
+
+  /// No description provided for @demoTaskGym.
+  ///
+  /// In en, this message translates to:
+  /// **'Gym'**
+  String get demoTaskGym;
+
+  /// No description provided for @demoTaskLaundry.
+  ///
+  /// In en, this message translates to:
+  /// **'Laundry'**
+  String get demoTaskLaundry;
+
+  /// No description provided for @demoTaskPlanWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan the week'**
+  String get demoTaskPlanWeek;
+
+  /// No description provided for @demoTaskReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Quarterly review'**
+  String get demoTaskReview;
+
+  /// No description provided for @demoTaskStandup.
+  ///
+  /// In en, this message translates to:
+  /// **'Team standup'**
+  String get demoTaskStandup;
+
+  /// No description provided for @demoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample data'**
+  String get demoTitle;
+
   /// No description provided for @devComponentGallery.
   ///
   /// In en, this message translates to:
@@ -14654,6 +14762,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Diagnostics'**
   String get privacyDiagnostics;
+
+  /// No description provided for @privacyEncryptDb.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypt data on this device'**
+  String get privacyEncryptDb;
+
+  /// No description provided for @privacyEncryptDbConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The change is made the next time you open Everslot and takes a few seconds. Your data in the cloud is not affected.'**
+  String get privacyEncryptDbConfirmBody;
+
+  /// No description provided for @privacyEncryptDbConfirmOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop encrypting data on this device?'**
+  String get privacyEncryptDbConfirmOff;
+
+  /// No description provided for @privacyEncryptDbConfirmOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypt data on this device?'**
+  String get privacyEncryptDbConfirmOn;
+
+  /// No description provided for @privacyEncryptDbHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your local database is unreadable without this device\'s secure key'**
+  String get privacyEncryptDbHint;
+
+  /// No description provided for @privacyEncryptDbPendingOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Encryption ends the next time Everslot opens'**
+  String get privacyEncryptDbPendingOff;
+
+  /// No description provided for @privacyEncryptDbPendingOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Encryption starts the next time Everslot opens'**
+  String get privacyEncryptDbPendingOn;
 
   /// No description provided for @privacyHideContentHint.
   ///

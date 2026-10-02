@@ -81,6 +81,7 @@ class PrivacyPage extends ConsumerWidget {
               }),
             ),
           ),
+          const _EncryptionTile(),
           SectionHeader(l.privacyDiagnostics),
           SwitchListTile(
             key: const ValueKey('privacy-crash-reports'),
@@ -92,6 +93,39 @@ class PrivacyPage extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// "Encrypt data on this device" (T8.3.15): applied the next time Everslot starts.
+class _EncryptionTile extends ConsumerWidget {
+  const _EncryptionTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final state = ref.watch(databaseEncryptionStateProvider).value;
+    if (state == null) return const SizedBox.shrink();
+    final pending = state.wanted != state.encrypted;
+    return SwitchListTile(
+      key: const ValueKey('privacy-encrypt-db'),
+      secondary: const Icon(Icons.enhanced_encryption_outlined),
+      title: Text(l.privacyEncryptDb),
+      subtitle: Text(
+        pending ? (state.wanted ? l.privacyEncryptDbPendingOn : l.privacyEncryptDbPendingOff) : l.privacyEncryptDbHint,
+      ),
+      value: state.wanted,
+      onChanged: (v) async {
+        final ok = await confirmDialog(
+          context,
+          title: v ? l.privacyEncryptDbConfirmOn : l.privacyEncryptDbConfirmOff,
+          body: l.privacyEncryptDbConfirmBody,
+          confirmLabel: l.actionContinue,
+        );
+        if (!ok) return;
+        await ref.read(databaseEncryptionProvider).setWanted(value: v);
+        ref.invalidate(databaseEncryptionStateProvider);
+      },
     );
   }
 }
