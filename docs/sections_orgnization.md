@@ -1,9 +1,9 @@
 # Sections organization — progress snapshot
 
-Updated 2026-10-02 after merging section 6 and the Today checkpoint into main, counted from the **Progress**
+Updated 2026-10-02 after merging section 7 (notifications) into main, counted from the **Progress**
 checkboxes in `docs/tasks_section_*.md`.
 
-**Total: 610 done / 132 missing / 742 tasks (≈82 %)**
+**Total: 642 done / 100 missing / 742 tasks (≈87 %)**
 
 | Section | Done | Missing |
 |---|---|---|
@@ -40,12 +40,12 @@ checkboxes in `docs/tasks_section_*.md`.
 | 6.5 Habit stats | 18 | 0 ✅ |
 | 6.6 Quit stats | 14 | 0 ✅ |
 | 6.7 Dashboard / reports | 19 | 0 ✅ |
-| **7 Notifications** | **60** | **34** |
-| 7.1 Rules | 15 | 3 |
-| 7.2 Local notifications | 21 | 5 |
-| 7.3 In-app inbox | 10 | 1 |
-| 7.4 Push / FCM server | 6 | 13 |
-| 7.5 Section catalog | 8 | 12 |
+| **7 Notifications** | **92** | **2** |
+| 7.1 Rules | 18 | 0 ✅ |
+| 7.2 Local notifications | 25 | 1 (T7.2.24 AlarmKit part: needs Xcode 26 + device) |
+| 7.3 In-app inbox | 11 | 0 ✅ |
+| 7.4 Push / FCM server | 18 | 1 (T7.4.14 iOS local-vs-push spike: physical device) |
+| 7.5 Section catalog | 20 | 0 ✅ |
 | **8 Cross-cutting** | **10** | **40** |
 | 8.1 Today / search / quick add | 2 | 16 |
 | 8.2 Widgets / integrations | 1 | 14 |
@@ -57,11 +57,17 @@ checkboxes in `docs/tasks_section_*.md`.
 
 ## Summary
 
-- Done: Core engines (2), Plan (3), Lists (4), Habits (5) and Insights (6, except the T6.1.27 rollups
-  decision) complete; sync and recurrence done.
-- Biggest gaps: push + notification catalog (7.4–7.5),
-  all of 8 and 9.
-- Not started: 9.1, 9.2, 9.3.
+- Done: Core engines (2), Plan (3), Lists (4), Habits (5), Insights (6, except the T6.1.27 rollups
+  decision) and Notifications (7, except the two iOS-device items) complete; sync and recurrence done.
+- Biggest gaps: all of 8 and 9.
+- 9.1 started: the patrol harness (T9.1.07, partial) runs the notification E2E suite on an Android
+  emulator; 9.2 and 9.3 not started.
+
+## Section 7 — what is left (needs an iOS 26 toolchain / a physical device)
+
+- T7.2.24 AlarmKit (`flutter_alarmkit`, `NSAlarmKitUsageDescription`) on iOS 26+; Android alarm stream,
+  full-screen intent and the alarm screen are done.
+- T7.4.14 iOS local-vs-push collapse spike on a real iPhone.
 
 ## Section 1 — what is left (needs the owner's accounts / tools, steps in `docs/guide.md`)
 
