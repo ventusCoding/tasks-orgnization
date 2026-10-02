@@ -9,6 +9,7 @@ import 'package:everslot/features/checklists/application/reset_service.dart' sho
 import 'package:everslot/features/habits/habits_startup.dart';
 import 'package:everslot/features/integrations/integrations_startup.dart';
 import 'package:everslot/features/notifications/notifications_startup.dart';
+import 'package:everslot/features/planner/application/timer_surface_service.dart';
 import 'package:everslot/features/profile/application/zone_tracker.dart';
 import 'package:everslot/features/widgets_home/widgets_startup.dart';
 import 'package:everslot/startup/profile_bootstrap.dart';
@@ -28,9 +29,12 @@ final List<StartupTask> startupTasks = [
   runChecklistResets, // due checklist resets at start, on resume and after pulls (T4.5.06)
   startIntegrations, // external links, widgets, shortcuts, share intake, timers, health (8.2)
   startHomeWidgets, // home / lock-screen widget snapshot + interactive actions (T8.2.02)
+  _startTimerSurface, // running timer on the lock screen (T8.2.10)
   startHabits, // default habit sections & trigger/place/coping libraries (T5.1.11, T5.3.14)
   scheduleBackgroundSync, // periodic background push/pull for cloud sessions (T1.4.17)
 ];
+
+Future<void> _startTimerSurface(ProviderContainer container) async => startTimerSurface(container);
 
 Future<void> runStartupTasks(ProviderContainer container) async {
   final log = AppLog.get('startup');

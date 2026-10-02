@@ -212,7 +212,14 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
         setAsGroupSummary: r.groupSummary,
         groupAlertBehavior: r.groupSummary ? fln.GroupAlertBehavior.children : fln.GroupAlertBehavior.all,
         styleInformation: _style(r),
-        category: r.alarmClock ? fln.AndroidNotificationCategory.alarm : fln.AndroidNotificationCategory.reminder,
+        category: r.alarmClock
+            ? fln.AndroidNotificationCategory.alarm
+            : (r.chronometerFrom != null
+                  ? fln.AndroidNotificationCategory.stopwatch
+                  : fln.AndroidNotificationCategory.reminder),
+        usesChronometer: r.chronometerFrom != null,
+        when: r.chronometerFrom?.millisecondsSinceEpoch,
+        onlyAlertOnce: r.chronometerFrom != null,
         fullScreenIntent: r.fullScreen,
         audioAttributesUsage: r.alarmClock ? fln.AudioAttributesUsage.alarm : fln.AudioAttributesUsage.notification,
         visibility: fln.NotificationVisibility.private,

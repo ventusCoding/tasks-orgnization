@@ -16687,6 +16687,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get templatesUse => 'Utiliser le modèle';
 
   @override
+  String timerSurfaceMore(String title, int count) {
+    return '$title (+$count)';
+  }
+
+  @override
+  String get timerSurfaceOver => 'Temps prévu dépassé';
+
+  @override
+  String timerSurfacePlannedUntil(String time) {
+    return 'Prévu jusqu’à $time';
+  }
+
+  @override
   String get todayAllDay => 'Toute la journée';
 
   @override

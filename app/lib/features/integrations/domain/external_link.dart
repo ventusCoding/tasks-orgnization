@@ -138,7 +138,7 @@ abstract final class ExternalLinkPolicy {
   static bool isShellPath(String path) => shellRoots.contains(path) || path.startsWith('/plan/');
 
   /// Integration commands (`everslot://do/<name>`).
-  static const commands = {'habit-log', 'next', 'focus', 'craving', 'new-task'};
+  static const commands = {'habit-log', 'next', 'focus', 'craving', 'new-task', 'timer-stop'};
 
   static final _uuid = RegExp(r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$');
   static final _date = RegExp(r'^\d{4}-\d{2}-\d{2}$');
@@ -197,6 +197,13 @@ abstract final class ExternalLinkPolicy {
       final id = params['habit'];
       final name = params['name'];
       if ((id == null || !isUuid(id)) && (name == null || name.trim().isEmpty)) return const RejectLink('habit');
+    }
+    if (name == 'timer-stop') {
+      final task = params['task'];
+      final occ = params['occ'];
+      if (task == null || !isUuid(task) || occ == null || !_occurrenceKey.hasMatch(occ)) {
+        return const RejectLink('timer');
+      }
     }
     return LinkCommand(name, params);
   }

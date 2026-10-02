@@ -348,5 +348,8 @@ struct EverslotWidgetsBundle: WidgetBundle {
     QuitWidget()
     ChecklistWidget()
     AccessoryWidget()
+    if #available(iOS 16.1, *) {
+      TimerActivityWidget()
+    }
   }
 }

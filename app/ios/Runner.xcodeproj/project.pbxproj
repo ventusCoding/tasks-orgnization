@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		077E0E992D8F6D4CC071748A /* TimerActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FBB32632E3CD4F2C692DC6 /* TimerActivity.swift */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
@@ -23,6 +24,7 @@
 		BB85E2D836596AC50C5E078A /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B66050A9C711A92E256407 /* ShareViewController.swift */; };
 		D9E5094AFB014E54DF28F559 /* Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA3EAACB320BCA396B5F9D /* Widgets.swift */; };
 		EBB95BD2ACD0248A31C7490F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF4F3B836C671BA406D36DC4 /* WidgetKit.framework */; };
+		F1C1B97C5F0659BF7102C054 /* ActivityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B1C8C60B5DB2C5D6BFBA75C /* ActivityKit.framework */; };
 		FA85E31F699B9F765204C34D /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2958B7959E1865C7080A9E37 /* Snapshot.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,8 +81,10 @@
 		103DBBD72FA1B44FA468039C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
+		1B1C8C60B5DB2C5D6BFBA75C /* ActivityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ActivityKit.framework; path = System/Library/Frameworks/ActivityKit.framework; sourceTree = SDKROOT; };
 		1FBA3EAACB320BCA396B5F9D /* Widgets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Widgets.swift; sourceTree = "<group>"; };
 		2958B7959E1865C7080A9E37 /* Snapshot.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
+		32FBB32632E3CD4F2C692DC6 /* TimerActivity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TimerActivity.swift; sourceTree = "<group>"; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
@@ -116,6 +120,7 @@
 			files = (
 				EBB95BD2ACD0248A31C7490F /* WidgetKit.framework in Frameworks */,
 				B30C310CF4693850E6C93CE5 /* SwiftUI.framework in Frameworks */,
+				F1C1B97C5F0659BF7102C054 /* ActivityKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +150,7 @@
 				1FBA3EAACB320BCA396B5F9D /* Widgets.swift */,
 				528D46124418E7F05469A48F /* Info.plist */,
 				B2A3EB0DE30E70760C122C8A /* EverslotWidgets.entitlements */,
+				32FBB32632E3CD4F2C692DC6 /* TimerActivity.swift */,
 			);
 			name = EverslotWidgets;
 			path = EverslotWidgets;
@@ -236,6 +242,7 @@
 				0FDAF7DFE8079E24E6DE1AB7 /* iOS */,
 				FF4F3B836C671BA406D36DC4 /* WidgetKit.framework */,
 				103DBBD72FA1B44FA468039C /* SwiftUI.framework */,
+				1B1C8C60B5DB2C5D6BFBA75C /* ActivityKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -467,6 +474,7 @@
 				FA85E31F699B9F765204C34D /* Snapshot.swift in Sources */,
 				50628939EC2AD72F0806237F /* Intents.swift in Sources */,
 				D9E5094AFB014E54DF28F559 /* Widgets.swift in Sources */,
+				077E0E992D8F6D4CC071748A /* TimerActivity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

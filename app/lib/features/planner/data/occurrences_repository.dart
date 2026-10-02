@@ -63,9 +63,10 @@ class OccurrencesRepository {
     var start = actualStart;
     var end = actualEnd;
     int? tracked;
-    final entries = await _closeRunning(tx, taskId, key);
+    // Running sessions end at the actual end when one is given (lock-screen stop applied later).
+    final entries = await _closeRunning(tx, taskId, key, at: actualEnd);
     if (entries.isNotEmpty) {
-      tracked = trackedSecondsOf(entries, tx.now);
+      tracked = trackedSecondsOf(entries, actualEnd ?? tx.now);
       start ??= entries.first.startedAt;
       end ??= entries.map((e) => e.endedAt ?? tx.now).reduce((a, b) => a.isAfter(b) ? a : b);
     }
@@ -204,7 +205,7 @@ class OccurrencesRepository {
     if (task.trackingMode == TrackingMode.timer && !alreadyRunning) {
       if (policy == TimerPolicy.single) {
         for (final other in running) {
-          await _closeEntry(tx, other);
+          await _closeEntry(tx, other, tx.now);
           final otherTask = await tx.readTask(other.taskId);
           if (otherTask != null && other.occurrenceKey != null) {
             await _updateTracked(tx, other.taskId, other.occurrenceKey!);
@@ -241,8 +242,8 @@ class OccurrencesRepository {
 
   /// Stops the occurrence. With [complete] (default) it is marked done with actual times from
   /// its time entries; otherwise the session is just closed.
-  Future<OpRecord> stop(String taskId, String key, {bool complete = true, String cause = 'user'}) async {
-    if (complete) return markDone(taskId, key, source: 'timer', cause: cause);
+  Future<OpRecord> stop(String taskId, String key, {bool complete = true, String cause = 'user', DateTime? at}) async {
+    if (complete) return markDone(taskId, key, source: 'timer', cause: cause, actualEnd: at);
     return pause(taskId, key);
   }
 
@@ -401,17 +402,25 @@ class OccurrencesRepository {
       TimeEntry.fromJson(r),
   ];
 
-  Future<void> _closeEntry(WriteTx tx, TimeEntry e) => tx.update('time_entries', e.id, {'ended_at': tx.now});
+  Future<void> _closeEntry(WriteTx tx, TimeEntry e, DateTime end) => tx.update('time_entries', e.id, {'ended_at': end});
 
   /// Closes the running entries of the occurrence; returns all its entries (closed state) or
   /// only the closed ones when [returnAll] is false.
-  Future<List<TimeEntry>> _closeRunning(WriteTx tx, String taskId, String key, {bool returnAll = true}) async {
+  Future<List<TimeEntry>> _closeRunning(
+    WriteTx tx,
+    String taskId,
+    String key, {
+    bool returnAll = true,
+    DateTime? at,
+  }) async {
     final entries = await _entries(tx, taskId, key);
     final closed = <TimeEntry>[];
     for (final e in entries.where((e) => e.isRunning)) {
-      await _closeEntry(tx, e);
+      final requested = at ?? tx.now;
+      final end = requested.isBefore(e.startedAt) ? e.startedAt : requested;
+      await _closeEntry(tx, e, end);
       closed.add(
-        TimeEntry(id: e.id, taskId: e.taskId, occurrenceKey: e.occurrenceKey, startedAt: e.startedAt, endedAt: tx.now),
+        TimeEntry(id: e.id, taskId: e.taskId, occurrenceKey: e.occurrenceKey, startedAt: e.startedAt, endedAt: end),
       );
     }
     if (!returnAll) return closed;

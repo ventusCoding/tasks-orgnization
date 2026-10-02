@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- Document scanner fallback without Play Services (T2.2.14); image_picker then asks at runtime. -->
@@ -148,6 +149,11 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_checklist_info" />
         </receiver>
+        <!-- live_activities (iOS Live Activities only, T8.2.10) ships an FCM service that would take
+             MESSAGING_EVENT from firebase_messaging: Android uses an ongoing notification instead. -->
+        <service
+            android:name="com.istornz.live_activities.LiveActivityFirebaseMessagingService"
+            tools:node="remove" />
         <!-- Interactive widget buttons run Dart in the background (home_widget, T8.2.04). -->
         <receiver
             android:name="es.antonborri.home_widget.HomeWidgetBackgroundReceiver"

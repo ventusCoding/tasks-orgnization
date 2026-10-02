@@ -27,7 +27,7 @@ overlay, Health integrations, Live Activities / ongoing timer notification, Siri
 - [x] T8.2.07 — Share into Everslot
 - [x] T8.2.08 — Widget: Checklist (interactive)
 - [x] T8.2.09 — Lock-screen / StandBy accessory widgets
-- [ ] T8.2.10 — Running timer on lock screen (Live Activity / ongoing notification)
+- [x] T8.2.10 — Running timer on lock screen (Live Activity / ongoing notification)
 - [ ] T8.2.11 — ICS export (share tasks as calendar events)
 - [ ] T8.2.12 — ICS import
 - [ ] T8.2.13 — Device-calendar overlay (read-only)
@@ -132,6 +132,7 @@ and StandBy layouts.
 Android ongoing notification with chronometer and Stop/Done actions (foreground service only if required).
 **Acceptance criteria:** stopping from the lock screen writes the time entry; survives app kill.
 **Tests:** manual QA; unit tests for state mapping.
+**Notes:** `TimerSurface` (pure; latest timer leads, others counted, planned end from the resolved occurrence) mirrored by `TimerSurfaceService` from `runningTimersProvider`. Android: ongoing silent notification (quiet channel) with a system chronometer (`OsNotificationRequest.chronometerFrom`) and *Stop* / *Done* handled by the existing notification action dispatcher — in the background isolate when the app was killed — so the time entry closes from the lock screen. iOS: `live_activities` Live Activity + Dynamic Island in the widget extension (`TimerActivity.swift`, timer text runs without updates); *Stop* opens Everslot via `everslot://do/timer-stop` (ending an activity from the extension is not reliable), which stops the timer and opens the occurrence. The plugin's Android FCM service is removed in the manifest (it would take FCM events). Device QA: Android build verified; iOS needs Xcode 26.
 
 ### T8.2.11 — ICS export (share tasks as calendar events)
 **Priority:** P2 · **Size:** M · **Depends on:** [2.1] (RRULE export)

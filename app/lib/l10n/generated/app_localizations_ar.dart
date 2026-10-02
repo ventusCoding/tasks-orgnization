@@ -17309,6 +17309,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get templatesUse => 'استخدام القالب';
 
   @override
+  String timerSurfaceMore(String title, int count) {
+    return '$title (+$count)';
+  }
+
+  @override
+  String get timerSurfaceOver => 'تجاوز الوقت المخطط';
+
+  @override
+  String timerSurfacePlannedUntil(String time) {
+    return 'مخطط حتى $time';
+  }
+
+  @override
   String get todayAllDay => 'طوال اليوم';
 
   @override

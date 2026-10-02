@@ -28731,6 +28731,24 @@ abstract class AppLocalizations {
   /// **'Use template'**
   String get templatesUse;
 
+  /// No description provided for @timerSurfaceMore.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} (+{count})'**
+  String timerSurfaceMore(String title, int count);
+
+  /// No description provided for @timerSurfaceOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Over the planned time'**
+  String get timerSurfaceOver;
+
+  /// No description provided for @timerSurfacePlannedUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned until {time}'**
+  String timerSurfacePlannedUntil(String time);
+
   /// No description provided for @todayAllDay.
   ///
   /// In en, this message translates to:

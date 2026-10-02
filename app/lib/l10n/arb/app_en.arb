@@ -5162,6 +5162,23 @@
       }
     }
   },
+  "@timerSurfaceMore": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@timerSurfacePlannedUntil": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "@todayDoneGroup": {
     "placeholders": {
       "count": {
@@ -10077,6 +10094,9 @@
   "templatesMine": "My templates",
   "templatesRename": "Rename",
   "templatesUse": "Use template",
+  "timerSurfaceMore": "{title} (+{count})",
+  "timerSurfaceOver": "Over the planned time",
+  "timerSurfacePlannedUntil": "Planned until {time}",
   "todayAllDay": "All day",
   "todayAllHabitsDone": "All habits done 🎉",
   "todayBlockAgenda": "Today's plan",

@@ -5,7 +5,9 @@ import 'package:everslot/features/integrations/application/integration_events.da
 import 'package:everslot/features/integrations/application/integration_providers.dart';
 import 'package:everslot/features/integrations/data/quick_actions_source.dart';
 import 'package:everslot/features/integrations/domain/app_shortcuts.dart';
+import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot/features/planner/application/planner_service.dart' show plannerL10nProvider;
+import 'package:everslot/features/planner/domain/planner_item.dart' show TrackingMode;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -106,5 +108,22 @@ void main() {
     await tap('log_craving');
     await pumpEventQueue();
     expect(events.last, const OpenPathUiEvent('/habits', asRoot: true));
+  });
+
+  test('timer-stop command (iOS Live Activity Stop): stops the timer and opens the occurrence', () async {
+    final taskId = await h.task('Deep work', start: at(2026, 9, 22, 9), mode: TrackingMode.timer);
+    await h.read(occurrencesRepositoryProvider).start(taskId, '2026-09-22T09:00');
+    h.clock.advance(const Duration(minutes: 25));
+    await h
+        .read(externalLinksServiceProvider)
+        .handle(Uri.parse('everslot://do/timer-stop?task=$taskId&occ=2026-09-22T09:00'));
+    await pumpEventQueue();
+    final running = await h.read(plannerQueriesProvider).watchRunningEntries().first;
+    expect(running, isEmpty);
+    expect(events.last, OpenPathUiEvent('/task/$taskId?occ=2026-09-22T09%3A00'));
+    // Bad parameters are rejected before anything runs.
+    await h.read(externalLinksServiceProvider).handle(Uri.parse('everslot://do/timer-stop?task=x&occ=y'));
+    await pumpEventQueue();
+    expect(events.last, const NoticeUiEvent(IntegrationNotice.linkNotFound));
   });
 }

@@ -16393,6 +16393,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get templatesUse => 'Use template';
 
   @override
+  String timerSurfaceMore(String title, int count) {
+    return '$title (+$count)';
+  }
+
+  @override
+  String get timerSurfaceOver => 'Over the planned time';
+
+  @override
+  String timerSurfacePlannedUntil(String time) {
+    return 'Planned until $time';
+  }
+
+  @override
   String get todayAllDay => 'All day';
 
   @override

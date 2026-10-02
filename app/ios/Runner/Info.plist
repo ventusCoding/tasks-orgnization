@@ -31,6 +31,9 @@
 		</dict>
 	</array>
 	<!-- App Group shared with the widget and share extensions (T8.2.02 / T8.2.07). -->
+	<!-- Running timer Live Activity (T8.2.10). -->
+	<key>NSSupportsLiveActivities</key>
+	<true/>
 	<key>AppGroupId</key>
 	<string>$(EVERSLOT_APP_GROUP)</string>
 	<!-- External links (T8.2.01): app_links + DeepLinkParser handle every link; Flutter's own
