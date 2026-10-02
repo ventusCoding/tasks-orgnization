@@ -1,0 +1,85 @@
+{
+  "dataImportTitle": "Importer",
+  "dataImportBody": "Restaurez une sauvegarde Everslot (JSON, ou zip avec pièces jointes).",
+  "dataImportPick": "Choisir un fichier de sauvegarde",
+  "dataImportFailed": "L’import a échoué. Rien n’a été écrit à moitié ; réessayez.",
+  "dataImportErrorCsv": "Les exports tableur (CSV) ne peuvent pas être importés. Utilisez une sauvegarde Everslot (JSON).",
+  "dataImportErrorVersion": "Cette sauvegarde vient d’une version d’Everslot plus récente ou inconnue.",
+  "dataImportErrorNotExport": "Ce fichier n’est pas une sauvegarde Everslot.",
+  "dataImportRestore": "Restaurer",
+  "dataImportRestoreHint": "Même compte : rétablit les éléments ; la version la plus récente de chacun l’emporte.",
+  "dataImportRestoreOtherAccount": "Uniquement pour les sauvegardes de ce compte.",
+  "dataImportCopy": "Copier",
+  "dataImportCopyHint": "Ajoute tout comme nouveaux éléments, sans toucher à l’existant.",
+  "dataImportReplaceNewer": "Remplacer les modifications plus récentes",
+  "dataImportReplaceNewerHint": "Utiliser la sauvegarde même si cet appareil a une modification ultérieure.",
+  "dataImportRunRestore": "Restaurer",
+  "dataImportRunCopy": "Importer une copie",
+  "dataImportKindTasks": "Tâches",
+  "dataImportKindOccurrences": "Historique des tâches",
+  "dataImportKindLists": "Listes",
+  "dataImportKindItems": "Éléments de liste",
+  "dataImportKindHabits": "Habitudes et arrêts",
+  "dataImportKindHabitLogs": "Pointages",
+  "dataImportKindCategories": "Catégories et étiquettes",
+  "dataImportKindAttachments": "Pièces jointes",
+  "dataImportKindInbox": "Boîte de réception",
+  "dataImportKindSettings": "Réglages",
+  "dataImportKindOther": "Autres données",
+  "dataImportDone": "{count, plural, =0{Rien à importer} one{1 élément importé} other{{count} éléments importés}}",
+  "@dataImportDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportConflictsHint": "{count, plural, one{1 élément modifié ici après la sauvegarde a été conservé.} other{{count} éléments modifiés ici après la sauvegarde ont été conservés.}}",
+  "@dataImportConflictsHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountNew": "{count, plural, one{{count} nouveau} other{{count} nouveaux}}",
+  "@dataImportCountNew": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountUpdated": "{count, plural, one{{count} mis à jour} other{{count} mis à jour}}",
+  "@dataImportCountUpdated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountUnchanged": "{count, plural, one{{count} inchangé} other{{count} inchangés}}",
+  "@dataImportCountUnchanged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountKept": "{count, plural, one{{count} conservé} other{{count} conservés}}",
+  "@dataImportCountKept": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountSkipped": "{count, plural, one{{count} ignoré} other{{count} ignorés}}",
+  "@dataImportCountSkipped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+}

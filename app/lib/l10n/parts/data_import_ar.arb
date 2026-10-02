@@ -1,0 +1,85 @@
+{
+  "dataImportTitle": "الاستيراد",
+  "dataImportBody": "استعد نسخة احتياطية من Everslot (JSON، أو ملف zip مع المرفقات).",
+  "dataImportPick": "اختر ملف النسخة الاحتياطية",
+  "dataImportFailed": "فشل الاستيراد. لم يُكتب شيء جزئيًا؛ حاول مجددًا.",
+  "dataImportErrorCsv": "لا يمكن استيراد ملفات الجداول (CSV). استخدم نسخة Everslot الاحتياطية (JSON).",
+  "dataImportErrorVersion": "هذه النسخة من إصدار أحدث أو غير معروف من Everslot.",
+  "dataImportErrorNotExport": "هذا الملف ليس نسخة احتياطية من Everslot.",
+  "dataImportRestore": "استعادة",
+  "dataImportRestoreHint": "الحساب نفسه: يعيد العناصر؛ والأحدث من كل عنصر هو الذي يبقى.",
+  "dataImportRestoreOtherAccount": "فقط للنسخ الاحتياطية من هذا الحساب.",
+  "dataImportCopy": "نسخ",
+  "dataImportCopyHint": "يضيف كل شيء كعناصر جديدة دون المساس بما لديك.",
+  "dataImportReplaceNewer": "استبدال التعديلات الأحدث على هذا الجهاز",
+  "dataImportReplaceNewerHint": "استخدم النسخة الاحتياطية حتى إن كان لهذا الجهاز تعديل لاحق.",
+  "dataImportRunRestore": "استعادة",
+  "dataImportRunCopy": "استيراد نسخة",
+  "dataImportKindTasks": "المهام",
+  "dataImportKindOccurrences": "سجل المهام",
+  "dataImportKindLists": "القوائم",
+  "dataImportKindItems": "عناصر القوائم",
+  "dataImportKindHabits": "العادات ومتتبعات الإقلاع",
+  "dataImportKindHabitLogs": "التسجيلات",
+  "dataImportKindCategories": "الفئات والوسوم",
+  "dataImportKindAttachments": "المرفقات",
+  "dataImportKindInbox": "الوارد",
+  "dataImportKindSettings": "الإعدادات",
+  "dataImportKindOther": "بيانات أخرى",
+  "dataImportDone": "{count, plural, zero{لا شيء للاستيراد} one{تم استيراد عنصر واحد} two{تم استيراد عنصرين} few{تم استيراد {count} عناصر} many{تم استيراد {count} عنصرًا} other{تم استيراد {count} عنصر}}",
+  "@dataImportDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportConflictsHint": "{count, plural, zero{لم يُحتفظ بأي عنصر.} one{احتُفظ بعنصر واحد عُدّل هنا بعد النسخة.} two{احتُفظ بعنصرين عُدّلا هنا بعد النسخة.} few{احتُفظ بـ{count} عناصر عُدّلت هنا بعد النسخة.} many{احتُفظ بـ{count} عنصرًا عُدّل هنا بعد النسخة.} other{احتُفظ بـ{count} عنصر عُدّل هنا بعد النسخة.}}",
+  "@dataImportConflictsHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountNew": "{count} جديد",
+  "@dataImportCountNew": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountUpdated": "{count} محدَّث",
+  "@dataImportCountUpdated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountUnchanged": "{count} دون تغيير",
+  "@dataImportCountUnchanged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountKept": "{count} محفوظ",
+  "@dataImportCountKept": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dataImportCountSkipped": "{count} متجاوَز",
+  "@dataImportCountSkipped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+}

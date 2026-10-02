@@ -2816,6 +2816,147 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get dataImportBody => 'Restaurez une sauvegarde Everslot (JSON, ou zip avec pièces jointes).';
+
+  @override
+  String dataImportConflictsHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments modifiés ici après la sauvegarde ont été conservés.',
+      one: '1 élément modifié ici après la sauvegarde a été conservé.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dataImportCopy => 'Copier';
+
+  @override
+  String get dataImportCopyHint => 'Ajoute tout comme nouveaux éléments, sans toucher à l’existant.';
+
+  @override
+  String dataImportCountKept(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count conservés', one: '$count conservé');
+    return '$_temp0';
+  }
+
+  @override
+  String dataImportCountNew(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count nouveaux', one: '$count nouveau');
+    return '$_temp0';
+  }
+
+  @override
+  String dataImportCountSkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count ignorés', one: '$count ignoré');
+    return '$_temp0';
+  }
+
+  @override
+  String dataImportCountUnchanged(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count inchangés', one: '$count inchangé');
+    return '$_temp0';
+  }
+
+  @override
+  String dataImportCountUpdated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mis à jour',
+      one: '$count mis à jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String dataImportDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments importés',
+      one: '1 élément importé',
+      zero: 'Rien à importer',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dataImportErrorCsv =>
+      'Les exports tableur (CSV) ne peuvent pas être importés. Utilisez une sauvegarde Everslot (JSON).';
+
+  @override
+  String get dataImportErrorNotExport => 'Ce fichier n’est pas une sauvegarde Everslot.';
+
+  @override
+  String get dataImportErrorVersion => 'Cette sauvegarde vient d’une version d’Everslot plus récente ou inconnue.';
+
+  @override
+  String get dataImportFailed => 'L’import a échoué. Rien n’a été écrit à moitié ; réessayez.';
+
+  @override
+  String get dataImportKindAttachments => 'Pièces jointes';
+
+  @override
+  String get dataImportKindCategories => 'Catégories et étiquettes';
+
+  @override
+  String get dataImportKindHabitLogs => 'Pointages';
+
+  @override
+  String get dataImportKindHabits => 'Habitudes et arrêts';
+
+  @override
+  String get dataImportKindInbox => 'Boîte de réception';
+
+  @override
+  String get dataImportKindItems => 'Éléments de liste';
+
+  @override
+  String get dataImportKindLists => 'Listes';
+
+  @override
+  String get dataImportKindOccurrences => 'Historique des tâches';
+
+  @override
+  String get dataImportKindOther => 'Autres données';
+
+  @override
+  String get dataImportKindSettings => 'Réglages';
+
+  @override
+  String get dataImportKindTasks => 'Tâches';
+
+  @override
+  String get dataImportPick => 'Choisir un fichier de sauvegarde';
+
+  @override
+  String get dataImportReplaceNewer => 'Remplacer les modifications plus récentes';
+
+  @override
+  String get dataImportReplaceNewerHint => 'Utiliser la sauvegarde même si cet appareil a une modification ultérieure.';
+
+  @override
+  String get dataImportRestore => 'Restaurer';
+
+  @override
+  String get dataImportRestoreHint =>
+      'Même compte : rétablit les éléments ; la version la plus récente de chacun l’emporte.';
+
+  @override
+  String get dataImportRestoreOtherAccount => 'Uniquement pour les sauvegardes de ce compte.';
+
+  @override
+  String get dataImportRunCopy => 'Importer une copie';
+
+  @override
+  String get dataImportRunRestore => 'Restaurer';
+
+  @override
+  String get dataImportTitle => 'Importer';
+
+  @override
   String deletedSnack(String item) {
     return '$item supprimé';
   }

@@ -2913,6 +2913,142 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get dataImportBody => 'استعد نسخة احتياطية من Everslot (JSON، أو ملف zip مع المرفقات).';
+
+  @override
+  String dataImportConflictsHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'احتُفظ بـ$count عنصر عُدّل هنا بعد النسخة.',
+      many: 'احتُفظ بـ$count عنصرًا عُدّل هنا بعد النسخة.',
+      few: 'احتُفظ بـ$count عناصر عُدّلت هنا بعد النسخة.',
+      two: 'احتُفظ بعنصرين عُدّلا هنا بعد النسخة.',
+      one: 'احتُفظ بعنصر واحد عُدّل هنا بعد النسخة.',
+      zero: 'لم يُحتفظ بأي عنصر.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dataImportCopy => 'نسخ';
+
+  @override
+  String get dataImportCopyHint => 'يضيف كل شيء كعناصر جديدة دون المساس بما لديك.';
+
+  @override
+  String dataImportCountKept(int count) {
+    return '$count محفوظ';
+  }
+
+  @override
+  String dataImportCountNew(int count) {
+    return '$count جديد';
+  }
+
+  @override
+  String dataImportCountSkipped(int count) {
+    return '$count متجاوَز';
+  }
+
+  @override
+  String dataImportCountUnchanged(int count) {
+    return '$count دون تغيير';
+  }
+
+  @override
+  String dataImportCountUpdated(int count) {
+    return '$count محدَّث';
+  }
+
+  @override
+  String dataImportDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم استيراد $count عنصر',
+      many: 'تم استيراد $count عنصرًا',
+      few: 'تم استيراد $count عناصر',
+      two: 'تم استيراد عنصرين',
+      one: 'تم استيراد عنصر واحد',
+      zero: 'لا شيء للاستيراد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dataImportErrorCsv => 'لا يمكن استيراد ملفات الجداول (CSV). استخدم نسخة Everslot الاحتياطية (JSON).';
+
+  @override
+  String get dataImportErrorNotExport => 'هذا الملف ليس نسخة احتياطية من Everslot.';
+
+  @override
+  String get dataImportErrorVersion => 'هذه النسخة من إصدار أحدث أو غير معروف من Everslot.';
+
+  @override
+  String get dataImportFailed => 'فشل الاستيراد. لم يُكتب شيء جزئيًا؛ حاول مجددًا.';
+
+  @override
+  String get dataImportKindAttachments => 'المرفقات';
+
+  @override
+  String get dataImportKindCategories => 'الفئات والوسوم';
+
+  @override
+  String get dataImportKindHabitLogs => 'التسجيلات';
+
+  @override
+  String get dataImportKindHabits => 'العادات ومتتبعات الإقلاع';
+
+  @override
+  String get dataImportKindInbox => 'الوارد';
+
+  @override
+  String get dataImportKindItems => 'عناصر القوائم';
+
+  @override
+  String get dataImportKindLists => 'القوائم';
+
+  @override
+  String get dataImportKindOccurrences => 'سجل المهام';
+
+  @override
+  String get dataImportKindOther => 'بيانات أخرى';
+
+  @override
+  String get dataImportKindSettings => 'الإعدادات';
+
+  @override
+  String get dataImportKindTasks => 'المهام';
+
+  @override
+  String get dataImportPick => 'اختر ملف النسخة الاحتياطية';
+
+  @override
+  String get dataImportReplaceNewer => 'استبدال التعديلات الأحدث على هذا الجهاز';
+
+  @override
+  String get dataImportReplaceNewerHint => 'استخدم النسخة الاحتياطية حتى إن كان لهذا الجهاز تعديل لاحق.';
+
+  @override
+  String get dataImportRestore => 'استعادة';
+
+  @override
+  String get dataImportRestoreHint => 'الحساب نفسه: يعيد العناصر؛ والأحدث من كل عنصر هو الذي يبقى.';
+
+  @override
+  String get dataImportRestoreOtherAccount => 'فقط للنسخ الاحتياطية من هذا الحساب.';
+
+  @override
+  String get dataImportRunCopy => 'استيراد نسخة';
+
+  @override
+  String get dataImportRunRestore => 'استعادة';
+
+  @override
+  String get dataImportTitle => 'الاستيراد';
+
+  @override
   String deletedSnack(String item) {
     return 'تم حذف $item';
   }

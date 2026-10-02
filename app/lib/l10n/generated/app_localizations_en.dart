@@ -2789,6 +2789,135 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get dataImportBody => 'Bring back an Everslot backup (JSON, or a zip with attachments).';
+
+  @override
+  String dataImportConflictsHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items changed here after the backup was made and were kept.',
+      one: '1 item changed here after the backup was made and was kept.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dataImportCopy => 'Copy';
+
+  @override
+  String get dataImportCopyHint => 'Adds everything as new items, without touching what you have.';
+
+  @override
+  String dataImportCountKept(int count) {
+    return '$count kept';
+  }
+
+  @override
+  String dataImportCountNew(int count) {
+    return '$count new';
+  }
+
+  @override
+  String dataImportCountSkipped(int count) {
+    return '$count skipped';
+  }
+
+  @override
+  String dataImportCountUnchanged(int count) {
+    return '$count unchanged';
+  }
+
+  @override
+  String dataImportCountUpdated(int count) {
+    return '$count updated';
+  }
+
+  @override
+  String dataImportDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items imported',
+      one: '1 item imported',
+      zero: 'Nothing to import',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dataImportErrorCsv => 'Spreadsheet (CSV) exports can\'t be imported. Use an Everslot backup (JSON).';
+
+  @override
+  String get dataImportErrorNotExport => 'This file isn\'t an Everslot backup.';
+
+  @override
+  String get dataImportErrorVersion => 'This backup comes from a newer or unknown version of Everslot.';
+
+  @override
+  String get dataImportFailed => 'The import failed. Nothing was half-written; please try again.';
+
+  @override
+  String get dataImportKindAttachments => 'Attachments';
+
+  @override
+  String get dataImportKindCategories => 'Categories & tags';
+
+  @override
+  String get dataImportKindHabitLogs => 'Check-ins';
+
+  @override
+  String get dataImportKindHabits => 'Habits & quit trackers';
+
+  @override
+  String get dataImportKindInbox => 'Inbox';
+
+  @override
+  String get dataImportKindItems => 'List items';
+
+  @override
+  String get dataImportKindLists => 'Lists';
+
+  @override
+  String get dataImportKindOccurrences => 'Task history';
+
+  @override
+  String get dataImportKindOther => 'Other data';
+
+  @override
+  String get dataImportKindSettings => 'Settings';
+
+  @override
+  String get dataImportKindTasks => 'Tasks';
+
+  @override
+  String get dataImportPick => 'Choose a backup file';
+
+  @override
+  String get dataImportReplaceNewer => 'Replace newer changes on this device';
+
+  @override
+  String get dataImportReplaceNewerHint => 'Use the backup even where this device has a later edit.';
+
+  @override
+  String get dataImportRestore => 'Restore';
+
+  @override
+  String get dataImportRestoreHint => 'Same account: brings rows back; the newer side of each item wins.';
+
+  @override
+  String get dataImportRestoreOtherAccount => 'Only for backups of this account.';
+
+  @override
+  String get dataImportRunCopy => 'Import a copy';
+
+  @override
+  String get dataImportRunRestore => 'Restore';
+
+  @override
+  String get dataImportTitle => 'Import';
+
+  @override
   String deletedSnack(String item) {
     return '$item deleted';
   }

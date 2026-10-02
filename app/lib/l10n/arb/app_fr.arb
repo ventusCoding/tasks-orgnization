@@ -84,6 +84,55 @@
       }
     }
   },
+  "@dataImportConflictsHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountKept": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountNew": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountSkipped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountUnchanged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountUpdated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@onboardingStepOf": {
     "placeholders": {
       "current": {
@@ -937,6 +986,40 @@
   "comingSoon": "Bientôt disponible",
   "confirmDeleteBody": "Vous pourrez le restaurer depuis la corbeille pendant 30 jours.",
   "confirmDeleteTitle": "Supprimer {item} ?",
+  "dataImportBody": "Restaurez une sauvegarde Everslot (JSON, ou zip avec pièces jointes).",
+  "dataImportConflictsHint": "{count, plural, one{1 élément modifié ici après la sauvegarde a été conservé.} other{{count} éléments modifiés ici après la sauvegarde ont été conservés.}}",
+  "dataImportCopy": "Copier",
+  "dataImportCopyHint": "Ajoute tout comme nouveaux éléments, sans toucher à l’existant.",
+  "dataImportCountKept": "{count, plural, one{{count} conservé} other{{count} conservés}}",
+  "dataImportCountNew": "{count, plural, one{{count} nouveau} other{{count} nouveaux}}",
+  "dataImportCountSkipped": "{count, plural, one{{count} ignoré} other{{count} ignorés}}",
+  "dataImportCountUnchanged": "{count, plural, one{{count} inchangé} other{{count} inchangés}}",
+  "dataImportCountUpdated": "{count, plural, one{{count} mis à jour} other{{count} mis à jour}}",
+  "dataImportDone": "{count, plural, =0{Rien à importer} one{1 élément importé} other{{count} éléments importés}}",
+  "dataImportErrorCsv": "Les exports tableur (CSV) ne peuvent pas être importés. Utilisez une sauvegarde Everslot (JSON).",
+  "dataImportErrorNotExport": "Ce fichier n’est pas une sauvegarde Everslot.",
+  "dataImportErrorVersion": "Cette sauvegarde vient d’une version d’Everslot plus récente ou inconnue.",
+  "dataImportFailed": "L’import a échoué. Rien n’a été écrit à moitié ; réessayez.",
+  "dataImportKindAttachments": "Pièces jointes",
+  "dataImportKindCategories": "Catégories et étiquettes",
+  "dataImportKindHabitLogs": "Pointages",
+  "dataImportKindHabits": "Habitudes et arrêts",
+  "dataImportKindInbox": "Boîte de réception",
+  "dataImportKindItems": "Éléments de liste",
+  "dataImportKindLists": "Listes",
+  "dataImportKindOccurrences": "Historique des tâches",
+  "dataImportKindOther": "Autres données",
+  "dataImportKindSettings": "Réglages",
+  "dataImportKindTasks": "Tâches",
+  "dataImportPick": "Choisir un fichier de sauvegarde",
+  "dataImportReplaceNewer": "Remplacer les modifications plus récentes",
+  "dataImportReplaceNewerHint": "Utiliser la sauvegarde même si cet appareil a une modification ultérieure.",
+  "dataImportRestore": "Restaurer",
+  "dataImportRestoreHint": "Même compte : rétablit les éléments ; la version la plus récente de chacun l’emporte.",
+  "dataImportRestoreOtherAccount": "Uniquement pour les sauvegardes de ce compte.",
+  "dataImportRunCopy": "Importer une copie",
+  "dataImportRunRestore": "Restaurer",
+  "dataImportTitle": "Importer",
   "deletedSnack": "{item} supprimé",
   "devComponentGallery": "Galerie de composants",
   "devConfigured": "Configuré",

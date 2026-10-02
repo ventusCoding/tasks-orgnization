@@ -4941,6 +4941,210 @@ abstract class AppLocalizations {
   /// **'Delete {item}?'**
   String confirmDeleteTitle(String item);
 
+  /// No description provided for @dataImportBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Bring back an Everslot backup (JSON, or a zip with attachments).'**
+  String get dataImportBody;
+
+  /// No description provided for @dataImportConflictsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 item changed here after the backup was made and was kept.} other{{count} items changed here after the backup was made and were kept.}}'**
+  String dataImportConflictsHint(int count);
+
+  /// No description provided for @dataImportCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get dataImportCopy;
+
+  /// No description provided for @dataImportCopyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Adds everything as new items, without touching what you have.'**
+  String get dataImportCopyHint;
+
+  /// No description provided for @dataImportCountKept.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} kept'**
+  String dataImportCountKept(int count);
+
+  /// No description provided for @dataImportCountNew.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} new'**
+  String dataImportCountNew(int count);
+
+  /// No description provided for @dataImportCountSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} skipped'**
+  String dataImportCountSkipped(int count);
+
+  /// No description provided for @dataImportCountUnchanged.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} unchanged'**
+  String dataImportCountUnchanged(int count);
+
+  /// No description provided for @dataImportCountUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} updated'**
+  String dataImportCountUpdated(int count);
+
+  /// No description provided for @dataImportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing to import} one{1 item imported} other{{count} items imported}}'**
+  String dataImportDone(int count);
+
+  /// No description provided for @dataImportErrorCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Spreadsheet (CSV) exports can\'t be imported. Use an Everslot backup (JSON).'**
+  String get dataImportErrorCsv;
+
+  /// No description provided for @dataImportErrorNotExport.
+  ///
+  /// In en, this message translates to:
+  /// **'This file isn\'t an Everslot backup.'**
+  String get dataImportErrorNotExport;
+
+  /// No description provided for @dataImportErrorVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'This backup comes from a newer or unknown version of Everslot.'**
+  String get dataImportErrorVersion;
+
+  /// No description provided for @dataImportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The import failed. Nothing was half-written; please try again.'**
+  String get dataImportFailed;
+
+  /// No description provided for @dataImportKindAttachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments'**
+  String get dataImportKindAttachments;
+
+  /// No description provided for @dataImportKindCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories & tags'**
+  String get dataImportKindCategories;
+
+  /// No description provided for @dataImportKindHabitLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-ins'**
+  String get dataImportKindHabitLogs;
+
+  /// No description provided for @dataImportKindHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits & quit trackers'**
+  String get dataImportKindHabits;
+
+  /// No description provided for @dataImportKindInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox'**
+  String get dataImportKindInbox;
+
+  /// No description provided for @dataImportKindItems.
+  ///
+  /// In en, this message translates to:
+  /// **'List items'**
+  String get dataImportKindItems;
+
+  /// No description provided for @dataImportKindLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists'**
+  String get dataImportKindLists;
+
+  /// No description provided for @dataImportKindOccurrences.
+  ///
+  /// In en, this message translates to:
+  /// **'Task history'**
+  String get dataImportKindOccurrences;
+
+  /// No description provided for @dataImportKindOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other data'**
+  String get dataImportKindOther;
+
+  /// No description provided for @dataImportKindSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get dataImportKindSettings;
+
+  /// No description provided for @dataImportKindTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get dataImportKindTasks;
+
+  /// No description provided for @dataImportPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a backup file'**
+  String get dataImportPick;
+
+  /// No description provided for @dataImportReplaceNewer.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace newer changes on this device'**
+  String get dataImportReplaceNewer;
+
+  /// No description provided for @dataImportReplaceNewerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the backup even where this device has a later edit.'**
+  String get dataImportReplaceNewerHint;
+
+  /// No description provided for @dataImportRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get dataImportRestore;
+
+  /// No description provided for @dataImportRestoreHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Same account: brings rows back; the newer side of each item wins.'**
+  String get dataImportRestoreHint;
+
+  /// No description provided for @dataImportRestoreOtherAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Only for backups of this account.'**
+  String get dataImportRestoreOtherAccount;
+
+  /// No description provided for @dataImportRunCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Import a copy'**
+  String get dataImportRunCopy;
+
+  /// No description provided for @dataImportRunRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get dataImportRunRestore;
+
+  /// No description provided for @dataImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get dataImportTitle;
+
   /// No description provided for @deletedSnack.
   ///
   /// In en, this message translates to:

@@ -25,7 +25,7 @@ encryption, onboarding, sample data, accessibility options, about/legal, feedbac
 - [x] T8.3.05 — Section defaults pages (Plan, Lists, Habits, Insights)
 - [x] T8.3.06 — Trash (restore / delete forever)
 - [x] T8.3.07 — Export all data (JSON + CSV)
-- [ ] T8.3.08 — Import / restore from a Everslot export
+- [x] T8.3.08 — Import / restore from a Everslot export
 - [x] T8.3.09 — App lock & app-switcher privacy
 - [x] T8.3.10 — Hide notification content
 - [ ] T8.3.11 — Onboarding flow
@@ -116,6 +116,7 @@ Dry-run preview (counts per type, conflicts), then apply in batches through the 
 **Acceptance criteria:** export → wipe → import yields identical data (golden comparison); copy mode
 never collides with existing ids.
 **Tests:** round-trip test; remapping unit tests (deterministic v5 ids re-derived).
+**Notes:** `ImportService` (`features/settings/application/import_service.dart`) opens a JSON or zip export in an isolate (CSV zips are refused — they are not lossless), dry-runs, then writes batches of 400 rows through `SyncWriter` (cause `import`). Restore is offered only when the export's profile id is the signed-in user; per row the newer `updated_at` wins (conflicts are counted as "kept"), "Replace newer changes" overrides, identical rows are skipped and locally deleted rows come back when the export wins. Copy (`IdRemapper`, domain) gives v7 ids to ordinary rows, re-derives v5 ids from `standardIdRecipes` (occurrences, day states, settings, tag links, runs, revisions, inbox via the remapped `dedupe_key`, default categories / sections / vocab / rules / profiles, achievements) — converging rows merge with the target account's — and rewrites every exported id found in columns, JSON values and composite strings (`storage_path`, `dedupe_key`); the target keeps its own profile, built-in saved views whose entry key isn't stored are skipped, copied attachments upload again from the zip's files. Round-trip compares exports ignoring `updated_at` / `origin_device_id` (written by the importing device).
 
 ### T8.3.09 — App lock & app-switcher privacy
 **Priority:** P1 · **Size:** M · **Depends on:** T8.3.01

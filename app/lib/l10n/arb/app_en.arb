@@ -1033,6 +1033,55 @@
       }
     }
   },
+  "@dataImportConflictsHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountKept": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountNew": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountSkipped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountUnchanged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountUpdated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@deletedSnack": {
     "placeholders": {
       "item": {
@@ -6171,6 +6220,40 @@
   "comingSoon": "Coming soon",
   "confirmDeleteBody": "You can restore it from Trash for 30 days.",
   "confirmDeleteTitle": "Delete {item}?",
+  "dataImportBody": "Bring back an Everslot backup (JSON, or a zip with attachments).",
+  "dataImportConflictsHint": "{count, plural, one{1 item changed here after the backup was made and was kept.} other{{count} items changed here after the backup was made and were kept.}}",
+  "dataImportCopy": "Copy",
+  "dataImportCopyHint": "Adds everything as new items, without touching what you have.",
+  "dataImportCountKept": "{count} kept",
+  "dataImportCountNew": "{count} new",
+  "dataImportCountSkipped": "{count} skipped",
+  "dataImportCountUnchanged": "{count} unchanged",
+  "dataImportCountUpdated": "{count} updated",
+  "dataImportDone": "{count, plural, =0{Nothing to import} one{1 item imported} other{{count} items imported}}",
+  "dataImportErrorCsv": "Spreadsheet (CSV) exports can't be imported. Use an Everslot backup (JSON).",
+  "dataImportErrorNotExport": "This file isn't an Everslot backup.",
+  "dataImportErrorVersion": "This backup comes from a newer or unknown version of Everslot.",
+  "dataImportFailed": "The import failed. Nothing was half-written; please try again.",
+  "dataImportKindAttachments": "Attachments",
+  "dataImportKindCategories": "Categories & tags",
+  "dataImportKindHabitLogs": "Check-ins",
+  "dataImportKindHabits": "Habits & quit trackers",
+  "dataImportKindInbox": "Inbox",
+  "dataImportKindItems": "List items",
+  "dataImportKindLists": "Lists",
+  "dataImportKindOccurrences": "Task history",
+  "dataImportKindOther": "Other data",
+  "dataImportKindSettings": "Settings",
+  "dataImportKindTasks": "Tasks",
+  "dataImportPick": "Choose a backup file",
+  "dataImportReplaceNewer": "Replace newer changes on this device",
+  "dataImportReplaceNewerHint": "Use the backup even where this device has a later edit.",
+  "dataImportRestore": "Restore",
+  "dataImportRestoreHint": "Same account: brings rows back; the newer side of each item wins.",
+  "dataImportRestoreOtherAccount": "Only for backups of this account.",
+  "dataImportRunCopy": "Import a copy",
+  "dataImportRunRestore": "Restore",
+  "dataImportTitle": "Import",
   "deletedSnack": "{item} deleted",
   "devComponentGallery": "Component gallery",
   "devConfigured": "Configured",

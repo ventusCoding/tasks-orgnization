@@ -84,6 +84,55 @@
       }
     }
   },
+  "@dataImportConflictsHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountKept": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountNew": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountSkipped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountUnchanged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportCountUpdated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@dataImportDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@onboardingStepOf": {
     "placeholders": {
       "current": {
@@ -937,6 +986,40 @@
   "comingSoon": "قريبًا",
   "confirmDeleteBody": "يمكنك استعادته من سلة المحذوفات خلال 30 يومًا.",
   "confirmDeleteTitle": "حذف {item}؟",
+  "dataImportBody": "استعد نسخة احتياطية من Everslot (JSON، أو ملف zip مع المرفقات).",
+  "dataImportConflictsHint": "{count, plural, zero{لم يُحتفظ بأي عنصر.} one{احتُفظ بعنصر واحد عُدّل هنا بعد النسخة.} two{احتُفظ بعنصرين عُدّلا هنا بعد النسخة.} few{احتُفظ بـ{count} عناصر عُدّلت هنا بعد النسخة.} many{احتُفظ بـ{count} عنصرًا عُدّل هنا بعد النسخة.} other{احتُفظ بـ{count} عنصر عُدّل هنا بعد النسخة.}}",
+  "dataImportCopy": "نسخ",
+  "dataImportCopyHint": "يضيف كل شيء كعناصر جديدة دون المساس بما لديك.",
+  "dataImportCountKept": "{count} محفوظ",
+  "dataImportCountNew": "{count} جديد",
+  "dataImportCountSkipped": "{count} متجاوَز",
+  "dataImportCountUnchanged": "{count} دون تغيير",
+  "dataImportCountUpdated": "{count} محدَّث",
+  "dataImportDone": "{count, plural, zero{لا شيء للاستيراد} one{تم استيراد عنصر واحد} two{تم استيراد عنصرين} few{تم استيراد {count} عناصر} many{تم استيراد {count} عنصرًا} other{تم استيراد {count} عنصر}}",
+  "dataImportErrorCsv": "لا يمكن استيراد ملفات الجداول (CSV). استخدم نسخة Everslot الاحتياطية (JSON).",
+  "dataImportErrorNotExport": "هذا الملف ليس نسخة احتياطية من Everslot.",
+  "dataImportErrorVersion": "هذه النسخة من إصدار أحدث أو غير معروف من Everslot.",
+  "dataImportFailed": "فشل الاستيراد. لم يُكتب شيء جزئيًا؛ حاول مجددًا.",
+  "dataImportKindAttachments": "المرفقات",
+  "dataImportKindCategories": "الفئات والوسوم",
+  "dataImportKindHabitLogs": "التسجيلات",
+  "dataImportKindHabits": "العادات ومتتبعات الإقلاع",
+  "dataImportKindInbox": "الوارد",
+  "dataImportKindItems": "عناصر القوائم",
+  "dataImportKindLists": "القوائم",
+  "dataImportKindOccurrences": "سجل المهام",
+  "dataImportKindOther": "بيانات أخرى",
+  "dataImportKindSettings": "الإعدادات",
+  "dataImportKindTasks": "المهام",
+  "dataImportPick": "اختر ملف النسخة الاحتياطية",
+  "dataImportReplaceNewer": "استبدال التعديلات الأحدث على هذا الجهاز",
+  "dataImportReplaceNewerHint": "استخدم النسخة الاحتياطية حتى إن كان لهذا الجهاز تعديل لاحق.",
+  "dataImportRestore": "استعادة",
+  "dataImportRestoreHint": "الحساب نفسه: يعيد العناصر؛ والأحدث من كل عنصر هو الذي يبقى.",
+  "dataImportRestoreOtherAccount": "فقط للنسخ الاحتياطية من هذا الحساب.",
+  "dataImportRunCopy": "استيراد نسخة",
+  "dataImportRunRestore": "استعادة",
+  "dataImportTitle": "الاستيراد",
   "deletedSnack": "تم حذف {item}",
   "devComponentGallery": "معرض المكوّنات",
   "devConfigured": "مُهيّأ",
