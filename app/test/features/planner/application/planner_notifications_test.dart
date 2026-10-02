@@ -59,6 +59,9 @@ void main() {
     expect(gymToday.isOpen, isTrue);
     expect(gymToday.guard, NotificationGuard.taskOccurrenceOpen(gym, '2026-09-22T10:00'));
     expect(gymToday.defaultActions, ['done', 'snooze', 'skip']);
+    // Overdue reminders (T7.5.03) know the tracking mode and the missed grace.
+    expect(gymToday.variables['tracking_mode'], 'check');
+    expect(gymToday.variables['missed_grace_minutes'], 15);
     expect(targets.where((t) => t.id == gym).map((t) => t.occurrenceKey), ['2026-09-22T10:00']);
     final call = targets.firstWhere((t) => t.id == ny);
     expect(call.start, DateTime.utc(2026, 9, 22, 13), reason: 'fixed 09:00 in New York');
@@ -147,6 +150,11 @@ void main() {
     final done = (await h.records(work)).single;
     expect(done.status, OccurrenceStatus.done);
     expect(done.trackedSeconds, 40 * 60);
+
+    // Reschedule (overdue reminders, T7.5.03) opens the task on its quick-reschedule sheet.
+    final walkTomorrow = await handler.handle(ctx('reschedule', walk, '2026-09-23T12:00'));
+    expect(walkTomorrow.openLink, '/task/$walk?occ=2026-09-23T12%3A00&reschedule=1');
+    expect(walkTomorrow.markActed, isFalse);
 
     final closed = await handler.handle(ctx('start', walk, '2026-09-22T12:00'));
     expect(closed.success, isFalse);

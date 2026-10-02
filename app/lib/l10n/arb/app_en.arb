@@ -4551,6 +4551,27 @@
       }
     }
   },
+  "@tasksQuickRescheduleHour": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksQuickRescheduleTomorrow": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@tasksQuickRescheduleTonight": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "@tasksQuotaIndicator": {
     "placeholders": {
       "title": {
@@ -9073,6 +9094,11 @@
   "tasksQuickAdd": "Add",
   "tasksQuickAddNew": "Add & new",
   "tasksQuickMore": "More options",
+  "tasksQuickRescheduleHour": "In 1 hour ({time})",
+  "tasksQuickRescheduleTitle": "Reschedule",
+  "tasksQuickRescheduleTomorrow": "Tomorrow at {time}",
+  "tasksQuickRescheduleTonight": "Tonight at {time}",
+  "tasksQuickRescheduled": "Rescheduled",
   "tasksQuickTitleHint": "New task",
   "tasksQuotaDone": "Done for this period",
   "tasksQuotaIndicator": "{title} · {done}/{total} {unit, select, day{today} week{this week} month{this month} year{this year} other{this period}}",

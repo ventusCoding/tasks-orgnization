@@ -48,22 +48,39 @@ abstract final class PlannerNotificationTargets {
   /// replan cancels their reminders; quota slots (no time of their own) are left out.
   /// [categoryNames] feeds the `category` template variable; [zones] and [viewerZone] resolve
   /// one-off deadlines (the `due` anchor, T3.1.13) in the task's zone mode.
+  /// [missedGraceMinutes] (`planner.missedGraceMinutes`) is the default delay of overdue reminders
+  /// after the end (T7.5.03).
   static List<NotificationTarget> build(
     Iterable<ResolvedOccurrence> occurrences, {
     required ZoneResolver zones,
     required String viewerZone,
     Map<String, String> categoryNames = const {},
+    int missedGraceMinutes = 15,
   }) => [
     for (final o in occurrences)
       if (!o.isQuotaSlot)
-        target(o, zones: zones, viewerZone: viewerZone, categoryName: categoryNames[o.task.categoryId]),
+        target(
+          o,
+          zones: zones,
+          viewerZone: viewerZone,
+          categoryName: categoryNames[o.task.categoryId],
+          missedGraceMinutes: missedGraceMinutes,
+        ),
   ];
+
+  /// Wire tracking mode (`check`, `event`, `timer`) passed to the planner (events never go overdue).
+  static String trackingWire(TrackingMode mode) => switch (mode) {
+    TrackingMode.check => 'check',
+    TrackingMode.event => 'event',
+    TrackingMode.timer => 'timer',
+  };
 
   static NotificationTarget target(
     ResolvedOccurrence o, {
     required ZoneResolver zones,
     required String viewerZone,
     String? categoryName,
+    int missedGraceMinutes = 15,
   }) {
     final task = o.task;
     final excerpt = notesExcerpt(o.notes);
@@ -90,6 +107,8 @@ abstract final class PlannerNotificationTargets {
         'category': ?categoryName,
         'notes_excerpt': ?excerpt,
         if (task.location != null) 'location': task.location,
+        'tracking_mode': trackingWire(task.trackingMode),
+        'missed_grace_minutes': missedGraceMinutes,
       },
       defaultActions: task.trackingMode == TrackingMode.timer ? timerActions : defaultActions,
     );

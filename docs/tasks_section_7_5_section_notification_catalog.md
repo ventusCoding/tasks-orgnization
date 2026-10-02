@@ -48,7 +48,7 @@ live timer surfaces and widget refreshes ([8.2]); hide-content privacy option ([
 
 - [x] T7.5.01 — Planner: start & end reminders with multiple offsets
 - [x] T7.5.02 — Planner: all-day & date-only reminders
-- [ ] T7.5.03 — Planner: overdue reminders
+- [x] T7.5.03 — Planner: overdue reminders
 - [ ] T7.5.04 — Planner: up-next chain & timer-end alerts
 - [x] T7.5.05 — Checklists: reminders at a chosen time (lists & items)
 - [x] T7.5.06 — Checklists: waiting/blocked follow-up reminders
@@ -104,6 +104,7 @@ cancels both.
 tomorrow) · Skip.
 **Acceptance criteria:** no overdue notification for `event` tasks or for occurrences done within the grace.
 **Tests:** planner fixtures.
+**Notes:** `overdue` reminders: planner targets now carry `tracking_mode` and `missed_grace_minutes` (`planner.missedGraceMinutes`); `OverdueTrigger` without `afterMinutes` fires end + grace, never for `event` tasks, nothing once done/skipped (guard + closed target). Default actions Done · Reschedule · Skip; *Reschedule* is a foreground action opening `/task/<id>?occ=…&reschedule=1`, which shows the quick-reschedule sheet (+1 h rounded to 5 min / tonight 20:00 while before 19:00 / tomorrow same time; one undoable move). Repeats use the rule repeat chain (capped by `maxNagRepeats`). Tests: `fixtures/planner/section_catalog_p1.json`, `planner_notifications_test.dart`, `quick_reschedule_test.dart`.
 
 ### T7.5.04 — Planner: up-next chain & timer-end alerts
 **Priority:** P1 · **Size:** S · **Depends on:** T7.5.01, [3.2] (time tracking)

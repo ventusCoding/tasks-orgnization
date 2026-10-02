@@ -273,5 +273,10 @@
   "tasksDayMoveTomorrow": "نقل غير المنجز إلى الغد",
   "tasksDayDoneAllSnack": "{count, plural, =0{لم يتبق شيء} =1{تم إنجاز مهمة واحدة} =2{تم إنجاز مهمتين} few{تم إنجاز {count} مهام} many{تم إنجاز {count} مهمة} other{تم إنجاز {count} مهمة}}",
   "tasksDaySkipRestSnack": "{count, plural, =0{لم يتبق شيء للتخطي} =1{تم تخطي مهمة واحدة} =2{تم تخطي مهمتين} few{تم تخطي {count} مهام} many{تم تخطي {count} مهمة} other{تم تخطي {count} مهمة}}",
-  "tasksDayMoveTomorrowSnack": "{count, plural, =0{لا شيء للنقل} =1{نُقلت مهمة واحدة إلى الغد} =2{نُقلت مهمتان إلى الغد} few{نُقلت {count} مهام إلى الغد} many{نُقلت {count} مهمة إلى الغد} other{نُقلت {count} مهمة إلى الغد}}"
+  "tasksDayMoveTomorrowSnack": "{count, plural, =0{لا شيء للنقل} =1{نُقلت مهمة واحدة إلى الغد} =2{نُقلت مهمتان إلى الغد} few{نُقلت {count} مهام إلى الغد} many{نُقلت {count} مهمة إلى الغد} other{نُقلت {count} مهمة إلى الغد}}",
+  "tasksQuickRescheduleTitle": "إعادة الجدولة",
+  "tasksQuickRescheduleHour": "بعد ساعة ({time})",
+  "tasksQuickRescheduleTonight": "الليلة الساعة {time}",
+  "tasksQuickRescheduleTomorrow": "غدًا الساعة {time}",
+  "tasksQuickRescheduled": "تمت إعادة الجدولة"
 }

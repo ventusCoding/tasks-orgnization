@@ -15123,6 +15123,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tasksQuickMore => 'More options';
 
   @override
+  String tasksQuickRescheduleHour(String time) {
+    return 'In 1 hour ($time)';
+  }
+
+  @override
+  String get tasksQuickRescheduleTitle => 'Reschedule';
+
+  @override
+  String tasksQuickRescheduleTomorrow(String time) {
+    return 'Tomorrow at $time';
+  }
+
+  @override
+  String tasksQuickRescheduleTonight(String time) {
+    return 'Tonight at $time';
+  }
+
+  @override
+  String get tasksQuickRescheduled => 'Rescheduled';
+
+  @override
   String get tasksQuickTitleHint => 'New task';
 
   @override

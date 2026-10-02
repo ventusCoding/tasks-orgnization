@@ -10,7 +10,8 @@ abstract final class AppLinks {
   static String planWeek({String? date}) => _q('/plan/week', {'date': date});
   static String planDay({String? date}) => _q('/plan/day', {'date': date});
   static String planView(String type, {String? date}) => _q('/plan/view/$type', {'date': date});
-  static String task(String id, {String? occurrenceKey}) => _q('/task/$id', {'occ': occurrenceKey});
+  static String task(String id, {String? occurrenceKey, bool reschedule = false}) =>
+      _q('/task/$id', {'occ': occurrenceKey, 'reschedule': reschedule ? '1' : null});
   static String taskEdit(String id) => '/task/$id/edit';
   static String taskNew({String? start, int? duration, bool allDay = false}) =>
       _q('/task-new', {'start': start, 'duration': duration?.toString(), 'allDay': allDay ? '1' : null});

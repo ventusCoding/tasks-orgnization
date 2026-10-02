@@ -277,7 +277,11 @@ class _SettingsList extends ConsumerWidget {
           title: Text(l.notifEmailDigests),
           subtitle: Text(l.notifEmailDigestsHint),
           value: settings.emailDigests,
-          onChanged: (v) => unawaited(_patch(ref, {'emailDigests': {'enabled': v}})),
+          onChanged: (v) => unawaited(
+            _patch(ref, {
+              'emailDigests': {'enabled': v},
+            }),
+          ),
         ),
         // ---- Devices
         SectionHeader(l.notifMultiDevice),

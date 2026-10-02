@@ -273,5 +273,10 @@
   "tasksDayMoveTomorrow": "Reporter l’inachevé à demain",
   "tasksDayDoneAllSnack": "{count, plural, =0{Plus rien à marquer} =1{1 tâche marquée comme faite} other{{count} tâches marquées comme faites}}",
   "tasksDaySkipRestSnack": "{count, plural, =0{Plus rien à ignorer} =1{1 tâche ignorée} other{{count} tâches ignorées}}",
-  "tasksDayMoveTomorrowSnack": "{count, plural, =0{Rien à reporter} =1{1 tâche reportée à demain} other{{count} tâches reportées à demain}}"
+  "tasksDayMoveTomorrowSnack": "{count, plural, =0{Rien à reporter} =1{1 tâche reportée à demain} other{{count} tâches reportées à demain}}",
+  "tasksQuickRescheduleTitle": "Reprogrammer",
+  "tasksQuickRescheduleHour": "Dans 1 heure ({time})",
+  "tasksQuickRescheduleTonight": "Ce soir à {time}",
+  "tasksQuickRescheduleTomorrow": "Demain à {time}",
+  "tasksQuickRescheduled": "Reprogrammé"
 }

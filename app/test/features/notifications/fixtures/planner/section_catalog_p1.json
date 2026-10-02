@@ -1,0 +1,50 @@
+{
+  "cases": [
+    {
+      "name": "T7.5.03 overdue: default delay is the missed grace, actions Done · Reschedule · Skip",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "late", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "overdue"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "report", "section": "planner", "title": "Report", "occurrenceKey": "2026-09-22T10:00",
+         "start": "2026-09-22T08:00:00Z", "end": "2026-09-22T09:00:00Z",
+         "variables": {"tracking_mode": "check", "missed_grace_minutes": 20}}
+      ],
+      "expected": [
+        {"rule": "late", "target": "report", "fireAtUtc": "2026-09-22T09:20:00Z", "body": "Report is overdue",
+         "actions": ["done", "reschedule", "skip"]}
+      ]
+    },
+    {
+      "name": "T7.5.03 overdue: event tasks never go overdue",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "late", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "overdue", "afterMinutes": 15}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "meeting", "section": "planner", "title": "Meeting", "occurrenceKey": "2026-09-22T10:00",
+         "start": "2026-09-22T08:00:00Z", "end": "2026-09-22T09:00:00Z", "variables": {"tracking_mode": "event"}}
+      ],
+      "expected": [],
+      "expectedCount": 0
+    },
+    {
+      "name": "T7.5.03 overdue: done within the grace produces nothing",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "late", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "overdue"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "report", "section": "planner", "title": "Report", "occurrenceKey": "2026-09-22T10:00",
+         "start": "2026-09-22T08:00:00Z", "end": "2026-09-22T09:00:00Z", "isOpen": false, "status": "done",
+         "variables": {"tracking_mode": "check", "missed_grace_minutes": 15}}
+      ],
+      "expected": [],
+      "expectedCount": 0
+    }
+  ]
+}

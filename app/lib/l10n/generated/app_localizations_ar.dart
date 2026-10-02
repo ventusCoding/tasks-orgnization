@@ -16016,6 +16016,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tasksQuickMore => 'خيارات أكثر';
 
   @override
+  String tasksQuickRescheduleHour(String time) {
+    return 'بعد ساعة ($time)';
+  }
+
+  @override
+  String get tasksQuickRescheduleTitle => 'إعادة الجدولة';
+
+  @override
+  String tasksQuickRescheduleTomorrow(String time) {
+    return 'غدًا الساعة $time';
+  }
+
+  @override
+  String tasksQuickRescheduleTonight(String time) {
+    return 'الليلة الساعة $time';
+  }
+
+  @override
+  String get tasksQuickRescheduled => 'تمت إعادة الجدولة';
+
+  @override
   String get tasksQuickTitleHint => 'مهمة جديدة';
 
   @override

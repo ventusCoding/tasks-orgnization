@@ -61,6 +61,7 @@ class PlannerNotificationSource implements NotificationTargetSource {
       zones: zones,
       viewerZone: zone,
       categoryNames: await queries.categoryNames(),
+      missedGraceMinutes: _ref.read(plannerSettingsProvider).missedGraceMinutes,
     );
   }
 
@@ -95,6 +96,7 @@ class PlannerNotificationActions implements NotificationActionHandler {
     NotificationActionIds.skip,
     NotificationActionIds.start,
     NotificationActionIds.stop,
+    NotificationActionIds.reschedule,
   };
 
   static const cause = 'notification';
@@ -152,6 +154,13 @@ class PlannerNotificationActions implements NotificationActionHandler {
       case NotificationActionIds.stop:
         if (closed) return NotificationActionResult.ok;
         await repo.stop(taskId, key, cause: cause);
+      case NotificationActionIds.reschedule:
+        // Foreground action: the task opens on its quick-reschedule sheet (+1 h / tonight / tomorrow).
+        if (closed) return NotificationActionResult.failed(l10n.tasksNotifAlreadyClosed);
+        return NotificationActionResult(
+          openLink: AppLinks.task(taskId, occurrenceKey: key, reschedule: true),
+          markActed: false,
+        );
       default:
         return NotificationActionResult(
           openLink: c.payload.deepLink ?? AppLinks.task(taskId, occurrenceKey: key),

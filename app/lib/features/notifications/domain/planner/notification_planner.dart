@@ -1,6 +1,8 @@
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/features/notifications/domain/delivery_resolution.dart';
 import 'package:everslot/features/notifications/domain/effective_rules_resolver.dart';
+import 'package:everslot/features/notifications/domain/json_fields.dart';
+import 'package:everslot/features/notifications/domain/notification_actions.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
 import 'package:everslot/features/notifications/domain/notification_settings.dart';
 import 'package:everslot/features/notifications/domain/notification_target.dart';
@@ -152,7 +154,7 @@ abstract final class NotificationPlanner {
       spec: rule.spec,
       ruleProfile: profiles[rule.profileId ?? ''],
       sectionDefault: sectionDefault,
-      targetDefaultActions: target.defaultActions,
+      targetDefaultActions: _triggerActions(rule.spec.trigger, target) ?? target.defaultActions,
     );
     final profileContent = profiles[rule.profileId ?? '']?.spec.content;
     final candidates = _candidates(ctx, rule, target, zone, horizonEnd);
@@ -332,10 +334,13 @@ abstract final class NotificationPlanner {
           ),
         ];
 
-      case OverdueTrigger(:final effectiveAfter):
+      case OverdueTrigger(:final afterMinutes):
+        // Events have no "done" state: they never go overdue (T7.5.03).
+        if (target.variables['tracking_mode'] == 'event') return const [];
         final base = target.end ?? target.due;
         if (base == null) return const [];
-        return [_Candidate(base.add(Duration(minutes: effectiveAfter)), occ, DefaultContentKind.overdue)];
+        final after = afterMinutes ?? asInt(target.variables['missed_grace_minutes']) ?? 0;
+        return [_Candidate(base.add(Duration(minutes: after)), occ, DefaultContentKind.overdue)];
 
       case StreakRiskTrigger(atTime: final time, :final effectiveMinStreak):
         if ((target.streak ?? 0) < effectiveMinStreak) return const [];
@@ -450,6 +455,16 @@ abstract final class NotificationPlanner {
   }
 
   static DateTime _laterOf(DateTime a, DateTime b) => a.isAfter(b) ? a : b;
+
+  /// Trigger-specific default actions (used when neither the rule nor its profile sets any).
+  static List<String>? _triggerActions(NotificationTrigger trigger, NotificationTarget target) => switch (trigger) {
+    OverdueTrigger() when target.type == NotificationTargetType.task => const [
+      NotificationActionIds.done,
+      NotificationActionIds.reschedule,
+      NotificationActionIds.skip,
+    ],
+    _ => null,
+  };
 
   static DateTime? _anchor(NotificationTarget t, TriggerAnchor anchor) => switch (anchor) {
     TriggerAnchor.start => t.start,

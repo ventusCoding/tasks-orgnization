@@ -26655,6 +26655,36 @@ abstract class AppLocalizations {
   /// **'More options'**
   String get tasksQuickMore;
 
+  /// No description provided for @tasksQuickRescheduleHour.
+  ///
+  /// In en, this message translates to:
+  /// **'In 1 hour ({time})'**
+  String tasksQuickRescheduleHour(String time);
+
+  /// No description provided for @tasksQuickRescheduleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reschedule'**
+  String get tasksQuickRescheduleTitle;
+
+  /// No description provided for @tasksQuickRescheduleTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow at {time}'**
+  String tasksQuickRescheduleTomorrow(String time);
+
+  /// No description provided for @tasksQuickRescheduleTonight.
+  ///
+  /// In en, this message translates to:
+  /// **'Tonight at {time}'**
+  String tasksQuickRescheduleTonight(String time);
+
+  /// No description provided for @tasksQuickRescheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Rescheduled'**
+  String get tasksQuickRescheduled;
+
   /// No description provided for @tasksQuickTitleHint.
   ///
   /// In en, this message translates to:

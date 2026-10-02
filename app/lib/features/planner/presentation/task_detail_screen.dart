@@ -17,6 +17,7 @@ import 'package:everslot/features/planner/domain/task.dart';
 import 'package:everslot/features/planner/presentation/markdown_lite_view.dart';
 import 'package:everslot/features/planner/presentation/occurrence_panel.dart';
 import 'package:everslot/features/planner/presentation/planner_dialogs.dart';
+import 'package:everslot/features/planner/presentation/quick_reschedule_sheet.dart';
 import 'package:everslot/features/planner/presentation/series_history_screen.dart';
 import 'package:everslot/features/planner/presentation/task_editor_screen.dart';
 import 'package:everslot/features/planner/presentation/task_exceptions_sheet.dart';
@@ -31,10 +32,13 @@ import 'package:share_plus/share_plus.dart';
 /// occurrence (T3.2.05): schedule summary, badges, notes, links, tags, attachments, linked
 /// checklist, next occurrences, reminders, history timeline (paged) and the series actions.
 class TaskDetailScreen extends ConsumerWidget {
-  const TaskDetailScreen({required this.taskId, this.occurrenceKey, super.key});
+  const TaskDetailScreen({required this.taskId, this.occurrenceKey, this.reschedule = false, super.key});
 
   final String taskId;
   final String? occurrenceKey;
+
+  /// Opened from an overdue reminder's *Reschedule* action: show the quick-reschedule sheet.
+  final bool reschedule;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -82,6 +86,7 @@ class TaskDetailScreen extends ConsumerWidget {
           key: const ValueKey('detail-list'),
           padding: const EdgeInsetsDirectional.only(bottom: Space.xxxl),
           children: [
+            if (reschedule) QuickRescheduleOnOpen(item: occurrence),
             if (occurrence != null) ...[OccurrencePanel(item: occurrence), const Divider()],
             _Summary(task: task),
             if (task.notes != null) ...[
