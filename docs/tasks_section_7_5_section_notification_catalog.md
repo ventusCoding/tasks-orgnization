@@ -52,9 +52,9 @@ live timer surfaces and widget refreshes ([8.2]); hide-content privacy option ([
 - [x] T7.5.04 — Planner: up-next chain & timer-end alerts
 - [x] T7.5.05 — Checklists: reminders at a chosen time (lists & items)
 - [x] T7.5.06 — Checklists: waiting/blocked follow-up reminders
-- [ ] T7.5.07 — Checklists: item & checklist due reminders
-- [ ] T7.5.08 — Checklists: status-age escalation
-- [ ] T7.5.09 — Checklists: structural event triggers
+- [x] T7.5.07 — Checklists: item & checklist due reminders
+- [x] T7.5.08 — Checklists: status-age escalation
+- [x] T7.5.09 — Checklists: structural event triggers
 - [x] T7.5.10 — Habits: scheduled reminders (slots, times, several per day)
 - [x] T7.5.11 — Habits: not-done-by & streak-at-risk
 - [ ] T7.5.12 — Habits: quota pace, milestones & inactivity
@@ -142,6 +142,7 @@ Complete · Snooze 1 day; changing the follow-up date replans immediately.
 **Description:** Relative triggers on `due` for items and checklists: timed due → offsets like tasks;
 date-only due → "on the day at HH:MM" / "N days before at HH:MM"; optional overdue repeat.
 **Tests:** planner fixtures (timed and date-only).
+**Notes:** Items and checklists already carry `due` (timed or date-only, resolved in their zone); `relative` triggers on `due` give offsets, and the day form gives "on the day / N days before at HH:MM" (date-only lists and items). Overdue repeats use `overdue` + the rule repeat chain. Tests: `section_catalog_p1.json` (date-only item 1 day before at 18:00 + on the day at 09:00; timed checklist due 30 min before + hourly overdue repeats).
 
 ### T7.5.08 — Checklists: status-age escalation
 **Priority:** P1 · **Size:** S · **Depends on:** T7.5.06
@@ -149,6 +150,7 @@ date-only due → "on the day at HH:MM" / "N days before at HH:MM"; optional ove
 ≥ N days, "{item_text} has been blocked for 12 h" for blocked ≥ N hours; optional repeat interval; anchored
 on `status_changed_at` so re-entering the status restarts the clock.
 **Tests:** planner fixtures for re-entry and repeats.
+**Notes:** `status_age` anchored on `status_changed_at` (re-entering the status restarts the clock, existing fixtures). Wording now follows the spec: "Still waiting on {item_text} (3 days)" / "{item_text} has been blocked for 12 h" (EN/FR/AR; whole days read as days). Repeats via the rule repeat chain. Tests: `section_catalog_p1.json`, codec, texts.
 
 ### T7.5.09 — Checklists: structural event triggers
 **Priority:** P1 · **Size:** M · **Depends on:** T7.5.05, [4.5] (resettable checklists)
@@ -158,6 +160,7 @@ overdue** (surfaced on the watched parent), **stale items/lists** (no activity f
 **list reset** ("{checklist_title} was reset for today").
 **Acceptance criteria:** completing the last child triggers at most one notification per parent per day.
 **Tests:** planner fixtures using event inputs.
+**Notes:** Children complete (Complete parent · Open, dedupe per parent per day), child overdue and stale were already planned from item/list events; added *list reset*: new `list_reset {atTime?}` trigger ("{checklist} was reset for today") fed by `checklist_runs` (`ChecklistsRepository.recentResets` → `list_reset` events on list targets), with editor field, labels and EN/FR/AR texts. Tests: `section_catalog_p1.json` (children complete actions + same-day dedupe, list reset at 07:00), `checklist_notifications_test.dart` (reset events).
 
 ### T7.5.10 — Habits: scheduled reminders (slots, times, several per day)
 **Priority:** P0 · **Size:** M · **Depends on:** [7.1], [7.2], [5.1] (periods & slots), [5.2]

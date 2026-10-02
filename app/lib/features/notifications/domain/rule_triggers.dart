@@ -42,7 +42,8 @@ enum TriggerType {
   childOverdue('child_overdue'),
   stale('stale'),
   upNext('up_next'),
-  timerEnd('timer_end');
+  timerEnd('timer_end'),
+  listReset('list_reset');
 
   TriggerType(this.wire);
 
@@ -154,6 +155,7 @@ sealed class NotificationTrigger {
       TriggerType.stale => StaleTrigger(afterDays: asInt(json['afterDays']) ?? 7, atTime: time('atTime'), raw: json),
       TriggerType.upNext => UpNextTrigger(beforeMinutes: asInt(json['beforeMinutes']), raw: json),
       TriggerType.timerEnd => TimerEndTrigger(raw: json),
+      TriggerType.listReset => ListResetTrigger(atTime: time('atTime'), raw: json),
       null => UnknownTrigger(typeWire: asString(json['type']) ?? '', raw: json),
     };
   }
@@ -490,6 +492,23 @@ final class TimerEndTrigger extends NotificationTrigger {
 
   @override
   Map<String, Object?> get _fields => const {};
+}
+
+/// *List reset* (T7.5.09): a resettable checklist started a new period — "{checklist} was reset for
+/// today", at the reset or at [atTime] that day.
+final class ListResetTrigger extends NotificationTrigger {
+  const ListResetTrigger({this.atTime, super.raw});
+
+  final LocalTime? atTime;
+
+  @override
+  String get typeWire => 'list_reset';
+
+  @override
+  Set<String> get _knownKeys => const {'atTime'};
+
+  @override
+  Map<String, Object?> get _fields => {'atTime': ?atTime?.toIso()};
 }
 
 /// A trigger type this app version doesn't know (kept verbatim, never fires).

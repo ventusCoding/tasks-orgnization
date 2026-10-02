@@ -9717,6 +9717,12 @@ abstract class AppLocalizations {
   /// **'before'**
   String get notifBefore;
 
+  /// No description provided for @notifBodyBlockedFor.
+  ///
+  /// In en, this message translates to:
+  /// **'{item} has been blocked for {age}'**
+  String notifBodyBlockedFor(String item, String age);
+
   /// No description provided for @notifBodyChildOverdue.
   ///
   /// In en, this message translates to:
@@ -9777,6 +9783,12 @@ abstract class AppLocalizations {
   /// **'No activity for {days, plural, =1{1 day} other{{days} days}}'**
   String notifBodyInactivity(int days);
 
+  /// No description provided for @notifBodyListReset.
+  ///
+  /// In en, this message translates to:
+  /// **'{list} was reset for today'**
+  String notifBodyListReset(String list);
+
   /// No description provided for @notifBodyMilestone.
   ///
   /// In en, this message translates to:
@@ -9836,6 +9848,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Now {status}'**
   String notifBodyStatusChange(String status);
+
+  /// No description provided for @notifBodyStillWaitingOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Still waiting on {item} ({age})'**
+  String notifBodyStillWaitingOn(String item, String age);
 
   /// No description provided for @notifBodyStreakRisk.
   ///
@@ -12045,6 +12063,18 @@ abstract class AppLocalizations {
   /// **'After {days, plural, =1{1 day} other{{days} days}} without activity'**
   String notifSumInactivity(int days);
 
+  /// No description provided for @notifSumListReset.
+  ///
+  /// In en, this message translates to:
+  /// **'When the list resets'**
+  String get notifSumListReset;
+
+  /// No description provided for @notifSumListResetAt.
+  ///
+  /// In en, this message translates to:
+  /// **'When the list resets (not before {time})'**
+  String notifSumListResetAt(String time);
+
   /// No description provided for @notifSumMilestones.
   ///
   /// In en, this message translates to:
@@ -12212,6 +12242,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Inactivity'**
   String get notifTriggerInactivity;
+
+  /// No description provided for @notifTriggerListReset.
+  ///
+  /// In en, this message translates to:
+  /// **'List reset'**
+  String get notifTriggerListReset;
 
   /// No description provided for @notifTriggerMilestone.
   ///

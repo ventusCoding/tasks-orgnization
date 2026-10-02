@@ -148,6 +148,7 @@ enum DefaultContentKind {
   upNext,
   upNextMerged,
   timerEnd,
+  listReset,
   snoozed,
   test,
 }
@@ -215,7 +216,9 @@ class PlainNotificationTexts implements NotificationTexts {
   String weekday(LocalDate date) => const ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][date.weekday.iso - 1];
 
   @override
-  String duration(int minutes) => minutes >= 60
+  String duration(int minutes) => minutes >= 1440 && minutes % 1440 == 0
+      ? '${minutes ~/ 1440} ${minutes == 1440 ? 'day' : 'days'}'
+      : minutes >= 60
       ? (minutes % 60 == 0 ? '${minutes ~/ 60} h' : '${minutes ~/ 60} h ${minutes % 60} min')
       : '$minutes min';
 
@@ -248,7 +251,14 @@ class PlainNotificationTexts implements NotificationTexts {
       DefaultContentKind.daysBefore => (title: t, body: 'In ${count ?? 1} days · ${vars['date'] ?? ''}'),
       DefaultContentKind.absolute || DefaultContentKind.schedule => (title: t, body: null),
       DefaultContentKind.notDoneBy => (title: t, body: "You haven't logged $t today"),
-      DefaultContentKind.statusAge => (title: t, body: 'Still ${vars['status'] ?? ''} (${vars['status_age'] ?? ''})'),
+      DefaultContentKind.statusAge => (
+        title: t,
+        body: switch (vars['status_wire']) {
+          'waiting' => 'Still waiting on ${vars['item_text'] ?? t} (${vars['status_age'] ?? ''})',
+          'blocked' => '${vars['item_text'] ?? t} has been blocked for ${vars['status_age'] ?? ''}',
+          _ => 'Still ${vars['status'] ?? ''} (${vars['status_age'] ?? ''})',
+        },
+      ),
       DefaultContentKind.overdue => (title: t, body: '$t is overdue'),
       DefaultContentKind.streakRisk => (title: t, body: 'Keep your ${count ?? 0}-day streak alive'),
       DefaultContentKind.quotaBehind => (title: t, body: 'Behind pace: ${vars['done'] ?? ''}/${vars['target'] ?? ''}'),
@@ -268,6 +278,7 @@ class PlainNotificationTexts implements NotificationTexts {
         body: 'Done with $t? Up next: ${vars['next_title'] ?? ''} at ${vars['next_start_time'] ?? ''}',
       ),
       DefaultContentKind.timerEnd => (title: t, body: "Time's up for $t"),
+      DefaultContentKind.listReset => (title: t, body: '$t was reset for today'),
       DefaultContentKind.snoozed => (title: t, body: 'Snoozed reminder'),
       DefaultContentKind.test => (title: t, body: 'Test notification'),
     };

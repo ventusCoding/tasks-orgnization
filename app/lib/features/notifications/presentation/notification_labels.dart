@@ -53,6 +53,7 @@ class NotificationLabels {
     UpNextTrigger(:final beforeMinutes) =>
       beforeMinutes == null ? l.notifSumUpNextAtEnd : l.notifSumUpNextBefore(beforeMinutes),
     TimerEndTrigger() => l.notifSumTimerEnd,
+    ListResetTrigger(:final atTime) => atTime == null ? l.notifSumListReset : l.notifSumListResetAt(time(atTime)),
     UnknownTrigger() => l.notifSumUnknown,
   };
 
@@ -181,6 +182,7 @@ class NotificationLabels {
     TriggerType.stale => l.notifTriggerStale,
     TriggerType.upNext => l.notifTriggerUpNext,
     TriggerType.timerEnd => l.notifTriggerTimerEnd,
+    TriggerType.listReset => l.notifTriggerListReset,
   };
 
   String anchor(TriggerAnchor a) => switch (a) {

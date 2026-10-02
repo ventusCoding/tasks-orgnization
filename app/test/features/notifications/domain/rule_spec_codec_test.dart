@@ -57,6 +57,7 @@ void main() {
       '{"type":"stale","afterDays":7}',
       '{"type":"up_next","beforeMinutes":5}',
       '{"type":"timer_end"}',
+      '{"type":"list_reset","atTime":"07:00"}',
     ];
     for (final t in triggers) {
       test(t, () {
@@ -87,6 +88,7 @@ void main() {
       StaleTrigger() => 'stale',
       UpNextTrigger() => 'up_next',
       TimerEndTrigger() => 'timer_end',
+      ListResetTrigger() => 'list_reset',
       UnknownTrigger() => 'unknown',
     };
     for (final type in TriggerType.values) {

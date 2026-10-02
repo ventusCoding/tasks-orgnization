@@ -487,6 +487,17 @@ abstract final class NotificationPlanner {
           ),
         ];
 
+      case ListResetTrigger(atTime: final time):
+        return [
+          for (final e in target.events)
+            if (e.kind == 'list_reset')
+              _Candidate(
+                time == null ? e.at : _laterOf(e.at, at(dateOf(e.at), time)),
+                'evt:reset:${dateOf(e.at).toIso()}',
+                DefaultContentKind.listReset,
+              ),
+        ];
+
       case TimerEndTrigger():
         // Only while the timer runs: starting it replans; stopping closes the alert (T7.5.04).
         if (target.variables['tracking_mode'] != 'timer' || target.status != 'in_progress') return const [];
@@ -509,6 +520,12 @@ abstract final class NotificationPlanner {
       NotificationActionIds.skip,
     ],
     UpNextTrigger() => const [NotificationActionIds.done, NotificationActionIds.open],
+    // "All sub-items are done — complete it?" (T7.5.09).
+    ChildrenCompleteTrigger() when target.type == NotificationTargetType.checklistItem => const [
+      NotificationActionIds.completeItem,
+      NotificationActionIds.open,
+    ],
+    ListResetTrigger() => const [NotificationActionIds.open],
     TimerEndTrigger() => const [NotificationActionIds.stop, NotificationActionIds.extend],
     _ => null,
   };
@@ -857,7 +874,10 @@ abstract final class NotificationPlanner {
     if (target.due != null) {
       vars['due_relative'] = texts.relative(target.due!.difference(fireAt).inMinutes);
     }
-    if (target.status != null) vars['status'] = texts.status(target.status!);
+    if (target.status != null) {
+      vars['status'] = texts.status(target.status!);
+      vars['status_wire'] = target.status!;
+    }
     if (target.statusChangedAt != null) {
       vars['status_age'] = texts.duration(fireAt.difference(target.statusChangedAt!).inMinutes.abs());
     }

@@ -57,7 +57,9 @@ class L10nNotificationTexts implements NotificationTexts {
   String weekday(LocalDate date) => format.weekdayShort(date.weekday);
 
   @override
-  String duration(int minutes) => format.duration(minutes);
+  /// Whole days read as days ("3 days", status ages); shorter spans as hours and minutes.
+  String duration(int minutes) =>
+      minutes >= 1440 && minutes % 1440 == 0 ? l10n.durationDaysShort(minutes ~/ 1440) : format.duration(minutes);
 
   @override
   String number(num value) => format.number(value, decimals: value is int || value == value.roundToDouble() ? 0 : 1);
@@ -93,7 +95,11 @@ class L10nNotificationTexts implements NotificationTexts {
       DefaultContentKind.notDoneBy => (title: t, body: l10n.notifBodyNotDone(t)),
       DefaultContentKind.statusAge => (
         title: t,
-        body: l10n.notifBodyStatusAge(vars['status'] ?? '', vars['status_age'] ?? ''),
+        body: switch (vars['status_wire']) {
+          'waiting' => l10n.notifBodyStillWaitingOn(vars['item_text'] ?? t, vars['status_age'] ?? ''),
+          'blocked' => l10n.notifBodyBlockedFor(vars['item_text'] ?? t, vars['status_age'] ?? ''),
+          _ => l10n.notifBodyStatusAge(vars['status'] ?? '', vars['status_age'] ?? ''),
+        },
       ),
       DefaultContentKind.overdue => (title: t, body: l10n.notifBodyOverdue(t)),
       DefaultContentKind.streakRisk => (title: t, body: l10n.notifBodyStreakRisk(n)),
@@ -122,6 +128,7 @@ class L10nNotificationTexts implements NotificationTexts {
         body: l10n.notifBodyUpNextMerged(t, vars['next_title'] ?? '', vars['next_start_time'] ?? ''),
       ),
       DefaultContentKind.timerEnd => (title: t, body: l10n.notifBodyTimeUp(t)),
+      DefaultContentKind.listReset => (title: t, body: l10n.notifBodyListReset(t)),
       DefaultContentKind.snoozed => (title: t, body: l10n.notifBodySnoozed),
       DefaultContentKind.test => (title: t, body: l10n.notifBodyTest),
     };

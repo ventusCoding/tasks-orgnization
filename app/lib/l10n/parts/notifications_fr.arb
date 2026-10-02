@@ -490,5 +490,11 @@
   "notifSumUpNextAtEnd": "À la fin : la tâche suivante",
   "notifSumUpNextBefore": "{minutes} min avant la tâche suivante",
   "notifSumTimerEnd": "Quand le minuteur atteint la fin prévue",
-  "notifFieldBeforeNextMinutes": "Minutes avant la tâche suivante (0 = à la fin)"
+  "notifFieldBeforeNextMinutes": "Minutes avant la tâche suivante (0 = à la fin)",
+  "notifBodyStillWaitingOn": "Toujours en attente : {item} ({age})",
+  "notifBodyBlockedFor": "{item} est bloqué depuis {age}",
+  "notifBodyListReset": "{list} a été réinitialisée pour aujourd’hui",
+  "notifTriggerListReset": "Réinitialisation de la liste",
+  "notifSumListReset": "Quand la liste est réinitialisée",
+  "notifSumListResetAt": "Quand la liste est réinitialisée (pas avant {time})"
 }

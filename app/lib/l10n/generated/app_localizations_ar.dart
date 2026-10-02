@@ -5938,6 +5938,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifBefore => 'قبل';
 
   @override
+  String notifBodyBlockedFor(String item, String age) {
+    return '$item متوقف منذ $age';
+  }
+
+  @override
   String get notifBodyChildOverdue => 'عنصر فرعي متأخر';
 
   @override
@@ -6040,6 +6045,11 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String notifBodyListReset(String list) {
+    return 'أُعيد ضبط $list لليوم';
+  }
+
+  @override
   String notifBodyMilestone(String label) {
     return 'تم بلوغ إنجاز: $label';
   }
@@ -6103,6 +6113,11 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String notifBodyStatusChange(String status) {
     return 'أصبح الآن $status';
+  }
+
+  @override
+  String notifBodyStillWaitingOn(String item, String age) {
+    return 'ما زال بانتظار $item ($age)';
   }
 
   @override
@@ -7489,6 +7504,14 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get notifSumListReset => 'عند إعادة ضبط القائمة';
+
+  @override
+  String notifSumListResetAt(String time) {
+    return 'عند إعادة ضبط القائمة (ليس قبل $time)';
+  }
+
+  @override
   String get notifSumMilestones => 'الإنجازات';
 
   @override
@@ -7601,6 +7624,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifTriggerInactivity => 'عدم النشاط';
+
+  @override
+  String get notifTriggerListReset => 'إعادة ضبط القائمة';
 
   @override
   String get notifTriggerMilestone => 'إنجاز';

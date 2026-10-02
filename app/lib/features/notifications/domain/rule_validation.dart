@@ -133,7 +133,8 @@ abstract final class NotificationRuleValidator {
           ChildrenCompleteTrigger() ||
           ChildOverdueTrigger() ||
           StaleTrigger() ||
-          TimerEndTrigger():
+          TimerEndTrigger() ||
+          ListResetTrigger():
         break;
     }
 

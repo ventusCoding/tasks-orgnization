@@ -107,6 +107,93 @@
         {"rule": "te", "target": "deep", "fireAtUtc": "2026-09-22T09:00:00Z", "body": "Time's up for Deep work",
          "actions": ["stop", "extend"]}
       ]
+    },
+    {
+      "name": "T7.5.07 date-only item due: 1 day before at 18:00 and on the day at 09:00",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "eve", "targetType": "section", "section": "checklists", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "due", "dayOffset": -1, "atTime": "18:00"}}},
+        {"id": "day", "targetType": "section", "section": "checklists", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "due", "dayOffset": 0, "atTime": "09:00"}}}
+      ],
+      "targets": [
+        {"type": "checklist_item", "id": "form", "section": "checklists", "title": "Send the form", "itemKind": "date_only",
+         "due": "2026-09-21T22:00:00Z", "status": "todo"}
+      ],
+      "expected": [
+        {"rule": "eve", "target": "form", "fireAtUtc": "2026-09-21T16:00:00Z"},
+        {"rule": "day", "target": "form", "fireAtUtc": "2026-09-22T07:00:00Z"}
+      ]
+    },
+    {
+      "name": "T7.5.07 timed checklist due: 30 min before, then overdue repeating hourly (2 more)",
+      "now": "2026-09-21T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "before", "targetType": "section", "section": "checklists", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "due", "offsetMinutes": -30}}},
+        {"id": "late", "targetType": "section", "section": "checklists",
+         "spec": {"v": 1, "trigger": {"type": "overdue", "afterMinutes": 0}, "repeat": {"everyMinutes": 60, "maxTimes": 2}}}
+      ],
+      "targets": [
+        {"type": "checklist", "id": "trip", "section": "checklists", "title": "Packing", "itemKind": "timed",
+         "due": "2026-09-21T16:00:00Z"}
+      ],
+      "expected": [
+        {"rule": "before", "target": "trip", "fireAtUtc": "2026-09-21T15:30:00Z"},
+        {"rule": "late", "target": "trip", "fireAtUtc": "2026-09-21T16:00:00Z", "body": "Packing is overdue"},
+        {"rule": "late", "target": "trip", "fireAtUtc": "2026-09-21T17:00:00Z", "repeat": 1},
+        {"rule": "late", "target": "trip", "fireAtUtc": "2026-09-21T18:00:00Z", "repeat": 2}
+      ]
+    },
+    {
+      "name": "T7.5.08 status age: waiting and blocked wording",
+      "now": "2026-09-21T09:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "wait", "targetType": "section", "section": "checklists", "spec": {"v": 1, "trigger": {"type": "status_age", "statuses": ["waiting"], "afterMinutes": 4320}}},
+        {"id": "block", "targetType": "section", "section": "checklists", "spec": {"v": 1, "trigger": {"type": "status_age", "statuses": ["blocked"], "afterMinutes": 720}}}
+      ],
+      "targets": [
+        {"type": "checklist_item", "id": "call", "section": "checklists", "title": "Call the plumber", "status": "waiting",
+         "statusChangedAt": "2026-09-20T09:00:00Z", "variables": {"item_text": "Call the plumber"}},
+        {"type": "checklist_item", "id": "parts", "section": "checklists", "title": "Order parts", "status": "blocked",
+         "statusChangedAt": "2026-09-21T08:00:00Z", "variables": {"item_text": "Order parts"}}
+      ],
+      "expected": [
+        {"rule": "block", "target": "parts", "fireAtUtc": "2026-09-21T20:00:00Z", "body": "Order parts has been blocked for 12 h"},
+        {"rule": "wait", "target": "call", "fireAtUtc": "2026-09-23T09:00:00Z", "body": "Still waiting on Call the plumber (3 days)"}
+      ]
+    },
+    {
+      "name": "T7.5.09 all children complete: Complete parent action, once per parent per day",
+      "now": "2026-09-21T10:00:30Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "kids", "targetType": "section", "section": "checklists", "spec": {"v": 1, "trigger": {"type": "children_complete"}}}
+      ],
+      "targets": [
+        {"type": "checklist_item", "id": "trip", "section": "checklists", "title": "Trip",
+         "events": [{"kind": "children_complete", "at": "2026-09-21T10:00:00Z"}, {"kind": "children_complete", "at": "2026-09-21T10:00:10Z"}]}
+      ],
+      "expected": [
+        {"rule": "kids", "target": "trip", "fireAtUtc": "2026-09-21T10:00:00Z", "actions": ["complete_item", "open"]}
+      ]
+    },
+    {
+      "name": "T7.5.09 list reset: announced at 07:00 for a reset at 00:00",
+      "now": "2026-09-21T04:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "reset", "targetType": "section", "section": "checklists", "spec": {"v": 1, "trigger": {"type": "list_reset", "atTime": "07:00"}}}
+      ],
+      "targets": [
+        {"type": "checklist", "id": "morning", "section": "checklists", "title": "Morning routine",
+         "events": [{"kind": "list_reset", "at": "2026-09-20T22:00:00Z"}]}
+      ],
+      "expected": [
+        {"rule": "reset", "target": "morning", "fireAtUtc": "2026-09-21T05:00:00Z", "body": "Morning routine was reset for today",
+         "actions": ["open"]}
+      ]
     }
   ]
 }

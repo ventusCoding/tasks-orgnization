@@ -1073,5 +1073,45 @@
     }
   },
   "notifSumTimerEnd": "When the timer reaches the planned end",
-  "notifFieldBeforeNextMinutes": "Minutes before the next task (0 = at the end)"
+  "notifFieldBeforeNextMinutes": "Minutes before the next task (0 = at the end)",
+  "notifBodyStillWaitingOn": "Still waiting on {item} ({age})",
+  "@notifBodyStillWaitingOn": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      },
+      "age": {
+        "type": "String"
+      }
+    }
+  },
+  "notifBodyBlockedFor": "{item} has been blocked for {age}",
+  "@notifBodyBlockedFor": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      },
+      "age": {
+        "type": "String"
+      }
+    }
+  },
+  "notifBodyListReset": "{list} was reset for today",
+  "@notifBodyListReset": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "notifTriggerListReset": "List reset",
+  "notifSumListReset": "When the list resets",
+  "notifSumListResetAt": "When the list resets (not before {time})",
+  "@notifSumListResetAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  }
 }

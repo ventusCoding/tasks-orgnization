@@ -359,6 +359,7 @@ class _TriggerEditor extends StatelessWidget {
     TriggerType.stale => const StaleTrigger(afterDays: 7),
     TriggerType.upNext => const UpNextTrigger(),
     TriggerType.timerEnd => const TimerEndTrigger(),
+    TriggerType.listReset => const ListResetTrigger(),
   };
 
   void _set(NotificationTrigger t) => onChanged(spec.copyWith(trigger: t));
@@ -575,6 +576,9 @@ class _TriggerEditor extends StatelessWidget {
           beforeMinutes ?? 0,
           (v) => _set(UpNextTrigger(beforeMinutes: v <= 0 ? null : v)),
         ),
+      ],
+      ListResetTrigger(:final atTime) => [
+        timeTile(l.notifFieldAtTime, atTime, (t) => _set(ListResetTrigger(atTime: t))),
       ],
       ChildrenCompleteTrigger() || ChildOverdueTrigger() || TimerEndTrigger() || UnknownTrigger() => const <Widget>[],
     };

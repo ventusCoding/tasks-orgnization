@@ -5572,6 +5572,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifBefore => 'before';
 
   @override
+  String notifBodyBlockedFor(String item, String age) {
+    return '$item has been blocked for $age';
+  }
+
+  @override
   String get notifBodyChildOverdue => 'A sub-item is overdue';
 
   @override
@@ -5620,6 +5625,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String notifBodyListReset(String list) {
+    return '$list was reset for today';
+  }
+
+  @override
   String notifBodyMilestone(String label) {
     return 'Milestone reached: $label';
   }
@@ -5665,6 +5675,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String notifBodyStatusChange(String status) {
     return 'Now $status';
+  }
+
+  @override
+  String notifBodyStillWaitingOn(String item, String age) {
+    return 'Still waiting on $item ($age)';
   }
 
   @override
@@ -6920,6 +6935,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get notifSumListReset => 'When the list resets';
+
+  @override
+  String notifSumListResetAt(String time) {
+    return 'When the list resets (not before $time)';
+  }
+
+  @override
   String get notifSumMilestones => 'Milestones';
 
   @override
@@ -7023,6 +7046,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifTriggerInactivity => 'Inactivity';
+
+  @override
+  String get notifTriggerListReset => 'List reset';
 
   @override
   String get notifTriggerMilestone => 'Milestone';

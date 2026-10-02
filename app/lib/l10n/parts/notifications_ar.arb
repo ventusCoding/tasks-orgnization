@@ -490,5 +490,11 @@
   "notifSumUpNextAtEnd": "عند الانتهاء: المهمة التالية",
   "notifSumUpNextBefore": "قبل المهمة التالية بـ {minutes} دقيقة",
   "notifSumTimerEnd": "عندما يصل المؤقت إلى النهاية المخطط لها",
-  "notifFieldBeforeNextMinutes": "دقائق قبل المهمة التالية (0 = عند الانتهاء)"
+  "notifFieldBeforeNextMinutes": "دقائق قبل المهمة التالية (0 = عند الانتهاء)",
+  "notifBodyStillWaitingOn": "ما زال بانتظار {item} ({age})",
+  "notifBodyBlockedFor": "{item} متوقف منذ {age}",
+  "notifBodyListReset": "أُعيد ضبط {list} لليوم",
+  "notifTriggerListReset": "إعادة ضبط القائمة",
+  "notifSumListReset": "عند إعادة ضبط القائمة",
+  "notifSumListResetAt": "عند إعادة ضبط القائمة (ليس قبل {time})"
 }

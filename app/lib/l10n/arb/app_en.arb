@@ -2083,6 +2083,16 @@
       }
     }
   },
+  "@notifBodyBlockedFor": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      },
+      "age": {
+        "type": "String"
+      }
+    }
+  },
   "@notifBodyCleanDays": {
     "placeholders": {
       "days": {
@@ -2125,6 +2135,13 @@
     "placeholders": {
       "days": {
         "type": "int"
+      }
+    }
+  },
+  "@notifBodyListReset": {
+    "placeholders": {
+      "list": {
+        "type": "String"
       }
     }
   },
@@ -2189,6 +2206,16 @@
   "@notifBodyStatusChange": {
     "placeholders": {
       "status": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifBodyStillWaitingOn": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      },
+      "age": {
         "type": "String"
       }
     }
@@ -2583,6 +2610,13 @@
     "placeholders": {
       "days": {
         "type": "int"
+      }
+    }
+  },
+  "@notifSumListResetAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
       }
     }
   },
@@ -6308,6 +6342,7 @@
   "notifBannerInApp": "In-app banners",
   "notifBannerToggle": "In-app banner",
   "notifBefore": "before",
+  "notifBodyBlockedFor": "{item} has been blocked for {age}",
   "notifBodyChildOverdue": "A sub-item is overdue",
   "notifBodyChildrenComplete": "All sub-items are done — complete it?",
   "notifBodyCleanDays": "{days, plural, =1{1 day} other{{days} days}} free — well done!",
@@ -6318,6 +6353,7 @@
   "notifBodyEndsIn": "Ends in {minutes, plural, =1{1 min} other{{minutes} min}}",
   "notifBodyInDays": "In {days, plural, =1{1 day} other{{days} days}} · {date}",
   "notifBodyInactivity": "No activity for {days, plural, =1{1 day} other{{days} days}}",
+  "notifBodyListReset": "{list} was reset for today",
   "notifBodyMilestone": "Milestone reached: {label}",
   "notifBodyNotDone": "You haven’t logged {title} today",
   "notifBodyOverdue": "{title} is overdue",
@@ -6328,6 +6364,7 @@
   "notifBodyStartsIn": "Starts in {minutes, plural, =1{1 min} other{{minutes} min}}",
   "notifBodyStatusAge": "Still {status} · {age}",
   "notifBodyStatusChange": "Now {status}",
+  "notifBodyStillWaitingOn": "Still waiting on {item} ({age})",
   "notifBodyStreakRisk": "Keep your {days, plural, =1{1-day} other{{days}-day}} streak alive",
   "notifBodyTest": "Test notification from Everslot",
   "notifBodyTimeFor": "Time for {title}",
@@ -6696,6 +6733,8 @@
   "notifSumDaysAfter": "{days, plural, =1{1 day} other{{days} days}} after at {time}",
   "notifSumDaysBefore": "{days, plural, =1{1 day} other{{days} days}} before at {time}",
   "notifSumInactivity": "After {days, plural, =1{1 day} other{{days} days}} without activity",
+  "notifSumListReset": "When the list resets",
+  "notifSumListResetAt": "When the list resets (not before {time})",
   "notifSumMilestones": "Milestones",
   "notifSumNotDoneBy": "If not done by {time}",
   "notifSumNotDoneByEnd": "If not done by the end",
@@ -6724,6 +6763,7 @@
   "notifTriggerChildrenComplete": "All sub-items done",
   "notifTriggerDigest": "Digest",
   "notifTriggerInactivity": "Inactivity",
+  "notifTriggerListReset": "List reset",
   "notifTriggerMilestone": "Milestone",
   "notifTriggerNotDoneBy": "If not done by",
   "notifTriggerOverdue": "Overdue",

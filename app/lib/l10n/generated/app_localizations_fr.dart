@@ -5636,6 +5636,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifBefore => 'avant';
 
   @override
+  String notifBodyBlockedFor(String item, String age) {
+    return '$item est bloqué depuis $age';
+  }
+
+  @override
   String get notifBodyChildOverdue => 'Un sous-élément est en retard';
 
   @override
@@ -5720,6 +5725,11 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String notifBodyListReset(String list) {
+    return '$list a été réinitialisée pour aujourd’hui';
+  }
+
+  @override
   String notifBodyMilestone(String label) {
     return 'Étape atteinte : $label';
   }
@@ -5777,6 +5787,11 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String notifBodyStatusChange(String status) {
     return 'Désormais $status';
+  }
+
+  @override
+  String notifBodyStillWaitingOn(String item, String age) {
+    return 'Toujours en attente : $item ($age)';
   }
 
   @override
@@ -7114,6 +7129,14 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get notifSumListReset => 'Quand la liste est réinitialisée';
+
+  @override
+  String notifSumListResetAt(String time) {
+    return 'Quand la liste est réinitialisée (pas avant $time)';
+  }
+
+  @override
   String get notifSumMilestones => 'Étapes';
 
   @override
@@ -7223,6 +7246,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get notifTriggerInactivity => 'Inactivité';
+
+  @override
+  String get notifTriggerListReset => 'Réinitialisation de la liste';
 
   @override
   String get notifTriggerMilestone => 'Étape';
