@@ -63,7 +63,7 @@ live timer surfaces and widget refreshes ([8.2]); hide-content privacy option ([
 - [x] T7.5.15 — Notifications settings page & global controls
 - [x] T7.5.16 — Mute until (rule, item, list, habit, section)
 - [ ] T7.5.17 — Notification statistics
-- [ ] T7.5.18 — Digests: agenda, plan tomorrow, overdue, weekly & monthly
+- [x] T7.5.18 — Digests: agenda, plan tomorrow, overdue, weekly & monthly
 - [ ] T7.5.19 — Smart reminder suggestions
 - [ ] T7.5.20 — Status-change & custom event triggers
 
@@ -266,6 +266,7 @@ channel and never repeat.
 **Acceptance criteria:** the morning agenda reflects a task added the previous night on another device
 (after sync); disabling Digests removes all digest jobs.
 **Tests:** planner fixtures; content rendering tests.
+**Notes:** `DigestComposer` builds one synthetic target per enabled kind × day at plan time (so every replan, incl. after a sync, refreshes the content); sources may implement `DigestFactsSource` for counts no target carries — the planner contributes `backlog` (unscheduled tasks) to *Plan tomorrow*. Weekly/monthly digests announce the report and open Insights. Default times are off-peak (07:07, 20:37…) plus a stable per-user 0–4 min offset (`DefaultRules.digestDefaultTimeFor`).
 
 ### T7.5.19 — Smart reminder suggestions
 **Priority:** P2 · **Size:** M · **Depends on:** T7.5.17, [6.5]

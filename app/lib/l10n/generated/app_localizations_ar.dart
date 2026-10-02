@@ -6540,6 +6540,17 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String notifDigestBacklog(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مهام غير مجدولة',
+      one: 'مهمة واحدة غير مجدولة',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get notifDigestDailyAgenda => 'جدول اليوم';
 
   @override
@@ -6552,6 +6563,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifDigestMonthly => 'التقرير الشهري';
+
+  @override
+  String get notifDigestMonthlyReady => 'تقريرك الشهري جاهز';
 
   @override
   String get notifDigestOverdue => 'ملخص المتأخرات';
@@ -6596,6 +6610,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifDigestWeekly => 'المراجعة الأسبوعية';
+
+  @override
+  String get notifDigestWeeklyReady => 'مراجعة أسبوعك جاهزة';
 
   @override
   String get notifDigests => 'الملخصات';

@@ -521,5 +521,8 @@
   "notifBodyMotivation": "تذكّر السبب: {reason}",
   "notifCopingTipBreathe": "جرّب دقيقة من التنفس المربع.",
   "notifCopingTipWater": "اشرب كوبًا من الماء.",
-  "notifCopingTipWalk": "تمشَّ قليلًا."
+  "notifCopingTipWalk": "تمشَّ قليلًا.",
+  "notifDigestWeeklyReady": "مراجعة أسبوعك جاهزة",
+  "notifDigestMonthlyReady": "تقريرك الشهري جاهز",
+  "notifDigestBacklog": "{count, plural, =1{مهمة واحدة غير مجدولة} other{{count} مهام غير مجدولة}}"
 }

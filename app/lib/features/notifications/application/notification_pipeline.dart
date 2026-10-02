@@ -136,6 +136,16 @@ class NotificationPipeline {
         }
       }
     }
+    final facts = <String, int>{};
+    if (rules.any((r) => r.enabled && r.spec.trigger is DigestTrigger)) {
+      for (final source in read(notificationTargetSourcesProvider).whereType<DigestFactsSource>()) {
+        try {
+          facts.addAll(await source.digestFacts());
+        } on Object catch (e, st) {
+          _log.warning('digest facts failed', e, st);
+        }
+      }
+    }
     final digests = DigestComposer.compose(
       rules: rules,
       targets: targets,
@@ -144,6 +154,7 @@ class NotificationPipeline {
       zone: zone,
       zones: zones,
       texts: texts,
+      facts: facts,
     );
     final acknowledged = await read(inboxRepositoryProvider)
         .acknowledgedKeys(since: now.subtract(const Duration(days: 2)));

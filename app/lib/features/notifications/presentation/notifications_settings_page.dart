@@ -387,8 +387,8 @@ class _DigestTile extends ConsumerWidget {
     final trigger = rule?.spec.trigger;
     final times = trigger is DigestTrigger ? (trigger.schedule['times'] as List?) : null;
     final time = times == null || times.isEmpty
-        ? DefaultRules.digestDefaultTimes[kind]!
-        : (LocalTime.tryParse('${times.first}') ?? DefaultRules.digestDefaultTimes[kind]!);
+        ? DefaultRules.digestDefaultTimeFor(userId, kind)
+        : (LocalTime.tryParse('${times.first}') ?? DefaultRules.digestDefaultTimeFor(userId, kind));
     final enabled = rule?.enabled ?? false;
     Future<void> save({required bool on, LocalTime? at}) => ref
         .read(notificationRulesRepositoryProvider)

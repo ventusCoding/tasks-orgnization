@@ -180,9 +180,22 @@ class L10nNotificationTexts implements NotificationTexts {
   };
 
   @override
-  String digestSummary(String kind, {required int tasks, required int habits, required int items, String? first}) {
-    final base = l10n.notifDigestSummary(tasks, habits, items);
-    return first == null ? base : '$base · ${l10n.notifDigestFirst(first)}';
+  String digestSummary(
+    String kind, {
+    required int tasks,
+    required int habits,
+    required int items,
+    String? first,
+    int? backlog,
+  }) {
+    if (kind == 'weekly_review') return l10n.notifDigestWeeklyReady;
+    if (kind == 'monthly_report') return l10n.notifDigestMonthlyReady;
+    final parts = [
+      l10n.notifDigestSummary(tasks, habits, items),
+      if (first != null) l10n.notifDigestFirst(first),
+      if (backlog != null && backlog > 0) l10n.notifDigestBacklog(backlog),
+    ];
+    return parts.join(' · ');
   }
 
   String sectionName(NotificationSection section) => sectionLabelOf(l10n, section);

@@ -521,5 +521,8 @@
   "notifBodyMotivation": "Souvenez-vous pourquoi : {reason}",
   "notifCopingTipBreathe": "Essayez une minute de respiration carrée.",
   "notifCopingTipWater": "Buvez un verre d’eau.",
-  "notifCopingTipWalk": "Faites une courte marche."
+  "notifCopingTipWalk": "Faites une courte marche.",
+  "notifDigestWeeklyReady": "Votre bilan de la semaine est prêt",
+  "notifDigestMonthlyReady": "Votre rapport du mois est prêt",
+  "notifDigestBacklog": "{count, plural, =1{1 non planifiée} other{{count} non planifiées}}"
 }

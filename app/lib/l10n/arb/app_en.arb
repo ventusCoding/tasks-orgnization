@@ -2425,6 +2425,13 @@
       }
     }
   },
+  "@notifDigestBacklog": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@notifDigestFirst": {
     "placeholders": {
       "first": {
@@ -6548,14 +6555,17 @@
   "notifDiagTracked": "Tracked (inbox only or over budget)",
   "notifDiagnostics": "Diagnostics",
   "notifDigestAt": "at {time}",
+  "notifDigestBacklog": "{count, plural, =1{1 unscheduled} other{{count} unscheduled}}",
   "notifDigestDailyAgenda": "Today’s agenda",
   "notifDigestEveningReview": "Evening review",
   "notifDigestFirst": "First: {first}",
   "notifDigestMonthly": "Monthly report",
+  "notifDigestMonthlyReady": "Your monthly report is ready",
   "notifDigestOverdue": "Overdue summary",
   "notifDigestPlanTomorrow": "Plan tomorrow",
   "notifDigestSummary": "{tasks, plural, =1{1 task} other{{tasks} tasks}} · {habits, plural, =1{1 habit} other{{habits} habits}} · {items, plural, =1{1 list item} other{{items} list items}}",
   "notifDigestWeekly": "Weekly review",
+  "notifDigestWeeklyReady": "Your week in review is ready",
   "notifDigests": "Digests",
   "notifDisable": "Disable",
   "notifEditorTitle": "New reminder",

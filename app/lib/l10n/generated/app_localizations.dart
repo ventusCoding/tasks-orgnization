@@ -10485,6 +10485,12 @@ abstract class AppLocalizations {
   /// **'at {time}'**
   String notifDigestAt(String time);
 
+  /// No description provided for @notifDigestBacklog.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 unscheduled} other{{count} unscheduled}}'**
+  String notifDigestBacklog(int count);
+
   /// No description provided for @notifDigestDailyAgenda.
   ///
   /// In en, this message translates to:
@@ -10509,6 +10515,12 @@ abstract class AppLocalizations {
   /// **'Monthly report'**
   String get notifDigestMonthly;
 
+  /// No description provided for @notifDigestMonthlyReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Your monthly report is ready'**
+  String get notifDigestMonthlyReady;
+
   /// No description provided for @notifDigestOverdue.
   ///
   /// In en, this message translates to:
@@ -10532,6 +10544,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Weekly review'**
   String get notifDigestWeekly;
+
+  /// No description provided for @notifDigestWeeklyReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Your week in review is ready'**
+  String get notifDigestWeeklyReady;
 
   /// No description provided for @notifDigests.
   ///

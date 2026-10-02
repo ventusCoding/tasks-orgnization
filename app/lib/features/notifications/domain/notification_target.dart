@@ -382,6 +382,12 @@ abstract interface class NotificationTargetSource {
   Future<bool> guardOpen(NotificationTarget t);
 }
 
+/// Optional extra of a [NotificationTargetSource]: counts that digests show but no target carries
+/// (T7.5.18), e.g. `backlog` = unscheduled tasks in *Plan tomorrow*.
+abstract interface class DigestFactsSource {
+  Future<Map<String, int>> digestFacts();
+}
+
 /// In-memory source (tests, demos, debug menu): set [targets] and call [notifyChanged].
 class InMemoryNotificationTargetSource implements NotificationTargetSource {
   InMemoryNotificationTargetSource({required this.section, List<NotificationTarget>? targets})

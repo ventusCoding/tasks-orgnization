@@ -1179,5 +1179,15 @@
   },
   "notifCopingTipBreathe": "Try a minute of box breathing.",
   "notifCopingTipWater": "Drink a glass of water.",
-  "notifCopingTipWalk": "Take a short walk."
+  "notifCopingTipWalk": "Take a short walk.",
+  "notifDigestWeeklyReady": "Your week in review is ready",
+  "notifDigestMonthlyReady": "Your monthly report is ready",
+  "notifDigestBacklog": "{count, plural, =1{1 unscheduled} other{{count} unscheduled}}",
+  "@notifDigestBacklog": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

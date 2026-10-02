@@ -16,6 +16,7 @@ abstract final class DigestComposer {
     required String zone,
     required ZoneResolver zones,
     required NotificationTexts texts,
+    Map<String, int> facts = const {},
   }) {
     final kinds = {
       for (final r in rules)
@@ -42,7 +43,14 @@ abstract final class DigestComposer {
             periodEnd: to,
             variables: {
               'kind': kind,
-              'summary': texts.digestSummary(kind, tasks: tasks, habits: habits, items: items, first: first),
+              'summary': texts.digestSummary(
+                kind,
+                tasks: tasks,
+                habits: habits,
+                items: items,
+                first: first,
+                backlog: kind == 'plan_tomorrow' ? facts['backlog'] : null,
+              ),
               'open_items': items,
             },
           ),

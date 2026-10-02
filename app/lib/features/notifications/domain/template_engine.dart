@@ -192,7 +192,16 @@ abstract interface class NotificationTexts {
   String status(String wire);
 
   /// One-line digest summary ("3 tasks · 2 habits · first: Gym at 08:00").
-  String digestSummary(String kind, {required int tasks, required int habits, required int items, String? first});
+  /// Digest body: counts (+ the first task) for agenda-like kinds, the unscheduled [backlog] in
+  /// *Plan tomorrow*, a "ready" line for the weekly review and monthly report.
+  String digestSummary(
+    String kind, {
+    required int tasks,
+    required int habits,
+    required int items,
+    String? first,
+    int? backlog,
+  });
 }
 
 /// English fallback (pure; used by domain tests and when localizations are unavailable).
@@ -347,6 +356,18 @@ class PlainNotificationTexts implements NotificationTexts {
   };
 
   @override
-  String digestSummary(String kind, {required int tasks, required int habits, required int items, String? first}) =>
-      '$tasks tasks · $habits habits · $items items${first == null ? '' : ' · first: $first'}';
+  String digestSummary(
+    String kind, {
+    required int tasks,
+    required int habits,
+    required int items,
+    String? first,
+    int? backlog,
+  }) => switch (kind) {
+    'weekly_review' => 'Your week in review is ready',
+    'monthly_report' => 'Your monthly report is ready',
+    _ =>
+      '$tasks tasks · $habits habits · $items items${first == null ? '' : ' · first: $first'}'
+          '${backlog == null || backlog == 0 ? '' : ' · $backlog unscheduled'}',
+  };
 }
