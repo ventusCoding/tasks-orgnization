@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android App Actions (T8.2.15): voice / Assistant entry points routed to everslot:// links. No
+     static shortcuts here — the launcher shortcuts are the dynamic ones (T8.2.06). -->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <capability
+        android:name="custom.actions.intent.LOG_HABIT"
+        app:queryPatterns="@array/app_actions_log_habit">
+        <intent>
+            <url-template android:value="everslot://do/habit-log{?name,value}" />
+            <parameter android:name="name" android:key="name" android:mimeType="https://schema.org/Text" />
+            <parameter android:name="value" android:key="value" android:mimeType="https://schema.org/Number" />
+        </intent>
+    </capability>
+    <capability
+        android:name="custom.actions.intent.WHATS_NEXT"
+        app:queryPatterns="@array/app_actions_next">
+        <intent>
+            <url-template android:value="everslot://do/next" />
+        </intent>
+    </capability>
+    <capability
+        android:name="custom.actions.intent.START_FOCUS"
+        app:queryPatterns="@array/app_actions_focus">
+        <intent>
+            <url-template android:value="everslot://do/focus" />
+        </intent>
+    </capability>
+</shortcuts>

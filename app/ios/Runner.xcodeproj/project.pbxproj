@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		077E0E992D8F6D4CC071748A /* TimerActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FBB32632E3CD4F2C692DC6 /* TimerActivity.swift */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
+		1A5B943F26C661FABD071124 /* EverslotIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE8466C9D73A7BDBAAEDFF2 /* EverslotIntents.swift */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		50628939EC2AD72F0806237F /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F63CF7102B64F1F2FD9E2D9 /* Intents.swift */; };
@@ -108,6 +109,7 @@
 		9A25D4AA2A4BE183E2DBA123 /* EverslotWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EverslotWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2A3EB0DE30E70760C122C8A /* EverslotWidgets.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = EverslotWidgets.entitlements; sourceTree = "<group>"; };
 		C0A7EC948030F883314FC3D0 /* EverslotShare.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = EverslotShare.entitlements; sourceTree = "<group>"; };
+		DCE8466C9D73A7BDBAAEDFF2 /* EverslotIntents.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EverslotIntents.swift; sourceTree = "<group>"; };
 		F0B66050A9C711A92E256407 /* ShareViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		F9AC95F4855E7D208435FF49 /* Runner.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		FF4F3B836C671BA406D36DC4 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -221,6 +223,7 @@
 				7884E8672EC3CC0400C636F2 /* SceneDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 				F9AC95F4855E7D208435FF49 /* Runner.entitlements */,
+				DCE8466C9D73A7BDBAAEDFF2 /* EverslotIntents.swift */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				7884E8682EC3CC0700C636F2 /* SceneDelegate.swift in Sources */,
+				1A5B943F26C661FABD071124 /* EverslotIntents.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

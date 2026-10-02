@@ -32,7 +32,7 @@ overlay, Health integrations, Live Activities / ongoing timer notification, Siri
 - [x] T8.2.12 — ICS import
 - [x] T8.2.13 — Device-calendar overlay (read-only)
 - [x] T8.2.14 — Health data auto-logging for habits
-- [ ] T8.2.15 — Siri Shortcuts / App Intents & Android App Actions
+- [x] T8.2.15 — Siri Shortcuts / App Intents & Android App Actions
 
 ## Tasks
 
@@ -170,3 +170,5 @@ explained with a primer screen.
 **Priority:** P2 · **Size:** M · **Depends on:** T8.2.01
 **Description:** Voice/automation entry points: "Log push-ups 15", "What's next?", "Start focus task".
 **Tests:** manual QA; unit tests for intent parameter mapping.
+**Notes:** Handlers for `everslot://do/habit-log` (habit by id or spoken name — accent / Arabic-variant insensitive, exact then shortest partial match; amount for counted habits, else check-in; `source = voice`, new server value via migration + pgTAP 160), `do/next` (running occurrence, else the next within 24 h → opens it) and `do/focus` (starts its timer). iOS: `EverslotIntents.swift` (App Intents + `AppShortcutsProvider`, EN phrases; opens the app on the link — typechecked against the iOS 15 SDK, full app build needs Xcode 26). Android: `res/xml/shortcuts.xml` App Actions capabilities with url-templates and EN/FR/AR query patterns (Assistant matching only works for Play-published builds).
+

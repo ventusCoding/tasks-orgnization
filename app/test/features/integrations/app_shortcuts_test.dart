@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:everslot/features/habits/application/habit_providers.dart' show habitLogsRepositoryProvider;
+import 'package:everslot/features/habits/domain/habit.dart';
+import 'package:everslot/features/habits/domain/habit_records.dart' show LogSource;
 import 'package:everslot/features/integrations/application/integration_events.dart';
 import 'package:everslot/features/integrations/application/integration_providers.dart';
 import 'package:everslot/features/integrations/data/quick_actions_source.dart';
@@ -125,5 +127,42 @@ void main() {
     await h.read(externalLinksServiceProvider).handle(Uri.parse('everslot://do/timer-stop?task=x&occ=y'));
     await pumpEventQueue();
     expect(events.last, const NoticeUiEvent(IntegrationNotice.linkNotFound));
+  });
+
+  group('voice commands (T8.2.15)', () {
+    Future<void> link(String uri) async {
+      h.clock.advance(const Duration(seconds: 10));
+      await h.read(externalLinksServiceProvider).handle(Uri.parse(uri));
+      await pumpEventQueue();
+    }
+
+    test('habit-log: by spoken name (accents / partial), with an amount for counted habits', () async {
+      await h.habit(
+        'Pompes',
+        start: LocalDate(2026, 9, 1),
+        goal: const HabitTarget(type: HabitGoalType.count, target: 50, unit: 'reps'),
+      );
+      await h.habit('Méditation', start: LocalDate(2026, 9, 1));
+      await link('everslot://do/habit-log?name=pompes&value=15');
+      await link('everslot://do/habit-log?name=meditation');
+      final reps = await h.read(habitLogsRepositoryProvider).forHabit('habit-Pompes');
+      expect((reps.single.value, reps.single.source), (15, LogSource.voice));
+      final med = await h.read(habitLogsRepositoryProvider).forHabit('habit-Méditation');
+      expect(med.single.kind.name, 'done');
+      expect(events.last, const NoticeUiEvent(IntegrationNotice.habitLogged, detail: 'Méditation'));
+      await link('everslot://do/habit-log?name=juggling');
+      expect(events.last, const NoticeUiEvent(IntegrationNotice.habitNotFound, detail: 'juggling'));
+    });
+
+    test('next opens the running or next task; focus starts its timer', () async {
+      await link('everslot://do/next');
+      expect(events.last, const NoticeUiEvent(IntegrationNotice.nothingNext));
+      final taskId = await h.task('Write report', start: at(2026, 9, 22, 11), mode: TrackingMode.timer);
+      await link('everslot://do/next');
+      expect(events.last, OpenPathUiEvent('/task/$taskId?occ=2026-09-22T11%3A00'));
+      await link('everslot://do/focus');
+      final running = await h.read(plannerQueriesProvider).watchRunningEntries().first;
+      expect(running.single.taskId, taskId);
+    });
   });
 }
