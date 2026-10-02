@@ -227,6 +227,28 @@
       }
     }
   },
+  "quitNotifUnitsMilestone": "{amount} {unit} avoided",
+  "@quitNotifUnitsMilestone": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "quitNotifGoalMilestone": "{title} — {what}",
+  "@quitNotifGoalMilestone": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "what": {
+        "type": "String"
+      }
+    }
+  },
   "quitMilestonesTitle": "Milestones",
   "quitMilestonesOpen": "All milestones",
   "quitMilestonesReached": "Reached",

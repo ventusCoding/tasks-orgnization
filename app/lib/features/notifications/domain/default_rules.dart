@@ -110,6 +110,33 @@ abstract final class DefaultRules {
         delivery: DeliverySpec(actions: ['open']),
       ),
     ),
+    const DefaultRuleSeed(
+      section: NotificationSection.quit,
+      code: 'health_milestones',
+      profileCode: BuiltinProfiles.standard,
+      spec: NotificationRuleSpec(
+        trigger: MilestoneTrigger(metric: 'health'),
+        delivery: DeliverySpec(actions: ['open']),
+      ),
+    ),
+    const DefaultRuleSeed(
+      section: NotificationSection.quit,
+      code: 'money_milestones',
+      profileCode: BuiltinProfiles.standard,
+      spec: NotificationRuleSpec(
+        trigger: MilestoneTrigger(metric: 'money_saved'),
+        delivery: DeliverySpec(actions: ['open']),
+      ),
+    ),
+    const DefaultRuleSeed(
+      section: NotificationSection.quit,
+      code: 'goal_milestones',
+      profileCode: BuiltinProfiles.standard,
+      spec: NotificationRuleSpec(
+        trigger: MilestoneTrigger(metric: 'custom'),
+        delivery: DeliverySpec(actions: ['open']),
+      ),
+    ),
   ];
 
   /// Off-peak default times for digests (FCM spikes at :00/:15/:30/:45 — arch §9.7).

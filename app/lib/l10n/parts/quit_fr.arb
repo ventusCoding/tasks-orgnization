@@ -138,6 +138,8 @@
   "quitDistractionShower": "Une douche",
   "quitNotifInvalidIntensity": "L'intensité est un nombre de 1 à 10.",
   "quitNotifMoneyMilestone": "{amount} économisés",
+  "quitNotifUnitsMilestone": "{amount} {unit} évités",
+  "quitNotifGoalMilestone": "{title} — {what}",
   "quitMilestonesTitle": "Étapes",
   "quitMilestonesOpen": "Toutes les étapes",
   "quitMilestonesReached": "Atteintes",

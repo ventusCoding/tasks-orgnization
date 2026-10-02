@@ -445,6 +445,8 @@
   "notifMetricTotal": "Total",
   "notifMetricMoney": "Argent économisé",
   "notifMetricUnits": "Unités évitées",
+  "notifMetricHealth": "Étapes santé",
+  "notifMetricCustom": "Mes objectifs",
   "notifModeOffHint": "Aucune notification pour cet élément",
   "notifSectionOffHint": "Les notifications « {section} » sont désactivées dans les réglages",
   "notifFieldRepeats": "Répétition",

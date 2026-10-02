@@ -3240,9 +3240,29 @@
       }
     }
   },
+  "@quitNotifGoalMilestone": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "what": {
+        "type": "String"
+      }
+    }
+  },
   "@quitNotifMoneyMilestone": {
     "placeholders": {
       "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@quitNotifUnitsMilestone": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "unit": {
         "type": "String"
       }
     }
@@ -6600,6 +6620,8 @@
   "notifMaxNag": "Maximum nag repeats",
   "notifMergedTitle": "{count, plural, =1{1 reminder} other{{count} reminders}}",
   "notifMetricCleanDays": "Clean days",
+  "notifMetricCustom": "My goals",
+  "notifMetricHealth": "Health milestones",
   "notifMetricMoney": "Money saved",
   "notifMetricStreak": "Streak",
   "notifMetricTotal": "Total",
@@ -7350,8 +7372,10 @@
   "quitNoTrackersBody": "Track how long you have stopped smoking, drinking or anything else.",
   "quitNotSure": "Not sure",
   "quitNote": "Note",
+  "quitNotifGoalMilestone": "{title} — {what}",
   "quitNotifInvalidIntensity": "Intensity is a number from 1 to 10.",
   "quitNotifMoneyMilestone": "{amount} saved",
+  "quitNotifUnitsMilestone": "{amount} {unit} avoided",
   "quitOffsetMonths": "{count, plural, =1{1 month} other{{count} months}}",
   "quitOffsetRange": "{from} – {to}",
   "quitOffsetWeeks": "{count, plural, =1{1 week} other{{count} weeks}}",

@@ -1,5 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:everslot/core/ids/ids.dart';
+import 'package:everslot/features/goals/application/goal_providers.dart';
+import 'package:everslot/features/goals/domain/goal.dart';
 import 'package:everslot/features/habits/application/check_in_service.dart';
 import 'package:everslot/features/habits/application/habit_notifications.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
@@ -312,6 +314,69 @@ void main() {
       expect(await quitSource().guardOpen(target), isFalse);
       target = (await quitSource().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 29, 6))).single;
       expect(target.milestoneBaseline, DateTime.utc(2026, 9, 22, 6));
+    });
+
+    Future<NotificationTarget> quitTarget() async =>
+        (await quitSource().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 29, 6))).single;
+
+    test('health milestones land at quit + offset; a relapse at +10 h re-projects them (T7.5.13)', () async {
+      final tracker = await createQuit();
+      var target = await quitTarget();
+      final health = target.milestones.where((m) => m.metric == 'health').toList();
+      expect(health.map((m) => m.threshold), isNot(contains(20)), reason: 'reached milestones are not replanned');
+      final nicotine = health.singleWhere((m) => m.threshold == 1440);
+      expect(nicotine.at, DateTime.utc(2026, 9, 22, 20), reason: '24 h after the 20:00 quit');
+      expect(nicotine.label, 'Nicotine leaves your blood');
+      expect(nicotine.runKey, '2026-09-21T20:00:00.000Z');
+      expect(target.variables['days_free'], '0');
+      expect(target.variables['next_milestone'], 'Carbon monoxide back to normal', reason: 'quit + 12 h is next');
+      expect(target.variables['units_avoided'], '10');
+
+      await h.read(quitServiceProvider).logRelapse(tracker);
+      target = await quitTarget();
+      final again = target.milestones.singleWhere((m) => m.metric == 'health' && m.threshold == 1440);
+      expect(again.at, DateTime.utc(2026, 9, 23, 6), reason: 're-projected from the relapse');
+      expect(again.runKey, '2026-09-22T06:00:00.000Z', reason: 'new occurrence keys cancel the old schedule');
+    });
+
+    test('units-avoided thresholds and the tracker goals are projected at the saving rate', () async {
+      final tracker = await createQuit();
+      await h
+          .read(goalsRepositoryProvider)
+          .create(
+            Goal(
+              id: Ids.v7(),
+              scopeType: GoalScopeType.habit,
+              scopeId: tracker.id,
+              metric: GoalMetric.moneySaved,
+              target: 30,
+              period: GoalPeriod.allTime,
+              reward: 'Concert ticket',
+            ),
+          );
+      final target = await quitTarget();
+      // 24 cigarettes/day = 1/hour; 10 avoided by now (+10 h): 100 is reached 90 h later.
+      final units = target.milestones.firstWhere((m) => m.metric == 'units_avoided');
+      expect((units.threshold, units.at), (100, DateTime.utc(2026, 9, 26)));
+      expect(units.label, '100 cigarettes avoided');
+      // 12 €/day = 0.50 €/h; 5 € saved by now: 30 € takes 50 h more.
+      final goal = target.milestones.singleWhere((m) => m.metric == 'custom');
+      expect(goal.at, DateTime.utc(2026, 9, 24, 8));
+      expect(goal.label, 'Concert ticket — €30.00 saved');
+    });
+
+    test('non-smoking trackers get no health milestones', () async {
+      final tracker = QuitHabit(
+        id: Ids.v7(),
+        name: 'No soda',
+        startDate: d(2026, 9, 21),
+        sortKey: '',
+        mode: QuitMode.abstain,
+        quitStartedAt: DateTime.utc(2026, 9, 21, 20),
+        baselinePerDay: 2,
+      );
+      await h.read(habitsRepositoryProvider).create(tracker);
+      expect((await quitTarget()).milestones.where((m) => m.metric == 'health'), isEmpty);
     });
   });
 }

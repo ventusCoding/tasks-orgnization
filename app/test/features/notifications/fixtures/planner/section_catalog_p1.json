@@ -180,6 +180,23 @@
       ]
     },
     {
+      "name": "T7.5.13 health milestone: \"24 hours\" fires at quit + 24 h, keyed by the abstinence start",
+      "now": "2026-09-21T22:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "health", "targetType": "section", "section": "quit", "spec": {"v": 1, "trigger": {"type": "milestone", "metric": "health"}}}
+      ],
+      "targets": [
+        {"type": "habit", "id": "smoke", "section": "quit", "title": "Smoke-free", "milestoneBaseline": "2026-09-21T20:00:00Z",
+         "milestones": [{"metric": "health", "threshold": 1440, "at": "2026-09-22T20:00:00Z", "runKey": "2026-09-21T20:00:00.000Z", "label": "Nicotine leaves your blood"},
+                        {"metric": "money_saved", "threshold": 10, "at": "2026-09-22T16:00:00Z"}]}
+      ],
+      "expected": [
+        {"rule": "health", "target": "smoke", "fireAtUtc": "2026-09-22T20:00:00Z", "occ": "m:health:1440:2026-09-21T20:00:00.000Z",
+         "body": "Nicotine leaves your blood", "category": "milestone"}
+      ]
+    },
+    {
       "name": "T7.5.08 status age: waiting and blocked wording",
       "now": "2026-09-21T09:00:00Z",
       "zone": "Europe/Paris",

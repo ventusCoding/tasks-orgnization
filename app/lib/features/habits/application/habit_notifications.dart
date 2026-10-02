@@ -1,14 +1,17 @@
-import 'package:decimal/decimal.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/routing/deep_links.dart';
+import 'package:everslot/features/goals/application/goal_providers.dart';
+import 'package:everslot/features/goals/domain/goal.dart';
 import 'package:everslot/features/habits/application/check_in_service.dart';
 import 'package:everslot/features/habits/application/habit_labels.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
+import 'package:everslot/features/habits/application/milestone_content.dart';
 import 'package:everslot/features/habits/application/quit_service.dart';
 import 'package:everslot/features/habits/domain/check_in.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_periods.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
+import 'package:everslot/features/habits/domain/quit.dart' show MilestoneContent;
 import 'package:everslot/features/notifications/application/notification_providers.dart' show notificationTextsProvider;
 import 'package:everslot/features/notifications/application/notification_texts_l10n.dart' show L10nNotificationTexts;
 import 'package:everslot/features/notifications/notification_contributions.dart';
@@ -280,40 +283,126 @@ NotificationTarget? buildHabitSummaryTarget(
 /// Savings thresholds projected as `money_saved` milestones (in the tracker's currency).
 const quitMoneyThresholds = <int>[10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000];
 
-/// The notification target of one quit tracker (T7.2.06 contract): the item itself (no
+/// Avoided-unit thresholds projected as `units_avoided` milestones (abstain trackers).
+const quitUnitThresholds = <int>[100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000];
+
+/// Projections further out than this are left for a later replan.
+const _quitProjectionLimit = Duration(days: 400);
+
+/// The notification target of one quit tracker (T7.2.06 contract, T7.5.13): the item itself (no
 /// occurrence), with `milestoneBaseline` = the current abstinence start (the planner projects the
-/// `clean_days` milestones) and projected `money_saved` milestones at the current saving rate.
-/// The guard makes milestones obsolete after a relapse; today's window lets daily rules (pledge,
-/// evening review) anchor on `period_start` / `period_end`.
-NotificationTarget? buildQuitTarget(HabitSnapshot snapshot, {required DateTime now, L10nNotificationTexts? texts}) {
+/// `clean_days` milestones) and milestones projected to exact instants at today's economics —
+/// health milestones from the bundled content ([health], smoking only, keyed by the abstinence
+/// start so a relapse re-projects them), `money_saved` / `units_avoided` thresholds and the
+/// tracker's open all-time goals (`custom`, keyed by goal id). The guard makes milestones obsolete
+/// after a relapse; today's window lets daily rules (pledge, evening review) anchor on
+/// `period_start` / `period_end`.
+NotificationTarget? buildQuitTarget(
+  HabitSnapshot snapshot, {
+  required DateTime now,
+  L10nNotificationTexts? texts,
+  MilestoneContent? health,
+  List<Goal> goals = const [],
+}) {
   final habit = snapshot.quitHabit;
   final calc = snapshot.quit;
   if (habit == null || calc == null || habit.isArchived) return null;
   final baseline = calc.currentAbstinenceStart;
+  final runKey = baseline.toUtc().toIso8601String();
   final currency = habit.currency;
   final saved = calc.moneySaved;
+  final avoided = calc.unitsAvoided;
   final milestones = <NotificationMilestone>[];
   final econ = calc.tracker.economicsOn(snapshot.today);
   final cost = econ.unitCost;
-  if (habit.mode == QuitMode.abstain && cost != null && currency != null && econ.baselinePerDay > 0) {
-    // Saving rate per minute at today's economics.
-    final perMinute = econ.baselinePerDay * cost.toDouble() / 1440;
+  final abstain = habit.mode == QuitMode.abstain;
+  // Rates per minute at today's economics (abstain trackers only: reduce mode depends on usage).
+  final unitsPerMinute = abstain && econ.baselinePerDay > 0 ? econ.baselinePerDay / 1440 : null;
+  final moneyPerMinute = unitsPerMinute != null && cost != null && currency != null
+      ? unitsPerMinute * cost.toDouble()
+      : null;
+  DateTime? projected(double missing, double? perMinute) {
+    if (missing <= 0 || perMinute == null) return null;
+    final at = now.add(Duration(minutes: (missing / perMinute).ceil()));
+    return at.difference(now) > _quitProjectionLimit ? null : at;
+  }
+
+  String money(num amount) => texts?.format.currency(amount, currency!) ?? '$amount $currency';
+  String units(num amount) {
+    final n = texts?.number(amount) ?? '$amount';
+    final unit = texts?.l10n.unitLabel(habit.unit, amount) ?? (habit.unit ?? '');
+    return texts?.l10n.quitNotifUnitsMilestone(n, unit) ?? '$n $unit avoided';
+  }
+
+  if (health != null && abstain && (habit.substance?.hasHealthContent ?? false)) {
+    final language = texts?.l10n.localeName ?? 'en';
+    for (final m in health.milestones) {
+      if (m.info) continue;
+      final at = baseline.add(m.tMin);
+      if (!at.isAfter(now) || at.difference(now) > _quitProjectionLimit) continue;
+      milestones.add(
+        NotificationMilestone(
+          metric: 'health',
+          threshold: m.tMin.inMinutes,
+          at: at,
+          runKey: runKey,
+          label: m.textFor(language).title,
+        ),
+      );
+    }
+  }
+  if (moneyPerMinute != null) {
     for (final t in quitMoneyThresholds) {
-      final missing = Decimal.fromInt(t) - saved;
-      if (missing <= Decimal.zero) continue;
-      final at = now.add(Duration(minutes: (missing.toDouble() / perMinute).ceil()));
-      if (at.difference(now) > const Duration(days: 400)) break;
-      final amount = texts?.format.currency(t, currency) ?? '$t $currency';
+      final at = projected(t - saved.toDouble(), moneyPerMinute);
+      if (at == null) continue;
       milestones.add(
         NotificationMilestone(
           metric: 'money_saved',
           threshold: t,
           at: at,
-          label: texts?.l10n.quitNotifMoneyMilestone(amount),
+          label: texts?.l10n.quitNotifMoneyMilestone(money(t)),
         ),
       );
     }
   }
+  if (unitsPerMinute != null) {
+    for (final t in quitUnitThresholds) {
+      final at = projected(t - avoided, unitsPerMinute);
+      if (at == null) continue;
+      milestones.add(NotificationMilestone(metric: 'units_avoided', threshold: t, at: at, label: units(t)));
+    }
+  }
+  for (final g in goals) {
+    if (g.isAchieved || g.scopeType != GoalScopeType.habit || g.scopeId != habit.id) continue;
+    if (g.period != GoalPeriod.allTime) continue;
+    final at = switch (g.metric) {
+      GoalMetric.moneySaved => projected(g.target - saved.toDouble(), moneyPerMinute),
+      GoalMetric.unitsAvoided => projected(g.target - avoided, unitsPerMinute),
+      // Clean days count closed days: the target is reached when the remaining days have closed.
+      GoalMetric.cleanDays when abstain && g.target > calc.cleanDays => snapshot.boundaries.endOf(
+        snapshot.today.plusDays(g.target.ceil() - calc.cleanDays - 1),
+      ),
+      _ => null,
+    };
+    if (at == null || at.difference(now) > _quitProjectionLimit) continue;
+    final what = switch (g.metric) {
+      GoalMetric.moneySaved when currency != null =>
+        texts?.l10n.quitNotifMoneyMilestone(money(g.target)) ?? '${money(g.target)} saved',
+      GoalMetric.unitsAvoided => units(g.target),
+      _ => texts?.l10n.notifBodyCleanDays(g.target.round()) ?? '${g.target.round()} days',
+    };
+    final title = g.reward ?? g.title;
+    milestones.add(
+      NotificationMilestone(
+        metric: 'custom',
+        threshold: g.target,
+        at: at,
+        runKey: g.id,
+        label: title == null ? what : (texts?.l10n.quitNotifGoalMilestone(title, what) ?? '$title — $what'),
+      ),
+    );
+  }
+  final upcoming = [...milestones]..sort((a, b) => a.at.compareTo(b.at));
   return NotificationTarget(
     type: NotificationTargetType.habit,
     id: habit.id,
@@ -333,8 +422,12 @@ NotificationTarget? buildQuitTarget(HabitSnapshot snapshot, {required DateTime n
     streak: now.difference(baseline).inDays,
     variables: {
       'clean_days': '${calc.cleanDays}',
+      'days_free': texts?.number(now.difference(baseline).inDays) ?? '${now.difference(baseline).inDays}',
+      if (unitsPerMinute != null || avoided > 0)
+        'units_avoided': texts?.number(avoided.floor()) ?? '${avoided.floor()}',
       if (currency != null && cost != null)
         'money_saved': texts?.format.currency(saved.toDouble(), currency) ?? '${saved.toStringAsFixed(2)} $currency',
+      if (upcoming.firstOrNull?.label case final next?) 'next_milestone': next,
     },
     deepLink: AppLinks.quit(habit.id),
     defaultActions: habit.mode == QuitMode.reduce
@@ -408,10 +501,32 @@ class QuitNotificationSource implements NotificationTargetSource {
     if (trackers.isEmpty) return const [];
     final now = _ref.read(clockProvider).nowUtc();
     final texts = _texts(_ref.read);
+    final health = trackers.any((t) => t is QuitHabit && (t.substance?.hasHealthContent ?? false))
+        ? await _healthContent()
+        : null;
+    final goals = await _ref.read(goalsRepositoryProvider).all();
     return [
       for (final tracker in trackers)
-        if (buildQuitTarget(await loadHabitSnapshot(_ref.read, tracker, now), now: now, texts: texts) case final t?) t,
+        if (buildQuitTarget(
+              await loadHabitSnapshot(_ref.read, tracker, now),
+              now: now,
+              texts: texts,
+              health: health,
+              goals: goals,
+            )
+            case final t?)
+          t,
     ];
+  }
+
+  /// The bundled health content; null when the asset can't be loaded (milestones fall back to
+  /// clean time, money and units).
+  Future<MilestoneContent?> _healthContent() async {
+    try {
+      return await _ref.read(smokingMilestoneContentProvider.future);
+    } on Object {
+      return null;
+    }
   }
 
   /// Obsolete once the tracker is gone/archived or a relapse moved the abstinence start.

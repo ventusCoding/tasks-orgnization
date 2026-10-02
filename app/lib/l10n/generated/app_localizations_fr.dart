@@ -6533,6 +6533,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifMetricCleanDays => 'Jours sans';
 
   @override
+  String get notifMetricCustom => 'Mes objectifs';
+
+  @override
+  String get notifMetricHealth => 'Étapes santé';
+
+  @override
   String get notifMetricMoney => 'Argent économisé';
 
   @override
@@ -9111,11 +9117,21 @@ class AppLocalizationsFr extends AppLocalizations {
   String get quitNote => 'Note';
 
   @override
+  String quitNotifGoalMilestone(String title, String what) {
+    return '$title — $what';
+  }
+
+  @override
   String get quitNotifInvalidIntensity => 'L\'intensité est un nombre de 1 à 10.';
 
   @override
   String quitNotifMoneyMilestone(String amount) {
     return '$amount économisés';
+  }
+
+  @override
+  String quitNotifUnitsMilestone(String amount, String unit) {
+    return '$amount $unit évités';
   }
 
   @override

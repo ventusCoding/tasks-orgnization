@@ -11043,6 +11043,18 @@ abstract class AppLocalizations {
   /// **'Clean days'**
   String get notifMetricCleanDays;
 
+  /// No description provided for @notifMetricCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'My goals'**
+  String get notifMetricCustom;
+
+  /// No description provided for @notifMetricHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Health milestones'**
+  String get notifMetricHealth;
+
   /// No description provided for @notifMetricMoney.
   ///
   /// In en, this message translates to:
@@ -15543,6 +15555,12 @@ abstract class AppLocalizations {
   /// **'Note'**
   String get quitNote;
 
+  /// No description provided for @quitNotifGoalMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} — {what}'**
+  String quitNotifGoalMilestone(String title, String what);
+
   /// No description provided for @quitNotifInvalidIntensity.
   ///
   /// In en, this message translates to:
@@ -15554,6 +15572,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{amount} saved'**
   String quitNotifMoneyMilestone(String amount);
+
+  /// No description provided for @quitNotifUnitsMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} {unit} avoided'**
+  String quitNotifUnitsMilestone(String amount, String unit);
 
   /// No description provided for @quitOffsetMonths.
   ///

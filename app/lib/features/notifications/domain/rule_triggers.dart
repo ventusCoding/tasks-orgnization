@@ -335,7 +335,7 @@ final class QuotaBehindTrigger extends NotificationTrigger {
 final class MilestoneTrigger extends NotificationTrigger {
   const MilestoneTrigger({required this.metric, this.thresholds, super.raw});
 
-  /// clean_days | streak | total_value | money_saved | units_avoided
+  /// clean_days | streak | total_value | money_saved | units_avoided | health | custom
   final String metric;
   final List<num>? thresholds;
 

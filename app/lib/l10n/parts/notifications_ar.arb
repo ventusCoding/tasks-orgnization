@@ -445,6 +445,8 @@
   "notifMetricTotal": "الإجمالي",
   "notifMetricMoney": "المال الموفَّر",
   "notifMetricUnits": "الوحدات المتجنبة",
+  "notifMetricHealth": "المراحل الصحية",
+  "notifMetricCustom": "أهدافي",
   "notifModeOffHint": "لا إشعارات لهذا العنصر",
   "notifSectionOffHint": "إشعارات «{section}» متوقفة في الإعدادات",
   "notifFieldRepeats": "التكرار",

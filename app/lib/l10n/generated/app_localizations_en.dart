@@ -6372,6 +6372,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifMetricCleanDays => 'Clean days';
 
   @override
+  String get notifMetricCustom => 'My goals';
+
+  @override
+  String get notifMetricHealth => 'Health milestones';
+
+  @override
   String get notifMetricMoney => 'Money saved';
 
   @override
@@ -8889,11 +8895,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitNote => 'Note';
 
   @override
+  String quitNotifGoalMilestone(String title, String what) {
+    return '$title — $what';
+  }
+
+  @override
   String get quitNotifInvalidIntensity => 'Intensity is a number from 1 to 10.';
 
   @override
   String quitNotifMoneyMilestone(String amount) {
     return '$amount saved';
+  }
+
+  @override
+  String quitNotifUnitsMilestone(String amount, String unit) {
+    return '$amount $unit avoided';
   }
 
   @override

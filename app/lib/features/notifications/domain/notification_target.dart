@@ -101,7 +101,7 @@ class NotificationMilestone {
     this.runKey,
   });
 
-  /// clean_days | streak | total_value | money_saved | units_avoided | custom
+  /// clean_days | streak | total_value | money_saved | units_avoided | health | custom
   final String metric;
   final num threshold;
 

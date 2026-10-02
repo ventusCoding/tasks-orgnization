@@ -531,6 +531,8 @@ class _TriggerEditor extends StatelessWidget {
             DropdownMenuItem(value: 'total_value', child: Text(l.notifMetricTotal)),
             DropdownMenuItem(value: 'money_saved', child: Text(l.notifMetricMoney)),
             DropdownMenuItem(value: 'units_avoided', child: Text(l.notifMetricUnits)),
+            DropdownMenuItem(value: 'health', child: Text(l.notifMetricHealth)),
+            DropdownMenuItem(value: 'custom', child: Text(l.notifMetricCustom)),
           ],
         ),
         TextFormField(

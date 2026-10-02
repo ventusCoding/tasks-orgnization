@@ -58,7 +58,7 @@ live timer surfaces and widget refreshes ([8.2]); hide-content privacy option ([
 - [x] T7.5.10 — Habits: scheduled reminders (slots, times, several per day)
 - [x] T7.5.11 — Habits: not-done-by & streak-at-risk
 - [x] T7.5.12 — Habits: quota pace, milestones & inactivity
-- [ ] T7.5.13 — Quit: milestone notifications
+- [x] T7.5.13 — Quit: milestone notifications
 - [ ] T7.5.14 — Quit: pledge, evening review, craving support & encouragement
 - [x] T7.5.15 — Notifications settings page & global controls
 - [x] T7.5.16 — Mute until (rule, item, list, habit, section)
@@ -206,6 +206,7 @@ cancels outstanding milestones everywhere; never shame — copy reviewed.
 **Acceptance criteria:** "24 hours smoke-free" fires at quit time + 24 h; logging a relapse at +20 h
 cancels it and re-projects from the relapse.
 **Tests:** planner fixtures with relapse inputs.
+**Notes:** `buildQuitTarget` projects health rows (metric `health`, smoking + abstain only, runKey = abstinence start, so a relapse re-keys and cancels them), `money_saved` / `units_avoided` thresholds and open all-time quit goals (metric `custom`, runKey = goal id) at today's rates; reached milestones are not replanned and projections stop at 400 days. New default quit rules: health, money and goal milestones. Health notifications deep-link to the tracker, whose milestones screen carries the sources and disclaimer.
 
 ### T7.5.14 — Quit: pledge, evening review, craving support & encouragement
 **Priority:** P1 · **Size:** M · **Depends on:** T7.5.13, [6.6] (craving time patterns)

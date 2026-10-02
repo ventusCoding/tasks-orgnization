@@ -138,6 +138,8 @@
   "quitDistractionShower": "حمّام",
   "quitNotifInvalidIntensity": "الشدة رقم من 1 إلى 10.",
   "quitNotifMoneyMilestone": "تم توفير {amount}",
+  "quitNotifUnitsMilestone": "تم تجنّب {amount} {unit}",
+  "quitNotifGoalMilestone": "{title} — {what}",
   "quitMilestonesTitle": "المراحل",
   "quitMilestonesOpen": "كل المراحل",
   "quitMilestonesReached": "المراحل المحققة",

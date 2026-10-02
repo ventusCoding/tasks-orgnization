@@ -6891,6 +6891,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifMetricCleanDays => 'أيام دون انتكاس';
 
   @override
+  String get notifMetricCustom => 'أهدافي';
+
+  @override
+  String get notifMetricHealth => 'المراحل الصحية';
+
+  @override
   String get notifMetricMoney => 'المال الموفَّر';
 
   @override
@@ -9557,11 +9563,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitNote => 'ملاحظة';
 
   @override
+  String quitNotifGoalMilestone(String title, String what) {
+    return '$title — $what';
+  }
+
+  @override
   String get quitNotifInvalidIntensity => 'الشدة رقم من 1 إلى 10.';
 
   @override
   String quitNotifMoneyMilestone(String amount) {
     return 'تم توفير $amount';
+  }
+
+  @override
+  String quitNotifUnitsMilestone(String amount, String unit) {
+    return 'تم تجنّب $amount $unit';
   }
 
   @override

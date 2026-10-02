@@ -970,6 +970,8 @@
   "notifMetricTotal": "Total",
   "notifMetricMoney": "Money saved",
   "notifMetricUnits": "Units avoided",
+  "notifMetricHealth": "Health milestones",
+  "notifMetricCustom": "My goals",
   "notifModeOffHint": "No notifications for this item",
   "notifSectionOffHint": "{section} notifications are turned off in Settings",
   "@notifSectionOffHint": {
