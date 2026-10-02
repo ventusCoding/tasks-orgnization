@@ -53,7 +53,7 @@ dependencies:
   # UI
   dynamic_color: ^2.1.0 # Android 12+ wallpaper colors (T1.3.08, optional)
   fl_chart: ^1.2.0
-  two_dimensional_scrollables: ^0.5.4
+  two_dimensional_scrollables: ^0.5.5
   flutter_staggered_grid_view: ^0.7.0
 
   # Media & files
