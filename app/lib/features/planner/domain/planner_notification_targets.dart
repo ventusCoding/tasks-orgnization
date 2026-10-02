@@ -77,6 +77,9 @@ abstract final class PlannerNotificationTargets {
     ];
   }
 
+  /// A start this much after the planned one is a late start (`started_late` events, T7.5.20).
+  static const startedLateAfter = Duration(minutes: 5);
+
   /// Longest gap between a task's end and the next one for *up next* (T7.5.04).
   static const upNextWindow = Duration(hours: 3);
 
@@ -111,6 +114,11 @@ abstract final class PlannerNotificationTargets {
     final task = o.task;
     final excerpt = notesExcerpt(o.notes);
     final deadline = task.deadlineLocal;
+    // Event triggers (T7.5.20): the occurrence's last status change and a late start.
+    final record = o.record;
+    final changedAt = record?.statusChangedAt;
+    final startedAt = record?.actualStartAt;
+    final lateBy = startedAt?.difference(o.startInstant);
     final due = deadline == null || task.isRecurring ? null : zones.resolve(deadline, task.timeZone ?? viewerZone).utc;
     return NotificationTarget(
       type: NotificationTargetType.task,
@@ -129,6 +137,12 @@ abstract final class PlannerNotificationTargets {
       statusChangedAt: o.record?.statusChangedAt,
       isOpen: isOpen(o),
       guard: NotificationGuard.taskOccurrenceOpen(task.id, o.occurrenceKey),
+      events: [
+        if (changedAt != null)
+          NotificationEvent(kind: 'status_change', at: changedAt, data: {'to': statusWire(o.status)}),
+        if (startedAt != null && lateBy != null && lateBy >= startedLateAfter)
+          NotificationEvent(kind: 'started_late', at: startedAt, data: {'minutes': lateBy.inMinutes}),
+      ],
       variables: {
         'category': ?categoryName,
         'notes_excerpt': ?excerpt,

@@ -150,6 +150,8 @@ enum DefaultContentKind {
   upNextMerged,
   timerEnd,
   listReset,
+  startedLate,
+  customEvent,
   pledge,
   eveningReview,
   cravingSupport,
@@ -302,6 +304,8 @@ class PlainNotificationTexts implements NotificationTexts {
       ),
       DefaultContentKind.timerEnd => (title: t, body: "Time's up for $t"),
       DefaultContentKind.listReset => (title: t, body: '$t was reset for today'),
+      DefaultContentKind.startedLate => (title: t, body: 'Started ${vars['late_minutes'] ?? ''} min late'),
+      DefaultContentKind.customEvent => (title: t, body: null),
       DefaultContentKind.pledge => (title: t, body: 'Ready to pledge for today?'),
       DefaultContentKind.eveningReview => (title: t, body: 'How did today go?'),
       DefaultContentKind.cravingSupport => (

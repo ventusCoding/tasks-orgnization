@@ -135,6 +135,11 @@ class L10nNotificationTexts implements NotificationTexts {
       ),
       DefaultContentKind.timerEnd => (title: t, body: l10n.notifBodyTimeUp(t)),
       DefaultContentKind.listReset => (title: t, body: l10n.notifBodyListReset(t)),
+      DefaultContentKind.startedLate => (
+        title: t,
+        body: l10n.notifBodyStartedLate(int.tryParse(vars['late_minutes'] ?? '') ?? 0),
+      ),
+      DefaultContentKind.customEvent => (title: t, body: null),
       DefaultContentKind.pledge => (title: t, body: l10n.notifBodyPledge),
       DefaultContentKind.eveningReview => (title: t, body: l10n.notifBodyEveningReview),
       DefaultContentKind.cravingSupport => (

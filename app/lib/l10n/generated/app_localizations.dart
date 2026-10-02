@@ -9987,6 +9987,12 @@ abstract class AppLocalizations {
   /// **'Started {minutes, plural, =1{1 min} other{{minutes} min}} ago'**
   String notifBodyStartedAgo(int minutes);
 
+  /// No description provided for @notifBodyStartedLate.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes, plural, =1{Started 1 min late} other{Started {minutes} min late}}'**
+  String notifBodyStartedLate(int minutes);
+
   /// No description provided for @notifBodyStartingNow.
   ///
   /// In en, this message translates to:
@@ -10701,6 +10707,42 @@ abstract class AppLocalizations {
   /// **'From repeat'**
   String get notifEscalationFrom;
 
+  /// No description provided for @notifEventChildOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'A sub-item is overdue'**
+  String get notifEventChildOverdue;
+
+  /// No description provided for @notifEventChildrenComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'All its sub-items are done'**
+  String get notifEventChildrenComplete;
+
+  /// No description provided for @notifEventCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Event “{name}”'**
+  String notifEventCustom(String name);
+
+  /// No description provided for @notifEventListReset.
+  ///
+  /// In en, this message translates to:
+  /// **'The list resets'**
+  String get notifEventListReset;
+
+  /// No description provided for @notifEventStartedLate.
+  ///
+  /// In en, this message translates to:
+  /// **'It starts late'**
+  String get notifEventStartedLate;
+
+  /// No description provided for @notifEventStatusChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Its status changes'**
+  String get notifEventStatusChange;
+
   /// No description provided for @notifExactOff.
   ///
   /// In en, this message translates to:
@@ -10760,6 +10802,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Digest'**
   String get notifFieldDigestKind;
+
+  /// No description provided for @notifFieldEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'When this happens'**
+  String get notifFieldEvent;
 
   /// No description provided for @notifFieldEveryMinutes.
   ///
@@ -13070,6 +13118,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Digest'**
   String get notifTriggerDigest;
+
+  /// No description provided for @notifTriggerEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Event'**
+  String get notifTriggerEvent;
 
   /// No description provided for @notifTriggerInactivity.
   ///

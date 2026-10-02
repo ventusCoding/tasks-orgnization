@@ -536,6 +536,18 @@ abstract final class NotificationPlanner {
         if (end == null) return const [];
         return [_Candidate(end, '$occ|te', DefaultContentKind.timerEnd)];
 
+      case EventTrigger(:final name, atTime: final time):
+        return [
+          for (final e in target.events)
+            if (e.kind == name)
+              _Candidate(
+                time == null ? e.at : _laterOf(e.at, at(dateOf(e.at), time)),
+                'evt:$name:${e.at.toUtc().toIso8601String()}',
+                name == EventTrigger.startedLate ? DefaultContentKind.startedLate : DefaultContentKind.customEvent,
+                extraVars: {if (e.data['minutes'] != null) 'late_minutes': '${e.data['minutes']}'},
+              ),
+        ];
+
       case QuitRitualTrigger(:final kind, atTime: final time, :final effectiveMinutesBefore):
         return _ritual(kind, time, effectiveMinutesBefore, target, ctx.now, horizonEnd, at, dateOf);
 

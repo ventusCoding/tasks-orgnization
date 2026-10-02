@@ -5868,6 +5868,17 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String notifBodyStartedLate(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: 'Commencée avec $minutes min de retard',
+      one: 'Commencée avec 1 min de retard',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get notifBodyStartingNow => 'Commence maintenant';
 
   @override
@@ -6347,6 +6358,26 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifEscalationFrom => 'Dès la répétition';
 
   @override
+  String get notifEventChildOverdue => 'Un sous-élément est en retard';
+
+  @override
+  String get notifEventChildrenComplete => 'Tous ses sous-éléments sont faits';
+
+  @override
+  String notifEventCustom(String name) {
+    return 'Événement « $name »';
+  }
+
+  @override
+  String get notifEventListReset => 'La liste est réinitialisée';
+
+  @override
+  String get notifEventStartedLate => 'Elle commence en retard';
+
+  @override
+  String get notifEventStatusChange => 'Son statut change';
+
+  @override
   String get notifExactOff => 'Les rappels peuvent arriver jusqu’à une heure en retard';
 
   @override
@@ -6375,6 +6406,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get notifFieldDigestKind => 'Récapitulatif';
+
+  @override
+  String get notifFieldEvent => 'Quand ceci arrive';
 
   @override
   String get notifFieldEveryMinutes => 'Toutes les (minutes)';
@@ -7790,6 +7824,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get notifTriggerDigest => 'Récapitulatif';
+
+  @override
+  String get notifTriggerEvent => 'Événement';
 
   @override
   String get notifTriggerInactivity => 'Inactivité';

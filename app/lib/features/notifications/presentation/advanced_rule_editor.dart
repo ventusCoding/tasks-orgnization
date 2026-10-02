@@ -403,6 +403,7 @@ class _TriggerEditor extends StatelessWidget {
     TriggerType.timerEnd => const TimerEndTrigger(),
     TriggerType.listReset => const ListResetTrigger(),
     TriggerType.quitRitual => const QuitRitualTrigger(kind: QuitRitualTrigger.pledge),
+    TriggerType.event => const EventTrigger(name: EventTrigger.startedLate),
   };
 
   void _set(NotificationTrigger t) => onChanged(spec.copyWith(trigger: t));
@@ -624,6 +625,18 @@ class _TriggerEditor extends StatelessWidget {
       ],
       ListResetTrigger(:final atTime) => [
         timeTile(l.notifFieldAtTime, atTime, (t) => _set(ListResetTrigger(atTime: t))),
+      ],
+      EventTrigger(:final name, :final atTime) => [
+        DropdownButtonFormField<String>(
+          initialValue: name,
+          decoration: InputDecoration(labelText: l.notifFieldEvent),
+          onChanged: (n) => _set(EventTrigger(name: n ?? name, atTime: atTime)),
+          items: [
+            for (final n in {...NotificationLabels.knownEvents, name})
+              DropdownMenuItem(value: n, child: Text(NotificationLabels.of(context).eventName(n))),
+          ],
+        ),
+        timeTile(l.notifFieldAtTime, atTime, (t) => _set(EventTrigger(name: name, atTime: t))),
       ],
       QuitRitualTrigger(:final kind, :final atTime, :final minutesBefore) => [
         DropdownButtonFormField<String>(

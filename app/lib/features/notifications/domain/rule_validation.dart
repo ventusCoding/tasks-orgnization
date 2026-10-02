@@ -124,6 +124,10 @@ abstract final class NotificationRuleValidator {
         if (beforeMinutes != null && (beforeMinutes < 0 || beforeMinutes > 240)) {
           error(NotificationIssueCode.offsetOutOfRange, field: 'trigger.beforeMinutes');
         }
+      case EventTrigger(:final name):
+        if (name.trim().isEmpty || !RegExp(r'^[a-z][a-z_]{0,39}$').hasMatch(name)) {
+          error(NotificationIssueCode.unknownTrigger, field: 'trigger.name');
+        }
       case QuitRitualTrigger(:final kind, :final minutesBefore):
         if (!QuitRitualTrigger.kinds.contains(kind)) {
           error(NotificationIssueCode.unknownTrigger, field: 'trigger.kind');

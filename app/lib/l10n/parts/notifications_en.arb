@@ -1550,5 +1550,28 @@
         "type": "String"
       }
     }
+  },
+  "notifTriggerEvent": "Event",
+  "notifFieldEvent": "When this happens",
+  "notifEventStartedLate": "It starts late",
+  "notifEventStatusChange": "Its status changes",
+  "notifEventChildrenComplete": "All its sub-items are done",
+  "notifEventChildOverdue": "A sub-item is overdue",
+  "notifEventListReset": "The list resets",
+  "notifEventCustom": "Event “{name}”",
+  "@notifEventCustom": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifBodyStartedLate": "{minutes, plural, =1{Started 1 min late} other{Started {minutes} min late}}",
+  "@notifBodyStartedLate": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
   }
 }

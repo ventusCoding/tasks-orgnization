@@ -219,6 +219,7 @@ class EffectiveRulesResolver {
     MilestoneTrigger(:final metric) => 'milestone:$metric',
     DigestTrigger(:final kind) => 'digest:$kind',
     QuitRitualTrigger(:final kind) => 'quit_ritual:$kind',
+    EventTrigger(:final name) => 'event:$name',
     _ => trigger.typeWire,
   };
 }

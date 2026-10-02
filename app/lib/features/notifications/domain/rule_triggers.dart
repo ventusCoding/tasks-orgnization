@@ -44,7 +44,8 @@ enum TriggerType {
   upNext('up_next'),
   timerEnd('timer_end'),
   listReset('list_reset'),
-  quitRitual('quit_ritual');
+  quitRitual('quit_ritual'),
+  event('event');
 
   TriggerType(this.wire);
 
@@ -157,6 +158,7 @@ sealed class NotificationTrigger {
       TriggerType.upNext => UpNextTrigger(beforeMinutes: asInt(json['beforeMinutes']), raw: json),
       TriggerType.timerEnd => TimerEndTrigger(raw: json),
       TriggerType.listReset => ListResetTrigger(atTime: time('atTime'), raw: json),
+      TriggerType.event => EventTrigger(name: asString(json['name']) ?? '', atTime: time('atTime'), raw: json),
       TriggerType.quitRitual => QuitRitualTrigger(
         kind: asString(json['kind']) ?? QuitRitualTrigger.pledge,
         atTime: time('atTime'),
@@ -550,6 +552,27 @@ final class QuitRitualTrigger extends NotificationTrigger {
 
   @override
   Map<String, Object?> get _fields => {'kind': kind, 'atTime': ?atTime?.toIso(), 'minutesBefore': ?minutesBefore};
+}
+
+/// A named event of the target (T7.5.20) — `started_late` (a task started ≥ 5 min after its
+/// planned start), `status_change`, `children_complete`… or any event a section reports: at the
+/// event, or at [atTime] that day. Foundation for future collaboration events ([9.3]).
+final class EventTrigger extends NotificationTrigger {
+  const EventTrigger({required this.name, this.atTime, super.raw});
+
+  static const startedLate = 'started_late';
+
+  final String name;
+  final LocalTime? atTime;
+
+  @override
+  String get typeWire => 'event';
+
+  @override
+  Set<String> get _knownKeys => const {'name', 'atTime'};
+
+  @override
+  Map<String, Object?> get _fields => {'name': name, 'atTime': ?atTime?.toIso()};
 }
 
 /// A trigger type this app version doesn't know (kept verbatim, never fires).

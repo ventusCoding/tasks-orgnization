@@ -636,5 +636,14 @@
   "notifSmartDismiss": "ليس الآن",
   "notifSmartThisItem": "هذا",
   "notifSmartSummaryTitle": "{count, plural, =1{نُقل تذكير واحد ليناسب عاداتك} other{نُقل {count} تذكيرات لتناسب عاداتك}}",
-  "notifSmartSummaryLine": "{title}: {from} ← {to}"
+  "notifSmartSummaryLine": "{title}: {from} ← {to}",
+  "notifTriggerEvent": "حدث",
+  "notifFieldEvent": "عند حدوث هذا",
+  "notifEventStartedLate": "تبدأ متأخرة",
+  "notifEventStatusChange": "تتغير حالتها",
+  "notifEventChildrenComplete": "اكتملت كل عناصرها الفرعية",
+  "notifEventChildOverdue": "عنصر فرعي متأخر",
+  "notifEventListReset": "أُعيد ضبط القائمة",
+  "notifEventCustom": "الحدث «{name}»",
+  "notifBodyStartedLate": "{minutes, plural, =1{بدأت متأخرة دقيقة واحدة} other{بدأت متأخرة {minutes} دقيقة}}"
 }

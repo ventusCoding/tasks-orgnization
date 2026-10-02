@@ -54,6 +54,8 @@ class NotificationLabels {
       beforeMinutes == null ? l.notifSumUpNextAtEnd : l.notifSumUpNextBefore(beforeMinutes),
     TimerEndTrigger() => l.notifSumTimerEnd,
     ListResetTrigger(:final atTime) => atTime == null ? l.notifSumListReset : l.notifSumListResetAt(time(atTime)),
+    EventTrigger(:final name, :final atTime) =>
+      atTime == null ? eventName(name) : '${eventName(name)} · ${time(atTime)}',
     QuitRitualTrigger(:final kind, :final atTime) =>
       atTime == null ? ritual(kind) : '${ritual(kind)} · ${time(atTime)}',
     UnknownTrigger() => l.notifSumUnknown,
@@ -106,6 +108,24 @@ class NotificationLabels {
   String status(String wire) => statusLabelOf(l, wire);
 
   String action(String id) => actionLabelOf(l, id);
+
+  /// Events a rule can react to (T7.5.20); unknown names are shown as they are.
+  static const knownEvents = [
+    EventTrigger.startedLate,
+    'status_change',
+    'children_complete',
+    'child_overdue',
+    'list_reset',
+  ];
+
+  String eventName(String name) => switch (name) {
+    EventTrigger.startedLate => l.notifEventStartedLate,
+    'status_change' => l.notifEventStatusChange,
+    'children_complete' => l.notifEventChildrenComplete,
+    'child_overdue' => l.notifEventChildOverdue,
+    'list_reset' => l.notifEventListReset,
+    _ => l.notifEventCustom(name),
+  };
 
   String ritual(String kind) => switch (kind) {
     QuitRitualTrigger.pledge => l.notifRitualPledge,
@@ -196,6 +216,7 @@ class NotificationLabels {
     TriggerType.timerEnd => l.notifTriggerTimerEnd,
     TriggerType.listReset => l.notifTriggerListReset,
     TriggerType.quitRitual => l.notifTriggerQuitRitual,
+    TriggerType.event => l.notifTriggerEvent,
   };
 
   String anchor(TriggerAnchor a) => switch (a) {

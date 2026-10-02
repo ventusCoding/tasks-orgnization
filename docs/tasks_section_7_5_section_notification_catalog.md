@@ -65,7 +65,7 @@ live timer surfaces and widget refreshes ([8.2]); hide-content privacy option ([
 - [x] T7.5.17 — Notification statistics
 - [x] T7.5.18 — Digests: agenda, plan tomorrow, overdue, weekly & monthly
 - [x] T7.5.19 — Smart reminder suggestions
-- [ ] T7.5.20 — Status-change & custom event triggers
+- [x] T7.5.20 — Status-change & custom event triggers
 
 ## Tasks
 
@@ -283,3 +283,4 @@ response times from notification stats): "You usually do push-ups around 07:45 �
 notify me at 18:00 to review blockers"), "task started late" and similar event triggers; foundation for
 future collaboration ([9.3]).
 **Tests:** planner fixtures using event inputs.
+**Notes:** `status_change {from?, to, atTime?}` already worked for checklist items; tasks now report events too (`status_change` from the occurrence record, `started_late` when the actual start is ≥ 5 min after the planned one). New generic trigger `event {name, atTime?}` reacts to any event a section reports (started_late, status_change, children_complete, child_overdue, list_reset — or future collaboration events), with "Started 12 min late" copy for late starts; editable in the advanced editor.

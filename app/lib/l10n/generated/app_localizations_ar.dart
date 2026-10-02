@@ -6193,6 +6193,17 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String notifBodyStartedLate(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: 'بدأت متأخرة $minutes دقيقة',
+      one: 'بدأت متأخرة دقيقة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get notifBodyStartingNow => 'يبدأ الآن';
 
   @override
@@ -6695,6 +6706,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifEscalationFrom => 'من التكرار';
 
   @override
+  String get notifEventChildOverdue => 'عنصر فرعي متأخر';
+
+  @override
+  String get notifEventChildrenComplete => 'اكتملت كل عناصرها الفرعية';
+
+  @override
+  String notifEventCustom(String name) {
+    return 'الحدث «$name»';
+  }
+
+  @override
+  String get notifEventListReset => 'أُعيد ضبط القائمة';
+
+  @override
+  String get notifEventStartedLate => 'تبدأ متأخرة';
+
+  @override
+  String get notifEventStatusChange => 'تتغير حالتها';
+
+  @override
   String get notifExactOff => 'قد تصل التذكيرات متأخرة حتى ساعة';
 
   @override
@@ -6723,6 +6754,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifFieldDigestKind => 'الملخص';
+
+  @override
+  String get notifFieldEvent => 'عند حدوث هذا';
 
   @override
   String get notifFieldEveryMinutes => 'كل (دقائق)';
@@ -8163,6 +8197,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifTriggerDigest => 'ملخص';
+
+  @override
+  String get notifTriggerEvent => 'حدث';
 
   @override
   String get notifTriggerInactivity => 'عدم النشاط';

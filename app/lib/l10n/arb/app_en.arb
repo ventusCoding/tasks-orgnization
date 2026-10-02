@@ -2244,6 +2244,13 @@
       }
     }
   },
+  "@notifBodyStartedLate": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "@notifBodyStartsIn": {
     "placeholders": {
       "minutes": {
@@ -2456,6 +2463,13 @@
       },
       "items": {
         "type": "int"
+      }
+    }
+  },
+  "@notifEventCustom": {
+    "placeholders": {
+      "name": {
+        "type": "String"
       }
     }
   },
@@ -6714,6 +6728,7 @@
   "notifBodyQuotaPace": "{done} of {target} done — {days, plural, =1{1 day left} other{{days} days left}}",
   "notifBodySnoozed": "Snoozed reminder",
   "notifBodyStartedAgo": "Started {minutes, plural, =1{1 min} other{{minutes} min}} ago",
+  "notifBodyStartedLate": "{minutes, plural, =1{Started 1 min late} other{Started {minutes} min late}}",
   "notifBodyStartingNow": "Starting now",
   "notifBodyStartsIn": "Starts in {minutes, plural, =1{1 min} other{{minutes} min}}",
   "notifBodyStatusAge": "Still {status} · {age}",
@@ -6833,6 +6848,12 @@
   "notifEscalationAdd": "Add escalation step",
   "notifEscalationAllDevices": "On every device",
   "notifEscalationFrom": "From repeat",
+  "notifEventChildOverdue": "A sub-item is overdue",
+  "notifEventChildrenComplete": "All its sub-items are done",
+  "notifEventCustom": "Event “{name}”",
+  "notifEventListReset": "The list resets",
+  "notifEventStartedLate": "It starts late",
+  "notifEventStatusChange": "Its status changes",
   "notifExactOff": "Reminders may arrive up to an hour late",
   "notifExactOffBody": "Allow precise reminders so they fire at the exact minute.",
   "notifFieldAfterDays": "After (days)",
@@ -6843,6 +6864,7 @@
   "notifFieldDayForm": "N days before or after at a time",
   "notifFieldDayOffset": "Days (negative = before)",
   "notifFieldDigestKind": "Digest",
+  "notifFieldEvent": "When this happens",
   "notifFieldEveryMinutes": "Every (minutes)",
   "notifFieldMaxTimes": "At most (times)",
   "notifFieldMetric": "Metric",
@@ -7228,6 +7250,7 @@
   "notifTriggerChildOverdue": "Sub-item overdue",
   "notifTriggerChildrenComplete": "All sub-items done",
   "notifTriggerDigest": "Digest",
+  "notifTriggerEvent": "Event",
   "notifTriggerInactivity": "Inactivity",
   "notifTriggerListReset": "List reset",
   "notifTriggerMilestone": "Milestone",

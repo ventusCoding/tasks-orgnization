@@ -636,5 +636,14 @@
   "notifSmartDismiss": "Pas maintenant",
   "notifSmartThisItem": "ceci",
   "notifSmartSummaryTitle": "{count, plural, =1{1 rappel déplacé selon vos habitudes} other{{count} rappels déplacés selon vos habitudes}}",
-  "notifSmartSummaryLine": "{title} : {from} → {to}"
+  "notifSmartSummaryLine": "{title} : {from} → {to}",
+  "notifTriggerEvent": "Événement",
+  "notifFieldEvent": "Quand ceci arrive",
+  "notifEventStartedLate": "Elle commence en retard",
+  "notifEventStatusChange": "Son statut change",
+  "notifEventChildrenComplete": "Tous ses sous-éléments sont faits",
+  "notifEventChildOverdue": "Un sous-élément est en retard",
+  "notifEventListReset": "La liste est réinitialisée",
+  "notifEventCustom": "Événement « {name} »",
+  "notifBodyStartedLate": "{minutes, plural, =1{Commencée avec 1 min de retard} other{Commencée avec {minutes} min de retard}}"
 }

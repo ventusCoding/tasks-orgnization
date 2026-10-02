@@ -42,6 +42,31 @@ void main() {
     );
   });
 
+  test('targets carry status-change and started-late events (T7.5.20)', () async {
+    final gym = await h.createTask(title: 'Gym', start: '2026-09-22T10:00', duration: 60);
+    final ontime = await h.createTask(title: 'Call', start: '2026-09-22T11:00', duration: 30);
+    h.clock.set(DateTime.utc(2026, 9, 22, 9, 30));
+    await h.occurrences.markDone(
+      gym,
+      '2026-09-22T10:00',
+      actualStart: DateTime.utc(2026, 9, 22, 8, 12),
+      actualEnd: DateTime.utc(2026, 9, 22, 9, 12),
+    );
+    await h.occurrences.markDone(
+      ontime,
+      '2026-09-22T11:00',
+      actualStart: DateTime.utc(2026, 9, 22, 9, 2),
+      actualEnd: DateTime.utc(2026, 9, 22, 9, 30),
+    );
+    final targets = await source().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 23, 6));
+    final late = targets.firstWhere((t) => t.id == gym).events;
+    expect(late.map((e) => e.kind), ['status_change', 'started_late']);
+    expect(late.first.data['to'], 'done');
+    expect((late.last.at, late.last.data['minutes']), (DateTime.utc(2026, 9, 22, 8, 12), 12));
+    final onTime = targets.firstWhere((t) => t.id == ontime).events;
+    expect(onTime.map((e) => e.kind), ['status_change'], reason: '2 min late is on time');
+  });
+
   test('targets: one per occurrence in the window with anchors, guard, variables and actions', () async {
     final gym = await h.createTask(title: 'Gym', start: '2026-09-21T10:00', duration: 60, rule: RecurrenceRule());
     final ny = await h.createTask(title: 'NY call', start: '2026-09-22T09:00', duration: 30, zone: 'America/New_York');

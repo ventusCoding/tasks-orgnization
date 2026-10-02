@@ -279,6 +279,27 @@
       ]
     },
     {
+      "name": "T7.5.20 event trigger: a task started late is announced at the late start",
+      "now": "2026-09-22T06:10:00Z",
+      "zone": "Europe/Paris",
+      "rules": [{"id": "late", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "event", "name": "started_late"}}}],
+      "targets": [{"type": "task", "id": "gym", "section": "planner", "title": "Gym", "occurrenceKey": "2026-09-22T08:00",
+                   "start": "2026-09-22T06:00:00Z", "end": "2026-09-22T07:00:00Z",
+                   "events": [{"kind": "started_late", "at": "2026-09-22T06:12:00Z", "data": {"minutes": 12}}]}],
+      "expected": [{"rule": "late", "target": "gym", "fireAtUtc": "2026-09-22T06:12:00Z", "body": "Started 12 min late",
+                    "occ": "evt:started_late:2026-09-22T06:12:00.000Z"}]
+    },
+    {
+      "name": "T7.5.20 event trigger at a time: blocked items reviewed at 18:00, other events ignored",
+      "now": "2026-09-21T09:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [{"id": "review", "targetType": "section", "section": "checklists", "spec": {"v": 1, "trigger": {"type": "event", "name": "status_change", "atTime": "18:00"}}}],
+      "targets": [{"type": "checklist_item", "id": "i1", "section": "checklists", "title": "Visa",
+                   "events": [{"kind": "status_change", "at": "2026-09-21T10:15:00Z", "data": {"to": "blocked"}},
+                              {"kind": "children_complete", "at": "2026-09-21T11:00:00Z"}]}],
+      "expected": [{"rule": "review", "target": "i1", "fireAtUtc": "2026-09-21T16:00:00Z"}]
+    },
+    {
       "name": "T7.5.08 status age: waiting and blocked wording",
       "now": "2026-09-21T09:00:00Z",
       "zone": "Europe/Paris",

@@ -5757,6 +5757,17 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String notifBodyStartedLate(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: 'Started $minutes min late',
+      one: 'Started 1 min late',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get notifBodyStartingNow => 'Starting now';
 
   @override
@@ -6198,6 +6209,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifEscalationFrom => 'From repeat';
 
   @override
+  String get notifEventChildOverdue => 'A sub-item is overdue';
+
+  @override
+  String get notifEventChildrenComplete => 'All its sub-items are done';
+
+  @override
+  String notifEventCustom(String name) {
+    return 'Event “$name”';
+  }
+
+  @override
+  String get notifEventListReset => 'The list resets';
+
+  @override
+  String get notifEventStartedLate => 'It starts late';
+
+  @override
+  String get notifEventStatusChange => 'Its status changes';
+
+  @override
   String get notifExactOff => 'Reminders may arrive up to an hour late';
 
   @override
@@ -6226,6 +6257,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifFieldDigestKind => 'Digest';
+
+  @override
+  String get notifFieldEvent => 'When this happens';
 
   @override
   String get notifFieldEveryMinutes => 'Every (minutes)';
@@ -7583,6 +7617,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifTriggerDigest => 'Digest';
+
+  @override
+  String get notifTriggerEvent => 'Event';
 
   @override
   String get notifTriggerInactivity => 'Inactivity';
