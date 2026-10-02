@@ -471,7 +471,7 @@ NotificationTarget? buildQuitTarget(
 
 /// Makes build habits notifiable (section `habits`): reminders at slots / on due days, streak at
 /// risk, quota behind, not done by… (README §2).
-class HabitsNotificationSource implements NotificationTargetSource {
+class HabitsNotificationSource implements NotificationTargetSource, TargetActivitySource {
   HabitsNotificationSource(this._ref);
 
   final Ref _ref;
@@ -482,6 +482,21 @@ class HabitsNotificationSource implements NotificationTargetSource {
   /// Writes to `habits`, `habit_logs`, `habit_pauses` and `habit_revisions` already trigger replans.
   @override
   Stream<void> get changes => const Stream<void>.empty();
+
+  /// Check-ins (done / progress logs) per habit (reminder effectiveness, T7.5.17).
+  @override
+  Future<Map<String, List<DateTime>>> activityBetween(DateTime fromUtc, DateTime toUtc) async {
+    final from = LocalDate.fromDateTime(fromUtc.subtract(const Duration(days: 1)));
+    final to = LocalDate.fromDateTime(toUtc.add(const Duration(days: 1)));
+    final logs = await _ref.read(habitLogsRepositoryProvider).watchInRange(from, to).first;
+    final out = <String, List<DateTime>>{};
+    for (final l in logs) {
+      if (l.kind != HabitLogKind.done && l.kind != HabitLogKind.progress) continue;
+      if (l.loggedAt.isBefore(fromUtc) || l.loggedAt.isAfter(toUtc)) continue;
+      (out['habit:${l.habitId}'] ??= []).add(l.loggedAt);
+    }
+    return out;
+  }
 
   @override
   Future<List<NotificationTarget>> targetsBetween(DateTime fromUtc, DateTime toUtc) async {

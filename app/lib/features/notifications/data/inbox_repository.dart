@@ -340,6 +340,14 @@ class InboxRepository {
     );
   }
 
+  /// Every live row fired in `[from, to)`, dismissed ones included (statistics, T7.5.17).
+  Future<List<InboxItem>> statsRows({required DateTime from, DateTime? to}) async {
+    final q = _db.select(_db.notifications)
+      ..where((n) => n.deletedAt.isNull() & n.userId.equals(_userId()) & n.fireAt.isBiggerOrEqualValue(from));
+    if (to != null) q.where((n) => n.fireAt.isSmallerThanValue(to));
+    return (await q.get()).map(mapRow).toList();
+  }
+
   /// Local cleanup: soft-deletes rows older than [retention] (the server does the same nightly).
   Future<int> purgeOlderThan(Duration retention) async {
     final cutoff = _clock.nowUtc().subtract(retention);

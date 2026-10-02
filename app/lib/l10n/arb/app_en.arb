@@ -2745,6 +2745,62 @@
       }
     }
   },
+  "@notifStatsActed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifStatsDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifStatsDeferred": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifStatsDelivered": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifStatsMedian": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifStatsNoisy": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifStatsOpened": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifStatsSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "@notifSumAbsolute": {
     "placeholders": {
       "dateTime": {
@@ -7038,6 +7094,25 @@
   "notifSoundNone": "None",
   "notifSoundPop": "Pop",
   "notifSoundSoft": "Soft",
+  "notifStatsActed": "{count} acted on",
+  "notifStatsByItem": "Items",
+  "notifStatsByRule": "Reminders",
+  "notifStatsBySection": "Sections",
+  "notifStatsDays": "{days} d",
+  "notifStatsDeferred": "{count, plural, =1{1 deferred by quiet hours} other{{count} deferred by quiet hours}}",
+  "notifStatsDelivered": "{count} delivered",
+  "notifStatsEffective": "followed within an hour",
+  "notifStatsEmpty": "No notifications in this period.",
+  "notifStatsEntry": "Statistics",
+  "notifStatsIgnored": "ignored",
+  "notifStatsLate": "late",
+  "notifStatsMedian": "acted after {minutes} min (median)",
+  "notifStatsMuteWeek": "Mute for a week",
+  "notifStatsNoisy": "You ignore {percent} % of this reminder — mute or change it?",
+  "notifStatsOpened": "{count} opened",
+  "notifStatsSince": "Since {date}",
+  "notifStatsTitle": "Notification statistics",
+  "notifStatsTurnOff": "Turn it off",
   "notifStatusBlocked": "blocked",
   "notifStatusCancelled": "cancelled",
   "notifStatusCompleted": "completed",

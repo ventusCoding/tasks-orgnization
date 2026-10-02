@@ -388,6 +388,13 @@ abstract interface class DigestFactsSource {
   Future<Map<String, int>> digestFacts();
 }
 
+/// Optional extra of a [NotificationTargetSource]: when the user actually did things (habit
+/// check-ins, task starts / completions) per target key (`habit:id`, `task:id`) — reminder
+/// effectiveness (T7.5.17) and smart suggestions (T7.5.19).
+abstract interface class TargetActivitySource {
+  Future<Map<String, List<DateTime>>> activityBetween(DateTime fromUtc, DateTime toUtc);
+}
+
 /// In-memory source (tests, demos, debug menu): set [targets] and call [notifyChanged].
 class InMemoryNotificationTargetSource implements NotificationTargetSource {
   InMemoryNotificationTargetSource({required this.section, List<NotificationTarget>? targets})

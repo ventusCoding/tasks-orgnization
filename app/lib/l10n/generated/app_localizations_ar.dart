@@ -7774,6 +7774,85 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifSoundSoft => 'ناعم';
 
   @override
+  String notifStatsActed(int count) {
+    return '$count نُفّذت';
+  }
+
+  @override
+  String get notifStatsByItem => 'العناصر';
+
+  @override
+  String get notifStatsByRule => 'التذكيرات';
+
+  @override
+  String get notifStatsBySection => 'الأقسام';
+
+  @override
+  String notifStatsDays(int days) {
+    return '$days ي';
+  }
+
+  @override
+  String notifStatsDeferred(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count أُجّلت بسبب ساعات الهدوء',
+      one: 'واحدة أُجّلت بسبب ساعات الهدوء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifStatsDelivered(int count) {
+    return '$count وصلت';
+  }
+
+  @override
+  String get notifStatsEffective => 'تبعها إنجاز خلال ساعة';
+
+  @override
+  String get notifStatsEmpty => 'لا إشعارات في هذه الفترة.';
+
+  @override
+  String get notifStatsEntry => 'الإحصاءات';
+
+  @override
+  String get notifStatsIgnored => 'متجاهلة';
+
+  @override
+  String get notifStatsLate => 'متأخرة';
+
+  @override
+  String notifStatsMedian(int minutes) {
+    return 'نُفّذت بعد $minutes د (الوسيط)';
+  }
+
+  @override
+  String get notifStatsMuteWeek => 'كتم لأسبوع';
+
+  @override
+  String notifStatsNoisy(int percent) {
+    return 'تتجاهل $percent٪ من هذا التذكير — هل تكتمه أو تغيّره؟';
+  }
+
+  @override
+  String notifStatsOpened(int count) {
+    return '$count فُتحت';
+  }
+
+  @override
+  String notifStatsSince(String date) {
+    return 'منذ $date';
+  }
+
+  @override
+  String get notifStatsTitle => 'إحصاءات الإشعارات';
+
+  @override
+  String get notifStatsTurnOff => 'إيقافه';
+
+  @override
   String get notifStatusBlocked => 'متوقفًا';
 
   @override

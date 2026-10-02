@@ -14,6 +14,7 @@ import 'package:everslot/features/notifications/presentation/delivery_fields.dar
 import 'package:everslot/features/notifications/presentation/diagnostics_screen.dart';
 import 'package:everslot/features/notifications/presentation/mute_menu.dart';
 import 'package:everslot/features/notifications/presentation/notification_labels.dart';
+import 'package:everslot/features/notifications/presentation/notification_stats_screen.dart';
 import 'package:everslot/features/notifications/presentation/permission_primers.dart';
 import 'package:everslot/features/notifications/presentation/profiles_screen.dart';
 import 'package:everslot/features/notifications/presentation/rule_sets_ui.dart';
@@ -350,6 +351,12 @@ class _SettingsList extends ConsumerWidget {
           leading: const Icon(Icons.rule),
           title: Text(l.notifDefaultsEntry),
           onTap: () => push(const NotificationDefaultsScreen()),
+        ),
+        ListTile(
+          key: const ValueKey('stats-screen'),
+          leading: const Icon(Icons.insights_outlined),
+          title: Text(l.notifStatsEntry),
+          onTap: () => push(const NotificationStatsScreen()),
         ),
         ListTile(
           key: const ValueKey('rule-sets-screen'),

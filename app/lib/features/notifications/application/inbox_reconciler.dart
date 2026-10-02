@@ -55,6 +55,7 @@ class InboxReconciler {
       'snz': ?c['snz'],
       'rep': ?c['rep'],
       'uid': ?asString(c['uid']),
+      'adj': ?c['adj'],
     };
     return InboxDelivery(
       dedupeKey: e.dedupeKey,

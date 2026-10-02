@@ -7229,6 +7229,85 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifSoundSoft => 'Soft';
 
   @override
+  String notifStatsActed(int count) {
+    return '$count acted on';
+  }
+
+  @override
+  String get notifStatsByItem => 'Items';
+
+  @override
+  String get notifStatsByRule => 'Reminders';
+
+  @override
+  String get notifStatsBySection => 'Sections';
+
+  @override
+  String notifStatsDays(int days) {
+    return '$days d';
+  }
+
+  @override
+  String notifStatsDeferred(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count deferred by quiet hours',
+      one: '1 deferred by quiet hours',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifStatsDelivered(int count) {
+    return '$count delivered';
+  }
+
+  @override
+  String get notifStatsEffective => 'followed within an hour';
+
+  @override
+  String get notifStatsEmpty => 'No notifications in this period.';
+
+  @override
+  String get notifStatsEntry => 'Statistics';
+
+  @override
+  String get notifStatsIgnored => 'ignored';
+
+  @override
+  String get notifStatsLate => 'late';
+
+  @override
+  String notifStatsMedian(int minutes) {
+    return 'acted after $minutes min (median)';
+  }
+
+  @override
+  String get notifStatsMuteWeek => 'Mute for a week';
+
+  @override
+  String notifStatsNoisy(int percent) {
+    return 'You ignore $percent % of this reminder — mute or change it?';
+  }
+
+  @override
+  String notifStatsOpened(int count) {
+    return '$count opened';
+  }
+
+  @override
+  String notifStatsSince(String date) {
+    return 'Since $date';
+  }
+
+  @override
+  String get notifStatsTitle => 'Notification statistics';
+
+  @override
+  String get notifStatsTurnOff => 'Turn it off';
+
+  @override
   String get notifStatusBlocked => 'blocked';
 
   @override

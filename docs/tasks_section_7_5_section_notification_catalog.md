@@ -62,7 +62,7 @@ live timer surfaces and widget refreshes ([8.2]); hide-content privacy option ([
 - [x] T7.5.14 — Quit: pledge, evening review, craving support & encouragement
 - [x] T7.5.15 — Notifications settings page & global controls
 - [x] T7.5.16 — Mute until (rule, item, list, habit, section)
-- [ ] T7.5.17 — Notification statistics
+- [x] T7.5.17 — Notification statistics
 - [x] T7.5.18 — Digests: agenda, plan tomorrow, overdue, weekly & monthly
 - [ ] T7.5.19 — Smart reminder suggestions
 - [ ] T7.5.20 — Status-change & custom event triggers
@@ -253,6 +253,7 @@ exposed to [6.5]; noisy-rule detection ("You ignore 90 % of this reminder — mu
 **Data model:** uses inbox fields `opened_at`, `delivered_via`, `dismissed_at`, `late` ([7.1] T7.1.01);
 a local daily rollup (`stats_cache`) keeps aggregates beyond the 90-day inbox retention.
 **Tests:** metric unit tests on fixture inbox data.
+**Notes:** `NotificationStats` (domain) computes per rule / section / item: delivered by channel (local · push · inbox-only), opened, acted (by action), snoozed, dismissed, ignored (untouched after 1 h), late, quiet-hours deferrals (the plan's adjustments now travel in the inbox payload as `adj`), median time to act, effectiveness (habit check-in / task start or completion within 60 min, from sections implementing `TargetActivitySource`) and noisy rules (≥ 10 deliveries, ≥ 90 % ignored). The rollup lives in `local_kv` (`notifications.statsRollup`, daily per-rule/per-section counters for days older than 80 days, kept 400 days) instead of a new `stats_cache` table — no schema change. Settings › Notifications › Statistics shows it with *Mute for a week* / *Turn it off* on noisy rules; `NotificationStatsService.effectivenessFor(targetKey)` is the hook for [6.5].
 
 ### T7.5.18 — Digests: agenda, plan tomorrow, overdue, weekly & monthly
 **Priority:** P1 · **Size:** M · **Depends on:** T7.5.15, [8.1] (Today data), [6.7] (reports)

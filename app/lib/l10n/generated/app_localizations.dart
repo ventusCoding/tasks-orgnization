@@ -12525,6 +12525,120 @@ abstract class AppLocalizations {
   /// **'Soft'**
   String get notifSoundSoft;
 
+  /// No description provided for @notifStatsActed.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} acted on'**
+  String notifStatsActed(int count);
+
+  /// No description provided for @notifStatsByItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Items'**
+  String get notifStatsByItem;
+
+  /// No description provided for @notifStatsByRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get notifStatsByRule;
+
+  /// No description provided for @notifStatsBySection.
+  ///
+  /// In en, this message translates to:
+  /// **'Sections'**
+  String get notifStatsBySection;
+
+  /// No description provided for @notifStatsDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} d'**
+  String notifStatsDays(int days);
+
+  /// No description provided for @notifStatsDeferred.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 deferred by quiet hours} other{{count} deferred by quiet hours}}'**
+  String notifStatsDeferred(int count);
+
+  /// No description provided for @notifStatsDelivered.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} delivered'**
+  String notifStatsDelivered(int count);
+
+  /// No description provided for @notifStatsEffective.
+  ///
+  /// In en, this message translates to:
+  /// **'followed within an hour'**
+  String get notifStatsEffective;
+
+  /// No description provided for @notifStatsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications in this period.'**
+  String get notifStatsEmpty;
+
+  /// No description provided for @notifStatsEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get notifStatsEntry;
+
+  /// No description provided for @notifStatsIgnored.
+  ///
+  /// In en, this message translates to:
+  /// **'ignored'**
+  String get notifStatsIgnored;
+
+  /// No description provided for @notifStatsLate.
+  ///
+  /// In en, this message translates to:
+  /// **'late'**
+  String get notifStatsLate;
+
+  /// No description provided for @notifStatsMedian.
+  ///
+  /// In en, this message translates to:
+  /// **'acted after {minutes} min (median)'**
+  String notifStatsMedian(int minutes);
+
+  /// No description provided for @notifStatsMuteWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute for a week'**
+  String get notifStatsMuteWeek;
+
+  /// No description provided for @notifStatsNoisy.
+  ///
+  /// In en, this message translates to:
+  /// **'You ignore {percent} % of this reminder — mute or change it?'**
+  String notifStatsNoisy(int percent);
+
+  /// No description provided for @notifStatsOpened.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} opened'**
+  String notifStatsOpened(int count);
+
+  /// No description provided for @notifStatsSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Since {date}'**
+  String notifStatsSince(String date);
+
+  /// No description provided for @notifStatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification statistics'**
+  String get notifStatsTitle;
+
+  /// No description provided for @notifStatsTurnOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn it off'**
+  String get notifStatsTurnOff;
+
   /// No description provided for @notifStatusBlocked.
   ///
   /// In en, this message translates to:

@@ -15,7 +15,7 @@ import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
 /// views (overrides, moves, cancellations, derived statuses). Registered statically in
 /// `notification_contributions.dart`, so it also runs in the background isolate — it only reads
 /// database-backed providers, lazily.
-class PlannerNotificationSource implements NotificationTargetSource, DigestFactsSource {
+class PlannerNotificationSource implements NotificationTargetSource, DigestFactsSource, TargetActivitySource {
   PlannerNotificationSource(this._ref);
 
   final Ref _ref;
@@ -27,6 +27,27 @@ class PlannerNotificationSource implements NotificationTargetSource, DigestFacts
   /// depend on nothing else.
   @override
   Stream<void> get changes => const Stream<void>.empty();
+
+  /// Actual starts and completions per task (reminder effectiveness, T7.5.17).
+  @override
+  Future<Map<String, List<DateTime>>> activityBetween(DateTime fromUtc, DateTime toUtc) async {
+    final zones = _ref.read(zoneResolverProvider);
+    final zone = _ref.read(deviceZoneProvider);
+    final data = await _ref
+        .read(plannerQueriesProvider)
+        .loadRange(
+          zones.toLocal(fromUtc, zone).date.minusDays(1).atStartOfDay,
+          zones.toLocal(toUtc, zone).date.plusDays(2).atStartOfDay,
+        );
+    final out = <String, List<DateTime>>{};
+    for (final r in data.records) {
+      for (final t in [r.actualStartAt, r.completedAt]) {
+        if (t == null || t.isBefore(fromUtc) || t.isAfter(toUtc)) continue;
+        (out['task:${r.taskId}'] ??= []).add(t);
+      }
+    }
+    return out;
+  }
 
   /// Unscheduled (backlog) tasks for *Plan tomorrow*.
   @override

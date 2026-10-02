@@ -1420,5 +1420,80 @@
   },
   "notifInboxNoneThisWeek": "Nothing fired this week.",
   "notifInboxDeletedRule": "Deleted reminder",
-  "notifInboxOneItem": "One item"
+  "notifInboxOneItem": "One item",
+  "notifStatsTitle": "Notification statistics",
+  "notifStatsEntry": "Statistics",
+  "notifStatsDays": "{days} d",
+  "@notifStatsDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "notifStatsByRule": "Reminders",
+  "notifStatsBySection": "Sections",
+  "notifStatsByItem": "Items",
+  "notifStatsEmpty": "No notifications in this period.",
+  "notifStatsNoisy": "You ignore {percent} % of this reminder — mute or change it?",
+  "@notifStatsNoisy": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "notifStatsMuteWeek": "Mute for a week",
+  "notifStatsTurnOff": "Turn it off",
+  "notifStatsSince": "Since {date}",
+  "@notifStatsSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notifStatsDelivered": "{count} delivered",
+  "@notifStatsDelivered": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifStatsOpened": "{count} opened",
+  "@notifStatsOpened": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifStatsActed": "{count} acted on",
+  "@notifStatsActed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifStatsIgnored": "ignored",
+  "notifStatsLate": "late",
+  "notifStatsDeferred": "{count, plural, =1{1 deferred by quiet hours} other{{count} deferred by quiet hours}}",
+  "@notifStatsDeferred": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifStatsMedian": "acted after {minutes} min (median)",
+  "@notifStatsMedian": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "notifStatsEffective": "followed within an hour"
 }

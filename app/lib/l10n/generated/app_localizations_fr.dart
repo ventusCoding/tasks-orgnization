@@ -7411,6 +7411,85 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifSoundSoft => 'Doux';
 
   @override
+  String notifStatsActed(int count) {
+    return '$count traitées';
+  }
+
+  @override
+  String get notifStatsByItem => 'Éléments';
+
+  @override
+  String get notifStatsByRule => 'Rappels';
+
+  @override
+  String get notifStatsBySection => 'Sections';
+
+  @override
+  String notifStatsDays(int days) {
+    return '$days j';
+  }
+
+  @override
+  String notifStatsDeferred(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reportées par les heures calmes',
+      one: '1 reportée par les heures calmes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifStatsDelivered(int count) {
+    return '$count reçues';
+  }
+
+  @override
+  String get notifStatsEffective => 'suivies dans l’heure';
+
+  @override
+  String get notifStatsEmpty => 'Aucune notification sur cette période.';
+
+  @override
+  String get notifStatsEntry => 'Statistiques';
+
+  @override
+  String get notifStatsIgnored => 'ignorées';
+
+  @override
+  String get notifStatsLate => 'en retard';
+
+  @override
+  String notifStatsMedian(int minutes) {
+    return 'traitée après $minutes min (médiane)';
+  }
+
+  @override
+  String get notifStatsMuteWeek => 'Couper une semaine';
+
+  @override
+  String notifStatsNoisy(int percent) {
+    return 'Vous ignorez $percent % de ce rappel — le couper ou le modifier ?';
+  }
+
+  @override
+  String notifStatsOpened(int count) {
+    return '$count ouvertes';
+  }
+
+  @override
+  String notifStatsSince(String date) {
+    return 'Depuis le $date';
+  }
+
+  @override
+  String get notifStatsTitle => 'Statistiques des notifications';
+
+  @override
+  String get notifStatsTurnOff => 'Le désactiver';
+
+  @override
   String get notifStatusBlocked => 'bloqué';
 
   @override

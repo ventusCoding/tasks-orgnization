@@ -333,6 +333,7 @@ class DesiredItem {
       'uid': p.userId,
       'imp': p.importance.wire,
       if (p.alarmStyle) 'alarm': true,
+      if (p.adjustments.isNotEmpty) 'adj': [for (final a in p.adjustments) a.name],
       if (grouped) 'grp': true,
     };
   }
