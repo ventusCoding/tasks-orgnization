@@ -105,6 +105,12 @@ class InboxRepository {
     if (filter.to != null) {
       q.where((n) => n.fireAt.isSmallerThanValue(filter.to!));
     }
+    if (filter.ruleId != null) {
+      q.where((n) => n.ruleId.equals(filter.ruleId!));
+    }
+    if (filter.sourceType != null && filter.sourceId != null) {
+      q.where((n) => n.sourceType.equals(filter.sourceType!) & n.sourceId.equals(filter.sourceId!));
+    }
     final query = filter.query?.trim();
     if (query != null && query.isNotEmpty) {
       q.where((n) => n.title.like('%$query%') | n.body.like('%$query%'));

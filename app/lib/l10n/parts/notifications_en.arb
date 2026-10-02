@@ -1377,5 +1377,48 @@
   "notifAlarmQrScan": "Scan the code to use",
   "notifAlarmQrSaved": "Code saved — scan again to change it",
   "notifAlarmMaxSnoozes": "Snoozes allowed",
-  "notifAlarmRamp": "Gradually louder"
+  "notifAlarmRamp": "Gradually louder",
+  "notifInboxSearch": "Search notifications",
+  "notifInboxSearchHint": "Search titles and text",
+  "notifInboxSelected": "{count} selected",
+  "@notifInboxSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifInboxMarkRead": "Mark as read",
+  "notifInboxDismiss": "Dismiss",
+  "notifInboxMuteRules": "Mute these reminders",
+  "notifInboxDismissedMany": "{count, plural, =1{1 notification dismissed} other{{count} notifications dismissed}}",
+  "@notifInboxDismissedMany": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifInboxRulesMuted": "{count, plural, =1{1 reminder rule muted} other{{count} reminder rules muted}}",
+  "@notifInboxRulesMuted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifInboxNoisiest": "Busiest this week",
+  "notifInboxTopRules": "Rules that fired most",
+  "notifInboxTopItems": "Items with the most notifications",
+  "notifInboxTimes": "{count, plural, =1{1 time} other{{count} times}}",
+  "@notifInboxTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifInboxNoneThisWeek": "Nothing fired this week.",
+  "notifInboxDeletedRule": "Deleted reminder",
+  "notifInboxOneItem": "One item"
 }

@@ -108,7 +108,17 @@ class InboxItem {
 /// Inbox list filter (T7.3.01).
 @immutable
 class InboxFilter {
-  const InboxFilter({this.unreadOnly = false, this.section, this.category, this.from, this.to, this.query});
+  const InboxFilter({
+    this.unreadOnly = false,
+    this.section,
+    this.category,
+    this.from,
+    this.to,
+    this.query,
+    this.ruleId,
+    this.sourceType,
+    this.sourceId,
+  });
 
   static const all = InboxFilter();
 
@@ -119,6 +129,11 @@ class InboxFilter {
   final DateTime? to;
   final String? query;
 
+  /// Only the rows of one rule / one item (T7.3.11).
+  final String? ruleId;
+  final String? sourceType;
+  final String? sourceId;
+
   InboxFilter copyWith({
     bool? unreadOnly,
     NotificationSection? section,
@@ -126,6 +141,10 @@ class InboxFilter {
     InboxCategory? category,
     bool clearCategory = false,
     String? query,
+    String? ruleId,
+    bool clearRule = false,
+    (String, String)? source,
+    bool clearSource = false,
   }) => InboxFilter(
     unreadOnly: unreadOnly ?? this.unreadOnly,
     section: clearSection ? null : (section ?? this.section),
@@ -133,6 +152,9 @@ class InboxFilter {
     from: from,
     to: to,
     query: query ?? this.query,
+    ruleId: clearRule ? null : (ruleId ?? this.ruleId),
+    sourceType: clearSource ? null : (source?.$1 ?? sourceType),
+    sourceId: clearSource ? null : (source?.$2 ?? sourceId),
   );
 
   @override
@@ -143,8 +165,11 @@ class InboxFilter {
       other.category == category &&
       other.from == from &&
       other.to == to &&
-      other.query == query;
+      other.query == query &&
+      other.ruleId == ruleId &&
+      other.sourceType == sourceType &&
+      other.sourceId == sourceId;
 
   @override
-  int get hashCode => Object.hash(unreadOnly, section, category, from, to, query);
+  int get hashCode => Object.hash(unreadOnly, section, category, from, to, query, ruleId, sourceType, sourceId);
 }

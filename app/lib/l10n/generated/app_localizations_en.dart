@@ -6312,10 +6312,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifInboxChangeSnooze => 'Change snooze';
 
   @override
+  String get notifInboxDeletedRule => 'Deleted reminder';
+
+  @override
+  String get notifInboxDismiss => 'Dismiss';
+
+  @override
   String get notifInboxDismissSelected => 'Dismiss';
 
   @override
   String get notifInboxDismissed => 'Notification dismissed';
+
+  @override
+  String notifInboxDismissedMany(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count notifications dismissed',
+      one: '1 notification dismissed',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get notifInboxEmpty => 'No notifications yet';
@@ -6342,6 +6359,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifInboxMarkAllRead => 'Mark all read';
 
   @override
+  String get notifInboxMarkRead => 'Mark as read';
+
+  @override
   String get notifInboxMarkedRead => 'Marked as read';
 
   @override
@@ -6351,20 +6371,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifInboxMuteRule => 'Mute this reminder';
 
   @override
+  String get notifInboxMuteRules => 'Mute these reminders';
+
+  @override
   String notifInboxNagCount(int count) {
     return '×$count';
   }
 
   @override
+  String get notifInboxNoisiest => 'Busiest this week';
+
+  @override
+  String get notifInboxNoneThisWeek => 'Nothing fired this week.';
+
+  @override
+  String get notifInboxOneItem => 'One item';
+
+  @override
   String get notifInboxRemindAgain => 'Remind me again…';
+
+  @override
+  String notifInboxRulesMuted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reminder rules muted',
+      one: '1 reminder rule muted',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get notifInboxSearch => 'Search notifications';
 
   @override
+  String get notifInboxSearchHint => 'Search titles and text';
+
+  @override
   String notifInboxSelected(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count selected', one: '1 selected');
-    return '$_temp0';
+    return '$count selected';
   }
 
   @override
@@ -6376,6 +6421,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String notifInboxTimes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count times', one: '1 time');
+    return '$_temp0';
+  }
+
+  @override
   String get notifInboxTitle => 'Inbox';
 
   @override
@@ -6383,6 +6434,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifInboxToggle => 'Show in inbox';
+
+  @override
+  String get notifInboxTopItems => 'Items with the most notifications';
+
+  @override
+  String get notifInboxTopRules => 'Rules that fired most';
 
   @override
   String notifInboxUnreadSemantics(String title) {

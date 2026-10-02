@@ -590,5 +590,20 @@
   "notifAlarmQrScan": "Scanner le code à utiliser",
   "notifAlarmQrSaved": "Code enregistré — scannez à nouveau pour le changer",
   "notifAlarmMaxSnoozes": "Répétitions autorisées",
-  "notifAlarmRamp": "De plus en plus fort"
+  "notifAlarmRamp": "De plus en plus fort",
+  "notifInboxSearch": "Rechercher dans les notifications",
+  "notifInboxSearchHint": "Rechercher dans les titres et le texte",
+  "notifInboxSelected": "{count} sélectionnée(s)",
+  "notifInboxMarkRead": "Marquer comme lu",
+  "notifInboxDismiss": "Ignorer",
+  "notifInboxMuteRules": "Couper ces rappels",
+  "notifInboxDismissedMany": "{count, plural, =1{1 notification ignorée} other{{count} notifications ignorées}}",
+  "notifInboxRulesMuted": "{count, plural, =1{1 règle de rappel coupée} other{{count} règles de rappel coupées}}",
+  "notifInboxNoisiest": "Les plus actifs cette semaine",
+  "notifInboxTopRules": "Règles les plus déclenchées",
+  "notifInboxTopItems": "Éléments les plus notifiés",
+  "notifInboxTimes": "{count, plural, =1{1 fois} other{{count} fois}}",
+  "notifInboxNoneThisWeek": "Rien cette semaine.",
+  "notifInboxDeletedRule": "Rappel supprimé",
+  "notifInboxOneItem": "Un élément"
 }

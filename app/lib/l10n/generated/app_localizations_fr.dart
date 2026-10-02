@@ -6467,10 +6467,27 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifInboxChangeSnooze => 'Modifier le report';
 
   @override
+  String get notifInboxDeletedRule => 'Rappel supprimé';
+
+  @override
+  String get notifInboxDismiss => 'Ignorer';
+
+  @override
   String get notifInboxDismissSelected => 'Ignorer';
 
   @override
   String get notifInboxDismissed => 'Notification ignorée';
+
+  @override
+  String notifInboxDismissedMany(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count notifications ignorées',
+      one: '1 notification ignorée',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get notifInboxEmpty => 'Aucune notification';
@@ -6497,6 +6514,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifInboxMarkAllRead => 'Tout marquer comme lu';
 
   @override
+  String get notifInboxMarkRead => 'Marquer comme lu';
+
+  @override
   String get notifInboxMarkedRead => 'Marqué comme lu';
 
   @override
@@ -6506,26 +6526,45 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifInboxMuteRule => 'Couper ce rappel';
 
   @override
+  String get notifInboxMuteRules => 'Couper ces rappels';
+
+  @override
   String notifInboxNagCount(int count) {
     return '×$count';
   }
 
   @override
+  String get notifInboxNoisiest => 'Les plus actifs cette semaine';
+
+  @override
+  String get notifInboxNoneThisWeek => 'Rien cette semaine.';
+
+  @override
+  String get notifInboxOneItem => 'Un élément';
+
+  @override
   String get notifInboxRemindAgain => 'Me le rappeler…';
 
   @override
-  String get notifInboxSearch => 'Rechercher';
-
-  @override
-  String notifInboxSelected(int count) {
+  String notifInboxRulesMuted(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count sélectionnés',
-      one: '$count sélectionné',
-      zero: '$count sélectionné',
+      other: '$count règles de rappel coupées',
+      one: '1 règle de rappel coupée',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get notifInboxSearch => 'Rechercher dans les notifications';
+
+  @override
+  String get notifInboxSearchHint => 'Rechercher dans les titres et le texte';
+
+  @override
+  String notifInboxSelected(int count) {
+    return '$count sélectionnée(s)';
   }
 
   @override
@@ -6537,6 +6576,12 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String notifInboxTimes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count fois', one: '1 fois');
+    return '$_temp0';
+  }
+
+  @override
   String get notifInboxTitle => 'Boîte de réception';
 
   @override
@@ -6544,6 +6589,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get notifInboxToggle => 'Afficher dans la boîte';
+
+  @override
+  String get notifInboxTopItems => 'Éléments les plus notifiés';
+
+  @override
+  String get notifInboxTopRules => 'Règles les plus déclenchées';
 
   @override
   String notifInboxUnreadSemantics(String title) {

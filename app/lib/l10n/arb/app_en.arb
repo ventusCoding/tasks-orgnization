@@ -2466,7 +2466,21 @@
       }
     }
   },
+  "@notifInboxDismissedMany": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@notifInboxNagCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifInboxRulesMuted": {
     "placeholders": {
       "count": {
         "type": "int"
@@ -2484,6 +2498,13 @@
     "placeholders": {
       "time": {
         "type": "String"
+      }
+    }
+  },
+  "@notifInboxTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
       }
     }
   },
@@ -6750,8 +6771,11 @@
   "notifInboxAlreadyDone": "Already done",
   "notifInboxCaughtUp": "All caught up",
   "notifInboxChangeSnooze": "Change snooze",
+  "notifInboxDeletedRule": "Deleted reminder",
+  "notifInboxDismiss": "Dismiss",
   "notifInboxDismissSelected": "Dismiss",
   "notifInboxDismissed": "Notification dismissed",
+  "notifInboxDismissedMany": "{count, plural, =1{1 notification dismissed} other{{count} notifications dismissed}}",
   "notifInboxEmpty": "No notifications yet",
   "notifInboxEmptyBody": "Reminders you receive appear here.",
   "notifInboxFilterAll": "All",
@@ -6760,18 +6784,28 @@
   "notifInboxHistoryEmpty": "No reminders yet",
   "notifInboxLate": "Late",
   "notifInboxMarkAllRead": "Mark all read",
+  "notifInboxMarkRead": "Mark as read",
   "notifInboxMarkedRead": "Marked as read",
   "notifInboxMarkedUnread": "Marked as unread",
   "notifInboxMuteRule": "Mute this reminder",
+  "notifInboxMuteRules": "Mute these reminders",
   "notifInboxNagCount": "×{count}",
+  "notifInboxNoisiest": "Busiest this week",
+  "notifInboxNoneThisWeek": "Nothing fired this week.",
+  "notifInboxOneItem": "One item",
   "notifInboxRemindAgain": "Remind me again…",
+  "notifInboxRulesMuted": "{count, plural, =1{1 reminder rule muted} other{{count} reminder rules muted}}",
   "notifInboxSearch": "Search notifications",
-  "notifInboxSelected": "{count, plural, =1{1 selected} other{{count} selected}}",
+  "notifInboxSearchHint": "Search titles and text",
+  "notifInboxSelected": "{count} selected",
   "notifInboxSnoozed": "Snoozed",
   "notifInboxSnoozedUntil": "Snoozed until {time}",
+  "notifInboxTimes": "{count, plural, =1{1 time} other{{count} times}}",
   "notifInboxTitle": "Inbox",
   "notifInboxToday": "Today",
   "notifInboxToggle": "Show in inbox",
+  "notifInboxTopItems": "Items with the most notifications",
+  "notifInboxTopRules": "Rules that fired most",
   "notifInboxUnreadSemantics": "Unread reminder, {title}",
   "notifInboxWakeNow": "Wake now",
   "notifInboxYesterday": "Yesterday",

@@ -590,5 +590,20 @@
   "notifAlarmQrScan": "امسح الرمز المراد استخدامه",
   "notifAlarmQrSaved": "حُفظ الرمز — امسح مجددًا لتغييره",
   "notifAlarmMaxSnoozes": "الغفوات المسموح بها",
-  "notifAlarmRamp": "يرتفع الصوت تدريجيًا"
+  "notifAlarmRamp": "يرتفع الصوت تدريجيًا",
+  "notifInboxSearch": "البحث في الإشعارات",
+  "notifInboxSearchHint": "ابحث في العناوين والنص",
+  "notifInboxSelected": "تم تحديد {count}",
+  "notifInboxMarkRead": "تعليم كمقروء",
+  "notifInboxDismiss": "تجاهل",
+  "notifInboxMuteRules": "كتم هذه التذكيرات",
+  "notifInboxDismissedMany": "{count, plural, =1{تم تجاهل إشعار واحد} other{تم تجاهل {count} إشعارات}}",
+  "notifInboxRulesMuted": "{count, plural, =1{تم كتم قاعدة تذكير واحدة} other{تم كتم {count} قواعد تذكير}}",
+  "notifInboxNoisiest": "الأكثر نشاطًا هذا الأسبوع",
+  "notifInboxTopRules": "القواعد الأكثر تفعيلًا",
+  "notifInboxTopItems": "العناصر الأكثر إشعارًا",
+  "notifInboxTimes": "{count, plural, =1{مرة واحدة} other{{count} مرات}}",
+  "notifInboxNoneThisWeek": "لا شيء هذا الأسبوع.",
+  "notifInboxDeletedRule": "تذكير محذوف",
+  "notifInboxOneItem": "عنصر واحد"
 }

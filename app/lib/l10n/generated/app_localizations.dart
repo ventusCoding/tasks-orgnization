@@ -10923,6 +10923,18 @@ abstract class AppLocalizations {
   /// **'Change snooze'**
   String get notifInboxChangeSnooze;
 
+  /// No description provided for @notifInboxDeletedRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted reminder'**
+  String get notifInboxDeletedRule;
+
+  /// No description provided for @notifInboxDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get notifInboxDismiss;
+
   /// No description provided for @notifInboxDismissSelected.
   ///
   /// In en, this message translates to:
@@ -10934,6 +10946,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notification dismissed'**
   String get notifInboxDismissed;
+
+  /// No description provided for @notifInboxDismissedMany.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 notification dismissed} other{{count} notifications dismissed}}'**
+  String notifInboxDismissedMany(int count);
 
   /// No description provided for @notifInboxEmpty.
   ///
@@ -10983,6 +11001,12 @@ abstract class AppLocalizations {
   /// **'Mark all read'**
   String get notifInboxMarkAllRead;
 
+  /// No description provided for @notifInboxMarkRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as read'**
+  String get notifInboxMarkRead;
+
   /// No description provided for @notifInboxMarkedRead.
   ///
   /// In en, this message translates to:
@@ -11001,11 +11025,35 @@ abstract class AppLocalizations {
   /// **'Mute this reminder'**
   String get notifInboxMuteRule;
 
+  /// No description provided for @notifInboxMuteRules.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute these reminders'**
+  String get notifInboxMuteRules;
+
   /// No description provided for @notifInboxNagCount.
   ///
   /// In en, this message translates to:
   /// **'×{count}'**
   String notifInboxNagCount(int count);
+
+  /// No description provided for @notifInboxNoisiest.
+  ///
+  /// In en, this message translates to:
+  /// **'Busiest this week'**
+  String get notifInboxNoisiest;
+
+  /// No description provided for @notifInboxNoneThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing fired this week.'**
+  String get notifInboxNoneThisWeek;
+
+  /// No description provided for @notifInboxOneItem.
+  ///
+  /// In en, this message translates to:
+  /// **'One item'**
+  String get notifInboxOneItem;
 
   /// No description provided for @notifInboxRemindAgain.
   ///
@@ -11013,16 +11061,28 @@ abstract class AppLocalizations {
   /// **'Remind me again…'**
   String get notifInboxRemindAgain;
 
+  /// No description provided for @notifInboxRulesMuted.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 reminder rule muted} other{{count} reminder rules muted}}'**
+  String notifInboxRulesMuted(int count);
+
   /// No description provided for @notifInboxSearch.
   ///
   /// In en, this message translates to:
   /// **'Search notifications'**
   String get notifInboxSearch;
 
+  /// No description provided for @notifInboxSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search titles and text'**
+  String get notifInboxSearchHint;
+
   /// No description provided for @notifInboxSelected.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{1 selected} other{{count} selected}}'**
+  /// **'{count} selected'**
   String notifInboxSelected(int count);
 
   /// No description provided for @notifInboxSnoozed.
@@ -11036,6 +11096,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Snoozed until {time}'**
   String notifInboxSnoozedUntil(String time);
+
+  /// No description provided for @notifInboxTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 time} other{{count} times}}'**
+  String notifInboxTimes(int count);
 
   /// No description provided for @notifInboxTitle.
   ///
@@ -11054,6 +11120,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show in inbox'**
   String get notifInboxToggle;
+
+  /// No description provided for @notifInboxTopItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Items with the most notifications'**
+  String get notifInboxTopItems;
+
+  /// No description provided for @notifInboxTopRules.
+  ///
+  /// In en, this message translates to:
+  /// **'Rules that fired most'**
+  String get notifInboxTopRules;
 
   /// No description provided for @notifInboxUnreadSemantics.
   ///

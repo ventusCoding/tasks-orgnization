@@ -41,7 +41,7 @@ ticker ([7.2]); server inbox writes by the dispatcher ([7.4] T7.4.07); notificat
 - [x] T7.3.08 — Snoozed section & "remind me again"
 - [x] T7.3.09 — Per-item notification history
 - [x] T7.3.10 — Retention & cleanup
-- [ ] T7.3.11 — Inbox search, rule filters & bulk actions
+- [x] T7.3.11 — Inbox search, rule filters & bulk actions
 
 ## Tasks
 
@@ -168,3 +168,4 @@ computed before deletion ([7.5] T7.5.17).
 **Description:** Search inbox text, filter by rule/profile/target, multi-select to mark read, dismiss or
 *Mute this rule* in bulk; "Show only rules that fired most this week" helps tame noisy configurations.
 **Tests:** widget tests for multi-select actions.
+**Notes:** Search (title/body, debounced) from the app bar; `InboxFilter` gained `ruleId` and `sourceType/sourceId`; *Busiest this week* lists the rules and items that fired most in the last 7 days — tap one to filter by it (removable chip). Long press starts multi-select: mark read, dismiss (undo) or mute the selected rows' rules for 1 h … forever. Profile filtering is covered through the rule (each rule has one profile).

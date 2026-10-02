@@ -6818,10 +6818,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifInboxChangeSnooze => 'تغيير التأجيل';
 
   @override
+  String get notifInboxDeletedRule => 'تذكير محذوف';
+
+  @override
+  String get notifInboxDismiss => 'تجاهل';
+
+  @override
   String get notifInboxDismissSelected => 'تجاهل';
 
   @override
   String get notifInboxDismissed => 'تم تجاهل الإشعار';
+
+  @override
+  String notifInboxDismissedMany(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم تجاهل $count إشعارات',
+      one: 'تم تجاهل إشعار واحد',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get notifInboxEmpty => 'لا توجد إشعارات بعد';
@@ -6848,6 +6865,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifInboxMarkAllRead => 'تعليم الكل كمقروء';
 
   @override
+  String get notifInboxMarkRead => 'تعليم كمقروء';
+
+  @override
   String get notifInboxMarkedRead => 'تم التعليم كمقروء';
 
   @override
@@ -6857,29 +6877,45 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifInboxMuteRule => 'اكتم هذا التذكير';
 
   @override
+  String get notifInboxMuteRules => 'كتم هذه التذكيرات';
+
+  @override
   String notifInboxNagCount(int count) {
     return '×$count';
   }
 
   @override
+  String get notifInboxNoisiest => 'الأكثر نشاطًا هذا الأسبوع';
+
+  @override
+  String get notifInboxNoneThisWeek => 'لا شيء هذا الأسبوع.';
+
+  @override
+  String get notifInboxOneItem => 'عنصر واحد';
+
+  @override
   String get notifInboxRemindAgain => 'ذكّرني مجددًا…';
+
+  @override
+  String notifInboxRulesMuted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم كتم $count قواعد تذكير',
+      one: 'تم كتم قاعدة تذكير واحدة',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get notifInboxSearch => 'البحث في الإشعارات';
 
   @override
+  String get notifInboxSearchHint => 'ابحث في العناوين والنص';
+
+  @override
   String notifInboxSelected(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count عنصر محدد',
-      many: '$count عنصرًا محددًا',
-      few: '$count عناصر محددة',
-      two: 'عنصران محددان',
-      one: 'عنصر محدد',
-      zero: 'لا شيء محدد',
-    );
-    return '$_temp0';
+    return 'تم تحديد $count';
   }
 
   @override
@@ -6891,6 +6927,12 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String notifInboxTimes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count مرات', one: 'مرة واحدة');
+    return '$_temp0';
+  }
+
+  @override
   String get notifInboxTitle => 'صندوق الوارد';
 
   @override
@@ -6898,6 +6940,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifInboxToggle => 'إظهار في صندوق الوارد';
+
+  @override
+  String get notifInboxTopItems => 'العناصر الأكثر إشعارًا';
+
+  @override
+  String get notifInboxTopRules => 'القواعد الأكثر تفعيلًا';
 
   @override
   String notifInboxUnreadSemantics(String title) {

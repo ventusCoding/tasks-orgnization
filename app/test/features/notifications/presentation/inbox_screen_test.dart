@@ -42,6 +42,7 @@ void main() {
     String sourceType = 'task',
     String sourceId = 'gym',
     bool late = false,
+    String? ruleId,
   }) => tester.runAsync(
     () => h
         .read(inboxRepositoryProvider)
@@ -55,6 +56,7 @@ void main() {
             section: section,
             sourceType: sourceType,
             sourceId: sourceId,
+            ruleId: ruleId,
             payload: {'v': 1, 'dk': dk, ...payload},
             late: late,
           ),
@@ -258,6 +260,86 @@ void main() {
     // A snoozed row doesn't offer it again.
     expect(find.text('Remind me again…'), findsNothing);
     await drainReplan(tester);
+  });
+
+  group('search, rule filters and bulk actions (T7.3.11)', () {
+    Future<void> seed(WidgetTester tester) async {
+      await deliver(tester, 'a', title: 'Gym', ruleId: 'r-start');
+      await deliver(tester, 'b', title: 'Water', ruleId: 'r-hourly', sourceId: 'water');
+      await deliver(
+        tester,
+        'c',
+        title: 'Water again',
+        ruleId: 'r-hourly',
+        sourceId: 'water',
+        at: now.subtract(const Duration(hours: 2)),
+      );
+    }
+
+    testWidgets('search narrows the list to matching titles', (tester) async {
+      await seed(tester);
+      await pumpInbox(tester);
+      await tester.tap(find.byKey(const ValueKey('inbox-search-toggle')));
+      await settle(tester);
+      await tester.enterText(find.byKey(const ValueKey('inbox-search')), 'gym');
+      await tester.pump(const Duration(milliseconds: 300));
+      await settle(tester);
+      expect(find.text('Gym'), findsOneWidget);
+      expect(find.text('Water'), findsNothing);
+    });
+
+    testWidgets('long press selects; mark read and dismiss apply to the selection', (tester) async {
+      await seed(tester);
+      await pumpInbox(tester);
+      await tester.longPress(find.text('Gym'));
+      await settle(tester);
+      await tester.tap(find.text('Water'));
+      await settle(tester);
+      expect(find.text('2 selected'), findsOneWidget);
+      await tester.tap(find.byKey(const ValueKey('inbox-bulk-read')));
+      await settle(tester);
+      expect((await row(tester, 'a')).readAt, isNotNull);
+      expect((await row(tester, 'b')).readAt, isNotNull);
+      expect((await row(tester, 'c')).readAt, isNull);
+      expect(find.text('2 selected'), findsNothing, reason: 'selection ends');
+
+      await tester.longPress(find.text('Water again'));
+      await settle(tester);
+      await tester.tap(find.byKey(const ValueKey('inbox-bulk-dismiss')));
+      await settle(tester);
+      expect((await row(tester, 'c')).dismissedAt, isNotNull);
+      expect(find.text('Water again'), findsNothing);
+      await drainReplan(tester);
+    });
+
+    testWidgets('mute the rules of the selection', (tester) async {
+      await seed(tester);
+      await pumpInbox(tester);
+      await tester.longPress(find.text('Water'));
+      await settle(tester);
+      await tester.tap(find.text('Water again'));
+      await settle(tester);
+      await tester.tap(find.byKey(const ValueKey('inbox-bulk-mute')));
+      await settle(tester);
+      await tester.tap(find.text('1 hour').last);
+      await settle(tester);
+      final mutes = await tester.runAsync(() => h.read(notificationMutesRepositoryProvider).all());
+      expect([for (final m in mutes!) (m.targetType, m.targetId)], [('rule', 'r-hourly')]);
+      await drainReplan(tester);
+    });
+
+    testWidgets('busiest this week: pick the noisiest rule to filter by it', (tester) async {
+      await seed(tester);
+      await pumpInbox(tester);
+      await tester.tap(find.byKey(const ValueKey('inbox-more-filters')));
+      await settle(tester);
+      expect(find.text('2 times'), findsNWidgets(2), reason: 'the hourly rule and the water item');
+      await tester.tap(find.byKey(const ValueKey('noisy-rule-r-hourly')));
+      await settle(tester);
+      expect(find.byKey(const ValueKey('inbox-rule-chip')), findsOneWidget);
+      expect(find.text('Gym'), findsNothing);
+      expect(find.text('Water again'), findsOneWidget);
+    });
   });
 
   testWidgets('Arabic: right-to-left, localized, no overflow', (tester) async {
