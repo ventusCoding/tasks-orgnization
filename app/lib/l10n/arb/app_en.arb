@@ -1865,6 +1865,13 @@
       }
     }
   },
+  "@healthPrimerBody": {
+    "placeholders": {
+      "metric": {
+        "type": "String"
+      }
+    }
+  },
   "@icsChanges": {
     "placeholders": {
       "count": {
@@ -6756,6 +6763,16 @@
   "habitsZoneFixed": "Always use {zone}",
   "habitsZoneFixedHint": "Days follow {zone} wherever you are",
   "habitsZoneFloating": "Days follow your current time zone",
+  "healthDenied": "Health access was not granted",
+  "healthLink": "Log automatically from Health",
+  "healthMindful": "Mindful minutes",
+  "healthPrimerBody": "Everslot will read your {metric} from Apple Health or Health Connect to log this habit for you. It only reads, never writes, and nothing leaves your device except the daily totals saved on the habit. You can turn it off anytime.",
+  "healthPrimerContinue": "Continue",
+  "healthPrimerTitle": "Use your health data?",
+  "healthSleep": "Hours of sleep",
+  "healthSteps": "Steps",
+  "healthWater": "Water",
+  "healthWorkout": "Workout minutes",
   "icsAlreadyImported": "Already imported",
   "icsChanges": "{count, plural, =1{1 change} other{{count} changes}}",
   "icsExport": "Export to a calendar file",

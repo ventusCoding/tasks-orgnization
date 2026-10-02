@@ -4942,6 +4942,38 @@ class AppLocalizationsFr extends AppLocalizations {
   String get habitsZoneFloating => 'Les jours suivent votre fuseau horaire actuel';
 
   @override
+  String get healthDenied => 'L’accès aux données de santé n’a pas été accordé';
+
+  @override
+  String get healthLink => 'Enregistrer depuis Santé';
+
+  @override
+  String get healthMindful => 'Minutes de pleine conscience';
+
+  @override
+  String healthPrimerBody(String metric) {
+    return 'Everslot lira vos données « $metric » dans Santé d’Apple ou Health Connect pour enregistrer cette habitude à votre place. Lecture seule : rien n’est écrit, et seuls les totaux du jour sont gardés sur l’habitude. Vous pouvez arrêter à tout moment.';
+  }
+
+  @override
+  String get healthPrimerContinue => 'Continuer';
+
+  @override
+  String get healthPrimerTitle => 'Utiliser vos données de santé ?';
+
+  @override
+  String get healthSleep => 'Heures de sommeil';
+
+  @override
+  String get healthSteps => 'Pas';
+
+  @override
+  String get healthWater => 'Eau';
+
+  @override
+  String get healthWorkout => 'Minutes d’entraînement';
+
+  @override
   String get icsAlreadyImported => 'Déjà importé';
 
   @override

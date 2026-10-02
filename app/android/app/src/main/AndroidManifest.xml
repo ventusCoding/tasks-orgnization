@@ -21,6 +21,15 @@
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <!-- Device-calendar overlay (T8.2.13): read-only, asked from Settings. -->
     <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <!-- Health Connect, read-only (T8.2.14): habits linked to steps, workouts, mindfulness, sleep, water. -->
+    <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.READ_EXERCISE" />
+    <uses-permission android:name="android.permission.health.READ_MINDFULNESS" />
+    <uses-permission android:name="android.permission.health.READ_SLEEP" />
+    <uses-permission android:name="android.permission.health.READ_HYDRATION" />
+    <!-- The health plugin declares minSdk 26; it is only used on Android 9+ (Health Connect) after a
+         runtime check, so the app keeps minSdk 24. -->
+    <uses-sdk tools:overrideLibrary="cachet.plugins.health, androidx.health.connect.client" />
 
     <application
         android:label="@string/app_name"
@@ -89,10 +98,26 @@
                 <data android:mimeType="application/*" />
                 <data android:mimeType="*/*" />
             </intent-filter>
+            <!-- Health Connect permission rationale (T8.2.14): opens the app (privacy policy in About). -->
+            <intent-filter>
+                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+            </intent-filter>
             <!-- app_links + DeepLinkParser handle every link (Flutter's own deep linking would
                  push everslot://task/<id> as the wrong route). -->
             <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
         </activity>
+
+        <!-- Android 14+ Health Connect "permission usage" entry (T8.2.14). -->
+        <activity-alias
+            android:name="ViewPermissionUsageActivity"
+            android:exported="true"
+            android:targetActivity=".MainActivity"
+            android:permission="android.permission.START_VIEW_PERMISSION_USAGE">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
+                <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
+            </intent-filter>
+        </activity-alias>
 
         <!-- flutter_local_notifications receivers (T7.2.01) -->
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver" />
@@ -173,6 +198,11 @@
             android:value="everslot_default" />
     </application>
     <queries>
+        <!-- Health Connect installed? (T8.2.14) -->
+        <package android:name="com.google.android.apps.healthdata" />
+        <intent>
+            <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+        </intent>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>

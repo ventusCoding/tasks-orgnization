@@ -303,6 +303,37 @@ class CheckInService {
     return CheckInResult(record, target);
   }
 
+  /// Health auto-logging (T8.2.14): ONE deterministic `progress` log per habit and day holding the
+  /// day's total from Apple Health / Health Connect (`source = auto`), updated in place. A log the
+  /// user deleted stays deleted — their override wins. Returns whether something was written.
+  Future<bool> setHealthProgress(BuildHabit habit, LocalDate day, double value) async {
+    if (value.isNaN || value <= 0) return false;
+    final id = HabitIds.healthProgress(habit.id, day.toIso());
+    final target = await targetFor(habit, day.toIso());
+    var changed = false;
+    await logs.write((tx) async {
+      final raw = await tx.readRaw('habit_logs', id);
+      if (raw != null && raw['deleted_at'] != null) return;
+      if (raw != null && (raw['value'] as num?)?.toDouble() == value) return;
+      await HabitLogsRepository.upsertInTx(
+        tx,
+        HabitLogEntry(
+          id: id,
+          habitId: habit.id,
+          kind: HabitLogKind.progress,
+          loggedAt: _instant(habit, target, null),
+          localDate: target.localDate,
+          occurrenceKey: target.key,
+          value: value,
+          source: LogSource.auto,
+        ),
+      );
+      changed = true;
+    }, cause: 'health');
+    if (changed) _emit(habit, target, HabitLogKind.progress, LogSource.auto, clock.nowUtc(), value: value);
+    return changed;
+  }
+
   /// "Check now": marks the current period (slot per early tolerance) done.
   Future<CheckInResult> checkNow(BuildHabit habit, {String source = LogSource.manual, DateTime? at}) async {
     final target = await currentTarget(habit, at: at);

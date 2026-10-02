@@ -137,5 +137,22 @@
   "deviceCalPrimer": "Google, iCloud or work calendars on this device appear read-only next to your plan. Nothing is copied or uploaded.",
   "deviceCalDenied": "Calendar access is off — allow it in the system settings",
   "deviceCalNone": "No calendars on this device",
-  "deviceCalHint": "Turn on “Device calendars” in a planner view’s settings to see them. Busy events count as taken time when looking for free slots."
+  "deviceCalHint": "Turn on “Device calendars” in a planner view’s settings to see them. Busy events count as taken time when looking for free slots.",
+  "healthLink": "Log automatically from Health",
+  "healthSteps": "Steps",
+  "healthWorkout": "Workout minutes",
+  "healthMindful": "Mindful minutes",
+  "healthSleep": "Hours of sleep",
+  "healthWater": "Water",
+  "healthPrimerTitle": "Use your health data?",
+  "healthPrimerBody": "Everslot will read your {metric} from Apple Health or Health Connect to log this habit for you. It only reads, never writes, and nothing leaves your device except the daily totals saved on the habit. You can turn it off anytime.",
+  "healthPrimerContinue": "Continue",
+  "healthDenied": "Health access was not granted",
+  "@healthPrimerBody": {
+    "placeholders": {
+      "metric": {
+        "type": "String"
+      }
+    }
+  }
 }

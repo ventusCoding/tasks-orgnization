@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:everslot/features/integrations/application/health_sync_service.dart';
 import 'package:everslot/features/integrations/application/integration_events.dart';
 import 'package:everslot/features/integrations/application/integration_providers.dart';
 import 'package:everslot/features/integrations/presentation/ics_ui.dart';
@@ -25,6 +26,7 @@ Future<void> startIntegrations(ProviderContainer container) async {
   unawaited(container.read(externalLinksServiceProvider).start());
   if (Platform.isIOS || Platform.isAndroid) {
     unawaited(container.read(shareIntakeServiceProvider).start());
+    startHealthSync(container);
     final shortcuts = container.read(appShortcutsServiceProvider);
     unawaited(shortcuts.start(container.read(plannerL10nProvider)));
     // Titles follow the app language.

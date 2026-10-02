@@ -12,6 +12,10 @@
 	<string>Everslot shows the events of the calendars you choose next to your plan. They are never changed or uploaded.</string>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>Everslot shows the events of the calendars you choose next to your plan. They are never changed or uploaded.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Everslot reads the health data you link to a habit (steps, workouts, mindful minutes, sleep, water) to log it for you.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Everslot never writes to Apple Health; this permission is not requested.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Everslot records voice notes you attach to items.</string>
 	<key>CFBundleURLTypes</key>

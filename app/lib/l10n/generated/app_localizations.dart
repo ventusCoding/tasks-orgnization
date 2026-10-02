@@ -8535,6 +8535,66 @@ abstract class AppLocalizations {
   /// **'Days follow your current time zone'**
   String get habitsZoneFloating;
 
+  /// No description provided for @healthDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Health access was not granted'**
+  String get healthDenied;
+
+  /// No description provided for @healthLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Log automatically from Health'**
+  String get healthLink;
+
+  /// No description provided for @healthMindful.
+  ///
+  /// In en, this message translates to:
+  /// **'Mindful minutes'**
+  String get healthMindful;
+
+  /// No description provided for @healthPrimerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot will read your {metric} from Apple Health or Health Connect to log this habit for you. It only reads, never writes, and nothing leaves your device except the daily totals saved on the habit. You can turn it off anytime.'**
+  String healthPrimerBody(String metric);
+
+  /// No description provided for @healthPrimerContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get healthPrimerContinue;
+
+  /// No description provided for @healthPrimerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your health data?'**
+  String get healthPrimerTitle;
+
+  /// No description provided for @healthSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours of sleep'**
+  String get healthSleep;
+
+  /// No description provided for @healthSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get healthSteps;
+
+  /// No description provided for @healthWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water'**
+  String get healthWater;
+
+  /// No description provided for @healthWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout minutes'**
+  String get healthWorkout;
+
   /// No description provided for @icsAlreadyImported.
   ///
   /// In en, this message translates to:

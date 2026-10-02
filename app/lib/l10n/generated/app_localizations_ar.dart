@@ -5213,6 +5213,38 @@ class AppLocalizationsAr extends AppLocalizations {
   String get habitsZoneFloating => 'تتبع الأيام منطقتك الزمنية الحالية';
 
   @override
+  String get healthDenied => 'لم يُمنح الوصول إلى البيانات الصحية';
+
+  @override
+  String get healthLink => 'التسجيل تلقائيًا من الصحة';
+
+  @override
+  String get healthMindful => 'دقائق اليقظة';
+
+  @override
+  String healthPrimerBody(String metric) {
+    return 'سيقرأ Everslot بيانات «$metric» من Apple Health أو Health Connect لتسجيل هذه العادة نيابة عنك. للقراءة فقط، ولا يُحفظ إلا مجموع اليوم على العادة. يمكنك الإيقاف في أي وقت.';
+  }
+
+  @override
+  String get healthPrimerContinue => 'متابعة';
+
+  @override
+  String get healthPrimerTitle => 'استخدام بياناتك الصحية؟';
+
+  @override
+  String get healthSleep => 'ساعات النوم';
+
+  @override
+  String get healthSteps => 'الخطوات';
+
+  @override
+  String get healthWater => 'الماء';
+
+  @override
+  String get healthWorkout => 'دقائق التمرين';
+
+  @override
   String get icsAlreadyImported => 'مستورد مسبقًا';
 
   @override

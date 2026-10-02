@@ -12,6 +12,11 @@
 	<array>
 		<string>$(EVERSLOT_APP_GROUP)</string>
 	</array>
+	<!-- Read health data for linked habits (T8.2.14). -->
+	<key>com.apple.developer.healthkit</key>
+	<true/>
+	<key>com.apple.developer.healthkit.access</key>
+	<array/>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:$(EVERSLOT_LINK_DOMAIN)</string>

@@ -270,6 +270,9 @@ abstract final class HabitIds {
   /// Note log of a period (yes/no habit without a state row, T5.2.09).
   static String periodNote(String habitId, String key) => Ids.v5('$habitId|$key|note');
 
+  /// The day's automatic health progress log (T8.2.14).
+  static String healthProgress(String habitId, String day) => Ids.v5('$habitId|$day|health');
+
   /// Default vocabulary entries per user.
   static String vocab(String userId, String kind, String key) => Ids.v5('$userId|habit_vocab|$kind|$key');
 }

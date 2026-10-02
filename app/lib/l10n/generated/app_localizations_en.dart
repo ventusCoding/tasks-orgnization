@@ -4891,6 +4891,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitsZoneFloating => 'Days follow your current time zone';
 
   @override
+  String get healthDenied => 'Health access was not granted';
+
+  @override
+  String get healthLink => 'Log automatically from Health';
+
+  @override
+  String get healthMindful => 'Mindful minutes';
+
+  @override
+  String healthPrimerBody(String metric) {
+    return 'Everslot will read your $metric from Apple Health or Health Connect to log this habit for you. It only reads, never writes, and nothing leaves your device except the daily totals saved on the habit. You can turn it off anytime.';
+  }
+
+  @override
+  String get healthPrimerContinue => 'Continue';
+
+  @override
+  String get healthPrimerTitle => 'Use your health data?';
+
+  @override
+  String get healthSleep => 'Hours of sleep';
+
+  @override
+  String get healthSteps => 'Steps';
+
+  @override
+  String get healthWater => 'Water';
+
+  @override
+  String get healthWorkout => 'Workout minutes';
+
+  @override
   String get icsAlreadyImported => 'Already imported';
 
   @override

@@ -31,7 +31,7 @@ overlay, Health integrations, Live Activities / ongoing timer notification, Siri
 - [x] T8.2.11 — ICS export (share tasks as calendar events)
 - [x] T8.2.12 — ICS import
 - [x] T8.2.13 — Device-calendar overlay (read-only)
-- [ ] T8.2.14 — Health data auto-logging for habits
+- [x] T8.2.14 — Health data auto-logging for habits
 - [ ] T8.2.15 — Siri Shortcuts / App Intents & Android App Actions
 
 ## Tasks
@@ -164,6 +164,7 @@ mindful minutes, sleep, water) → automatic `progress` logs (source = `auto`) w
 **Acceptance criteria:** "10 000 steps" habit completes automatically; user can override; permissions
 explained with a primer screen.
 **Tests:** unit tests for aggregation/dedupe; manual QA on devices.
+**Notes:** `HabitSettings.healthMetric` (synced JSON: steps, workout, mindful, sleep, water) set from the habit editor (*Log automatically from Health*: primer → system prompt; hidden where unavailable). `HealthSyncService` runs at start / resume / after saving a linked habit: for yesterday and today, `HealthAggregation` builds day totals (platform step totals; union of overlapping sessions from several sources; sleep = night ending that day; water de-duplicated by sample id) converted to the goal unit, and `CheckInService.setHealthProgress` upserts ONE deterministic `progress` log per day with `source = auto` (no churn when unchanged; a log the user deleted is never resurrected). `health` plugin: minSdk 26 overridden (app keeps 24), used on Android 9+ only; Health Connect permissions / rationale alias / queries and HealthKit entitlement + usage strings added. Device QA with real data pending.
 
 ### T8.2.15 — Siri Shortcuts / App Intents & Android App Actions
 **Priority:** P2 · **Size:** M · **Depends on:** T8.2.01

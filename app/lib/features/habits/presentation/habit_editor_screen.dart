@@ -18,6 +18,8 @@ import 'package:everslot/features/habits/presentation/habit_ui.dart';
 import 'package:everslot/features/habits/presentation/manage_habits_screen.dart';
 import 'package:everslot/features/habits/presentation/quit/quit_editor.dart';
 import 'package:everslot/features/habits/presentation/templates_sheet.dart';
+import 'package:everslot/features/integrations/application/health_sync_service.dart';
+import 'package:everslot/features/integrations/presentation/health_link_tile.dart';
 import 'package:everslot/features/notifications/presentation/notification_settings_section.dart';
 import 'package:everslot/features/organization/application/providers.dart';
 import 'package:everslot/features/organization/presentation/categories_screen.dart' show pickCategory;
@@ -242,6 +244,8 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
         }
         await service.update(habit, applyFrom: applyFrom, scope: scope);
       }
+      // Linked to health data: fill today right away (T8.2.14).
+      if (habit.settings.healthMetric != null) unawaited(ref.read(healthSyncServiceProvider).sync());
       if (!mounted) return;
       showInfoSnackBar(context, l.habitsSavedSnack);
       Navigator.of(context).maybePop();
@@ -756,6 +760,10 @@ class _BuildHabitEditorState extends ConsumerState<BuildHabitEditor> {
                     ];
                     setState(() => _settings = _settings.copyWith(quickValues: values.take(5).toList()));
                   },
+                ),
+                HealthLinkTile(
+                  value: _settings.healthMetric,
+                  onChanged: (m) => setState(() => _settings = _settings.copyWith(healthMetric: m)),
                 ),
                 if (isQuota)
                   ListTile(

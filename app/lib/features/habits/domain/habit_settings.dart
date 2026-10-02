@@ -139,6 +139,33 @@ class TargetProgression {
   int get hashCode => Object.hash(start, step, everyDays, max);
 }
 
+/// Health data a habit can follow (T8.2.14): Apple Health / Health Connect.
+enum HealthMetric {
+  /// Step count.
+  steps('steps', 'count'),
+
+  /// Workout minutes.
+  workout('workout', 'min'),
+
+  /// Mindful minutes (meditation / mindfulness sessions).
+  mindful('mindful', 'min'),
+
+  /// Hours asleep in the night ending that day.
+  sleep('sleep', 'h'),
+
+  /// Water drunk, in liters.
+  water('water', 'L');
+
+  HealthMetric(this.json, this.unit);
+
+  final String json;
+
+  /// Suggested goal unit.
+  final String unit;
+
+  static HealthMetric? tryParse(Object? v) => values.where((m) => m.json == v).firstOrNull;
+}
+
 /// `habits.settings` — HabitSettings JSON value object, version 1 (arch §7.3).
 ///
 /// Unknown keys are preserved in [extra] and written back unchanged, so newer clients' settings
@@ -158,6 +185,7 @@ class HabitSettings {
     this.challenge,
     this.targetProgression,
     this.lifeEstimateSource,
+    this.healthMetric,
     this.extra = const {},
   });
 
@@ -177,6 +205,7 @@ class HabitSettings {
     'challenge',
     'targetProgression',
     'lifeEstimateSource',
+    'health',
   };
 
   /// Decodes (and upgrades) the JSON value; malformed values fall back to defaults.
@@ -206,6 +235,7 @@ class HabitSettings {
           ? TargetProgression.fromJson(json['targetProgression'] as Map<Object?, Object?>)
           : null,
       lifeEstimateSource: json['lifeEstimateSource'] as String?,
+      healthMetric: HealthMetric.tryParse(json['health'] is Map ? (json['health'] as Map)['metric'] : null),
       extra: {
         for (final e in json.entries)
           if (e.key is String && !_known.contains(e.key)) e.key as String: e.value,
@@ -235,6 +265,9 @@ class HabitSettings {
 
   /// Quit trackers: which life-expectancy estimate is used (`jackson2025`, `men`, `women`, `bmj2000`).
   final String? lifeEstimateSource;
+
+  /// Health data that logs this habit's progress automatically (T8.2.14).
+  final HealthMetric? healthMetric;
   final Map<String, Object?> extra;
 
   Map<String, Object?> toJson() => {
@@ -250,6 +283,7 @@ class HabitSettings {
     if (challenge != null) 'challenge': challenge!.toJson(),
     if (targetProgression != null) 'targetProgression': targetProgression!.toJson(),
     if (lifeEstimateSource != null) 'lifeEstimateSource': lifeEstimateSource,
+    if (healthMetric != null) 'health': {'metric': healthMetric!.json},
     ...extra,
   };
 
@@ -266,6 +300,7 @@ class HabitSettings {
     Object? challenge = _unset,
     Object? targetProgression = _unset,
     Object? lifeEstimateSource = _unset,
+    Object? healthMetric = _unset,
   }) => HabitSettings(
     slotRollup: slotRollup ?? this.slotRollup,
     minSlots: identical(minSlots, _unset) ? this.minSlots : minSlots as int?,
@@ -281,6 +316,7 @@ class HabitSettings {
         ? this.targetProgression
         : targetProgression as TargetProgression?,
     lifeEstimateSource: identical(lifeEstimateSource, _unset) ? this.lifeEstimateSource : lifeEstimateSource as String?,
+    healthMetric: identical(healthMetric, _unset) ? this.healthMetric : healthMetric as HealthMetric?,
     extra: extra,
   );
 
@@ -299,6 +335,7 @@ class HabitSettings {
       other.challenge == challenge &&
       other.targetProgression == targetProgression &&
       other.lifeEstimateSource == lifeEstimateSource &&
+      other.healthMetric == healthMetric &&
       _deep.equals(other.extra, extra);
 
   @override
@@ -315,6 +352,7 @@ class HabitSettings {
     challenge,
     targetProgression,
     lifeEstimateSource,
+    healthMetric,
     _deep.hash(extra),
   );
 }
