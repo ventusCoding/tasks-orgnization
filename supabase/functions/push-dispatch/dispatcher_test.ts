@@ -223,3 +223,172 @@ Deno.test("keeps claiming batches until the queue is empty", async () => {
   assertEquals(summary.claimed, 4);
   assert(s.completed.every((r) => r.reason === "no_devices"));
 });
+
+const jobN = (i: number, fire = "2026-09-22T10:00:00Z") =>
+  makeJob({
+    id: `00000000-0000-4000-8000-${String(i).padStart(12, "0")}`,
+    dedupe_key: `dk-${i}`,
+    fire_at: fire,
+    payload: { title: `Task ${i}`, type: "reminder", channel: "planner_default" },
+  });
+
+Deno.test("a same-minute burst on one device becomes one merged push (T7.4.07 step 7)", async () => {
+  const jobs = [jobN(1), jobN(2), jobN(3), jobN(4, "2026-09-22T10:01:00Z")];
+  const s = store(jobs, [makeDevice()]);
+  const sender = new FakeSender(ok);
+  const summary = await run(s, sender);
+  // Three 10:00 jobs → one digest push; the 10:01 job alone → its own push.
+  assertEquals(sender.sent.length, 2);
+  const merged = sender.sent.find((m) => m.data?.type === "digest")!;
+  assertEquals(merged.data?.count, "3");
+  assertEquals(merged.data?.dks, "dk-1,dk-2,dk-3");
+  assert(String(merged.android?.notification?.body ?? "").includes("Task 2"));
+  assertEquals(summary.sent, 4);
+  for (const r of s.completed) {
+    assertEquals(r.status, "sent");
+    assertEquals(r.deliveries.length, 1);
+    assertEquals(r.deliveries[0].outcome, "sent");
+  }
+  // Every job still gets its own inbox row.
+  assertEquals(s.inbox.length, 4);
+});
+
+Deno.test("two same-minute jobs stay separate actionable pushes", async () => {
+  const s = store([jobN(1), jobN(2)], [makeDevice()]);
+  const sender = new FakeSender(ok);
+  await run(s, sender);
+  assertEquals(sender.sent.length, 2);
+  assert(sender.sent.every((m) => m.data?.type === "reminder"));
+});
+
+Deno.test("load: 10 000 due jobs for 500 users drain in one run well under the 30 s cadence", async () => {
+  const users = 500;
+  const all: ClaimedJob[] = [];
+  const devicesByUser: Record<string, UserDevices> = {};
+  for (let u = 0; u < users; u++) {
+    const userId = `00000000-0000-4000-9000-${String(u).padStart(12, "0")}`;
+    devicesByUser[userId] = {
+      policy: {},
+      devices: [
+        makeDevice({ id: `00000000-0000-4000-a000-${String(u).padStart(12, "0")}`, push_token: `t${u}` }),
+      ],
+    };
+    for (let k = 0; k < 20; k++) {
+      all.push(
+        makeJob({
+          id: `00000000-0000-4000-b${String(u).padStart(3, "0")}-${String(k).padStart(12, "0")}`,
+          user_id: userId,
+          dedupe_key: `u${u}-k${k}`,
+          fire_at: `2026-09-22T09:${String(30 + k).padStart(2, "0")}:00Z`,
+        }),
+      );
+    }
+  }
+  const s = new FakeStore([], devicesByUser);
+  s.batches = [];
+  for (let i = 0; i < all.length; i += 200) s.batches.push(all.slice(i, i + 200));
+  const sender = new FakeSender(ok);
+  const started = performance.now();
+  const summary = await runDispatch({
+    store: s,
+    sender,
+    now: () => NOW,
+    random: () => 0.5,
+    maxBatches: 100,
+    budgetMs: 25_000,
+  });
+  const elapsed = performance.now() - started;
+  assertEquals(summary.claimed, 10_000);
+  assertEquals(summary.sent, 10_000);
+  // Processing overhead (FCM latency excluded) must leave the 30 s cadence plenty of room.
+  assert(elapsed < 5_000, `dispatch overhead ${elapsed.toFixed(0)} ms`);
+});
+
+// -- Digest emails (T7.4.18) -----------------------------------------------------------------------
+
+import type { EmailMessage, EmailResult, EmailSender } from "../_shared/email.ts";
+import { EMAIL_DEVICE_ID, type EmailTarget } from "./dispatcher.ts";
+
+class FakeEmail implements EmailSender {
+  sent: EmailMessage[] = [];
+  constructor(private readonly result: EmailResult = { ok: true, id: "em_1" }) {}
+  send(m: EmailMessage) {
+    this.sent.push(m);
+    return Promise.resolve(this.result);
+  }
+}
+
+const digest = (over: Partial<ClaimedJob> = {}) =>
+  makeJob({
+    id: "00000000-0000-4000-8000-0000000000e1",
+    dedupe_key: "digest-1",
+    payload: {
+      title: "Today: 3 tasks",
+      body: "Gym 08:00\nReport 10:00",
+      type: "digest",
+      digestKind: "daily_agenda",
+    },
+    ...over,
+  });
+
+function emailStore(jobs: ClaimedJob[], targets: Record<string, EmailTarget>, devices = [makeDevice()]) {
+  const s = store(jobs, devices) as FakeStore & {
+    emailTargets: (ids: string[]) => Promise<Record<string, EmailTarget>>;
+  };
+  s.emailTargets = (ids) =>
+    Promise.resolve(Object.fromEntries(ids.filter((i) => targets[i]).map((i) => [i, targets[i]])));
+  return s;
+}
+
+Deno.test("digest jobs are emailed once to opted-in users with a signed unsubscribe link", async () => {
+  const s = emailStore([digest()], { [user]: { email: "me@x.io", locale: "fr", kinds: [] } });
+  const mail = new FakeEmail();
+  const summary = await runDispatch({
+    store: s,
+    sender: new FakeSender(ok),
+    now: () => NOW,
+    random: () => 0.5,
+    email: { sender: mail, linkSecret: "sec", baseUrl: "https://p.supabase.co" },
+  });
+  assertEquals(summary.emails, 1);
+  assertEquals(mail.sent[0].to, "me@x.io");
+  assertEquals(mail.sent[0].subject, "Today: 3 tasks");
+  assert(mail.sent[0].html.includes("Se désabonner"));
+  assert(String(mail.sent[0].headers?.["List-Unsubscribe"]).includes("/functions/v1/email-unsubscribe?u="));
+  const r = s.completed[0];
+  assert(r.deliveries.some((d) => d.device_id === EMAIL_DEVICE_ID && d.outcome === "email_sent"));
+});
+
+Deno.test("reminders are never emailed; kinds filter; already-emailed digests are not re-sent", async () => {
+  const targets = { [user]: { email: "me@x.io", locale: "en", kinds: ["weekly_review"] } };
+  const mail = new FakeEmail();
+  const opts = { sender: mail, linkSecret: "sec", baseUrl: "https://p" };
+  // A reminder and a daily digest the user did not choose.
+  await runDispatch({
+    store: emailStore([makeJob(), digest()], targets),
+    sender: null,
+    now: () => NOW,
+    email: opts,
+  });
+  assertEquals(mail.sent.length, 0);
+  // A weekly digest already emailed on a previous (retried) run.
+  const weekly = digest({
+    payload: { title: "Week", body: "x", type: "digest", digestKind: "weekly_review" },
+    sent_device_ids: [EMAIL_DEVICE_ID],
+  });
+  await runDispatch({ store: emailStore([weekly], targets), sender: null, now: () => NOW, email: opts });
+  assertEquals(mail.sent.length, 0);
+});
+
+Deno.test("an emailed digest counts as delivered even when every device covers it locally", async () => {
+  const covered = makeDevice({ schedule_rev: 200, local_coverage_until: "2026-09-23T00:00:00Z" });
+  const s = emailStore([digest()], { [user]: { email: "me@x.io", locale: "en", kinds: [] } }, [covered]);
+  await runDispatch({
+    store: s,
+    sender: new FakeSender(ok),
+    now: () => NOW,
+    email: { sender: new FakeEmail(), linkSecret: "s", baseUrl: "https://p" },
+  });
+  assertEquals(s.completed[0].status, "sent");
+  assertEquals(s.completed[0].reason, "email");
+});

@@ -53,5 +53,12 @@ class NotificationCapabilitiesController extends Notifier<NotificationCapabiliti
     return granted;
   }
 
+  /// Android 14+: the full-screen notifications settings page (alarm profile, T7.2.24).
+  Future<bool> requestFullScreenIntent() async {
+    final granted = await _port.requestFullScreenIntent();
+    await refresh();
+    return granted;
+  }
+
   Future<bool> openSettings() => _port.openSettings();
 }

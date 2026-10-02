@@ -1,5 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:everslot/core/ids/ids.dart';
+import 'package:everslot/features/goals/application/goal_providers.dart';
+import 'package:everslot/features/goals/domain/goal.dart';
 import 'package:everslot/features/habits/application/check_in_service.dart';
 import 'package:everslot/features/habits/application/habit_notifications.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
@@ -8,6 +10,7 @@ import 'package:everslot/features/habits/application/quit_service.dart';
 import 'package:everslot/features/habits/domain/catalogs.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
+import 'package:everslot/features/habits/domain/habit_settings.dart';
 import 'package:everslot/features/habits/domain/schedule_presets.dart';
 import 'package:everslot/features/notifications/application/local_notifications_port.dart';
 import 'package:everslot/features/notifications/application/notification_providers.dart';
@@ -107,7 +110,10 @@ void main() {
         name: 'Push-ups',
         goal: const HabitTarget(type: HabitGoalType.count, target: 15, unit: HabitUnits.reps),
       );
-      final targets = await habitsSource().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 24, 6));
+      final targets = (await habitsSource().targetsBetween(
+        DateTime.utc(2026, 9, 22, 6),
+        DateTime.utc(2026, 9, 24, 6),
+      )).where((t) => t.occurrenceKey != null).toList();
       expect(targets.map((t) => t.occurrenceKey), ['2026-09-22', '2026-09-23', '2026-09-24']);
       final today = targets.first;
       expect(today.type, NotificationTargetType.habit);
@@ -134,7 +140,10 @@ void main() {
       await checkIn.markDone(habit, '2026-09-22');
       await checkIn.skip(habit, '2026-09-23');
       await h.read(habitServiceProvider).pause(habitId: habit.id, start: d(2026, 9, 24), end: d(2026, 9, 24));
-      final targets = await habitsSource().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 25, 6));
+      final targets = (await habitsSource().targetsBetween(
+        DateTime.utc(2026, 9, 22, 6),
+        DateTime.utc(2026, 9, 25, 6),
+      )).where((t) => t.occurrenceKey != null).toList();
       final byKey = {for (final t in targets) t.occurrenceKey: t};
       expect((byKey['2026-09-22']!.isOpen, byKey['2026-09-22']!.status), (false, 'done'));
       expect((byKey['2026-09-23']!.isOpen, byKey['2026-09-23']!.status), (false, 'skipped'));
@@ -149,7 +158,10 @@ void main() {
         name: 'Medication',
         preset: SchedulePreset(SchedulePresetKind.specificTimes, times: [LocalTime(8, 0), LocalTime(20, 0)]),
       );
-      final targets = await habitsSource().targetsBetween(DateTime.utc(2026, 9, 22, 5), DateTime.utc(2026, 9, 22, 21));
+      final targets = (await habitsSource().targetsBetween(
+        DateTime.utc(2026, 9, 22, 5),
+        DateTime.utc(2026, 9, 22, 21),
+      )).where((t) => t.occurrenceKey != null).toList();
       expect(targets.map((t) => t.occurrenceKey), ['2026-09-22T08:00', '2026-09-22T20:00']);
       expect(targets.map((t) => t.slot), [DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 22, 18)]);
       expect(targets.first.itemKind, ItemKind.timed);
@@ -157,12 +169,51 @@ void main() {
 
     test('quota habits notify on eligible days with their progress', () async {
       await createBuild(name: 'Gym', preset: const SchedulePreset(SchedulePresetKind.timesPerWeek, n: 3));
-      final targets = await habitsSource().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 27, 6));
+      final targets = (await habitsSource().targetsBetween(
+        DateTime.utc(2026, 9, 22, 6),
+        DateTime.utc(2026, 9, 27, 6),
+      )).where((t) => t.occurrenceKey != null).toList();
       expect(targets.map((t) => t.occurrenceKey), [for (var day = 22; day <= 27; day++) '2026-09-$day']);
       final quota = targets.first.quota!;
       expect((quota.done, quota.target, quota.eligibleDaysLeft), (0, 3, 6));
       expect(targets.last.quota!.behind, isTrue, reason: '3 still needed with 1 eligible day left');
       expect(targets.first.guard!.params.containsKey('target'), isFalse, reason: 'quota totals are not per day');
+    });
+
+    Future<NotificationTarget> summaryOf(String habitId) async => (await habitsSource().targetsBetween(
+      DateTime.utc(2026, 9, 22, 6),
+      DateTime.utc(2026, 9, 23, 6),
+    )).singleWhere((t) => t.id == habitId && t.occurrenceKey == null);
+
+    test('summary target: last activity, 7-day streak milestone keyed by the streak start (T7.5.12)', () async {
+      final habit = await createBuild();
+      final fresh = await summaryOf(habit.id);
+      expect(fresh.lastActivityAt, h.clock.nowUtc(), reason: 'inactivity counts from creation until a first log');
+      expect(fresh.milestones, isEmpty);
+      expect(fresh.defaultActions, ['open']);
+      final checkIn = h.read(checkInServiceProvider);
+      for (var day = 16; day <= 22; day++) {
+        await checkIn.markDone(habit, '2026-09-$day');
+      }
+      final summary = await summaryOf(habit.id);
+      expect(summary.lastActivityAt, h.clock.nowUtc());
+      final streak = summary.milestones.single;
+      expect((streak.metric, streak.threshold, streak.runKey), ('streak', 7, '2026-09-16'));
+      expect(streak.label, '7-day streak!');
+    });
+
+    test('summary target: running total crossing 100 is a total_value milestone', () async {
+      final habit = await createBuild(
+        name: 'Run',
+        goal: const HabitTarget(type: HabitGoalType.count, target: 15, unit: HabitUnits.reps),
+      );
+      final checkIn = h.read(checkInServiceProvider);
+      await checkIn.addProgress(habit, '2026-09-22', 60);
+      expect((await summaryOf(habit.id)).milestones, isEmpty);
+      await checkIn.addProgress(habit, '2026-09-22', 50);
+      final total = (await summaryOf(habit.id)).milestones.single;
+      expect((total.metric, total.threshold, total.runKey), ('total_value', 100, null));
+      expect(total.label, '100 reps in total');
     });
   });
 
@@ -239,6 +290,19 @@ void main() {
       expect(open.openLink, '/quit/${abstain.id}');
       expect(open.markActed, isFalse);
     });
+
+    test('quit rituals: Pledge and Clean day write the day of the ritual; Log relapse opens the flow', () async {
+      final tracker = await createQuit();
+      expect((await handler().handle(ctx('pledge', tracker.id, key: 'qr:pledge:2026-09-22'))).success, isTrue);
+      expect((await handler().handle(ctx('clean_day', tracker.id, key: 'qr:review:2026-09-21'))).success, isTrue);
+      final logs = await h.read(habitLogsRepositoryProvider).forHabit(tracker.id);
+      expect(
+        {for (final l in logs) (l.kind, l.localDate.toIso(), l.source)},
+        {(HabitLogKind.pledge, '2026-09-22', 'notification'), (HabitLogKind.clean, '2026-09-21', 'notification')},
+      );
+      final relapse = await handler().handle(ctx('log_relapse', tracker.id, key: 'qr:review:2026-09-22'));
+      expect((relapse.openLink, relapse.markActed), ('/quit/${tracker.id}', false));
+    });
   });
 
   group('quit targets', () {
@@ -264,6 +328,102 @@ void main() {
       expect(await quitSource().guardOpen(target), isFalse);
       target = (await quitSource().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 29, 6))).single;
       expect(target.milestoneBaseline, DateTime.utc(2026, 9, 22, 6));
+    });
+
+    Future<NotificationTarget> quitTarget() async =>
+        (await quitSource().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 29, 6))).single;
+
+    test('health milestones land at quit + offset; a relapse at +10 h re-projects them (T7.5.13)', () async {
+      final tracker = await createQuit();
+      var target = await quitTarget();
+      final health = target.milestones.where((m) => m.metric == 'health').toList();
+      expect(health.map((m) => m.threshold), isNot(contains(20)), reason: 'reached milestones are not replanned');
+      final nicotine = health.singleWhere((m) => m.threshold == 1440);
+      expect(nicotine.at, DateTime.utc(2026, 9, 22, 20), reason: '24 h after the 20:00 quit');
+      expect(nicotine.label, 'Nicotine leaves your blood');
+      expect(nicotine.runKey, '2026-09-21T20:00:00.000Z');
+      expect(target.variables['days_free'], '0');
+      expect(target.variables['next_milestone'], 'Carbon monoxide back to normal', reason: 'quit + 12 h is next');
+      expect(target.variables['units_avoided'], '10');
+
+      await h.read(quitServiceProvider).logRelapse(tracker);
+      target = await quitTarget();
+      final again = target.milestones.singleWhere((m) => m.metric == 'health' && m.threshold == 1440);
+      expect(again.at, DateTime.utc(2026, 9, 23, 6), reason: 're-projected from the relapse');
+      expect(again.runKey, '2026-09-22T06:00:00.000Z', reason: 'new occurrence keys cancel the old schedule');
+    });
+
+    test('units-avoided thresholds and the tracker goals are projected at the saving rate', () async {
+      final tracker = await createQuit();
+      await h
+          .read(goalsRepositoryProvider)
+          .create(
+            Goal(
+              id: Ids.v7(),
+              scopeType: GoalScopeType.habit,
+              scopeId: tracker.id,
+              metric: GoalMetric.moneySaved,
+              target: 30,
+              period: GoalPeriod.allTime,
+              reward: 'Concert ticket',
+            ),
+          );
+      final target = await quitTarget();
+      // 24 cigarettes/day = 1/hour; 10 avoided by now (+10 h): 100 is reached 90 h later.
+      final units = target.milestones.firstWhere((m) => m.metric == 'units_avoided');
+      expect((units.threshold, units.at), (100, DateTime.utc(2026, 9, 26)));
+      expect(units.label, '100 cigarettes avoided');
+      // 12 €/day = 0.50 €/h; 5 € saved by now: 30 € takes 50 h more.
+      final goal = target.milestones.singleWhere((m) => m.metric == 'custom');
+      expect(goal.at, DateTime.utc(2026, 9, 24, 8));
+      expect(goal.label, 'Concert ticket — €30.00 saved');
+    });
+
+    test('ritual inputs: pledge events, ritual times, craving hours from ≥ 10 cravings, reason', () async {
+      final tracker = QuitHabit(
+        id: Ids.v7(),
+        name: 'Stop smoking',
+        startDate: d(2026, 9, 21),
+        sortKey: '',
+        mode: QuitMode.abstain,
+        quitStartedAt: DateTime.utc(2026, 9, 21, 20),
+        baselinePerDay: 10,
+        motivation: 'For my kids',
+        settings: HabitSettings(
+          pledge: PledgeSettings(enabled: true, morning: LocalTime(7, 30), evening: LocalTime(21, 30)),
+        ),
+      );
+      await h.read(habitsRepositoryProvider).create(tracker);
+      final quit = h.read(quitServiceProvider);
+      await quit.pledge(tracker);
+      var target = await quitTarget();
+      expect(target.events.map((e) => e.kind), ['pledge']);
+      expect(target.variables['pledge_time'], '07:30');
+      expect(target.variables['review_time'], '21:30');
+      expect(target.variables['reason'], 'For my kids');
+      expect(target.variables['craving_count'], '0');
+      expect(target.variables.containsKey('craving_hours'), isFalse);
+      for (var i = 0; i < 10; i++) {
+        await quit.logCraving(tracker, input: const CravingInput(intensity: 5));
+      }
+      target = await quitTarget();
+      expect(target.variables['craving_count'], '10');
+      expect(target.variables['craving_hours'], '8', reason: 'all logged at 08:00 Paris');
+      expect(target.variables['coping_tip'], isNotEmpty);
+    });
+
+    test('non-smoking trackers get no health milestones', () async {
+      final tracker = QuitHabit(
+        id: Ids.v7(),
+        name: 'No soda',
+        startDate: d(2026, 9, 21),
+        sortKey: '',
+        mode: QuitMode.abstain,
+        quitStartedAt: DateTime.utc(2026, 9, 21, 20),
+        baselinePerDay: 2,
+      );
+      await h.read(habitsRepositoryProvider).create(tracker);
+      expect((await quitTarget()).milestones.where((m) => m.metric == 'health'), isEmpty);
     });
   });
 }

@@ -112,8 +112,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/task/:id',
         parentNavigatorKey: rootNavigatorKey,
-        builder: (_, s) =>
-            TaskDetailScreen(taskId: s.pathParameters['id']!, occurrenceKey: s.uri.queryParameters['occ']),
+        builder: (_, s) => TaskDetailScreen(
+          taskId: s.pathParameters['id']!,
+          occurrenceKey: s.uri.queryParameters['occ'],
+          reschedule: s.uri.queryParameters['reschedule'] == '1',
+        ),
         routes: [
           GoRoute(
             path: 'edit',

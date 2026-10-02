@@ -94,7 +94,8 @@ from pg_proc p
 where p.pronamespace = 'app'::regnamespace
   and p.proname in ('dispatch_claim', 'dispatch_guards', 'dispatch_upsert_inbox', 'dispatch_devices',
                     'dispatch_complete', 'ops_health', 'ops_heartbeat', 'account_delete_prepare',
-                    'storage_purge_claim', 'storage_purge_done', 'enable_sync');
+                    'storage_purge_claim', 'storage_purge_done', 'enable_sync', 'fcm_token_cache_get',
+                    'fcm_token_cache_put');
 
 select ok(not has_schema_privilege('authenticated', 'private', 'usage')
             and not has_schema_privilege('anon', 'private', 'usage'),

@@ -42,6 +42,31 @@ void main() {
     );
   });
 
+  test('targets carry status-change and started-late events (T7.5.20)', () async {
+    final gym = await h.createTask(title: 'Gym', start: '2026-09-22T10:00', duration: 60);
+    final ontime = await h.createTask(title: 'Call', start: '2026-09-22T11:00', duration: 30);
+    h.clock.set(DateTime.utc(2026, 9, 22, 9, 30));
+    await h.occurrences.markDone(
+      gym,
+      '2026-09-22T10:00',
+      actualStart: DateTime.utc(2026, 9, 22, 8, 12),
+      actualEnd: DateTime.utc(2026, 9, 22, 9, 12),
+    );
+    await h.occurrences.markDone(
+      ontime,
+      '2026-09-22T11:00',
+      actualStart: DateTime.utc(2026, 9, 22, 9, 2),
+      actualEnd: DateTime.utc(2026, 9, 22, 9, 30),
+    );
+    final targets = await source().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 23, 6));
+    final late = targets.firstWhere((t) => t.id == gym).events;
+    expect(late.map((e) => e.kind), ['status_change', 'started_late']);
+    expect(late.first.data['to'], 'done');
+    expect((late.last.at, late.last.data['minutes']), (DateTime.utc(2026, 9, 22, 8, 12), 12));
+    final onTime = targets.firstWhere((t) => t.id == ontime).events;
+    expect(onTime.map((e) => e.kind), ['status_change'], reason: '2 min late is on time');
+  });
+
   test('targets: one per occurrence in the window with anchors, guard, variables and actions', () async {
     final gym = await h.createTask(title: 'Gym', start: '2026-09-21T10:00', duration: 60, rule: RecurrenceRule());
     final ny = await h.createTask(title: 'NY call', start: '2026-09-22T09:00', duration: 30, zone: 'America/New_York');
@@ -59,11 +84,27 @@ void main() {
     expect(gymToday.isOpen, isTrue);
     expect(gymToday.guard, NotificationGuard.taskOccurrenceOpen(gym, '2026-09-22T10:00'));
     expect(gymToday.defaultActions, ['done', 'snooze', 'skip']);
+    // Overdue reminders (T7.5.03) know the tracking mode and the missed grace.
+    expect(gymToday.variables['tracking_mode'], 'check');
+    expect(gymToday.variables['missed_grace_minutes'], 15);
     expect(targets.where((t) => t.id == gym).map((t) => t.occurrenceKey), ['2026-09-22T10:00']);
     final call = targets.firstWhere((t) => t.id == ny);
     expect(call.start, DateTime.utc(2026, 9, 22, 13), reason: 'fixed 09:00 in New York');
     expect(call.timeZone, 'America/New_York');
     expect(targets.map((t) => t.title), isNot(contains('Later')));
+  });
+
+  test('up next (T7.5.04): each timed task names the next one starting within 3 h', () async {
+    final a = await h.createTask(title: 'Report', start: '2026-09-22T09:00', duration: 60);
+    final b = await h.createTask(title: 'Standup', start: '2026-09-22T10:30', duration: 15);
+    await h.createTask(title: 'Evening', start: '2026-09-22T19:00', duration: 30);
+    final targets = await source().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 23, 6));
+    final report = targets.firstWhere((t) => t.id == a);
+    expect(report.variables['next_task_id'], b);
+    expect(report.variables['next_title'], 'Standup');
+    expect(report.variables['next_start'], '2026-09-22T08:30:00.000Z');
+    final standup = targets.firstWhere((t) => t.id == b);
+    expect(standup.variables.containsKey('next_task_id'), isFalse, reason: 'the 19:00 task is more than 3 h later');
   });
 
   test('done/skipped occurrences are returned closed; cancelled ones too', () async {
@@ -142,11 +183,21 @@ void main() {
     expect((await h.records(work)).single.status, OccurrenceStatus.inProgress);
     await handler.handle(ctx('start', work, null));
     expect(await h.read(plannerQueriesProvider).watchRunningEntries().first, hasLength(1));
+    // Timer end (T7.5.04): +10 min extends the running occurrence.
+    final key = (await h.records(work)).single.occurrenceKey;
+    expect((await handler.handle(ctx('extend', work, null))).success, isTrue);
+    final extended = await PlannerNotificationActions.occurrence(h.read, work, key);
+    expect(extended!.durationMinutes, 70);
     h.clock.advance(const Duration(minutes: 40));
     await handler.handle(ctx('stop', work, null));
     final done = (await h.records(work)).single;
     expect(done.status, OccurrenceStatus.done);
     expect(done.trackedSeconds, 40 * 60);
+
+    // Reschedule (overdue reminders, T7.5.03) opens the task on its quick-reschedule sheet.
+    final walkTomorrow = await handler.handle(ctx('reschedule', walk, '2026-09-23T12:00'));
+    expect(walkTomorrow.openLink, '/task/$walk?occ=2026-09-23T12%3A00&reschedule=1');
+    expect(walkTomorrow.markActed, isFalse);
 
     final closed = await handler.handle(ctx('start', walk, '2026-09-22T12:00'));
     expect(closed.success, isFalse);

@@ -4,10 +4,11 @@
 
 import { mapWithConcurrency } from "../_shared/background.ts";
 import type { FcmMessage, FcmSendResult, PushSender } from "../_shared/fcm.ts";
+import { type EmailSender, renderDigestEmail, unsubscribeUrl } from "../_shared/email.ts";
 import type { Logger } from "../_shared/log.ts";
 import type { ClaimedJob, DeliveryRecord, GuardResult, JobResult, UserDevices } from "../_shared/types.ts";
 import { backoffSeconds, classifyJob, decideDevices } from "./decisions.ts";
-import { buildJobMessage } from "./payload.ts";
+import { buildBurstMessage, buildJobMessage, BURST_MIN_JOBS } from "./payload.ts";
 
 export interface DispatchStore {
   claim(limit: number, leaseSeconds: number): Promise<ClaimedJob[]>;
@@ -16,6 +17,26 @@ export interface DispatchStore {
   devices(userIds: string[]): Promise<Record<string, UserDevices>>;
   complete(results: JobResult[]): Promise<void>;
   heartbeat(name: string, details: Record<string, unknown>): Promise<void>;
+  /** Opted-in digest email recipients (T7.4.18); absent = email not wired. */
+  emailTargets?(userIds: string[]): Promise<Record<string, EmailTarget>>;
+}
+
+export interface EmailTarget {
+  email: string;
+  locale: string;
+  /** Digest kinds to email (empty = all). */
+  kinds: string[];
+}
+
+/** Pseudo device id of the email channel in push_deliveries (one email per job, never re-sent). */
+export const EMAIL_DEVICE_ID = "00000000-0000-4000-8000-00000000e3a1";
+
+export interface EmailOptions {
+  sender: EmailSender;
+  /** Secret signing the unsubscribe links. */
+  linkSecret: string;
+  /** Public project URL (unsubscribe endpoint). */
+  baseUrl: string;
 }
 
 export interface DispatchOptions {
@@ -31,6 +52,8 @@ export interface DispatchOptions {
   concurrency?: number;
   random?: () => number;
   log?: Logger;
+  /** Digest emails (T7.4.18); null/absent = not configured. */
+  email?: EmailOptions | null;
 }
 
 export interface DispatchSummary {
@@ -44,10 +67,12 @@ export interface DispatchSummary {
   pushFailures: number;
   pushConfigured: boolean;
   batches: number;
+  emails: number;
 }
 
 interface PendingSend {
-  job: ClaimedJob;
+  /** Jobs delivered by this message (several for a coalesced burst). */
+  jobs: ClaimedJob[];
   deviceId: string;
   message: FcmMessage;
 }
@@ -73,6 +98,7 @@ export async function runDispatch(options: DispatchOptions): Promise<DispatchSum
     pushFailures: 0,
     pushConfigured: options.sender !== null,
     batches: 0,
+    emails: 0,
   };
 
   while (summary.batches < maxBatches && Date.now() - startedAt < budgetMs) {
@@ -153,7 +179,7 @@ async function processBatch(
   if (inboxItems.length > 0) await store.upsertInbox(inboxItems);
 
   // 4. Per-device decisions.
-  const sends: PendingSend[] = [];
+  const perDevice = new Map<string, { device: UserDevices["devices"][number]; jobs: ClaimedJob[] }>();
   for (const { job } of passing) {
     const r = result(job);
     if (job.payload?.system === false) {
@@ -170,7 +196,9 @@ async function processBatch(
         toSend++;
         if (sender) {
           const device = devices.find((x) => x.id === d.deviceId)!;
-          sends.push({ job, deviceId: d.deviceId, message: buildJobMessage(job, device, now) });
+          const entry = perDevice.get(d.deviceId) ?? { device, jobs: [] };
+          entry.jobs.push(job);
+          perDevice.set(d.deviceId, entry);
         }
       }
     }
@@ -189,7 +217,26 @@ async function processBatch(
     }
   }
 
-  // 5. FCM sends (one request per token, bounded parallelism).
+  // 5. Messages: same-minute bursts on one device become one push; everything else one push per job.
+  const sends: PendingSend[] = [];
+  for (const [deviceId, { device, jobs: deviceJobs }] of perDevice) {
+    const byMinute = new Map<string, ClaimedJob[]>();
+    for (const job of deviceJobs) {
+      const key = job.fire_at.slice(0, 16);
+      byMinute.set(key, [...(byMinute.get(key) ?? []), job]);
+    }
+    for (const group of byMinute.values()) {
+      if (group.length >= BURST_MIN_JOBS) {
+        sends.push({ jobs: group, deviceId, message: buildBurstMessage(group, device, now) });
+      } else {
+        for (const job of group) {
+          sends.push({ jobs: [job], deviceId, message: buildJobMessage(job, device, now) });
+        }
+      }
+    }
+  }
+
+  // 6. FCM sends (one request per token, bounded parallelism).
   if (sender && sends.length > 0) {
     const outcomes = await mapWithConcurrency(sends, concurrency, async (s): Promise<FcmSendResult> => {
       try {
@@ -212,28 +259,30 @@ async function processBatch(
     >();
     sends.forEach((s, i) => {
       const o = outcomes[i];
-      const r = result(s.job);
-      const agg = perJob.get(s.job.id) ?? { job: s.job, sent: 0, retry: 0, retryAfter: 0, codes: [] };
-      perJob.set(s.job.id, agg);
-      let delivery: DeliveryRecord;
-      if (o.ok) {
-        agg.sent++;
-        delivery = { device_id: s.deviceId, outcome: "sent", fcm_message_id: o.messageId };
-      } else {
-        summary.pushFailures++;
-        agg.codes.push(o.kind);
-        if (o.tokenInvalid) {
-          r.invalid_device_ids.push(s.deviceId);
-          delivery = { device_id: s.deviceId, outcome: "token_invalid", error_code: o.kind };
+      if (!o.ok) summary.pushFailures++;
+      for (const job of s.jobs) {
+        const r = result(job);
+        const agg = perJob.get(job.id) ?? { job, sent: 0, retry: 0, retryAfter: 0, codes: [] };
+        perJob.set(job.id, agg);
+        let delivery: DeliveryRecord;
+        if (o.ok) {
+          agg.sent++;
+          delivery = { device_id: s.deviceId, outcome: "sent", fcm_message_id: o.messageId };
         } else {
-          if (o.retryable) {
-            agg.retry++;
-            agg.retryAfter = Math.max(agg.retryAfter, o.retryAfterSeconds ?? 0);
+          agg.codes.push(o.kind);
+          if (o.tokenInvalid) {
+            if (!r.invalid_device_ids.includes(s.deviceId)) r.invalid_device_ids.push(s.deviceId);
+            delivery = { device_id: s.deviceId, outcome: "token_invalid", error_code: o.kind };
+          } else {
+            if (o.retryable) {
+              agg.retry++;
+              agg.retryAfter = Math.max(agg.retryAfter, o.retryAfterSeconds ?? 0);
+            }
+            delivery = { device_id: s.deviceId, outcome: "failed", error_code: o.kind };
           }
-          delivery = { device_id: s.deviceId, outcome: "failed", error_code: o.kind };
         }
+        r.deliveries.push(delivery);
       }
-      r.deliveries.push(delivery);
     });
 
     for (const agg of perJob.values()) {
@@ -251,6 +300,41 @@ async function processBatch(
         Object.assign(r, { status: "sent", reason: null, pushed: true });
       } else {
         Object.assign(r, { status: "failed", reason: agg.codes.join(",") });
+      }
+    }
+  }
+
+  // 7. Digest emails for opted-in users (once per job; never individual reminders).
+  const email = options.email;
+  const digests = passing.filter(({ job }) =>
+    (job.payload?.type === "digest" || job.payload?.category === "digest") &&
+    !(job.sent_device_ids ?? []).includes(EMAIL_DEVICE_ID)
+  );
+  if (email && store.emailTargets && digests.length > 0) {
+    const targets = await store.emailTargets([...new Set(digests.map(({ job }) => job.user_id))]);
+    for (const { job } of digests) {
+      const t = targets[job.user_id];
+      const kind = typeof job.payload?.digestKind === "string" ? job.payload.digestKind : null;
+      if (!t || (t.kinds.length > 0 && (kind === null || !t.kinds.includes(kind)))) continue;
+      const message = renderDigestEmail({
+        to: t.email,
+        locale: t.locale,
+        title: typeof job.payload?.title === "string" ? job.payload.title : "Everslot",
+        body: typeof job.payload?.body === "string" ? job.payload.body : "",
+        unsubscribeUrl: await unsubscribeUrl(email.baseUrl, email.linkSecret, job.user_id),
+      });
+      const sent = await email.sender.send(message);
+      const r = result(job);
+      r.deliveries.push(
+        sent.ok ? { device_id: EMAIL_DEVICE_ID, outcome: "email_sent", fcm_message_id: sent.id } : {
+          device_id: EMAIL_DEVICE_ID,
+          outcome: "email_failed",
+          error_code: String(sent.status ?? "error"),
+        },
+      );
+      if (sent.ok) {
+        summary.emails++;
+        if (r.status === "skipped") Object.assign(r, { status: "sent", reason: "email" });
       }
     }
   }

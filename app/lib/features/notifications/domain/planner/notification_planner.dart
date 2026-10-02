@@ -1,6 +1,8 @@
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/features/notifications/domain/delivery_resolution.dart';
 import 'package:everslot/features/notifications/domain/effective_rules_resolver.dart';
+import 'package:everslot/features/notifications/domain/json_fields.dart';
+import 'package:everslot/features/notifications/domain/notification_actions.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
 import 'package:everslot/features/notifications/domain/notification_settings.dart';
 import 'package:everslot/features/notifications/domain/notification_target.dart';
@@ -28,6 +30,7 @@ class PlanningContext {
     this.texts = const PlainNotificationTexts(),
     this.acknowledgedKeys = const {},
     this.deviceId = '',
+    this.lastForegroundAt,
     this.userId = '',
     this.timeSensitiveAllowed = true,
     this.horizon,
@@ -48,6 +51,9 @@ class PlanningContext {
   /// Base dedupe keys acknowledged on any device (inbox acted/opened/dismissed) — stops nags.
   final Set<String> acknowledgedKeys;
   final String deviceId;
+
+  /// This device's last foreground (last-active policy, T7.4.19); null = unknown.
+  final DateTime? lastForegroundAt;
   final String userId;
   final bool timeSensitiveAllowed;
 
@@ -112,6 +118,7 @@ abstract final class NotificationPlanner {
         _planRule(ctx, rule, target, profiles, planned, skipped);
       }
     }
+    _mergeUpNext(ctx.targets, planned);
     final sorted = planned.values.toList()
       ..sort((a, b) {
         final c = a.fireAt.compareTo(b.fireAt);
@@ -120,6 +127,26 @@ abstract final class NotificationPlanner {
         return i != 0 ? i : a.dedupeKey.compareTo(b.dedupeKey);
       });
     return PlanResult(ctx.applyCaps ? _applyCaps(ctx, sorted, skipped) : sorted, skipped);
+  }
+
+  /// Back-to-back tasks (T7.5.04): a "done → up next" notification at the boundary replaces the next
+  /// task's own reminders firing at that same instant, so the user gets one notification, not two.
+  static void _mergeUpNext(List<NotificationTarget> targets, Map<String, PlannedNotification> planned) {
+    final byKey = {for (final t in targets) '${t.targetKey}|${t.occurrenceKey ?? ''}': t};
+    final drop = <String>{};
+    for (final p in planned.values) {
+      if (p.triggerType != 'up_next' || !p.occurrenceKey.endsWith('|un')) continue;
+      final t = byKey['task:${p.targetId}|${p.occurrenceKey.substring(0, p.occurrenceKey.length - 3)}'];
+      final nextId = t?.variables['next_task_id'];
+      final nextOcc = t?.variables['next_occurrence_key'];
+      if (nextId is! String || nextOcc is! String) continue;
+      for (final q in planned.values) {
+        if (q.targetId == nextId && q.occurrenceKey == nextOcc && q.triggerType == 'relative' && q.fireAt == p.fireAt) {
+          drop.add(q.dedupeKey);
+        }
+      }
+    }
+    planned.removeWhere((k, _) => drop.contains(k));
   }
 
   /// Plans a single rule for one target (preview & noise estimate share this code path).
@@ -148,9 +175,10 @@ abstract final class NotificationPlanner {
       spec: rule.spec,
       ruleProfile: profiles[rule.profileId ?? ''],
       sectionDefault: sectionDefault,
-      targetDefaultActions: target.defaultActions,
+      targetDefaultActions: _triggerActions(rule.spec.trigger, target) ?? target.defaultActions,
     );
     final profileContent = profiles[rule.profileId ?? '']?.spec.content;
+    final escalated = <EscalationStep, EffectiveDelivery>{};
     final candidates = _candidates(ctx, rule, target, zone, horizonEnd);
     for (final c in candidates) {
       final occurrenceKey = c.occurrenceKey;
@@ -195,24 +223,50 @@ abstract final class NotificationPlanner {
       for (var i = 1; i <= times; i++) {
         final at = base.fireAt.add(Duration(minutes: repeat.everyMinutes * i));
         if (at.isAfter(horizonEnd)) break;
-        final nag = _applyPolicies(ctx, rule, target, delivery, at, zone, skip, nag: true);
+        // Escalation (T7.2.23): later nags may use a louder profile and every device.
+        final step = repeat.stepFor(i);
+        final d = step == null
+            ? delivery
+            : escalated.putIfAbsent(step, () => _escalate(rule, target, profiles, sectionDefault, step) ?? delivery);
+        final allDevices = step?.allDevices ?? false;
+        final nag = _applyPolicies(ctx, rule, target, d, at, zone, skip, nag: true, allDevices: allDevices);
         if (nag == null) continue;
         final key = dedupeKeyFor(ruleId: rule.id, targetId: target.id, occurrenceKey: occurrenceKey, repeatIdx: i);
         final n = _build(
           ctx,
           rule,
           target,
-          delivery,
+          d,
           profileContent,
           c,
           nag,
           dedupeKey: key,
           baseKey: baseKey,
           repeatIdx: i,
+          allDevices: allDevices,
         );
         planned.putIfAbsent(n.dedupeKey, () => n);
       }
     }
+  }
+
+  /// Delivery of the nags covered by escalation [step]: the step's profile (by id or built-in
+  /// code) replaces the rule's own delivery fields except its actions; null when unknown.
+  static EffectiveDelivery? _escalate(
+    NotificationRule rule,
+    NotificationTarget target,
+    Map<String, NotificationProfile> profiles,
+    NotificationProfile? sectionDefault,
+    EscalationStep step,
+  ) {
+    final profile = profiles[step.profile] ?? profiles.values.where((p) => p.code == step.profile).firstOrNull;
+    if (profile == null) return null;
+    return resolveDelivery(
+      spec: rule.spec.copyWith(delivery: DeliverySpec(actions: rule.spec.delivery.actions)),
+      ruleProfile: profile,
+      sectionDefault: sectionDefault,
+      targetDefaultActions: _triggerActions(rule.spec.trigger, target) ?? target.defaultActions,
+    );
   }
 
   // ---------------------------------------------------------------------------- candidates --
@@ -328,10 +382,13 @@ abstract final class NotificationPlanner {
           ),
         ];
 
-      case OverdueTrigger(:final effectiveAfter):
+      case OverdueTrigger(:final afterMinutes):
+        // Events have no "done" state: they never go overdue (T7.5.03).
+        if (target.variables['tracking_mode'] == 'event') return const [];
         final base = target.end ?? target.due;
         if (base == null) return const [];
-        return [_Candidate(base.add(Duration(minutes: effectiveAfter)), occ, DefaultContentKind.overdue)];
+        final after = afterMinutes ?? asInt(target.variables['missed_grace_minutes']) ?? 0;
+        return [_Candidate(base.add(Duration(minutes: after)), occ, DefaultContentKind.overdue)];
 
       case StreakRiskTrigger(atTime: final time, :final effectiveMinStreak):
         if ((target.streak ?? 0) < effectiveMinStreak) return const [];
@@ -349,7 +406,11 @@ abstract final class NotificationPlanner {
             '$occ|qb:${dateOf(day).toIso()}',
             DefaultContentKind.quotaBehind,
             count: quota.remaining,
-            extraVars: {'done': ctx.texts.number(quota.done), 'target': ctx.texts.number(quota.target)},
+            extraVars: {
+              'done': ctx.texts.number(quota.done),
+              'target': ctx.texts.number(quota.target),
+              'days_left': '${quota.eligibleDaysLeft}',
+            },
           ),
         ];
 
@@ -375,7 +436,7 @@ abstract final class NotificationPlanner {
           out.add(
             _Candidate(
               m.at,
-              'm:$metric:${m.threshold}',
+              m.runKey == null ? 'm:$metric:${m.threshold}' : 'm:$metric:${m.threshold}:${m.runKey}',
               DefaultContentKind.milestone,
               count: m.threshold.round(),
               extraVars: {'next_milestone': m.label ?? ctx.texts.number(m.threshold)},
@@ -440,12 +501,160 @@ abstract final class NotificationPlanner {
               ),
         ];
 
+      case UpNextTrigger(:final beforeMinutes):
+        // The planner source names the next timed task of the day (T7.5.04).
+        final nextStart = DateTime.tryParse('${target.variables['next_start'] ?? ''}')?.toUtc();
+        final nextTitle = target.variables['next_title'];
+        if (nextStart == null || nextTitle is! String || target.end == null) return const [];
+        final backToBack = beforeMinutes == null && !nextStart.isAfter(target.end!);
+        final fire = beforeMinutes == null ? target.end! : nextStart.subtract(Duration(minutes: beforeMinutes));
+        return [
+          _Candidate(
+            fire,
+            '$occ|un',
+            backToBack ? DefaultContentKind.upNextMerged : DefaultContentKind.upNext,
+            anchor: nextStart,
+            extraVars: {'next_title': nextTitle, 'next_start_time': ctx.texts.time(zones.toLocal(nextStart, zone))},
+          ),
+        ];
+
+      case ListResetTrigger(atTime: final time):
+        return [
+          for (final e in target.events)
+            if (e.kind == 'list_reset')
+              _Candidate(
+                time == null ? e.at : _laterOf(e.at, at(dateOf(e.at), time)),
+                'evt:reset:${dateOf(e.at).toIso()}',
+                DefaultContentKind.listReset,
+              ),
+        ];
+
+      case TimerEndTrigger():
+        // Only while the timer runs: starting it replans; stopping closes the alert (T7.5.04).
+        if (target.variables['tracking_mode'] != 'timer' || target.status != 'in_progress') return const [];
+        final end = target.end;
+        if (end == null) return const [];
+        return [_Candidate(end, '$occ|te', DefaultContentKind.timerEnd)];
+
+      case EventTrigger(:final name, atTime: final time):
+        return [
+          for (final e in target.events)
+            if (e.kind == name)
+              _Candidate(
+                time == null ? e.at : _laterOf(e.at, at(dateOf(e.at), time)),
+                'evt:$name:${e.at.toUtc().toIso8601String()}',
+                name == EventTrigger.startedLate ? DefaultContentKind.startedLate : DefaultContentKind.customEvent,
+                extraVars: {if (e.data['minutes'] != null) 'late_minutes': '${e.data['minutes']}'},
+              ),
+        ];
+
+      case QuitRitualTrigger(:final kind, atTime: final time, :final effectiveMinutesBefore):
+        return _ritual(kind, time, effectiveMinutesBefore, target, ctx.now, horizonEnd, at, dateOf);
+
       case UnknownTrigger():
         return const [];
     }
   }
 
+  /// Quit rituals (T7.5.14) over every local day from today to the horizon. Target inputs: events
+  /// `pledge` / `review` (that day's ritual is already done) and `relapse`; variables
+  /// `pledge_time`, `review_time`, `craving_count`, `craving_hours` (comma-separated local hours),
+  /// `coping_tip` and `reason`.
+  static List<_Candidate> _ritual(
+    String kind,
+    LocalTime? time,
+    int minutesBefore,
+    NotificationTarget target,
+    DateTime now,
+    DateTime horizonEnd,
+    DateTime Function(LocalDate, LocalTime) at,
+    LocalDate Function(DateTime) dateOf,
+  ) {
+    String? v(String key) => target.variables[key]?.toString();
+    LocalTime? timeVar(String key) => v(key) == null ? null : LocalTime.tryParse(v(key)!);
+    final last = dateOf(horizonEnd);
+    final days = [for (var d = dateOf(now); d.compareTo(last) <= 0; d = d.plusDays(1)) d];
+    bool done(String event, LocalDate d) => target.events.any((e) => e.kind == event && dateOf(e.at) == d);
+    switch (kind) {
+      case QuitRitualTrigger.pledge:
+        final t = time ?? timeVar('pledge_time') ?? LocalTime(8, 0);
+        return [
+          for (final d in days)
+            if (!done('pledge', d)) _Candidate(at(d, t), 'qr:pledge:${d.toIso()}', DefaultContentKind.pledge),
+        ];
+      case QuitRitualTrigger.eveningReview:
+        final t = time ?? timeVar('review_time') ?? LocalTime(21, 0);
+        return [
+          for (final d in days)
+            if (!done('review', d)) _Candidate(at(d, t), 'qr:review:${d.toIso()}', DefaultContentKind.eveningReview),
+        ];
+      case QuitRitualTrigger.cravingSupport:
+        final count = int.tryParse(v('craving_count') ?? '') ?? 0;
+        if (count < QuitRitualTrigger.cravingSupportMinCravings) return const [];
+        final hours = [
+          for (final h in (v('craving_hours') ?? '').split(','))
+            if (int.tryParse(h.trim()) case final hour? when hour >= 0 && hour < 24) hour,
+        ];
+        return [
+          for (final d in days)
+            for (final h in hours)
+              _Candidate(
+                at(d, LocalTime(h, 0)).subtract(Duration(minutes: minutesBefore)),
+                'qr:crave:${d.toIso()}:$h',
+                DefaultContentKind.cravingSupport,
+                extraVars: {'tip': ?v('coping_tip')},
+              ),
+        ];
+      case QuitRitualTrigger.encouragement:
+        final t = time ?? LocalTime(8, 0);
+        return [
+          for (final e in target.events)
+            if (e.kind == 'relapse')
+              _Candidate(
+                at(dateOf(e.at).plusDays(1), t),
+                'qr:enc:${dateOf(e.at).toIso()}',
+                DefaultContentKind.encouragement,
+              ),
+        ];
+      case QuitRitualTrigger.motivation:
+        final reason = v('reason')?.trim() ?? '';
+        if (reason.isEmpty) return const [];
+        final t = time ?? LocalTime(12, 0);
+        return [for (final d in days) _Candidate(at(d, t), 'qr:mot:${d.toIso()}', DefaultContentKind.motivation)];
+      default:
+        return const [];
+    }
+  }
+
   static DateTime _laterOf(DateTime a, DateTime b) => a.isAfter(b) ? a : b;
+
+  /// Trigger-specific default actions (used when neither the rule nor its profile sets any).
+  static List<String>? _triggerActions(NotificationTrigger trigger, NotificationTarget target) => switch (trigger) {
+    OverdueTrigger() when target.type == NotificationTargetType.task => const [
+      NotificationActionIds.done,
+      NotificationActionIds.reschedule,
+      NotificationActionIds.skip,
+    ],
+    UpNextTrigger() => const [NotificationActionIds.done, NotificationActionIds.open],
+    // "All sub-items are done — complete it?" (T7.5.09).
+    ChildrenCompleteTrigger() when target.type == NotificationTargetType.checklistItem => const [
+      NotificationActionIds.completeItem,
+      NotificationActionIds.open,
+    ],
+    ListResetTrigger() => const [NotificationActionIds.open],
+    TimerEndTrigger() => const [NotificationActionIds.stop, NotificationActionIds.extend],
+    QuitRitualTrigger(:final kind) => switch (kind) {
+      QuitRitualTrigger.pledge => const [NotificationActionIds.pledge, NotificationActionIds.open],
+      QuitRitualTrigger.eveningReview => const [
+        NotificationActionIds.cleanDay,
+        NotificationActionIds.logRelapse,
+        NotificationActionIds.logCraving,
+      ],
+      QuitRitualTrigger.cravingSupport => const [NotificationActionIds.logCraving, NotificationActionIds.open],
+      _ => const [NotificationActionIds.open],
+    },
+    _ => null,
+  };
 
   static DateTime? _anchor(NotificationTarget t, TriggerAnchor anchor) => switch (anchor) {
     TriggerAnchor.start => t.start,
@@ -485,6 +694,7 @@ abstract final class NotificationPlanner {
     String zone,
     void Function(SkipReason reason, DateTime at) skip, {
     required bool nag,
+    bool allDevices = false,
   }) {
     final zones = ctx.zones;
     final conditions = rule.spec.conditions;
@@ -584,8 +794,8 @@ abstract final class NotificationPlanner {
 
     final devices = conditions.devices;
     final local =
-        ctx.settings.localSchedulingAllowed(ctx.deviceId) &&
-        (devices == null || devices.isEmpty || devices.contains(ctx.deviceId));
+        ctx.settings.localSchedulingAllowed(ctx.deviceId, lastForegroundAt: ctx.lastForegroundAt, now: ctx.now) &&
+        (allDevices || devices == null || devices.isEmpty || devices.contains(ctx.deviceId));
     if (!local) adjustments.add(PlanAdjustment.notLocal);
 
     return _Policed(
@@ -631,6 +841,7 @@ abstract final class NotificationPlanner {
     required String dedupeKey,
     required String baseKey,
     required int repeatIdx,
+    bool allDevices = false,
   }) {
     final zone = target.timeZone ?? ctx.deviceZone;
     final vars = _variables(ctx, target, zone, c, p.fireAt);
@@ -638,7 +849,18 @@ abstract final class NotificationPlanner {
     final content = rule.spec.content.isEmpty ? (profileContent ?? ContentSpec.empty) : rule.spec.content;
     var titleTpl = content.title;
     var bodyTpl = content.body;
-    final variants = content.variants;
+    var variants = content.variants;
+    if ((variants == null || variants.isEmpty) && content.pack != null) {
+      // Curated pack: only variants whose variables this target has (T7.1.17).
+      variants = [
+        for (final v in texts.packVariants(content.pack!))
+          if ({
+            ...TemplateEngine.variablesIn(v.title ?? ''),
+            ...TemplateEngine.variablesIn(v.body ?? ''),
+          }.every((name) => vars[name]?.isNotEmpty ?? false))
+            v,
+      ];
+    }
     if (variants != null && variants.isNotEmpty) {
       final v = variants[int.parse(dedupeKey.substring(0, 8), radix: 16) % variants.length];
       titleTpl = v.title ?? titleTpl;
@@ -694,10 +916,15 @@ abstract final class NotificationPlanner {
       vibration: p.silent ? 'none' : delivery.vibration,
       sticky: delivery.sticky,
       alarmStyle: delivery.alarmStyle,
+      alarmOptions: delivery.alarm,
       actions: delivery.actions,
       snoozeOptions: delivery.snoozeOptionsMinutes,
       title: ctx.settings.hideContent ? texts.redactedTitle : title,
       body: ctx.settings.hideContent ? texts.redactedBody : body,
+      // iOS subtitle / Android sub-text: where the item lives (T7.2.26), never when hidden.
+      subtitle: ctx.settings.hideContent
+          ? null
+          : [vars['parent_path'], vars['category']].firstWhere((v) => v != null && v.isNotEmpty, orElse: () => null),
       inboxTitle: title,
       inboxBody: body,
       threadId: repeatIdx > 0 || delivery.repeat != null ? 'nag:$baseKey' : 'sec:${target.section.wire}',
@@ -712,7 +939,7 @@ abstract final class NotificationPlanner {
       adjustments: p.adjustments,
       anchorFireAt: p.anchorFireAt,
       silent: p.silent,
-      targetDevices: rule.spec.conditions.devices,
+      targetDevices: allDevices ? null : rule.spec.conditions.devices,
       repeatable:
           c.repeatable &&
           repeatIdx == 0 &&
@@ -791,7 +1018,10 @@ abstract final class NotificationPlanner {
     if (target.due != null) {
       vars['due_relative'] = texts.relative(target.due!.difference(fireAt).inMinutes);
     }
-    if (target.status != null) vars['status'] = texts.status(target.status!);
+    if (target.status != null) {
+      vars['status'] = texts.status(target.status!);
+      vars['status_wire'] = target.status!;
+    }
     if (target.statusChangedAt != null) {
       vars['status_age'] = texts.duration(fireAt.difference(target.statusChangedAt!).inMinutes.abs());
     }

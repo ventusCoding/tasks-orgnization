@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
+import 'package:everslot/features/attachments/application/attachment_previews.dart';
 import 'package:everslot/features/notifications/application/local_notifications_port.dart';
 import 'package:everslot/features/notifications/application/local_scheduler.dart';
 import 'package:everslot/features/notifications/application/notification_registry.dart';
@@ -172,5 +173,6 @@ final localSchedulerProvider = Provider<LocalNotificationScheduler>(
     clock: ref.watch(clockProvider),
     l10n: () => ref.read(notificationTextsProvider).l10n,
     handlers: () => ref.read(notificationActionHandlersProvider),
+    imageFor: (type, id) => ref.read(attachmentPreviewsProvider).cachedImage(type, id),
   ),
 );

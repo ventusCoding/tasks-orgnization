@@ -35,7 +35,7 @@
       "settings": {"quietHours": [{"days": [1, 2, 3, 4, 5, 6, 7], "from": "22:00", "to": "07:00", "mode": "drop"}]},
       "rules": [{"id": "at", "targetType": "section", "section": "planner", "profileId": "alarm", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}}],
       "targets": [{"type": "task", "id": "t", "section": "planner", "title": "Flight", "occurrenceKey": "2026-09-22T06:30", "start": "2026-09-22T04:30:00Z"}],
-      "expected": [{"rule": "at", "target": "t", "fireAtUtc": "2026-09-22T04:30:00Z", "channel": "dl.planner.alarm.v1"}]
+      "expected": [{"rule": "at", "target": "t", "fireAtUtc": "2026-09-22T04:30:00Z", "channel": "dl.planner.alarm.v2"}]
     },
     {
       "name": "rule respectQuietHours false bypasses quiet hours",

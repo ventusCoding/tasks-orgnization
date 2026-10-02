@@ -50,6 +50,14 @@ class NotificationLabels {
     ChildrenCompleteTrigger() => l.notifSumChildrenComplete,
     ChildOverdueTrigger() => l.notifSumChildOverdue,
     StaleTrigger(:final afterDays) => l.notifSumStale(afterDays),
+    UpNextTrigger(:final beforeMinutes) =>
+      beforeMinutes == null ? l.notifSumUpNextAtEnd : l.notifSumUpNextBefore(beforeMinutes),
+    TimerEndTrigger() => l.notifSumTimerEnd,
+    ListResetTrigger(:final atTime) => atTime == null ? l.notifSumListReset : l.notifSumListResetAt(time(atTime)),
+    EventTrigger(:final name, :final atTime) =>
+      atTime == null ? eventName(name) : '${eventName(name)} · ${time(atTime)}',
+    QuitRitualTrigger(:final kind, :final atTime) =>
+      atTime == null ? ritual(kind) : '${ritual(kind)} · ${time(atTime)}',
     UnknownTrigger() => l.notifSumUnknown,
   };
 
@@ -101,6 +109,33 @@ class NotificationLabels {
 
   String action(String id) => actionLabelOf(l, id);
 
+  /// Events a rule can react to (T7.5.20); unknown names are shown as they are.
+  static const knownEvents = [
+    EventTrigger.startedLate,
+    'status_change',
+    'children_complete',
+    'child_overdue',
+    'list_reset',
+  ];
+
+  String eventName(String name) => switch (name) {
+    EventTrigger.startedLate => l.notifEventStartedLate,
+    'status_change' => l.notifEventStatusChange,
+    'children_complete' => l.notifEventChildrenComplete,
+    'child_overdue' => l.notifEventChildOverdue,
+    'list_reset' => l.notifEventListReset,
+    _ => l.notifEventCustom(name),
+  };
+
+  String ritual(String kind) => switch (kind) {
+    QuitRitualTrigger.pledge => l.notifRitualPledge,
+    QuitRitualTrigger.eveningReview => l.notifRitualEveningReview,
+    QuitRitualTrigger.cravingSupport => l.notifRitualCravingSupport,
+    QuitRitualTrigger.encouragement => l.notifRitualEncouragement,
+    QuitRitualTrigger.motivation => l.notifRitualMotivation,
+    _ => kind,
+  };
+
   String digestTitle(String kind) => switch (kind) {
     'daily_agenda' => l.notifDigestDailyAgenda,
     'plan_tomorrow' => l.notifDigestPlanTomorrow,
@@ -148,6 +183,7 @@ class NotificationLabels {
     NotificationIssueCode.offsetOutOfRange || NotificationIssueCode.dayOffsetOutOfRange => l.notifIssueOffsetOutOfRange,
     NotificationIssueCode.repeatMaxTooHigh => l.notifIssueRepeatMax,
     NotificationIssueCode.repeatIntervalInvalid => l.notifIssueRepeatInterval,
+    NotificationIssueCode.escalationInvalid => l.notifIssueEscalation,
     NotificationIssueCode.tooManyActions => l.notifIssueTooManyActions,
     NotificationIssueCode.unknownVariable => l.notifIssueUnknownVariable(i.detail ?? ''),
     NotificationIssueCode.emptyContent => l.notifIssueEmptyContent,
@@ -176,6 +212,11 @@ class NotificationLabels {
     TriggerType.childrenComplete => l.notifTriggerChildrenComplete,
     TriggerType.childOverdue => l.notifTriggerChildOverdue,
     TriggerType.stale => l.notifTriggerStale,
+    TriggerType.upNext => l.notifTriggerUpNext,
+    TriggerType.timerEnd => l.notifTriggerTimerEnd,
+    TriggerType.listReset => l.notifTriggerListReset,
+    TriggerType.quitRitual => l.notifTriggerQuitRitual,
+    TriggerType.event => l.notifTriggerEvent,
   };
 
   String anchor(TriggerAnchor a) => switch (a) {

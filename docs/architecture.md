@@ -105,6 +105,7 @@ erDiagram
 | Auth | `google_sign_in` 7.2.0; `sign_in_with_apple` 8.2.0 + `crypto` | Native ID-token flows (`signInWithIdToken`); Apple nonce (SHA-256 to Apple, raw to Supabase). |
 | Push | `firebase_core` 4.15.0, `firebase_messaging` 16.7.0 | Call `configureNotificationCenterDelegate()` from the AppDelegate (UIScene). |
 | Local notifications | `flutter_local_notifications` 22.3.1 + `timezone` 0.11.1 + `flutter_timezone` 5.1.0 | Zoned scheduling, actions incl. text input, background action isolate. |
+| Alarm missions | `sensors_plus` 7.1.1, `mobile_scanner` 7.4.2, `audioplayers` 6.8.1 | Shake / QR-code dismissal missions and the alarm screen's own rising ring on the alarm stream (T7.2.25). |
 | Background | `workmanager` 0.10.10 | Best-effort (never used for reminders themselves). |
 | Charts | `fl_chart` 1.2.0 + custom `CustomPainter`s (+ optional `graphic` 2.7.0) | Heatmaps, punch card, CFD, Gantt, streak timeline, radial clock are custom. |
 | Time grid | Custom engine (§6.9) on Flutter's 2-D scrolling API + `two_dimensional_scrollables` 0.5.4 (`TableView`, pinned header/ruler) | No package covers 1-min…24-h slots, semantic zoom, bucket mode and RTL; `kalender` 0.32 / `infinite_calendar_view` are references only (unstable APIs). |
@@ -139,7 +140,7 @@ erDiagram
 | API | PostgREST + **RPC functions** (`app.sync_push`, `app.sync_pull`, …) | All client writes go through sync RPCs. |
 | Files | Supabase Storage, private bucket `attachments` | Path-scoped RLS; resumable (TUS) uploads via `<project-ref>.storage.supabase.co`; client-side thumbnails (server image transforms need Pro). Free plan max file size 50 MB. |
 | Realtime | **Broadcast from database** on private channel `user:<uid>` | Trigger calls `realtime.send` with the new head revision only; RLS on `realtime.messages`. Data always comes via pull. |
-| Server logic | Edge Functions (TypeScript, **Deno 2.1-compatible** hosted runtime) | `npm:`/`jsr:` pinned imports; `jose` 6.x for the FCM service-account JWT; don't commit a Deno lockfile v5 (local Deno 2.9 is newer than the hosted runtime) — test with `supabase functions serve`. Limits: 2 s CPU, 256 MB, 150 s (free) / 400 s (paid) wall clock, `EdgeRuntime.waitUntil` for background work. |
+| Server logic | Edge Functions (TypeScript, **Deno 2.1-compatible** hosted runtime) | `npm:`/`jsr:` pinned imports; `jose` 6.x for the FCM service-account JWT; `rrule-temporal` 2.2 + `temporal-polyfill` 1.0 for the server planning fallback (T7.4.17, RFC 5545 expansion — the hosted runtime has no Temporal global); test-only `postgres` 3.4 (`_shared/test_deps.ts`, the opt-in E2E push suite reads the `private` tables of the local stack); don't commit a Deno lockfile v5 (local Deno 2.9 is newer than the hosted runtime) — test with `supabase functions serve`. Limits: 2 s CPU, 256 MB, 150 s (free) / 400 s (paid) wall clock, `EdgeRuntime.waitUntil` for background work. |
 | Scheduling | `pg_cron` (second-level schedules) + `pg_net` (+ Vault for secrets) | ≤ 8 concurrent jobs, ≤ 10 min each; pg_net is fire-and-forget (2 s timeout, no retries). |
 | Push | Firebase Cloud Messaging HTTP v1 (service-account OAuth2, token cached ~1 h) | APNs `.p8` key uploaded to Firebase. |
 | Plans | Free for development; **Pro** before launch | Free projects pause after 1 week idle; Free: 500 MB DB, 1 GB storage, 5 GB egress, 500k function calls, 200 realtime connections. |
@@ -716,7 +717,7 @@ app.profiles            -- id = auth user id (also user_id)
   onboarding_completed_at timestamptz
 
 app.user_settings       -- id = uuidv5(user_id, namespace)
-  namespace text not null,          -- appearance | planner | checklists | habits | stats | notifications | privacy
+  namespace text not null,          -- appearance | planner | checklists | habits | stats | notifications | privacy | …
   value jsonb not null,             -- versioned JSON (§8.5)
   unique (user_id, namespace)
 
@@ -1050,19 +1051,27 @@ app.app_config (key text primary key, value jsonb not null)   -- public read: mi
 | `push-dispatch` | pg_cron every 30 s via pg_net (secret header) | Respond immediately; in `EdgeRuntime.waitUntil`: claim due jobs → guard → inbox row → per-device FCM or skip → delivery log → retry/backoff. |
 | `sync-nudge` | DB webhook on `sync_heads` (throttled per user) | Data-only FCM `{"type":"sync"}` to other devices not seen in last N minutes. |
 | `account-delete` | Authenticated user | Delete storage objects via Storage API, revoke Sign in with Apple tokens, then `auth.admin.deleteUser` (cascades rows). |
+| `email-unsubscribe` | Link in digest emails (GET page) / RFC 8058 one-click POST | T7.4.18: verifies the HMAC-signed link (`EMAIL_LINK_SECRET`) and turns `notifications.emailDigests.enabled` off (`app.email_unsubscribe`, server HLC stamp so devices sync it). |
+| `email-events` | Email provider webhook (`x-email-webhook-secret`) | T7.4.18: hard bounces and complaints → `private.email_suppressions` (`app.email_suppress`); suppressed addresses never get digests. |
+| `plan-fallback` | pg_cron daily 02:30 UTC (secret header) | T7.4.17: for users whose devices have not uploaded a plan for > 5 days, expand their server-expressible fixed rules (`_shared/recurrence.ts`: rule JSON → RRULE → `rrule-temporal` on the `temporal-polyfill`, floating wall clock + our gap/overlap rule) and plan relative / not-done-by reminders with Dart-identical dedupe keys; jobs are marked `plannedBy: server` and never replace a device plan (`app.fallback_*` RPCs). Parity: shared recurrence + planner fixtures in `deno test`. |
 
 Runtime: hosted Edge runtime is **Deno 2.1-compatible** — use `npm:`/`jsr:` imports with pinned versions,
 no Deno lockfile v5, verify with `supabase functions serve`. Shared: `_shared/fcm.ts` (service-account JWT
-signed with `jose` → OAuth token cached in module scope until ~5 min before expiry; HTTP v1 send; error
+signed with `jose` → OAuth token cached in module scope until ~5 min before expiry and shared across instances through `private.fcm_token_cache` (`app.fcm_token_cache_get/put`, service role); HTTP v1 send; error
 mapping), `_shared/supabase.ts` (admin client using the **secret** key), `_shared/cors.ts`,
-`_shared/types.ts`. Secrets: `FCM_SERVICE_ACCOUNT` (JSON, base64), `CRON_SECRET`, `SUPABASE_SECRET_KEY`;
-never logged.
+`_shared/types.ts`, `_shared/email.ts` (Resend-compatible HTTP client, EN/FR/AR digest templates with RTL,
+signed unsubscribe links). Digest jobs of users who opted in (`notifications.emailDigests`) are also emailed by
+`push-dispatch` (once per job; delivery `email_sent` on the pseudo device `…e3a1`), never individual reminders.
+Secrets: `FCM_SERVICE_ACCOUNT` (JSON, base64), `CRON_SECRET`, `SUPABASE_SECRET_KEY`, optional `EMAIL_API_KEY`,
+`EMAIL_FROM`, `EMAIL_LINK_SECRET`, `EMAIL_WEBHOOK_SECRET` (`EMAIL_API_URL`, `FCM_BASE_URL` override endpoints for
+tests); never logged.
 
 ### 7.7 Scheduled jobs (pg_cron)
 
 | Schedule | Job |
 |---|---|
 | every 30 s | `net.http_post` → `push-dispatch` (responds immediately, works in `waitUntil`) |
+| daily 02:30 UTC | `net.http_post` → `plan-fallback` (server planning for inactive devices, T7.4.17) |
 | every minute | lease reaper: jobs whose `lease_until` passed return to `pending` (attempts+1); heartbeat → `private.ops_heartbeats` |
 | daily 03:00 UTC | purge tombstones older than 90 days (+ update `purge_watermark`); delete storage objects of purged attachments (only when no row references the path); delete sent/skipped jobs > 14 days and deliveries > 30 days; revoke push for devices unseen 120 days; clean `cron.job_run_details` > 7 days; soft-delete inbox `notifications` older than 90 days; delete anonymous users inactive > 90 days with no data (P2) |
 
@@ -1223,7 +1232,10 @@ duration, 30, gte, "min".
 - `notifications`: quietHours [{days, from, to, mode: defer | silent | drop}], pausedUntil,
   perSection {enabled, defaultProfileId}, digest {dailyAgendaAt, eveningReviewAt, weeklyReviewDay/At},
   multiDevicePolicy (all | primary | last_active), primaryDeviceId, latenessMinutes (drop/mark late after),
-  bannerInApp, snoozePresets, maxNagRepeats (default 5, max 10), dateOnlyDefaultTime (default 09:00).
+  bannerInApp, snoozePresets, maxNagRepeats (default 5, max 10), dateOnlyDefaultTime (default 09:00),
+  emailDigests {enabled (opt-in, default false), kinds?} (T7.4.18).
+- `notification_rule_sets`: sets {"<id>": {name, targetType, rules: [{spec, profile (code)?, name?, enabled?}]}}
+  — reusable reminder bundles, exported as `{"everslot": "rule_set", "v": 1, …}` JSON files (T7.1.18).
 - `privacy`: crashReporting, appLock {enabled, timeoutSeconds}, hideContentInNotifications.
 
 ### 8.6 Checklist settings (`checklists.settings`)

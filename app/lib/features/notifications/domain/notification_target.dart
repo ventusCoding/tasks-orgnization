@@ -93,9 +93,15 @@ class NotificationGuard {
 /// `clean_days` itself from [NotificationTarget.milestoneBaseline].
 @immutable
 class NotificationMilestone {
-  const NotificationMilestone({required this.metric, required this.threshold, required this.at, this.label});
+  const NotificationMilestone({
+    required this.metric,
+    required this.threshold,
+    required this.at,
+    this.label,
+    this.runKey,
+  });
 
-  /// clean_days | streak | total_value | money_saved | units_avoided | custom
+  /// clean_days | streak | total_value | money_saved | units_avoided | health | custom
   final String metric;
   final num threshold;
 
@@ -105,16 +111,21 @@ class NotificationMilestone {
   /// Optional localized label ("24 hours smoke-free").
   final String? label;
 
+  /// Distinguishes repeated crossings of the same threshold (a new streak reaching 7 days again):
+  /// part of the occurrence key; null for one-time thresholds.
+  final String? runKey;
+
   @override
   bool operator ==(Object other) =>
       other is NotificationMilestone &&
       other.metric == metric &&
       other.threshold == threshold &&
       other.at == at &&
-      other.label == label;
+      other.label == label &&
+      other.runKey == runKey;
 
   @override
-  int get hashCode => Object.hash(metric, threshold, at, label);
+  int get hashCode => Object.hash(metric, threshold, at, label, runKey);
 }
 
 /// An observed event for event-driven triggers (status_change, children_complete, child_overdue).
@@ -369,6 +380,19 @@ abstract interface class NotificationTargetSource {
   /// Re-checks the guard of [t] right before delivery (foreground ticker, action handler,
   /// push handler). Return false when the reminder is obsolete (done, deleted, paused…).
   Future<bool> guardOpen(NotificationTarget t);
+}
+
+/// Optional extra of a [NotificationTargetSource]: counts that digests show but no target carries
+/// (T7.5.18), e.g. `backlog` = unscheduled tasks in *Plan tomorrow*.
+abstract interface class DigestFactsSource {
+  Future<Map<String, int>> digestFacts();
+}
+
+/// Optional extra of a [NotificationTargetSource]: when the user actually did things (habit
+/// check-ins, task starts / completions) per target key (`habit:id`, `task:id`) — reminder
+/// effectiveness (T7.5.17) and smart suggestions (T7.5.19).
+abstract interface class TargetActivitySource {
+  Future<Map<String, List<DateTime>>> activityBetween(DateTime fromUtc, DateTime toUtc);
 }
 
 /// In-memory source (tests, demos, debug menu): set [targets] and call [notifyChanged].

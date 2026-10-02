@@ -14,8 +14,11 @@ import 'package:everslot/features/notifications/presentation/delivery_fields.dar
 import 'package:everslot/features/notifications/presentation/diagnostics_screen.dart';
 import 'package:everslot/features/notifications/presentation/mute_menu.dart';
 import 'package:everslot/features/notifications/presentation/notification_labels.dart';
+import 'package:everslot/features/notifications/presentation/notification_stats_screen.dart';
 import 'package:everslot/features/notifications/presentation/permission_primers.dart';
 import 'package:everslot/features/notifications/presentation/profiles_screen.dart';
+import 'package:everslot/features/notifications/presentation/rule_sets_ui.dart';
+import 'package:everslot/features/notifications/presentation/smart_suggestions_screen.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -271,6 +274,18 @@ class _SettingsList extends ConsumerWidget {
         // ---- Digests
         SectionHeader(l.notifDigests),
         for (final kind in DigestTrigger.kinds) _DigestTile(kind: kind, rules: rules, userId: userId),
+        SwitchListTile(
+          key: const ValueKey('email-digests'),
+          secondary: const Icon(Icons.mail_outline),
+          title: Text(l.notifEmailDigests),
+          subtitle: Text(l.notifEmailDigestsHint),
+          value: settings.emailDigests,
+          onChanged: (v) => unawaited(
+            _patch(ref, {
+              'emailDigests': {'enabled': v},
+            }),
+          ),
+        ),
         // ---- Devices
         SectionHeader(l.notifMultiDevice),
         RadioGroup<MultiDevicePolicy>(
@@ -339,6 +354,24 @@ class _SettingsList extends ConsumerWidget {
           onTap: () => push(const NotificationDefaultsScreen()),
         ),
         ListTile(
+          key: const ValueKey('smart-screen'),
+          leading: const Icon(Icons.auto_awesome_outlined),
+          title: Text(l.notifSmartTitle),
+          onTap: () => push(const SmartSuggestionsScreen()),
+        ),
+        ListTile(
+          key: const ValueKey('stats-screen'),
+          leading: const Icon(Icons.insights_outlined),
+          title: Text(l.notifStatsEntry),
+          onTap: () => push(const NotificationStatsScreen()),
+        ),
+        ListTile(
+          key: const ValueKey('rule-sets-screen'),
+          leading: const Icon(Icons.bookmarks_outlined),
+          title: Text(l.notifRuleSets),
+          onTap: () => push(const RuleSetsScreen()),
+        ),
+        ListTile(
           leading: const Icon(Icons.style_outlined),
           title: Text(l.notifProfilesEntry),
           onTap: () => push(const NotificationProfilesScreen()),
@@ -375,8 +408,8 @@ class _DigestTile extends ConsumerWidget {
     final trigger = rule?.spec.trigger;
     final times = trigger is DigestTrigger ? (trigger.schedule['times'] as List?) : null;
     final time = times == null || times.isEmpty
-        ? DefaultRules.digestDefaultTimes[kind]!
-        : (LocalTime.tryParse('${times.first}') ?? DefaultRules.digestDefaultTimes[kind]!);
+        ? DefaultRules.digestDefaultTimeFor(userId, kind)
+        : (LocalTime.tryParse('${times.first}') ?? DefaultRules.digestDefaultTimeFor(userId, kind));
     final enabled = rule?.enabled ?? false;
     Future<void> save({required bool on, LocalTime? at}) => ref
         .read(notificationRulesRepositoryProvider)

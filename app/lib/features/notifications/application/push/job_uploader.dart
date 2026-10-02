@@ -128,6 +128,8 @@ class JobUploader {
       'section': p.section.wire,
       'sourceType': p.targetType.wire,
       'sourceId': p.targetId,
+      // Digest kind (the digest target's id): email digests filter on it (T7.4.18).
+      if (p.targetType == NotificationTargetType.digest) 'digestKind': p.targetId,
       'deepLink': AppLinks.external(p.deepLink).toString(),
       'actions': p.actions.take(3).toList(),
       'channel': p.channelId,

@@ -81,10 +81,39 @@ class EffectiveRulesResolver {
     if (!settings.sectionEnabled(target.section)) return const [];
     final result = <EffectiveRule>[];
     if (target.notifyMode.usesDefaults) result.addAll(_defaults(target));
-    if (target.notifyMode.usesOwn) result.addAll(_own(target));
+    if (target.notifyMode.usesOwn) result.addAll(_own(target).where((e) => !isOccurrenceScoped(e.rule)));
+    // Occurrence overrides (T7.1.16) apply in every mode but off: an enabled one adds a reminder to
+    // that occurrence, a disabled one switches the identical reminder off for it.
+    final overrides = occurrenceOverrides(target);
+    final suppressed = {
+      for (final r in overrides)
+        if (!r.enabled) r.spec.trigger,
+    };
+    result.addAll([
+      for (final r in overrides)
+        if (r.enabled) EffectiveRule(r, RuleProvenance.occurrence),
+    ]);
     return [
       for (final e in result)
-        if (e.rule.enabled && _matchesKind(e.rule, target) && _matchesOccurrence(e.rule, target)) e,
+        if (e.rule.enabled &&
+            _matchesKind(e.rule, target) &&
+            _matchesOccurrence(e.rule, target) &&
+            (e.provenance == RuleProvenance.occurrence || !suppressed.contains(e.rule.spec.trigger)))
+          e,
+    ];
+  }
+
+  /// Rules limited to some occurrences (`conditions.occurrenceKeys`).
+  static bool isOccurrenceScoped(NotificationRule rule) => rule.spec.conditions.occurrenceKeys?.isNotEmpty ?? false;
+
+  /// The target's own occurrence-scoped rules covering its occurrence (enabled or not).
+  List<NotificationRule> occurrenceOverrides(NotificationTarget target) {
+    final type = RuleTargetType.forTarget(target.type);
+    final occ = target.occurrenceKey;
+    if (type == null || occ == null) return const [];
+    return [
+      for (final r in index.owned(type, target.id))
+        if (r.spec.conditions.occurrenceKeys?.contains(occ) ?? false) r,
     ];
   }
 
@@ -189,6 +218,8 @@ class EffectiveRulesResolver {
     RelativeTrigger(:final anchor) => 'relative:${anchor.wire}',
     MilestoneTrigger(:final metric) => 'milestone:$metric',
     DigestTrigger(:final kind) => 'digest:$kind',
+    QuitRitualTrigger(:final kind) => 'quit_ritual:$kind',
+    EventTrigger(:final name) => 'event:$name',
     _ => trigger.typeWire,
   };
 }

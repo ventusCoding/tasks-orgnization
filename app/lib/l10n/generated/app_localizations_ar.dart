@@ -3728,6 +3728,16 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String habitNotifStreakMilestone(int days) {
+    return 'سلسلة $days يومًا!';
+  }
+
+  @override
+  String habitNotifTotalMilestone(String amount, String unit) {
+    return '$amount $unit إجمالًا';
+  }
+
+  @override
   String get habitsActionAddValue => 'إضافة قيمة';
 
   @override
@@ -5785,16 +5795,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notFoundTitle => 'الصفحة غير موجودة';
 
   @override
+  String get notifActionCleanDay => 'يوم نظيف';
+
+  @override
   String get notifActionComplete => 'أكمل';
 
   @override
   String get notifActionDone => 'تم';
 
   @override
+  String get notifActionExtend => '+10 دقائق';
+
+  @override
   String get notifActionInputPlaceholder => 'القيمة';
 
   @override
   String get notifActionLogCraving => 'سجّل رغبة';
+
+  @override
+  String get notifActionLogRelapse => 'تسجيل انتكاسة';
 
   @override
   String get notifActionLogValue => 'سجّل قيمة';
@@ -5816,6 +5835,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifActionOpen => 'افتح';
+
+  @override
+  String get notifActionPledge => 'أتعهد';
 
   @override
   String get notifActionReschedule => 'أعد الجدولة';
@@ -5867,6 +5889,52 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifAfter => 'بعد';
+
+  @override
+  String get notifAlarmAllowExact => 'السماح بالمنبّهات الدقيقة';
+
+  @override
+  String get notifAlarmAllowFullScreen => 'السماح بالمنبّهات بملء الشاشة';
+
+  @override
+  String get notifAlarmIosFallback =>
+      'على هذا الآيفون تصل المنبّهات كإشعارات حساسة للوقت: تتجاوز وضع التركيز لكنها تتبع زر الرنين/الصامت.';
+
+  @override
+  String get notifAlarmLimited =>
+      'قد لا يرنّ المنبّه في الوضع الصامت: اسمح بالمنبّهات الدقيقة والإشعارات بملء الشاشة لـ Everslot.';
+
+  @override
+  String get notifAlarmMaxSnoozes => 'الغفوات المسموح بها';
+
+  @override
+  String get notifAlarmMission => 'مهمة لإيقافه';
+
+  @override
+  String get notifAlarmMissionCount => 'كم مرة';
+
+  @override
+  String get notifAlarmOptions => 'خيارات المنبّه';
+
+  @override
+  String get notifAlarmQrSaved => 'حُفظ الرمز — امسح مجددًا لتغييره';
+
+  @override
+  String get notifAlarmQrScan => 'امسح الرمز المراد استخدامه';
+
+  @override
+  String get notifAlarmRamp => 'يرتفع الصوت تدريجيًا';
+
+  @override
+  String get notifAlarmRinging => 'منبّه';
+
+  @override
+  String notifAlarmSnooze(int minutes) {
+    return 'غفوة $minutes دقيقة';
+  }
+
+  @override
+  String get notifAlarmStop => 'إيقاف';
 
   @override
   String get notifAllowPrecise => 'السماح بالتذكيرات الدقيقة';
@@ -5935,6 +6003,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifBefore => 'قبل';
 
   @override
+  String notifBodyBlockedFor(String item, String age) {
+    return '$item متوقف منذ $age';
+  }
+
+  @override
   String get notifBodyChildOverdue => 'عنصر فرعي متأخر';
 
   @override
@@ -5956,6 +6029,14 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get notifBodyCravingSupport => 'غالبًا ما تأتي الرغبة في هذا الوقت — يمكنك تجاوزها.';
+
+  @override
+  String notifBodyCravingSupportTip(String tip) {
+    return 'غالبًا ما تأتي الرغبة في هذا الوقت. $tip';
+  }
+
+  @override
   String notifBodyDueIn(int minutes) {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
@@ -5972,6 +6053,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifBodyDueNow => 'حان الموعد النهائي';
+
+  @override
+  String get notifBodyEncouragement => 'الزلة ليست النهاية — اليوم بداية جديدة.';
 
   @override
   String notifBodyEndedAgo(int minutes) {
@@ -6007,6 +6091,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get notifBodyEveningReview => 'كيف كان يومك؟';
+
+  @override
   String notifBodyInDays(int days, String date) {
     String _temp0 = intl.Intl.pluralLogic(
       days,
@@ -6037,8 +6124,18 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String notifBodyListReset(String list) {
+    return 'أُعيد ضبط $list لليوم';
+  }
+
+  @override
   String notifBodyMilestone(String label) {
     return 'تم بلوغ إنجاز: $label';
+  }
+
+  @override
+  String notifBodyMotivation(String reason) {
+    return 'تذكّر السبب: $reason';
   }
 
   @override
@@ -6052,8 +6149,29 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get notifBodyPledge => 'هل أنت مستعد للتعهد لهذا اليوم؟';
+
+  @override
   String notifBodyQuotaBehind(String done, String target, int remaining) {
     return 'أُنجز $done/$target — بقي $remaining';
+  }
+
+  @override
+  String notifBodyQuotaLastChance(int remaining) {
+    return 'الفرصة الأخيرة اليوم: تبقّى $remaining';
+  }
+
+  @override
+  String notifBodyQuotaPace(String done, String target, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days يومًا متبقيًا',
+      few: '$days أيام متبقية',
+      two: 'يومان متبقيان',
+      one: 'يوم واحد متبقٍ',
+    );
+    return '$done من $target — $_temp0';
   }
 
   @override
@@ -6072,6 +6190,17 @@ class AppLocalizationsAr extends AppLocalizations {
       zero: '$minutes دقيقة',
     );
     return 'بدأ منذ $_temp0';
+  }
+
+  @override
+  String notifBodyStartedLate(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: 'بدأت متأخرة $minutes دقيقة',
+      one: 'بدأت متأخرة دقيقة واحدة',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -6103,6 +6232,11 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String notifBodyStillWaitingOn(String item, String age) {
+    return 'ما زال بانتظار $item ($age)';
+  }
+
+  @override
   String notifBodyStreakRisk(int days) {
     String _temp0 = intl.Intl.pluralLogic(
       days,
@@ -6126,8 +6260,23 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String notifBodyTimeUp(String title) {
+    return 'انتهى وقت $title';
+  }
+
+  @override
   String notifBodyToday(String date) {
     return 'اليوم · $date';
+  }
+
+  @override
+  String notifBodyUpNext(String next, String time) {
+    return 'التالي: $next الساعة $time';
+  }
+
+  @override
+  String notifBodyUpNextMerged(String title, String next, String time) {
+    return 'هل أنهيت $title؟ التالي: $next الساعة $time';
   }
 
   @override
@@ -6247,6 +6396,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifContentBody => 'قالب النص';
 
   @override
+  String get notifContentPack => 'رسائل متنوعة';
+
+  @override
   String get notifContentTitle => 'قالب العنوان';
 
   @override
@@ -6265,10 +6417,30 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get notifCopingTipBreathe => 'جرّب دقيقة من التنفس المربع.';
+
+  @override
+  String get notifCopingTipWalk => 'تمشَّ قليلًا.';
+
+  @override
+  String get notifCopingTipWater => 'اشرب كوبًا من الماء.';
+
+  @override
   String get notifCopyFrom => 'نسخ التذكيرات من…';
 
   @override
   String get notifCopyNothing => 'لا يحتوي هذا العنصر على تذكيرات خاصة به';
+
+  @override
+  String notifCravingSupportNeeds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'يتعلم الدعم أوقات رغبتك المعتادة من 10 رغبات مسجلة — سُجل $count حتى الآن.',
+      one: 'يتعلم الدعم أوقات رغبتك المعتادة من 10 رغبات مسجلة — سُجلت رغبة واحدة حتى الآن.',
+    );
+    return '$_temp0';
+  }
 
   @override
   String notifCreateCount(int count) {
@@ -6428,6 +6600,17 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String notifDigestBacklog(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مهام غير مجدولة',
+      one: 'مهمة واحدة غير مجدولة',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get notifDigestDailyAgenda => 'جدول اليوم';
 
   @override
@@ -6440,6 +6623,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifDigestMonthly => 'التقرير الشهري';
+
+  @override
+  String get notifDigestMonthlyReady => 'تقريرك الشهري جاهز';
 
   @override
   String get notifDigestOverdue => 'ملخص المتأخرات';
@@ -6486,6 +6672,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifDigestWeekly => 'المراجعة الأسبوعية';
 
   @override
+  String get notifDigestWeeklyReady => 'مراجعة أسبوعك جاهزة';
+
+  @override
   String get notifDigests => 'الملخصات';
 
   @override
@@ -6495,7 +6684,46 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifEditorTitle => 'تذكير جديد';
 
   @override
+  String get notifEmailDigests => 'أرسل لي الملخصات بالبريد الإلكتروني';
+
+  @override
+  String get notifEmailDigestsHint =>
+      'تصلك ملخصات الجدول والمراجعة بالبريد أيضًا، دون التذكيرات. يمكنك إلغاء الاشتراك من أي رسالة.';
+
+  @override
   String get notifEnable => 'تفعيل';
+
+  @override
+  String get notifEscalation => 'التصعيد';
+
+  @override
+  String get notifEscalationAdd => 'إضافة خطوة تصعيد';
+
+  @override
+  String get notifEscalationAllDevices => 'على كل الأجهزة';
+
+  @override
+  String get notifEscalationFrom => 'من التكرار';
+
+  @override
+  String get notifEventChildOverdue => 'عنصر فرعي متأخر';
+
+  @override
+  String get notifEventChildrenComplete => 'اكتملت كل عناصرها الفرعية';
+
+  @override
+  String notifEventCustom(String name) {
+    return 'الحدث «$name»';
+  }
+
+  @override
+  String get notifEventListReset => 'أُعيد ضبط القائمة';
+
+  @override
+  String get notifEventStartedLate => 'تبدأ متأخرة';
+
+  @override
+  String get notifEventStatusChange => 'تتغير حالتها';
 
   @override
   String get notifExactOff => 'قد تصل التذكيرات متأخرة حتى ساعة';
@@ -6513,6 +6741,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifFieldAtTime => 'عند الساعة';
 
   @override
+  String get notifFieldBeforeNextMinutes => 'دقائق قبل المهمة التالية (0 = عند الانتهاء)';
+
+  @override
   String get notifFieldDateTime => 'التاريخ والوقت';
 
   @override
@@ -6523,6 +6754,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifFieldDigestKind => 'الملخص';
+
+  @override
+  String get notifFieldEvent => 'عند حدوث هذا';
 
   @override
   String get notifFieldEveryMinutes => 'كل (دقائق)';
@@ -6537,10 +6771,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifFieldMinStreak => 'أقل طول للسلسلة';
 
   @override
+  String get notifFieldMinutesBefore => 'دقائق قبل';
+
+  @override
   String get notifFieldOffset => 'الفارق بالدقائق (سالب = قبل)';
 
   @override
   String get notifFieldRepeats => 'التكرار';
+
+  @override
+  String get notifFieldRitual => 'الطقس';
 
   @override
   String get notifFieldStatuses => 'الحالات';
@@ -6612,10 +6852,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifInboxChangeSnooze => 'تغيير التأجيل';
 
   @override
+  String get notifInboxDeletedRule => 'تذكير محذوف';
+
+  @override
+  String get notifInboxDismiss => 'تجاهل';
+
+  @override
   String get notifInboxDismissSelected => 'تجاهل';
 
   @override
   String get notifInboxDismissed => 'تم تجاهل الإشعار';
+
+  @override
+  String notifInboxDismissedMany(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم تجاهل $count إشعارات',
+      one: 'تم تجاهل إشعار واحد',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get notifInboxEmpty => 'لا توجد إشعارات بعد';
@@ -6642,6 +6899,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifInboxMarkAllRead => 'تعليم الكل كمقروء';
 
   @override
+  String get notifInboxMarkRead => 'تعليم كمقروء';
+
+  @override
   String get notifInboxMarkedRead => 'تم التعليم كمقروء';
 
   @override
@@ -6651,29 +6911,45 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifInboxMuteRule => 'اكتم هذا التذكير';
 
   @override
+  String get notifInboxMuteRules => 'كتم هذه التذكيرات';
+
+  @override
   String notifInboxNagCount(int count) {
     return '×$count';
   }
 
   @override
+  String get notifInboxNoisiest => 'الأكثر نشاطًا هذا الأسبوع';
+
+  @override
+  String get notifInboxNoneThisWeek => 'لا شيء هذا الأسبوع.';
+
+  @override
+  String get notifInboxOneItem => 'عنصر واحد';
+
+  @override
   String get notifInboxRemindAgain => 'ذكّرني مجددًا…';
+
+  @override
+  String notifInboxRulesMuted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم كتم $count قواعد تذكير',
+      one: 'تم كتم قاعدة تذكير واحدة',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get notifInboxSearch => 'البحث في الإشعارات';
 
   @override
+  String get notifInboxSearchHint => 'ابحث في العناوين والنص';
+
+  @override
   String notifInboxSelected(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count عنصر محدد',
-      many: '$count عنصرًا محددًا',
-      few: '$count عناصر محددة',
-      two: 'عنصران محددان',
-      one: 'عنصر محدد',
-      zero: 'لا شيء محدد',
-    );
-    return '$_temp0';
+    return 'تم تحديد $count';
   }
 
   @override
@@ -6685,6 +6961,12 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String notifInboxTimes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count مرات', one: 'مرة واحدة');
+    return '$_temp0';
+  }
+
+  @override
   String get notifInboxTitle => 'صندوق الوارد';
 
   @override
@@ -6692,6 +6974,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifInboxToggle => 'إظهار في صندوق الوارد';
+
+  @override
+  String get notifInboxTopItems => 'العناصر الأكثر إشعارًا';
+
+  @override
+  String get notifInboxTopRules => 'القواعد الأكثر تفعيلًا';
 
   @override
   String notifInboxUnreadSemantics(String title) {
@@ -6737,6 +7025,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifIssueEmptyContent => 'لا يمكن أن يكون العنوان فارغًا';
+
+  @override
+  String get notifIssueEscalation =>
+      'يجب أن تبدأ خطوات التصعيد من التكرار 1 أو بعده، وأن تتصاعد، وأن تختار كل خطوة ملفًا.';
 
   @override
   String get notifIssueLateness => 'يجب أن يكون التأخير دقيقة على الأقل';
@@ -6820,6 +7112,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifMetricCleanDays => 'أيام دون انتكاس';
 
   @override
+  String get notifMetricCustom => 'أهدافي';
+
+  @override
+  String get notifMetricHealth => 'المراحل الصحية';
+
+  @override
   String get notifMetricMoney => 'المال الموفَّر';
 
   @override
@@ -6845,6 +7143,52 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get notifMissionAnswer => 'الإجابة';
+
+  @override
+  String get notifMissionCheck => 'تحقق';
+
+  @override
+  String get notifMissionMathName => 'حلّ عمليات جمع';
+
+  @override
+  String notifMissionMathProgress(int current, int total) {
+    return 'العملية $current من $total';
+  }
+
+  @override
+  String get notifMissionQr => 'امسح رمزك المحفوظ لإيقاف المنبّه';
+
+  @override
+  String get notifMissionQrName => 'مسح رمز QR';
+
+  @override
+  String notifMissionShake(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'هزّ هاتفك $count مرة',
+      one: 'هزّ هاتفك مرة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMissionShakeName => 'هزّ الهاتف';
+
+  @override
+  String get notifMissionToStop => 'أكمل المهمة لإيقاف المنبّه';
+
+  @override
+  String get notifMissionTypeName => 'كتابة العنوان';
+
+  @override
+  String get notifMissionTypeTitle => 'اكتب هذا لإيقاف المنبّه';
+
+  @override
+  String get notifMissionWrong => 'ليس تمامًا — حاول مجددًا';
 
   @override
   String get notifModeCustom => 'مخصص';
@@ -6962,6 +7306,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifNoticeUpdateTitle => 'حدّث Everslot';
 
   @override
+  String get notifOccurrenceAdd => 'إضافة لهذا الموعد فقط';
+
+  @override
+  String get notifOccurrenceNone => 'لا توجد تذكيرات لهذا الموعد.';
+
+  @override
+  String get notifOccurrenceOff => 'متوقف لهذا الموعد';
+
+  @override
+  String get notifOccurrenceOnly => 'هذا الموعد فقط';
+
+  @override
+  String get notifOccurrenceReminders => 'تذكيرات هذا الموعد';
+
+  @override
   String get notifOffsetAmount => 'المقدار';
 
   @override
@@ -6978,6 +7337,61 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifOutsideShiftStart => 'انقل إلى البداية';
+
+  @override
+  String notifPackHabit1(String habit) {
+    return 'الخطوات الصغيرة تتراكم — حان وقت $habit.';
+  }
+
+  @override
+  String notifPackHabit2(String habit) {
+    return 'حافظ على السلسلة: $habit اليوم.';
+  }
+
+  @override
+  String notifPackHabit3(String habit) {
+    return 'ستشكر نفسك لاحقًا على $habit.';
+  }
+
+  @override
+  String notifPackHabit4(String habit) {
+    return 'ابدأ فقط — دقيقتان من $habit تُحتسبان.';
+  }
+
+  @override
+  String notifPackHabit5(String habit) {
+    return 'أنت قادر على ذلك: $habit.';
+  }
+
+  @override
+  String get notifPackHabitName => 'تحفيز (العادات)';
+
+  @override
+  String get notifPackNone => 'إيقاف';
+
+  @override
+  String notifPackQuit1(String days) {
+    return '$days أيام دون — واصل.';
+  }
+
+  @override
+  String notifPackQuit2(String reason) {
+    return 'تذكّر لماذا بدأت: $reason';
+  }
+
+  @override
+  String get notifPackQuit3 => 'الرغبة تمرّ. أنت أقوى منها.';
+
+  @override
+  String notifPackQuit4(String amount) {
+    return 'وفّرت $amount حتى الآن — أحسنت.';
+  }
+
+  @override
+  String get notifPackQuit5 => 'يومًا بيوم — اليوم مهم.';
+
+  @override
+  String get notifPackQuitName => 'تحفيز (الإقلاع)';
 
   @override
   String get notifPause1h => 'ساعة';
@@ -7156,6 +7570,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifResume => 'استئناف';
 
   @override
+  String get notifRitualCravingSupport => 'دعم الرغبة الشديدة';
+
+  @override
+  String get notifRitualEncouragement => 'تشجيع بعد الزلة';
+
+  @override
+  String get notifRitualEveningReview => 'مراجعة المساء';
+
+  @override
+  String get notifRitualMotivation => 'تذكير بسببي';
+
+  @override
+  String get notifRitualPledge => 'تعهد الصباح';
+
+  @override
   String get notifRuleDeleted => 'تم حذف التذكير';
 
   @override
@@ -7163,6 +7592,67 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifRuleSaved => 'تم حفظ التذكير';
+
+  @override
+  String notifRuleSetApplied(String name) {
+    return 'طُبّقت «$name»';
+  }
+
+  @override
+  String get notifRuleSetApply => 'تطبيق';
+
+  @override
+  String get notifRuleSetApplyBody => 'تحلّ تذكيراتها محل تذكيرات هذا العنصر الخاصة.';
+
+  @override
+  String notifRuleSetApplyTitle(String name) {
+    return 'تطبيق «$name»؟';
+  }
+
+  @override
+  String notifRuleSetCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count تذكيرات', one: 'تذكير واحد');
+    return '$_temp0';
+  }
+
+  @override
+  String notifRuleSetDeleteTitle(String name) {
+    return 'حذف «$name»؟';
+  }
+
+  @override
+  String get notifRuleSetEmpty => 'لا توجد مجموعات بعد. احفظ تذكيرات عنصر لإعادة استخدامها في أي مكان.';
+
+  @override
+  String get notifRuleSetExport => 'تصدير';
+
+  @override
+  String get notifRuleSetImport => 'استيراد مجموعة تذكير';
+
+  @override
+  String notifRuleSetImported(String name) {
+    return 'استُوردت «$name»';
+  }
+
+  @override
+  String get notifRuleSetInvalid => 'هذا الملف ليس مجموعة تذكير صالحة من Everslot.';
+
+  @override
+  String get notifRuleSetName => 'اسم المجموعة';
+
+  @override
+  String get notifRuleSetNothing => 'لا توجد تذكيرات خاصة بهذا العنصر لحفظها.';
+
+  @override
+  String get notifRuleSetSave => 'حفظ هذه التذكيرات كمجموعة…';
+
+  @override
+  String notifRuleSetSaved(String name) {
+    return 'حُفظت باسم «$name»';
+  }
+
+  @override
+  String get notifRuleSets => 'مجموعات التذكير';
 
   @override
   String get notifSaturationBody => 'افتح Everslot لتحديث تذكيراتك';
@@ -7241,6 +7731,56 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifSkipWindow => 'خارج النافذة الزمنية';
 
   @override
+  String get notifSmartApply => 'انقله';
+
+  @override
+  String get notifSmartAuto => 'الضبط تلقائيًا';
+
+  @override
+  String get notifSmartAutoHint => 'مرة في الأسبوع، انقل التذكيرات لتناسب عاداتك واترك ملخصًا في صندوق الوارد.';
+
+  @override
+  String notifSmartCurrent(String current, int count) {
+    return 'حاليًا عند $current · بناءً على $count مرة';
+  }
+
+  @override
+  String get notifSmartDismiss => 'ليس الآن';
+
+  @override
+  String get notifSmartNone => 'لا توجد اقتراحات حاليًا';
+
+  @override
+  String get notifSmartNoneBody => 'تظهر الاقتراحات عندما تُنجز عادة أو مهمة في وقت ثابت لفترة.';
+
+  @override
+  String notifSmartSuggestion(String title, String usual, String proposed) {
+    return 'عادةً تقوم بـ $title حوالي $usual — هل تنقل التذكير إلى $proposed؟';
+  }
+
+  @override
+  String notifSmartSummaryLine(String title, String from, String to) {
+    return '$title: $from ← $to';
+  }
+
+  @override
+  String notifSmartSummaryTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نُقل $count تذكيرات لتناسب عاداتك',
+      one: 'نُقل تذكير واحد ليناسب عاداتك',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifSmartThisItem => 'هذا';
+
+  @override
+  String get notifSmartTitle => 'اقتراحات ذكية';
+
+  @override
   String get notifSnoozeCustom => 'مخصص…';
 
   @override
@@ -7316,6 +7856,85 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifSoundSoft => 'ناعم';
+
+  @override
+  String notifStatsActed(int count) {
+    return '$count نُفّذت';
+  }
+
+  @override
+  String get notifStatsByItem => 'العناصر';
+
+  @override
+  String get notifStatsByRule => 'التذكيرات';
+
+  @override
+  String get notifStatsBySection => 'الأقسام';
+
+  @override
+  String notifStatsDays(int days) {
+    return '$days ي';
+  }
+
+  @override
+  String notifStatsDeferred(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count أُجّلت بسبب ساعات الهدوء',
+      one: 'واحدة أُجّلت بسبب ساعات الهدوء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notifStatsDelivered(int count) {
+    return '$count وصلت';
+  }
+
+  @override
+  String get notifStatsEffective => 'تبعها إنجاز خلال ساعة';
+
+  @override
+  String get notifStatsEmpty => 'لا إشعارات في هذه الفترة.';
+
+  @override
+  String get notifStatsEntry => 'الإحصاءات';
+
+  @override
+  String get notifStatsIgnored => 'متجاهلة';
+
+  @override
+  String get notifStatsLate => 'متأخرة';
+
+  @override
+  String notifStatsMedian(int minutes) {
+    return 'نُفّذت بعد $minutes د (الوسيط)';
+  }
+
+  @override
+  String get notifStatsMuteWeek => 'كتم لأسبوع';
+
+  @override
+  String notifStatsNoisy(int percent) {
+    return 'تتجاهل $percent٪ من هذا التذكير — هل تكتمه أو تغيّره؟';
+  }
+
+  @override
+  String notifStatsOpened(int count) {
+    return '$count فُتحت';
+  }
+
+  @override
+  String notifStatsSince(String date) {
+    return 'منذ $date';
+  }
+
+  @override
+  String get notifStatsTitle => 'إحصاءات الإشعارات';
+
+  @override
+  String get notifStatsTurnOff => 'إيقافه';
 
   @override
   String get notifStatusBlocked => 'متوقفًا';
@@ -7461,6 +8080,14 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get notifSumListReset => 'عند إعادة ضبط القائمة';
+
+  @override
+  String notifSumListResetAt(String time) {
+    return 'عند إعادة ضبط القائمة (ليس قبل $time)';
+  }
+
+  @override
   String get notifSumMilestones => 'الإنجازات';
 
   @override
@@ -7523,7 +8150,18 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get notifSumTimerEnd => 'عندما يصل المؤقت إلى النهاية المخطط لها';
+
+  @override
   String get notifSumUnknown => 'قاعدة غير مدعومة';
+
+  @override
+  String get notifSumUpNextAtEnd => 'عند الانتهاء: المهمة التالية';
+
+  @override
+  String notifSumUpNextBefore(int minutes) {
+    return 'قبل المهمة التالية بـ $minutes دقيقة';
+  }
 
   @override
   String get notifSystemNotification => 'إشعار النظام';
@@ -7561,7 +8199,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifTriggerDigest => 'ملخص';
 
   @override
+  String get notifTriggerEvent => 'حدث';
+
+  @override
   String get notifTriggerInactivity => 'عدم النشاط';
+
+  @override
+  String get notifTriggerListReset => 'إعادة ضبط القائمة';
 
   @override
   String get notifTriggerMilestone => 'إنجاز';
@@ -7571,6 +8215,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifTriggerOverdue => 'التأخر';
+
+  @override
+  String get notifTriggerQuitRitual => 'طقس الإقلاع';
 
   @override
   String get notifTriggerQuotaBehind => 'متأخر عن الهدف';
@@ -7592,6 +8239,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifTriggerStreakRisk => 'السلسلة في خطر';
+
+  @override
+  String get notifTriggerTimerEnd => 'انتهاء المؤقت';
+
+  @override
+  String get notifTriggerUpNext => 'التالي';
 
   @override
   String get notifUnitDays => 'أيام';
@@ -9458,11 +10111,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quitNote => 'ملاحظة';
 
   @override
+  String quitNotifGoalMilestone(String title, String what) {
+    return '$title — $what';
+  }
+
+  @override
   String get quitNotifInvalidIntensity => 'الشدة رقم من 1 إلى 10.';
 
   @override
   String quitNotifMoneyMilestone(String amount) {
     return 'تم توفير $amount';
+  }
+
+  @override
+  String quitNotifUnitsMilestone(String amount, String unit) {
+    return 'تم تجنّب $amount $unit';
   }
 
   @override
@@ -16007,6 +16670,27 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tasksQuickMore => 'خيارات أكثر';
+
+  @override
+  String tasksQuickRescheduleHour(String time) {
+    return 'بعد ساعة ($time)';
+  }
+
+  @override
+  String get tasksQuickRescheduleTitle => 'إعادة الجدولة';
+
+  @override
+  String tasksQuickRescheduleTomorrow(String time) {
+    return 'غدًا الساعة $time';
+  }
+
+  @override
+  String tasksQuickRescheduleTonight(String time) {
+    return 'الليلة الساعة $time';
+  }
+
+  @override
+  String get tasksQuickRescheduled => 'تمت إعادة الجدولة';
 
   @override
   String get tasksQuickTitleHint => 'مهمة جديدة';

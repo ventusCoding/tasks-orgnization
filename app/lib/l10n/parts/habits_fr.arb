@@ -363,5 +363,7 @@
   "habitsRecordBestWeek": "Meilleure semaine : {value}",
   "habitsRecordStreak": "Plus longue série : {value}",
   "habitsRecordAbstinence": "Plus longue période sans consommer : {value}",
-  "habitsRecordCravings": "Le plus d'envies surmontées en un jour : {count}"
+  "habitsRecordCravings": "Le plus d'envies surmontées en un jour : {count}",
+  "habitNotifStreakMilestone": "Série de {days} jours !",
+  "habitNotifTotalMilestone": "{amount} {unit} au total"
 }

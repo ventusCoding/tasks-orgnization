@@ -134,8 +134,8 @@ void main() {
     final result = await h
         .read(notificationActionDispatcherProvider)
         .handleResponse(
-          // Planner handles done/skip/start/stop for tasks; nothing handles reschedule yet.
-          OsResponse(id: fired.id, actionId: 'reschedule', payload: fired.payload),
+          // No task handler takes log_value (a habit action): the target opens instead.
+          OsResponse(id: fired.id, actionId: 'log_value', payload: fired.payload),
         );
     expect(result.openLink, startsWith('/task/gym'));
   });

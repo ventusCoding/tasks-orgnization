@@ -363,5 +363,7 @@
   "habitsRecordBestWeek": "أفضل أسبوع على الإطلاق: {value}",
   "habitsRecordStreak": "أطول سلسلة على الإطلاق: {value}",
   "habitsRecordAbstinence": "أطول فترة امتناع على الإطلاق: {value}",
-  "habitsRecordCravings": "أكثر رغبات قاومتها في يوم: {count}"
+  "habitsRecordCravings": "أكثر رغبات قاومتها في يوم: {count}",
+  "habitNotifStreakMilestone": "سلسلة {days} يومًا!",
+  "habitNotifTotalMilestone": "{amount} {unit} إجمالًا"
 }

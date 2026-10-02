@@ -1,4 +1,5 @@
 import 'package:everslot/features/notifications/domain/notification_types.dart';
+import 'package:everslot/features/notifications/domain/rule_spec.dart' show ContentPacks, ContentVariant;
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:meta/meta.dart';
 
@@ -145,6 +146,17 @@ enum DefaultContentKind {
   childrenComplete,
   childOverdue,
   stale,
+  upNext,
+  upNextMerged,
+  timerEnd,
+  listReset,
+  startedLate,
+  customEvent,
+  pledge,
+  eveningReview,
+  cravingSupport,
+  encouragement,
+  motivation,
   snoozed,
   test,
 }
@@ -183,7 +195,19 @@ abstract interface class NotificationTexts {
   String status(String wire);
 
   /// One-line digest summary ("3 tasks · 2 habits · first: Gym at 08:00").
-  String digestSummary(String kind, {required int tasks, required int habits, required int items, String? first});
+  /// Digest body: counts (+ the first task) for agenda-like kinds, the unscheduled [backlog] in
+  /// *Plan tomorrow*, a "ready" line for the weekly review and monthly report.
+  String digestSummary(
+    String kind, {
+    required int tasks,
+    required int habits,
+    required int items,
+    String? first,
+    int? backlog,
+  });
+
+  /// Body variants of a curated content pack ([ContentPacks]); empty for an unknown pack.
+  List<ContentVariant> packVariants(String pack);
 }
 
 /// English fallback (pure; used by domain tests and when localizations are unavailable).
@@ -212,7 +236,9 @@ class PlainNotificationTexts implements NotificationTexts {
   String weekday(LocalDate date) => const ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][date.weekday.iso - 1];
 
   @override
-  String duration(int minutes) => minutes >= 60
+  String duration(int minutes) => minutes >= 1440 && minutes % 1440 == 0
+      ? '${minutes ~/ 1440} ${minutes == 1440 ? 'day' : 'days'}'
+      : minutes >= 60
       ? (minutes % 60 == 0 ? '${minutes ~/ 60} h' : '${minutes ~/ 60} h ${minutes % 60} min')
       : '$minutes min';
 
@@ -245,10 +271,22 @@ class PlainNotificationTexts implements NotificationTexts {
       DefaultContentKind.daysBefore => (title: t, body: 'In ${count ?? 1} days · ${vars['date'] ?? ''}'),
       DefaultContentKind.absolute || DefaultContentKind.schedule => (title: t, body: null),
       DefaultContentKind.notDoneBy => (title: t, body: "You haven't logged $t today"),
-      DefaultContentKind.statusAge => (title: t, body: 'Still ${vars['status'] ?? ''} (${vars['status_age'] ?? ''})'),
+      DefaultContentKind.statusAge => (
+        title: t,
+        body: switch (vars['status_wire']) {
+          'waiting' => 'Still waiting on ${vars['item_text'] ?? t} (${vars['status_age'] ?? ''})',
+          'blocked' => '${vars['item_text'] ?? t} has been blocked for ${vars['status_age'] ?? ''}',
+          _ => 'Still ${vars['status'] ?? ''} (${vars['status_age'] ?? ''})',
+        },
+      ),
       DefaultContentKind.overdue => (title: t, body: '$t is overdue'),
       DefaultContentKind.streakRisk => (title: t, body: 'Keep your ${count ?? 0}-day streak alive'),
-      DefaultContentKind.quotaBehind => (title: t, body: 'Behind pace: ${vars['done'] ?? ''}/${vars['target'] ?? ''}'),
+      DefaultContentKind.quotaBehind => (
+        title: t,
+        body: vars['days_left'] == '1'
+            ? 'Last chance today: ${count ?? 0} to go'
+            : '${vars['done'] ?? ''} of ${vars['target'] ?? ''} done — ${vars['days_left'] ?? ''} days left',
+      ),
       DefaultContentKind.milestone => (title: t, body: vars['next_milestone'] ?? 'Milestone reached'),
       DefaultContentKind.inactivity => (title: t, body: 'No activity for ${count ?? 0} days'),
       DefaultContentKind.digest => (title: digestTitle(vars['kind'] ?? ''), body: vars['summary']),
@@ -256,6 +294,28 @@ class PlainNotificationTexts implements NotificationTexts {
       DefaultContentKind.childrenComplete => (title: t, body: 'All sub-items are done — complete it?'),
       DefaultContentKind.childOverdue => (title: t, body: 'A sub-item is overdue'),
       DefaultContentKind.stale => (title: t, body: 'No activity for ${count ?? 0} days'),
+      DefaultContentKind.upNext => (
+        title: t,
+        body: 'Up next: ${vars['next_title'] ?? ''} at ${vars['next_start_time'] ?? ''}',
+      ),
+      DefaultContentKind.upNextMerged => (
+        title: vars['next_title'] ?? t,
+        body: 'Done with $t? Up next: ${vars['next_title'] ?? ''} at ${vars['next_start_time'] ?? ''}',
+      ),
+      DefaultContentKind.timerEnd => (title: t, body: "Time's up for $t"),
+      DefaultContentKind.listReset => (title: t, body: '$t was reset for today'),
+      DefaultContentKind.startedLate => (title: t, body: 'Started ${vars['late_minutes'] ?? ''} min late'),
+      DefaultContentKind.customEvent => (title: t, body: null),
+      DefaultContentKind.pledge => (title: t, body: 'Ready to pledge for today?'),
+      DefaultContentKind.eveningReview => (title: t, body: 'How did today go?'),
+      DefaultContentKind.cravingSupport => (
+        title: t,
+        body: vars['tip'] == null
+            ? 'Cravings often come around now — you can ride it out.'
+            : 'Cravings often come around now. ${vars['tip']}',
+      ),
+      DefaultContentKind.encouragement => (title: t, body: 'A slip is not the end — today is a fresh start.'),
+      DefaultContentKind.motivation => (title: t, body: 'Remember why: ${vars['reason'] ?? ''}'),
       DefaultContentKind.snoozed => (title: t, body: 'Snoozed reminder'),
       DefaultContentKind.test => (title: t, body: 'Test notification'),
     };
@@ -282,6 +342,10 @@ class PlainNotificationTexts implements NotificationTexts {
     'snooze' => 'Snooze',
     'skip' => 'Skip',
     'open' => 'Open',
+    'extend' => '+10 min',
+    'pledge' => 'Pledge',
+    'clean_day' => 'Clean day',
+    'log_relapse' => 'Log relapse',
     _ => actionId,
   };
 
@@ -300,6 +364,37 @@ class PlainNotificationTexts implements NotificationTexts {
   };
 
   @override
-  String digestSummary(String kind, {required int tasks, required int habits, required int items, String? first}) =>
-      '$tasks tasks · $habits habits · $items items${first == null ? '' : ' · first: $first'}';
+  String digestSummary(
+    String kind, {
+    required int tasks,
+    required int habits,
+    required int items,
+    String? first,
+    int? backlog,
+  }) => switch (kind) {
+    'weekly_review' => 'Your week in review is ready',
+    'monthly_report' => 'Your monthly report is ready',
+    _ =>
+      '$tasks tasks · $habits habits · $items items${first == null ? '' : ' · first: $first'}'
+          '${backlog == null || backlog == 0 ? '' : ' · $backlog unscheduled'}',
+  };
+
+  @override
+  List<ContentVariant> packVariants(String pack) => switch (pack) {
+    ContentPacks.habitMotivation => const [
+      ContentVariant(body: 'Small steps add up — time for {title}.'),
+      ContentVariant(body: 'Keep the chain going: {title} today.'),
+      ContentVariant(body: 'Future you will thank you for {title}.'),
+      ContentVariant(body: 'Just start — two minutes of {title} counts.'),
+      ContentVariant(body: "You've got this: {title}."),
+    ],
+    ContentPacks.quitMotivation => const [
+      ContentVariant(body: '{days_free} days free — keep going.'),
+      ContentVariant(body: 'Remember why you started: {reason}'),
+      ContentVariant(body: "Cravings pass. You're stronger than this one."),
+      ContentVariant(body: '{money_saved} saved so far — well done.'),
+      ContentVariant(body: 'One day at a time — today counts.'),
+    ],
+    _ => const [],
+  };
 }

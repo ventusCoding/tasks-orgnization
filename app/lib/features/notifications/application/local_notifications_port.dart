@@ -47,18 +47,23 @@ class NotificationCapabilities {
     if (blockedChannels.isNotEmpty) 'blockedChannels': blockedChannels.toList()..sort(),
   };
 
-  NotificationCapabilities copyWith({bool? notifications, bool? exactAlarm, bool? provisional, bool? determined}) =>
-      NotificationCapabilities(
-        platform: platform,
-        notifications: notifications ?? this.notifications,
-        provisional: provisional ?? this.provisional,
-        exactAlarm: exactAlarm ?? this.exactAlarm,
-        timeSensitive: timeSensitive,
-        fullScreenIntent: fullScreenIntent,
-        badge: badge,
-        blockedChannels: blockedChannels,
-        determined: determined ?? this.determined,
-      );
+  NotificationCapabilities copyWith({
+    bool? notifications,
+    bool? exactAlarm,
+    bool? provisional,
+    bool? determined,
+    bool? fullScreenIntent,
+  }) => NotificationCapabilities(
+    platform: platform,
+    notifications: notifications ?? this.notifications,
+    provisional: provisional ?? this.provisional,
+    exactAlarm: exactAlarm ?? this.exactAlarm,
+    timeSensitive: timeSensitive,
+    fullScreenIntent: fullScreenIntent ?? this.fullScreenIntent,
+    badge: badge,
+    blockedChannels: blockedChannels,
+    determined: determined ?? this.determined,
+  );
 
   @override
   bool operator ==(Object other) =>
@@ -145,6 +150,7 @@ class OsChannel {
     this.sound = 'default',
     this.vibration = 'default',
     this.showBadge = true,
+    this.alarm = false,
   });
 
   final String id;
@@ -155,6 +161,9 @@ class OsChannel {
   final String sound;
   final String vibration;
   final bool showBadge;
+
+  /// Android: the alarm audio stream (`USAGE_ALARM`) — rings through silent where the OS allows.
+  final bool alarm;
 }
 
 /// One OS notification request (scheduled or shown now).
@@ -181,6 +190,7 @@ class OsNotificationRequest {
     this.timeoutAfter,
     this.exact = true,
     this.alarmClock = false,
+    this.fullScreen = false,
     this.presentInForeground = false,
     this.tag,
     this.badgeNumber,
@@ -189,6 +199,7 @@ class OsNotificationRequest {
     this.repeatZone,
     this.groupSummary = false,
     this.lines = const [],
+    this.imagePath,
   });
 
   final int id;
@@ -217,6 +228,12 @@ class OsNotificationRequest {
 
   /// Android `alarmClock` mode (Alarm profile only, P2).
   final bool alarmClock;
+
+  /// Local image (cached attachment thumbnail) shown in the notification (T7.2.26).
+  final String? imagePath;
+
+  /// Android full-screen intent (Alarm profile, only when the user allows it — T7.2.24).
+  final bool fullScreen;
 
   /// iOS: show the system banner while the app is in the foreground.
   final bool presentInForeground;
@@ -310,6 +327,9 @@ abstract interface class LocalNotificationsPort {
   Future<bool> requestPermission({bool provisional = false});
 
   Future<bool> requestExactAlarms();
+
+  /// Android 14+: the "full-screen notifications" settings page (alarm profile, T7.2.24).
+  Future<bool> requestFullScreenIntent();
 
   Future<bool> openSettings();
 
@@ -446,6 +466,12 @@ class InMemoryLocalNotificationsPort implements LocalNotificationsPort {
   @override
   Future<bool> requestExactAlarms() async {
     caps = caps.copyWith(exactAlarm: permissionResult);
+    return permissionResult;
+  }
+
+  @override
+  Future<bool> requestFullScreenIntent() async {
+    caps = caps.copyWith(fullScreenIntent: permissionResult);
     return permissionResult;
   }
 

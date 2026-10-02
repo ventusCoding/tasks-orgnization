@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/notifications/application/capabilities_service.dart';
 import 'package:everslot/features/notifications/application/notification_providers.dart';
+import 'package:everslot/features/notifications/application/notification_texts_l10n.dart' show builtinProfileName;
 import 'package:everslot/features/notifications/application/rule_preview.dart';
 import 'package:everslot/features/notifications/domain/default_rules.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
@@ -9,6 +11,7 @@ import 'package:everslot/features/notifications/domain/notification_target.dart'
 import 'package:everslot/features/notifications/domain/rule_spec.dart';
 import 'package:everslot/features/notifications/domain/rule_validation.dart';
 import 'package:everslot/features/notifications/domain/template_engine.dart';
+import 'package:everslot/features/notifications/presentation/alarm_missions.dart' show qrScannerBuilderProvider;
 import 'package:everslot/features/notifications/presentation/delivery_fields.dart';
 import 'package:everslot/features/notifications/presentation/notification_labels.dart';
 import 'package:everslot/features/notifications/presentation/rule_preview_list.dart';
@@ -163,6 +166,7 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
           title: title.isEmpty ? null : title,
           body: body.isEmpty ? null : body,
           variants: _spec.content.variants,
+          pack: _spec.content.pack,
           raw: _spec.content.raw,
         ),
       ),
@@ -222,6 +226,23 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
               ],
             ),
           ),
+          if (profiles.any((p) => p.id == _profileId && p.spec.delivery.alarmStyle == true) ||
+              (_spec.repeat?.escalation ?? const <EscalationStep>[]).any(
+                (s) => s.profile == BuiltinProfiles.alarm,
+              )) ...[
+            const AlarmCapabilityHint(),
+            ExpansionTile(
+              key: const ValueKey('alarm-options'),
+              title: Text(l.notifAlarmOptions),
+              childrenPadding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.md),
+              children: [
+                AlarmOptionsEditor(
+                  options: _spec.delivery.alarm ?? const AlarmOptions(),
+                  onChanged: (o) => _update(_spec.copyWith(delivery: _spec.delivery.copyWith(alarm: o))),
+                ),
+              ],
+            ),
+          ],
           for (final e in errors)
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, 0),
@@ -294,6 +315,27 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
                   onChanged: (_) => _onContentChanged(),
                 ),
               ),
+              DropdownButtonFormField<String?>(
+                key: const ValueKey('content-pack'),
+                initialValue: _spec.content.pack,
+                decoration: InputDecoration(labelText: l.notifContentPack),
+                items: [
+                  DropdownMenuItem(child: Text(l.notifPackNone)),
+                  DropdownMenuItem(value: ContentPacks.habitMotivation, child: Text(l.notifPackHabitName)),
+                  DropdownMenuItem(value: ContentPacks.quitMotivation, child: Text(l.notifPackQuitName)),
+                ],
+                onChanged: (pack) => _update(
+                  _spec.copyWith(
+                    content: ContentSpec(
+                      title: _spec.content.title,
+                      body: _spec.content.body,
+                      variants: _spec.content.variants,
+                      pack: pack,
+                      raw: _spec.content.raw,
+                    ),
+                  ),
+                ),
+              ),
               const SizedBox(height: Space.sm),
               Align(
                 alignment: AlignmentDirectional.centerStart,
@@ -346,7 +388,8 @@ class _TriggerEditor extends StatelessWidget {
     ),
     TriggerType.notDoneBy => NotDoneByTrigger(anchor: 'time', atTime: LocalTime(21, 0)),
     TriggerType.statusAge => const StatusAgeTrigger(statuses: ['waiting', 'blocked'], afterMinutes: 2880),
-    TriggerType.overdue => const OverdueTrigger(afterMinutes: 0),
+    // No delay = the planner's missed grace (T7.5.03).
+    TriggerType.overdue => const OverdueTrigger(),
     TriggerType.streakRisk => StreakRiskTrigger(atTime: LocalTime(21, 0), minStreak: 3),
     TriggerType.quotaBehind => QuotaBehindTrigger(atTime: LocalTime(20, 0)),
     TriggerType.milestone => const MilestoneTrigger(metric: 'clean_days'),
@@ -356,6 +399,11 @@ class _TriggerEditor extends StatelessWidget {
     TriggerType.childrenComplete => const ChildrenCompleteTrigger(),
     TriggerType.childOverdue => const ChildOverdueTrigger(),
     TriggerType.stale => const StaleTrigger(afterDays: 7),
+    TriggerType.upNext => const UpNextTrigger(),
+    TriggerType.timerEnd => const TimerEndTrigger(),
+    TriggerType.listReset => const ListResetTrigger(),
+    TriggerType.quitRitual => const QuitRitualTrigger(kind: QuitRitualTrigger.pledge),
+    TriggerType.event => const EventTrigger(name: EventTrigger.startedLate),
   };
 
   void _set(NotificationTrigger t) => onChanged(spec.copyWith(trigger: t));
@@ -527,6 +575,8 @@ class _TriggerEditor extends StatelessWidget {
             DropdownMenuItem(value: 'total_value', child: Text(l.notifMetricTotal)),
             DropdownMenuItem(value: 'money_saved', child: Text(l.notifMetricMoney)),
             DropdownMenuItem(value: 'units_avoided', child: Text(l.notifMetricUnits)),
+            DropdownMenuItem(value: 'health', child: Text(l.notifMetricHealth)),
+            DropdownMenuItem(value: 'custom', child: Text(l.notifMetricCustom)),
           ],
         ),
         TextFormField(
@@ -566,7 +616,52 @@ class _TriggerEditor extends StatelessWidget {
         ),
         timeTile(l.notifFieldAtTime, atTime, (t) => _set(StatusChangeTrigger(from: from, to: to, atTime: t))),
       ],
-      ChildrenCompleteTrigger() || ChildOverdueTrigger() || UnknownTrigger() => const <Widget>[],
+      UpNextTrigger(:final beforeMinutes) => [
+        intField(
+          l.notifFieldBeforeNextMinutes,
+          beforeMinutes ?? 0,
+          (v) => _set(UpNextTrigger(beforeMinutes: v <= 0 ? null : v)),
+        ),
+      ],
+      ListResetTrigger(:final atTime) => [
+        timeTile(l.notifFieldAtTime, atTime, (t) => _set(ListResetTrigger(atTime: t))),
+      ],
+      EventTrigger(:final name, :final atTime) => [
+        DropdownButtonFormField<String>(
+          initialValue: name,
+          decoration: InputDecoration(labelText: l.notifFieldEvent),
+          onChanged: (n) => _set(EventTrigger(name: n ?? name, atTime: atTime)),
+          items: [
+            for (final n in {...NotificationLabels.knownEvents, name})
+              DropdownMenuItem(value: n, child: Text(NotificationLabels.of(context).eventName(n))),
+          ],
+        ),
+        timeTile(l.notifFieldAtTime, atTime, (t) => _set(EventTrigger(name: name, atTime: t))),
+      ],
+      QuitRitualTrigger(:final kind, :final atTime, :final minutesBefore) => [
+        DropdownButtonFormField<String>(
+          initialValue: kind,
+          decoration: InputDecoration(labelText: l.notifFieldRitual),
+          onChanged: (k) => _set(QuitRitualTrigger(kind: k ?? kind, atTime: atTime, minutesBefore: minutesBefore)),
+          items: [
+            for (final k in QuitRitualTrigger.kinds)
+              DropdownMenuItem(value: k, child: Text(NotificationLabels.of(context).ritual(k))),
+          ],
+        ),
+        if (kind == QuitRitualTrigger.cravingSupport)
+          intField(
+            l.notifFieldMinutesBefore,
+            minutesBefore ?? 10,
+            (v) => _set(QuitRitualTrigger(kind: kind, atTime: atTime, minutesBefore: v)),
+          )
+        else
+          timeTile(
+            l.notifFieldAtTime,
+            atTime,
+            (t) => _set(QuitRitualTrigger(kind: kind, atTime: t, minutesBefore: minutesBefore)),
+          ),
+      ],
+      ChildrenCompleteTrigger() || ChildOverdueTrigger() || TimerEndTrigger() || UnknownTrigger() => const <Widget>[],
     };
 
     return Column(
@@ -763,7 +858,103 @@ class _RepeatEditor extends StatelessWidget {
               DropdownMenuItem(value: RepeatUntil.max, child: Text(l.notifUntilMax)),
             ],
           ),
+          // Escalation (T7.2.23): later repeats use a louder built-in profile / every device.
+          Padding(
+            padding: const EdgeInsetsDirectional.only(top: Space.md),
+            child: Text(l.notifEscalation, style: context.text.labelLarge),
+          ),
+          for (var i = 0; i < (repeat.escalation ?? const <EscalationStep>[]).length; i++)
+            _EscalationRow(
+              key: ValueKey('escalation-$i'),
+              step: repeat.escalation![i],
+              onChanged: (s) =>
+                  onChanged(spec.copyWith(repeat: repeat.copyWith(escalation: [...repeat.escalation!]..[i] = s))),
+              onDelete: () =>
+                  onChanged(spec.copyWith(repeat: repeat.copyWith(escalation: [...repeat.escalation!]..removeAt(i)))),
+            ),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: TextButton.icon(
+              key: const ValueKey('escalation-add'),
+              icon: const Icon(Icons.trending_up),
+              label: Text(l.notifEscalationAdd),
+              onPressed: () {
+                final steps = repeat.escalation ?? const <EscalationStep>[];
+                final from = steps.isEmpty ? 2 : steps.last.fromRepeat + 1;
+                onChanged(
+                  spec.copyWith(
+                    repeat: repeat.copyWith(
+                      escalation: [
+                        ...steps,
+                        EscalationStep(
+                          fromRepeat: from.clamp(1, RepeatSpec.hardMaxTimes),
+                          profile: steps.isEmpty ? BuiltinProfiles.nag : BuiltinProfiles.alarm,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
         ],
+      ],
+    );
+  }
+}
+
+class _EscalationRow extends StatelessWidget {
+  const _EscalationRow({required this.step, required this.onChanged, required this.onDelete, super.key});
+
+  final EscalationStep step;
+  final ValueChanged<EscalationStep> onChanged;
+  final VoidCallback onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    return Row(
+      children: [
+        SizedBox(
+          width: 88,
+          child: TextFormField(
+            initialValue: '${step.fromRepeat}',
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            decoration: InputDecoration(labelText: l.notifEscalationFrom),
+            onChanged: (v) => onChanged(
+              EscalationStep(
+                fromRepeat: int.tryParse(v) ?? step.fromRepeat,
+                profile: step.profile,
+                allDevices: step.allDevices,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: Space.sm),
+        Expanded(
+          child: DropdownButtonFormField<String>(
+            initialValue: BuiltinProfiles.codes.contains(step.profile) ? step.profile : null,
+            decoration: InputDecoration(labelText: l.notifProfile),
+            items: [
+              for (final code in BuiltinProfiles.codes)
+                DropdownMenuItem(value: code, child: Text(builtinProfileName(l, code))),
+            ],
+            onChanged: (code) => onChanged(
+              EscalationStep(fromRepeat: step.fromRepeat, profile: code ?? step.profile, allDevices: step.allDevices),
+            ),
+          ),
+        ),
+        Tooltip(
+          message: l.notifEscalationAllDevices,
+          child: Checkbox(
+            value: step.allDevices,
+            semanticLabel: l.notifEscalationAllDevices,
+            onChanged: (v) =>
+                onChanged(EscalationStep(fromRepeat: step.fromRepeat, profile: step.profile, allDevices: v ?? false)),
+          ),
+        ),
+        IconButton(tooltip: l.actionDelete, icon: const Icon(Icons.close), onPressed: onDelete),
       ],
     );
   }
@@ -960,6 +1151,140 @@ class _ContentPreview extends ConsumerWidget {
           [if (body.isNotEmpty) body, if (hide) '${l.notifHideContent}: ${l.notifRedactedTitle}'].join('\n'),
         ),
       ),
+    );
+  }
+}
+
+/// Alarm profile without everything it needs to ring through silent (T7.2.24): says so and, on
+/// Android, offers the full-screen permission. Hidden when nothing is missing.
+class AlarmCapabilityHint extends ConsumerWidget {
+  const AlarmCapabilityHint({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final caps = ref.watch(notificationCapabilitiesProvider);
+    final limited = caps.isAndroid ? !(caps.exactAlarm && caps.fullScreenIntent) : caps.isIos;
+    if (!caps.determined || !limited) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            caps.isIos ? l.notifAlarmIosFallback : l.notifAlarmLimited,
+            style: context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant),
+          ),
+          if (caps.isAndroid && !caps.fullScreenIntent)
+            TextButton(
+              key: const ValueKey('alarm-allow-fullscreen'),
+              onPressed: () => unawaited(ref.read(notificationCapabilitiesProvider.notifier).requestFullScreenIntent()),
+              child: Text(l.notifAlarmAllowFullScreen),
+            ),
+          if (caps.isAndroid && !caps.exactAlarm)
+            TextButton(
+              onPressed: () => unawaited(ref.read(notificationCapabilitiesProvider.notifier).requestExactAlarms()),
+              child: Text(l.notifAlarmAllowExact),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Missions, snooze limit and rising volume of an alarm rule (T7.2.25).
+class AlarmOptionsEditor extends ConsumerWidget {
+  const AlarmOptionsEditor({required this.options, required this.onChanged, super.key});
+
+  final AlarmOptions options;
+  final ValueChanged<AlarmOptions> onChanged;
+
+  AlarmOptions _with({AlarmMission? mission, bool clearMission = false, int? maxSnoozes, bool? ramp}) => AlarmOptions(
+    mission: clearMission ? null : (mission ?? options.mission),
+    maxSnoozes: maxSnoozes ?? options.maxSnoozes,
+    rampVolume: ramp ?? options.rampVolume,
+  );
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final mission = options.mission;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        DropdownButtonFormField<AlarmMissionType?>(
+          key: const ValueKey('alarm-mission'),
+          initialValue: mission?.type,
+          decoration: InputDecoration(labelText: l.notifAlarmMission),
+          items: [
+            DropdownMenuItem(child: Text(l.notifPackNone)),
+            DropdownMenuItem(value: AlarmMissionType.math, child: Text(l.notifMissionMathName)),
+            DropdownMenuItem(value: AlarmMissionType.type, child: Text(l.notifMissionTypeName)),
+            DropdownMenuItem(value: AlarmMissionType.shake, child: Text(l.notifMissionShakeName)),
+            DropdownMenuItem(value: AlarmMissionType.qr, child: Text(l.notifMissionQrName)),
+          ],
+          onChanged: (t) => onChanged(
+            t == null
+                ? _with(clearMission: true)
+                : _with(
+                    mission: AlarmMission(type: t, code: mission?.code),
+                  ),
+          ),
+        ),
+        if (mission != null && (mission.type == AlarmMissionType.math || mission.type == AlarmMissionType.shake))
+          TextFormField(
+            initialValue: '${mission.effectiveCount}',
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            decoration: InputDecoration(labelText: l.notifAlarmMissionCount),
+            onChanged: (v) => onChanged(
+              _with(
+                mission: AlarmMission(
+                  type: mission.type,
+                  count: (int.tryParse(v) ?? mission.effectiveCount).clamp(1, 50),
+                ),
+              ),
+            ),
+          ),
+        if (mission?.type == AlarmMissionType.qr)
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.qr_code_scanner),
+            title: Text(mission?.code == null ? l.notifAlarmQrScan : l.notifAlarmQrSaved),
+            onTap: () async {
+              final code = await showAppSheet<String>(
+                context,
+                title: l.notifAlarmQrScan,
+                builder: (sheet) => SizedBox(
+                  height: 320,
+                  child: ref.read(qrScannerBuilderProvider)(sheet, (c) => Navigator.of(sheet).maybePop(c)),
+                ),
+              );
+              if (code != null) {
+                onChanged(
+                  _with(
+                    mission: AlarmMission(type: AlarmMissionType.qr, code: code),
+                  ),
+                );
+              }
+            },
+          ),
+        TextFormField(
+          initialValue: options.maxSnoozes?.toString() ?? '',
+          keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          decoration: InputDecoration(labelText: l.notifAlarmMaxSnoozes),
+          onChanged: (v) => onChanged(
+            AlarmOptions(mission: options.mission, maxSnoozes: int.tryParse(v), rampVolume: options.rampVolume),
+          ),
+        ),
+        SwitchListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(l.notifAlarmRamp),
+          value: options.rampVolume,
+          onChanged: (v) => onChanged(_with(ramp: v)),
+        ),
+      ],
     );
   }
 }

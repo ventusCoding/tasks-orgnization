@@ -40,7 +40,12 @@ enum TriggerType {
   statusChange('status_change'),
   childrenComplete('children_complete'),
   childOverdue('child_overdue'),
-  stale('stale');
+  stale('stale'),
+  upNext('up_next'),
+  timerEnd('timer_end'),
+  listReset('list_reset'),
+  quitRitual('quit_ritual'),
+  event('event');
 
   TriggerType(this.wire);
 
@@ -150,6 +155,16 @@ sealed class NotificationTrigger {
       TriggerType.childrenComplete => ChildrenCompleteTrigger(raw: json),
       TriggerType.childOverdue => ChildOverdueTrigger(raw: json),
       TriggerType.stale => StaleTrigger(afterDays: asInt(json['afterDays']) ?? 7, atTime: time('atTime'), raw: json),
+      TriggerType.upNext => UpNextTrigger(beforeMinutes: asInt(json['beforeMinutes']), raw: json),
+      TriggerType.timerEnd => TimerEndTrigger(raw: json),
+      TriggerType.listReset => ListResetTrigger(atTime: time('atTime'), raw: json),
+      TriggerType.event => EventTrigger(name: asString(json['name']) ?? '', atTime: time('atTime'), raw: json),
+      TriggerType.quitRitual => QuitRitualTrigger(
+        kind: asString(json['kind']) ?? QuitRitualTrigger.pledge,
+        atTime: time('atTime'),
+        minutesBefore: asInt(json['minutesBefore']),
+        raw: json,
+      ),
       null => UnknownTrigger(typeWire: asString(json['type']) ?? '', raw: json),
     };
   }
@@ -329,7 +344,7 @@ final class QuotaBehindTrigger extends NotificationTrigger {
 final class MilestoneTrigger extends NotificationTrigger {
   const MilestoneTrigger({required this.metric, this.thresholds, super.raw});
 
-  /// clean_days | streak | total_value | money_saved | units_avoided
+  /// clean_days | streak | total_value | money_saved | units_avoided | health | custom
   final String metric;
   final List<num>? thresholds;
 
@@ -454,6 +469,110 @@ final class StaleTrigger extends NotificationTrigger {
 
   @override
   Map<String, Object?> get _fields => {'afterDays': afterDays, 'atTime': ?atTime?.toIso()};
+}
+
+/// *Up next* (T7.5.04): at the end of a task — or [beforeMinutes] before the next one — announce the
+/// next timed task of the day. Back-to-back tasks get one merged "done → up next" notification.
+final class UpNextTrigger extends NotificationTrigger {
+  const UpNextTrigger({this.beforeMinutes, super.raw});
+
+  /// null = at the end of this task.
+  final int? beforeMinutes;
+
+  @override
+  String get typeWire => 'up_next';
+
+  @override
+  Set<String> get _knownKeys => const {'beforeMinutes'};
+
+  @override
+  Map<String, Object?> get _fields => {'beforeMinutes': ?beforeMinutes};
+}
+
+/// *Timer end* (T7.5.04): a running timer reaches the planned end → "Time's up" with Stop · +10 min.
+final class TimerEndTrigger extends NotificationTrigger {
+  const TimerEndTrigger({super.raw});
+
+  @override
+  String get typeWire => 'timer_end';
+
+  @override
+  Set<String> get _knownKeys => const {};
+
+  @override
+  Map<String, Object?> get _fields => const {};
+}
+
+/// *List reset* (T7.5.09): a resettable checklist started a new period — "{checklist} was reset for
+/// today", at the reset or at [atTime] that day.
+final class ListResetTrigger extends NotificationTrigger {
+  const ListResetTrigger({this.atTime, super.raw});
+
+  final LocalTime? atTime;
+
+  @override
+  String get typeWire => 'list_reset';
+
+  @override
+  Set<String> get _knownKeys => const {'atTime'};
+
+  @override
+  Map<String, Object?> get _fields => {'atTime': ?atTime?.toIso()};
+}
+
+/// Quit-tracker rituals (T7.5.14), all off by default: the morning *pledge*, the *evening_review*
+/// (Clean day · Log relapse · Log craving), *craving_support* [minutesBefore] (default 10) the
+/// user's usual craving hours (needs ≥ [QuitRitualTrigger.cravingSupportMinCravings] logged
+/// cravings), *encouragement* the morning after a relapse and *motivation* quoting the user's
+/// own reason. [atTime] overrides the tracker's ritual times.
+final class QuitRitualTrigger extends NotificationTrigger {
+  const QuitRitualTrigger({required this.kind, this.atTime, this.minutesBefore, super.raw});
+
+  static const pledge = 'pledge';
+  static const eveningReview = 'evening_review';
+  static const cravingSupport = 'craving_support';
+  static const encouragement = 'encouragement';
+  static const motivation = 'motivation';
+  static const kinds = [pledge, eveningReview, cravingSupport, encouragement, motivation];
+
+  /// Craving support derives the usual hours from at least this many logged cravings.
+  static const cravingSupportMinCravings = 10;
+
+  final String kind;
+  final LocalTime? atTime;
+  final int? minutesBefore;
+
+  int get effectiveMinutesBefore => minutesBefore ?? 10;
+
+  @override
+  String get typeWire => 'quit_ritual';
+
+  @override
+  Set<String> get _knownKeys => const {'kind', 'atTime', 'minutesBefore'};
+
+  @override
+  Map<String, Object?> get _fields => {'kind': kind, 'atTime': ?atTime?.toIso(), 'minutesBefore': ?minutesBefore};
+}
+
+/// A named event of the target (T7.5.20) — `started_late` (a task started ≥ 5 min after its
+/// planned start), `status_change`, `children_complete`… or any event a section reports: at the
+/// event, or at [atTime] that day. Foundation for future collaboration events ([9.3]).
+final class EventTrigger extends NotificationTrigger {
+  const EventTrigger({required this.name, this.atTime, super.raw});
+
+  static const startedLate = 'started_late';
+
+  final String name;
+  final LocalTime? atTime;
+
+  @override
+  String get typeWire => 'event';
+
+  @override
+  Set<String> get _knownKeys => const {'name', 'atTime'};
+
+  @override
+  Map<String, Object?> get _fields => {'name': name, 'atTime': ?atTime?.toIso()};
 }
 
 /// A trigger type this app version doesn't know (kept verbatim, never fires).

@@ -62,6 +62,7 @@ abstract final class ChecklistNotificationTargets {
     required DateTime toUtc,
     List<ItemStatusChange> statusChanges = const [],
     String untitled = '',
+    List<(String, DateTime)> resets = const [],
   }) {
     final byList = <String, List<ChecklistItem>>{};
     for (final i in items) {
@@ -72,6 +73,10 @@ abstract final class ChecklistNotificationTargets {
       (changes[c.itemId] ??= []).add(c);
     }
     final eventsSince = fromUtc.subtract(const Duration(days: 1));
+    final resetsByList = <String, List<DateTime>>{};
+    for (final (id, at) in resets) {
+      (resetsByList[id] ??= []).add(at);
+    }
     final out = <NotificationTarget>[];
     for (final list in lists) {
       final tree = ChecklistTree.build(byList[list.id] ?? const []);
@@ -92,7 +97,19 @@ abstract final class ChecklistNotificationTargets {
         'total': stats.total,
         'progress': stats.percent,
       };
-      out.add(_listTarget(list, tree, stats, title, listVars, zones, deviceZone, eventsSince));
+      out.add(
+        _listTarget(
+          list,
+          tree,
+          stats,
+          title,
+          listVars,
+          zones,
+          deviceZone,
+          eventsSince,
+          resetsByList[list.id] ?? const [],
+        ),
+      );
       for (final id in tree.order) {
         final item = tree[id]!;
         final target = _itemTarget(
@@ -154,6 +171,7 @@ abstract final class ChecklistNotificationTargets {
     ZoneResolver zones,
     String deviceZone,
     DateTime eventsSince,
+    List<DateTime> resets,
   ) {
     var lastActivity = list.updatedAt;
     DateTime? completedAt;
@@ -182,6 +200,8 @@ abstract final class ChecklistNotificationTargets {
       events: [
         if (stats.complete && completedAt != null && !completedAt.isBefore(eventsSince))
           NotificationEvent(kind: 'children_complete', at: completedAt),
+        for (final at in resets)
+          if (!at.isBefore(eventsSince)) NotificationEvent(kind: 'list_reset', at: at),
       ],
     );
   }

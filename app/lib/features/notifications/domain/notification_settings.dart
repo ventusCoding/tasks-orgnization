@@ -91,6 +91,8 @@ class NotificationSettings {
     this.latenessMinutes = 30,
     this.digestLatenessMinutes = 120,
     this.bannerInApp = true,
+    this.emailDigests = false,
+    this.smartAdjust = false,
     this.snoozePresets = const [10, 5, 15, 30, 60],
     this.maxNagRepeats = 5,
     this.dateOnlyDefaultTime,
@@ -133,6 +135,8 @@ class NotificationSettings {
       primaryDeviceId: asString(notifications['primaryDeviceId']),
       latenessMinutes: asInt(notifications['latenessMinutes']) ?? 30,
       bannerInApp: asBool(notifications['bannerInApp']) ?? true,
+      emailDigests: asBool((asJsonMap(notifications['emailDigests']) ?? const {})['enabled']) ?? false,
+      smartAdjust: asBool(notifications['smartAdjust']) ?? false,
       snoozePresets: asIntList(notifications['snoozePresets']) ?? const [10, 5, 15, 30, 60],
       maxNagRepeats: (asInt(notifications['maxNagRepeats']) ?? 5).clamp(1, 10),
       dateOnlyDefaultTime: time(notifications['dateOnlyDefaultTime']),
@@ -162,6 +166,13 @@ class NotificationSettings {
   final int digestLatenessMinutes;
   final bool bannerInApp;
 
+  /// Opt-in email copies of digests (`emailDigests.enabled`, T7.4.18): sent by the server to the
+  /// account address with a one-click unsubscribe link; never individual reminders.
+  final bool emailDigests;
+
+  /// Move reminder times automatically to the user's habits, weekly summary (T7.5.19, opt-in).
+  final bool smartAdjust;
+
   /// First entry = the notification's *Snooze* button.
   final List<int> snoozePresets;
   final int maxNagRepeats;
@@ -183,11 +194,21 @@ class NotificationSettings {
 
   bool pausedAt(DateTime instant) => pausedUntil != null && instant.isBefore(pausedUntil!);
 
-  /// Whether this device schedules local notifications under the multi-device policy.
-  bool localSchedulingAllowed(String deviceId) => switch (multiDevicePolicy) {
-    MultiDevicePolicy.all || MultiDevicePolicy.lastActive => true,
-    MultiDevicePolicy.primary => primaryDeviceId == null || primaryDeviceId == deviceId,
-  };
+  /// A device keeps scheduling local reminders under *Last active device* while it was in the
+  /// foreground within this window (T7.4.19); pushes go to the most recently foregrounded device.
+  static const lastActiveLocalWindow = Duration(hours: 12);
+
+  /// Whether this device schedules local notifications under the multi-device policy. With
+  /// *Last active device*, [lastForegroundAt] (this device's last foreground) must be within
+  /// [lastActiveLocalWindow] of [now]; when unknown the device keeps scheduling. Switching devices
+  /// briefly overlaps: the previous device keeps its local reminders until its window lapses.
+  bool localSchedulingAllowed(String deviceId, {DateTime? lastForegroundAt, DateTime? now}) =>
+      switch (multiDevicePolicy) {
+        MultiDevicePolicy.all => true,
+        MultiDevicePolicy.lastActive =>
+          lastForegroundAt == null || now == null || now.difference(lastForegroundAt) <= lastActiveLocalWindow,
+        MultiDevicePolicy.primary => primaryDeviceId == null || primaryDeviceId == deviceId,
+      };
 
   @override
   bool operator ==(Object other) =>
@@ -203,6 +224,8 @@ class NotificationSettings {
       other.primaryDeviceId == primaryDeviceId &&
       other.latenessMinutes == latenessMinutes &&
       other.bannerInApp == bannerInApp &&
+      other.emailDigests == emailDigests &&
+      other.smartAdjust == smartAdjust &&
       jsonEquals(other.snoozePresets, snoozePresets) &&
       other.maxNagRepeats == maxNagRepeats &&
       other.dateOnlyDefaultTime == dateOnlyDefaultTime &&

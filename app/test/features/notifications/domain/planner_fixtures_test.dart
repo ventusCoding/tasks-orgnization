@@ -128,6 +128,7 @@ void _runCase(Map<String, Object?> c) {
       if (e['silent'] != null) expect(p.silent, e['silent'], reason: where);
       if (e['title'] != null) expect(p.inboxTitle, e['title'], reason: where);
       if (e['body'] != null) expect(p.inboxBody, e['body'], reason: where);
+      if (e['actions'] != null) expect(p.actions, e['actions'], reason: where);
       if (e['systemTitle'] != null) {
         expect(p.title, e['systemTitle'], reason: where);
       }

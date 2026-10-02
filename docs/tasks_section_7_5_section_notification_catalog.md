@@ -48,24 +48,24 @@ live timer surfaces and widget refreshes ([8.2]); hide-content privacy option ([
 
 - [x] T7.5.01 — Planner: start & end reminders with multiple offsets
 - [x] T7.5.02 — Planner: all-day & date-only reminders
-- [ ] T7.5.03 — Planner: overdue reminders
-- [ ] T7.5.04 — Planner: up-next chain & timer-end alerts
+- [x] T7.5.03 — Planner: overdue reminders
+- [x] T7.5.04 — Planner: up-next chain & timer-end alerts
 - [x] T7.5.05 — Checklists: reminders at a chosen time (lists & items)
 - [x] T7.5.06 — Checklists: waiting/blocked follow-up reminders
-- [ ] T7.5.07 — Checklists: item & checklist due reminders
-- [ ] T7.5.08 — Checklists: status-age escalation
-- [ ] T7.5.09 — Checklists: structural event triggers
+- [x] T7.5.07 — Checklists: item & checklist due reminders
+- [x] T7.5.08 — Checklists: status-age escalation
+- [x] T7.5.09 — Checklists: structural event triggers
 - [x] T7.5.10 — Habits: scheduled reminders (slots, times, several per day)
 - [x] T7.5.11 — Habits: not-done-by & streak-at-risk
-- [ ] T7.5.12 — Habits: quota pace, milestones & inactivity
-- [ ] T7.5.13 — Quit: milestone notifications
-- [ ] T7.5.14 — Quit: pledge, evening review, craving support & encouragement
+- [x] T7.5.12 — Habits: quota pace, milestones & inactivity
+- [x] T7.5.13 — Quit: milestone notifications
+- [x] T7.5.14 — Quit: pledge, evening review, craving support & encouragement
 - [x] T7.5.15 — Notifications settings page & global controls
 - [x] T7.5.16 — Mute until (rule, item, list, habit, section)
-- [ ] T7.5.17 — Notification statistics
-- [ ] T7.5.18 — Digests: agenda, plan tomorrow, overdue, weekly & monthly
-- [ ] T7.5.19 — Smart reminder suggestions
-- [ ] T7.5.20 — Status-change & custom event triggers
+- [x] T7.5.17 — Notification statistics
+- [x] T7.5.18 — Digests: agenda, plan tomorrow, overdue, weekly & monthly
+- [x] T7.5.19 — Smart reminder suggestions
+- [x] T7.5.20 — Status-change & custom event triggers
 
 ## Tasks
 
@@ -104,6 +104,7 @@ cancels both.
 tomorrow) · Skip.
 **Acceptance criteria:** no overdue notification for `event` tasks or for occurrences done within the grace.
 **Tests:** planner fixtures.
+**Notes:** `overdue` reminders: planner targets now carry `tracking_mode` and `missed_grace_minutes` (`planner.missedGraceMinutes`); `OverdueTrigger` without `afterMinutes` fires end + grace, never for `event` tasks, nothing once done/skipped (guard + closed target). Default actions Done · Reschedule · Skip; *Reschedule* is a foreground action opening `/task/<id>?occ=…&reschedule=1`, which shows the quick-reschedule sheet (+1 h rounded to 5 min / tonight 20:00 while before 19:00 / tomorrow same time; one undoable move). Repeats use the rule repeat chain (capped by `maxNagRepeats`). Tests: `fixtures/planner/section_catalog_p1.json`, `planner_notifications_test.dart`, `quick_reschedule_test.dart`.
 
 ### T7.5.04 — Planner: up-next chain & timer-end alerts
 **Priority:** P1 · **Size:** S · **Depends on:** T7.5.01, [3.2] (time tracking)
@@ -112,6 +113,7 @@ tomorrow) · Skip.
 Stop · +10 min; live countdown surfaces are in [8.2] T8.2.10.
 **Acceptance criteria:** back-to-back tasks produce one merged "done → up next" notification, not two.
 **Tests:** planner fixtures for chains and merge.
+**Notes:** New triggers `up_next {beforeMinutes?}` and `timer_end` (model, codec, validation, editor fields, labels, EN/FR/AR texts). The planner source gives each timed occurrence the next open timed task starting within 3 h (`next_task_id/occurrence_key/title/start` variables). *Up next* fires at the end (or N min before the next task): "Up next: {next} at {time}" (Done · Open); back-to-back tasks get one merged "Done with {title}? Up next: …" that replaces the next task's own reminders at that instant (`_mergeUpNext`). *Timer end* fires at the planned end only while the timer runs (status in_progress), actions Stop · +10 min (`extend` extends the occurrence by 10 min; the replan re-arms the alert). Live countdowns stay in [8.2]. Tests: `section_catalog_p1.json` (up next, merge, timer end), `planner_notifications_test.dart` (neighbours, extend), codec.
 
 ### T7.5.05 — Checklists: reminders at a chosen time (lists & items)
 **Priority:** P0 · **Size:** S · **Depends on:** [7.1], [7.2], [4.3]
@@ -140,6 +142,7 @@ Complete · Snooze 1 day; changing the follow-up date replans immediately.
 **Description:** Relative triggers on `due` for items and checklists: timed due → offsets like tasks;
 date-only due → "on the day at HH:MM" / "N days before at HH:MM"; optional overdue repeat.
 **Tests:** planner fixtures (timed and date-only).
+**Notes:** Items and checklists already carry `due` (timed or date-only, resolved in their zone); `relative` triggers on `due` give offsets, and the day form gives "on the day / N days before at HH:MM" (date-only lists and items). Overdue repeats use `overdue` + the rule repeat chain. Tests: `section_catalog_p1.json` (date-only item 1 day before at 18:00 + on the day at 09:00; timed checklist due 30 min before + hourly overdue repeats).
 
 ### T7.5.08 — Checklists: status-age escalation
 **Priority:** P1 · **Size:** S · **Depends on:** T7.5.06
@@ -147,6 +150,7 @@ date-only due → "on the day at HH:MM" / "N days before at HH:MM"; optional ove
 ≥ N days, "{item_text} has been blocked for 12 h" for blocked ≥ N hours; optional repeat interval; anchored
 on `status_changed_at` so re-entering the status restarts the clock.
 **Tests:** planner fixtures for re-entry and repeats.
+**Notes:** `status_age` anchored on `status_changed_at` (re-entering the status restarts the clock, existing fixtures). Wording now follows the spec: "Still waiting on {item_text} (3 days)" / "{item_text} has been blocked for 12 h" (EN/FR/AR; whole days read as days). Repeats via the rule repeat chain. Tests: `section_catalog_p1.json`, codec, texts.
 
 ### T7.5.09 — Checklists: structural event triggers
 **Priority:** P1 · **Size:** M · **Depends on:** T7.5.05, [4.5] (resettable checklists)
@@ -156,6 +160,7 @@ overdue** (surfaced on the watched parent), **stale items/lists** (no activity f
 **list reset** ("{checklist_title} was reset for today").
 **Acceptance criteria:** completing the last child triggers at most one notification per parent per day.
 **Tests:** planner fixtures using event inputs.
+**Notes:** Children complete (Complete parent · Open, dedupe per parent per day), child overdue and stale were already planned from item/list events; added *list reset*: new `list_reset {atTime?}` trigger ("{checklist} was reset for today") fed by `checklist_runs` (`ChecklistsRepository.recentResets` → `list_reset` events on list targets), with editor field, labels and EN/FR/AR texts. Tests: `section_catalog_p1.json` (children complete actions + same-day dedupe, list reset at 07:00), `checklist_notifications_test.dart` (reset events).
 
 ### T7.5.10 — Habits: scheduled reminders (slots, times, several per day)
 **Priority:** P0 · **Size:** M · **Depends on:** [7.1], [7.2], [5.1] (periods & slots), [5.2]
@@ -187,6 +192,7 @@ needed ≥ days left, "last chance" on the final eligible day); **milestones** (
 such as 1 000 push-ups — immediate on the triggering log, in-app banner if foreground); **inactivity** (no
 log for N days on an active habit).
 **Tests:** planner fixtures; unit tests for pace computation.
+**Notes:** Each build habit also yields a habit-level summary target (no occurrence key) carrying `lastActivityAt` (last log, else creation) for inactivity plus the milestones just reached: streak 7/30/100/365 (keyed by the streak's start date, so a new streak announces again) and running totals crossing 100/500/1 000… Both are dated at the triggering log, so the planner's catch-up delivers them once; the foreground banner is the generic in-app presentation. Quota copy switches to "Last chance today" when one eligible day is left.
 
 ### T7.5.13 — Quit: milestone notifications
 **Priority:** P1 · **Size:** M · **Depends on:** [5.3] (quit logic, health milestone content)
@@ -200,6 +206,7 @@ cancels outstanding milestones everywhere; never shame — copy reviewed.
 **Acceptance criteria:** "24 hours smoke-free" fires at quit time + 24 h; logging a relapse at +20 h
 cancels it and re-projects from the relapse.
 **Tests:** planner fixtures with relapse inputs.
+**Notes:** `buildQuitTarget` projects health rows (metric `health`, smoking + abstain only, runKey = abstinence start, so a relapse re-keys and cancels them), `money_saved` / `units_avoided` thresholds and open all-time quit goals (metric `custom`, runKey = goal id) at today's rates; reached milestones are not replanned and projections stop at 400 days. New default quit rules: health, money and goal milestones. Health notifications deep-link to the tracker, whose milestones screen carries the sources and disclaimer.
 
 ### T7.5.14 — Quit: pledge, evening review, craving support & encouragement
 **Priority:** P1 · **Size:** M · **Depends on:** T7.5.13, [6.6] (craving time patterns)
@@ -210,6 +217,7 @@ reminders quoting the user's own `{reason}`.
 **Acceptance criteria:** all off by default and individually configurable; craving support needs ≥ 10
 logged cravings before it can be enabled (explained in the UI).
 **Tests:** planner fixtures; unit tests for usual-hours derivation input handling.
+**Notes:** One new trigger `quit_ritual {kind: pledge | evening_review | craving_support | encouragement | motivation, atTime?, minutesBefore?}`; nothing is seeded, the quit editor's chips add them. The quit target carries the inputs (pledge/review/relapse events of today and yesterday, ritual times from `settings.pledge`, `craving_count`, `craving_hours` from `usualCravingHours` — hours holding ≥ 15 % of the cravings, top 3 — a rotating coping tip and the tracker's `motivation` as `{reason}`). New actions `pledge`, `clean_day` (day from the ritual's occurrence key) and `log_relapse` (opens the kind in-app flow, never logs blind).
 
 ### T7.5.15 — Notifications settings page & global controls
 **Priority:** P0 · **Size:** M · **Depends on:** [8.3] (settings structure), [7.2]
@@ -245,6 +253,7 @@ exposed to [6.5]; noisy-rule detection ("You ignore 90 % of this reminder — mu
 **Data model:** uses inbox fields `opened_at`, `delivered_via`, `dismissed_at`, `late` ([7.1] T7.1.01);
 a local daily rollup (`stats_cache`) keeps aggregates beyond the 90-day inbox retention.
 **Tests:** metric unit tests on fixture inbox data.
+**Notes:** `NotificationStats` (domain) computes per rule / section / item: delivered by channel (local · push · inbox-only), opened, acted (by action), snoozed, dismissed, ignored (untouched after 1 h), late, quiet-hours deferrals (the plan's adjustments now travel in the inbox payload as `adj`), median time to act, effectiveness (habit check-in / task start or completion within 60 min, from sections implementing `TargetActivitySource`) and noisy rules (≥ 10 deliveries, ≥ 90 % ignored). The rollup lives in `local_kv` (`notifications.statsRollup`, daily per-rule/per-section counters for days older than 80 days, kept 400 days) instead of a new `stats_cache` table — no schema change. Settings › Notifications › Statistics shows it with *Mute for a week* / *Turn it off* on noisy rules; `NotificationStatsService.effectivenessFor(targetKey)` is the hook for [6.5].
 
 ### T7.5.18 — Digests: agenda, plan tomorrow, overdue, weekly & monthly
 **Priority:** P1 · **Size:** M · **Depends on:** T7.5.15, [8.1] (Today data), [6.7] (reports)
@@ -258,6 +267,7 @@ channel and never repeat.
 **Acceptance criteria:** the morning agenda reflects a task added the previous night on another device
 (after sync); disabling Digests removes all digest jobs.
 **Tests:** planner fixtures; content rendering tests.
+**Notes:** `DigestComposer` builds one synthetic target per enabled kind × day at plan time (so every replan, incl. after a sync, refreshes the content); sources may implement `DigestFactsSource` for counts no target carries — the planner contributes `backlog` (unscheduled tasks) to *Plan tomorrow*. Weekly/monthly digests announce the report and open Insights. Default times are off-peak (07:07, 20:37…) plus a stable per-user 0–4 min offset (`DefaultRules.digestDefaultTimeFor`).
 
 ### T7.5.19 — Smart reminder suggestions
 **Priority:** P2 · **Size:** M · **Depends on:** T7.5.17, [6.5]
@@ -265,6 +275,7 @@ channel and never repeat.
 response times from notification stats): "You usually do push-ups around 07:45 — move the reminder to
 07:30?"; optional auto-adjust with a weekly summary of changes.
 **Tests:** unit tests for suggestion logic on fixture histories.
+**Notes:** `SmartSuggestions` (domain): circular mean of the local check-in / start times of the last 28 days (≥ 5 samples, concentration ≥ 0.6) → reminder 15 min before, rounded to 5 min, only when it moves ≥ 15 min; applies to an item's own fixed-time rules (relative at a time of day, daily schedule with one time). `SmartReminders` (application) reads activity from the `TargetActivitySource` sections, applies / dismisses (dismissals in `local_kv`), and with `notifications.smartAdjust` (opt-in) adjusts weekly on a foreground replan and files an inbox summary ("1 reminder moved…: 09:00 → 07:30"). Response times from statistics aren't used yet — the usual activity time is the stronger signal. Screen: Settings › Notifications › Smart suggestions.
 
 ### T7.5.20 — Status-change & custom event triggers
 **Priority:** P2 · **Size:** S · **Depends on:** T7.5.09
@@ -272,3 +283,4 @@ response times from notification stats): "You usually do push-ups around 07:45 �
 notify me at 18:00 to review blockers"), "task started late" and similar event triggers; foundation for
 future collaboration ([9.3]).
 **Tests:** planner fixtures using event inputs.
+**Notes:** `status_change {from?, to, atTime?}` already worked for checklist items; tasks now report events too (`status_change` from the occurrence record, `started_late` when the actual start is ≥ 5 min after the planned one). New generic trigger `event {name, atTime?}` reacts to any event a section reports (started_late, status_change, children_complete, child_overdue, list_reset — or future collaboration events), with "Started 12 min late" copy for late starts; editable in the advanced editor.

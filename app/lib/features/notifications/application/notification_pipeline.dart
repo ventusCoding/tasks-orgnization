@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:drift/drift.dart' show Variable;
+import 'package:everslot/core/database/app_database.dart';
 import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
@@ -8,6 +10,7 @@ import 'package:everslot/features/notifications/application/local_scheduler.dart
 import 'package:everslot/features/notifications/application/notification_providers.dart';
 import 'package:everslot/features/notifications/application/notification_registry.dart';
 import 'package:everslot/features/notifications/application/notification_texts_l10n.dart';
+import 'package:everslot/features/notifications/application/smart_reminders.dart';
 import 'package:everslot/features/notifications/domain/badge_count.dart';
 import 'package:everslot/features/notifications/domain/digest_composer.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
@@ -134,6 +137,16 @@ class NotificationPipeline {
         }
       }
     }
+    final facts = <String, int>{};
+    if (rules.any((r) => r.enabled && r.spec.trigger is DigestTrigger)) {
+      for (final source in read(notificationTargetSourcesProvider).whereType<DigestFactsSource>()) {
+        try {
+          facts.addAll(await source.digestFacts());
+        } on Object catch (e, st) {
+          _log.warning('digest facts failed', e, st);
+        }
+      }
+    }
     final digests = DigestComposer.compose(
       rules: rules,
       targets: targets,
@@ -142,6 +155,7 @@ class NotificationPipeline {
       zone: zone,
       zones: zones,
       texts: texts,
+      facts: facts,
     );
     final acknowledged = await read(inboxRepositoryProvider)
         .acknowledgedKeys(since: now.subtract(const Duration(days: 2)));
@@ -158,6 +172,7 @@ class NotificationPipeline {
       texts: texts,
       acknowledgedKeys: acknowledged,
       deviceId: read(deviceIdProvider),
+      lastForegroundAt: await _lastForegroundAt(db),
       userId: userId,
       timeSensitiveAllowed: !caps.determined || caps.timeSensitive,
       applyCaps: applyCaps,
@@ -183,11 +198,38 @@ class NotificationPipeline {
     await read(localNotificationsPortProvider).setBadge(count);
   }
 
+  /// local_kv key of this device's last foreground (last-active policy, T7.4.19).
+  static const lastForegroundKey = 'notifications.lastForegroundAt';
+
+  Future<DateTime?> _lastForegroundAt(AppDatabase db) async {
+    final row = await db
+        .customSelect(
+          'SELECT value FROM local_kv WHERE key = ?',
+          variables: [const Variable<String>(lastForegroundKey)],
+        )
+        .getSingleOrNull();
+    return row == null ? null : DateTime.tryParse(row.read<String>('value'))?.toUtc();
+  }
+
   /// Full replan: plan → OS schedule → delivered cleanup. Never throws (errors are reported).
   Future<ReplanReport> run(String reason, {bool foreground = true}) async {
     final watch = Stopwatch()..start();
     final at = read(clockProvider).nowUtc();
     try {
+      if (foreground) {
+        await read(appDatabaseProvider).customStatement(
+          'INSERT INTO local_kv(key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value',
+          [lastForegroundKey, at.toIso8601String()],
+        );
+        // Weekly smart adjustment (T7.5.19, opt-in): moved reminders are planned right below.
+        if (read(notificationSettingsProvider).smartAdjust) {
+          try {
+            await read(smartRemindersProvider).autoAdjustIfDue();
+          } on Object catch (e, st) {
+            _log.warning('smart adjustment failed', e, st);
+          }
+        }
+      }
       final ctx = await buildContext();
       final result = NotificationPlanner.plan(ctx);
       final scheduler = read(localSchedulerProvider);
@@ -203,6 +245,8 @@ class NotificationPipeline {
       final report = await scheduler.apply(
         result.planned,
         exactAllowed: caps.exactAlarm || !caps.determined,
+        fullScreenAllowed: caps.fullScreenIntent,
+        images: !ctx.settings.hideContent,
         foreground: foreground,
         bannerInApp: ctx.settings.bannerInApp,
         horizonEnd: ctx.now.add(ctx.effectiveHorizon),

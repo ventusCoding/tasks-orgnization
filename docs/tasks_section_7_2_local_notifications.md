@@ -59,11 +59,11 @@ per-section trigger semantics ([7.5]); Live Activities / ongoing timer notificat
 - [x] T7.2.19 — Grouping & threading
 - [x] T7.2.20 — Delivered-notification cleanup & expiry
 - [x] T7.2.21 — Notification diagnostics screen
-- [ ] T7.2.22 — End-to-end notification tests (patrol)
-- [ ] T7.2.23 — Escalation steps
+- [x] T7.2.22 — End-to-end notification tests (patrol)
+- [x] T7.2.23 — Escalation steps
 - [ ] T7.2.24 — Alarm profile (AlarmKit / alarm clock / full-screen)
-- [ ] T7.2.25 — Alarm dismissal missions
-- [ ] T7.2.26 — Rich notifications (images, big text, subtitle)
+- [x] T7.2.25 — Alarm dismissal missions
+- [x] T7.2.26 — Rich notifications (images, big text, subtitle)
 
 ## Tasks
 
@@ -386,13 +386,14 @@ create a task with "1 min before" + "at start", lock the device, verify both not
 from the notification, assert the occurrence is done; cold start from tap; background action with the app
 killed; time-zone change → replan.
 **Acceptance criteria:** suite green in CI (Android) and documented for iOS.
-**Notes:** Not started: needs the [9.1] patrol harness (`patrol` isn't a dependency yet) and an emulator/simulator run.
+**Notes:** `app/patrol_test/notifications_test.dart` on the T9.1.07 harness, green on an API 34 emulator (2/2, ~6 min): grants the OS permission, seeds a task with *1 min before* + *at start* (Custom mode, through the application APIs), backgrounds the app, sees both deliveries in the shade (sightings accumulate — reminders expire at their anchor by design), presses *Done* from the shade and asserts the occurrence is done; a second test taps a reminder and lands on the occurrence. Cold start from a killed app and the time-zone-change replan aren't driven on the device (the background action isolate and zone replans are covered by unit tests); CI runs the suite in the `android-e2e` job; iOS steps are in docs/guide.md §8.
 
 ### T7.2.23 — Escalation steps
 **Priority:** P2 · **Size:** M · **Depends on:** T7.2.18
 **Description:** `repeat.escalation[]` changes delivery per repeat index (passive → active → time-sensitive
 → alarm; louder sound; add devices), each step mapped to an existing channel/profile.
 **Tests:** planner fixtures with escalation.
+**Notes:** `repeat.escalation: [{fromRepeat, profile (built-in code or id), allDevices?}]`; each nag resolves its delivery through the step's profile (channel, importance, interruption level, sound, alarm style — the rule keeps its actions) and `allDevices` lifts `conditions.devices` for local scheduling and push targets. Editor: *Escalation* rows under the repeat settings; validation requires ascending steps within 1…10.
 
 ### T7.2.24 — Alarm profile (AlarmKit / alarm clock / full-screen)
 **Priority:** P2 · **Size:** L · **Depends on:** T7.2.10, [7.1] (Alarm profile)
@@ -404,12 +405,14 @@ background-audio rule (exact-alarm permission + `USAGE_ALARM` stream).
 **Acceptance criteria:** an alarm-profile task rings on a silent phone where permitted and degrades
 gracefully (clearly labelled) where not; Play/App Store declarations handled in [9.2].
 **Tests:** manual QA matrix (OS versions × permission states).
+**Notes:** Partial (open: iOS 26 AlarmKit). Android: the alarm channel (v2) plays on `USAGE_ALARM`, alarm-profile reminders use `alarmClock` + a full-screen intent only when `canUseFullScreenIntent()` (new `app.everslot/alarm` channel in `MainActivity`), and a permission change re-issues them; a tap / full-screen launch opens `AlarmScreen` (Done · Snooze · Stop), shown over the lock screen only while it is open. iOS uses the labelled time-sensitive fallback. The advanced editor flags an alarm rule that can't ring through silent and offers the missing permissions. AlarmKit (`flutter_alarmkit`, `NSAlarmKitUsageDescription`) needs the Xcode 26 toolchain this machine lacks — to do with T7.4.14's device session. Store declarations stay in [9.2].
 
 ### T7.2.25 — Alarm dismissal missions
 **Priority:** P2 · **Size:** M · **Depends on:** T7.2.24
 **Description:** Optional Alarmy-style missions to stop an alarm (solve a sum, type the task title, shake,
 scan a saved QR code), anti-snooze limits, gradually increasing volume.
 **Tests:** widget tests for missions; manual QA.
+**Notes:** `delivery.alarm {mission {type: math | type | shake | qr, count?, code?}, maxSnoozes?, rampVolume?}` travels in the alarm payload to `AlarmScreen`: Done / Stop stay locked until the mission is solved, the screen plays its own generated beep on the alarm stream (rising from 10 % to full over 30 s when asked) until then, and the dispatcher enforces the per-alarm snooze limit. Configured under *Alarm options* in the advanced editor (QR codes are scanned once and saved). New deps: sensors_plus, mobile_scanner, audioplayers (arch §3). Widget tests cover every mission; on-device QA is part of the T7.4.14 device session.
 
 ### T7.2.26 — Rich notifications (images, big text, subtitle)
 **Priority:** P2 · **Size:** M · **Depends on:** T7.2.09, [2.2] (attachment cache)
@@ -420,3 +423,4 @@ fire time (only already-cached files) and respects hide-content redaction.
 **Acceptance criteria:** a checklist item with a photo shows its thumbnail in the notification on both
 platforms when cached; missing files degrade to text-only silently.
 **Tests:** unit tests for attachment selection and redaction; manual QA.
+**Notes:** The planner stays device-independent: at scheduling time `LocalNotificationScheduler` asks `AttachmentPreviews.cachedImage(ownerType, ownerId)` (attachments application API — first image whose thumbnail/original is already on disk, never downloading) once per target; the image presence is part of the schedule hash, so a thumbnail cached later re-issues the reminder. Android: `BigPictureStyle` (inbox lines win, long bodies get `BigTextStyle`); iOS: an attachment from a temp copy. Subtitle (iOS) / sub-text (Android) = `{parent_path}` or category. Hide content drops images and subtitles. On-device QA pending (T7.4.14 session).

@@ -60,6 +60,8 @@ NotificationTarget targetFromJson(Map<String, Object?> j) {
           metric: asString(asJsonMap(m)!['metric'])!,
           threshold: asNum(asJsonMap(m)!['threshold'])!,
           at: parseInstant(asJsonMap(m)!['at'])!,
+          runKey: asString(asJsonMap(m)!['runKey']),
+          label: asString(asJsonMap(m)!['label']),
         ),
     ],
     events: [

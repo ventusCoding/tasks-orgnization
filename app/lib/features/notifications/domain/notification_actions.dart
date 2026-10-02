@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:everslot/features/notifications/domain/json_fields.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
+import 'package:everslot/features/notifications/domain/rule_spec.dart' show AlarmOptions;
 import 'package:meta/meta.dart';
 
 /// Action ids shared by OS notifications, pushes, in-app banners and inbox rows (T7.2.03).
@@ -10,6 +11,22 @@ import 'package:meta/meta.dart';
 abstract final class NotificationLinks {
   static const settings = '/settings/notifications';
   static const diagnostics = '/settings/notifications/diagnostics';
+
+  /// Ringing alarm (T7.2.24): `?p=` carries the notification payload (base64url JSON).
+  static const alarm = '/notifications/alarm';
+
+  static String alarmFor(NotificationPayload p) =>
+      Uri(path: alarm, queryParameters: {'p': base64Url.encode(utf8.encode(p.encode()))}).toString();
+
+  static NotificationPayload? alarmPayload(Uri uri) {
+    final p = uri.queryParameters['p'];
+    if (p == null) return null;
+    try {
+      return NotificationPayload.tryDecode(utf8.decode(base64Url.decode(p)));
+    } on FormatException {
+      return null;
+    }
+  }
 }
 
 abstract final class NotificationActionIds {
@@ -19,8 +36,16 @@ abstract final class NotificationActionIds {
   static const snooze = 'snooze';
   static const skip = 'skip';
   static const reschedule = 'reschedule';
+
+  /// Extends a running timer task by 10 minutes (timer-end alerts, T7.5.04).
+  static const extend = 'extend';
   static const logValue = 'log_value';
   static const logCraving = 'log_craving';
+
+  /// Quit rituals (T7.5.14): the morning pledge, the evening review's clean day and relapse flow.
+  static const pledge = 'pledge';
+  static const cleanDay = 'clean_day';
+  static const logRelapse = 'log_relapse';
   static const completeItem = 'complete_item';
   static const markOngoing = 'mark_ongoing';
   static const markWaiting = 'mark_waiting';
@@ -42,8 +67,12 @@ abstract final class NotificationActionIds {
     snooze,
     skip,
     reschedule,
+    extend,
     logValue,
     logCraving,
+    pledge,
+    cleanDay,
+    logRelapse,
     completeItem,
     markOngoing,
     markWaiting,
@@ -83,6 +112,10 @@ class NotificationPayload {
     this.repeatIdx = 0,
     this.kind,
     this.members = const [],
+    this.title,
+    this.body,
+    this.alarm = false,
+    this.alarmOptions,
   });
 
   factory NotificationPayload.fromJson(Map<String, Object?> json) => NotificationPayload(
@@ -102,6 +135,10 @@ class NotificationPayload {
     repeatIdx: asInt(json['rep']) ?? 0,
     kind: asString(json['kind']),
     members: asStringList(json['mem']) ?? const [],
+    title: asString(json['t']),
+    body: asString(json['b']),
+    alarm: json['alarm'] == true,
+    alarmOptions: asJsonMap(json['alm']) == null ? null : AlarmOptions.fromJson(asJsonMap(json['alm'])!),
   );
 
   static NotificationPayload? tryDecode(String? source) {
@@ -135,6 +172,16 @@ class NotificationPayload {
   final String? kind;
   final List<String> members;
 
+  /// Rendered title / body (local schedules carry them; pushes may not).
+  final String? title;
+  final String? body;
+
+  /// Alarm-profile delivery (T7.2.24): a tap opens the alarm screen.
+  final bool alarm;
+
+  /// Missions / snooze limit / rising volume (T7.2.25).
+  final AlarmOptions? alarmOptions;
+
   String get chainKey => baseKey ?? dedupeKey;
 
   Map<String, Object?> toJson() => {
@@ -155,6 +202,10 @@ class NotificationPayload {
     if (repeatIdx > 0) 'rep': repeatIdx,
     'kind': ?kind,
     if (members.isNotEmpty) 'mem': members,
+    't': ?title,
+    'b': ?body,
+    if (alarm) 'alarm': true,
+    if (alarmOptions != null) 'alm': alarmOptions!.toJson(),
   };
 
   String encode() => jsonEncode(toJson());

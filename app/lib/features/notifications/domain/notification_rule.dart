@@ -145,6 +145,8 @@ abstract final class BuiltinProfiles {
       ),
       respectQuietHours: false,
       hidden: true,
+      // v2: the channel plays on the alarm stream (T7.2.24); Android channels are immutable.
+      channelVersion: 2,
     ),
   };
 }

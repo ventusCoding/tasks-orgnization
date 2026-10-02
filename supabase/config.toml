@@ -453,6 +453,16 @@ verify_jwt = false
 [functions.storage-purge]
 verify_jwt = false
 
+[functions.plan-fallback]
+verify_jwt = false
+
+# Opened from digest emails (signed link) and called by the email provider (shared secret).
+[functions.email-unsubscribe]
+verify_jwt = false
+
+[functions.email-events]
+verify_jwt = false
+
 [analytics]
 # Not needed for Everslot development; keeps the local stack and CI lighter.
 enabled = false

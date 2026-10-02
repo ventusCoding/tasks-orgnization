@@ -4,6 +4,7 @@ import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/notifications/application/notification_host_api.dart';
 import 'package:everslot/features/notifications/application/notification_providers.dart';
 import 'package:everslot/features/notifications/application/rule_preview.dart';
+import 'package:everslot/features/notifications/application/rule_sets.dart';
 import 'package:everslot/features/notifications/domain/effective_rules_resolver.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
 import 'package:everslot/features/notifications/domain/notification_target.dart';
@@ -13,6 +14,7 @@ import 'package:everslot/features/notifications/presentation/mute_menu.dart';
 import 'package:everslot/features/notifications/presentation/notification_labels.dart';
 import 'package:everslot/features/notifications/presentation/permission_primers.dart';
 import 'package:everslot/features/notifications/presentation/rule_preview_list.dart';
+import 'package:everslot/features/notifications/presentation/rule_sets_ui.dart';
 import 'package:everslot/features/notifications/presentation/simple_rule_editor.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -46,6 +48,7 @@ class NotificationSettingsSection extends ConsumerStatefulWidget {
     this.previewTargets,
     this.maxVisible = 3,
     this.pickCopySource,
+    this.cravingCount,
     super.key,
   });
 
@@ -86,6 +89,10 @@ class NotificationSettingsSection extends ConsumerStatefulWidget {
   /// *Copy reminders from…* (T7.1.15): the host's item picker (same [targetType]); returns the
   /// chosen item id or null. The action is hidden without it.
   final Future<String?> Function(BuildContext context)? pickCopySource;
+
+  /// Logged cravings of a quit tracker: *Craving support* needs
+  /// [QuitRitualTrigger.cravingSupportMinCravings] of them (T7.5.14).
+  final int? cravingCount;
 
   @override
   ConsumerState<NotificationSettingsSection> createState() => _NotificationSettingsSectionState();
@@ -167,6 +174,7 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
       targetType: widget.targetType,
       section: widget.section,
       itemKind: widget.itemKind,
+      cravingCount: widget.cravingCount,
     );
     if (outcome == null || !mounted) return;
     var rules = outcome.rules;
@@ -307,6 +315,48 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
     }
   }
 
+  /// *Rule sets* (T7.1.18): save this item's reminders as a set, or apply a saved set (its
+  /// reminders replace the item's own ones and the item switches to *Custom*).
+  Future<void> _ruleSets() async {
+    final draft = widget.draft;
+    final choice = await showItemRuleSets(
+      context,
+      targetType: widget.targetType,
+      savedTargetId: draft == null ? widget.targetId : null,
+    );
+    if (choice == null || !mounted) return;
+    final l = context.l10n;
+    if (draft != null) {
+      while (draft.rules.isNotEmpty) {
+        draft.removeAt(0);
+      }
+      final ids = {
+        for (final p in ref.read(notificationProfilesProvider).value ?? const <NotificationProfile>[])
+          if (p.code != null) p.code!: p.id,
+      };
+      for (final e in choice.set.entries) {
+        draft.add(
+          RuleDraft(
+            targetType: _ruleType,
+            targetId: widget.targetId,
+            section: widget.section,
+            spec: e.spec,
+            enabled: e.enabled,
+            name: e.name,
+            profileId: e.profileCode == null ? null : ids[e.profileCode],
+          ),
+        );
+      }
+      await _setMode(NotifyMode.custom);
+      return;
+    }
+    final record = await ref
+        .read(ruleSetsServiceProvider)
+        .apply(choice.set, type: widget.targetType, targetIds: [widget.targetId], section: widget.section);
+    widget.onNotifyModeChanged?.call(NotifyMode.custom);
+    if (mounted) showUndoSnackBar(context, ref, message: l.notifRuleSetApplied(choice.set.name), record: record);
+  }
+
   List<NotificationRule> _ownRules() {
     final draft = widget.draft;
     if (draft != null) {
@@ -441,6 +491,12 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
                     label: Text(l.notifCopyFrom),
                     onPressed: () => unawaited(_copyFrom()),
                   ),
+                TextButton.icon(
+                  key: const ValueKey('rule-sets'),
+                  icon: const Icon(Icons.bookmarks_outlined),
+                  label: Text(l.notifRuleSets),
+                  onPressed: () => unawaited(_ruleSets()),
+                ),
               ],
             ),
           ),

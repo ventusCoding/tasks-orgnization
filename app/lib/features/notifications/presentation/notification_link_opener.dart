@@ -1,17 +1,25 @@
 import 'dart:async';
 
 import 'package:everslot/features/notifications/domain/notification_actions.dart';
+import 'package:everslot/features/notifications/presentation/alarm_screen.dart';
 import 'package:everslot/features/notifications/presentation/diagnostics_screen.dart';
 import 'package:everslot/features/notifications/presentation/notifications_settings_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// The notification page a link points at ([NotificationLinks]), or null for app routes.
-Widget? notificationPageFor(String link) => switch (Uri.tryParse(link)?.path) {
-  NotificationLinks.settings => const NotificationsSettingsPage(),
-  NotificationLinks.diagnostics => const NotificationDiagnosticsScreen(),
-  _ => null,
-};
+Widget? notificationPageFor(String link) {
+  final uri = Uri.tryParse(link);
+  return switch (uri?.path) {
+    NotificationLinks.settings => const NotificationsSettingsPage(),
+    NotificationLinks.diagnostics => const NotificationDiagnosticsScreen(),
+    NotificationLinks.alarm => switch (NotificationLinks.alarmPayload(uri!)) {
+      final p? => AlarmScreen(payload: p),
+      null => null,
+    },
+    _ => null,
+  };
+}
 
 /// Opens a notification deep link: the module's own pages directly (the app shell doesn't route
 /// them yet), everything else through the router.

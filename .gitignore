@@ -70,3 +70,6 @@ deno.lock
 
 # Golden-test failure artifacts written by flutter test
 **/test/**/failures/
+
+# Patrol generates its test bundle on every run (T9.1.07)
+**/patrol_test/test_bundle.dart

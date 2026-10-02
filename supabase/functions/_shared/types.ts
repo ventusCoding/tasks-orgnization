@@ -12,7 +12,9 @@ export type DeliveryOutcome =
   | "skipped_stale_token"
   | "expired"
   | "failed"
-  | "token_invalid";
+  | "token_invalid"
+  | "email_sent"
+  | "email_failed";
 
 /** Rendered content uploaded by the device planner (already localized / redacted). */
 export interface JobPayload {

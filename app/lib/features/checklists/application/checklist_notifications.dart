@@ -31,6 +31,9 @@ class ChecklistsNotificationSource implements NotificationTargetSource {
     final itemsRepo = _ref.read(checklistItemsRepositoryProvider);
     final items = await itemsRepo.notifiableItems();
     final changes = await itemsRepo.recentStatusChanges(fromUtc.subtract(const Duration(days: 1)));
+    final resets = await _ref
+        .read(checklistsRepositoryProvider)
+        .recentResets(fromUtc.subtract(const Duration(days: 1)));
     return ChecklistNotificationTargets.build(
       lists: lists,
       items: items,
@@ -42,6 +45,7 @@ class ChecklistsNotificationSource implements NotificationTargetSource {
         for (final (itemId, e) in changes) ItemStatusChange(itemId: itemId, from: e.from, to: e.to, at: e.at),
       ],
       untitled: _untitled(),
+      resets: resets,
     );
   }
 

@@ -15,7 +15,7 @@ import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
 /// views (overrides, moves, cancellations, derived statuses). Registered statically in
 /// `notification_contributions.dart`, so it also runs in the background isolate — it only reads
 /// database-backed providers, lazily.
-class PlannerNotificationSource implements NotificationTargetSource {
+class PlannerNotificationSource implements NotificationTargetSource, DigestFactsSource, TargetActivitySource {
   PlannerNotificationSource(this._ref);
 
   final Ref _ref;
@@ -27,6 +27,33 @@ class PlannerNotificationSource implements NotificationTargetSource {
   /// depend on nothing else.
   @override
   Stream<void> get changes => const Stream<void>.empty();
+
+  /// Actual starts and completions per task (reminder effectiveness, T7.5.17).
+  @override
+  Future<Map<String, List<DateTime>>> activityBetween(DateTime fromUtc, DateTime toUtc) async {
+    final zones = _ref.read(zoneResolverProvider);
+    final zone = _ref.read(deviceZoneProvider);
+    final data = await _ref
+        .read(plannerQueriesProvider)
+        .loadRange(
+          zones.toLocal(fromUtc, zone).date.minusDays(1).atStartOfDay,
+          zones.toLocal(toUtc, zone).date.plusDays(2).atStartOfDay,
+        );
+    final out = <String, List<DateTime>>{};
+    for (final r in data.records) {
+      for (final t in [r.actualStartAt, r.completedAt]) {
+        if (t == null || t.isBefore(fromUtc) || t.isAfter(toUtc)) continue;
+        (out['task:${r.taskId}'] ??= []).add(t);
+      }
+    }
+    return out;
+  }
+
+  /// Unscheduled (backlog) tasks for *Plan tomorrow*.
+  @override
+  Future<Map<String, int>> digestFacts() async => {
+    'backlog': (await _ref.read(plannerQueriesProvider).unscheduled()).length,
+  };
 
   @override
   Future<List<NotificationTarget>> targetsBetween(DateTime fromUtc, DateTime toUtc) async {
@@ -61,6 +88,8 @@ class PlannerNotificationSource implements NotificationTargetSource {
       zones: zones,
       viewerZone: zone,
       categoryNames: await queries.categoryNames(),
+      missedGraceMinutes: _ref.read(plannerSettingsProvider).missedGraceMinutes,
+      neighbours: result.occurrences,
     );
   }
 
@@ -95,6 +124,8 @@ class PlannerNotificationActions implements NotificationActionHandler {
     NotificationActionIds.skip,
     NotificationActionIds.start,
     NotificationActionIds.stop,
+    NotificationActionIds.reschedule,
+    NotificationActionIds.extend,
   };
 
   static const cause = 'notification';
@@ -152,6 +183,20 @@ class PlannerNotificationActions implements NotificationActionHandler {
       case NotificationActionIds.stop:
         if (closed) return NotificationActionResult.ok;
         await repo.stop(taskId, key, cause: cause);
+      case NotificationActionIds.extend:
+        // Timer-end alert: give the running occurrence 10 more minutes (the replan re-arms the alert).
+        if (closed) return NotificationActionResult.ok;
+        await c
+            .read(tasksRepositoryProvider)
+            .editOccurrence(taskId, key, duration: (o.durationMinutes) + 10, source: source);
+        return const NotificationActionResult(markActed: false);
+      case NotificationActionIds.reschedule:
+        // Foreground action: the task opens on its quick-reschedule sheet (+1 h / tonight / tomorrow).
+        if (closed) return NotificationActionResult.failed(l10n.tasksNotifAlreadyClosed);
+        return NotificationActionResult(
+          openLink: AppLinks.task(taskId, occurrenceKey: key, reschedule: true),
+          markActed: false,
+        );
       default:
         return NotificationActionResult(
           openLink: c.payload.deepLink ?? AppLinks.task(taskId, occurrenceKey: key),

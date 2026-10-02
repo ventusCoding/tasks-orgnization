@@ -48,26 +48,77 @@ abstract final class PlannerNotificationTargets {
   /// replan cancels their reminders; quota slots (no time of their own) are left out.
   /// [categoryNames] feeds the `category` template variable; [zones] and [viewerZone] resolve
   /// one-off deadlines (the `due` anchor, T3.1.13) in the task's zone mode.
+  /// [missedGraceMinutes] (`planner.missedGraceMinutes`) is the default delay of overdue reminders
+  /// after the end (T7.5.03).
   static List<NotificationTarget> build(
     Iterable<ResolvedOccurrence> occurrences, {
     required ZoneResolver zones,
     required String viewerZone,
     Map<String, String> categoryNames = const {},
-  }) => [
-    for (final o in occurrences)
-      if (!o.isQuotaSlot)
-        target(o, zones: zones, viewerZone: viewerZone, categoryName: categoryNames[o.task.categoryId]),
-  ];
+    int missedGraceMinutes = 15,
+    Iterable<ResolvedOccurrence>? neighbours,
+  }) {
+    final list = occurrences.toList();
+    final timed = [
+      for (final o in neighbours ?? list)
+        if (!o.isQuotaSlot && !o.isAllDay && isOpen(o)) o,
+    ]..sort((a, b) => a.startInstant.compareTo(b.startInstant));
+    return [
+      for (final o in list)
+        if (!o.isQuotaSlot)
+          target(
+            o,
+            zones: zones,
+            viewerZone: viewerZone,
+            categoryName: categoryNames[o.task.categoryId],
+            missedGraceMinutes: missedGraceMinutes,
+            next: nextAfter(o, timed),
+          ),
+    ];
+  }
+
+  /// A start this much after the planned one is a late start (`started_late` events, T7.5.20).
+  static const startedLateAfter = Duration(minutes: 5);
+
+  /// Longest gap between a task's end and the next one for *up next* (T7.5.04).
+  static const upNextWindow = Duration(hours: 3);
+
+  /// The first open timed occurrence starting at or after [o]'s end within [upNextWindow].
+  static ResolvedOccurrence? nextAfter(ResolvedOccurrence o, List<ResolvedOccurrence> timedSorted) {
+    final end = o.endInstant;
+    if (o.isAllDay) return null;
+    for (final n in timedSorted) {
+      if (identical(n, o) || (n.task.id == o.task.id && n.occurrenceKey == o.occurrenceKey)) continue;
+      final start = n.startInstant;
+      if (start.isBefore(end)) continue;
+      return start.difference(end) <= upNextWindow ? n : null;
+    }
+    return null;
+  }
+
+  /// Wire tracking mode (`check`, `event`, `timer`) passed to the planner (events never go overdue).
+  static String trackingWire(TrackingMode mode) => switch (mode) {
+    TrackingMode.check => 'check',
+    TrackingMode.event => 'event',
+    TrackingMode.timer => 'timer',
+  };
 
   static NotificationTarget target(
     ResolvedOccurrence o, {
     required ZoneResolver zones,
     required String viewerZone,
     String? categoryName,
+    int missedGraceMinutes = 15,
+    ResolvedOccurrence? next,
   }) {
     final task = o.task;
     final excerpt = notesExcerpt(o.notes);
     final deadline = task.deadlineLocal;
+    // Event triggers (T7.5.20): the occurrence's last status change and a late start.
+    final record = o.record;
+    final changedAt = record?.statusChangedAt;
+    final startedAt = record?.actualStartAt;
+    final lateBy = startedAt?.difference(o.startInstant);
     final due = deadline == null || task.isRecurring ? null : zones.resolve(deadline, task.timeZone ?? viewerZone).utc;
     return NotificationTarget(
       type: NotificationTargetType.task,
@@ -86,10 +137,24 @@ abstract final class PlannerNotificationTargets {
       statusChangedAt: o.record?.statusChangedAt,
       isOpen: isOpen(o),
       guard: NotificationGuard.taskOccurrenceOpen(task.id, o.occurrenceKey),
+      events: [
+        if (changedAt != null)
+          NotificationEvent(kind: 'status_change', at: changedAt, data: {'to': statusWire(o.status)}),
+        if (startedAt != null && lateBy != null && lateBy >= startedLateAfter)
+          NotificationEvent(kind: 'started_late', at: startedAt, data: {'minutes': lateBy.inMinutes}),
+      ],
       variables: {
         'category': ?categoryName,
         'notes_excerpt': ?excerpt,
         if (task.location != null) 'location': task.location,
+        'tracking_mode': trackingWire(task.trackingMode),
+        'missed_grace_minutes': missedGraceMinutes,
+        if (next != null) ...{
+          'next_task_id': next.task.id,
+          'next_occurrence_key': next.occurrenceKey,
+          'next_title': next.title,
+          'next_start': next.startInstant.toUtc().toIso8601String(),
+        },
       },
       defaultActions: task.trackingMode == TrackingMode.timer ? timerActions : defaultActions,
     );

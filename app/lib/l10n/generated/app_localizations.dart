@@ -6297,6 +6297,18 @@ abstract class AppLocalizations {
   /// **'Aim for {target}'**
   String goalsUseSuggestion(String target);
 
+  /// No description provided for @habitNotifStreakMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'{days}-day streak!'**
+  String habitNotifStreakMilestone(int days);
+
+  /// No description provided for @habitNotifTotalMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} {unit} in total'**
+  String habitNotifTotalMilestone(String amount, String unit);
+
   /// No description provided for @habitsActionAddValue.
   ///
   /// In en, this message translates to:
@@ -9435,6 +9447,12 @@ abstract class AppLocalizations {
   /// **'Page not found'**
   String get notFoundTitle;
 
+  /// No description provided for @notifActionCleanDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean day'**
+  String get notifActionCleanDay;
+
   /// No description provided for @notifActionComplete.
   ///
   /// In en, this message translates to:
@@ -9447,6 +9465,12 @@ abstract class AppLocalizations {
   /// **'Done'**
   String get notifActionDone;
 
+  /// No description provided for @notifActionExtend.
+  ///
+  /// In en, this message translates to:
+  /// **'+10 min'**
+  String get notifActionExtend;
+
   /// No description provided for @notifActionInputPlaceholder.
   ///
   /// In en, this message translates to:
@@ -9458,6 +9482,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log craving'**
   String get notifActionLogCraving;
+
+  /// No description provided for @notifActionLogRelapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Log relapse'**
+  String get notifActionLogRelapse;
 
   /// No description provided for @notifActionLogValue.
   ///
@@ -9500,6 +9530,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open'**
   String get notifActionOpen;
+
+  /// No description provided for @notifActionPledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledge'**
+  String get notifActionPledge;
 
   /// No description provided for @notifActionReschedule.
   ///
@@ -9602,6 +9638,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'after'**
   String get notifAfter;
+
+  /// No description provided for @notifAlarmAllowExact.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow exact alarms'**
+  String get notifAlarmAllowExact;
+
+  /// No description provided for @notifAlarmAllowFullScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow full-screen alarms'**
+  String get notifAlarmAllowFullScreen;
+
+  /// No description provided for @notifAlarmIosFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'On this iPhone, alarms arrive as time-sensitive notifications: they break through Focus but follow the ring/silent switch.'**
+  String get notifAlarmIosFallback;
+
+  /// No description provided for @notifAlarmLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Alarms may not ring through silent mode: allow exact alarms and full-screen notifications for Everslot.'**
+  String get notifAlarmLimited;
+
+  /// No description provided for @notifAlarmMaxSnoozes.
+  ///
+  /// In en, this message translates to:
+  /// **'Snoozes allowed'**
+  String get notifAlarmMaxSnoozes;
+
+  /// No description provided for @notifAlarmMission.
+  ///
+  /// In en, this message translates to:
+  /// **'Mission to stop it'**
+  String get notifAlarmMission;
+
+  /// No description provided for @notifAlarmMissionCount.
+  ///
+  /// In en, this message translates to:
+  /// **'How many'**
+  String get notifAlarmMissionCount;
+
+  /// No description provided for @notifAlarmOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Alarm options'**
+  String get notifAlarmOptions;
+
+  /// No description provided for @notifAlarmQrSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Code saved — scan again to change it'**
+  String get notifAlarmQrSaved;
+
+  /// No description provided for @notifAlarmQrScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the code to use'**
+  String get notifAlarmQrScan;
+
+  /// No description provided for @notifAlarmRamp.
+  ///
+  /// In en, this message translates to:
+  /// **'Gradually louder'**
+  String get notifAlarmRamp;
+
+  /// No description provided for @notifAlarmRinging.
+  ///
+  /// In en, this message translates to:
+  /// **'Alarm'**
+  String get notifAlarmRinging;
+
+  /// No description provided for @notifAlarmSnooze.
+  ///
+  /// In en, this message translates to:
+  /// **'Snooze {minutes} min'**
+  String notifAlarmSnooze(int minutes);
+
+  /// No description provided for @notifAlarmStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get notifAlarmStop;
 
   /// No description provided for @notifAllowPrecise.
   ///
@@ -9711,6 +9831,12 @@ abstract class AppLocalizations {
   /// **'before'**
   String get notifBefore;
 
+  /// No description provided for @notifBodyBlockedFor.
+  ///
+  /// In en, this message translates to:
+  /// **'{item} has been blocked for {age}'**
+  String notifBodyBlockedFor(String item, String age);
+
   /// No description provided for @notifBodyChildOverdue.
   ///
   /// In en, this message translates to:
@@ -9729,6 +9855,18 @@ abstract class AppLocalizations {
   /// **'{days, plural, =1{1 day} other{{days} days}} free — well done!'**
   String notifBodyCleanDays(int days);
 
+  /// No description provided for @notifBodyCravingSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings often come around now — you can ride it out.'**
+  String get notifBodyCravingSupport;
+
+  /// No description provided for @notifBodyCravingSupportTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings often come around now. {tip}'**
+  String notifBodyCravingSupportTip(String tip);
+
   /// No description provided for @notifBodyDueIn.
   ///
   /// In en, this message translates to:
@@ -9740,6 +9878,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Due now'**
   String get notifBodyDueNow;
+
+  /// No description provided for @notifBodyEncouragement.
+  ///
+  /// In en, this message translates to:
+  /// **'A slip is not the end — today is a fresh start.'**
+  String get notifBodyEncouragement;
 
   /// No description provided for @notifBodyEndedAgo.
   ///
@@ -9759,6 +9903,12 @@ abstract class AppLocalizations {
   /// **'Ends in {minutes, plural, =1{1 min} other{{minutes} min}}'**
   String notifBodyEndsIn(int minutes);
 
+  /// No description provided for @notifBodyEveningReview.
+  ///
+  /// In en, this message translates to:
+  /// **'How did today go?'**
+  String get notifBodyEveningReview;
+
   /// No description provided for @notifBodyInDays.
   ///
   /// In en, this message translates to:
@@ -9771,11 +9921,23 @@ abstract class AppLocalizations {
   /// **'No activity for {days, plural, =1{1 day} other{{days} days}}'**
   String notifBodyInactivity(int days);
 
+  /// No description provided for @notifBodyListReset.
+  ///
+  /// In en, this message translates to:
+  /// **'{list} was reset for today'**
+  String notifBodyListReset(String list);
+
   /// No description provided for @notifBodyMilestone.
   ///
   /// In en, this message translates to:
   /// **'Milestone reached: {label}'**
   String notifBodyMilestone(String label);
+
+  /// No description provided for @notifBodyMotivation.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember why: {reason}'**
+  String notifBodyMotivation(String reason);
 
   /// No description provided for @notifBodyNotDone.
   ///
@@ -9789,11 +9951,29 @@ abstract class AppLocalizations {
   /// **'{title} is overdue'**
   String notifBodyOverdue(String title);
 
+  /// No description provided for @notifBodyPledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to pledge for today?'**
+  String get notifBodyPledge;
+
   /// No description provided for @notifBodyQuotaBehind.
   ///
   /// In en, this message translates to:
   /// **'{done}/{target} done — {remaining} to go'**
   String notifBodyQuotaBehind(String done, String target, int remaining);
+
+  /// No description provided for @notifBodyQuotaLastChance.
+  ///
+  /// In en, this message translates to:
+  /// **'Last chance today: {remaining} to go'**
+  String notifBodyQuotaLastChance(int remaining);
+
+  /// No description provided for @notifBodyQuotaPace.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {target} done — {days, plural, =1{1 day left} other{{days} days left}}'**
+  String notifBodyQuotaPace(String done, String target, int days);
 
   /// No description provided for @notifBodySnoozed.
   ///
@@ -9806,6 +9986,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Started {minutes, plural, =1{1 min} other{{minutes} min}} ago'**
   String notifBodyStartedAgo(int minutes);
+
+  /// No description provided for @notifBodyStartedLate.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes, plural, =1{Started 1 min late} other{Started {minutes} min late}}'**
+  String notifBodyStartedLate(int minutes);
 
   /// No description provided for @notifBodyStartingNow.
   ///
@@ -9831,6 +10017,12 @@ abstract class AppLocalizations {
   /// **'Now {status}'**
   String notifBodyStatusChange(String status);
 
+  /// No description provided for @notifBodyStillWaitingOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Still waiting on {item} ({age})'**
+  String notifBodyStillWaitingOn(String item, String age);
+
   /// No description provided for @notifBodyStreakRisk.
   ///
   /// In en, this message translates to:
@@ -9849,11 +10041,29 @@ abstract class AppLocalizations {
   /// **'Time for {title}'**
   String notifBodyTimeFor(String title);
 
+  /// No description provided for @notifBodyTimeUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Time\'s up for {title}'**
+  String notifBodyTimeUp(String title);
+
   /// No description provided for @notifBodyToday.
   ///
   /// In en, this message translates to:
   /// **'Today · {date}'**
   String notifBodyToday(String date);
+
+  /// No description provided for @notifBodyUpNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Up next: {next} at {time}'**
+  String notifBodyUpNext(String next, String time);
+
+  /// No description provided for @notifBodyUpNextMerged.
+  ///
+  /// In en, this message translates to:
+  /// **'Done with {title}? Up next: {next} at {time}'**
+  String notifBodyUpNextMerged(String title, String next, String time);
 
   /// No description provided for @notifCategoryDigest.
   ///
@@ -10047,6 +10257,12 @@ abstract class AppLocalizations {
   /// **'Body template'**
   String get notifContentBody;
 
+  /// No description provided for @notifContentPack.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotating messages'**
+  String get notifContentPack;
+
   /// No description provided for @notifContentTitle.
   ///
   /// In en, this message translates to:
@@ -10059,6 +10275,24 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{1 reminder copied} other{{count} reminders copied}}'**
   String notifCopied(int count);
 
+  /// No description provided for @notifCopingTipBreathe.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a minute of box breathing.'**
+  String get notifCopingTipBreathe;
+
+  /// No description provided for @notifCopingTipWalk.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a short walk.'**
+  String get notifCopingTipWalk;
+
+  /// No description provided for @notifCopingTipWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Drink a glass of water.'**
+  String get notifCopingTipWater;
+
   /// No description provided for @notifCopyFrom.
   ///
   /// In en, this message translates to:
@@ -10070,6 +10304,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'That item has no reminders of its own'**
   String get notifCopyNothing;
+
+  /// No description provided for @notifCravingSupportNeeds.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Craving support learns your usual craving hours from 10 logged cravings — 1 logged so far.} other{Craving support learns your usual craving hours from 10 logged cravings — {count} logged so far.}}'**
+  String notifCravingSupportNeeds(int count);
 
   /// No description provided for @notifCreateCount.
   ///
@@ -10341,6 +10581,12 @@ abstract class AppLocalizations {
   /// **'at {time}'**
   String notifDigestAt(String time);
 
+  /// No description provided for @notifDigestBacklog.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 unscheduled} other{{count} unscheduled}}'**
+  String notifDigestBacklog(int count);
+
   /// No description provided for @notifDigestDailyAgenda.
   ///
   /// In en, this message translates to:
@@ -10364,6 +10610,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Monthly report'**
   String get notifDigestMonthly;
+
+  /// No description provided for @notifDigestMonthlyReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Your monthly report is ready'**
+  String get notifDigestMonthlyReady;
 
   /// No description provided for @notifDigestOverdue.
   ///
@@ -10389,6 +10641,12 @@ abstract class AppLocalizations {
   /// **'Weekly review'**
   String get notifDigestWeekly;
 
+  /// No description provided for @notifDigestWeeklyReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Your week in review is ready'**
+  String get notifDigestWeeklyReady;
+
   /// No description provided for @notifDigests.
   ///
   /// In en, this message translates to:
@@ -10407,11 +10665,83 @@ abstract class AppLocalizations {
   /// **'New reminder'**
   String get notifEditorTitle;
 
+  /// No description provided for @notifEmailDigests.
+  ///
+  /// In en, this message translates to:
+  /// **'Email me my digests'**
+  String get notifEmailDigests;
+
+  /// No description provided for @notifEmailDigestsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Agenda and review digests also arrive by email. Reminders never do. Unsubscribe from any email.'**
+  String get notifEmailDigestsHint;
+
   /// No description provided for @notifEnable.
   ///
   /// In en, this message translates to:
   /// **'Turn on'**
   String get notifEnable;
+
+  /// No description provided for @notifEscalation.
+  ///
+  /// In en, this message translates to:
+  /// **'Escalation'**
+  String get notifEscalation;
+
+  /// No description provided for @notifEscalationAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add escalation step'**
+  String get notifEscalationAdd;
+
+  /// No description provided for @notifEscalationAllDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'On every device'**
+  String get notifEscalationAllDevices;
+
+  /// No description provided for @notifEscalationFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From repeat'**
+  String get notifEscalationFrom;
+
+  /// No description provided for @notifEventChildOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'A sub-item is overdue'**
+  String get notifEventChildOverdue;
+
+  /// No description provided for @notifEventChildrenComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'All its sub-items are done'**
+  String get notifEventChildrenComplete;
+
+  /// No description provided for @notifEventCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Event “{name}”'**
+  String notifEventCustom(String name);
+
+  /// No description provided for @notifEventListReset.
+  ///
+  /// In en, this message translates to:
+  /// **'The list resets'**
+  String get notifEventListReset;
+
+  /// No description provided for @notifEventStartedLate.
+  ///
+  /// In en, this message translates to:
+  /// **'It starts late'**
+  String get notifEventStartedLate;
+
+  /// No description provided for @notifEventStatusChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Its status changes'**
+  String get notifEventStatusChange;
 
   /// No description provided for @notifExactOff.
   ///
@@ -10443,6 +10773,12 @@ abstract class AppLocalizations {
   /// **'At time'**
   String get notifFieldAtTime;
 
+  /// No description provided for @notifFieldBeforeNextMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes before the next task (0 = at the end)'**
+  String get notifFieldBeforeNextMinutes;
+
   /// No description provided for @notifFieldDateTime.
   ///
   /// In en, this message translates to:
@@ -10466,6 +10802,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Digest'**
   String get notifFieldDigestKind;
+
+  /// No description provided for @notifFieldEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'When this happens'**
+  String get notifFieldEvent;
 
   /// No description provided for @notifFieldEveryMinutes.
   ///
@@ -10491,6 +10833,12 @@ abstract class AppLocalizations {
   /// **'Minimum streak'**
   String get notifFieldMinStreak;
 
+  /// No description provided for @notifFieldMinutesBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes before'**
+  String get notifFieldMinutesBefore;
+
   /// No description provided for @notifFieldOffset.
   ///
   /// In en, this message translates to:
@@ -10502,6 +10850,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Repeats'**
   String get notifFieldRepeats;
+
+  /// No description provided for @notifFieldRitual.
+  ///
+  /// In en, this message translates to:
+  /// **'Ritual'**
+  String get notifFieldRitual;
 
   /// No description provided for @notifFieldStatuses.
   ///
@@ -10617,6 +10971,18 @@ abstract class AppLocalizations {
   /// **'Change snooze'**
   String get notifInboxChangeSnooze;
 
+  /// No description provided for @notifInboxDeletedRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted reminder'**
+  String get notifInboxDeletedRule;
+
+  /// No description provided for @notifInboxDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get notifInboxDismiss;
+
   /// No description provided for @notifInboxDismissSelected.
   ///
   /// In en, this message translates to:
@@ -10628,6 +10994,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notification dismissed'**
   String get notifInboxDismissed;
+
+  /// No description provided for @notifInboxDismissedMany.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 notification dismissed} other{{count} notifications dismissed}}'**
+  String notifInboxDismissedMany(int count);
 
   /// No description provided for @notifInboxEmpty.
   ///
@@ -10677,6 +11049,12 @@ abstract class AppLocalizations {
   /// **'Mark all read'**
   String get notifInboxMarkAllRead;
 
+  /// No description provided for @notifInboxMarkRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as read'**
+  String get notifInboxMarkRead;
+
   /// No description provided for @notifInboxMarkedRead.
   ///
   /// In en, this message translates to:
@@ -10695,11 +11073,35 @@ abstract class AppLocalizations {
   /// **'Mute this reminder'**
   String get notifInboxMuteRule;
 
+  /// No description provided for @notifInboxMuteRules.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute these reminders'**
+  String get notifInboxMuteRules;
+
   /// No description provided for @notifInboxNagCount.
   ///
   /// In en, this message translates to:
   /// **'×{count}'**
   String notifInboxNagCount(int count);
+
+  /// No description provided for @notifInboxNoisiest.
+  ///
+  /// In en, this message translates to:
+  /// **'Busiest this week'**
+  String get notifInboxNoisiest;
+
+  /// No description provided for @notifInboxNoneThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing fired this week.'**
+  String get notifInboxNoneThisWeek;
+
+  /// No description provided for @notifInboxOneItem.
+  ///
+  /// In en, this message translates to:
+  /// **'One item'**
+  String get notifInboxOneItem;
 
   /// No description provided for @notifInboxRemindAgain.
   ///
@@ -10707,16 +11109,28 @@ abstract class AppLocalizations {
   /// **'Remind me again…'**
   String get notifInboxRemindAgain;
 
+  /// No description provided for @notifInboxRulesMuted.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 reminder rule muted} other{{count} reminder rules muted}}'**
+  String notifInboxRulesMuted(int count);
+
   /// No description provided for @notifInboxSearch.
   ///
   /// In en, this message translates to:
   /// **'Search notifications'**
   String get notifInboxSearch;
 
+  /// No description provided for @notifInboxSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search titles and text'**
+  String get notifInboxSearchHint;
+
   /// No description provided for @notifInboxSelected.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{1 selected} other{{count} selected}}'**
+  /// **'{count} selected'**
   String notifInboxSelected(int count);
 
   /// No description provided for @notifInboxSnoozed.
@@ -10730,6 +11144,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Snoozed until {time}'**
   String notifInboxSnoozedUntil(String time);
+
+  /// No description provided for @notifInboxTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 time} other{{count} times}}'**
+  String notifInboxTimes(int count);
 
   /// No description provided for @notifInboxTitle.
   ///
@@ -10748,6 +11168,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show in inbox'**
   String get notifInboxToggle;
+
+  /// No description provided for @notifInboxTopItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Items with the most notifications'**
+  String get notifInboxTopItems;
+
+  /// No description provided for @notifInboxTopRules.
+  ///
+  /// In en, this message translates to:
+  /// **'Rules that fired most'**
+  String get notifInboxTopRules;
 
   /// No description provided for @notifInboxUnreadSemantics.
   ///
@@ -10826,6 +11258,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The title can’t be empty'**
   String get notifIssueEmptyContent;
+
+  /// No description provided for @notifIssueEscalation.
+  ///
+  /// In en, this message translates to:
+  /// **'Escalation steps must start at repeat 1 or later, go up, and each pick a profile.'**
+  String get notifIssueEscalation;
 
   /// No description provided for @notifIssueLateness.
   ///
@@ -10959,6 +11397,18 @@ abstract class AppLocalizations {
   /// **'Clean days'**
   String get notifMetricCleanDays;
 
+  /// No description provided for @notifMetricCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'My goals'**
+  String get notifMetricCustom;
+
+  /// No description provided for @notifMetricHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Health milestones'**
+  String get notifMetricHealth;
+
   /// No description provided for @notifMetricMoney.
   ///
   /// In en, this message translates to:
@@ -10988,6 +11438,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{minutes, plural, =1{1 min} other{{minutes} min}}'**
   String notifMinutesValue(int minutes);
+
+  /// No description provided for @notifMissionAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer'**
+  String get notifMissionAnswer;
+
+  /// No description provided for @notifMissionCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Check'**
+  String get notifMissionCheck;
+
+  /// No description provided for @notifMissionMathName.
+  ///
+  /// In en, this message translates to:
+  /// **'Solve sums'**
+  String get notifMissionMathName;
+
+  /// No description provided for @notifMissionMathProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Sum {current} of {total}'**
+  String notifMissionMathProgress(int current, int total);
+
+  /// No description provided for @notifMissionQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan your saved code to stop the alarm'**
+  String get notifMissionQr;
+
+  /// No description provided for @notifMissionQrName.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a QR code'**
+  String get notifMissionQrName;
+
+  /// No description provided for @notifMissionShake.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Shake your phone once} other{Shake your phone {count} times}}'**
+  String notifMissionShake(int count);
+
+  /// No description provided for @notifMissionShakeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Shake the phone'**
+  String get notifMissionShakeName;
+
+  /// No description provided for @notifMissionToStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete the mission to stop the alarm'**
+  String get notifMissionToStop;
+
+  /// No description provided for @notifMissionTypeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Type the title'**
+  String get notifMissionTypeName;
+
+  /// No description provided for @notifMissionTypeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Type this to stop the alarm'**
+  String get notifMissionTypeTitle;
+
+  /// No description provided for @notifMissionWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Not quite — try again'**
+  String get notifMissionWrong;
 
   /// No description provided for @notifModeCustom.
   ///
@@ -11205,6 +11727,36 @@ abstract class AppLocalizations {
   /// **'Update Everslot'**
   String get notifNoticeUpdateTitle;
 
+  /// No description provided for @notifOccurrenceAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add for this occurrence only'**
+  String get notifOccurrenceAdd;
+
+  /// No description provided for @notifOccurrenceNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No reminders for this occurrence.'**
+  String get notifOccurrenceNone;
+
+  /// No description provided for @notifOccurrenceOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off for this occurrence'**
+  String get notifOccurrenceOff;
+
+  /// No description provided for @notifOccurrenceOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'This occurrence only'**
+  String get notifOccurrenceOnly;
+
+  /// No description provided for @notifOccurrenceReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders for this occurrence'**
+  String get notifOccurrenceReminders;
+
   /// No description provided for @notifOffsetAmount.
   ///
   /// In en, this message translates to:
@@ -11240,6 +11792,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Move to window start'**
   String get notifOutsideShiftStart;
+
+  /// No description provided for @notifPackHabit1.
+  ///
+  /// In en, this message translates to:
+  /// **'Small steps add up — time for {habit}.'**
+  String notifPackHabit1(String habit);
+
+  /// No description provided for @notifPackHabit2.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the chain going: {habit} today.'**
+  String notifPackHabit2(String habit);
+
+  /// No description provided for @notifPackHabit3.
+  ///
+  /// In en, this message translates to:
+  /// **'Future you will thank you for {habit}.'**
+  String notifPackHabit3(String habit);
+
+  /// No description provided for @notifPackHabit4.
+  ///
+  /// In en, this message translates to:
+  /// **'Just start — two minutes of {habit} counts.'**
+  String notifPackHabit4(String habit);
+
+  /// No description provided for @notifPackHabit5.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve got this: {habit}.'**
+  String notifPackHabit5(String habit);
+
+  /// No description provided for @notifPackHabitName.
+  ///
+  /// In en, this message translates to:
+  /// **'Motivation (habits)'**
+  String get notifPackHabitName;
+
+  /// No description provided for @notifPackNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get notifPackNone;
+
+  /// No description provided for @notifPackQuit1.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days free — keep going.'**
+  String notifPackQuit1(String days);
+
+  /// No description provided for @notifPackQuit2.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember why you started: {reason}'**
+  String notifPackQuit2(String reason);
+
+  /// No description provided for @notifPackQuit3.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings pass. You\'re stronger than this one.'**
+  String get notifPackQuit3;
+
+  /// No description provided for @notifPackQuit4.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} saved so far — well done.'**
+  String notifPackQuit4(String amount);
+
+  /// No description provided for @notifPackQuit5.
+  ///
+  /// In en, this message translates to:
+  /// **'One day at a time — today counts.'**
+  String get notifPackQuit5;
+
+  /// No description provided for @notifPackQuitName.
+  ///
+  /// In en, this message translates to:
+  /// **'Motivation (quit)'**
+  String get notifPackQuitName;
 
   /// No description provided for @notifPause1h.
   ///
@@ -11553,6 +12183,36 @@ abstract class AppLocalizations {
   /// **'Resume'**
   String get notifResume;
 
+  /// No description provided for @notifRitualCravingSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving support'**
+  String get notifRitualCravingSupport;
+
+  /// No description provided for @notifRitualEncouragement.
+  ///
+  /// In en, this message translates to:
+  /// **'Encouragement after a slip'**
+  String get notifRitualEncouragement;
+
+  /// No description provided for @notifRitualEveningReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening review'**
+  String get notifRitualEveningReview;
+
+  /// No description provided for @notifRitualMotivation.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder of my reason'**
+  String get notifRitualMotivation;
+
+  /// No description provided for @notifRitualPledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning pledge'**
+  String get notifRitualPledge;
+
   /// No description provided for @notifRuleDeleted.
   ///
   /// In en, this message translates to:
@@ -11570,6 +12230,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reminder saved'**
   String get notifRuleSaved;
+
+  /// No description provided for @notifRuleSetApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied “{name}”'**
+  String notifRuleSetApplied(String name);
+
+  /// No description provided for @notifRuleSetApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get notifRuleSetApply;
+
+  /// No description provided for @notifRuleSetApplyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Its reminders replace this item\'s own reminders.'**
+  String get notifRuleSetApplyBody;
+
+  /// No description provided for @notifRuleSetApplyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply “{name}”?'**
+  String notifRuleSetApplyTitle(String name);
+
+  /// No description provided for @notifRuleSetCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 reminder} other{{count} reminders}}'**
+  String notifRuleSetCount(int count);
+
+  /// No description provided for @notifRuleSetDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete “{name}”?'**
+  String notifRuleSetDeleteTitle(String name);
+
+  /// No description provided for @notifRuleSetEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No rule sets yet. Save an item\'s reminders as a set to reuse them anywhere.'**
+  String get notifRuleSetEmpty;
+
+  /// No description provided for @notifRuleSetExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get notifRuleSetExport;
+
+  /// No description provided for @notifRuleSetImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import a rule set'**
+  String get notifRuleSetImport;
+
+  /// No description provided for @notifRuleSetImported.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported “{name}”'**
+  String notifRuleSetImported(String name);
+
+  /// No description provided for @notifRuleSetInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'This file isn\'t a valid Everslot rule set.'**
+  String get notifRuleSetInvalid;
+
+  /// No description provided for @notifRuleSetName.
+  ///
+  /// In en, this message translates to:
+  /// **'Rule set name'**
+  String get notifRuleSetName;
+
+  /// No description provided for @notifRuleSetNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'This item has no reminders of its own to save.'**
+  String get notifRuleSetNothing;
+
+  /// No description provided for @notifRuleSetSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save these reminders as a rule set…'**
+  String get notifRuleSetSave;
+
+  /// No description provided for @notifRuleSetSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved as “{name}”'**
+  String notifRuleSetSaved(String name);
+
+  /// No description provided for @notifRuleSets.
+  ///
+  /// In en, this message translates to:
+  /// **'Rule sets'**
+  String get notifRuleSets;
 
   /// No description provided for @notifSaturationBody.
   ///
@@ -11715,6 +12471,78 @@ abstract class AppLocalizations {
   /// **'Outside the time window'**
   String get notifSkipWindow;
 
+  /// No description provided for @notifSmartApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Move it'**
+  String get notifSmartApply;
+
+  /// No description provided for @notifSmartAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust automatically'**
+  String get notifSmartAuto;
+
+  /// No description provided for @notifSmartAutoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Once a week, move reminders to fit your habits and leave a summary in the inbox.'**
+  String get notifSmartAutoHint;
+
+  /// No description provided for @notifSmartCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Now at {current} · based on {count} times'**
+  String notifSmartCurrent(String current, int count);
+
+  /// No description provided for @notifSmartDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notifSmartDismiss;
+
+  /// No description provided for @notifSmartNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No suggestions right now'**
+  String get notifSmartNone;
+
+  /// No description provided for @notifSmartNoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestions appear once a habit or task has been done at a steady time for a while.'**
+  String get notifSmartNoneBody;
+
+  /// No description provided for @notifSmartSuggestion.
+  ///
+  /// In en, this message translates to:
+  /// **'You usually do {title} around {usual} — move the reminder to {proposed}?'**
+  String notifSmartSuggestion(String title, String usual, String proposed);
+
+  /// No description provided for @notifSmartSummaryLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{title}: {from} → {to}'**
+  String notifSmartSummaryLine(String title, String from, String to);
+
+  /// No description provided for @notifSmartSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 reminder moved to fit your habits} other{{count} reminders moved to fit your habits}}'**
+  String notifSmartSummaryTitle(int count);
+
+  /// No description provided for @notifSmartThisItem.
+  ///
+  /// In en, this message translates to:
+  /// **'this'**
+  String get notifSmartThisItem;
+
+  /// No description provided for @notifSmartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart suggestions'**
+  String get notifSmartTitle;
+
   /// No description provided for @notifSnoozeCustom.
   ///
   /// In en, this message translates to:
@@ -11816,6 +12644,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Soft'**
   String get notifSoundSoft;
+
+  /// No description provided for @notifStatsActed.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} acted on'**
+  String notifStatsActed(int count);
+
+  /// No description provided for @notifStatsByItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Items'**
+  String get notifStatsByItem;
+
+  /// No description provided for @notifStatsByRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get notifStatsByRule;
+
+  /// No description provided for @notifStatsBySection.
+  ///
+  /// In en, this message translates to:
+  /// **'Sections'**
+  String get notifStatsBySection;
+
+  /// No description provided for @notifStatsDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} d'**
+  String notifStatsDays(int days);
+
+  /// No description provided for @notifStatsDeferred.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 deferred by quiet hours} other{{count} deferred by quiet hours}}'**
+  String notifStatsDeferred(int count);
+
+  /// No description provided for @notifStatsDelivered.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} delivered'**
+  String notifStatsDelivered(int count);
+
+  /// No description provided for @notifStatsEffective.
+  ///
+  /// In en, this message translates to:
+  /// **'followed within an hour'**
+  String get notifStatsEffective;
+
+  /// No description provided for @notifStatsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications in this period.'**
+  String get notifStatsEmpty;
+
+  /// No description provided for @notifStatsEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get notifStatsEntry;
+
+  /// No description provided for @notifStatsIgnored.
+  ///
+  /// In en, this message translates to:
+  /// **'ignored'**
+  String get notifStatsIgnored;
+
+  /// No description provided for @notifStatsLate.
+  ///
+  /// In en, this message translates to:
+  /// **'late'**
+  String get notifStatsLate;
+
+  /// No description provided for @notifStatsMedian.
+  ///
+  /// In en, this message translates to:
+  /// **'acted after {minutes} min (median)'**
+  String notifStatsMedian(int minutes);
+
+  /// No description provided for @notifStatsMuteWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute for a week'**
+  String get notifStatsMuteWeek;
+
+  /// No description provided for @notifStatsNoisy.
+  ///
+  /// In en, this message translates to:
+  /// **'You ignore {percent} % of this reminder — mute or change it?'**
+  String notifStatsNoisy(int percent);
+
+  /// No description provided for @notifStatsOpened.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} opened'**
+  String notifStatsOpened(int count);
+
+  /// No description provided for @notifStatsSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Since {date}'**
+  String notifStatsSince(String date);
+
+  /// No description provided for @notifStatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification statistics'**
+  String get notifStatsTitle;
+
+  /// No description provided for @notifStatsTurnOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn it off'**
+  String get notifStatsTurnOff;
 
   /// No description provided for @notifStatusBlocked.
   ///
@@ -12003,6 +12945,18 @@ abstract class AppLocalizations {
   /// **'After {days, plural, =1{1 day} other{{days} days}} without activity'**
   String notifSumInactivity(int days);
 
+  /// No description provided for @notifSumListReset.
+  ///
+  /// In en, this message translates to:
+  /// **'When the list resets'**
+  String get notifSumListReset;
+
+  /// No description provided for @notifSumListResetAt.
+  ///
+  /// In en, this message translates to:
+  /// **'When the list resets (not before {time})'**
+  String notifSumListResetAt(String time);
+
   /// No description provided for @notifSumMilestones.
   ///
   /// In en, this message translates to:
@@ -12075,11 +13029,29 @@ abstract class AppLocalizations {
   /// **'Streak at risk, at {time}'**
   String notifSumStreakRisk(String time);
 
+  /// No description provided for @notifSumTimerEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'When the timer reaches the planned end'**
+  String get notifSumTimerEnd;
+
   /// No description provided for @notifSumUnknown.
   ///
   /// In en, this message translates to:
   /// **'Unsupported rule'**
   String get notifSumUnknown;
+
+  /// No description provided for @notifSumUpNextAtEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'At the end: what\'s up next'**
+  String get notifSumUpNextAtEnd;
+
+  /// No description provided for @notifSumUpNextBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min before the next task'**
+  String notifSumUpNextBefore(int minutes);
 
   /// No description provided for @notifSystemNotification.
   ///
@@ -12147,11 +13119,23 @@ abstract class AppLocalizations {
   /// **'Digest'**
   String get notifTriggerDigest;
 
+  /// No description provided for @notifTriggerEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Event'**
+  String get notifTriggerEvent;
+
   /// No description provided for @notifTriggerInactivity.
   ///
   /// In en, this message translates to:
   /// **'Inactivity'**
   String get notifTriggerInactivity;
+
+  /// No description provided for @notifTriggerListReset.
+  ///
+  /// In en, this message translates to:
+  /// **'List reset'**
+  String get notifTriggerListReset;
 
   /// No description provided for @notifTriggerMilestone.
   ///
@@ -12170,6 +13154,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Overdue'**
   String get notifTriggerOverdue;
+
+  /// No description provided for @notifTriggerQuitRitual.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit ritual'**
+  String get notifTriggerQuitRitual;
 
   /// No description provided for @notifTriggerQuotaBehind.
   ///
@@ -12212,6 +13202,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Streak at risk'**
   String get notifTriggerStreakRisk;
+
+  /// No description provided for @notifTriggerTimerEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer end'**
+  String get notifTriggerTimerEnd;
+
+  /// No description provided for @notifTriggerUpNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Up next'**
+  String get notifTriggerUpNext;
 
   /// No description provided for @notifUnitDays.
   ///
@@ -15411,6 +16413,12 @@ abstract class AppLocalizations {
   /// **'Note'**
   String get quitNote;
 
+  /// No description provided for @quitNotifGoalMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} — {what}'**
+  String quitNotifGoalMilestone(String title, String what);
+
   /// No description provided for @quitNotifInvalidIntensity.
   ///
   /// In en, this message translates to:
@@ -15422,6 +16430,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{amount} saved'**
   String quitNotifMoneyMilestone(String amount);
+
+  /// No description provided for @quitNotifUnitsMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} {unit} avoided'**
+  String quitNotifUnitsMilestone(String amount, String unit);
 
   /// No description provided for @quitOffsetMonths.
   ///
@@ -26642,6 +27656,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'More options'**
   String get tasksQuickMore;
+
+  /// No description provided for @tasksQuickRescheduleHour.
+  ///
+  /// In en, this message translates to:
+  /// **'In 1 hour ({time})'**
+  String tasksQuickRescheduleHour(String time);
+
+  /// No description provided for @tasksQuickRescheduleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reschedule'**
+  String get tasksQuickRescheduleTitle;
+
+  /// No description provided for @tasksQuickRescheduleTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow at {time}'**
+  String tasksQuickRescheduleTomorrow(String time);
+
+  /// No description provided for @tasksQuickRescheduleTonight.
+  ///
+  /// In en, this message translates to:
+  /// **'Tonight at {time}'**
+  String tasksQuickRescheduleTonight(String time);
+
+  /// No description provided for @tasksQuickRescheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Rescheduled'**
+  String get tasksQuickRescheduled;
 
   /// No description provided for @tasksQuickTitleHint.
   ///

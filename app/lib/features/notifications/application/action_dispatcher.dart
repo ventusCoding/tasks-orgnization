@@ -105,6 +105,10 @@ class NotificationActionDispatcher {
     await read(localSchedulerProvider).cancelChain(p.chainKey);
     final open = await guardOpen(p);
     _afterWrite(p, 'tap');
+    // A ringing alarm (tap or full-screen launch) opens the alarm screen (T7.2.24).
+    if (p.alarm && open && origin != ActionOrigin.inbox) {
+      return ActionDispatchResult(openLink: NotificationLinks.alarmFor(p));
+    }
     return ActionDispatchResult(openLink: p.deepLink, alreadyDone: !open);
   }
 
@@ -192,7 +196,10 @@ class NotificationActionDispatcher {
     final entry = await read(localScheduleStoreProvider).byKey(p.dedupeKey);
     final scheduler = read(localSchedulerProvider);
     final l = read(notificationTextsProvider).l10n;
-    if (await scheduler.snoozeCount(p.dedupeKey) >= settings.maxSnoozes) {
+    // An alarm may allow fewer snoozes than the settings (anti-snooze, T7.2.25).
+    final alarmLimit = p.alarmOptions?.maxSnoozes;
+    final maxSnoozes = alarmLimit == null || alarmLimit > settings.maxSnoozes ? settings.maxSnoozes : alarmLimit;
+    if (await scheduler.snoozeCount(p.dedupeKey) >= maxSnoozes) {
       return ActionDispatchResult(message: l.notifSnoozeLimit);
     }
     await scheduler.cancelChain(p.chainKey);
@@ -205,7 +212,7 @@ class NotificationActionDispatcher {
       content: entry?.content ?? const {},
       payload: p,
       channelId: entry?.channelId ?? ChannelCatalog.system,
-      maxSnoozes: settings.maxSnoozes,
+      maxSnoozes: maxSnoozes,
       exactAllowed: caps.exactAlarm || !caps.determined,
       presentInForeground: !settings.bannerInApp,
     );

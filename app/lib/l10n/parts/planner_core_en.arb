@@ -308,5 +308,31 @@
   "tasksDaySkipRestSnack": "{count, plural, =0{Nothing left to skip} =1{1 task skipped} other{{count} tasks skipped}}",
   "@tasksDaySkipRestSnack": {"placeholders": {"count": {"type": "int"}}},
   "tasksDayMoveTomorrowSnack": "{count, plural, =0{Nothing to move} =1{1 task moved to tomorrow} other{{count} tasks moved to tomorrow}}",
-  "@tasksDayMoveTomorrowSnack": {"placeholders": {"count": {"type": "int"}}}
+  "@tasksDayMoveTomorrowSnack": {"placeholders": {"count": {"type": "int"}}},
+  "tasksQuickRescheduleTitle": "Reschedule",
+  "tasksQuickRescheduleHour": "In 1 hour ({time})",
+  "@tasksQuickRescheduleHour": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "tasksQuickRescheduleTonight": "Tonight at {time}",
+  "@tasksQuickRescheduleTonight": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "tasksQuickRescheduleTomorrow": "Tomorrow at {time}",
+  "@tasksQuickRescheduleTomorrow": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "tasksQuickRescheduled": "Rescheduled"
 }

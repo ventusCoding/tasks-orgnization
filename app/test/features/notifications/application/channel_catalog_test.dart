@@ -24,7 +24,8 @@ void main() {
       final ids = {for (final c in catalog.channels) c.id};
       for (final section in NotificationSection.itemSections) {
         for (final code in BuiltinProfiles.codes) {
-          expect(ids, contains('dl.${section.wire}.$code.v1'));
+          // The alarm channel is v2: it plays on the alarm audio stream (T7.2.24).
+          expect(ids, contains('dl.${section.wire}.$code.v${code == BuiltinProfiles.alarm ? 2 : 1}'));
         }
       }
       expect(
@@ -39,7 +40,9 @@ void main() {
       final plannerStandard = catalog.channels.firstWhere((c) => c.id == 'dl.planner.standard.v1');
       expect(plannerStandard.groupId, 'dl.group.planner');
       expect(plannerStandard.name, 'Plan · Standard');
-      expect(catalog.obsolete, isEmpty);
+      expect(catalog.obsolete, {for (final s in NotificationSection.itemSections) 'dl.${s.wire}.alarm.v1'});
+      final alarm = catalog.channels.firstWhere((c) => c.id == 'dl.planner.alarm.v2');
+      expect((alarm.alarm, plannerStandard.alarm), (true, false));
       expect(ChannelCatalog.groups(en).map((g) => g.id), [
         for (final s in NotificationSection.values) 'dl.group.${s.wire}',
       ]);

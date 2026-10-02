@@ -24,6 +24,9 @@ enum NotificationIssueCode {
   thresholdsInvalid,
   statusesEmpty,
 
+  /// `repeat.escalation`: steps must start at repeat ≥ 1, ascend, and name a profile.
+  escalationInvalid,
+
   /// Warning: Android Doze allows one exact alarm per ~9 minutes (T7.2.10).
   repeatMayBeDelayed,
 }
@@ -117,6 +120,21 @@ abstract final class NotificationRuleValidator {
         if (thresholds != null && (thresholds.isEmpty || thresholds.any((t) => t <= 0))) {
           error(NotificationIssueCode.thresholdsInvalid, field: 'trigger.thresholds');
         }
+      case UpNextTrigger(:final beforeMinutes):
+        if (beforeMinutes != null && (beforeMinutes < 0 || beforeMinutes > 240)) {
+          error(NotificationIssueCode.offsetOutOfRange, field: 'trigger.beforeMinutes');
+        }
+      case EventTrigger(:final name):
+        if (name.trim().isEmpty || !RegExp(r'^[a-z][a-z_]{0,39}$').hasMatch(name)) {
+          error(NotificationIssueCode.unknownTrigger, field: 'trigger.name');
+        }
+      case QuitRitualTrigger(:final kind, :final minutesBefore):
+        if (!QuitRitualTrigger.kinds.contains(kind)) {
+          error(NotificationIssueCode.unknownTrigger, field: 'trigger.kind');
+        }
+        if (minutesBefore != null && (minutesBefore < 0 || minutesBefore > 120)) {
+          error(NotificationIssueCode.offsetOutOfRange, field: 'trigger.minutesBefore');
+        }
       case UnknownTrigger():
         error(NotificationIssueCode.unknownTrigger, field: 'trigger.type');
       case AbsoluteTrigger() ||
@@ -128,7 +146,9 @@ abstract final class NotificationRuleValidator {
           StatusChangeTrigger() ||
           ChildrenCompleteTrigger() ||
           ChildOverdueTrigger() ||
-          StaleTrigger():
+          StaleTrigger() ||
+          TimerEndTrigger() ||
+          ListResetTrigger():
         break;
     }
 
@@ -141,6 +161,14 @@ abstract final class NotificationRuleValidator {
         error(NotificationIssueCode.repeatIntervalInvalid, field: 'repeat.everyMinutes');
       } else if (repeat.everyMinutes < 10) {
         warn(NotificationIssueCode.repeatMayBeDelayed, field: 'repeat.everyMinutes');
+      }
+      var previous = 0;
+      for (final step in repeat.escalation ?? const <EscalationStep>[]) {
+        if (step.fromRepeat <= previous || step.fromRepeat > RepeatSpec.hardMaxTimes || step.profile.isEmpty) {
+          error(NotificationIssueCode.escalationInvalid, field: 'repeat.escalation');
+          break;
+        }
+        previous = step.fromRepeat;
       }
     }
 

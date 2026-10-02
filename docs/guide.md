@@ -78,6 +78,17 @@ Point the app at it with `app/env/dev.json`: `SUPABASE_URL` = the API URL printe
    ```
 6. App: put the URL and publishable key in `app/env/dev.json` (and `prod.json`) — never commit them.
 7. Write the project refs (not keys) in `supabase/README.md › Placeholders & secrets`.
+8. Optional — digest emails (T7.4.18, users opt in under Settings › Notifications):
+   1. Create an account with a transactional email provider that speaks the Resend API (resend.com),
+      verify your sending domain (SPF + DKIM records) and create an API key.
+   2. Set the secrets (generate the two random values yourself, e.g. `openssl rand -hex 32`):
+      ```bash
+      supabase secrets set --project-ref <YOUR_PROJECT_REF> EMAIL_API_KEY=<provider key> \
+        EMAIL_FROM="Everslot <digest@your-domain>" EMAIL_LINK_SECRET=<random> EMAIL_WEBHOOK_SECRET=<random>
+      ```
+   3. In the provider, add a webhook to `https://<YOUR_PROJECT_REF>.supabase.co/functions/v1/email-events`
+      for *bounced* and *complained* events, with the header `x-email-webhook-secret: <EMAIL_WEBHOOK_SECRET>`.
+   Without these secrets nothing is emailed; push and the inbox are unaffected.
 
 ## 5. Firebase: push + Crashlytics (T1.2.13, T1.2.15)
 
@@ -132,3 +143,30 @@ cd app && fvm flutter build ios --no-codesign --debug --flavor dev -t lib/main_d
 It must build without the "fails to launch" UIScene error; then run it on a simulator and confirm the
 plugins work after the scene connects (e.g. notifications permission prompt, sign-in screen).
 CI runs the same build on `macos-26` (`.github/workflows/ci.yml`).
+
+## 8. End-to-end tests (patrol) (T9.1.07, T7.2.22)
+
+The suites in `app/patrol_test/` boot the real app in **local-only mode** (the placeholder
+`env/example.json` leaves Supabase unconfigured) and drive the OS: permission dialogs, the
+notification shade, notification actions. `patrol_test/support/e2e.dart` hands each test the app's
+`ProviderContainer`, so data is seeded through the same application APIs as the UI.
+
+```bash
+fvm dart pub global activate patrol_cli 4.8.0     # once; puts `patrol` in ~/.pub-cache/bin
+cd app
+patrol test --flavor dev --dart-define-from-file=env/example.json                  # whole suite
+patrol test --flavor dev -t patrol_test/notifications_test.dart --dart-define-from-file=env/example.json
+```
+
+- **Android** — any emulator / device with API ≥ 33 (`patrol` picks the first one; `--device <id>`
+  otherwise). Each test runs in a fresh process with cleared data (Android Test Orchestrator). CI
+  runs the suite on an API 34 emulator (`android-e2e` job in `.github/workflows/ci.yml`).
+- **iOS (local only)** — needs Xcode ≥ 26 (same as the build check above) and a `RunnerUITests`
+  target wired to patrol: in Xcode add a *UI Testing Bundle* named `RunnerUITests` to `Runner`,
+  replace its test file with patrol's `PATROL_INTEGRATION_TEST_IOS_RUNNER(RunnerUITests)` stub, and
+  run `patrol test --flavor dev --device "iPhone 16" …` against a booted simulator. Grant
+  notifications when the dialog appears (the helper does it) — the simulator delivers local
+  notifications normally; push needs a device.
+- The notification suite waits for real deliveries (a task starting four minutes ahead): expect
+  ~5 minutes per test. Exact timing needs *Alarms & reminders* allowed; without it Android may
+  deliver a little late, which the helpers tolerate (they poll the shade for 7 minutes).

@@ -61,6 +61,7 @@ abstract final class ChannelCatalog {
                 NotificationImportance.normal,
             sound: d.sound ?? standard.delivery.sound ?? 'default',
             vibration: d.vibration ?? standard.delivery.vibration ?? 'default',
+            alarm: d.alarmStyle ?? false,
           ),
         );
         for (var v = 1; v < version; v++) {

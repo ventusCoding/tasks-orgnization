@@ -56,9 +56,9 @@ trigger semantics per section and global controls such as quiet hours ([7.5]).
 - [x] T7.1.13 — Custom profiles editor
 - [x] T7.1.14 — Section & category default-rule editors
 - [x] T7.1.15 — "Customize" snapshot, bulk apply & copy rules
-- [ ] T7.1.16 — Occurrence-level overrides
-- [ ] T7.1.17 — Motivational content variants
-- [ ] T7.1.18 — Rule sets (reusable bundles) & export/import
+- [x] T7.1.16 — Occurrence-level overrides
+- [x] T7.1.17 — Motivational content variants
+- [x] T7.1.18 — Rule sets (reusable bundles) & export/import
 
 ## Tasks
 
@@ -298,6 +298,7 @@ defaults").
 `target_type = 'task'` + `conditions.occurrenceKeys`; plus a disable list (`spec.conditions.excludeOccurrenceKeys`).
 **Acceptance criteria:** overrides apply to that occurrence only and survive series edits that keep the key.
 **Tests:** resolver + planner tests with occurrence keys.
+**Notes:** Kept `target_type = 'task'` + `conditions.occurrenceKeys`. Occurrence rules apply in every notify mode but *off*; a disabled occurrence rule switches off the identical trigger (inherited or own) for that occurrence, and the item's own rules use `excludeOccurrenceKeys` (`OccurrenceOverrides`). UI: *Reminders for this occurrence* on a recurring occurrence's detail screen. Series splits copy the task's rules, so overrides follow the keys.
 
 ### T7.1.17 — Motivational content variants
 **Priority:** P2 · **Size:** S · **Depends on:** T7.1.08
@@ -305,9 +306,11 @@ defaults").
 dedupe key) to avoid monotony; curated localized packs for habits and quit (e.g. uses `{reason}` from the
 quit tracker's motivation).
 **Tests:** determinism test (same occurrence → same variant on every device).
+**Notes:** Explicit `content.variants[]` or a curated `content.pack` (`habit_motivation`, `quit_motivation`, EN/FR/AR body variants); the planner keeps only the variants whose `{variables}` the target has (no `{reason}` without a motivation) and picks one from the first 32 bits of the dedupe key. Picker: *Rotating messages* in the advanced editor's content section.
 
 ### T7.1.18 — Rule sets (reusable bundles) & export/import
 **Priority:** P2 · **Size:** S · **Depends on:** T7.1.15
 **Description:** Save the rules of an item as a named *rule set* (e.g. "Meeting style: 1 day before at 20:00,
 15 min before, at start") and apply it anywhere; export/import rule sets as JSON files.
 **Tests:** round-trip export/import; apply test.
+**Notes:** Stored in the synced `user_settings.notification_rule_sets` namespace (whole-value LWW — fine for rarely edited sets); profiles travel by code (custom profiles fall back to the rule default). *Rule sets* button in every item's reminders section (save / apply — applying replaces the item's own reminders and switches it to Custom, drafts included) and Settings › Notifications › Rule sets (rename, export via the share sheet, delete, import a `.json`).

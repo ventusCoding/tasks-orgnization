@@ -57,26 +57,30 @@ void main() {
       );
     }
 
-    List<NotificationTarget> build(List<ChecklistItem> items, {List<ItemStatusChange> changes = const []}) =>
-        ChecklistNotificationTargets.build(
-          lists: [
-            Checklist(
-              id: 'L',
-              sortKey: 'a0',
-              title: 'Trip',
-              categoryId: 'cat',
-              dueLocal: LocalDate(2026, 9, 25).atStartOfDay,
-              notifyMode: 'custom',
-            ),
-          ],
-          items: items,
-          zones: zones,
-          deviceZone: 'Europe/Paris',
-          fromUtc: t0,
-          toUtc: t0.add(const Duration(days: 7)),
-          statusChanges: changes,
-          untitled: 'Untitled',
-        );
+    List<NotificationTarget> build(
+      List<ChecklistItem> items, {
+      List<ItemStatusChange> changes = const [],
+      List<(String, DateTime)> resets = const [],
+    }) => ChecklistNotificationTargets.build(
+      lists: [
+        Checklist(
+          id: 'L',
+          sortKey: 'a0',
+          title: 'Trip',
+          categoryId: 'cat',
+          dueLocal: LocalDate(2026, 9, 25).atStartOfDay,
+          notifyMode: 'custom',
+        ),
+      ],
+      items: items,
+      zones: zones,
+      deviceZone: 'Europe/Paris',
+      fromUtc: t0,
+      toUtc: t0.add(const Duration(days: 7)),
+      statusChanges: changes,
+      untitled: 'Untitled',
+      resets: resets,
+    );
 
     test('items carry anchors, inheritance, guards, variables and default actions', () {
       final targets = build([
@@ -161,6 +165,12 @@ void main() {
       expect(w.data, {'from': 'todo', 'to': 'blocked'});
       // Recently completed children are returned closed so replans cancel their reminders.
       expect(of('C1').isOpen, isFalse);
+    });
+
+    test('list resets become list_reset events of the list (T7.5.09)', () {
+      final targets = build([item('A')], resets: [('L', t0.add(const Duration(hours: 2))), ('other', t0)]);
+      final list = targets.firstWhere((t) => t.id == 'L');
+      expect(list.events.where((e) => e.kind == 'list_reset').map((e) => e.at), [t0.add(const Duration(hours: 2))]);
     });
 
     test('a fully completed list is closed', () {

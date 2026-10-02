@@ -5,7 +5,9 @@ import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/core/time/recurrence_service.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/attachments/presentation/attachment_strip.dart';
+import 'package:everslot/features/notifications/domain/notification_target.dart';
 import 'package:everslot/features/notifications/presentation/mute_menu.dart' show MuteMenuButton;
+import 'package:everslot/features/notifications/presentation/occurrence_reminders_sheet.dart';
 import 'package:everslot/features/notifications/presentation/reminder_history.dart' show ReminderHistory;
 import 'package:everslot/features/organization/application/providers.dart' show categoryByIdProvider;
 import 'package:everslot/features/organization/presentation/tag_widgets.dart' show EntityTagChips;
@@ -17,6 +19,7 @@ import 'package:everslot/features/planner/domain/task.dart';
 import 'package:everslot/features/planner/presentation/markdown_lite_view.dart';
 import 'package:everslot/features/planner/presentation/occurrence_panel.dart';
 import 'package:everslot/features/planner/presentation/planner_dialogs.dart';
+import 'package:everslot/features/planner/presentation/quick_reschedule_sheet.dart';
 import 'package:everslot/features/planner/presentation/series_history_screen.dart';
 import 'package:everslot/features/planner/presentation/task_editor_screen.dart';
 import 'package:everslot/features/planner/presentation/task_exceptions_sheet.dart';
@@ -31,10 +34,13 @@ import 'package:share_plus/share_plus.dart';
 /// occurrence (T3.2.05): schedule summary, badges, notes, links, tags, attachments, linked
 /// checklist, next occurrences, reminders, history timeline (paged) and the series actions.
 class TaskDetailScreen extends ConsumerWidget {
-  const TaskDetailScreen({required this.taskId, this.occurrenceKey, super.key});
+  const TaskDetailScreen({required this.taskId, this.occurrenceKey, this.reschedule = false, super.key});
 
   final String taskId;
   final String? occurrenceKey;
+
+  /// Opened from an overdue reminder's *Reschedule* action: show the quick-reschedule sheet.
+  final bool reschedule;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -82,7 +88,27 @@ class TaskDetailScreen extends ConsumerWidget {
           key: const ValueKey('detail-list'),
           padding: const EdgeInsetsDirectional.only(bottom: Space.xxxl),
           children: [
-            if (occurrence != null) ...[OccurrencePanel(item: occurrence), const Divider()],
+            if (reschedule) QuickRescheduleOnOpen(item: occurrence),
+            if (occurrence != null) ...[
+              OccurrencePanel(item: occurrence),
+              if (task.isRecurring)
+                ListTile(
+                  key: const ValueKey('detail-occurrence-reminders'),
+                  leading: const Icon(Icons.notifications_outlined),
+                  title: Text(l.notifOccurrenceReminders),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => showOccurrenceReminders(
+                    context,
+                    targetType: NotificationTargetType.task,
+                    targetId: task.id,
+                    section: NotificationSection.planner,
+                    occurrenceKey: occurrence.occurrenceKey,
+                    itemKind: task.isAllDay ? ItemKind.allDay : ItemKind.timed,
+                    categoryId: task.categoryId,
+                  ),
+                ),
+              const Divider(),
+            ],
             _Summary(task: task),
             if (task.notes != null) ...[
               SectionHeader(l.tasksFieldNotes),

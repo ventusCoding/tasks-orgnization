@@ -7,7 +7,9 @@ import 'package:everslot/features/notifications/application/notification_registr
 import 'package:everslot/features/notifications/application/notifications_engine.dart';
 import 'package:everslot/features/notifications/domain/inbox_item.dart';
 import 'package:everslot/features/notifications/domain/notification_actions.dart';
+import 'package:everslot/features/notifications/domain/notification_rule.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
+import 'package:everslot/features/notifications/presentation/mute_menu.dart';
 import 'package:everslot/features/notifications/presentation/notification_labels.dart';
 import 'package:everslot/features/notifications/presentation/notification_link_opener.dart';
 import 'package:everslot/features/notifications/presentation/notifications_settings_page.dart';
@@ -17,51 +19,188 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Notification center (T7.3.03): rows grouped by day, nag chains collapsed, filters, swipe
-/// read/dismiss with undo, snoozed section, inline actions, pull-to-refresh.
-class InboxScreen extends ConsumerWidget {
+/// read/dismiss with undo, snoozed section, inline actions, pull-to-refresh; search, rule / item
+/// filters and multi-select (read · dismiss · mute the rules) — T7.3.11.
+class InboxScreen extends ConsumerStatefulWidget {
   const InboxScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<InboxScreen> createState() => _InboxScreenState();
+}
+
+class _InboxScreenState extends ConsumerState<InboxScreen> {
+  bool _searching = false;
+  final _search = TextEditingController();
+  Timer? _debounce;
+
+  /// Selected chains (base keys) in multi-select mode.
+  final Set<String> _selected = {};
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    _search.dispose();
+    super.dispose();
+  }
+
+  void _setQuery(String text) {
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 250), () {
+      if (!mounted) return;
+      final filter = ref.read(inboxFilterProvider);
+      ref.read(inboxFilterProvider.notifier).set(filter.copyWith(query: text.trim()));
+    });
+  }
+
+  void _toggle(InboxItem item) => setState(() {
+    if (!_selected.remove(item.baseKey)) _selected.add(item.baseKey);
+  });
+
+  List<InboxItem> _selectedRows(List<InboxItem> rows) => [
+    for (final r in rows)
+      if (_selected.contains(r.baseKey)) r,
+  ];
+
+  Future<void> _markRead(List<InboxItem> rows) async {
+    await ref.read(inboxRepositoryProvider).markRead([for (final r in _selectedRows(rows)) r.id]);
+    setState(_selected.clear);
+  }
+
+  Future<void> _dismiss(List<InboxItem> rows) async {
+    final ids = [for (final r in _selectedRows(rows)) r.id];
+    final record = await ref.read(inboxRepositoryProvider).dismissMany(ids);
+    if (!mounted) return;
+    setState(_selected.clear);
+    showUndoSnackBar(context, ref, message: context.l10n.notifInboxDismissedMany(ids.length), record: record);
+  }
+
+  Future<void> _muteRules(List<InboxItem> rows, MuteFor choice) async {
+    final rules = {
+      for (final r in _selectedRows(rows))
+        if (r.ruleId != null) r.ruleId!,
+    };
+    final mutes = ref.read(notificationMutesRepositoryProvider);
+    final until = MuteMenuButton.untilFor(ref, choice);
+    for (final id in rules) {
+      await mutes.mute(targetType: 'rule', targetId: id, until: until, reason: 'user');
+    }
+    if (!mounted) return;
+    setState(_selected.clear);
+    showInfoSnackBar(context, context.l10n.notifInboxRulesMuted(rules.length));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l = context.l10n;
     final filter = ref.watch(inboxFilterProvider);
     final items = ref.watch(inboxItemsProvider);
     final snoozed = ref.watch(snoozedInboxProvider).value ?? const <InboxItem>[];
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l.notifInboxTitle),
-        actions: [
-          IconButton(
-            tooltip: l.notifInboxMarkAllRead,
-            icon: const Icon(Icons.done_all),
-            onPressed: () => unawaited(ref.read(inboxRepositoryProvider).markAllRead(section: filter.section)),
-          ),
-          IconButton(
-            tooltip: l.notifSettingsTitle,
-            icon: const Icon(Icons.tune),
-            onPressed: () => unawaited(
-              Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const NotificationsSettingsPage())),
-            ),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          _Filters(filter: filter),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: () async {
-                await ref.read(syncServiceProvider)?.syncNow();
-                await ref.read(notificationReplanServiceProvider).flush();
-              },
-              child: AsyncValueView<List<InboxItem>>(
-                value: items,
-                data: (rows) =>
-                    _InboxList(rows: rows, snoozed: filter == InboxFilter.all ? snoozed : const [], filter: filter),
+    final rows = items.value ?? const <InboxItem>[];
+    final selecting = _selected.isNotEmpty;
+    final selectedHasRules = _selectedRows(rows).any((r) => r.ruleId != null);
+    return PopScope(
+      canPop: !selecting,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop && selecting) setState(_selected.clear);
+      },
+      child: Scaffold(
+        appBar: selecting
+            ? AppBar(
+                leading: IconButton(
+                  tooltip: l.actionCancel,
+                  icon: const Icon(Icons.close),
+                  onPressed: () => setState(_selected.clear),
+                ),
+                title: Text(l.notifInboxSelected(_selected.length)),
+                actions: [
+                  IconButton(
+                    key: const ValueKey('inbox-bulk-read'),
+                    tooltip: l.notifInboxMarkRead,
+                    icon: const Icon(Icons.mark_email_read_outlined),
+                    onPressed: () => unawaited(_markRead(rows)),
+                  ),
+                  IconButton(
+                    key: const ValueKey('inbox-bulk-dismiss'),
+                    tooltip: l.notifInboxDismiss,
+                    icon: const Icon(Icons.delete_outline),
+                    onPressed: () => unawaited(_dismiss(rows)),
+                  ),
+                  if (selectedHasRules)
+                    PopupMenuButton<MuteFor>(
+                      key: const ValueKey('inbox-bulk-mute'),
+                      tooltip: l.notifInboxMuteRules,
+                      icon: const Icon(Icons.notifications_paused_outlined),
+                      onSelected: (m) => unawaited(_muteRules(rows, m)),
+                      itemBuilder: (_) => [
+                        for (final m in MuteFor.values) PopupMenuItem(value: m, child: Text(muteForLabel(l, m))),
+                      ],
+                    ),
+                ],
+              )
+            : AppBar(
+                title: Text(l.notifInboxTitle),
+                actions: [
+                  IconButton(
+                    key: const ValueKey('inbox-search-toggle'),
+                    tooltip: l.notifInboxSearch,
+                    icon: Icon(_searching ? Icons.search_off : Icons.search),
+                    onPressed: () => setState(() {
+                      _searching = !_searching;
+                      if (!_searching) {
+                        _search.clear();
+                        ref.read(inboxFilterProvider.notifier).set(filter.copyWith(query: ''));
+                      }
+                    }),
+                  ),
+                  IconButton(
+                    tooltip: l.notifInboxMarkAllRead,
+                    icon: const Icon(Icons.done_all),
+                    onPressed: () => unawaited(ref.read(inboxRepositoryProvider).markAllRead(section: filter.section)),
+                  ),
+                  IconButton(
+                    tooltip: l.notifSettingsTitle,
+                    icon: const Icon(Icons.tune),
+                    onPressed: () => unawaited(
+                      Navigator.of(context)
+                          .push(MaterialPageRoute<void>(builder: (_) => const NotificationsSettingsPage())),
+                    ),
+                  ),
+                ],
+              ),
+        body: Column(
+          children: [
+            if (_searching)
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, 0),
+                child: TextField(
+                  key: const ValueKey('inbox-search'),
+                  controller: _search,
+                  autofocus: true,
+                  decoration: InputDecoration(prefixIcon: const Icon(Icons.search), hintText: l.notifInboxSearchHint),
+                  onChanged: _setQuery,
+                ),
+              ),
+            _Filters(filter: filter),
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  await ref.read(syncServiceProvider)?.syncNow();
+                  await ref.read(notificationReplanServiceProvider).flush();
+                },
+                child: AsyncValueView<List<InboxItem>>(
+                  value: items,
+                  data: (rows) => _InboxList(
+                    rows: rows,
+                    snoozed: filter == InboxFilter.all ? snoozed : const [],
+                    filter: filter,
+                    selected: _selected,
+                    onToggle: _toggle,
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -84,6 +223,8 @@ class _Filters extends ConsumerWidget {
       NotificationSection.quit,
       NotificationSection.system,
     ];
+    final rules = ref.watch(notificationRulesProvider).value ?? const <NotificationRule>[];
+    final rule = filter.ruleId == null ? null : rules.where((r) => r.id == filter.ruleId).firstOrNull;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, Space.sm),
@@ -100,6 +241,31 @@ class _Filters extends ConsumerWidget {
             selected: filter.unreadOnly,
             onSelected: (v) => set(filter.copyWith(unreadOnly: v)),
           ),
+          if (filter.ruleId != null) ...[
+            const SizedBox(width: Space.sm),
+            InputChip(
+              key: const ValueKey('inbox-rule-chip'),
+              label: Text(rule == null ? l.notifInboxDeletedRule : labels.rule(rule)),
+              selected: true,
+              onDeleted: () => set(filter.copyWith(clearRule: true)),
+            ),
+          ],
+          if (filter.sourceId != null) ...[
+            const SizedBox(width: Space.sm),
+            InputChip(
+              key: const ValueKey('inbox-source-chip'),
+              label: Text(l.notifInboxOneItem),
+              selected: true,
+              onDeleted: () => set(filter.copyWith(clearSource: true)),
+            ),
+          ],
+          const SizedBox(width: Space.sm),
+          ActionChip(
+            key: const ValueKey('inbox-more-filters'),
+            avatar: const Icon(Icons.filter_list),
+            label: Text(l.notifInboxNoisiest),
+            onPressed: () => unawaited(_showNoisiest(context, ref, filter)),
+          ),
           for (final s in sections) ...[
             const SizedBox(width: Space.sm),
             FilterChip(
@@ -114,6 +280,61 @@ class _Filters extends ConsumerWidget {
   }
 }
 
+/// "Rules that fired most this week" + the busiest items (T7.3.11): pick one to filter by it.
+Future<void> _showNoisiest(BuildContext context, WidgetRef ref, InboxFilter filter) async {
+  final now = ref.read(clockProvider).nowUtc();
+  final week = await ref
+      .read(inboxRepositoryProvider)
+      .inbox(filter: InboxFilter(from: now.subtract(const Duration(days: 7))), limit: 2000);
+  final byRule = <String, int>{};
+  final bySource = <(String, String), (int, String)>{};
+  for (final r in week) {
+    if (r.ruleId != null) byRule[r.ruleId!] = (byRule[r.ruleId!] ?? 0) + 1;
+    final type = r.sourceType;
+    final id = r.sourceId;
+    if (type != null && id != null) {
+      final current = bySource[(type, id)];
+      bySource[(type, id)] = ((current?.$1 ?? 0) + 1, current?.$2 ?? r.title);
+    }
+  }
+  final topRules = byRule.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+  final topSources = bySource.entries.toList()..sort((a, b) => b.value.$1.compareTo(a.value.$1));
+  if (!context.mounted) return;
+  final rules = {for (final r in ref.read(notificationRulesProvider).value ?? const <NotificationRule>[]) r.id: r};
+  final picked = await showAppSheet<InboxFilter>(
+    context,
+    title: context.l10n.notifInboxNoisiest,
+    builder: (sheet) {
+      final l = sheet.l10n;
+      final labels = NotificationLabels.of(sheet);
+      return ListView(
+        shrinkWrap: true,
+        children: [
+          if (topRules.isEmpty && topSources.isEmpty)
+            Padding(padding: const EdgeInsetsDirectional.all(Space.lg), child: Text(l.notifInboxNoneThisWeek)),
+          if (topRules.isNotEmpty) SectionHeader(l.notifInboxTopRules),
+          for (final e in topRules.take(10))
+            ListTile(
+              key: ValueKey('noisy-rule-${e.key}'),
+              title: Text(rules[e.key] == null ? l.notifInboxDeletedRule : labels.rule(rules[e.key]!)),
+              trailing: Text(l.notifInboxTimes(e.value)),
+              onTap: () => Navigator.pop(sheet, filter.copyWith(ruleId: e.key, clearSource: true)),
+            ),
+          if (topSources.isNotEmpty) SectionHeader(l.notifInboxTopItems),
+          for (final e in topSources.take(10))
+            ListTile(
+              key: ValueKey('noisy-source-${e.key.$2}'),
+              title: Text(e.value.$2),
+              trailing: Text(l.notifInboxTimes(e.value.$1)),
+              onTap: () => Navigator.pop(sheet, filter.copyWith(source: e.key, clearRule: true)),
+            ),
+        ],
+      );
+    },
+  );
+  if (picked != null) ref.read(inboxFilterProvider.notifier).set(picked);
+}
+
 /// A displayed row: the newest row of a nag chain plus the chain size.
 class _Row {
   _Row(this.item, this.count);
@@ -123,11 +344,19 @@ class _Row {
 }
 
 class _InboxList extends ConsumerWidget {
-  const _InboxList({required this.rows, required this.snoozed, required this.filter});
+  const _InboxList({
+    required this.rows,
+    required this.snoozed,
+    required this.filter,
+    this.selected = const {},
+    this.onToggle,
+  });
 
   final List<InboxItem> rows;
   final List<InboxItem> snoozed;
   final InboxFilter filter;
+  final Set<String> selected;
+  final ValueChanged<InboxItem>? onToggle;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -183,7 +412,16 @@ class _InboxList extends ConsumerWidget {
         ],
         for (final e in grouped.entries) ...[
           SectionHeader(dayLabel(e.key)),
-          for (final r in e.value) InboxTile(item: r.item, chainCount: r.count, format: format, now: now),
+          for (final r in e.value)
+            InboxTile(
+              item: r.item,
+              chainCount: r.count,
+              format: format,
+              now: now,
+              selectionMode: selected.isNotEmpty,
+              selected: selected.contains(r.item.baseKey),
+              onSelect: onToggle == null ? null : () => onToggle!(r.item),
+            ),
         ],
       ],
     );
@@ -198,6 +436,9 @@ class InboxTile extends ConsumerWidget {
     required this.now,
     this.chainCount = 1,
     this.dense = false,
+    this.selectionMode = false,
+    this.selected = false,
+    this.onSelect,
     super.key,
   });
 
@@ -206,6 +447,11 @@ class InboxTile extends ConsumerWidget {
   final AppFormat format;
   final DateTime now;
   final bool dense;
+
+  /// Multi-select (T7.3.11): a long press starts it, then a tap toggles the row.
+  final bool selectionMode;
+  final bool selected;
+  final VoidCallback? onSelect;
 
   static IconData iconFor(NotificationSection? s, InboxCategory c) => switch (c) {
     InboxCategory.digest => Icons.summarize_outlined,
@@ -286,7 +532,8 @@ class InboxTile extends ConsumerWidget {
       if (item.action != null) labels.action(item.action!),
     ].join(', ');
     final tile = InkWell(
-      onTap: () => unawaited(_open(context, ref)),
+      onTap: selectionMode ? onSelect : () => unawaited(_open(context, ref)),
+      onLongPress: onSelect,
       child: Padding(
         padding: EdgeInsetsDirectional.fromSTEB(
           Space.lg,
@@ -297,11 +544,14 @@ class InboxTile extends ConsumerWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(
-              radius: 18,
-              backgroundColor: context.colors.secondaryContainer,
-              child: Icon(iconFor(item.section, item.category), size: 18, color: context.colors.onSecondaryContainer),
-            ),
+            if (selectionMode)
+              Checkbox(value: selected, onChanged: (_) => onSelect?.call(), semanticLabel: item.title)
+            else
+              CircleAvatar(
+                radius: 18,
+                backgroundColor: context.colors.secondaryContainer,
+                child: Icon(iconFor(item.section, item.category), size: 18, color: context.colors.onSecondaryContainer),
+              ),
             const SizedBox(width: Space.md),
             Expanded(
               child: Column(
@@ -387,7 +637,7 @@ class InboxTile extends ConsumerWidget {
         ),
       ),
     );
-    if (dense) return tile;
+    if (dense || selectionMode) return tile;
     return Dismissible(
       key: ValueKey('inbox-${item.id}'),
       background: _SwipeBackground(

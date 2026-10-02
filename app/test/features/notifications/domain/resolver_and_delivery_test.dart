@@ -135,6 +135,48 @@ void main() {
         ['excl'],
       );
     });
+    test('occurrence overrides apply in inherit mode; a disabled one drops the identical reminder (T7.1.16)', () {
+      const tue = '2026-09-22T08:00';
+      final rules = [
+        ...defaults,
+        rule(
+          'hour-before',
+          type: RuleTargetType.task,
+          targetId: 't1',
+          isDefault: false,
+          trigger: const RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: -60),
+          conditions: const ConditionsSpec(occurrenceKeys: [tue]),
+        ),
+        rule(
+          'no-start',
+          type: RuleTargetType.task,
+          targetId: 't1',
+          isDefault: false,
+          enabled: false,
+          trigger: const RelativeTrigger(anchor: TriggerAnchor.start, offsetMinutes: 0),
+          conditions: const ConditionsSpec(occurrenceKeys: [tue]),
+        ),
+      ];
+      expect(ids(task(occ: tue), rules: rules), ['sec-before', 'hour-before'], reason: 'at-start is off for Tuesday');
+      expect(ids(task(occ: '2026-09-29T08:00'), rules: rules), [
+        'sec-before',
+        'sec-start',
+      ], reason: 'other weeks unchanged');
+      expect(
+        ids(
+          task(mode: NotifyMode.custom, occ: tue),
+          rules: rules,
+        ),
+        ['own', 'hour-before'],
+      );
+      expect(
+        ids(
+          task(mode: NotifyMode.off, occ: tue),
+          rules: rules,
+        ),
+        isEmpty,
+      );
+    });
     test('checklist items inherit checklist rules scoped to items and nearest ancestor rules', () {
       final rules = [
         rule(

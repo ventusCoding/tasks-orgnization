@@ -465,6 +465,8 @@ class _QuitEditorState extends ConsumerState<QuitEditor> {
             section: NotificationSection.quit,
             itemKind: ItemKind.any,
             draft: _isNew ? _reminders : null,
+            cravingCount:
+                ref.watch(habitLogsProvider(_id)).value?.where((l) => l.kind == HabitLogKind.craving).length ?? 0,
           ),
           if (_error != null)
             Padding(

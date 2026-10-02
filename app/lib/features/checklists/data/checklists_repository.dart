@@ -721,6 +721,15 @@ class ChecklistsRepository {
     scheduledAt: change.scheduledAt,
   );
 
+  /// Resets (run rows ended at or after [since]) as (checklist id, reset instant) — list-reset
+  /// notifications (T7.5.09).
+  Future<List<(String, DateTime)>> recentResets(DateTime since) async => [
+    for (final r in await (_db.select(
+      _db.checklistRuns,
+    )..where((r) => r.deletedAt.isNull() & r.endedAt.isBiggerOrEqualValue(since))).get())
+      if (r.endedAt != null) (r.checklistId, r.endedAt!.toUtc()),
+  ];
+
   /// Whether a run row already exists (resets are idempotent across devices).
   Future<bool> runExists(String runId) async =>
       await (_db.select(_db.checklistRuns)..where((r) => r.id.equals(runId))).getSingleOrNull() != null;

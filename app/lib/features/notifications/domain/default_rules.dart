@@ -110,6 +110,33 @@ abstract final class DefaultRules {
         delivery: DeliverySpec(actions: ['open']),
       ),
     ),
+    const DefaultRuleSeed(
+      section: NotificationSection.quit,
+      code: 'health_milestones',
+      profileCode: BuiltinProfiles.standard,
+      spec: NotificationRuleSpec(
+        trigger: MilestoneTrigger(metric: 'health'),
+        delivery: DeliverySpec(actions: ['open']),
+      ),
+    ),
+    const DefaultRuleSeed(
+      section: NotificationSection.quit,
+      code: 'money_milestones',
+      profileCode: BuiltinProfiles.standard,
+      spec: NotificationRuleSpec(
+        trigger: MilestoneTrigger(metric: 'money_saved'),
+        delivery: DeliverySpec(actions: ['open']),
+      ),
+    ),
+    const DefaultRuleSeed(
+      section: NotificationSection.quit,
+      code: 'goal_milestones',
+      profileCode: BuiltinProfiles.standard,
+      spec: NotificationRuleSpec(
+        trigger: MilestoneTrigger(metric: 'custom'),
+        delivery: DeliverySpec(actions: ['open']),
+      ),
+    ),
   ];
 
   /// Off-peak default times for digests (FCM spikes at :00/:15/:30/:45 — arch §9.7).
@@ -121,6 +148,17 @@ abstract final class DefaultRules {
     'weekly_review': LocalTime(18, 7),
     'monthly_report': LocalTime(9, 7),
   };
+
+  /// [digestDefaultTimes] shifted by a stable per-user 0–4 minutes, so users don't all fire in
+  /// the same minute (still never on a quarter hour: 07:07–07:11, 20:37–20:41…).
+  static LocalTime digestDefaultTimeFor(String userId, String kind) {
+    final base = digestDefaultTimes[kind] ?? LocalTime(7, 7);
+    var hash = 0;
+    for (final c in userId.codeUnits) {
+      hash = (hash * 31 + c) & 0x7fffffff;
+    }
+    return LocalTime.fromMinuteOfDay(base.minuteOfDay + hash % 5);
+  }
 
   /// Deterministic id of the digest rule of [kind] (one per user, T7.5.18).
   static String digestRuleId(String userId, String kind) => Ids.v5('$userId|digest-rule|$kind');

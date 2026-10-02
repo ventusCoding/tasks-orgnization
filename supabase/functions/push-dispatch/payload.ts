@@ -46,3 +46,40 @@ export function buildJobMessage(job: ClaimedJob, device: DispatchDevice, now: Da
     expiresAtEpochSeconds: expires !== undefined && Number.isFinite(expires) ? expires : undefined,
   });
 }
+
+/** Same-minute jobs for one device at or above this size are merged into one push (T7.4.07 step 7). */
+export const BURST_MIN_JOBS = 3;
+
+/**
+ * One merged push for a burst of same-minute jobs on one device: the first title, the other titles as
+ * big text, `type: digest` opening the inbox (each job keeps its own inbox row). Keeps devices far from
+ * FCM's per-device limits and the user from a wall of alerts.
+ */
+export function buildBurstMessage(jobs: ClaimedJob[], device: DispatchDevice, now: Date): FcmMessage {
+  const title = (j: ClaimedJob) => typeof j.payload?.title === "string" ? j.payload.title : "Everslot";
+  const first = jobs[0];
+  const minute = first.fire_at.slice(0, 16);
+  const importance = jobs.some((j) => j.importance === "urgent")
+    ? "urgent"
+    : jobs.some((j) => j.importance === "high")
+    ? "high"
+    : first.importance;
+  return buildAlertMessage({
+    token: device.push_token ?? "",
+    dedupeKey: `burst|${device.id}|${minute}`,
+    title: title(first),
+    body: jobs.slice(1).map(title).join("\n"),
+    data: {
+      type: "digest",
+      count: jobs.length,
+      dks: jobs.map((j) => j.dedupe_key).join(","),
+      deepLink: "/inbox",
+      fireAt: first.fire_at,
+    },
+    channelId: typeof first.payload?.channel === "string" ? first.payload.channel : undefined,
+    threadId: "burst",
+    importance,
+    interruptionLevel: INTERRUPTION_BY_IMPORTANCE[importance ?? "default"],
+    ttlSeconds: Math.min(...jobs.map((j) => ttlSeconds(j, now))),
+  });
+}

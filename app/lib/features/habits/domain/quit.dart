@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:decimal/decimal.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
@@ -286,3 +288,23 @@ class MilestoneRow {
 
 /// Money helper: a decimal from a user-entered double (no binary rounding surprises).
 Decimal decimalOf(double value) => Decimal.parse(value.toString());
+
+/// The user's usual craving hours (T7.5.14) from the local hours of logged cravings: hours holding
+/// at least 15 % of them (and ≥ 2), the busiest [maxHours] first, returned in clock order. Empty
+/// below [minCravings] cravings — too little data to call anything "usual".
+List<int> usualCravingHours(Iterable<int> localHours, {int minCravings = 10, int maxHours = 3}) {
+  final counts = List<int>.filled(24, 0);
+  var total = 0;
+  for (final h in localHours) {
+    if (h < 0 || h > 23) continue;
+    counts[h]++;
+    total++;
+  }
+  if (total < minCravings) return const [];
+  final floor = math.max(2, (total * 0.15).ceil());
+  final hours = [
+    for (var h = 0; h < 24; h++)
+      if (counts[h] >= floor) h,
+  ]..sort((a, b) => counts[b] != counts[a] ? counts[b] - counts[a] : a - b);
+  return hours.take(maxHours).toList()..sort();
+}
