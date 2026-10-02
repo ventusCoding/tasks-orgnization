@@ -306,6 +306,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get activityUnscheduled => 'Moved to the backlog';
 
   @override
+  String appLockAfterMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(minutes, locale: localeName, other: '$minutes minutes', one: '1 minute');
+    return '$_temp0';
+  }
+
+  @override
+  String get appLockBody => 'Use your fingerprint, face or device code to continue.';
+
+  @override
+  String get appLockEnable => 'Lock the app';
+
+  @override
+  String get appLockEnableHint => 'Ask for biometrics or the device code when opening Everslot';
+
+  @override
+  String get appLockImmediately => 'Immediately';
+
+  @override
+  String get appLockReason => 'Unlock Everslot';
+
+  @override
+  String get appLockSection => 'App lock';
+
+  @override
+  String get appLockTimeout => 'Lock after';
+
+  @override
+  String get appLockTitle => 'Everslot is locked';
+
+  @override
+  String get appLockUnlock => 'Unlock';
+
+  @override
+  String get appLockUnsupported => 'Set up a screen lock on this device first.';
+
+  @override
   String get appName => 'Everslot';
 
   @override
@@ -8067,6 +8103,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get priorityUrgent => 'Urgent';
+
+  @override
+  String get privacyAppSwitcher => 'Hide in app switcher';
+
+  @override
+  String get privacyAppSwitcherHint => 'Cover the screen in recent apps and block screenshots';
+
+  @override
+  String get privacyCrashReports => 'Send crash reports';
+
+  @override
+  String get privacyCrashReportsHint => 'Anonymous crash details help fix bugs';
+
+  @override
+  String get privacyDiagnostics => 'Diagnostics';
+
+  @override
+  String get privacyHideContentHint => 'Notifications show only “Everslot reminder”';
 
   @override
   String get pvActualColumn => 'Actual';

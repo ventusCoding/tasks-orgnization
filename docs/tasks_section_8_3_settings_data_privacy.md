@@ -26,8 +26,8 @@ encryption, onboarding, sample data, accessibility options, about/legal, feedbac
 - [x] T8.3.06 — Trash (restore / delete forever)
 - [x] T8.3.07 — Export all data (JSON + CSV)
 - [ ] T8.3.08 — Import / restore from a Everslot export
-- [ ] T8.3.09 — App lock & app-switcher privacy
-- [ ] T8.3.10 — Hide notification content
+- [x] T8.3.09 — App lock & app-switcher privacy
+- [x] T8.3.10 — Hide notification content
 - [ ] T8.3.11 — Onboarding flow
 - [ ] T8.3.12 — Accessibility options
 - [ ] T8.3.13 — About, legal & health disclaimer
@@ -124,12 +124,14 @@ never collides with existing ids.
 unaffected unless T8.3.10 is on.
 **Acceptance criteria:** lock survives app kill; failure/cancel keeps content hidden; accessibility-friendly unlock.
 **Tests:** widget tests with fake authenticator; manual QA.
+**Notes:** `features/privacy/`: `appLockProvider` (cold start locks once the privacy namespace has loaded; content stays covered until then) relocks on `AppLifecycleService.onReturn` when the background stay reached the timeout (0/1/5/15 min; an `inactive`-only return such as the biometric sheet never locks; the one return caused by Android's device-credential screen during a successful unlock is ignored). `AppLockGate` sits in the `MaterialApp.router` builder above every route: lock screen (auto prompt once, then an *Unlock* button; content excluded from semantics) or a plain cover while `inactive`/`paused` when app-switcher privacy or the lock is on. Android also sets `FLAG_SECURE` (channel `app.everslot/privacy`). Enabling the lock first checks a device screen lock exists and authenticates once. Settings › Privacy & security replaces the placeholder (lock, timeout, app switcher, hide notification content, crash reports). Device QA of the iOS snapshot cover still pending (Xcode 26).
 
 ### T8.3.10 — Hide notification content
 **Priority:** P1 · **Size:** S · **Depends on:** [7.2]
 **Description:** Privacy option: system notifications show generic text ("Reminder from Everslot");
 full content visible in the inbox after unlock. Applied by the planner to local and push payloads.
 **Tests:** unit test that planned payloads are redacted when enabled.
+**Notes:** The planner already redacted local payloads (title/body/subtitle/images, `authenticationRequired`); push content is rendered by the device planner, so it ships redacted too. Added: the running-timer surface (Android ongoing notification and iOS Live Activity) shows only "Reminder from Everslot" + the chronometer and re-renders when the setting changes. The toggle also lives on the Privacy page (both keys written, as on the Notifications page).
 
 ### T8.3.11 — Onboarding flow
 **Priority:** P1 · **Size:** M · **Depends on:** T8.3.02, T8.3.03, [1.5], [7.2]

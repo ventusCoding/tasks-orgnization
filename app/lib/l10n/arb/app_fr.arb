@@ -1,5 +1,12 @@
 {
   "@@locale": "fr",
+  "@appLockAfterMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "@authCodeBody": {
     "placeholders": {
       "email": {
@@ -211,6 +218,17 @@
   "activityTitle": "Historique",
   "activityUnarchived": "Désarchivé",
   "activityUnscheduled": "Replacé dans les tâches à planifier",
+  "appLockAfterMinutes": "{minutes, plural, one{1 minute} other{{minutes} minutes}}",
+  "appLockBody": "Utilisez votre empreinte, votre visage ou le code de l’appareil pour continuer.",
+  "appLockEnable": "Verrouiller l’app",
+  "appLockEnableHint": "Demander la biométrie ou le code de l’appareil à l’ouverture d’Everslot",
+  "appLockImmediately": "Immédiatement",
+  "appLockReason": "Déverrouiller Everslot",
+  "appLockSection": "Verrouillage",
+  "appLockTimeout": "Verrouiller après",
+  "appLockTitle": "Everslot est verrouillé",
+  "appLockUnlock": "Déverrouiller",
+  "appLockUnsupported": "Configurez d’abord un verrouillage d’écran sur cet appareil.",
   "appName": "Everslot",
   "appTagline": "Maîtrisez chaque créneau de votre journée.",
   "attachmentsAdd": "Ajouter une pièce jointe",
@@ -2431,6 +2449,12 @@
   "priorityMedium": "Moyenne",
   "priorityNone": "Sans priorité",
   "priorityUrgent": "Urgente",
+  "privacyAppSwitcher": "Masquer dans le sélecteur d’apps",
+  "privacyAppSwitcherHint": "Couvrir l’écran dans les apps récentes et bloquer les captures",
+  "privacyCrashReports": "Envoyer les rapports de plantage",
+  "privacyCrashReportsHint": "Des détails anonymes aident à corriger les bugs",
+  "privacyDiagnostics": "Diagnostic",
+  "privacyHideContentHint": "Les notifications n’affichent que « Rappel Everslot »",
   "pvActualColumn": "Réel",
   "pvAddCountdown": "Ajouter un compte à rebours",
   "pvAddTask": "Ajouter une tâche",

@@ -29,7 +29,10 @@ abstract interface class TimerSurfacePort {
 /// buttons go through the notification action dispatcher (planner handler) — in the background
 /// isolate when the app was killed — which closes the time entry.
 class NotificationTimerSurface implements TimerSurfacePort {
-  NotificationTimerSurface(this._port, this._l10n, this._timeLabel, this._userId);
+  NotificationTimerSurface(this._port, this._l10n, this._timeLabel, this._userId, {bool Function()? hideContent})
+    : _hideContent = hideContent ?? _never;
+
+  static bool _never() => false;
 
   final LocalNotificationsPort _port;
   final AppLocalizations _l10n;
@@ -38,15 +41,21 @@ class NotificationTimerSurface implements TimerSurfacePort {
   final String Function(DateTime utc) _timeLabel;
   final String? _userId;
 
+  /// "Hide notification content" (T8.3.10): generic title, no task name or times.
+  final bool Function() _hideContent;
+
   /// The request for [surface] at [now] (pure: tested without a platform).
   OsNotificationRequest request(TimerSurface surface, DateTime now, {String? endLabel}) {
     final l = _l10n;
-    final body = surface.plannedEnd == null
+    final hide = _hideContent();
+    final body = hide || surface.plannedEnd == null
         ? null
         : (surface.isOver(now) ? l.timerSurfaceOver : l.timerSurfacePlannedUntil(endLabel ?? ''));
     return OsNotificationRequest(
       id: TimerSurface.notificationId,
-      title: surface.others == 0 ? surface.title : l.timerSurfaceMore(surface.title, surface.others),
+      title: hide
+          ? l.notifRedactedTitle
+          : (surface.others == 0 ? surface.title : l.timerSurfaceMore(surface.title, surface.others)),
       body: body,
       channelId: ChannelCatalog.quiet,
       payload: NotificationPayload(
@@ -82,15 +91,17 @@ class NotificationTimerSurface implements TimerSurfacePort {
 /// iOS 16.1+: a Live Activity (lock screen + Dynamic Island) rendered by the widget extension
 /// from these keys (`ios/EverslotWidgets/TimerActivity.swift`).
 class LiveActivityTimerSurface implements TimerSurfacePort {
-  LiveActivityTimerSurface(this._plugin, this._appGroup, this._l10n);
+  LiveActivityTimerSurface(this._plugin, this._appGroup, this._l10n, {bool Function()? hideContent})
+    : _hideContent = hideContent ?? NotificationTimerSurface._never;
 
   final LiveActivities _plugin;
   final String _appGroup;
   final AppLocalizations _l10n;
+  final bool Function() _hideContent;
   var _ready = false;
 
-  static Map<String, dynamic> data(TimerSurface s, AppLocalizations l) => {
-    'title': s.others == 0 ? s.title : l.timerSurfaceMore(s.title, s.others),
+  static Map<String, dynamic> data(TimerSurface s, AppLocalizations l, {bool hideContent = false}) => {
+    'title': hideContent ? l.notifRedactedTitle : (s.others == 0 ? s.title : l.timerSurfaceMore(s.title, s.others)),
     'startedAt': s.startedAt.millisecondsSinceEpoch / 1000,
     'plannedEnd': s.plannedEnd == null ? 0 : s.plannedEnd!.millisecondsSinceEpoch / 1000,
     'taskId': s.taskId,
@@ -113,7 +124,7 @@ class LiveActivityTimerSurface implements TimerSurfacePort {
   Future<void> show(TimerSurface surface) async {
     await _init();
     if (!await _plugin.areActivitiesEnabled()) return;
-    await _plugin.createOrUpdateActivity(TimerSurface.activityId, data(surface, _l10n));
+    await _plugin.createOrUpdateActivity(TimerSurface.activityId, data(surface, _l10n, hideContent: _hideContent()));
   }
 
   @override
@@ -163,6 +174,17 @@ class TimerSurfaceService {
       _log.info('timer surface unavailable: $e');
     }
   }
+
+  /// Re-renders the shown surface (e.g. after "Hide notification content" changed).
+  Future<void> refresh() async {
+    final shown = _shown;
+    if (shown == null) return;
+    try {
+      await _surface.show(shown);
+    } on Object catch (e) {
+      _log.info('timer surface unavailable: $e');
+    }
+  }
 }
 
 final timerSurfacePortProvider = Provider<TimerSurfacePort?>((ref) {
@@ -177,11 +199,17 @@ final timerSurfacePortProvider = Provider<TimerSurfacePort?>((ref) {
       l10n,
       (utc) => format.timeOf(zones.toLocal(utc, zone)),
       ref.watch(currentUserIdProvider),
+      hideContent: () => ref.read(notificationSettingsProvider).hideContent,
     );
   }
   if (Platform.isIOS) {
     final appGroup = ref.watch(envProvider).isDev ? 'group.app.everslot.dev' : 'group.app.everslot';
-    return LiveActivityTimerSurface(LiveActivities(), appGroup, l10n);
+    return LiveActivityTimerSurface(
+      LiveActivities(),
+      appGroup,
+      l10n,
+      hideContent: () => ref.read(notificationSettingsProvider).hideContent,
+    );
   }
   return null;
 });
@@ -196,4 +224,8 @@ void startTimerSurface(ProviderContainer container) {
     final value = next.value;
     if (value != null) unawaited(service.update(value));
   }, fireImmediately: true);
+  container.listen<bool>(
+    notificationSettingsProvider.select((s) => s.hideContent),
+    (_, _) => unawaited(service.refresh()),
+  );
 }

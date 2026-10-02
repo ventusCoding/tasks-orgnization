@@ -311,6 +311,42 @@ class AppLocalizationsFr extends AppLocalizations {
   String get activityUnscheduled => 'Replacé dans les tâches à planifier';
 
   @override
+  String appLockAfterMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(minutes, locale: localeName, other: '$minutes minutes', one: '1 minute');
+    return '$_temp0';
+  }
+
+  @override
+  String get appLockBody => 'Utilisez votre empreinte, votre visage ou le code de l’appareil pour continuer.';
+
+  @override
+  String get appLockEnable => 'Verrouiller l’app';
+
+  @override
+  String get appLockEnableHint => 'Demander la biométrie ou le code de l’appareil à l’ouverture d’Everslot';
+
+  @override
+  String get appLockImmediately => 'Immédiatement';
+
+  @override
+  String get appLockReason => 'Déverrouiller Everslot';
+
+  @override
+  String get appLockSection => 'Verrouillage';
+
+  @override
+  String get appLockTimeout => 'Verrouiller après';
+
+  @override
+  String get appLockTitle => 'Everslot est verrouillé';
+
+  @override
+  String get appLockUnlock => 'Déverrouiller';
+
+  @override
+  String get appLockUnsupported => 'Configurez d’abord un verrouillage d’écran sur cet appareil.';
+
+  @override
   String get appName => 'Everslot';
 
   @override
@@ -8284,6 +8320,24 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get priorityUrgent => 'Urgente';
+
+  @override
+  String get privacyAppSwitcher => 'Masquer dans le sélecteur d’apps';
+
+  @override
+  String get privacyAppSwitcherHint => 'Couvrir l’écran dans les apps récentes et bloquer les captures';
+
+  @override
+  String get privacyCrashReports => 'Envoyer les rapports de plantage';
+
+  @override
+  String get privacyCrashReportsHint => 'Des détails anonymes aident à corriger les bugs';
+
+  @override
+  String get privacyDiagnostics => 'Diagnostic';
+
+  @override
+  String get privacyHideContentHint => 'Les notifications n’affichent que « Rappel Everslot »';
 
   @override
   String get pvActualColumn => 'Réel';

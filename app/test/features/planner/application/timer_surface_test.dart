@@ -77,6 +77,29 @@ void main() {
       expect(surface.request(s, t0.add(const Duration(hours: 2))).body, 'Over the planned time');
     });
 
+    test('hide notification content: generic title, no times (T8.3.10)', () {
+      final l10n = h.read(plannerL10nProvider);
+      final surface = NotificationTimerSurface(
+        InMemoryLocalNotificationsPort(),
+        l10n,
+        (_) => '10:00',
+        'user-1',
+        hideContent: () => true,
+      );
+      final s = TimerSurface(
+        taskId: 't',
+        occurrenceKey: '2026-09-22T09:00',
+        title: 'Therapy session',
+        startedAt: t0,
+        plannedEnd: t0.add(const Duration(hours: 1)),
+      );
+      final r = surface.request(s, t0.add(const Duration(minutes: 10)), endLabel: '10:00');
+      expect(r.title, 'Reminder from Everslot');
+      expect(r.body, isNull);
+      expect(r.chronometerFrom, t0, reason: 'the running time stays visible');
+      expect(LiveActivityTimerSurface.data(s, l10n, hideContent: true)['title'], 'Reminder from Everslot');
+    });
+
     test('Live Activity data carries the stop link and instants in seconds', () {
       final data = LiveActivityTimerSurface.data(
         TimerSurface(taskId: 't', occurrenceKey: '2026-09-22T09:00', title: 'Run', startedAt: t0),

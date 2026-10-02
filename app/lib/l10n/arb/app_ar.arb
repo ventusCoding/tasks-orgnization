@@ -1,5 +1,12 @@
 {
   "@@locale": "ar",
+  "@appLockAfterMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "@authCodeBody": {
     "placeholders": {
       "email": {
@@ -211,6 +218,17 @@
   "activityTitle": "السجل",
   "activityUnarchived": "أُلغيت أرشفته",
   "activityUnscheduled": "نُقل إلى المهام غير المجدولة",
+  "appLockAfterMinutes": "{minutes, plural, zero{{minutes} دقيقة} one{دقيقة واحدة} two{دقيقتان} few{{minutes} دقائق} many{{minutes} دقيقة} other{{minutes} دقيقة}}",
+  "appLockBody": "استخدم بصمتك أو وجهك أو رمز الجهاز للمتابعة.",
+  "appLockEnable": "قفل التطبيق",
+  "appLockEnableHint": "طلب المصادقة البيومترية أو رمز الجهاز عند فتح Everslot",
+  "appLockImmediately": "فورًا",
+  "appLockReason": "فتح قفل Everslot",
+  "appLockSection": "قفل التطبيق",
+  "appLockTimeout": "القفل بعد",
+  "appLockTitle": "Everslot مقفل",
+  "appLockUnlock": "فتح القفل",
+  "appLockUnsupported": "اضبط قفل الشاشة على هذا الجهاز أولًا.",
   "appName": "Everslot",
   "appTagline": "تحكّم في كل خانة من يومك.",
   "attachmentsAdd": "إضافة مرفق",
@@ -2431,6 +2449,12 @@
   "priorityMedium": "متوسطة",
   "priorityNone": "بلا أولوية",
   "priorityUrgent": "عاجلة",
+  "privacyAppSwitcher": "إخفاء في مبدّل التطبيقات",
+  "privacyAppSwitcherHint": "تغطية الشاشة في التطبيقات الأخيرة ومنع لقطات الشاشة",
+  "privacyCrashReports": "إرسال تقارير الأعطال",
+  "privacyCrashReportsHint": "تفاصيل مجهولة تساعد على إصلاح الأخطاء",
+  "privacyDiagnostics": "التشخيص",
+  "privacyHideContentHint": "تعرض الإشعارات «تذكير Everslot» فقط",
   "pvActualColumn": "الفعلي",
   "pvAddCountdown": "إضافة عد تنازلي",
   "pvAddTask": "إضافة مهمة",

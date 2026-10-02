@@ -1,0 +1,26 @@
+{
+  "appLockReason": "فتح قفل Everslot",
+  "appLockTitle": "Everslot مقفل",
+  "appLockBody": "استخدم بصمتك أو وجهك أو رمز الجهاز للمتابعة.",
+  "appLockUnlock": "فتح القفل",
+  "appLockSection": "قفل التطبيق",
+  "appLockEnable": "قفل التطبيق",
+  "appLockEnableHint": "طلب المصادقة البيومترية أو رمز الجهاز عند فتح Everslot",
+  "appLockUnsupported": "اضبط قفل الشاشة على هذا الجهاز أولًا.",
+  "appLockTimeout": "القفل بعد",
+  "appLockImmediately": "فورًا",
+  "appLockAfterMinutes": "{minutes, plural, zero{{minutes} دقيقة} one{دقيقة واحدة} two{دقيقتان} few{{minutes} دقائق} many{{minutes} دقيقة} other{{minutes} دقيقة}}",
+  "@appLockAfterMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "privacyAppSwitcher": "إخفاء في مبدّل التطبيقات",
+  "privacyAppSwitcherHint": "تغطية الشاشة في التطبيقات الأخيرة ومنع لقطات الشاشة",
+  "privacyHideContentHint": "تعرض الإشعارات «تذكير Everslot» فقط",
+  "privacyDiagnostics": "التشخيص",
+  "privacyCrashReports": "إرسال تقارير الأعطال",
+  "privacyCrashReportsHint": "تفاصيل مجهولة تساعد على إصلاح الأخطاء"
+}

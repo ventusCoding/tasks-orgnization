@@ -1,6 +1,7 @@
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/integrations/presentation/integrations_settings_page.dart';
 import 'package:everslot/features/notifications/presentation/notifications_settings_page.dart';
+import 'package:everslot/features/privacy/presentation/privacy_page.dart';
 import 'package:everslot/features/profile/presentation/account_page.dart';
 import 'package:everslot/features/settings/presentation/pages/appearance_page.dart';
 import 'package:everslot/features/settings/presentation/pages/data_page.dart';
@@ -51,7 +52,7 @@ class SettingsPageScreen extends StatelessWidget {
       'insights' => const InsightsDefaultsPage(),
       'data' => const DataPage(),
       'integrations' => const IntegrationsSettingsPage(),
-      'privacy' => PlaceholderScreen(title: l.settingsPrivacy),
+      'privacy' => const PrivacyPage(),
       'about' => PlaceholderScreen(title: l.settingsAbout),
       _ => Scaffold(
         appBar: AppBar(),

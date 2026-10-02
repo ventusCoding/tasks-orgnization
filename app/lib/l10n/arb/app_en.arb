@@ -86,6 +86,13 @@
       }
     }
   },
+  "@appLockAfterMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "@attachmentsAdded": {
     "placeholders": {
       "count": {
@@ -5445,6 +5452,17 @@
   "activityTitle": "History",
   "activityUnarchived": "Unarchived",
   "activityUnscheduled": "Moved to the backlog",
+  "appLockAfterMinutes": "{minutes, plural, one{1 minute} other{{minutes} minutes}}",
+  "appLockBody": "Use your fingerprint, face or device code to continue.",
+  "appLockEnable": "Lock the app",
+  "appLockEnableHint": "Ask for biometrics or the device code when opening Everslot",
+  "appLockImmediately": "Immediately",
+  "appLockReason": "Unlock Everslot",
+  "appLockSection": "App lock",
+  "appLockTimeout": "Lock after",
+  "appLockTitle": "Everslot is locked",
+  "appLockUnlock": "Unlock",
+  "appLockUnsupported": "Set up a screen lock on this device first.",
   "appName": "Everslot",
   "appTagline": "Own every slot of your day.",
   "attachmentsAdd": "Add attachment",
@@ -7665,6 +7683,12 @@
   "priorityMedium": "Medium",
   "priorityNone": "No priority",
   "priorityUrgent": "Urgent",
+  "privacyAppSwitcher": "Hide in app switcher",
+  "privacyAppSwitcherHint": "Cover the screen in recent apps and block screenshots",
+  "privacyCrashReports": "Send crash reports",
+  "privacyCrashReportsHint": "Anonymous crash details help fix bugs",
+  "privacyDiagnostics": "Diagnostics",
+  "privacyHideContentHint": "Notifications show only “Everslot reminder”",
   "pvActualColumn": "Actual",
   "pvAddCountdown": "Add a countdown",
   "pvAddTask": "Add task",

@@ -317,6 +317,51 @@ class AppLocalizationsAr extends AppLocalizations {
   String get activityUnscheduled => 'نُقل إلى المهام غير المجدولة';
 
   @override
+  String appLockAfterMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes دقيقة',
+      many: '$minutes دقيقة',
+      few: '$minutes دقائق',
+      two: 'دقيقتان',
+      one: 'دقيقة واحدة',
+      zero: '$minutes دقيقة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get appLockBody => 'استخدم بصمتك أو وجهك أو رمز الجهاز للمتابعة.';
+
+  @override
+  String get appLockEnable => 'قفل التطبيق';
+
+  @override
+  String get appLockEnableHint => 'طلب المصادقة البيومترية أو رمز الجهاز عند فتح Everslot';
+
+  @override
+  String get appLockImmediately => 'فورًا';
+
+  @override
+  String get appLockReason => 'فتح قفل Everslot';
+
+  @override
+  String get appLockSection => 'قفل التطبيق';
+
+  @override
+  String get appLockTimeout => 'القفل بعد';
+
+  @override
+  String get appLockTitle => 'Everslot مقفل';
+
+  @override
+  String get appLockUnlock => 'فتح القفل';
+
+  @override
+  String get appLockUnsupported => 'اضبط قفل الشاشة على هذا الجهاز أولًا.';
+
+  @override
   String get appName => 'Everslot';
 
   @override
@@ -8671,6 +8716,24 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get priorityUrgent => 'عاجلة';
+
+  @override
+  String get privacyAppSwitcher => 'إخفاء في مبدّل التطبيقات';
+
+  @override
+  String get privacyAppSwitcherHint => 'تغطية الشاشة في التطبيقات الأخيرة ومنع لقطات الشاشة';
+
+  @override
+  String get privacyCrashReports => 'إرسال تقارير الأعطال';
+
+  @override
+  String get privacyCrashReportsHint => 'تفاصيل مجهولة تساعد على إصلاح الأخطاء';
+
+  @override
+  String get privacyDiagnostics => 'التشخيص';
+
+  @override
+  String get privacyHideContentHint => 'تعرض الإشعارات «تذكير Everslot» فقط';
 
   @override
   String get pvActualColumn => 'الفعلي';

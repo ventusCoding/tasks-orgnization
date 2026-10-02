@@ -627,6 +627,72 @@ abstract class AppLocalizations {
   /// **'Moved to the backlog'**
   String get activityUnscheduled;
 
+  /// No description provided for @appLockAfterMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes, plural, one{1 minute} other{{minutes} minutes}}'**
+  String appLockAfterMinutes(int minutes);
+
+  /// No description provided for @appLockBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your fingerprint, face or device code to continue.'**
+  String get appLockBody;
+
+  /// No description provided for @appLockEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock the app'**
+  String get appLockEnable;
+
+  /// No description provided for @appLockEnableHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for biometrics or the device code when opening Everslot'**
+  String get appLockEnableHint;
+
+  /// No description provided for @appLockImmediately.
+  ///
+  /// In en, this message translates to:
+  /// **'Immediately'**
+  String get appLockImmediately;
+
+  /// No description provided for @appLockReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Everslot'**
+  String get appLockReason;
+
+  /// No description provided for @appLockSection.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock'**
+  String get appLockSection;
+
+  /// No description provided for @appLockTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock after'**
+  String get appLockTimeout;
+
+  /// No description provided for @appLockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot is locked'**
+  String get appLockTitle;
+
+  /// No description provided for @appLockUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get appLockUnlock;
+
+  /// No description provided for @appLockUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up a screen lock on this device first.'**
+  String get appLockUnsupported;
+
   /// No description provided for @appName.
   ///
   /// In en, this message translates to:
@@ -13946,6 +14012,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Urgent'**
   String get priorityUrgent;
+
+  /// No description provided for @privacyAppSwitcher.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide in app switcher'**
+  String get privacyAppSwitcher;
+
+  /// No description provided for @privacyAppSwitcherHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover the screen in recent apps and block screenshots'**
+  String get privacyAppSwitcherHint;
+
+  /// No description provided for @privacyCrashReports.
+  ///
+  /// In en, this message translates to:
+  /// **'Send crash reports'**
+  String get privacyCrashReports;
+
+  /// No description provided for @privacyCrashReportsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous crash details help fix bugs'**
+  String get privacyCrashReportsHint;
+
+  /// No description provided for @privacyDiagnostics.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnostics'**
+  String get privacyDiagnostics;
+
+  /// No description provided for @privacyHideContentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications show only “Everslot reminder”'**
+  String get privacyHideContentHint;
 
   /// No description provided for @pvActualColumn.
   ///

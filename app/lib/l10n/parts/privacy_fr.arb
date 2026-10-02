@@ -1,0 +1,26 @@
+{
+  "appLockReason": "Déverrouiller Everslot",
+  "appLockTitle": "Everslot est verrouillé",
+  "appLockBody": "Utilisez votre empreinte, votre visage ou le code de l’appareil pour continuer.",
+  "appLockUnlock": "Déverrouiller",
+  "appLockSection": "Verrouillage",
+  "appLockEnable": "Verrouiller l’app",
+  "appLockEnableHint": "Demander la biométrie ou le code de l’appareil à l’ouverture d’Everslot",
+  "appLockUnsupported": "Configurez d’abord un verrouillage d’écran sur cet appareil.",
+  "appLockTimeout": "Verrouiller après",
+  "appLockImmediately": "Immédiatement",
+  "appLockAfterMinutes": "{minutes, plural, one{1 minute} other{{minutes} minutes}}",
+  "@appLockAfterMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "privacyAppSwitcher": "Masquer dans le sélecteur d’apps",
+  "privacyAppSwitcherHint": "Couvrir l’écran dans les apps récentes et bloquer les captures",
+  "privacyHideContentHint": "Les notifications n’affichent que « Rappel Everslot »",
+  "privacyDiagnostics": "Diagnostic",
+  "privacyCrashReports": "Envoyer les rapports de plantage",
+  "privacyCrashReportsHint": "Des détails anonymes aident à corriger les bugs"
+}
