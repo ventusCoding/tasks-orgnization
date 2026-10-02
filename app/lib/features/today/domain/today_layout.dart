@@ -11,7 +11,7 @@ enum TodayBlockId {
   checklists('checklists'),
   inbox('inbox');
 
-  const TodayBlockId(this.json);
+  TodayBlockId(this.json);
 
   /// Stable JSON spelling (`user_settings.today`).
   final String json;
@@ -25,7 +25,7 @@ enum SwipeAction {
   skip('skip'),
   none('none');
 
-  const SwipeAction(this.json);
+  SwipeAction(this.json);
 
   final String json;
 

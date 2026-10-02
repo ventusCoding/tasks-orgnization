@@ -1,9 +1,9 @@
 # Sections organization — progress snapshot
 
-Updated 2026-10-02 after section 6 work (branch `section-6-completion`), counted from the **Progress**
+Updated 2026-10-02 after merging section 6 and the Today checkpoint into main, counted from the **Progress**
 checkboxes in `docs/tasks_section_*.md`.
 
-**Total: 609 done / 133 missing / 742 tasks (≈82 %)**
+**Total: 610 done / 132 missing / 742 tasks (≈82 %)**
 
 | Section | Done | Missing |
 |---|---|---|
@@ -46,8 +46,8 @@ checkboxes in `docs/tasks_section_*.md`.
 | 7.3 In-app inbox | 10 | 1 |
 | 7.4 Push / FCM server | 6 | 13 |
 | 7.5 Section catalog | 8 | 12 |
-| **8 Cross-cutting** | **9** | **41** |
-| 8.1 Today / search / quick add | 1 | 17 |
+| **8 Cross-cutting** | **10** | **40** |
+| 8.1 Today / search / quick add | 2 | 16 |
 | 8.2 Widgets / integrations | 1 | 14 |
 | 8.3 Settings / data / privacy | 7 | 10 |
 | **9 Quality & release** | **0** | **52 ❌** |

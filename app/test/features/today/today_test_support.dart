@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:everslot/core/providers.dart';
+import 'package:everslot/design_system/theme.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
 import 'package:everslot/features/checklists/domain/item_status.dart';
 import 'package:everslot/features/checklists/domain/tree_ops.dart';
@@ -10,7 +11,6 @@ import 'package:everslot/features/planner/application/planner_service.dart';
 import 'package:everslot/features/planner/domain/planner_item.dart';
 import 'package:everslot/features/planner/domain/task.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
-import 'package:everslot/design_system/theme.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show ProviderListenable;

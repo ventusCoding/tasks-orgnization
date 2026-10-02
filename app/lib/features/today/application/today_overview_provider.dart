@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
@@ -150,9 +152,11 @@ final todayHabitsProvider =
       }
       if (stale) {
         // Never modify another provider while building: bump once the build is over.
-        Future.microtask(() {
-          if (ref.mounted) ref.read(habitTickProvider.notifier).bump();
-        });
+        unawaited(
+          Future.microtask(() {
+            if (ref.mounted) ref.read(habitTickProvider.notifier).bump();
+          }),
+        );
       }
       if (loading && !loadedOnce.value) return const AsyncValue.loading();
       loadedOnce.value = true;
