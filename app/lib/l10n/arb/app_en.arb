@@ -2529,6 +2529,23 @@
       }
     }
   },
+  "@notifMissionMathProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifMissionShake": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@notifMutedUntil": {
     "placeholders": {
       "time": {
@@ -6523,6 +6540,13 @@
   "notifAlarmAllowFullScreen": "Allow full-screen alarms",
   "notifAlarmIosFallback": "On this iPhone, alarms arrive as time-sensitive notifications: they break through Focus but follow the ring/silent switch.",
   "notifAlarmLimited": "Alarms may not ring through silent mode: allow exact alarms and full-screen notifications for Everslot.",
+  "notifAlarmMaxSnoozes": "Snoozes allowed",
+  "notifAlarmMission": "Mission to stop it",
+  "notifAlarmMissionCount": "How many",
+  "notifAlarmOptions": "Alarm options",
+  "notifAlarmQrSaved": "Code saved — scan again to change it",
+  "notifAlarmQrScan": "Scan the code to use",
+  "notifAlarmRamp": "Gradually louder",
   "notifAlarmRinging": "Alarm",
   "notifAlarmSnooze": "Snooze {minutes} min",
   "notifAlarmStop": "Stop",
@@ -6791,6 +6815,18 @@
   "notifMetricTotal": "Total",
   "notifMetricUnits": "Units avoided",
   "notifMinutesValue": "{minutes, plural, =1{1 min} other{{minutes} min}}",
+  "notifMissionAnswer": "Answer",
+  "notifMissionCheck": "Check",
+  "notifMissionMathName": "Solve sums",
+  "notifMissionMathProgress": "Sum {current} of {total}",
+  "notifMissionQr": "Scan your saved code to stop the alarm",
+  "notifMissionQrName": "Scan a QR code",
+  "notifMissionShake": "{count, plural, =1{Shake your phone once} other{Shake your phone {count} times}}",
+  "notifMissionShakeName": "Shake the phone",
+  "notifMissionToStop": "Complete the mission to stop the alarm",
+  "notifMissionTypeName": "Type the title",
+  "notifMissionTypeTitle": "Type this to stop the alarm",
+  "notifMissionWrong": "Not quite — try again",
   "notifModeCustom": "Custom",
   "notifModeInherit": "Use defaults",
   "notifModeInheritPlus": "Defaults + mine",

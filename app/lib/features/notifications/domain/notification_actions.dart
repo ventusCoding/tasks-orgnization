@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:everslot/features/notifications/domain/json_fields.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
+import 'package:everslot/features/notifications/domain/rule_spec.dart' show AlarmOptions;
 import 'package:meta/meta.dart';
 
 /// Action ids shared by OS notifications, pushes, in-app banners and inbox rows (T7.2.03).
@@ -114,6 +115,7 @@ class NotificationPayload {
     this.title,
     this.body,
     this.alarm = false,
+    this.alarmOptions,
   });
 
   factory NotificationPayload.fromJson(Map<String, Object?> json) => NotificationPayload(
@@ -136,6 +138,7 @@ class NotificationPayload {
     title: asString(json['t']),
     body: asString(json['b']),
     alarm: json['alarm'] == true,
+    alarmOptions: asJsonMap(json['alm']) == null ? null : AlarmOptions.fromJson(asJsonMap(json['alm'])!),
   );
 
   static NotificationPayload? tryDecode(String? source) {
@@ -176,6 +179,9 @@ class NotificationPayload {
   /// Alarm-profile delivery (T7.2.24): a tap opens the alarm screen.
   final bool alarm;
 
+  /// Missions / snooze limit / rising volume (T7.2.25).
+  final AlarmOptions? alarmOptions;
+
   String get chainKey => baseKey ?? dedupeKey;
 
   Map<String, Object?> toJson() => {
@@ -199,6 +205,7 @@ class NotificationPayload {
     't': ?title,
     'b': ?body,
     if (alarm) 'alarm': true,
+    if (alarmOptions != null) 'alm': alarmOptions!.toJson(),
   };
 
   String encode() => jsonEncode(toJson());

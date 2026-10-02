@@ -5548,6 +5548,27 @@ class AppLocalizationsEn extends AppLocalizations {
       'Alarms may not ring through silent mode: allow exact alarms and full-screen notifications for Everslot.';
 
   @override
+  String get notifAlarmMaxSnoozes => 'Snoozes allowed';
+
+  @override
+  String get notifAlarmMission => 'Mission to stop it';
+
+  @override
+  String get notifAlarmMissionCount => 'How many';
+
+  @override
+  String get notifAlarmOptions => 'Alarm options';
+
+  @override
+  String get notifAlarmQrSaved => 'Code saved — scan again to change it';
+
+  @override
+  String get notifAlarmQrScan => 'Scan the code to use';
+
+  @override
+  String get notifAlarmRamp => 'Gradually louder';
+
+  @override
   String get notifAlarmRinging => 'Alarm';
 
   @override
@@ -6507,6 +6528,52 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(minutes, locale: localeName, other: '$minutes min', one: '1 min');
     return '$_temp0';
   }
+
+  @override
+  String get notifMissionAnswer => 'Answer';
+
+  @override
+  String get notifMissionCheck => 'Check';
+
+  @override
+  String get notifMissionMathName => 'Solve sums';
+
+  @override
+  String notifMissionMathProgress(int current, int total) {
+    return 'Sum $current of $total';
+  }
+
+  @override
+  String get notifMissionQr => 'Scan your saved code to stop the alarm';
+
+  @override
+  String get notifMissionQrName => 'Scan a QR code';
+
+  @override
+  String notifMissionShake(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Shake your phone $count times',
+      one: 'Shake your phone once',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMissionShakeName => 'Shake the phone';
+
+  @override
+  String get notifMissionToStop => 'Complete the mission to stop the alarm';
+
+  @override
+  String get notifMissionTypeName => 'Type the title';
+
+  @override
+  String get notifMissionTypeTitle => 'Type this to stop the alarm';
+
+  @override
+  String get notifMissionWrong => 'Not quite — try again';
 
   @override
   String get notifModeCustom => 'Custom';

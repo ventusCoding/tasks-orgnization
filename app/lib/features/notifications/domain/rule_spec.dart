@@ -287,6 +287,97 @@ class ConditionsSpec {
   int get hashCode => jsonHash(toJson());
 }
 
+/// What stops a ringing alarm (T7.2.25).
+enum AlarmMissionType {
+  /// Solve [AlarmMission.count] sums.
+  math('math'),
+
+  /// Type the reminder's title.
+  type('type'),
+
+  /// Shake the phone [AlarmMission.count] times.
+  shake('shake'),
+
+  /// Scan the saved QR code ([AlarmMission.code]).
+  qr('qr');
+
+  AlarmMissionType(this.wire);
+
+  final String wire;
+
+  static AlarmMissionType? tryParse(String? value) {
+    for (final t in values) {
+      if (t.wire == value) return t;
+    }
+    return null;
+  }
+}
+
+@immutable
+class AlarmMission {
+  const AlarmMission({required this.type, this.count, this.code});
+
+  static AlarmMission? fromJson(Map<String, Object?>? json) {
+    final type = AlarmMissionType.tryParse(asString(json?['type']));
+    if (json == null || type == null) return null;
+    return AlarmMission(type: type, count: asInt(json['count']), code: asString(json['code']));
+  }
+
+  final AlarmMissionType type;
+
+  /// Sums to solve / shakes (defaults 3 / 20).
+  final int? count;
+
+  /// The QR payload to scan.
+  final String? code;
+
+  int get effectiveCount => count ?? (type == AlarmMissionType.math ? 3 : 20);
+
+  Map<String, Object?> toJson() => {'type': type.wire, 'count': ?count, 'code': ?code};
+
+  @override
+  bool operator ==(Object other) =>
+      other is AlarmMission && other.type == type && other.count == count && other.code == code;
+
+  @override
+  int get hashCode => Object.hash(type, count, code);
+}
+
+/// `delivery.alarm` (T7.2.25): Alarmy-style options of an alarm-style reminder — a mission before
+/// it can be stopped, a snooze limit and a volume that rises while it rings.
+@immutable
+class AlarmOptions {
+  const AlarmOptions({this.mission, this.maxSnoozes, this.rampVolume = false});
+
+  factory AlarmOptions.fromJson(Map<String, Object?> json) => AlarmOptions(
+    mission: AlarmMission.fromJson(asJsonMap(json['mission'])),
+    maxSnoozes: asInt(json['maxSnoozes']),
+    rampVolume: asBool(json['rampVolume']) ?? false,
+  );
+
+  final AlarmMission? mission;
+
+  /// Snoozes allowed for one alarm (null = the settings limit).
+  final int? maxSnoozes;
+  final bool rampVolume;
+
+  Map<String, Object?> toJson() => {
+    if (mission != null) 'mission': mission!.toJson(),
+    'maxSnoozes': ?maxSnoozes,
+    if (rampVolume) 'rampVolume': true,
+  };
+
+  @override
+  bool operator ==(Object other) =>
+      other is AlarmOptions &&
+      other.mission == mission &&
+      other.maxSnoozes == maxSnoozes &&
+      other.rampVolume == rampVolume;
+
+  @override
+  int get hashCode => Object.hash(mission, maxSnoozes, rampVolume);
+}
+
 /// `delivery` block. Absent (null) = inherit; disable sentinels: `"none"` (sound/vibration),
 /// `[]` (actions/snooze presets), `false` (booleans).
 @immutable
@@ -305,6 +396,7 @@ class DeliverySpec {
     this.actions,
     this.snoozeOptionsMinutes,
     this.latenessMinutes,
+    this.alarm,
     this.raw,
   });
 
@@ -322,6 +414,7 @@ class DeliverySpec {
     actions: asStringList(json['actions']),
     snoozeOptionsMinutes: asIntList(json['snoozeOptionsMinutes']),
     latenessMinutes: asInt(json['latenessMinutes']),
+    alarm: asJsonMap(json['alarm']) == null ? null : AlarmOptions.fromJson(asJsonMap(json['alarm'])!),
     raw: json,
   );
 
@@ -341,6 +434,7 @@ class DeliverySpec {
     'actions',
     'snoozeOptionsMinutes',
     'latenessMinutes',
+    'alarm',
   };
 
   final bool? system;
@@ -360,6 +454,9 @@ class DeliverySpec {
   final List<String>? actions;
   final List<int>? snoozeOptionsMinutes;
   final int? latenessMinutes;
+
+  /// Missions, snooze limit and rising volume of alarm-style reminders (T7.2.25).
+  final AlarmOptions? alarm;
   final Map<String, Object?>? raw;
 
   Map<String, Object?> toJson() => mergeOrdered(raw, {
@@ -376,6 +473,7 @@ class DeliverySpec {
     'actions': ?actions,
     'snoozeOptionsMinutes': ?snoozeOptionsMinutes,
     'latenessMinutes': ?latenessMinutes,
+    if (alarm != null) 'alarm': alarm!.toJson(),
   }, keys);
 
   bool get isEmpty => toJson().isEmpty;
@@ -396,6 +494,7 @@ class DeliverySpec {
     List<String>? actions,
     List<int>? snoozeOptionsMinutes,
     int? latenessMinutes,
+    AlarmOptions? alarm,
     Set<String> clear = const {},
   }) => DeliverySpec(
     system: clear.contains('system') ? null : (system ?? this.system),
@@ -413,6 +512,7 @@ class DeliverySpec {
         ? null
         : (snoozeOptionsMinutes ?? this.snoozeOptionsMinutes),
     latenessMinutes: clear.contains('latenessMinutes') ? null : (latenessMinutes ?? this.latenessMinutes),
+    alarm: clear.contains('alarm') ? null : (alarm ?? this.alarm),
     raw: raw == null
         ? null
         : {

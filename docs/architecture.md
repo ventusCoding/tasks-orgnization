@@ -105,6 +105,7 @@ erDiagram
 | Auth | `google_sign_in` 7.2.0; `sign_in_with_apple` 8.2.0 + `crypto` | Native ID-token flows (`signInWithIdToken`); Apple nonce (SHA-256 to Apple, raw to Supabase). |
 | Push | `firebase_core` 4.15.0, `firebase_messaging` 16.7.0 | Call `configureNotificationCenterDelegate()` from the AppDelegate (UIScene). |
 | Local notifications | `flutter_local_notifications` 22.3.1 + `timezone` 0.11.1 + `flutter_timezone` 5.1.0 | Zoned scheduling, actions incl. text input, background action isolate. |
+| Alarm missions | `sensors_plus` 7.1.1, `mobile_scanner` 7.4.2, `audioplayers` 6.8.1 | Shake / QR-code dismissal missions and the alarm screen's own rising ring on the alarm stream (T7.2.25). |
 | Background | `workmanager` 0.10.10 | Best-effort (never used for reminders themselves). |
 | Charts | `fl_chart` 1.2.0 + custom `CustomPainter`s (+ optional `graphic` 2.7.0) | Heatmaps, punch card, CFD, Gantt, streak timeline, radial clock are custom. |
 | Time grid | Custom engine (§6.9) on Flutter's 2-D scrolling API + `two_dimensional_scrollables` 0.5.4 (`TableView`, pinned header/ruler) | No package covers 1-min…24-h slots, semantic zoom, bucket mode and RTL; `kalender` 0.32 / `infinite_calendar_view` are references only (unstable APIs). |

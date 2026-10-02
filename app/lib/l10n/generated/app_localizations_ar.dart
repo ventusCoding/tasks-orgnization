@@ -5905,6 +5905,27 @@ class AppLocalizationsAr extends AppLocalizations {
       'قد لا يرنّ المنبّه في الوضع الصامت: اسمح بالمنبّهات الدقيقة والإشعارات بملء الشاشة لـ Everslot.';
 
   @override
+  String get notifAlarmMaxSnoozes => 'الغفوات المسموح بها';
+
+  @override
+  String get notifAlarmMission => 'مهمة لإيقافه';
+
+  @override
+  String get notifAlarmMissionCount => 'كم مرة';
+
+  @override
+  String get notifAlarmOptions => 'خيارات المنبّه';
+
+  @override
+  String get notifAlarmQrSaved => 'حُفظ الرمز — امسح مجددًا لتغييره';
+
+  @override
+  String get notifAlarmQrScan => 'امسح الرمز المراد استخدامه';
+
+  @override
+  String get notifAlarmRamp => 'يرتفع الصوت تدريجيًا';
+
+  @override
   String get notifAlarmRinging => 'منبّه';
 
   @override
@@ -7040,6 +7061,52 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get notifMissionAnswer => 'الإجابة';
+
+  @override
+  String get notifMissionCheck => 'تحقق';
+
+  @override
+  String get notifMissionMathName => 'حلّ عمليات جمع';
+
+  @override
+  String notifMissionMathProgress(int current, int total) {
+    return 'العملية $current من $total';
+  }
+
+  @override
+  String get notifMissionQr => 'امسح رمزك المحفوظ لإيقاف المنبّه';
+
+  @override
+  String get notifMissionQrName => 'مسح رمز QR';
+
+  @override
+  String notifMissionShake(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'هزّ هاتفك $count مرة',
+      one: 'هزّ هاتفك مرة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMissionShakeName => 'هزّ الهاتف';
+
+  @override
+  String get notifMissionToStop => 'أكمل المهمة لإيقاف المنبّه';
+
+  @override
+  String get notifMissionTypeName => 'كتابة العنوان';
+
+  @override
+  String get notifMissionTypeTitle => 'اكتب هذا لإيقاف المنبّه';
+
+  @override
+  String get notifMissionWrong => 'ليس تمامًا — حاول مجددًا';
 
   @override
   String get notifModeCustom => 'مخصص';

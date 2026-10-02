@@ -59,6 +59,7 @@ class PlannedNotification {
     required this.vibration,
     required this.sticky,
     required this.alarmStyle,
+    this.alarmOptions,
     required this.actions,
     required this.snoozeOptions,
     required this.title,
@@ -105,6 +106,9 @@ class PlannedNotification {
   final String vibration;
   final bool sticky;
   final bool alarmStyle;
+
+  /// Missions / snooze limit / rising volume of an alarm (T7.2.25).
+  final AlarmOptions? alarmOptions;
   final List<String> actions;
   final List<int> snoozeOptions;
 
@@ -162,7 +166,12 @@ class PlannedNotification {
     'uid': userId,
     if (repeatIdx > 0) 'rep': repeatIdx,
     // The alarm screen shows them (T7.2.24).
-    if (alarmStyle) ...{'alarm': true, 't': inboxTitle, 'b': ?inboxBody},
+    if (alarmStyle) ...{
+      'alarm': true,
+      't': inboxTitle,
+      'b': ?inboxBody,
+      if (alarmOptions != null) 'alm': alarmOptions!.toJson(),
+    },
   };
 
   PlannedNotification copyWith({
@@ -194,6 +203,7 @@ class PlannedNotification {
     vibration: vibration,
     sticky: sticky,
     alarmStyle: alarmStyle,
+    alarmOptions: alarmOptions,
     actions: actions,
     snoozeOptions: snoozeOptions,
     title: title ?? this.title,

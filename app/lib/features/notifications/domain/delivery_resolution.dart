@@ -24,6 +24,7 @@ class EffectiveDelivery {
     required this.respectQuietHours,
     required this.profileCode,
     required this.channelVersion,
+    this.alarm,
   });
 
   final bool system;
@@ -54,6 +55,9 @@ class EffectiveDelivery {
   final String profileCode;
   final int channelVersion;
 
+  /// Alarm missions / snooze limit / rising volume (T7.2.25).
+  final AlarmOptions? alarm;
+
   bool get silent => sound == 'none';
 
   EffectiveDelivery copyWith({
@@ -80,6 +84,7 @@ class EffectiveDelivery {
     respectQuietHours: respectQuietHours,
     profileCode: profileCode,
     channelVersion: channelVersion,
+    alarm: alarm,
   );
 
   @override
@@ -101,7 +106,8 @@ class EffectiveDelivery {
       other.repeat == repeat &&
       other.respectQuietHours == respectQuietHours &&
       other.profileCode == profileCode &&
-      other.channelVersion == channelVersion;
+      other.channelVersion == channelVersion &&
+      other.alarm == alarm;
 
   @override
   int get hashCode => Object.hash(system, inbox, banner, importance, sound, vibration, profileCode, channelVersion);
@@ -194,6 +200,7 @@ EffectiveDelivery resolveDelivery({
     respectQuietHours: respectQuietHours(),
     profileCode: channelProfile?.channelKey ?? BuiltinProfiles.standard,
     channelVersion: channelProfile?.spec.channelVersion ?? 1,
+    alarm: pick<AlarmOptions?>((d) => d.alarm, null),
   );
 }
 

@@ -5606,6 +5606,27 @@ class AppLocalizationsFr extends AppLocalizations {
       'Les alarmes risquent de ne pas sonner en mode silencieux : autorisez les alarmes exactes et les notifications plein écran pour Everslot.';
 
   @override
+  String get notifAlarmMaxSnoozes => 'Répétitions autorisées';
+
+  @override
+  String get notifAlarmMission => 'Mission pour l’arrêter';
+
+  @override
+  String get notifAlarmMissionCount => 'Combien';
+
+  @override
+  String get notifAlarmOptions => 'Options d’alarme';
+
+  @override
+  String get notifAlarmQrSaved => 'Code enregistré — scannez à nouveau pour le changer';
+
+  @override
+  String get notifAlarmQrScan => 'Scanner le code à utiliser';
+
+  @override
+  String get notifAlarmRamp => 'De plus en plus fort';
+
+  @override
   String get notifAlarmRinging => 'Alarme';
 
   @override
@@ -6680,6 +6701,52 @@ class AppLocalizationsFr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get notifMissionAnswer => 'Réponse';
+
+  @override
+  String get notifMissionCheck => 'Vérifier';
+
+  @override
+  String get notifMissionMathName => 'Résoudre des calculs';
+
+  @override
+  String notifMissionMathProgress(int current, int total) {
+    return 'Calcul $current sur $total';
+  }
+
+  @override
+  String get notifMissionQr => 'Scannez votre code enregistré pour arrêter l’alarme';
+
+  @override
+  String get notifMissionQrName => 'Scanner un QR code';
+
+  @override
+  String notifMissionShake(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Secouez votre téléphone $count fois',
+      one: 'Secouez votre téléphone une fois',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifMissionShakeName => 'Secouer le téléphone';
+
+  @override
+  String get notifMissionToStop => 'Terminez la mission pour arrêter l’alarme';
+
+  @override
+  String get notifMissionTypeName => 'Taper le titre';
+
+  @override
+  String get notifMissionTypeTitle => 'Tapez ceci pour arrêter l’alarme';
+
+  @override
+  String get notifMissionWrong => 'Pas tout à fait — réessayez';
 
   @override
   String get notifModeCustom => 'Personnalisé';

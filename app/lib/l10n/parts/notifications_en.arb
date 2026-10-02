@@ -1341,5 +1341,41 @@
   "notifAlarmLimited": "Alarms may not ring through silent mode: allow exact alarms and full-screen notifications for Everslot.",
   "notifAlarmAllowFullScreen": "Allow full-screen alarms",
   "notifAlarmIosFallback": "On this iPhone, alarms arrive as time-sensitive notifications: they break through Focus but follow the ring/silent switch.",
-  "notifAlarmAllowExact": "Allow exact alarms"
+  "notifAlarmAllowExact": "Allow exact alarms",
+  "notifMissionWrong": "Not quite — try again",
+  "notifMissionMathProgress": "Sum {current} of {total}",
+  "@notifMissionMathProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "notifMissionAnswer": "Answer",
+  "notifMissionCheck": "Check",
+  "notifMissionTypeTitle": "Type this to stop the alarm",
+  "notifMissionShake": "{count, plural, =1{Shake your phone once} other{Shake your phone {count} times}}",
+  "@notifMissionShake": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifMissionQr": "Scan your saved code to stop the alarm",
+  "notifMissionToStop": "Complete the mission to stop the alarm",
+  "notifAlarmOptions": "Alarm options",
+  "notifAlarmMission": "Mission to stop it",
+  "notifMissionMathName": "Solve sums",
+  "notifMissionTypeName": "Type the title",
+  "notifMissionShakeName": "Shake the phone",
+  "notifMissionQrName": "Scan a QR code",
+  "notifAlarmMissionCount": "How many",
+  "notifAlarmQrScan": "Scan the code to use",
+  "notifAlarmQrSaved": "Code saved — scan again to change it",
+  "notifAlarmMaxSnoozes": "Snoozes allowed",
+  "notifAlarmRamp": "Gradually louder"
 }

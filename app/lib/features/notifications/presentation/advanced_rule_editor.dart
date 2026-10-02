@@ -11,6 +11,7 @@ import 'package:everslot/features/notifications/domain/notification_target.dart'
 import 'package:everslot/features/notifications/domain/rule_spec.dart';
 import 'package:everslot/features/notifications/domain/rule_validation.dart';
 import 'package:everslot/features/notifications/domain/template_engine.dart';
+import 'package:everslot/features/notifications/presentation/alarm_missions.dart' show qrScannerBuilderProvider;
 import 'package:everslot/features/notifications/presentation/delivery_fields.dart';
 import 'package:everslot/features/notifications/presentation/notification_labels.dart';
 import 'package:everslot/features/notifications/presentation/rule_preview_list.dart';
@@ -226,8 +227,22 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
             ),
           ),
           if (profiles.any((p) => p.id == _profileId && p.spec.delivery.alarmStyle == true) ||
-              (_spec.repeat?.escalation ?? const <EscalationStep>[]).any((s) => s.profile == BuiltinProfiles.alarm))
+              (_spec.repeat?.escalation ?? const <EscalationStep>[]).any(
+                (s) => s.profile == BuiltinProfiles.alarm,
+              )) ...[
             const AlarmCapabilityHint(),
+            ExpansionTile(
+              key: const ValueKey('alarm-options'),
+              title: Text(l.notifAlarmOptions),
+              childrenPadding: const EdgeInsetsDirectional.fromSTEB(Space.lg, 0, Space.lg, Space.md),
+              children: [
+                AlarmOptionsEditor(
+                  options: _spec.delivery.alarm ?? const AlarmOptions(),
+                  onChanged: (o) => _update(_spec.copyWith(delivery: _spec.delivery.copyWith(alarm: o))),
+                ),
+              ],
+            ),
+          ],
           for (final e in errors)
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, 0),
@@ -1160,6 +1175,103 @@ class AlarmCapabilityHint extends ConsumerWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+/// Missions, snooze limit and rising volume of an alarm rule (T7.2.25).
+class AlarmOptionsEditor extends ConsumerWidget {
+  const AlarmOptionsEditor({required this.options, required this.onChanged, super.key});
+
+  final AlarmOptions options;
+  final ValueChanged<AlarmOptions> onChanged;
+
+  AlarmOptions _with({AlarmMission? mission, bool clearMission = false, int? maxSnoozes, bool? ramp}) => AlarmOptions(
+    mission: clearMission ? null : (mission ?? options.mission),
+    maxSnoozes: maxSnoozes ?? options.maxSnoozes,
+    rampVolume: ramp ?? options.rampVolume,
+  );
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final mission = options.mission;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        DropdownButtonFormField<AlarmMissionType?>(
+          key: const ValueKey('alarm-mission'),
+          initialValue: mission?.type,
+          decoration: InputDecoration(labelText: l.notifAlarmMission),
+          items: [
+            DropdownMenuItem(child: Text(l.notifPackNone)),
+            DropdownMenuItem(value: AlarmMissionType.math, child: Text(l.notifMissionMathName)),
+            DropdownMenuItem(value: AlarmMissionType.type, child: Text(l.notifMissionTypeName)),
+            DropdownMenuItem(value: AlarmMissionType.shake, child: Text(l.notifMissionShakeName)),
+            DropdownMenuItem(value: AlarmMissionType.qr, child: Text(l.notifMissionQrName)),
+          ],
+          onChanged: (t) => onChanged(
+            t == null
+                ? _with(clearMission: true)
+                : _with(
+                    mission: AlarmMission(type: t, code: mission?.code),
+                  ),
+          ),
+        ),
+        if (mission != null && (mission.type == AlarmMissionType.math || mission.type == AlarmMissionType.shake))
+          TextFormField(
+            initialValue: '${mission.effectiveCount}',
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            decoration: InputDecoration(labelText: l.notifAlarmMissionCount),
+            onChanged: (v) => onChanged(
+              _with(
+                mission: AlarmMission(
+                  type: mission.type,
+                  count: (int.tryParse(v) ?? mission.effectiveCount).clamp(1, 50),
+                ),
+              ),
+            ),
+          ),
+        if (mission?.type == AlarmMissionType.qr)
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.qr_code_scanner),
+            title: Text(mission?.code == null ? l.notifAlarmQrScan : l.notifAlarmQrSaved),
+            onTap: () async {
+              final code = await showAppSheet<String>(
+                context,
+                title: l.notifAlarmQrScan,
+                builder: (sheet) => SizedBox(
+                  height: 320,
+                  child: ref.read(qrScannerBuilderProvider)(sheet, (c) => Navigator.of(sheet).maybePop(c)),
+                ),
+              );
+              if (code != null) {
+                onChanged(
+                  _with(
+                    mission: AlarmMission(type: AlarmMissionType.qr, code: code),
+                  ),
+                );
+              }
+            },
+          ),
+        TextFormField(
+          initialValue: options.maxSnoozes?.toString() ?? '',
+          keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          decoration: InputDecoration(labelText: l.notifAlarmMaxSnoozes),
+          onChanged: (v) => onChanged(
+            AlarmOptions(mission: options.mission, maxSnoozes: int.tryParse(v), rampVolume: options.rampVolume),
+          ),
+        ),
+        SwitchListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(l.notifAlarmRamp),
+          value: options.rampVolume,
+          onChanged: (v) => onChanged(_with(ramp: v)),
+        ),
+      ],
     );
   }
 }

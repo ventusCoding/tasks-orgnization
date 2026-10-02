@@ -62,7 +62,7 @@ per-section trigger semantics ([7.5]); Live Activities / ongoing timer notificat
 - [x] T7.2.22 — End-to-end notification tests (patrol)
 - [x] T7.2.23 — Escalation steps
 - [ ] T7.2.24 — Alarm profile (AlarmKit / alarm clock / full-screen)
-- [ ] T7.2.25 — Alarm dismissal missions
+- [x] T7.2.25 — Alarm dismissal missions
 - [ ] T7.2.26 — Rich notifications (images, big text, subtitle)
 
 ## Tasks
@@ -412,6 +412,7 @@ gracefully (clearly labelled) where not; Play/App Store declarations handled in 
 **Description:** Optional Alarmy-style missions to stop an alarm (solve a sum, type the task title, shake,
 scan a saved QR code), anti-snooze limits, gradually increasing volume.
 **Tests:** widget tests for missions; manual QA.
+**Notes:** `delivery.alarm {mission {type: math | type | shake | qr, count?, code?}, maxSnoozes?, rampVolume?}` travels in the alarm payload to `AlarmScreen`: Done / Stop stay locked until the mission is solved, the screen plays its own generated beep on the alarm stream (rising from 10 % to full over 30 s when asked) until then, and the dispatcher enforces the per-alarm snooze limit. Configured under *Alarm options* in the advanced editor (QR codes are scanned once and saved). New deps: sensors_plus, mobile_scanner, audioplayers (arch §3). Widget tests cover every mission; on-device QA is part of the T7.4.14 device session.
 
 ### T7.2.26 — Rich notifications (images, big text, subtitle)
 **Priority:** P2 · **Size:** M · **Depends on:** T7.2.09, [2.2] (attachment cache)

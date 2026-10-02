@@ -904,6 +904,7 @@ abstract final class NotificationPlanner {
       vibration: p.silent ? 'none' : delivery.vibration,
       sticky: delivery.sticky,
       alarmStyle: delivery.alarmStyle,
+      alarmOptions: delivery.alarm,
       actions: delivery.actions,
       snoozeOptions: delivery.snoozeOptionsMinutes,
       title: ctx.settings.hideContent ? texts.redactedTitle : title,

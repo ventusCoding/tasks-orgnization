@@ -9663,6 +9663,48 @@ abstract class AppLocalizations {
   /// **'Alarms may not ring through silent mode: allow exact alarms and full-screen notifications for Everslot.'**
   String get notifAlarmLimited;
 
+  /// No description provided for @notifAlarmMaxSnoozes.
+  ///
+  /// In en, this message translates to:
+  /// **'Snoozes allowed'**
+  String get notifAlarmMaxSnoozes;
+
+  /// No description provided for @notifAlarmMission.
+  ///
+  /// In en, this message translates to:
+  /// **'Mission to stop it'**
+  String get notifAlarmMission;
+
+  /// No description provided for @notifAlarmMissionCount.
+  ///
+  /// In en, this message translates to:
+  /// **'How many'**
+  String get notifAlarmMissionCount;
+
+  /// No description provided for @notifAlarmOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Alarm options'**
+  String get notifAlarmOptions;
+
+  /// No description provided for @notifAlarmQrSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Code saved — scan again to change it'**
+  String get notifAlarmQrSaved;
+
+  /// No description provided for @notifAlarmQrScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the code to use'**
+  String get notifAlarmQrScan;
+
+  /// No description provided for @notifAlarmRamp.
+  ///
+  /// In en, this message translates to:
+  /// **'Gradually louder'**
+  String get notifAlarmRamp;
+
   /// No description provided for @notifAlarmRinging.
   ///
   /// In en, this message translates to:
@@ -11270,6 +11312,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{minutes, plural, =1{1 min} other{{minutes} min}}'**
   String notifMinutesValue(int minutes);
+
+  /// No description provided for @notifMissionAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer'**
+  String get notifMissionAnswer;
+
+  /// No description provided for @notifMissionCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Check'**
+  String get notifMissionCheck;
+
+  /// No description provided for @notifMissionMathName.
+  ///
+  /// In en, this message translates to:
+  /// **'Solve sums'**
+  String get notifMissionMathName;
+
+  /// No description provided for @notifMissionMathProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Sum {current} of {total}'**
+  String notifMissionMathProgress(int current, int total);
+
+  /// No description provided for @notifMissionQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan your saved code to stop the alarm'**
+  String get notifMissionQr;
+
+  /// No description provided for @notifMissionQrName.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a QR code'**
+  String get notifMissionQrName;
+
+  /// No description provided for @notifMissionShake.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Shake your phone once} other{Shake your phone {count} times}}'**
+  String notifMissionShake(int count);
+
+  /// No description provided for @notifMissionShakeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Shake the phone'**
+  String get notifMissionShakeName;
+
+  /// No description provided for @notifMissionToStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete the mission to stop the alarm'**
+  String get notifMissionToStop;
+
+  /// No description provided for @notifMissionTypeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Type the title'**
+  String get notifMissionTypeName;
+
+  /// No description provided for @notifMissionTypeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Type this to stop the alarm'**
+  String get notifMissionTypeTitle;
+
+  /// No description provided for @notifMissionWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Not quite — try again'**
+  String get notifMissionWrong;
 
   /// No description provided for @notifModeCustom.
   ///

@@ -86,6 +86,15 @@ void main() {
     expect(fromInbox.openLink, startsWith('/task/${task.taskId}'));
   });
 
+  test('an alarm can allow fewer snoozes than the settings (anti-snooze)', () async {
+    final request = await alarmRequest(fullScreen: true);
+    final p = NotificationPayload.tryDecode(request.payload)!;
+    final limited = NotificationPayload.fromJson({...p.toJson(), 'alm': const AlarmOptions(maxSnoozes: 1).toJson()});
+    final dispatcher = h.read(notificationActionDispatcherProvider);
+    expect((await dispatcher.snooze(limited, minutes: 5)).message, isNull);
+    expect((await dispatcher.snooze(limited, minutes: 5)).message, 'Snooze limit reached');
+  });
+
   testWidgets('the alarm screen snoozes (first preset) through the dispatcher', (tester) async {
     final request = await tester.runAsync(() => alarmRequest(fullScreen: true));
     final payload = NotificationPayload.tryDecode(request!.payload)!;
