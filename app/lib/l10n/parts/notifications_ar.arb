@@ -524,5 +524,10 @@
   "notifCopingTipWalk": "تمشَّ قليلًا.",
   "notifDigestWeeklyReady": "مراجعة أسبوعك جاهزة",
   "notifDigestMonthlyReady": "تقريرك الشهري جاهز",
-  "notifDigestBacklog": "{count, plural, =1{مهمة واحدة غير مجدولة} other{{count} مهام غير مجدولة}}"
+  "notifDigestBacklog": "{count, plural, =1{مهمة واحدة غير مجدولة} other{{count} مهام غير مجدولة}}",
+  "notifOccurrenceReminders": "تذكيرات هذا الموعد",
+  "notifOccurrenceAdd": "إضافة لهذا الموعد فقط",
+  "notifOccurrenceOnly": "هذا الموعد فقط",
+  "notifOccurrenceOff": "متوقف لهذا الموعد",
+  "notifOccurrenceNone": "لا توجد تذكيرات لهذا الموعد."
 }

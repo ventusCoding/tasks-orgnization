@@ -6755,6 +6755,21 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifNoticeUpdateTitle => 'Mettez à jour Everslot';
 
   @override
+  String get notifOccurrenceAdd => 'Ajouter pour cette occurrence seulement';
+
+  @override
+  String get notifOccurrenceNone => 'Aucun rappel pour cette occurrence.';
+
+  @override
+  String get notifOccurrenceOff => 'Désactivé pour cette occurrence';
+
+  @override
+  String get notifOccurrenceOnly => 'Cette occurrence seulement';
+
+  @override
+  String get notifOccurrenceReminders => 'Rappels de cette occurrence';
+
+  @override
   String get notifOffsetAmount => 'Durée';
 
   @override

@@ -11409,6 +11409,36 @@ abstract class AppLocalizations {
   /// **'Update Everslot'**
   String get notifNoticeUpdateTitle;
 
+  /// No description provided for @notifOccurrenceAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add for this occurrence only'**
+  String get notifOccurrenceAdd;
+
+  /// No description provided for @notifOccurrenceNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No reminders for this occurrence.'**
+  String get notifOccurrenceNone;
+
+  /// No description provided for @notifOccurrenceOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off for this occurrence'**
+  String get notifOccurrenceOff;
+
+  /// No description provided for @notifOccurrenceOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'This occurrence only'**
+  String get notifOccurrenceOnly;
+
+  /// No description provided for @notifOccurrenceReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders for this occurrence'**
+  String get notifOccurrenceReminders;
+
   /// No description provided for @notifOffsetAmount.
   ///
   /// In en, this message translates to:

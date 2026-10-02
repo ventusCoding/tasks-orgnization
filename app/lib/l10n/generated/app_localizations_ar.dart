@@ -7113,6 +7113,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifNoticeUpdateTitle => 'حدّث Everslot';
 
   @override
+  String get notifOccurrenceAdd => 'إضافة لهذا الموعد فقط';
+
+  @override
+  String get notifOccurrenceNone => 'لا توجد تذكيرات لهذا الموعد.';
+
+  @override
+  String get notifOccurrenceOff => 'متوقف لهذا الموعد';
+
+  @override
+  String get notifOccurrenceOnly => 'هذا الموعد فقط';
+
+  @override
+  String get notifOccurrenceReminders => 'تذكيرات هذا الموعد';
+
+  @override
   String get notifOffsetAmount => 'المقدار';
 
   @override

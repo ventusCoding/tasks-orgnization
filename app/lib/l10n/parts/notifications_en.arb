@@ -1189,5 +1189,10 @@
         "type": "int"
       }
     }
-  }
+  },
+  "notifOccurrenceReminders": "Reminders for this occurrence",
+  "notifOccurrenceAdd": "Add for this occurrence only",
+  "notifOccurrenceOnly": "This occurrence only",
+  "notifOccurrenceOff": "Off for this occurrence",
+  "notifOccurrenceNone": "No reminders for this occurrence."
 }

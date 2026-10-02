@@ -524,5 +524,10 @@
   "notifCopingTipWalk": "Faites une courte marche.",
   "notifDigestWeeklyReady": "Votre bilan de la semaine est prêt",
   "notifDigestMonthlyReady": "Votre rapport du mois est prêt",
-  "notifDigestBacklog": "{count, plural, =1{1 non planifiée} other{{count} non planifiées}}"
+  "notifDigestBacklog": "{count, plural, =1{1 non planifiée} other{{count} non planifiées}}",
+  "notifOccurrenceReminders": "Rappels de cette occurrence",
+  "notifOccurrenceAdd": "Ajouter pour cette occurrence seulement",
+  "notifOccurrenceOnly": "Cette occurrence seulement",
+  "notifOccurrenceOff": "Désactivé pour cette occurrence",
+  "notifOccurrenceNone": "Aucun rappel pour cette occurrence."
 }

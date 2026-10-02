@@ -5,7 +5,9 @@ import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/core/time/recurrence_service.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/attachments/presentation/attachment_strip.dart';
+import 'package:everslot/features/notifications/domain/notification_target.dart';
 import 'package:everslot/features/notifications/presentation/mute_menu.dart' show MuteMenuButton;
+import 'package:everslot/features/notifications/presentation/occurrence_reminders_sheet.dart';
 import 'package:everslot/features/notifications/presentation/reminder_history.dart' show ReminderHistory;
 import 'package:everslot/features/organization/application/providers.dart' show categoryByIdProvider;
 import 'package:everslot/features/organization/presentation/tag_widgets.dart' show EntityTagChips;
@@ -87,7 +89,26 @@ class TaskDetailScreen extends ConsumerWidget {
           padding: const EdgeInsetsDirectional.only(bottom: Space.xxxl),
           children: [
             if (reschedule) QuickRescheduleOnOpen(item: occurrence),
-            if (occurrence != null) ...[OccurrencePanel(item: occurrence), const Divider()],
+            if (occurrence != null) ...[
+              OccurrencePanel(item: occurrence),
+              if (task.isRecurring)
+                ListTile(
+                  key: const ValueKey('detail-occurrence-reminders'),
+                  leading: const Icon(Icons.notifications_outlined),
+                  title: Text(l.notifOccurrenceReminders),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => showOccurrenceReminders(
+                    context,
+                    targetType: NotificationTargetType.task,
+                    targetId: task.id,
+                    section: NotificationSection.planner,
+                    occurrenceKey: occurrence.occurrenceKey,
+                    itemKind: task.isAllDay ? ItemKind.allDay : ItemKind.timed,
+                    categoryId: task.categoryId,
+                  ),
+                ),
+              const Divider(),
+            ],
             _Summary(task: task),
             if (task.notes != null) ...[
               SectionHeader(l.tasksFieldNotes),

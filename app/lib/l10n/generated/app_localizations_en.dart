@@ -6581,6 +6581,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifNoticeUpdateTitle => 'Update Everslot';
 
   @override
+  String get notifOccurrenceAdd => 'Add for this occurrence only';
+
+  @override
+  String get notifOccurrenceNone => 'No reminders for this occurrence.';
+
+  @override
+  String get notifOccurrenceOff => 'Off for this occurrence';
+
+  @override
+  String get notifOccurrenceOnly => 'This occurrence only';
+
+  @override
+  String get notifOccurrenceReminders => 'Reminders for this occurrence';
+
+  @override
   String get notifOffsetAmount => 'Amount';
 
   @override
