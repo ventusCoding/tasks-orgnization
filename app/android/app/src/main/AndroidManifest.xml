@@ -19,6 +19,8 @@
     <!-- Alarm profile (T7.2.24): full-screen alarm notifications. Android 14+ grants it only to
          alarm/calling apps by default; the app asks the user and degrades to a heads-up alert. -->
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <!-- Device-calendar overlay (T8.2.13): read-only, asked from Settings. -->
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
 
     <application
         android:label="@string/app_name"

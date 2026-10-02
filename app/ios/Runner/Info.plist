@@ -8,6 +8,10 @@
 	<string>Everslot lets you attach photos from your library to tasks, checklist items and habit notes.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Everslot uses Face ID to unlock the app when App Lock is enabled.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Everslot shows the events of the calendars you choose next to your plan. They are never changed or uploaded.</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Everslot shows the events of the calendars you choose next to your plan. They are never changed or uploaded.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Everslot records voice notes you attach to items.</string>
 	<key>CFBundleURLTypes</key>

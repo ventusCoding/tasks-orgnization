@@ -30,7 +30,7 @@ overlay, Health integrations, Live Activities / ongoing timer notification, Siri
 - [x] T8.2.10 — Running timer on lock screen (Live Activity / ongoing notification)
 - [x] T8.2.11 — ICS export (share tasks as calendar events)
 - [x] T8.2.12 — ICS import
-- [ ] T8.2.13 — Device-calendar overlay (read-only)
+- [x] T8.2.13 — Device-calendar overlay (read-only)
 - [ ] T8.2.14 — Health data auto-logging for habits
 - [ ] T8.2.15 — Siri Shortcuts / App Intents & Android App Actions
 
@@ -155,6 +155,7 @@ read-only tiles in planner views, toggled per view (`overlays.deviceCalendars`).
 **Implementation notes:** `device_calendar` permission flow; cache per visible range; distinct styling;
 free-slot finder ([3.7]) treats them as busy.
 **Tests:** unit tests for mapping; manual QA with real calendars.
+**Notes:** `device_calendar_plus` behind `DeviceCalendarSource`. Settings › Widgets & integrations › Device calendars: access primer, calendar checkboxes kept in `local_kv` (never synced). `deviceEventSpansProvider` loads the selected calendars per visible range (cached while watched) and `DeviceCalendarMapping.spans` splits events per day in the device zone (all-day = floating dates, never busy). Time grid: `DeviceEventsPainter` ghost tiles behind tasks when the view's `overlays.deviceCalendars` is on; busy events feed `freeIntervals(extraBusy:)` in the grid overlay and the Free slots view. READ_CALENDAR / NSCalendars* permission strings added. Device QA with real accounts pending.
 
 ### T8.2.14 — Health data auto-logging for habits
 **Priority:** P2 · **Size:** L · **Depends on:** [5.1], [5.2]

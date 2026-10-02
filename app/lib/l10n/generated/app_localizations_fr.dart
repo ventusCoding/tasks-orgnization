@@ -3037,6 +3037,26 @@ class AppLocalizationsFr extends AppLocalizations {
   String get devZoneReset => 'Utiliser le vrai fuseau de l’appareil';
 
   @override
+  String get deviceCalAllow => 'Afficher les événements de vos agendas';
+
+  @override
+  String get deviceCalDenied => 'Accès à l’agenda désactivé — autorisez-le dans les réglages du système';
+
+  @override
+  String get deviceCalHint =>
+      'Activez « Agendas de l’appareil » dans les réglages d’une vue du planning pour les voir. Les événements occupés comptent comme pris dans la recherche de créneaux libres.';
+
+  @override
+  String get deviceCalNone => 'Aucun agenda sur cet appareil';
+
+  @override
+  String get deviceCalPrimer =>
+      'Les agendas Google, iCloud ou pro de cet appareil s’affichent en lecture seule à côté de votre plan. Rien n’est copié ni envoyé.';
+
+  @override
+  String get deviceCalSection => 'Agendas de l’appareil';
+
+  @override
   String durationDaysShort(int days) {
     String _temp0 = intl.Intl.pluralLogic(days, locale: localeName, other: '$days jours', one: '1 jour');
     return '$_temp0';

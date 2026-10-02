@@ -2988,6 +2988,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devZoneReset => 'Use the real device zone';
 
   @override
+  String get deviceCalAllow => 'Show events from your calendars';
+
+  @override
+  String get deviceCalDenied => 'Calendar access is off — allow it in the system settings';
+
+  @override
+  String get deviceCalHint =>
+      'Turn on “Device calendars” in a planner view’s settings to see them. Busy events count as taken time when looking for free slots.';
+
+  @override
+  String get deviceCalNone => 'No calendars on this device';
+
+  @override
+  String get deviceCalPrimer =>
+      'Google, iCloud or work calendars on this device appear read-only next to your plan. Nothing is copied or uploaded.';
+
+  @override
+  String get deviceCalSection => 'Device calendars';
+
+  @override
   String durationDaysShort(int days) {
     String _temp0 = intl.Intl.pluralLogic(days, locale: localeName, other: '$days days', one: '1 day');
     return '$_temp0';

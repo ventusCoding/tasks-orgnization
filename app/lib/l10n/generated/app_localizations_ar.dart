@@ -3140,6 +3140,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String get devZoneReset => 'استخدام منطقة الجهاز الحقيقية';
 
   @override
+  String get deviceCalAllow => 'عرض أحداث تقويماتك';
+
+  @override
+  String get deviceCalDenied => 'الوصول إلى التقويم متوقف — اسمح به من إعدادات النظام';
+
+  @override
+  String get deviceCalHint =>
+      'فعّل «تقويمات الجهاز» في إعدادات عرض المخطط لرؤيتها. تُحسب الأحداث المشغولة كوقت محجوز عند البحث عن فترات فارغة.';
+
+  @override
+  String get deviceCalNone => 'لا توجد تقويمات على هذا الجهاز';
+
+  @override
+  String get deviceCalPrimer =>
+      'تظهر تقويمات Google أو iCloud أو العمل على هذا الجهاز للقراءة فقط بجانب خطتك. لا يُنسخ أو يُرفع أي شيء.';
+
+  @override
+  String get deviceCalSection => 'تقويمات الجهاز';
+
+  @override
   String durationDaysShort(int days) {
     String _temp0 = intl.Intl.pluralLogic(
       days,

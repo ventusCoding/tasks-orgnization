@@ -5259,6 +5259,42 @@ abstract class AppLocalizations {
   /// **'Use the real device zone'**
   String get devZoneReset;
 
+  /// No description provided for @deviceCalAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show events from your calendars'**
+  String get deviceCalAllow;
+
+  /// No description provided for @deviceCalDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar access is off — allow it in the system settings'**
+  String get deviceCalDenied;
+
+  /// No description provided for @deviceCalHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on “Device calendars” in a planner view’s settings to see them. Busy events count as taken time when looking for free slots.'**
+  String get deviceCalHint;
+
+  /// No description provided for @deviceCalNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No calendars on this device'**
+  String get deviceCalNone;
+
+  /// No description provided for @deviceCalPrimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Google, iCloud or work calendars on this device appear read-only next to your plan. Nothing is copied or uploaded.'**
+  String get deviceCalPrimer;
+
+  /// No description provided for @deviceCalSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Device calendars'**
+  String get deviceCalSection;
+
   /// No description provided for @durationDaysShort.
   ///
   /// In en, this message translates to:

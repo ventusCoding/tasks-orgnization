@@ -127,10 +127,13 @@ List<FreeInterval> freeIntervals({
   required FreeSlotOptions options,
   ElapsedMinutes elapsed = wallMinutes,
   LocalDateTime? notBefore,
+  Iterable<(LocalDateTime, LocalDateTime)> extraBusy = const [],
 }) {
   final busy = [
     for (final i in items)
       if (isBusy(i, ignoreBelowPriority: options.ignoreBelowPriority)) WallInterval(i.startLocal, i.endLocal),
+    // Busy device-calendar events (T8.2.13).
+    for (final (s, e) in extraBusy) WallInterval(s, e),
   ];
   final minGap = options.minGapMinutes < 1 ? 1 : options.minGapMinutes;
   final out = <FreeInterval>[];

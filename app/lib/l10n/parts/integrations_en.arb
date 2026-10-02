@@ -131,5 +131,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "deviceCalSection": "Device calendars",
+  "deviceCalAllow": "Show events from your calendars",
+  "deviceCalPrimer": "Google, iCloud or work calendars on this device appear read-only next to your plan. Nothing is copied or uploaded.",
+  "deviceCalDenied": "Calendar access is off — allow it in the system settings",
+  "deviceCalNone": "No calendars on this device",
+  "deviceCalHint": "Turn on “Device calendars” in a planner view’s settings to see them. Busy events count as taken time when looking for free slots."
 }

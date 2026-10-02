@@ -61,5 +61,11 @@
   "icsChanges": "{count, plural, =1{1 modification} other{{count} modifications}}",
   "icsImportCount": "{count, plural, =0{Importer} =1{Importer 1 événement} other{Importer {count} événements}}",
   "icsImported": "{count, plural, =1{1 événement importé} other{{count} événements importés}}",
-  "icsNextDays": "{count, plural, =1{Aujourd’hui} other{{count} prochains jours}}"
+  "icsNextDays": "{count, plural, =1{Aujourd’hui} other{{count} prochains jours}}",
+  "deviceCalSection": "Agendas de l’appareil",
+  "deviceCalAllow": "Afficher les événements de vos agendas",
+  "deviceCalPrimer": "Les agendas Google, iCloud ou pro de cet appareil s’affichent en lecture seule à côté de votre plan. Rien n’est copié ni envoyé.",
+  "deviceCalDenied": "Accès à l’agenda désactivé — autorisez-le dans les réglages du système",
+  "deviceCalNone": "Aucun agenda sur cet appareil",
+  "deviceCalHint": "Activez « Agendas de l’appareil » dans les réglages d’une vue du planning pour les voir. Les événements occupés comptent comme pris dans la recherche de créneaux libres."
 }
