@@ -1050,14 +1050,20 @@ app.app_config (key text primary key, value jsonb not null)   -- public read: mi
 | `push-dispatch` | pg_cron every 30 s via pg_net (secret header) | Respond immediately; in `EdgeRuntime.waitUntil`: claim due jobs → guard → inbox row → per-device FCM or skip → delivery log → retry/backoff. |
 | `sync-nudge` | DB webhook on `sync_heads` (throttled per user) | Data-only FCM `{"type":"sync"}` to other devices not seen in last N minutes. |
 | `account-delete` | Authenticated user | Delete storage objects via Storage API, revoke Sign in with Apple tokens, then `auth.admin.deleteUser` (cascades rows). |
+| `email-unsubscribe` | Link in digest emails (GET page) / RFC 8058 one-click POST | T7.4.18: verifies the HMAC-signed link (`EMAIL_LINK_SECRET`) and turns `notifications.emailDigests.enabled` off (`app.email_unsubscribe`, server HLC stamp so devices sync it). |
+| `email-events` | Email provider webhook (`x-email-webhook-secret`) | T7.4.18: hard bounces and complaints → `private.email_suppressions` (`app.email_suppress`); suppressed addresses never get digests. |
 | `plan-fallback` | pg_cron daily 02:30 UTC (secret header) | T7.4.17: for users whose devices have not uploaded a plan for > 5 days, expand their server-expressible fixed rules (`_shared/recurrence.ts`: rule JSON → RRULE → `rrule-temporal` on the `temporal-polyfill`, floating wall clock + our gap/overlap rule) and plan relative / not-done-by reminders with Dart-identical dedupe keys; jobs are marked `plannedBy: server` and never replace a device plan (`app.fallback_*` RPCs). Parity: shared recurrence + planner fixtures in `deno test`. |
 
 Runtime: hosted Edge runtime is **Deno 2.1-compatible** — use `npm:`/`jsr:` imports with pinned versions,
 no Deno lockfile v5, verify with `supabase functions serve`. Shared: `_shared/fcm.ts` (service-account JWT
 signed with `jose` → OAuth token cached in module scope until ~5 min before expiry and shared across instances through `private.fcm_token_cache` (`app.fcm_token_cache_get/put`, service role); HTTP v1 send; error
 mapping), `_shared/supabase.ts` (admin client using the **secret** key), `_shared/cors.ts`,
-`_shared/types.ts`. Secrets: `FCM_SERVICE_ACCOUNT` (JSON, base64), `CRON_SECRET`, `SUPABASE_SECRET_KEY`;
-never logged.
+`_shared/types.ts`, `_shared/email.ts` (Resend-compatible HTTP client, EN/FR/AR digest templates with RTL,
+signed unsubscribe links). Digest jobs of users who opted in (`notifications.emailDigests`) are also emailed by
+`push-dispatch` (once per job; delivery `email_sent` on the pseudo device `…e3a1`), never individual reminders.
+Secrets: `FCM_SERVICE_ACCOUNT` (JSON, base64), `CRON_SECRET`, `SUPABASE_SECRET_KEY`, optional `EMAIL_API_KEY`,
+`EMAIL_FROM`, `EMAIL_LINK_SECRET`, `EMAIL_WEBHOOK_SECRET` (`EMAIL_API_URL`, `FCM_BASE_URL` override endpoints for
+tests); never logged.
 
 ### 7.7 Scheduled jobs (pg_cron)
 
@@ -1225,7 +1231,8 @@ duration, 30, gte, "min".
 - `notifications`: quietHours [{days, from, to, mode: defer | silent | drop}], pausedUntil,
   perSection {enabled, defaultProfileId}, digest {dailyAgendaAt, eveningReviewAt, weeklyReviewDay/At},
   multiDevicePolicy (all | primary | last_active), primaryDeviceId, latenessMinutes (drop/mark late after),
-  bannerInApp, snoozePresets, maxNagRepeats (default 5, max 10), dateOnlyDefaultTime (default 09:00).
+  bannerInApp, snoozePresets, maxNagRepeats (default 5, max 10), dateOnlyDefaultTime (default 09:00),
+  emailDigests {enabled (opt-in, default false), kinds?} (T7.4.18).
 - `privacy`: crashReporting, appLock {enabled, timeoutSeconds}, hideContentInNotifications.
 
 ### 8.6 Checklist settings (`checklists.settings`)

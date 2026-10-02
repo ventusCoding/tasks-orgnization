@@ -6495,6 +6495,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifEditorTitle => 'تذكير جديد';
 
   @override
+  String get notifEmailDigests => 'أرسل لي الملخصات بالبريد الإلكتروني';
+
+  @override
+  String get notifEmailDigestsHint =>
+      'تصلك ملخصات الجدول والمراجعة بالبريد أيضًا، دون التذكيرات. يمكنك إلغاء الاشتراك من أي رسالة.';
+
+  @override
   String get notifEnable => 'تفعيل';
 
   @override

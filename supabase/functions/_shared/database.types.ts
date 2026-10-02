@@ -2050,8 +2050,14 @@ export type Database = {
       }
       dispatch_complete: { Args: { p_results: Json }; Returns: Json }
       dispatch_devices: { Args: { p_user_ids: string[] }; Returns: Json }
+      dispatch_email_targets: { Args: { p_user_ids: string[] }; Returns: Json }
       dispatch_guards: { Args: { p_jobs: Json }; Returns: Json }
       dispatch_upsert_inbox: { Args: { p_items: Json }; Returns: Json }
+      email_suppress: {
+        Args: { p_email: string; p_reason: string }
+        Returns: undefined
+      }
+      email_unsubscribe: { Args: { p_user: string }; Returns: boolean }
       enable_sync: { Args: { p_table: unknown }; Returns: undefined }
       everslot_ns: { Args: never; Returns: string }
       fallback_candidates: {
@@ -2178,6 +2184,27 @@ export type Database = {
           last_attempt_at?: string | null
           requested_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      email_suppressions: {
+        Row: {
+          created_at: string
+          email: string
+          reason: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          reason: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          reason?: string
+          user_id?: string | null
         }
         Relationships: []
       }

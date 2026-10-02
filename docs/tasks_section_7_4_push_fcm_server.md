@@ -41,7 +41,7 @@ compliance and alerting infrastructure ([9.2]).
 - [x] T7.4.15 — End-to-end push tests
 - [x] T7.4.16 — Monitoring hooks & ops metrics
 - [x] T7.4.17 — Server-side planning fallback
-- [ ] T7.4.18 — Email channel for digests
+- [x] T7.4.18 — Email channel for digests
 - [x] T7.4.19 — Last-active device policy
 
 ## Tasks
@@ -298,6 +298,7 @@ pin and record tz-database versions on both sides.
 transactional email provider from an Edge Function; localized templates (EN/FR/AR, RTL), unsubscribe link,
 bounce handling; never for individual reminders by default.
 **Tests:** Deno template tests; provider sandbox test.
+**Notes:** Opt-in `notifications.emailDigests` (Settings › Notifications › Digests switch; jobs now carry `digestKind`). `push-dispatch` emails digest jobs (never reminders) once per job to the confirmed account address through `_shared/email.ts` (Resend-compatible HTTP client, `EMAIL_API_URL` override), EN/FR/AR templates (RTL for Arabic, escaped content, `List-Unsubscribe` + one-click POST headers) with an HMAC-signed unsubscribe link → `email-unsubscribe` (turns the setting off with a server HLC stamp). `email-events` webhook suppresses hard bounces / complaints (`private.email_suppressions`). Migration 20261002120000 (outcomes `email_sent/email_failed`, `dispatch_email_targets`, emailed digests count as delivered and are never re-sent), pgTAP `158_email_digests`, Deno tests for templates, links, sender, dispatcher path, unsubscribe and events. Setup steps in `docs/guide.md` §4.8. Not done: provider sandbox test (needs an account).
 
 ### T7.4.19 — Last-active device policy
 **Priority:** P2 · **Size:** S · **Depends on:** T7.4.13

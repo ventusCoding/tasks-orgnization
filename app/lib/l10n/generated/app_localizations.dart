@@ -10407,6 +10407,18 @@ abstract class AppLocalizations {
   /// **'New reminder'**
   String get notifEditorTitle;
 
+  /// No description provided for @notifEmailDigests.
+  ///
+  /// In en, this message translates to:
+  /// **'Email me my digests'**
+  String get notifEmailDigests;
+
+  /// No description provided for @notifEmailDigestsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Agenda and review digests also arrive by email. Reminders never do. Unsubscribe from any email.'**
+  String get notifEmailDigestsHint;
+
   /// No description provided for @notifEnable.
   ///
   /// In en, this message translates to:

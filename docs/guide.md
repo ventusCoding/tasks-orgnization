@@ -78,6 +78,17 @@ Point the app at it with `app/env/dev.json`: `SUPABASE_URL` = the API URL printe
    ```
 6. App: put the URL and publishable key in `app/env/dev.json` (and `prod.json`) — never commit them.
 7. Write the project refs (not keys) in `supabase/README.md › Placeholders & secrets`.
+8. Optional — digest emails (T7.4.18, users opt in under Settings › Notifications):
+   1. Create an account with a transactional email provider that speaks the Resend API (resend.com),
+      verify your sending domain (SPF + DKIM records) and create an API key.
+   2. Set the secrets (generate the two random values yourself, e.g. `openssl rand -hex 32`):
+      ```bash
+      supabase secrets set --project-ref <YOUR_PROJECT_REF> EMAIL_API_KEY=<provider key> \
+        EMAIL_FROM="Everslot <digest@your-domain>" EMAIL_LINK_SECRET=<random> EMAIL_WEBHOOK_SECRET=<random>
+      ```
+   3. In the provider, add a webhook to `https://<YOUR_PROJECT_REF>.supabase.co/functions/v1/email-events`
+      for *bounced* and *complained* events, with the header `x-email-webhook-secret: <EMAIL_WEBHOOK_SECRET>`.
+   Without these secrets nothing is emailed; push and the inbox are unaffected.
 
 ## 5. Firebase: push + Crashlytics (T1.2.13, T1.2.15)
 

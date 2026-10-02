@@ -6148,6 +6148,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifEditorTitle => 'Nouveau rappel';
 
   @override
+  String get notifEmailDigests => 'M’envoyer les récapitulatifs par e-mail';
+
+  @override
+  String get notifEmailDigestsHint =>
+      'Les récapitulatifs (agenda, revues) arrivent aussi par e-mail. Jamais les rappels. Désabonnement depuis chaque e-mail.';
+
+  @override
   String get notifEnable => 'Activer';
 
   @override

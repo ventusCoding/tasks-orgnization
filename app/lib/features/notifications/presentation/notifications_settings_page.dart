@@ -271,6 +271,14 @@ class _SettingsList extends ConsumerWidget {
         // ---- Digests
         SectionHeader(l.notifDigests),
         for (final kind in DigestTrigger.kinds) _DigestTile(kind: kind, rules: rules, userId: userId),
+        SwitchListTile(
+          key: const ValueKey('email-digests'),
+          secondary: const Icon(Icons.mail_outline),
+          title: Text(l.notifEmailDigests),
+          subtitle: Text(l.notifEmailDigestsHint),
+          value: settings.emailDigests,
+          onChanged: (v) => unawaited(_patch(ref, {'emailDigests': {'enabled': v}})),
+        ),
         // ---- Devices
         SectionHeader(l.notifMultiDevice),
         RadioGroup<MultiDevicePolicy>(

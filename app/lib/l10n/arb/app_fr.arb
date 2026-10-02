@@ -1841,6 +1841,8 @@
   "notifDigests": "Récapitulatifs",
   "notifDisable": "Désactiver",
   "notifEditorTitle": "Nouveau rappel",
+  "notifEmailDigests": "M’envoyer les récapitulatifs par e-mail",
+  "notifEmailDigestsHint": "Les récapitulatifs (agenda, revues) arrivent aussi par e-mail. Jamais les rappels. Désabonnement depuis chaque e-mail.",
   "notifEnable": "Activer",
   "notifExactOff": "Les rappels peuvent arriver jusqu’à une heure en retard",
   "notifExactOffBody": "Autorisez les rappels précis pour qu’ils sonnent à la minute près.",

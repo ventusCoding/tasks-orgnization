@@ -165,6 +165,8 @@ void main() {
         'dedupeKey': p.firstWhere((x) => x.ruleId == 'nag').dedupeKey,
       });
       expect((nag['payload']! as Map)['type'], 'nag');
+      // Only digests carry a digest kind (email digests filter on it, T7.4.18).
+      expect(payload.containsKey('digestKind'), isFalse);
     });
 
     test('uploads dirty targets, clears them on ok, keeps them on stale and asks for a pull', () async {

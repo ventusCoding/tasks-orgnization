@@ -3,7 +3,7 @@
 
 import { type AdminClient, callRpc } from "../_shared/supabase.ts";
 import type { ClaimedJob, GuardResult, JobResult, UserDevices } from "../_shared/types.ts";
-import type { DispatchStore } from "./dispatcher.ts";
+import type { DispatchStore, EmailTarget } from "./dispatcher.ts";
 
 export function createSupabaseDispatchStore(client: AdminClient): DispatchStore {
   return {
@@ -18,6 +18,8 @@ export function createSupabaseDispatchStore(client: AdminClient): DispatchStore 
     complete: async (results: JobResult[]) => {
       await callRpc<unknown>(client, "dispatch_complete", { p_results: results });
     },
+    emailTargets: (userIds) =>
+      callRpc<Record<string, EmailTarget>>(client, "dispatch_email_targets", { p_user_ids: userIds }),
     heartbeat: async (name, details) => {
       await callRpc<unknown>(client, "ops_heartbeat", { p_name: name, p_details: details });
     },

@@ -1,4 +1,4 @@
-// Multi-device local scheduling (T7.4.13, T7.4.19): all, primary only and last active device.
+// Multi-device local scheduling (T7.4.13, T7.4.19) and the email digest opt-in (T7.4.18).
 import 'package:everslot/features/notifications/domain/notification_settings.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -40,5 +40,19 @@ void main() {
     );
     // Unknown foreground (fresh install): keep scheduling until the first foreground is recorded.
     expect(s.localSchedulingAllowed('tablet', now: now), isTrue);
+  });
+
+  emailDigestSettings();
+}
+
+void emailDigestSettings() {
+  test('email digests are opt-in (T7.4.18)', () {
+    expect(NotificationSettings.fromMaps(const {}).emailDigests, isFalse);
+    expect(
+      NotificationSettings.fromMaps(const {
+        'emailDigests': {'enabled': true},
+      }).emailDigests,
+      isTrue,
+    );
   });
 }

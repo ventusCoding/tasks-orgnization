@@ -1024,5 +1024,7 @@
   "notifNoticeRevokedTitle": "This device was removed from your account",
   "notifNoticeRevokedBody": "Sign in again to keep syncing.",
   "notifNoticeUpdateTitle": "Update Everslot",
-  "notifNoticeUpdateBody": "This version can no longer sync. Install the latest version to keep your data in sync."
+  "notifNoticeUpdateBody": "This version can no longer sync. Install the latest version to keep your data in sync.",
+  "notifEmailDigests": "Email me my digests",
+  "notifEmailDigestsHint": "Agenda and review digests also arrive by email. Reminders never do. Unsubscribe from any email."
 }

@@ -4,6 +4,7 @@
 
 import { mapWithConcurrency } from "../_shared/background.ts";
 import type { FcmMessage, FcmSendResult, PushSender } from "../_shared/fcm.ts";
+import { type EmailSender, renderDigestEmail, unsubscribeUrl } from "../_shared/email.ts";
 import type { Logger } from "../_shared/log.ts";
 import type { ClaimedJob, DeliveryRecord, GuardResult, JobResult, UserDevices } from "../_shared/types.ts";
 import { backoffSeconds, classifyJob, decideDevices } from "./decisions.ts";
@@ -16,6 +17,26 @@ export interface DispatchStore {
   devices(userIds: string[]): Promise<Record<string, UserDevices>>;
   complete(results: JobResult[]): Promise<void>;
   heartbeat(name: string, details: Record<string, unknown>): Promise<void>;
+  /** Opted-in digest email recipients (T7.4.18); absent = email not wired. */
+  emailTargets?(userIds: string[]): Promise<Record<string, EmailTarget>>;
+}
+
+export interface EmailTarget {
+  email: string;
+  locale: string;
+  /** Digest kinds to email (empty = all). */
+  kinds: string[];
+}
+
+/** Pseudo device id of the email channel in push_deliveries (one email per job, never re-sent). */
+export const EMAIL_DEVICE_ID = "00000000-0000-4000-8000-00000000e3a1";
+
+export interface EmailOptions {
+  sender: EmailSender;
+  /** Secret signing the unsubscribe links. */
+  linkSecret: string;
+  /** Public project URL (unsubscribe endpoint). */
+  baseUrl: string;
 }
 
 export interface DispatchOptions {
@@ -31,6 +52,8 @@ export interface DispatchOptions {
   concurrency?: number;
   random?: () => number;
   log?: Logger;
+  /** Digest emails (T7.4.18); null/absent = not configured. */
+  email?: EmailOptions | null;
 }
 
 export interface DispatchSummary {
@@ -44,6 +67,7 @@ export interface DispatchSummary {
   pushFailures: number;
   pushConfigured: boolean;
   batches: number;
+  emails: number;
 }
 
 interface PendingSend {
@@ -74,6 +98,7 @@ export async function runDispatch(options: DispatchOptions): Promise<DispatchSum
     pushFailures: 0,
     pushConfigured: options.sender !== null,
     batches: 0,
+    emails: 0,
   };
 
   while (summary.batches < maxBatches && Date.now() - startedAt < budgetMs) {
@@ -275,6 +300,41 @@ async function processBatch(
         Object.assign(r, { status: "sent", reason: null, pushed: true });
       } else {
         Object.assign(r, { status: "failed", reason: agg.codes.join(",") });
+      }
+    }
+  }
+
+  // 7. Digest emails for opted-in users (once per job; never individual reminders).
+  const email = options.email;
+  const digests = passing.filter(({ job }) =>
+    (job.payload?.type === "digest" || job.payload?.category === "digest") &&
+    !(job.sent_device_ids ?? []).includes(EMAIL_DEVICE_ID)
+  );
+  if (email && store.emailTargets && digests.length > 0) {
+    const targets = await store.emailTargets([...new Set(digests.map(({ job }) => job.user_id))]);
+    for (const { job } of digests) {
+      const t = targets[job.user_id];
+      const kind = typeof job.payload?.digestKind === "string" ? job.payload.digestKind : null;
+      if (!t || (t.kinds.length > 0 && (kind === null || !t.kinds.includes(kind)))) continue;
+      const message = renderDigestEmail({
+        to: t.email,
+        locale: t.locale,
+        title: typeof job.payload?.title === "string" ? job.payload.title : "Everslot",
+        body: typeof job.payload?.body === "string" ? job.payload.body : "",
+        unsubscribeUrl: await unsubscribeUrl(email.baseUrl, email.linkSecret, job.user_id),
+      });
+      const sent = await email.sender.send(message);
+      const r = result(job);
+      r.deliveries.push(
+        sent.ok ? { device_id: EMAIL_DEVICE_ID, outcome: "email_sent", fcm_message_id: sent.id } : {
+          device_id: EMAIL_DEVICE_ID,
+          outcome: "email_failed",
+          error_code: String(sent.status ?? "error"),
+        },
+      );
+      if (sent.ok) {
+        summary.emails++;
+        if (r.status === "skipped") Object.assign(r, { status: "sent", reason: "email" });
       }
     }
   }

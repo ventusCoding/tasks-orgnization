@@ -1841,6 +1841,8 @@
   "notifDigests": "الملخصات",
   "notifDisable": "تعطيل",
   "notifEditorTitle": "تذكير جديد",
+  "notifEmailDigests": "أرسل لي الملخصات بالبريد الإلكتروني",
+  "notifEmailDigestsHint": "تصلك ملخصات الجدول والمراجعة بالبريد أيضًا، دون التذكيرات. يمكنك إلغاء الاشتراك من أي رسالة.",
   "notifEnable": "تفعيل",
   "notifExactOff": "قد تصل التذكيرات متأخرة حتى ساعة",
   "notifExactOffBody": "اسمح بالتذكيرات الدقيقة لتصل في الدقيقة المحددة.",

@@ -303,3 +303,92 @@ Deno.test("load: 10 000 due jobs for 500 users drain in one run well under the 3
   // Processing overhead (FCM latency excluded) must leave the 30 s cadence plenty of room.
   assert(elapsed < 5_000, `dispatch overhead ${elapsed.toFixed(0)} ms`);
 });
+
+// -- Digest emails (T7.4.18) -----------------------------------------------------------------------
+
+import type { EmailMessage, EmailResult, EmailSender } from "../_shared/email.ts";
+import { EMAIL_DEVICE_ID, type EmailTarget } from "./dispatcher.ts";
+
+class FakeEmail implements EmailSender {
+  sent: EmailMessage[] = [];
+  constructor(private readonly result: EmailResult = { ok: true, id: "em_1" }) {}
+  send(m: EmailMessage) {
+    this.sent.push(m);
+    return Promise.resolve(this.result);
+  }
+}
+
+const digest = (over: Partial<ClaimedJob> = {}) =>
+  makeJob({
+    id: "00000000-0000-4000-8000-0000000000e1",
+    dedupe_key: "digest-1",
+    payload: {
+      title: "Today: 3 tasks",
+      body: "Gym 08:00\nReport 10:00",
+      type: "digest",
+      digestKind: "daily_agenda",
+    },
+    ...over,
+  });
+
+function emailStore(jobs: ClaimedJob[], targets: Record<string, EmailTarget>, devices = [makeDevice()]) {
+  const s = store(jobs, devices) as FakeStore & {
+    emailTargets: (ids: string[]) => Promise<Record<string, EmailTarget>>;
+  };
+  s.emailTargets = (ids) =>
+    Promise.resolve(Object.fromEntries(ids.filter((i) => targets[i]).map((i) => [i, targets[i]])));
+  return s;
+}
+
+Deno.test("digest jobs are emailed once to opted-in users with a signed unsubscribe link", async () => {
+  const s = emailStore([digest()], { [user]: { email: "me@x.io", locale: "fr", kinds: [] } });
+  const mail = new FakeEmail();
+  const summary = await runDispatch({
+    store: s,
+    sender: new FakeSender(ok),
+    now: () => NOW,
+    random: () => 0.5,
+    email: { sender: mail, linkSecret: "sec", baseUrl: "https://p.supabase.co" },
+  });
+  assertEquals(summary.emails, 1);
+  assertEquals(mail.sent[0].to, "me@x.io");
+  assertEquals(mail.sent[0].subject, "Today: 3 tasks");
+  assert(mail.sent[0].html.includes("Se désabonner"));
+  assert(String(mail.sent[0].headers?.["List-Unsubscribe"]).includes("/functions/v1/email-unsubscribe?u="));
+  const r = s.completed[0];
+  assert(r.deliveries.some((d) => d.device_id === EMAIL_DEVICE_ID && d.outcome === "email_sent"));
+});
+
+Deno.test("reminders are never emailed; kinds filter; already-emailed digests are not re-sent", async () => {
+  const targets = { [user]: { email: "me@x.io", locale: "en", kinds: ["weekly_review"] } };
+  const mail = new FakeEmail();
+  const opts = { sender: mail, linkSecret: "sec", baseUrl: "https://p" };
+  // A reminder and a daily digest the user did not choose.
+  await runDispatch({
+    store: emailStore([makeJob(), digest()], targets),
+    sender: null,
+    now: () => NOW,
+    email: opts,
+  });
+  assertEquals(mail.sent.length, 0);
+  // A weekly digest already emailed on a previous (retried) run.
+  const weekly = digest({
+    payload: { title: "Week", body: "x", type: "digest", digestKind: "weekly_review" },
+    sent_device_ids: [EMAIL_DEVICE_ID],
+  });
+  await runDispatch({ store: emailStore([weekly], targets), sender: null, now: () => NOW, email: opts });
+  assertEquals(mail.sent.length, 0);
+});
+
+Deno.test("an emailed digest counts as delivered even when every device covers it locally", async () => {
+  const covered = makeDevice({ schedule_rev: 200, local_coverage_until: "2026-09-23T00:00:00Z" });
+  const s = emailStore([digest()], { [user]: { email: "me@x.io", locale: "en", kinds: [] } }, [covered]);
+  await runDispatch({
+    store: s,
+    sender: new FakeSender(ok),
+    now: () => NOW,
+    email: { sender: new FakeEmail(), linkSecret: "s", baseUrl: "https://p" },
+  });
+  assertEquals(s.completed[0].status, "sent");
+  assertEquals(s.completed[0].reason, "email");
+});

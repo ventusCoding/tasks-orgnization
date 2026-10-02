@@ -6010,6 +6010,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifEditorTitle => 'New reminder';
 
   @override
+  String get notifEmailDigests => 'Email me my digests';
+
+  @override
+  String get notifEmailDigestsHint =>
+      'Agenda and review digests also arrive by email. Reminders never do. Unsubscribe from any email.';
+
+  @override
   String get notifEnable => 'Turn on';
 
   @override
