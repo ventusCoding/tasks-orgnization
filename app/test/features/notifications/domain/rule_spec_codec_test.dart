@@ -55,6 +55,8 @@ void main() {
       '{"type":"children_complete"}',
       '{"type":"child_overdue"}',
       '{"type":"stale","afterDays":7}',
+      '{"type":"up_next","beforeMinutes":5}',
+      '{"type":"timer_end"}',
     ];
     for (final t in triggers) {
       test(t, () {
@@ -83,6 +85,8 @@ void main() {
       ChildrenCompleteTrigger() => 'children_complete',
       ChildOverdueTrigger() => 'child_overdue',
       StaleTrigger() => 'stale',
+      UpNextTrigger() => 'up_next',
+      TimerEndTrigger() => 'timer_end',
       UnknownTrigger() => 'unknown',
     };
     for (final type in TriggerType.values) {

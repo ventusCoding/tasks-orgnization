@@ -40,7 +40,9 @@ enum TriggerType {
   statusChange('status_change'),
   childrenComplete('children_complete'),
   childOverdue('child_overdue'),
-  stale('stale');
+  stale('stale'),
+  upNext('up_next'),
+  timerEnd('timer_end');
 
   TriggerType(this.wire);
 
@@ -150,6 +152,8 @@ sealed class NotificationTrigger {
       TriggerType.childrenComplete => ChildrenCompleteTrigger(raw: json),
       TriggerType.childOverdue => ChildOverdueTrigger(raw: json),
       TriggerType.stale => StaleTrigger(afterDays: asInt(json['afterDays']) ?? 7, atTime: time('atTime'), raw: json),
+      TriggerType.upNext => UpNextTrigger(beforeMinutes: asInt(json['beforeMinutes']), raw: json),
+      TriggerType.timerEnd => TimerEndTrigger(raw: json),
       null => UnknownTrigger(typeWire: asString(json['type']) ?? '', raw: json),
     };
   }
@@ -454,6 +458,38 @@ final class StaleTrigger extends NotificationTrigger {
 
   @override
   Map<String, Object?> get _fields => {'afterDays': afterDays, 'atTime': ?atTime?.toIso()};
+}
+
+/// *Up next* (T7.5.04): at the end of a task — or [beforeMinutes] before the next one — announce the
+/// next timed task of the day. Back-to-back tasks get one merged "done → up next" notification.
+final class UpNextTrigger extends NotificationTrigger {
+  const UpNextTrigger({this.beforeMinutes, super.raw});
+
+  /// null = at the end of this task.
+  final int? beforeMinutes;
+
+  @override
+  String get typeWire => 'up_next';
+
+  @override
+  Set<String> get _knownKeys => const {'beforeMinutes'};
+
+  @override
+  Map<String, Object?> get _fields => {'beforeMinutes': ?beforeMinutes};
+}
+
+/// *Timer end* (T7.5.04): a running timer reaches the planned end → "Time's up" with Stop · +10 min.
+final class TimerEndTrigger extends NotificationTrigger {
+  const TimerEndTrigger({super.raw});
+
+  @override
+  String get typeWire => 'timer_end';
+
+  @override
+  Set<String> get _knownKeys => const {};
+
+  @override
+  Map<String, Object?> get _fields => const {};
 }
 
 /// A trigger type this app version doesn't know (kept verbatim, never fires).

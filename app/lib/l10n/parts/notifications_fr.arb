@@ -480,5 +480,15 @@
   "notifNoticeUpdateTitle": "Mettez à jour Everslot",
   "notifNoticeUpdateBody": "Cette version ne peut plus se synchroniser. Installez la dernière version pour garder vos données synchronisées.",
   "notifEmailDigests": "M’envoyer les récapitulatifs par e-mail",
-  "notifEmailDigestsHint": "Les récapitulatifs (agenda, revues) arrivent aussi par e-mail. Jamais les rappels. Désabonnement depuis chaque e-mail."
+  "notifEmailDigestsHint": "Les récapitulatifs (agenda, revues) arrivent aussi par e-mail. Jamais les rappels. Désabonnement depuis chaque e-mail.",
+  "notifBodyUpNext": "Ensuite : {next} à {time}",
+  "notifBodyUpNextMerged": "Terminé avec {title} ? Ensuite : {next} à {time}",
+  "notifBodyTimeUp": "Le temps est écoulé pour {title}",
+  "notifActionExtend": "+10 min",
+  "notifTriggerUpNext": "Tâche suivante",
+  "notifTriggerTimerEnd": "Fin du minuteur",
+  "notifSumUpNextAtEnd": "À la fin : la tâche suivante",
+  "notifSumUpNextBefore": "{minutes} min avant la tâche suivante",
+  "notifSumTimerEnd": "Quand le minuteur atteint la fin prévue",
+  "notifFieldBeforeNextMinutes": "Minutes avant la tâche suivante (0 = à la fin)"
 }

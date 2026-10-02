@@ -9447,6 +9447,12 @@ abstract class AppLocalizations {
   /// **'Done'**
   String get notifActionDone;
 
+  /// No description provided for @notifActionExtend.
+  ///
+  /// In en, this message translates to:
+  /// **'+10 min'**
+  String get notifActionExtend;
+
   /// No description provided for @notifActionInputPlaceholder.
   ///
   /// In en, this message translates to:
@@ -9849,11 +9855,29 @@ abstract class AppLocalizations {
   /// **'Time for {title}'**
   String notifBodyTimeFor(String title);
 
+  /// No description provided for @notifBodyTimeUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Time\'s up for {title}'**
+  String notifBodyTimeUp(String title);
+
   /// No description provided for @notifBodyToday.
   ///
   /// In en, this message translates to:
   /// **'Today · {date}'**
   String notifBodyToday(String date);
+
+  /// No description provided for @notifBodyUpNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Up next: {next} at {time}'**
+  String notifBodyUpNext(String next, String time);
+
+  /// No description provided for @notifBodyUpNextMerged.
+  ///
+  /// In en, this message translates to:
+  /// **'Done with {title}? Up next: {next} at {time}'**
+  String notifBodyUpNextMerged(String title, String next, String time);
 
   /// No description provided for @notifCategoryDigest.
   ///
@@ -10454,6 +10478,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'At time'**
   String get notifFieldAtTime;
+
+  /// No description provided for @notifFieldBeforeNextMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes before the next task (0 = at the end)'**
+  String get notifFieldBeforeNextMinutes;
 
   /// No description provided for @notifFieldDateTime.
   ///
@@ -12087,11 +12117,29 @@ abstract class AppLocalizations {
   /// **'Streak at risk, at {time}'**
   String notifSumStreakRisk(String time);
 
+  /// No description provided for @notifSumTimerEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'When the timer reaches the planned end'**
+  String get notifSumTimerEnd;
+
   /// No description provided for @notifSumUnknown.
   ///
   /// In en, this message translates to:
   /// **'Unsupported rule'**
   String get notifSumUnknown;
+
+  /// No description provided for @notifSumUpNextAtEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'At the end: what\'s up next'**
+  String get notifSumUpNextAtEnd;
+
+  /// No description provided for @notifSumUpNextBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min before the next task'**
+  String notifSumUpNextBefore(int minutes);
 
   /// No description provided for @notifSystemNotification.
   ///
@@ -12224,6 +12272,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Streak at risk'**
   String get notifTriggerStreakRisk;
+
+  /// No description provided for @notifTriggerTimerEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer end'**
+  String get notifTriggerTimerEnd;
+
+  /// No description provided for @notifTriggerUpNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Up next'**
+  String get notifTriggerUpNext;
 
   /// No description provided for @notifUnitDays.
   ///

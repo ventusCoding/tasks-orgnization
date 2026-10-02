@@ -480,5 +480,15 @@
   "notifNoticeUpdateTitle": "حدّث Everslot",
   "notifNoticeUpdateBody": "لم يعد بإمكان هذا الإصدار المزامنة. ثبّت أحدث إصدار لتبقى بياناتك متزامنة.",
   "notifEmailDigests": "أرسل لي الملخصات بالبريد الإلكتروني",
-  "notifEmailDigestsHint": "تصلك ملخصات الجدول والمراجعة بالبريد أيضًا، دون التذكيرات. يمكنك إلغاء الاشتراك من أي رسالة."
+  "notifEmailDigestsHint": "تصلك ملخصات الجدول والمراجعة بالبريد أيضًا، دون التذكيرات. يمكنك إلغاء الاشتراك من أي رسالة.",
+  "notifBodyUpNext": "التالي: {next} الساعة {time}",
+  "notifBodyUpNextMerged": "هل أنهيت {title}؟ التالي: {next} الساعة {time}",
+  "notifBodyTimeUp": "انتهى وقت {title}",
+  "notifActionExtend": "+10 دقائق",
+  "notifTriggerUpNext": "التالي",
+  "notifTriggerTimerEnd": "انتهاء المؤقت",
+  "notifSumUpNextAtEnd": "عند الانتهاء: المهمة التالية",
+  "notifSumUpNextBefore": "قبل المهمة التالية بـ {minutes} دقيقة",
+  "notifSumTimerEnd": "عندما يصل المؤقت إلى النهاية المخطط لها",
+  "notifFieldBeforeNextMinutes": "دقائق قبل المهمة التالية (0 = عند الانتهاء)"
 }

@@ -56,17 +56,42 @@ abstract final class PlannerNotificationTargets {
     required String viewerZone,
     Map<String, String> categoryNames = const {},
     int missedGraceMinutes = 15,
-  }) => [
-    for (final o in occurrences)
-      if (!o.isQuotaSlot)
-        target(
-          o,
-          zones: zones,
-          viewerZone: viewerZone,
-          categoryName: categoryNames[o.task.categoryId],
-          missedGraceMinutes: missedGraceMinutes,
-        ),
-  ];
+    Iterable<ResolvedOccurrence>? neighbours,
+  }) {
+    final list = occurrences.toList();
+    final timed = [
+      for (final o in neighbours ?? list)
+        if (!o.isQuotaSlot && !o.isAllDay && isOpen(o)) o,
+    ]..sort((a, b) => a.startInstant.compareTo(b.startInstant));
+    return [
+      for (final o in list)
+        if (!o.isQuotaSlot)
+          target(
+            o,
+            zones: zones,
+            viewerZone: viewerZone,
+            categoryName: categoryNames[o.task.categoryId],
+            missedGraceMinutes: missedGraceMinutes,
+            next: nextAfter(o, timed),
+          ),
+    ];
+  }
+
+  /// Longest gap between a task's end and the next one for *up next* (T7.5.04).
+  static const upNextWindow = Duration(hours: 3);
+
+  /// The first open timed occurrence starting at or after [o]'s end within [upNextWindow].
+  static ResolvedOccurrence? nextAfter(ResolvedOccurrence o, List<ResolvedOccurrence> timedSorted) {
+    final end = o.endInstant;
+    if (o.isAllDay) return null;
+    for (final n in timedSorted) {
+      if (identical(n, o) || (n.task.id == o.task.id && n.occurrenceKey == o.occurrenceKey)) continue;
+      final start = n.startInstant;
+      if (start.isBefore(end)) continue;
+      return start.difference(end) <= upNextWindow ? n : null;
+    }
+    return null;
+  }
 
   /// Wire tracking mode (`check`, `event`, `timer`) passed to the planner (events never go overdue).
   static String trackingWire(TrackingMode mode) => switch (mode) {
@@ -81,6 +106,7 @@ abstract final class PlannerNotificationTargets {
     required String viewerZone,
     String? categoryName,
     int missedGraceMinutes = 15,
+    ResolvedOccurrence? next,
   }) {
     final task = o.task;
     final excerpt = notesExcerpt(o.notes);
@@ -109,6 +135,12 @@ abstract final class PlannerNotificationTargets {
         if (task.location != null) 'location': task.location,
         'tracking_mode': trackingWire(task.trackingMode),
         'missed_grace_minutes': missedGraceMinutes,
+        if (next != null) ...{
+          'next_task_id': next.task.id,
+          'next_occurrence_key': next.occurrenceKey,
+          'next_title': next.title,
+          'next_start': next.startInstant.toUtc().toIso8601String(),
+        },
       },
       defaultActions: task.trackingMode == TrackingMode.timer ? timerActions : defaultActions,
     );

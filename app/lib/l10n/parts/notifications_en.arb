@@ -1026,5 +1026,52 @@
   "notifNoticeUpdateTitle": "Update Everslot",
   "notifNoticeUpdateBody": "This version can no longer sync. Install the latest version to keep your data in sync.",
   "notifEmailDigests": "Email me my digests",
-  "notifEmailDigestsHint": "Agenda and review digests also arrive by email. Reminders never do. Unsubscribe from any email."
+  "notifEmailDigestsHint": "Agenda and review digests also arrive by email. Reminders never do. Unsubscribe from any email.",
+  "notifBodyUpNext": "Up next: {next} at {time}",
+  "@notifBodyUpNext": {
+    "placeholders": {
+      "next": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notifBodyUpNextMerged": "Done with {title}? Up next: {next} at {time}",
+  "@notifBodyUpNextMerged": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "next": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notifBodyTimeUp": "Time's up for {title}",
+  "@notifBodyTimeUp": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "notifActionExtend": "+10 min",
+  "notifTriggerUpNext": "Up next",
+  "notifTriggerTimerEnd": "Timer end",
+  "notifSumUpNextAtEnd": "At the end: what's up next",
+  "notifSumUpNextBefore": "{minutes} min before the next task",
+  "@notifSumUpNextBefore": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "notifSumTimerEnd": "When the timer reaches the planned end",
+  "notifFieldBeforeNextMinutes": "Minutes before the next task (0 = at the end)"
 }

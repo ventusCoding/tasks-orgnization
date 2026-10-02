@@ -118,6 +118,7 @@ abstract final class NotificationPlanner {
         _planRule(ctx, rule, target, profiles, planned, skipped);
       }
     }
+    _mergeUpNext(ctx.targets, planned);
     final sorted = planned.values.toList()
       ..sort((a, b) {
         final c = a.fireAt.compareTo(b.fireAt);
@@ -126,6 +127,26 @@ abstract final class NotificationPlanner {
         return i != 0 ? i : a.dedupeKey.compareTo(b.dedupeKey);
       });
     return PlanResult(ctx.applyCaps ? _applyCaps(ctx, sorted, skipped) : sorted, skipped);
+  }
+
+  /// Back-to-back tasks (T7.5.04): a "done → up next" notification at the boundary replaces the next
+  /// task's own reminders firing at that same instant, so the user gets one notification, not two.
+  static void _mergeUpNext(List<NotificationTarget> targets, Map<String, PlannedNotification> planned) {
+    final byKey = {for (final t in targets) '${t.targetKey}|${t.occurrenceKey ?? ''}': t};
+    final drop = <String>{};
+    for (final p in planned.values) {
+      if (p.triggerType != 'up_next' || !p.occurrenceKey.endsWith('|un')) continue;
+      final t = byKey['task:${p.targetId}|${p.occurrenceKey.substring(0, p.occurrenceKey.length - 3)}'];
+      final nextId = t?.variables['next_task_id'];
+      final nextOcc = t?.variables['next_occurrence_key'];
+      if (nextId is! String || nextOcc is! String) continue;
+      for (final q in planned.values) {
+        if (q.targetId == nextId && q.occurrenceKey == nextOcc && q.triggerType == 'relative' && q.fireAt == p.fireAt) {
+          drop.add(q.dedupeKey);
+        }
+      }
+    }
+    planned.removeWhere((k, _) => drop.contains(k));
   }
 
   /// Plans a single rule for one target (preview & noise estimate share this code path).
@@ -449,6 +470,30 @@ abstract final class NotificationPlanner {
               ),
         ];
 
+      case UpNextTrigger(:final beforeMinutes):
+        // The planner source names the next timed task of the day (T7.5.04).
+        final nextStart = DateTime.tryParse('${target.variables['next_start'] ?? ''}')?.toUtc();
+        final nextTitle = target.variables['next_title'];
+        if (nextStart == null || nextTitle is! String || target.end == null) return const [];
+        final backToBack = beforeMinutes == null && !nextStart.isAfter(target.end!);
+        final fire = beforeMinutes == null ? target.end! : nextStart.subtract(Duration(minutes: beforeMinutes));
+        return [
+          _Candidate(
+            fire,
+            '$occ|un',
+            backToBack ? DefaultContentKind.upNextMerged : DefaultContentKind.upNext,
+            anchor: nextStart,
+            extraVars: {'next_title': nextTitle, 'next_start_time': ctx.texts.time(zones.toLocal(nextStart, zone))},
+          ),
+        ];
+
+      case TimerEndTrigger():
+        // Only while the timer runs: starting it replans; stopping closes the alert (T7.5.04).
+        if (target.variables['tracking_mode'] != 'timer' || target.status != 'in_progress') return const [];
+        final end = target.end;
+        if (end == null) return const [];
+        return [_Candidate(end, '$occ|te', DefaultContentKind.timerEnd)];
+
       case UnknownTrigger():
         return const [];
     }
@@ -463,6 +508,8 @@ abstract final class NotificationPlanner {
       NotificationActionIds.reschedule,
       NotificationActionIds.skip,
     ],
+    UpNextTrigger() => const [NotificationActionIds.done, NotificationActionIds.open],
+    TimerEndTrigger() => const [NotificationActionIds.stop, NotificationActionIds.extend],
     _ => null,
   };
 

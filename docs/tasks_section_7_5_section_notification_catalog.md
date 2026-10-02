@@ -49,7 +49,7 @@ live timer surfaces and widget refreshes ([8.2]); hide-content privacy option ([
 - [x] T7.5.01 — Planner: start & end reminders with multiple offsets
 - [x] T7.5.02 — Planner: all-day & date-only reminders
 - [x] T7.5.03 — Planner: overdue reminders
-- [ ] T7.5.04 — Planner: up-next chain & timer-end alerts
+- [x] T7.5.04 — Planner: up-next chain & timer-end alerts
 - [x] T7.5.05 — Checklists: reminders at a chosen time (lists & items)
 - [x] T7.5.06 — Checklists: waiting/blocked follow-up reminders
 - [ ] T7.5.07 — Checklists: item & checklist due reminders
@@ -113,6 +113,7 @@ tomorrow) · Skip.
 Stop · +10 min; live countdown surfaces are in [8.2] T8.2.10.
 **Acceptance criteria:** back-to-back tasks produce one merged "done → up next" notification, not two.
 **Tests:** planner fixtures for chains and merge.
+**Notes:** New triggers `up_next {beforeMinutes?}` and `timer_end` (model, codec, validation, editor fields, labels, EN/FR/AR texts). The planner source gives each timed occurrence the next open timed task starting within 3 h (`next_task_id/occurrence_key/title/start` variables). *Up next* fires at the end (or N min before the next task): "Up next: {next} at {time}" (Done · Open); back-to-back tasks get one merged "Done with {title}? Up next: …" that replaces the next task's own reminders at that instant (`_mergeUpNext`). *Timer end* fires at the planned end only while the timer runs (status in_progress), actions Stop · +10 min (`extend` extends the occurrence by 10 min; the replan re-arms the alert). Live countdowns stay in [8.2]. Tests: `section_catalog_p1.json` (up next, merge, timer end), `planner_notifications_test.dart` (neighbours, extend), codec.
 
 ### T7.5.05 — Checklists: reminders at a chosen time (lists & items)
 **Priority:** P0 · **Size:** S · **Depends on:** [7.1], [7.2], [4.3]

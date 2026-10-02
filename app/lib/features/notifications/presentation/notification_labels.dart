@@ -50,6 +50,9 @@ class NotificationLabels {
     ChildrenCompleteTrigger() => l.notifSumChildrenComplete,
     ChildOverdueTrigger() => l.notifSumChildOverdue,
     StaleTrigger(:final afterDays) => l.notifSumStale(afterDays),
+    UpNextTrigger(:final beforeMinutes) =>
+      beforeMinutes == null ? l.notifSumUpNextAtEnd : l.notifSumUpNextBefore(beforeMinutes),
+    TimerEndTrigger() => l.notifSumTimerEnd,
     UnknownTrigger() => l.notifSumUnknown,
   };
 
@@ -176,6 +179,8 @@ class NotificationLabels {
     TriggerType.childrenComplete => l.notifTriggerChildrenComplete,
     TriggerType.childOverdue => l.notifTriggerChildOverdue,
     TriggerType.stale => l.notifTriggerStale,
+    TriggerType.upNext => l.notifTriggerUpNext,
+    TriggerType.timerEnd => l.notifTriggerTimerEnd,
   };
 
   String anchor(TriggerAnchor a) => switch (a) {

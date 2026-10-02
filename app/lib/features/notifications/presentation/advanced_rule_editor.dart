@@ -346,7 +346,8 @@ class _TriggerEditor extends StatelessWidget {
     ),
     TriggerType.notDoneBy => NotDoneByTrigger(anchor: 'time', atTime: LocalTime(21, 0)),
     TriggerType.statusAge => const StatusAgeTrigger(statuses: ['waiting', 'blocked'], afterMinutes: 2880),
-    TriggerType.overdue => const OverdueTrigger(afterMinutes: 0),
+    // No delay = the planner's missed grace (T7.5.03).
+    TriggerType.overdue => const OverdueTrigger(),
     TriggerType.streakRisk => StreakRiskTrigger(atTime: LocalTime(21, 0), minStreak: 3),
     TriggerType.quotaBehind => QuotaBehindTrigger(atTime: LocalTime(20, 0)),
     TriggerType.milestone => const MilestoneTrigger(metric: 'clean_days'),
@@ -356,6 +357,8 @@ class _TriggerEditor extends StatelessWidget {
     TriggerType.childrenComplete => const ChildrenCompleteTrigger(),
     TriggerType.childOverdue => const ChildOverdueTrigger(),
     TriggerType.stale => const StaleTrigger(afterDays: 7),
+    TriggerType.upNext => const UpNextTrigger(),
+    TriggerType.timerEnd => const TimerEndTrigger(),
   };
 
   void _set(NotificationTrigger t) => onChanged(spec.copyWith(trigger: t));
@@ -566,7 +569,14 @@ class _TriggerEditor extends StatelessWidget {
         ),
         timeTile(l.notifFieldAtTime, atTime, (t) => _set(StatusChangeTrigger(from: from, to: to, atTime: t))),
       ],
-      ChildrenCompleteTrigger() || ChildOverdueTrigger() || UnknownTrigger() => const <Widget>[],
+      UpNextTrigger(:final beforeMinutes) => [
+        intField(
+          l.notifFieldBeforeNextMinutes,
+          beforeMinutes ?? 0,
+          (v) => _set(UpNextTrigger(beforeMinutes: v <= 0 ? null : v)),
+        ),
+      ],
+      ChildrenCompleteTrigger() || ChildOverdueTrigger() || TimerEndTrigger() || UnknownTrigger() => const <Widget>[],
     };
 
     return Column(

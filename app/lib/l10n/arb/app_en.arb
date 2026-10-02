@@ -2207,9 +2207,39 @@
       }
     }
   },
+  "@notifBodyTimeUp": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "@notifBodyToday": {
     "placeholders": {
       "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifBodyUpNext": {
+    "placeholders": {
+      "next": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifBodyUpNextMerged": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "next": {
+        "type": "String"
+      },
+      "time": {
         "type": "String"
       }
     }
@@ -2612,6 +2642,13 @@
     "placeholders": {
       "time": {
         "type": "String"
+      }
+    }
+  },
+  "@notifSumUpNextBefore": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
       }
     }
   },
@@ -6226,6 +6263,7 @@
   "notFoundTitle": "Page not found",
   "notifActionComplete": "Complete",
   "notifActionDone": "Done",
+  "notifActionExtend": "+10 min",
   "notifActionInputPlaceholder": "Value",
   "notifActionLogCraving": "Log craving",
   "notifActionLogValue": "Log value",
@@ -6293,7 +6331,10 @@
   "notifBodyStreakRisk": "Keep your {days, plural, =1{1-day} other{{days}-day}} streak alive",
   "notifBodyTest": "Test notification from Everslot",
   "notifBodyTimeFor": "Time for {title}",
+  "notifBodyTimeUp": "Time's up for {title}",
   "notifBodyToday": "Today · {date}",
+  "notifBodyUpNext": "Up next: {next} at {time}",
+  "notifBodyUpNextMerged": "Done with {title}? Up next: {next} at {time}",
   "notifCategoryDigest": "Digest",
   "notifCategoryMilestone": "Milestone",
   "notifCategoryNag": "Repeat",
@@ -6394,6 +6435,7 @@
   "notifFieldAfterDays": "After (days)",
   "notifFieldAfterMinutes": "After (minutes)",
   "notifFieldAtTime": "At time",
+  "notifFieldBeforeNextMinutes": "Minutes before the next task (0 = at the end)",
   "notifFieldDateTime": "Date and time",
   "notifFieldDayForm": "N days before or after at a time",
   "notifFieldDayOffset": "Days (negative = before)",
@@ -6666,7 +6708,10 @@
   "notifSumStatusAge": "Still waiting or blocked after {duration}",
   "notifSumStatusChange": "When it becomes {status}",
   "notifSumStreakRisk": "Streak at risk, at {time}",
+  "notifSumTimerEnd": "When the timer reaches the planned end",
   "notifSumUnknown": "Unsupported rule",
+  "notifSumUpNextAtEnd": "At the end: what's up next",
+  "notifSumUpNextBefore": "{minutes} min before the next task",
   "notifSystemNotification": "System notification",
   "notifTestSent": "Test notification in 5 seconds",
   "notifThisDeviceIsPrimary": "This device is the primary device",
@@ -6689,6 +6734,8 @@
   "notifTriggerStatusAge": "Status age",
   "notifTriggerStatusChange": "Status change",
   "notifTriggerStreakRisk": "Streak at risk",
+  "notifTriggerTimerEnd": "Timer end",
+  "notifTriggerUpNext": "Up next",
   "notifUnitDays": "days",
   "notifUnitHours": "hours",
   "notifUnitMinutes": "minutes",

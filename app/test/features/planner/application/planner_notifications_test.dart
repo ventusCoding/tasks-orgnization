@@ -69,6 +69,19 @@ void main() {
     expect(targets.map((t) => t.title), isNot(contains('Later')));
   });
 
+  test('up next (T7.5.04): each timed task names the next one starting within 3 h', () async {
+    final a = await h.createTask(title: 'Report', start: '2026-09-22T09:00', duration: 60);
+    final b = await h.createTask(title: 'Standup', start: '2026-09-22T10:30', duration: 15);
+    await h.createTask(title: 'Evening', start: '2026-09-22T19:00', duration: 30);
+    final targets = await source().targetsBetween(DateTime.utc(2026, 9, 22, 6), DateTime.utc(2026, 9, 23, 6));
+    final report = targets.firstWhere((t) => t.id == a);
+    expect(report.variables['next_task_id'], b);
+    expect(report.variables['next_title'], 'Standup');
+    expect(report.variables['next_start'], '2026-09-22T08:30:00.000Z');
+    final standup = targets.firstWhere((t) => t.id == b);
+    expect(standup.variables.containsKey('next_task_id'), isFalse, reason: 'the 19:00 task is more than 3 h later');
+  });
+
   test('done/skipped occurrences are returned closed; cancelled ones too', () async {
     final id = await h.createTask(title: 'Walk', start: '2026-09-21T18:00', duration: 30, rule: RecurrenceRule());
     await h.occurrences.markDone(id, '2026-09-22T18:00');
@@ -145,6 +158,11 @@ void main() {
     expect((await h.records(work)).single.status, OccurrenceStatus.inProgress);
     await handler.handle(ctx('start', work, null));
     expect(await h.read(plannerQueriesProvider).watchRunningEntries().first, hasLength(1));
+    // Timer end (T7.5.04): +10 min extends the running occurrence.
+    final key = (await h.records(work)).single.occurrenceKey;
+    expect((await handler.handle(ctx('extend', work, null))).success, isTrue);
+    final extended = await PlannerNotificationActions.occurrence(h.read, work, key);
+    expect(extended!.durationMinutes, 70);
     h.clock.advance(const Duration(minutes: 40));
     await handler.handle(ctx('stop', work, null));
     final done = (await h.records(work)).single;

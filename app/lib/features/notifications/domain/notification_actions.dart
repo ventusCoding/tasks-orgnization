@@ -19,6 +19,9 @@ abstract final class NotificationActionIds {
   static const snooze = 'snooze';
   static const skip = 'skip';
   static const reschedule = 'reschedule';
+
+  /// Extends a running timer task by 10 minutes (timer-end alerts, T7.5.04).
+  static const extend = 'extend';
   static const logValue = 'log_value';
   static const logCraving = 'log_craving';
   static const completeItem = 'complete_item';
@@ -42,6 +45,7 @@ abstract final class NotificationActionIds {
     snooze,
     skip,
     reschedule,
+    extend,
     logValue,
     logCraving,
     completeItem,

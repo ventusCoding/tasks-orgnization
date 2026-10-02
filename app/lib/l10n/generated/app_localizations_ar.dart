@@ -5791,6 +5791,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifActionDone => 'تم';
 
   @override
+  String get notifActionExtend => '+10 دقائق';
+
+  @override
   String get notifActionInputPlaceholder => 'القيمة';
 
   @override
@@ -6126,8 +6129,23 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String notifBodyTimeUp(String title) {
+    return 'انتهى وقت $title';
+  }
+
+  @override
   String notifBodyToday(String date) {
     return 'اليوم · $date';
+  }
+
+  @override
+  String notifBodyUpNext(String next, String time) {
+    return 'التالي: $next الساعة $time';
+  }
+
+  @override
+  String notifBodyUpNextMerged(String title, String next, String time) {
+    return 'هل أنهيت $title؟ التالي: $next الساعة $time';
   }
 
   @override
@@ -6518,6 +6536,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifFieldAtTime => 'عند الساعة';
+
+  @override
+  String get notifFieldBeforeNextMinutes => 'دقائق قبل المهمة التالية (0 = عند الانتهاء)';
 
   @override
   String get notifFieldDateTime => 'التاريخ والوقت';
@@ -7530,7 +7551,18 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get notifSumTimerEnd => 'عندما يصل المؤقت إلى النهاية المخطط لها';
+
+  @override
   String get notifSumUnknown => 'قاعدة غير مدعومة';
+
+  @override
+  String get notifSumUpNextAtEnd => 'عند الانتهاء: المهمة التالية';
+
+  @override
+  String notifSumUpNextBefore(int minutes) {
+    return 'قبل المهمة التالية بـ $minutes دقيقة';
+  }
 
   @override
   String get notifSystemNotification => 'إشعار النظام';
@@ -7599,6 +7631,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifTriggerStreakRisk => 'السلسلة في خطر';
+
+  @override
+  String get notifTriggerTimerEnd => 'انتهاء المؤقت';
+
+  @override
+  String get notifTriggerUpNext => 'التالي';
 
   @override
   String get notifUnitDays => 'أيام';

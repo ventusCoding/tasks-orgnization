@@ -5492,6 +5492,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifActionDone => 'Fait';
 
   @override
+  String get notifActionExtend => '+10 min';
+
+  @override
   String get notifActionInputPlaceholder => 'Valeur';
 
   @override
@@ -5797,8 +5800,23 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String notifBodyTimeUp(String title) {
+    return 'Le temps est écoulé pour $title';
+  }
+
+  @override
   String notifBodyToday(String date) {
     return 'Aujourd’hui · $date';
+  }
+
+  @override
+  String notifBodyUpNext(String next, String time) {
+    return 'Ensuite : $next à $time';
+  }
+
+  @override
+  String notifBodyUpNextMerged(String title, String next, String time) {
+    return 'Terminé avec $title ? Ensuite : $next à $time';
   }
 
   @override
@@ -6171,6 +6189,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get notifFieldAtTime => 'À l’heure';
+
+  @override
+  String get notifFieldBeforeNextMinutes => 'Minutes avant la tâche suivante (0 = à la fin)';
 
   @override
   String get notifFieldDateTime => 'Date et heure';
@@ -7152,7 +7173,18 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get notifSumTimerEnd => 'Quand le minuteur atteint la fin prévue';
+
+  @override
   String get notifSumUnknown => 'Règle non prise en charge';
+
+  @override
+  String get notifSumUpNextAtEnd => 'À la fin : la tâche suivante';
+
+  @override
+  String notifSumUpNextBefore(int minutes) {
+    return '$minutes min avant la tâche suivante';
+  }
 
   @override
   String get notifSystemNotification => 'Notification système';
@@ -7221,6 +7253,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get notifTriggerStreakRisk => 'Série en danger';
+
+  @override
+  String get notifTriggerTimerEnd => 'Fin du minuteur';
+
+  @override
+  String get notifTriggerUpNext => 'Tâche suivante';
 
   @override
   String get notifUnitDays => 'jours';

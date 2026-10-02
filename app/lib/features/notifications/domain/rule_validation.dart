@@ -117,6 +117,10 @@ abstract final class NotificationRuleValidator {
         if (thresholds != null && (thresholds.isEmpty || thresholds.any((t) => t <= 0))) {
           error(NotificationIssueCode.thresholdsInvalid, field: 'trigger.thresholds');
         }
+      case UpNextTrigger(:final beforeMinutes):
+        if (beforeMinutes != null && (beforeMinutes < 0 || beforeMinutes > 240)) {
+          error(NotificationIssueCode.offsetOutOfRange, field: 'trigger.beforeMinutes');
+        }
       case UnknownTrigger():
         error(NotificationIssueCode.unknownTrigger, field: 'trigger.type');
       case AbsoluteTrigger() ||
@@ -128,7 +132,8 @@ abstract final class NotificationRuleValidator {
           StatusChangeTrigger() ||
           ChildrenCompleteTrigger() ||
           ChildOverdueTrigger() ||
-          StaleTrigger():
+          StaleTrigger() ||
+          TimerEndTrigger():
         break;
     }
 

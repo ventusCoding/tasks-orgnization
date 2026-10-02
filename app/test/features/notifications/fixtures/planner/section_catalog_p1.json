@@ -45,6 +45,68 @@
       ],
       "expected": [],
       "expectedCount": 0
+    },
+    {
+      "name": "T7.5.04 up next at the end of a task",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "un", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "up_next"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "report", "section": "planner", "title": "Report", "occurrenceKey": "2026-09-22T10:00",
+         "start": "2026-09-22T08:00:00Z", "end": "2026-09-22T09:00:00Z",
+         "variables": {"tracking_mode": "check", "next_task_id": "standup", "next_occurrence_key": "2026-09-22T11:30",
+                       "next_title": "Standup", "next_start": "2026-09-22T09:30:00Z"}},
+        {"type": "task", "id": "standup", "section": "planner", "title": "Standup", "occurrenceKey": "2026-09-22T11:30",
+         "start": "2026-09-22T09:30:00Z", "end": "2026-09-22T09:45:00Z", "variables": {"tracking_mode": "check"}}
+      ],
+      "expected": [
+        {"rule": "un", "target": "report", "fireAtUtc": "2026-09-22T09:00:00Z", "title": "Report",
+         "body": "Up next: Standup at 11:30", "actions": ["done", "open"]}
+      ]
+    },
+    {
+      "name": "T7.5.04 back-to-back tasks: one merged done-then-up-next notification",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "at", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "relative", "anchor": "start", "offsetMinutes": 0}}},
+        {"id": "un", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "up_next"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "report", "section": "planner", "title": "Report", "occurrenceKey": "2026-09-22T10:00",
+         "start": "2026-09-22T08:00:00Z", "end": "2026-09-22T09:00:00Z",
+         "variables": {"tracking_mode": "check", "next_task_id": "standup", "next_occurrence_key": "2026-09-22T11:00",
+                       "next_title": "Standup", "next_start": "2026-09-22T09:00:00Z"}},
+        {"type": "task", "id": "standup", "section": "planner", "title": "Standup", "occurrenceKey": "2026-09-22T11:00",
+         "start": "2026-09-22T09:00:00Z", "end": "2026-09-22T09:15:00Z", "variables": {"tracking_mode": "check"}}
+      ],
+      "expected": [
+        {"rule": "at", "target": "report", "fireAtUtc": "2026-09-22T08:00:00Z"},
+        {"rule": "un", "target": "report", "fireAtUtc": "2026-09-22T09:00:00Z", "title": "Standup",
+         "body": "Done with Report? Up next: Standup at 11:00"}
+      ]
+    },
+    {
+      "name": "T7.5.04 timer end: a running timer reaches its planned end (Stop · +10 min)",
+      "now": "2026-09-22T08:30:00Z",
+      "zone": "Europe/Paris",
+      "rules": [
+        {"id": "te", "targetType": "section", "section": "planner", "spec": {"v": 1, "trigger": {"type": "timer_end"}}}
+      ],
+      "targets": [
+        {"type": "task", "id": "deep", "section": "planner", "title": "Deep work", "occurrenceKey": "2026-09-22T10:00",
+         "start": "2026-09-22T08:00:00Z", "end": "2026-09-22T09:00:00Z", "status": "in_progress",
+         "variables": {"tracking_mode": "timer"}},
+        {"type": "task", "id": "idle", "section": "planner", "title": "Not started", "occurrenceKey": "2026-09-22T10:00",
+         "start": "2026-09-22T08:00:00Z", "end": "2026-09-22T09:00:00Z", "status": "scheduled",
+         "variables": {"tracking_mode": "timer"}}
+      ],
+      "expected": [
+        {"rule": "te", "target": "deep", "fireAtUtc": "2026-09-22T09:00:00Z", "body": "Time's up for Deep work",
+         "actions": ["stop", "extend"]}
+      ]
     }
   ]
 }

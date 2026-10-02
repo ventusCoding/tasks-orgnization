@@ -5434,6 +5434,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifActionDone => 'Done';
 
   @override
+  String get notifActionExtend => '+10 min';
+
+  @override
   String get notifActionInputPlaceholder => 'Value';
 
   @override
@@ -5679,8 +5682,23 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String notifBodyTimeUp(String title) {
+    return 'Time\'s up for $title';
+  }
+
+  @override
   String notifBodyToday(String date) {
     return 'Today · $date';
+  }
+
+  @override
+  String notifBodyUpNext(String next, String time) {
+    return 'Up next: $next at $time';
+  }
+
+  @override
+  String notifBodyUpNextMerged(String title, String next, String time) {
+    return 'Done with $title? Up next: $next at $time';
   }
 
   @override
@@ -6033,6 +6051,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifFieldAtTime => 'At time';
+
+  @override
+  String get notifFieldBeforeNextMinutes => 'Minutes before the next task (0 = at the end)';
 
   @override
   String get notifFieldDateTime => 'Date and time';
@@ -6952,7 +6973,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get notifSumTimerEnd => 'When the timer reaches the planned end';
+
+  @override
   String get notifSumUnknown => 'Unsupported rule';
+
+  @override
+  String get notifSumUpNextAtEnd => 'At the end: what\'s up next';
+
+  @override
+  String notifSumUpNextBefore(int minutes) {
+    return '$minutes min before the next task';
+  }
 
   @override
   String get notifSystemNotification => 'System notification';
@@ -7021,6 +7053,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifTriggerStreakRisk => 'Streak at risk';
+
+  @override
+  String get notifTriggerTimerEnd => 'Timer end';
+
+  @override
+  String get notifTriggerUpNext => 'Up next';
 
   @override
   String get notifUnitDays => 'days';

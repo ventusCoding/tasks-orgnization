@@ -145,6 +145,9 @@ enum DefaultContentKind {
   childrenComplete,
   childOverdue,
   stale,
+  upNext,
+  upNextMerged,
+  timerEnd,
   snoozed,
   test,
 }
@@ -256,6 +259,15 @@ class PlainNotificationTexts implements NotificationTexts {
       DefaultContentKind.childrenComplete => (title: t, body: 'All sub-items are done — complete it?'),
       DefaultContentKind.childOverdue => (title: t, body: 'A sub-item is overdue'),
       DefaultContentKind.stale => (title: t, body: 'No activity for ${count ?? 0} days'),
+      DefaultContentKind.upNext => (
+        title: t,
+        body: 'Up next: ${vars['next_title'] ?? ''} at ${vars['next_start_time'] ?? ''}',
+      ),
+      DefaultContentKind.upNextMerged => (
+        title: vars['next_title'] ?? t,
+        body: 'Done with $t? Up next: ${vars['next_title'] ?? ''} at ${vars['next_start_time'] ?? ''}',
+      ),
+      DefaultContentKind.timerEnd => (title: t, body: "Time's up for $t"),
       DefaultContentKind.snoozed => (title: t, body: 'Snoozed reminder'),
       DefaultContentKind.test => (title: t, body: 'Test notification'),
     };
@@ -282,6 +294,7 @@ class PlainNotificationTexts implements NotificationTexts {
     'snooze' => 'Snooze',
     'skip' => 'Skip',
     'open' => 'Open',
+    'extend' => '+10 min',
     _ => actionId,
   };
 

@@ -113,6 +113,15 @@ class L10nNotificationTexts implements NotificationTexts {
       DefaultContentKind.childrenComplete => (title: t, body: l10n.notifBodyChildrenComplete),
       DefaultContentKind.childOverdue => (title: t, body: l10n.notifBodyChildOverdue),
       DefaultContentKind.stale => (title: t, body: l10n.notifBodyInactivity(n)),
+      DefaultContentKind.upNext => (
+        title: t,
+        body: l10n.notifBodyUpNext(vars['next_title'] ?? '', vars['next_start_time'] ?? ''),
+      ),
+      DefaultContentKind.upNextMerged => (
+        title: vars['next_title'] ?? t,
+        body: l10n.notifBodyUpNextMerged(t, vars['next_title'] ?? '', vars['next_start_time'] ?? ''),
+      ),
+      DefaultContentKind.timerEnd => (title: t, body: l10n.notifBodyTimeUp(t)),
       DefaultContentKind.snoozed => (title: t, body: l10n.notifBodySnoozed),
       DefaultContentKind.test => (title: t, body: l10n.notifBodyTest),
     };
@@ -183,6 +192,7 @@ String actionLabelOf(AppLocalizations l10n, String actionId) => switch (actionId
   NotificationActionIds.snooze => l10n.notifActionSnooze,
   NotificationActionIds.skip => l10n.notifActionSkip,
   NotificationActionIds.reschedule => l10n.notifActionReschedule,
+  NotificationActionIds.extend => l10n.notifActionExtend,
   NotificationActionIds.logValue => l10n.notifActionLogValue,
   NotificationActionIds.logCraving => l10n.notifActionLogCraving,
   NotificationActionIds.completeItem => l10n.notifActionComplete,
