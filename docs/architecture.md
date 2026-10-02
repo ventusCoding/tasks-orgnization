@@ -139,7 +139,7 @@ erDiagram
 | API | PostgREST + **RPC functions** (`app.sync_push`, `app.sync_pull`, …) | All client writes go through sync RPCs. |
 | Files | Supabase Storage, private bucket `attachments` | Path-scoped RLS; resumable (TUS) uploads via `<project-ref>.storage.supabase.co`; client-side thumbnails (server image transforms need Pro). Free plan max file size 50 MB. |
 | Realtime | **Broadcast from database** on private channel `user:<uid>` | Trigger calls `realtime.send` with the new head revision only; RLS on `realtime.messages`. Data always comes via pull. |
-| Server logic | Edge Functions (TypeScript, **Deno 2.1-compatible** hosted runtime) | `npm:`/`jsr:` pinned imports; `jose` 6.x for the FCM service-account JWT; don't commit a Deno lockfile v5 (local Deno 2.9 is newer than the hosted runtime) — test with `supabase functions serve`. Limits: 2 s CPU, 256 MB, 150 s (free) / 400 s (paid) wall clock, `EdgeRuntime.waitUntil` for background work. |
+| Server logic | Edge Functions (TypeScript, **Deno 2.1-compatible** hosted runtime) | `npm:`/`jsr:` pinned imports; `jose` 6.x for the FCM service-account JWT; test-only `postgres` 3.4 (`_shared/test_deps.ts`, the opt-in E2E push suite reads the `private` tables of the local stack); don't commit a Deno lockfile v5 (local Deno 2.9 is newer than the hosted runtime) — test with `supabase functions serve`. Limits: 2 s CPU, 256 MB, 150 s (free) / 400 s (paid) wall clock, `EdgeRuntime.waitUntil` for background work. |
 | Scheduling | `pg_cron` (second-level schedules) + `pg_net` (+ Vault for secrets) | ≤ 8 concurrent jobs, ≤ 10 min each; pg_net is fire-and-forget (2 s timeout, no retries). |
 | Push | Firebase Cloud Messaging HTTP v1 (service-account OAuth2, token cached ~1 h) | APNs `.p8` key uploaded to Firebase. |
 | Plans | Free for development; **Pro** before launch | Free projects pause after 1 week idle; Free: 500 MB DB, 1 GB storage, 5 GB egress, 500k function calls, 200 realtime connections. |
@@ -1053,7 +1053,7 @@ app.app_config (key text primary key, value jsonb not null)   -- public read: mi
 
 Runtime: hosted Edge runtime is **Deno 2.1-compatible** — use `npm:`/`jsr:` imports with pinned versions,
 no Deno lockfile v5, verify with `supabase functions serve`. Shared: `_shared/fcm.ts` (service-account JWT
-signed with `jose` → OAuth token cached in module scope until ~5 min before expiry; HTTP v1 send; error
+signed with `jose` → OAuth token cached in module scope until ~5 min before expiry and shared across instances through `private.fcm_token_cache` (`app.fcm_token_cache_get/put`, service role); HTTP v1 send; error
 mapping), `_shared/supabase.ts` (admin client using the **secret** key), `_shared/cors.ts`,
 `_shared/types.ts`. Secrets: `FCM_SERVICE_ACCOUNT` (JSON, base64), `CRON_SECRET`, `SUPABASE_SECRET_KEY`;
 never logged.

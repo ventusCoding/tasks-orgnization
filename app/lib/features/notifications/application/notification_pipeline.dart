@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:drift/drift.dart' show Variable;
+import 'package:everslot/core/database/app_database.dart';
 import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
@@ -158,6 +160,7 @@ class NotificationPipeline {
       texts: texts,
       acknowledgedKeys: acknowledged,
       deviceId: read(deviceIdProvider),
+      lastForegroundAt: await _lastForegroundAt(db),
       userId: userId,
       timeSensitiveAllowed: !caps.determined || caps.timeSensitive,
       applyCaps: applyCaps,
@@ -183,11 +186,30 @@ class NotificationPipeline {
     await read(localNotificationsPortProvider).setBadge(count);
   }
 
+  /// local_kv key of this device's last foreground (last-active policy, T7.4.19).
+  static const lastForegroundKey = 'notifications.lastForegroundAt';
+
+  Future<DateTime?> _lastForegroundAt(AppDatabase db) async {
+    final row = await db
+        .customSelect(
+          'SELECT value FROM local_kv WHERE key = ?',
+          variables: [const Variable<String>(lastForegroundKey)],
+        )
+        .getSingleOrNull();
+    return row == null ? null : DateTime.tryParse(row.read<String>('value'))?.toUtc();
+  }
+
   /// Full replan: plan → OS schedule → delivered cleanup. Never throws (errors are reported).
   Future<ReplanReport> run(String reason, {bool foreground = true}) async {
     final watch = Stopwatch()..start();
     final at = read(clockProvider).nowUtc();
     try {
+      if (foreground) {
+        await read(appDatabaseProvider).customStatement(
+          'INSERT INTO local_kv(key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value',
+          [lastForegroundKey, at.toIso8601String()],
+        );
+      }
       final ctx = await buildContext();
       final result = NotificationPlanner.plan(ctx);
       final scheduler = read(localSchedulerProvider);

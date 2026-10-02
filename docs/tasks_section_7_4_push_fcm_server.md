@@ -26,23 +26,23 @@ compliance and alerting infrastructure ([9.2]).
 
 - [x] T7.4.01 — FCM client integration
 - [x] T7.4.02 — Device registry: push fields, state reporting & token hygiene
-- [ ] T7.4.03 — Jobs & deliveries schema + `replace_notification_jobs` RPC
+- [x] T7.4.03 — Jobs & deliveries schema + `replace_notification_jobs` RPC
 - [x] T7.4.04 — Job upload pipeline (device → server)
-- [ ] T7.4.05 — Guard evaluator catalog (SQL)
-- [ ] T7.4.06 — FCM sender module (`_shared/fcm.ts`)
-- [ ] T7.4.07 — `push-dispatch` Edge Function
-- [ ] T7.4.08 — Cron schedules, lease reaper & cleanup
-- [ ] T7.4.09 — Push payload design & size budget
+- [x] T7.4.05 — Guard evaluator catalog (SQL)
+- [x] T7.4.06 — FCM sender module (`_shared/fcm.ts`)
+- [x] T7.4.07 — `push-dispatch` Edge Function
+- [x] T7.4.08 — Cron schedules, lease reaper & cleanup
+- [x] T7.4.09 — Push payload design & size budget
 - [x] T7.4.10 — Device-side push handling
-- [ ] T7.4.11 — Silent sync push (`sync-nudge`)
+- [x] T7.4.11 — Silent sync push (`sync-nudge`)
 - [x] T7.4.12 — Completion elsewhere & cross-device acknowledgement
 - [x] T7.4.13 — Multi-device policy & primary device
 - [ ] T7.4.14 — iOS local-vs-push collapse spike
-- [ ] T7.4.15 — End-to-end push tests
-- [ ] T7.4.16 — Monitoring hooks & ops metrics
+- [x] T7.4.15 — End-to-end push tests
+- [x] T7.4.16 — Monitoring hooks & ops metrics
 - [ ] T7.4.17 — Server-side planning fallback
 - [ ] T7.4.18 — Email channel for digests
-- [ ] T7.4.19 — Last-active device policy
+- [x] T7.4.19 — Last-active device policy
 
 ## Tasks
 
@@ -92,6 +92,7 @@ with `skipped_policy`, `skipped_stale_token`, `expired`; add `unique (job_id, de
 **Acceptance criteria:** a stale device (older `source_rev`) cannot overwrite a newer plan; replacing a
 target is atomic (no window with zero jobs visible to the dispatcher).
 **Tests:** pgTAP: ownership, monotonic guard, caps, atomic replacement under concurrent calls.
+**Notes:** `private.notification_jobs` / `private.push_deliveries` (20260922000100) and `app.replace_notification_jobs` (20260922000160): owner check, per-user advisory lock, monotonic `source_rev` guard, 3 000-job / 14-day / 3.5 KB caps, pending-only upsert. pgTAP: `090_notifications` (ownership, guard, caps, `'*'`) and `156_job_replace_concurrency` (two dblink sessions: the older concurrent upload waits, then answers `stale`; one plan visible).
 
 ### T7.4.04 — Job upload pipeline (device → server)
 **Priority:** P1 · **Size:** M · **Depends on:** T7.4.03, [7.2] (planner, replan orchestrator)
@@ -119,6 +120,7 @@ for counts `sum(progress) < target`; habit not archived or paused on that date),
 any device), `always`. Unknown kinds evaluate to `true` and are logged.
 **Acceptance criteria:** batch evaluation of 500 jobs < 50 ms on realistic data; guards use ids/statuses only.
 **Tests:** pgTAP per guard kind (true/false cases, deleted targets, pauses).
+**Notes:** `private.notification_guards_ok` + `private.evaluate_guard` cover every kind (task_occurrence_open, habit_period_open, checklist_item_status_in, item_not_completed, quit_no_relapse_since, inbox_not_acted, always; unknown/malformed fail open and are logged) plus mutes. pgTAP per kind in `090_notifications`; `155_guard_perf` checks 500 mixed jobs < 50 ms on the local stack.
 
 ### T7.4.06 — FCM sender module (`_shared/fcm.ts`)
 **Priority:** P1 · **Size:** M · **Depends on:** [1.2] (Edge Functions scaffold)
@@ -131,6 +133,7 @@ and persisted in `private.fcm_token_cache` so cold instances don't mint a new to
 (bad APNs credentials — alert ops); concurrency limiter (20–50 parallel requests; one request per token).
 **Acceptance criteria:** token minted once per warm instance; CPU per 50 sends well under the 2 s limit.
 **Tests:** `deno test` with mocked `fetch` for every error code and token caching/expiry.
+**Notes:** `_shared/fcm.ts`: jose RS256 JWT → OAuth token cached per warm instance and now shared across instances via `private.fcm_token_cache` (`app.fcm_token_cache_get/put`, service role, never replaced by a shorter-lived token; migration 20261002100000, pgTAP `150_fcm_token_cache`); a rejected token skips the shared cache once; typed results for every FCM error; ≥ 10 s timeout; `FCM_BASE_URL` override for local E2E. Concurrency is bounded by the dispatcher (32 in flight). Deno tests with mocked fetch.
 
 ### T7.4.07 — `push-dispatch` Edge Function
 **Priority:** P1 · **Size:** L · **Depends on:** T7.4.03, T7.4.05, T7.4.06, T7.4.09, [7.3] (convergence rules)
@@ -158,6 +161,7 @@ times out after 2 s).
 **Acceptance criteria:** a job is pushed at most once per device; a covered device receives nothing; the
 dispatcher lag stays < 60 s at 10 000 due jobs/hour in a load test.
 **Tests:** `deno test` with mocked DB/FCM for each decision branch; integration run against local Supabase in CI.
+**Notes:** `push-dispatch` (handler 202 + waitUntil, cron secret): claim → expiry → guards → inbox upsert → per-device decisions (coverage, policy, target_devices, stale token) → FCM → deliveries/backoff. Added burst coalescing: ≥ 3 same-minute jobs for one device become one `digest` push listing the titles (each job keeps its inbox row and a delivery). Deno tests per branch, a 10 000-job load test (≈ 80 ms processing overhead per run, FCM latency excluded) and the local E2E suite.
 
 ### T7.4.08 — Cron schedules, lease reaper & cleanup
 **Priority:** P1 · **Size:** S · **Depends on:** T7.4.07, [1.2] (pg_cron, pg_net, Vault, `app.invoke_edge`)
@@ -170,6 +174,7 @@ it with the lease-based reaper every minute (update the architecture table when 
 **Acceptance criteria:** disabling the dispatcher for 5 min then re-enabling delivers all non-expired jobs
 exactly once.
 **Tests:** pgTAP for the reaper function; local cron smoke test.
+**Notes:** Cron (20260922000180): push-dispatch every 30 s, minutely lease reaper (`private.release_expired_leases`: claimed with expired lease → pending, attempts + 1, failed after 5) + heartbeat, daily maintenance per arch §7.7. Reaper covered in `090_notifications`; the E2E suite checks a second run delivers nothing twice.
 
 ### T7.4.09 — Push payload design & size budget
 **Priority:** P1 · **Size:** M · **Depends on:** T7.4.06, [7.2] (channels, categories, action catalog)
@@ -188,6 +193,7 @@ exactly once.
 the registered category.
 **Tests:** unit tests (Deno) for builders and size budget; manual QA on devices.
 **Notes:** Client part done: jobs carry the payload fields the builder needs (`type, title, body, deepLink, actions, channel, group, iosCategory, sound, interruptionLevel, relevance`; see `JobUploader.jobFor`). The builders and size budget are the server's (`_shared/fcm.ts`).
+**Notes:** `buildAlertMessage` / `buildJobMessage`: android tag + apns-collapse-id = dedupe key (≤ 64 bytes), TTL / apns-expiration from `expires_at`, interruption level from importance, category / thread / channel, custom data (type, target, occ, deepLink, actions, channel, group); 4 KB budget with a worst-case Arabic test. Deviation: Android uses notification messages (OS-rendered, tag = dedupe key) instead of data-only — see T7.4.10; revisit after the Doze delivery measurements on devices.
 
 ### T7.4.10 — Device-side push handling
 **Priority:** P1 · **Size:** L · **Depends on:** T7.4.01, T7.4.09, [7.2] (action handler, scheduler), [7.3] (banner, inbox)
@@ -220,6 +226,7 @@ priority (≥ 60 s between nudges per device); iOS `content-available: 1`, `apns
 Android; iOS updates on the next allowed nudge or foreground.
 **Tests:** Deno tests for throttling/origin skipping; device QA.
 **Notes:** Device part done: `sync` pushes schedule a pull in the foreground and set a pending-pull flag in the background, which the next start or resume handles. The `sync-nudge` function is the server's.
+**Notes:** Trigger `private.tg_sync_heads_nudge` on `app.sync_heads` (skips `last_origin_device_id`) → `sync-nudge`: data-only `{type: sync, head}`, Android normal priority ≥ 60 s apart, iOS background push ≤ 1 per 20 min, devices seen in the last 2 min skipped, `last_nudged_at` updated, invalid tokens dropped. Deno tests for throttling and origin skipping.
 
 ### T7.4.12 — Completion elsewhere & cross-device acknowledgement
 **Priority:** P1 · **Size:** S · **Depends on:** T7.4.05, T7.4.11, [7.2] (delivered cleanup)
@@ -262,6 +269,7 @@ guard false skipped; expired dropped; `UNREGISTERED` nulls the token; `QUOTA_EXC
 Retry-After; primary-only policy; stale `source_rev` upload rejected; nag stopped by `inbox_not_acted`;
 inbox row single after local + server writes.
 **Acceptance criteria:** suite green in CI in < 5 min.
+**Notes:** `push-dispatch/e2e_test.ts` (opt-in `EVERSLOT_E2E=1`) runs the real dispatcher store against the local stack with a scripted FCM sender: covered device skipped, > 72 h device pushed, older schedule_rev pushed, guard false (nag acknowledged elsewhere) skipped, expired dropped, UNREGISTERED nulls the token, QUOTA_EXCEEDED retried after Retry-After, primary-only policy, stale source_rev rejected, single inbox row keeping the read state, no double delivery on a second run (~0.5 s). Wired into `backend.yml` after pgTAP.
 
 ### T7.4.16 — Monitoring hooks & ops metrics
 **Priority:** P1 · **Size:** S · **Depends on:** T7.4.07
@@ -270,6 +278,7 @@ counts, sent/failed/expired in the last hour, invalid-token rate, last dispatche
 by alerting in [9.2] T9.2.14.
 **Data model:** `private.ops_heartbeats (name text primary key, last_run_at timestamptz, details jsonb)`.
 **Tests:** pgTAP for the health function.
+**Notes:** `app.ops_health()` (dispatcher lag, pending/claimed, last-hour sent/failed/expired, invalid-token rate, heartbeats) over `private.ops_heartbeats`; dispatcher and nudge write heartbeats. pgTAP in `100_purge_ops`.
 
 ### T7.4.17 — Server-side planning fallback
 **Priority:** P2 · **Size:** L · **Depends on:** T7.4.07, [2.1]
@@ -295,3 +304,4 @@ bounce handling; never for individual reminders by default.
 local scheduling only on devices foregrounded within the last 12 h. Document the brief overlap when
 switching devices.
 **Tests:** planner/dispatcher decision tests.
+**Notes:** Dispatcher already pushes only to the most recently foregrounded device (`policyDeviceIds`, Deno test). Device side: `NotificationSettings.localSchedulingAllowed` keeps local scheduling under *Last active device* only while this device was foregrounded within 12 h (`notifications.lastForegroundAt` in local_kv, stamped by foreground replans; unknown = keep scheduling). Overlap: after switching devices the previous one keeps its local reminders until its 12 h window lapses. Tests: `domain/device_policy_test.dart`.

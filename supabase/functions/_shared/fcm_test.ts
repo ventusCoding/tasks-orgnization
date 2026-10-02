@@ -266,3 +266,68 @@ Deno.test("sync message is data-only (Android normal priority, iOS background)",
   assertEquals(msg.apns?.headers?.["apns-priority"], "5");
   assertEquals((msg.apns?.payload?.aps as Record<string, unknown>)["content-available"], 1);
 });
+
+Deno.test("a cold instance reuses the token persisted by another instance (T7.4.06)", async () => {
+  resetFcmTokenCache();
+  const sa = await makeServiceAccount();
+  const now = Date.parse("2026-09-22T10:00:00Z");
+  const stored = new Map<string, { token: string; expiresAtMs: number }>();
+  const store = {
+    get: (key: string) => Promise.resolve(stored.get(key) ?? null),
+    put: (key: string, token: { token: string; expiresAtMs: number }) => {
+      stored.set(key, token);
+      return Promise.resolve();
+    },
+  };
+  const f = fcmFetch([() => jsonResponse({ name: "m" })]);
+  // Warm instance A mints and persists.
+  await new FcmClient({ serviceAccount: sa, fetch: f.fetch, now: () => now, tokenStore: store }).send(
+    sampleMessage,
+  );
+  assertEquals(f.mints(), 1);
+  assertEquals(stored.size, 1);
+  // Cold instance B (module cache empty) reads the shared cache instead of minting.
+  resetFcmTokenCache();
+  await new FcmClient({ serviceAccount: sa, fetch: f.fetch, now: () => now, tokenStore: store }).send(
+    sampleMessage,
+  );
+  assertEquals(f.mints(), 1);
+  // A store failure falls back to minting.
+  resetFcmTokenCache();
+  const broken = {
+    get: () => Promise.reject(new Error("db down")),
+    put: () => Promise.reject(new Error("db down")),
+  };
+  const r = await new FcmClient({ serviceAccount: sa, fetch: f.fetch, now: () => now, tokenStore: broken })
+    .send(sampleMessage);
+  assert(r.ok);
+  assertEquals(f.mints(), 2);
+});
+
+Deno.test("a rejected stored token is not reused: the client mints a fresh one", async () => {
+  resetFcmTokenCache();
+  const sa = await makeServiceAccount();
+  const store = {
+    get: () => Promise.resolve({ token: "revoked", expiresAtMs: Date.now() + 3600_000 }),
+    put: () => Promise.resolve(),
+  };
+  const f = fcmFetch([
+    () => fcmError(401, "UNAUTHENTICATED", "revoked"),
+    () => jsonResponse({ name: "ok" }),
+  ]);
+  const r = await new FcmClient({ serviceAccount: sa, fetch: f.fetch, tokenStore: store }).send(
+    sampleMessage,
+  );
+  assert(r.ok);
+  assertEquals(f.mints(), 1);
+});
+
+Deno.test("the FCM endpoint can point at a mock (local E2E)", async () => {
+  resetFcmTokenCache();
+  const sa = await makeServiceAccount();
+  const f = fcmFetch([() => jsonResponse({ name: "m" })]);
+  await new FcmClient({ serviceAccount: sa, fetch: f.fetch, baseUrl: "http://127.0.0.1:9999/" }).send(
+    sampleMessage,
+  );
+  assert(f.calls.some((c) => c.url === "http://127.0.0.1:9999/v1/projects/everslot-test/messages:send"));
+});

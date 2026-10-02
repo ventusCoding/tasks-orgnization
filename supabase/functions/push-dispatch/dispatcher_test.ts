@@ -223,3 +223,83 @@ Deno.test("keeps claiming batches until the queue is empty", async () => {
   assertEquals(summary.claimed, 4);
   assert(s.completed.every((r) => r.reason === "no_devices"));
 });
+
+const jobN = (i: number, fire = "2026-09-22T10:00:00Z") =>
+  makeJob({
+    id: `00000000-0000-4000-8000-${String(i).padStart(12, "0")}`,
+    dedupe_key: `dk-${i}`,
+    fire_at: fire,
+    payload: { title: `Task ${i}`, type: "reminder", channel: "planner_default" },
+  });
+
+Deno.test("a same-minute burst on one device becomes one merged push (T7.4.07 step 7)", async () => {
+  const jobs = [jobN(1), jobN(2), jobN(3), jobN(4, "2026-09-22T10:01:00Z")];
+  const s = store(jobs, [makeDevice()]);
+  const sender = new FakeSender(ok);
+  const summary = await run(s, sender);
+  // Three 10:00 jobs → one digest push; the 10:01 job alone → its own push.
+  assertEquals(sender.sent.length, 2);
+  const merged = sender.sent.find((m) => m.data?.type === "digest")!;
+  assertEquals(merged.data?.count, "3");
+  assertEquals(merged.data?.dks, "dk-1,dk-2,dk-3");
+  assert(String(merged.android?.notification?.body ?? "").includes("Task 2"));
+  assertEquals(summary.sent, 4);
+  for (const r of s.completed) {
+    assertEquals(r.status, "sent");
+    assertEquals(r.deliveries.length, 1);
+    assertEquals(r.deliveries[0].outcome, "sent");
+  }
+  // Every job still gets its own inbox row.
+  assertEquals(s.inbox.length, 4);
+});
+
+Deno.test("two same-minute jobs stay separate actionable pushes", async () => {
+  const s = store([jobN(1), jobN(2)], [makeDevice()]);
+  const sender = new FakeSender(ok);
+  await run(s, sender);
+  assertEquals(sender.sent.length, 2);
+  assert(sender.sent.every((m) => m.data?.type === "reminder"));
+});
+
+Deno.test("load: 10 000 due jobs for 500 users drain in one run well under the 30 s cadence", async () => {
+  const users = 500;
+  const all: ClaimedJob[] = [];
+  const devicesByUser: Record<string, UserDevices> = {};
+  for (let u = 0; u < users; u++) {
+    const userId = `00000000-0000-4000-9000-${String(u).padStart(12, "0")}`;
+    devicesByUser[userId] = {
+      policy: {},
+      devices: [
+        makeDevice({ id: `00000000-0000-4000-a000-${String(u).padStart(12, "0")}`, push_token: `t${u}` }),
+      ],
+    };
+    for (let k = 0; k < 20; k++) {
+      all.push(
+        makeJob({
+          id: `00000000-0000-4000-b${String(u).padStart(3, "0")}-${String(k).padStart(12, "0")}`,
+          user_id: userId,
+          dedupe_key: `u${u}-k${k}`,
+          fire_at: `2026-09-22T09:${String(30 + k).padStart(2, "0")}:00Z`,
+        }),
+      );
+    }
+  }
+  const s = new FakeStore([], devicesByUser);
+  s.batches = [];
+  for (let i = 0; i < all.length; i += 200) s.batches.push(all.slice(i, i + 200));
+  const sender = new FakeSender(ok);
+  const started = performance.now();
+  const summary = await runDispatch({
+    store: s,
+    sender,
+    now: () => NOW,
+    random: () => 0.5,
+    maxBatches: 100,
+    budgetMs: 25_000,
+  });
+  const elapsed = performance.now() - started;
+  assertEquals(summary.claimed, 10_000);
+  assertEquals(summary.sent, 10_000);
+  // Processing overhead (FCM latency excluded) must leave the 30 s cadence plenty of room.
+  assert(elapsed < 5_000, `dispatch overhead ${elapsed.toFixed(0)} ms`);
+});

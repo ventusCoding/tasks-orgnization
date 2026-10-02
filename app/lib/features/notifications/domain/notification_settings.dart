@@ -183,11 +183,21 @@ class NotificationSettings {
 
   bool pausedAt(DateTime instant) => pausedUntil != null && instant.isBefore(pausedUntil!);
 
-  /// Whether this device schedules local notifications under the multi-device policy.
-  bool localSchedulingAllowed(String deviceId) => switch (multiDevicePolicy) {
-    MultiDevicePolicy.all || MultiDevicePolicy.lastActive => true,
-    MultiDevicePolicy.primary => primaryDeviceId == null || primaryDeviceId == deviceId,
-  };
+  /// A device keeps scheduling local reminders under *Last active device* while it was in the
+  /// foreground within this window (T7.4.19); pushes go to the most recently foregrounded device.
+  static const lastActiveLocalWindow = Duration(hours: 12);
+
+  /// Whether this device schedules local notifications under the multi-device policy. With
+  /// *Last active device*, [lastForegroundAt] (this device's last foreground) must be within
+  /// [lastActiveLocalWindow] of [now]; when unknown the device keeps scheduling. Switching devices
+  /// briefly overlaps: the previous device keeps its local reminders until its window lapses.
+  bool localSchedulingAllowed(String deviceId, {DateTime? lastForegroundAt, DateTime? now}) =>
+      switch (multiDevicePolicy) {
+        MultiDevicePolicy.all => true,
+        MultiDevicePolicy.lastActive =>
+          lastForegroundAt == null || now == null || now.difference(lastForegroundAt) <= lastActiveLocalWindow,
+        MultiDevicePolicy.primary => primaryDeviceId == null || primaryDeviceId == deviceId,
+      };
 
   @override
   bool operator ==(Object other) =>

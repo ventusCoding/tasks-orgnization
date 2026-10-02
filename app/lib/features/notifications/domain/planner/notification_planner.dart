@@ -28,6 +28,7 @@ class PlanningContext {
     this.texts = const PlainNotificationTexts(),
     this.acknowledgedKeys = const {},
     this.deviceId = '',
+    this.lastForegroundAt,
     this.userId = '',
     this.timeSensitiveAllowed = true,
     this.horizon,
@@ -48,6 +49,9 @@ class PlanningContext {
   /// Base dedupe keys acknowledged on any device (inbox acted/opened/dismissed) — stops nags.
   final Set<String> acknowledgedKeys;
   final String deviceId;
+
+  /// This device's last foreground (last-active policy, T7.4.19); null = unknown.
+  final DateTime? lastForegroundAt;
   final String userId;
   final bool timeSensitiveAllowed;
 
@@ -584,7 +588,7 @@ abstract final class NotificationPlanner {
 
     final devices = conditions.devices;
     final local =
-        ctx.settings.localSchedulingAllowed(ctx.deviceId) &&
+        ctx.settings.localSchedulingAllowed(ctx.deviceId, lastForegroundAt: ctx.lastForegroundAt, now: ctx.now) &&
         (devices == null || devices.isEmpty || devices.contains(ctx.deviceId));
     if (!local) adjustments.add(PlanAdjustment.notLocal);
 

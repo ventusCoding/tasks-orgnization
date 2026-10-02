@@ -6,6 +6,7 @@ import { runInBackground } from "../_shared/background.ts";
 import { handleCors } from "../_shared/cors.ts";
 import { assertMethod, errorResponse, json, notConfigured, unauthorized } from "../_shared/errors.ts";
 import { createFcmSenderFromEnv, type PushSender } from "../_shared/fcm.ts";
+import { createSupabaseTokenStore } from "../_shared/fcm_token_store.ts";
 import { log } from "../_shared/log.ts";
 import { createAdminClient } from "../_shared/supabase.ts";
 import { type DispatchStore, runDispatch } from "./dispatcher.ts";
@@ -24,7 +25,10 @@ export const defaultDeps: PushDispatchDeps = {
     const client = createAdminClient();
     return client ? createSupabaseDispatchStore(client) : null;
   },
-  createSender: () => createFcmSenderFromEnv(),
+  createSender: () => {
+    const client = createAdminClient();
+    return createFcmSenderFromEnv(client ? createSupabaseTokenStore(client) : null);
+  },
   background: runInBackground,
 };
 

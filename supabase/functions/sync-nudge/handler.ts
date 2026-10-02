@@ -12,6 +12,7 @@ import {
   unauthorized,
 } from "../_shared/errors.ts";
 import { createFcmSenderFromEnv, type PushSender } from "../_shared/fcm.ts";
+import { createSupabaseTokenStore } from "../_shared/fcm_token_store.ts";
 import { log } from "../_shared/log.ts";
 import { type AdminClient, createAdminClient } from "../_shared/supabase.ts";
 import { type NudgeDevice, type NudgeEvent, type NudgeStore, runNudge } from "./nudge.ts";
@@ -68,7 +69,10 @@ export const defaultDeps: SyncNudgeDeps = {
     const client = createAdminClient();
     return client ? createSupabaseNudgeStore(client) : null;
   },
-  createSender: () => createFcmSenderFromEnv(),
+  createSender: () => {
+    const client = createAdminClient();
+    return createFcmSenderFromEnv(client ? createSupabaseTokenStore(client) : null);
+  },
   now: () => new Date(),
 };
 

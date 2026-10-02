@@ -2054,6 +2054,17 @@ export type Database = {
       dispatch_upsert_inbox: { Args: { p_items: Json }; Returns: Json }
       enable_sync: { Args: { p_table: unknown }; Returns: undefined }
       everslot_ns: { Args: never; Returns: string }
+      fcm_token_cache_get: {
+        Args: { p_key: string; p_min_validity?: string }
+        Returns: {
+          access_token: string
+          expires_at: string
+        }[]
+      }
+      fcm_token_cache_put: {
+        Args: { p_access_token: string; p_expires_at: string; p_key: string }
+        Returns: undefined
+      }
       fetch_rows: { Args: { p_ids: string[]; p_table: string }; Returns: Json }
       hlc_at: {
         Args: { p_at: string; p_counter?: number; p_node?: string }
@@ -2156,6 +2167,27 @@ export type Database = {
           last_attempt_at?: string | null
           requested_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      fcm_token_cache: {
+        Row: {
+          access_token: string
+          cache_key: string
+          expires_at: string
+          updated_at: string
+        }
+        Insert: {
+          access_token: string
+          cache_key: string
+          expires_at: string
+          updated_at?: string
+        }
+        Update: {
+          access_token?: string
+          cache_key?: string
+          expires_at?: string
+          updated_at?: string
         }
         Relationships: []
       }

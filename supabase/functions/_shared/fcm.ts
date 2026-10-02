@@ -309,7 +309,7 @@ export function mapFcmResponse(
 // Client
 // ---------------------------------------------------------------------------------------------------
 
-interface CachedToken {
+export interface CachedToken {
   token: string;
   expiresAtMs: number;
 }
@@ -327,11 +327,23 @@ export interface PushSender {
   send(message: FcmMessage): Promise<FcmSendResult>;
 }
 
+/**
+ * Shared token cache across instances (T7.4.06): `private.fcm_token_cache` through service-role RPCs,
+ * so a cold instance reuses a token another instance minted instead of signing a new JWT.
+ */
+export interface FcmTokenStore {
+  get(key: string): Promise<CachedToken | null>;
+  put(key: string, token: CachedToken): Promise<void>;
+}
+
 export interface FcmClientOptions {
   serviceAccount: ServiceAccount;
   fetch?: typeof fetch;
   now?: () => number;
   timeoutMs?: number;
+  tokenStore?: FcmTokenStore | null;
+  /** FCM endpoint (tests / local E2E point it at a mock); defaults to https://fcm.googleapis.com. */
+  baseUrl?: string;
 }
 
 export class FcmAuthError extends Error {
@@ -347,6 +359,8 @@ export class FcmClient implements PushSender {
   private readonly fetchFn: typeof fetch;
   private readonly now: () => number;
   private readonly timeoutMs: number;
+  private readonly tokenStore: FcmTokenStore | null;
+  private readonly baseUrl: string;
 
   constructor(options: FcmClientOptions) {
     this.sa = options.serviceAccount;
@@ -354,6 +368,8 @@ export class FcmClient implements PushSender {
     this.fetchFn = options.fetch ?? fetch;
     this.now = options.now ?? Date.now;
     this.timeoutMs = Math.max(10_000, options.timeoutMs ?? 10_000);
+    this.tokenStore = options.tokenStore ?? null;
+    this.baseUrl = (options.baseUrl ?? "https://fcm.googleapis.com").replace(/\/+$/, "");
   }
 
   private get cacheKey(): string {
@@ -367,7 +383,7 @@ export class FcmClient implements PushSender {
     if (cached && cached.expiresAtMs - TOKEN_REFRESH_MARGIN_MS > this.now()) return cached.token;
     let inflight = tokenInflight.get(key);
     if (!inflight) {
-      inflight = this.mint().finally(() => tokenInflight.delete(key));
+      inflight = this.storedOrMint(key).finally(() => tokenInflight.delete(key));
       tokenInflight.set(key, inflight);
     }
     const fresh = await inflight;
@@ -377,6 +393,25 @@ export class FcmClient implements PushSender {
 
   invalidateToken(): void {
     tokenCache.delete(this.cacheKey);
+    this.skipStoreOnce = true;
+  }
+
+  /** Set after a rejected token: the next mint must not reuse the (same) stored token. */
+  private skipStoreOnce = false;
+
+  private async storedOrMint(key: string): Promise<CachedToken> {
+    if (this.tokenStore && !this.skipStoreOnce) {
+      try {
+        const stored = await this.tokenStore.get(key);
+        if (stored && stored.expiresAtMs - TOKEN_REFRESH_MARGIN_MS > this.now()) return stored;
+      } catch {
+        // The shared cache is an optimization: fall back to minting.
+      }
+    }
+    this.skipStoreOnce = false;
+    const fresh = await this.mint();
+    if (this.tokenStore) await this.tokenStore.put(key, fresh).catch(() => {});
+    return fresh;
   }
 
   private async mint(): Promise<CachedToken> {
@@ -408,7 +443,7 @@ export class FcmClient implements PushSender {
   }
 
   async send(message: FcmMessage): Promise<FcmSendResult> {
-    const url = `https://fcm.googleapis.com/v1/projects/${encodeURIComponent(this.projectId)}/messages:send`;
+    const url = `${this.baseUrl}/v1/projects/${encodeURIComponent(this.projectId)}/messages:send`;
     for (let attempt = 0; attempt < 2; attempt++) {
       let token: string;
       try {
@@ -457,8 +492,9 @@ export class FcmClient implements PushSender {
   }
 }
 
-/** FCM sender from FCM_SERVICE_ACCOUNT, or null when push is not configured. */
-export function createFcmSenderFromEnv(): FcmClient | null {
+/** FCM sender from FCM_SERVICE_ACCOUNT (endpoint override FCM_BASE_URL), or null when push is not configured. */
+export function createFcmSenderFromEnv(tokenStore: FcmTokenStore | null = null): FcmClient | null {
   const sa = parseServiceAccount(readEnv("FCM_SERVICE_ACCOUNT"));
-  return sa ? new FcmClient({ serviceAccount: sa }) : null;
+  const baseUrl = readEnv("FCM_BASE_URL") ?? undefined;
+  return sa ? new FcmClient({ serviceAccount: sa, tokenStore, baseUrl }) : null;
 }
