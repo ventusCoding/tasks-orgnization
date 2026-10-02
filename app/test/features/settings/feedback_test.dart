@@ -10,7 +10,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../support/test_app.dart';
 
-const _secret = 'Buy milk for Anwer';
+const _secret = 'Buy milk for Sam';
 
 DeviceRegistration _device() => const DeviceRegistration(
   id: 'device-test',
@@ -21,7 +21,7 @@ DeviceRegistration _device() => const DeviceRegistration(
   appBuild: 42,
   locale: 'fr-FR',
   timeZone: 'Europe/Paris',
-  deviceName: "Anwer's phone",
+  deviceName: "Sam's phone",
 );
 
 void main() {
@@ -55,7 +55,7 @@ void main() {
     expect(text, contains('Device id: device-test'));
     expect(text, contains('Sync: local only'));
     expect(text, contains('Recent errors: planner.service/FormatException, checklists/StateError'));
-    for (final forbidden in [_secret, 'milk', 'Anwer', 'phone', 'Europe/Paris', 'user-1']) {
+    for (final forbidden in [_secret, 'milk', 'Sam', 'phone', 'Europe/Paris', 'user-1']) {
       expect(text, isNot(contains(forbidden)), reason: forbidden);
     }
   });
