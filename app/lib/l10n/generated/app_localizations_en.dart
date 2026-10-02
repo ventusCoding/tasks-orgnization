@@ -3579,6 +3579,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get extSourceTodoistHint => 'Project › Export as a template (CSV)';
 
   @override
+  String get feedbackDiagnosticsHint =>
+      'App and system versions, device model, sync state and recent error codes — never your content';
+
+  @override
+  String get feedbackHint => 'Ideas, problems, questions';
+
+  @override
+  String get feedbackIncludeDiagnostics => 'Include diagnostics';
+
+  @override
+  String get feedbackMessage => 'Your message';
+
+  @override
+  String get feedbackPreview => 'See exactly what is included';
+
+  @override
+  String get feedbackSend => 'Send';
+
+  @override
+  String get feedbackSubject => 'Everslot feedback';
+
+  @override
+  String get feedbackTitle => 'Send feedback';
+
+  @override
   String filterActiveCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

@@ -3642,6 +3642,31 @@ class AppLocalizationsFr extends AppLocalizations {
   String get extSourceTodoistHint => 'Projet › Exporter comme modèle (CSV)';
 
   @override
+  String get feedbackDiagnosticsHint =>
+      'Versions de l’app et du système, modèle d’appareil, état de synchro et codes d’erreur récents — jamais votre contenu';
+
+  @override
+  String get feedbackHint => 'Idées, problèmes, questions';
+
+  @override
+  String get feedbackIncludeDiagnostics => 'Joindre le diagnostic';
+
+  @override
+  String get feedbackMessage => 'Votre message';
+
+  @override
+  String get feedbackPreview => 'Voir exactement ce qui est joint';
+
+  @override
+  String get feedbackSend => 'Envoyer';
+
+  @override
+  String get feedbackSubject => 'Avis sur Everslot';
+
+  @override
+  String get feedbackTitle => 'Envoyer un avis';
+
+  @override
   String filterActiveCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

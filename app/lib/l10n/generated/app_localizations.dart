@@ -6219,6 +6219,54 @@ abstract class AppLocalizations {
   /// **'Project › Export as a template (CSV)'**
   String get extSourceTodoistHint;
 
+  /// No description provided for @feedbackDiagnosticsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'App and system versions, device model, sync state and recent error codes — never your content'**
+  String get feedbackDiagnosticsHint;
+
+  /// No description provided for @feedbackHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ideas, problems, questions'**
+  String get feedbackHint;
+
+  /// No description provided for @feedbackIncludeDiagnostics.
+  ///
+  /// In en, this message translates to:
+  /// **'Include diagnostics'**
+  String get feedbackIncludeDiagnostics;
+
+  /// No description provided for @feedbackMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your message'**
+  String get feedbackMessage;
+
+  /// No description provided for @feedbackPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'See exactly what is included'**
+  String get feedbackPreview;
+
+  /// No description provided for @feedbackSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get feedbackSend;
+
+  /// No description provided for @feedbackSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Everslot feedback'**
+  String get feedbackSubject;
+
+  /// No description provided for @feedbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get feedbackTitle;
+
   /// No description provided for @filterActiveCount.
   ///
   /// In en, this message translates to:

@@ -34,7 +34,7 @@ encryption, onboarding, sample data, accessibility options, about/legal, feedbac
 - [x] T8.3.14 — Import from other apps
 - [x] T8.3.15 — Local database encryption
 - [x] T8.3.16 — Sample data / demo mode
-- [ ] T8.3.17 — In-app feedback & diagnostics
+- [x] T8.3.17 — In-app feedback & diagnostics
 
 ## Tasks
 
@@ -189,3 +189,4 @@ local-only flag; one-tap removal.
 **Description:** "Send feedback" composes an email with optional diagnostics (app/OS version, device
 model, sync state, last error codes — no content, no ids beyond device id) the user can review before sending.
 **Tests:** unit test that diagnostics contain no user content.
+**Notes:** Settings › About › *Send feedback*: message + optional diagnostics (on by default) shown verbatim before sending; sent by e-mail to `SUPPORT_EMAIL`, else through the share sheet. `FeedbackDiagnostics` (domain) holds app version/build/flavor, platform + OS version, device model, locale, device id, sync phase / pending / failed / last success / error code, and up to 10 recent error codes `logger/ExceptionType` taken from the log buffer — only a type name matching `…Exception|Error|Failure` (Dart error phrases mapped to their type), never message text; device name, time zone and user ids are left out. Labels are English (read by support).

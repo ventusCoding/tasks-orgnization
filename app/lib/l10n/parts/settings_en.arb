@@ -322,5 +322,13 @@
   "aboutHelpCenter": "Help & FAQ",
   "aboutContact": "Contact support",
   "aboutRate": "Rate Everslot",
-  "aboutRateHint": "A rating helps others find the app"
+  "aboutRateHint": "A rating helps others find the app",
+  "feedbackTitle": "Send feedback",
+  "feedbackHint": "Ideas, problems, questions",
+  "feedbackSubject": "Everslot feedback",
+  "feedbackMessage": "Your message",
+  "feedbackIncludeDiagnostics": "Include diagnostics",
+  "feedbackDiagnosticsHint": "App and system versions, device model, sync state and recent error codes — never your content",
+  "feedbackPreview": "See exactly what is included",
+  "feedbackSend": "Send"
 }

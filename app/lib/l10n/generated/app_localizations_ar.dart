@@ -3824,6 +3824,31 @@ class AppLocalizationsAr extends AppLocalizations {
   String get extSourceTodoistHint => 'المشروع › التصدير كقالب (CSV)';
 
   @override
+  String get feedbackDiagnosticsHint =>
+      'إصدارات التطبيق والنظام وطراز الجهاز وحالة المزامنة ورموز الأخطاء الأخيرة — دون محتواك أبدًا';
+
+  @override
+  String get feedbackHint => 'أفكار ومشكلات وأسئلة';
+
+  @override
+  String get feedbackIncludeDiagnostics => 'إرفاق بيانات التشخيص';
+
+  @override
+  String get feedbackMessage => 'رسالتك';
+
+  @override
+  String get feedbackPreview => 'عرض ما سيُرفق بالضبط';
+
+  @override
+  String get feedbackSend => 'إرسال';
+
+  @override
+  String get feedbackSubject => 'ملاحظات حول Everslot';
+
+  @override
+  String get feedbackTitle => 'إرسال ملاحظات';
+
+  @override
   String filterActiveCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

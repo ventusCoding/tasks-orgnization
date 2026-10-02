@@ -245,5 +245,13 @@
   "aboutHelpCenter": "Aide et FAQ",
   "aboutContact": "Contacter le support",
   "aboutRate": "Noter Everslot",
-  "aboutRateHint": "Une note aide d’autres personnes à trouver l’app"
+  "aboutRateHint": "Une note aide d’autres personnes à trouver l’app",
+  "feedbackTitle": "Envoyer un avis",
+  "feedbackHint": "Idées, problèmes, questions",
+  "feedbackSubject": "Avis sur Everslot",
+  "feedbackMessage": "Votre message",
+  "feedbackIncludeDiagnostics": "Joindre le diagnostic",
+  "feedbackDiagnosticsHint": "Versions de l’app et du système, modèle d’appareil, état de synchro et codes d’erreur récents — jamais votre contenu",
+  "feedbackPreview": "Voir exactement ce qui est joint",
+  "feedbackSend": "Envoyer"
 }

@@ -245,5 +245,13 @@
   "aboutHelpCenter": "المساعدة والأسئلة الشائعة",
   "aboutContact": "التواصل مع الدعم",
   "aboutRate": "قيّم Everslot",
-  "aboutRateHint": "يساعد التقييم الآخرين على إيجاد التطبيق"
+  "aboutRateHint": "يساعد التقييم الآخرين على إيجاد التطبيق",
+  "feedbackTitle": "إرسال ملاحظات",
+  "feedbackHint": "أفكار ومشكلات وأسئلة",
+  "feedbackSubject": "ملاحظات حول Everslot",
+  "feedbackMessage": "رسالتك",
+  "feedbackIncludeDiagnostics": "إرفاق بيانات التشخيص",
+  "feedbackDiagnosticsHint": "إصدارات التطبيق والنظام وطراز الجهاز وحالة المزامنة ورموز الأخطاء الأخيرة — دون محتواك أبدًا",
+  "feedbackPreview": "عرض ما سيُرفق بالضبط",
+  "feedbackSend": "إرسال"
 }
