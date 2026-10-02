@@ -11145,6 +11145,102 @@ class AppLocalizationsAr extends AppLocalizations {
   String get savedSnack => 'تم الحفظ';
 
   @override
+  String get searchAny => 'الكل';
+
+  @override
+  String get searchCategory => 'الفئة';
+
+  @override
+  String get searchCheckIn => 'تسجيل';
+
+  @override
+  String get searchClearFilters => 'مسح عوامل التصفية';
+
+  @override
+  String get searchComplete => 'إنجاز العنصر';
+
+  @override
+  String get searchDates => 'التواريخ';
+
+  @override
+  String get searchDatesFrom => 'من';
+
+  @override
+  String get searchDatesMonth => 'آخر 30 يومًا';
+
+  @override
+  String get searchDatesTo => 'إلى';
+
+  @override
+  String get searchDatesToday => 'اليوم';
+
+  @override
+  String get searchDatesWeek => 'آخر 7 أيام';
+
+  @override
+  String get searchHint => 'ابحث في كل شيء';
+
+  @override
+  String get searchIntro => 'المهام والقوائم والعناصر والعادات والملاحظات والوارد';
+
+  @override
+  String searchItemCompleted(String title) {
+    return 'تم إنجاز «$title»';
+  }
+
+  @override
+  String get searchKindChecklist => 'القوائم';
+
+  @override
+  String get searchKindHabit => 'العادات';
+
+  @override
+  String get searchKindInbox => 'الوارد';
+
+  @override
+  String get searchKindItem => 'العناصر';
+
+  @override
+  String get searchKindLog => 'الملاحظات';
+
+  @override
+  String get searchKindTask => 'المهام';
+
+  @override
+  String searchNoResults(String query) {
+    return 'لا نتائج لـ «$query»';
+  }
+
+  @override
+  String get searchRecent => 'عمليات البحث الأخيرة';
+
+  @override
+  String get searchRemoveRecent => 'إزالة من عمليات البحث الأخيرة';
+
+  @override
+  String searchSeeAll(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'عرض الكل ($count)',
+      one: 'عرض نتيجة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get searchStatus => 'الحالة';
+
+  @override
+  String get searchStatusClosed => 'منجز أو مؤرشف';
+
+  @override
+  String get searchStatusOpen => 'مفتوح';
+
+  @override
+  String get searchTag => 'الوسم';
+
+  @override
   String get settingsAbout => 'حول التطبيق';
 
   @override

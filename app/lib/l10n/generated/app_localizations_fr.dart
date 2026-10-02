@@ -10629,6 +10629,97 @@ class AppLocalizationsFr extends AppLocalizations {
   String get savedSnack => 'Enregistré';
 
   @override
+  String get searchAny => 'Tous';
+
+  @override
+  String get searchCategory => 'Catégorie';
+
+  @override
+  String get searchCheckIn => 'Valider';
+
+  @override
+  String get searchClearFilters => 'Effacer les filtres';
+
+  @override
+  String get searchComplete => 'Terminer l’élément';
+
+  @override
+  String get searchDates => 'Dates';
+
+  @override
+  String get searchDatesFrom => 'Du';
+
+  @override
+  String get searchDatesMonth => '30 derniers jours';
+
+  @override
+  String get searchDatesTo => 'Au';
+
+  @override
+  String get searchDatesToday => 'Aujourd’hui';
+
+  @override
+  String get searchDatesWeek => '7 derniers jours';
+
+  @override
+  String get searchHint => 'Tout rechercher';
+
+  @override
+  String get searchIntro => 'Tâches, listes, éléments, habitudes, notes et boîte de réception';
+
+  @override
+  String searchItemCompleted(String title) {
+    return '« $title » terminé';
+  }
+
+  @override
+  String get searchKindChecklist => 'Listes';
+
+  @override
+  String get searchKindHabit => 'Habitudes';
+
+  @override
+  String get searchKindInbox => 'Boîte de réception';
+
+  @override
+  String get searchKindItem => 'Éléments';
+
+  @override
+  String get searchKindLog => 'Notes';
+
+  @override
+  String get searchKindTask => 'Tâches';
+
+  @override
+  String searchNoResults(String query) {
+    return 'Aucun résultat pour « $query »';
+  }
+
+  @override
+  String get searchRecent => 'Recherches récentes';
+
+  @override
+  String get searchRemoveRecent => 'Retirer des recherches récentes';
+
+  @override
+  String searchSeeAll(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: 'Voir les $count', one: 'Voir 1 résultat');
+    return '$_temp0';
+  }
+
+  @override
+  String get searchStatus => 'Statut';
+
+  @override
+  String get searchStatusClosed => 'Terminé ou archivé';
+
+  @override
+  String get searchStatusOpen => 'En cours';
+
+  @override
+  String get searchTag => 'Étiquette';
+
+  @override
   String get settingsAbout => 'À propos';
 
   @override

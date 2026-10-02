@@ -1,0 +1,51 @@
+{
+  "searchHint": "Search everything",
+  "searchIntro": "Tasks, lists, items, habits, notes and inbox",
+  "searchKindTask": "Tasks",
+  "searchKindChecklist": "Lists",
+  "searchKindItem": "Items",
+  "searchKindHabit": "Habits",
+  "searchKindLog": "Notes",
+  "searchKindInbox": "Inbox",
+  "searchNoResults": "No results for “{query}”",
+  "@searchNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "searchRecent": "Recent searches",
+  "searchRemoveRecent": "Remove from recent searches",
+  "searchStatus": "Status",
+  "searchStatusOpen": "Open",
+  "searchStatusClosed": "Done or archived",
+  "searchCategory": "Category",
+  "searchTag": "Tag",
+  "searchDates": "Dates",
+  "searchDatesToday": "Today",
+  "searchDatesWeek": "Last 7 days",
+  "searchDatesMonth": "Last 30 days",
+  "searchDatesFrom": "From",
+  "searchDatesTo": "To",
+  "searchAny": "Any",
+  "searchClearFilters": "Clear filters",
+  "searchComplete": "Complete item",
+  "searchCheckIn": "Check in",
+  "searchItemCompleted": "“{title}” completed",
+  "@searchItemCompleted": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "searchSeeAll": "{count, plural, =1{See 1 result} other{See all {count}}}",
+  "@searchSeeAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+}

@@ -3825,6 +3825,27 @@
       }
     }
   },
+  "@searchItemCompleted": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@searchNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "@searchSeeAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@settingsDeviceLastSeen": {
     "placeholders": {
       "when": {
@@ -8206,6 +8227,34 @@
   "repeatRuns": "Run history",
   "repeatTitle": "Repeat",
   "savedSnack": "Saved",
+  "searchAny": "Any",
+  "searchCategory": "Category",
+  "searchCheckIn": "Check in",
+  "searchClearFilters": "Clear filters",
+  "searchComplete": "Complete item",
+  "searchDates": "Dates",
+  "searchDatesFrom": "From",
+  "searchDatesMonth": "Last 30 days",
+  "searchDatesTo": "To",
+  "searchDatesToday": "Today",
+  "searchDatesWeek": "Last 7 days",
+  "searchHint": "Search everything",
+  "searchIntro": "Tasks, lists, items, habits, notes and inbox",
+  "searchItemCompleted": "“{title}” completed",
+  "searchKindChecklist": "Lists",
+  "searchKindHabit": "Habits",
+  "searchKindInbox": "Inbox",
+  "searchKindItem": "Items",
+  "searchKindLog": "Notes",
+  "searchKindTask": "Tasks",
+  "searchNoResults": "No results for “{query}”",
+  "searchRecent": "Recent searches",
+  "searchRemoveRecent": "Remove from recent searches",
+  "searchSeeAll": "{count, plural, =1{See 1 result} other{See all {count}}}",
+  "searchStatus": "Status",
+  "searchStatusClosed": "Done or archived",
+  "searchStatusOpen": "Open",
+  "searchTag": "Tag",
   "settingsAbout": "About",
   "settingsAboutSubtitle": "Version, licenses, help",
   "settingsAccessibility": "Accessibility",

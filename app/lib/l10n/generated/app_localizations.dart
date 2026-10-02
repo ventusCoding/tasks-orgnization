@@ -18045,6 +18045,174 @@ abstract class AppLocalizations {
   /// **'Saved'**
   String get savedSnack;
 
+  /// No description provided for @searchAny.
+  ///
+  /// In en, this message translates to:
+  /// **'Any'**
+  String get searchAny;
+
+  /// No description provided for @searchCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get searchCategory;
+
+  /// No description provided for @searchCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in'**
+  String get searchCheckIn;
+
+  /// No description provided for @searchClearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get searchClearFilters;
+
+  /// No description provided for @searchComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete item'**
+  String get searchComplete;
+
+  /// No description provided for @searchDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates'**
+  String get searchDates;
+
+  /// No description provided for @searchDatesFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get searchDatesFrom;
+
+  /// No description provided for @searchDatesMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days'**
+  String get searchDatesMonth;
+
+  /// No description provided for @searchDatesTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get searchDatesTo;
+
+  /// No description provided for @searchDatesToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get searchDatesToday;
+
+  /// No description provided for @searchDatesWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get searchDatesWeek;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search everything'**
+  String get searchHint;
+
+  /// No description provided for @searchIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks, lists, items, habits, notes and inbox'**
+  String get searchIntro;
+
+  /// No description provided for @searchItemCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'“{title}” completed'**
+  String searchItemCompleted(String title);
+
+  /// No description provided for @searchKindChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists'**
+  String get searchKindChecklist;
+
+  /// No description provided for @searchKindHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits'**
+  String get searchKindHabit;
+
+  /// No description provided for @searchKindInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox'**
+  String get searchKindInbox;
+
+  /// No description provided for @searchKindItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Items'**
+  String get searchKindItem;
+
+  /// No description provided for @searchKindLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get searchKindLog;
+
+  /// No description provided for @searchKindTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get searchKindTask;
+
+  /// No description provided for @searchNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results for “{query}”'**
+  String searchNoResults(String query);
+
+  /// No description provided for @searchRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent searches'**
+  String get searchRecent;
+
+  /// No description provided for @searchRemoveRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from recent searches'**
+  String get searchRemoveRecent;
+
+  /// No description provided for @searchSeeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{See 1 result} other{See all {count}}}'**
+  String searchSeeAll(int count);
+
+  /// No description provided for @searchStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get searchStatus;
+
+  /// No description provided for @searchStatusClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Done or archived'**
+  String get searchStatusClosed;
+
+  /// No description provided for @searchStatusOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get searchStatusOpen;
+
+  /// No description provided for @searchTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag'**
+  String get searchTag;
+
   /// No description provided for @settingsAbout.
   ///
   /// In en, this message translates to:

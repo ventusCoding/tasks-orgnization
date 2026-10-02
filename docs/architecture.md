@@ -294,7 +294,8 @@ features/<feature>/
   `ui_checklist_state` (checklist_id, mode edit|preview, focus_item_id, view_type, sort_json, filter_json,
   scroll_offset, last_opened_at), `ui_view_state` (view id, anchor date, scroll minute, zoom),
   `habit_timer_state` (running duration timers survive app kill), `attachment_cache` (§6.7),
-  `search_index` (FTS5), `stats_cache` (optional rollups), `insight_state` (key, fired_at, dismissed_at, payload —
+  `search_index` (FTS5 over tasks, checklists, items, habits, habit-log notes and — since schema v5 —
+  inbox entries; trigger-maintained), `stats_cache` (optional rollups), `insight_state` (key, fired_at, dismissed_at, payload —
   insight feed de-duplication and the fired insight's JSON, schema v4).
 - DateTime stored as ISO-8601 **text in UTC** (`storeDateTimeValuesAsText: true`); wall-clock values
   as ISO text without offset; dates as `YYYY-MM-DD` text.

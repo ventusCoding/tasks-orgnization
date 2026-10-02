@@ -68,7 +68,7 @@ class AppDatabase extends _$AppDatabase {
       driftDatabase(name: 'everslot', native: const DriftNativeOptions(shareAcrossIsolates: true));
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -98,6 +98,12 @@ class AppDatabase extends _$AppDatabase {
       // v4: fired insights keep their payload (T6.7.08).
       if (from < 4) {
         await m.addColumn(insightState, insightState.payload);
+      }
+      // v5: inbox entries join the search index (T8.1.14).
+      if (from < 5) {
+        for (final statement in [...searchIndexStatements, ...SearchIndexSchema.rebuildStatements]) {
+          await customStatement(statement);
+        }
       }
     },
     beforeOpen: (details) async {

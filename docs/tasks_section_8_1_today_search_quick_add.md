@@ -31,8 +31,8 @@ palette (P2).
 - [x] T8.1.11 — Day progress header
 - [x] T8.1.12 — Today customization (reorder/hide blocks)
 - [x] T8.1.13 — Empty states & contextual hints
-- [ ] T8.1.14 — Global search screen
-- [ ] T8.1.15 — Search filters, recents & result actions
+- [x] T8.1.14 — Global search screen
+- [x] T8.1.15 — Search filters, recents & result actions
 - [ ] T8.1.16 — Search query syntax
 - [ ] T8.1.17 — Natural-language quick add
 - [ ] T8.1.18 — Command palette
@@ -180,12 +180,20 @@ checklists, checklist items (with breadcrumb path of ancestors), habits, notes/l
 **Acceptance criteria:** results for 20 000 indexed rows in < 100 ms; Arabic and French diacritics
 handled (unicode61 remove_diacritics); tapping opens the deep link.
 **Tests:** DAO tests on seeded FTS data; widget tests for grouping/highlighting.
+**Notes:** inbox entries joined the FTS index (schema v5, `notifications` source + rebuild).
+`GlobalSearchQueries` enriches index hits (breadcrumb, link, category, tags, open/closed, day); quit
+trackers link to `/quit/:id`. Titles are highlighted in Dart with `Collation` (prefix per word, original
+text), bodies with FTS `snippet()`. Groups show 4 rows + *see all* (= kind filter). 20 000 rows: < 100 ms
+enriched (test).
 
 ### T8.1.15 — Search filters, recents & result actions
 **Priority:** P1 · **Size:** S · **Depends on:** T8.1.14
 **Description:** Filter chips (type, status, category, tag, date range), recent searches (local only),
 inline quick actions on results (complete item, check-in habit).
 **Tests:** widget tests for filters and recents persistence.
+**Notes:** kind chips narrow the index query; status/category/tag/date filter the enriched rows.
+Recents (10, case-insensitive dedupe) live in `local_kv` (`search.recents`), never synced. Inline
+actions: complete a checklist item (undo snackbar), check in a build habit.
 
 ### T8.1.16 — Search query syntax
 **Priority:** P2 · **Size:** S · **Depends on:** T8.1.15

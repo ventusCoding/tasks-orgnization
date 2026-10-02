@@ -32,7 +32,7 @@ void main() {
     final row = await db.select(db.insightState).getSingle();
     expect(row.key, 'perfectWeek|habits|2026-09-14');
     expect(row.payload, isNull);
-    expect(db.schemaVersion, 4);
+    expect(db.schemaVersion, greaterThanOrEqualTo(4));
     await db.close();
   });
 }

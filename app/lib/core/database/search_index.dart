@@ -43,6 +43,8 @@ abstract final class SearchIndexSchema {
     ),
     SearchSource(table: 'habits', entityType: 'habit', title: 'name', body: 'description'),
     SearchSource(table: 'habit_logs', entityType: 'habit_log', title: 'note', body: 'NULL', parent: 'habit_id'),
+    // Inbox entries (T8.1.14, schema v5).
+    SearchSource(table: 'notifications', entityType: 'notification', title: 'title', body: 'body'),
   ];
 
   static const _columns = 'entity_type, entity_id, parent_id, title, body';
@@ -118,6 +120,7 @@ class SearchMatch {
     required this.score,
     this.parentId,
     this.updatedAt,
+    this.snippet,
   });
 
   final String entityType;
@@ -133,6 +136,13 @@ class SearchMatch {
   /// Relevance (higher first): bm25 boosted by recency.
   final double score;
 
+  /// Body fragment around the match, matched terms wrapped in [snippetStart] / [snippetEnd]
+  /// (FTS5 `snippet()`); null when only the title matched.
+  final String? snippet;
+
+  static const snippetStart = '\u0002';
+  static const snippetEnd = '\u0003';
+
   @override
   bool operator ==(Object other) =>
       other is SearchMatch &&
@@ -141,10 +151,11 @@ class SearchMatch {
       other.parentId == parentId &&
       other.title == title &&
       other.updatedAt == updatedAt &&
-      other.score == score;
+      other.score == score &&
+      other.snippet == snippet;
 
   @override
-  int get hashCode => Object.hash(entityType, entityId, parentId, title, updatedAt, score);
+  int get hashCode => Object.hash(entityType, entityId, parentId, title, updatedAt, score, snippet);
 
   @override
   String toString() => 'SearchMatch($entityType $entityId "$title" ${score.toStringAsFixed(3)})';
@@ -181,6 +192,7 @@ class SearchIndex {
         .customSelect(
           'SELECT s.entity_type AS et, s.entity_id AS eid, s.parent_id AS pid, '
           'bm25(search_index, 0.0, 0.0, 0.0, 4.0, 1.0) AS rank, '
+          "snippet(search_index, 4, char(2), char(3), '…', 12) AS snip, "
           '${_perType('title')} AS title, ${_perType('updated_at')} AS updated '
           'FROM search_index s WHERE search_index MATCH ? '
           '${types == null ? '' : 'AND s.entity_type IN (${List.filled(types.length, '?').join(', ')}) '}'
@@ -209,6 +221,10 @@ class SearchIndex {
             title: r.readNullable<String>('title') ?? '',
             updatedAt: updated,
             score: relevance * (1 + boost),
+            snippet: switch (r.readNullable<String>('snip')) {
+              final s? when s.contains(SearchMatch.snippetStart) => s,
+              _ => null,
+            },
           );
         }(),
     ]..sort((a, b) => b.score.compareTo(a.score));

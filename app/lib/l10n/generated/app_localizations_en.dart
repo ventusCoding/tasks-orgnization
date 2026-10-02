@@ -10388,6 +10388,97 @@ class AppLocalizationsEn extends AppLocalizations {
   String get savedSnack => 'Saved';
 
   @override
+  String get searchAny => 'Any';
+
+  @override
+  String get searchCategory => 'Category';
+
+  @override
+  String get searchCheckIn => 'Check in';
+
+  @override
+  String get searchClearFilters => 'Clear filters';
+
+  @override
+  String get searchComplete => 'Complete item';
+
+  @override
+  String get searchDates => 'Dates';
+
+  @override
+  String get searchDatesFrom => 'From';
+
+  @override
+  String get searchDatesMonth => 'Last 30 days';
+
+  @override
+  String get searchDatesTo => 'To';
+
+  @override
+  String get searchDatesToday => 'Today';
+
+  @override
+  String get searchDatesWeek => 'Last 7 days';
+
+  @override
+  String get searchHint => 'Search everything';
+
+  @override
+  String get searchIntro => 'Tasks, lists, items, habits, notes and inbox';
+
+  @override
+  String searchItemCompleted(String title) {
+    return '“$title” completed';
+  }
+
+  @override
+  String get searchKindChecklist => 'Lists';
+
+  @override
+  String get searchKindHabit => 'Habits';
+
+  @override
+  String get searchKindInbox => 'Inbox';
+
+  @override
+  String get searchKindItem => 'Items';
+
+  @override
+  String get searchKindLog => 'Notes';
+
+  @override
+  String get searchKindTask => 'Tasks';
+
+  @override
+  String searchNoResults(String query) {
+    return 'No results for “$query”';
+  }
+
+  @override
+  String get searchRecent => 'Recent searches';
+
+  @override
+  String get searchRemoveRecent => 'Remove from recent searches';
+
+  @override
+  String searchSeeAll(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: 'See all $count', one: 'See 1 result');
+    return '$_temp0';
+  }
+
+  @override
+  String get searchStatus => 'Status';
+
+  @override
+  String get searchStatusClosed => 'Done or archived';
+
+  @override
+  String get searchStatusOpen => 'Open';
+
+  @override
+  String get searchTag => 'Tag';
+
+  @override
   String get settingsAbout => 'About';
 
   @override
