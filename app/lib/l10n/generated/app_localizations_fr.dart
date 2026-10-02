@@ -7961,6 +7961,109 @@ class AppLocalizationsFr extends AppLocalizations {
   String get onboardingWeekStart => 'La semaine commence le';
 
   @override
+  String get paletteGoCategories => 'Gérer les catégories';
+
+  @override
+  String get paletteGoDay => 'Ouvrir la vue du jour';
+
+  @override
+  String get paletteGoHabits => 'Ouvrir les habitudes';
+
+  @override
+  String get paletteGoInbox => 'Ouvrir la boîte de réception';
+
+  @override
+  String get paletteGoInsights => 'Ouvrir les statistiques';
+
+  @override
+  String paletteGoInsightsScope(String section) {
+    return 'Ouvrir les statistiques › $section';
+  }
+
+  @override
+  String get paletteGoLists => 'Ouvrir les listes';
+
+  @override
+  String get paletteGoNextWeek => 'Aller à la semaine prochaine';
+
+  @override
+  String get paletteGoNotificationSettings => 'Ouvrir Réglages › Notifications';
+
+  @override
+  String get paletteGoPreviousWeek => 'Aller à la semaine précédente';
+
+  @override
+  String get paletteGoSearch => 'Tout rechercher';
+
+  @override
+  String get paletteGoSettings => 'Ouvrir les réglages';
+
+  @override
+  String get paletteGoTags => 'Gérer les étiquettes';
+
+  @override
+  String get paletteGoThisWeek => 'Aller à cette semaine';
+
+  @override
+  String get paletteGoToday => 'Aller à Aujourd’hui';
+
+  @override
+  String get paletteGoTrash => 'Ouvrir la corbeille';
+
+  @override
+  String get paletteGroupActions => 'Actions';
+
+  @override
+  String get paletteGroupCreate => 'Créer';
+
+  @override
+  String get paletteGroupGo => 'Aller à';
+
+  @override
+  String get paletteHint => 'Tapez une commande ou « Appeler Bob demain 9h »';
+
+  @override
+  String get paletteNewHabit => 'Nouvelle habitude';
+
+  @override
+  String get paletteNewList => 'Nouvelle liste';
+
+  @override
+  String get paletteNewQuit => 'Nouveau suivi d’arrêt';
+
+  @override
+  String get paletteNewTask => 'Nouvelle tâche';
+
+  @override
+  String paletteNewTaskAt(String title, String when) {
+    return 'Nouvelle tâche « $title » · $when';
+  }
+
+  @override
+  String get paletteNoMatch => 'Aucune commande correspondante';
+
+  @override
+  String get palettePause1h => 'Suspendre les notifications 1 h';
+
+  @override
+  String get palettePauseTomorrow => 'Suspendre les notifications jusqu’à demain';
+
+  @override
+  String get palettePaused => 'Notifications suspendues';
+
+  @override
+  String get paletteResume => 'Reprendre les notifications';
+
+  @override
+  String get paletteResumed => 'Notifications reprises';
+
+  @override
+  String get paletteSyncNow => 'Synchroniser maintenant';
+
+  @override
+  String get paletteTitle => 'Commandes';
+
+  @override
   String get pickerColor => 'Couleur';
 
   @override

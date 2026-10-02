@@ -22,9 +22,12 @@ import 'package:material_ui/material_ui.dart';
 /// kind with *see all*, highlighted matches and breadcrumbs; filter chips, recent searches and
 /// inline actions (complete an item, check in a habit). Tapping a result opens its deep link.
 class SearchScreen extends ConsumerStatefulWidget {
-  const SearchScreen({this.initialQuery, super.key});
+  const SearchScreen({this.initialQuery, this.onCommandPalette, super.key});
 
   final String? initialQuery;
+
+  /// Opens the command palette (T8.1.18) — also when the query starts with `>`.
+  final Future<void> Function(BuildContext context, String query)? onCommandPalette;
 
   /// Results shown per group before *see all*.
   static const perGroup = 4;
@@ -57,7 +60,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     super.dispose();
   }
 
-  void _onChanged(String _) {
+  void _onChanged(String text) {
+    final palette = widget.onCommandPalette;
+    if (palette != null && text.startsWith('>')) {
+      _controller.clear();
+      unawaited(palette(context, text.substring(1).trimLeft()));
+      return;
+    }
     _debounce?.cancel();
     _debounce = Timer(SearchScreen.debounce, () => unawaited(_run()));
   }
@@ -173,6 +182,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           },
         ),
         actions: [
+          if (widget.onCommandPalette case final palette?)
+            IconButton(
+              key: const ValueKey('search-palette'),
+              tooltip: l.paletteTitle,
+              icon: const Icon(Icons.keyboard_command_key),
+              onPressed: () => unawaited(palette(context, '')),
+            ),
           IconButton(
             key: const ValueKey('search-syntax-help'),
             tooltip: l.searchSyntaxHelp,

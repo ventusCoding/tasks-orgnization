@@ -35,7 +35,7 @@ palette (P2).
 - [x] T8.1.15 — Search filters, recents & result actions
 - [x] T8.1.16 — Search query syntax
 - [x] T8.1.17 — Natural-language quick add
-- [ ] T8.1.18 — Command palette
+- [x] T8.1.18 — Command palette
 
 ## Tasks
 
@@ -228,3 +228,9 @@ and priority. AR vocabulary deferred (spec: "AR later").
 **Description:** Searchable list of actions ("New task at 9:00", "Go to next week", "Pause notifications 1 h",
 "Open Insights › Habits") — reachable from search and a keyboard shortcut on tablets.
 **Tests:** unit tests for action matching; widget test for execution of a navigation action.
+**Notes:** `CommandMatching` (search domain) scores word starts > keywords > substrings > letters in
+order, all words required, accent-insensitive. Palette (`app/command_palette.dart`): create (incl. a
+live *New task "…" · date* entry when the query parses as a dated task), go-to (Today, this/next/previous
+week, day, Lists, Habits, Insights + scopes, Inbox, Search, Settings › Notifications, Trash, categories,
+tags) and actions (pause 1 h / until tomorrow ↔ resume, sync now, undo). Opens from the search app bar,
+from a `>` query, and with Ctrl/⌘ + K in the shell.

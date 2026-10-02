@@ -3024,6 +3024,23 @@
       }
     }
   },
+  "@paletteGoInsightsScope": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "@paletteNewTaskAt": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
   "@pvCopied": {
     "placeholders": {
       "title": {
@@ -7474,6 +7491,39 @@
   "onboardingTimeZone": "Home time zone",
   "onboardingTitle": "Set up Everslot",
   "onboardingWeekStart": "Week starts on",
+  "paletteGoCategories": "Manage categories",
+  "paletteGoDay": "Open today’s day view",
+  "paletteGoHabits": "Open Habits",
+  "paletteGoInbox": "Open Inbox",
+  "paletteGoInsights": "Open Insights",
+  "paletteGoInsightsScope": "Open Insights › {section}",
+  "paletteGoLists": "Open Lists",
+  "paletteGoNextWeek": "Go to next week",
+  "paletteGoNotificationSettings": "Open Settings › Notifications",
+  "paletteGoPreviousWeek": "Go to previous week",
+  "paletteGoSearch": "Search everything",
+  "paletteGoSettings": "Open Settings",
+  "paletteGoTags": "Manage tags",
+  "paletteGoThisWeek": "Go to this week",
+  "paletteGoToday": "Go to Today",
+  "paletteGoTrash": "Open Trash",
+  "paletteGroupActions": "Actions",
+  "paletteGroupCreate": "Create",
+  "paletteGroupGo": "Go to",
+  "paletteHint": "Type a command or “Call Bob tomorrow 9am”",
+  "paletteNewHabit": "New habit",
+  "paletteNewList": "New list",
+  "paletteNewQuit": "New quit tracker",
+  "paletteNewTask": "New task",
+  "paletteNewTaskAt": "New task “{title}” · {when}",
+  "paletteNoMatch": "No matching command",
+  "palettePause1h": "Pause notifications 1 h",
+  "palettePauseTomorrow": "Pause notifications until tomorrow",
+  "palettePaused": "Notifications paused",
+  "paletteResume": "Resume notifications",
+  "paletteResumed": "Notifications resumed",
+  "paletteSyncNow": "Sync now",
+  "paletteTitle": "Commands",
   "pickerColor": "Color",
   "pickerCustomColor": "Custom color",
   "pickerDate": "Date",

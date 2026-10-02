@@ -8334,6 +8334,109 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingWeekStart => 'يبدأ الأسبوع يوم';
 
   @override
+  String get paletteGoCategories => 'إدارة الفئات';
+
+  @override
+  String get paletteGoDay => 'فتح عرض اليوم';
+
+  @override
+  String get paletteGoHabits => 'فتح العادات';
+
+  @override
+  String get paletteGoInbox => 'فتح الوارد';
+
+  @override
+  String get paletteGoInsights => 'فتح الإحصاءات';
+
+  @override
+  String paletteGoInsightsScope(String section) {
+    return 'فتح الإحصاءات › $section';
+  }
+
+  @override
+  String get paletteGoLists => 'فتح القوائم';
+
+  @override
+  String get paletteGoNextWeek => 'الانتقال إلى الأسبوع القادم';
+
+  @override
+  String get paletteGoNotificationSettings => 'فتح الإعدادات › الإشعارات';
+
+  @override
+  String get paletteGoPreviousWeek => 'الانتقال إلى الأسبوع السابق';
+
+  @override
+  String get paletteGoSearch => 'البحث في كل شيء';
+
+  @override
+  String get paletteGoSettings => 'فتح الإعدادات';
+
+  @override
+  String get paletteGoTags => 'إدارة الوسوم';
+
+  @override
+  String get paletteGoThisWeek => 'الانتقال إلى هذا الأسبوع';
+
+  @override
+  String get paletteGoToday => 'الانتقال إلى اليوم';
+
+  @override
+  String get paletteGoTrash => 'فتح المهملات';
+
+  @override
+  String get paletteGroupActions => 'إجراءات';
+
+  @override
+  String get paletteGroupCreate => 'إنشاء';
+
+  @override
+  String get paletteGroupGo => 'انتقال إلى';
+
+  @override
+  String get paletteHint => 'اكتب أمرًا أو مهمة بتاريخ';
+
+  @override
+  String get paletteNewHabit => 'عادة جديدة';
+
+  @override
+  String get paletteNewList => 'قائمة جديدة';
+
+  @override
+  String get paletteNewQuit => 'متتبع إقلاع جديد';
+
+  @override
+  String get paletteNewTask => 'مهمة جديدة';
+
+  @override
+  String paletteNewTaskAt(String title, String when) {
+    return 'مهمة جديدة «$title» · $when';
+  }
+
+  @override
+  String get paletteNoMatch => 'لا يوجد أمر مطابق';
+
+  @override
+  String get palettePause1h => 'إيقاف الإشعارات ساعة';
+
+  @override
+  String get palettePauseTomorrow => 'إيقاف الإشعارات حتى الغد';
+
+  @override
+  String get palettePaused => 'تم إيقاف الإشعارات مؤقتًا';
+
+  @override
+  String get paletteResume => 'استئناف الإشعارات';
+
+  @override
+  String get paletteResumed => 'تم استئناف الإشعارات';
+
+  @override
+  String get paletteSyncNow => 'المزامنة الآن';
+
+  @override
+  String get paletteTitle => 'الأوامر';
+
+  @override
   String get pickerColor => 'اللون';
 
   @override

@@ -13383,6 +13383,204 @@ abstract class AppLocalizations {
   /// **'Week starts on'**
   String get onboardingWeekStart;
 
+  /// No description provided for @paletteGoCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage categories'**
+  String get paletteGoCategories;
+
+  /// No description provided for @paletteGoDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Open today’s day view'**
+  String get paletteGoDay;
+
+  /// No description provided for @paletteGoHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Habits'**
+  String get paletteGoHabits;
+
+  /// No description provided for @paletteGoInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Inbox'**
+  String get paletteGoInbox;
+
+  /// No description provided for @paletteGoInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Insights'**
+  String get paletteGoInsights;
+
+  /// No description provided for @paletteGoInsightsScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Insights › {section}'**
+  String paletteGoInsightsScope(String section);
+
+  /// No description provided for @paletteGoLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Lists'**
+  String get paletteGoLists;
+
+  /// No description provided for @paletteGoNextWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to next week'**
+  String get paletteGoNextWeek;
+
+  /// No description provided for @paletteGoNotificationSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings › Notifications'**
+  String get paletteGoNotificationSettings;
+
+  /// No description provided for @paletteGoPreviousWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to previous week'**
+  String get paletteGoPreviousWeek;
+
+  /// No description provided for @paletteGoSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search everything'**
+  String get paletteGoSearch;
+
+  /// No description provided for @paletteGoSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get paletteGoSettings;
+
+  /// No description provided for @paletteGoTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage tags'**
+  String get paletteGoTags;
+
+  /// No description provided for @paletteGoThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to this week'**
+  String get paletteGoThisWeek;
+
+  /// No description provided for @paletteGoToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Today'**
+  String get paletteGoToday;
+
+  /// No description provided for @paletteGoTrash.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Trash'**
+  String get paletteGoTrash;
+
+  /// No description provided for @paletteGroupActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get paletteGroupActions;
+
+  /// No description provided for @paletteGroupCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get paletteGroupCreate;
+
+  /// No description provided for @paletteGroupGo.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to'**
+  String get paletteGroupGo;
+
+  /// No description provided for @paletteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a command or “Call Bob tomorrow 9am”'**
+  String get paletteHint;
+
+  /// No description provided for @paletteNewHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'New habit'**
+  String get paletteNewHabit;
+
+  /// No description provided for @paletteNewList.
+  ///
+  /// In en, this message translates to:
+  /// **'New list'**
+  String get paletteNewList;
+
+  /// No description provided for @paletteNewQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'New quit tracker'**
+  String get paletteNewQuit;
+
+  /// No description provided for @paletteNewTask.
+  ///
+  /// In en, this message translates to:
+  /// **'New task'**
+  String get paletteNewTask;
+
+  /// No description provided for @paletteNewTaskAt.
+  ///
+  /// In en, this message translates to:
+  /// **'New task “{title}” · {when}'**
+  String paletteNewTaskAt(String title, String when);
+
+  /// No description provided for @paletteNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching command'**
+  String get paletteNoMatch;
+
+  /// No description provided for @palettePause1h.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause notifications 1 h'**
+  String get palettePause1h;
+
+  /// No description provided for @palettePauseTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause notifications until tomorrow'**
+  String get palettePauseTomorrow;
+
+  /// No description provided for @palettePaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications paused'**
+  String get palettePaused;
+
+  /// No description provided for @paletteResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume notifications'**
+  String get paletteResume;
+
+  /// No description provided for @paletteResumed.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications resumed'**
+  String get paletteResumed;
+
+  /// No description provided for @paletteSyncNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync now'**
+  String get paletteSyncNow;
+
+  /// No description provided for @paletteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Commands'**
+  String get paletteTitle;
+
   /// No description provided for @pickerColor.
   ///
   /// In en, this message translates to:

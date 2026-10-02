@@ -7754,6 +7754,109 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingWeekStart => 'Week starts on';
 
   @override
+  String get paletteGoCategories => 'Manage categories';
+
+  @override
+  String get paletteGoDay => 'Open today’s day view';
+
+  @override
+  String get paletteGoHabits => 'Open Habits';
+
+  @override
+  String get paletteGoInbox => 'Open Inbox';
+
+  @override
+  String get paletteGoInsights => 'Open Insights';
+
+  @override
+  String paletteGoInsightsScope(String section) {
+    return 'Open Insights › $section';
+  }
+
+  @override
+  String get paletteGoLists => 'Open Lists';
+
+  @override
+  String get paletteGoNextWeek => 'Go to next week';
+
+  @override
+  String get paletteGoNotificationSettings => 'Open Settings › Notifications';
+
+  @override
+  String get paletteGoPreviousWeek => 'Go to previous week';
+
+  @override
+  String get paletteGoSearch => 'Search everything';
+
+  @override
+  String get paletteGoSettings => 'Open Settings';
+
+  @override
+  String get paletteGoTags => 'Manage tags';
+
+  @override
+  String get paletteGoThisWeek => 'Go to this week';
+
+  @override
+  String get paletteGoToday => 'Go to Today';
+
+  @override
+  String get paletteGoTrash => 'Open Trash';
+
+  @override
+  String get paletteGroupActions => 'Actions';
+
+  @override
+  String get paletteGroupCreate => 'Create';
+
+  @override
+  String get paletteGroupGo => 'Go to';
+
+  @override
+  String get paletteHint => 'Type a command or “Call Bob tomorrow 9am”';
+
+  @override
+  String get paletteNewHabit => 'New habit';
+
+  @override
+  String get paletteNewList => 'New list';
+
+  @override
+  String get paletteNewQuit => 'New quit tracker';
+
+  @override
+  String get paletteNewTask => 'New task';
+
+  @override
+  String paletteNewTaskAt(String title, String when) {
+    return 'New task “$title” · $when';
+  }
+
+  @override
+  String get paletteNoMatch => 'No matching command';
+
+  @override
+  String get palettePause1h => 'Pause notifications 1 h';
+
+  @override
+  String get palettePauseTomorrow => 'Pause notifications until tomorrow';
+
+  @override
+  String get palettePaused => 'Notifications paused';
+
+  @override
+  String get paletteResume => 'Resume notifications';
+
+  @override
+  String get paletteResumed => 'Notifications resumed';
+
+  @override
+  String get paletteSyncNow => 'Sync now';
+
+  @override
+  String get paletteTitle => 'Commands';
+
+  @override
   String get pickerColor => 'Color';
 
   @override

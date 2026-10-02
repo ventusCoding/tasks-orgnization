@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:everslot/app/command_palette.dart';
 import 'package:everslot/app/quick_add_sheet.dart';
 import 'package:everslot/core/preferences/last_tab.dart';
 import 'package:everslot/core/providers.dart';
@@ -125,7 +126,10 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold> {
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) _back();
       },
-      child: NotificationListener<UserScrollNotification>(onNotification: _onScroll, child: _shell),
+      // Ctrl/⌘ + K: command palette (T8.1.18).
+      child: PaletteShortcut(
+        child: NotificationListener<UserScrollNotification>(onNotification: _onScroll, child: _shell),
+      ),
     );
 
     if (size != WindowSizeClass.compact) {
