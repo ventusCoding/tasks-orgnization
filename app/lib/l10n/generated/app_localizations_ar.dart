@@ -3570,6 +3570,206 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exportZipBundle => 'مشاركة كملف zip (مع الملفات)';
 
   @override
+  String extCountCheckIns(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تسجيل',
+      many: '$count تسجيلًا',
+      few: '$count تسجيلات',
+      two: 'تسجيلان',
+      one: 'تسجيل واحد',
+      zero: 'لا تسجيلات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extCountHabits(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عادة',
+      many: '$count عادة',
+      few: '$count عادات',
+      two: 'عادتان',
+      one: 'عادة واحدة',
+      zero: 'لا عادات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extCountItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر',
+      many: '$count عنصرًا',
+      few: '$count عناصر',
+      two: 'عنصران',
+      one: 'عنصر واحد',
+      zero: 'لا عناصر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extCountLists(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count قائمة',
+      many: '$count قائمة',
+      few: '$count قوائم',
+      two: 'قائمتان',
+      one: 'قائمة واحدة',
+      zero: 'لا قوائم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extCountTasks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مهمة',
+      many: '$count مهمة',
+      few: '$count مهام',
+      two: 'مهمتان',
+      one: 'مهمة واحدة',
+      zero: 'لا مهام',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extImportDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تم استيراد $count عنصر',
+      many: 'تم استيراد $count عنصرًا',
+      few: 'تم استيراد $count عناصر',
+      two: 'تم استيراد عنصرين',
+      one: 'تم استيراد عنصر واحد',
+      zero: 'لم يُستورد شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get extImportNothing => 'لا شيء للاستيراد في هذا الملف.';
+
+  @override
+  String get extImportRun => 'استيراد';
+
+  @override
+  String get extImportSubtitle => 'Loop Habit Tracker، Google Keep، Todoist، TickTick، نص';
+
+  @override
+  String get extImportTitle => 'الاستيراد من تطبيق آخر';
+
+  @override
+  String extImportWrongFile(String source) {
+    return 'لا يبدو هذا الملف تصديرًا من $source.';
+  }
+
+  @override
+  String extNoteAttachment(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مرفق غير موجود',
+      many: '$count مرفقًا غير موجود',
+      few: '$count مرفقات غير موجودة',
+      two: 'مرفقان غير موجودين',
+      one: 'مرفق واحد غير موجود في الأرشيف',
+      zero: 'لا شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteCompleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تُركت $count مهمة مكتملة',
+      many: 'تُركت $count مهمة مكتملة',
+      few: 'تُركت $count مهام مكتملة',
+      two: 'تُركت مهمتان مكتملتان',
+      one: 'تُركت مهمة مكتملة واحدة',
+      zero: 'لا شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteFrequency(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تكرار مُقرَّب',
+      many: '$count تكرارًا مُقرَّبًا',
+      few: '$count تكرارات مُقرَّبة',
+      two: 'تكرارا عادتين مُقرَّبان',
+      one: 'تكرار عادة واحد مُقرَّب',
+      zero: 'لا تقريب',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteRepeat(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تكرار غير مفهوم',
+      many: '$count تكرارًا غير مفهوم',
+      few: '$count تكرارات غير مفهومة',
+      two: 'تكراران غير مفهومين',
+      one: 'تكرار واحد غير مفهوم (استُورد مرة واحدة)',
+      zero: 'لا شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteTrashed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تُركت $count ملاحظة من المهملات',
+      many: 'تُركت $count ملاحظة من المهملات',
+      few: 'تُركت $count ملاحظات من المهملات',
+      two: 'تُركت ملاحظتان من المهملات',
+      one: 'تُركت ملاحظة واحدة من المهملات',
+      zero: 'لا شيء',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get extSourceKeepHint => 'Google Takeout › Keep (zip)';
+
+  @override
+  String get extSourceLoopHint => 'الإعدادات › التصدير بصيغة CSV (zip) أو نسخة احتياطية (.db)';
+
+  @override
+  String get extSourceText => 'مخطط نصي أو Markdown';
+
+  @override
+  String get extSourceTextHint => 'تصبح الأسطر المزاحة عناصر فرعية (.txt، .md)';
+
+  @override
+  String get extSourceTickTickHint => 'الإعدادات › النسخ الاحتياطي (CSV)';
+
+  @override
+  String get extSourceTodoistHint => 'المشروع › التصدير كقالب (CSV)';
+
+  @override
   String filterActiveCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

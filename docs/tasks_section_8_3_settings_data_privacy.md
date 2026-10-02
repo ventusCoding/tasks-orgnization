@@ -31,7 +31,7 @@ encryption, onboarding, sample data, accessibility options, about/legal, feedbac
 - [x] T8.3.11 — Onboarding flow
 - [x] T8.3.12 — Accessibility options
 - [x] T8.3.13 — About, legal & health disclaimer
-- [ ] T8.3.14 — Import from other apps
+- [x] T8.3.14 — Import from other apps
 - [ ] T8.3.15 — Local database encryption
 - [ ] T8.3.16 — Sample data / demo mode
 - [ ] T8.3.17 — In-app feedback & diagnostics
@@ -167,6 +167,7 @@ more than once per 90 days).
 JSON) → checklists/items (+ images); Todoist/TickTick CSV → tasks (recurrence text best-effort); plain
 indented text/Markdown → nested items ([4.5]).
 **Tests:** fixture files per source; mapping unit tests.
+**Notes:** Pure parsers in `features/settings/domain/external_import.dart` (RFC 4180 `CsvReader`, `LoopImport` for the CSV zip — combined or per-habit `Checkmarks.csv` — and the `.db` backup read read-only with `sqlite3`, `KeepImport`, `TodoistImport` through the quick-add parser, `TickTickImport` with RRULEs and zoned instants) → `ExternalImportPlan`; `ExternalImportService` writes through the feature services (habit history via the new `CheckInService.importHistory`, batched, source `import`; lists with labels → tags and Keep images → attachments; tasks with labels/sections → tags). Loop: only manual check-ins (value 2) and skips are taken, numerical amounts ÷ 1000, "N in D days" → daily / every N days / N× per week or month (others approximated and reported). Todoist P1…P4 → urgent…none; TickTick completed tasks are left out. Text / Markdown reuses the [4.5] outline parser. Preview lists counts and what was approximated or left out. Source names are product names (not translated). Fixtures in `test/features/settings/fixtures/external/`.
 
 ### T8.3.15 — Local database encryption
 **Priority:** P2 · **Size:** L · **Depends on:** T8.3.09

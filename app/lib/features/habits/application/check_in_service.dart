@@ -251,6 +251,57 @@ class CheckInService {
     return CheckInResult(record, target);
   }
 
+  /// Brings past days in from another app (T8.3.14): per day a state ([CheckInState]) or, for a
+  /// measurable habit, an amount — written in batches with source `import`, without the "not in
+  /// the future / not too old" guards of live check-ins and without check-in events.
+  Future<int> importHistory(
+    BuildHabit habit,
+    List<({LocalDate date, CheckInState? state, double? value})> days, {
+    int batchSize = 500,
+  }) async {
+    final b = periods.boundariesOf(habit);
+    final now = clock.nowUtc();
+    var written = 0;
+    for (var i = 0; i < days.length; i += batchSize) {
+      final batch = days.sublist(i, (i + batchSize).clamp(0, days.length));
+      await logs.write((tx) async {
+        for (final d in batch) {
+          final target = CheckInTarget.day(d.date, b);
+          final at = checkInInstant(target, now: now, boundaries: b);
+          if (d.value != null && habit.goal.isMeasurable) {
+            await HabitLogsRepository.insertInTx(
+              tx,
+              HabitLogEntry(
+                id: Ids.v7(),
+                habitId: habit.id,
+                kind: HabitLogKind.progress,
+                loggedAt: at,
+                localDate: target.localDate,
+                occurrenceKey: target.key,
+                value: d.value,
+                source: LogSource.import,
+              ),
+            );
+          } else if (d.state != null) {
+            await HabitLogsRepository.upsertStateInTx(
+              tx,
+              habitId: habit.id,
+              key: target.key,
+              kind: d.state!.kind,
+              loggedAt: at,
+              localDate: target.localDate,
+              source: LogSource.import,
+            );
+          } else {
+            continue;
+          }
+          written++;
+        }
+      }, cause: 'import');
+    }
+    return written;
+  }
+
   /// Edits an entry (value, time, note, mood).
   Future<OpRecord> updateEntry(
     HabitLogEntry entry, {

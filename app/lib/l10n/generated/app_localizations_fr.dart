@@ -3456,6 +3456,137 @@ class AppLocalizationsFr extends AppLocalizations {
   String get exportZipBundle => 'Partager en zip (avec les fichiers)';
 
   @override
+  String extCountCheckIns(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count pointages', one: '1 pointage');
+    return '$_temp0';
+  }
+
+  @override
+  String extCountHabits(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count habitudes', one: '1 habitude');
+    return '$_temp0';
+  }
+
+  @override
+  String extCountItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count éléments', one: '1 élément');
+    return '$_temp0';
+  }
+
+  @override
+  String extCountLists(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count listes', one: '1 liste');
+    return '$_temp0';
+  }
+
+  @override
+  String extCountTasks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count tâches', one: '1 tâche');
+    return '$_temp0';
+  }
+
+  @override
+  String extImportDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments importés',
+      one: '1 élément importé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get extImportNothing => 'Rien à importer dans ce fichier.';
+
+  @override
+  String get extImportRun => 'Importer';
+
+  @override
+  String get extImportSubtitle => 'Loop Habit Tracker, Google Keep, Todoist, TickTick, texte';
+
+  @override
+  String get extImportTitle => 'Importer depuis une autre app';
+
+  @override
+  String extImportWrongFile(String source) {
+    return 'Ce fichier ne ressemble pas à un export $source.';
+  }
+
+  @override
+  String extNoteAttachment(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pièces jointes absentes de l’archive',
+      one: '1 pièce jointe absente de l’archive',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteCompleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tâches terminées ignorées',
+      one: '1 tâche terminée ignorée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteFrequency(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fréquences d’habitude approchées',
+      one: '1 fréquence d’habitude approchée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteRepeat(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count répétitions non comprises (importées une fois)',
+      one: '1 répétition non comprise (importée une fois)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extNoteTrashed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count notes de la corbeille ignorées',
+      one: '1 note de la corbeille ignorée',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get extSourceKeepHint => 'Google Takeout › Keep (zip)';
+
+  @override
+  String get extSourceLoopHint => 'Réglages › Exporter en CSV (zip) ou une sauvegarde (.db)';
+
+  @override
+  String get extSourceText => 'Plan texte ou Markdown';
+
+  @override
+  String get extSourceTextHint => 'Les lignes indentées deviennent des sous-éléments (.txt, .md)';
+
+  @override
+  String get extSourceTickTickHint => 'Réglages › Sauvegarde (CSV)';
+
+  @override
+  String get extSourceTodoistHint => 'Projet › Exporter comme modèle (CSV)';
+
+  @override
   String filterActiveCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

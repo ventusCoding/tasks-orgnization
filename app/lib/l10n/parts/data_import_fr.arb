@@ -81,5 +81,111 @@
         "type": "int"
       }
     }
+  },
+  "extImportTitle": "Importer depuis une autre app",
+  "extImportSubtitle": "Loop Habit Tracker, Google Keep, Todoist, TickTick, texte",
+  "extImportNothing": "Rien à importer dans ce fichier.",
+  "extImportWrongFile": "Ce fichier ne ressemble pas à un export {source}.",
+  "@extImportWrongFile": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "extImportRun": "Importer",
+  "extSourceText": "Plan texte ou Markdown",
+  "extSourceLoopHint": "Réglages › Exporter en CSV (zip) ou une sauvegarde (.db)",
+  "extSourceKeepHint": "Google Takeout › Keep (zip)",
+  "extSourceTodoistHint": "Projet › Exporter comme modèle (CSV)",
+  "extSourceTickTickHint": "Réglages › Sauvegarde (CSV)",
+  "extSourceTextHint": "Les lignes indentées deviennent des sous-éléments (.txt, .md)",
+  "extImportDone": "{count, plural, one{1 élément importé} other{{count} éléments importés}}",
+  "@extImportDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountHabits": "{count, plural, one{1 habitude} other{{count} habitudes}}",
+  "@extCountHabits": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountCheckIns": "{count, plural, one{1 pointage} other{{count} pointages}}",
+  "@extCountCheckIns": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountLists": "{count, plural, one{1 liste} other{{count} listes}}",
+  "@extCountLists": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountItems": "{count, plural, one{1 élément} other{{count} éléments}}",
+  "@extCountItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountTasks": "{count, plural, one{1 tâche} other{{count} tâches}}",
+  "@extCountTasks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteFrequency": "{count, plural, one{1 fréquence d’habitude approchée} other{{count} fréquences d’habitude approchées}}",
+  "@extNoteFrequency": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteRepeat": "{count, plural, one{1 répétition non comprise (importée une fois)} other{{count} répétitions non comprises (importées une fois)}}",
+  "@extNoteRepeat": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteCompleted": "{count, plural, one{1 tâche terminée ignorée} other{{count} tâches terminées ignorées}}",
+  "@extNoteCompleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteTrashed": "{count, plural, one{1 note de la corbeille ignorée} other{{count} notes de la corbeille ignorées}}",
+  "@extNoteTrashed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteAttachment": "{count, plural, one{1 pièce jointe absente de l’archive} other{{count} pièces jointes absentes de l’archive}}",
+  "@extNoteAttachment": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

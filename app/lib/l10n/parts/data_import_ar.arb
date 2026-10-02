@@ -81,5 +81,111 @@
         "type": "int"
       }
     }
+  },
+  "extImportTitle": "الاستيراد من تطبيق آخر",
+  "extImportSubtitle": "Loop Habit Tracker، Google Keep، Todoist، TickTick، نص",
+  "extImportNothing": "لا شيء للاستيراد في هذا الملف.",
+  "extImportWrongFile": "لا يبدو هذا الملف تصديرًا من {source}.",
+  "@extImportWrongFile": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "extImportRun": "استيراد",
+  "extSourceText": "مخطط نصي أو Markdown",
+  "extSourceLoopHint": "الإعدادات › التصدير بصيغة CSV (zip) أو نسخة احتياطية (.db)",
+  "extSourceKeepHint": "Google Takeout › Keep (zip)",
+  "extSourceTodoistHint": "المشروع › التصدير كقالب (CSV)",
+  "extSourceTickTickHint": "الإعدادات › النسخ الاحتياطي (CSV)",
+  "extSourceTextHint": "تصبح الأسطر المزاحة عناصر فرعية (.txt، .md)",
+  "extImportDone": "{count, plural, zero{لم يُستورد شيء} one{تم استيراد عنصر واحد} two{تم استيراد عنصرين} few{تم استيراد {count} عناصر} many{تم استيراد {count} عنصرًا} other{تم استيراد {count} عنصر}}",
+  "@extImportDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountHabits": "{count, plural, zero{لا عادات} one{عادة واحدة} two{عادتان} few{{count} عادات} many{{count} عادة} other{{count} عادة}}",
+  "@extCountHabits": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountCheckIns": "{count, plural, zero{لا تسجيلات} one{تسجيل واحد} two{تسجيلان} few{{count} تسجيلات} many{{count} تسجيلًا} other{{count} تسجيل}}",
+  "@extCountCheckIns": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountLists": "{count, plural, zero{لا قوائم} one{قائمة واحدة} two{قائمتان} few{{count} قوائم} many{{count} قائمة} other{{count} قائمة}}",
+  "@extCountLists": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountItems": "{count, plural, zero{لا عناصر} one{عنصر واحد} two{عنصران} few{{count} عناصر} many{{count} عنصرًا} other{{count} عنصر}}",
+  "@extCountItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extCountTasks": "{count, plural, zero{لا مهام} one{مهمة واحدة} two{مهمتان} few{{count} مهام} many{{count} مهمة} other{{count} مهمة}}",
+  "@extCountTasks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteFrequency": "{count, plural, zero{لا تقريب} one{تكرار عادة واحد مُقرَّب} two{تكرارا عادتين مُقرَّبان} few{{count} تكرارات مُقرَّبة} many{{count} تكرارًا مُقرَّبًا} other{{count} تكرار مُقرَّب}}",
+  "@extNoteFrequency": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteRepeat": "{count, plural, zero{لا شيء} one{تكرار واحد غير مفهوم (استُورد مرة واحدة)} two{تكراران غير مفهومين} few{{count} تكرارات غير مفهومة} many{{count} تكرارًا غير مفهوم} other{{count} تكرار غير مفهوم}}",
+  "@extNoteRepeat": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteCompleted": "{count, plural, zero{لا شيء} one{تُركت مهمة مكتملة واحدة} two{تُركت مهمتان مكتملتان} few{تُركت {count} مهام مكتملة} many{تُركت {count} مهمة مكتملة} other{تُركت {count} مهمة مكتملة}}",
+  "@extNoteCompleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteTrashed": "{count, plural, zero{لا شيء} one{تُركت ملاحظة واحدة من المهملات} two{تُركت ملاحظتان من المهملات} few{تُركت {count} ملاحظات من المهملات} many{تُركت {count} ملاحظة من المهملات} other{تُركت {count} ملاحظة من المهملات}}",
+  "@extNoteTrashed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "extNoteAttachment": "{count, plural, zero{لا شيء} one{مرفق واحد غير موجود في الأرشيف} two{مرفقان غير موجودين} few{{count} مرفقات غير موجودة} many{{count} مرفقًا غير موجود} other{{count} مرفق غير موجود}}",
+  "@extNoteAttachment": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

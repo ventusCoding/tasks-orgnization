@@ -5979,6 +5979,138 @@ abstract class AppLocalizations {
   /// **'Share as zip (with files)'**
   String get exportZipBundle;
 
+  /// No description provided for @extCountCheckIns.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 check-in} other{{count} check-ins}}'**
+  String extCountCheckIns(int count);
+
+  /// No description provided for @extCountHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 habit} other{{count} habits}}'**
+  String extCountHabits(int count);
+
+  /// No description provided for @extCountItems.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 item} other{{count} items}}'**
+  String extCountItems(int count);
+
+  /// No description provided for @extCountLists.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 list} other{{count} lists}}'**
+  String extCountLists(int count);
+
+  /// No description provided for @extCountTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 task} other{{count} tasks}}'**
+  String extCountTasks(int count);
+
+  /// No description provided for @extImportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 thing imported} other{{count} things imported}}'**
+  String extImportDone(int count);
+
+  /// No description provided for @extImportNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to import in this file.'**
+  String get extImportNothing;
+
+  /// No description provided for @extImportRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get extImportRun;
+
+  /// No description provided for @extImportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Loop Habit Tracker, Google Keep, Todoist, TickTick, text'**
+  String get extImportSubtitle;
+
+  /// No description provided for @extImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import from another app'**
+  String get extImportTitle;
+
+  /// No description provided for @extImportWrongFile.
+  ///
+  /// In en, this message translates to:
+  /// **'This file doesn\'t look like a {source} export.'**
+  String extImportWrongFile(String source);
+
+  /// No description provided for @extNoteAttachment.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 attachment missing from the archive} other{{count} attachments missing from the archive}}'**
+  String extNoteAttachment(int count);
+
+  /// No description provided for @extNoteCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 completed task left out} other{{count} completed tasks left out}}'**
+  String extNoteCompleted(int count);
+
+  /// No description provided for @extNoteFrequency.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 habit frequency approximated} other{{count} habit frequencies approximated}}'**
+  String extNoteFrequency(int count);
+
+  /// No description provided for @extNoteRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 repeat not understood (imported once)} other{{count} repeats not understood (imported once)}}'**
+  String extNoteRepeat(int count);
+
+  /// No description provided for @extNoteTrashed.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 note in the trash left out} other{{count} notes in the trash left out}}'**
+  String extNoteTrashed(int count);
+
+  /// No description provided for @extSourceKeepHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Takeout › Keep (zip)'**
+  String get extSourceKeepHint;
+
+  /// No description provided for @extSourceLoopHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings › Export as CSV (zip) or a backup (.db)'**
+  String get extSourceLoopHint;
+
+  /// No description provided for @extSourceText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text or Markdown outline'**
+  String get extSourceText;
+
+  /// No description provided for @extSourceTextHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Indented lines become nested items (.txt, .md)'**
+  String get extSourceTextHint;
+
+  /// No description provided for @extSourceTickTickHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings › Backup (CSV)'**
+  String get extSourceTickTickHint;
+
+  /// No description provided for @extSourceTodoistHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Project › Export as a template (CSV)'**
+  String get extSourceTodoistHint;
+
   /// No description provided for @filterActiveCount.
   ///
   /// In en, this message translates to:

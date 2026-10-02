@@ -1247,6 +1247,90 @@
       }
     }
   },
+  "@extCountCheckIns": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extCountHabits": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extCountItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extCountLists": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extCountTasks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extImportDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extImportWrongFile": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "@extNoteAttachment": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extNoteCompleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extNoteFrequency": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extNoteRepeat": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@extNoteTrashed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@filterActiveCount": {
     "placeholders": {
       "count": {
@@ -6400,6 +6484,28 @@
   "exportShare": "Share…",
   "exportTitle": "Share / export",
   "exportZipBundle": "Share as zip (with files)",
+  "extCountCheckIns": "{count, plural, one{1 check-in} other{{count} check-ins}}",
+  "extCountHabits": "{count, plural, one{1 habit} other{{count} habits}}",
+  "extCountItems": "{count, plural, one{1 item} other{{count} items}}",
+  "extCountLists": "{count, plural, one{1 list} other{{count} lists}}",
+  "extCountTasks": "{count, plural, one{1 task} other{{count} tasks}}",
+  "extImportDone": "{count, plural, one{1 thing imported} other{{count} things imported}}",
+  "extImportNothing": "Nothing to import in this file.",
+  "extImportRun": "Import",
+  "extImportSubtitle": "Loop Habit Tracker, Google Keep, Todoist, TickTick, text",
+  "extImportTitle": "Import from another app",
+  "extImportWrongFile": "This file doesn't look like a {source} export.",
+  "extNoteAttachment": "{count, plural, one{1 attachment missing from the archive} other{{count} attachments missing from the archive}}",
+  "extNoteCompleted": "{count, plural, one{1 completed task left out} other{{count} completed tasks left out}}",
+  "extNoteFrequency": "{count, plural, one{1 habit frequency approximated} other{{count} habit frequencies approximated}}",
+  "extNoteRepeat": "{count, plural, one{1 repeat not understood (imported once)} other{{count} repeats not understood (imported once)}}",
+  "extNoteTrashed": "{count, plural, one{1 note in the trash left out} other{{count} notes in the trash left out}}",
+  "extSourceKeepHint": "Google Takeout › Keep (zip)",
+  "extSourceLoopHint": "Settings › Export as CSV (zip) or a backup (.db)",
+  "extSourceText": "Text or Markdown outline",
+  "extSourceTextHint": "Indented lines become nested items (.txt, .md)",
+  "extSourceTickTickHint": "Settings › Backup (CSV)",
+  "extSourceTodoistHint": "Project › Export as a template (CSV)",
   "filterActiveCount": "{count, plural, =0{No filters} =1{1 filter active} other{{count} filters active}}",
   "filterAny": "Any",
   "filterAttachments": "Attachments",

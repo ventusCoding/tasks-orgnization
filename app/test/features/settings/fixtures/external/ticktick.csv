@@ -1,0 +1,10 @@
+"Date: 2026-09-22+0000"
+"Version: 7.1"
+"Status: 
+0 Normal
+1 Completed
+2 Archived"
+"Folder Name","List Name","Title","Kind","Tags","Content","Is Check list","Start Date","Due Date","Reminder","Repeat","Priority","Status","Created Time","Completed Time","Order","Timezone","Is All Day","Is Floating","Column Name","Column Order","View Mode","taskId","parentId"
+"","Work","Standup","TEXT","team","Daily sync","N","2026-09-22T07:00:00+0000","2026-09-22T07:15:00+0000","","FREQ=DAILY;INTERVAL=1","3","0","2026-09-01T00:00:00+0000","","1","Europe/Paris","false","false","","","list","1",""
+"","Home","Pay rent","TEXT","","","N","2026-09-30T22:00:00+0000","","","","5","0","2026-09-01T00:00:00+0000","","2","Europe/Paris","true","false","","","list","2",""
+"","Home","Done thing","TEXT","","","N","","","","","0","2","2026-09-01T00:00:00+0000","2026-09-02T00:00:00+0000","3","Europe/Paris","false","false","","","list","3",""

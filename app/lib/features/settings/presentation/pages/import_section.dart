@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/settings/application/external_import_service.dart';
 import 'package:everslot/features/settings/application/import_service.dart';
+import 'package:everslot/features/settings/domain/external_import.dart';
 import 'package:everslot/features/settings/domain/import_plan.dart';
 import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:file_picker/file_picker.dart';
@@ -53,6 +55,59 @@ class _ImportSectionState extends ConsumerState<ImportSection> {
     }
   }
 
+  Future<void> _external() async {
+    final l = context.l10n;
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    final source = await showAppSheet<ExternalSource>(
+      context,
+      title: l.extImportTitle,
+      builder: (ctx) => SafeArea(
+        top: false,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            for (final s in ExternalSource.values)
+              ListTile(
+                key: ValueKey('ext-source-${s.name}'),
+                leading: Icon(_sourceIcon(s)),
+                title: Text(externalSourceName(l, s)),
+                subtitle: Text(externalSourceHint(l, s)),
+                onTap: () => Navigator.pop(ctx, s),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (source == null || !mounted) return;
+    final file = await ref.read(externalFilePickerProvider)();
+    if (file == null || !mounted) return;
+    setState(() => _opening = true);
+    try {
+      final bundle = await ref.read(externalImportServiceProvider).open(file, source);
+      if (!mounted) return;
+      setState(() => _opening = false);
+      if (bundle.plan.isEmpty) {
+        messenger?.showSnackBar(SnackBar(content: Text(l.extImportNothing)));
+        return;
+      }
+      await showAppSheet<void>(
+        context,
+        title: externalSourceName(l, source),
+        builder: (_) => ExternalImportSheet(bundle: bundle),
+      );
+    } on Object {
+      if (mounted) setState(() => _opening = false);
+      messenger?.showSnackBar(SnackBar(content: Text(l.extImportWrongFile(externalSourceName(l, source)))));
+    }
+  }
+
+  static IconData _sourceIcon(ExternalSource s) => switch (s) {
+    ExternalSource.loop => Icons.local_fire_department_outlined,
+    ExternalSource.keep => Icons.sticky_note_2_outlined,
+    ExternalSource.todoist || ExternalSource.tickTick => Icons.task_alt,
+    ExternalSource.text => Icons.notes,
+  };
+
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
@@ -73,6 +128,134 @@ class _ImportSectionState extends ConsumerState<ImportSection> {
                   onPressed: () => unawaited(_pick()),
                   icon: const Icon(Icons.file_open_outlined),
                   label: Text(l.dataImportPick),
+                ),
+        ),
+        // Other apps (T8.3.14).
+        ListTile(
+          key: const ValueKey('import-external'),
+          leading: const Icon(Icons.move_to_inbox_outlined),
+          title: Text(l.extImportTitle),
+          subtitle: Text(l.extImportSubtitle),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => unawaited(_external()),
+        ),
+      ],
+    );
+  }
+}
+
+/// Picks any file for an import from another app (tests override it).
+final externalFilePickerProvider = Provider<Future<File?> Function()>(
+  (ref) => () async {
+    final files = await FilePicker.pickFiles();
+    final path = files.isEmpty ? null : files.first.path;
+    return path == null ? null : File(path);
+  },
+);
+
+String externalSourceName(AppLocalizations l, ExternalSource s) => switch (s) {
+  ExternalSource.loop => 'Loop Habit Tracker',
+  ExternalSource.keep => 'Google Keep',
+  ExternalSource.todoist => 'Todoist',
+  ExternalSource.tickTick => 'TickTick',
+  ExternalSource.text => l.extSourceText,
+};
+
+String externalSourceHint(AppLocalizations l, ExternalSource s) => switch (s) {
+  ExternalSource.loop => l.extSourceLoopHint,
+  ExternalSource.keep => l.extSourceKeepHint,
+  ExternalSource.todoist => l.extSourceTodoistHint,
+  ExternalSource.tickTick => l.extSourceTickTickHint,
+  ExternalSource.text => l.extSourceTextHint,
+};
+
+/// Preview and apply of an import from another app (T8.3.14).
+class ExternalImportSheet extends ConsumerStatefulWidget {
+  const ExternalImportSheet({required this.bundle, super.key});
+
+  final ExternalBundle bundle;
+
+  @override
+  ConsumerState<ExternalImportSheet> createState() => _ExternalImportSheetState();
+}
+
+class _ExternalImportSheetState extends ConsumerState<ExternalImportSheet> {
+  double? _progress;
+
+  Future<void> _apply() async {
+    final l = context.l10n;
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    setState(() => _progress = 0);
+    try {
+      final r = await ref
+          .read(externalImportServiceProvider)
+          .apply(
+            widget.bundle,
+            onProgress: (v) {
+              if (mounted) setState(() => _progress = v);
+            },
+          );
+      if (!mounted) return;
+      Navigator.pop(context);
+      messenger?.showSnackBar(SnackBar(content: Text(l.extImportDone(r.habits + r.lists + r.tasks))));
+    } on Object {
+      if (mounted) setState(() => _progress = null);
+      messenger?.showSnackBar(SnackBar(content: Text(l.dataImportFailed)));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final plan = widget.bundle.plan;
+    final busy = _progress != null;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Flexible(
+          child: ListView(
+            key: const ValueKey('ext-preview'),
+            shrinkWrap: true,
+            children: [
+              if (plan.habits.isNotEmpty)
+                ListTile(
+                  leading: const Icon(Icons.local_fire_department_outlined),
+                  title: Text(l.extCountHabits(plan.habits.length)),
+                  subtitle: Text(l.extCountCheckIns(plan.checkCount)),
+                ),
+              if (plan.lists.isNotEmpty)
+                ListTile(
+                  leading: const Icon(Icons.checklist_outlined),
+                  title: Text(l.extCountLists(plan.lists.length)),
+                  subtitle: Text(l.extCountItems(plan.itemCount)),
+                ),
+              if (plan.tasks.isNotEmpty)
+                ListTile(leading: const Icon(Icons.task_alt), title: Text(l.extCountTasks(plan.tasks.length))),
+              for (final e in plan.notes.entries)
+                ListTile(
+                  dense: true,
+                  leading: const Icon(Icons.info_outline),
+                  title: Text(switch (e.key) {
+                    ImportNote.frequencyApproximated => l.extNoteFrequency(e.value),
+                    ImportNote.repeatNotUnderstood => l.extNoteRepeat(e.value),
+                    ImportNote.completedSkipped => l.extNoteCompleted(e.value),
+                    ImportNote.trashedSkipped => l.extNoteTrashed(e.value),
+                    ImportNote.attachmentMissing => l.extNoteAttachment(e.value),
+                  }),
+                ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.md, Space.lg, Space.lg),
+          child: busy
+              ? LinearProgressIndicator(value: _progress)
+              : FilledButton.icon(
+                  key: const ValueKey('ext-run'),
+                  onPressed: () => unawaited(_apply()),
+                  icon: const Icon(Icons.download_done),
+                  label: Text(l.extImportRun),
                 ),
         ),
       ],
