@@ -237,6 +237,7 @@ class NotificationPipeline {
         result.planned,
         exactAllowed: caps.exactAlarm || !caps.determined,
         fullScreenAllowed: caps.fullScreenIntent,
+        images: !ctx.settings.hideContent,
         foreground: foreground,
         bannerInApp: ctx.settings.bannerInApp,
         horizonEnd: ctx.now.add(ctx.effectiveHorizon),

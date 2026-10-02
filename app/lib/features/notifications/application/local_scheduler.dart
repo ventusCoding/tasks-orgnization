@@ -65,6 +65,7 @@ class LocalNotificationScheduler {
     required this.clock,
     required this.l10n,
     required this.handlers,
+    this.imageFor,
   });
 
   static final _log = AppLog.get('notifications.scheduler');
@@ -74,6 +75,9 @@ class LocalNotificationScheduler {
   final Clock clock;
   final AppLocalizations Function() l10n;
   final List<NotificationActionHandler> Function() handlers;
+
+  /// Local image of a target (cached attachment), never downloading (T7.2.26).
+  final Future<String?> Function(String targetType, String targetId)? imageFor;
 
   /// Window before firing in which the foreground silent channel replaces the normal one
   /// (Android, in-app banners on — T7.2.17).
@@ -100,6 +104,15 @@ class LocalNotificationScheduler {
     await port.setCategories(categories);
   }
 
+  static Future<String?> _safeImage(Future<String?> Function(String, String) imageFor, String type, String id) async {
+    try {
+      return await imageFor(type, id);
+    } on Object catch (e) {
+      _log.warning('notification image lookup failed', e);
+      return null;
+    }
+  }
+
   List<OsCategory> initialCategories() => ChannelCatalog.categories(const [], l10n(), handlers: handlers());
 
   /// Applies the plan. [exactAllowed]: Android exact alarms granted. [foreground] + [bannerInApp]:
@@ -111,6 +124,7 @@ class LocalNotificationScheduler {
     required bool bannerInApp,
     required DateTime horizonEnd,
     bool fullScreenAllowed = false,
+    bool images = true,
     bool authenticationRequired = false,
     ZoneResolver? zones,
     String? zone,
@@ -138,9 +152,26 @@ class LocalNotificationScheduler {
     // Alarm items depend on the exact-alarm / full-screen permissions too (T7.2.24): a change
     // re-issues them.
     final alarmMode = '|alarm:${exactAllowed ? 'x' : ''}${fullScreenAllowed ? 'f' : ''}';
+    // Images (T7.2.26): the target's cached attachment thumbnail, unless content is hidden.
+    final imagePaths = <String, String>{};
+    final imageFor = this.imageFor;
+    if (images && imageFor != null) {
+      final byTarget = <String, String?>{};
+      for (final d in desired) {
+        final p = d.planned;
+        if (p == null || !d.os || d.kind == ScheduleKind.merged || !p.deliverSystem) continue;
+        final target = '${p.targetType.wire}:${p.targetId}';
+        final path = byTarget.containsKey(target)
+            ? byTarget[target]
+            : (byTarget[target] = await _safeImage(imageFor, p.targetType.wire, p.targetId));
+        if (path != null) imagePaths[d.key] = path;
+      }
+    }
     final effective = [
       for (final d in desired)
-        if (d.planned?.alarmStyle ?? false) d.withHash('${d.hash}$alarmMode') else d,
+        d.withHash(
+          '${d.hash}${(d.planned?.alarmStyle ?? false) ? alarmMode : ''}${imagePaths.containsKey(d.key) ? '|img' : ''}',
+        ),
     ];
     final current = await store.all();
     final diff = ScheduleComputation.diff(current, effective, now);
@@ -192,6 +223,7 @@ class LocalNotificationScheduler {
           id,
           exactAllowed: exactAllowed,
           fullScreenAllowed: fullScreenAllowed,
+          imagePath: imagePaths[d.key],
           presentInForeground: !bannerInApp,
           authenticationRequired: authenticationRequired,
           zone: zone,
@@ -237,6 +269,7 @@ class LocalNotificationScheduler {
     required bool presentInForeground,
     required bool authenticationRequired,
     bool fullScreenAllowed = false,
+    String? imagePath,
     String? zone,
   }) {
     final l = l10n();
@@ -282,6 +315,8 @@ class LocalNotificationScheduler {
         exact: exactAllowed,
         alarmClock: p.alarmStyle && exactAllowed,
         fullScreen: p.alarmStyle && exactAllowed && fullScreenAllowed,
+        imagePath: repeating ? null : imagePath,
+        subtitle: p.subtitle,
         presentInForeground: presentInForeground,
         tag: repeating ? d.key : p.dedupeKey,
         repeat: repeating ? d.repeat : null,

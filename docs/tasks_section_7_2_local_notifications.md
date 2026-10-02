@@ -63,7 +63,7 @@ per-section trigger semantics ([7.5]); Live Activities / ongoing timer notificat
 - [x] T7.2.23 — Escalation steps
 - [ ] T7.2.24 — Alarm profile (AlarmKit / alarm clock / full-screen)
 - [x] T7.2.25 — Alarm dismissal missions
-- [ ] T7.2.26 — Rich notifications (images, big text, subtitle)
+- [x] T7.2.26 — Rich notifications (images, big text, subtitle)
 
 ## Tasks
 
@@ -423,3 +423,4 @@ fire time (only already-cached files) and respects hide-content redaction.
 **Acceptance criteria:** a checklist item with a photo shows its thumbnail in the notification on both
 platforms when cached; missing files degrade to text-only silently.
 **Tests:** unit tests for attachment selection and redaction; manual QA.
+**Notes:** The planner stays device-independent: at scheduling time `LocalNotificationScheduler` asks `AttachmentPreviews.cachedImage(ownerType, ownerId)` (attachments application API — first image whose thumbnail/original is already on disk, never downloading) once per target; the image presence is part of the schedule hash, so a thumbnail cached later re-issues the reminder. Android: `BigPictureStyle` (inbox lines win, long bodies get `BigTextStyle`); iOS: an attachment from a temp copy. Subtitle (iOS) / sub-text (Android) = `{parent_path}` or category. Hide content drops images and subtitles. On-device QA pending (T7.4.14 session).

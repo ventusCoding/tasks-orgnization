@@ -909,6 +909,10 @@ abstract final class NotificationPlanner {
       snoozeOptions: delivery.snoozeOptionsMinutes,
       title: ctx.settings.hideContent ? texts.redactedTitle : title,
       body: ctx.settings.hideContent ? texts.redactedBody : body,
+      // iOS subtitle / Android sub-text: where the item lives (T7.2.26), never when hidden.
+      subtitle: ctx.settings.hideContent
+          ? null
+          : [vars['parent_path'], vars['category']].firstWhere((v) => v != null && v.isNotEmpty, orElse: () => null),
       inboxTitle: title,
       inboxBody: body,
       threadId: repeatIdx > 0 || delivery.repeat != null ? 'nag:$baseKey' : 'sec:${target.section.wire}',

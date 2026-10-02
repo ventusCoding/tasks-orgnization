@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/design_system/theme.dart';
 import 'package:everslot/features/notifications/application/alarm_window.dart';
@@ -159,7 +161,40 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
     }
   }
 
-  fln.NotificationDetails _details(OsNotificationRequest r) {
+  /// Android style: inbox lines (groups) > picture (cached attachment) > big text for long bodies.
+  static fln.StyleInformation? _style(OsNotificationRequest r) {
+    if (r.lines.isNotEmpty) return fln.InboxStyleInformation(r.lines);
+    final image = r.imagePath;
+    if (image != null && File(image).existsSync()) {
+      return fln.BigPictureStyleInformation(
+        fln.FilePathAndroidBitmap(image),
+        largeIcon: fln.FilePathAndroidBitmap(image),
+        hideExpandedLargeIcon: true,
+        summaryText: r.body,
+      );
+    }
+    final body = r.body;
+    if (body != null && body.length > 40) return fln.BigTextStyleInformation(body);
+    return null;
+  }
+
+  /// iOS moves an attachment file into its own store: hand it a copy (missing file = no image).
+  static Future<String?> _iosAttachmentCopy(OsNotificationRequest r) async {
+    final image = r.imagePath;
+    if (image == null || !Platform.isIOS) return null;
+    try {
+      final source = File(image);
+      if (!source.existsSync()) return null;
+      final ext = image.contains('.') ? image.substring(image.lastIndexOf('.')) : '.jpg';
+      final copy = '${Directory.systemTemp.path}/everslot_notif_${r.id}$ext';
+      await source.copy(copy);
+      return copy;
+    } on Object {
+      return null;
+    }
+  }
+
+  fln.NotificationDetails _details(OsNotificationRequest r, {String? iosAttachment}) {
     final channel = _channels[r.channelId];
     final actions = r.actions.take(3).toList();
     return fln.NotificationDetails(
@@ -176,7 +211,7 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
         groupKey: r.groupKey,
         setAsGroupSummary: r.groupSummary,
         groupAlertBehavior: r.groupSummary ? fln.GroupAlertBehavior.children : fln.GroupAlertBehavior.all,
-        styleInformation: r.lines.isEmpty ? null : fln.InboxStyleInformation(r.lines),
+        styleInformation: _style(r),
         category: r.alarmClock ? fln.AndroidNotificationCategory.alarm : fln.AndroidNotificationCategory.reminder,
         fullScreenIntent: r.fullScreen,
         audioAttributesUsage: r.alarmClock ? fln.AudioAttributesUsage.alarm : fln.AudioAttributesUsage.notification,
@@ -210,6 +245,7 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
         sound: bundledSounds.contains(r.sound) ? '${r.sound}.caf' : null,
         badgeNumber: r.badgeNumber,
         subtitle: r.subtitle,
+        attachments: iosAttachment == null ? null : [fln.DarwinNotificationAttachment(iosAttachment)],
         threadIdentifier: r.threadId,
         categoryIdentifier: r.categoryId,
         interruptionLevel: switch (r.interruptionLevel) {
@@ -237,7 +273,7 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
       title: request.title,
       body: request.body,
       scheduledDate: tz.TZDateTime.from(at.toUtc(), tz.UTC),
-      notificationDetails: _details(request),
+      notificationDetails: _details(request, iosAttachment: await _iosAttachmentCopy(request)),
       androidScheduleMode: request.alarmClock
           ? fln.AndroidScheduleMode.alarmClock
           : (request.exact
@@ -279,11 +315,11 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
   }
 
   @override
-  Future<void> show(OsNotificationRequest request) => _plugin.show(
+  Future<void> show(OsNotificationRequest request) async => _plugin.show(
     id: request.id,
     title: request.title,
     body: request.body,
-    notificationDetails: _details(request),
+    notificationDetails: _details(request, iosAttachment: await _iosAttachmentCopy(request)),
     payload: request.payload,
   );
 

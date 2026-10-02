@@ -60,6 +60,7 @@ class PlannedNotification {
     required this.sticky,
     required this.alarmStyle,
     this.alarmOptions,
+    this.subtitle,
     required this.actions,
     required this.snoozeOptions,
     required this.title,
@@ -109,6 +110,9 @@ class PlannedNotification {
 
   /// Missions / snooze limit / rising volume of an alarm (T7.2.25).
   final AlarmOptions? alarmOptions;
+
+  /// Where the item lives (`{parent_path}` / category) — iOS subtitle, Android sub-text.
+  final String? subtitle;
   final List<String> actions;
   final List<int> snoozeOptions;
 
@@ -204,6 +208,7 @@ class PlannedNotification {
     sticky: sticky,
     alarmStyle: alarmStyle,
     alarmOptions: alarmOptions,
+    subtitle: subtitle,
     actions: actions,
     snoozeOptions: snoozeOptions,
     title: title ?? this.title,

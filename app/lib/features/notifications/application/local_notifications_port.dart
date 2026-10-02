@@ -199,6 +199,7 @@ class OsNotificationRequest {
     this.repeatZone,
     this.groupSummary = false,
     this.lines = const [],
+    this.imagePath,
   });
 
   final int id;
@@ -227,6 +228,9 @@ class OsNotificationRequest {
 
   /// Android `alarmClock` mode (Alarm profile only, P2).
   final bool alarmClock;
+
+  /// Local image (cached attachment thumbnail) shown in the notification (T7.2.26).
+  final String? imagePath;
 
   /// Android full-screen intent (Alarm profile, only when the user allows it — T7.2.24).
   final bool fullScreen;
