@@ -187,7 +187,11 @@ class FilterBar extends ConsumerWidget {
               c.id,
               c.name,
               icon: IconCatalog.iconFor(c.icon),
-              color: CategoryColors.accent(c.color, Theme.of(context).brightness),
+              color: CategoryColors.accent(
+                c.color,
+                Theme.of(context).brightness,
+                highContrast: context.a11y.highContrastCategories,
+              ),
             ),
         ]);
         if (picked != null) onChanged(value.copyWith(categoryIds: picked));
@@ -198,7 +202,13 @@ class FilterBar extends ConsumerWidget {
               t.id,
               t.name,
               icon: Icons.sell_outlined,
-              color: t.color == null ? null : CategoryColors.accent(t.color!, Theme.of(context).brightness),
+              color: t.color == null
+                  ? null
+                  : CategoryColors.accent(
+                      t.color!,
+                      Theme.of(context).brightness,
+                      highContrast: context.a11y.highContrastCategories,
+                    ),
             ),
         ]);
         if (picked != null) onChanged(value.copyWith(tagIds: picked));

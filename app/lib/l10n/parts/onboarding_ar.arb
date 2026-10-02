@@ -10,5 +10,35 @@
   "onboardingLanguage": "اللغة",
   "onboardingGetStarted": "لنبدأ",
   "onboardingStepOf": "الخطوة {current} من {total}",
-  "@onboardingStepOf": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}}
+  "@onboardingStepOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "onboardingWelcomeTitle": "امتلك كل خانة من يومك",
+  "onboardingWelcomeBody": "بضعة أسئلة سريعة ليتلاءم Everslot مع طريقة حياتك. يمكنك تخطي أي شيء، وكل شيء يبقى في الإعدادات.",
+  "onboardingWelcomePlan": "خطط لأسبوعك بخانات بأي مدة",
+  "onboardingWelcomeLists": "قوائم بعناصر متداخلة وحالات",
+  "onboardingWelcomeHabits": "ابنِ عادات وأقلع عمّا يعيقك",
+  "onboardingWelcomeInsights": "إحصاءات مفصّلة عن كل ما تفعله",
+  "onboardingTrackTitle": "ماذا تريد أن تتابع؟",
+  "onboardingTrackBody": "سنقترح عليك بعض العناصر للبدء. تبقى كل الأقسام متاحة.",
+  "onboardingTrackPlan": "المهام والفترات الزمنية والروتين",
+  "onboardingTrackLists": "قوائم المهام والتسوق والمشاريع",
+  "onboardingTrackHabits": "العادات اليومية والأهداف",
+  "onboardingTrackQuitTitle": "الإقلاع أو التقليل",
+  "onboardingTrackQuit": "التدخين، الكحول، الكافيين…",
+  "onboardingNotificationsOn": "الإشعارات مفعّلة",
+  "onboardingNotificationsLater": "يمكنك تشغيل التذكيرات أو إيقافها لكل عنصر، وتغيير كل شيء من الإعدادات › الإشعارات.",
+  "onboardingStartersTitle": "هل تبدأ بشيء جاهز؟",
+  "onboardingStartersBody": "اختر بعض العناصر الجاهزة. يمكنك تعديلها أو حذفها لاحقًا.",
+  "onboardingStartersNone": "لا اقتراحات لاختياراتك — كل شيء جاهز.",
+  "onboardingStarterRoutine": "روتين الصباح",
+  "onboardingRerun": "إعادة الإعداد",
+  "onboardingRerunSubtitle": "اللغة والأسبوع والإشعارات والعناصر الجاهزة"
 }

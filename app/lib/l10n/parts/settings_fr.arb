@@ -213,5 +213,37 @@
   "settingsInsightsWakingHours": "Heures d’éveil",
   "settingsInsightsHours": "{count, plural, =1{1 heure} other{{count} heures}}",
   "settingsInsightsGamification": "XP et niveaux",
-  "settingsInsightsGamificationHint": "Gagnez des XP pour ce que vous accomplissez (désactivé par défaut)."
+  "settingsInsightsGamificationHint": "Gagnez des XP pour ce que vous accomplissez (désactivé par défaut).",
+  "a11yReduceMotion": "Réduire les animations",
+  "a11yReduceMotionHint": "Moins d’animations, même si l’appareil les autorise",
+  "a11yHaptics": "Retour haptique",
+  "a11yHapticsHint": "Vibrations lors des accroches, déplacements et validations",
+  "a11yHighContrast": "Couleurs de catégories contrastées",
+  "a11yHighContrastHint": "Tuiles et accents plus marqués, plus faciles à distinguer",
+  "a11yLargeTable": "Texte plus grand dans le tableau de la semaine",
+  "a11yLargeTableHint": "Titres et heures plus grands sur les tuiles du planning",
+  "a11yStatusLabels": "Toujours afficher les libellés d’état",
+  "a11yStatusLabelsHint": "L’état en toutes lettres, pas seulement par couleurs et icônes",
+  "a11ySystemHint": "Taille du texte, texte en gras et lecteurs d’écran suivent les réglages de l’appareil.",
+  "aboutTagline": "Maîtrisez chaque créneau de votre journée",
+  "aboutVersion": "Version {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutLegal": "Mentions légales",
+  "aboutPrivacyPolicy": "Politique de confidentialité",
+  "aboutTerms": "Conditions d’utilisation",
+  "aboutLicenses": "Licences open source",
+  "aboutLegalese": "Conçu avec Flutter et des logiciels open source.",
+  "aboutHealthTitle": "Informations de santé",
+  "aboutHealthBody": "Les étapes, économies et estimations de santé du suivi d’arrêt sont des informations générales de santé publique fondées sur des moyennes de population (OMS, NHS, CDC, American Cancer Society). Ce ne sont pas des conseils médicaux et elles ne remplacent pas un professionnel de santé. Si vous essayez d’arrêter une substance, parlez-en à votre médecin ou à une ligne d’aide locale.",
+  "aboutHelp": "Aide",
+  "aboutHelpCenter": "Aide et FAQ",
+  "aboutContact": "Contacter le support",
+  "aboutRate": "Noter Everslot",
+  "aboutRateHint": "Une note aide d’autres personnes à trouver l’app"
 }

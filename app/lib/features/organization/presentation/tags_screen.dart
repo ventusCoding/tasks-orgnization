@@ -54,7 +54,11 @@ class TagsScreen extends ConsumerWidget {
                 leading: CircleAvatar(
                   backgroundColor: tag.color == null
                       ? context.colors.surfaceContainerHighest
-                      : CategoryColors.background(tag.color!, Theme.of(context).brightness),
+                      : CategoryColors.background(
+                          tag.color!,
+                          Theme.of(context).brightness,
+                          highContrast: context.a11y.highContrastCategories,
+                        ),
                   child: Icon(Icons.sell_outlined, color: tagColor(context, tag)),
                 ),
                 title: Text(tag.name),

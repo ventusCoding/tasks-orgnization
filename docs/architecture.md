@@ -1354,8 +1354,10 @@ and is mirrored by DB `CHECK` constraints. The server is the last line of defenc
 ## 11. CI/CD, configuration & secrets
 
 - **Config:** `--dart-define-from-file=env/<flavor>.json` (gitignored; `env/example.json` committed):
-  `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (`sb_publishable_…` — safe to ship), `FLAVOR`.
-  Firebase options generated per flavor by FlutterFire CLI.
+  `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (`sb_publishable_…` — safe to ship), `FLAVOR`,
+  `FIREBASE_ENABLED`, `FEATURE_FLAGS`, and the public `SITE_URL` (privacy policy / terms / support pages,
+  [9.2]) and `SUPPORT_EMAIL` shown in Settings › About — links stay hidden while they are `YOUR_`
+  placeholders. Firebase options generated per flavor by FlutterFire CLI.
 - **Secrets never in the app:** secret keys (`sb_secret_…`), FCM service account, cron secret, Apple
   sign-in key → Supabase Edge Function secrets / Vault and GitHub Actions secrets only. The Apple client
   secret used by the Android web OAuth flow expires every 6 months → calendar reminder + runbook ([9.2]).

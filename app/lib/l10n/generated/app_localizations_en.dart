@@ -10,6 +10,84 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get a11yHaptics => 'Haptic feedback';
+
+  @override
+  String get a11yHapticsHint => 'Vibrations when snapping, lifting and completing';
+
+  @override
+  String get a11yHighContrast => 'High-contrast category colors';
+
+  @override
+  String get a11yHighContrastHint => 'Stronger tiles and accents that are easier to tell apart';
+
+  @override
+  String get a11yLargeTable => 'Larger text in the week table';
+
+  @override
+  String get a11yLargeTableHint => 'Bigger titles and times on planner tiles';
+
+  @override
+  String get a11yReduceMotion => 'Reduce motion';
+
+  @override
+  String get a11yReduceMotionHint => 'Fewer animations, even if your device allows them';
+
+  @override
+  String get a11yStatusLabels => 'Always show status labels';
+
+  @override
+  String get a11yStatusLabelsHint => 'Status in words, not only with colors and icons';
+
+  @override
+  String get a11ySystemHint => 'Text size, bold text and screen readers follow your device settings.';
+
+  @override
+  String get aboutContact => 'Contact support';
+
+  @override
+  String get aboutHealthBody =>
+      'Quit-tracker milestones, savings and health estimates are general public-health information based on population averages (WHO, NHS, CDC, American Cancer Society). They are not medical advice and don\'t replace a healthcare professional. If you\'re trying to quit a substance, talk to your doctor or a local quit line.';
+
+  @override
+  String get aboutHealthTitle => 'Health information';
+
+  @override
+  String get aboutHelp => 'Help';
+
+  @override
+  String get aboutHelpCenter => 'Help & FAQ';
+
+  @override
+  String get aboutLegal => 'Legal';
+
+  @override
+  String get aboutLegalese => 'Built with Flutter and open-source software.';
+
+  @override
+  String get aboutLicenses => 'Open-source licenses';
+
+  @override
+  String get aboutPrivacyPolicy => 'Privacy policy';
+
+  @override
+  String get aboutRate => 'Rate Everslot';
+
+  @override
+  String get aboutRateHint => 'A rating helps others find the app';
+
+  @override
+  String get aboutTagline => 'Own every slot of your day';
+
+  @override
+  String get aboutTerms => 'Terms of use';
+
+  @override
+  String aboutVersion(String version) {
+    return 'Version $version';
+  }
+
+  @override
   String get actionAdd => 'Add';
 
   @override
@@ -8030,6 +8108,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingLanguage => 'Language';
 
   @override
+  String get onboardingNotificationsLater =>
+      'You can turn reminders on or off for each item, and change everything in Settings › Notifications.';
+
+  @override
+  String get onboardingNotificationsOn => 'Notifications are on';
+
+  @override
+  String get onboardingRerun => 'Run the setup again';
+
+  @override
+  String get onboardingRerunSubtitle => 'Language, week, notifications and starters';
+
+  @override
+  String get onboardingStarterRoutine => 'Morning routine';
+
+  @override
+  String get onboardingStartersBody => 'Pick a few ready-made items. You can edit or delete them later.';
+
+  @override
+  String get onboardingStartersNone => 'Nothing to suggest for your choices — you\'re all set.';
+
+  @override
+  String get onboardingStartersTitle => 'Start with something?';
+
+  @override
   String onboardingStepOf(int current, int total) {
     return 'Step $current of $total';
   }
@@ -8041,7 +8144,47 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingTitle => 'Set up Everslot';
 
   @override
+  String get onboardingTrackBody => 'We\'ll suggest a few things to start with. Every section stays available.';
+
+  @override
+  String get onboardingTrackHabits => 'Daily habits and goals';
+
+  @override
+  String get onboardingTrackLists => 'Checklists, shopping, projects';
+
+  @override
+  String get onboardingTrackPlan => 'Tasks, time blocks and routines';
+
+  @override
+  String get onboardingTrackQuit => 'Smoking, alcohol, caffeine…';
+
+  @override
+  String get onboardingTrackQuitTitle => 'Quit or cut down';
+
+  @override
+  String get onboardingTrackTitle => 'What do you want to track?';
+
+  @override
   String get onboardingWeekStart => 'Week starts on';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'A few quick questions so Everslot fits the way you live. Skip anything — it all stays in Settings.';
+
+  @override
+  String get onboardingWelcomeHabits => 'Build habits and quit what holds you back';
+
+  @override
+  String get onboardingWelcomeInsights => 'See detailed insights on everything you do';
+
+  @override
+  String get onboardingWelcomeLists => 'Keep lists with nested items and statuses';
+
+  @override
+  String get onboardingWelcomePlan => 'Plan your week in slots of any length';
+
+  @override
+  String get onboardingWelcomeTitle => 'Own every slot of your day';
 
   @override
   String get paletteGoCategories => 'Manage categories';

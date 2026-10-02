@@ -392,7 +392,11 @@ class _BacklogRow extends ConsumerWidget {
                           size: 12,
                           color: category == null
                               ? context.colors.outline
-                              : CategoryColors.accent(category.color, Theme.of(context).brightness),
+                              : CategoryColors.accent(
+                                  category.color,
+                                  Theme.of(context).brightness,
+                                  highContrast: context.a11y.highContrastCategories,
+                                ),
                         ),
                         label: Text(category?.name ?? l.pvNoCategory),
                         onPressed: () async {

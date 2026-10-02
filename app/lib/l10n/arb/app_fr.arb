@@ -1,5 +1,12 @@
 {
   "@@locale": "fr",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
   "@appLockAfterMinutes": {
     "placeholders": {
       "minutes": {
@@ -178,6 +185,31 @@
       }
     }
   },
+  "a11yHaptics": "Retour haptique",
+  "a11yHapticsHint": "Vibrations lors des accroches, déplacements et validations",
+  "a11yHighContrast": "Couleurs de catégories contrastées",
+  "a11yHighContrastHint": "Tuiles et accents plus marqués, plus faciles à distinguer",
+  "a11yLargeTable": "Texte plus grand dans le tableau de la semaine",
+  "a11yLargeTableHint": "Titres et heures plus grands sur les tuiles du planning",
+  "a11yReduceMotion": "Réduire les animations",
+  "a11yReduceMotionHint": "Moins d’animations, même si l’appareil les autorise",
+  "a11yStatusLabels": "Toujours afficher les libellés d’état",
+  "a11yStatusLabelsHint": "L’état en toutes lettres, pas seulement par couleurs et icônes",
+  "a11ySystemHint": "Taille du texte, texte en gras et lecteurs d’écran suivent les réglages de l’appareil.",
+  "aboutContact": "Contacter le support",
+  "aboutHealthBody": "Les étapes, économies et estimations de santé du suivi d’arrêt sont des informations générales de santé publique fondées sur des moyennes de population (OMS, NHS, CDC, American Cancer Society). Ce ne sont pas des conseils médicaux et elles ne remplacent pas un professionnel de santé. Si vous essayez d’arrêter une substance, parlez-en à votre médecin ou à une ligne d’aide locale.",
+  "aboutHealthTitle": "Informations de santé",
+  "aboutHelp": "Aide",
+  "aboutHelpCenter": "Aide et FAQ",
+  "aboutLegal": "Mentions légales",
+  "aboutLegalese": "Conçu avec Flutter et des logiciels open source.",
+  "aboutLicenses": "Licences open source",
+  "aboutPrivacyPolicy": "Politique de confidentialité",
+  "aboutRate": "Noter Everslot",
+  "aboutRateHint": "Une note aide d’autres personnes à trouver l’app",
+  "aboutTagline": "Maîtrisez chaque créneau de votre journée",
+  "aboutTerms": "Conditions d’utilisation",
+  "aboutVersion": "Version {version}",
   "actionAdd": "Ajouter",
   "actionApply": "Appliquer",
   "actionArchive": "Archiver",
@@ -2466,10 +2498,31 @@
   "onboardingEssentialsTitle": "Votre semaine, votre horloge",
   "onboardingGetStarted": "Commencer",
   "onboardingLanguage": "Langue",
+  "onboardingNotificationsLater": "Vous pouvez activer ou couper les rappels de chaque élément, et tout modifier dans Réglages › Notifications.",
+  "onboardingNotificationsOn": "Les notifications sont activées",
+  "onboardingRerun": "Relancer la configuration",
+  "onboardingRerunSubtitle": "Langue, semaine, notifications et démarrage",
+  "onboardingStarterRoutine": "Routine du matin",
+  "onboardingStartersBody": "Choisissez quelques éléments prêts à l’emploi. Vous pourrez les modifier ou les supprimer.",
+  "onboardingStartersNone": "Rien à proposer pour vos choix — tout est prêt.",
+  "onboardingStartersTitle": "Commencer avec quelque chose ?",
   "onboardingStepOf": "Étape {current} sur {total}",
   "onboardingTimeZone": "Fuseau horaire de référence",
   "onboardingTitle": "Configurer Everslot",
+  "onboardingTrackBody": "Nous vous proposerons de quoi démarrer. Toutes les sections restent disponibles.",
+  "onboardingTrackHabits": "Habitudes quotidiennes et objectifs",
+  "onboardingTrackLists": "Check-lists, courses, projets",
+  "onboardingTrackPlan": "Tâches, créneaux et routines",
+  "onboardingTrackQuit": "Tabac, alcool, caféine…",
+  "onboardingTrackQuitTitle": "Arrêter ou réduire",
+  "onboardingTrackTitle": "Que voulez-vous suivre ?",
   "onboardingWeekStart": "La semaine commence le",
+  "onboardingWelcomeBody": "Quelques questions pour adapter Everslot à votre vie. Tout est facultatif et reste modifiable dans les Réglages.",
+  "onboardingWelcomeHabits": "Prenez de bonnes habitudes, arrêtez les mauvaises",
+  "onboardingWelcomeInsights": "Des statistiques détaillées sur tout ce que vous faites",
+  "onboardingWelcomeLists": "Des listes avec sous-éléments et statuts",
+  "onboardingWelcomePlan": "Planifiez votre semaine en créneaux de toute durée",
+  "onboardingWelcomeTitle": "Maîtrisez chaque créneau de votre journée",
   "paletteGoCategories": "Gérer les catégories",
   "paletteGoDay": "Ouvrir la vue du jour",
   "paletteGoHabits": "Ouvrir les habitudes",

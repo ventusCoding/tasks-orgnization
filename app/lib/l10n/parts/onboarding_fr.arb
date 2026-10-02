@@ -10,5 +10,35 @@
   "onboardingLanguage": "Langue",
   "onboardingGetStarted": "Commencer",
   "onboardingStepOf": "Étape {current} sur {total}",
-  "@onboardingStepOf": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}}
+  "@onboardingStepOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "onboardingWelcomeTitle": "Maîtrisez chaque créneau de votre journée",
+  "onboardingWelcomeBody": "Quelques questions pour adapter Everslot à votre vie. Tout est facultatif et reste modifiable dans les Réglages.",
+  "onboardingWelcomePlan": "Planifiez votre semaine en créneaux de toute durée",
+  "onboardingWelcomeLists": "Des listes avec sous-éléments et statuts",
+  "onboardingWelcomeHabits": "Prenez de bonnes habitudes, arrêtez les mauvaises",
+  "onboardingWelcomeInsights": "Des statistiques détaillées sur tout ce que vous faites",
+  "onboardingTrackTitle": "Que voulez-vous suivre ?",
+  "onboardingTrackBody": "Nous vous proposerons de quoi démarrer. Toutes les sections restent disponibles.",
+  "onboardingTrackPlan": "Tâches, créneaux et routines",
+  "onboardingTrackLists": "Check-lists, courses, projets",
+  "onboardingTrackHabits": "Habitudes quotidiennes et objectifs",
+  "onboardingTrackQuitTitle": "Arrêter ou réduire",
+  "onboardingTrackQuit": "Tabac, alcool, caféine…",
+  "onboardingNotificationsOn": "Les notifications sont activées",
+  "onboardingNotificationsLater": "Vous pouvez activer ou couper les rappels de chaque élément, et tout modifier dans Réglages › Notifications.",
+  "onboardingStartersTitle": "Commencer avec quelque chose ?",
+  "onboardingStartersBody": "Choisissez quelques éléments prêts à l’emploi. Vous pourrez les modifier ou les supprimer.",
+  "onboardingStartersNone": "Rien à proposer pour vos choix — tout est prêt.",
+  "onboardingStarterRoutine": "Routine du matin",
+  "onboardingRerun": "Relancer la configuration",
+  "onboardingRerunSubtitle": "Langue, semaine, notifications et démarrage"
 }

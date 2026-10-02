@@ -10,6 +10,84 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get a11yHaptics => 'Retour haptique';
+
+  @override
+  String get a11yHapticsHint => 'Vibrations lors des accroches, déplacements et validations';
+
+  @override
+  String get a11yHighContrast => 'Couleurs de catégories contrastées';
+
+  @override
+  String get a11yHighContrastHint => 'Tuiles et accents plus marqués, plus faciles à distinguer';
+
+  @override
+  String get a11yLargeTable => 'Texte plus grand dans le tableau de la semaine';
+
+  @override
+  String get a11yLargeTableHint => 'Titres et heures plus grands sur les tuiles du planning';
+
+  @override
+  String get a11yReduceMotion => 'Réduire les animations';
+
+  @override
+  String get a11yReduceMotionHint => 'Moins d’animations, même si l’appareil les autorise';
+
+  @override
+  String get a11yStatusLabels => 'Toujours afficher les libellés d’état';
+
+  @override
+  String get a11yStatusLabelsHint => 'L’état en toutes lettres, pas seulement par couleurs et icônes';
+
+  @override
+  String get a11ySystemHint => 'Taille du texte, texte en gras et lecteurs d’écran suivent les réglages de l’appareil.';
+
+  @override
+  String get aboutContact => 'Contacter le support';
+
+  @override
+  String get aboutHealthBody =>
+      'Les étapes, économies et estimations de santé du suivi d’arrêt sont des informations générales de santé publique fondées sur des moyennes de population (OMS, NHS, CDC, American Cancer Society). Ce ne sont pas des conseils médicaux et elles ne remplacent pas un professionnel de santé. Si vous essayez d’arrêter une substance, parlez-en à votre médecin ou à une ligne d’aide locale.';
+
+  @override
+  String get aboutHealthTitle => 'Informations de santé';
+
+  @override
+  String get aboutHelp => 'Aide';
+
+  @override
+  String get aboutHelpCenter => 'Aide et FAQ';
+
+  @override
+  String get aboutLegal => 'Mentions légales';
+
+  @override
+  String get aboutLegalese => 'Conçu avec Flutter et des logiciels open source.';
+
+  @override
+  String get aboutLicenses => 'Licences open source';
+
+  @override
+  String get aboutPrivacyPolicy => 'Politique de confidentialité';
+
+  @override
+  String get aboutRate => 'Noter Everslot';
+
+  @override
+  String get aboutRateHint => 'Une note aide d’autres personnes à trouver l’app';
+
+  @override
+  String get aboutTagline => 'Maîtrisez chaque créneau de votre journée';
+
+  @override
+  String get aboutTerms => 'Conditions d’utilisation';
+
+  @override
+  String aboutVersion(String version) {
+    return 'Version $version';
+  }
+
+  @override
   String get actionAdd => 'Ajouter';
 
   @override
@@ -8259,6 +8337,32 @@ class AppLocalizationsFr extends AppLocalizations {
   String get onboardingLanguage => 'Langue';
 
   @override
+  String get onboardingNotificationsLater =>
+      'Vous pouvez activer ou couper les rappels de chaque élément, et tout modifier dans Réglages › Notifications.';
+
+  @override
+  String get onboardingNotificationsOn => 'Les notifications sont activées';
+
+  @override
+  String get onboardingRerun => 'Relancer la configuration';
+
+  @override
+  String get onboardingRerunSubtitle => 'Langue, semaine, notifications et démarrage';
+
+  @override
+  String get onboardingStarterRoutine => 'Routine du matin';
+
+  @override
+  String get onboardingStartersBody =>
+      'Choisissez quelques éléments prêts à l’emploi. Vous pourrez les modifier ou les supprimer.';
+
+  @override
+  String get onboardingStartersNone => 'Rien à proposer pour vos choix — tout est prêt.';
+
+  @override
+  String get onboardingStartersTitle => 'Commencer avec quelque chose ?';
+
+  @override
   String onboardingStepOf(int current, int total) {
     return 'Étape $current sur $total';
   }
@@ -8270,7 +8374,47 @@ class AppLocalizationsFr extends AppLocalizations {
   String get onboardingTitle => 'Configurer Everslot';
 
   @override
+  String get onboardingTrackBody => 'Nous vous proposerons de quoi démarrer. Toutes les sections restent disponibles.';
+
+  @override
+  String get onboardingTrackHabits => 'Habitudes quotidiennes et objectifs';
+
+  @override
+  String get onboardingTrackLists => 'Check-lists, courses, projets';
+
+  @override
+  String get onboardingTrackPlan => 'Tâches, créneaux et routines';
+
+  @override
+  String get onboardingTrackQuit => 'Tabac, alcool, caféine…';
+
+  @override
+  String get onboardingTrackQuitTitle => 'Arrêter ou réduire';
+
+  @override
+  String get onboardingTrackTitle => 'Que voulez-vous suivre ?';
+
+  @override
   String get onboardingWeekStart => 'La semaine commence le';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'Quelques questions pour adapter Everslot à votre vie. Tout est facultatif et reste modifiable dans les Réglages.';
+
+  @override
+  String get onboardingWelcomeHabits => 'Prenez de bonnes habitudes, arrêtez les mauvaises';
+
+  @override
+  String get onboardingWelcomeInsights => 'Des statistiques détaillées sur tout ce que vous faites';
+
+  @override
+  String get onboardingWelcomeLists => 'Des listes avec sous-éléments et statuts';
+
+  @override
+  String get onboardingWelcomePlan => 'Planifiez votre semaine en créneaux de toute durée';
+
+  @override
+  String get onboardingWelcomeTitle => 'Maîtrisez chaque créneau de votre journée';
 
   @override
   String get paletteGoCategories => 'Gérer les catégories';

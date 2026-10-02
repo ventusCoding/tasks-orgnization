@@ -647,7 +647,7 @@ class _ItemRowState extends ConsumerState<ItemRow> {
       );
     }
 
-    final meta = _MetaLine(item: item, row: row, ctx: ctx);
+    final meta = _MetaLine(item: item, row: row, ctx: ctx, statusLabels: context.a11y.statusPillLabels);
     final showStrip = ctx.attachmentCount > 0 && !row.collapsed && (ctx.preview ? ctx.showAttachments : true);
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -845,13 +845,17 @@ class _DragHandle extends StatelessWidget {
 /// Pills and chips under the text: status with age, reason, follow-up, due, stale, collapsed
 /// progress, descendant badges, paperclip count.
 class _MetaLine extends StatelessWidget {
-  const _MetaLine({required this.item, required this.row, required this.ctx});
+  const _MetaLine({required this.item, required this.row, required this.ctx, this.statusLabels = false});
 
   final ChecklistItem item;
   final VisibleRow row;
   final RowContext ctx;
 
+  /// "Always show text labels on status pills" (T8.3.12): completed items say so in words too.
+  final bool statusLabels;
+
   bool get _showStatusPill =>
+      (statusLabels && item.status == ItemStatus.completed) ||
       item.status == ItemStatus.ongoing ||
       item.status == ItemStatus.waiting ||
       item.status == ItemStatus.blocked ||

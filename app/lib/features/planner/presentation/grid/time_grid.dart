@@ -723,6 +723,7 @@ class TimeGridState extends ConsumerState<TimeGrid>
     final format = context.plannerFormat(use24h: prefs.use24h);
     final style = GridStyle.of(context, density: config.density);
     final colors = ItemColorResolver(
+      highContrast: context.a11y.highContrastCategories,
       colorBy: config.colorBy,
       brightness: Theme.of(context).brightness,
       categoryColor: lookup,

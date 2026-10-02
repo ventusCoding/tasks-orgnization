@@ -93,6 +93,156 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('ar'), Locale('en'), Locale('fr')];
 
+  /// No description provided for @a11yHaptics.
+  ///
+  /// In en, this message translates to:
+  /// **'Haptic feedback'**
+  String get a11yHaptics;
+
+  /// No description provided for @a11yHapticsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Vibrations when snapping, lifting and completing'**
+  String get a11yHapticsHint;
+
+  /// No description provided for @a11yHighContrast.
+  ///
+  /// In en, this message translates to:
+  /// **'High-contrast category colors'**
+  String get a11yHighContrast;
+
+  /// No description provided for @a11yHighContrastHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Stronger tiles and accents that are easier to tell apart'**
+  String get a11yHighContrastHint;
+
+  /// No description provided for @a11yLargeTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Larger text in the week table'**
+  String get a11yLargeTable;
+
+  /// No description provided for @a11yLargeTableHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Bigger titles and times on planner tiles'**
+  String get a11yLargeTableHint;
+
+  /// No description provided for @a11yReduceMotion.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduce motion'**
+  String get a11yReduceMotion;
+
+  /// No description provided for @a11yReduceMotionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer animations, even if your device allows them'**
+  String get a11yReduceMotionHint;
+
+  /// No description provided for @a11yStatusLabels.
+  ///
+  /// In en, this message translates to:
+  /// **'Always show status labels'**
+  String get a11yStatusLabels;
+
+  /// No description provided for @a11yStatusLabelsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Status in words, not only with colors and icons'**
+  String get a11yStatusLabelsHint;
+
+  /// No description provided for @a11ySystemHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Text size, bold text and screen readers follow your device settings.'**
+  String get a11ySystemHint;
+
+  /// No description provided for @aboutContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact support'**
+  String get aboutContact;
+
+  /// No description provided for @aboutHealthBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit-tracker milestones, savings and health estimates are general public-health information based on population averages (WHO, NHS, CDC, American Cancer Society). They are not medical advice and don\'t replace a healthcare professional. If you\'re trying to quit a substance, talk to your doctor or a local quit line.'**
+  String get aboutHealthBody;
+
+  /// No description provided for @aboutHealthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Health information'**
+  String get aboutHealthTitle;
+
+  /// No description provided for @aboutHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get aboutHelp;
+
+  /// No description provided for @aboutHelpCenter.
+  ///
+  /// In en, this message translates to:
+  /// **'Help & FAQ'**
+  String get aboutHelpCenter;
+
+  /// No description provided for @aboutLegal.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal'**
+  String get aboutLegal;
+
+  /// No description provided for @aboutLegalese.
+  ///
+  /// In en, this message translates to:
+  /// **'Built with Flutter and open-source software.'**
+  String get aboutLegalese;
+
+  /// No description provided for @aboutLicenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Open-source licenses'**
+  String get aboutLicenses;
+
+  /// No description provided for @aboutPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get aboutPrivacyPolicy;
+
+  /// No description provided for @aboutRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Everslot'**
+  String get aboutRate;
+
+  /// No description provided for @aboutRateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A rating helps others find the app'**
+  String get aboutRateHint;
+
+  /// No description provided for @aboutTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Own every slot of your day'**
+  String get aboutTagline;
+
+  /// No description provided for @aboutTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of use'**
+  String get aboutTerms;
+
+  /// No description provided for @aboutVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String aboutVersion(String version);
+
   /// No description provided for @actionAdd.
   ///
   /// In en, this message translates to:
@@ -13821,6 +13971,54 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get onboardingLanguage;
 
+  /// No description provided for @onboardingNotificationsLater.
+  ///
+  /// In en, this message translates to:
+  /// **'You can turn reminders on or off for each item, and change everything in Settings › Notifications.'**
+  String get onboardingNotificationsLater;
+
+  /// No description provided for @onboardingNotificationsOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are on'**
+  String get onboardingNotificationsOn;
+
+  /// No description provided for @onboardingRerun.
+  ///
+  /// In en, this message translates to:
+  /// **'Run the setup again'**
+  String get onboardingRerun;
+
+  /// No description provided for @onboardingRerunSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Language, week, notifications and starters'**
+  String get onboardingRerunSubtitle;
+
+  /// No description provided for @onboardingStarterRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning routine'**
+  String get onboardingStarterRoutine;
+
+  /// No description provided for @onboardingStartersBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a few ready-made items. You can edit or delete them later.'**
+  String get onboardingStartersBody;
+
+  /// No description provided for @onboardingStartersNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to suggest for your choices — you\'re all set.'**
+  String get onboardingStartersNone;
+
+  /// No description provided for @onboardingStartersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with something?'**
+  String get onboardingStartersTitle;
+
   /// No description provided for @onboardingStepOf.
   ///
   /// In en, this message translates to:
@@ -13839,11 +14037,89 @@ abstract class AppLocalizations {
   /// **'Set up Everslot'**
   String get onboardingTitle;
 
+  /// No description provided for @onboardingTrackBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll suggest a few things to start with. Every section stays available.'**
+  String get onboardingTrackBody;
+
+  /// No description provided for @onboardingTrackHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily habits and goals'**
+  String get onboardingTrackHabits;
+
+  /// No description provided for @onboardingTrackLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklists, shopping, projects'**
+  String get onboardingTrackLists;
+
+  /// No description provided for @onboardingTrackPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks, time blocks and routines'**
+  String get onboardingTrackPlan;
+
+  /// No description provided for @onboardingTrackQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Smoking, alcohol, caffeine…'**
+  String get onboardingTrackQuit;
+
+  /// No description provided for @onboardingTrackQuitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit or cut down'**
+  String get onboardingTrackQuitTitle;
+
+  /// No description provided for @onboardingTrackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you want to track?'**
+  String get onboardingTrackTitle;
+
   /// No description provided for @onboardingWeekStart.
   ///
   /// In en, this message translates to:
   /// **'Week starts on'**
   String get onboardingWeekStart;
+
+  /// No description provided for @onboardingWelcomeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A few quick questions so Everslot fits the way you live. Skip anything — it all stays in Settings.'**
+  String get onboardingWelcomeBody;
+
+  /// No description provided for @onboardingWelcomeHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Build habits and quit what holds you back'**
+  String get onboardingWelcomeHabits;
+
+  /// No description provided for @onboardingWelcomeInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'See detailed insights on everything you do'**
+  String get onboardingWelcomeInsights;
+
+  /// No description provided for @onboardingWelcomeLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep lists with nested items and statuses'**
+  String get onboardingWelcomeLists;
+
+  /// No description provided for @onboardingWelcomePlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan your week in slots of any length'**
+  String get onboardingWelcomePlan;
+
+  /// No description provided for @onboardingWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Own every slot of your day'**
+  String get onboardingWelcomeTitle;
 
   /// No description provided for @paletteGoCategories.
   ///

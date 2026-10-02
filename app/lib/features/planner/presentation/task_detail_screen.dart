@@ -241,7 +241,11 @@ class _Summary extends ConsumerWidget {
               if (category != null)
                 StatusPill(
                   label: category.name,
-                  color: CategoryColors.accent(category.color, brightness),
+                  color: CategoryColors.accent(
+                    category.color,
+                    brightness,
+                    highContrast: context.a11y.highContrastCategories,
+                  ),
                   icon: IconCatalog.iconFor(category.icon),
                 ),
               if (task.priority > 0) PriorityBadge(task.priority, showLabel: true),

@@ -351,14 +351,21 @@ class _ColorsDemo extends StatelessWidget {
           Builder(
             builder: (context) {
               final argb = CategoryPalette.colors[i];
-              final tile = CategoryColors.background(argb, brightness);
+              final tile = CategoryColors.background(
+                argb,
+                brightness,
+                highContrast: context.a11y.highContrastCategories,
+              );
               return Container(
                 padding: const EdgeInsetsDirectional.fromSTEB(Space.sm, Space.xs, Space.md, Space.xs),
                 decoration: BoxDecoration(
                   color: tile,
                   borderRadius: BorderRadius.circular(Radii.sm),
                   border: BorderDirectional(
-                    start: BorderSide(color: CategoryColors.accent(argb, brightness), width: 4),
+                    start: BorderSide(
+                      color: CategoryColors.accent(argb, brightness, highContrast: context.a11y.highContrastCategories),
+                      width: 4,
+                    ),
                   ),
                 ),
                 child: Text(names[i % names.length], style: TextStyle(color: CategoryColors.onBackground(tile))),

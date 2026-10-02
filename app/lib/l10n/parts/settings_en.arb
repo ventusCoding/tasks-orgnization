@@ -290,5 +290,37 @@
     }
   },
   "settingsInsightsGamification": "XP and levels",
-  "settingsInsightsGamificationHint": "Earn XP for what you complete (off by default)."
+  "settingsInsightsGamificationHint": "Earn XP for what you complete (off by default).",
+  "a11yReduceMotion": "Reduce motion",
+  "a11yReduceMotionHint": "Fewer animations, even if your device allows them",
+  "a11yHaptics": "Haptic feedback",
+  "a11yHapticsHint": "Vibrations when snapping, lifting and completing",
+  "a11yHighContrast": "High-contrast category colors",
+  "a11yHighContrastHint": "Stronger tiles and accents that are easier to tell apart",
+  "a11yLargeTable": "Larger text in the week table",
+  "a11yLargeTableHint": "Bigger titles and times on planner tiles",
+  "a11yStatusLabels": "Always show status labels",
+  "a11yStatusLabelsHint": "Status in words, not only with colors and icons",
+  "a11ySystemHint": "Text size, bold text and screen readers follow your device settings.",
+  "aboutTagline": "Own every slot of your day",
+  "aboutVersion": "Version {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutLegal": "Legal",
+  "aboutPrivacyPolicy": "Privacy policy",
+  "aboutTerms": "Terms of use",
+  "aboutLicenses": "Open-source licenses",
+  "aboutLegalese": "Built with Flutter and open-source software.",
+  "aboutHealthTitle": "Health information",
+  "aboutHealthBody": "Quit-tracker milestones, savings and health estimates are general public-health information based on population averages (WHO, NHS, CDC, American Cancer Society). They are not medical advice and don't replace a healthcare professional. If you're trying to quit a substance, talk to your doctor or a local quit line.",
+  "aboutHelp": "Help",
+  "aboutHelpCenter": "Help & FAQ",
+  "aboutContact": "Contact support",
+  "aboutRate": "Rate Everslot",
+  "aboutRateHint": "A rating helps others find the app"
 }

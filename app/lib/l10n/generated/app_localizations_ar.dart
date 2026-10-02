@@ -10,6 +10,84 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String get a11yHaptics => 'الاستجابة اللمسية';
+
+  @override
+  String get a11yHapticsHint => 'اهتزازات عند المحاذاة والرفع والإكمال';
+
+  @override
+  String get a11yHighContrast => 'ألوان فئات عالية التباين';
+
+  @override
+  String get a11yHighContrastHint => 'مربعات وألوان أقوى يسهل التمييز بينها';
+
+  @override
+  String get a11yLargeTable => 'نص أكبر في جدول الأسبوع';
+
+  @override
+  String get a11yLargeTableHint => 'عناوين وأوقات أكبر في مربعات المخطط';
+
+  @override
+  String get a11yReduceMotion => 'تقليل الحركة';
+
+  @override
+  String get a11yReduceMotionHint => 'رسوم متحركة أقل حتى إن سمح بها جهازك';
+
+  @override
+  String get a11yStatusLabels => 'إظهار تسميات الحالة دائمًا';
+
+  @override
+  String get a11yStatusLabelsHint => 'الحالة بالكلمات، لا بالألوان والأيقونات فقط';
+
+  @override
+  String get a11ySystemHint => 'حجم النص والخط العريض وقارئات الشاشة تتبع إعدادات جهازك.';
+
+  @override
+  String get aboutContact => 'التواصل مع الدعم';
+
+  @override
+  String get aboutHealthBody =>
+      'مراحل متتبع الإقلاع والتوفير والتقديرات الصحية هي معلومات عامة للصحة العامة مبنية على متوسطات سكانية (منظمة الصحة العالمية، NHS، CDC، الجمعية الأمريكية للسرطان). ليست نصيحة طبية ولا تغني عن أخصائي رعاية صحية. إن كنت تحاول الإقلاع عن مادة ما، فتحدث إلى طبيبك أو خط مساعدة محلي.';
+
+  @override
+  String get aboutHealthTitle => 'معلومات صحية';
+
+  @override
+  String get aboutHelp => 'المساعدة';
+
+  @override
+  String get aboutHelpCenter => 'المساعدة والأسئلة الشائعة';
+
+  @override
+  String get aboutLegal => 'الشؤون القانونية';
+
+  @override
+  String get aboutLegalese => 'مبني باستخدام Flutter وبرمجيات مفتوحة المصدر.';
+
+  @override
+  String get aboutLicenses => 'تراخيص البرمجيات مفتوحة المصدر';
+
+  @override
+  String get aboutPrivacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get aboutRate => 'قيّم Everslot';
+
+  @override
+  String get aboutRateHint => 'يساعد التقييم الآخرين على إيجاد التطبيق';
+
+  @override
+  String get aboutTagline => 'امتلك كل خانة من يومك';
+
+  @override
+  String get aboutTerms => 'شروط الاستخدام';
+
+  @override
+  String aboutVersion(String version) {
+    return 'الإصدار $version';
+  }
+
+  @override
   String get actionAdd => 'إضافة';
 
   @override
@@ -8650,6 +8728,31 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingLanguage => 'اللغة';
 
   @override
+  String get onboardingNotificationsLater =>
+      'يمكنك تشغيل التذكيرات أو إيقافها لكل عنصر، وتغيير كل شيء من الإعدادات › الإشعارات.';
+
+  @override
+  String get onboardingNotificationsOn => 'الإشعارات مفعّلة';
+
+  @override
+  String get onboardingRerun => 'إعادة الإعداد';
+
+  @override
+  String get onboardingRerunSubtitle => 'اللغة والأسبوع والإشعارات والعناصر الجاهزة';
+
+  @override
+  String get onboardingStarterRoutine => 'روتين الصباح';
+
+  @override
+  String get onboardingStartersBody => 'اختر بعض العناصر الجاهزة. يمكنك تعديلها أو حذفها لاحقًا.';
+
+  @override
+  String get onboardingStartersNone => 'لا اقتراحات لاختياراتك — كل شيء جاهز.';
+
+  @override
+  String get onboardingStartersTitle => 'هل تبدأ بشيء جاهز؟';
+
+  @override
   String onboardingStepOf(int current, int total) {
     return 'الخطوة $current من $total';
   }
@@ -8661,7 +8764,47 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingTitle => 'إعداد Everslot';
 
   @override
+  String get onboardingTrackBody => 'سنقترح عليك بعض العناصر للبدء. تبقى كل الأقسام متاحة.';
+
+  @override
+  String get onboardingTrackHabits => 'العادات اليومية والأهداف';
+
+  @override
+  String get onboardingTrackLists => 'قوائم المهام والتسوق والمشاريع';
+
+  @override
+  String get onboardingTrackPlan => 'المهام والفترات الزمنية والروتين';
+
+  @override
+  String get onboardingTrackQuit => 'التدخين، الكحول، الكافيين…';
+
+  @override
+  String get onboardingTrackQuitTitle => 'الإقلاع أو التقليل';
+
+  @override
+  String get onboardingTrackTitle => 'ماذا تريد أن تتابع؟';
+
+  @override
   String get onboardingWeekStart => 'يبدأ الأسبوع يوم';
+
+  @override
+  String get onboardingWelcomeBody =>
+      'بضعة أسئلة سريعة ليتلاءم Everslot مع طريقة حياتك. يمكنك تخطي أي شيء، وكل شيء يبقى في الإعدادات.';
+
+  @override
+  String get onboardingWelcomeHabits => 'ابنِ عادات وأقلع عمّا يعيقك';
+
+  @override
+  String get onboardingWelcomeInsights => 'إحصاءات مفصّلة عن كل ما تفعله';
+
+  @override
+  String get onboardingWelcomeLists => 'قوائم بعناصر متداخلة وحالات';
+
+  @override
+  String get onboardingWelcomePlan => 'خطط لأسبوعك بخانات بأي مدة';
+
+  @override
+  String get onboardingWelcomeTitle => 'امتلك كل خانة من يومك';
 
   @override
   String get paletteGoCategories => 'إدارة الفئات';

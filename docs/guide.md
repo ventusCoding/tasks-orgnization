@@ -55,6 +55,9 @@ cd app && fvm flutter test test_storage
 Point the app at it with `app/env/dev.json`: `SUPABASE_URL` = the API URL printed by `supabase start`
 (`http://10.0.2.2:54321` from the Android emulator) and `SUPABASE_PUBLISHABLE_KEY` = its publishable key.
 
+Settings › About links to `SITE_URL`/privacy, /terms and /support and to `SUPPORT_EMAIL`; set both in
+`env/<flavor>.json` once the website exists (they stay hidden while they are `YOUR_` placeholders).
+
 ## 4. Supabase cloud (T1.2.02)
 
 1. supabase.com → **New project** `everslot-prod` (EU region), optionally `everslot-dev`. Free plan for

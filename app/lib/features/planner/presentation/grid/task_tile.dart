@@ -145,7 +145,8 @@ class TaskTile extends StatelessWidget {
   Widget _content(BuildContext context) => LayoutBuilder(
     builder: (context, constraints) {
       final fg = colors.foreground;
-      final size = compactDensity ? 11.0 : 12.0;
+      final a11y = context.a11y;
+      final size = (compactDensity ? 11.0 : 12.0) + a11y.tileTextBoost;
       final width = constraints.maxWidth.isFinite ? constraints.maxWidth : 200.0;
       final narrow = width < 40;
       final titleStyle = TextStyle(
@@ -157,6 +158,17 @@ class TaskTile extends StatelessWidget {
         decorationColor: fg,
       );
       final timeStyle = TextStyle(color: fg.withValues(alpha: 0.85), fontSize: size - 1, height: 1.15);
+      // Status in words next to the colour / strike-through cues (T8.3.12).
+      final statusWord = a11y.statusPillLabels && item.status != OccurrenceStatus.scheduled && !narrow
+          ? Text(
+              context.statusLabel(item.status),
+              key: const ValueKey('tile-status-label'),
+              style: timeStyle.copyWith(fontWeight: FontWeight.w700),
+              maxLines: 1,
+              overflow: TextOverflow.clip,
+              softWrap: false,
+            )
+          : null;
       final Widget? check = narrow
           ? null
           : _hasCheck
@@ -206,13 +218,20 @@ class TaskTile extends StatelessWidget {
           );
         case TileVariant.compact:
           return clipped(
-            Row(
+            Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ?check,
-                Expanded(
-                  child: Text(item.title, style: titleStyle, maxLines: 2, overflow: TextOverflow.ellipsis),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ?check,
+                    Expanded(
+                      child: Text(item.title, style: titleStyle, maxLines: 2, overflow: TextOverflow.ellipsis),
+                    ),
+                  ],
                 ),
+                ?statusWord,
               ],
             ),
           );
@@ -239,6 +258,7 @@ class TaskTile extends StatelessWidget {
                   ],
                 ),
                 Text(timeText, style: timeStyle, maxLines: 1, overflow: TextOverflow.clip, softWrap: false),
+                ?statusWord,
                 if (fit > 0)
                   Row(
                     mainAxisSize: MainAxisSize.min,

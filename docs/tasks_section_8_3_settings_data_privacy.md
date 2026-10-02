@@ -28,9 +28,9 @@ encryption, onboarding, sample data, accessibility options, about/legal, feedbac
 - [x] T8.3.08 — Import / restore from a Everslot export
 - [x] T8.3.09 — App lock & app-switcher privacy
 - [x] T8.3.10 — Hide notification content
-- [ ] T8.3.11 — Onboarding flow
-- [ ] T8.3.12 — Accessibility options
-- [ ] T8.3.13 — About, legal & health disclaimer
+- [x] T8.3.11 — Onboarding flow
+- [x] T8.3.12 — Accessibility options
+- [x] T8.3.13 — About, legal & health disclaimer
 - [ ] T8.3.14 — Import from other apps
 - [ ] T8.3.15 — Local database encryption
 - [ ] T8.3.16 — Sample data / demo mode
@@ -143,12 +143,14 @@ routine checklist, water habit, 15 push-ups habit, quit smoking) → Today.
 **Acceptance criteria:** skippable at every step; re-runnable from Settings; no OS permission prompt
 without a primer; completion stored in `profiles.onboarding_completed_at`.
 **Tests:** integration test (patrol) through the flow incl. permission dialog.
+**Notes:** `OnboardingStep` = welcome → essentials (language, zone, week start, clock — T1.5.05) → what to track → notifications → starters; Skip on every step finishes with the detected values. The notifications step is the primer itself: the OS prompt only follows its *Allow* button, and on Android a granted permission without exact alarms shows the precise-reminders explanation + button. Track choices (Plan / Lists / Habits / Quit) only filter the starters offered — every tab stays available (no section hiding). Starters (`OnboardingStarters`): built-in *Morning routine* list, *Drink water* and *15 push-ups* habit templates, *Stop smoking* quit tracker, created with the regular services in the user's language. Re-runnable from Settings › Help › *Run the setup again*. `patrol_test/onboarding_test.dart` passed on the Android emulator (API 34) including the system dialog.
 
 ### T8.3.12 — Accessibility options
 **Priority:** P1 · **Size:** S · **Depends on:** T8.3.01
 **Description:** Reduce motion (overrides system), haptics on/off, high-contrast category palette, larger
 week-table text, "always show text labels on status pills".
 **Tests:** widget tests verifying options propagate via theme extensions.
+**Notes:** Settings › Accessibility (keys already in `appearance`): reduce motion and haptics keep their channels (`ReduceMotionScope`, `Haptics`); the other three travel as the `AccessibilityPrefs` theme extension (`context.a11y`, set in `app.dart`). High contrast: `CategoryColors.background/accent(highContrast:)` everywhere categories are drawn (tiles, chips, filters, editors; charts keep their data-viz palette) — accents ≥ 4.5:1 on the surface, tile text ≥ 4.5:1 for every palette color (tested). Larger week-table text: +2 pt on planner tiles. Status labels: planner tiles add the status word (done, missed, skipped, cancelled, in progress) and completed list items get a *Completed* pill. Preview of category tiles on the page.
 
 ### T8.3.13 — About, legal & health disclaimer
 **Priority:** P1 · **Size:** S · **Depends on:** T8.3.01
@@ -157,6 +159,7 @@ policy & terms links ([9.2]), health information disclaimer (quit milestones are
 information, not medical advice), support contact, *Rate Everslot* (`in_app_review`, never auto-prompted
 more than once per 90 days).
 **Tests:** widget test; unit test of review-prompt throttling.
+**Notes:** Settings › About: version (`package_info_plus`), privacy policy / terms / help pages under `SITE_URL` and `SUPPORT_EMAIL` (new optional env keys, hidden while placeholders — the site is T9.2.09), open-source licenses page (`LicenseRegistry` incl. the bundled Inter / Noto Sans Arabic OFL texts), health disclaimer, *Rate Everslot*. `ReviewService`: the user's tap shows the in-app sheet when allowed, else the store page; the only automatic prompt follows a 30+ day streak celebration and is throttled to once per 90 days per device (`local_kv`).
 
 ### T8.3.14 — Import from other apps
 **Priority:** P2 · **Size:** L · **Depends on:** T8.3.08

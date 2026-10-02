@@ -3,5 +3,7 @@
   "SUPABASE_URL": "https://YOUR_PROJECT_REF.supabase.co",
   "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_YOUR_KEY",
   "FIREBASE_ENABLED": false,
-  "FEATURE_FLAGS": ""
+  "FEATURE_FLAGS": "",
+  "SITE_URL": "https://YOUR_SITE_DOMAIN",
+  "SUPPORT_EMAIL": "support@YOUR_SITE_DOMAIN"
 }

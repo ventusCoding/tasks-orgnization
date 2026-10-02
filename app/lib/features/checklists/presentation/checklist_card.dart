@@ -14,8 +14,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Card background derived from the stored ARGB color (tonal light/dark variants, T4.1.08).
-Color cardBackground(BuildContext context, int? argb) =>
-    argb == null ? context.colors.surfaceContainerLow : CategoryColors.background(argb, Theme.of(context).brightness);
+Color cardBackground(BuildContext context, int? argb) => argb == null
+    ? context.colors.surfaceContainerLow
+    : CategoryColors.background(argb, Theme.of(context).brightness, highContrast: context.a11y.highContrastCategories);
 
 /// Status-split segments of a roll-up (progress bars on cards, headers, collapsed rows).
 List<BarSegment> statusSegments(BuildContext context, Rollup r) => [

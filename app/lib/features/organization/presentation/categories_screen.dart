@@ -65,8 +65,19 @@ class CategoriesScreen extends ConsumerWidget {
               return ListTile(
                 key: ValueKey(c.id),
                 leading: CircleAvatar(
-                  backgroundColor: CategoryColors.background(c.color, brightness),
-                  child: Icon(IconCatalog.iconFor(c.icon), color: CategoryColors.accent(c.color, brightness)),
+                  backgroundColor: CategoryColors.background(
+                    c.color,
+                    brightness,
+                    highContrast: context.a11y.highContrastCategories,
+                  ),
+                  child: Icon(
+                    IconCatalog.iconFor(c.icon),
+                    color: CategoryColors.accent(
+                      c.color,
+                      brightness,
+                      highContrast: context.a11y.highContrastCategories,
+                    ),
+                  ),
                 ),
                 title: Text(c.name),
                 subtitle: Text(
@@ -355,7 +366,14 @@ class _CategoryPickerState extends ConsumerState<_CategoryPicker> {
                 ),
               for (final c in visible)
                 ListTile(
-                  leading: Icon(IconCatalog.iconFor(c.icon), color: CategoryColors.accent(c.color, brightness)),
+                  leading: Icon(
+                    IconCatalog.iconFor(c.icon),
+                    color: CategoryColors.accent(
+                      c.color,
+                      brightness,
+                      highContrast: context.a11y.highContrastCategories,
+                    ),
+                  ),
                   title: Text(c.name),
                   selected: c.id == widget.selectedId,
                   onTap: () => Navigator.pop(context, c.id),

@@ -823,6 +823,7 @@ class _DayListPageState extends ConsumerState<DayListPage>
         DaySlice(date: widget.day, timeline: cache.of(widget.day, zone), timed: const [], lane: const []);
     final f = context.plannerFormat(use24h: prefs.use24h);
     final colors = ItemColorResolver(
+      highContrast: context.a11y.highContrastCategories,
       colorBy: config.colorBy,
       brightness: Theme.of(context).brightness,
       categoryColor: ref.watch(categoryColorLookupProvider),

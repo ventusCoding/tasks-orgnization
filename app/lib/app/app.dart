@@ -5,6 +5,7 @@ import 'package:everslot/app/router.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/routing/deep_links.dart';
 import 'package:everslot/core/settings/settings_repository.dart';
+import 'package:everslot/design_system/accessibility.dart';
 import 'package:everslot/design_system/motion.dart';
 import 'package:everslot/design_system/theme.dart';
 import 'package:everslot/design_system/tokens.dart';
@@ -36,6 +37,12 @@ class EverslotApp extends ConsumerWidget {
     final locale = prefs.localeCode == null ? null : Locale(prefs.localeCode!);
     final isDevFlavor = ref.watch(envProvider).isDev;
     final useDynamicColor = appearance['dynamicColor'] == true;
+    // Accessibility options reach every widget through the theme (T8.3.12).
+    final a11y = AccessibilityPrefs(
+      highContrastCategories: appearance['highContrastCategories'] == true,
+      largeWeekTableText: appearance['largeWeekTableText'] == true,
+      statusPillLabels: appearance['statusPillLabels'] == true,
+    );
 
     // Android 12+ wallpaper colors when enabled (T1.3.08); null schemes elsewhere.
     return DynamicColorBuilder(
@@ -43,8 +50,12 @@ class EverslotApp extends ConsumerWidget {
         onGenerateTitle: (context) => AppLocalizations.of(context).appName,
         debugShowCheckedModeBanner: false,
         routerConfig: router,
-        theme: AppTheme.light(density: density, scheme: useDynamicColor ? lightDynamic?.harmonized() : null),
-        darkTheme: AppTheme.dark(density: density, scheme: useDynamicColor ? darkDynamic?.harmonized() : null),
+        theme: a11y.applyTo(
+          AppTheme.light(density: density, scheme: useDynamicColor ? lightDynamic?.harmonized() : null),
+        ),
+        darkTheme: a11y.applyTo(
+          AppTheme.dark(density: density, scheme: useDynamicColor ? darkDynamic?.harmonized() : null),
+        ),
         themeMode: themeMode,
         locale: locale,
         supportedLocales: supportedLocales,

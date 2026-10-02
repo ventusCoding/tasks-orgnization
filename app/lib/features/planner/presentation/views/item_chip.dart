@@ -44,6 +44,7 @@ List<PlannerItem> itemsOnDay(Iterable<PlannerItem> items, LocalDate day) => [
 
 /// Color resolver of a view (its `colorBy`) for the current theme.
 ItemColorResolver viewColors(BuildContext context, WidgetRef ref, PlannerViewConfig config) => ItemColorResolver(
+  highContrast: context.a11y.highContrastCategories,
   colorBy: config.colorBy,
   brightness: Theme.of(context).brightness,
   categoryColor: ref.watch(categoryColorLookupProvider),

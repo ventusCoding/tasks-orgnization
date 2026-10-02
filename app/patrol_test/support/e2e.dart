@@ -26,8 +26,9 @@ class _E2ePlatform extends RealBootstrapPlatform {
   }
 }
 
-/// Starts Everslot like `main_dev.dart` and returns its provider container.
-Future<ProviderContainer> launchEverslot(PatrolIntegrationTester $) async {
+/// Starts Everslot like `main_dev.dart` and returns its provider container (past the first-run
+/// setup unless [skipSetup] is false).
+Future<ProviderContainer> launchEverslot(PatrolIntegrationTester $, {bool skipSetup = true}) async {
   // The app installs its own FlutterError handler; the test binding requires its own back.
   final testHandler = FlutterError.onError;
   ProviderContainer? container;
@@ -35,6 +36,7 @@ Future<ProviderContainer> launchEverslot(PatrolIntegrationTester $) async {
   FlutterError.onError = testHandler;
   await $.pumpAndSettle();
   if (container == null) fail('bootstrap did not reach the app (see the error screen)');
+  if (!skipSetup) return container!;
   // First run: leave the setup screen so deep links (notification taps) can navigate.
   try {
     await $('Set up Everslot').waitUntilVisible(timeout: const Duration(seconds: 5));

@@ -951,7 +951,9 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
           key: const ValueKey('task-category'),
           leading: Icon(
             IconCatalog.iconFor(category?.icon, fallback: Icons.label_outline),
-            color: category == null ? null : CategoryColors.accent(category.color, brightness),
+            color: category == null
+                ? null
+                : CategoryColors.accent(category.color, brightness, highContrast: context.a11y.highContrastCategories),
           ),
           label: l.tasksFieldCategory,
           value: category?.name ?? '—',
@@ -964,7 +966,10 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
           key: const ValueKey('task-color'),
           leading: colorValue == null
               ? const Icon(Icons.palette_outlined)
-              : ColorDot(CategoryColors.accent(colorValue, brightness), size: 20),
+              : ColorDot(
+                  CategoryColors.accent(colorValue, brightness, highContrast: context.a11y.highContrastCategories),
+                  size: 20,
+                ),
           label: l.tasksFieldColor,
           value: form.color == null ? l.tasksColorCategoryDefault : null,
           action: form.color == null

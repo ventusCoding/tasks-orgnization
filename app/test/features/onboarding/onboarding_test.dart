@@ -1,4 +1,6 @@
 import 'package:everslot/features/auth/application/auth_providers.dart';
+import 'package:everslot/features/notifications/application/local_notifications_port.dart';
+import 'package:everslot/features/notifications/application/notification_providers.dart';
 import 'package:everslot/features/onboarding/application/onboarding_controller.dart';
 import 'package:everslot/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:everslot/features/profile/application/device_locale.dart';
@@ -101,11 +103,19 @@ void main() {
     });
   });
 
+  Future<void> next(WidgetTester tester) async {
+    await tester.tap(find.byKey(const ValueKey('onboarding-next')));
+    await settle(tester);
+  }
+
   testWidgets('confirmation screen: change the week start, then get started', (tester) async {
     final h = _harness();
     await tester.runAsync(() => h.read(profileRepositoryProvider).update(homeTimeZone: 'UTC'));
     await pumpInApp(tester, h, const OnboardingScreen());
     await settle(tester);
+    expect(find.byKey(const ValueKey('onboarding-welcome')), findsOneWidget);
+    expect(find.text('Step 1 of 5'), findsOneWidget);
+    await next(tester);
     expect(find.text('Your week, your clock'), findsOneWidget);
     expect(find.text('Sunday'), findsOneWidget);
     expect(find.textContaining('New York'), findsOneWidget);
@@ -121,8 +131,9 @@ void main() {
     await tester.tap(find.text('24-hour\n13:30'));
     await tester.pump();
     expect(h.read(onboardingControllerProvider).draft!.use24h, isTrue);
-    await tester.tap(find.byKey(const ValueKey('onboarding-next')));
-    await settle(tester);
+    for (var i = 0; i < 4; i++) {
+      await next(tester);
+    }
     expect(h.read(onboardingControllerProvider).done, isTrue);
     final p = (await tester.runAsync(() => h.read(profileRepositoryProvider).read()))!;
     expect(p.weekStart, 1);
@@ -131,11 +142,81 @@ void main() {
     await finish(tester, h);
   });
 
+  group('tour (T8.3.11)', () {
+    testWidgets('what to track filters the starters; chosen starters are created', (tester) async {
+      final h = _harness();
+      await pumpInApp(tester, h, const OnboardingScreen());
+      await settle(tester);
+      await next(tester); // welcome
+      await next(tester); // essentials
+      await tester.tap(find.byKey(const ValueKey('onboarding-track-lists')));
+      await tester.tap(find.byKey(const ValueKey('onboarding-track-quit')));
+      await tester.pump();
+      await next(tester); // track
+      await next(tester); // notifications
+      expect(find.byKey(const ValueKey('onboarding-starter-morningRoutine')), findsNothing, reason: 'lists off');
+      expect(find.byKey(const ValueKey('onboarding-starter-water')), findsOneWidget);
+      await tester.tap(find.byKey(const ValueKey('onboarding-starter-water')));
+      await tester.tap(find.byKey(const ValueKey('onboarding-starter-quitSmoking')));
+      await tester.pump();
+      expect(find.text('Get started'), findsOneWidget);
+      await next(tester);
+      await settle(tester, rounds: 10);
+      expect(h.read(onboardingControllerProvider).done, isTrue);
+      final habits = (await tester.runAsync(() => h.db.select(h.db.habits).get()))!;
+      expect(habits.map((x) => (x.name, x.kind)).toSet(), {('Drink water', 'build'), ('Stop smoking', 'quit')});
+      expect(await tester.runAsync(() => h.db.select(h.db.checklists).get()), isEmpty);
+      await finish(tester, h);
+    });
+
+    testWidgets('skip on the first step completes onboarding without creating anything', (tester) async {
+      final h = _harness();
+      await pumpInApp(tester, h, const OnboardingScreen());
+      await settle(tester);
+      await tester.tap(find.byKey(const ValueKey('onboarding-skip')));
+      await settle(tester);
+      expect(h.read(onboardingControllerProvider).done, isTrue);
+      expect(await tester.runAsync(() => h.db.select(h.db.habits).get()), isEmpty);
+      await finish(tester, h);
+    });
+
+    testWidgets('no OS prompt without the primer; Android then explains precise reminders', (tester) async {
+      final port = InMemoryLocalNotificationsPort(
+        capabilities: const NotificationCapabilities(platform: 'android', determined: true),
+      );
+      final h = TestHarness.create(
+        zone: 'America/New_York',
+        overrides: [
+          deviceLocaleProvider.overrideWithValue(const Locale('en', 'US')),
+          localNotificationsPortProvider.overrideWithValue(port),
+        ],
+      );
+      await pumpInApp(tester, h, const OnboardingScreen());
+      await settle(tester);
+      for (var i = 0; i < 3; i++) {
+        await next(tester);
+      }
+      expect(port.caps.notifications, isFalse, reason: 'reaching the step never prompts');
+      expect(find.byKey(const ValueKey('onboarding-exact-allow')), findsNothing);
+      await tester.tap(find.byKey(const ValueKey('onboarding-notif-allow')));
+      await settle(tester);
+      expect(port.caps.notifications, isTrue);
+      expect(find.byKey(const ValueKey('onboarding-notif-on')), findsOneWidget);
+      await tester.ensureVisible(find.byKey(const ValueKey('onboarding-exact-allow')));
+      await tester.pump();
+      await tester.tap(find.byKey(const ValueKey('onboarding-exact-allow')));
+      await settle(tester);
+      expect(port.caps.exactAlarm, isTrue);
+      expect(find.byKey(const ValueKey('onboarding-exact-allow')), findsNothing);
+      await finish(tester, h);
+    });
+  });
+
   testWidgets('Arabic layout renders without overflow', (tester) async {
     final h = _harness(locale: const Locale('ar', 'TN'));
     await pumpInApp(tester, h, const OnboardingScreen(), locale: const Locale('ar'));
     await settle(tester);
-    expect(find.text('أسبوعك وساعتك'), findsOneWidget);
+    expect(find.text('امتلك كل خانة من يومك'), findsOneWidget);
     expect(tester.takeException(), isNull);
     await finish(tester, h);
   });
