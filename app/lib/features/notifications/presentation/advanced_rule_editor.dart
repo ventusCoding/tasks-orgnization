@@ -360,6 +360,7 @@ class _TriggerEditor extends StatelessWidget {
     TriggerType.upNext => const UpNextTrigger(),
     TriggerType.timerEnd => const TimerEndTrigger(),
     TriggerType.listReset => const ListResetTrigger(),
+    TriggerType.quitRitual => const QuitRitualTrigger(kind: QuitRitualTrigger.pledge),
   };
 
   void _set(NotificationTrigger t) => onChanged(spec.copyWith(trigger: t));
@@ -581,6 +582,29 @@ class _TriggerEditor extends StatelessWidget {
       ],
       ListResetTrigger(:final atTime) => [
         timeTile(l.notifFieldAtTime, atTime, (t) => _set(ListResetTrigger(atTime: t))),
+      ],
+      QuitRitualTrigger(:final kind, :final atTime, :final minutesBefore) => [
+        DropdownButtonFormField<String>(
+          initialValue: kind,
+          decoration: InputDecoration(labelText: l.notifFieldRitual),
+          onChanged: (k) => _set(QuitRitualTrigger(kind: k ?? kind, atTime: atTime, minutesBefore: minutesBefore)),
+          items: [
+            for (final k in QuitRitualTrigger.kinds)
+              DropdownMenuItem(value: k, child: Text(NotificationLabels.of(context).ritual(k))),
+          ],
+        ),
+        if (kind == QuitRitualTrigger.cravingSupport)
+          intField(
+            l.notifFieldMinutesBefore,
+            minutesBefore ?? 10,
+            (v) => _set(QuitRitualTrigger(kind: kind, atTime: atTime, minutesBefore: v)),
+          )
+        else
+          timeTile(
+            l.notifFieldAtTime,
+            atTime,
+            (t) => _set(QuitRitualTrigger(kind: kind, atTime: t, minutesBefore: minutesBefore)),
+          ),
       ],
       ChildrenCompleteTrigger() || ChildOverdueTrigger() || TimerEndTrigger() || UnknownTrigger() => const <Widget>[],
     };

@@ -1,6 +1,7 @@
 import 'package:everslot/features/notifications/application/notifications_engine.dart' show seedNotificationDefaults;
 import 'package:everslot/features/notifications/domain/notification_types.dart';
 import 'package:everslot/features/notifications/domain/rule_spec.dart';
+import 'package:everslot/features/notifications/domain/rule_triggers.dart';
 import 'package:everslot/features/notifications/presentation/simple_rule_editor.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -29,6 +30,7 @@ void main() {
     NotificationSection section, {
     ItemKind kind = ItemKind.timed,
     Locale locale = const Locale('en'),
+    int? cravingCount,
   }) async {
     outcome = null;
     await tester.runAsync(() => seedNotificationDefaults(h.read));
@@ -38,8 +40,13 @@ void main() {
       Scaffold(
         body: Builder(
           builder: (context) => TextButton(
-            onPressed: () async =>
-                outcome = await showSimpleRuleEditor(context, targetType: type, section: section, itemKind: kind),
+            onPressed: () async => outcome = await showSimpleRuleEditor(
+              context,
+              targetType: type,
+              section: section,
+              itemKind: kind,
+              cravingCount: cravingCount,
+            ),
             child: const Text('open'),
           ),
         ),
@@ -61,6 +68,24 @@ void main() {
   }
 
   RelativeTrigger relative(int i) => outcome!.rules[i].spec.trigger as RelativeTrigger;
+
+  testWidgets('quit rituals: craving support stays off below 10 cravings, with the reason (T7.5.14)', (tester) async {
+    await open(tester, NotificationTargetType.habit, NotificationSection.quit, kind: ItemKind.any, cravingCount: 4);
+    expect(tester.widget<FilterChip>(chip('Craving support')).onSelected, isNull);
+    expect(find.textContaining('4 logged so far'), findsOneWidget);
+    await tester.tap(chipContaining('Morning pledge'));
+    await tester.tap(chip('Encouragement after a slip'));
+    await tester.pump();
+    await add(tester);
+    final kinds = [for (final r in outcome!.rules) (r.spec.trigger as QuitRitualTrigger).kind];
+    expect(kinds, unorderedEquals(['pledge', 'encouragement']));
+  });
+
+  testWidgets('quit rituals: craving support is selectable from 10 cravings', (tester) async {
+    await open(tester, NotificationTargetType.habit, NotificationSection.quit, kind: ItemKind.any, cravingCount: 10);
+    expect(tester.widget<FilterChip>(chip('Craving support')).onSelected, isNotNull);
+    expect(find.textContaining('logged so far'), findsNothing);
+  });
 
   testWidgets('timed task chips', (tester) async {
     await open(tester, NotificationTargetType.task, NotificationSection.planner);

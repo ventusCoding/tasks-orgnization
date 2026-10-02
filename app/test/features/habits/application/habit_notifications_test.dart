@@ -10,6 +10,7 @@ import 'package:everslot/features/habits/application/quit_service.dart';
 import 'package:everslot/features/habits/domain/catalogs.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
+import 'package:everslot/features/habits/domain/habit_settings.dart';
 import 'package:everslot/features/habits/domain/schedule_presets.dart';
 import 'package:everslot/features/notifications/application/local_notifications_port.dart';
 import 'package:everslot/features/notifications/application/notification_providers.dart';
@@ -289,6 +290,19 @@ void main() {
       expect(open.openLink, '/quit/${abstain.id}');
       expect(open.markActed, isFalse);
     });
+
+    test('quit rituals: Pledge and Clean day write the day of the ritual; Log relapse opens the flow', () async {
+      final tracker = await createQuit();
+      expect((await handler().handle(ctx('pledge', tracker.id, key: 'qr:pledge:2026-09-22'))).success, isTrue);
+      expect((await handler().handle(ctx('clean_day', tracker.id, key: 'qr:review:2026-09-21'))).success, isTrue);
+      final logs = await h.read(habitLogsRepositoryProvider).forHabit(tracker.id);
+      expect(
+        {for (final l in logs) (l.kind, l.localDate.toIso(), l.source)},
+        {(HabitLogKind.pledge, '2026-09-22', 'notification'), (HabitLogKind.clean, '2026-09-21', 'notification')},
+      );
+      final relapse = await handler().handle(ctx('log_relapse', tracker.id, key: 'qr:review:2026-09-22'));
+      expect((relapse.openLink, relapse.markActed), ('/quit/${tracker.id}', false));
+    });
   });
 
   group('quit targets', () {
@@ -363,6 +377,39 @@ void main() {
       final goal = target.milestones.singleWhere((m) => m.metric == 'custom');
       expect(goal.at, DateTime.utc(2026, 9, 24, 8));
       expect(goal.label, 'Concert ticket — €30.00 saved');
+    });
+
+    test('ritual inputs: pledge events, ritual times, craving hours from ≥ 10 cravings, reason', () async {
+      final tracker = QuitHabit(
+        id: Ids.v7(),
+        name: 'Stop smoking',
+        startDate: d(2026, 9, 21),
+        sortKey: '',
+        mode: QuitMode.abstain,
+        quitStartedAt: DateTime.utc(2026, 9, 21, 20),
+        baselinePerDay: 10,
+        motivation: 'For my kids',
+        settings: HabitSettings(
+          pledge: PledgeSettings(enabled: true, morning: LocalTime(7, 30), evening: LocalTime(21, 30)),
+        ),
+      );
+      await h.read(habitsRepositoryProvider).create(tracker);
+      final quit = h.read(quitServiceProvider);
+      await quit.pledge(tracker);
+      var target = await quitTarget();
+      expect(target.events.map((e) => e.kind), ['pledge']);
+      expect(target.variables['pledge_time'], '07:30');
+      expect(target.variables['review_time'], '21:30');
+      expect(target.variables['reason'], 'For my kids');
+      expect(target.variables['craving_count'], '0');
+      expect(target.variables.containsKey('craving_hours'), isFalse);
+      for (var i = 0; i < 10; i++) {
+        await quit.logCraving(tracker, input: const CravingInput(intensity: 5));
+      }
+      target = await quitTarget();
+      expect(target.variables['craving_count'], '10');
+      expect(target.variables['craving_hours'], '8', reason: 'all logged at 08:00 Paris');
+      expect(target.variables['coping_tip'], isNotEmpty);
     });
 
     test('non-smoking trackers get no health milestones', () async {

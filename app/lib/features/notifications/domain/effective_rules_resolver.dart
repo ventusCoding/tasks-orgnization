@@ -189,6 +189,7 @@ class EffectiveRulesResolver {
     RelativeTrigger(:final anchor) => 'relative:${anchor.wire}',
     MilestoneTrigger(:final metric) => 'milestone:$metric',
     DigestTrigger(:final kind) => 'digest:$kind',
+    QuitRitualTrigger(:final kind) => 'quit_ritual:$kind',
     _ => trigger.typeWire,
   };
 }

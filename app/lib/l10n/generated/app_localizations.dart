@@ -9447,6 +9447,12 @@ abstract class AppLocalizations {
   /// **'Page not found'**
   String get notFoundTitle;
 
+  /// No description provided for @notifActionCleanDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean day'**
+  String get notifActionCleanDay;
+
   /// No description provided for @notifActionComplete.
   ///
   /// In en, this message translates to:
@@ -9476,6 +9482,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log craving'**
   String get notifActionLogCraving;
+
+  /// No description provided for @notifActionLogRelapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Log relapse'**
+  String get notifActionLogRelapse;
 
   /// No description provided for @notifActionLogValue.
   ///
@@ -9518,6 +9530,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open'**
   String get notifActionOpen;
+
+  /// No description provided for @notifActionPledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledge'**
+  String get notifActionPledge;
 
   /// No description provided for @notifActionReschedule.
   ///
@@ -9753,6 +9771,18 @@ abstract class AppLocalizations {
   /// **'{days, plural, =1{1 day} other{{days} days}} free — well done!'**
   String notifBodyCleanDays(int days);
 
+  /// No description provided for @notifBodyCravingSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings often come around now — you can ride it out.'**
+  String get notifBodyCravingSupport;
+
+  /// No description provided for @notifBodyCravingSupportTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings often come around now. {tip}'**
+  String notifBodyCravingSupportTip(String tip);
+
   /// No description provided for @notifBodyDueIn.
   ///
   /// In en, this message translates to:
@@ -9764,6 +9794,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Due now'**
   String get notifBodyDueNow;
+
+  /// No description provided for @notifBodyEncouragement.
+  ///
+  /// In en, this message translates to:
+  /// **'A slip is not the end — today is a fresh start.'**
+  String get notifBodyEncouragement;
 
   /// No description provided for @notifBodyEndedAgo.
   ///
@@ -9782,6 +9818,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ends in {minutes, plural, =1{1 min} other{{minutes} min}}'**
   String notifBodyEndsIn(int minutes);
+
+  /// No description provided for @notifBodyEveningReview.
+  ///
+  /// In en, this message translates to:
+  /// **'How did today go?'**
+  String get notifBodyEveningReview;
 
   /// No description provided for @notifBodyInDays.
   ///
@@ -9807,6 +9849,12 @@ abstract class AppLocalizations {
   /// **'Milestone reached: {label}'**
   String notifBodyMilestone(String label);
 
+  /// No description provided for @notifBodyMotivation.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember why: {reason}'**
+  String notifBodyMotivation(String reason);
+
   /// No description provided for @notifBodyNotDone.
   ///
   /// In en, this message translates to:
@@ -9818,6 +9866,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{title} is overdue'**
   String notifBodyOverdue(String title);
+
+  /// No description provided for @notifBodyPledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to pledge for today?'**
+  String get notifBodyPledge;
 
   /// No description provided for @notifBodyQuotaBehind.
   ///
@@ -10125,6 +10179,24 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{1 reminder copied} other{{count} reminders copied}}'**
   String notifCopied(int count);
 
+  /// No description provided for @notifCopingTipBreathe.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a minute of box breathing.'**
+  String get notifCopingTipBreathe;
+
+  /// No description provided for @notifCopingTipWalk.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a short walk.'**
+  String get notifCopingTipWalk;
+
+  /// No description provided for @notifCopingTipWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Drink a glass of water.'**
+  String get notifCopingTipWater;
+
   /// No description provided for @notifCopyFrom.
   ///
   /// In en, this message translates to:
@@ -10136,6 +10208,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'That item has no reminders of its own'**
   String get notifCopyNothing;
+
+  /// No description provided for @notifCravingSupportNeeds.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Craving support learns your usual craving hours from 10 logged cravings — 1 logged so far.} other{Craving support learns your usual craving hours from 10 logged cravings — {count} logged so far.}}'**
+  String notifCravingSupportNeeds(int count);
 
   /// No description provided for @notifCreateCount.
   ///
@@ -10575,6 +10653,12 @@ abstract class AppLocalizations {
   /// **'Minimum streak'**
   String get notifFieldMinStreak;
 
+  /// No description provided for @notifFieldMinutesBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes before'**
+  String get notifFieldMinutesBefore;
+
   /// No description provided for @notifFieldOffset.
   ///
   /// In en, this message translates to:
@@ -10586,6 +10670,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Repeats'**
   String get notifFieldRepeats;
+
+  /// No description provided for @notifFieldRitual.
+  ///
+  /// In en, this message translates to:
+  /// **'Ritual'**
+  String get notifFieldRitual;
 
   /// No description provided for @notifFieldStatuses.
   ///
@@ -11649,6 +11739,36 @@ abstract class AppLocalizations {
   /// **'Resume'**
   String get notifResume;
 
+  /// No description provided for @notifRitualCravingSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Craving support'**
+  String get notifRitualCravingSupport;
+
+  /// No description provided for @notifRitualEncouragement.
+  ///
+  /// In en, this message translates to:
+  /// **'Encouragement after a slip'**
+  String get notifRitualEncouragement;
+
+  /// No description provided for @notifRitualEveningReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening review'**
+  String get notifRitualEveningReview;
+
+  /// No description provided for @notifRitualMotivation.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder of my reason'**
+  String get notifRitualMotivation;
+
+  /// No description provided for @notifRitualPledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning pledge'**
+  String get notifRitualPledge;
+
   /// No description provided for @notifRuleDeleted.
   ///
   /// In en, this message translates to:
@@ -12302,6 +12422,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Overdue'**
   String get notifTriggerOverdue;
+
+  /// No description provided for @notifTriggerQuitRitual.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit ritual'**
+  String get notifTriggerQuitRitual;
 
   /// No description provided for @notifTriggerQuotaBehind.
   ///

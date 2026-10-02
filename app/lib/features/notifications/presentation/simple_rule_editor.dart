@@ -28,14 +28,16 @@ Future<SimpleEditorOutcome?> showSimpleRuleEditor(
   required NotificationTargetType targetType,
   required NotificationSection section,
   ItemKind itemKind = ItemKind.timed,
+  int? cravingCount,
 }) => showAppSheet<SimpleEditorOutcome>(
   context,
   title: context.l10n.notifEditorTitle,
-  builder: (_) => SimpleRuleEditor(targetType: targetType, section: section, itemKind: itemKind),
+  builder: (_) =>
+      SimpleRuleEditor(targetType: targetType, section: section, itemKind: itemKind, cravingCount: cravingCount),
 );
 
 class _Choice {
-  _Choice(this.id, this.label, this.build, {this.time});
+  _Choice(this.id, this.label, this.build, {this.time, this.unavailable});
 
   final String id;
   final String Function(NotificationLabels labels, LocalTime? time) label;
@@ -43,6 +45,9 @@ class _Choice {
 
   /// Editable time of the choice (tap the chip's clock to change it).
   LocalTime? time;
+
+  /// Why the choice can't be picked yet (shown under the chips); null = available.
+  final String? unavailable;
 }
 
 /// Quick chips per target (tasks: at start / N min before / 1 day before at… / at end; all-day:
@@ -51,11 +56,20 @@ class _Choice {
 /// plus *At a time…* (absolute), *Repeat…* (recurrence picker) and *Custom…* (any offset from
 /// 1 minute to 30 days before or after any available anchor, or N days before/after at a time).
 class SimpleRuleEditor extends ConsumerStatefulWidget {
-  const SimpleRuleEditor({required this.targetType, required this.section, this.itemKind = ItemKind.timed, super.key});
+  const SimpleRuleEditor({
+    required this.targetType,
+    required this.section,
+    this.itemKind = ItemKind.timed,
+    this.cravingCount,
+    super.key,
+  });
 
   final NotificationTargetType targetType;
   final NotificationSection section;
   final ItemKind itemKind;
+
+  /// Logged cravings of the quit tracker (null = unknown, e.g. section defaults).
+  final int? cravingCount;
 
   @override
   ConsumerState<SimpleRuleEditor> createState() => _SimpleRuleEditorState();
@@ -176,12 +190,48 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
           _Choice('every', (lb, t) => _every(lb, t!), (t) => _daily(t!), time: nine),
         ];
       case NotificationTargetType.habit when widget.section == NotificationSection.quit:
+        NotificationRuleSpec ritual(String kind, LocalTime? t) => NotificationRuleSpec(
+          trigger: QuitRitualTrigger(kind: kind, atTime: t),
+        );
+        final cravings = widget.cravingCount;
         return [
           _Choice('every', (lb, t) => _every(lb, t!), (t) => _daily(t!), time: nine),
           _Choice(
             'milestones',
             (_, _) => l.notifChipMilestones,
             (_) => const NotificationRuleSpec(trigger: MilestoneTrigger(metric: 'clean_days')),
+          ),
+          // Rituals (T7.5.14): all off until picked here.
+          _Choice(
+            'pledge',
+            (lb, t) => '${lb.ritual(QuitRitualTrigger.pledge)} ${lb.time(t!)}',
+            (t) => ritual(QuitRitualTrigger.pledge, t),
+            time: LocalTime(8, 0),
+          ),
+          _Choice(
+            'review',
+            (lb, t) => '${lb.ritual(QuitRitualTrigger.eveningReview)} ${lb.time(t!)}',
+            (t) => ritual(QuitRitualTrigger.eveningReview, t),
+            time: LocalTime(21, 0),
+          ),
+          _Choice(
+            'craving',
+            (lb, _) => lb.ritual(QuitRitualTrigger.cravingSupport),
+            (_) => ritual(QuitRitualTrigger.cravingSupport, null),
+            unavailable: cravings != null && cravings < QuitRitualTrigger.cravingSupportMinCravings
+                ? l.notifCravingSupportNeeds(cravings)
+                : null,
+          ),
+          _Choice(
+            'encourage',
+            (lb, _) => lb.ritual(QuitRitualTrigger.encouragement),
+            (_) => ritual(QuitRitualTrigger.encouragement, null),
+          ),
+          _Choice(
+            'motivation',
+            (lb, t) => '${lb.ritual(QuitRitualTrigger.motivation)} ${lb.time(t!)}',
+            (t) => ritual(QuitRitualTrigger.motivation, t),
+            time: LocalTime(12, 0),
           ),
         ];
       case NotificationTargetType.habit:
@@ -291,7 +341,9 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
                 FilterChip(
                   label: Text(c.label(labels, c.time)),
                   selected: _selected.contains(c.id),
-                  onSelected: (v) => setState(() => v ? _selected.add(c.id) : _selected.remove(c.id)),
+                  onSelected: c.unavailable != null
+                      ? null
+                      : (v) => setState(() => v ? _selected.add(c.id) : _selected.remove(c.id)),
                   deleteIcon: c.time == null ? null : const Icon(Icons.schedule, size: 18),
                   deleteButtonTooltipMessage: l.notifChipChangeTime,
                   onDeleted: c.time == null
@@ -328,6 +380,12 @@ class _SimpleRuleEditorState extends ConsumerState<SimpleRuleEditor> {
                 ),
             ],
           ),
+          for (final c in _choices)
+            if (c.unavailable case final why?)
+              Padding(
+                padding: const EdgeInsetsDirectional.only(top: Space.sm),
+                child: Text(why, style: Theme.of(context).textTheme.bodySmall),
+              ),
           if (_custom) ..._customFields(context, labels),
           const SizedBox(height: Space.lg),
           DropdownButtonFormField<String?>(

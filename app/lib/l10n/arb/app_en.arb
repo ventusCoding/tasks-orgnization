@@ -2117,6 +2117,13 @@
       }
     }
   },
+  "@notifBodyCravingSupportTip": {
+    "placeholders": {
+      "tip": {
+        "type": "String"
+      }
+    }
+  },
   "@notifBodyDueIn": {
     "placeholders": {
       "minutes": {
@@ -2165,6 +2172,13 @@
   "@notifBodyMilestone": {
     "placeholders": {
       "label": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifBodyMotivation": {
+    "placeholders": {
+      "reason": {
         "type": "String"
       }
     }
@@ -2347,6 +2361,13 @@
     }
   },
   "@notifCopied": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifCravingSupportNeeds": {
     "placeholders": {
       "count": {
         "type": "int"
@@ -6354,11 +6375,13 @@
   "moveToList": "Move to list",
   "moveToTop": "Top level",
   "notFoundTitle": "Page not found",
+  "notifActionCleanDay": "Clean day",
   "notifActionComplete": "Complete",
   "notifActionDone": "Done",
   "notifActionExtend": "+10 min",
   "notifActionInputPlaceholder": "Value",
   "notifActionLogCraving": "Log craving",
+  "notifActionLogRelapse": "Log relapse",
   "notifActionLogValue": "Log value",
   "notifActionMarkBlocked": "Mark blocked",
   "notifActionMarkOngoing": "Mark ongoing",
@@ -6366,6 +6389,7 @@
   "notifActionMarkWaiting": "Mark waiting",
   "notifActionMute": "Mute",
   "notifActionOpen": "Open",
+  "notifActionPledge": "Pledge",
   "notifActionReschedule": "Reschedule",
   "notifActionSend": "Send",
   "notifActionSkip": "Skip",
@@ -6405,17 +6429,23 @@
   "notifBodyChildOverdue": "A sub-item is overdue",
   "notifBodyChildrenComplete": "All sub-items are done — complete it?",
   "notifBodyCleanDays": "{days, plural, =1{1 day} other{{days} days}} free — well done!",
+  "notifBodyCravingSupport": "Cravings often come around now — you can ride it out.",
+  "notifBodyCravingSupportTip": "Cravings often come around now. {tip}",
   "notifBodyDueIn": "Due in {minutes, plural, =1{1 min} other{{minutes} min}}",
   "notifBodyDueNow": "Due now",
+  "notifBodyEncouragement": "A slip is not the end — today is a fresh start.",
   "notifBodyEndedAgo": "Ended {minutes, plural, =1{1 min} other{{minutes} min}} ago",
   "notifBodyEndingNow": "Ending now",
   "notifBodyEndsIn": "Ends in {minutes, plural, =1{1 min} other{{minutes} min}}",
+  "notifBodyEveningReview": "How did today go?",
   "notifBodyInDays": "In {days, plural, =1{1 day} other{{days} days}} · {date}",
   "notifBodyInactivity": "No activity for {days, plural, =1{1 day} other{{days} days}}",
   "notifBodyListReset": "{list} was reset for today",
   "notifBodyMilestone": "Milestone reached: {label}",
+  "notifBodyMotivation": "Remember why: {reason}",
   "notifBodyNotDone": "You haven’t logged {title} today",
   "notifBodyOverdue": "{title} is overdue",
+  "notifBodyPledge": "Ready to pledge for today?",
   "notifBodyQuotaBehind": "{done}/{target} done — {remaining} to go",
   "notifBodyQuotaLastChance": "Last chance today: {remaining} to go",
   "notifBodyQuotaPace": "{done} of {target} done — {days, plural, =1{1 day left} other{{days} days left}}",
@@ -6467,8 +6497,12 @@
   "notifContentBody": "Body template",
   "notifContentTitle": "Title template",
   "notifCopied": "{count, plural, =1{1 reminder copied} other{{count} reminders copied}}",
+  "notifCopingTipBreathe": "Try a minute of box breathing.",
+  "notifCopingTipWalk": "Take a short walk.",
+  "notifCopingTipWater": "Drink a glass of water.",
   "notifCopyFrom": "Copy reminders from…",
   "notifCopyNothing": "That item has no reminders of its own",
+  "notifCravingSupportNeeds": "{count, plural, =1{Craving support learns your usual craving hours from 10 logged cravings — 1 logged so far.} other{Craving support learns your usual craving hours from 10 logged cravings — {count} logged so far.}}",
   "notifCreateCount": "{count, plural, =1{Add 1 reminder} other{Add {count} reminders}}",
   "notifCustomize": "Customize",
   "notifDateOnlyTime": "Default time for date-only items",
@@ -6542,8 +6576,10 @@
   "notifFieldMaxTimes": "At most (times)",
   "notifFieldMetric": "Metric",
   "notifFieldMinStreak": "Minimum streak",
+  "notifFieldMinutesBefore": "Minutes before",
   "notifFieldOffset": "Offset in minutes (negative = before)",
   "notifFieldRepeats": "Repeats",
+  "notifFieldRitual": "Ritual",
   "notifFieldStatuses": "Statuses",
   "notifFieldThresholds": "Thresholds (comma separated, empty = automatic)",
   "notifFieldToStatus": "New status",
@@ -6721,6 +6757,11 @@
   "notifRepeat": "Repeat (nag)",
   "notifRespectQuiet": "Respect quiet hours",
   "notifResume": "Resume",
+  "notifRitualCravingSupport": "Craving support",
+  "notifRitualEncouragement": "Encouragement after a slip",
+  "notifRitualEveningReview": "Evening review",
+  "notifRitualMotivation": "Reminder of my reason",
+  "notifRitualPledge": "Morning pledge",
   "notifRuleDeleted": "Reminder deleted",
   "notifRuleEnabled": "Reminder enabled",
   "notifRuleSaved": "Reminder saved",
@@ -6830,6 +6871,7 @@
   "notifTriggerMilestone": "Milestone",
   "notifTriggerNotDoneBy": "If not done by",
   "notifTriggerOverdue": "Overdue",
+  "notifTriggerQuitRitual": "Quit ritual",
   "notifTriggerQuotaBehind": "Behind pace",
   "notifTriggerRelative": "Relative to the item",
   "notifTriggerSchedule": "Repeating schedule",

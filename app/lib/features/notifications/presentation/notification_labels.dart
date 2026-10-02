@@ -54,6 +54,8 @@ class NotificationLabels {
       beforeMinutes == null ? l.notifSumUpNextAtEnd : l.notifSumUpNextBefore(beforeMinutes),
     TimerEndTrigger() => l.notifSumTimerEnd,
     ListResetTrigger(:final atTime) => atTime == null ? l.notifSumListReset : l.notifSumListResetAt(time(atTime)),
+    QuitRitualTrigger(:final kind, :final atTime) =>
+      atTime == null ? ritual(kind) : '${ritual(kind)} · ${time(atTime)}',
     UnknownTrigger() => l.notifSumUnknown,
   };
 
@@ -104,6 +106,15 @@ class NotificationLabels {
   String status(String wire) => statusLabelOf(l, wire);
 
   String action(String id) => actionLabelOf(l, id);
+
+  String ritual(String kind) => switch (kind) {
+    QuitRitualTrigger.pledge => l.notifRitualPledge,
+    QuitRitualTrigger.eveningReview => l.notifRitualEveningReview,
+    QuitRitualTrigger.cravingSupport => l.notifRitualCravingSupport,
+    QuitRitualTrigger.encouragement => l.notifRitualEncouragement,
+    QuitRitualTrigger.motivation => l.notifRitualMotivation,
+    _ => kind,
+  };
 
   String digestTitle(String kind) => switch (kind) {
     'daily_agenda' => l.notifDigestDailyAgenda,
@@ -183,6 +194,7 @@ class NotificationLabels {
     TriggerType.upNext => l.notifTriggerUpNext,
     TriggerType.timerEnd => l.notifTriggerTimerEnd,
     TriggerType.listReset => l.notifTriggerListReset,
+    TriggerType.quitRitual => l.notifTriggerQuitRitual,
   };
 
   String anchor(TriggerAnchor a) => switch (a) {

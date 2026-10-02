@@ -149,6 +149,11 @@ enum DefaultContentKind {
   upNextMerged,
   timerEnd,
   listReset,
+  pledge,
+  eveningReview,
+  cravingSupport,
+  encouragement,
+  motivation,
   snoozed,
   test,
 }
@@ -284,6 +289,16 @@ class PlainNotificationTexts implements NotificationTexts {
       ),
       DefaultContentKind.timerEnd => (title: t, body: "Time's up for $t"),
       DefaultContentKind.listReset => (title: t, body: '$t was reset for today'),
+      DefaultContentKind.pledge => (title: t, body: 'Ready to pledge for today?'),
+      DefaultContentKind.eveningReview => (title: t, body: 'How did today go?'),
+      DefaultContentKind.cravingSupport => (
+        title: t,
+        body: vars['tip'] == null
+            ? 'Cravings often come around now — you can ride it out.'
+            : 'Cravings often come around now. ${vars['tip']}',
+      ),
+      DefaultContentKind.encouragement => (title: t, body: 'A slip is not the end — today is a fresh start.'),
+      DefaultContentKind.motivation => (title: t, body: 'Remember why: ${vars['reason'] ?? ''}'),
       DefaultContentKind.snoozed => (title: t, body: 'Snoozed reminder'),
       DefaultContentKind.test => (title: t, body: 'Test notification'),
     };
@@ -311,6 +326,9 @@ class PlainNotificationTexts implements NotificationTexts {
     'skip' => 'Skip',
     'open' => 'Open',
     'extend' => '+10 min',
+    'pledge' => 'Pledge',
+    'clean_day' => 'Clean day',
+    'log_relapse' => 'Log relapse',
     _ => actionId,
   };
 

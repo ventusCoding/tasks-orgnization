@@ -24,6 +24,11 @@ abstract final class NotificationActionIds {
   static const extend = 'extend';
   static const logValue = 'log_value';
   static const logCraving = 'log_craving';
+
+  /// Quit rituals (T7.5.14): the morning pledge, the evening review's clean day and relapse flow.
+  static const pledge = 'pledge';
+  static const cleanDay = 'clean_day';
+  static const logRelapse = 'log_relapse';
   static const completeItem = 'complete_item';
   static const markOngoing = 'mark_ongoing';
   static const markWaiting = 'mark_waiting';
@@ -48,6 +53,9 @@ abstract final class NotificationActionIds {
     extend,
     logValue,
     logCraving,
+    pledge,
+    cleanDay,
+    logRelapse,
     completeItem,
     markOngoing,
     markWaiting,

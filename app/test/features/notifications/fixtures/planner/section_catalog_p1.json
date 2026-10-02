@@ -197,6 +197,70 @@
       ]
     },
     {
+      "name": "T7.5.14 pledge: every morning at the tracker's time, skipped once pledged that day",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"horizonDays": 2},
+      "rules": [{"id": "pledge", "targetType": "section", "section": "quit", "spec": {"v": 1, "trigger": {"type": "quit_ritual", "kind": "pledge"}}}],
+      "targets": [
+        {"type": "habit", "id": "smoke", "section": "quit", "title": "Smoke-free",
+         "events": [{"kind": "pledge", "at": "2026-09-22T04:30:00Z"}]}
+      ],
+      "expected": [
+        {"rule": "pledge", "target": "smoke", "fireAtUtc": "2026-09-23T06:00:00Z", "occ": "qr:pledge:2026-09-23",
+         "body": "Ready to pledge for today?", "actions": ["pledge", "open"]}
+      ]
+    },
+    {
+      "name": "T7.5.14 evening review at the tracker's review time with Clean day / Log relapse / Log craving",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"horizonDays": 1},
+      "rules": [{"id": "review", "targetType": "section", "section": "quit", "spec": {"v": 1, "trigger": {"type": "quit_ritual", "kind": "evening_review"}}}],
+      "targets": [
+        {"type": "habit", "id": "smoke", "section": "quit", "title": "Smoke-free", "variables": {"review_time": "20:30"}}
+      ],
+      "expected": [
+        {"rule": "review", "target": "smoke", "fireAtUtc": "2026-09-22T18:30:00Z", "body": "How did today go?",
+         "actions": ["clean_day", "log_relapse", "log_craving"]}
+      ]
+    },
+    {
+      "name": "T7.5.14 craving support 10 min before each usual craving hour, with a coping tip",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"horizonDays": 1},
+      "rules": [{"id": "crave", "targetType": "section", "section": "quit", "spec": {"v": 1, "trigger": {"type": "quit_ritual", "kind": "craving_support"}}}],
+      "targets": [
+        {"type": "habit", "id": "smoke", "section": "quit", "title": "Smoke-free",
+         "variables": {"craving_count": "12", "craving_hours": "8,18", "coping_tip": "Drink a glass of water."}},
+        {"type": "habit", "id": "vape", "section": "quit", "title": "Vape-free",
+         "variables": {"craving_count": "9", "craving_hours": "8"}}
+      ],
+      "expected": [
+        {"rule": "crave", "target": "smoke", "fireAtUtc": "2026-09-22T05:50:00Z", "occ": "qr:crave:2026-09-22:8",
+         "body": "Cravings often come around now. Drink a glass of water.", "actions": ["log_craving", "open"]},
+        {"rule": "crave", "target": "smoke", "fireAtUtc": "2026-09-22T15:50:00Z"}
+      ]
+    },
+    {
+      "name": "T7.5.14 encouragement the morning after a relapse; motivation quotes the user's reason",
+      "now": "2026-09-22T05:00:00Z",
+      "zone": "Europe/Paris",
+      "settings": {"horizonDays": 1},
+      "rules": [{"id": "enc", "targetType": "section", "section": "quit", "spec": {"v": 1, "trigger": {"type": "quit_ritual", "kind": "encouragement"}}}, {"id": "why", "targetType": "section", "section": "quit", "spec": {"v": 1, "trigger": {"type": "quit_ritual", "kind": "motivation"}}}],
+      "targets": [
+        {"type": "habit", "id": "smoke", "section": "quit", "title": "Smoke-free",
+         "events": [{"kind": "relapse", "at": "2026-09-21T20:00:00Z"}], "variables": {"reason": "For my kids"}},
+        {"type": "habit", "id": "vape", "section": "quit", "title": "Vape-free"}
+      ],
+      "expected": [
+        {"rule": "enc", "target": "smoke", "fireAtUtc": "2026-09-22T06:00:00Z", "occ": "qr:enc:2026-09-21",
+         "body": "A slip is not the end — today is a fresh start.", "actions": ["open"]},
+        {"rule": "why", "target": "smoke", "fireAtUtc": "2026-09-22T10:00:00Z", "body": "Remember why: For my kids"}
+      ]
+    },
+    {
       "name": "T7.5.08 status age: waiting and blocked wording",
       "now": "2026-09-21T09:00:00Z",
       "zone": "Europe/Paris",

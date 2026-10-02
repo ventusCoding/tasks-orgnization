@@ -1137,5 +1137,47 @@
         "type": "int"
       }
     }
-  }
+  },
+  "notifTriggerQuitRitual": "Quit ritual",
+  "notifFieldRitual": "Ritual",
+  "notifFieldMinutesBefore": "Minutes before",
+  "notifRitualPledge": "Morning pledge",
+  "notifRitualEveningReview": "Evening review",
+  "notifRitualCravingSupport": "Craving support",
+  "notifRitualEncouragement": "Encouragement after a slip",
+  "notifRitualMotivation": "Reminder of my reason",
+  "notifCravingSupportNeeds": "{count, plural, =1{Craving support learns your usual craving hours from 10 logged cravings — 1 logged so far.} other{Craving support learns your usual craving hours from 10 logged cravings — {count} logged so far.}}",
+  "@notifCravingSupportNeeds": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifActionPledge": "Pledge",
+  "notifActionCleanDay": "Clean day",
+  "notifActionLogRelapse": "Log relapse",
+  "notifBodyPledge": "Ready to pledge for today?",
+  "notifBodyEveningReview": "How did today go?",
+  "notifBodyCravingSupport": "Cravings often come around now — you can ride it out.",
+  "notifBodyCravingSupportTip": "Cravings often come around now. {tip}",
+  "@notifBodyCravingSupportTip": {
+    "placeholders": {
+      "tip": {
+        "type": "String"
+      }
+    }
+  },
+  "notifBodyEncouragement": "A slip is not the end — today is a fresh start.",
+  "notifBodyMotivation": "Remember why: {reason}",
+  "@notifBodyMotivation": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "notifCopingTipBreathe": "Try a minute of box breathing.",
+  "notifCopingTipWater": "Drink a glass of water.",
+  "notifCopingTipWalk": "Take a short walk."
 }

@@ -46,6 +46,7 @@ class NotificationSettingsSection extends ConsumerStatefulWidget {
     this.previewTargets,
     this.maxVisible = 3,
     this.pickCopySource,
+    this.cravingCount,
     super.key,
   });
 
@@ -86,6 +87,10 @@ class NotificationSettingsSection extends ConsumerStatefulWidget {
   /// *Copy reminders from…* (T7.1.15): the host's item picker (same [targetType]); returns the
   /// chosen item id or null. The action is hidden without it.
   final Future<String?> Function(BuildContext context)? pickCopySource;
+
+  /// Logged cravings of a quit tracker: *Craving support* needs
+  /// [QuitRitualTrigger.cravingSupportMinCravings] of them (T7.5.14).
+  final int? cravingCount;
 
   @override
   ConsumerState<NotificationSettingsSection> createState() => _NotificationSettingsSectionState();
@@ -167,6 +172,7 @@ class _NotificationSettingsSectionState extends ConsumerState<NotificationSettin
       targetType: widget.targetType,
       section: widget.section,
       itemKind: widget.itemKind,
+      cravingCount: widget.cravingCount,
     );
     if (outcome == null || !mounted) return;
     var rules = outcome.rules;

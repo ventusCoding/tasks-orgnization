@@ -5438,6 +5438,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notFoundTitle => 'Page not found';
 
   @override
+  String get notifActionCleanDay => 'Clean day';
+
+  @override
   String get notifActionComplete => 'Complete';
 
   @override
@@ -5451,6 +5454,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifActionLogCraving => 'Log craving';
+
+  @override
+  String get notifActionLogRelapse => 'Log relapse';
 
   @override
   String get notifActionLogValue => 'Log value';
@@ -5472,6 +5478,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifActionOpen => 'Open';
+
+  @override
+  String get notifActionPledge => 'Pledge';
 
   @override
   String get notifActionReschedule => 'Reschedule';
@@ -5599,6 +5608,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get notifBodyCravingSupport => 'Cravings often come around now — you can ride it out.';
+
+  @override
+  String notifBodyCravingSupportTip(String tip) {
+    return 'Cravings often come around now. $tip';
+  }
+
+  @override
   String notifBodyDueIn(int minutes) {
     String _temp0 = intl.Intl.pluralLogic(minutes, locale: localeName, other: '$minutes min', one: '1 min');
     return 'Due in $_temp0';
@@ -5606,6 +5623,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifBodyDueNow => 'Due now';
+
+  @override
+  String get notifBodyEncouragement => 'A slip is not the end — today is a fresh start.';
 
   @override
   String notifBodyEndedAgo(int minutes) {
@@ -5621,6 +5641,9 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(minutes, locale: localeName, other: '$minutes min', one: '1 min');
     return 'Ends in $_temp0';
   }
+
+  @override
+  String get notifBodyEveningReview => 'How did today go?';
 
   @override
   String notifBodyInDays(int days, String date) {
@@ -5645,6 +5668,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String notifBodyMotivation(String reason) {
+    return 'Remember why: $reason';
+  }
+
+  @override
   String notifBodyNotDone(String title) {
     return 'You haven’t logged $title today';
   }
@@ -5653,6 +5681,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String notifBodyOverdue(String title) {
     return '$title is overdue';
   }
+
+  @override
+  String get notifBodyPledge => 'Ready to pledge for today?';
 
   @override
   String notifBodyQuotaBehind(String done, String target, int remaining) {
@@ -5864,10 +5895,30 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get notifCopingTipBreathe => 'Try a minute of box breathing.';
+
+  @override
+  String get notifCopingTipWalk => 'Take a short walk.';
+
+  @override
+  String get notifCopingTipWater => 'Drink a glass of water.';
+
+  @override
   String get notifCopyFrom => 'Copy reminders from…';
 
   @override
   String get notifCopyNothing => 'That item has no reminders of its own';
+
+  @override
+  String notifCravingSupportNeeds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Craving support learns your usual craving hours from 10 logged cravings — $count logged so far.',
+      one: 'Craving support learns your usual craving hours from 10 logged cravings — 1 logged so far.',
+    );
+    return '$_temp0';
+  }
 
   @override
   String notifCreateCount(int count) {
@@ -6116,10 +6167,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifFieldMinStreak => 'Minimum streak';
 
   @override
+  String get notifFieldMinutesBefore => 'Minutes before';
+
+  @override
   String get notifFieldOffset => 'Offset in minutes (negative = before)';
 
   @override
   String get notifFieldRepeats => 'Repeats';
+
+  @override
+  String get notifFieldRitual => 'Ritual';
 
   @override
   String get notifFieldStatuses => 'Statuses';
@@ -6702,6 +6759,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifResume => 'Resume';
 
   @override
+  String get notifRitualCravingSupport => 'Craving support';
+
+  @override
+  String get notifRitualEncouragement => 'Encouragement after a slip';
+
+  @override
+  String get notifRitualEveningReview => 'Evening review';
+
+  @override
+  String get notifRitualMotivation => 'Reminder of my reason';
+
+  @override
+  String get notifRitualPledge => 'Morning pledge';
+
+  @override
   String get notifRuleDeleted => 'Reminder deleted';
 
   @override
@@ -7085,6 +7157,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifTriggerOverdue => 'Overdue';
+
+  @override
+  String get notifTriggerQuitRitual => 'Quit ritual';
 
   @override
   String get notifTriggerQuotaBehind => 'Behind pace';

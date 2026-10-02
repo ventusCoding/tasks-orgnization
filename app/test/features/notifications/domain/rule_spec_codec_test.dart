@@ -58,6 +58,7 @@ void main() {
       '{"type":"up_next","beforeMinutes":5}',
       '{"type":"timer_end"}',
       '{"type":"list_reset","atTime":"07:00"}',
+      '{"type":"quit_ritual","kind":"craving_support","minutesBefore":15}',
     ];
     for (final t in triggers) {
       test(t, () {
@@ -89,6 +90,7 @@ void main() {
       UpNextTrigger() => 'up_next',
       TimerEndTrigger() => 'timer_end',
       ListResetTrigger() => 'list_reset',
+      QuitRitualTrigger() => 'quit_ritual',
       UnknownTrigger() => 'unknown',
     };
     for (final type in TriggerType.values) {

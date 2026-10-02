@@ -43,7 +43,8 @@ enum TriggerType {
   stale('stale'),
   upNext('up_next'),
   timerEnd('timer_end'),
-  listReset('list_reset');
+  listReset('list_reset'),
+  quitRitual('quit_ritual');
 
   TriggerType(this.wire);
 
@@ -156,6 +157,12 @@ sealed class NotificationTrigger {
       TriggerType.upNext => UpNextTrigger(beforeMinutes: asInt(json['beforeMinutes']), raw: json),
       TriggerType.timerEnd => TimerEndTrigger(raw: json),
       TriggerType.listReset => ListResetTrigger(atTime: time('atTime'), raw: json),
+      TriggerType.quitRitual => QuitRitualTrigger(
+        kind: asString(json['kind']) ?? QuitRitualTrigger.pledge,
+        atTime: time('atTime'),
+        minutesBefore: asInt(json['minutesBefore']),
+        raw: json,
+      ),
       null => UnknownTrigger(typeWire: asString(json['type']) ?? '', raw: json),
     };
   }
@@ -509,6 +516,40 @@ final class ListResetTrigger extends NotificationTrigger {
 
   @override
   Map<String, Object?> get _fields => {'atTime': ?atTime?.toIso()};
+}
+
+/// Quit-tracker rituals (T7.5.14), all off by default: the morning *pledge*, the *evening_review*
+/// (Clean day · Log relapse · Log craving), *craving_support* [minutesBefore] (default 10) the
+/// user's usual craving hours (needs ≥ [QuitRitualTrigger.cravingSupportMinCravings] logged
+/// cravings), *encouragement* the morning after a relapse and *motivation* quoting the user's
+/// own reason. [atTime] overrides the tracker's ritual times.
+final class QuitRitualTrigger extends NotificationTrigger {
+  const QuitRitualTrigger({required this.kind, this.atTime, this.minutesBefore, super.raw});
+
+  static const pledge = 'pledge';
+  static const eveningReview = 'evening_review';
+  static const cravingSupport = 'craving_support';
+  static const encouragement = 'encouragement';
+  static const motivation = 'motivation';
+  static const kinds = [pledge, eveningReview, cravingSupport, encouragement, motivation];
+
+  /// Craving support derives the usual hours from at least this many logged cravings.
+  static const cravingSupportMinCravings = 10;
+
+  final String kind;
+  final LocalTime? atTime;
+  final int? minutesBefore;
+
+  int get effectiveMinutesBefore => minutesBefore ?? 10;
+
+  @override
+  String get typeWire => 'quit_ritual';
+
+  @override
+  Set<String> get _knownKeys => const {'kind', 'atTime', 'minutesBefore'};
+
+  @override
+  Map<String, Object?> get _fields => {'kind': kind, 'atTime': ?atTime?.toIso(), 'minutesBefore': ?minutesBefore};
 }
 
 /// A trigger type this app version doesn't know (kept verbatim, never fires).

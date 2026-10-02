@@ -509,7 +509,80 @@ abstract final class NotificationPlanner {
         if (end == null) return const [];
         return [_Candidate(end, '$occ|te', DefaultContentKind.timerEnd)];
 
+      case QuitRitualTrigger(:final kind, atTime: final time, :final effectiveMinutesBefore):
+        return _ritual(kind, time, effectiveMinutesBefore, target, ctx.now, horizonEnd, at, dateOf);
+
       case UnknownTrigger():
+        return const [];
+    }
+  }
+
+  /// Quit rituals (T7.5.14) over every local day from today to the horizon. Target inputs: events
+  /// `pledge` / `review` (that day's ritual is already done) and `relapse`; variables
+  /// `pledge_time`, `review_time`, `craving_count`, `craving_hours` (comma-separated local hours),
+  /// `coping_tip` and `reason`.
+  static List<_Candidate> _ritual(
+    String kind,
+    LocalTime? time,
+    int minutesBefore,
+    NotificationTarget target,
+    DateTime now,
+    DateTime horizonEnd,
+    DateTime Function(LocalDate, LocalTime) at,
+    LocalDate Function(DateTime) dateOf,
+  ) {
+    String? v(String key) => target.variables[key]?.toString();
+    LocalTime? timeVar(String key) => v(key) == null ? null : LocalTime.tryParse(v(key)!);
+    final last = dateOf(horizonEnd);
+    final days = [for (var d = dateOf(now); d.compareTo(last) <= 0; d = d.plusDays(1)) d];
+    bool done(String event, LocalDate d) => target.events.any((e) => e.kind == event && dateOf(e.at) == d);
+    switch (kind) {
+      case QuitRitualTrigger.pledge:
+        final t = time ?? timeVar('pledge_time') ?? LocalTime(8, 0);
+        return [
+          for (final d in days)
+            if (!done('pledge', d)) _Candidate(at(d, t), 'qr:pledge:${d.toIso()}', DefaultContentKind.pledge),
+        ];
+      case QuitRitualTrigger.eveningReview:
+        final t = time ?? timeVar('review_time') ?? LocalTime(21, 0);
+        return [
+          for (final d in days)
+            if (!done('review', d)) _Candidate(at(d, t), 'qr:review:${d.toIso()}', DefaultContentKind.eveningReview),
+        ];
+      case QuitRitualTrigger.cravingSupport:
+        final count = int.tryParse(v('craving_count') ?? '') ?? 0;
+        if (count < QuitRitualTrigger.cravingSupportMinCravings) return const [];
+        final hours = [
+          for (final h in (v('craving_hours') ?? '').split(','))
+            if (int.tryParse(h.trim()) case final hour? when hour >= 0 && hour < 24) hour,
+        ];
+        return [
+          for (final d in days)
+            for (final h in hours)
+              _Candidate(
+                at(d, LocalTime(h, 0)).subtract(Duration(minutes: minutesBefore)),
+                'qr:crave:${d.toIso()}:$h',
+                DefaultContentKind.cravingSupport,
+                extraVars: {'tip': ?v('coping_tip')},
+              ),
+        ];
+      case QuitRitualTrigger.encouragement:
+        final t = time ?? LocalTime(8, 0);
+        return [
+          for (final e in target.events)
+            if (e.kind == 'relapse')
+              _Candidate(
+                at(dateOf(e.at).plusDays(1), t),
+                'qr:enc:${dateOf(e.at).toIso()}',
+                DefaultContentKind.encouragement,
+              ),
+        ];
+      case QuitRitualTrigger.motivation:
+        final reason = v('reason')?.trim() ?? '';
+        if (reason.isEmpty) return const [];
+        final t = time ?? LocalTime(12, 0);
+        return [for (final d in days) _Candidate(at(d, t), 'qr:mot:${d.toIso()}', DefaultContentKind.motivation)];
+      default:
         return const [];
     }
   }
@@ -531,6 +604,16 @@ abstract final class NotificationPlanner {
     ],
     ListResetTrigger() => const [NotificationActionIds.open],
     TimerEndTrigger() => const [NotificationActionIds.stop, NotificationActionIds.extend],
+    QuitRitualTrigger(:final kind) => switch (kind) {
+      QuitRitualTrigger.pledge => const [NotificationActionIds.pledge, NotificationActionIds.open],
+      QuitRitualTrigger.eveningReview => const [
+        NotificationActionIds.cleanDay,
+        NotificationActionIds.logRelapse,
+        NotificationActionIds.logCraving,
+      ],
+      QuitRitualTrigger.cravingSupport => const [NotificationActionIds.logCraving, NotificationActionIds.open],
+      _ => const [NotificationActionIds.open],
+    },
     _ => null,
   };
 

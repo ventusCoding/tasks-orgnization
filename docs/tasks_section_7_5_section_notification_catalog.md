@@ -59,7 +59,7 @@ live timer surfaces and widget refreshes ([8.2]); hide-content privacy option ([
 - [x] T7.5.11 — Habits: not-done-by & streak-at-risk
 - [x] T7.5.12 — Habits: quota pace, milestones & inactivity
 - [x] T7.5.13 — Quit: milestone notifications
-- [ ] T7.5.14 — Quit: pledge, evening review, craving support & encouragement
+- [x] T7.5.14 — Quit: pledge, evening review, craving support & encouragement
 - [x] T7.5.15 — Notifications settings page & global controls
 - [x] T7.5.16 — Mute until (rule, item, list, habit, section)
 - [ ] T7.5.17 — Notification statistics
@@ -217,6 +217,7 @@ reminders quoting the user's own `{reason}`.
 **Acceptance criteria:** all off by default and individually configurable; craving support needs ≥ 10
 logged cravings before it can be enabled (explained in the UI).
 **Tests:** planner fixtures; unit tests for usual-hours derivation input handling.
+**Notes:** One new trigger `quit_ritual {kind: pledge | evening_review | craving_support | encouragement | motivation, atTime?, minutesBefore?}`; nothing is seeded, the quit editor's chips add them. The quit target carries the inputs (pledge/review/relapse events of today and yesterday, ritual times from `settings.pledge`, `craving_count`, `craving_hours` from `usualCravingHours` — hours holding ≥ 15 % of the cravings, top 3 — a rotating coping tip and the tracker's `motivation` as `{reason}`). New actions `pledge`, `clean_day` (day from the ritual's occurrence key) and `log_relapse` (opens the kind in-app flow, never logs blind).
 
 ### T7.5.15 — Notifications settings page & global controls
 **Priority:** P0 · **Size:** M · **Depends on:** [8.3] (settings structure), [7.2]

@@ -5795,6 +5795,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notFoundTitle => 'الصفحة غير موجودة';
 
   @override
+  String get notifActionCleanDay => 'يوم نظيف';
+
+  @override
   String get notifActionComplete => 'أكمل';
 
   @override
@@ -5808,6 +5811,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifActionLogCraving => 'سجّل رغبة';
+
+  @override
+  String get notifActionLogRelapse => 'تسجيل انتكاسة';
 
   @override
   String get notifActionLogValue => 'سجّل قيمة';
@@ -5829,6 +5835,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifActionOpen => 'افتح';
+
+  @override
+  String get notifActionPledge => 'أتعهد';
 
   @override
   String get notifActionReschedule => 'أعد الجدولة';
@@ -5974,6 +5983,14 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get notifBodyCravingSupport => 'غالبًا ما تأتي الرغبة في هذا الوقت — يمكنك تجاوزها.';
+
+  @override
+  String notifBodyCravingSupportTip(String tip) {
+    return 'غالبًا ما تأتي الرغبة في هذا الوقت. $tip';
+  }
+
+  @override
   String notifBodyDueIn(int minutes) {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
@@ -5990,6 +6007,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifBodyDueNow => 'حان الموعد النهائي';
+
+  @override
+  String get notifBodyEncouragement => 'الزلة ليست النهاية — اليوم بداية جديدة.';
 
   @override
   String notifBodyEndedAgo(int minutes) {
@@ -6023,6 +6043,9 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return 'ينتهي خلال $_temp0';
   }
+
+  @override
+  String get notifBodyEveningReview => 'كيف كان يومك؟';
 
   @override
   String notifBodyInDays(int days, String date) {
@@ -6065,6 +6088,11 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String notifBodyMotivation(String reason) {
+    return 'تذكّر السبب: $reason';
+  }
+
+  @override
   String notifBodyNotDone(String title) {
     return 'لم تسجّل $title اليوم';
   }
@@ -6073,6 +6101,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String notifBodyOverdue(String title) {
     return '$title متأخر';
   }
+
+  @override
+  String get notifBodyPledge => 'هل أنت مستعد للتعهد لهذا اليوم؟';
 
   @override
   String notifBodyQuotaBehind(String done, String target, int remaining) {
@@ -6326,10 +6357,30 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get notifCopingTipBreathe => 'جرّب دقيقة من التنفس المربع.';
+
+  @override
+  String get notifCopingTipWalk => 'تمشَّ قليلًا.';
+
+  @override
+  String get notifCopingTipWater => 'اشرب كوبًا من الماء.';
+
+  @override
   String get notifCopyFrom => 'نسخ التذكيرات من…';
 
   @override
   String get notifCopyNothing => 'لا يحتوي هذا العنصر على تذكيرات خاصة به';
+
+  @override
+  String notifCravingSupportNeeds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'يتعلم الدعم أوقات رغبتك المعتادة من 10 رغبات مسجلة — سُجل $count حتى الآن.',
+      one: 'يتعلم الدعم أوقات رغبتك المعتادة من 10 رغبات مسجلة — سُجلت رغبة واحدة حتى الآن.',
+    );
+    return '$_temp0';
+  }
 
   @override
   String notifCreateCount(int count) {
@@ -6608,10 +6659,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifFieldMinStreak => 'أقل طول للسلسلة';
 
   @override
+  String get notifFieldMinutesBefore => 'دقائق قبل';
+
+  @override
   String get notifFieldOffset => 'الفارق بالدقائق (سالب = قبل)';
 
   @override
   String get notifFieldRepeats => 'التكرار';
+
+  @override
+  String get notifFieldRitual => 'الطقس';
 
   @override
   String get notifFieldStatuses => 'الحالات';
@@ -7233,6 +7290,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifResume => 'استئناف';
 
   @override
+  String get notifRitualCravingSupport => 'دعم الرغبة الشديدة';
+
+  @override
+  String get notifRitualEncouragement => 'تشجيع بعد الزلة';
+
+  @override
+  String get notifRitualEveningReview => 'مراجعة المساء';
+
+  @override
+  String get notifRitualMotivation => 'تذكير بسببي';
+
+  @override
+  String get notifRitualPledge => 'تعهد الصباح';
+
+  @override
   String get notifRuleDeleted => 'تم حذف التذكير';
 
   @override
@@ -7670,6 +7742,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifTriggerOverdue => 'التأخر';
+
+  @override
+  String get notifTriggerQuitRitual => 'طقس الإقلاع';
 
   @override
   String get notifTriggerQuotaBehind => 'متأخر عن الهدف';

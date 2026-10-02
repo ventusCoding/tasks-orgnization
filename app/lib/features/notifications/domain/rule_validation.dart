@@ -121,6 +121,13 @@ abstract final class NotificationRuleValidator {
         if (beforeMinutes != null && (beforeMinutes < 0 || beforeMinutes > 240)) {
           error(NotificationIssueCode.offsetOutOfRange, field: 'trigger.beforeMinutes');
         }
+      case QuitRitualTrigger(:final kind, :final minutesBefore):
+        if (!QuitRitualTrigger.kinds.contains(kind)) {
+          error(NotificationIssueCode.unknownTrigger, field: 'trigger.kind');
+        }
+        if (minutesBefore != null && (minutesBefore < 0 || minutesBefore > 120)) {
+          error(NotificationIssueCode.offsetOutOfRange, field: 'trigger.minutesBefore');
+        }
       case UnknownTrigger():
         error(NotificationIssueCode.unknownTrigger, field: 'trigger.type');
       case AbsoluteTrigger() ||

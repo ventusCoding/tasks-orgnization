@@ -11,7 +11,7 @@ import 'package:everslot/features/habits/domain/check_in.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
 import 'package:everslot/features/habits/domain/habit_periods.dart';
 import 'package:everslot/features/habits/domain/habit_records.dart';
-import 'package:everslot/features/habits/domain/quit.dart' show MilestoneContent;
+import 'package:everslot/features/habits/domain/quit.dart' show MilestoneContent, usualCravingHours;
 import 'package:everslot/features/notifications/application/notification_providers.dart' show notificationTextsProvider;
 import 'package:everslot/features/notifications/application/notification_texts_l10n.dart' show L10nNotificationTexts;
 import 'package:everslot/features/notifications/notification_contributions.dart';
@@ -403,6 +403,32 @@ NotificationTarget? buildQuitTarget(
     );
   }
   final upcoming = [...milestones]..sort((a, b) => a.at.compareTo(b.at));
+  // Ritual inputs (T7.5.14): today's / yesterday's pledge, review and relapse logs, the usual
+  // craving hours and a rotating coping tip.
+  final recent = snapshot.boundaries.startOf(snapshot.today.plusDays(-1));
+  final events = <NotificationEvent>[];
+  final cravingHours = <int>[];
+  for (final l in snapshot.logs) {
+    if (l.kind == HabitLogKind.craving) cravingHours.add(snapshot.boundaries.clock.toLocal(l.loggedAt).time.hour);
+    if (l.loggedAt.isBefore(recent)) continue;
+    switch (l.kind) {
+      case HabitLogKind.pledge:
+        events.add(NotificationEvent(kind: 'pledge', at: l.loggedAt));
+      case HabitLogKind.clean:
+        events.add(NotificationEvent(kind: 'review', at: l.loggedAt));
+      case HabitLogKind.relapse:
+        events
+          ..add(NotificationEvent(kind: 'review', at: l.loggedAt))
+          ..add(NotificationEvent(kind: 'relapse', at: l.loggedAt));
+      default:
+        break;
+    }
+  }
+  final usualHours = usualCravingHours(cravingHours);
+  final tips = texts == null
+      ? const ['Try a minute of box breathing.', 'Drink a glass of water.', 'Take a short walk.']
+      : [texts.l10n.notifCopingTipBreathe, texts.l10n.notifCopingTipWater, texts.l10n.notifCopingTipWalk];
+  final pledge = habit.settings.pledge;
   return NotificationTarget(
     type: NotificationTargetType.habit,
     id: habit.id,
@@ -419,8 +445,15 @@ NotificationTarget? buildQuitTarget(
     guard: NotificationGuard.quitNoRelapseSince(habit.id, baseline),
     milestoneBaseline: baseline,
     milestones: milestones,
+    events: events,
     streak: now.difference(baseline).inDays,
     variables: {
+      'pledge_time': ?pledge.morning?.toIso(),
+      'review_time': ?pledge.evening?.toIso(),
+      'craving_count': '${cravingHours.length}',
+      if (usualHours.isNotEmpty) 'craving_hours': usualHours.join(','),
+      'coping_tip': tips[snapshot.today.dayOfYear % tips.length],
+      if (habit.motivation?.trim() case final reason? when reason.isNotEmpty) 'reason': reason,
       'clean_days': '${calc.cleanDays}',
       'days_free': texts?.number(now.difference(baseline).inDays) ?? '${now.difference(baseline).inDays}',
       if (unitsPerMinute != null || avoided > 0)
@@ -561,6 +594,9 @@ class HabitNotificationActions implements NotificationActionHandler {
     NotificationActionIds.skip,
     NotificationActionIds.logValue,
     NotificationActionIds.logCraving,
+    NotificationActionIds.pledge,
+    NotificationActionIds.cleanDay,
+    NotificationActionIds.logRelapse,
   };
 
   @override
@@ -669,10 +705,24 @@ class HabitNotificationActions implements NotificationActionHandler {
             ),
           );
         }
+      // Rituals (T7.5.14): the day comes from the ritual's occurrence key (`qr:pledge:2026-09-22`).
+      case NotificationActionIds.pledge:
+        await quit.pledge(habit, day: _ritualDay(c.occurrenceKey), source: LogSource.notification);
+      case NotificationActionIds.cleanDay:
+        final day = _ritualDay(c.occurrenceKey) ?? c.read(habitPeriodServiceProvider).boundariesOf(habit).dateOf(c.now);
+        await quit.markClean(habit, day, source: LogSource.notification);
+      case NotificationActionIds.logRelapse:
+        // Never logged blind: the kind in-app relapse flow asks what happened.
+        return NotificationActionResult(openLink: AppLinks.quit(habit.id), markActed: false);
       default:
         return NotificationActionResult(openLink: c.payload.deepLink ?? AppLinks.quit(habit.id), markActed: false);
     }
     return NotificationActionResult.ok;
+  }
+
+  static LocalDate? _ritualDay(String? key) {
+    if (key == null || !key.startsWith('qr:')) return null;
+    return LocalDate.tryParse(key.substring(key.lastIndexOf(':') + 1));
   }
 }
 
